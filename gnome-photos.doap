@@ -1,0 +1,23 @@
+<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:gnome="http://api.gnome.org/doap-extensions#"
+         xmlns="http://usefulinc.com/ns/doap#">
+
+  <name xml:lang="en">Photos</name>
+  <shortdesc xml:lang="en">Photos</shortdesc>
+
+  <homepage rdf:resource="http://projects.gnome.org/photos" />
+  <download-page rdf:resource="http://download.gnome.org/sources/gnome-photos" />
+  <bug-database rdf:resource="https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos" />
+
+  <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" />
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Debarshi Ray</foaf:name>
+      <foaf:mbox rdf:resource="mailto:debarshir@gnome.org" />
+      <gnome:userid>debarshir</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+</Project>

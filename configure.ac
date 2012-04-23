@@ -1,0 +1,53 @@
+AC_INIT([Photos],
+        [3.5.0],
+        [https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos],
+        [gnome-photos],
+        [http://projects.gnome.org/photos])
+AC_PREREQ(2.63)
+
+AC_CONFIG_AUX_DIR([config])
+AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_SRCDIR([src])
+
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+
+AM_INIT_AUTOMAKE(AC_PACKAGE_TARNAME, AC_PACKAGE_VERSION)
+AM_MAINTAINER_MODE
+
+AC_PROG_CC
+AC_PROG_CC_C_O
+AC_HEADER_STDC
+
+AC_CHECK_LIBM
+AC_SUBST(LIBM)
+
+GNOME_COMMON_INIT
+GNOME_COMPILE_WARNINGS([maximum])
+GNOME_DEBUG_CHECK
+GNOME_MAINTAINER_MODE_DEFINES
+
+IT_PROG_INTLTOOL([0.35.0])
+
+GETTEXT_PACKAGE=AC_PACKAGE_TARNAME
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"],
+                   [GETTEXT package name])
+AM_GLIB_GNU_GETTEXT
+
+LT_INIT
+
+PKG_CHECK_MODULES(CLUTTER_GTK, [clutter-gtk-1.0])
+PKG_CHECK_MODULES(GLIB, [glib-2.0])
+PKG_CHECK_MODULES(GIO, [gio-2.0])
+PKG_CHECK_MODULES(GTK, [gtk+-3.0])
+PKG_CHECK_MODULES(TRACKER, [tracker-sparql-0.14])
+
+AC_CONFIG_FILES([
+Makefile
+data/Makefile
+data/gnome-photos.desktop.in
+src/Makefile
+po/Makefile.in
+])
+AC_OUTPUT
