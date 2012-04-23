@@ -2,6 +2,7 @@
 
 #include "config.h"
 
+#include "gd-main-toolbar.h"
 #include "photos-enums.h"
 #include "photos-mode-controller.h"
 

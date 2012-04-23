@@ -9,8 +9,12 @@ gnome_photos_built_sources = \
 
 gnome_photos_SOURCES = \
 	$(gnome_photos_built_sources) \
+	gd-main-toolbar.c \
+	gd-main-toolbar.h \
 	photos-application.c \
 	photos-application.h \
+	photos-main-toolbar.c \
+	photos-main-toolbar.h \
 	photos-main-window.c \
 	photos-main-window.h \
 	photos-mode-controller.c \
@@ -45,6 +49,7 @@ gnome_photos_LDADD = \
 	$(GLIB_LIBS) \
 	$(GTK_LIBS) \
 	$(TRACKER_LIBS) \
+	$(LIBM) \
 	$(NULL)
 
 CLEANFILES = \
