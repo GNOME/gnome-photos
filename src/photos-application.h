@@ -49,8 +49,7 @@ struct _PhotosApplicationClass
 
 GType                  photos_application_get_type               (void) G_GNUC_CONST;
 
-GtkApplication        *photos_application_new                    (const gchar       *application_id,
-                                                                  GApplicationFlags  flags);
+GtkApplication        *photos_application_new                    (void);
 
 G_END_DECLS
 

@@ -156,6 +156,24 @@ photos_application_startup (GApplication *application)
 }
 
 
+static GObject *
+photos_application_constructor (GType type, guint n_construct_params, GObjectConstructParam *construct_params)
+{
+  static GObject *self = NULL;
+
+  if (self == NULL)
+    {
+      self = G_OBJECT_CLASS (photos_application_parent_class)->constructor (type,
+                                                                            n_construct_params,
+                                                                            construct_params);
+      g_object_add_weak_pointer (self, (gpointer) &self);
+      return self;
+    }
+
+  return g_object_ref (self);
+}
+
+
 static void
 photos_application_dispose (GObject *object)
 {
@@ -200,6 +218,7 @@ photos_application_class_init (PhotosApplicationClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   GApplicationClass *application_class = G_APPLICATION_CLASS (class);
 
+  object_class->constructor = photos_application_constructor;
   object_class->dispose = photos_application_dispose;
   application_class->activate = photos_application_activate;
   application_class->startup = photos_application_startup;
@@ -209,14 +228,11 @@ photos_application_class_init (PhotosApplicationClass *class)
 
 
 GtkApplication *
-photos_application_new (const gchar       *application_id,
-                        GApplicationFlags  flags)
+photos_application_new (void)
 {
-  g_return_val_if_fail (g_application_id_is_valid (application_id), NULL);
-
   g_type_init ();
   return g_object_new (PHOTOS_TYPE_APPLICATION,
-                       "application-id", application_id,
-                       "flags", flags,
+                       "application-id", "org.gnome." PACKAGE_NAME,
+                       "flags", G_APPLICATION_FLAGS_NONE,
                        NULL);
 }

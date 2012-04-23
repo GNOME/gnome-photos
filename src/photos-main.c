@@ -39,7 +39,7 @@ main (gint argc, gchar *argv[])
 
   g_set_prgname (PACKAGE_TARNAME);
 
-  app = photos_application_new ("org.gnome." PACKAGE_NAME, G_APPLICATION_FLAGS_NONE);
+  app = photos_application_new ();
   exit_status = g_application_run (G_APPLICATION (app), argc, argv);
   g_object_unref (app);
 
