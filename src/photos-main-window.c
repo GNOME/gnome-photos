@@ -37,6 +37,17 @@ struct _PhotosMainWindowPrivate
 G_DEFINE_TYPE (PhotosMainWindow, photos_main_window, GTK_TYPE_APPLICATION_WINDOW)
 
 
+static gboolean
+photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
+{
+  if ((event->keyval == GDK_KEY_q) && ((event->state & GDK_CONTROL_MASK) != 0))
+    {
+      gtk_widget_destroy (widget);
+      return TRUE;
+    }
+}
+
+
 static void
 photos_main_window_init (PhotosMainWindow *self)
 {
@@ -56,6 +67,10 @@ photos_main_window_init (PhotosMainWindow *self)
 static void
 photos_main_window_class_init (PhotosMainWindowClass *class)
 {
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
+
+  widget_class->key_press_event = photos_main_window_key_press_event;
+
   g_type_class_add_private (class, sizeof (PhotosMainWindowPrivate));
 }
 
