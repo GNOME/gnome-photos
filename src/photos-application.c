@@ -29,11 +29,13 @@
 
 #include "photos-application.h"
 #include "photos-main-window.h"
+#include "photos-mode-controller.h"
 
 
 struct _PhotosApplicationPrivate
 {
   GtkWidget *main_window;
+  PhotosModeController *controller;
   TrackerSparqlConnection *connection;
 };
 
@@ -100,6 +102,8 @@ photos_application_startup (GApplication *application)
       return;
     }
 
+  priv->controller = photos_mode_controller_new ();
+
   action = g_simple_action_new ("about", NULL);
   g_signal_connect (action, "activate", G_CALLBACK (photos_application_about), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
@@ -135,6 +139,12 @@ photos_application_dispose (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
   PhotosApplicationPrivate *priv = self->priv;
+
+  if (priv->controller != NULL)
+    {
+      g_object_unref (priv->controller);
+      priv->controller = NULL;
+    }
 
   if (priv->connection != NULL)
     {
