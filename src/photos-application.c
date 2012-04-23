@@ -34,6 +34,7 @@
 
 struct _PhotosApplicationPrivate
 {
+  GSimpleAction *fs_action;
   GtkWidget *main_window;
   PhotosModeController *controller;
   TrackerSparqlConnection *connection;
@@ -50,8 +51,24 @@ photos_application_about (GSimpleAction *simple, GVariant *parameter, gpointer u
 
 
 static void
+photos_application_can_fullscreen_changed (PhotosModeController *controller, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  PhotosApplicationPrivate *priv = self->priv;
+  gboolean can_fullscreen;
+
+  can_fullscreen = photos_mode_controller_get_can_fullscreen (controller);
+  g_simple_action_set_enabled (priv->fs_action, can_fullscreen);
+}
+
+
+static void
 photos_application_fullscreen (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
 {
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  PhotosApplicationPrivate *priv = self->priv;
+
+  photos_mode_controller_toggle_fullscreen (priv->controller);
 }
 
 
@@ -103,16 +120,21 @@ photos_application_startup (GApplication *application)
     }
 
   priv->controller = photos_mode_controller_new ();
+  photos_mode_controller_set_window_mode (priv->controller, PHOTOS_WINDOW_MODE_OVERVIEW);
 
   action = g_simple_action_new ("about", NULL);
   g_signal_connect (action, "activate", G_CALLBACK (photos_application_about), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
-  action = g_simple_action_new ("fullscreen", NULL);
-  g_signal_connect (action, "activate", G_CALLBACK (photos_application_fullscreen), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  g_object_unref (action);
+  priv->fs_action = g_simple_action_new ("fullscreen", NULL);
+  g_signal_connect (priv->fs_action, "activate", G_CALLBACK (photos_application_fullscreen), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->fs_action));
+
+  g_signal_connect (priv->controller,
+                    "can-fullscreen-changed",
+                    G_CALLBACK (photos_application_can_fullscreen_changed),
+                    self);
 
   action = g_simple_action_new ("quit", NULL);
   g_signal_connect (action, "activate", G_CALLBACK (photos_application_quit), self);
@@ -139,6 +161,12 @@ photos_application_dispose (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
   PhotosApplicationPrivate *priv = self->priv;
+
+  if (priv->fs_action != NULL)
+    {
+      g_object_unref (priv->fs_action);
+      priv->fs_action = NULL;
+    }
 
   if (priv->controller != NULL)
     {
