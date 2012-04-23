@@ -80,10 +80,10 @@ photos_main_window_new (GtkApplication *application)
 {
   g_return_val_if_fail (GTK_IS_APPLICATION (application), NULL);
 
-  g_object_new (PHOTOS_TYPE_MAIN_WINDOW,
-                "application", application,
-                "hide-titlebar-when-maximized", TRUE,
-                "title", _(PACKAGE_NAME),
-                "window-position", GTK_WIN_POS_CENTER,
-                NULL);
+  return g_object_new (PHOTOS_TYPE_MAIN_WINDOW,
+                       "application", application,
+                       "hide-titlebar-when-maximized", TRUE,
+                       "title", _(PACKAGE_NAME),
+                       "window-position", GTK_WIN_POS_CENTER,
+                       NULL);
 }
