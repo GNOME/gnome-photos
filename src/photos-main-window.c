@@ -21,16 +21,21 @@
 
 #include "config.h"
 
+#include <clutter/clutter.h>
 #include <clutter-gtk/clutter-gtk.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
+#include "photos-view-embed.h"
 
 
 struct _PhotosMainWindowPrivate
 {
+  ClutterActor *box;
+  ClutterActor *embed;
+  ClutterLayoutManager *box_layout;
   GtkWidget *clutter_embed;
   PhotosModeController *controller;
   guint configure_id;
@@ -221,6 +226,9 @@ static void
 photos_main_window_init (PhotosMainWindow *self)
 {
   PhotosMainWindowPrivate *priv;
+  ClutterActor *stage;
+  ClutterConstraint *constraint;
+  ClutterLayoutManager *overlay_layout;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
                                             PHOTOS_TYPE_MAIN_WINDOW,
@@ -236,6 +244,23 @@ photos_main_window_init (PhotosMainWindow *self)
                     "fullscreen-changed",
                     G_CALLBACK (photos_main_window_fullscreen_changed),
                     self);
+
+  stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (priv->clutter_embed));
+
+  priv->box_layout = clutter_box_layout_new ();
+  clutter_box_layout_set_vertical (CLUTTER_BOX_LAYOUT (priv->box_layout), TRUE);
+
+  priv->box = clutter_box_new (priv->box_layout);
+  constraint = clutter_bind_constraint_new (stage, CLUTTER_BIND_SIZE, 0.0);
+  clutter_actor_add_constraint (priv->box, constraint);
+
+  clutter_container_add_actor (CLUTTER_CONTAINER (stage), priv->box);
+
+  overlay_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
+  priv->embed = photos_view_embed_new (CLUTTER_BIN_LAYOUT (overlay_layout));
+  clutter_container_add_actor (CLUTTER_CONTAINER (priv->box), priv->embed);
+  clutter_box_layout_set_expand (CLUTTER_BOX_LAYOUT (priv->box_layout), priv->embed, TRUE);
+  clutter_box_layout_set_fill (CLUTTER_BOX_LAYOUT (priv->box_layout), priv->embed, TRUE, TRUE);
 }
 
 
