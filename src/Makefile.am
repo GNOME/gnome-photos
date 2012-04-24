@@ -13,6 +13,8 @@ gnome_photos_SOURCES = \
 	gd-main-toolbar.h \
 	photos-application.c \
 	photos-application.h \
+	photos-base-manager.c \
+	photos-base-manager.h \
 	photos-main-toolbar.c \
 	photos-main-toolbar.h \
 	photos-main-window.c \
