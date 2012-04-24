@@ -15,6 +15,8 @@ gnome_photos_SOURCES = \
 	photos-application.h \
 	photos-base-manager.c \
 	photos-base-manager.h \
+	photos-view-embed.c \
+	photos-view-embed.h \
 	photos-main-toolbar.c \
 	photos-main-toolbar.h \
 	photos-main-window.c \
@@ -38,6 +40,7 @@ EXTRA_DIST = \
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
+	$(CLUTTER_CFLAGS) \
 	$(CLUTTER_GTK_CFLAGS) \
 	$(GIO_CFLAGS) \
 	$(GLIB_CFLAGS) \
@@ -48,6 +51,7 @@ AM_CPPFLAGS = \
 gnome_photos_LDFLAGS = 
 
 gnome_photos_LDADD = \
+	$(CLUTTER_LIBS) \
 	$(CLUTTER_GTK_LIBS) \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \

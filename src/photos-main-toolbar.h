@@ -21,7 +21,7 @@
 #ifndef PHOTOS_MAIN_TOOLBAR_H
 #define PHOTOS_MAIN_TOOLBAR_H
 
-#include <glib-object.h>
+#include <clutter/clutter.h>
 
 G_BEGIN_DECLS
 
@@ -65,6 +65,8 @@ struct _PhotosMainToolbarClass
 GType                  photos_main_toolbar_get_type               (void) G_GNUC_CONST;
 
 PhotosMainToolbar     *photos_main_toolbar_new                    (void);
+
+ClutterActor          *photos_main_toolbar_get_actor              (PhotosMainToolbar *self);
 
 G_END_DECLS
 

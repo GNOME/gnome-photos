@@ -267,3 +267,10 @@ photos_main_toolbar_new (void)
 {
   return g_object_new (PHOTOS_TYPE_MAIN_TOOLBAR, NULL);
 }
+
+
+ClutterActor *
+photos_main_toolbar_get_actor (PhotosMainToolbar *self)
+{
+  return self->priv->actor;
+}
