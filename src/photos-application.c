@@ -120,7 +120,6 @@ photos_application_startup (GApplication *application)
     }
 
   priv->controller = photos_mode_controller_new ();
-  photos_mode_controller_set_window_mode (priv->controller, PHOTOS_WINDOW_MODE_OVERVIEW);
 
   action = g_simple_action_new ("about", NULL);
   g_signal_connect (action, "activate", G_CALLBACK (photos_application_about), self);
@@ -153,6 +152,7 @@ photos_application_startup (GApplication *application)
   gtk_application_set_app_menu (GTK_APPLICATION (self), G_MENU_MODEL (menu));
 
   priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
+  photos_mode_controller_set_window_mode (priv->controller, PHOTOS_WINDOW_MODE_OVERVIEW);
 }
 
 
