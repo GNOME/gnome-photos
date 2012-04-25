@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
+#include "photos-organize-collection-dialog.h"
 #include "photos-selection-controller.h"
 #include "photos-selection-toolbar.h"
 #include "photos-utils.h"
@@ -79,18 +80,33 @@ photos_selection_toolbar_fade_out (PhotosSelectionToolbar *self)
 
 
 static void
+photos_selection_toolbar_dialog_response (GtkDialog *dialog, gint response_id, gpointer user_data)
+{
+  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
+
+  if (response_id != GTK_RESPONSE_OK)
+    return;
+
+  gtk_widget_destroy (GTK_WIDGET (dialog));
+  photos_selection_toolbar_fade_in (self);
+}
+
+
+static void
 photos_selection_toolbar_collection_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
   PhotosSelectionToolbarPrivate *priv = self->priv;
+  GtkWidget *dialog;
   GtkWidget *toplevel;
 
   toplevel = gtk_widget_get_toplevel (priv->widget);
   if (!gtk_widget_is_toplevel (toplevel))
     return;
 
+  dialog = photos_organize_collection_dialog_new (GTK_WINDOW (toplevel));
   photos_selection_toolbar_fade_out (self);
-  /* TODO: OrganizeCollectionDialog */
+  g_signal_connect (dialog, "response", G_CALLBACK (photos_selection_toolbar_dialog_response), self);
 }
 
 
