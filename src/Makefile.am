@@ -25,6 +25,8 @@ gnome_photos_SOURCES = \
 	photos-mode-controller.h \
 	photos-selection-controller.c \
 	photos-selection-controller.h \
+	photos-utils.c \
+	photos-utils.h \
 	photos-main.c \
 	$(NULL)
 
