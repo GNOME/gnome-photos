@@ -27,6 +27,8 @@ gnome_photos_SOURCES = \
 	photos-mode-controller.h \
 	photos-organize-collection-dialog.c \
 	photos-organize-collection-dialog.h \
+	photos-organize-collection-model.c \
+	photos-organize-collection-model.h \
 	photos-selection-controller.c \
 	photos-selection-controller.h \
 	photos-selection-toolbar.c \
