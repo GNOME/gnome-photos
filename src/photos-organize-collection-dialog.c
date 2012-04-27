@@ -22,6 +22,13 @@
 #include "config.h"
 
 #include "photos-organize-collection-dialog.h"
+#include "photos-organize-collection-view.h"
+
+
+struct _PhotosOrganizeCollectionDialogPrivate
+{
+  GtkWidget *coll_view;
+};
 
 
 G_DEFINE_TYPE (PhotosOrganizeCollectionDialog, photos_organize_collection_dialog, GTK_TYPE_DIALOG);
@@ -30,10 +37,12 @@ G_DEFINE_TYPE (PhotosOrganizeCollectionDialog, photos_organize_collection_dialog
 static void
 photos_organize_collection_dialog_response (GtkDialog *dialog, gint response_id)
 {
+  PhotosOrganizeCollectionDialog *self = PHOTOS_ORGANIZE_COLLECTION_DIALOG (dialog);
+
   if (response_id != GTK_RESPONSE_ACCEPT)
     return;
 
-  /* TODO: OrganizeCollectionView */
+  photos_organize_collection_view_add_collection (PHOTOS_ORGANIZE_COLLECTION_VIEW (self->priv->coll_view));
 }
 
 
@@ -43,6 +52,11 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
   PhotosOrganizeCollectionDialogPrivate *priv;
   GtkWidget *content_area;
   GtkWidget *sw;
+
+  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
+                                            PHOTOS_TYPE_ORGANIZE_COLLECTION_DIALOG,
+                                            PhotosOrganizeCollectionDialogPrivate);
+  priv = self->priv;
 
   gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_ADD, GTK_RESPONSE_ACCEPT);
   gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_OK, GTK_RESPONSE_OK);
@@ -55,9 +69,10 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
   gtk_widget_set_margin_right (sw, 5);
   gtk_widget_set_margin_bottom (sw, 3);
 
-  /* TODO: OrganizeCollectionView */
-
+  priv->coll_view = photos_organize_collection_view_new ();
+  gtk_container_add (GTK_CONTAINER (sw), priv->coll_view);
   gtk_container_add (GTK_CONTAINER (content_area), sw);
+
   gtk_widget_show_all (GTK_WIDGET (self));
 }
 
@@ -68,6 +83,8 @@ photos_organize_collection_dialog_class_init (PhotosOrganizeCollectionDialogClas
   GtkDialogClass *dialog_class = GTK_DIALOG_CLASS (class);
 
   dialog_class->response = photos_organize_collection_dialog_response;
+
+  g_type_class_add_private (class, sizeof (PhotosOrganizeCollectionDialogPrivate));
 }
 
 
