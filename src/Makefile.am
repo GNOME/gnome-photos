@@ -17,6 +17,8 @@ gnome_photos_SOURCES = \
 	photos-application.h \
 	photos-base-manager.c \
 	photos-base-manager.h \
+	photos-base-item.c \
+	photos-base-item.h \
 	photos-collection-manager.c \
 	photos-collection-manager.h \
 	photos-view-embed.c \
