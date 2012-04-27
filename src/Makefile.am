@@ -33,6 +33,7 @@ gnome_photos_SOURCES = \
 	photos-organize-collection-model.h \
 	photos-organize-collection-view.c \
 	photos-organize-collection-view.h \
+	photos-query.h \
 	photos-selection-controller.c \
 	photos-selection-controller.h \
 	photos-selection-toolbar.c \
