@@ -56,10 +56,13 @@ photos_view_embed_fullscreen_changed (PhotosModeController *mode_cntrlr, gboolea
 
 
 static void
-photos_view_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
-                                       PhotosWindowMode mode,
-                                       PhotosWindowMode old_mode,
-                                       gpointer user_data)
+photos_view_embed_prepare_for_overview (PhotosViewEmbed *self)
+{
+}
+
+
+static void
+photos_view_embed_prepare_for_preview (PhotosViewEmbed *self)
 {
 }
 
@@ -79,6 +82,38 @@ photos_view_embed_selection_toolbar_notify_width (GObject *object, GParamSpec *p
     offset -= (600 - width);
 
   clutter_bind_constraint_set_offset (CLUTTER_BIND_CONSTRAINT (priv->width_constraint), -1 * offset);
+}
+
+
+static void
+photos_view_embed_window_mode_change_flash (PhotosViewEmbed *self)
+{
+  PhotosViewEmbedPrivate *priv = self->priv;
+  ClutterAnimation *animation;
+
+  clutter_actor_raise_top (priv->background);
+  clutter_actor_set_opacity (priv->background, 255);
+
+  animation = clutter_actor_animate (priv->background, CLUTTER_EASE_IN_QUAD, 200, "opacity", 0, NULL);
+  g_signal_connect_swapped (animation, "completed", G_CALLBACK (clutter_actor_lower_bottom), priv->background);
+}
+
+
+static void
+photos_view_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
+                                       PhotosWindowMode mode,
+                                       PhotosWindowMode old_mode,
+                                       gpointer user_data)
+{
+  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
+
+  if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+    photos_view_embed_prepare_for_overview (self);
+  else
+    photos_view_embed_prepare_for_preview (self);
+
+  if (old_mode != PHOTOS_WINDOW_MODE_NONE)
+    photos_view_embed_window_mode_change_flash (self);
 }
 
 
