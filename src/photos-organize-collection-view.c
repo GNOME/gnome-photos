@@ -193,3 +193,18 @@ photos_organize_collection_view_new (void)
                        "hexpand", TRUE,
                        NULL);
 }
+
+
+void
+photos_organize_collection_view_add_collection (PhotosOrganizeCollectionView *self)
+{
+  PhotosOrganizeCollectionViewPrivate *priv = self->priv;
+  GtkTreePath *path;
+
+  path = photos_organize_collection_model_add_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (priv->model));
+  if (path == NULL)
+    return;
+
+  g_object_set (priv->renderer_text, "editable", TRUE, NULL);
+  gtk_tree_view_set_cursor_on_cell (GTK_TREE_VIEW (self), path, priv->view_col, priv->renderer_text, TRUE);
+}
