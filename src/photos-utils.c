@@ -21,6 +21,10 @@
 
 #include "config.h"
 
+#include <string.h>
+
+#include <glib.h>
+
 #include "photos-utils.h"
 
 
@@ -29,4 +33,50 @@ photos_utils_alpha_gtk_widget (GtkWidget *widget)
 {
   GdkRGBA color = {0.0, 0.0, 0.0, 0.0};
   gtk_widget_override_background_color (widget, GTK_STATE_FLAG_NORMAL, &color);
+}
+
+
+static gchar *
+photos_utils_filename_get_extension_offset (const gchar *filename)
+{
+  gchar *end;
+  gchar *end2;
+
+  end = strrchr (filename, '.');
+
+  if (end != NULL && end != filename)
+    {
+      if (g_strcmp0 (end, ".gz") == 0
+          || g_strcmp0 (end, ".bz2") == 0
+          || g_strcmp0 (end, ".sit") == 0
+          || g_strcmp0 (end, ".Z") == 0)
+        {
+          end2 = end - 1;
+          while (end2 > filename && *end2 != '.')
+            end2--;
+          if (end2 != filename)
+            end = end2;
+        }
+  }
+
+  return end;
+}
+
+
+gchar *
+photos_utils_filename_strip_extension (const gchar *filename_with_extension)
+{
+  gchar *end;
+  gchar *filename;
+
+  if (filename_with_extension == NULL)
+    return NULL;
+
+  filename = g_strdup (filename_with_extension);
+  end = photos_utils_filename_get_extension_offset (filename);
+
+  if (end != NULL && end != filename)
+    *end = '\0';
+
+  return filename;
 }

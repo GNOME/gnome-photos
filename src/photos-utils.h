@@ -27,6 +27,8 @@ G_BEGIN_DECLS
 
 void             photos_utils_alpha_gtk_widget            (GtkWidget *widget);
 
+gchar           *photos_utils_filename_strip_extension    (const gchar *filename_with_extension);
+
 G_END_DECLS
 
 #endif /* PHOTOS_UTILS_H */
