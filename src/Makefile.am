@@ -11,6 +11,8 @@ gnome_photos_SOURCES = \
 	$(gnome_photos_built_sources) \
 	gd-main-toolbar.c \
 	gd-main-toolbar.h \
+	gd-styled-text-renderer.c \
+	gd-styled-text-renderer.h \
 	photos-application.c \
 	photos-application.h \
 	photos-base-manager.c \
@@ -29,6 +31,8 @@ gnome_photos_SOURCES = \
 	photos-organize-collection-dialog.h \
 	photos-organize-collection-model.c \
 	photos-organize-collection-model.h \
+	photos-organize-collection-view.c \
+	photos-organize-collection-view.h \
 	photos-selection-controller.c \
 	photos-selection-controller.h \
 	photos-selection-toolbar.c \
