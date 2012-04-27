@@ -27,6 +27,7 @@
 
 struct _PhotosOrganizeCollectionModelPrivate
 {
+  GtkTreeRowReference *placeholder_ref;
   PhotosBaseManager *manager;
   gulong coll_added_id;
   gulong coll_removed_id;
@@ -65,6 +66,17 @@ photos_organize_collection_model_dispose (GObject *object)
 
 
 static void
+photos_organize_collection_model_finalize (GObject *object)
+{
+  PhotosOrganizeCollectionModel *self = PHOTOS_ORGANIZE_COLLECTION_MODEL (object);
+
+  gtk_tree_row_reference_free (self->priv->placeholder_ref);
+
+  G_OBJECT_CLASS (photos_organize_collection_model_parent_class)->finalize (object);
+}
+
+
+static void
 photos_organize_collection_model_init (PhotosOrganizeCollectionModel *self)
 {
   PhotosOrganizeCollectionModelPrivate *priv;
@@ -99,6 +111,7 @@ photos_organize_collection_model_class_init (PhotosOrganizeCollectionModelClass 
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->dispose = photos_organize_collection_model_dispose;
+  object_class->finalize = photos_organize_collection_model_finalize;
 
   g_type_class_add_private (class, sizeof (PhotosOrganizeCollectionModelPrivate));
 }
@@ -108,6 +121,31 @@ GtkListStore *
 photos_organize_collection_model_new (void)
 {
   return g_object_new (PHOTOS_TYPE_ORGANIZE_COLLECTION_MODEL, NULL);
+}
+
+
+GtkTreePath *
+photos_organize_collection_model_add_placeholder (PhotosOrganizeCollectionModel *self)
+{
+  PhotosOrganizeCollectionModelPrivate *priv = self->priv;
+  GtkTreeIter iter;
+  GtkTreePath *placeholder_path;
+
+  photos_organize_collection_model_remove_placeholder (self);
+
+  gtk_list_store_append (GTK_LIST_STORE (self), &iter);
+  gtk_list_store_set (GTK_LIST_STORE (self),
+                      &iter,
+                      PHOTOS_ORGANIZE_MODEL_ID, PHOTOS_COLLECTION_PLACEHOLDER_ID,
+                      PHOTOS_ORGANIZE_MODEL_NAME, "",
+                      PHOTOS_ORGANIZE_MODEL_STATE, PHOTOS_ORGANIZE_COLLECTION_STATE_ACTIVE,
+                      -1);
+
+  placeholder_path = gtk_tree_model_get_path (GTK_TREE_MODEL (self), &iter);
+  if (placeholder_path != NULL)
+    priv->placeholder_ref = gtk_tree_row_reference_new (GTK_TREE_MODEL (self), placeholder_path);
+
+  return placeholder_path;
 }
 
 
@@ -127,4 +165,36 @@ photos_organize_collection_model_destroy (PhotosOrganizeCollectionModel *self)
       g_signal_handler_disconnect (priv->manager, priv->coll_removed_id);
       priv->coll_removed_id = 0;
     }
+}
+
+
+GtkTreePath *
+photos_organize_collection_model_forget_placeholder (PhotosOrganizeCollectionModel *self)
+{
+  PhotosOrganizeCollectionModelPrivate *priv = self->priv;
+  GtkTreePath *path;
+
+  path = gtk_tree_row_reference_get_path (priv->placeholder_ref);
+  gtk_tree_row_reference_free (priv->placeholder_ref);
+  priv->placeholder_ref = NULL;
+  return path;
+}
+
+
+void
+photos_organize_collection_model_remove_placeholder (PhotosOrganizeCollectionModel *self)
+{
+  PhotosOrganizeCollectionModelPrivate *priv = self->priv;
+  GtkTreeIter placeholder_iter;
+  GtkTreePath *placeholder_path;
+
+  if (priv->placeholder_ref == NULL)
+    return;
+
+  placeholder_path = gtk_tree_row_reference_get_path (priv->placeholder_ref);
+  if (gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &placeholder_iter, placeholder_path))
+    gtk_list_store_remove (GTK_LIST_STORE (self), &placeholder_iter);
+
+  gtk_tree_row_reference_free (priv->placeholder_ref);
+  priv->placeholder_ref = NULL;
 }
