@@ -21,6 +21,7 @@
 #ifndef PHOTOS_UTILS_H
 #define PHOTOS_UTILS_H
 
+#include <glib.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
@@ -28,6 +29,8 @@ G_BEGIN_DECLS
 void             photos_utils_alpha_gtk_widget            (GtkWidget *widget);
 
 gchar           *photos_utils_filename_strip_extension    (const gchar *filename_with_extension);
+
+GList           *photos_utils_get_urns_from_paths         (GList *paths, GtkTreeModel *model);
 
 G_END_DECLS
 

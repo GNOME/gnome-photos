@@ -25,6 +25,7 @@
 
 #include <glib.h>
 
+#include "gd-main-view.h"
 #include "photos-utils.h"
 
 
@@ -79,4 +80,27 @@ photos_utils_filename_strip_extension (const gchar *filename_with_extension)
     *end = '\0';
 
   return filename;
+}
+
+
+GList *
+photos_utils_get_urns_from_paths (GList *paths, GtkTreeModel *model)
+{
+  GList *l;
+  GList *urns = NULL;
+
+  for (l = paths; l != NULL; l = l->next)
+    {
+      GtkTreeIter iter;
+      GtkTreePath *path = (GtkTreePath *) l->data;
+      gchar *id;
+
+      if (!gtk_tree_model_get_iter (model, &iter, path))
+        continue;
+
+      gtk_tree_model_get (model, &iter, GD_MAIN_COLUMN_ID, &id, -1);
+      urns = g_list_prepend (urns, id);
+    }
+
+  return g_list_reverse (urns);
 }
