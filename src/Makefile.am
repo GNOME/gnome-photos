@@ -95,6 +95,8 @@ gnome_photos_LDADD = \
 	$(LIBM) \
 	$(NULL)
 
+if MAINTAINER_MODE
+
 CLEANFILES = \
 	xgen-etbc \
 	xgen-etbh \
@@ -115,7 +117,9 @@ stamp-photos-enums.h: photos-enums.h.template
 	$(AM_V_GEN) ( \
 		cd $(srcdir) \
 		&& ( glib-mkenums \
-			--template photos-enums.h.template $(gnome_photos_SOURCES) ) >> xgen-etbh \
+			--template photos-enums.h.template \
+                        photos-mode-controller.h \
+                   ) >> xgen-etbh \
 		&& ( cmp -s xgen-etbh photos-enums.h || cp xgen-etbh photos-enums.h ) \
 		&& rm -f xgen-etbh \
 		&& echo timestamp > $(@F) \
@@ -125,7 +129,9 @@ photos-enums.c: photos-enums.c.template
 	$(AM_V_GEN) ( \
 		cd $(srcdir) \
 		&& ( glib-mkenums \
-			--template photos-enums.c.template $(gnome_photos_SOURCES) ) >> xgen-etbc \
+			--template photos-enums.c.template \
+                        photos-mode-controller.h \
+                   ) >> xgen-etbc \
 		&& ( cmp -s xgen-etbc photos-enums.c || cp xgen-etbc photos-enums.c ) \
 		&& rm -f xgen-etbc \
 	)
@@ -154,3 +160,5 @@ photos-marshalers.c: photos-marshalers.list photos-marshalers.h Makefile
 		&& cp xgen-tmc photos-marshalers.c \
 		&& rm -f xgen-tmc \
 	)
+
+endif
