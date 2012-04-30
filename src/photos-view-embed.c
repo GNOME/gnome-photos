@@ -27,6 +27,7 @@
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
 #include "photos-selection-toolbar.h"
+#include "photos-view.h"
 #include "photos-view-embed.h"
 
 
@@ -40,13 +41,30 @@ struct _PhotosViewEmbedPrivate
   ClutterLayoutManager *contents_layout;
   ClutterLayoutManager *view_layout;
   GtkWidget *notebook;
+  GtkWidget *scrolled_win_preview;
+  GtkWidget *view;
   PhotosMainToolbar *toolbar;
   PhotosSelectionToolbar *selection_toolbar;
   PhotosModeController *mode_cntrlr;
+  gulong adjustment_changed_id;
+  gulong adjustment_value_id;
+  gulong scrollbar_visible_id;
 };
 
 
 G_DEFINE_TYPE (PhotosViewEmbed, photos_view_embed, CLUTTER_TYPE_BOX);
+
+
+static void
+photos_view_embed_destroy_preview (PhotosViewEmbed *self)
+{
+}
+
+
+static void
+photos_view_embed_destroy_preview_child (PhotosViewEmbed *self)
+{
+}
 
 
 static void
@@ -56,14 +74,133 @@ photos_view_embed_fullscreen_changed (PhotosModeController *mode_cntrlr, gboolea
 
 
 static void
+photos_view_embed_view_change (PhotosViewEmbed *self)
+{
+}
+
+
+static void
+photos_view_embed_view_vadjustment_changed (GtkAdjustment *adjustment, gpointer user_data)
+{
+  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
+  photos_view_embed_view_change (self);
+}
+
+
+static void
+photos_view_embed_view_vadjustment_value_changed (GtkAdjustment *adjustment, gpointer user_data)
+{
+  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
+  photos_view_embed_view_change (self);
+}
+
+
+static void
+photos_view_embed_view_vscrolbar_notify_visible (GObject *object, GParamSpec *pspec, gpointer user_data)
+{
+  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
+  photos_view_embed_view_change (self);
+}
+
+
+static void
 photos_view_embed_prepare_for_overview (PhotosViewEmbed *self)
 {
+  PhotosViewEmbedPrivate *priv = self->priv;
+  GtkAdjustment *vadjustment;
+  GtkWidget *vscrollbar;
+  gint view_page;
+
+  photos_view_embed_destroy_preview (self);
+
+  /* TODO: DocumentManager */
+
+  if (priv->view == NULL)
+    {
+      GtkWidget *grid;
+
+      grid = gtk_grid_new ();
+      gtk_orientable_set_orientation (GTK_ORIENTABLE (grid), GTK_ORIENTATION_VERTICAL);
+      priv->view = photos_view_new ();
+      gtk_container_add (GTK_CONTAINER (grid), priv->view);
+
+      /* TODO: LoadMoreButton */
+
+      gtk_widget_show_all (grid);
+      view_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), grid, NULL);
+    }
+
+  vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
+  priv->adjustment_changed_id = g_signal_connect (vadjustment,
+                                                  "changed",
+                                                  G_CALLBACK (photos_view_embed_view_vadjustment_changed),
+                                                  self);
+  priv->adjustment_value_id = g_signal_connect (vadjustment,
+                                                "value-changed",
+                                                G_CALLBACK (photos_view_embed_view_vadjustment_value_changed),
+                                                self);
+
+  vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (priv->view));
+  priv->scrollbar_visible_id = g_signal_connect (vscrollbar,
+                                                 "notify::visible",
+                                                 G_CALLBACK (photos_view_embed_view_vscrolbar_notify_visible),
+                                                 self);
+
+  photos_view_embed_view_change (self);
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), view_page);
 }
 
 
 static void
 photos_view_embed_prepare_for_preview (PhotosViewEmbed *self)
 {
+  PhotosViewEmbedPrivate *priv = self->priv;
+  GtkAdjustment *vadjustment;
+  GtkWidget *vscrollbar;
+  gint preview_page;
+
+  /* TODO: SearchController,
+   *       ErrorHandler
+   */
+
+  vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
+  vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (priv->view));
+
+  if (priv->adjustment_changed_id != 0)
+    {
+      g_signal_handler_disconnect (vadjustment, priv->adjustment_changed_id);
+      priv->adjustment_changed_id = 0;
+    }
+
+  if (priv->adjustment_value_id != 0)
+    {
+      g_signal_handler_disconnect (vadjustment, priv->adjustment_value_id);
+      priv->adjustment_value_id = 0;
+    }
+
+  if (priv->scrollbar_visible_id != 0)
+    {
+      g_signal_handler_disconnect (vscrollbar, priv->scrollbar_visible_id);
+      priv->scrollbar_visible_id = 0;
+    }
+
+  if (priv->scrolled_win_preview == NULL)
+    {
+      GtkStyleContext *context;
+
+      priv->scrolled_win_preview = gtk_scrolled_window_new (NULL, NULL);
+      gtk_widget_set_hexpand (priv->scrolled_win_preview, TRUE);
+      gtk_widget_set_vexpand (priv->scrolled_win_preview, TRUE);
+      gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (priv->scrolled_win_preview), GTK_SHADOW_IN);
+      context = gtk_widget_get_style_context (priv->scrolled_win_preview);
+      gtk_style_context_add_class (context, "documents-scrolledwin");
+      gtk_widget_show (priv->scrolled_win_preview);
+      preview_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->scrolled_win_preview, NULL);
+    }
+  else
+    photos_view_embed_destroy_preview_child (self);
+
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), preview_page);
 }
 
 
