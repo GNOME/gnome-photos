@@ -42,7 +42,7 @@ struct _PhotosBaseItemPrivate
   gchar *resource_urn;
   gchar *type_description;
   gchar *uri;
-  gulong mtime;
+  glong mtime;
 };
 
 enum
