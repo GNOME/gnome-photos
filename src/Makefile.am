@@ -73,6 +73,7 @@ AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
 	$(CLUTTER_CFLAGS) \
 	$(CLUTTER_GTK_CFLAGS) \
+	$(GDK_PIXBUF_CFLAGS) \
 	$(GIO_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
@@ -84,6 +85,7 @@ gnome_photos_LDFLAGS =
 gnome_photos_LDADD = \
 	$(CLUTTER_LIBS) \
 	$(CLUTTER_GTK_LIBS) \
+	$(GDK_PIXBUF_LIBS) \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
 	$(GTK_LIBS) \

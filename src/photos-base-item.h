@@ -21,6 +21,7 @@
 #ifndef PHOTOS_BASE_ITEM_H
 #define PHOTOS_BASE_ITEM_H
 
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -66,6 +67,8 @@ struct _PhotosBaseItemClass
 GType               photos_base_item_get_type           (void) G_GNUC_CONST;
 
 const gchar        *photos_base_item_get_author         (PhotosBaseItem *self);
+
+GdkPixbuf          *photos_base_item_get_icon           (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_id             (PhotosBaseItem *self);
 

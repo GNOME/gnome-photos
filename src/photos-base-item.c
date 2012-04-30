@@ -32,6 +32,7 @@
 
 struct _PhotosBaseItemPrivate
 {
+  GdkPixbuf *icon;
   gboolean favorite;
   gchar *author;
   gchar *id;
@@ -53,6 +54,47 @@ enum
 
 
 G_DEFINE_TYPE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT);
+
+
+static void
+photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
+{
+}
+
+
+static void
+photos_base_item_update_icon_from_type (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  GIcon *icon = NULL;
+  GtkIconInfo *info;
+  GtkIconTheme *theme;
+
+  if (priv->mime_type != NULL)
+    icon = g_content_type_get_icon (priv->mime_type);
+
+  /* TODO: Get icon from RDF type */
+
+  theme = gtk_icon_theme_get_default ();
+  info = gtk_icon_theme_lookup_by_gicon (theme,
+                                         icon,
+                                         128,
+                                         GTK_ICON_LOOKUP_FORCE_SIZE | GTK_ICON_LOOKUP_GENERIC_FALLBACK);
+  if (info != NULL)
+    {
+      priv->icon = gtk_icon_info_load_icon (info, NULL);
+      /* TODO: use a GError */
+    }
+
+  photos_base_item_check_effects_and_update_info (self);
+}
+
+
+static void
+photos_base_item_refresh_icon (PhotosBaseItem *self)
+{
+  photos_base_item_update_icon_from_type (self);
+}
 
 
 static void
@@ -89,6 +131,8 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
       title = photos_utils_filename_strip_extension (title);
     }
   priv->name = g_strdup (title);
+
+  photos_base_item_refresh_icon (self);
 }
 
 
@@ -101,6 +145,18 @@ photos_base_item_update_type_description (PhotosBaseItem *self)
     return;
 
   priv->type_description = g_content_type_get_description (priv->mime_type);
+}
+
+
+static void
+photos_base_item_dispose (GObject *object)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
+  PhotosBaseItemPrivate *priv = self->priv;
+
+  g_clear_object (&priv->icon);
+
+  G_OBJECT_CLASS (photos_base_item_parent_class)->dispose (object);
 }
 
 
@@ -155,6 +211,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->dispose = photos_base_item_dispose;
   object_class->finalize = photos_base_item_finalize;
   object_class->set_property = photos_base_item_set_property;
   class->update_type_description = photos_base_item_update_type_description;
@@ -175,6 +232,13 @@ const gchar *
 photos_base_item_get_author (PhotosBaseItem *self)
 {
   return self->priv->author;
+}
+
+
+GdkPixbuf *
+photos_base_item_get_icon (PhotosBaseItem *self)
+{
+  return self->priv->icon;
 }
 
 
