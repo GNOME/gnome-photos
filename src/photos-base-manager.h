@@ -69,8 +69,6 @@ struct _PhotosBaseManagerClass
 
 GType               photos_base_manager_get_type               (void) G_GNUC_CONST;
 
-PhotosBaseManager  *photos_base_manager_new                    (void);
-
 void                photos_base_manager_add_item               (PhotosBaseManager *self, PhotosBaseItem *item);
 
 void                photos_base_manager_clear                  (PhotosBaseManager *self);

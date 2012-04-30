@@ -123,13 +123,6 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
 }
 
 
-PhotosBaseManager *
-photos_base_manager_new (void)
-{
-  return g_object_new (PHOTOS_TYPE_BASE_MANAGER, NULL);
-}
-
-
 void
 photos_base_manager_add_item (PhotosBaseManager *self, PhotosBaseItem *item)
 {
