@@ -156,6 +156,11 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 {
+  PhotosMainToolbarPrivate *priv = self->priv;
+
+  gd_main_toolbar_set_mode (GD_MAIN_TOOLBAR (priv->widget), GD_MAIN_TOOLBAR_MODE_PREVIEW);
+  photos_main_toolbar_set_toolbar_title (self);
+  gtk_widget_show_all (priv->widget);
 }
 
 
