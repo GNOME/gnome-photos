@@ -1,5 +1,5 @@
 [Desktop Entry]
-_Name=@PACKAGE_NAME@
+_Name=Photos
 _Comment=Access, organize and share photos
 Exec=@PACKAGE_TARNAME@
 Icon=@PACKAGE_TARNAME@
