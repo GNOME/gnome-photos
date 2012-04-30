@@ -211,7 +211,9 @@ photos_base_manager_set_active_item (PhotosBaseManager *self, PhotosBaseItem *it
   if (priv->active_item != NULL)
     g_object_unref (priv->active_item);
 
-  g_object_ref (item);
+  if (item != NULL)
+    g_object_ref (item);
+
   priv->active_item = item;
   g_signal_emit (self, signals[ACTIVE_CHANGED], 0, item);
   return TRUE;
