@@ -65,6 +65,16 @@ struct _PhotosBaseItemClass
 
 GType               photos_base_item_get_type           (void) G_GNUC_CONST;
 
+const gchar        *photos_base_item_get_author         (PhotosBaseItem *self);
+
+const gchar        *photos_base_item_get_id             (PhotosBaseItem *self);
+
+glong               photos_base_item_get_mtime          (PhotosBaseItem *self);
+
+const gchar        *photos_base_item_get_name           (PhotosBaseItem *self);
+
+const gchar        *photos_base_item_get_uri            (PhotosBaseItem *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_BASE_ITEM_H */

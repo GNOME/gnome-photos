@@ -169,3 +169,38 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
 
   g_type_class_add_private (class, sizeof (PhotosBaseItemPrivate));
 }
+
+
+const gchar *
+photos_base_item_get_author (PhotosBaseItem *self)
+{
+  return self->priv->author;
+}
+
+
+const gchar *
+photos_base_item_get_id (PhotosBaseItem *self)
+{
+  return self->priv->id;
+}
+
+
+glong
+photos_base_item_get_mtime (PhotosBaseItem *self)
+{
+  return self->priv->mtime;
+}
+
+
+const gchar *
+photos_base_item_get_name (PhotosBaseItem *self)
+{
+  return self->priv->name;
+}
+
+
+const gchar *
+photos_base_item_get_uri (PhotosBaseItem *self)
+{
+  return self->priv->uri;
+}
