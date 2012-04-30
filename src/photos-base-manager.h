@@ -23,6 +23,8 @@
 
 #include <glib-object.h>
 
+#include "photos-base-item.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_BASE_MANAGER (photos_base_manager_get_type ())
@@ -65,9 +67,29 @@ struct _PhotosBaseManagerClass
   void (*item_removed)   (PhotosBaseManager *self);
 };
 
-GType               photos_base_manager_get_type           (void) G_GNUC_CONST;
+GType               photos_base_manager_get_type               (void) G_GNUC_CONST;
 
-PhotosBaseManager  *photos_base_manager_new                (void);
+PhotosBaseManager  *photos_base_manager_new                    (void);
+
+void                photos_base_manager_add_item               (PhotosBaseManager *self, PhotosBaseItem *item);
+
+void                photos_base_manager_clear                  (PhotosBaseManager *self);
+
+PhotosBaseItem     *photos_base_manager_get_active_item        (PhotosBaseManager *self);
+
+PhotosBaseItem     *photos_base_manager_get_item_by_id         (PhotosBaseManager *self, const gchar *id);
+
+GHashTable         *photos_base_manager_get_items              (PhotosBaseManager *self);
+
+guint               photos_base_manager_get_items_count        (PhotosBaseManager *self);
+
+void                photos_base_manager_remove_item            (PhotosBaseManager *self, PhotosBaseItem *item);
+
+void                photos_base_manager_remove_item_by_id      (PhotosBaseManager *self, const gchar *id);
+
+gboolean            photos_base_manager_set_active_item        (PhotosBaseManager *self, PhotosBaseItem *item);
+
+gboolean            photos_base_manager_set_active_item_by_id  (PhotosBaseManager *self, const gchar *id);
 
 G_END_DECLS
 
