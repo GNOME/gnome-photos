@@ -56,6 +56,8 @@ gnome_photos_SOURCES = \
 	photos-selection-controller.h \
 	photos-selection-toolbar.c \
 	photos-selection-toolbar.h \
+	photos-source.c \
+	photos-source.h \
 	photos-utils.c \
 	photos-utils.h \
 	photos-view.c \
@@ -80,6 +82,7 @@ AM_CPPFLAGS = \
 	$(GDK_PIXBUF_CFLAGS) \
 	$(GIO_CFLAGS) \
 	$(GLIB_CFLAGS) \
+	$(GOA_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(TRACKER_CFLAGS) \
 	$(NULL)
@@ -92,6 +95,7 @@ gnome_photos_LDADD = \
 	$(GDK_PIXBUF_LIBS) \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
+	$(GOA_LIBS) \
 	$(GTK_LIBS) \
 	$(TRACKER_LIBS) \
 	$(LIBM) \
