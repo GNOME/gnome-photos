@@ -49,7 +49,8 @@ struct _PhotosBaseItemPrivate
 enum
 {
   PROP_0,
-  PROP_CURSOR
+  PROP_CURSOR,
+  PROP_ID
 };
 
 
@@ -181,6 +182,24 @@ photos_base_item_finalize (GObject *object)
 
 
 static void
+photos_base_item_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
+
+  switch (prop_id)
+    {
+    case PROP_ID:
+      g_value_set_string (value, self->priv->id);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+
+static void
 photos_base_item_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
@@ -215,6 +234,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
 
   object_class->dispose = photos_base_item_dispose;
   object_class->finalize = photos_base_item_finalize;
+  object_class->get_property = photos_base_item_get_property;
   object_class->set_property = photos_base_item_set_property;
   class->update_type_description = photos_base_item_update_type_description;
 
@@ -225,6 +245,14 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                                         "A cursor to iterate over the results of a query",
                                                         TRACKER_SPARQL_TYPE_CURSOR,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  g_object_class_install_property (object_class,
+                                   PROP_ID,
+                                   g_param_spec_string ("id",
+                                                        "Uniform Resource Name",
+                                                        "An unique ID associated with this item",
+                                                        "",
+                                                        G_PARAM_READABLE));
 
   g_type_class_add_private (class, sizeof (PhotosBaseItemPrivate));
 }
