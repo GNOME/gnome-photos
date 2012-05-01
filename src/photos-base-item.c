@@ -175,6 +175,8 @@ photos_base_item_finalize (GObject *object)
   g_free (priv->resource_urn);
   g_free (priv->type_description);
   g_free (priv->uri);
+
+  G_OBJECT_CLASS (photos_base_item_parent_class)->finalize (object);
 }
 
 
