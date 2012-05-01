@@ -68,11 +68,11 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 
 
 static void
-photos_main_toolbar_active_changed (PhotosBaseManager *manager, PhotosBaseItem *item, gpointer user_data)
+photos_main_toolbar_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
 
-  gd_main_toolbar_set_back_visible (GD_MAIN_TOOLBAR (self->priv->widget), item != NULL);
+  gd_main_toolbar_set_back_visible (GD_MAIN_TOOLBAR (self->priv->widget), object != NULL);
   photos_main_toolbar_set_toolbar_title (self);
 }
 
@@ -130,7 +130,7 @@ photos_main_toolbar_go_back_request (GdMainToolbar *toolbar, gpointer user_data)
   if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
     photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
   else
-    photos_base_manager_set_active_item (priv->col_mngr, NULL);
+    photos_base_manager_set_active_object (priv->col_mngr, NULL);
 }
 
 
@@ -138,7 +138,7 @@ static void
 photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
-  PhotosBaseItem *item;
+  GObject *object;
 
   gd_main_toolbar_set_mode (GD_MAIN_TOOLBAR (priv->widget), GD_MAIN_TOOLBAR_MODE_OVERVIEW);
   priv->collection_id = g_signal_connect (priv->col_mngr,
@@ -146,8 +146,8 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
                                           G_CALLBACK (photos_main_toolbar_active_changed),
                                           self);
 
-  item = photos_base_manager_get_active_item (priv->col_mngr);
-  photos_main_toolbar_active_changed (priv->col_mngr, item, self);
+  object = photos_base_manager_get_active_object (priv->col_mngr);
+  photos_main_toolbar_active_changed (priv->col_mngr, object, self);
 
   gtk_widget_show_all (priv->widget);
 }

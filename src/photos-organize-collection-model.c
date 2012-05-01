@@ -38,13 +38,13 @@ G_DEFINE_TYPE (PhotosOrganizeCollectionModel, photos_organize_collection_model, 
 
 
 static void
-photos_organize_collection_model_item_added (PhotosBaseManager *manager, GObject *item, gpointer user_data)
+photos_organize_collection_model_object_added (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
 }
 
 
 static void
-photos_organize_collection_model_item_removed (PhotosBaseManager *manager, GObject *item, gpointer user_data)
+photos_organize_collection_model_object_removed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
 }
 
@@ -93,12 +93,12 @@ photos_organize_collection_model_init (PhotosOrganizeCollectionModel *self)
 
   priv->manager = photos_collection_manager_new ();
   priv->coll_added_id = g_signal_connect (priv->manager,
-                                          "item-added",
-                                          G_CALLBACK (photos_organize_collection_model_item_added),
+                                          "object-added",
+                                          G_CALLBACK (photos_organize_collection_model_object_added),
                                           self);
   priv->coll_removed_id = g_signal_connect (priv->manager,
-                                            "item-removed",
-                                            G_CALLBACK (photos_organize_collection_model_item_removed),
+                                            "object-removed",
+                                            G_CALLBACK (photos_organize_collection_model_object_removed),
                                             self);
 
   /* TODO: populate the model */

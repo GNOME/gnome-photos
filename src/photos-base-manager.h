@@ -23,8 +23,6 @@
 
 #include <glib-object.h>
 
-#include "photos-base-item.h"
-
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_BASE_MANAGER (photos_base_manager_get_type ())
@@ -62,32 +60,32 @@ struct _PhotosBaseManagerClass
 {
   GObjectClass parent_class;
 
-  void (*active_changed) (PhotosBaseManager *self);
-  void (*item_added)     (PhotosBaseManager *self);
-  void (*item_removed)   (PhotosBaseManager *self);
+  void (*active_changed)   (PhotosBaseManager *self);
+  void (*object_added)     (PhotosBaseManager *self);
+  void (*object_removed)   (PhotosBaseManager *self);
 };
 
-GType               photos_base_manager_get_type               (void) G_GNUC_CONST;
+GType               photos_base_manager_get_type                 (void) G_GNUC_CONST;
 
-void                photos_base_manager_add_item               (PhotosBaseManager *self, PhotosBaseItem *item);
+void                photos_base_manager_add_object               (PhotosBaseManager *self, GObject *object);
 
-void                photos_base_manager_clear                  (PhotosBaseManager *self);
+void                photos_base_manager_clear                    (PhotosBaseManager *self);
 
-PhotosBaseItem     *photos_base_manager_get_active_item        (PhotosBaseManager *self);
+GObject            *photos_base_manager_get_active_object        (PhotosBaseManager *self);
 
-PhotosBaseItem     *photos_base_manager_get_item_by_id         (PhotosBaseManager *self, const gchar *id);
+GObject            *photos_base_manager_get_object_by_id         (PhotosBaseManager *self, const gchar *id);
 
-GHashTable         *photos_base_manager_get_items              (PhotosBaseManager *self);
+GHashTable         *photos_base_manager_get_objects              (PhotosBaseManager *self);
 
-guint               photos_base_manager_get_items_count        (PhotosBaseManager *self);
+guint               photos_base_manager_get_objects_count        (PhotosBaseManager *self);
 
-void                photos_base_manager_remove_item            (PhotosBaseManager *self, PhotosBaseItem *item);
+void                photos_base_manager_remove_object            (PhotosBaseManager *self, GObject *object);
 
-void                photos_base_manager_remove_item_by_id      (PhotosBaseManager *self, const gchar *id);
+void                photos_base_manager_remove_object_by_id      (PhotosBaseManager *self, const gchar *id);
 
-gboolean            photos_base_manager_set_active_item        (PhotosBaseManager *self, PhotosBaseItem *item);
+gboolean            photos_base_manager_set_active_object        (PhotosBaseManager *self, GObject *object);
 
-gboolean            photos_base_manager_set_active_item_by_id  (PhotosBaseManager *self, const gchar *id);
+gboolean            photos_base_manager_set_active_object_by_id  (PhotosBaseManager *self, const gchar *id);
 
 G_END_DECLS
 

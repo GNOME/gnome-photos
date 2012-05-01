@@ -28,15 +28,15 @@
 
 struct _PhotosBaseManagerPrivate
 {
-  GHashTable *items;
-  PhotosBaseItem *active_item;
+  GHashTable *objects;
+  GObject *active_object;
 };
 
 enum
 {
   ACTIVE_CHANGED,
-  ITEM_ADDED,
-  ITEM_REMOVED,
+  OBJECT_ADDED,
+  OBJECT_REMOVED,
   LAST_SIGNAL
 };
 
@@ -52,13 +52,13 @@ photos_base_manager_dispose (GObject *object)
   PhotosBaseManager *self = PHOTOS_BASE_MANAGER (object);
   PhotosBaseManagerPrivate *priv = self->priv;
 
-  if (priv->items != NULL)
+  if (priv->objects != NULL)
     {
-      g_hash_table_unref (priv->items);
-      priv->items = NULL;
+      g_hash_table_unref (priv->objects);
+      priv->objects = NULL;
     }
 
-  g_clear_object (&priv->active_item);
+  g_clear_object (&priv->active_object);
 
   G_OBJECT_CLASS (photos_base_manager_parent_class)->dispose (object);
 }
@@ -72,7 +72,7 @@ photos_base_manager_init (PhotosBaseManager *self)
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_BASE_MANAGER, PhotosBaseManagerPrivate);
   priv = self->priv;
 
-  priv->items = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
+  priv->objects = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 }
 
 
@@ -93,44 +93,46 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
                                           g_cclosure_marshal_VOID__OBJECT,
                                           G_TYPE_NONE,
                                           1,
-                                          PHOTOS_TYPE_BASE_ITEM);
+                                          G_TYPE_OBJECT);
 
-  signals[ITEM_ADDED] = g_signal_new ("item-added",
-                                      G_TYPE_FROM_CLASS (class),
-                                      G_SIGNAL_RUN_LAST,
-                                      G_STRUCT_OFFSET (PhotosBaseManagerClass,
-                                                       item_added),
-                                      NULL, /*accumulator */
-                                      NULL, /* accu_data */
-                                      g_cclosure_marshal_VOID__OBJECT,
-                                      G_TYPE_NONE,
-                                      1,
-                                      PHOTOS_TYPE_BASE_ITEM);
-
-  signals[ITEM_REMOVED] = g_signal_new ("item-removed",
+  signals[OBJECT_ADDED] = g_signal_new ("object-added",
                                         G_TYPE_FROM_CLASS (class),
                                         G_SIGNAL_RUN_LAST,
                                         G_STRUCT_OFFSET (PhotosBaseManagerClass,
-                                                         item_removed),
+                                                         object_added),
                                         NULL, /*accumulator */
-                                        NULL, /*accu_data */
+                                        NULL, /* accu_data */
                                         g_cclosure_marshal_VOID__OBJECT,
                                         G_TYPE_NONE,
                                         1,
-                                        PHOTOS_TYPE_BASE_ITEM);
+                                        G_TYPE_OBJECT);
+
+  signals[OBJECT_REMOVED] = g_signal_new ("object-removed",
+                                          G_TYPE_FROM_CLASS (class),
+                                          G_SIGNAL_RUN_LAST,
+                                          G_STRUCT_OFFSET (PhotosBaseManagerClass,
+                                                           object_removed),
+                                          NULL, /*accumulator */
+                                          NULL, /*accu_data */
+                                          g_cclosure_marshal_VOID__OBJECT,
+                                          G_TYPE_NONE,
+                                          1,
+                                          G_TYPE_OBJECT);
 
   g_type_class_add_private (class, sizeof (PhotosBaseManagerPrivate));
 }
 
 
 void
-photos_base_manager_add_item (PhotosBaseManager *self, PhotosBaseItem *item)
+photos_base_manager_add_object (PhotosBaseManager *self, GObject *object)
 {
-  const gchar *id = photos_base_item_get_id (item);
+  gchar *id;
 
-  g_object_ref (item);
-  g_hash_table_insert (self->priv->items, (gpointer) id, item);
-  g_signal_emit (self, signals[ITEM_ADDED], 0, item);
+  g_object_get (object, "id", &id, NULL);
+
+  g_object_ref (object);
+  g_hash_table_insert (self->priv->objects, (gpointer) id, object);
+  g_signal_emit (self, signals[OBJECT_ADDED], 0, object);
 }
 
 
@@ -139,39 +141,39 @@ photos_base_manager_clear (PhotosBaseManager *self)
 {
   PhotosBaseManagerPrivate *priv = self->priv;
 
-  g_hash_table_remove_all (priv->items);
-  g_clear_object (&priv->active_item);
+  g_hash_table_remove_all (priv->objects);
+  g_clear_object (&priv->active_object);
 }
 
 
-PhotosBaseItem *
-photos_base_manager_get_active_item (PhotosBaseManager *self)
+GObject *
+photos_base_manager_get_active_object (PhotosBaseManager *self)
 {
-  return self->priv->active_item;
+  return self->priv->active_object;
 }
 
 
-PhotosBaseItem *
-photos_base_manager_get_item_by_id (PhotosBaseManager *self, const gchar *id)
+GObject *
+photos_base_manager_get_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
-  return g_hash_table_lookup (self->priv->items, id);
+  return g_hash_table_lookup (self->priv->objects, id);
 }
 
 
 GHashTable *
-photos_base_manager_get_items (PhotosBaseManager *self)
+photos_base_manager_get_objects (PhotosBaseManager *self)
 {
-  return self->priv->items;
+  return self->priv->objects;
 }
 
 
 guint
-photos_base_manager_get_items_count (PhotosBaseManager *self)
+photos_base_manager_get_objects_count (PhotosBaseManager *self)
 {
   GList *keys;
   guint count;
 
-  keys = g_hash_table_get_keys (self->priv->items);
+  keys = g_hash_table_get_keys (self->priv->objects);
   count = g_list_length (keys);
   g_list_free (keys);
   return count;
@@ -179,52 +181,55 @@ photos_base_manager_get_items_count (PhotosBaseManager *self)
 
 
 void
-photos_base_manager_remove_item (PhotosBaseManager *self, PhotosBaseItem *item)
+photos_base_manager_remove_object (PhotosBaseManager *self, GObject *object)
 {
-  const gchar *id = photos_base_item_get_id (item);
-  photos_base_manager_remove_item_by_id (self, id);
+  gchar *id;
+
+  g_object_get (object, "id", &id, NULL);
+  photos_base_manager_remove_object_by_id (self, id);
+  g_free (id);
 }
 
 
 void
-photos_base_manager_remove_item_by_id (PhotosBaseManager *self, const gchar *id)
+photos_base_manager_remove_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
-  PhotosBaseItem *item;
+  GObject *object;
 
-  item = photos_base_manager_get_item_by_id (self, id);
-  if (item == NULL)
+  object = photos_base_manager_get_object_by_id (self, id);
+  if (object == NULL)
     return;
 
-  g_signal_emit (self, signals[ITEM_REMOVED], 0, item);
-  g_hash_table_remove (self->priv->items, id);
+  g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
+  g_hash_table_remove (self->priv->objects, id);
 }
 
 
 gboolean
-photos_base_manager_set_active_item (PhotosBaseManager *self, PhotosBaseItem *item)
+photos_base_manager_set_active_object (PhotosBaseManager *self, GObject *object)
 {
   PhotosBaseManagerPrivate *priv = self->priv;
 
-  if (item == priv->active_item)
+  if (object == priv->active_object)
     return FALSE;
 
-  if (priv->active_item != NULL)
-    g_object_unref (priv->active_item);
+  if (priv->active_object != NULL)
+    g_object_unref (priv->active_object);
 
-  if (item != NULL)
-    g_object_ref (item);
+  if (object != NULL)
+    g_object_ref (object);
 
-  priv->active_item = item;
-  g_signal_emit (self, signals[ACTIVE_CHANGED], 0, item);
+  priv->active_object = object;
+  g_signal_emit (self, signals[ACTIVE_CHANGED], 0, object);
   return TRUE;
 }
 
 
 gboolean
-photos_base_manager_set_active_item_by_id (PhotosBaseManager *self, const gchar *id)
+photos_base_manager_set_active_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
-  PhotosBaseItem *item;
+  GObject *object;
 
-  item = photos_base_manager_get_item_by_id (self, id);
-  return photos_base_manager_set_active_item (self, item);
+  object = photos_base_manager_get_object_by_id (self, id);
+  return photos_base_manager_set_active_object (self, object);
 }
