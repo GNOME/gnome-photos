@@ -56,6 +56,8 @@ gnome_photos_SOURCES = \
 	photos-selection-controller.h \
 	photos-selection-toolbar.c \
 	photos-selection-toolbar.h \
+	photos-settings.c \
+	photos-settings.h \
 	photos-source.c \
 	photos-source.h \
 	photos-source-manager.c \
