@@ -29,6 +29,7 @@
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
 #include "photos-selection-controller.h"
+#include "photos-source-manager.h"
 
 
 struct _PhotosMainToolbarPrivate
@@ -36,9 +37,11 @@ struct _PhotosMainToolbarPrivate
   ClutterActor *actor;
   GtkWidget *widget;
   PhotosBaseManager *col_mngr;
+  PhotosBaseManager *src_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosSelectionController *sel_cntrlr;
   gulong collection_id;
+  gulong search_source_id;
   gulong selection_changed_id;
   gulong selection_mode_id;
   gulong window_mode_id;
@@ -115,6 +118,12 @@ photos_main_toolbar_destroy (GtkWidget *widget, gpointer user_data)
     {
       g_signal_handler_disconnect (priv->sel_cntrlr, priv->selection_mode_id);
       priv->selection_mode_id = 0;
+    }
+
+  if (priv->search_source_id != 0)
+    {
+      g_signal_handler_disconnect (priv->src_mngr, priv->search_source_id);
+      priv->search_source_id = 0;
     }
 }
 
@@ -230,6 +239,7 @@ photos_main_toolbar_dispose (GObject *object)
   PhotosMainToolbarPrivate *priv = self->priv;
 
   g_clear_object (&priv->col_mngr);
+  g_clear_object (&priv->src_mngr);
 
   if (priv->mode_cntrlr != NULL)
     {
@@ -264,6 +274,12 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
 
   priv->actor = gtk_clutter_actor_new_with_contents (priv->widget);
   priv->col_mngr = photos_collection_manager_new ();
+
+  priv->src_mngr = photos_source_manager_new ();
+  priv->search_source_id = g_signal_connect_swapped (priv->src_mngr,
+                                                     "active-changed",
+                                                     G_CALLBACK (photos_main_toolbar_set_toolbar_title),
+                                                     self);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
   priv->window_mode_id = g_signal_connect (priv->mode_cntrlr,
