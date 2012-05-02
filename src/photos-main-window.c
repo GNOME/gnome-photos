@@ -28,6 +28,7 @@
 
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
+#include "photos-settings.h"
 #include "photos-view-embed.h"
 
 
@@ -36,6 +37,7 @@ struct _PhotosMainWindowPrivate
   ClutterActor *box;
   ClutterActor *embed;
   ClutterLayoutManager *box_layout;
+  GSettings *settings;
   GtkWidget *clutter_embed;
   PhotosModeController *controller;
   guint configure_id;
@@ -54,6 +56,25 @@ enum
 static void
 photos_main_window_save_geometry (PhotosMainWindow *self)
 {
+  PhotosMainWindowPrivate *priv = self->priv;
+  GVariant *variant;
+  GdkWindow *window;
+  GdkWindowState state;
+  gint32 position[2];
+  gint32 size[2];
+
+  window = gtk_widget_get_window (GTK_WIDGET (self));
+  state = gdk_window_get_state (window);
+  if (state & GDK_WINDOW_STATE_MAXIMIZED)
+    return;
+
+  gtk_window_get_size (GTK_WINDOW (self), (gint *) &size[0], (gint *) &size[1]);
+  variant = g_variant_new_fixed_array (G_VARIANT_TYPE_INT32, size, 2, sizeof (size[0]));
+  g_settings_set_value (priv->settings, "window-size", variant);
+
+  gtk_window_get_position (GTK_WINDOW (self), (gint *) &position[0], (gint *) &position[1]);
+  variant = g_variant_new_fixed_array (G_VARIANT_TYPE_INT32, position, 2, sizeof (position[0]));
+  g_settings_set_value (priv->settings, "window-position", variant);
 }
 
 
@@ -180,6 +201,7 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
 static gboolean
 photos_main_window_window_state_event (GtkWidget *widget, GdkEventWindowState *event)
 {
+  PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (widget);
   GdkWindow *window;
   GdkWindowState state;
   gboolean maximized;
@@ -194,7 +216,7 @@ photos_main_window_window_state_event (GtkWidget *widget, GdkEventWindowState *e
     return ret_val;
 
   maximized = (state & GDK_WINDOW_STATE_MAXIMIZED);
-  maximized;
+  g_settings_set_boolean (self->priv->settings, "window-maximized", maximized);
 
   return ret_val;
 }
@@ -205,6 +227,8 @@ photos_main_window_dispose (GObject *object)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (object);
   PhotosMainWindowPrivate *priv = self->priv;
+
+  g_clear_object (&priv->settings);
 
   if (priv->controller != NULL)
     {
@@ -229,6 +253,11 @@ photos_main_window_init (PhotosMainWindow *self)
   ClutterActor *stage;
   ClutterConstraint *constraint;
   ClutterLayoutManager *overlay_layout;
+  GVariant *variant;
+  gboolean maximized;
+  const gint32 *position;
+  const gint32 *size;
+  gsize n_elements;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_MAIN_WINDOW, PhotosMainWindowPrivate);
   priv = self->priv;
@@ -236,6 +265,24 @@ photos_main_window_init (PhotosMainWindow *self)
   priv->clutter_embed = gtk_clutter_embed_new ();
   gtk_container_add (GTK_CONTAINER (self), priv->clutter_embed);
   gtk_widget_show (priv->clutter_embed);
+
+  priv->settings = photos_settings_new ();
+
+  variant = g_settings_get_value (priv->settings, "window-size");
+  size = g_variant_get_fixed_array (variant, &n_elements, sizeof (gint32));
+  if (n_elements == 2)
+    gtk_window_set_default_size (GTK_WINDOW (self), size[0], size[1]);
+  g_variant_unref (variant);
+
+  variant = g_settings_get_value (priv->settings, "window-position");
+  position = g_variant_get_fixed_array (variant, &n_elements, sizeof (gint32));
+  if (n_elements == 2)
+    gtk_window_move (GTK_WINDOW (self), position[0], position[1]);
+  g_variant_unref (variant);
+
+  maximized = g_settings_get_boolean (priv->settings, "window-maximized");
+  if (maximized)
+    gtk_window_maximize (GTK_WINDOW (self));
 
   priv->controller = photos_mode_controller_new ();
   g_signal_connect (priv->controller,
