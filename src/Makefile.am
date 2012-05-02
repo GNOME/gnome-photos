@@ -43,6 +43,8 @@ gnome_photos_SOURCES = \
 	photos-main-window.h \
 	photos-mode-controller.c \
 	photos-mode-controller.h \
+	photos-offset-controller.c \
+	photos-offset-controller.h \
 	photos-organize-collection-dialog.c \
 	photos-organize-collection-dialog.h \
 	photos-organize-collection-model.c \
