@@ -23,6 +23,7 @@
 
 #include <gio/gio.h>
 
+#include "photos-offset-controller.h"
 #include "photos-query-builder.h"
 
 
@@ -40,6 +41,87 @@ photos_query_builder_convert_path_to_uri (const gchar *path)
   g_object_unref (file);
 
   return uri;
+}
+
+
+static gchar *
+photos_query_builder_optional (void)
+{
+  return g_strdup ("OPTIONAL { ?urn nco:creator ?creater . } "
+                   "OPTIONAL { ?urn nco:publisher ?publisher . }");
+}
+
+
+static gchar *
+photos_query_builder_query (gboolean global, gint flags)
+{
+  gchar *global_sparql;
+  gchar *optional;
+  gchar *sparql;
+  gchar *tmp;
+
+  optional = photos_query_builder_optional ();
+  global_sparql = g_strconcat ("WHERE { ?urn a rdfs:Resource ", optional, NULL);
+
+  if (global)
+    {
+      PhotosOffsetController *offset_cntrlr;
+      gint offset;
+      gint step;
+
+      if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
+        {
+        }
+
+      offset_cntrlr = photos_offset_controller_new ();
+      offset = photos_offset_controller_get_offset (offset_cntrlr);
+      step = photos_offset_controller_get_step (offset_cntrlr);
+      g_object_unref (offset_cntrlr);
+
+      tmp = global_sparql;
+      global_sparql = g_strdup_printf ("%s } ORDER BY DESC (?mtime) LIMIT %d OFFSET %d",
+                                       global_sparql,
+                                       step,
+                                       offset);
+      g_free (tmp);
+    }
+  else
+    {
+      if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
+        {
+        }
+
+      tmp = global_sparql;
+      global_sparql = g_strconcat (global_sparql, " }", NULL);
+      g_free (tmp);
+    }
+
+  sparql = g_strconcat ("SELECT DISTINCT ?urn "
+                        "nie:url (?urn) "
+                        "nfo:fileName (?urn) "
+                        "nie:mimeType (?urn) "
+                        "nie:title (?urn) "
+                        "tracker:coalesce (nco:fullname (?creator), nco:fullname (?publisher), '') "
+                        "tracker:coalesce (nfo:fileLastModified (?urn), nie:contentLastModified (?urn)) AS ?mtime "
+                        "nao:identifier (?urn) "
+                        "rdf:type (?urn) "
+                        "nie:dataSource(?urn) "
+                        "( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite } ) "
+                        "( EXISTS { ?urn nco:contributor ?contributor FILTER ( ?contributor != ?creator ) } ) ",
+                        global_sparql,
+                        NULL);
+  g_free (global_sparql);
+  return sparql;
+}
+
+
+PhotosQuery *
+photos_query_builder_global_query (void)
+{
+  gchar *sparql;
+
+  sparql = photos_query_builder_query (TRUE, PHOTOS_QUERY_FLAGS_NONE);
+  return photos_query_new (sparql);
 }
 
 

@@ -18,17 +18,35 @@
  * 02110-1301, USA.
  */
 
-#ifndef PHOTOS_QUERY_BUILDER_H
-#define PHOTOS_QUERY_BUILDER_H
+
+#include "config.h"
 
 #include "photos-query.h"
+#include "photos-source-manager.h"
 
-G_BEGIN_DECLS
 
-PhotosQuery  *photos_query_builder_global_query        (void);
+PhotosQuery *
+photos_query_new (gchar *sparql)
+{
+  PhotosBaseManager *src_mngr;
+  PhotosQuery *query;
 
-gchar        *photos_query_builder_filter_local        (void);
+  query = g_slice_new0 (PhotosQuery);
 
-G_END_DECLS
+  src_mngr = photos_source_manager_new ();
+  query->source = PHOTOS_SOURCE (photos_base_manager_get_active_object (src_mngr));
+  g_object_unref (src_mngr);
 
-#endif /* PHOTOS_QUERY_BUILDER */
+  query->sparql = sparql;
+
+  return query;
+}
+
+
+void
+photos_query_free (PhotosQuery *query)
+{
+  g_object_unref (query->source);
+  g_free (query->sparql);
+  g_slice_free (PhotosQuery, query);
+}

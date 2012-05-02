@@ -21,6 +21,11 @@
 #ifndef PHOTOS_QUERY_H
 #define PHOTOS_QUERY_H
 
+#include <glib.h>
+
+#include "photos-query.h"
+#include "photos-source.h"
+
 G_BEGIN_DECLS
 
 typedef enum
@@ -38,6 +43,24 @@ typedef enum
   PHOTOS_QUERY_COLUMNS_RESOURCE_FAVORITE,
   PHOTOS_QUERY_COLUMNS_RESOURCE_SHARED
 } PhotosQueryColumns;
+
+typedef enum
+{
+  PHOTOS_QUERY_FLAGS_NONE = 0,
+  PHOTOS_QUERY_FLAGS_UNFILTERED = 1 << 0
+} PhotosQueryFlags;
+
+typedef struct _PhotosQuery PhotosQuery;
+
+struct _PhotosQuery
+{
+  PhotosSource *source;
+  gchar *sparql;
+};
+
+PhotosQuery    *photos_query_new     (gchar *sparql);
+
+void            photos_query_free    (PhotosQuery *query);
 
 G_END_DECLS
 

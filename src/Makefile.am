@@ -51,6 +51,7 @@ gnome_photos_SOURCES = \
 	photos-organize-collection-model.h \
 	photos-organize-collection-view.c \
 	photos-organize-collection-view.h \
+	photos-query.c \
 	photos-query.h \
 	photos-query-builder.h \
 	photos-query-builder.c \
