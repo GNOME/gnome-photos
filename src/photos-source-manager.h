@@ -26,6 +26,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SOURCE_MANAGER (photos_base_manager_get_type ())
+
 #define PHOTOS_SOURCE_MANAGER(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SOURCE_MANAGER, PhotosSourceManager))
