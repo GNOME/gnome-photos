@@ -5,3 +5,4 @@ src/gd-main-toolbar.c
 src/photos-application.c
 src/photos-main-window.c
 src/photos-selection-toolbar.c
+src/photos-source-manager.c
