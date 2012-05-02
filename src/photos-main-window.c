@@ -230,9 +230,7 @@ photos_main_window_init (PhotosMainWindow *self)
   ClutterConstraint *constraint;
   ClutterLayoutManager *overlay_layout;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_MAIN_WINDOW,
-                                            PhotosMainWindowPrivate);
+  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_MAIN_WINDOW, PhotosMainWindowPrivate);
   priv = self->priv;
 
   priv->clutter_embed = gtk_clutter_embed_new ();
