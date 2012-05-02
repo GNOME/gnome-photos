@@ -20,7 +20,6 @@
 
 
 #include "config.h"
-#define GOA_API_IS_SUBJECT_TO_CHANGE
 
 #include <glib.h>
 #include <glib/gi18n.h>
