@@ -36,6 +36,33 @@ struct _PhotosItemManagerPrivate
 G_DEFINE_TYPE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER);
 
 
+static gboolean
+photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *object)
+{
+  gboolean ret_val;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object), FALSE);
+
+  ret_val = PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->set_active_object (manager, object);
+
+  if (!ret_val)
+    goto out;
+
+  if (object != NULL)
+    {
+      GtkRecentManager *recent;
+      const gchar *uri;
+
+      recent = gtk_recent_manager_get_default ();
+      uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
+      gtk_recent_manager_add_item (recent, uri);
+    }
+
+ out:
+  return ret_val;
+}
+
+
 static GObject *
 photos_item_manager_constructor (GType                  type,
                                  guint                  n_construct_params,
@@ -79,9 +106,11 @@ static void
 photos_item_manager_class_init (PhotosItemManagerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
+  PhotosBaseManagerClass *base_manager_class = PHOTOS_BASE_MANAGER_CLASS (class);
 
   object_class->constructor = photos_item_manager_constructor;
   object_class->dispose = photos_item_manager_dispose;
+  base_manager_class->set_active_object = photos_item_manager_set_active_object;
 
   g_type_class_add_private (class, sizeof (PhotosItemManagerPrivate));
 }
@@ -127,22 +156,4 @@ GtkListStore *
 photos_item_manager_get_model (PhotosItemManager *self)
 {
   return self->priv->model;
-}
-
-
-void
-photos_item_manager_set_active_item (PhotosItemManager *self, PhotosBaseItem *item)
-{
-  if (!photos_base_manager_set_active_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (item)))
-    return;
-
-  if (item != NULL)
-    {
-      GtkRecentManager *recent;
-      const gchar *uri;
-
-      recent = gtk_recent_manager_get_default ();
-      uri = photos_base_item_get_uri (item);
-      gtk_recent_manager_add_item (recent, uri);
-    }
 }

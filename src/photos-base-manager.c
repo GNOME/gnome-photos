@@ -46,6 +46,26 @@ static guint signals[LAST_SIGNAL] = { 0 };
 G_DEFINE_TYPE (PhotosBaseManager, photos_base_manager, G_TYPE_OBJECT);
 
 
+static gboolean
+photos_base_manager_default_set_active_object (PhotosBaseManager *self, GObject *object)
+{
+  PhotosBaseManagerPrivate *priv = self->priv;
+
+  if (object == priv->active_object)
+    return FALSE;
+
+  if (priv->active_object != NULL)
+    g_object_unref (priv->active_object);
+
+  if (object != NULL)
+    g_object_ref (object);
+
+  priv->active_object = object;
+  g_signal_emit (self, signals[ACTIVE_CHANGED], 0, object);
+  return TRUE;
+}
+
+
 static void
 photos_base_manager_dispose (GObject *object)
 {
@@ -82,6 +102,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->dispose = photos_base_manager_dispose;
+  class->set_active_object = photos_base_manager_default_set_active_object;
 
   signals[ACTIVE_CHANGED] = g_signal_new ("active-changed",
                                           G_TYPE_FROM_CLASS (class),
@@ -208,20 +229,7 @@ photos_base_manager_remove_object_by_id (PhotosBaseManager *self, const gchar *i
 gboolean
 photos_base_manager_set_active_object (PhotosBaseManager *self, GObject *object)
 {
-  PhotosBaseManagerPrivate *priv = self->priv;
-
-  if (object == priv->active_object)
-    return FALSE;
-
-  if (priv->active_object != NULL)
-    g_object_unref (priv->active_object);
-
-  if (object != NULL)
-    g_object_ref (object);
-
-  priv->active_object = object;
-  g_signal_emit (self, signals[ACTIVE_CHANGED], 0, object);
-  return TRUE;
+  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->set_active_object (self, object);
 }
 
 

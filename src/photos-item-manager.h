@@ -78,9 +78,6 @@ PhotosBaseItem           *photos_item_manager_create_item        (PhotosItemMana
 
 GtkListStore             *photos_item_manager_get_model          (PhotosItemManager *self);
 
-void                      photos_item_manager_set_active_item    (PhotosItemManager *self,
-                                                                  PhotosBaseItem *item);
-
 G_END_DECLS
 
 #endif /* PHOTOS_ITEM_MANAGER_H */

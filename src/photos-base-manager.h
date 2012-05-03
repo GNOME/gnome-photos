@@ -61,6 +61,10 @@ struct _PhotosBaseManagerClass
 {
   GObjectClass parent_class;
 
+  /* virtual methods */
+  gboolean (*set_active_object)    (PhotosBaseManager *self, GObject *object);
+
+  /* signals */
   void (*active_changed)   (PhotosBaseManager *self);
   void (*object_added)     (PhotosBaseManager *self);
   void (*object_removed)   (PhotosBaseManager *self);
