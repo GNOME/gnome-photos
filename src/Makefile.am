@@ -67,6 +67,8 @@ gnome_photos_SOURCES = \
 	photos-source.h \
 	photos-source-manager.c \
 	photos-source-manager.h \
+	photos-tracker-controller.c \
+	photos-tracker-controller.h \
 	photos-tracker-queue.c \
 	photos-tracker-queue.h \
 	photos-utils.c \
