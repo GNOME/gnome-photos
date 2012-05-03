@@ -25,7 +25,6 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <tracker-sparql.h>
 
 #include "photos-application.h"
 #include "photos-main-window.h"
@@ -37,7 +36,6 @@ struct _PhotosApplicationPrivate
   GSimpleAction *fs_action;
   GtkWidget *main_window;
   PhotosModeController *controller;
-  TrackerSparqlConnection *connection;
 };
 
 
@@ -97,7 +95,6 @@ photos_application_startup (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   PhotosApplicationPrivate *priv = self->priv;
-  GError *error;
   GMenu *doc_actions;
   GMenu *menu;
   GSimpleAction *action;
@@ -108,14 +105,6 @@ photos_application_startup (GApplication *application)
   if (gtk_clutter_init (NULL, NULL) != CLUTTER_INIT_SUCCESS)
     {
       g_warning ("Unable to initialize Clutter");
-      return;
-    }
-
-  error = NULL;
-  priv->connection = tracker_sparql_connection_get (NULL, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to connect to the Tracker database: %s", error->message);
       return;
     }
 
@@ -190,12 +179,6 @@ photos_application_dispose (GObject *object)
     {
       g_object_unref (priv->controller);
       priv->controller = NULL;
-    }
-
-  if (priv->connection != NULL)
-    {
-      g_object_unref (priv->connection);
-      priv->connection = NULL;
     }
 
   G_OBJECT_CLASS (photos_application_parent_class)
