@@ -133,6 +133,8 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
   photos_item_model_item_added (PHOTOS_ITEM_MODEL (self->priv->model), item);
 
   /* TODO: add to collection_manager */
+
+  return item;
 }
 
 
