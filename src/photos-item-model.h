@@ -27,7 +27,7 @@
 
 G_BEGIN_DECLS
 
-#define PHOTOS_TYPE_ITEM_MODEL (photos_view_embed_get_type ())
+#define PHOTOS_TYPE_ITEM_MODEL (photos_item_model_get_type ())
 
 #define PHOTOS_ITEM_MODEL(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \

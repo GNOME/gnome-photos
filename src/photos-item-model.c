@@ -64,11 +64,6 @@ photos_item_model_init (PhotosItemModel *self)
                      G_TYPE_LONG,      /* MTIME */
                      G_TYPE_BOOLEAN};  /* STATE */
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_ITEM_MODEL,
-                                            PhotosItemModelPrivate);
-  priv = self->priv;
-
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self), PHOTOS_ITEM_MODEL_MTIME, GTK_SORT_DESCENDING);
 }
