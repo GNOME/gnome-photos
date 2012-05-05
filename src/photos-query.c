@@ -29,12 +29,15 @@ PhotosQuery *
 photos_query_new (gchar *sparql)
 {
   PhotosBaseManager *src_mngr;
+  GObject *active_object;
   PhotosQuery *query;
 
   query = g_slice_new0 (PhotosQuery);
 
   src_mngr = photos_source_manager_new ();
-  query->source = PHOTOS_SOURCE (photos_base_manager_get_active_object (src_mngr));
+  active_object = photos_base_manager_get_active_object (src_mngr);
+  if (active_object != NULL)
+    query->source = PHOTOS_SOURCE (active_object);
   g_object_unref (src_mngr);
 
   query->sparql = sparql;
@@ -46,7 +49,8 @@ photos_query_new (gchar *sparql)
 void
 photos_query_free (PhotosQuery *query)
 {
-  g_object_unref (query->source);
+  if (query->source != NULL)
+    g_object_unref (query->source);
   g_free (query->sparql);
   g_slice_free (PhotosQuery, query);
 }
