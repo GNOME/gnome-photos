@@ -78,6 +78,8 @@ void                photos_base_manager_clear                    (PhotosBaseMana
 
 GObject            *photos_base_manager_get_active_object        (PhotosBaseManager *self);
 
+gchar              *photos_base_manager_get_filter               (PhotosBaseManager *self);
+
 GObject            *photos_base_manager_get_object_by_id         (PhotosBaseManager *self, const gchar *id);
 
 GHashTable         *photos_base_manager_get_objects              (PhotosBaseManager *self);

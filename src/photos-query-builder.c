@@ -25,6 +25,7 @@
 
 #include "photos-offset-controller.h"
 #include "photos-query-builder.h"
+#include "photos-source-manager.h"
 
 
 static gchar *
@@ -45,6 +46,25 @@ photos_query_builder_convert_path_to_uri (const gchar *path)
 
 
 static gchar *
+photos_query_builder_filter (void)
+{
+  PhotosBaseManager *src_mngr;
+  gchar *sparql;
+  gchar *src_mngr_filter;
+
+  src_mngr = photos_source_manager_new ();
+  src_mngr_filter = photos_base_manager_get_filter (src_mngr);
+
+  sparql = g_strdup_printf ("FILTER (%s)", src_mngr_filter);
+
+  g_free (src_mngr_filter);
+  g_object_unref (src_mngr);
+
+  return sparql;
+}
+
+
+static gchar *
 photos_query_builder_optional (void)
 {
   return g_strdup ("OPTIONAL { ?urn nco:creator ?creater . } "
@@ -55,6 +75,7 @@ photos_query_builder_optional (void)
 static gchar *
 photos_query_builder_query (gboolean global, gint flags)
 {
+  gchar *filter;
   gchar *global_sparql;
   gchar *optional;
   gchar *sparql;
@@ -71,6 +92,11 @@ photos_query_builder_query (gboolean global, gint flags)
 
       if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
         {
+          filter = photos_query_builder_filter ();
+          tmp = global_sparql;
+          global_sparql = g_strconcat (global_sparql, filter, NULL);
+          g_free (tmp);
+          g_free (filter);
         }
 
       offset_cntrlr = photos_offset_controller_new ();
@@ -89,6 +115,11 @@ photos_query_builder_query (gboolean global, gint flags)
     {
       if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
         {
+          filter = photos_query_builder_filter ();
+          tmp = global_sparql;
+          global_sparql = g_strconcat (global_sparql, filter, NULL);
+          g_free (tmp);
+          g_free (filter);
         }
 
       tmp = global_sparql;

@@ -24,6 +24,7 @@
 #include <glib.h>
 
 #include "photos-base-manager.h"
+#include "photos-filterable.h"
 
 
 struct _PhotosBaseManagerPrivate
@@ -63,6 +64,46 @@ photos_base_manager_default_set_active_object (PhotosBaseManager *self, GObject 
   priv->active_object = object;
   g_signal_emit (self, signals[ACTIVE_CHANGED], 0, object);
   return TRUE;
+}
+
+
+static gchar *
+photos_base_manager_get_all_filter (PhotosBaseManager *self)
+{
+  GList *l;
+  GList *values;
+  gchar *filter;
+  gchar **strv;
+  gchar *tmp;
+  guint i;
+  guint length;
+
+  values = g_hash_table_get_values (self->priv->objects);
+  length = g_list_length (values);
+  strv = (gchar **) g_malloc0_n (length + 1, sizeof (gchar *));
+
+  for (i = 0, l = values; l != NULL; l = l->next)
+    {
+      gchar *id;
+
+      g_object_get (l->data, "id", &id, NULL);
+      if (g_strcmp0 (id, "all") != 0)
+        {
+          strv[i] = photos_filterable_get_filter (PHOTOS_FILTERABLE (l->data));
+          i++;
+        }
+      g_free (id);
+    }
+
+  filter = g_strjoinv (" || ", strv);
+  g_strfreev (strv);
+
+  tmp = filter;
+  filter = g_strconcat ("(", filter, ")", NULL);
+  g_free (tmp);
+
+  g_list_free (values);
+  return filter;
 }
 
 
@@ -171,6 +212,30 @@ GObject *
 photos_base_manager_get_active_object (PhotosBaseManager *self)
 {
   return self->priv->active_object;
+}
+
+
+gchar *
+photos_base_manager_get_filter (PhotosBaseManager *self)
+{
+  PhotosBaseManagerPrivate *priv = self->priv;
+  const gchar *blank = "(true)";
+  gchar *filter;
+  gchar *id;
+
+  if (priv->active_object == NULL)
+    return g_strdup (blank);
+
+  g_return_val_if_fail (PHOTOS_IS_FILTERABLE (priv->active_object), g_strdup (blank));
+
+  g_object_get (self, "id", &id, NULL);
+  if (g_strcmp0 (id, "all") == 0)
+    filter = photos_base_manager_get_all_filter (self);
+  else
+    filter = photos_filterable_get_filter (PHOTOS_FILTERABLE (priv->active_object));
+
+  g_free (id);
+  return filter;
 }
 
 
