@@ -71,8 +71,6 @@ PhotosSource       *photos_source_new                    (const gchar *id, const
 
 PhotosSource       *photos_source_new_from_goa_object    (GoaObject *object);
 
-gchar              *photos_source_get_filter             (PhotosSource *self);
-
 G_END_DECLS
 
 #endif /* PHOTOS_SOURCE_H */

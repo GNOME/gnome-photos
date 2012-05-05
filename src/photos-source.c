@@ -23,6 +23,7 @@
 
 #include <gio/gio.h>
 
+#include "photos-filterable.h"
 #include "photos-query-builder.h"
 #include "photos-source.h"
 
@@ -44,8 +45,12 @@ enum
   PROP_OBJECT
 };
 
+static void photos_filterable_interface_init (PhotosFilterableInterface *iface);
 
-G_DEFINE_TYPE (PhotosSource, photos_source, G_TYPE_OBJECT);
+
+G_DEFINE_TYPE_WITH_CODE (PhotosSource, photos_source, G_TYPE_OBJECT,
+                         G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
+                                                photos_filterable_interface_init));
 
 
 static gchar *
@@ -60,6 +65,22 @@ photos_source_build_filter_resource (PhotosSource *self)
     filter = g_strdup ("(false)");
 
   return filter;
+}
+
+
+static gchar *
+photos_source_get_filter (PhotosFilterable *iface)
+{
+  PhotosSource *self = PHOTOS_SOURCE (iface);
+  PhotosSourcePrivate *priv = self->priv;
+
+  if (g_strcmp0 (priv->id, PHOTOS_SOURCE_STOCK_LOCAL) == 0)
+    return photos_query_builder_filter_local ();
+
+  if (g_strcmp0 (priv->id, PHOTOS_SOURCE_STOCK_ALL) == 0)
+    return photos_query_builder_filter_local (); /* TODO: Add non local query */
+
+  return photos_source_build_filter_resource (self);
 }
 
 
@@ -192,6 +213,13 @@ photos_source_class_init (PhotosSourceClass *class)
 }
 
 
+static void
+photos_filterable_interface_init (PhotosFilterableInterface *iface)
+{
+  iface->get_filter = photos_source_get_filter;
+}
+
+
 PhotosSource *
 photos_source_new (const gchar *id, const gchar *name, gboolean builtin)
 {
@@ -204,19 +232,4 @@ photos_source_new_from_goa_object (GoaObject *object)
 {
   g_return_val_if_fail (GOA_IS_OBJECT (object), NULL);
   return g_object_new (PHOTOS_TYPE_SOURCE, "object", object, NULL);
-}
-
-
-gchar *
-photos_source_get_filter (PhotosSource *self)
-{
-  PhotosSourcePrivate *priv = self->priv;
-
-  if (g_strcmp0 (priv->id, PHOTOS_SOURCE_STOCK_LOCAL) == 0)
-    return photos_query_builder_filter_local ();
-
-  if (g_strcmp0 (priv->id, PHOTOS_SOURCE_STOCK_ALL) == 0)
-    return photos_query_builder_filter_local (); /* TODO: Add non local query */
-
-  return photos_source_build_filter_resource (self);
 }
