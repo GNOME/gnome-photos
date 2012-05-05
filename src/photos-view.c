@@ -21,14 +21,19 @@
 
 #include "config.h"
 
+#include "photos-item-manager.h"
 #include "photos-selection-controller.h"
+#include "photos-tracker-controller.h"
 #include "photos-utils.h"
 #include "photos-view.h"
 
 
 struct _PhotosViewPrivate
 {
+  GtkListStore *model;
+  PhotosBaseManager *item_mngr;
   PhotosSelectionController *sel_cntrlr;
+  PhotosTrackerController *trk_cntrlr;
 };
 
 
@@ -39,6 +44,28 @@ static void
 photos_view_item_activated (GdMainView *main_view, const gchar * id, const GtkTreePath *path, gpointer user_data)
 {
   /* TODO: DocumentManager */
+}
+
+
+static void
+photos_view_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean query_status, gpointer user_data)
+{
+  PhotosView *self = PHOTOS_VIEW (user_data);
+  PhotosViewPrivate *priv = self->priv;
+
+  if (!query_status)
+    {
+      priv->model = photos_item_manager_get_model (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+      gd_main_view_set_model (GD_MAIN_VIEW (self), GTK_TREE_MODEL (priv->model));
+      photos_selection_controller_freeze_selection (priv->sel_cntrlr, FALSE);
+      /* TODO: update selection */
+    }
+  else
+    {
+      photos_selection_controller_freeze_selection (priv->sel_cntrlr, TRUE);
+      priv->model = NULL;
+      gd_main_view_set_model (GD_MAIN_VIEW (self), NULL);
+    }
 }
 
 
@@ -81,7 +108,9 @@ photos_view_dispose (GObject *object)
   PhotosView *self = PHOTOS_VIEW (object);
   PhotosViewPrivate *priv = self->priv;
 
+  g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->sel_cntrlr);
+  g_clear_object (&priv->trk_cntrlr);
 
   G_OBJECT_CLASS (photos_view_parent_class)->dispose (object);
 }
@@ -101,6 +130,8 @@ photos_view_init (PhotosView *self)
   g_signal_connect (self, "selection-mode-request", G_CALLBACK (photos_view_selection_mode_request), NULL);
   g_signal_connect (self, "view-selection-changed", G_CALLBACK (photos_view_view_selection_changed), NULL);
 
+  priv->item_mngr = photos_item_manager_new ();
+
   priv->sel_cntrlr = photos_selection_controller_new ();
   g_signal_connect (priv->sel_cntrlr,
                     "selection-mode-changed",
@@ -110,7 +141,9 @@ photos_view_init (PhotosView *self)
                                       photos_selection_controller_get_selection_mode (priv->sel_cntrlr),
                                       self);
 
-  /* TODO: TrackerController */
+  priv->trk_cntrlr = photos_tracker_controller_new ();
+  g_signal_connect (priv->trk_cntrlr, "query-status-changed", G_CALLBACK (photos_view_query_status_changed), self);
+  photos_tracker_controller_start (priv->trk_cntrlr);
 
   gtk_widget_show (GTK_WIDGET (self));
 }
