@@ -29,7 +29,7 @@
 
 G_BEGIN_DECLS
 
-#define PHOTOS_TYPE_ITEM_MANAGER (photos_base_manager_get_type ())
+#define PHOTOS_TYPE_ITEM_MANAGER (photos_item_manager_get_type ())
 
 #define PHOTOS_ITEM_MANAGER(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
