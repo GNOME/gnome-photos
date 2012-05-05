@@ -25,6 +25,7 @@
 
 #include "photos-item-manager.h"
 #include "photos-item-model.h"
+#include "photos-local-item.h"
 
 
 struct _PhotosItemManagerPrivate
@@ -149,8 +150,7 @@ photos_item_manager_clear (PhotosItemManager *self)
 PhotosBaseItem *
 photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
 {
-  /* TODO: create local or other items */
-  return NULL;
+  return photos_local_item_new (cursor);
 }
 
 
