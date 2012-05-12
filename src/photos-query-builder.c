@@ -26,6 +26,7 @@
 #include "photos-offset-controller.h"
 #include "photos-query-builder.h"
 #include "photos-source-manager.h"
+#include "photos-search-type-manager.h"
 
 
 static gchar *
@@ -49,13 +50,21 @@ static gchar *
 photos_query_builder_filter (void)
 {
   PhotosBaseManager *src_mngr;
+  PhotosBaseManager *srch_typ_mngr;
   gchar *sparql;
   gchar *src_mngr_filter;
+  gchar *srch_typ_mngr_filter;
 
   src_mngr = photos_source_manager_new ();
   src_mngr_filter = photos_base_manager_get_filter (src_mngr);
 
-  sparql = g_strdup_printf ("FILTER (%s)", src_mngr_filter);
+  srch_typ_mngr = photos_search_type_manager_new ();
+  srch_typ_mngr_filter = photos_base_manager_get_filter (srch_typ_mngr);
+
+  sparql = g_strdup_printf ("FILTER (%s && %s)", src_mngr_filter, srch_typ_mngr_filter);
+
+  g_free (srch_typ_mngr_filter);
+  g_object_unref (srch_typ_mngr);
 
   g_free (src_mngr_filter);
   g_object_unref (src_mngr);
