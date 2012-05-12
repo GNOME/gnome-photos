@@ -84,25 +84,6 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
 }
 
 
-static void
-photos_source_manager_client_new_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosSourceManager *self = PHOTOS_SOURCE_MANAGER (user_data);
-  PhotosSourceManagerPrivate *priv = self->priv;
-
-  priv->client = goa_client_new_finish (res, NULL); /* TODO: use GError */
-  if (priv->client == NULL)
-    return;
-
-  g_signal_connect (priv->client, "account-added", G_CALLBACK (photos_source_manager_client_account_added), self);
-  g_signal_connect (priv->client, "account-changed", G_CALLBACK (photos_source_manager_client_account_changed), self);
-  g_signal_connect (priv->client, "account-removed", G_CALLBACK (photos_source_manager_client_account_removed), self);
-
-  photos_source_manager_refresh_accounts (self);
-  photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SOURCE_STOCK_ALL);
-}
-
-
 static GObject *
 photos_source_manager_constructor (GType                  type,
                                    guint                  n_construct_params,
@@ -137,9 +118,11 @@ photos_source_manager_dispose (GObject *object)
 static void
 photos_source_manager_init (PhotosSourceManager *self)
 {
+  PhotosSourceManagerPrivate *priv = self->priv;
   PhotosSource *source;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SOURCE_MANAGER, PhotosSourceManagerPrivate);
+  priv = self->priv;
 
   source = photos_source_new (PHOTOS_SOURCE_STOCK_ALL, _("All"), TRUE);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source));
@@ -149,7 +132,25 @@ photos_source_manager_init (PhotosSourceManager *self)
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source));
   g_object_unref (source);
 
-  goa_client_new (NULL, photos_source_manager_client_new_ready, self);
+  priv->client = goa_client_new_sync (NULL, NULL); /* TODO: use GError */
+  if (priv->client != NULL)
+    {
+      g_signal_connect (priv->client,
+                        "account-added",
+                        G_CALLBACK (photos_source_manager_client_account_added),
+                        self);
+      g_signal_connect (priv->client,
+                        "account-changed",
+                        G_CALLBACK (photos_source_manager_client_account_changed),
+                        self);
+      g_signal_connect (priv->client,
+                        "account-removed",
+                        G_CALLBACK (photos_source_manager_client_account_removed),
+                        self);
+    }
+
+  photos_source_manager_refresh_accounts (self);
+  photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SOURCE_STOCK_ALL);
 }
 
 
