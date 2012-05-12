@@ -228,7 +228,7 @@ photos_base_manager_get_filter (PhotosBaseManager *self)
 
   g_return_val_if_fail (PHOTOS_IS_FILTERABLE (priv->active_object), g_strdup (blank));
 
-  g_object_get (self, "id", &id, NULL);
+  g_object_get (priv->active_object, "id", &id, NULL);
   if (g_strcmp0 (id, "all") == 0)
     filter = photos_base_manager_get_all_filter (self);
   else
