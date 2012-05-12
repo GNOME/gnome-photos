@@ -63,6 +63,8 @@ gnome_photos_SOURCES = \
 	photos-query-builder.c \
 	photos-search-type.c \
 	photos-search-type.h \
+	photos-search-type-manager.c \
+	photos-search-type-manager.h \
 	photos-selection-controller.c \
 	photos-selection-controller.h \
 	photos-selection-toolbar.c \
