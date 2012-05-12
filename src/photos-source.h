@@ -27,6 +27,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SOURCE (photos_source_get_type ())
+
 #define PHOTOS_SOURCE(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SOURCE, PhotosSource))
