@@ -1,8 +1,10 @@
 # List of source files containing translatable strings.
 # Please keep this list sorted alphabetically.
 data/gnome-photos.desktop.in.in
+data/org.gnome.photos.gschema.xml.in
 src/gd-main-toolbar.c
 src/photos-application.c
 src/photos-main-window.c
+src/photos-search-type-manager.c
 src/photos-selection-toolbar.c
 src/photos-source-manager.c
