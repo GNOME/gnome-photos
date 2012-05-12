@@ -25,7 +25,7 @@
 
 G_BEGIN_DECLS
 
-#define PHOTOS_TYPE_FILTERABLE (photos_base_item_get_type ())
+#define PHOTOS_TYPE_FILTERABLE (photos_filterable_get_type ())
 
 #define PHOTOS_FILTERABLE(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
