@@ -161,29 +161,29 @@ photos_query_builder_filter_local (void)
 {
   GFile *file;
   gchar *desktop_uri;
-  gchar *documents_uri;
   gchar *download_uri;
   gchar *filter;
   const gchar *path;
+  gchar *pictures_uri;
 
   path = g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP);
   desktop_uri = photos_query_builder_convert_path_to_uri (path);
 
-  path = g_get_user_special_dir (G_USER_DIRECTORY_DOCUMENTS);
-  documents_uri = photos_query_builder_convert_path_to_uri (path);
-
   path = g_get_user_special_dir (G_USER_DIRECTORY_DOWNLOAD);
   download_uri = photos_query_builder_convert_path_to_uri (path);
+
+  path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
+  pictures_uri = photos_query_builder_convert_path_to_uri (path);
 
   filter = g_strdup_printf ("((fn:starts-with (nie:url (?urn), \"%s\"))"
                             " || (fn:starts-with (nie:url (?urn), \"%s\"))"
                             " || (fn:starts-with (nie:url (?urn), \"%s\")))",
                             desktop_uri,
-                            documents_uri,
-                            download_uri);
+                            download_uri,
+                            pictures_uri);
   g_free (desktop_uri);
-  g_free (documents_uri);
   g_free (download_uri);
+  g_free (pictures_uri);
 
   return filter;
 }
