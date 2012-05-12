@@ -138,6 +138,9 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
         const gchar *provider_name;
 
         object = GOA_OBJECT (g_value_get_object (value));
+        if (object == NULL)
+          break;
+
         account = goa_object_peek_account (object);
 
         id = goa_account_get_id (account);
