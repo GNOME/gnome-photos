@@ -110,6 +110,24 @@ photos_source_finalize (GObject *object)
 
 
 static void
+photos_source_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+{
+  PhotosSource *self = PHOTOS_SOURCE (object);
+
+  switch (prop_id)
+    {
+    case PROP_ID:
+      g_value_set_string (value, self->priv->id);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+
+static void
 photos_source_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosSource *self = PHOTOS_SOURCE (object);
@@ -178,6 +196,7 @@ photos_source_class_init (PhotosSourceClass *class)
 
   object_class->dispose = photos_source_dispose;
   object_class->finalize = photos_source_finalize;
+  object_class->get_property = photos_source_get_property;
   object_class->set_property = photos_source_set_property;
 
   g_object_class_install_property (object_class,
@@ -194,7 +213,7 @@ photos_source_class_init (PhotosSourceClass *class)
                                                         "",
                                                         "",
                                                         "",
-                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 
   g_object_class_install_property (object_class,
                                    PROP_NAME,
