@@ -152,18 +152,10 @@ static gboolean
 photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *event)
 {
   PhotosMainWindowPrivate *priv = self->priv;
-  gboolean fullscreen;
 
   if (event->keyval == GDK_KEY_f)
     {
       photos_mode_controller_toggle_fullscreen (priv->controller);
-      return TRUE;
-    }
-
-  fullscreen = photos_mode_controller_get_fullscreen (priv->controller);
-  if (event->keyval == GDK_KEY_Escape && fullscreen)
-    {
-      photos_mode_controller_set_fullscreen (priv->controller, FALSE);
       return TRUE;
     }
 
