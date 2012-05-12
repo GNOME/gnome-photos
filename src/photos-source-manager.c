@@ -70,6 +70,7 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
   GList *accounts;
   GList *l;
 
+  accounts = goa_client_get_accounts (priv->client);
   for (l = accounts; l != NULL; l = l->next)
     {
       if (goa_object_peek_account (GOA_OBJECT (l->data)) == NULL)
