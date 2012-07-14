@@ -283,6 +283,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   image = gtk_image_new_from_icon_name ("printer-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 32);
   gtk_container_add (GTK_CONTAINER (priv->toolbar_print), image);
+  gtk_widget_set_tooltip_text (GTK_WIDGET (priv->toolbar_collection), _("Print"));
   gtk_container_add (GTK_CONTAINER (priv->left_box), priv->toolbar_print);
   g_signal_connect (priv->toolbar_print,
                     "clicked",
