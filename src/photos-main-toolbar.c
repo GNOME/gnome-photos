@@ -39,6 +39,7 @@ struct _PhotosMainToolbarPrivate
 {
   ClutterActor *actor;
   ClutterLayoutManager *layout;
+  GtkWidget *coll_back_button;
   GtkWidget *widget;
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
@@ -127,11 +128,38 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 
 
 static void
+photos_main_toolbar_coll_back_button_clicked (GtkButton *button, gpointer user_data)
+{
+  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
+  photos_base_manager_set_active_object (self->priv->col_mngr, NULL);
+}
+
+
+static void
 photos_main_toolbar_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
+  PhotosMainToolbarPrivate *priv = self->priv;
+  GObject *item;
 
-  photos_main_toolbar_set_toolbar_title (self);
+  item = photos_base_manager_get_active_object (priv->col_mngr);
+  if (item != NULL && priv->coll_back_button == NULL)
+    {
+      priv->coll_back_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget),
+                                                           "go-previous-symbolic",
+                                                           _("Back"),
+                                                           TRUE);
+      g_signal_connect (priv->coll_back_button,
+                        "clicked",
+                        G_CALLBACK (photos_main_toolbar_coll_back_button_clicked),
+                        self);
+    }
+  else if (item == NULL && priv->coll_back_button != NULL)
+    {
+      gtk_widget_destroy (priv->coll_back_button);
+      priv->coll_back_button = NULL;
+    }
+
   photos_main_toolbar_set_toolbar_title (self);
 }
 
