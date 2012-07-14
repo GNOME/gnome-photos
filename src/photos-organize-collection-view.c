@@ -35,6 +35,7 @@ struct _PhotosOrganizeCollectionViewPrivate
   GtkCellRenderer *renderer_text;
   GtkListStore *model;
   GtkTreeViewColumn *view_col;
+  gboolean choice_confirmed;
 };
 
 
@@ -207,4 +208,11 @@ photos_organize_collection_view_add_collection (PhotosOrganizeCollectionView *se
 
   g_object_set (priv->renderer_text, "editable", TRUE, NULL);
   gtk_tree_view_set_cursor_on_cell (GTK_TREE_VIEW (self), path, priv->view_col, priv->renderer_text, TRUE);
+}
+
+
+void
+photos_organize_collection_view_confirmed_choice (PhotosOrganizeCollectionView *self)
+{
+  self->priv->choice_confirmed = TRUE;
 }

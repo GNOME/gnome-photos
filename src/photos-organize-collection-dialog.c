@@ -34,6 +34,16 @@ struct _PhotosOrganizeCollectionDialogPrivate
 G_DEFINE_TYPE (PhotosOrganizeCollectionDialog, photos_organize_collection_dialog, GTK_TYPE_DIALOG);
 
 
+static gboolean
+photos_organize_collection_dialog_button_press_event (GtkWidget *widget, GdkEvent *event, gpointer user_data)
+{
+  PhotosOrganizeCollectionDialog *self = PHOTOS_ORGANIZE_COLLECTION_DIALOG (widget);
+
+  photos_organize_collection_view_confirmed_choice (PHOTOS_ORGANIZE_COLLECTION_VIEW (self->priv->coll_view));
+  return FALSE;
+}
+
+
 static void
 photos_organize_collection_dialog_response (GtkDialog *dialog, gint response_id)
 {
@@ -51,6 +61,7 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
 {
   PhotosOrganizeCollectionDialogPrivate *priv;
   GtkWidget *content_area;
+  GtkWidget *ok_button;
   GtkWidget *sw;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
@@ -58,7 +69,7 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
                                             PhotosOrganizeCollectionDialogPrivate);
   priv = self->priv;
 
-  gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_ADD, GTK_RESPONSE_ACCEPT);
+  ok_button = gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_ADD, GTK_RESPONSE_ACCEPT);
   gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_OK, GTK_RESPONSE_OK);
   gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 
@@ -72,6 +83,21 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
   priv->coll_view = photos_organize_collection_view_new ();
   gtk_container_add (GTK_CONTAINER (sw), priv->coll_view);
   gtk_container_add (GTK_CONTAINER (content_area), sw);
+
+  /* HACK:
+   * - We want clicking on "OK" to add the typed-in collection if
+   *   we're editing.
+   * - Unfortunately, since we focus out of the editable entry in
+   *   order to click the button, we'll get an editing-canceled signal
+   *   on the renderer from GTK+. As this handler will run before
+   *   focus-out, we here signal the view to ignore the next
+   *   editing-canceled signal and add the collection in that case
+   *   instead.
+   */
+  g_signal_connect (ok_button,
+                    "button-press-event",
+                    G_CALLBACK (photos_organize_collection_dialog_button_press_event),
+                    self);
 
   gtk_widget_show_all (GTK_WIDGET (self));
 }

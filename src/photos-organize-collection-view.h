@@ -68,6 +68,8 @@ GtkWidget        *photos_organize_collection_view_new                    (void);
 
 void              photos_organize_collection_view_add_collection         (PhotosOrganizeCollectionView *self);
 
+void              photos_organize_collection_view_confirmed_choice       (PhotosOrganizeCollectionView *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_ORGANIZE_COLLECTION_VIEW_H */

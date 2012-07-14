@@ -169,15 +169,21 @@ photos_organize_collection_model_destroy (PhotosOrganizeCollectionModel *self)
 
 
 GtkTreePath *
-photos_organize_collection_model_forget_placeholder (PhotosOrganizeCollectionModel *self)
+photos_organize_collection_model_get_placeholder (PhotosOrganizeCollectionModel *self, gboolean forget)
 {
   PhotosOrganizeCollectionModelPrivate *priv = self->priv;
-  GtkTreePath *path;
+  GtkTreePath *ret_val = NULL;
 
-  path = gtk_tree_row_reference_get_path (priv->placeholder_ref);
-  gtk_tree_row_reference_free (priv->placeholder_ref);
-  priv->placeholder_ref = NULL;
-  return path;
+  if (priv->placeholder_ref != NULL)
+    ret_val = gtk_tree_row_reference_get_path (priv->placeholder_ref);
+
+  if (forget)
+    {
+      gtk_tree_row_reference_free (priv->placeholder_ref);
+      priv->placeholder_ref = NULL;
+    }
+
+  return ret_val;
 }
 
 
