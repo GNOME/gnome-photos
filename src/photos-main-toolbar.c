@@ -276,12 +276,13 @@ static void
 photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
+  GtkTextDirection direction;
   GtkWidget *back_button;
+  const gchar *icon_name;
 
-  back_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget),
-                                            "go-previous-symbolic",
-                                            _("Back"),
-                                            TRUE);
+  direction = gtk_widget_get_direction (GTK_WIDGET (priv->widget));
+  icon_name = (direction == GTK_TEXT_DIR_RTL) ? "go-next-symbolic" : "go-previous-symbolic";
+  back_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget), icon_name, _("Back"), TRUE);
   g_signal_connect (back_button, "clicked", G_CALLBACK (photos_main_toolbar_back_button_clicked), self);
 }
 
