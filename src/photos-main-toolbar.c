@@ -35,6 +35,7 @@
 struct _PhotosMainToolbarPrivate
 {
   ClutterActor *actor;
+  ClutterLayoutManager *layout;
   GtkWidget *widget;
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *src_mngr;
@@ -261,6 +262,7 @@ static void
 photos_main_toolbar_init (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv;
+  ClutterActor *actor;
   GtkStyleContext *context;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_MAIN_TOOLBAR, PhotosMainToolbarPrivate);
@@ -272,7 +274,21 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   gtk_style_context_add_class (context, GTK_STYLE_CLASS_MENUBAR);
   gtk_widget_show (priv->widget);
 
-  priv->actor = gtk_clutter_actor_new_with_contents (priv->widget);
+  priv->layout = clutter_box_layout_new ();
+  clutter_box_layout_set_orientation (CLUTTER_BOX_LAYOUT (priv->layout), CLUTTER_ORIENTATION_VERTICAL);
+
+  priv->actor = clutter_actor_new ();
+  clutter_actor_set_layout_manager (priv->actor, priv->layout);
+
+  actor = gtk_clutter_actor_new_with_contents (priv->widget);
+  clutter_box_layout_pack (CLUTTER_BOX_LAYOUT (priv->layout),
+                           actor,
+                           FALSE,
+                           TRUE,
+                           FALSE,
+                           CLUTTER_BOX_ALIGNMENT_CENTER,
+                           CLUTTER_BOX_ALIGNMENT_START);
+
   priv->col_mngr = photos_collection_manager_new ();
 
   priv->src_mngr = photos_source_manager_new ();
