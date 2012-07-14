@@ -22,11 +22,13 @@
 #include "config.h"
 
 #include <clutter-gtk/clutter-gtk.h>
+#include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
 #include "gd-main-toolbar.h"
 #include "photos-collection-manager.h"
+#include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
 #include "photos-selection-controller.h"
@@ -39,6 +41,7 @@ struct _PhotosMainToolbarPrivate
   ClutterLayoutManager *layout;
   GtkWidget *widget;
   PhotosBaseManager *col_mngr;
+  PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosSelectionController *sel_cntrlr;
@@ -57,18 +60,69 @@ static void
 photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
+  GObject *active_collection;
   PhotosWindowMode window_mode;
   gboolean selection_mode;
+  gchar *detail = NULL;
+  gchar *primary = NULL;
 
+  active_collection = photos_base_manager_get_active_object (priv->col_mngr);
   selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
   window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
 
   if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
     {
+      if (!selection_mode)
+        {
+          if (active_collection != NULL)
+            primary = g_strdup (photos_base_item_get_name (PHOTOS_BASE_ITEM (active_collection)));
+          else
+            {
+            }
+        }
+      else
+        {
+          GList *selection;
+          guint length;
+
+          selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+          length = g_list_length (selection);
+          if (length == 0)
+            detail = g_strdup(_("Click on items to select them"));
+          else
+            detail = g_strdup_printf (_("%d selected"), length);
+
+          if (active_collection != NULL)
+            {
+              primary = g_strdup (photos_base_item_get_name (PHOTOS_BASE_ITEM (active_collection)));
+            }
+          else
+            {
+              primary = detail;
+              detail = NULL;
+            }
+        }
     }
   else if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     {
+      GObject *item;
+
+      item = photos_base_manager_get_active_object (priv->item_mngr);
+      primary = g_strdup (photos_base_item_get_name (PHOTOS_BASE_ITEM (item)));
     }
+
+  if (detail != NULL)
+    {
+      gchar *tmp;
+
+      tmp = detail;
+      detail = g_strconcat ("(", detail, ")", NULL);
+      g_free (tmp);
+    }
+
+  gd_main_toolbar_set_labels (GD_MAIN_TOOLBAR (priv->widget), primary, detail);
+  g_free (primary);
+  g_free (detail);
 }
 
 
@@ -259,6 +313,7 @@ photos_main_toolbar_dispose (GObject *object)
   PhotosMainToolbarPrivate *priv = self->priv;
 
   g_clear_object (&priv->col_mngr);
+  g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
 
   if (priv->mode_cntrlr != NULL)
@@ -309,6 +364,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
                            CLUTTER_BOX_ALIGNMENT_START);
 
   priv->col_mngr = photos_collection_manager_new ();
+  priv->item_mngr = photos_item_manager_new ();
 
   priv->src_mngr = photos_source_manager_new ();
   priv->search_source_id = g_signal_connect_swapped (priv->src_mngr,
