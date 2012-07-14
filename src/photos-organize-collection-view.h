@@ -25,7 +25,7 @@
 
 G_BEGIN_DECLS
 
-#define PHOTOS_TYPE_ORGANIZE_COLLECTION_VIEW (photos_view_embed_get_type ())
+#define PHOTOS_TYPE_ORGANIZE_COLLECTION_VIEW (photos_organize_collection_view_get_type ())
 
 #define PHOTOS_ORGANIZE_COLLECTION_VIEW(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
