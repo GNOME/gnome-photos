@@ -35,8 +35,7 @@ struct _GdMainViewPrivate {
   GtkWidget *current_view;
   GtkTreeModel *model;
 
-  gdouble button_press_x;
-  gdouble button_press_y;
+  gchar *button_press_item_path;
 };
 
 enum {
@@ -66,6 +65,16 @@ gd_main_view_dispose (GObject *obj)
   g_clear_object (&self->priv->model);
 
   G_OBJECT_CLASS (gd_main_view_parent_class)->dispose (obj);
+}
+
+static void
+gd_main_view_finalize (GObject *obj)
+{
+  GdMainView *self = GD_MAIN_VIEW (obj);
+
+  g_free (self->priv->button_press_item_path);
+
+  G_OBJECT_CLASS (gd_main_view_parent_class)->finalize (obj);
 }
 
 static void
@@ -147,6 +156,7 @@ gd_main_view_class_init (GdMainViewClass *klass)
   oclass->get_property = gd_main_view_get_property;
   oclass->set_property = gd_main_view_set_property;
   oclass->dispose = gd_main_view_dispose;
+  oclass->finalize = gd_main_view_finalize;
 
   properties[PROP_VIEW_TYPE] =
     g_param_spec_int ("view-type",
@@ -368,6 +378,8 @@ on_button_release_event (GtkWidget *view,
   GdMainView *self = user_data;
   GdMainViewGeneric *generic = get_generic (self);
   GtkTreePath *path;
+  gchar *button_release_item_path;
+  GtkTreeIter iter;
   gboolean entered_mode = FALSE, selection_mode;
   gboolean res, same_item = FALSE;
 
@@ -379,12 +391,15 @@ on_button_release_event (GtkWidget *view,
 
   if (path != NULL)
     {
-      if (event->x == self->priv->button_press_x &&
-          event->y == self->priv->button_press_y)
+      button_release_item_path = gtk_tree_path_to_string (path);
+      if (g_strcmp0 (self->priv->button_press_item_path, button_release_item_path) == 0)
         same_item = TRUE;
+
+      g_free (button_release_item_path);
     }
 
-  self->priv->button_press_x = self->priv->button_press_y = 0;
+  g_free (self->priv->button_press_item_path);
+  self->priv->button_press_item_path = NULL;
 
   if (!same_item)
     {
@@ -423,24 +438,16 @@ on_button_press_event (GtkWidget *view,
   GdMainView *self = user_data;
   GdMainViewGeneric *generic = get_generic (self);
   GtkTreePath *path;
+  GtkTreeIter iter;
   GList *selection, *l;
   GtkTreePath *sel_path;
   gboolean found = FALSE;
   gdouble event_x = 0, event_y = 0;
 
-  self->priv->button_press_x = event->x;
-  self->priv->button_press_y = event->y;
-
   path = gd_main_view_generic_get_path_at_pos (generic, event->x, event->y);
 
   if (path != NULL)
-    {
-      event_x = event->x;
-      event_y = event->y;
-    }
-
-  self->priv->button_press_x = event_x;
-  self->priv->button_press_y = event_y;
+    self->priv->button_press_item_path = gtk_tree_path_to_string (path);
 
   if (!self->priv->selection_mode ||
       path == NULL)
@@ -476,18 +483,15 @@ on_drag_begin (GdMainViewGeneric *generic,
                gpointer user_data)
 {
   GdMainView *self = user_data;
-  GtkTreePath *path;
 
-  path = gd_main_view_generic_get_path_at_pos (generic,
-                                               self->priv->button_press_x,
-                                               self->priv->button_press_y);
-
-  if (path != NULL)
+  if (self->priv->button_press_item_path != NULL)
     {
       gboolean res;
       GtkTreeIter iter;
       GdkPixbuf *icon = NULL;
+      GtkTreePath *path;
 
+      path = gtk_tree_path_new_from_string (self->priv->button_press_item_path);
       res = gtk_tree_model_get_iter (self->priv->model,
                                      &iter, path);
       if (res)
