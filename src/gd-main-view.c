@@ -379,7 +379,6 @@ on_button_release_event (GtkWidget *view,
   GdMainViewGeneric *generic = get_generic (self);
   GtkTreePath *path;
   gchar *button_release_item_path;
-  GtkTreeIter iter;
   gboolean entered_mode = FALSE, selection_mode;
   gboolean res, same_item = FALSE;
 
@@ -438,11 +437,9 @@ on_button_press_event (GtkWidget *view,
   GdMainView *self = user_data;
   GdMainViewGeneric *generic = get_generic (self);
   GtkTreePath *path;
-  GtkTreeIter iter;
   GList *selection, *l;
   GtkTreePath *sel_path;
   gboolean found = FALSE;
-  gdouble event_x = 0, event_y = 0;
 
   path = gd_main_view_generic_get_path_at_pos (generic, event->x, event->y);
 
