@@ -23,6 +23,7 @@
 
 #include <clutter-gtk/clutter-gtk.h>
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 #include "gd-main-toolbar.h"
 #include "photos-collection-manager.h"
@@ -56,16 +57,16 @@ static void
 photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
-  GdMainToolbarMode mode;
+  PhotosWindowMode window_mode;
+  gboolean selection_mode;
 
-  mode = gd_main_toolbar_get_mode (GD_MAIN_TOOLBAR (priv->widget));
-  if (mode == GD_MAIN_TOOLBAR_MODE_OVERVIEW)
+  selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
+  window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+
+  if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
     {
     }
-  else if (mode == GD_MAIN_TOOLBAR_MODE_PREVIEW)
-    {
-    }
-  else if (mode == GD_MAIN_TOOLBAR_MODE_SELECTION)
+  else if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     {
     }
 }
@@ -76,15 +77,22 @@ photos_main_toolbar_active_changed (PhotosBaseManager *manager, GObject *object,
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
 
-  gd_main_toolbar_set_back_visible (GD_MAIN_TOOLBAR (self->priv->widget), object != NULL);
+  photos_main_toolbar_set_toolbar_title (self);
   photos_main_toolbar_set_toolbar_title (self);
 }
 
 
 static void
-photos_main_toolbar_clear_request (GdMainToolbar *toolbar, gpointer user_data)
+photos_main_toolbar_back_button_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
+  photos_mode_controller_set_window_mode (self->priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+}
+
+
+static void
+photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
+{
   PhotosMainToolbarPrivate *priv = self->priv;
 
   if (priv->collection_id != 0)
@@ -102,12 +110,26 @@ photos_main_toolbar_clear_request (GdMainToolbar *toolbar, gpointer user_data)
 
 
 static void
+photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  GtkStyleContext *context;
+
+  photos_main_toolbar_clear_state_data (self);
+  context = gtk_widget_get_style_context (priv->widget);
+  gtk_style_context_remove_class (context, "documents-selection-mode");
+  gtk_widget_reset_style (priv->widget);
+  gd_main_toolbar_clear (GD_MAIN_TOOLBAR (priv->widget));
+}
+
+
+static void
 photos_main_toolbar_destroy (GtkWidget *widget, gpointer user_data)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
   PhotosMainToolbarPrivate *priv = self->priv;
 
-  photos_main_toolbar_clear_request (GD_MAIN_TOOLBAR (widget), self);
+  photos_main_toolbar_clear_state_data (self);
 
   if (priv->window_mode_id != 0)
     {
@@ -130,17 +152,18 @@ photos_main_toolbar_destroy (GtkWidget *widget, gpointer user_data)
 
 
 static void
-photos_main_toolbar_go_back_request (GdMainToolbar *toolbar, gpointer user_data)
+photos_main_toolbar_done_button_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
-  PhotosMainToolbarPrivate *priv = self->priv;
-  PhotosWindowMode mode;
+  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
+}
 
-  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
-  else
-    photos_base_manager_set_active_object (priv->col_mngr, NULL);
+
+static void
+photos_main_toolbar_select_button_clicked (GtkButton *button, gpointer user_data)
+{
+  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
+  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, TRUE);
 }
 
 
@@ -149,8 +172,14 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
   GObject *object;
+  GtkWidget *selection_button;
 
-  gd_main_toolbar_set_mode (GD_MAIN_TOOLBAR (priv->widget), GD_MAIN_TOOLBAR_MODE_OVERVIEW);
+  selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget),
+                                                 "emblem-default-symbolic",
+                                                 _("Select Items"),
+                                                 FALSE);
+  g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_select_button_clicked), self);
+
   priv->collection_id = g_signal_connect (priv->col_mngr,
                                           "active-changed",
                                           G_CALLBACK (photos_main_toolbar_active_changed),
@@ -158,8 +187,6 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
   photos_main_toolbar_active_changed (priv->col_mngr, object, self);
-
-  gtk_widget_show_all (priv->widget);
 }
 
 
@@ -167,10 +194,13 @@ static void
 photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
+  GtkWidget *back_button;
 
-  gd_main_toolbar_set_mode (GD_MAIN_TOOLBAR (priv->widget), GD_MAIN_TOOLBAR_MODE_PREVIEW);
-  photos_main_toolbar_set_toolbar_title (self);
-  gtk_widget_show_all (priv->widget);
+  back_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget),
+                                            "go-previous-symbolic",
+                                            _("Back"),
+                                            TRUE);
+  g_signal_connect (back_button, "clicked", G_CALLBACK (photos_main_toolbar_back_button_clicked), self);
 }
 
 
@@ -178,58 +208,47 @@ static void
 photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
+  GtkStyleContext *context;
+  GtkWidget *selection_button;
 
-  gd_main_toolbar_set_mode (GD_MAIN_TOOLBAR (priv->widget), GD_MAIN_TOOLBAR_MODE_SELECTION);
+  context = gtk_widget_get_style_context (priv->widget);
+  gtk_style_context_add_class (context, "documents-selection-mode");
+  gtk_widget_reset_style (priv->widget);
+
+  selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget), NULL, _("Done"), FALSE);
+  g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_done_button_clicked), self);
+
   priv->selection_changed_id = g_signal_connect_swapped (priv->sel_cntrlr,
                                                          "selection-changed",
                                                          G_CALLBACK (photos_main_toolbar_set_toolbar_title),
                                                          self);
-
-  photos_main_toolbar_set_toolbar_title (self);
-  gtk_widget_show_all (priv->widget);
 }
 
 
 static void
-photos_main_toolbar_selection_mode_changed (PhotosSelectionController *sel_cntrlr,
-                                            gboolean mode,
-                                            gpointer user_data)
+photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
 {
-  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
   PhotosMainToolbarPrivate *priv = self->priv;
   PhotosWindowMode window_mode;
 
+  photos_main_toolbar_clear_toolbar (self);
   window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  if (window_mode != PHOTOS_WINDOW_MODE_OVERVIEW)
-    return;
 
-  if (mode)
-    photos_main_toolbar_populate_for_selection_mode (self);
-  else
-    photos_main_toolbar_populate_for_overview (self);
-}
+  if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+    {
+      gboolean selection_mode;
 
-
-static void
-photos_main_toolbar_selection_mode_request (GdMainToolbar *toolbar, gboolean request_mode, gpointer user_data)
-{
-  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
-  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, request_mode);
-}
-
-
-static void
-photos_main_toolbar_window_mode_changed (PhotosModeController *mode_cntrlr,
-                                         PhotosWindowMode mode,
-                                         PhotosWindowMode old_mode,
-                                         gpointer user_data)
-{
-  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
-
-  if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
-    photos_main_toolbar_populate_for_overview (self);
-  else if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
+      selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
+      if (selection_mode)
+        photos_main_toolbar_populate_for_selection_mode (self);
+      else
+        photos_main_toolbar_populate_for_overview (self);
+    }
+  else if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     photos_main_toolbar_populate_for_preview (self);
+
+  photos_main_toolbar_set_toolbar_title (self);
+  gtk_widget_show_all (priv->widget);
 }
 
 
@@ -298,29 +317,20 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
                                                      self);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
-  priv->window_mode_id = g_signal_connect (priv->mode_cntrlr,
-                                           "window-mode-changed",
-                                           G_CALLBACK (photos_main_toolbar_window_mode_changed),
-                                           self);
+  priv->window_mode_id = g_signal_connect_swapped (priv->mode_cntrlr,
+                                                   "window-mode-changed",
+                                                   G_CALLBACK (photos_main_toolbar_reset_toolbar_mode),
+                                                   self);
 
   priv->sel_cntrlr = photos_selection_controller_new ();
-  priv->selection_mode_id = g_signal_connect (priv->sel_cntrlr,
-                                              "selection-mode-changed",
-                                              G_CALLBACK (photos_main_toolbar_selection_mode_changed),
-                                              self);
+  priv->selection_mode_id = g_signal_connect_swapped (priv->sel_cntrlr,
+                                                      "selection-mode-changed",
+                                                      G_CALLBACK (photos_main_toolbar_reset_toolbar_mode),
+                                                      self);
 
-  photos_main_toolbar_window_mode_changed (priv->mode_cntrlr,
-                                           photos_mode_controller_get_window_mode (priv->mode_cntrlr),
-                                           PHOTOS_WINDOW_MODE_NONE, /* unused */
-                                           self);
+  photos_main_toolbar_reset_toolbar_mode (self);
 
   g_signal_connect (priv->widget, "destroy", G_CALLBACK (photos_main_toolbar_destroy), self);
-  g_signal_connect (priv->widget,
-                    "selection-mode-request",
-                    G_CALLBACK (photos_main_toolbar_selection_mode_request),
-                    self);
-  g_signal_connect (priv->widget, "go-back-request", G_CALLBACK (photos_main_toolbar_go_back_request), self);
-  g_signal_connect (priv->widget, "clear-request", G_CALLBACK (photos_main_toolbar_clear_request), self);
 }
 
 
