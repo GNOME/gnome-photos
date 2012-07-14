@@ -26,6 +26,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SELECTION_CONTROLLER (photos_selection_controller_get_type ())
+
 #define PHOTOS_SELECTION_CONTROLLER(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SELECTION_CONTROLLER, PhotosSelectionController))

@@ -25,12 +25,27 @@
 
 G_BEGIN_DECLS
 
-#define PHOTOS_TYPE_APPLICATION            (photos_application_get_type ())
-#define PHOTOS_APPLICATION(o)              (G_TYPE_CHECK_INSTANCE_CAST ((o), PHOTOS_TYPE_APPLICATION, PhotosApplication))
-#define PHOTOS_APPLICATION_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), PHOTOS_TYPE_APPLICATION, PhotosApplicationClass))
-#define PHOTOS_IS_APPLICATION(o)           (G_TYPE_CHECK_INSTANCE_TYPE ((o), PHOTOS_TYPE_APPLICATION))
-#define PHOTOS_IS_APPLICATION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), PHOTOS_TYPE_APPLICATION))
-#define PHOTOS_APPLICATION_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), PHOTOS_TYPE_APPLICATION, PhotosApplicationClass))
+#define PHOTOS_TYPE_APPLICATION (photos_application_get_type ())
+
+#define PHOTOS_APPLICATION(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
+   PHOTOS_TYPE_APPLICATION, PhotosApplication))
+
+#define PHOTOS_APPLICATION_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST ((klass), \
+   PHOTOS_TYPE_APPLICATION, PhotosApplicationClass))
+
+#define PHOTOS_IS_APPLICATION(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
+   PHOTOS_TYPE_APPLICATION))
+
+#define PHOTOS_IS_APPLICATION_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
+   PHOTOS_TYPE_APPLICATION))
+
+#define PHOTOS_APPLICATION_GET_CLASS(obj) \
+  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
+   PHOTOS_TYPE_APPLICATION, PhotosApplicationClass))
 
 typedef struct _PhotosApplication        PhotosApplication;
 typedef struct _PhotosApplicationClass   PhotosApplicationClass;

@@ -27,6 +27,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_BASE_ITEM (photos_base_item_get_type ())
+
 #define PHOTOS_BASE_ITEM(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_BASE_ITEM, PhotosBaseItem))
