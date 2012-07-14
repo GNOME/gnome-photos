@@ -152,6 +152,9 @@ static gboolean
 photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *event)
 {
   PhotosMainWindowPrivate *priv = self->priv;
+  gboolean fullscreen;
+
+  fullscreen = photos_mode_controller_get_fullscreen (priv->controller);
 
   if (event->keyval == GDK_KEY_f)
     {
@@ -159,7 +162,9 @@ photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *even
       return TRUE;
     }
 
-  if (event->keyval == GDK_KEY_Escape || event->keyval == GDK_KEY_Back)
+  if ((fullscreen && event->keyval == GDK_KEY_Escape)
+      || event->keyval == GDK_KEY_BackSpace
+      || event->keyval == GDK_KEY_Back)
     {
       photos_mode_controller_set_window_mode (priv->controller, PHOTOS_WINDOW_MODE_OVERVIEW);
       return TRUE;
