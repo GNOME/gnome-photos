@@ -27,6 +27,39 @@
 G_DEFINE_TYPE (PhotosItemModel, photos_item_model, GTK_TYPE_LIST_STORE);
 
 
+static void
+photos_item_model_info_set (PhotosItemModel *self, PhotosBaseItem *item, GtkTreeIter *iter)
+{
+  gtk_list_store_set (GTK_LIST_STORE (self),
+                      iter,
+                      PHOTOS_ITEM_MODEL_URN, photos_base_item_get_id (item),
+                      PHOTOS_ITEM_MODEL_URI, photos_base_item_get_uri (item),
+                      PHOTOS_ITEM_MODEL_NAME, photos_base_item_get_name (item),
+                      PHOTOS_ITEM_MODEL_AUTHOR, photos_base_item_get_author (item),
+                      PHOTOS_ITEM_MODEL_ICON, photos_base_item_get_icon (item),
+                      PHOTOS_ITEM_MODEL_MTIME, photos_base_item_get_mtime (item),
+                      -1);
+}
+
+
+static void
+photos_item_model_info_updated (PhotosBaseItem *item, gpointer user_data)
+{
+  PhotosItemModel *self = PHOTOS_ITEM_MODEL (user_data);
+  GtkTreeIter iter;
+  GtkTreePath *path;
+  GtkTreeRowReference *row_ref;
+
+  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), "row-ref");
+  path = gtk_tree_row_reference_get_path (row_ref);
+  if (path == NULL)
+    return;
+
+  gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &iter, path);
+  photos_item_model_info_set (self, item, &iter);
+}
+
+
 static gboolean
 photos_item_model_item_removed_foreach (GtkTreeModel *model,
                                         GtkTreePath *path,
@@ -90,20 +123,12 @@ photos_item_model_item_added (PhotosItemModel *self, PhotosBaseItem *item)
   GtkTreeRowReference *row_ref;
 
   gtk_list_store_append (GTK_LIST_STORE (self), &iter);
-  gtk_list_store_set (GTK_LIST_STORE (self),
-                      &iter,
-                      PHOTOS_ITEM_MODEL_URN, photos_base_item_get_id (item),
-                      PHOTOS_ITEM_MODEL_URI, photos_base_item_get_uri (item),
-                      PHOTOS_ITEM_MODEL_NAME, photos_base_item_get_name (item),
-                      PHOTOS_ITEM_MODEL_AUTHOR, photos_base_item_get_author (item),
-                      PHOTOS_ITEM_MODEL_ICON, photos_base_item_get_icon (item),
-                      PHOTOS_ITEM_MODEL_MTIME, photos_base_item_get_mtime (item),
-                      -1);
+  photos_item_model_info_set (self, item, &iter);
 
   path = gtk_tree_model_get_path (GTK_TREE_MODEL (self), &iter);
   row_ref = gtk_tree_row_reference_new (GTK_TREE_MODEL (self), path);
-  /* TODO: connect to "info-updated" */
-  gtk_tree_row_reference_free (row_ref);
+  g_object_set_data_full (G_OBJECT (item), "row-ref", row_ref, (GDestroyNotify) gtk_tree_row_reference_free);
+  g_signal_connect (item, "info-updated", G_CALLBACK (photos_item_model_info_updated), self);
 }
 
 
