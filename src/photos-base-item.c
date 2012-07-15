@@ -425,8 +425,13 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   priv->favorite = tracker_sparql_cursor_get_boolean (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_FAVORITE);
 
   mtime = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MTIME, NULL);
-  g_time_val_from_iso8601 (mtime, &timeval);
-  priv->mtime = (gint64) timeval.tv_sec;
+  if (mtime != NULL)
+    {
+      g_time_val_from_iso8601 (mtime, &timeval);
+      priv->mtime = (gint64) timeval.tv_sec;
+    }
+  else
+    priv->mtime = g_get_real_time () / 1000000;
 
   priv->mime_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL));
   priv->rdf_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL));
