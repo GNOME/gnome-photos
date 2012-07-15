@@ -24,6 +24,7 @@
 #ifndef PHOTOS_UTILS_H
 #define PHOTOS_UTILS_H
 
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -32,9 +33,18 @@ G_BEGIN_DECLS
 
 void             photos_utils_alpha_gtk_widget            (GtkWidget *widget);
 
+GIcon           *photos_utils_create_symbolic_icon        (const gchar *name, gint base_size);
+
+GdkPixbuf       *photos_utils_embed_image_in_frame        (GdkPixbuf *source_image,
+                                                           const gchar *frame_image_path,
+                                                           GtkBorder *slice_width,
+                                                           GtkBorder *border_width);
+
 gchar           *photos_utils_filename_strip_extension    (const gchar *filename_with_extension);
 
 gint             photos_utils_get_icon_size               (void);
+
+GtkBorder       *photos_utils_get_thumbnail_frame_border  (void);
 
 GList           *photos_utils_get_urns_from_paths         (GList *paths, GtkTreeModel *model);
 

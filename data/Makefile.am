@@ -8,6 +8,12 @@ desktop_DATA = $(desktop_in_files:.desktop.in.in=.desktop)
 gsettings_in_files = org.gnome.photos.gschema.xml.in
 gsettings_SCHEMAS = $(gsettings_in_files:.xml.in=.xml)
 .PRECIOUS: $(gsettings_SCHEMAS)
+
+iconsdir = $(pkgdatadir)/icons
+dist_icons_DATA = \
+	thumbnail-frame.png \
+	$(NULL)
+
 @INTLTOOL_XML_NOMERGE_RULE@
 @GSETTINGS_RULES@
 

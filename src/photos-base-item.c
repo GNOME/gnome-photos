@@ -33,6 +33,7 @@
 struct _PhotosBaseItemPrivate
 {
   GdkPixbuf *icon;
+  GdkPixbuf *pristine_icon;
   gboolean failed_thumbnailing;
   gboolean favorite;
   gboolean thumbnailed;
@@ -61,9 +62,108 @@ enum
 G_DEFINE_TYPE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT);
 
 
+static GIcon *
+photos_base_item_create_symbolic_emblem (const gchar *name)
+{
+  GIcon *pix;
+  gint size;
+
+  size = photos_utils_get_icon_size ();
+  pix = photos_utils_create_symbolic_icon (name, size);
+  if (pix == NULL)
+    pix = g_themed_icon_new (name);
+
+  return pix;
+}
+
+
 static void
 photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv = self->priv;
+  GIcon *pix;
+  GList *emblem_icons = NULL;
+  GdkPixbuf *icon;
+
+  icon = g_object_ref (priv->icon);
+  priv->pristine_icon = g_object_ref (icon);
+
+  if (priv->favorite)
+    {
+      pix = photos_base_item_create_symbolic_emblem ("emblem-favorite");
+      emblem_icons = g_list_prepend (emblem_icons, pix);
+    }
+
+  if (g_list_length (emblem_icons) > 0)
+    {
+      GIcon *emblemed_icon;
+      GList *l;
+      GtkIconInfo *icon_info;
+      GtkIconTheme *theme;
+      gint height;
+      gint size;
+      gint width;
+
+      emblem_icons = g_list_reverse (emblem_icons);
+      emblemed_icon = g_emblemed_icon_new (G_ICON (priv->icon), NULL);
+      for (l = g_list_first (emblem_icons); l != NULL; l = g_list_next (l))
+        {
+          GEmblem *emblem;
+          GIcon *emblem_icon = G_ICON (l->data);
+
+          emblem = g_emblem_new (emblem_icon);
+          g_emblemed_icon_add_emblem (G_EMBLEMED_ICON (emblemed_icon), emblem);
+          g_object_unref (emblem);
+        }
+
+      theme = gtk_icon_theme_get_default ();
+
+      width = gdk_pixbuf_get_width (priv->icon);
+      height = gdk_pixbuf_get_height (priv->icon);
+      size = (width > height) ? width : height;
+
+      icon_info = gtk_icon_theme_lookup_by_gicon (theme, emblemed_icon, size, GTK_ICON_LOOKUP_FORCE_SIZE);
+      g_object_unref (theme);
+
+      if (icon_info != NULL)
+        {
+          GError *error = NULL;
+          GdkPixbuf *tmp;
+
+          tmp = gtk_icon_info_load_icon (icon_info, &error);
+          if (error != NULL)
+            {
+              g_warning ("Unable to render the emblem: %s", error->message);
+              g_error_free (error);
+            }
+          else
+            {
+              g_object_unref (icon);
+              icon = tmp;
+            }
+
+          gtk_icon_info_free (icon_info);
+        }
+    }
+
+  g_object_unref (priv->icon);
+
+  if (priv->thumbnailed)
+    {
+      GtkBorder *slice;
+
+      slice = photos_utils_get_thumbnail_frame_border ();
+      priv->icon = photos_utils_embed_image_in_frame (icon,
+                                                      PACKAGE_ICONS_DIR "/thumbnail-frame.png",
+                                                      slice,
+                                                      slice);
+      gtk_border_free (slice);
+    }
+  else
+    priv->icon = g_object_ref (icon);
+
+  g_object_unref (icon);
+  g_list_free_full (emblem_icons, g_object_unref);
 }
 
 
@@ -351,6 +451,7 @@ photos_base_item_dispose (GObject *object)
   PhotosBaseItemPrivate *priv = self->priv;
 
   g_clear_object (&priv->icon);
+  g_clear_object (&priv->pristine_icon);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->dispose (object);
 }

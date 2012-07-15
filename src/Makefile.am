@@ -97,7 +97,9 @@ EXTRA_DIST = \
 	$(null)
 
 AM_CPPFLAGS = \
+	-DPACKAGE_ICONS_DIR=\""${pkgdatadir}/icons"\" \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
+	$(CAIRO_CFLAGS) \
 	$(CLUTTER_CFLAGS) \
 	$(CLUTTER_GTK_CFLAGS) \
 	$(GDK_PIXBUF_CFLAGS) \
@@ -112,6 +114,7 @@ AM_CPPFLAGS = \
 gnome_photos_LDFLAGS = 
 
 gnome_photos_LDADD = \
+	$(CAIRO_LIBS) \
 	$(CLUTTER_LIBS) \
 	$(CLUTTER_GTK_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
