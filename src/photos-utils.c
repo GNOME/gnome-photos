@@ -137,6 +137,13 @@ photos_utils_filename_strip_extension (const gchar *filename_with_extension)
 }
 
 
+gint
+photos_utils_get_icon_size (void)
+{
+  return 128;
+}
+
+
 GList *
 photos_utils_get_urns_from_paths (GList *paths, GtkTreeModel *model)
 {

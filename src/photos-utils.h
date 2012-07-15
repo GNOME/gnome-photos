@@ -34,6 +34,8 @@ void             photos_utils_alpha_gtk_widget            (GtkWidget *widget);
 
 gchar           *photos_utils_filename_strip_extension    (const gchar *filename_with_extension);
 
+gint             photos_utils_get_icon_size               (void);
+
 GList           *photos_utils_get_urns_from_paths         (GList *paths, GtkTreeModel *model);
 
 void             photos_utils_queue_thumbnail_job_for_file_async (GFile *file,
