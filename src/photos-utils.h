@@ -18,6 +18,9 @@
  * 02110-1301, USA.
  */
 
+/* Based on code by the Documents team.
+ */
+
 #ifndef PHOTOS_UTILS_H
 #define PHOTOS_UTILS_H
 
