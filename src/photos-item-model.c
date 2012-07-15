@@ -94,7 +94,7 @@ photos_item_model_init (PhotosItemModel *self)
                      G_TYPE_STRING,    /* NAME */
                      G_TYPE_STRING,    /* AUTHOR */
                      GDK_TYPE_PIXBUF,  /* ICON */
-                     G_TYPE_LONG,      /* MTIME */
+                     G_TYPE_INT64,     /* MTIME */
                      G_TYPE_BOOLEAN};  /* STATE */
 
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);

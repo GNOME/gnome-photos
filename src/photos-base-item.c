@@ -49,7 +49,7 @@ struct _PhotosBaseItemPrivate
   gchar *resource_urn;
   gchar *type_description;
   gchar *uri;
-  glong mtime;
+  gint64 mtime;
 };
 
 enum
@@ -426,7 +426,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 
   mtime = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MTIME, NULL);
   g_time_val_from_iso8601 (mtime, &timeval);
-  priv->mtime = timeval.tv_sec;
+  priv->mtime = (gint64) timeval.tv_sec;
 
   priv->mime_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL));
   priv->rdf_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL));
@@ -639,7 +639,7 @@ photos_base_item_get_id (PhotosBaseItem *self)
 }
 
 
-glong
+gint64
 photos_base_item_get_mtime (PhotosBaseItem *self)
 {
   return self->priv->mtime;

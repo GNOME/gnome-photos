@@ -76,7 +76,7 @@ GdkPixbuf          *photos_base_item_get_icon           (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_id             (PhotosBaseItem *self);
 
-glong               photos_base_item_get_mtime          (PhotosBaseItem *self);
+gint64              photos_base_item_get_mtime          (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_name           (PhotosBaseItem *self);
 
