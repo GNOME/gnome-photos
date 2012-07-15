@@ -55,7 +55,9 @@ enum
 {
   PROP_0,
   PROP_CURSOR,
-  PROP_ID
+  PROP_FAILED_THUMBNAILING,
+  PROP_ID,
+  PROP_TRIED_THUMBNAILING
 };
 
 
@@ -499,11 +501,20 @@ static void
 photos_base_item_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
+  PhotosBaseItemPrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_CURSOR:
       photos_base_item_populate_from_cursor (self, TRACKER_SPARQL_CURSOR (g_value_get_object (value)));
+      break;
+
+    case PROP_FAILED_THUMBNAILING:
+      priv->failed_thumbnailing = g_value_get_boolean (value);
+      break;
+
+    case PROP_TRIED_THUMBNAILING:
+      priv->tried_thumbnailing = g_value_get_boolean (value);
       break;
 
     default:
@@ -543,12 +554,28 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_object_class_install_property (object_class,
+                                   PROP_FAILED_THUMBNAILING,
+                                   g_param_spec_boolean ("failed-thumbnailing",
+                                                         "Thumbnailing failed",
+                                                         "Failed to create a thumbnail",
+                                                         FALSE,
+                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  g_object_class_install_property (object_class,
                                    PROP_ID,
                                    g_param_spec_string ("id",
                                                         "Uniform Resource Name",
                                                         "An unique ID associated with this item",
                                                         "",
                                                         G_PARAM_READABLE));
+
+  g_object_class_install_property (object_class,
+                                   PROP_TRIED_THUMBNAILING,
+                                   g_param_spec_boolean ("tried-thumbnailing",
+                                                         "Thumbnailing attempted",
+                                                         "An attempt was made to create a thumbnail",
+                                                         FALSE,
+                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_type_class_add_private (class, sizeof (PhotosBaseItemPrivate));
 }
