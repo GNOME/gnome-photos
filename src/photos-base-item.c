@@ -33,7 +33,11 @@
 struct _PhotosBaseItemPrivate
 {
   GdkPixbuf *icon;
+  gboolean failed_thumbnailing;
   gboolean favorite;
+  gboolean thumbnailed;
+  gboolean tried_thumbnailing;
+  const gchar *thumb_path;
   gchar *author;
   gchar *id;
   gchar *identifier;
@@ -60,6 +64,172 @@ G_DEFINE_TYPE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT);
 static void
 photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 {
+}
+
+
+static void
+photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
+  PhotosBaseItemPrivate *priv = self->priv;
+  GError *error = NULL;
+  GInputStream *stream = G_INPUT_STREAM (source_object);
+
+  priv->icon = gdk_pixbuf_new_from_stream_finish (res, &error);
+  if (error != NULL)
+    {
+      priv->failed_thumbnailing = TRUE;
+      g_error_free (error);
+      goto out;
+    }
+
+  priv->thumbnailed = TRUE;
+  photos_base_item_check_effects_and_update_info (self);
+
+ out:
+  g_input_stream_close_async (stream, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+  g_object_unref (self);
+}
+
+
+static void
+photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
+  PhotosBaseItemPrivate *priv = self->priv;
+  GError *error = NULL;
+  GFile *file = G_FILE (source_object);
+  GFileInputStream *stream;
+  gint size;
+
+  stream = g_file_read_finish (file, res, &error);
+  if (error != NULL)
+    {
+      priv->failed_thumbnailing = TRUE;
+      g_error_free (error);
+      goto out;
+    }
+
+  size = photos_utils_get_icon_size ();
+  gdk_pixbuf_new_from_stream_at_scale_async (G_INPUT_STREAM (stream),
+                                             size,
+                                             size,
+                                             TRUE,
+                                             NULL,
+                                             photos_base_item_refresh_thumb_path_pixbuf,
+                                             g_object_ref (self));
+  g_object_unref (stream);
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
+photos_base_item_refresh_thumb_path (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  GFile *thumb_file;
+
+  thumb_file = g_file_new_for_path (priv->thumb_path);
+  g_file_read_async (thumb_file,
+                     G_PRIORITY_DEFAULT,
+                     NULL,
+                     photos_base_item_refresh_thumb_path_read,
+                     g_object_ref (self));
+  g_object_unref (thumb_file);
+}
+
+
+static void
+photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
+  PhotosBaseItemPrivate *priv = self->priv;
+  GError *error = NULL;
+  GFile *file = G_FILE (source_object);
+  GFileInfo *info;
+
+  info = g_file_query_info_finish (file, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to query info for file at %s: %s", priv->uri, error->message);
+      priv->failed_thumbnailing = TRUE;
+      g_error_free (error);
+      goto out;
+    }
+
+  priv->thumb_path = g_file_info_get_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
+  if (priv->thumb_path != NULL)
+    photos_base_item_refresh_thumb_path (self);
+  else
+    priv->failed_thumbnailing = TRUE;
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
+photos_base_item_queue_thumbnail_job (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
+  PhotosBaseItemPrivate *priv = self->priv;
+  GFile *file = G_FILE (source_object);
+  gboolean thumbnailed;
+
+  thumbnailed = photos_utils_queue_thumbnail_job_for_file_finish (res);
+  if (!thumbnailed)
+    {
+      priv->failed_thumbnailing = TRUE;
+      goto out;
+    }
+
+  g_file_query_info_async (file,
+                           G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
+                           G_FILE_QUERY_INFO_NONE,
+                           G_PRIORITY_DEFAULT,
+                           NULL,
+                           photos_base_item_thumbnail_path_info,
+                           g_object_ref (self));
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
+photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
+  PhotosBaseItemPrivate *priv = self->priv;
+  GError *error = NULL;
+  GFile *file = G_FILE (source_object);
+  GFileInfo *info;
+  gboolean have_new_icon = FALSE;
+
+  info = g_file_query_info_finish (file, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to query info for file at %s: %s", priv->uri, error->message);
+      priv->failed_thumbnailing = TRUE;
+      g_error_free (error);
+      goto out;
+    }
+
+  priv->thumb_path = g_file_info_get_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
+  if (priv->thumb_path != NULL)
+    photos_base_item_refresh_thumb_path (self);
+  else
+    {
+      priv->thumbnailed = FALSE;
+      photos_utils_queue_thumbnail_job_for_file_async (file,
+                                                       photos_base_item_queue_thumbnail_job,
+                                                       g_object_ref (self));
+    }
+
+ out:
+  g_object_unref (self);
 }
 
 
@@ -94,7 +264,32 @@ photos_base_item_update_icon_from_type (PhotosBaseItem *self)
 static void
 photos_base_item_refresh_icon (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv = self->priv;
+  GFile *file;
+
+  if (priv->thumb_path != NULL)
+    {
+      photos_base_item_refresh_thumb_path (self);
+      return;
+    }
+
   photos_base_item_update_icon_from_type (self);
+
+  if (priv->failed_thumbnailing)
+    return;
+
+  if (!priv->tried_thumbnailing)
+    priv->tried_thumbnailing = TRUE;
+
+  file = g_file_new_for_uri (priv->uri);
+  g_file_query_info_async (file,
+                           G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
+                           G_FILE_QUERY_INFO_NONE,
+                           G_PRIORITY_DEFAULT,
+                           NULL,
+                           photos_base_item_file_query_info,
+                           g_object_ref (self));
+  g_object_unref (file);
 }
 
 
