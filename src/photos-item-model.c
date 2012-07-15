@@ -127,6 +127,8 @@ photos_item_model_item_added (PhotosItemModel *self, PhotosBaseItem *item)
 
   path = gtk_tree_model_get_path (GTK_TREE_MODEL (self), &iter);
   row_ref = gtk_tree_row_reference_new (GTK_TREE_MODEL (self), path);
+  gtk_tree_path_free (path);
+
   g_object_set_data_full (G_OBJECT (item), "row-ref", row_ref, (GDestroyNotify) gtk_tree_row_reference_free);
   g_signal_connect (item, "info-updated", G_CALLBACK (photos_item_model_info_updated), self);
 }
