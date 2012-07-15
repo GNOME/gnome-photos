@@ -65,9 +65,9 @@ struct _PhotosBaseManagerClass
   gboolean (*set_active_object)    (PhotosBaseManager *self, GObject *object);
 
   /* signals */
-  void (*active_changed)   (PhotosBaseManager *self);
-  void (*object_added)     (PhotosBaseManager *self);
-  void (*object_removed)   (PhotosBaseManager *self);
+  void (*active_changed)   (PhotosBaseManager *self, GObject *object);
+  void (*object_added)     (PhotosBaseManager *self, GObject *object);
+  void (*object_removed)   (PhotosBaseManager *self, GObject *object);
 };
 
 GType               photos_base_manager_get_type                 (void) G_GNUC_CONST;
