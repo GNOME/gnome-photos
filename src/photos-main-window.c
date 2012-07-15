@@ -158,7 +158,7 @@ photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *even
   direction = gtk_widget_get_direction (GTK_WIDGET (self));
   fullscreen = photos_mode_controller_get_fullscreen (priv->controller);
 
-  if (event->keyval == GDK_KEY_f)
+  if ((event->keyval == GDK_KEY_f || event->keyval == GDK_KEY_F11) && (event->state & GDK_CONTROL_MASK) == 0)
     {
       photos_mode_controller_toggle_fullscreen (priv->controller);
       return TRUE;
