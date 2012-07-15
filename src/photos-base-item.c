@@ -34,6 +34,7 @@ struct _PhotosBaseItemPrivate
 {
   GdkPixbuf *icon;
   GdkPixbuf *pristine_icon;
+  TrackerSparqlCursor *cursor;
   gboolean failed_thumbnailing;
   gboolean favorite;
   gboolean thumbnailed;
@@ -447,6 +448,19 @@ photos_base_item_update_type_description (PhotosBaseItem *self)
 
 
 static void
+photos_base_item_constructed (GObject *object)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
+  PhotosBaseItemPrivate *priv = self->priv;
+
+  G_OBJECT_CLASS (photos_base_item_parent_class)->constructed (object);
+
+  photos_base_item_populate_from_cursor (self, priv->cursor);
+  g_clear_object (&priv->cursor); /* We will not need it any more */
+}
+
+
+static void
 photos_base_item_dispose (GObject *object)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
@@ -454,6 +468,7 @@ photos_base_item_dispose (GObject *object)
 
   g_clear_object (&priv->icon);
   g_clear_object (&priv->pristine_icon);
+  g_clear_object (&priv->cursor);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->dispose (object);
 }
@@ -506,7 +521,7 @@ photos_base_item_set_property (GObject *object, guint prop_id, const GValue *val
   switch (prop_id)
     {
     case PROP_CURSOR:
-      photos_base_item_populate_from_cursor (self, TRACKER_SPARQL_CURSOR (g_value_get_object (value)));
+      priv->cursor = TRACKER_SPARQL_CURSOR (g_value_dup_object (value));
       break;
 
     case PROP_FAILED_THUMBNAILING:
@@ -539,6 +554,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->constructed= photos_base_item_constructed;
   object_class->dispose = photos_base_item_dispose;
   object_class->finalize = photos_base_item_finalize;
   object_class->get_property = photos_base_item_get_property;
