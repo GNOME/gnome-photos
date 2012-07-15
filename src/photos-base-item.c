@@ -61,6 +61,14 @@ enum
   PROP_TRIED_THUMBNAILING
 };
 
+enum
+{
+  INFO_UPDATED,
+  LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
 
 G_DEFINE_TYPE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT);
 
@@ -164,6 +172,8 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
     }
   else
     priv->icon = g_object_ref (icon);
+
+  g_signal_emit (self, signals[INFO_UPDATED], 0);
 
   g_object_unref (icon);
   g_list_free_full (emblem_icons, g_object_unref);
@@ -592,6 +602,17 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                                          "An attempt was made to create a thumbnail",
                                                          FALSE,
                                                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  signals[INFO_UPDATED] = g_signal_new ("info-updated",
+                                        G_TYPE_FROM_CLASS (class),
+                                        G_SIGNAL_RUN_LAST,
+                                        G_STRUCT_OFFSET (PhotosBaseItemClass,
+                                                         info_updated),
+                                        NULL, /* accumulator */
+                                        NULL, /* accu_data */
+                                        g_cclosure_marshal_VOID__VOID,
+                                        G_TYPE_NONE,
+                                        0);
 
   g_type_class_add_private (class, sizeof (PhotosBaseItemPrivate));
 }

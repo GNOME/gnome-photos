@@ -63,6 +63,9 @@ struct _PhotosBaseItemClass
   GObjectClass parent_class;
 
   void (*update_type_description) (PhotosBaseItem *self);
+
+  /* signals */
+  void (*info_updated) (PhotosBaseItem *self);
 };
 
 GType               photos_base_item_get_type           (void) G_GNUC_CONST;
