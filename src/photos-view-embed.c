@@ -24,6 +24,7 @@
 #include <clutter-gtk/clutter-gtk.h>
 #include <gtk/gtk.h>
 
+#include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
 #include "photos-selection-toolbar.h"
@@ -43,6 +44,7 @@ struct _PhotosViewEmbedPrivate
   GtkWidget *notebook;
   GtkWidget *scrolled_win_preview;
   GtkWidget *view;
+  PhotosBaseManager *item_mngr;
   PhotosMainToolbar *toolbar;
   PhotosSelectionToolbar *selection_toolbar;
   PhotosModeController *mode_cntrlr;
@@ -58,6 +60,23 @@ G_DEFINE_TYPE (PhotosViewEmbed, photos_view_embed, CLUTTER_TYPE_BOX);
 static void
 photos_view_embed_destroy_preview (PhotosViewEmbed *self)
 {
+}
+
+
+static void
+photos_view_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
+{
+  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
+  PhotosViewEmbedPrivate *priv = self->priv;
+
+  if (object == NULL)
+    return;
+
+  photos_view_embed_destroy_preview (self);
+
+  /* TODO: CollectionManager */
+
+  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
 }
 
 
@@ -112,8 +131,7 @@ photos_view_embed_prepare_for_overview (PhotosViewEmbed *self)
   gint view_page;
 
   photos_view_embed_destroy_preview (self);
-
-  /* TODO: DocumentManager */
+  photos_base_manager_set_active_object (priv->item_mngr, NULL);
 
   if (priv->view == NULL)
     {
@@ -260,6 +278,8 @@ photos_view_embed_dispose (GObject *object)
   PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (object);
   PhotosViewEmbedPrivate *priv = self->priv;
 
+  g_clear_object (&priv->item_mngr);
+
   if (priv->mode_cntrlr != NULL)
     {
       g_object_unref (priv->mode_cntrlr);
@@ -345,6 +365,9 @@ photos_view_embed_init (PhotosViewEmbed *self)
                     "fullscreen-changed",
                     G_CALLBACK (photos_view_embed_fullscreen_changed),
                     self);
+
+  priv->item_mngr = photos_item_manager_new ();
+  g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_view_embed_active_changed), self);
 }
 
 
