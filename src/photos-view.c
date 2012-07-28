@@ -43,7 +43,8 @@ G_DEFINE_TYPE (PhotosView, photos_view, GD_TYPE_MAIN_VIEW);
 static void
 photos_view_item_activated (GdMainView *main_view, const gchar * id, const GtkTreePath *path, gpointer user_data)
 {
-  /* TODO: DocumentManager */
+  PhotosView *self = PHOTOS_VIEW (main_view);
+  photos_base_manager_set_active_object_by_id (self->priv->item_mngr, id);
 }
 
 
