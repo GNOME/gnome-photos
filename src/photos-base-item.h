@@ -22,6 +22,7 @@
 #define PHOTOS_BASE_ITEM_H
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gio/gio.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -62,6 +63,7 @@ struct _PhotosBaseItemClass
 {
   GObjectClass parent_class;
 
+  GdkPixbuf *(*load) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   void (*update_type_description) (PhotosBaseItem *self);
 
   /* signals */
@@ -81,6 +83,13 @@ gint64              photos_base_item_get_mtime          (PhotosBaseItem *self);
 const gchar        *photos_base_item_get_name           (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_uri            (PhotosBaseItem *self);
+
+void                photos_base_item_load_async         (PhotosBaseItem *self,
+                                                         GCancellable *cancellable,
+                                                         GAsyncReadyCallback callback,
+                                                         gpointer user_data);
+
+GdkPixbuf          *photos_base_item_load_finish        (PhotosBaseItem *self, GAsyncResult *res, GError **error);
 
 G_END_DECLS
 

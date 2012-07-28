@@ -180,6 +180,28 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 }
 
 
+static GdkPixbuf *
+photos_base_item_default_load (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  GdkPixbuf *pixbuf = NULL;
+  GFile *file = NULL;
+  GFileInputStream *stream = NULL;
+
+  file = g_file_new_for_uri (priv->uri);
+  stream = g_file_read (file, cancellable, error);
+  if (stream == NULL)
+    goto out;
+
+  pixbuf = gdk_pixbuf_new_from_stream (G_INPUT_STREAM (stream), cancellable, error);
+
+ out:
+  g_clear_object (&stream);
+  g_clear_object (&file);
+  return pixbuf;
+}
+
+
 static void
 photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
@@ -343,6 +365,21 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
 
  out:
   g_object_unref (self);
+}
+
+
+static void
+photos_base_item_load_in_thread_func (GSimpleAsyncResult *simple, GObject *object, GCancellable *cancellable)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
+  GdkPixbuf *pixbuf;
+  GError *error = NULL;
+
+  pixbuf = PHOTOS_BASE_ITEM_GET_CLASS (self)->load (self, cancellable, &error);
+  if (error != NULL)
+    g_simple_async_result_take_error (simple, error);
+
+  g_simple_async_result_set_op_res_gpointer (simple, (gpointer) pixbuf, g_object_unref);
 }
 
 
@@ -574,6 +611,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
   object_class->finalize = photos_base_item_finalize;
   object_class->get_property = photos_base_item_get_property;
   object_class->set_property = photos_base_item_set_property;
+  class->load = photos_base_item_default_load;
   class->update_type_description = photos_base_item_update_type_description;
 
   g_object_class_install_property (object_class,
@@ -662,4 +700,48 @@ const gchar *
 photos_base_item_get_uri (PhotosBaseItem *self)
 {
   return self->priv->uri;
+}
+
+
+void
+photos_base_item_load_async (PhotosBaseItem *self,
+                             GCancellable *cancellable,
+                             GAsyncReadyCallback callback,
+                             gpointer user_data)
+{
+  GSimpleAsyncResult *simple;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+
+  simple = g_simple_async_result_new (G_OBJECT (self),
+                                      callback,
+                                      user_data,
+                                      photos_base_item_load_async);
+  g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+  g_simple_async_result_run_in_thread (simple,
+                                       photos_base_item_load_in_thread_func,
+                                       G_PRIORITY_DEFAULT,
+                                       cancellable);
+  g_object_unref (simple);
+}
+
+
+GdkPixbuf *
+photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT (res);
+  GdkPixbuf *ret_val = NULL;
+
+  g_return_val_if_fail (g_simple_async_result_is_valid (res, G_OBJECT (self), photos_base_item_load_async), NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  if (g_simple_async_result_propagate_error (simple, error))
+    goto out;
+
+  ret_val = GDK_PIXBUF (g_simple_async_result_get_op_res_gpointer (simple));
+  g_object_ref (ret_val);
+
+ out:
+  return ret_val;
 }
