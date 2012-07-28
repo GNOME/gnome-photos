@@ -42,7 +42,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
 {
   gboolean ret_val;
 
-  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object), FALSE);
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object) || object == NULL, FALSE);
 
   ret_val = PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->set_active_object (manager, object);
 
