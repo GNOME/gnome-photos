@@ -22,9 +22,11 @@
 #include "config.h"
 
 #include <clutter-gtk/clutter-gtk.h>
+#include <glib.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
+#include "photos-item-manager.h"
 #include "photos-organize-collection-dialog.h"
 #include "photos-selection-controller.h"
 #include "photos-selection-toolbar.h"
@@ -34,6 +36,7 @@
 struct _PhotosSelectionToolbarPrivate
 {
   ClutterActor *actor;
+  GHashTable *item_listeners;
   GtkToolItem *left_group;
   GtkToolItem *right_group;
   GtkToolItem *separator;
@@ -45,6 +48,7 @@ struct _PhotosSelectionToolbarPrivate
   GtkWidget *toolbar_print;
   GtkWidget *toolbar_trash;
   GtkWidget *widget;
+  PhotosBaseManager *item_mngr;
   PhotosSelectionController *sel_cntrlr;
   gboolean inside_refresh;
 };
@@ -110,6 +114,14 @@ photos_selection_toolbar_collection_clicked (GtkButton *button, gpointer user_da
 }
 
 
+static gboolean
+photos_selection_toolbar_disconnect_listeners_foreach (gpointer key, gpointer value, gpointer user_data)
+{
+  g_signal_handler_disconnect (value, GPOINTER_TO_UINT (key));
+  return TRUE;
+}
+
+
 static void
 photos_selection_toolbar_favourite_clicked (GtkButton *button, gpointer user_data)
 {
@@ -152,12 +164,6 @@ photos_selection_toolbar_print_clicked (GtkButton *button, gpointer user_data)
 
 
 static void
-photos_selection_toolbar_set_item_listeners (PhotosSelectionToolbar *self, GList *selection)
-{
-}
-
-
-static void
 photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 {
   PhotosSelectionToolbarPrivate *priv = self->priv;
@@ -167,6 +173,30 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   /* TODO: ... */
 
   priv->inside_refresh = FALSE;
+}
+
+
+static void
+photos_selection_toolbar_set_item_listeners (PhotosSelectionToolbar *self, GList *selection)
+{
+  PhotosSelectionToolbarPrivate *priv = self->priv;
+  GList *l;
+
+  g_hash_table_foreach_remove (priv->item_listeners, photos_selection_toolbar_disconnect_listeners_foreach, NULL);
+
+  for (l = g_list_first (selection); l != NULL; l = g_list_next (l))
+    {
+      GObject *object;
+      gchar *urn = (gchar *) l->data;
+      gulong id;
+
+      object = photos_base_manager_get_object_by_id (priv->item_mngr, urn);
+      id = g_signal_connect_swapped (object,
+                                     "info-updated",
+                                     G_CALLBACK (photos_selection_toolbar_set_item_visibility),
+                                     self);
+      g_hash_table_insert (priv->item_listeners, GUINT_TO_POINTER (id), g_object_ref (object));
+    }
 }
 
 
@@ -229,6 +259,14 @@ photos_selection_toolbar_dispose (GObject *object)
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (object);
   PhotosSelectionToolbarPrivate *priv = self->priv;
 
+  if (priv->item_listeners != NULL)
+    {
+      g_hash_table_unref (priv->item_listeners);
+      priv->item_listeners = NULL;
+    }
+
+  g_clear_object (&priv->item_mngr);
+
   if (priv->sel_cntrlr != NULL)
     {
       g_object_unref (priv->sel_cntrlr);
@@ -249,6 +287,8 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SELECTION_TOOLBAR, PhotosSelectionToolbarPrivate);
   priv = self->priv;
+
+  priv->item_listeners = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
 
   priv->widget = gtk_toolbar_new ();
   gtk_toolbar_set_show_arrow (GTK_TOOLBAR (priv->widget), FALSE);
@@ -335,6 +375,8 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
                     self);
 
   gtk_widget_show (priv->widget);
+
+  priv->item_mngr = photos_item_manager_new ();
 
   priv->sel_cntrlr = photos_selection_controller_new ();
   g_signal_connect (priv->sel_cntrlr,
