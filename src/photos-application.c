@@ -98,6 +98,7 @@ photos_application_startup (GApplication *application)
   GMenu *doc_actions;
   GMenu *menu;
   GSimpleAction *action;
+  GtkSettings *settings;
 
   G_APPLICATION_CLASS (photos_application_parent_class)
     ->startup (application);
@@ -107,6 +108,9 @@ photos_application_startup (GApplication *application)
       g_warning ("Unable to initialize Clutter");
       return;
     }
+
+  settings = gtk_settings_get_default ();
+  g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
 
