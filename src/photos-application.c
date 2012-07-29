@@ -35,7 +35,7 @@ struct _PhotosApplicationPrivate
 {
   GSimpleAction *fs_action;
   GtkWidget *main_window;
-  PhotosModeController *controller;
+  PhotosModeController *mode_cntrlr;
 };
 
 
@@ -49,13 +49,13 @@ photos_application_about (GSimpleAction *simple, GVariant *parameter, gpointer u
 
 
 static void
-photos_application_can_fullscreen_changed (PhotosModeController *controller, gpointer user_data)
+photos_application_can_fullscreen_changed (PhotosModeController *mode_cntrlr, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   PhotosApplicationPrivate *priv = self->priv;
   gboolean can_fullscreen;
 
-  can_fullscreen = photos_mode_controller_get_can_fullscreen (controller);
+  can_fullscreen = photos_mode_controller_get_can_fullscreen (mode_cntrlr);
   g_simple_action_set_enabled (priv->fs_action, can_fullscreen);
 }
 
@@ -66,7 +66,7 @@ photos_application_fullscreen (GSimpleAction *simple, GVariant *parameter, gpoin
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   PhotosApplicationPrivate *priv = self->priv;
 
-  photos_mode_controller_toggle_fullscreen (priv->controller);
+  photos_mode_controller_toggle_fullscreen (priv->mode_cntrlr);
 }
 
 
@@ -108,7 +108,7 @@ photos_application_startup (GApplication *application)
       return;
     }
 
-  priv->controller = photos_mode_controller_new ();
+  priv->mode_cntrlr = photos_mode_controller_new ();
 
   action = g_simple_action_new ("about", NULL);
   g_signal_connect (action, "activate", G_CALLBACK (photos_application_about), self);
@@ -119,7 +119,7 @@ photos_application_startup (GApplication *application)
   g_signal_connect (priv->fs_action, "activate", G_CALLBACK (photos_application_fullscreen), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->fs_action));
 
-  g_signal_connect (priv->controller,
+  g_signal_connect (priv->mode_cntrlr,
                     "can-fullscreen-changed",
                     G_CALLBACK (photos_application_can_fullscreen_changed),
                     self);
@@ -141,7 +141,7 @@ photos_application_startup (GApplication *application)
   gtk_application_set_app_menu (GTK_APPLICATION (self), G_MENU_MODEL (menu));
 
   priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
-  photos_mode_controller_set_window_mode (priv->controller, PHOTOS_WINDOW_MODE_OVERVIEW);
+  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
 }
 
 
@@ -175,10 +175,10 @@ photos_application_dispose (GObject *object)
       priv->fs_action = NULL;
     }
 
-  if (priv->controller != NULL)
+  if (priv->mode_cntrlr != NULL)
     {
-      g_object_unref (priv->controller);
-      priv->controller = NULL;
+      g_object_unref (priv->mode_cntrlr);
+      priv->mode_cntrlr = NULL;
     }
 
   G_OBJECT_CLASS (photos_application_parent_class)
