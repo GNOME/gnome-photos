@@ -23,12 +23,14 @@
 
 #include <glib.h>
 
+#include "photos-item-manager.h"
 #include "photos-selection-controller.h"
 
 
 struct _PhotosSelectionControllerPrivate
 {
   GList *selection;
+  PhotosBaseManager *item_mngr;
   gboolean is_frozen;
   gboolean selection_mode;
 };
@@ -44,6 +46,33 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE (PhotosSelectionController, photos_selection_controller, G_TYPE_OBJECT);
+
+
+static void
+photos_selection_controller_object_removed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
+{
+  PhotosSelectionController *self = PHOTOS_SELECTION_CONTROLLER (user_data);
+  PhotosSelectionControllerPrivate *priv = self->priv;
+  GList *l;
+  gboolean changed = FALSE;
+  gchar *id;
+
+  g_object_get (object, "id", &id, NULL);
+
+  l = g_list_find_custom (priv->selection, (gconstpointer) id, (GCompareFunc) g_strcmp0);
+  while (l != NULL)
+    {
+      changed = TRUE;
+      g_free (l->data);
+      priv->selection = g_list_delete_link (priv->selection, l);
+      l = g_list_find_custom (priv->selection, (gconstpointer) id, (GCompareFunc) g_strcmp0);
+    }
+
+  g_free (id);
+
+  if (changed)
+    g_signal_emit (self, signals[SELECTION_CHANGED], 0);
+}
 
 
 static GObject *
@@ -63,6 +92,17 @@ photos_selection_controller_constructor (GType                  type,
     }
 
   return g_object_ref (self);
+}
+
+
+static void
+photos_selection_controller_dispose (GObject *object)
+{
+  PhotosSelectionController *self = PHOTOS_SELECTION_CONTROLLER (object);
+
+  g_clear_object (&self->priv->item_mngr);
+
+  G_OBJECT_CLASS (photos_selection_controller_parent_class)->dispose (object);
 }
 
 
@@ -88,6 +128,12 @@ photos_selection_controller_init (PhotosSelectionController *self)
                                             PHOTOS_TYPE_SELECTION_CONTROLLER,
                                             PhotosSelectionControllerPrivate);
   priv = self->priv;
+
+  priv->item_mngr = photos_item_manager_new ();
+  g_signal_connect (priv->item_mngr,
+                    "object-removed",
+                    G_CALLBACK (photos_selection_controller_object_removed),
+                    self);
 }
 
 
@@ -97,6 +143,7 @@ photos_selection_controller_class_init (PhotosSelectionControllerClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructor = photos_selection_controller_constructor;
+  object_class->dispose = photos_selection_controller_dispose;
   object_class->finalize = photos_selection_controller_finalize;
 
   signals[SELECTION_CHANGED] = g_signal_new ("selection-changed",
