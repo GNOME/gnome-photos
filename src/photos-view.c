@@ -121,6 +121,7 @@ static void
 photos_view_init (PhotosView *self)
 {
   PhotosViewPrivate *priv;
+  gboolean status;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
                                             PHOTOS_TYPE_VIEW,
@@ -145,6 +146,9 @@ photos_view_init (PhotosView *self)
   priv->trk_cntrlr = photos_tracker_controller_new ();
   g_signal_connect (priv->trk_cntrlr, "query-status-changed", G_CALLBACK (photos_view_query_status_changed), self);
   photos_tracker_controller_start (priv->trk_cntrlr);
+
+  status = photos_tracker_controller_get_query_status (priv->trk_cntrlr);
+  photos_view_query_status_changed (priv->trk_cntrlr, status, self);
 
   gtk_widget_show (GTK_WIDGET (self));
 }
