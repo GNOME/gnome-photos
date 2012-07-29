@@ -31,7 +31,7 @@ gint
 main (gint argc, gchar *argv[])
 {
   GtkApplication *app;
-  gint exit_status;  
+  gint exit_status;
 
   bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
