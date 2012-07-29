@@ -51,6 +51,8 @@ struct _PhotosViewEmbedPrivate
   PhotosMainToolbar *toolbar;
   PhotosSelectionToolbar *selection_toolbar;
   PhotosModeController *mode_cntrlr;
+  gint preview_page;
+  gint view_page;
   gulong adjustment_changed_id;
   gulong adjustment_value_id;
   gulong scrollbar_visible_id;
@@ -160,7 +162,6 @@ photos_view_embed_prepare_for_overview (PhotosViewEmbed *self)
   PhotosViewEmbedPrivate *priv = self->priv;
   GtkAdjustment *vadjustment;
   GtkWidget *vscrollbar;
-  gint view_page;
 
   photos_view_embed_destroy_preview (self);
   photos_base_manager_set_active_object (priv->item_mngr, NULL);
@@ -177,7 +178,7 @@ photos_view_embed_prepare_for_overview (PhotosViewEmbed *self)
       /* TODO: LoadMoreButton */
 
       gtk_widget_show_all (grid);
-      view_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), grid, NULL);
+      priv->view_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), grid, NULL);
     }
 
   vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
@@ -197,7 +198,7 @@ photos_view_embed_prepare_for_overview (PhotosViewEmbed *self)
                                                  self);
 
   photos_view_embed_view_change (self);
-  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), view_page);
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->view_page);
 }
 
 
@@ -207,7 +208,6 @@ photos_view_embed_prepare_for_preview (PhotosViewEmbed *self)
   PhotosViewEmbedPrivate *priv = self->priv;
   GtkAdjustment *vadjustment;
   GtkWidget *vscrollbar;
-  gint preview_page;
 
   /* TODO: SearchController,
    *       ErrorHandler
@@ -245,12 +245,14 @@ photos_view_embed_prepare_for_preview (PhotosViewEmbed *self)
       context = gtk_widget_get_style_context (priv->scrolled_win_preview);
       gtk_style_context_add_class (context, "documents-scrolledwin");
       gtk_widget_show (priv->scrolled_win_preview);
-      preview_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->scrolled_win_preview, NULL);
+      priv->preview_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
+                                                     priv->scrolled_win_preview,
+                                                     NULL);
     }
   else
     photos_view_embed_destroy_preview_child (self);
 
-  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), preview_page);
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->preview_page);
 }
 
 
