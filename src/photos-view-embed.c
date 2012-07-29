@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <clutter-gtk/clutter-gtk.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
 
 #include "photos-item-manager.h"
@@ -41,6 +42,8 @@ struct _PhotosViewEmbedPrivate
   ClutterConstraint *width_constraint;
   ClutterLayoutManager *contents_layout;
   ClutterLayoutManager *view_layout;
+  GCancellable *loader_cancellable;
+  GdkPixbuf *pixbuf;
   GtkWidget *notebook;
   GtkWidget *scrolled_win_preview;
   GtkWidget *view;
@@ -60,6 +63,29 @@ G_DEFINE_TYPE (PhotosViewEmbed, photos_view_embed, CLUTTER_TYPE_BOX);
 static void
 photos_view_embed_destroy_preview (PhotosViewEmbed *self)
 {
+  PhotosViewEmbedPrivate *priv = self->priv;
+
+  if (priv->loader_cancellable != NULL)
+    {
+      g_cancellable_cancel (priv->loader_cancellable);
+      g_clear_object (&priv->loader_cancellable);
+    }
+}
+
+
+static void
+photos_view_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
+  PhotosViewEmbedPrivate *priv = self->priv;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+
+  g_clear_object (&priv->loader_cancellable);
+  priv->pixbuf = photos_base_item_load_finish (item, res, NULL);
+
+  /* TODO: set toolbar model, move out spinner box. */
+
+  photos_mode_controller_set_can_fullscreen (priv->mode_cntrlr, TRUE);
 }
 
 
@@ -77,6 +103,12 @@ photos_view_embed_active_changed (PhotosBaseManager *manager, GObject *object, g
   /* TODO: CollectionManager */
 
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
+
+  priv->loader_cancellable = g_cancellable_new ();
+  photos_base_item_load_async (PHOTOS_BASE_ITEM (object),
+                               priv->loader_cancellable,
+                               photos_view_embed_item_load,
+                               self);
 }
 
 
@@ -278,6 +310,8 @@ photos_view_embed_dispose (GObject *object)
   PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (object);
   PhotosViewEmbedPrivate *priv = self->priv;
 
+  g_clear_object (&priv->loader_cancellable);
+  g_clear_object (&priv->pixbuf);
   g_clear_object (&priv->item_mngr);
 
   if (priv->mode_cntrlr != NULL)
