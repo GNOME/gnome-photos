@@ -26,6 +26,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
+#include "photos-base-item.h"
 #include "photos-item-manager.h"
 #include "photos-organize-collection-dialog.h"
 #include "photos-selection-controller.h"
@@ -167,10 +168,89 @@ static void
 photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 {
   PhotosSelectionToolbarPrivate *priv = self->priv;
+  GList *apps = NULL;
+  GList *l;
+  GList *selection;
+  gboolean show_favorite = TRUE;
+  gboolean show_open = TRUE;
+  gboolean show_print = TRUE;
+  gboolean show_trash = TRUE;
+  gchar *open_label;
+  guint fav_count = 0;
+  guint apps_length;
+  guint sel_length;
 
   priv->inside_refresh = TRUE;
 
-  /* TODO: ... */
+  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  for (l = g_list_first (selection); l != NULL; l = g_list_next (l))
+    {
+      PhotosBaseItem *item;
+      const gchar *default_app_name;
+      const gchar *urn = (gchar *) l->data;
+
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
+
+      if (photos_base_item_is_favorite (item))
+        fav_count++;
+
+      default_app_name = photos_base_item_get_default_app_name (item);
+      if (default_app_name != NULL && g_list_find (apps, default_app_name) == NULL)
+        apps = g_list_prepend (apps, (gpointer) g_strdup (default_app_name));
+
+      show_trash = show_trash && photos_base_item_can_trash (item);
+      show_print = show_print && !photos_base_item_is_collection (item);
+    }
+
+  sel_length = g_list_length (selection);
+  show_favorite = show_favorite && ((fav_count == 0) || (fav_count == sel_length));
+
+  apps_length = g_list_length (apps);
+  show_open = (apps_length > 0);
+
+  if (sel_length > 1)
+    show_print = FALSE;
+
+  if (apps_length == 1)
+    /* Translators: this is the Open action in a context menu */
+    open_label = g_strdup_printf (_("Open with %s"), (gchar *) apps->data);
+  else
+    /* Translators: this is the Open action in a context menu */
+    open_label = g_strdup (_("Open"));
+
+  gtk_widget_set_tooltip_text (priv->toolbar_open, open_label);
+  g_free (open_label);
+  g_list_free_full (apps, g_free);
+
+  if (show_favorite)
+    {
+      GtkStyleContext *context;
+      gchar *favorite_label;
+
+      context = gtk_widget_get_style_context (priv->toolbar_favorite);
+
+      if (fav_count == sel_length)
+        {
+          favorite_label = g_strdup (_("Remove from favorites"));
+          gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->toolbar_favorite), TRUE);
+          gtk_style_context_add_class (context, "documents-favorite");
+        }
+      else
+        {
+          favorite_label = g_strdup (_("Add to favorites"));
+          gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->toolbar_favorite), FALSE);
+          gtk_style_context_remove_class (context, "documents-favorite");
+        }
+
+      gtk_widget_reset_style (priv->toolbar_favorite);
+      gtk_widget_set_tooltip_text (priv->toolbar_favorite, favorite_label);
+      g_free (favorite_label);
+    }
+
+  gtk_widget_set_visible (priv->toolbar_print, show_print);
+  gtk_widget_set_visible (priv->toolbar_trash, show_trash);
+  gtk_widget_set_visible (priv->toolbar_open, show_open);
+  gtk_widget_set_visible (priv->toolbar_favorite, show_favorite);
 
   priv->inside_refresh = FALSE;
 }
