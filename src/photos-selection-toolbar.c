@@ -454,7 +454,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
                     G_CALLBACK (photos_selection_toolbar_open_clicked),
                     self);
 
-  gtk_widget_show (priv->widget);
+  gtk_widget_show_all (priv->widget);
 
   priv->item_mngr = photos_item_manager_new ();
 
