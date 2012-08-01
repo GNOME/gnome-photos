@@ -43,7 +43,7 @@ struct _PhotosSelectionToolbarPrivate
   GtkWidget *left_box;
   GtkWidget *right_box;
   GtkWidget *toolbar_collection;
-  GtkWidget *toolbar_favourite;
+  GtkWidget *toolbar_favorite;
   GtkWidget *toolbar_open;
   GtkWidget *toolbar_print;
   GtkWidget *toolbar_trash;
@@ -123,7 +123,7 @@ photos_selection_toolbar_disconnect_listeners_foreach (gpointer key, gpointer va
 
 
 static void
-photos_selection_toolbar_favourite_clicked (GtkButton *button, gpointer user_data)
+photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
   PhotosSelectionToolbarPrivate *priv = self->priv;
@@ -309,14 +309,14 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   gtk_toolbar_insert (GTK_TOOLBAR (priv->widget), priv->left_group, -1);
   gtk_widget_show_all (GTK_WIDGET (priv->left_group));
 
-  priv->toolbar_favourite = gtk_toggle_button_new ();
+  priv->toolbar_favorite = gtk_toggle_button_new ();
   image = gtk_image_new_from_icon_name ("emblem-favorite-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 32);
-  gtk_container_add (GTK_CONTAINER (priv->toolbar_favourite), image);
-  gtk_container_add (GTK_CONTAINER (priv->left_box), priv->toolbar_favourite);
-  g_signal_connect (priv->toolbar_favourite,
+  gtk_container_add (GTK_CONTAINER (priv->toolbar_favorite), image);
+  gtk_container_add (GTK_CONTAINER (priv->left_box), priv->toolbar_favorite);
+  g_signal_connect (priv->toolbar_favorite,
                     "clicked",
-                    G_CALLBACK (photos_selection_toolbar_favourite_clicked),
+                    G_CALLBACK (photos_selection_toolbar_favorite_clicked),
                     self);
 
   priv->toolbar_print = gtk_button_new ();
