@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <string.h>
+
 #include <gio/gio.h>
 #include <glib.h>
 #include <tracker-sparql.h>
@@ -35,6 +37,7 @@ struct _PhotosBaseItemPrivate
   GdkPixbuf *icon;
   GdkPixbuf *pristine_icon;
   TrackerSparqlCursor *cursor;
+  gboolean collection;
   gboolean failed_thumbnailing;
   gboolean favorite;
   gboolean thumbnailed;
@@ -444,6 +447,18 @@ photos_base_item_refresh_icon (PhotosBaseItem *self)
 
 
 static void
+photos_base_item_update_info_from_type (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+
+  if (strstr (priv->rdf_type, "nfo#DataContainer") != NULL)
+    priv->collection = TRUE;
+
+  PHOTOS_BASE_ITEM_GET_CLASS (self)->update_type_description (self);
+}
+
+
+static void
 photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor)
 {
   PhotosBaseItemPrivate *priv = self->priv;
@@ -472,8 +487,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 
   priv->mime_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL));
   priv->rdf_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL));
-
-  PHOTOS_BASE_ITEM_GET_CLASS (self)->update_type_description (self);
+  photos_base_item_update_info_from_type (self);
 
   title = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_TITLE, NULL);
   if (title == NULL || title[0] == '\0')
@@ -661,6 +675,13 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
 }
 
 
+gboolean
+photos_base_item_can_trash (PhotosBaseItem *self)
+{
+  return self->priv->collection;
+}
+
+
 const gchar *
 photos_base_item_get_author (PhotosBaseItem *self)
 {
@@ -700,6 +721,21 @@ const gchar *
 photos_base_item_get_uri (PhotosBaseItem *self)
 {
   return self->priv->uri;
+}
+
+
+gchar *
+photos_base_item_get_where (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  gchar *ret_val;
+
+  if (priv->collection)
+    ret_val = g_strconcat ("{ ?urn nie:isPartOf <", priv->id, "> }", NULL);
+  else
+    ret_val = g_strdup ("");
+
+  return ret_val;
 }
 
 

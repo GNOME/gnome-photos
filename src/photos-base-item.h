@@ -72,6 +72,8 @@ struct _PhotosBaseItemClass
 
 GType               photos_base_item_get_type           (void) G_GNUC_CONST;
 
+gboolean            photos_base_item_can_trash          (PhotosBaseItem *self);
+
 const gchar        *photos_base_item_get_author         (PhotosBaseItem *self);
 
 GdkPixbuf          *photos_base_item_get_icon           (PhotosBaseItem *self);
@@ -83,6 +85,8 @@ gint64              photos_base_item_get_mtime          (PhotosBaseItem *self);
 const gchar        *photos_base_item_get_name           (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_uri            (PhotosBaseItem *self);
+
+gchar              *photos_base_item_get_where          (PhotosBaseItem *self);
 
 void                photos_base_item_load_async         (PhotosBaseItem *self,
                                                          GCancellable *cancellable,
