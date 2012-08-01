@@ -422,19 +422,27 @@ ClutterActor *
 photos_view_embed_new (ClutterBinLayout *layout)
 {
   PhotosViewEmbed *self;
+  PhotosViewEmbedPrivate *priv;
+  ClutterActor *toolbar_actor;
   ClutterLayoutManager *overlay_layout;
 
   g_return_val_if_fail (CLUTTER_IS_BIN_LAYOUT (layout), NULL);
   self = g_object_new (PHOTOS_TYPE_VIEW_EMBED, "layout-manager", CLUTTER_LAYOUT_MANAGER (layout), NULL);
+  priv = self->priv;
 
   /* "layout-manager" being a non-construct property we can not use
    * it from the constructed method :-(
    */
   overlay_layout = clutter_actor_get_layout_manager (CLUTTER_ACTOR (self));
   clutter_bin_layout_add (CLUTTER_BIN_LAYOUT (overlay_layout),
-                          self->priv->contents_actor,
+                          priv->contents_actor,
                           CLUTTER_BIN_ALIGNMENT_FILL,
                           CLUTTER_BIN_ALIGNMENT_FILL);
+  toolbar_actor = photos_selection_toolbar_get_actor (priv->selection_toolbar);
+  clutter_bin_layout_add (CLUTTER_BIN_LAYOUT (overlay_layout),
+                          toolbar_actor,
+                          CLUTTER_BIN_ALIGNMENT_FIXED,
+                          CLUTTER_BIN_ALIGNMENT_FIXED);
 
   return CLUTTER_ACTOR (self);
 }
