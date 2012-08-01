@@ -88,6 +88,10 @@ const gchar        *photos_base_item_get_uri            (PhotosBaseItem *self);
 
 gchar              *photos_base_item_get_where          (PhotosBaseItem *self);
 
+gboolean            photos_base_item_is_collection      (PhotosBaseItem *self);
+
+gboolean            photos_base_item_is_favorite        (PhotosBaseItem *self);
+
 void                photos_base_item_load_async         (PhotosBaseItem *self,
                                                          GCancellable *cancellable,
                                                          GAsyncReadyCallback callback,

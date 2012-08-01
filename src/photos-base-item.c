@@ -739,6 +739,20 @@ photos_base_item_get_where (PhotosBaseItem *self)
 }
 
 
+gboolean
+photos_base_item_is_collection (PhotosBaseItem *self)
+{
+  return self->priv->collection;
+}
+
+
+gboolean
+photos_base_item_is_favorite (PhotosBaseItem *self)
+{
+  return self->priv->favorite;
+}
+
+
 void
 photos_base_item_load_async (PhotosBaseItem *self,
                              GCancellable *cancellable,
