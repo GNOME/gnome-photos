@@ -21,12 +21,39 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
 #include <glib.h>
 
 #include "photos-local-item.h"
 
 
 G_DEFINE_TYPE (PhotosLocalItem, photos_local_item, PHOTOS_TYPE_BASE_ITEM);
+
+
+static void
+photos_local_item_constructed (GObject *object)
+{
+  PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (object);
+  PhotosLocalItemPrivate *priv = self->priv;
+  GAppInfo *default_app = NULL;
+  const gchar *default_app_name;
+  const gchar *mime_type;
+
+  G_OBJECT_CLASS (photos_local_item_parent_class)->constructed (object);
+
+  mime_type = photos_base_item_get_mime_type (PHOTOS_BASE_ITEM (self));
+  if (mime_type == NULL)
+    return;
+
+  default_app = g_app_info_get_default_for_type (mime_type, TRUE);
+  if (default_app == NULL)
+    return;
+
+  default_app_name = g_app_info_get_name (default_app);
+  photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), default_app_name);
+
+  g_object_unref (default_app);
+}
 
 
 static void
@@ -38,6 +65,9 @@ photos_local_item_init (PhotosLocalItem *self)
 static void
 photos_local_item_class_init (PhotosLocalItemClass *class)
 {
+  GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+  object_class->constructed= photos_local_item_constructed;
 }
 
 
