@@ -76,9 +76,13 @@ gboolean            photos_base_item_can_trash          (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_author         (PhotosBaseItem *self);
 
+const gchar        *photos_base_item_get_default_app_name (PhotosBaseItem *self);
+
 GdkPixbuf          *photos_base_item_get_icon           (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_id             (PhotosBaseItem *self);
+
+const gchar        *photos_base_item_get_mime_type      (PhotosBaseItem *self);
 
 gint64              photos_base_item_get_mtime          (PhotosBaseItem *self);
 
@@ -98,6 +102,8 @@ void                photos_base_item_load_async         (PhotosBaseItem *self,
                                                          gpointer user_data);
 
 GdkPixbuf          *photos_base_item_load_finish        (PhotosBaseItem *self, GAsyncResult *res, GError **error);
+
+void                photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *default_app_name);
 
 G_END_DECLS
 

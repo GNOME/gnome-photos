@@ -44,6 +44,7 @@ struct _PhotosBaseItemPrivate
   gboolean tried_thumbnailing;
   const gchar *thumb_path;
   gchar *author;
+  gchar *default_app_name;
   gchar *id;
   gchar *identifier;
   gchar *mime_type;
@@ -547,6 +548,7 @@ photos_base_item_finalize (GObject *object)
   PhotosBaseItemPrivate *priv = self->priv;
 
   g_free (priv->author);
+  g_free (priv->default_app_name);
   g_free (priv->id);
   g_free (priv->identifier);
   g_free (priv->mime_type);
@@ -689,6 +691,13 @@ photos_base_item_get_author (PhotosBaseItem *self)
 }
 
 
+const gchar *
+photos_base_item_get_default_app_name (PhotosBaseItem *self)
+{
+  return self->priv->default_app_name;
+}
+
+
 GdkPixbuf *
 photos_base_item_get_icon (PhotosBaseItem *self)
 {
@@ -700,6 +709,13 @@ const gchar *
 photos_base_item_get_id (PhotosBaseItem *self)
 {
   return self->priv->id;
+}
+
+
+const gchar *
+photos_base_item_get_mime_type (PhotosBaseItem *self)
+{
+  return self->priv->mime_type;
 }
 
 
@@ -794,4 +810,14 @@ photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
 
  out:
   return ret_val;
+}
+
+
+void
+photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *default_app_name)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+
+  g_free (priv->default_app_name);
+  priv->default_app_name = g_strdup (default_app_name);
 }
