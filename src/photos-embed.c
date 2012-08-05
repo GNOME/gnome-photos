@@ -25,6 +25,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
 
+#include "photos-embed.h"
 #include "photos-error-box.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
@@ -32,10 +33,9 @@
 #include "photos-selection-toolbar.h"
 #include "photos-tracker-controller.h"
 #include "photos-view.h"
-#include "photos-view-embed.h"
 
 
-struct _PhotosViewEmbedPrivate
+struct _PhotosEmbedPrivate
 {
   ClutterActor *background;
   ClutterActor *contents_actor;
@@ -62,14 +62,14 @@ struct _PhotosViewEmbedPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosViewEmbed, photos_view_embed, CLUTTER_TYPE_BOX);
+G_DEFINE_TYPE (PhotosEmbed, photos_embed, CLUTTER_TYPE_BOX);
 
 
 static void
-photos_view_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
-  PhotosViewEmbedPrivate *priv = self->priv;
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  PhotosEmbedPrivate *priv = self->priv;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
   g_clear_object (&priv->loader_cancellable);
@@ -82,10 +82,10 @@ photos_view_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer
 
 
 static void
-photos_view_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
+photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
-  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
-  PhotosViewEmbedPrivate *priv = self->priv;
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  PhotosEmbedPrivate *priv = self->priv;
 
   if (object == NULL)
     return;
@@ -97,51 +97,51 @@ photos_view_embed_active_changed (PhotosBaseManager *manager, GObject *object, g
   priv->loader_cancellable = g_cancellable_new ();
   photos_base_item_load_async (PHOTOS_BASE_ITEM (object),
                                priv->loader_cancellable,
-                               photos_view_embed_item_load,
+                               photos_embed_item_load,
                                self);
 }
 
 
 static void
-photos_view_embed_fullscreen_changed (PhotosModeController *mode_cntrlr, gboolean fullscreen, gpointer user_data)
+photos_embed_fullscreen_changed (PhotosModeController *mode_cntrlr, gboolean fullscreen, gpointer user_data)
 {
 }
 
 
 static void
-photos_view_embed_view_change (PhotosViewEmbed *self)
+photos_embed_view_change (PhotosEmbed *self)
 {
 }
 
 
 static void
-photos_view_embed_view_vadjustment_changed (GtkAdjustment *adjustment, gpointer user_data)
+photos_embed_view_vadjustment_changed (GtkAdjustment *adjustment, gpointer user_data)
 {
-  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
-  photos_view_embed_view_change (self);
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  photos_embed_view_change (self);
 }
 
 
 static void
-photos_view_embed_view_vadjustment_value_changed (GtkAdjustment *adjustment, gpointer user_data)
+photos_embed_view_vadjustment_value_changed (GtkAdjustment *adjustment, gpointer user_data)
 {
-  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
-  photos_view_embed_view_change (self);
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  photos_embed_view_change (self);
 }
 
 
 static void
-photos_view_embed_view_vscrolbar_notify_visible (GObject *object, GParamSpec *pspec, gpointer user_data)
+photos_embed_view_vscrolbar_notify_visible (GObject *object, GParamSpec *pspec, gpointer user_data)
 {
-  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
-  photos_view_embed_view_change (self);
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  photos_embed_view_change (self);
 }
 
 
 static void
-photos_view_embed_prepare_for_overview (PhotosViewEmbed *self)
+photos_embed_prepare_for_overview (PhotosEmbed *self)
 {
-  PhotosViewEmbedPrivate *priv = self->priv;
+  PhotosEmbedPrivate *priv = self->priv;
   GtkAdjustment *vadjustment;
   GtkWidget *vscrollbar;
 
@@ -173,28 +173,28 @@ photos_view_embed_prepare_for_overview (PhotosViewEmbed *self)
   vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
   priv->adjustment_changed_id = g_signal_connect (vadjustment,
                                                   "changed",
-                                                  G_CALLBACK (photos_view_embed_view_vadjustment_changed),
+                                                  G_CALLBACK (photos_embed_view_vadjustment_changed),
                                                   self);
   priv->adjustment_value_id = g_signal_connect (vadjustment,
                                                 "value-changed",
-                                                G_CALLBACK (photos_view_embed_view_vadjustment_value_changed),
+                                                G_CALLBACK (photos_embed_view_vadjustment_value_changed),
                                                 self);
 
   vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (priv->view));
   priv->scrollbar_visible_id = g_signal_connect (vscrollbar,
                                                  "notify::visible",
-                                                 G_CALLBACK (photos_view_embed_view_vscrolbar_notify_visible),
+                                                 G_CALLBACK (photos_embed_view_vscrolbar_notify_visible),
                                                  self);
 
-  photos_view_embed_view_change (self);
+  photos_embed_view_change (self);
   gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->view_page);
 }
 
 
 static void
-photos_view_embed_prepare_for_preview (PhotosViewEmbed *self)
+photos_embed_prepare_for_preview (PhotosEmbed *self)
 {
-  PhotosViewEmbedPrivate *priv = self->priv;
+  PhotosEmbedPrivate *priv = self->priv;
   GtkAdjustment *vadjustment;
   GtkWidget *vscrollbar;
 
@@ -244,10 +244,10 @@ photos_view_embed_prepare_for_preview (PhotosViewEmbed *self)
 
 
 void
-photos_view_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean querying, gpointer user_data)
+photos_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean querying, gpointer user_data)
 {
-  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
-  PhotosViewEmbedPrivate *priv = self->priv;
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  PhotosEmbedPrivate *priv = self->priv;
 
   if (querying)
     photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
@@ -255,9 +255,9 @@ photos_view_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gbo
 
 
 void
-photos_view_embed_set_error (PhotosViewEmbed *self, const gchar *primary, const gchar *secondary)
+photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *secondary)
 {
-  PhotosViewEmbedPrivate *priv = self->priv;
+  PhotosEmbedPrivate *priv = self->priv;
 
   photos_error_box_update (PHOTOS_ERROR_BOX (priv->error_box), primary, secondary);
   photos_error_box_move_in (PHOTOS_ERROR_BOX (priv->error_box));
@@ -265,9 +265,9 @@ photos_view_embed_set_error (PhotosViewEmbed *self, const gchar *primary, const 
 
 
 static void
-photos_view_embed_window_mode_change_flash (PhotosViewEmbed *self)
+photos_embed_window_mode_change_flash (PhotosEmbed *self)
 {
-  PhotosViewEmbedPrivate *priv = self->priv;
+  PhotosEmbedPrivate *priv = self->priv;
   ClutterAnimation *animation;
 
   clutter_actor_raise_top (priv->background);
@@ -279,28 +279,28 @@ photos_view_embed_window_mode_change_flash (PhotosViewEmbed *self)
 
 
 static void
-photos_view_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
+photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
                                        PhotosWindowMode mode,
                                        PhotosWindowMode old_mode,
                                        gpointer user_data)
 {
-  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
 
   if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
-    photos_view_embed_prepare_for_overview (self);
+    photos_embed_prepare_for_overview (self);
   else
-    photos_view_embed_prepare_for_preview (self);
+    photos_embed_prepare_for_preview (self);
 
   if (old_mode != PHOTOS_WINDOW_MODE_NONE)
-    photos_view_embed_window_mode_change_flash (self);
+    photos_embed_window_mode_change_flash (self);
 }
 
 
 static void
-photos_view_embed_dispose (GObject *object)
+photos_embed_dispose (GObject *object)
 {
-  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (object);
-  PhotosViewEmbedPrivate *priv = self->priv;
+  PhotosEmbed *self = PHOTOS_EMBED (object);
+  PhotosEmbedPrivate *priv = self->priv;
 
   g_clear_object (&priv->loader_cancellable);
   g_clear_object (&priv->pixbuf);
@@ -314,18 +314,18 @@ photos_view_embed_dispose (GObject *object)
 
   g_clear_object (&priv->trk_cntrlr);
 
-  G_OBJECT_CLASS (photos_view_embed_parent_class)->dispose (object);
+  G_OBJECT_CLASS (photos_embed_parent_class)->dispose (object);
 }
 
 
 static void
-photos_view_embed_init (PhotosViewEmbed *self)
+photos_embed_init (PhotosEmbed *self)
 {
-  PhotosViewEmbedPrivate *priv;
+  PhotosEmbedPrivate *priv;
   ClutterActor *toolbar_actor;
   ClutterColor color = {255, 255, 255, 255};
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_VIEW_EMBED, PhotosViewEmbedPrivate);
+  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_EMBED, PhotosEmbedPrivate);
   priv = self->priv;
 
   priv->contents_layout = clutter_box_layout_new ();
@@ -379,45 +379,45 @@ photos_view_embed_init (PhotosViewEmbed *self)
   priv->mode_cntrlr = photos_mode_controller_new ();
   g_signal_connect (priv->mode_cntrlr,
                     "window-mode-changed",
-                    G_CALLBACK (photos_view_embed_window_mode_changed),
+                    G_CALLBACK (photos_embed_window_mode_changed),
                     self);
   g_signal_connect (priv->mode_cntrlr,
                     "fullscreen-changed",
-                    G_CALLBACK (photos_view_embed_fullscreen_changed),
+                    G_CALLBACK (photos_embed_fullscreen_changed),
                     self);
 
   priv->trk_cntrlr = photos_tracker_controller_new ();
   g_signal_connect (priv->trk_cntrlr,
                     "query-status-changed",
-                    G_CALLBACK (photos_view_embed_query_status_changed),
+                    G_CALLBACK (photos_embed_query_status_changed),
                     self);
 
   priv->item_mngr = photos_item_manager_new ();
-  g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_view_embed_active_changed), self);
+  g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
 }
 
 
 static void
-photos_view_embed_class_init (PhotosViewEmbedClass *class)
+photos_embed_class_init (PhotosEmbedClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->dispose = photos_view_embed_dispose;
+  object_class->dispose = photos_embed_dispose;
 
-  g_type_class_add_private (class, sizeof (PhotosViewEmbedPrivate));
+  g_type_class_add_private (class, sizeof (PhotosEmbedPrivate));
 }
 
 
 ClutterActor *
-photos_view_embed_new (ClutterBinLayout *layout)
+photos_embed_new (ClutterBinLayout *layout)
 {
-  PhotosViewEmbed *self;
-  PhotosViewEmbedPrivate *priv;
+  PhotosEmbed *self;
+  PhotosEmbedPrivate *priv;
   ClutterActor *toolbar_actor;
   ClutterLayoutManager *overlay_layout;
 
   g_return_val_if_fail (CLUTTER_IS_BIN_LAYOUT (layout), NULL);
-  self = g_object_new (PHOTOS_TYPE_VIEW_EMBED, "layout-manager", CLUTTER_LAYOUT_MANAGER (layout), NULL);
+  self = g_object_new (PHOTOS_TYPE_EMBED, "layout-manager", CLUTTER_LAYOUT_MANAGER (layout), NULL);
   priv = self->priv;
 
   /* "layout-manager" being a non-construct property we can not use

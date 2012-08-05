@@ -33,6 +33,8 @@ gnome_photos_SOURCES = \
 	photos-base-item.h \
 	photos-collection-manager.c \
 	photos-collection-manager.h \
+	photos-embed.c \
+	photos-embed.h \
 	photos-error-box.c \
 	photos-error-box.h \
 	photos-filterable.c \
@@ -43,8 +45,6 @@ gnome_photos_SOURCES = \
 	photos-item-model.h \
 	photos-local-item.c \
 	photos-local-item.h \
-	photos-view-embed.c \
-	photos-view-embed.h \
 	photos-main-toolbar.c \
 	photos-main-toolbar.h \
 	photos-main-window.c \

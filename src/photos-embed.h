@@ -18,54 +18,54 @@
  * 02110-1301, USA.
  */
 
-#ifndef PHOTOS_VIEW_EMBED_H
-#define PHOTOS_VIEW_EMBED_H
+#ifndef PHOTOS_EMBED_H
+#define PHOTOS_EMBED_H
 
 #include <clutter/clutter.h>
 
 G_BEGIN_DECLS
 
-#define PHOTOS_TYPE_VIEW_EMBED (photos_view_embed_get_type ())
+#define PHOTOS_TYPE_EMBED (photos_embed_get_type ())
 
-#define PHOTOS_VIEW_EMBED(obj) \
+#define PHOTOS_EMBED(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_VIEW_EMBED, PhotosViewEmbed))
+   PHOTOS_TYPE_EMBED, PhotosEmbed))
 
-#define PHOTOS_VIEW_EMBED_CLASS(klass) \
+#define PHOTOS_EMBED_CLASS(klass) \
   (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_VIEW_EMBED, PhotosViewEmbedClass))
+   PHOTOS_TYPE_EMBED, PhotosEmbedClass))
 
-#define PHOTOS_IS_VIEW_EMBED(obj) \
+#define PHOTOS_IS_EMBED(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_VIEW_EMBED))
+   PHOTOS_TYPE_EMBED))
 
-#define PHOTOS_IS_VIEW_EMBED_CLASS(klass) \
+#define PHOTOS_IS_EMBED_CLASS(klass) \
   (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_VIEW_EMBED))
+   PHOTOS_TYPE_EMBED))
 
-#define PHOTOS_VIEW_EMBED_GET_CLASS(obj) \
+#define PHOTOS_EMBED_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_VIEW_EMBED, PhotosViewEmbedClass))
+   PHOTOS_TYPE_EMBED, PhotosEmbedClass))
 
-typedef struct _PhotosViewEmbed        PhotosViewEmbed;
-typedef struct _PhotosViewEmbedClass   PhotosViewEmbedClass;
-typedef struct _PhotosViewEmbedPrivate PhotosViewEmbedPrivate;
+typedef struct _PhotosEmbed        PhotosEmbed;
+typedef struct _PhotosEmbedClass   PhotosEmbedClass;
+typedef struct _PhotosEmbedPrivate PhotosEmbedPrivate;
 
-struct _PhotosViewEmbed
+struct _PhotosEmbed
 {
   ClutterBox parent_instance;
-  PhotosViewEmbedPrivate *priv;
+  PhotosEmbedPrivate *priv;
 };
 
-struct _PhotosViewEmbedClass
+struct _PhotosEmbedClass
 {
   ClutterBoxClass parent_class;
 };
 
-GType                  photos_view_embed_get_type               (void) G_GNUC_CONST;
+GType                  photos_embed_get_type               (void) G_GNUC_CONST;
 
-ClutterActor          *photos_view_embed_new                    (ClutterBinLayout *layout);
+ClutterActor          *photos_embed_new                    (ClutterBinLayout *layout);
 
 G_END_DECLS
 
-#endif /* PHOTOS_VIEW_EMBED_H */
+#endif /* PHOTOS_EMBED_H */

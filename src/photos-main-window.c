@@ -26,10 +26,10 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-embed.h"
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
 #include "photos-settings.h"
-#include "photos-view-embed.h"
 
 
 struct _PhotosMainWindowPrivate
@@ -304,7 +304,7 @@ photos_main_window_init (PhotosMainWindow *self)
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), priv->box);
 
   overlay_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
-  priv->embed = photos_view_embed_new (CLUTTER_BIN_LAYOUT (overlay_layout));
+  priv->embed = photos_embed_new (CLUTTER_BIN_LAYOUT (overlay_layout));
   clutter_container_add_actor (CLUTTER_CONTAINER (priv->box), priv->embed);
   clutter_box_layout_set_expand (CLUTTER_BOX_LAYOUT (priv->box_layout), priv->embed, TRUE);
   clutter_box_layout_set_fill (CLUTTER_BOX_LAYOUT (priv->box_layout), priv->embed, TRUE, TRUE);
