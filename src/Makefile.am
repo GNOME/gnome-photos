@@ -33,6 +33,8 @@ gnome_photos_SOURCES = \
 	photos-base-item.h \
 	photos-collection-manager.c \
 	photos-collection-manager.h \
+	photos-error-box.c \
+	photos-error-box.h \
 	photos-filterable.c \
 	photos-filterable.h \
 	photos-item-manager.c \
