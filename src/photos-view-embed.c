@@ -42,7 +42,6 @@ struct _PhotosViewEmbedPrivate
   ClutterActor *error_box;
   ClutterActor *notebook_actor;
   ClutterActor *view_actor;
-  ClutterConstraint *width_constraint;
   ClutterLayoutManager *contents_layout;
   ClutterLayoutManager *view_layout;
   GCancellable *loader_cancellable;
@@ -273,24 +272,6 @@ photos_view_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gbo
 }
 
 
-static void
-photos_view_embed_selection_toolbar_notify_width (GObject *object, GParamSpec *pspec, gpointer user_data)
-{
-  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
-  PhotosViewEmbedPrivate *priv = self->priv;
-  gfloat offset = 300.0;
-  gfloat width;
-
-  width = clutter_actor_get_width (priv->contents_actor);
-  if (width > 1000)
-    offset += (width - 1000);
-  else if (width < 600)
-    offset -= (600 - width);
-
-  clutter_bind_constraint_set_offset (CLUTTER_BIND_CONSTRAINT (priv->width_constraint), -1 * offset);
-}
-
-
 void
 photos_view_embed_set_error (PhotosViewEmbed *self, const gchar *primary, const gchar *secondary)
 {
@@ -361,7 +342,6 @@ photos_view_embed_init (PhotosViewEmbed *self)
   PhotosViewEmbedPrivate *priv;
   ClutterActor *toolbar_actor;
   ClutterColor color = {255, 255, 255, 255};
-  ClutterConstraint *constraint;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_VIEW_EMBED, PhotosViewEmbedPrivate);
   priv = self->priv;
@@ -412,21 +392,7 @@ photos_view_embed_init (PhotosViewEmbed *self)
    *       ...
    */
 
-  priv->selection_toolbar = photos_selection_toolbar_new();
-  toolbar_actor = photos_selection_toolbar_get_actor (priv->selection_toolbar);
-
-  priv->width_constraint = clutter_bind_constraint_new (priv->contents_actor, CLUTTER_BIND_WIDTH, -300.0);
-  clutter_actor_add_constraint (toolbar_actor, priv->width_constraint);
-  g_signal_connect (toolbar_actor,
-                    "notify::width",
-                    G_CALLBACK (photos_view_embed_selection_toolbar_notify_width),
-                    self);
-
-  constraint = clutter_align_constraint_new (priv->contents_actor, CLUTTER_ALIGN_X_AXIS, 0.50);
-  clutter_actor_add_constraint (toolbar_actor, constraint);
-
-  constraint = clutter_align_constraint_new (priv->contents_actor, CLUTTER_ALIGN_Y_AXIS, 0.95);
-  clutter_actor_add_constraint (toolbar_actor, constraint);
+  priv->selection_toolbar = photos_selection_toolbar_new (priv->contents_actor);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
   g_signal_connect (priv->mode_cntrlr,

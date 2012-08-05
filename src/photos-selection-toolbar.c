@@ -37,6 +37,8 @@
 struct _PhotosSelectionToolbarPrivate
 {
   ClutterActor *actor;
+  ClutterActor *parent_actor;
+  ClutterConstraint *width_constraint;
   GHashTable *item_listeners;
   GtkToolItem *left_group;
   GtkToolItem *right_group;
@@ -52,6 +54,12 @@ struct _PhotosSelectionToolbarPrivate
   PhotosBaseManager *item_mngr;
   PhotosSelectionController *sel_cntrlr;
   gboolean inside_refresh;
+};
+
+enum
+{
+  PROP_0,
+  PROP_PARENT_ACTOR
 };
 
 
@@ -139,6 +147,24 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
     {
       /* TODO: fave the doc */
     }
+}
+
+
+static void
+photos_selection_toolbar_notify_width (GObject *object, GParamSpec *pspec, gpointer user_data)
+{
+  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
+  PhotosSelectionToolbarPrivate *priv = self->priv;
+  gfloat offset = 300.0;
+  gfloat width;
+
+  width = clutter_actor_get_width (priv->parent_actor);
+  if (width > 1000)
+    offset += (width - 1000);
+  else if (width < 600)
+    offset -= (600 - width);
+
+  clutter_bind_constraint_set_offset (CLUTTER_BIND_CONSTRAINT (priv->width_constraint), -1 * offset);
 }
 
 
@@ -334,10 +360,33 @@ photos_selection_toolbar_trash_clicked (GtkButton *button, gpointer user_data)
 
 
 static void
+photos_selection_toolbar_constructed (GObject *object)
+{
+  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (object);
+  PhotosSelectionToolbarPrivate *priv = self->priv;
+  ClutterConstraint *constraint;
+
+  G_OBJECT_CLASS (photos_selection_toolbar_parent_class)->constructed (object);
+
+  priv->width_constraint = clutter_bind_constraint_new (priv->parent_actor, CLUTTER_BIND_WIDTH, -300.0);
+  clutter_actor_add_constraint (priv->actor, priv->width_constraint);
+  g_signal_connect (priv->actor, "notify::width", G_CALLBACK (photos_selection_toolbar_notify_width), self);
+
+  constraint = clutter_align_constraint_new (priv->parent_actor, CLUTTER_ALIGN_X_AXIS, 0.50);
+  clutter_actor_add_constraint (priv->actor, constraint);
+
+  constraint = clutter_align_constraint_new (priv->parent_actor, CLUTTER_ALIGN_Y_AXIS, 0.95);
+  clutter_actor_add_constraint (priv->actor, constraint);
+}
+
+
+static void
 photos_selection_toolbar_dispose (GObject *object)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (object);
   PhotosSelectionToolbarPrivate *priv = self->priv;
+
+  g_clear_object (&priv->parent_actor);
 
   if (priv->item_listeners != NULL)
     {
@@ -354,6 +403,24 @@ photos_selection_toolbar_dispose (GObject *object)
     }
 
   G_OBJECT_CLASS (photos_selection_toolbar_parent_class)->dispose (object);
+}
+
+
+static void
+photos_selection_toolbar_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (object);
+
+  switch (prop_id)
+    {
+    case PROP_PARENT_ACTOR:
+      self->priv->parent_actor = CLUTTER_ACTOR (g_value_dup_object (value));
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
 }
 
 
@@ -475,16 +542,27 @@ photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->constructed= photos_selection_toolbar_constructed;
   object_class->dispose = photos_selection_toolbar_dispose;
+  object_class->set_property = photos_selection_toolbar_set_property;
+
+  g_object_class_install_property (object_class,
+                                   PROP_PARENT_ACTOR,
+                                   g_param_spec_object ("parent-actor",
+                                                        "Parent actor",
+                                                        "A ClutterActor used for calculating the the alignment and "
+                                                        "width of the toolbar",
+                                                        CLUTTER_TYPE_ACTOR,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_type_class_add_private (class, sizeof (PhotosSelectionToolbarPrivate));
 }
 
 
 PhotosSelectionToolbar *
-photos_selection_toolbar_new (void)
+photos_selection_toolbar_new (ClutterActor *parent_actor)
 {
-  return g_object_new (PHOTOS_TYPE_SELECTION_TOOLBAR, NULL);
+  return g_object_new (PHOTOS_TYPE_SELECTION_TOOLBAR, "parent-actor", parent_actor, NULL);
 }
 
 

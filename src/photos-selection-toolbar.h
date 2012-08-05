@@ -64,10 +64,9 @@ struct _PhotosSelectionToolbarClass
 
 GType                     photos_selection_toolbar_get_type             (void) G_GNUC_CONST;
 
-PhotosSelectionToolbar   *photos_selection_toolbar_new                  (void);
+PhotosSelectionToolbar   *photos_selection_toolbar_new                  (ClutterActor *parent_actor);
 
 ClutterActor             *photos_selection_toolbar_get_actor            (PhotosSelectionToolbar *self);
-
 G_END_DECLS
 
 #endif /* PHOTOS_SELECTION_TOOLBAR_H */
