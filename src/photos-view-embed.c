@@ -25,10 +25,12 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
 
+#include "photos-error-box.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
 #include "photos-selection-toolbar.h"
+#include "photos-tracker-controller.h"
 #include "photos-view.h"
 #include "photos-view-embed.h"
 
@@ -37,6 +39,7 @@ struct _PhotosViewEmbedPrivate
 {
   ClutterActor *background;
   ClutterActor *contents_actor;
+  ClutterActor *error_box;
   ClutterActor *notebook_actor;
   ClutterActor *view_actor;
   ClutterConstraint *width_constraint;
@@ -51,6 +54,7 @@ struct _PhotosViewEmbedPrivate
   PhotosMainToolbar *toolbar;
   PhotosSelectionToolbar *selection_toolbar;
   PhotosModeController *mode_cntrlr;
+  PhotosTrackerController *trk_cntrlr;
   gint preview_page;
   gint view_page;
   gulong adjustment_changed_id;
@@ -166,6 +170,8 @@ photos_view_embed_prepare_for_overview (PhotosViewEmbed *self)
   photos_view_embed_destroy_preview (self);
   photos_base_manager_set_active_object (priv->item_mngr, NULL);
 
+  photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
+
   if (priv->view == NULL)
     {
       GtkWidget *grid;
@@ -256,6 +262,17 @@ photos_view_embed_prepare_for_preview (PhotosViewEmbed *self)
 }
 
 
+void
+photos_view_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean querying, gpointer user_data)
+{
+  PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
+  PhotosViewEmbedPrivate *priv = self->priv;
+
+  if (querying)
+    photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
+}
+
+
 static void
 photos_view_embed_selection_toolbar_notify_width (GObject *object, GParamSpec *pspec, gpointer user_data)
 {
@@ -271,6 +288,16 @@ photos_view_embed_selection_toolbar_notify_width (GObject *object, GParamSpec *p
     offset -= (600 - width);
 
   clutter_bind_constraint_set_offset (CLUTTER_BIND_CONSTRAINT (priv->width_constraint), -1 * offset);
+}
+
+
+void
+photos_view_embed_set_error (PhotosViewEmbed *self, const gchar *primary, const gchar *secondary)
+{
+  PhotosViewEmbedPrivate *priv = self->priv;
+
+  photos_error_box_update (PHOTOS_ERROR_BOX (priv->error_box), primary, secondary);
+  photos_error_box_move_in (PHOTOS_ERROR_BOX (priv->error_box));
 }
 
 
@@ -322,6 +349,8 @@ photos_view_embed_dispose (GObject *object)
       priv->mode_cntrlr = NULL;
     }
 
+  g_clear_object (&priv->trk_cntrlr);
+
   G_OBJECT_CLASS (photos_view_embed_parent_class)->dispose (object);
 }
 
@@ -365,6 +394,13 @@ photos_view_embed_init (PhotosViewEmbed *self)
 
   /* TODO: SpinnerBox */
 
+  priv->error_box = photos_error_box_new ();
+  clutter_bin_layout_add (CLUTTER_BIN_LAYOUT (priv->view_layout),
+                          priv->error_box,
+                          CLUTTER_BIN_ALIGNMENT_FILL,
+                          CLUTTER_BIN_ALIGNMENT_FILL);
+  clutter_actor_lower_bottom (priv->error_box);
+
   priv->background = clutter_rectangle_new_with_color (&color);
   clutter_bin_layout_add (CLUTTER_BIN_LAYOUT (priv->view_layout),
                           priv->background,
@@ -400,6 +436,12 @@ photos_view_embed_init (PhotosViewEmbed *self)
   g_signal_connect (priv->mode_cntrlr,
                     "fullscreen-changed",
                     G_CALLBACK (photos_view_embed_fullscreen_changed),
+                    self);
+
+  priv->trk_cntrlr = photos_tracker_controller_new ();
+  g_signal_connect (priv->trk_cntrlr,
+                    "query-status-changed",
+                    G_CALLBACK (photos_view_embed_query_status_changed),
                     self);
 
   priv->item_mngr = photos_item_manager_new ();
