@@ -66,19 +66,6 @@ G_DEFINE_TYPE (PhotosViewEmbed, photos_view_embed, CLUTTER_TYPE_BOX);
 
 
 static void
-photos_view_embed_destroy_preview (PhotosViewEmbed *self)
-{
-  PhotosViewEmbedPrivate *priv = self->priv;
-
-  if (priv->loader_cancellable != NULL)
-    {
-      g_cancellable_cancel (priv->loader_cancellable);
-      g_clear_object (&priv->loader_cancellable);
-    }
-}
-
-
-static void
 photos_view_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosViewEmbed *self = PHOTOS_VIEW_EMBED (user_data);
@@ -103,8 +90,6 @@ photos_view_embed_active_changed (PhotosBaseManager *manager, GObject *object, g
   if (object == NULL)
     return;
 
-  photos_view_embed_destroy_preview (self);
-
   /* TODO: CollectionManager */
 
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
@@ -114,12 +99,6 @@ photos_view_embed_active_changed (PhotosBaseManager *manager, GObject *object, g
                                priv->loader_cancellable,
                                photos_view_embed_item_load,
                                self);
-}
-
-
-static void
-photos_view_embed_destroy_preview_child (PhotosViewEmbed *self)
-{
 }
 
 
@@ -166,8 +145,13 @@ photos_view_embed_prepare_for_overview (PhotosViewEmbed *self)
   GtkAdjustment *vadjustment;
   GtkWidget *vscrollbar;
 
-  photos_view_embed_destroy_preview (self);
   photos_base_manager_set_active_object (priv->item_mngr, NULL);
+
+  if (priv->loader_cancellable != NULL)
+    {
+      g_cancellable_cancel (priv->loader_cancellable);
+      g_clear_object (&priv->loader_cancellable);
+    }
 
   photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
 
@@ -254,8 +238,6 @@ photos_view_embed_prepare_for_preview (PhotosViewEmbed *self)
                                                      priv->scrolled_win_preview,
                                                      NULL);
     }
-  else
-    photos_view_embed_destroy_preview_child (self);
 
   gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->preview_page);
 }
