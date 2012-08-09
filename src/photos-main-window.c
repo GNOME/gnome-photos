@@ -34,9 +34,7 @@
 
 struct _PhotosMainWindowPrivate
 {
-  ClutterActor *box;
-  ClutterActor *embed;
-  ClutterLayoutManager *box_layout;
+  GtkWidget *embed;
   GSettings *settings;
   GtkWidget *clutter_embed;
   PhotosModeController *controller;
@@ -254,7 +252,6 @@ photos_main_window_init (PhotosMainWindow *self)
   PhotosMainWindowPrivate *priv;
   ClutterActor *stage;
   ClutterConstraint *constraint;
-  ClutterLayoutManager *overlay_layout;
   GVariant *variant;
   gboolean maximized;
   const gint32 *position;
@@ -263,10 +260,6 @@ photos_main_window_init (PhotosMainWindow *self)
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_MAIN_WINDOW, PhotosMainWindowPrivate);
   priv = self->priv;
-
-  priv->clutter_embed = gtk_clutter_embed_new ();
-  gtk_container_add (GTK_CONTAINER (self), priv->clutter_embed);
-  gtk_widget_show (priv->clutter_embed);
 
   priv->settings = photos_settings_new ();
 
@@ -292,22 +285,8 @@ photos_main_window_init (PhotosMainWindow *self)
                     G_CALLBACK (photos_main_window_fullscreen_changed),
                     self);
 
-  stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (priv->clutter_embed));
-
-  priv->box_layout = clutter_box_layout_new ();
-  clutter_box_layout_set_vertical (CLUTTER_BOX_LAYOUT (priv->box_layout), TRUE);
-
-  priv->box = clutter_box_new (priv->box_layout);
-  constraint = clutter_bind_constraint_new (stage, CLUTTER_BIND_SIZE, 0.0);
-  clutter_actor_add_constraint (priv->box, constraint);
-
-  clutter_container_add_actor (CLUTTER_CONTAINER (stage), priv->box);
-
-  overlay_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
-  priv->embed = photos_embed_new (CLUTTER_BIN_LAYOUT (overlay_layout));
-  clutter_container_add_actor (CLUTTER_CONTAINER (priv->box), priv->embed);
-  clutter_box_layout_set_expand (CLUTTER_BOX_LAYOUT (priv->box_layout), priv->embed, TRUE);
-  clutter_box_layout_set_fill (CLUTTER_BOX_LAYOUT (priv->box_layout), priv->embed, TRUE, TRUE);
+  priv->embed = photos_embed_new ();
+  gtk_container_add (GTK_CONTAINER (self), priv->embed);
 }
 
 

@@ -21,7 +21,7 @@
 
 #include "config.h"
 
-#include <clutter-gtk/clutter-gtk.h>
+#include <clutter/clutter.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
 
@@ -62,7 +62,7 @@ struct _PhotosEmbedPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosEmbed, photos_embed, CLUTTER_TYPE_BOX);
+G_DEFINE_TYPE (PhotosEmbed, photos_embed, GTK_CLUTTER_TYPE_EMBED);
 
 
 static void
@@ -322,15 +322,31 @@ static void
 photos_embed_init (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv;
+  ClutterActor *actor;
+  ClutterActor *stage;
   ClutterActor *toolbar_actor;
+  ClutterBinLayout *overlay_layout;
   ClutterColor color = {255, 255, 255, 255};
+  ClutterConstraint *constraint;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_EMBED, PhotosEmbedPrivate);
   priv = self->priv;
 
+  overlay_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
+  actor = clutter_box_new (CLUTTER_LAYOUT_MANAGER (overlay_layout));
+
+  stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (self));
+  constraint = clutter_bind_constraint_new (stage, CLUTTER_BIND_SIZE, 0.0);
+  clutter_actor_add_constraint (actor, constraint);
+  clutter_container_add_actor (CLUTTER_CONTAINER (stage), actor);
+
   priv->contents_layout = clutter_box_layout_new ();
   clutter_box_layout_set_vertical (CLUTTER_BOX_LAYOUT (priv->contents_layout), TRUE);
   priv->contents_actor = clutter_box_new (priv->contents_layout);
+  clutter_bin_layout_add (overlay_layout,
+                          priv->contents_actor,
+                          CLUTTER_BIN_ALIGNMENT_FILL,
+                          CLUTTER_BIN_ALIGNMENT_FILL);
 
   priv->toolbar = photos_main_toolbar_new ();
   toolbar_actor = photos_main_toolbar_get_actor (priv->toolbar);
@@ -375,6 +391,11 @@ photos_embed_init (PhotosEmbed *self)
    */
 
   priv->selection_toolbar = photos_selection_toolbar_new (priv->contents_actor);
+  toolbar_actor = photos_selection_toolbar_get_actor (priv->selection_toolbar);
+  clutter_bin_layout_add (overlay_layout,
+                          toolbar_actor,
+                          CLUTTER_BIN_ALIGNMENT_FIXED,
+                          CLUTTER_BIN_ALIGNMENT_FIXED);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
   g_signal_connect (priv->mode_cntrlr,
@@ -394,6 +415,8 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->item_mngr = photos_item_manager_new ();
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
+
+  gtk_widget_show (GTK_WIDGET (self));
 }
 
 
@@ -408,31 +431,8 @@ photos_embed_class_init (PhotosEmbedClass *class)
 }
 
 
-ClutterActor *
-photos_embed_new (ClutterBinLayout *layout)
+GtkWidget *
+photos_embed_new (void)
 {
-  PhotosEmbed *self;
-  PhotosEmbedPrivate *priv;
-  ClutterActor *toolbar_actor;
-  ClutterLayoutManager *overlay_layout;
-
-  g_return_val_if_fail (CLUTTER_IS_BIN_LAYOUT (layout), NULL);
-  self = g_object_new (PHOTOS_TYPE_EMBED, "layout-manager", CLUTTER_LAYOUT_MANAGER (layout), NULL);
-  priv = self->priv;
-
-  /* "layout-manager" being a non-construct property we can not use
-   * it from the constructed method :-(
-   */
-  overlay_layout = clutter_actor_get_layout_manager (CLUTTER_ACTOR (self));
-  clutter_bin_layout_add (CLUTTER_BIN_LAYOUT (overlay_layout),
-                          priv->contents_actor,
-                          CLUTTER_BIN_ALIGNMENT_FILL,
-                          CLUTTER_BIN_ALIGNMENT_FILL);
-  toolbar_actor = photos_selection_toolbar_get_actor (priv->selection_toolbar);
-  clutter_bin_layout_add (CLUTTER_BIN_LAYOUT (overlay_layout),
-                          toolbar_actor,
-                          CLUTTER_BIN_ALIGNMENT_FIXED,
-                          CLUTTER_BIN_ALIGNMENT_FIXED);
-
-  return CLUTTER_ACTOR (self);
+  return g_object_new (PHOTOS_TYPE_EMBED, NULL);
 }
