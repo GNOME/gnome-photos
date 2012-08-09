@@ -59,6 +59,9 @@ photos_error_box_init (PhotosErrorBox *self)
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_ERROR_BOX, PhotosErrorBoxPrivate);
   priv = self->priv;
 
+  clutter_actor_set_x_expand (CLUTTER_ACTOR (self), TRUE);
+  clutter_actor_set_y_expand (CLUTTER_ACTOR (self), TRUE);
+
   widget = gtk_grid_new ();
   gtk_widget_set_halign (widget, GTK_ALIGN_CENTER);
   gtk_widget_set_hexpand (widget, TRUE);
@@ -113,8 +116,27 @@ photos_error_box_new (void)
 void
 photos_error_box_move_in (PhotosErrorBox *self)
 {
-  clutter_actor_raise_top (CLUTTER_ACTOR (self));
+  ClutterActor *parent;
+
+  parent = clutter_actor_get_parent (CLUTTER_ACTOR (self));
+  if (parent == NULL)
+    return;
+
+  clutter_actor_set_child_above_sibling (parent, CLUTTER_ACTOR (self), NULL);
   clutter_actor_animate (CLUTTER_ACTOR (self), CLUTTER_EASE_OUT_QUAD, 300, "opacity", 255, NULL);
+}
+
+
+void
+photos_error_box_move_out_completed (PhotosErrorBox *self)
+{
+  ClutterActor *parent;
+
+  parent = clutter_actor_get_parent (CLUTTER_ACTOR (self));
+  if (parent == NULL)
+    return;
+
+  clutter_actor_set_child_below_sibling (parent, CLUTTER_ACTOR (self), NULL);
 }
 
 
@@ -124,7 +146,7 @@ photos_error_box_move_out (PhotosErrorBox *self)
   ClutterAnimation *animation;
 
   animation = clutter_actor_animate (CLUTTER_ACTOR (self), CLUTTER_EASE_OUT_QUAD, 300, "opacity", 0, NULL);
-  g_signal_connect_swapped (animation, "completed", G_CALLBACK (clutter_actor_lower_bottom), self);
+  g_signal_connect_swapped (animation, "completed", G_CALLBACK (photos_error_box_move_out_completed), self);
 }
 
 

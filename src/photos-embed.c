@@ -265,16 +265,27 @@ photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *se
 
 
 static void
+photos_embed_window_mode_change_flash_completed (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+  clutter_actor_set_child_below_sibling (priv->view_actor, priv->background, NULL);
+}
+
+
+static void
 photos_embed_window_mode_change_flash (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
   ClutterAnimation *animation;
 
-  clutter_actor_raise_top (priv->background);
+  clutter_actor_set_child_above_sibling (priv->view_actor, priv->background, NULL);
   clutter_actor_set_opacity (priv->background, 255);
 
   animation = clutter_actor_animate (priv->background, CLUTTER_EASE_IN_QUAD, 200, "opacity", 0, NULL);
-  g_signal_connect_swapped (animation, "completed", G_CALLBACK (clutter_actor_lower_bottom), priv->background);
+  g_signal_connect_swapped (animation,
+                            "completed",
+                            G_CALLBACK (photos_embed_window_mode_change_flash_completed),
+                            self);
 }
 
 
@@ -354,7 +365,8 @@ photos_embed_init (PhotosEmbed *self)
   clutter_box_layout_set_fill (CLUTTER_BOX_LAYOUT (priv->contents_layout), toolbar_actor, TRUE, FALSE);
 
   priv->view_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
-  priv->view_actor = clutter_box_new (priv->view_layout);
+  priv->view_actor = clutter_actor_new ();
+  clutter_actor_set_layout_manager (priv->view_actor, priv->view_layout);
   clutter_box_layout_set_expand (CLUTTER_BOX_LAYOUT (priv->contents_layout), priv->view_actor, TRUE);
   clutter_box_layout_set_fill (CLUTTER_BOX_LAYOUT (priv->contents_layout), priv->view_actor, TRUE, TRUE);
   clutter_container_add_actor (CLUTTER_CONTAINER (priv->contents_actor), priv->view_actor);
@@ -365,26 +377,19 @@ photos_embed_init (PhotosEmbed *self)
   gtk_widget_show (priv->notebook);
 
   priv->notebook_actor = gtk_clutter_actor_new_with_contents (priv->notebook);
-  clutter_bin_layout_add (CLUTTER_BIN_LAYOUT (priv->view_layout),
-                          priv->notebook_actor,
-                          CLUTTER_BIN_ALIGNMENT_FILL,
-                          CLUTTER_BIN_ALIGNMENT_FILL);
+  clutter_actor_set_x_expand (priv->notebook_actor, TRUE);
+  clutter_actor_set_y_expand (priv->notebook_actor, TRUE);
+  clutter_actor_add_child (priv->view_actor, priv->notebook_actor);
 
   /* TODO: SpinnerBox */
 
   priv->error_box = photos_error_box_new ();
-  clutter_bin_layout_add (CLUTTER_BIN_LAYOUT (priv->view_layout),
-                          priv->error_box,
-                          CLUTTER_BIN_ALIGNMENT_FILL,
-                          CLUTTER_BIN_ALIGNMENT_FILL);
-  clutter_actor_lower_bottom (priv->error_box);
+  clutter_actor_insert_child_below (priv->view_actor, priv->error_box, NULL);
 
   priv->background = clutter_rectangle_new_with_color (&color);
-  clutter_bin_layout_add (CLUTTER_BIN_LAYOUT (priv->view_layout),
-                          priv->background,
-                          CLUTTER_BIN_ALIGNMENT_FILL,
-                          CLUTTER_BIN_ALIGNMENT_FILL);
-  clutter_actor_lower_bottom (priv->background);
+  clutter_actor_set_x_expand (priv->background, TRUE);
+  clutter_actor_set_y_expand (priv->background, TRUE);
+  clutter_actor_insert_child_below (priv->view_actor, priv->background, NULL);
 
   /* TODO: SearchBar.Dropdown,
    *       ...
