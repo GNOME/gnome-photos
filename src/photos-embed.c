@@ -343,6 +343,8 @@ photos_embed_init (PhotosEmbed *self)
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_EMBED, PhotosEmbedPrivate);
   priv = self->priv;
 
+  gtk_clutter_embed_set_use_layout_size (GTK_CLUTTER_EMBED (self), TRUE);
+
   overlay_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
   actor = clutter_box_new (CLUTTER_LAYOUT_MANAGER (overlay_layout));
 
