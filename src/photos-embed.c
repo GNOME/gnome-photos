@@ -340,7 +340,6 @@ photos_embed_init (PhotosEmbed *self)
   ClutterActor *stage;
   ClutterActor *toolbar_actor;
   ClutterLayoutManager *overlay_layout;
-  ClutterColor color = {255, 255, 255, 255};
   ClutterConstraint *constraint;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_EMBED, PhotosEmbedPrivate);
@@ -349,32 +348,33 @@ photos_embed_init (PhotosEmbed *self)
   gtk_clutter_embed_set_use_layout_size (GTK_CLUTTER_EMBED (self), TRUE);
 
   overlay_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
-  actor = clutter_box_new (overlay_layout);
+  actor = clutter_actor_new ();
+  clutter_actor_set_layout_manager (actor, overlay_layout);
 
   stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (self));
   constraint = clutter_bind_constraint_new (stage, CLUTTER_BIND_SIZE, 0.0);
   clutter_actor_add_constraint (actor, constraint);
-  clutter_container_add_actor (CLUTTER_CONTAINER (stage), actor);
+  clutter_actor_add_child (stage, actor);
 
   priv->contents_layout = clutter_box_layout_new ();
-  clutter_box_layout_set_vertical (CLUTTER_BOX_LAYOUT (priv->contents_layout), TRUE);
-  priv->contents_actor = clutter_box_new (priv->contents_layout);
-  clutter_bin_layout_add (overlay_layout,
-                          priv->contents_actor,
-                          CLUTTER_BIN_ALIGNMENT_FILL,
-                          CLUTTER_BIN_ALIGNMENT_FILL);
+  clutter_box_layout_set_orientation (CLUTTER_BOX_LAYOUT (priv->contents_layout), CLUTTER_ORIENTATION_VERTICAL);
+  priv->contents_actor = clutter_actor_new ();
+  clutter_actor_set_layout_manager (priv->contents_actor, priv->contents_layout);
+  clutter_actor_set_x_expand (priv->contents_actor, TRUE);
+  clutter_actor_set_y_expand (priv->contents_actor, TRUE);
+  clutter_actor_add_child (actor, priv->contents_actor);
 
   priv->toolbar = photos_main_toolbar_new ();
   toolbar_actor = photos_main_toolbar_get_actor (priv->toolbar);
-  clutter_container_add_actor (CLUTTER_CONTAINER (priv->contents_actor), toolbar_actor);
-  clutter_box_layout_set_fill (CLUTTER_BOX_LAYOUT (priv->contents_layout), toolbar_actor, TRUE, FALSE);
+  clutter_actor_set_x_expand (toolbar_actor, TRUE);
+  clutter_actor_add_child (priv->contents_actor, toolbar_actor);
 
   priv->view_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
   priv->view_actor = clutter_actor_new ();
   clutter_actor_set_layout_manager (priv->view_actor, priv->view_layout);
-  clutter_box_layout_set_expand (CLUTTER_BOX_LAYOUT (priv->contents_layout), priv->view_actor, TRUE);
-  clutter_box_layout_set_fill (CLUTTER_BOX_LAYOUT (priv->contents_layout), priv->view_actor, TRUE, TRUE);
-  clutter_container_add_actor (CLUTTER_CONTAINER (priv->contents_actor), priv->view_actor);
+  clutter_actor_set_x_expand (priv->view_actor, TRUE);
+  clutter_actor_set_y_expand (priv->view_actor, TRUE);
+  clutter_actor_add_child (priv->contents_actor, priv->view_actor);
 
   priv->grid = gtk_grid_new ();
   gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->grid), GTK_ORIENTATION_VERTICAL);
@@ -399,7 +399,8 @@ photos_embed_init (PhotosEmbed *self)
   priv->error_box = photos_error_box_new ();
   clutter_actor_insert_child_below (priv->view_actor, priv->error_box, NULL);
 
-  priv->background = clutter_rectangle_new_with_color (&color);
+  priv->background = clutter_actor_new ();
+  clutter_actor_set_background_color (priv->background, CLUTTER_COLOR_White);
   clutter_actor_set_x_expand (priv->background, TRUE);
   clutter_actor_set_y_expand (priv->background, TRUE);
   clutter_actor_insert_child_below (priv->view_actor, priv->background, NULL);
@@ -410,10 +411,7 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->selection_toolbar = photos_selection_toolbar_new (priv->contents_actor);
   toolbar_actor = photos_selection_toolbar_get_actor (priv->selection_toolbar);
-  clutter_bin_layout_add (overlay_layout,
-                          toolbar_actor,
-                          CLUTTER_BIN_ALIGNMENT_FIXED,
-                          CLUTTER_BIN_ALIGNMENT_FIXED);
+  clutter_actor_add_child (actor, toolbar_actor);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
   g_signal_connect (priv->mode_cntrlr,
