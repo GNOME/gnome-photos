@@ -40,14 +40,13 @@ struct _PhotosEmbedPrivate
   ClutterActor *background;
   ClutterActor *contents_actor;
   ClutterActor *error_box;
-  ClutterActor *notebook_actor;
+  ClutterActor *grid_actor;
+  ClutterActor *image_actor;
   ClutterActor *view_actor;
   ClutterLayoutManager *contents_layout;
   ClutterLayoutManager *view_layout;
   GCancellable *loader_cancellable;
-  GdkPixbuf *pixbuf;
-  GtkWidget *notebook;
-  GtkWidget *scrolled_win_preview;
+  GtkWidget *grid;
   GtkWidget *view;
   PhotosBaseManager *item_mngr;
   PhotosMainToolbar *toolbar;
@@ -70,10 +69,38 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
+  ClutterContent *image;
+  CoglPixelFormat pixel_format;
+  GdkPixbuf *pixbuf;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+  gboolean has_alpha;
+  gint height;
+  gint row_stride;
+  gint width;
+  guchar *pixels;
 
   g_clear_object (&priv->loader_cancellable);
-  priv->pixbuf = photos_base_item_load_finish (item, res, NULL);
+  pixbuf = photos_base_item_load_finish (item, res, NULL);
+  if (pixbuf == NULL)
+    return;
+
+  pixels = gdk_pixbuf_get_pixels (pixbuf);
+  has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
+  pixel_format = (has_alpha) ? COGL_PIXEL_FORMAT_RGBA_8888 : COGL_PIXEL_FORMAT_RGB_888;
+
+  width = gdk_pixbuf_get_width (pixbuf);
+  height = gdk_pixbuf_get_height (pixbuf);
+  row_stride = gdk_pixbuf_get_rowstride (pixbuf);
+
+  image = clutter_image_new ();
+  clutter_image_set_data (CLUTTER_IMAGE (image), pixels, pixel_format, width, height, row_stride, NULL);
+  g_object_unref (pixbuf);
+
+  clutter_actor_save_easing_state (priv->image_actor);
+  clutter_actor_set_content_gravity (priv->image_actor, CLUTTER_CONTENT_GRAVITY_RESIZE_ASPECT);
+  clutter_actor_restore_easing_state (priv->image_actor);
+  clutter_actor_set_content (priv->image_actor, image);
+  g_object_unref (image);
 
   /* TODO: set toolbar model, move out spinner box. */
 
@@ -157,17 +184,10 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
 
   if (priv->view == NULL)
     {
-      GtkWidget *grid;
-
-      grid = gtk_grid_new ();
-      gtk_orientable_set_orientation (GTK_ORIENTABLE (grid), GTK_ORIENTATION_VERTICAL);
       priv->view = photos_view_new ();
-      gtk_container_add (GTK_CONTAINER (grid), priv->view);
+      gtk_container_add (GTK_CONTAINER (priv->grid), priv->view);
 
       /* TODO: LoadMoreButton */
-
-      gtk_widget_show_all (grid);
-      priv->view_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), grid, NULL);
     }
 
   vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
@@ -187,7 +207,7 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
                                                  self);
 
   photos_embed_view_change (self);
-  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->view_page);
+  clutter_actor_set_child_above_sibling (priv->view_actor, priv->grid_actor, NULL);
 }
 
 
@@ -223,23 +243,7 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
       priv->scrollbar_visible_id = 0;
     }
 
-  if (priv->scrolled_win_preview == NULL)
-    {
-      GtkStyleContext *context;
-
-      priv->scrolled_win_preview = gtk_scrolled_window_new (NULL, NULL);
-      gtk_widget_set_hexpand (priv->scrolled_win_preview, TRUE);
-      gtk_widget_set_vexpand (priv->scrolled_win_preview, TRUE);
-      gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (priv->scrolled_win_preview), GTK_SHADOW_IN);
-      context = gtk_widget_get_style_context (priv->scrolled_win_preview);
-      gtk_style_context_add_class (context, "documents-scrolledwin");
-      gtk_widget_show (priv->scrolled_win_preview);
-      priv->preview_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
-                                                     priv->scrolled_win_preview,
-                                                     NULL);
-    }
-
-  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->preview_page);
+  clutter_actor_set_child_above_sibling (priv->view_actor, priv->image_actor, NULL);
 }
 
 
@@ -314,7 +318,6 @@ photos_embed_dispose (GObject *object)
   PhotosEmbedPrivate *priv = self->priv;
 
   g_clear_object (&priv->loader_cancellable);
-  g_clear_object (&priv->pixbuf);
   g_clear_object (&priv->item_mngr);
 
   if (priv->mode_cntrlr != NULL)
@@ -373,15 +376,23 @@ photos_embed_init (PhotosEmbed *self)
   clutter_box_layout_set_fill (CLUTTER_BOX_LAYOUT (priv->contents_layout), priv->view_actor, TRUE, TRUE);
   clutter_container_add_actor (CLUTTER_CONTAINER (priv->contents_actor), priv->view_actor);
 
-  priv->notebook = gtk_notebook_new ();
-  gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook), FALSE);
-  gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook), FALSE);
-  gtk_widget_show (priv->notebook);
+  priv->grid = gtk_grid_new ();
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->grid), GTK_ORIENTATION_VERTICAL);
+  gtk_widget_show_all (priv->grid);
 
-  priv->notebook_actor = gtk_clutter_actor_new_with_contents (priv->notebook);
-  clutter_actor_set_x_expand (priv->notebook_actor, TRUE);
-  clutter_actor_set_y_expand (priv->notebook_actor, TRUE);
-  clutter_actor_add_child (priv->view_actor, priv->notebook_actor);
+  priv->grid_actor = gtk_clutter_actor_new_with_contents (priv->grid);
+  clutter_actor_set_x_expand (priv->grid_actor, TRUE);
+  clutter_actor_set_y_expand (priv->grid_actor, TRUE);
+  clutter_actor_add_child (priv->view_actor, priv->grid_actor);
+
+  priv->image_actor = clutter_actor_new ();
+  clutter_actor_set_background_color (priv->image_actor, CLUTTER_COLOR_Black);
+  clutter_actor_set_content_scaling_filters (priv->image_actor,
+                                             CLUTTER_SCALING_FILTER_TRILINEAR,
+                                             CLUTTER_SCALING_FILTER_TRILINEAR);
+  clutter_actor_set_x_expand (priv->image_actor, TRUE);
+  clutter_actor_set_y_expand (priv->image_actor, TRUE);
+  clutter_actor_insert_child_below (priv->view_actor, priv->image_actor, NULL);
 
   /* TODO: SpinnerBox */
 
