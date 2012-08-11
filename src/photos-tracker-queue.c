@@ -61,9 +61,12 @@ struct _PhotosTrackerQueueData
 void
 photos_tracker_queue_data_free (PhotosTrackerQueueData *data)
 {
-  g_object_unref (data->cancellable);
+  g_clear_object (&data->cancellable);
   g_free (data->sparql);
-  (*data->destroy_data) (data->user_data);
+
+  if (data->destroy_data != NULL)
+    (*data->destroy_data) (data->user_data);
+
   g_slice_free (PhotosTrackerQueueData, data);
 }
 
