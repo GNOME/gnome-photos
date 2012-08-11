@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-15 23:46+0200\n"
-"PO-Revision-Date: 2012-07-15 23:47+0200\n"
+"POT-Creation-Date: 2012-08-11 23:51+0200\n"
+"PO-Revision-Date: 2012-08-11 23:52+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -58,17 +58,26 @@ msgstr "Maksymalizacja okna"
 msgid "Window maximized state"
 msgstr "Stan maksymalizacji okna"
 
-#: ../src/photos-application.c:135
+#: ../src/photos-application.c:139
 msgid "Fullscreen"
 msgstr "Pełny ekran"
 
-#: ../src/photos-application.c:138
+#: ../src/photos-application.c:142
 msgid "About Photos"
 msgstr "O menedżerze zdjęć"
 
-#: ../src/photos-application.c:139
+#: ../src/photos-application.c:143
 msgid "Quit"
 msgstr "Zakończ"
+
+#: ../src/photos-load-more-button.c:63
+msgid "Load 1 more photo"
+msgstr "Wczytaj następne zdjęcie"
+
+#: ../src/photos-load-more-button.c:65
+#, c-format
+msgid "Load %d more photos"
+msgstr "Wczytaj następne %d zdjęć"
 
 #: ../src/photos-main-toolbar.c:92
 msgid "Click on items to select them"
@@ -95,15 +104,34 @@ msgstr "Gotowe"
 msgid "All"
 msgstr "Wszystkie"
 
-#: ../src/photos-selection-toolbar.c:286
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-selection-toolbar.c:242
+#, c-format
+msgid "Open with %s"
+msgstr "Otwórz za pomocą %s"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-selection-toolbar.c:245
+msgid "Open"
+msgstr "Otwórz"
+
+#: ../src/photos-selection-toolbar.c:260
+msgid "Remove from favorites"
+msgstr "Usuń z ulubionych"
+
+#: ../src/photos-selection-toolbar.c:266
+msgid "Add to favorites"
+msgstr "Dodaj do ulubionych"
+
+#: ../src/photos-selection-toolbar.c:473
 msgid "Print"
 msgstr "Wydrukuj"
 
-#: ../src/photos-selection-toolbar.c:309
+#: ../src/photos-selection-toolbar.c:496
 msgid "Organize"
 msgstr "Organizuj"
 
-#: ../src/photos-selection-toolbar.c:320
+#: ../src/photos-selection-toolbar.c:507
 msgid "Delete"
 msgstr "Usuń"
 
