@@ -23,6 +23,7 @@
 
 #include "gd-main-view.h"
 #include "photos-item-manager.h"
+#include "photos-load-more-button.h"
 #include "photos-mode-controller.h"
 #include "photos-selection-controller.h"
 #include "photos-tracker-controller.h"
@@ -34,6 +35,7 @@ struct _PhotosViewContainerPrivate
 {
   GdMainView *view;
   GtkListStore *model;
+  GtkWidget *load_more;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosSelectionController *sel_cntrlr;
@@ -51,6 +53,34 @@ G_DEFINE_TYPE (PhotosViewContainer, photos_view_container, GTK_TYPE_GRID);
 static void
 photos_view_container_view_changed (PhotosViewContainer *self)
 {
+  PhotosViewContainerPrivate *priv = self->priv;
+  GtkAdjustment *vadjustment;
+  GtkWidget *vscrollbar;
+  gboolean end = FALSE;
+  gdouble page_size;
+  gdouble upper;
+  gdouble value;
+  gint reveal_area_height = 32;
+
+  vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (priv->view));
+  if (vscrollbar == NULL || !gtk_widget_get_visible (GTK_WIDGET (vscrollbar)))
+    {
+      photos_load_more_button_set_block (PHOTOS_LOAD_MORE_BUTTON (priv->load_more), TRUE);
+      return;
+    }
+
+  vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
+  page_size = gtk_adjustment_get_page_size (vadjustment);
+  upper = gtk_adjustment_get_upper (vadjustment);
+  value = gtk_adjustment_get_value (vadjustment);
+
+  /* Special case these values which happen at construction */
+  if ((gint) value == 0 && (gint) upper == 1 && (gint) page_size == 1)
+    end = FALSE;
+  else
+    end = !(value < (upper - page_size - reveal_area_height));
+
+  photos_load_more_button_set_block (PHOTOS_LOAD_MORE_BUTTON (priv->load_more), !end);
 }
 
 
@@ -231,6 +261,9 @@ photos_view_container_init (PhotosViewContainer *self)
 
   priv->view = gd_main_view_new (GD_MAIN_VIEW_ICON);
   gtk_container_add (GTK_CONTAINER (self), GTK_WIDGET (priv->view));
+
+  priv->load_more = photos_load_more_button_new ();
+  gtk_container_add (GTK_CONTAINER (self), priv->load_more);
 
   gtk_widget_show_all (GTK_WIDGET (self));
 
