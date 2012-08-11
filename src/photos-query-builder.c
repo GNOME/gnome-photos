@@ -85,13 +85,32 @@ static gchar *
 photos_query_builder_query (gboolean global, gint flags)
 {
   gchar *filter;
-  gchar *global_sparql;
   gchar *optional;
   gchar *sparql;
+  gchar *tail_sparql = NULL;
   gchar *tmp;
+  gchar *where_sparql;
 
   optional = photos_query_builder_optional ();
-  global_sparql = g_strconcat ("WHERE { ?urn a rdfs:Resource ", optional, NULL);
+  where_sparql = g_strconcat ("WHERE { ?urn a rdfs:Resource ", optional, NULL);
+
+  if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
+    {
+      if (global)
+        {
+          /* TODO: CollectionManager, etc.. */
+        }
+
+      filter = photos_query_builder_filter ();
+      tmp = where_sparql;
+      where_sparql = g_strconcat (where_sparql, filter, NULL);
+      g_free (tmp);
+      g_free (filter);
+    }
+
+  tmp = where_sparql;
+  where_sparql = g_strconcat (where_sparql, " }", NULL);
+  g_free (tmp);
 
   if (global)
     {
@@ -99,41 +118,12 @@ photos_query_builder_query (gboolean global, gint flags)
       gint offset;
       gint step;
 
-      if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
-        {
-          filter = photos_query_builder_filter ();
-          tmp = global_sparql;
-          global_sparql = g_strconcat (global_sparql, filter, NULL);
-          g_free (tmp);
-          g_free (filter);
-        }
-
       offset_cntrlr = photos_offset_controller_new ();
       offset = photos_offset_controller_get_offset (offset_cntrlr);
       step = photos_offset_controller_get_step (offset_cntrlr);
       g_object_unref (offset_cntrlr);
 
-      tmp = global_sparql;
-      global_sparql = g_strdup_printf ("%s } ORDER BY DESC (?mtime) LIMIT %d OFFSET %d",
-                                       global_sparql,
-                                       step,
-                                       offset);
-      g_free (tmp);
-    }
-  else
-    {
-      if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
-        {
-          filter = photos_query_builder_filter ();
-          tmp = global_sparql;
-          global_sparql = g_strconcat (global_sparql, filter, NULL);
-          g_free (tmp);
-          g_free (filter);
-        }
-
-      tmp = global_sparql;
-      global_sparql = g_strconcat (global_sparql, " }", NULL);
-      g_free (tmp);
+      tail_sparql = g_strdup_printf ("ORDER BY DESC (?mtime) LIMIT %d OFFSET %d", step, offset);
     }
 
   sparql = g_strconcat ("SELECT DISTINCT ?urn "
@@ -148,9 +138,11 @@ photos_query_builder_query (gboolean global, gint flags)
                         "nie:dataSource(?urn) "
                         "( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite } ) "
                         "( EXISTS { ?urn nco:contributor ?contributor FILTER ( ?contributor != ?creator ) } ) ",
-                        global_sparql,
+                        where_sparql,
+                        tail_sparql,
                         NULL);
-  g_free (global_sparql);
+  g_free (where_sparql);
+  g_free (tail_sparql);
   return sparql;
 }
 
