@@ -32,7 +32,7 @@
 #include "photos-mode-controller.h"
 #include "photos-selection-toolbar.h"
 #include "photos-tracker-controller.h"
-#include "photos-view.h"
+#include "photos-view-container.h"
 
 
 struct _PhotosEmbedPrivate
@@ -40,14 +40,13 @@ struct _PhotosEmbedPrivate
   ClutterActor *background;
   ClutterActor *contents_actor;
   ClutterActor *error_box;
-  ClutterActor *grid_actor;
   ClutterActor *image_actor;
+  ClutterActor *overview_actor;
   ClutterActor *view_actor;
   ClutterLayoutManager *contents_layout;
   ClutterLayoutManager *view_layout;
   GCancellable *loader_cancellable;
-  GtkWidget *grid;
-  GtkWidget *view;
+  GtkWidget *overview;
   PhotosBaseManager *item_mngr;
   PhotosMainToolbar *toolbar;
   PhotosSelectionToolbar *selection_toolbar;
@@ -55,9 +54,6 @@ struct _PhotosEmbedPrivate
   PhotosTrackerController *trk_cntrlr;
   gint preview_page;
   gint view_page;
-  gulong adjustment_changed_id;
-  gulong adjustment_value_id;
-  gulong scrollbar_visible_id;
 };
 
 
@@ -136,41 +132,9 @@ photos_embed_fullscreen_changed (PhotosModeController *mode_cntrlr, gboolean ful
 
 
 static void
-photos_embed_view_change (PhotosEmbed *self)
-{
-}
-
-
-static void
-photos_embed_view_vadjustment_changed (GtkAdjustment *adjustment, gpointer user_data)
-{
-  PhotosEmbed *self = PHOTOS_EMBED (user_data);
-  photos_embed_view_change (self);
-}
-
-
-static void
-photos_embed_view_vadjustment_value_changed (GtkAdjustment *adjustment, gpointer user_data)
-{
-  PhotosEmbed *self = PHOTOS_EMBED (user_data);
-  photos_embed_view_change (self);
-}
-
-
-static void
-photos_embed_view_vscrolbar_notify_visible (GObject *object, GParamSpec *pspec, gpointer user_data)
-{
-  PhotosEmbed *self = PHOTOS_EMBED (user_data);
-  photos_embed_view_change (self);
-}
-
-
-static void
 photos_embed_prepare_for_overview (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
-  GtkAdjustment *vadjustment;
-  GtkWidget *vscrollbar;
 
   photos_base_manager_set_active_object (priv->item_mngr, NULL);
 
@@ -181,33 +145,7 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
     }
 
   photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
-
-  if (priv->view == NULL)
-    {
-      priv->view = photos_view_new ();
-      gtk_container_add (GTK_CONTAINER (priv->grid), priv->view);
-
-      /* TODO: LoadMoreButton */
-    }
-
-  vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
-  priv->adjustment_changed_id = g_signal_connect (vadjustment,
-                                                  "changed",
-                                                  G_CALLBACK (photos_embed_view_vadjustment_changed),
-                                                  self);
-  priv->adjustment_value_id = g_signal_connect (vadjustment,
-                                                "value-changed",
-                                                G_CALLBACK (photos_embed_view_vadjustment_value_changed),
-                                                self);
-
-  vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (priv->view));
-  priv->scrollbar_visible_id = g_signal_connect (vscrollbar,
-                                                 "notify::visible",
-                                                 G_CALLBACK (photos_embed_view_vscrolbar_notify_visible),
-                                                 self);
-
-  photos_embed_view_change (self);
-  clutter_actor_set_child_above_sibling (priv->view_actor, priv->grid_actor, NULL);
+  clutter_actor_set_child_above_sibling (priv->view_actor, priv->overview_actor, NULL);
 }
 
 
@@ -215,33 +153,10 @@ static void
 photos_embed_prepare_for_preview (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
-  GtkAdjustment *vadjustment;
-  GtkWidget *vscrollbar;
 
   /* TODO: SearchController,
    *       ErrorHandler
    */
-
-  vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
-  vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (priv->view));
-
-  if (priv->adjustment_changed_id != 0)
-    {
-      g_signal_handler_disconnect (vadjustment, priv->adjustment_changed_id);
-      priv->adjustment_changed_id = 0;
-    }
-
-  if (priv->adjustment_value_id != 0)
-    {
-      g_signal_handler_disconnect (vadjustment, priv->adjustment_value_id);
-      priv->adjustment_value_id = 0;
-    }
-
-  if (priv->scrollbar_visible_id != 0)
-    {
-      g_signal_handler_disconnect (vscrollbar, priv->scrollbar_visible_id);
-      priv->scrollbar_visible_id = 0;
-    }
 
   clutter_actor_set_child_above_sibling (priv->view_actor, priv->image_actor, NULL);
 }
@@ -376,14 +291,11 @@ photos_embed_init (PhotosEmbed *self)
   clutter_actor_set_y_expand (priv->view_actor, TRUE);
   clutter_actor_add_child (priv->contents_actor, priv->view_actor);
 
-  priv->grid = gtk_grid_new ();
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->grid), GTK_ORIENTATION_VERTICAL);
-  gtk_widget_show_all (priv->grid);
-
-  priv->grid_actor = gtk_clutter_actor_new_with_contents (priv->grid);
-  clutter_actor_set_x_expand (priv->grid_actor, TRUE);
-  clutter_actor_set_y_expand (priv->grid_actor, TRUE);
-  clutter_actor_add_child (priv->view_actor, priv->grid_actor);
+  priv->overview = photos_view_container_new ();
+  priv->overview_actor = gtk_clutter_actor_new_with_contents (priv->overview);
+  clutter_actor_set_x_expand (priv->overview_actor, TRUE);
+  clutter_actor_set_y_expand (priv->overview_actor, TRUE);
+  clutter_actor_add_child (priv->view_actor, priv->overview_actor);
 
   priv->image_actor = clutter_actor_new ();
   clutter_actor_set_background_color (priv->image_actor, CLUTTER_COLOR_Black);

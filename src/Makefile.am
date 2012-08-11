@@ -85,8 +85,8 @@ gnome_photos_SOURCES = \
 	photos-tracker-queue.h \
 	photos-utils.c \
 	photos-utils.h \
-	photos-view.c \
-	photos-view.h \
+	photos-view-container.c \
+	photos-view-container.h \
 	photos-main.c \
 	$(NULL)
 
