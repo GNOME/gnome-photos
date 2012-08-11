@@ -43,6 +43,8 @@ gnome_photos_SOURCES = \
 	photos-item-manager.h \
 	photos-item-model.c \
 	photos-item-model.h \
+	photos-load-more-button.c \
+	photos-load-more-button.h \
 	photos-local-item.c \
 	photos-local-item.h \
 	photos-main-toolbar.c \
