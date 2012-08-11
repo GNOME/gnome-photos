@@ -149,6 +149,24 @@ photos_query_builder_query (gboolean global, gint flags)
 
 
 PhotosQuery *
+photos_query_builder_count_query (void)
+{
+  gchar *filter;
+  gchar *optional;
+  gchar *sparql;
+
+  filter = photos_query_builder_filter ();
+  optional = photos_query_builder_optional ();
+  sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) WHERE { ", optional, filter, " }", NULL);
+
+  g_free (optional);
+  g_free (filter);
+
+  return photos_query_new (sparql);
+}
+
+
+PhotosQuery *
 photos_query_builder_global_query (void)
 {
   gchar *sparql;
