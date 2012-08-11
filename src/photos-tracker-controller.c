@@ -121,12 +121,6 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
 
 
 static void
-photos_tracker_controller_offset_changed (PhotosOffsetController *offset_cntrlr, gint offset, gpointer user_data)
-{
-}
-
-
-static void
 photos_tracker_controller_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
@@ -167,6 +161,14 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
                                photos_tracker_controller_query_executed,
                                g_object_ref (self),
                                g_object_unref);
+}
+
+
+static void
+photos_tracker_controller_offset_changed (PhotosOffsetController *offset_cntrlr, gint offset, gpointer user_data)
+{
+  PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
+  photos_tracker_controller_perform_current_query (self);
 }
 
 
