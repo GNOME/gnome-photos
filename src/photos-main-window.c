@@ -42,7 +42,7 @@ struct _PhotosMainWindowPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosMainWindow, photos_main_window, GTK_TYPE_APPLICATION_WINDOW)
+G_DEFINE_TYPE (PhotosMainWindow, photos_main_window, GTK_TYPE_APPLICATION_WINDOW);
 
 
 enum

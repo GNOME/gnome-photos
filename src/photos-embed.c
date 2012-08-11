@@ -295,9 +295,9 @@ photos_embed_window_mode_change_flash (PhotosEmbed *self)
 
 static void
 photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
-                                       PhotosWindowMode mode,
-                                       PhotosWindowMode old_mode,
-                                       gpointer user_data)
+                                  PhotosWindowMode mode,
+                                  PhotosWindowMode old_mode,
+                                  gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
 
