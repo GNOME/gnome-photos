@@ -75,9 +75,12 @@ photos_tracker_controller_query_finished (PhotosTrackerController *self, GError 
 
   photos_tracker_controller_set_query_status (self, FALSE);
 
-  /* TODO: print error,
-   *       photos_offset_controller_reset_count (priv->offset_cntrlr)
-   */
+  if (error != NULL)
+    {
+      /* TODO: print error */
+    }
+  else
+    photos_offset_controller_reset_count (priv->offset_cntrlr);
 
   if (priv->query_queued)
     {
