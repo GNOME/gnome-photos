@@ -93,6 +93,7 @@ photos_query_builder_query (gboolean global, gint flags)
 
   optional = photos_query_builder_optional ();
   where_sparql = g_strconcat ("WHERE { ?urn a rdfs:Resource ", optional, NULL);
+  g_free (optional);
 
   if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
     {
