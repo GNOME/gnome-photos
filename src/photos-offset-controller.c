@@ -22,12 +22,16 @@
 #include "config.h"
 
 #include <glib.h>
+#include <tracker-sparql.h>
 
 #include "photos-offset-controller.h"
+#include "photos-query-builder.h"
+#include "photos-tracker-queue.h"
 
 
 struct _PhotosOffsetControllerPrivate
 {
+  PhotosTrackerQueue *queue;
   gint count;
   gint offset;
 };
@@ -51,6 +55,48 @@ enum
 };
 
 
+static void
+photos_offset_controller_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosOffsetController *self = PHOTOS_OFFSET_CONTROLLER (user_data);
+  PhotosOffsetControllerPrivate *priv = self->priv;
+  TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
+  gboolean valid;
+
+  valid = tracker_sparql_cursor_next_finish (cursor, res, NULL);
+  if (valid)
+    {
+      priv->count = (gint) tracker_sparql_cursor_get_integer (cursor, 0);
+      g_signal_emit (self, signals[COUNT_CHANGED], 0, priv->count);
+      return;
+    }
+
+  tracker_sparql_cursor_close (cursor);
+  g_object_unref (cursor);
+  g_object_unref (self);
+}
+
+
+static void
+photos_offset_controller_reset_count_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosOffsetController *self = PHOTOS_OFFSET_CONTROLLER (user_data);
+  TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
+  TrackerSparqlCursor *cursor;
+  GError *error;
+
+  error = NULL;
+  cursor = tracker_sparql_connection_query_finish (connection, res, &error);
+  if (error != NULL)
+    {
+      g_error_free (error);
+      return;
+    }
+
+  tracker_sparql_cursor_next_async (cursor, NULL, photos_offset_controller_cursor_next, g_object_ref (self));
+}
+
+
 static GObject *
 photos_offset_controller_constructor (GType                  type,
                                       guint                  n_construct_params,
@@ -72,6 +118,17 @@ photos_offset_controller_constructor (GType                  type,
 
 
 static void
+photos_offset_controller_dispose (GObject *object)
+{
+  PhotosOffsetController *self = PHOTOS_OFFSET_CONTROLLER (object);
+
+  g_clear_object (&self->priv->queue);
+
+  G_OBJECT_CLASS (photos_offset_controller_parent_class)->dispose (object);
+}
+
+
+static void
 photos_offset_controller_init (PhotosOffsetController *self)
 {
   PhotosOffsetControllerPrivate *priv;
@@ -80,6 +137,8 @@ photos_offset_controller_init (PhotosOffsetController *self)
                                             PHOTOS_TYPE_OFFSET_CONTROLLER,
                                             PhotosOffsetControllerPrivate);
   priv = self->priv;
+
+  priv->queue = photos_tracker_queue_new ();
 }
 
 
@@ -89,6 +148,7 @@ photos_offset_controller_class_init (PhotosOffsetControllerClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructor = photos_offset_controller_constructor;
+  object_class->dispose = photos_offset_controller_dispose;
 
   signals[COUNT_CHANGED] = g_signal_new ("count-changed",
                                          G_TYPE_FROM_CLASS (class),
@@ -126,6 +186,13 @@ photos_offset_controller_new (void)
 
 
 gint
+photos_offset_controller_get_count (PhotosOffsetController *self)
+{
+  return self->priv->count;
+}
+
+
+gint
 photos_offset_controller_get_offset (PhotosOffsetController *self)
 {
   return self->priv->offset;
@@ -154,6 +221,23 @@ photos_offset_controller_increase_offset (PhotosOffsetController *self)
 
   priv->offset += OFFSET_STEP;
   g_signal_emit (self, signals[OFFSET_CHANGED], 0, priv->offset);
+}
+
+
+void
+photos_offset_controller_reset_count (PhotosOffsetController *self)
+{
+  PhotosOffsetControllerPrivate *priv = self->priv;
+  PhotosQuery *query;
+
+  query = photos_query_builder_count_query ();
+  photos_tracker_queue_select (priv->queue,
+                               query->sparql,
+                               NULL,
+                               photos_offset_controller_reset_count_query_executed,
+                               g_object_ref (self),
+                               g_object_unref);
+  photos_query_free (query);
 }
 
 

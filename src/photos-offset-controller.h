@@ -69,6 +69,8 @@ GType                       photos_offset_controller_get_type           (void) G
 
 PhotosOffsetController     *photos_offset_controller_new                (void);
 
+gint                        photos_offset_controller_get_count          (PhotosOffsetController *self);
+
 gint                        photos_offset_controller_get_offset         (PhotosOffsetController *self);
 
 gint                        photos_offset_controller_get_remaining      (PhotosOffsetController *self);
@@ -76,6 +78,8 @@ gint                        photos_offset_controller_get_remaining      (PhotosO
 gint                        photos_offset_controller_get_step           (PhotosOffsetController *self);
 
 void                        photos_offset_controller_increase_offset    (PhotosOffsetController *self);
+
+void                        photos_offset_controller_reset_count        (PhotosOffsetController *self);
 
 void                        photos_offset_controller_reset_offset       (PhotosOffsetController *self);
 
