@@ -3,9 +3,33 @@ Photos - access, organize and share your photos on GNOME
 
 Bugs: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos
 Design: https://live.gnome.org/Design/Apps/Photos
+Download: http://download.gnome.org/sources/gnome-photos
+Git: http://git.gnome.org/browse/gnome-photos
 Website: http://projects.gnome.org/photos
 
-Download: http://download.gnome.org/sources/gnome-photos
+----
+
+Photos, like Documents, Music and Videos, is one of the core GNOME
+applications meant for find and reminding the user about her content.
+The internal architecture Photos is based on Documents -- the document
+manager application for GNOME, because they share similar UI/UX
+patterns and objectives.
+
+Points to remember while hacking on Photos:
+
++ Avoid unnecessary divergences from Documents. Valid exceptions
+  include changes needed to convert JavaScript idioms to their C
+  equivalents.
+
++ Share the same set of widgets as Documents, or the other core GNOME
+  applications, as much as possible.
+
++ Monitor changes in the Documents code base and clone them when
+  relevant.
+
++ Follow the GNU coding style. To accomodate longer class and method
+  names due to namespace prefixes, line lengths upto 120 characters
+  are allowed.
 
 ----
 
