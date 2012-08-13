@@ -79,6 +79,8 @@ gnome_photos_SOURCES = \
 	photos-source.h \
 	photos-source-manager.c \
 	photos-source-manager.h \
+	photos-spinner-box.c \
+	photos-spinner-box.h \
 	photos-tracker-controller.c \
 	photos-tracker-controller.h \
 	photos-tracker-queue.c \
