@@ -267,6 +267,7 @@ photos_embed_init (PhotosEmbed *self)
   ClutterActor *toolbar_actor;
   ClutterLayoutManager *overlay_layout;
   ClutterConstraint *constraint;
+  gboolean querying;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_EMBED, PhotosEmbedPrivate);
   priv = self->priv;
@@ -355,6 +356,9 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->item_mngr = photos_item_manager_new ();
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
+
+  querying = photos_tracker_controller_get_query_status (priv->trk_cntrlr);
+  photos_embed_query_status_changed (priv->trk_cntrlr, querying, self);
 
   gtk_widget_show (GTK_WIDGET (self));
 }
