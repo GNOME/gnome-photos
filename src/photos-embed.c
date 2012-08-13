@@ -31,6 +31,7 @@
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
 #include "photos-selection-toolbar.h"
+#include "photos-spinner-box.h"
 #include "photos-tracker-controller.h"
 #include "photos-view-container.h"
 
@@ -42,6 +43,7 @@ struct _PhotosEmbedPrivate
   ClutterActor *error_box;
   ClutterActor *image_actor;
   ClutterActor *overview_actor;
+  ClutterActor *spinner_box;
   ClutterActor *view_actor;
   ClutterLayoutManager *contents_layout;
   ClutterLayoutManager *view_layout;
@@ -98,8 +100,9 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
   clutter_actor_set_content (priv->image_actor, image);
   g_object_unref (image);
 
-  /* TODO: set toolbar model, move out spinner box. */
+  /* TODO: set toolbar model */
 
+  photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
   photos_mode_controller_set_can_fullscreen (priv->mode_cntrlr, TRUE);
 }
 
@@ -116,6 +119,7 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
   /* TODO: CollectionManager */
 
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
+  photos_spinner_box_move_in_delayed (PHOTOS_SPINNER_BOX (priv->spinner_box), 400);
 
   priv->loader_cancellable = g_cancellable_new ();
   photos_base_item_load_async (PHOTOS_BASE_ITEM (object),
@@ -144,7 +148,9 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
       g_clear_object (&priv->loader_cancellable);
     }
 
+  photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
   photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
+
   clutter_actor_set_child_above_sibling (priv->view_actor, priv->overview_actor, NULL);
 }
 
@@ -169,7 +175,12 @@ photos_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean
   PhotosEmbedPrivate *priv = self->priv;
 
   if (querying)
-    photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
+    {
+      photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
+      photos_spinner_box_move_in (PHOTOS_SPINNER_BOX (priv->spinner_box));
+    }
+  else
+    photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
 }
 
 
@@ -306,7 +317,8 @@ photos_embed_init (PhotosEmbed *self)
   clutter_actor_set_y_expand (priv->image_actor, TRUE);
   clutter_actor_insert_child_below (priv->view_actor, priv->image_actor, NULL);
 
-  /* TODO: SpinnerBox */
+  priv->spinner_box = photos_spinner_box_new ();
+  clutter_actor_insert_child_below (priv->view_actor, priv->spinner_box, NULL);
 
   priv->error_box = photos_error_box_new ();
   clutter_actor_insert_child_below (priv->view_actor, priv->error_box, NULL);
