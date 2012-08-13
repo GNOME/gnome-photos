@@ -157,7 +157,7 @@ photos_query_builder_count_query (void)
 
   filter = photos_query_builder_filter ();
   optional = photos_query_builder_optional ();
-  sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) WHERE { ", optional, filter, " }", NULL);
+  sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) WHERE { ?urn a rdfs:Resource ", optional, filter, " }", NULL);
 
   g_free (optional);
   g_free (filter);
