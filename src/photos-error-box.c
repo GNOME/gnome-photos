@@ -40,6 +40,19 @@ G_DEFINE_TYPE (PhotosErrorBox, photos_error_box, GTK_CLUTTER_TYPE_ACTOR);
 
 
 static void
+photos_error_box_move_out_completed (PhotosErrorBox *self)
+{
+  ClutterActor *parent;
+
+  parent = clutter_actor_get_parent (CLUTTER_ACTOR (self));
+  if (parent == NULL)
+    return;
+
+  clutter_actor_set_child_below_sibling (parent, CLUTTER_ACTOR (self), NULL);
+}
+
+
+static void
 photos_error_box_dispose (GObject *object)
 {
   PhotosErrorBox *self = PHOTOS_ERROR_BOX (object);
@@ -124,19 +137,6 @@ photos_error_box_move_in (PhotosErrorBox *self)
 
   clutter_actor_set_child_above_sibling (parent, CLUTTER_ACTOR (self), NULL);
   clutter_actor_animate (CLUTTER_ACTOR (self), CLUTTER_EASE_OUT_QUAD, 300, "opacity", 255, NULL);
-}
-
-
-void
-photos_error_box_move_out_completed (PhotosErrorBox *self)
-{
-  ClutterActor *parent;
-
-  parent = clutter_actor_get_parent (CLUTTER_ACTOR (self));
-  if (parent == NULL)
-    return;
-
-  clutter_actor_set_child_below_sibling (parent, CLUTTER_ACTOR (self), NULL);
 }
 
 
