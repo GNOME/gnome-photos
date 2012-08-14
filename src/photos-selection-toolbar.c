@@ -454,7 +454,6 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   priv->left_group = gtk_tool_item_new ();
   gtk_container_add (GTK_CONTAINER (priv->left_group), priv->left_box);
   gtk_toolbar_insert (GTK_TOOLBAR (priv->widget), priv->left_group, -1);
-  gtk_widget_show_all (GTK_WIDGET (priv->left_group));
 
   priv->toolbar_favorite = gtk_toggle_button_new ();
   image = gtk_image_new_from_icon_name ("emblem-favorite-symbolic", GTK_ICON_SIZE_INVALID);
@@ -487,7 +486,6 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   priv->right_group = gtk_tool_item_new ();
   gtk_container_add (GTK_CONTAINER (priv->right_group), priv->right_box);
   gtk_toolbar_insert (GTK_TOOLBAR (priv->widget), priv->right_group, -1);
-  gtk_widget_show_all (GTK_WIDGET (priv->right_group));
 
   priv->toolbar_collection = gtk_button_new ();
   image = gtk_image_new_from_icon_name ("list-add-symbolic", GTK_ICON_SIZE_INVALID);
