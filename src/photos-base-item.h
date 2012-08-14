@@ -64,6 +64,7 @@ struct _PhotosBaseItemClass
   GObjectClass parent_class;
 
   GdkPixbuf *(*load) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
+  void (*set_favorite) (PhotosBaseItem *self, gboolean favorite);
   void (*update_type_description) (PhotosBaseItem *self);
 
   /* signals */
@@ -104,6 +105,8 @@ void                photos_base_item_load_async         (PhotosBaseItem *self,
 GdkPixbuf          *photos_base_item_load_finish        (PhotosBaseItem *self, GAsyncResult *res, GError **error);
 
 void                photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *default_app_name);
+
+void                photos_base_item_set_favorite       (PhotosBaseItem *self, gboolean favorite);
 
 G_END_DECLS
 

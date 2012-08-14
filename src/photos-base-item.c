@@ -207,6 +207,13 @@ photos_base_item_default_load (PhotosBaseItem *self, GCancellable *cancellable, 
 
 
 static void
+photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
+{
+  photos_utils_set_favorite (self->priv->id, favorite);
+}
+
+
+static void
 photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
@@ -633,6 +640,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
   object_class->get_property = photos_base_item_get_property;
   object_class->set_property = photos_base_item_set_property;
   class->load = photos_base_item_default_load;
+  class->set_favorite = photos_base_item_default_set_favorite;
   class->update_type_description = photos_base_item_update_type_description;
 
   g_object_class_install_property (object_class,
@@ -825,4 +833,11 @@ photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *defaul
 
   g_free (priv->default_app_name);
   priv->default_app_name = g_strdup (default_app_name);
+}
+
+
+void
+photos_base_item_set_favorite (PhotosBaseItem *self, gboolean favorite)
+{
+  PHOTOS_BASE_ITEM_GET_CLASS (self)->set_favorite (self, favorite);
 }
