@@ -260,3 +260,28 @@ photos_tracker_queue_select (PhotosTrackerQueue *self,
   g_queue_push_tail (self->priv->queue, data);
   photos_tracker_queue_check (self);
 }
+
+
+void
+photos_tracker_queue_update (PhotosTrackerQueue *self,
+                             const gchar *sparql,
+                             GCancellable *cancellable,
+                             GAsyncReadyCallback callback,
+                             gpointer user_data,
+                             GDestroyNotify destroy_data)
+{
+  PhotosTrackerQueueData *data;
+
+  if (cancellable != NULL)
+    g_object_ref (cancellable);
+
+  data = photos_tracker_queue_data_new (sparql,
+                                        PHOTOS_TRACKER_QUERY_UPDATE,
+                                        cancellable,
+                                        callback,
+                                        user_data,
+                                        destroy_data);
+
+  g_queue_push_tail (self->priv->queue, data);
+  photos_tracker_queue_check (self);
+}

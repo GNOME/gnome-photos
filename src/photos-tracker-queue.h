@@ -73,6 +73,13 @@ void                   photos_tracker_queue_select                 (PhotosTracke
                                                                     gpointer user_data,
                                                                     GDestroyNotify destroy_data);
 
+void                   photos_tracker_queue_update                 (PhotosTrackerQueue *self,
+                                                                    const gchar *sparql,
+                                                                    GCancellable *cancellable,
+                                                                    GAsyncReadyCallback callback,
+                                                                    gpointer user_data,
+                                                                    GDestroyNotify destroy_data);
+
 G_END_DECLS
 
 #endif /* PHOTOS_TRACKER_QUEUE_H */
