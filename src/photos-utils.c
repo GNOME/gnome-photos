@@ -29,8 +29,10 @@
 #include <cairo.h>
 #include <glib.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
+#include <tracker-sparql.h>
 
 #include "gd-main-view.h"
+#include "photos-tracker-queue.h"
 #include "photos-utils.h"
 
 
@@ -347,4 +349,37 @@ photos_utils_queue_thumbnail_job_for_file_finish (GAsyncResult *res)
 {
   GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT (res);
   return g_simple_async_result_get_op_res_gboolean (simple);
+}
+
+
+static void
+photos_utils_set_favorite_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
+  const gchar *urn = (gchar *) user_data;
+  GError *error;
+
+  error = NULL;
+  tracker_sparql_connection_update_finish (connection, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to set the favorite property on %s: %s", urn, error->message);
+      g_error_free (error);
+    }
+}
+
+
+void
+photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
+{
+  PhotosTrackerQueue *queue;
+  gchar *sparql;
+
+  sparql = g_strdup_printf ("%s { <%s> nao:hasTag nao:predefined-tag-favorite }",
+                            (is_favorite) ? "INSERT OR REPLACE" : "DELETE",
+                            urn);
+
+  queue = photos_tracker_queue_new ();
+  photos_tracker_queue_update (queue, sparql, NULL, photos_utils_set_favorite_executed, g_strdup (urn), g_free);
+  g_object_unref (queue);
 }

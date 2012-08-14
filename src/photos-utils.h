@@ -54,6 +54,7 @@ void             photos_utils_queue_thumbnail_job_for_file_async (GFile *file,
 
 gboolean         photos_utils_queue_thumbnail_job_for_file_finish (GAsyncResult *res);
 
+void             photos_utils_set_favorite                (const gchar *urn, gboolean is_favorite);
 
 G_END_DECLS
 
