@@ -136,16 +136,13 @@ gnome_photos_LDADD = \
 if MAINTAINER_MODE
 
 CLEANFILES = \
+	$(gnome_photos_built_sources) \
+	stamp-photos-enums.h \
+	stamp-photos-marshalers.h \
 	xgen-etbc \
 	xgen-etbh \
 	xgen-tmc \
 	xgen-tmh \
-	$(NULL)
-
-DISTCLEANFILES = \
-	$(gnome_photos_built_sources) \
-	stamp-photos-enums.h \
-	stamp-photos-marshalers.h \
 	$(NULL)
 
 photos-enums.h: stamp-photos-enums.h

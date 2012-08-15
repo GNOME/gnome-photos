@@ -1,8 +1,9 @@
 SUBDIRS =
 
 desktopdir = $(datadir)/applications
-desktop_in_files = $(PACKAGE_TARNAME).desktop.in.in
-desktop_DATA = $(desktop_in_files:.desktop.in.in=.desktop)
+desktop_in_in_files = $(PACKAGE_TARNAME).desktop.in.in
+desktop_in_files = $(PACKAGE_TARNAME).desktop.in
+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
 gsettings_in_files = org.gnome.photos.gschema.xml.in
@@ -18,11 +19,15 @@ dist_icons_DATA = \
 @GSETTINGS_RULES@
 
 EXTRA_DIST = \
-	$(desktop_in_files) \
+	$(desktop_in_in_files) \
 	$(gsettings_in_files) \
 	$(NULL)
 
-DISTCLEANFILES = \
+CLEANFILES = \
 	$(desktop_DATA) \
 	$(gsettings_SCHEMAS) \
+	$(NULL)
+
+DISTCLEANFILES = \
+	$(desktop_in_files) \
 	$(NULL)
