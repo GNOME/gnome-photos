@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-about-data.h"
 #include "photos-embed.h"
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
@@ -317,4 +318,33 @@ photos_main_window_new (GtkApplication *application)
                        "title", _(PACKAGE_NAME),
                        "window-position", GTK_WIN_POS_CENTER,
                        NULL);
+}
+
+
+void
+photos_main_window_show_about (PhotosMainWindow *self)
+{
+  GtkWidget *about_dialog;
+
+  about_dialog = gtk_about_dialog_new ();
+  gtk_window_set_modal (GTK_WINDOW (about_dialog), TRUE);
+  gtk_window_set_transient_for (GTK_WINDOW (about_dialog), GTK_WINDOW (self));
+
+  gtk_about_dialog_set_artists (GTK_ABOUT_DIALOG (about_dialog), PHOTOS_ARTISTS);
+  gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG (about_dialog), PHOTOS_AUTHORS);
+  gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG (about_dialog),
+                                 _("Access, organize and share your photos on GNOME"));
+  gtk_about_dialog_set_copyright (GTK_ABOUT_DIALOG (about_dialog), "Copyright © 2012 Red Hat, Inc.");
+  gtk_about_dialog_set_license_type (GTK_ABOUT_DIALOG (about_dialog), GTK_LICENSE_GPL_2_0);
+  gtk_about_dialog_set_logo_icon_name (GTK_ABOUT_DIALOG (about_dialog), PACKAGE_TARNAME);
+  gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG (about_dialog), _(PACKAGE_NAME));
+  gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (about_dialog), _(PACKAGE_VERSION));
+  gtk_about_dialog_set_website (GTK_ABOUT_DIALOG (about_dialog), PACKAGE_URL);
+  gtk_about_dialog_set_wrap_license (GTK_ABOUT_DIALOG (about_dialog), TRUE);
+
+  /* Translators: Put your names here */
+  gtk_about_dialog_set_translator_credits (GTK_ABOUT_DIALOG (about_dialog), _("translator-credits"));
+
+  gtk_widget_show (about_dialog);
+  g_signal_connect (about_dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
 }

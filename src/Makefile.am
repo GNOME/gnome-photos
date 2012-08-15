@@ -1,6 +1,8 @@
 bin_PROGRAMS = gnome-photos
 
 gnome_photos_built_sources = \
+	photos-about-data.c \
+	photos-about-data.h \
 	photos-enums.c \
 	photos-enums.h \
 	photos-marshalers.c \
@@ -99,6 +101,7 @@ BUILT_SOURCES = \
 EXTRA_DIST = \
 	photos-enums.c.template \
 	photos-enums.h.template \
+	photos-generate-about.sh \
 	photos-marshalers.list \
 	$(null)
 
@@ -137,13 +140,41 @@ if MAINTAINER_MODE
 
 CLEANFILES = \
 	$(gnome_photos_built_sources) \
+	stamp-photos-about-data.h \
 	stamp-photos-enums.h \
 	stamp-photos-marshalers.h \
+	xgen-ac \
+	xgen-ah \
 	xgen-etbc \
 	xgen-etbh \
 	xgen-tmc \
 	xgen-tmh \
 	$(NULL)
+
+photos-about-data.h: stamp-photos-about-data.h
+	@true
+
+stamp-photos-about-data.h: $(top_srcdir)/ARTISTS $(top_srcdir)/AUTHORS
+	$(AM_V_GEN) ( \
+		cd $(srcdir) \
+		&& ( ./photos-generate-about \
+			--header $(top_srcdir) \
+                   ) >> xgen-ah \
+		&& ( cmp -s xgen-ah photos-about-data.h || cp xgen-ah photos-about-data.h ) \
+		&& rm -f xgen-ah \
+		&& echo timestamp > $(@F) \
+	)
+
+photos-about-data.c: $(top_srcdir)/ARTISTS $(top_srcdir)/AUTHORS
+	$(AM_V_GEN) ( \
+		cd $(srcdir) \
+		&& echo "#include \"photos-about-data.h\"" > xgen-ac \
+		&& ( ./photos-generate-about \
+			--body $(top_srcdir) \
+                   ) >> xgen-ac \
+		&& ( cmp -s xgen-ac photos-about-data.c || cp xgen-ac photos-about-data.c ) \
+		&& rm -f xgen-ac \
+	)
 
 photos-enums.h: stamp-photos-enums.h
 	@true

@@ -66,6 +66,8 @@ GType                  photos_main_window_get_type               (void) G_GNUC_C
 
 GtkWidget             *photos_main_window_new                    (GtkApplication *application);
 
+void                   photos_main_window_show_about             (PhotosMainWindow *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_MAIN_WINDOW_H */

@@ -43,12 +43,6 @@ G_DEFINE_TYPE (PhotosApplication, photos_application, GTK_TYPE_APPLICATION)
 
 
 static void
-photos_application_about (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
-{
-}
-
-
-static void
 photos_application_can_fullscreen_changed (PhotosModeController *mode_cntrlr, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
@@ -112,10 +106,11 @@ photos_application_startup (GApplication *application)
   settings = gtk_settings_get_default ();
   g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
 
+  priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
   priv->mode_cntrlr = photos_mode_controller_new ();
 
   action = g_simple_action_new ("about", NULL);
-  g_signal_connect (action, "activate", G_CALLBACK (photos_application_about), self);
+  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_main_window_show_about), priv->main_window);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
@@ -144,7 +139,6 @@ photos_application_startup (GApplication *application)
 
   gtk_application_set_app_menu (GTK_APPLICATION (self), G_MENU_MODEL (menu));
 
-  priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
 }
 

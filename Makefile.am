@@ -1,4 +1,4 @@
-SUBDIRS = data src po
+SUBDIRS = . data src po
 
 INTLTOOL_FILES = \
 	intltool-extract.in \
