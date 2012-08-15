@@ -138,7 +138,6 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
       size = (width > height) ? width : height;
 
       icon_info = gtk_icon_theme_lookup_by_gicon (theme, emblemed_icon, size, GTK_ICON_LOOKUP_FORCE_SIZE);
-      g_object_unref (theme);
 
       if (icon_info != NULL)
         {
