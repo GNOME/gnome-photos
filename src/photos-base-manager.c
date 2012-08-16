@@ -192,8 +192,7 @@ photos_base_manager_add_object (PhotosBaseManager *self, GObject *object)
 
   g_object_get (object, "id", &id, NULL);
 
-  g_object_ref (object);
-  g_hash_table_insert (self->priv->objects, (gpointer) id, object);
+  g_hash_table_insert (self->priv->objects, (gpointer) id, g_object_ref (object));
   g_signal_emit (self, signals[OBJECT_ADDED], 0, object);
 }
 
