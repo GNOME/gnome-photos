@@ -194,8 +194,8 @@ photos_tracker_change_monitor_update_iterator (PhotosTrackerChangeMonitor *self,
   gchar *sparql;
 
   sparql = g_strdup_printf ("SELECT tracker:uri(%" G_GINT32_FORMAT ") tracker:uri(%" G_GINT32_FORMAT ") {}",
-                            event->first,
-                            event->second);
+                            event->second,
+                            event->third);
 
   data = photos_tracker_change_monitor_query_data_new (self, is_delete);
 
@@ -211,6 +211,7 @@ photos_tracker_change_monitor_update_iterator (PhotosTrackerChangeMonitor *self,
 
 static void
 photos_tracker_change_monitor_graph_updated (TrackerResources *resource_service,
+                                             const gchar *class_name,
                                              GVariant *delete_events,
                                              GVariant *insert_events,
                                              gpointer user_data)
