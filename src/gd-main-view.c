@@ -577,7 +577,7 @@ gd_main_view_rebuild (GdMainView *self)
     self->priv->current_view = gd_main_list_view_new ();
 
   context = gtk_widget_get_style_context (self->priv->current_view);
-  gtk_style_context_add_class (context, "documents-main-view");
+  gtk_style_context_add_class (context, "content-view");
 
   gtk_container_add (GTK_CONTAINER (self), self->priv->current_view);
 
