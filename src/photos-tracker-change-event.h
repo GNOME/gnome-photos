@@ -40,6 +40,10 @@ PhotosTrackerChangeEvent  *photos_tracker_change_event_new        (const gchar *
 
 void                       photos_tracker_change_event_free       (PhotosTrackerChangeEvent *self);
 
+PhotosTrackerChangeEventType photos_tracker_change_event_get_type (PhotosTrackerChangeEvent *self);
+
+const gchar               *photos_tracker_change_event_get_urn    (PhotosTrackerChangeEvent *self);
+
 void                       photos_tracker_change_event_merge      (PhotosTrackerChangeEvent *self,
                                                                    PhotosTrackerChangeEvent *event);
 

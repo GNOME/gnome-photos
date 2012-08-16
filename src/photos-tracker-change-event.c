@@ -64,6 +64,20 @@ photos_tracker_change_event_new (const gchar *urn, const gchar *predicate, gbool
 }
 
 
+PhotosTrackerChangeEventType
+photos_tracker_change_event_get_type (PhotosTrackerChangeEvent *self)
+{
+  return self->type;
+}
+
+
+const gchar *
+photos_tracker_change_event_get_urn (PhotosTrackerChangeEvent *self)
+{
+  return self->urn;
+}
+
+
 void
 photos_tracker_change_event_merge (PhotosTrackerChangeEvent *self, PhotosTrackerChangeEvent *event)
 {
