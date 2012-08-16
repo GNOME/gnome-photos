@@ -199,7 +199,7 @@ photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
 
   photos_main_toolbar_clear_state_data (self);
   context = gtk_widget_get_style_context (priv->widget);
-  gtk_style_context_remove_class (context, "documents-selection-mode");
+  gtk_style_context_remove_class (context, "selection-mode");
   gtk_widget_reset_style (priv->widget);
   gd_main_toolbar_clear (GD_MAIN_TOOLBAR (priv->widget));
 }
@@ -295,10 +295,12 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
   GtkWidget *selection_button;
 
   context = gtk_widget_get_style_context (priv->widget);
-  gtk_style_context_add_class (context, "documents-selection-mode");
+  gtk_style_context_add_class (context, "selection-mode");
   gtk_widget_reset_style (priv->widget);
 
   selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget), NULL, _("Done"), FALSE);
+  context = gtk_widget_get_style_context (selection_button);
+  gtk_style_context_add_class (context, "suggested-action");
   g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_done_button_clicked), self);
 
   priv->selection_changed_id = g_signal_connect_swapped (priv->sel_cntrlr,
