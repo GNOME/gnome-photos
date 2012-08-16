@@ -68,7 +68,6 @@ photos_offset_controller_cursor_next (GObject *source_object, GAsyncResult *res,
     {
       priv->count = (gint) tracker_sparql_cursor_get_integer (cursor, 0);
       g_signal_emit (self, signals[COUNT_CHANGED], 0, priv->count);
-      return;
     }
 
   tracker_sparql_cursor_close (cursor);
