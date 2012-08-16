@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-11 23:51+0200\n"
-"PO-Revision-Date: 2012-08-11 23:52+0200\n"
+"POT-Creation-Date: 2012-08-16 20:15+0200\n"
+"PO-Revision-Date: 2012-08-16 20:17+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -58,15 +58,15 @@ msgstr "Maksymalizacja okna"
 msgid "Window maximized state"
 msgstr "Stan maksymalizacji okna"
 
-#: ../src/photos-application.c:139
+#: ../src/photos-application.c:134
 msgid "Fullscreen"
 msgstr "Pełny ekran"
 
-#: ../src/photos-application.c:142
+#: ../src/photos-application.c:137
 msgid "About Photos"
 msgstr "O menedżerze zdjęć"
 
-#: ../src/photos-application.c:143
+#: ../src/photos-application.c:138
 msgid "Quit"
 msgstr "Zakończ"
 
@@ -100,41 +100,54 @@ msgstr "Wybór elementów"
 msgid "Done"
 msgstr "Gotowe"
 
+#: ../src/photos-main-window.c:336
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Dostęp, organizowanie i współdzielenie zdjęć w środowisku GNOME"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:346
+msgid "translator-credits"
+msgstr "Aviary.pl <gnomepl@aviary.pl>, 2012"
+
 #: ../src/photos-search-type-manager.c:59 ../src/photos-source-manager.c:127
 msgid "All"
 msgstr "Wszystkie"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:242
+#: ../src/photos-selection-toolbar.c:248
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą %s"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:245
+#: ../src/photos-selection-toolbar.c:251
 msgid "Open"
 msgstr "Otwórz"
 
-#: ../src/photos-selection-toolbar.c:260
+#: ../src/photos-selection-toolbar.c:266
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../src/photos-selection-toolbar.c:266
+#: ../src/photos-selection-toolbar.c:272
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
 
-#: ../src/photos-selection-toolbar.c:473
+#: ../src/photos-selection-toolbar.c:478
 msgid "Print"
 msgstr "Wydrukuj"
 
-#: ../src/photos-selection-toolbar.c:496
+#: ../src/photos-selection-toolbar.c:500
 msgid "Organize"
 msgstr "Organizuj"
 
-#: ../src/photos-selection-toolbar.c:507
+#: ../src/photos-selection-toolbar.c:511
 msgid "Delete"
 msgstr "Usuń"
 
 #: ../src/photos-source-manager.c:131
 msgid "Local"
 msgstr "Lokalne"
+
+#: ../src/photos-spinner-box.c:123
+msgid "Loading..."
+msgstr "Wczytywanie..."
