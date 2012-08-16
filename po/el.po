@@ -1,0 +1,153 @@
+# Greek translation for gnome-photos.
+# Copyright (C) 2012 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Tom Tryfonidis <tomtryf@gmail.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-08-16 20:15+0200\n"
+"PO-Revision-Date: 2012-08-17 01:21+0200\n"
+"Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
+"Language-Team: Greek <team@gnome.gr>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/gnome-photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:64
+msgid "Photos"
+msgstr "Φωτογραφίες"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Προσεγγίστε, οργανώστε και μοιραστείτε τις φωτογραφίες σας"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Φωτογραφίες;Εικόνες;Photos;Pictures;"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "Μέγεθος παραθύρου"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "Μέγεθος παραθύρου (πλάτος και ύψος)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "Θέση παραθύρου"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "Θέση παραθύρου (x και y)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "Μεγιστοποιημένο παράθυρο"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "Κατάσταση μεγιστοποιημένου παραθύρου"
+
+#: ../src/photos-application.c:134
+msgid "Fullscreen"
+msgstr "Πλήρης οθόνη"
+
+#: ../src/photos-application.c:137
+msgid "About Photos"
+msgstr "Περί του Φωτογραφίες"
+
+#: ../src/photos-application.c:138
+msgid "Quit"
+msgstr "Έξοδος"
+
+#: ../src/photos-load-more-button.c:63
+msgid "Load 1 more photo"
+msgstr "Φόρτωση μιας ακόμα φωτογραφίας"
+
+#: ../src/photos-load-more-button.c:65
+#, c-format
+msgid "Load %d more photos"
+msgstr "Φόρτωση %d ακόμα φωτογραφιών"
+
+#: ../src/photos-main-toolbar.c:92
+msgid "Click on items to select them"
+msgstr "Κάντε κλικ στα αντικείμενα για να τα επιλέξετε "
+
+#: ../src/photos-main-toolbar.c:94
+#, c-format
+msgid "%d selected"
+msgstr "%d επιλέχθηκαν"
+
+#: ../src/photos-main-toolbar.c:150 ../src/photos-main-toolbar.c:285
+msgid "Back"
+msgstr "Πίσω"
+
+#: ../src/photos-main-toolbar.c:261
+msgid "Select Items"
+msgstr "Επιλέξτε αντικείμενα"
+
+#: ../src/photos-main-toolbar.c:301
+msgid "Done"
+msgstr "Έγινε"
+
+#: ../src/photos-main-window.c:336
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Προσεγγίστε, οργανώστε και μοιραστείτε τις φωτογραφίες στο GNOME"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:346
+msgid "translator-credits"
+msgstr ""
+"Ελληνική μεταφραστική ομάδα GNOME\n"
+" Θάνος Τρυφωνίδης <tomtryf@gmail.com>, 2012\n"
+"\n"
+"Για περισσότερα δείτε: http://gnome.gr"
+
+#: ../src/photos-search-type-manager.c:59 ../src/photos-source-manager.c:127
+msgid "All"
+msgstr "Όλα"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-selection-toolbar.c:248
+#, c-format
+msgid "Open with %s"
+msgstr "Άνοιγμα με %s"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-selection-toolbar.c:251
+msgid "Open"
+msgstr "Άνοιγμα"
+
+#: ../src/photos-selection-toolbar.c:266
+msgid "Remove from favorites"
+msgstr "Αφαίρεση από τα αγαπημένα"
+
+#: ../src/photos-selection-toolbar.c:272
+msgid "Add to favorites"
+msgstr "Προσθήκη στα αγαπημένα"
+
+#: ../src/photos-selection-toolbar.c:478
+msgid "Print"
+msgstr "Εκτύπωση"
+
+#: ../src/photos-selection-toolbar.c:500
+msgid "Organize"
+msgstr "Οργάνωση"
+
+#: ../src/photos-selection-toolbar.c:511
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: ../src/photos-source-manager.c:131
+msgid "Local"
+msgstr "Τοπικά"
+
+#: ../src/photos-spinner-box.c:123
+msgid "Loading..."
+msgstr "Γίνεται φόρτωση..."
