@@ -58,7 +58,7 @@ struct _PhotosTrackerQueueData
 };
 
 
-void
+static void
 photos_tracker_queue_data_free (PhotosTrackerQueueData *data)
 {
   g_clear_object (&data->cancellable);
@@ -71,7 +71,7 @@ photos_tracker_queue_data_free (PhotosTrackerQueueData *data)
 }
 
 
-PhotosTrackerQueueData *
+static PhotosTrackerQueueData *
 photos_tracker_queue_data_new (const gchar *sparql,
                                PhotosTrackerQueryType query_type,
                                GCancellable *cancellable,
