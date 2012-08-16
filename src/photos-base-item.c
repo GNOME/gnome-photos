@@ -121,7 +121,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
       emblem_icons = g_list_reverse (emblem_icons);
       emblemed_icon = g_emblemed_icon_new (G_ICON (priv->icon), NULL);
-      for (l = g_list_first (emblem_icons); l != NULL; l = g_list_next (l))
+      for (l = emblem_icons; l != NULL; l = g_list_next (l))
         {
           GEmblem *emblem;
           GIcon *emblem_icon = G_ICON (l->data);

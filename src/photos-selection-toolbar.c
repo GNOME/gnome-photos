@@ -215,7 +215,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   priv->inside_refresh = TRUE;
 
   selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
-  for (l = g_list_first (selection); l != NULL; l = g_list_next (l))
+  for (l = selection; l != NULL; l = g_list_next (l))
     {
       PhotosBaseItem *item;
       const gchar *default_app_name;
@@ -296,7 +296,7 @@ photos_selection_toolbar_set_item_listeners (PhotosSelectionToolbar *self, GList
 
   g_hash_table_foreach_remove (priv->item_listeners, photos_selection_toolbar_disconnect_listeners_foreach, NULL);
 
-  for (l = g_list_first (selection); l != NULL; l = g_list_next (l))
+  for (l = selection; l != NULL; l = g_list_next (l))
     {
       GObject *object;
       gchar *urn = (gchar *) l->data;
