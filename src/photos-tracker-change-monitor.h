@@ -1,0 +1,75 @@
+/*
+ * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2012 Red Hat, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
+ */
+
+#ifndef PHOTOS_TRACKER_CHANGE_MONITOR_H
+#define PHOTOS_TRACKER_CHANGE_MONITOR_H
+
+#include <glib.h>
+#include <glib-object.h>
+
+G_BEGIN_DECLS
+
+#define PHOTOS_TYPE_TRACKER_CHANGE_MONITOR (photos_tracker_change_monitor_get_type ())
+
+#define PHOTOS_TRACKER_CHANGE_MONITOR(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
+   PHOTOS_TYPE_TRACKER_CHANGE_MONITOR, PhotosTrackerChangeMonitor))
+
+#define PHOTOS_TRACKER_CHANGE_MONITOR_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST ((klass), \
+   PHOTOS_TYPE_TRACKER_CHANGE_MONITOR, PhotosTrackerChangeMonitorClass))
+
+#define PHOTOS_IS_TRACKER_CHANGE_MONITOR(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
+   PHOTOS_TYPE_TRACKER_CHANGE_MONITOR))
+
+#define PHOTOS_IS_TRACKER_CHANGE_MONITOR_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
+   PHOTOS_TYPE_TRACKER_CHANGE_MONITOR))
+
+#define PHOTOS_TRACKER_CHANGE_MONITOR_GET_CLASS(obj) \
+  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
+   PHOTOS_TYPE_TRACKER_CHANGE_MONITOR, PhotosTrackerChangeMonitorClass))
+
+typedef struct _PhotosTrackerChangeMonitor        PhotosTrackerChangeMonitor;
+typedef struct _PhotosTrackerChangeMonitorClass   PhotosTrackerChangeMonitorClass;
+typedef struct _PhotosTrackerChangeMonitorPrivate PhotosTrackerChangeMonitorPrivate;
+
+struct _PhotosTrackerChangeMonitor
+{
+  GObject parent_instance;
+  PhotosTrackerChangeMonitorPrivate *priv;
+};
+
+struct _PhotosTrackerChangeMonitorClass
+{
+  GObjectClass parent_class;
+
+  /* signals */
+  void (*changes_pending) (PhotosTrackerChangeMonitor *self, GHashTable *changes);
+};
+
+GType                        photos_tracker_change_monitor_get_type         (void) G_GNUC_CONST;
+
+PhotosTrackerChangeMonitor  *photos_tracker_change_monitor_new              (void);
+
+G_END_DECLS
+
+#endif /* PHOTOS_TRACKER_CHANGE_MONITOR_H */

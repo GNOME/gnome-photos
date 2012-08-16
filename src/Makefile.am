@@ -7,6 +7,8 @@ gnome_photos_built_sources = \
 	photos-enums.h \
 	photos-marshalers.c \
 	photos-marshalers.h \
+	photos-tracker-resources.c \
+	photos-tracker-resources.h \
 	$(NULL)
 
 gnome_photos_SOURCES = \
@@ -83,6 +85,10 @@ gnome_photos_SOURCES = \
 	photos-source-manager.h \
 	photos-spinner-box.c \
 	photos-spinner-box.h \
+	photos-tracker-change-event.c \
+	photos-tracker-change-event.h \
+	photos-tracker-change-monitor.c \
+	photos-tracker-change-monitor.h \
 	photos-tracker-controller.c \
 	photos-tracker-controller.h \
 	photos-tracker-queue.c \
@@ -103,6 +109,7 @@ EXTRA_DIST = \
 	photos-enums.h.template \
 	photos-generate-about.sh \
 	photos-marshalers.list \
+	photos-tracker-resources.xml \
 	$(null)
 
 AM_CPPFLAGS = \
@@ -226,5 +233,12 @@ photos-marshalers.c: photos-marshalers.list photos-marshalers.h Makefile
 		&& cp xgen-tmc photos-marshalers.c \
 		&& rm -f xgen-tmc \
 	)
+
+photos-tracker-resources.h photos-tracker-resources.c: photos-tracker-resources.xml
+	gdbus-codegen \
+		--c-namespace Tracker \
+		--generate-c-code photos-tracker-resources \
+		--interface-prefix org.freedesktop.Tracker1. \
+		photos-tracker-resources.xml
 
 endif
