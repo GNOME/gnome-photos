@@ -71,7 +71,6 @@ photos_offset_controller_cursor_next (GObject *source_object, GAsyncResult *res,
     }
 
   tracker_sparql_cursor_close (cursor);
-  g_object_unref (cursor);
   g_object_unref (self);
 }
 
@@ -93,6 +92,7 @@ photos_offset_controller_reset_count_query_executed (GObject *source_object, GAs
     }
 
   tracker_sparql_cursor_next_async (cursor, NULL, photos_offset_controller_cursor_next, g_object_ref (self));
+  g_object_unref (cursor);
 }
 
 
