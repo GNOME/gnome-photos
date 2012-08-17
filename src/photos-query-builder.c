@@ -176,6 +176,27 @@ photos_query_builder_global_query (void)
 }
 
 
+PhotosQuery *
+photos_query_builder_single_query (gint flags, const gchar *resource)
+{
+  GRegex *regex;
+  gchar *replacement;
+  gchar *sparql;
+  gchar *tmp;
+
+  tmp = photos_query_builder_query (TRUE, flags);
+
+  regex = g_regex_new ("\\?urn", 0, 0, NULL);
+  replacement = g_strconcat ("<", resource, ">", NULL);
+  sparql = g_regex_replace (regex, tmp, -1, 0, replacement, 0, NULL);
+  g_free (replacement);
+  g_free (tmp);
+  g_regex_unref (regex);
+
+  return photos_query_new (sparql);
+}
+
+
 gchar *
 photos_query_builder_filter_local (void)
 {

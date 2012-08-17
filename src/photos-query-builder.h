@@ -21,6 +21,8 @@
 #ifndef PHOTOS_QUERY_BUILDER_H
 #define PHOTOS_QUERY_BUILDER_H
 
+#include <glib.h>
+
 #include "photos-query.h"
 
 G_BEGIN_DECLS
@@ -28,6 +30,8 @@ G_BEGIN_DECLS
 PhotosQuery  *photos_query_builder_count_query         (void);
 
 PhotosQuery  *photos_query_builder_global_query        (void);
+
+PhotosQuery  *photos_query_builder_single_query        (gint flags, const gchar *resource);
 
 gchar        *photos_query_builder_filter_local        (void);
 
