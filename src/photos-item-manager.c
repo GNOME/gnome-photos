@@ -26,15 +26,95 @@
 #include "photos-item-manager.h"
 #include "photos-item-model.h"
 #include "photos-local-item.h"
+#include "photos-query.h"
+#include "photos-single-item-job.h"
+#include "photos-tracker-change-event.h"
+#include "photos-tracker-change-monitor.h"
 
 
 struct _PhotosItemManagerPrivate
 {
   GtkListStore *model;
+  PhotosTrackerChangeMonitor *monitor;
 };
 
 
 G_DEFINE_TYPE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER);
+
+
+static void
+photos_item_manager_item_created_executed (TrackerSparqlCursor *cursor, gpointer user_data)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
+
+  if (cursor == NULL)
+    goto out;
+
+  photos_item_manager_add_item (self, cursor);
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
+photos_item_manager_item_created (PhotosItemManager *self, const gchar *urn)
+{
+  PhotosSingleItemJob *job;
+
+  job = photos_single_item_job_new (urn);
+  photos_single_item_job_run (job,
+                              PHOTOS_QUERY_FLAGS_NONE,
+                              photos_item_manager_item_created_executed,
+                              g_object_ref (self));
+  g_object_unref (job);
+}
+
+
+static void
+photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpointer user_data)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
+  PhotosItemManagerPrivate *priv = self->priv;
+  PhotosTrackerChangeEvent *change_event = (PhotosTrackerChangeEvent *) value;
+  PhotosTrackerChangeEventType change_type;
+  const gchar *change_urn;
+
+  change_type = photos_tracker_change_event_get_type (change_event);
+  change_urn = photos_tracker_change_event_get_urn (change_event);
+
+  if (change_type == PHOTOS_TRACKER_CHANGE_EVENT_CHANGED)
+    {
+      GObject *object;
+
+      object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
+      if (object != NULL)
+        photos_base_item_refresh (PHOTOS_BASE_ITEM (object));
+    }
+  else if (change_type == PHOTOS_TRACKER_CHANGE_EVENT_CREATED)
+    {
+      photos_item_manager_item_created (self, change_urn);
+    }
+  else if (change_type == PHOTOS_TRACKER_CHANGE_EVENT_DELETED)
+    {
+      GObject *object;
+
+      object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
+      if (object != NULL)
+        {
+          photos_base_item_destroy (PHOTOS_BASE_ITEM (object));
+          photos_base_manager_remove_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
+        }
+    }
+}
+
+
+static void
+photos_item_manager_changes_pending (PhotosTrackerChangeMonitor *monitor, GHashTable *changes, gpointer user_data)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
+  g_hash_table_foreach (changes, photos_item_manager_changes_pending_foreach, self);
+}
 
 
 static gboolean
@@ -88,8 +168,10 @@ static void
 photos_item_manager_dispose (GObject *object)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (object);
+  PhotosItemManagerPrivate *priv = self->priv;
 
-  g_clear_object (&self->priv->model);
+  g_clear_object (&priv->model);
+  g_clear_object (&priv->monitor);
 
   G_OBJECT_CLASS (photos_item_manager_parent_class)->dispose (object);
 }
@@ -98,8 +180,15 @@ photos_item_manager_dispose (GObject *object)
 static void
 photos_item_manager_init (PhotosItemManager *self)
 {
+  PhotosItemManagerPrivate *priv = self->priv;
+
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_ITEM_MANAGER, PhotosItemManagerPrivate);
-  self->priv->model = photos_item_model_new ();
+  priv = self->priv;
+
+  priv->model = photos_item_model_new ();
+
+  priv->monitor = photos_tracker_change_monitor_new ();
+  g_signal_connect (priv->monitor, "changes-pending", G_CALLBACK (photos_item_manager_changes_pending), self);
 }
 
 
