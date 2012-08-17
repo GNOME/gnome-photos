@@ -75,6 +75,8 @@ GType               photos_base_item_get_type           (void) G_GNUC_CONST;
 
 gboolean            photos_base_item_can_trash          (PhotosBaseItem *self);
 
+void                photos_base_item_destroy            (PhotosBaseItem *self);
+
 const gchar        *photos_base_item_get_author         (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_default_app_name (PhotosBaseItem *self);
@@ -103,6 +105,8 @@ void                photos_base_item_load_async         (PhotosBaseItem *self,
                                                          gpointer user_data);
 
 GdkPixbuf          *photos_base_item_load_finish        (PhotosBaseItem *self, GAsyncResult *res, GError **error);
+
+void                photos_base_item_refresh            (PhotosBaseItem *self);
 
 void                photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *default_app_name);
 

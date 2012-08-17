@@ -29,6 +29,7 @@
 
 #include "photos-base-item.h"
 #include "photos-query.h"
+#include "photos-single-item-job.h"
 #include "photos-utils.h"
 
 
@@ -75,6 +76,9 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT);
+
+
+static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor);
 
 
 static GIcon *
@@ -209,6 +213,21 @@ static void
 photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
 {
   photos_utils_set_favorite (self->priv->id, favorite);
+}
+
+
+static void
+photos_base_item_refresh_executed (TrackerSparqlCursor *cursor, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
+
+  if (cursor == NULL)
+    goto out;
+
+  photos_base_item_populate_from_cursor (self, cursor);
+
+ out:
+  g_object_unref (self);
 }
 
 
@@ -696,6 +715,13 @@ photos_base_item_can_trash (PhotosBaseItem *self)
 }
 
 
+void
+photos_base_item_destroy (PhotosBaseItem *self)
+{
+  /* TODO: collection icon watcher, SearchCategoryManager */
+}
+
+
 const gchar *
 photos_base_item_get_author (PhotosBaseItem *self)
 {
@@ -822,6 +848,17 @@ photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
 
  out:
   return ret_val;
+}
+
+
+void
+photos_base_item_refresh (PhotosBaseItem *self)
+{
+  PhotosSingleItemJob *job;
+
+  job = photos_single_item_job_new (self->priv->id);
+  photos_single_item_job_run (job, PHOTOS_QUERY_FLAGS_NONE, photos_base_item_refresh_executed, g_object_ref (self));
+  g_object_unref (job);
 }
 
 
