@@ -58,6 +58,9 @@ struct _PhotosTrackerQueueData
 };
 
 
+static void photos_tracker_queue_check (PhotosTrackerQueue *self);
+
+
 static void
 photos_tracker_queue_data_free (PhotosTrackerQueueData *data)
 {
@@ -104,6 +107,8 @@ photos_tracker_queue_collector (GObject *source_object, GAsyncResult *res, gpoin
   (*data->callback) (source_object, res, data->user_data);
   priv->running = FALSE;
   photos_tracker_queue_data_free (data);
+
+  photos_tracker_queue_check (self);
 }
 
 
