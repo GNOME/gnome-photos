@@ -36,6 +36,9 @@
 #include "photos-utils.h"
 
 
+static const gchar *dot_dir;
+
+
 void
 photos_utils_alpha_gtk_widget (GtkWidget *widget)
 {
@@ -109,6 +112,27 @@ photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
   cairo_destroy (cr);
 
   return ret_val;
+}
+
+
+const gchar *
+photos_utils_dot_dir (void)
+{
+  const gchar *config_dir;
+
+  if (dot_dir == NULL)
+    {
+      config_dir = g_get_user_config_dir ();
+      dot_dir = g_build_filename (config_dir, PACKAGE_TARNAME, NULL);
+    }
+
+  if (g_file_test (dot_dir, G_FILE_TEST_IS_DIR))
+    goto out;
+
+  g_mkdir_with_parents (dot_dir, 0700);
+
+ out:
+  return dot_dir;
 }
 
 

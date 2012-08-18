@@ -35,6 +35,8 @@ void             photos_utils_alpha_gtk_widget            (GtkWidget *widget);
 
 GIcon           *photos_utils_create_symbolic_icon        (const gchar *name, gint base_size);
 
+const gchar     *photos_utils_dot_dir                     (void);
+
 GdkPixbuf       *photos_utils_embed_image_in_frame        (GdkPixbuf *source_image,
                                                            const gchar *frame_image_path,
                                                            GtkBorder *slice_width,
