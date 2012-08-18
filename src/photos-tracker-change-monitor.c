@@ -128,6 +128,7 @@ photos_tracker_change_monitor_update_collector (PhotosTrackerChangeMonitor *self
 {
   PhotosTrackerChangeMonitorPrivate *priv = self->priv;
 
+  priv->outstanding_ops--;
   if (priv->outstanding_ops != 0)
     return;
 
@@ -325,8 +326,9 @@ photos_tracker_change_monitor_class_init (PhotosTrackerChangeMonitorClass *class
                                            NULL, /*accumulator */
                                            NULL, /*accu_data */
                                            g_cclosure_marshal_VOID__BOXED,
-                                           G_TYPE_HASH_TABLE,
-                                           0);
+                                           G_TYPE_NONE,
+                                           1,
+                                           G_TYPE_HASH_TABLE);
 
   g_type_class_add_private (class, sizeof (PhotosTrackerChangeMonitorPrivate));
 }
