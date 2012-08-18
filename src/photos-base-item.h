@@ -107,6 +107,10 @@ void                photos_base_item_load_async         (PhotosBaseItem *self,
 
 GdkPixbuf          *photos_base_item_load_finish        (PhotosBaseItem *self, GAsyncResult *res, GError **error);
 
+void                photos_base_item_open               (PhotosBaseItem *self,
+                                                         GdkScreen *screen,
+                                                         guint32 timestamp);
+
 void                photos_base_item_print              (PhotosBaseItem *self, GtkWidget *toplevel);
 
 void                photos_base_item_refresh            (PhotosBaseItem *self);

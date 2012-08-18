@@ -852,6 +852,22 @@ photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
 
 
 void
+photos_base_item_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  GError *error;
+
+  error = NULL;
+  gtk_show_uri (screen, self->priv->uri, timestamp, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
+      g_error_free (error);
+    }
+}
+
+
+void
 photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
 {
 }

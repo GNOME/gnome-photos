@@ -185,7 +185,15 @@ photos_selection_toolbar_open_clicked (GtkButton *button, gpointer user_data)
   selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
   for (l = selection; l != NULL; l = l->next)
     {
-      /* TODO: trash the doc */
+      const gchar *urn = (gchar *) l->data;
+      GdkScreen *screen;
+      PhotosBaseItem *item;
+      guint32 time;
+
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
+      screen = gtk_widget_get_screen (GTK_WIDGET (button));
+      time = gtk_get_current_event_time ();
+      photos_base_item_open (item, screen, time);
     }
 }
 
