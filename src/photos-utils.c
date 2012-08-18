@@ -18,7 +18,9 @@
  * 02110-1301, USA.
  */
 
-/* Based on code by the Documents team.
+/* Based on code from:
+ *   + Documents
+ *   + Eye of GNOME
  */
 
 

@@ -18,6 +18,10 @@
  * 02110-1301, USA.
  */
 
+/* Based on code from:
+ *   + Documents
+ */
+
 #ifndef PHOTOS_SPINNER_BOX_H
 #define PHOTOS_SPINNER_BOX_H
 

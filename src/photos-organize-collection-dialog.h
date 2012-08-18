@@ -18,6 +18,10 @@
  * 02110-1301, USA.
  */
 
+/* Based on code from:
+ *   + Documents
+ */
+
 #ifndef PHOTOS_ORGANIZE_COLLECTION_DIALOG_H
 #define PHOTOS_ORGANIZE_COLLECTION_DIALOG_H
 

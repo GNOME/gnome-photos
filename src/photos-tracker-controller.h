@@ -18,6 +18,10 @@
  * 02110-1301, USA.
  */
 
+/* Based on code from:
+ *   + Documents
+ */
+
 #ifndef PHOTOS_TRACKER_CONTROLLER_H
 #define PHOTOS_TRACKER_CONTROLLER_H
 

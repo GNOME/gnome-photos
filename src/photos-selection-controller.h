@@ -18,6 +18,10 @@
  * 02110-1301, USA.
  */
 
+/* Based on code from:
+ *   + Documents
+ */
+
 #ifndef PHOTOS_SELECTION_CONTROLLER_H
 #define PHOTOS_SELECTION_CONTROLLER_H
 
