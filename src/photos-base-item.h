@@ -24,6 +24,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
 #include <glib-object.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -105,6 +106,8 @@ void                photos_base_item_load_async         (PhotosBaseItem *self,
                                                          gpointer user_data);
 
 GdkPixbuf          *photos_base_item_load_finish        (PhotosBaseItem *self, GAsyncResult *res, GError **error);
+
+void                photos_base_item_print              (PhotosBaseItem *self, GtkWidget *toplevel);
 
 void                photos_base_item_refresh            (PhotosBaseItem *self);
 

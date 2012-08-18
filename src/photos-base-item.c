@@ -852,6 +852,12 @@ photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
 
 
 void
+photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
+{
+}
+
+
+void
 photos_base_item_refresh (PhotosBaseItem *self)
 {
   PhotosSingleItemJob *job;

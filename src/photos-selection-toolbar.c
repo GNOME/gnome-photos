@@ -193,6 +193,21 @@ photos_selection_toolbar_open_clicked (GtkButton *button, gpointer user_data)
 static void
 photos_selection_toolbar_print_clicked (GtkButton *button, gpointer user_data)
 {
+  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
+  PhotosSelectionToolbarPrivate *priv = self->priv;
+  GList *selection;
+  GtkWidget *toplevel;
+  PhotosBaseItem *item;
+  const gchar *urn;
+
+  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  if (g_list_length (selection) != 1)
+    return;
+
+  urn = (gchar *) selection->data;
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
+  toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
+  photos_base_item_print (item, toplevel);
 }
 
 
