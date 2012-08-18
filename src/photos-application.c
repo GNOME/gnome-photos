@@ -30,6 +30,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "eog-debug.h"
 #include "photos-application.h"
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
@@ -194,6 +195,7 @@ photos_application_init (PhotosApplication *self)
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
                                             PHOTOS_TYPE_APPLICATION,
                                             PhotosApplicationPrivate);
+  eog_debug_init ();
 }
 
 

@@ -13,6 +13,10 @@ gnome_photos_built_sources = \
 
 gnome_photos_SOURCES = \
 	$(gnome_photos_built_sources) \
+	eog-debug.c \
+	eog-debug.h \
+	eog-print-preview.c \
+	eog-print-preview.h \
 	gd-main-icon-view.c \
 	gd-main-icon-view.h \
 	gd-main-list-view.c \
