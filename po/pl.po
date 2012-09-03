@@ -4,12 +4,14 @@
 # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Piotr Drąg <piotrdrag@gmail.com>, 2012.
+# Aviary.pl <gnomepl@aviary.pl>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-16 20:15+0200\n"
-"PO-Revision-Date: 2012-08-16 20:17+0200\n"
+"POT-Creation-Date: 2012-09-03 23:55+0200\n"
+"PO-Revision-Date: 2012-09-03 23:57+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -22,7 +24,7 @@ msgstr ""
 "X-Poedit-Country: Poland\n"
 
 #: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:64
+#: ../src/photos-search-type-manager.c:68
 msgid "Photos"
 msgstr "Zdjęcia"
 
@@ -58,96 +60,98 @@ msgstr "Maksymalizacja okna"
 msgid "Window maximized state"
 msgstr "Stan maksymalizacji okna"
 
-#: ../src/photos-application.c:134
+#: ../src/photos-application.c:139
 msgid "Fullscreen"
 msgstr "Pełny ekran"
 
-#: ../src/photos-application.c:137
+#: ../src/photos-application.c:142
 msgid "About Photos"
 msgstr "O menedżerze zdjęć"
 
-#: ../src/photos-application.c:138
+#: ../src/photos-application.c:143
 msgid "Quit"
 msgstr "Zakończ"
 
-#: ../src/photos-load-more-button.c:63
+#: ../src/photos-load-more-button.c:67
 msgid "Load 1 more photo"
 msgstr "Wczytaj następne zdjęcie"
 
-#: ../src/photos-load-more-button.c:65
+#: ../src/photos-load-more-button.c:69
 #, c-format
 msgid "Load %d more photos"
 msgstr "Wczytaj następne %d zdjęć"
 
-#: ../src/photos-main-toolbar.c:92
+#: ../src/photos-main-toolbar.c:96
 msgid "Click on items to select them"
 msgstr "Naciśnięcie na elementach zaznacza je"
 
-#: ../src/photos-main-toolbar.c:94
+#: ../src/photos-main-toolbar.c:98
 #, c-format
 msgid "%d selected"
 msgstr "Zaznaczono: %d"
 
-#: ../src/photos-main-toolbar.c:150 ../src/photos-main-toolbar.c:285
+#: ../src/photos-main-toolbar.c:154 ../src/photos-main-toolbar.c:289
 msgid "Back"
 msgstr "Wstecz"
 
-#: ../src/photos-main-toolbar.c:261
+#: ../src/photos-main-toolbar.c:265
 msgid "Select Items"
 msgstr "Wybór elementów"
 
-#: ../src/photos-main-toolbar.c:301
+#: ../src/photos-main-toolbar.c:305
 msgid "Done"
 msgstr "Gotowe"
 
-#: ../src/photos-main-window.c:336
+#: ../src/photos-main-window.c:340
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Dostęp, organizowanie i współdzielenie zdjęć w środowisku GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:346
+#: ../src/photos-main-window.c:350
 msgid "translator-credits"
-msgstr "Aviary.pl <gnomepl@aviary.pl>, 2012"
+msgstr ""
+"Piotr Drąg <piotrdrag@gmail.com>, 2012\n"
+"Aviary.pl <gnomepl@aviary.pl>, 2012"
 
-#: ../src/photos-search-type-manager.c:59 ../src/photos-source-manager.c:127
+#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:131
 msgid "All"
 msgstr "Wszystkie"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:248
+#: ../src/photos-selection-toolbar.c:275
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą %s"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:251
+#: ../src/photos-selection-toolbar.c:278
 msgid "Open"
 msgstr "Otwórz"
 
-#: ../src/photos-selection-toolbar.c:266
+#: ../src/photos-selection-toolbar.c:293
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../src/photos-selection-toolbar.c:272
+#: ../src/photos-selection-toolbar.c:299
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
 
-#: ../src/photos-selection-toolbar.c:478
+#: ../src/photos-selection-toolbar.c:505
 msgid "Print"
 msgstr "Wydrukuj"
 
-#: ../src/photos-selection-toolbar.c:500
+#: ../src/photos-selection-toolbar.c:527
 msgid "Organize"
 msgstr "Organizuj"
 
-#: ../src/photos-selection-toolbar.c:511
+#: ../src/photos-selection-toolbar.c:538
 msgid "Delete"
 msgstr "Usuń"
 
-#: ../src/photos-source-manager.c:131
+#: ../src/photos-source-manager.c:135
 msgid "Local"
 msgstr "Lokalne"
 
-#: ../src/photos-spinner-box.c:123
+#: ../src/photos-spinner-box.c:127
 msgid "Loading..."
 msgstr "Wczytywanie..."
