@@ -139,7 +139,7 @@ BUILT_SOURCES = \
 EXTRA_DIST = \
 	photos-enums.c.template \
 	photos-enums.h.template \
-	photos-generate-about.sh \
+	photos-generate-about \
 	photos-marshalers.list \
 	photos-tracker-resources.xml \
 	$(null)
