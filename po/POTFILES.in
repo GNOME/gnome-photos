@@ -2,6 +2,11 @@
 # Please keep this list sorted alphabetically.
 data/gnome-photos.desktop.in.in
 data/org.gnome.photos.gschema.xml.in
+src/eog-exif-util.c
+src/eog-image.c
+src/eog-print-image-setup.c
+src/eog-uri-converter.c
+src/eog-util.c
 src/gd-main-toolbar.c
 src/photos-application.c
 src/photos-load-more-button.c

@@ -15,8 +15,34 @@ gnome_photos_SOURCES = \
 	$(gnome_photos_built_sources) \
 	eog-debug.c \
 	eog-debug.h \
+	eog-enums.h \
+	eog-exif-util.c \
+	eog-exif-util.h \
+	eog-image.c \
+	eog-image.h \
+	eog-image-private.h \
+	eog-image-save-info.c \
+	eog-image-save-info.h \
+	eog-job-queue.c \
+	eog-job-queue.h \
+	eog-jobs.c \
+	eog-jobs.h \
+	eog-metadata-reader.c \
+	eog-metadata-reader.h \
+	eog-metadata-reader-jpg.c \
+	eog-metadata-reader-jpg.h \
+	eog-metadata-reader-png.c \
+	eog-metadata-reader-png.h \
+	eog-print-image-setup.c \
+	eog-print-image-setup.h \
 	eog-print-preview.c \
 	eog-print-preview.h \
+	eog-transform.c \
+	eog-transform.h \
+	eog-uri-converter.c \
+	eog-uri-converter.h \
+	eog-util.c \
+	eog-util.h \
 	gd-main-icon-view.c \
 	gd-main-icon-view.h \
 	gd-main-list-view.c \
@@ -124,12 +150,17 @@ AM_CPPFLAGS = \
 	$(CAIRO_CFLAGS) \
 	$(CLUTTER_CFLAGS) \
 	$(CLUTTER_GTK_CFLAGS) \
+	$(EXEMPI_CFLAGS) \
 	$(GDK_PIXBUF_CFLAGS) \
 	$(GIO_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GNOME_DESKTOP_CFLAGS) \
 	$(GOA_CFLAGS) \
 	$(GTK_CFLAGS) \
+	$(GTK_UNIX_PRINT_CFLAGS) \
+	$(LCMS_CFLAGS) \
+	$(LIBEXIF_CFLAGS) \
+	$(LIBRSVG_CFLAGS) \
 	$(TRACKER_CFLAGS) \
 	$(NULL)
 
@@ -139,12 +170,17 @@ gnome_photos_LDADD = \
 	$(CAIRO_LIBS) \
 	$(CLUTTER_LIBS) \
 	$(CLUTTER_GTK_LIBS) \
+	$(EXEMPI_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
 	$(GNOME_DESKTOP_LIBS) \
 	$(GOA_LIBS) \
 	$(GTK_LIBS) \
+	$(GTK_UNIX_PRINT_LIBS) \
+	$(LCMS_LIBS) \
+	$(LIBEXIF_LIBS) \
+	$(LIBRSVG_LIBS) \
 	$(TRACKER_LIBS) \
 	$(LIBM) \
 	$(NULL)

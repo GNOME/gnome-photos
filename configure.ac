@@ -26,7 +26,10 @@ GLIB_GSETTINGS
 
 CLUTTER_GTK_MIN_VERSION=1.3.2
 CLUTTER_MIN_VERSION=1.11
+EXEMPI_MIN_VERSION=1.99.5
 GLIB_MIN_VERSION=2.28
+LIBEXIF_MIN_VERSION=0.6.14
+LIBRSVG_MIN_VERSION=2.26.0
 
 GNOME_COMMON_INIT
 GNOME_COMPILE_WARNINGS([maximum])
@@ -43,9 +46,39 @@ AM_GLIB_GNU_GETTEXT
 
 LT_INIT
 
+# ****************************************************************
+# Support for nl_langinfo (_NL_MEASUREMENT_MEASUREMENT) (optional)
+# ****************************************************************
+AC_MSG_CHECKING([for _NL_MEASUREMENT_MEASUREMENT])
+AC_TRY_LINK([#include <langinfo.h>], [
+char c;
+c = *((unsigned char *)  nl_langinfo(_NL_MEASUREMENT_MEASUREMENT));
+], have_langinfo_measurement=yes, have_langinfo_measurement=no)
+AC_MSG_RESULT($have_langinfo_measurement)
+if test "$have_langinfo_measurement" = "yes"; then
+  AC_DEFINE([HAVE__NL_MEASUREMENT_MEASUREMENT], [1],
+            [Define if _NL_MEASUREMENT_MEASUREMENT is available])
+fi
+
+# ***************
+# ZLIB (required)
+# ***************
+
+have_zlib=yes
+AC_CHECK_HEADERS([zlib.h],
+	[AC_CHECK_LIB([z], [inflate],
+		[AC_CHECK_LIB([z], [crc32], [], [have_zlib=no])],
+		[have_zlib=no])],
+	[have_zlib=no])
+
+if test x$have_zlib = xno; then
+	AC_MSG_ERROR([No sufficient zlib library found on your system.])
+fi
+
 PKG_CHECK_MODULES(CAIRO, [cairo])
 PKG_CHECK_MODULES(CLUTTER, [clutter-1.0 >= $CLUTTER_MIN_VERSION])
 PKG_CHECK_MODULES(CLUTTER_GTK, [clutter-gtk-1.0 >= $CLUTTER_GTK_MIN_VERSION])
+PKG_CHECK_MODULES(EXEMPI, [exempi-2.0 >= $EXEMPI_MIN_VERSION])
 PKG_CHECK_MODULES(GDK_PIXBUF, [gdk-pixbuf-2.0])
 PKG_CHECK_MODULES(GLIB, [glib-2.0 >= $GLIB_MIN_VERSION])
 PKG_CHECK_MODULES(GIO, [gio-2.0])
@@ -57,6 +90,10 @@ PKG_CHECK_MODULES(GOA, [goa-1.0])
 AC_DEFINE([GOA_API_IS_SUBJECT_TO_CHANGE], [], [We are aware that GOA's API can change])
 
 PKG_CHECK_MODULES(GTK, [gtk+-3.0])
+PKG_CHECK_MODULES(GTK_UNIX_PRINT, [gtk+-unix-print-3.0])
+PKG_CHECK_MODULES(LCMS, [lcms2])
+PKG_CHECK_MODULES(LIBEXIF, [libexif >= $LIBEXIF_MIN_VERSION])
+PKG_CHECK_MODULES(LIBRSVG, [librsvg-2.0 >= $LIBRSVG_MIN_VERSION])
 PKG_CHECK_MODULES(TRACKER, [tracker-sparql-0.14])
 
 AC_CONFIG_FILES([
