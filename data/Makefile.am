@@ -1,4 +1,4 @@
-SUBDIRS =
+SUBDIRS = icons
 
 desktopdir = $(datadir)/applications
 desktop_in_in_files = $(PACKAGE_TARNAME).desktop.in.in
