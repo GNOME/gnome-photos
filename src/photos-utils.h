@@ -48,6 +48,14 @@ gchar           *photos_utils_filename_strip_extension    (const gchar *filename
 
 gint             photos_utils_get_icon_size               (void);
 
+char*            photos_utils_get_pixbuf_common_suffix    (GdkPixbufFormat *format);
+
+GdkPixbufFormat* photos_utils_get_pixbuf_format           (GFile *file);
+
+GdkPixbufFormat* photos_utils_get_pixbuf_format_by_suffix (const char *suffix);
+
+GSList*          photos_utils_get_pixbuf_savable_formats  (void);
+
 GtkBorder       *photos_utils_get_thumbnail_frame_border  (void);
 
 GList           *photos_utils_get_urns_from_paths         (GList *paths, GtkTreeModel *model);
