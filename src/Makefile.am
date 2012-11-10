@@ -43,22 +43,8 @@ gnome_photos_SOURCES = \
 	eog-uri-converter.h \
 	eog-util.c \
 	eog-util.h \
-	gd-main-icon-view.c \
-	gd-main-icon-view.h \
-	gd-main-list-view.c \
-	gd-main-list-view.h \
-	gd-main-toolbar.c \
-	gd-main-toolbar.h \
-	gd-main-view.c \
-	gd-main-view.h \
-	gd-main-view-generic.c \
-	gd-main-view-generic.h \
 	gd-styled-text-renderer.c \
 	gd-styled-text-renderer.h \
-	gd-toggle-pixbuf-renderer.c \
-	gd-toggle-pixbuf-renderer.h \
-	gd-two-lines-renderer.c \
-	gd-two-lines-renderer.h \
 	photos-application.c \
 	photos-application.h \
 	photos-base-manager.c \
