@@ -101,6 +101,7 @@ Makefile
 data/Makefile
 data/gnome-photos.desktop.in
 data/icons/Makefile
+libgd/Makefile
 src/Makefile
 po/Makefile.in
 ])
