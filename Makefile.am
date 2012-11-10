@@ -1,4 +1,4 @@
-SUBDIRS = . data src po
+SUBDIRS = . data libgd src po
 
 INTLTOOL_FILES = \
 	intltool-extract.in \
