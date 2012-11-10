@@ -5,6 +5,7 @@ srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
 PKG_NAME="gnome-photos"
+ACLOCAL_FLAGS="-I libgd $ACLOCAL_FLAGS"
 
 (test -f $srcdir/src/photos-main.c) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
