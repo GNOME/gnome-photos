@@ -96,6 +96,13 @@ PKG_CHECK_MODULES(LIBEXIF, [libexif >= $LIBEXIF_MIN_VERSION])
 PKG_CHECK_MODULES(LIBRSVG, [librsvg-2.0 >= $LIBRSVG_MIN_VERSION])
 PKG_CHECK_MODULES(TRACKER, [tracker-sparql-0.14])
 
+LIBGD_INIT([
+  main-toolbar
+  main-icon-view
+  main-view
+  static
+])
+
 AC_CONFIG_FILES([
 Makefile
 data/Makefile
