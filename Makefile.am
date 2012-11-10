@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS = -I m4 -I libgd ${ACLOCAL_FLAGS}
+
 SUBDIRS = . data libgd src po
 
 INTLTOOL_FILES = \
