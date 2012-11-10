@@ -32,8 +32,8 @@
 #include <glib.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 #include <tracker-sparql.h>
+#include <libgd/gd.h>
 
-#include "gd-main-view.h"
 #include "photos-tracker-queue.h"
 #include "photos-utils.h"
 

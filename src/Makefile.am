@@ -148,6 +148,7 @@ AM_CPPFLAGS = \
 	$(LIBEXIF_CFLAGS) \
 	$(LIBRSVG_CFLAGS) \
 	$(TRACKER_CFLAGS) \
+	-I$(top_srcdir)/libgd \
 	$(NULL)
 
 gnome_photos_LDFLAGS = 
@@ -169,6 +170,7 @@ gnome_photos_LDADD = \
 	$(LIBRSVG_LIBS) \
 	$(TRACKER_LIBS) \
 	$(LIBM) \
+	$(top_builddir)/libgd/libgd.la \
 	$(NULL)
 
 if MAINTAINER_MODE

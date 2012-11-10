@@ -24,8 +24,9 @@
 
 
 #include "config.h"
+#include <libgd/gd.h>
+#include <libgd/gd-main-view.h>
 
-#include "gd-main-view.h"
 #include "photos-item-manager.h"
 #include "photos-load-more-button.h"
 #include "photos-mode-controller.h"

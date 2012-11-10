@@ -29,8 +29,8 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <libgd/gd.h>
 
-#include "gd-main-toolbar.h"
 #include "photos-collection-manager.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
