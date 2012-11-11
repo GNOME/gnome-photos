@@ -228,7 +228,6 @@ photos_application_class_init (PhotosApplicationClass *class)
 GtkApplication *
 photos_application_new (void)
 {
-  g_type_init ();
   return g_object_new (PHOTOS_TYPE_APPLICATION,
                        "application-id", "org.gnome." PACKAGE_NAME,
                        "flags", G_APPLICATION_FLAGS_NONE,
