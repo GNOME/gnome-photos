@@ -28,7 +28,6 @@
 #include <glib.h>
 
 #include "photos-item-manager.h"
-#include "photos-item-model.h"
 #include "photos-local-item.h"
 #include "photos-query.h"
 #include "photos-single-item-job.h"
@@ -38,7 +37,6 @@
 
 struct _PhotosItemManagerPrivate
 {
-  GtkListStore *model;
   PhotosTrackerChangeMonitor *monitor;
 };
 
@@ -174,7 +172,6 @@ photos_item_manager_dispose (GObject *object)
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (object);
   PhotosItemManagerPrivate *priv = self->priv;
 
-  g_clear_object (&priv->model);
   g_clear_object (&priv->monitor);
 
   G_OBJECT_CLASS (photos_item_manager_parent_class)->dispose (object);
@@ -188,8 +185,6 @@ photos_item_manager_init (PhotosItemManager *self)
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_ITEM_MANAGER, PhotosItemManagerPrivate);
   priv = self->priv;
-
-  priv->model = photos_item_model_new ();
 
   priv->monitor = photos_tracker_change_monitor_new ();
   g_signal_connect (priv->monitor, "changes-pending", G_CALLBACK (photos_item_manager_changes_pending), self);
@@ -224,7 +219,6 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
 
   item = photos_item_manager_create_item (self, cursor);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (item));
-  photos_item_model_item_added (PHOTOS_ITEM_MODEL (self->priv->model), item);
 
   /* TODO: add to collection_manager */
 
@@ -232,23 +226,8 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
 }
 
 
-void
-photos_item_manager_clear (PhotosItemManager *self)
-{
-  photos_base_manager_clear (PHOTOS_BASE_MANAGER (self));
-  gtk_list_store_clear (self->priv->model);
-}
-
-
 PhotosBaseItem *
 photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
 {
   return photos_local_item_new (cursor);
-}
-
-
-GtkListStore *
-photos_item_manager_get_model (PhotosItemManager *self)
-{
-  return self->priv->model;
 }

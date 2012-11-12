@@ -40,6 +40,7 @@ struct _PhotosBaseManagerPrivate
 enum
 {
   ACTIVE_CHANGED,
+  CLEAR,
   OBJECT_ADDED,
   OBJECT_REMOVED,
   LAST_SIGNAL
@@ -161,6 +162,17 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
                                           1,
                                           G_TYPE_OBJECT);
 
+  signals[CLEAR] = g_signal_new ("clear",
+                                 G_TYPE_FROM_CLASS (class),
+                                 G_SIGNAL_RUN_LAST,
+                                 G_STRUCT_OFFSET (PhotosBaseManagerClass,
+                                                  clear),
+                                 NULL, /*accumulator */
+                                 NULL, /*accu_data */
+                                 g_cclosure_marshal_VOID__VOID,
+                                 G_TYPE_NONE,
+                                 0);
+
   signals[OBJECT_ADDED] = g_signal_new ("object-added",
                                         G_TYPE_FROM_CLASS (class),
                                         G_SIGNAL_RUN_LAST,
@@ -208,6 +220,7 @@ photos_base_manager_clear (PhotosBaseManager *self)
 
   g_hash_table_remove_all (priv->objects);
   g_clear_object (&priv->active_object);
+  g_signal_emit (self, signals[CLEAR], 0);
 }
 
 

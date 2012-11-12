@@ -34,6 +34,7 @@
 #include "photos-tracker-controller.h"
 #include "photos-utils.h"
 #include "photos-view-container.h"
+#include "photos-view-model.h"
 
 
 struct _PhotosViewContainerPrivate
@@ -167,7 +168,6 @@ photos_view_container_query_status_changed (PhotosTrackerController *trk_cntrlr,
 
   if (!query_status)
     {
-      priv->model = photos_item_manager_get_model (PHOTOS_ITEM_MANAGER (priv->item_mngr));
       gd_main_view_set_model (priv->view, GTK_TREE_MODEL (priv->model));
       photos_selection_controller_freeze_selection (priv->sel_cntrlr, FALSE);
       /* TODO: update selection */
@@ -175,7 +175,6 @@ photos_view_container_query_status_changed (PhotosTrackerController *trk_cntrlr,
   else
     {
       photos_selection_controller_freeze_selection (priv->sel_cntrlr, TRUE);
-      priv->model = NULL;
       gd_main_view_set_model (priv->view, NULL);
     }
 }
@@ -243,6 +242,7 @@ photos_view_container_dispose (GObject *object)
       priv->disposed = TRUE;
     }
 
+  g_clear_object (&priv->model);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->sel_cntrlr);
   g_clear_object (&priv->trk_cntrlr);
@@ -261,6 +261,8 @@ photos_view_container_init (PhotosViewContainer *self)
                                             PHOTOS_TYPE_VIEW_CONTAINER,
                                             PhotosViewContainerPrivate);
   priv = self->priv;
+
+  priv->model = photos_view_model_new ();
 
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 

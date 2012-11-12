@@ -70,6 +70,7 @@ struct _PhotosBaseManagerClass
 
   /* signals */
   void (*active_changed)   (PhotosBaseManager *self, GObject *object);
+  void (*clear)            (PhotosBaseManager *self);
   void (*object_added)     (PhotosBaseManager *self, GObject *object);
   void (*object_removed)   (PhotosBaseManager *self, GObject *object);
 };

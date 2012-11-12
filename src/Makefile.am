@@ -61,8 +61,6 @@ gnome_photos_SOURCES = \
 	photos-filterable.h \
 	photos-item-manager.c \
 	photos-item-manager.h \
-	photos-item-model.c \
-	photos-item-model.h \
 	photos-load-more-button.c \
 	photos-load-more-button.h \
 	photos-local-item.c \
@@ -115,6 +113,8 @@ gnome_photos_SOURCES = \
 	photos-utils.h \
 	photos-view-container.c \
 	photos-view-container.h \
+	photos-view-model.c \
+	photos-view-model.h \
 	photos-main.c \
 	$(NULL)
 

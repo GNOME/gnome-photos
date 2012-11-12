@@ -80,8 +80,6 @@ PhotosBaseItem           *photos_item_manager_add_item           (PhotosItemMana
 PhotosBaseItem           *photos_item_manager_create_item        (PhotosItemManager *self,
                                                                   TrackerSparqlCursor *cursor);
 
-GtkListStore             *photos_item_manager_get_model          (PhotosItemManager *self);
-
 G_END_DECLS
 
 #endif /* PHOTOS_ITEM_MANAGER_H */
