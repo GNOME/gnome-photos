@@ -172,7 +172,10 @@ static void
 photos_main_toolbar_back_button_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
-  photos_mode_controller_set_window_mode (self->priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+  PhotosMainToolbarPrivate *priv = self->priv;
+
+  photos_base_manager_set_active_object (priv->item_mngr, NULL);
+  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
 }
 
 
