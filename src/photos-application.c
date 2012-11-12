@@ -143,6 +143,8 @@ photos_application_startup (GApplication *application)
   g_menu_append (menu, _("Quit"), "app.quit");
 
   gtk_application_set_app_menu (GTK_APPLICATION (self), G_MENU_MODEL (menu));
+  gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>q", "app.quit", NULL);
+  gtk_application_add_accelerator (GTK_APPLICATION (self), "F11", "app.fullscreen", NULL);
 
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
 }

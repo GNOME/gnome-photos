@@ -161,12 +161,6 @@ photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *even
   direction = gtk_widget_get_direction (GTK_WIDGET (self));
   fullscreen = photos_mode_controller_get_fullscreen (priv->controller);
 
-  if ((event->keyval == GDK_KEY_f || event->keyval == GDK_KEY_F11) && (event->state & GDK_CONTROL_MASK) == 0)
-    {
-      photos_mode_controller_toggle_fullscreen (priv->controller);
-      return TRUE;
-    }
-
   if ((fullscreen && event->keyval == GDK_KEY_Escape)
       || ((event->state & GDK_MOD1_MASK) != 0
           && ((direction == GTK_TEXT_DIR_LTR && event->keyval == GDK_KEY_Left)
@@ -188,18 +182,18 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (widget);
   PhotosMainWindowPrivate *priv = self->priv;
   PhotosWindowMode mode;
-
-  if ((event->keyval == GDK_KEY_q) && ((event->state & GDK_CONTROL_MASK) != 0))
-    {
-      gtk_widget_destroy (widget);
-      return TRUE;
-    }
+  gboolean handled;
 
   mode = photos_mode_controller_get_window_mode (priv->controller);
   if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    return photos_main_window_handle_key_preview (self, event);
+    handled = photos_main_window_handle_key_preview (self, event);
   else
-    return photos_main_window_handle_key_overview (self, event);
+    handled = photos_main_window_handle_key_overview (self, event);
+
+  if (!handled)
+    handled = GTK_WIDGET_CLASS (photos_main_window_parent_class)->key_press_event (widget, event);
+
+  return handled;
 }
 
 
