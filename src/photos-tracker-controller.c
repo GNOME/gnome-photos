@@ -26,8 +26,10 @@
 #include "config.h"
 
 #include <glib.h>
+#include <glib/gi18n.h>
 
 #include "photos-item-manager.h"
+#include "photos-marshalers.h"
 #include "photos-offset-controller.h"
 #include "photos-query-builder.h"
 #include "photos-source-manager.h"
@@ -52,6 +54,7 @@ struct _PhotosTrackerControllerPrivate
 
 enum
 {
+  QUERY_ERROR,
   QUERY_STATUS_CHANGED,
   LAST_SIGNAL
 };
@@ -73,6 +76,18 @@ static void photos_tracker_controller_set_query_status (PhotosTrackerController 
 
 
 static void
+photos_tracker_controller_query_error (PhotosTrackerController *self, GError *error)
+{
+  const gchar *primary = _("Unable to fetch the list of photos");
+
+  if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+    return;
+
+  g_signal_emit (self, signals[QUERY_ERROR], 0, primary, error->message);
+}
+
+
+static void
 photos_tracker_controller_query_finished (PhotosTrackerController *self, GError *error)
 {
   PhotosTrackerControllerPrivate *priv = self->priv;
@@ -80,9 +95,7 @@ photos_tracker_controller_query_finished (PhotosTrackerController *self, GError 
   photos_tracker_controller_set_query_status (self, FALSE);
 
   if (error != NULL)
-    {
-      /* TODO: print error */
-    }
+    photos_tracker_controller_query_error (self, error);
   else
     photos_offset_controller_reset_count (priv->offset_cntrlr);
 
@@ -332,6 +345,19 @@ photos_tracker_controller_class_init (PhotosTrackerControllerClass *class)
   object_class->constructor = photos_tracker_controller_constructor;
   object_class->dispose = photos_tracker_controller_dispose;
   object_class->finalize = photos_tracker_controller_finalize;
+
+  signals[QUERY_ERROR] = g_signal_new ("query-error",
+                                       G_TYPE_FROM_CLASS (class),
+                                       G_SIGNAL_RUN_LAST,
+                                       G_STRUCT_OFFSET (PhotosTrackerControllerClass,
+                                                        query_error),
+                                       NULL, /*accumulator */
+                                       NULL, /*accu_data */
+                                       _photos_marshal_VOID__CHAR_CHAR,
+                                       G_TYPE_NONE,
+                                       2,
+                                       G_TYPE_STRING,
+                                       G_TYPE_STRING);
 
   signals[QUERY_STATUS_CHANGED] = g_signal_new ("query-status-changed",
                                                 G_TYPE_FROM_CLASS (class),

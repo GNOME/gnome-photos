@@ -16,3 +16,4 @@ src/photos-search-type-manager.c
 src/photos-selection-toolbar.c
 src/photos-source-manager.c
 src/photos-spinner-box.c
+src/photos-tracker-controller.c

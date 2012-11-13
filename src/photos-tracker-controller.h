@@ -65,6 +65,7 @@ struct _PhotosTrackerControllerClass
 {
   GObjectClass parent_class;
 
+  void (*query_error) (PhotosTrackerController *self, const gchar *primary, const gchar *secondary);
   void (*query_status_changed) (PhotosTrackerController *self, gboolean querying);
 };
 
