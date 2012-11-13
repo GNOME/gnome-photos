@@ -173,6 +173,23 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
 
 
 void
+photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *secondary)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  photos_error_box_update (PHOTOS_ERROR_BOX (priv->error_box), primary, secondary);
+  photos_error_box_move_in (PHOTOS_ERROR_BOX (priv->error_box));
+}
+
+
+static void
+photos_embed_query_error (PhotosEmbed *self, const gchar *primary, const gchar *secondary)
+{
+  photos_embed_set_error (self, primary, secondary);
+}
+
+
+void
 photos_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean querying, gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
@@ -185,16 +202,6 @@ photos_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean
     }
   else
     photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
-}
-
-
-void
-photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *secondary)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-
-  photos_error_box_update (PHOTOS_ERROR_BOX (priv->error_box), primary, secondary);
-  photos_error_box_move_in (PHOTOS_ERROR_BOX (priv->error_box));
 }
 
 
@@ -353,6 +360,7 @@ photos_embed_init (PhotosEmbed *self)
                     self);
 
   priv->trk_cntrlr = photos_tracker_controller_new ();
+  g_signal_connect_swapped (priv->trk_cntrlr, "query-error", G_CALLBACK (photos_embed_query_error), self);
   g_signal_connect (priv->trk_cntrlr,
                     "query-status-changed",
                     G_CALLBACK (photos_embed_query_status_changed),
