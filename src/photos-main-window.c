@@ -32,6 +32,7 @@
 
 #include "photos-about-data.h"
 #include "photos-embed.h"
+#include "photos-item-manager.h"
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
 #include "photos-settings.h"
@@ -42,6 +43,7 @@ struct _PhotosMainWindowPrivate
   GtkWidget *embed;
   GSettings *settings;
   GtkWidget *clutter_embed;
+  PhotosBaseManager *item_mngr;
   PhotosModeController *controller;
   guint configure_id;
 };
@@ -168,7 +170,7 @@ photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *even
       || event->keyval == GDK_KEY_BackSpace
       || event->keyval == GDK_KEY_Back)
     {
-      photos_mode_controller_set_window_mode (priv->controller, PHOTOS_WINDOW_MODE_OVERVIEW);
+      photos_base_manager_set_active_object (priv->item_mngr, NULL);
       return TRUE;
     }
 
@@ -228,6 +230,7 @@ photos_main_window_dispose (GObject *object)
   PhotosMainWindowPrivate *priv = self->priv;
 
   g_clear_object (&priv->settings);
+  g_clear_object (&priv->item_mngr);
 
   if (priv->controller != NULL)
     {
@@ -277,6 +280,8 @@ photos_main_window_init (PhotosMainWindow *self)
   maximized = g_settings_get_boolean (priv->settings, "window-maximized");
   if (maximized)
     gtk_window_maximize (GTK_WINDOW (self));
+
+  priv->item_mngr = photos_item_manager_new ();
 
   priv->controller = photos_mode_controller_new ();
   g_signal_connect (priv->controller,
