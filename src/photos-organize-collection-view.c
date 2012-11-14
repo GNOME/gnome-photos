@@ -28,7 +28,6 @@
 #include <glib.h>
 #include <libgd/gd.h>
 
-#include "gd-styled-text-renderer.h"
 #include "photos-organize-collection-model.h"
 #include "photos-organize-collection-view.h"
 

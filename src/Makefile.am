@@ -47,8 +47,6 @@ gnome_photos_SOURCES = \
 	eog-uri-converter.h \
 	eog-util.c \
 	eog-util.h \
-	gd-styled-text-renderer.c \
-	gd-styled-text-renderer.h \
 	photos-application.c \
 	photos-application.h \
 	photos-base-manager.c \
