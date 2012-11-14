@@ -591,7 +591,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
                     self);
 
   priv->toolbar_open = gtk_button_new ();
-  image = gtk_image_new_from_icon_name ("document-open-symbolic", GTK_ICON_SIZE_INVALID);
+  image = gtk_image_new_from_icon_name ("folder-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
   gtk_container_add (GTK_CONTAINER (priv->toolbar_open), image);
   gtk_container_add (GTK_CONTAINER (priv->right_box), priv->toolbar_open);
