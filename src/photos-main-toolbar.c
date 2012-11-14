@@ -264,7 +264,7 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   GtkWidget *selection_button;
 
   selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget),
-                                                 "emblem-default-symbolic",
+                                                 "object-select-symbolic",
                                                  _("Select Items"),
                                                  FALSE);
   g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_select_button_clicked), self);
