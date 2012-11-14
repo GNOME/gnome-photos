@@ -74,7 +74,7 @@ photos_single_item_job_cursor_next (GObject *source_object, GAsyncResult *res, g
 
   error = NULL;
   valid = tracker_sparql_cursor_next_finish (priv->cursor, res, &error);
-  if (!valid)
+  if (error != NULL)
     {
       g_warning ("Unable to query single item: %s", error->message);
       g_error_free (error);
