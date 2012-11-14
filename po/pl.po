@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-13 00:42+0100\n"
-"PO-Revision-Date: 2012-11-13 00:43+0100\n"
+"POT-Creation-Date: 2012-11-14 16:22+0100\n"
+"PO-Revision-Date: 2012-11-14 16:23+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -225,15 +225,15 @@ msgstr "Nie można wyświetlić pomocy przeglądarki obrazów"
 msgid " (invalid Unicode)"
 msgstr " (nieprawidłowe kodowanie Unicode)"
 
-#: ../src/photos-application.c:139
+#: ../src/photos-app-menu.ui.h:1
 msgid "Fullscreen"
 msgstr "Pełny ekran"
 
-#: ../src/photos-application.c:142
+#: ../src/photos-app-menu.ui.h:2
 msgid "About Photos"
 msgstr "O menedżerze zdjęć"
 
-#: ../src/photos-application.c:143
+#: ../src/photos-app-menu.ui.h:3
 msgid "Quit"
 msgstr "Zakończ"
 
@@ -255,24 +255,24 @@ msgstr "Naciśnięcie na elementach zaznacza je"
 msgid "%d selected"
 msgstr "Zaznaczono: %d"
 
-#: ../src/photos-main-toolbar.c:154 ../src/photos-main-toolbar.c:289
+#: ../src/photos-main-toolbar.c:154 ../src/photos-main-toolbar.c:292
 msgid "Back"
 msgstr "Wstecz"
 
-#: ../src/photos-main-toolbar.c:265
+#: ../src/photos-main-toolbar.c:268
 msgid "Select Items"
 msgstr "Wybór elementów"
 
-#: ../src/photos-main-toolbar.c:305
+#: ../src/photos-main-toolbar.c:308
 msgid "Done"
 msgstr "Gotowe"
 
-#: ../src/photos-main-window.c:334
+#: ../src/photos-main-window.c:339
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Dostęp, organizowanie i współdzielenie zdjęć w środowisku GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:344
+#: ../src/photos-main-window.c:349
 msgid "translator-credits"
 msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2012\n"
@@ -320,3 +320,7 @@ msgstr "Lokalne"
 #: ../src/photos-spinner-box.c:127
 msgid "Loading..."
 msgstr "Wczytywanie..."
+
+#: ../src/photos-tracker-controller.c:81
+msgid "Unable to fetch the list of photos"
+msgstr "Nie można pobrać listy zdjęć"
