@@ -33,6 +33,7 @@
 #include "photos-base-item.h"
 #include "photos-item-manager.h"
 #include "photos-organize-collection-dialog.h"
+#include "photos-properties-dialog.h"
 #include "photos-selection-controller.h"
 #include "photos-selection-toolbar.h"
 #include "photos-utils.h"
@@ -53,6 +54,7 @@ struct _PhotosSelectionToolbarPrivate
   GtkWidget *toolbar_favorite;
   GtkWidget *toolbar_open;
   GtkWidget *toolbar_print;
+  GtkWidget *toolbar_properties;
   GtkWidget *toolbar_trash;
   GtkWidget *widget;
   PhotosBaseManager *item_mngr;
@@ -224,6 +226,36 @@ photos_selection_toolbar_print_clicked (GtkButton *button, gpointer user_data)
 
 
 static void
+photos_selection_toolbar_properties_response (GtkDialog *dialog, gint response_id, gpointer user_data)
+{
+  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
+
+  gtk_widget_destroy (GTK_WIDGET (dialog));
+  photos_selection_toolbar_fade_in (self);
+}
+
+
+static void
+photos_selection_toolbar_properties_clicked (GtkButton *button, gpointer user_data)
+{
+  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
+  PhotosSelectionToolbarPrivate *priv = self->priv;
+  GList *selection;
+  GtkWidget *dialog;
+  GtkWidget *toplevel;
+  const gchar *urn;
+
+  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  urn = (gchar *) selection->data;
+  toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
+  dialog = photos_properties_dialog_new (GTK_WINDOW (toplevel), urn);
+  photos_selection_toolbar_fade_out (self);
+
+  g_signal_connect (dialog, "response", G_CALLBACK (photos_selection_toolbar_properties_response), self);
+}
+
+
+static void
 photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 {
   PhotosSelectionToolbarPrivate *priv = self->priv;
@@ -233,6 +265,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gboolean show_favorite = TRUE;
   gboolean show_open = TRUE;
   gboolean show_print = TRUE;
+  gboolean show_properties = TRUE;
   gboolean show_trash = TRUE;
   gchar *open_label;
   guint fav_count = 0;
@@ -268,7 +301,10 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   show_open = (apps_length > 0);
 
   if (sel_length > 1)
-    show_print = FALSE;
+    {
+      show_print = FALSE;
+      show_properties = FALSE;
+    }
 
   if (apps_length == 1)
     /* Translators: this is the Open action in a context menu */
@@ -307,6 +343,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
     }
 
   gtk_widget_set_visible (priv->toolbar_print, show_print);
+  gtk_widget_set_visible (priv->toolbar_properties, show_properties);
   gtk_widget_set_visible (priv->toolbar_trash, show_trash);
   gtk_widget_set_visible (priv->toolbar_open, show_open);
   gtk_widget_set_visible (priv->toolbar_favorite, show_favorite);
@@ -496,6 +533,17 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   g_signal_connect (priv->toolbar_favorite,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_favorite_clicked),
+                    self);
+
+  priv->toolbar_properties = gtk_button_new ();
+  image = gtk_image_new_from_icon_name ("document-properties-symbolic", GTK_ICON_SIZE_INVALID);
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 32);
+  gtk_container_add (GTK_CONTAINER (priv->toolbar_properties), image);
+  gtk_widget_set_tooltip_text (GTK_WIDGET (priv->toolbar_properties), _("Properties"));
+  gtk_container_add (GTK_CONTAINER (priv->left_box), priv->toolbar_properties);
+  g_signal_connect (priv->toolbar_properties,
+                    "clicked",
+                    G_CALLBACK (photos_selection_toolbar_properties_clicked),
                     self);
 
   priv->toolbar_print = gtk_button_new ();
