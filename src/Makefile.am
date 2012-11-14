@@ -35,6 +35,8 @@ gnome_photos_SOURCES = \
 	eog-metadata-reader-jpg.h \
 	eog-metadata-reader-png.c \
 	eog-metadata-reader-png.h \
+	eog-print.c \
+	eog-print.h \
 	eog-print-image-setup.c \
 	eog-print-image-setup.h \
 	eog-print-preview.c \

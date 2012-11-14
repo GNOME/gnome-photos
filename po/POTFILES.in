@@ -8,6 +8,7 @@ src/eog-print.c
 src/eog-print-image-setup.c
 src/eog-uri-converter.c
 src/eog-util.c
+src/photos-app-menu.ui
 src/photos-application.c
 src/photos-load-more-button.c
 src/photos-main-toolbar.c
