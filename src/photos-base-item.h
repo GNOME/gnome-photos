@@ -98,6 +98,8 @@ gint64              photos_base_item_get_mtime          (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_name           (PhotosBaseItem *self);
 
+const gchar        *photos_base_item_get_type_description (PhotosBaseItem *self);
+
 const gchar        *photos_base_item_get_uri            (PhotosBaseItem *self);
 
 gchar              *photos_base_item_get_where          (PhotosBaseItem *self);

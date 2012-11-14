@@ -794,6 +794,13 @@ photos_base_item_get_name (PhotosBaseItem *self)
 
 
 const gchar *
+photos_base_item_get_type_description (PhotosBaseItem *self)
+{
+  return self->priv->type_description;
+}
+
+
+const gchar *
 photos_base_item_get_uri (PhotosBaseItem *self)
 {
   return self->priv->uri;
