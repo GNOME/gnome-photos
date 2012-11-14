@@ -34,10 +34,12 @@
 #include "photos-application.h"
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
+#include "photos-resources.h"
 
 
 struct _PhotosApplicationPrivate
 {
+  GResource *resource;
   GSimpleAction *fs_action;
   GtkWidget *main_window;
   PhotosModeController *mode_cntrlr;
@@ -94,9 +96,9 @@ photos_application_startup (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   PhotosApplicationPrivate *priv = self->priv;
-  GMenu *doc_actions;
   GMenu *menu;
   GSimpleAction *action;
+  GtkBuilder *builder;
   GtkSettings *settings;
 
   G_APPLICATION_CLASS (photos_application_parent_class)
@@ -107,6 +109,9 @@ photos_application_startup (GApplication *application)
       g_warning ("Unable to initialize Clutter");
       return;
     }
+
+  priv->resource = photos_get_resource ();
+  g_resources_register (priv->resource);
 
   settings = gtk_settings_get_default ();
   g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
@@ -133,16 +138,13 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
-  menu = g_menu_new ();
+  builder = gtk_builder_new ();
+  gtk_builder_add_from_resource (builder, "/org/gnome/photos/app-menu.ui", NULL);
 
-  doc_actions = g_menu_new ();
-  g_menu_append (doc_actions, _("Fullscreen"), "app.fullscreen");
-  g_menu_append_section (menu, NULL, G_MENU_MODEL (doc_actions));
-
-  g_menu_append (menu, _("About Photos"), "app.about");
-  g_menu_append (menu, _("Quit"), "app.quit");
-
+  menu = G_MENU (gtk_builder_get_object (builder, "app-menu"));
   gtk_application_set_app_menu (GTK_APPLICATION (self), G_MENU_MODEL (menu));
+  g_object_unref (builder);
+
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>q", "app.quit", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "F11", "app.fullscreen", NULL);
 
@@ -173,6 +175,13 @@ photos_application_dispose (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
   PhotosApplicationPrivate *priv = self->priv;
+
+  if (priv->resource != NULL)
+    {
+      g_resources_unregister (priv->resource);
+      g_resource_unref (priv->resource);
+      priv->resource = NULL;
+    }
 
   if (priv->fs_action != NULL)
     {

@@ -1,0 +1,20 @@
+<interface>
+  <menu id="app-menu">
+    <section>
+      <item>
+        <attribute name="action">app.fullscreen</attribute>
+        <attribute name="label" translatable="yes">Fullscreen</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="action">app.about</attribute>
+        <attribute name="label" translatable="yes">About Documents</attribute>
+      </item>
+      <item>
+        <attribute name="action">app.quit</attribute>
+        <attribute name="label" translatable="yes">Quit</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>

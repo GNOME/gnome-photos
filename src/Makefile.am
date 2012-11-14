@@ -7,6 +7,8 @@ gnome_photos_built_sources = \
 	photos-enums.h \
 	photos-marshalers.c \
 	photos-marshalers.h \
+	photos-resources.c \
+	photos-resources.h \
 	photos-tracker-resources.c \
 	photos-tracker-resources.h \
 	$(NULL)
@@ -126,6 +128,8 @@ EXTRA_DIST = \
 	photos-enums.c.template \
 	photos-enums.h.template \
 	photos-generate-about \
+	photos.gresource.xml \
+	photos-app-menu.ui \
 	photos-marshalers.list \
 	photos-tracker-resources.xml \
 	$(null)
@@ -263,6 +267,18 @@ photos-marshalers.c: photos-marshalers.list photos-marshalers.h Makefile
 		&& cp xgen-tmc photos-marshalers.c \
 		&& rm -f xgen-tmc \
 	)
+
+photos-resources.c: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies $(srcdir)/photos.gresource.xml)
+	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ \
+		--sourcedir=$(srcdir) \
+		--generate-source \
+		$<
+
+photos-resources.h: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies $(srcdir)/photos.gresource.xml)
+	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ \
+		--sourcedir=$(srcdir) \
+		--generate-header \
+		$<
 
 photos-tracker-resources.h photos-tracker-resources.c: photos-tracker-resources.xml
 	gdbus-codegen \
