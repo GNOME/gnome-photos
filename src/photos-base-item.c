@@ -58,6 +58,7 @@ struct _PhotosBaseItemPrivate
   gchar *resource_urn;
   gchar *type_description;
   gchar *uri;
+  gint64 date_created;
   gint64 mtime;
 };
 
@@ -493,6 +494,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 {
   PhotosBaseItemPrivate *priv = self->priv;
   GTimeVal timeval;
+  const gchar *date_created;
   const gchar *mtime;
   const gchar *title;
   const gchar *uri;
@@ -518,6 +520,15 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   priv->mime_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL));
   priv->rdf_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL));
   photos_base_item_update_info_from_type (self);
+
+  date_created = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_DATE_CREATED, NULL);
+  if (date_created != NULL)
+    {
+      g_time_val_from_iso8601 (date_created, &timeval);
+      priv->date_created = (gint64) timeval.tv_sec;
+    }
+  else
+    priv->date_created = -1;
 
   title = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_TITLE, NULL);
   if (title == NULL || title[0] == '\0')
@@ -730,6 +741,13 @@ const gchar *
 photos_base_item_get_author (PhotosBaseItem *self)
 {
   return self->priv->author;
+}
+
+
+gint64
+photos_base_item_get_date_created (PhotosBaseItem *self)
+{
+  return self->priv->date_created;
 }
 
 

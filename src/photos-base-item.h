@@ -84,6 +84,8 @@ void                photos_base_item_destroy            (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_author         (PhotosBaseItem *self);
 
+gint64              photos_base_item_get_date_created   (PhotosBaseItem *self);
+
 const gchar        *photos_base_item_get_default_app_name (PhotosBaseItem *self);
 
 GdkPixbuf          *photos_base_item_get_icon           (PhotosBaseItem *self);
