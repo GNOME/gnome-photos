@@ -520,7 +520,7 @@ photos_utils_queue_thumbnail_job_for_file_finish (GAsyncResult *res)
 
 
 static void
-photos_utils_set_favorite_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_utils_update_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   const gchar *urn = (gchar *) user_data;
@@ -530,9 +530,23 @@ photos_utils_set_favorite_executed (GObject *source_object, GAsyncResult *res, g
   tracker_sparql_connection_update_finish (connection, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to set the favorite property on %s: %s", urn, error->message);
+      g_warning ("Unable to update %s: %s", urn, error->message);
       g_error_free (error);
     }
+}
+
+
+void
+photos_utils_set_edited_name (const gchar *urn, const gchar *title)
+{
+  PhotosTrackerQueue *queue;
+  gchar *sparql;
+
+  sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nfo:fileName\"%s\" }", urn, title);
+  queue = photos_tracker_queue_new ();
+  photos_tracker_queue_update (queue, sparql, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
+  g_object_unref (queue);
+  g_free (sparql);
 }
 
 
@@ -547,6 +561,6 @@ photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
                             urn);
 
   queue = photos_tracker_queue_new ();
-  photos_tracker_queue_update (queue, sparql, NULL, photos_utils_set_favorite_executed, g_strdup (urn), g_free);
+  photos_tracker_queue_update (queue, sparql, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
   g_object_unref (queue);
 }
