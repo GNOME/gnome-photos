@@ -527,7 +527,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->toolbar_favorite = gtk_toggle_button_new ();
   image = gtk_image_new_from_icon_name ("emblem-favorite-symbolic", GTK_ICON_SIZE_INVALID);
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 32);
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
   gtk_container_add (GTK_CONTAINER (priv->toolbar_favorite), image);
   gtk_container_add (GTK_CONTAINER (priv->left_box), priv->toolbar_favorite);
   g_signal_connect (priv->toolbar_favorite,
@@ -537,7 +537,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->toolbar_properties = gtk_button_new ();
   image = gtk_image_new_from_icon_name ("document-properties-symbolic", GTK_ICON_SIZE_INVALID);
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 32);
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
   gtk_container_add (GTK_CONTAINER (priv->toolbar_properties), image);
   gtk_widget_set_tooltip_text (GTK_WIDGET (priv->toolbar_properties), _("Properties"));
   gtk_container_add (GTK_CONTAINER (priv->left_box), priv->toolbar_properties);
@@ -548,7 +548,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->toolbar_print = gtk_button_new ();
   image = gtk_image_new_from_icon_name ("printer-symbolic", GTK_ICON_SIZE_INVALID);
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 32);
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
   gtk_container_add (GTK_CONTAINER (priv->toolbar_print), image);
   gtk_widget_set_tooltip_text (GTK_WIDGET (priv->toolbar_print), _("Print"));
   gtk_container_add (GTK_CONTAINER (priv->left_box), priv->toolbar_print);
@@ -570,7 +570,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->toolbar_collection = gtk_button_new ();
   image = gtk_image_new_from_icon_name ("list-add-symbolic", GTK_ICON_SIZE_INVALID);
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 32);
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
   gtk_container_add (GTK_CONTAINER (priv->toolbar_collection), image);
   gtk_widget_set_tooltip_text (GTK_WIDGET (priv->toolbar_collection), _("Organize"));
   gtk_container_add (GTK_CONTAINER (priv->right_box), priv->toolbar_collection);
@@ -581,7 +581,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->toolbar_trash = gtk_button_new ();
   image = gtk_image_new_from_icon_name ("user-trash-symbolic", GTK_ICON_SIZE_INVALID);
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 32);
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
   gtk_container_add (GTK_CONTAINER (priv->toolbar_trash), image);
   gtk_widget_set_tooltip_text (GTK_WIDGET (priv->toolbar_trash), _("Delete"));
   gtk_container_add (GTK_CONTAINER (priv->right_box), priv->toolbar_trash);
@@ -592,7 +592,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->toolbar_open = gtk_button_new ();
   image = gtk_image_new_from_icon_name ("document-open-symbolic", GTK_ICON_SIZE_INVALID);
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 32);
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
   gtk_container_add (GTK_CONTAINER (priv->toolbar_open), image);
   gtk_container_add (GTK_CONTAINER (priv->right_box), priv->toolbar_open);
   g_signal_connect (priv->toolbar_open,
