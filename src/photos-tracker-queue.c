@@ -131,7 +131,7 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
   data = g_queue_peek_head (priv->queue);
   priv->running = TRUE;
 
-  g_message ("%s", data->sparql);
+  g_debug ("%s", data->sparql);
 
   switch (data->query_type)
     {
