@@ -542,7 +542,7 @@ photos_utils_set_edited_name (const gchar *urn, const gchar *title)
   PhotosTrackerQueue *queue;
   gchar *sparql;
 
-  sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nfo:fileName\"%s\" }", urn, title);
+  sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:title \"%s\" }", urn, title);
   queue = photos_tracker_queue_new ();
   photos_tracker_queue_update (queue, sparql, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
   g_object_unref (queue);
