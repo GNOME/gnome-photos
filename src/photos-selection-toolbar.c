@@ -43,7 +43,6 @@ struct _PhotosSelectionToolbarPrivate
 {
   ClutterActor *actor;
   ClutterActor *parent_actor;
-  ClutterConstraint *width_constraint;
   GHashTable *item_listeners;
   GtkToolItem *left_group;
   GtkToolItem *right_group;
@@ -70,6 +69,12 @@ enum
 
 
 G_DEFINE_TYPE (PhotosSelectionToolbar, photos_selection_toolbar, G_TYPE_OBJECT);
+
+
+enum
+{
+  SELECTION_TOOLBAR_DEFAULT_WIDTH = 500
+};
 
 
 static void
@@ -159,24 +164,6 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
       favorite = photos_base_item_is_favorite (item);
       photos_base_item_set_favorite (item, !favorite);
     }
-}
-
-
-static void
-photos_selection_toolbar_notify_width (GObject *object, GParamSpec *pspec, gpointer user_data)
-{
-  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-  PhotosSelectionToolbarPrivate *priv = self->priv;
-  gfloat offset = 300.0;
-  gfloat width;
-
-  width = clutter_actor_get_width (priv->parent_actor);
-  if (width > 1000)
-    offset += (width - 1000);
-  else if (width < 600)
-    offset -= (600 - width);
-
-  clutter_bind_constraint_set_offset (CLUTTER_BIND_CONSTRAINT (priv->width_constraint), -1 * offset);
 }
 
 
@@ -438,10 +425,6 @@ photos_selection_toolbar_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_selection_toolbar_parent_class)->constructed (object);
 
-  priv->width_constraint = clutter_bind_constraint_new (priv->parent_actor, CLUTTER_BIND_WIDTH, -300.0);
-  clutter_actor_add_constraint (priv->actor, priv->width_constraint);
-  g_signal_connect (priv->actor, "notify::width", G_CALLBACK (photos_selection_toolbar_notify_width), self);
-
   constraint = clutter_align_constraint_new (priv->parent_actor, CLUTTER_ALIGN_X_AXIS, 0.50);
   clutter_actor_add_constraint (priv->actor, constraint);
 
@@ -512,6 +495,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   gtk_toolbar_set_icon_size (GTK_TOOLBAR (priv->widget), GTK_ICON_SIZE_LARGE_TOOLBAR);
   context = gtk_widget_get_style_context (priv->widget);
   gtk_style_context_add_class (context, "osd");
+  gtk_widget_set_size_request (priv->widget, SELECTION_TOOLBAR_DEFAULT_WIDTH, -1);
 
   priv->actor = gtk_clutter_actor_new_with_contents (priv->widget);
   clutter_actor_set_opacity (priv->actor, 0);
