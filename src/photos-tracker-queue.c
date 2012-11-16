@@ -113,6 +113,7 @@ photos_tracker_queue_collector (GObject *source_object, GAsyncResult *res, gpoin
   photos_tracker_queue_data_free (data);
 
   photos_tracker_queue_check (self);
+  g_object_unref (self);
 }
 
 
@@ -140,7 +141,7 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
                                              data->sparql,
                                              data->cancellable,
                                              photos_tracker_queue_collector,
-                                             self);
+                                             g_object_ref (self));
       break;
 
     case PHOTOS_TRACKER_QUERY_UPDATE:
@@ -149,7 +150,7 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
                                               G_PRIORITY_DEFAULT,
                                               data->cancellable,
                                               photos_tracker_queue_collector,
-                                              self);
+                                              g_object_ref (self));
       break;
 
     case PHOTOS_TRACKER_QUERY_UPDATE_BLANK:
@@ -158,7 +159,7 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
                                                     G_PRIORITY_DEFAULT,
                                                     data->cancellable,
                                                     photos_tracker_queue_collector,
-                                                    self);
+                                                    g_object_ref (self));
       break;
     }
 }
