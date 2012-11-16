@@ -69,20 +69,26 @@ photos_single_item_job_cursor_next (GObject *source_object, GAsyncResult *res, g
 {
   PhotosSingleItemJob *self = PHOTOS_SINGLE_ITEM_JOB (user_data);
   PhotosSingleItemJobPrivate *priv = self->priv;
+  TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GError *error;
   gboolean valid;
 
   error = NULL;
-  valid = tracker_sparql_cursor_next_finish (priv->cursor, res, &error);
+  valid = tracker_sparql_cursor_next_finish (cursor, res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to query single item: %s", error->message);
       g_error_free (error);
+      goto out;
     }
+  else if (!valid)
+    goto out;
 
+  priv->cursor = g_object_ref (cursor);
+
+ out:
   photos_single_item_job_emit_callback (self);
-  tracker_sparql_cursor_close (priv->cursor);
-  g_clear_object (&priv->cursor);
+  tracker_sparql_cursor_close (cursor);
   g_object_unref (self);
 }
 
@@ -93,10 +99,11 @@ photos_single_item_job_query_executed (GObject *source_object, GAsyncResult *res
   PhotosSingleItemJob *self = PHOTOS_SINGLE_ITEM_JOB (user_data);
   PhotosSingleItemJobPrivate *priv = self->priv;
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
+  TrackerSparqlCursor *cursor;
   GError *error;
 
   error = NULL;
-  priv->cursor = tracker_sparql_connection_query_finish (connection, res, &error);
+  cursor = tracker_sparql_connection_query_finish (connection, res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to query single item: %s", error->message);
@@ -105,10 +112,11 @@ photos_single_item_job_query_executed (GObject *source_object, GAsyncResult *res
       return;
     }
 
-  tracker_sparql_cursor_next_async (priv->cursor,
+  tracker_sparql_cursor_next_async (cursor,
                                     NULL,
                                     photos_single_item_job_cursor_next,
                                     g_object_ref (self));
+  g_object_unref (cursor);
 }
 
 
