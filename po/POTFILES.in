@@ -10,6 +10,7 @@ src/eog-uri-converter.c
 src/eog-util.c
 src/photos-application.c
 [type: gettext/glade]src/photos-app-menu.ui
+src/photos-empty-results-box.c
 src/photos-load-more-button.c
 src/photos-main-toolbar.c
 src/photos-main-window.c
