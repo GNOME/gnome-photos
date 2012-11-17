@@ -35,6 +35,7 @@
 
 struct _PhotosSpinnerBoxPrivate
 {
+  GtkWidget *spinner;
   guint delayed_move_id;
 };
 
@@ -76,6 +77,7 @@ photos_spinner_box_move_out_completed (PhotosSpinnerBox *self)
     return;
 
   clutter_actor_set_child_below_sibling (parent, CLUTTER_ACTOR (self), NULL);
+  gtk_spinner_stop (GTK_SPINNER (self->priv->spinner));
 }
 
 
@@ -83,9 +85,9 @@ static void
 photos_spinner_box_constructed (GObject *object)
 {
   PhotosSpinnerBox *self = PHOTOS_SPINNER_BOX (object);
+  PhotosSpinnerBoxPrivate *priv = self->priv;
   GtkWidget *bin;
   GtkWidget *label;
-  GtkWidget *spinner;
   GtkWidget *widget;
   gchar *text;
 
@@ -99,12 +101,11 @@ photos_spinner_box_constructed (GObject *object)
   gtk_orientable_set_orientation (GTK_ORIENTABLE (widget), GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing (GTK_GRID (widget), 24);
 
-  spinner = gtk_spinner_new ();
-  gtk_widget_set_size_request (spinner, 128, 128);
-  gtk_widget_set_halign (spinner, GTK_ALIGN_CENTER);
-  gtk_widget_set_valign (spinner, GTK_ALIGN_CENTER);
-  gtk_spinner_start (GTK_SPINNER (spinner));
-  gtk_container_add (GTK_CONTAINER (widget), spinner);
+  priv->spinner = gtk_spinner_new ();
+  gtk_widget_set_size_request (priv->spinner, 128, 128);
+  gtk_widget_set_halign (priv->spinner, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign (priv->spinner, GTK_ALIGN_CENTER);
+  gtk_container_add (GTK_CONTAINER (widget), priv->spinner);
 
   label = gtk_label_new (NULL);
 
@@ -175,6 +176,7 @@ photos_spinner_box_move_in (PhotosSpinnerBox *self)
     return;
 
   clutter_actor_set_child_above_sibling (parent, CLUTTER_ACTOR (self), NULL);
+  gtk_spinner_start (GTK_SPINNER (self->priv->spinner));
   clutter_actor_animate (CLUTTER_ACTOR (self), CLUTTER_EASE_OUT_QUAD, 300, "opacity", 255, NULL);
 }
 
