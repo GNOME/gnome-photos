@@ -221,9 +221,9 @@ photos_query_builder_filter_local (void)
   path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
   pictures_uri = photos_query_builder_convert_path_to_uri (path);
 
-  filter = g_strdup_printf ("((fn:starts-with (nie:url (?urn), \"%s\"))"
-                            " || (fn:starts-with (nie:url (?urn), \"%s\"))"
-                            " || (fn:starts-with (nie:url (?urn), \"%s\")))",
+  filter = g_strdup_printf ("((fn:contains (nie:url (?urn), \"%s\"))"
+                            " || (fn:contains (nie:url (?urn), \"%s\"))"
+                            " || (fn:contains (nie:url (?urn), \"%s\")))",
                             desktop_uri,
                             download_uri,
                             pictures_uri);
