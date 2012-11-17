@@ -100,6 +100,7 @@ LIBGD_INIT([
   main-toolbar
   main-icon-view
   main-view
+  notification
   static
 ])
 

@@ -75,6 +75,8 @@ gnome_photos_SOURCES = \
 	photos-main-window.h \
 	photos-mode-controller.c \
 	photos-mode-controller.h \
+	photos-notification-manager.c \
+	photos-notification-manager.h \
 	photos-offset-controller.c \
 	photos-offset-controller.h \
 	photos-organize-collection-dialog.c \
