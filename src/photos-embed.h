@@ -25,7 +25,7 @@
 #ifndef PHOTOS_EMBED_H
 #define PHOTOS_EMBED_H
 
-#include <clutter-gtk/clutter-gtk.h>
+#include "photos-embed-widget.h"
 
 G_BEGIN_DECLS
 
@@ -57,13 +57,13 @@ typedef struct _PhotosEmbedPrivate PhotosEmbedPrivate;
 
 struct _PhotosEmbed
 {
-  GtkClutterEmbed parent_instance;
+  PhotosEmbedWidget parent_instance;
   PhotosEmbedPrivate *priv;
 };
 
 struct _PhotosEmbedClass
 {
-  GtkClutterEmbedClass parent_class;
+  PhotosEmbedWidgetClass parent_class;
 };
 
 GType                  photos_embed_get_type               (void) G_GNUC_CONST;

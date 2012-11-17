@@ -57,6 +57,8 @@ gnome_photos_SOURCES = \
 	photos-collection-manager.h \
 	photos-embed.c \
 	photos-embed.h \
+	photos-embed-widget.c \
+	photos-embed-widget.h \
 	photos-empty-results-box.c \
 	photos-empty-results-box.h \
 	photos-error-box.c \

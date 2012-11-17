@@ -74,7 +74,7 @@ struct _PhotosEmbedPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosEmbed, photos_embed, GTK_CLUTTER_TYPE_EMBED);
+G_DEFINE_TYPE (PhotosEmbed, photos_embed, PHOTOS_TYPE_EMBED_WIDGET);
 
 
 static void
