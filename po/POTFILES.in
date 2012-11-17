@@ -15,6 +15,7 @@ src/photos-indexing-notification.c
 src/photos-load-more-button.c
 src/photos-main-toolbar.c
 src/photos-main-window.c
+src/photos-organize-collection-dialog.c
 src/photos-properties-dialog.c
 src/photos-search-type-manager.c
 src/photos-selection-toolbar.c

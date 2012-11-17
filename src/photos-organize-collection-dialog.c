@@ -25,6 +25,8 @@
 
 #include "config.h"
 
+#include <glib/gi18n.h>
+
 #include "photos-organize-collection-dialog.h"
 #include "photos-organize-collection-view.h"
 
@@ -128,6 +130,7 @@ photos_organize_collection_dialog_new (GtkWindow *parent)
                        "default-height", 250,
                        "destroy-with-parent", TRUE,
                        "modal", TRUE,
+                       "title", _("Organize"),
                        "transient-for", parent,
                        NULL);
 }
