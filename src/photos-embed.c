@@ -155,7 +155,6 @@ photos_embed_hide_no_results_page (PhotosEmbed *self)
       priv->no_results_change_id = 0;
     }
 
-  g_message ("hide no results");
   clutter_actor_set_child_below_sibling (priv->view_actor, priv->no_results, NULL);
 }
 
