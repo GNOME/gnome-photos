@@ -667,7 +667,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->constructed= photos_base_item_constructed;
+  object_class->constructed = photos_base_item_constructed;
   object_class->dispose = photos_base_item_dispose;
   object_class->finalize = photos_base_item_finalize;
   object_class->get_property = photos_base_item_get_property;
