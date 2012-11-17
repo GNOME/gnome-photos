@@ -30,12 +30,15 @@
 #include <gtk/gtk.h>
 
 #include "photos-embed.h"
+#include "photos-empty-results-box.h"
 #include "photos-error-box.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
+#include "photos-offset-controller.h"
 #include "photos-selection-toolbar.h"
 #include "photos-spinner-box.h"
+#include "photos-tracker-change-monitor.h"
 #include "photos-tracker-controller.h"
 #include "photos-view-container.h"
 
@@ -46,6 +49,7 @@ struct _PhotosEmbedPrivate
   ClutterActor *contents_actor;
   ClutterActor *error_box;
   ClutterActor *image_actor;
+  ClutterActor *no_results;
   ClutterActor *overview_actor;
   ClutterActor *spinner_box;
   ClutterActor *view_actor;
@@ -57,9 +61,12 @@ struct _PhotosEmbedPrivate
   PhotosMainToolbar *toolbar;
   PhotosSelectionToolbar *selection_toolbar;
   PhotosModeController *mode_cntrlr;
+  PhotosOffsetController *offset_cntrlr;
+  PhotosTrackerChangeMonitor *monitor;
   PhotosTrackerController *trk_cntrlr;
   gint preview_page;
   gint view_page;
+  gulong no_results_change_id;
 };
 
 
@@ -130,6 +137,47 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
                                priv->loader_cancellable,
                                photos_embed_item_load,
                                self);
+}
+
+
+static void
+photos_embed_hide_no_results_page (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  if (priv->no_results_change_id != 0)
+    {
+      g_signal_handler_disconnect (priv->monitor, priv->no_results_change_id);
+      priv->no_results_change_id = 0;
+    }
+
+  g_message ("hide no results");
+  clutter_actor_set_child_below_sibling (priv->view_actor, priv->no_results, NULL);
+}
+
+
+static void
+photos_embed_changes_pending (PhotosEmbed *self, GHashTable *changes)
+{
+  photos_embed_hide_no_results_page (self);
+}
+
+
+static void
+photos_embed_count_changed (PhotosEmbed *self, gint count)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  if (count == 0)
+    {
+      priv->no_results_change_id = g_signal_connect_swapped (priv->monitor,
+                                                             "changes-pending",
+                                                             G_CALLBACK (photos_embed_changes_pending),
+                                                             self);
+      clutter_actor_set_child_above_sibling (priv->view_actor, priv->no_results, NULL);
+    }
+  else
+    photos_embed_hide_no_results_page (self);
 }
 
 
@@ -254,6 +302,12 @@ photos_embed_dispose (GObject *object)
   PhotosEmbed *self = PHOTOS_EMBED (object);
   PhotosEmbedPrivate *priv = self->priv;
 
+  if (priv->no_results_change_id != 0)
+    {
+      g_signal_handler_disconnect (priv->monitor, priv->no_results_change_id);
+      priv->no_results_change_id = 0;
+    }
+
   g_clear_object (&priv->loader_cancellable);
   g_clear_object (&priv->item_mngr);
 
@@ -263,6 +317,8 @@ photos_embed_dispose (GObject *object)
       priv->mode_cntrlr = NULL;
     }
 
+  g_clear_object (&priv->offset_cntrlr);
+  g_clear_object (&priv->monitor);
   g_clear_object (&priv->trk_cntrlr);
 
   G_OBJECT_CLASS (photos_embed_parent_class)->dispose (object);
@@ -335,6 +391,9 @@ photos_embed_init (PhotosEmbed *self)
   priv->error_box = photos_error_box_new ();
   clutter_actor_insert_child_below (priv->view_actor, priv->error_box, NULL);
 
+  priv->no_results = photos_empty_results_box_new ();
+  clutter_actor_insert_child_below (priv->view_actor, priv->no_results, NULL);
+
   priv->background = clutter_actor_new ();
   clutter_actor_set_background_color (priv->background, CLUTTER_COLOR_White);
   clutter_actor_set_x_expand (priv->background, TRUE);
@@ -366,11 +425,16 @@ photos_embed_init (PhotosEmbed *self)
                     G_CALLBACK (photos_embed_query_status_changed),
                     self);
 
+  priv->offset_cntrlr = photos_offset_controller_new ();
+  g_signal_connect_swapped (priv->offset_cntrlr, "count-changed", G_CALLBACK (photos_embed_count_changed), self);
+
   priv->item_mngr = photos_item_manager_new ();
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
 
   querying = photos_tracker_controller_get_query_status (priv->trk_cntrlr);
   photos_embed_query_status_changed (priv->trk_cntrlr, querying, self);
+
+  priv->monitor = photos_tracker_change_monitor_new ();
 
   gtk_widget_show (GTK_WIDGET (self));
 }
