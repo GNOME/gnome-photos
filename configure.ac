@@ -1,8 +1,8 @@
 AC_INIT([Photos],
-        [3.5.90],
+        [3.7.2],
         [https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos],
         [gnome-photos],
-        [http://projects.gnome.org/photos])
+        [https://live.gnome.org/GnomePhotos])
 AC_PREREQ(2.63)
 
 AC_CONFIG_AUX_DIR([config])
