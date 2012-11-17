@@ -80,31 +80,16 @@ photos_spinner_box_move_out_completed (PhotosSpinnerBox *self)
 
 
 static void
-photos_spinner_box_dispose (GObject *object)
+photos_spinner_box_constructed (GObject *object)
 {
   PhotosSpinnerBox *self = PHOTOS_SPINNER_BOX (object);
-
-  photos_spinner_box_clear_delay_id (self);
-
-  G_OBJECT_CLASS (photos_spinner_box_parent_class)->dispose (object);
-}
-
-
-static void
-photos_spinner_box_init (PhotosSpinnerBox *self)
-{
-  PhotosSpinnerBoxPrivate *priv;
   GtkWidget *bin;
   GtkWidget *label;
   GtkWidget *spinner;
   GtkWidget *widget;
   gchar *text;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SPINNER_BOX, PhotosSpinnerBoxPrivate);
-  priv = self->priv;
-
-  clutter_actor_set_x_expand (CLUTTER_ACTOR (self), TRUE);
-  clutter_actor_set_y_expand (CLUTTER_ACTOR (self), TRUE);
+  G_OBJECT_CLASS (photos_spinner_box_parent_class)->constructed (object);
 
   widget = gtk_grid_new ();
   gtk_widget_set_halign (widget, GTK_ALIGN_CENTER);
@@ -140,10 +125,32 @@ photos_spinner_box_init (PhotosSpinnerBox *self)
 
 
 static void
+photos_spinner_box_dispose (GObject *object)
+{
+  PhotosSpinnerBox *self = PHOTOS_SPINNER_BOX (object);
+
+  photos_spinner_box_clear_delay_id (self);
+
+  G_OBJECT_CLASS (photos_spinner_box_parent_class)->dispose (object);
+}
+
+
+static void
+photos_spinner_box_init (PhotosSpinnerBox *self)
+{
+  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SPINNER_BOX, PhotosSpinnerBoxPrivate);
+
+  clutter_actor_set_x_expand (CLUTTER_ACTOR (self), TRUE);
+  clutter_actor_set_y_expand (CLUTTER_ACTOR (self), TRUE);
+}
+
+
+static void
 photos_spinner_box_class_init (PhotosSpinnerBoxClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->constructed = photos_spinner_box_constructed;
   object_class->dispose = photos_spinner_box_dispose;
 
   g_type_class_add_private (class, sizeof (PhotosSpinnerBoxPrivate));
