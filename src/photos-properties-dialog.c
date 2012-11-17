@@ -105,7 +105,6 @@ photos_properties_dialog_constructed (GObject *object)
   GtkWidget *grid;
   GtkWidget *item_type;
   GtkWidget *item_type_data;
-  GtkWidget *message;
   GtkWidget *source;
   GtkWidget *source_data;
   GtkWidget *title;
@@ -115,7 +114,6 @@ photos_properties_dialog_constructed (GObject *object)
   const gchar *type_description;
   gchar *date_created_str = NULL;
   gchar *date_modified_str;
-  gchar *str;
   gint64 ctime;
   gint64 mtime;
 
@@ -150,15 +148,6 @@ photos_properties_dialog_constructed (GObject *object)
 
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
   gtk_box_pack_start (GTK_BOX (content_area), grid, TRUE, TRUE, 2);
-
-  str = g_strconcat ("<span size=\"large\"><b>", _("Properties"), "</b></span>", NULL);
-  message = gtk_label_new (str);
-  gtk_widget_set_halign (message, GTK_ALIGN_CENTER);
-  gtk_widget_set_hexpand (message, FALSE);
-  gtk_label_set_use_markup (GTK_LABEL (message), TRUE);
-  g_free (str);
-
-  gtk_grid_attach (GTK_GRID (grid), message, 1, 0, 1, 1);
 
   title = gtk_label_new (_("Title"));
   gtk_widget_set_halign (title, GTK_ALIGN_END);
