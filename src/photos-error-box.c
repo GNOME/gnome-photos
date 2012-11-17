@@ -57,27 +57,14 @@ photos_error_box_move_out_completed (PhotosErrorBox *self)
 
 
 static void
-photos_error_box_dispose (GObject *object)
+photos_error_box_constructed (GObject *object)
 {
   PhotosErrorBox *self = PHOTOS_ERROR_BOX (object);
   PhotosErrorBoxPrivate *priv = self->priv;
-
-  G_OBJECT_CLASS (photos_error_box_parent_class)->dispose (object);
-}
-
-
-static void
-photos_error_box_init (PhotosErrorBox *self)
-{
-  PhotosErrorBoxPrivate *priv;
   GtkWidget *bin;
   GtkWidget *widget;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_ERROR_BOX, PhotosErrorBoxPrivate);
-  priv = self->priv;
-
-  clutter_actor_set_x_expand (CLUTTER_ACTOR (self), TRUE);
-  clutter_actor_set_y_expand (CLUTTER_ACTOR (self), TRUE);
+  G_OBJECT_CLASS (photos_error_box_parent_class)->constructed (object);
 
   widget = gtk_grid_new ();
   gtk_widget_set_halign (widget, GTK_ALIGN_CENTER);
@@ -113,10 +100,31 @@ photos_error_box_init (PhotosErrorBox *self)
 
 
 static void
+photos_error_box_dispose (GObject *object)
+{
+  PhotosErrorBox *self = PHOTOS_ERROR_BOX (object);
+  PhotosErrorBoxPrivate *priv = self->priv;
+
+  G_OBJECT_CLASS (photos_error_box_parent_class)->dispose (object);
+}
+
+
+static void
+photos_error_box_init (PhotosErrorBox *self)
+{
+  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_ERROR_BOX, PhotosErrorBoxPrivate);
+
+  clutter_actor_set_x_expand (CLUTTER_ACTOR (self), TRUE);
+  clutter_actor_set_y_expand (CLUTTER_ACTOR (self), TRUE);
+}
+
+
+static void
 photos_error_box_class_init (PhotosErrorBoxClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->constructed = photos_error_box_constructed;
   object_class->dispose = photos_error_box_dispose;
 
   g_type_class_add_private (class, sizeof (PhotosErrorBoxPrivate));
