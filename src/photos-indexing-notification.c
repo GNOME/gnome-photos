@@ -36,6 +36,7 @@
 struct _PhotosIndexingNotificationPrivate
 {
   ClutterActor *ntfctn_mngr;
+  GtkWidget *spinner;
   TrackerMinerManager *manager;
   gboolean manually_closed;
   gboolean on_display;
@@ -51,9 +52,12 @@ static const gchar *MINER_FILES = "org.freedesktop.Tracker1.Miner.Files";
 static void
 photos_indexing_notification_destroy_notification (PhotosIndexingNotification *self)
 {
+  PhotosIndexingNotificationPrivate *priv = self->priv;
   GtkWidget *parent;
 
-  self->priv->on_display = FALSE;
+  priv->on_display = FALSE;
+  gtk_spinner_stop (GTK_SPINNER (priv->spinner));
+
   parent = gtk_widget_get_parent (GTK_WIDGET (self));
   if (parent != NULL)
     gtk_container_remove (GTK_CONTAINER (parent), GTK_WIDGET (self));
@@ -81,6 +85,7 @@ photos_indexing_notification_display_notification (PhotosIndexingNotification *s
 
   photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (priv->ntfctn_mngr),
                                                 GTK_WIDGET (self));
+  gtk_spinner_start (GTK_SPINNER (priv->spinner));
   priv->on_display = TRUE;
 }
 
@@ -135,7 +140,6 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   GtkWidget *labels;
   GtkWidget *primary;
   GtkWidget *secondary;
-  GtkWidget *spinner;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
                                             PHOTOS_TYPE_INDEXING_NOTIFICATION,
@@ -154,9 +158,9 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
 
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_new ());
 
-  spinner = gtk_spinner_new ();
-  gtk_widget_set_size_request (spinner, 16, 16);
-  gtk_container_add (GTK_CONTAINER (self), spinner);
+  priv->spinner = gtk_spinner_new ();
+  gtk_widget_set_size_request (priv->spinner, 16, 16);
+  gtk_container_add (GTK_CONTAINER (self), priv->spinner);
 
   labels = gtk_grid_new ();
   gtk_orientable_set_orientation (GTK_ORIENTABLE (labels), GTK_ORIENTATION_VERTICAL);
