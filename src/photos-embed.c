@@ -32,9 +32,11 @@
 #include "photos-embed.h"
 #include "photos-empty-results-box.h"
 #include "photos-error-box.h"
+#include "photos-indexing-notification.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
+#include "photos-notification-manager.h"
 #include "photos-offset-controller.h"
 #include "photos-selection-toolbar.h"
 #include "photos-spinner-box.h"
@@ -50,12 +52,14 @@ struct _PhotosEmbedPrivate
   ClutterActor *error_box;
   ClutterActor *image_actor;
   ClutterActor *no_results;
+  ClutterActor *ntfctn_mngr;
   ClutterActor *overview_actor;
   ClutterActor *spinner_box;
   ClutterActor *view_actor;
   ClutterLayoutManager *contents_layout;
   ClutterLayoutManager *view_layout;
   GCancellable *loader_cancellable;
+  GtkWidget *indexing_ntfctn;
   GtkWidget *overview;
   PhotosBaseManager *item_mngr;
   PhotosMainToolbar *toolbar;
@@ -203,7 +207,7 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
   photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
   photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
 
-  clutter_actor_set_child_above_sibling (priv->view_actor, priv->overview_actor, NULL);
+  clutter_actor_set_child_below_sibling (priv->view_actor, priv->overview_actor, priv->ntfctn_mngr);
 }
 
 
@@ -216,7 +220,7 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
    *       ErrorHandler
    */
 
-  clutter_actor_set_child_above_sibling (priv->view_actor, priv->image_actor, NULL);
+  clutter_actor_set_child_below_sibling (priv->view_actor, priv->image_actor, priv->ntfctn_mngr);
 }
 
 
@@ -308,7 +312,9 @@ photos_embed_dispose (GObject *object)
       priv->no_results_change_id = 0;
     }
 
+  g_clear_object (&priv->ntfctn_mngr);
   g_clear_object (&priv->loader_cancellable);
+  g_clear_object (&priv->indexing_ntfctn);
   g_clear_object (&priv->item_mngr);
 
   if (priv->mode_cntrlr != NULL)
@@ -370,11 +376,16 @@ photos_embed_init (PhotosEmbed *self)
   clutter_actor_set_y_expand (priv->view_actor, TRUE);
   clutter_actor_add_child (priv->contents_actor, priv->view_actor);
 
+  priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_new ());
+  clutter_actor_add_child (priv->view_actor, priv->ntfctn_mngr);
+
+  priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
+
   priv->overview = photos_view_container_new ();
   priv->overview_actor = gtk_clutter_actor_new_with_contents (priv->overview);
   clutter_actor_set_x_expand (priv->overview_actor, TRUE);
   clutter_actor_set_y_expand (priv->overview_actor, TRUE);
-  clutter_actor_add_child (priv->view_actor, priv->overview_actor);
+  clutter_actor_insert_child_below (priv->view_actor, priv->overview_actor, NULL);
 
   priv->image_actor = clutter_actor_new ();
   clutter_actor_set_background_color (priv->image_actor, CLUTTER_COLOR_Black);
