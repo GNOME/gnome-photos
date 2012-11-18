@@ -405,7 +405,7 @@ photos_embed_init (PhotosEmbed *self)
   clutter_actor_insert_child_below (priv->view_actor, priv->no_results, NULL);
 
   priv->background = clutter_actor_new ();
-  clutter_actor_set_background_color (priv->background, CLUTTER_COLOR_White);
+  clutter_actor_set_background_color (priv->background, CLUTTER_COLOR_Black);
   clutter_actor_set_x_expand (priv->background, TRUE);
   clutter_actor_set_y_expand (priv->background, TRUE);
   clutter_actor_insert_child_below (priv->view_actor, priv->background, NULL);
