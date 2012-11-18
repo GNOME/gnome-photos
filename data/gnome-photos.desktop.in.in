@@ -6,6 +6,6 @@ Icon=@PACKAGE_TARNAME@
 StartupNotify=true
 Terminal=false
 Type=Application
-OnlyShowIn=GNOME
+OnlyShowIn=GNOME;
 Categories=GNOME;GTK;Utility;Core;
 _Keywords=Photos;Pictures;
