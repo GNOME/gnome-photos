@@ -288,7 +288,7 @@ photos-resources.h: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sou
 		$<
 
 photos-tracker-resources.h photos-tracker-resources.c: photos-tracker-resources.xml
-	gdbus-codegen \
+	$(AM_V_GEN)gdbus-codegen \
 		--c-namespace Tracker \
 		--generate-c-code photos-tracker-resources \
 		--interface-prefix org.freedesktop.Tracker1. \
