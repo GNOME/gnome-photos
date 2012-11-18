@@ -13,8 +13,11 @@ gnome_photos_built_sources = \
 	photos-tracker-resources.h \
 	$(NULL)
 
-gnome_photos_SOURCES = \
+nodist_gnome_photos_SOURCES = \
 	$(gnome_photos_built_sources) \
+	$(NULL)
+
+gnome_photos_SOURCES = \
 	eog-debug.c \
 	eog-debug.h \
 	eog-enums.h \
@@ -187,8 +190,6 @@ gnome_photos_LDADD = \
 	$(top_builddir)/libgd/libgd.la \
 	$(NULL)
 
-if MAINTAINER_MODE
-
 CLEANFILES = \
 	$(gnome_photos_built_sources) \
 	stamp-photos-about-data.h \
@@ -207,10 +208,9 @@ photos-about-data.h: stamp-photos-about-data.h
 
 stamp-photos-about-data.h: $(top_srcdir)/ARTISTS $(top_srcdir)/AUTHORS
 	$(AM_V_GEN) ( \
-		cd $(srcdir) \
-		&& ( ./photos-generate-about \
+		( $(srcdir)/photos-generate-about \
 			--header $(top_srcdir) \
-                   ) >> xgen-ah \
+                ) >> xgen-ah \
 		&& ( cmp -s xgen-ah photos-about-data.h || cp xgen-ah photos-about-data.h ) \
 		&& rm -f xgen-ah \
 		&& echo timestamp > $(@F) \
@@ -218,9 +218,8 @@ stamp-photos-about-data.h: $(top_srcdir)/ARTISTS $(top_srcdir)/AUTHORS
 
 photos-about-data.c: $(top_srcdir)/ARTISTS $(top_srcdir)/AUTHORS
 	$(AM_V_GEN) ( \
-		cd $(srcdir) \
-		&& echo "#include \"photos-about-data.h\"" > xgen-ac \
-		&& ( ./photos-generate-about \
+		echo "#include \"photos-about-data.h\"" > xgen-ac \
+		&& ( $(srcdir)/photos-generate-about \
 			--body $(top_srcdir) \
                    ) >> xgen-ac \
 		&& ( cmp -s xgen-ac photos-about-data.c || cp xgen-ac photos-about-data.c ) \
@@ -232,11 +231,10 @@ photos-enums.h: stamp-photos-enums.h
 
 stamp-photos-enums.h: photos-enums.h.template
 	$(AM_V_GEN) ( \
-		cd $(srcdir) \
-		&& ( glib-mkenums \
-			--template photos-enums.h.template \
-                        photos-mode-controller.h \
-                   ) >> xgen-etbh \
+		( glib-mkenums \
+			--template $(srcdir)/photos-enums.h.template \
+                        $(srcdir)/photos-mode-controller.h \
+                ) >> xgen-etbh \
 		&& ( cmp -s xgen-etbh photos-enums.h || cp xgen-etbh photos-enums.h ) \
 		&& rm -f xgen-etbh \
 		&& echo timestamp > $(@F) \
@@ -244,11 +242,10 @@ stamp-photos-enums.h: photos-enums.h.template
 
 photos-enums.c: photos-enums.c.template
 	$(AM_V_GEN) ( \
-		cd $(srcdir) \
-		&& ( glib-mkenums \
-			--template photos-enums.c.template \
-                        photos-mode-controller.h \
-                   ) >> xgen-etbc \
+		( glib-mkenums \
+			--template $(srcdir)/photos-enums.c.template \
+                        $(srcdir)/photos-mode-controller.h \
+                ) >> xgen-etbc \
 		&& ( cmp -s xgen-etbc photos-enums.c || cp xgen-etbc photos-enums.c ) \
 		&& rm -f xgen-etbc \
 	)
@@ -258,10 +255,10 @@ photos-marshalers.h: stamp-photos-marshalers.h
 
 stamp-photos-marshalers.h: photos-marshalers.list Makefile
 	$(AM_V_GEN) ( \
-		cd $(srcdir) \
-		&& ( glib-genmarshal \
+		( glib-genmarshal \
 			--prefix=_photos_marshal \
-			--header photos-marshalers.list ) >> xgen-tmh \
+			--header $(srcdir)/photos-marshalers.list \
+		) >> xgen-tmh \
 		&& ( cmp -s xgen-tmh photos-marshalers.h || cp xgen-tmh photos-marshalers.h ) \
 		&& rm -f xgen-tmh \
 		&& echo timestamp > $(@F) \
@@ -269,22 +266,22 @@ stamp-photos-marshalers.h: photos-marshalers.list Makefile
 
 photos-marshalers.c: photos-marshalers.list photos-marshalers.h Makefile
 	$(AM_V_GEN) ( \
-		cd $(srcdir) \
-		&& echo "#include \"photos-marshalers.h\"" > xgen-tmc \
+		echo "#include \"photos-marshalers.h\"" > xgen-tmc \
 		&& ( glib-genmarshal \
 			--prefix=_photos_marshal \
-			--body photos-marshalers.list ) >> xgen-tmc \
+			--body $(srcdir)/photos-marshalers.list \
+		   ) >> xgen-tmc \
 		&& cp xgen-tmc photos-marshalers.c \
 		&& rm -f xgen-tmc \
 	)
 
-photos-resources.c: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies $(srcdir)/photos.gresource.xml)
+photos-resources.c: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir) --generate-dependencies $(srcdir)/photos.gresource.xml)
 	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ \
 		--sourcedir=$(srcdir) \
 		--generate-source \
 		$<
 
-photos-resources.h: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies $(srcdir)/photos.gresource.xml)
+photos-resources.h: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir) --generate-dependencies $(srcdir)/photos.gresource.xml)
 	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ \
 		--sourcedir=$(srcdir) \
 		--generate-header \
@@ -295,6 +292,4 @@ photos-tracker-resources.h photos-tracker-resources.c: photos-tracker-resources.
 		--c-namespace Tracker \
 		--generate-c-code photos-tracker-resources \
 		--interface-prefix org.freedesktop.Tracker1. \
-		photos-tracker-resources.xml
-
-endif
+		$(srcdir)/photos-tracker-resources.xml

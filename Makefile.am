@@ -19,13 +19,15 @@ photosdoc_DATA = \
 	README \
 	$(NULL)
 
+# There is no way to generate the AUTHORS in tarball builds
 EXTRA_DIST = \
 	$(INTLTOOL_FILES) \
 	$(photosdoc_DATA) \
+	AUTHORS \
 	$(NULL)
 
+# We don't want to clean the AUTHORS in tarball builds
 CLEANFILES = \
-	AUTHORS \
 	$(NULL)
 
 DISTCLEANFILES = \
