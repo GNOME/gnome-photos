@@ -164,7 +164,7 @@ photos_utils_create_thumbnail (GIOSchedulerJob *job, GCancellable *cancellable, 
 
   mtime = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
 
-  factory = gnome_desktop_thumbnail_factory_new (GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
+  factory = gnome_desktop_thumbnail_factory_new (GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE);
   pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (factory, uri, g_file_info_get_content_type (info));
 
   if (pixbuf != NULL)
@@ -315,7 +315,7 @@ photos_utils_filename_strip_extension (const gchar *filename_with_extension)
 gint
 photos_utils_get_icon_size (void)
 {
-  return 128;
+  return 256;
 }
 
 
