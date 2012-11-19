@@ -424,6 +424,7 @@ photos_base_item_update_icon_from_type (PhotosBaseItem *self)
   GIcon *icon = NULL;
   GtkIconInfo *info;
   GtkIconTheme *theme;
+  gint icon_size;
 
   if (priv->mime_type != NULL)
     icon = g_content_type_get_icon (priv->mime_type);
@@ -431,9 +432,10 @@ photos_base_item_update_icon_from_type (PhotosBaseItem *self)
   /* TODO: Get icon from RDF type */
 
   theme = gtk_icon_theme_get_default ();
+  icon_size = photos_utils_get_icon_size ();
   info = gtk_icon_theme_lookup_by_gicon (theme,
                                          icon,
-                                         128,
+                                         icon_size,
                                          GTK_ICON_LOOKUP_FORCE_SIZE | GTK_ICON_LOOKUP_GENERIC_FALLBACK);
   if (info != NULL)
     {
