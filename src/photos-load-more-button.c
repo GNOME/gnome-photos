@@ -35,6 +35,8 @@
 
 struct _PhotosLoadMoreButtonPrivate
 {
+  GtkWidget *label;
+  GtkWidget *spinner;
   PhotosOffsetController *offset_cntrlr;
   gboolean block;
   gulong offset_cntrlr_id;
@@ -48,30 +50,20 @@ static void
 photos_load_more_button_count_changed (PhotosOffsetController *offset_cntrlr, gint count, gpointer user_data)
 {
   PhotosLoadMoreButton *self = PHOTOS_LOAD_MORE_BUTTON (user_data);
-  gchar *label;
+  PhotosLoadMoreButtonPrivate *priv = self->priv;
+  gboolean visible;
   gint remaining;
-  gint step;
 
   remaining = photos_offset_controller_get_remaining (offset_cntrlr);
-  step = photos_offset_controller_get_step (offset_cntrlr);
-  if (remaining <= 0 || self->priv->block)
+  visible = !(remaining <= 0 || priv->block);
+  gtk_widget_set_visible (GTK_WIDGET (self), visible);
+
+  if (!visible)
     {
-      gtk_widget_hide (GTK_WIDGET (self));
-      return;
+      gtk_label_set_label (GTK_LABEL (priv->label), _("Load More"));
+      gtk_spinner_stop (GTK_SPINNER (priv->spinner));
+      gtk_widget_hide (priv->spinner);
     }
-
-  if (remaining > step)
-    remaining = step;
-
-  if (remaining == 1)
-    label = g_strdup (_("Load 1 more photo"));
-  else
-    label = g_strdup_printf (_("Load %d more photos"), remaining);
-
-  gtk_button_set_label (GTK_BUTTON (self), label);
-  g_free (label);
-
-  gtk_widget_show (GTK_WIDGET (self));
 }
 
 
@@ -79,6 +71,12 @@ static void
 photos_load_more_button_clicked (GtkButton *button)
 {
   PhotosLoadMoreButton *self = PHOTOS_LOAD_MORE_BUTTON (button);
+  PhotosLoadMoreButtonPrivate *priv = self->priv;
+
+  gtk_label_set_label (GTK_LABEL (priv->label), _("Loading..."));
+  gtk_widget_show (priv->spinner);
+  gtk_spinner_start (GTK_SPINNER (priv->spinner));
+
   photos_offset_controller_increase_offset (self->priv->offset_cntrlr);
 }
 
@@ -106,6 +104,7 @@ photos_load_more_button_init (PhotosLoadMoreButton *self)
 {
   PhotosLoadMoreButtonPrivate *priv;
   GtkStyleContext *context;
+  GtkWidget *child;
   gint count;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_LOAD_MORE_BUTTON, PhotosLoadMoreButtonPrivate);
@@ -114,6 +113,23 @@ photos_load_more_button_init (PhotosLoadMoreButton *self)
   gtk_widget_set_no_show_all (GTK_WIDGET (self), TRUE);
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
   gtk_style_context_add_class (context, "documents-load-more");
+
+  child = gtk_grid_new ();
+  gtk_widget_set_halign (child, GTK_ALIGN_CENTER);
+  gtk_widget_set_hexpand (child, TRUE);
+  gtk_widget_set_visible (child, TRUE);
+  gtk_grid_set_column_spacing (GTK_GRID (child), 10);
+  gtk_container_add (GTK_CONTAINER (self), child);
+
+  priv->spinner = gtk_spinner_new ();
+  gtk_widget_set_halign (priv->spinner, GTK_ALIGN_CENTER);
+  gtk_widget_set_no_show_all (priv->spinner, TRUE);
+  gtk_widget_set_size_request (priv->spinner, 16, 16);
+  gtk_container_add (GTK_CONTAINER (child), priv->spinner);
+
+  priv->label = gtk_label_new (_("Load More"));
+  gtk_widget_set_visible (priv->label, TRUE);
+  gtk_container_add (GTK_CONTAINER (child), priv->label);
 
   priv->offset_cntrlr = photos_offset_controller_new ();
   priv->offset_cntrlr_id = g_signal_connect (priv->offset_cntrlr,
