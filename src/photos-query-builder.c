@@ -189,7 +189,7 @@ photos_query_builder_single_query (gint flags, const gchar *resource)
   gchar *sparql;
   gchar *tmp;
 
-  tmp = photos_query_builder_query (TRUE, flags);
+  tmp = photos_query_builder_query (FALSE, flags);
 
   regex = g_regex_new ("\\?urn", 0, 0, NULL);
   replacement = g_strconcat ("<", resource, ">", NULL);
