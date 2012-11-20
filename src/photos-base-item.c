@@ -533,16 +533,8 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
     priv->date_created = -1;
 
   title = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_TITLE, NULL);
-  if (title == NULL || title[0] == '\0')
-    {
-      const gchar *filename;
-
-      filename = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_FILENAME, NULL);
-      if (filename != NULL)
-        title = photos_utils_filename_strip_extension (filename);
-      else
-        title = "";
-    }
+  if (title == NULL)
+    title = "";
   priv->name = g_strdup (title);
 
   photos_base_item_refresh_icon (self);
