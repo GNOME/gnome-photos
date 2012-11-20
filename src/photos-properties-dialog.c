@@ -69,6 +69,9 @@ photos_properties_dialog_title_entry_timeout (gpointer user_data)
   priv->title_entry_timeout = 0;
   new_title = gtk_entry_get_text (GTK_ENTRY (priv->title_entry));
   photos_utils_set_edited_name (priv->urn, new_title);
+
+  g_object_unref (self);
+  return G_SOURCE_REMOVE;
 }
 
 
@@ -86,7 +89,7 @@ photos_properties_dialog_title_entry_changed (GtkEditable *editable, gpointer us
 
   priv->title_entry_timeout = g_timeout_add (TITLE_ENTRY_TIMEOUT,
                                              photos_properties_dialog_title_entry_timeout,
-                                             self);
+                                             g_object_ref (self));
 }
 
 
