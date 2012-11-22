@@ -14,7 +14,6 @@ photosdoc_DATA = \
 	AUTHORS \
 	COPYING \
 	ChangeLog \
-	INSTALL \
 	NEWS \
 	README \
 	$(NULL)
