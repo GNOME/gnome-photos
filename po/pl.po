@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-14 16:22+0100\n"
-"PO-Revision-Date: 2012-11-14 16:23+0100\n"
+"POT-Creation-Date: 2012-12-04 00:40+0100\n"
+"PO-Revision-Date: 2012-12-04 00:41+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -237,14 +237,25 @@ msgstr "O menedżerze zdjęć"
 msgid "Quit"
 msgstr "Zakończ"
 
-#: ../src/photos-load-more-button.c:67
-msgid "Load 1 more photo"
-msgstr "Wczytaj następne zdjęcie"
+#: ../src/photos-empty-results-box.c:70
+msgid "No Photos Found"
+msgstr "Nie odnaleziono zdjęć"
 
-#: ../src/photos-load-more-button.c:69
-#, c-format
-msgid "Load %d more photos"
-msgstr "Wczytaj następne %d zdjęć"
+#: ../src/photos-indexing-notification.c:170
+msgid "Your photos are being indexed"
+msgstr "Zdjęcia są indeksowane"
+
+#: ../src/photos-indexing-notification.c:174
+msgid "Some photos might not be available during this process"
+msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
+
+#: ../src/photos-load-more-button.c:63 ../src/photos-load-more-button.c:130
+msgid "Load More"
+msgstr "Wczytaj więcej"
+
+#: ../src/photos-load-more-button.c:76 ../src/photos-spinner-box.c:113
+msgid "Loading..."
+msgstr "Wczytywanie..."
 
 #: ../src/photos-main-toolbar.c:96
 msgid "Click on items to select them"
@@ -263,7 +274,7 @@ msgstr "Wstecz"
 msgid "Select Items"
 msgstr "Wybór elementów"
 
-#: ../src/photos-main-toolbar.c:308
+#: ../src/photos-main-toolbar.c:308 ../src/photos-properties-dialog.c:328
 msgid "Done"
 msgstr "Gotowe"
 
@@ -278,48 +289,73 @@ msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2012\n"
 "Aviary.pl <gnomepl@aviary.pl>, 2012"
 
+#: ../src/photos-organize-collection-dialog.c:133
+#: ../src/photos-selection-toolbar.c:577
+msgid "Organize"
+msgstr "Organizuj"
+
+#: ../src/photos-properties-dialog.c:155
+msgid "Title"
+msgstr "Tytuł"
+
+#: ../src/photos-properties-dialog.c:164
+msgid "Author"
+msgstr "Autor"
+
+#: ../src/photos-properties-dialog.c:171
+msgid "Source"
+msgstr "Źródło"
+
+#: ../src/photos-properties-dialog.c:177
+msgid "Date Modified"
+msgstr "Data modyfikacji"
+
+#: ../src/photos-properties-dialog.c:185
+msgid "Date Created"
+msgstr "Data utworzenia"
+
+#: ../src/photos-properties-dialog.c:192
+msgid "Type"
+msgstr "Typ"
+
+#: ../src/photos-properties-dialog.c:365 ../src/photos-selection-toolbar.c:588
+msgid "Properties"
+msgstr "Właściwości"
+
 #: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:131
 msgid "All"
 msgstr "Wszystkie"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:275
+#: ../src/photos-selection-toolbar.c:306
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą %s"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:278
+#: ../src/photos-selection-toolbar.c:309
 msgid "Open"
 msgstr "Otwórz"
 
-#: ../src/photos-selection-toolbar.c:293
+#: ../src/photos-selection-toolbar.c:324
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../src/photos-selection-toolbar.c:299
+#: ../src/photos-selection-toolbar.c:330
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
 
-#: ../src/photos-selection-toolbar.c:505
+#: ../src/photos-selection-toolbar.c:544
 msgid "Print"
 msgstr "Wydrukuj"
 
-#: ../src/photos-selection-toolbar.c:527
-msgid "Organize"
-msgstr "Organizuj"
-
-#: ../src/photos-selection-toolbar.c:538
+#: ../src/photos-selection-toolbar.c:555
 msgid "Delete"
 msgstr "Usuń"
 
 #: ../src/photos-source-manager.c:135
 msgid "Local"
 msgstr "Lokalne"
-
-#: ../src/photos-spinner-box.c:127
-msgid "Loading..."
-msgstr "Wczytywanie..."
 
 #: ../src/photos-tracker-controller.c:81
 msgid "Unable to fetch the list of photos"
