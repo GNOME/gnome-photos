@@ -156,6 +156,7 @@ photos_embed_hide_no_results_page (PhotosEmbed *self)
     }
 
   clutter_actor_set_child_below_sibling (priv->view_actor, priv->no_results, NULL);
+  clutter_actor_hide (priv->no_results);
 }
 
 
@@ -177,6 +178,7 @@ photos_embed_count_changed (PhotosEmbed *self, gint count)
                                                              "changes-pending",
                                                              G_CALLBACK (photos_embed_changes_pending),
                                                              self);
+      clutter_actor_show (priv->no_results);
       clutter_actor_set_child_above_sibling (priv->view_actor, priv->no_results, NULL);
     }
   else
@@ -206,6 +208,8 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
   photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
   photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
 
+  clutter_actor_show (priv->overview_actor);
+  clutter_actor_hide (priv->image_actor);
   clutter_actor_set_child_below_sibling (priv->view_actor, priv->overview_actor, priv->ntfctn_mngr);
 }
 
@@ -219,6 +223,8 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
    *       ErrorHandler
    */
 
+  clutter_actor_show (priv->image_actor);
+  clutter_actor_hide (priv->overview_actor);
   clutter_actor_set_child_below_sibling (priv->view_actor, priv->image_actor, priv->ntfctn_mngr);
 }
 
