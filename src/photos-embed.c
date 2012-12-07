@@ -262,32 +262,6 @@ photos_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean
     photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
 }
 
-
-static void
-photos_embed_window_mode_change_flash_completed (PhotosEmbed *self)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-  clutter_actor_set_child_below_sibling (priv->view_actor, priv->background, NULL);
-}
-
-
-static void
-photos_embed_window_mode_change_flash (PhotosEmbed *self)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-  ClutterAnimation *animation;
-
-  clutter_actor_set_child_above_sibling (priv->view_actor, priv->background, NULL);
-  clutter_actor_set_opacity (priv->background, 255);
-
-  animation = clutter_actor_animate (priv->background, CLUTTER_EASE_IN_QUAD, 200, "opacity", 0, NULL);
-  g_signal_connect_swapped (animation,
-                            "completed",
-                            G_CALLBACK (photos_embed_window_mode_change_flash_completed),
-                            self);
-}
-
-
 static void
 photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
                                   PhotosWindowMode mode,
@@ -300,9 +274,6 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
     photos_embed_prepare_for_overview (self);
   else
     photos_embed_prepare_for_preview (self);
-
-  if (old_mode != PHOTOS_WINDOW_MODE_NONE)
-    photos_embed_window_mode_change_flash (self);
 }
 
 
