@@ -51,6 +51,7 @@ struct _PhotosEmbedPrivate
   ClutterActor *contents_actor;
   ClutterActor *error_box;
   ClutterActor *image_actor;
+  ClutterActor *image_container;
   ClutterActor *no_results;
   ClutterActor *ntfctn_mngr;
   ClutterActor *overview_actor;
@@ -209,7 +210,7 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
   photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
 
   clutter_actor_show (priv->overview_actor);
-  clutter_actor_hide (priv->image_actor);
+  clutter_actor_hide (priv->image_container);
   clutter_actor_set_child_below_sibling (priv->view_actor, priv->overview_actor, priv->ntfctn_mngr);
 }
 
@@ -223,9 +224,9 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
    *       ErrorHandler
    */
 
-  clutter_actor_show (priv->image_actor);
+  clutter_actor_show (priv->image_container);
   clutter_actor_hide (priv->overview_actor);
-  clutter_actor_set_child_below_sibling (priv->view_actor, priv->image_actor, priv->ntfctn_mngr);
+  clutter_actor_set_child_below_sibling (priv->view_actor, priv->image_container, priv->ntfctn_mngr);
 }
 
 
@@ -335,6 +336,40 @@ photos_embed_dispose (GObject *object)
   G_OBJECT_CLASS (photos_embed_parent_class)->dispose (object);
 }
 
+static gboolean
+on_image_background_draw (ClutterCanvas *canvas,
+                          cairo_t       *cr,
+                          gint           width,
+                          gint           height,
+                          gpointer       user_data)
+{
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  GtkStyleContext *context;
+  GtkStateFlags flags;
+
+  context = gtk_widget_get_style_context (GTK_WIDGET (self));
+  flags = gtk_widget_get_state_flags (GTK_WIDGET (self));
+  gtk_style_context_save (context);
+  gtk_style_context_set_state (context, flags);
+  gtk_render_background (context, cr, 0, 0, width, height);
+  gtk_style_context_restore (context);
+
+  return TRUE;
+}
+
+static void
+on_image_background_resize (ClutterActor           *actor,
+                            const ClutterActorBox  *allocation,
+                            ClutterAllocationFlags  flags,
+                            gpointer                user_data)
+{
+  ClutterContent *content;
+
+  content = clutter_actor_get_content (actor);
+  clutter_canvas_set_size (CLUTTER_CANVAS (content),
+                           allocation->x2 - allocation->x1,
+                           allocation->y2 - allocation->y1);
+}
 
 static void
 photos_embed_init (PhotosEmbed *self)
@@ -343,14 +378,20 @@ photos_embed_init (PhotosEmbed *self)
   ClutterActor *actor;
   ClutterActor *stage;
   ClutterActor *toolbar_actor;
+  ClutterLayoutManager *image_layout;
   ClutterLayoutManager *overlay_layout;
   ClutterConstraint *constraint;
+  ClutterContent *image_background;
   gboolean querying;
+  GtkStyleContext *context;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_EMBED, PhotosEmbedPrivate);
   priv = self->priv;
 
   gtk_clutter_embed_set_use_layout_size (GTK_CLUTTER_EMBED (self), TRUE);
+  context = gtk_widget_get_style_context (GTK_WIDGET (self));
+  gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
+  gtk_style_context_add_class (context, "content-view");
 
   overlay_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
   actor = clutter_actor_new ();
@@ -392,14 +433,30 @@ photos_embed_init (PhotosEmbed *self)
   clutter_actor_set_y_expand (priv->overview_actor, TRUE);
   clutter_actor_insert_child_below (priv->view_actor, priv->overview_actor, NULL);
 
+  priv->image_container = clutter_actor_new ();
+  clutter_actor_set_x_expand (priv->image_container, TRUE);
+  clutter_actor_set_y_expand (priv->image_container, TRUE);
+  image_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
+  clutter_actor_set_layout_manager (priv->image_container, image_layout);
+  clutter_actor_insert_child_below (priv->view_actor, priv->image_container, NULL);
+
+  image_background = clutter_canvas_new ();
+  clutter_actor_set_content (priv->image_container, image_background);
+  g_signal_connect (priv->image_container, "allocation-changed",
+                    G_CALLBACK (on_image_background_resize), self);
+  g_signal_connect (image_background, "draw",
+                    G_CALLBACK (on_image_background_draw), self);
+  g_signal_connect_swapped (self, "state-flags-changed",
+                            G_CALLBACK (clutter_content_invalidate), image_background);
+  g_object_unref (image_background);
+
   priv->image_actor = clutter_actor_new ();
-  clutter_actor_set_background_color (priv->image_actor, CLUTTER_COLOR_Black);
   clutter_actor_set_content_scaling_filters (priv->image_actor,
                                              CLUTTER_SCALING_FILTER_TRILINEAR,
                                              CLUTTER_SCALING_FILTER_TRILINEAR);
   clutter_actor_set_x_expand (priv->image_actor, TRUE);
   clutter_actor_set_y_expand (priv->image_actor, TRUE);
-  clutter_actor_insert_child_below (priv->view_actor, priv->image_actor, NULL);
+  clutter_actor_add_child (priv->image_container, priv->image_actor);
 
   priv->spinner_box = photos_spinner_box_new ();
   clutter_actor_insert_child_below (priv->view_actor, priv->spinner_box, NULL);
