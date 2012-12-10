@@ -1,7 +1,7 @@
 <schemalist gettext-domain="gnome-photos">
   <schema id="org.gnome.photos" path="/org/gnome/photos/">
     <key name="window-size" type="ai">
-      <default>[768, 600]</default>
+      <default>[960, 600]</default>
       <_summary>Window size</_summary>
       <_description>Window size (width and height).</_description>
     </key>
