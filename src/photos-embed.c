@@ -293,13 +293,7 @@ photos_embed_dispose (GObject *object)
   g_clear_object (&priv->loader_cancellable);
   g_clear_object (&priv->indexing_ntfctn);
   g_clear_object (&priv->item_mngr);
-
-  if (priv->mode_cntrlr != NULL)
-    {
-      g_object_unref (priv->mode_cntrlr);
-      priv->mode_cntrlr = NULL;
-    }
-
+  g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->offset_cntrlr);
   g_clear_object (&priv->monitor);
   g_clear_object (&priv->trk_cntrlr);

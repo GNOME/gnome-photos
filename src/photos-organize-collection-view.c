@@ -112,11 +112,7 @@ photos_organize_collection_view_dispose (GObject *object)
   PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (object);
   PhotosOrganizeCollectionViewPrivate *priv = self->priv;
 
-  if (priv->model != NULL)
-    {
-      g_object_unref (priv->model);
-      priv->model = NULL;
-    }
+  g_clear_object (&priv->model);
 
   G_OBJECT_CLASS (photos_organize_collection_view_parent_class)->dispose (object);
 }

@@ -231,12 +231,7 @@ photos_main_window_dispose (GObject *object)
 
   g_clear_object (&priv->settings);
   g_clear_object (&priv->item_mngr);
-
-  if (priv->controller != NULL)
-    {
-      g_object_unref (priv->controller);
-      priv->controller = NULL;
-    }
+  g_clear_object (&priv->controller);
 
   if (priv->configure_id != 0)
     {

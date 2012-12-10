@@ -456,12 +456,7 @@ photos_selection_toolbar_dispose (GObject *object)
     }
 
   g_clear_object (&priv->item_mngr);
-
-  if (priv->sel_cntrlr != NULL)
-    {
-      g_object_unref (priv->sel_cntrlr);
-      priv->sel_cntrlr = NULL;
-    }
+  g_clear_object (&priv->sel_cntrlr);
 
   G_OBJECT_CLASS (photos_selection_toolbar_parent_class)->dispose (object);
 }

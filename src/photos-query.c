@@ -53,8 +53,7 @@ photos_query_new (gchar *sparql)
 void
 photos_query_free (PhotosQuery *query)
 {
-  if (query->source != NULL)
-    g_object_unref (query->source);
+  g_clear_object (&query->source);
   g_free (query->sparql);
   g_slice_free (PhotosQuery, query);
 }

@@ -183,17 +183,8 @@ photos_application_dispose (GObject *object)
       priv->resource = NULL;
     }
 
-  if (priv->fs_action != NULL)
-    {
-      g_object_unref (priv->fs_action);
-      priv->fs_action = NULL;
-    }
-
-  if (priv->mode_cntrlr != NULL)
-    {
-      g_object_unref (priv->mode_cntrlr);
-      priv->mode_cntrlr = NULL;
-    }
+  g_clear_object (&priv->fs_action);
+  g_clear_object (&priv->mode_cntrlr);
 
   G_OBJECT_CLASS (photos_application_parent_class)
     ->dispose (object);

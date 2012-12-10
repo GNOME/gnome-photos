@@ -353,18 +353,8 @@ photos_main_toolbar_dispose (GObject *object)
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
-
-  if (priv->mode_cntrlr != NULL)
-    {
-      g_object_unref (priv->mode_cntrlr);
-      priv->mode_cntrlr = NULL;
-    }
-
-  if (priv->sel_cntrlr != NULL)
-    {
-      g_object_unref (priv->sel_cntrlr);
-      priv->sel_cntrlr = NULL;
-    }
+  g_clear_object (&priv->mode_cntrlr);
+  g_clear_object (&priv->sel_cntrlr);
 
   G_OBJECT_CLASS (photos_main_toolbar_parent_class)->dispose (object);
 }

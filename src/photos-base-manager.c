@@ -60,8 +60,7 @@ photos_base_manager_default_set_active_object (PhotosBaseManager *self, GObject 
   if (object == priv->active_object)
     return FALSE;
 
-  if (priv->active_object != NULL)
-    g_object_unref (priv->active_object);
+  g_clear_object (&priv->active_object);
 
   if (object != NULL)
     g_object_ref (object);
