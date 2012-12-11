@@ -62,6 +62,29 @@ G_DEFINE_TYPE (PhotosMainToolbar, photos_main_toolbar, G_TYPE_OBJECT);
 
 
 static void
+photos_main_toolbar_overview_toggled (GtkToggleButton *toggle_button, gpointer user_data)
+{
+  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
+
+  if (gtk_toggle_button_get_active (toggle_button))
+    photos_mode_controller_set_window_mode (self->priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+}
+
+
+static void
+photos_main_toolbar_add_modes (PhotosMainToolbar *self, PhotosWindowMode window_mode)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  GtkWidget *button;
+
+  button = gd_main_toolbar_add_mode (GD_MAIN_TOOLBAR (priv->widget), _("Photos"));
+  if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+  g_signal_connect (button, "toggled", G_CALLBACK (photos_main_toolbar_overview_toggled), self);
+}
+
+
+static void
 photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
@@ -263,6 +286,9 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   GObject *object;
   GtkWidget *selection_button;
 
+  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->widget), TRUE);
+  photos_main_toolbar_add_modes (self, PHOTOS_WINDOW_MODE_OVERVIEW);
+
   selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget),
                                                  "object-select-symbolic",
                                                  _("Select Items"),
@@ -287,6 +313,8 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   GtkWidget *back_button;
   const gchar *icon_name;
 
+  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->widget), FALSE);
+
   direction = gtk_widget_get_direction (GTK_WIDGET (priv->widget));
   icon_name = (direction == GTK_TEXT_DIR_RTL) ? "go-next-symbolic" : "go-previous-symbolic";
   back_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget), icon_name, _("Back"), TRUE);
@@ -300,6 +328,8 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
   PhotosMainToolbarPrivate *priv = self->priv;
   GtkStyleContext *context;
   GtkWidget *selection_button;
+
+  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->widget), FALSE);
 
   context = gtk_widget_get_style_context (priv->widget);
   gtk_style_context_add_class (context, "selection-mode");
