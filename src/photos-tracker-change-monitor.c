@@ -121,7 +121,10 @@ photos_tracker_change_monitor_add_event (PhotosTrackerChangeMonitor *self,
   old_event = (PhotosTrackerChangeEvent *) g_hash_table_lookup (priv->pending, subject);
 
   if (old_event != NULL)
-    photos_tracker_change_event_merge (old_event, event);
+    {
+      photos_tracker_change_event_merge (old_event, event);
+      photos_tracker_change_event_free (event);
+    }
   else
     g_hash_table_insert (priv->pending, (gpointer) g_strdup (subject), (gpointer) event);
 }
