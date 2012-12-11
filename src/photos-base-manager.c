@@ -203,9 +203,16 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
 void
 photos_base_manager_add_object (PhotosBaseManager *self, GObject *object)
 {
+  GObject *old_object;
   gchar *id;
 
   g_object_get (object, "id", &id, NULL);
+  old_object = photos_base_manager_get_object_by_id (self, id);
+  if (old_object != NULL)
+    {
+      g_free (id);
+      return;
+    }
 
   g_hash_table_insert (self->priv->objects, (gpointer) id, g_object_ref (object));
   g_signal_emit (self, signals[OBJECT_ADDED], 0, object);
