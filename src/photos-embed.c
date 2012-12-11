@@ -50,6 +50,7 @@ struct _PhotosEmbedPrivate
   ClutterActor *background;
   ClutterActor *contents_actor;
   ClutterActor *error_box;
+  ClutterActor *favorites_actor;
   ClutterActor *image_actor;
   ClutterActor *image_container;
   ClutterActor *no_results;
@@ -60,6 +61,7 @@ struct _PhotosEmbedPrivate
   ClutterLayoutManager *contents_layout;
   ClutterLayoutManager *view_layout;
   GCancellable *loader_cancellable;
+  GtkWidget *favorites;
   GtkWidget *indexing_ntfctn;
   GtkWidget *overview;
   PhotosBaseManager *item_mngr;
@@ -194,6 +196,27 @@ photos_embed_fullscreen_changed (PhotosModeController *mode_cntrlr, gboolean ful
 
 
 static void
+photos_embed_prepare_for_favorites (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  photos_base_manager_set_active_object (priv->item_mngr, NULL);
+
+  if (priv->loader_cancellable != NULL)
+    {
+      g_cancellable_cancel (priv->loader_cancellable);
+      g_clear_object (&priv->loader_cancellable);
+    }
+
+  photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
+  photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
+
+  clutter_actor_show (priv->favorites_actor);
+  clutter_actor_set_child_below_sibling (priv->view_actor, priv->favorites_actor, priv->ntfctn_mngr);
+}
+
+
+static void
 photos_embed_prepare_for_overview (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
@@ -210,7 +233,6 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
   photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
 
   clutter_actor_show (priv->overview_actor);
-  clutter_actor_hide (priv->image_container);
   clutter_actor_set_child_below_sibling (priv->view_actor, priv->overview_actor, priv->ntfctn_mngr);
 }
 
@@ -225,7 +247,6 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
    */
 
   clutter_actor_show (priv->image_container);
-  clutter_actor_hide (priv->overview_actor);
   clutter_actor_set_child_below_sibling (priv->view_actor, priv->image_container, priv->ntfctn_mngr);
 }
 
@@ -269,8 +290,15 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
                                   gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  PhotosEmbedPrivate *priv = self->priv;
 
-  if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+  clutter_actor_hide (priv->favorites_actor);
+  clutter_actor_hide (priv->image_container);
+  clutter_actor_hide (priv->overview_actor);
+
+  if (mode == PHOTOS_WINDOW_MODE_FAVORITES)
+    photos_embed_prepare_for_favorites (self);
+  else if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
     photos_embed_prepare_for_overview (self);
   else
     photos_embed_prepare_for_preview (self);
@@ -392,11 +420,17 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
 
-  priv->overview = photos_view_container_new ();
+  priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW);
   priv->overview_actor = gtk_clutter_actor_new_with_contents (priv->overview);
   clutter_actor_set_x_expand (priv->overview_actor, TRUE);
   clutter_actor_set_y_expand (priv->overview_actor, TRUE);
   clutter_actor_insert_child_below (priv->view_actor, priv->overview_actor, NULL);
+
+  priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES);
+  priv->favorites_actor = gtk_clutter_actor_new_with_contents (priv->favorites);
+  clutter_actor_set_x_expand (priv->favorites_actor, TRUE);
+  clutter_actor_set_y_expand (priv->favorites_actor, TRUE);
+  clutter_actor_insert_child_below (priv->view_actor, priv->favorites_actor, NULL);
 
   priv->image_container = clutter_actor_new ();
   clutter_actor_set_x_expand (priv->image_container, TRUE);
