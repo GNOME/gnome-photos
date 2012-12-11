@@ -62,6 +62,16 @@ G_DEFINE_TYPE (PhotosMainToolbar, photos_main_toolbar, G_TYPE_OBJECT);
 
 
 static void
+photos_main_toolbar_favorites_toggled (GtkToggleButton *toggle_button, gpointer user_data)
+{
+  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
+
+  if (gtk_toggle_button_get_active (toggle_button))
+    photos_mode_controller_set_window_mode (self->priv->mode_cntrlr, PHOTOS_WINDOW_MODE_FAVORITES);
+}
+
+
+static void
 photos_main_toolbar_overview_toggled (GtkToggleButton *toggle_button, gpointer user_data)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
@@ -81,6 +91,11 @@ photos_main_toolbar_add_modes (PhotosMainToolbar *self, PhotosWindowMode window_
   if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
   g_signal_connect (button, "toggled", G_CALLBACK (photos_main_toolbar_overview_toggled), self);
+
+  button = gd_main_toolbar_add_mode (GD_MAIN_TOOLBAR (priv->widget), _("Favorites"));
+  if (window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+  g_signal_connect (button, "toggled", G_CALLBACK (photos_main_toolbar_favorites_toggled), self);
 }
 
 
@@ -280,6 +295,32 @@ photos_main_toolbar_select_button_clicked (GtkButton *button, gpointer user_data
 
 
 static void
+photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  GObject *object;
+  GtkWidget *selection_button;
+
+  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->widget), TRUE);
+  photos_main_toolbar_add_modes (self, PHOTOS_WINDOW_MODE_FAVORITES);
+
+  selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget),
+                                                 "object-select-symbolic",
+                                                 _("Select Items"),
+                                                 FALSE);
+  g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_select_button_clicked), self);
+
+  priv->collection_id = g_signal_connect (priv->col_mngr,
+                                          "active-changed",
+                                          G_CALLBACK (photos_main_toolbar_active_changed),
+                                          self);
+
+  object = photos_base_manager_get_active_object (priv->col_mngr);
+  photos_main_toolbar_active_changed (priv->col_mngr, object, self);
+}
+
+
+static void
 photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
@@ -352,20 +393,18 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
   PhotosWindowMode window_mode;
+  gboolean selection_mode;
 
   photos_main_toolbar_clear_toolbar (self);
+  selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
   window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
 
-  if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
-    {
-      gboolean selection_mode;
-
-      selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
-      if (selection_mode)
-        photos_main_toolbar_populate_for_selection_mode (self);
-      else
-        photos_main_toolbar_populate_for_overview (self);
-    }
+  if (selection_mode)
+    photos_main_toolbar_populate_for_selection_mode (self);
+  else if (window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
+    photos_main_toolbar_populate_for_favorites (self);
+  else if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+    photos_main_toolbar_populate_for_overview (self);
   else if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     photos_main_toolbar_populate_for_preview (self);
 
