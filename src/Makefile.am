@@ -122,6 +122,8 @@ gnome_photos_SOURCES = \
 	photos-tracker-change-monitor.h \
 	photos-tracker-controller.c \
 	photos-tracker-controller.h \
+	photos-tracker-overview-controller.c \
+	photos-tracker-overview-controller.h \
 	photos-tracker-queue.c \
 	photos-tracker-queue.h \
 	photos-utils.c \

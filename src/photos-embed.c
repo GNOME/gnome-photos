@@ -41,7 +41,7 @@
 #include "photos-selection-toolbar.h"
 #include "photos-spinner-box.h"
 #include "photos-tracker-change-monitor.h"
-#include "photos-tracker-controller.h"
+#include "photos-tracker-overview-controller.h"
 #include "photos-view-container.h"
 
 
@@ -68,7 +68,7 @@ struct _PhotosEmbedPrivate
   PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
   PhotosTrackerChangeMonitor *monitor;
-  PhotosTrackerController *trk_cntrlr;
+  PhotosTrackerController *trk_ovrvw_cntrlr;
   gint preview_page;
   gint view_page;
   gulong no_results_change_id;
@@ -296,7 +296,7 @@ photos_embed_dispose (GObject *object)
   g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->offset_cntrlr);
   g_clear_object (&priv->monitor);
-  g_clear_object (&priv->trk_cntrlr);
+  g_clear_object (&priv->trk_ovrvw_cntrlr);
 
   G_OBJECT_CLASS (photos_embed_parent_class)->dispose (object);
 }
@@ -456,9 +456,9 @@ photos_embed_init (PhotosEmbed *self)
                     G_CALLBACK (photos_embed_fullscreen_changed),
                     self);
 
-  priv->trk_cntrlr = photos_tracker_controller_new ();
-  g_signal_connect_swapped (priv->trk_cntrlr, "query-error", G_CALLBACK (photos_embed_query_error), self);
-  g_signal_connect (priv->trk_cntrlr,
+  priv->trk_ovrvw_cntrlr = photos_tracker_overview_controller_new ();
+  g_signal_connect_swapped (priv->trk_ovrvw_cntrlr, "query-error", G_CALLBACK (photos_embed_query_error), self);
+  g_signal_connect (priv->trk_ovrvw_cntrlr,
                     "query-status-changed",
                     G_CALLBACK (photos_embed_query_status_changed),
                     self);
@@ -469,8 +469,8 @@ photos_embed_init (PhotosEmbed *self)
   priv->item_mngr = photos_item_manager_new ();
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
 
-  querying = photos_tracker_controller_get_query_status (priv->trk_cntrlr);
-  photos_embed_query_status_changed (priv->trk_cntrlr, querying, self);
+  querying = photos_tracker_controller_get_query_status (priv->trk_ovrvw_cntrlr);
+  photos_embed_query_status_changed (priv->trk_ovrvw_cntrlr, querying, self);
 
   priv->monitor = photos_tracker_change_monitor_new ();
 

@@ -27,6 +27,8 @@
 
 #include <glib-object.h>
 
+#include "photos-query.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_TRACKER_CONTROLLER (photos_tracker_controller_get_type ())
@@ -65,13 +67,15 @@ struct _PhotosTrackerControllerClass
 {
   GObjectClass parent_class;
 
+  /* virtual methods */
+  PhotosQuery *(*get_query) (void);
+
+  /* signals */
   void (*query_error) (PhotosTrackerController *self, const gchar *primary, const gchar *secondary);
   void (*query_status_changed) (PhotosTrackerController *self, gboolean querying);
 };
 
 GType                     photos_tracker_controller_get_type          (void) G_GNUC_CONST;
-
-PhotosTrackerController  *photos_tracker_controller_new               (void);
 
 gboolean                  photos_tracker_controller_get_query_status  (PhotosTrackerController *self);
 

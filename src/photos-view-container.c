@@ -30,7 +30,7 @@
 #include "photos-load-more-button.h"
 #include "photos-mode-controller.h"
 #include "photos-selection-controller.h"
-#include "photos-tracker-controller.h"
+#include "photos-tracker-overview-controller.h"
 #include "photos-utils.h"
 #include "photos-view-container.h"
 #include "photos-view-model.h"
@@ -300,7 +300,7 @@ photos_view_container_init (PhotosViewContainer *self)
                     G_CALLBACK (photos_view_container_window_mode_changed),
                     self);
 
-  priv->trk_cntrlr = photos_tracker_controller_new ();
+  priv->trk_cntrlr = photos_tracker_overview_controller_new ();
   g_signal_connect (priv->trk_cntrlr,
                     "query-status-changed",
                     G_CALLBACK (photos_view_container_query_status_changed),

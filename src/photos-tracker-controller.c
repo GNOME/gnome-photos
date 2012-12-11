@@ -62,7 +62,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (PhotosTrackerController, photos_tracker_controller, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE (PhotosTrackerController, photos_tracker_controller, G_TYPE_OBJECT);
 
 
 typedef enum
@@ -169,7 +169,7 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
   if (priv->current_query != NULL)
     photos_query_free (priv->current_query);
 
-  priv->current_query = photos_query_builder_global_query ();
+  priv->current_query = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_query ();
   g_cancellable_reset (priv->cancellable);
 
   photos_tracker_queue_select (priv->queue,
@@ -254,26 +254,6 @@ photos_tracker_controller_source_object_removed (PhotosBaseManager *manager, GOb
 }
 
 
-static GObject *
-photos_tracker_controller_constructor (GType type,
-                                       guint n_construct_params,
-                                       GObjectConstructParam *construct_params)
-{
-  static GObject *self = NULL;
-
-  if (self == NULL)
-    {
-      self = G_OBJECT_CLASS (photos_tracker_controller_parent_class)->constructor (type,
-                                                                                   n_construct_params,
-                                                                                   construct_params);
-      g_object_add_weak_pointer (self, (gpointer) &self);
-      return self;
-    }
-
-  return g_object_ref (self);
-}
-
-
 static void
 photos_tracker_controller_dispose (GObject *object)
 {
@@ -342,7 +322,6 @@ photos_tracker_controller_class_init (PhotosTrackerControllerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->constructor = photos_tracker_controller_constructor;
   object_class->dispose = photos_tracker_controller_dispose;
   object_class->finalize = photos_tracker_controller_finalize;
 
@@ -372,13 +351,6 @@ photos_tracker_controller_class_init (PhotosTrackerControllerClass *class)
                                                 G_TYPE_BOOLEAN);
 
   g_type_class_add_private (class, sizeof (PhotosTrackerControllerPrivate));
-}
-
-
-PhotosTrackerController *
-photos_tracker_controller_new (void)
-{
-  return g_object_new (PHOTOS_TYPE_TRACKER_CONTROLLER, NULL);
 }
 
 
