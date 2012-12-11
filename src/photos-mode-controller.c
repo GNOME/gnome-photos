@@ -211,7 +211,7 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
   if (old_mode == mode)
     return;
 
-  if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+  if (mode == PHOTOS_WINDOW_MODE_OVERVIEW || mode == PHOTOS_WINDOW_MODE_FAVORITES)
     photos_mode_controller_set_can_fullscreen (self, FALSE);
 
   priv->mode = mode;
