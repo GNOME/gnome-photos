@@ -120,7 +120,9 @@ static void
 photos_view_model_object_removed (PhotosViewModel *self, GObject *object)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
+
   gtk_tree_model_foreach (GTK_TREE_MODEL (self), photos_view_model_item_removed_foreach, item);
+  g_object_set_data (object, "row-ref", NULL);
 }
 
 
