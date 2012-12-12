@@ -96,7 +96,10 @@ photos_query_builder_query (gboolean global, gint flags)
   gchar *where_sparql;
 
   optional = photos_query_builder_optional ();
-  where_sparql = g_strconcat ("WHERE { ?urn a rdfs:Resource ", optional, NULL);
+  if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
+    where_sparql = g_strconcat ("WHERE { ?urn nao:hasTag nao:predefined-tag-favorite ", optional, NULL);
+  else
+    where_sparql = g_strconcat ("WHERE { ?urn a rdfs:Resource ", optional, NULL);
   g_free (optional);
 
   if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
@@ -154,6 +157,27 @@ photos_query_builder_query (gboolean global, gint flags)
 
 
 PhotosQuery *
+photos_query_builder_count_favorites_query (void)
+{
+  gchar *filter;
+  gchar *optional;
+  gchar *sparql;
+
+  filter = photos_query_builder_filter ();
+  optional = photos_query_builder_optional ();
+  sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) WHERE { ?urn nao:hasTag nao:predefined-tag-favorite ",
+                        optional,
+                        filter,
+                        " }", NULL);
+
+  g_free (optional);
+  g_free (filter);
+
+  return photos_query_new (sparql);
+}
+
+
+PhotosQuery *
 photos_query_builder_count_query (void)
 {
   gchar *filter;
@@ -167,6 +191,16 @@ photos_query_builder_count_query (void)
   g_free (optional);
   g_free (filter);
 
+  return photos_query_new (sparql);
+}
+
+
+PhotosQuery *
+photos_query_builder_global_favorites_query (void)
+{
+  gchar *sparql;
+
+  sparql = photos_query_builder_query (TRUE, PHOTOS_QUERY_FLAGS_FAVORITES);
   return photos_query_new (sparql);
 }
 

@@ -52,7 +52,8 @@ typedef enum
 typedef enum
 {
   PHOTOS_QUERY_FLAGS_NONE = 0,
-  PHOTOS_QUERY_FLAGS_UNFILTERED = 1 << 0
+  PHOTOS_QUERY_FLAGS_UNFILTERED = 1 << 0,
+  PHOTOS_QUERY_FLAGS_FAVORITES = 1 << 1
 } PhotosQueryFlags;
 
 typedef struct _PhotosQuery PhotosQuery;
