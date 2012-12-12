@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 
 #include "photos-base-item.h"
+#include "photos-mode-controller.h"
 
 G_BEGIN_DECLS
 
@@ -81,7 +82,7 @@ struct _PhotosViewModelClass
 
 GType             photos_view_model_get_type               (void) G_GNUC_CONST;
 
-GtkListStore     *photos_view_model_new                    (void);
+GtkListStore     *photos_view_model_new                    (PhotosWindowMode mode);
 
 void              photos_view_model_item_added             (PhotosViewModel *self, PhotosBaseItem *item);
 

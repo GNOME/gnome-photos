@@ -25,6 +25,7 @@
 
 #include "config.h"
 
+#include "photos-enums.h"
 #include "photos-item-manager.h"
 #include "photos-view-model.h"
 
@@ -32,6 +33,14 @@
 struct _PhotosViewModelPrivate
 {
   PhotosBaseManager *item_mngr;
+  PhotosWindowMode mode;
+  gchar *row_ref_key;
+};
+
+enum
+{
+  PROP_0,
+  PROP_MODE
 };
 
 
@@ -54,20 +63,23 @@ photos_view_model_info_set (PhotosViewModel *self, PhotosBaseItem *item, GtkTree
 
 
 static void
-photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
+photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
 {
-  PhotosViewModel *self = PHOTOS_VIEW_MODEL (user_data);
   GtkTreeIter iter;
   GtkTreePath *path;
   GtkTreeRowReference *row_ref;
 
-  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), "row-ref");
-  path = gtk_tree_row_reference_get_path (row_ref);
-  if (path == NULL)
-    return;
-
-  gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &iter, path);
+  gtk_list_store_append (GTK_LIST_STORE (self), &iter);
   photos_view_model_info_set (self, item, &iter);
+
+  path = gtk_tree_model_get_path (GTK_TREE_MODEL (self), &iter);
+  row_ref = gtk_tree_row_reference_new (GTK_TREE_MODEL (self), path);
+  gtk_tree_path_free (path);
+
+  g_object_set_data_full (G_OBJECT (item),
+                          self->priv->row_ref_key,
+                          row_ref,
+                          (GDestroyNotify) gtk_tree_row_reference_free);
 }
 
 
@@ -97,32 +109,61 @@ photos_view_model_item_removed_foreach (GtkTreeModel *model,
 
 
 static void
-photos_view_model_object_added (PhotosViewModel *self, GObject *object)
-{
-  GtkTreeIter iter;
-  GtkTreePath *path;
-  GtkTreeRowReference *row_ref;
-  PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
-
-  gtk_list_store_append (GTK_LIST_STORE (self), &iter);
-  photos_view_model_info_set (self, item, &iter);
-
-  path = gtk_tree_model_get_path (GTK_TREE_MODEL (self), &iter);
-  row_ref = gtk_tree_row_reference_new (GTK_TREE_MODEL (self), path);
-  gtk_tree_path_free (path);
-
-  g_object_set_data_full (G_OBJECT (item), "row-ref", row_ref, (GDestroyNotify) gtk_tree_row_reference_free);
-  g_signal_connect (item, "info-updated", G_CALLBACK (photos_view_model_info_updated), self);
-}
-
-
-static void
 photos_view_model_object_removed (PhotosViewModel *self, GObject *object)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
 
   gtk_tree_model_foreach (GTK_TREE_MODEL (self), photos_view_model_item_removed_foreach, item);
-  g_object_set_data (object, "row-ref", NULL);
+  g_object_set_data (object, self->priv->row_ref_key, NULL);
+}
+
+
+static void
+photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
+{
+  PhotosViewModel *self = PHOTOS_VIEW_MODEL (user_data);
+  PhotosViewModelPrivate *priv = self->priv;
+  GtkTreeIter iter;
+  GtkTreePath *path;
+  GtkTreeRowReference *row_ref;
+
+  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
+
+  if (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES)
+    {
+      gboolean favorite;
+
+      favorite = photos_base_item_is_favorite (item);
+      if (!favorite && row_ref != NULL)
+        photos_view_model_object_removed (self, G_OBJECT (item));
+      else if (favorite  && row_ref == NULL)
+        photos_view_model_add_item (self, item);
+    }
+
+  if (row_ref != NULL)
+    {
+      path = gtk_tree_row_reference_get_path (row_ref);
+      if (path == NULL)
+        return;
+
+      gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &iter, path);
+      photos_view_model_info_set (self, item, &iter);
+    }
+}
+
+
+static void
+photos_view_model_object_added (PhotosViewModel *self, GObject *object)
+{
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
+
+  if (self->priv->mode == PHOTOS_WINDOW_MODE_FAVORITES && !photos_base_item_is_favorite (item))
+    goto out;
+
+  photos_view_model_add_item (self, item);
+
+ out:
+  g_signal_connect (item, "info-updated", G_CALLBACK (photos_view_model_info_updated), self);
 }
 
 
@@ -134,6 +175,37 @@ photos_view_model_dispose (GObject *object)
   g_clear_object (&self->priv->item_mngr);
 
   G_OBJECT_CLASS (photos_view_model_parent_class)->dispose (object);
+}
+
+
+static void
+photos_view_model_finalize (GObject *object)
+{
+  PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
+
+  g_free (self->priv->row_ref_key);
+
+  G_OBJECT_CLASS (photos_view_model_parent_class)->finalize (object);
+}
+
+
+static void
+photos_view_model_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+  PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
+  PhotosViewModelPrivate *priv = self->priv;
+
+  switch (prop_id)
+    {
+    case PROP_MODE:
+      priv->mode = (PhotosWindowMode) g_value_get_enum (value);
+      priv->row_ref_key = g_strdup_printf ("row-ref-%d", priv->mode);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
 }
 
 
@@ -168,13 +240,24 @@ photos_view_model_class_init (PhotosViewModelClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->dispose = photos_view_model_dispose;
+  object_class->finalize = photos_view_model_finalize;
+  object_class->set_property = photos_view_model_set_property;
+
+  g_object_class_install_property (object_class,
+                                   PROP_MODE,
+                                   g_param_spec_enum ("mode",
+                                                      "PhotosWindowMode enum",
+                                                      "The mode for which the model holds the data",
+                                                      PHOTOS_TYPE_WINDOW_MODE,
+                                                      PHOTOS_WINDOW_MODE_NONE,
+                                                      G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_type_class_add_private (class, sizeof (PhotosViewModelPrivate));
 }
 
 
 GtkListStore *
-photos_view_model_new (void)
+photos_view_model_new (PhotosWindowMode mode)
 {
-  return g_object_new (PHOTOS_TYPE_VIEW_MODEL, NULL);
+  return g_object_new (PHOTOS_TYPE_VIEW_MODEL, "mode", mode, NULL);
 }
