@@ -27,6 +27,8 @@
 
 #include <gtk/gtk.h>
 
+#include "photos-mode-controller.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_VIEW_CONTAINER (photos_view_container_get_type ())
@@ -68,7 +70,7 @@ struct _PhotosViewContainerClass
 
 GType                  photos_view_container_get_type               (void) G_GNUC_CONST;
 
-GtkWidget             *photos_view_container_new                    (void);
+GtkWidget             *photos_view_container_new                    (PhotosWindowMode mode);
 
 G_END_DECLS
 

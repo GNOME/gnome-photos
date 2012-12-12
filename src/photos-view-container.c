@@ -26,10 +26,11 @@
 #include "config.h"
 #include <libgd/gd.h>
 
+#include "photos-enums.h"
 #include "photos-item-manager.h"
 #include "photos-load-more-button.h"
-#include "photos-mode-controller.h"
 #include "photos-selection-controller.h"
+#include "photos-tracker-favorites-controller.h"
 #include "photos-tracker-overview-controller.h"
 #include "photos-utils.h"
 #include "photos-view-container.h"
@@ -45,10 +46,17 @@ struct _PhotosViewContainerPrivate
   PhotosModeController *mode_cntrlr;
   PhotosSelectionController *sel_cntrlr;
   PhotosTrackerController *trk_cntrlr;
+  PhotosWindowMode mode;
   gboolean disposed;
   gulong adjustment_changed_id;
   gulong adjustment_value_id;
   gulong scrollbar_visible_id;
+};
+
+enum
+{
+  PROP_0,
+  PROP_MODE
 };
 
 
@@ -230,38 +238,15 @@ photos_view_container_window_mode_changed (PhotosModeController *mode_cntrlr,
 
 
 static void
-photos_view_container_dispose (GObject *object)
+photos_view_container_constructed (GObject *object)
 {
   PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (object);
   PhotosViewContainerPrivate *priv = self->priv;
-
-  if (!priv->disposed)
-    {
-      photos_view_container_disconnect_view (self);
-      priv->disposed = TRUE;
-    }
-
-  g_clear_object (&priv->model);
-  g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->sel_cntrlr);
-  g_clear_object (&priv->trk_cntrlr);
-
-  G_OBJECT_CLASS (photos_view_container_parent_class)->dispose (object);
-}
-
-
-static void
-photos_view_container_init (PhotosViewContainer *self)
-{
-  PhotosViewContainerPrivate *priv;
   gboolean status;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_VIEW_CONTAINER,
-                                            PhotosViewContainerPrivate);
-  priv = self->priv;
+  G_OBJECT_CLASS (photos_view_container_parent_class)->constructed (object);
 
-  priv->model = photos_view_model_new ();
+  priv->model = photos_view_model_new (priv->mode);
 
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 
@@ -300,7 +285,21 @@ photos_view_container_init (PhotosViewContainer *self)
                     G_CALLBACK (photos_view_container_window_mode_changed),
                     self);
 
-  priv->trk_cntrlr = photos_tracker_overview_controller_new ();
+  switch (priv->mode)
+    {
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      priv->trk_cntrlr = photos_tracker_favorites_controller_new ();
+      break;
+
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      priv->trk_cntrlr = photos_tracker_overview_controller_new ();
+      break;
+
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
   g_signal_connect (priv->trk_cntrlr,
                     "query-status-changed",
                     G_CALLBACK (photos_view_container_query_status_changed),
@@ -313,18 +312,79 @@ photos_view_container_init (PhotosViewContainer *self)
 
 
 static void
+photos_view_container_dispose (GObject *object)
+{
+  PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (object);
+  PhotosViewContainerPrivate *priv = self->priv;
+
+  if (!priv->disposed)
+    {
+      photos_view_container_disconnect_view (self);
+      priv->disposed = TRUE;
+    }
+
+  g_clear_object (&priv->model);
+  g_clear_object (&priv->item_mngr);
+  g_clear_object (&priv->sel_cntrlr);
+  g_clear_object (&priv->trk_cntrlr);
+
+  G_OBJECT_CLASS (photos_view_container_parent_class)->dispose (object);
+}
+
+
+static void
+photos_view_container_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+  PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (object);
+
+  switch (prop_id)
+    {
+    case PROP_MODE:
+      self->priv->mode = (PhotosWindowMode) g_value_get_enum (value);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+
+static void
+photos_view_container_init (PhotosViewContainer *self)
+{
+  PhotosViewContainerPrivate *priv;
+
+  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
+                                            PHOTOS_TYPE_VIEW_CONTAINER,
+                                            PhotosViewContainerPrivate);
+}
+
+
+static void
 photos_view_container_class_init (PhotosViewContainerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->constructed = photos_view_container_constructed;
   object_class->dispose = photos_view_container_dispose;
+  object_class->set_property = photos_view_container_set_property;
+
+  g_object_class_install_property (object_class,
+                                   PROP_MODE,
+                                   g_param_spec_enum ("mode",
+                                                      "PhotosWindowMode enum",
+                                                      "The mode for which the widget is a view",
+                                                      PHOTOS_TYPE_WINDOW_MODE,
+                                                      PHOTOS_WINDOW_MODE_NONE,
+                                                      G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_type_class_add_private (class, sizeof (PhotosViewContainerPrivate));
 }
 
 
 GtkWidget *
-photos_view_container_new (void)
+photos_view_container_new (PhotosWindowMode mode)
 {
-  return g_object_new (PHOTOS_TYPE_VIEW_CONTAINER, NULL);
+  return g_object_new (PHOTOS_TYPE_VIEW_CONTAINER, "mode", mode, NULL);
 }
