@@ -29,8 +29,10 @@
 #include <glib/gi18n.h>
 #include <glib/gprintf.h>
 
+#include "photos-enums.h"
 #include "photos-load-more-button.h"
-#include "photos-offset-controller.h"
+#include "photos-offset-favorites-controller.h"
+#include "photos-offset-overview-controller.h"
 
 
 struct _PhotosLoadMoreButtonPrivate
@@ -38,8 +40,15 @@ struct _PhotosLoadMoreButtonPrivate
   GtkWidget *label;
   GtkWidget *spinner;
   PhotosOffsetController *offset_cntrlr;
+  PhotosWindowMode mode;
   gboolean block;
   gulong offset_cntrlr_id;
+};
+
+enum
+{
+  PROP_0,
+  PROP_MODE
 };
 
 
@@ -82,6 +91,40 @@ photos_load_more_button_clicked (GtkButton *button)
 
 
 static void
+photos_load_more_button_constructed (GObject *object)
+{
+  PhotosLoadMoreButton *self = PHOTOS_LOAD_MORE_BUTTON (object);
+  PhotosLoadMoreButtonPrivate *priv = self->priv;
+  gint count;
+
+  G_OBJECT_CLASS (photos_load_more_button_parent_class)->constructed (object);
+
+  switch (priv->mode)
+    {
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      priv->offset_cntrlr = photos_offset_favorites_controller_new ();
+      break;
+
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      priv->offset_cntrlr = photos_offset_overview_controller_new ();
+      break;
+
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  priv->offset_cntrlr_id = g_signal_connect (priv->offset_cntrlr,
+                                             "count-changed",
+                                             G_CALLBACK (photos_load_more_button_count_changed),
+                                             self);
+
+  count = photos_offset_controller_get_count (priv->offset_cntrlr);
+  photos_load_more_button_count_changed (priv->offset_cntrlr, count, self);
+}
+
+
+static void
 photos_load_more_button_dispose (GObject *object)
 {
   PhotosLoadMoreButton *self = PHOTOS_LOAD_MORE_BUTTON (object);
@@ -100,12 +143,29 @@ photos_load_more_button_dispose (GObject *object)
 
 
 static void
+photos_load_more_button_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+  PhotosLoadMoreButton *self = PHOTOS_LOAD_MORE_BUTTON (object);
+
+  switch (prop_id)
+    {
+    case PROP_MODE:
+      self->priv->mode = (PhotosWindowMode) g_value_get_enum (value);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+
+static void
 photos_load_more_button_init (PhotosLoadMoreButton *self)
 {
   PhotosLoadMoreButtonPrivate *priv;
   GtkStyleContext *context;
   GtkWidget *child;
-  gint count;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_LOAD_MORE_BUTTON, PhotosLoadMoreButtonPrivate);
   priv = self->priv;
@@ -130,15 +190,6 @@ photos_load_more_button_init (PhotosLoadMoreButton *self)
   priv->label = gtk_label_new (_("Load More"));
   gtk_widget_set_visible (priv->label, TRUE);
   gtk_container_add (GTK_CONTAINER (child), priv->label);
-
-  priv->offset_cntrlr = photos_offset_controller_new ();
-  priv->offset_cntrlr_id = g_signal_connect (priv->offset_cntrlr,
-                                            "count-changed",
-                                            G_CALLBACK (photos_load_more_button_count_changed),
-                                            self);
-
-  count = photos_offset_controller_get_count (priv->offset_cntrlr);
-  photos_load_more_button_count_changed (priv->offset_cntrlr, count, self);
 }
 
 
@@ -148,17 +199,28 @@ photos_load_more_button_class_init (PhotosLoadMoreButtonClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   GtkButtonClass *button_class = GTK_BUTTON_CLASS (class);
 
+  object_class->constructed = photos_load_more_button_constructed;
   object_class->dispose = photos_load_more_button_dispose;
+  object_class->set_property = photos_load_more_button_set_property;
   button_class->clicked = photos_load_more_button_clicked;
+
+  g_object_class_install_property (object_class,
+                                   PROP_MODE,
+                                   g_param_spec_enum ("mode",
+                                                      "PhotosWindowMode enum",
+                                                      "The mode for which the widget is a load button",
+                                                      PHOTOS_TYPE_WINDOW_MODE,
+                                                      PHOTOS_WINDOW_MODE_NONE,
+                                                      G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_type_class_add_private (class, sizeof (PhotosLoadMoreButtonPrivate));
 }
 
 
 GtkWidget *
-photos_load_more_button_new (void)
+photos_load_more_button_new (PhotosWindowMode mode)
 {
-  return g_object_new (PHOTOS_TYPE_LOAD_MORE_BUTTON, NULL);
+  return g_object_new (PHOTOS_TYPE_LOAD_MORE_BUTTON, "mode", mode, NULL);
 }
 
 

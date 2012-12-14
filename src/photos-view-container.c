@@ -253,7 +253,7 @@ photos_view_container_constructed (GObject *object)
   priv->view = gd_main_view_new (GD_MAIN_VIEW_ICON);
   gtk_container_add (GTK_CONTAINER (self), GTK_WIDGET (priv->view));
 
-  priv->load_more = photos_load_more_button_new ();
+  priv->load_more = photos_load_more_button_new (priv->mode);
   gtk_container_add (GTK_CONTAINER (self), priv->load_more);
 
   gtk_widget_show_all (GTK_WIDGET (self));

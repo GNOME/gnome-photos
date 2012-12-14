@@ -86,6 +86,10 @@ gnome_photos_SOURCES = \
 	photos-notification-manager.h \
 	photos-offset-controller.c \
 	photos-offset-controller.h \
+	photos-offset-favorites-controller.c \
+	photos-offset-favorites-controller.h \
+	photos-offset-overview-controller.c \
+	photos-offset-overview-controller.h \
 	photos-organize-collection-dialog.c \
 	photos-organize-collection-dialog.h \
 	photos-organize-collection-model.c \

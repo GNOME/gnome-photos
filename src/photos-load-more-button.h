@@ -27,6 +27,8 @@
 
 #include <gtk/gtk.h>
 
+#include "photos-mode-controller.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_LOAD_MORE_BUTTON (photos_load_more_button_get_type ())
@@ -68,7 +70,7 @@ struct _PhotosLoadMoreButtonClass
 
 GType                  photos_load_more_button_get_type               (void) G_GNUC_CONST;
 
-GtkWidget             *photos_load_more_button_new                    (void);
+GtkWidget             *photos_load_more_button_new                    (PhotosWindowMode mode);
 
 void                   photos_load_more_button_set_block              (PhotosLoadMoreButton *self, gboolean block);
 

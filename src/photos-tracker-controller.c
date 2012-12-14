@@ -30,7 +30,6 @@
 
 #include "photos-item-manager.h"
 #include "photos-marshalers.h"
-#include "photos-offset-controller.h"
 #include "photos-query-builder.h"
 #include "photos-source-manager.h"
 #include "photos-tracker-controller.h"
@@ -255,6 +254,22 @@ photos_tracker_controller_source_object_removed (PhotosBaseManager *manager, GOb
 
 
 static void
+photos_tracker_controller_constructed (GObject *object)
+{
+  PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
+  PhotosTrackerControllerPrivate *priv = self->priv;
+
+  G_OBJECT_CLASS (photos_tracker_controller_parent_class)->constructed (object);
+
+  priv->offset_cntrlr = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_offset_controller ();
+  g_signal_connect (priv->offset_cntrlr,
+                    "offset-changed",
+                    G_CALLBACK (photos_tracker_controller_offset_changed),
+                    self);
+}
+
+
+static void
 photos_tracker_controller_dispose (GObject *object)
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
@@ -307,12 +322,6 @@ photos_tracker_controller_init (PhotosTrackerController *self)
                     G_CALLBACK (photos_tracker_controller_refresh_for_object),
                     self);
 
-  priv->offset_cntrlr = photos_offset_controller_new ();
-  g_signal_connect (priv->offset_cntrlr,
-                    "offset-changed",
-                    G_CALLBACK (photos_tracker_controller_offset_changed),
-                    self);
-
   priv->queue = photos_tracker_queue_new ();
 }
 
@@ -322,6 +331,7 @@ photos_tracker_controller_class_init (PhotosTrackerControllerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->constructed = photos_tracker_controller_constructed;
   object_class->dispose = photos_tracker_controller_dispose;
   object_class->finalize = photos_tracker_controller_finalize;
 

@@ -37,7 +37,7 @@
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
 #include "photos-notification-manager.h"
-#include "photos-offset-controller.h"
+#include "photos-offset-overview-controller.h"
 #include "photos-selection-toolbar.h"
 #include "photos-spinner-box.h"
 #include "photos-tracker-change-monitor.h"
@@ -497,7 +497,7 @@ photos_embed_init (PhotosEmbed *self)
                     G_CALLBACK (photos_embed_query_status_changed),
                     self);
 
-  priv->offset_cntrlr = photos_offset_controller_new ();
+  priv->offset_cntrlr = photos_offset_overview_controller_new ();
   g_signal_connect_swapped (priv->offset_cntrlr, "count-changed", G_CALLBACK (photos_embed_count_changed), self);
 
   priv->item_mngr = photos_item_manager_new ();

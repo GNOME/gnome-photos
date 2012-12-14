@@ -27,7 +27,8 @@
 
 #include <gio/gio.h>
 
-#include "photos-offset-controller.h"
+#include "photos-offset-favorites-controller.h"
+#include "photos-offset-overview-controller.h"
 #include "photos-query-builder.h"
 #include "photos-source-manager.h"
 #include "photos-search-type-manager.h"
@@ -126,7 +127,11 @@ photos_query_builder_query (gboolean global, gint flags)
       gint offset;
       gint step;
 
-      offset_cntrlr = photos_offset_controller_new ();
+      if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
+        offset_cntrlr = photos_offset_favorites_controller_new ();
+      else
+        offset_cntrlr = photos_offset_overview_controller_new ();
+
       offset = photos_offset_controller_get_offset (offset_cntrlr);
       step = photos_offset_controller_get_step (offset_cntrlr);
       g_object_unref (offset_cntrlr);

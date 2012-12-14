@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include "photos-offset-favorites-controller.h"
 #include "photos-query-builder.h"
 #include "photos-tracker-favorites-controller.h"
 
@@ -28,6 +29,13 @@
 G_DEFINE_TYPE (PhotosTrackerFavoritesController,
                photos_tracker_favorites_controller,
                PHOTOS_TYPE_TRACKER_CONTROLLER);
+
+
+static PhotosOffsetController *
+photos_tracker_favorites_controller_get_offset_controller (void)
+{
+  return photos_offset_favorites_controller_new ();
+}
 
 
 static PhotosQuery *
@@ -70,6 +78,7 @@ photos_tracker_favorites_controller_class_init (PhotosTrackerFavoritesController
   PhotosTrackerControllerClass *tracker_controller_class = PHOTOS_TRACKER_CONTROLLER_CLASS (class);
 
   object_class->constructor = photos_tracker_favorites_controller_constructor;
+  tracker_controller_class->get_offset_controller = photos_tracker_favorites_controller_get_offset_controller;
   tracker_controller_class->get_query = photos_tracker_favorites_controller_get_query;
 }
 

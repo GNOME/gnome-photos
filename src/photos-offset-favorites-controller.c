@@ -25,30 +25,22 @@
 
 #include "config.h"
 
-#include "photos-offset-overview-controller.h"
 #include "photos-query-builder.h"
-#include "photos-tracker-overview-controller.h"
+#include "photos-offset-favorites-controller.h"
 
 
-G_DEFINE_TYPE (PhotosTrackerOverviewController, photos_tracker_overview_controller, PHOTOS_TYPE_TRACKER_CONTROLLER);
-
-
-static PhotosOffsetController *
-photos_tracker_overview_controller_get_offset_controller (void)
-{
-  return photos_offset_overview_controller_new ();
-}
+G_DEFINE_TYPE (PhotosOffsetFavoritesController, photos_offset_favorites_controller, PHOTOS_TYPE_OFFSET_CONTROLLER);
 
 
 static PhotosQuery *
-photos_tracker_overview_controller_get_query (void)
+photos_offset_favorites_controller_get_query (void)
 {
-  return photos_query_builder_global_query ();
+  return photos_query_builder_count_favorites_query ();
 }
 
 
 static GObject *
-photos_tracker_overview_controller_constructor (GType type,
+photos_offset_favorites_controller_constructor (GType type,
                                                 guint n_construct_params,
                                                 GObjectConstructParam *construct_params)
 {
@@ -56,7 +48,7 @@ photos_tracker_overview_controller_constructor (GType type,
 
   if (self == NULL)
     {
-      self = G_OBJECT_CLASS (photos_tracker_overview_controller_parent_class)->constructor (type,
+      self = G_OBJECT_CLASS (photos_offset_favorites_controller_parent_class)->constructor (type,
                                                                                             n_construct_params,
                                                                                             construct_params);
       g_object_add_weak_pointer (self, (gpointer) &self);
@@ -68,25 +60,24 @@ photos_tracker_overview_controller_constructor (GType type,
 
 
 static void
-photos_tracker_overview_controller_init (PhotosTrackerOverviewController *self)
+photos_offset_favorites_controller_init (PhotosOffsetFavoritesController *self)
 {
 }
 
 
 static void
-photos_tracker_overview_controller_class_init (PhotosTrackerOverviewControllerClass *class)
+photos_offset_favorites_controller_class_init (PhotosOffsetFavoritesControllerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
-  PhotosTrackerControllerClass *tracker_controller_class = PHOTOS_TRACKER_CONTROLLER_CLASS (class);
+  PhotosOffsetControllerClass *offset_controller_class = PHOTOS_OFFSET_CONTROLLER_CLASS (class);
 
-  object_class->constructor = photos_tracker_overview_controller_constructor;
-  tracker_controller_class->get_offset_controller = photos_tracker_overview_controller_get_offset_controller;
-  tracker_controller_class->get_query = photos_tracker_overview_controller_get_query;
+  object_class->constructor = photos_offset_favorites_controller_constructor;
+  offset_controller_class->get_query = photos_offset_favorites_controller_get_query;
 }
 
 
-PhotosTrackerController *
-photos_tracker_overview_controller_new (void)
+PhotosOffsetController *
+photos_offset_favorites_controller_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER, NULL);
+  return g_object_new (PHOTOS_TYPE_OFFSET_FAVORITES_CONTROLLER, NULL);
 }

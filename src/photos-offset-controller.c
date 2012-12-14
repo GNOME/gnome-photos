@@ -50,7 +50,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (PhotosOffsetController, photos_offset_controller, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE (PhotosOffsetController, photos_offset_controller, G_TYPE_OBJECT);
 
 
 enum
@@ -100,26 +100,6 @@ photos_offset_controller_reset_count_query_executed (GObject *source_object, GAs
 }
 
 
-static GObject *
-photos_offset_controller_constructor (GType                  type,
-                                      guint                  n_construct_params,
-                                      GObjectConstructParam *construct_params)
-{
-  static GObject *self = NULL;
-
-  if (self == NULL)
-    {
-      self = G_OBJECT_CLASS (photos_offset_controller_parent_class)->constructor (type,
-                                                                                  n_construct_params,
-                                                                                  construct_params);
-      g_object_add_weak_pointer (self, (gpointer) &self);
-      return self;
-    }
-
-  return g_object_ref (self);
-}
-
-
 static void
 photos_offset_controller_dispose (GObject *object)
 {
@@ -150,7 +130,6 @@ photos_offset_controller_class_init (PhotosOffsetControllerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->constructor = photos_offset_controller_constructor;
   object_class->dispose = photos_offset_controller_dispose;
 
   signals[COUNT_CHANGED] = g_signal_new ("count-changed",
@@ -233,7 +212,7 @@ photos_offset_controller_reset_count (PhotosOffsetController *self)
   PhotosOffsetControllerPrivate *priv = self->priv;
   PhotosQuery *query;
 
-  query = photos_query_builder_count_query ();
+  query = PHOTOS_OFFSET_CONTROLLER_GET_CLASS (self)->get_query ();
   photos_tracker_queue_select (priv->queue,
                                query->sparql,
                                NULL,

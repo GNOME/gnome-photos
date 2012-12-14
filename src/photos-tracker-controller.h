@@ -27,6 +27,7 @@
 
 #include <glib-object.h>
 
+#include "photos-offset-controller.h"
 #include "photos-query.h"
 
 G_BEGIN_DECLS
@@ -68,6 +69,7 @@ struct _PhotosTrackerControllerClass
   GObjectClass parent_class;
 
   /* virtual methods */
+  PhotosOffsetController *(*get_offset_controller) (void);
   PhotosQuery *(*get_query) (void);
 
   /* signals */

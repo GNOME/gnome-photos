@@ -27,6 +27,8 @@
 
 #include <glib-object.h>
 
+#include "photos-query.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OFFSET_CONTROLLER (photos_offset_controller_get_type ())
@@ -65,13 +67,15 @@ struct _PhotosOffsetControllerClass
 {
   GObjectClass parent_class;
 
+  /* virtual methods */
+  PhotosQuery *(*get_query) (void);
+
+  /* signals */
   void (*count_changed)      (PhotosOffsetController *self, gint count);
   void (*offset_changed)     (PhotosOffsetController *self, gint offset);
 };
 
 GType                       photos_offset_controller_get_type           (void) G_GNUC_CONST;
-
-PhotosOffsetController     *photos_offset_controller_new                (void);
 
 gint                        photos_offset_controller_get_count          (PhotosOffsetController *self);
 
