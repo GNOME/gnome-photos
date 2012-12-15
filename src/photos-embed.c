@@ -81,6 +81,41 @@ G_DEFINE_TYPE (PhotosEmbed, photos_embed, PHOTOS_TYPE_EMBED_WIDGET);
 
 
 static void
+photos_embed_scale_image (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+  ClutterContent *content;
+  gfloat height_a;
+  gfloat height_c;
+  gfloat width_a;
+  gfloat width_c;
+
+  content = clutter_actor_get_content (priv->image_actor);
+  if (content == NULL)
+    return;
+
+  if (!clutter_content_get_preferred_size (content, &width_c, &height_c))
+    return;
+
+  clutter_actor_get_size (priv->image_container, &width_a, &height_a);
+  if (width_c < width_a && height_c < height_a)
+    {
+      clutter_actor_set_content_gravity (priv->image_actor, CLUTTER_CONTENT_GRAVITY_CENTER);
+      clutter_actor_set_size (priv->image_actor, width_c, height_c);
+      clutter_actor_set_x_expand (priv->image_actor, FALSE);
+      clutter_actor_set_y_expand (priv->image_actor, FALSE);
+    }
+  else
+    {
+      clutter_actor_set_content_gravity (priv->image_actor, CLUTTER_CONTENT_GRAVITY_RESIZE_ASPECT);
+      clutter_actor_set_size (priv->image_actor, -1.0, -1.0);
+      clutter_actor_set_x_expand (priv->image_actor, TRUE);
+      clutter_actor_set_y_expand (priv->image_actor, TRUE);
+    }
+}
+
+
+static void
 photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
@@ -112,11 +147,10 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
   clutter_image_set_data (CLUTTER_IMAGE (image), pixels, pixel_format, width, height, row_stride, NULL);
   g_object_unref (pixbuf);
 
-  clutter_actor_save_easing_state (priv->image_actor);
-  clutter_actor_set_content_gravity (priv->image_actor, CLUTTER_CONTENT_GRAVITY_RESIZE_ASPECT);
-  clutter_actor_restore_easing_state (priv->image_actor);
   clutter_actor_set_content (priv->image_actor, image);
   g_object_unref (image);
+
+  photos_embed_scale_image (self);
 
   /* TODO: set toolbar model */
 
@@ -351,18 +385,22 @@ on_image_background_draw (ClutterCanvas *canvas,
 }
 
 static void
-on_image_background_resize (ClutterActor           *actor,
-                            const ClutterActorBox  *allocation,
-                            ClutterAllocationFlags  flags,
-                            gpointer                user_data)
+photos_embed_image_container_allocation_changed (ClutterActor           *actor,
+                                                 const ClutterActorBox  *allocation,
+                                                 ClutterAllocationFlags  flags,
+                                                 gpointer                user_data)
 {
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
   ClutterContent *content;
 
   content = clutter_actor_get_content (actor);
   clutter_canvas_set_size (CLUTTER_CANVAS (content),
                            allocation->x2 - allocation->x1,
                            allocation->y2 - allocation->y1);
+
+  photos_embed_scale_image (self);
 }
+
 
 static void
 photos_embed_init (PhotosEmbed *self)
@@ -442,7 +480,7 @@ photos_embed_init (PhotosEmbed *self)
   image_background = clutter_canvas_new ();
   clutter_actor_set_content (priv->image_container, image_background);
   g_signal_connect (priv->image_container, "allocation-changed",
-                    G_CALLBACK (on_image_background_resize), self);
+                    G_CALLBACK (photos_embed_image_container_allocation_changed), self);
   g_signal_connect (image_background, "draw",
                     G_CALLBACK (on_image_background_draw), self);
   g_signal_connect_swapped (self, "state-flags-changed",
@@ -453,8 +491,6 @@ photos_embed_init (PhotosEmbed *self)
   clutter_actor_set_content_scaling_filters (priv->image_actor,
                                              CLUTTER_SCALING_FILTER_TRILINEAR,
                                              CLUTTER_SCALING_FILTER_TRILINEAR);
-  clutter_actor_set_x_expand (priv->image_actor, TRUE);
-  clutter_actor_set_y_expand (priv->image_actor, TRUE);
   clutter_actor_add_child (priv->image_container, priv->image_actor);
 
   priv->spinner_box = photos_spinner_box_new ();
