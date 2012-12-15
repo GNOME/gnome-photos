@@ -50,6 +50,7 @@ struct _PhotosMainToolbarPrivate
   PhotosBaseManager *src_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosSelectionController *sel_cntrlr;
+  PhotosWindowMode old_mode;
   gulong collection_id;
   gulong search_source_id;
   gulong selection_changed_id;
@@ -213,7 +214,7 @@ photos_main_toolbar_back_button_clicked (GtkButton *button, gpointer user_data)
   PhotosMainToolbarPrivate *priv = self->priv;
 
   photos_base_manager_set_active_object (priv->item_mngr, NULL);
-  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+  photos_mode_controller_set_window_mode (priv->mode_cntrlr, priv->old_mode);
 }
 
 
@@ -414,6 +415,14 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
 
 
 static void
+photos_main_toolbar_window_mode_changed (PhotosMainToolbar *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
+{
+  self->priv->old_mode = old_mode;
+  photos_main_toolbar_reset_toolbar_mode (self);
+}
+
+
+static void
 photos_main_toolbar_dispose (GObject *object)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (object);
@@ -470,9 +479,10 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
                                                      self);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
+  priv->old_mode = PHOTOS_WINDOW_MODE_NONE;
   priv->window_mode_id = g_signal_connect_swapped (priv->mode_cntrlr,
                                                    "window-mode-changed",
-                                                   G_CALLBACK (photos_main_toolbar_reset_toolbar_mode),
+                                                   G_CALLBACK (photos_main_toolbar_window_mode_changed),
                                                    self);
 
   priv->sel_cntrlr = photos_selection_controller_new ();
