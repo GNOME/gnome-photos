@@ -1,3 +1,24 @@
+Overview of changes in 3.7.3
+============================
+
+* Add Favorites mode
+
+* Bugs fixed:
+ 688561 embed: Don't upscale images, but do downscale them if necessary
+ 688562 We only want the nie:title as the name, not the filename
+ 688562 utils: Use larger thumbnails / icons
+ 688565 load-more-button: Simplify the button's label
+ 688567 embed: Remove flash effect
+ 688568 embed: Use texture background in preview
+ 688569 embed: Hide actors that aren't visible
+ 688742 Update license blurbs for the current FSF address
+
+* Updated translations:
+ Norwegian bokmål
+ Polish
+ Spanish
+
+
 Overview of changes in 3.7.2
 ============================
 
