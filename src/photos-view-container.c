@@ -230,10 +230,10 @@ photos_view_container_window_mode_changed (PhotosModeController *mode_cntrlr,
 {
   PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (user_data);
 
-  if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+  photos_view_container_disconnect_view (self);
+
+  if (mode == PHOTOS_WINDOW_MODE_FAVORITES || mode == PHOTOS_WINDOW_MODE_OVERVIEW)
     photos_view_container_connect_view (self);
-  else
-    photos_view_container_disconnect_view (self);
 }
 
 
