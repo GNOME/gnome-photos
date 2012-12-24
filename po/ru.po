@@ -1,0 +1,382 @@
+# Russian translation for gnome-photos.
+# Copyright (C) 2012 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# alinofka <alinofka@gmail.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-12-21 20:56+0000\n"
+"PO-Revision-Date: 2012-12-24 22:10+0300\n"
+"Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
+"Language-Team: Russian <gnome-cyr@gnome.org>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ../data/gnome-photos.desktop.in.in.h:1
+#: ../src/photos-main-toolbar.c:91
+#: ../src/photos-search-type-manager.c:68
+msgid "Photos"
+msgstr "Фотографии"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Управление фотоснимками"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "фотографии;картинки;изображения;"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "Размер окна"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "Размер окна (ширина и высота)"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "Положение окна"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "Положение окна (x, y)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "Развёрнутое окно"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "Окно имеет максимальный размер"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120
+#: ../src/eog-exif-util.c:160
+#, fuzzy
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+#, fuzzy
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, fuzzy, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (объектив)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (плёнка 35мм)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Преобразование выгруженного изображения."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Ошибка преобразования."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "EXIF не поддерживается для данного формата файла."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Ошибка загрузки изображения."
+
+#: ../src/eog-image.c:1727
+#: ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Загруженные изображения отсутствуют."
+
+#: ../src/eog-image.c:1735
+#: ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Недостаточно прав для сохранения данного файла."
+
+#: ../src/eog-image.c:1745
+#: ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Ошибка создания временного файла."
+
+#: ../src/eog-print.c:371
+msgid "Image Settings"
+msgstr "Параметры изображения"
+
+#: ../src/eog-print-image-setup.c:906
+msgid "Image"
+msgstr "Изображение"
+
+#: ../src/eog-print-image-setup.c:907
+#, fuzzy
+msgid "The image whose printing properties will be set up"
+msgstr "Задать настройки печати для данного изображения"
+
+#: ../src/eog-print-image-setup.c:913
+msgid "Page Setup"
+msgstr "Параметры страницы"
+
+#: ../src/eog-print-image-setup.c:914
+msgid "The information for the page where the image will be printed"
+msgstr "Информация для страницы, на которой будет напечатано изображение"
+
+#: ../src/eog-print-image-setup.c:942
+msgid "Position"
+msgstr "Положение"
+
+#: ../src/eog-print-image-setup.c:946
+#, fuzzy
+msgid "_Left:"
+msgstr "С_лева:"
+
+#: ../src/eog-print-image-setup.c:948
+#, fuzzy
+msgid "_Right:"
+msgstr "С_права:"
+
+#: ../src/eog-print-image-setup.c:949
+#, fuzzy
+msgid "_Top:"
+msgstr "С_низу:"
+
+#: ../src/eog-print-image-setup.c:950
+#, fuzzy
+msgid "_Bottom:"
+msgstr "С_верху:"
+
+#: ../src/eog-print-image-setup.c:953
+#, fuzzy
+msgid "C_enter:"
+msgstr "Ц_ентр:"
+
+#: ../src/eog-print-image-setup.c:958
+msgid "None"
+msgstr "Нет"
+
+#: ../src/eog-print-image-setup.c:960
+#, fuzzy
+msgid "Horizontal"
+msgstr "По горизонтали"
+
+#: ../src/eog-print-image-setup.c:962
+#, fuzzy
+msgid "Vertical"
+msgstr "По вертикали"
+
+#: ../src/eog-print-image-setup.c:964
+msgid "Both"
+msgstr ""
+
+#: ../src/eog-print-image-setup.c:980
+msgid "Size"
+msgstr "Размер"
+
+#: ../src/eog-print-image-setup.c:983
+msgid "_Width:"
+msgstr "_Ширина:"
+
+#: ../src/eog-print-image-setup.c:985
+msgid "_Height:"
+msgstr "_Высота:"
+
+#: ../src/eog-print-image-setup.c:988
+msgid "_Scaling:"
+msgstr "_Масштаб:"
+
+#: ../src/eog-print-image-setup.c:999
+msgid "_Unit:"
+msgstr "_Единица:"
+
+#: ../src/eog-print-image-setup.c:1004
+msgid "Millimeters"
+msgstr "Миллиметры"
+
+#: ../src/eog-print-image-setup.c:1006
+msgid "Inches"
+msgstr "Дюймы"
+
+#: ../src/eog-print-image-setup.c:1035
+msgid "Preview"
+msgstr "Предварительный просмотр"
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Некоторые имена файлов совпадают."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Не удалось открыть справку для программы просмотра изображений"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (неверный Юникод)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Полноэкранный режим"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "О приложении"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Закрыть"
+
+#: ../src/photos-empty-results-box.c:70
+msgid "No Photos Found"
+msgstr "Фотографии не найдены"
+
+#: ../src/photos-indexing-notification.c:170
+msgid "Your photos are being indexed"
+msgstr "Фотографии индексируются"
+
+#: ../src/photos-indexing-notification.c:174
+msgid "Some photos might not be available during this process"
+msgstr "Во время этого процесса некоторые фотографии могут быть недоступны"
+
+#: ../src/photos-load-more-button.c:72
+#: ../src/photos-load-more-button.c:190
+msgid "Load More"
+msgstr "Загрузить ещё"
+
+#: ../src/photos-load-more-button.c:85
+#: ../src/photos-spinner-box.c:113
+msgid "Loading..."
+msgstr "Загрузка…"
+
+#: ../src/photos-main-toolbar.c:96
+msgid "Favorites"
+msgstr "Избранное"
+
+#: ../src/photos-main-toolbar.c:135
+msgid "Click on items to select them"
+msgstr "Чтобы выбрать элемент, нажмите на него"
+
+#: ../src/photos-main-toolbar.c:137
+#, fuzzy, c-format
+msgid "%d selected"
+msgstr "Выбрано %d"
+
+#: ../src/photos-main-toolbar.c:193
+#: ../src/photos-main-toolbar.c:362
+msgid "Back"
+msgstr "Назад"
+
+#: ../src/photos-main-toolbar.c:310
+#: ../src/photos-main-toolbar.c:336
+#, fuzzy
+msgid "Select Items"
+msgstr "Выбор элементов"
+
+#: ../src/photos-main-toolbar.c:380
+#: ../src/photos-properties-dialog.c:328
+msgid "Done"
+msgstr "Готово"
+
+#: ../src/photos-main-window.c:334
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Управление вашими фотографиям в GNOME"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:344
+msgid "translator-credits"
+msgstr ""
+
+#: ../src/photos-organize-collection-dialog.c:133
+#: ../src/photos-selection-toolbar.c:572
+msgid "Organize"
+msgstr "Упорядочить"
+
+#: ../src/photos-properties-dialog.c:155
+msgid "Title"
+msgstr "Заголовок"
+
+#: ../src/photos-properties-dialog.c:164
+msgid "Author"
+msgstr "Автор"
+
+#: ../src/photos-properties-dialog.c:171
+msgid "Source"
+msgstr "Источник"
+
+#: ../src/photos-properties-dialog.c:177
+msgid "Date Modified"
+msgstr "Дата изменения"
+
+#: ../src/photos-properties-dialog.c:185
+msgid "Date Created"
+msgstr "Дата создания"
+
+#: ../src/photos-properties-dialog.c:192
+msgid "Type"
+msgstr "Тип"
+
+#: ../src/photos-properties-dialog.c:365
+#: ../src/photos-selection-toolbar.c:583
+msgid "Properties"
+msgstr "Свойства"
+
+#: ../src/photos-search-type-manager.c:63
+#: ../src/photos-source-manager.c:144
+msgid "All"
+msgstr "Все"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-selection-toolbar.c:306
+#, c-format
+msgid "Open with %s"
+msgstr "Открыть с помощью «%s»"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-selection-toolbar.c:309
+msgid "Open"
+msgstr "Открыть"
+
+#: ../src/photos-selection-toolbar.c:324
+msgid "Remove from favorites"
+msgstr "Удалить из избранного"
+
+#: ../src/photos-selection-toolbar.c:330
+msgid "Add to favorites"
+msgstr "Добавить в избранное"
+
+#: ../src/photos-selection-toolbar.c:539
+msgid "Print"
+msgstr "Печать"
+
+#: ../src/photos-selection-toolbar.c:550
+msgid "Delete"
+msgstr "Удалить"
+
+#: ../src/photos-source-manager.c:148
+msgid "Local"
+msgstr "Локальные"
+
+#: ../src/photos-tracker-controller.c:80
+msgid "Unable to fetch the list of photos"
+msgstr "Не удалось получить список фотографий"
+
