@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-11 13:23+0100\n"
-"PO-Revision-Date: 2012-11-11 13:28+0200\n"
+"POT-Creation-Date: 2012-12-27 00:49+0100\n"
+"PO-Revision-Date: 2012-12-27 00:50+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Virtaal 0.7.1\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-main-toolbar.c:91
 #: ../src/photos-search-type-manager.c:68
 msgid "Photos"
 msgstr "Fotos\t"
@@ -114,6 +114,10 @@ msgstr "Non ten os permisos necesarios para gardar o ficheiro."
 #, c-format
 msgid "Temporary file creation failed."
 msgstr "Produciuse un fallo ao crear o ficheiro temporal."
+
+#: ../src/eog-print.c:371
+msgid "Image Settings"
+msgstr "Configuracións da imaxe"
 
 #: ../src/eog-print-image-setup.c:906
 msgid "Image"
@@ -216,96 +220,143 @@ msgstr "Non foi posíbel mostrar a axuda para o Visor de imaxes"
 msgid " (invalid Unicode)"
 msgstr " (Unicode incorrecto)"
 
-#: ../src/photos-application.c:139
+#: ../src/photos-app-menu.ui.h:1
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: ../src/photos-application.c:142
+#: ../src/photos-app-menu.ui.h:2
 msgid "About Photos"
 msgstr "Sobre fotos"
 
-#: ../src/photos-application.c:143
+#: ../src/photos-app-menu.ui.h:3
 msgid "Quit"
 msgstr "Saír"
 
-#: ../src/photos-load-more-button.c:67
-msgid "Load 1 more photo"
-msgstr "Cargar 1 foto máis"
+#: ../src/photos-empty-results-box.c:70
+msgid "No Photos Found"
+msgstr "Non se atoparon fotografías"
 
-#: ../src/photos-load-more-button.c:69
-#, c-format
-msgid "Load %d more photos"
-msgstr "Cargar %d fotos máis"
+#: ../src/photos-indexing-notification.c:170
+msgid "Your photos are being indexed"
+msgstr "Estanse indexando as súas fotografías"
+
+#: ../src/photos-indexing-notification.c:174
+msgid "Some photos might not be available during this process"
+msgstr "Algunhas fotos poderían non estar dispoñíbeis durante este proceso"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
+msgid "Load More"
+msgstr "Cargar máis"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:113
+msgid "Loading..."
+msgstr "Cargando…"
 
 #: ../src/photos-main-toolbar.c:96
+msgid "Favorites"
+msgstr "Favoritas"
+
+#: ../src/photos-main-toolbar.c:135
 msgid "Click on items to select them"
 msgstr "Prema nos elementos para seleccionalos"
 
-#: ../src/photos-main-toolbar.c:98
+#: ../src/photos-main-toolbar.c:137
 #, c-format
 msgid "%d selected"
 msgstr "%d seleccionados"
 
-#: ../src/photos-main-toolbar.c:154 ../src/photos-main-toolbar.c:289
+#: ../src/photos-main-toolbar.c:193 ../src/photos-main-toolbar.c:362
 msgid "Back"
 msgstr "Atrás"
 
-#: ../src/photos-main-toolbar.c:265
+#: ../src/photos-main-toolbar.c:310 ../src/photos-main-toolbar.c:336
 msgid "Select Items"
 msgstr "Elementos seleccionados"
 
-#: ../src/photos-main-toolbar.c:305
+#: ../src/photos-main-toolbar.c:380 ../src/photos-properties-dialog.c:328
 msgid "Done"
 msgstr "Feito"
 
-#: ../src/photos-main-window.c:340
+#: ../src/photos-main-window.c:334
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice e comparta as súas fotos en GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:350
+#: ../src/photos-main-window.c:344
 msgid "translator-credits"
 msgstr "Fran Dieguez <frandieguez@gnome.org>, 2012."
 
-#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:131
+#: ../src/photos-organize-collection-dialog.c:133
+#: ../src/photos-selection-toolbar.c:572
+msgid "Organize"
+msgstr "Organizar"
+
+#: ../src/photos-properties-dialog.c:155
+msgid "Title"
+msgstr "Título"
+
+#: ../src/photos-properties-dialog.c:164
+msgid "Author"
+msgstr "Autor"
+
+#: ../src/photos-properties-dialog.c:171
+msgid "Source"
+msgstr "Orixe"
+
+#: ../src/photos-properties-dialog.c:177
+msgid "Date Modified"
+msgstr "Data de modificación"
+
+#: ../src/photos-properties-dialog.c:185
+msgid "Date Created"
+msgstr "Data de creación"
+
+#: ../src/photos-properties-dialog.c:192
+msgid "Type"
+msgstr "Tipo"
+
+#: ../src/photos-properties-dialog.c:365 ../src/photos-selection-toolbar.c:583
+msgid "Properties"
+msgstr "Propiedades"
+
+#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:144
 msgid "All"
 msgstr "Todas"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:275
+#: ../src/photos-selection-toolbar.c:306
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:278
+#: ../src/photos-selection-toolbar.c:309
 msgid "Open"
 msgstr "Abrir"
 
-#: ../src/photos-selection-toolbar.c:293
+#: ../src/photos-selection-toolbar.c:324
 msgid "Remove from favorites"
 msgstr "Quitar dos marcadores"
 
-#: ../src/photos-selection-toolbar.c:299
+#: ../src/photos-selection-toolbar.c:330
 msgid "Add to favorites"
 msgstr "Engadir aos marcadores"
 
-#: ../src/photos-selection-toolbar.c:505
+#: ../src/photos-selection-toolbar.c:539
 msgid "Print"
 msgstr "Imprimir"
 
-#: ../src/photos-selection-toolbar.c:527
-msgid "Organize"
-msgstr "Organizar"
-
-#: ../src/photos-selection-toolbar.c:538
+#: ../src/photos-selection-toolbar.c:550
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../src/photos-source-manager.c:135
+#: ../src/photos-source-manager.c:148
 msgid "Local"
 msgstr "Local"
 
-#: ../src/photos-spinner-box.c:127
-msgid "Loading..."
-msgstr "Cargando…"
+#: ../src/photos-tracker-controller.c:80
+msgid "Unable to fetch the list of photos"
+msgstr "Non foi posíbel obter a lista de fotografías"
+
+#~ msgid "Load %d more photos"
+#~ msgstr "Cargar %d fotos máis"
