@@ -1,0 +1,359 @@
+# Brazilian Portuguese translation for gnome-photos.
+# Copyright (C) 2012 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-12-26 23:51+0000\n"
+"PO-Revision-Date: 2012-12-31 04:30-0300\n"
+"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-main-toolbar.c:91
+#: ../src/photos-search-type-manager.c:68
+msgid "Photos"
+msgstr "Fotos"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Acesse, organize e compartilhe fotos"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Fotos;Imagens;"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "Tamanho da janela"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "Tamanho da janela (largura e altura)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "Posição da janela"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "Posição da janela (x e y)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "Janela maximizada"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "Estado de janela maximizada"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (lente)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (filme de 35mm)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Transformação em imagem não carregada."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Transformação falhou."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "EXIF não tem suporte a este formato de arquivo."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Falha ao carregar a imagem."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Nenhuma imagem carregada."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Você não tem permissões necessárias para salvar o arquivo."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Falha ao criar arquivo temporário."
+
+#: ../src/eog-print.c:371
+msgid "Image Settings"
+msgstr "Configurações da imagem"
+
+#: ../src/eog-print-image-setup.c:906
+msgid "Image"
+msgstr "Imagem"
+
+#: ../src/eog-print-image-setup.c:907
+msgid "The image whose printing properties will be set up"
+msgstr "A imagem cujas propriedades de impressão serão configuradas"
+
+#: ../src/eog-print-image-setup.c:913
+msgid "Page Setup"
+msgstr "Configuração da página"
+
+#: ../src/eog-print-image-setup.c:914
+msgid "The information for the page where the image will be printed"
+msgstr "A informação da página na qual a imagem será impressa"
+
+#: ../src/eog-print-image-setup.c:942
+msgid "Position"
+msgstr "Posição"
+
+#: ../src/eog-print-image-setup.c:946
+msgid "_Left:"
+msgstr "_Esquerda:"
+
+#: ../src/eog-print-image-setup.c:948
+msgid "_Right:"
+msgstr "_Direita:"
+
+#: ../src/eog-print-image-setup.c:949
+msgid "_Top:"
+msgstr "_Topo:"
+
+#: ../src/eog-print-image-setup.c:950
+msgid "_Bottom:"
+msgstr "_Inferior:"
+
+#: ../src/eog-print-image-setup.c:953
+msgid "C_enter:"
+msgstr "_Centro:"
+
+#: ../src/eog-print-image-setup.c:958
+msgid "None"
+msgstr "Nenhuma"
+
+#: ../src/eog-print-image-setup.c:960
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#: ../src/eog-print-image-setup.c:962
+msgid "Vertical"
+msgstr "Vertical"
+
+#: ../src/eog-print-image-setup.c:964
+msgid "Both"
+msgstr "Ambas"
+
+#: ../src/eog-print-image-setup.c:980
+msgid "Size"
+msgstr "Tamanho"
+
+#: ../src/eog-print-image-setup.c:983
+msgid "_Width:"
+msgstr "_Largura:"
+
+#: ../src/eog-print-image-setup.c:985
+msgid "_Height:"
+msgstr "_Altura:"
+
+#: ../src/eog-print-image-setup.c:988
+msgid "_Scaling:"
+msgstr "_Escala:"
+
+#: ../src/eog-print-image-setup.c:999
+msgid "_Unit:"
+msgstr "_Unidade:"
+
+#: ../src/eog-print-image-setup.c:1004
+msgid "Millimeters"
+msgstr "Milímetros"
+
+#: ../src/eog-print-image-setup.c:1006
+msgid "Inches"
+msgstr "Polegadas"
+
+#: ../src/eog-print-image-setup.c:1035
+msgid "Preview"
+msgstr "Previsualização"
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "No mínimo dois nomes de arquivos são iguais."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Não foi possível exibir ajuda do Visualizador de imagens"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr "(unicode inválido)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Tela cheia "
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "Sobre Fotos"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Sair"
+
+#: ../src/photos-empty-results-box.c:70
+msgid "No Photos Found"
+msgstr "Nenhuma foto encontrada"
+
+#: ../src/photos-indexing-notification.c:170
+msgid "Your photos are being indexed"
+msgstr "Suas fotos estão sendo indexadas"
+
+#: ../src/photos-indexing-notification.c:174
+msgid "Some photos might not be available during this process"
+msgstr "Algumas fotos podem não estar disponíveis durante este processo"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
+msgid "Load More"
+msgstr "Carregar mais"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:113
+msgid "Loading..."
+msgstr "Carregando..."
+
+#: ../src/photos-main-toolbar.c:96
+msgid "Favorites"
+msgstr "Favoritos"
+
+#: ../src/photos-main-toolbar.c:135
+msgid "Click on items to select them"
+msgstr "Clique nos items para selecioná-los"
+
+#: ../src/photos-main-toolbar.c:137
+#, c-format
+msgid "%d selected"
+msgstr "%d selecionada"
+
+#: ../src/photos-main-toolbar.c:193 ../src/photos-main-toolbar.c:362
+msgid "Back"
+msgstr "Voltar"
+
+#: ../src/photos-main-toolbar.c:310 ../src/photos-main-toolbar.c:336
+msgid "Select Items"
+msgstr "Selecionar itens"
+
+#: ../src/photos-main-toolbar.c:380 ../src/photos-properties-dialog.c:328
+msgid "Done"
+msgstr "Feito"
+
+#: ../src/photos-main-window.c:334
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Acesse, organize e compartilhe suas fotos no GNOME"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:344
+msgid "translator-credits"
+msgstr "Rafael Ferreira <rafael.f.f1@gmail.com>"
+
+#: ../src/photos-organize-collection-dialog.c:133
+#: ../src/photos-selection-toolbar.c:572
+msgid "Organize"
+msgstr "Organizar"
+
+#: ../src/photos-properties-dialog.c:155
+msgid "Title"
+msgstr "Título"
+
+#: ../src/photos-properties-dialog.c:164
+msgid "Author"
+msgstr "Autor"
+
+#: ../src/photos-properties-dialog.c:171
+msgid "Source"
+msgstr "Fonte"
+
+#: ../src/photos-properties-dialog.c:177
+msgid "Date Modified"
+msgstr "Data de modificação"
+
+#: ../src/photos-properties-dialog.c:185
+msgid "Date Created"
+msgstr "Data de criação"
+
+#: ../src/photos-properties-dialog.c:192
+msgid "Type"
+msgstr "Tipo"
+
+#: ../src/photos-properties-dialog.c:365 ../src/photos-selection-toolbar.c:583
+msgid "Properties"
+msgstr "Propriedades"
+
+#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:144
+msgid "All"
+msgstr "Todos"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-selection-toolbar.c:306
+#, c-format
+msgid "Open with %s"
+msgstr "Abrir com %s"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-selection-toolbar.c:309
+msgid "Open"
+msgstr "Abrir"
+
+#: ../src/photos-selection-toolbar.c:324
+msgid "Remove from favorites"
+msgstr "Remover dos favoritos"
+
+#: ../src/photos-selection-toolbar.c:330
+msgid "Add to favorites"
+msgstr "Adicionar aos favoritos"
+
+#: ../src/photos-selection-toolbar.c:539
+msgid "Print"
+msgstr "Imprimir"
+
+#: ../src/photos-selection-toolbar.c:550
+msgid "Delete"
+msgstr "Excluir"
+
+#: ../src/photos-source-manager.c:148
+msgid "Local"
+msgstr "Local"
+
+#: ../src/photos-tracker-controller.c:80
+msgid "Unable to fetch the list of photos"
+msgstr "Não foi possível obter a lista de fotos"
