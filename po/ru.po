@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-12-21 20:56+0000\n"
-"PO-Revision-Date: 2012-12-24 22:10+0300\n"
+"POT-Creation-Date: 2012-12-24 18:14+0000\n"
+"PO-Revision-Date: 2013-01-05 11:47+0300\n"
 "Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -156,11 +156,13 @@ msgstr "С_лева:"
 msgid "_Right:"
 msgstr "С_права:"
 
+#  "С_верху:" ?
 #: ../src/eog-print-image-setup.c:949
 #, fuzzy
 msgid "_Top:"
 msgstr "С_низу:"
 
+# не "С_низу:" ?
 #: ../src/eog-print-image-setup.c:950
 #, fuzzy
 msgid "_Bottom:"
@@ -304,7 +306,7 @@ msgstr "Управление вашими фотографиям в GNOME"
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:344
 msgid "translator-credits"
-msgstr ""
+msgstr "Alina Kruglova"
 
 #: ../src/photos-organize-collection-dialog.c:133
 #: ../src/photos-selection-toolbar.c:572
