@@ -51,7 +51,9 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosMainWindow, photos_main_window, GTK_TYPE_APPLI
 
 enum
 {
-  CONFIGURE_ID_TIMEOUT = 100 /* ms */
+  CONFIGURE_ID_TIMEOUT = 100, /* ms */
+  WINDOW_MIN_HEIGHT = 600,
+  WINDOW_MIN_WIDTH = 640,
 };
 
 
@@ -303,6 +305,8 @@ photos_main_window_new (GtkApplication *application)
   g_return_val_if_fail (GTK_IS_APPLICATION (application), NULL);
 
   return g_object_new (PHOTOS_TYPE_MAIN_WINDOW,
+                       "width_request", WINDOW_MIN_WIDTH,
+                       "height_request", WINDOW_MIN_HEIGHT,
                        "application", application,
                        "hide-titlebar-when-maximized", TRUE,
                        "title", _(PACKAGE_NAME),
