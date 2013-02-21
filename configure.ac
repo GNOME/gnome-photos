@@ -94,7 +94,7 @@ PKG_CHECK_MODULES(GTK_UNIX_PRINT, [gtk+-unix-print-3.0])
 PKG_CHECK_MODULES(LCMS, [lcms2])
 PKG_CHECK_MODULES(LIBEXIF, [libexif >= $LIBEXIF_MIN_VERSION])
 PKG_CHECK_MODULES(LIBRSVG, [librsvg-2.0 >= $LIBRSVG_MIN_VERSION])
-PKG_CHECK_MODULES(TRACKER, [tracker-miner-0.14 tracker-sparql-0.14])
+PKG_CHECK_MODULES(TRACKER, [tracker-miner-0.16 tracker-sparql-0.16])
 
 LIBGD_INIT([
   main-toolbar
