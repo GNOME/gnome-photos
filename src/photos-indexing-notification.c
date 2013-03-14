@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,7 +35,7 @@
 
 struct _PhotosIndexingNotificationPrivate
 {
-  ClutterActor *ntfctn_mngr;
+  GtkWidget *ntfctn_mngr;
   GtkWidget *spinner;
   TrackerMinerManager *manager;
   gboolean manually_closed;

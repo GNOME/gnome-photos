@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@
 #ifndef PHOTOS_ERROR_BOX_H
 #define PHOTOS_ERROR_BOX_H
 
-#include <clutter-gtk/clutter-gtk.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -57,22 +57,18 @@ typedef struct _PhotosErrorBoxPrivate PhotosErrorBoxPrivate;
 
 struct _PhotosErrorBox
 {
-  GtkClutterActor parent_instance;
+  GtkGrid parent_instance;
   PhotosErrorBoxPrivate *priv;
 };
 
 struct _PhotosErrorBoxClass
 {
-  GtkClutterActorClass parent_class;
+  GtkGridClass parent_class;
 };
 
 GType                  photos_error_box_get_type               (void) G_GNUC_CONST;
 
-ClutterActor          *photos_error_box_new                    (void);
-
-void                   photos_error_box_move_in                (PhotosErrorBox *self);
-
-void                   photos_error_box_move_out               (PhotosErrorBox *self);
+GtkWidget             *photos_error_box_new                    (void);
 
 void                   photos_error_box_update                 (PhotosErrorBox *self,
                                                                 const gchar *primary,

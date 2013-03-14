@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,9 +25,9 @@
 
 #include "config.h"
 
-#include <clutter/clutter.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtk.h>
+#include <gegl.h>
+#include <gegl-gtk.h>
 
 #include "photos-embed.h"
 #include "photos-empty-results-box.h"
@@ -47,72 +47,35 @@
 
 struct _PhotosEmbedPrivate
 {
-  ClutterActor *background;
-  ClutterActor *contents_actor;
-  ClutterActor *error_box;
-  ClutterActor *favorites_actor;
-  ClutterActor *image_actor;
-  ClutterActor *image_container;
-  ClutterActor *no_results;
-  ClutterActor *ntfctn_mngr;
-  ClutterActor *overview_actor;
-  ClutterActor *spinner_box;
-  ClutterActor *view_actor;
-  ClutterLayoutManager *contents_layout;
-  ClutterLayoutManager *view_layout;
   GCancellable *loader_cancellable;
+  GtkWidget *error_box;
   GtkWidget *favorites;
   GtkWidget *indexing_ntfctn;
+  GtkWidget *no_results;
+  GtkWidget *notebook;
+  GtkWidget *notebook_overlay;
+  GtkWidget *ntfctn_mngr;
   GtkWidget *overview;
+  GtkWidget *preview;
+  GtkWidget *selection_toolbar;
+  GtkWidget *spinner_box;
+  GtkWidget *toolbar;
   PhotosBaseManager *item_mngr;
-  PhotosMainToolbar *toolbar;
-  PhotosSelectionToolbar *selection_toolbar;
   PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
   PhotosTrackerChangeMonitor *monitor;
   PhotosTrackerController *trk_ovrvw_cntrlr;
+  gint error_page;
+  gint favorites_page;
+  gint no_results_page;
   gint preview_page;
-  gint view_page;
+  gint overview_page;
+  gint spinner_page;
   gulong no_results_change_id;
 };
 
 
-G_DEFINE_TYPE (PhotosEmbed, photos_embed, PHOTOS_TYPE_EMBED_WIDGET);
-
-
-static void
-photos_embed_scale_image (PhotosEmbed *self)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-  ClutterContent *content;
-  gfloat height_a;
-  gfloat height_c;
-  gfloat width_a;
-  gfloat width_c;
-
-  content = clutter_actor_get_content (priv->image_actor);
-  if (content == NULL)
-    return;
-
-  if (!clutter_content_get_preferred_size (content, &width_c, &height_c))
-    return;
-
-  clutter_actor_get_size (priv->image_container, &width_a, &height_a);
-  if (width_c < width_a && height_c < height_a)
-    {
-      clutter_actor_set_content_gravity (priv->image_actor, CLUTTER_CONTENT_GRAVITY_CENTER);
-      clutter_actor_set_size (priv->image_actor, width_c, height_c);
-      clutter_actor_set_x_expand (priv->image_actor, FALSE);
-      clutter_actor_set_y_expand (priv->image_actor, FALSE);
-    }
-  else
-    {
-      clutter_actor_set_content_gravity (priv->image_actor, CLUTTER_CONTENT_GRAVITY_RESIZE_ASPECT);
-      clutter_actor_set_size (priv->image_actor, -1.0, -1.0);
-      clutter_actor_set_x_expand (priv->image_actor, TRUE);
-      clutter_actor_set_y_expand (priv->image_actor, TRUE);
-    }
-}
+G_DEFINE_TYPE (PhotosEmbed, photos_embed, GTK_TYPE_BOX);
 
 
 static void
@@ -120,41 +83,19 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
-  ClutterContent *image;
-  CoglPixelFormat pixel_format;
-  GdkPixbuf *pixbuf;
+  GeglNode *node;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-  gboolean has_alpha;
-  gint height;
-  gint row_stride;
-  gint width;
-  guchar *pixels;
 
   g_clear_object (&priv->loader_cancellable);
-  pixbuf = photos_base_item_load_finish (item, res, NULL);
-  if (pixbuf == NULL)
+  node = photos_base_item_load_finish (item, res, NULL);
+  if (node == NULL)
     return;
 
-  pixels = gdk_pixbuf_get_pixels (pixbuf);
-  has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
-  pixel_format = (has_alpha) ? COGL_PIXEL_FORMAT_RGBA_8888 : COGL_PIXEL_FORMAT_RGB_888;
-
-  width = gdk_pixbuf_get_width (pixbuf);
-  height = gdk_pixbuf_get_height (pixbuf);
-  row_stride = gdk_pixbuf_get_rowstride (pixbuf);
-
-  image = clutter_image_new ();
-  clutter_image_set_data (CLUTTER_IMAGE (image), pixels, pixel_format, width, height, row_stride, NULL);
-  g_object_unref (pixbuf);
-
-  clutter_actor_set_content (priv->image_actor, image);
-  g_object_unref (image);
-
-  photos_embed_scale_image (self);
+  gegl_gtk_view_set_node (GEGL_GTK_VIEW (priv->preview), node);
 
   /* TODO: set toolbar model */
 
-  photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
+  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
   photos_mode_controller_set_can_fullscreen (priv->mode_cntrlr, TRUE);
 }
 
@@ -170,14 +111,45 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
 
   /* TODO: CollectionManager */
 
-  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
-  photos_spinner_box_move_in_delayed (PHOTOS_SPINNER_BOX (priv->spinner_box), 400);
+  photos_spinner_box_start_delayed (PHOTOS_SPINNER_BOX (priv->spinner_box), 400);
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->spinner_page);
 
   priv->loader_cancellable = g_cancellable_new ();
   photos_base_item_load_async (PHOTOS_BASE_ITEM (object),
                                priv->loader_cancellable,
                                photos_embed_item_load,
                                self);
+}
+
+
+static void
+photos_embed_restore_last_page (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+  PhotosWindowMode mode;
+  gint page;
+
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      page = priv->overview_page;
+      break;
+
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      page = priv->favorites_page;
+      break;
+
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      page = priv->preview_page;
+      break;
+
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), page);
 }
 
 
@@ -192,8 +164,7 @@ photos_embed_hide_no_results_page (PhotosEmbed *self)
       priv->no_results_change_id = 0;
     }
 
-  clutter_actor_set_child_below_sibling (priv->view_actor, priv->no_results, NULL);
-  clutter_actor_hide (priv->no_results);
+  photos_embed_restore_last_page (self);
 }
 
 
@@ -215,8 +186,7 @@ photos_embed_count_changed (PhotosEmbed *self, gint count)
                                                              "changes-pending",
                                                              G_CALLBACK (photos_embed_changes_pending),
                                                              self);
-      clutter_actor_show (priv->no_results);
-      clutter_actor_set_child_above_sibling (priv->view_actor, priv->no_results, NULL);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->no_results_page);
     }
   else
     photos_embed_hide_no_results_page (self);
@@ -242,11 +212,8 @@ photos_embed_prepare_for_favorites (PhotosEmbed *self)
       g_clear_object (&priv->loader_cancellable);
     }
 
-  photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
-  photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
-
-  clutter_actor_show (priv->favorites_actor);
-  clutter_actor_set_child_below_sibling (priv->view_actor, priv->favorites_actor, priv->ntfctn_mngr);
+  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->favorites_page);
 }
 
 
@@ -263,11 +230,8 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
       g_clear_object (&priv->loader_cancellable);
     }
 
-  photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
-  photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
-
-  clutter_actor_show (priv->overview_actor);
-  clutter_actor_set_child_below_sibling (priv->view_actor, priv->overview_actor, priv->ntfctn_mngr);
+  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->overview_page);
 }
 
 
@@ -280,8 +244,24 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
    *       ErrorHandler
    */
 
-  clutter_actor_show (priv->image_container);
-  clutter_actor_set_child_below_sibling (priv->view_actor, priv->image_container, priv->ntfctn_mngr);
+  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->preview_page);
+}
+
+
+static void
+photos_embed_preview_draw_background (PhotosEmbed *self, cairo_t *cr, GdkRectangle *rect)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+  GtkStyleContext *context;
+  GtkStateFlags flags;
+
+  context = gtk_widget_get_style_context (priv->preview);
+  flags = gtk_widget_get_state_flags (priv->preview);
+  gtk_style_context_save (context);
+  gtk_style_context_set_state (context, flags);
+  gtk_render_background (context, cr, 0, 0, rect->width, rect->height);
+  gtk_style_context_restore (context);
 }
 
 
@@ -291,7 +271,7 @@ photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *se
   PhotosEmbedPrivate *priv = self->priv;
 
   photos_error_box_update (PHOTOS_ERROR_BOX (priv->error_box), primary, secondary);
-  photos_error_box_move_in (PHOTOS_ERROR_BOX (priv->error_box));
+  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->error_page);
 }
 
 
@@ -310,11 +290,14 @@ photos_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean
 
   if (querying)
     {
-      photos_error_box_move_out (PHOTOS_ERROR_BOX (priv->error_box));
-      photos_spinner_box_move_in (PHOTOS_SPINNER_BOX (priv->spinner_box));
+      photos_spinner_box_start (PHOTOS_SPINNER_BOX (priv->spinner_box));
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->spinner_page);
     }
   else
-    photos_spinner_box_move_out (PHOTOS_SPINNER_BOX (priv->spinner_box));
+    {
+      photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
+      photos_embed_restore_last_page (self);
+    }
 }
 
 static void
@@ -325,10 +308,6 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
-
-  clutter_actor_hide (priv->favorites_actor);
-  clutter_actor_hide (priv->image_container);
-  clutter_actor_hide (priv->overview_actor);
 
   if (mode == PHOTOS_WINDOW_MODE_FAVORITES)
     photos_embed_prepare_for_favorites (self);
@@ -363,158 +342,70 @@ photos_embed_dispose (GObject *object)
   G_OBJECT_CLASS (photos_embed_parent_class)->dispose (object);
 }
 
-static gboolean
-on_image_background_draw (ClutterCanvas *canvas,
-                          cairo_t       *cr,
-                          gint           width,
-                          gint           height,
-                          gpointer       user_data)
-{
-  PhotosEmbed *self = PHOTOS_EMBED (user_data);
-  GtkStyleContext *context;
-  GtkStateFlags flags;
-
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  flags = gtk_widget_get_state_flags (GTK_WIDGET (self));
-  gtk_style_context_save (context);
-  gtk_style_context_set_state (context, flags);
-  gtk_render_background (context, cr, 0, 0, width, height);
-  gtk_style_context_restore (context);
-
-  return TRUE;
-}
-
-static void
-photos_embed_image_container_allocation_changed (ClutterActor           *actor,
-                                                 const ClutterActorBox  *allocation,
-                                                 ClutterAllocationFlags  flags,
-                                                 gpointer                user_data)
-{
-  PhotosEmbed *self = PHOTOS_EMBED (user_data);
-  ClutterContent *content;
-
-  content = clutter_actor_get_content (actor);
-  clutter_canvas_set_size (CLUTTER_CANVAS (content),
-                           allocation->x2 - allocation->x1,
-                           allocation->y2 - allocation->y1);
-
-  photos_embed_scale_image (self);
-}
-
-
 static void
 photos_embed_init (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv;
-  ClutterActor *actor;
-  ClutterActor *stage;
-  ClutterActor *toolbar_actor;
-  ClutterLayoutManager *image_layout;
-  ClutterLayoutManager *overlay_layout;
-  ClutterConstraint *constraint;
-  ClutterContent *image_background;
   gboolean querying;
   GtkStyleContext *context;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_EMBED, PhotosEmbedPrivate);
   priv = self->priv;
 
-  gtk_clutter_embed_set_use_layout_size (GTK_CLUTTER_EMBED (self), TRUE);
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-  gtk_style_context_add_class (context, "content-view");
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
+  gtk_widget_show (GTK_WIDGET (self));
 
-  overlay_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
-  actor = clutter_actor_new ();
-  clutter_actor_set_layout_manager (actor, overlay_layout);
+  priv->notebook_overlay = gtk_overlay_new ();
+  gtk_widget_show (priv->notebook_overlay);
+  gtk_box_pack_end (GTK_BOX (self), priv->notebook_overlay, TRUE, TRUE, 0);
 
-  stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (self));
-  constraint = clutter_bind_constraint_new (stage, CLUTTER_BIND_SIZE, 0.0);
-  clutter_actor_add_constraint (actor, constraint);
-  clutter_actor_add_child (stage, actor);
-
-  priv->contents_layout = clutter_box_layout_new ();
-  clutter_box_layout_set_orientation (CLUTTER_BOX_LAYOUT (priv->contents_layout), CLUTTER_ORIENTATION_VERTICAL);
-  priv->contents_actor = clutter_actor_new ();
-  clutter_actor_set_layout_manager (priv->contents_actor, priv->contents_layout);
-  clutter_actor_set_x_expand (priv->contents_actor, TRUE);
-  clutter_actor_set_y_expand (priv->contents_actor, TRUE);
-  clutter_actor_add_child (actor, priv->contents_actor);
+  priv->notebook = gtk_notebook_new ();
+  gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook), FALSE);
+  gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook), FALSE);
+  gtk_widget_show (priv->notebook);
+  gtk_container_add (GTK_CONTAINER (priv->notebook_overlay), priv->notebook);
 
   priv->toolbar = photos_main_toolbar_new ();
-  toolbar_actor = photos_main_toolbar_get_actor (priv->toolbar);
-  clutter_actor_set_x_expand (toolbar_actor, TRUE);
-  clutter_actor_add_child (priv->contents_actor, toolbar_actor);
-
-  priv->view_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
-  priv->view_actor = clutter_actor_new ();
-  clutter_actor_set_layout_manager (priv->view_actor, priv->view_layout);
-  clutter_actor_set_x_expand (priv->view_actor, TRUE);
-  clutter_actor_set_y_expand (priv->view_actor, TRUE);
-  clutter_actor_add_child (priv->contents_actor, priv->view_actor);
+  gtk_box_pack_start (GTK_BOX (self), priv->toolbar, FALSE, FALSE, 0);
 
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_new ());
-  clutter_actor_add_child (priv->view_actor, priv->ntfctn_mngr);
+  gtk_overlay_add_overlay (GTK_OVERLAY (priv->notebook_overlay), priv->ntfctn_mngr);
 
   priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
 
   priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW);
-  priv->overview_actor = gtk_clutter_actor_new_with_contents (priv->overview);
-  clutter_actor_set_x_expand (priv->overview_actor, TRUE);
-  clutter_actor_set_y_expand (priv->overview_actor, TRUE);
-  clutter_actor_insert_child_below (priv->view_actor, priv->overview_actor, NULL);
+  priv->overview_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->overview, NULL);
 
   priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES);
-  priv->favorites_actor = gtk_clutter_actor_new_with_contents (priv->favorites);
-  clutter_actor_set_x_expand (priv->favorites_actor, TRUE);
-  clutter_actor_set_y_expand (priv->favorites_actor, TRUE);
-  clutter_actor_insert_child_below (priv->view_actor, priv->favorites_actor, NULL);
+  priv->favorites_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->favorites, NULL);
 
-  priv->image_container = clutter_actor_new ();
-  clutter_actor_set_x_expand (priv->image_container, TRUE);
-  clutter_actor_set_y_expand (priv->image_container, TRUE);
-  image_layout = clutter_bin_layout_new (CLUTTER_BIN_ALIGNMENT_CENTER, CLUTTER_BIN_ALIGNMENT_CENTER);
-  clutter_actor_set_layout_manager (priv->image_container, image_layout);
-  clutter_actor_insert_child_below (priv->view_actor, priv->image_container, NULL);
-
-  image_background = clutter_canvas_new ();
-  clutter_actor_set_content (priv->image_container, image_background);
-  g_signal_connect (priv->image_container, "allocation-changed",
-                    G_CALLBACK (photos_embed_image_container_allocation_changed), self);
-  g_signal_connect (image_background, "draw",
-                    G_CALLBACK (on_image_background_draw), self);
-  g_signal_connect_swapped (self, "state-flags-changed",
-                            G_CALLBACK (clutter_content_invalidate), image_background);
-  g_object_unref (image_background);
-
-  priv->image_actor = clutter_actor_new ();
-  clutter_actor_set_content_scaling_filters (priv->image_actor,
-                                             CLUTTER_SCALING_FILTER_TRILINEAR,
-                                             CLUTTER_SCALING_FILTER_TRILINEAR);
-  clutter_actor_add_child (priv->image_container, priv->image_actor);
+  priv->preview = GTK_WIDGET (gegl_gtk_view_new ());
+  context = gtk_widget_get_style_context (priv->preview);
+  gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
+  gtk_style_context_add_class (context, "content-view");
+  gegl_gtk_view_set_autoscale_policy (GEGL_GTK_VIEW (priv->preview), GEGL_GTK_VIEW_AUTOSCALE_DISABLED);
+  g_signal_connect_swapped (priv->preview,
+                            "draw-background",
+                            G_CALLBACK (photos_embed_preview_draw_background),
+                            self);
+  gtk_widget_show (priv->preview);
+  priv->preview_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->preview, NULL);
 
   priv->spinner_box = photos_spinner_box_new ();
-  clutter_actor_insert_child_below (priv->view_actor, priv->spinner_box, NULL);
+  priv->spinner_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->spinner_box, NULL);
 
   priv->error_box = photos_error_box_new ();
-  clutter_actor_insert_child_below (priv->view_actor, priv->error_box, NULL);
+  priv->error_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->error_box, NULL);
 
   priv->no_results = photos_empty_results_box_new ();
-  clutter_actor_insert_child_below (priv->view_actor, priv->no_results, NULL);
-
-  priv->background = clutter_actor_new ();
-  clutter_actor_set_background_color (priv->background, CLUTTER_COLOR_Black);
-  clutter_actor_set_x_expand (priv->background, TRUE);
-  clutter_actor_set_y_expand (priv->background, TRUE);
-  clutter_actor_insert_child_below (priv->view_actor, priv->background, NULL);
+  priv->no_results_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->no_results, NULL);
 
   /* TODO: SearchBar.Dropdown,
    *       ...
    */
 
-  priv->selection_toolbar = photos_selection_toolbar_new (actor);
-  toolbar_actor = photos_selection_toolbar_get_actor (priv->selection_toolbar);
-  clutter_actor_add_child (actor, toolbar_actor);
+  priv->selection_toolbar = photos_selection_toolbar_new ();
+  gtk_overlay_add_overlay (GTK_OVERLAY (priv->notebook_overlay), priv->selection_toolbar);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
   g_signal_connect (priv->mode_cntrlr,

@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@
 
 #include "config.h"
 
-#include <clutter-gtk/clutter-gtk.h>
+#include <gegl.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
@@ -104,11 +104,7 @@ photos_application_startup (GApplication *application)
   G_APPLICATION_CLASS (photos_application_parent_class)
     ->startup (application);
 
-  if (gtk_clutter_init (NULL, NULL) != CLUTTER_INIT_SUCCESS)
-    {
-      g_warning ("Unable to initialize Clutter");
-      return;
-    }
+  gegl_init (NULL, NULL);
 
   priv->resource = photos_get_resource ();
   g_resources_register (priv->resource);

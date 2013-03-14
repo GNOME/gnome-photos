@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@
 #ifndef PHOTOS_EMPTY_RESULTS_BOX_H
 #define PHOTOS_EMPTY_RESULTS_BOX_H
 
-#include <clutter-gtk/clutter-gtk.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -57,18 +57,18 @@ typedef struct _PhotosEmptyResultsBoxPrivate PhotosEmptyResultsBoxPrivate;
 
 struct _PhotosEmptyResultsBox
 {
-  GtkClutterActor parent_instance;
+  GtkGrid parent_instance;
   PhotosEmptyResultsBoxPrivate *priv;
 };
 
 struct _PhotosEmptyResultsBoxClass
 {
-  GtkClutterActorClass parent_class;
+  GtkGridClass parent_class;
 };
 
 GType               photos_empty_results_box_get_type           (void) G_GNUC_CONST;
 
-ClutterActor       *photos_empty_results_box_new                (void);
+GtkWidget          *photos_empty_results_box_new                (void);
 
 G_END_DECLS
 

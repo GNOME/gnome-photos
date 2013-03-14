@@ -25,7 +25,7 @@
 #ifndef PHOTOS_SPINNER_BOX_H
 #define PHOTOS_SPINNER_BOX_H
 
-#include <clutter-gtk/clutter-gtk.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -57,24 +57,24 @@ typedef struct _PhotosSpinnerBoxPrivate PhotosSpinnerBoxPrivate;
 
 struct _PhotosSpinnerBox
 {
-  GtkClutterActor parent_instance;
+  GtkGrid parent_instance;
   PhotosSpinnerBoxPrivate *priv;
 };
 
 struct _PhotosSpinnerBoxClass
 {
-  GtkClutterActorClass parent_class;
+  GtkGridClass parent_class;
 };
 
 GType                  photos_spinner_box_get_type               (void) G_GNUC_CONST;
 
-ClutterActor          *photos_spinner_box_new                    (void);
+GtkWidget             *photos_spinner_box_new                    (void);
 
-void                   photos_spinner_box_move_in                (PhotosSpinnerBox *self);
+void                   photos_spinner_box_start                  (PhotosSpinnerBox *self);
 
-void                   photos_spinner_box_move_in_delayed        (PhotosSpinnerBox *self, guint delay);
+void                   photos_spinner_box_start_delayed          (PhotosSpinnerBox *self, guint delay);
 
-void                   photos_spinner_box_move_out               (PhotosSpinnerBox *self);
+void                   photos_spinner_box_stop                   (PhotosSpinnerBox *self);
 
 G_END_DECLS
 

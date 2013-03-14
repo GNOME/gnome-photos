@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,6 @@
 
 #include <glib.h>
 #include <gtk/gtk.h>
-#include <libgd/gd.h>
 
 #include "photos-notification-manager.h"
 #include "photos-utils.h"
@@ -36,22 +35,20 @@
 struct _PhotosNotificationManagerPrivate
 {
   GtkWidget *grid;
-  GtkWidget *widget;
 };
 
 
-G_DEFINE_TYPE (PhotosNotificationManager, photos_notification_manager, GTK_CLUTTER_TYPE_ACTOR);
+G_DEFINE_TYPE (PhotosNotificationManager, photos_notification_manager, GD_TYPE_NOTIFICATION);
 
 
 static void
 photos_notification_manager_remove (PhotosNotificationManager *self)
 {
-  PhotosNotificationManagerPrivate *priv = self->priv;
   GList *children;
 
-  children = gtk_container_get_children (GTK_CONTAINER (priv->grid));
+  children = gtk_container_get_children (GTK_CONTAINER (self->priv->grid));
   if (children == NULL)
-    gtk_widget_hide (priv->widget);
+    gtk_widget_hide (GTK_WIDGET (self));
   else
     g_list_free (children);
 }
@@ -78,43 +75,28 @@ photos_notification_manager_constructor (GType type,
 
 
 static void
-photos_notification_manager_constructed (GObject *object)
+photos_notification_manager_init (PhotosNotificationManager *self)
 {
-  PhotosNotificationManager *self = PHOTOS_NOTIFICATION_MANAGER (object);
-  PhotosNotificationManagerPrivate *priv = self->priv;
-  GtkWidget *bin;
+  PhotosNotificationManagerPrivate *priv;
 
-  G_OBJECT_CLASS (photos_notification_manager_parent_class)->constructed (object);
+  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
+                                            PHOTOS_TYPE_NOTIFICATION_MANAGER,
+                                            PhotosNotificationManagerPrivate);
+  priv = self->priv;
 
-  priv->widget = gd_notification_new ();
-  gd_notification_set_show_close_button (GD_NOTIFICATION (priv->widget), FALSE);
-  gd_notification_set_timeout (GD_NOTIFICATION (priv->widget), -1);
+  gtk_widget_set_halign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
+  gtk_widget_set_valign (GTK_WIDGET (self), GTK_ALIGN_START);
+  gd_notification_set_show_close_button (GD_NOTIFICATION (self), FALSE);
+  gd_notification_set_timeout (GD_NOTIFICATION (self), -1);
 
   priv->grid = gtk_grid_new ();
   gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->grid), GTK_ORIENTATION_HORIZONTAL);
   gtk_grid_set_column_spacing (GTK_GRID (priv->grid), 6);
-  gtk_container_add (GTK_CONTAINER (priv->widget), priv->grid);
+  gtk_container_add (GTK_CONTAINER (self), priv->grid);
+
   g_signal_connect_swapped (priv->grid, "remove", G_CALLBACK (photos_notification_manager_remove), self);
 
   gtk_widget_show (priv->grid);
-
-  bin = gtk_clutter_actor_get_widget (GTK_CLUTTER_ACTOR (self));
-  gtk_container_add (GTK_CONTAINER (bin), priv->widget);
-  photos_utils_alpha_gtk_widget (bin);
-}
-
-
-static void
-photos_notification_manager_init (PhotosNotificationManager *self)
-{
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_NOTIFICATION_MANAGER,
-                                            PhotosNotificationManagerPrivate);
-
-  clutter_actor_set_opacity (CLUTTER_ACTOR (self), 0);
-  clutter_actor_set_x_align (CLUTTER_ACTOR (self), CLUTTER_ACTOR_ALIGN_CENTER);
-  clutter_actor_set_y_align (CLUTTER_ACTOR (self), CLUTTER_ACTOR_ALIGN_START);
-  clutter_actor_set_y_expand (CLUTTER_ACTOR (self), TRUE);
 }
 
 
@@ -123,14 +105,13 @@ photos_notification_manager_class_init (PhotosNotificationManagerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->constructed = photos_notification_manager_constructed;
   object_class->constructor = photos_notification_manager_constructor;
 
   g_type_class_add_private (class, sizeof (PhotosNotificationManagerPrivate));
 }
 
 
-ClutterActor *
+GtkWidget *
 photos_notification_manager_new (void)
 {
   return g_object_new (PHOTOS_TYPE_NOTIFICATION_MANAGER, NULL);
@@ -144,6 +125,5 @@ photos_notification_manager_add_notification (PhotosNotificationManager *self, G
 
   gtk_container_add (GTK_CONTAINER (priv->grid), notification);
   gtk_widget_show_all (notification);
-  gtk_widget_show (priv->widget);
-  clutter_actor_set_opacity (CLUTTER_ACTOR (self), 255);
+  gtk_widget_show (GTK_WIDGET (self));
 }

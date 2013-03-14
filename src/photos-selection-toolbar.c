@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,10 +25,8 @@
 
 #include "config.h"
 
-#include <clutter-gtk/clutter-gtk.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtk.h>
 
 #include "photos-application.h"
 #include "photos-base-item.h"
@@ -42,8 +40,6 @@
 
 struct _PhotosSelectionToolbarPrivate
 {
-  ClutterActor *actor;
-  ClutterActor *parent_actor;
   GHashTable *item_listeners;
   GtkToolItem *left_group;
   GtkToolItem *right_group;
@@ -56,20 +52,12 @@ struct _PhotosSelectionToolbarPrivate
   GtkWidget *toolbar_print;
   GtkWidget *toolbar_properties;
   GtkWidget *toolbar_trash;
-  GtkWidget *widget;
   PhotosBaseManager *item_mngr;
   PhotosSelectionController *sel_cntrlr;
   gboolean inside_refresh;
 };
 
-enum
-{
-  PROP_0,
-  PROP_PARENT_ACTOR
-};
-
-
-G_DEFINE_TYPE (PhotosSelectionToolbar, photos_selection_toolbar, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosSelectionToolbar, photos_selection_toolbar, GTK_TYPE_TOOLBAR);
 
 
 enum
@@ -81,26 +69,22 @@ enum
 static void
 photos_selection_toolbar_fade_in (PhotosSelectionToolbar *self)
 {
-  PhotosSelectionToolbarPrivate *priv = self->priv;
-  guint8 opacity;
-
-  opacity = clutter_actor_get_opacity (priv->actor);
-  if (opacity != 0)
-    return;
-
-  clutter_actor_show (priv->actor);
-  clutter_actor_animate (priv->actor, CLUTTER_EASE_OUT_QUAD, 300, "opacity", 255, NULL);
+  gtk_widget_show_all (GTK_WIDGET (self));
+  /* TODO: animate the "opacity" to 1.0 in 300 ms using quadratic
+   *       tweening
+   */
+  gtk_widget_set_opacity (GTK_WIDGET (self), 1.0);
 }
 
 
 static void
 photos_selection_toolbar_fade_out (PhotosSelectionToolbar *self)
 {
-  ClutterAnimation *animation;
-  PhotosSelectionToolbarPrivate *priv = self->priv;
-
-  animation = clutter_actor_animate (priv->actor, CLUTTER_EASE_OUT_QUAD, 300, "opacity", 0, NULL);
-  g_signal_connect_swapped (animation, "completed", G_CALLBACK (clutter_actor_hide), priv->actor);
+  /* TODO: animate the "opacity" to 0.0 in 300 ms using quadratic
+   *       tweening
+   */
+  gtk_widget_set_opacity (GTK_WIDGET (self), 0.0);
+  gtk_widget_hide (GTK_WIDGET (self));
 }
 
 
@@ -125,7 +109,7 @@ photos_selection_toolbar_collection_clicked (GtkButton *button, gpointer user_da
   GtkWidget *dialog;
   GtkWidget *toplevel;
 
-  toplevel = gtk_widget_get_toplevel (priv->widget);
+  toplevel = gtk_widget_get_toplevel (GTK_WIDGET (self));
   if (!gtk_widget_is_toplevel (toplevel))
     return;
 
@@ -425,29 +409,10 @@ photos_selection_toolbar_trash_clicked (GtkButton *button, gpointer user_data)
 
 
 static void
-photos_selection_toolbar_constructed (GObject *object)
-{
-  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (object);
-  PhotosSelectionToolbarPrivate *priv = self->priv;
-  ClutterConstraint *constraint;
-
-  G_OBJECT_CLASS (photos_selection_toolbar_parent_class)->constructed (object);
-
-  constraint = clutter_align_constraint_new (priv->parent_actor, CLUTTER_ALIGN_X_AXIS, 0.50);
-  clutter_actor_add_constraint (priv->actor, constraint);
-
-  constraint = clutter_align_constraint_new (priv->parent_actor, CLUTTER_ALIGN_Y_AXIS, 0.95);
-  clutter_actor_add_constraint (priv->actor, constraint);
-}
-
-
-static void
 photos_selection_toolbar_dispose (GObject *object)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (object);
   PhotosSelectionToolbarPrivate *priv = self->priv;
-
-  g_clear_object (&priv->parent_actor);
 
   if (priv->item_listeners != NULL)
     {
@@ -463,28 +428,9 @@ photos_selection_toolbar_dispose (GObject *object)
 
 
 static void
-photos_selection_toolbar_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
-{
-  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (object);
-
-  switch (prop_id)
-    {
-    case PROP_PARENT_ACTOR:
-      self->priv->parent_actor = CLUTTER_ACTOR (g_value_dup_object (value));
-      break;
-
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-      break;
-    }
-}
-
-
-static void
 photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 {
   PhotosSelectionToolbarPrivate *priv;
-  GtkWidget *bin;
   GtkWidget *image;
   GtkStyleContext *context;
 
@@ -493,24 +439,20 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->item_listeners = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
 
-  priv->widget = gtk_toolbar_new ();
-  gtk_toolbar_set_show_arrow (GTK_TOOLBAR (priv->widget), FALSE);
-  gtk_toolbar_set_icon_size (GTK_TOOLBAR (priv->widget), GTK_ICON_SIZE_LARGE_TOOLBAR);
-  context = gtk_widget_get_style_context (priv->widget);
+  gtk_widget_set_halign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
+  gtk_widget_set_valign (GTK_WIDGET (self), GTK_ALIGN_END);
+  gtk_widget_set_margin_bottom (GTK_WIDGET (self), 40);
+  gtk_widget_set_opacity (GTK_WIDGET (self), 0.0);
+  gtk_toolbar_set_show_arrow (GTK_TOOLBAR (self), FALSE);
+  gtk_toolbar_set_icon_size (GTK_TOOLBAR (self), GTK_ICON_SIZE_LARGE_TOOLBAR);
+  context = gtk_widget_get_style_context (GTK_WIDGET (self));
   gtk_style_context_add_class (context, "osd");
-  gtk_widget_set_size_request (priv->widget, SELECTION_TOOLBAR_DEFAULT_WIDTH, -1);
-
-  priv->actor = gtk_clutter_actor_new_with_contents (priv->widget);
-  clutter_actor_set_opacity (priv->actor, 0);
-  g_object_set (priv->actor, "show-on-set-parent", FALSE, NULL);
-
-  bin = gtk_clutter_actor_get_widget (GTK_CLUTTER_ACTOR (priv->actor));
-  photos_utils_alpha_gtk_widget (bin);
+  gtk_widget_set_size_request (GTK_WIDGET (self), SELECTION_TOOLBAR_DEFAULT_WIDTH, -1);
 
   priv->left_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   priv->left_group = gtk_tool_item_new ();
   gtk_container_add (GTK_CONTAINER (priv->left_group), priv->left_box);
-  gtk_toolbar_insert (GTK_TOOLBAR (priv->widget), priv->left_group, -1);
+  gtk_toolbar_insert (GTK_TOOLBAR (self), priv->left_group, -1);
 
   priv->toolbar_favorite = gtk_toggle_button_new ();
   image = gtk_image_new_from_icon_name ("emblem-favorite-symbolic", GTK_ICON_SIZE_INVALID);
@@ -558,12 +500,12 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   gtk_separator_tool_item_set_draw (GTK_SEPARATOR_TOOL_ITEM (priv->separator), FALSE);
   gtk_widget_set_visible (GTK_WIDGET (priv->separator), TRUE);
   gtk_tool_item_set_expand (priv->separator, TRUE);
-  gtk_toolbar_insert (GTK_TOOLBAR (priv->widget), priv->separator, -1);
+  gtk_toolbar_insert (GTK_TOOLBAR (self), priv->separator, -1);
 
   priv->right_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   priv->right_group = gtk_tool_item_new ();
   gtk_container_add (GTK_CONTAINER (priv->right_group), priv->right_box);
-  gtk_toolbar_insert (GTK_TOOLBAR (priv->widget), priv->right_group, -1);
+  gtk_toolbar_insert (GTK_TOOLBAR (self), priv->right_group, -1);
 
   priv->toolbar_collection = gtk_button_new ();
   image = gtk_image_new_from_icon_name ("list-add-symbolic", GTK_ICON_SIZE_INVALID);
@@ -587,7 +529,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
                     G_CALLBACK (photos_selection_toolbar_properties_clicked),
                     self);
 
-  gtk_widget_show_all (priv->widget);
+  gtk_widget_show_all (GTK_WIDGET (self));
 
   priv->item_mngr = photos_item_manager_new ();
 
@@ -608,32 +550,14 @@ photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->constructed= photos_selection_toolbar_constructed;
   object_class->dispose = photos_selection_toolbar_dispose;
-  object_class->set_property = photos_selection_toolbar_set_property;
-
-  g_object_class_install_property (object_class,
-                                   PROP_PARENT_ACTOR,
-                                   g_param_spec_object ("parent-actor",
-                                                        "Parent actor",
-                                                        "A ClutterActor used for calculating the the alignment and "
-                                                        "width of the toolbar",
-                                                        CLUTTER_TYPE_ACTOR,
-                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_type_class_add_private (class, sizeof (PhotosSelectionToolbarPrivate));
 }
 
 
-PhotosSelectionToolbar *
-photos_selection_toolbar_new (ClutterActor *parent_actor)
+GtkWidget *
+photos_selection_toolbar_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_SELECTION_TOOLBAR, "parent-actor", parent_actor, NULL);
-}
-
-
-ClutterActor *
-photos_selection_toolbar_get_actor (PhotosSelectionToolbar *self)
-{
-  return self->priv->actor;
+  return g_object_new (PHOTOS_TYPE_SELECTION_TOOLBAR, NULL);
 }

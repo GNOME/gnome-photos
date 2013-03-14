@@ -33,8 +33,6 @@
 
 G_BEGIN_DECLS
 
-void             photos_utils_alpha_gtk_widget            (GtkWidget *widget);
-
 GIcon           *photos_utils_create_symbolic_icon        (const gchar *name, gint base_size);
 
 const gchar     *photos_utils_dot_dir                     (void);

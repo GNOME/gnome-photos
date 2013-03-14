@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@
 #ifndef PHOTOS_SELECTION_TOOLBAR_H
 #define PHOTOS_SELECTION_TOOLBAR_H
 
-#include <clutter/clutter.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -57,20 +57,19 @@ typedef struct _PhotosSelectionToolbarPrivate PhotosSelectionToolbarPrivate;
 
 struct _PhotosSelectionToolbar
 {
-  GObject parent_instance;
+  GtkToolbar parent_instance;
   PhotosSelectionToolbarPrivate *priv;
 };
 
 struct _PhotosSelectionToolbarClass
 {
-  GObjectClass parent_class;
+  GtkToolbarClass parent_class;
 };
 
 GType                     photos_selection_toolbar_get_type             (void) G_GNUC_CONST;
 
-PhotosSelectionToolbar   *photos_selection_toolbar_new                  (ClutterActor *parent_actor);
+GtkWidget                *photos_selection_toolbar_new                  (void);
 
-ClutterActor             *photos_selection_toolbar_get_actor            (PhotosSelectionToolbar *self);
 G_END_DECLS
 
 #endif /* PHOTOS_SELECTION_TOOLBAR_H */

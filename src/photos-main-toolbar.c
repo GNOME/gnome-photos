@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +25,6 @@
 
 #include "config.h"
 
-#include <clutter-gtk/clutter-gtk.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
@@ -41,11 +40,8 @@
 
 struct _PhotosMainToolbarPrivate
 {
-  ClutterActor *actor;
-  ClutterLayoutManager *layout;
   GtkWidget *coll_back_button;
   GtkWidget *toolbar;
-  GtkWidget *widget;
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
@@ -60,7 +56,7 @@ struct _PhotosMainToolbarPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosMainToolbar, photos_main_toolbar, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosMainToolbar, photos_main_toolbar, GTK_TYPE_BOX);
 
 
 static void
@@ -253,34 +249,6 @@ photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
 
 
 static void
-photos_main_toolbar_destroy (GtkWidget *widget, gpointer user_data)
-{
-  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
-  PhotosMainToolbarPrivate *priv = self->priv;
-
-  photos_main_toolbar_clear_state_data (self);
-
-  if (priv->window_mode_id != 0)
-    {
-      g_signal_handler_disconnect (priv->mode_cntrlr, priv->window_mode_id);
-      priv->window_mode_id = 0;
-    }
-
-  if (priv->selection_mode_id != 0)
-    {
-      g_signal_handler_disconnect (priv->sel_cntrlr, priv->selection_mode_id);
-      priv->selection_mode_id = 0;
-    }
-
-  if (priv->search_source_id != 0)
-    {
-      g_signal_handler_disconnect (priv->src_mngr, priv->search_source_id);
-      priv->search_source_id = 0;
-    }
-}
-
-
-static void
 photos_main_toolbar_done_button_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
@@ -429,6 +397,26 @@ photos_main_toolbar_dispose (GObject *object)
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (object);
   PhotosMainToolbarPrivate *priv = self->priv;
 
+  photos_main_toolbar_clear_state_data (self);
+
+  if (priv->window_mode_id != 0)
+    {
+      g_signal_handler_disconnect (priv->mode_cntrlr, priv->window_mode_id);
+      priv->window_mode_id = 0;
+    }
+
+  if (priv->selection_mode_id != 0)
+    {
+      g_signal_handler_disconnect (priv->sel_cntrlr, priv->selection_mode_id);
+      priv->selection_mode_id = 0;
+    }
+
+  if (priv->search_source_id != 0)
+    {
+      g_signal_handler_disconnect (priv->src_mngr, priv->search_source_id);
+      priv->search_source_id = 0;
+    }
+
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
@@ -448,14 +436,14 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_MAIN_TOOLBAR, PhotosMainToolbarPrivate);
   priv = self->priv;
 
-  priv->widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-  priv->actor = gtk_clutter_actor_new_with_contents (priv->widget);
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
+  gtk_widget_show (GTK_WIDGET (self));
 
   priv->toolbar = gd_main_toolbar_new ();
   gtk_toolbar_set_icon_size (GTK_TOOLBAR (priv->toolbar), GTK_ICON_SIZE_MENU);
   context = gtk_widget_get_style_context (priv->toolbar);
   gtk_style_context_add_class (context, GTK_STYLE_CLASS_MENUBAR);
-  gtk_container_add (GTK_CONTAINER (priv->widget), priv->toolbar);
+  gtk_container_add (GTK_CONTAINER (self), priv->toolbar);
   gtk_widget_show (priv->toolbar);
 
   priv->col_mngr = photos_collection_manager_new ();
@@ -481,8 +469,6 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
                                                       self);
 
   photos_main_toolbar_reset_toolbar_mode (self);
-
-  g_signal_connect (priv->widget, "destroy", G_CALLBACK (photos_main_toolbar_destroy), self);
 }
 
 
@@ -497,15 +483,8 @@ photos_main_toolbar_class_init (PhotosMainToolbarClass *class)
 }
 
 
-PhotosMainToolbar *
+GtkWidget *
 photos_main_toolbar_new (void)
 {
   return g_object_new (PHOTOS_TYPE_MAIN_TOOLBAR, NULL);
-}
-
-
-ClutterActor *
-photos_main_toolbar_get_actor (PhotosMainToolbar *self)
-{
-  return self->priv->actor;
 }

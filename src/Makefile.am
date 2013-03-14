@@ -60,8 +60,6 @@ gnome_photos_SOURCES = \
 	photos-collection-manager.h \
 	photos-embed.c \
 	photos-embed.h \
-	photos-embed-widget.c \
-	photos-embed-widget.h \
 	photos-empty-results-box.c \
 	photos-empty-results-box.h \
 	photos-error-box.c \
@@ -159,10 +157,10 @@ AM_CPPFLAGS = \
 	-DPACKAGE_ICONS_DIR=\""${pkgdatadir}/icons"\" \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
 	$(CAIRO_CFLAGS) \
-	$(CLUTTER_CFLAGS) \
-	$(CLUTTER_GTK_CFLAGS) \
 	$(EXEMPI_CFLAGS) \
 	$(GDK_PIXBUF_CFLAGS) \
+	$(GEGL_CFLAGS) \
+	$(GEGL_GTK_CFLAGS) \
 	$(GIO_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GNOME_DESKTOP_CFLAGS) \
@@ -180,10 +178,10 @@ gnome_photos_LDFLAGS =
 
 gnome_photos_LDADD = \
 	$(CAIRO_LIBS) \
-	$(CLUTTER_LIBS) \
-	$(CLUTTER_GTK_LIBS) \
 	$(EXEMPI_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
+	$(GEGL_CFLAGS) \
+	$(GEGL_GTK_LIBS) \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
 	$(GNOME_DESKTOP_LIBS) \

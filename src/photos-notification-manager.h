@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@
 #ifndef PHOTOS_NOTIFICATION_MANAGER_H
 #define PHOTOS_NOTIFICATION_MANAGER_H
 
-#include <clutter-gtk/clutter-gtk.h>
+#include <libgd/gd.h>
 
 G_BEGIN_DECLS
 
@@ -57,18 +57,18 @@ typedef struct _PhotosNotificationManagerPrivate PhotosNotificationManagerPrivat
 
 struct _PhotosNotificationManager
 {
-  GtkClutterActor parent_instance;
+  GdNotification parent_instance;
   PhotosNotificationManagerPrivate *priv;
 };
 
 struct _PhotosNotificationManagerClass
 {
-  GtkClutterActorClass parent_class;
+  GdNotificationClass parent_class;
 };
 
 GType               photos_notification_manager_get_type           (void) G_GNUC_CONST;
 
-ClutterActor       *photos_notification_manager_new                (void);
+GtkWidget          *photos_notification_manager_new                (void);
 
 void                photos_notification_manager_add_notification   (PhotosNotificationManager *self,
                                                                     GtkWidget *notification);

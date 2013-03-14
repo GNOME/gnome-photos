@@ -41,14 +41,6 @@
 static const gchar *dot_dir;
 
 
-void
-photos_utils_alpha_gtk_widget (GtkWidget *widget)
-{
-  GdkRGBA color = {0.0, 0.0, 0.0, 0.0};
-  gtk_widget_override_background_color (widget, GTK_STATE_FLAG_NORMAL, &color);
-}
-
-
 GIcon *
 photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
 {

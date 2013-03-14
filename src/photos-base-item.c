@@ -41,6 +41,9 @@ struct _PhotosBaseItemPrivate
 {
   GdkPixbuf *icon;
   GdkPixbuf *pristine_icon;
+  GeglNode *graph;
+  GeglNode *node;
+  GMutex mutex;
   TrackerSparqlCursor *cursor;
   gboolean collection;
   gboolean failed_thumbnailing;
@@ -192,25 +195,35 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 }
 
 
-static GdkPixbuf *
+static GeglNode *
 photos_base_item_default_load (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
   PhotosBaseItemPrivate *priv = self->priv;
-  GdkPixbuf *pixbuf = NULL;
+  GeglNode *ret_val = NULL;
   GFile *file = NULL;
-  GFileInputStream *stream = NULL;
+  gchar *path = NULL;
 
-  file = g_file_new_for_uri (priv->uri);
-  stream = g_file_read (file, cancellable, error);
-  if (stream == NULL)
-    goto out;
+  if (priv->graph == NULL)
+    {
+      file = g_file_new_for_uri (priv->uri);
+      path = g_file_get_path (file);
+      if (path == NULL)
+        goto out;
 
-  pixbuf = gdk_pixbuf_new_from_stream (G_INPUT_STREAM (stream), cancellable, error);
+      priv->graph = gegl_node_new ();
+      priv->node = gegl_node_new_child (priv->graph,
+                                        "operation", "gegl:load",
+                                        "path", path,
+                                        NULL);
+    }
+
+  gegl_node_process (priv->node);
+  ret_val = g_object_ref (priv->node);
 
  out:
-  g_clear_object (&stream);
+  g_free (path);
   g_clear_object (&file);
-  return pixbuf;
+  return ret_val;
 }
 
 
@@ -406,14 +419,19 @@ static void
 photos_base_item_load_in_thread_func (GSimpleAsyncResult *simple, GObject *object, GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
-  GdkPixbuf *pixbuf;
+  PhotosBaseItemPrivate *priv = self->priv;
+  GeglNode *node;
   GError *error = NULL;
 
-  pixbuf = PHOTOS_BASE_ITEM_GET_CLASS (self)->load (self, cancellable, &error);
+  g_mutex_lock (&priv->mutex);
+
+  node = PHOTOS_BASE_ITEM_GET_CLASS (self)->load (self, cancellable, &error);
   if (error != NULL)
     g_simple_async_result_take_error (simple, error);
 
-  g_simple_async_result_set_op_res_gpointer (simple, (gpointer) pixbuf, g_object_unref);
+  g_simple_async_result_set_op_res_gpointer (simple, (gpointer) node, g_object_unref);
+
+  g_mutex_unlock (&priv->mutex);
 }
 
 
@@ -572,6 +590,7 @@ photos_base_item_dispose (GObject *object)
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
   PhotosBaseItemPrivate *priv = self->priv;
 
+  g_clear_object (&priv->graph);
   g_clear_object (&priv->icon);
   g_clear_object (&priv->pristine_icon);
   g_clear_object (&priv->cursor);
@@ -596,6 +615,8 @@ photos_base_item_finalize (GObject *object)
   g_free (priv->resource_urn);
   g_free (priv->type_description);
   g_free (priv->uri);
+
+  g_mutex_clear (&priv->mutex);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->finalize (object);
 }
@@ -653,6 +674,8 @@ photos_base_item_init (PhotosBaseItem *self)
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_BASE_ITEM, PhotosBaseItemPrivate);
   priv = self->priv;
+
+  g_mutex_init (&priv->mutex);
 }
 
 
@@ -854,11 +877,11 @@ photos_base_item_load_async (PhotosBaseItem *self,
 }
 
 
-GdkPixbuf *
+GeglNode *
 photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
   GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT (res);
-  GdkPixbuf *ret_val = NULL;
+  GeglNode *ret_val = NULL;
 
   g_return_val_if_fail (g_simple_async_result_is_valid (res, G_OBJECT (self), photos_base_item_load_async), NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
@@ -866,7 +889,7 @@ photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
   if (g_simple_async_result_propagate_error (simple, error))
     goto out;
 
-  ret_val = GDK_PIXBUF (g_simple_async_result_get_op_res_gpointer (simple));
+  ret_val = GEGL_NODE (g_simple_async_result_get_op_res_gpointer (simple));
   g_object_ref (ret_val);
 
  out:

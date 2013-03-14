@@ -25,7 +25,7 @@
 #ifndef PHOTOS_BASE_ITEM_H
 #define PHOTOS_BASE_ITEM_H
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gegl.h>
 #include <gio/gio.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
@@ -68,7 +68,7 @@ struct _PhotosBaseItemClass
 {
   GObjectClass parent_class;
 
-  GdkPixbuf *(*load) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
+  GeglNode *(*load) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   void (*set_favorite) (PhotosBaseItem *self, gboolean favorite);
   void (*update_type_description) (PhotosBaseItem *self);
 
@@ -113,7 +113,7 @@ void                photos_base_item_load_async         (PhotosBaseItem *self,
                                                          GAsyncReadyCallback callback,
                                                          gpointer user_data);
 
-GdkPixbuf          *photos_base_item_load_finish        (PhotosBaseItem *self, GAsyncResult *res, GError **error);
+GeglNode           *photos_base_item_load_finish        (PhotosBaseItem *self, GAsyncResult *res, GError **error);
 
 void                photos_base_item_open               (PhotosBaseItem *self,
                                                          GdkScreen *screen,
