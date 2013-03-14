@@ -44,6 +44,7 @@ struct _PhotosMainToolbarPrivate
   ClutterActor *actor;
   ClutterLayoutManager *layout;
   GtkWidget *coll_back_button;
+  GtkWidget *toolbar;
   GtkWidget *widget;
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
@@ -88,12 +89,12 @@ photos_main_toolbar_add_modes (PhotosMainToolbar *self, PhotosWindowMode window_
   PhotosMainToolbarPrivate *priv = self->priv;
   GtkWidget *button;
 
-  button = gd_main_toolbar_add_mode (GD_MAIN_TOOLBAR (priv->widget), _("Photos"));
+  button = gd_main_toolbar_add_mode (GD_MAIN_TOOLBAR (priv->toolbar), _("Photos"));
   if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
   g_signal_connect (button, "toggled", G_CALLBACK (photos_main_toolbar_overview_toggled), self);
 
-  button = gd_main_toolbar_add_mode (GD_MAIN_TOOLBAR (priv->widget), _("Favorites"));
+  button = gd_main_toolbar_add_mode (GD_MAIN_TOOLBAR (priv->toolbar), _("Favorites"));
   if (window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
   g_signal_connect (button, "toggled", G_CALLBACK (photos_main_toolbar_favorites_toggled), self);
@@ -164,7 +165,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
       g_free (tmp);
     }
 
-  gd_main_toolbar_set_labels (GD_MAIN_TOOLBAR (priv->widget), primary, detail);
+  gd_main_toolbar_set_labels (GD_MAIN_TOOLBAR (priv->toolbar), primary, detail);
   g_free (primary);
   g_free (detail);
 }
@@ -188,7 +189,7 @@ photos_main_toolbar_active_changed (PhotosBaseManager *manager, GObject *object,
   item = photos_base_manager_get_active_object (priv->col_mngr);
   if (item != NULL && priv->coll_back_button == NULL)
     {
-      priv->coll_back_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget),
+      priv->coll_back_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->toolbar),
                                                            "go-previous-symbolic",
                                                            _("Back"),
                                                            TRUE);
@@ -244,10 +245,10 @@ photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
   GtkStyleContext *context;
 
   photos_main_toolbar_clear_state_data (self);
-  context = gtk_widget_get_style_context (priv->widget);
+  context = gtk_widget_get_style_context (priv->toolbar);
   gtk_style_context_remove_class (context, "selection-mode");
-  gtk_widget_reset_style (priv->widget);
-  gd_main_toolbar_clear (GD_MAIN_TOOLBAR (priv->widget));
+  gtk_widget_reset_style (priv->toolbar);
+  gd_main_toolbar_clear (GD_MAIN_TOOLBAR (priv->toolbar));
 }
 
 
@@ -302,10 +303,10 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
   GObject *object;
   GtkWidget *selection_button;
 
-  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->widget), TRUE);
+  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->toolbar), TRUE);
   photos_main_toolbar_add_modes (self, PHOTOS_WINDOW_MODE_FAVORITES);
 
-  selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget),
+  selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->toolbar),
                                                  "object-select-symbolic",
                                                  _("Select Items"),
                                                  FALSE);
@@ -328,10 +329,10 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   GObject *object;
   GtkWidget *selection_button;
 
-  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->widget), TRUE);
+  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->toolbar), TRUE);
   photos_main_toolbar_add_modes (self, PHOTOS_WINDOW_MODE_OVERVIEW);
 
-  selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget),
+  selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->toolbar),
                                                  "object-select-symbolic",
                                                  _("Select Items"),
                                                  FALSE);
@@ -355,11 +356,11 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   GtkWidget *back_button;
   const gchar *icon_name;
 
-  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->widget), FALSE);
+  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->toolbar), FALSE);
 
-  direction = gtk_widget_get_direction (GTK_WIDGET (priv->widget));
+  direction = gtk_widget_get_direction (GTK_WIDGET (priv->toolbar));
   icon_name = (direction == GTK_TEXT_DIR_RTL) ? "go-next-symbolic" : "go-previous-symbolic";
-  back_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget), icon_name, _("Back"), TRUE);
+  back_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->toolbar), icon_name, _("Back"), TRUE);
   g_signal_connect (back_button, "clicked", G_CALLBACK (photos_main_toolbar_back_button_clicked), self);
 }
 
@@ -371,13 +372,13 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
   GtkStyleContext *context;
   GtkWidget *selection_button;
 
-  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->widget), FALSE);
+  gd_main_toolbar_set_show_modes (GD_MAIN_TOOLBAR (priv->toolbar), FALSE);
 
-  context = gtk_widget_get_style_context (priv->widget);
+  context = gtk_widget_get_style_context (priv->toolbar);
   gtk_style_context_add_class (context, "selection-mode");
-  gtk_widget_reset_style (priv->widget);
+  gtk_widget_reset_style (priv->toolbar);
 
-  selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->widget), NULL, _("Done"), FALSE);
+  selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->toolbar), NULL, _("Done"), FALSE);
   context = gtk_widget_get_style_context (selection_button);
   gtk_style_context_add_class (context, "suggested-action");
   g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_done_button_clicked), self);
@@ -410,7 +411,7 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
     photos_main_toolbar_populate_for_preview (self);
 
   photos_main_toolbar_set_toolbar_title (self);
-  gtk_widget_show_all (priv->widget);
+  gtk_widget_show_all (priv->toolbar);
 }
 
 
@@ -442,32 +443,20 @@ static void
 photos_main_toolbar_init (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv;
-  ClutterActor *actor;
   GtkStyleContext *context;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_MAIN_TOOLBAR, PhotosMainToolbarPrivate);
   priv = self->priv;
 
-  priv->widget = gd_main_toolbar_new ();
-  gtk_toolbar_set_icon_size (GTK_TOOLBAR (priv->widget), GTK_ICON_SIZE_MENU);
-  context = gtk_widget_get_style_context (priv->widget);
+  priv->widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  priv->actor = gtk_clutter_actor_new_with_contents (priv->widget);
+
+  priv->toolbar = gd_main_toolbar_new ();
+  gtk_toolbar_set_icon_size (GTK_TOOLBAR (priv->toolbar), GTK_ICON_SIZE_MENU);
+  context = gtk_widget_get_style_context (priv->toolbar);
   gtk_style_context_add_class (context, GTK_STYLE_CLASS_MENUBAR);
-  gtk_widget_show (priv->widget);
-
-  priv->layout = clutter_box_layout_new ();
-  clutter_box_layout_set_orientation (CLUTTER_BOX_LAYOUT (priv->layout), CLUTTER_ORIENTATION_VERTICAL);
-
-  priv->actor = clutter_actor_new ();
-  clutter_actor_set_layout_manager (priv->actor, priv->layout);
-
-  actor = gtk_clutter_actor_new_with_contents (priv->widget);
-  clutter_box_layout_pack (CLUTTER_BOX_LAYOUT (priv->layout),
-                           actor,
-                           FALSE,
-                           TRUE,
-                           FALSE,
-                           CLUTTER_BOX_ALIGNMENT_CENTER,
-                           CLUTTER_BOX_ALIGNMENT_START);
+  gtk_container_add (GTK_CONTAINER (priv->widget), priv->toolbar);
+  gtk_widget_show (priv->toolbar);
 
   priv->col_mngr = photos_collection_manager_new ();
   priv->item_mngr = photos_item_manager_new ();
