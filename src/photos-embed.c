@@ -512,7 +512,7 @@ photos_embed_init (PhotosEmbed *self)
    *       ...
    */
 
-  priv->selection_toolbar = photos_selection_toolbar_new (priv->contents_actor);
+  priv->selection_toolbar = photos_selection_toolbar_new (actor);
   toolbar_actor = photos_selection_toolbar_get_actor (priv->selection_toolbar);
   clutter_actor_add_child (actor, toolbar_actor);
 
