@@ -25,8 +25,6 @@
 
 #include "config.h"
 
-#include <clutter/clutter.h>
-#include <clutter-gtk/clutter-gtk.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 
@@ -42,7 +40,6 @@ struct _PhotosMainWindowPrivate
 {
   GtkWidget *embed;
   GSettings *settings;
-  GtkWidget *clutter_embed;
   PhotosBaseManager *item_mngr;
   PhotosModeController *controller;
   guint configure_id;
@@ -247,8 +244,6 @@ static void
 photos_main_window_init (PhotosMainWindow *self)
 {
   PhotosMainWindowPrivate *priv;
-  ClutterActor *stage;
-  ClutterConstraint *constraint;
   GVariant *variant;
   gboolean maximized;
   const gint32 *position;
