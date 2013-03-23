@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,6 +26,7 @@
 #include "config.h"
 #include <libgd/gd.h>
 
+#include "photos-application.h"
 #include "photos-enums.h"
 #include "photos-item-manager.h"
 #include "photos-load-more-button.h"
@@ -242,6 +243,8 @@ photos_view_container_constructed (GObject *object)
 {
   PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (object);
   PhotosViewContainerPrivate *priv = self->priv;
+  GAction *action;
+  GtkApplication *app;
   gboolean status;
 
   G_OBJECT_CLASS (photos_view_container_parent_class)->constructed (object);
@@ -299,6 +302,16 @@ photos_view_container_constructed (GObject *object)
       g_assert_not_reached ();
       break;
     }
+
+  app = photos_application_new ();
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-all");
+  g_signal_connect_swapped (action, "activate", G_CALLBACK (gd_main_view_select_all), priv->view);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-none");
+  g_signal_connect_swapped (action, "activate", G_CALLBACK (gd_main_view_unselect_all), priv->view);
+
+  g_object_unref (app);
 
   g_signal_connect (priv->trk_cntrlr,
                     "query-status-changed",

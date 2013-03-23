@@ -240,6 +240,7 @@ photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
   PhotosMainToolbarPrivate *priv = self->priv;
   GtkStyleContext *context;
 
+  gd_main_toolbar_set_labels_menu (GD_MAIN_TOOLBAR (priv->toolbar), NULL);
   photos_main_toolbar_clear_state_data (self);
   context = gtk_widget_get_style_context (priv->toolbar);
   gtk_style_context_remove_class (context, "selection-mode");
@@ -337,6 +338,8 @@ static void
 photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
+  GMenu *selection_menu;
+  GtkBuilder *builder;
   GtkStyleContext *context;
   GtkWidget *selection_button;
 
@@ -345,6 +348,13 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
   context = gtk_widget_get_style_context (priv->toolbar);
   gtk_style_context_add_class (context, "selection-mode");
   gtk_widget_reset_style (priv->toolbar);
+
+  builder = gtk_builder_new ();
+  gtk_builder_add_from_resource (builder, "/org/gnome/photos/selection-menu.ui", NULL);
+
+  selection_menu = G_MENU (gtk_builder_get_object (builder, "selection-menu"));
+  gd_main_toolbar_set_labels_menu (GD_MAIN_TOOLBAR (priv->toolbar), G_MENU_MODEL (selection_menu));
+  g_object_unref (builder);
 
   selection_button = gd_main_toolbar_add_button (GD_MAIN_TOOLBAR (priv->toolbar), NULL, _("Done"), FALSE);
   context = gtk_widget_get_style_context (selection_button);

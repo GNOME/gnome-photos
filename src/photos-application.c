@@ -41,6 +41,8 @@ struct _PhotosApplicationPrivate
 {
   GResource *resource;
   GSimpleAction *fs_action;
+  GSimpleAction *sel_all_action;
+  GSimpleAction *sel_none_action;
   GtkWidget *main_window;
   PhotosModeController *mode_cntrlr;
 };
@@ -82,6 +84,18 @@ photos_application_quit (GSimpleAction *simple, GVariant *parameter, gpointer us
 
 
 static void
+photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  gboolean enable;
+
+  enable = (mode == PHOTOS_WINDOW_MODE_OVERVIEW || mode == PHOTOS_WINDOW_MODE_FAVORITES);
+  g_simple_action_set_enabled (priv->sel_all_action, enable);
+  g_simple_action_set_enabled (priv->sel_none_action, enable);
+}
+
+
+static void
 photos_application_activate (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
@@ -112,7 +126,6 @@ photos_application_startup (GApplication *application)
   settings = gtk_settings_get_default ();
   g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
 
-  priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
   priv->mode_cntrlr = photos_mode_controller_new ();
 
   action = g_simple_action_new ("about", NULL);
@@ -134,6 +147,17 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
+  priv->sel_all_action = g_simple_action_new ("select-all", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->sel_all_action));
+
+  priv->sel_none_action = g_simple_action_new ("select-none", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->sel_none_action));
+
+  g_signal_connect_swapped (priv->mode_cntrlr,
+                            "window-mode-changed",
+                            G_CALLBACK (photos_application_window_mode_changed),
+                            self);
+
   builder = gtk_builder_new ();
   gtk_builder_add_from_resource (builder, "/org/gnome/photos/app-menu.ui", NULL);
 
@@ -143,7 +167,9 @@ photos_application_startup (GApplication *application)
 
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>q", "app.quit", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "F11", "app.fullscreen", NULL);
+  gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>a", "app.select-all", NULL);
 
+  priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
 }
 
@@ -180,6 +206,8 @@ photos_application_dispose (GObject *object)
     }
 
   g_clear_object (&priv->fs_action);
+  g_clear_object (&priv->sel_all_action);
+  g_clear_object (&priv->sel_none_action);
   g_clear_object (&priv->mode_cntrlr);
 
   G_OBJECT_CLASS (photos_application_parent_class)
