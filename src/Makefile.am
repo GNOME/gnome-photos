@@ -94,6 +94,8 @@ gnome_photos_SOURCES = \
 	photos-organize-collection-model.h \
 	photos-organize-collection-view.c \
 	photos-organize-collection-view.h \
+	photos-preview-view.c \
+	photos-preview-view.h \
 	photos-properties-dialog.c \
 	photos-properties-dialog.h \
 	photos-query.c \

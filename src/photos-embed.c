@@ -27,7 +27,6 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gegl.h>
-#include <gegl-gtk.h>
 
 #include "photos-embed.h"
 #include "photos-empty-results-box.h"
@@ -38,6 +37,7 @@
 #include "photos-mode-controller.h"
 #include "photos-notification-manager.h"
 #include "photos-offset-overview-controller.h"
+#include "photos-preview-view.h"
 #include "photos-selection-toolbar.h"
 #include "photos-spinner-box.h"
 #include "photos-tracker-change-monitor.h"
@@ -91,7 +91,7 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
   if (node == NULL)
     return;
 
-  gegl_gtk_view_set_node (GEGL_GTK_VIEW (priv->preview), node);
+  photos_preview_view_set_node (PHOTOS_PREVIEW_VIEW (priv->preview), node);
 
   /* TODO: set toolbar model */
 
@@ -249,22 +249,6 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
 }
 
 
-static void
-photos_embed_preview_draw_background (PhotosEmbed *self, cairo_t *cr, GdkRectangle *rect)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-  GtkStyleContext *context;
-  GtkStateFlags flags;
-
-  context = gtk_widget_get_style_context (priv->preview);
-  flags = gtk_widget_get_state_flags (priv->preview);
-  gtk_style_context_save (context);
-  gtk_style_context_set_state (context, flags);
-  gtk_render_background (context, cr, 0, 0, rect->width, rect->height);
-  gtk_style_context_restore (context);
-}
-
-
 void
 photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *secondary)
 {
@@ -379,16 +363,7 @@ photos_embed_init (PhotosEmbed *self)
   priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES);
   priv->favorites_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->favorites, NULL);
 
-  priv->preview = GTK_WIDGET (gegl_gtk_view_new ());
-  context = gtk_widget_get_style_context (priv->preview);
-  gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-  gtk_style_context_add_class (context, "content-view");
-  gegl_gtk_view_set_autoscale_policy (GEGL_GTK_VIEW (priv->preview), GEGL_GTK_VIEW_AUTOSCALE_DISABLED);
-  g_signal_connect_swapped (priv->preview,
-                            "draw-background",
-                            G_CALLBACK (photos_embed_preview_draw_background),
-                            self);
-  gtk_widget_show (priv->preview);
+  priv->preview = photos_preview_view_new ();
   priv->preview_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->preview, NULL);
 
   priv->spinner_box = photos_spinner_box_new ();
