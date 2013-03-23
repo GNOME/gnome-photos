@@ -212,15 +212,15 @@ photos_selection_toolbar_properties_clicked (GtkButton *button, gpointer user_da
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
   PhotosSelectionToolbarPrivate *priv = self->priv;
-  PhotosApplication *app;
   GList *selection;
   GList *windows;
+  GtkApplication *app;
   GtkWidget *dialog;
   GtkWidget *toplevel;
   const gchar *urn;
 
   app = photos_application_new ();
-  windows = gtk_application_get_windows (GTK_APPLICATION (app));
+  windows = gtk_application_get_windows (app);
 
   selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
   urn = (gchar *) selection->data;
