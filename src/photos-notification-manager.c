@@ -90,8 +90,8 @@ photos_notification_manager_init (PhotosNotificationManager *self)
   gd_notification_set_timeout (GD_NOTIFICATION (self), -1);
 
   priv->grid = gtk_grid_new ();
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->grid), GTK_ORIENTATION_HORIZONTAL);
-  gtk_grid_set_column_spacing (GTK_GRID (priv->grid), 6);
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->grid), GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing (GTK_GRID (priv->grid), 6);
   gtk_container_add (GTK_CONTAINER (self), priv->grid);
 
   g_signal_connect_swapped (priv->grid, "remove", G_CALLBACK (photos_notification_manager_remove), self);
