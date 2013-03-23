@@ -111,7 +111,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
   selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
   window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
 
-  if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+  if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW || window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
     {
       if (!selection_mode)
         {
