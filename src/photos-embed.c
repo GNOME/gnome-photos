@@ -133,11 +133,11 @@ photos_embed_restore_last_page (PhotosEmbed *self)
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_FAVORITES:
-      page = priv->overview_page;
+      page = priv->favorites_page;
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
-      page = priv->favorites_page;
+      page = priv->overview_page;
       break;
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
