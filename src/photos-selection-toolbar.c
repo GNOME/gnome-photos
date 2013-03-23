@@ -69,7 +69,7 @@ enum
 static void
 photos_selection_toolbar_fade_in (PhotosSelectionToolbar *self)
 {
-  gtk_widget_show_all (GTK_WIDGET (self));
+  gtk_widget_show (GTK_WIDGET (self));
   /* TODO: animate the "opacity" to 1.0 in 300 ms using quadratic
    *       tweening
    */
