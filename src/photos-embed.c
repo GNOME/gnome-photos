@@ -89,7 +89,7 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
   g_clear_object (&priv->loader_cancellable);
   node = photos_base_item_load_finish (item, res, NULL);
   if (node == NULL)
-    return;
+    goto out;
 
   photos_preview_view_set_node (PHOTOS_PREVIEW_VIEW (priv->preview), node);
 
@@ -97,6 +97,10 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
 
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
   photos_mode_controller_set_can_fullscreen (priv->mode_cntrlr, TRUE);
+
+ out:
+  g_clear_object (&node);
+  g_object_unref (self);
 }
 
 
@@ -118,7 +122,7 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
   photos_base_item_load_async (PHOTOS_BASE_ITEM (object),
                                priv->loader_cancellable,
                                photos_embed_item_load,
-                               self);
+                               g_object_ref (self));
 }
 
 
