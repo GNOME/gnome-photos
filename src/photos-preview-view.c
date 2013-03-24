@@ -122,6 +122,23 @@ photos_preview_view_dispose (GObject *object)
 
 
 static void
+photos_preview_view_constructed (GObject *object)
+{
+  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
+  PhotosPreviewViewPrivate *priv = self->priv;
+
+  G_OBJECT_CLASS (photos_preview_view_parent_class)->constructed (object);
+
+  /* Add the view to the scrolled window after the default
+   * adjustments have been created.
+   */
+  gtk_container_add (GTK_CONTAINER (self), priv->view);
+
+  gtk_widget_show_all (GTK_WIDGET (self));
+}
+
+
+static void
 photos_preview_view_init (PhotosPreviewView *self)
 {
   PhotosPreviewViewPrivate *priv;
@@ -148,9 +165,6 @@ photos_preview_view_init (PhotosPreviewView *self)
                             "draw-background",
                             G_CALLBACK (photos_preview_view_draw_background),
                             self);
-  gtk_container_add (GTK_CONTAINER (self), priv->view);
-
-  gtk_widget_show_all (GTK_WIDGET (self));
 }
 
 
@@ -159,6 +173,7 @@ photos_preview_view_class_init (PhotosPreviewViewClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->constructed = photos_preview_view_constructed;
   object_class->dispose = photos_preview_view_dispose;
 
   g_type_class_add_private (class, sizeof (PhotosPreviewViewPrivate));
