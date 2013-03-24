@@ -18,6 +18,7 @@ src/photos-main-window.c
 src/photos-organize-collection-dialog.c
 src/photos-properties-dialog.c
 src/photos-search-type-manager.c
+[type: gettext/glade]src/photos-selection-menu.ui
 src/photos-selection-toolbar.c
 src/photos-source-manager.c
 src/photos-spinner-box.c
