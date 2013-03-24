@@ -4,14 +4,14 @@
 # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-# Piotr Drąg <piotrdrag@gmail.com>, 2012.
-# Aviary.pl <gnomepl@aviary.pl>, 2012.
+# Piotr Drąg <piotrdrag@gmail.com>, 2012-2013.
+# Aviary.pl <gnomepl@aviary.pl>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-16 05:11+0100\n"
-"PO-Revision-Date: 2012-12-16 05:12+0100\n"
+"POT-Creation-Date: 2013-03-24 01:37+0100\n"
+"PO-Revision-Date: 2013-03-24 01:38+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-Language: Polish\n"
 "X-Poedit-Country: Poland\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-main-toolbar.c:90
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-main-toolbar.c:88
 #: ../src/photos-search-type-manager.c:68
 msgid "Photos"
 msgstr "Zdjęcia"
@@ -237,7 +237,7 @@ msgstr "O menedżerze zdjęć"
 msgid "Quit"
 msgstr "Zakończ"
 
-#: ../src/photos-empty-results-box.c:70
+#: ../src/photos-empty-results-box.c:66
 msgid "No Photos Found"
 msgstr "Nie odnaleziono zdjęć"
 
@@ -253,48 +253,48 @@ msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
 msgid "Load More"
 msgstr "Wczytaj więcej"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:113
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:94
 msgid "Loading..."
 msgstr "Wczytywanie..."
 
-#: ../src/photos-main-toolbar.c:95
+#: ../src/photos-main-toolbar.c:93
 msgid "Favorites"
 msgstr "Ulubione"
 
-#: ../src/photos-main-toolbar.c:134
+#: ../src/photos-main-toolbar.c:132
 msgid "Click on items to select them"
 msgstr "Naciśnięcie na elementach zaznacza je"
 
-#: ../src/photos-main-toolbar.c:136
+#: ../src/photos-main-toolbar.c:134
 #, c-format
 msgid "%d selected"
 msgstr "Zaznaczono: %d"
 
-#: ../src/photos-main-toolbar.c:192 ../src/photos-main-toolbar.c:361
+#: ../src/photos-main-toolbar.c:190 ../src/photos-main-toolbar.c:332
 msgid "Back"
 msgstr "Wstecz"
 
-#: ../src/photos-main-toolbar.c:309 ../src/photos-main-toolbar.c:335
+#: ../src/photos-main-toolbar.c:280 ../src/photos-main-toolbar.c:306
 msgid "Select Items"
 msgstr "Wybór elementów"
 
-#: ../src/photos-main-toolbar.c:379 ../src/photos-properties-dialog.c:328
+#: ../src/photos-main-toolbar.c:359 ../src/photos-properties-dialog.c:328
 msgid "Done"
 msgstr "Gotowe"
 
-#: ../src/photos-main-window.c:334
+#: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Dostęp, organizowanie i współdzielenie zdjęć w środowisku GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:344
+#: ../src/photos-main-window.c:339
 msgid "translator-credits"
 msgstr ""
-"Piotr Drąg <piotrdrag@gmail.com>, 2012\n"
-"Aviary.pl <gnomepl@aviary.pl>, 2012"
+"Piotr Drąg <piotrdrag@gmail.com>, 2012-2013\n"
+"Aviary.pl <gnomepl@aviary.pl>, 2012-2013"
 
 #: ../src/photos-organize-collection-dialog.c:133
-#: ../src/photos-selection-toolbar.c:572
+#: ../src/photos-selection-toolbar.c:514
 msgid "Organize"
 msgstr "Organizuj"
 
@@ -322,42 +322,50 @@ msgstr "Data utworzenia"
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/photos-properties-dialog.c:365 ../src/photos-selection-toolbar.c:583
+#: ../src/photos-properties-dialog.c:365 ../src/photos-selection-toolbar.c:525
 msgid "Properties"
 msgstr "Właściwości"
 
-#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:131
+#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:144
 msgid "All"
 msgstr "Wszystkie"
 
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Zaznacz wszystko"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Odznacz wszystko"
+
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:306
+#: ../src/photos-selection-toolbar.c:290
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą %s"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:309
+#: ../src/photos-selection-toolbar.c:293
 msgid "Open"
 msgstr "Otwórz"
 
-#: ../src/photos-selection-toolbar.c:324
+#: ../src/photos-selection-toolbar.c:308
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../src/photos-selection-toolbar.c:330
+#: ../src/photos-selection-toolbar.c:314
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
 
-#: ../src/photos-selection-toolbar.c:539
+#: ../src/photos-selection-toolbar.c:481
 msgid "Print"
 msgstr "Wydrukuj"
 
-#: ../src/photos-selection-toolbar.c:550
+#: ../src/photos-selection-toolbar.c:492
 msgid "Delete"
 msgstr "Usuń"
 
-#: ../src/photos-source-manager.c:135
+#: ../src/photos-source-manager.c:148
 msgid "Local"
 msgstr "Lokalne"
 
