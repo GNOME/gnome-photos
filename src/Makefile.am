@@ -66,6 +66,8 @@ gnome_photos_SOURCES = \
 	photos-error-box.h \
 	photos-filterable.c \
 	photos-filterable.h \
+	photos-header-bar.c \
+	photos-header-bar.h \
 	photos-indexing-notification.c \
 	photos-indexing-notification.h \
 	photos-item-manager.c \
