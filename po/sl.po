@@ -2,15 +2,15 @@
 # Copyright (C) 2012 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2012.
+# Matej Urbančič <mateju@svn.gnome.org>, 2012 - 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-12-16 20:48+0000\n"
-"PO-Revision-Date: 2012-12-17 19:44+0100\n"
+"POT-Creation-Date: 2013-03-24 00:39+0000\n"
+"PO-Revision-Date: 2013-03-24 13:31+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-main-toolbar.c:91
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-main-toolbar.c:88
 #: ../src/photos-search-type-manager.c:68
 msgid "Photos"
 msgstr "Fotografije"
@@ -236,7 +236,7 @@ msgstr "O programu"
 msgid "Quit"
 msgstr "Končaj"
 
-#: ../src/photos-empty-results-box.c:70
+#: ../src/photos-empty-results-box.c:66
 msgid "No Photos Found"
 msgstr "Ni najdenih fotografij"
 
@@ -252,46 +252,46 @@ msgstr "Nekatere fotografije med opravilom lahko niso na voljo"
 msgid "Load More"
 msgstr "Naloži več"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:113
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:94
 msgid "Loading..."
 msgstr "Nalaganje ..."
 
-#: ../src/photos-main-toolbar.c:96
+#: ../src/photos-main-toolbar.c:93
 msgid "Favorites"
 msgstr "Priljubljeno"
 
-#: ../src/photos-main-toolbar.c:135
+#: ../src/photos-main-toolbar.c:132
 msgid "Click on items to select them"
 msgstr "S klikom se predmeti izberejo."
 
-#: ../src/photos-main-toolbar.c:137
+#: ../src/photos-main-toolbar.c:134
 #, c-format
 msgid "%d selected"
 msgstr "%d izbranih"
 
-#: ../src/photos-main-toolbar.c:193 ../src/photos-main-toolbar.c:362
+#: ../src/photos-main-toolbar.c:190 ../src/photos-main-toolbar.c:332
 msgid "Back"
 msgstr "Nazaj"
 
-#: ../src/photos-main-toolbar.c:310 ../src/photos-main-toolbar.c:336
+#: ../src/photos-main-toolbar.c:280 ../src/photos-main-toolbar.c:306
 msgid "Select Items"
 msgstr "Izbor predmetov"
 
-#: ../src/photos-main-toolbar.c:380 ../src/photos-properties-dialog.c:328
+#: ../src/photos-main-toolbar.c:359 ../src/photos-properties-dialog.c:328
 msgid "Done"
 msgstr "Končano"
 
-#: ../src/photos-main-window.c:334
+#: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Urejanje in izmenjava fotografij za namizje GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:344
+#: ../src/photos-main-window.c:339
 msgid "translator-credits"
 msgstr "Matej Urbančič <mateju@svn.gnome.org>"
 
 #: ../src/photos-organize-collection-dialog.c:133
-#: ../src/photos-selection-toolbar.c:572
+#: ../src/photos-selection-toolbar.c:514
 msgid "Organize"
 msgstr "Uredi"
 
@@ -319,7 +319,7 @@ msgstr "Datum stvaritve"
 msgid "Type"
 msgstr "Vrsta"
 
-#: ../src/photos-properties-dialog.c:365 ../src/photos-selection-toolbar.c:583
+#: ../src/photos-properties-dialog.c:365 ../src/photos-selection-toolbar.c:525
 msgid "Properties"
 msgstr "Lastnosti"
 
@@ -327,30 +327,38 @@ msgstr "Lastnosti"
 msgid "All"
 msgstr "Vse"
 
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Izberi vse"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Odstrani izbor"
+
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:306
+#: ../src/photos-selection-toolbar.c:290
 #, c-format
 msgid "Open with %s"
 msgstr "Odpri s programom %s"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:309
+#: ../src/photos-selection-toolbar.c:293
 msgid "Open"
 msgstr "Odpri"
 
-#: ../src/photos-selection-toolbar.c:324
+#: ../src/photos-selection-toolbar.c:308
 msgid "Remove from favorites"
 msgstr "Odstrani iz priljubljenih"
 
-#: ../src/photos-selection-toolbar.c:330
+#: ../src/photos-selection-toolbar.c:314
 msgid "Add to favorites"
 msgstr "Dodaj med priljubljene"
 
-#: ../src/photos-selection-toolbar.c:539
+#: ../src/photos-selection-toolbar.c:481
 msgid "Print"
 msgstr "Natisni"
 
-#: ../src/photos-selection-toolbar.c:550
+#: ../src/photos-selection-toolbar.c:492
 msgid "Delete"
 msgstr "Izbriši"
 
