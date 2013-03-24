@@ -34,35 +34,10 @@
 struct _PhotosSpinnerBoxPrivate
 {
   GtkWidget *spinner;
-  guint delayed_show_id;
 };
 
 
 G_DEFINE_TYPE (PhotosSpinnerBox, photos_spinner_box, GTK_TYPE_GRID);
-
-
-static void
-photos_spinner_box_clear_delay_id (PhotosSpinnerBox *self)
-{
-  PhotosSpinnerBoxPrivate *priv = self->priv;
-
-  if (priv->delayed_show_id != 0)
-    {
-      g_source_remove (priv->delayed_show_id);
-      priv->delayed_show_id = 0;
-    }
-}
-
-
-static gboolean
-photos_spinner_box_start_delayed_timeout (gpointer user_data)
-{
-  PhotosSpinnerBox *self = PHOTOS_SPINNER_BOX (user_data);
-
-  self->priv->delayed_show_id = 0;
-  photos_spinner_box_start (self);
-  return G_SOURCE_REMOVE;
-}
 
 
 static void
@@ -104,17 +79,6 @@ photos_spinner_box_constructed (GObject *object)
 
 
 static void
-photos_spinner_box_dispose (GObject *object)
-{
-  PhotosSpinnerBox *self = PHOTOS_SPINNER_BOX (object);
-
-  photos_spinner_box_clear_delay_id (self);
-
-  G_OBJECT_CLASS (photos_spinner_box_parent_class)->dispose (object);
-}
-
-
-static void
 photos_spinner_box_init (PhotosSpinnerBox *self)
 {
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SPINNER_BOX, PhotosSpinnerBoxPrivate);
@@ -127,7 +91,6 @@ photos_spinner_box_class_init (PhotosSpinnerBoxClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructed = photos_spinner_box_constructed;
-  object_class->dispose = photos_spinner_box_dispose;
 
   g_type_class_add_private (class, sizeof (PhotosSpinnerBoxPrivate));
 }
@@ -143,7 +106,6 @@ photos_spinner_box_new (void)
 void
 photos_spinner_box_start (PhotosSpinnerBox *self)
 {
-  photos_spinner_box_clear_delay_id (self);
   gtk_spinner_start (GTK_SPINNER (self->priv->spinner));
 }
 
@@ -151,14 +113,5 @@ photos_spinner_box_start (PhotosSpinnerBox *self)
 void
 photos_spinner_box_stop (PhotosSpinnerBox *self)
 {
-  photos_spinner_box_clear_delay_id (self);
   gtk_spinner_stop (GTK_SPINNER (self->priv->spinner));
-}
-
-
-void
-photos_spinner_box_start_delayed (PhotosSpinnerBox *self, guint delay)
-{
-  photos_spinner_box_clear_delay_id (self);
-  self->priv->delayed_show_id = g_timeout_add (delay, photos_spinner_box_start_delayed_timeout, self);
 }

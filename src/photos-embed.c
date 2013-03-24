@@ -52,30 +52,38 @@ struct _PhotosEmbedPrivate
   GtkWidget *favorites;
   GtkWidget *indexing_ntfctn;
   GtkWidget *no_results;
-  GtkWidget *notebook;
-  GtkWidget *notebook_overlay;
   GtkWidget *ntfctn_mngr;
   GtkWidget *overview;
   GtkWidget *preview;
   GtkWidget *selection_toolbar;
   GtkWidget *spinner_box;
+  GtkWidget *stack;
+  GtkWidget *stack_overlay;
   GtkWidget *toolbar;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
   PhotosTrackerChangeMonitor *monitor;
   PhotosTrackerController *trk_ovrvw_cntrlr;
-  gint error_page;
-  gint favorites_page;
-  gint no_results_page;
-  gint preview_page;
-  gint overview_page;
-  gint spinner_page;
+  guint load_show_id;
   gulong no_results_change_id;
 };
 
 
 G_DEFINE_TYPE (PhotosEmbed, photos_embed, GTK_TYPE_BOX);
+
+
+static void
+photos_embed_clear_load_timer (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  if (priv->load_show_id != 0)
+    {
+      g_source_remove (priv->load_show_id);
+      priv->load_show_id = 0;
+    }
+}
 
 
 static void
@@ -85,6 +93,8 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
   PhotosEmbedPrivate *priv = self->priv;
   GeglNode *node;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+
+  photos_embed_clear_load_timer (self);
 
   g_clear_object (&priv->loader_cancellable);
   node = photos_base_item_load_finish (item, res, NULL);
@@ -104,6 +114,20 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
 }
 
 
+static gboolean
+photos_embed_load_show_timeout (gpointer user_data)
+{
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  PhotosEmbedPrivate *priv = self->priv;
+
+  priv->load_show_id = 0;
+  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "spinner");
+  photos_spinner_box_start (PHOTOS_SPINNER_BOX (priv->spinner_box));
+  g_object_unref (self);
+  return G_SOURCE_REMOVE;
+}
+
+
 static void
 photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
@@ -115,8 +139,8 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
 
   /* TODO: CollectionManager */
 
-  photos_spinner_box_start_delayed (PHOTOS_SPINNER_BOX (priv->spinner_box), 400);
-  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->spinner_page);
+  photos_embed_clear_load_timer (self);
+  priv->load_show_id = g_timeout_add (400, photos_embed_load_show_timeout, g_object_ref (self));
 
   priv->loader_cancellable = g_cancellable_new ();
   photos_base_item_load_async (PHOTOS_BASE_ITEM (object),
@@ -131,21 +155,21 @@ photos_embed_restore_last_page (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
   PhotosWindowMode mode;
-  gint page;
+  const gchar *page;
 
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_FAVORITES:
-      page = priv->favorites_page;
+      page = "favorites";
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
-      page = priv->overview_page;
+      page = "overview";
       break;
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
-      page = priv->preview_page;
+      page = "preview";
       break;
 
     default:
@@ -153,7 +177,7 @@ photos_embed_restore_last_page (PhotosEmbed *self)
       break;
     }
 
-  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), page);
+  gd_stack_set_visible_child_name (GD_STACK (priv->stack), page);
 }
 
 
@@ -190,7 +214,7 @@ photos_embed_count_changed (PhotosEmbed *self, gint count)
                                                              "changes-pending",
                                                              G_CALLBACK (photos_embed_changes_pending),
                                                              self);
-      gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->no_results_page);
+      gd_stack_set_visible_child_name (GD_STACK (priv->stack), "no-results");
     }
   else
     photos_embed_hide_no_results_page (self);
@@ -217,7 +241,7 @@ photos_embed_prepare_for_favorites (PhotosEmbed *self)
     }
 
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
-  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->favorites_page);
+  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "favorites");
 }
 
 
@@ -235,7 +259,7 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
     }
 
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
-  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->overview_page);
+  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "overview");
 }
 
 
@@ -249,7 +273,7 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
    */
 
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
-  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->preview_page);
+  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "preview");
 }
 
 
@@ -259,7 +283,7 @@ photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *se
   PhotosEmbedPrivate *priv = self->priv;
 
   photos_error_box_update (PHOTOS_ERROR_BOX (priv->error_box), primary, secondary);
-  gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->error_page);
+  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "error");
 }
 
 
@@ -279,7 +303,7 @@ photos_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean
   if (querying)
     {
       photos_spinner_box_start (PHOTOS_SPINNER_BOX (priv->spinner_box));
-      gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), priv->spinner_page);
+      gd_stack_set_visible_child_name (GD_STACK (priv->stack), "spinner");
     }
   else
     {
@@ -343,48 +367,48 @@ photos_embed_init (PhotosEmbed *self)
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   gtk_widget_show (GTK_WIDGET (self));
 
-  priv->notebook_overlay = gtk_overlay_new ();
-  gtk_widget_show (priv->notebook_overlay);
-  gtk_box_pack_end (GTK_BOX (self), priv->notebook_overlay, TRUE, TRUE, 0);
+  priv->stack_overlay = gtk_overlay_new ();
+  gtk_widget_show (priv->stack_overlay);
+  gtk_box_pack_end (GTK_BOX (self), priv->stack_overlay, TRUE, TRUE, 0);
 
-  priv->notebook = gtk_notebook_new ();
-  gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook), FALSE);
-  gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook), FALSE);
-  gtk_widget_show (priv->notebook);
-  gtk_container_add (GTK_CONTAINER (priv->notebook_overlay), priv->notebook);
+  priv->stack = gd_stack_new ();
+  gd_stack_set_homogeneous (GD_STACK (priv->stack), TRUE);
+  gd_stack_set_transition_type (GD_STACK (priv->stack), GD_STACK_TRANSITION_TYPE_CROSSFADE);
+  gtk_widget_show (priv->stack);
+  gtk_container_add (GTK_CONTAINER (priv->stack_overlay), priv->stack);
 
   priv->toolbar = photos_main_toolbar_new ();
   gtk_box_pack_start (GTK_BOX (self), priv->toolbar, FALSE, FALSE, 0);
 
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_new ());
-  gtk_overlay_add_overlay (GTK_OVERLAY (priv->notebook_overlay), priv->ntfctn_mngr);
+  gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->ntfctn_mngr);
 
   priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
 
   priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW);
-  priv->overview_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->overview, NULL);
+  gd_stack_add_named (GD_STACK (priv->stack), priv->overview, "overview");
 
   priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES);
-  priv->favorites_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->favorites, NULL);
+  gd_stack_add_named (GD_STACK (priv->stack), priv->favorites, "favorites");
 
   priv->preview = photos_preview_view_new ();
-  priv->preview_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->preview, NULL);
+  gd_stack_add_named (GD_STACK (priv->stack), priv->preview, "preview");
 
   priv->spinner_box = photos_spinner_box_new ();
-  priv->spinner_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->spinner_box, NULL);
+  gd_stack_add_named (GD_STACK (priv->stack), priv->spinner_box, "spinner");
 
   priv->error_box = photos_error_box_new ();
-  priv->error_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->error_box, NULL);
+  gd_stack_add_named (GD_STACK (priv->stack), priv->error_box, "error");
 
   priv->no_results = photos_empty_results_box_new ();
-  priv->no_results_page = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook), priv->no_results, NULL);
+  gd_stack_add_named (GD_STACK (priv->stack), priv->no_results, "no-results");
 
   /* TODO: SearchBar.Dropdown,
    *       ...
    */
 
   priv->selection_toolbar = photos_selection_toolbar_new ();
-  gtk_overlay_add_overlay (GTK_OVERLAY (priv->notebook_overlay), priv->selection_toolbar);
+  gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->selection_toolbar);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
   g_signal_connect (priv->mode_cntrlr,

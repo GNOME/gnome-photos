@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -71,8 +71,6 @@ GType                  photos_spinner_box_get_type               (void) G_GNUC_C
 GtkWidget             *photos_spinner_box_new                    (void);
 
 void                   photos_spinner_box_start                  (PhotosSpinnerBox *self);
-
-void                   photos_spinner_box_start_delayed          (PhotosSpinnerBox *self, guint delay);
 
 void                   photos_spinner_box_stop                   (PhotosSpinnerBox *self);
 
