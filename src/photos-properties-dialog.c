@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -202,6 +202,7 @@ photos_properties_dialog_constructed (GObject *object)
       priv->title_entry = gtk_entry_new ();
       gtk_widget_set_halign (priv->title_entry, GTK_ALIGN_START);
       gtk_widget_set_hexpand (priv->title_entry, TRUE);
+      gtk_entry_set_activates_default (GTK_ENTRY (priv->title_entry), TRUE);
       gtk_entry_set_text (GTK_ENTRY (priv->title_entry), name);
       gtk_editable_set_editable (GTK_EDITABLE (priv->title_entry), TRUE);
 
@@ -326,6 +327,7 @@ photos_properties_dialog_init (PhotosPropertiesDialog *self)
 
   priv->item_mngr = photos_item_manager_new ();
   gtk_dialog_add_button (GTK_DIALOG (self), _("Done"), GTK_RESPONSE_OK);
+  gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 }
 
 
