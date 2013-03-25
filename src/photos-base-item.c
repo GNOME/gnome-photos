@@ -43,6 +43,7 @@ struct _PhotosBaseItemPrivate
   GdkPixbuf *pristine_icon;
   GeglNode *graph;
   GeglNode *node;
+  GeglRectangle bbox;
   GMutex mutex;
   TrackerSparqlCursor *cursor;
   gboolean collection;
@@ -218,6 +219,7 @@ photos_base_item_default_load (PhotosBaseItem *self, GCancellable *cancellable, 
     }
 
   gegl_node_process (priv->node);
+  priv->bbox = gegl_node_get_bounding_box (priv->node);
   ret_val = g_object_ref (priv->node);
 
  out:
@@ -758,6 +760,13 @@ const gchar *
 photos_base_item_get_author (PhotosBaseItem *self)
 {
   return self->priv->author;
+}
+
+
+GeglRectangle
+photos_base_item_get_bbox (PhotosBaseItem *self)
+{
+  return self->priv->bbox;
 }
 
 
