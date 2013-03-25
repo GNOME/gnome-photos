@@ -27,6 +27,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gegl.h>
+#include <glib/gi18n.h>
 
 #include "photos-embed.h"
 #include "photos-empty-results-box.h"
@@ -67,6 +68,7 @@ struct _PhotosEmbedPrivate
   PhotosTrackerController *trk_ovrvw_cntrlr;
   guint load_show_id;
   gulong no_results_change_id;
+  gulong notify_visible_child_id;
 };
 
 
@@ -228,6 +230,21 @@ photos_embed_fullscreen_changed (PhotosModeController *mode_cntrlr, gboolean ful
 
 
 static void
+photos_embed_notify_visible_child (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+  GtkWidget *visible_child;
+  PhotosWindowMode mode;
+
+  visible_child = gd_stack_get_visible_child (GD_STACK (priv->stack));
+  if (visible_child == priv->overview)
+    photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+  else if (visible_child == priv->favorites)
+    photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_FAVORITES);
+}
+
+
+static void
 photos_embed_prepare_for_favorites (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
@@ -342,6 +359,12 @@ photos_embed_dispose (GObject *object)
       priv->no_results_change_id = 0;
     }
 
+  if (priv->notify_visible_child_id != 0)
+    {
+      g_signal_handler_disconnect (priv->stack, priv->notify_visible_child_id);
+      priv->notify_visible_child_id = 0;
+    }
+
   g_clear_object (&priv->ntfctn_mngr);
   g_clear_object (&priv->loader_cancellable);
   g_clear_object (&priv->indexing_ntfctn);
@@ -378,6 +401,7 @@ photos_embed_init (PhotosEmbed *self)
   gtk_container_add (GTK_CONTAINER (priv->stack_overlay), priv->stack);
 
   priv->toolbar = photos_main_toolbar_new ();
+  photos_main_toolbar_set_stack (PHOTOS_MAIN_TOOLBAR (priv->toolbar), GD_STACK (priv->stack));
   gtk_box_pack_start (GTK_BOX (self), priv->toolbar, FALSE, FALSE, 0);
 
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_new ());
@@ -386,10 +410,10 @@ photos_embed_init (PhotosEmbed *self)
   priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
 
   priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW);
-  gd_stack_add_named (GD_STACK (priv->stack), priv->overview, "overview");
+  gd_stack_add_titled (GD_STACK (priv->stack), priv->overview, "overview", _("Photos"));
 
   priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES);
-  gd_stack_add_named (GD_STACK (priv->stack), priv->favorites, "favorites");
+  gd_stack_add_titled (GD_STACK (priv->stack), priv->favorites, "favorites", _("Favorites"));
 
   priv->preview = photos_preview_view_new ();
   gd_stack_add_named (GD_STACK (priv->stack), priv->preview, "preview");
@@ -409,6 +433,11 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->selection_toolbar = photos_selection_toolbar_new ();
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->selection_toolbar);
+
+  priv->notify_visible_child_id = g_signal_connect_swapped (priv->stack,
+                                                            "notify::visible-child",
+                                                            G_CALLBACK (photos_embed_notify_visible_child),
+                                                            self);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
   g_signal_connect (priv->mode_cntrlr,

@@ -96,7 +96,6 @@ PKG_CHECK_MODULES(TRACKER, [tracker-miner-0.16 tracker-sparql-0.16])
 
 LIBGD_INIT([
   header-bar
-  main-toolbar
   main-icon-view
   main-view
   notification
