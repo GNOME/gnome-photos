@@ -30,6 +30,7 @@
 #include <glib/gi18n.h>
 #include <libgd/gd.h>
 
+#include "photos-application.h"
 #include "photos-collection-manager.h"
 #include "photos-header-bar.h"
 #include "photos-item-manager.h"
@@ -41,6 +42,7 @@
 
 struct _PhotosMainToolbarPrivate
 {
+  GSimpleAction *gear_menu;
   GtkWidget *coll_back_button;
   GtkWidget *selection_menu;
   GtkWidget *toolbar;
@@ -249,6 +251,43 @@ photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
 
   photos_main_toolbar_clear_state_data (self);
   photos_header_bar_clear (PHOTOS_HEADER_BAR (priv->toolbar));
+  g_simple_action_set_enabled (priv->gear_menu, FALSE);
+}
+
+
+static GMenu *
+photos_main_toolbar_create_preview_menu (PhotosMainToolbar *self)
+{
+  GMenu *menu;
+  GtkBuilder *builder;
+  PhotosBaseItem *item;
+
+  builder = gtk_builder_new ();
+  gtk_builder_add_from_resource (builder, "/org/gnome/photos/preview-menu.ui", NULL);
+
+  menu = G_MENU (g_object_ref (gtk_builder_get_object (builder, "preview-menu")));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  if (item != NULL)
+    {
+      const gchar *default_app_name;
+
+      default_app_name = photos_base_item_get_default_app_name (item);
+      if (default_app_name != NULL)
+        {
+          GMenu *section;
+          gchar *label;
+
+          section = G_MENU (gtk_builder_get_object (builder, "open-section"));
+          g_menu_remove (section, 0);
+
+          label = g_strdup_printf (_("Open with %s"), default_app_name);
+          g_menu_prepend (section, label, "app.open-current");
+          g_free (label);
+        }
+    }
+
+  g_object_unref (builder);
+  return menu;
 }
 
 
@@ -292,12 +331,23 @@ static void
 photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
+  GMenu *preview_menu;
   GtkWidget *back_button;
+  GtkWidget *menu_button;
 
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_STANDALONE);
 
   back_button = photos_main_toolbar_add_back_button (self);
   g_signal_connect (back_button, "clicked", G_CALLBACK (photos_main_toolbar_back_button_clicked), self);
+
+  preview_menu = photos_main_toolbar_create_preview_menu (self);
+  menu_button = gd_header_menu_button_new ();
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_button), "app.gear-menu");
+  gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), G_MENU_MODEL (preview_menu));
+  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (menu_button), "emblem-system-symbolic");
+  gd_header_bar_pack_end (GD_HEADER_BAR (priv->toolbar), menu_button);
+
+  g_simple_action_set_enabled (priv->gear_menu, TRUE);
 }
 
 
@@ -398,6 +448,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv;
   GMenu *selection_menu;
+  GtkApplication *app;
   GtkBuilder *builder;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_MAIN_TOOLBAR, PhotosMainToolbarPrivate);
@@ -409,6 +460,10 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   priv->toolbar = photos_header_bar_new ();
   gtk_container_add (GTK_CONTAINER (self), priv->toolbar);
   gtk_widget_show (priv->toolbar);
+
+  app = photos_application_new ();
+  priv->gear_menu = G_SIMPLE_ACTION (g_action_map_lookup_action (G_ACTION_MAP (app), "gear-menu"));
+  g_object_unref (app);
 
   builder = gtk_builder_new ();
   gtk_builder_add_from_resource (builder, "/org/gnome/photos/selection-menu.ui", NULL);

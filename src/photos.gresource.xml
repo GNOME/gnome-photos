@@ -2,6 +2,7 @@
 <gresources>
   <gresource prefix="/org/gnome/photos">
     <file alias="app-menu.ui" preprocess="xml-stripblanks">photos-app-menu.ui</file>
+    <file alias="preview-menu.ui" preprocess="xml-stripblanks">photos-preview-menu.ui</file>
     <file alias="selection-menu.ui" preprocess="xml-stripblanks">photos-selection-menu.ui</file>
   </gresource>
 </gresources>

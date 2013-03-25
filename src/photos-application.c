@@ -32,8 +32,10 @@
 
 #include "eog-debug.h"
 #include "photos-application.h"
+#include "photos-item-manager.h"
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
+#include "photos-properties-dialog.h"
 #include "photos-resources.h"
 
 
@@ -41,14 +43,36 @@ struct _PhotosApplicationPrivate
 {
   GResource *resource;
   GSimpleAction *fs_action;
+  GSimpleAction *gear_action;
+  GSimpleAction *open_action;
+  GSimpleAction *properties_action;
   GSimpleAction *sel_all_action;
   GSimpleAction *sel_none_action;
   GtkWidget *main_window;
+  PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
 };
 
 
 G_DEFINE_TYPE (PhotosApplication, photos_application, GTK_TYPE_APPLICATION)
+
+
+static void
+photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  PhotosApplicationPrivate *priv = self->priv;
+  GVariant *state;
+  GVariant *new_state;
+
+  state = g_action_get_state (G_ACTION (simple));
+  if (state == NULL)
+    return;
+
+  new_state = g_variant_new ("b", !g_variant_get_boolean (state));
+  g_action_change_state (G_ACTION (simple), new_state);
+  g_variant_unref (state);
+}
 
 
 static void
@@ -74,6 +98,42 @@ photos_application_fullscreen (GSimpleAction *simple, GVariant *parameter, gpoin
 
 
 static void
+photos_application_open_current (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  GdkScreen *screen;
+  PhotosBaseItem *item;
+  guint32 time;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+  if (item == NULL)
+    return;
+
+  screen = gtk_window_get_screen (GTK_WINDOW (priv->main_window));
+  time = gtk_get_current_event_time ();
+  photos_base_item_open (item, screen, time);
+}
+
+
+static void
+photos_application_properties (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  GtkWidget *dialog;
+  PhotosBaseItem *item;
+  const gchar *id;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+  if (item == NULL)
+    return;
+
+  id = photos_base_item_get_id (item);
+  dialog = photos_properties_dialog_new (GTK_WINDOW (priv->main_window), id);
+  g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
+}
+
+
+static void
 photos_application_quit (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
@@ -92,6 +152,11 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
   enable = (mode == PHOTOS_WINDOW_MODE_OVERVIEW || mode == PHOTOS_WINDOW_MODE_FAVORITES);
   g_simple_action_set_enabled (priv->sel_all_action, enable);
   g_simple_action_set_enabled (priv->sel_none_action, enable);
+
+  enable = (mode == PHOTOS_WINDOW_MODE_PREVIEW);
+  g_simple_action_set_enabled (priv->gear_action, enable);
+  g_simple_action_set_enabled (priv->open_action, enable);
+  g_simple_action_set_enabled (priv->properties_action, enable);
 }
 
 
@@ -114,6 +179,7 @@ photos_application_startup (GApplication *application)
   GSimpleAction *action;
   GtkBuilder *builder;
   GtkSettings *settings;
+  GVariant *state;
 
   G_APPLICATION_CLASS (photos_application_parent_class)
     ->startup (application);
@@ -126,6 +192,7 @@ photos_application_startup (GApplication *application)
   settings = gtk_settings_get_default ();
   g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
 
+  priv->item_mngr = photos_item_manager_new ();
   priv->mode_cntrlr = photos_mode_controller_new ();
 
   action = g_simple_action_new ("about", NULL);
@@ -141,6 +208,19 @@ photos_application_startup (GApplication *application)
                     "can-fullscreen-changed",
                     G_CALLBACK (photos_application_can_fullscreen_changed),
                     self);
+
+  state = g_variant_new ("b", FALSE);
+  priv->gear_action = g_simple_action_new_stateful ("gear-menu", NULL, state);
+  g_signal_connect (priv->gear_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->gear_action));
+
+  priv->open_action = g_simple_action_new ("open-current", NULL);
+  g_signal_connect_swapped (priv->open_action, "activate", G_CALLBACK (photos_application_open_current), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->open_action));
+
+  priv->properties_action = g_simple_action_new ("properties", NULL);
+  g_signal_connect_swapped (priv->properties_action, "activate", G_CALLBACK (photos_application_properties), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->properties_action));
 
   action = g_simple_action_new ("quit", NULL);
   g_signal_connect (action, "activate", G_CALLBACK (photos_application_quit), self);
@@ -167,6 +247,7 @@ photos_application_startup (GApplication *application)
 
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>q", "app.quit", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "F11", "app.fullscreen", NULL);
+  gtk_application_add_accelerator (GTK_APPLICATION (self), "F10", "app.gear-menu", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>a", "app.select-all", NULL);
 
   priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
@@ -206,8 +287,12 @@ photos_application_dispose (GObject *object)
     }
 
   g_clear_object (&priv->fs_action);
+  g_clear_object (&priv->gear_action);
+  g_clear_object (&priv->open_action);
+  g_clear_object (&priv->properties_action);
   g_clear_object (&priv->sel_all_action);
   g_clear_object (&priv->sel_none_action);
+  g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
 
   G_OBJECT_CLASS (photos_application_parent_class)

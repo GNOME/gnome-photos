@@ -163,6 +163,7 @@ EXTRA_DIST = \
 	photos.gresource.xml \
 	photos-app-menu.ui \
 	photos-marshalers.list \
+	photos-preview-menu.ui \
 	photos-selection-menu.ui \
 	photos-tracker-resources.xml \
 	$(null)
