@@ -73,10 +73,13 @@ if test x$have_zlib = xno; then
 	AC_MSG_ERROR([No sufficient zlib library found on your system.])
 fi
 
-PKG_CHECK_MODULES(CAIRO, [cairo])
+PKG_CHECK_MODULES(BABL, [babl])
+
+PKG_CHECK_MODULES(CAIRO, [cairo cairo-gobject])
+AC_DEFINE([HAVE_CAIRO_GOBJECT], [], [We want gegl-gtk to use the cairo-gobject code path])
+
 PKG_CHECK_MODULES(EXEMPI, [exempi-2.0 >= $EXEMPI_MIN_VERSION])
 PKG_CHECK_MODULES(GEGL, [gegl-0.2])
-PKG_CHECK_MODULES(GEGL_GTK, [gegl-gtk3-0.1])
 PKG_CHECK_MODULES(GDK_PIXBUF, [gdk-pixbuf-2.0])
 PKG_CHECK_MODULES(GLIB, [glib-2.0 >= $GLIB_MIN_VERSION])
 PKG_CHECK_MODULES(GIO, [gio-2.0])
@@ -88,6 +91,8 @@ PKG_CHECK_MODULES(GOA, [goa-1.0])
 AC_DEFINE([GOA_API_IS_SUBJECT_TO_CHANGE], [], [We are aware that GOA's API can change])
 
 PKG_CHECK_MODULES(GTK, [gtk+-3.0])
+AC_DEFINE([HAVE_GTK3], [], [We want gegl-gtk to use the GTK+ 3.x code path])
+
 PKG_CHECK_MODULES(GTK_UNIX_PRINT, [gtk+-unix-print-3.0])
 PKG_CHECK_MODULES(LCMS, [lcms2])
 PKG_CHECK_MODULES(LIBEXIF, [libexif >= $LIBEXIF_MIN_VERSION])

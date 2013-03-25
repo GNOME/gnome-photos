@@ -25,11 +25,11 @@
 
 #include "config.h"
 
-#include <gegl-gtk.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include "gegl-gtk-view.h"
 #include "photos-preview-view.h"
 
 
