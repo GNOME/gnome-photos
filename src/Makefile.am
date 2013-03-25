@@ -41,8 +41,6 @@ gnome_photos_SOURCES = \
 	eog-metadata-reader-jpg.h \
 	eog-metadata-reader-png.c \
 	eog-metadata-reader-png.h \
-	eog-print.c \
-	eog-print.h \
 	eog-transform.c \
 	eog-transform.h \
 	eog-uri-converter.c \
@@ -102,6 +100,8 @@ gnome_photos_SOURCES = \
 	photos-organize-collection-view.h \
 	photos-preview-view.c \
 	photos-preview-view.h \
+	photos-print-operation.c \
+	photos-print-operation.h \
 	photos-print-preview.c \
 	photos-print-preview.h \
 	photos-print-setup.c \
