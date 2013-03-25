@@ -129,6 +129,26 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 }
 
 
+static GtkWidget *
+photos_main_toolbar_add_back_button (PhotosMainToolbar *self)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  GtkTextDirection direction;
+  GtkWidget *back_button;
+  const gchar *icon_name;
+
+  direction = gtk_widget_get_direction (GTK_WIDGET (priv->toolbar));
+  icon_name = (direction == GTK_TEXT_DIR_RTL) ? "go-next-symbolic" : "go-previous-symbolic";
+
+  back_button = gd_header_simple_button_new ();
+  gd_header_button_set_label (GD_HEADER_BUTTON (back_button), _("Back"));
+  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (back_button), icon_name);
+  gd_header_bar_pack_start (GD_HEADER_BAR (priv->toolbar), back_button);
+
+  return back_button;
+}
+
+
 static void
 photos_main_toolbar_coll_back_button_clicked (GtkButton *button, gpointer user_data)
 {
@@ -147,10 +167,7 @@ photos_main_toolbar_active_changed (PhotosBaseManager *manager, GObject *object,
   item = photos_base_manager_get_active_object (priv->col_mngr);
   if (item != NULL && priv->coll_back_button == NULL)
     {
-      priv->coll_back_button = gd_header_simple_button_new ();
-      gd_header_button_set_label (GD_HEADER_BUTTON (priv->coll_back_button), _("Back"));
-      gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (priv->coll_back_button), "go-previous-symbolic");
-      gd_header_bar_pack_start (GD_HEADER_BAR (priv->toolbar), priv->coll_back_button);
+      priv->coll_back_button = photos_main_toolbar_add_back_button (self);
       gtk_widget_show (priv->coll_back_button);
 
       g_signal_connect (priv->coll_back_button,
@@ -275,19 +292,11 @@ static void
 photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
-  GtkTextDirection direction;
   GtkWidget *back_button;
-  const gchar *icon_name;
 
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_STANDALONE);
 
-  direction = gtk_widget_get_direction (GTK_WIDGET (priv->toolbar));
-  icon_name = (direction == GTK_TEXT_DIR_RTL) ? "go-next-symbolic" : "go-previous-symbolic";
-
-  back_button = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (back_button), _("Back"));
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (back_button), icon_name);
-  gd_header_bar_pack_start (GD_HEADER_BAR (priv->toolbar), back_button);
+  back_button = photos_main_toolbar_add_back_button (self);
   g_signal_connect (back_button, "clicked", G_CALLBACK (photos_main_toolbar_back_button_clicked), self);
 }
 
