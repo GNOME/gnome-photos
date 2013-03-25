@@ -185,7 +185,7 @@ gnome_photos_LDADD = \
 	$(CAIRO_LIBS) \
 	$(EXEMPI_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
-	$(GEGL_CFLAGS) \
+	$(GEGL_LIBS) \
 	$(GEGL_GTK_LIBS) \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
