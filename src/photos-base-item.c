@@ -32,6 +32,7 @@
 #include <tracker-sparql.h>
 
 #include "photos-base-item.h"
+#include "photos-print-operation.h"
 #include "photos-query.h"
 #include "photos-single-item-job.h"
 #include "photos-utils.h"
@@ -562,6 +563,27 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 
 
 static void
+photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GtkWindow *toplevel = GTK_WINDOW (user_data);
+  GeglNode *node;
+  GtkPrintOperation *print_op;
+
+  node = photos_base_item_load_finish (self, res, NULL);
+  if (node == NULL)
+    goto out;
+
+  print_op = photos_print_operation_new (self, node);
+  gtk_print_operation_run (print_op, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, toplevel, NULL);
+
+ out:
+  g_clear_object (&node);
+  g_object_unref (toplevel);
+}
+
+
+static void
 photos_base_item_update_type_description (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv = self->priv;
@@ -925,6 +947,7 @@ photos_base_item_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestam
 void
 photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
 {
+  photos_base_item_load_async (self, NULL, photos_base_item_print_load, g_object_ref (toplevel));
 }
 
 
