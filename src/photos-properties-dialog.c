@@ -244,6 +244,9 @@ photos_properties_dialog_constructed (GObject *object)
 
       source_data = gtk_link_button_new_with_label (source_uri, source_path);
       gtk_widget_set_halign (source_data, GTK_ALIGN_START);
+
+      g_object_unref (source_link);
+      g_object_unref (file);
     }
 
   gtk_grid_attach_next_to (GTK_GRID (grid), source_data, source, 1, 2, 1);
