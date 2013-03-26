@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,6 +39,24 @@
 
 
 static const gchar *dot_dir;
+
+
+GdkPixbuf *
+photos_utils_create_pixbuf_from_node (GeglNode *node)
+{
+  GdkPixbuf *pixbuf = NULL;
+  GeglNode *save_pixbuf;
+
+  save_pixbuf = gegl_node_new_child (gegl_node_get_parent (node),
+                                     "operation", "gegl:save-pixbuf",
+                                     "pixbuf", &pixbuf,
+                                     NULL);
+  gegl_node_link_many (node, save_pixbuf, NULL);
+  gegl_node_process (save_pixbuf);
+  g_object_unref (save_pixbuf);
+
+  return pixbuf;
+}
 
 
 GIcon *

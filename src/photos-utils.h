@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,11 +27,14 @@
 #define PHOTOS_UTILS_H
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gegl.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
+
+GdkPixbuf       *photos_utils_create_pixbuf_from_node     (GeglNode *node);
 
 GIcon           *photos_utils_create_symbolic_icon        (const gchar *name, gint base_size);
 
