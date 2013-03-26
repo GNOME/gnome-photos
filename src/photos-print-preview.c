@@ -1,13 +1,12 @@
-/* Eye Of GNOME -- Print Preview Widget
+/*
+ * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2006, 2007, 2008 The Free Software Foundation
+ * Copyright © 2013 Red Hat, Inc.
  *
- * Copyright (C) 2006-2008 The Free Software Foundation
- *
- * Author: Claudio Saavedra <csaavedra@gnome.org>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,24 +15,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
+ */
+
+/* Based on code from:
+ *   + Eye of GNOME
  */
 
 #include <gtk/gtk.h>
 #include <cairo.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "eog-print-preview.h"
+#include "photos-print-preview.h"
 
-#define EOG_PRINT_PREVIEW_GET_PRIVATE(object)				\
-	(G_TYPE_INSTANCE_GET_PRIVATE ((object), EOG_TYPE_PRINT_PREVIEW, EogPrintPreviewPrivate))
 
-G_DEFINE_TYPE (EogPrintPreview, eog_print_preview, GTK_TYPE_ASPECT_FRAME)
+G_DEFINE_TYPE (PhotosPrintPreview, photos_print_preview, GTK_TYPE_ASPECT_FRAME);
 
-struct _EogPrintPreviewPrivate {
+
+struct _PhotosPrintPreviewPrivate {
 	GtkWidget *area;
-	GdkPixbuf *image;
-	GdkPixbuf *image_scaled;
+	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf_scaled;
 
 	/* The surface to set to the cairo context, created from the image */
 	cairo_surface_t *surface;
@@ -41,8 +44,8 @@ struct _EogPrintPreviewPrivate {
         /* Flag whether we have to create surface */
 	gboolean flag_create_surface;
 
-	/* the alignment of the image in the page */
-	gfloat image_x_align, image_y_align;
+	/* the alignment of the pixbuf in the page */
+	gfloat pixbuf_x_align, pixbuf_y_align;
 
 	/* real paper size, in inches */
 	gfloat p_width, p_height;
@@ -53,40 +56,40 @@ struct _EogPrintPreviewPrivate {
 	/* page margins, relatives to the widget size */
 	gint l_rmargin, r_rmargin, t_rmargin, b_rmargin;
 
-	/* image width, relative to the widget size */
+	/* pixbuf width, relative to the widget size */
 	gint r_width, r_height;
 
-	/* scale of the image, as defined by the user */
+	/* scale of the pixbuf, as defined by the user */
 	gfloat i_scale;
 
 	/* scale of the page, relative to the widget size */
 	gfloat p_scale;
 
-	/* whether we are currently grabbing the image */
+	/* whether we are currently grabbing the pixbuf */
 	gboolean grabbed;
 
 	/* the last cursor position */
 	gdouble cursorx, cursory;
 
-	/* if we reject to move the image,
+	/* if we reject to move the pixbuf,
 	   store the delta here */
 	gdouble r_dx, r_dy;
 };
 
 /* Signal IDs */
 enum {
-	SIGNAL_IMAGE_MOVED,
-	SIGNAL_IMAGE_SCALED,
+	SIGNAL_PIXBUF_MOVED,
+	SIGNAL_PIXBUF_SCALED,
 	SIGNAL_LAST
 };
 static gint preview_signals [SIGNAL_LAST];
 
 enum {
 	PROP_0,
-	PROP_IMAGE,
-	PROP_IMAGE_X_ALIGN,
-	PROP_IMAGE_Y_ALIGN,
-	PROP_IMAGE_SCALE,
+	PROP_PIXBUF,
+	PROP_PIXBUF_X_ALIGN,
+	PROP_PIXBUF_Y_ALIGN,
+	PROP_PIXBUF_SCALE,
 	PROP_PAPER_WIDTH,
 	PROP_PAPER_HEIGHT,
 	PROP_PAGE_LEFT_MARGIN,
@@ -95,32 +98,32 @@ enum {
 	PROP_PAGE_BOTTOM_MARGIN
 };
 
-static void eog_print_preview_draw (EogPrintPreview *preview, cairo_t *cr);
-static void eog_print_preview_finalize (GObject *object);
-static void update_relative_sizes (EogPrintPreview *preview);
-static void create_surface (EogPrintPreview *preview);
-static void create_image_scaled (EogPrintPreview *preview);
-static gboolean create_surface_when_idle (EogPrintPreview *preview);
+static void photos_print_preview_draw (PhotosPrintPreview *preview, cairo_t *cr);
+static void photos_print_preview_finalize (GObject *object);
+static void update_relative_sizes (PhotosPrintPreview *preview);
+static void create_surface (PhotosPrintPreview *preview);
+static void create_image_scaled (PhotosPrintPreview *preview);
+static gboolean create_surface_when_idle (PhotosPrintPreview *preview);
 
 static void
-eog_print_preview_get_property (GObject    *object,
+photos_print_preview_get_property (GObject    *object,
 				guint       prop_id,
 				GValue     *value,
 				GParamSpec *pspec)
 {
-	EogPrintPreviewPrivate *priv = EOG_PRINT_PREVIEW (object)->priv;
+	PhotosPrintPreviewPrivate *priv = PHOTOS_PRINT_PREVIEW (object)->priv;
 
 	switch (prop_id) {
-	case PROP_IMAGE:
-		g_value_set_object (value, priv->image);
+	case PROP_PIXBUF:
+		g_value_set_object (value, priv->pixbuf);
 		break;
-	case PROP_IMAGE_X_ALIGN:
-		g_value_set_float (value, priv->image_x_align);
+	case PROP_PIXBUF_X_ALIGN:
+		g_value_set_float (value, priv->pixbuf_x_align);
 		break;
-	case PROP_IMAGE_Y_ALIGN:
-		g_value_set_float (value, priv->image_y_align);
+	case PROP_PIXBUF_Y_ALIGN:
+		g_value_set_float (value, priv->pixbuf_y_align);
 		break;
-	case PROP_IMAGE_SCALE:
+	case PROP_PIXBUF_SCALE:
 		g_value_set_float (value, priv->i_scale);
 		break;
 	case PROP_PAPER_WIDTH:
@@ -147,35 +150,35 @@ eog_print_preview_get_property (GObject    *object,
 }
 
 static void
-eog_print_preview_set_property (GObject      *object,
+photos_print_preview_set_property (GObject      *object,
 				guint         prop_id,
 				const GValue *value,
 				GParamSpec   *pspec)
 {
-	EogPrintPreviewPrivate *priv = EOG_PRINT_PREVIEW (object)->priv;
+	PhotosPrintPreviewPrivate *priv = PHOTOS_PRINT_PREVIEW (object)->priv;
 	gboolean paper_size_changed = FALSE;
 
 	switch (prop_id) {
-	case PROP_IMAGE:
-		if (priv->image) {
-			g_object_unref (priv->image);
+	case PROP_PIXBUF:
+		if (priv->pixbuf) {
+			g_object_unref (priv->pixbuf);
 		}
-		priv->image = GDK_PIXBUF (g_value_dup_object (value));
+		priv->pixbuf = GDK_PIXBUF (g_value_dup_object (value));
 
-		if (priv->image_scaled) {
-			g_object_unref (priv->image_scaled);
-			priv->image_scaled = NULL;
+		if (priv->pixbuf_scaled) {
+			g_object_unref (priv->pixbuf_scaled);
+			priv->pixbuf_scaled = NULL;
 		}
 
 		priv->flag_create_surface = TRUE;
 		break;
-	case PROP_IMAGE_X_ALIGN:
-		priv->image_x_align = g_value_get_float (value);
+	case PROP_PIXBUF_X_ALIGN:
+		priv->pixbuf_x_align = g_value_get_float (value);
 		break;
-	case PROP_IMAGE_Y_ALIGN:
-		priv->image_y_align = g_value_get_float (value);
+	case PROP_PIXBUF_Y_ALIGN:
+		priv->pixbuf_y_align = g_value_get_float (value);
 		break;
-	case PROP_IMAGE_SCALE:
+	case PROP_PIXBUF_SCALE:
 		priv->i_scale = g_value_get_float (value);
 		priv->flag_create_surface = TRUE;
 		break;
@@ -209,44 +212,44 @@ eog_print_preview_set_property (GObject      *object,
 			      NULL);
 	}
 
-	update_relative_sizes (EOG_PRINT_PREVIEW (object));
+	update_relative_sizes (PHOTOS_PRINT_PREVIEW (object));
 	gtk_widget_queue_draw (priv->area);
 }
 
 static void
-eog_print_preview_class_init (EogPrintPreviewClass *klass)
+photos_print_preview_class_init (PhotosPrintPreviewClass *klass)
 {
 	GObjectClass *gobject_class;
 
 	gobject_class = (GObjectClass*) klass;
 
-	gobject_class->get_property = eog_print_preview_get_property;
-	gobject_class->set_property = eog_print_preview_set_property;
-	gobject_class->finalize     = eog_print_preview_finalize;
+	gobject_class->get_property = photos_print_preview_get_property;
+	gobject_class->set_property = photos_print_preview_set_property;
+	gobject_class->finalize     = photos_print_preview_finalize;
 
 /**
- * EogPrintPreview:image:
+ * PhotosPrintPreview:image:
  *
  * The "image" property defines the image that is previewed
  * in the widget.
  */
 	g_object_class_install_property (gobject_class,
-					 PROP_IMAGE,
-					 g_param_spec_object ("image",
-							      "Image to show in the preview",
+					 PROP_PIXBUF,
+					 g_param_spec_object ("pixbuf",
+							      "GdkPixbuf object",
 							      "",
-							      G_TYPE_OBJECT,
+							      GDK_TYPE_PIXBUF,
 							      G_PARAM_READWRITE));
 
 /**
- * EogPrintPreview:image-x-align:
+ * PhotosPrintPreview:pixbuf-x-align:
  *
- * The "image-x-align" property defines the horizontal alignment
+ * The "pixbuf-x-align" property defines the horizontal alignment
  * of the image in the widget.
  */
 	g_object_class_install_property (gobject_class,
-					 PROP_IMAGE_X_ALIGN,
-					 g_param_spec_float ("image-x-align",
+					 PROP_PIXBUF_X_ALIGN,
+					 g_param_spec_float ("pixbuf-x-align",
 							      "Horizontal alignment for the image",
 							      "",
 							      0,
@@ -255,14 +258,14 @@ eog_print_preview_class_init (EogPrintPreviewClass *klass)
 							      G_PARAM_READWRITE));
 
 /**
- * EogPrintPreview:image-y-align:
+ * PhotosPrintPreview:pixbuf-y-align:
  *
- * The "image-y-align" property defines the horizontal alignment
+ * The "pixbuf-y-align" property defines the horizontal alignment
  * of the image in the widget.
  */
 	g_object_class_install_property (gobject_class,
-					 PROP_IMAGE_Y_ALIGN,
-					 g_param_spec_float ("image-y-align",
+					 PROP_PIXBUF_Y_ALIGN,
+					 g_param_spec_float ("pixbuf-y-align",
 							      "Vertical alignment for the image",
 							      "",
 							      0,
@@ -271,14 +274,14 @@ eog_print_preview_class_init (EogPrintPreviewClass *klass)
 							      G_PARAM_READWRITE));
 
 /**
- * EogPrintPreview:image-scale:
+ * PhotosPrintPreview:pixbuf-scale:
  *
- * The "image-scale" property defines the scaling of the image
+ * The "pixbuf-scale" property defines the scaling of the image
  * that the user wants for the printing.
  */
 	g_object_class_install_property (gobject_class,
-					 PROP_IMAGE_SCALE,
-					 g_param_spec_float ("image-scale",
+					 PROP_PIXBUF_SCALE,
+					 g_param_spec_float ("pixbuf-scale",
 							     "The scale for the image",
 							      "",
 							      0,
@@ -287,7 +290,7 @@ eog_print_preview_class_init (EogPrintPreviewClass *klass)
 							      G_PARAM_READWRITE));
 
 /**
- * EogPrintPreview:paper-width:
+ * PhotosPrintPreview:paper-width:
  *
  * The width of the previewed paper, in inches.
  */
@@ -302,7 +305,7 @@ eog_print_preview_class_init (EogPrintPreviewClass *klass)
 							     G_PARAM_READWRITE));
 
 /**
- * EogPrintPreview:paper-height:
+ * PhotosPrintPreview:paper-height:
  *
  * The height of the previewed paper, in inches.
  */
@@ -317,7 +320,7 @@ eog_print_preview_class_init (EogPrintPreviewClass *klass)
 							      G_PARAM_READWRITE));
 
 /**
- * EogPrintPreview:page-left-margin:
+ * PhotosPrintPreview:page-left-margin:
  *
  * The size of the page's left margin, in inches.
  */
@@ -332,7 +335,7 @@ eog_print_preview_class_init (EogPrintPreviewClass *klass)
 							     G_PARAM_READWRITE));
 
 /**
- * EogPrintPreview:page-right-margin:
+ * PhotosPrintPreview:page-right-margin:
  *
  * The size of the page's right margin, in inches.
  */
@@ -346,7 +349,7 @@ eog_print_preview_class_init (EogPrintPreviewClass *klass)
 							      0.25,
 							      G_PARAM_READWRITE));
 /**
- * EogPrintPreview:page-top-margin:
+ * PhotosPrintPreview:page-top-margin:
  *
  * The size of the page's top margin, in inches.
  */
@@ -361,7 +364,7 @@ eog_print_preview_class_init (EogPrintPreviewClass *klass)
 							      G_PARAM_READWRITE));
 
 /**
- * EogPrintPreview:page-bottom-margin:
+ * PhotosPrintPreview:page-bottom-margin:
  *
  * The size of the page's bottom margin, in inches.
  */
@@ -376,50 +379,50 @@ eog_print_preview_class_init (EogPrintPreviewClass *klass)
 							      G_PARAM_READWRITE));
 
 /**
- * EogPrintPreview::image-moved:
+ * PhotosPrintPreview::pixbuf-moved:
  * @preview: the object which received the signal
  *
- * The #EogPrintPreview::image-moved signal is emitted when the position
+ * The #PhotosPrintPreview::pixbuf-moved signal is emitted when the position
  * of the image is changed.
  */
-	preview_signals [SIGNAL_IMAGE_MOVED] =
-		g_signal_new ("image_moved",
+	preview_signals [SIGNAL_PIXBUF_MOVED] =
+		g_signal_new ("pixbuf_moved",
 			      G_TYPE_FROM_CLASS (gobject_class),
 			      G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID, G_TYPE_NONE,
 			      0, NULL);
 
 /**
- * EogPrintPreview::image-scaled:
+ * PhotosPrintPreview::pixbuf-scaled:
  * @preview: the object which received the signal
  *
- * The ::image-scaled signal is emmited when the scale of the image is changed.
+ * The ::pixbuf-scaled signal is emmited when the scale of the image is changed.
  */
-	preview_signals [SIGNAL_IMAGE_SCALED] =
-		g_signal_new ("image_scaled",
+	preview_signals [SIGNAL_PIXBUF_SCALED] =
+		g_signal_new ("pixbuf_scaled",
 			      G_TYPE_FROM_CLASS (gobject_class),
 			      G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID, G_TYPE_NONE,
 			      0, NULL);
 
-	g_type_class_add_private (klass, sizeof (EogPrintPreviewPrivate));
+	g_type_class_add_private (klass, sizeof (PhotosPrintPreviewPrivate));
 }
 
 static void
-eog_print_preview_finalize (GObject *object)
+photos_print_preview_finalize (GObject *object)
 {
-	EogPrintPreviewPrivate *priv;
+	PhotosPrintPreviewPrivate *priv;
 
-	priv = EOG_PRINT_PREVIEW (object)->priv;
+	priv = PHOTOS_PRINT_PREVIEW (object)->priv;
 
-	if (priv->image) {
-		g_object_unref (priv->image);
-		priv->image = NULL;
+	if (priv->pixbuf) {
+		g_object_unref (priv->pixbuf);
+		priv->pixbuf = NULL;
 	}
 
-	if (priv->image_scaled) {
-		g_object_unref (priv->image_scaled);
-		priv->image_scaled = NULL;
+	if (priv->pixbuf_scaled) {
+		g_object_unref (priv->pixbuf_scaled);
+		priv->pixbuf_scaled = NULL;
 	}
 
 	if (priv->surface) {
@@ -427,16 +430,19 @@ eog_print_preview_finalize (GObject *object)
 		priv->surface = NULL;
 	}
 
-	G_OBJECT_CLASS (eog_print_preview_parent_class)->finalize (object);
+	G_OBJECT_CLASS (photos_print_preview_parent_class)->finalize (object);
 }
 
 static void
-eog_print_preview_init (EogPrintPreview *preview)
+photos_print_preview_init (PhotosPrintPreview *preview)
 {
-	EogPrintPreviewPrivate *priv;
+	PhotosPrintPreviewPrivate *priv;
 	gfloat ratio;
 
-	priv = preview->priv = EOG_PRINT_PREVIEW_GET_PRIVATE (preview);
+	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (preview,
+                                                     PHOTOS_TYPE_PRINT_PREVIEW,
+                                                     PhotosPrintPreviewPrivate);
+	priv = preview->priv;
 
 	priv->area = GTK_WIDGET (gtk_drawing_area_new ());
 
@@ -450,10 +456,10 @@ eog_print_preview_init (EogPrintPreview *preview)
 	gtk_aspect_frame_set (GTK_ASPECT_FRAME (preview),
 			      0.5, 0.5, ratio, FALSE);
 
-	priv->image = NULL;
-	priv->image_scaled = NULL;
-	priv->image_x_align = 0.5;
-	priv->image_y_align = 0.5;
+	priv->pixbuf = NULL;
+	priv->pixbuf_scaled = NULL;
+	priv->pixbuf_x_align = 0.5;
+	priv->pixbuf_y_align = 0.5;
 	priv->i_scale = 1;
 
 	priv->surface = NULL;
@@ -482,24 +488,24 @@ static gboolean draw_cb (GtkDrawingArea *drawing_area, cairo_t *cr, gpointer  us
 static void size_allocate_cb (GtkWidget *widget, GtkAllocation *allocation, gpointer user_data);
 
 /**
- * eog_print_preview_new_with_pixbuf:
+ * photos_print_preview_new_with_pixbuf:
  * @pixbuf: a #GdkPixbuf
  *
- * Creates a new #EogPrintPreview widget, and sets the #GdkPixbuf to preview
+ * Creates a new #PhotosPrintPreview widget, and sets the #GdkPixbuf to preview
  * on it.
  *
- * Returns: A new #EogPrintPreview widget.
+ * Returns: A new #PhotosPrintPreview widget.
  **/
 GtkWidget *
-eog_print_preview_new_with_pixbuf (GdkPixbuf *pixbuf)
+photos_print_preview_new_with_pixbuf (GdkPixbuf *pixbuf)
 {
-	EogPrintPreview *preview;
+	PhotosPrintPreview *preview;
 
 	g_return_val_if_fail (GDK_IS_PIXBUF (pixbuf), NULL);
 
-	preview = EOG_PRINT_PREVIEW (eog_print_preview_new ());
+	preview = PHOTOS_PRINT_PREVIEW (photos_print_preview_new ());
 
-	preview->priv->image = g_object_ref (pixbuf);
+	preview->priv->pixbuf = g_object_ref (pixbuf);
 
 	update_relative_sizes (preview);
 
@@ -507,21 +513,21 @@ eog_print_preview_new_with_pixbuf (GdkPixbuf *pixbuf)
 }
 
 /**
- * eog_print_preview_new:
+ * photos_print_preview_new:
  *
- * Creates a new #EogPrintPreview widget, setting it to the default values,
- * and leaving the page empty. You still need to set the #EogPrintPreview:image
+ * Creates a new #PhotosPrintPreview widget, setting it to the default values,
+ * and leaving the page empty. You still need to set the #PhotosPrintPreview:image
  * property to make it useful.
  *
- * Returns: A new and empty #EogPrintPreview widget.
+ * Returns: A new and empty #PhotosPrintPreview widget.
  **/
 GtkWidget *
-eog_print_preview_new (void)
+photos_print_preview_new (void)
 {
-	EogPrintPreview *preview;
+	PhotosPrintPreview *preview;
 	GtkWidget *area;
 
-	preview = g_object_new (EOG_TYPE_PRINT_PREVIEW, NULL);
+	preview = g_object_new (PHOTOS_TYPE_PRINT_PREVIEW, NULL);
 
 	area = preview->priv->area;
 
@@ -565,9 +571,9 @@ draw_cb (GtkDrawingArea *drawing_area,
 		 cairo_t *cr,
 		 gpointer  user_data)
 {
-	update_relative_sizes (EOG_PRINT_PREVIEW (user_data));
+	update_relative_sizes (PHOTOS_PRINT_PREVIEW (user_data));
 
-	eog_print_preview_draw (EOG_PRINT_PREVIEW (user_data), cr);
+	photos_print_preview_draw (PHOTOS_PRINT_PREVIEW (user_data), cr);
 
 	if (cairo_status (cr) != CAIRO_STATUS_SUCCESS) {
 		fprintf (stderr, "Cairo is unhappy: %s\n",
@@ -579,7 +585,7 @@ draw_cb (GtkDrawingArea *drawing_area,
 
 /**
  * get_current_image_coordinates:
- * @preview: an #EogPrintPreview
+ * @preview: an #PhotosPrintPreview
  * @x0: A pointer where to store the x coordinate.
  * @y0: A pointer where to store the y coordinate.
  *
@@ -587,22 +593,22 @@ draw_cb (GtkDrawingArea *drawing_area,
  * with the properties of the given @preview widget.
  **/
 static void
-get_current_image_coordinates (EogPrintPreview *preview,
+get_current_image_coordinates (PhotosPrintPreview *preview,
 			       gint *x0, gint *y0)
 {
-	EogPrintPreviewPrivate *priv;
+	PhotosPrintPreviewPrivate *priv;
 	GtkAllocation allocation;
 
 	priv = preview->priv;
 	gtk_widget_get_allocation (GTK_WIDGET (priv->area), &allocation);
 
-	*x0 = (gint)((1 - priv->image_x_align)*priv->l_rmargin +  priv->image_x_align*(allocation.width - priv->r_rmargin - priv->r_width));
-	*y0 = (gint)((1 - priv->image_y_align)*priv->t_rmargin +  priv->image_y_align*(allocation.height - priv->b_rmargin - priv->r_height));
+	*x0 = (gint)((1 - priv->pixbuf_x_align)*priv->l_rmargin +  priv->pixbuf_x_align*(allocation.width - priv->r_rmargin - priv->r_width));
+	*y0 = (gint)((1 - priv->pixbuf_y_align)*priv->t_rmargin +  priv->pixbuf_y_align*(allocation.height - priv->b_rmargin - priv->r_height));
 }
 
 /**
  * press_inside_image_area:
- * @preview: an #EogPrintPreview
+ * @preview: an #PhotosPrintPreview
  * @x: the points x coordinate
  * @y: the points y coordinate
  *
@@ -612,11 +618,11 @@ get_current_image_coordinates (EogPrintPreview *preview,
  * %FALSE otherwise.
  **/
 static gboolean
-press_inside_image_area (EogPrintPreview *preview,
+press_inside_image_area (PhotosPrintPreview *preview,
 			 guint x,
 			 guint y)
 {
-	EogPrintPreviewPrivate *priv;
+	PhotosPrintPreviewPrivate *priv;
 	gint x0, y0;
 
 	priv = preview->priv;
@@ -630,59 +636,59 @@ press_inside_image_area (EogPrintPreview *preview,
 }
 
 gboolean
-eog_print_preview_point_in_image_area (EogPrintPreview *preview,
+photos_print_preview_point_in_image_area (PhotosPrintPreview *preview,
 				       guint x,
 				       guint y)
 {
-	g_return_val_if_fail (EOG_IS_PRINT_PREVIEW (preview), FALSE);
+	g_return_val_if_fail (PHOTOS_IS_PRINT_PREVIEW (preview), FALSE);
 
 	return press_inside_image_area (preview, x, y);
 }
 
 static void
-create_image_scaled (EogPrintPreview *preview)
+create_image_scaled (PhotosPrintPreview *preview)
 {
-	EogPrintPreviewPrivate *priv = preview->priv;
+	PhotosPrintPreviewPrivate *priv = preview->priv;
 
-	if (!priv->image_scaled) {
+	if (!priv->pixbuf_scaled) {
 		gint i_width, i_height;
 		GtkAllocation allocation;
 
 		gtk_widget_get_allocation (priv->area, &allocation);
-		i_width = gdk_pixbuf_get_width (priv->image);
-		i_height = gdk_pixbuf_get_height (priv->image);
+		i_width = gdk_pixbuf_get_width (priv->pixbuf);
+		i_height = gdk_pixbuf_get_height (priv->pixbuf);
 
                 if ((i_width > allocation.width) ||
 		    (i_height > allocation.height)) {
 			gdouble scale;
 			scale = MIN ((gdouble) allocation.width/i_width,
 				     (gdouble) allocation.height/i_height);
-			priv->image_scaled = gdk_pixbuf_scale_simple (priv->image,
+			priv->pixbuf_scaled = gdk_pixbuf_scale_simple (priv->pixbuf,
 								      i_width*scale,
 								      i_height*scale,
 								      GDK_INTERP_TILES);
 		} else {
-			priv->image_scaled = priv->image;
-			g_object_ref (priv->image_scaled);
+			priv->pixbuf_scaled = priv->pixbuf;
+			g_object_ref (priv->pixbuf_scaled);
 		}
 	}
 }
 
 static GdkPixbuf *
-create_preview_buffer (EogPrintPreview *preview)
+create_preview_buffer (PhotosPrintPreview *preview)
 {
 	GdkPixbuf *pixbuf;
 	gint width, height;
 	GdkInterpType type = GDK_INTERP_TILES;
 
-	if (preview->priv->image == NULL) {
+	if (preview->priv->pixbuf == NULL) {
 		return NULL;
 	}
 
 	create_image_scaled (preview);
 
-	width  = gdk_pixbuf_get_width (preview->priv->image);
-	height = gdk_pixbuf_get_height (preview->priv->image);
+	width  = gdk_pixbuf_get_width (preview->priv->pixbuf);
+	height = gdk_pixbuf_get_height (preview->priv->pixbuf);
 
 	width   *= preview->priv->i_scale * preview->priv->p_scale;
 	height  *= preview->priv->i_scale * preview->priv->p_scale;
@@ -694,11 +700,11 @@ create_preview_buffer (EogPrintPreview *preview)
 	if (width < 25 || height < 25)
 		type = GDK_INTERP_NEAREST;
 
-	if (preview->priv->image_scaled) {
-		pixbuf = gdk_pixbuf_scale_simple (preview->priv->image_scaled,
+	if (preview->priv->pixbuf_scaled) {
+		pixbuf = gdk_pixbuf_scale_simple (preview->priv->pixbuf_scaled,
 						  width, height, type);
 	} else {
-		pixbuf = gdk_pixbuf_scale_simple (preview->priv->image,
+		pixbuf = gdk_pixbuf_scale_simple (preview->priv->pixbuf,
 						  width, height, type);
 	}
 
@@ -798,9 +804,9 @@ create_surface_from_pixbuf (GdkPixbuf *pixbuf)
 }
 
 static void
-create_surface (EogPrintPreview *preview)
+create_surface (PhotosPrintPreview *preview)
 {
-	EogPrintPreviewPrivate *priv = preview->priv;
+	PhotosPrintPreviewPrivate *priv = preview->priv;
 	GdkPixbuf *pixbuf;
 
 	if (priv->surface) {
@@ -817,7 +823,7 @@ create_surface (EogPrintPreview *preview)
 }
 
 static gboolean
-create_surface_when_idle (EogPrintPreview *preview)
+create_surface_when_idle (PhotosPrintPreview *preview)
 {
 	create_surface (preview);
 
@@ -829,7 +835,7 @@ button_press_event_cb (GtkWidget *widget,
 		       GdkEventButton *event,
 		       gpointer user_data)
 {
-	EogPrintPreview *preview = EOG_PRINT_PREVIEW (user_data);
+	PhotosPrintPreview *preview = PHOTOS_PRINT_PREVIEW (user_data);
 
 	preview->priv->cursorx = event->x;
 	preview->priv->cursory = event->y;
@@ -854,7 +860,7 @@ button_release_event_cb (GtkWidget *widget,
 			 GdkEventButton *event,
 			 gpointer user_data)
 {
-	EogPrintPreview *preview = EOG_PRINT_PREVIEW (user_data);
+	PhotosPrintPreview *preview = PHOTOS_PRINT_PREVIEW (user_data);
 
 	switch (event->button) {
 	case 1:
@@ -880,19 +886,19 @@ key_press_event_cb (GtkWidget   *widget,
 
 	switch (event->keyval) {
 	case GDK_KEY_Left:
-		property = "image-x-align";
+		property = "pixbuf-x-align";
 		delta = -0.01;
 		break;
 	case GDK_KEY_Right:
-		property = "image-x-align";
+		property = "pixbuf-x-align";
 		delta = 0.01;
 		break;
 	case GDK_KEY_Up:
-		property = "image-y-align";
+		property = "pixbuf-y-align";
 		delta = -0.01;
 		break;
 	case GDK_KEY_Down:
-		property = "image-y-align";
+		property = "pixbuf-y-align";
 		delta = 0.01;
 		break;
 	}
@@ -911,7 +917,7 @@ key_press_event_cb (GtkWidget   *widget,
 		stop_emission = TRUE;
 		g_signal_emit (G_OBJECT (user_data),
 			       preview_signals
-			       [SIGNAL_IMAGE_MOVED], 0);
+			       [SIGNAL_PIXBUF_MOVED], 0);
 	}
 
 	return stop_emission;
@@ -922,7 +928,7 @@ motion_notify_event_cb (GtkWidget      *widget,
 			GdkEventMotion *event,
 			gpointer        user_data)
 {
-	EogPrintPreviewPrivate *priv = EOG_PRINT_PREVIEW (user_data)->priv;
+	PhotosPrintPreviewPrivate *priv = PHOTOS_PRINT_PREVIEW (user_data)->priv;
 	gdouble dx, dy;
 	GtkAllocation allocation;
 
@@ -934,25 +940,25 @@ motion_notify_event_cb (GtkWidget      *widget,
 
 		/* Make sure the image stays inside the margins */
 
-		priv->image_x_align += (dx + priv->r_dx)/(allocation.width  - priv->r_width - priv->l_rmargin - priv->r_rmargin);
-		if (priv->image_x_align < 0. || priv->image_x_align > 1.) {
-			priv->image_x_align = CLAMP (priv->image_x_align, 0., 1.);
+		priv->pixbuf_x_align += (dx + priv->r_dx)/(allocation.width  - priv->r_width - priv->l_rmargin - priv->r_rmargin);
+		if (priv->pixbuf_x_align < 0. || priv->pixbuf_x_align > 1.) {
+			priv->pixbuf_x_align = CLAMP (priv->pixbuf_x_align, 0., 1.);
 			priv->r_dx += dx;
 		}
 		else
 			priv->r_dx = 0;
 
-		priv->image_y_align += (dy + priv->r_dy)/(allocation.height - priv->r_height - priv->t_rmargin - priv->b_rmargin);
-		if (priv->image_y_align < 0. || priv->image_y_align > 1.) {
-			priv->image_y_align = CLAMP (priv->image_y_align, 0., 1.);
+		priv->pixbuf_y_align += (dy + priv->r_dy)/(allocation.height - priv->r_height - priv->t_rmargin - priv->b_rmargin);
+		if (priv->pixbuf_y_align < 0. || priv->pixbuf_y_align > 1.) {
+			priv->pixbuf_y_align = CLAMP (priv->pixbuf_y_align, 0., 1.);
 			priv->r_dy += dy;
 		} else
 			priv->r_dy = 0;
 
 		/* we do this to correctly change the property values */
-		g_object_set (EOG_PRINT_PREVIEW (user_data),
-			      "image-x-align", priv->image_x_align,
-			      "image-y-align", priv->image_y_align,
+		g_object_set (PHOTOS_PRINT_PREVIEW (user_data),
+			      "pixbuf-x-align", priv->pixbuf_x_align,
+			      "pixbuf-y-align", priv->pixbuf_y_align,
 			      NULL);
 
 		priv->cursorx = event->x;
@@ -960,9 +966,9 @@ motion_notify_event_cb (GtkWidget      *widget,
 
 		g_signal_emit (G_OBJECT (user_data),
 			       preview_signals
-			       [SIGNAL_IMAGE_MOVED], 0);
+			       [SIGNAL_PIXBUF_MOVED], 0);
 	} else {
-		if (press_inside_image_area (EOG_PRINT_PREVIEW (user_data), event->x, event->y)) {
+		if (press_inside_image_area (PHOTOS_PRINT_PREVIEW (user_data), event->x, event->y)) {
 		  	GdkCursor *cursor;
 			cursor = gdk_cursor_new_for_display (gtk_widget_get_display (widget),
 							     GDK_FLEUR);
@@ -982,25 +988,25 @@ size_allocate_cb (GtkWidget *widget,
 		  GtkAllocation *allocation,
 		  gpointer user_data)
 {
-	EogPrintPreview *preview;
+	PhotosPrintPreview *preview;
 
-	preview = EOG_PRINT_PREVIEW (user_data);
+	preview = PHOTOS_PRINT_PREVIEW (user_data);
 	update_relative_sizes (preview);
 
 	preview->priv->flag_create_surface = TRUE;
 
-	if (preview->priv->image_scaled) {
-		g_object_unref (preview->priv->image_scaled);
-		preview->priv->image_scaled = NULL;
+	if (preview->priv->pixbuf_scaled) {
+		g_object_unref (preview->priv->pixbuf_scaled);
+		preview->priv->pixbuf_scaled = NULL;
 	}
 
 	g_idle_add ((GSourceFunc) create_surface_when_idle, preview);
 }
 
 static void
-eog_print_preview_draw (EogPrintPreview *preview, cairo_t *cr)
+photos_print_preview_draw (PhotosPrintPreview *preview, cairo_t *cr)
 {
-	EogPrintPreviewPrivate *priv;
+	PhotosPrintPreviewPrivate *priv;
 	GtkWidget *area;
 	GtkAllocation allocation;
 	gint x0, y0;
@@ -1036,19 +1042,19 @@ eog_print_preview_draw (EogPrintPreview *preview, cairo_t *cr)
 	if (priv->surface) {
 		cairo_set_source_surface (cr, priv->surface, x0, y0);
 		cairo_paint (cr);
-	} else if (priv->image_scaled) {
+	} else if (priv->pixbuf_scaled) {
 		/* just in the remote case we don't have the surface */
 
 		/* adjust (x0, y0) to the new scale */
 		gdouble scale = priv->i_scale * priv->p_scale *
-			gdk_pixbuf_get_width (priv->image) / gdk_pixbuf_get_width (priv->image_scaled);
+			gdk_pixbuf_get_width (priv->pixbuf) / gdk_pixbuf_get_width (priv->pixbuf_scaled);
 		x0 /= scale;
 		y0 /= scale;
 
 		cairo_scale (cr, scale, scale);
-		gdk_cairo_set_source_pixbuf (cr, priv->image_scaled, x0, y0);
+		gdk_cairo_set_source_pixbuf (cr, priv->pixbuf_scaled, x0, y0);
 		cairo_paint (cr);
-	} else if (priv->image) {
+	} else if (priv->pixbuf) {
 		/* just in the remote case we don't have the surface */
 
 		/* adjust (x0, y0) to the new scale */
@@ -1056,7 +1062,7 @@ eog_print_preview_draw (EogPrintPreview *preview, cairo_t *cr)
 		y0 /=  priv->i_scale * priv->p_scale;
 
 		cairo_scale (cr, priv->i_scale*priv->p_scale, priv->i_scale*priv->p_scale);
-		gdk_cairo_set_source_pixbuf (cr, priv->image, x0, y0);
+		gdk_cairo_set_source_pixbuf (cr, priv->pixbuf, x0, y0);
 		cairo_paint (cr);
 	}
 
@@ -1070,17 +1076,17 @@ eog_print_preview_draw (EogPrintPreview *preview, cairo_t *cr)
 }
 
 static void
-update_relative_sizes (EogPrintPreview *preview)
+update_relative_sizes (PhotosPrintPreview *preview)
 {
-	EogPrintPreviewPrivate *priv;
+	PhotosPrintPreviewPrivate *priv;
 	GtkAllocation allocation;
 	gint i_width, i_height;
 
 	priv = preview->priv;
 
-	if (priv->image != NULL) {
-		i_width = gdk_pixbuf_get_width (priv->image);
-		i_height = gdk_pixbuf_get_height (priv->image);
+	if (priv->pixbuf != NULL) {
+		i_width = gdk_pixbuf_get_width (priv->pixbuf);
+		i_height = gdk_pixbuf_get_height (priv->pixbuf);
 	} else {
 		i_width = i_height = 0;
 	}
@@ -1099,8 +1105,8 @@ update_relative_sizes (EogPrintPreview *preview)
 }
 
 /**
- * eog_print_preview_set_page_margins:
- * @preview: a #EogPrintPreview
+ * photos_print_preview_set_page_margins:
+ * @preview: a #PhotosPrintPreview
  * @l_margin: Left margin.
  * @r_margin: Right margin.
  * @t_margin: Top margin.
@@ -1109,13 +1115,13 @@ update_relative_sizes (EogPrintPreview *preview)
  * Manually set the margins, in inches.
  **/
 void
-eog_print_preview_set_page_margins (EogPrintPreview *preview,
+photos_print_preview_set_page_margins (PhotosPrintPreview *preview,
 				    gfloat l_margin,
 				    gfloat r_margin,
 				    gfloat t_margin,
 				    gfloat b_margin)
 {
-	g_return_if_fail (EOG_IS_PRINT_PREVIEW (preview));
+	g_return_if_fail (PHOTOS_IS_PRINT_PREVIEW (preview));
 
 	g_object_set (G_OBJECT(preview),
 		      "page-left-margin",   l_margin,
@@ -1126,18 +1132,18 @@ eog_print_preview_set_page_margins (EogPrintPreview *preview,
 }
 
 /**
- * eog_print_preview_set_from_page_setup:
- * @preview: a #EogPrintPreview
+ * photos_print_preview_set_from_page_setup:
+ * @preview: a #PhotosPrintPreview
  * @setup: a #GtkPageSetup to set the properties from
  *
  * Sets up the page properties from a #GtkPageSetup. Useful when using the
  * widget with the GtkPrint API.
  **/
 void
-eog_print_preview_set_from_page_setup (EogPrintPreview *preview,
+photos_print_preview_set_from_page_setup (PhotosPrintPreview *preview,
 				       GtkPageSetup *setup)
 {
-	g_return_if_fail (EOG_IS_PRINT_PREVIEW (preview));
+	g_return_if_fail (PHOTOS_IS_PRINT_PREVIEW (preview));
 	g_return_if_fail (GTK_IS_PAGE_SETUP (setup));
 
 	g_object_set (G_OBJECT (preview),
@@ -1152,8 +1158,8 @@ eog_print_preview_set_from_page_setup (EogPrintPreview *preview,
 }
 
 /**
- * eog_print_preview_get_image_position:
- * @preview: a #EogPrintPreview
+ * photos_print_preview_get_image_position:
+ * @preview: a #PhotosPrintPreview
  * @x: a pointer to a #gdouble, or %NULL to ignore it
  * @y: a pointer to a #gdouble, or %NULL to ignore it
  *
@@ -1161,30 +1167,30 @@ eog_print_preview_set_from_page_setup (EogPrintPreview *preview,
  * (0, 0) position is the intersection between the left and top margins.
  **/
 void
-eog_print_preview_get_image_position (EogPrintPreview *preview,
+photos_print_preview_get_image_position (PhotosPrintPreview *preview,
 				      gdouble *x,
 				      gdouble *y)
 {
-	EogPrintPreviewPrivate *priv;
+	PhotosPrintPreviewPrivate *priv;
 	gdouble width, height;
 
-	g_return_if_fail (EOG_IS_PRINT_PREVIEW (preview));
+	g_return_if_fail (PHOTOS_IS_PRINT_PREVIEW (preview));
 
 	priv = preview->priv;
 
 	if (x != NULL) {
-		width  = gdk_pixbuf_get_width (priv->image)  * priv->i_scale / 72.;
-		*x = priv->image_x_align * (priv->p_width  - priv->l_margin - priv->r_margin - width);
+		width  = gdk_pixbuf_get_width (priv->pixbuf)  * priv->i_scale / 72.;
+		*x = priv->pixbuf_x_align * (priv->p_width  - priv->l_margin - priv->r_margin - width);
 	}
 	if (y != NULL) {
-		height = gdk_pixbuf_get_height (priv->image) * priv->i_scale / 72.;
-		*y = priv->image_y_align * (priv->p_height - priv->t_margin - priv->b_margin - height);
+		height = gdk_pixbuf_get_height (priv->pixbuf) * priv->i_scale / 72.;
+		*y = priv->pixbuf_y_align * (priv->p_height - priv->t_margin - priv->b_margin - height);
 	}
 }
 
 /**
- * eog_print_preview_set_image_position:
- * @preview: a #EogPrintPreview
+ * photos_print_preview_set_image_position:
+ * @preview: a #PhotosPrintPreview
  * @x: The X coordinate, in inches, or -1 to ignore it.
  * @y: The Y coordinate, in inches, or -1 to ignore it.
  *
@@ -1192,71 +1198,70 @@ eog_print_preview_get_image_position (EogPrintPreview *preview,
  * only want to set the other.
  **/
 void
-eog_print_preview_set_image_position (EogPrintPreview *preview,
+photos_print_preview_set_image_position (PhotosPrintPreview *preview,
 				      gdouble x,
 				      gdouble y)
 {
-	EogPrintPreviewPrivate *priv;
+	PhotosPrintPreviewPrivate *priv;
 	gfloat x_align, y_align;
 	gdouble width, height;
 
-	g_return_if_fail (EOG_IS_PRINT_PREVIEW (preview));
+	g_return_if_fail (PHOTOS_IS_PRINT_PREVIEW (preview));
 
 	priv = preview->priv;
 
 	if (x != -1) {
-		width  = gdk_pixbuf_get_width (priv->image) * priv->i_scale / 72.;
+		width  = gdk_pixbuf_get_width (priv->pixbuf) * priv->i_scale / 72.;
 		x_align = CLAMP (x/(priv->p_width - priv->l_margin - priv->r_margin - width), 0, 1);
-		g_object_set (preview, "image-x-align", x_align, NULL);
+		g_object_set (preview, "pixbuf-x-align", x_align, NULL);
 	}
 
 	if (y != -1) {
-		height  = gdk_pixbuf_get_height (priv->image) * priv->i_scale / 72.;
+		height  = gdk_pixbuf_get_height (priv->pixbuf) * priv->i_scale / 72.;
 		y_align = CLAMP (y/(priv->p_height - priv->t_margin - priv->b_margin - height), 0, 1);
-		g_object_set (preview, "image-y-align", y_align, NULL);
+		g_object_set (preview, "pixbuf-y-align", y_align, NULL);
 	}
 }
 
 /**
- * eog_print_preview_set_scale:
- * @preview: a #EogPrintPreview
+ * photos_print_preview_set_scale:
+ * @preview: a #PhotosPrintPreview
  * @scale: a scale value, between 0 and 1.
  *
  * Sets the scale for the image.
  **/
 void
-eog_print_preview_set_scale (EogPrintPreview *preview,
-			     gfloat           scale)
+photos_print_preview_set_scale (PhotosPrintPreview *preview, gfloat scale)
 {
-	g_return_if_fail (EOG_IS_PRINT_PREVIEW (preview));
+	g_return_if_fail (PHOTOS_IS_PRINT_PREVIEW (preview));
 
 	g_object_set (preview,
-		      "image-scale", scale,
+		      "pixbuf-scale", scale,
 		      NULL);
 
 	g_signal_emit (G_OBJECT (preview),
 		       preview_signals
-		       [SIGNAL_IMAGE_SCALED], 0);
+		       [SIGNAL_PIXBUF_SCALED], 0);
 
 }
 
 /**
- * eog_print_preview_get_scale:
- * @preview: A #EogPrintPreview.
+ * photos_print_preview_get_scale:
+ * @preview: A #PhotosPrintPreview.
  *
  * Gets the scale for the image.
  *
  * Returns: The scale for the image.
  **/
 gfloat
-eog_print_preview_get_scale (EogPrintPreview *preview)
+photos_print_preview_get_scale (PhotosPrintPreview *preview)
 {
 	gfloat scale;
 
-	g_return_val_if_fail (EOG_IS_PRINT_PREVIEW (preview), 0);
+	g_return_val_if_fail (PHOTOS_IS_PRINT_PREVIEW (preview), 0);
 
 	g_object_get (preview,
-		      "image-scale", &scale,
+		      "pixbuf-scale", &scale,
 		      NULL);
 
 	return scale;

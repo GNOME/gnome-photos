@@ -45,8 +45,6 @@ gnome_photos_SOURCES = \
 	eog-print.h \
 	eog-print-image-setup.c \
 	eog-print-image-setup.h \
-	eog-print-preview.c \
-	eog-print-preview.h \
 	eog-transform.c \
 	eog-transform.h \
 	eog-uri-converter.c \
@@ -106,6 +104,8 @@ gnome_photos_SOURCES = \
 	photos-organize-collection-view.h \
 	photos-preview-view.c \
 	photos-preview-view.h \
+	photos-print-preview.c \
+	photos-print-preview.h \
 	photos-properties-dialog.c \
 	photos-properties-dialog.h \
 	photos-query.c \
