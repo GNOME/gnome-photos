@@ -45,6 +45,7 @@ struct _PhotosApplicationPrivate
   GSimpleAction *fs_action;
   GSimpleAction *gear_action;
   GSimpleAction *open_action;
+  GSimpleAction *print_action;
   GSimpleAction *properties_action;
   GSimpleAction *sel_all_action;
   GSimpleAction *sel_none_action;
@@ -116,6 +117,20 @@ photos_application_open_current (PhotosApplication *self)
 
 
 static void
+photos_application_print_current (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  PhotosBaseItem *item;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+  if (item == NULL)
+    return;
+
+  photos_base_item_print (item, priv->main_window);
+}
+
+
+static void
 photos_application_properties (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
@@ -156,6 +171,7 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
   enable = (mode == PHOTOS_WINDOW_MODE_PREVIEW);
   g_simple_action_set_enabled (priv->gear_action, enable);
   g_simple_action_set_enabled (priv->open_action, enable);
+  g_simple_action_set_enabled (priv->print_action, enable);
   g_simple_action_set_enabled (priv->properties_action, enable);
 }
 
@@ -218,6 +234,10 @@ photos_application_startup (GApplication *application)
   g_signal_connect_swapped (priv->open_action, "activate", G_CALLBACK (photos_application_open_current), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->open_action));
 
+  priv->print_action = g_simple_action_new ("print-current", NULL);
+  g_signal_connect_swapped (priv->print_action, "activate", G_CALLBACK (photos_application_print_current), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->print_action));
+
   priv->properties_action = g_simple_action_new ("properties", NULL);
   g_signal_connect_swapped (priv->properties_action, "activate", G_CALLBACK (photos_application_properties), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->properties_action));
@@ -248,6 +268,7 @@ photos_application_startup (GApplication *application)
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>q", "app.quit", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "F11", "app.fullscreen", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "F10", "app.gear-menu", NULL);
+  gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>p", "app.print-current", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>a", "app.select-all", NULL);
 
   priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
@@ -289,6 +310,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->fs_action);
   g_clear_object (&priv->gear_action);
   g_clear_object (&priv->open_action);
+  g_clear_object (&priv->print_action);
   g_clear_object (&priv->properties_action);
   g_clear_object (&priv->sel_all_action);
   g_clear_object (&priv->sel_none_action);
