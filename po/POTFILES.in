@@ -5,7 +5,6 @@ data/org.gnome.photos.gschema.xml.in
 src/eog-exif-util.c
 src/eog-image.c
 src/eog-print.c
-src/eog-print-image-setup.c
 src/eog-uri-converter.c
 src/eog-util.c
 src/photos-application.c
@@ -18,6 +17,7 @@ src/photos-main-toolbar.c
 src/photos-main-window.c
 src/photos-organize-collection-dialog.c
 [type: gettext/glade]src/photos-preview-menu.ui
+src/photos-print-setup.c
 src/photos-properties-dialog.c
 src/photos-search-type-manager.c
 [type: gettext/glade]src/photos-selection-menu.ui
