@@ -43,7 +43,7 @@ G_DEFINE_TYPE (PhotosOrganizeCollectionDialog, photos_organize_collection_dialog
 static gboolean
 photos_organize_collection_dialog_button_press_event (GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
-  PhotosOrganizeCollectionDialog *self = PHOTOS_ORGANIZE_COLLECTION_DIALOG (widget);
+  PhotosOrganizeCollectionDialog *self = PHOTOS_ORGANIZE_COLLECTION_DIALOG (user_data);
 
   photos_organize_collection_view_confirmed_choice (PHOTOS_ORGANIZE_COLLECTION_VIEW (self->priv->coll_view));
   return FALSE;
@@ -75,8 +75,8 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
                                             PhotosOrganizeCollectionDialogPrivate);
   priv = self->priv;
 
-  ok_button = gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_ADD, GTK_RESPONSE_ACCEPT);
-  gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_OK, GTK_RESPONSE_OK);
+  gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_ADD, GTK_RESPONSE_ACCEPT);
+  ok_button = gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_OK, GTK_RESPONSE_OK);
   gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
