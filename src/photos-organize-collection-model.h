@@ -89,8 +89,6 @@ GtkListStore     *photos_organize_collection_model_new                    (void)
 
 GtkTreePath      *photos_organize_collection_model_add_placeholder        (PhotosOrganizeCollectionModel *self);
 
-void              photos_organize_collection_model_destroy                (PhotosOrganizeCollectionModel *self);
-
 GtkTreePath      *photos_organize_collection_model_get_placeholder        (PhotosOrganizeCollectionModel *self,
                                                                            gboolean                       forget);
 

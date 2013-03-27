@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -99,14 +99,6 @@ photos_organize_collection_view_text_editing_canceled (GObject *object, GParamSp
 
 
 static void
-photos_organize_collection_view_destroy (GtkWidget *widget)
-{
-  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (widget);
-  photos_organize_collection_model_destroy (PHOTOS_ORGANIZE_COLLECTION_MODEL (self->priv->model));
-}
-
-
-static void
 photos_organize_collection_view_dispose (GObject *object)
 {
   PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (object);
@@ -179,7 +171,6 @@ photos_organize_collection_view_class_init (PhotosOrganizeCollectionViewClass *c
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
 
   object_class->dispose = photos_organize_collection_view_dispose;
-  widget_class->destroy = photos_organize_collection_view_destroy;
 
   g_type_class_add_private (class, sizeof (PhotosOrganizeCollectionViewPrivate));
 }

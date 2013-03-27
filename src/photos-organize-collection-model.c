@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,6 +58,18 @@ photos_organize_collection_model_dispose (GObject *object)
 {
   PhotosOrganizeCollectionModel *self = PHOTOS_ORGANIZE_COLLECTION_MODEL (object);
   PhotosOrganizeCollectionModelPrivate *priv = self->priv;
+
+  if (priv->coll_added_id != 0)
+    {
+      g_signal_handler_disconnect (priv->manager, priv->coll_added_id);
+      priv->coll_added_id = 0;
+    }
+
+  if (priv->coll_removed_id != 0)
+    {
+      g_signal_handler_disconnect (priv->manager, priv->coll_removed_id);
+      priv->coll_removed_id = 0;
+    }
 
   g_clear_object (&priv->manager);
 
@@ -146,25 +158,6 @@ photos_organize_collection_model_add_placeholder (PhotosOrganizeCollectionModel 
     priv->placeholder_ref = gtk_tree_row_reference_new (GTK_TREE_MODEL (self), placeholder_path);
 
   return placeholder_path;
-}
-
-
-void
-photos_organize_collection_model_destroy (PhotosOrganizeCollectionModel *self)
-{
-  PhotosOrganizeCollectionModelPrivate *priv = self->priv;
-
-  if (priv->coll_added_id != 0)
-    {
-      g_signal_handler_disconnect (priv->manager, priv->coll_added_id);
-      priv->coll_added_id = 0;
-    }
-
-  if (priv->coll_removed_id != 0)
-    {
-      g_signal_handler_disconnect (priv->manager, priv->coll_removed_id);
-      priv->coll_removed_id = 0;
-    }
 }
 
 
