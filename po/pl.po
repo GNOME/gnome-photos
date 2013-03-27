@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 01:37+0100\n"
-"PO-Revision-Date: 2013-03-24 01:38+0100\n"
+"POT-Creation-Date: 2013-03-27 17:42+0100\n"
+"PO-Revision-Date: 2013-03-27 17:43+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-Language: Polish\n"
 "X-Poedit-Country: Poland\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-main-toolbar.c:88
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:413
 #: ../src/photos-search-type-manager.c:68
 msgid "Photos"
 msgstr "Zdjęcia"
@@ -120,98 +120,6 @@ msgstr "Brak uprawnień niezbędnych do zapisania pliku."
 msgid "Temporary file creation failed."
 msgstr "Utworzenie pliku tymczasowego się nie powiodło."
 
-#: ../src/eog-print.c:371
-msgid "Image Settings"
-msgstr "Ustawienia obrazu"
-
-#: ../src/eog-print-image-setup.c:906
-msgid "Image"
-msgstr "Obraz"
-
-#: ../src/eog-print-image-setup.c:907
-msgid "The image whose printing properties will be set up"
-msgstr "Obraz, którego właściwości drukowania będą ustawiane"
-
-#: ../src/eog-print-image-setup.c:913
-msgid "Page Setup"
-msgstr "Układ strony"
-
-#: ../src/eog-print-image-setup.c:914
-msgid "The information for the page where the image will be printed"
-msgstr "Informacja o stronie, na której obraz zostanie wydrukowany"
-
-#: ../src/eog-print-image-setup.c:942
-msgid "Position"
-msgstr "Położenie"
-
-#: ../src/eog-print-image-setup.c:946
-msgid "_Left:"
-msgstr "_Lewo:"
-
-#: ../src/eog-print-image-setup.c:948
-msgid "_Right:"
-msgstr "_Prawo:"
-
-#: ../src/eog-print-image-setup.c:949
-msgid "_Top:"
-msgstr "_Góra:"
-
-#: ../src/eog-print-image-setup.c:950
-msgid "_Bottom:"
-msgstr "_Dół:"
-
-#: ../src/eog-print-image-setup.c:953
-msgid "C_enter:"
-msgstr "Śr_odek:"
-
-#: ../src/eog-print-image-setup.c:958
-msgid "None"
-msgstr "Brak"
-
-#: ../src/eog-print-image-setup.c:960
-msgid "Horizontal"
-msgstr "Poziomo"
-
-#: ../src/eog-print-image-setup.c:962
-msgid "Vertical"
-msgstr "Pionowo"
-
-#: ../src/eog-print-image-setup.c:964
-msgid "Both"
-msgstr "Oba"
-
-#: ../src/eog-print-image-setup.c:980
-msgid "Size"
-msgstr "Rozmiar"
-
-#: ../src/eog-print-image-setup.c:983
-msgid "_Width:"
-msgstr "_Szerokość:"
-
-#: ../src/eog-print-image-setup.c:985
-msgid "_Height:"
-msgstr "_Wysokość:"
-
-#: ../src/eog-print-image-setup.c:988
-msgid "_Scaling:"
-msgstr "S_kalowanie:"
-
-#: ../src/eog-print-image-setup.c:999
-msgid "_Unit:"
-msgstr "_Jednostka:"
-
-#: ../src/eog-print-image-setup.c:1004
-msgid "Millimeters"
-msgstr "Milimetry"
-
-#: ../src/eog-print-image-setup.c:1006
-msgid "Inches"
-msgstr "Cale"
-
-#: ../src/eog-print-image-setup.c:1035
-msgid "Preview"
-msgstr "Podgląd"
-
 #: ../src/eog-uri-converter.c:984
 #, c-format
 msgid "At least two file names are equal."
@@ -237,6 +145,10 @@ msgstr "O menedżerze zdjęć"
 msgid "Quit"
 msgstr "Zakończ"
 
+#: ../src/photos-embed.c:416
+msgid "Favorites"
+msgstr "Ulubione"
+
 #: ../src/photos-empty-results-box.c:66
 msgid "No Photos Found"
 msgstr "Nie odnaleziono zdjęć"
@@ -253,32 +165,34 @@ msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
 msgid "Load More"
 msgstr "Wczytaj więcej"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:94
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
 msgid "Loading..."
 msgstr "Wczytywanie..."
 
-#: ../src/photos-main-toolbar.c:93
-msgid "Favorites"
-msgstr "Ulubione"
-
-#: ../src/photos-main-toolbar.c:132
+#: ../src/photos-main-toolbar.c:98
 msgid "Click on items to select them"
 msgstr "Naciśnięcie na elementach zaznacza je"
 
-#: ../src/photos-main-toolbar.c:134
+#: ../src/photos-main-toolbar.c:100
 #, c-format
 msgid "%d selected"
 msgstr "Zaznaczono: %d"
 
-#: ../src/photos-main-toolbar.c:190 ../src/photos-main-toolbar.c:332
+#: ../src/photos-main-toolbar.c:146
 msgid "Back"
 msgstr "Wstecz"
 
-#: ../src/photos-main-toolbar.c:280 ../src/photos-main-toolbar.c:306
+#: ../src/photos-main-toolbar.c:205
 msgid "Select Items"
 msgstr "Wybór elementów"
 
-#: ../src/photos-main-toolbar.c:359 ../src/photos-properties-dialog.c:328
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:283 ../src/photos-selection-toolbar.c:290
+#, c-format
+msgid "Open with %s"
+msgstr "Otwórz za pomocą %s"
+
+#: ../src/photos-main-toolbar.c:364 ../src/photos-properties-dialog.c:332
 msgid "Done"
 msgstr "Gotowe"
 
@@ -297,6 +211,96 @@ msgstr ""
 #: ../src/photos-selection-toolbar.c:514
 msgid "Organize"
 msgstr "Organizuj"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:293
+msgid "Open"
+msgstr "Otwórz"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Wydrukuj…"
+
+#: ../src/photos-preview-menu.ui.h:3 ../src/photos-properties-dialog.c:370
+#: ../src/photos-selection-toolbar.c:525
+msgid "Properties"
+msgstr "Właściwości"
+
+#: ../src/photos-print-operation.c:275
+msgid "Image Settings"
+msgstr "Ustawienia obrazu"
+
+#: ../src/photos-print-setup.c:898
+msgid "Position"
+msgstr "Położenie"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Left:"
+msgstr "_Lewo:"
+
+#: ../src/photos-print-setup.c:902
+msgid "_Right:"
+msgstr "_Prawo:"
+
+#: ../src/photos-print-setup.c:903
+msgid "_Top:"
+msgstr "_Góra:"
+
+#: ../src/photos-print-setup.c:904
+msgid "_Bottom:"
+msgstr "_Dół:"
+
+#: ../src/photos-print-setup.c:906
+msgid "C_enter:"
+msgstr "Śr_odek:"
+
+#: ../src/photos-print-setup.c:910
+msgid "None"
+msgstr "Brak"
+
+#: ../src/photos-print-setup.c:911
+msgid "Horizontal"
+msgstr "Poziomo"
+
+#: ../src/photos-print-setup.c:912
+msgid "Vertical"
+msgstr "Pionowo"
+
+#: ../src/photos-print-setup.c:913
+msgid "Both"
+msgstr "Oba"
+
+#: ../src/photos-print-setup.c:926
+msgid "Size"
+msgstr "Rozmiar"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Width:"
+msgstr "_Szerokość:"
+
+#: ../src/photos-print-setup.c:930
+msgid "_Height:"
+msgstr "_Wysokość:"
+
+#: ../src/photos-print-setup.c:932
+msgid "_Scaling:"
+msgstr "S_kalowanie:"
+
+#: ../src/photos-print-setup.c:941
+msgid "_Unit:"
+msgstr "_Jednostka:"
+
+#: ../src/photos-print-setup.c:945
+msgid "Millimeters"
+msgstr "Milimetry"
+
+#: ../src/photos-print-setup.c:946
+msgid "Inches"
+msgstr "Cale"
+
+#: ../src/photos-print-setup.c:974
+msgid "Preview"
+msgstr "Podgląd"
 
 #: ../src/photos-properties-dialog.c:155
 msgid "Title"
@@ -322,10 +326,6 @@ msgstr "Data utworzenia"
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/photos-properties-dialog.c:365 ../src/photos-selection-toolbar.c:525
-msgid "Properties"
-msgstr "Właściwości"
-
 #: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:144
 msgid "All"
 msgstr "Wszystkie"
@@ -337,17 +337,6 @@ msgstr "Zaznacz wszystko"
 #: ../src/photos-selection-menu.ui.h:2
 msgid "Select None"
 msgstr "Odznacz wszystko"
-
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:290
-#, c-format
-msgid "Open with %s"
-msgstr "Otwórz za pomocą %s"
-
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:293
-msgid "Open"
-msgstr "Otwórz"
 
 #: ../src/photos-selection-toolbar.c:308
 msgid "Remove from favorites"
