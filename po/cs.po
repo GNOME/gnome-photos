@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-26 21:31+0000\n"
-"PO-Revision-Date: 2013-03-26 23:09+0100\n"
+"POT-Creation-Date: 2013-03-26 22:38+0000\n"
+"PO-Revision-Date: 2013-03-27 10:07+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -212,7 +212,11 @@ msgstr "Třídit"
 msgid "Open"
 msgstr "Otevřít"
 
-#: ../src/photos-preview-menu.ui.h:2 ../src/photos-properties-dialog.c:370
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Tisk…"
+
+#: ../src/photos-preview-menu.ui.h:3 ../src/photos-properties-dialog.c:370
 #: ../src/photos-selection-toolbar.c:525
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -322,12 +326,10 @@ msgid "All"
 msgstr "Vše"
 
 #: ../src/photos-selection-menu.ui.h:1
-#| msgid "Select Items"
 msgid "Select All"
 msgstr "Vybrat vše"
 
 #: ../src/photos-selection-menu.ui.h:2
-#| msgid "Select Items"
 msgid "Select None"
 msgstr "Zrušit výběr"
 
