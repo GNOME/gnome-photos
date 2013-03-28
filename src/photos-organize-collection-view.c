@@ -28,9 +28,14 @@
 #include <glib.h>
 #include <libgd/gd.h>
 
+#include "photos-base-item.h"
+#include "photos-collection-manager.h"
+#include "photos-create-collection-job.h"
 #include "photos-fetch-collection-state-job.h"
 #include "photos-organize-collection-model.h"
 #include "photos-organize-collection-view.h"
+#include "photos-query.h"
+#include "photos-source-manager.h"
 
 
 struct _PhotosOrganizeCollectionViewPrivate
@@ -40,6 +45,8 @@ struct _PhotosOrganizeCollectionViewPrivate
   GtkCellRenderer *renderer_text;
   GtkListStore *model;
   GtkTreeViewColumn *view_col;
+  PhotosBaseManager *col_mngr;
+  PhotosBaseManager *src_mngr;
   gboolean choice_confirmed;
 };
 
@@ -71,6 +78,51 @@ photos_organize_collection_view_check_toggled (GtkCellRendererToggle *cell_rende
                                                gchar *path,
                                                gpointer user_data)
 {
+  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
+  PhotosOrganizeCollectionViewPrivate *priv = self->priv;
+  GtkTreeIter iter;
+  GtkTreePath *tree_path;
+  gboolean state;
+  gchar *coll_urn;
+
+  tree_path = gtk_tree_path_new_from_string (path);
+  gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, tree_path);
+  gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, PHOTOS_ORGANIZE_MODEL_ID, &coll_urn, -1);
+  state = gtk_cell_renderer_toggle_get_active (GTK_CELL_RENDERER_TOGGLE (priv->renderer_check));
+
+  /* TODO: SetCollectionForSelectionJob */
+
+  g_free (coll_urn);
+}
+
+
+static void
+photos_organize_collection_view_create_collection_executed (const gchar *created_urn, gpointer user_data)
+{
+  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
+  PhotosOrganizeCollectionViewPrivate *priv = self->priv;
+  GtkTreeIter iter;
+  GtkTreePath *path = NULL;
+
+  if (created_urn == NULL)
+    {
+      photos_organize_collection_model_remove_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (priv->model));
+      goto out;
+    }
+
+  path = photos_organize_collection_model_get_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (priv->model), TRUE);
+  if (path == NULL)
+    goto out;
+
+  gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
+  gtk_list_store_set (priv->model, &iter, PHOTOS_ORGANIZE_MODEL_ID, created_urn, -1);
+
+  /* TODO: SetCollectionForSelectionJob */
+
+ out:
+  if (path != NULL)
+    gtk_tree_path_free (path);
+  g_object_unref (self);
 }
 
 
@@ -81,6 +133,69 @@ photos_organize_collection_view_detail_cell (GtkTreeViewColumn *tree_column,
                                              GtkTreeIter *iter,
                                              gpointer user_data)
 {
+  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
+  PhotosOrganizeCollectionViewPrivate *priv = self->priv;
+  GObject *object;
+  gchar *id;
+
+  gtk_tree_model_get (GTK_TREE_MODEL (priv->model), iter, PHOTOS_ORGANIZE_MODEL_ID, &id, -1);
+  object = photos_base_manager_get_object_by_id (priv->col_mngr, id);
+
+  if (object != NULL)
+    {
+      const gchar *identifier;
+
+      identifier = photos_base_item_get_identifier (PHOTOS_BASE_ITEM (object));
+      if (!g_str_has_prefix (identifier, PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER))
+        {
+          PhotosSource *source;
+          const gchar *name;
+          const gchar *resource_urn;
+
+          resource_urn = photos_base_item_get_resource_urn (PHOTOS_BASE_ITEM (object));
+          source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (priv->src_mngr, resource_urn));
+          name = photos_source_get_name (source);
+          g_object_set (cell_renderer, "text", name, NULL);
+          gtk_cell_renderer_set_visible (cell_renderer, TRUE);
+        }
+    }
+  else
+    {
+      g_object_set (cell_renderer, "text", "", NULL);
+      gtk_cell_renderer_set_visible (cell_renderer, FALSE);
+    }
+
+  g_free (id);
+}
+
+
+static void
+photos_organize_collection_view_text_edited_real (PhotosOrganizeCollectionView *self,
+                                                  GtkCellRendererText *cell_renderer,
+                                                  GtkTreePath *path,
+                                                  const gchar *new_text)
+{
+  PhotosOrganizeCollectionViewPrivate *priv = self->priv;
+  GtkTreeIter iter;
+  PhotosCreateCollectionJob *job;
+
+  g_object_set (cell_renderer, "editable", FALSE, NULL);
+
+  if (new_text == NULL || new_text[0] == '\0')
+    {
+      /* Don't insert collections with empty names. */
+      photos_organize_collection_model_remove_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (priv->model));
+      return;
+    }
+
+  gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
+  gtk_list_store_set (priv->model, &iter, PHOTOS_ORGANIZE_MODEL_NAME, new_text, -1);
+
+  job = photos_create_collection_job_new (new_text);
+  photos_create_collection_job_run (job,
+                                    photos_organize_collection_view_create_collection_executed,
+                                    g_object_ref (self));
+  g_object_unref (job);
 }
 
 
@@ -90,12 +205,49 @@ photos_organize_collection_view_text_edited (GtkCellRendererText *cell_renderer,
                                              gchar *new_text,
                                              gpointer user_data)
 {
+  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
+  GtkTreePath *tree_path;
+
+  tree_path = gtk_tree_path_new_from_string (path);
+  photos_organize_collection_view_text_edited_real (self, cell_renderer, tree_path, new_text);
+  gtk_tree_path_free (tree_path);
 }
 
 
 static void
-photos_organize_collection_view_text_editing_canceled (GObject *object, GParamSpec *pspec, gpointer user_data)
+photos_organize_collection_view_text_editing_canceled (GtkCellRenderer *cell_renderer, gpointer user_data)
 {
+  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
+  PhotosOrganizeCollectionViewPrivate *priv = self->priv;
+
+  if (priv->choice_confirmed)
+    {
+      GtkCellArea *cell_area;
+      GtkCellEditable *entry;
+      GtkTreePath *path;
+
+      priv->choice_confirmed = FALSE;
+
+      g_object_get (priv->view_col, "cell-area", &cell_area, NULL);
+      entry = gtk_cell_area_get_edit_widget (cell_area);
+      g_object_unref (cell_area);
+
+      path = photos_organize_collection_model_get_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (priv->model),
+                                                               FALSE);
+
+      if (entry != NULL && path != NULL)
+        {
+          const gchar *text;
+
+          text = gtk_entry_get_text (GTK_ENTRY (entry));
+          photos_organize_collection_view_text_edited_real (self,
+                                                            GTK_CELL_RENDERER_TEXT (cell_renderer),
+                                                            path,
+                                                            text);
+        }
+    }
+  else
+    photos_organize_collection_model_remove_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (priv->model));
 }
 
 
@@ -106,6 +258,8 @@ photos_organize_collection_view_dispose (GObject *object)
   PhotosOrganizeCollectionViewPrivate *priv = self->priv;
 
   g_clear_object (&priv->model);
+  g_clear_object (&priv->col_mngr);
+  g_clear_object (&priv->src_mngr);
 
   G_OBJECT_CLASS (photos_organize_collection_view_parent_class)->dispose (object);
 }
@@ -160,6 +314,9 @@ photos_organize_collection_view_init (PhotosOrganizeCollectionView *self)
                                            photos_organize_collection_view_detail_cell,
                                            self,
                                            NULL);
+
+  priv->col_mngr = photos_collection_manager_new ();
+  priv->src_mngr = photos_source_manager_new ();
 
   gtk_widget_show (GTK_WIDGET (self));
 }
