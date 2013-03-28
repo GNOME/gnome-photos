@@ -77,21 +77,19 @@ photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gp
 
 
 static void
-photos_application_can_fullscreen_changed (PhotosModeController *mode_cntrlr, gpointer user_data)
+photos_application_can_fullscreen_changed (PhotosApplication *self)
 {
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   PhotosApplicationPrivate *priv = self->priv;
   gboolean can_fullscreen;
 
-  can_fullscreen = photos_mode_controller_get_can_fullscreen (mode_cntrlr);
+  can_fullscreen = photos_mode_controller_get_can_fullscreen (priv->mode_cntrlr);
   g_simple_action_set_enabled (priv->fs_action, can_fullscreen);
 }
 
 
 static void
-photos_application_fullscreen (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
+photos_application_fullscreen (PhotosApplication *self, GVariant *parameter)
 {
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   PhotosApplicationPrivate *priv = self->priv;
 
   photos_mode_controller_toggle_fullscreen (priv->mode_cntrlr);
@@ -149,12 +147,9 @@ photos_application_properties (PhotosApplication *self)
 
 
 static void
-photos_application_quit (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
+photos_application_quit (PhotosApplication *self, GVariant *parameter)
 {
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  PhotosApplicationPrivate *priv = self->priv;
-
-  gtk_widget_destroy (priv->main_window);
+  gtk_widget_destroy (self->priv->main_window);
 }
 
 
@@ -217,13 +212,13 @@ photos_application_startup (GApplication *application)
   g_object_unref (action);
 
   priv->fs_action = g_simple_action_new ("fullscreen", NULL);
-  g_signal_connect (priv->fs_action, "activate", G_CALLBACK (photos_application_fullscreen), self);
+  g_signal_connect_swapped (priv->fs_action, "activate", G_CALLBACK (photos_application_fullscreen), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->fs_action));
 
-  g_signal_connect (priv->mode_cntrlr,
-                    "can-fullscreen-changed",
-                    G_CALLBACK (photos_application_can_fullscreen_changed),
-                    self);
+  g_signal_connect_swapped (priv->mode_cntrlr,
+                            "can-fullscreen-changed",
+                            G_CALLBACK (photos_application_can_fullscreen_changed),
+                            self);
 
   state = g_variant_new ("b", FALSE);
   priv->gear_action = g_simple_action_new_stateful ("gear-menu", NULL, state);
@@ -243,7 +238,7 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->properties_action));
 
   action = g_simple_action_new ("quit", NULL);
-  g_signal_connect (action, "activate", G_CALLBACK (photos_application_quit), self);
+  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_quit), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 

@@ -74,11 +74,8 @@ photos_organize_collection_view_check_cell (GtkTreeViewColumn *tree_column,
 
 
 static void
-photos_organize_collection_view_check_toggled (GtkCellRendererToggle *cell_renderer,
-                                               gchar *path,
-                                               gpointer user_data)
+photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *self, gchar *path)
 {
-  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
   PhotosOrganizeCollectionViewPrivate *priv = self->priv;
   GtkTreeIter iter;
   GtkTreePath *tree_path;
@@ -200,24 +197,23 @@ photos_organize_collection_view_text_edited_real (PhotosOrganizeCollectionView *
 
 
 static void
-photos_organize_collection_view_text_edited (GtkCellRendererText *cell_renderer,
-                                             gchar *path,
-                                             gchar *new_text,
-                                             gpointer user_data)
+photos_organize_collection_view_text_edited (PhotosOrganizeCollectionView *self, gchar *path, gchar *new_text)
 {
-  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
+  PhotosOrganizeCollectionViewPrivate *priv = self->priv;
   GtkTreePath *tree_path;
 
   tree_path = gtk_tree_path_new_from_string (path);
-  photos_organize_collection_view_text_edited_real (self, cell_renderer, tree_path, new_text);
+  photos_organize_collection_view_text_edited_real (self,
+                                                    GTK_CELL_RENDERER_TEXT (priv->renderer_text),
+                                                    tree_path,
+                                                    new_text);
   gtk_tree_path_free (tree_path);
 }
 
 
 static void
-photos_organize_collection_view_text_editing_canceled (GtkCellRenderer *cell_renderer, gpointer user_data)
+photos_organize_collection_view_text_editing_canceled (PhotosOrganizeCollectionView *self)
 {
-  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
   PhotosOrganizeCollectionViewPrivate *priv = self->priv;
 
   if (priv->choice_confirmed)
@@ -241,7 +237,7 @@ photos_organize_collection_view_text_editing_canceled (GtkCellRenderer *cell_ren
 
           text = gtk_entry_get_text (GTK_ENTRY (entry));
           photos_organize_collection_view_text_edited_real (self,
-                                                            GTK_CELL_RENDERER_TEXT (cell_renderer),
+                                                            GTK_CELL_RENDERER_TEXT (priv->renderer_text),
                                                             path,
                                                             text);
         }
@@ -288,22 +284,22 @@ photos_organize_collection_view_init (PhotosOrganizeCollectionView *self)
                                            photos_organize_collection_view_check_cell,
                                            self,
                                            NULL);
-  g_signal_connect (priv->renderer_check,
-                    "toggled",
-                    G_CALLBACK (photos_organize_collection_view_check_toggled),
-                    self);
+  g_signal_connect_swapped (priv->renderer_check,
+                            "toggled",
+                            G_CALLBACK (photos_organize_collection_view_check_toggled),
+                            self);
 
   priv->renderer_text = gtk_cell_renderer_text_new ();
   gtk_tree_view_column_pack_start (priv->view_col, priv->renderer_text, TRUE);
   gtk_tree_view_column_add_attribute (priv->view_col, priv->renderer_text, "text", PHOTOS_ORGANIZE_MODEL_NAME);
-  g_signal_connect (priv->renderer_text,
-                    "edited",
-                    G_CALLBACK (photos_organize_collection_view_text_edited),
-                    self);
-  g_signal_connect (priv->renderer_text,
-                    "editing-canceled",
-                    G_CALLBACK (photos_organize_collection_view_text_editing_canceled),
-                    self);
+  g_signal_connect_swapped (priv->renderer_text,
+                            "edited",
+                            G_CALLBACK (photos_organize_collection_view_text_edited),
+                            self);
+  g_signal_connect_swapped (priv->renderer_text,
+                            "editing-canceled",
+                            G_CALLBACK (photos_organize_collection_view_text_editing_canceled),
+                            self);
 
   priv->renderer_detail = gd_styled_text_renderer_new ();
   gtk_cell_renderer_set_padding (priv->renderer_detail, 16, 0);
