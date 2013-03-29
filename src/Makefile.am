@@ -122,6 +122,8 @@ gnome_photos_SOURCES = \
 	photos-selection-controller.h \
 	photos-selection-toolbar.c \
 	photos-selection-toolbar.h \
+	photos-set-collection-job.c \
+	photos-set-collection-job.h \
 	photos-settings.c \
 	photos-settings.h \
 	photos-single-item-job.c \
