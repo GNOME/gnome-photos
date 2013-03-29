@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -78,6 +78,13 @@ void                   photos_tracker_queue_select                 (PhotosTracke
                                                                     GDestroyNotify destroy_data);
 
 void                   photos_tracker_queue_update                 (PhotosTrackerQueue *self,
+                                                                    const gchar *sparql,
+                                                                    GCancellable *cancellable,
+                                                                    GAsyncReadyCallback callback,
+                                                                    gpointer user_data,
+                                                                    GDestroyNotify destroy_data);
+
+void                   photos_tracker_queue_update_blank           (PhotosTrackerQueue *self,
                                                                     const gchar *sparql,
                                                                     GCancellable *cancellable,
                                                                     GAsyncReadyCallback callback,
