@@ -41,6 +41,10 @@ PhotosQuery  *photos_query_builder_global_favorites_query (void);
 
 PhotosQuery  *photos_query_builder_global_query        (void);
 
+PhotosQuery  *photos_query_builder_set_collection_query (const gchar *item_urn,
+                                                         const gchar *collection_urn,
+                                                         gboolean setting);
+
 PhotosQuery  *photos_query_builder_single_query        (gint flags, const gchar *resource);
 
 PhotosQuery  *photos_query_builder_update_mtime_query (const gchar *resource);

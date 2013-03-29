@@ -248,6 +248,19 @@ photos_query_builder_global_query (void)
 
 
 PhotosQuery *
+photos_query_builder_set_collection_query (const gchar *item_urn, const gchar *collection_urn, gboolean setting)
+{
+  gchar *sparql;
+
+  sparql = g_strdup_printf ("%s { <%s> nie:isPartOf <%s> }",
+                            setting ? "INSERT" : "DELETE",
+                            item_urn,
+                            collection_urn);
+  return photos_query_new (sparql);
+}
+
+
+PhotosQuery *
 photos_query_builder_single_query (gint flags, const gchar *resource)
 {
   GRegex *regex;
