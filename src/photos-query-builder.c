@@ -268,6 +268,26 @@ photos_query_builder_single_query (gint flags, const gchar *resource)
 }
 
 
+PhotosQuery *
+photos_query_builder_update_mtime_query (const gchar *resource)
+{
+  GTimeVal tv;
+  gchar *sparql;
+  gchar *time;
+  gint64 timestamp;
+
+  timestamp = g_get_real_time () / G_USEC_PER_SEC;
+  tv.tv_sec = timestamp;
+  tv.tv_usec = 0;
+  time = g_time_val_to_iso8601 (&tv);
+
+  sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:contentLastModified \"%s\" }", resource, time);
+  g_free (time);
+
+  return photos_query_new (sparql);
+}
+
+
 gchar *
 photos_query_builder_filter_local (void)
 {

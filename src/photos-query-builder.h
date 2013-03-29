@@ -43,6 +43,8 @@ PhotosQuery  *photos_query_builder_global_query        (void);
 
 PhotosQuery  *photos_query_builder_single_query        (gint flags, const gchar *resource);
 
+PhotosQuery  *photos_query_builder_update_mtime_query (const gchar *resource);
+
 gchar        *photos_query_builder_filter_local        (void);
 
 G_END_DECLS
