@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,6 +32,9 @@
 #include "photos-query-builder.h"
 #include "photos-source-manager.h"
 #include "photos-search-type-manager.h"
+
+
+static const gchar * LOCAL_COLLECTIONS_IDENTIFIER = "photos:collection:local:";
 
 
 static gchar *
@@ -158,6 +161,30 @@ photos_query_builder_query (gboolean global, gint flags)
   g_free (where_sparql);
   g_free (tail_sparql);
   return sparql;
+}
+
+
+PhotosQuery *
+photos_query_builder_create_collection_query (const gchar *name)
+{
+  GTimeVal tv;
+  gchar *sparql;
+  gchar *time;
+  gint64 timestamp;
+
+  timestamp = g_get_real_time () / G_USEC_PER_SEC;
+  tv.tv_sec = timestamp;
+  tv.tv_usec = 0;
+  time = g_time_val_to_iso8601 (&tv);
+
+  sparql = g_strconcat ("INSERT { _:res a nfo:DataContainer ; a nie:DataObject ; ",
+                        "nie:contentLastModified \"", time, "\" ; ",
+                        "nie:title \"", name, "\" ; ",
+                        "nao:identifier \"", LOCAL_COLLECTIONS_IDENTIFIER, name, "\" }",
+                        NULL);
+  g_free (time);
+
+  return photos_query_new (sparql);
 }
 
 
