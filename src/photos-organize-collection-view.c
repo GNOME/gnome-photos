@@ -36,6 +36,7 @@
 #include "photos-organize-collection-view.h"
 #include "photos-query.h"
 #include "photos-source-manager.h"
+#include "photos-set-collection-job.h"
 
 
 struct _PhotosOrganizeCollectionViewPrivate
@@ -74,11 +75,22 @@ photos_organize_collection_view_check_cell (GtkTreeViewColumn *tree_column,
 
 
 static void
+photos_organize_collection_view_set_collection_executed (gpointer user_data)
+{
+  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
+
+  photos_organize_collection_model_refresh_collection_state (PHOTOS_ORGANIZE_COLLECTION_MODEL (self->priv->model));
+  g_object_unref (self);
+}
+
+
+static void
 photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *self, gchar *path)
 {
   PhotosOrganizeCollectionViewPrivate *priv = self->priv;
   GtkTreeIter iter;
   GtkTreePath *tree_path;
+  PhotosSetCollectionJob *job;
   gboolean state;
   gchar *coll_urn;
 
@@ -87,7 +99,9 @@ photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *sel
   gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, PHOTOS_ORGANIZE_MODEL_ID, &coll_urn, -1);
   state = gtk_cell_renderer_toggle_get_active (GTK_CELL_RENDERER_TOGGLE (priv->renderer_check));
 
-  /* TODO: SetCollectionForSelectionJob */
+  job = photos_set_collection_job_new (coll_urn, !state);
+  photos_set_collection_job_run (job, photos_organize_collection_view_set_collection_executed, g_object_ref (self));
+  g_object_unref (job);
 
   g_free (coll_urn);
 }
@@ -100,6 +114,7 @@ photos_organize_collection_view_create_collection_executed (const gchar *created
   PhotosOrganizeCollectionViewPrivate *priv = self->priv;
   GtkTreeIter iter;
   GtkTreePath *path = NULL;
+  PhotosSetCollectionJob *job = NULL;
 
   if (created_urn == NULL)
     {
@@ -114,9 +129,11 @@ photos_organize_collection_view_create_collection_executed (const gchar *created
   gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
   gtk_list_store_set (priv->model, &iter, PHOTOS_ORGANIZE_MODEL_ID, created_urn, -1);
 
-  /* TODO: SetCollectionForSelectionJob */
+  job = photos_set_collection_job_new (created_urn, TRUE);
+  photos_set_collection_job_run (job, NULL, NULL);
 
  out:
+  g_clear_object (&job);
   if (path != NULL)
     gtk_tree_path_free (path);
   g_object_unref (self);
