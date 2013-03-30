@@ -37,6 +37,8 @@ PhotosQuery  *photos_query_builder_count_favorites_query (void);
 
 PhotosQuery  *photos_query_builder_count_query         (void);
 
+PhotosQuery  *photos_query_builder_fetch_collections_query (const gchar *resource);
+
 PhotosQuery  *photos_query_builder_global_favorites_query (void);
 
 PhotosQuery  *photos_query_builder_global_query        (void);

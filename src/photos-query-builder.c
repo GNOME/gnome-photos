@@ -228,6 +228,16 @@ photos_query_builder_count_query (void)
 
 
 PhotosQuery *
+photos_query_builder_fetch_collections_query (const gchar *resource)
+{
+  gchar *sparql;
+
+  sparql = g_strdup_printf ("SELECT ?urn WHERE { ?urn a nfo:DataContainer . <%s> nie:isPartOf ?urn }", resource);
+  return photos_query_new (sparql);
+}
+
+
+PhotosQuery *
 photos_query_builder_global_favorites_query (void)
 {
   gchar *sparql;
