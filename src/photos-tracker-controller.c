@@ -120,7 +120,6 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
     {
       tracker_sparql_cursor_close (cursor);
       photos_tracker_controller_query_finished (self, NULL);
-      g_object_unref (cursor);
       g_object_unref (self);
       return;
     }
@@ -157,6 +156,7 @@ photos_tracker_controller_query_executed (GObject *source_object, GAsyncResult *
                                     self->priv->cancellable,
                                     photos_tracker_controller_cursor_next,
                                     g_object_ref (self));
+  g_object_unref (cursor);
 }
 
 
