@@ -1,0 +1,358 @@
+# Hungarian translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+#
+# Balázs Úr <urbalazs at gmail dot com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-03-29 22:13+0000\n"
+"PO-Revision-Date: 2013-03-30 10:04+0100\n"
+"Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
+"Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.2\n"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:413
+#: ../src/photos-search-type-manager.c:68
+msgid "Photos"
+msgstr "Fényképek"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Fényképek elérése, rendszerezése és megosztása"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Fényképek;Képek;"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "Ablakméret"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "Ablak mérete (szélesség és magasság)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "Ablakpozíció"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "Ablakpozíció (x és y)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "Ablak teljes méretű"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "Az ablak maximalizált állapota"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%Y. %B %e. %a, %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%Y. %B %e. %a"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (lencse)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35 mm film)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Átalakítás a be nem töltött képen."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Az átalakítás meghiúsult."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "Az EXIF nem támogatott ehhez a fájlformátumhoz."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "A kép betöltése meghiúsult."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Nincs kép betöltve."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Nem rendelkezik a fájl mentéséhez szükséges jogosultságokkal."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Átmeneti fájl létrehozása sikertelen."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Legalább két fájlnév azonos."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Nem sikerült megjeleníteni a Képmegjelenítő súgóját"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (érvénytelen Unicode)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Teljes képernyő"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "Fényképek névjegye"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Kilépés"
+
+#: ../src/photos-embed.c:416
+msgid "Favorites"
+msgstr "Kedvencek"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "Nem találhatók fényképek"
+
+#: ../src/photos-indexing-notification.c:170
+msgid "Your photos are being indexed"
+msgstr "A fényképei indexelése folyamatban"
+
+#: ../src/photos-indexing-notification.c:174
+msgid "Some photos might not be available during this process"
+msgstr "Egyes fényképek lehet, hogy nem lesznek elérhetők ezen folyamat alatt"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
+msgid "Load More"
+msgstr "Továbbiak betöltése"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading..."
+msgstr "Betöltés…"
+
+#: ../src/photos-main-toolbar.c:98
+msgid "Click on items to select them"
+msgstr "Kattintson az elemekre a kiválasztásukhoz"
+
+#: ../src/photos-main-toolbar.c:100
+#, c-format
+msgid "%d selected"
+msgstr "%d kiválasztva"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "Vissza"
+
+#: ../src/photos-main-toolbar.c:205
+msgid "Select Items"
+msgstr "Válasszon elemeket"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:283 ../src/photos-selection-toolbar.c:290
+#, c-format
+msgid "Open with %s"
+msgstr "Megnyitás ezzel: %s"
+
+#: ../src/photos-main-toolbar.c:364 ../src/photos-properties-dialog.c:332
+msgid "Done"
+msgstr "Kész"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Fényképek elérése, rendszerezése és megosztása a GNOME-ban"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr "Úr Balázs <urbalazs@gmail.com>"
+
+#: ../src/photos-organize-collection-dialog.c:133
+#: ../src/photos-selection-toolbar.c:514
+msgid "Organize"
+msgstr "Rendszerezés"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:293
+msgid "Open"
+msgstr "Megnyitás"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Nyomtatás…"
+
+#: ../src/photos-preview-menu.ui.h:3 ../src/photos-properties-dialog.c:370
+#: ../src/photos-selection-toolbar.c:525
+msgid "Properties"
+msgstr "Tulajdonságok"
+
+#: ../src/photos-print-operation.c:275
+msgid "Image Settings"
+msgstr "Képbeállítások"
+
+#: ../src/photos-print-setup.c:898
+msgid "Position"
+msgstr "Pozíció"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Left:"
+msgstr "_Balra:"
+
+#: ../src/photos-print-setup.c:902
+msgid "_Right:"
+msgstr "_Jobbra:"
+
+#: ../src/photos-print-setup.c:903
+msgid "_Top:"
+msgstr "_Fent:"
+
+#: ../src/photos-print-setup.c:904
+msgid "_Bottom:"
+msgstr "_Lent:"
+
+#: ../src/photos-print-setup.c:906
+msgid "C_enter:"
+msgstr "_Középre:"
+
+#: ../src/photos-print-setup.c:910
+msgid "None"
+msgstr "Nincs"
+
+#: ../src/photos-print-setup.c:911
+msgid "Horizontal"
+msgstr "Vízszintes"
+
+#: ../src/photos-print-setup.c:912
+msgid "Vertical"
+msgstr "Függőleges"
+
+#: ../src/photos-print-setup.c:913
+msgid "Both"
+msgstr "Mindkettő"
+
+#: ../src/photos-print-setup.c:926
+msgid "Size"
+msgstr "Méret"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Width:"
+msgstr "_Szélesség:"
+
+#: ../src/photos-print-setup.c:930
+msgid "_Height:"
+msgstr "_Magasság:"
+
+#: ../src/photos-print-setup.c:932
+msgid "_Scaling:"
+msgstr "Mé_retezés:"
+
+#: ../src/photos-print-setup.c:941
+msgid "_Unit:"
+msgstr "_Egység:"
+
+#: ../src/photos-print-setup.c:945
+msgid "Millimeters"
+msgstr "Milliméter"
+
+#: ../src/photos-print-setup.c:946
+msgid "Inches"
+msgstr "Hüvelyk"
+
+#: ../src/photos-print-setup.c:974
+msgid "Preview"
+msgstr "Előnézet"
+
+#: ../src/photos-properties-dialog.c:155
+msgid "Title"
+msgstr "Cím"
+
+#: ../src/photos-properties-dialog.c:164
+msgid "Author"
+msgstr "Szerző"
+
+#: ../src/photos-properties-dialog.c:171
+msgid "Source"
+msgstr "Forrás"
+
+#: ../src/photos-properties-dialog.c:177
+msgid "Date Modified"
+msgstr "Módosítás dátuma"
+
+#: ../src/photos-properties-dialog.c:185
+msgid "Date Created"
+msgstr "Létrehozás dátuma"
+
+#: ../src/photos-properties-dialog.c:192
+msgid "Type"
+msgstr "Típus"
+
+#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:144
+msgid "All"
+msgstr "Összes"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Összes kijelölése"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Kijelölés megszüntetése"
+
+#: ../src/photos-selection-toolbar.c:308
+msgid "Remove from favorites"
+msgstr "Eltávolítás a kedvencek közül"
+
+#: ../src/photos-selection-toolbar.c:314
+msgid "Add to favorites"
+msgstr "Hozzáadás a kedvencekhez"
+
+#: ../src/photos-selection-toolbar.c:481
+msgid "Print"
+msgstr "Nyomtatás"
+
+#: ../src/photos-selection-toolbar.c:492
+msgid "Delete"
+msgstr "Törlés"
+
+#: ../src/photos-source-manager.c:148
+msgid "Local"
+msgstr "Helyi"
+
+#: ../src/photos-tracker-controller.c:80
+msgid "Unable to fetch the list of photos"
+msgstr "Nem kérhető le a fényképek listája"
+
