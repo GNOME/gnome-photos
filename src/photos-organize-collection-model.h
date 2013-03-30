@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -83,6 +83,8 @@ GtkTreePath      *photos_organize_collection_model_add_placeholder        (Photo
 
 GtkTreePath      *photos_organize_collection_model_get_placeholder        (PhotosOrganizeCollectionModel *self,
                                                                            gboolean                       forget);
+
+void              photos_organize_collection_model_refresh_collection_state (PhotosOrganizeCollectionModel *self);
 
 void              photos_organize_collection_model_remove_placeholder     (PhotosOrganizeCollectionModel *self);
 
