@@ -97,7 +97,6 @@ static void
 photos_single_item_job_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSingleItemJob *self = PHOTOS_SINGLE_ITEM_JOB (user_data);
-  PhotosSingleItemJobPrivate *priv = self->priv;
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   TrackerSparqlCursor *cursor;
   GError *error;
