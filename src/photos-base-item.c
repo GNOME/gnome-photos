@@ -821,6 +821,13 @@ photos_base_item_get_id (PhotosBaseItem *self)
 
 
 const gchar *
+photos_base_item_get_identifier (PhotosBaseItem *self)
+{
+  return self->priv->identifier;
+}
+
+
+const gchar *
 photos_base_item_get_mime_type (PhotosBaseItem *self)
 {
   return self->priv->mime_type;
@@ -838,6 +845,13 @@ const gchar *
 photos_base_item_get_name (PhotosBaseItem *self)
 {
   return self->priv->name;
+}
+
+
+const gchar *
+photos_base_item_get_resource_urn (PhotosBaseItem *self)
+{
+  return self->priv->resource_urn;
 }
 
 

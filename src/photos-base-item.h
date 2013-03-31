@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -94,11 +94,15 @@ GdkPixbuf          *photos_base_item_get_icon           (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_id             (PhotosBaseItem *self);
 
+const gchar        *photos_base_item_get_identifier     (PhotosBaseItem *self);
+
 const gchar        *photos_base_item_get_mime_type      (PhotosBaseItem *self);
 
 gint64              photos_base_item_get_mtime          (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_name           (PhotosBaseItem *self);
+
+const gchar        *photos_base_item_get_resource_urn   (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_type_description (PhotosBaseItem *self);
 
