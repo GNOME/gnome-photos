@@ -68,6 +68,8 @@ gnome_photos_SOURCES = \
 	photos-empty-results-box.h \
 	photos-error-box.c \
 	photos-error-box.h \
+	photos-fetch-collection-state-job.c \
+	photos-fetch-collection-state-job.h \
 	photos-fetch-collections-job.c \
 	photos-fetch-collections-job.h \
 	photos-filterable.c \

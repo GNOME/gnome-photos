@@ -28,6 +28,7 @@
 #include <glib.h>
 #include <libgd/gd.h>
 
+#include "photos-fetch-collection-state-job.h"
 #include "photos-organize-collection-model.h"
 #include "photos-organize-collection-view.h"
 
@@ -59,8 +60,8 @@ photos_organize_collection_view_check_cell (GtkTreeViewColumn *tree_column,
   gtk_tree_model_get (tree_model, iter, PHOTOS_ORGANIZE_MODEL_ID, &id, PHOTOS_ORGANIZE_MODEL_STATE, &state, -1);
 
   gtk_cell_renderer_toggle_set_active (GTK_CELL_RENDERER_TOGGLE (cell_renderer),
-                                       state & PHOTOS_ORGANIZE_COLLECTION_STATE_ACTIVE);
-  g_object_set (cell_renderer, "inconsistent", state & PHOTOS_ORGANIZE_COLLECTION_STATE_INCONSISTENT, NULL);
+                                       state & PHOTOS_COLLECTION_STATE_ACTIVE);
+  g_object_set (cell_renderer, "inconsistent", state & PHOTOS_COLLECTION_STATE_INCONSISTENT, NULL);
   gtk_cell_renderer_set_visible (cell_renderer, g_strcmp0 (id, PHOTOS_COLLECTION_PLACEHOLDER_ID));
 }
 

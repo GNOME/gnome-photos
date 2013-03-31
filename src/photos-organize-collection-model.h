@@ -60,14 +60,6 @@ typedef enum
   PHOTOS_ORGANIZE_MODEL_STATE
 } PhotosOrganizeModelColumns;
 
-typedef enum
-{
-  PHOTOS_ORGANIZE_COLLECTION_STATE_NORMAL = 0,
-  PHOTOS_ORGANIZE_COLLECTION_STATE_ACTIVE = 1 << 0,
-  PHOTOS_ORGANIZE_COLLECTION_STATE_INCONSISTENT = 1 << 1,
-  PHOTOS_ORGANIZE_COLLECTION_STATE_HIDDEN = 1 << 2,
-} PhotosOrganizeCollectionState;
-
 typedef struct _PhotosOrganizeCollectionModel        PhotosOrganizeCollectionModel;
 typedef struct _PhotosOrganizeCollectionModelClass   PhotosOrganizeCollectionModelClass;
 typedef struct _PhotosOrganizeCollectionModelPrivate PhotosOrganizeCollectionModelPrivate;

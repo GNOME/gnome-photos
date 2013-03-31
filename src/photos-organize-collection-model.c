@@ -26,6 +26,7 @@
 #include "config.h"
 
 #include "photos-collection-manager.h"
+#include "photos-fetch-collection-state-job.h"
 #include "photos-organize-collection-model.h"
 
 
@@ -150,7 +151,7 @@ photos_organize_collection_model_add_placeholder (PhotosOrganizeCollectionModel 
                       &iter,
                       PHOTOS_ORGANIZE_MODEL_ID, PHOTOS_COLLECTION_PLACEHOLDER_ID,
                       PHOTOS_ORGANIZE_MODEL_NAME, "",
-                      PHOTOS_ORGANIZE_MODEL_STATE, PHOTOS_ORGANIZE_COLLECTION_STATE_ACTIVE,
+                      PHOTOS_ORGANIZE_MODEL_STATE, PHOTOS_COLLECTION_STATE_ACTIVE,
                       -1);
 
   placeholder_path = gtk_tree_model_get_path (GTK_TREE_MODEL (self), &iter);
