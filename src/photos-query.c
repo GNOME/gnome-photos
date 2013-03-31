@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,6 +27,9 @@
 
 #include "photos-query.h"
 #include "photos-source-manager.h"
+
+
+const gchar *PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER = "photos:collection:local:";
 
 
 PhotosQuery *

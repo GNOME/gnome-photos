@@ -34,9 +34,6 @@
 #include "photos-search-type-manager.h"
 
 
-static const gchar * LOCAL_COLLECTIONS_IDENTIFIER = "photos:collection:local:";
-
-
 static gchar *
 photos_query_builder_convert_path_to_uri (const gchar *path)
 {
@@ -180,7 +177,7 @@ photos_query_builder_create_collection_query (const gchar *name)
   sparql = g_strconcat ("INSERT { _:res a nfo:DataContainer ; a nie:DataObject ; ",
                         "nie:contentLastModified \"", time, "\" ; ",
                         "nie:title \"", name, "\" ; ",
-                        "nao:identifier \"", LOCAL_COLLECTIONS_IDENTIFIER, name, "\" }",
+                        "nao:identifier \"", PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER, name, "\" }",
                         NULL);
   g_free (time);
 
