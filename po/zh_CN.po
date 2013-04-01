@@ -1,0 +1,368 @@
+# Chinese (China) translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# tuhaihe <1132321739qq@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-03-29 22:13+0000\n"
+"PO-Revision-Date: 2013-04-01 22:57+0800\n"
+"Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
+"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:413
+#: ../src/photos-search-type-manager.c:68
+msgid "Photos"
+msgstr "照片"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "访问、管理并分享您的照片"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Photos;Pictures;照片;相片;图片;"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "窗口大小"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "窗口大小(宽度和高度)。"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "窗口位置"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "窗口位置(水平和竖直)。"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "窗口最大化"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "窗口最大化状态"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr " %Y年%m月%d日 %X，%a"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%Y年%m月%d日，%a"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (镜头)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm 胶片)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "转换未加载的图像。"
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "转换失败。"
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "该文件格式不支持 EXIF。"
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "图像加载失败。"
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "未加载图像。"
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "您没有权限保存该文件。"
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "临时文件创建失败。"
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "至少有两个文件重名。"
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "无法显示图像查看器的帮助"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (无效的 Unicode)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "全屏"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "关于 照片"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "退出"
+
+#: ../src/photos-embed.c:416
+msgid "Favorites"
+msgstr "收藏"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "未找到照片"
+
+#: ../src/photos-indexing-notification.c:170
+msgid "Your photos are being indexed"
+msgstr "正在索引您的照片"
+
+#: ../src/photos-indexing-notification.c:174
+msgid "Some photos might not be available during this process"
+msgstr "此过程中部分照片可能无法查看"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
+msgid "Load More"
+msgstr "加载更多"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading..."
+msgstr "正在加载..."
+
+#: ../src/photos-main-toolbar.c:98
+msgid "Click on items to select them"
+msgstr "点击项目来选择它们"
+
+#: ../src/photos-main-toolbar.c:100
+#, c-format
+msgid "%d selected"
+msgstr "已选中 %d 张"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "返回"
+
+#: ../src/photos-main-toolbar.c:205
+msgid "Select Items"
+msgstr "选择项目"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:283 ../src/photos-selection-toolbar.c:290
+#, c-format
+msgid "Open with %s"
+msgstr "用 %s 打开"
+
+#: ../src/photos-main-toolbar.c:364 ../src/photos-properties-dialog.c:332
+msgid "Done"
+msgstr "完成"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr "在 GNOME 下访问、管理和分享您的照片"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr "tuhaihe <1132321739qq@gmail.com>, 2012, 2013"
+
+#: ../src/photos-organize-collection-dialog.c:133
+#: ../src/photos-selection-toolbar.c:514
+msgid "Organize"
+msgstr "管理"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:293
+msgid "Open"
+msgstr "打开"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "打印..."
+
+#: ../src/photos-preview-menu.ui.h:3 ../src/photos-properties-dialog.c:370
+#: ../src/photos-selection-toolbar.c:525
+msgid "Properties"
+msgstr "属性"
+
+#: ../src/photos-print-operation.c:275
+msgid "Image Settings"
+msgstr "图像设置"
+
+#: ../src/photos-print-setup.c:898
+msgid "Position"
+msgstr "位置"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Left:"
+msgstr "左(_L)："
+
+#: ../src/photos-print-setup.c:902
+msgid "_Right:"
+msgstr "右(_R)："
+
+#: ../src/photos-print-setup.c:903
+msgid "_Top:"
+msgstr "上(_T)："
+
+#: ../src/photos-print-setup.c:904
+msgid "_Bottom:"
+msgstr "下(_B)："
+
+#: ../src/photos-print-setup.c:906
+msgid "C_enter:"
+msgstr "中(_E)："
+
+#: ../src/photos-print-setup.c:910
+msgid "None"
+msgstr "无"
+
+#: ../src/photos-print-setup.c:911
+msgid "Horizontal"
+msgstr "水平"
+
+#: ../src/photos-print-setup.c:912
+msgid "Vertical"
+msgstr "垂直"
+
+#: ../src/photos-print-setup.c:913
+msgid "Both"
+msgstr "全部"
+
+#: ../src/photos-print-setup.c:926
+msgid "Size"
+msgstr "尺寸"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Width:"
+msgstr "宽度(_W)："
+
+#: ../src/photos-print-setup.c:930
+msgid "_Height:"
+msgstr "高度(_H)："
+
+#: ../src/photos-print-setup.c:932
+msgid "_Scaling:"
+msgstr "缩放(_S)："
+
+#: ../src/photos-print-setup.c:941
+msgid "_Unit:"
+msgstr "单位(_U)："
+
+#: ../src/photos-print-setup.c:945
+msgid "Millimeters"
+msgstr "毫米"
+
+#: ../src/photos-print-setup.c:946
+msgid "Inches"
+msgstr "英寸"
+
+#: ../src/photos-print-setup.c:974
+msgid "Preview"
+msgstr "预览"
+
+#: ../src/photos-properties-dialog.c:155
+msgid "Title"
+msgstr "标题"
+
+#: ../src/photos-properties-dialog.c:164
+msgid "Author"
+msgstr "作者"
+
+#: ../src/photos-properties-dialog.c:171
+msgid "Source"
+msgstr "来源"
+
+#: ../src/photos-properties-dialog.c:177
+msgid "Date Modified"
+msgstr "修改日期"
+
+#: ../src/photos-properties-dialog.c:185
+msgid "Date Created"
+msgstr "创建日期"
+
+#: ../src/photos-properties-dialog.c:192
+msgid "Type"
+msgstr "类型"
+
+#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:144
+msgid "All"
+msgstr "全部"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "全选"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "全不选"
+
+#: ../src/photos-selection-toolbar.c:308
+msgid "Remove from favorites"
+msgstr "从收藏移除"
+
+#: ../src/photos-selection-toolbar.c:314
+msgid "Add to favorites"
+msgstr "添加到收藏"
+
+#: ../src/photos-selection-toolbar.c:481
+msgid "Print"
+msgstr "打印"
+
+#: ../src/photos-selection-toolbar.c:492
+msgid "Delete"
+msgstr "删除"
+
+#: ../src/photos-source-manager.c:148
+msgid "Local"
+msgstr "本地"
+
+#: ../src/photos-tracker-controller.c:80
+msgid "Unable to fetch the list of photos"
+msgstr "无法获取照片列表"
+
+#~ msgid "Image"
+#~ msgstr "图像"
+
+#~ msgid "The image whose printing properties will be set up"
+#~ msgstr "将设置图像的打印属性"
+
+#~ msgid "Page Setup"
+#~ msgstr "页面设置"
+
+#~ msgid "The information for the page where the image will be printed"
+#~ msgstr "要打印图像的页面信息"
