@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,6 +27,7 @@
 
 #include <glib.h>
 
+#include "photos-collection-manager.h"
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
 #include "photos-query.h"
@@ -37,6 +38,8 @@
 
 struct _PhotosItemManagerPrivate
 {
+  GQueue *collection_path;
+  PhotosBaseManager *col_mngr;
   PhotosTrackerChangeMonitor *monitor;
 };
 
@@ -106,6 +109,8 @@ photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpoin
         {
           photos_base_item_destroy (PHOTOS_BASE_ITEM (object));
           photos_base_manager_remove_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
+          if (photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
+            photos_base_manager_remove_object_by_id (priv->col_mngr, change_urn);
         }
     }
 }
@@ -122,7 +127,11 @@ photos_item_manager_changes_pending (PhotosTrackerChangeMonitor *monitor, GHashT
 static gboolean
 photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *object)
 {
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (manager);
+  PhotosItemManagerPrivate *priv = self->priv;
+  GtkRecentManager *recent;
   gboolean ret_val;
+  const gchar *uri;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object) || object == NULL, FALSE);
 
@@ -131,15 +140,22 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
   if (!ret_val)
     goto out;
 
-  if (object != NULL)
-    {
-      GtkRecentManager *recent;
-      const gchar *uri;
+  if (object == NULL)
+    goto out;
 
-      recent = gtk_recent_manager_get_default ();
-      uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
-      gtk_recent_manager_add_item (recent, uri);
+  if (photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
+    {
+      GObject *collection;
+
+      collection = photos_base_manager_get_active_object (priv->col_mngr);
+      g_queue_push_head (priv->collection_path, g_object_ref (collection));
+      photos_base_manager_set_active_object (priv->col_mngr, object);
+      goto out;
     }
+
+  recent = gtk_recent_manager_get_default ();
+  uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
+  gtk_recent_manager_add_item (recent, uri);
 
  out:
   return ret_val;
@@ -172,6 +188,10 @@ photos_item_manager_dispose (GObject *object)
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (object);
   PhotosItemManagerPrivate *priv = self->priv;
 
+  g_queue_free_full (priv->collection_path, g_object_unref);
+  priv->collection_path = NULL;
+
+  g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->monitor);
 
   G_OBJECT_CLASS (photos_item_manager_parent_class)->dispose (object);
@@ -185,6 +205,9 @@ photos_item_manager_init (PhotosItemManager *self)
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_ITEM_MANAGER, PhotosItemManagerPrivate);
   priv = self->priv;
+
+  priv->collection_path = g_queue_new ();
+  priv->col_mngr = photos_collection_manager_new ();
 
   priv->monitor = photos_tracker_change_monitor_new ();
   g_signal_connect (priv->monitor, "changes-pending", G_CALLBACK (photos_item_manager_changes_pending), self);
@@ -212,6 +235,18 @@ photos_item_manager_new (void)
 }
 
 
+void
+photos_item_manager_activate_previous_collection (PhotosItemManager *self)
+{
+  PhotosItemManagerPrivate *priv = self->priv;
+  GObject *collection;
+
+  collection = G_OBJECT (g_queue_pop_head (priv->collection_path));
+  photos_base_manager_set_active_object (priv->col_mngr, collection);
+  g_object_unref (collection);
+}
+
+
 PhotosBaseItem *
 photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
 {
@@ -220,7 +255,8 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
   item = photos_item_manager_create_item (self, cursor);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (item));
 
-  /* TODO: add to collection_manager */
+  if (photos_base_item_is_collection (item))
+    photos_base_manager_add_object (self->priv->col_mngr, G_OBJECT (item));
 
   return item;
 }
