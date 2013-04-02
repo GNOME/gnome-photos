@@ -155,6 +155,15 @@ photos_organize_collection_model_object_added (PhotosBaseManager *manager, GObje
 static void
 photos_organize_collection_model_object_removed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
+  PhotosOrganizeCollectionModel *self = PHOTOS_ORGANIZE_COLLECTION_MODEL (user_data);
+  GtkTreeIter *iter;
+
+  iter = photos_organize_collection_model_find_collection_iter (self, PHOTOS_BASE_ITEM (object));
+  if (iter == NULL)
+    return;
+
+  gtk_list_store_remove (GTK_LIST_STORE (self), iter);
+  gtk_tree_iter_free (iter);
 }
 
 
