@@ -344,10 +344,12 @@ photos_query_builder_filter_local (void)
 
   filter = g_strdup_printf ("((fn:contains (nie:url (?urn), \"%s\"))"
                             " || (fn:contains (nie:url (?urn), \"%s\"))"
-                            " || (fn:contains (nie:url (?urn), \"%s\")))",
+                            " || (fn:contains (nie:url (?urn), \"%s\"))"
+                            " || (fn:starts-with (nao:identifier (?urn), \"%s\")))",
                             desktop_uri,
                             download_uri,
-                            pictures_uri);
+                            pictures_uri,
+                            PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER);
   g_free (desktop_uri);
   g_free (download_uri);
   g_free (pictures_uri);
