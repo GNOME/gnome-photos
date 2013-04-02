@@ -34,6 +34,8 @@
 
 G_BEGIN_DECLS
 
+GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
+
 GdkPixbuf       *photos_utils_create_pixbuf_from_node     (GeglNode *node);
 
 GIcon           *photos_utils_create_symbolic_icon        (const gchar *name, gint base_size);
