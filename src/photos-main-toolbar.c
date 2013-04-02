@@ -155,7 +155,7 @@ static void
 photos_main_toolbar_coll_back_button_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
-  photos_base_manager_set_active_object (self->priv->col_mngr, NULL);
+  photos_item_manager_activate_previous_collection (PHOTOS_ITEM_MANAGER (self->priv->item_mngr));
 }
 
 
