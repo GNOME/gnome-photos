@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -255,4 +255,11 @@ photos_source_new_from_goa_object (GoaObject *object)
 {
   g_return_val_if_fail (GOA_IS_OBJECT (object), NULL);
   return g_object_new (PHOTOS_TYPE_SOURCE, "object", object, NULL);
+}
+
+
+const gchar *
+photos_source_get_name (PhotosSource *self)
+{
+  return self->priv->name;
 }
