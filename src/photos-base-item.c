@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,6 +32,7 @@
 #include <tracker-sparql.h>
 
 #include "photos-base-item.h"
+#include "photos-collection-icon-watcher.h"
 #include "photos-print-operation.h"
 #include "photos-query.h"
 #include "photos-single-item-job.h"
@@ -46,6 +47,7 @@ struct _PhotosBaseItemPrivate
   GeglNode *node;
   GeglRectangle bbox;
   GMutex mutex;
+  PhotosCollectionIconWatcher *watcher;
   TrackerSparqlCursor *cursor;
   gboolean collection;
   gboolean failed_thumbnailing;
@@ -234,6 +236,35 @@ static void
 photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
 {
   photos_utils_set_favorite (self->priv->id, favorite);
+}
+
+
+static void
+photos_base_item_icon_updated (PhotosBaseItem *self, GIcon *icon)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+
+  if (icon == NULL)
+    return;
+
+  g_clear_object (&priv->icon);
+  priv->icon = g_object_ref (icon);
+  photos_base_item_check_effects_and_update_info (self);
+}
+
+
+static void
+photos_base_item_refresh_collection_icon (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+
+  if (priv->watcher == NULL)
+    {
+      priv->watcher = photos_collection_icon_watcher_new (self);
+      g_signal_connect_swapped (priv->watcher, "icon-updated", G_CALLBACK (photos_base_item_icon_updated), self);
+    }
+  else
+    photos_collection_icon_watcher_refresh (priv->watcher);
 }
 
 
@@ -482,6 +513,12 @@ photos_base_item_refresh_icon (PhotosBaseItem *self)
 
   photos_base_item_update_icon_from_type (self);
 
+  if (priv->collection)
+    {
+      photos_base_item_refresh_collection_icon (self);
+      return;
+    }
+
   if (priv->failed_thumbnailing)
     return;
 
@@ -617,6 +654,7 @@ photos_base_item_dispose (GObject *object)
   g_clear_object (&priv->graph);
   g_clear_object (&priv->icon);
   g_clear_object (&priv->pristine_icon);
+  g_clear_object (&priv->watcher);
   g_clear_object (&priv->cursor);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->dispose (object);
@@ -774,7 +812,8 @@ photos_base_item_can_trash (PhotosBaseItem *self)
 void
 photos_base_item_destroy (PhotosBaseItem *self)
 {
-  /* TODO: collection icon watcher, SearchCategoryManager */
+  /* TODO: SearchCategoryManager */
+  g_clear_object (&self->priv->watcher);
 }
 
 
