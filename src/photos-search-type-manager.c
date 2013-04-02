@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +28,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-query.h"
 #include "photos-search-type.h"
 #include "photos-search-type-manager.h"
 
@@ -59,10 +60,20 @@ static void
 photos_search_type_manager_init (PhotosSearchTypeManager *self)
 {
   PhotosSearchType *search_type;
+  gchar *filter;
 
   search_type = photos_search_type_new (PHOTOS_SEARCH_TYPE_STOCK_ALL, _("All"));
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
+
+  filter = g_strconcat ("((fn:contains (rdf:type (?urn), \'nfo#DataContainer\'))"
+                        " && (fn:starts-with (nao:identifier (?urn), \'", PHOTOS_QUERY_COLLECTIONS_IDENTIFIER, "\'))"
+                        ")",
+                        NULL);
+  search_type = photos_search_type_new_with_filter (PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS, _("Albums"), filter);
+  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
+  g_object_unref (search_type);
+  g_free (filter);
 
   search_type = photos_search_type_new_with_filter (PHOTOS_SEARCH_TYPE_STOCK_PHOTOS,
                                                     _("Photos"),

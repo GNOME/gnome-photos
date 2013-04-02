@@ -29,6 +29,7 @@
 #include "photos-source-manager.h"
 
 
+const gchar *PHOTOS_QUERY_COLLECTIONS_IDENTIFIER = "photos:collection:";
 const gchar *PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER = "photos:collection:local:";
 
 

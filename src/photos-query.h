@@ -56,6 +56,7 @@ typedef enum
   PHOTOS_QUERY_FLAGS_FAVORITES = 1 << 1
 } PhotosQueryFlags;
 
+extern const gchar *PHOTOS_QUERY_COLLECTIONS_IDENTIFIER;
 extern const gchar *PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER;
 
 typedef struct _PhotosQuery PhotosQuery;
