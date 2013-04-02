@@ -201,6 +201,20 @@ photos_query_builder_create_collection_query (const gchar *name)
 
 
 PhotosQuery *
+photos_query_builder_collection_icon_query (const gchar *resource)
+{
+  gchar *sparql;
+
+  sparql = g_strdup_printf ("SELECT ?urn "
+                            "tracker:coalesce(nfo:fileLastModified(?urn), nie:contentLastModified(?urn)) AS ?mtime "
+                            "WHERE { ?urn nie:isPartOf <%s> } "
+                            "ORDER BY DESC (?mtime) LIMIT 4",
+                            resource);
+  return photos_query_new (sparql);
+}
+
+
+PhotosQuery *
 photos_query_builder_count_favorites_query (void)
 {
   gchar *filter;

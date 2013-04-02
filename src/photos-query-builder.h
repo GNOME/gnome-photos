@@ -33,6 +33,8 @@ G_BEGIN_DECLS
 
 PhotosQuery  *photos_query_builder_create_collection_query (const gchar *name);
 
+PhotosQuery  *photos_query_builder_collection_icon_query (const gchar *resource);
+
 PhotosQuery  *photos_query_builder_count_favorites_query (void);
 
 PhotosQuery  *photos_query_builder_count_query         (void);
