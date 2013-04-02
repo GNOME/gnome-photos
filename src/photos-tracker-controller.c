@@ -342,7 +342,7 @@ photos_tracker_controller_class_init (PhotosTrackerControllerClass *class)
                                                         query_error),
                                        NULL, /*accumulator */
                                        NULL, /*accu_data */
-                                       _photos_marshal_VOID__CHAR_CHAR,
+                                       _photos_marshal_VOID__STRING_STRING,
                                        G_TYPE_NONE,
                                        2,
                                        G_TYPE_STRING,
