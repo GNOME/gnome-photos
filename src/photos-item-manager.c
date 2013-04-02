@@ -148,7 +148,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
       GObject *collection;
 
       collection = photos_base_manager_get_active_object (priv->col_mngr);
-      g_queue_push_head (priv->collection_path, g_object_ref (collection));
+      g_queue_push_head (priv->collection_path, (collection != NULL) ? g_object_ref (collection) : NULL);
       photos_base_manager_set_active_object (priv->col_mngr, object);
       goto out;
     }
