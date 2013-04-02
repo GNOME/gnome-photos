@@ -848,6 +848,13 @@ photos_base_item_get_name (PhotosBaseItem *self)
 }
 
 
+GdkPixbuf *
+photos_base_item_get_pristine_icon (PhotosBaseItem *self)
+{
+  return self->priv->pristine_icon;
+}
+
+
 const gchar *
 photos_base_item_get_resource_urn (PhotosBaseItem *self)
 {

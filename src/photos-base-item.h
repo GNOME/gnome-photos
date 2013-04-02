@@ -102,6 +102,8 @@ gint64              photos_base_item_get_mtime          (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_name           (PhotosBaseItem *self);
 
+GdkPixbuf          *photos_base_item_get_pristine_icon  (PhotosBaseItem *self);
+
 const gchar        *photos_base_item_get_resource_urn   (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_type_description (PhotosBaseItem *self);
