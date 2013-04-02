@@ -172,7 +172,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
               icon = tmp;
             }
 
-          gtk_icon_info_free (icon_info);
+          g_object_unref (icon_info);
         }
     }
 
