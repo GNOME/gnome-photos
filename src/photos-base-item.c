@@ -481,7 +481,8 @@ photos_base_item_update_icon_from_type (PhotosBaseItem *self)
   if (priv->mime_type != NULL)
     icon = g_content_type_get_icon (priv->mime_type);
 
-  /* TODO: Get icon from RDF type */
+  if (icon == NULL)
+    icon = photos_utils_icon_from_rdf_type (priv->rdf_type);
 
   theme = gtk_icon_theme_get_default ();
   icon_size = photos_utils_get_icon_size ();

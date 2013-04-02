@@ -598,6 +598,20 @@ photos_utils_get_urns_from_paths (GList *paths, GtkTreeModel *model)
 }
 
 
+GIcon *
+photos_utils_icon_from_rdf_type (const gchar *type)
+{
+  GIcon *ret_val = NULL;
+  gint size;
+
+  size = photos_utils_get_icon_size ();
+  if (strstr (type, "nfo#DataContainer") != NULL)
+    ret_val = photos_utils_create_collection_icon (size, NULL);
+
+  return ret_val;
+}
+
+
 void
 photos_utils_queue_thumbnail_job_for_file_async (GFile *file, GAsyncReadyCallback callback, gpointer user_data)
 {

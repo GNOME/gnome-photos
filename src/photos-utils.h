@@ -63,6 +63,8 @@ GtkBorder       *photos_utils_get_thumbnail_frame_border  (void);
 
 GList           *photos_utils_get_urns_from_paths         (GList *paths, GtkTreeModel *model);
 
+GIcon           *photos_utils_icon_from_rdf_type          (const gchar *type);
+
 void             photos_utils_queue_thumbnail_job_for_file_async (GFile *file,
                                                                   GAsyncReadyCallback callback,
                                                                   gpointer user_data);
