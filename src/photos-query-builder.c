@@ -27,6 +27,7 @@
 
 #include <gio/gio.h>
 
+#include "photos-collection-manager.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-offset-overview-controller.h"
 #include "photos-query-builder.h"
@@ -89,12 +90,15 @@ photos_query_builder_optional (void)
 static gchar *
 photos_query_builder_query (gboolean global, gint flags)
 {
+  PhotosBaseManager *col_mngr;
   gchar *filter;
   gchar *optional;
   gchar *sparql;
   gchar *tail_sparql = NULL;
   gchar *tmp;
   gchar *where_sparql;
+
+  col_mngr = photos_collection_manager_new ();
 
   optional = photos_query_builder_optional ();
   if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
@@ -107,7 +111,15 @@ photos_query_builder_query (gboolean global, gint flags)
     {
       if (global)
         {
-          /* TODO: CollectionManager, etc.. */
+          gchar *where;
+
+          /* TODO: SearchCategoryManager */
+
+          where = photos_collection_manager_get_where (PHOTOS_COLLECTION_MANAGER (col_mngr));
+          tmp = where_sparql;
+          where_sparql = g_strconcat (where_sparql, where, NULL);
+          g_free (tmp);
+          g_free (where);
         }
 
       filter = photos_query_builder_filter ();
@@ -157,6 +169,9 @@ photos_query_builder_query (gboolean global, gint flags)
                         NULL);
   g_free (where_sparql);
   g_free (tail_sparql);
+
+  g_object_unref (col_mngr);
+
   return sparql;
 }
 
