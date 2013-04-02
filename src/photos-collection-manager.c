@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,6 +27,7 @@
 
 #include <glib.h>
 
+#include "photos-base-item.h"
 #include "photos-collection-manager.h"
 
 
@@ -71,4 +72,17 @@ PhotosBaseManager *
 photos_collection_manager_new (void)
 {
   return g_object_new (PHOTOS_TYPE_COLLECTION_MANAGER, NULL);
+}
+
+
+gchar *
+photos_collection_manager_get_where (PhotosCollectionManager *self)
+{
+  GObject *collection;
+
+  collection = photos_base_manager_get_active_object (PHOTOS_BASE_MANAGER (self));
+  if (collection == NULL)
+    return g_strdup ("");
+
+  return photos_base_item_get_where (PHOTOS_BASE_ITEM (collection));
 }
