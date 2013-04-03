@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +28,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-collection-manager.h"
 #include "photos-item-manager.h"
 #include "photos-marshalers.h"
 #include "photos-query-builder.h"
@@ -39,6 +40,7 @@
 struct _PhotosTrackerControllerPrivate
 {
   GCancellable *cancellable;
+  PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosOffsetController *offset_cntrlr;
@@ -275,6 +277,7 @@ photos_tracker_controller_dispose (GObject *object)
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
   PhotosTrackerControllerPrivate *priv = self->priv;
 
+  g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->offset_cntrlr);
@@ -307,6 +310,12 @@ photos_tracker_controller_init (PhotosTrackerController *self)
 
   priv->cancellable = g_cancellable_new ();
   priv->item_mngr = photos_item_manager_new ();
+
+  priv->col_mngr = photos_collection_manager_new ();
+  g_signal_connect (priv->col_mngr,
+                    "active-changed",
+                    G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                    self);
 
   priv->src_mngr = photos_source_manager_new ();
   g_signal_connect (priv->src_mngr,
