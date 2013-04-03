@@ -209,6 +209,11 @@ static void
 photos_embed_count_changed (PhotosEmbed *self, gint count)
 {
   PhotosEmbedPrivate *priv = self->priv;
+  PhotosWindowMode mode;
+
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  if (mode != PHOTOS_WINDOW_MODE_OVERVIEW)
+    return;
 
   if (count == 0)
     {
