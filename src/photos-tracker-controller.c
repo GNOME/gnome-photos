@@ -193,6 +193,8 @@ photos_tracker_controller_offset_changed (PhotosOffsetController *offset_cntrlr,
 static void
 photos_tracker_controller_refresh_for_object (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
+  PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
+  photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_RESET_OFFSET);
 }
 
 
