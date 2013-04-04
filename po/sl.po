@@ -7,24 +7,23 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-26 22:38+0000\n"
-"PO-Revision-Date: 2013-03-28 08:51+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-04-02 23:13+0000\n"
+"PO-Revision-Date: 2013-04-04 21:15+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 1.5.4\n"
-"X-Poedit-Language: Slovenian\n"
-"X-Poedit-Country: SLOVENIA\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-embed.c:413
-#: ../src/photos-search-type-manager.c:68
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:413
+#: ../src/photos-search-type-manager.c:79
 msgid "Photos"
 msgstr "Fotografije"
 
@@ -61,8 +60,7 @@ msgid "Window maximized state"
 msgstr "Razpeto glavno okno"
 
 #. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120
-#: ../src/eog-exif-util.c:160
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
 msgid "%a, %d %B %Y  %X"
 msgstr "%a, %d. %B %Y  %X"
 
@@ -106,20 +104,17 @@ msgstr "Zapis EXIF ni podprta oblika zapisa slike."
 msgid "Image loading failed."
 msgstr "Nalaganje slike je spodletelo."
 
-#: ../src/eog-image.c:1727
-#: ../src/eog-image.c:1847
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
 #, c-format
 msgid "No image loaded."
 msgstr "Ni naložene slike."
 
-#: ../src/eog-image.c:1735
-#: ../src/eog-image.c:1856
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
 #, c-format
 msgid "You do not have the permissions necessary to save the file."
 msgstr "Ni ustreznih dovoljenj za shranjevanje datoteke."
 
-#: ../src/eog-image.c:1745
-#: ../src/eog-image.c:1867
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
 #, c-format
 msgid "Temporary file creation failed."
 msgstr "Napaka med ustvarjanjem trenutne datoteke."
@@ -165,13 +160,11 @@ msgstr "Iz podatkov fotografij se pripravlja kazalo"
 msgid "Some photos might not be available during this process"
 msgstr "Nekatere fotografije med opravilom lahko niso na voljo"
 
-#: ../src/photos-load-more-button.c:72
-#: ../src/photos-load-more-button.c:190
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
 msgid "Load More"
 msgstr "Naloži več"
 
-#: ../src/photos-load-more-button.c:85
-#: ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
 msgid "Loading..."
 msgstr "Nalaganje ..."
 
@@ -193,14 +186,12 @@ msgid "Select Items"
 msgstr "Izbor predmetov"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:283
-#: ../src/photos-selection-toolbar.c:290
+#: ../src/photos-main-toolbar.c:283 ../src/photos-selection-toolbar.c:290
 #, c-format
 msgid "Open with %s"
 msgstr "Odpri s programom %s"
 
-#: ../src/photos-main-toolbar.c:364
-#: ../src/photos-properties-dialog.c:332
+#: ../src/photos-main-toolbar.c:364 ../src/photos-properties-dialog.c:332
 msgid "Done"
 msgstr "Končano"
 
@@ -219,18 +210,15 @@ msgid "Organize"
 msgstr "Uredi"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:293
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:293
 msgid "Open"
 msgstr "Odpri"
 
 #: ../src/photos-preview-menu.ui.h:2
-#| msgid "Print"
 msgid "Print…"
 msgstr "Natisni ..."
 
-#: ../src/photos-preview-menu.ui.h:3
-#: ../src/photos-properties-dialog.c:370
+#: ../src/photos-preview-menu.ui.h:3 ../src/photos-properties-dialog.c:370
 #: ../src/photos-selection-toolbar.c:525
 msgid "Properties"
 msgstr "Lastnosti"
@@ -335,10 +323,13 @@ msgstr "Datum stvaritve"
 msgid "Type"
 msgstr "Vrsta"
 
-#: ../src/photos-search-type-manager.c:63
-#: ../src/photos-source-manager.c:144
+#: ../src/photos-search-type-manager.c:65 ../src/photos-source-manager.c:144
 msgid "All"
 msgstr "Vse"
+
+#: ../src/photos-search-type-manager.c:73
+msgid "Albums"
+msgstr "Albumi"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -371,4 +362,3 @@ msgstr "Krajevno"
 #: ../src/photos-tracker-controller.c:80
 msgid "Unable to fetch the list of photos"
 msgstr "Seznama fotografij ni mogoče pridobiti"
-
