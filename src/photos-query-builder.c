@@ -31,6 +31,7 @@
 #include "photos-offset-favorites-controller.h"
 #include "photos-offset-overview-controller.h"
 #include "photos-query-builder.h"
+#include "photos-search-type.h"
 #include "photos-source-manager.h"
 #include "photos-search-type-manager.h"
 
@@ -53,7 +54,7 @@ photos_query_builder_convert_path_to_uri (const gchar *path)
 
 
 static gchar *
-photos_query_builder_filter (void)
+photos_query_builder_filter (gint flags)
 {
   PhotosBaseManager *src_mngr;
   PhotosBaseManager *srch_typ_mngr;
@@ -65,10 +66,15 @@ photos_query_builder_filter (void)
   src_mngr_filter = photos_base_manager_get_filter (src_mngr);
 
   srch_typ_mngr = photos_search_type_manager_new ();
+
+  if (flags & PHOTOS_QUERY_FLAGS_COLLECTIONS)
+    photos_base_manager_set_active_object_by_id (srch_typ_mngr, PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS);
+
   srch_typ_mngr_filter = photos_base_manager_get_filter (srch_typ_mngr);
 
   sparql = g_strdup_printf ("FILTER (%s && %s)", src_mngr_filter, srch_typ_mngr_filter);
 
+  photos_base_manager_set_active_object_by_id (srch_typ_mngr, PHOTOS_SEARCH_TYPE_STOCK_ALL);
   g_free (srch_typ_mngr_filter);
   g_object_unref (srch_typ_mngr);
 
@@ -101,7 +107,9 @@ photos_query_builder_query (gboolean global, gint flags)
   col_mngr = photos_collection_manager_new ();
 
   optional = photos_query_builder_optional ();
-  if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
+  if (flags & PHOTOS_QUERY_FLAGS_COLLECTIONS)
+    where_sparql = g_strconcat ("WHERE { ?urn a nfo:DataContainer ; a nie:DataObject ", optional, NULL);
+  else if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
     where_sparql = g_strconcat ("WHERE { ?urn nao:hasTag nao:predefined-tag-favorite ", optional, NULL);
   else
     where_sparql = g_strconcat ("WHERE { ?urn a rdfs:Resource ", optional, NULL);
@@ -122,7 +130,7 @@ photos_query_builder_query (gboolean global, gint flags)
           g_free (where);
         }
 
-      filter = photos_query_builder_filter ();
+      filter = photos_query_builder_filter (flags);
       tmp = where_sparql;
       where_sparql = g_strconcat (where_sparql, filter, NULL);
       g_free (tmp);
@@ -215,13 +223,34 @@ photos_query_builder_collection_icon_query (const gchar *resource)
 
 
 PhotosQuery *
+photos_query_builder_count_collections_query (void)
+{
+  gchar *filter;
+  gchar *optional;
+  gchar *sparql;
+
+  filter = photos_query_builder_filter (PHOTOS_QUERY_FLAGS_COLLECTIONS);
+  optional = photos_query_builder_optional ();
+  sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) WHERE { ?urn a nfo:DataContainer ; a nie:DataObject ",
+                        optional,
+                        filter,
+                        " }", NULL);
+
+  g_free (optional);
+  g_free (filter);
+
+  return photos_query_new (sparql);
+}
+
+
+PhotosQuery *
 photos_query_builder_count_favorites_query (void)
 {
   gchar *filter;
   gchar *optional;
   gchar *sparql;
 
-  filter = photos_query_builder_filter ();
+  filter = photos_query_builder_filter (PHOTOS_QUERY_FLAGS_FAVORITES);
   optional = photos_query_builder_optional ();
   sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) WHERE { ?urn nao:hasTag nao:predefined-tag-favorite ",
                         optional,
@@ -242,7 +271,7 @@ photos_query_builder_count_query (void)
   gchar *optional;
   gchar *sparql;
 
-  filter = photos_query_builder_filter ();
+  filter = photos_query_builder_filter (PHOTOS_QUERY_FLAGS_NONE);
   optional = photos_query_builder_optional ();
   sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) WHERE { ?urn a rdfs:Resource ", optional, filter, " }", NULL);
 
@@ -259,6 +288,16 @@ photos_query_builder_fetch_collections_query (const gchar *resource)
   gchar *sparql;
 
   sparql = g_strdup_printf ("SELECT ?urn WHERE { ?urn a nfo:DataContainer . <%s> nie:isPartOf ?urn }", resource);
+  return photos_query_new (sparql);
+}
+
+
+PhotosQuery *
+photos_query_builder_global_collections_query (void)
+{
+  gchar *sparql;
+
+  sparql = photos_query_builder_query (TRUE, PHOTOS_QUERY_FLAGS_COLLECTIONS);
   return photos_query_new (sparql);
 }
 
