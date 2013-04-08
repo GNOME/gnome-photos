@@ -146,6 +146,8 @@ gnome_photos_SOURCES = \
 	photos-tracker-change-event.h \
 	photos-tracker-change-monitor.c \
 	photos-tracker-change-monitor.h \
+	photos-tracker-collections-controller.c \
+	photos-tracker-collections-controller.h \
 	photos-tracker-controller.c \
 	photos-tracker-controller.h \
 	photos-tracker-favorites-controller.c \
