@@ -143,12 +143,12 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
         }
 
       if (found && not_found)
-        state != PHOTOS_COLLECTION_STATE_INCONSISTENT;
+        state |= PHOTOS_COLLECTION_STATE_INCONSISTENT;
       else if (found)
-        state != PHOTOS_COLLECTION_STATE_ACTIVE;
+        state |= PHOTOS_COLLECTION_STATE_ACTIVE;
 
       if (hidden)
-        state != PHOTOS_COLLECTION_STATE_HIDDEN;
+        state |= PHOTOS_COLLECTION_STATE_HIDDEN;
 
       g_hash_table_insert (collection_state, g_strdup (coll_idx), GINT_TO_POINTER (state));
     }
