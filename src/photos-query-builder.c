@@ -200,11 +200,14 @@ photos_query_builder_create_collection_query (const gchar *name)
   tv.tv_usec = 0;
   time = g_time_val_to_iso8601 (&tv);
 
-  sparql = g_strconcat ("INSERT { _:res a nfo:DataContainer ; a nie:DataObject ; ",
-                        "nie:contentLastModified \"", time, "\" ; ",
-                        "nie:title \"", name, "\" ; ",
-                        "nao:identifier \"", PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER, name, "\" }",
-                        NULL);
+  sparql = g_strdup_printf ("INSERT { _:res a nfo:DataContainer ; a nie:DataObject ; "
+                            "nie:contentLastModified '%s' ; "
+                            "nie:title '%s' ; "
+                            "nao:identifier '%s%s' }",
+                            time,
+                            name,
+                            PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER,
+                            name);
   g_free (time);
 
   return photos_query_new (sparql);
@@ -398,10 +401,10 @@ photos_query_builder_filter_local (void)
   path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
   pictures_uri = photos_query_builder_convert_path_to_uri (path);
 
-  filter = g_strdup_printf ("((fn:contains (nie:url (?urn), \"%s\"))"
-                            " || (fn:contains (nie:url (?urn), \"%s\"))"
-                            " || (fn:contains (nie:url (?urn), \"%s\"))"
-                            " || (fn:starts-with (nao:identifier (?urn), \"%s\")))",
+  filter = g_strdup_printf ("(fn:contains (nie:url (?urn), \"%s\")"
+                            " || fn:contains (nie:url (?urn), \"%s\")"
+                            " || fn:contains (nie:url (?urn), \"%s\")"
+                            " || fn:starts-with (nao:identifier (?urn), \"%s\"))",
                             desktop_uri,
                             download_uri,
                             pictures_uri,
