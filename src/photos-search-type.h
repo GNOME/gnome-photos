@@ -53,6 +53,7 @@ G_BEGIN_DECLS
 
 #define PHOTOS_SEARCH_TYPE_STOCK_ALL    "all"
 #define PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS "collections"
+#define PHOTOS_SEARCH_TYPE_STOCK_FAVORITES "favorites"
 #define PHOTOS_SEARCH_TYPE_STOCK_PHOTOS "photos"
 
 typedef struct _PhotosSearchType        PhotosSearchType;
@@ -74,8 +75,9 @@ GType                photos_search_type_get_type           (void) G_GNUC_CONST;
 
 PhotosSearchType    *photos_search_type_new                (const gchar *id, const gchar *name);
 
-PhotosSearchType    *photos_search_type_new_with_filter    (const gchar *id,
+PhotosSearchType    *photos_search_type_new_full           (const gchar *id,
                                                             const gchar *name,
+                                                            const gchar *where,
                                                             const gchar *filter);
 
 G_END_DECLS

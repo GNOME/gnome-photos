@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@ struct _PhotosSearchTypePrivate
   gchar *filter;
   gchar *id;
   gchar *name;
+  gchar *where;
 };
 
 enum
@@ -41,7 +42,8 @@ enum
   PROP_0,
   PROP_FILTER,
   PROP_ID,
-  PROP_NAME
+  PROP_NAME,
+  PROP_WHERE,
 };
 
 static void photos_filterable_interface_init (PhotosFilterableInterface *iface);
@@ -64,6 +66,18 @@ photos_search_type_get_filter (PhotosFilterable *iface)
 }
 
 
+static gchar *
+photos_search_type_get_where (PhotosFilterable *iface)
+{
+  PhotosSearchType *self = PHOTOS_SEARCH_TYPE (iface);
+  PhotosSearchTypePrivate *priv = self->priv;
+  const gchar *where;
+
+  where = (priv->where != NULL && priv->where[0] != '\0') ? priv->where : "";
+  return g_strdup (where);
+}
+
+
 static void
 photos_search_type_finalize (GObject *object)
 {
@@ -73,6 +87,7 @@ photos_search_type_finalize (GObject *object)
   g_free (priv->filter);
   g_free (priv->id);
   g_free (priv->name);
+  g_free (priv->where);
 
   G_OBJECT_CLASS (photos_search_type_parent_class)->finalize (object);
 }
@@ -114,6 +129,10 @@ photos_search_type_set_property (GObject *object, guint prop_id, const GValue *v
 
     case PROP_NAME:
       priv->name = g_value_dup_string (value);
+      break;
+
+    case PROP_WHERE:
+      priv->where = g_value_dup_string (value);
       break;
 
     default:
@@ -163,6 +182,14 @@ photos_search_type_class_init (PhotosSearchTypeClass *class)
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
+  g_object_class_install_property (object_class,
+                                   PROP_WHERE,
+                                   g_param_spec_string ("where",
+                                                        "",
+                                                        "",
+                                                        NULL,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
   g_type_class_add_private (class, sizeof (PhotosSearchTypePrivate));
 }
 
@@ -171,6 +198,7 @@ static void
 photos_filterable_interface_init (PhotosFilterableInterface *iface)
 {
   iface->get_filter = photos_search_type_get_filter;
+  iface->get_where = photos_search_type_get_where;
 }
 
 
@@ -182,7 +210,12 @@ photos_search_type_new (const gchar *id, const gchar *name)
 
 
 PhotosSearchType *
-photos_search_type_new_with_filter (const gchar *id, const gchar *name, const gchar *filter)
+photos_search_type_new_full (const gchar *id, const gchar *name, const gchar *where, const gchar *filter)
 {
-  return g_object_new (PHOTOS_TYPE_SEARCH_TYPE, "id", id, "name", name, "filter", filter, NULL);
+  return g_object_new (PHOTOS_TYPE_SEARCH_TYPE,
+                       "id", id,
+                       "name", name,
+                       "filter", filter,
+                       "where", where,
+                       NULL);
 }
