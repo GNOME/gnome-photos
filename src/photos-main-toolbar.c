@@ -240,6 +240,12 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
 
+  if (priv->coll_back_button != NULL)
+    {
+      gtk_widget_destroy (priv->coll_back_button);
+      priv->coll_back_button = NULL;
+    }
+
   if (priv->collection_id != 0)
     {
       g_signal_handler_disconnect (priv->col_mngr, priv->collection_id);
