@@ -31,6 +31,7 @@
 #include "photos-item-manager.h"
 #include "photos-load-more-button.h"
 #include "photos-selection-controller.h"
+#include "photos-tracker-collections-controller.h"
 #include "photos-tracker-favorites-controller.h"
 #include "photos-tracker-overview-controller.h"
 #include "photos-utils.h"
@@ -233,7 +234,9 @@ photos_view_container_window_mode_changed (PhotosModeController *mode_cntrlr,
 
   photos_view_container_disconnect_view (self);
 
-  if (mode == PHOTOS_WINDOW_MODE_FAVORITES || mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+      || mode == PHOTOS_WINDOW_MODE_FAVORITES
+      || mode == PHOTOS_WINDOW_MODE_OVERVIEW)
     photos_view_container_connect_view (self);
 }
 
@@ -290,6 +293,10 @@ photos_view_container_constructed (GObject *object)
 
   switch (priv->mode)
     {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      priv->trk_cntrlr = photos_tracker_collections_controller_new ();
+      break;
+
     case PHOTOS_WINDOW_MODE_FAVORITES:
       priv->trk_cntrlr = photos_tracker_favorites_controller_new ();
       break;

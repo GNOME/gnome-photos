@@ -49,6 +49,7 @@
 struct _PhotosEmbedPrivate
 {
   GCancellable *loader_cancellable;
+  GtkWidget *collections;
   GtkWidget *error_box;
   GtkWidget *favorites;
   GtkWidget *indexing_ntfctn;
@@ -164,6 +165,10 @@ photos_embed_restore_last_page (PhotosEmbed *self)
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
   switch (mode)
     {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      page = "collections";
+      break;
+
     case PHOTOS_WINDOW_MODE_FAVORITES:
       page = "favorites";
       break;
@@ -246,8 +251,28 @@ photos_embed_notify_visible_child (PhotosEmbed *self)
   visible_child = gd_stack_get_visible_child (GD_STACK (priv->stack));
   if (visible_child == priv->overview)
     photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+  else if (visible_child == priv->collections)
+    photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_COLLECTIONS);
   else if (visible_child == priv->favorites)
     photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_FAVORITES);
+}
+
+
+static void
+photos_embed_prepare_for_collections (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  photos_base_manager_set_active_object (priv->item_mngr, NULL);
+
+  if (priv->loader_cancellable != NULL)
+    {
+      g_cancellable_cancel (priv->loader_cancellable);
+      g_clear_object (&priv->loader_cancellable);
+    }
+
+  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
+  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "collections");
 }
 
 
@@ -345,7 +370,9 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
 
-  if (mode == PHOTOS_WINDOW_MODE_FAVORITES)
+  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
+    photos_embed_prepare_for_collections (self);
+  else if (mode == PHOTOS_WINDOW_MODE_FAVORITES)
     photos_embed_prepare_for_favorites (self);
   else if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
     photos_embed_prepare_for_overview (self);
@@ -415,6 +442,9 @@ photos_embed_init (PhotosEmbed *self)
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->ntfctn_mngr);
 
   priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
+
+  priv->collections = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTIONS);
+  gd_stack_add_titled (GD_STACK (priv->stack), priv->collections, "collections", _("Albums"));
 
   priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW);
   gd_stack_add_titled (GD_STACK (priv->stack), priv->overview, "overview", _("Photos"));

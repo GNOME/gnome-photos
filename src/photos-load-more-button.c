@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,6 +31,7 @@
 
 #include "photos-enums.h"
 #include "photos-load-more-button.h"
+#include "photos-offset-collections-controller.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-offset-overview-controller.h"
 
@@ -101,6 +102,10 @@ photos_load_more_button_constructed (GObject *object)
 
   switch (priv->mode)
     {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      priv->offset_cntrlr = photos_offset_collections_controller_new ();
+      break;
+
     case PHOTOS_WINDOW_MODE_FAVORITES:
       priv->offset_cntrlr = photos_offset_favorites_controller_new ();
       break;

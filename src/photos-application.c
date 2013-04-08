@@ -159,7 +159,9 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
   PhotosApplicationPrivate *priv = self->priv;
   gboolean enable;
 
-  enable = (mode == PHOTOS_WINDOW_MODE_OVERVIEW || mode == PHOTOS_WINDOW_MODE_FAVORITES);
+  enable = (mode == PHOTOS_WINDOW_MODE_OVERVIEW
+            || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+            || mode == PHOTOS_WINDOW_MODE_FAVORITES);
   g_simple_action_set_enabled (priv->sel_all_action, enable);
   g_simple_action_set_enabled (priv->sel_none_action, enable);
 

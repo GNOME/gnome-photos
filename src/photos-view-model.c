@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -129,7 +129,17 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
 
   row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
 
-  if (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES)
+  if (priv->mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
+    {
+      gboolean collection;
+
+      collection = photos_base_item_is_collection (item);
+      if (!collection && row_ref != NULL)
+        photos_view_model_object_removed (self, G_OBJECT (item));
+      else if (collection  && row_ref == NULL)
+        photos_view_model_add_item (self, item);
+    }
+  else if (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES)
     {
       gboolean favorite;
 
@@ -156,8 +166,10 @@ static void
 photos_view_model_object_added (PhotosViewModel *self, GObject *object)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
+  PhotosViewModelPrivate *priv = self->priv;
 
-  if (self->priv->mode == PHOTOS_WINDOW_MODE_FAVORITES && !photos_base_item_is_favorite (item))
+  if ((priv->mode == PHOTOS_WINDOW_MODE_COLLECTIONS && !photos_base_item_is_collection (item))
+      || (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES && !photos_base_item_is_favorite (item)))
     goto out;
 
   photos_view_model_add_item (self, item);

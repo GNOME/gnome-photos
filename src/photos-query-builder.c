@@ -28,6 +28,7 @@
 #include <gio/gio.h>
 
 #include "photos-collection-manager.h"
+#include "photos-offset-collections-controller.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-offset-overview-controller.h"
 #include "photos-query-builder.h"
@@ -147,7 +148,9 @@ photos_query_builder_query (gboolean global, gint flags)
       gint offset;
       gint step;
 
-      if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
+      if (flags & PHOTOS_QUERY_FLAGS_COLLECTIONS)
+        offset_cntrlr = photos_offset_collections_controller_new ();
+      else if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
         offset_cntrlr = photos_offset_favorites_controller_new ();
       else
         offset_cntrlr = photos_offset_overview_controller_new ();

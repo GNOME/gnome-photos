@@ -76,7 +76,9 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
   selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
   window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
 
-  if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW || window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
+  if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW
+      || window_mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+      || window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
     {
       if (!selection_mode)
         {
@@ -316,6 +318,20 @@ photos_main_toolbar_done_button_clicked (GtkButton *button, gpointer user_data)
 
 
 static void
+photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  GObject *object;
+
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
+  photos_main_toolbar_add_selection_button (self);
+
+  object = photos_base_manager_get_active_object (priv->col_mngr);
+  photos_main_toolbar_active_changed (priv->col_mngr, object, self);
+}
+
+
+static void
 photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
@@ -403,6 +419,8 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
 
   if (selection_mode)
     photos_main_toolbar_populate_for_selection_mode (self);
+  else if (window_mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
+    photos_main_toolbar_populate_for_collections (self);
   else if (window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
     photos_main_toolbar_populate_for_favorites (self);
   else if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
