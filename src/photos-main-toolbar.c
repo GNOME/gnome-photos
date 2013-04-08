@@ -165,24 +165,34 @@ photos_main_toolbar_active_changed (PhotosBaseManager *manager, GObject *object,
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
   PhotosMainToolbarPrivate *priv = self->priv;
   GObject *item;
+  PhotosHeaderBarMode mode;
 
   item = photos_base_manager_get_active_object (priv->col_mngr);
-  if (item != NULL && priv->coll_back_button == NULL)
+  if (item != NULL)
     {
-      priv->coll_back_button = photos_main_toolbar_add_back_button (self);
-      gtk_widget_show (priv->coll_back_button);
+      mode = PHOTOS_HEADER_BAR_MODE_STANDALONE;
+      if (priv->coll_back_button == NULL)
+        {
+          priv->coll_back_button = photos_main_toolbar_add_back_button (self);
+          gtk_widget_show (priv->coll_back_button);
 
-      g_signal_connect (priv->coll_back_button,
-                        "clicked",
-                        G_CALLBACK (photos_main_toolbar_coll_back_button_clicked),
-                        self);
+          g_signal_connect (priv->coll_back_button,
+                            "clicked",
+                            G_CALLBACK (photos_main_toolbar_coll_back_button_clicked),
+                            self);
+        }
     }
-  else if (item == NULL && priv->coll_back_button != NULL)
+  else
     {
-      gtk_widget_destroy (priv->coll_back_button);
-      priv->coll_back_button = NULL;
+      mode = PHOTOS_HEADER_BAR_MODE_NORMAL;
+      if (priv->coll_back_button != NULL)
+        {
+          gtk_widget_destroy (priv->coll_back_button);
+          priv->coll_back_button = NULL;
+        }
     }
 
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), mode);
   photos_main_toolbar_set_toolbar_title (self);
 }
 
