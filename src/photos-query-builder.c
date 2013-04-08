@@ -257,30 +257,12 @@ PhotosQuery *
 photos_query_builder_count_query (gint flags)
 {
   PhotosBaseManager *srch_typ_mngr;
-  gchar *filter;
-  gchar *optional;
   gchar *sparql;
-  gchar *where;
+  gchar *where_sparql;
 
-  filter = photos_query_builder_filter (flags);
-  optional = photos_query_builder_optional ();
-
-  srch_typ_mngr = photos_search_type_manager_new ();
-  photos_query_builder_set_search_type (flags);
-  where = photos_search_type_manager_get_where (PHOTOS_SEARCH_TYPE_MANAGER (srch_typ_mngr));
-
-  sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) WHERE { ",
-                        where, " ",
-                        optional, " ",
-                        filter,
-                        " }",
-                        NULL);
-
-  photos_query_builder_set_search_type (PHOTOS_QUERY_FLAGS_NONE);
-  g_free (where);
-  g_free (optional);
-  g_free (filter);
-  g_object_unref (srch_typ_mngr);
+  where_sparql = photos_query_builder_where (TRUE, flags);
+  sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) ", where_sparql, NULL);
+  g_free (where_sparql);
 
   return photos_query_new (sparql);
 }
