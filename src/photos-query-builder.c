@@ -254,7 +254,7 @@ photos_query_builder_collection_icon_query (const gchar *resource)
 
 
 PhotosQuery *
-photos_query_builder_count_collections_query (void)
+photos_query_builder_count_query (gint flags)
 {
   PhotosBaseManager *srch_typ_mngr;
   gchar *filter;
@@ -262,77 +262,11 @@ photos_query_builder_count_collections_query (void)
   gchar *sparql;
   gchar *where;
 
-  filter = photos_query_builder_filter (PHOTOS_QUERY_FLAGS_COLLECTIONS);
+  filter = photos_query_builder_filter (flags);
   optional = photos_query_builder_optional ();
 
   srch_typ_mngr = photos_search_type_manager_new ();
-  photos_query_builder_set_search_type (PHOTOS_QUERY_FLAGS_COLLECTIONS);
-  where = photos_search_type_manager_get_where (PHOTOS_SEARCH_TYPE_MANAGER (srch_typ_mngr));
-
-  sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) WHERE { ",
-                        where, " ",
-                        optional, " ",
-                        filter,
-                        " }",
-                        NULL);
-
-  photos_query_builder_set_search_type (PHOTOS_QUERY_FLAGS_NONE);
-  g_free (where);
-  g_free (optional);
-  g_free (filter);
-  g_object_unref (srch_typ_mngr);
-
-  return photos_query_new (sparql);
-}
-
-
-PhotosQuery *
-photos_query_builder_count_favorites_query (void)
-{
-  PhotosBaseManager *srch_typ_mngr;
-  gchar *filter;
-  gchar *optional;
-  gchar *sparql;
-  gchar *where;
-
-  filter = photos_query_builder_filter (PHOTOS_QUERY_FLAGS_FAVORITES);
-  optional = photos_query_builder_optional ();
-
-  srch_typ_mngr = photos_search_type_manager_new ();
-  photos_query_builder_set_search_type (PHOTOS_QUERY_FLAGS_FAVORITES);
-  where = photos_search_type_manager_get_where (PHOTOS_SEARCH_TYPE_MANAGER (srch_typ_mngr));
-
-  sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) WHERE { ",
-                        where, " ",
-                        optional, " ",
-                        filter,
-                        " }",
-                        NULL);
-
-  photos_query_builder_set_search_type (PHOTOS_QUERY_FLAGS_NONE);
-  g_free (where);
-  g_free (optional);
-  g_free (filter);
-  g_object_unref (srch_typ_mngr);
-
-  return photos_query_new (sparql);
-}
-
-
-PhotosQuery *
-photos_query_builder_count_query (void)
-{
-  PhotosBaseManager *srch_typ_mngr;
-  gchar *filter;
-  gchar *optional;
-  gchar *sparql;
-  gchar *where;
-
-  filter = photos_query_builder_filter (PHOTOS_QUERY_FLAGS_NONE);
-  optional = photos_query_builder_optional ();
-
-  srch_typ_mngr = photos_search_type_manager_new ();
-  photos_query_builder_set_search_type (PHOTOS_QUERY_FLAGS_NONE);
+  photos_query_builder_set_search_type (flags);
   where = photos_search_type_manager_get_where (PHOTOS_SEARCH_TYPE_MANAGER (srch_typ_mngr));
 
   sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) WHERE { ",
@@ -363,31 +297,11 @@ photos_query_builder_fetch_collections_query (const gchar *resource)
 
 
 PhotosQuery *
-photos_query_builder_global_collections_query (void)
+photos_query_builder_global_query (gint flags)
 {
   gchar *sparql;
 
-  sparql = photos_query_builder_query (TRUE, PHOTOS_QUERY_FLAGS_COLLECTIONS);
-  return photos_query_new (sparql);
-}
-
-
-PhotosQuery *
-photos_query_builder_global_favorites_query (void)
-{
-  gchar *sparql;
-
-  sparql = photos_query_builder_query (TRUE, PHOTOS_QUERY_FLAGS_FAVORITES);
-  return photos_query_new (sparql);
-}
-
-
-PhotosQuery *
-photos_query_builder_global_query (void)
-{
-  gchar *sparql;
-
-  sparql = photos_query_builder_query (TRUE, PHOTOS_QUERY_FLAGS_NONE);
+  sparql = photos_query_builder_query (TRUE, flags);
   return photos_query_new (sparql);
 }
 

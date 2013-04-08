@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,7 +43,7 @@ photos_tracker_overview_controller_get_offset_controller (void)
 static PhotosQuery *
 photos_tracker_overview_controller_get_query (void)
 {
-  return photos_query_builder_global_query ();
+  return photos_query_builder_global_query (PHOTOS_QUERY_FLAGS_NONE);
 }
 
 

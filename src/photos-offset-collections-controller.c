@@ -37,7 +37,7 @@ G_DEFINE_TYPE (PhotosOffsetCollectionsController,
 static PhotosQuery *
 photos_offset_collections_controller_get_query (void)
 {
-  return photos_query_builder_count_collections_query ();
+  return photos_query_builder_count_query (PHOTOS_QUERY_FLAGS_COLLECTIONS);
 }
 
 

@@ -35,19 +35,11 @@ PhotosQuery  *photos_query_builder_create_collection_query (const gchar *name);
 
 PhotosQuery  *photos_query_builder_collection_icon_query (const gchar *resource);
 
-PhotosQuery  *photos_query_builder_count_collections_query (void);
-
-PhotosQuery  *photos_query_builder_count_favorites_query (void);
-
-PhotosQuery  *photos_query_builder_count_query         (void);
+PhotosQuery  *photos_query_builder_count_query (gint flags);
 
 PhotosQuery  *photos_query_builder_fetch_collections_query (const gchar *resource);
 
-PhotosQuery  *photos_query_builder_global_collections_query (void);
-
-PhotosQuery  *photos_query_builder_global_favorites_query (void);
-
-PhotosQuery  *photos_query_builder_global_query        (void);
+PhotosQuery  *photos_query_builder_global_query        (gint flags);
 
 PhotosQuery  *photos_query_builder_set_collection_query (const gchar *item_urn,
                                                          const gchar *collection_urn,
