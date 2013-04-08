@@ -139,9 +139,11 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
   if (object == NULL)
     return;
 
-  /* TODO: CollectionManager */
-
   photos_embed_clear_load_timer (self);
+
+  if (photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
+    return;
+
   priv->load_show_id = g_timeout_add (400, photos_embed_load_show_timeout, g_object_ref (self));
 
   priv->loader_cancellable = g_cancellable_new ();
