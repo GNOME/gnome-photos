@@ -181,7 +181,7 @@ photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
   gtk_style_context_set_path (style, path);
   gtk_widget_path_unref (path);
 
-  gtk_style_context_add_class (style, "documents-icon-bg");
+  gtk_style_context_add_class (style, "photos-icon-bg");
 
   gtk_render_background (style, cr, total_size - bg_size, total_size - bg_size, bg_size, bg_size);
 
