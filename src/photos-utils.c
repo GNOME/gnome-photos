@@ -162,17 +162,14 @@ photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
   cairo_surface_t *surface;
   cairo_t *cr;
   gchar *symbolic_name;
-  const gint bg_min_size = 20;
+  const gint bg_size = 24;
   const gint emblem_margin = 4;
-  const gint emblem_min_size = 8;
-  gint bg_size;
   gint emblem_pos;
   gint emblem_size;
   gint total_size;
 
   total_size = base_size / 2;
-  bg_size = MAX (total_size / 2, bg_min_size);
-  emblem_size = MAX (bg_size - emblem_margin * 2, emblem_min_size);
+  emblem_size = bg_size - emblem_margin * 2;
 
   surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, total_size, total_size);
   cr = cairo_create (surface);
