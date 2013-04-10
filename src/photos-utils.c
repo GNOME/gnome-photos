@@ -163,14 +163,16 @@ photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
   cairo_t *cr;
   gchar *symbolic_name;
   const gint bg_min_size = 20;
+  const gint emblem_margin = 4;
   const gint emblem_min_size = 8;
   gint bg_size;
+  gint emblem_pos;
   gint emblem_size;
   gint total_size;
 
   total_size = base_size / 2;
   bg_size = MAX (total_size / 2, bg_min_size);
-  emblem_size = MAX (bg_size - 8, emblem_min_size);
+  emblem_size = MAX (bg_size - emblem_margin * 2, emblem_min_size);
 
   surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, total_size, total_size);
   cr = cairo_create (surface);
@@ -184,7 +186,7 @@ photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
 
   gtk_style_context_add_class (style, "documents-icon-bg");
 
-  gtk_render_background (style, cr, (total_size - bg_size) / 2, (total_size - bg_size) / 2, bg_size, bg_size);
+  gtk_render_background (style, cr, total_size - bg_size, total_size - bg_size, bg_size, bg_size);
 
   symbolic_name = g_strconcat (name, "-symbolic", NULL);
   icon = g_themed_icon_new_with_default_fallbacks (symbolic_name);
@@ -203,7 +205,8 @@ photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
   if (pixbuf == NULL)
     goto out;
 
-  gtk_render_icon (style, cr, pixbuf, (total_size - emblem_size) / 2,  (total_size - emblem_size) / 2);
+  emblem_pos = total_size - emblem_size - emblem_margin;
+  gtk_render_icon (style, cr, pixbuf, emblem_pos, emblem_pos);
   g_object_unref (pixbuf);
 
   ret_val = G_ICON (gdk_pixbuf_get_from_surface (surface, 0, 0, total_size, total_size));
