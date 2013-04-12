@@ -29,6 +29,7 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <libgnome-desktop/gnome-bg.h>
 
 #include "eog-debug.h"
 #include "photos-application.h"
@@ -42,6 +43,7 @@
 struct _PhotosApplicationPrivate
 {
   GResource *resource;
+  GSettings *settings;
   GSimpleAction *fs_action;
   GSimpleAction *gear_action;
   GSimpleAction *open_action;
@@ -49,6 +51,7 @@ struct _PhotosApplicationPrivate
   GSimpleAction *properties_action;
   GSimpleAction *sel_all_action;
   GSimpleAction *sel_none_action;
+  GSimpleAction *set_bg_action;
   GtkWidget *main_window;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
@@ -154,6 +157,26 @@ photos_application_quit (PhotosApplication *self, GVariant *parameter)
 
 
 static void
+photos_application_set_bg (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  PhotosBaseItem *item;
+  const gchar *uri;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+  if (item == NULL)
+    return;
+
+  uri = photos_base_item_get_uri (item);
+  g_settings_set_string (priv->settings, "picture-uri", uri);
+  g_settings_set_enum (priv->settings, "picture-options", G_DESKTOP_BACKGROUND_STYLE_ZOOM);
+  g_settings_set_enum (priv->settings, "color-shading-type", G_DESKTOP_BACKGROUND_SHADING_SOLID);
+  g_settings_set_string (priv->settings, "primary-color", "#000000000000");
+  g_settings_set_string (priv->settings, "secondary-color", "#000000000000");
+}
+
+
+static void
 photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
 {
   PhotosApplicationPrivate *priv = self->priv;
@@ -170,6 +193,7 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
   g_simple_action_set_enabled (priv->open_action, enable);
   g_simple_action_set_enabled (priv->print_action, enable);
   g_simple_action_set_enabled (priv->properties_action, enable);
+  g_simple_action_set_enabled (priv->set_bg_action, enable);
 }
 
 
@@ -198,6 +222,8 @@ photos_application_startup (GApplication *application)
     ->startup (application);
 
   gegl_init (NULL, NULL);
+
+  priv->settings = g_settings_new ("org.gnome.desktop.background");
 
   priv->resource = photos_get_resource ();
   g_resources_register (priv->resource);
@@ -249,6 +275,10 @@ photos_application_startup (GApplication *application)
 
   priv->sel_none_action = g_simple_action_new ("select-none", NULL);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->sel_none_action));
+
+  priv->set_bg_action = g_simple_action_new ("set-background", NULL);
+  g_signal_connect_swapped (priv->set_bg_action, "activate", G_CALLBACK (photos_application_set_bg), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->set_bg_action));
 
   g_signal_connect_swapped (priv->mode_cntrlr,
                             "window-mode-changed",
@@ -304,6 +334,7 @@ photos_application_dispose (GObject *object)
       priv->resource = NULL;
     }
 
+  g_clear_object (&priv->settings);
   g_clear_object (&priv->fs_action);
   g_clear_object (&priv->gear_action);
   g_clear_object (&priv->open_action);
@@ -311,6 +342,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->properties_action);
   g_clear_object (&priv->sel_all_action);
   g_clear_object (&priv->sel_none_action);
+  g_clear_object (&priv->set_bg_action);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
 

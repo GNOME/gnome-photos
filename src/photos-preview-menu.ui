@@ -10,6 +10,10 @@
         <attribute name="label" translatable="yes">Print…</attribute>
         <attribute name="accel">&lt;Primary&gt;p</attribute>
       </item>
+      <item>
+        <attribute name="action">app.set-background</attribute>
+        <attribute name="label" translatable="yes">Set as Background</attribute>
+      </item>
     </section>
     <section>
       <item>
