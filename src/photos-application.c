@@ -145,6 +145,7 @@ photos_application_properties (PhotosApplication *self)
 
   id = photos_base_item_get_id (item);
   dialog = photos_properties_dialog_new (GTK_WINDOW (priv->main_window), id);
+  gtk_widget_show_all (dialog);
   g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
 }
 

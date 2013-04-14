@@ -114,6 +114,7 @@ photos_selection_toolbar_collection_clicked (GtkButton *button, gpointer user_da
     return;
 
   dialog = photos_organize_collection_dialog_new (GTK_WINDOW (toplevel));
+  gtk_widget_show_all (dialog);
   photos_selection_toolbar_fade_out (self);
   g_signal_connect (dialog, "response", G_CALLBACK (photos_selection_toolbar_dialog_response), self);
 }
@@ -226,6 +227,7 @@ photos_selection_toolbar_properties_clicked (GtkButton *button, gpointer user_da
   urn = (gchar *) selection->data;
 
   dialog = photos_properties_dialog_new (GTK_WINDOW (windows->data), urn);
+  gtk_widget_show_all (dialog);
   photos_selection_toolbar_fade_out (self);
 
   g_object_unref (app);

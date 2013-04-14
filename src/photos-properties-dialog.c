@@ -268,8 +268,6 @@ photos_properties_dialog_constructed (GObject *object)
   item_type_data = gtk_label_new (type_description);
   gtk_widget_set_halign (item_type_data, GTK_ALIGN_START);
   gtk_grid_attach_next_to (GTK_GRID (grid), item_type_data, item_type, 1, 2, 1);
-
-  gtk_widget_show_all (GTK_WIDGET (self));
 }
 
 

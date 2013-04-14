@@ -104,8 +104,6 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
                     "button-press-event",
                     G_CALLBACK (photos_organize_collection_dialog_button_press_event),
                     self);
-
-  gtk_widget_show_all (GTK_WIDGET (self));
 }
 
 
