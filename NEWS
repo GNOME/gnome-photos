@@ -1,5 +1,29 @@
-Overview of changes in 3.7.4
+Overview of changes in 3.8.0
 ============================
+
+* Support albums, and add Albums mode
+
+* Support printing
+
+* Drop Clutter and ClutterGTK; use GEGL.
+
+* Bugs fixed:
+ 690887 Fix ostbuild failures
+
+* Updated translations:
+ Simplified Chinese
+ Czech
+ Finnish
+ Galician
+ German
+ Hungarian
+ Polish
+ Portuguese (Brazilian)
+ Punjabi
+ Russian
+ Serbian
+ Slovenian
+ Spanish
 
 
 Overview of changes in 3.7.3
@@ -31,7 +55,7 @@ Overview of changes in 3.7.2
 
 ----
 
-Copyright (C) 2012 Red Hat, Inc.
+Copyright (C) 2012, 2013 Red Hat, Inc.
 All rights reserved.
 
 Copying and distribution of this file, with or without modification,
