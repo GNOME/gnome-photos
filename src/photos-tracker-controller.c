@@ -170,7 +170,7 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
   if (priv->current_query != NULL)
     photos_query_free (priv->current_query);
 
-  priv->current_query = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_query ();
+  priv->current_query = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_query (self);
   g_cancellable_reset (priv->cancellable);
 
   photos_tracker_queue_select (priv->queue,

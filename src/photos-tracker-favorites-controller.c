@@ -21,9 +21,16 @@
 
 #include "config.h"
 
+#include "photos-collection-manager.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-query-builder.h"
 #include "photos-tracker-favorites-controller.h"
+
+
+struct _PhotosTrackerFavoritesControllerPrivate
+{
+  PhotosBaseManager *col_mngr;
+};
 
 
 G_DEFINE_TYPE (PhotosTrackerFavoritesController,
@@ -39,9 +46,19 @@ photos_tracker_favorites_controller_get_offset_controller (void)
 
 
 static PhotosQuery *
-photos_tracker_favorites_controller_get_query (void)
+photos_tracker_favorites_controller_get_query (PhotosTrackerController *trk_cntrlr)
 {
-  return photos_query_builder_global_query (PHOTOS_QUERY_FLAGS_FAVORITES);
+  PhotosTrackerFavoritesController *self = PHOTOS_TRACKER_FAVORITES_CONTROLLER (trk_cntrlr);
+  GObject *collection;
+  gint flags;
+
+  collection = photos_base_manager_get_active_object (self->priv->col_mngr);
+  if (collection != NULL)
+    flags = PHOTOS_QUERY_FLAGS_NONE;
+  else
+    flags = PHOTOS_QUERY_FLAGS_FAVORITES;
+
+  return photos_query_builder_global_query (flags);
 }
 
 
@@ -66,8 +83,27 @@ photos_tracker_favorites_controller_constructor (GType type,
 
 
 static void
+photos_tracker_favorites_controller_dispose (GObject *object)
+{
+  PhotosTrackerFavoritesController *self = PHOTOS_TRACKER_FAVORITES_CONTROLLER (object);
+
+  g_clear_object (&self->priv->col_mngr);
+
+  G_OBJECT_CLASS (photos_tracker_favorites_controller_parent_class)->dispose (object);
+}
+
+
+static void
 photos_tracker_favorites_controller_init (PhotosTrackerFavoritesController *self)
 {
+  PhotosTrackerFavoritesControllerPrivate *priv;
+
+  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
+                                            PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER,
+                                            PhotosTrackerFavoritesControllerPrivate);
+  priv = self->priv;
+
+  priv->col_mngr = photos_collection_manager_new ();
 }
 
 
@@ -78,8 +114,11 @@ photos_tracker_favorites_controller_class_init (PhotosTrackerFavoritesController
   PhotosTrackerControllerClass *tracker_controller_class = PHOTOS_TRACKER_CONTROLLER_CLASS (class);
 
   object_class->constructor = photos_tracker_favorites_controller_constructor;
+  object_class->dispose = photos_tracker_favorites_controller_dispose;
   tracker_controller_class->get_offset_controller = photos_tracker_favorites_controller_get_offset_controller;
   tracker_controller_class->get_query = photos_tracker_favorites_controller_get_query;
+
+  g_type_class_add_private (class, sizeof (PhotosTrackerFavoritesControllerPrivate));
 }
 
 

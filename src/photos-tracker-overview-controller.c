@@ -41,7 +41,7 @@ photos_tracker_overview_controller_get_offset_controller (void)
 
 
 static PhotosQuery *
-photos_tracker_overview_controller_get_query (void)
+photos_tracker_overview_controller_get_query (PhotosTrackerController *trk_cntrlr)
 {
   return photos_query_builder_global_query (PHOTOS_QUERY_FLAGS_NONE);
 }

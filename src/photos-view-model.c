@@ -25,6 +25,7 @@
 
 #include "config.h"
 
+#include "photos-collection-manager.h"
 #include "photos-enums.h"
 #include "photos-item-manager.h"
 #include "photos-view-model.h"
@@ -32,6 +33,7 @@
 
 struct _PhotosViewModelPrivate
 {
+  PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosWindowMode mode;
   gchar *row_ref_key;
@@ -123,30 +125,32 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (user_data);
   PhotosViewModelPrivate *priv = self->priv;
+  GObject *collection;
   GtkTreeIter iter;
   GtkTreePath *path;
   GtkTreeRowReference *row_ref;
 
+  collection = photos_base_manager_get_active_object (priv->col_mngr);
   row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
 
   if (priv->mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
     {
-      gboolean collection;
+      gboolean is_collection;
 
-      collection = photos_base_item_is_collection (item);
-      if (!collection && row_ref != NULL)
+      is_collection = photos_base_item_is_collection (item);
+      if (!is_collection && row_ref != NULL && collection == NULL)
         photos_view_model_object_removed (self, G_OBJECT (item));
-      else if (collection  && row_ref == NULL)
+      else if (is_collection  && row_ref == NULL)
         photos_view_model_add_item (self, item);
     }
   else if (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES)
     {
-      gboolean favorite;
+      gboolean is_favorite;
 
-      favorite = photos_base_item_is_favorite (item);
-      if (!favorite && row_ref != NULL)
+      is_favorite = photos_base_item_is_favorite (item);
+      if (!is_favorite && row_ref != NULL && collection == NULL)
         photos_view_model_object_removed (self, G_OBJECT (item));
-      else if (favorite  && row_ref == NULL)
+      else if (is_favorite  && row_ref == NULL && collection == NULL)
         photos_view_model_add_item (self, item);
     }
 
@@ -168,10 +172,16 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
   PhotosViewModelPrivate *priv = self->priv;
+  GObject *collection;
 
-  if ((priv->mode == PHOTOS_WINDOW_MODE_COLLECTIONS && !photos_base_item_is_collection (item))
-      || (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES && !photos_base_item_is_favorite (item)))
-    goto out;
+  collection = photos_base_manager_get_active_object (priv->col_mngr);
+
+  if (collection == NULL)
+    {
+      if ((priv->mode == PHOTOS_WINDOW_MODE_COLLECTIONS && !photos_base_item_is_collection (item))
+          || (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES && !photos_base_item_is_favorite (item)))
+        goto out;
+    }
 
   photos_view_model_add_item (self, item);
 
@@ -184,8 +194,10 @@ static void
 photos_view_model_dispose (GObject *object)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
+  PhotosViewModelPrivate *priv = self->priv;
 
-  g_clear_object (&self->priv->item_mngr);
+  g_clear_object (&priv->col_mngr);
+  g_clear_object (&priv->item_mngr);
 
   G_OBJECT_CLASS (photos_view_model_parent_class)->dispose (object);
 }
@@ -239,6 +251,8 @@ photos_view_model_init (PhotosViewModel *self)
 
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self), PHOTOS_VIEW_MODEL_MTIME, GTK_SORT_DESCENDING);
+
+  priv->col_mngr = photos_collection_manager_new ();
 
   priv->item_mngr = photos_item_manager_new ();
   g_signal_connect_swapped (priv->item_mngr, "object-added", G_CALLBACK (photos_view_model_object_added), self);

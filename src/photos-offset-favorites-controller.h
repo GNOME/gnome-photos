@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -53,10 +53,12 @@ G_BEGIN_DECLS
 
 typedef struct _PhotosOffsetFavoritesController        PhotosOffsetFavoritesController;
 typedef struct _PhotosOffsetFavoritesControllerClass   PhotosOffsetFavoritesControllerClass;
+typedef struct _PhotosOffsetFavoritesControllerPrivate PhotosOffsetFavoritesControllerPrivate;
 
 struct _PhotosOffsetFavoritesController
 {
   PhotosOffsetController parent_instance;
+  PhotosOffsetFavoritesControllerPrivate *priv;
 };
 
 struct _PhotosOffsetFavoritesControllerClass

@@ -49,10 +49,12 @@ G_BEGIN_DECLS
 
 typedef struct _PhotosTrackerCollectionsController        PhotosTrackerCollectionsController;
 typedef struct _PhotosTrackerCollectionsControllerClass   PhotosTrackerCollectionsControllerClass;
+typedef struct _PhotosTrackerCollectionsControllerPrivate PhotosTrackerCollectionsControllerPrivate;
 
 struct _PhotosTrackerCollectionsController
 {
   PhotosTrackerController parent_instance;
+  PhotosTrackerCollectionsControllerPrivate *priv;
 };
 
 struct _PhotosTrackerCollectionsControllerClass

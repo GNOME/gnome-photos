@@ -25,8 +25,15 @@
 
 #include "config.h"
 
+#include "photos-collection-manager.h"
 #include "photos-query-builder.h"
 #include "photos-offset-collections-controller.h"
+
+
+struct _PhotosOffsetCollectionsControllerPrivate
+{
+  PhotosBaseManager *col_mngr;
+};
 
 
 G_DEFINE_TYPE (PhotosOffsetCollectionsController,
@@ -35,9 +42,19 @@ G_DEFINE_TYPE (PhotosOffsetCollectionsController,
 
 
 static PhotosQuery *
-photos_offset_collections_controller_get_query (void)
+photos_offset_collections_controller_get_query (PhotosOffsetController *offset_cntrlr)
 {
-  return photos_query_builder_count_query (PHOTOS_QUERY_FLAGS_COLLECTIONS);
+  PhotosOffsetCollectionsController *self = PHOTOS_OFFSET_COLLECTIONS_CONTROLLER (offset_cntrlr);
+  GObject *collection;
+  gint flags;
+
+  collection = photos_base_manager_get_active_object (self->priv->col_mngr);
+  if (collection != NULL)
+    flags = PHOTOS_QUERY_FLAGS_NONE;
+  else
+    flags = PHOTOS_QUERY_FLAGS_COLLECTIONS;
+
+  return photos_query_builder_count_query (flags);
 }
 
 
@@ -62,8 +79,27 @@ photos_offset_collections_controller_constructor (GType type,
 
 
 static void
+photos_offset_collections_controller_dispose (GObject *object)
+{
+  PhotosOffsetCollectionsController *self = PHOTOS_OFFSET_COLLECTIONS_CONTROLLER (object);
+
+  g_clear_object (&self->priv->col_mngr);
+
+  G_OBJECT_CLASS (photos_offset_collections_controller_parent_class)->dispose (object);
+}
+
+
+static void
 photos_offset_collections_controller_init (PhotosOffsetCollectionsController *self)
 {
+  PhotosOffsetCollectionsControllerPrivate *priv;
+
+  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
+                                            PHOTOS_TYPE_OFFSET_COLLECTIONS_CONTROLLER,
+                                            PhotosOffsetCollectionsControllerPrivate);
+  priv = self->priv;
+
+  priv->col_mngr = photos_collection_manager_new ();
 }
 
 
@@ -74,7 +110,10 @@ photos_offset_collections_controller_class_init (PhotosOffsetCollectionsControll
   PhotosOffsetControllerClass *offset_controller_class = PHOTOS_OFFSET_CONTROLLER_CLASS (class);
 
   object_class->constructor = photos_offset_collections_controller_constructor;
+  object_class->dispose = photos_offset_collections_controller_dispose;
   offset_controller_class->get_query = photos_offset_collections_controller_get_query;
+
+  g_type_class_add_private (class, sizeof (PhotosOffsetCollectionsControllerPrivate));
 }
 
 

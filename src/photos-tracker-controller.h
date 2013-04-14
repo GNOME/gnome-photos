@@ -70,7 +70,7 @@ struct _PhotosTrackerControllerClass
 
   /* virtual methods */
   PhotosOffsetController *(*get_offset_controller) (void);
-  PhotosQuery *(*get_query) (void);
+  PhotosQuery *(*get_query) (PhotosTrackerController *self);
 
   /* signals */
   void (*query_error) (PhotosTrackerController *self, const gchar *primary, const gchar *secondary);

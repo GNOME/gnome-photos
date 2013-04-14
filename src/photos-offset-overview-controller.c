@@ -33,7 +33,7 @@ G_DEFINE_TYPE (PhotosOffsetOverviewController, photos_offset_overview_controller
 
 
 static PhotosQuery *
-photos_offset_overview_controller_get_query (void)
+photos_offset_overview_controller_get_query (PhotosOffsetController *offset_cntrlr)
 {
   return photos_query_builder_count_query (PHOTOS_QUERY_FLAGS_NONE);
 }

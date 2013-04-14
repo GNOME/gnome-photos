@@ -68,7 +68,7 @@ struct _PhotosOffsetControllerClass
   GObjectClass parent_class;
 
   /* virtual methods */
-  PhotosQuery *(*get_query) (void);
+  PhotosQuery *(*get_query) (PhotosOffsetController *self);
 
   /* signals */
   void (*count_changed)      (PhotosOffsetController *self, gint count);

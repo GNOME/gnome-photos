@@ -25,17 +25,34 @@
 
 #include "config.h"
 
+#include "photos-collection-manager.h"
 #include "photos-query-builder.h"
 #include "photos-offset-favorites-controller.h"
+
+
+struct _PhotosOffsetFavoritesControllerPrivate
+{
+  PhotosBaseManager *col_mngr;
+};
 
 
 G_DEFINE_TYPE (PhotosOffsetFavoritesController, photos_offset_favorites_controller, PHOTOS_TYPE_OFFSET_CONTROLLER);
 
 
 static PhotosQuery *
-photos_offset_favorites_controller_get_query (void)
+photos_offset_favorites_controller_get_query (PhotosOffsetController *offset_cntrlr)
 {
-  return photos_query_builder_count_query (PHOTOS_QUERY_FLAGS_FAVORITES);
+  PhotosOffsetFavoritesController *self = PHOTOS_OFFSET_FAVORITES_CONTROLLER (offset_cntrlr);
+  GObject *collection;
+  gint flags;
+
+  collection = photos_base_manager_get_active_object (self->priv->col_mngr);
+  if (collection != NULL)
+    flags = PHOTOS_QUERY_FLAGS_NONE;
+  else
+    flags = PHOTOS_QUERY_FLAGS_FAVORITES;
+
+  return photos_query_builder_count_query (flags);
 }
 
 
@@ -60,8 +77,27 @@ photos_offset_favorites_controller_constructor (GType type,
 
 
 static void
+photos_offset_favorites_controller_dispose (GObject *object)
+{
+  PhotosOffsetFavoritesController *self = PHOTOS_OFFSET_FAVORITES_CONTROLLER (object);
+
+  g_clear_object (&self->priv->col_mngr);
+
+  G_OBJECT_CLASS (photos_offset_favorites_controller_parent_class)->dispose (object);
+}
+
+
+static void
 photos_offset_favorites_controller_init (PhotosOffsetFavoritesController *self)
 {
+  PhotosOffsetFavoritesControllerPrivate *priv;
+
+  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
+                                            PHOTOS_TYPE_OFFSET_FAVORITES_CONTROLLER,
+                                            PhotosOffsetFavoritesControllerPrivate);
+  priv = self->priv;
+
+  priv->col_mngr = photos_collection_manager_new ();
 }
 
 
@@ -72,7 +108,10 @@ photos_offset_favorites_controller_class_init (PhotosOffsetFavoritesControllerCl
   PhotosOffsetControllerClass *offset_controller_class = PHOTOS_OFFSET_CONTROLLER_CLASS (class);
 
   object_class->constructor = photos_offset_favorites_controller_constructor;
+  object_class->dispose = photos_offset_favorites_controller_dispose;
   offset_controller_class->get_query = photos_offset_favorites_controller_get_query;
+
+  g_type_class_add_private (class, sizeof (PhotosOffsetFavoritesControllerPrivate));
 }
 
 

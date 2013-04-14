@@ -53,10 +53,12 @@ G_BEGIN_DECLS
 
 typedef struct _PhotosOffsetCollectionsController        PhotosOffsetCollectionsController;
 typedef struct _PhotosOffsetCollectionsControllerClass   PhotosOffsetCollectionsControllerClass;
+typedef struct _PhotosOffsetCollectionsControllerPrivate PhotosOffsetCollectionsControllerPrivate;
 
 struct _PhotosOffsetCollectionsController
 {
   PhotosOffsetController parent_instance;
+  PhotosOffsetCollectionsControllerPrivate *priv;
 };
 
 struct _PhotosOffsetCollectionsControllerClass
