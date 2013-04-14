@@ -64,6 +64,8 @@ gnome_photos_SOURCES = \
 	photos-collection-manager.h \
 	photos-create-collection-job.c \
 	photos-create-collection-job.h \
+	photos-delete-item-job.c \
+	photos-delete-item-job.h \
 	photos-embed.c \
 	photos-embed.h \
 	photos-empty-results-box.c \
