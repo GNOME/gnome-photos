@@ -269,6 +269,16 @@ photos_query_builder_count_query (gint flags)
 
 
 PhotosQuery *
+photos_query_builder_delete_resource_query (const gchar *resource)
+{
+  gchar *sparql;
+
+  sparql = g_strdup_printf ("DELETE { <%s> a rdfs:Resource }", resource);
+  return photos_query_new (sparql);
+}
+
+
+PhotosQuery *
 photos_query_builder_fetch_collections_query (const gchar *resource)
 {
   gchar *sparql;
