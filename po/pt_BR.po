@@ -9,18 +9,19 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-05 01:21+0000\n"
-"PO-Revision-Date: 2013-04-05 17:57-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"POT-Creation-Date: 2013-04-14 05:28+0000\n"
+"PO-Revision-Date: 2013-04-14 10:13-0300\n"
+"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.5.5\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:413
-#: ../src/photos-search-type-manager.c:79
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:450
+#: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "Fotos"
 
@@ -59,12 +60,12 @@ msgstr "Estado de janela maximizada"
 #. A strftime-formatted string, to display the date the image was taken.
 #: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
 msgid "%a, %d %B %Y  %X"
-msgstr "%a, %d %B %Y  %X"
+msgstr "%a, %d de %B de %Y  %X"
 
 #. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
 #: ../src/eog-exif-util.c:154
 msgid "%a, %d %B %Y"
-msgstr "%a, %d %B %Y"
+msgstr "%a, %d de %B de %Y"
 
 #. TRANSLATORS: This is the actual focal length used when
 #. the image was taken.
@@ -141,7 +142,11 @@ msgstr "Sobre Fotos"
 msgid "Quit"
 msgstr "Sair"
 
-#: ../src/photos-embed.c:416
+#: ../src/photos-embed.c:447 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Álbuns"
+
+#: ../src/photos-embed.c:453 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "Favoritos"
 
@@ -157,38 +162,38 @@ msgstr "Suas fotos estão sendo indexadas"
 msgid "Some photos might not be available during this process"
 msgstr "Algumas fotos podem não estar disponíveis durante este processo"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:195
 msgid "Load More"
 msgstr "Carregar mais"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
 msgid "Loading..."
 msgstr "Carregando..."
 
-#: ../src/photos-main-toolbar.c:98
+#: ../src/photos-main-toolbar.c:100
 msgid "Click on items to select them"
 msgstr "Clique nos items para selecioná-los"
 
-#: ../src/photos-main-toolbar.c:100
+#: ../src/photos-main-toolbar.c:102
 #, c-format
 msgid "%d selected"
 msgstr "%d selecionada"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:148
 msgid "Back"
 msgstr "Voltar"
 
-#: ../src/photos-main-toolbar.c:205
+#: ../src/photos-main-toolbar.c:217
 msgid "Select Items"
 msgstr "Selecionar itens"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:283 ../src/photos-selection-toolbar.c:290
+#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:290
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir com %s"
 
-#: ../src/photos-main-toolbar.c:364 ../src/photos-properties-dialog.c:332
+#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:332
 msgid "Done"
 msgstr "Feito"
 
@@ -215,7 +220,11 @@ msgstr "Abrir"
 msgid "Print…"
 msgstr "Imprimir…"
 
-#: ../src/photos-preview-menu.ui.h:3 ../src/photos-properties-dialog.c:370
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Set as Background"
+msgstr "Definir como plano de fundo"
+
+#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:370
 #: ../src/photos-selection-toolbar.c:525
 msgid "Properties"
 msgstr "Propriedades"
@@ -320,13 +329,9 @@ msgstr "Data de criação"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/photos-search-type-manager.c:65 ../src/photos-source-manager.c:144
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:144
 msgid "All"
 msgstr "Todos"
-
-#: ../src/photos-search-type-manager.c:73
-msgid "Albums"
-msgstr "Álbuns"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -356,7 +361,7 @@ msgstr "Excluir"
 msgid "Local"
 msgstr "Local"
 
-#: ../src/photos-tracker-controller.c:80
+#: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
 msgstr "Não foi possível obter a lista de fotos"
 
