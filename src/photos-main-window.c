@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -327,7 +327,7 @@ photos_main_window_show_about (PhotosMainWindow *self)
   gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG (about_dialog), PHOTOS_AUTHORS);
   gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG (about_dialog),
                                  _("Access, organize and share your photos on GNOME"));
-  gtk_about_dialog_set_copyright (GTK_ABOUT_DIALOG (about_dialog), "Copyright © 2012 Red Hat, Inc.");
+  gtk_about_dialog_set_copyright (GTK_ABOUT_DIALOG (about_dialog), "Copyright © 2012, 2013 Red Hat, Inc.");
   gtk_about_dialog_set_license_type (GTK_ABOUT_DIALOG (about_dialog), GTK_LICENSE_GPL_2_0);
   gtk_about_dialog_set_logo_icon_name (GTK_ABOUT_DIALOG (about_dialog), PACKAGE_TARNAME);
   gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG (about_dialog), _(PACKAGE_NAME));
