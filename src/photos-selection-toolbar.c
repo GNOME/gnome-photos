@@ -403,7 +403,11 @@ photos_selection_toolbar_trash_clicked (GtkButton *button, gpointer user_data)
   selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
   for (l = selection; l != NULL; l = l->next)
     {
-      /* TODO: trash the doc */
+      PhotosBaseItem *item;
+      const gchar *urn = (gchar *) l->data;
+
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
+      photos_base_item_trash (item);
     }
 }
 

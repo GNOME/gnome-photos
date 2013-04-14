@@ -135,6 +135,8 @@ void                photos_base_item_set_default_app_name (PhotosBaseItem *self,
 
 void                photos_base_item_set_favorite       (PhotosBaseItem *self, gboolean favorite);
 
+void                photos_base_item_trash              (PhotosBaseItem *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_BASE_ITEM_H */

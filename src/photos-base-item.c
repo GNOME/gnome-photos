@@ -33,6 +33,7 @@
 
 #include "photos-base-item.h"
 #include "photos-collection-icon-watcher.h"
+#include "photos-delete-item-job.h"
 #include "photos-print-operation.h"
 #include "photos-query.h"
 #include "photos-single-item-job.h"
@@ -1037,4 +1038,19 @@ void
 photos_base_item_set_favorite (PhotosBaseItem *self, gboolean favorite)
 {
   PHOTOS_BASE_ITEM_GET_CLASS (self)->set_favorite (self, favorite);
+}
+
+
+void
+photos_base_item_trash (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosDeleteItemJob *job;
+
+  if (!priv->collection)
+    return;
+
+  job = photos_delete_item_job_new (priv->id);
+  photos_delete_item_job_run (job, NULL, NULL);
+  g_object_unref (job);
 }
