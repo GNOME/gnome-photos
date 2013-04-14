@@ -150,6 +150,7 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
         photos_view_model_add_item (self, item);
     }
 
+  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
   if (row_ref != NULL)
     {
       path = gtk_tree_row_reference_get_path (row_ref);
