@@ -99,7 +99,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
           if (length == 0)
             label = g_strdup(_("Click on items to select them"));
           else
-            label = g_strdup_printf (_("%d selected"), length);
+            label = g_strdup_printf (ngettext ("%d selected", "%d selected", length), length);
 
           if (active_collection != NULL)
             {
