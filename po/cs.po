@@ -6,11 +6,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-photos master\n"
+"Project-Id-Version: gnome-photos gnome-3.8\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-13 09:14+0000\n"
-"PO-Revision-Date: 2013-04-14 07:27+0200\n"
+"POT-Creation-Date: 2013-04-15 08:11+0000\n"
+"PO-Revision-Date: 2013-04-16 13:16+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -177,7 +177,10 @@ msgstr "Kliknutím na položku ji vyberete"
 #: ../src/photos-main-toolbar.c:102
 #, c-format
 msgid "%d selected"
-msgstr "%d vybraných"
+msgid_plural "%d selected"
+msgstr[0] "%d vybraná"
+msgstr[1] "%d vybrané"
+msgstr[2] "%d vybraných"
 
 #: ../src/photos-main-toolbar.c:148
 msgid "Back"
@@ -188,12 +191,12 @@ msgid "Select Items"
 msgstr "Vybrat položky"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:290
+#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:292
 #, c-format
 msgid "Open with %s"
 msgstr "Otevřít pomocí %s"
 
-#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:332
+#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:330
 msgid "Done"
 msgstr "Hotovo"
 
@@ -206,13 +209,13 @@ msgstr "Zobrazovat, třídit a sdílet své fotografie v GNOME"
 msgid "translator-credits"
 msgstr "Marek Černocký, <marek@manet.cz>"
 
-#: ../src/photos-organize-collection-dialog.c:133
-#: ../src/photos-selection-toolbar.c:514
+#: ../src/photos-organize-collection-dialog.c:131
+#: ../src/photos-selection-toolbar.c:520
 msgid "Organize"
 msgstr "Třídit"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:293
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:295
 msgid "Open"
 msgstr "Otevřít"
 
@@ -224,8 +227,8 @@ msgstr "Tisk…"
 msgid "Set as Background"
 msgstr "Nastavit jako pozadí"
 
-#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:370
-#: ../src/photos-selection-toolbar.c:525
+#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:368
+#: ../src/photos-selection-toolbar.c:531
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -341,19 +344,19 @@ msgstr "Vybrat vše"
 msgid "Select None"
 msgstr "Zrušit výběr"
 
-#: ../src/photos-selection-toolbar.c:308
+#: ../src/photos-selection-toolbar.c:310
 msgid "Remove from favorites"
 msgstr "Odebrat z oblíbených"
 
-#: ../src/photos-selection-toolbar.c:314
+#: ../src/photos-selection-toolbar.c:316
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
 
-#: ../src/photos-selection-toolbar.c:481
+#: ../src/photos-selection-toolbar.c:487
 msgid "Print"
 msgstr "Tisk"
 
-#: ../src/photos-selection-toolbar.c:492
+#: ../src/photos-selection-toolbar.c:498
 msgid "Delete"
 msgstr "Smazat"
 
