@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-29 22:13+0000\n"
-"PO-Revision-Date: 2013-03-30 10:04+0100\n"
+"POT-Creation-Date: 2013-04-15 08:11+0000\n"
+"PO-Revision-Date: 2013-04-16 23:05+0200\n"
 "Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
 "Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
 "Language: hu\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.2\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:413
-#: ../src/photos-search-type-manager.c:68
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:450
+#: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "Fényképek"
 
@@ -141,7 +141,11 @@ msgstr "Fényképek névjegye"
 msgid "Quit"
 msgstr "Kilépés"
 
-#: ../src/photos-embed.c:416
+#: ../src/photos-embed.c:447 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Albumok"
+
+#: ../src/photos-embed.c:453 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "Kedvencek"
 
@@ -157,38 +161,41 @@ msgstr "A fényképei indexelése folyamatban"
 msgid "Some photos might not be available during this process"
 msgstr "Egyes fényképek lehet, hogy nem lesznek elérhetők ezen folyamat alatt"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:195
 msgid "Load More"
 msgstr "Továbbiak betöltése"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
 msgid "Loading..."
 msgstr "Betöltés…"
 
-#: ../src/photos-main-toolbar.c:98
+#: ../src/photos-main-toolbar.c:100
 msgid "Click on items to select them"
 msgstr "Kattintson az elemekre a kiválasztásukhoz"
 
-#: ../src/photos-main-toolbar.c:100
+#: ../src/photos-main-toolbar.c:102
 #, c-format
+#| msgid "%d selected"
 msgid "%d selected"
-msgstr "%d kiválasztva"
+msgid_plural "%d selected"
+msgstr[0] "%d kiválasztva"
+msgstr[1] "%d kiválasztva"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:148
 msgid "Back"
 msgstr "Vissza"
 
-#: ../src/photos-main-toolbar.c:205
+#: ../src/photos-main-toolbar.c:217
 msgid "Select Items"
 msgstr "Válasszon elemeket"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:283 ../src/photos-selection-toolbar.c:290
+#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:292
 #, c-format
 msgid "Open with %s"
 msgstr "Megnyitás ezzel: %s"
 
-#: ../src/photos-main-toolbar.c:364 ../src/photos-properties-dialog.c:332
+#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:330
 msgid "Done"
 msgstr "Kész"
 
@@ -201,13 +208,13 @@ msgstr "Fényképek elérése, rendszerezése és megosztása a GNOME-ban"
 msgid "translator-credits"
 msgstr "Úr Balázs <urbalazs@gmail.com>"
 
-#: ../src/photos-organize-collection-dialog.c:133
-#: ../src/photos-selection-toolbar.c:514
+#: ../src/photos-organize-collection-dialog.c:131
+#: ../src/photos-selection-toolbar.c:520
 msgid "Organize"
 msgstr "Rendszerezés"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:293
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:295
 msgid "Open"
 msgstr "Megnyitás"
 
@@ -215,8 +222,12 @@ msgstr "Megnyitás"
 msgid "Print…"
 msgstr "Nyomtatás…"
 
-#: ../src/photos-preview-menu.ui.h:3 ../src/photos-properties-dialog.c:370
-#: ../src/photos-selection-toolbar.c:525
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Set as Background"
+msgstr "Beállítás háttérként"
+
+#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:368
+#: ../src/photos-selection-toolbar.c:531
 msgid "Properties"
 msgstr "Tulajdonságok"
 
@@ -320,7 +331,7 @@ msgstr "Létrehozás dátuma"
 msgid "Type"
 msgstr "Típus"
 
-#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:144
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:144
 msgid "All"
 msgstr "Összes"
 
@@ -332,19 +343,19 @@ msgstr "Összes kijelölése"
 msgid "Select None"
 msgstr "Kijelölés megszüntetése"
 
-#: ../src/photos-selection-toolbar.c:308
+#: ../src/photos-selection-toolbar.c:310
 msgid "Remove from favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
-#: ../src/photos-selection-toolbar.c:314
+#: ../src/photos-selection-toolbar.c:316
 msgid "Add to favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
-#: ../src/photos-selection-toolbar.c:481
+#: ../src/photos-selection-toolbar.c:487
 msgid "Print"
 msgstr "Nyomtatás"
 
-#: ../src/photos-selection-toolbar.c:492
+#: ../src/photos-selection-toolbar.c:498
 msgid "Delete"
 msgstr "Törlés"
 
@@ -352,7 +363,7 @@ msgstr "Törlés"
 msgid "Local"
 msgstr "Helyi"
 
-#: ../src/photos-tracker-controller.c:80
+#: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
 msgstr "Nem kérhető le a fényképek listája"
 
