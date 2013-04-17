@@ -1,7 +1,7 @@
 # Brazilian Portuguese translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012.
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012, 2013.
 # Enrico Nicoletto <liverig@gmail.com>, 2013.
 #
 msgid ""
@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-14 05:28+0000\n"
-"PO-Revision-Date: 2013-04-14 10:13-0300\n"
+"POT-Creation-Date: 2013-04-15 08:11+0000\n"
+"PO-Revision-Date: 2013-04-16 21:51-0300\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -176,8 +176,11 @@ msgstr "Clique nos items para selecioná-los"
 
 #: ../src/photos-main-toolbar.c:102
 #, c-format
+#| msgid "%d selected"
 msgid "%d selected"
-msgstr "%d selecionada"
+msgid_plural "%d selected"
+msgstr[0] "%d selecionada"
+msgstr[1] "%d selecionadas"
 
 #: ../src/photos-main-toolbar.c:148
 msgid "Back"
@@ -188,12 +191,12 @@ msgid "Select Items"
 msgstr "Selecionar itens"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:290
+#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:292
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir com %s"
 
-#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:332
+#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:330
 msgid "Done"
 msgstr "Feito"
 
@@ -206,13 +209,13 @@ msgstr "Acesse, organize e compartilhe suas fotos no GNOME"
 msgid "translator-credits"
 msgstr "Rafael Ferreira <rafael.f.f1@gmail.com>"
 
-#: ../src/photos-organize-collection-dialog.c:133
-#: ../src/photos-selection-toolbar.c:514
+#: ../src/photos-organize-collection-dialog.c:131
+#: ../src/photos-selection-toolbar.c:520
 msgid "Organize"
 msgstr "Organizar"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:293
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:295
 msgid "Open"
 msgstr "Abrir"
 
@@ -224,8 +227,8 @@ msgstr "Imprimir…"
 msgid "Set as Background"
 msgstr "Definir como plano de fundo"
 
-#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:370
-#: ../src/photos-selection-toolbar.c:525
+#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:368
+#: ../src/photos-selection-toolbar.c:531
 msgid "Properties"
 msgstr "Propriedades"
 
@@ -341,19 +344,19 @@ msgstr "Selecionar todos"
 msgid "Select None"
 msgstr "Selecionar nenhum"
 
-#: ../src/photos-selection-toolbar.c:308
+#: ../src/photos-selection-toolbar.c:310
 msgid "Remove from favorites"
 msgstr "Remover dos favoritos"
 
-#: ../src/photos-selection-toolbar.c:314
+#: ../src/photos-selection-toolbar.c:316
 msgid "Add to favorites"
 msgstr "Adicionar aos favoritos"
 
-#: ../src/photos-selection-toolbar.c:481
+#: ../src/photos-selection-toolbar.c:487
 msgid "Print"
 msgstr "Imprimir"
 
-#: ../src/photos-selection-toolbar.c:492
+#: ../src/photos-selection-toolbar.c:498
 msgid "Delete"
 msgstr "Excluir"
 
