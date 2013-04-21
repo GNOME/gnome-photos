@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-02 23:13+0000\n"
-"PO-Revision-Date: 2013-04-04 21:15+0100\n"
+"POT-Creation-Date: 2013-04-17 17:37+0000\n"
+"PO-Revision-Date: 2013-04-21 08:07+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -22,8 +22,8 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:413
-#: ../src/photos-search-type-manager.c:79
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:450
+#: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "Fotografije"
 
@@ -144,7 +144,11 @@ msgstr "O programu"
 msgid "Quit"
 msgstr "Končaj"
 
-#: ../src/photos-embed.c:416
+#: ../src/photos-embed.c:447 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Albumi"
+
+#: ../src/photos-embed.c:453 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "Priljubljeno"
 
@@ -160,38 +164,42 @@ msgstr "Iz podatkov fotografij se pripravlja kazalo"
 msgid "Some photos might not be available during this process"
 msgstr "Nekatere fotografije med opravilom lahko niso na voljo"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:195
 msgid "Load More"
 msgstr "Naloži več"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
 msgid "Loading..."
 msgstr "Nalaganje ..."
 
-#: ../src/photos-main-toolbar.c:98
+#: ../src/photos-main-toolbar.c:100
 msgid "Click on items to select them"
 msgstr "S klikom se predmeti izberejo."
 
-#: ../src/photos-main-toolbar.c:100
+#: ../src/photos-main-toolbar.c:102
 #, c-format
 msgid "%d selected"
-msgstr "%d izbranih"
+msgid_plural "%d selected"
+msgstr[0] "%d izbranih"
+msgstr[1] "%d izbrana"
+msgstr[2] "%d izbrani"
+msgstr[3] "%d izbrane"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:148
 msgid "Back"
 msgstr "Nazaj"
 
-#: ../src/photos-main-toolbar.c:205
+#: ../src/photos-main-toolbar.c:217
 msgid "Select Items"
 msgstr "Izbor predmetov"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:283 ../src/photos-selection-toolbar.c:290
+#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:292
 #, c-format
 msgid "Open with %s"
 msgstr "Odpri s programom %s"
 
-#: ../src/photos-main-toolbar.c:364 ../src/photos-properties-dialog.c:332
+#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:330
 msgid "Done"
 msgstr "Končano"
 
@@ -204,13 +212,13 @@ msgstr "Urejanje in izmenjava fotografij za namizje GNOME"
 msgid "translator-credits"
 msgstr "Matej Urbančič <mateju@svn.gnome.org>"
 
-#: ../src/photos-organize-collection-dialog.c:133
-#: ../src/photos-selection-toolbar.c:514
+#: ../src/photos-organize-collection-dialog.c:131
+#: ../src/photos-selection-toolbar.c:520
 msgid "Organize"
 msgstr "Uredi"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:293
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:295
 msgid "Open"
 msgstr "Odpri"
 
@@ -218,8 +226,12 @@ msgstr "Odpri"
 msgid "Print…"
 msgstr "Natisni ..."
 
-#: ../src/photos-preview-menu.ui.h:3 ../src/photos-properties-dialog.c:370
-#: ../src/photos-selection-toolbar.c:525
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Set as Background"
+msgstr "Nastavi kot ozadje"
+
+#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:368
+#: ../src/photos-selection-toolbar.c:531
 msgid "Properties"
 msgstr "Lastnosti"
 
@@ -323,13 +335,9 @@ msgstr "Datum stvaritve"
 msgid "Type"
 msgstr "Vrsta"
 
-#: ../src/photos-search-type-manager.c:65 ../src/photos-source-manager.c:144
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:144
 msgid "All"
 msgstr "Vse"
-
-#: ../src/photos-search-type-manager.c:73
-msgid "Albums"
-msgstr "Albumi"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -339,19 +347,19 @@ msgstr "Izberi vse"
 msgid "Select None"
 msgstr "Odstrani izbor"
 
-#: ../src/photos-selection-toolbar.c:308
+#: ../src/photos-selection-toolbar.c:310
 msgid "Remove from favorites"
 msgstr "Odstrani iz priljubljenih"
 
-#: ../src/photos-selection-toolbar.c:314
+#: ../src/photos-selection-toolbar.c:316
 msgid "Add to favorites"
 msgstr "Dodaj med priljubljene"
 
-#: ../src/photos-selection-toolbar.c:481
+#: ../src/photos-selection-toolbar.c:487
 msgid "Print"
 msgstr "Natisni"
 
-#: ../src/photos-selection-toolbar.c:492
+#: ../src/photos-selection-toolbar.c:498
 msgid "Delete"
 msgstr "Izbriši"
 
@@ -359,6 +367,6 @@ msgstr "Izbriši"
 msgid "Local"
 msgstr "Krajevno"
 
-#: ../src/photos-tracker-controller.c:80
+#: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
 msgstr "Seznama fotografij ni mogoče pridobiti"
