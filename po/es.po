@@ -9,19 +9,19 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-02 22:38+0000\n"
-"PO-Revision-Date: 2013-04-07 18:58+0200\n"
+"POT-Creation-Date: 2013-04-18 10:12+0000\n"
+"PO-Revision-Date: 2013-04-25 13:04+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:413
-#: ../src/photos-search-type-manager.c:79
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:450
+#: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "Fotos"
 
@@ -143,7 +143,11 @@ msgstr "Acerca de Fotos"
 msgid "Quit"
 msgstr "Salir"
 
-#: ../src/photos-embed.c:416
+#: ../src/photos-embed.c:447 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Álbumes"
+
+#: ../src/photos-embed.c:453 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "Favoritos"
 
@@ -159,39 +163,42 @@ msgstr "Se están indexando sus fotos"
 msgid "Some photos might not be available during this process"
 msgstr "Algunas fotos pueden no estar disponibles durante este proceso"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:195
 msgid "Load More"
 msgstr "Cargar más"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
 msgid "Loading..."
 msgstr "Cargando..."
 
-#: ../src/photos-main-toolbar.c:98
+#: ../src/photos-main-toolbar.c:100
 msgid "Click on items to select them"
 msgstr "Pulse sobre los elementos para seleccionarlos"
 
-#: ../src/photos-main-toolbar.c:100
+#: ../src/photos-main-toolbar.c:102
 #, c-format
+#| msgid "%d selected"
 msgid "%d selected"
-msgstr "%d seleccionados"
+msgid_plural "%d selected"
+msgstr[0] "%d seleccionada"
+msgstr[1] "%d seleccionadas"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:148
 msgid "Back"
 msgstr "Atrás"
 
-#: ../src/photos-main-toolbar.c:205
+#: ../src/photos-main-toolbar.c:217
 msgid "Select Items"
 msgstr "Seleccionar elementos"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:283 ../src/photos-selection-toolbar.c:290
+#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:292
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
 #  o Terminado
-#: ../src/photos-main-toolbar.c:364 ../src/photos-properties-dialog.c:332
+#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:330
 msgid "Done"
 msgstr "Hecho"
 
@@ -204,13 +211,13 @@ msgstr "Acceda, organice y comparta sus fotos en GNOME"
 msgid "translator-credits"
 msgstr "Angel Méndez <angelrmm0@gmail.com>, 2012"
 
-#: ../src/photos-organize-collection-dialog.c:133
-#: ../src/photos-selection-toolbar.c:514
+#: ../src/photos-organize-collection-dialog.c:131
+#: ../src/photos-selection-toolbar.c:520
 msgid "Organize"
 msgstr "Organizar"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:293
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:295
 msgid "Open"
 msgstr "Abrir"
 
@@ -218,8 +225,12 @@ msgstr "Abrir"
 msgid "Print…"
 msgstr "Imprimir…"
 
-#: ../src/photos-preview-menu.ui.h:3 ../src/photos-properties-dialog.c:370
-#: ../src/photos-selection-toolbar.c:525
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Set as Background"
+msgstr "Establecer como fondo"
+
+#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:368
+#: ../src/photos-selection-toolbar.c:531
 msgid "Properties"
 msgstr "Propiedades"
 
@@ -324,13 +335,9 @@ msgstr "Fecha de creación"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/photos-search-type-manager.c:65 ../src/photos-source-manager.c:144
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:144
 msgid "All"
 msgstr "Todo"
-
-#: ../src/photos-search-type-manager.c:73
-msgid "Albums"
-msgstr "Álbumes"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -340,19 +347,19 @@ msgstr "Seleccionar todo"
 msgid "Select None"
 msgstr "Seleccionar nada"
 
-#: ../src/photos-selection-toolbar.c:308
+#: ../src/photos-selection-toolbar.c:310
 msgid "Remove from favorites"
 msgstr "Quita de favoritos"
 
-#: ../src/photos-selection-toolbar.c:314
+#: ../src/photos-selection-toolbar.c:316
 msgid "Add to favorites"
 msgstr "Agregar a favoritos"
 
-#: ../src/photos-selection-toolbar.c:481
+#: ../src/photos-selection-toolbar.c:487
 msgid "Print"
 msgstr "Imprimir"
 
-#: ../src/photos-selection-toolbar.c:492
+#: ../src/photos-selection-toolbar.c:498
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -360,7 +367,7 @@ msgstr "Eliminar"
 msgid "Local"
 msgstr "Local"
 
-#: ../src/photos-tracker-controller.c:80
+#: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
 msgstr "No se pudo obtener la lista de fotos"
 
