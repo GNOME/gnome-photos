@@ -20,7 +20,7 @@
 #
 
 
-[[ "$1" = "--header" ]] &&
+[ "$1" = "--header" ] &&
     echo "#ifndef PHOTOS_ABOUT_DATA_H" &&
     echo "#define PHOTOS_ABOUT_DATA_H" &&
     echo "#include <glib.h>" &&
@@ -33,9 +33,9 @@
 
 echo "const gchar *PHOTOS_ARTISTS[] = {"
 while read line; do
-    [[ $(echo "$line" | cut -c1) = "#" ]] &&
+    [ "$(echo "$line" | cut -c1)" = "#" ] &&
         continue
-    [[ ${#line} -eq 0 ]] &&
+    [ ${#line} -eq 0 ] &&
         continue
     echo "  \"$line\","
 done < $2/ARTISTS
@@ -44,9 +44,9 @@ echo "};"
 
 echo "const gchar *PHOTOS_AUTHORS[] = {"
 while read line; do
-    [[ $(echo "$line" | cut -c1) = "#" ]] &&
+    [ "$(echo "$line" | cut -c1)" = "#" ] &&
         continue
-    [[ ${#line} -eq 0 ]] &&
+    [ ${#line} -eq 0 ] &&
         continue
     echo "  \"$line\","
 done < $2/AUTHORS
