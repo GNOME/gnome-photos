@@ -369,3 +369,5 @@ photos-tracker-resources.h photos-tracker-resources.c: photos-tracker-resources.
 		--generate-c-code photos-tracker-resources \
 		--interface-prefix org.freedesktop.Tracker1. \
 		$(srcdir)/photos-tracker-resources.xml
+
+-include $(top_srcdir)/git.mk

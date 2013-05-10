@@ -31,3 +31,5 @@ CLEANFILES = \
 DISTCLEANFILES = \
 	$(desktop_in_files) \
 	$(NULL)
+
+-include $(top_srcdir)/git.mk

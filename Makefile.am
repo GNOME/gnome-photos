@@ -36,6 +36,32 @@ DISTCLEANFILES = \
 	po/.intltool-merge-cache \
 	$(NULL)
 
+MAINTAINERCLEANFILES = \
+	$(srcdir)/AUTHORS \
+	$(srcdir)/INSTALL \
+	$(srcdir)/ar-lib \
+	$(srcdir)/aclocal.m4 \
+	$(srcdir)/autoscan.log \
+	$(srcdir)/compile \
+	$(srcdir)/config.guess \
+	$(srcdir)/config.h.in \
+	$(srcdir)/config.sub \
+	$(srcdir)/configure.scan \
+	$(srcdir)/depcomp \
+	$(srcdir)/install-sh \
+	$(srcdir)/ltmain.sh \
+	$(srcdir)/missing \
+	$(srcdir)/mkinstalldirs \
+	$(srcdir)/omf.make \
+	$(srcdir)/xmldocs.make \
+	$(srcdir)/gtk-doc.make \
+	$(NULL)
+
+GITIGNOREFILES = \
+	m4 \
+	config \
+	$(NULL)
+
 AUTHORS:
 	@if test -d "$(srcdir)/.git"; \
 	then \
@@ -64,3 +90,5 @@ dist-hook:
 	fi
 
 .PHONY: AUTHORS
+
+-include $(top_srcdir)/git.mk
