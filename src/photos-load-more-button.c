@@ -83,7 +83,7 @@ photos_load_more_button_clicked (GtkButton *button)
   PhotosLoadMoreButton *self = PHOTOS_LOAD_MORE_BUTTON (button);
   PhotosLoadMoreButtonPrivate *priv = self->priv;
 
-  gtk_label_set_label (GTK_LABEL (priv->label), _("Loading..."));
+  gtk_label_set_label (GTK_LABEL (priv->label), _("Loading…"));
   gtk_widget_show (priv->spinner);
   gtk_spinner_start (GTK_SPINNER (priv->spinner));
 

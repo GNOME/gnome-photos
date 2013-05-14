@@ -464,8 +464,7 @@ photos_embed_init (PhotosEmbed *self)
   priv->no_results = photos_empty_results_box_new ();
   gd_stack_add_named (GD_STACK (priv->stack), priv->no_results, "no-results");
 
-  /* TODO: SearchBar.Dropdown,
-   *       ...
+  /* TODO: SearchBar.Dropdown, …
    */
 
   priv->selection_toolbar = photos_selection_toolbar_new ();

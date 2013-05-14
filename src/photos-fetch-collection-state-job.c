@@ -97,7 +97,7 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
   collection_state = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
   collections = photos_base_manager_get_objects (priv->col_mngr);
 
-  /* For all the registered collections... */
+  /* For all the registered collections… */
   g_hash_table_iter_init (&iter1, collections);
   while (g_hash_table_iter_next (&iter1, (gpointer) &coll_idx, (gpointer) &collection))
     {
@@ -129,7 +129,7 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
         {
           item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, item_idx));
 
-          /* If one of the selected items is part of this collection... */
+          /* If one of the selected items is part of this collection… */
           if (g_list_find_custom (collections_for_item, coll_idx, (GCompareFunc) g_strcmp0) != NULL)
             found = TRUE;
           else
