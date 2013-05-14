@@ -128,7 +128,8 @@ photos_organize_collection_dialog_new (GtkWindow *parent)
                        "default-height", 250,
                        "destroy-with-parent", TRUE,
                        "modal", TRUE,
-                       "title", _("Organize"),
+                       /* Translators: "Organize" refers to photos in this context */
+                       "title", C_("Dialog title", "Organize"),
                        "transient-for", parent,
                        NULL);
 }

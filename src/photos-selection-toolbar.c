@@ -517,7 +517,8 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   image = gtk_image_new_from_icon_name ("list-add-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
   gtk_container_add (GTK_CONTAINER (priv->toolbar_collection), image);
-  gtk_widget_set_tooltip_text (GTK_WIDGET (priv->toolbar_collection), _("Organize"));
+  /* Translators: "Organize" refers to photos in this context */
+  gtk_widget_set_tooltip_text (GTK_WIDGET (priv->toolbar_collection), C_("Toolbar button tooltip", "Organize"));
   gtk_container_add (GTK_CONTAINER (priv->right_box), priv->toolbar_collection);
   g_signal_connect (priv->toolbar_collection,
                     "clicked",
