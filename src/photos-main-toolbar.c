@@ -83,7 +83,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
       if (!selection_mode)
         {
           if (active_collection != NULL)
-            primary = g_strdup (photos_base_item_get_name (PHOTOS_BASE_ITEM (active_collection)));
+            primary = g_markup_printf_escaped ("%s", photos_base_item_get_name (PHOTOS_BASE_ITEM (active_collection)));
           else
             {
             }
@@ -103,14 +103,13 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 
           if (active_collection != NULL)
             {
-              primary = g_strdup_printf ("<b>%s</b> (%s)",
-                                         photos_base_item_get_name (PHOTOS_BASE_ITEM (active_collection)),
-                                         label);
+              primary =  g_markup_printf_escaped ("<b>%s</b> (%s)",
+                                                  photos_base_item_get_name (PHOTOS_BASE_ITEM (active_collection)),
+                                                  label);
             }
           else
             {
-              primary = label;
-              label = NULL;
+              primary = g_markup_printf_escaped ("%s", label);
             }
 
           g_free (label);
@@ -121,7 +120,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
       GObject *item;
 
       item = photos_base_manager_get_active_object (priv->item_mngr);
-      primary = g_strdup (photos_base_item_get_name (PHOTOS_BASE_ITEM (item)));
+      primary = g_markup_printf_escaped ("%s", photos_base_item_get_name (PHOTOS_BASE_ITEM (item)));
     }
 
   if (selection_mode)
