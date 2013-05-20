@@ -33,6 +33,7 @@
 
 #include "eog-debug.h"
 #include "photos-application.h"
+#include "photos-dlna-renderers-dialog.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
@@ -52,6 +53,7 @@ struct _PhotosApplicationPrivate
   GSimpleAction *sel_all_action;
   GSimpleAction *sel_none_action;
   GSimpleAction *set_bg_action;
+  GSimpleAction *remote_display_action;
   GtkWidget *main_window;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
@@ -147,6 +149,24 @@ photos_application_properties (PhotosApplication *self)
   dialog = photos_properties_dialog_new (GTK_WINDOW (priv->main_window), id);
   gtk_widget_show_all (dialog);
   g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
+}
+
+
+static void
+photos_application_remote_display_current (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  PhotosBaseItem *item;
+  GtkWidget *dialog;
+  const gchar *urn;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+  if (item == NULL)
+    return;
+
+  urn = photos_base_item_get_id (item);
+  dialog = photos_dlna_renderers_dialog_new (GTK_WINDOW (priv->main_window), urn);
+  gtk_widget_show_all (dialog);
 }
 
 
@@ -265,6 +285,10 @@ photos_application_startup (GApplication *application)
   priv->properties_action = g_simple_action_new ("properties", NULL);
   g_signal_connect_swapped (priv->properties_action, "activate", G_CALLBACK (photos_application_properties), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->properties_action));
+
+  priv->remote_display_action = g_simple_action_new ("remote-display-current", NULL);
+  g_signal_connect_swapped (priv->remote_display_action, "activate", G_CALLBACK (photos_application_remote_display_current), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->remote_display_action));
 
   action = g_simple_action_new ("quit", NULL);
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_quit), self);

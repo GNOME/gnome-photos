@@ -8,6 +8,7 @@ src/eog-uri-converter.c
 src/eog-util.c
 src/photos-application.c
 [type: gettext/glade]src/photos-app-menu.ui
+[type: gettext/glade]src/photos-dlna-renderers-dialog.ui
 src/photos-embed.c
 src/photos-empty-results-box.c
 src/photos-indexing-notification.c

@@ -365,6 +365,9 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   GMenu *preview_menu;
   GtkWidget *back_button;
   GtkWidget *menu_button;
+  GtkApplication *app;
+  gboolean remote_display_available;
+  GAction *remote_display_action;
 
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_STANDALONE);
 
@@ -379,6 +382,13 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   gd_header_bar_pack_end (GD_HEADER_BAR (priv->toolbar), menu_button);
 
   g_simple_action_set_enabled (priv->gear_menu, TRUE);
+
+  /* Disable the remote-display-current action if the dLeyna services are not
+   * available */
+  app = photos_application_new ();
+  remote_display_action = g_action_map_lookup_action (G_ACTION_MAP (app), "remote-display-current");
+  remote_display_available = photos_dlna_renderers_manager_is_available ();
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (remote_display_action), remote_display_available);
 }
 
 

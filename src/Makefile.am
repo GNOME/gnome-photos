@@ -8,8 +8,16 @@ gnome_photos_built_sources = \
 	photos-about-data.h \
 	photos-enums.c \
 	photos-enums.h \
+	photos-dleyna-renderer-device.c \
+	photos-dleyna-renderer-device.h \
+	photos-dleyna-renderer-manager.c \
+	photos-dleyna-renderer-manager.h \
+	photos-dleyna-renderer-push-host.c \
+	photos-dleyna-renderer-push-host.h \
 	photos-marshalers.c \
 	photos-marshalers.h \
+	photos-mpris-player.c \
+	photos-mpris-player.h \
 	photos-resources.c \
 	photos-resources.h \
 	photos-tracker-resources.c \
@@ -66,6 +74,12 @@ gnome_photos_SOURCES = \
 	photos-create-collection-job.h \
 	photos-delete-item-job.c \
 	photos-delete-item-job.h \
+	photos-dlna-renderer.c \
+	photos-dlna-renderer.h \
+	photos-dlna-renderers-dialog.c \
+	photos-dlna-renderers-dialog.h \
+	photos-dlna-renderers-manager.c \
+	photos-dlna-renderers-manager.h \
 	photos-embed.c \
 	photos-embed.h \
 	photos-empty-results-box.c \
@@ -124,6 +138,8 @@ gnome_photos_SOURCES = \
 	photos-query.h \
 	photos-query-builder.h \
 	photos-query-builder.c \
+	photos-remote-display-manager.c \
+	photos-remote-display-manager.h \
 	photos-search-type.c \
 	photos-search-type.h \
 	photos-search-type-manager.c \
@@ -180,10 +196,15 @@ EXTRA_DIST = \
 	photos-generate-about \
 	photos.gresource.xml \
 	photos-app-menu.ui \
+	photos-dlna-renderers-dialog.ui \
 	photos-marshalers.list \
 	photos-preview-menu.ui \
 	photos-selection-menu.ui \
 	photos-tracker-resources.xml \
+	photos-dleyna-renderer-device.xml \
+	photos-dleyna-renderer-manager.xml \
+	photos-dleyna-renderer-push-host.xml \
+	photos-mpris-player.xml \
 	$(null)
 
 AM_CPPFLAGS = \
@@ -361,6 +382,35 @@ photos-resources.h: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sou
 	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ \
 		--sourcedir=$(srcdir) \
 		--generate-header \
+		$<
+
+photos-dleyna-renderer-device.h photos-dleyna-renderer-device.c: photos-dleyna-renderer-device.xml
+	$(AM_V_GEN)gdbus-codegen \
+		--c-namespace Dleyna \
+		--generate-c-code photos-dleyna-renderer-device \
+		--interface-prefix com.intel.dLeynaRenderer. \
+		--annotate 'com.intel.dLeynaRenderer.RendererDevice.GetIcon()[Bytes]' org.gtk.GDBus.C.ForceGVariant true \
+		$<
+
+photos-dleyna-renderer-manager.h photos-dleyna-renderer-manager.c: photos-dleyna-renderer-manager.xml
+	$(AM_V_GEN)gdbus-codegen \
+		--c-namespace Dleyna \
+		--generate-c-code photos-dleyna-renderer-manager \
+		--interface-prefix com.intel.dLeynaRenderer. \
+		$<
+
+photos-dleyna-renderer-push-host.h photos-dleyna-renderer-push-host.c: photos-dleyna-renderer-push-host.xml
+	$(AM_V_GEN)gdbus-codegen \
+		--c-namespace Dleyna \
+		--generate-c-code photos-dleyna-renderer-push-host \
+		--interface-prefix com.intel.dLeynaRenderer. \
+		$<
+
+photos-mpris-player.h photos-mpris-player.c: photos-mpris-player.xml
+	$(AM_V_GEN)gdbus-codegen \
+		--c-namespace Mpris \
+		--generate-c-code photos-mpris-player \
+		--interface-prefix org.mpris.MediaPlayer2. \
 		$<
 
 photos-tracker-resources.h photos-tracker-resources.c: photos-tracker-resources.xml

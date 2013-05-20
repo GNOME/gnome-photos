@@ -29,12 +29,14 @@
 #include <glib/gi18n.h>
 
 #include "photos-application.h"
+#include "photos-remote-display-manager.h"
 
 
 gint
 main (gint argc, gchar *argv[])
 {
   GtkApplication *app;
+  PhotosRemoteDisplayManager *remote_display_mngr;
   gint exit_status;
 
   bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
@@ -44,7 +46,9 @@ main (gint argc, gchar *argv[])
   g_set_prgname (PACKAGE_TARNAME);
 
   app = photos_application_new ();
+  remote_display_mngr = photos_remote_display_manager_dup_singleton ();
   exit_status = g_application_run (G_APPLICATION (app), argc, argv);
+  g_object_unref (remote_display_mngr);
   g_object_unref (app);
 
   return exit_status;

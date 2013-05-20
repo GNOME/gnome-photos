@@ -11,6 +11,10 @@
         <attribute name="accel">&lt;Primary&gt;p</attribute>
       </item>
       <item>
+        <attribute name="action">app.remote-display-current</attribute>
+        <attribute name="label" translatable="yes">Display on…</attribute>
+      </item>
+      <item>
         <attribute name="action">app.set-background</attribute>
         <attribute name="label" translatable="yes">Set as Background</attribute>
       </item>
