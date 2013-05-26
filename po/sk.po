@@ -1,0 +1,413 @@
+# Slovak translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Dušan Kazik <prescott66@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-05-17 11:35+0000\n"
+"PO-Revision-Date: 2013-05-23 08:58+0100\n"
+"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
+"Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:450
+#: ../src/photos-search-type-manager.c:93
+msgid "Photos"
+msgstr "Fotografie"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Pristupuje, organizuje a sprístupňuje fotografie"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Fotografie;Obrázky;"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "Veľkosť okna"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "Veľkosť okna (šírka a výška)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "Pozícia okna"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "Pozícia okna (x a y)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "Maximalizované okno"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "Maximalizovaný stav okna"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%A, %e. %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%A, %e. %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (šošovka)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm film)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Transformácia nenačítaného obrázka."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Zlyhanie transformácie."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "EXIF pre tento formát súboru  nie je podporovaný."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Zlyhalo načítanie obrázku."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Nenačítal sa žiadny obrázok."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Nemáte dostatočné oprávnenia na uloženie súboru."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Zlyhalo vytváranie dočasného súboru."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Minimálne dva názvy súborov sú rovnaké."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Nepodarilo sa zobraziť pomocníka pre Prehliadač obrázkov"
+
+# PK: preco to zacina medzerou? nahlas bug
+#: ../src/eog-util.c:116
+#, fuzzy
+msgid " (invalid Unicode)"
+msgstr " (neplatný znak Unicode)"
+
+# PM: myslím že to prekladáme Na celú obrazovku
+#: ../src/photos-app-menu.ui.h:1
+#, fuzzy
+msgid "Fullscreen"
+msgstr "Celá obrazovka"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "O programe Fotografie"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Ukončiť"
+
+#: ../src/photos-embed.c:447 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Albumy"
+
+#: ../src/photos-embed.c:453 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "Obľúbené"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "Nenašli sa žiadne fotografie"
+
+#: ../src/photos-indexing-notification.c:170
+msgid "Your photos are being indexed"
+msgstr "Prebieha indexovanie vašich fotografií"
+
+#: ../src/photos-indexing-notification.c:174
+msgid "Some photos might not be available during this process"
+msgstr "Niektoré fotografie nemusia byť počas tohoto procesu dostupné"
+
+# gtk_label
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:195
+msgid "Load More"
+msgstr "Načítať viac"
+
+#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "Načítava sa…"
+
+#: ../src/photos-main-toolbar.c:100
+msgid "Click on items to select them"
+msgstr "Kliknutím na položku ju vyberiete"
+
+#: ../src/photos-main-toolbar.c:102
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d vybratých"
+msgstr[1] "%d vybratá"
+msgstr[2] "%d vybraté"
+
+#: ../src/photos-main-toolbar.c:148
+msgid "Back"
+msgstr "Späť"
+
+# tooltip
+#: ../src/photos-main-toolbar.c:217
+msgid "Select Items"
+msgstr "Vyberie položky"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:292
+#, c-format
+msgid "Open with %s"
+msgstr "Otvoriť pomocou %s"
+
+#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:330
+msgid "Done"
+msgstr "Dokončiť"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr ""
+"Pristupujte k vašim fotografiám, organizujte a sprístupňujte ich v prostredí "
+"GNOME"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr "Dušan Kazik <prescott66@gmail.com>"
+
+# PK: organizovanie skor
+# PM: ako je to v iných moduloch? 
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:132
+#, fuzzy
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Usporiadanie"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:295
+msgid "Open"
+msgstr "Otvoriť"
+
+# PK: tu neviem ci neprekladame ako Tlacit
+#: ../src/photos-preview-menu.ui.h:2
+#, fuzzy
+msgid "Print…"
+msgstr "Tlač…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Set as Background"
+msgstr "Nastaviť ako pozadie"
+
+#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:368
+#: ../src/photos-selection-toolbar.c:532
+msgid "Properties"
+msgstr "Vlastnosti"
+
+#: ../src/photos-print-operation.c:275
+msgid "Image Settings"
+msgstr "Nastavenia obrázka"
+
+# frame
+#: ../src/photos-print-setup.c:898
+msgid "Position"
+msgstr "Pozícia"
+
+# spin button label
+#: ../src/photos-print-setup.c:901
+msgid "_Left:"
+msgstr "_Vľavo:"
+
+# spin button label
+#: ../src/photos-print-setup.c:902
+msgid "_Right:"
+msgstr "V_pravo:"
+
+# PM: hore a dole
+# spin button label
+#: ../src/photos-print-setup.c:903
+#, fuzzy
+msgid "_Top:"
+msgstr "_Navrchu:"
+
+# spin button label
+#: ../src/photos-print-setup.c:904
+#, fuzzy
+msgid "_Bottom:"
+msgstr "N_aspodku:"
+
+# lable
+#: ../src/photos-print-setup.c:906
+msgid "C_enter:"
+msgstr "Vystr_ediť:"
+
+# combobox text
+#: ../src/photos-print-setup.c:910
+msgid "None"
+msgstr "Nijako"
+
+# combobox text
+#: ../src/photos-print-setup.c:911
+msgid "Horizontal"
+msgstr "Vodorovne"
+
+# combobox text
+#: ../src/photos-print-setup.c:912
+msgid "Vertical"
+msgstr "Zvislo"
+
+# combobox text
+#: ../src/photos-print-setup.c:913
+msgid "Both"
+msgstr "Vodorovne aj zvislo"
+
+# frame
+#: ../src/photos-print-setup.c:926
+msgid "Size"
+msgstr "Veľkosť"
+
+# spin button label
+#: ../src/photos-print-setup.c:929
+msgid "_Width:"
+msgstr "Ší_rka:"
+
+# spin button label
+#: ../src/photos-print-setup.c:930
+msgid "_Height:"
+msgstr "_Výška:"
+
+# label
+#: ../src/photos-print-setup.c:932
+msgid "_Scaling:"
+msgstr "_Mierka:"
+
+# label
+#: ../src/photos-print-setup.c:941
+msgid "_Unit:"
+msgstr "_Jednotky:"
+
+# combobox text
+#: ../src/photos-print-setup.c:945
+msgid "Millimeters"
+msgstr "Milimetre"
+
+# combobox text
+#: ../src/photos-print-setup.c:946
+msgid "Inches"
+msgstr "Palce"
+
+# PM: asi náhľad
+# frame
+#: ../src/photos-print-setup.c:974
+#, fuzzy
+msgid "Preview"
+msgstr "Ukážka"
+
+#: ../src/photos-properties-dialog.c:155
+msgid "Title"
+msgstr "Názov"
+
+#: ../src/photos-properties-dialog.c:164
+msgid "Author"
+msgstr "Autor"
+
+#: ../src/photos-properties-dialog.c:171
+msgid "Source"
+msgstr "Zdroj"
+
+#: ../src/photos-properties-dialog.c:177
+msgid "Date Modified"
+msgstr "Dátum zmeny"
+
+#: ../src/photos-properties-dialog.c:185
+msgid "Date Created"
+msgstr "Dátum vytvorenia"
+
+#: ../src/photos-properties-dialog.c:192
+msgid "Type"
+msgstr "Typ"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:144
+msgid "All"
+msgstr "Všetky"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Vybrať všetky"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Zrušiť výber"
+
+#: ../src/photos-selection-toolbar.c:310
+msgid "Remove from favorites"
+msgstr "Odstrániť z obľúbených"
+
+#: ../src/photos-selection-toolbar.c:316
+msgid "Add to favorites"
+msgstr "Pridať medzi obľúbené"
+
+#: ../src/photos-selection-toolbar.c:487
+#, fuzzy
+msgid "Print"
+msgstr "Tlač"
+
+#: ../src/photos-selection-toolbar.c:498
+msgid "Delete"
+msgstr "Odstrániť"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-selection-toolbar.c:521
+#, fuzzy
+msgctxt "Toolbar button tooltip"
+msgid "Organize"
+msgstr "Usporiada fotografie"
+
+#: ../src/photos-source-manager.c:148
+msgid "Local"
+msgstr "Miestne"
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr "Nepodarilo sa získať zoznam fotografií"
