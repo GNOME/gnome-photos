@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-05-17 11:35+0000\n"
-"PO-Revision-Date: 2013-05-23 08:58+0100\n"
+"POT-Creation-Date: 2013-05-26 11:48+0000\n"
+"PO-Revision-Date: 2013-05-26 22:07+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -125,17 +125,14 @@ msgstr "Minimálne dva názvy súborov sú rovnaké."
 msgid "Could not display help for Image Viewer"
 msgstr "Nepodarilo sa zobraziť pomocníka pre Prehliadač obrázkov"
 
-# PK: preco to zacina medzerou? nahlas bug
+# DK: https://bugzilla.gnome.org/show_bug.cgi?id=701061
 #: ../src/eog-util.c:116
-#, fuzzy
 msgid " (invalid Unicode)"
 msgstr " (neplatný znak Unicode)"
 
-# PM: myslím že to prekladáme Na celú obrazovku
 #: ../src/photos-app-menu.ui.h:1
-#, fuzzy
 msgid "Fullscreen"
-msgstr "Celá obrazovka"
+msgstr "Na celú obrazovku"
 
 #: ../src/photos-app-menu.ui.h:2
 msgid "About Photos"
@@ -216,25 +213,20 @@ msgstr ""
 msgid "translator-credits"
 msgstr "Dušan Kazik <prescott66@gmail.com>"
 
-# PK: organizovanie skor
-# PM: ako je to v iných moduloch? 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:132
-#, fuzzy
 msgctxt "Dialog title"
 msgid "Organize"
-msgstr "Usporiadanie"
+msgstr "Organizovanie"
 
 #. Translators: this is the Open action in a context menu
 #: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:295
 msgid "Open"
 msgstr "Otvoriť"
 
-# PK: tu neviem ci neprekladame ako Tlacit
 #: ../src/photos-preview-menu.ui.h:2
-#, fuzzy
 msgid "Print…"
-msgstr "Tlač…"
+msgstr "Tlačiť…"
 
 #: ../src/photos-preview-menu.ui.h:3
 msgid "Set as Background"
@@ -264,18 +256,15 @@ msgstr "_Vľavo:"
 msgid "_Right:"
 msgstr "V_pravo:"
 
-# PM: hore a dole
 # spin button label
 #: ../src/photos-print-setup.c:903
-#, fuzzy
 msgid "_Top:"
-msgstr "_Navrchu:"
+msgstr "_Hore:"
 
 # spin button label
 #: ../src/photos-print-setup.c:904
-#, fuzzy
 msgid "_Bottom:"
-msgstr "N_aspodku:"
+msgstr "_Dole:"
 
 # lable
 #: ../src/photos-print-setup.c:906
@@ -337,12 +326,10 @@ msgstr "Milimetre"
 msgid "Inches"
 msgstr "Palce"
 
-# PM: asi náhľad
 # frame
 #: ../src/photos-print-setup.c:974
-#, fuzzy
 msgid "Preview"
-msgstr "Ukážka"
+msgstr "Náhľad"
 
 #: ../src/photos-properties-dialog.c:155
 msgid "Title"
@@ -389,9 +376,8 @@ msgid "Add to favorites"
 msgstr "Pridať medzi obľúbené"
 
 #: ../src/photos-selection-toolbar.c:487
-#, fuzzy
 msgid "Print"
-msgstr "Tlač"
+msgstr "Tlačiť"
 
 #: ../src/photos-selection-toolbar.c:498
 msgid "Delete"
@@ -399,10 +385,9 @@ msgstr "Odstrániť"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-selection-toolbar.c:521
-#, fuzzy
 msgctxt "Toolbar button tooltip"
 msgid "Organize"
-msgstr "Usporiada fotografie"
+msgstr "Organizuje fotografie"
 
 #: ../src/photos-source-manager.c:148
 msgid "Local"
