@@ -2,15 +2,17 @@
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2013.
+# Christian Kirbach <christian.kirbach@gmail.com>, 2013.
+# Wolfgang Stöggl <c72578@yahoo.de>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-03 02:10+0000\n"
-"PO-Revision-Date: 2013-03-05 12:35+0100\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"POT-Creation-Date: 2013-05-14 12:22+0000\n"
+"PO-Revision-Date: 2013-06-02 16:07+0200\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -19,9 +21,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
+"X-Generator: Gtranslator 2.91.5\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-main-toolbar.c:91
-#: ../src/photos-search-type-manager.c:68
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:450
+#: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "Fotos"
 
@@ -90,7 +93,7 @@ msgstr "Umwandlung eines nicht geladenen Bildes."
 #: ../src/eog-image.c:623
 #, c-format
 msgid "Transformation failed."
-msgstr "umwandlung gescheitert."
+msgstr "Umwandlung gescheitert."
 
 #: ../src/eog-image.c:1047
 #, c-format
@@ -117,102 +120,10 @@ msgstr "Sie haben nicht die notwendigen Rechte zum Speichern der Datei."
 msgid "Temporary file creation failed."
 msgstr "Erstellen der temporären Datei ist gescheitert."
 
-#: ../src/eog-print.c:371
-msgid "Image Settings"
-msgstr "Bildeinstellungen"
-
-#: ../src/eog-print-image-setup.c:906
-msgid "Image"
-msgstr "Bild"
-
-#: ../src/eog-print-image-setup.c:907
-msgid "The image whose printing properties will be set up"
-msgstr "Das Bild, dessen Druckeigenschaften eingerichtet werden sollen"
-
-#: ../src/eog-print-image-setup.c:913
-msgid "Page Setup"
-msgstr "Seiteneinrichtung"
-
-#: ../src/eog-print-image-setup.c:914
-msgid "The information for the page where the image will be printed"
-msgstr "Die Informationen für die Seite, auf die das Bild gedruckt wird"
-
-#: ../src/eog-print-image-setup.c:942
-msgid "Position"
-msgstr "Position"
-
-#: ../src/eog-print-image-setup.c:946
-msgid "_Left:"
-msgstr "_Links:"
-
-#: ../src/eog-print-image-setup.c:948
-msgid "_Right:"
-msgstr "_Rechts:"
-
-#: ../src/eog-print-image-setup.c:949
-msgid "_Top:"
-msgstr "_Oben:"
-
-#: ../src/eog-print-image-setup.c:950
-msgid "_Bottom:"
-msgstr "_Unten:"
-
-#: ../src/eog-print-image-setup.c:953
-msgid "C_enter:"
-msgstr "Mitt_e:"
-
-#: ../src/eog-print-image-setup.c:958
-msgid "None"
-msgstr "Kein"
-
-#: ../src/eog-print-image-setup.c:960
-msgid "Horizontal"
-msgstr "Horizontal"
-
-#: ../src/eog-print-image-setup.c:962
-msgid "Vertical"
-msgstr "Vertikal"
-
-#: ../src/eog-print-image-setup.c:964
-msgid "Both"
-msgstr "Beide"
-
-#: ../src/eog-print-image-setup.c:980
-msgid "Size"
-msgstr "Größe"
-
-#: ../src/eog-print-image-setup.c:983
-msgid "_Width:"
-msgstr "_Breite:"
-
-#: ../src/eog-print-image-setup.c:985
-msgid "_Height:"
-msgstr "_Höhe:"
-
-#: ../src/eog-print-image-setup.c:988
-msgid "_Scaling:"
-msgstr "_Skalierung:"
-
-#: ../src/eog-print-image-setup.c:999
-msgid "_Unit:"
-msgstr "_Einheit:"
-
-#: ../src/eog-print-image-setup.c:1004
-msgid "Millimeters"
-msgstr "Millimeter"
-
-#: ../src/eog-print-image-setup.c:1006
-msgid "Inches"
-msgstr "Zoll"
-
-#: ../src/eog-print-image-setup.c:1035
-msgid "Preview"
-msgstr "Vorschau"
-
 #: ../src/eog-uri-converter.c:984
 #, c-format
 msgid "At least two file names are equal."
-msgstr "Minestens zwei Dateinamen sind gleich."
+msgstr "Mindestens zwei Dateinamen sind gleich."
 
 #: ../src/eog-util.c:68
 msgid "Could not display help for Image Viewer"
@@ -234,7 +145,15 @@ msgstr "Info zu Fotos"
 msgid "Quit"
 msgstr "Beenden"
 
-#: ../src/photos-empty-results-box.c:70
+#: ../src/photos-embed.c:447 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Alben"
+
+#: ../src/photos-embed.c:453 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "Favoriten"
+
+#: ../src/photos-empty-results-box.c:66
 msgid "No Photos Found"
 msgstr "Keine Fotos gefunden"
 
@@ -246,52 +165,150 @@ msgstr "Ihre Fotos werden indiziert"
 msgid "Some photos might not be available during this process"
 msgstr "Einige Fotos könnten während dieses Vorgangs nicht verfügbar sein"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:195
 msgid "Load More"
 msgstr "Weitere laden"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:113
+#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
 msgid "Loading..."
 msgstr "Ladevorgang …"
 
-#: ../src/photos-main-toolbar.c:96
-msgid "Favorites"
-msgstr "Favoriten"
-
-#: ../src/photos-main-toolbar.c:135
+#: ../src/photos-main-toolbar.c:100
 msgid "Click on items to select them"
 msgstr "Klicken Sie auf Objekte, um diese auszuwählen"
 
-#: ../src/photos-main-toolbar.c:137
+#: ../src/photos-main-toolbar.c:102
 #, c-format
 msgid "%d selected"
-msgstr "%d gewählt"
+msgid_plural "%d selected"
+msgstr[0] "%d gewählt"
+msgstr[1] "%d gewählt"
 
-#: ../src/photos-main-toolbar.c:193 ../src/photos-main-toolbar.c:362
+#: ../src/photos-main-toolbar.c:148
 msgid "Back"
 msgstr "Zurück"
 
-#: ../src/photos-main-toolbar.c:310 ../src/photos-main-toolbar.c:336
+#: ../src/photos-main-toolbar.c:217
 msgid "Select Items"
 msgstr "Objekte auswählen"
 
-#: ../src/photos-main-toolbar.c:380 ../src/photos-properties-dialog.c:328
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:292
+#, c-format
+msgid "Open with %s"
+msgstr "Öffnen mit %s"
+
+#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:330
 msgid "Done"
 msgstr "Fertig"
 
-#: ../src/photos-main-window.c:334
+#: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
 msgstr "In GNOME auf Ihre Fotos zugreifen, diese verwalten und freigeben"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:344
+#: ../src/photos-main-window.c:339
 msgid "translator-credits"
 msgstr "Mario Blättermann <mario.blaettermann@gmail.com>"
 
-#: ../src/photos-organize-collection-dialog.c:133
-#: ../src/photos-selection-toolbar.c:572
+#: ../src/photos-organize-collection-dialog.c:131
+#: ../src/photos-selection-toolbar.c:520
 msgid "Organize"
 msgstr "Ordnen"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:295
+msgid "Open"
+msgstr "Öffnen"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Drucken …"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Set as Background"
+msgstr "Als Hintergrund festlegen"
+
+#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:368
+#: ../src/photos-selection-toolbar.c:531
+msgid "Properties"
+msgstr "Eigenschaften"
+
+#: ../src/photos-print-operation.c:275
+msgid "Image Settings"
+msgstr "Bildeinstellungen"
+
+#: ../src/photos-print-setup.c:898
+msgid "Position"
+msgstr "Position"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Left:"
+msgstr "_Links:"
+
+#: ../src/photos-print-setup.c:902
+msgid "_Right:"
+msgstr "_Rechts:"
+
+#: ../src/photos-print-setup.c:903
+msgid "_Top:"
+msgstr "_Oben:"
+
+#: ../src/photos-print-setup.c:904
+msgid "_Bottom:"
+msgstr "_Unten:"
+
+#: ../src/photos-print-setup.c:906
+msgid "C_enter:"
+msgstr "Mitt_e:"
+
+#: ../src/photos-print-setup.c:910
+msgid "None"
+msgstr "Kein"
+
+#: ../src/photos-print-setup.c:911
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#: ../src/photos-print-setup.c:912
+msgid "Vertical"
+msgstr "Vertikal"
+
+#: ../src/photos-print-setup.c:913
+msgid "Both"
+msgstr "Beide"
+
+#: ../src/photos-print-setup.c:926
+msgid "Size"
+msgstr "Größe"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Width:"
+msgstr "_Breite:"
+
+#: ../src/photos-print-setup.c:930
+msgid "_Height:"
+msgstr "_Höhe:"
+
+#: ../src/photos-print-setup.c:932
+msgid "_Scaling:"
+msgstr "_Skalierung:"
+
+#: ../src/photos-print-setup.c:941
+msgid "_Unit:"
+msgstr "_Einheit:"
+
+#: ../src/photos-print-setup.c:945
+msgid "Millimeters"
+msgstr "Millimeter"
+
+#: ../src/photos-print-setup.c:946
+msgid "Inches"
+msgstr "Zoll"
+
+#: ../src/photos-print-setup.c:974
+msgid "Preview"
+msgstr "Vorschau"
 
 #: ../src/photos-properties-dialog.c:155
 msgid "Title"
@@ -317,38 +334,31 @@ msgstr "Erstellungsdatum"
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/photos-properties-dialog.c:365 ../src/photos-selection-toolbar.c:583
-msgid "Properties"
-msgstr "Eigenschaften"
-
-#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:144
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:144
 msgid "All"
 msgstr "Alle"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:306
-#, c-format
-msgid "Open with %s"
-msgstr "Öffnen mit %s"
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Alle auswählen"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:309
-msgid "Open"
-msgstr "Öffnen"
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Nichts auswählen"
 
-#: ../src/photos-selection-toolbar.c:324
+#: ../src/photos-selection-toolbar.c:310
 msgid "Remove from favorites"
 msgstr "Aus Favoriten entfernen"
 
-#: ../src/photos-selection-toolbar.c:330
+#: ../src/photos-selection-toolbar.c:316
 msgid "Add to favorites"
 msgstr "Zu Favoriten hinzufügen"
 
-#: ../src/photos-selection-toolbar.c:539
+#: ../src/photos-selection-toolbar.c:487
 msgid "Print"
 msgstr "Drucken"
 
-#: ../src/photos-selection-toolbar.c:550
+#: ../src/photos-selection-toolbar.c:498
 msgid "Delete"
 msgstr "Löschen"
 
@@ -356,6 +366,18 @@ msgstr "Löschen"
 msgid "Local"
 msgstr "Lokal"
 
-#: ../src/photos-tracker-controller.c:80
+#: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
 msgstr "Die Liste der Fotos kann nicht abgeholt werden"
+
+#~ msgid "Image"
+#~ msgstr "Bild"
+
+#~ msgid "The image whose printing properties will be set up"
+#~ msgstr "Das Bild, dessen Druckeigenschaften eingerichtet werden sollen"
+
+#~ msgid "Page Setup"
+#~ msgstr "Seiteneinrichtung"
+
+#~ msgid "The information for the page where the image will be printed"
+#~ msgstr "Die Informationen für die Seite, auf die das Bild gedruckt wird"
