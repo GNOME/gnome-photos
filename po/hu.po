@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-15 08:11+0000\n"
-"PO-Revision-Date: 2013-04-16 23:05+0200\n"
+"POT-Creation-Date: 2013-05-14 12:34+0000\n"
+"PO-Revision-Date: 2013-06-16 21:01+0200\n"
 "Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
 "Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
 "Language: hu\n"
@@ -166,7 +166,8 @@ msgid "Load More"
 msgstr "Továbbiak betöltése"
 
 #: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
-msgid "Loading..."
+#| msgid "Loading..."
+msgid "Loading…"
 msgstr "Betöltés…"
 
 #: ../src/photos-main-toolbar.c:100
@@ -175,7 +176,6 @@ msgstr "Kattintson az elemekre a kiválasztásukhoz"
 
 #: ../src/photos-main-toolbar.c:102
 #, c-format
-#| msgid "%d selected"
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d kiválasztva"
@@ -208,8 +208,10 @@ msgstr "Fényképek elérése, rendszerezése és megosztása a GNOME-ban"
 msgid "translator-credits"
 msgstr "Úr Balázs <urbalazs@gmail.com>"
 
-#: ../src/photos-organize-collection-dialog.c:131
-#: ../src/photos-selection-toolbar.c:520
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:132
+#| msgid "Organize"
+msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Rendszerezés"
 
@@ -227,7 +229,7 @@ msgid "Set as Background"
 msgstr "Beállítás háttérként"
 
 #: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:368
-#: ../src/photos-selection-toolbar.c:531
+#: ../src/photos-selection-toolbar.c:532
 msgid "Properties"
 msgstr "Tulajdonságok"
 
@@ -358,6 +360,13 @@ msgstr "Nyomtatás"
 #: ../src/photos-selection-toolbar.c:498
 msgid "Delete"
 msgstr "Törlés"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-selection-toolbar.c:521
+#| msgid "Organize"
+msgctxt "Toolbar button tooltip"
+msgid "Organize"
+msgstr "Rendszerezés"
 
 #: ../src/photos-source-manager.c:148
 msgid "Local"
