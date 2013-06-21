@@ -30,6 +30,7 @@
 #include "photos-enums.h"
 #include "photos-item-manager.h"
 #include "photos-load-more-button.h"
+#include "photos-remote-display-manager.h"
 #include "photos-selection-controller.h"
 #include "photos-tracker-collections-controller.h"
 #include "photos-tracker-favorites-controller.h"
@@ -46,6 +47,7 @@ struct _PhotosViewContainerPrivate
   GtkWidget *load_more;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
+  PhotosRemoteDisplayManager *remote_mngr;
   PhotosSelectionController *sel_cntrlr;
   PhotosTrackerController *trk_cntrlr;
   PhotosWindowMode mode;
@@ -163,7 +165,16 @@ photos_view_container_item_activated (GdMainView *main_view,
                                       gpointer user_data)
 {
   PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (user_data);
-  photos_base_manager_set_active_object_by_id (self->priv->item_mngr, id);
+  PhotosViewContainerPrivate *priv = self->priv;
+  GObject *object;
+
+  object = photos_base_manager_get_object_by_id (priv->item_mngr, id);
+
+  if (!photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)) &&
+      photos_remote_display_manager_is_active (priv->remote_mngr))
+    photos_remote_display_manager_render (priv->remote_mngr, PHOTOS_BASE_ITEM (object));
+  else
+    photos_base_manager_set_active_object (priv->item_mngr, object);
 }
 
 
@@ -291,6 +302,8 @@ photos_view_container_constructed (GObject *object)
                     G_CALLBACK (photos_view_container_window_mode_changed),
                     self);
 
+  priv->remote_mngr = photos_remote_display_manager_dup_singleton ();
+
   switch (priv->mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
@@ -346,6 +359,7 @@ photos_view_container_dispose (GObject *object)
   g_clear_object (&priv->model);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
+  g_clear_object (&priv->remote_mngr);
   g_clear_object (&priv->sel_cntrlr);
   g_clear_object (&priv->trk_cntrlr);
 

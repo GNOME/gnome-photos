@@ -36,6 +36,7 @@
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
+#include "photos-remote-display-manager.h"
 #include "photos-selection-controller.h"
 #include "photos-source-manager.h"
 
@@ -44,12 +45,14 @@ struct _PhotosMainToolbarPrivate
 {
   GSimpleAction *gear_menu;
   GtkWidget *coll_back_button;
+  GtkWidget *remote_display_button;
   GtkWidget *selection_menu;
   GtkWidget *toolbar;
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosModeController *mode_cntrlr;
+  PhotosRemoteDisplayManager *remote_mngr;
   PhotosSelectionController *sel_cntrlr;
   PhotosWindowMode old_mode;
   gulong collection_id;
@@ -207,6 +210,48 @@ photos_main_toolbar_select_button_clicked (GtkButton *button, gpointer user_data
 
 
 static void
+photos_main_toolbar_remote_display_button_clicked (GtkButton *button,
+                                                   gpointer user_data)
+{
+  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
+  PhotosMainToolbarPrivate *priv = self->priv;
+
+  photos_remote_display_manager_stop (priv->remote_mngr);
+}
+
+
+static void
+photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  PhotosDlnaRenderer *renderer;
+  GtkLabel *label;
+  gchar *text;
+  const gchar *name;
+
+  if (priv->remote_display_button != NULL)
+    gtk_widget_destroy (priv->remote_display_button);
+
+  renderer = photos_remote_display_manager_get_renderer (priv->remote_mngr);
+  name = photos_dlna_renderer_get_friendly_name (renderer);
+  text = g_markup_printf_escaped ("Displaying on <b>%s</b>", name);
+
+  priv->remote_display_button = gd_header_simple_button_new ();
+  gd_header_button_set_label (GD_HEADER_BUTTON (priv->remote_display_button), text);
+  gd_header_button_set_use_markup (GD_HEADER_BUTTON (priv->remote_display_button), TRUE);
+  label = GTK_LABEL (gtk_bin_get_child (GTK_BIN (priv->remote_display_button)));
+  gtk_label_set_ellipsize (label, PANGO_ELLIPSIZE_MIDDLE);
+  gtk_widget_set_margin_right (priv->remote_display_button, 12);
+  gd_header_bar_pack_start (GD_HEADER_BAR (priv->toolbar), priv->remote_display_button);
+  gtk_widget_show_all (priv->remote_display_button);
+
+  g_signal_connect (priv->remote_display_button, "clicked",
+                    G_CALLBACK (photos_main_toolbar_remote_display_button_clicked), self);
+  g_free (text);
+}
+
+
+static void
 photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
@@ -245,6 +290,12 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
     {
       gtk_widget_destroy (priv->coll_back_button);
       priv->coll_back_button = NULL;
+    }
+
+  if (priv->remote_display_button != NULL)
+    {
+      gtk_widget_destroy (priv->remote_display_button);
+      priv->remote_display_button = NULL;
     }
 
   if (priv->collection_id != 0)
@@ -327,6 +378,24 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
   photos_main_toolbar_active_changed (priv->col_mngr, object, self);
+}
+
+
+static void
+photos_main_toolbar_update_remote_display_button (PhotosMainToolbar *self)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  PhotosWindowMode window_mode;
+  gboolean selection_mode, active;
+
+  selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
+  window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  active = photos_remote_display_manager_is_active (priv->remote_mngr);
+
+  if (active && !selection_mode && window_mode != PHOTOS_WINDOW_MODE_PREVIEW)
+    photos_main_toolbar_add_remote_display_button (self);
+  else
+    g_clear_pointer (&priv->remote_display_button, gtk_widget_destroy);
 }
 
 
@@ -437,6 +506,8 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
   else if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     photos_main_toolbar_populate_for_preview (self);
 
+  photos_main_toolbar_update_remote_display_button (self);
+
   photos_main_toolbar_set_toolbar_title (self);
   gtk_widget_show_all (priv->toolbar);
 }
@@ -480,9 +551,33 @@ photos_main_toolbar_dispose (GObject *object)
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->mode_cntrlr);
+  g_clear_object (&priv->remote_mngr);
   g_clear_object (&priv->sel_cntrlr);
 
   G_OBJECT_CLASS (photos_main_toolbar_parent_class)->dispose (object);
+}
+
+
+static void
+photos_main_toolbar_share_changed_cb (PhotosMainToolbar          *self,
+                                      PhotosDlnaRenderer         *renderer,
+                                      PhotosBaseItem             *item,
+                                      PhotosRemoteDisplayManager *remote_mngr)
+{
+  photos_main_toolbar_update_remote_display_button (self);
+}
+
+
+static void
+photos_main_toolbar_share_error_cb (PhotosMainToolbar          *self,
+                                    PhotosDlnaRenderer         *renderer,
+                                    PhotosBaseItem             *item,
+                                    GError                     *error,
+                                    PhotosRemoteDisplayManager *remote_mngr)
+{
+  photos_main_toolbar_update_remote_display_button (self);
+
+  g_warning ("Error sharing item with remote display: %s", error->message);
 }
 
 
@@ -541,6 +636,17 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
                                                       "selection-mode-changed",
                                                       G_CALLBACK (photos_main_toolbar_reset_toolbar_mode),
                                                       self);
+
+  priv->remote_mngr = photos_remote_display_manager_dup_singleton ();
+  g_signal_connect_object (priv->remote_mngr, "share-began",
+                           G_CALLBACK (photos_main_toolbar_share_changed_cb),
+                           self, G_CONNECT_SWAPPED);
+  g_signal_connect_object (priv->remote_mngr, "share-ended",
+                           G_CALLBACK (photos_main_toolbar_share_changed_cb),
+                           self, G_CONNECT_SWAPPED);
+  g_signal_connect_object (priv->remote_mngr, "share-error",
+                           G_CALLBACK (photos_main_toolbar_share_error_cb),
+                           self, G_CONNECT_SWAPPED);
 
   photos_main_toolbar_reset_toolbar_mode (self);
 }
