@@ -345,6 +345,7 @@ photos_view_container_dispose (GObject *object)
 
   g_clear_object (&priv->model);
   g_clear_object (&priv->item_mngr);
+  g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->sel_cntrlr);
   g_clear_object (&priv->trk_cntrlr);
 
