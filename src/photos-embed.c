@@ -68,12 +68,13 @@ struct _PhotosEmbedPrivate
   PhotosTrackerChangeMonitor *monitor;
   PhotosTrackerController *trk_ovrvw_cntrlr;
   guint load_show_id;
-  gulong no_results_change_id;
-  gulong notify_visible_child_id;
 };
 
 
 G_DEFINE_TYPE (PhotosEmbed, photos_embed, GTK_TYPE_BOX);
+
+
+static void photos_embed_changes_pending (PhotosEmbed *self, GHashTable *changes);
 
 
 static void
@@ -195,12 +196,7 @@ photos_embed_hide_no_results_page (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
 
-  if (priv->no_results_change_id != 0)
-    {
-      g_signal_handler_disconnect (priv->monitor, priv->no_results_change_id);
-      priv->no_results_change_id = 0;
-    }
-
+  g_signal_handlers_disconnect_by_func (priv->monitor, photos_embed_changes_pending, self);
   photos_embed_restore_last_page (self);
 }
 
@@ -224,10 +220,11 @@ photos_embed_count_changed (PhotosEmbed *self, gint count)
 
   if (count == 0)
     {
-      priv->no_results_change_id = g_signal_connect_swapped (priv->monitor,
-                                                             "changes-pending",
-                                                             G_CALLBACK (photos_embed_changes_pending),
-                                                             self);
+      g_signal_connect_object (priv->monitor,
+                               "changes-pending",
+                               G_CALLBACK (photos_embed_changes_pending),
+                               self,
+                               G_CONNECT_SWAPPED);
       gd_stack_set_visible_child_name (GD_STACK (priv->stack), "no-results");
     }
   else
@@ -387,18 +384,6 @@ photos_embed_dispose (GObject *object)
   PhotosEmbed *self = PHOTOS_EMBED (object);
   PhotosEmbedPrivate *priv = self->priv;
 
-  if (priv->no_results_change_id != 0)
-    {
-      g_signal_handler_disconnect (priv->monitor, priv->no_results_change_id);
-      priv->no_results_change_id = 0;
-    }
-
-  if (priv->notify_visible_child_id != 0)
-    {
-      g_signal_handler_disconnect (priv->stack, priv->notify_visible_child_id);
-      priv->notify_visible_child_id = 0;
-    }
-
   g_clear_object (&priv->ntfctn_mngr);
   g_clear_object (&priv->loader_cancellable);
   g_clear_object (&priv->indexing_ntfctn);
@@ -407,6 +392,13 @@ photos_embed_dispose (GObject *object)
   g_clear_object (&priv->offset_cntrlr);
   g_clear_object (&priv->monitor);
   g_clear_object (&priv->trk_ovrvw_cntrlr);
+
+  /* GdStack triggers notify::visible-child during dispose and this means that
+   * we have to explicitly disconnect the signal handler before calling up to
+   * the parent implementation, or photos_embed_notify_visible_child() will
+   * get called while we're in a inconsistent state
+   */
+  g_signal_handlers_disconnect_by_func (priv->stack, photos_embed_notify_visible_child, self);
 
   G_OBJECT_CLASS (photos_embed_parent_class)->dispose (object);
 }
@@ -470,10 +462,9 @@ photos_embed_init (PhotosEmbed *self)
   priv->selection_toolbar = photos_selection_toolbar_new ();
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->selection_toolbar);
 
-  priv->notify_visible_child_id = g_signal_connect_swapped (priv->stack,
-                                                            "notify::visible-child",
-                                                            G_CALLBACK (photos_embed_notify_visible_child),
-                                                            self);
+  g_signal_connect_object (priv->stack, "notify::visible-child",
+                           G_CALLBACK (photos_embed_notify_visible_child),
+                           self, G_CONNECT_SWAPPED);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
   g_signal_connect (priv->mode_cntrlr,
