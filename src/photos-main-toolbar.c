@@ -55,11 +55,6 @@ struct _PhotosMainToolbarPrivate
   PhotosRemoteDisplayManager *remote_mngr;
   PhotosSelectionController *sel_cntrlr;
   PhotosWindowMode old_mode;
-  gulong collection_id;
-  gulong search_source_id;
-  gulong selection_changed_id;
-  gulong selection_mode_id;
-  gulong window_mode_id;
 };
 
 
@@ -263,10 +258,11 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
   gd_header_bar_pack_end (GD_HEADER_BAR (priv->toolbar), selection_button);
   g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_select_button_clicked), self);
 
-  priv->collection_id = g_signal_connect (priv->col_mngr,
-                                          "active-changed",
-                                          G_CALLBACK (photos_main_toolbar_active_changed),
-                                          self);
+  g_signal_connect_object (priv->col_mngr,
+                           "active-changed",
+                           G_CALLBACK (photos_main_toolbar_active_changed),
+                           self,
+                           0);
 }
 
 
@@ -298,17 +294,11 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
       priv->remote_display_button = NULL;
     }
 
-  if (priv->collection_id != 0)
-    {
-      g_signal_handler_disconnect (priv->col_mngr, priv->collection_id);
-      priv->collection_id = 0;
-    }
+  if (priv->col_mngr != NULL)
+    g_signal_handlers_disconnect_by_func (priv->col_mngr, photos_main_toolbar_active_changed, self);
 
-  if (priv->selection_changed_id != 0)
-    {
-      g_signal_handler_disconnect (priv->sel_cntrlr, priv->selection_changed_id);
-      priv->selection_changed_id = 0;
-    }
+  if (priv->sel_cntrlr != NULL)
+    g_signal_handlers_disconnect_by_func (priv->sel_cntrlr, photos_main_toolbar_set_toolbar_title, self);
 }
 
 
@@ -477,10 +467,11 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
   gtk_style_context_add_class (context, "suggested-action");
   g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_done_button_clicked), self);
 
-  priv->selection_changed_id = g_signal_connect_swapped (priv->sel_cntrlr,
-                                                         "selection-changed",
-                                                         G_CALLBACK (photos_main_toolbar_set_toolbar_title),
-                                                         self);
+  g_signal_connect_object (priv->sel_cntrlr,
+                           "selection-changed",
+                           G_CALLBACK (photos_main_toolbar_set_toolbar_title),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 
@@ -528,24 +519,6 @@ photos_main_toolbar_dispose (GObject *object)
   PhotosMainToolbarPrivate *priv = self->priv;
 
   photos_main_toolbar_clear_state_data (self);
-
-  if (priv->window_mode_id != 0)
-    {
-      g_signal_handler_disconnect (priv->mode_cntrlr, priv->window_mode_id);
-      priv->window_mode_id = 0;
-    }
-
-  if (priv->selection_mode_id != 0)
-    {
-      g_signal_handler_disconnect (priv->sel_cntrlr, priv->selection_mode_id);
-      priv->selection_mode_id = 0;
-    }
-
-  if (priv->search_source_id != 0)
-    {
-      g_signal_handler_disconnect (priv->src_mngr, priv->search_source_id);
-      priv->search_source_id = 0;
-    }
 
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
@@ -619,34 +592,43 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   priv->item_mngr = photos_item_manager_new ();
 
   priv->src_mngr = photos_source_manager_new ();
-  priv->search_source_id = g_signal_connect_swapped (priv->src_mngr,
-                                                     "active-changed",
-                                                     G_CALLBACK (photos_main_toolbar_set_toolbar_title),
-                                                     self);
+  g_signal_connect_object (priv->src_mngr,
+                           "active-changed",
+                           G_CALLBACK (photos_main_toolbar_set_toolbar_title),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   priv->mode_cntrlr = photos_mode_controller_new ();
   priv->old_mode = PHOTOS_WINDOW_MODE_NONE;
-  priv->window_mode_id = g_signal_connect_swapped (priv->mode_cntrlr,
-                                                   "window-mode-changed",
-                                                   G_CALLBACK (photos_main_toolbar_window_mode_changed),
-                                                   self);
+  g_signal_connect_object (priv->mode_cntrlr,
+                           "window-mode-changed",
+                           G_CALLBACK (photos_main_toolbar_window_mode_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   priv->sel_cntrlr = photos_selection_controller_new ();
-  priv->selection_mode_id = g_signal_connect_swapped (priv->sel_cntrlr,
-                                                      "selection-mode-changed",
-                                                      G_CALLBACK (photos_main_toolbar_reset_toolbar_mode),
-                                                      self);
+  g_signal_connect_object (priv->sel_cntrlr,
+                           "selection-mode-changed",
+                           G_CALLBACK (photos_main_toolbar_reset_toolbar_mode),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   priv->remote_mngr = photos_remote_display_manager_dup_singleton ();
-  g_signal_connect_object (priv->remote_mngr, "share-began",
+  g_signal_connect_object (priv->remote_mngr,
+                           "share-began",
                            G_CALLBACK (photos_main_toolbar_share_changed_cb),
-                           self, G_CONNECT_SWAPPED);
-  g_signal_connect_object (priv->remote_mngr, "share-ended",
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (priv->remote_mngr,
+                           "share-ended",
                            G_CALLBACK (photos_main_toolbar_share_changed_cb),
-                           self, G_CONNECT_SWAPPED);
-  g_signal_connect_object (priv->remote_mngr, "share-error",
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (priv->remote_mngr,
+                           "share-error",
                            G_CALLBACK (photos_main_toolbar_share_error_cb),
-                           self, G_CONNECT_SWAPPED);
+                           self,
+                           G_CONNECT_SWAPPED);
 
   photos_main_toolbar_reset_toolbar_mode (self);
 }
