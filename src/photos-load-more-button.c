@@ -43,7 +43,6 @@ struct _PhotosLoadMoreButtonPrivate
   PhotosOffsetController *offset_cntrlr;
   PhotosWindowMode mode;
   gboolean block;
-  gulong offset_cntrlr_id;
 };
 
 enum
@@ -119,10 +118,11 @@ photos_load_more_button_constructed (GObject *object)
       break;
     }
 
-  priv->offset_cntrlr_id = g_signal_connect (priv->offset_cntrlr,
-                                             "count-changed",
-                                             G_CALLBACK (photos_load_more_button_count_changed),
-                                             self);
+  g_signal_connect_object (priv->offset_cntrlr,
+                           "count-changed",
+                           G_CALLBACK (photos_load_more_button_count_changed),
+                           self,
+                           0);
 
   count = photos_offset_controller_get_count (priv->offset_cntrlr);
   photos_load_more_button_count_changed (priv->offset_cntrlr, count, self);
@@ -134,12 +134,6 @@ photos_load_more_button_dispose (GObject *object)
 {
   PhotosLoadMoreButton *self = PHOTOS_LOAD_MORE_BUTTON (object);
   PhotosLoadMoreButtonPrivate *priv = self->priv;
-
-  if (priv->offset_cntrlr_id != 0)
-    {
-      g_signal_handler_disconnect (priv->offset_cntrlr, priv->offset_cntrlr_id);
-      priv->offset_cntrlr_id = 0;
-    }
 
   g_clear_object (&self->priv->offset_cntrlr);
 
