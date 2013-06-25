@@ -52,9 +52,6 @@ struct _PhotosViewContainerPrivate
   PhotosTrackerController *trk_cntrlr;
   PhotosWindowMode mode;
   gboolean disposed;
-  gulong adjustment_changed_id;
-  gulong adjustment_value_id;
-  gulong scrollbar_visible_id;
 };
 
 enum
@@ -109,20 +106,23 @@ photos_view_container_connect_view (PhotosViewContainer *self)
   GtkWidget *vscrollbar;
 
   vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
-  priv->adjustment_changed_id = g_signal_connect_swapped (vadjustment,
-                                                          "changed",
-                                                          G_CALLBACK (photos_view_container_view_changed),
-                                                          self);
-  priv->adjustment_value_id = g_signal_connect_swapped (vadjustment,
-                                                        "value-changed",
-                                                        G_CALLBACK (photos_view_container_view_changed),
-                                                        self);
+  g_signal_connect_object (vadjustment,
+                           "changed",
+                           G_CALLBACK (photos_view_container_view_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (vadjustment,
+                           "value-changed",
+                           G_CALLBACK (photos_view_container_view_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (priv->view));
-  priv->scrollbar_visible_id = g_signal_connect_swapped (vscrollbar,
-                                                         "notify::visible",
-                                                         G_CALLBACK (photos_view_container_view_changed),
-                                                         self);
+  g_signal_connect_object (vscrollbar,
+                           "notify::visible",
+                           G_CALLBACK (photos_view_container_view_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   photos_view_container_view_changed (self);
 }
@@ -138,23 +138,8 @@ photos_view_container_disconnect_view (PhotosViewContainer *self)
   vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
   vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (priv->view));
 
-  if (priv->adjustment_changed_id != 0)
-    {
-      g_signal_handler_disconnect (vadjustment, priv->adjustment_changed_id);
-      priv->adjustment_changed_id = 0;
-    }
-
-  if (priv->adjustment_value_id != 0)
-    {
-      g_signal_handler_disconnect (vadjustment, priv->adjustment_value_id);
-      priv->adjustment_value_id = 0;
-    }
-
-  if (priv->scrollbar_visible_id != 0)
-    {
-      g_signal_handler_disconnect (vscrollbar, priv->scrollbar_visible_id);
-      priv->scrollbar_visible_id = 0;
-    }
+  g_signal_handlers_disconnect_by_func (vadjustment, photos_view_container_view_changed, self);
+  g_signal_handlers_disconnect_by_func (vscrollbar, photos_view_container_view_changed, self);
 }
 
 
