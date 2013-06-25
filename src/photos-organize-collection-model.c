@@ -36,8 +36,6 @@ struct _PhotosOrganizeCollectionModelPrivate
   GtkTreePath *coll_path;
   GtkTreeRowReference *placeholder_ref;
   PhotosBaseManager *manager;
-  gulong coll_added_id;
-  gulong coll_removed_id;
 };
 
 
@@ -173,18 +171,6 @@ photos_organize_collection_model_dispose (GObject *object)
   PhotosOrganizeCollectionModel *self = PHOTOS_ORGANIZE_COLLECTION_MODEL (object);
   PhotosOrganizeCollectionModelPrivate *priv = self->priv;
 
-  if (priv->coll_added_id != 0)
-    {
-      g_signal_handler_disconnect (priv->manager, priv->coll_added_id);
-      priv->coll_added_id = 0;
-    }
-
-  if (priv->coll_removed_id != 0)
-    {
-      g_signal_handler_disconnect (priv->manager, priv->coll_removed_id);
-      priv->coll_removed_id = 0;
-    }
-
   g_clear_object (&priv->manager);
 
   G_OBJECT_CLASS (photos_organize_collection_model_parent_class)->dispose (object);
@@ -220,14 +206,17 @@ photos_organize_collection_model_init (PhotosOrganizeCollectionModel *self)
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
 
   priv->manager = photos_collection_manager_new ();
-  priv->coll_added_id = g_signal_connect (priv->manager,
-                                          "object-added",
-                                          G_CALLBACK (photos_organize_collection_model_object_added),
-                                          self);
-  priv->coll_removed_id = g_signal_connect (priv->manager,
-                                            "object-removed",
-                                            G_CALLBACK (photos_organize_collection_model_object_removed),
-                                            self);
+
+  g_signal_connect_object (priv->manager,
+                           "object-added",
+                           G_CALLBACK (photos_organize_collection_model_object_added),
+                           self,
+                           0);
+  g_signal_connect_object (priv->manager,
+                           "object-removed",
+                           G_CALLBACK (photos_organize_collection_model_object_removed),
+                           self,
+                           0);
 
   /* Populate the model. */
   photos_organize_collection_model_refresh_state (self);
