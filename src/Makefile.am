@@ -230,6 +230,7 @@ AM_CPPFLAGS = \
 	$(LIBEXIF_CFLAGS) \
 	$(LIBRSVG_CFLAGS) \
 	$(TRACKER_CFLAGS) \
+	$(WARN_CFLAGS) \
 	-I$(top_srcdir)/libgd \
 	$(NULL)
 
