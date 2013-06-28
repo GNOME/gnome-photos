@@ -32,6 +32,7 @@
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
 #include "photos-properties-dialog.h"
+#include "photos-utils.h"
 
 
 struct _PhotosPropertiesDialogPrivate

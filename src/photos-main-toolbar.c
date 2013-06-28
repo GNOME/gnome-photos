@@ -32,6 +32,7 @@
 
 #include "photos-application.h"
 #include "photos-collection-manager.h"
+#include "photos-dlna-renderers-manager.h"
 #include "photos-header-bar.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"

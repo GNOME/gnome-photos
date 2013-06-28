@@ -209,7 +209,7 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self,
 }
 
 
-void
+static void
 photos_dlna_renderers_dialog_response_cb (GtkDialog *dialog,
                                           gint       response_id,
                                           gpointer   user_data)

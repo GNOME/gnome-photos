@@ -46,6 +46,9 @@ AM_GLIB_GNU_GETTEXT
 
 LT_INIT
 
+# Used to keep eog-exif-util.c and eog-util.c aligned with EOG
+AC_CHECK_FUNCS(strptime)
+
 # ****************************************************************
 # Support for nl_langinfo (_NL_MEASUREMENT_MEASUREMENT) (optional)
 # ****************************************************************

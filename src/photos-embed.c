@@ -323,7 +323,7 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
 }
 
 
-void
+static void
 photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *secondary)
 {
   PhotosEmbedPrivate *priv = self->priv;
@@ -340,7 +340,7 @@ photos_embed_query_error (PhotosEmbed *self, const gchar *primary, const gchar *
 }
 
 
-void
+static void
 photos_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean querying, gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);

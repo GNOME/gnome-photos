@@ -77,6 +77,8 @@ struct _PhotosOffsetControllerClass
 
 GType                       photos_offset_controller_get_type           (void) G_GNUC_CONST;
 
+PhotosOffsetController *    photos_offset_controller_new                (void);
+
 gint                        photos_offset_controller_get_count          (PhotosOffsetController *self);
 
 gint                        photos_offset_controller_get_offset         (PhotosOffsetController *self);
