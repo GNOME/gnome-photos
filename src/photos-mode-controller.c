@@ -132,7 +132,7 @@ photos_mode_controller_class_init (PhotosModeControllerClass *class)
 
 
 PhotosModeController *
-photos_mode_controller_new (void)
+photos_mode_controller_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_MODE_CONTROLLER, NULL);
 }

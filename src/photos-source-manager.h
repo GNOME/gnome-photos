@@ -68,7 +68,7 @@ struct _PhotosSourceManagerClass
 
 GType                     photos_source_manager_get_type           (void) G_GNUC_CONST;
 
-PhotosBaseManager        *photos_source_manager_new                (void);
+PhotosBaseManager        *photos_source_manager_dup_singleton      (void);
 
 GList                    *photos_source_manager_get_for_provider_type (PhotosSourceManager *self,
                                                                        const gchar *provider_type);

@@ -239,7 +239,7 @@ photos_tracker_queue_class_init (PhotosTrackerQueueClass *class)
 
 
 PhotosTrackerQueue *
-photos_tracker_queue_new (void)
+photos_tracker_queue_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_TRACKER_QUEUE, NULL);
 }

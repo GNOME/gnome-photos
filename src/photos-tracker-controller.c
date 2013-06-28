@@ -311,15 +311,15 @@ photos_tracker_controller_init (PhotosTrackerController *self)
   priv = self->priv;
 
   priv->cancellable = g_cancellable_new ();
-  priv->item_mngr = photos_item_manager_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
 
-  priv->col_mngr = photos_collection_manager_new ();
+  priv->col_mngr = photos_collection_manager_dup_singleton ();
   g_signal_connect (priv->col_mngr,
                     "active-changed",
                     G_CALLBACK (photos_tracker_controller_refresh_for_object),
                     self);
 
-  priv->src_mngr = photos_source_manager_new ();
+  priv->src_mngr = photos_source_manager_dup_singleton ();
   g_signal_connect (priv->src_mngr,
                     "object-added",
                     G_CALLBACK (photos_tracker_controller_source_object_added),
@@ -333,7 +333,7 @@ photos_tracker_controller_init (PhotosTrackerController *self)
                     G_CALLBACK (photos_tracker_controller_refresh_for_object),
                     self);
 
-  priv->queue = photos_tracker_queue_new ();
+  priv->queue = photos_tracker_queue_dup_singleton ();
 }
 
 

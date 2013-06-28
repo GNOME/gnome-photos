@@ -72,7 +72,7 @@ struct _PhotosItemManagerClass
 
 GType                     photos_item_manager_get_type           (void) G_GNUC_CONST;
 
-PhotosBaseManager        *photos_item_manager_new                (void);
+PhotosBaseManager        *photos_item_manager_dup_singleton      (void);
 
 void                      photos_item_manager_activate_previous_collection (PhotosItemManager *self);
 

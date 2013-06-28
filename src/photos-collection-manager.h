@@ -68,7 +68,7 @@ struct _PhotosCollectionManagerClass
 
 GType                     photos_collection_manager_get_type           (void) G_GNUC_CONST;
 
-PhotosBaseManager        *photos_collection_manager_new                (void);
+PhotosBaseManager        *photos_collection_manager_dup_singleton      (void);
 
 gchar                    *photos_collection_manager_get_where          (PhotosCollectionManager *self);
 

@@ -203,7 +203,7 @@ photos_organize_collection_model_init (PhotosOrganizeCollectionModel *self)
 
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
 
-  priv->manager = photos_collection_manager_new ();
+  priv->manager = photos_collection_manager_dup_singleton ();
 
   g_signal_connect_object (priv->manager,
                            "object-added",

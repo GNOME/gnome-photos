@@ -72,7 +72,7 @@ struct _PhotosTrackerChangeMonitorClass
 
 GType                        photos_tracker_change_monitor_get_type         (void) G_GNUC_CONST;
 
-PhotosTrackerChangeMonitor  *photos_tracker_change_monitor_new              (void);
+PhotosTrackerChangeMonitor  *photos_tracker_change_monitor_dup_singleton    (void);
 
 G_END_DECLS
 

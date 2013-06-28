@@ -208,9 +208,9 @@ photos_item_manager_init (PhotosItemManager *self)
   priv = self->priv;
 
   priv->collection_path = g_queue_new ();
-  priv->col_mngr = photos_collection_manager_new ();
+  priv->col_mngr = photos_collection_manager_dup_singleton ();
 
-  priv->monitor = photos_tracker_change_monitor_new ();
+  priv->monitor = photos_tracker_change_monitor_dup_singleton ();
   g_signal_connect (priv->monitor, "changes-pending", G_CALLBACK (photos_item_manager_changes_pending), self);
 }
 
@@ -228,7 +228,7 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
 
 
 PhotosBaseManager *
-photos_item_manager_new (void)
+photos_item_manager_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_ITEM_MANAGER, NULL);
 }

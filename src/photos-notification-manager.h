@@ -68,7 +68,7 @@ struct _PhotosNotificationManagerClass
 
 GType               photos_notification_manager_get_type           (void) G_GNUC_CONST;
 
-GtkWidget          *photos_notification_manager_new                (void);
+GtkWidget          *photos_notification_manager_dup_singleton      (void);
 
 void                photos_notification_manager_add_notification   (PhotosNotificationManager *self,
                                                                     GtkWidget *notification);

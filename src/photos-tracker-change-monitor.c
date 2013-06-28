@@ -303,7 +303,7 @@ photos_tracker_change_monitor_init (PhotosTrackerChangeMonitor *self)
                                          g_free,
                                          (GDestroyNotify) photos_tracker_change_event_free);
 
-  priv->queue = photos_tracker_queue_new ();
+  priv->queue = photos_tracker_queue_dup_singleton ();
   priv->resource_service = tracker_resources_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                                      G_DBUS_PROXY_FLAGS_NONE,
                                                                      "org.freedesktop.Tracker1",
@@ -339,7 +339,7 @@ photos_tracker_change_monitor_class_init (PhotosTrackerChangeMonitorClass *class
 
 
 PhotosTrackerChangeMonitor *
-photos_tracker_change_monitor_new (void)
+photos_tracker_change_monitor_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_TRACKER_CHANGE_MONITOR, NULL);
 }

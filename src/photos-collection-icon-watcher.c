@@ -387,8 +387,8 @@ photos_collection_icon_watcher_init (PhotosCollectionIconWatcher *self)
   priv = self->priv;
 
   priv->item_connections = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
-  priv->item_mngr = photos_item_manager_new ();
-  priv->queue = photos_tracker_queue_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->queue = photos_tracker_queue_dup_singleton ();
 }
 
 

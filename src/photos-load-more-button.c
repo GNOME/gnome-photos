@@ -102,15 +102,15 @@ photos_load_more_button_constructed (GObject *object)
   switch (priv->mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
-      priv->offset_cntrlr = photos_offset_collections_controller_new ();
+      priv->offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
-      priv->offset_cntrlr = photos_offset_favorites_controller_new ();
+      priv->offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
-      priv->offset_cntrlr = photos_offset_overview_controller_new ();
+      priv->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
       break;
 
     default:

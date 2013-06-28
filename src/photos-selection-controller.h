@@ -71,7 +71,7 @@ struct _PhotosSelectionControllerClass
 
 GType                       photos_selection_controller_get_type           (void) G_GNUC_CONST;
 
-PhotosSelectionController  *photos_selection_controller_new                (void);
+PhotosSelectionController  *photos_selection_controller_dup_singleton      (void);
 
 void                        photos_selection_controller_freeze_selection   (PhotosSelectionController *self,
                                                                             gboolean                   freeze);

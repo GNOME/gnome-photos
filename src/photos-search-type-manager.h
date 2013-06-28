@@ -68,7 +68,7 @@ struct _PhotosSearchTypeManagerClass
 
 GType                     photos_search_type_manager_get_type           (void) G_GNUC_CONST;
 
-PhotosBaseManager        *photos_search_type_manager_new                (void);
+PhotosBaseManager        *photos_search_type_manager_dup_singleton      (void);
 
 gchar                    *photos_search_type_manager_get_where          (PhotosSearchTypeManager *self);
 

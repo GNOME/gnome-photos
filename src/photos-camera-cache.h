@@ -65,7 +65,7 @@ struct _PhotosCameraCacheClass
 
 GType                  photos_camera_cache_get_type               (void) G_GNUC_CONST;
 
-PhotosCameraCache     *photos_camera_cache_new                    (void);
+PhotosCameraCache     *photos_camera_cache_dup_singleton          (void);
 
 void                   photos_camera_cache_get_camera_async       (PhotosCameraCache *self,
                                                                    GQuark id,

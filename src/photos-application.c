@@ -421,15 +421,15 @@ photos_application_startup (GApplication *application)
                                                          NULL,
                                                          NULL);
 
-  priv->item_mngr = photos_item_manager_new ();
-  priv->src_mngr = photos_source_manager_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->src_mngr = photos_source_manager_dup_singleton ();
 
   /* A dummy reference to keep it alive during the lifetime of the
    * application.
    */
-  priv->camera_cache = photos_camera_cache_new ();
+  priv->camera_cache = photos_camera_cache_dup_singleton ();
 
-  priv->mode_cntrlr = photos_mode_controller_new ();
+  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
 
   action = g_simple_action_new ("about", NULL);
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_main_window_show_about), priv->main_window);

@@ -68,7 +68,7 @@ struct _PhotosOffsetCollectionsControllerClass
 
 GType                    photos_offset_collections_controller_get_type          (void) G_GNUC_CONST;
 
-PhotosOffsetController  *photos_offset_collections_controller_new               (void);
+PhotosOffsetController  *photos_offset_collections_controller_dup_singleton     (void);
 
 G_END_DECLS
 

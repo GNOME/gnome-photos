@@ -81,7 +81,7 @@ struct _PhotosModeControllerClass
 
 GType                  photos_mode_controller_get_type               (void) G_GNUC_CONST;
 
-PhotosModeController  *photos_mode_controller_new                    (void);
+PhotosModeController  *photos_mode_controller_dup_singleton          (void);
 
 PhotosWindowMode       photos_mode_controller_get_can_fullscreen     (PhotosModeController *self);
 

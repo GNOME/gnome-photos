@@ -475,9 +475,9 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   gtk_widget_show_all (GTK_WIDGET (self));
 
-  priv->item_mngr = photos_item_manager_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
 
-  priv->sel_cntrlr = photos_selection_controller_new ();
+  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
   g_signal_connect (priv->sel_cntrlr,
                     "selection-changed",
                     G_CALLBACK (photos_selection_toolbar_selection_changed),

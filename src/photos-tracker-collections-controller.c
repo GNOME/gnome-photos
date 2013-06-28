@@ -41,7 +41,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosTrackerCollectionsController,
 static PhotosOffsetController *
 photos_tracker_collections_controller_get_offset_controller (void)
 {
-  return photos_offset_collections_controller_new ();
+  return photos_offset_collections_controller_dup_singleton ();
 }
 
 
@@ -101,7 +101,7 @@ photos_tracker_collections_controller_init (PhotosTrackerCollectionsController *
   self->priv = photos_tracker_collections_controller_get_instance_private (self);
   priv = self->priv;
 
-  priv->col_mngr = photos_collection_manager_new ();
+  priv->col_mngr = photos_collection_manager_dup_singleton ();
 }
 
 
@@ -119,7 +119,7 @@ photos_tracker_collections_controller_class_init (PhotosTrackerCollectionsContro
 
 
 PhotosTrackerController *
-photos_tracker_collections_controller_new (void)
+photos_tracker_collections_controller_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER, NULL);
 }

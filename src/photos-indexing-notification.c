@@ -154,7 +154,7 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
       return;
     }
 
-  priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_new ());
+  priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
 
   priv->spinner = gtk_spinner_new ();
   gtk_widget_set_size_request (priv->spinner, 16, 16);

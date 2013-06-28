@@ -97,7 +97,7 @@ photos_offset_favorites_controller_init (PhotosOffsetFavoritesController *self)
   self->priv = photos_offset_favorites_controller_get_instance_private (self);
   priv = self->priv;
 
-  priv->col_mngr = photos_collection_manager_new ();
+  priv->col_mngr = photos_collection_manager_dup_singleton ();
 }
 
 
@@ -114,7 +114,7 @@ photos_offset_favorites_controller_class_init (PhotosOffsetFavoritesControllerCl
 
 
 PhotosOffsetController *
-photos_offset_favorites_controller_new (void)
+photos_offset_favorites_controller_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_OFFSET_FAVORITES_CONTROLLER, NULL);
 }

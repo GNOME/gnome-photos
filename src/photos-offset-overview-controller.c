@@ -77,7 +77,7 @@ photos_offset_overview_controller_class_init (PhotosOffsetOverviewControllerClas
 
 
 PhotosOffsetController *
-photos_offset_overview_controller_new (void)
+photos_offset_overview_controller_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_OFFSET_OVERVIEW_CONTROLLER, NULL);
 }

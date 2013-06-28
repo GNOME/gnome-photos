@@ -188,7 +188,7 @@ photos_preview_view_init (PhotosPreviewView *self)
   self->priv = photos_preview_view_get_instance_private (self);
   priv = self->priv;
 
-  priv->mode_cntrlr = photos_mode_controller_new ();
+  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
   g_signal_connect_swapped (priv->mode_cntrlr,
                             "window-mode-changed",
                             G_CALLBACK (photos_preview_view_window_mode_changed),

@@ -252,9 +252,9 @@ photos_view_model_init (PhotosViewModel *self)
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self), PHOTOS_VIEW_MODEL_MTIME, GTK_SORT_DESCENDING);
 
-  priv->col_mngr = photos_collection_manager_new ();
+  priv->col_mngr = photos_collection_manager_dup_singleton ();
 
-  priv->item_mngr = photos_item_manager_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
   g_signal_connect_swapped (priv->item_mngr, "object-added", G_CALLBACK (photos_view_model_object_added), self);
   g_signal_connect_swapped (priv->item_mngr, "object-removed", G_CALLBACK (photos_view_model_object_removed), self);
   g_signal_connect_swapped (priv->item_mngr, "clear", G_CALLBACK (gtk_list_store_clear), self);

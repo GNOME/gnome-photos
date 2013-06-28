@@ -492,7 +492,7 @@ photos_embed_init (PhotosEmbed *self)
   priv->toolbar = photos_main_toolbar_new ();
   photos_main_toolbar_set_stack (PHOTOS_MAIN_TOOLBAR (priv->toolbar), GTK_STACK (priv->stack));
 
-  priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_new ());
+  priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->ntfctn_mngr);
 
   priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
@@ -525,7 +525,7 @@ photos_embed_init (PhotosEmbed *self)
                            G_CALLBACK (photos_embed_notify_visible_child),
                            self, G_CONNECT_SWAPPED);
 
-  priv->mode_cntrlr = photos_mode_controller_new ();
+  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
   g_signal_connect (priv->mode_cntrlr,
                     "window-mode-changed",
                     G_CALLBACK (photos_embed_window_mode_changed),
@@ -535,23 +535,23 @@ photos_embed_init (PhotosEmbed *self)
                     G_CALLBACK (photos_embed_fullscreen_changed),
                     self);
 
-  priv->trk_ovrvw_cntrlr = photos_tracker_overview_controller_new ();
+  priv->trk_ovrvw_cntrlr = photos_tracker_overview_controller_dup_singleton ();
   g_signal_connect_swapped (priv->trk_ovrvw_cntrlr, "query-error", G_CALLBACK (photos_embed_query_error), self);
   g_signal_connect (priv->trk_ovrvw_cntrlr,
                     "query-status-changed",
                     G_CALLBACK (photos_embed_query_status_changed),
                     self);
 
-  priv->offset_cntrlr = photos_offset_overview_controller_new ();
+  priv->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
   g_signal_connect_swapped (priv->offset_cntrlr, "count-changed", G_CALLBACK (photos_embed_count_changed), self);
 
-  priv->item_mngr = photos_item_manager_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
 
   querying = photos_tracker_controller_get_query_status (priv->trk_ovrvw_cntrlr);
   photos_embed_query_status_changed (priv->trk_ovrvw_cntrlr, querying, self);
 
-  priv->monitor = photos_tracker_change_monitor_new ();
+  priv->monitor = photos_tracker_change_monitor_dup_singleton ();
 
   gtk_widget_show (GTK_WIDGET (self));
 }

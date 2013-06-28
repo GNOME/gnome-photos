@@ -615,17 +615,17 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   photos_header_bar_set_selection_menu (PHOTOS_HEADER_BAR (priv->toolbar),
                                         GD_HEADER_BUTTON (priv->selection_menu));
 
-  priv->col_mngr = photos_collection_manager_new ();
-  priv->item_mngr = photos_item_manager_new ();
+  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
 
-  priv->src_mngr = photos_source_manager_new ();
+  priv->src_mngr = photos_source_manager_dup_singleton ();
   g_signal_connect_object (priv->src_mngr,
                            "active-changed",
                            G_CALLBACK (photos_main_toolbar_set_toolbar_title),
                            self,
                            G_CONNECT_SWAPPED);
 
-  priv->mode_cntrlr = photos_mode_controller_new ();
+  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
   priv->old_mode = PHOTOS_WINDOW_MODE_NONE;
   g_signal_connect_object (priv->mode_cntrlr,
                            "window-mode-changed",
@@ -633,7 +633,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
                            self,
                            G_CONNECT_SWAPPED);
 
-  priv->sel_cntrlr = photos_selection_controller_new ();
+  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
   g_signal_connect_object (priv->sel_cntrlr,
                            "selection-mode-changed",
                            G_CALLBACK (photos_main_toolbar_reset_toolbar_mode),

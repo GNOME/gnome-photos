@@ -226,10 +226,10 @@ photos_fetch_collection_state_job_init (PhotosFetchCollectionStateJob *self)
                                                        g_free,
                                                        photos_fetch_collection_state_job_value_destroy_func);
 
-  priv->col_mngr = photos_collection_manager_new ();
-  priv->item_mngr = photos_item_manager_new ();
-  priv->sel_cntrlr = photos_selection_controller_new ();
-  priv->queue = photos_tracker_queue_new ();
+  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
+  priv->queue = photos_tracker_queue_dup_singleton ();
 }
 
 

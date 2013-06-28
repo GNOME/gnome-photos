@@ -42,7 +42,7 @@ photos_query_new (gchar *sparql)
 
   query = g_slice_new0 (PhotosQuery);
 
-  src_mngr = photos_source_manager_new ();
+  src_mngr = photos_source_manager_dup_singleton ();
   active_object = photos_base_manager_get_active_object (src_mngr);
   if (active_object != NULL)
     query->source = PHOTOS_SOURCE (g_object_ref (active_object));

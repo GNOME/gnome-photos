@@ -106,7 +106,7 @@ photos_notification_manager_class_init (PhotosNotificationManagerClass *class)
 
 
 GtkWidget *
-photos_notification_manager_new (void)
+photos_notification_manager_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_NOTIFICATION_MANAGER, "show-close-button", FALSE, "timeout", -1, NULL);
 }

@@ -896,7 +896,7 @@ photos_base_item_init (PhotosBaseItem *self)
   g_mutex_init (&priv->mutex_download);
   g_mutex_init (&priv->mutex);
 
-  priv->sel_cntrlr = photos_selection_controller_new ();
+  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
 }
 
 

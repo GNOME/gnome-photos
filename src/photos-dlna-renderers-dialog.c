@@ -227,10 +227,10 @@ photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
                                             PHOTOS_TYPE_DLNA_RENDERERS_DIALOG,
                                             PhotosDlnaRenderersDialogPrivate);
   priv = self->priv;
-  priv->item_mngr = photos_item_manager_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
   priv->renderers_mngr = photos_dlna_renderers_manager_dup_singleton ();
   priv->remote_mngr = photos_remote_display_manager_dup_singleton ();
-  priv->mode_cntrlr = photos_mode_controller_new ();
+  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
 
   gtk_widget_init_template (GTK_WIDGET (self));
 

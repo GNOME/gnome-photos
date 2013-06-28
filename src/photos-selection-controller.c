@@ -131,7 +131,7 @@ photos_selection_controller_init (PhotosSelectionController *self)
   self->priv = photos_selection_controller_get_instance_private (self);
   priv = self->priv;
 
-  priv->item_mngr = photos_item_manager_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
   g_signal_connect (priv->item_mngr,
                     "object-removed",
                     G_CALLBACK (photos_selection_controller_object_removed),
@@ -174,7 +174,7 @@ photos_selection_controller_class_init (PhotosSelectionControllerClass *class)
 
 
 PhotosSelectionController *
-photos_selection_controller_new (void)
+photos_selection_controller_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_SELECTION_CONTROLLER, NULL);
 }

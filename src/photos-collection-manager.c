@@ -69,7 +69,7 @@ photos_collection_manager_class_init (PhotosCollectionManagerClass *class)
 
 
 PhotosBaseManager *
-photos_collection_manager_new (void)
+photos_collection_manager_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_COLLECTION_MANAGER, NULL);
 }

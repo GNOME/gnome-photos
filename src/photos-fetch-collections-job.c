@@ -179,7 +179,7 @@ photos_fetch_collections_job_init (PhotosFetchCollectionsJob *self)
   self->priv = photos_fetch_collections_job_get_instance_private (self);
   priv = self->priv;
 
-  priv->queue = photos_tracker_queue_new ();
+  priv->queue = photos_tracker_queue_dup_singleton ();
 }
 
 

@@ -59,7 +59,7 @@ photos_query_builder_set_search_type (gint flags)
 {
   PhotosBaseManager *srch_typ_mngr;
 
-  srch_typ_mngr = photos_search_type_manager_new ();
+  srch_typ_mngr = photos_search_type_manager_dup_singleton ();
 
   if (flags & PHOTOS_QUERY_FLAGS_COLLECTIONS)
     photos_base_manager_set_active_object_by_id (srch_typ_mngr, PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS);
@@ -81,10 +81,10 @@ photos_query_builder_filter (gint flags)
   gchar *src_mngr_filter;
   gchar *srch_typ_mngr_filter;
 
-  src_mngr = photos_source_manager_new ();
+  src_mngr = photos_source_manager_dup_singleton ();
   src_mngr_filter = photos_base_manager_get_filter (src_mngr);
 
-  srch_typ_mngr = photos_search_type_manager_new ();
+  srch_typ_mngr = photos_search_type_manager_dup_singleton ();
   photos_query_builder_set_search_type (flags);
   srch_typ_mngr_filter = photos_base_manager_get_filter (srch_typ_mngr);
 
@@ -120,9 +120,9 @@ photos_query_builder_where (gboolean global, gint flags)
   gchar *sparql;
   gchar *srch_typ_mngr_where = NULL;
 
-  col_mngr = photos_collection_manager_new ();
+  col_mngr = photos_collection_manager_dup_singleton ();
 
-  srch_typ_mngr = photos_search_type_manager_new ();
+  srch_typ_mngr = photos_search_type_manager_dup_singleton ();
   photos_query_builder_set_search_type (flags);
   srch_typ_mngr_where = photos_search_type_manager_get_where (PHOTOS_SEARCH_TYPE_MANAGER (srch_typ_mngr));
 
@@ -173,11 +173,11 @@ photos_query_builder_query (gboolean global, gint flags)
       gint step;
 
       if (flags & PHOTOS_QUERY_FLAGS_COLLECTIONS)
-        offset_cntrlr = photos_offset_collections_controller_new ();
+        offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
       else if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
-        offset_cntrlr = photos_offset_favorites_controller_new ();
+        offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
       else
-        offset_cntrlr = photos_offset_overview_controller_new ();
+        offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
 
       offset = photos_offset_controller_get_offset (offset_cntrlr);
       step = photos_offset_controller_get_step (offset_cntrlr);

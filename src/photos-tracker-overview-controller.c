@@ -36,7 +36,7 @@ G_DEFINE_TYPE (PhotosTrackerOverviewController, photos_tracker_overview_controll
 static PhotosOffsetController *
 photos_tracker_overview_controller_get_offset_controller (void)
 {
-  return photos_offset_overview_controller_new ();
+  return photos_offset_overview_controller_dup_singleton ();
 }
 
 
@@ -86,7 +86,7 @@ photos_tracker_overview_controller_class_init (PhotosTrackerOverviewControllerCl
 
 
 PhotosTrackerController *
-photos_tracker_overview_controller_new (void)
+photos_tracker_overview_controller_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER, NULL);
 }

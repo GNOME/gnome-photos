@@ -66,7 +66,7 @@ struct _PhotosTrackerOverviewControllerClass
 
 GType                     photos_tracker_overview_controller_get_type          (void) G_GNUC_CONST;
 
-PhotosTrackerController  *photos_tracker_overview_controller_new               (void);
+PhotosTrackerController  *photos_tracker_overview_controller_dup_singleton     (void);
 
 G_END_DECLS
 

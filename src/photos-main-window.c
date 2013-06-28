@@ -272,9 +272,9 @@ photos_main_window_init (PhotosMainWindow *self)
   if (maximized)
     gtk_window_maximize (GTK_WINDOW (self));
 
-  priv->item_mngr = photos_item_manager_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
 
-  priv->controller = photos_mode_controller_new ();
+  priv->controller = photos_mode_controller_dup_singleton ();
   g_signal_connect (priv->controller,
                     "fullscreen-changed",
                     G_CALLBACK (photos_main_window_fullscreen_changed),

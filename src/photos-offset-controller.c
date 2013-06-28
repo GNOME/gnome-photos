@@ -119,7 +119,7 @@ photos_offset_controller_init (PhotosOffsetController *self)
   self->priv = photos_offset_controller_get_instance_private (self);
   priv = self->priv;
 
-  priv->queue = photos_tracker_queue_new ();
+  priv->queue = photos_tracker_queue_dup_singleton ();
 }
 
 

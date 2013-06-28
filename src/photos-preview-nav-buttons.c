@@ -488,7 +488,7 @@ photos_preview_nav_buttons_init (PhotosPreviewNavButtons *self)
   self->priv = photos_preview_nav_buttons_get_instance_private (self);
   priv = self->priv;
 
-  priv->item_mngr = photos_item_manager_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
   g_signal_connect_swapped (priv->item_mngr,
                             "active-changed",
                             G_CALLBACK (photos_preview_nav_buttons_active_changed),

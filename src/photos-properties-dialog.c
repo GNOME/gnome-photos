@@ -602,8 +602,8 @@ photos_properties_dialog_init (PhotosPropertiesDialog *self)
   priv = self->priv;
 
   priv->cancellable = g_cancellable_new ();
-  priv->item_mngr = photos_item_manager_new ();
-  priv->camera_cache = photos_camera_cache_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->camera_cache = photos_camera_cache_dup_singleton ();
 
   gtk_dialog_add_button (GTK_DIALOG (self), _("Done"), GTK_RESPONSE_OK);
   gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);

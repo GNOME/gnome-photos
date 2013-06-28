@@ -189,7 +189,7 @@ photos_source_manager_class_init (PhotosSourceManagerClass *class)
 
 
 PhotosBaseManager *
-photos_source_manager_new (void)
+photos_source_manager_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_SOURCE_MANAGER, NULL);
 }

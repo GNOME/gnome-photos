@@ -342,7 +342,7 @@ photos_flickr_item_init (PhotosFlickrItem *self)
   self->priv = photos_flickr_item_get_instance_private (self);
   priv = self->priv;
 
-  priv->src_mngr = photos_source_manager_new ();
+  priv->src_mngr = photos_source_manager_dup_singleton ();
 }
 
 

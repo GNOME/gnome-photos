@@ -328,8 +328,8 @@ photos_organize_collection_view_init (PhotosOrganizeCollectionView *self)
                                            self,
                                            NULL);
 
-  priv->col_mngr = photos_collection_manager_new ();
-  priv->src_mngr = photos_source_manager_new ();
+  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  priv->src_mngr = photos_source_manager_dup_singleton ();
 
   gtk_widget_show (GTK_WIDGET (self));
 }

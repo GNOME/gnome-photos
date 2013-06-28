@@ -272,9 +272,9 @@ photos_view_container_constructed (GObject *object)
                     G_CALLBACK (photos_view_container_view_selection_changed),
                     self);
 
-  priv->item_mngr = photos_item_manager_new ();
+  priv->item_mngr = photos_item_manager_dup_singleton ();
 
-  priv->sel_cntrlr = photos_selection_controller_new ();
+  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
   g_signal_connect (priv->sel_cntrlr,
                     "selection-mode-changed",
                     G_CALLBACK (photos_view_container_selection_mode_changed),
@@ -283,7 +283,7 @@ photos_view_container_constructed (GObject *object)
                                                 photos_selection_controller_get_selection_mode (priv->sel_cntrlr),
                                                 self);
 
-  priv->mode_cntrlr = photos_mode_controller_new ();
+  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
   g_signal_connect (priv->mode_cntrlr,
                     "window-mode-changed",
                     G_CALLBACK (photos_view_container_window_mode_changed),
@@ -294,15 +294,15 @@ photos_view_container_constructed (GObject *object)
   switch (priv->mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
-      priv->trk_cntrlr = photos_tracker_collections_controller_new ();
+      priv->trk_cntrlr = photos_tracker_collections_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
-      priv->trk_cntrlr = photos_tracker_favorites_controller_new ();
+      priv->trk_cntrlr = photos_tracker_favorites_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
-      priv->trk_cntrlr = photos_tracker_overview_controller_new ();
+      priv->trk_cntrlr = photos_tracker_overview_controller_dup_singleton ();
       break;
 
     default:
