@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-05-14 12:34+0000\n"
-"PO-Revision-Date: 2013-05-23 17:04+0200\n"
+"POT-Creation-Date: 2013-06-27 11:39+0000\n"
+"PO-Revision-Date: 2013-06-28 10:02+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -142,6 +142,10 @@ msgstr "O Fotkách"
 msgid "Quit"
 msgstr "Ukončit"
 
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "Vykreslovací zařízení DLNA"
+
 #: ../src/photos-embed.c:447 ../src/photos-search-type-manager.c:78
 msgid "Albums"
 msgstr "Alba"
@@ -170,11 +174,11 @@ msgstr "Načíst další"
 msgid "Loading…"
 msgstr "Načítá se…"
 
-#: ../src/photos-main-toolbar.c:100
+#: ../src/photos-main-toolbar.c:103
 msgid "Click on items to select them"
 msgstr "Kliknutím na položku ji vyberete"
 
-#: ../src/photos-main-toolbar.c:102
+#: ../src/photos-main-toolbar.c:105
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -182,21 +186,21 @@ msgstr[0] "%d vybraná"
 msgstr[1] "%d vybrané"
 msgstr[2] "%d vybraných"
 
-#: ../src/photos-main-toolbar.c:148
+#: ../src/photos-main-toolbar.c:150
 msgid "Back"
 msgstr "Zpět"
 
-#: ../src/photos-main-toolbar.c:217
+#: ../src/photos-main-toolbar.c:261
 msgid "Select Items"
 msgstr "Vybrat položky"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:351 ../src/photos-selection-toolbar.c:292
 #, c-format
 msgid "Open with %s"
 msgstr "Otevřít pomocí %s"
 
-#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:330
+#: ../src/photos-main-toolbar.c:474 ../src/photos-properties-dialog.c:330
 msgid "Done"
 msgstr "Hotovo"
 
@@ -225,10 +229,14 @@ msgid "Print…"
 msgstr "Tisk…"
 
 #: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Zobrazit na…"
+
+#: ../src/photos-preview-menu.ui.h:4
 msgid "Set as Background"
 msgstr "Nastavit jako pozadí"
 
-#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:368
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:368
 #: ../src/photos-selection-toolbar.c:532
 msgid "Properties"
 msgstr "Vlastnosti"
