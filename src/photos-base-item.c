@@ -200,39 +200,6 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 }
 
 
-static GeglNode *
-photos_base_item_default_load (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
-{
-  PhotosBaseItemPrivate *priv = self->priv;
-  GeglNode *ret_val = NULL;
-  GFile *file = NULL;
-  gchar *path = NULL;
-
-  if (priv->graph == NULL)
-    {
-      file = g_file_new_for_uri (priv->uri);
-      path = g_file_get_path (file);
-      if (path == NULL)
-        goto out;
-
-      priv->graph = gegl_node_new ();
-      priv->node = gegl_node_new_child (priv->graph,
-                                        "operation", "gegl:load",
-                                        "path", path,
-                                        NULL);
-    }
-
-  gegl_node_process (priv->node);
-  priv->bbox = gegl_node_get_bounding_box (priv->node);
-  ret_val = g_object_ref (priv->node);
-
- out:
-  g_free (path);
-  g_clear_object (&file);
-  return ret_val;
-}
-
-
 static void
 photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
 {
@@ -450,6 +417,36 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
 }
 
 
+static GeglNode *
+photos_base_item_load (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  GeglNode *ret_val = NULL;
+  gchar *path = NULL;
+
+  if (priv->graph == NULL)
+    {
+      path = PHOTOS_BASE_ITEM_GET_CLASS (self)->download(self, cancellable, error);
+      if (path == NULL)
+        goto out;
+
+      priv->graph = gegl_node_new ();
+      priv->node = gegl_node_new_child (priv->graph,
+                                        "operation", "gegl:load",
+                                        "path", path,
+                                        NULL);
+    }
+
+  gegl_node_process (priv->node);
+  priv->bbox = gegl_node_get_bounding_box (priv->node);
+  ret_val = g_object_ref (priv->node);
+
+ out:
+  g_free (path);
+  return ret_val;
+}
+
+
 static void
 photos_base_item_load_in_thread_func (GSimpleAsyncResult *simple, GObject *object, GCancellable *cancellable)
 {
@@ -460,7 +457,7 @@ photos_base_item_load_in_thread_func (GSimpleAsyncResult *simple, GObject *objec
 
   g_mutex_lock (&priv->mutex);
 
-  node = PHOTOS_BASE_ITEM_GET_CLASS (self)->load (self, cancellable, &error);
+  node = photos_base_item_load (self, cancellable, &error);
   if (error != NULL)
     g_simple_async_result_take_error (simple, error);
 
@@ -753,7 +750,6 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
   object_class->finalize = photos_base_item_finalize;
   object_class->get_property = photos_base_item_get_property;
   object_class->set_property = photos_base_item_set_property;
-  class->load = photos_base_item_default_load;
   class->set_favorite = photos_base_item_default_set_favorite;
   class->update_type_description = photos_base_item_update_type_description;
 

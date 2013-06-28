@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,6 +32,22 @@
 
 
 G_DEFINE_TYPE (PhotosLocalItem, photos_local_item, PHOTOS_TYPE_BASE_ITEM);
+
+
+static gchar *
+photos_local_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
+{
+  GFile *file = NULL;
+  const gchar *uri;
+  gchar *path = NULL;
+
+  uri = photos_base_item_get_uri (item);
+  file = g_file_new_for_uri (uri);
+  path = g_file_get_path (file);
+
+  g_object_unref (file);
+  return path;
+}
 
 
 static void
@@ -70,8 +86,10 @@ static void
 photos_local_item_class_init (PhotosLocalItemClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
+  PhotosBaseItemClass *base_item_class = PHOTOS_BASE_ITEM_CLASS (class);
 
   object_class->constructed= photos_local_item_constructed;
+  base_item_class->download = photos_local_item_download;
 }
 
 
