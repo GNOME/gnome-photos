@@ -92,6 +92,8 @@ gnome_photos_SOURCES = \
 	photos-fetch-collections-job.h \
 	photos-filterable.c \
 	photos-filterable.h \
+	photos-flickr-item.c \
+	photos-flickr-item.h \
 	photos-header-bar.c \
 	photos-header-bar.h \
 	photos-indexing-notification.c \
