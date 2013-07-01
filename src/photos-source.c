@@ -163,7 +163,7 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
           break;
 
         account = goa_object_peek_account (object);
-        priv->id = goa_account_dup_id (account);
+        priv->id = g_strdup_printf ("gd:goa-account:%s", goa_account_get_id (account));
 
         provider_icon = goa_account_get_provider_icon (account);
         priv->icon = g_icon_new_for_string (provider_icon, NULL); /* TODO: use a GError */
