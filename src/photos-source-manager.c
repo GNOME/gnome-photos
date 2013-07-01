@@ -48,6 +48,9 @@ photos_source_manager_client_account_added (GoaClient *client, GoaObject *object
   PhotosSourceManager *self = PHOTOS_SOURCE_MANAGER (user_data);
   PhotosSource *source;
 
+  if (goa_object_peek_photos (object) == NULL)
+    return;
+
   source = photos_source_new_from_goa_object (object);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source));
   g_object_unref (source);
@@ -71,8 +74,11 @@ static void
 photos_source_manager_client_account_changed (GoaClient *client, GoaObject *object, gpointer user_data)
 {
   PhotosSourceManager *self = PHOTOS_SOURCE_MANAGER (user_data);
-  photos_source_manager_client_account_removed (client, object, user_data);
-  photos_source_manager_client_account_added (client, object, user_data);
+
+  if (goa_object_peek_photos (object) == NULL)
+    photos_source_manager_client_account_removed (client, object, user_data);
+  else
+    photos_source_manager_client_account_added (client, object, user_data);
 }
 
 
@@ -86,15 +92,18 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
   accounts = goa_client_get_accounts (priv->client);
   for (l = accounts; l != NULL; l = l->next)
     {
+      GoaObject *object = GOA_OBJECT (l->data);
       PhotosSource *source;
 
-      if (goa_object_peek_account (GOA_OBJECT (l->data)) == NULL)
+      if (goa_object_peek_account (object) == NULL)
         continue;
 
-      /* TODO: uncomment when we start supporting online providers */
-      /* source = photos_source_new_from_goa_object (GOA_OBJECT (l->data)); */
-      /* photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source)); */
-      /* g_object_unref (source); */
+      if (goa_object_peek_photos (object) == NULL)
+        continue;
+
+      source = photos_source_new_from_goa_object (GOA_OBJECT (l->data));
+      photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source));
+      g_object_unref (source);
     }
 
   g_list_free_full (accounts, g_object_unref);
