@@ -398,7 +398,11 @@ photos_embed_dispose (GObject *object)
    * the parent implementation, or photos_embed_notify_visible_child() will
    * get called while we're in a inconsistent state
    */
-  g_signal_handlers_disconnect_by_func (priv->stack, photos_embed_notify_visible_child, self);
+  if (priv->stack != NULL)
+    {
+      g_signal_handlers_disconnect_by_func (priv->stack, photos_embed_notify_visible_child, self);
+      priv->stack = NULL;
+    }
 
   G_OBJECT_CLASS (photos_embed_parent_class)->dispose (object);
 }
