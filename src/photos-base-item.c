@@ -54,7 +54,6 @@ struct _PhotosBaseItemPrivate
   gboolean failed_thumbnailing;
   gboolean favorite;
   gboolean thumbnailed;
-  gboolean tried_thumbnailing;
   const gchar *thumb_path;
   gchar *author;
   gchar *default_app_name;
@@ -76,7 +75,6 @@ enum
   PROP_CURSOR,
   PROP_FAILED_THUMBNAILING,
   PROP_ID,
-  PROP_TRIED_THUMBNAILING
 };
 
 enum
@@ -521,9 +519,6 @@ photos_base_item_refresh_icon (PhotosBaseItem *self)
   if (priv->failed_thumbnailing)
     return;
 
-  if (!priv->tried_thumbnailing)
-    priv->tried_thumbnailing = TRUE;
-
   file = g_file_new_for_uri (priv->uri);
   g_file_query_info_async (file,
                            G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
@@ -717,10 +712,6 @@ photos_base_item_set_property (GObject *object, guint prop_id, const GValue *val
       priv->failed_thumbnailing = g_value_get_boolean (value);
       break;
 
-    case PROP_TRIED_THUMBNAILING:
-      priv->tried_thumbnailing = g_value_get_boolean (value);
-      break;
-
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -776,14 +767,6 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                                         "An unique ID associated with this item",
                                                         "",
                                                         G_PARAM_READABLE));
-
-  g_object_class_install_property (object_class,
-                                   PROP_TRIED_THUMBNAILING,
-                                   g_param_spec_boolean ("tried-thumbnailing",
-                                                         "Thumbnailing attempted",
-                                                         "An attempt was made to create a thumbnail",
-                                                         FALSE,
-                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   signals[INFO_UPDATED] = g_signal_new ("info-updated",
                                         G_TYPE_FROM_CLASS (class),

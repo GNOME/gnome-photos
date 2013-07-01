@@ -99,6 +99,5 @@ photos_local_item_new (TrackerSparqlCursor *cursor)
   return g_object_new (PHOTOS_TYPE_LOCAL_ITEM,
                        "cursor", cursor,
                        "failed-thumbnailing", FALSE,
-                       "tried-thumbnailing", FALSE,
                        NULL);
 }
