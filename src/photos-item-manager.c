@@ -30,6 +30,7 @@
 #include "photos-collection-manager.h"
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
+#include "photos-flickr-item.h"
 #include "photos-query.h"
 #include "photos-single-item-job.h"
 #include "photos-tracker-change-event.h"
@@ -265,5 +266,20 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
 PhotosBaseItem *
 photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
 {
-  return photos_local_item_new (cursor);
+  PhotosBaseItem *ret_val = NULL;
+  gchar *identifier = NULL;
+
+  identifier = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL));
+
+  if (identifier != NULL)
+    {
+      if (g_str_has_prefix (identifier, "flickr:"))
+        ret_val = photos_flickr_item_new (cursor);
+    }
+
+  if (ret_val == NULL)
+    ret_val = photos_local_item_new (cursor);
+
+  g_free (identifier);
+  return ret_val;
 }
