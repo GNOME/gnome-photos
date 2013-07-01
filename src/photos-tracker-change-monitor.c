@@ -159,7 +159,8 @@ photos_tracker_change_monitor_cursor_next (GObject *source_object, GAsyncResult 
 
       subject = tracker_sparql_cursor_get_string (cursor, 0, NULL);
       predicate = tracker_sparql_cursor_get_string (cursor, 1, NULL);
-      photos_tracker_change_monitor_add_event (data->self, subject, predicate, data->is_delete);
+      if (subject != NULL && predicate != NULL)
+        photos_tracker_change_monitor_add_event (data->self, subject, predicate, data->is_delete);
     }
 
   photos_tracker_change_monitor_update_collector (data->self);
