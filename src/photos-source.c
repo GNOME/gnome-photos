@@ -78,11 +78,10 @@ photos_source_get_filter (PhotosFilterable *iface)
   PhotosSource *self = PHOTOS_SOURCE (iface);
   PhotosSourcePrivate *priv = self->priv;
 
+  g_assert_cmpstr (priv->id, !=, PHOTOS_SOURCE_STOCK_ALL);
+
   if (g_strcmp0 (priv->id, PHOTOS_SOURCE_STOCK_LOCAL) == 0)
     return photos_query_builder_filter_local ();
-
-  if (g_strcmp0 (priv->id, PHOTOS_SOURCE_STOCK_ALL) == 0)
-    return photos_query_builder_filter_local (); /* TODO: Add non local query */
 
   return photos_source_build_filter_resource (self);
 }
