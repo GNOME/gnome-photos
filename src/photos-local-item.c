@@ -29,9 +29,26 @@
 #include <glib.h>
 
 #include "photos-local-item.h"
+#include "photos-utils.h"
 
 
 G_DEFINE_TYPE (PhotosLocalItem, photos_local_item, PHOTOS_TYPE_BASE_ITEM);
+
+
+static gboolean
+photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
+{
+  GFile *file;
+  gboolean ret_val;
+  const gchar *uri;
+
+  uri = photos_base_item_get_uri (item);
+  file = g_file_new_for_uri (uri);
+  ret_val = photos_utils_create_thumbnail (file, cancellable, error);
+
+  g_object_unref (file);
+  return ret_val;
+}
 
 
 static gchar *
@@ -89,6 +106,7 @@ photos_local_item_class_init (PhotosLocalItemClass *class)
   PhotosBaseItemClass *base_item_class = PHOTOS_BASE_ITEM_CLASS (class);
 
   object_class->constructed= photos_local_item_constructed;
+  base_item_class->create_thumbnail = photos_local_item_create_thumbnail;
   base_item_class->download = photos_local_item_download;
 }
 

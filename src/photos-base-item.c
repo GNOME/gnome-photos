@@ -47,6 +47,7 @@ struct _PhotosBaseItemPrivate
   GeglNode *graph;
   GeglNode *node;
   GeglRectangle bbox;
+  GMutex mutex_create_thumbnail;
   GMutex mutex;
   PhotosCollectionIconWatcher *watcher;
   TrackerSparqlCursor *cursor;
@@ -195,6 +196,73 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
   g_object_unref (icon);
   g_list_free_full (emblem_icons, g_object_unref);
+}
+
+
+static void
+photos_base_item_create_thumbnail_in_thread_func (GSimpleAsyncResult *simple,
+                                                  GObject *object,
+                                                  GCancellable *cancellable)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
+  PhotosBaseItemPrivate *priv = self->priv;
+  GError *error;
+  gboolean op_res;
+
+  g_mutex_lock (&priv->mutex_create_thumbnail);
+
+  error = NULL;
+  op_res = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_thumbnail (self, cancellable, &error);
+  if (error != NULL)
+    g_simple_async_result_take_error (simple, error);
+
+  g_simple_async_result_set_op_res_gboolean (simple, op_res);
+
+  g_mutex_unlock (&priv->mutex_create_thumbnail);
+}
+
+
+static void
+photos_base_item_create_thumbnail_async (PhotosBaseItem *self,
+                                         GCancellable *cancellable,
+                                         GAsyncReadyCallback callback,
+                                         gpointer user_data)
+{
+  GSimpleAsyncResult *simple;
+
+  simple = g_simple_async_result_new (G_OBJECT (self),
+                                      callback,
+                                      user_data,
+                                      photos_base_item_create_thumbnail_async);
+  g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+  g_simple_async_result_run_in_thread (simple,
+                                       photos_base_item_create_thumbnail_in_thread_func,
+                                       G_PRIORITY_DEFAULT,
+                                       cancellable);
+  g_object_unref (simple);
+}
+
+
+static gboolean
+photos_base_item_create_thumbnail_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT (res);
+  gboolean ret_val = FALSE;
+
+  g_return_val_if_fail (g_simple_async_result_is_valid (res,
+                                                        G_OBJECT (self),
+                                                        photos_base_item_create_thumbnail_async),
+                        NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  if (g_simple_async_result_propagate_error (simple, error))
+    goto out;
+
+  ret_val = g_simple_async_result_get_op_res_gboolean (simple);
+
+ out:
+  return ret_val;
 }
 
 
@@ -353,17 +421,20 @@ photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res,
 
 
 static void
-photos_base_item_queue_thumbnail_job (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv = self->priv;
-  GFile *file = G_FILE (source_object);
-  gboolean thumbnailed;
+  GError *error;
+  GFile *file = G_FILE (user_data);
 
-  thumbnailed = photos_utils_queue_thumbnail_job_for_file_finish (res);
-  if (!thumbnailed)
+  error = NULL;
+  photos_base_item_create_thumbnail_finish (self, res, &error);
+  if (error != NULL)
     {
       priv->failed_thumbnailing = TRUE;
+      g_warning ("Unable to create thumbnail: %s", error->message);
+      g_error_free (error);
       goto out;
     }
 
@@ -376,6 +447,7 @@ photos_base_item_queue_thumbnail_job (GObject *source_object, GAsyncResult *res,
                            g_object_ref (self));
 
  out:
+  g_object_unref (file);
   g_object_unref (self);
 }
 
@@ -405,9 +477,10 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
   else
     {
       priv->thumbnailed = FALSE;
-      photos_utils_queue_thumbnail_job_for_file_async (file,
-                                                       photos_base_item_queue_thumbnail_job,
-                                                       g_object_ref (self));
+      photos_base_item_create_thumbnail_async (self,
+                                               NULL,
+                                               photos_base_item_create_thumbnail_cb,
+                                               g_object_ref (file));
     }
 
  out:
@@ -672,6 +745,7 @@ photos_base_item_finalize (GObject *object)
   g_free (priv->type_description);
   g_free (priv->uri);
 
+  g_mutex_clear (&priv->mutex_create_thumbnail);
   g_mutex_clear (&priv->mutex);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->finalize (object);
@@ -727,6 +801,7 @@ photos_base_item_init (PhotosBaseItem *self)
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_BASE_ITEM, PhotosBaseItemPrivate);
   priv = self->priv;
 
+  g_mutex_init (&priv->mutex_create_thumbnail);
   g_mutex_init (&priv->mutex);
 }
 

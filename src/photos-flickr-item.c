@@ -37,6 +37,17 @@
 G_DEFINE_TYPE (PhotosFlickrItem, photos_flickr_item, PHOTOS_TYPE_BASE_ITEM);
 
 
+static gboolean
+photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
+{
+  g_set_error (error,
+               g_quark_from_static_string ("gnome-photos-error"),
+               0,
+               "Thumbnailing Flickr items is unsupported");
+  return FALSE;
+}
+
+
 static gchar *
 photos_flickr_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
@@ -125,6 +136,7 @@ photos_flickr_item_class_init (PhotosFlickrItemClass *class)
   PhotosBaseItemClass *base_item_class = PHOTOS_BASE_ITEM_CLASS (class);
 
   object_class->constructed= photos_flickr_item_constructed;
+  base_item_class->create_thumbnail = photos_flickr_item_create_thumbnail;
   base_item_class->download = photos_flickr_item_download;
 }
 

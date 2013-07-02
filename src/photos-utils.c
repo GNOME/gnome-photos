@@ -217,6 +217,48 @@ photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
 }
 
 
+gboolean
+photos_utils_create_thumbnail (GFile *file, GCancellable *cancellable, GError **error)
+{
+  GnomeDesktopThumbnailFactory *factory = NULL;
+  GFileInfo *info = NULL;
+  const gchar *attributes = G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE","G_FILE_ATTRIBUTE_TIME_MODIFIED;
+  gboolean ret_val = FALSE;
+  gchar *uri = NULL;
+  GdkPixbuf *pixbuf = NULL;
+  guint64 mtime;
+
+  uri = g_file_get_uri (file);
+  info = g_file_query_info (file, attributes, G_FILE_QUERY_INFO_NONE, cancellable, error);
+  if (info == NULL)
+    goto out;
+
+  mtime = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
+
+  factory = gnome_desktop_thumbnail_factory_new (GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE);
+  pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (factory, uri, g_file_info_get_content_type (info));
+  if (pixbuf == NULL)
+    {
+      /* FIXME: use proper #defines and enumerated types */
+      g_set_error (error,
+                   g_quark_from_static_string ("gnome-desktop-error"),
+                   0,
+                   "GnomeDesktopThumbnailFactory failed");
+      goto out;
+    }
+
+  gnome_desktop_thumbnail_factory_save_thumbnail (factory, pixbuf, uri, (time_t) mtime);
+  ret_val = TRUE;
+
+ out:
+  g_clear_object (&pixbuf);
+  g_clear_object (&factory);
+  g_clear_object (&info);
+  g_free (uri);
+  return ret_val;
+}
+
+
 const gchar *
 photos_utils_dot_dir (void)
 {
@@ -235,56 +277,6 @@ photos_utils_dot_dir (void)
 
  out:
   return dot_dir;
-}
-
-
-static gboolean
-photos_utils_create_thumbnail (GIOSchedulerJob *job, GCancellable *cancellable, gpointer user_data)
-{
-  GSimpleAsyncResult *result = user_data;
-  GFile *file = G_FILE (g_async_result_get_source_object (G_ASYNC_RESULT (result)));
-  GnomeDesktopThumbnailFactory *factory;
-  GFileInfo *info;
-  const gchar *attributes = G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE","G_FILE_ATTRIBUTE_TIME_MODIFIED;
-  gchar *uri;
-  GdkPixbuf *pixbuf;
-  guint64 mtime;
-
-  uri = g_file_get_uri (file);
-  info = g_file_query_info (file, attributes, G_FILE_QUERY_INFO_NONE, NULL, NULL);
-
-  /* we don't care about reporting errors here, just fail the
-   * thumbnail.
-   */
-  if (info == NULL)
-    {
-      g_simple_async_result_set_op_res_gboolean (result, FALSE);
-      goto out;
-    }
-
-  mtime = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
-
-  factory = gnome_desktop_thumbnail_factory_new (GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE);
-  pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (factory, uri, g_file_info_get_content_type (info));
-
-  if (pixbuf != NULL)
-    {
-      gnome_desktop_thumbnail_factory_save_thumbnail (factory, pixbuf, uri, (time_t) mtime);
-      g_simple_async_result_set_op_res_gboolean (result, TRUE);
-    }
-  else
-    g_simple_async_result_set_op_res_gboolean (result, FALSE);
-
-  g_object_unref (info);
-  g_object_unref (file);
-  g_object_unref (factory);
-  g_clear_object (&pixbuf);
-
- out:
-  g_simple_async_result_complete_in_idle (result);
-  g_object_unref (result);
-
-  return FALSE;
 }
 
 
@@ -609,19 +601,6 @@ photos_utils_icon_from_rdf_type (const gchar *type)
     ret_val = photos_utils_create_collection_icon (size, NULL);
 
   return ret_val;
-}
-
-
-void
-photos_utils_queue_thumbnail_job_for_file_async (GFile *file, GAsyncReadyCallback callback, gpointer user_data)
-{
-  GSimpleAsyncResult *result;
-
-  result = g_simple_async_result_new (G_OBJECT (file),
-                                      callback,
-                                      user_data,
-                                      photos_utils_queue_thumbnail_job_for_file_async);
-  g_io_scheduler_push_job (photos_utils_create_thumbnail, result, NULL, G_PRIORITY_DEFAULT, NULL);
 }
 
 

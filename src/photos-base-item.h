@@ -68,6 +68,7 @@ struct _PhotosBaseItemClass
 {
   GObjectClass parent_class;
 
+  gboolean (*create_thumbnail) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   gchar *(*download) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   void (*set_favorite) (PhotosBaseItem *self, gboolean favorite);
   void (*update_type_description) (PhotosBaseItem *self);
