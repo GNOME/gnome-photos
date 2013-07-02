@@ -116,11 +116,16 @@ static void
 photos_source_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
   PhotosSource *self = PHOTOS_SOURCE (object);
+  PhotosSourcePrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_ID:
-      g_value_set_string (value, self->priv->id);
+      g_value_set_string (value, priv->id);
+      break;
+
+    case PROP_NAME:
+      g_value_set_string (value, priv->name);
       break;
 
     default:
@@ -221,7 +226,7 @@ photos_source_class_init (PhotosSourceClass *class)
                                                         "",
                                                         "",
                                                         "",
-                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 
   g_object_class_install_property (object_class,
                                    PROP_OBJECT,
