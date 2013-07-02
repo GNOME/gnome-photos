@@ -29,6 +29,7 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <grilo.h>
 #include <libgnome-desktop/gnome-bg.h>
 
 #include "eog-debug.h"
@@ -381,8 +382,10 @@ photos_application_startup (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   PhotosApplicationPrivate *priv = self->priv;
+  GError *error;
   GMenu *menu;
   GSimpleAction *action;
+  GrlRegistry *registry;
   GtkBuilder *builder;
   GtkSettings *settings;
   GVariant *state;
@@ -391,6 +394,15 @@ photos_application_startup (GApplication *application)
     ->startup (application);
 
   gegl_init (NULL, NULL);
+
+  grl_init (NULL, NULL);
+  registry = grl_registry_get_default ();
+  error = NULL;
+  if (!grl_registry_load_plugin_by_id (registry, "grl-flickr", &error))
+    {
+      g_warning ("Unable to load Grilo's Flickr plugin: %s", error->message);
+      g_error_free (error);
+    }
 
   priv->settings = g_settings_new ("org.gnome.desktop.background");
 
