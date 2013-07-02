@@ -78,6 +78,8 @@ PhotosSource       *photos_source_new_from_goa_object    (GoaObject *object);
 
 const gchar        *photos_source_get_name               (PhotosSource *self);
 
+GoaObject          *photos_source_get_goa_object         (PhotosSource *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_SOURCE_H */

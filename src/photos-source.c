@@ -35,6 +35,7 @@
 struct _PhotosSourcePrivate
 {
   GIcon *icon;
+  GoaObject *object;
   gboolean builtin;
   gchar *id;
   gchar *name;
@@ -94,6 +95,7 @@ photos_source_dispose (GObject *object)
   PhotosSourcePrivate *priv = self->priv;
 
   g_clear_object (&priv->icon);
+  g_clear_object (&priv->object);
 
   G_OBJECT_CLASS (photos_source_parent_class)->dispose (object);
 }
@@ -128,6 +130,10 @@ photos_source_get_property (GObject *object, guint prop_id, GValue *value, GPara
       g_value_set_string (value, priv->name);
       break;
 
+    case PROP_OBJECT:
+      g_value_set_object (value, (gpointer) priv->object);
+      break;
+
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -158,15 +164,14 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
     case PROP_OBJECT:
       {
         GoaAccount *account;
-        GoaObject *object;
         const gchar *provider_icon;
         const gchar *provider_name;
 
-        object = GOA_OBJECT (g_value_get_object (value));
-        if (object == NULL)
+        priv->object = GOA_OBJECT (g_value_dup_object (value));
+        if (priv->object == NULL)
           break;
 
-        account = goa_object_peek_account (object);
+        account = goa_object_peek_account (priv->object);
         priv->id = g_strdup_printf ("gd:goa-account:%s", goa_account_get_id (account));
 
         provider_icon = goa_account_get_provider_icon (account);
@@ -234,7 +239,7 @@ photos_source_class_init (PhotosSourceClass *class)
                                                         "GoaObject instance",
                                                         "A GOA configured account from which the source was created",
                                                         GOA_TYPE_OBJECT,
-                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 
   g_type_class_add_private (class, sizeof (PhotosSourcePrivate));
 }
@@ -266,4 +271,11 @@ const gchar *
 photos_source_get_name (PhotosSource *self)
 {
   return self->priv->name;
+}
+
+
+GoaObject *
+photos_source_get_goa_object (PhotosSource *self)
+{
+  return self->priv->object;
 }
