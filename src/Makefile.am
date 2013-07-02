@@ -14,6 +14,8 @@ gnome_photos_built_sources = \
 	photos-dleyna-renderer-manager.h \
 	photos-dleyna-renderer-push-host.c \
 	photos-dleyna-renderer-push-host.h \
+	photos-gom-miner.c \
+	photos-gom-miner.h \
 	photos-marshalers.c \
 	photos-marshalers.h \
 	photos-mpris-player.c \
@@ -202,6 +204,7 @@ EXTRA_DIST = \
 	photos-marshalers.list \
 	photos-preview-menu.ui \
 	photos-selection-menu.ui \
+	photos-gom-miner.xml \
 	photos-tracker-resources.xml \
 	photos-dleyna-renderer-device.xml \
 	photos-dleyna-renderer-manager.xml \
@@ -406,6 +409,13 @@ photos-dleyna-renderer-push-host.h photos-dleyna-renderer-push-host.c: photos-dl
 		--c-namespace Dleyna \
 		--generate-c-code photos-dleyna-renderer-push-host \
 		--interface-prefix com.intel.dLeynaRenderer. \
+		$<
+
+photos-gom-miner.h photos-gom-miner.c: photos-gom-miner.xml
+	$(AM_V_GEN)gdbus-codegen \
+		--c-namespace Gom \
+		--generate-c-code photos-gom-miner \
+		--interface-prefix org.gnome.OnlineMiners. \
 		$<
 
 photos-mpris-player.h photos-mpris-player.c: photos-mpris-player.xml

@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -196,4 +196,47 @@ PhotosBaseManager *
 photos_source_manager_new (void)
 {
   return g_object_new (PHOTOS_TYPE_SOURCE_MANAGER, NULL);
+}
+
+
+GList *
+photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gchar *provider_type)
+{
+  GHashTable *sources;
+  GHashTableIter iter;
+  GList *items = NULL;
+  PhotosSource *source;
+
+  sources = photos_base_manager_get_objects (PHOTOS_BASE_MANAGER (self));
+  g_hash_table_iter_init (&iter, sources);
+  while (g_hash_table_iter_next (&iter, NULL, (gpointer) &source))
+    {
+      GoaAccount *account;
+      GoaObject *object;
+
+      object = photos_source_get_goa_object (source);
+      if (object == NULL)
+        continue;
+
+      account = goa_object_peek_account (object);
+      if (g_strcmp0 (goa_account_get_provider_type (account), provider_type) == 0)
+        items = g_list_prepend (items, g_object_ref (source));
+    }
+
+  return items;
+}
+
+
+gboolean
+photos_source_manager_has_provider_type (PhotosSourceManager *self, const gchar *provider_type)
+{
+  GList *items;
+  gboolean ret_val = FALSE;
+
+  items = photos_source_manager_get_for_provider_type (self, provider_type);
+  if (items != NULL)
+    ret_val = TRUE;
+
+  g_list_free_full (items, g_object_unref);
+  return ret_val;
 }

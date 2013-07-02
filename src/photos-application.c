@@ -34,15 +34,18 @@
 #include "eog-debug.h"
 #include "photos-application.h"
 #include "photos-dlna-renderers-dialog.h"
+#include "photos-gom-miner.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
 #include "photos-properties-dialog.h"
 #include "photos-resources.h"
+#include "photos-source-manager.h"
 
 
 struct _PhotosApplicationPrivate
 {
+  GList *miners_running;
   GResource *resource;
   GSettings *settings;
   GSimpleAction *fs_action;
@@ -54,13 +57,52 @@ struct _PhotosApplicationPrivate
   GSimpleAction *sel_none_action;
   GSimpleAction *set_bg_action;
   GSimpleAction *remote_display_action;
+  GomMiner *flickr_miner;
   GtkWidget *main_window;
   PhotosBaseManager *item_mngr;
+  PhotosBaseManager *src_mngr;
   PhotosModeController *mode_cntrlr;
 };
 
 
 G_DEFINE_TYPE (PhotosApplication, photos_application, GTK_TYPE_APPLICATION)
+
+
+enum
+{
+  MINER_REFRESH_TIMEOUT = 60 /* s */
+};
+
+typedef struct _PhotosApplicationRefreshData PhotosApplicationRefreshData;
+
+struct _PhotosApplicationRefreshData
+{
+  PhotosApplication *application;
+  GomMiner *miner;
+};
+
+static gboolean photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner);
+
+
+static PhotosApplicationRefreshData *
+photos_application_refresh_data_new (PhotosApplication *application, GomMiner *miner)
+{
+  PhotosApplicationRefreshData *data;
+
+  data = g_slice_new0 (PhotosApplicationRefreshData);
+  data->application = g_object_ref (application);
+  data->miner = g_object_ref (miner);
+  return data;
+}
+
+
+static void
+photos_application_refresh_data_free (PhotosApplicationRefreshData *data)
+{
+  g_object_unref (data->application);
+  g_object_unref (data->miner);
+  g_slice_free (PhotosApplicationRefreshData, data);
+}
 
 
 static void
@@ -152,6 +194,77 @@ photos_application_properties (PhotosApplication *self)
 }
 
 
+static gboolean
+photos_application_refresh_miner_timeout (gpointer user_data)
+{
+  PhotosApplicationRefreshData *data = (PhotosApplicationRefreshData *) user_data;
+  return photos_application_refresh_miner_now (data->application, data->miner);
+}
+
+
+static void
+photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  PhotosApplicationPrivate *priv = self->priv;
+  GError *error;
+  GomMiner *miner = GOM_MINER (source_object);
+  PhotosApplicationRefreshData *data;
+
+  priv->miners_running = g_list_remove (priv->miners_running, miner);
+
+  error = NULL;
+  if (!gom_miner_call_refresh_db_finish (miner, res, &error))
+    {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to update the cache: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  data = photos_application_refresh_data_new (self, miner);
+  g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
+                              MINER_REFRESH_TIMEOUT,
+                              photos_application_refresh_miner_timeout,
+                              data,
+                              (GDestroyNotify) photos_application_refresh_data_free);
+
+ out:
+  g_object_unref (self);
+  g_object_unref (miner);
+}
+
+
+static gboolean
+photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  GCancellable *cancellable;
+
+  if (g_getenv ("PHOTOS_DISABLE_MINERS") != NULL)
+    goto out;
+
+  priv->miners_running = g_list_prepend (priv->miners_running, g_object_ref (miner));
+
+  cancellable = g_cancellable_new ();
+  g_object_set_data_full (G_OBJECT (miner), "cancellable", cancellable, g_object_unref);
+  gom_miner_call_refresh_db (miner, cancellable, photos_application_refresh_db, g_object_ref (self));
+
+ out:
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
+photos_application_refresh_miners (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+
+  if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->src_mngr), "flickr"))
+    photos_application_refresh_miner_now (self, priv->flickr_miner);
+}
+
+
 static void
 photos_application_remote_display_current (PhotosApplication *self)
 {
@@ -194,6 +307,43 @@ photos_application_set_bg (PhotosApplication *self)
   g_settings_set_enum (priv->settings, "color-shading-type", G_DESKTOP_BACKGROUND_SHADING_SOLID);
   g_settings_set_string (priv->settings, "primary-color", "#000000000000");
   g_settings_set_string (priv->settings, "secondary-color", "#000000000000");
+}
+
+
+static void
+photos_application_start_miners (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+
+  photos_application_refresh_miners (self);
+
+  g_signal_connect_object (priv->src_mngr,
+                           "object-added",
+                           G_CALLBACK (photos_application_refresh_miners),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (priv->src_mngr,
+                           "object-removed",
+                           G_CALLBACK (photos_application_refresh_miners),
+                           self,
+                           G_CONNECT_SWAPPED);
+}
+
+
+static void
+photos_application_stop_miners (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  GList *l;
+
+  for (l = priv->miners_running; l != NULL; l = l->next)
+    {
+      GomMiner *miner = GOM_MINER (l->data);
+      GCancellable *cancellable;
+
+      cancellable = g_object_get_data (G_OBJECT (miner), "cancellable");
+      g_cancellable_cancel (cancellable);
+    }
 }
 
 
@@ -252,7 +402,15 @@ photos_application_startup (GApplication *application)
   settings = gtk_settings_get_default ();
   g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
 
+  priv->flickr_miner = gom_miner_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                         G_DBUS_PROXY_FLAGS_NONE,
+                                                         "org.gnome.OnlineMiners.Flickr",
+                                                         "/org/gnome/OnlineMiners/Flickr",
+                                                         NULL,
+                                                         NULL);
+
   priv->item_mngr = photos_item_manager_new ();
+  priv->src_mngr = photos_source_manager_new ();
   priv->mode_cntrlr = photos_mode_controller_new ();
 
   action = g_simple_action_new ("about", NULL);
@@ -325,6 +483,8 @@ photos_application_startup (GApplication *application)
 
   priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+
+  photos_application_start_miners (self);
 }
 
 
@@ -352,6 +512,13 @@ photos_application_dispose (GObject *object)
   PhotosApplication *self = PHOTOS_APPLICATION (object);
   PhotosApplicationPrivate *priv = self->priv;
 
+  if (priv->miners_running != NULL)
+    {
+      photos_application_stop_miners (self);
+      g_list_free_full (priv->miners_running, g_object_unref);
+      priv->miners_running = NULL;
+    }
+
   if (priv->resource != NULL)
     {
       g_resources_unregister (priv->resource);
@@ -368,7 +535,9 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->sel_all_action);
   g_clear_object (&priv->sel_none_action);
   g_clear_object (&priv->set_bg_action);
+  g_clear_object (&priv->flickr_miner);
   g_clear_object (&priv->item_mngr);
+  g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->mode_cntrlr);
 
   G_OBJECT_CLASS (photos_application_parent_class)
@@ -396,6 +565,8 @@ photos_application_class_init (PhotosApplicationClass *class)
   object_class->dispose = photos_application_dispose;
   application_class->activate = photos_application_activate;
   application_class->startup = photos_application_startup;
+
+  /* TODO: Add miners-changed signal */
 
   g_type_class_add_private (class, sizeof (PhotosApplicationPrivate));
 }
