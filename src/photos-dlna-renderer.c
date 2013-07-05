@@ -397,17 +397,6 @@ photos_dlna_renderer_init_async (GAsyncInitable      *initable,
 }
 
 
-static gboolean
-photos_dlna_renderer_init_finish (GAsyncInitable *initable,
-                                  GAsyncResult   *result,
-                                  GError        **error)
-{
-  g_return_val_if_fail (g_task_is_valid (result, G_OBJECT (initable)), FALSE);
-
-  return g_task_propagate_pointer (G_TASK (result), error) != NULL;
-}
-
-
 PhotosDlnaRenderer*
 photos_dlna_renderer_new_for_bus_finish (GAsyncResult *result,
                                          GError      **error)
@@ -434,7 +423,6 @@ static void
 photos_dlna_renderer_async_initable_iface_init (GAsyncInitableIface *iface)
 {
   iface->init_async = photos_dlna_renderer_init_async;
-  iface->init_finish = photos_dlna_renderer_init_finish;
 }
 
 
