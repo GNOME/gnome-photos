@@ -25,10 +25,14 @@
 
 #include "config.h"
 
+#include <string.h>
+
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <goa/goa.h>
+#include <grilo.h>
+#include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
 #include "photos-flickr-item.h"
 #include "photos-source.h"
@@ -44,14 +48,174 @@ struct _PhotosFlickrItemPrivate
 G_DEFINE_TYPE (PhotosFlickrItem, photos_flickr_item, PHOTOS_TYPE_BASE_ITEM);
 
 
+typedef struct _PhotosFlickrItemSyncData PhotosFlickrItemSyncData;
+
+struct _PhotosFlickrItemSyncData
+{
+  GError **error;
+  GMainLoop *loop;
+  gboolean op_res;
+};
+
+
+static GrlOperationOptions *
+photos_flickr_item_get_grl_options (GrlSource *source)
+{
+  GrlCaps *caps;
+  GrlOperationOptions *options;
+
+  caps = grl_source_get_caps (source, GRL_OP_RESOLVE);
+  options = grl_operation_options_new (caps);
+  return options;
+}
+
+
+static void
+photos_flickr_item_source_resolve (GrlSource *source,
+                                   guint operation_id,
+                                   GrlMedia *media,
+                                   gpointer user_data,
+                                   const GError *error)
+{
+  PhotosFlickrItemSyncData *data = (PhotosFlickrItemSyncData *) user_data;
+
+  if (error != NULL)
+    {
+      if (data->error != NULL)
+        *(data->error) = g_error_copy (error);
+      data->op_res = FALSE;
+    }
+  else
+    data->op_res = TRUE;
+
+  g_main_loop_quit (data->loop);
+}
+
+
 static gboolean
 photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  g_set_error (error,
-               g_quark_from_static_string ("gnome-photos-error"),
-               0,
-               "Thumbnailing Flickr items is unsupported");
-  return FALSE;
+  PhotosFlickrItemSyncData data;
+  GFile *local_file = NULL;
+  GFile *remote_file = NULL;
+  GList *keys = NULL;
+  GMainContext *context = NULL;
+  GrlMedia *media = NULL;
+  GrlOperationOptions *options = NULL;
+  GrlRegistry *registry;
+  GrlSource *source;
+  gboolean ret_val = FALSE;
+  const gchar *const flickr_prefix = "flickr:";
+  const gchar *const resource_prefix = "gd:goa-account:";
+  const gchar *flickr_id;
+  const gchar *goa_id;
+  const gchar *identifier;
+  const gchar *resource_urn;
+  const gchar *thumbnail_uri;
+  const gchar *uri;
+  gchar *grilo_id = NULL;
+  gchar *local_dir = NULL;
+  gchar *local_path = NULL;
+  gsize prefix_len;
+
+  data.error = error;
+  data.loop = NULL;
+
+  prefix_len = strlen (flickr_prefix);
+  identifier = photos_base_item_get_identifier (item);
+  if (strlen (identifier) <= prefix_len || !g_str_has_prefix (identifier, flickr_prefix))
+    {
+      /* FIXME: use proper #defines and enumerated types */
+      g_set_error (error,
+                   g_quark_from_static_string ("gnome-photos-error"),
+                   0,
+                   "Invalid nao:identifier for Flickr item %s",
+                   identifier);
+      goto out;
+    }
+  flickr_id = identifier + prefix_len;
+
+  prefix_len = strlen (resource_prefix);
+  resource_urn = photos_base_item_get_resource_urn (item);
+  if (strlen (resource_urn) <= prefix_len || !g_str_has_prefix (resource_urn, resource_prefix))
+    {
+      /* FIXME: use proper #defines and enumerated types */
+      g_set_error (error,
+                   g_quark_from_static_string ("gnome-photos-error"),
+                   0,
+                   "Invalid nie:dataSource for Flickr item %s",
+                   resource_urn);
+      goto out;
+    }
+  goa_id = resource_urn + prefix_len;
+
+  grilo_id = g_strdup_printf ("grl-flickr-%s", goa_id);
+  registry = grl_registry_get_default ();
+  source = grl_registry_lookup_source (registry, grilo_id);
+  if (source == NULL)
+    {
+      /* FIXME: use proper #defines and enumerated types */
+      g_set_error (error,
+                   g_quark_from_static_string ("gnome-photos-error"),
+                   0,
+                   "Failed to find a GrlSource for %s",
+                   grilo_id);
+      goto out;
+    }
+
+  media = grl_media_new ();
+  grl_media_set_id (media, flickr_id);
+
+  keys = grl_metadata_key_list_new (GRL_METADATA_KEY_THUMBNAIL, GRL_METADATA_KEY_INVALID);
+  options = photos_flickr_item_get_grl_options (source);
+
+  context = g_main_context_new ();
+  g_main_context_push_thread_default (context);
+  data.loop = g_main_loop_new (context, FALSE);
+
+  grl_source_resolve (source, media, keys, options, photos_flickr_item_source_resolve, &data);
+  g_main_loop_run (data.loop);
+  g_main_context_pop_thread_default (context);
+
+  if (!data.op_res)
+    goto out;
+
+  thumbnail_uri = grl_media_get_thumbnail (media);
+  remote_file = g_file_new_for_uri (thumbnail_uri);
+
+  uri = photos_base_item_get_uri (item);
+  local_path = gnome_desktop_thumbnail_path_for_uri (uri, GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
+  local_file = g_file_new_for_path (local_path);
+
+  local_dir = g_path_get_dirname (local_path);
+  g_mkdir_with_parents (local_dir, 0700);
+
+  g_debug ("Downloading %s from Flickr to %s", uri, local_path);
+  if (!g_file_copy (remote_file,
+                    local_file,
+                    G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
+                    cancellable,
+                    NULL,
+                    NULL,
+                    error))
+    goto out;
+
+  ret_val = TRUE;
+
+ out:
+  g_free (grilo_id);
+  g_free (local_dir);
+  g_free (local_path);
+  g_list_free (keys);
+  g_clear_object (&local_file);
+  g_clear_object (&remote_file);
+  g_clear_object (&options);
+  g_clear_object (&media);
+  if (context != NULL)
+    g_main_context_unref (context);
+  if (data.loop != NULL)
+    g_main_loop_unref (data.loop);
+  return ret_val;
 }
 
 
