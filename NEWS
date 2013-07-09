@@ -1,5 +1,37 @@
-Overview of changes in 3.9.2
+Overview of changes in 3.9.4
 ============================
+
+* Support accessing photos from Flickr (697675)
+
+* Support pushing pictures to DLNA renderers (701775)
+
+* Support rubber band selection
+
+* Bugs fixed:
+ 698086 Avoid bash-specific syntax in photos-generate-about
+ 699899 Use proper ellipses instead of their ASCII equivalents
+ 699900 Disambiguate "Organize"
+ 700061 build: Use git.mk to generate .gitignore files
+ 702909 Special markup characters should be escaped when setting the toolbar
+        title
+ 702910 view-container: Unref mode controller in ::dispose()
+ 703054 Simplify signal handlers tracking
+ 703269 Compilation warnings are not active
+
+* Updated translations:
+ Arabic
+ Czech
+ French
+ German
+ Greek
+ Hebrew
+ Hungarian
+ Polish
+ Portuguese (Brazilian)
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
 
 
 Overview of changes in 3.8.0
