@@ -222,9 +222,6 @@ photos_print_operation_dispose (GObject *object)
 static void
 photos_print_operation_finalize (GObject *object)
 {
-  PhotosPrintOperation *self = PHOTOS_PRINT_OPERATION (object);
-  PhotosPrintOperationPrivate *priv = self->priv;
-
   G_OBJECT_CLASS (photos_print_operation_parent_class)->finalize (object);
 }
 

@@ -71,7 +71,6 @@ static void
 photos_local_item_constructed (GObject *object)
 {
   PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (object);
-  PhotosLocalItemPrivate *priv = self->priv;
   GAppInfo *default_app = NULL;
   const gchar *default_app_name;
   const gchar *mime_type;

@@ -199,7 +199,6 @@ static void
 photos_dlna_renderers_manager_init (PhotosDlnaRenderersManager *self)
 {
   PhotosDlnaRenderersManagerPrivate *priv;
-  GError *error = NULL;
 
   self->priv = priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_DLNA_RENDERERS_MANAGER,
                                                    PhotosDlnaRenderersManagerPrivate);

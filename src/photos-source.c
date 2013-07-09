@@ -192,10 +192,7 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
 static void
 photos_source_init (PhotosSource *self)
 {
-  PhotosSourcePrivate *priv;
-
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SOURCE, PhotosSourcePrivate);
-  priv = self->priv;
 }
 
 

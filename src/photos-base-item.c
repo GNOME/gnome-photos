@@ -460,7 +460,6 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
   GError *error = NULL;
   GFile *file = G_FILE (source_object);
   GFileInfo *info;
-  gboolean have_new_icon = FALSE;
 
   info = g_file_query_info_finish (file, res, &error);
   if (error != NULL)

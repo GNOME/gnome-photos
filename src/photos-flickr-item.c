@@ -101,7 +101,6 @@ static void
 photos_flickr_item_constructed (GObject *object)
 {
   PhotosFlickrItem *self = PHOTOS_FLICKR_ITEM (object);
-  PhotosFlickrItemPrivate *priv = self->priv;
   GAppInfo *default_app = NULL;
   const gchar *default_app_name;
   const gchar *mime_type;

@@ -243,7 +243,6 @@ photos_embed_notify_visible_child (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
   GtkWidget *visible_child;
-  PhotosWindowMode mode;
 
   visible_child = gd_stack_get_visible_child (GD_STACK (priv->stack));
   if (visible_child == priv->overview)
@@ -365,7 +364,6 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
                                   gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
-  PhotosEmbedPrivate *priv = self->priv;
 
   if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
     photos_embed_prepare_for_collections (self);
@@ -412,7 +410,6 @@ photos_embed_init (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv;
   gboolean querying;
-  GtkStyleContext *context;
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_EMBED, PhotosEmbedPrivate);
   priv = self->priv;

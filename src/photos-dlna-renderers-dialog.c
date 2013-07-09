@@ -180,7 +180,6 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self,
   GtkWidget *image;
   GtkWidget *label;
   const gchar *name;
-  const gchar *icon_url;
 
   row = gtk_list_box_row_new ();
   row_grid = gtk_grid_new ();

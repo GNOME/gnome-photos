@@ -191,11 +191,6 @@ void
 photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
 {
   PhotosPreviewViewPrivate *priv = self->priv;
-  GeglRectangle bbox;
-  GtkAllocation alloc;
-  float delta_x;
-  float delta_y;
-  float scale = 1.0;
 
   if (priv->node == node)
     return;

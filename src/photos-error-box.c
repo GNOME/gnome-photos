@@ -79,16 +79,6 @@ photos_error_box_constructed (GObject *object)
 
 
 static void
-photos_error_box_dispose (GObject *object)
-{
-  PhotosErrorBox *self = PHOTOS_ERROR_BOX (object);
-  PhotosErrorBoxPrivate *priv = self->priv;
-
-  G_OBJECT_CLASS (photos_error_box_parent_class)->dispose (object);
-}
-
-
-static void
 photos_error_box_init (PhotosErrorBox *self)
 {
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_ERROR_BOX, PhotosErrorBoxPrivate);
@@ -101,7 +91,6 @@ photos_error_box_class_init (PhotosErrorBoxClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructed = photos_error_box_constructed;
-  object_class->dispose = photos_error_box_dispose;
 
   g_type_class_add_private (class, sizeof (PhotosErrorBoxPrivate));
 }

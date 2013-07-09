@@ -373,8 +373,6 @@ photos_view_container_set_property (GObject *object, guint prop_id, const GValue
 static void
 photos_view_container_init (PhotosViewContainer *self)
 {
-  PhotosViewContainerPrivate *priv;
-
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
                                             PHOTOS_TYPE_VIEW_CONTAINER,
                                             PhotosViewContainerPrivate);

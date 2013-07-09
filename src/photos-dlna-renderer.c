@@ -475,13 +475,8 @@ photos_dlna_renderer_share_play_cb (GObject      *source_object,
                                     gpointer      user_data)
 {
   GTask *task = G_TASK (user_data);
-  PhotosDlnaRenderer *self;
-  PhotosDlnaRendererPrivate *priv;
   PhotosBaseItem *item;
   GError *error = NULL;
-
-  self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
-  priv = self->priv;
 
   mpris_player_call_play_finish (MPRIS_PLAYER (source_object), res, &error);
   if (error != NULL)
@@ -662,7 +657,6 @@ photos_dlna_renderer_unshare_remove_file_cb (GObject      *source_object,
 
   g_task_return_boolean (task, success);
 
-out:
   g_object_unref (task);
 }
 
@@ -716,7 +710,6 @@ photos_dlna_renderer_unshare_all_unshare_cb (GObject      *source_object,
                                              gpointer      user_data)
 {
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (source_object);
-  PhotosDlnaRendererPrivate *priv = self->priv;
   GTask *task = G_TASK (user_data);
   guint remaining;
   GError *error = NULL;
@@ -748,7 +741,6 @@ photos_dlna_renderer_unshare_all (PhotosDlnaRenderer  *self,
   GTask *task;
   GList *items, *item;
   guint remaining;
-  GError *error = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
 
@@ -782,17 +774,14 @@ photos_dlna_renderer_device_get_icon_cb (GObject      *source_object,
                                          gpointer      user_data)
 {
   GTask *task = G_TASK (user_data);
-  PhotosDlnaRenderer *self;
   GInputStream *icon_stream = NULL;
   GdkPixbuf *pixbuf = NULL;
   GVariant *icon_variant = NULL;
   GBytes *icon_bytes = NULL;
   const gchar *icon_data;
-  gssize icon_data_size;
+  gsize icon_data_size;
   gchar *mimetype = NULL;
   GError *error = NULL;
-
-  self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
 
   /* The icon data is forced to be a GVariant since the GDBus bindings assume
    * bytestrings (type 'ay') to be nul-terminated and thus do not return the length
@@ -851,7 +840,6 @@ photos_dlna_renderer_get_icon (PhotosDlnaRenderer  *self,
 {
   PhotosDlnaRendererPrivate *priv = self->priv;
   GTask *task;
-  GError *error = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
 

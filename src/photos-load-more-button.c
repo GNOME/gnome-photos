@@ -135,7 +135,7 @@ photos_load_more_button_dispose (GObject *object)
   PhotosLoadMoreButton *self = PHOTOS_LOAD_MORE_BUTTON (object);
   PhotosLoadMoreButtonPrivate *priv = self->priv;
 
-  g_clear_object (&self->priv->offset_cntrlr);
+  g_clear_object (&priv->offset_cntrlr);
 
   G_OBJECT_CLASS (photos_load_more_button_parent_class)->dispose (object);
 }

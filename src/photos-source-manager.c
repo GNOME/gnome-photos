@@ -73,8 +73,6 @@ photos_source_manager_client_account_removed (GoaClient *client, GoaObject *obje
 static void
 photos_source_manager_client_account_changed (GoaClient *client, GoaObject *object, gpointer user_data)
 {
-  PhotosSourceManager *self = PHOTOS_SOURCE_MANAGER (user_data);
-
   if (goa_object_peek_photos (object) == NULL)
     photos_source_manager_client_account_removed (client, object, user_data);
   else

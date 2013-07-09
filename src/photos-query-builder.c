@@ -160,11 +160,8 @@ photos_query_builder_where (gboolean global, gint flags)
 static gchar *
 photos_query_builder_query (gboolean global, gint flags)
 {
-  gchar *filter;
-  gchar *optional;
   gchar *sparql;
   gchar *tail_sparql = NULL;
-  gchar *tmp;
   gchar *where_sparql;
 
   where_sparql = photos_query_builder_where (global, flags);
@@ -256,7 +253,6 @@ photos_query_builder_collection_icon_query (const gchar *resource)
 PhotosQuery *
 photos_query_builder_count_query (gint flags)
 {
-  PhotosBaseManager *srch_typ_mngr;
   gchar *sparql;
   gchar *where_sparql;
 
@@ -355,7 +351,6 @@ photos_query_builder_update_mtime_query (const gchar *resource)
 gchar *
 photos_query_builder_filter_local (void)
 {
-  GFile *file;
   gchar *desktop_uri;
   gchar *download_uri;
   gchar *filter;

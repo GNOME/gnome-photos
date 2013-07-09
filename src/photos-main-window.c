@@ -134,7 +134,6 @@ static void
 photos_main_window_fullscreen_changed (PhotosModeController *controller, gboolean fullscreen, gpointer user_data)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (user_data);
-  PhotosMainWindowPrivate *priv = self->priv;
 
   if (fullscreen)
     gtk_window_fullscreen (GTK_WINDOW (self));

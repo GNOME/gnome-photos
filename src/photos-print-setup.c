@@ -93,7 +93,6 @@ enum
 #define FACTOR_MM_TO_PIXEL 2.834645669
 
 static void photos_print_setup_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void photos_print_setup_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 
 static void on_left_value_changed   (GtkSpinButton *spinbutton, gpointer user_data);
 static void on_right_value_changed  (GtkSpinButton *spinbutton, gpointer user_data);

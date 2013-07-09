@@ -341,7 +341,6 @@ static void
 photos_organize_collection_view_class_init (PhotosOrganizeCollectionViewClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
-  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
 
   object_class->dispose = photos_organize_collection_view_dispose;
 

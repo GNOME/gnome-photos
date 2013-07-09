@@ -105,7 +105,6 @@ static void
 photos_selection_toolbar_collection_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-  PhotosSelectionToolbarPrivate *priv = self->priv;
   GtkWidget *dialog;
   GtkWidget *toplevel;
 
@@ -217,7 +216,6 @@ photos_selection_toolbar_properties_clicked (GtkButton *button, gpointer user_da
   GList *windows;
   GtkApplication *app;
   GtkWidget *dialog;
-  GtkWidget *toplevel;
   const gchar *urn;
 
   app = photos_application_new ();

@@ -108,8 +108,6 @@ photos_application_refresh_data_free (PhotosApplicationRefreshData *data)
 static void
 photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
 {
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  PhotosApplicationPrivate *priv = self->priv;
   GVariant *state;
   GVariant *new_state;
 

@@ -171,13 +171,11 @@ photos_remote_display_manager_share_cb (GObject      *source_object,
                                         gpointer      user_data)
 {
   Share *share = user_data;
-  PhotosRemoteDisplayManager *self = share->manager;
-  PhotosRemoteDisplayManagerPrivate *priv = self->priv;
   PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (source_object);
   PhotosBaseItem *item;
   GError *error = NULL;
 
-  item = photos_dlna_renderer_share_finish (priv->renderer, res, &error);
+  item = photos_dlna_renderer_share_finish (renderer, res, &error);
   g_object_unref (item); /* We already hold a ref to the item to be shared */
 
   if (error != NULL)
