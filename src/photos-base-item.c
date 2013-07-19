@@ -448,7 +448,6 @@ photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res,
 
  out:
   g_object_unref (file);
-  g_object_unref (self);
 }
 
 
