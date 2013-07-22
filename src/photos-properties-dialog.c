@@ -192,7 +192,7 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_container_add (GTK_CONTAINER (grid), date_created_w);
     }
 
-  item_type = gtk_label_new (_("Type"));
+  item_type = gtk_label_new (C_("Document Type", "Type"));
   gtk_widget_set_halign (item_type, GTK_ALIGN_END);
   context = gtk_widget_get_style_context (item_type);
   gtk_style_context_add_class (context, "dim-label");
