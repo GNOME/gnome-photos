@@ -28,6 +28,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
 #include "photos-base-item.h"
@@ -97,6 +98,13 @@ photos_flickr_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
 }
 
 
+static const gchar *
+photos_flickr_item_get_source_name (PhotosBaseItem *item)
+{
+  return _("Flickr");
+}
+
+
 static void
 photos_flickr_item_constructed (GObject *object)
 {
@@ -137,6 +145,7 @@ photos_flickr_item_class_init (PhotosFlickrItemClass *class)
   object_class->constructed= photos_flickr_item_constructed;
   base_item_class->create_thumbnail = photos_flickr_item_create_thumbnail;
   base_item_class->download = photos_flickr_item_download;
+  base_item_class->get_source_name = photos_flickr_item_get_source_name;
 }
 
 

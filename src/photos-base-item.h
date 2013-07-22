@@ -70,6 +70,7 @@ struct _PhotosBaseItemClass
 
   gboolean (*create_thumbnail) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   gchar *(*download) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
+  const gchar *(*get_source_name) (PhotosBaseItem *self);
   void (*set_favorite) (PhotosBaseItem *self, gboolean favorite);
   void (*update_type_description) (PhotosBaseItem *self);
 
@@ -106,6 +107,8 @@ const gchar        *photos_base_item_get_name           (PhotosBaseItem *self);
 GdkPixbuf          *photos_base_item_get_pristine_icon  (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_resource_urn   (PhotosBaseItem *self);
+
+const gchar        *photos_base_item_get_source_name    (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_type_description (PhotosBaseItem *self);
 

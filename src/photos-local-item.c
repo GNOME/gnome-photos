@@ -27,6 +27,7 @@
 
 #include <gio/gio.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 
 #include "photos-local-item.h"
 #include "photos-utils.h"
@@ -64,6 +65,13 @@ photos_local_item_download (PhotosBaseItem *item, GCancellable *cancellable, GEr
 
   g_object_unref (file);
   return path;
+}
+
+
+static const gchar *
+photos_local_item_get_source_name (PhotosBaseItem *item)
+{
+  return _("Local");
 }
 
 
@@ -107,6 +115,7 @@ photos_local_item_class_init (PhotosLocalItemClass *class)
   object_class->constructed= photos_local_item_constructed;
   base_item_class->create_thumbnail = photos_local_item_create_thumbnail;
   base_item_class->download = photos_local_item_download;
+  base_item_class->get_source_name = photos_local_item_get_source_name;
 }
 
 
