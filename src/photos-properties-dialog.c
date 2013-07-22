@@ -155,6 +155,9 @@ photos_properties_dialog_constructed (GObject *object)
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
   gtk_box_pack_start (GTK_BOX (content_area), grid, TRUE, TRUE, 2);
 
+  /* Translators: this is the label next to the photo title in the
+   * properties dialog
+   */
   title = gtk_label_new (C_("Document Title", "Title"));
   gtk_widget_set_halign (title, GTK_ALIGN_END);
   context = gtk_widget_get_style_context (title);
@@ -164,6 +167,9 @@ photos_properties_dialog_constructed (GObject *object)
   author = photos_base_item_get_author (item);
   if (author != NULL && author[0] != '\0')
     {
+      /* Translators: this is the label next to the photo author in
+       * the properties dialog
+       */
       author_w = gtk_label_new (C_("Document Author", "Author"));
       gtk_widget_set_halign (author_w, GTK_ALIGN_END);
       context = gtk_widget_get_style_context (author_w);
@@ -192,6 +198,9 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_container_add (GTK_CONTAINER (grid), date_created_w);
     }
 
+  /* Translators: this is the label next to the photo type in the
+   * properties dialog
+   */
   item_type = gtk_label_new (C_("Document Type", "Type"));
   gtk_widget_set_halign (item_type, GTK_ALIGN_END);
   context = gtk_widget_get_style_context (item_type);
