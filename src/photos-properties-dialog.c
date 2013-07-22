@@ -145,10 +145,12 @@ photos_properties_dialog_constructed (GObject *object)
   gtk_widget_set_margin_left (grid, 24);
   gtk_widget_set_margin_right (grid, 24);
   gtk_widget_set_margin_bottom (grid, 12);
+  gtk_widget_set_margin_top (grid, 12);
   gtk_orientable_set_orientation (GTK_ORIENTABLE (grid), GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_column_homogeneous (GTK_GRID (grid), TRUE);
   gtk_grid_set_column_spacing (GTK_GRID (grid), 24);
-  gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
+  gtk_grid_set_row_homogeneous (GTK_GRID (grid), TRUE);
+  gtk_grid_set_row_spacing (GTK_GRID (grid), 6);
 
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
   gtk_box_pack_start (GTK_BOX (content_area), grid, TRUE, TRUE, 2);
