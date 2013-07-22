@@ -221,7 +221,7 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (priv->title_entry, GTK_ALIGN_START);
     }
 
-  gtk_grid_attach_next_to (GTK_GRID (grid), priv->title_entry, title, 1, 2, 1);
+  gtk_grid_attach_next_to (GTK_GRID (grid), priv->title_entry, title, GTK_POS_RIGHT, 2, 1);
 
   if (author_w != NULL)
     {
@@ -229,7 +229,7 @@ photos_properties_dialog_constructed (GObject *object)
 
       author_data = gtk_label_new (author);
       gtk_widget_set_halign (author_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (grid), author_data, author_w, 1, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (grid), author_data, author_w, GTK_POS_RIGHT, 2, 1);
     }
 
   if (PHOTOS_IS_LOCAL_ITEM (item))
@@ -253,11 +253,11 @@ photos_properties_dialog_constructed (GObject *object)
       g_object_unref (file);
     }
 
-  gtk_grid_attach_next_to (GTK_GRID (grid), source_data, source, 1, 2, 1);
+  gtk_grid_attach_next_to (GTK_GRID (grid), source_data, source, GTK_POS_RIGHT, 2, 1);
 
   date_modified_data = gtk_label_new (date_modified_str);
   gtk_widget_set_halign (date_modified_data, GTK_ALIGN_START);
-  gtk_grid_attach_next_to (GTK_GRID (grid), date_modified_data, date_modified_w, 1, 2, 1);
+  gtk_grid_attach_next_to (GTK_GRID (grid), date_modified_data, date_modified_w, GTK_POS_RIGHT, 2, 1);
 
   if (date_created_w != NULL)
     {
@@ -265,13 +265,13 @@ photos_properties_dialog_constructed (GObject *object)
 
       date_created_data = gtk_label_new (date_created_str);
       gtk_widget_set_halign (date_created_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (grid), date_created_data, date_created_w, 1, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (grid), date_created_data, date_created_w, GTK_POS_RIGHT, 2, 1);
     }
 
   type_description = photos_base_item_get_type_description (item);
   item_type_data = gtk_label_new (type_description);
   gtk_widget_set_halign (item_type_data, GTK_ALIGN_START);
-  gtk_grid_attach_next_to (GTK_GRID (grid), item_type_data, item_type, 1, 2, 1);
+  gtk_grid_attach_next_to (GTK_GRID (grid), item_type_data, item_type, GTK_POS_RIGHT, 2, 1);
 }
 
 
