@@ -205,6 +205,7 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_hexpand (priv->title_entry, TRUE);
       gtk_entry_set_activates_default (GTK_ENTRY (priv->title_entry), TRUE);
       gtk_entry_set_text (GTK_ENTRY (priv->title_entry), name);
+      gtk_entry_set_width_chars (GTK_ENTRY (priv->title_entry), 40);
       gtk_editable_set_editable (GTK_EDITABLE (priv->title_entry), TRUE);
 
       g_signal_connect (priv->title_entry,
