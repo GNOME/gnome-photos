@@ -25,14 +25,11 @@
 
 #include "config.h"
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <goa/goa.h>
-#include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
-#include "photos-base-item.h"
 #include "photos-flickr-item.h"
 #include "photos-source.h"
 #include "photos-source-manager.h"
