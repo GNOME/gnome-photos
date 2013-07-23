@@ -29,10 +29,19 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <goa/goa.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
 #include "photos-base-item.h"
 #include "photos-flickr-item.h"
+#include "photos-source.h"
+#include "photos-source-manager.h"
+
+
+struct _PhotosFlickrItemPrivate
+{
+  PhotosBaseManager *src_mngr;
+};
 
 
 G_DEFINE_TYPE (PhotosFlickrItem, photos_flickr_item, PHOTOS_TYPE_BASE_ITEM);
@@ -106,33 +115,72 @@ photos_flickr_item_get_source_name (PhotosBaseItem *item)
 
 
 static void
+photos_flickr_item_open (PhotosBaseItem *item, GdkScreen *screen, guint32 timestamp)
+{
+  PhotosFlickrItem *self = PHOTOS_FLICKR_ITEM (item);
+  PhotosFlickrItemPrivate *priv = self->priv;
+  GError *error;
+  GoaAccount *account;
+  GoaObject *object;
+  PhotosSource *source;
+  const gchar *identifier;
+  const gchar *identity;
+  const gchar *resource_urn;
+  gchar *flickr_uri;
+
+  identifier = photos_base_item_get_identifier (item) + strlen("flickr:");
+
+  resource_urn = photos_base_item_get_resource_urn (item);
+  source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (priv->src_mngr, resource_urn));
+  object = photos_source_get_goa_object (source);
+  account = goa_object_peek_account (object);
+  identity = goa_account_get_identity (account);
+
+  flickr_uri = g_strdup_printf ("https://www.flickr.com/photos/%s/%s", identity, identifier);
+
+  error = NULL;
+  gtk_show_uri (screen, flickr_uri, timestamp, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to show URI %s: %s", flickr_uri, error->message);
+      g_error_free (error);
+    }
+
+  g_free (flickr_uri);
+}
+
+
+static void
 photos_flickr_item_constructed (GObject *object)
 {
   PhotosFlickrItem *self = PHOTOS_FLICKR_ITEM (object);
-  GAppInfo *default_app = NULL;
-  const gchar *default_app_name;
-  const gchar *mime_type;
 
   G_OBJECT_CLASS (photos_flickr_item_parent_class)->constructed (object);
 
-  mime_type = photos_base_item_get_mime_type (PHOTOS_BASE_ITEM (self));
-  if (mime_type == NULL)
-    return;
+  photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), _("Flickr"));
+}
 
-  default_app = g_app_info_get_default_for_type (mime_type, TRUE);
-  if (default_app == NULL)
-    return;
 
-  default_app_name = g_app_info_get_name (default_app);
-  photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), default_app_name);
+static void
+photos_flickr_item_dispose (GObject *object)
+{
+  PhotosFlickrItem *self = PHOTOS_FLICKR_ITEM (object);
 
-  g_object_unref (default_app);
+  g_clear_object (&self->priv->src_mngr);
+
+  G_OBJECT_CLASS (photos_flickr_item_parent_class)->dispose (object);
 }
 
 
 static void
 photos_flickr_item_init (PhotosFlickrItem *self)
 {
+  PhotosFlickrItemPrivate *priv;
+
+  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_FLICKR_ITEM, PhotosFlickrItemPrivate);
+  priv = self->priv;
+
+  priv->src_mngr = photos_source_manager_new ();
 }
 
 
@@ -143,9 +191,13 @@ photos_flickr_item_class_init (PhotosFlickrItemClass *class)
   PhotosBaseItemClass *base_item_class = PHOTOS_BASE_ITEM_CLASS (class);
 
   object_class->constructed= photos_flickr_item_constructed;
+  object_class->dispose = photos_flickr_item_dispose;
   base_item_class->create_thumbnail = photos_flickr_item_create_thumbnail;
   base_item_class->download = photos_flickr_item_download;
   base_item_class->get_source_name = photos_flickr_item_get_source_name;
+  base_item_class->open = photos_flickr_item_open;
+
+  g_type_class_add_private (class, sizeof (PhotosFlickrItemPrivate));
 }
 
 
