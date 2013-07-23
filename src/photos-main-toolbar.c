@@ -125,7 +125,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
   if (selection_mode)
     gd_header_button_set_label (GD_HEADER_BUTTON (priv->selection_menu), primary);
   else
-    gd_header_bar_set_title (GD_HEADER_BAR (priv->toolbar), primary);
+    gtk_header_bar_set_title (GTK_HEADER_BAR (priv->toolbar), primary);
 
   g_free (primary);
 }
@@ -145,7 +145,7 @@ photos_main_toolbar_add_back_button (PhotosMainToolbar *self)
   back_button = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (back_button), _("Back"));
   gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (back_button), icon_name);
-  gd_header_bar_pack_start (GD_HEADER_BAR (priv->toolbar), back_button);
+  gtk_header_bar_pack_start (GTK_HEADER_BAR (priv->toolbar), back_button);
 
   return back_button;
 }
@@ -238,7 +238,7 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
   label = GTK_LABEL (gtk_bin_get_child (GTK_BIN (priv->remote_display_button)));
   gtk_label_set_ellipsize (label, PANGO_ELLIPSIZE_MIDDLE);
   gtk_widget_set_margin_right (priv->remote_display_button, 12);
-  gd_header_bar_pack_start (GD_HEADER_BAR (priv->toolbar), priv->remote_display_button);
+  gtk_header_bar_pack_start (GTK_HEADER_BAR (priv->toolbar), priv->remote_display_button);
   gtk_widget_show_all (priv->remote_display_button);
 
   g_signal_connect (priv->remote_display_button, "clicked",
@@ -256,7 +256,7 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
   selection_button = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (selection_button), _("Select Items"));
   gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (selection_button), "object-select-symbolic");
-  gd_header_bar_pack_end (GD_HEADER_BAR (priv->toolbar), selection_button);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), selection_button);
   g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_select_button_clicked), self);
 
   g_signal_connect_object (priv->col_mngr,
@@ -439,7 +439,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_button), "app.gear-menu");
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), G_MENU_MODEL (preview_menu));
   gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (menu_button), "emblem-system-symbolic");
-  gd_header_bar_pack_end (GD_HEADER_BAR (priv->toolbar), menu_button);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), menu_button);
 
   g_simple_action_set_enabled (priv->gear_menu, TRUE);
 
@@ -463,7 +463,7 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
 
   selection_button = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (selection_button), _("Done"));
-  gd_header_bar_pack_end (GD_HEADER_BAR (priv->toolbar), selection_button);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), selection_button);
   context = gtk_widget_get_style_context (selection_button);
   gtk_style_context_add_class (context, "suggested-action");
   g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_done_button_clicked), self);

@@ -66,13 +66,13 @@ typedef struct _PhotosHeaderBarPrivate PhotosHeaderBarPrivate;
 
 struct _PhotosHeaderBar
 {
-  GdHeaderBar parent_instance;
+  GtkHeaderBar parent_instance;
   PhotosHeaderBarPrivate *priv;
 };
 
 struct _PhotosHeaderBarClass
 {
-  GdHeaderBarClass parent_class;
+  GtkHeaderBarClass parent_class;
 };
 
 GType                  photos_header_bar_get_type               (void) G_GNUC_CONST;

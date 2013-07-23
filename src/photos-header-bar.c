@@ -36,7 +36,7 @@ struct _PhotosHeaderBarPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosHeaderBar, photos_header_bar, GD_TYPE_HEADER_BAR);
+G_DEFINE_TYPE (PhotosHeaderBar, photos_header_bar, GTK_TYPE_HEADER_BAR);
 
 
 static void
@@ -143,7 +143,7 @@ photos_header_bar_set_mode (PhotosHeaderBar *self, PhotosHeaderBarMode mode)
       g_assert_not_reached ();
     }
 
-  gd_header_bar_set_custom_title (GD_HEADER_BAR (self), custom_title);
+  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self), custom_title);
 }
 
 
@@ -166,7 +166,7 @@ photos_header_bar_set_selection_menu (PhotosHeaderBar *self, GdHeaderButton *sel
     }
 
   if (priv->mode == PHOTOS_HEADER_BAR_MODE_SELECTION)
-    gd_header_bar_set_custom_title (GD_HEADER_BAR (self), priv->selection_menu);
+    gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self), priv->selection_menu);
 }
 
 
