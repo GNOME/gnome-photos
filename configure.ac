@@ -109,7 +109,6 @@ LIBGD_INIT([
   main-icon-view
   main-view
   notification
-  stack
   static
 ])
 

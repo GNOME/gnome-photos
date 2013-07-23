@@ -654,7 +654,7 @@ photos_main_toolbar_new (void)
 
 
 void
-photos_main_toolbar_set_stack (PhotosMainToolbar *self, GdStack *stack)
+photos_main_toolbar_set_stack (PhotosMainToolbar *self, GtkStack *stack)
 {
   photos_header_bar_set_stack (PHOTOS_HEADER_BAR (self->priv->toolbar), stack);
 }

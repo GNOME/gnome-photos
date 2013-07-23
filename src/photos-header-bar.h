@@ -25,6 +25,7 @@
 #ifndef PHOTOS_HEADER_BAR_H
 #define PHOTOS_HEADER_BAR_H
 
+#include <gtk/gtk.h>
 #include <libgd/gd.h>
 
 G_BEGIN_DECLS
@@ -85,7 +86,7 @@ void                   photos_header_bar_set_mode               (PhotosHeaderBar
 void                   photos_header_bar_set_selection_menu     (PhotosHeaderBar *self,
                                                                  GdHeaderButton *selection_menu);
 
-void                   photos_header_bar_set_stack              (PhotosHeaderBar *self, GdStack *stack);
+void                   photos_header_bar_set_stack              (PhotosHeaderBar *self, GtkStack *stack);
 
 G_END_DECLS
 

@@ -26,7 +26,6 @@
 #define PHOTOS_MAIN_TOOLBAR_H
 
 #include <gtk/gtk.h>
-#include <libgd/gd.h>
 
 G_BEGIN_DECLS
 
@@ -71,7 +70,7 @@ GType                  photos_main_toolbar_get_type               (void) G_GNUC_
 
 GtkWidget             *photos_main_toolbar_new                    (void);
 
-void                   photos_main_toolbar_set_stack              (PhotosMainToolbar *self, GdStack *stack);
+void                   photos_main_toolbar_set_stack              (PhotosMainToolbar *self, GtkStack *stack);
 
 G_END_DECLS
 

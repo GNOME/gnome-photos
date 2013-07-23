@@ -73,7 +73,7 @@ photos_header_bar_init (PhotosHeaderBar *self)
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_HEADER_BAR, PhotosHeaderBarPrivate);
   priv = self->priv;
 
-  priv->stack_switcher = g_object_ref_sink (gd_stack_switcher_new ());
+  priv->stack_switcher = g_object_ref_sink (gtk_stack_switcher_new ());
 }
 
 
@@ -171,7 +171,7 @@ photos_header_bar_set_selection_menu (PhotosHeaderBar *self, GdHeaderButton *sel
 
 
 void
-photos_header_bar_set_stack (PhotosHeaderBar *self, GdStack *stack)
+photos_header_bar_set_stack (PhotosHeaderBar *self, GtkStack *stack)
 {
-  gd_stack_switcher_set_stack (GD_STACK_SWITCHER (self->priv->stack_switcher), stack);
+  gtk_stack_switcher_set_stack (GTK_STACK_SWITCHER (self->priv->stack_switcher), stack);
 }

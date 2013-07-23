@@ -125,7 +125,7 @@ photos_embed_load_show_timeout (gpointer user_data)
   PhotosEmbedPrivate *priv = self->priv;
 
   priv->load_show_id = 0;
-  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "spinner");
+  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "spinner");
   photos_spinner_box_start (PHOTOS_SPINNER_BOX (priv->spinner_box));
   g_object_unref (self);
   return G_SOURCE_REMOVE;
@@ -187,7 +187,7 @@ photos_embed_restore_last_page (PhotosEmbed *self)
       break;
     }
 
-  gd_stack_set_visible_child_name (GD_STACK (priv->stack), page);
+  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), page);
 }
 
 
@@ -225,7 +225,7 @@ photos_embed_count_changed (PhotosEmbed *self, gint count)
                                G_CALLBACK (photos_embed_changes_pending),
                                self,
                                G_CONNECT_SWAPPED);
-      gd_stack_set_visible_child_name (GD_STACK (priv->stack), "no-results");
+      gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "no-results");
     }
   else
     photos_embed_hide_no_results_page (self);
@@ -244,7 +244,7 @@ photos_embed_notify_visible_child (PhotosEmbed *self)
   PhotosEmbedPrivate *priv = self->priv;
   GtkWidget *visible_child;
 
-  visible_child = gd_stack_get_visible_child (GD_STACK (priv->stack));
+  visible_child = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
   if (visible_child == priv->overview)
     photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
   else if (visible_child == priv->collections)
@@ -268,7 +268,7 @@ photos_embed_prepare_for_collections (PhotosEmbed *self)
     }
 
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
-  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "collections");
+  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "collections");
 }
 
 
@@ -286,7 +286,7 @@ photos_embed_prepare_for_favorites (PhotosEmbed *self)
     }
 
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
-  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "favorites");
+  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "favorites");
 }
 
 
@@ -304,7 +304,7 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
     }
 
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
-  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "overview");
+  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "overview");
 }
 
 
@@ -318,7 +318,7 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
    */
 
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
-  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "preview");
+  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "preview");
 }
 
 
@@ -328,7 +328,7 @@ photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *se
   PhotosEmbedPrivate *priv = self->priv;
 
   photos_error_box_update (PHOTOS_ERROR_BOX (priv->error_box), primary, secondary);
-  gd_stack_set_visible_child_name (GD_STACK (priv->stack), "error");
+  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "error");
 }
 
 
@@ -348,7 +348,7 @@ photos_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean
   if (querying)
     {
       photos_spinner_box_start (PHOTOS_SPINNER_BOX (priv->spinner_box));
-      gd_stack_set_visible_child_name (GD_STACK (priv->stack), "spinner");
+      gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "spinner");
     }
   else
     {
@@ -421,14 +421,14 @@ photos_embed_init (PhotosEmbed *self)
   gtk_widget_show (priv->stack_overlay);
   gtk_box_pack_end (GTK_BOX (self), priv->stack_overlay, TRUE, TRUE, 0);
 
-  priv->stack = gd_stack_new ();
-  gd_stack_set_homogeneous (GD_STACK (priv->stack), TRUE);
-  gd_stack_set_transition_type (GD_STACK (priv->stack), GD_STACK_TRANSITION_TYPE_CROSSFADE);
+  priv->stack = gtk_stack_new ();
+  gtk_stack_set_homogeneous (GTK_STACK (priv->stack), TRUE);
+  gtk_stack_set_transition_type (GTK_STACK (priv->stack), GTK_STACK_TRANSITION_TYPE_CROSSFADE);
   gtk_widget_show (priv->stack);
   gtk_container_add (GTK_CONTAINER (priv->stack_overlay), priv->stack);
 
   priv->toolbar = photos_main_toolbar_new ();
-  photos_main_toolbar_set_stack (PHOTOS_MAIN_TOOLBAR (priv->toolbar), GD_STACK (priv->stack));
+  photos_main_toolbar_set_stack (PHOTOS_MAIN_TOOLBAR (priv->toolbar), GTK_STACK (priv->stack));
   gtk_box_pack_start (GTK_BOX (self), priv->toolbar, FALSE, FALSE, 0);
 
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_new ());
@@ -437,25 +437,25 @@ photos_embed_init (PhotosEmbed *self)
   priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
 
   priv->collections = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTIONS);
-  gd_stack_add_titled (GD_STACK (priv->stack), priv->collections, "collections", _("Albums"));
+  gtk_stack_add_titled (GTK_STACK (priv->stack), priv->collections, "collections", _("Albums"));
 
   priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW);
-  gd_stack_add_titled (GD_STACK (priv->stack), priv->overview, "overview", _("Photos"));
+  gtk_stack_add_titled (GTK_STACK (priv->stack), priv->overview, "overview", _("Photos"));
 
   priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES);
-  gd_stack_add_titled (GD_STACK (priv->stack), priv->favorites, "favorites", _("Favorites"));
+  gtk_stack_add_titled (GTK_STACK (priv->stack), priv->favorites, "favorites", _("Favorites"));
 
   priv->preview = photos_preview_view_new ();
-  gd_stack_add_named (GD_STACK (priv->stack), priv->preview, "preview");
+  gtk_stack_add_named (GTK_STACK (priv->stack), priv->preview, "preview");
 
   priv->spinner_box = photos_spinner_box_new ();
-  gd_stack_add_named (GD_STACK (priv->stack), priv->spinner_box, "spinner");
+  gtk_stack_add_named (GTK_STACK (priv->stack), priv->spinner_box, "spinner");
 
   priv->error_box = photos_error_box_new ();
-  gd_stack_add_named (GD_STACK (priv->stack), priv->error_box, "error");
+  gtk_stack_add_named (GTK_STACK (priv->stack), priv->error_box, "error");
 
   priv->no_results = photos_empty_results_box_new ();
-  gd_stack_add_named (GD_STACK (priv->stack), priv->no_results, "no-results");
+  gtk_stack_add_named (GTK_STACK (priv->stack), priv->no_results, "no-results");
 
   /* TODO: SearchBar.Dropdown, …
    */
