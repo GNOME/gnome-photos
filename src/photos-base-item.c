@@ -274,6 +274,22 @@ photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
 
 
 static void
+photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  GError *error;
+
+  error = NULL;
+  gtk_show_uri (screen, priv->uri, timestamp, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
+      g_error_free (error);
+    }
+}
+
+
+static void
 photos_base_item_icon_updated (PhotosBaseItem *self, GIcon *icon)
 {
   PhotosBaseItemPrivate *priv = self->priv;
@@ -814,6 +830,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
   object_class->finalize = photos_base_item_finalize;
   object_class->get_property = photos_base_item_get_property;
   object_class->set_property = photos_base_item_set_property;
+  class->open = photos_base_item_default_open;
   class->set_favorite = photos_base_item_default_set_favorite;
   class->update_type_description = photos_base_item_update_type_description;
 
@@ -1052,16 +1069,7 @@ photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
 void
 photos_base_item_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
-  GError *error;
-
-  error = NULL;
-  gtk_show_uri (screen, self->priv->uri, timestamp, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
-      g_error_free (error);
-    }
+  PHOTOS_BASE_ITEM_GET_CLASS (self)->open (self, screen, timestamp);
 }
 
 
