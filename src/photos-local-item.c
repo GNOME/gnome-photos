@@ -112,7 +112,7 @@ photos_local_item_class_init (PhotosLocalItemClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosBaseItemClass *base_item_class = PHOTOS_BASE_ITEM_CLASS (class);
 
-  object_class->constructed= photos_local_item_constructed;
+  object_class->constructed = photos_local_item_constructed;
   base_item_class->create_thumbnail = photos_local_item_create_thumbnail;
   base_item_class->download = photos_local_item_download;
   base_item_class->get_source_name = photos_local_item_get_source_name;

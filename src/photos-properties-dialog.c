@@ -359,7 +359,7 @@ photos_properties_dialog_class_init (PhotosPropertiesDialogClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->constructed= photos_properties_dialog_constructed;
+  object_class->constructed = photos_properties_dialog_constructed;
   object_class->dispose = photos_properties_dialog_dispose;
   object_class->finalize = photos_properties_dialog_finalize;
   object_class->set_property = photos_properties_dialog_set_property;

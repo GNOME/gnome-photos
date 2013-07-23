@@ -281,7 +281,7 @@ photos_print_operation_class_init (PhotosPrintOperationClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   GtkPrintOperationClass *operation_class = GTK_PRINT_OPERATION_CLASS (class);
 
-  object_class->constructed= photos_print_operation_constructed;
+  object_class->constructed = photos_print_operation_constructed;
   object_class->dispose = photos_print_operation_dispose;
   object_class->finalize = photos_print_operation_finalize;
   object_class->set_property = photos_print_operation_set_property;
