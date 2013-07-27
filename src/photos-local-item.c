@@ -55,15 +55,11 @@ photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancella
 static gchar *
 photos_local_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GFile *file = NULL;
   const gchar *uri;
-  gchar *path = NULL;
+  gchar *path;
 
   uri = photos_base_item_get_uri (item);
-  file = g_file_new_for_uri (uri);
-  path = g_file_get_path (file);
-
-  g_object_unref (file);
+  path = g_filename_from_uri (uri, NULL, error);
   return path;
 }
 
