@@ -85,6 +85,17 @@ gboolean            photos_base_item_can_trash          (PhotosBaseItem *self);
 
 void                photos_base_item_destroy            (PhotosBaseItem *self);
 
+gchar              *photos_base_item_download           (PhotosBaseItem *self,
+                                                         GCancellable *cancellable,
+                                                         GError **error);
+
+void                photos_base_item_download_async     (PhotosBaseItem *self,
+                                                         GCancellable *cancellable,
+                                                         GAsyncReadyCallback callback,
+                                                         gpointer user_data);
+
+gchar              *photos_base_item_download_finish    (PhotosBaseItem *self, GAsyncResult *res, GError **error);
+
 const gchar        *photos_base_item_get_author         (PhotosBaseItem *self);
 
 GeglRectangle       photos_base_item_get_bbox           (PhotosBaseItem *self);

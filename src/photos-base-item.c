@@ -48,6 +48,7 @@ struct _PhotosBaseItemPrivate
   GeglNode *node;
   GeglRectangle bbox;
   GMutex mutex_create_thumbnail;
+  GMutex mutex_download;
   GMutex mutex;
   PhotosCollectionIconWatcher *watcher;
   TrackerSparqlCursor *cursor;
@@ -90,7 +91,33 @@ static guint signals[LAST_SIGNAL] = { 0 };
 G_DEFINE_TYPE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT);
 
 
+typedef struct _PhotosBaseItemAsyncStrData PhotosBaseItemAsyncStrData;
+
+struct _PhotosBaseItemAsyncStrData
+{
+  gchar *str;
+};
+
 static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor);
+
+
+static PhotosBaseItemAsyncStrData *
+photos_base_item_async_str_data_new (gchar *str)
+{
+  PhotosBaseItemAsyncStrData *data;
+
+  data = g_slice_new0 (PhotosBaseItemAsyncStrData);
+  data->str = str;
+  return data;
+}
+
+
+static void
+photos_base_item_async_str_data_free (PhotosBaseItemAsyncStrData *data)
+{
+  g_free (data->str);
+  g_slice_free (PhotosBaseItemAsyncStrData, data);
+}
 
 
 static GIcon *
@@ -286,6 +313,29 @@ photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 
       g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
       g_error_free (error);
     }
+}
+
+
+static void
+photos_base_item_download_in_thread_func (GSimpleAsyncResult *simple, GObject *object, GCancellable *cancellable)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
+  PhotosBaseItemPrivate *priv = self->priv;
+  GError *error;
+  PhotosBaseItemAsyncStrData *op_res;
+  gchar *path;
+
+  g_mutex_lock (&priv->mutex_download);
+
+  error = NULL;
+  path = photos_base_item_download (self, cancellable, &error);
+  if (error != NULL)
+    g_simple_async_result_take_error (simple, error);
+
+  op_res = photos_base_item_async_str_data_new (path);
+  g_simple_async_result_set_op_res_gpointer (simple, op_res, (GDestroyNotify) photos_base_item_async_str_data_free);
+
+  g_mutex_unlock (&priv->mutex_download);
 }
 
 
@@ -511,7 +561,7 @@ photos_base_item_load (PhotosBaseItem *self, GCancellable *cancellable, GError *
 
   if (priv->graph == NULL)
     {
-      path = PHOTOS_BASE_ITEM_GET_CLASS (self)->download(self, cancellable, error);
+      path = photos_base_item_download (self, cancellable, error);
       if (path == NULL)
         goto out;
 
@@ -760,6 +810,7 @@ photos_base_item_finalize (GObject *object)
   g_free (priv->uri);
 
   g_mutex_clear (&priv->mutex_create_thumbnail);
+  g_mutex_clear (&priv->mutex_download);
   g_mutex_clear (&priv->mutex);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->finalize (object);
@@ -816,6 +867,7 @@ photos_base_item_init (PhotosBaseItem *self)
   priv = self->priv;
 
   g_mutex_init (&priv->mutex_create_thumbnail);
+  g_mutex_init (&priv->mutex_download);
   g_mutex_init (&priv->mutex);
 }
 
@@ -885,6 +937,60 @@ photos_base_item_destroy (PhotosBaseItem *self)
 {
   /* TODO: SearchCategoryManager */
   g_clear_object (&self->priv->watcher);
+}
+
+
+gchar *
+photos_base_item_download (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
+{
+  return PHOTOS_BASE_ITEM_GET_CLASS (self)->download(self, cancellable, error);
+}
+
+
+void
+photos_base_item_download_async (PhotosBaseItem *self,
+                                 GCancellable *cancellable,
+                                 GAsyncReadyCallback callback,
+                                 gpointer user_data)
+{
+  GSimpleAsyncResult *simple;
+
+  simple = g_simple_async_result_new (G_OBJECT (self),
+                                      callback,
+                                      user_data,
+                                      photos_base_item_download_async);
+  g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+  g_simple_async_result_run_in_thread (simple,
+                                       photos_base_item_download_in_thread_func,
+                                       G_PRIORITY_DEFAULT,
+                                       cancellable);
+  g_object_unref (simple);
+}
+
+
+gchar *
+photos_base_item_download_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT (res);
+  PhotosBaseItemAsyncStrData *op_res;
+  gchar *ret_val = NULL;
+
+  g_return_val_if_fail (g_simple_async_result_is_valid (res,
+                                                        G_OBJECT (self),
+                                                        photos_base_item_download_async),
+                        NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  if (g_simple_async_result_propagate_error (simple, error))
+    goto out;
+
+  op_res = g_simple_async_result_get_op_res_gpointer (simple);
+  ret_val = op_res->str;
+  op_res->str = NULL;
+
+ out:
+  return ret_val;
 }
 
 
