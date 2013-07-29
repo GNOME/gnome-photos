@@ -74,6 +74,8 @@ photos_header_bar_init (PhotosHeaderBar *self)
   priv = self->priv;
 
   priv->stack_switcher = g_object_ref_sink (gtk_stack_switcher_new ());
+  gtk_widget_show (priv->stack_switcher);
+  gtk_widget_set_no_show_all (priv->stack_switcher, TRUE);
 }
 
 
@@ -103,7 +105,9 @@ photos_header_bar_clear (PhotosHeaderBar *self)
   GList *children;
   GList *l;
 
-  photos_header_bar_set_mode (self, PHOTOS_HEADER_BAR_MODE_NORMAL);
+  self->priv->mode = PHOTOS_HEADER_BAR_MODE_NONE;
+  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self), NULL);
+
   children = gtk_container_get_children (GTK_CONTAINER (self));
   for (l = children; l != NULL; l = l->next)
     gtk_widget_destroy (GTK_WIDGET (l->data));
