@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Intel Corporation. All rights reserved.
+ * Copyright © 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -535,24 +536,21 @@ photos_dlna_renderer_share_host_file_cb (GObject      *source_object,
                               task);
 }
 
-void
-photos_dlna_renderer_share (PhotosDlnaRenderer  *self,
-                            PhotosBaseItem      *item,
-                            GCancellable        *cancellable,
-                            GAsyncReadyCallback  callback,
-                            gpointer             user_data)
+
+static void
+photos_dlna_renderer_share_download_cb (GObject *source_object,
+                                        GAsyncResult *res,
+                                        gpointer user_data)
 {
-  PhotosDlnaRendererPrivate *priv = self->priv;
-  GTask *task;
-  const gchar *uri;
+  PhotosDlnaRenderer *self;
+  GError *error;
+  GTask *task = G_TASK (user_data);
   gchar *filename;
-  GError *error = NULL;
 
-  task = g_task_new (self, cancellable, callback, user_data);
-  g_object_set_data_full (G_OBJECT (task), "item", g_object_ref (item), g_object_unref);
+  self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
 
-  uri = photos_base_item_get_uri (item);
-  filename = g_filename_from_uri (uri, NULL, &error);
+  error = NULL;
+  filename = photos_base_item_download_finish (PHOTOS_BASE_ITEM (source_object), res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to extract the local filename for the shared item: %s", error->message);
@@ -572,11 +570,28 @@ photos_dlna_renderer_share (PhotosDlnaRenderer  *self,
    */
 
   /* 1) DleynaRenderer.PushHost.HostFile() */
-  dleyna_push_host_call_host_file (priv->push_host, filename,
-                                   cancellable,
+  dleyna_push_host_call_host_file (self->priv->push_host,
+                                   filename,
+                                   g_task_get_cancellable (task),
                                    photos_dlna_renderer_share_host_file_cb,
                                    task);
   g_free (filename);
+}
+
+
+void
+photos_dlna_renderer_share (PhotosDlnaRenderer  *self,
+                            PhotosBaseItem      *item,
+                            GCancellable        *cancellable,
+                            GAsyncReadyCallback  callback,
+                            gpointer             user_data)
+{
+  GTask *task;
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_object_set_data_full (G_OBJECT (task), "item", g_object_ref (item), g_object_unref);
+
+  photos_base_item_download_async (item, cancellable, photos_dlna_renderer_share_download_cb, task);
 }
 
 
@@ -636,24 +651,20 @@ photos_dlna_renderer_unshare_remove_file_cb (GObject      *source_object,
 }
 
 
-void
-photos_dlna_renderer_unshare (PhotosDlnaRenderer  *self,
-                              PhotosBaseItem      *item,
-                              GCancellable        *cancellable,
-                              GAsyncReadyCallback  callback,
-                              gpointer             user_data)
+static void
+photos_dlna_renderer_unshare_download_cb (GObject *source_object,
+                                          GAsyncResult *res,
+                                          gpointer user_data)
 {
-  PhotosDlnaRendererPrivate *priv = self->priv;
-  GTask *task;
-  const gchar *uri;
+  PhotosDlnaRenderer *self;
+  GError *error;
+  GTask *task = G_TASK (user_data);
   gchar *filename;
-  GError *error = NULL;
 
-  task = g_task_new (self, cancellable, callback, user_data);
-  g_object_set_data_full (G_OBJECT (task), "item", g_object_ref (item), g_object_unref);
+  self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
 
-  uri = photos_base_item_get_uri (item);
-  filename = g_filename_from_uri (uri, NULL, &error);
+  error = NULL;
+  filename = photos_base_item_download_finish (PHOTOS_BASE_ITEM (source_object), res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to extract the local filename for the shared item: %s", error->message);
@@ -662,9 +673,28 @@ photos_dlna_renderer_unshare (PhotosDlnaRenderer  *self,
       return;
     }
 
-  dleyna_push_host_call_remove_file (priv->push_host, filename, cancellable,
-                                     photos_dlna_renderer_unshare_remove_file_cb, task);
+  dleyna_push_host_call_remove_file (self->priv->push_host,
+                                     filename,
+                                     g_task_get_cancellable (task),
+                                     photos_dlna_renderer_unshare_remove_file_cb,
+                                     task);
   g_free (filename);
+}
+
+
+void
+photos_dlna_renderer_unshare (PhotosDlnaRenderer  *self,
+                              PhotosBaseItem      *item,
+                              GCancellable        *cancellable,
+                              GAsyncReadyCallback  callback,
+                              gpointer             user_data)
+{
+  GTask *task;
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_object_set_data_full (G_OBJECT (task), "item", g_object_ref (item), g_object_unref);
+
+  photos_base_item_download_async (item, cancellable, photos_dlna_renderer_unshare_download_cb, task);
 }
 
 
