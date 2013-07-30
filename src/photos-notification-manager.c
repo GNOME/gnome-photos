@@ -86,8 +86,6 @@ photos_notification_manager_init (PhotosNotificationManager *self)
 
   gtk_widget_set_halign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
   gtk_widget_set_valign (GTK_WIDGET (self), GTK_ALIGN_START);
-  gd_notification_set_show_close_button (GD_NOTIFICATION (self), FALSE);
-  gd_notification_set_timeout (GD_NOTIFICATION (self), -1);
 
   priv->grid = gtk_grid_new ();
   gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->grid), GTK_ORIENTATION_VERTICAL);
@@ -114,7 +112,7 @@ photos_notification_manager_class_init (PhotosNotificationManagerClass *class)
 GtkWidget *
 photos_notification_manager_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_NOTIFICATION_MANAGER, NULL);
+  return g_object_new (PHOTOS_TYPE_NOTIFICATION_MANAGER, "show-close-button", FALSE, "timeout", -1, NULL);
 }
 
 
