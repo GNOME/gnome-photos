@@ -1,6 +1,19 @@
 Overview of changes in 3.9.5
 ============================
 
+* Replace GdHeaderBar with GtkHeaderBar
+
+* Replace GdStack with GtkStack
+
+* Bugs fixed:
+ 703649 dlna-renderer: Simplify initialization
+ 704273 notification-manager: Don't show two close buttons in notifications
+
+* Updated translations:
+ Czech
+ Portuguese (Brazilian)
+ Spanish
+
 
 Overview of changes in 3.9.4
 ============================
