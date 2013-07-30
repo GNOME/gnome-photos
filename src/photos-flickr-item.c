@@ -289,7 +289,7 @@ photos_flickr_item_open (PhotosBaseItem *item, GdkScreen *screen, guint32 timest
   const gchar *resource_urn;
   gchar *flickr_uri;
 
-  identifier = photos_base_item_get_identifier (item) + strlen("flickr:");
+  identifier = photos_base_item_get_identifier (item) + strlen ("flickr:");
 
   resource_urn = photos_base_item_get_resource_urn (item);
   source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (priv->src_mngr, resource_urn));
