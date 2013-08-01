@@ -44,6 +44,7 @@ struct _PhotosViewContainerPrivate
 {
   GdMainView *view;
   GtkListStore *model;
+  GtkTreePath *current_path;
   GtkWidget *load_more;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
@@ -153,6 +154,7 @@ photos_view_container_item_activated (GdMainView *main_view,
   PhotosViewContainerPrivate *priv = self->priv;
   GObject *object;
 
+  priv->current_path = gtk_tree_path_copy (path);
   object = photos_base_manager_get_object_by_id (priv->item_mngr, id);
 
   if (!photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)) &&
@@ -353,6 +355,18 @@ photos_view_container_dispose (GObject *object)
 
 
 static void
+photos_view_container_finalize (GObject *object)
+{
+  PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (object);
+  PhotosViewContainerPrivate *priv = self->priv;
+
+  g_clear_pointer (&priv->current_path, (GDestroyNotify) gtk_tree_path_free);
+
+  G_OBJECT_CLASS (photos_view_container_parent_class)->finalize (object);
+}
+
+
+static void
 photos_view_container_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (object);
@@ -386,6 +400,7 @@ photos_view_container_class_init (PhotosViewContainerClass *class)
 
   object_class->constructed = photos_view_container_constructed;
   object_class->dispose = photos_view_container_dispose;
+  object_class->finalize = photos_view_container_finalize;
   object_class->set_property = photos_view_container_set_property;
 
   g_object_class_install_property (object_class,
@@ -405,4 +420,18 @@ GtkWidget *
 photos_view_container_new (PhotosWindowMode mode)
 {
   return g_object_new (PHOTOS_TYPE_VIEW_CONTAINER, "mode", mode, NULL);
+}
+
+
+GtkTreePath *
+photos_view_container_get_current_path (PhotosViewContainer *self)
+{
+  return self->priv->current_path;
+}
+
+
+GtkListStore *
+photos_view_container_get_model (PhotosViewContainer *self)
+{
+  return self->priv->model;
 }

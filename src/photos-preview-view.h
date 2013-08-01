@@ -69,7 +69,11 @@ struct _PhotosPreviewViewClass
 
 GType                  photos_preview_view_get_type               (void) G_GNUC_CONST;
 
-GtkWidget             *photos_preview_view_new                    (void);
+GtkWidget             *photos_preview_view_new                    (GtkOverlay *overlay);
+
+void                   photos_preview_view_set_model              (PhotosPreviewView *self,
+                                                                   GtkTreeModel *model,
+                                                                   GtkTreePath *current_path);
 
 void                   photos_preview_view_set_node               (PhotosPreviewView *self, GeglNode *node);
 

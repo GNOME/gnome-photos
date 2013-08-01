@@ -91,12 +91,30 @@ photos_embed_clear_load_timer (PhotosEmbed *self)
 
 
 static void
+photos_embed_prepare_for_preview (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  /* TODO: SearchController,
+   *       ErrorHandler
+   */
+
+  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
+  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "preview");
+}
+
+
+static void
 photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
   GeglNode *node;
+  GtkListStore *model;
+  GtkTreePath *current_path;
+  GtkWidget *view_container;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+  PhotosWindowMode mode;
 
   photos_embed_clear_load_timer (self);
 
@@ -105,11 +123,52 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
   if (node == NULL)
     goto out;
 
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      view_container = priv->collections;
+      break;
+
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      view_container = priv->favorites;
+      break;
+
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      view_container = priv->overview;
+      break;
+
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      view_container = NULL;
+      break;
+
+    default:
+      g_assert_not_reached ();
+    }
+
+  /* If we are already in the preview and navigating using the
+   * buttons, then we don't need this.
+   */
+  if (mode != PHOTOS_WINDOW_MODE_PREVIEW)
+    {
+      current_path = photos_view_container_get_current_path (PHOTOS_VIEW_CONTAINER (view_container));
+      model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
+      photos_preview_view_set_model (PHOTOS_PREVIEW_VIEW (priv->preview), GTK_TREE_MODEL (model), current_path);
+    }
+
   photos_preview_view_set_node (PHOTOS_PREVIEW_VIEW (priv->preview), node);
 
   /* TODO: set toolbar model */
 
-  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
+  /* If we are already in the preview and navigating using the
+   * buttons, then the window-mode-changed signal won't be fired. So
+   * we need to prepare it ourselves.
+   */
+  if (mode != PHOTOS_WINDOW_MODE_PREVIEW)
+    photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
+  else
+    photos_embed_prepare_for_preview (self);
+
   photos_mode_controller_set_can_fullscreen (priv->mode_cntrlr, TRUE);
 
  out:
@@ -309,20 +368,6 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
 
 
 static void
-photos_embed_prepare_for_preview (PhotosEmbed *self)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-
-  /* TODO: SearchController,
-   *       ErrorHandler
-   */
-
-  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
-  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "preview");
-}
-
-
-static void
 photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *secondary)
 {
   PhotosEmbedPrivate *priv = self->priv;
@@ -445,7 +490,7 @@ photos_embed_init (PhotosEmbed *self)
   priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES);
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->favorites, "favorites", _("Favorites"));
 
-  priv->preview = photos_preview_view_new ();
+  priv->preview = photos_preview_view_new (GTK_OVERLAY (priv->stack_overlay));
   gtk_stack_add_named (GTK_STACK (priv->stack), priv->preview, "preview");
 
   priv->spinner_box = photos_spinner_box_new ();

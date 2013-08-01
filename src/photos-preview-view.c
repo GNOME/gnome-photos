@@ -30,13 +30,24 @@
 #include <glib/gi18n.h>
 
 #include "gegl-gtk-view.h"
+#include "photos-mode-controller.h"
+#include "photos-preview-nav-buttons.h"
 #include "photos-preview-view.h"
 
 
 struct _PhotosPreviewViewPrivate
 {
   GeglNode *node;
+  GtkWidget *overlay;
   GtkWidget *view;
+  PhotosModeController *mode_cntrlr;
+  PhotosPreviewNavButtons *nav_buttons;
+};
+
+enum
+{
+  PROP_0,
+  PROP_OVERLAY
 };
 
 
@@ -110,12 +121,21 @@ photos_preview_view_scale_and_align_image (PhotosPreviewView *self)
 
 
 static void
+photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
+{
+  if (mode != PHOTOS_WINDOW_MODE_PREVIEW)
+    photos_preview_nav_buttons_hide (self->priv->nav_buttons);
+}
+
+
+static void
 photos_preview_view_dispose (GObject *object)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
   PhotosPreviewViewPrivate *priv = self->priv;
 
   g_clear_object (&priv->node);
+  g_clear_object (&priv->mode_cntrlr);
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->dispose (object);
 }
@@ -134,7 +154,28 @@ photos_preview_view_constructed (GObject *object)
    */
   gtk_container_add (GTK_CONTAINER (self), priv->view);
 
+  priv->nav_buttons = photos_preview_nav_buttons_new (self, GTK_OVERLAY (priv->overlay));
+
   gtk_widget_show_all (GTK_WIDGET (self));
+}
+
+
+static void
+photos_preview_view_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
+  PhotosPreviewViewPrivate *priv = self->priv;
+
+  switch (prop_id)
+    {
+    case PROP_OVERLAY:
+      priv->overlay = GTK_WIDGET (g_value_dup_object (value));
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
 }
 
 
@@ -146,6 +187,12 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_PREVIEW_VIEW, PhotosPreviewViewPrivate);
   priv = self->priv;
+
+  priv->mode_cntrlr = photos_mode_controller_new ();
+  g_signal_connect_swapped (priv->mode_cntrlr,
+                            "window-mode-changed",
+                            G_CALLBACK (photos_preview_view_window_mode_changed),
+                            self);
 
   gtk_widget_set_hexpand (GTK_WIDGET (self), TRUE);
   gtk_widget_set_vexpand (GTK_WIDGET (self), TRUE);
@@ -175,15 +222,31 @@ photos_preview_view_class_init (PhotosPreviewViewClass *class)
 
   object_class->constructed = photos_preview_view_constructed;
   object_class->dispose = photos_preview_view_dispose;
+  object_class->set_property = photos_preview_view_set_property;
+
+  g_object_class_install_property (object_class,
+                                   PROP_OVERLAY,
+                                   g_param_spec_object ("overlay",
+                                                        "GtkOverlay object",
+                                                        "The stack overlay widget",
+                                                        GTK_TYPE_OVERLAY,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_type_class_add_private (class, sizeof (PhotosPreviewViewPrivate));
 }
 
 
 GtkWidget *
-photos_preview_view_new (void)
+photos_preview_view_new (GtkOverlay *overlay)
 {
-  return g_object_new (PHOTOS_TYPE_PREVIEW_VIEW, NULL);
+  return g_object_new (PHOTOS_TYPE_PREVIEW_VIEW, "overlay", overlay, NULL);
+}
+
+
+void
+photos_preview_view_set_model (PhotosPreviewView *self, GtkTreeModel *model, GtkTreePath *current_path)
+{
+  photos_preview_nav_buttons_set_model (self->priv->nav_buttons, model, current_path);
 }
 
 
@@ -204,4 +267,6 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
 
   /* Steals the reference to the GeglNode. */
   gegl_gtk_view_set_node (GEGL_GTK_VIEW (priv->view), g_object_ref (priv->node));
+
+  photos_preview_nav_buttons_show (priv->nav_buttons);
 }
