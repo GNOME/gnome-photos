@@ -54,7 +54,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosDlnaRenderersDialog, photos_dlna_renderers_dialog, GTK_TYPE_DIALOG);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosDlnaRenderersDialog, photos_dlna_renderers_dialog, GTK_TYPE_DIALOG);
 
 
 static void
@@ -271,10 +271,8 @@ photos_dlna_renderers_dialog_class_init (PhotosDlnaRenderersDialogClass *class)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/org/gnome/photos/dlna-renderers-dialog.ui");
 
-  gtk_widget_class_bind_child (widget_class, PhotosDlnaRenderersDialogPrivate, listbox);
-  gtk_widget_class_bind_callback (widget_class, photos_dlna_renderers_dialog_row_activated_cb);
-
-  g_type_class_add_private (class, sizeof (PhotosDlnaRenderersDialogPrivate));
+  gtk_widget_class_bind_template_child_private (widget_class, PhotosDlnaRenderersDialog, listbox);
+  gtk_widget_class_bind_template_callback (widget_class, photos_dlna_renderers_dialog_row_activated_cb);
 }
 
 
