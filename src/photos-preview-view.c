@@ -267,6 +267,7 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
 
   /* Steals the reference to the GeglNode. */
   gegl_gtk_view_set_node (GEGL_GTK_VIEW (priv->view), g_object_ref (priv->node));
+  gtk_widget_queue_draw (priv->view);
 
   photos_preview_nav_buttons_show (priv->nav_buttons);
 }
