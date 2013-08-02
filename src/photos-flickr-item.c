@@ -252,7 +252,10 @@ photos_flickr_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
                         NULL,
                         NULL,
                         error))
-        goto out;
+        {
+          g_file_delete (local_file, NULL, NULL);
+          goto out;
+        }
     }
 
   ret_val = local_path;
