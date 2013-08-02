@@ -160,7 +160,7 @@ photos_main_toolbar_coll_back_button_clicked (GtkButton *button, gpointer user_d
 
 
 static void
-photos_main_toolbar_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
+photos_main_toolbar_col_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
   PhotosMainToolbarPrivate *priv = self->priv;
@@ -261,7 +261,7 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
 
   g_signal_connect_object (priv->col_mngr,
                            "active-changed",
-                           G_CALLBACK (photos_main_toolbar_active_changed),
+                           G_CALLBACK (photos_main_toolbar_col_active_changed),
                            self,
                            0);
 }
@@ -296,7 +296,7 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
     }
 
   if (priv->col_mngr != NULL)
-    g_signal_handlers_disconnect_by_func (priv->col_mngr, photos_main_toolbar_active_changed, self);
+    g_signal_handlers_disconnect_by_func (priv->col_mngr, photos_main_toolbar_col_active_changed, self);
 
   if (priv->sel_cntrlr != NULL)
     g_signal_handlers_disconnect_by_func (priv->sel_cntrlr, photos_main_toolbar_set_toolbar_title, self);
@@ -368,7 +368,7 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
   photos_main_toolbar_add_selection_button (self);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
-  photos_main_toolbar_active_changed (priv->col_mngr, object, self);
+  photos_main_toolbar_col_active_changed (priv->col_mngr, object, self);
 }
 
 
@@ -400,7 +400,7 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
   photos_main_toolbar_add_selection_button (self);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
-  photos_main_toolbar_active_changed (priv->col_mngr, object, self);
+  photos_main_toolbar_col_active_changed (priv->col_mngr, object, self);
 }
 
 
@@ -414,7 +414,7 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   photos_main_toolbar_add_selection_button (self);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
-  photos_main_toolbar_active_changed (priv->col_mngr, object, self);
+  photos_main_toolbar_col_active_changed (priv->col_mngr, object, self);
 }
 
 
