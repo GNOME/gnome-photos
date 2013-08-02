@@ -198,6 +198,19 @@ photos_main_toolbar_col_active_changed (PhotosBaseManager *manager, GObject *obj
 
 
 static void
+photos_main_toolbar_item_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
+{
+  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
+  PhotosMainToolbarPrivate *priv = self->priv;
+  PhotosWindowMode window_mode;
+
+  window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    photos_main_toolbar_set_toolbar_title (self);
+}
+
+
+static void
 photos_main_toolbar_select_button_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
@@ -297,6 +310,9 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
 
   if (priv->col_mngr != NULL)
     g_signal_handlers_disconnect_by_func (priv->col_mngr, photos_main_toolbar_col_active_changed, self);
+
+  if (priv->item_mngr != NULL)
+    g_signal_handlers_disconnect_by_func (priv->item_mngr, photos_main_toolbar_item_active_changed, self);
 
   if (priv->sel_cntrlr != NULL)
     g_signal_handlers_disconnect_by_func (priv->sel_cntrlr, photos_main_toolbar_set_toolbar_title, self);
@@ -449,6 +465,8 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   remote_display_action = g_action_map_lookup_action (G_ACTION_MAP (app), "remote-display-current");
   remote_display_available = photos_dlna_renderers_manager_is_available ();
   g_simple_action_set_enabled (G_SIMPLE_ACTION (remote_display_action), remote_display_available);
+
+  g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_main_toolbar_item_active_changed), self);
 }
 
 
