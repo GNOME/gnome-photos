@@ -594,9 +594,12 @@ photos_base_item_load_in_thread_func (GSimpleAsyncResult *simple, GObject *objec
 
   node = photos_base_item_load (self, cancellable, &error);
   if (error != NULL)
-    g_simple_async_result_take_error (simple, error);
-
-  g_simple_async_result_set_op_res_gpointer (simple, (gpointer) node, g_object_unref);
+    {
+      g_simple_async_result_take_error (simple, error);
+      g_simple_async_result_set_op_res_gpointer (simple, NULL, NULL);
+    }
+  else
+    g_simple_async_result_set_op_res_gpointer (simple, (gpointer) node, g_object_unref);
 
   g_mutex_unlock (&priv->mutex);
 }
