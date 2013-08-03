@@ -21,8 +21,10 @@
 
 #include "config.h"
 
+#include "photos-dleyna-renderer-device.h"
+#include "photos-dleyna-renderer-push-host.h"
 #include "photos-dlna-renderer.h"
-
+#include "photos-mpris-player.h"
 
 typedef enum
 {
@@ -446,15 +448,6 @@ photos_dlna_renderer_get_object_path (PhotosDlnaRenderer *self)
 }
 
 
-DleynaRendererDevice *
-photos_dlna_renderer_get_device (PhotosDlnaRenderer *self)
-{
-  PhotosDlnaRendererPrivate *priv = self->priv;
-
-  return priv->device;
-}
-
-
 static void
 photos_dlna_renderer_share_play_cb (GObject      *source_object,
                                     GAsyncResult *res,
@@ -799,6 +792,15 @@ photos_dlna_renderer_get_friendly_name (PhotosDlnaRenderer *self)
   PhotosDlnaRendererPrivate *priv = self->priv;
 
   return dleyna_renderer_device_get_friendly_name (priv->device);
+}
+
+
+const gchar *
+photos_dlna_renderer_get_udn (PhotosDlnaRenderer *self)
+{
+  PhotosDlnaRendererPrivate *priv = self->priv;
+
+  return dleyna_renderer_device_get_udn (priv->device);
 }
 
 

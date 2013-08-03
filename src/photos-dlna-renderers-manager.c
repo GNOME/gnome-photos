@@ -68,7 +68,6 @@ photos_dlna_renderers_manager_renderer_new_cb (GObject      *source_object,
   PhotosDlnaRenderersManager *self = PHOTOS_DLNA_RENDERERS_MANAGER (user_data);
   PhotosDlnaRenderersManagerPrivate *priv = self->priv;
   PhotosDlnaRenderer *renderer;
-  DleynaRendererDevice *device;
   const gchar *object_path;
   GError *error = NULL;
 
@@ -80,11 +79,10 @@ photos_dlna_renderers_manager_renderer_new_cb (GObject      *source_object,
       return;
     }
 
-  device = photos_dlna_renderer_get_device (renderer);
   object_path = photos_dlna_renderer_get_object_path (renderer);
   g_debug ("%s '%s' %s %s", __func__,
-           dleyna_renderer_device_get_friendly_name (device),
-           dleyna_renderer_device_get_udn (device),
+           photos_dlna_renderer_get_friendly_name (renderer),
+           photos_dlna_renderer_get_udn (renderer),
            object_path);
   g_hash_table_insert (priv->renderers, (gpointer) object_path, renderer);
   g_signal_emit (self, signals[RENDERER_FOUND], 0, renderer);
@@ -111,16 +109,14 @@ photos_dlna_renderers_manager_renderer_lost_cb (PhotosDlnaRenderersManager *self
 {
   PhotosDlnaRenderersManagerPrivate *priv = self->priv;
   PhotosDlnaRenderer *renderer;
-  DleynaRendererDevice *device;
 
   renderer = PHOTOS_DLNA_RENDERER (g_hash_table_lookup (priv->renderers, object_path));
   g_return_if_fail (renderer != NULL);
 
   g_hash_table_steal (priv->renderers, object_path);
-  device = photos_dlna_renderer_get_device (renderer);
   g_debug ("%s '%s' %s %s", __func__,
-           dleyna_renderer_device_get_friendly_name (device),
-           dleyna_renderer_device_get_udn (device),
+           photos_dlna_renderer_get_friendly_name (renderer),
+           photos_dlna_renderer_get_udn (renderer),
            object_path);
   g_signal_emit (self, signals[RENDERER_LOST], 0, renderer);
   g_object_unref (renderer);

@@ -25,9 +25,6 @@
 #include <gio/gio.h>
 
 #include "photos-base-item.h"
-#include "photos-dleyna-renderer-device.h"
-#include "photos-dleyna-renderer-push-host.h"
-#include "photos-mpris-player.h"
 
 G_BEGIN_DECLS
 
@@ -83,12 +80,6 @@ PhotosDlnaRenderer   *photos_dlna_renderer_new_for_bus_finish (GAsyncResult     
 
 const gchar          *photos_dlna_renderer_get_object_path    (PhotosDlnaRenderer  *renderer);
 
-DleynaRendererDevice *photos_dlna_renderer_get_device         (PhotosDlnaRenderer  *renderer);
-
-DleynaPushHost       *photos_dlna_renderer_get_push_host      (PhotosDlnaRenderer  *renderer);
-
-MprisPlayer          *photos_dlna_renderer_get_player         (PhotosDlnaRenderer  *renderer);
-
 void                  photos_dlna_renderer_share              (PhotosDlnaRenderer  *renderer,
                                                                PhotosBaseItem      *item,
                                                                GCancellable        *cancellable,
@@ -119,6 +110,8 @@ void                  photos_dlna_renderer_unshare_all_finish (PhotosDlnaRendere
                                                                GError             **error);
 
 const gchar          *photos_dlna_renderer_get_friendly_name  (PhotosDlnaRenderer  *self);
+
+const gchar          *photos_dlna_renderer_get_udn            (PhotosDlnaRenderer  *self);
 
 void                  photos_dlna_renderer_get_icon           (PhotosDlnaRenderer  *self,
                                                                const gchar         *requested_mimetype,
