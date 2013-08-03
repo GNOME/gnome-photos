@@ -204,6 +204,9 @@ photos_main_toolbar_item_active_changed (PhotosBaseManager *manager, GObject *ob
   PhotosMainToolbarPrivate *priv = self->priv;
   PhotosWindowMode window_mode;
 
+  if (object == NULL)
+    return;
+
   window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
   if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     photos_main_toolbar_set_toolbar_title (self);
