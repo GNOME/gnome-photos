@@ -26,16 +26,6 @@
 #include "photos-dlna-renderer.h"
 #include "photos-mpris-player.h"
 
-typedef enum
-{
-  INIT_NOTHING   = 0,
-  INIT_DEVICE    = 1 << 0,
-  INIT_PUSH_HOST = 1 << 1,
-  INIT_PLAYER    = 1 << 2,
-  INIT_READY     = INIT_DEVICE | INIT_PUSH_HOST | INIT_PLAYER
-} InitStatus;
-
-
 struct _PhotosDlnaRendererPrivate
 {
   GBusType bus_type;
@@ -46,8 +36,6 @@ struct _PhotosDlnaRendererPrivate
   DleynaRendererDevice *device;
   DleynaPushHost *push_host;
   MprisPlayer *player;
-
-  InitStatus init_status;
 
   GHashTable *urls_to_item;
 };
@@ -269,38 +257,6 @@ photos_dlna_renderer_new_for_bus (GBusType             bus_type,
 }
 
 
-/* photos_dlna_renderer_init_check_complete:
- *
- * Checks that all the async subtasks have completed and return the result.
- *
- * Note that if the caller does not take ownership of the object (eg. by not
- * calling g_task_propagate_pointer() or in case of errors) this may lead to
- * the object being disposed.
- */
-static gboolean
-photos_dlna_renderer_init_check_complete (PhotosDlnaRenderer *self,
-                                          GTask              *init_task)
-{
-  GError *error;
-
-  g_return_val_if_fail (g_task_is_valid (init_task, self), TRUE);
-
-  if (self->priv->init_status != INIT_READY)
-    return FALSE;
-
-  error = g_task_get_task_data (init_task);
-
-  if (error != NULL)
-    g_task_return_error (init_task, error);
-  else
-    g_task_return_boolean (init_task, TRUE);
-
-  g_object_unref (init_task);
-
-  return TRUE;
-}
-
-
 static void
 photos_dlna_renderer_device_proxy_new_cb (GObject      *source_object,
                                           GAsyncResult *res,
@@ -308,74 +264,15 @@ photos_dlna_renderer_device_proxy_new_cb (GObject      *source_object,
 {
   GTask *init_task = G_TASK (user_data);
   PhotosDlnaRenderer *self;
-  PhotosDlnaRendererPrivate *priv;
   GError *error = NULL;
 
   self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (init_task));
-  priv = self->priv;
 
-  priv->init_status |= INIT_DEVICE;
-  priv->device = dleyna_renderer_device_proxy_new_for_bus_finish (res, &error);
+  self->priv->device = dleyna_renderer_device_proxy_new_for_bus_finish (res, &error);
+  RETURN_ON_ERROR (init_task, error, "Unable to load the RendererDevice interface");
 
-  if (error != NULL)
-    {
-      g_warning ("Unable to load the RendererDevice interface: %s", error->message);
-      g_task_set_task_data (init_task, error, (GDestroyNotify) g_error_free);
-    }
-
-  photos_dlna_renderer_init_check_complete (self, init_task);
-}
-
-
-static void
-photos_dlna_renderer_push_host_proxy_new_cb (GObject      *source_object,
-                                             GAsyncResult *res,
-                                             gpointer      user_data)
-{
-  GTask *init_task = G_TASK (user_data);
-  PhotosDlnaRenderer *self;
-  PhotosDlnaRendererPrivate *priv;
-  GError *error = NULL;
-
-  self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (init_task));
-  priv = self->priv;
-
-  priv->init_status |= INIT_PUSH_HOST;
-  priv->push_host = dleyna_push_host_proxy_new_for_bus_finish (res, &error);
-
-  if (error != NULL)
-    {
-      g_warning ("Unable to load the PushHost interface: %s", error->message);
-      g_task_set_task_data (init_task, error, (GDestroyNotify) g_error_free);
-    }
-
-  photos_dlna_renderer_init_check_complete (self, init_task);
-}
-
-
-static void
-photos_dlna_renderer_player_proxy_new_cb (GObject      *source_object,
-                                          GAsyncResult *res,
-                                          gpointer      user_data)
-{
-  GTask *init_task = G_TASK (user_data);
-  PhotosDlnaRenderer *self;
-  PhotosDlnaRendererPrivate *priv;
-  GError *error = NULL;
-
-  self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (init_task));
-  priv = self->priv;
-
-  priv->init_status |= INIT_PLAYER;
-  priv->player = mpris_player_proxy_new_for_bus_finish (res, &error);
-
-  if (error != NULL)
-    {
-      g_warning ("Unable to load the Player interface: %s", error->message);
-      g_task_set_task_data (init_task, error, (GDestroyNotify) g_error_free);
-    }
-
-  photos_dlna_renderer_init_check_complete (self, init_task);
+  g_task_return_boolean (init_task, TRUE);
+  g_object_unref (init_task);
 }
 
 
@@ -389,24 +286,36 @@ photos_dlna_renderer_init_async (GAsyncInitable      *initable,
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (initable);
   PhotosDlnaRendererPrivate *priv = self->priv;
   GTask *init_task;
+  GError *error = NULL;
 
   init_task = g_task_new (initable, cancellable, callback, user_data);
   g_task_set_priority (init_task, io_priority);
 
-  /* Load all three DBus interface proxies asynchronously and then complete
-   * the initialization when all of them are ready */
-  dleyna_renderer_device_proxy_new_for_bus (priv->bus_type, priv->flags, priv->well_known_name,
-                                            priv->object_path, cancellable,
+  priv->push_host = dleyna_push_host_proxy_new_for_bus_sync (priv->bus_type,
+                                                             G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
+                                                             | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+                                                             priv->well_known_name,
+                                                             priv->object_path,
+                                                             NULL,
+                                                             &error);
+  RETURN_ON_ERROR (init_task, error, "Unable to load the PushHost interface");
+
+  priv->player = mpris_player_proxy_new_for_bus_sync (priv->bus_type,
+                                                      G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
+                                                      | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+                                                      priv->well_known_name,
+                                                      priv->object_path,
+                                                      NULL,
+                                                      &error);
+  RETURN_ON_ERROR (init_task, error, "Unable to load the Player interface");
+
+  dleyna_renderer_device_proxy_new_for_bus (priv->bus_type,
+                                            G_DBUS_PROXY_FLAGS_NONE,
+                                            priv->well_known_name,
+                                            priv->object_path,
+                                            cancellable,
                                             photos_dlna_renderer_device_proxy_new_cb,
                                             init_task);
-  dleyna_push_host_proxy_new_for_bus (priv->bus_type, priv->flags, priv->well_known_name,
-                                      priv->object_path, cancellable,
-                                      photos_dlna_renderer_push_host_proxy_new_cb,
-                                      init_task);
-  mpris_player_proxy_new_for_bus (priv->bus_type, priv->flags, priv->well_known_name,
-                                  priv->object_path, cancellable,
-                                  photos_dlna_renderer_player_proxy_new_cb,
-                                  init_task);
 }
 
 
