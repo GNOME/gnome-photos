@@ -50,7 +50,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosCreateCollectionJob, photos_create_collection_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosCreateCollectionJob, photos_create_collection_job, G_TYPE_OBJECT);
 
 
 static void
@@ -154,9 +154,7 @@ photos_create_collection_job_init (PhotosCreateCollectionJob *self)
 {
   PhotosCreateCollectionJobPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_CREATE_COLLECTION_JOB,
-                                            PhotosCreateCollectionJobPrivate);
+  self->priv = photos_create_collection_job_get_instance_private (self);
   priv = self->priv;
 
   priv->queue = photos_tracker_queue_new ();
@@ -179,8 +177,6 @@ photos_create_collection_job_class_init (PhotosCreateCollectionJobClass *class)
                                                         "The name of the collection to be created",
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosCreateCollectionJobPrivate));
 }
 
 

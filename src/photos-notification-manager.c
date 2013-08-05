@@ -38,7 +38,7 @@ struct _PhotosNotificationManagerPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosNotificationManager, photos_notification_manager, GD_TYPE_NOTIFICATION);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosNotificationManager, photos_notification_manager, GD_TYPE_NOTIFICATION);
 
 
 static void
@@ -79,9 +79,7 @@ photos_notification_manager_init (PhotosNotificationManager *self)
 {
   PhotosNotificationManagerPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_NOTIFICATION_MANAGER,
-                                            PhotosNotificationManagerPrivate);
+  self->priv = photos_notification_manager_get_instance_private (self);
   priv = self->priv;
 
   gtk_widget_set_halign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
@@ -104,8 +102,6 @@ photos_notification_manager_class_init (PhotosNotificationManagerClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructor = photos_notification_manager_constructor;
-
-  g_type_class_add_private (class, sizeof (PhotosNotificationManagerPrivate));
 }
 
 

@@ -63,7 +63,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_ABSTRACT_TYPE (PhotosTrackerController, photos_tracker_controller, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhotosTrackerController, photos_tracker_controller, G_TYPE_OBJECT);
 
 
 typedef enum
@@ -307,7 +307,7 @@ photos_tracker_controller_init (PhotosTrackerController *self)
 {
   PhotosTrackerControllerPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_TRACKER_CONTROLLER, PhotosTrackerControllerPrivate);
+  self->priv = photos_tracker_controller_get_instance_private (self);
   priv = self->priv;
 
   priv->cancellable = g_cancellable_new ();
@@ -370,8 +370,6 @@ photos_tracker_controller_class_init (PhotosTrackerControllerClass *class)
                                                 G_TYPE_NONE,
                                                 1,
                                                 G_TYPE_BOOLEAN);
-
-  g_type_class_add_private (class, sizeof (PhotosTrackerControllerPrivate));
 }
 
 

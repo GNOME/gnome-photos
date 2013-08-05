@@ -52,7 +52,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosPropertiesDialog, photos_properties_dialog, GTK_TYPE_DIALOG);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosPropertiesDialog, photos_properties_dialog, GTK_TYPE_DIALOG);
 
 
 enum
@@ -343,9 +343,7 @@ photos_properties_dialog_init (PhotosPropertiesDialog *self)
 {
   PhotosPropertiesDialogPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_PROPERTIES_DIALOG,
-                                            PhotosPropertiesDialogPrivate);
+  self->priv = photos_properties_dialog_get_instance_private (self);
   priv = self->priv;
 
   priv->item_mngr = photos_item_manager_new ();
@@ -371,8 +369,6 @@ photos_properties_dialog_class_init (PhotosPropertiesDialogClass *class)
                                                         "An unique ID associated with this item",
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosPropertiesDialogPrivate));
 }
 
 

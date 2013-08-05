@@ -36,7 +36,7 @@ struct _PhotosHeaderBarPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosHeaderBar, photos_header_bar, GTK_TYPE_HEADER_BAR);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosHeaderBar, photos_header_bar, GTK_TYPE_HEADER_BAR);
 
 
 static void
@@ -70,7 +70,7 @@ photos_header_bar_init (PhotosHeaderBar *self)
 {
   PhotosHeaderBarPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_HEADER_BAR, PhotosHeaderBarPrivate);
+  self->priv = photos_header_bar_get_instance_private (self);
   priv = self->priv;
 
   priv->stack_switcher = g_object_ref_sink (gtk_stack_switcher_new ());
@@ -87,8 +87,6 @@ photos_header_bar_class_init (PhotosHeaderBarClass *class)
 
   object_class->dispose = photos_header_bar_dispose;
   widget_class->realize = photos_header_bar_realize;
-
-  g_type_class_add_private (class, sizeof (PhotosHeaderBarPrivate));
 }
 
 

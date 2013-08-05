@@ -30,9 +30,6 @@
 #include "photos-print-preview.h"
 
 
-G_DEFINE_TYPE (PhotosPrintPreview, photos_print_preview, GTK_TYPE_ASPECT_FRAME);
-
-
 struct _PhotosPrintPreviewPrivate {
 	GtkWidget *area;
 	GdkPixbuf *pixbuf;
@@ -75,6 +72,10 @@ struct _PhotosPrintPreviewPrivate {
 	   store the delta here */
 	gdouble r_dx, r_dy;
 };
+
+
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosPrintPreview, photos_print_preview, GTK_TYPE_ASPECT_FRAME);
+
 
 /* Signal IDs */
 enum {
@@ -404,8 +405,6 @@ photos_print_preview_class_init (PhotosPrintPreviewClass *klass)
 			      G_SIGNAL_RUN_FIRST, 0, NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID, G_TYPE_NONE,
 			      0, NULL);
-
-	g_type_class_add_private (klass, sizeof (PhotosPrintPreviewPrivate));
 }
 
 static void
@@ -439,9 +438,7 @@ photos_print_preview_init (PhotosPrintPreview *preview)
 	PhotosPrintPreviewPrivate *priv;
 	gfloat ratio;
 
-	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (preview,
-                                                     PHOTOS_TYPE_PRINT_PREVIEW,
-                                                     PhotosPrintPreviewPrivate);
+	preview->priv = photos_print_preview_get_instance_private (preview);
 	priv = preview->priv;
 
 	priv->area = GTK_WIDGET (gtk_drawing_area_new ());

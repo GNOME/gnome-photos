@@ -71,7 +71,7 @@ struct _PhotosEmbedPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosEmbed, photos_embed, GTK_TYPE_BOX);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosEmbed, photos_embed, GTK_TYPE_BOX);
 
 
 static void photos_embed_changes_pending (PhotosEmbed *self, GHashTable *changes);
@@ -456,7 +456,7 @@ photos_embed_init (PhotosEmbed *self)
   PhotosEmbedPrivate *priv;
   gboolean querying;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_EMBED, PhotosEmbedPrivate);
+  self->priv = photos_embed_get_instance_private (self);
   priv = self->priv;
 
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
@@ -550,8 +550,6 @@ photos_embed_class_init (PhotosEmbedClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->dispose = photos_embed_dispose;
-
-  g_type_class_add_private (class, sizeof (PhotosEmbedPrivate));
 }
 
 

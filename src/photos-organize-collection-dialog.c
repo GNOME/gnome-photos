@@ -37,7 +37,7 @@ struct _PhotosOrganizeCollectionDialogPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosOrganizeCollectionDialog, photos_organize_collection_dialog, GTK_TYPE_DIALOG);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosOrganizeCollectionDialog, photos_organize_collection_dialog, GTK_TYPE_DIALOG);
 
 
 static gboolean
@@ -70,9 +70,7 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
   GtkWidget *ok_button;
   GtkWidget *sw;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_ORGANIZE_COLLECTION_DIALOG,
-                                            PhotosOrganizeCollectionDialogPrivate);
+  self->priv = photos_organize_collection_dialog_get_instance_private (self);
   priv = self->priv;
 
   gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_ADD, GTK_RESPONSE_ACCEPT);
@@ -113,8 +111,6 @@ photos_organize_collection_dialog_class_init (PhotosOrganizeCollectionDialogClas
   GtkDialogClass *dialog_class = GTK_DIALOG_CLASS (class);
 
   dialog_class->response = photos_organize_collection_dialog_response;
-
-  g_type_class_add_private (class, sizeof (PhotosOrganizeCollectionDialogPrivate));
 }
 
 

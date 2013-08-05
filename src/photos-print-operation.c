@@ -54,7 +54,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosPrintOperation, photos_print_operation, GTK_TYPE_PRINT_OPERATION);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosPrintOperation, photos_print_operation, GTK_TYPE_PRINT_OPERATION);
 
 
 static void
@@ -255,9 +255,7 @@ photos_print_operation_init (PhotosPrintOperation *self)
   PhotosPrintOperationPrivate *priv;
   GtkPrintSettings *settings;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_PRINT_OPERATION,
-                                            PhotosPrintOperationPrivate);
+  self->priv = photos_print_operation_get_instance_private (self);
   priv = self->priv;
 
   priv->unit = GTK_UNIT_INCH;
@@ -305,8 +303,6 @@ photos_print_operation_class_init (PhotosPrintOperationClass *class)
                                                         "The node corresponding to the item",
                                                         GEGL_TYPE_NODE,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosPrintOperationPrivate));
 }
 
 

@@ -59,7 +59,7 @@ struct _PhotosMainToolbarPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosMainToolbar, photos_main_toolbar, GTK_TYPE_BOX);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosMainToolbar, photos_main_toolbar, GTK_TYPE_BOX);
 
 
 static void
@@ -584,7 +584,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   GtkApplication *app;
   GtkBuilder *builder;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_MAIN_TOOLBAR, PhotosMainToolbarPrivate);
+  self->priv = photos_main_toolbar_get_instance_private (self);
   priv = self->priv;
 
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
@@ -662,8 +662,6 @@ photos_main_toolbar_class_init (PhotosMainToolbarClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->dispose = photos_main_toolbar_dispose;
-
-  g_type_class_add_private (class, sizeof (PhotosMainToolbarPrivate));
 }
 
 

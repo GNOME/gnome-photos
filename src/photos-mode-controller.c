@@ -51,7 +51,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (PhotosModeController, photos_mode_controller, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosModeController, photos_mode_controller, G_TYPE_OBJECT);
 
 
 static GObject *
@@ -77,7 +77,7 @@ photos_mode_controller_init (PhotosModeController *self)
 {
   PhotosModeControllerPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_MODE_CONTROLLER, PhotosModeControllerPrivate);
+  self->priv = photos_mode_controller_get_instance_private (self);
   priv = self->priv;
 
   priv->mode = PHOTOS_WINDOW_MODE_NONE;
@@ -128,8 +128,6 @@ photos_mode_controller_class_init (PhotosModeControllerClass *class)
                                                2,
                                                PHOTOS_TYPE_WINDOW_MODE,
                                                PHOTOS_TYPE_WINDOW_MODE);
-
-  g_type_class_add_private (class, sizeof (PhotosModeControllerPrivate));
 }
 
 

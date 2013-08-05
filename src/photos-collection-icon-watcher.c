@@ -64,7 +64,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (PhotosCollectionIconWatcher, photos_collection_icon_watcher, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosCollectionIconWatcher, photos_collection_icon_watcher, G_TYPE_OBJECT);
 
 
 static void
@@ -383,9 +383,7 @@ photos_collection_icon_watcher_init (PhotosCollectionIconWatcher *self)
 {
   PhotosCollectionIconWatcherPrivate *priv = self->priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_COLLECTION_ICON_WATCHER,
-                                            PhotosCollectionIconWatcherPrivate);
+  self->priv = photos_collection_icon_watcher_get_instance_private (self);
   priv = self->priv;
 
   priv->item_connections = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
@@ -423,8 +421,6 @@ photos_collection_icon_watcher_class_init (PhotosCollectionIconWatcherClass *cla
                                         G_TYPE_NONE,
                                         1,
                                         G_TYPE_ICON);
-
-  g_type_class_add_private (class, sizeof (PhotosCollectionIconWatcherPrivate));
 }
 
 

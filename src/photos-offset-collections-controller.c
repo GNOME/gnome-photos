@@ -36,9 +36,9 @@ struct _PhotosOffsetCollectionsControllerPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosOffsetCollectionsController,
-               photos_offset_collections_controller,
-               PHOTOS_TYPE_OFFSET_CONTROLLER);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosOffsetCollectionsController,
+                            photos_offset_collections_controller,
+                            PHOTOS_TYPE_OFFSET_CONTROLLER);
 
 
 static PhotosQuery *
@@ -94,9 +94,7 @@ photos_offset_collections_controller_init (PhotosOffsetCollectionsController *se
 {
   PhotosOffsetCollectionsControllerPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_OFFSET_COLLECTIONS_CONTROLLER,
-                                            PhotosOffsetCollectionsControllerPrivate);
+  self->priv = photos_offset_collections_controller_get_instance_private (self);
   priv = self->priv;
 
   priv->col_mngr = photos_collection_manager_new ();
@@ -112,8 +110,6 @@ photos_offset_collections_controller_class_init (PhotosOffsetCollectionsControll
   object_class->constructor = photos_offset_collections_controller_constructor;
   object_class->dispose = photos_offset_collections_controller_dispose;
   offset_controller_class->get_query = photos_offset_collections_controller_get_query;
-
-  g_type_class_add_private (class, sizeof (PhotosOffsetCollectionsControllerPrivate));
 }
 
 

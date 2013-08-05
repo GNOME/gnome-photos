@@ -57,7 +57,7 @@ struct _PhotosSelectionToolbarPrivate
   gboolean inside_refresh;
 };
 
-G_DEFINE_TYPE (PhotosSelectionToolbar, photos_selection_toolbar, GTK_TYPE_TOOLBAR);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosSelectionToolbar, photos_selection_toolbar, GTK_TYPE_TOOLBAR);
 
 
 enum
@@ -438,7 +438,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   GtkWidget *image;
   GtkStyleContext *context;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SELECTION_TOOLBAR, PhotosSelectionToolbarPrivate);
+  self->priv = photos_selection_toolbar_get_instance_private (self);
   priv = self->priv;
 
   priv->item_listeners = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
@@ -556,8 +556,6 @@ photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->dispose = photos_selection_toolbar_dispose;
-
-  g_type_class_add_private (class, sizeof (PhotosSelectionToolbarPrivate));
 }
 
 

@@ -52,7 +52,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosLoadMoreButton, photos_load_more_button, GTK_TYPE_BUTTON);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosLoadMoreButton, photos_load_more_button, GTK_TYPE_BUTTON);
 
 
 static void
@@ -166,7 +166,7 @@ photos_load_more_button_init (PhotosLoadMoreButton *self)
   GtkStyleContext *context;
   GtkWidget *child;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_LOAD_MORE_BUTTON, PhotosLoadMoreButtonPrivate);
+  self->priv = photos_load_more_button_get_instance_private (self);
   priv = self->priv;
 
   gtk_widget_set_no_show_all (GTK_WIDGET (self), TRUE);
@@ -211,8 +211,6 @@ photos_load_more_button_class_init (PhotosLoadMoreButtonClass *class)
                                                       PHOTOS_TYPE_WINDOW_MODE,
                                                       PHOTOS_WINDOW_MODE_NONE,
                                                       G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosLoadMoreButtonPrivate));
 }
 
 

@@ -39,7 +39,7 @@ struct _PhotosOrganizeCollectionModelPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosOrganizeCollectionModel, photos_organize_collection_model, GTK_TYPE_LIST_STORE);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosOrganizeCollectionModel, photos_organize_collection_model, GTK_TYPE_LIST_STORE);
 
 
 static gboolean
@@ -198,9 +198,7 @@ photos_organize_collection_model_init (PhotosOrganizeCollectionModel *self)
                      G_TYPE_STRING,  /* NAME */
                      G_TYPE_INT};    /* STATE */
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_ORGANIZE_COLLECTION_MODEL,
-                                            PhotosOrganizeCollectionModelPrivate);
+  self->priv = photos_organize_collection_model_get_instance_private (self);
   priv = self->priv;
 
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
@@ -230,8 +228,6 @@ photos_organize_collection_model_class_init (PhotosOrganizeCollectionModelClass 
 
   object_class->dispose = photos_organize_collection_model_dispose;
   object_class->finalize = photos_organize_collection_model_finalize;
-
-  g_type_class_add_private (class, sizeof (PhotosOrganizeCollectionModelPrivate));
 }
 
 

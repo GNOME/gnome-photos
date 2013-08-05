@@ -56,6 +56,7 @@ static void photos_dlna_renderer_async_initable_iface_init (GAsyncInitableIface 
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosDlnaRenderer, photos_dlna_renderer, G_TYPE_OBJECT,
+                         G_ADD_PRIVATE (PhotosDlnaRenderer)
                          G_IMPLEMENT_INTERFACE (G_TYPE_ASYNC_INITABLE, photos_dlna_renderer_async_initable_iface_init));
 
 #define RETURN_ON_ERROR(task, error, msg) \
@@ -157,8 +158,7 @@ photos_dlna_renderer_init (PhotosDlnaRenderer *self)
 {
   PhotosDlnaRendererPrivate *priv;
 
-  self->priv = priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_DLNA_RENDERER,
-                                                   PhotosDlnaRendererPrivate);
+  self->priv = priv = photos_dlna_renderer_get_instance_private (self);
 
   priv->urls_to_item = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 }
@@ -236,8 +236,6 @@ photos_dlna_renderer_class_init (PhotosDlnaRendererClass *class)
                                                       G_PARAM_STATIC_NAME |
                                                       G_PARAM_STATIC_BLURB |
                                                       G_PARAM_STATIC_NICK));
-
-  g_type_class_add_private (class, sizeof (PhotosDlnaRendererPrivate));
 }
 
 

@@ -52,7 +52,7 @@ struct _PhotosOrganizeCollectionViewPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosOrganizeCollectionView, photos_organize_collection_view, GTK_TYPE_TREE_VIEW);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosOrganizeCollectionView, photos_organize_collection_view, GTK_TYPE_TREE_VIEW);
 
 
 static void
@@ -285,9 +285,7 @@ photos_organize_collection_view_init (PhotosOrganizeCollectionView *self)
 {
   PhotosOrganizeCollectionViewPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_ORGANIZE_COLLECTION_VIEW,
-                                            PhotosOrganizeCollectionViewPrivate);
+  self->priv = photos_organize_collection_view_get_instance_private (self);
   priv = self->priv;
 
   priv->model = photos_organize_collection_model_new ();
@@ -343,8 +341,6 @@ photos_organize_collection_view_class_init (PhotosOrganizeCollectionViewClass *c
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->dispose = photos_organize_collection_view_dispose;
-
-  g_type_class_add_private (class, sizeof (PhotosOrganizeCollectionViewPrivate));
 }
 
 

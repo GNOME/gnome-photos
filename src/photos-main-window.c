@@ -46,7 +46,7 @@ struct _PhotosMainWindowPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosMainWindow, photos_main_window, GTK_TYPE_APPLICATION_WINDOW);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosMainWindow, photos_main_window, GTK_TYPE_APPLICATION_WINDOW);
 
 
 enum
@@ -249,7 +249,7 @@ photos_main_window_init (PhotosMainWindow *self)
   const gint32 *size;
   gsize n_elements;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_MAIN_WINDOW, PhotosMainWindowPrivate);
+  self->priv = photos_main_window_get_instance_private (self);
   priv = self->priv;
 
   priv->settings = photos_settings_new ();
@@ -294,8 +294,6 @@ photos_main_window_class_init (PhotosMainWindowClass *class)
   widget_class->delete_event = photos_main_window_delete_event;
   widget_class->key_press_event = photos_main_window_key_press_event;
   widget_class->window_state_event = photos_main_window_window_state_event;
-
-  g_type_class_add_private (class, sizeof (PhotosMainWindowPrivate));
 }
 
 

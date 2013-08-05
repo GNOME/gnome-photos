@@ -38,7 +38,7 @@ struct _PhotosErrorBoxPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosErrorBox, photos_error_box, GTK_TYPE_GRID);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosErrorBox, photos_error_box, GTK_TYPE_GRID);
 
 
 static void
@@ -81,7 +81,7 @@ photos_error_box_constructed (GObject *object)
 static void
 photos_error_box_init (PhotosErrorBox *self)
 {
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_ERROR_BOX, PhotosErrorBoxPrivate);
+  self->priv = photos_error_box_get_instance_private (self);
 }
 
 
@@ -91,8 +91,6 @@ photos_error_box_class_init (PhotosErrorBoxClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructed = photos_error_box_constructed;
-
-  g_type_class_add_private (class, sizeof (PhotosErrorBoxPrivate));
 }
 
 

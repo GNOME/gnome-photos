@@ -56,7 +56,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosPreviewNavButtons, photos_preview_nav_buttons, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosPreviewNavButtons, photos_preview_nav_buttons, G_TYPE_OBJECT);
 
 
 static void
@@ -363,7 +363,7 @@ photos_preview_nav_buttons_init (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_PREVIEW_NAV_BUTTONS, PhotosPreviewNavButtonsPrivate);
+  self->priv = photos_preview_nav_buttons_get_instance_private (self);
   priv = self->priv;
 
   priv->item_mngr = photos_item_manager_new ();
@@ -395,8 +395,6 @@ photos_preview_nav_buttons_class_init (PhotosPreviewNavButtonsClass *class)
                                                         "The widget used for showing the preview",
                                                         PHOTOS_TYPE_PREVIEW_VIEW,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosPreviewNavButtonsPrivate));
 }
 
 

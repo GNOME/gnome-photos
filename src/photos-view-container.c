@@ -62,7 +62,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosViewContainer, photos_view_container, GTK_TYPE_GRID);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosViewContainer, photos_view_container, GTK_TYPE_GRID);
 
 
 static void
@@ -387,9 +387,7 @@ photos_view_container_set_property (GObject *object, guint prop_id, const GValue
 static void
 photos_view_container_init (PhotosViewContainer *self)
 {
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_VIEW_CONTAINER,
-                                            PhotosViewContainerPrivate);
+  self->priv = photos_view_container_get_instance_private (self);
 }
 
 
@@ -411,8 +409,6 @@ photos_view_container_class_init (PhotosViewContainerClass *class)
                                                       PHOTOS_TYPE_WINDOW_MODE,
                                                       PHOTOS_WINDOW_MODE_NONE,
                                                       G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosViewContainerPrivate));
 }
 
 

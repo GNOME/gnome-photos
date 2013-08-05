@@ -45,7 +45,7 @@ struct _PhotosFlickrItemPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosFlickrItem, photos_flickr_item, PHOTOS_TYPE_BASE_ITEM);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosFlickrItem, photos_flickr_item, PHOTOS_TYPE_BASE_ITEM);
 
 
 typedef struct _PhotosFlickrItemSyncData PhotosFlickrItemSyncData;
@@ -341,7 +341,7 @@ photos_flickr_item_init (PhotosFlickrItem *self)
 {
   PhotosFlickrItemPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_FLICKR_ITEM, PhotosFlickrItemPrivate);
+  self->priv = photos_flickr_item_get_instance_private (self);
   priv = self->priv;
 
   priv->src_mngr = photos_source_manager_new ();
@@ -360,8 +360,6 @@ photos_flickr_item_class_init (PhotosFlickrItemClass *class)
   base_item_class->download = photos_flickr_item_download;
   base_item_class->get_source_name = photos_flickr_item_get_source_name;
   base_item_class->open = photos_flickr_item_open;
-
-  g_type_class_add_private (class, sizeof (PhotosFlickrItemPrivate));
 }
 
 

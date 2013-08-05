@@ -51,7 +51,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosPreviewView, photos_preview_view, GTK_TYPE_SCROLLED_WINDOW);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosPreviewView, photos_preview_view, GTK_TYPE_SCROLLED_WINDOW);
 
 
 static void
@@ -185,7 +185,7 @@ photos_preview_view_init (PhotosPreviewView *self)
   PhotosPreviewViewPrivate *priv;
   GtkStyleContext *context;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_PREVIEW_VIEW, PhotosPreviewViewPrivate);
+  self->priv = photos_preview_view_get_instance_private (self);
   priv = self->priv;
 
   priv->mode_cntrlr = photos_mode_controller_new ();
@@ -231,8 +231,6 @@ photos_preview_view_class_init (PhotosPreviewViewClass *class)
                                                         "The stack overlay widget",
                                                         GTK_TYPE_OVERLAY,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosPreviewViewPrivate));
 }
 
 

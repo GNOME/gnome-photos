@@ -43,7 +43,7 @@ struct _PhotosIndexingNotificationPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosIndexingNotification, photos_indexing_notification, GTK_TYPE_GRID);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosIndexingNotification, photos_indexing_notification, GTK_TYPE_GRID);
 
 
 static const gchar *MINER_FILES = "org.freedesktop.Tracker1.Miner.Files";
@@ -141,9 +141,7 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   GtkWidget *primary;
   GtkWidget *secondary;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_INDEXING_NOTIFICATION,
-                                            PhotosIndexingNotificationPrivate);
+  self->priv = photos_indexing_notification_get_instance_private (self);
   priv = self->priv;
 
   error = NULL;
@@ -203,8 +201,6 @@ photos_indexing_notification_class_init (PhotosIndexingNotificationClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->dispose = photos_indexing_notification_dispose;
-
-  g_type_class_add_private (class, sizeof (PhotosIndexingNotificationPrivate));
 }
 
 

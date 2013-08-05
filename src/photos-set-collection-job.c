@@ -55,7 +55,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosSetCollectionJob, photos_set_collection_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosSetCollectionJob, photos_set_collection_job, G_TYPE_OBJECT);
 
 
 static void
@@ -160,7 +160,7 @@ photos_set_collection_job_init (PhotosSetCollectionJob *self)
 {
   PhotosSetCollectionJobPrivate *priv = self->priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SET_COLLECTION_JOB, PhotosSetCollectionJobPrivate);
+  self->priv = photos_set_collection_job_get_instance_private (self);
   priv = self->priv;
 
   priv->sel_cntrlr = photos_selection_controller_new ();
@@ -193,8 +193,6 @@ photos_set_collection_job_class_init (PhotosSetCollectionJobClass *class)
                                                          "collection",
                                                          FALSE,
                                                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosSetCollectionJobPrivate));
 }
 
 

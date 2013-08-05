@@ -45,7 +45,7 @@ struct _PhotosItemManagerPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER);
 
 
 static void
@@ -204,7 +204,7 @@ photos_item_manager_init (PhotosItemManager *self)
 {
   PhotosItemManagerPrivate *priv = self->priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_ITEM_MANAGER, PhotosItemManagerPrivate);
+  self->priv = photos_item_manager_get_instance_private (self);
   priv = self->priv;
 
   priv->collection_path = g_queue_new ();
@@ -224,8 +224,6 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   object_class->constructor = photos_item_manager_constructor;
   object_class->dispose = photos_item_manager_dispose;
   base_manager_class->set_active_object = photos_item_manager_set_active_object;
-
-  g_type_class_add_private (class, sizeof (PhotosItemManagerPrivate));
 }
 
 

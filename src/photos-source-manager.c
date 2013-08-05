@@ -39,7 +39,7 @@ struct _PhotosSourceManagerPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosSourceManager, photos_source_manager, PHOTOS_TYPE_BASE_MANAGER);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosSourceManager, photos_source_manager, PHOTOS_TYPE_BASE_MANAGER);
 
 
 static void
@@ -145,7 +145,7 @@ photos_source_manager_init (PhotosSourceManager *self)
   PhotosSourceManagerPrivate *priv = self->priv;
   PhotosSource *source;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SOURCE_MANAGER, PhotosSourceManagerPrivate);
+  self->priv = photos_source_manager_get_instance_private (self);
   priv = self->priv;
 
   source = photos_source_new (PHOTOS_SOURCE_STOCK_ALL, _("All"), TRUE);
@@ -185,8 +185,6 @@ photos_source_manager_class_init (PhotosSourceManagerClass *class)
 
   object_class->constructor = photos_source_manager_constructor;
   object_class->dispose = photos_source_manager_dispose;
-
-  g_type_class_add_private (class, sizeof (PhotosSourceManagerPrivate));
 }
 
 

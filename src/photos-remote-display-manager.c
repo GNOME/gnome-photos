@@ -50,7 +50,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static GObject *remote_display_manager_singleton = NULL;
 
-G_DEFINE_TYPE (PhotosRemoteDisplayManager, photos_remote_display_manager, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosRemoteDisplayManager, photos_remote_display_manager, G_TYPE_OBJECT);
 
 
 static Share *
@@ -123,8 +123,7 @@ photos_remote_display_manager_init (PhotosRemoteDisplayManager *self)
 {
   PhotosRemoteDisplayManagerPrivate *priv;
 
-  self->priv = priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_REMOTE_DISPLAY_MANAGER,
-                                            PhotosRemoteDisplayManagerPrivate);
+  self->priv = priv = photos_remote_display_manager_get_instance_private (self);
 
   /* Keep a connection to the renderers manager alive to keep the list of
    * renderers up-to-date */
@@ -160,8 +159,6 @@ photos_remote_display_manager_class_init (PhotosRemoteDisplayManagerClass *class
                                        PHOTOS_TYPE_DLNA_RENDERER,
                                        PHOTOS_TYPE_BASE_ITEM,
                                        G_TYPE_ERROR);
-
-  g_type_class_add_private (class, sizeof (PhotosRemoteDisplayManagerPrivate));
 }
 
 
@@ -176,18 +173,18 @@ photos_remote_display_manager_share_cb (GObject      *source_object,
   GError *error = NULL;
 
   item = photos_dlna_renderer_share_finish (renderer, res, &error);
+  g_object_unref (item); /* We already hold a ref to the item to be shared */
 
   if (error != NULL)
     {
       g_warning ("Unable to remotely display item '%s': %s",
-                 share->item != NULL ? photos_base_item_get_id (share->item) : "(none)",
+                 item != NULL ? photos_base_item_get_id (item) : "(none)",
                  error->message);
       g_signal_emit (share->manager, signals[SHARE_ERROR], 0, share->renderer, share->item, error);
       g_error_free (error);
       goto out;
     }
 
-  g_object_unref (item); /* We already hold a ref to the item to be shared */
   g_signal_emit (share->manager, signals[SHARE_BEGAN], 0, share->renderer, share->item);
 
 out:

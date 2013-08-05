@@ -50,6 +50,7 @@ static void photos_filterable_interface_init (PhotosFilterableInterface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosSearchType, photos_search_type, G_TYPE_OBJECT,
+                         G_ADD_PRIVATE (PhotosSearchType)
                          G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                 photos_filterable_interface_init));
 
@@ -145,7 +146,7 @@ photos_search_type_set_property (GObject *object, guint prop_id, const GValue *v
 static void
 photos_search_type_init (PhotosSearchType *self)
 {
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SEARCH_TYPE, PhotosSearchTypePrivate);
+  self->priv = photos_search_type_get_instance_private (self);
 }
 
 
@@ -189,8 +190,6 @@ photos_search_type_class_init (PhotosSearchTypeClass *class)
                                                         "",
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosSearchTypePrivate));
 }
 
 

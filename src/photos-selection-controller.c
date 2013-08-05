@@ -49,7 +49,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (PhotosSelectionController, photos_selection_controller, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosSelectionController, photos_selection_controller, G_TYPE_OBJECT);
 
 
 static void
@@ -128,9 +128,7 @@ photos_selection_controller_init (PhotosSelectionController *self)
 {
   PhotosSelectionControllerPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_SELECTION_CONTROLLER,
-                                            PhotosSelectionControllerPrivate);
+  self->priv = photos_selection_controller_get_instance_private (self);
   priv = self->priv;
 
   priv->item_mngr = photos_item_manager_new ();
@@ -172,8 +170,6 @@ photos_selection_controller_class_init (PhotosSelectionControllerClass *class)
                                                   G_TYPE_NONE,
                                                   1,
                                                   G_TYPE_BOOLEAN);
-
-  g_type_class_add_private (class, sizeof (PhotosSelectionControllerPrivate));
 }
 
 

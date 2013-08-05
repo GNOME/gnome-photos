@@ -39,7 +39,7 @@ struct _PhotosTrackerQueuePrivate
 };
 
 
-G_DEFINE_TYPE (PhotosTrackerQueue, photos_tracker_queue, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosTrackerQueue, photos_tracker_queue, G_TYPE_OBJECT);
 
 
 typedef enum
@@ -211,7 +211,7 @@ photos_tracker_queue_init (PhotosTrackerQueue *self)
   PhotosTrackerQueuePrivate *priv = self->priv;
   GError *error;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_TRACKER_QUEUE, PhotosTrackerQueuePrivate);
+  self->priv = photos_tracker_queue_get_instance_private (self);
   priv = self->priv;
 
   priv->queue = g_queue_new ();
@@ -235,8 +235,6 @@ photos_tracker_queue_class_init (PhotosTrackerQueueClass *class)
   object_class->constructor = photos_tracker_queue_constructor;
   object_class->dispose = photos_tracker_queue_dispose;
   object_class->finalize = photos_tracker_queue_finalize;
-
-  g_type_class_add_private (class, sizeof (PhotosTrackerQueuePrivate));
 }
 
 

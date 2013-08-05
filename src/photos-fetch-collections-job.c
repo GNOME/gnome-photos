@@ -50,7 +50,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosFetchCollectionsJob, photos_fetch_collections_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosFetchCollectionsJob, photos_fetch_collections_job, G_TYPE_OBJECT);
 
 
 static void
@@ -176,9 +176,7 @@ photos_fetch_collections_job_init (PhotosFetchCollectionsJob *self)
 {
   PhotosFetchCollectionsJobPrivate *priv = self->priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_FETCH_COLLECTIONS_JOB,
-                                            PhotosFetchCollectionsJobPrivate);
+  self->priv = photos_fetch_collections_job_get_instance_private (self);
   priv = self->priv;
 
   priv->queue = photos_tracker_queue_new ();
@@ -201,8 +199,6 @@ photos_fetch_collections_job_class_init (PhotosFetchCollectionsJobClass *class)
                                                         "An unique ID associated with this item",
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosFetchCollectionsJobPrivate));
 }
 
 

@@ -50,7 +50,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_ABSTRACT_TYPE (PhotosOffsetController, photos_offset_controller, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhotosOffsetController, photos_offset_controller, G_TYPE_OBJECT);
 
 
 enum
@@ -116,9 +116,7 @@ photos_offset_controller_init (PhotosOffsetController *self)
 {
   PhotosOffsetControllerPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_OFFSET_CONTROLLER,
-                                            PhotosOffsetControllerPrivate);
+  self->priv = photos_offset_controller_get_instance_private (self);
   priv = self->priv;
 
   priv->queue = photos_tracker_queue_new ();
@@ -155,8 +153,6 @@ photos_offset_controller_class_init (PhotosOffsetControllerClass *class)
                                           G_TYPE_NONE,
                                           1,
                                           G_TYPE_INT);
-
-  g_type_class_add_private (class, sizeof (PhotosOffsetControllerPrivate));
 }
 
 

@@ -64,7 +64,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosPrintSetup, photos_print_setup, GTK_TYPE_GRID);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosPrintSetup, photos_print_setup, GTK_TYPE_GRID);
 
 
 enum
@@ -881,9 +881,7 @@ photos_print_setup_init (PhotosPrintSetup *self)
   gchar *locale_scale = NULL;
 #endif
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_PRINT_SETUP,
-                                            PhotosPrintSetupPrivate);
+  self->priv = photos_print_setup_get_instance_private (self);
   priv = self->priv;
 
   gtk_container_set_border_width (GTK_CONTAINER (self), 12);
@@ -1004,8 +1002,6 @@ photos_print_setup_class_init (PhotosPrintSetupClass *class)
                                                         "printed",
                                                         GTK_TYPE_PAGE_SETUP,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosPrintSetupPrivate));
 }
 
 

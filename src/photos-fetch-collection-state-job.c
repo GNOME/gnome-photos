@@ -51,7 +51,7 @@ struct _PhotosFetchCollectionStateJobPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosFetchCollectionStateJob, photos_fetch_collection_state_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosFetchCollectionStateJob, photos_fetch_collection_state_job, G_TYPE_OBJECT);
 
 
 typedef struct _PhotosFetchCollectionStateJobData PhotosFetchCollectionStateJobData;
@@ -218,9 +218,7 @@ photos_fetch_collection_state_job_init (PhotosFetchCollectionStateJob *self)
 {
   PhotosFetchCollectionStateJobPrivate *priv = self->priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_FETCH_COLLECTION_STATE_JOB,
-                                              PhotosFetchCollectionStateJobPrivate);
+  self->priv = photos_fetch_collection_state_job_get_instance_private (self);
   priv = self->priv;
 
   priv->collections_for_items = g_hash_table_new_full (g_str_hash,
@@ -242,8 +240,6 @@ photos_fetch_collection_state_job_class_init (PhotosFetchCollectionStateJobClass
 
   object_class->dispose = photos_fetch_collection_state_job_dispose;
   object_class->finalize = photos_fetch_collection_state_job_finalize;
-
-  g_type_class_add_private (class, sizeof (PhotosFetchCollectionStateJobPrivate));
 }
 
 

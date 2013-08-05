@@ -54,6 +54,7 @@ static void photos_filterable_interface_init (PhotosFilterableInterface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosSource, photos_source, G_TYPE_OBJECT,
+                         G_ADD_PRIVATE (PhotosSource)
                          G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                 photos_filterable_interface_init));
 
@@ -192,7 +193,7 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
 static void
 photos_source_init (PhotosSource *self)
 {
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SOURCE, PhotosSourcePrivate);
+  self->priv = photos_source_get_instance_private (self);
 }
 
 
@@ -237,8 +238,6 @@ photos_source_class_init (PhotosSourceClass *class)
                                                         "A GOA configured account from which the source was created",
                                                         GOA_TYPE_OBJECT,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
-
-  g_type_class_add_private (class, sizeof (PhotosSourcePrivate));
 }
 
 

@@ -88,7 +88,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT);
 
 
 typedef struct _PhotosBaseItemAsyncStrData PhotosBaseItemAsyncStrData;
@@ -866,7 +866,7 @@ photos_base_item_init (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_BASE_ITEM, PhotosBaseItemPrivate);
+  self->priv = photos_base_item_get_instance_private (self);
   priv = self->priv;
 
   g_mutex_init (&priv->mutex_create_thumbnail);
@@ -923,8 +923,6 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                         g_cclosure_marshal_VOID__VOID,
                                         G_TYPE_NONE,
                                         0);
-
-  g_type_class_add_private (class, sizeof (PhotosBaseItemPrivate));
 }
 
 

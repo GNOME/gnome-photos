@@ -49,7 +49,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosDeleteItemJob, photos_delete_item_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosDeleteItemJob, photos_delete_item_job, G_TYPE_OBJECT);
 
 
 static void
@@ -120,9 +120,7 @@ photos_delete_item_job_init (PhotosDeleteItemJob *self)
 {
   PhotosDeleteItemJobPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_DELETE_ITEM_JOB,
-                                            PhotosDeleteItemJobPrivate);
+  self->priv = photos_delete_item_job_get_instance_private (self);
   priv = self->priv;
 
   priv->queue = photos_tracker_queue_new ();
@@ -145,8 +143,6 @@ photos_delete_item_job_class_init (PhotosDeleteItemJobClass *class)
                                                         "An unique ID associated with this item",
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosDeleteItemJobPrivate));
 }
 
 

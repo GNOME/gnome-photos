@@ -49,7 +49,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (PhotosBaseManager, photos_base_manager, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseManager, photos_base_manager, G_TYPE_OBJECT);
 
 
 static gboolean
@@ -134,7 +134,7 @@ photos_base_manager_init (PhotosBaseManager *self)
 {
   PhotosBaseManagerPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_BASE_MANAGER, PhotosBaseManagerPrivate);
+  self->priv = photos_base_manager_get_instance_private (self);
   priv = self->priv;
 
   priv->objects = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
@@ -195,8 +195,6 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
                                           G_TYPE_NONE,
                                           1,
                                           G_TYPE_OBJECT);
-
-  g_type_class_add_private (class, sizeof (PhotosBaseManagerPrivate));
 }
 
 

@@ -66,7 +66,7 @@ struct _PhotosApplicationPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosApplication, photos_application, GTK_TYPE_APPLICATION)
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosApplication, photos_application, GTK_TYPE_APPLICATION)
 
 
 enum
@@ -558,9 +558,7 @@ photos_application_dispose (GObject *object)
 static void
 photos_application_init (PhotosApplication *self)
 {
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_APPLICATION,
-                                            PhotosApplicationPrivate);
+  self->priv = photos_application_get_instance_private (self);
   eog_debug_init ();
 }
 
@@ -577,8 +575,6 @@ photos_application_class_init (PhotosApplicationClass *class)
   application_class->startup = photos_application_startup;
 
   /* TODO: Add miners-changed signal */
-
-  g_type_class_add_private (class, sizeof (PhotosApplicationPrivate));
 }
 
 

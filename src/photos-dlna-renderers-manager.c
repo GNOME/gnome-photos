@@ -45,7 +45,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static GObject *photos_dlna_renderers_manager_singleton = NULL;
 
-G_DEFINE_TYPE (PhotosDlnaRenderersManager, photos_dlna_renderers_manager, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosDlnaRenderersManager, photos_dlna_renderers_manager, G_TYPE_OBJECT);
 
 static void
 photos_dlna_renderers_manager_dispose (GObject *object)
@@ -196,8 +196,7 @@ photos_dlna_renderers_manager_init (PhotosDlnaRenderersManager *self)
 {
   PhotosDlnaRenderersManagerPrivate *priv;
 
-  self->priv = priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_DLNA_RENDERERS_MANAGER,
-                                                   PhotosDlnaRenderersManagerPrivate);
+  self->priv = priv = photos_dlna_renderers_manager_get_instance_private (self);
 
   dleyna_manager_proxy_new_for_bus (G_BUS_TYPE_SESSION,
                                     G_DBUS_PROXY_FLAGS_NONE,
@@ -226,8 +225,6 @@ photos_dlna_renderers_manager_class_init (PhotosDlnaRenderersManagerClass *class
                                           G_SIGNAL_RUN_LAST, 0, NULL, NULL,
                                           g_cclosure_marshal_VOID__OBJECT,
                                           G_TYPE_NONE, 1, PHOTOS_TYPE_DLNA_RENDERER);
-
-  g_type_class_add_private (class, sizeof (PhotosDlnaRenderersManagerPrivate));
 }
 
 PhotosDlnaRenderersManager *

@@ -37,7 +37,7 @@ struct _PhotosSpinnerBoxPrivate
 };
 
 
-G_DEFINE_TYPE (PhotosSpinnerBox, photos_spinner_box, GTK_TYPE_GRID);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosSpinnerBox, photos_spinner_box, GTK_TYPE_GRID);
 
 
 static void
@@ -81,7 +81,7 @@ photos_spinner_box_constructed (GObject *object)
 static void
 photos_spinner_box_init (PhotosSpinnerBox *self)
 {
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_SPINNER_BOX, PhotosSpinnerBoxPrivate);
+  self->priv = photos_spinner_box_get_instance_private (self);
 }
 
 
@@ -91,8 +91,6 @@ photos_spinner_box_class_init (PhotosSpinnerBoxClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructed = photos_spinner_box_constructed;
-
-  g_type_class_add_private (class, sizeof (PhotosSpinnerBoxPrivate));
 }
 
 

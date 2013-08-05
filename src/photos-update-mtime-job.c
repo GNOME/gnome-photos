@@ -49,7 +49,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosUpdateMtimeJob, photos_update_mtime_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosUpdateMtimeJob, photos_update_mtime_job, G_TYPE_OBJECT);
 
 
 static void
@@ -121,7 +121,7 @@ photos_update_mtime_job_init (PhotosUpdateMtimeJob *self)
 {
   PhotosUpdateMtimeJobPrivate *priv = self->priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_UPDATE_MTIME_JOB, PhotosUpdateMtimeJobPrivate);
+  self->priv = photos_update_mtime_job_get_instance_private (self);
   priv = self->priv;
 
   priv->queue = photos_tracker_queue_new ();
@@ -144,8 +144,6 @@ photos_update_mtime_job_class_init (PhotosUpdateMtimeJobClass *class)
                                                         "An unique ID associated with this item",
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosUpdateMtimeJobPrivate));
 }
 
 

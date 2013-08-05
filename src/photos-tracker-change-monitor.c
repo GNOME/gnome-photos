@@ -52,7 +52,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (PhotosTrackerChangeMonitor, photos_tracker_change_monitor, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosTrackerChangeMonitor, photos_tracker_change_monitor, G_TYPE_OBJECT);
 
 
 typedef struct _PhotosTrackerChangeMonitorQueryData PhotosTrackerChangeMonitorQueryData;
@@ -295,9 +295,7 @@ photos_tracker_change_monitor_init (PhotosTrackerChangeMonitor *self)
 {
   PhotosTrackerChangeMonitorPrivate *priv;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_TRACKER_CHANGE_MONITOR,
-                                            PhotosTrackerChangeMonitorPrivate);
+  self->priv = photos_tracker_change_monitor_get_instance_private (self);
   priv = self->priv;
 
   priv->pending = g_hash_table_new_full (g_str_hash,
@@ -337,8 +335,6 @@ photos_tracker_change_monitor_class_init (PhotosTrackerChangeMonitorClass *class
                                            G_TYPE_NONE,
                                            1,
                                            G_TYPE_HASH_TABLE);
-
-  g_type_class_add_private (class, sizeof (PhotosTrackerChangeMonitorPrivate));
 }
 
 

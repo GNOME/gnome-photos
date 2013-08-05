@@ -46,7 +46,7 @@ enum
 };
 
 
-G_DEFINE_TYPE (PhotosViewModel, photos_view_model, GTK_TYPE_LIST_STORE);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosViewModel, photos_view_model, GTK_TYPE_LIST_STORE);
 
 
 static void
@@ -246,7 +246,7 @@ photos_view_model_init (PhotosViewModel *self)
                      G_TYPE_INT64,     /* MTIME */
                      G_TYPE_BOOLEAN};  /* STATE */
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOS_TYPE_VIEW_MODEL, PhotosViewModelPrivate);
+  self->priv = photos_view_model_get_instance_private (self);
   priv = self->priv;
 
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
@@ -278,8 +278,6 @@ photos_view_model_class_init (PhotosViewModelClass *class)
                                                       PHOTOS_TYPE_WINDOW_MODE,
                                                       PHOTOS_WINDOW_MODE_NONE,
                                                       G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  g_type_class_add_private (class, sizeof (PhotosViewModelPrivate));
 }
 
 
