@@ -57,7 +57,7 @@ typedef struct _PhotosSelectionToolbarPrivate PhotosSelectionToolbarPrivate;
 
 struct _PhotosSelectionToolbar
 {
-  GtkToolbar parent_instance;
+  GtkRevealer parent_instance;
   PhotosSelectionToolbarPrivate *priv;
 };
 

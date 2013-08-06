@@ -462,6 +462,9 @@ photos_embed_init (PhotosEmbed *self)
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   gtk_widget_show (GTK_WIDGET (self));
 
+  priv->selection_toolbar = photos_selection_toolbar_new ();
+  gtk_box_pack_end (GTK_BOX (self), priv->selection_toolbar, FALSE, FALSE, 0);
+
   priv->stack_overlay = gtk_overlay_new ();
   gtk_widget_show (priv->stack_overlay);
   gtk_box_pack_end (GTK_BOX (self), priv->stack_overlay, TRUE, TRUE, 0);
@@ -504,9 +507,6 @@ photos_embed_init (PhotosEmbed *self)
 
   /* TODO: SearchBar.Dropdown, …
    */
-
-  priv->selection_toolbar = photos_selection_toolbar_new ();
-  gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->selection_toolbar);
 
   g_signal_connect_object (priv->stack, "notify::visible-child",
                            G_CALLBACK (photos_embed_notify_visible_child),
