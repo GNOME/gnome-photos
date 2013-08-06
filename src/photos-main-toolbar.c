@@ -483,7 +483,7 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_SELECTION);
 
   selection_button = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (selection_button), _("Done"));
+  gd_header_button_set_label (GD_HEADER_BUTTON (selection_button), _("Cancel"));
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), selection_button);
   context = gtk_widget_get_style_context (selection_button);
   gtk_style_context_add_class (context, "suggested-action");
