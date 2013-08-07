@@ -36,6 +36,7 @@
 #include "photos-delete-item-job.h"
 #include "photos-print-operation.h"
 #include "photos-query.h"
+#include "photos-selection-controller.h"
 #include "photos-single-item-job.h"
 #include "photos-utils.h"
 
@@ -51,6 +52,7 @@ struct _PhotosBaseItemPrivate
   GMutex mutex_download;
   GMutex mutex;
   PhotosCollectionIconWatcher *watcher;
+  PhotosSelectionController *sel_cntrlr;
   TrackerSparqlCursor *cursor;
   gboolean collection;
   gboolean failed_thumbnailing;
@@ -734,6 +736,14 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 
 
 static void
+photos_base_item_print_operation_done (PhotosBaseItem *self, GtkPrintOperationResult result)
+{
+  if (result == GTK_PRINT_OPERATION_RESULT_APPLY)
+      photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
+}
+
+
+static void
 photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
@@ -746,6 +756,12 @@ photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer
     goto out;
 
   print_op = photos_print_operation_new (self, node);
+  g_signal_connect_data (print_op,
+                         "done",
+                         G_CALLBACK (photos_base_item_print_operation_done),
+                         g_object_ref (self),
+                         (GClosureNotify) g_object_unref,
+                         G_CONNECT_SWAPPED);
   gtk_print_operation_run (print_op, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, toplevel, NULL);
 
  out:
@@ -789,6 +805,7 @@ photos_base_item_dispose (GObject *object)
   g_clear_object (&priv->icon);
   g_clear_object (&priv->pristine_icon);
   g_clear_object (&priv->watcher);
+  g_clear_object (&priv->sel_cntrlr);
   g_clear_object (&priv->cursor);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->dispose (object);
@@ -872,6 +889,8 @@ photos_base_item_init (PhotosBaseItem *self)
   g_mutex_init (&priv->mutex_create_thumbnail);
   g_mutex_init (&priv->mutex_download);
   g_mutex_init (&priv->mutex);
+
+  priv->sel_cntrlr = photos_selection_controller_new ();
 }
 
 

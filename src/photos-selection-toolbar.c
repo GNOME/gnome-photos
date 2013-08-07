@@ -71,7 +71,7 @@ photos_selection_toolbar_dialog_response (GtkDialog *dialog, gint response_id, g
     return;
 
   gtk_widget_destroy (GTK_WIDGET (dialog));
-  gtk_revealer_set_reveal_child (GTK_REVEALER (self), TRUE);
+  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
 }
 
 
@@ -88,7 +88,6 @@ photos_selection_toolbar_collection_clicked (GtkButton *button, gpointer user_da
 
   dialog = photos_organize_collection_dialog_new (GTK_WINDOW (toplevel));
   gtk_widget_show_all (dialog);
-  gtk_revealer_set_reveal_child (GTK_REVEALER (self), FALSE);
   g_signal_connect (dialog, "response", G_CALLBACK (photos_selection_toolbar_dialog_response), self);
 }
 
@@ -123,6 +122,8 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
       favorite = photos_base_item_is_favorite (item);
       photos_base_item_set_favorite (item, !favorite);
     }
+
+  photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
 }
 
 
@@ -147,6 +148,8 @@ photos_selection_toolbar_open_clicked (GtkButton *button, gpointer user_data)
       time = gtk_get_current_event_time ();
       photos_base_item_open (item, screen, time);
     }
+
+  photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
 }
 
 
@@ -177,7 +180,7 @@ photos_selection_toolbar_properties_response (GtkDialog *dialog, gint response_i
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
 
   gtk_widget_destroy (GTK_WIDGET (dialog));
-  gtk_revealer_set_reveal_child (GTK_REVEALER (self), TRUE);
+  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
 }
 
 
@@ -200,7 +203,6 @@ photos_selection_toolbar_properties_clicked (GtkButton *button, gpointer user_da
 
   dialog = photos_properties_dialog_new (GTK_WINDOW (windows->data), urn);
   gtk_widget_show_all (dialog);
-  gtk_revealer_set_reveal_child (GTK_REVEALER (self), FALSE);
 
   g_object_unref (app);
 
@@ -385,6 +387,8 @@ photos_selection_toolbar_trash_clicked (GtkButton *button, gpointer user_data)
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
       photos_base_item_trash (item);
     }
+
+  photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
 }
 
 
