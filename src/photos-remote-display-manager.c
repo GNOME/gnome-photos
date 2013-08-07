@@ -173,18 +173,18 @@ photos_remote_display_manager_share_cb (GObject      *source_object,
   GError *error = NULL;
 
   item = photos_dlna_renderer_share_finish (renderer, res, &error);
-  g_object_unref (item); /* We already hold a ref to the item to be shared */
 
   if (error != NULL)
     {
       g_warning ("Unable to remotely display item '%s': %s",
-                 item != NULL ? photos_base_item_get_id (item) : "(none)",
+                 share->item != NULL ? photos_base_item_get_id (share->item) : "(none)",
                  error->message);
       g_signal_emit (share->manager, signals[SHARE_ERROR], 0, share->renderer, share->item, error);
       g_error_free (error);
       goto out;
     }
 
+  g_object_unref (item); /* We already hold a ref to the item to be shared */
   g_signal_emit (share->manager, signals[SHARE_BEGAN], 0, share->renderer, share->item);
 
 out:
