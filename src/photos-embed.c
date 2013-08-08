@@ -29,6 +29,7 @@
 #include <gegl.h>
 #include <glib/gi18n.h>
 
+#include "photos-application.h"
 #include "photos-embed.h"
 #include "photos-empty-results-box.h"
 #include "photos-error-box.h"
@@ -450,14 +451,27 @@ photos_embed_dispose (GObject *object)
   G_OBJECT_CLASS (photos_embed_parent_class)->dispose (object);
 }
 
+
+static void
+photos_embed_window_added (PhotosEmbed *self, GtkWindow *window)
+{
+  gtk_window_set_titlebar (window, self->priv->toolbar);
+}
+
+
 static void
 photos_embed_init (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv;
+  GtkApplication *app;
   gboolean querying;
 
   self->priv = photos_embed_get_instance_private (self);
   priv = self->priv;
+
+  app = photos_application_new ();
+  g_signal_connect_swapped (app, "window-added", G_CALLBACK (photos_embed_window_added), self);
+  g_object_unref (app);
 
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   gtk_widget_show (GTK_WIDGET (self));
@@ -477,7 +491,6 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->toolbar = photos_main_toolbar_new ();
   photos_main_toolbar_set_stack (PHOTOS_MAIN_TOOLBAR (priv->toolbar), GTK_STACK (priv->stack));
-  gtk_box_pack_start (GTK_BOX (self), priv->toolbar, FALSE, FALSE, 0);
 
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_new ());
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->ntfctn_mngr);

@@ -328,6 +328,7 @@ photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
   PhotosMainToolbarPrivate *priv = self->priv;
 
   photos_main_toolbar_clear_state_data (self);
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), FALSE);
   photos_header_bar_clear (PHOTOS_HEADER_BAR (priv->toolbar));
   g_simple_action_set_enabled (priv->gear_menu, FALSE);
 }
@@ -383,6 +384,7 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
   PhotosMainToolbarPrivate *priv = self->priv;
   GObject *object;
 
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
 
@@ -415,6 +417,7 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
   PhotosMainToolbarPrivate *priv = self->priv;
   GObject *object;
 
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
 
@@ -429,6 +432,7 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   PhotosMainToolbarPrivate *priv = self->priv;
   GObject *object;
 
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
 
@@ -448,6 +452,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   gboolean remote_display_available;
   GAction *remote_display_action;
 
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_STANDALONE);
 
   back_button = photos_main_toolbar_add_back_button (self);
