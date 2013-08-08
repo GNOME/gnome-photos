@@ -201,6 +201,7 @@ photos_preview_view_init (PhotosPreviewView *self)
   gtk_style_context_add_class (context, "documents-scrolledwin");
 
   priv->view = GTK_WIDGET (gegl_gtk_view_new ());
+  gtk_widget_add_events (priv->view, GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK);
   context = gtk_widget_get_style_context (priv->view);
   gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
   gtk_style_context_add_class (context, "content-view");
