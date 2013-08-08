@@ -255,11 +255,11 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
   PhotosPreviewViewPrivate *priv = self->priv;
 
   if (priv->node == node)
-    return;
+    goto out;
 
   g_clear_object (&priv->node);
   if (node == NULL)
-    return;
+    goto out;
 
   priv->node = g_object_ref (node);
   photos_preview_view_scale_and_align_image (self);
@@ -268,5 +268,6 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
   gegl_gtk_view_set_node (GEGL_GTK_VIEW (priv->view), g_object_ref (priv->node));
   gtk_widget_queue_draw (priv->view);
 
+ out:
   photos_preview_nav_buttons_show (priv->nav_buttons);
 }
