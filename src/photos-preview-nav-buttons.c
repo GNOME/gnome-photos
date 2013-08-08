@@ -67,16 +67,15 @@ photos_preview_nav_buttons_fade_in_button (PhotosPreviewNavButtons *self, GtkWid
   if (priv->model == NULL || priv->current_path == NULL)
     return;
 
-  gtk_widget_show_all (widget);
-  gtk_widget_set_opacity (widget, 1.0);
+
+  gtk_revealer_set_reveal_child (GTK_REVEALER (widget), TRUE);
 }
 
 
 static void
 photos_preview_nav_buttons_fade_out_button (PhotosPreviewNavButtons *self, GtkWidget *widget)
 {
-  gtk_widget_set_opacity (widget, 0.0);
-  gtk_widget_hide (widget);
+  gtk_revealer_set_reveal_child (GTK_REVEALER (widget), FALSE);
 }
 
 
@@ -267,6 +266,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
   PhotosPreviewNavButtons *self = PHOTOS_PREVIEW_NAV_BUTTONS (object);
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
   GtkStyleContext *context;
+  GtkWidget *button;
   GtkWidget *image;
   gboolean is_rtl;
   const gchar *next_icon_name;
@@ -278,52 +278,60 @@ photos_preview_nav_buttons_constructed (GObject *object)
   prev_icon_name = is_rtl ? "go-next-symbolic" : "go-previous-symbolic";
   next_icon_name = is_rtl ? "go-previous-symbolic" : "go-next-symbolic";
 
-  image = gtk_image_new_from_icon_name (prev_icon_name, GTK_ICON_SIZE_INVALID);
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
-
-  priv->prev_widget = gtk_button_new ();
+  priv->prev_widget = gtk_revealer_new ();
   gtk_widget_set_halign (priv->prev_widget, GTK_ALIGN_START);
   gtk_widget_set_margin_left (priv->prev_widget, 30);
   gtk_widget_set_margin_right (priv->prev_widget, 30);
   gtk_widget_set_valign (priv->prev_widget, GTK_ALIGN_CENTER);
-  gtk_container_add (GTK_CONTAINER (priv->prev_widget), image);
+  gtk_revealer_set_transition_type (GTK_REVEALER (priv->prev_widget), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->overlay), priv->prev_widget);
-  context = gtk_widget_get_style_context (priv->prev_widget);
+
+  image = gtk_image_new_from_icon_name (prev_icon_name, GTK_ICON_SIZE_INVALID);
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
+
+  button = gtk_button_new ();
+  gtk_container_add (GTK_CONTAINER (button), image);
+  context = gtk_widget_get_style_context (button);
   gtk_style_context_add_class (context, "osd");
-  g_signal_connect_swapped (priv->prev_widget,
+  gtk_container_add (GTK_CONTAINER (priv->prev_widget), button);
+  g_signal_connect_swapped (button,
                             "clicked",
                             G_CALLBACK (photos_preview_nav_buttons_prev_clicked),
                             self);
-  g_signal_connect_swapped (priv->prev_widget,
+  g_signal_connect_swapped (button,
                             "enter-notify-event",
                             G_CALLBACK (photos_preview_nav_buttons_enter_notify),
                             self);
-  g_signal_connect_swapped (priv->prev_widget,
+  g_signal_connect_swapped (button,
                             "leave-notify-event",
                             G_CALLBACK (photos_preview_nav_buttons_leave_notify),
                             self);
 
-  image = gtk_image_new_from_icon_name (next_icon_name, GTK_ICON_SIZE_INVALID);
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
-
-  priv->next_widget = gtk_button_new ();
+  priv->next_widget = gtk_revealer_new ();
   gtk_widget_set_halign (priv->next_widget, GTK_ALIGN_END);
   gtk_widget_set_margin_left (priv->next_widget, 30);
   gtk_widget_set_margin_right (priv->next_widget, 30);
   gtk_widget_set_valign (priv->next_widget, GTK_ALIGN_CENTER);
-  gtk_container_add (GTK_CONTAINER (priv->next_widget), image);
+  gtk_revealer_set_transition_type (GTK_REVEALER (priv->next_widget), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->overlay), priv->next_widget);
-  context = gtk_widget_get_style_context (priv->next_widget);
+
+  image = gtk_image_new_from_icon_name (next_icon_name, GTK_ICON_SIZE_INVALID);
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
+
+  button = gtk_button_new ();
+  gtk_container_add (GTK_CONTAINER (button), image);
+  context = gtk_widget_get_style_context (button);
   gtk_style_context_add_class (context, "osd");
-  g_signal_connect_swapped (priv->next_widget,
+  gtk_container_add (GTK_CONTAINER (priv->next_widget), button);
+  g_signal_connect_swapped (button,
                             "clicked",
                             G_CALLBACK (photos_preview_nav_buttons_next_clicked),
                             self);
-  g_signal_connect_swapped (priv->next_widget,
+  g_signal_connect_swapped (button,
                             "enter-notify-event",
                             G_CALLBACK (photos_preview_nav_buttons_enter_notify),
                             self);
-  g_signal_connect_swapped (priv->next_widget,
+  g_signal_connect_swapped (button,
                             "leave-notify-event",
                             G_CALLBACK (photos_preview_nav_buttons_leave_notify),
                             self);
@@ -332,6 +340,9 @@ photos_preview_nav_buttons_constructed (GObject *object)
                             "motion-notify-event",
                             G_CALLBACK (photos_preview_nav_buttons_motion_notify),
                             self);
+
+  gtk_widget_show_all (priv->prev_widget);
+  gtk_widget_show_all (priv->next_widget);
 }
 
 
