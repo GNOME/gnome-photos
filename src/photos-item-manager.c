@@ -271,7 +271,7 @@ photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *c
 
   if (identifier != NULL)
     {
-      if (g_str_has_prefix (identifier, "flickr:"))
+      if (g_str_has_prefix (identifier, "flickr:") || g_str_has_prefix (identifier, "photos:collection:flickr:"))
         ret_val = photos_flickr_item_new (cursor);
     }
 
