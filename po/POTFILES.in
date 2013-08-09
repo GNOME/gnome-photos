@@ -19,6 +19,7 @@ src/photos-main-toolbar.c
 src/photos-main-window.c
 src/photos-organize-collection-dialog.c
 [type: gettext/glade]src/photos-preview-menu.ui
+src/photos-preview-nav-buttons.c
 src/photos-print-operation.c
 src/photos-print-setup.c
 src/photos-properties-dialog.c
