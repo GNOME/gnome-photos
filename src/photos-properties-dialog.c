@@ -252,23 +252,34 @@ photos_properties_dialog_constructed (GObject *object)
     }
   else /* local item */
     {
-      GFile *file;
-      GFile *source_link;
-      const gchar *uri;
-      gchar *source_path;
-      gchar *source_uri;
+      if (photos_base_item_is_collection (item))
+        {
+          const gchar *source_name;
 
-      uri = photos_base_item_get_uri (item);
-      file = g_file_new_for_uri (uri);
-      source_link = g_file_get_parent (file);
-      source_path = g_file_get_path (source_link);
-      source_uri = g_file_get_uri (source_link);
+          source_name = photos_base_item_get_source_name (item);
+          source_data = gtk_label_new (source_name);
+          gtk_widget_set_halign (source_data, GTK_ALIGN_START);
+        }
+      else
+        {
+          GFile *file;
+          GFile *source_link;
+          const gchar *uri;
+          gchar *source_path;
+          gchar *source_uri;
 
-      source_data = gtk_link_button_new_with_label (source_uri, source_path);
-      gtk_widget_set_halign (source_data, GTK_ALIGN_START);
+          uri = photos_base_item_get_uri (item);
+          file = g_file_new_for_uri (uri);
+          source_link = g_file_get_parent (file);
+          source_path = g_file_get_path (source_link);
+          source_uri = g_file_get_uri (source_link);
 
-      g_object_unref (source_link);
-      g_object_unref (file);
+          source_data = gtk_link_button_new_with_label (source_uri, source_path);
+          gtk_widget_set_halign (source_data, GTK_ALIGN_START);
+
+          g_object_unref (source_link);
+          g_object_unref (file);
+        }
     }
 
   gtk_grid_attach_next_to (GTK_GRID (grid), source_data, source, GTK_POS_RIGHT, 2, 1);
