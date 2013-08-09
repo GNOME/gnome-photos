@@ -29,6 +29,7 @@
 
 #include <gio/gio.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <tracker-sparql.h>
 
 #include "photos-base-item.h"
@@ -774,11 +775,14 @@ static void
 photos_base_item_update_type_description (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv = self->priv;
+  gchar *description = NULL;
 
-  if (priv->mime_type == NULL)
-    return;
+  if (priv->collection)
+    description = g_strdup (_("Album"));
+  else if (priv->mime_type != NULL)
+    description = g_content_type_get_description (priv->mime_type);
 
-  priv->type_description = g_content_type_get_description (priv->mime_type);
+  priv->type_description = description;
 }
 
 
