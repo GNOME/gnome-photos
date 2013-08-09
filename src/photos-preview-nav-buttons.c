@@ -87,8 +87,22 @@ photos_preview_nav_buttons_fade_in_button (PhotosPreviewNavButtons *self, GtkWid
   if (priv->model == NULL || priv->current_path == NULL)
     return;
 
-
+  gtk_widget_show_all (widget);
   gtk_revealer_set_reveal_child (GTK_REVEALER (widget), TRUE);
+}
+
+
+static void
+photos_preview_nav_buttons_notify_child_revealed (PhotosPreviewNavButtons *self,
+                                                  GParamSpec *pspec,
+                                                  gpointer user_data)
+{
+  GtkWidget *widget = GTK_WIDGET (user_data);
+
+  if (!gtk_revealer_get_child_revealed (GTK_REVEALER (widget)))
+      gtk_widget_hide (widget);
+
+  g_signal_handlers_disconnect_by_func (widget, photos_preview_nav_buttons_notify_child_revealed, self);
 }
 
 
@@ -96,6 +110,10 @@ static void
 photos_preview_nav_buttons_fade_out_button (PhotosPreviewNavButtons *self, GtkWidget *widget)
 {
   gtk_revealer_set_reveal_child (GTK_REVEALER (widget), FALSE);
+  g_signal_connect_swapped (widget,
+                            "notify::child-revealed",
+                            G_CALLBACK (photos_preview_nav_buttons_notify_child_revealed),
+                            self);
 }
 
 
@@ -436,10 +454,6 @@ photos_preview_nav_buttons_constructed (GObject *object)
                             "motion-notify-event",
                             G_CALLBACK (photos_preview_nav_buttons_motion_notify),
                             self);
-
-  gtk_widget_show_all (priv->prev_widget);
-  gtk_widget_show_all (priv->next_widget);
-  gtk_widget_show_all (priv->toolbar_widget);
 }
 
 
