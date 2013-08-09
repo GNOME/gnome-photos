@@ -239,9 +239,7 @@ photos_remote_display_manager_set_renderer (PhotosRemoteDisplayManager *self,
 PhotosDlnaRenderer *
 photos_remote_display_manager_get_renderer (PhotosRemoteDisplayManager *self)
 {
-  PhotosRemoteDisplayManagerPrivate *priv = self->priv;
-
-  return priv->renderer;
+  return self->priv->renderer;
 }
 
 

@@ -349,9 +349,7 @@ photos_dlna_renderer_async_initable_iface_init (GAsyncInitableIface *iface)
 const gchar *
 photos_dlna_renderer_get_object_path (PhotosDlnaRenderer *self)
 {
-  PhotosDlnaRendererPrivate *priv = self->priv;
-
-  return priv->object_path;
+  return self->priv->object_path;
 }
 
 

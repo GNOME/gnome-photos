@@ -550,8 +550,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->mode_cntrlr);
 
-  G_OBJECT_CLASS (photos_application_parent_class)
-    ->dispose (object);
+  G_OBJECT_CLASS (photos_application_parent_class)->dispose (object);
 }
 
 
