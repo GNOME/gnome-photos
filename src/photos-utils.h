@@ -34,6 +34,8 @@
 
 G_BEGIN_DECLS
 
+#define PHOTOS_ERROR (photos_utils_error_quark ())
+
 GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
 
 GdkPixbuf       *photos_utils_create_pixbuf_from_node     (GeglNode *node);
@@ -48,6 +50,8 @@ GdkPixbuf       *photos_utils_embed_image_in_frame        (GdkPixbuf *source_ima
                                                            const gchar *frame_image_path,
                                                            GtkBorder *slice_width,
                                                            GtkBorder *border_width);
+
+GQuark           photos_utils_error_quark                 (void);
 
 gchar           *photos_utils_filename_strip_extension    (const gchar *filename_with_extension);
 

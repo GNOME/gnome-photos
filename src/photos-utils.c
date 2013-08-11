@@ -358,6 +358,13 @@ photos_utils_embed_image_in_frame (GdkPixbuf *source_image,
 }
 
 
+GQuark
+photos_utils_error_quark (void)
+{
+  return g_quark_from_static_string ("gnome-photos-error-quark");
+}
+
+
 static gchar *
 photos_utils_filename_get_extension_offset (const gchar *filename)
 {

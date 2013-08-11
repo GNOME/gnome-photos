@@ -37,6 +37,7 @@
 #include "photos-flickr-item.h"
 #include "photos-source.h"
 #include "photos-source-manager.h"
+#include "photos-utils.h"
 
 
 struct _PhotosFlickrItemPrivate
@@ -125,9 +126,8 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   identifier = photos_base_item_get_identifier (item);
   if (strlen (identifier) <= prefix_len || !g_str_has_prefix (identifier, flickr_prefix))
     {
-      /* FIXME: use proper #defines and enumerated types */
       g_set_error (error,
-                   g_quark_from_static_string ("gnome-photos-error"),
+                   PHOTOS_ERROR,
                    0,
                    "Invalid nao:identifier for Flickr item %s",
                    identifier);
@@ -139,9 +139,8 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   resource_urn = photos_base_item_get_resource_urn (item);
   if (strlen (resource_urn) <= prefix_len || !g_str_has_prefix (resource_urn, resource_prefix))
     {
-      /* FIXME: use proper #defines and enumerated types */
       g_set_error (error,
-                   g_quark_from_static_string ("gnome-photos-error"),
+                   PHOTOS_ERROR,
                    0,
                    "Invalid nie:dataSource for Flickr item %s",
                    resource_urn);
@@ -154,9 +153,8 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   source = grl_registry_lookup_source (registry, grilo_id);
   if (source == NULL)
     {
-      /* FIXME: use proper #defines and enumerated types */
       g_set_error (error,
-                   g_quark_from_static_string ("gnome-photos-error"),
+                   PHOTOS_ERROR,
                    0,
                    "Failed to find a GrlSource for %s",
                    grilo_id);
