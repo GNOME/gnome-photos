@@ -52,6 +52,7 @@ struct _PhotosBaseItemPrivate
   GMutex mutex_create_thumbnail;
   GMutex mutex_download;
   GMutex mutex;
+  GQuark equipment;
   PhotosCollectionIconWatcher *watcher;
   PhotosSelectionController *sel_cntrlr;
   TrackerSparqlCursor *cursor;
@@ -692,6 +693,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   PhotosBaseItemPrivate *priv = self->priv;
   GTimeVal timeval;
   const gchar *date_created;
+  const gchar *equipment;
   const gchar *mtime;
   const gchar *title;
   const gchar *uri;
@@ -731,6 +733,9 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   if (title == NULL)
     title = "";
   priv->name = g_strdup (title);
+
+  equipment = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_EQUIPMENT, NULL);
+  priv->equipment = g_quark_from_string (equipment);
 
   photos_base_item_refresh_icon (self);
 }
@@ -1043,6 +1048,13 @@ const gchar *
 photos_base_item_get_default_app_name (PhotosBaseItem *self)
 {
   return self->priv->default_app_name;
+}
+
+
+GQuark
+photos_base_item_get_equipment (PhotosBaseItem *self)
+{
+  return self->priv->equipment;
 }
 
 

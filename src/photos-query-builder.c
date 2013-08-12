@@ -198,7 +198,8 @@ photos_query_builder_query (gboolean global, gint flags)
                         "nie:dataSource(?urn) "
                         "( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite } ) "
                         "( EXISTS { ?urn nco:contributor ?contributor FILTER ( ?contributor != ?creator ) } ) "
-                        "tracker:coalesce(nfo:fileCreated (?urn), nie:contentCreated (?urn))",
+                        "tracker:coalesce(nfo:fileCreated (?urn), nie:contentCreated (?urn))"
+                        "nfo:equipment (?urn)",
                         where_sparql,
                         tail_sparql,
                         NULL);

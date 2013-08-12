@@ -104,6 +104,8 @@ gint64              photos_base_item_get_date_created   (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_default_app_name (PhotosBaseItem *self);
 
+GQuark              photos_base_item_get_equipment      (PhotosBaseItem *self);
+
 GdkPixbuf          *photos_base_item_get_icon           (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_id             (PhotosBaseItem *self);
