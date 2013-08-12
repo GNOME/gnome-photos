@@ -29,6 +29,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-camera-cache.h"
 #include "photos-flickr-item.h"
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
@@ -38,8 +39,12 @@
 
 struct _PhotosPropertiesDialogPrivate
 {
+  GCancellable *cancellable;
+  GtkWidget *camera_w;
+  GtkWidget *grid;
   GtkWidget *title_entry;
   PhotosBaseManager *item_mngr;
+  PhotosCameraCache *camera_cache;
   gchar *urn;
   guint title_entry_timeout;
 };
@@ -59,6 +64,42 @@ enum
 {
   TITLE_ENTRY_TIMEOUT = 200 /* ms */
 };
+
+
+static void
+photos_properties_dialog_get_camera (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosPropertiesDialog *self;
+  PhotosPropertiesDialogPrivate *priv;
+  GError *error;
+  gchar *camera;
+
+  error = NULL;
+  camera = photos_camera_cache_get_camera_finish (PHOTOS_CAMERA_CACHE (source_object), res, &error);
+  if (error != NULL)
+    {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to get camera: %s", error->message);
+      g_error_free (error);
+      return;
+    }
+
+  /* Now we know that self has not been destroyed. */
+  self = PHOTOS_PROPERTIES_DIALOG (user_data);
+  priv = self->priv;
+
+  if (camera != NULL)
+    {
+      GtkWidget *camera_data;
+
+      camera_data = gtk_label_new (camera);
+      gtk_widget_set_halign (camera_data, GTK_ALIGN_START);
+      gtk_grid_attach_next_to (GTK_GRID (priv->grid), camera_data, priv->camera_w, GTK_POS_RIGHT, 2, 1);
+      gtk_widget_show (camera_data);
+    }
+
+  g_free (camera);
+}
 
 
 static gboolean
@@ -113,6 +154,7 @@ photos_properties_dialog_constructed (GObject *object)
   GtkWidget *source;
   GtkWidget *source_data;
   GtkWidget *title;
+  GQuark equipment;
   PhotosBaseItem *item;
   const gchar *author;
   const gchar *name;
@@ -141,7 +183,7 @@ photos_properties_dialog_constructed (GObject *object)
       g_date_time_unref (date_created);
     }
 
-  grid = gtk_grid_new ();
+  priv->grid = grid = gtk_grid_new ();
   gtk_widget_set_halign (grid, GTK_ALIGN_CENTER);
   gtk_widget_set_margin_left (grid, 24);
   gtk_widget_set_margin_right (grid, 24);
@@ -207,6 +249,21 @@ photos_properties_dialog_constructed (GObject *object)
   context = gtk_widget_get_style_context (item_type);
   gtk_style_context_add_class (context, "dim-label");
   gtk_container_add (GTK_CONTAINER (grid), item_type);
+
+  equipment = photos_base_item_get_equipment (item);
+  photos_camera_cache_get_camera_async (priv->camera_cache,
+                                        equipment,
+                                        priv->cancellable,
+                                        photos_properties_dialog_get_camera,
+                                        self);
+  if (equipment != 0)
+    {
+      priv->camera_w = gtk_label_new (_("Camera"));
+      gtk_widget_set_halign (priv->camera_w, GTK_ALIGN_END);
+      context = gtk_widget_get_style_context (priv->camera_w);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (grid), priv->camera_w);
+    }
 
   name = photos_base_item_get_name (item);
 
@@ -310,7 +367,14 @@ photos_properties_dialog_dispose (GObject *object)
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (object);
   PhotosPropertiesDialogPrivate *priv = self->priv;
 
+  if (priv->cancellable != NULL)
+    {
+      g_cancellable_cancel (priv->cancellable);
+      g_clear_object (&priv->cancellable);
+    }
+
   g_clear_object (&priv->item_mngr);
+  g_clear_object (&priv->camera_cache);
 
   G_OBJECT_CLASS (photos_properties_dialog_parent_class)->dispose (object);
 }
@@ -357,7 +421,10 @@ photos_properties_dialog_init (PhotosPropertiesDialog *self)
   self->priv = photos_properties_dialog_get_instance_private (self);
   priv = self->priv;
 
+  priv->cancellable = g_cancellable_new ();
   priv->item_mngr = photos_item_manager_new ();
+  priv->camera_cache = photos_camera_cache_new ();
+
   gtk_dialog_add_button (GTK_DIALOG (self), _("Done"), GTK_RESPONSE_OK);
   gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 }

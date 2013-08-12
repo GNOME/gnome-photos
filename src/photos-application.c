@@ -34,6 +34,7 @@
 
 #include "eog-debug.h"
 #include "photos-application.h"
+#include "photos-camera-cache.h"
 #include "photos-dlna-renderers-dialog.h"
 #include "photos-gom-miner.h"
 #include "photos-item-manager.h"
@@ -62,6 +63,7 @@ struct _PhotosApplicationPrivate
   GtkWidget *main_window;
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
+  PhotosCameraCache *camera_cache;
   PhotosModeController *mode_cntrlr;
 };
 
@@ -421,6 +423,12 @@ photos_application_startup (GApplication *application)
 
   priv->item_mngr = photos_item_manager_new ();
   priv->src_mngr = photos_source_manager_new ();
+
+  /* A dummy reference to keep it alive during the lifetime of the
+   * application.
+   */
+  priv->camera_cache = photos_camera_cache_new ();
+
   priv->mode_cntrlr = photos_mode_controller_new ();
 
   action = g_simple_action_new ("about", NULL);
@@ -548,6 +556,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->flickr_miner);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
+  g_clear_object (&priv->camera_cache);
   g_clear_object (&priv->mode_cntrlr);
 
   G_OBJECT_CLASS (photos_application_parent_class)->dispose (object);
