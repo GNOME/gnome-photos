@@ -65,8 +65,12 @@ photos_camera_cache_cursor_next (GObject *source_object, GAsyncResult *res, gpoi
   manufacturer = tracker_sparql_cursor_get_string (cursor, 0, NULL);
   model = tracker_sparql_cursor_get_string (cursor, 1, NULL);
 
-  if (g_str_has_prefix (model, manufacturer))
+  if (manufacturer == NULL && model == NULL)
+    camera = NULL;
+  else if (manufacturer == NULL || g_str_has_prefix (model, manufacturer))
     camera = g_strdup (model);
+  else if (model == NULL)
+    camera = g_strdup (manufacturer);
   else
     camera = g_strconcat (manufacturer, " ", model, NULL);
 
