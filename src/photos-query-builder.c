@@ -276,6 +276,18 @@ photos_query_builder_delete_resource_query (const gchar *resource)
 
 
 PhotosQuery *
+photos_query_builder_equipment_query (GQuark equipment)
+{
+  const gchar *resource;
+  gchar *sparql;
+
+  resource = g_quark_to_string (equipment);
+  sparql = g_strdup_printf ("SELECT nfo:manufacturer (<%s>) nfo:model (<%s>) WHERE {}", resource, resource);
+  return photos_query_new (sparql);
+}
+
+
+PhotosQuery *
 photos_query_builder_fetch_collections_query (const gchar *resource)
 {
   gchar *sparql;

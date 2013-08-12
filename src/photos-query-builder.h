@@ -39,6 +39,8 @@ PhotosQuery  *photos_query_builder_count_query (gint flags);
 
 PhotosQuery  *photos_query_builder_delete_resource_query (const gchar *resource);
 
+PhotosQuery  *photos_query_builder_equipment_query (GQuark equipment);
+
 PhotosQuery  *photos_query_builder_fetch_collections_query (const gchar *resource);
 
 PhotosQuery  *photos_query_builder_global_query        (gint flags);
