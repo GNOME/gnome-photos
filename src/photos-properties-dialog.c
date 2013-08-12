@@ -453,6 +453,9 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_grid_attach_next_to (GTK_GRID (priv->grid), iso_speed_data, iso_speed_w, GTK_POS_RIGHT, 2, 1);
       g_free (iso_speed_str);
     }
+
+  g_free (date_created_str);
+  g_free (date_modified_str);
 }
 
 
