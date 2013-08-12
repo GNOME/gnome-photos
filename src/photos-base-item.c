@@ -71,6 +71,10 @@ struct _PhotosBaseItemPrivate
   gchar *resource_urn;
   gchar *type_description;
   gchar *uri;
+  gdouble exposure_time;
+  gdouble fnumber;
+  gdouble focal_length;
+  gdouble iso_speed;
   gint64 date_created;
   gint64 mtime;
 };
@@ -716,6 +720,11 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   equipment = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_EQUIPMENT, NULL);
   priv->equipment = g_quark_from_string (equipment);
 
+  priv->exposure_time = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_EXPOSURE_TIME);
+  priv->fnumber = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_FNUMBER);
+  priv->focal_length = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_FOCAL_LENGTH);
+  priv->iso_speed = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_ISO_SPEED);
+
   photos_base_item_refresh_icon (self);
 }
 
@@ -1020,6 +1029,27 @@ photos_base_item_get_equipment (PhotosBaseItem *self)
 }
 
 
+gdouble
+photos_base_item_get_exposure_time (PhotosBaseItem *self)
+{
+  return self->priv->exposure_time;
+}
+
+
+gdouble
+photos_base_item_get_fnumber (PhotosBaseItem *self)
+{
+  return self->priv->fnumber;
+}
+
+
+gdouble
+photos_base_item_get_focal_length (PhotosBaseItem *self)
+{
+  return self->priv->focal_length;
+}
+
+
 GdkPixbuf *
 photos_base_item_get_icon (PhotosBaseItem *self)
 {
@@ -1038,6 +1068,13 @@ const gchar *
 photos_base_item_get_identifier (PhotosBaseItem *self)
 {
   return self->priv->identifier;
+}
+
+
+gdouble
+photos_base_item_get_iso_speed (PhotosBaseItem *self)
+{
+  return self->priv->iso_speed;
 }
 
 

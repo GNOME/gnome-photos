@@ -106,11 +106,19 @@ const gchar        *photos_base_item_get_default_app_name (PhotosBaseItem *self)
 
 GQuark              photos_base_item_get_equipment      (PhotosBaseItem *self);
 
+gdouble             photos_base_item_get_exposure_time  (PhotosBaseItem *self);
+
+gdouble             photos_base_item_get_fnumber        (PhotosBaseItem *self);
+
+gdouble             photos_base_item_get_focal_length   (PhotosBaseItem *self);
+
 GdkPixbuf          *photos_base_item_get_icon           (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_id             (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_identifier     (PhotosBaseItem *self);
+
+gdouble             photos_base_item_get_iso_speed      (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_mime_type      (PhotosBaseItem *self);
 

@@ -148,7 +148,11 @@ photos_properties_dialog_constructed (GObject *object)
   GtkWidget *date_created_w = NULL;
   GtkWidget *date_modified_data;
   GtkWidget *date_modified_w;
+  GtkWidget *exposure_time_w = NULL;
+  GtkWidget *fnumber_w = NULL;
+  GtkWidget *focal_length_w = NULL;
   GtkWidget *grid;
+  GtkWidget *iso_speed_w = NULL;
   GtkWidget *item_type;
   GtkWidget *item_type_data;
   GtkWidget *source;
@@ -161,6 +165,10 @@ photos_properties_dialog_constructed (GObject *object)
   const gchar *type_description;
   gchar *date_created_str = NULL;
   gchar *date_modified_str;
+  gdouble exposure_time;
+  gdouble fnumber;
+  gdouble focal_length;
+  gdouble iso_speed;
   gint64 ctime;
   gint64 mtime;
 
@@ -265,6 +273,46 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_container_add (GTK_CONTAINER (grid), priv->camera_w);
     }
 
+  exposure_time = photos_base_item_get_exposure_time (item);
+  if (exposure_time > 0.0)
+    {
+      exposure_time_w = gtk_label_new (_("Exposure"));
+      gtk_widget_set_halign (exposure_time_w, GTK_ALIGN_END);
+      context = gtk_widget_get_style_context (exposure_time_w);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (grid), exposure_time_w);
+    }
+
+  fnumber = photos_base_item_get_fnumber (item);
+  if (fnumber > 0.0)
+    {
+      fnumber_w = gtk_label_new (_("Aperture"));
+      gtk_widget_set_halign (fnumber_w, GTK_ALIGN_END);
+      context = gtk_widget_get_style_context (fnumber_w);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (grid), fnumber_w);
+    }
+
+  focal_length = photos_base_item_get_focal_length (item);
+  if (focal_length > 0.0)
+    {
+      focal_length_w = gtk_label_new (_("Focal Length"));
+      gtk_widget_set_halign (focal_length_w, GTK_ALIGN_END);
+      context = gtk_widget_get_style_context (focal_length_w);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (grid), focal_length_w);
+    }
+
+  iso_speed = photos_base_item_get_iso_speed (item);
+  if (iso_speed > 0.0)
+    {
+      iso_speed_w = gtk_label_new (_("ISO Speed"));
+      gtk_widget_set_halign (iso_speed_w, GTK_ALIGN_END);
+      context = gtk_widget_get_style_context (iso_speed_w);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (grid), iso_speed_w);
+    }
+
   name = photos_base_item_get_name (item);
 
   if (PHOTOS_IS_LOCAL_ITEM (item))
@@ -358,6 +406,54 @@ photos_properties_dialog_constructed (GObject *object)
   item_type_data = gtk_label_new (type_description);
   gtk_widget_set_halign (item_type_data, GTK_ALIGN_START);
   gtk_grid_attach_next_to (GTK_GRID (grid), item_type_data, item_type, GTK_POS_RIGHT, 2, 1);
+
+  if (exposure_time_w != NULL)
+    {
+      GtkWidget *exposure_time_data;
+      gchar *exposure_time_str;
+
+      exposure_time_str = g_strdup_printf ("%.3lf sec", exposure_time);
+      exposure_time_data = gtk_label_new (exposure_time_str);
+      gtk_widget_set_halign (exposure_time_data, GTK_ALIGN_START);
+      gtk_grid_attach_next_to (GTK_GRID (grid), exposure_time_data, exposure_time_w, GTK_POS_RIGHT, 2, 1);
+      g_free (exposure_time_str);
+    }
+
+  if (fnumber_w != NULL)
+    {
+      GtkWidget *fnumber_data;
+      gchar *fnumber_str;
+
+      fnumber_str = g_strdup_printf ("f/%.1lf", fnumber);
+      fnumber_data = gtk_label_new (fnumber_str);
+      gtk_widget_set_halign (fnumber_data, GTK_ALIGN_START);
+      gtk_grid_attach_next_to (GTK_GRID (grid), fnumber_data, fnumber_w, GTK_POS_RIGHT, 2, 1);
+      g_free (fnumber_str);
+    }
+
+  if (focal_length_w != NULL)
+    {
+      GtkWidget *focal_length_data;
+      gchar *focal_length_str;
+
+      focal_length_str = g_strdup_printf ("%.0lf mm", focal_length);
+      focal_length_data = gtk_label_new (focal_length_str);
+      gtk_widget_set_halign (focal_length_data, GTK_ALIGN_START);
+      gtk_grid_attach_next_to (GTK_GRID (grid), focal_length_data, focal_length_w, GTK_POS_RIGHT, 2, 1);
+      g_free (focal_length_str);
+    }
+
+  if (iso_speed_w != NULL)
+    {
+      GtkWidget *iso_speed_data;
+      gchar *iso_speed_str;
+
+      iso_speed_str = g_strdup_printf ("%.0lf", iso_speed);
+      iso_speed_data = gtk_label_new (iso_speed_str);
+      gtk_widget_set_halign (iso_speed_data, GTK_ALIGN_START);
+      gtk_grid_attach_next_to (GTK_GRID (grid), iso_speed_data, iso_speed_w, GTK_POS_RIGHT, 2, 1);
+      g_free (iso_speed_str);
+    }
 }
 
 
