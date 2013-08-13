@@ -368,6 +368,7 @@ photos_properties_dialog_constructed (GObject *object)
         {
           GFile *file;
           GFile *source_link;
+          GtkWidget *label;
           const gchar *uri;
           gchar *source_path;
           gchar *source_uri;
@@ -380,6 +381,9 @@ photos_properties_dialog_constructed (GObject *object)
 
           source_data = gtk_link_button_new_with_label (source_uri, source_path);
           gtk_widget_set_halign (source_data, GTK_ALIGN_START);
+
+          label = gtk_bin_get_child (GTK_BIN (source_data));
+          gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
 
           g_object_unref (source_link);
           g_object_unref (file);
