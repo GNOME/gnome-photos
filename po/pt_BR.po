@@ -11,16 +11,16 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-09 21:00+0000\n"
-"PO-Revision-Date: 2013-08-08 08:25-0300\n"
-"Last-Translator: Avelino <adelino.avelino@academico.ifrn.edu.br>\n"
+"POT-Creation-Date: 2013-08-13 16:13+0000\n"
+"PO-Revision-Date: 2013-08-13 22:33-0300\n"
+"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:504
 #: ../src/photos-search-type-manager.c:93
@@ -144,6 +144,10 @@ msgstr "Sobre Fotos"
 msgid "Quit"
 msgstr "Sair"
 
+#: ../src/photos-base-item.c:774
+msgid "Album"
+msgstr "Álbum"
+
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos de renderização DLNA"
@@ -160,7 +164,7 @@ msgstr "Favoritos"
 msgid "No Photos Found"
 msgstr "Nenhuma foto encontrada"
 
-#: ../src/photos-flickr-item.c:277 ../src/photos-flickr-item.c:324
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
 msgid "Flickr"
 msgstr "Flickr"
 
@@ -246,7 +250,7 @@ msgstr "Exibir em…"
 msgid "Set as Background"
 msgstr "Definir como plano de fundo"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:386
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:566
 #: ../src/photos-selection-toolbar.c:469
 msgid "Properties"
 msgstr "Propriedades"
@@ -340,7 +344,7 @@ msgstr "Previsualização"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:162
+#: ../src/photos-properties-dialog.c:211
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Título"
@@ -348,32 +352,52 @@ msgstr "Título"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:174
+#: ../src/photos-properties-dialog.c:223
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-properties-dialog.c:181
+#: ../src/photos-properties-dialog.c:230
 msgid "Source"
 msgstr "Fonte"
 
-#: ../src/photos-properties-dialog.c:187
+#: ../src/photos-properties-dialog.c:236
 msgid "Date Modified"
 msgstr "Data de modificação"
 
-#: ../src/photos-properties-dialog.c:195
+#: ../src/photos-properties-dialog.c:244
 msgid "Date Created"
 msgstr "Data de criação"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:205
+#: ../src/photos-properties-dialog.c:254
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/photos-properties-dialog.c:350
+#: ../src/photos-properties-dialog.c:268
+msgid "Camera"
+msgstr "Câmera"
+
+#: ../src/photos-properties-dialog.c:278
+msgid "Exposure"
+msgstr "Exposição"
+
+#: ../src/photos-properties-dialog.c:288
+msgid "Aperture"
+msgstr "Abertura"
+
+#: ../src/photos-properties-dialog.c:298
+msgid "Focal Length"
+msgstr "Distância focal"
+
+#: ../src/photos-properties-dialog.c:308
+msgid "ISO Speed"
+msgstr "Velocidade da ISO"
+
+#: ../src/photos-properties-dialog.c:530
 msgid "Done"
 msgstr "Feito"
 
