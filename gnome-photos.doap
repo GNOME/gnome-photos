@@ -5,13 +5,18 @@
          xmlns="http://usefulinc.com/ns/doap#">
 
   <name xml:lang="en">Photos</name>
+  <shortname xml:lang="en">gnome-photos</shortname>
+
   <shortdesc xml:lang="en">Access, organize and share your photos on GNOME</shortdesc>
+  <description xml:lang="en">Access, organize and share your photos on GNOME</description>
 
   <homepage rdf:resource="http://projects.gnome.org/photos" />
+  <license rdf:resource="http://usefulinc.com/doap/licenses/gpl" />
   <download-page rdf:resource="http://download.gnome.org/sources/gnome-photos" />
   <bug-database rdf:resource="https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" />
+  <programming-language>C</programming-language>
 
   <maintainer>
     <foaf:Person>
@@ -20,4 +25,5 @@
       <gnome:userid>debarshir</gnome:userid>
     </foaf:Person>
   </maintainer>
+
 </Project>
