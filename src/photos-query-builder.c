@@ -104,7 +104,7 @@ photos_query_builder_filter (gint flags)
 static gchar *
 photos_query_builder_optional (void)
 {
-  return g_strdup ("OPTIONAL { ?urn nco:creator ?creater . } "
+  return g_strdup ("OPTIONAL { ?urn nco:creator ?creator . } "
                    "OPTIONAL { ?urn nco:publisher ?publisher . }");
 }
 
