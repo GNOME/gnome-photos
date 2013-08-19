@@ -35,6 +35,8 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_ERROR (photos_utils_error_quark ())
+#define PHOTOS_FLASH_OFF (photos_utils_flash_off_quark ())
+#define PHOTOS_FLASH_ON (photos_utils_flash_on_quark ())
 
 GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
 
@@ -54,6 +56,10 @@ GdkPixbuf       *photos_utils_embed_image_in_frame        (GdkPixbuf *source_ima
 GQuark           photos_utils_error_quark                 (void);
 
 gchar           *photos_utils_filename_strip_extension    (const gchar *filename_with_extension);
+
+GQuark           photos_utils_flash_off_quark             (void);
+
+GQuark           photos_utils_flash_on_quark              (void);
 
 gint             photos_utils_get_icon_size               (void);
 

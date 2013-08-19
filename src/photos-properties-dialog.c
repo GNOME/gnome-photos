@@ -149,15 +149,19 @@ photos_properties_dialog_constructed (GObject *object)
   GtkWidget *date_modified_data;
   GtkWidget *date_modified_w;
   GtkWidget *exposure_time_w = NULL;
+  GtkWidget *flash_w = NULL;
   GtkWidget *fnumber_w = NULL;
   GtkWidget *focal_length_w = NULL;
+  GtkWidget *height_w = NULL;
   GtkWidget *iso_speed_w = NULL;
   GtkWidget *item_type;
   GtkWidget *item_type_data;
   GtkWidget *source;
   GtkWidget *source_data;
   GtkWidget *title;
+  GtkWidget *width_w;
   GQuark equipment;
+  GQuark flash;
   PhotosBaseItem *item;
   const gchar *author;
   const gchar *name;
@@ -169,7 +173,9 @@ photos_properties_dialog_constructed (GObject *object)
   gdouble focal_length;
   gdouble iso_speed;
   gint64 ctime;
+  gint64 height;
   gint64 mtime;
+  gint64 width;
 
   G_OBJECT_CLASS (photos_properties_dialog_parent_class)->constructed (object);
 
@@ -257,6 +263,26 @@ photos_properties_dialog_constructed (GObject *object)
   gtk_style_context_add_class (context, "dim-label");
   gtk_container_add (GTK_CONTAINER (priv->grid), item_type);
 
+  width = photos_base_item_get_width (item);
+  if (width > 0)
+    {
+      width_w = gtk_label_new (_("Width"));
+      gtk_widget_set_halign (width_w, GTK_ALIGN_END);
+      context = gtk_widget_get_style_context (width_w);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (priv->grid), width_w);
+    }
+
+  height = photos_base_item_get_height (item);
+  if (height > 0)
+    {
+      height_w = gtk_label_new (_("Height"));
+      gtk_widget_set_halign (height_w, GTK_ALIGN_END);
+      context = gtk_widget_get_style_context (height_w);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (priv->grid), height_w);
+    }
+
   equipment = photos_base_item_get_equipment (item);
   photos_camera_cache_get_camera_async (priv->camera_cache,
                                         equipment,
@@ -310,6 +336,16 @@ photos_properties_dialog_constructed (GObject *object)
       context = gtk_widget_get_style_context (iso_speed_w);
       gtk_style_context_add_class (context, "dim-label");
       gtk_container_add (GTK_CONTAINER (priv->grid), iso_speed_w);
+    }
+
+  flash = photos_base_item_get_flash (item);
+  if (flash != 0)
+    {
+      flash_w = gtk_label_new (_("Flash"));
+      gtk_widget_set_halign (flash_w, GTK_ALIGN_END);
+      context = gtk_widget_get_style_context (flash_w);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (priv->grid), flash_w);
     }
 
   name = photos_base_item_get_name (item);
@@ -410,6 +446,30 @@ photos_properties_dialog_constructed (GObject *object)
   gtk_widget_set_halign (item_type_data, GTK_ALIGN_START);
   gtk_grid_attach_next_to (GTK_GRID (priv->grid), item_type_data, item_type, GTK_POS_RIGHT, 2, 1);
 
+  if (width_w != NULL)
+    {
+      GtkWidget *width_data;
+      gchar *width_str;
+
+      width_str = g_strdup_printf ("%"G_GINT64_FORMAT" pixels", width);
+      width_data = gtk_label_new (width_str);
+      gtk_widget_set_halign (width_data, GTK_ALIGN_START);
+      gtk_grid_attach_next_to (GTK_GRID (priv->grid), width_data, width_w, GTK_POS_RIGHT, 2, 1);
+      g_free (width_str);
+    }
+
+  if (height_w != NULL)
+    {
+      GtkWidget *height_data;
+      gchar *height_str;
+
+      height_str = g_strdup_printf ("%"G_GINT64_FORMAT" pixels", height);
+      height_data = gtk_label_new (height_str);
+      gtk_widget_set_halign (height_data, GTK_ALIGN_START);
+      gtk_grid_attach_next_to (GTK_GRID (priv->grid), height_data, height_w, GTK_POS_RIGHT, 2, 1);
+      g_free (height_str);
+    }
+
   if (exposure_time_w != NULL)
     {
       GtkWidget *exposure_time_data;
@@ -456,6 +516,24 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (iso_speed_data, GTK_ALIGN_START);
       gtk_grid_attach_next_to (GTK_GRID (priv->grid), iso_speed_data, iso_speed_w, GTK_POS_RIGHT, 2, 1);
       g_free (iso_speed_str);
+    }
+
+  if (flash_w != NULL)
+    {
+      GtkWidget *flash_data;
+      gchar *flash_str;
+
+      if (flash == PHOTOS_FLASH_OFF)
+        flash_str = g_strdup (_("Off, Did not fire"));
+      else if (flash == PHOTOS_FLASH_ON)
+        flash_str = g_strdup (_("On, Fired"));
+      else
+        g_assert_not_reached ();
+
+      flash_data = gtk_label_new (flash_str);
+      gtk_widget_set_halign (flash_data, GTK_ALIGN_START);
+      gtk_grid_attach_next_to (GTK_GRID (priv->grid), flash_data, flash_w, GTK_POS_RIGHT, 2, 1);
+      g_free (flash_str);
     }
 
   g_free (date_created_str);

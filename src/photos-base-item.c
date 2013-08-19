@@ -53,6 +53,7 @@ struct _PhotosBaseItemPrivate
   GMutex mutex_download;
   GMutex mutex;
   GQuark equipment;
+  GQuark flash;
   PhotosCollectionIconWatcher *watcher;
   PhotosSelectionController *sel_cntrlr;
   TrackerSparqlCursor *cursor;
@@ -76,7 +77,9 @@ struct _PhotosBaseItemPrivate
   gdouble focal_length;
   gdouble iso_speed;
   gint64 date_created;
+  gint64 height;
   gint64 mtime;
+  gint64 width;
 };
 
 enum
@@ -677,6 +680,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   GTimeVal timeval;
   const gchar *date_created;
   const gchar *equipment;
+  const gchar *flash;
   const gchar *mtime;
   const gchar *title;
   const gchar *uri;
@@ -717,6 +721,9 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
     title = "";
   priv->name = g_strdup (title);
 
+  priv->width = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_WIDTH);
+  priv->height = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_HEIGHT);
+
   equipment = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_EQUIPMENT, NULL);
   priv->equipment = g_quark_from_string (equipment);
 
@@ -724,6 +731,9 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   priv->fnumber = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_FNUMBER);
   priv->focal_length = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_FOCAL_LENGTH);
   priv->iso_speed = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_ISO_SPEED);
+
+  flash = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_FLASH, NULL);
+  priv->flash = g_quark_from_string (flash);
 
   photos_base_item_refresh_icon (self);
 }
@@ -1036,6 +1046,13 @@ photos_base_item_get_exposure_time (PhotosBaseItem *self)
 }
 
 
+GQuark
+photos_base_item_get_flash (PhotosBaseItem *self)
+{
+  return self->priv->flash;
+}
+
+
 gdouble
 photos_base_item_get_fnumber (PhotosBaseItem *self)
 {
@@ -1047,6 +1064,13 @@ gdouble
 photos_base_item_get_focal_length (PhotosBaseItem *self)
 {
   return self->priv->focal_length;
+}
+
+
+gint64
+photos_base_item_get_height (PhotosBaseItem *self)
+{
+  return self->priv->height;
 }
 
 
@@ -1146,6 +1170,13 @@ photos_base_item_get_where (PhotosBaseItem *self)
     ret_val = g_strdup ("");
 
   return ret_val;
+}
+
+
+gint64
+photos_base_item_get_width (PhotosBaseItem *self)
+{
+  return self->priv->width;
 }
 
 

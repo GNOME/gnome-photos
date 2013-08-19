@@ -411,6 +411,20 @@ photos_utils_filename_strip_extension (const gchar *filename_with_extension)
 }
 
 
+GQuark
+photos_utils_flash_off_quark (void)
+{
+  return g_quark_from_static_string ("http://www.tracker-project.org/temp/nmm#flash-off");
+}
+
+
+GQuark
+photos_utils_flash_on_quark (void)
+{
+  return g_quark_from_static_string ("http://www.tracker-project.org/temp/nmm#flash-on");
+}
+
+
 gint
 photos_utils_get_icon_size (void)
 {

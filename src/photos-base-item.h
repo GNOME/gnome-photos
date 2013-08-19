@@ -108,9 +108,13 @@ GQuark              photos_base_item_get_equipment      (PhotosBaseItem *self);
 
 gdouble             photos_base_item_get_exposure_time  (PhotosBaseItem *self);
 
+GQuark              photos_base_item_get_flash          (PhotosBaseItem *self);
+
 gdouble             photos_base_item_get_fnumber        (PhotosBaseItem *self);
 
 gdouble             photos_base_item_get_focal_length   (PhotosBaseItem *self);
+
+gint64              photos_base_item_get_height         (PhotosBaseItem *self);
 
 GdkPixbuf          *photos_base_item_get_icon           (PhotosBaseItem *self);
 
@@ -137,6 +141,8 @@ const gchar        *photos_base_item_get_type_description (PhotosBaseItem *self)
 const gchar        *photos_base_item_get_uri            (PhotosBaseItem *self);
 
 gchar              *photos_base_item_get_where          (PhotosBaseItem *self);
+
+gint64              photos_base_item_get_width          (PhotosBaseItem *self);
 
 gboolean            photos_base_item_is_collection      (PhotosBaseItem *self);
 
