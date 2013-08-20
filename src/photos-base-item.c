@@ -49,7 +49,6 @@ struct _PhotosBaseItemPrivate
   GeglNode *graph;
   GeglNode *node;
   GeglRectangle bbox;
-  GMutex mutex_create_thumbnail;
   GMutex mutex_download;
   GMutex mutex;
   GQuark equipment;
@@ -100,6 +99,9 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT);
+
+
+G_LOCK_DEFINE (create_thumbnail);
 
 
 static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor);
@@ -217,11 +219,10 @@ photos_base_item_create_thumbnail_in_thread_func (GSimpleAsyncResult *simple,
                                                   GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
-  PhotosBaseItemPrivate *priv = self->priv;
   GError *error;
   gboolean op_res;
 
-  g_mutex_lock (&priv->mutex_create_thumbnail);
+  G_LOCK (create_thumbnail);
 
   error = NULL;
   op_res = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_thumbnail (self, cancellable, &error);
@@ -230,7 +231,7 @@ photos_base_item_create_thumbnail_in_thread_func (GSimpleAsyncResult *simple,
 
   g_simple_async_result_set_op_res_gboolean (simple, op_res);
 
-  g_mutex_unlock (&priv->mutex_create_thumbnail);
+  G_UNLOCK (create_thumbnail);
 }
 
 
@@ -836,7 +837,6 @@ photos_base_item_finalize (GObject *object)
   g_free (priv->type_description);
   g_free (priv->uri);
 
-  g_mutex_clear (&priv->mutex_create_thumbnail);
   g_mutex_clear (&priv->mutex_download);
   g_mutex_clear (&priv->mutex);
 
@@ -893,7 +893,6 @@ photos_base_item_init (PhotosBaseItem *self)
   self->priv = photos_base_item_get_instance_private (self);
   priv = self->priv;
 
-  g_mutex_init (&priv->mutex_create_thumbnail);
   g_mutex_init (&priv->mutex_download);
   g_mutex_init (&priv->mutex);
 
