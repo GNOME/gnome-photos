@@ -308,7 +308,6 @@ photos_main_window_new (GtkApplication *application)
                        "width_request", WINDOW_MIN_WIDTH,
                        "height_request", WINDOW_MIN_HEIGHT,
                        "application", application,
-                       "hide-titlebar-when-maximized", TRUE,
                        "title", _(PACKAGE_NAME),
                        "window-position", GTK_WIN_POS_CENTER,
                        NULL);
