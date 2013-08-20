@@ -159,7 +159,7 @@ photos_properties_dialog_constructed (GObject *object)
   GtkWidget *source;
   GtkWidget *source_data;
   GtkWidget *title;
-  GtkWidget *width_w;
+  GtkWidget *width_w = NULL;
   GQuark equipment;
   GQuark flash;
   PhotosBaseItem *item;
