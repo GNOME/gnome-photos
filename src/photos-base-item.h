@@ -68,6 +68,7 @@ struct _PhotosBaseItemClass
 {
   GObjectClass parent_class;
 
+  /* virtual methods */
   gboolean (*create_thumbnail) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   gchar *(*download) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   const gchar *(*get_source_name) (PhotosBaseItem *self);

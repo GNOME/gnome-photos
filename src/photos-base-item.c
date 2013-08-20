@@ -302,6 +302,21 @@ photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 
 
 
 static void
+photos_base_item_default_update_type_description (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  gchar *description = NULL;
+
+  if (priv->collection)
+    description = g_strdup (_("Album"));
+  else if (priv->mime_type != NULL)
+    description = g_content_type_get_description (priv->mime_type);
+
+  priv->type_description = description;
+}
+
+
+static void
 photos_base_item_download_in_thread_func (GTask *task,
                                           gpointer source_object,
                                           gpointer task_data,
@@ -775,21 +790,6 @@ photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer
 
 
 static void
-photos_base_item_update_type_description (PhotosBaseItem *self)
-{
-  PhotosBaseItemPrivate *priv = self->priv;
-  gchar *description = NULL;
-
-  if (priv->collection)
-    description = g_strdup (_("Album"));
-  else if (priv->mime_type != NULL)
-    description = g_content_type_get_description (priv->mime_type);
-
-  priv->type_description = description;
-}
-
-
-static void
 photos_base_item_constructed (GObject *object)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
@@ -913,7 +913,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
   object_class->set_property = photos_base_item_set_property;
   class->open = photos_base_item_default_open;
   class->set_favorite = photos_base_item_default_set_favorite;
-  class->update_type_description = photos_base_item_update_type_description;
+  class->update_type_description = photos_base_item_default_update_type_description;
 
   g_object_class_install_property (object_class,
                                    PROP_CURSOR,
