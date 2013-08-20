@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-12 15:10+0000\n"
-"PO-Revision-Date: 2013-08-14 15:48+0200\n"
+"POT-Creation-Date: 2013-08-19 14:47+0000\n"
+"PO-Revision-Date: 2013-08-20 13:44+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -141,7 +141,7 @@ msgstr "O Fotkách"
 msgid "Quit"
 msgstr "Ukončit"
 
-#: ../src/photos-base-item.c:774
+#: ../src/photos-base-item.c:784
 msgid "Album"
 msgstr "Album"
 
@@ -215,12 +215,12 @@ msgstr "Otevřít pomocí %s"
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../src/photos-main-window.c:326
+#: ../src/photos-main-window.c:330
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Zobrazovat, třídit a sdílet své fotografie v GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:336
+#: ../src/photos-main-window.c:340
 msgid "translator-credits"
 msgstr "Marek Černocký, <marek@manet.cz>"
 
@@ -248,7 +248,7 @@ msgstr "Zobrazit na…"
 msgid "Set as Background"
 msgstr "Nastavit jako pozadí"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:562
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
 #: ../src/photos-selection-toolbar.c:469
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -342,7 +342,7 @@ msgstr "Náhled"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:211
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Název"
@@ -350,52 +350,72 @@ msgstr "Název"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:223
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-properties-dialog.c:230
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Zdroj"
 
-#: ../src/photos-properties-dialog.c:236
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Datum změny"
 
-#: ../src/photos-properties-dialog.c:244
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Datum vytvoření"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:254
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/photos-properties-dialog.c:268
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "Šířka"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "Výška"
+
+#: ../src/photos-properties-dialog.c:294
 msgid "Camera"
 msgstr "Fotoaparát"
 
-#: ../src/photos-properties-dialog.c:278
+#: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
 msgstr "Expozice"
 
-#: ../src/photos-properties-dialog.c:288
+#: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
 msgstr "Clona"
 
-#: ../src/photos-properties-dialog.c:298
+#: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
 msgstr "Ohnisková vzdálenost"
 
-#: ../src/photos-properties-dialog.c:308
+#: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
 msgstr "Citlivost ISO"
 
-#: ../src/photos-properties-dialog.c:526
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "Blesk"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, Did not fire"
+msgstr "Vypnut, nebyl spuštěn"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, Fired"
+msgstr "Zapnut, byl spuštěn"
+
+#: ../src/photos-properties-dialog.c:608
 msgid "Done"
 msgstr "Hotovo"
 
