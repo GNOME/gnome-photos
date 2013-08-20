@@ -70,6 +70,7 @@ photos_error_box_constructed (GObject *object)
 
   priv->secondary_label = gtk_label_new (NULL);
   gtk_label_set_use_markup (GTK_LABEL (priv->secondary_label), TRUE);
+  gtk_label_set_line_wrap (GTK_LABEL (priv->secondary_label), TRUE);
   gtk_widget_set_halign (priv->secondary_label, GTK_ALIGN_CENTER);
   gtk_widget_set_valign (priv->secondary_label, GTK_ALIGN_CENTER);
   gtk_container_add (GTK_CONTAINER (self), priv->secondary_label);
