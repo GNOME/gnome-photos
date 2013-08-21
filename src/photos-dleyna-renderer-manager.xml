@@ -29,17 +29,17 @@
     <method name="Release">
     </method>
     <method name="GetRenderers">
-      <arg type="as" name="Renderers" direction="out">
+      <arg type="ao" name="Renderers" direction="out">
       </arg>
     </method>
     <method name="Rescan">
     </method>
     <signal name="FoundRenderer">
-      <arg type="s" name="Path">
+      <arg type="o" name="Path">
       </arg>
     </signal>
     <signal name="LostRenderer">
-      <arg type="s" name="Path">
+      <arg type="o" name="Path">
       </arg>
     </signal>
   </interface>
