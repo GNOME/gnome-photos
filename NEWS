@@ -1,6 +1,30 @@
 Overview of changes in 3.9.90
 =============================
 
+* Get rid of the WM's titlebar
+
+* Selection pattern design updates (699914)
+
+* Bugs fixed:
+ 691316 main-window: Set minimum size
+ 696794 Hard to get to previous or next photo
+ 705433 dlna-renderer: Wrap common error handling code in a macro
+ 705435 remote-display-manager: Avoid unref'ing NULL in case of errors
+ 705436 dlna-renderer: Do not expose the dLeyna DBus proxies
+ 705439 dlna-renderer: Avoid async loading of PushHost and Player proxies
+ 705551 Switch everything to G_ADD_PRIVATE()!
+ 705607 Navigation buttons fail to reappear on mouse motion and when
+        previewing the same photo
+
+* Updated translations:
+ Simplified Chinese
+ Czech
+ Galician
+ Portuguese (Brazilian)
+ Slovenian
+ Spanish
+ Ukrainian
+
 
 Overview of changes in 3.9.5.1
 ==============================
