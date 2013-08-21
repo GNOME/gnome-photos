@@ -60,15 +60,15 @@ G_DEFINE_TYPE_WITH_CODE (PhotosDlnaRenderer, photos_dlna_renderer, G_TYPE_OBJECT
                          G_IMPLEMENT_INTERFACE (G_TYPE_ASYNC_INITABLE, photos_dlna_renderer_async_initable_iface_init));
 
 #define RETURN_ON_ERROR(task, error, msg) \
-  do { \
+  G_STMT_START { \
     if (error != NULL) \
       { \
-        g_debug ("%s: %s: %s", __func__, msg, error->message); \
+        g_debug ("%s: %s: %s", G_STRFUNC, msg, error->message); \
         g_task_return_error (task, error); \
         g_object_unref (task); \
         return; \
       } \
-  } while (0)
+  } G_STMT_END
 
 static void
 photos_dlna_renderer_dispose (GObject *object)
@@ -418,7 +418,7 @@ photos_dlna_renderer_share_host_file_cb (GObject      *source_object,
   g_object_notify (G_OBJECT (self), "shared-count");
 
   /* 2) Mpris.Player.OpenUri(hosted_url) */
-  g_debug ("%s %s", __func__, hosted_url);
+  g_debug ("%s %s", G_STRFUNC, hosted_url);
   mpris_player_call_open_uri (priv->player, hosted_url,
                               g_task_get_cancellable (task),
                               photos_dlna_renderer_share_open_uri_cb,

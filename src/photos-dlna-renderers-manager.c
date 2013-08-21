@@ -80,7 +80,7 @@ photos_dlna_renderers_manager_renderer_new_cb (GObject      *source_object,
     }
 
   object_path = photos_dlna_renderer_get_object_path (renderer);
-  g_debug ("%s '%s' %s %s", __func__,
+  g_debug ("%s '%s' %s %s", G_STRFUNC,
            photos_dlna_renderer_get_friendly_name (renderer),
            photos_dlna_renderer_get_udn (renderer),
            object_path);
@@ -114,7 +114,7 @@ photos_dlna_renderers_manager_renderer_lost_cb (PhotosDlnaRenderersManager *self
   g_return_if_fail (renderer != NULL);
 
   g_hash_table_steal (priv->renderers, object_path);
-  g_debug ("%s '%s' %s %s", __func__,
+  g_debug ("%s '%s' %s %s", G_STRFUNC,
            photos_dlna_renderer_get_friendly_name (renderer),
            photos_dlna_renderer_get_udn (renderer),
            object_path);
@@ -163,7 +163,7 @@ photos_dlna_renderers_manager_proxy_new_cb (GObject      *source_object,
       return;
     }
 
-  g_debug ("%s DLNA renderers manager initialized", __func__);
+  g_debug ("%s DLNA renderers manager initialized", G_STRFUNC);
 
   g_signal_connect_swapped (priv->proxy, "found-renderer",
                             G_CALLBACK (photos_dlna_renderers_manager_renderer_found_cb), self);
