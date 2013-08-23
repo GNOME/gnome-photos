@@ -20,12 +20,12 @@
 
 #include "config.h"
 
-#include "photos-dlna-renderers-manager.h"
-
 #include <gio/gio.h>
 
 #include "photos-dleyna-renderer-manager.h"
+#include "photos-dlna-renderers-manager.h"
 #include "photos-dlna-renderer.h"
+
 
 struct _PhotosDlnaRenderersManagerPrivate
 {
@@ -43,9 +43,12 @@ enum
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-static GObject *photos_dlna_renderers_manager_singleton = NULL;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosDlnaRenderersManager, photos_dlna_renderers_manager, G_TYPE_OBJECT);
+
+
+static GObject *photos_dlna_renderers_manager_singleton = NULL;
+
 
 static void
 photos_dlna_renderers_manager_dispose (GObject *object)
@@ -59,6 +62,7 @@ photos_dlna_renderers_manager_dispose (GObject *object)
 
   G_OBJECT_CLASS (photos_dlna_renderers_manager_parent_class)->dispose (object);
 }
+
 
 static void
 photos_dlna_renderers_manager_renderer_new_cb (GObject      *source_object,
@@ -88,6 +92,7 @@ photos_dlna_renderers_manager_renderer_new_cb (GObject      *source_object,
   g_signal_emit (self, signals[RENDERER_FOUND], 0, renderer);
 }
 
+
 static void
 photos_dlna_renderers_manager_renderer_found_cb (PhotosDlnaRenderersManager *self,
                                                  const gchar                *object_path,
@@ -101,6 +106,7 @@ photos_dlna_renderers_manager_renderer_found_cb (PhotosDlnaRenderersManager *sel
                                     photos_dlna_renderers_manager_renderer_new_cb,
                                     self);
 }
+
 
 static void
 photos_dlna_renderers_manager_renderer_lost_cb (PhotosDlnaRenderersManager *self,
@@ -121,6 +127,7 @@ photos_dlna_renderers_manager_renderer_lost_cb (PhotosDlnaRenderersManager *self
   g_signal_emit (self, signals[RENDERER_LOST], 0, renderer);
   g_object_unref (renderer);
 }
+
 
 static void
 photos_dlna_renderers_manager_proxy_get_renderers_cb (GObject      *source_object,
@@ -145,6 +152,7 @@ photos_dlna_renderers_manager_proxy_get_renderers_cb (GObject      *source_objec
 
   g_strfreev (object_paths);
 }
+
 
 static void
 photos_dlna_renderers_manager_proxy_new_cb (GObject      *source_object,
@@ -174,22 +182,26 @@ photos_dlna_renderers_manager_proxy_new_cb (GObject      *source_object,
                                      photos_dlna_renderers_manager_proxy_get_renderers_cb, self);
 }
 
+
 static GObject *
 photos_dlna_renderers_manager_constructor (GType                  type,
                                            guint                  n_construct_params,
                                            GObjectConstructParam *construct_params)
 {
-  if (photos_dlna_renderers_manager_singleton != NULL)
-    return g_object_ref (photos_dlna_renderers_manager_singleton);
+  if (photos_dlna_renderers_manager_singleton == NULL)
+    {
+      photos_dlna_renderers_manager_singleton
+        = G_OBJECT_CLASS (photos_dlna_renderers_manager_parent_class)->constructor (type,
+                                                                                    n_construct_params,
+                                                                                    construct_params);
+      g_object_add_weak_pointer (photos_dlna_renderers_manager_singleton,
+                                 (gpointer) &photos_dlna_renderers_manager_singleton);
+      return photos_dlna_renderers_manager_singleton;
+    }
 
-  photos_dlna_renderers_manager_singleton =
-      G_OBJECT_CLASS (photos_dlna_renderers_manager_parent_class)->constructor
-          (type, n_construct_params, construct_params);
-
-  g_object_add_weak_pointer (photos_dlna_renderers_manager_singleton, (gpointer) &photos_dlna_renderers_manager_singleton);
-
-  return photos_dlna_renderers_manager_singleton;
+  return g_object_ref (photos_dlna_renderers_manager_singleton);
 }
+
 
 static void
 photos_dlna_renderers_manager_init (PhotosDlnaRenderersManager *self)
@@ -207,6 +219,7 @@ photos_dlna_renderers_manager_init (PhotosDlnaRenderersManager *self)
                                     self);
   priv->renderers = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
 }
+
 
 static void
 photos_dlna_renderers_manager_class_init (PhotosDlnaRenderersManagerClass *class)
@@ -227,11 +240,13 @@ photos_dlna_renderers_manager_class_init (PhotosDlnaRenderersManagerClass *class
                                           G_TYPE_NONE, 1, PHOTOS_TYPE_DLNA_RENDERER);
 }
 
+
 PhotosDlnaRenderersManager *
 photos_dlna_renderers_manager_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_DLNA_RENDERERS_MANAGER, NULL);
 }
+
 
 GList *
 photos_dlna_renderers_manager_dup_renderers (PhotosDlnaRenderersManager *self)
@@ -244,6 +259,7 @@ photos_dlna_renderers_manager_dup_renderers (PhotosDlnaRenderersManager *self)
 
   return renderers;
 }
+
 
 gboolean
 photos_dlna_renderers_manager_is_available (void)
