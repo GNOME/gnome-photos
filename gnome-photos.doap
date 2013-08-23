@@ -10,13 +10,20 @@
   <shortdesc xml:lang="en">Access, organize and share your photos on GNOME</shortdesc>
   <description xml:lang="en">Access, organize and share your photos on GNOME</description>
 
-  <homepage rdf:resource="http://projects.gnome.org/photos" />
+  <homepage rdf:resource="https://wiki.gnome.org/Apps/Photos" />
   <license rdf:resource="http://usefulinc.com/doap/licenses/gpl" />
   <download-page rdf:resource="http://download.gnome.org/sources/gnome-photos" />
   <bug-database rdf:resource="https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" />
   <programming-language>C</programming-language>
+
+  <repository>
+    <GitRepository>
+      <location rdf:resource="git://git.gnome.org/gnome-photos" />
+      <browse rdf:resource="https://git.gnome.org/browse/gnome-photos/" />
+    </GitRepository>
+  </repository>
 
   <maintainer>
     <foaf:Person>
