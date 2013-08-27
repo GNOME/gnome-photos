@@ -88,7 +88,7 @@ photos_main_window_configure_id_timeout (gpointer user_data)
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (user_data);
 
   photos_main_window_save_geometry (self);
-  return FALSE;
+  return G_SOURCE_REMOVE;
 }
 
 
@@ -128,7 +128,7 @@ photos_main_window_delete_event (GtkWidget *widget, GdkEventAny *event)
     }
 
   photos_main_window_save_geometry (self);
-  return FALSE;
+  return GDK_EVENT_PROPAGATE;
 }
 
 
@@ -147,7 +147,7 @@ photos_main_window_fullscreen_changed (PhotosModeController *controller, gboolea
 static gboolean
 photos_main_window_handle_key_overview (PhotosMainWindow *self, GdkEventKey *event)
 {
-  return FALSE;
+  return GDK_EVENT_PROPAGATE;
 }
 
 
@@ -169,10 +169,10 @@ photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *even
       || event->keyval == GDK_KEY_Back)
     {
       photos_base_manager_set_active_object (priv->item_mngr, NULL);
-      return TRUE;
+      return GDK_EVENT_STOP;
     }
 
-  return FALSE;
+  return GDK_EVENT_PROPAGATE;
 }
 
 
