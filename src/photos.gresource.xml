@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/gnome/photos">
-    <file alias="app-menu.ui" preprocess="xml-stripblanks">photos-app-menu.ui</file>
+    <file alias="app-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-app-menu.ui</file>
     <file alias="dlna-renderers-dialog.ui" preprocess="xml-stripblanks" compressed="true">photos-dlna-renderers-dialog.ui</file>
-    <file alias="preview-menu.ui" preprocess="xml-stripblanks">photos-preview-menu.ui</file>
-    <file alias="selection-menu.ui" preprocess="xml-stripblanks">photos-selection-menu.ui</file>
+    <file alias="preview-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-preview-menu.ui</file>
+    <file alias="selection-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-selection-menu.ui</file>
   </gresource>
 </gresources>
