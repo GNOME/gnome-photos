@@ -403,6 +403,7 @@ photos_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean
     }
 }
 
+
 static void
 photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
                                   PhotosWindowMode mode,

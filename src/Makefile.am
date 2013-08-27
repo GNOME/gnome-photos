@@ -214,7 +214,7 @@ EXTRA_DIST = \
 	photos-dleyna-renderer-manager.xml \
 	photos-dleyna-renderer-push-host.xml \
 	photos-mpris-player.xml \
-	$(null)
+	$(NULL)
 
 AM_CPPFLAGS = \
 	-DPACKAGE_ICONS_DIR=\""${pkgdatadir}/icons"\" \
