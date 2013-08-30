@@ -1,0 +1,461 @@
+#
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Jordi Mas i Hernandez <jmas@softcatala.org>, 2013
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-31 01:21+0200\n"
+"PO-Revision-Date: 2013-08-30 13:45+0200\n"
+"Last-Translator: jmas <jmas@softcatala.org>\n"
+"Language-Team: Softcatalà\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Project-Style: gnome\n"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
+msgid "Photos"
+msgstr "Fotografies"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr ""
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr ""
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "Mida de la finestra"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "Mida de la finestra (amplada i alçada)"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "Posició de la finestra"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "Posició de la finestra (x i y)"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "Finestra maximitzada"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "Estat maximitzat de la finestra"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (lent)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (film de 35mm)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Transformació en una imatge descarregada."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "No s'ha pogut transformar la imatge."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "Aquest format de fitxer no pot fer servir EXIF."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "No s'ha pogut carregar la imatge."
+
+# FIXME: O... "no s'ha carregat cap imatge"? (josep)
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "No hi ha cap imatge carregada."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "No teniu els permisos necessaris per desar el fitxer."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Ha fallat la creació del fitxer temporal."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Hi ha dos noms de fitxer iguals com a mínim."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "No s'ha pogut mostrar l'ajuda del visualitzador d'imatges"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (caràcter no vàlid)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Pantalla completa"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr ""
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Surt"
+
+#: ../src/photos-base-item.c:312
+msgid "Album"
+msgstr "Àlbum"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr ""
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Àlbums"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "Preferits"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "No s'ha trobat cap fotografia"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr ""
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr ""
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "Carrega'n més"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "S'està carregant..."
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "Local"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "Feu clic als elements per seleccionar-los"
+
+#: ../src/photos-main-toolbar.c:101
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d seleccionat"
+msgstr[1] "%d seleccionats"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "Enrere"
+
+#: ../src/photos-main-toolbar.c:273
+msgid "Select Items"
+msgstr "Selecciona els elements"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "Obre amb %s"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "Cancel·la"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr ""
+
+#
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr "Jordi Mas i Hernandez <jmas@softcatala.org>"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Organitza"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "Obre"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Imprimeix..."
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Visualitza a..."
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Estableix com a fons"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "Propietats"
+
+#: ../src/photos-preview-nav-buttons.c:207
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Suprimeix dels preferits"
+
+#: ../src/photos-preview-nav-buttons.c:212
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Afegeix als preferits"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "Paràmetres de la imatge"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "Posiciona"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "_Esquerra:"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "_Dreta:"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "Par_t superior:"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "Part in_ferior:"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "_Centre:"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "Cap"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "Horitzontal"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "Vertical"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "Ambdós"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "Mida"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "Am_plada:"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "A_lçària:"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "_Escalat:"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "_Unitat:"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "Mil·límetres"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "Polzades"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "Previsualització"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Títol"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Autor"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "Font"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "Data de modificació"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "Data de creació"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Tipus"
+
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "Amplada"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "Alçada:"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "Càmara"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "Exposició"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "Obertura"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "Longitud focal"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "Velocitat de l'ISO"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "Flaix"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, Did not fire"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, Fired"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "Fet"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "Tot"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Selecciona-ho tot"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "No en seleccionis cap"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "Impressió"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "Suprimeix"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr ""
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr ""
+
+#~ msgid "Image"
+#~ msgstr "Imatge"
+
+#~ msgid "The image whose printing properties will be set up"
+#~ msgstr ""
+#~ "La imatge de la qual se'n configuraran les propietats de la impressió"
+
+#~ msgid "Page Setup"
+#~ msgstr "Configuració de la pàgina"
+
+#~ msgid "The information for the page where the image will be printed"
+#~ msgstr "La informació de la pàgina on s'imprimirà la imatge"
