@@ -1,0 +1,451 @@
+# Lithuanian translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Aurimas Černius <aurisc4@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-01 01:31+0000\n"
+"PO-Revision-Date: 2013-09-01 23:33+0300\n"
+"Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
+"Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
+"Language: lt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Gtranslator 2.91.6\n"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
+msgid "Photos"
+msgstr "Nuotraukos"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Prieikite, tvarkykite ir dalinkitės savo nuotraukomis"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Nuotraukos;Paveikslėliai;"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "Lango dydis"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "Lango dydis (plotis ir aukštis)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "Lango padėtis"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "Lango padėtis (x ir y)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "Langas išdidintas"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "Lango išdidinimo būsena"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %Y %B %d  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %Y %B %d"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (lęšis)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm filmas)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Neįkelto paveikslėlio transformacija."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Transformacija nepavyko."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "Šis failo formatas nepalaiko EXIF."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Nepavyko įkelti paveikslėlio."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Paveikslėlis neįkeltas."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Neturite reikiamų leidimų failui įrašyti."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Nepavyko sukurti laikinojo failo."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Bent du failų pavadinimai yra vienodi."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Nepavyko parodyti paveikslėlių žiūryklės žinyno"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (netinkamas Unikodas)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Visame ekrane"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "Apie nuotraukas"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Išeiti"
+
+#: ../src/photos-base-item.c:312
+msgid "Album"
+msgstr "Albumas"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "DLNA piešimo įrenginiai"
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Albumai"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "Mėgiamiausios"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "Nerasta nuotraukų"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr "Jūsų nuotraukos indeksuojamos"
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr "Kai kurios nuotraukos gali būti nepasiekiamos šio proceso metu"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "Įkelti daugiau"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "Įkeliama…"
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "Vietinės"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "Spauskite ant elementų jiems pažymėti"
+
+#: ../src/photos-main-toolbar.c:101
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "Pasirinktas %d"
+msgstr[1] "Pasirinkti %d"
+msgstr[2] "Pasirinkta %d"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "Atgal"
+
+#: ../src/photos-main-toolbar.c:273
+msgid "Select Items"
+msgstr "Pasirinkite elementus"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "Atverti su %s"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "Atsisakyti"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Pasiekite, tvarkykite ir dalinkitės savo nuotraukomis GNOME aplinkoje"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr ""
+"Išvertė:\n"
+"Aurimas Černius <aurisc4@gmail.com>"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Tvarkyti"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "Atverti"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Spausdinti…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Rodyti su…"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Nustatyti kaip foną"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "Savybės"
+
+#: ../src/photos-preview-nav-buttons.c:207
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Pašalinti iš mėgiamiausių"
+
+#: ../src/photos-preview-nav-buttons.c:212
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Pridėti prie mėgiamiausių"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "Paveikslėlio nustatymai"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "Padėtis"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "_Kairė:"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "_Dešinė:"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "_Viršus:"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "_Apačia:"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "C_entras:"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "Nėra"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "Horizontali"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "Vertikali"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "Abi"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "Dydis"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "_Plotis:"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "_Aukštis:"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "Iš_tempimas:"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "_Vienetai:"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "Milimetrai"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "Coliai"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "Peržiūra"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Pavadinimas"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Autorius"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "Šaltinis"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "Keitimo data"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "Sukūrimo data"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Tipas"
+
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "Plotis"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "Aukštis"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "Kamera"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "Išlaikymas"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "Diafragma"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "Židinio nuotolis"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ISO greitis"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "Blykstė"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, Did not fire"
+msgstr "Išjungta, neblykstelėjo"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, Fired"
+msgstr "Įjungta, blykstelėjo"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "Atlikta"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "Visi"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Pasirinkti visas"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Nieko nepasirinkti"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "Spausdinti"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "Trinti"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "Pridėti į albumą"
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr "Nepavyksta gauti nuotraukų sąrašo"
