@@ -130,6 +130,8 @@ gnome_photos_SOURCES = \
 	photos-organize-collection-model.h \
 	photos-organize-collection-view.c \
 	photos-organize-collection-view.h \
+	photos-preview-model.c \
+	photos-preview-model.h \
 	photos-preview-nav-buttons.c \
 	photos-preview-nav-buttons.h \
 	photos-preview-view.c \
