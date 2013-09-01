@@ -30,6 +30,7 @@
 #include <libgd/gd.h>
 
 #include "photos-item-manager.h"
+#include "photos-preview-model.h"
 #include "photos-preview-nav-buttons.h"
 #include "photos-view-model.h"
 
@@ -285,13 +286,17 @@ static void
 photos_preview_nav_buttons_next_clicked (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
+  GtkTreeIter child_iter;
   GtkTreeIter iter;
+  GtkTreeModel *child_model;
   PhotosBaseItem *item;
   gchar *id;
 
   gtk_tree_path_next (priv->current_path);
   gtk_tree_model_get_iter (priv->model, &iter, priv->current_path);
-  gtk_tree_model_get (priv->model, &iter, PHOTOS_VIEW_MODEL_URN, &id, -1);
+  gtk_tree_model_filter_convert_iter_to_child_iter (GTK_TREE_MODEL_FILTER (priv->model), &child_iter, &iter);
+  child_model = gtk_tree_model_filter_get_model (GTK_TREE_MODEL_FILTER (priv->model));
+  gtk_tree_model_get (child_model, &child_iter, PHOTOS_VIEW_MODEL_URN, &id, -1);
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, id));
   photos_base_manager_set_active_object (priv->item_mngr, G_OBJECT (item));
@@ -304,13 +309,17 @@ static void
 photos_preview_nav_buttons_prev_clicked (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
+  GtkTreeIter child_iter;
   GtkTreeIter iter;
+  GtkTreeModel *child_model;
   PhotosBaseItem *item;
   gchar *id;
 
   gtk_tree_path_prev (priv->current_path);
   gtk_tree_model_get_iter (priv->model, &iter, priv->current_path);
-  gtk_tree_model_get (priv->model, &iter, PHOTOS_VIEW_MODEL_URN, &id, -1);
+  gtk_tree_model_filter_convert_iter_to_child_iter (GTK_TREE_MODEL_FILTER (priv->model), &child_iter, &iter);
+  child_model = gtk_tree_model_filter_get_model (GTK_TREE_MODEL_FILTER (priv->model));
+  gtk_tree_model_get (child_model, &child_iter, PHOTOS_VIEW_MODEL_URN, &id, -1);
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, id));
   photos_base_manager_set_active_object (priv->item_mngr, G_OBJECT (item));
@@ -547,19 +556,34 @@ void
 photos_preview_nav_buttons_set_model (PhotosPreviewNavButtons *self, GtkTreeModel *model, GtkTreePath *current_path)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
+  GtkTreePath *child_path = NULL;
 
-  if (priv->model == model && gtk_tree_path_compare (priv->current_path, current_path) == 0)
-    return;
+  if (priv->model != NULL && gtk_tree_model_filter_get_model (GTK_TREE_MODEL_FILTER (priv->model)) == model)
+    {
+      if (priv->current_path != NULL)
+        {
+          child_path = gtk_tree_model_filter_convert_path_to_child_path (GTK_TREE_MODEL_FILTER (priv->model),
+                                                                         priv->current_path);
+          if (gtk_tree_path_compare (child_path, current_path) == 0)
+            goto out;
+        }
+    }
 
   g_clear_object (&priv->model);
   if (model != NULL)
-    priv->model = g_object_ref (model);
+    priv->model = photos_preview_model_new (model);
 
   g_clear_pointer (&priv->current_path, (GDestroyNotify) gtk_tree_path_free);
   if (current_path != NULL)
-    priv->current_path = gtk_tree_path_copy (current_path);
+    {
+      priv->current_path = gtk_tree_model_filter_convert_child_path_to_path (GTK_TREE_MODEL_FILTER (priv->model),
+                                                                             current_path);
+    }
 
   photos_preview_nav_buttons_update_visibility (self);
+
+ out:
+  g_clear_pointer (&child_path, (GDestroyNotify) gtk_tree_path_free);
 }
 
 
