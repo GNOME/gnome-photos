@@ -524,9 +524,9 @@ photos_properties_dialog_constructed (GObject *object)
       gchar *flash_str;
 
       if (flash == PHOTOS_FLASH_OFF)
-        flash_str = g_strdup (_("Off, Did not fire"));
+        flash_str = g_strdup (_("Off, did not fire"));
       else if (flash == PHOTOS_FLASH_ON)
-        flash_str = g_strdup (_("On, Fired"));
+        flash_str = g_strdup (_("On, fired"));
       else
         g_assert_not_reached ();
 
