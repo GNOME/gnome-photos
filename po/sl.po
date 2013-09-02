@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-28 19:36+0000\n"
-"PO-Revision-Date: 2013-08-29 18:03+0100\n"
+"POT-Creation-Date: 2013-09-02 16:24+0000\n"
+"PO-Revision-Date: 2013-09-02 22:42+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:504
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "Fotografije"
@@ -152,11 +152,11 @@ msgstr "Album"
 msgid "DLNA Renderer Devices"
 msgstr "Naprave izrisovalnika DLNA"
 
-#: ../src/photos-embed.c:501 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../src/photos-embed.c:507 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "Priljubljeno"
 
@@ -215,7 +215,7 @@ msgstr "Izbor predmetov"
 msgid "Open with %s"
 msgstr "Odpri s programom %s"
 
-#: ../src/photos-main-toolbar.c:491
+#: ../src/photos-main-toolbar.c:490
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -257,12 +257,12 @@ msgstr "Nastavi kot ozadje"
 msgid "Properties"
 msgstr "Lastnosti"
 
-#: ../src/photos-preview-nav-buttons.c:207
+#: ../src/photos-preview-nav-buttons.c:208
 #: ../src/photos-selection-toolbar.c:291
 msgid "Remove from favorites"
 msgstr "Odstrani iz priljubljenih"
 
-#: ../src/photos-preview-nav-buttons.c:212
+#: ../src/photos-preview-nav-buttons.c:213
 #: ../src/photos-selection-toolbar.c:297
 msgid "Add to favorites"
 msgstr "Dodaj med priljubljene"
@@ -412,12 +412,14 @@ msgid "Flash"
 msgstr "Bliskavica"
 
 #: ../src/photos-properties-dialog.c:527
-msgid "Off, Did not fire"
-msgstr "Ni pripravljena, bliskavica se ni sprožila"
+#| msgid "Off, Did not fire"
+msgid "Off, did not fire"
+msgstr "Ni pripravljeno, bliskavica se ni sprožila"
 
 #: ../src/photos-properties-dialog.c:529
-msgid "On, Fired"
-msgstr "Pripravljena, bliskavica se je sprožila"
+#| msgid "On, Fired"
+msgid "On, fired"
+msgstr "Pripravljeno, bliskavica se je sprožila"
 
 #: ../src/photos-properties-dialog.c:608
 msgid "Done"
