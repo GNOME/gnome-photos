@@ -585,7 +585,5 @@ photos_preview_nav_buttons_show (PhotosPreviewNavButtons *self)
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
 
   priv->visible = TRUE;
-  photos_preview_nav_buttons_fade_in_button (self, priv->prev_widget);
-  photos_preview_nav_buttons_fade_in_button (self, priv->next_widget);
-  photos_preview_nav_buttons_fade_in_button (self, priv->toolbar_widget);
+  photos_preview_nav_buttons_update_visibility (self);
 }
