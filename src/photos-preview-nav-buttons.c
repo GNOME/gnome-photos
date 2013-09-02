@@ -548,18 +548,6 @@ void
 photos_preview_nav_buttons_set_model (PhotosPreviewNavButtons *self, GtkTreeModel *model, GtkTreePath *current_path)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
-  GtkTreePath *child_path = NULL;
-
-  if (priv->model != NULL && gtk_tree_model_filter_get_model (GTK_TREE_MODEL_FILTER (priv->model)) == model)
-    {
-      if (priv->current_path != NULL)
-        {
-          child_path = gtk_tree_model_filter_convert_path_to_child_path (GTK_TREE_MODEL_FILTER (priv->model),
-                                                                         priv->current_path);
-          if (gtk_tree_path_compare (child_path, current_path) == 0)
-            goto out;
-        }
-    }
 
   g_clear_object (&priv->model);
   if (model != NULL)
@@ -573,9 +561,6 @@ photos_preview_nav_buttons_set_model (PhotosPreviewNavButtons *self, GtkTreeMode
     }
 
   photos_preview_nav_buttons_update_visibility (self);
-
- out:
-  g_clear_pointer (&child_path, (GDestroyNotify) gtk_tree_path_free);
 }
 
 
