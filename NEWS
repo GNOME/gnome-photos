@@ -1,3 +1,26 @@
+Overview of changes in 3.9.91
+=============================
+
+* Bugs fixed:
+ 703280 Rename all singleton public constructors to _dup_singleton()
+ 706502 Update DBus signature after dleyna-renderer ABI fix
+ 706513 dlna: Use G_STMT_START/G_STMT_END/G_STRFUNC
+ 706810 main-toolbar: Remove emphasis on Cancel button
+ 706824 Replace dots with commas in EXIF labels
+
+* Updated translations:
+ Catalan
+ Hungarian
+ Indonesian
+ Irish
+ Lithuanian
+ Polish
+ Portuguese (Brazilian)
+ Slovak
+ Slovenian
+ Tajik
+
+
 Overview of changes in 3.9.90
 =============================
 
