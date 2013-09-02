@@ -182,7 +182,7 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   remote_file = g_file_new_for_uri (thumbnail_uri);
 
   uri = photos_base_item_get_uri (item);
-  local_path = gnome_desktop_thumbnail_path_for_uri (uri, GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
+  local_path = gnome_desktop_thumbnail_path_for_uri (uri, GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE);
   local_file = g_file_new_for_path (local_path);
 
   local_dir = g_path_get_dirname (local_path);
