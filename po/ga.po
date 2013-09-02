@@ -1,0 +1,451 @@
+# Irish translations for gnome-photos package.
+# Copyright (C) 2013 Free Software Foundation, Inc.
+# This file is distributed under the same license as the gnome-photos package.
+# Seán de Búrca <leftmostcat@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos.master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-02 00:48-0600\n"
+"PO-Revision-Date: 2013-09-02 01:09-0600\n"
+"Last-Translator: Seán de Búrca <leftmostcat@gmail.com>\n"
+"Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
+"Language: ga\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : "
+"4;\n"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
+msgid "Photos"
+msgstr "Grianghraif"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Déan rochtain ar, eagraigh, agus comhroinn grianghraif"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Grianghraif;Pictiúir;"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "Méid na fuinneoige"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "Méid na fuinneoige (leithead agus airde)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "Ionad na fuinneoige"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "Ionad na fuinneoige (x agus y)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "Uasmhéadaíodh an fhuinneog"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "Staid uasmhéadaithe na fuinneoige"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (lionsa)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (scannán 35mm)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Trasfhoirmiú ar íomhá gan luchtú."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Theip ar trasfhoirmiú."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "Ní thacaítear le EXIF don fhormáid chomhaid seo."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Theip ar luchtú íomhá."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Íomhá gan luchtú."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Níl na ceadanna riachtanacha agat chun an comhad a shábháil."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Theip ar chruthú comhaid shealadaigh."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Is ionann dhá ainmneacha comhaid ar a laghad."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Níorbh fhéidir cabhair a thaispeáint le haghaidh Amharcáin Íomhánna"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (Unicode neamhbhailí)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Lánscáileán"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "Maidir le Grianghraif"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Scoir"
+
+#: ../src/photos-base-item.c:312
+msgid "Album"
+msgstr "Albam"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr ""
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Albaim"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "Ceanáin"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "Grianghraf gan Aimsiú"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr "Tá do chuid ghrianghraif á innéacsú"
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr ""
+"Is féidir nach bhfuil cuid de na grianghraif ar fáil le linn an phróisis seo"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "Luchtaigh Tuilleadh"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "Á luchtú…"
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "Logánta"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "Cliceáil ar mhíreanna chun iad a roghnú"
+
+#: ../src/photos-main-toolbar.c:101
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d roghnaithe"
+msgstr[1] "%d roghnaithe"
+msgstr[2] "%d roghnaithe"
+msgstr[3] "%d roghnaithe"
+msgstr[4] "%d roghnaithe"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "Siar"
+
+#: ../src/photos-main-toolbar.c:273
+msgid "Select Items"
+msgstr "Roghnaigh Míreanna"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "Oscail le “%s”"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "Cealaigh"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr ""
+"Déan rochtain ar, eagraigh, agus comhroinn do chuid ghrianghraif ar GNOME"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr "Seán de Búrca <leftmostcat@gmail.com>"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Eagraigh"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "Oscail"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Priontáil…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Taispeáin ar…"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Socraigh mar Chúlra"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "Airíonna"
+
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Bain ó cheanáin"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Cuir le ceanáin"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "Socruithe Íomhá"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "Ionad"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "_Clé:"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "_Deas:"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "_Barr:"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "B_un:"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "_Lár:"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "Neamhní"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "Cothrománach"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "Ingearach"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "Araon"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "Méid"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "_Leithead:"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "_Airde:"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "_Scálú:"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "A_onad:"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "Milliméadair"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "Orlaigh"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "Réamhamharc"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Teideal"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Údar"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "Foinse"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "Dáta Athraithe"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "Dáta Cruthaithe"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Cineál"
+
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "Leithead"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "Airde"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "Ceamara"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "Nochtadh"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "Cró"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "Fad Fócasach"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "Luas ISO"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "Splanc"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, Did not fire"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, Fired"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "Críochnaithe"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "Uile"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Roghnaigh Uile"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Ná Roghnaigh"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "Priontáil"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "Scrios"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "Cuir le hAlbam"
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr "Ní féidir an liosta grianghraf a fháil"
