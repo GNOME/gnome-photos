@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-01 01:31+0000\n"
-"PO-Revision-Date: 2013-09-01 23:33+0300\n"
+"POT-Creation-Date: 2013-09-02 16:24+0000\n"
+"PO-Revision-Date: 2013-09-04 00:11+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -256,12 +256,12 @@ msgstr "Nustatyti kaip foną"
 msgid "Properties"
 msgstr "Savybės"
 
-#: ../src/photos-preview-nav-buttons.c:207
+#: ../src/photos-preview-nav-buttons.c:208
 #: ../src/photos-selection-toolbar.c:291
 msgid "Remove from favorites"
 msgstr "Pašalinti iš mėgiamiausių"
 
-#: ../src/photos-preview-nav-buttons.c:212
+#: ../src/photos-preview-nav-buttons.c:213
 #: ../src/photos-selection-toolbar.c:297
 msgid "Add to favorites"
 msgstr "Pridėti prie mėgiamiausių"
@@ -411,11 +411,13 @@ msgid "Flash"
 msgstr "Blykstė"
 
 #: ../src/photos-properties-dialog.c:527
-msgid "Off, Did not fire"
+#| msgid "Off, Did not fire"
+msgid "Off, did not fire"
 msgstr "Išjungta, neblykstelėjo"
 
 #: ../src/photos-properties-dialog.c:529
-msgid "On, Fired"
+#| msgid "On, Fired"
+msgid "On, fired"
 msgstr "Įjungta, blykstelėjo"
 
 #: ../src/photos-properties-dialog.c:608
