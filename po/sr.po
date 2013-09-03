@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-15 08:11+0000\n"
-"PO-Revision-Date: 2013-05-15 11:58+0200\n"
+"POT-Creation-Date: 2013-09-02 16:24+0000\n"
+"PO-Revision-Date: 2013-09-03 09:55+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -19,7 +19,7 @@ msgstr ""
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:450
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "Фотографије"
@@ -141,11 +141,20 @@ msgstr "О Фотографијама"
 msgid "Quit"
 msgstr "Изађи"
 
-#: ../src/photos-embed.c:447 ../src/photos-search-type-manager.c:78
+#: ../src/photos-base-item.c:312
+#| msgid "Albums"
+msgid "Album"
+msgstr "Албум"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "Уређаји ДЛНА исцртавача"
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
 msgid "Albums"
 msgstr "Албуми"
 
-#: ../src/photos-embed.c:453 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "Омиљене"
 
@@ -153,29 +162,37 @@ msgstr "Омиљене"
 msgid "No Photos Found"
 msgstr "Нисам пронашао фотографије"
 
-#: ../src/photos-indexing-notification.c:170
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Фликр"
+
+#: ../src/photos-indexing-notification.c:168
 msgid "Your photos are being indexed"
 msgstr "Ваше фотографије су пописане"
 
-#: ../src/photos-indexing-notification.c:174
+#: ../src/photos-indexing-notification.c:172
 msgid "Some photos might not be available during this process"
 msgstr "Неке фотографије неће бити доступне за време овог поступка"
 
-#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:195
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
 msgid "Load More"
 msgstr "Учитај још"
 
-#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
-msgid "Loading..."
-msgstr "Учитавам..."
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#| msgid "Loading..."
+msgid "Loading…"
+msgstr "Учитавам…"
 
-#: ../src/photos-main-toolbar.c:100
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "Месно"
+
+#: ../src/photos-main-toolbar.c:99
 msgid "Click on items to select them"
 msgstr "Кликните на ставке да их изаберете"
 
-#: ../src/photos-main-toolbar.c:102
+#: ../src/photos-main-toolbar.c:101
 #, c-format
-#| msgid "%d selected"
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d изабрана"
@@ -183,23 +200,23 @@ msgstr[1] "%d изабранe"
 msgstr[2] "%d изабраних"
 msgstr[3] "једна изабрана"
 
-#: ../src/photos-main-toolbar.c:148
+#: ../src/photos-main-toolbar.c:146
 msgid "Back"
 msgstr "Назад"
 
-#: ../src/photos-main-toolbar.c:217
+#: ../src/photos-main-toolbar.c:273
 msgid "Select Items"
 msgstr "Изабери ставке"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "Отвори програмом „%s“"
 
-#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:330
-msgid "Done"
-msgstr "Урађено"
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "Откажи"
 
 #: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
@@ -213,13 +230,16 @@ msgstr ""
 "\n"
 "  http://prevod.org — превод на српски језик"
 
-#: ../src/photos-organize-collection-dialog.c:131
-#: ../src/photos-selection-toolbar.c:520
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+#| msgid "Organize"
+msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Разврстај"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:295
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "Отвори"
 
@@ -228,115 +248,190 @@ msgid "Print…"
 msgstr "Штампај…"
 
 #: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Прикажи на…"
+
+#: ../src/photos-preview-menu.ui.h:4
 msgid "Set as Background"
 msgstr "Постави за позадину"
 
-#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:368
-#: ../src/photos-selection-toolbar.c:531
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
 msgid "Properties"
 msgstr "Својства"
 
-#: ../src/photos-print-operation.c:275
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Уклоните из омиљених"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Додајте у омиљене"
+
+#: ../src/photos-print-operation.c:270
 msgid "Image Settings"
 msgstr "Подешавања слике"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:895
 msgid "Position"
 msgstr "Положај"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:898
 msgid "_Left:"
 msgstr "_Лево:"
 
-#: ../src/photos-print-setup.c:902
+#: ../src/photos-print-setup.c:899
 msgid "_Right:"
 msgstr "_Десно:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:900
 msgid "_Top:"
 msgstr "_Горе:"
 
-#: ../src/photos-print-setup.c:904
+#: ../src/photos-print-setup.c:901
 msgid "_Bottom:"
 msgstr "_Доле:"
 
-#: ../src/photos-print-setup.c:906
+#: ../src/photos-print-setup.c:903
 msgid "C_enter:"
 msgstr "_Средина:"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:907
 msgid "None"
 msgstr "Ништа"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:908
 msgid "Horizontal"
 msgstr "Водоравно"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:909
 msgid "Vertical"
 msgstr "Усправно"
 
-#: ../src/photos-print-setup.c:913
+#: ../src/photos-print-setup.c:910
 msgid "Both"
 msgstr "Оба"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:923
 msgid "Size"
 msgstr "Величина"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:926
 msgid "_Width:"
 msgstr "_Ширина:"
 
-#: ../src/photos-print-setup.c:930
+#: ../src/photos-print-setup.c:927
 msgid "_Height:"
 msgstr "_Висина:"
 
-#: ../src/photos-print-setup.c:932
+#: ../src/photos-print-setup.c:929
 msgid "_Scaling:"
 msgstr "_Размера:"
 
-#: ../src/photos-print-setup.c:941
+#: ../src/photos-print-setup.c:938
 msgid "_Unit:"
 msgstr "_Јединица:"
 
-#: ../src/photos-print-setup.c:945
+#: ../src/photos-print-setup.c:942
 msgid "Millimeters"
 msgstr "Милиметара"
 
-#: ../src/photos-print-setup.c:946
+#: ../src/photos-print-setup.c:943
 msgid "Inches"
 msgstr "Палаца"
 
-#: ../src/photos-print-setup.c:974
+#: ../src/photos-print-setup.c:971
 msgid "Preview"
 msgstr "Преглед"
 
-#: ../src/photos-properties-dialog.c:155
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+#| msgid "Title"
+msgctxt "Document Title"
 msgid "Title"
 msgstr "Назив"
 
-#: ../src/photos-properties-dialog.c:164
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+#| msgid "Author"
+msgctxt "Document Author"
 msgid "Author"
 msgstr "Аутор"
 
-#: ../src/photos-properties-dialog.c:171
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Извор"
 
-#: ../src/photos-properties-dialog.c:177
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Датум измене"
 
-#: ../src/photos-properties-dialog.c:185
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Датум стварања"
 
-#: ../src/photos-properties-dialog.c:192
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+#| msgid "Type"
+msgctxt "Document Type"
 msgid "Type"
 msgstr "Врста"
 
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:144
+#: ../src/photos-properties-dialog.c:269
+#| msgid "_Width:"
+msgid "Width"
+msgstr "Ширина"
+
+#: ../src/photos-properties-dialog.c:279
+#| msgid "_Height:"
+msgid "Height"
+msgstr "Висина"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "Фото-апарат"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "Експозиција"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "Отвор бленде"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "Жижна даљина"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ИСО брзина"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "Блиц"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr "Искључено, без блица"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr "Укључено, са блицем"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "Урађено"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
 msgid "All"
 msgstr "Све"
 
@@ -348,25 +443,17 @@ msgstr "Изабери све"
 msgid "Select None"
 msgstr "Поништи избор"
 
-#: ../src/photos-selection-toolbar.c:310
-msgid "Remove from favorites"
-msgstr "Уклоните из омиљених"
-
-#: ../src/photos-selection-toolbar.c:316
-msgid "Add to favorites"
-msgstr "Додајте у омиљене"
-
-#: ../src/photos-selection-toolbar.c:487
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "Штампај"
 
-#: ../src/photos-selection-toolbar.c:498
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "Обриши"
 
-#: ../src/photos-source-manager.c:148
-msgid "Local"
-msgstr "Месно"
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "Додај у албум"
 
 #: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
