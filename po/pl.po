@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-21 20:48+0200\n"
-"PO-Revision-Date: 2013-08-21 20:49+0200\n"
+"POT-Creation-Date: 2013-09-04 02:18+0200\n"
+"PO-Revision-Date: 2013-09-04 02:19+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-Language: Polish\n"
 "X-Poedit-Country: Poland\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:504
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "Zdjęcia"
@@ -153,11 +153,11 @@ msgstr "Album"
 msgid "DLNA Renderer Devices"
 msgstr "Urządzenia mechanizmu wyświetlającego DLNA"
 
-#: ../src/photos-embed.c:501 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../src/photos-embed.c:507 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "Ulubione"
 
@@ -215,7 +215,7 @@ msgstr "Wybór elementów"
 msgid "Open with %s"
 msgstr "Otwórz za pomocą %s"
 
-#: ../src/photos-main-toolbar.c:491
+#: ../src/photos-main-toolbar.c:490
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -259,12 +259,12 @@ msgstr "Ustaw jako tło"
 msgid "Properties"
 msgstr "Właściwości"
 
-#: ../src/photos-preview-nav-buttons.c:207
+#: ../src/photos-preview-nav-buttons.c:208
 #: ../src/photos-selection-toolbar.c:291
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../src/photos-preview-nav-buttons.c:212
+#: ../src/photos-preview-nav-buttons.c:213
 #: ../src/photos-selection-toolbar.c:297
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
@@ -414,11 +414,11 @@ msgid "Flash"
 msgstr "Lampa błyskowa"
 
 #: ../src/photos-properties-dialog.c:527
-msgid "Off, Did not fire"
+msgid "Off, did not fire"
 msgstr "Wyłączona"
 
 #: ../src/photos-properties-dialog.c:529
-msgid "On, Fired"
+msgid "On, fired"
 msgstr "Włączona"
 
 #: ../src/photos-properties-dialog.c:608
