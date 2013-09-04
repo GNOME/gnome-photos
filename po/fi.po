@@ -1,32 +1,32 @@
 # Finnish translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-#
 # Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-25 19:26+0000\n"
-"PO-Revision-Date: 2013-03-25 21:51+0000\n"
+"POT-Creation-Date: 2013-09-02 16:24+0000\n"
+"PO-Revision-Date: 2013-09-02 23:43+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
-"Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
+"Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:413
-#: ../src/photos-search-type-manager.c:68
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "Kuvat"
 
 #: ../data/gnome-photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
-msgstr "Hallitse ja jaa kuviasi"
+msgstr "Hallitse, järjestä ja jaa kuviasi"
 
 #: ../data/gnome-photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
@@ -50,28 +50,28 @@ msgstr "Ikkunan sijainti (x ja y)."
 
 #: ../data/org.gnome.photos.gschema.xml.in.h:5
 msgid "Window maximized"
-msgstr ""
+msgstr "Suurennettu ikkuna"
 
 #: ../data/org.gnome.photos.gschema.xml.in.h:6
 msgid "Window maximized state"
-msgstr ""
+msgstr "Suurennetun ikkunan tila"
 
 #. A strftime-formatted string, to display the date the image was taken.
 #: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
 msgid "%a, %d %B %Y  %X"
-msgstr ""
+msgstr "%A, %e %Bta %Y  %X"
 
 #. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
 #: ../src/eog-exif-util.c:154
 msgid "%a, %d %B %Y"
-msgstr ""
+msgstr "%A, %e %Bta %Y"
 
 #. TRANSLATORS: This is the actual focal length used when
 #. the image was taken.
 #: ../src/eog-exif-util.c:251
 #, c-format
 msgid "%.1f (lens)"
-msgstr ""
+msgstr "%.1f (linssi)"
 
 #. Print as float to get a similar look as above.
 #. TRANSLATORS: This is the equivalent focal length assuming
@@ -79,17 +79,17 @@ msgstr ""
 #: ../src/eog-exif-util.c:262
 #, c-format
 msgid "%.1f (35mm film)"
-msgstr ""
+msgstr "%.1f (35 mm filmi)"
 
 #: ../src/eog-image.c:595
 #, c-format
 msgid "Transformation on unloaded image."
-msgstr ""
+msgstr "Muunnos lataamattomalle kuvalle."
 
 #: ../src/eog-image.c:623
 #, c-format
 msgid "Transformation failed."
-msgstr ""
+msgstr "Muunnos epäonnistui."
 
 #: ../src/eog-image.c:1047
 #, c-format
@@ -116,98 +116,6 @@ msgstr "Oikeutesi eivät riitä tiedoston tallentamiseen."
 msgid "Temporary file creation failed."
 msgstr "Väliaikaistiedoston luominen epäonnistui."
 
-#: ../src/eog-print.c:371
-msgid "Image Settings"
-msgstr "Kuvan asetukset"
-
-#: ../src/eog-print-image-setup.c:906
-msgid "Image"
-msgstr "Kuva"
-
-#: ../src/eog-print-image-setup.c:907
-msgid "The image whose printing properties will be set up"
-msgstr "Kuva, jonka tulostusasetukset tehdään"
-
-#: ../src/eog-print-image-setup.c:913
-msgid "Page Setup"
-msgstr "Sivun asetukset"
-
-#: ../src/eog-print-image-setup.c:914
-msgid "The information for the page where the image will be printed"
-msgstr "Tulostettavan sivun tiedot"
-
-#: ../src/eog-print-image-setup.c:942
-msgid "Position"
-msgstr "Sijainti"
-
-#: ../src/eog-print-image-setup.c:946
-msgid "_Left:"
-msgstr "_Vasen:"
-
-#: ../src/eog-print-image-setup.c:948
-msgid "_Right:"
-msgstr "_Oikea:"
-
-#: ../src/eog-print-image-setup.c:949
-msgid "_Top:"
-msgstr "_Ylä:"
-
-#: ../src/eog-print-image-setup.c:950
-msgid "_Bottom:"
-msgstr "_Ala:"
-
-#: ../src/eog-print-image-setup.c:953
-msgid "C_enter:"
-msgstr "_Keski:"
-
-#: ../src/eog-print-image-setup.c:958
-msgid "None"
-msgstr "Ei mitään"
-
-#: ../src/eog-print-image-setup.c:960
-msgid "Horizontal"
-msgstr "Vaakataso"
-
-#: ../src/eog-print-image-setup.c:962
-msgid "Vertical"
-msgstr "Pystytaso"
-
-#: ../src/eog-print-image-setup.c:964
-msgid "Both"
-msgstr "Molemmat"
-
-#: ../src/eog-print-image-setup.c:980
-msgid "Size"
-msgstr "Koko"
-
-#: ../src/eog-print-image-setup.c:983
-msgid "_Width:"
-msgstr "_Leveys:"
-
-#: ../src/eog-print-image-setup.c:985
-msgid "_Height:"
-msgstr "_Korkeus:"
-
-#: ../src/eog-print-image-setup.c:988
-msgid "_Scaling:"
-msgstr "_Skaalaus:"
-
-#: ../src/eog-print-image-setup.c:999
-msgid "_Unit:"
-msgstr "_Yksikkö:"
-
-#: ../src/eog-print-image-setup.c:1004
-msgid "Millimeters"
-msgstr "Millimetrit"
-
-#: ../src/eog-print-image-setup.c:1006
-msgid "Inches"
-msgstr "Tuumat"
-
-#: ../src/eog-print-image-setup.c:1035
-msgid "Preview"
-msgstr "Esikatsele"
-
 #: ../src/eog-uri-converter.c:984
 #, c-format
 msgid "At least two file names are equal."
@@ -215,7 +123,7 @@ msgstr "Ainakin kaksi tiedostoa omaa saman nimen."
 
 #: ../src/eog-util.c:68
 msgid "Could not display help for Image Viewer"
-msgstr ""
+msgstr "Kuvakatselimen ohjeen näyttäminen ei onnistunut"
 
 #: ../src/eog-util.c:116
 msgid " (invalid Unicode)"
@@ -233,7 +141,19 @@ msgstr "Tietoja - Kuvat"
 msgid "Quit"
 msgstr "Lopeta"
 
-#: ../src/photos-embed.c:416
+#: ../src/photos-base-item.c:312
+msgid "Album"
+msgstr "Albumi"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "DLNA Renderer -laitteet"
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Albumit"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "Suosikit"
 
@@ -241,43 +161,61 @@ msgstr "Suosikit"
 msgid "No Photos Found"
 msgstr "Kuvia ei löytynyt"
 
-#: ../src/photos-indexing-notification.c:170
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
 msgid "Your photos are being indexed"
 msgstr "Kuviasi indeksoidaan"
 
-#: ../src/photos-indexing-notification.c:174
+#: ../src/photos-indexing-notification.c:172
 msgid "Some photos might not be available during this process"
 msgstr ""
 "Jotkin kuvat eivät välttämättä ole käytettävissä tämän toimenpiteen aikana"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
 msgid "Load More"
 msgstr "Lataa lisää"
 
 #: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
-msgid "Loading..."
-msgstr "Ladataan..."
+#| msgid "Loading..."
+msgid "Loading…"
+msgstr "Ladataan…"
 
-#: ../src/photos-main-toolbar.c:96
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "Paikallinen"
+
+#: ../src/photos-main-toolbar.c:99
 msgid "Click on items to select them"
 msgstr "Napsauta kohteita valitaksesi ne"
 
-#: ../src/photos-main-toolbar.c:98
+#: ../src/photos-main-toolbar.c:101
 #, c-format
+#| msgid "%d selected"
 msgid "%d selected"
-msgstr "%d valittu"
+msgid_plural "%d selected"
+msgstr[0] "%d valittu"
+msgstr[1] "%d valittu"
 
-#: ../src/photos-main-toolbar.c:151 ../src/photos-main-toolbar.c:288
+#: ../src/photos-main-toolbar.c:146
 msgid "Back"
 msgstr "Takaisin"
 
-#: ../src/photos-main-toolbar.c:186
+#: ../src/photos-main-toolbar.c:273
 msgid "Select Items"
 msgstr "Valitse kohteet"
 
-#: ../src/photos-main-toolbar.c:305 ../src/photos-properties-dialog.c:328
-msgid "Done"
-msgstr "Valmis"
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "Avaa sovelluksella %s"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "Peru"
 
 #: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
@@ -288,40 +226,209 @@ msgstr "Hallitse ja jaa kuviasi"
 msgid "translator-credits"
 msgstr "Jiri Grönroos"
 
-#: ../src/photos-organize-collection-dialog.c:133
-#: ../src/photos-selection-toolbar.c:514
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+#| msgid "Organize"
+msgctxt "Dialog title"
 msgid "Organize"
-msgstr "Organisoi"
+msgstr "Järjestä"
 
-#: ../src/photos-properties-dialog.c:155
-msgid "Title"
-msgstr "Nimi"
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "Avaa"
 
-#: ../src/photos-properties-dialog.c:164
-msgid "Author"
-msgstr "Tekijä"
+#: ../src/photos-preview-menu.ui.h:2
+#| msgid "Print"
+msgid "Print…"
+msgstr "Tulosta…"
 
-#: ../src/photos-properties-dialog.c:171
-msgid "Source"
-msgstr "Lähde"
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Näytä…"
 
-#: ../src/photos-properties-dialog.c:177
-msgid "Date Modified"
-msgstr "Muokkauspäivä"
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Aseta taustakuvaksi"
 
-#: ../src/photos-properties-dialog.c:185
-msgid "Date Created"
-msgstr "Luontipäivä"
-
-#: ../src/photos-properties-dialog.c:192
-msgid "Type"
-msgstr "Tyyppi"
-
-#: ../src/photos-properties-dialog.c:365 ../src/photos-selection-toolbar.c:525
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
 msgid "Properties"
 msgstr "Ominaisuudet"
 
-#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:144
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Poista suosikeista"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Lisää suosikkeihin"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "Kuvan asetukset"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "Sijainti"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "_Vasen:"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "_Oikea:"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "_Ylä:"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "_Ala:"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "_Keski:"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "Ei mitään"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "Vaakataso"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "Pystytaso"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "Molemmat"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "Koko"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "_Leveys:"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "_Korkeus:"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "_Skaalaus:"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "_Yksikkö:"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "Millimetrit"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "Tuumat"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "Esikatsele"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+#| msgid "Title"
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Nimi"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+#| msgid "Author"
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Tekijä"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "Lähde"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "Muokkauspäivä"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "Luontipäivä"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+#| msgid "Type"
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Tyyppi"
+
+#: ../src/photos-properties-dialog.c:269
+#| msgid "_Width:"
+msgid "Width"
+msgstr "Leveys"
+
+#: ../src/photos-properties-dialog.c:279
+#| msgid "_Height:"
+msgid "Height"
+msgstr "Korkeus"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "Kamera"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "Valotus"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "Aukko"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "Polttoväli"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ISO-nopeus"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "Salama"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr "Pois, ei käytetty"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr "Päällä, käytetty"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "Valmis"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
 msgid "All"
 msgstr "Kaikki"
 
@@ -333,38 +440,30 @@ msgstr "Valitse kaikki"
 msgid "Select None"
 msgstr "Älä valitse mitään"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:290
-#, c-format
-msgid "Open with %s"
-msgstr "Avaa sovelluksella %s"
-
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:293
-msgid "Open"
-msgstr "Avaa"
-
-#: ../src/photos-selection-toolbar.c:308
-msgid "Remove from favorites"
-msgstr "Poista suosikeista"
-
-#: ../src/photos-selection-toolbar.c:314
-msgid "Add to favorites"
-msgstr "Lisää suosikkeihin"
-
-#: ../src/photos-selection-toolbar.c:481
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "Tulosta"
 
-#: ../src/photos-selection-toolbar.c:492
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "Poista"
 
-#: ../src/photos-source-manager.c:148
-msgid "Local"
-msgstr "Paikallinen"
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "Lisää albumiin"
 
-#: ../src/photos-tracker-controller.c:80
+#: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
-msgstr ""
+msgstr "Kuvaluettelon hakeminen ei onnistunut"
 
+#~ msgid "Image"
+#~ msgstr "Kuva"
+
+#~ msgid "The image whose printing properties will be set up"
+#~ msgstr "Kuva, jonka tulostusasetukset tehdään"
+
+#~ msgid "Page Setup"
+#~ msgstr "Sivun asetukset"
+
+#~ msgid "The information for the page where the image will be printed"
+#~ msgstr "Tulostettavan sivun tiedot"
