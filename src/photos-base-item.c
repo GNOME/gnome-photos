@@ -101,7 +101,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT);
 
 
-G_LOCK_DEFINE (create_thumbnail);
+static GThreadPool *create_thumbnail_pool;
 
 
 static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor);
@@ -214,29 +214,26 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
 
 static void
-photos_base_item_create_thumbnail_in_thread_func (GTask *task,
-                                                  gpointer source_object,
-                                                  gpointer task_data,
-                                                  GCancellable *cancellable)
+photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_data)
 {
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GTask *task = G_TASK (data);
+  PhotosBaseItem *self;
+  GCancellable *cancellable;
   GError *error;
   gboolean op_res;
 
-  G_LOCK (create_thumbnail);
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  cancellable = g_task_get_cancellable (task);
 
   error = NULL;
   op_res = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_thumbnail (self, cancellable, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
-      goto out;
+      return;
     }
 
   g_task_return_boolean (task, op_res);
-
- out:
-  G_UNLOCK (create_thumbnail);
 }
 
 
@@ -252,7 +249,7 @@ photos_base_item_create_thumbnail_async (PhotosBaseItem *self,
   g_task_set_check_cancellable (task, TRUE);
   g_task_set_source_tag (task, photos_base_item_create_thumbnail_async);
 
-  g_task_run_in_thread (task, photos_base_item_create_thumbnail_in_thread_func);
+  g_thread_pool_push (create_thumbnail_pool, g_object_ref (task), NULL);
   g_object_unref (task);
 }
 
@@ -939,6 +936,13 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                         g_cclosure_marshal_VOID__VOID,
                                         G_TYPE_NONE,
                                         0);
+
+  create_thumbnail_pool = g_thread_pool_new (photos_base_item_create_thumbnail_in_thread_func,
+                                             NULL,
+                                             1,
+                                             FALSE,
+                                             NULL);
+  g_assert (create_thumbnail_pool != NULL);
 }
 
 
