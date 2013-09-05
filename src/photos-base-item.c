@@ -259,9 +259,9 @@ photos_base_item_create_thumbnail_finish (PhotosBaseItem *self, GAsyncResult *re
 {
   GTask *task = G_TASK (res);
 
-  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
-  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_create_thumbnail_async, NULL);
-  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_create_thumbnail_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   return g_task_propagate_boolean (task, error);
 }
