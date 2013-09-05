@@ -214,11 +214,12 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
 
 static void
-photos_base_item_create_thumbnail_in_thread_func (GSimpleAsyncResult *simple,
-                                                  GObject *object,
+photos_base_item_create_thumbnail_in_thread_func (GTask *task,
+                                                  gpointer source_object,
+                                                  gpointer task_data,
                                                   GCancellable *cancellable)
 {
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GError *error;
   gboolean op_res;
 
@@ -227,10 +228,14 @@ photos_base_item_create_thumbnail_in_thread_func (GSimpleAsyncResult *simple,
   error = NULL;
   op_res = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_thumbnail (self, cancellable, &error);
   if (error != NULL)
-    g_simple_async_result_take_error (simple, error);
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
 
-  g_simple_async_result_set_op_res_gboolean (simple, op_res);
+  g_task_return_boolean (task, op_res);
 
+ out:
   G_UNLOCK (create_thumbnail);
 }
 
@@ -241,41 +246,27 @@ photos_base_item_create_thumbnail_async (PhotosBaseItem *self,
                                          GAsyncReadyCallback callback,
                                          gpointer user_data)
 {
-  GSimpleAsyncResult *simple;
+  GTask *task;
 
-  simple = g_simple_async_result_new (G_OBJECT (self),
-                                      callback,
-                                      user_data,
-                                      photos_base_item_create_thumbnail_async);
-  g_simple_async_result_set_check_cancellable (simple, cancellable);
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_check_cancellable (task, TRUE);
+  g_task_set_source_tag (task, photos_base_item_create_thumbnail_async);
 
-  g_simple_async_result_run_in_thread (simple,
-                                       photos_base_item_create_thumbnail_in_thread_func,
-                                       G_PRIORITY_DEFAULT,
-                                       cancellable);
-  g_object_unref (simple);
+  g_task_run_in_thread (task, photos_base_item_create_thumbnail_in_thread_func);
+  g_object_unref (task);
 }
 
 
 static gboolean
 photos_base_item_create_thumbnail_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT (res);
-  gboolean ret_val = FALSE;
+  GTask *task = G_TASK (res);
 
-  g_return_val_if_fail (g_simple_async_result_is_valid (res,
-                                                        G_OBJECT (self),
-                                                        photos_base_item_create_thumbnail_async),
-                        NULL);
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_create_thumbnail_async, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
-  if (g_simple_async_result_propagate_error (simple, error))
-    goto out;
-
-  ret_val = g_simple_async_result_get_op_res_gboolean (simple);
-
- out:
-  return ret_val;
+  return g_task_propagate_boolean (task, error);
 }
 
 
