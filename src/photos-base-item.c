@@ -230,10 +230,13 @@ photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_d
   if (error != NULL)
     {
       g_task_return_error (task, error);
-      return;
+      goto out;
     }
 
   g_task_return_boolean (task, op_res);
+
+ out:
+  g_object_unref (task);
 }
 
 
