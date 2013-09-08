@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-08 11:45+0200\n"
-"PO-Revision-Date: 2013-09-08 12:32+0200\n"
+"POT-Creation-Date: 2013-09-08 19:52+0200\n"
+"PO-Revision-Date: 2013-09-08 19:54+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
@@ -43,15 +44,15 @@ msgstr "Vinduposisjon"
 
 #: ../data/org.gnome.photos.gschema.xml.in.h:4
 msgid "Window position (x and y)."
-msgstr ""
+msgstr "Vinduposisjon (x og y)."
 
 #: ../data/org.gnome.photos.gschema.xml.in.h:5
 msgid "Window maximized"
-msgstr ""
+msgstr "Vindu maksimert"
 
 #: ../data/org.gnome.photos.gschema.xml.in.h:6
 msgid "Window maximized state"
-msgstr ""
+msgstr "Tilstand for maksimering av vindu"
 
 #. A strftime-formatted string, to display the date the image was taken.
 #: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
@@ -81,17 +82,17 @@ msgstr "%.1f (35mm film)"
 #: ../src/eog-image.c:595
 #, c-format
 msgid "Transformation on unloaded image."
-msgstr ""
+msgstr "Transformering på bilde som ikke er lastet."
 
 #: ../src/eog-image.c:623
 #, c-format
 msgid "Transformation failed."
-msgstr ""
+msgstr "Transformering feilet."
 
 #: ../src/eog-image.c:1047
 #, c-format
 msgid "EXIF not supported for this file format."
-msgstr ""
+msgstr "EXIF er ikke støttet for dette filformatet."
 
 #: ../src/eog-image.c:1196
 #, c-format
@@ -106,21 +107,21 @@ msgstr "Ingen bilder lastet."
 #: ../src/eog-image.c:1735 ../src/eog-image.c:1856
 #, c-format
 msgid "You do not have the permissions necessary to save the file."
-msgstr ""
+msgstr "Du har ikke rettigheter som kreves for å lagre filen."
 
 #: ../src/eog-image.c:1745 ../src/eog-image.c:1867
 #, c-format
 msgid "Temporary file creation failed."
-msgstr ""
+msgstr "Klarte ikke å lage midlertidig fil."
 
 #: ../src/eog-uri-converter.c:984
 #, c-format
 msgid "At least two file names are equal."
-msgstr ""
+msgstr "Mins to filnavn er like."
 
 #: ../src/eog-util.c:68
 msgid "Could not display help for Image Viewer"
-msgstr ""
+msgstr "Kunne ikke vise hjelp for bildevisning"
 
 #: ../src/eog-util.c:116
 msgid " (invalid Unicode)"
@@ -143,8 +144,9 @@ msgid "Album"
 msgstr "Album"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
+#, fuzzy
 msgid "DLNA Renderer Devices"
-msgstr ""
+msgstr "DLNA"
 
 #: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
 msgid "Albums"
@@ -168,7 +170,7 @@ msgstr "Bildene dine blir indeksert"
 
 #: ../src/photos-indexing-notification.c:172
 msgid "Some photos might not be available during this process"
-msgstr ""
+msgstr "Noen bilder vil kanskje ikke være tilgjengelig under denne prosessen"
 
 #: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
 msgid "Load More"
@@ -187,7 +189,7 @@ msgid "Click on items to select them"
 msgstr "Klikk på oppføringer for å velge dem"
 
 #: ../src/photos-main-toolbar.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valgt"
