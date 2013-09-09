@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-25 18:25+0000\n"
-"PO-Revision-Date: 2013-08-27 21:31+0100\n"
+"POT-Creation-Date: 2013-09-09 09:57+0000\n"
+"PO-Revision-Date: 2013-09-03 10:37+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -19,7 +19,27 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:504
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr ""
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "Fotografie"
@@ -142,7 +162,7 @@ msgstr "O programe Fotografie"
 msgid "Quit"
 msgstr "Ukončiť"
 
-#: ../src/photos-base-item.c:312
+#: ../src/photos-base-item.c:303
 msgid "Album"
 msgstr "Album"
 
@@ -150,11 +170,11 @@ msgstr "Album"
 msgid "DLNA Renderer Devices"
 msgstr "Vykreslovacie zariadenia DLNA"
 
-#: ../src/photos-embed.c:501 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../src/photos-embed.c:507 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "Obľúbené"
 
@@ -214,7 +234,7 @@ msgstr "Vyberie položky"
 msgid "Open with %s"
 msgstr "Otvoriť pomocou %s"
 
-#: ../src/photos-main-toolbar.c:491
+#: ../src/photos-main-toolbar.c:490
 msgid "Cancel"
 msgstr "Zrušiť"
 
@@ -258,12 +278,12 @@ msgstr "Nastaviť ako pozadie"
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: ../src/photos-preview-nav-buttons.c:207
+#: ../src/photos-preview-nav-buttons.c:208
 #: ../src/photos-selection-toolbar.c:291
 msgid "Remove from favorites"
 msgstr "Odstrániť z obľúbených"
 
-#: ../src/photos-preview-nav-buttons.c:212
+#: ../src/photos-preview-nav-buttons.c:213
 #: ../src/photos-selection-toolbar.c:297
 msgid "Add to favorites"
 msgstr "Pridať medzi obľúbené"
@@ -433,14 +453,14 @@ msgstr "Blesk"
 # DK: blesk
 # DK: https://bugzilla.gnome.org/show_bug.cgi?id=706824
 #: ../src/photos-properties-dialog.c:527
-msgid "Off, Did not fire"
-msgstr "Vypnutý. Nebol použitý"
+msgid "Off, did not fire"
+msgstr "Vypnutý, nepoužitý"
 
 # DK: blesk
 # DK: https://bugzilla.gnome.org/show_bug.cgi?id=706824
 #: ../src/photos-properties-dialog.c:529
-msgid "On, Fired"
-msgstr "Zapnutý. Použitý"
+msgid "On, fired"
+msgstr "Zapnutý, použitý"
 
 #: ../src/photos-properties-dialog.c:608
 msgid "Done"
