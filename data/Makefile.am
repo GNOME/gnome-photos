@@ -1,5 +1,9 @@
 SUBDIRS = icons
 
+appdatadir = $(datadir)/appdata
+appdata_in_files = $(PACKAGE_TARNAME).appdata.xml.in
+appdata_DATA = $(appdata_in_files:.xml.in=.xml)
+
 desktopdir = $(datadir)/applications
 desktop_in_in_files = $(PACKAGE_TARNAME).desktop.in.in
 desktop_in_files = $(PACKAGE_TARNAME).desktop.in
@@ -19,11 +23,13 @@ dist_icons_DATA = \
 @GSETTINGS_RULES@
 
 EXTRA_DIST = \
+	$(appdata_in_files) \
 	$(desktop_in_in_files) \
 	$(gsettings_in_files) \
 	$(NULL)
 
 CLEANFILES = \
+	$(appdata_DATA) \
 	$(desktop_DATA) \
 	$(gsettings_SCHEMAS) \
 	$(NULL)

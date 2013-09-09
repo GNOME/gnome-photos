@@ -1,6 +1,7 @@
 # List of source files containing translatable strings.
 # Please keep this list sorted alphabetically.
 
+data/gnome-photos.appdata.xml.in
 data/gnome-photos.desktop.in.in
 data/org.gnome.photos.gschema.xml.in
 src/eog-exif-util.c
