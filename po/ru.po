@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-02 16:24+0000\n"
-"PO-Revision-Date: 2013-09-06 09:52+0300\n"
+"POT-Creation-Date: 2013-09-09 09:57+0000\n"
+"PO-Revision-Date: 2013-09-09 20:18+0300\n"
 "Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -16,6 +16,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid "A simple application to access, organize and share your photos on GNOME. It is meant to be a simple and elegant replacement for using a file manager to deal with photos. Seamless cloud integration is offered through GNOME Online Accounts."
+msgstr "Просто приложение для доступа, управления и публикации фотографий в GNOME. Это приложение упрощает работу с фотоснимками, по сравнению с обычным файловым менеджером. Бесшовная интеграция с облачными службами осуществляется через сетевые учётные записи GNOME."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Оно позволяет вам:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid "<li>View recent local and online photos</li> <li>Access your Flickr content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow opening full featured editor for more advanced changes</li>"
+msgstr "<li>Просматривать последние локальные и удалённые фотоснимки</li> <li>Получать доступ к ресурсам Flickr</li> <li>Отправлять фотоснимки на удалённые отрисовщики DLNA</li> <li>Устанавливать фон</li> <li>Печатать фотоснимки</li> <li>Отмечать любимые снимки</li> <li>Открывать полнофункциональный редактор для более сложного редактирования</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1
 #: ../src/photos-embed.c:505
@@ -144,7 +156,7 @@ msgstr "О приложении"
 msgid "Quit"
 msgstr "Закрыть"
 
-#: ../src/photos-base-item.c:312
+#: ../src/photos-base-item.c:303
 msgid "Album"
 msgstr "Альбом"
 
@@ -186,7 +198,6 @@ msgstr "Загрузить ещё"
 
 #: ../src/photos-load-more-button.c:85
 #: ../src/photos-spinner-box.c:69
-#| msgid "Loading..."
 msgid "Loading…"
 msgstr "Загрузка…"
 
@@ -237,7 +248,6 @@ msgstr "Alina Kruglova"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
-#| msgid "Organize"
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Упорядочить"
@@ -250,7 +260,6 @@ msgid "Open"
 msgstr "Открыть"
 
 #: ../src/photos-preview-menu.ui.h:2
-#| msgid "Print"
 msgid "Print…"
 msgstr "Печать…"
 
@@ -358,7 +367,6 @@ msgstr "Предварительный просмотр"
 #. * properties dialog
 #.
 #: ../src/photos-properties-dialog.c:217
-#| msgid "Title"
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Заголовок"
@@ -367,7 +375,6 @@ msgstr "Заголовок"
 #. * the properties dialog
 #.
 #: ../src/photos-properties-dialog.c:229
-#| msgid "Author"
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Автор"
@@ -388,18 +395,15 @@ msgstr "Дата создания"
 #. * properties dialog
 #.
 #: ../src/photos-properties-dialog.c:260
-#| msgid "Type"
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Тип"
 
 #: ../src/photos-properties-dialog.c:269
-#| msgid "_Width:"
 msgid "Width"
 msgstr "Ширина"
 
 #: ../src/photos-properties-dialog.c:279
-#| msgid "_Height:"
 msgid "Height"
 msgstr "Высота"
 
