@@ -11,9 +11,9 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-02 15:07+0000\n"
-"PO-Revision-Date: 2013-09-02 12:13-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"POT-Creation-Date: 2013-09-09 09:57+0000\n"
+"PO-Revision-Date: 2013-09-09 08:37-0300\n"
+"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.5.7\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Um aplicativo simples para acessar, organizar e compartilhar suas fotos no "
+"GNOME. Ele foi feito para servir como uma substituição simples e elegante de "
+"gerenciador de arquivos para lidar com fotos. Integração transparente com a "
+"nuvem é oferecida por meio do aplicativo de contas on-line do GNOME."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Ele permite que você:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>Veja fotos recentes, locais ou on-line</li> <li>Acesse o conteúdo do seu "
+"Flickr</li> <li>Envie fotos para renderizadores DLNA remotos</li> <li>Defina "
+"como plano de fundo</li> <li>Imprima fotos</li> <li>Selecione favoritos</li> "
+"<li>Permite abrir um editor cheio de funcionalidades para as alterações mais "
+"avançadas</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
@@ -134,7 +163,7 @@ msgstr "(unicode inválido)"
 
 #: ../src/photos-app-menu.ui.h:1
 msgid "Fullscreen"
-msgstr "Tela cheia "
+msgstr "Tela cheia"
 
 #: ../src/photos-app-menu.ui.h:2
 msgid "About Photos"
@@ -144,7 +173,7 @@ msgstr "Sobre Fotos"
 msgid "Quit"
 msgstr "Sair"
 
-#: ../src/photos-base-item.c:312
+#: ../src/photos-base-item.c:303
 msgid "Album"
 msgstr "Álbum"
 
