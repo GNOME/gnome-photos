@@ -1,0 +1,476 @@
+# Danish translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Kris Thomsen <lakristho@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-10 23:43+0200\n"
+"PO-Revision-Date: 2013-9-10 22:10+0100\n"
+"Last-Translator: Kris Thomsen <mail@kristhomsen.dk>\n"
+"Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr ""
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
+msgid "Photos"
+msgstr "Billeder"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Tilgå, organisér og del billeder"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Billeder;Fotografier;"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "Vinduesstørrelse"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "Vinduesstørrelse (bredde og højde)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "Vinduesplacering"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "Vinduesplacering (x og y)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "Vindue maksimeret"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "Vindue maksimeret-tilstand"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d. %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d. %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (linse)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm film)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Transformering på ikke-indlæst billede."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Transformering mislykkedes."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "EXIF ikke understøttet for dette filformat."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Indlæsning af billede mislykkedes."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Intet billede indlæst."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Du har ikke de nødvendige rettigheder til at gemme filen."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Oprettelse af midlertidig fil mislykkedes."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Mindst to filnavne er identiske."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Kunne ikke vise hjælpetekst for Billedefremviser"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (ugyldig Unicode)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Fuldskærm"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "Om Billeder"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Afslut"
+
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr ""
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr ""
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr ""
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "Favoritter"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "Ingen billeder fundet"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr ""
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr "Dine billeder er ved at blive indekseret"
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr "Nogen billeder er muligvis ikke tilgængelige under denne proces"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "Indlæs flere"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#, fuzzy
+msgid "Loading…"
+msgstr "Indlæser..."
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "Lokal"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "Tryk på elementer for at vælge dem"
+
+#: ../src/photos-main-toolbar.c:101
+#, fuzzy, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d valgt"
+msgstr[1] "%d valgt"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "Tilbage"
+
+#: ../src/photos-main-toolbar.c:273
+msgid "Select Items"
+msgstr "Vælg elementer"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "Åbn med %s"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr ""
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Tilgå, organisér og del dine billeder i GNOME"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr ""
+"Kris Thomsen\n"
+"\n"
+"Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
+"Mere info: http://www.dansk-gruppen.dk"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+#, fuzzy
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Organisér"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "Åbn"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Udskriv…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr ""
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr ""
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "Egenskaber"
+
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Fjern fra favoritter"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Føj til favoritter"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "Indstillinger for billede"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "Placering"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "_Venstre:"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "_Højre:"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "_Top:"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "_Bund:"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "C_enter:"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "Ingen"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "Horisontal"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "Vertikal"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "Begge"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "Størrelse"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "_Bredde:"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "_Højde:"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "_Skalering:"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "_Enhed:"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "Milimeter"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "Tommer"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "Forhåndsvisning"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+#, fuzzy
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Titel"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+#, fuzzy
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Forfatter"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "Kilde"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "Redigeringsdato"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "Oprettelsesdato"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+#, fuzzy
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Type"
+
+#: ../src/photos-properties-dialog.c:269
+#, fuzzy
+msgid "Width"
+msgstr "_Bredde:"
+
+#: ../src/photos-properties-dialog.c:279
+#, fuzzy
+msgid "Height"
+msgstr "_Højde:"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "Færdig"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "Alle"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Vælg alle"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Vælg ingen"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "Udskriv"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "Slet"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr ""
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr "Kunne ikke hente liste over billeder"
