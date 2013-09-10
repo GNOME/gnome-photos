@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-02-21 17:00+0000\n"
-"PO-Revision-Date: 2013-03-03 07:39+0530\n"
+"POT-Creation-Date: 2013-09-09 09:57+0000\n"
+"PO-Revision-Date: 2013-09-09 22:08-0500\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
 "Language: pa\n"
@@ -19,8 +19,37 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-main-toolbar.c:91
-#: ../src/photos-search-type-manager.c:68
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"ਗਨੋਮ ਵਿੱਚ ਤੁਹਾਡੀਆਂ ਫੋਟੋ ਨੂੰ ਵਰਤਣ, ਉਹਨਾਂ ਦਾ ਪਰਬੰਧ ਕਰਨ ਤੇ ਸਾਂਝਾ ਕਰਨ ਲਈ ਸੌਖੀ "
+"ਜੇਹੀ ਐਪਲੀਕੇਸ਼ਨ ਹੈ। "
+"ਇਸ ਨੂੰ ਫੋਟੋ ਦਾ ਪਰਬੰਧ ਕਰਨ ਲਈ ਫਾਇਲ ਮੈਨੇਜਰ ਦੀ ਬਜਾਏ ਸੌਖਾ ਤੇ ਸਧਾਰਨ ਰੂਪ ਵਿੱਚ ਤਿਆਰ "
+"ਕੀਤਾ ਗਿਆ ਹੈ। "
+"ਗਨੋਮ ਆਨਲਾਈਨ ਖਾਤਿਆਂ ਰਾਹੀਂ ਕਲਾਉਡ ਜੋੜ ਨੂੰ ਵੀ ਸੌਖਾ ਬਣਾਇਆ ਗਿਆ ਹੈ।"
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "ਇਹ ਤੁਹਾਨੂੰ:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>ਤਾਜ਼ਾ ਲੋਕਲ ਤੇ ਆਨਲਾਈਨ ਫੋਟੋ ਵੇਖੋ</li> <li>ਆਪਣੀ ਫਲਿੱਕਰ ਸਮੱਗਰੀ ਵਰਤੋਂ</li> "
+"<li>ਰਿਮੋਟ DLNA ਰੈਂਡਰਰ ਉੱਤੇ ਫੋਟੋ ਭੇਜੋ</li> <li>ਬੈਕਗਰਾਊਂਡ ਬਣਾਉ</li><li>ਫੋਟੋ "
+"ਪਰਿੰਟ ਕਰੋ</li><li>ਪਸੰਦੀਦਾ ਦੀ ਚੋਣ ਕਰੋ</li><li>ਹੋਰ ਤਕਨੀਕੀ ਬਦਲਾਅ ਕਰਨ ਲਈ ਪੂਰੇ "
+"ਐਡੀਟਰ ਲਈ ਮਨਜ਼ੂਰ ਕਰੋ</li>"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "ਫੋਟੋ"
 
@@ -116,98 +145,6 @@ msgstr "ਤੁਹਾਨੂੰ ਫਾਇਲ ਸੰਭਾਲਣ ਲਈ ਲੋੜ�
 msgid "Temporary file creation failed."
 msgstr "ਆਰਜ਼ੀ ਫਾਇਲ ਨਿਰਮਾਣ ਫੇਲ੍ਹ ਹੋਇਆ।"
 
-#: ../src/eog-print.c:371
-msgid "Image Settings"
-msgstr "ਚਿੱਤਰ ਸੈਟਿੰਗ"
-
-#: ../src/eog-print-image-setup.c:906
-msgid "Image"
-msgstr "ਚਿੱਤਰ"
-
-#: ../src/eog-print-image-setup.c:907
-msgid "The image whose printing properties will be set up"
-msgstr "ਚਿੱਤਰ, ਜਿਸ ਦੀਆਂ ਪਰਿੰਟਿੰਗ ਵਿਸ਼ੇਸ਼ਤਾ ਨੂੰ ਸੈੱਟਅੱਪ ਕੀਤਾ ਜਾਵੇਗਾ"
-
-#: ../src/eog-print-image-setup.c:913
-msgid "Page Setup"
-msgstr "ਸਫ਼ਾ ਸੈੱਟਅੱਪ"
-
-#: ../src/eog-print-image-setup.c:914
-msgid "The information for the page where the image will be printed"
-msgstr "ਸਫ਼ੇ ਬਾਰੇ ਜਾਣਕਾਰੀ, ਜਿੱਥੇ ਕਿ ਚਿੱਤਰ ਪਰਿੰਟ ਕੀਤਾ ਜਾਵੇਗਾ।"
-
-#: ../src/eog-print-image-setup.c:942
-msgid "Position"
-msgstr "ਸਥਿਤੀ"
-
-#: ../src/eog-print-image-setup.c:946
-msgid "_Left:"
-msgstr "ਖੱਬੇ(_L):"
-
-#: ../src/eog-print-image-setup.c:948
-msgid "_Right:"
-msgstr "ਸੱਜੇ(_R):"
-
-#: ../src/eog-print-image-setup.c:949
-msgid "_Top:"
-msgstr "ਉੱਤੇ(_T):"
-
-#: ../src/eog-print-image-setup.c:950
-msgid "_Bottom:"
-msgstr "ਹੇਠਾਂ(_B):"
-
-#: ../src/eog-print-image-setup.c:953
-msgid "C_enter:"
-msgstr "ਸੈਂਟਰ(_e):"
-
-#: ../src/eog-print-image-setup.c:958
-msgid "None"
-msgstr "ਕੋਈ ਨਹੀਂ"
-
-#: ../src/eog-print-image-setup.c:960
-msgid "Horizontal"
-msgstr "ਹਰੀਜੱਟਲ"
-
-#: ../src/eog-print-image-setup.c:962
-msgid "Vertical"
-msgstr "ਵਰਟੀਕਲ"
-
-#: ../src/eog-print-image-setup.c:964
-msgid "Both"
-msgstr "ਦੋਵੇਂ"
-
-#: ../src/eog-print-image-setup.c:980
-msgid "Size"
-msgstr "ਅਕਾਰ"
-
-#: ../src/eog-print-image-setup.c:983
-msgid "_Width:"
-msgstr "ਚੌੜਾਈ(_W):"
-
-#: ../src/eog-print-image-setup.c:985
-msgid "_Height:"
-msgstr "ਉਚਾਈ(_H):"
-
-#: ../src/eog-print-image-setup.c:988
-msgid "_Scaling:"
-msgstr "ਸਕੇਲਿੰਗ(_S):"
-
-#: ../src/eog-print-image-setup.c:999
-msgid "_Unit:"
-msgstr "ਯੂਨਿਟ(_U):"
-
-#: ../src/eog-print-image-setup.c:1004
-msgid "Millimeters"
-msgstr "ਮਿਲੀਮੀਟਰ"
-
-#: ../src/eog-print-image-setup.c:1006
-msgid "Inches"
-msgstr "ਇੰਚ"
-
-#: ../src/eog-print-image-setup.c:1035
-msgid "Preview"
-msgstr "ਝਲਕ"
-
 #: ../src/eog-uri-converter.c:984
 #, c-format
 msgid "At least two file names are equal."
@@ -233,131 +170,332 @@ msgstr "ਫੋਟੋ ਬਾਰੇ"
 msgid "Quit"
 msgstr "ਬਾਹਰ"
 
-#: ../src/photos-empty-results-box.c:70
-msgid "No Photos Found"
-msgstr "ਕੋਈ ਫੋਟੋ ਨਹੀਂ ਲੱਭੀ"
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "ਐਲਬਮ"
 
-#: ../src/photos-indexing-notification.c:170
-msgid "Your photos are being indexed"
-msgstr "ਤੁਹਾਡੀਆਂ ਫੋਟੋ ਦਾ ਇੰਡੈਕਸ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "DLNA ਰੈਂਡਰਰ ਜੰਤਰ"
 
-#: ../src/photos-indexing-notification.c:174
-msgid "Some photos might not be available during this process"
-msgstr "ਕੁਝ ਫੋਟੋ ਇਸ ਕਾਰਵਾਈ ਦੇ ਦੌਰਾਨ ਸ਼ਾਇਦ ਉਪਲੱਬਧ ਨਾ ਹੋਣ"
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "ਐਲਬਮ"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:190
-msgid "Load More"
-msgstr "ਹੋਰ ਲੋਡ"
-
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:113
-msgid "Loading..."
-msgstr "...ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
-
-#: ../src/photos-main-toolbar.c:96
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "ਪਸੰਦੀਦਾ"
 
-#: ../src/photos-main-toolbar.c:135
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "ਕੋਈ ਫੋਟੋ ਨਹੀਂ ਲੱਭੀ"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "ਫਲਿੱਕਰ"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr "ਤੁਹਾਡੀਆਂ ਫੋਟੋ ਦਾ ਇੰਡੈਕਸ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr "ਕੁਝ ਫੋਟੋ ਇਸ ਕਾਰਵਾਈ ਦੇ ਦੌਰਾਨ ਸ਼ਾਇਦ ਉਪਲੱਬਧ ਨਾ ਹੋਣ"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "ਹੋਰ ਲੋਡ"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#| msgid "Loading..."
+msgid "Loading…"
+msgstr "…ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "ਲੋਕਲ"
+
+#: ../src/photos-main-toolbar.c:99
 msgid "Click on items to select them"
 msgstr "ਆਈਟਮਾਂ ਨੂੰ ਚੁਣਨ ਲਈ ਉਹਨਾਂ ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ"
 
-#: ../src/photos-main-toolbar.c:137
+#: ../src/photos-main-toolbar.c:101
 #, c-format
+#| msgid "%d selected"
 msgid "%d selected"
-msgstr "%d ਚੁਣੀਆਂ"
+msgid_plural "%d selected"
+msgstr[0] "%d ਚੁਣੀ"
+msgstr[1] "%d ਚੁਣੀਆਂ"
 
-#: ../src/photos-main-toolbar.c:193 ../src/photos-main-toolbar.c:362
+#: ../src/photos-main-toolbar.c:146
 msgid "Back"
 msgstr "ਪਿੱਛੇ"
 
-#: ../src/photos-main-toolbar.c:310 ../src/photos-main-toolbar.c:336
+#: ../src/photos-main-toolbar.c:273
 msgid "Select Items"
 msgstr "ਆਈਟਮਾਂ ਚੁਣੋ"
 
-#: ../src/photos-main-toolbar.c:380 ../src/photos-properties-dialog.c:328
-msgid "Done"
-msgstr "ਮੁਕੰਮਲ"
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "%s ਨਾਲ ਖੋਲ੍ਹੋ"
 
-#: ../src/photos-main-window.c:334
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "ਰੱਦ ਕਰੋ"
+
+#: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
 msgstr "ਗਨੋਮ ਉੱਤੇ ਆਪਣੀਆਂ ਫੋਟੋ ਵਰਤੋਂ, ਪਰਬੰਧ ਕਰੋ ਅਤੇ ਸਾਂਝੀਆਂ ਕਰੋ"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:344
+#: ../src/photos-main-window.c:339
 msgid "translator-credits"
 msgstr ""
 "ਅਮਨਪਰੀਤ ਸਿੰਘ ਆਲਮ (Amanpreet Singh)\n"
 "ਪੰਜਾਬੀ ਓਪਨਸੋਰਸ ਟੀਮ (POST)"
 
-#: ../src/photos-organize-collection-dialog.c:133
-#: ../src/photos-selection-toolbar.c:572
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+#| msgid "Organize"
+msgctxt "Dialog title"
 msgid "Organize"
 msgstr "ਪਰਬੰਧ"
 
-#: ../src/photos-properties-dialog.c:155
-msgid "Title"
-msgstr "ਟਾਈਟਲ"
-
-#: ../src/photos-properties-dialog.c:164
-msgid "Author"
-msgstr "ਲੇਖਕ"
-
-#: ../src/photos-properties-dialog.c:171
-msgid "Source"
-msgstr "ਸਰੋਤ"
-
-#: ../src/photos-properties-dialog.c:177
-msgid "Date Modified"
-msgstr "ਸੋਧ ਤਾਰੀਖ"
-
-#: ../src/photos-properties-dialog.c:185
-msgid "Date Created"
-msgstr "ਬਣਾਉਣ ਮਿਤੀ"
-
-#: ../src/photos-properties-dialog.c:192
-msgid "Type"
-msgstr "ਕਿਸਮ"
-
-#: ../src/photos-properties-dialog.c:365 ../src/photos-selection-toolbar.c:583
-msgid "Properties"
-msgstr "ਵਿਸ਼ੇਸ਼ਤਾ"
-
-#: ../src/photos-search-type-manager.c:63 ../src/photos-source-manager.c:144
-msgid "All"
-msgstr "ਸਭ"
-
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:306
-#, c-format
-msgid "Open with %s"
-msgstr "%s ਨਾਲ ਖੋਲ੍ਹੋ"
-
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-selection-toolbar.c:309
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "ਖੋਲ੍ਹੋ"
 
-#: ../src/photos-selection-toolbar.c:324
+#: ../src/photos-preview-menu.ui.h:2
+#| msgid "Print"
+msgid "Print…"
+msgstr "…ਪਰਿੰਟ ਕਰੋ"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "...ਉੱਤੇ ਵੇਖਾਓ"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "ਬੈਕਗਰਾਊਂਡ ਬਣਾਓ"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "ਵਿਸ਼ੇਸ਼ਤਾ"
+
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
 msgid "Remove from favorites"
 msgstr "ਪਸੰਦ ਵਿੱਚੋਂ ਹਟਾਓ"
 
-#: ../src/photos-selection-toolbar.c:330
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
 msgid "Add to favorites"
 msgstr "ਪਸੰਦ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ"
 
-#: ../src/photos-selection-toolbar.c:539
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "ਚਿੱਤਰ ਸੈਟਿੰਗ"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "ਸਥਿਤੀ"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "ਖੱਬੇ(_L):"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "ਸੱਜੇ(_R):"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "ਉੱਤੇ(_T):"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "ਹੇਠਾਂ(_B):"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "ਸੈਂਟਰ(_e):"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "ਕੋਈ ਨਹੀਂ"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "ਹਰੀਜੱਟਲ"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "ਵਰਟੀਕਲ"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "ਦੋਵੇਂ"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "ਅਕਾਰ"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "ਚੌੜਾਈ(_W):"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "ਉਚਾਈ(_H):"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "ਸਕੇਲਿੰਗ(_S):"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "ਯੂਨਿਟ(_U):"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "ਮਿਲੀਮੀਟਰ"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "ਇੰਚ"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "ਝਲਕ"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+#| msgid "Title"
+msgctxt "Document Title"
+msgid "Title"
+msgstr "ਟਾਈਟਲ"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+#| msgid "Author"
+msgctxt "Document Author"
+msgid "Author"
+msgstr "ਲੇਖਕ"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "ਸਰੋਤ"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "ਸੋਧ ਤਾਰੀਖ"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "ਬਣਾਉਣ ਮਿਤੀ"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+#| msgid "Type"
+msgctxt "Document Type"
+msgid "Type"
+msgstr "ਕਿਸਮ"
+
+#: ../src/photos-properties-dialog.c:269
+#| msgid "_Width:"
+msgid "Width"
+msgstr "ਚੌੜਾਈ"
+
+#: ../src/photos-properties-dialog.c:279
+#| msgid "_Height:"
+msgid "Height"
+msgstr "ਉਚਾਈ"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "ਕੈਮਰਾ"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "ਐਕਸਪੋਜ਼ਰ"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "ਅਪਰਚਰ"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "ਫੋਕਲ ਲੰਬਾਈ"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ISO ਸਪੀਡ"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "ਫਲੈਸ਼"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr "ਬੰਦ, ਨਹੀਂ ਚੱਲੀ"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr "ਚਾਲੂ, ਫਾਇਰਡ"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "ਮੁਕੰਮਲ"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "ਸਭ"
+
+#: ../src/photos-selection-menu.ui.h:1
+#| msgid "Select Items"
+msgid "Select All"
+msgstr "ਸਭ ਚੁਣੋ"
+
+#: ../src/photos-selection-menu.ui.h:2
+#| msgid "Select Items"
+msgid "Select None"
+msgstr "ਕੋਈ ਨਾ ਚੁਣੋ"
+
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "ਪਰਿੰਟ ਕਰੋ"
 
-#: ../src/photos-selection-toolbar.c:550
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "ਹਟਾਓ"
 
-#: ../src/photos-source-manager.c:148
-msgid "Local"
-msgstr "ਲੋਕਲ"
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "ਐਲਬਮ ਵਿੱਚ ਸ਼ਾਮਿਲ"
 
-#: ../src/photos-tracker-controller.c:80
+#: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
 msgstr "ਫੋਟੋ ਦੀ ਸੂਚੀ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਅਸਮਰੱਥ"
 
+#~ msgid "Image"
+#~ msgstr "ਚਿੱਤਰ"
+
+#~ msgid "The image whose printing properties will be set up"
+#~ msgstr "ਚਿੱਤਰ, ਜਿਸ ਦੀਆਂ ਪਰਿੰਟਿੰਗ ਵਿਸ਼ੇਸ਼ਤਾ ਨੂੰ ਸੈੱਟਅੱਪ ਕੀਤਾ ਜਾਵੇਗਾ"
+
+#~ msgid "Page Setup"
+#~ msgstr "ਸਫ਼ਾ ਸੈੱਟਅੱਪ"
+
+#~ msgid "The information for the page where the image will be printed"
+#~ msgstr "ਸਫ਼ੇ ਬਾਰੇ ਜਾਣਕਾਰੀ, ਜਿੱਥੇ ਕਿ ਚਿੱਤਰ ਪਰਿੰਟ ਕੀਤਾ ਜਾਵੇਗਾ।"
