@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3.10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-02 16:24+0000\n"
+"POT-Creation-Date: 2013-09-10 03:11+0000\n"
 "PO-Revision-Date: 2013-08-20 13:44+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -18,6 +18,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Gtranslator 2.91.6\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Jednoduchá aplikace, kterou můžete používat pro přístup, uspořádávání a "
+"sdílení svých fotografií v GNOME. Je zamýšlena jako snadná a elegantní "
+"náhrada místo používání správce souborů k práci s fotkami. Díky účtům on-"
+"line v GNOME umí bez problémů fungovat i s cloudem."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Můžete v ní dělat následující věci:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>Zobrazovat nedávno použité místní a on-line fotografie</li> <li>Dostat se "
+"ke svému obsahu na službě Flickr</li> <li>Posílat fotografie do vzdálených "
+"zařízení DLNA</li> <li>Nastavovat pozadí plochy</li> <li>Tisknout fotografie"
+"</li> <li>Vybírat oblíbené</li> <li>Pro náročnější změny otevřít fotografie "
+"v plnohodnotném editoru</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
@@ -141,7 +170,7 @@ msgstr "O Fotkách"
 msgid "Quit"
 msgstr "Ukončit"
 
-#: ../src/photos-base-item.c:312
+#: ../src/photos-base-item.c:303
 msgid "Album"
 msgstr "Album"
 
