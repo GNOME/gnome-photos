@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-02 20:11+0200\n"
-"PO-Revision-Date: 2013-09-02 20:11+0200\n"
+"POT-Creation-Date: 2013-09-11 01:14+0200\n"
+"PO-Revision-Date: 2013-09-11 01:15+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -17,6 +17,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Virtaal 0.7.1\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Un aplicativo doado para acceder, organizar e compartir as súas fotos en "
+"GNOME. Está pensado para ser unha alternativa sinxela e elegante ao uso do "
+"xestor de ficheiros para xestionar fotos. Conta con integración coa nube "
+"mediante as Contas en liña de GNOME."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Permítelle:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>Ver as súas fotos locais e en liña recentes</li> <li>Acceder ao seu "
+"contido en Flickr</li> <li>Enviar fotos a renderizadores DLNA remotos</li> "
+"<li>Estabelecer unha foto como fondo de escritorio</li> <li>Imprimir "
+"fotos</li> <li>Seleccionar fatoritos</li> <li>Abrir fotos co seu editor  "
+"para facer cambios avanzados</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
@@ -140,7 +169,7 @@ msgstr "Sobre fotos"
 msgid "Quit"
 msgstr "Saír"
 
-#: ../src/photos-base-item.c:312
+#: ../src/photos-base-item.c:303
 msgid "Album"
 msgstr "Álbum"
 
