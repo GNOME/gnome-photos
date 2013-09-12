@@ -1,0 +1,480 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-11 15:36+0000\n"
+"PO-Revision-Date: 2013-09-12 18:51+0300\n"
+"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
+"Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
+"Language: lv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
+"2);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Vienkārša lietotne, kas noder fotogrāfiju piekļūšanai, organizēšanai un "
+"koplietošanai GNOME vidē Tā ir paredzēta kā datņu pārvaldnieka aizvietotājs "
+"darbam ar fotogrāfijām. Integrāciju ar mākoņpakalpojumiem nodrošina caur "
+"GNOME tiešsaistes kontiem."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Tā jums ļauj:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>Skatīt nesenās lokālās un tiešsaistes fotogrāfijas</li> "
+"<li>Piekļūt savam Flickr saturam</li> "
+"<li>Sūtīt fotogrāfijas uz DLNA attēlotājiem</li> "
+"<li>Iestatīt kā fonu</li> "
+"<li>Drukāt fotogrāfijas</li> "
+"<li>Izvēlēties iecienītās</li> "
+"<li>Atvērt ārējo redaktoru, lai veiktu plašākas izmaiņas</li>"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
+msgid "Photos"
+msgstr "Fotogrāfijas"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Piekļūstiet, organizējiet, dalieties ar fotogrāfijām"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Attēli;Fotogrāfijas;"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "Loga izmērs"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "Loga izmērs (platums un augstums)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "Loga novietojums"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "Loga novietojums (x un y)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "Logs maksimizēts"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "Loga stāvoklis — maksimizēts"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %Y. gada %d. %B  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%Y. gada %d. %B"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (lēca)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm filmiņa)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Neielādēta attēla pārveidošana."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Neizdevās pārveidot."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "Šis datnes formāts neatbalsta EXIF."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Neizdevās ielādēt attēlu."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Nav ielādētu attēlu."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Jums nav šīs datnes saglabāšanai nepieciešamo atļauju."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Neizdevās izveidot pagaidu datni."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Vismaz divu datņu nosaukumi ir vienādi."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Nevarēja parādīt attēla skatītāja palīdzību"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (nederīgs unikods)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Pilnekrāns"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "Par Fotogrāfijām"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Iziet"
+
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "Albums"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "DLNA attēlošanas ierīces"
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Albumi"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "Izlase"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "Nav atrastu fotogrāfiju"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr "Fotogrāfijas tiek indeksētas"
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr "Šajā laikā dažas fotogrāfijas varētu nebūt pieejamas"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "Ielādēt vairāk"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "Ielādē…"
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "Lokāls"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "Spiediet uz vienumiem, lai tos izvēlētos"
+
+#: ../src/photos-main-toolbar.c:101
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d izvēlēts"
+msgstr[1] "%d izvēlēti"
+msgstr[2] "%d izvēlētu"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "Atpakaļ"
+
+#: ../src/photos-main-toolbar.c:273
+msgid "Select Items"
+msgstr "Izvēlēties vienumus"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "Atvērt ar %s"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "Atcelt"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Piekļūstiet, organizējiet, dalieties ar fotogrāfijām GNOME vidē"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr "Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Organizēt"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "Atvērt"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Drukāt…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Attēlot uz…"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Iestatīt kā fonu"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "Īpašības"
+
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Izņemt no izlases"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Pievienot izlasei"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "Attēla iestatījumi"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "Novietojums"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "Pa _kreisi:"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "Pa _labi:"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "_Augšā:"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "A_pakšā:"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "C_entrā:"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "Nav"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "Horizontāli"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "Vertikāli"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "Abi"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "Izmērs"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "_Platums:"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "_Augstums:"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "Palielinājum_s:"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "Mēr_vienības:"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "Milimetri"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "Collas"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "Priekšskatījums"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Nosaukums"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Autors"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "Avots"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "Izmaiņu datums"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "Izveidošanas datums"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Tips"
+
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "Platums"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "Augstums"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "Fotoaparāts"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "Ekspozīcija"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "Diafragma"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "Fokālais attālums"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ISO ātrums"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "Zibspuldze"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr "Izslēgta, neuzzibsnīja"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr "Ieslēgta, uzzibsnīja"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "Pabeigts"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "Viss"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Izvēlēties visu"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Neizvēlēties nevienu"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "Drukāt"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "Dzēst"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "Pievienot albumam"
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr "Neizdevās saņemt fotogrāfiju sarakstu"
+
