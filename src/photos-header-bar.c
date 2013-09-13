@@ -69,9 +69,13 @@ static void
 photos_header_bar_init (PhotosHeaderBar *self)
 {
   PhotosHeaderBarPrivate *priv;
+  GtkStyleContext *context;
 
   self->priv = photos_header_bar_get_instance_private (self);
   priv = self->priv;
+
+  context = gtk_widget_get_style_context (GTK_WIDGET (self));
+  gtk_style_context_add_class (context, "titlebar");
 
   priv->stack_switcher = g_object_ref_sink (gtk_stack_switcher_new ());
   gtk_widget_show (priv->stack_switcher);
