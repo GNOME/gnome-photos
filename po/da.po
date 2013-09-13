@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-10 23:43+0200\n"
-"PO-Revision-Date: 2013-9-10 22:10+0100\n"
+"POT-Creation-Date: 2013-09-13 22:03+0200\n"
+"PO-Revision-Date: 2013-09-11 22:59+0100\n"
 "Last-Translator: Kris Thomsen <mail@kristhomsen.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -24,10 +24,15 @@ msgid ""
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
+"En simpel applikation til at tilgå, organisere og dele dine billeder i "
+"GNOME. Det er meningen, at det skal være en simpel og elegant erstatning i "
+"håndteringen af billeder i stedet for at bruge en filhåndtering til at "
+"håndtere billeder. Problemfri cloud-integration tilbydes gennem GNOME Online "
+"konti."
 
 #: ../data/gnome-photos.appdata.xml.in.h:2
 msgid "It lets you:"
-msgstr ""
+msgstr "Den lader dig:"
 
 #: ../data/gnome-photos.appdata.xml.in.h:3
 msgid ""
@@ -36,6 +41,11 @@ msgid ""
 "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
 "featured editor for more advanced changes</li>"
 msgstr ""
+"<li>Se nylige lokale og online billeder</li> <li>Tilgå dit Flickr-indhold</"
+"li> <li>Sende billeder til fjerne DLNA-renderingsenheder</li> <li>Sætte som "
+"baggrund</li> <li>Udskrive billeder</li> <li>Vælge favoritter</li> <li>Åbne "
+"et fuldt funktionsdygtigt redigeringsprogram for mere avancerede ændringer</"
+"li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
@@ -161,15 +171,15 @@ msgstr "Afslut"
 
 #: ../src/photos-base-item.c:303
 msgid "Album"
-msgstr ""
+msgstr "Album"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
-msgstr ""
+msgstr "DLNA-renderingsenheder"
 
 #: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
 msgid "Albums"
-msgstr ""
+msgstr "Album"
 
 #: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
@@ -181,7 +191,7 @@ msgstr "Ingen billeder fundet"
 
 #: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
 msgid "Flickr"
-msgstr ""
+msgstr "Flickr"
 
 #: ../src/photos-indexing-notification.c:168
 msgid "Your photos are being indexed"
@@ -196,9 +206,8 @@ msgid "Load More"
 msgstr "Indlæs flere"
 
 #: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
-#, fuzzy
 msgid "Loading…"
-msgstr "Indlæser..."
+msgstr "Indlæser…"
 
 #: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
 msgid "Local"
@@ -209,11 +218,11 @@ msgid "Click on items to select them"
 msgstr "Tryk på elementer for at vælge dem"
 
 #: ../src/photos-main-toolbar.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valgt"
-msgstr[1] "%d valgt"
+msgstr[1] "%d valgte"
 
 #: ../src/photos-main-toolbar.c:146
 msgid "Back"
@@ -231,7 +240,7 @@ msgstr "Åbn med %s"
 
 #: ../src/photos-main-toolbar.c:490
 msgid "Cancel"
-msgstr ""
+msgstr "Annullér"
 
 #: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
@@ -248,7 +257,6 @@ msgstr ""
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
-#, fuzzy
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organisér"
@@ -265,11 +273,11 @@ msgstr "Udskriv…"
 
 #: ../src/photos-preview-menu.ui.h:3
 msgid "Display on…"
-msgstr ""
+msgstr "Vis på…"
 
 #: ../src/photos-preview-menu.ui.h:4
 msgid "Set as Background"
-msgstr ""
+msgstr "Sæt som baggrund"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
 #: ../src/photos-selection-toolbar.c:469
@@ -366,7 +374,6 @@ msgstr "Forhåndsvisning"
 #. * properties dialog
 #.
 #: ../src/photos-properties-dialog.c:217
-#, fuzzy
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Titel"
@@ -375,7 +382,6 @@ msgstr "Titel"
 #. * the properties dialog
 #.
 #: ../src/photos-properties-dialog.c:229
-#, fuzzy
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Forfatter"
@@ -396,52 +402,49 @@ msgstr "Oprettelsesdato"
 #. * properties dialog
 #.
 #: ../src/photos-properties-dialog.c:260
-#, fuzzy
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Type"
 
 #: ../src/photos-properties-dialog.c:269
-#, fuzzy
 msgid "Width"
-msgstr "_Bredde:"
+msgstr "Bredde"
 
 #: ../src/photos-properties-dialog.c:279
-#, fuzzy
 msgid "Height"
-msgstr "_Højde:"
+msgstr "Højde"
 
 #: ../src/photos-properties-dialog.c:294
 msgid "Camera"
-msgstr ""
+msgstr "Kamera"
 
 #: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
-msgstr ""
+msgstr "Eksponering"
 
 #: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
-msgstr ""
+msgstr "Blænde"
 
 #: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
-msgstr ""
+msgstr "Brændvidde"
 
 #: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
-msgstr ""
+msgstr "ISO-hastighed"
 
 #: ../src/photos-properties-dialog.c:344
 msgid "Flash"
-msgstr ""
+msgstr "Blitz"
 
 #: ../src/photos-properties-dialog.c:527
 msgid "Off, did not fire"
-msgstr ""
+msgstr "Slukket, blev ikke affyret"
 
 #: ../src/photos-properties-dialog.c:529
 msgid "On, fired"
-msgstr ""
+msgstr "Tændt, blev affyret"
 
 #: ../src/photos-properties-dialog.c:608
 msgid "Done"
@@ -469,7 +472,7 @@ msgstr "Slet"
 
 #: ../src/photos-selection-toolbar.c:461
 msgid "Add to Album"
-msgstr ""
+msgstr "Føj til album"
 
 #: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
