@@ -10,8 +10,7 @@ desktop_in_files = $(PACKAGE_TARNAME).desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
-gsettings_in_files = org.gnome.photos.gschema.xml.in
-gsettings_SCHEMAS = $(gsettings_in_files:.xml.in=.xml)
+gsettings_SCHEMAS = org.gnome.photos.gschema.xml
 .PRECIOUS: $(gsettings_SCHEMAS)
 
 iconsdir = $(pkgdatadir)/icons
@@ -19,19 +18,18 @@ dist_icons_DATA = \
 	thumbnail-frame.png \
 	$(NULL)
 
-@INTLTOOL_XML_NOMERGE_RULE@
+@INTLTOOL_XML_RULE@
 @GSETTINGS_RULES@
 
 EXTRA_DIST = \
 	$(appdata_in_files) \
 	$(desktop_in_in_files) \
-	$(gsettings_in_files) \
+	$(gsettings_SCHEMAS) \
 	$(NULL)
 
 CLEANFILES = \
 	$(appdata_DATA) \
 	$(desktop_DATA) \
-	$(gsettings_SCHEMAS) \
 	$(NULL)
 
 DISTCLEANFILES = \
