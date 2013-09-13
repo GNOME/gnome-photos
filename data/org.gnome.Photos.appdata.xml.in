@@ -14,15 +14,15 @@
       through GNOME Online Accounts.
     </_p>
     <_p>It lets you:</_p>
-    <_ul>
-      <li>View recent local and online photos</li>
-      <li>Access your Facebook or Flickr content</li>
-      <li>Send photos to remote DLNA renderers</li>
-      <li>Set as background</li>
-      <li>Print photos</li>
-      <li>Select favorites</li>
-      <li>Allow opening full featured editor for more advanced changes</li>
-    </_ul>
+    <ul>
+      <_li>View recent local and online photos</_li>
+      <_li>Access your Facebook or Flickr content</_li>
+      <_li>Send photos to remote DLNA renderers</_li>
+      <_li>Set as background</_li>
+      <_li>Print photos</_li>
+      <_li>Select favorites</_li>
+      <_li>Allow opening full featured editor for more advanced changes</_li>
+    </ul>
   </description>
   <screenshots>
     <screenshot type="default" width="940" height="592">https://help.gnome.org/misc/release-notes/3.10/figures/gnome-photos.png</screenshot>
