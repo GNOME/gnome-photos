@@ -3,7 +3,7 @@
 
 data/gnome-photos.appdata.xml.in
 data/gnome-photos.desktop.in.in
-data/org.gnome.photos.gschema.xml.in
+data/org.gnome.photos.gschema.xml
 src/eog-exif-util.c
 src/eog-image.c
 src/eog-uri-converter.c
