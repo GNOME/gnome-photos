@@ -4,21 +4,53 @@
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2013.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2013.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2013.
+# Benjamin Steinwender <b@stbe.at>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-07 20:00+0200\n"
-"PO-Revision-Date: 2013-09-07 20:01+0100\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-13 20:03+0000\n"
+"PO-Revision-Date: 2013-09-14 07:06+0100\n"
+"Last-Translator: Benjamin Steinwender <b@stbe.at>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.7\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Eine einfache Anwendung, um Ihre Fotos in GNOME zu betrachten, zu "
+"organisieren und zu teilen. Mit dieser Anwendung soll ein einfacher und "
+"eleganter Ersatz für einen Dateimanager bereit gestellt werden, um mit Fotos "
+"zu arbeiten. Eine direkte Cloud-Integration wird durch die GNOME-Online-"
+"Konten angeboten."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Es erlaubt Ihnen:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>Lokale und Online-Fotos zu betrachten</li> <li>Auf Ihre Flickr-Inhalte "
+"zuzugreifen</li> <li>Fotos zu entfernten DLNA-Empfängern zu senden</li> "
+"<li>Als Hintergrundbild zu setzen</li> <li>Fotos zu drucken</li> <li>Ihre "
+"Favoriten auszuwählen</li> <li>Einen vollwertigen Editor zum Bearbeiten zu "
+"öffnen</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
