@@ -1,0 +1,473 @@
+# Korean translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Seong-ho Cho <darkcircle.0426@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos gnome-3-10\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-14 17:40+0000\n"
+"PO-Revision-Date: 2013-09-15 05:31+0900\n"
+"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
+"Language-Team: Korean <gnome-kr@googlegroups.com>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"그놈에서 사진에 접근하고 정리하며 공유하는 간단한 프로그램입니다. 사진을 다"
+"룰 때 파일 관리자를 사용하는 방법보다 더 간단하고 세련된 기능이 갖추어져 있습"
+"니다. 그놈 온라인 계정에서 제공하는 감쪽같은 클라우드 통합 기능도 있습니다."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "이 프로그램에는 다음 기능이 있습니다:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>최근 로컬 사진과 온라인 사진 보기</li> <li>플리커 컨텐트에 접근</li> <li>"
+"원격 DLNA 렌더러에 사진 전송</li> <li>배경 화면으로 설정</li> <li>사진 인쇄</"
+"li> <li>즐겨찾기 설정</li> <li>고급스런 편집이 필요할 때 더욱 다양한 기능의 "
+"편집기 프로그램으로 열기</li>"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
+msgid "Photos"
+msgstr "사진"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "사진을 접근하고, 정리하고 공유하세요"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Photos;사진;Picture;그림"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:1
+msgid "Window size"
+msgstr "창 크기"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:2
+msgid "Window size (width and height)."
+msgstr "창의 크기입니다(폭과 너비)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:3
+msgid "Window position"
+msgstr "창 위치"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:4
+msgid "Window position (x and y)."
+msgstr "창의 위치입니다(x와 y)."
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:5
+msgid "Window maximized"
+msgstr "창 최대화됨"
+
+#: ../data/org.gnome.photos.gschema.xml.in.h:6
+msgid "Window maximized state"
+msgstr "창 최대화 여부입니다"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%Y년 %B %d일 (%a)  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%Y년 %B %d일 (%a)"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (렌즈)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm 필름)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "불러오기 해제한 그림을 변환합니다."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "변환에 실패했습니다."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "이 파일 형식에 EXIF를 지원하지 않습니다."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "그림 불러오기에 실패했습니다."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "불러온 그림이 없습니다."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "파일을 저장하는데 필요한 권한을 가지고 있지 않습니다."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "임시 파일을 만드는데 실패했습니다."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "최소한 두개의 파일 이름이 같습니다."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "그림 보기에 대한 도움말을 표시할 수 없습니다"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr "(잘못된 유니코드)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "최대 화면"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "사진 정보"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "끝내기"
+
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "앨범"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "DLNA 렌더러 장치"
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "앨범"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "즐겨찾기"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "사진이 없습니다"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "플리커"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr "사진을 인덱싱하는 중입니다"
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr "이 처리 과정중 일부 사진은 사용할 수 없습니다"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "더 불러오기"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "불러오는중…"
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "로컬"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "선택하려는 항목을 누르십시오"
+
+#: ../src/photos-main-toolbar.c:101
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "선택한 사진 %d개"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "뒤로"
+
+#: ../src/photos-main-toolbar.c:273
+msgid "Select Items"
+msgstr "항목 선택"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "%s(으)로 열기"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "취소"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr "그놈에서 사진에 접근하고, 정리하고, 공유합니다"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr "조성호 <darkcircle.0426@gmail.com>"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "정리하기"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "열기"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "인쇄…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "다음에 표시하기…"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "배경 화면으로 설정"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "속성"
+
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "즐겨찾기에서 제거"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "즐겨찾기에 추가"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "그림 설정"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "위치"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "왼쪽(_L):"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "오른쪽(_R):"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "위(_T):"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "아래(_B):"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "가운데(_E):"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "없음"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "수평"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "수직"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "둘 다"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "크기"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "폭(_W):"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "너비(_H):"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "크기조절(_S):"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "단위(_U):"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "밀리미터"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "인치"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "미리 보기"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
+msgid "Title"
+msgstr "제목"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
+msgid "Author"
+msgstr "촬영자"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "원본"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "수정 날짜"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "만든 날짜"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
+msgid "Type"
+msgstr "형식"
+
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "폭"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "너비"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "카메라"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "노출"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "조리개"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "초점 길이"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ISO 속도"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "플래시"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr "끔, 터뜨리지 않음"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr "켬, 터뜨림"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "완료"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "모두"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "모두 선택"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "선택하지 않음"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "인쇄"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "삭제"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "앨범에 추가"
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr "사진 목록을 가져올 수 없습니다"
