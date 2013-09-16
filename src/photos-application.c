@@ -34,6 +34,7 @@
 
 #include "eog-debug.h"
 #include "photos-application.h"
+#include "photos-base-item.h"
 #include "photos-camera-cache.h"
 #include "photos-dlna-renderers-dialog.h"
 #include "photos-gom-miner.h"
@@ -292,22 +293,49 @@ photos_application_quit (PhotosApplication *self, GVariant *parameter)
 
 
 static void
-photos_application_set_bg (PhotosApplication *self)
+photos_application_set_bg_download (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   PhotosApplicationPrivate *priv = self->priv;
-  PhotosBaseItem *item;
-  const gchar *uri;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+  GError *error;
+  gchar *filename = NULL;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
-  if (item == NULL)
-    return;
+  error = NULL;
+  filename = photos_base_item_download_finish (item, res, &error);
+  if (error != NULL)
+    {
+      const gchar *uri;
 
-  uri = photos_base_item_get_uri (item);
-  g_settings_set_string (priv->settings, "picture-uri", uri);
+      uri = photos_base_item_get_uri (item);
+      g_warning ("Unable to extract the local filename for %s", uri);
+      g_error_free (error);
+      goto out;
+    }
+
+
+  g_settings_set_string (priv->settings, "picture-uri", filename);
   g_settings_set_enum (priv->settings, "picture-options", G_DESKTOP_BACKGROUND_STYLE_ZOOM);
   g_settings_set_enum (priv->settings, "color-shading-type", G_DESKTOP_BACKGROUND_SHADING_SOLID);
   g_settings_set_string (priv->settings, "primary-color", "#000000000000");
   g_settings_set_string (priv->settings, "secondary-color", "#000000000000");
+
+ out:
+  g_free (filename);
+  g_object_unref (self);
+}
+
+
+static void
+photos_application_set_bg (PhotosApplication *self)
+{
+  PhotosBaseItem *item;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  if (item == NULL)
+    return;
+
+  photos_base_item_download_async (item, NULL, photos_application_set_bg_download, g_object_ref (self));
 }
 
 
