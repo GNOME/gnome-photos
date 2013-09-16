@@ -2,15 +2,16 @@
 # Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2013.
+# Yosef Or Boczko <yoseforb@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 10:59+0300\n"
-"PO-Revision-Date: 2013-05-07 11:10+0200\n"
-"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
-"Language-Team: Hebrew <sh.yaron@gmail.com>\n"
+"POT-Creation-Date: 2013-09-16 20:44+0300\n"
+"PO-Revision-Date: 2013-09-16 20:42+0300\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"Language-Team: עברית <>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,9 +20,36 @@ msgstr ""
 "X-Poedit-Language: Hebrew\n"
 "X-Poedit-Country: ISRAEL\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-embed.c:450
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"יישום פשוט לגישה, ארגון ושיתוף תמונות ב־GNOME. יישום זה נועד להוות תחליף "
+"פשוט ומהודר לשימוש במנהל קבצים להתמודדות עם תמונות. שילוב ענן חלק מוצע "
+"באמצעות GNOME חשבונות מקוונים."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "הוא מאפשר:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>צפייה בתמונות מקוונות ומקומיות אחרונות</li> <li>גישה לתוכן Flickr שלך</"
+"li> <li>שליחת תמונות למפיקי DLNA מרוחקים</li> <li>הגדרה כרקע שולחן העבודה</"
+"li> <li>הדפסת תמונות</li> <li>בחירת מועדפים</li> <li>אפשרות לפתיחת עורך מלא "
+"לשינויים מתקדמים יותר </li> "
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "תמונות"
@@ -59,8 +87,7 @@ msgid "Window maximized state"
 msgstr "Window maximized state"
 
 #. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120
-#: ../src/eog-exif-util.c:160
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
 msgid "%a, %d %B %Y  %X"
 msgstr "%a, ה־%e ב%B %Y  %X"
 
@@ -104,20 +131,17 @@ msgstr "אין תמיכה ב־EXIF במבנה קובץ זה."
 msgid "Image loading failed."
 msgstr "טעינת התמונה נכשלה."
 
-#: ../src/eog-image.c:1727
-#: ../src/eog-image.c:1847
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
 #, c-format
 msgid "No image loaded."
 msgstr "לא נטענה תמונה."
 
-#: ../src/eog-image.c:1735
-#: ../src/eog-image.c:1856
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
 #, c-format
 msgid "You do not have the permissions necessary to save the file."
 msgstr "אין לך את ההרשאות המתאימות לשמירת קובץ זה."
 
-#: ../src/eog-image.c:1745
-#: ../src/eog-image.c:1867
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
 #, c-format
 msgid "Temporary file creation failed."
 msgstr "יצירת הקובץ הזמני נכשלה."
@@ -147,13 +171,19 @@ msgstr "על אודות תמונות"
 msgid "Quit"
 msgstr "יציאה"
 
-#: ../src/photos-embed.c:447
-#: ../src/photos-search-type-manager.c:78
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "אלבום"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "מעבד התקני DLNA"
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
 msgid "Albums"
 msgstr "אלבומים"
 
-#: ../src/photos-embed.c:453
-#: ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "מועדפים"
 
@@ -161,54 +191,58 @@ msgstr "מועדפים"
 msgid "No Photos Found"
 msgstr "לא נמצאו תמונות"
 
-#: ../src/photos-indexing-notification.c:170
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
 msgid "Your photos are being indexed"
 msgstr "התמונות שלך נשמרות באינדקס"
 
-#: ../src/photos-indexing-notification.c:174
+#: ../src/photos-indexing-notification.c:172
 msgid "Some photos might not be available during this process"
 msgstr "יתכן שחלק מהתמונות לא יהיו זמינות במשך תהליך זה"
 
-#: ../src/photos-load-more-button.c:73
-#: ../src/photos-load-more-button.c:195
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
 msgid "Load More"
 msgstr "טעינת עוד"
 
-#: ../src/photos-load-more-button.c:86
-#: ../src/photos-spinner-box.c:69
-msgid "Loading..."
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
 msgstr "בטעינה…"
 
-#: ../src/photos-main-toolbar.c:100
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "מקומי"
+
+#: ../src/photos-main-toolbar.c:99
 msgid "Click on items to select them"
 msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
 
-#: ../src/photos-main-toolbar.c:102
+#: ../src/photos-main-toolbar.c:101
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "נבחרה אחת"
 msgstr[1] "נבחרו %d"
 
-#: ../src/photos-main-toolbar.c:148
+#: ../src/photos-main-toolbar.c:146
 msgid "Back"
 msgstr "חזרה"
 
-#: ../src/photos-main-toolbar.c:217
+#: ../src/photos-main-toolbar.c:273
 msgid "Select Items"
 msgstr "בחירת פריטים"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:301
-#: ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "פתיחה באמצעות %s"
 
-#: ../src/photos-main-toolbar.c:396
-#: ../src/photos-properties-dialog.c:330
-msgid "Done"
-msgstr "בוצע"
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "ביטול"
 
 #: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
@@ -219,16 +253,17 @@ msgstr "לגשת, לארגן ולשתף את התמונות שלך ב־GNOME"
 msgid "translator-credits"
 msgstr ""
 "ירון שהרבני <sh.yaron@gmail.com>\n"
-"Yosef Or Boczko <yosefor3@walla.com>"
+"יוסף אור בוצ׳קו <yoseforb@gmail.com>"
 
-#: ../src/photos-organize-collection-dialog.c:131
-#: ../src/photos-selection-toolbar.c:520
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
 msgid "Organize"
 msgstr "ארגון"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:295
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "פתיחה"
 
@@ -237,117 +272,185 @@ msgid "Print…"
 msgstr "הדפסה…"
 
 #: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "הצגה על…"
+
+#: ../src/photos-preview-menu.ui.h:4
 msgid "Set as Background"
 msgstr "הגדרה כרקע"
 
-#: ../src/photos-preview-menu.ui.h:4
-#: ../src/photos-properties-dialog.c:368
-#: ../src/photos-selection-toolbar.c:531
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
 msgid "Properties"
 msgstr "מאפיינים"
 
-#: ../src/photos-print-operation.c:275
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "הסרה מהמועדפים"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "הוספה למועדפים"
+
+#: ../src/photos-print-operation.c:270
 msgid "Image Settings"
 msgstr "הגדרות התמונה"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:895
 msgid "Position"
 msgstr "מיקום"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:898
 msgid "_Left:"
 msgstr "_שמאל:"
 
-#: ../src/photos-print-setup.c:902
+#: ../src/photos-print-setup.c:899
 msgid "_Right:"
 msgstr "י_מין:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:900
 msgid "_Top:"
 msgstr "למ_עלה:"
 
-#: ../src/photos-print-setup.c:904
+#: ../src/photos-print-setup.c:901
 msgid "_Bottom:"
 msgstr "למ_טה:"
 
-#: ../src/photos-print-setup.c:906
+#: ../src/photos-print-setup.c:903
 msgid "C_enter:"
 msgstr "מ_רכז:"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:907
 msgid "None"
 msgstr "ללא"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:908
 msgid "Horizontal"
 msgstr "אופקי"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:909
 msgid "Vertical"
 msgstr "אנכי"
 
-#: ../src/photos-print-setup.c:913
+#: ../src/photos-print-setup.c:910
 msgid "Both"
 msgstr "שניהם"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:923
 msgid "Size"
 msgstr "גודל"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:926
 msgid "_Width:"
 msgstr "_רוחב:"
 
-#: ../src/photos-print-setup.c:930
+#: ../src/photos-print-setup.c:927
 msgid "_Height:"
 msgstr "_גובה:"
 
-#: ../src/photos-print-setup.c:932
+#: ../src/photos-print-setup.c:929
 msgid "_Scaling:"
 msgstr "_אמת מידה:"
 
-#: ../src/photos-print-setup.c:941
+#: ../src/photos-print-setup.c:938
 msgid "_Unit:"
 msgstr "י_חידה:"
 
-#: ../src/photos-print-setup.c:945
+#: ../src/photos-print-setup.c:942
 msgid "Millimeters"
 msgstr "מילימטרים"
 
-#: ../src/photos-print-setup.c:946
+#: ../src/photos-print-setup.c:943
 msgid "Inches"
 msgstr "אינצ׳ים"
 
-#: ../src/photos-print-setup.c:974
+#: ../src/photos-print-setup.c:971
 msgid "Preview"
 msgstr "תצוגה מקדימה"
 
-#: ../src/photos-properties-dialog.c:155
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
 msgid "Title"
 msgstr "כותרת"
 
-#: ../src/photos-properties-dialog.c:164
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
 msgid "Author"
 msgstr "יוצר"
 
-#: ../src/photos-properties-dialog.c:171
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "מקור"
 
-#: ../src/photos-properties-dialog.c:177
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
-msgstr "תאריך השינוי"
+msgstr "תאריך שינוי"
 
-#: ../src/photos-properties-dialog.c:185
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
-msgstr "תאריך היצירה"
+msgstr "תאריך יצירה"
 
-#: ../src/photos-properties-dialog.c:192
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
 msgid "Type"
 msgstr "סוג"
 
-#: ../src/photos-search-type-manager.c:73
-#: ../src/photos-source-manager.c:144
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "רוחב"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "גובה"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "מצלמה"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "חשיפה"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "צמצם"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "אורך מוקד"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "מהירות ISO"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "מבזק"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr "כבוי, לא מופעל"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr "פועל, הופעל"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "בוצע"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
 msgid "All"
 msgstr "הכול"
 
@@ -359,27 +462,18 @@ msgstr "בחירת הכול"
 msgid "Select None"
 msgstr "ביטול הבחירה"
 
-#: ../src/photos-selection-toolbar.c:310
-msgid "Remove from favorites"
-msgstr "הסרה מהמועדפים"
-
-#: ../src/photos-selection-toolbar.c:316
-msgid "Add to favorites"
-msgstr "הוספה למועדפים"
-
-#: ../src/photos-selection-toolbar.c:487
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "הדפסה"
 
-#: ../src/photos-selection-toolbar.c:498
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "מחיקה"
 
-#: ../src/photos-source-manager.c:148
-msgid "Local"
-msgstr "מקומי"
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "הוספה לאלבום"
 
 #: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
 msgstr "לא ניתן לקבל את רשימת התמונות"
-
