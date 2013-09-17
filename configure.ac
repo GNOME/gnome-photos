@@ -118,6 +118,12 @@ LIBGD_INIT([
 GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable glib_compile_resources gio-2.0`
 AC_SUBST(GLIB_COMPILE_RESOURCES)
 
+AC_ARG_VAR([DESKTOP_FILE_VALIDATE], [the desktop-file-validate program])
+AC_PATH_PROG([DESKTOP_FILE_VALIDATE], [desktop-file-validate], [])
+if test -z "$DESKTOP_FILE_VALIDATE"; then
+  AC_MSG_ERROR([desktop-file-validate not found])
+fi
+
 AC_CONFIG_FILES([
 Makefile
 data/Makefile

@@ -36,4 +36,13 @@ DISTCLEANFILES = \
 	$(desktop_in_files) \
 	$(NULL)
 
+desktop-file-validate: $(desktop_DATA)
+	for f in $^; do \
+		$(DESKTOP_FILE_VALIDATE) $$f; \
+	done
+
+check-local: desktop-file-validate
+
+.PHONY: desktop-file-validate
+
 -include $(top_srcdir)/git.mk
