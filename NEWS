@@ -1,3 +1,39 @@
+Overview of changes in 3.9.92
+=============================
+
+* Bugs fixed:
+ 708018 application: Create the main window after the gear-menu action
+ 708054 Utilize intltool 0.50 gsettings support
+
+* Updated translations:
+ Traditional Chinese (Hong Kong)
+ Traditional Chinese (Taiwan)
+ Czech
+ Danish
+ Dutch
+ Finnish
+ French
+ Galician
+ German
+ Hebrew
+ Hungarian
+ Indonesian
+ Italian
+ Latvian
+ Lithuanian
+ Korean
+ Norwegian bokmål
+ Polish
+ Portuguese (Brazilian)
+ Punjabi
+ Russian
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
+ Tajik
+
+
 Overview of changes in 3.9.91
 =============================
 
