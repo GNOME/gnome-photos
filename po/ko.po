@@ -57,7 +57,7 @@ msgstr "사진을 접근하고, 정리하고 공유하세요"
 
 #: ../data/gnome-photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
-msgstr "Photos;사진;Picture;그림"
+msgstr "Photos;사진;Picture;그림;"
 
 #: ../data/org.gnome.photos.gschema.xml.in.h:1
 msgid "Window size"
