@@ -110,6 +110,13 @@ photos_application_refresh_data_free (PhotosApplicationRefreshData *data)
 
 
 static void
+photos_application_about (PhotosApplication *self, GVariant *parameter)
+{
+  photos_main_window_show_about (PHOTOS_MAIN_WINDOW (self->priv->main_window));
+}
+
+
+static void
 photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
 {
   GVariant *state;
@@ -458,10 +465,9 @@ photos_application_startup (GApplication *application)
   priv->camera_cache = photos_camera_cache_dup_singleton ();
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
-  priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
 
   action = g_simple_action_new ("about", NULL);
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_main_window_show_about), priv->main_window);
+  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_about), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
@@ -528,6 +534,7 @@ photos_application_startup (GApplication *application)
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>p", "app.print-current", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>a", "app.select-all", NULL);
 
+  priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
 
   photos_application_start_miners (self);
