@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-08 21:48+0800\n"
-"PO-Revision-Date: 2013-09-08 21:48+0800\n"
+"POT-Creation-Date: 2013-09-17 19:39+0800\n"
+"PO-Revision-Date: 2013-09-17 19:39+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (Hong Kong) <community@linuxhall.org>\n"
 "Language: zh_TW\n"
@@ -17,6 +17,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 1.5.5\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr "簡單的應用程式，讓你可以在 GNOME 中存取、管理與分享你的相片。它希望能成為以檔案管理程式處理相片的優雅替代計劃。透過 GNOME 網上帳號提供無縫的雲端整合。"
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "它讓你可以："
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr "<li>檢視最近使用的本地與網上相片</li> <li>存取你的 Flickr 內容</li> <li>傳送相片到遠端的 DLNA 播放器</li> <li>設定為背景圖片</li> <li>列印相片</li> <li>選擇喜好相片</li> <li>允許開啟全功能的編輯器進行更多進階更改</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
