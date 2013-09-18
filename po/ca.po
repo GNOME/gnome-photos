@@ -1,22 +1,52 @@
-#
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Jordi Mas i Hernandez <jmas@softcatala.org>, 2013
+# Josep Sànchez <papapep@gmx.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-31 01:21+0200\n"
-"PO-Revision-Date: 2013-08-30 13:45+0200\n"
-"Last-Translator: jmas <jmas@softcatala.org>\n"
-"Language-Team: Softcatalà\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-17 14:37+0000\n"
+"PO-Revision-Date: 2013-09-15 22:01+0200\n"
+"Last-Translator: Josep Sànchez <papapep@gmx.com>\n"
+"Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Project-Style: gnome\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Un programa simple per accedir, organitzar i compartir les vostres "
+"fotografies amb el GNOME. Està pensat per a ser un substitut simple i "
+"elegant del gestor de fitxers per gestionar imatges. S'integra "
+"transparentment amb el núvol mitjançant els comptes en línia del GNOME."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Us permet:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>Visualitzeu les últimes fotografies locals i en línia</li> <li>Accediu "
+"a les vostres continguts del Flickr</li> <li>Envieu fotografies a "
+"renderitzadors DLNA remots</li> <li>Utilitzeu com a fons</li> <li>Imprimiu "
+"fotografies</li> <li>Seleccioneu les preferides</li> <li>Obriu amb un "
+"editor complet per a canvis més avançats</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
@@ -25,33 +55,33 @@ msgstr "Fotografies"
 
 #: ../data/gnome-photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
-msgstr ""
+msgstr "Accediu, gestioneu i compartiu fotografies"
 
 #: ../data/gnome-photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
-msgstr ""
+msgstr "Fotografies;Imatges;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Mida de la finestra"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Mida de la finestra (amplada i alçada)"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Posició de la finestra"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Posició de la finestra (x i y)"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Finestra maximitzada"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Estat maximitzat de la finestra"
 
@@ -135,19 +165,19 @@ msgstr "Pantalla completa"
 
 #: ../src/photos-app-menu.ui.h:2
 msgid "About Photos"
-msgstr ""
+msgstr "Quant al Fotografies"
 
 #: ../src/photos-app-menu.ui.h:3
 msgid "Quit"
 msgstr "Surt"
 
-#: ../src/photos-base-item.c:312
+#: ../src/photos-base-item.c:303
 msgid "Album"
 msgstr "Àlbum"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
-msgstr ""
+msgstr "Dispositius renderitzadors DLNA"
 
 #: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
 msgid "Albums"
@@ -167,11 +197,12 @@ msgstr "Flickr"
 
 #: ../src/photos-indexing-notification.c:168
 msgid "Your photos are being indexed"
-msgstr ""
+msgstr "S'estan indexant les fotografies"
 
 #: ../src/photos-indexing-notification.c:172
 msgid "Some photos might not be available during this process"
 msgstr ""
+"Mentre duri el procés, algunes fotografies no estaran disponibles"
 
 #: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
 msgid "Load More"
@@ -216,7 +247,7 @@ msgstr "Cancel·la"
 
 #: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
-msgstr ""
+msgstr "Accediu, organitzeu i compartiu les vostres fotografies amb el GNOME"
 
 #
 #. Translators: Put your names here
@@ -253,12 +284,12 @@ msgstr "Estableix com a fons"
 msgid "Properties"
 msgstr "Propietats"
 
-#: ../src/photos-preview-nav-buttons.c:207
+#: ../src/photos-preview-nav-buttons.c:208
 #: ../src/photos-selection-toolbar.c:291
 msgid "Remove from favorites"
 msgstr "Suprimeix dels preferits"
 
-#: ../src/photos-preview-nav-buttons.c:212
+#: ../src/photos-preview-nav-buttons.c:213
 #: ../src/photos-selection-toolbar.c:297
 msgid "Add to favorites"
 msgstr "Afegeix als preferits"
@@ -385,7 +416,7 @@ msgstr "Alçada:"
 
 #: ../src/photos-properties-dialog.c:294
 msgid "Camera"
-msgstr "Càmara"
+msgstr "Càmera"
 
 #: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
@@ -408,12 +439,12 @@ msgid "Flash"
 msgstr "Flaix"
 
 #: ../src/photos-properties-dialog.c:527
-msgid "Off, Did not fire"
-msgstr ""
+msgid "Off, did not fire"
+msgstr "Aturat, no ha disparat"
 
 #: ../src/photos-properties-dialog.c:529
-msgid "On, Fired"
-msgstr ""
+msgid "On, fired"
+msgstr "Engegat, ha disparat"
 
 #: ../src/photos-properties-dialog.c:608
 msgid "Done"
@@ -441,21 +472,8 @@ msgstr "Suprimeix"
 
 #: ../src/photos-selection-toolbar.c:461
 msgid "Add to Album"
-msgstr ""
+msgstr "Afegeix a l'àlbum"
 
 #: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
-msgstr ""
-
-#~ msgid "Image"
-#~ msgstr "Imatge"
-
-#~ msgid "The image whose printing properties will be set up"
-#~ msgstr ""
-#~ "La imatge de la qual se'n configuraran les propietats de la impressió"
-
-#~ msgid "Page Setup"
-#~ msgstr "Configuració de la pàgina"
-
-#~ msgid "The information for the page where the image will be printed"
-#~ msgstr "La informació de la pàgina on s'imprimirà la imatge"
+msgstr "No es pot obtenir el llistat de fotografies"
