@@ -1,0 +1,480 @@
+# Assamese translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+#
+# ngoswami <ngoswami@redhat.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos gnome-3-10\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-18 21:14+0000\n"
+"PO-Revision-Date: 2013-09-19 18:56+0530\n"
+"Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
+"Language-Team: Assamese <kde-i18n-doc@kde.org>\n"
+"Language: as\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"আপোনাক ফ'টোসমূহক GNOME ত অভিগম, সংঘঠিত আৰু অংশীদাৰী কৰিবলৈ এটা সহজ এপ্লিকেচন। "
+"ই ফ'টোসমূহক ব্যৱস্থাপনা কৰিবলৈ এটা ফাইল ব্যৱস্থাপকৰ ব্যৱহাৰৰ এটা সহজ আৰু "
+"সুবিন্যস্ত প্ৰতিস্থাপন। "
+"GNOME অনলাইন একাওন্টসমূহৰ সহায়ত সন্ধিহীন cloud অনুকলন প্ৰদান কৰা হয়।"
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "ই আপোনাক অনুমতি দিয়ে:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>শেহতীয়া স্থানীয় আৰু অনলাইন ফ'টোসমূহ চোৱাৰ</li> <li>আপোনাৰ Flickr সমল "
+"অভিগম কৰাৰ</"
+"li> <li>দূৰৱৰ্তী DLNA ৰেণ্ডাৰাৰসমূহলৈ ফ'টোসমূহ পঠোৱাৰ</li> <li>পটভূমি ৰূপে "
+"সংহতি কৰাৰ</li> "
+"<li>ফ'টোসমূহ প্ৰিন্ট কৰাৰ</li> <li>পছন্দ নিৰ্বাচন কৰাৰ</li> <li>অধিক উন্নত "
+"পৰিবৰ্তনসমূহৰ বাবে "
+"পূৰ্ণ বৈশিষ্ট্যৰ সম্পাদক খোলাৰ</li>"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
+msgid "Photos"
+msgstr "ফ'টোসমূহ"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "ফ'টোসমূহ অভিগম, সংঘঠিত আৰু অংশীদাৰী কৰক"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "ফ'টোসমূহ;ছবিসমূহ;"
+
+#: ../data/org.gnome.photos.gschema.xml.h:1
+msgid "Window size"
+msgstr "উইন্ডোৰ আকাৰ"
+
+#: ../data/org.gnome.photos.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "উইন্ডোৰ আকাৰ (প্ৰস্থ আৰু উচ্চতা)।"
+
+#: ../data/org.gnome.photos.gschema.xml.h:3
+msgid "Window position"
+msgstr "উইন্ডোৰ অৱস্থান"
+
+#: ../data/org.gnome.photos.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "উইন্ডোৰ অৱস্থান (x আৰু y)।"
+
+#: ../data/org.gnome.photos.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "উইন্ডো সৰ্বাধিক আকাৰ"
+
+#: ../data/org.gnome.photos.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "উইন্ডো সৰ্বাধিক অৱস্থা"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (লেন্স)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (৩৫ মিলিমিটাৰ ফিল্ম)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "আনল'ড কৰা ছবিত ৰূপান্তৰণ।"
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "ৰূপান্তৰণ ব্যৰ্থ হল।"
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "এই ফাইল বিন্যাসৰ বাবে EXIF সমৰ্থিত নহয়।"
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "ছবি ল'ড ব্যৰ্থ হল।"
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "কোনো ছবি ল'ড কৰা হোৱা নাই।"
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "আপোনাৰ ফাইলটো সংৰক্ষণ কৰিবলে পৰ্যাপ্ত অনুমতিসমূহ নাই।"
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "অস্থায়ী ফাইল সৃষ্টিকৰণ ব্যৰ্থ হল।"
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "অন্ততঃ দুটা ফাইলৰ নাম একেই।"
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "ছবি দৰ্শক  সংক্ৰান্ত সহায়ক তথ্য প্ৰদৰ্শন কৰিবলৈ ব্যৰ্থ"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (অবৈধ ইউনিক'ড)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "পূৰ্ণপৰ্দা"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "ফ'টোসমূহৰ বিষয়ে"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "প্ৰস্থান কৰক"
+
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "এলবাম"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "DLNA ৰেণ্ডাৰাৰ ডিভাইচসমূহ"
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "এলবামসমূহ"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "পছন্দৰ"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "কোনো ফ'টো পোৱা নগল"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr "আপোনাৰ ফ'টোসমূহ সূচীত কৰা হৈছে"
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr "এই প্ৰক্ৰিয়াৰ সময়ত কিছুমান ফ'টো উপলব্ধ নাথাকিব পাৰে"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "অধিক ল'ড কৰক"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "ল'ড কৰা হৈছে…"
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "স্থানীয়"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "বস্তুবোৰ নিৰ্বাচন কৰিবলে সিহতত ক্লিক কৰক"
+
+#: ../src/photos-main-toolbar.c:101
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d নিৰ্বাচিত"
+msgstr[1] "%d নিৰ্বাচিত"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "পিছলৈ"
+
+#: ../src/photos-main-toolbar.c:273
+msgid "Select Items"
+msgstr "বস্তুবোৰ বাছক"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "%s ৰ সৈতে খোলক"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "বাতিল কৰক"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr "GNOME ত আপোনাৰ ফ'টোসমূহ অভিগম, সংঘঠিত আৰু অংশীদাৰী কৰক"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr "নীলমদ্যুতি গোস্বামী (ngoswami@redhat.com)"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "সংঘঠিত কৰক"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "খোলক"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "প্ৰিন্ট কৰক…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "চিহ্নিত স্থানত প্ৰদৰ্শন কৰক…"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "পটভূমি হিচাপে সংহতি কৰক"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "বৈশিষ্টসমূহ"
+
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "পছন্দৰ পৰা আতৰাওক"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "পছন্দলৈ যোগ কৰক"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "ছবি সংহতিসমূহ"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "অৱস্থান"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "বাওঁ (_L):"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "সোঁ (_R):"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "ওপৰ (_T):"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "তল (_B):"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "কেন্দ্ৰ (_e):"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "কোনো নহয়"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "আনুভূমিক"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "উলম্ব"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "দুয়ো"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "আকাৰ"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "প্ৰস্থ (_W):"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "উচ্চতা (_H):"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "স্কেলিং (_S):"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "একক (_U):"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "মিলিমিটাৰ"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "ইঞ্চি"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "পূৰ্বদৃশ্য"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
+msgid "Title"
+msgstr "শীৰ্ষক"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
+msgid "Author"
+msgstr "লেখক"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "উৎস"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "পৰিবৰ্তনৰ তাৰিখ"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "সৃষ্টিৰ তাৰিখ"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
+msgid "Type"
+msgstr "ধৰণ"
+
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "প্ৰস্থ"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "উচ্চতা"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "কেমেৰা"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "উদঙা"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "বিন্ধা"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "ফ'কেল দৈৰ্ঘ্য"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ISO গতি"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "ফ্লেশ"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr "অফ, ফায়াৰ কৰা হোৱা নাই"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr "অন, ফায়াৰ কৰা হৈছে"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "কৰা হল"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "সকলো"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "সকলো বাছক"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "একো নাবাছিব"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "প্ৰিন্ট কৰক"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "মচি পেলাওক"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "এলবামলৈ যোগ কৰক"
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr "ফ'টোসমূহৰ তালিকা প্ৰাপ্ত কৰিবলৈ অক্ষম"
+
+
