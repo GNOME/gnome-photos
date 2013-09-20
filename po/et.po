@@ -1,0 +1,371 @@
+# Estonian translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Mattias Põldaru <mahfiaz@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos gnome-3-10\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-18 21:14+0000\n"
+"PO-Revision-Date: 2013-09-19 16:53+0300\n"
+"Last-Translator: Mattias Põldaru <mahfiaz@gmail.com>\n"
+"Language-Team: Estonian <gnome-et-list@gnome.org>\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Lihtne GNOME rakendus ligipääsuks fotodele, nende haldamiseks ja jagamiseks. "
+"See on lihtne ja elegantne asendus failihalduri kasutamisele fotode "
+"haldamisel. Märkamatu integratsioon pilveteenustega on võimalik GNOME "
+"veebikontode kaudu."
+
+msgid "It lets you:"
+msgstr "See võimaldab sul:"
+
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>Kuvada hiljutisi fotosid arvutis ja internetis</li> <li>Ligipääsu sinu "
+"Flickri sisule</li> <li>Saata fotosid DLNA seadmetesse</li> <li>Määrata "
+"taustapilte</li> <li>Printida fotosid</li> <li>Valida lemmikuid</li> "
+"<li>Avada täisvõimalustega fotoredaktori suuremate muudatuste jaoks</li>"
+
+msgid "Photos"
+msgstr "Fotod"
+
+msgid "Access, organize and share photos"
+msgstr "Fotode vaatamine, haldus ja jagamine"
+
+msgid "Photos;Pictures;"
+msgstr "Fotod;Pildid;Pilt;"
+
+msgid "Window size"
+msgstr "Akna suurus"
+
+msgid "Window size (width and height)."
+msgstr "Akna suurus (laius ja kõrgus)."
+
+msgid "Window position"
+msgstr "Akna asukoht"
+
+msgid "Window position (x and y)."
+msgstr "Akna asukoht (x ja y)."
+
+msgid "Window maximized"
+msgstr "Akna maksimeeritus"
+
+msgid "Window maximized state"
+msgstr "Akna maksimeerituse olek"
+
+#. A strftime-formatted string, to display the date the image was taken.
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d. %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+msgid "%a, %d %B %Y"
+msgstr "%a, %d. %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (läätsed)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm film)"
+
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Laadimata pildi teisendamine."
+
+#, c-format
+msgid "Transformation failed."
+msgstr "Transformatsioon nurjus."
+
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "See failivorming ei toeta EXIF andmeid."
+
+#, c-format
+msgid "Image loading failed."
+msgstr "Pildi laadimine nurjus."
+
+#, c-format
+msgid "No image loaded."
+msgstr "Ühtegi pilti pole laaditud."
+
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Sul pole selle faili salvestamiseks vajalikke õigusi."
+
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Loodi ajutine fail."
+
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Vähemalt kaks failinime on identsed."
+
+msgid "Could not display help for Image Viewer"
+msgstr "Pildikuvaja abi pole võimalik näidata"
+
+msgid " (invalid Unicode)"
+msgstr " (vigane Unicode)"
+
+msgid "Fullscreen"
+msgstr "Täisekraan"
+
+msgid "About Photos"
+msgstr "Fotodest lähemalt"
+
+msgid "Quit"
+msgstr "Lõpeta"
+
+msgid "Album"
+msgstr "Album"
+
+msgid "DLNA Renderer Devices"
+msgstr "DLNA renderdusseadmed"
+
+msgid "Albums"
+msgstr "Albumid"
+
+msgid "Favorites"
+msgstr "Lemmikud"
+
+msgid "No Photos Found"
+msgstr "Fotosid ei leitud"
+
+msgid "Flickr"
+msgstr "Flickr"
+
+msgid "Your photos are being indexed"
+msgstr "Sinu fotosid indekseeritakse"
+
+msgid "Some photos might not be available during this process"
+msgstr "Selle protsessi käigus võivad mõned fotod olla kättesaamatud"
+
+msgid "Load More"
+msgstr "Laadi veel"
+
+msgid "Loading…"
+msgstr "Laadimine…"
+
+msgid "Local"
+msgstr "Kohalik"
+
+msgid "Click on items to select them"
+msgstr "Kirjete valimiseks klõpsa neil"
+
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d valitud"
+msgstr[1] "%d valitud"
+
+msgid "Back"
+msgstr "Tagasi"
+
+msgid "Select Items"
+msgstr "Valitud kirjed"
+
+#. Translators: this is the Open action in a context menu
+#, c-format
+msgid "Open with %s"
+msgstr "Ava programmiga %s"
+
+msgid "Cancel"
+msgstr "Loobu"
+
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Ligipääs fotodele, nende haldamine ja jagamine GNOMEs"
+
+#. Translators: Put your names here
+msgid "translator-credits"
+msgstr "Mattias Põldaru, 2013."
+
+#. Translators: "Organize" refers to photos in this context
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Haldamine"
+
+#. Translators: this is the Open action in a context menu
+msgid "Open"
+msgstr "Ava"
+
+msgid "Print…"
+msgstr "Prindi…"
+
+msgid "Display on…"
+msgstr "Kuvatakse…"
+
+msgid "Set as Background"
+msgstr "Määra taustaks"
+
+msgid "Properties"
+msgstr "Omadused"
+
+msgid "Remove from favorites"
+msgstr "Eemalda lemmikutest"
+
+msgid "Add to favorites"
+msgstr "Lisa lemmikutesse"
+
+msgid "Image Settings"
+msgstr "Pildi sätted"
+
+msgid "Position"
+msgstr "Asukoht"
+
+msgid "_Left:"
+msgstr "_Vasakul:"
+
+msgid "_Right:"
+msgstr "_Paremal:"
+
+msgid "_Top:"
+msgstr "Ü_leval:"
+
+msgid "_Bottom:"
+msgstr "_All:"
+
+msgid "C_enter:"
+msgstr "_Keskel:"
+
+msgid "None"
+msgstr "Puudub"
+
+msgid "Horizontal"
+msgstr "Horisontaalne"
+
+msgid "Vertical"
+msgstr "Vertikaalne"
+
+msgid "Both"
+msgstr "Mõlemat"
+
+msgid "Size"
+msgstr "Suurus"
+
+msgid "_Width:"
+msgstr "_Laius:"
+
+msgid "_Height:"
+msgstr "_Kõrgus:"
+
+msgid "_Scaling:"
+msgstr "_Suurendus:"
+
+msgid "_Unit:"
+msgstr "Ü_hik:"
+
+msgid "Millimeters"
+msgstr "Millimeetrid"
+
+msgid "Inches"
+msgstr "Tollid"
+
+msgid "Preview"
+msgstr "Eelvaatlus"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Pealkiri"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Autor"
+
+msgid "Source"
+msgstr "Allikas"
+
+msgid "Date Modified"
+msgstr "Muutmise kuupäev"
+
+msgid "Date Created"
+msgstr "Loomise kuupäev"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Liik"
+
+msgid "Width"
+msgstr "Laius"
+
+msgid "Height"
+msgstr "Kõrgus"
+
+msgid "Camera"
+msgstr "Kaamera"
+
+msgid "Exposure"
+msgstr "Säritus"
+
+msgid "Aperture"
+msgstr "Ava"
+
+msgid "Focal Length"
+msgstr "Fookuskaugus"
+
+msgid "ISO Speed"
+msgstr "ISO kiirus"
+
+msgid "Flash"
+msgstr "Välk"
+
+msgid "Off, did not fire"
+msgstr "Väljas, ei töötanud"
+
+msgid "On, fired"
+msgstr "Sees, välk töötas"
+
+msgid "Done"
+msgstr "Valmis"
+
+msgid "All"
+msgstr "Kõik"
+
+msgid "Select All"
+msgstr "Vali kõik"
+
+msgid "Select None"
+msgstr "Tühista valik"
+
+msgid "Print"
+msgstr "Prindi"
+
+msgid "Delete"
+msgstr "Kustuta"
+
+msgid "Add to Album"
+msgstr "Lisa albumisse"
+
+msgid "Unable to fetch the list of photos"
+msgstr "Fotode loendi hankimine nurjus"
