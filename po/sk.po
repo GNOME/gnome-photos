@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-09 09:57+0000\n"
-"PO-Revision-Date: 2013-09-03 10:37+0100\n"
+"POT-Creation-Date: 2013-09-20 07:16+0000\n"
+"PO-Revision-Date: 2013-09-20 16:52+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -26,10 +26,15 @@ msgid ""
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
+"Jednoduchá aplikácia prostredia GNOME na prístup k vašim fotografiám, ich "
+"organizáciu a sprístupňovanie. Mala by byť jednoduchou a pohodlnou náhradou "
+"pôvodného prezerania fotografií za pomoci správcu súborov. Prepojenie "
+"s cloudom je zabezpečené pomocou Účtov služieb prostredia GNOME "
+"(GOA)."
 
 #: ../data/gnome-photos.appdata.xml.in.h:2
 msgid "It lets you:"
-msgstr ""
+msgstr "Umožňuje vám:"
 
 #: ../data/gnome-photos.appdata.xml.in.h:3
 msgid ""
@@ -38,6 +43,11 @@ msgid ""
 "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
 "featured editor for more advanced changes</li>"
 msgstr ""
+"<li>Zobraziť nedávne miestne a online fotografie</li> <li>Prístup k vášmu "
+"obsahu na službe Flickr</li> <li>Odoslať fotografie do vzdialeného "
+"vykresľovača DLNA</li> <li>Nastaviť pozadie</li> <li>Tlačiť fotografie</li> "
+"<li>Vybrať obľúbené fotografie</li> <li>Povoliť otvorenie vo vyspelom "
+"editore, ktorý umožňuje pokročilejšie úpravy</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
@@ -52,27 +62,27 @@ msgstr "Pristupuje, organizuje a sprístupňuje fotografie"
 msgid "Photos;Pictures;"
 msgstr "Fotografie;Obrázky;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Veľkosť okna"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Veľkosť okna (šírka a výška)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Pozícia okna"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Pozícia okna (x a y)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Maximalizované okno"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Maximalizovaný stav okna"
 
