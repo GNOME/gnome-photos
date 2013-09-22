@@ -1,0 +1,459 @@
+# Japanese translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# victory  <victory.deb@gmail.com>, 2013.
+# Jiro Matsuzawa  <jmatsuzawa@gnome.org>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-22 00:10+0000\n"
+"PO-Revision-Date: 2013-09-22 15:55+0900\n"
+"Last-Translator: Jiro Matsuzawa  <jmatsuzawa@gnome.org>\n"
+"Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid "A simple application to access, organize and share your photos on GNOME. It is meant to be a simple and elegant replacement for using a file manager to deal with photos. Seamless cloud integration is offered through GNOME Online Accounts."
+msgstr "GNOME 上で、写真の参照、整理、共有を行うシンプルなアプリケーションです。ファイルマネージャーを使う必要はなく、無駄のない洗練された写真管理ができます。GNOME オンラインアカウントを通じて、クラウドとシームレスに連携して利用できます。"
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "機能:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid "<li>View recent local and online photos</li> <li>Access your Flickr content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow opening full featured editor for more advanced changes</li>"
+msgstr "<li>ローカルとリモート両方の最近の写真の閲覧</li><li>ユーザーの Flickr コンテンツへアクセス</li><li>リモートの DLNA レンダラーへ写真を送信</li><li>背景画像の設定</li><li>写真の印刷</li><li>お気に入りの選択</li><li>フル機能搭載の編集ツールを開いて高度な編集も可能</li>"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
+msgid "Photos"
+msgstr "写真"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "写真の参照、整理、共有を行います"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Photos;Pictures;写真;フォト;絵;画像;"
+
+#: ../data/org.gnome.photos.gschema.xml.h:1
+msgid "Window size"
+msgstr "ウィンドウサイズ"
+
+#: ../data/org.gnome.photos.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "ウィンドウサイズ (幅と高さ) です。"
+
+#: ../data/org.gnome.photos.gschema.xml.h:3
+msgid "Window position"
+msgstr "ウィンドウの位置"
+
+#: ../data/org.gnome.photos.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "ウィンドウの位置 (横位置と縦位置) です。"
+
+#: ../data/org.gnome.photos.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "ウィンドウ最大化"
+
+#: ../data/org.gnome.photos.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "ウィンドウ最大化の状態です。"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%Y/%m/%d %T"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%Y/%m/%d"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (レンズ)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm フィルム換算)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "画像のアンロード時に変換する。"
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "変換に失敗しました。"
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "このファイル形式では EXIF をサポートしていません。"
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "画像の読み込みに失敗しました。"
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "画像は読み込まれていません。"
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "ファイルを保存するのに必要な権限がありません。"
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "一時ファイルの作成に失敗しました。"
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "ファイル名が少なくとも2つ同一になっています。"
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "画像ビューアーのヘルプを表示できませんでした"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr "(不正な Unicode)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "フルスクリーン"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "このアプリケーションについて"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "終了"
+
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "アルバム"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "DLNA レンダラーデバイス"
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "アルバム"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "お気に入り"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "写真が見つかりませんでした"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr "写真の索引を作成しています"
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr "この処理中は一部の写真が利用できなくなるかもしれません"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "もっと読み込む"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "読み込み中…"
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "ローカル"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "アイテムをクリックして選択してください"
+
+#: ../src/photos-main-toolbar.c:101
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d 件選択"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "戻る"
+
+#: ../src/photos-main-toolbar.c:273
+msgid "Select Items"
+msgstr "アイテムを選択"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "%s で開く"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr "GNOME 上の写真のアクセス、管理、共有"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr ""
+"松澤 二郎 <jmatsuzawa@gnome.org>\n"
+"日本GNOMEユーザー会 <http://www.gnome.gr.jp>"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "管理"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "開く"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "印刷…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "表示するデバイス…"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "背景として設定"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "プロパティ"
+
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "お気に入りから削除"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "お気に入りに追加"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "画像設定"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "位置"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "左(_L):"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "右(_R):"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "上(_T):"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "下(_B):"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "中央(_E):"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "なし"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "水平に並べる"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "垂直に並べる"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "両方"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "サイズ"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "幅(_W):"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "高さ(_H):"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "画面に合わせる(_S):"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "単位(_U):"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "mm"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "インチ"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "プレビュー"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
+msgid "Title"
+msgstr "タイトル"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
+msgid "Author"
+msgstr "作者"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "ソース"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "更新日時"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "作成日時"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
+msgid "Type"
+msgstr "種類"
+
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "幅"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "高さ"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "カメラ"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "露出"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "絞り"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "焦点距離"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ISO 速度"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "フラッシュ"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr "オフ、使わない"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr "オン、使う"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "完了"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "全て"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "全て選択"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "全て選択解除"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "印刷"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "削除"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "アルバムに追加"
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr "写真一覧を取得できません"
