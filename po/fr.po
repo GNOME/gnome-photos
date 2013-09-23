@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the gnome-photos package.
 #
 # Alain Lojewski <allomervan@gmail.com>, 2013.
+# Baptiste Mille-Mathias <baptistem@gnome.org>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-09 09:57+0000\n"
-"PO-Revision-Date: 2013-09-13 15:44+0200\n"
-"Last-Translator: Alain Lojewski <allomervan@gmail.com>\n"
+"POT-Creation-Date: 2013-09-17 14:37+0000\n"
+"PO-Revision-Date: 2013-09-16 20:05+0200\n"
+"Last-Translator: Baptiste Mille-Mathias <baptistem@gnome.org>, 2013.\n"
 "Language-Team: French <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -26,10 +27,14 @@ msgid ""
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
+"Une application simple pour accéder, organiser et partager vos photos dans "
+"GNOME. Elle est destiné à être un remplacement simple et élégant à un "
+"gestionnaire de fichiers pour les photos. L'intégration en ligne est fournie "
+"par les comptes en ligne GNOME."
 
 #: ../data/gnome-photos.appdata.xml.in.h:2
 msgid "It lets you:"
-msgstr ""
+msgstr "Elle vous permet :"
 
 #: ../data/gnome-photos.appdata.xml.in.h:3
 msgid ""
@@ -38,6 +43,12 @@ msgid ""
 "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
 "featured editor for more advanced changes</li>"
 msgstr ""
+"<li>d'afficher les photos récentes et en ligne</li> <li>d'accéder au contenu "
+"de votre compte Flickr</li> <li>d'envoyer vos photos à vos périphériques "
+"DLNA distants</li> <li>de les définir comme arrière-plan</li> <li>d'imprimer "
+"vos photos</li> <li>de choisir vos favorites</li> <li>d'autoriser "
+"l'ouverture d'un éditeur pleinement fonctionnel pour des modifications non "
+"triviales</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
@@ -52,27 +63,27 @@ msgstr "Accéder, organiser et partager des photos"
 msgid "Photos;Pictures;"
 msgstr "photos;images;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Taille de la fenêtre"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Dimensions de la fenêtre (largeur et hauteur)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Position de la fenêtre"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Position de la fenêtre (en x et y)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Agrandissement de la fenêtre"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Niveau d'grandissement de la fenêtre"
 
@@ -168,7 +179,7 @@ msgstr "Album"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
-msgstr ""
+msgstr "Périphériques de rendu DLNA"
 
 #: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
 msgid "Albums"
@@ -184,7 +195,7 @@ msgstr "Aucune photo trouvée"
 
 #: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
 msgid "Flickr"
-msgstr ""
+msgstr "Flickr"
 
 #: ../src/photos-indexing-notification.c:168
 msgid "Your photos are being indexed"
@@ -233,7 +244,7 @@ msgstr "Ouvrir avec %s"
 
 #: ../src/photos-main-toolbar.c:490
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
@@ -242,7 +253,9 @@ msgstr "Accéder, organiser et partager vos photos avec GNOME"
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:339
 msgid "translator-credits"
-msgstr "Alain Lojewski, <allomervan@gmail.com>"
+msgstr ""
+"Alain Lojewski, <allomervan@gmail.com>\n"
+"Baptiste Mille-Mathias <baptistem@gnome.org>"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -262,7 +275,7 @@ msgstr "Imprimer…"
 
 #: ../src/photos-preview-menu.ui.h:3
 msgid "Display on…"
-msgstr ""
+msgstr "Afficher suṛ…"
 
 #: ../src/photos-preview-menu.ui.h:4
 msgid "Set as Background"
@@ -397,23 +410,23 @@ msgstr "Type"
 
 #: ../src/photos-properties-dialog.c:269
 msgid "Width"
-msgstr "Largeur :"
+msgstr "Largeur"
 
 #: ../src/photos-properties-dialog.c:279
 msgid "Height"
-msgstr "Hauteur :"
+msgstr "Hauteur"
 
 #: ../src/photos-properties-dialog.c:294
 msgid "Camera"
-msgstr ""
+msgstr "Appareil photo"
 
 #: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
-msgstr ""
+msgstr "Exposition"
 
 #: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
-msgstr ""
+msgstr "Ouverture"
 
 #: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
@@ -421,7 +434,7 @@ msgstr "Distance focale"
 
 #: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
-msgstr ""
+msgstr "Vitesse ISO"
 
 #: ../src/photos-properties-dialog.c:344
 msgid "Flash"
@@ -429,11 +442,11 @@ msgstr "Flash"
 
 #: ../src/photos-properties-dialog.c:527
 msgid "Off, did not fire"
-msgstr ""
+msgstr "Éteint, ne s'est pas déclenché"
 
 #: ../src/photos-properties-dialog.c:529
 msgid "On, fired"
-msgstr ""
+msgstr "Activé, déclenché"
 
 #: ../src/photos-properties-dialog.c:608
 msgid "Done"
