@@ -1,0 +1,470 @@
+# Turkish translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Gökhan Gurbetoğlu <ggurbet@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-17 14:35+0000\n"
+"PO-Revision-Date: 2013-09-01 01:56+0300\n"
+"Last-Translator: Gökhan Gurbetoğlu <ggurbet@gmail.com>\n"
+"Language-Team: Türkçe <gnome-turk@gnome.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 2.91.6\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr ""
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
+msgid "Photos"
+msgstr "Fotoğraflar"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Fotoğraflara erişin, yönetin ve paylaşın"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Fotoğraflar;Resimler;"
+
+#: ../data/org.gnome.photos.gschema.xml.h:1
+msgid "Window size"
+msgstr "Pencere boyutu"
+
+#: ../data/org.gnome.photos.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Pencere boyutu (genişlik ve yükseklik)."
+
+#: ../data/org.gnome.photos.gschema.xml.h:3
+msgid "Window position"
+msgstr "Pencere konumu"
+
+#: ../data/org.gnome.photos.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Pencere konumu (x ve y)."
+
+#: ../data/org.gnome.photos.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Pencere ekranı kapladı"
+
+#: ../data/org.gnome.photos.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Pencerenin ekranı kapladığı durum"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%d %B %Y %a, %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%d %B %Y %a"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (lens)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm film)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Yüklenmemiş resim üzerinde dönüşüm."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Dönüşüm başarısız oldu."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "Bu dosya biçimi için EXIF desteklenmiyor."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Resim yüklemesi başarısız oldu."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Hiçbir resim yüklenmedi."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Dosyayı kaydetmek için gerekli izinlere sahip değilsiniz."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Geçici dosya oluşturma başarısız oldu."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "En az iki dosya ismi birbiriyle aynı."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Resim Görüntüleyici için yardım görüntülenemedi"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (geçersiz Unikod)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Tam ekran"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "Fotoğraflar Hakkında"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Çık"
+
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "Albüm"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "DLNA Yorumlayıcı Cihazları"
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "Albümler"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "Gözdeler"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "Hiç Fotoğraf Bulunamadı"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr "Fotoğraflarınız dizine ekleniyor"
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr "Bazı fotoğraflar bu işlem sırasında kullanım dışı olabilir"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "Daha Fazla"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "Yükleniyor…"
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "Yerel"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "Seçmek için ögelerin üzerine tıklayın"
+
+#: ../src/photos-main-toolbar.c:101
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d adet seçildi"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "Geri"
+
+#: ../src/photos-main-toolbar.c:273
+msgid "Select Items"
+msgstr "Ögeleri Seç"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "%s ile Aç"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "Vazgeç"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr "GNOME üzerinde fotoğraflarınıza erişin, yönetin ve paylaşın"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr "Gökhan Gurbetoğlu <ggurbet@gmail.com>"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Düzenle"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "Aç"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Yazdır…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Şurada görüntüle…"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Arkaplan Olarak Ayarla"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "Özellikler"
+
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Gözdelerden kaldır"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Gözdelere ekle"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "Resim Ayarları"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "Konum"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "_Sol:"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "S_ağ:"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "Üs_t:"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "_Alt:"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "_Merkez:"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "Hiçbiri"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "Yatay"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "Dikey"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "Her ikisi"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "Boyut"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "_Genişlik:"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "_Yükseklik:"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "Ö_lçekleme:"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "_Birim:"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "Milimetre"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "İnç"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "Önizleme"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Başlık"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Yazar"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "Kaynak"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "Değiştirilme Tarihi"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "Oluşturulma Tarihi"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Tür"
+
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "Genişlik"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "Yükseklik"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "Fotoğraf Makinası"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "Pozlama"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "Diyafram Değeri"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "Odak Uzaklığı"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ISO Hızı"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "Flaş"
+
+#: ../src/photos-properties-dialog.c:527
+#, fuzzy
+#| msgid "Off, Did not fire"
+msgid "Off, did not fire"
+msgstr "Kapalı, Patlatılmadı"
+
+#: ../src/photos-properties-dialog.c:529
+#, fuzzy
+#| msgid "On, Fired"
+msgid "On, fired"
+msgstr "Açık, Patlatıldı"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "Bitti"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "Tümü"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Tümünü Seç"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Hiçbirini Seçme"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "Yazdır"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "Sil"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "Albüme Ekle"
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr "Fotoğrafların listesi alınamıyor"
