@@ -6,17 +6,38 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-04 15:03+0800\n"
-"PO-Revision-Date: 2013-09-04 15:03+0800\n"
-"Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-26 11:36+0000\n"
+"PO-Revision-Date: 2013-09-30 19:38+0800\n"
+"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Hong Kong) <community@linuxhall.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr "簡單的應用程式，讓你可以在 GNOME 中存取、管理與分享你的相片。它希望能成為以檔案管理程式處理相片的優雅替代計劃。透過 GNOME 網上帳號提供無縫的雲端整合。"
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "它讓你可以："
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr "<li>檢視最近使用的本地與網上相片</li> <li>存取你的 Flickr 內容</li> <li>傳送相片到遠端的 DLNA 播放器</li> <li>設定為背景圖片</li> <li>列印相片</li> <li>選擇喜好相片</li> <li>允許開啟全功能的編輯器進行更多進階更改</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
@@ -31,39 +52,39 @@ msgstr "存取、管理、分享相片"
 msgid "Photos;Pictures;"
 msgstr "Photos;Pictures;相片;照片;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "視窗大小"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "視窗大小 (闊度與高度)。"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "視窗位置"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "視窗位置 (x 與 y)。"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "視窗已最大化"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "視窗為最大化狀態"
 
 #. A strftime-formatted string, to display the date the image was taken.
 #: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
 msgid "%a, %d %B %Y  %X"
-msgstr "%a, %d %b %Y  %X"
+msgstr "%Y年%m月%d日%A %X"
 
 #. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
 #: ../src/eog-exif-util.c:154
 msgid "%a, %d %B %Y"
-msgstr "%a, %d %b %Y"
+msgstr "%Y年%m月%d日%A"
 
 #. TRANSLATORS: This is the actual focal length used when
 #. the image was taken.
@@ -81,14 +102,14 @@ msgid "%.1f (35mm film)"
 msgstr "%.1f (35mm 軟片)"
 
 #: ../src/eog-image.c:595
-#, fuzzy, c-format
+#, c-format
 msgid "Transformation on unloaded image."
-msgstr "改變未載入的圖片。"
+msgstr "對未上傳的影像使用變形。"
 
 #: ../src/eog-image.c:623
-#, fuzzy, c-format
+#, c-format
 msgid "Transformation failed."
-msgstr "轉換失敗。"
+msgstr "變形失敗。"
 
 #: ../src/eog-image.c:1047
 #, c-format
@@ -140,7 +161,7 @@ msgstr "關於 Photos"
 msgid "Quit"
 msgstr "結束"
 
-#: ../src/photos-base-item.c:312
+#: ../src/photos-base-item.c:303
 msgid "Album"
 msgstr "相簿"
 
@@ -405,14 +426,10 @@ msgid "Flash"
 msgstr "閃光燈"
 
 #: ../src/photos-properties-dialog.c:527
-#, fuzzy
-#| msgid "Off, Did not fire"
 msgid "Off, did not fire"
 msgstr "關閉，不使用"
 
 #: ../src/photos-properties-dialog.c:529
-#, fuzzy
-#| msgid "On, Fired"
 msgid "On, fired"
 msgstr "開啟，使用閃光燈"
 
