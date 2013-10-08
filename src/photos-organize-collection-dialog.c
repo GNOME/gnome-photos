@@ -73,8 +73,8 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
   self->priv = photos_organize_collection_dialog_get_instance_private (self);
   priv = self->priv;
 
-  gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_ADD, GTK_RESPONSE_ACCEPT);
-  ok_button = gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_OK, GTK_RESPONSE_OK);
+  gtk_dialog_add_button (GTK_DIALOG (self), _("_Add"), GTK_RESPONSE_ACCEPT);
+  ok_button = gtk_dialog_add_button (GTK_DIALOG (self), _("_OK"), GTK_RESPONSE_OK);
   gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
