@@ -66,7 +66,7 @@ photos_query_builder_set_search_type (gint flags)
   else if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
     photos_base_manager_set_active_object_by_id (srch_typ_mngr, PHOTOS_SEARCH_TYPE_STOCK_FAVORITES);
   else
-    photos_base_manager_set_active_object_by_id (srch_typ_mngr, PHOTOS_SEARCH_TYPE_STOCK_ALL);
+    photos_base_manager_set_active_object_by_id (srch_typ_mngr, PHOTOS_SEARCH_TYPE_STOCK_PHOTOS);
 
   g_object_unref (srch_typ_mngr);
 }

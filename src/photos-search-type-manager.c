@@ -70,13 +70,9 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
                                 PHOTOS_QUERY_COLLECTIONS_IDENTIFIER);
   fav_filter = g_strdup_printf ("(%s || %s)", col_filter, item_filter);
 
-  search_type = photos_search_type_new (PHOTOS_SEARCH_TYPE_STOCK_ALL, _("All"));
-  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
-  g_object_unref (search_type);
-
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS,
                                              _("Albums"),
-                                             "?urn a nfo:DataContainer ; a nie:DataObject",
+                                             "?urn a nfo:DataContainer",
                                              col_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
@@ -88,15 +84,14 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
-  /* This is only meant to be used with ALL. */
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_PHOTOS,
                                              _("Photos"),
-                                             "",
-                                             item_filter);
+                                             "?urn a nmm:Photo",
+                                             "(true)");
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
-  photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SEARCH_TYPE_STOCK_ALL);
+  photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SEARCH_TYPE_STOCK_PHOTOS);
 
   g_free (col_filter);
   g_free (fav_filter);
@@ -123,30 +118,7 @@ gchar *
 photos_search_type_manager_get_where (PhotosSearchTypeManager *self)
 {
   GObject *search_type;
-  gboolean is_all;
-  const gchar *all_where = "?urn a rdfs:Resource";
-  gchar *id;
-  gchar *ret_val;
 
   search_type = photos_base_manager_get_active_object (PHOTOS_BASE_MANAGER (self));
-  if (search_type == NULL)
-    {
-      ret_val = g_strdup (all_where);
-      goto out;
-    }
-
-  g_object_get (search_type, "id", &id, NULL);
-  is_all = (g_strcmp0 (id, PHOTOS_SEARCH_TYPE_STOCK_ALL) == 0);
-  g_free (id);
-
-  if (is_all)
-    {
-      ret_val = g_strdup (all_where);
-      goto out;
-    }
-
-  ret_val = photos_filterable_get_where (PHOTOS_FILTERABLE (search_type));
-
- out:
-  return ret_val;
+  return photos_filterable_get_where (PHOTOS_FILTERABLE (search_type));
 }
