@@ -59,11 +59,7 @@ static gchar *
 photos_search_type_get_filter (PhotosFilterable *iface)
 {
   PhotosSearchType *self = PHOTOS_SEARCH_TYPE (iface);
-  PhotosSearchTypePrivate *priv = self->priv;
-  const gchar *filter;
-
-  filter = (priv->filter != NULL && priv->filter[0] != '\0') ? priv->filter : "";
-  return g_strdup (filter);
+  return g_strdup (self->priv->filter);
 }
 
 
@@ -71,11 +67,7 @@ static gchar *
 photos_search_type_get_where (PhotosFilterable *iface)
 {
   PhotosSearchType *self = PHOTOS_SEARCH_TYPE (iface);
-  PhotosSearchTypePrivate *priv = self->priv;
-  const gchar *where;
-
-  where = (priv->where != NULL && priv->where[0] != '\0') ? priv->where : "";
-  return g_strdup (where);
+  return g_strdup (self->priv->where);
 }
 
 
@@ -164,7 +156,7 @@ photos_search_type_class_init (PhotosSearchTypeClass *class)
                                    g_param_spec_string ("filter",
                                                         "",
                                                         "",
-                                                        NULL,
+                                                        "(true)",
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_object_class_install_property (object_class,
@@ -188,7 +180,7 @@ photos_search_type_class_init (PhotosSearchTypeClass *class)
                                    g_param_spec_string ("where",
                                                         "",
                                                         "",
-                                                        NULL,
+                                                        "",
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 }
 
