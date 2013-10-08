@@ -733,7 +733,7 @@ photos_dlna_renderer_get_icon_finish (PhotosDlnaRenderer *self,
                                       GAsyncResult       *res,
                                       GError            **error)
 {
-  g_return_if_fail (g_task_is_valid (res, self));
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
 
   return GDK_PIXBUF (g_task_propagate_pointer (G_TASK (res), error));
 }
