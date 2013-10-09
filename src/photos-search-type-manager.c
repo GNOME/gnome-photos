@@ -66,7 +66,8 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   gchar *fav_filter;
 
   item_filter = "fn:contains (rdf:type (?urn), 'nmm#Photo')";
-  col_filter = g_strdup_printf ("fn:starts-with (nao:identifier (?urn), '%s')",
+  col_filter = g_strdup_printf ("(fn:starts-with (nao:identifier (?urn), '%s')"
+                                " || (?urn = nfo:image-category-screenshot))",
                                 PHOTOS_QUERY_COLLECTIONS_IDENTIFIER);
   fav_filter = g_strdup_printf ("(%s || %s)", col_filter, item_filter);
 

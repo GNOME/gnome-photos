@@ -723,7 +723,11 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   else
     priv->date_created = -1;
 
-  title = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_TITLE, NULL);
+  if (g_strcmp0 (priv->id, PHOTOS_COLLECTION_SCREENSHOT) == 0)
+    title = _("Screenshots");
+  else
+    title = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_TITLE, NULL);
+
   if (title == NULL)
     title = "";
   priv->name = g_strdup (title);

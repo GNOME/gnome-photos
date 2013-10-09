@@ -389,7 +389,8 @@ photos_query_builder_filter_local (void)
   filter = g_strdup_printf ("(fn:contains (nie:url (?urn), \"%s\")"
                             " || fn:contains (nie:url (?urn), \"%s\")"
                             " || fn:contains (nie:url (?urn), \"%s\")"
-                            " || fn:starts-with (nao:identifier (?urn), \"%s\"))",
+                            " || fn:starts-with (nao:identifier (?urn), \"%s\")"
+                            " || (?urn = nfo:image-category-screenshot))",
                             desktop_uri,
                             download_uri,
                             pictures_uri,

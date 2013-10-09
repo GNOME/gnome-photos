@@ -127,6 +127,8 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
       g_hash_table_iter_init (&iter2, priv->collections_for_items);
       while (g_hash_table_iter_next (&iter2, (gpointer) &item_idx, (gpointer) &collections_for_item))
         {
+          const gchar *identifier;
+
           item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, item_idx));
 
           /* If one of the selected items is part of this collection… */
@@ -135,10 +137,11 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
           else
             not_found = TRUE;
 
+          identifier = photos_base_item_get_identifier (collection);
           if (g_strcmp0 (photos_base_item_get_resource_urn (item),
                          photos_base_item_get_resource_urn (collection)) != 0
-              && !g_str_has_prefix (photos_base_item_get_identifier (collection),
-                                    PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER))
+              && identifier != NULL
+              && !g_str_has_prefix (identifier, PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER))
             hidden = TRUE;
         }
 

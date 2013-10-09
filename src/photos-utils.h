@@ -38,6 +38,9 @@ G_BEGIN_DECLS
 #define PHOTOS_FLASH_OFF (photos_utils_flash_off_quark ())
 #define PHOTOS_FLASH_ON (photos_utils_flash_on_quark ())
 
+#define PHOTOS_COLLECTION_SCREENSHOT \
+  "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#image-category-screenshot"
+
 GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
 
 GdkPixbuf       *photos_utils_create_pixbuf_from_node     (GeglNode *node);

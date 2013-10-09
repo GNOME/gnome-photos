@@ -37,6 +37,7 @@
 #include "photos-query.h"
 #include "photos-source-manager.h"
 #include "photos-set-collection-job.h"
+#include "photos-utils.h"
 
 
 struct _PhotosOrganizeCollectionViewPrivate
@@ -162,7 +163,7 @@ photos_organize_collection_view_detail_cell (GtkTreeViewColumn *tree_column,
       const gchar *identifier;
 
       identifier = photos_base_item_get_identifier (PHOTOS_BASE_ITEM (object));
-      if (!g_str_has_prefix (identifier, PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER))
+      if (identifier != NULL && !g_str_has_prefix (identifier, PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER))
         {
           PhotosSource *source;
           const gchar *name;
