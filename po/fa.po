@@ -58,7 +58,7 @@ msgstr "به تصاویر دسترسی داشته باشید، مرتب کنید
 
 #: ../data/gnome-photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
-msgstr "عکسها;تصاویر;عکس;تصویر"
+msgstr "عکسها;تصاویر;عکس;تصویر;"
 
 #: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
