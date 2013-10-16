@@ -4,13 +4,14 @@
 # Tom Tryfonidis <tomtryf@gmail.com>, 2012.
 # keratea <dmtrs32@gmail.com>, 2013.
 # Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2013.
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-05-14 12:34+0000\n"
-"PO-Revision-Date: 2013-06-24 08:04+0300\n"
+"POT-Creation-Date: 2013-10-06 20:14+0000\n"
+"PO-Revision-Date: 2013-10-16 11:27+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -21,7 +22,36 @@ msgstr ""
 "X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:450
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Μια απλή εφαρμογή για πρόσβαση, οργάνωση και διαμοιρασμό των φωτογραφιών σας "
+"στο GNOME. Είναι απλή και κομψή με σκοπό να αντικαταστήσει την διαχείριση "
+"των φωτογραφιών σας από τον διαχειριστή αρχείων. Προσφέρεται και η "
+"ενσωμάτωση με το cloud μέσω των GNOME Online Accounts."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Σας επιτρέπει:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>Προβολή πρόσφατων τοπικών και online φωτογραφιών</li> <li>Πρόσβαση στο "
+"περιεχόμενο στο Flickr</li> <li>Αποστολή φωτογραφιών για απομακρυσμένη "
+"αποτύπωση DLNA</li> <li>Ορισμός ως παρασκήνιο</li> <li>Εκτύπωση φωτογραφιών</"
+"li> <li>Επιλογή αγαπημένων</li> <li>Να επιτρέπεται το άνοιγμα με πλήρη "
+"επεξεργαστή για περισσότερες εξειδικευμένες αλλαγές</li>"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
 #: ../src/photos-search-type-manager.c:93
 msgid "Photos"
 msgstr "Φωτογραφίες"
@@ -34,27 +64,27 @@ msgstr "Προσέγγιση, οργάνωση και κοινή χρήση τω
 msgid "Photos;Pictures;"
 msgstr "Φωτογραφίες;Εικόνες;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Μέγεθος παραθύρου"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Μέγεθος παραθύρου (πλάτος και ύψος)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Θέση παραθύρου"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Θέση παραθύρου (x και y)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Μεγιστοποιημένο παράθυρο"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Κατάσταση μεγιστοποιημένου παραθύρου"
 
@@ -143,12 +173,19 @@ msgstr "Περί του Φωτογραφίες"
 msgid "Quit"
 msgstr "Έξοδος"
 
-#: ../src/photos-embed.c:447 ../src/photos-search-type-manager.c:78
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "Άλμπουμ"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "Συσκευές Αποτύπωσης DLNA"
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
 msgid "Albums"
 msgstr "Δίσκοι"
 
-#: ../src/photos-embed.c:453 ../src/photos-search-type-manager.c:85
-#| msgid "Add to favorites"
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
 msgid "Favorites"
 msgstr "Αγαπημένα"
 
@@ -156,55 +193,60 @@ msgstr "Αγαπημένα"
 msgid "No Photos Found"
 msgstr "Δεν βρέθηκαν φωτογραφίες"
 
-#: ../src/photos-indexing-notification.c:170
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
 msgid "Your photos are being indexed"
 msgstr "Οι φωτογραφίες σας ευρετηριοποιούνται"
 
-#: ../src/photos-indexing-notification.c:174
+#: ../src/photos-indexing-notification.c:172
 msgid "Some photos might not be available during this process"
 msgstr ""
 "Μερικές φωτογραφίες μπορεί να μην είναι διαθέσιμες κατά τη διάρκεια αυτής "
 "της διεργασίας"
 
-#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:195
-#| msgid "Load 1 more photo"
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
 msgid "Load More"
 msgstr "Φόρτωση περισσοτέρων"
 
-#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
-#| msgid "Loading..."
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
 msgid "Loading…"
 msgstr "Φορτώνεται…"
 
-#: ../src/photos-main-toolbar.c:100
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "Τοπικά"
+
+#: ../src/photos-main-toolbar.c:99
 msgid "Click on items to select them"
 msgstr "Πατήστε στα στοιχεία για να τα επιλέξετε"
 
-#: ../src/photos-main-toolbar.c:102
+#: ../src/photos-main-toolbar.c:101
 #, c-format
-#| msgid "%d selected"
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d επιλέχτηκε"
 msgstr[1] "%d επιλέχτηκαν"
 
-#: ../src/photos-main-toolbar.c:148
+#: ../src/photos-main-toolbar.c:146
 msgid "Back"
 msgstr "Πίσω"
 
-#: ../src/photos-main-toolbar.c:217
+#: ../src/photos-main-toolbar.c:273
 msgid "Select Items"
 msgstr "Επιλέξτε στοιχεία"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:301 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "Άνοιγμα με %s"
 
-#: ../src/photos-main-toolbar.c:396 ../src/photos-properties-dialog.c:330
-msgid "Done"
-msgstr "Έγινε"
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "Άκυρο"
 
 #: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
@@ -217,180 +259,237 @@ msgstr ""
 "Ελληνική μεταφραστική ομάδα GNOME\n"
 " Δημήτρης Σπίγγος <dmtrs32@gmail.com>\n"
 " Θάνος Τρυφωνίδης <tomtryf@gmail.com>\n"
+" Ευστάθιος Ιωσηφίδης <iosifidis@opensuse.org>\n"
 "\n"
 "Για περισσότερα δείτε: http://gnome.gr"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:132
-#| msgid "Organize"
+#: ../src/photos-organize-collection-dialog.c:128
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Οργάνωση"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:295
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "Άνοιγμα"
 
 #: ../src/photos-preview-menu.ui.h:2
-#| msgid "Print"
 msgid "Print…"
 msgstr "Εκτύπωση…"
 
 #: ../src/photos-preview-menu.ui.h:3
-msgid "Set as Background"
-msgstr "Ορισμός ως παρασκήνιο"
+msgid "Display on…"
+msgstr "Προβολή σε..."
 
-#: ../src/photos-preview-menu.ui.h:4 ../src/photos-properties-dialog.c:368
-#: ../src/photos-selection-toolbar.c:532
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Ορισμός ως Παρασκήνιο"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
 msgid "Properties"
 msgstr "Ιδιότητες"
 
-#: ../src/photos-print-operation.c:275
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Αφαίρεση από τα αγαπημένα"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Προσθήκη στα αγαπημένα"
+
+#: ../src/photos-print-operation.c:270
 msgid "Image Settings"
 msgstr "Ρυθμίσεις εικόνας"
 
-#: ../src/photos-print-setup.c:898
-#| msgid "Window position"
+#: ../src/photos-print-setup.c:895
 msgid "Position"
 msgstr "Θέση"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:898
 msgid "_Left:"
 msgstr "_Αριστερά:"
 
-#: ../src/photos-print-setup.c:902
+#: ../src/photos-print-setup.c:899
 msgid "_Right:"
 msgstr "_Δεξιά:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:900
 msgid "_Top:"
 msgstr "_Πάνω:"
 
-#: ../src/photos-print-setup.c:904
+#: ../src/photos-print-setup.c:901
 msgid "_Bottom:"
 msgstr "_Κάτω:"
 
-#: ../src/photos-print-setup.c:906
+#: ../src/photos-print-setup.c:903
 msgid "C_enter:"
 msgstr "_Κέντρο:"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:907
 msgid "None"
 msgstr "Καμία"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:908
 msgid "Horizontal"
 msgstr "Οριζόντια"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:909
 msgid "Vertical"
 msgstr "Κάθετα"
 
-#: ../src/photos-print-setup.c:913
+#: ../src/photos-print-setup.c:910
 msgid "Both"
 msgstr "Και τα δύο"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:923
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:926
 msgid "_Width:"
 msgstr "_Πλάτος:"
 
-#: ../src/photos-print-setup.c:930
+#: ../src/photos-print-setup.c:927
 msgid "_Height:"
 msgstr "Ύ_ψος:"
 
-#: ../src/photos-print-setup.c:932
+#: ../src/photos-print-setup.c:929
 msgid "_Scaling:"
 msgstr "_Κλιμάκωση:"
 
-#: ../src/photos-print-setup.c:941
+#: ../src/photos-print-setup.c:938
 msgid "_Unit:"
 msgstr "_Μονάδα:"
 
-#: ../src/photos-print-setup.c:945
+#: ../src/photos-print-setup.c:942
 msgid "Millimeters"
 msgstr "Χιλιοστά"
 
-#: ../src/photos-print-setup.c:946
+#: ../src/photos-print-setup.c:943
 msgid "Inches"
 msgstr "Ίντσες"
 
-#: ../src/photos-print-setup.c:974
+#: ../src/photos-print-setup.c:971
 msgid "Preview"
 msgstr "Προεπισκόπηση"
 
-#: ../src/photos-properties-dialog.c:155
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
 msgid "Title"
 msgstr "Τίτλος"
 
-#: ../src/photos-properties-dialog.c:164
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
 msgid "Author"
 msgstr "Δημιουργός"
 
-#: ../src/photos-properties-dialog.c:171
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Πηγή"
 
-#: ../src/photos-properties-dialog.c:177
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Ημερομηνία τροποποίησης"
 
-#: ../src/photos-properties-dialog.c:185
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Ημερομηνία δημιουργίας"
 
-#: ../src/photos-properties-dialog.c:192
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
 msgid "Type"
-msgstr "Τύπος"
+msgstr "Τύπος"
 
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:144
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "Πλάτος"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "Ύψος"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "Κάμερα"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "Έκθεση"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "Διάφραγμα"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "Εστιακή Aπόσταση"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "Ταχύτητα ISO"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "Φλας"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr "Ανενεργό, δεν φωτογράφισε"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr "Ενεργό, φωτογράφισε"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "Έγινε"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
 msgid "All"
 msgstr "Όλα"
 
 #: ../src/photos-selection-menu.ui.h:1
-#| msgid "Select Items"
 msgid "Select All"
 msgstr "Επιλογή όλων"
 
 #: ../src/photos-selection-menu.ui.h:2
-#| msgid "Select Items"
 msgid "Select None"
 msgstr "Χωρίς επιλογή"
 
-#: ../src/photos-selection-toolbar.c:310
-msgid "Remove from favorites"
-msgstr "Αφαίρεση από τα αγαπημένα"
-
-#: ../src/photos-selection-toolbar.c:316
-msgid "Add to favorites"
-msgstr "Προσθήκη στα αγαπημένα"
-
-#: ../src/photos-selection-toolbar.c:487
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "Εκτύπωση"
 
-#: ../src/photos-selection-toolbar.c:498
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#. Translators: "Organize" refers to photos in this context
-#: ../src/photos-selection-toolbar.c:521
-#| msgid "Organize"
-msgctxt "Toolbar button tooltip"
-msgid "Organize"
-msgstr "Οργάνωση"
-
-#: ../src/photos-source-manager.c:148
-msgid "Local"
-msgstr "Τοπικά"
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "Προσθήκη σε Άλμπουμ"
 
 #: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
 msgstr "Αδύνατη η προσκόμιση της λίστας των φωτογραφιών"
+
+#~| msgid "Organize"
+#~ msgctxt "Toolbar button tooltip"
+#~ msgid "Organize"
+#~ msgstr "Οργάνωση"
 
 #~ msgid "Load %d more photos"
 #~ msgstr "Φόρτωση %d ακόμα φωτογραφιών"
