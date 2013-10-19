@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-20 01:06+0300\n"
-"PO-Revision-Date: 2013-10-20 01:22+0300\n"
+"PO-Revision-Date: 2013-10-20 01:26+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -285,7 +285,7 @@ msgstr "הדפסה…"
 
 #: ../src/photos-preview-menu.ui.h:3
 msgid "Display on…"
-msgstr "להציג…"
+msgstr "הצגה…"
 
 #: ../src/photos-preview-menu.ui.h:4
 msgid "Set as Background"
