@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-19 14:47+0000\n"
-"PO-Revision-Date: 2013-09-02 14:57+0200\n"
+"POT-Creation-Date: 2013-10-19 22:25+0000\n"
+"PO-Revision-Date: 2013-10-25 17:27+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -20,8 +20,36 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:504
-#: ../src/photos-search-type-manager.c:93
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Una sencilla aplicación para acceder, organizar y compartir sus fotos en "
+"GNOME. Está pensada para ser un reemplazo sencillo elegante del uso de un "
+"gestor de archivos para gestionar sus fotos. Se integra perfectamente con la "
+"nube mediante las cuentas en línea de GNOME."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Le permite:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>Ver fotos recientes y en línea</li> <li>Acceder a su contenido en "
+"Flickr</li> <li>Enviar fotos a servidores DLNA remotos</li> <li>Establecer "
+"una foto como fondo</li> <li>Imprimir fotos</li> <li>Seleccionar favoritos</"
+"li> <li>Permite abrir un editor completo para cambios más avanzados</li>"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:89
 msgid "Photos"
 msgstr "Fotos"
 
@@ -34,27 +62,27 @@ msgid "Photos;Pictures;"
 msgstr "Fotos;Imágenes;"
 
 # Contorno de la ventana?
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Tamaño de la ventana"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Tamaño de la ventana (anchura y altura)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Posición de la ventana"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Posición de la ventana (x e y)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Ventana maximizada"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Estado maximizado de la ventana"
 
@@ -143,19 +171,23 @@ msgstr "Acerca de Fotos"
 msgid "Quit"
 msgstr "Salir"
 
-#: ../src/photos-base-item.c:784
+#: ../src/photos-base-item.c:303
 msgid "Album"
 msgstr "Álbum"
+
+#: ../src/photos-base-item.c:727
+msgid "Screenshots"
+msgstr ""
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos de renderizado DLNA"
 
-#: ../src/photos-embed.c:501 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:507 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
 msgid "Favorites"
 msgstr "Favoritos"
 
@@ -212,18 +244,26 @@ msgstr "Seleccionar elementos"
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: ../src/photos-main-toolbar.c:491
+#: ../src/photos-main-toolbar.c:490
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/photos-main-window.c:330
+#: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice y comparta sus fotos en GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:340
+#: ../src/photos-main-window.c:339
 msgid "translator-credits"
 msgstr "Angel Méndez <angelrmm0@gmail.com>, 2012"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr ""
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr ""
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -254,12 +294,12 @@ msgstr "Establecer como fondo"
 msgid "Properties"
 msgstr "Propiedades"
 
-#: ../src/photos-preview-nav-buttons.c:207
+#: ../src/photos-preview-nav-buttons.c:208
 #: ../src/photos-selection-toolbar.c:291
 msgid "Remove from favorites"
 msgstr "Quita de favoritos"
 
-#: ../src/photos-preview-nav-buttons.c:212
+#: ../src/photos-preview-nav-buttons.c:213
 #: ../src/photos-selection-toolbar.c:297
 msgid "Add to favorites"
 msgstr "Agregar a favoritos"
@@ -378,12 +418,10 @@ msgid "Type"
 msgstr "Tipo"
 
 #: ../src/photos-properties-dialog.c:269
-#| msgid "_Width:"
 msgid "Width"
 msgstr "Anchura"
 
 #: ../src/photos-properties-dialog.c:279
-#| msgid "_Height:"
 msgid "Height"
 msgstr "Altura"
 
@@ -412,21 +450,21 @@ msgid "Flash"
 msgstr "Flash"
 
 #: ../src/photos-properties-dialog.c:527
-msgid "Off, Did not fire"
+#, fuzzy
+#| msgid "Off, Did not fire"
+msgid "Off, did not fire"
 msgstr "Desactivado, no ha disparado"
 
 #: ../src/photos-properties-dialog.c:529
-msgid "On, Fired"
+#, fuzzy
+#| msgid "On, Fired"
+msgid "On, fired"
 msgstr "Activado, disparado"
 
 #  o Terminado
 #: ../src/photos-properties-dialog.c:608
 msgid "Done"
 msgstr "Hecho"
-
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
-msgid "All"
-msgstr "Todo"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -447,6 +485,10 @@ msgstr "Eliminar"
 #: ../src/photos-selection-toolbar.c:461
 msgid "Add to Album"
 msgstr "Añadir al álbum"
+
+#: ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "Todo"
 
 #: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
