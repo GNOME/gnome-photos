@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-10 23:15+0000\n"
-"PO-Revision-Date: 2013-09-13 13:32+0500\n"
+"POT-Creation-Date: 2013-10-10 09:43+0000\n"
+"PO-Revision-Date: 2013-10-30 23:47+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <tg@li.org>\n"
 "Language: tg\n"
@@ -50,7 +50,7 @@ msgstr ""
 "ҳаматарафаро истифода баред</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:93
+#: ../src/photos-search-type-manager.c:89
 msgid "Photos"
 msgstr "Суратҳо"
 
@@ -62,27 +62,27 @@ msgstr "Ба суратҳо дастрасӣ пайдо кунед, онҳоро
 msgid "Photos;Pictures;"
 msgstr "Суратҳо;Тасвирҳо;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Андозаи равзана"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Андозаи равзана (бар ва баландӣ)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Мавқеи равзана"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Мавқеи равзана (x ва y)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Равзана дар ҳадди аксар"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Вазъияти равзана дар ҳадди аксар"
 
@@ -175,15 +175,19 @@ msgstr "Баромад"
 msgid "Album"
 msgstr "Албом"
 
+#: ../src/photos-base-item.c:727
+msgid "Screenshots"
+msgstr "Скриншотҳо"
+
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Дастгоҳи коркарди DLNA"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
 msgid "Albums"
 msgstr "Албомҳо"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
 msgid "Favorites"
 msgstr "Баргузидаҳо"
 
@@ -252,6 +256,14 @@ msgstr "Суратҳоро дар GNOME кушоед, мураттаб ва му
 #: ../src/photos-main-window.c:339
 msgid "translator-credits"
 msgstr "Victor Ibragimov, victor.ibragimo@gmail.com"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Илова кардан"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_OK"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -437,22 +449,16 @@ msgid "Flash"
 msgstr "Флеш"
 
 #: ../src/photos-properties-dialog.c:527
-#| msgid "Off, Did not fire"
 msgid "Off, did not fire"
 msgstr "Хомӯш, бе чароғ"
 
 #: ../src/photos-properties-dialog.c:529
-#| msgid "On, Fired"
 msgid "On, fired"
 msgstr "Фаъол, бо чароғ"
 
 #: ../src/photos-properties-dialog.c:608
 msgid "Done"
 msgstr "Тайёр"
-
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
-msgid "All"
-msgstr "Ҳама"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -473,6 +479,10 @@ msgstr "Нест кардан"
 #: ../src/photos-selection-toolbar.c:461
 msgid "Add to Album"
 msgstr "Илова кардан ба албом"
+
+#: ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "Ҳама"
 
 #: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
