@@ -125,6 +125,13 @@ photos_item_manager_changes_pending (PhotosTrackerChangeMonitor *monitor, GHashT
 }
 
 
+static void
+photos_item_manager_collection_path_free_foreach (gpointer data, gpointer user_data)
+{
+  g_clear_object (&data);
+}
+
+
 static gboolean
 photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *object)
 {
@@ -189,8 +196,12 @@ photos_item_manager_dispose (GObject *object)
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (object);
   PhotosItemManagerPrivate *priv = self->priv;
 
-  g_queue_free_full (priv->collection_path, g_object_unref);
-  priv->collection_path = NULL;
+  if (priv->collection_path != NULL)
+    {
+      g_queue_foreach (priv->collection_path, photos_item_manager_collection_path_free_foreach, NULL);
+      g_queue_free (priv->collection_path);
+      priv->collection_path = NULL;
+    }
 
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->monitor);
@@ -242,7 +253,7 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
 
   collection = G_OBJECT (g_queue_pop_head (priv->collection_path));
   photos_base_manager_set_active_object (priv->col_mngr, collection);
-  g_object_unref (collection);
+  g_clear_object (&collection);
 }
 
 
