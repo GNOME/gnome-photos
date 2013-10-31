@@ -1,0 +1,478 @@
+# Malayalam translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Anish Sheela <aneesh.nl@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-10-31 17:22+0000\n"
+"PO-Revision-Date: 2013-11-01 01:40+0530\n"
+"Last-Translator: Anish Sheela <aneesh.nl@gmail.com>\n"
+"Language-Team: Malayalam <l10n@lists.smc.org.in>\n"
+"Language: ml\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr ""
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:89
+msgid "Photos"
+msgstr "ചിത്രങ്ങള്‍"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr ""
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "ഫോട്ടോകള്‍;ചിത്രങ്ങള്‍"
+
+#: ../data/org.gnome.photos.gschema.xml.h:1
+msgid "Window size"
+msgstr "ജാലകത്തിന്റെ വലിപ്പം"
+
+#: ../data/org.gnome.photos.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "ജാലകത്തിന്റെ വലിപ്പം (വീതിയും ഉയരവും)."
+
+#: ../data/org.gnome.photos.gschema.xml.h:3
+msgid "Window position"
+msgstr "ജാലകത്തിന്റെ സ്ഥാനം"
+
+#: ../data/org.gnome.photos.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "ജാലകത്തിന്റെ സ്ഥാനം (എക്സും വൈയും)"
+
+#: ../data/org.gnome.photos.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "ജാലകം വലുതാക്കി"
+
+#: ../data/org.gnome.photos.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "ജാലകം വലുതാക്കിയിരിയ്ക്കുന്ന അവസ്ഥ"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f ലെന്‍സ്"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f  (35എം.എം ഫിലിം)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "ലോഡ് ചെയ്യാത്ത ചിത്രത്തില്‍  പരിവര്‍ത്തനം ചെയ്യുക."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "പരിവര്‍ത്തനം പരാജയപ്പെട്ടു."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "ഈ ഫയല്‍ രീതിയ്ക് EXIF-ന്റെ പിന്തുണയില്ല."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "ചിത്രം ലോഡ് ചെയ്യുവാന്‍ സാധ്യമായില്ല."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "ചിത്രം ഒന്നും ലോഡ് ചെയ്തിട്ടില്ല."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "ഫയല്‍ സൂക്ഷിയ്ക്കുന്നതിനു് ആവശ്യമുളള അനുവാദങ്ങള്‍ നിങ്ങള്‍ക്കില്ല."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "താല്‍ക്കാലിക ഫയല്‍ നിര്‍മ്മാണം പരാജയപ്പെട്ടു."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "രണ്ടു ഫയലിന്റെ പേരുകള്‍ എങ്കിലും സാമ്യമുളളതാണ്."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം കാണിയ്ക്കാന്‍ കഴിഞ്ഞില്ല"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (അസാധുവായ Unicode)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "സ്ക്രീന്‍ പരമാവധി വലിപ്പത്തില്‍"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "ഫോട്ടോകളെ കുറിച്ച്"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "പുറത്ത് കടക്കുക"
+
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "ആല്‍ബം"
+
+#: ../src/photos-base-item.c:727
+msgid "Screenshots"
+msgstr "തിരചിത്രങ്ങള്‍"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr ""
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
+msgid "Albums"
+msgstr "ആല്‍ബങ്ങള്‍"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
+msgid "Favorites"
+msgstr "ഇഷ്ടമുളളവ"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "ചിത്രങ്ങള്‍ ഒന്നും കണ്ടില്ല"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "ഫ്ലിക്കര്‍"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr "നിങ്ങളുടെ ചിത്രങ്ങള്‍ക്കു് സൂചിക നല്‍കുന്നു"
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr "ഈ പ്രക്രിയില്‍ ചില ചിത്രങ്ങള്‍ ഒരു പക്ഷേ ലഭ്യമാവില്ല"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "കൂടുതല്‍ എടുക്കു"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "ലഭ്യമാക്കുന്നു..."
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "പ്രാദേശികം"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "ഇനം തിരഞ്ഞെടുക്കുവാനായി അതാത് ഇനത്തില്‍ ക്ലിക്ക് ചെയ്യുക"
+
+#: ../src/photos-main-toolbar.c:101
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d തിരഞ്ഞെടുത്തിരിക്കുന്നു"
+msgstr[1] "%d തിരഞ്ഞെടുത്തിരിക്കുന്നു"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "പുറകോട്ട്"
+
+#: ../src/photos-main-toolbar.c:273
+msgid "Select Items"
+msgstr "വസ്തുക്കള്‍ തെരഞ്ഞെടുക്കുക"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "%s ഉപയോഗിച്ചു് തുറക്കുക"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "റദ്ദാക്കുക"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr ""
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr "അനീഷ് ഷീല <aneesh.nl@gmail.com>"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "ചേര്‍ക്കുക (_A)"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "ശരി (_O)"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "ക്രമീകരിക്കുക"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "തുറക്കു"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "അച്ചടിയ്ക്കു..."
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr ""
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "ഇതിനെ പശ്ചാത്തലമാക്കുക"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "ഗുണഗണങ്ങള്‍"
+
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "ഇഷ്ടപ്പെട്ടവയില്‍ നിന്നും നീക്കം ചെയ്യുക"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "ഇഷ്ടപ്പെട്ടവയിലേക്ക് ചേര്‍ക്കുക"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "ചിത്രങ്ങളുടെ ക്രമീകരണം"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "സ്ഥാനം"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "ഇടത് (_L):"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "വലത് (_R):"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "മുകളില്‍ (_T):"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "താഴെ (_B):"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "മദ്ധ്യ ഭാഗം (_E):"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "ഒന്നുമില്ല"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "തിരശ്ചീനമായത്"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "ലംബമായത്"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "രണ്ടും"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "വലിപ്പം"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "വീതി (_W):"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "ഉയരം (_H):"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "തോതനുസരിച്ചാക്കല്‍ (_S):"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "അളവ് (_U):"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "മില്ലിമീറ്റര്‍"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "ഇഞ്ചുകള്‍"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "തിരനോട്ടം"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
+msgid "Title"
+msgstr "തലക്കെട്ട്"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
+msgid "Author"
+msgstr "രചയിതാവ്"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "ഉറവിടം"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "മാറ്റം വരുത്തിയ തീയതി"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "തയ്യാറാക്കിയതു്"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
+msgid "Type"
+msgstr "തരം"
+
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "വീതി"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "ഉയരം"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "ക്യാമറ"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "എക്സ്പോഷര്‍"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "അപ്പെര്‍ച്ചര്‍"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "ഫോക്കസ് ദുരം"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ISO വേഗത:"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "ഫ്ലാഷ്"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr "ഫ്ലാഷ് ചെയ്തില്ല"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr "ഫ്ളാഷ് ചെയ്തു"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "തീര്‍ന്നു"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "എല്ലാം തെരഞ്ഞെടുക്കുക"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "ഒന്നും തിരഞ്ഞെടുക്കാതിരിക്കുക"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "പ്രിന്റ് ചെയ്യുക"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "നീക്കം ചെയ്യുക"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "ആല്‍ബത്തിലേക്ക് ചേര്‍ക്കുക"
+
+#: ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "എല്ലാം"
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr ""
