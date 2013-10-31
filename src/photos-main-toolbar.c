@@ -164,11 +164,9 @@ photos_main_toolbar_col_active_changed (PhotosBaseManager *manager, GObject *obj
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
   PhotosMainToolbarPrivate *priv = self->priv;
-  GObject *item;
   PhotosHeaderBarMode mode;
 
-  item = photos_base_manager_get_active_object (priv->col_mngr);
-  if (item != NULL)
+  if (object != NULL)
     {
       mode = PHOTOS_HEADER_BAR_MODE_STANDALONE;
       if (priv->coll_back_button == NULL)
