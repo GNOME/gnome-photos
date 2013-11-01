@@ -2,14 +2,15 @@
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # tuhaihe <1132321739qq@gmail.com>, 2013.
+# 甘露(Lu Gan) <rhythm.gan@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-03 11:13+0000\n"
-"PO-Revision-Date: 2013-08-03 22:02+0800\n"
+"POT-Creation-Date: 2013-10-19 22:28+0000\n"
+"PO-Revision-Date: 2013-10-22 21:59+0800\n"
 "Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -19,8 +20,33 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:488
-#: ../src/photos-search-type-manager.c:93
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"一款 GNOME 下简单的照片访问、组织和分享应用。简洁优雅，可替代文件管理器来处理"
+"照片。与 GNOME 在线账户无缝整合。"
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "它允许您："
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>查看最近的本地和在线照片</li> <li>访问您的 Flickr 内容</li> <li>发送照片"
+"到远程 DLNA 渲染器</li> <li>设置图片为桌面背景</li> <li>打印照片</li> <li>选"
+"择收藏</li> <li>打开全功能编辑器对照片进行更多高级更改</li>"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:89
 msgid "Photos"
 msgstr "照片"
 
@@ -32,27 +58,27 @@ msgstr "访问、管理并分享您的照片"
 msgid "Photos;Pictures;"
 msgstr "Photos;Pictures;照片;相片;图片;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "窗口大小"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "窗口大小(宽度和高度)。"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "窗口位置"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "窗口位置(水平和竖直)。"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "窗口最大化"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "窗口最大化状态"
 
@@ -135,21 +161,29 @@ msgstr "全屏"
 
 #: ../src/photos-app-menu.ui.h:2
 msgid "About Photos"
-msgstr "关于“照片”"
+msgstr "关于照片"
 
 #: ../src/photos-app-menu.ui.h:3
 msgid "Quit"
 msgstr "退出"
 
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "相册"
+
+#: ../src/photos-base-item.c:727
+msgid "Screenshots"
+msgstr "截图"
+
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA 渲染设备"
 
-#: ../src/photos-embed.c:485 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
 msgid "Albums"
 msgstr "相册"
 
-#: ../src/photos-embed.c:491 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
 msgid "Favorites"
 msgstr "收藏"
 
@@ -157,15 +191,15 @@ msgstr "收藏"
 msgid "No Photos Found"
 msgstr "未找到照片"
 
-#: ../src/photos-flickr-item.c:277 ../src/photos-flickr-item.c:324
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:170
+#: ../src/photos-indexing-notification.c:168
 msgid "Your photos are being indexed"
 msgstr "正在索引您的照片"
 
-#: ../src/photos-indexing-notification.c:174
+#: ../src/photos-indexing-notification.c:172
 msgid "Some photos might not be available during this process"
 msgstr "此过程中部分照片可能无法查看"
 
@@ -200,32 +234,43 @@ msgid "Select Items"
 msgstr "选择项目"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:361 ../src/photos-selection-toolbar.c:290
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "用 %s 打开"
 
-#: ../src/photos-main-toolbar.c:486 ../src/photos-properties-dialog.c:352
-msgid "Done"
-msgstr "完成"
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "取消"
 
-#: ../src/photos-main-window.c:328
+#: ../src/photos-main-window.c:329
 msgid "Access, organize and share your photos on GNOME"
 msgstr "在 GNOME 下访问、管理和分享您的照片"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:338
+#: ../src/photos-main-window.c:339
 msgid "translator-credits"
-msgstr "tuhaihe <1132321739qq@gmail.com>, 2012, 2013"
+msgstr ""
+"tuhaihe <1132321739qq@gmail.com>, 2012, 2013\n"
+"甘露(Lu Gan) <rhythm.gan@gmail.com>, 2013"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "添加(_A)"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "确认(_O)"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:132
+#: ../src/photos-organize-collection-dialog.c:128
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "管理"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:293
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "打开"
 
@@ -241,92 +286,101 @@ msgstr "显示在..."
 msgid "Set as Background"
 msgstr "设为背景"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:390
-#: ../src/photos-selection-toolbar.c:530
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
 msgid "Properties"
 msgstr "属性"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "从收藏移除"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "添加到收藏"
+
+#: ../src/photos-print-operation.c:270
 msgid "Image Settings"
 msgstr "图像设置"
 
-#: ../src/photos-print-setup.c:897
+#: ../src/photos-print-setup.c:895
 msgid "Position"
 msgstr "位置"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:898
 msgid "_Left:"
 msgstr "左(_L)："
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:899
 msgid "_Right:"
 msgstr "右(_R)："
 
-#: ../src/photos-print-setup.c:902
+#: ../src/photos-print-setup.c:900
 msgid "_Top:"
 msgstr "上(_T)："
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:901
 msgid "_Bottom:"
 msgstr "下(_B)："
 
-#: ../src/photos-print-setup.c:905
+#: ../src/photos-print-setup.c:903
 msgid "C_enter:"
 msgstr "中(_E)："
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:907
 msgid "None"
 msgstr "无"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:908
 msgid "Horizontal"
 msgstr "水平"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:909
 msgid "Vertical"
 msgstr "垂直"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:910
 msgid "Both"
 msgstr "全部"
 
-#: ../src/photos-print-setup.c:925
+#: ../src/photos-print-setup.c:923
 msgid "Size"
 msgstr "尺寸"
 
-#: ../src/photos-print-setup.c:928
+#: ../src/photos-print-setup.c:926
 msgid "_Width:"
 msgstr "宽度(_W)："
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:927
 msgid "_Height:"
 msgstr "高度(_H)："
 
-#: ../src/photos-print-setup.c:931
+#: ../src/photos-print-setup.c:929
 msgid "_Scaling:"
 msgstr "缩放(_S)："
 
-#: ../src/photos-print-setup.c:940
+#: ../src/photos-print-setup.c:938
 msgid "_Unit:"
 msgstr "单位(_U)："
 
-#: ../src/photos-print-setup.c:944
+#: ../src/photos-print-setup.c:942
 msgid "Millimeters"
 msgstr "毫米"
 
-#: ../src/photos-print-setup.c:945
+#: ../src/photos-print-setup.c:943
 msgid "Inches"
 msgstr "英寸"
 
-#: ../src/photos-print-setup.c:973
+#: ../src/photos-print-setup.c:971
 msgid "Preview"
 msgstr "预览"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:162
-#| msgid "Title"
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "标题"
@@ -334,36 +388,74 @@ msgstr "标题"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:174
-#| msgid "Author"
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "作者"
 
-#: ../src/photos-properties-dialog.c:181
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "来源"
 
-#: ../src/photos-properties-dialog.c:187
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "修改日期"
 
-#: ../src/photos-properties-dialog.c:195
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "创建日期"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:205
-#| msgid "Type"
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "类型"
 
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
-msgid "All"
-msgstr "全部"
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "宽度"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "高度"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "相机"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "曝光"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "光圈"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "焦距"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ISO 感光度"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "闪光"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr "关，不闪光"
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr "开，闪光"
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "完成"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -373,31 +465,29 @@ msgstr "全选"
 msgid "Select None"
 msgstr "全不选"
 
-#: ../src/photos-selection-toolbar.c:308
-msgid "Remove from favorites"
-msgstr "从收藏移除"
-
-#: ../src/photos-selection-toolbar.c:314
-msgid "Add to favorites"
-msgstr "添加到收藏"
-
-#: ../src/photos-selection-toolbar.c:485
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "打印"
 
-#: ../src/photos-selection-toolbar.c:496
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "删除"
 
-#. Translators: "Organize" refers to photos in this context
-#: ../src/photos-selection-toolbar.c:519
-msgctxt "Toolbar button tooltip"
-msgid "Organize"
-msgstr "管理"
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "添加到相册"
+
+#: ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "全部"
 
 #: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
 msgstr "无法获取照片列表"
+
+#~ msgctxt "Toolbar button tooltip"
+#~ msgid "Organize"
+#~ msgstr "管理"
 
 #~ msgid "Image"
 #~ msgstr "图像"
