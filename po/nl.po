@@ -1,16 +1,18 @@
 # Dutch translation for gnome-photos.
-# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+#
 # This file is distributed under the same license as the gnome-photos package.
-# Erwin  <donnut@outlook.com>, 2013.
+#
+# Erwin <donnut@outlook.com>, 2013.
 # Reinout van Schouwen <reinouts@gnome.org>, 2013.
+# Wouter Bolsterlee <wbolster@gnome.org>, 2013.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-14 20:41+0000\n"
-"PO-Revision-Date: 2013-09-15 23:34+0200\n"
-"Last-Translator: Reinout van Schouwen <reinouts@gnome.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-10 14:48+0100\n"
+"PO-Revision-Date: 2013-11-10 14:48+0100\n"
+"Last-Translator: Wouter Bolsterlee <wbolster@gnome.org>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +52,7 @@ msgstr ""
 "uitgebreidere bewerkingen</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:93
+#: ../src/photos-search-type-manager.c:89
 msgid "Photos"
 msgstr "Foto's"
 
@@ -62,27 +64,27 @@ msgstr "Foto's benaderen, beheren en delen."
 msgid "Photos;Pictures;"
 msgstr "Photos;Pictures;Foto's;Afbeeldingen;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Venstergrootte"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Venstergrootte (breedte en hoogte)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Vensterpositie"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Vensterpositie (x en y)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Venster gemaximaliseerd"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Venster is gemaximaliseerd"
 
@@ -175,15 +177,19 @@ msgstr "Afsluiten"
 msgid "Album"
 msgstr "Album"
 
+#: ../src/photos-base-item.c:727
+msgid "Screenshots"
+msgstr "Schermafdrukken"
+
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA Renderer-apparaten"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
 msgid "Albums"
 msgstr "Albums"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
 msgid "Favorites"
 msgstr "Favorieten"
 
@@ -254,6 +260,14 @@ msgid "translator-credits"
 msgstr ""
 "Erwin Poeze <donnut@outlook.com>\n"
 "Reinout van Schouwen <reinouts@gnome.org>"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Toevoegen"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_Ok"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -450,10 +464,6 @@ msgstr "Ingeschakeld, geflitst"
 msgid "Done"
 msgstr "Klaar"
 
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
-msgid "All"
-msgstr "Alles"
-
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
 msgstr "Alles selecteren"
@@ -473,6 +483,10 @@ msgstr "Verwijderen"
 #: ../src/photos-selection-toolbar.c:461
 msgid "Add to Album"
 msgstr "Aan album toevoegen"
+
+#: ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "Alles"
 
 #: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
