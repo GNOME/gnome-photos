@@ -49,7 +49,7 @@ msgstr ""
 
 #: ../data/gnome-photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
-msgstr "ഫോട്ടോകള്‍;ചിത്രങ്ങള്‍"
+msgstr "ഫോട്ടോകള്‍;ചിത്രങ്ങള്‍;"
 
 #: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
