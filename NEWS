@@ -1,5 +1,60 @@
-Overview of changes in 3.11.1
+Overview of changes in 3.11.2
 =============================
+
+* Bugs fixed:
+ 703280 Rename all singleton public constructors to _dup_singleton()
+ 706502 Update DBus signature after dleyna-renderer ABI fix
+ 706513 dlna: Use G_STMT_START/G_STMT_END/G_STRFUNC
+ 706810 main-toolbar: Remove emphasis on Cancel button
+ 706824 Replace dots with commas in EXIF labels
+ 708018 application: Create the main window after the gear-menu action
+ 708054 Utilize intltool 0.50 gsettings support
+ 709367 No albums in Photos view
+ 709368 Use a separate collection for screenshots
+ 709693 dlna-renderer: Fix a value returned
+ 709695 Drop GtkStock
+
+* Updated translations:
+ Arabic
+ Assamese
+ Basque
+ Catalan
+ Catalan (Valencian)
+ Traditional Chinese (Hong Kong)
+ Traditional Chinese (Taiwan)
+ Czech
+ Danish
+ Dutch
+ Estonian
+ Finnish
+ French
+ Galician
+ German
+ Greek
+ Hebrew
+ Hungarian
+ Indonesian
+ Italian
+ Japanese
+ Kannada
+ Korean
+ Latvian
+ Lithuanian
+ Malayalam
+ Norwegian bokmål
+ Persian
+ Polish
+ Portuguese
+ Portuguese (Brazilian)
+ Punjabi
+ Russian
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
+ Tajik
+ Turkish
+ Ukrainian
 
 
 Overview of changes in 3.9.90
