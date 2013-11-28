@@ -30,6 +30,7 @@
 #include "photos-collection-manager.h"
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
+#include "photos-facebook-item.h"
 #include "photos-flickr-item.h"
 #include "photos-query.h"
 #include "photos-single-item-job.h"
@@ -284,6 +285,9 @@ photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *c
     {
       if (g_str_has_prefix (identifier, "flickr:") || g_str_has_prefix (identifier, "photos:collection:flickr:"))
         ret_val = photos_flickr_item_new (cursor);
+      else if (g_str_has_prefix (identifier, "facebook:")
+               || g_str_has_prefix (identifier, "photos:collection:facebook:"))
+        ret_val = photos_facebook_item_new (cursor);
     }
 
   if (ret_val == NULL)
