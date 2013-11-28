@@ -90,6 +90,8 @@ gnome_photos_SOURCES = \
 	photos-empty-results-box.h \
 	photos-error-box.c \
 	photos-error-box.h \
+	photos-facebook-item.c \
+	photos-facebook-item.h \
 	photos-fetch-collection-state-job.c \
 	photos-fetch-collection-state-job.h \
 	photos-fetch-collections-job.c \
@@ -225,6 +227,7 @@ AM_CPPFLAGS = \
 	$(CAIRO_CFLAGS) \
 	$(EXEMPI_CFLAGS) \
 	$(GDK_PIXBUF_CFLAGS) \
+	$(GFBGRAPH_CFLAGS) \
 	$(GEGL_CFLAGS) \
 	$(GIO_CFLAGS) \
 	$(GLIB_CFLAGS) \
@@ -248,6 +251,7 @@ gnome_photos_LDADD = \
 	$(CAIRO_LIBS) \
 	$(EXEMPI_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
+	$(GFBGRAPH_LIBS) \
 	$(GEGL_LIBS) \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
