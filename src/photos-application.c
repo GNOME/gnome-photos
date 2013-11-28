@@ -60,6 +60,7 @@ struct _PhotosApplicationPrivate
   GSimpleAction *sel_none_action;
   GSimpleAction *set_bg_action;
   GSimpleAction *remote_display_action;
+  GomMiner *facebook_miner;
   GomMiner *flickr_miner;
   GtkWidget *main_window;
   PhotosBaseManager *item_mngr;
@@ -269,6 +270,9 @@ photos_application_refresh_miners (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
 
+  if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->src_mngr), "facebook"))
+    photos_application_refresh_miner_now (self, priv->facebook_miner);
+
   if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->src_mngr), "flickr"))
     photos_application_refresh_miner_now (self, priv->flickr_miner);
 }
@@ -449,6 +453,13 @@ photos_application_startup (GApplication *application)
   settings = gtk_settings_get_default ();
   g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
 
+  priv->facebook_miner = gom_miner_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                           G_DBUS_PROXY_FLAGS_NONE,
+                                                           "org.gnome.OnlineMiners.Facebook",
+                                                           "/org/gnome/OnlineMiners/Facebook",
+                                                           NULL,
+                                                           NULL);
+
   priv->flickr_miner = gom_miner_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                          G_DBUS_PROXY_FLAGS_NONE,
                                                          "org.gnome.OnlineMiners.Flickr",
@@ -588,6 +599,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->sel_all_action);
   g_clear_object (&priv->sel_none_action);
   g_clear_object (&priv->set_bg_action);
+  g_clear_object (&priv->facebook_miner);
   g_clear_object (&priv->flickr_miner);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
