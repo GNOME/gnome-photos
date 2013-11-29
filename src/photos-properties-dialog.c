@@ -30,6 +30,7 @@
 #include <glib/gi18n.h>
 
 #include "photos-camera-cache.h"
+#include "photos-facebook-item.h"
 #include "photos-flickr-item.h"
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
@@ -382,7 +383,15 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_grid_attach_next_to (GTK_GRID (priv->grid), author_data, author_w, GTK_POS_RIGHT, 2, 1);
     }
 
-  if (PHOTOS_IS_FLICKR_ITEM (item))
+  if (PHOTOS_IS_FACEBOOK_ITEM (item))
+    {
+      const gchar *source_name;
+
+      source_name = photos_base_item_get_source_name (item);
+      source_data = gtk_link_button_new_with_label ("https://www.facebook.com/", source_name);
+      gtk_widget_set_halign (source_data, GTK_ALIGN_START);
+    }
+  else if (PHOTOS_IS_FLICKR_ITEM (item))
     {
       const gchar *source_name;
 
