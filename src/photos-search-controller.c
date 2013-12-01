@@ -1,0 +1,153 @@
+/*
+ * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2013 Red Hat, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
+ */
+
+/* Based on code from:
+ *   + Documents
+ */
+
+
+#include "config.h"
+
+#include <glib.h>
+#include <tracker-sparql.h>
+
+#include "photos-search-controller.h"
+
+
+struct _PhotosSearchControllerPrivate
+{
+  gchar *str;
+};
+
+enum
+{
+  SEARCH_STRING_CHANGED,
+  LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosSearchController, photos_search_controller, G_TYPE_OBJECT);
+
+
+static GObject *
+photos_search_controller_constructor (GType type, guint n_construct_params, GObjectConstructParam *construct_params)
+{
+  static GObject *self = NULL;
+
+  if (self == NULL)
+    {
+      self = G_OBJECT_CLASS (photos_search_controller_parent_class)->constructor (type,
+                                                                                  n_construct_params,
+                                                                                  construct_params);
+      g_object_add_weak_pointer (self, (gpointer) &self);
+      return self;
+    }
+
+  return g_object_ref (self);
+}
+
+
+static void
+photos_search_controller_finalize (GObject *object)
+{
+  PhotosSearchController *self = PHOTOS_SEARCH_CONTROLLER (object);
+
+  g_free (self->priv->str);
+
+  G_OBJECT_CLASS (photos_search_controller_parent_class)->finalize (object);
+}
+
+
+static void
+photos_search_controller_init (PhotosSearchController *self)
+{
+  PhotosSearchControllerPrivate *priv;
+
+  self->priv = photos_search_controller_get_instance_private (self);
+  priv = self->priv;
+
+  priv->str = g_strdup ("");
+}
+
+
+static void
+photos_search_controller_class_init (PhotosSearchControllerClass *class)
+{
+  GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+  object_class->constructor = photos_search_controller_constructor;
+  object_class->finalize = photos_search_controller_finalize;
+
+  signals[SEARCH_STRING_CHANGED] = g_signal_new ("search-string-changed",
+                                                  G_TYPE_FROM_CLASS (class),
+                                                  G_SIGNAL_RUN_LAST,
+                                                  G_STRUCT_OFFSET (PhotosSearchControllerClass,
+                                                                   search_string_changed),
+                                                  NULL, /*accumulator */
+                                                  NULL, /*accu_data */
+                                                  g_cclosure_marshal_VOID__STRING,
+                                                  G_TYPE_NONE,
+                                                  1,
+                                                  G_TYPE_STRING);
+}
+
+
+PhotosSearchController *
+photos_search_controller_dup_singleton (void)
+{
+  return g_object_new (PHOTOS_TYPE_SEARCH_CONTROLLER, NULL);
+}
+
+
+const gchar *
+photos_search_controller_get_string (PhotosSearchController *self)
+{
+  return self->priv->str;
+}
+
+
+gchar **
+photos_search_controller_get_terms (PhotosSearchController *self)
+{
+  gchar *str;
+  gchar **terms;
+
+  str = tracker_sparql_escape_string (self->priv->str);
+  /* TODO: find out what str.replace(/ + /g, ' ') does */
+  terms = g_strsplit (str, " ", -1);
+  g_free (str);
+  return terms;
+}
+
+
+void
+photos_search_controller_set_string (PhotosSearchController *self, const gchar *str)
+{
+  PhotosSearchControllerPrivate *priv = self->priv;
+
+  if (g_strcmp0 (priv->str, str) == 0)
+    return;
+
+  g_free (priv->str);
+  priv->str = g_strdup (str);
+  g_signal_emit (self, signals[SEARCH_STRING_CHANGED], 0, priv->str);
+}
