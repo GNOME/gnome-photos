@@ -28,13 +28,16 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include <gio/gio.h>
+
+#include "photos-base-manager.h"
 #include "photos-enums.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-marshalers.h"
 #include "photos-mode-controller.h"
 #include "photos-query-builder.h"
-#include "photos-source-manager.h"
+#include "photos-search-context.h"
 #include "photos-tracker-controller.h"
 #include "photos-tracker-queue.h"
 
@@ -371,14 +374,19 @@ static void
 photos_tracker_controller_init (PhotosTrackerController *self)
 {
   PhotosTrackerControllerPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_tracker_controller_get_instance_private (self);
   priv = self->priv;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   priv->cancellable = g_cancellable_new ();
   priv->item_mngr = photos_item_manager_dup_singleton ();
 
-  priv->src_mngr = photos_source_manager_dup_singleton ();
+  priv->src_mngr = g_object_ref (state->src_mngr);
   g_signal_connect_swapped (priv->src_mngr,
                             "object-added",
                             G_CALLBACK (photos_tracker_controller_source_object_added_removed),

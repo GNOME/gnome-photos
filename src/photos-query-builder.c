@@ -53,24 +53,16 @@ photos_query_builder_convert_path_to_uri (const gchar *path)
 
 
 static gchar *
-photos_query_builder_filter (gint flags)
+photos_query_builder_filter (PhotosSearchContextState *state, gint flags)
 {
-  PhotosBaseManager *src_mngr;
-  PhotosBaseManager *srch_mtch_mngr;
-  PhotosBaseManager *srch_typ_mngr;
   gchar *sparql;
   gchar *src_mngr_filter;
   gchar *srch_mtch_mngr_filter;
   gchar *srch_typ_mngr_filter;
 
-  src_mngr = photos_source_manager_dup_singleton ();
-  src_mngr_filter = photos_base_manager_get_filter (src_mngr, flags);
-
-  srch_mtch_mngr = photos_search_match_manager_dup_singleton ();
-  srch_mtch_mngr_filter = photos_base_manager_get_filter (srch_mtch_mngr, flags);
-
-  srch_typ_mngr = photos_search_type_manager_dup_singleton ();
-  srch_typ_mngr_filter = photos_base_manager_get_filter (srch_typ_mngr, flags);
+  src_mngr_filter = photos_base_manager_get_filter (state->src_mngr, flags);
+  srch_mtch_mngr_filter = photos_base_manager_get_filter (state->srch_mtch_mngr, flags);
+  srch_typ_mngr_filter = photos_base_manager_get_filter (state->srch_typ_mngr, flags);
 
   sparql = g_strdup_printf ("FILTER (%s && %s && %s)",
                             src_mngr_filter,
@@ -78,13 +70,8 @@ photos_query_builder_filter (gint flags)
                             srch_typ_mngr_filter);
 
   g_free (srch_typ_mngr_filter);
-  g_object_unref (srch_typ_mngr);
-
   g_free (srch_mtch_mngr_filter);
-  g_object_unref (srch_mtch_mngr);
-
   g_free (src_mngr_filter);
-  g_object_unref (src_mngr);
 
   return sparql;
 }
@@ -99,21 +86,15 @@ photos_query_builder_optional (void)
 
 
 static gchar *
-photos_query_builder_where (gboolean global, gint flags)
+photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gint flags)
 {
-  PhotosBaseManager *col_mngr;
-  PhotosBaseManager *srch_typ_mngr;
   gchar *col_mngr_where = NULL;
   gchar *filter = NULL;
   gchar *optional = NULL;
   gchar *sparql;
   gchar *srch_typ_mngr_where = NULL;
 
-  col_mngr = photos_collection_manager_dup_singleton ();
-
-  srch_typ_mngr = photos_search_type_manager_dup_singleton ();
-  srch_typ_mngr_where = photos_base_manager_get_where (srch_typ_mngr, flags);
-
+  srch_typ_mngr_where = photos_base_manager_get_where (state->srch_typ_mngr, flags);
   optional = photos_query_builder_optional ();
 
   if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
@@ -122,10 +103,10 @@ photos_query_builder_where (gboolean global, gint flags)
         {
           /* TODO: SearchCategoryManager */
 
-          col_mngr_where = photos_base_manager_get_where (col_mngr, flags);
+          col_mngr_where = photos_base_manager_get_where (state->col_mngr, flags);
         }
 
-      filter = photos_query_builder_filter (flags);
+      filter = photos_query_builder_filter (state, flags);
     }
 
   sparql = g_strdup_printf ("WHERE { %s %s %s %s }",
@@ -137,21 +118,22 @@ photos_query_builder_where (gboolean global, gint flags)
   g_free (col_mngr_where);
   g_free (filter);
   g_free (srch_typ_mngr_where);
-  g_object_unref (col_mngr);
-  g_object_unref (srch_typ_mngr);
 
   return sparql;
 }
 
 
 static gchar *
-photos_query_builder_query (gboolean global, gint flags, PhotosOffsetController *offset_cntrlr)
+photos_query_builder_query (PhotosSearchContextState *state,
+                            gboolean global,
+                            gint flags,
+                            PhotosOffsetController *offset_cntrlr)
 {
   gchar *sparql;
   gchar *tail_sparql = NULL;
   gchar *where_sparql;
 
-  where_sparql = photos_query_builder_where (global, flags);
+  where_sparql = photos_query_builder_where (state, global, flags);
 
   if (global)
     {
@@ -199,7 +181,7 @@ photos_query_builder_query (gboolean global, gint flags, PhotosOffsetController 
 
 
 PhotosQuery *
-photos_query_builder_create_collection_query (const gchar *name)
+photos_query_builder_create_collection_query (PhotosSearchContextState *state, const gchar *name)
 {
   GTimeVal tv;
   gchar *sparql;
@@ -221,12 +203,12 @@ photos_query_builder_create_collection_query (const gchar *name)
                             name);
   g_free (time);
 
-  return photos_query_new (sparql);
+  return photos_query_new (state, sparql);
 }
 
 
 PhotosQuery *
-photos_query_builder_collection_icon_query (const gchar *resource)
+photos_query_builder_collection_icon_query (PhotosSearchContextState *state, const gchar *resource)
 {
   gchar *sparql;
 
@@ -235,68 +217,73 @@ photos_query_builder_collection_icon_query (const gchar *resource)
                             "WHERE { ?urn nie:isPartOf <%s> } "
                             "ORDER BY DESC (?mtime) LIMIT 4",
                             resource);
-  return photos_query_new (sparql);
+  return photos_query_new (state, sparql);
 }
 
 
 PhotosQuery *
-photos_query_builder_count_query (gint flags)
+photos_query_builder_count_query (PhotosSearchContextState *state, gint flags)
 {
   gchar *sparql;
   gchar *where_sparql;
 
-  where_sparql = photos_query_builder_where (TRUE, flags);
+  where_sparql = photos_query_builder_where (state, TRUE, flags);
   sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) ", where_sparql, NULL);
   g_free (where_sparql);
 
-  return photos_query_new (sparql);
+  return photos_query_new (state, sparql);
 }
 
 
 PhotosQuery *
-photos_query_builder_delete_resource_query (const gchar *resource)
+photos_query_builder_delete_resource_query (PhotosSearchContextState *state, const gchar *resource)
 {
   gchar *sparql;
 
   sparql = g_strdup_printf ("DELETE { <%s> a rdfs:Resource }", resource);
-  return photos_query_new (sparql);
+  return photos_query_new (state, sparql);
 }
 
 
 PhotosQuery *
-photos_query_builder_equipment_query (GQuark equipment)
+photos_query_builder_equipment_query (PhotosSearchContextState *state, GQuark equipment)
 {
   const gchar *resource;
   gchar *sparql;
 
   resource = g_quark_to_string (equipment);
   sparql = g_strdup_printf ("SELECT nfo:manufacturer (<%s>) nfo:model (<%s>) WHERE {}", resource, resource);
-  return photos_query_new (sparql);
+  return photos_query_new (state, sparql);
 }
 
 
 PhotosQuery *
-photos_query_builder_fetch_collections_query (const gchar *resource)
+photos_query_builder_fetch_collections_query (PhotosSearchContextState *state, const gchar *resource)
 {
   gchar *sparql;
 
   sparql = g_strdup_printf ("SELECT ?urn WHERE { ?urn a nfo:DataContainer . <%s> nie:isPartOf ?urn }", resource);
-  return photos_query_new (sparql);
+  return photos_query_new (state, sparql);
 }
 
 
 PhotosQuery *
-photos_query_builder_global_query (gint flags, PhotosOffsetController *offset_cntrlr)
+photos_query_builder_global_query (PhotosSearchContextState *state,
+                                   gint flags,
+                                   PhotosOffsetController *offset_cntrlr)
 {
   gchar *sparql;
 
-  sparql = photos_query_builder_query (TRUE, flags, offset_cntrlr);
-  return photos_query_new (sparql);
+  sparql = photos_query_builder_query (state, TRUE, flags, offset_cntrlr);
+  return photos_query_new (state, sparql);
 }
 
 
 PhotosQuery *
-photos_query_builder_set_collection_query (const gchar *item_urn, const gchar *collection_urn, gboolean setting)
+photos_query_builder_set_collection_query (PhotosSearchContextState *state,
+                                           const gchar *item_urn,
+                                           const gchar *collection_urn,
+                                           gboolean setting)
 {
   gchar *sparql;
 
@@ -304,19 +291,19 @@ photos_query_builder_set_collection_query (const gchar *item_urn, const gchar *c
                             setting ? "INSERT" : "DELETE",
                             item_urn,
                             collection_urn);
-  return photos_query_new (sparql);
+  return photos_query_new (state, sparql);
 }
 
 
 PhotosQuery *
-photos_query_builder_single_query (gint flags, const gchar *resource)
+photos_query_builder_single_query (PhotosSearchContextState *state, gint flags, const gchar *resource)
 {
   GRegex *regex;
   gchar *replacement;
   gchar *sparql;
   gchar *tmp;
 
-  tmp = photos_query_builder_query (FALSE, flags, NULL);
+  tmp = photos_query_builder_query (state, FALSE, flags, NULL);
 
   regex = g_regex_new ("\\?urn", 0, 0, NULL);
   replacement = g_strconcat ("<", resource, ">", NULL);
@@ -325,12 +312,12 @@ photos_query_builder_single_query (gint flags, const gchar *resource)
   g_free (tmp);
   g_regex_unref (regex);
 
-  return photos_query_new (sparql);
+  return photos_query_new (state, sparql);
 }
 
 
 PhotosQuery *
-photos_query_builder_update_mtime_query (const gchar *resource)
+photos_query_builder_update_mtime_query (PhotosSearchContextState *state, const gchar *resource)
 {
   GTimeVal tv;
   gchar *sparql;
@@ -345,7 +332,7 @@ photos_query_builder_update_mtime_query (const gchar *resource)
   sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:contentLastModified \"%s\" }", resource, time);
   g_free (time);
 
-  return photos_query_new (sparql);
+  return photos_query_new (state, sparql);
 }
 
 

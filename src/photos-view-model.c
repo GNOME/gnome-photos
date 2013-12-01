@@ -25,7 +25,9 @@
 
 #include "config.h"
 
-#include "photos-collection-manager.h"
+#include <gio/gio.h>
+
+#include "photos-base-manager.h"
 #include "photos-enums.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
@@ -34,6 +36,7 @@
 #include "photos-offset-favorites-controller.h"
 #include "photos-offset-overview-controller.h"
 #include "photos-offset-search-controller.h"
+#include "photos-search-context.h"
 #include "photos-tracker-collections-controller.h"
 #include "photos-tracker-favorites-controller.h"
 #include "photos-tracker-overview-controller.h"
@@ -417,6 +420,7 @@ static void
 photos_view_model_init (PhotosViewModel *self)
 {
   PhotosViewModelPrivate *priv;
+  GApplication *app;
   GType columns[] = {G_TYPE_STRING,    /* URN */
                      G_TYPE_STRING,    /* URI */
                      G_TYPE_STRING,    /* NAME */
@@ -425,14 +429,18 @@ photos_view_model_init (PhotosViewModel *self)
                      G_TYPE_INT64,     /* MTIME */
                      G_TYPE_BOOLEAN,   /* STATE */
                      G_TYPE_UINT};     /* PULSE (unused) */
+  PhotosSearchContextState *state;
 
   self->priv = photos_view_model_get_instance_private (self);
   priv = self->priv;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self), PHOTOS_VIEW_MODEL_MTIME, GTK_SORT_DESCENDING);
 
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  priv->col_mngr = g_object_ref (state->col_mngr);
   priv->item_mngr = photos_item_manager_dup_singleton ();
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
 

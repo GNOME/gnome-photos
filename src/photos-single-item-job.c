@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -201,6 +201,7 @@ photos_single_item_job_new (const gchar *urn)
 
 void
 photos_single_item_job_run (PhotosSingleItemJob *self,
+                            PhotosSearchContextState *state,
                             gint flags,
                             PhotosSingleItemJobCallback callback,
                             gpointer user_data)
@@ -218,7 +219,7 @@ photos_single_item_job_run (PhotosSingleItemJob *self,
   priv->callback = callback;
   priv->user_data = user_data;
 
-  query = photos_query_builder_single_query (flags, priv->urn);
+  query = photos_query_builder_single_query (state, flags, priv->urn);
   photos_tracker_queue_select (priv->queue,
                                query->sparql,
                                NULL,

@@ -48,24 +48,6 @@ static guint signals[LAST_SIGNAL] = { 0 };
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosSearchController, photos_search_controller, G_TYPE_OBJECT);
 
 
-static GObject *
-photos_search_controller_constructor (GType type, guint n_construct_params, GObjectConstructParam *construct_params)
-{
-  static GObject *self = NULL;
-
-  if (self == NULL)
-    {
-      self = G_OBJECT_CLASS (photos_search_controller_parent_class)->constructor (type,
-                                                                                  n_construct_params,
-                                                                                  construct_params);
-      g_object_add_weak_pointer (self, (gpointer) &self);
-      return self;
-    }
-
-  return g_object_ref (self);
-}
-
-
 static void
 photos_search_controller_finalize (GObject *object)
 {
@@ -94,7 +76,6 @@ photos_search_controller_class_init (PhotosSearchControllerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->constructor = photos_search_controller_constructor;
   object_class->finalize = photos_search_controller_finalize;
 
   signals[SEARCH_STRING_CHANGED] = g_signal_new ("search-string-changed",
@@ -112,7 +93,7 @@ photos_search_controller_class_init (PhotosSearchControllerClass *class)
 
 
 PhotosSearchController *
-photos_search_controller_dup_singleton (void)
+photos_search_controller_new (void)
 {
   return g_object_new (PHOTOS_TYPE_SEARCH_CONTROLLER, NULL);
 }

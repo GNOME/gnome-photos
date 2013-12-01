@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,11 +25,13 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
 #include <glib.h>
 #include <tracker-sparql.h>
 
 #include "photos-query.h"
 #include "photos-query-builder.h"
+#include "photos-search-context.h"
 #include "photos-selection-controller.h"
 #include "photos-set-collection-job.h"
 #include "photos-tracker-queue.h"
@@ -212,8 +214,10 @@ photos_set_collection_job_run (PhotosSetCollectionJob *self,
                                gpointer user_data)
 {
   PhotosSetCollectionJobPrivate *priv = self->priv;
+  GApplication *app;
   GList *l;
   GList *urns;
+  PhotosSearchContextState *state;
 
   if (G_UNLIKELY (priv->queue == NULL))
     {
@@ -225,6 +229,9 @@ photos_set_collection_job_run (PhotosSetCollectionJob *self,
   priv->callback = callback;
   priv->user_data = user_data;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   urns = photos_selection_controller_get_selection (priv->sel_cntrlr);
   for (l = urns; l != NULL; l = l->next)
     {
@@ -235,7 +242,7 @@ photos_set_collection_job_run (PhotosSetCollectionJob *self,
         continue;
 
       priv->running_jobs++;
-      query = photos_query_builder_set_collection_query (urn, priv->collection_urn, priv->setting);
+      query = photos_query_builder_set_collection_query (state, urn, priv->collection_urn, priv->setting);
       photos_tracker_queue_update (priv->queue,
                                    query->sparql,
                                    NULL,

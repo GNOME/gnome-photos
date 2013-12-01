@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,6 +27,8 @@
 
 #include <gio/gio.h>
 #include <tracker-sparql.h>
+
+#include "photos-search-context.h"
 
 G_BEGIN_DECLS
 
@@ -74,6 +76,7 @@ GType                  photos_single_item_job_get_type             (void) G_GNUC
 PhotosSingleItemJob   *photos_single_item_job_new                  (const gchar *urn);
 
 void                   photos_single_item_job_run                  (PhotosSingleItemJob *self,
+                                                                    PhotosSearchContextState *state,
                                                                     gint flags,
                                                                     PhotosSingleItemJobCallback callback,
                                                                     gpointer user_data);

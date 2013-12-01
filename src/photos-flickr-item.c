@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,9 +34,10 @@
 #include <grilo.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
+#include "photos-base-manager.h"
 #include "photos-flickr-item.h"
+#include "photos-search-context.h"
 #include "photos-source.h"
-#include "photos-source-manager.h"
 #include "photos-utils.h"
 
 
@@ -338,11 +339,16 @@ static void
 photos_flickr_item_init (PhotosFlickrItem *self)
 {
   PhotosFlickrItemPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_flickr_item_get_instance_private (self);
   priv = self->priv;
 
-  priv->src_mngr = photos_source_manager_dup_singleton ();
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->src_mngr = g_object_ref (state->src_mngr);
 }
 
 

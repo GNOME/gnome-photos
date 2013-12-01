@@ -25,13 +25,11 @@
 
 #include "config.h"
 
-#include <glib.h>
+#include <gio/gio.h>
 
 #include "photos-base-view.h"
 #include "photos-dropdown.h"
-#include "photos-source-manager.h"
-#include "photos-search-match-manager.h"
-#include "photos-search-type-manager.h"
+#include "photos-search-context.h"
 
 
 struct _PhotosDropdownPrivate
@@ -82,15 +80,20 @@ static void
 photos_dropdown_init (PhotosDropdown *self)
 {
   PhotosDropdownPrivate *priv;
+  GApplication *app;
   GtkStyleContext *context;
   GtkWidget *frame;
+  PhotosSearchContextState *state;
 
   self->priv = photos_dropdown_get_instance_private (self);
   priv = self->priv;
 
-  priv->srch_mtch_mngr = photos_search_match_manager_dup_singleton ();
-  priv->srch_typ_mngr = photos_search_type_manager_dup_singleton ();
-  priv->src_mngr = photos_source_manager_dup_singleton ();
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->srch_mtch_mngr = g_object_ref (state->srch_mtch_mngr);
+  priv->srch_typ_mngr = g_object_ref (state->srch_typ_mngr);
+  priv->src_mngr = g_object_ref (state->src_mngr);
 
   priv->match_view = photos_base_view_new (priv->srch_mtch_mngr);
   priv->source_view = photos_base_view_new (priv->src_mngr);

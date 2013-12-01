@@ -25,11 +25,14 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
+
 #include "photos-base-item.h"
-#include "photos-collection-manager.h"
+#include "photos-base-manager.h"
 #include "photos-fetch-collection-state-job.h"
 #include "photos-filterable.h"
 #include "photos-organize-collection-model.h"
+#include "photos-search-context.h"
 
 
 struct _PhotosOrganizeCollectionModelPrivate
@@ -195,16 +198,21 @@ static void
 photos_organize_collection_model_init (PhotosOrganizeCollectionModel *self)
 {
   PhotosOrganizeCollectionModelPrivate *priv;
+  GApplication *app;
   GType columns[] = {G_TYPE_STRING,  /* ID */
                      G_TYPE_STRING,  /* NAME */
                      G_TYPE_INT};    /* STATE */
+  PhotosSearchContextState *state;
 
   self->priv = photos_organize_collection_model_get_instance_private (self);
   priv = self->priv;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
 
-  priv->manager = photos_collection_manager_dup_singleton ();
+  priv->manager = g_object_ref (state->col_mngr);
 
   g_signal_connect_object (priv->manager,
                            "object-added",

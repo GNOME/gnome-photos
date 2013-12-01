@@ -40,6 +40,7 @@
 #include "photos-icons.h"
 #include "photos-print-operation.h"
 #include "photos-query.h"
+#include "photos-search-context.h"
 #include "photos-selection-controller.h"
 #include "photos-single-item-job.h"
 #include "photos-utils.h"
@@ -1288,10 +1289,19 @@ photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
 void
 photos_base_item_refresh (PhotosBaseItem *self)
 {
+  GApplication *app;
+  PhotosSearchContextState *state;
   PhotosSingleItemJob *job;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   job = photos_single_item_job_new (self->priv->id);
-  photos_single_item_job_run (job, PHOTOS_QUERY_FLAGS_NONE, photos_base_item_refresh_executed, g_object_ref (self));
+  photos_single_item_job_run (job,
+                              state,
+                              PHOTOS_QUERY_FLAGS_NONE,
+                              photos_base_item_refresh_executed,
+                              g_object_ref (self));
   g_object_unref (job);
 }
 

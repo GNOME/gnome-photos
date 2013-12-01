@@ -29,30 +29,36 @@
 
 #include "photos-offset-controller.h"
 #include "photos-query.h"
+#include "photos-search-context.h"
 
 G_BEGIN_DECLS
 
-PhotosQuery  *photos_query_builder_create_collection_query (const gchar *name);
+PhotosQuery  *photos_query_builder_create_collection_query (PhotosSearchContextState *state, const gchar *name);
 
-PhotosQuery  *photos_query_builder_collection_icon_query (const gchar *resource);
+PhotosQuery  *photos_query_builder_collection_icon_query (PhotosSearchContextState *state, const gchar *resource);
 
-PhotosQuery  *photos_query_builder_count_query (gint flags);
+PhotosQuery  *photos_query_builder_count_query (PhotosSearchContextState *state, gint flags);
 
-PhotosQuery  *photos_query_builder_delete_resource_query (const gchar *resource);
+PhotosQuery  *photos_query_builder_delete_resource_query (PhotosSearchContextState *state, const gchar *resource);
 
-PhotosQuery  *photos_query_builder_equipment_query (GQuark equipment);
+PhotosQuery  *photos_query_builder_equipment_query (PhotosSearchContextState *state, GQuark equipment);
 
-PhotosQuery  *photos_query_builder_fetch_collections_query (const gchar *resource);
+PhotosQuery  *photos_query_builder_fetch_collections_query (PhotosSearchContextState *state, const gchar *resource);
 
-PhotosQuery  *photos_query_builder_global_query        (gint flags, PhotosOffsetController *offset_cntrlr);
+PhotosQuery  *photos_query_builder_global_query        (PhotosSearchContextState *state,
+                                                        gint flags,
+                                                        PhotosOffsetController *offset_cntrlr);
 
-PhotosQuery  *photos_query_builder_set_collection_query (const gchar *item_urn,
+PhotosQuery  *photos_query_builder_set_collection_query (PhotosSearchContextState *state,
+                                                         const gchar *item_urn,
                                                          const gchar *collection_urn,
                                                          gboolean setting);
 
-PhotosQuery  *photos_query_builder_single_query        (gint flags, const gchar *resource);
+PhotosQuery  *photos_query_builder_single_query        (PhotosSearchContextState *state,
+                                                        gint flags,
+                                                        const gchar *resource);
 
-PhotosQuery  *photos_query_builder_update_mtime_query (const gchar *resource);
+PhotosQuery  *photos_query_builder_update_mtime_query (PhotosSearchContextState *state, const gchar *resource);
 
 gchar        *photos_query_builder_filter_local        (void);
 

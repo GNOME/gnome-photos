@@ -26,6 +26,7 @@
 #define PHOTOS_SEARCH_MATCH_MANAGER_H
 
 #include "photos-base-manager.h"
+#include "photos-search-controller.h"
 
 G_BEGIN_DECLS
 
@@ -68,7 +69,7 @@ struct _PhotosSearchMatchManagerClass
 
 GType                     photos_search_match_manager_get_type           (void) G_GNUC_CONST;
 
-PhotosBaseManager        *photos_search_match_manager_dup_singleton      (void);
+PhotosBaseManager        *photos_search_match_manager_new                (PhotosSearchController *srch_cntrlr);
 
 G_END_DECLS
 

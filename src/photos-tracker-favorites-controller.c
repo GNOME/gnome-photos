@@ -21,10 +21,13 @@
 
 #include "config.h"
 
-#include "photos-collection-manager.h"
+#include <gio/gio.h>
+
+#include "photos-base-manager.h"
 #include "photos-mode-controller.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-query-builder.h"
+#include "photos-search-context.h"
 #include "photos-tracker-favorites-controller.h"
 
 
@@ -67,7 +70,9 @@ photos_tracker_favorites_controller_get_query (PhotosTrackerController *trk_cntr
 {
   PhotosTrackerFavoritesController *self = PHOTOS_TRACKER_FAVORITES_CONTROLLER (trk_cntrlr);
   PhotosTrackerFavoritesControllerPrivate *priv = self->priv;
+  GApplication *app;
   GObject *collection;
+  PhotosSearchContextState *state;
   gint flags;
 
   collection = photos_base_manager_get_active_object (priv->col_mngr);
@@ -76,7 +81,10 @@ photos_tracker_favorites_controller_get_query (PhotosTrackerController *trk_cntr
   else
     flags = PHOTOS_QUERY_FLAGS_FAVORITES;
 
-  return photos_query_builder_global_query (flags, priv->offset_cntrlr);
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  return photos_query_builder_global_query (state, flags, priv->offset_cntrlr);
 }
 
 
@@ -118,11 +126,16 @@ static void
 photos_tracker_favorites_controller_init (PhotosTrackerFavoritesController *self)
 {
   PhotosTrackerFavoritesControllerPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_tracker_favorites_controller_get_instance_private (self);
   priv = self->priv;
 
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->col_mngr = g_object_ref (state->col_mngr);
   g_signal_connect_swapped (priv->col_mngr,
                             "active-changed",
                             G_CALLBACK (photos_tracker_favorites_controller_col_active_changed),

@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,17 +25,18 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
 #include <glib.h>
 #include <libgd/gd.h>
 
 #include "photos-base-item.h"
-#include "photos-collection-manager.h"
+#include "photos-base-manager.h"
 #include "photos-create-collection-job.h"
 #include "photos-fetch-collection-state-job.h"
 #include "photos-organize-collection-model.h"
 #include "photos-organize-collection-view.h"
 #include "photos-query.h"
-#include "photos-source-manager.h"
+#include "photos-search-context.h"
 #include "photos-set-collection-job.h"
 #include "photos-utils.h"
 
@@ -285,9 +286,14 @@ static void
 photos_organize_collection_view_init (PhotosOrganizeCollectionView *self)
 {
   PhotosOrganizeCollectionViewPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_organize_collection_view_get_instance_private (self);
   priv = self->priv;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   priv->model = photos_organize_collection_model_new ();
   gtk_tree_view_set_model (GTK_TREE_VIEW (self), GTK_TREE_MODEL (priv->model));
@@ -329,8 +335,8 @@ photos_organize_collection_view_init (PhotosOrganizeCollectionView *self)
                                            self,
                                            NULL);
 
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
-  priv->src_mngr = photos_source_manager_dup_singleton ();
+  priv->col_mngr = g_object_ref (state->src_mngr);
+  priv->src_mngr = g_object_ref (state->src_mngr);
 
   gtk_widget_show (GTK_WIDGET (self));
 }

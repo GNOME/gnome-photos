@@ -28,13 +28,13 @@
 #include <glib.h>
 #include <tracker-sparql.h>
 
-#include "photos-collection-manager.h"
 #include "photos-fetch-collection-state-job.h"
 #include "photos-fetch-collections-job.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-query.h"
 #include "photos-query-builder.h"
+#include "photos-search-context.h"
 #include "photos-selection-controller.h"
 
 
@@ -219,16 +219,21 @@ static void
 photos_fetch_collection_state_job_init (PhotosFetchCollectionStateJob *self)
 {
   PhotosFetchCollectionStateJobPrivate *priv = self->priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_fetch_collection_state_job_get_instance_private (self);
   priv = self->priv;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   priv->collections_for_items = g_hash_table_new_full (g_str_hash,
                                                        g_str_equal,
                                                        g_free,
                                                        photos_fetch_collection_state_job_value_destroy_func);
 
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  priv->col_mngr = g_object_ref (state->col_mngr);
   priv->item_mngr = photos_item_manager_dup_singleton ();
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
 }

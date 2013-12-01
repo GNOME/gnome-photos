@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -68,7 +68,7 @@ struct _PhotosSourceManagerClass
 
 GType                     photos_source_manager_get_type           (void) G_GNUC_CONST;
 
-PhotosBaseManager        *photos_source_manager_dup_singleton      (void);
+PhotosBaseManager        *photos_source_manager_new                (void);
 
 GList                    *photos_source_manager_get_for_provider_type (PhotosSourceManager *self,
                                                                        const gchar *provider_type);

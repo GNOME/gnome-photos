@@ -28,14 +28,12 @@
 #include <gio/gio.h>
 #include <libgd/gd.h>
 
-#include "photos-collection-manager.h"
+#include "photos-base-manager.h"
 #include "photos-filterable.h"
 #include "photos-overview-searchbar.h"
+#include "photos-search-context.h"
 #include "photos-search-controller.h"
-#include "photos-search-match-manager.h"
 #include "photos-search-type.h"
-#include "photos-search-type-manager.h"
-#include "photos-source-manager.h"
 
 
 struct _PhotosOverviewSearchbarPrivate
@@ -345,42 +343,45 @@ photos_overview_searchbar_init (PhotosOverviewSearchbar *self)
 {
   PhotosOverviewSearchbarPrivate *priv;
   GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_overview_searchbar_get_instance_private (self);
   priv = self->priv;
 
   app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   priv->select_all = g_action_map_lookup_action (G_ACTION_MAP (app), "select-all");
 
-  priv->src_mngr = photos_source_manager_dup_singleton ();
+  priv->src_mngr = g_object_ref (state->src_mngr);
   g_signal_connect_object (priv->src_mngr,
                            "active-changed",
                            G_CALLBACK (photos_overview_searchbar_source_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
 
-  priv->srch_mtch_mngr = photos_search_match_manager_dup_singleton ();
+  priv->srch_mtch_mngr = g_object_ref (state->srch_mtch_mngr);
   g_signal_connect_object (priv->srch_mtch_mngr,
                            "active-changed",
                            G_CALLBACK (photos_overview_searchbar_search_match_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
 
-  priv->srch_typ_mngr = photos_search_type_manager_dup_singleton ();
+  priv->srch_typ_mngr = g_object_ref (state->srch_typ_mngr);
   g_signal_connect_object (priv->srch_typ_mngr,
                            "active-changed",
                            G_CALLBACK (photos_overview_searchbar_search_type_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
 
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  priv->col_mngr = g_object_ref (state->col_mngr);
   g_signal_connect_object (priv->col_mngr,
                            "active-changed",
                            G_CALLBACK (photos_overview_searchbar_collection_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
 
-  priv->srch_cntrlr = photos_search_controller_dup_singleton ();
+  priv->srch_cntrlr = g_object_ref (state->srch_cntrlr);
 }
 
 

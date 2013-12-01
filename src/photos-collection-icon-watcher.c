@@ -34,6 +34,7 @@
 #include "photos-item-manager.h"
 #include "photos-query.h"
 #include "photos-query-builder.h"
+#include "photos-search-context.h"
 #include "photos-single-item-job.h"
 #include "photos-tracker-queue.h"
 #include "photos-utils.h"
@@ -186,11 +187,16 @@ static void
 photos_collection_icon_watcher_finished (PhotosCollectionIconWatcher *self)
 {
   PhotosCollectionIconWatcherPrivate *priv = self->priv;
+  GApplication *app;
   GList *l;
   GList *to_query = NULL;
+  PhotosSearchContextState *state;
 
   if (priv->urns == NULL)
     return;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   priv->to_query_remaining = 0;
 
@@ -222,6 +228,7 @@ photos_collection_icon_watcher_finished (PhotosCollectionIconWatcher *self)
 
       job = photos_single_item_job_new (urn);
       photos_single_item_job_run (job,
+                                  state,
                                   PHOTOS_QUERY_FLAGS_UNFILTERED,
                                   photos_collection_icon_watcher_to_query_executed,
                                   g_object_ref (self));
@@ -299,7 +306,9 @@ static void
 photos_collection_icon_watcher_start (PhotosCollectionIconWatcher *self)
 {
   PhotosCollectionIconWatcherPrivate *priv = self->priv;
+  GApplication *app;
   PhotosQuery *query;
+  PhotosSearchContextState *state;
   const gchar *id;
 
   photos_collection_icon_watcher_clear (self);
@@ -310,8 +319,11 @@ photos_collection_icon_watcher_start (PhotosCollectionIconWatcher *self)
   if (priv->collection == NULL)
     return;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (priv->collection));
-  query = photos_query_builder_collection_icon_query (id);
+  query = photos_query_builder_collection_icon_query (state, id);
   photos_tracker_queue_select (priv->queue,
                                query->sparql,
                                NULL,

@@ -25,9 +25,12 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
+
 #include "photos-mode-controller.h"
 #include "photos-offset-overview-controller.h"
 #include "photos-query-builder.h"
+#include "photos-search-context.h"
 #include "photos-tracker-overview-controller.h"
 
 
@@ -54,7 +57,13 @@ static PhotosQuery *
 photos_tracker_overview_controller_get_query (PhotosTrackerController *trk_cntrlr)
 {
   PhotosTrackerOverviewController *self = PHOTOS_TRACKER_OVERVIEW_CONTROLLER (trk_cntrlr);
-  return photos_query_builder_global_query (PHOTOS_QUERY_FLAGS_OVERVIEW, self->priv->offset_cntrlr);
+  GApplication *app;
+  PhotosSearchContextState *state;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  return photos_query_builder_global_query (state, PHOTOS_QUERY_FLAGS_OVERVIEW, self->priv->offset_cntrlr);
 }
 
 

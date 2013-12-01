@@ -30,7 +30,6 @@
 
 #include "photos-filterable.h"
 #include "photos-query.h"
-#include "photos-search-controller.h"
 #include "photos-search-match.h"
 #include "photos-search-match-manager.h"
 
@@ -38,6 +37,12 @@
 struct _PhotosSearchMatchManagerPrivate
 {
   PhotosSearchController *srch_cntrlr;
+};
+
+enum
+{
+  PROP_0,
+  PROP_SEARCH_CONTROLLER
 };
 
 
@@ -100,26 +105,6 @@ photos_search_match_manager_get_filter (PhotosBaseManager *mngr, gint flags)
 }
 
 
-static GObject *
-photos_search_match_manager_constructor (GType                  type,
-                                         guint                  n_construct_params,
-                                         GObjectConstructParam *construct_params)
-{
-  static GObject *self = NULL;
-
-  if (self == NULL)
-    {
-      self = G_OBJECT_CLASS (photos_search_match_manager_parent_class)->constructor (type,
-                                                                                     n_construct_params,
-                                                                                     construct_params);
-      g_object_add_weak_pointer (self, (gpointer) &self);
-      return self;
-    }
-
-  return g_object_ref (self);
-}
-
-
 static void
 photos_search_match_manager_dispose (GObject *object)
 {
@@ -132,17 +117,31 @@ photos_search_match_manager_dispose (GObject *object)
 
 
 static void
+photos_search_match_manager_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+  PhotosSearchMatchManager *self = PHOTOS_SEARCH_MATCH_MANAGER (object);
+
+  switch (prop_id)
+    {
+    case PROP_SEARCH_CONTROLLER:
+      self->priv->srch_cntrlr = PHOTOS_SEARCH_CONTROLLER (g_value_dup_object (value)); /* self is owned by context */
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+
+static void
 photos_search_match_manager_init (PhotosSearchMatchManager *self)
 {
-  PhotosSearchMatchManagerPrivate *priv;
   PhotosSearchMatch *search_match;
   const gchar *author_filter;
   const gchar *title_filter;
 
   self->priv = photos_search_match_manager_get_instance_private (self);
-  priv = self->priv;
-
-  priv->srch_cntrlr = photos_search_controller_dup_singleton ();
 
   author_filter = "fn:contains ("
                   "  tracker:case-fold (tracker:coalesce (nco:fullname (?creator), nco:fullname(?publisher))),"
@@ -181,17 +180,28 @@ photos_search_match_manager_class_init (PhotosSearchMatchManagerClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosBaseManagerClass *base_manager_class = PHOTOS_BASE_MANAGER_CLASS (class);
 
-  object_class->constructor = photos_search_match_manager_constructor;
   object_class->dispose = photos_search_match_manager_dispose;
+  object_class->set_property = photos_search_match_manager_set_property;
   base_manager_class->get_filter = photos_search_match_manager_get_filter;
+
+  g_object_class_install_property (object_class,
+                                   PROP_SEARCH_CONTROLLER,
+                                   g_param_spec_object ("search-controller",
+                                                        "A PhotosSearchController",
+                                                        "The search controller for this manager",
+                                                        PHOTOS_TYPE_SEARCH_CONTROLLER,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 }
 
 
 PhotosBaseManager *
-photos_search_match_manager_dup_singleton (void)
+photos_search_match_manager_new (PhotosSearchController *srch_cntrlr)
 {
   /* Translators: this is a verb that refers to "All", "Title" and
    * "Author", as in "Match All", "Match Title" and "Match Author".
    */
-  return g_object_new (PHOTOS_TYPE_SEARCH_MATCH_MANAGER, "title", _("Match"), NULL);
+  return g_object_new (PHOTOS_TYPE_SEARCH_MATCH_MANAGER,
+                       "search-controller", srch_cntrlr,
+                       "title", _("Match"),
+                       NULL);
 }

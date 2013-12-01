@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,12 +25,14 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
 #include <glib.h>
 #include <tracker-sparql.h>
 
 #include "photos-fetch-collections-job.h"
 #include "photos-query.h"
 #include "photos-query-builder.h"
+#include "photos-search-context.h"
 #include "photos-tracker-queue.h"
 
 
@@ -215,7 +217,9 @@ photos_fetch_collections_job_run (PhotosFetchCollectionsJob *self,
                                   gpointer user_data)
 {
   PhotosFetchCollectionsJobPrivate *priv = self->priv;
+  GApplication *app;
   PhotosQuery *query;
+  PhotosSearchContextState *state;
 
   if (G_UNLIKELY (priv->queue == NULL))
     {
@@ -227,7 +231,10 @@ photos_fetch_collections_job_run (PhotosFetchCollectionsJob *self,
   priv->callback = callback;
   priv->user_data = user_data;
 
-  query = photos_query_builder_fetch_collections_query (priv->urn);
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  query = photos_query_builder_fetch_collections_query (state, priv->urn);
   photos_tracker_queue_select (priv->queue,
                                query->sparql,
                                NULL,

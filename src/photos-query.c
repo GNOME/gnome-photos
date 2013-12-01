@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,8 +25,8 @@
 
 #include "config.h"
 
+#include "photos-base-manager.h"
 #include "photos-query.h"
-#include "photos-source-manager.h"
 
 
 const gchar *PHOTOS_QUERY_COLLECTIONS_IDENTIFIER = "photos:collection:";
@@ -34,19 +34,16 @@ const gchar *PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER = "photos:collection:loca
 
 
 PhotosQuery *
-photos_query_new (gchar *sparql)
+photos_query_new (PhotosSearchContextState *state, gchar *sparql)
 {
-  PhotosBaseManager *src_mngr;
   GObject *active_object;
   PhotosQuery *query;
 
   query = g_slice_new0 (PhotosQuery);
 
-  src_mngr = photos_source_manager_dup_singleton ();
-  active_object = photos_base_manager_get_active_object (src_mngr);
+  active_object = photos_base_manager_get_active_object (state->src_mngr);
   if (active_object != NULL)
     query->source = PHOTOS_SOURCE (g_object_ref (active_object));
-  g_object_unref (src_mngr);
 
   query->sparql = sparql;
 

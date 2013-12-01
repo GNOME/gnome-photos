@@ -28,6 +28,7 @@
 #include <glib.h>
 
 #include "photos-query.h"
+#include "photos-search-context.h"
 #include "photos-source.h"
 
 G_BEGIN_DECLS
@@ -78,7 +79,7 @@ struct _PhotosQuery
   gchar *sparql;
 };
 
-PhotosQuery    *photos_query_new     (gchar *sparql);
+PhotosQuery    *photos_query_new     (PhotosSearchContextState *state, gchar *sparql);
 
 void            photos_query_free    (PhotosQuery *query);
 

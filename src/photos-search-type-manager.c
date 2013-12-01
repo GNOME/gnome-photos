@@ -85,26 +85,6 @@ photos_search_type_manager_get_where (PhotosBaseManager *mngr, gint flags)
 }
 
 
-static GObject *
-photos_search_type_manager_constructor (GType                  type,
-                                        guint                  n_construct_params,
-                                        GObjectConstructParam *construct_params)
-{
-  static GObject *self = NULL;
-
-  if (self == NULL)
-    {
-      self = G_OBJECT_CLASS (photos_search_type_manager_parent_class)->constructor (type,
-                                                                                    n_construct_params,
-                                                                                    construct_params);
-      g_object_add_weak_pointer (self, (gpointer) &self);
-      return self;
-    }
-
-  return g_object_ref (self);
-}
-
-
 static void
 photos_search_type_manager_init (PhotosSearchTypeManager *self)
 {
@@ -157,17 +137,15 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
 static void
 photos_search_type_manager_class_init (PhotosSearchTypeManagerClass *class)
 {
-  GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosBaseManagerClass *base_manager_class = PHOTOS_BASE_MANAGER_CLASS (class);
 
-  object_class->constructor = photos_search_type_manager_constructor;
   base_manager_class->get_filter = photos_search_type_manager_get_filter;
   base_manager_class->get_where = photos_search_type_manager_get_where;
 }
 
 
 PhotosBaseManager *
-photos_search_type_manager_dup_singleton (void)
+photos_search_type_manager_new (void)
 {
   /* Translators: "Type" refers to a search filter. eg., All, Albums,
    * Favorites and Photos.

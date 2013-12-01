@@ -25,8 +25,11 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
+
 #include "photos-query-builder.h"
 #include "photos-offset-search-controller.h"
+#include "photos-search-context.h"
 
 
 G_DEFINE_TYPE (PhotosOffsetSearchController, photos_offset_search_controller, PHOTOS_TYPE_OFFSET_CONTROLLER);
@@ -35,7 +38,13 @@ G_DEFINE_TYPE (PhotosOffsetSearchController, photos_offset_search_controller, PH
 static PhotosQuery *
 photos_offset_search_controller_get_query (PhotosOffsetController *offset_cntrlr)
 {
-  return photos_query_builder_count_query (PHOTOS_QUERY_FLAGS_SEARCH);
+  GApplication *app;
+  PhotosSearchContextState *state;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  return photos_query_builder_count_query (state, PHOTOS_QUERY_FLAGS_SEARCH);
 }
 
 

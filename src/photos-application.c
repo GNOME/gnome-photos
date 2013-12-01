@@ -44,6 +44,7 @@
 #include "photos-mode-controller.h"
 #include "photos-properties-dialog.h"
 #include "photos-resources.h"
+#include "photos-search-context.h"
 #include "photos-source-manager.h"
 
 
@@ -66,13 +67,18 @@ struct _PhotosApplicationPrivate
   GomMiner *flickr_miner;
   GtkWidget *main_window;
   PhotosBaseManager *item_mngr;
-  PhotosBaseManager *src_mngr;
   PhotosCameraCache *camera_cache;
   PhotosModeController *mode_cntrlr;
+  PhotosSearchContextState *state;
 };
 
+static void photos_application_search_context_iface_init (PhotosSearchContextInterface *iface);
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosApplication, photos_application, GTK_TYPE_APPLICATION)
+
+G_DEFINE_TYPE_WITH_CODE (PhotosApplication, photos_application, GTK_TYPE_APPLICATION,
+                         G_ADD_PRIVATE (PhotosApplication)
+                         G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_SEARCH_CONTEXT,
+                                                photos_application_search_context_iface_init));
 
 
 enum
@@ -152,6 +158,14 @@ photos_application_fullscreen (PhotosApplication *self, GVariant *parameter)
   PhotosApplicationPrivate *priv = self->priv;
 
   photos_mode_controller_toggle_fullscreen (priv->mode_cntrlr);
+}
+
+
+static PhotosSearchContextState *
+photos_application_get_state (PhotosSearchContext *context)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (context);
+  return self->priv->state;
 }
 
 
@@ -272,10 +286,10 @@ photos_application_refresh_miners (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
 
-  if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->src_mngr), "facebook"))
+  if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->state->src_mngr), "facebook"))
     photos_application_refresh_miner_now (self, priv->facebook_miner);
 
-  if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->src_mngr), "flickr"))
+  if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->state->src_mngr), "flickr"))
     photos_application_refresh_miner_now (self, priv->flickr_miner);
 }
 
@@ -359,12 +373,12 @@ photos_application_start_miners (PhotosApplication *self)
 
   photos_application_refresh_miners (self);
 
-  g_signal_connect_object (priv->src_mngr,
+  g_signal_connect_object (priv->state->src_mngr,
                            "object-added",
                            G_CALLBACK (photos_application_refresh_miners),
                            self,
                            G_CONNECT_SWAPPED);
-  g_signal_connect_object (priv->src_mngr,
+  g_signal_connect_object (priv->state->src_mngr,
                            "object-removed",
                            G_CALLBACK (photos_application_refresh_miners),
                            self,
@@ -470,7 +484,6 @@ photos_application_startup (GApplication *application)
                                                          NULL);
 
   priv->item_mngr = photos_item_manager_dup_singleton ();
-  priv->src_mngr = photos_source_manager_dup_singleton ();
 
   /* A dummy reference to keep it alive during the lifetime of the
    * application.
@@ -611,9 +624,14 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->facebook_miner);
   g_clear_object (&priv->flickr_miner);
   g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->camera_cache);
   g_clear_object (&priv->mode_cntrlr);
+
+  if (priv->state != NULL)
+    {
+      photos_search_context_state_free (priv->state);
+      priv->state = NULL;
+    }
 
   G_OBJECT_CLASS (photos_application_parent_class)->dispose (object);
 }
@@ -622,8 +640,14 @@ photos_application_dispose (GObject *object)
 static void
 photos_application_init (PhotosApplication *self)
 {
+  PhotosApplicationPrivate *priv;
+
   self->priv = photos_application_get_instance_private (self);
+  priv = self->priv;
+
   eog_debug_init ();
+
+  priv->state = photos_search_context_state_new (PHOTOS_SEARCH_CONTEXT (self));
 }
 
 
@@ -639,6 +663,13 @@ photos_application_class_init (PhotosApplicationClass *class)
   application_class->startup = photos_application_startup;
 
   /* TODO: Add miners-changed signal */
+}
+
+
+static void
+photos_application_search_context_iface_init (PhotosSearchContextInterface *iface)
+{
+  iface->get_state = photos_application_get_state;
 }
 
 

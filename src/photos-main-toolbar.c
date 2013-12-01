@@ -40,8 +40,8 @@
 #include "photos-mode-controller.h"
 #include "photos-overview-searchbar.h"
 #include "photos-remote-display-manager.h"
+#include "photos-search-context.h"
 #include "photos-selection-controller.h"
-#include "photos-source-manager.h"
 
 
 struct _PhotosMainToolbarPrivate
@@ -704,9 +704,13 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   GMenu *selection_menu;
   GApplication *app;
   GtkBuilder *builder;
+  PhotosSearchContextState *state;
 
   self->priv = photos_main_toolbar_get_instance_private (self);
   priv = self->priv;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   gtk_widget_show (GTK_WIDGET (self));
@@ -715,7 +719,6 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   gtk_container_add (GTK_CONTAINER (self), priv->toolbar);
   gtk_widget_show (priv->toolbar);
 
-  app = g_application_get_default ();
   priv->gear_menu = G_SIMPLE_ACTION (g_action_map_lookup_action (G_ACTION_MAP (app), "gear-menu"));
   priv->search = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
 
@@ -731,10 +734,10 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   photos_header_bar_set_selection_menu (PHOTOS_HEADER_BAR (priv->toolbar),
                                         GD_HEADER_BUTTON (priv->selection_menu));
 
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  priv->col_mngr = g_object_ref (state->col_mngr);
   priv->item_mngr = photos_item_manager_dup_singleton ();
 
-  priv->src_mngr = photos_source_manager_dup_singleton ();
+  priv->src_mngr = g_object_ref (state->src_mngr);
   g_signal_connect_object (priv->src_mngr,
                            "active-changed",
                            G_CALLBACK (photos_main_toolbar_set_toolbar_title),

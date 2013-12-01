@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,9 +25,12 @@
 
 #include "config.h"
 
-#include "photos-collection-manager.h"
+#include <gio/gio.h>
+
+#include "photos-base-manager.h"
 #include "photos-query-builder.h"
 #include "photos-offset-favorites-controller.h"
+#include "photos-search-context.h"
 
 
 struct _PhotosOffsetFavoritesControllerPrivate
@@ -45,7 +48,9 @@ static PhotosQuery *
 photos_offset_favorites_controller_get_query (PhotosOffsetController *offset_cntrlr)
 {
   PhotosOffsetFavoritesController *self = PHOTOS_OFFSET_FAVORITES_CONTROLLER (offset_cntrlr);
+  GApplication *app;
   GObject *collection;
+  PhotosSearchContextState *state;
   gint flags;
 
   collection = photos_base_manager_get_active_object (self->priv->col_mngr);
@@ -54,7 +59,10 @@ photos_offset_favorites_controller_get_query (PhotosOffsetController *offset_cnt
   else
     flags = PHOTOS_QUERY_FLAGS_FAVORITES;
 
-  return photos_query_builder_count_query (flags);
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  return photos_query_builder_count_query (state, flags);
 }
 
 
@@ -93,11 +101,16 @@ static void
 photos_offset_favorites_controller_init (PhotosOffsetFavoritesController *self)
 {
   PhotosOffsetFavoritesControllerPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_offset_favorites_controller_get_instance_private (self);
   priv = self->priv;
 
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->col_mngr = g_object_ref (state->col_mngr);
 }
 
 

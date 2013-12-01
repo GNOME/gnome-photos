@@ -25,11 +25,13 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
 #include <glib/gi18n.h>
 
 #include "photos-empty-results-box.h"
 #include "photos-enums.h"
 #include "photos-icons.h"
+#include "photos-search-context.h"
 #include "photos-source-manager.h"
 
 
@@ -272,11 +274,16 @@ static void
 photos_empty_results_box_init (PhotosEmptyResultsBox *self)
 {
   PhotosEmptyResultsBoxPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_empty_results_box_get_instance_private (self);
   priv = self->priv;
 
-  priv->src_mngr = photos_source_manager_dup_singleton ();
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->src_mngr = g_object_ref (state->src_mngr);
 }
 
 

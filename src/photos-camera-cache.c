@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,6 +25,7 @@
 
 #include "photos-camera-cache.h"
 #include "photos-query-builder.h"
+#include "photos-search-context.h"
 #include "photos-tracker-queue.h"
 
 
@@ -188,8 +189,10 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
                                       gpointer user_data)
 {
   PhotosCameraCachePrivate *priv = self->priv;
+  GApplication *app;
   GTask *task;
   PhotosQuery *query;
+  PhotosSearchContextState *state;
   const gchar *camera;
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -210,7 +213,10 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
       goto out;
     }
 
-  query = photos_query_builder_equipment_query (id);
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  query = photos_query_builder_equipment_query (state, id);
   photos_tracker_queue_select (priv->queue,
                                query->sparql,
                                cancellable,

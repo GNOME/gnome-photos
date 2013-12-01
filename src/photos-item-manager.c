@@ -28,12 +28,12 @@
 #include <glib.h>
 #include <tracker-sparql.h>
 
-#include "photos-collection-manager.h"
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
 #include "photos-facebook-item.h"
 #include "photos-flickr-item.h"
 #include "photos-query.h"
+#include "photos-search-context.h"
 #include "photos-single-item-job.h"
 #include "photos-tracker-change-event.h"
 #include "photos-tracker-change-monitor.h"
@@ -68,10 +68,16 @@ photos_item_manager_item_created_executed (TrackerSparqlCursor *cursor, gpointer
 static void
 photos_item_manager_item_created (PhotosItemManager *self, const gchar *urn)
 {
+  GApplication *app;
+  PhotosSearchContextState *state;
   PhotosSingleItemJob *job;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   job = photos_single_item_job_new (urn);
   photos_single_item_job_run (job,
+                              state,
                               PHOTOS_QUERY_FLAGS_NONE,
                               photos_item_manager_item_created_executed,
                               g_object_ref (self));
@@ -215,12 +221,17 @@ static void
 photos_item_manager_init (PhotosItemManager *self)
 {
   PhotosItemManagerPrivate *priv = self->priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_item_manager_get_instance_private (self);
   priv = self->priv;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   priv->collection_path = g_queue_new ();
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  priv->col_mngr = g_object_ref (state->col_mngr);
 
   priv->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
   if (G_LIKELY (priv->monitor != NULL))

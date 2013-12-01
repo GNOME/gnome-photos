@@ -29,11 +29,11 @@
 #include <glib/gi18n.h>
 
 #include "photos-about-data.h"
-#include "photos-collection-manager.h"
 #include "photos-embed.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
+#include "photos-search-context.h"
 #include "photos-selection-controller.h"
 #include "photos-settings.h"
 
@@ -348,7 +348,9 @@ static void
 photos_main_window_init (PhotosMainWindow *self)
 {
   PhotosMainWindowPrivate *priv;
+  GApplication *app;
   GVariant *variant;
+  PhotosSearchContextState *state;
   gboolean maximized;
   const gint32 *position;
   const gint32 *size;
@@ -356,6 +358,9 @@ photos_main_window_init (PhotosMainWindow *self)
 
   self->priv = photos_main_window_get_instance_private (self);
   priv = self->priv;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   priv->settings = photos_settings_new ();
 
@@ -375,7 +380,7 @@ photos_main_window_init (PhotosMainWindow *self)
   if (maximized)
     gtk_window_maximize (GTK_WINDOW (self));
 
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  priv->col_mngr = g_object_ref (state->col_mngr);
   priv->item_mngr = photos_item_manager_dup_singleton ();
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();

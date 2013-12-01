@@ -71,7 +71,7 @@ struct _PhotosSearchControllerClass
 
 GType                      photos_search_controller_get_type       (void) G_GNUC_CONST;
 
-PhotosSearchController    *photos_search_controller_dup_singleton  (void);
+PhotosSearchController    *photos_search_controller_new            (void);
 
 const gchar               *photos_search_controller_get_string     (PhotosSearchController *self);
 

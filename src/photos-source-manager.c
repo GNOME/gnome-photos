@@ -107,26 +107,6 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
 }
 
 
-static GObject *
-photos_source_manager_constructor (GType                  type,
-                                   guint                  n_construct_params,
-                                   GObjectConstructParam *construct_params)
-{
-  static GObject *self = NULL;
-
-  if (self == NULL)
-    {
-      self = G_OBJECT_CLASS (photos_source_manager_parent_class)->constructor (type,
-                                                                               n_construct_params,
-                                                                               construct_params);
-      g_object_add_weak_pointer (self, (gpointer) &self);
-      return self;
-    }
-
-  return g_object_ref (self);
-}
-
-
 static void
 photos_source_manager_dispose (GObject *object)
 {
@@ -183,14 +163,13 @@ photos_source_manager_class_init (PhotosSourceManagerClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosBaseManagerClass *base_manager_class = PHOTOS_BASE_MANAGER_CLASS (class);
 
-  object_class->constructor = photos_source_manager_constructor;
   object_class->dispose = photos_source_manager_dispose;
   base_manager_class->get_filter = photos_source_manager_get_filter;
 }
 
 
 PhotosBaseManager *
-photos_source_manager_dup_singleton (void)
+photos_source_manager_new (void)
 {
   return g_object_new (PHOTOS_TYPE_SOURCE_MANAGER, "title", _("Sources"), NULL);
 }

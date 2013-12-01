@@ -25,14 +25,14 @@
 
 #include "config.h"
 
-#include "photos-collection-manager.h"
+#include <gio/gio.h>
+
+#include "photos-base-manager.h"
 #include "photos-mode-controller.h"
 #include "photos-offset-search-controller.h"
 #include "photos-query-builder.h"
+#include "photos-search-context.h"
 #include "photos-search-controller.h"
-#include "photos-search-match-manager.h"
-#include "photos-search-type-manager.h"
-#include "photos-source-manager.h"
 #include "photos-tracker-search-controller.h"
 
 
@@ -78,7 +78,13 @@ static PhotosQuery *
 photos_tracker_search_controller_get_query (PhotosTrackerController *trk_cntrlr)
 {
   PhotosTrackerSearchController *self = PHOTOS_TRACKER_SEARCH_CONTROLLER (trk_cntrlr);
-  return photos_query_builder_global_query (PHOTOS_QUERY_FLAGS_SEARCH, self->priv->offset_cntrlr);
+  GApplication *app;
+  PhotosSearchContextState *state;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  return photos_query_builder_global_query (state, PHOTOS_QUERY_FLAGS_SEARCH, self->priv->offset_cntrlr);
 }
 
 
@@ -137,29 +143,34 @@ static void
 photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
 {
   PhotosTrackerSearchControllerPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_tracker_search_controller_get_instance_private (self);
   priv = self->priv;
 
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->col_mngr = g_object_ref (state->col_mngr);
   g_signal_connect_swapped (priv->col_mngr,
                             "active-changed",
                             G_CALLBACK (photos_tracker_search_controller_col_active_changed),
                             self);
 
-  priv->src_mngr = photos_source_manager_dup_singleton ();
+  priv->src_mngr = g_object_ref (state->src_mngr);
   g_signal_connect_swapped (priv->src_mngr,
                             "active-changed",
                             G_CALLBACK (photos_tracker_controller_refresh_for_object),
                             self);
 
-  priv->srch_mtch_mngr = photos_search_match_manager_dup_singleton ();
+  priv->srch_mtch_mngr = g_object_ref (state->srch_mtch_mngr);
   g_signal_connect_swapped (priv->srch_mtch_mngr,
                             "active-changed",
                             G_CALLBACK (photos_tracker_search_controller_search_match_active_changed),
                             self);
 
-  priv->srch_typ_mngr = photos_search_type_manager_dup_singleton ();
+  priv->srch_typ_mngr = g_object_ref (state->srch_typ_mngr);
   g_signal_connect_swapped (priv->srch_typ_mngr,
                             "active-changed",
                             G_CALLBACK (photos_tracker_controller_refresh_for_object),
@@ -168,7 +179,7 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
   priv->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
 
-  priv->srch_cntrlr = photos_search_controller_dup_singleton ();
+  priv->srch_cntrlr = g_object_ref (state->srch_cntrlr);
   g_signal_connect_swapped (priv->srch_cntrlr,
                             "search-string-changed",
                             G_CALLBACK (photos_tracker_controller_refresh_for_object),

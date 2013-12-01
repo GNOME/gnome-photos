@@ -27,6 +27,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gegl.h>
+#include <gio/gio.h>
 #include <glib/gi18n.h>
 
 #include "photos-collection-manager.h"
@@ -40,6 +41,7 @@
 #include "photos-search-controller.h"
 #include "photos-selection-toolbar.h"
 #include "photos-spinner-box.h"
+#include "photos-search-context.h"
 #include "photos-search-type.h"
 #include "photos-search-type-manager.h"
 #include "photos-source.h"
@@ -610,12 +612,15 @@ photos_embed_init (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv;
   GApplication *app;
+  PhotosSearchContextState *state;
   gboolean querying;
 
   self->priv = photos_embed_get_instance_private (self);
   priv = self->priv;
 
   app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   priv->search_action = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
   g_signal_connect_swapped (app, "window-added", G_CALLBACK (photos_embed_window_added), self);
 
@@ -685,22 +690,22 @@ photos_embed_init (PhotosEmbed *self)
                             G_CALLBACK (photos_embed_query_status_changed),
                             self);
 
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  priv->col_mngr = g_object_ref (state->col_mngr);
   g_signal_connect (priv->col_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
 
   priv->item_mngr = photos_item_manager_dup_singleton ();
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
 
-  priv->src_mngr = photos_source_manager_dup_singleton ();
+  priv->src_mngr = g_object_ref (state->src_mngr);
   g_signal_connect_swapped (priv->src_mngr, "active-changed", G_CALLBACK (photos_embed_search_changed), self);
 
-  priv->srch_mngr = photos_search_type_manager_dup_singleton ();
+  priv->srch_mngr = g_object_ref (state->srch_typ_mngr);
   g_signal_connect_swapped (priv->srch_mngr, "active-changed", G_CALLBACK (photos_embed_search_changed), self);
 
   querying = photos_tracker_controller_get_query_status (priv->trk_ovrvw_cntrlr);
   photos_embed_query_status_changed (self, querying);
 
-  priv->srch_cntrlr = photos_search_controller_dup_singleton ();
+  priv->srch_cntrlr = g_object_ref (state->srch_cntrlr);
   g_signal_connect_swapped (priv->srch_cntrlr,
                             "search-string-changed",
                             G_CALLBACK (photos_embed_search_changed),
