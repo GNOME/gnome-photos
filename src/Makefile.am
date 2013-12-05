@@ -22,6 +22,8 @@ gnome_photos_built_sources = \
 	photos-mpris-player.h \
 	photos-resources.c \
 	photos-resources.h \
+	photos-shell-search-provider2.c \
+	photos-shell-search-provider2.h \
 	photos-tracker-resources.c \
 	photos-tracker-resources.h \
 	$(NULL)
@@ -177,6 +179,8 @@ gnome_photos_SOURCES = \
 	photos-search-match.h \
 	photos-search-match-manager.c \
 	photos-search-match-manager.h \
+	photos-search-provider.c \
+	photos-search-provider.h \
 	photos-search-type.c \
 	photos-search-type.h \
 	photos-search-type-manager.c \
@@ -232,6 +236,7 @@ BUILT_SOURCES = \
 
 EXTRA_DIST = \
 	gegl-gtk-marshal.list \
+	org.gnome.ShellSearchProvider2.xml \
 	photos-enums.c.template \
 	photos-enums.h.template \
 	photos-generate-about \
@@ -469,6 +474,13 @@ photos-mpris-player.h photos-mpris-player.c: photos-mpris-player.xml
 		--c-namespace Mpris \
 		--generate-c-code photos-mpris-player \
 		--interface-prefix org.mpris.MediaPlayer2. \
+		$<
+
+photos-shell-search-provider2.h photos-shell-search-provider2.c: org.gnome.ShellSearchProvider2.xml Makefile
+	$(AM_V_GEN)gdbus-codegen \
+		--c-namespace Shell \
+		--generate-c-code photos-shell-search-provider2 \
+		--interface-prefix org.gnome.Shell. \
 		$<
 
 photos-tracker-resources.h photos-tracker-resources.c: photos-tracker-resources.xml
