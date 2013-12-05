@@ -271,7 +271,7 @@ gnome_photos_LDADD = \
 	$(NULL)
 
 CLEANFILES = \
-	$(gnome_photos_built_sources) \
+	$(BUILT_SOURCES) \
 	stamp-gegl-gtk-marshal.h \
 	stamp-photos-about-data.h \
 	stamp-photos-enums.h \
@@ -396,12 +396,14 @@ photos-marshalers.c: photos-marshalers.list photos-marshalers.h Makefile
 
 photos-resources.c: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir) --generate-dependencies $(srcdir)/photos.gresource.xml)
 	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ \
+		--c-name photos \
 		--sourcedir=$(srcdir) \
 		--generate-source \
 		$<
 
 photos-resources.h: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir) --generate-dependencies $(srcdir)/photos.gresource.xml)
 	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ \
+		--c-name photos \
 		--sourcedir=$(srcdir) \
 		--generate-header \
 		$<
