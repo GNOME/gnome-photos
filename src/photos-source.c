@@ -123,6 +123,10 @@ photos_source_get_property (GObject *object, guint prop_id, GValue *value, GPara
 
   switch (prop_id)
     {
+    case PROP_BUILTIN:
+      g_value_set_boolean (value, priv->builtin);
+      break;
+
     case PROP_ID:
       g_value_set_string (value, priv->id);
       break;
@@ -213,7 +217,7 @@ photos_source_class_init (PhotosSourceClass *class)
                                                          "",
                                                          "",
                                                          FALSE,
-                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 
   g_object_class_install_property (object_class,
                                    PROP_ID,

@@ -91,6 +91,8 @@ GHashTable         *photos_base_manager_get_objects              (PhotosBaseMana
 
 guint               photos_base_manager_get_objects_count        (PhotosBaseManager *self);
 
+void                photos_base_manager_process_new_objects      (PhotosBaseManager *self, GHashTable *new_objects);
+
 void                photos_base_manager_remove_object            (PhotosBaseManager *self, GObject *object);
 
 void                photos_base_manager_remove_object_by_id      (PhotosBaseManager *self, const gchar *id);

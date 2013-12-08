@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -283,6 +283,46 @@ photos_base_manager_get_objects_count (PhotosBaseManager *self)
   count = g_list_length (keys);
   g_list_free (keys);
   return count;
+}
+
+
+void
+photos_base_manager_process_new_objects (PhotosBaseManager *self, GHashTable *new_objects)
+{
+  GHashTable *old_objects;
+  GHashTableIter iter;
+  GObject *object;
+  const gchar *id;
+
+  old_objects = photos_base_manager_get_objects (self);
+
+  g_hash_table_iter_init (&iter, old_objects);
+  while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &object))
+    {
+      gboolean builtin;
+
+      /* If old objects are not found in the newer hash table, remove
+       * them.
+       */
+      g_object_get (object, "builtin", &builtin, NULL);
+      if (g_hash_table_lookup (new_objects, id) == NULL && !builtin)
+        {
+          g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
+          g_hash_table_iter_remove (&iter);
+        }
+    }
+
+  g_hash_table_iter_init (&iter, new_objects);
+  while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &object))
+    {
+      /* If new items are not found in the older hash table, add
+       * them.
+       */
+      if (g_hash_table_lookup (old_objects, id) == NULL)
+        photos_base_manager_add_object (self, object);
+    }
+
+  /* TODO: merge existing item properties with new values. */
 }
 
 
