@@ -99,7 +99,7 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
 
   /* For all the registered collections… */
   g_hash_table_iter_init (&iter1, collections);
-  while (g_hash_table_iter_next (&iter1, (gpointer) &coll_idx, (gpointer) &collection))
+  while (g_hash_table_iter_next (&iter1, (gpointer *) &coll_idx, (gpointer *) &collection))
     {
       GHashTableIter iter2;
       GList *collections_for_item;
@@ -125,7 +125,7 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
       g_list_free (keys);
 
       g_hash_table_iter_init (&iter2, priv->collections_for_items);
-      while (g_hash_table_iter_next (&iter2, (gpointer) &item_idx, (gpointer) &collections_for_item))
+      while (g_hash_table_iter_next (&iter2, (gpointer *) &item_idx, (gpointer *) &collections_for_item))
         {
           const gchar *identifier;
 

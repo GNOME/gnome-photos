@@ -141,7 +141,7 @@ photos_collection_icon_watcher_destroy (PhotosCollectionIconWatcher *self)
   gpointer key;
 
   g_hash_table_iter_init (&iter, priv->item_connections);
-  while (g_hash_table_iter_next (&iter, (gpointer) &key, (gpointer) &item))
+  while (g_hash_table_iter_next (&iter, (gpointer *) &key, (gpointer *) &item))
     {
       guint id = GPOINTER_TO_UINT (key);
       g_signal_handler_disconnect (item, id);

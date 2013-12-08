@@ -175,7 +175,7 @@ photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gc
 
   sources = photos_base_manager_get_objects (PHOTOS_BASE_MANAGER (self));
   g_hash_table_iter_init (&iter, sources);
-  while (g_hash_table_iter_next (&iter, NULL, (gpointer) &source))
+  while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &source))
     {
       GoaAccount *account;
       GoaObject *object;
