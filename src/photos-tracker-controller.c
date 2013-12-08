@@ -246,14 +246,21 @@ photos_tracker_controller_refresh_internal (PhotosTrackerController *self, gint 
 
 
 static void
-photos_tracker_controller_source_object_added (PhotosBaseManager *manager, GObject *object, gpointer user_data)
+photos_tracker_controller_source_object_added_removed (PhotosTrackerController *self)
 {
-}
+  PhotosTrackerControllerPrivate *priv = self->priv;
 
+  if (priv->current_query->source != NULL)
+    {
+      gchar *id;
 
-static void
-photos_tracker_controller_source_object_removed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
-{
+      g_object_get (priv->current_query->source, "id", &id, NULL);
+
+      if (g_strcmp0 (id, PHOTOS_SOURCE_STOCK_ALL) == 0)
+        photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_NONE);
+
+      g_free (id);
+    }
 }
 
 
@@ -320,14 +327,14 @@ photos_tracker_controller_init (PhotosTrackerController *self)
                     self);
 
   priv->src_mngr = photos_source_manager_dup_singleton ();
-  g_signal_connect (priv->src_mngr,
-                    "object-added",
-                    G_CALLBACK (photos_tracker_controller_source_object_added),
-                    self);
-  g_signal_connect (priv->src_mngr,
-                    "object-removed",
-                    G_CALLBACK (photos_tracker_controller_source_object_removed),
-                    self);
+  g_signal_connect_swapped (priv->src_mngr,
+                            "object-added",
+                            G_CALLBACK (photos_tracker_controller_source_object_added_removed),
+                            self);
+  g_signal_connect_swapped (priv->src_mngr,
+                            "object-removed",
+                            G_CALLBACK (photos_tracker_controller_source_object_added_removed),
+                            self);
   g_signal_connect (priv->src_mngr,
                     "active-changed",
                     G_CALLBACK (photos_tracker_controller_refresh_for_object),
