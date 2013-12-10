@@ -55,11 +55,16 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
 
   for (l = accounts; l != NULL; l = l->next)
     {
+      GoaAccount *account;
       GoaObject *object = GOA_OBJECT (l->data);
       PhotosSource *source;
       gchar *id;
 
-      if (goa_object_peek_account (object) == NULL)
+      account = goa_object_peek_account (object);
+      if (account == NULL)
+        continue;
+
+      if (goa_account_get_photos_disabled (account))
         continue;
 
       if (goa_object_peek_photos (object) == NULL)
