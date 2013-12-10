@@ -307,8 +307,10 @@ photos_base_manager_process_new_objects (PhotosBaseManager *self, GHashTable *ne
       g_object_get (object, "builtin", &builtin, NULL);
       if (g_hash_table_lookup (new_objects, id) == NULL && !builtin)
         {
-          g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
+          g_object_ref (object);
           g_hash_table_iter_remove (&iter);
+          g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
+          g_object_unref (object);
         }
     }
 
@@ -346,8 +348,10 @@ photos_base_manager_remove_object_by_id (PhotosBaseManager *self, const gchar *i
   if (object == NULL)
     return;
 
-  g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
+  g_object_ref (object);
   g_hash_table_remove (self->priv->objects, id);
+  g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
+  g_object_unref (object);
 }
 
 
