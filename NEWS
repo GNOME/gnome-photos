@@ -1,3 +1,19 @@
+Overview of changes in 3.11.3
+=============================
+
+* Support accessing photos from Facebook (700451)
+
+* Bugs fixed:
+ 715081 build: Support tracker 0.18
+ 720165 app-menu: Standardize Help/About/Quit
+
+* Updated translations:
+ Esperanto
+ Portuguese (Brazilian)
+ Spanish
+ Tajik
+
+
 Overview of changes in 3.11.2
 =============================
 
