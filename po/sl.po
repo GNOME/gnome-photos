@@ -9,16 +9,15 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-19 22:28+0000\n"
-"PO-Revision-Date: 2013-10-24 20:41+0100\n"
+"POT-Creation-Date: 2013-12-18 21:22+0000\n"
+"PO-Revision-Date: 2013-12-23 19:54+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 1.5.4\n"
 
@@ -166,7 +165,7 @@ msgid "Fullscreen"
 msgstr "Celozaslonski način"
 
 #: ../src/photos-app-menu.ui.h:2
-msgid "About Photos"
+msgid "About"
 msgstr "O programu"
 
 #: ../src/photos-app-menu.ui.h:3
@@ -197,6 +196,10 @@ msgstr "Priljubljeno"
 msgid "No Photos Found"
 msgstr "Ni najdenih fotografij"
 
+#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+msgid "Facebook"
+msgstr "Facebook"
+
 #: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
 msgid "Flickr"
 msgstr "Flickr"
@@ -217,7 +220,7 @@ msgstr "Naloži več"
 msgid "Loading…"
 msgstr "Nalaganje ..."
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:130
 msgid "Local"
 msgstr "Krajevno"
 
@@ -238,17 +241,17 @@ msgstr[3] "%d izbrane"
 msgid "Back"
 msgstr "Nazaj"
 
-#: ../src/photos-main-toolbar.c:273
+#: ../src/photos-main-toolbar.c:271
 msgid "Select Items"
 msgstr "Izbor predmetov"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:360 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "Odpri s programom %s"
 
-#: ../src/photos-main-toolbar.c:490
+#: ../src/photos-main-toolbar.c:488
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -293,7 +296,7 @@ msgstr "Pokaži na ..."
 msgid "Set as Background"
 msgstr "Nastavi kot ozadje"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
 #: ../src/photos-selection-toolbar.c:469
 msgid "Properties"
 msgstr "Lastnosti"
@@ -387,7 +390,7 @@ msgstr "Predogled"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
+#: ../src/photos-properties-dialog.c:218
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Naslov"
@@ -395,72 +398,72 @@ msgstr "Naslov"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
+#: ../src/photos-properties-dialog.c:230
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Avtor"
 
-#: ../src/photos-properties-dialog.c:236
+#: ../src/photos-properties-dialog.c:237
 msgid "Source"
 msgstr "Vir"
 
-#: ../src/photos-properties-dialog.c:242
+#: ../src/photos-properties-dialog.c:243
 msgid "Date Modified"
 msgstr "Datum spremembe"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:251
 msgid "Date Created"
 msgstr "Datum stvaritve"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
+#: ../src/photos-properties-dialog.c:261
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Vrsta"
 
-#: ../src/photos-properties-dialog.c:269
+#: ../src/photos-properties-dialog.c:270
 msgid "Width"
 msgstr "Širina"
 
-#: ../src/photos-properties-dialog.c:279
+#: ../src/photos-properties-dialog.c:280
 msgid "Height"
 msgstr "Višina"
 
-#: ../src/photos-properties-dialog.c:294
+#: ../src/photos-properties-dialog.c:295
 msgid "Camera"
 msgstr "Fotoaparat"
 
-#: ../src/photos-properties-dialog.c:304
+#: ../src/photos-properties-dialog.c:305
 msgid "Exposure"
 msgstr "Osvetljenost"
 
-#: ../src/photos-properties-dialog.c:314
+#: ../src/photos-properties-dialog.c:315
 msgid "Aperture"
 msgstr "Zaslonka"
 
-#: ../src/photos-properties-dialog.c:324
+#: ../src/photos-properties-dialog.c:325
 msgid "Focal Length"
 msgstr "Goriščna razdalja"
 
-#: ../src/photos-properties-dialog.c:334
+#: ../src/photos-properties-dialog.c:335
 msgid "ISO Speed"
 msgstr "Hitrost ISO"
 
-#: ../src/photos-properties-dialog.c:344
+#: ../src/photos-properties-dialog.c:345
 msgid "Flash"
 msgstr "Bliskavica"
 
-#: ../src/photos-properties-dialog.c:527
+#: ../src/photos-properties-dialog.c:536
 msgid "Off, did not fire"
 msgstr "Onemogočeno, bliskavica se ni sprožila"
 
-#: ../src/photos-properties-dialog.c:529
+#: ../src/photos-properties-dialog.c:538
 msgid "On, fired"
 msgstr "Omogočeno, bliskavica se je sprožila"
 
-#: ../src/photos-properties-dialog.c:608
+#: ../src/photos-properties-dialog.c:617
 msgid "Done"
 msgstr "Končano"
 
@@ -484,13 +487,16 @@ msgstr "Izbriši"
 msgid "Add to Album"
 msgstr "Dodaj v album"
 
-#: ../src/photos-source-manager.c:151
+#: ../src/photos-source-manager.c:126
 msgid "All"
 msgstr "Vse"
 
 #: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
 msgstr "Seznama fotografij ni mogoče pridobiti"
+
+#~ msgid "About Photos"
+#~ msgstr "O programu"
 
 #~ msgctxt "Toolbar button tooltip"
 #~ msgid "Organize"
