@@ -301,6 +301,9 @@ photos_collection_icon_watcher_start (PhotosCollectionIconWatcher *self)
 
   photos_collection_icon_watcher_clear (self);
 
+  if (G_UNLIKELY (priv->queue == NULL))
+    return;
+
   id = photos_base_item_get_id (priv->collection);
   query = photos_query_builder_collection_icon_query (id);
   photos_tracker_queue_select (priv->queue,
