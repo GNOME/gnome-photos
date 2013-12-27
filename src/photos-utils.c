@@ -653,13 +653,25 @@ photos_utils_update_executed (GObject *source_object, GAsyncResult *res, gpointe
 void
 photos_utils_set_edited_name (const gchar *urn, const gchar *title)
 {
-  PhotosTrackerQueue *queue;
-  gchar *sparql;
+  GError *error;
+  PhotosTrackerQueue *queue = NULL;
+  gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:title \"%s\" }", urn, title);
-  queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+
+  error = NULL;
+  queue = photos_tracker_queue_dup_singleton (NULL, &error);
+  if (G_UNLIKELY (error != NULL))
+    {
+      g_warning ("Unable to set edited name %s: %s", urn, error->message);
+      g_error_free (error);
+      goto out;
+    }
+
   photos_tracker_queue_update (queue, sparql, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
-  g_object_unref (queue);
+
+ out:
+  g_clear_object (&queue);
   g_free (sparql);
 }
 
@@ -667,14 +679,25 @@ photos_utils_set_edited_name (const gchar *urn, const gchar *title)
 void
 photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
 {
-  PhotosTrackerQueue *queue;
+  GError *error;
+  PhotosTrackerQueue *queue = NULL;
   gchar *sparql;
 
   sparql = g_strdup_printf ("%s { <%s> nao:hasTag nao:predefined-tag-favorite }",
                             (is_favorite) ? "INSERT OR REPLACE" : "DELETE",
                             urn);
 
-  queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  error = NULL;
+  queue = photos_tracker_queue_dup_singleton (NULL, &error);
+  if (G_UNLIKELY (error != NULL))
+    {
+      g_warning ("Unable to set favorite %s: %s", urn, error->message);
+      g_error_free (error);
+      goto out;
+    }
+
   photos_tracker_queue_update (queue, sparql, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
-  g_object_unref (queue);
+
+ out:
+  g_clear_object (&queue);
 }
