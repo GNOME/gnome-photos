@@ -68,7 +68,7 @@ struct _PhotosTrackerQueueClass
 
 GType                  photos_tracker_queue_get_type               (void) G_GNUC_CONST;
 
-PhotosTrackerQueue    *photos_tracker_queue_dup_singleton          (void);
+PhotosTrackerQueue    *photos_tracker_queue_dup_singleton          (GCancellable *cancellable, GError **error);
 
 void                   photos_tracker_queue_select                 (PhotosTrackerQueue *self,
                                                                     const gchar *sparql,

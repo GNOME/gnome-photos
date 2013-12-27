@@ -38,8 +38,12 @@ struct _PhotosTrackerQueuePrivate
   gboolean running;
 };
 
+static void photos_tracker_queue_initable_iface_init (GInitableIface *iface);
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosTrackerQueue, photos_tracker_queue, G_TYPE_OBJECT);
+
+G_DEFINE_TYPE_WITH_CODE (PhotosTrackerQueue, photos_tracker_queue, G_TYPE_OBJECT,
+                         G_ADD_PRIVATE (PhotosTrackerQueue)
+                         G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE, photos_tracker_queue_initable_iface_init));
 
 
 typedef enum
@@ -209,21 +213,11 @@ static void
 photos_tracker_queue_init (PhotosTrackerQueue *self)
 {
   PhotosTrackerQueuePrivate *priv = self->priv;
-  GError *error;
 
   self->priv = photos_tracker_queue_get_instance_private (self);
   priv = self->priv;
 
   priv->queue = g_queue_new ();
-
-  error = NULL;
-  priv->connection = tracker_sparql_connection_get (NULL, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to connect to the Tracker database: %s", error->message);
-      g_error_free (error);
-      return;
-    }
 }
 
 
@@ -238,10 +232,36 @@ photos_tracker_queue_class_init (PhotosTrackerQueueClass *class)
 }
 
 
-PhotosTrackerQueue *
-photos_tracker_queue_dup_singleton (void)
+static gboolean
+photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellable, GError **error)
 {
-  return g_object_new (PHOTOS_TYPE_TRACKER_QUEUE, NULL);
+  PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (initable);
+  PhotosTrackerQueuePrivate *priv = self->priv;
+  gboolean ret_val = TRUE;
+
+  if (G_LIKELY (priv->connection != NULL))
+    goto out;
+
+  priv->connection = tracker_sparql_connection_get (cancellable, error);
+  if (G_UNLIKELY (priv->connection == NULL))
+    ret_val = FALSE;
+
+ out:
+  return ret_val;
+}
+
+
+static void
+photos_tracker_queue_initable_iface_init (GInitableIface *iface)
+{
+  iface->init = photos_tracker_queue_initable_init;
+}
+
+
+PhotosTrackerQueue *
+photos_tracker_queue_dup_singleton (GCancellable *cancellable, GError **error)
+{
+  return g_initable_new (PHOTOS_TYPE_TRACKER_QUEUE, cancellable, error, NULL);
 }
 
 

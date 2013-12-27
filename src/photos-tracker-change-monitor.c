@@ -303,7 +303,7 @@ photos_tracker_change_monitor_init (PhotosTrackerChangeMonitor *self)
                                          g_free,
                                          (GDestroyNotify) photos_tracker_change_event_free);
 
-  priv->queue = photos_tracker_queue_dup_singleton ();
+  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
   priv->resource_service = tracker_resources_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                                      G_DBUS_PROXY_FLAGS_NONE,
                                                                      "org.freedesktop.Tracker1",

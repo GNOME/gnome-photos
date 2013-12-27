@@ -340,7 +340,7 @@ photos_tracker_controller_init (PhotosTrackerController *self)
                     G_CALLBACK (photos_tracker_controller_refresh_for_object),
                     self);
 
-  priv->queue = photos_tracker_queue_dup_singleton ();
+  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 

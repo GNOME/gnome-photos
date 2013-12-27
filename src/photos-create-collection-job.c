@@ -157,7 +157,7 @@ photos_create_collection_job_init (PhotosCreateCollectionJob *self)
   self->priv = photos_create_collection_job_get_instance_private (self);
   priv = self->priv;
 
-  priv->queue = photos_tracker_queue_dup_singleton ();
+  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 

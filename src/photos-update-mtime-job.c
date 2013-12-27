@@ -124,7 +124,7 @@ photos_update_mtime_job_init (PhotosUpdateMtimeJob *self)
   self->priv = photos_update_mtime_job_get_instance_private (self);
   priv = self->priv;
 
-  priv->queue = photos_tracker_queue_dup_singleton ();
+  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 

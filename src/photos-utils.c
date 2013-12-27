@@ -657,7 +657,7 @@ photos_utils_set_edited_name (const gchar *urn, const gchar *title)
   gchar *sparql;
 
   sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:title \"%s\" }", urn, title);
-  queue = photos_tracker_queue_dup_singleton ();
+  queue = photos_tracker_queue_dup_singleton (NULL, NULL);
   photos_tracker_queue_update (queue, sparql, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
   g_object_unref (queue);
   g_free (sparql);
@@ -674,7 +674,7 @@ photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
                             (is_favorite) ? "INSERT OR REPLACE" : "DELETE",
                             urn);
 
-  queue = photos_tracker_queue_dup_singleton ();
+  queue = photos_tracker_queue_dup_singleton (NULL, NULL);
   photos_tracker_queue_update (queue, sparql, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
   g_object_unref (queue);
 }

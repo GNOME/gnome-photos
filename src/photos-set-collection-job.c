@@ -164,7 +164,7 @@ photos_set_collection_job_init (PhotosSetCollectionJob *self)
   priv = self->priv;
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
-  priv->queue = photos_tracker_queue_dup_singleton ();
+  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 

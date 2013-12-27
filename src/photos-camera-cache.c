@@ -155,7 +155,7 @@ photos_camera_cache_init (PhotosCameraCache *self)
   priv = self->priv;
 
   priv->cache = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
-  priv->queue = photos_tracker_queue_dup_singleton ();
+  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 

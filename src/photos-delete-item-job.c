@@ -123,7 +123,7 @@ photos_delete_item_job_init (PhotosDeleteItemJob *self)
   self->priv = photos_delete_item_job_get_instance_private (self);
   priv = self->priv;
 
-  priv->queue = photos_tracker_queue_dup_singleton ();
+  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 
