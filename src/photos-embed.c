@@ -498,11 +498,11 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
 
+  priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW);
+  gtk_stack_add_titled (GTK_STACK (priv->stack), priv->overview, "overview", _("Recent"));
+
   priv->collections = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTIONS);
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->collections, "collections", _("Albums"));
-
-  priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW);
-  gtk_stack_add_titled (GTK_STACK (priv->stack), priv->overview, "overview", _("Photos"));
 
   priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES);
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->favorites, "favorites", _("Favorites"));
