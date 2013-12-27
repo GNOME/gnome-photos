@@ -19,6 +19,7 @@
  * 02110-1301, USA.
  */
 
+
 #include "config.h"
 
 #include "photos-dleyna-renderer-device.h"
@@ -26,38 +27,37 @@
 #include "photos-dlna-renderer.h"
 #include "photos-mpris-player.h"
 
+
 struct _PhotosDlnaRendererPrivate
 {
-  GBusType bus_type;
-  GDBusProxyFlags flags;
-  gchar *object_path;
-  gchar *well_known_name;
-
   DleynaRendererDevice *device;
   DleynaPushHost *push_host;
-  MprisPlayer *player;
-
+  GBusType bus_type;
+  GDBusProxyFlags flags;
   GHashTable *urls_to_item;
+  MprisPlayer *player;
+  gchar *object_path;
+  gchar *well_known_name;
 };
-
 
 enum
 {
   PROP_0,
   PROP_BUS_TYPE,
-  PROP_WELL_KNOWN_NAME,
   PROP_FLAGS,
   PROP_OBJECT_PATH,
   PROP_SHARED_COUNT,
+  PROP_WELL_KNOWN_NAME,
 };
-
 
 static void photos_dlna_renderer_async_initable_iface_init (GAsyncInitableIface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosDlnaRenderer, photos_dlna_renderer, G_TYPE_OBJECT,
                          G_ADD_PRIVATE (PhotosDlnaRenderer)
-                         G_IMPLEMENT_INTERFACE (G_TYPE_ASYNC_INITABLE, photos_dlna_renderer_async_initable_iface_init));
+                         G_IMPLEMENT_INTERFACE (G_TYPE_ASYNC_INITABLE,
+                                                photos_dlna_renderer_async_initable_iface_init));
+
 
 #define RETURN_ON_ERROR(task, error, msg) \
   G_STMT_START { \
@@ -69,6 +69,7 @@ G_DEFINE_TYPE_WITH_CODE (PhotosDlnaRenderer, photos_dlna_renderer, G_TYPE_OBJECT
         return; \
       } \
   } G_STMT_END
+
 
 static void
 photos_dlna_renderer_dispose (GObject *object)
@@ -99,9 +100,9 @@ photos_dlna_renderer_finalize (GObject *object)
 
 
 static void
-photos_dlna_renderer_get_property (GObject    *object,
-                                   guint       prop_id,
-                                   GValue     *value,
+photos_dlna_renderer_get_property (GObject *object,
+                                   guint prop_id,
+                                   GValue *value,
                                    GParamSpec *pspec)
 {
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (object);
@@ -120,30 +121,30 @@ photos_dlna_renderer_get_property (GObject    *object,
 
 
 static void
-photos_dlna_renderer_set_property (GObject      *object,
-                                   guint         prop_id,
+photos_dlna_renderer_set_property (GObject *object,
+                                   guint prop_id,
                                    const GValue *value,
-                                   GParamSpec   *pspec)
+                                   GParamSpec *pspec)
 {
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (object);
   PhotosDlnaRendererPrivate *priv = self->priv;
 
   switch (prop_id)
     {
-    case PROP_FLAGS:
-      priv->flags = g_value_get_flags (value);
-      break;
-
     case PROP_BUS_TYPE:
       priv->bus_type = g_value_get_enum (value);
       break;
 
-    case PROP_WELL_KNOWN_NAME:
-      priv->well_known_name = g_value_dup_string (value);
+    case PROP_FLAGS:
+      priv->flags = g_value_get_flags (value);
       break;
 
     case PROP_OBJECT_PATH:
       priv->object_path = g_value_dup_string (value);
+      break;
+
+    case PROP_WELL_KNOWN_NAME:
+      priv->well_known_name = g_value_dup_string (value);
       break;
 
     default:
@@ -158,7 +159,8 @@ photos_dlna_renderer_init (PhotosDlnaRenderer *self)
 {
   PhotosDlnaRendererPrivate *priv;
 
-  self->priv = priv = photos_dlna_renderer_get_instance_private (self);
+  self->priv = photos_dlna_renderer_get_instance_private (self);
+  priv = self->priv;
 
   priv->urls_to_item = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 }
@@ -175,20 +177,6 @@ photos_dlna_renderer_class_init (PhotosDlnaRendererClass *class)
   gobject_class->set_property = photos_dlna_renderer_set_property;
 
   g_object_class_install_property (gobject_class,
-                                   PROP_FLAGS,
-                                   g_param_spec_flags ("flags",
-                                                       "Flags",
-                                                       "Proxy flags",
-                                                       G_TYPE_DBUS_PROXY_FLAGS,
-                                                       G_DBUS_PROXY_FLAGS_NONE,
-                                                       G_PARAM_READABLE |
-                                                       G_PARAM_WRITABLE |
-                                                       G_PARAM_CONSTRUCT_ONLY |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_BLURB |
-                                                       G_PARAM_STATIC_NICK));
-
-  g_object_class_install_property (gobject_class,
                                    PROP_BUS_TYPE,
                                    g_param_spec_enum ("bus-type",
                                                       "Bus Type",
@@ -202,17 +190,18 @@ photos_dlna_renderer_class_init (PhotosDlnaRendererClass *class)
                                                       G_PARAM_STATIC_NICK));
 
   g_object_class_install_property (gobject_class,
-                                   PROP_WELL_KNOWN_NAME,
-                                   g_param_spec_string ("well-known-name",
-                                                        "Well-Known Name",
-                                                        "The well-known name of the service",
-                                                        NULL,
-                                                        G_PARAM_READABLE |
-                                                        G_PARAM_WRITABLE |
-                                                        G_PARAM_CONSTRUCT_ONLY |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_BLURB |
-                                                        G_PARAM_STATIC_NICK));
+                                   PROP_FLAGS,
+                                   g_param_spec_flags ("flags",
+                                                       "Flags",
+                                                       "Proxy flags",
+                                                       G_TYPE_DBUS_PROXY_FLAGS,
+                                                       G_DBUS_PROXY_FLAGS_NONE,
+                                                       G_PARAM_READABLE |
+                                                       G_PARAM_WRITABLE |
+                                                       G_PARAM_CONSTRUCT_ONLY |
+                                                       G_PARAM_STATIC_NAME |
+                                                       G_PARAM_STATIC_BLURB |
+                                                       G_PARAM_STATIC_NICK));
 
   g_object_class_install_property (gobject_class,
                                    PROP_OBJECT_PATH,
@@ -236,29 +225,48 @@ photos_dlna_renderer_class_init (PhotosDlnaRendererClass *class)
                                                       G_PARAM_STATIC_NAME |
                                                       G_PARAM_STATIC_BLURB |
                                                       G_PARAM_STATIC_NICK));
+
+  g_object_class_install_property (gobject_class,
+                                   PROP_WELL_KNOWN_NAME,
+                                   g_param_spec_string ("well-known-name",
+                                                        "Well-Known Name",
+                                                        "The well-known name of the service",
+                                                        NULL,
+                                                        G_PARAM_READABLE |
+                                                        G_PARAM_WRITABLE |
+                                                        G_PARAM_CONSTRUCT_ONLY |
+                                                        G_PARAM_STATIC_NAME |
+                                                        G_PARAM_STATIC_BLURB |
+                                                        G_PARAM_STATIC_NICK));
 }
 
 
 void
-photos_dlna_renderer_new_for_bus (GBusType             bus_type,
-                                  GDBusProxyFlags      flags,
-                                  const gchar         *well_known_name,
-                                  const gchar         *object_path,
-                                  GCancellable        *cancellable,
-                                  GAsyncReadyCallback  callback,
-                                  gpointer             user_data)
+photos_dlna_renderer_new_for_bus (GBusType bus_type,
+                                  GDBusProxyFlags flags,
+                                  const gchar *well_known_name,
+                                  const gchar *object_path,
+                                  GCancellable *cancellable,
+                                  GAsyncReadyCallback callback,
+                                  gpointer user_data)
 {
-  g_async_initable_new_async (PHOTOS_TYPE_DLNA_RENDERER, G_PRIORITY_DEFAULT, cancellable,
-                              callback, user_data, "flags", flags, "bus-type", bus_type,
+  g_async_initable_new_async (PHOTOS_TYPE_DLNA_RENDERER,
+                              G_PRIORITY_DEFAULT,
+                              cancellable,
+                              callback,
+                              user_data,
+                              "bus-type", bus_type,
+                              "flags", flags,
+                              "object-path", object_path,
                               "well-known-name", well_known_name,
-                              "object-path", object_path, NULL);
+                              NULL);
 }
 
 
 static void
-photos_dlna_renderer_device_proxy_new_cb (GObject      *source_object,
+photos_dlna_renderer_device_proxy_new_cb (GObject *source_object,
                                           GAsyncResult *res,
-                                          gpointer      user_data)
+                                          gpointer user_data)
 {
   GTask *init_task = G_TASK (user_data);
   PhotosDlnaRenderer *self;
@@ -275,11 +283,11 @@ photos_dlna_renderer_device_proxy_new_cb (GObject      *source_object,
 
 
 static void
-photos_dlna_renderer_init_async (GAsyncInitable      *initable,
-                                 int                  io_priority,
-                                 GCancellable        *cancellable,
-                                 GAsyncReadyCallback  callback,
-                                 gpointer             user_data)
+photos_dlna_renderer_init_async (GAsyncInitable *initable,
+                                 int io_priority,
+                                 GCancellable *cancellable,
+                                 GAsyncReadyCallback callback,
+                                 gpointer user_data)
 {
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (initable);
   PhotosDlnaRendererPrivate *priv = self->priv;
@@ -319,7 +327,7 @@ photos_dlna_renderer_init_async (GAsyncInitable      *initable,
 
 PhotosDlnaRenderer*
 photos_dlna_renderer_new_for_bus_finish (GAsyncResult *result,
-                                         GError      **error)
+                                         GError **error)
 {
   GObject *object, *source_object;
   GError *err = NULL;
@@ -354,9 +362,9 @@ photos_dlna_renderer_get_object_path (PhotosDlnaRenderer *self)
 
 
 static void
-photos_dlna_renderer_share_play_cb (GObject      *source_object,
+photos_dlna_renderer_share_play_cb (GObject *source_object,
                                     GAsyncResult *res,
-                                    gpointer      user_data)
+                                    gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   PhotosBaseItem *item;
@@ -372,9 +380,9 @@ photos_dlna_renderer_share_play_cb (GObject      *source_object,
 
 
 static void
-photos_dlna_renderer_share_open_uri_cb (GObject      *source_object,
+photos_dlna_renderer_share_open_uri_cb (GObject *source_object,
                                         GAsyncResult *res,
-                                        gpointer      user_data)
+                                        gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   PhotosDlnaRenderer *self;
@@ -396,9 +404,9 @@ photos_dlna_renderer_share_open_uri_cb (GObject      *source_object,
 
 
 static void
-photos_dlna_renderer_share_host_file_cb (GObject      *source_object,
+photos_dlna_renderer_share_host_file_cb (GObject *source_object,
                                          GAsyncResult *res,
-                                         gpointer      user_data)
+                                         gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   PhotosDlnaRenderer *self;
@@ -463,11 +471,11 @@ photos_dlna_renderer_share_download_cb (GObject *source_object,
 
 
 void
-photos_dlna_renderer_share (PhotosDlnaRenderer  *self,
-                            PhotosBaseItem      *item,
-                            GCancellable        *cancellable,
-                            GAsyncReadyCallback  callback,
-                            gpointer             user_data)
+photos_dlna_renderer_share (PhotosDlnaRenderer *self,
+                            PhotosBaseItem *item,
+                            GCancellable *cancellable,
+                            GAsyncReadyCallback callback,
+                            gpointer user_data)
 {
   GTask *task;
 
@@ -480,8 +488,8 @@ photos_dlna_renderer_share (PhotosDlnaRenderer  *self,
 
 PhotosBaseItem *
 photos_dlna_renderer_share_finish (PhotosDlnaRenderer *self,
-                                   GAsyncResult       *res,
-                                   GError            **error)
+                                   GAsyncResult *res,
+                                   GError **error)
 {
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
 
@@ -502,9 +510,9 @@ photos_dlna_renderer_match_by_item_value (gpointer key,
 
 
 static void
-photos_dlna_renderer_unshare_remove_file_cb (GObject      *source_object,
+photos_dlna_renderer_unshare_remove_file_cb (GObject *source_object,
                                              GAsyncResult *res,
-                                             gpointer      user_data)
+                                             gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
@@ -560,11 +568,11 @@ photos_dlna_renderer_unshare_download_cb (GObject *source_object,
 
 
 void
-photos_dlna_renderer_unshare (PhotosDlnaRenderer  *self,
-                              PhotosBaseItem      *item,
-                              GCancellable        *cancellable,
-                              GAsyncReadyCallback  callback,
-                              gpointer             user_data)
+photos_dlna_renderer_unshare (PhotosDlnaRenderer *self,
+                              PhotosBaseItem *item,
+                              GCancellable *cancellable,
+                              GAsyncReadyCallback callback,
+                              gpointer user_data)
 {
   GTask *task;
 
@@ -577,8 +585,8 @@ photos_dlna_renderer_unshare (PhotosDlnaRenderer  *self,
 
 void
 photos_dlna_renderer_unshare_finish (PhotosDlnaRenderer *self,
-                                     GAsyncResult       *res,
-                                     GError            **error)
+                                     GAsyncResult *res,
+                                     GError **error)
 {
   g_return_if_fail (g_task_is_valid (res, self));
 
@@ -587,9 +595,9 @@ photos_dlna_renderer_unshare_finish (PhotosDlnaRenderer *self,
 
 
 static void
-photos_dlna_renderer_unshare_all_unshare_cb (GObject      *source_object,
+photos_dlna_renderer_unshare_all_unshare_cb (GObject *source_object,
                                              GAsyncResult *res,
-                                             gpointer      user_data)
+                                             gpointer user_data)
 {
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (source_object);
   GTask *task = G_TASK (user_data);
@@ -615,9 +623,9 @@ photos_dlna_renderer_unshare_all_unshare_cb (GObject      *source_object,
 
 void
 photos_dlna_renderer_unshare_all (PhotosDlnaRenderer  *self,
-                                  GCancellable        *cancellable,
-                                  GAsyncReadyCallback  callback,
-                                  gpointer             user_data)
+                                  GCancellable *cancellable,
+                                  GAsyncReadyCallback callback,
+                                  gpointer user_data)
 {
   PhotosDlnaRendererPrivate *priv = self->priv;
   GTask *task;
@@ -641,8 +649,8 @@ photos_dlna_renderer_unshare_all (PhotosDlnaRenderer  *self,
 
 void
 photos_dlna_renderer_unshare_all_finish (PhotosDlnaRenderer *self,
-                                         GAsyncResult       *res,
-                                         GError            **error)
+                                         GAsyncResult *res,
+                                         GError **error)
 {
   g_return_if_fail (g_task_is_valid (res, self));
 
@@ -651,9 +659,9 @@ photos_dlna_renderer_unshare_all_finish (PhotosDlnaRenderer *self,
 
 
 static void
-photos_dlna_renderer_device_get_icon_cb (GObject      *source_object,
+photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
                                          GAsyncResult *res,
-                                         gpointer      user_data)
+                                         gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   GInputStream *icon_stream;
@@ -710,12 +718,12 @@ photos_dlna_renderer_get_udn (PhotosDlnaRenderer *self)
 
 
 void
-photos_dlna_renderer_get_icon (PhotosDlnaRenderer  *self,
-                               const gchar         *resolution,
-                               const gchar         *requested_mimetype,
-                               GCancellable        *cancellable,
-                               GAsyncReadyCallback  callback,
-                               gpointer             user_data)
+photos_dlna_renderer_get_icon (PhotosDlnaRenderer *self,
+                               const gchar *resolution,
+                               const gchar *requested_mimetype,
+                               GCancellable *cancellable,
+                               GAsyncReadyCallback callback,
+                               gpointer user_data)
 {
   PhotosDlnaRendererPrivate *priv = self->priv;
   GTask *task;
@@ -730,8 +738,8 @@ photos_dlna_renderer_get_icon (PhotosDlnaRenderer  *self,
 
 GdkPixbuf *
 photos_dlna_renderer_get_icon_finish (PhotosDlnaRenderer *self,
-                                      GAsyncResult       *res,
-                                      GError            **error)
+                                      GAsyncResult *res,
+                                      GError **error)
 {
   g_return_val_if_fail (g_task_is_valid (res, self), NULL);
 
