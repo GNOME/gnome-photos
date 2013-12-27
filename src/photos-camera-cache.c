@@ -30,6 +30,7 @@
 
 struct _PhotosCameraCachePrivate
 {
+  GError *queue_error;
   GHashTable *cache;
   PhotosTrackerQueue *queue;
 };
@@ -139,8 +140,10 @@ static void
 photos_camera_cache_finalize (GObject *object)
 {
   PhotosCameraCache *self = PHOTOS_CAMERA_CACHE (object);
+  PhotosCameraCachePrivate *priv = self->priv;
 
-  g_hash_table_unref (self->priv->cache);
+  g_clear_error (&priv->queue_error);
+  g_hash_table_unref (priv->cache);
 
   G_OBJECT_CLASS (photos_camera_cache_parent_class)->finalize (object);
 }
@@ -155,7 +158,7 @@ photos_camera_cache_init (PhotosCameraCache *self)
   priv = self->priv;
 
   priv->cache = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  priv->queue = photos_tracker_queue_dup_singleton (NULL, &priv->queue_error);
 }
 
 
@@ -198,6 +201,12 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
   if (camera != NULL)
     {
       g_task_return_pointer (task, g_strdup (camera), g_free);
+      goto out;
+    }
+
+  if (G_UNLIKELY (priv->queue == NULL))
+    {
+      g_task_return_error (task, g_error_copy (priv->queue_error));
       goto out;
     }
 
