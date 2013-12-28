@@ -215,6 +215,13 @@ photos_set_collection_job_run (PhotosSetCollectionJob *self,
   GList *l;
   GList *urns;
 
+  if (G_UNLIKELY (priv->queue == NULL))
+    {
+      if (callback != NULL)
+        (*callback) (user_data);
+      return;
+    }
+
   priv->callback = callback;
   priv->user_data = user_data;
 
