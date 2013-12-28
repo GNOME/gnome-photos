@@ -161,6 +161,13 @@ photos_delete_item_job_run (PhotosDeleteItemJob *self,
   PhotosDeleteItemJobPrivate *priv = self->priv;
   PhotosQuery *query;
 
+  if (G_UNLIKELY (priv->queue == NULL))
+    {
+      if (callback != NULL)
+        (*callback) (user_data);
+      return;
+    }
+
   priv->callback = callback;
   priv->user_data = user_data;
 
