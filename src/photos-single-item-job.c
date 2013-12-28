@@ -208,6 +208,13 @@ photos_single_item_job_run (PhotosSingleItemJob *self,
   PhotosSingleItemJobPrivate *priv = self->priv;
   PhotosQuery *query;
 
+  if (G_UNLIKELY (priv->queue == NULL))
+    {
+      if (callback != NULL)
+        (*callback) (NULL, user_data);
+      return;
+    }
+
   priv->callback = callback;
   priv->user_data = user_data;
 
