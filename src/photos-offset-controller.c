@@ -208,6 +208,9 @@ photos_offset_controller_reset_count (PhotosOffsetController *self)
   PhotosOffsetControllerPrivate *priv = self->priv;
   PhotosQuery *query;
 
+  if (G_UNLIKELY (priv->queue == NULL))
+    return;
+
   query = PHOTOS_OFFSET_CONTROLLER_GET_CLASS (self)->get_query (self);
   photos_tracker_queue_select (priv->queue,
                                query->sparql,
