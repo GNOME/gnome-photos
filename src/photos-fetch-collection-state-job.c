@@ -35,7 +35,6 @@
 #include "photos-query.h"
 #include "photos-query-builder.h"
 #include "photos-selection-controller.h"
-#include "photos-tracker-queue.h"
 
 
 struct _PhotosFetchCollectionStateJobPrivate
@@ -45,7 +44,6 @@ struct _PhotosFetchCollectionStateJobPrivate
   PhotosBaseManager *item_mngr;
   PhotosSelectionController *sel_cntrlr;
   PhotosFetchCollectionStateJobCallback callback;
-  PhotosTrackerQueue *queue;
   gint running_jobs;
   gpointer user_data;
 };
@@ -199,7 +197,6 @@ photos_fetch_collection_state_job_dispose (GObject *object)
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->sel_cntrlr);
-  g_clear_object (&priv->queue);
 
   G_OBJECT_CLASS (photos_fetch_collection_state_job_parent_class)->dispose (object);
 }
@@ -232,7 +229,6 @@ photos_fetch_collection_state_job_init (PhotosFetchCollectionStateJob *self)
   priv->col_mngr = photos_collection_manager_dup_singleton ();
   priv->item_mngr = photos_item_manager_dup_singleton ();
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 
