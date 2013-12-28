@@ -195,6 +195,13 @@ photos_create_collection_job_run (PhotosCreateCollectionJob *self,
   PhotosCreateCollectionJobPrivate *priv = self->priv;
   PhotosQuery *query;
 
+  if (G_UNLIKELY (priv->queue == NULL))
+    {
+      if (callback != NULL)
+        (*callback) (NULL, user_data);
+      return;
+    }
+
   priv->callback = callback;
   priv->user_data = user_data;
 
