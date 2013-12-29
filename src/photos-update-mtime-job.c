@@ -162,6 +162,13 @@ photos_update_mtime_job_run (PhotosUpdateMtimeJob *self,
   PhotosUpdateMtimeJobPrivate *priv = self->priv;
   PhotosQuery *query;
 
+  if (G_UNLIKELY (priv->queue == NULL))
+    {
+      if (callback != NULL)
+        (*callback) (user_data);
+      return;
+    }
+
   priv->callback = callback;
   priv->user_data = user_data;
 
