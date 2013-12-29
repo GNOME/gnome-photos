@@ -1,0 +1,497 @@
+# Bulgarian translation of gnome-photos po-file.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Valentin Laskov <laskov@festa.bg>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-29 19:05+0200\n"
+"PO-Revision-Date: 2013-12-29 19:05+0200\n"
+"Last-Translator: Valentin Laskov <laskov@festa.bg>\n"
+"Language-Team: Bulgarian <dict-notifications@fsa-bg.org>\n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Приложение за намиране, организиране и споделяне на снимки в GNOME. "
+"Предназначено е да бъде опростен и елегантен заместник на използването на "
+"файловия мениджър при работа със снимки. Предлага постоянна интеграция с "
+"облака чрез регистрациите на GNOME."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Чрез него можете да:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>Преглеждате последните локални и онлайн снимки</li> <li>Управлявате "
+"съдържание във Flickr</li> <li>Изпращате снимки до отдалечени сървъри с "
+"DLNA</li> <li>Задавате фон на плота</li> <li>Отпечатвате снимки</li> "
+"<li>Избирате любими</li> <li>Отворите пълнофункционален редактор за по-"
+"сложни промени</li>"
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:89
+msgid "Photos"
+msgstr "Снимки"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Преглед, организиране и споделяне на снимки"
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Снимки;Изображения;Photos;Pictures;"
+
+#: ../data/org.gnome.photos.gschema.xml.h:1
+msgid "Window size"
+msgstr "Размер на прозореца"
+
+#: ../data/org.gnome.photos.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Размер на прозореца (широчина и височина)"
+
+#: ../data/org.gnome.photos.gschema.xml.h:3
+msgid "Window position"
+msgstr "Позиция на прозореца"
+
+#: ../data/org.gnome.photos.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Позиция на прозореца (x и y)."
+
+#: ../data/org.gnome.photos.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Максимизиран прозорец"
+
+#: ../data/org.gnome.photos.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Максимизирано състояние на прозорец"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (обектив)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm филм)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Трансформации върху сваленото изображение."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Трансформацията се провали."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "EXIF не се поддържа за този файлов формат."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Неуспешно зареждане на изображение."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Няма заредено изображение."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Нямате необходимите права, за да запишете файла."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Ниеуспешно създаване на временен файл."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Поне два файла са с еднакви имена."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Помощта за Image Viewer не може да се покажe"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (неправилен Unicode)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "На цял екран"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About"
+msgstr "Относно"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Спиране на програмата"
+
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "Албум"
+
+#: ../src/photos-base-item.c:727
+msgid "Screenshots"
+msgstr "Снимки на екрана"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "Устройства, предоставящи DLNA"
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
+msgid "Albums"
+msgstr "Албуми"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
+msgid "Favorites"
+msgstr "Любими"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "Няма намерени снимки"
+
+#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr "Снимките бяха индексирани"
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr "По време на този процес някои снимки може да не са достъпни"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "Зареждане на още"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "Зареждане…"
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:130
+msgid "Local"
+msgstr "Локални"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "Натиснете върху обектите, за да ги изберете."
+
+#: ../src/photos-main-toolbar.c:101
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d избрана"
+msgstr[1] "%d избрани"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "Назад"
+
+#: ../src/photos-main-toolbar.c:271
+msgid "Select Items"
+msgstr "Избор на обекти"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:360 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "Отваряне с %s"
+
+#: ../src/photos-main-toolbar.c:488
+msgid "Cancel"
+msgstr "Отказ"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Преглед, организиране и споделяне на снимките ви в GNOME"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr ""
+"Валентин Ласков <laskov@festa.bg>\n"
+"\n"
+"Проектът за превод на GNOME има нужда от подкрепа.\n"
+"Научете повече за нас на <a href=\"http://gnome.cult.bg\">http://gnome.cult."
+"bg</a>\n"
+"Докладвайте за грешки на <a href=\"http://gnome.cult.bg/bugs\">http://gnome."
+"cult.bg/bugs</a>"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Добавяне"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_OK"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Организиране"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "Отваряне"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Отпечатване…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Показване на…"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Задаване за фон"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "Свойства"
+
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Премахване от Любими"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Добавяне в Любими"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "Настройки на изображението"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "Позиция"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "_Ляво:"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "_Дясно:"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "_Горе:"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "Д_олу:"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "Ц_ентър:"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "Нищо"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "Хоризонтално"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "Вертикално"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "И двете"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "Размер"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "_Широчина:"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "_Височина:"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "_Мащабиране:"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "_Единица:"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "Милиметри"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "Инчове"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "Преглед"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:218
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Заглавие"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:230
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Автор"
+
+#: ../src/photos-properties-dialog.c:237
+msgid "Source"
+msgstr "Източник"
+
+#: ../src/photos-properties-dialog.c:243
+msgid "Date Modified"
+msgstr "Дата на промяна"
+
+#: ../src/photos-properties-dialog.c:251
+msgid "Date Created"
+msgstr "Дата на създаване"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:261
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Вид"
+
+#: ../src/photos-properties-dialog.c:270
+msgid "Width"
+msgstr "Широчина"
+
+#: ../src/photos-properties-dialog.c:280
+msgid "Height"
+msgstr "Височина"
+
+#: ../src/photos-properties-dialog.c:295
+msgid "Camera"
+msgstr "Фотоапарат"
+
+#: ../src/photos-properties-dialog.c:305
+msgid "Exposure"
+msgstr "Експозиция"
+
+#: ../src/photos-properties-dialog.c:315
+msgid "Aperture"
+msgstr "Бленда"
+
+#: ../src/photos-properties-dialog.c:325
+msgid "Focal Length"
+msgstr "Фокусно разстояние"
+
+#: ../src/photos-properties-dialog.c:335
+msgid "ISO Speed"
+msgstr "Скорост по ISO"
+
+#: ../src/photos-properties-dialog.c:345
+msgid "Flash"
+msgstr "Светкавица"
+
+#: ../src/photos-properties-dialog.c:536
+msgid "Off, did not fire"
+msgstr "Изключена, без"
+
+#: ../src/photos-properties-dialog.c:538
+msgid "On, fired"
+msgstr "Включена, светнала"
+
+#: ../src/photos-properties-dialog.c:617
+msgid "Done"
+msgstr "Готово"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Избор на всички"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Изчистване на избора"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "Печат"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "Изтриване"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr "Добавяне в албум"
+
+#: ../src/photos-source-manager.c:126
+msgid "All"
+msgstr "Всички"
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr "Списъкът със снимки не може да бъде извлечен"
