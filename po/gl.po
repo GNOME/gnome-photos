@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-10 15:28+0200\n"
-"PO-Revision-Date: 2013-09-10 15:31+0200\n"
+"POT-Creation-Date: 2013-12-30 00:14+0100\n"
+"PO-Revision-Date: 2013-12-30 00:14+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -43,12 +43,12 @@ msgid ""
 msgstr ""
 "<li>Ver as súas fotos locais e en liña recentes</li> <li>Acceder ao seu "
 "contido en Flickr</li> <li>Enviar fotos a renderizadores DLNA remotos</li> "
-"<li>Estabelecer unha foto como fondo de escritorio</li> <li>Imprimir "
-"fotos</li> <li>Seleccionar fatoritos</li> <li>Abrir fotos co seu editor  "
-"para facer cambios avanzados</li>"
+"<li>Estabelecer unha foto como fondo de escritorio</li> <li>Imprimir fotos</"
+"li> <li>Seleccionar fatoritos</li> <li>Abrir fotos co seu editor  para facer "
+"cambios avanzados</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:93
+#: ../src/photos-search-type-manager.c:89
 msgid "Photos"
 msgstr "Fotos\t"
 
@@ -60,27 +60,27 @@ msgstr "Acceder, organizar e compartir fotos"
 msgid "Photos;Pictures;"
 msgstr "Fotos;Imaxes;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Tamaño da xanela"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Tamaño da xanela (ancho e alto)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Posición da xanela"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Posición da xanela (x e y)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Xanela maximizada"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Estado da xanela maximizada"
 
@@ -162,8 +162,8 @@ msgid "Fullscreen"
 msgstr "Pantalla completa"
 
 #: ../src/photos-app-menu.ui.h:2
-msgid "About Photos"
-msgstr "Sobre fotos"
+msgid "About"
+msgstr "Sobre"
 
 #: ../src/photos-app-menu.ui.h:3
 msgid "Quit"
@@ -173,21 +173,29 @@ msgstr "Saír"
 msgid "Album"
 msgstr "Álbum"
 
+#: ../src/photos-base-item.c:727
+msgid "Screenshots"
+msgstr "Capturas de pantallas"
+
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos renderizadores de DLNA"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
 msgid "Favorites"
 msgstr "Favoritas"
 
 #: ../src/photos-empty-results-box.c:66
 msgid "No Photos Found"
 msgstr "Non se atoparon fotografías"
+
+#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+msgid "Facebook"
+msgstr "Facebook"
 
 #: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
 msgid "Flickr"
@@ -209,7 +217,7 @@ msgstr "Cargar máis"
 msgid "Loading…"
 msgstr "Cargando…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:130
 msgid "Local"
 msgstr "Local"
 
@@ -228,17 +236,17 @@ msgstr[1] "%d seleccionadas"
 msgid "Back"
 msgstr "Atrás"
 
-#: ../src/photos-main-toolbar.c:273
+#: ../src/photos-main-toolbar.c:271
 msgid "Select Items"
 msgstr "Elementos seleccionados"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:360 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: ../src/photos-main-toolbar.c:490
+#: ../src/photos-main-toolbar.c:488
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -250,6 +258,14 @@ msgstr "Acceda, organice e comparta as súas fotos en GNOME"
 #: ../src/photos-main-window.c:339
 msgid "translator-credits"
 msgstr "Fran Dieguez <frandieguez@gnome.org>, 2012."
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Engadir"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_Aceptar"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -275,7 +291,7 @@ msgstr "Mostrar en…"
 msgid "Set as Background"
 msgstr "Estabelecer como fondo de pantalla"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
 #: ../src/photos-selection-toolbar.c:469
 msgid "Properties"
 msgstr "Propiedades"
@@ -369,7 +385,7 @@ msgstr "Previsualizar"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
+#: ../src/photos-properties-dialog.c:218
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Título"
@@ -377,78 +393,74 @@ msgstr "Título"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
+#: ../src/photos-properties-dialog.c:230
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-properties-dialog.c:236
+#: ../src/photos-properties-dialog.c:237
 msgid "Source"
 msgstr "Orixe"
 
-#: ../src/photos-properties-dialog.c:242
+#: ../src/photos-properties-dialog.c:243
 msgid "Date Modified"
 msgstr "Data de modificación"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:251
 msgid "Date Created"
 msgstr "Data de creación"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
+#: ../src/photos-properties-dialog.c:261
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/photos-properties-dialog.c:269
+#: ../src/photos-properties-dialog.c:270
 msgid "Width"
 msgstr "Anchura"
 
-#: ../src/photos-properties-dialog.c:279
+#: ../src/photos-properties-dialog.c:280
 msgid "Height"
 msgstr "Altura"
 
-#: ../src/photos-properties-dialog.c:294
+#: ../src/photos-properties-dialog.c:295
 msgid "Camera"
 msgstr "Cámara"
 
-#: ../src/photos-properties-dialog.c:304
+#: ../src/photos-properties-dialog.c:305
 msgid "Exposure"
 msgstr "Exposición"
 
-#: ../src/photos-properties-dialog.c:314
+#: ../src/photos-properties-dialog.c:315
 msgid "Aperture"
 msgstr "Apertura"
 
-#: ../src/photos-properties-dialog.c:324
+#: ../src/photos-properties-dialog.c:325
 msgid "Focal Length"
 msgstr "Lonxitude focal"
 
-#: ../src/photos-properties-dialog.c:334
+#: ../src/photos-properties-dialog.c:335
 msgid "ISO Speed"
 msgstr "Velocidade ISO"
 
-#: ../src/photos-properties-dialog.c:344
+#: ../src/photos-properties-dialog.c:345
 msgid "Flash"
 msgstr "Flash"
 
-#: ../src/photos-properties-dialog.c:527
+#: ../src/photos-properties-dialog.c:536
 msgid "Off, did not fire"
 msgstr "Desactivado, non disparado"
 
-#: ../src/photos-properties-dialog.c:529
+#: ../src/photos-properties-dialog.c:538
 msgid "On, fired"
 msgstr "Activado, disparado"
 
-#: ../src/photos-properties-dialog.c:608
+#: ../src/photos-properties-dialog.c:617
 msgid "Done"
 msgstr "Feito"
-
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
-msgid "All"
-msgstr "Todas"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -470,9 +482,16 @@ msgstr "Eliminar"
 msgid "Add to Album"
 msgstr "Engadir ao álbum"
 
+#: ../src/photos-source-manager.c:126
+msgid "All"
+msgstr "Todas"
+
 #: ../src/photos-tracker-controller.c:82
 msgid "Unable to fetch the list of photos"
 msgstr "Non foi posíbel obter a lista de fotografías"
+
+#~ msgid "About Photos"
+#~ msgstr "Sobre fotos"
 
 #~ msgctxt "Toolbar button tooltip"
 #~ msgid "Organize"
