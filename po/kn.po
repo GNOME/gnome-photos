@@ -1,0 +1,469 @@
+# Kannada translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+#
+# karthik339 <karthik339@gmail.com>, 2013.
+# Shankar Prasad <prasad.mvs@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos gnome-3-10\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-12-18 21:22+0000\n"
+"PO-Revision-Date: 2013-12-30 17:20+0630\n"
+"Last-Translator: Shankar Prasad <svenkate AT redhat Dot com>\n"
+"Language-Team: Kannada <kde-i18n-doc@kde.org>\n"
+"Language: kn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr ""
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+
+#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../src/photos-search-type-manager.c:93
+msgid "Photos"
+msgstr "ಫೋಟೋಸ್"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr ""
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "ಫೋಟೋಗಳು;ಚಿತ್ರಗಳು;"
+
+#: ../data/org.gnome.photos.gschema.xml.h:1
+msgid "Window size"
+msgstr "ಕಿಟಕಿಯ ಗಾತ್ರ"
+
+#: ../data/org.gnome.photos.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "ಕಿಟಕಿಯ ಗಾತ್ರ (ಉದ್ದ ಮತ್ತು ಅಗಲ)"
+
+#: ../data/org.gnome.photos.gschema.xml.h:3
+msgid "Window position"
+msgstr "ಕಿಟಕಿಯ ಸ್ಥಾನ"
+
+#: ../data/org.gnome.photos.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "ಕಿಟಕಿಯ ಸ್ಥಾನ (x ಮತ್ತು y)"
+
+#: ../data/org.gnome.photos.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "ಕಿಟಕಿಯನ್ನು ಗರಿಷ್ಟಗೊಳಿಸಲಾಗಿದೆ"
+
+#: ../data/org.gnome.photos.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "ಕಿಟಕಿಯನ್ನು ಗರಿಷ್ಟಗೊಳಿಸಿದ ಸ್ಥಿತಿ"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (ಲೆನ್ಸ್‍)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm ಫಿಲ್ಮ್‍)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "ಲೋಡ್ ಆಗದೆ ಇರುವ ಚಿತ್ರದಲ್ಲಿನ ರೂಪಾಂತರ."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "ರೂಪಾಂತರವು ವಿಫಲಗೊಂಡಿದೆ."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "ಈ ಬಗೆಯ ಕಡತದ ವಿನ್ಯಾಸಕ್ಕೆ EXIF ಬೆಂಬಲವಿಲ್ಲ."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "ಚಿತ್ರ ಲೋಡ್ ಮಾಡುವಿಕೆಯು ವಿಫಲಗೊಂಡಿದೆ."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "ಯಾವ ಚಿತ್ರಗಳೂ ಲೋಡ್ ಆಗಿಲ್ಲ."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr ""
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "ತಾತ್ಕಾಲಿಕ ಕಡತದ ರಚನೆಯಲ್ಲಿ ವಿಫಲತೆ."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "ಕನಿಷ್ಟ ಎರಡು ಕಡತದ ಹೆಸರುಗಳು ಒಂದೇ ರೀತಿ ಇವೆ."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr ""
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (ಅಮಾನ್ಯ ಯುನಿಕೋಡ್)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "ಪೂರ್ಣತೆರೆ"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About Photos"
+msgstr "ಫೋಟೋಸ್ ಬಗ್ಗೆ"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "ನಿರ್ಗಮಿಸು"
+
+#: ../src/photos-base-item.c:303
+msgid "Album"
+msgstr "ಆಲ್ಬಮ್"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr ""
+
+#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+msgid "Albums"
+msgstr "ಅಲ್ಬಮ್‌ಗಳು"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+msgid "Favorites"
+msgstr "ಮೆಚ್ಚಿನವುಗಳು"
+
+#: ../src/photos-empty-results-box.c:66
+msgid "No Photos Found"
+msgstr "ಯಾವುದೇ ಚಿತ್ರಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:168
+msgid "Your photos are being indexed"
+msgstr ""
+
+#: ../src/photos-indexing-notification.c:172
+msgid "Some photos might not be available during this process"
+msgstr ""
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+msgid "Load More"
+msgstr "ಇನ್ನಷ್ಟು ಲೋಡ್ ಮಾಡು"
+
+#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ…"
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "ಸ್ಥಳೀಯ"
+
+#: ../src/photos-main-toolbar.c:99
+msgid "Click on items to select them"
+msgstr "ಅಂಶಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಅವುಗಳ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ"
+
+#: ../src/photos-main-toolbar.c:101
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d ಅನ್ನು ಆರಿಸಲಾಗಿದೆ"
+msgstr[1] "%d ಅನ್ನು ಆರಿಸಲಾಗಿದೆ"
+
+#: ../src/photos-main-toolbar.c:146
+msgid "Back"
+msgstr "ಹಿಂದಕ್ಕೆ"
+
+#: ../src/photos-main-toolbar.c:273
+msgid "Select Items"
+msgstr ""
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#, c-format
+msgid "Open with %s"
+msgstr "\"%s\" ನೊಂದಿಗೆ ತೆರೆ"
+
+#: ../src/photos-main-toolbar.c:490
+msgid "Cancel"
+msgstr "ರದ್ದುಗೊಳಿಸು"
+
+#: ../src/photos-main-window.c:329
+msgid "Access, organize and share your photos on GNOME"
+msgstr ""
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:339
+msgid "translator-credits"
+msgstr "karthik339 <karthik339@gmail.com>; ಶಂಕರ್ ಪ್ರಸಾದ್ <svenkate@redhat.com>"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "ವ್ಯವಸ್ಥಿತವಾಗಿ ಜೋಡಿಸು"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "ತೆರೆ"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "ಮುದ್ರಿಸು..."
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr ""
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "ಗಣಕತೆರೆಯ ಹಿನ್ನಲೆಯಾಗಿಸು"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-selection-toolbar.c:469
+msgid "Properties"
+msgstr "ಗುಣಗಳು"
+
+#: ../src/photos-preview-nav-buttons.c:208
+#: ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "ಎಲ್ಲಾ ಅಚ್ಚುಮೆಚ್ಚಿನವುಗಳನ್ನು ತೆಗೆದುಹಾಕು"
+
+#: ../src/photos-preview-nav-buttons.c:213
+#: ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "ಅಚ್ಚುಮೆಚ್ಚಿನವುಗಳಿಗೆ ಸೇರಿಸು"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "ಚಿತ್ರದ ಸಿದ್ಧತೆಗಳು"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "ಸ್ಥಾನ"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "ಎಡ (_L):"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "ಬಲ (_R):"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "ಮೇಲೆ (_T):"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "ಕೆಳಗೆ (_B):"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "ಮಧ್ಯ (_e):"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "ಯಾವುದೂ ಇಲ್ಲ"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "ಅಡ್ಡ"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "ಲಂಬ"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "ಉಭಯ"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "ಗಾತ್ರ"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "ಅಗಲ (_W):"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "ಉದ್ದ (_H):"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "ಸ್ಕೇಲಿಂಗ್ (_S):"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "ಘಟಕ (_U):"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "ಮಿಲಿಮೀಟರುಗಳು"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "ಇಂಚುಗಳು"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "ಮುನ್ನೋಟ"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
+msgid "Title"
+msgstr "ಶೀರ್ಷಿಕೆ"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
+msgid "Author"
+msgstr "ಕರ್ತೃ"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "ಆಕರ"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "ದಿನಾಂಕ ಮಾರ್ಪಡಿಸಲಾದ"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "ರಚಿಸಿದ ದಿನಾಂಕ"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
+msgid "Type"
+msgstr "ಬಗೆ"
+
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "ಅಗಲ"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "ಎತ್ತರ"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "ಕ್ಯಾಮೆರಾ"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "ತೆರೆದಿಡುವುದು"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "ಬೆಳಕಿಂಡಿ"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "ಫೋಕಲ್ ಲೆನ್ತ್"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "ISO ವೇಗ"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "ಮಿಂಚು"
+
+#: ../src/photos-properties-dialog.c:527
+msgid "Off, did not fire"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:529
+msgid "On, fired"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:608
+msgid "Done"
+msgstr "ಆಯಿತು"
+
+#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "ಎಲ್ಲಾ"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "ಎಲ್ಲವನ್ನು ಆರಿಸು "
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "ಏನನ್ನೂ ಆರಿಸಬೇಡ"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "ಮುದ್ರಿಸು"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "ಅಳಿಸು"
+
+#: ../src/photos-selection-toolbar.c:461
+msgid "Add to Album"
+msgstr ""
+
+#: ../src/photos-tracker-controller.c:82
+msgid "Unable to fetch the list of photos"
+msgstr ""
+
