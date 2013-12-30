@@ -40,6 +40,7 @@
 struct _PhotosTrackerControllerPrivate
 {
   GCancellable *cancellable;
+  GError *queue_error;
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
@@ -173,6 +174,12 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
   priv->current_query = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_query (self);
   g_cancellable_reset (priv->cancellable);
 
+  if (G_UNLIKELY (priv->queue == NULL))
+    {
+      photos_tracker_controller_query_error (self, priv->queue_error);
+      return;
+    }
+
   photos_tracker_queue_select (priv->queue,
                                priv->current_query->sparql,
                                priv->cancellable,
@@ -302,6 +309,8 @@ photos_tracker_controller_finalize (GObject *object)
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
   PhotosTrackerControllerPrivate *priv = self->priv;
 
+  g_clear_error (&priv->queue_error);
+
   if (priv->current_query != NULL)
     photos_query_free (priv->current_query);
 
@@ -340,7 +349,7 @@ photos_tracker_controller_init (PhotosTrackerController *self)
                     G_CALLBACK (photos_tracker_controller_refresh_for_object),
                     self);
 
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  priv->queue = photos_tracker_queue_dup_singleton (NULL, &priv->queue_error);
 }
 
 
