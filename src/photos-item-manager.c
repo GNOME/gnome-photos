@@ -222,8 +222,9 @@ photos_item_manager_init (PhotosItemManager *self)
   priv->collection_path = g_queue_new ();
   priv->col_mngr = photos_collection_manager_dup_singleton ();
 
-  priv->monitor = photos_tracker_change_monitor_dup_singleton ();
-  g_signal_connect (priv->monitor, "changes-pending", G_CALLBACK (photos_item_manager_changes_pending), self);
+  priv->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
+  if (G_LIKELY (priv->monitor != NULL))
+    g_signal_connect (priv->monitor, "changes-pending", G_CALLBACK (photos_item_manager_changes_pending), self);
 }
 
 

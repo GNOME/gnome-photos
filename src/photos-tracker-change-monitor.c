@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -51,8 +51,12 @@ enum
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
+static void photos_tracker_change_monitor_initable_iface_init (GInitableIface *iface);
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosTrackerChangeMonitor, photos_tracker_change_monitor, G_TYPE_OBJECT);
+
+G_DEFINE_TYPE_WITH_CODE (PhotosTrackerChangeMonitor, photos_tracker_change_monitor, G_TYPE_OBJECT,
+                         G_ADD_PRIVATE (PhotosTrackerChangeMonitor)
+                         G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE, photos_tracker_change_monitor_initable_iface_init));
 
 
 typedef struct _PhotosTrackerChangeMonitorQueryData PhotosTrackerChangeMonitorQueryData;
@@ -302,18 +306,6 @@ photos_tracker_change_monitor_init (PhotosTrackerChangeMonitor *self)
                                          g_str_equal,
                                          g_free,
                                          (GDestroyNotify) photos_tracker_change_event_free);
-
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
-  priv->resource_service = tracker_resources_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                                     G_DBUS_PROXY_FLAGS_NONE,
-                                                                     "org.freedesktop.Tracker1",
-                                                                     "/org/freedesktop/Tracker1/Resources",
-                                                                     NULL,
-                                                                     NULL);
-  g_signal_connect (priv->resource_service,
-                    "graph-updated",
-                    G_CALLBACK (photos_tracker_change_monitor_graph_updated),
-                    self);
 }
 
 
@@ -338,8 +330,54 @@ photos_tracker_change_monitor_class_init (PhotosTrackerChangeMonitorClass *class
 }
 
 
-PhotosTrackerChangeMonitor *
-photos_tracker_change_monitor_dup_singleton (void)
+static gboolean
+photos_tracker_change_monitor_initable_init (GInitable *initable, GCancellable *cancellable, GError **error)
 {
-  return g_object_new (PHOTOS_TYPE_TRACKER_CHANGE_MONITOR, NULL);
+  PhotosTrackerChangeMonitor *self = PHOTOS_TRACKER_CHANGE_MONITOR (initable);
+  PhotosTrackerChangeMonitorPrivate *priv = self->priv;
+  gboolean ret_val = TRUE;
+
+  if (G_LIKELY (priv->queue != NULL && priv->resource_service != NULL))
+    goto out;
+
+  priv->queue = photos_tracker_queue_dup_singleton (cancellable, error);
+  if (G_UNLIKELY (priv->queue == NULL))
+    {
+      ret_val = FALSE;
+      goto out;
+    }
+
+  priv->resource_service = tracker_resources_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                                     G_DBUS_PROXY_FLAGS_NONE,
+                                                                     "org.freedesktop.Tracker1",
+                                                                     "/org/freedesktop/Tracker1/Resources",
+                                                                     cancellable,
+                                                                     error);
+  if (G_UNLIKELY (priv->resource_service == NULL))
+    {
+      ret_val = FALSE;
+      goto out;
+    }
+
+  g_signal_connect (priv->resource_service,
+                    "graph-updated",
+                    G_CALLBACK (photos_tracker_change_monitor_graph_updated),
+                    self);
+
+ out:
+  return ret_val;
+}
+
+
+static void
+photos_tracker_change_monitor_initable_iface_init (GInitableIface *iface)
+{
+  iface->init = photos_tracker_change_monitor_initable_init;
+}
+
+
+PhotosTrackerChangeMonitor *
+photos_tracker_change_monitor_dup_singleton (GCancellable *cancellable, GError **error)
+{
+  return g_initable_new (PHOTOS_TYPE_TRACKER_CHANGE_MONITOR, cancellable, error, NULL);
 }

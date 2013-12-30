@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2013 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,8 +25,7 @@
 #ifndef PHOTOS_TRACKER_CHANGE_MONITOR_H
 #define PHOTOS_TRACKER_CHANGE_MONITOR_H
 
-#include <glib.h>
-#include <glib-object.h>
+#include <gio/gio.h>
 
 G_BEGIN_DECLS
 
@@ -72,7 +71,8 @@ struct _PhotosTrackerChangeMonitorClass
 
 GType                        photos_tracker_change_monitor_get_type         (void) G_GNUC_CONST;
 
-PhotosTrackerChangeMonitor  *photos_tracker_change_monitor_dup_singleton    (void);
+PhotosTrackerChangeMonitor  *photos_tracker_change_monitor_dup_singleton    (GCancellable *cancellable,
+                                                                             GError **error);
 
 G_END_DECLS
 

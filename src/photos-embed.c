@@ -256,7 +256,9 @@ photos_embed_hide_no_results_page (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
 
-  g_signal_handlers_disconnect_by_func (priv->monitor, photos_embed_changes_pending, self);
+  if (G_LIKELY (priv->monitor != NULL))
+    g_signal_handlers_disconnect_by_func (priv->monitor, photos_embed_changes_pending, self);
+
   photos_embed_restore_last_page (self);
 }
 
@@ -280,11 +282,12 @@ photos_embed_count_changed (PhotosEmbed *self, gint count)
 
   if (count == 0)
     {
-      g_signal_connect_object (priv->monitor,
-                               "changes-pending",
-                               G_CALLBACK (photos_embed_changes_pending),
-                               self,
-                               G_CONNECT_SWAPPED);
+      if (G_LIKELY (priv->monitor != NULL))
+        g_signal_connect_object (priv->monitor,
+                                 "changes-pending",
+                                 G_CALLBACK (photos_embed_changes_pending),
+                                 self,
+                                 G_CONNECT_SWAPPED);
       gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "no-results");
     }
   else
@@ -552,7 +555,7 @@ photos_embed_init (PhotosEmbed *self)
   querying = photos_tracker_controller_get_query_status (priv->trk_ovrvw_cntrlr);
   photos_embed_query_status_changed (priv->trk_ovrvw_cntrlr, querying, self);
 
-  priv->monitor = photos_tracker_change_monitor_dup_singleton ();
+  priv->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
 
   gtk_widget_show (GTK_WIDGET (self));
 }
