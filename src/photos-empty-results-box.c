@@ -28,18 +28,112 @@
 #include <glib/gi18n.h>
 
 #include "photos-empty-results-box.h"
+#include "photos-source-manager.h"
 
 
-G_DEFINE_TYPE (PhotosEmptyResultsBox, photos_empty_results_box, GTK_TYPE_GRID);
+struct _PhotosEmptyResultsBoxPrivate
+{
+  GtkWidget *labels_grid;
+  PhotosBaseManager *src_mngr;
+};
+
+
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosEmptyResultsBox, photos_empty_results_box, GTK_TYPE_GRID);
+
+
+static gboolean
+photos_empty_results_box_activate_link (PhotosEmptyResultsBox *self, const gchar *uri)
+{
+  GAppInfo *app = NULL;
+  GError *error;
+  GdkAppLaunchContext *ctx = NULL;
+  GdkDisplay *display;
+  GdkScreen *screen;
+  gboolean ret_val = FALSE;
+
+  if (g_strcmp0 (uri, "system-settings") != 0)
+    goto out;
+
+  error = NULL;
+  app = g_app_info_create_from_commandline ("gnome-control-center online-accounts",
+                                            NULL,
+                                            G_APP_INFO_CREATE_NONE,
+                                            &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to launch gnome-control-center: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  screen = gtk_widget_get_screen (GTK_WIDGET (self));
+  if (screen != NULL)
+    display = gdk_screen_get_display (screen);
+  else
+    display = gdk_display_get_default ();
+
+  ctx = gdk_display_get_app_launch_context (display);
+  if (screen != NULL)
+    gdk_app_launch_context_set_screen (ctx, screen);
+
+  error = NULL;
+  g_app_info_launch (app, NULL, G_APP_LAUNCH_CONTEXT (ctx), &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to launch gnome-control-center: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  ret_val = TRUE;
+
+ out:
+  g_clear_object (&ctx);
+  g_clear_object (&app);
+  return ret_val;
+}
+
+
+static void
+photos_empty_results_box_add_system_settings_label (PhotosEmptyResultsBox *self)
+{
+  GtkWidget *details;
+  gchar *details_str;
+  gchar *system_settings_href;
+
+  /* Translators: this should be translated in the context of the "You
+   * can add your online accounts in System Settings" sentence below
+   */
+  system_settings_href = g_strconcat ("<a href=\"system-settings\">", _("System Settings"), "</a>", NULL);
+
+  /* Translators: %s here is "System Settings", which is in a separate
+   * string due to markup, and should be translated only in the context
+   * of this sentence.
+   */
+  details_str = g_strdup_printf (_("You can add your online accounts in %s"), system_settings_href);
+
+  details = gtk_label_new (details_str);
+  gtk_widget_set_halign (details, GTK_ALIGN_START);
+  gtk_misc_set_alignment (GTK_MISC (details), 0.0, 0.5);
+  gtk_label_set_line_wrap (GTK_LABEL (details), TRUE);
+  gtk_label_set_max_width_chars (GTK_LABEL (details), 24);
+  gtk_label_set_use_markup (GTK_LABEL (details), TRUE);
+  gtk_container_add (GTK_CONTAINER (self->priv->labels_grid), details);
+
+  g_signal_connect_swapped (details, "activate-link", G_CALLBACK (photos_empty_results_box_activate_link), self);
+
+  g_free (details_str);
+  g_free (system_settings_href);
+}
 
 
 static void
 photos_empty_results_box_constructed (GObject *object)
 {
   PhotosEmptyResultsBox *self = PHOTOS_EMPTY_RESULTS_BOX (object);
+  PhotosEmptyResultsBoxPrivate *priv = self->priv;
   GtkStyleContext *context;
   GtkWidget *image;
-  GtkWidget *labels_grid;
   GtkWidget *title_label;
   gchar *label;
 
@@ -58,29 +152,51 @@ photos_empty_results_box_constructed (GObject *object)
   gtk_image_set_pixel_size (GTK_IMAGE (image), 64);
   gtk_container_add (GTK_CONTAINER (self), image);
 
-  labels_grid = gtk_grid_new ();
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (labels_grid), GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing (GTK_GRID (labels_grid), 12);
-  gtk_container_add (GTK_CONTAINER (self), labels_grid);
+  priv->labels_grid = gtk_grid_new ();
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->labels_grid), GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing (GTK_GRID (priv->labels_grid), 12);
+  gtk_container_add (GTK_CONTAINER (self), priv->labels_grid);
 
   label = g_strconcat ("<b><span size=\"large\">", _("No Photos Found"), "</span></b>", NULL);
   title_label = gtk_label_new (label);
   gtk_widget_set_halign (title_label, GTK_ALIGN_START);
   gtk_widget_set_vexpand (title_label, TRUE);
   gtk_label_set_use_markup (GTK_LABEL (title_label), TRUE);
-  gtk_container_add (GTK_CONTAINER (labels_grid), title_label);
+  gtk_container_add (GTK_CONTAINER (priv->labels_grid), title_label);
   g_free (label);
 
-  /* TODO: Check PhotosSourceManager for online sources */
-  gtk_widget_set_valign (title_label, GTK_ALIGN_CENTER);
+  if (photos_source_manager_has_online_sources (PHOTOS_SOURCE_MANAGER (self->priv->src_mngr)))
+    gtk_widget_set_valign (title_label, GTK_ALIGN_CENTER);
+  else
+    {
+      gtk_widget_set_valign (title_label, GTK_ALIGN_START);
+      photos_empty_results_box_add_system_settings_label (self);
+    }
 
   gtk_widget_show_all (GTK_WIDGET (self));
 }
 
 
 static void
+photos_empty_results_box_dispose (GObject *object)
+{
+  PhotosEmptyResultsBox *self = PHOTOS_EMPTY_RESULTS_BOX (object);
+
+  g_clear_object (&self->priv->src_mngr);
+
+  G_OBJECT_CLASS (photos_empty_results_box_parent_class)->dispose (object);
+}
+
+
+static void
 photos_empty_results_box_init (PhotosEmptyResultsBox *self)
 {
+  PhotosEmptyResultsBoxPrivate *priv;
+
+  self->priv = photos_empty_results_box_get_instance_private (self);
+  priv = self->priv;
+
+  priv->src_mngr = photos_source_manager_dup_singleton ();
 }
 
 
@@ -90,6 +206,7 @@ photos_empty_results_box_class_init (PhotosEmptyResultsBoxClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructed = photos_empty_results_box_constructed;
+  object_class->dispose = photos_empty_results_box_dispose;
 }
 
 
