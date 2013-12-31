@@ -199,6 +199,33 @@ photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gc
 
 
 gboolean
+photos_source_manager_has_online_sources (PhotosSourceManager *self)
+{
+  GHashTable *sources;
+  GHashTableIter iter;
+  PhotosSource *source;
+  gboolean ret_val = FALSE;
+
+  sources = photos_base_manager_get_objects (PHOTOS_BASE_MANAGER (self));
+  g_hash_table_iter_init (&iter, sources);
+  while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &source))
+    {
+      GoaAccount *account;
+      GoaObject *object;
+
+      object = photos_source_get_goa_object (source);
+      if (object != NULL)
+        {
+          ret_val = TRUE;
+          break;
+        }
+    }
+
+  return ret_val;
+}
+
+
+gboolean
 photos_source_manager_has_provider_type (PhotosSourceManager *self, const gchar *provider_type)
 {
   GList *items;
