@@ -90,11 +90,16 @@ static void
 photos_search_type_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
   PhotosSearchType *self = PHOTOS_SEARCH_TYPE (object);
+  PhotosSearchTypePrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_ID:
-      g_value_set_string (value, self->priv->id);
+      g_value_set_string (value, priv->id);
+      break;
+
+    case PROP_NAME:
+      g_value_set_string (value, priv->name);
       break;
 
     default:
@@ -173,7 +178,7 @@ photos_search_type_class_init (PhotosSearchTypeClass *class)
                                                         "",
                                                         "",
                                                         NULL,
-                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 
   g_object_class_install_property (object_class,
                                    PROP_WHERE,
