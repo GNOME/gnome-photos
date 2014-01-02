@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include "photos-collection-manager.h"
+#include "photos-mode-controller.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-query-builder.h"
 #include "photos-tracker-favorites-controller.h"
@@ -121,5 +122,5 @@ photos_tracker_favorites_controller_class_init (PhotosTrackerFavoritesController
 PhotosTrackerController *
 photos_tracker_favorites_controller_dup_singleton (void)
 {
-  return g_object_new (PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER, NULL);
+  return g_object_new (PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER, "mode", PHOTOS_WINDOW_MODE_FAVORITES, NULL);
 }

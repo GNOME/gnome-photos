@@ -25,6 +25,7 @@
 
 #include "config.h"
 
+#include "photos-mode-controller.h"
 #include "photos-offset-overview-controller.h"
 #include "photos-query-builder.h"
 #include "photos-tracker-overview-controller.h"
@@ -88,5 +89,5 @@ photos_tracker_overview_controller_class_init (PhotosTrackerOverviewControllerCl
 PhotosTrackerController *
 photos_tracker_overview_controller_dup_singleton (void)
 {
-  return g_object_new (PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER, NULL);
+  return g_object_new (PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER, "mode", PHOTOS_WINDOW_MODE_OVERVIEW, NULL);
 }

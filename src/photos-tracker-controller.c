@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,8 +29,10 @@
 #include <glib/gi18n.h>
 
 #include "photos-collection-manager.h"
+#include "photos-enums.h"
 #include "photos-item-manager.h"
 #include "photos-marshalers.h"
+#include "photos-mode-controller.h"
 #include "photos-query-builder.h"
 #include "photos-source-manager.h"
 #include "photos-tracker-controller.h"
@@ -44,14 +46,23 @@ struct _PhotosTrackerControllerPrivate
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
+  PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
   PhotosQuery *current_query;
   PhotosTrackerQueue *queue;
+  PhotosWindowMode mode;
   gboolean is_started;
   gboolean query_queued;
   gboolean querying;
+  gboolean refresh_pending;
   gint query_queued_flags;
   gint64 last_query_time;
+};
+
+enum
+{
+  PROP_0,
+  PROP_MODE
 };
 
 enum
@@ -253,7 +264,7 @@ photos_tracker_controller_refresh_internal (PhotosTrackerController *self, gint 
 
 
 static void
-photos_tracker_controller_source_object_added_removed (PhotosTrackerController *self)
+photos_tracker_controller_refresh_for_source (PhotosTrackerController *self)
 {
   PhotosTrackerControllerPrivate *priv = self->priv;
 
@@ -268,6 +279,34 @@ photos_tracker_controller_source_object_added_removed (PhotosTrackerController *
 
       g_free (id);
     }
+
+  priv->refresh_pending = FALSE;
+}
+
+
+static void
+photos_tracker_controller_source_object_added_removed (PhotosTrackerController *self)
+{
+  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosWindowMode mode;
+
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  if (mode == priv->mode)
+    photos_tracker_controller_refresh_for_source (self);
+  else
+    priv->refresh_pending = TRUE;
+}
+
+
+static void
+photos_tracker_controller_window_mode_changed (PhotosTrackerController *self,
+                                               PhotosWindowMode mode,
+                                               PhotosWindowMode old_mode)
+{
+  PhotosTrackerControllerPrivate *priv = self->priv;
+
+  if (priv->refresh_pending && mode == priv->mode)
+    photos_tracker_controller_refresh_for_source (self);
 }
 
 
@@ -278,6 +317,12 @@ photos_tracker_controller_constructed (GObject *object)
   PhotosTrackerControllerPrivate *priv = self->priv;
 
   G_OBJECT_CLASS (photos_tracker_controller_parent_class)->constructed (object);
+
+  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  g_signal_connect_swapped (priv->mode_cntrlr,
+                            "window-mode-changed",
+                            G_CALLBACK (photos_tracker_controller_window_mode_changed),
+                            self);
 
   priv->offset_cntrlr = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_offset_controller ();
   g_signal_connect (priv->offset_cntrlr,
@@ -296,6 +341,7 @@ photos_tracker_controller_dispose (GObject *object)
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
+  g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->offset_cntrlr);
   g_clear_object (&priv->queue);
 
@@ -315,6 +361,24 @@ photos_tracker_controller_finalize (GObject *object)
     photos_query_free (priv->current_query);
 
   G_OBJECT_CLASS (photos_tracker_controller_parent_class)->finalize (object);
+}
+
+
+static void
+photos_tracker_controller_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+  PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
+
+  switch (prop_id)
+    {
+    case PROP_MODE:
+      self->priv->mode = (PhotosWindowMode) g_value_get_enum (value);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
 }
 
 
@@ -360,7 +424,17 @@ photos_tracker_controller_class_init (PhotosTrackerControllerClass *class)
 
   object_class->constructed = photos_tracker_controller_constructed;
   object_class->dispose = photos_tracker_controller_dispose;
+  object_class->set_property = photos_tracker_controller_set_property;
   object_class->finalize = photos_tracker_controller_finalize;
+
+  g_object_class_install_property (object_class,
+                                   PROP_MODE,
+                                   g_param_spec_enum ("mode",
+                                                      "PhotosWindowMode enum",
+                                                      "The mode handled by this controller",
+                                                      PHOTOS_TYPE_WINDOW_MODE,
+                                                      PHOTOS_WINDOW_MODE_NONE,
+                                                      G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   signals[QUERY_ERROR] = g_signal_new ("query-error",
                                        G_TYPE_FROM_CLASS (class),

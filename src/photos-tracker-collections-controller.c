@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include "photos-collection-manager.h"
+#include "photos-mode-controller.h"
 #include "photos-offset-collections-controller.h"
 #include "photos-query-builder.h"
 #include "photos-tracker-collections-controller.h"
@@ -121,5 +122,5 @@ photos_tracker_collections_controller_class_init (PhotosTrackerCollectionsContro
 PhotosTrackerController *
 photos_tracker_collections_controller_dup_singleton (void)
 {
-  return g_object_new (PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER, NULL);
+  return g_object_new (PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER, "mode", PHOTOS_WINDOW_MODE_COLLECTIONS, NULL);
 }
