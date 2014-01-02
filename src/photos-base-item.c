@@ -971,7 +971,7 @@ photos_base_item_destroy (PhotosBaseItem *self)
 gchar *
 photos_base_item_download (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
-  return PHOTOS_BASE_ITEM_GET_CLASS (self)->download(self, cancellable, error);
+  return PHOTOS_BASE_ITEM_GET_CLASS (self)->download (self, cancellable, error);
 }
 
 
