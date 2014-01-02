@@ -110,6 +110,7 @@ PKG_CHECK_MODULES(LIBRSVG, [librsvg-2.0 >= $LIBRSVG_MIN_VERSION])
 PKG_CHECK_MODULES(TRACKER, [tracker-miner-0.18 tracker-sparql-0.18])
 
 LIBGD_INIT([
+  gtk-hacks
   header-bar
   main-icon-view
   main-view
