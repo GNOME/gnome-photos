@@ -210,7 +210,6 @@ photos_source_manager_has_online_sources (PhotosSourceManager *self)
   g_hash_table_iter_init (&iter, sources);
   while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &source))
     {
-      GoaAccount *account;
       GoaObject *object;
 
       object = photos_source_get_goa_object (source);
