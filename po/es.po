@@ -2,15 +2,15 @@
 # Copyright (C) 2012 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Zed  <angelrmm0@gmail.com>, 2012.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-10 16:39+0000\n"
-"PO-Revision-Date: 2013-12-10 18:17+0100\n"
+"POT-Creation-Date: 2013-12-31 14:28+0000\n"
+"PO-Revision-Date: 2014-01-02 10:01+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -48,7 +48,7 @@ msgstr ""
 "una foto como fondo</li> <li>Imprimir fotos</li> <li>Seleccionar favoritos</"
 "li> <li>Permite abrir un editor completo para cambios más avanzados</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../data/gnome-photos.desktop.in.in.h:1
 #: ../src/photos-search-type-manager.c:89
 msgid "Photos"
 msgstr "Fotos"
@@ -183,15 +183,36 @@ msgstr "Capturas de pantalla"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos de renderizado DLNA"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
+#: ../src/photos-embed.c:505
+msgid "Recent"
+msgstr "Recientes"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:75
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
+#: ../src/photos-embed.c:511 ../src/photos-search-type-manager.c:82
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: ../src/photos-empty-results-box.c:66
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in System Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:107
+#| msgid "Image Settings"
+msgid "System Settings"
+msgstr "Configuración del sistema"
+
+#. Translators: %s here is "System Settings", which is in a separate
+#. * string due to markup, and should be translated only in the context
+#. * of this sentence.
+#.
+#: ../src/photos-empty-results-box.c:113
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Puede añadir sus cuentas en línea en %s"
+
+#: ../src/photos-empty-results-box.c:160
 msgid "No Photos Found"
 msgstr "No se encontraron fotos"
 
@@ -219,7 +240,7 @@ msgstr "Cargar más"
 msgid "Loading…"
 msgstr "Cargando…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:130
 msgid "Local"
 msgstr "Local"
 
@@ -486,11 +507,11 @@ msgstr "Eliminar"
 msgid "Add to Album"
 msgstr "Añadir al álbum"
 
-#: ../src/photos-source-manager.c:151
+#: ../src/photos-source-manager.c:126
 msgid "All"
 msgstr "Todo"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-tracker-controller.c:83
 msgid "Unable to fetch the list of photos"
 msgstr "No se pudo obtener la lista de fotos"
 
