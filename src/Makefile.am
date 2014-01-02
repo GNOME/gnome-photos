@@ -66,6 +66,8 @@ gnome_photos_SOURCES = \
 	photos-application.h \
 	photos-base-manager.c \
 	photos-base-manager.h \
+	photos-base-model.c \
+	photos-base-model.h \
 	photos-base-item.c \
 	photos-base-item.h \
 	photos-camera-cache.c \
