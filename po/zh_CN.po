@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-18 21:22+0000\n"
-"PO-Revision-Date: 2013-12-22 00:51+0800\n"
-"Last-Translator: Tong Hui <tonghuix@gmail.com>\n"
+"POT-Creation-Date: 2014-01-02 09:13+0000\n"
+"PO-Revision-Date: 2014-01-04 16:05+0800\n"
+"Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr ""
 "到远程 DLNA 渲染器</li> <li>设置图片为桌面背景</li> <li>打印照片</li> <li>选"
 "择收藏</li> <li>打开全功能编辑器对照片进行更多高级更改</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
+#: ../data/gnome-photos.desktop.in.in.h:1
 #: ../src/photos-search-type-manager.c:89
 msgid "Photos"
 msgstr "照片"
@@ -180,15 +180,35 @@ msgstr "截图"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA 渲染设备"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
+#: ../src/photos-embed.c:505
+msgid "Recent"
+msgstr "最近"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:75
 msgid "Albums"
 msgstr "相册"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
+#: ../src/photos-embed.c:511 ../src/photos-search-type-manager.c:82
 msgid "Favorites"
 msgstr "收藏"
 
-#: ../src/photos-empty-results-box.c:66
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in System Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:107
+msgid "System Settings"
+msgstr "系统设置"
+
+#. Translators: %s here is "System Settings", which is in a separate
+#. * string due to markup, and should be translated only in the context
+#. * of this sentence.
+#.
+#: ../src/photos-empty-results-box.c:113
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "您可以在“%s”中添加在线账户"
+
+#: ../src/photos-empty-results-box.c:160
 msgid "No Photos Found"
 msgstr "未找到照片"
 
@@ -257,7 +277,8 @@ msgstr "在 GNOME 下访问、管理和分享您的照片"
 msgid "translator-credits"
 msgstr ""
 "tuhaihe <1132321739qq@gmail.com>, 2012, 2013\n"
-"甘露(Lu Gan) <rhythm.gan@gmail.com>, 2013"
+"甘露(Lu Gan) <rhythm.gan@gmail.com>, 2013\n"
+"Tong Hui <tonghuix@gmail.com>, 2013"
 
 #: ../src/photos-organize-collection-dialog.c:76
 msgid "_Add"
@@ -486,7 +507,7 @@ msgstr "添加到相册"
 msgid "All"
 msgstr "全部"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-tracker-controller.c:83
 msgid "Unable to fetch the list of photos"
 msgstr "无法获取照片列表"
 
