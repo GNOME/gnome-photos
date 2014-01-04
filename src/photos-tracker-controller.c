@@ -201,17 +201,15 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
 
 
 static void
-photos_tracker_controller_offset_changed (PhotosOffsetController *offset_cntrlr, gint offset, gpointer user_data)
+photos_tracker_controller_offset_changed (PhotosTrackerController *self)
 {
-  PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
   photos_tracker_controller_perform_current_query (self);
 }
 
 
 static void
-photos_tracker_controller_refresh_for_object (PhotosBaseManager *manager, GObject *object, gpointer user_data)
+photos_tracker_controller_refresh_for_object (PhotosTrackerController *self)
 {
-  PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
   photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_RESET_OFFSET);
 }
 
@@ -325,10 +323,10 @@ photos_tracker_controller_constructed (GObject *object)
                             self);
 
   priv->offset_cntrlr = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_offset_controller ();
-  g_signal_connect (priv->offset_cntrlr,
-                    "offset-changed",
-                    G_CALLBACK (photos_tracker_controller_offset_changed),
-                    self);
+  g_signal_connect_swapped (priv->offset_cntrlr,
+                            "offset-changed",
+                            G_CALLBACK (photos_tracker_controller_offset_changed),
+                            self);
 }
 
 
@@ -394,10 +392,10 @@ photos_tracker_controller_init (PhotosTrackerController *self)
   priv->item_mngr = photos_item_manager_dup_singleton ();
 
   priv->col_mngr = photos_collection_manager_dup_singleton ();
-  g_signal_connect (priv->col_mngr,
-                    "active-changed",
-                    G_CALLBACK (photos_tracker_controller_refresh_for_object),
-                    self);
+  g_signal_connect_swapped (priv->col_mngr,
+                            "active-changed",
+                            G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                            self);
 
   priv->src_mngr = photos_source_manager_dup_singleton ();
   g_signal_connect_swapped (priv->src_mngr,
@@ -408,10 +406,10 @@ photos_tracker_controller_init (PhotosTrackerController *self)
                             "object-removed",
                             G_CALLBACK (photos_tracker_controller_source_object_added_removed),
                             self);
-  g_signal_connect (priv->src_mngr,
-                    "active-changed",
-                    G_CALLBACK (photos_tracker_controller_refresh_for_object),
-                    self);
+  g_signal_connect_swapped (priv->src_mngr,
+                            "active-changed",
+                            G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                            self);
 
   priv->queue = photos_tracker_queue_dup_singleton (NULL, &priv->queue_error);
 }

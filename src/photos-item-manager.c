@@ -119,9 +119,8 @@ photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpoin
 
 
 static void
-photos_item_manager_changes_pending (PhotosTrackerChangeMonitor *monitor, GHashTable *changes, gpointer user_data)
+photos_item_manager_changes_pending (PhotosItemManager *self, GHashTable *changes)
 {
-  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
   g_hash_table_foreach (changes, photos_item_manager_changes_pending_foreach, self);
 }
 
@@ -224,7 +223,10 @@ photos_item_manager_init (PhotosItemManager *self)
 
   priv->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
   if (G_LIKELY (priv->monitor != NULL))
-    g_signal_connect (priv->monitor, "changes-pending", G_CALLBACK (photos_item_manager_changes_pending), self);
+    g_signal_connect_swapped (priv->monitor,
+                              "changes-pending",
+                              G_CALLBACK (photos_item_manager_changes_pending),
+                              self);
 }
 
 

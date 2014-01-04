@@ -389,9 +389,8 @@ photos_embed_query_error (PhotosEmbed *self, const gchar *primary, const gchar *
 
 
 static void
-photos_embed_query_status_changed (PhotosTrackerController *trk_cntrlr, gboolean querying, gpointer user_data)
+photos_embed_query_status_changed (PhotosEmbed *self, gboolean querying)
 {
-  PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
 
   if (querying)
@@ -541,10 +540,10 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->trk_ovrvw_cntrlr = photos_tracker_overview_controller_dup_singleton ();
   g_signal_connect_swapped (priv->trk_ovrvw_cntrlr, "query-error", G_CALLBACK (photos_embed_query_error), self);
-  g_signal_connect (priv->trk_ovrvw_cntrlr,
-                    "query-status-changed",
-                    G_CALLBACK (photos_embed_query_status_changed),
-                    self);
+  g_signal_connect_swapped (priv->trk_ovrvw_cntrlr,
+                            "query-status-changed",
+                            G_CALLBACK (photos_embed_query_status_changed),
+                            self);
 
   priv->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
   g_signal_connect_swapped (priv->offset_cntrlr, "count-changed", G_CALLBACK (photos_embed_count_changed), self);
@@ -553,7 +552,7 @@ photos_embed_init (PhotosEmbed *self)
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
 
   querying = photos_tracker_controller_get_query_status (priv->trk_ovrvw_cntrlr);
-  photos_embed_query_status_changed (priv->trk_ovrvw_cntrlr, querying, self);
+  photos_embed_query_status_changed (self, querying);
 
   priv->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
 
