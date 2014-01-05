@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +31,10 @@
 struct _PhotosTrackerChangeEvent
 {
   PhotosTrackerChangeEventType type;
+  gchar *predicate;
   gchar *urn;
+  gint32 predicate_id;
+  gint32 urn_id;
 };
 
 
@@ -41,28 +44,25 @@ static const gchar *RDF_TYPE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 void
 photos_tracker_change_event_free (PhotosTrackerChangeEvent *self)
 {
+  g_free (self->predicate);
   g_free (self->urn);
   g_slice_free (PhotosTrackerChangeEvent, self);
 }
 
 
 PhotosTrackerChangeEvent *
-photos_tracker_change_event_new (const gchar *urn, const gchar *predicate, gboolean is_delete)
+photos_tracker_change_event_new (gint32 urn_id, gint32 predicate_id, gboolean is_delete)
 {
   PhotosTrackerChangeEvent *self;
 
   self = g_slice_new0 (PhotosTrackerChangeEvent);
-  self->urn = g_strdup (urn);
+  self->urn_id = urn_id;
+  self->predicate_id = predicate_id;
 
-  if (g_strcmp0 (predicate, RDF_TYPE) == 0)
-    {
-      if (is_delete)
-        self->type = PHOTOS_TRACKER_CHANGE_EVENT_DELETED;
-      else
-        self->type = PHOTOS_TRACKER_CHANGE_EVENT_CREATED;
-    }
+  if (is_delete)
+    self->type = PHOTOS_TRACKER_CHANGE_EVENT_DELETED;
   else
-    self->type = PHOTOS_TRACKER_CHANGE_EVENT_CHANGED;
+    self->type = PHOTOS_TRACKER_CHANGE_EVENT_CREATED;
 
   return self;
 }
@@ -75,10 +75,24 @@ photos_tracker_change_event_get_type (PhotosTrackerChangeEvent *self)
 }
 
 
+gint32
+photos_tracker_change_event_get_predicate_id (PhotosTrackerChangeEvent *self)
+{
+  return self->predicate_id;
+}
+
+
 const gchar *
 photos_tracker_change_event_get_urn (PhotosTrackerChangeEvent *self)
 {
   return self->urn;
+}
+
+
+gint32
+photos_tracker_change_event_get_urn_id (PhotosTrackerChangeEvent *self)
+{
+  return self->urn_id;
 }
 
 
@@ -87,4 +101,17 @@ photos_tracker_change_event_merge (PhotosTrackerChangeEvent *self, PhotosTracker
 {
   if (event->type == PHOTOS_TRACKER_CHANGE_EVENT_DELETED || event->type == PHOTOS_TRACKER_CHANGE_EVENT_CREATED)
     self->type = event->type;
+}
+
+
+void
+photos_tracker_change_event_set_resolved_values (PhotosTrackerChangeEvent *self,
+                                                 const gchar *urn,
+                                                 const gchar *predicate)
+{
+  self->urn = g_strdup (urn);
+  self->predicate = g_strdup (predicate);
+
+  if (g_strcmp0 (predicate, RDF_TYPE) != 0)
+    self->type = PHOTOS_TRACKER_CHANGE_EVENT_CHANGED;
 }
