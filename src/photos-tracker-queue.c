@@ -112,7 +112,8 @@ photos_tracker_queue_collector (GObject *source_object, GAsyncResult *res, gpoin
   PhotosTrackerQueueData *data;
 
   data = g_queue_pop_head (priv->queue);
-  (*data->callback) (source_object, res, data->user_data);
+  if (data->callback != NULL)
+    (*data->callback) (source_object, res, data->user_data);
   priv->running = FALSE;
   photos_tracker_queue_data_free (data);
 

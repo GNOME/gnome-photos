@@ -88,25 +88,6 @@ struct _TrackerResourcesEvent
 } __attribute__ ((packed));
 
 
-static PhotosTrackerChangeMonitorQueryData *
-photos_tracker_change_monitor_query_data_copy (PhotosTrackerChangeMonitorQueryData *data)
-{
-  PhotosTrackerChangeMonitorQueryData *copy;
-
-  copy = g_slice_new0 (PhotosTrackerChangeMonitorQueryData);
-
-  copy->self = g_object_ref (data->self);
-
-  copy->id_table = data->id_table;
-  data->id_table = NULL;
-
-  copy->events = data->events;
-  data->events = NULL;
-
-  return copy;
-}
-
-
 static void
 photos_tracker_change_monitor_query_data_free (PhotosTrackerChangeMonitorQueryData *data)
 {
@@ -242,13 +223,11 @@ photos_tracker_change_monitor_query_executed (GObject *source_object, GAsyncResu
     {
       g_warning ("Unable to resolve item URNs for graph changes: %s", error->message);
       g_error_free (error);
+      photos_tracker_change_monitor_query_data_free (data);
       return;
     }
 
-  tracker_sparql_cursor_next_async (cursor,
-                                    NULL,
-                                    photos_tracker_change_monitor_cursor_next,
-                                    photos_tracker_change_monitor_query_data_copy (data));
+  tracker_sparql_cursor_next_async (cursor, NULL, photos_tracker_change_monitor_cursor_next, data);
   g_object_unref (cursor);
 }
 
@@ -286,7 +265,7 @@ photos_tracker_change_monitor_process_events (PhotosTrackerChangeMonitor *self)
                                NULL,
                                photos_tracker_change_monitor_query_executed,
                                data,
-                               (GDestroyNotify) photos_tracker_change_monitor_query_data_free);
+                               NULL);
 
   g_string_free (sparql, TRUE);
   return G_SOURCE_REMOVE;
