@@ -430,7 +430,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
   gtk_revealer_set_transition_type (GTK_REVEALER (priv->toolbar_widget), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->overlay), priv->toolbar_widget);
 
-  toolbar = gtk_header_bar_new ();
+  toolbar = gtk_action_bar_new ();
   context = gtk_widget_get_style_context (toolbar);
   gtk_style_context_add_class (context, "osd");
   gtk_container_add (GTK_CONTAINER (priv->toolbar_widget), toolbar);
@@ -445,7 +445,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
 
   priv->favorite_button = gd_header_toggle_button_new ();
   gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (priv->favorite_button), "emblem-favorite-symbolic");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (toolbar), priv->favorite_button);
+  gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->favorite_button);
   g_signal_connect_swapped (priv->favorite_button,
                             "clicked",
                             G_CALLBACK (photos_preview_nav_buttons_favorite_clicked),
