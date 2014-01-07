@@ -422,12 +422,12 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->item_listeners = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
 
-  toolbar = gtk_header_bar_new ();
+  toolbar = gtk_action_bar_new ();
   gtk_container_add (GTK_CONTAINER (self), toolbar);
 
   priv->toolbar_favorite = gd_header_toggle_button_new ();
   gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (priv->toolbar_favorite), "emblem-favorite-symbolic");
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (toolbar), priv->toolbar_favorite);
+  gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_favorite);
   g_signal_connect (priv->toolbar_favorite,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_favorite_clicked),
@@ -435,7 +435,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->toolbar_open = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_open), _("Open"));
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (toolbar), priv->toolbar_open);
+  gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_open);
   g_signal_connect (priv->toolbar_open,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_open_clicked),
@@ -443,7 +443,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->toolbar_print = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_print), _("Print"));
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (toolbar), priv->toolbar_print);
+  gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_print);
   g_signal_connect (priv->toolbar_print,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_print_clicked),
@@ -451,7 +451,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->toolbar_trash = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_trash), _("Delete"));
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (toolbar), priv->toolbar_trash);
+  gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_trash);
   g_signal_connect (priv->toolbar_trash,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_trash_clicked),
@@ -459,7 +459,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->toolbar_collection = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_collection), _("Add to Album"));
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (toolbar), priv->toolbar_collection);
+  gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->toolbar_collection);
   g_signal_connect (priv->toolbar_collection,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_collection_clicked),
@@ -467,7 +467,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->toolbar_properties = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_properties), _("Properties"));
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (toolbar), priv->toolbar_properties);
+  gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->toolbar_properties);
   g_signal_connect (priv->toolbar_properties,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_properties_clicked),
