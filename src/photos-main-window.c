@@ -87,7 +87,9 @@ photos_main_window_configure_id_timeout (gpointer user_data)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (user_data);
 
+  self->priv->configure_id = 0;
   photos_main_window_save_geometry (self);
+
   return G_SOURCE_REMOVE;
 }
 
