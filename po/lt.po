@@ -1,15 +1,15 @@
 # Lithuanian translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Aurimas Černius <aurisc4@gmail.com>, 2013.
+# Aurimas Černius <aurisc4@gmail.com>, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-01 01:31+0000\n"
-"PO-Revision-Date: 2013-09-01 23:33+0300\n"
+"POT-Creation-Date: 2013-12-31 14:28+0000\n"
+"PO-Revision-Date: 2014-01-12 00:11+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -20,8 +20,37 @@ msgstr ""
 "%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:93
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Paprasta programa GNOME aplinkai nuotraukų pasiekimui, tvarkymui ir "
+"dalijimuisi jomis. Ji siekia būti paprastu ir elegantišku pakaitalu failų "
+"tvarkyklės naudojimui nuotraukoms. Integracija su debesų technologija "
+"siūloma per GNOME internetines paskyras."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Ji jums leidžia:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+"<li>Matyti vietines ir internetines nuotraukas</li> <li>Pasiekti jūsų Flickr "
+"turinį</li> <li>Siųsti nuotraukas į nutolusius DLNA piešėjus</li> "
+"<li>Nustatyti kaip foną</li> <li>Spausdinti nuotraukas</li> <li>Pasirinkti "
+"mėgiamaiusias</li> <li>Leidžia atverti pilnavertį redaktorių sudėtingesniems "
+"pakeitimams</li>"
+
+#: ../data/gnome-photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:89
 msgid "Photos"
 msgstr "Nuotraukos"
 
@@ -33,27 +62,27 @@ msgstr "Prieikite, tvarkykite ir dalinkitės savo nuotraukomis"
 msgid "Photos;Pictures;"
 msgstr "Nuotraukos;Paveikslėliai;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Lango dydis"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Lango dydis (plotis ir aukštis)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Lango padėtis"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Lango padėtis (x ir y)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Langas išdidintas"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Lango išdidinimo būsena"
 
@@ -135,32 +164,61 @@ msgid "Fullscreen"
 msgstr "Visame ekrane"
 
 #: ../src/photos-app-menu.ui.h:2
-msgid "About Photos"
-msgstr "Apie nuotraukas"
+msgid "About"
+msgstr "Apie"
 
 #: ../src/photos-app-menu.ui.h:3
 msgid "Quit"
 msgstr "Išeiti"
 
-#: ../src/photos-base-item.c:312
+#: ../src/photos-base-item.c:303
 msgid "Album"
 msgstr "Albumas"
+
+#: ../src/photos-base-item.c:727
+msgid "Screenshots"
+msgstr "Ekranvaizdžiai"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA piešimo įrenginiai"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:505
+msgid "Recent"
+msgstr "Neseniai naudoti"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:75
 msgid "Albums"
 msgstr "Albumai"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:511 ../src/photos-search-type-manager.c:82
 msgid "Favorites"
 msgstr "Mėgiamiausios"
 
-#: ../src/photos-empty-results-box.c:66
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in System Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:107
+#| msgid "Image Settings"
+msgid "System Settings"
+msgstr "Sistemos nustatymai"
+
+#. Translators: %s here is "System Settings", which is in a separate
+#. * string due to markup, and should be translated only in the context
+#. * of this sentence.
+#.
+#: ../src/photos-empty-results-box.c:113
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "%s galite pridėti internetines paskyras"
+
+#: ../src/photos-empty-results-box.c:160
 msgid "No Photos Found"
 msgstr "Nerasta nuotraukų"
+
+#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+msgid "Facebook"
+msgstr "Facebook"
 
 #: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
 msgid "Flickr"
@@ -182,7 +240,7 @@ msgstr "Įkelti daugiau"
 msgid "Loading…"
 msgstr "Įkeliama…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:130
 msgid "Local"
 msgstr "Vietinės"
 
@@ -202,17 +260,17 @@ msgstr[2] "Pasirinkta %d"
 msgid "Back"
 msgstr "Atgal"
 
-#: ../src/photos-main-toolbar.c:273
+#: ../src/photos-main-toolbar.c:271
 msgid "Select Items"
 msgstr "Pasirinkite elementus"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:360 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "Atverti su %s"
 
-#: ../src/photos-main-toolbar.c:490
+#: ../src/photos-main-toolbar.c:488
 msgid "Cancel"
 msgstr "Atsisakyti"
 
@@ -226,6 +284,14 @@ msgid "translator-credits"
 msgstr ""
 "Išvertė:\n"
 "Aurimas Černius <aurisc4@gmail.com>"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Pridėti"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_Gerai"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -251,17 +317,17 @@ msgstr "Rodyti su…"
 msgid "Set as Background"
 msgstr "Nustatyti kaip foną"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
 #: ../src/photos-selection-toolbar.c:469
 msgid "Properties"
 msgstr "Savybės"
 
-#: ../src/photos-preview-nav-buttons.c:207
+#: ../src/photos-preview-nav-buttons.c:208
 #: ../src/photos-selection-toolbar.c:291
 msgid "Remove from favorites"
 msgstr "Pašalinti iš mėgiamiausių"
 
-#: ../src/photos-preview-nav-buttons.c:212
+#: ../src/photos-preview-nav-buttons.c:213
 #: ../src/photos-selection-toolbar.c:297
 msgid "Add to favorites"
 msgstr "Pridėti prie mėgiamiausių"
@@ -345,7 +411,7 @@ msgstr "Peržiūra"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
+#: ../src/photos-properties-dialog.c:218
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Pavadinimas"
@@ -353,78 +419,76 @@ msgstr "Pavadinimas"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
+#: ../src/photos-properties-dialog.c:230
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autorius"
 
-#: ../src/photos-properties-dialog.c:236
+#: ../src/photos-properties-dialog.c:237
 msgid "Source"
 msgstr "Šaltinis"
 
-#: ../src/photos-properties-dialog.c:242
+#: ../src/photos-properties-dialog.c:243
 msgid "Date Modified"
 msgstr "Keitimo data"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:251
 msgid "Date Created"
 msgstr "Sukūrimo data"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
+#: ../src/photos-properties-dialog.c:261
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tipas"
 
-#: ../src/photos-properties-dialog.c:269
+#: ../src/photos-properties-dialog.c:270
 msgid "Width"
 msgstr "Plotis"
 
-#: ../src/photos-properties-dialog.c:279
+#: ../src/photos-properties-dialog.c:280
 msgid "Height"
 msgstr "Aukštis"
 
-#: ../src/photos-properties-dialog.c:294
+#: ../src/photos-properties-dialog.c:295
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:304
+#: ../src/photos-properties-dialog.c:305
 msgid "Exposure"
 msgstr "Išlaikymas"
 
-#: ../src/photos-properties-dialog.c:314
+#: ../src/photos-properties-dialog.c:315
 msgid "Aperture"
 msgstr "Diafragma"
 
-#: ../src/photos-properties-dialog.c:324
+#: ../src/photos-properties-dialog.c:325
 msgid "Focal Length"
 msgstr "Židinio nuotolis"
 
-#: ../src/photos-properties-dialog.c:334
+#: ../src/photos-properties-dialog.c:335
 msgid "ISO Speed"
 msgstr "ISO greitis"
 
-#: ../src/photos-properties-dialog.c:344
+#: ../src/photos-properties-dialog.c:345
 msgid "Flash"
 msgstr "Blykstė"
 
-#: ../src/photos-properties-dialog.c:527
-msgid "Off, Did not fire"
+#: ../src/photos-properties-dialog.c:536
+#| msgid "Off, Did not fire"
+msgid "Off, did not fire"
 msgstr "Išjungta, neblykstelėjo"
 
-#: ../src/photos-properties-dialog.c:529
-msgid "On, Fired"
+#: ../src/photos-properties-dialog.c:538
+#| msgid "On, Fired"
+msgid "On, fired"
 msgstr "Įjungta, blykstelėjo"
 
-#: ../src/photos-properties-dialog.c:608
+#: ../src/photos-properties-dialog.c:617
 msgid "Done"
 msgstr "Atlikta"
-
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
-msgid "All"
-msgstr "Visi"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -446,6 +510,11 @@ msgstr "Trinti"
 msgid "Add to Album"
 msgstr "Pridėti į albumą"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-source-manager.c:126
+msgid "All"
+msgstr "Visi"
+
+#: ../src/photos-tracker-controller.c:83
 msgid "Unable to fetch the list of photos"
 msgstr "Nepavyksta gauti nuotraukų sąrašo"
+
