@@ -37,7 +37,7 @@
 
 struct _PhotosTrackerChangeMonitorPrivate
 {
-  GHashTable *pending;
+  GHashTable *pending_changes;
   GHashTable *unresolved_ids;
   GQueue *pending_events;
   PhotosTrackerQueue *queue;
@@ -127,7 +127,7 @@ photos_tracker_change_monitor_add_event (PhotosTrackerChangeMonitor *self, Photo
   const gchar *urn;
 
   urn = photos_tracker_change_event_get_urn (change_event);
-  old_change_event = (PhotosTrackerChangeEvent *) g_hash_table_lookup (priv->pending, urn);
+  old_change_event = (PhotosTrackerChangeEvent *) g_hash_table_lookup (priv->pending_changes, urn);
 
   if (old_change_event != NULL)
     {
@@ -135,7 +135,7 @@ photos_tracker_change_monitor_add_event (PhotosTrackerChangeMonitor *self, Photo
       photos_tracker_change_event_free (change_event);
     }
   else
-    g_hash_table_insert (priv->pending, g_strdup (urn), change_event);
+    g_hash_table_insert (priv->pending_changes, g_strdup (urn), change_event);
 }
 
 
@@ -163,8 +163,8 @@ photos_tracker_change_monitor_send_events (PhotosTrackerChangeMonitor *self, GHa
       photos_tracker_change_monitor_add_event (self, change_event); /* steals change_event */
     }
 
-  g_signal_emit (self, signals[CHANGES_PENDING], 0, priv->pending);
-  g_hash_table_remove_all (priv->pending);
+  g_signal_emit (self, signals[CHANGES_PENDING], 0, priv->pending_changes);
+  g_hash_table_remove_all (priv->pending_changes);
 }
 
 
@@ -365,7 +365,7 @@ photos_tracker_change_monitor_finalize (GObject *object)
   PhotosTrackerChangeMonitor *self = PHOTOS_TRACKER_CHANGE_MONITOR (object);
   PhotosTrackerChangeMonitorPrivate *priv = self->priv;
 
-  g_hash_table_unref (priv->pending);
+  g_hash_table_unref (priv->pending_changes);
   g_hash_table_unref (priv->unresolved_ids);
 
   g_queue_free_full (priv->pending_events, (GDestroyNotify) photos_tracker_change_event_free);
@@ -382,10 +382,10 @@ photos_tracker_change_monitor_init (PhotosTrackerChangeMonitor *self)
   self->priv = photos_tracker_change_monitor_get_instance_private (self);
   priv = self->priv;
 
-  priv->pending = g_hash_table_new_full (g_str_hash,
-                                         g_str_equal,
-                                         g_free,
-                                         (GDestroyNotify) photos_tracker_change_event_free);
+  priv->pending_changes = g_hash_table_new_full (g_str_hash,
+                                                 g_str_equal,
+                                                 g_free,
+                                                 (GDestroyNotify) photos_tracker_change_event_free);
 
   priv->unresolved_ids = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
 
