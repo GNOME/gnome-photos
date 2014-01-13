@@ -457,20 +457,20 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
                     G_CALLBACK (photos_selection_toolbar_trash_clicked),
                     self);
 
-  priv->toolbar_collection = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_collection), _("Add to Album"));
-  gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->toolbar_collection);
-  g_signal_connect (priv->toolbar_collection,
-                    "clicked",
-                    G_CALLBACK (photos_selection_toolbar_collection_clicked),
-                    self);
-
   priv->toolbar_properties = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_properties), _("Properties"));
   gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->toolbar_properties);
   g_signal_connect (priv->toolbar_properties,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_properties_clicked),
+                    self);
+
+  priv->toolbar_collection = gd_header_simple_button_new ();
+  gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_collection), _("Add to Album"));
+  gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->toolbar_collection);
+  g_signal_connect (priv->toolbar_collection,
+                    "clicked",
+                    G_CALLBACK (photos_selection_toolbar_collection_clicked),
                     self);
 
   gtk_widget_show_all (GTK_WIDGET (self));
