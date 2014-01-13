@@ -322,7 +322,7 @@ photos_tracker_controller_constructed (GObject *object)
                             G_CALLBACK (photos_tracker_controller_window_mode_changed),
                             self);
 
-  priv->offset_cntrlr = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_offset_controller ();
+  priv->offset_cntrlr = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_offset_controller (self);
   g_signal_connect_swapped (priv->offset_cntrlr,
                             "offset-changed",
                             G_CALLBACK (photos_tracker_controller_offset_changed),

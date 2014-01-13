@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,6 +31,7 @@
 struct _PhotosTrackerCollectionsControllerPrivate
 {
   PhotosBaseManager *col_mngr;
+  PhotosOffsetController *offset_cntrlr;
 };
 
 
@@ -40,9 +41,10 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosTrackerCollectionsController,
 
 
 static PhotosOffsetController *
-photos_tracker_collections_controller_get_offset_controller (void)
+photos_tracker_collections_controller_get_offset_controller (PhotosTrackerController *trk_cntrlr)
 {
-  return photos_offset_collections_controller_dup_singleton ();
+  PhotosTrackerCollectionsController *self = PHOTOS_TRACKER_COLLECTIONS_CONTROLLER (trk_cntrlr);
+  return g_object_ref (self->priv->offset_cntrlr);
 }
 
 
@@ -50,16 +52,17 @@ static PhotosQuery *
 photos_tracker_collections_controller_get_query (PhotosTrackerController *trk_cntrlr)
 {
   PhotosTrackerCollectionsController *self = PHOTOS_TRACKER_COLLECTIONS_CONTROLLER (trk_cntrlr);
+  PhotosTrackerCollectionsControllerPrivate *priv = self->priv;
   GObject *collection;
   gint flags;
 
-  collection = photos_base_manager_get_active_object (self->priv->col_mngr);
+  collection = photos_base_manager_get_active_object (priv->col_mngr);
   if (collection != NULL)
     flags = PHOTOS_QUERY_FLAGS_NONE;
   else
     flags = PHOTOS_QUERY_FLAGS_COLLECTIONS;
 
-  return photos_query_builder_global_query (flags);
+  return photos_query_builder_global_query (flags, priv->offset_cntrlr);
 }
 
 
@@ -87,8 +90,10 @@ static void
 photos_tracker_collections_controller_dispose (GObject *object)
 {
   PhotosTrackerCollectionsController *self = PHOTOS_TRACKER_COLLECTIONS_CONTROLLER (object);
+  PhotosTrackerCollectionsControllerPrivate *priv = self->priv;
 
-  g_clear_object (&self->priv->col_mngr);
+  g_clear_object (&priv->col_mngr);
+  g_clear_object (&priv->offset_cntrlr);
 
   G_OBJECT_CLASS (photos_tracker_collections_controller_parent_class)->dispose (object);
 }
@@ -103,6 +108,7 @@ photos_tracker_collections_controller_init (PhotosTrackerCollectionsController *
   priv = self->priv;
 
   priv->col_mngr = photos_collection_manager_dup_singleton ();
+  priv->offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
 }
 
 

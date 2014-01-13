@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,6 +27,7 @@
 
 #include <glib.h>
 
+#include "photos-offset-controller.h"
 #include "photos-query.h"
 
 G_BEGIN_DECLS
@@ -43,7 +44,7 @@ PhotosQuery  *photos_query_builder_equipment_query (GQuark equipment);
 
 PhotosQuery  *photos_query_builder_fetch_collections_query (const gchar *resource);
 
-PhotosQuery  *photos_query_builder_global_query        (gint flags);
+PhotosQuery  *photos_query_builder_global_query        (gint flags, PhotosOffsetController *offset_cntrlr);
 
 PhotosQuery  *photos_query_builder_set_collection_query (const gchar *item_urn,
                                                          const gchar *collection_urn,

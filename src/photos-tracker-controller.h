@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -69,7 +69,7 @@ struct _PhotosTrackerControllerClass
   GObjectClass parent_class;
 
   /* virtual methods */
-  PhotosOffsetController *(*get_offset_controller) (void);
+  PhotosOffsetController *(*get_offset_controller) (PhotosTrackerController *self);
   PhotosQuery *(*get_query) (PhotosTrackerController *self);
 
   /* signals */

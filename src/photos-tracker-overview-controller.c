@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,20 +31,30 @@
 #include "photos-tracker-overview-controller.h"
 
 
-G_DEFINE_TYPE (PhotosTrackerOverviewController, photos_tracker_overview_controller, PHOTOS_TYPE_TRACKER_CONTROLLER);
+struct _PhotosTrackerOverviewControllerPrivate
+{
+  PhotosOffsetController *offset_cntrlr;
+};
+
+
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosTrackerOverviewController,
+                            photos_tracker_overview_controller,
+                            PHOTOS_TYPE_TRACKER_CONTROLLER);
 
 
 static PhotosOffsetController *
-photos_tracker_overview_controller_get_offset_controller (void)
+photos_tracker_overview_controller_get_offset_controller (PhotosTrackerController *trk_cntrlr)
 {
-  return photos_offset_overview_controller_dup_singleton ();
+  PhotosTrackerOverviewController *self = PHOTOS_TRACKER_OVERVIEW_CONTROLLER (trk_cntrlr);
+  return g_object_ref (self->priv->offset_cntrlr);
 }
 
 
 static PhotosQuery *
 photos_tracker_overview_controller_get_query (PhotosTrackerController *trk_cntrlr)
 {
-  return photos_query_builder_global_query (PHOTOS_QUERY_FLAGS_NONE);
+  PhotosTrackerOverviewController *self = PHOTOS_TRACKER_OVERVIEW_CONTROLLER (trk_cntrlr);
+  return photos_query_builder_global_query (PHOTOS_QUERY_FLAGS_NONE, self->priv->offset_cntrlr);
 }
 
 
@@ -69,8 +79,25 @@ photos_tracker_overview_controller_constructor (GType type,
 
 
 static void
+photos_tracker_overview_controller_dispose (GObject *object)
+{
+  PhotosTrackerOverviewController *self = PHOTOS_TRACKER_OVERVIEW_CONTROLLER (object);
+
+  g_clear_object (&self->priv->offset_cntrlr);
+
+  G_OBJECT_CLASS (photos_tracker_overview_controller_parent_class)->dispose (object);
+}
+
+
+static void
 photos_tracker_overview_controller_init (PhotosTrackerOverviewController *self)
 {
+  PhotosTrackerOverviewControllerPrivate *priv;
+
+  self->priv = photos_tracker_overview_controller_get_instance_private (self);
+  priv = self->priv;
+
+  priv->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
 }
 
 
@@ -81,6 +108,7 @@ photos_tracker_overview_controller_class_init (PhotosTrackerOverviewControllerCl
   PhotosTrackerControllerClass *tracker_controller_class = PHOTOS_TRACKER_CONTROLLER_CLASS (class);
 
   object_class->constructor = photos_tracker_overview_controller_constructor;
+  object_class->dispose = photos_tracker_overview_controller_dispose;
   tracker_controller_class->get_offset_controller = photos_tracker_overview_controller_get_offset_controller;
   tracker_controller_class->get_query = photos_tracker_overview_controller_get_query;
 }

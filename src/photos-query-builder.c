@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,9 +28,6 @@
 #include <gio/gio.h>
 
 #include "photos-collection-manager.h"
-#include "photos-offset-collections-controller.h"
-#include "photos-offset-favorites-controller.h"
-#include "photos-offset-overview-controller.h"
 #include "photos-query-builder.h"
 #include "photos-search-type.h"
 #include "photos-source-manager.h"
@@ -158,7 +155,7 @@ photos_query_builder_where (gboolean global, gint flags)
 
 
 static gchar *
-photos_query_builder_query (gboolean global, gint flags)
+photos_query_builder_query (gboolean global, gint flags, PhotosOffsetController *offset_cntrlr)
 {
   gchar *sparql;
   gchar *tail_sparql = NULL;
@@ -168,21 +165,11 @@ photos_query_builder_query (gboolean global, gint flags)
 
   if (global)
     {
-      PhotosOffsetController *offset_cntrlr;
       gint offset;
       gint step;
 
-      if (flags & PHOTOS_QUERY_FLAGS_COLLECTIONS)
-        offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
-      else if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
-        offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
-      else
-        offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
-
       offset = photos_offset_controller_get_offset (offset_cntrlr);
       step = photos_offset_controller_get_step (offset_cntrlr);
-      g_object_unref (offset_cntrlr);
-
       tail_sparql = g_strdup_printf ("ORDER BY DESC (?mtime) LIMIT %d OFFSET %d", step, offset);
     }
 
@@ -305,11 +292,11 @@ photos_query_builder_fetch_collections_query (const gchar *resource)
 
 
 PhotosQuery *
-photos_query_builder_global_query (gint flags)
+photos_query_builder_global_query (gint flags, PhotosOffsetController *offset_cntrlr)
 {
   gchar *sparql;
 
-  sparql = photos_query_builder_query (TRUE, flags);
+  sparql = photos_query_builder_query (TRUE, flags, offset_cntrlr);
   return photos_query_new (sparql);
 }
 
@@ -335,7 +322,7 @@ photos_query_builder_single_query (gint flags, const gchar *resource)
   gchar *sparql;
   gchar *tmp;
 
-  tmp = photos_query_builder_query (FALSE, flags);
+  tmp = photos_query_builder_query (FALSE, flags, NULL);
 
   regex = g_regex_new ("\\?urn", 0, 0, NULL);
   replacement = g_strconcat ("<", resource, ">", NULL);
