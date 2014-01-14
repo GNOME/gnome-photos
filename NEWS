@@ -1,3 +1,27 @@
+Overview of changes in 3.11.4
+=============================
+
+* Bugs fixed:
+ 704947 Do not crash if Tracker is absent
+ 709367 Detect creation of collections and show albums within albums
+ 721402 change-monitor, change-event: Be smarter when resolving new item IDs
+ 721696 selection-toolbar: Use action bar
+
+* Updated translations:
+ Bulgarian
+ Simplified Chinese
+ Galician
+ German
+ Greek
+ Hebrew
+ Kannada
+ Lithuanian
+ Portuguese (Brazilian)
+ Slovenian
+ Spanish
+ Tajik
+
+
 Overview of changes in 3.11.3
 =============================
 
