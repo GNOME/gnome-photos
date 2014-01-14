@@ -76,6 +76,7 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
 {
   GList *l;
   GList *values;
+  const gchar *blank = "(true)";
   gchar *filter;
   gchar **strv;
   gchar *tmp;
@@ -93,11 +94,23 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
       g_object_get (l->data, "id", &id, NULL);
       if (g_strcmp0 (id, "all") != 0)
         {
-          strv[i] = photos_filterable_get_filter (PHOTOS_FILTERABLE (l->data));
-          i++;
+          gchar *str;
+
+          str = photos_filterable_get_filter (PHOTOS_FILTERABLE (l->data));
+          if (g_strcmp0 (str, blank) == 0)
+            g_free (str);
+          else
+            {
+              strv[i] = str;
+              i++;
+            }
         }
       g_free (id);
     }
+
+  length = g_strv_length (strv);
+  if (length == 0)
+    strv[0] = g_strdup (blank);
 
   filter = g_strjoinv (" || ", strv);
   g_strfreev (strv);
