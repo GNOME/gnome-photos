@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -62,7 +62,8 @@ typedef enum
   PHOTOS_QUERY_FLAGS_NONE = 0,
   PHOTOS_QUERY_FLAGS_UNFILTERED = 1 << 0,
   PHOTOS_QUERY_FLAGS_COLLECTIONS = 1 << 1,
-  PHOTOS_QUERY_FLAGS_FAVORITES = 1 << 2
+  PHOTOS_QUERY_FLAGS_FAVORITES = 1 << 2,
+  PHOTOS_QUERY_FLAGS_OVERVIEW = 1 << 3
 } PhotosQueryFlags;
 
 extern const gchar *PHOTOS_QUERY_COLLECTIONS_IDENTIFIER;

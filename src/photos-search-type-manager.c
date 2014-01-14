@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -70,6 +70,13 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
                                 " || (?urn = nfo:image-category-screenshot))",
                                 PHOTOS_QUERY_COLLECTIONS_IDENTIFIER);
   fav_filter = g_strdup_printf ("(%s || %s)", col_filter, item_filter);
+
+  search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_ALL,
+                                             _("All"),
+                                             "?urn a rdfs:Resource",
+                                             "(false)");
+  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
+  g_object_unref (search_type);
 
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS,
                                              _("Albums"),
