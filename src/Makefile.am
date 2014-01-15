@@ -88,6 +88,8 @@ gnome_photos_SOURCES = \
 	photos-dlna-renderers-dialog.h \
 	photos-dlna-renderers-manager.c \
 	photos-dlna-renderers-manager.h \
+	photos-dropdown.c \
+	photos-dropdown.h \
 	photos-embed.c \
 	photos-embed.h \
 	photos-empty-results-box.c \
