@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -52,6 +52,7 @@ struct _PhotosSelectionToolbarPrivate
   PhotosSelectionController *sel_cntrlr;
   gboolean inside_refresh;
 };
+
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosSelectionToolbar, photos_selection_toolbar, GTK_TYPE_REVEALER);
 
