@@ -667,9 +667,12 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
   GTask *task = G_TASK (user_data);
   GInputStream *icon_stream;
   GdkPixbuf *pixbuf;
+  GtkIconSize size;
   GVariant *icon_variant;
   GBytes *icon_bytes;
   const gchar *icon_data;
+  gint height = -1;
+  gint width = -1;
   gsize icon_data_size;
   GError *error = NULL;
 
@@ -690,8 +693,16 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
   icon_data = g_bytes_get_data (icon_bytes, &icon_data_size);
   g_bytes_unref (icon_bytes);
 
+  size = (GtkIconSize) GPOINTER_TO_INT (g_task_get_task_data (task));
+  gtk_icon_size_lookup (size, &width, &height);
+
   icon_stream = g_memory_input_stream_new_from_data (icon_data, icon_data_size, NULL);
-  pixbuf = gdk_pixbuf_new_from_stream (icon_stream, g_task_get_cancellable (task), &error);
+  pixbuf = gdk_pixbuf_new_from_stream_at_scale (icon_stream,
+                                                width,
+                                                height,
+                                                TRUE,
+                                                g_task_get_cancellable (task),
+                                                &error);
   g_object_unref (icon_stream);
 
   RETURN_ON_ERROR (task, error, "Failed to parse icon data");
@@ -724,6 +735,7 @@ void
 photos_dlna_renderer_get_icon (PhotosDlnaRenderer *self,
                                const gchar *requested_mimetype,
                                const gchar *resolution,
+                               GtkIconSize size,
                                GCancellable *cancellable,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
@@ -732,6 +744,7 @@ photos_dlna_renderer_get_icon (PhotosDlnaRenderer *self,
   GTask *task;
 
   task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_task_data (task, GINT_TO_POINTER (size), NULL);
 
   dleyna_renderer_device_call_get_icon (priv->device, requested_mimetype, resolution,
                                         cancellable, photos_dlna_renderer_device_get_icon_cb,

@@ -21,8 +21,8 @@
 #ifndef PHOTOS_DLNA_RENDERER_H
 #define PHOTOS_DLNA_RENDERER_H
 
-#include <glib-object.h>
 #include <gio/gio.h>
+#include <gtk/gtk.h>
 
 #include "photos-base-item.h"
 
@@ -116,6 +116,7 @@ const gchar          *photos_dlna_renderer_get_udn            (PhotosDlnaRendere
 void                  photos_dlna_renderer_get_icon           (PhotosDlnaRenderer  *self,
                                                                const gchar         *requested_mimetype,
                                                                const gchar         *resolution,
+                                                               GtkIconSize          size,
                                                                GCancellable        *cancellable,
                                                                GAsyncReadyCallback  callback,
                                                                gpointer             user_data);
