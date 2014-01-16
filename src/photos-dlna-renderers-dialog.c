@@ -170,8 +170,7 @@ out:
 
 
 static void
-photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self,
-                                           PhotosDlnaRenderer *renderer)
+photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self, PhotosDlnaRenderer *renderer)
 {
   PhotosDlnaRenderersDialogPrivate *priv = self->priv;
   GIcon *icon;
@@ -182,12 +181,13 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self,
   const gchar *name;
 
   row = gtk_list_box_row_new ();
+  gtk_container_add (GTK_CONTAINER (priv->listbox), row);
+
   row_grid = gtk_grid_new ();
   gtk_container_set_border_width (GTK_CONTAINER (row_grid), 12);
   gtk_orientable_set_orientation (GTK_ORIENTABLE (row_grid), GTK_ORIENTATION_HORIZONTAL);
   gtk_grid_set_column_spacing (GTK_GRID (row_grid), 12);
   gtk_container_add (GTK_CONTAINER (row), row_grid);
-  gtk_container_add (GTK_CONTAINER (priv->listbox), row);
 
   g_object_set_data_full (G_OBJECT (row), "renderer", renderer, g_object_unref);
 
@@ -197,8 +197,7 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self,
   image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
 
   g_object_ref (image); /* keep a ref for the following async call and release it in the callback */
-  photos_dlna_renderer_get_icon (renderer, "", "", NULL,
-                                 photos_dlna_renderers_dialog_set_icon_cb, image);
+  photos_dlna_renderer_get_icon (renderer, "", "", NULL, photos_dlna_renderers_dialog_set_icon_cb, image);
 
   gtk_container_add (GTK_CONTAINER (row_grid), image);
 
@@ -223,10 +222,9 @@ photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
   PhotosDlnaRenderersDialogPrivate *priv;
   GList *renderers;
 
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            PHOTOS_TYPE_DLNA_RENDERERS_DIALOG,
-                                            PhotosDlnaRenderersDialogPrivate);
+  self->priv = photos_dlna_renderers_dialog_get_instance_private (self);
   priv = self->priv;
+
   priv->item_mngr = photos_item_manager_dup_singleton ();
   priv->renderers_mngr = photos_dlna_renderers_manager_dup_singleton ();
   priv->remote_mngr = photos_remote_display_manager_dup_singleton ();
@@ -268,8 +266,7 @@ photos_dlna_renderers_dialog_class_init (PhotosDlnaRenderersDialogClass *class)
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
-  gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/org/gnome/photos/dlna-renderers-dialog.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/photos/dlna-renderers-dialog.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhotosDlnaRenderersDialog, listbox);
   gtk_widget_class_bind_template_callback (widget_class, photos_dlna_renderers_dialog_row_activated_cb);
@@ -277,11 +274,9 @@ photos_dlna_renderers_dialog_class_init (PhotosDlnaRenderersDialogClass *class)
 
 
 GtkWidget *
-photos_dlna_renderers_dialog_new (GtkWindow *parent,
-                                  const gchar *urn)
+photos_dlna_renderers_dialog_new (GtkWindow *parent, const gchar *urn)
 {
   g_return_val_if_fail (GTK_IS_WINDOW (parent), NULL);
 
-  return g_object_new (PHOTOS_TYPE_DLNA_RENDERERS_DIALOG,
-                       "transient-for", parent, "urn", urn, NULL);
+  return g_object_new (PHOTOS_TYPE_DLNA_RENDERERS_DIALOG, "transient-for", parent, "urn", urn, NULL);
 }

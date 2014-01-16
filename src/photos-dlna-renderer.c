@@ -528,9 +528,10 @@ photos_dlna_renderer_unshare_remove_file_cb (GObject *source_object,
   dleyna_push_host_call_remove_file_finish (DLEYNA_PUSH_HOST (source_object), res, &error);
   if (error != NULL)
     {
-      /* Assume that ignoring RemoveFile() errors is safe, since they are
-       * likely caused by the file being already removed or the DBus service
-       * having been restarted.  */
+      /* Assume that ignoring RemoveFile() errors is safe, since they
+       * are likely caused by the file being already removed or the
+       * DBus service having been restarted.
+       */
       g_warning ("Failed to call the RemoveFile method: %s", error->message);
       g_error_free (error);
       success = FALSE;
@@ -672,15 +673,17 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
   gsize icon_data_size;
   GError *error = NULL;
 
-  /* The icon data is forced to be a GVariant since the GDBus bindings assume
-   * bytestrings (type 'ay') to be nul-terminated and thus do not return the length
-   * of the buffer */
+  /* The icon data is forced to be a GVariant since the GDBus bindings
+   * assume bytestrings (type 'ay') to be nul-terminated and thus do
+   * not return the length of the buffer.
+   */
   dleyna_renderer_device_call_get_icon_finish (DLEYNA_RENDERER_DEVICE (source_object),
                                                &icon_variant, NULL, res, &error);
   RETURN_ON_ERROR (task, error, "Failed to call the GetIcon method");
 
-  /* We know that the serialization of variant containing just a byte array
-   * 'ay' is the byte  array itself */
+  /* We know that the serialization of variant containing just a byte
+   * array 'ay' is the byte array itself.
+   */
   icon_bytes = g_variant_get_data_as_bytes (icon_variant);
   g_variant_unref (icon_variant);
 
@@ -719,8 +722,8 @@ photos_dlna_renderer_get_udn (PhotosDlnaRenderer *self)
 
 void
 photos_dlna_renderer_get_icon (PhotosDlnaRenderer *self,
-                               const gchar *resolution,
                                const gchar *requested_mimetype,
+                               const gchar *resolution,
                                GCancellable *cancellable,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
