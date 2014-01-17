@@ -1,15 +1,15 @@
 # Czech translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Marek Černocký <marek@manet.cz>, 2013.
+# Marek Černocký <marek@manet.cz>, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-10 03:14+0000\n"
-"PO-Revision-Date: 2013-08-20 13:44+0200\n"
+"POT-Creation-Date: 2013-12-31 14:28+0000\n"
+"PO-Revision-Date: 2014-01-17 17:27+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -42,14 +42,14 @@ msgid ""
 "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
 "featured editor for more advanced changes</li>"
 msgstr ""
-"<li>Zobrazovat nedávno použité místní a on-line fotografie</li> <li>Dostat se "
-"ke svému obsahu na službě Flickr</li> <li>Posílat fotografie do vzdálených "
-"zařízení DLNA</li> <li>Nastavovat pozadí plochy</li> <li>Tisknout fotografie"
-"</li> <li>Vybírat oblíbené</li> <li>Pro náročnější změny otevřít fotografie "
-"v plnohodnotném editoru</li>"
+"<li>Zobrazovat nedávno použité místní a on-line fotografie</li> <li>Dostat "
+"se ke svému obsahu na službě Flickr</li> <li>Posílat fotografie do "
+"vzdálených zařízení DLNA</li> <li>Nastavovat pozadí plochy</li> <li>Tisknout "
+"fotografie</li> <li>Vybírat oblíbené</li> <li>Pro náročnější změny otevřít "
+"fotografie v plnohodnotném editoru</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:93
+#: ../data/gnome-photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:89
 msgid "Photos"
 msgstr "Fotky"
 
@@ -61,27 +61,27 @@ msgstr "Zobrazovat, třídit a sdílet fotografie"
 msgid "Photos;Pictures;"
 msgstr "fotografie;fotka;fotky;snímek;snímky;obrázek;obrázky;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Velikost okna"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Velikost okna (šířka a výška)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Poloha okna."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Poloha okna (x a y)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Okno maximalizováno"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Stav maximalizace okna"
 
@@ -163,8 +163,8 @@ msgid "Fullscreen"
 msgstr "Celá obrazovka"
 
 #: ../src/photos-app-menu.ui.h:2
-msgid "About Photos"
-msgstr "O Fotkách"
+msgid "About"
+msgstr "O aplikaci"
 
 #: ../src/photos-app-menu.ui.h:3
 msgid "Quit"
@@ -174,21 +174,49 @@ msgstr "Ukončit"
 msgid "Album"
 msgstr "Album"
 
+#: ../src/photos-base-item.c:727
+msgid "Screenshots"
+msgstr "Snímky obrazovky"
+
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Vykreslovací zařízení DLNA"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:505
+msgid "Recent"
+msgstr "Nedávné"
+
+#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:75
 msgid "Albums"
 msgstr "Alba"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:511 ../src/photos-search-type-manager.c:82
 msgid "Favorites"
 msgstr "Oblíbené"
 
-#: ../src/photos-empty-results-box.c:66
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in System Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:107
+msgid "System Settings"
+msgstr "Nastavení systému"
+
+#. Translators: %s here is "System Settings", which is in a separate
+#. * string due to markup, and should be translated only in the context
+#. * of this sentence.
+#.
+#: ../src/photos-empty-results-box.c:113
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Své účty on-line můžete přidat v %s"
+
+#: ../src/photos-empty-results-box.c:160
 msgid "No Photos Found"
 msgstr "Nenalezeny žádné fotografie"
+
+#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+msgid "Facebook"
+msgstr "Facebook"
 
 #: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
 msgid "Flickr"
@@ -210,7 +238,7 @@ msgstr "Načíst další"
 msgid "Loading…"
 msgstr "Načítá se…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:130
 msgid "Local"
 msgstr "Místní"
 
@@ -230,17 +258,17 @@ msgstr[2] "%d vybraných"
 msgid "Back"
 msgstr "Zpět"
 
-#: ../src/photos-main-toolbar.c:273
+#: ../src/photos-main-toolbar.c:271
 msgid "Select Items"
 msgstr "Vybrat položky"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:360 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "Otevřít pomocí %s"
 
-#: ../src/photos-main-toolbar.c:490
+#: ../src/photos-main-toolbar.c:488
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -252,6 +280,14 @@ msgstr "Zobrazovat, třídit a sdílet své fotografie v GNOME"
 #: ../src/photos-main-window.c:339
 msgid "translator-credits"
 msgstr "Marek Černocký, <marek@manet.cz>"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "Přid_at"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_Budiž"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -277,7 +313,7 @@ msgstr "Zobrazit na…"
 msgid "Set as Background"
 msgstr "Nastavit jako pozadí"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
 #: ../src/photos-selection-toolbar.c:469
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -371,7 +407,7 @@ msgstr "Náhled"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
+#: ../src/photos-properties-dialog.c:218
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Název"
@@ -379,78 +415,74 @@ msgstr "Název"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
+#: ../src/photos-properties-dialog.c:230
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-properties-dialog.c:236
+#: ../src/photos-properties-dialog.c:237
 msgid "Source"
 msgstr "Zdroj"
 
-#: ../src/photos-properties-dialog.c:242
+#: ../src/photos-properties-dialog.c:243
 msgid "Date Modified"
 msgstr "Datum změny"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:251
 msgid "Date Created"
 msgstr "Datum vytvoření"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
+#: ../src/photos-properties-dialog.c:261
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/photos-properties-dialog.c:269
+#: ../src/photos-properties-dialog.c:270
 msgid "Width"
 msgstr "Šířka"
 
-#: ../src/photos-properties-dialog.c:279
+#: ../src/photos-properties-dialog.c:280
 msgid "Height"
 msgstr "Výška"
 
-#: ../src/photos-properties-dialog.c:294
+#: ../src/photos-properties-dialog.c:295
 msgid "Camera"
 msgstr "Fotoaparát"
 
-#: ../src/photos-properties-dialog.c:304
+#: ../src/photos-properties-dialog.c:305
 msgid "Exposure"
 msgstr "Expozice"
 
-#: ../src/photos-properties-dialog.c:314
+#: ../src/photos-properties-dialog.c:315
 msgid "Aperture"
 msgstr "Clona"
 
-#: ../src/photos-properties-dialog.c:324
+#: ../src/photos-properties-dialog.c:325
 msgid "Focal Length"
 msgstr "Ohnisková vzdálenost"
 
-#: ../src/photos-properties-dialog.c:334
+#: ../src/photos-properties-dialog.c:335
 msgid "ISO Speed"
 msgstr "Citlivost ISO"
 
-#: ../src/photos-properties-dialog.c:344
+#: ../src/photos-properties-dialog.c:345
 msgid "Flash"
 msgstr "Blesk"
 
-#: ../src/photos-properties-dialog.c:527
+#: ../src/photos-properties-dialog.c:536
 msgid "Off, did not fire"
 msgstr "Vypnut, nebyl spuštěn"
 
-#: ../src/photos-properties-dialog.c:529
+#: ../src/photos-properties-dialog.c:538
 msgid "On, fired"
 msgstr "Zapnut, byl spuštěn"
 
-#: ../src/photos-properties-dialog.c:608
+#: ../src/photos-properties-dialog.c:617
 msgid "Done"
 msgstr "Hotovo"
-
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
-msgid "All"
-msgstr "Vše"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -472,6 +504,10 @@ msgstr "Smazat"
 msgid "Add to Album"
 msgstr "Přidat album"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-source-manager.c:126
+msgid "All"
+msgstr "Vše"
+
+#: ../src/photos-tracker-controller.c:83
 msgid "Unable to fetch the list of photos"
 msgstr "Nelze získat seznam fotografií."
