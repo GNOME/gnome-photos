@@ -1,0 +1,402 @@
+/*
+ * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2014 Red Hat, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
+ */
+
+/* Based on code from:
+ *   + Documents
+ */
+
+
+#include "config.h"
+
+#include <gio/gio.h>
+#include <libgd/gd.h>
+
+#include "photos-application.h"
+#include "photos-collection-manager.h"
+#include "photos-overview-searchbar.h"
+#include "photos-search-controller.h"
+#include "photos-search-type.h"
+#include "photos-search-type-manager.h"
+#include "photos-source-manager.h"
+
+
+struct _PhotosOverviewSearchbarPrivate
+{
+  GAction *select_all;
+  GdTaggedEntry *search_entry;
+  GdTaggedEntryTag *src_tag;
+  GdTaggedEntryTag *srch_typ_tag;
+  GtkWidget *dropdown;
+  GtkWidget *dropdown_button;
+  GtkWidget *search_container;
+  PhotosBaseManager *col_mngr;
+  PhotosBaseManager *src_mngr;
+  PhotosBaseManager *srch_typ_mngr;
+  PhotosSearchController *srch_cntrlr;
+};
+
+enum
+{
+  PROP_0,
+  PROP_DROPDOWN
+};
+
+
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosOverviewSearchbar, photos_overview_searchbar, PHOTOS_TYPE_SEARCHBAR);
+
+
+static void
+photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
+                                          PhotosBaseManager *mngr,
+                                          GdTaggedEntryTag *tag)
+{
+  PhotosOverviewSearchbarPrivate *priv = self->priv;
+  GObject *object;
+  gchar *id;
+  gchar *name;
+
+  object = photos_base_manager_get_active_object (mngr);
+  g_object_get (object, "id", &id, NULL);
+  g_object_get (object, "name", &name, NULL);
+
+  if (g_strcmp0 (id, "all") == 0)
+    gd_tagged_entry_remove_tag (priv->search_entry, tag);
+  else
+    {
+      gd_tagged_entry_tag_set_label (tag, name);
+      gd_tagged_entry_add_tag (priv->search_entry, tag);
+    }
+
+  g_free (name);
+  g_free (id);
+}
+
+
+static void
+photos_overview_searchbar_collection_active_changed (PhotosOverviewSearchbar *self)
+{
+  PhotosOverviewSearchbarPrivate *priv = self->priv;
+  PhotosSearchType *search_type;
+  const gchar *str;
+  gchar *id;
+
+  search_type = PHOTOS_SEARCH_TYPE (photos_base_manager_get_active_object (priv->srch_typ_mngr));
+  str = photos_search_controller_get_string (priv->srch_cntrlr);
+  g_object_get (search_type, "id", &id, NULL);
+
+  if (g_strcmp0 (str, "") != 0 || g_strcmp0 (id, "all") != 0)
+    {
+      photos_base_manager_set_active_object_by_id (priv->srch_typ_mngr, "all");
+      gtk_entry_set_text (GTK_ENTRY (priv->search_entry), "");
+    }
+
+  g_free (id);
+}
+
+
+static void
+photos_overview_searchbar_hide (PhotosSearchbar *searchbar)
+{
+  PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (searchbar);
+  PhotosOverviewSearchbarPrivate *priv = self->priv;
+
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->dropdown_button), FALSE);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (priv->select_all), TRUE);
+
+  photos_base_manager_set_active_object_by_id (priv->srch_typ_mngr, "all");
+  /* TODO: match manager */
+  photos_base_manager_set_active_object_by_id (priv->src_mngr, "all");
+
+  PHOTOS_SEARCHBAR_CLASS (photos_overview_searchbar_parent_class)->hide (searchbar);
+}
+
+
+static void
+photos_overview_searchbar_item_activated (PhotosOverviewSearchbar *self)
+{
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->dropdown_button), FALSE);
+}
+
+
+static void
+photos_overview_searchbar_search_string_changed (PhotosOverviewSearchbar *self, const gchar *str)
+{
+  gtk_entry_set_text (GTK_ENTRY (self->priv->search_entry), str);
+}
+
+
+static void
+photos_overview_searchbar_search_type_active_changed (PhotosOverviewSearchbar *self)
+{
+  PhotosOverviewSearchbarPrivate *priv = self->priv;
+  photos_overview_searchbar_active_changed (self, priv->srch_typ_mngr, priv->srch_typ_tag);
+}
+
+
+static void
+photos_overview_searchbar_show (PhotosSearchbar *searchbar)
+{
+  PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (searchbar);
+
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->priv->select_all), FALSE);
+
+  PHOTOS_SEARCHBAR_CLASS (photos_overview_searchbar_parent_class)->show (searchbar);
+}
+
+
+static void
+photos_overview_searchbar_source_active_changed (PhotosOverviewSearchbar *self)
+{
+  PhotosOverviewSearchbarPrivate *priv = self->priv;
+  photos_overview_searchbar_active_changed (self, priv->src_mngr, priv->src_tag);
+}
+
+
+static void
+photos_overview_searchbar_tag_button_clicked (PhotosOverviewSearchbar *self, GdTaggedEntryTag *tag)
+{
+  PhotosOverviewSearchbarPrivate *priv = self->priv;
+  PhotosBaseManager *mngr = NULL;
+
+  /* TODO: match tag */
+  if (tag == priv->src_tag)
+    mngr = priv->src_mngr;
+  else if (tag == priv->srch_typ_tag)
+    mngr = priv->srch_typ_mngr;
+
+  if (mngr != NULL)
+    photos_base_manager_set_active_object_by_id (mngr, "all");
+}
+
+
+static void
+photos_overview_searchbar_tag_clicked (PhotosOverviewSearchbar *self)
+{
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->dropdown_button), TRUE);
+}
+
+
+static void
+photos_overview_searchbar_toggled (PhotosOverviewSearchbar *self)
+{
+  PhotosOverviewSearchbarPrivate *priv = self->priv;
+  gboolean active;
+
+  active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->dropdown_button));
+  gtk_revealer_set_reveal_child (GTK_REVEALER (priv->dropdown), active);
+}
+
+
+static void
+photos_overview_searchbar_create_search_widgets (PhotosSearchbar *searchbar)
+{
+  PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (searchbar);
+  PhotosOverviewSearchbarPrivate *priv = self->priv;
+  GtkStyleContext *context;
+  GtkWidget *arrow;
+
+  priv->search_entry = gd_tagged_entry_new ();
+  gtk_widget_set_size_request (GTK_WIDGET (priv->search_entry), 500, -1);
+  g_signal_connect_swapped (priv->search_entry,
+                            "tag-clicked",
+                            G_CALLBACK (photos_overview_searchbar_tag_clicked),
+                            self);
+  g_signal_connect_swapped (priv->search_entry,
+                            "tag-button-clicked",
+                            G_CALLBACK (photos_overview_searchbar_tag_button_clicked),
+                            self);
+  photos_searchbar_set_search_entry (PHOTOS_SEARCHBAR (self), GTK_WIDGET (priv->search_entry));
+
+  priv->src_tag = gd_tagged_entry_tag_new (NULL);
+  priv->srch_typ_tag = gd_tagged_entry_tag_new (NULL);
+  /* TODO: match tag */
+
+  g_signal_connect_object (priv->srch_cntrlr,
+                           "search-string-changed",
+                           G_CALLBACK (photos_overview_searchbar_search_string_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  priv->dropdown_button = gtk_toggle_button_new ();
+  arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_OUT);
+  gtk_container_add (GTK_CONTAINER (priv->dropdown_button), arrow);
+  context = gtk_widget_get_style_context (priv->dropdown_button);
+  gtk_style_context_add_class (context, "raised");
+  gtk_style_context_add_class (context, "image-button");
+  g_signal_connect_swapped (priv->dropdown_button, "toggled", G_CALLBACK (photos_overview_searchbar_toggled), self);
+
+  g_signal_connect_swapped (priv->dropdown,
+                            "item-activated",
+                            G_CALLBACK (photos_overview_searchbar_item_activated),
+                            self);
+
+  priv->search_container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_set_halign (priv->search_container, GTK_ALIGN_CENTER);
+  context = gtk_widget_get_style_context (priv->search_container);
+  gtk_style_context_add_class (context, "linked");
+  gtk_container_add (GTK_CONTAINER (priv->search_container), GTK_WIDGET (priv->search_entry));
+  gtk_container_add (GTK_CONTAINER (priv->search_container), priv->dropdown_button);
+  gtk_widget_show_all (priv->search_container);
+  photos_searchbar_set_search_container (PHOTOS_SEARCHBAR (self), priv->search_container);
+}
+
+
+static void
+photos_overview_searchbar_entry_changed (PhotosSearchbar *searchbar)
+{
+  PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (searchbar);
+  PhotosOverviewSearchbarPrivate *priv = self->priv;
+  const gchar *current_text;
+
+  current_text = gtk_entry_get_text (GTK_ENTRY (priv->search_entry));
+
+  g_signal_handlers_block_by_func (priv->srch_cntrlr, photos_overview_searchbar_search_string_changed, self);
+  photos_search_controller_set_string (priv->srch_cntrlr, current_text);
+  g_signal_handlers_unblock_by_func (priv->srch_cntrlr, photos_overview_searchbar_search_string_changed, self);
+}
+
+
+static void
+photos_overview_searchbar_destroy (GtkWidget *widget)
+{
+  PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (widget);
+
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->dropdown), FALSE);
+
+  GTK_WIDGET_CLASS (photos_overview_searchbar_parent_class)->destroy (widget);
+}
+
+
+static void
+photos_overview_searchbar_constructed (GObject *object)
+{
+  PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (object);
+
+  G_OBJECT_CLASS (photos_overview_searchbar_parent_class)->constructed (object);
+
+  photos_overview_searchbar_source_active_changed (self);
+  photos_overview_searchbar_search_type_active_changed (self);
+}
+
+
+static void
+photos_overview_searchbar_dispose (GObject *object)
+{
+  PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (object);
+  PhotosOverviewSearchbarPrivate *priv = self->priv;
+
+  g_clear_object (&priv->col_mngr);
+  g_clear_object (&priv->src_mngr);
+  g_clear_object (&priv->srch_typ_mngr);
+  g_clear_object (&priv->srch_cntrlr);
+
+  G_OBJECT_CLASS (photos_overview_searchbar_parent_class)->dispose (object);
+}
+
+
+static void
+photos_overview_searchbar_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+  PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (object);
+
+  switch (prop_id)
+    {
+    case PROP_DROPDOWN:
+      self->priv->dropdown = GTK_WIDGET (g_value_dup_object (value));
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+
+static void
+photos_overview_searchbar_init (PhotosOverviewSearchbar *self)
+{
+  PhotosOverviewSearchbarPrivate *priv;
+  GtkApplication *app;
+
+  self->priv = photos_overview_searchbar_get_instance_private (self);
+  priv = self->priv;
+
+  app = photos_application_new ();
+  priv->select_all = g_action_map_lookup_action (G_ACTION_MAP (app), "select-all");
+  g_object_unref (app);
+
+  priv->src_mngr = photos_source_manager_dup_singleton ();
+  g_signal_connect_object (priv->src_mngr,
+                           "active-changed",
+                           G_CALLBACK (photos_overview_searchbar_source_active_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  priv->srch_typ_mngr = photos_search_type_manager_dup_singleton ();
+  g_signal_connect_object (priv->srch_typ_mngr,
+                           "active-changed",
+                           G_CALLBACK (photos_overview_searchbar_search_type_active_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  /* TODO: SearchMatchManager */
+
+  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  g_signal_connect_object (priv->col_mngr,
+                           "active-changed",
+                           G_CALLBACK (photos_overview_searchbar_collection_active_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  priv->srch_cntrlr = photos_search_controller_dup_singleton ();
+}
+
+
+static void
+photos_overview_searchbar_class_init (PhotosOverviewSearchbarClass *class)
+{
+  GObjectClass *object_class = G_OBJECT_CLASS (class);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
+  PhotosSearchbarClass *searchbar_class = PHOTOS_SEARCHBAR_CLASS (class);
+
+  object_class->constructed = photos_overview_searchbar_constructed;
+  object_class->dispose = photos_overview_searchbar_dispose;
+  object_class->set_property = photos_overview_searchbar_set_property;
+  widget_class->destroy = photos_overview_searchbar_destroy;
+  searchbar_class->create_search_widgets = photos_overview_searchbar_create_search_widgets;
+  searchbar_class->entry_changed = photos_overview_searchbar_entry_changed;
+  searchbar_class->hide = photos_overview_searchbar_hide;
+  searchbar_class->show = photos_overview_searchbar_show;
+
+  g_object_class_install_property (object_class,
+                                   PROP_DROPDOWN,
+                                   g_param_spec_object ("dropdown",
+                                                        "PhotosDropdown object",
+                                                        "The dropdown widget for this searchbar",
+                                                        PHOTOS_TYPE_DROPDOWN,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+}
+
+
+GtkWidget *
+photos_overview_searchbar_new (PhotosDropdown *dropdown)
+{
+  return g_object_new (PHOTOS_TYPE_OVERVIEW_SEARCHBAR, "dropdown", dropdown, NULL);
+}
