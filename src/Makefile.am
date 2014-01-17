@@ -325,21 +325,21 @@ gegl-gtk-marshal.c: gegl-gtk-marshal.list gegl-gtk-marshal.h Makefile
 photos-about-data.h: stamp-photos-about-data.h
 	@true
 
-stamp-photos-about-data.h: $(top_srcdir)/ARTISTS $(top_srcdir)/AUTHORS
+stamp-photos-about-data.h: $(top_srcdir)/ARTISTS $(top_builddir)/AUTHORS
 	$(AM_V_GEN) ( \
 		( $(srcdir)/photos-generate-about \
-			--header $(top_srcdir) \
+			--header $(top_builddir) $(top_srcdir) \
                 ) >> xgen-ah \
 		&& ( cmp -s xgen-ah photos-about-data.h || cp xgen-ah photos-about-data.h ) \
 		&& rm -f xgen-ah \
 		&& echo timestamp > $(@F) \
 	)
 
-photos-about-data.c: $(top_srcdir)/ARTISTS $(top_srcdir)/AUTHORS
+photos-about-data.c: $(top_srcdir)/ARTISTS $(top_builddir)/AUTHORS
 	$(AM_V_GEN) ( \
 		echo "#include \"photos-about-data.h\"" > xgen-ac \
 		&& ( $(srcdir)/photos-generate-about \
-			--body $(top_srcdir) \
+			--body $(top_builddir) $(top_srcdir) \
                    ) >> xgen-ac \
 		&& ( cmp -s xgen-ac photos-about-data.c || cp xgen-ac photos-about-data.c ) \
 		&& rm -f xgen-ac \
