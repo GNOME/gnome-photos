@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,6 +26,7 @@
 #include "config.h"
 
 #include <glib.h>
+#include <tracker-sparql.h>
 
 #include "photos-collection-manager.h"
 #include "photos-item-manager.h"
@@ -261,10 +262,15 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
 }
 
 
-PhotosBaseItem *
+void
 photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
 {
-  PhotosBaseItem *item;
+  PhotosBaseItem *item = NULL;
+  const gchar *id;
+
+  id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+  if (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id) != NULL)
+    goto out;
 
   item = photos_item_manager_create_item (self, cursor);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (item));
@@ -272,7 +278,8 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
   if (photos_base_item_is_collection (item))
     photos_base_manager_add_object (self->priv->col_mngr, G_OBJECT (item));
 
-  return item;
+ out:
+  g_clear_object (&item);
 }
 
 

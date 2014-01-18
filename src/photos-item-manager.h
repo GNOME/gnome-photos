@@ -76,7 +76,7 @@ PhotosBaseManager        *photos_item_manager_dup_singleton      (void);
 
 void                      photos_item_manager_activate_previous_collection (PhotosItemManager *self);
 
-PhotosBaseItem           *photos_item_manager_add_item           (PhotosItemManager *self,
+void                      photos_item_manager_add_item           (PhotosItemManager *self,
                                                                   TrackerSparqlCursor *cursor);
 
 PhotosBaseItem           *photos_item_manager_create_item        (PhotosItemManager *self,
