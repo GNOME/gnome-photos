@@ -125,12 +125,12 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (user_data);
   PhotosViewModelPrivate *priv = self->priv;
-  GObject *collection;
+  GObject *active_collection;
   GtkTreeIter iter;
   GtkTreePath *path;
   GtkTreeRowReference *row_ref;
 
-  collection = photos_base_manager_get_active_object (priv->col_mngr);
+  active_collection = photos_base_manager_get_active_object (priv->col_mngr);
   row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
 
   if (priv->mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
@@ -138,7 +138,7 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
       gboolean is_collection;
 
       is_collection = photos_base_item_is_collection (item);
-      if (!is_collection && row_ref != NULL && collection == NULL)
+      if (!is_collection && row_ref != NULL && active_collection == NULL)
         photos_view_model_object_removed (self, G_OBJECT (item));
       else if (is_collection  && row_ref == NULL)
         photos_view_model_add_item (self, item);
@@ -148,9 +148,9 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
       gboolean is_favorite;
 
       is_favorite = photos_base_item_is_favorite (item);
-      if (!is_favorite && row_ref != NULL && collection == NULL)
+      if (!is_favorite && row_ref != NULL && active_collection == NULL)
         photos_view_model_object_removed (self, G_OBJECT (item));
-      else if (is_favorite  && row_ref == NULL && collection == NULL)
+      else if (is_favorite  && row_ref == NULL && active_collection == NULL)
         photos_view_model_add_item (self, item);
     }
   else if (priv->mode == PHOTOS_WINDOW_MODE_OVERVIEW)
@@ -182,15 +182,15 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
   PhotosViewModelPrivate *priv = self->priv;
-  GObject *collection;
+  GObject *active_collection;
   gboolean is_collection;
   gboolean is_favorite;
 
-  collection = photos_base_manager_get_active_object (priv->col_mngr);
+  active_collection = photos_base_manager_get_active_object (priv->col_mngr);
   is_collection = photos_base_item_is_collection (item);
   is_favorite = photos_base_item_is_favorite (item);
 
-  if (collection == NULL)
+  if (active_collection == NULL)
     {
       if ((priv->mode == PHOTOS_WINDOW_MODE_COLLECTIONS && !is_collection)
           || (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES && !is_favorite)
