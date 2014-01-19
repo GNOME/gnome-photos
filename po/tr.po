@@ -2,15 +2,16 @@
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Gökhan Gurbetoğlu <ggurbet@gmail.com>, 2013.
+# Muhammet Kara <muhammetk@gmail.com>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-26 11:36+0000\n"
-"PO-Revision-Date: 2013-09-29 22:40+0300\n"
-"Last-Translator: Gökhan Gurbetoğlu <ggurbet@gmail.com>\n"
+"POT-Creation-Date: 2014-01-14 08:42+0000\n"
+"PO-Revision-Date: 2014-01-19 12:38+0200\n"
+"Last-Translator: Muhammet Kara <muhammetk@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -44,12 +45,12 @@ msgid ""
 msgstr ""
 "<li>En yeni yerel ve çevrimiçi fotoğrafları görüntüleyin</li> <li>Flickr "
 "içeriğinize erişin</li> <li>Fotoğrafları uzak DLNA yorumlayıcılara gönderin</"
-"li> <li>Masaüstü arkaplanı olarak ayarlayın</li> <li>Fotoğrafları yazdırın</"
+"li> <li>Masaüstü arka planı olarak ayarlayın</li> <li>Fotoğrafları yazdırın</"
 "li> <li>Gözdeleri seçin</li> <li>Daha gelişmiş değişiklikler için tam "
 "özellikli düzenleyiciyi açabilme imkanı</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:93
+#: ../data/gnome-photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:96
 msgid "Photos"
 msgstr "Fotoğraflar"
 
@@ -163,8 +164,8 @@ msgid "Fullscreen"
 msgstr "Tam ekran"
 
 #: ../src/photos-app-menu.ui.h:2
-msgid "About Photos"
-msgstr "Fotoğraflar Hakkında"
+msgid "About"
+msgstr "Hakkında"
 
 #: ../src/photos-app-menu.ui.h:3
 msgid "Quit"
@@ -174,21 +175,50 @@ msgstr "Çık"
 msgid "Album"
 msgstr "Albüm"
 
+#: ../src/photos-base-item.c:727
+msgid "Screenshots"
+msgstr "Ekran görüntüleri"
+
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA Yorumlayıcı Cihazları"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:504
+msgid "Recent"
+msgstr "Son kullanılan"
+
+#: ../src/photos-embed.c:507 ../src/photos-search-type-manager.c:82
 msgid "Albums"
 msgstr "Albümler"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:510 ../src/photos-search-type-manager.c:89
 msgid "Favorites"
 msgstr "Gözdeler"
 
-#: ../src/photos-empty-results-box.c:66
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in System Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:107
+#| msgid "Image Settings"
+msgid "System Settings"
+msgstr "Sistem Ayarları"
+
+#. Translators: %s here is "System Settings", which is in a separate
+#. * string due to markup, and should be translated only in the context
+#. * of this sentence.
+#.
+#: ../src/photos-empty-results-box.c:113
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Çevrimiçi hesaplarınızı %s'ndan ekleyebilirsiniz"
+
+#: ../src/photos-empty-results-box.c:160
 msgid "No Photos Found"
 msgstr "Hiç Fotoğraf Bulunamadı"
+
+#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+msgid "Facebook"
+msgstr "Facebook"
 
 #: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
 msgid "Flickr"
@@ -210,7 +240,7 @@ msgstr "Daha Fazla"
 msgid "Loading…"
 msgstr "Yükleniyor…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:130
 msgid "Local"
 msgstr "Yerel"
 
@@ -228,28 +258,36 @@ msgstr[0] "%d adet seçildi"
 msgid "Back"
 msgstr "Geri"
 
-#: ../src/photos-main-toolbar.c:273
+#: ../src/photos-main-toolbar.c:271
 msgid "Select Items"
 msgstr "Ögeleri Seç"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:360 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "%s ile Aç"
 
-#: ../src/photos-main-toolbar.c:490
+#: ../src/photos-main-toolbar.c:489
 msgid "Cancel"
 msgstr "Vazgeç"
 
-#: ../src/photos-main-window.c:329
+#: ../src/photos-main-window.c:331
 msgid "Access, organize and share your photos on GNOME"
 msgstr "GNOME üzerinde fotoğraflarınıza erişin, yönetin ve paylaşın"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:341
 msgid "translator-credits"
 msgstr "Gökhan Gurbetoğlu <ggurbet@gmail.com>"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Ekle"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_Tamam"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -273,10 +311,10 @@ msgstr "Şurada görüntüle…"
 
 #: ../src/photos-preview-menu.ui.h:4
 msgid "Set as Background"
-msgstr "Arkaplan Olarak Ayarla"
+msgstr "Arka Plan Olarak Ayarla"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Özellikler"
 
@@ -369,7 +407,7 @@ msgstr "Önizleme"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
+#: ../src/photos-properties-dialog.c:218
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Başlık"
@@ -377,76 +415,76 @@ msgstr "Başlık"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
+#: ../src/photos-properties-dialog.c:230
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Yazar"
 
-#: ../src/photos-properties-dialog.c:236
+#: ../src/photos-properties-dialog.c:237
 msgid "Source"
 msgstr "Kaynak"
 
-#: ../src/photos-properties-dialog.c:242
+#: ../src/photos-properties-dialog.c:243
 msgid "Date Modified"
 msgstr "Değiştirilme Tarihi"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:251
 msgid "Date Created"
 msgstr "Oluşturulma Tarihi"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
+#: ../src/photos-properties-dialog.c:261
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tür"
 
-#: ../src/photos-properties-dialog.c:269
+#: ../src/photos-properties-dialog.c:270
 msgid "Width"
 msgstr "Genişlik"
 
-#: ../src/photos-properties-dialog.c:279
+#: ../src/photos-properties-dialog.c:280
 msgid "Height"
 msgstr "Yükseklik"
 
-#: ../src/photos-properties-dialog.c:294
+#: ../src/photos-properties-dialog.c:295
 msgid "Camera"
 msgstr "Fotoğraf Makinası"
 
-#: ../src/photos-properties-dialog.c:304
+#: ../src/photos-properties-dialog.c:305
 msgid "Exposure"
 msgstr "Pozlama"
 
-#: ../src/photos-properties-dialog.c:314
+#: ../src/photos-properties-dialog.c:315
 msgid "Aperture"
 msgstr "Diyafram Değeri"
 
-#: ../src/photos-properties-dialog.c:324
+#: ../src/photos-properties-dialog.c:325
 msgid "Focal Length"
 msgstr "Odak Uzaklığı"
 
-#: ../src/photos-properties-dialog.c:334
+#: ../src/photos-properties-dialog.c:335
 msgid "ISO Speed"
 msgstr "ISO Hızı"
 
-#: ../src/photos-properties-dialog.c:344
+#: ../src/photos-properties-dialog.c:345
 msgid "Flash"
 msgstr "Flaş"
 
-#: ../src/photos-properties-dialog.c:527
+#: ../src/photos-properties-dialog.c:536
 msgid "Off, did not fire"
 msgstr "Kapalı, patlatılmadı"
 
-#: ../src/photos-properties-dialog.c:529
+#: ../src/photos-properties-dialog.c:538
 msgid "On, fired"
 msgstr "Açık, patlatıldı"
 
-#: ../src/photos-properties-dialog.c:608
+#: ../src/photos-properties-dialog.c:617
 msgid "Done"
 msgstr "Bitti"
 
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+#: ../src/photos-search-type-manager.c:75 ../src/photos-source-manager.c:126
 msgid "All"
 msgstr "Tümü"
 
@@ -466,10 +504,13 @@ msgstr "Yazdır"
 msgid "Delete"
 msgstr "Sil"
 
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "Albüme Ekle"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-tracker-controller.c:94
 msgid "Unable to fetch the list of photos"
 msgstr "Fotoğrafların listesi alınamıyor"
+
+#~ msgid "About Photos"
+#~ msgstr "Fotoğraflar Hakkında"
