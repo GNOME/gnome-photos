@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +28,9 @@
 #include "photos-collection-manager.h"
 #include "photos-enums.h"
 #include "photos-item-manager.h"
+#include "photos-offset-collections-controller.h"
+#include "photos-offset-favorites-controller.h"
+#include "photos-offset-overview-controller.h"
 #include "photos-view-model.h"
 
 
@@ -35,8 +38,12 @@ struct _PhotosViewModelPrivate
 {
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
+  PhotosOffsetController *offset_cntrlr;
   PhotosWindowMode mode;
   gchar *row_ref_key;
+  gint n_rows;
+  gint64 oldest_mtime;
+  guint reset_count_id;
 };
 
 enum
@@ -47,6 +54,12 @@ enum
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosViewModel, photos_view_model, GTK_TYPE_LIST_STORE);
+
+
+enum
+{
+  RESET_COUNT_TIMEOUT = 500 /* ms */
+};
 
 
 static void
@@ -64,15 +77,52 @@ photos_view_model_info_set (PhotosViewModel *self, PhotosBaseItem *item, GtkTree
 }
 
 
+static gboolean
+photos_view_model_reset_count_timeout (gpointer user_data)
+{
+  PhotosViewModel *self = PHOTOS_VIEW_MODEL (user_data);
+  PhotosViewModelPrivate *priv = self->priv;
+
+  priv->reset_count_id = 0;
+  photos_offset_controller_reset_count (priv->offset_cntrlr);
+  return G_SOURCE_REMOVE;
+}
+
+
 static void
 photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
 {
+  PhotosViewModelPrivate *priv = self->priv;
   GtkTreeIter iter;
   GtkTreePath *path;
   GtkTreeRowReference *row_ref;
+  gint offset;
+  gint step;
+  gint64 mtime;
+
+  /* Update the count so that PhotosOffsetController has the correct
+   * values. Otherwise things like the "Load More" button will not
+   * work correctly.
+   */
+  if (priv->reset_count_id == 0)
+    priv->reset_count_id = g_timeout_add_full (G_PRIORITY_DEFAULT,
+                                               RESET_COUNT_TIMEOUT,
+                                               photos_view_model_reset_count_timeout,
+                                               g_object_ref (self),
+                                               g_object_unref);
+
+  offset = photos_offset_controller_get_offset (priv->offset_cntrlr);
+  step = photos_offset_controller_get_step (priv->offset_cntrlr);
+  mtime = photos_base_item_get_mtime (item);
+  if (priv->n_rows >= offset + step && mtime < priv->oldest_mtime)
+    return;
 
   gtk_list_store_append (GTK_LIST_STORE (self), &iter);
   photos_view_model_info_set (self, item, &iter);
+
+  priv->n_rows++;
+  if (mtime < priv->oldest_mtime)
+    priv->oldest_mtime = mtime;
 
   path = gtk_tree_model_get_path (GTK_TREE_MODEL (self), &iter);
   row_ref = gtk_tree_row_reference_new (GTK_TREE_MODEL (self), path);
@@ -85,25 +135,48 @@ photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
 }
 
 
+static void
+photos_view_model_clear (PhotosViewModel *self)
+{
+  PhotosViewModelPrivate *priv = self->priv;
+
+  gtk_list_store_clear (GTK_LIST_STORE (self));
+  priv->n_rows = 0;
+  priv->oldest_mtime = G_MAXINT64;
+}
+
+
 static gboolean
 photos_view_model_item_removed_foreach (GtkTreeModel *model,
                                         GtkTreePath *path,
                                         GtkTreeIter *iter,
                                         gpointer user_data)
 {
+  PhotosViewModel *self = PHOTOS_VIEW_MODEL (model);
+  PhotosViewModelPrivate *priv = self->priv;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (user_data);
   gboolean ret_val = FALSE;
   const gchar *id;
   gchar *value;
+  gint64 mtime;
 
   id = photos_base_item_get_id (item);
-  gtk_tree_model_get (model, iter, PHOTOS_VIEW_MODEL_URN, &value, -1);
+  gtk_tree_model_get (model, iter, PHOTOS_VIEW_MODEL_URN, &value, PHOTOS_VIEW_MODEL_MTIME, &mtime, -1);
 
   if (g_strcmp0 (id, value) == 0)
     {
+      GtkTreeIter tmp;
+
+      tmp = *iter;
+      if (!gtk_tree_model_iter_next (model, &tmp))
+        ret_val = TRUE;
+
       gtk_list_store_remove (GTK_LIST_STORE (model), iter);
-      ret_val = TRUE;
+      gtk_tree_path_next (path); /* Ensure that path in sync with iter. */
+      priv->n_rows--;
     }
+  else if (mtime < priv->oldest_mtime)
+    priv->oldest_mtime = mtime;
 
   g_free (value);
   return ret_val;
@@ -113,10 +186,12 @@ photos_view_model_item_removed_foreach (GtkTreeModel *model,
 static void
 photos_view_model_object_removed (PhotosViewModel *self, GObject *object)
 {
+  PhotosViewModelPrivate *priv = self->priv;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
 
+  priv->oldest_mtime = G_MAXINT64;
   gtk_tree_model_foreach (GTK_TREE_MODEL (self), photos_view_model_item_removed_foreach, item);
-  g_object_set_data (object, self->priv->row_ref_key, NULL);
+  g_object_set_data (object, priv->row_ref_key, NULL);
 }
 
 
@@ -206,13 +281,53 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
 
 
 static void
+photos_view_model_constructed (GObject *object)
+{
+  PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
+  PhotosViewModelPrivate *priv = self->priv;
+
+  G_OBJECT_CLASS (photos_view_model_parent_class)->constructed (object);
+
+  switch (priv->mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      priv->offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
+      break;
+
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      priv->offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
+      break;
+
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      priv->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
+      break;
+
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  g_signal_connect_swapped (priv->item_mngr, "object-added", G_CALLBACK (photos_view_model_object_added), self);
+  g_signal_connect_swapped (priv->item_mngr, "object-removed", G_CALLBACK (photos_view_model_object_removed), self);
+  g_signal_connect_swapped (priv->item_mngr, "clear", G_CALLBACK (photos_view_model_clear), self);
+}
+
+
+static void
 photos_view_model_dispose (GObject *object)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
   PhotosViewModelPrivate *priv = self->priv;
 
+  if (priv->reset_count_id != 0)
+    {
+      g_source_remove (priv->reset_count_id);
+      priv->reset_count_id = 0;
+    }
+
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
+  g_clear_object (&priv->offset_cntrlr);
 
   G_OBJECT_CLASS (photos_view_model_parent_class)->dispose (object);
 }
@@ -268,11 +383,9 @@ photos_view_model_init (PhotosViewModel *self)
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self), PHOTOS_VIEW_MODEL_MTIME, GTK_SORT_DESCENDING);
 
   priv->col_mngr = photos_collection_manager_dup_singleton ();
-
   priv->item_mngr = photos_item_manager_dup_singleton ();
-  g_signal_connect_swapped (priv->item_mngr, "object-added", G_CALLBACK (photos_view_model_object_added), self);
-  g_signal_connect_swapped (priv->item_mngr, "object-removed", G_CALLBACK (photos_view_model_object_removed), self);
-  g_signal_connect_swapped (priv->item_mngr, "clear", G_CALLBACK (gtk_list_store_clear), self);
+
+  priv->oldest_mtime = G_MAXINT64;
 }
 
 
@@ -281,6 +394,7 @@ photos_view_model_class_init (PhotosViewModelClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->constructed = photos_view_model_constructed;
   object_class->dispose = photos_view_model_dispose;
   object_class->finalize = photos_view_model_finalize;
   object_class->set_property = photos_view_model_set_property;
