@@ -2,13 +2,13 @@
 # Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Fran Diéguez <frandieguez@gnome.org>, 2012.
-# Fran Dieguez <frandieguez@gnome.org>, 2012, 2013.
+# Fran Dieguez <frandieguez@gnome.org>, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-30 00:14+0100\n"
-"PO-Revision-Date: 2013-12-30 00:14+0200\n"
+"POT-Creation-Date: 2014-01-20 23:48+0100\n"
+"PO-Revision-Date: 2014-01-20 23:48+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -47,8 +47,8 @@ msgstr ""
 "li> <li>Seleccionar fatoritos</li> <li>Abrir fotos co seu editor  para facer "
 "cambios avanzados</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:89
+#: ../data/gnome-photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:96
 msgid "Photos"
 msgstr "Fotos\t"
 
@@ -181,15 +181,35 @@ msgstr "Capturas de pantallas"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos renderizadores de DLNA"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
+#: ../src/photos-embed.c:504
+msgid "Recent"
+msgstr "Recente"
+
+#: ../src/photos-embed.c:507 ../src/photos-search-type-manager.c:82
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
+#: ../src/photos-embed.c:510 ../src/photos-search-type-manager.c:89
 msgid "Favorites"
 msgstr "Favoritas"
 
-#: ../src/photos-empty-results-box.c:66
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in System Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:107
+msgid "System Settings"
+msgstr "Preferencias do sistema"
+
+#. Translators: %s here is "System Settings", which is in a separate
+#. * string due to markup, and should be translated only in the context
+#. * of this sentence.
+#.
+#: ../src/photos-empty-results-box.c:113
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Pode engadir as súas contas en liña en %s"
+
+#: ../src/photos-empty-results-box.c:160
 msgid "No Photos Found"
 msgstr "Non se atoparon fotografías"
 
@@ -246,16 +266,16 @@ msgstr "Elementos seleccionados"
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: ../src/photos-main-toolbar.c:488
+#: ../src/photos-main-toolbar.c:489
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/photos-main-window.c:329
+#: ../src/photos-main-window.c:331
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice e comparta as súas fotos en GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:341
 msgid "translator-credits"
 msgstr "Fran Dieguez <frandieguez@gnome.org>, 2012."
 
@@ -292,7 +312,7 @@ msgid "Set as Background"
 msgstr "Estabelecer como fondo de pantalla"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Propiedades"
 
@@ -462,6 +482,10 @@ msgstr "Activado, disparado"
 msgid "Done"
 msgstr "Feito"
 
+#: ../src/photos-search-type-manager.c:75 ../src/photos-source-manager.c:126
+msgid "All"
+msgstr "Todas"
+
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
 msgstr "Seleccionar todas"
@@ -478,15 +502,11 @@ msgstr "Imprimir"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "Engadir ao álbum"
 
-#: ../src/photos-source-manager.c:126
-msgid "All"
-msgstr "Todas"
-
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-tracker-controller.c:94
 msgid "Unable to fetch the list of photos"
 msgstr "Non foi posíbel obter a lista de fotografías"
 
