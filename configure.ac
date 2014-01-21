@@ -116,6 +116,7 @@ LIBGD_INIT([
   main-view
   notification
   static
+  tagged-entry
 ])
 
 GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable glib_compile_resources gio-2.0`
