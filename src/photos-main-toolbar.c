@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,10 +33,12 @@
 #include "photos-application.h"
 #include "photos-collection-manager.h"
 #include "photos-dlna-renderers-manager.h"
+#include "photos-dropdown.h"
 #include "photos-header-bar.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
+#include "photos-overview-searchbar.h"
 #include "photos-remote-display-manager.h"
 #include "photos-selection-controller.h"
 #include "photos-source-manager.h"
@@ -46,7 +48,9 @@ struct _PhotosMainToolbarPrivate
 {
   GSimpleAction *gear_menu;
   GtkWidget *coll_back_button;
+  GtkWidget *overlay;
   GtkWidget *remote_display_button;
+  GtkWidget *searchbar;
   GtkWidget *selection_menu;
   GtkWidget *toolbar;
   PhotosBaseManager *col_mngr;
@@ -56,6 +60,12 @@ struct _PhotosMainToolbarPrivate
   PhotosRemoteDisplayManager *remote_mngr;
   PhotosSelectionController *sel_cntrlr;
   PhotosWindowMode old_mode;
+};
+
+enum
+{
+  PROP_0,
+  PROP_OVERLAY
 };
 
 
@@ -77,7 +87,8 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 
   if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW
       || window_mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-      || window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
+      || window_mode == PHOTOS_WINDOW_MODE_FAVORITES
+      || window_mode == PHOTOS_WINDOW_MODE_SEARCH)
     {
       if (!selection_mode)
         {
@@ -309,6 +320,9 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
       priv->remote_display_button = NULL;
     }
 
+  if (priv->searchbar != NULL && gtk_widget_get_parent (priv->searchbar) == GTK_WIDGET (self))
+    gtk_container_remove (GTK_CONTAINER (self), priv->searchbar);
+
   if (priv->col_mngr != NULL)
     g_signal_handlers_disconnect_by_func (priv->col_mngr, photos_main_toolbar_col_active_changed, self);
 
@@ -329,6 +343,20 @@ photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), FALSE);
   photos_header_bar_clear (PHOTOS_HEADER_BAR (priv->toolbar));
   g_simple_action_set_enabled (priv->gear_menu, FALSE);
+}
+
+
+static GtkWidget *
+photos_main_toolbar_create_overview_searchbar (PhotosMainToolbar *self)
+{
+  GtkWidget *dropdown;
+  GtkWidget *searchbar;
+
+  dropdown = photos_dropdown_new ();
+  gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->overlay), dropdown);
+  searchbar = photos_overview_searchbar_new (PHOTOS_DROPDOWN (dropdown));
+
+  return searchbar;
 }
 
 
@@ -385,6 +413,7 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
+  gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
   photos_main_toolbar_col_active_changed (priv->col_mngr, object, self);
@@ -418,6 +447,7 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
+  gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
   photos_main_toolbar_col_active_changed (priv->col_mngr, object, self);
@@ -433,6 +463,7 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
+  gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
   photos_main_toolbar_col_active_changed (priv->col_mngr, object, self);
@@ -478,6 +509,23 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 
 
 static void
+photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  GObject *object;
+
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
+  photos_main_toolbar_add_selection_button (self);
+  photos_main_toolbar_add_search_button (self);
+  gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
+
+  object = photos_base_manager_get_active_object (priv->col_mngr);
+  photos_main_toolbar_col_active_changed (priv->col_mngr, object, self);
+}
+
+
+static void
 photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
@@ -519,6 +567,8 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
     photos_main_toolbar_populate_for_overview (self);
   else if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     photos_main_toolbar_populate_for_preview (self);
+  else if (window_mode == PHOTOS_WINDOW_MODE_SEARCH)
+    photos_main_toolbar_populate_for_search (self);
 
   photos_main_toolbar_update_remote_display_button (self);
 
@@ -536,6 +586,21 @@ photos_main_toolbar_window_mode_changed (PhotosMainToolbar *self, PhotosWindowMo
 
 
 static void
+photos_main_toolbar_constructed (GObject *object)
+{
+  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (object);
+  PhotosMainToolbarPrivate *priv = self->priv;
+
+  G_OBJECT_CLASS (photos_main_toolbar_parent_class)->constructed (object);
+
+  priv->searchbar = photos_main_toolbar_create_overview_searchbar (self);
+  g_object_ref (priv->searchbar);
+
+  photos_main_toolbar_reset_toolbar_mode (self);
+}
+
+
+static void
 photos_main_toolbar_dispose (GObject *object)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (object);
@@ -543,6 +608,7 @@ photos_main_toolbar_dispose (GObject *object)
 
   photos_main_toolbar_clear_state_data (self);
 
+  g_clear_object (&priv->searchbar);
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
@@ -551,6 +617,24 @@ photos_main_toolbar_dispose (GObject *object)
   g_clear_object (&priv->sel_cntrlr);
 
   G_OBJECT_CLASS (photos_main_toolbar_parent_class)->dispose (object);
+}
+
+
+static void
+photos_main_toolbar_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (object);
+
+  switch (prop_id)
+    {
+    case PROP_OVERLAY:
+      self->priv->overlay = GTK_WIDGET (g_value_dup_object (value));
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
 }
 
 
@@ -652,8 +736,6 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
                            G_CALLBACK (photos_main_toolbar_share_error_cb),
                            self,
                            G_CONNECT_SWAPPED);
-
-  photos_main_toolbar_reset_toolbar_mode (self);
 }
 
 
@@ -662,14 +744,24 @@ photos_main_toolbar_class_init (PhotosMainToolbarClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->constructed = photos_main_toolbar_constructed;
   object_class->dispose = photos_main_toolbar_dispose;
+  object_class->set_property = photos_main_toolbar_set_property;
+
+  g_object_class_install_property (object_class,
+                                   PROP_OVERLAY,
+                                   g_param_spec_object ("overlay",
+                                                        "GtkOverlay object",
+                                                        "The stack overlay widget",
+                                                        GTK_TYPE_OVERLAY,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 }
 
 
 GtkWidget *
-photos_main_toolbar_new (void)
+photos_main_toolbar_new (GtkOverlay *overlay)
 {
-  return g_object_new (PHOTOS_TYPE_MAIN_TOOLBAR, NULL);
+  return g_object_new (PHOTOS_TYPE_MAIN_TOOLBAR, "overlay", overlay, NULL);
 }
 
 

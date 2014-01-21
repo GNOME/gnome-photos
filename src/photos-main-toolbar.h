@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -68,7 +68,7 @@ struct _PhotosMainToolbarClass
 
 GType                  photos_main_toolbar_get_type               (void) G_GNUC_CONST;
 
-GtkWidget             *photos_main_toolbar_new                    (void);
+GtkWidget             *photos_main_toolbar_new                    (GtkOverlay *overlay);
 
 void                   photos_main_toolbar_set_stack              (PhotosMainToolbar *self, GtkStack *stack);
 

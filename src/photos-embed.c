@@ -492,7 +492,7 @@ photos_embed_init (PhotosEmbed *self)
   gtk_widget_show (priv->stack);
   gtk_container_add (GTK_CONTAINER (priv->stack_overlay), priv->stack);
 
-  priv->toolbar = photos_main_toolbar_new ();
+  priv->toolbar = photos_main_toolbar_new (GTK_OVERLAY (priv->stack_overlay));
   photos_main_toolbar_set_stack (PHOTOS_MAIN_TOOLBAR (priv->toolbar), GTK_STACK (priv->stack));
 
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
