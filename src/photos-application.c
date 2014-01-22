@@ -56,6 +56,7 @@ struct _PhotosApplicationPrivate
   GSimpleAction *open_action;
   GSimpleAction *print_action;
   GSimpleAction *properties_action;
+  GSimpleAction *search_action;
   GSimpleAction *sel_all_action;
   GSimpleAction *sel_none_action;
   GSimpleAction *set_bg_action;
@@ -517,6 +518,11 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
+  state = g_variant_new ("b", FALSE);
+  priv->search_action = g_simple_action_new_stateful ("search", NULL, state);
+  g_signal_connect (priv->search_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->search_action));
+
   priv->sel_all_action = g_simple_action_new ("select-all", NULL);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->sel_all_action));
 
@@ -543,6 +549,7 @@ photos_application_startup (GApplication *application)
   gtk_application_add_accelerator (GTK_APPLICATION (self), "F11", "app.fullscreen", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "F10", "app.gear-menu", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>p", "app.print-current", NULL);
+  gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>f", "app.search", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>a", "app.select-all", NULL);
 
   priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
@@ -596,6 +603,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->open_action);
   g_clear_object (&priv->print_action);
   g_clear_object (&priv->properties_action);
+  g_clear_object (&priv->search_action);
   g_clear_object (&priv->sel_all_action);
   g_clear_object (&priv->sel_none_action);
   g_clear_object (&priv->set_bg_action);
