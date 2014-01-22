@@ -374,7 +374,8 @@ photos_view_model_init (PhotosViewModel *self)
                      G_TYPE_STRING,    /* AUTHOR */
                      GDK_TYPE_PIXBUF,  /* ICON */
                      G_TYPE_INT64,     /* MTIME */
-                     G_TYPE_BOOLEAN};  /* STATE */
+                     G_TYPE_BOOLEAN,   /* STATE */
+                     G_TYPE_UINT};     /* PULSE (unused) */
 
   self->priv = photos_view_model_get_instance_private (self);
   priv = self->priv;

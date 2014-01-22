@@ -62,7 +62,8 @@ typedef enum
   PHOTOS_VIEW_MODEL_AUTHOR,
   PHOTOS_VIEW_MODEL_ICON,
   PHOTOS_VIEW_MODEL_MTIME,
-  PHOTOS_VIEW_MODEL_SELECTED
+  PHOTOS_VIEW_MODEL_SELECTED,
+  PHOTOS_VIEW_MODEL_PULSE /* unused */
 } PhotosViewModelColumns;
 
 typedef struct _PhotosViewModel        PhotosViewModel;
