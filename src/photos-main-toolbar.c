@@ -272,6 +272,21 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
 }
 
 
+static GtkWidget *
+photos_main_toolbar_add_search_button (PhotosMainToolbar *self)
+{
+  GtkWidget *search_button;
+
+  search_button = gd_header_toggle_button_new ();
+  gd_header_button_set_label (GD_HEADER_BUTTON (search_button), _("Search"));
+  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (search_button), "edit-find-symbolic");
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (search_button), "app.search");
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->priv->toolbar), search_button);
+
+  return search_button;
+}
+
+
 static void
 photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
 {
@@ -413,6 +428,7 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
+  photos_main_toolbar_add_search_button (self);
   gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
@@ -447,6 +463,7 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
+  photos_main_toolbar_add_search_button (self);
   gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
@@ -463,6 +480,7 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
+  photos_main_toolbar_add_search_button (self);
   gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
@@ -543,6 +561,8 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
                            G_CALLBACK (photos_main_toolbar_set_toolbar_title),
                            self,
                            G_CONNECT_SWAPPED);
+
+  photos_main_toolbar_add_search_button (self);
 }
 
 
