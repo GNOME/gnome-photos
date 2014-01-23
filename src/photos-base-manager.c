@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,6 +35,13 @@ struct _PhotosBaseManagerPrivate
 {
   GHashTable *objects;
   GObject *active_object;
+  gchar *title;
+};
+
+enum
+{
+  PROP_0,
+  PROP_TITLE
 };
 
 enum
@@ -143,6 +150,35 @@ photos_base_manager_dispose (GObject *object)
 
 
 static void
+photos_base_manager_finalize (GObject *object)
+{
+  PhotosBaseManager *self = PHOTOS_BASE_MANAGER (object);
+
+  g_free (self->priv->title);
+
+  G_OBJECT_CLASS (photos_base_manager_parent_class)->finalize (object);
+}
+
+
+static void
+photos_base_manager_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+  PhotosBaseManager *self = PHOTOS_BASE_MANAGER (object);
+
+  switch (prop_id)
+    {
+    case PROP_TITLE:
+      self->priv->title = g_value_dup_string (value);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+
+static void
 photos_base_manager_init (PhotosBaseManager *self)
 {
   PhotosBaseManagerPrivate *priv;
@@ -160,7 +196,17 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->dispose = photos_base_manager_dispose;
+  object_class->finalize = photos_base_manager_finalize;
+  object_class->set_property = photos_base_manager_set_property;
   class->set_active_object = photos_base_manager_default_set_active_object;
+
+  g_object_class_install_property (object_class,
+                                   PROP_TITLE,
+                                   g_param_spec_string ("title",
+                                                        "Title",
+                                                        "The name of this manager",
+                                                        NULL,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   signals[ACTIVE_CHANGED] = g_signal_new ("active-changed",
                                           G_TYPE_FROM_CLASS (class),
@@ -296,6 +342,13 @@ photos_base_manager_get_objects_count (PhotosBaseManager *self)
   count = g_list_length (keys);
   g_list_free (keys);
   return count;
+}
+
+
+const gchar *
+photos_base_manager_get_title (PhotosBaseManager *self)
+{
+  return self->priv->title;
 }
 
 

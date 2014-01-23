@@ -118,7 +118,10 @@ photos_search_type_manager_class_init (PhotosSearchTypeManagerClass *class)
 PhotosBaseManager *
 photos_search_type_manager_dup_singleton (void)
 {
-  return g_object_new (PHOTOS_TYPE_SEARCH_TYPE_MANAGER, NULL);
+  /* Translators: "Type" refers to a search filter. eg., All, Albums,
+   * Favorites and Photos.
+   */
+  return g_object_new (PHOTOS_TYPE_SEARCH_TYPE_MANAGER, "title", C_("Search Filter", "Type"), NULL);
 }
 
 

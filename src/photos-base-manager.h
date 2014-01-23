@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -90,6 +90,8 @@ GObject            *photos_base_manager_get_object_by_id         (PhotosBaseMana
 GHashTable         *photos_base_manager_get_objects              (PhotosBaseManager *self);
 
 guint               photos_base_manager_get_objects_count        (PhotosBaseManager *self);
+
+const gchar        *photos_base_manager_get_title                (PhotosBaseManager *self);
 
 void                photos_base_manager_process_new_objects      (PhotosBaseManager *self, GHashTable *new_objects);
 
