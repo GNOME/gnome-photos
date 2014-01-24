@@ -37,6 +37,16 @@
 G_DEFINE_TYPE (PhotosSearchTypeManager, photos_search_type_manager, PHOTOS_TYPE_BASE_MANAGER);
 
 
+static gchar *
+photos_search_type_manager_get_where (PhotosBaseManager *mngr)
+{
+  GObject *search_type;
+
+  search_type = photos_base_manager_get_active_object (mngr);
+  return photos_filterable_get_where (PHOTOS_FILTERABLE (search_type));
+}
+
+
 static GObject *
 photos_search_type_manager_constructor (GType                  type,
                                         guint                  n_construct_params,
@@ -110,8 +120,10 @@ static void
 photos_search_type_manager_class_init (PhotosSearchTypeManagerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
+  PhotosBaseManagerClass *base_manager_class = PHOTOS_BASE_MANAGER_CLASS (class);
 
   object_class->constructor = photos_search_type_manager_constructor;
+  base_manager_class->get_where = photos_search_type_manager_get_where;
 }
 
 
@@ -122,14 +134,4 @@ photos_search_type_manager_dup_singleton (void)
    * Favorites and Photos.
    */
   return g_object_new (PHOTOS_TYPE_SEARCH_TYPE_MANAGER, "title", C_("Search Filter", "Type"), NULL);
-}
-
-
-gchar *
-photos_search_type_manager_get_where (PhotosSearchTypeManager *self)
-{
-  GObject *search_type;
-
-  search_type = photos_base_manager_get_active_object (PHOTOS_BASE_MANAGER (self));
-  return photos_filterable_get_where (PHOTOS_FILTERABLE (search_type));
 }

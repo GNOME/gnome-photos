@@ -59,6 +59,13 @@ static guint signals[LAST_SIGNAL] = { 0 };
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseManager, photos_base_manager, G_TYPE_OBJECT);
 
 
+static gchar *
+photos_base_manager_default_get_where (PhotosBaseManager *self)
+{
+  return g_strdup ("");
+}
+
+
 static gboolean
 photos_base_manager_default_set_active_object (PhotosBaseManager *self, GObject *object)
 {
@@ -198,6 +205,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   object_class->dispose = photos_base_manager_dispose;
   object_class->finalize = photos_base_manager_finalize;
   object_class->set_property = photos_base_manager_set_property;
+  class->get_where = photos_base_manager_default_get_where;
   class->set_active_object = photos_base_manager_default_set_active_object;
 
   g_object_class_install_property (object_class,
@@ -349,6 +357,13 @@ const gchar *
 photos_base_manager_get_title (PhotosBaseManager *self)
 {
   return self->priv->title;
+}
+
+
+gchar *
+photos_base_manager_get_where (PhotosBaseManager *self)
+{
+  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_where (self);
 }
 
 

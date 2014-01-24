@@ -70,8 +70,6 @@ GType                     photos_collection_manager_get_type           (void) G_
 
 PhotosBaseManager        *photos_collection_manager_dup_singleton      (void);
 
-gchar                    *photos_collection_manager_get_where          (PhotosCollectionManager *self);
-
 G_END_DECLS
 
 #endif /* PHOTOS_COLLECTION_MANAGER_H */

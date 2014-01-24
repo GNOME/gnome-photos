@@ -70,8 +70,6 @@ GType                     photos_search_type_manager_get_type           (void) G
 
 PhotosBaseManager        *photos_search_type_manager_dup_singleton      (void);
 
-gchar                    *photos_search_type_manager_get_where          (PhotosSearchTypeManager *self);
-
 G_END_DECLS
 
 #endif /* PHOTOS_SEARCH_TYPE_MANAGER_H */

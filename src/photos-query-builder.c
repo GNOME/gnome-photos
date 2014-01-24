@@ -123,7 +123,7 @@ photos_query_builder_where (gboolean global, gint flags)
 
   srch_typ_mngr = photos_search_type_manager_dup_singleton ();
   photos_query_builder_set_search_type (flags);
-  srch_typ_mngr_where = photos_search_type_manager_get_where (PHOTOS_SEARCH_TYPE_MANAGER (srch_typ_mngr));
+  srch_typ_mngr_where = photos_base_manager_get_where (srch_typ_mngr);
 
   optional = photos_query_builder_optional ();
 
@@ -133,7 +133,7 @@ photos_query_builder_where (gboolean global, gint flags)
         {
           /* TODO: SearchCategoryManager */
 
-          col_mngr_where = photos_collection_manager_get_where (PHOTOS_COLLECTION_MANAGER (col_mngr));
+          col_mngr_where = photos_base_manager_get_where (col_mngr);
         }
 
       filter = photos_query_builder_filter (flags);

@@ -66,6 +66,7 @@ struct _PhotosBaseManagerClass
   GObjectClass parent_class;
 
   /* virtual methods */
+  gchar *(*get_where)    (PhotosBaseManager *self);
   gboolean (*set_active_object)    (PhotosBaseManager *self, GObject *object);
 
   /* signals */
@@ -92,6 +93,8 @@ GHashTable         *photos_base_manager_get_objects              (PhotosBaseMana
 guint               photos_base_manager_get_objects_count        (PhotosBaseManager *self);
 
 const gchar        *photos_base_manager_get_title                (PhotosBaseManager *self);
+
+gchar              *photos_base_manager_get_where                (PhotosBaseManager *self);
 
 void                photos_base_manager_process_new_objects      (PhotosBaseManager *self, GHashTable *new_objects);
 

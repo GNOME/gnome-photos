@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,6 +34,19 @@
 G_DEFINE_TYPE (PhotosCollectionManager, photos_collection_manager, PHOTOS_TYPE_BASE_MANAGER);
 
 
+static gchar *
+photos_collection_manager_get_where (PhotosBaseManager *mngr)
+{
+  GObject *collection;
+
+  collection = photos_base_manager_get_active_object (mngr);
+  if (collection == NULL)
+    return g_strdup ("");
+
+  return photos_base_item_get_where (PHOTOS_BASE_ITEM (collection));
+}
+
+
 static GObject *
 photos_collection_manager_constructor (GType                  type,
                                        guint                  n_construct_params,
@@ -64,7 +77,10 @@ static void
 photos_collection_manager_class_init (PhotosCollectionManagerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
+  PhotosBaseManagerClass *base_manager_class = PHOTOS_BASE_MANAGER_CLASS (class);
+
   object_class->constructor = photos_collection_manager_constructor;
+  base_manager_class->get_where = photos_collection_manager_get_where;
 }
 
 
@@ -72,17 +88,4 @@ PhotosBaseManager *
 photos_collection_manager_dup_singleton (void)
 {
   return g_object_new (PHOTOS_TYPE_COLLECTION_MANAGER, NULL);
-}
-
-
-gchar *
-photos_collection_manager_get_where (PhotosCollectionManager *self)
-{
-  GObject *collection;
-
-  collection = photos_base_manager_get_active_object (PHOTOS_BASE_MANAGER (self));
-  if (collection == NULL)
-    return g_strdup ("");
-
-  return photos_base_item_get_where (PHOTOS_BASE_ITEM (collection));
 }
