@@ -84,7 +84,7 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_ALL,
                                              _("All"),
                                              "?urn a rdfs:Resource",
-                                             "(false)");
+                                             "(false)"); /* unused */
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
