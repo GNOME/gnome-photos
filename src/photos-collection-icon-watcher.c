@@ -391,7 +391,7 @@ photos_collection_icon_watcher_set_property (GObject *object,
 static void
 photos_collection_icon_watcher_init (PhotosCollectionIconWatcher *self)
 {
-  PhotosCollectionIconWatcherPrivate *priv = self->priv;
+  PhotosCollectionIconWatcherPrivate *priv;
 
   self->priv = photos_collection_icon_watcher_get_instance_private (self);
   priv = self->priv;
