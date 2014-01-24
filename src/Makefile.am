@@ -196,6 +196,8 @@ gnome_photos_SOURCES = \
 	photos-tracker-favorites-controller.h \
 	photos-tracker-overview-controller.c \
 	photos-tracker-overview-controller.h \
+	photos-tracker-search-controller.c \
+	photos-tracker-search-controller.h \
 	photos-tracker-queue.c \
 	photos-tracker-queue.h \
 	photos-update-mtime-job.c \
