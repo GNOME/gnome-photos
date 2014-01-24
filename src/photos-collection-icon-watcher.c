@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -70,12 +70,13 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosCollectionIconWatcher, photos_collection_icon_
 static void
 photos_collection_icon_watcher_create_collection_icon (PhotosCollectionIconWatcher *self)
 {
+  PhotosCollectionIconWatcherPrivate *priv = self->priv;
   GIcon *icon;
   GList *icons = NULL;
   GList *l;
   gint size;
 
-  for (l = self->priv->items; l != NULL; l = l->next)
+  for (l = priv->items; l != NULL; l = l->next)
     {
       GdkPixbuf *pristine_icon;
       PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
@@ -88,7 +89,8 @@ photos_collection_icon_watcher_create_collection_icon (PhotosCollectionIconWatch
   size = photos_utils_get_icon_size ();
   icon = photos_utils_create_collection_icon (size, icons);
 
-  g_signal_emit (self, signals[ICON_UPDATED], 0, icon);
+  if (priv->collection != NULL)
+    g_signal_emit (self, signals[ICON_UPDATED], 0, icon);
 
   g_list_free_full (icons, g_object_unref);
   g_clear_object (&icon);
@@ -304,6 +306,9 @@ photos_collection_icon_watcher_start (PhotosCollectionIconWatcher *self)
   if (G_UNLIKELY (priv->queue == NULL))
     return;
 
+  if (priv->collection == NULL)
+    return;
+
   id = photos_base_item_get_id (priv->collection);
   query = photos_query_builder_collection_icon_query (id);
   photos_tracker_queue_select (priv->queue,
@@ -367,11 +372,13 @@ photos_collection_icon_watcher_set_property (GObject *object,
                                              GParamSpec *pspec)
 {
   PhotosCollectionIconWatcher *self = PHOTOS_COLLECTION_ICON_WATCHER (object);
+  PhotosCollectionIconWatcherPrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_COLLECTION:
-      self->priv->collection = PHOTOS_BASE_ITEM (g_value_get_object (value)); /* self is owned by collection */
+      priv->collection = PHOTOS_BASE_ITEM (g_value_get_object (value)); /* self is owned by collection */
+      g_object_add_weak_pointer (G_OBJECT (priv->collection), (gpointer *) &priv->collection);
       break;
 
     default:
