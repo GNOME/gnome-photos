@@ -132,6 +132,8 @@ gnome_photos_SOURCES = \
 	photos-offset-favorites-controller.h \
 	photos-offset-overview-controller.c \
 	photos-offset-overview-controller.h \
+	photos-offset-search-controller.c \
+	photos-offset-search-controller.h \
 	photos-organize-collection-dialog.c \
 	photos-organize-collection-dialog.h \
 	photos-organize-collection-model.c \
