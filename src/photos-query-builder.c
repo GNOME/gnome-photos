@@ -51,26 +51,6 @@ photos_query_builder_convert_path_to_uri (const gchar *path)
 }
 
 
-static void
-photos_query_builder_set_search_type (gint flags)
-{
-  PhotosBaseManager *srch_typ_mngr;
-
-  srch_typ_mngr = photos_search_type_manager_dup_singleton ();
-
-  if (flags & PHOTOS_QUERY_FLAGS_COLLECTIONS)
-    photos_base_manager_set_active_object_by_id (srch_typ_mngr, PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS);
-  else if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
-    photos_base_manager_set_active_object_by_id (srch_typ_mngr, PHOTOS_SEARCH_TYPE_STOCK_FAVORITES);
-  else if (flags & PHOTOS_QUERY_FLAGS_OVERVIEW)
-    photos_base_manager_set_active_object_by_id (srch_typ_mngr, PHOTOS_SEARCH_TYPE_STOCK_PHOTOS);
-  else
-    photos_base_manager_set_active_object_by_id (srch_typ_mngr, PHOTOS_SEARCH_TYPE_STOCK_ALL);
-
-  g_object_unref (srch_typ_mngr);
-}
-
-
 static gchar *
 photos_query_builder_filter (gint flags)
 {
@@ -81,15 +61,13 @@ photos_query_builder_filter (gint flags)
   gchar *srch_typ_mngr_filter;
 
   src_mngr = photos_source_manager_dup_singleton ();
-  src_mngr_filter = photos_base_manager_get_filter (src_mngr);
+  src_mngr_filter = photos_base_manager_get_filter (src_mngr, flags);
 
   srch_typ_mngr = photos_search_type_manager_dup_singleton ();
-  photos_query_builder_set_search_type (flags);
-  srch_typ_mngr_filter = photos_base_manager_get_filter (srch_typ_mngr);
+  srch_typ_mngr_filter = photos_base_manager_get_filter (srch_typ_mngr, flags);
 
   sparql = g_strdup_printf ("FILTER (%s && %s)", src_mngr_filter, srch_typ_mngr_filter);
 
-  photos_query_builder_set_search_type (PHOTOS_QUERY_FLAGS_NONE);
   g_free (srch_typ_mngr_filter);
   g_object_unref (srch_typ_mngr);
 

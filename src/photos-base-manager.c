@@ -60,6 +60,13 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseManager, photos_base_manager, G_TYPE_OBJEC
 
 
 static gchar *
+photos_base_manager_default_get_filter (PhotosBaseManager *self, gint flags)
+{
+  return g_strdup ("(true)");
+}
+
+
+static gchar *
 photos_base_manager_default_get_where (PhotosBaseManager *self, gint flags)
 {
   return g_strdup ("");
@@ -82,59 +89,6 @@ photos_base_manager_default_set_active_object (PhotosBaseManager *self, GObject 
   priv->active_object = object;
   g_signal_emit (self, signals[ACTIVE_CHANGED], 0, object);
   return TRUE;
-}
-
-
-static gchar *
-photos_base_manager_get_all_filter (PhotosBaseManager *self)
-{
-  GList *l;
-  GList *values;
-  const gchar *blank = "(true)";
-  gchar *filter;
-  gchar **strv;
-  gchar *tmp;
-  guint i;
-  guint length;
-
-  values = g_hash_table_get_values (self->priv->objects);
-  length = g_list_length (values);
-  strv = (gchar **) g_malloc0_n (length + 1, sizeof (gchar *));
-
-  for (i = 0, l = values; l != NULL; l = l->next)
-    {
-      gchar *id;
-
-      g_object_get (l->data, "id", &id, NULL);
-      if (g_strcmp0 (id, "all") != 0)
-        {
-          gchar *str;
-
-          str = photos_filterable_get_filter (PHOTOS_FILTERABLE (l->data));
-          if (g_strcmp0 (str, blank) == 0)
-            g_free (str);
-          else
-            {
-              strv[i] = str;
-              i++;
-            }
-        }
-      g_free (id);
-    }
-
-  length = g_strv_length (strv);
-  if (length == 0)
-    strv[0] = g_strdup (blank);
-
-  filter = g_strjoinv (" || ", strv);
-  g_strfreev (strv);
-
-  tmp = filter;
-  filter = g_strconcat ("(", filter, ")", NULL);
-  g_free (tmp);
-
-  g_list_free (values);
-  return filter;
 }
 
 
@@ -205,6 +159,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   object_class->dispose = photos_base_manager_dispose;
   object_class->finalize = photos_base_manager_finalize;
   object_class->set_property = photos_base_manager_set_property;
+  class->get_filter = photos_base_manager_default_get_filter;
   class->get_where = photos_base_manager_default_get_where;
   class->set_active_object = photos_base_manager_default_set_active_object;
 
@@ -303,26 +258,62 @@ photos_base_manager_get_active_object (PhotosBaseManager *self)
 
 
 gchar *
-photos_base_manager_get_filter (PhotosBaseManager *self)
+photos_base_manager_get_all_filter (PhotosBaseManager *self)
 {
-  PhotosBaseManagerPrivate *priv = self->priv;
+  GList *l;
+  GList *values;
   const gchar *blank = "(true)";
   gchar *filter;
-  gchar *id;
+  gchar **strv;
+  gchar *tmp;
+  guint i;
+  guint length;
 
-  if (priv->active_object == NULL)
-    return g_strdup (blank);
+  values = g_hash_table_get_values (self->priv->objects);
+  length = g_list_length (values);
+  strv = (gchar **) g_malloc0_n (length + 1, sizeof (gchar *));
 
-  g_return_val_if_fail (PHOTOS_IS_FILTERABLE (priv->active_object), g_strdup (blank));
+  for (i = 0, l = values; l != NULL; l = l->next)
+    {
+      gchar *id;
 
-  g_object_get (priv->active_object, "id", &id, NULL);
-  if (g_strcmp0 (id, "all") == 0)
-    filter = photos_base_manager_get_all_filter (self);
-  else
-    filter = photos_filterable_get_filter (PHOTOS_FILTERABLE (priv->active_object));
+      g_object_get (l->data, "id", &id, NULL);
+      if (g_strcmp0 (id, "all") != 0)
+        {
+          gchar *str;
 
-  g_free (id);
+          str = photos_filterable_get_filter (PHOTOS_FILTERABLE (l->data));
+          if (g_strcmp0 (str, blank) == 0)
+            g_free (str);
+          else
+            {
+              strv[i] = str;
+              i++;
+            }
+        }
+      g_free (id);
+    }
+
+  length = g_strv_length (strv);
+  if (length == 0)
+    strv[0] = g_strdup (blank);
+
+  filter = g_strjoinv (" || ", strv);
+  g_strfreev (strv);
+
+  tmp = filter;
+  filter = g_strconcat ("(", filter, ")", NULL);
+  g_free (tmp);
+
+  g_list_free (values);
   return filter;
+}
+
+
+gchar *
+photos_base_manager_get_filter (PhotosBaseManager *self, gint flags)
+{
+  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_filter (self, flags);
 }
 
 

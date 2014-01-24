@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,6 +29,8 @@
 #include <glib/gi18n.h>
 #include <goa/goa.h>
 
+#include "photos-filterable.h"
+#include "photos-query.h"
 #include "photos-source.h"
 #include "photos-source-manager.h"
 
@@ -40,6 +42,29 @@ struct _PhotosSourceManagerPrivate
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosSourceManager, photos_source_manager, PHOTOS_TYPE_BASE_MANAGER);
+
+
+static gchar *
+photos_source_manager_get_filter (PhotosBaseManager *mngr, gint flags)
+{
+  GObject *source;
+  gchar *filter;
+  gchar *id;
+
+  if (flags & PHOTOS_QUERY_FLAGS_SEARCH)
+    source = photos_base_manager_get_active_object (mngr);
+  else
+    source = photos_base_manager_get_object_by_id (mngr, PHOTOS_SOURCE_STOCK_ALL);
+
+  g_object_get (source, "id", &id, NULL);
+  if (g_strcmp0 (id, PHOTOS_SOURCE_STOCK_ALL) == 0)
+    filter = photos_base_manager_get_all_filter (mngr);
+  else
+    filter = photos_filterable_get_filter (PHOTOS_FILTERABLE (source));
+
+  g_free (id);
+  return filter;
+}
 
 
 static void
@@ -157,9 +182,11 @@ static void
 photos_source_manager_class_init (PhotosSourceManagerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
+  PhotosBaseManagerClass *base_manager_class = PHOTOS_BASE_MANAGER_CLASS (class);
 
   object_class->constructor = photos_source_manager_constructor;
   object_class->dispose = photos_source_manager_dispose;
+  base_manager_class->get_filter = photos_source_manager_get_filter;
 }
 
 

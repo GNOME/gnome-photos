@@ -38,6 +38,35 @@ G_DEFINE_TYPE (PhotosSearchTypeManager, photos_search_type_manager, PHOTOS_TYPE_
 
 
 static gchar *
+photos_search_type_manager_get_filter (PhotosBaseManager *mngr, gint flags)
+{
+  GObject *search_type;
+  gchar *filter;
+  gchar *id;
+
+  if (flags & PHOTOS_QUERY_FLAGS_COLLECTIONS)
+    search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS);
+  else if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
+    search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_FAVORITES);
+  else if (flags & PHOTOS_QUERY_FLAGS_OVERVIEW)
+    search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_PHOTOS);
+  else if (flags & PHOTOS_QUERY_FLAGS_SEARCH)
+    search_type = photos_base_manager_get_active_object (mngr);
+  else
+    search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_ALL);
+
+  g_object_get (search_type, "id", &id, NULL);
+  if (g_strcmp0 (id, PHOTOS_SEARCH_TYPE_STOCK_ALL) == 0)
+    filter = photos_base_manager_get_all_filter (mngr);
+  else
+    filter = photos_filterable_get_filter (PHOTOS_FILTERABLE (search_type));
+
+  g_free (id);
+  return filter;
+}
+
+
+static gchar *
 photos_search_type_manager_get_where (PhotosBaseManager *mngr, gint flags)
 {
   GObject *search_type;
@@ -133,6 +162,7 @@ photos_search_type_manager_class_init (PhotosSearchTypeManagerClass *class)
   PhotosBaseManagerClass *base_manager_class = PHOTOS_BASE_MANAGER_CLASS (class);
 
   object_class->constructor = photos_search_type_manager_constructor;
+  base_manager_class->get_filter = photos_search_type_manager_get_filter;
   base_manager_class->get_where = photos_search_type_manager_get_where;
 }
 
