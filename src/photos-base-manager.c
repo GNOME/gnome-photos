@@ -60,7 +60,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseManager, photos_base_manager, G_TYPE_OBJEC
 
 
 static gchar *
-photos_base_manager_default_get_where (PhotosBaseManager *self)
+photos_base_manager_default_get_where (PhotosBaseManager *self, gint flags)
 {
   return g_strdup ("");
 }
@@ -361,9 +361,9 @@ photos_base_manager_get_title (PhotosBaseManager *self)
 
 
 gchar *
-photos_base_manager_get_where (PhotosBaseManager *self)
+photos_base_manager_get_where (PhotosBaseManager *self, gint flags)
 {
-  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_where (self);
+  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_where (self, flags);
 }
 
 

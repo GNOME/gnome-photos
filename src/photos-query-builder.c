@@ -122,8 +122,7 @@ photos_query_builder_where (gboolean global, gint flags)
   col_mngr = photos_collection_manager_dup_singleton ();
 
   srch_typ_mngr = photos_search_type_manager_dup_singleton ();
-  photos_query_builder_set_search_type (flags);
-  srch_typ_mngr_where = photos_base_manager_get_where (srch_typ_mngr);
+  srch_typ_mngr_where = photos_base_manager_get_where (srch_typ_mngr, flags);
 
   optional = photos_query_builder_optional ();
 
@@ -133,7 +132,7 @@ photos_query_builder_where (gboolean global, gint flags)
         {
           /* TODO: SearchCategoryManager */
 
-          col_mngr_where = photos_base_manager_get_where (col_mngr);
+          col_mngr_where = photos_base_manager_get_where (col_mngr, flags);
         }
 
       filter = photos_query_builder_filter (flags);
@@ -145,7 +144,6 @@ photos_query_builder_where (gboolean global, gint flags)
                             (col_mngr_where != NULL) ? col_mngr_where : "",
                             (filter != NULL) ? filter : "");
 
-  photos_query_builder_set_search_type (PHOTOS_QUERY_FLAGS_NONE);
   g_free (col_mngr_where);
   g_free (filter);
   g_free (srch_typ_mngr_where);

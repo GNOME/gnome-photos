@@ -38,11 +38,21 @@ G_DEFINE_TYPE (PhotosSearchTypeManager, photos_search_type_manager, PHOTOS_TYPE_
 
 
 static gchar *
-photos_search_type_manager_get_where (PhotosBaseManager *mngr)
+photos_search_type_manager_get_where (PhotosBaseManager *mngr, gint flags)
 {
   GObject *search_type;
 
-  search_type = photos_base_manager_get_active_object (mngr);
+  if (flags & PHOTOS_QUERY_FLAGS_COLLECTIONS)
+    search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS);
+  else if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
+    search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_FAVORITES);
+  else if (flags & PHOTOS_QUERY_FLAGS_OVERVIEW)
+    search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_PHOTOS);
+  else if (flags & PHOTOS_QUERY_FLAGS_SEARCH)
+    search_type = photos_base_manager_get_active_object (mngr);
+  else
+    search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_ALL);
+
   return photos_filterable_get_where (PHOTOS_FILTERABLE (search_type));
 }
 

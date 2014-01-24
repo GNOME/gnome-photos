@@ -35,7 +35,7 @@ G_DEFINE_TYPE (PhotosCollectionManager, photos_collection_manager, PHOTOS_TYPE_B
 
 
 static gchar *
-photos_collection_manager_get_where (PhotosBaseManager *mngr)
+photos_collection_manager_get_where (PhotosBaseManager *mngr, gint flags)
 {
   GObject *collection;
 
