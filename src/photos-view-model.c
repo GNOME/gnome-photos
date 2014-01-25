@@ -31,6 +31,7 @@
 #include "photos-offset-collections-controller.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-offset-overview-controller.h"
+#include "photos-offset-search-controller.h"
 #include "photos-view-model.h"
 
 
@@ -300,6 +301,10 @@ photos_view_model_constructed (GObject *object)
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
       priv->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
+      break;
+
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      priv->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
       break;
 
     default:

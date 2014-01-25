@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,8 +40,13 @@
 #include "photos-notification-manager.h"
 #include "photos-offset-overview-controller.h"
 #include "photos-preview-view.h"
+#include "photos-search-controller.h"
 #include "photos-selection-toolbar.h"
 #include "photos-spinner-box.h"
+#include "photos-search-type.h"
+#include "photos-search-type-manager.h"
+#include "photos-source.h"
+#include "photos-source-manager.h"
 #include "photos-tracker-change-monitor.h"
 #include "photos-tracker-overview-controller.h"
 #include "photos-view-container.h"
@@ -49,6 +54,7 @@
 
 struct _PhotosEmbedPrivate
 {
+  GAction *search_action;
   GCancellable *loader_cancellable;
   GtkWidget *collections;
   GtkWidget *error_box;
@@ -58,16 +64,21 @@ struct _PhotosEmbedPrivate
   GtkWidget *ntfctn_mngr;
   GtkWidget *overview;
   GtkWidget *preview;
+  GtkWidget *search;
   GtkWidget *selection_toolbar;
   GtkWidget *spinner_box;
   GtkWidget *stack;
   GtkWidget *stack_overlay;
   GtkWidget *toolbar;
   PhotosBaseManager *item_mngr;
+  PhotosBaseManager *src_mngr;
+  PhotosBaseManager *srch_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
+  PhotosSearchController *srch_cntrlr;
   PhotosTrackerChangeMonitor *monitor;
   PhotosTrackerController *trk_ovrvw_cntrlr;
+  PhotosWindowMode old_mode;
   guint load_show_id;
 };
 
@@ -143,6 +154,10 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
       view_container = NULL;
       break;
 
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      view_container = priv->search;
+      break;
+
     default:
       g_assert_not_reached ();
     }
@@ -197,6 +212,7 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
+  GVariant *state;
 
   if (object == NULL)
     return;
@@ -205,6 +221,9 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
 
   if (photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
     return;
+
+  state = g_variant_new ("b", FALSE);
+  g_action_change_state (priv->search_action, state);
 
   priv->load_show_id = g_timeout_add (400, photos_embed_load_show_timeout, g_object_ref (self));
 
@@ -240,6 +259,10 @@ photos_embed_restore_last_page (PhotosEmbed *self)
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
       page = "preview";
+      break;
+
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      page = "search";
       break;
 
     default:
@@ -306,14 +329,24 @@ photos_embed_notify_visible_child (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
   GtkWidget *visible_child;
+  GVariant *state;
+  PhotosWindowMode mode = PHOTOS_WINDOW_MODE_NONE;
 
   visible_child = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
   if (visible_child == priv->overview)
-    photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+    mode = PHOTOS_WINDOW_MODE_OVERVIEW;
   else if (visible_child == priv->collections)
-    photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_COLLECTIONS);
+    mode = PHOTOS_WINDOW_MODE_COLLECTIONS;
   else if (visible_child == priv->favorites)
-    photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_FAVORITES);
+    mode = PHOTOS_WINDOW_MODE_FAVORITES;
+
+  if (mode == PHOTOS_WINDOW_MODE_NONE)
+    return;
+
+  state = g_variant_new ("b", FALSE);
+  g_action_change_state (priv->search_action, state);
+
+  photos_mode_controller_set_window_mode (priv->mode_cntrlr, mode);
 }
 
 
@@ -372,6 +405,24 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
 
 
 static void
+photos_embed_prepare_for_search (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  photos_base_manager_set_active_object (priv->item_mngr, NULL);
+
+  if (priv->loader_cancellable != NULL)
+    {
+      g_cancellable_cancel (priv->loader_cancellable);
+      g_clear_object (&priv->loader_cancellable);
+    }
+
+  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
+  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "search");
+}
+
+
+static void
 photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *secondary)
 {
   PhotosEmbedPrivate *priv = self->priv;
@@ -407,6 +458,53 @@ photos_embed_query_status_changed (PhotosEmbed *self, gboolean querying)
 
 
 static void
+photos_embed_search_changed (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+  GObject *object;
+  PhotosWindowMode mode;
+  const gchar *str;
+  gchar *search_type_id;
+  gchar *source_id;
+
+  /* Whenever a search constraint is specified we want to switch to
+   * the search mode, and when all constraints have been lifted we
+   * want to go back to the previous mode.
+   *
+   * However there are some exceptions:
+   *  - when moving from search to preview
+   *  - when in preview
+   */
+  object = photos_base_manager_get_active_object (priv->item_mngr);
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  if (mode == PHOTOS_WINDOW_MODE_SEARCH && object != NULL)
+    return;
+  if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    return;
+
+  object = photos_base_manager_get_active_object (priv->src_mngr);
+  g_object_get (object, "id", &source_id, NULL);
+
+  object = photos_base_manager_get_active_object (priv->srch_mngr);
+  g_object_get (object, "id", &search_type_id, NULL);
+
+  str = photos_search_controller_get_string (priv->srch_cntrlr);
+
+  if (g_strcmp0 (search_type_id, PHOTOS_SEARCH_TYPE_STOCK_ALL) == 0
+      && g_strcmp0 (source_id, PHOTOS_SOURCE_STOCK_ALL) == 0
+      && (str == NULL || str [0] == '\0'))
+    mode = priv->old_mode;
+  else
+    mode = PHOTOS_WINDOW_MODE_SEARCH;
+
+  photos_mode_controller_set_window_mode (priv->mode_cntrlr, mode);
+
+  g_free (search_type_id);
+  g_free (source_id);
+}
+
+
+static void
 photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
                                   PhotosWindowMode mode,
                                   PhotosWindowMode old_mode,
@@ -414,12 +512,16 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
 
+  self->priv->old_mode = old_mode;
+
   if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
     photos_embed_prepare_for_collections (self);
   else if (mode == PHOTOS_WINDOW_MODE_FAVORITES)
     photos_embed_prepare_for_favorites (self);
   else if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
     photos_embed_prepare_for_overview (self);
+  else if (mode == PHOTOS_WINDOW_MODE_SEARCH)
+    photos_embed_prepare_for_search (self);
   else
     photos_embed_prepare_for_preview (self);
 }
@@ -435,9 +537,12 @@ photos_embed_dispose (GObject *object)
   g_clear_object (&priv->loader_cancellable);
   g_clear_object (&priv->indexing_ntfctn);
   g_clear_object (&priv->item_mngr);
+  g_clear_object (&priv->src_mngr);
+  g_clear_object (&priv->srch_mngr);
   g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->offset_cntrlr);
   g_clear_object (&priv->monitor);
+  g_clear_object (&priv->srch_cntrlr);
   g_clear_object (&priv->trk_ovrvw_cntrlr);
 
   /* GdStack triggers notify::visible-child during dispose and this means that
@@ -473,6 +578,7 @@ photos_embed_init (PhotosEmbed *self)
   priv = self->priv;
 
   app = photos_application_new ();
+  priv->search_action = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
   g_signal_connect_swapped (app, "window-added", G_CALLBACK (photos_embed_window_added), self);
   g_object_unref (app);
 
@@ -509,6 +615,9 @@ photos_embed_init (PhotosEmbed *self)
   priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES);
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->favorites, "favorites", _("Favorites"));
 
+  priv->search = photos_view_container_new (PHOTOS_WINDOW_MODE_SEARCH);
+  gtk_stack_add_named (GTK_STACK (priv->stack), priv->search, "search");
+
   priv->preview = photos_preview_view_new (GTK_OVERLAY (priv->stack_overlay));
   gtk_stack_add_named (GTK_STACK (priv->stack), priv->preview, "preview");
 
@@ -529,6 +638,7 @@ photos_embed_init (PhotosEmbed *self)
                            self, G_CONNECT_SWAPPED);
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  priv->old_mode = PHOTOS_WINDOW_MODE_NONE;
   g_signal_connect (priv->mode_cntrlr,
                     "window-mode-changed",
                     G_CALLBACK (photos_embed_window_mode_changed),
@@ -551,8 +661,20 @@ photos_embed_init (PhotosEmbed *self)
   priv->item_mngr = photos_item_manager_dup_singleton ();
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
 
+  priv->src_mngr = photos_source_manager_dup_singleton ();
+  g_signal_connect_swapped (priv->src_mngr, "active-changed", G_CALLBACK (photos_embed_search_changed), self);
+
+  priv->srch_mngr = photos_search_type_manager_dup_singleton ();
+  g_signal_connect_swapped (priv->srch_mngr, "active-changed", G_CALLBACK (photos_embed_search_changed), self);
+
   querying = photos_tracker_controller_get_query_status (priv->trk_ovrvw_cntrlr);
   photos_embed_query_status_changed (self, querying);
+
+  priv->srch_cntrlr = photos_search_controller_dup_singleton ();
+  g_signal_connect_swapped (priv->srch_cntrlr,
+                            "search-string-changed",
+                            G_CALLBACK (photos_embed_search_changed),
+                            self);
 
   priv->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
 

@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,6 +35,7 @@
 #include "photos-tracker-collections-controller.h"
 #include "photos-tracker-favorites-controller.h"
 #include "photos-tracker-overview-controller.h"
+#include "photos-tracker-search-controller.h"
 #include "photos-utils.h"
 #include "photos-view-container.h"
 #include "photos-view-model.h"
@@ -234,7 +235,8 @@ photos_view_container_window_mode_changed (PhotosModeController *mode_cntrlr,
 
   if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
       || mode == PHOTOS_WINDOW_MODE_FAVORITES
-      || mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+      || mode == PHOTOS_WINDOW_MODE_OVERVIEW
+      || mode == PHOTOS_WINDOW_MODE_SEARCH)
     photos_view_container_connect_view (self);
 }
 
@@ -303,6 +305,10 @@ photos_view_container_constructed (GObject *object)
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
       priv->trk_cntrlr = photos_tracker_overview_controller_dup_singleton ();
+      break;
+
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      priv->trk_cntrlr = photos_tracker_search_controller_dup_singleton ();
       break;
 
     default:
