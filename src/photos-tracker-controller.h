@@ -81,6 +81,8 @@ GType                     photos_tracker_controller_get_type          (void) G_G
 
 gboolean                  photos_tracker_controller_get_query_status  (PhotosTrackerController *self);
 
+void                      photos_tracker_controller_refresh_for_object (PhotosTrackerController *self);
+
 void                      photos_tracker_controller_start             (PhotosTrackerController *self);
 
 G_END_DECLS

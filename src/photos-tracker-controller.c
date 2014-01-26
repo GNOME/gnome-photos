@@ -208,13 +208,6 @@ photos_tracker_controller_offset_changed (PhotosTrackerController *self)
 
 
 static void
-photos_tracker_controller_refresh_for_object (PhotosTrackerController *self)
-{
-  photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_RESET_OFFSET);
-}
-
-
-static void
 photos_tracker_controller_set_query_status (PhotosTrackerController *self, gboolean query_status)
 {
   PhotosTrackerControllerPrivate *priv = self->priv;
@@ -406,10 +399,6 @@ photos_tracker_controller_init (PhotosTrackerController *self)
                             "object-removed",
                             G_CALLBACK (photos_tracker_controller_source_object_added_removed),
                             self);
-  g_signal_connect_swapped (priv->src_mngr,
-                            "active-changed",
-                            G_CALLBACK (photos_tracker_controller_refresh_for_object),
-                            self);
 
   priv->queue = photos_tracker_queue_dup_singleton (NULL, &priv->queue_error);
 }
@@ -458,6 +447,13 @@ photos_tracker_controller_class_init (PhotosTrackerControllerClass *class)
                                                 G_TYPE_NONE,
                                                 1,
                                                 G_TYPE_BOOLEAN);
+}
+
+
+void
+photos_tracker_controller_refresh_for_object (PhotosTrackerController *self)
+{
+  photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_RESET_OFFSET);
 }
 
 
