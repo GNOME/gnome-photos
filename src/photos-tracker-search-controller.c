@@ -28,6 +28,7 @@
 #include "photos-mode-controller.h"
 #include "photos-offset-search-controller.h"
 #include "photos-query-builder.h"
+#include "photos-search-type-manager.h"
 #include "photos-source-manager.h"
 #include "photos-tracker-search-controller.h"
 
@@ -35,6 +36,7 @@
 struct _PhotosTrackerSearchControllerPrivate
 {
   PhotosBaseManager *src_mngr;
+  PhotosBaseManager *srch_typ_mngr;
   PhotosOffsetController *offset_cntrlr;
 };
 
@@ -87,6 +89,7 @@ photos_tracker_search_controller_dispose (GObject *object)
   PhotosTrackerSearchControllerPrivate *priv = self->priv;
 
   g_clear_object (&priv->src_mngr);
+  g_clear_object (&priv->srch_typ_mngr);
   g_clear_object (&priv->offset_cntrlr);
 
   G_OBJECT_CLASS (photos_tracker_search_controller_parent_class)->dispose (object);
@@ -103,6 +106,12 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
 
   priv->src_mngr = photos_source_manager_dup_singleton ();
   g_signal_connect_swapped (priv->src_mngr,
+                            "active-changed",
+                            G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                            self);
+
+  priv->srch_typ_mngr = photos_search_type_manager_dup_singleton ();
+  g_signal_connect_swapped (priv->srch_typ_mngr,
                             "active-changed",
                             G_CALLBACK (photos_tracker_controller_refresh_for_object),
                             self);
