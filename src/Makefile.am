@@ -164,6 +164,8 @@ gnome_photos_SOURCES = \
 	photos-remote-display-manager.h \
 	photos-search-controller.c \
 	photos-search-controller.h \
+	photos-search-match.c \
+	photos-search-match.h \
 	photos-search-type.c \
 	photos-search-type.h \
 	photos-search-type-manager.c \
