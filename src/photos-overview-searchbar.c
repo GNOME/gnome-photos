@@ -32,6 +32,7 @@
 #include "photos-collection-manager.h"
 #include "photos-overview-searchbar.h"
 #include "photos-search-controller.h"
+#include "photos-search-match-manager.h"
 #include "photos-search-type.h"
 #include "photos-search-type-manager.h"
 #include "photos-source-manager.h"
@@ -42,12 +43,14 @@ struct _PhotosOverviewSearchbarPrivate
   GAction *select_all;
   GdTaggedEntry *search_entry;
   GdTaggedEntryTag *src_tag;
+  GdTaggedEntryTag *srch_mtch_tag;
   GdTaggedEntryTag *srch_typ_tag;
   GtkWidget *dropdown;
   GtkWidget *dropdown_button;
   GtkWidget *search_container;
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *src_mngr;
+  PhotosBaseManager *srch_mtch_mngr;
   PhotosBaseManager *srch_typ_mngr;
   PhotosSearchController *srch_cntrlr;
 };
@@ -121,7 +124,7 @@ photos_overview_searchbar_hide (PhotosSearchbar *searchbar)
   g_simple_action_set_enabled (G_SIMPLE_ACTION (priv->select_all), TRUE);
 
   photos_base_manager_set_active_object_by_id (priv->srch_typ_mngr, "all");
-  /* TODO: match manager */
+  photos_base_manager_set_active_object_by_id (priv->srch_mtch_mngr, "all");
   photos_base_manager_set_active_object_by_id (priv->src_mngr, "all");
 
   PHOTOS_SEARCHBAR_CLASS (photos_overview_searchbar_parent_class)->hide (searchbar);
@@ -132,6 +135,14 @@ static void
 photos_overview_searchbar_item_activated (PhotosOverviewSearchbar *self)
 {
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->dropdown_button), FALSE);
+}
+
+
+static void
+photos_overview_searchbar_search_match_active_changed (PhotosOverviewSearchbar *self)
+{
+  PhotosOverviewSearchbarPrivate *priv = self->priv;
+  photos_overview_searchbar_active_changed (self, priv->srch_mtch_mngr, priv->srch_mtch_tag);
 }
 
 
@@ -175,9 +186,10 @@ photos_overview_searchbar_tag_button_clicked (PhotosOverviewSearchbar *self, GdT
   PhotosOverviewSearchbarPrivate *priv = self->priv;
   PhotosBaseManager *mngr = NULL;
 
-  /* TODO: match tag */
   if (tag == priv->src_tag)
     mngr = priv->src_mngr;
+  else if (tag == priv->srch_mtch_tag)
+    mngr = priv->srch_mtch_mngr;
   else if (tag == priv->srch_typ_tag)
     mngr = priv->srch_typ_mngr;
 
@@ -225,8 +237,8 @@ photos_overview_searchbar_create_search_widgets (PhotosSearchbar *searchbar)
   photos_searchbar_set_search_entry (PHOTOS_SEARCHBAR (self), GTK_WIDGET (priv->search_entry));
 
   priv->src_tag = gd_tagged_entry_tag_new (NULL);
+  priv->srch_mtch_tag = gd_tagged_entry_tag_new (NULL);
   priv->srch_typ_tag = gd_tagged_entry_tag_new (NULL);
-  /* TODO: match tag */
 
   g_signal_connect_object (priv->srch_cntrlr,
                            "search-string-changed",
@@ -293,6 +305,7 @@ photos_overview_searchbar_constructed (GObject *object)
 
   photos_overview_searchbar_source_active_changed (self);
   photos_overview_searchbar_search_type_active_changed (self);
+  photos_overview_searchbar_search_match_active_changed (self);
 }
 
 
@@ -304,6 +317,7 @@ photos_overview_searchbar_dispose (GObject *object)
 
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->src_mngr);
+  g_clear_object (&priv->srch_mtch_mngr);
   g_clear_object (&priv->srch_typ_mngr);
   g_clear_object (&priv->srch_cntrlr);
 
@@ -349,14 +363,19 @@ photos_overview_searchbar_init (PhotosOverviewSearchbar *self)
                            self,
                            G_CONNECT_SWAPPED);
 
+  priv->srch_mtch_mngr = photos_search_match_manager_dup_singleton ();
+  g_signal_connect_object (priv->srch_mtch_mngr,
+                           "active-changed",
+                           G_CALLBACK (photos_overview_searchbar_search_match_active_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
   priv->srch_typ_mngr = photos_search_type_manager_dup_singleton ();
   g_signal_connect_object (priv->srch_typ_mngr,
                            "active-changed",
                            G_CALLBACK (photos_overview_searchbar_search_type_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
-
-  /* TODO: SearchMatchManager */
 
   priv->col_mngr = photos_collection_manager_dup_singleton ();
   g_signal_connect_object (priv->col_mngr,

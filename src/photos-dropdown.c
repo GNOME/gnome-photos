@@ -30,14 +30,17 @@
 #include "photos-base-view.h"
 #include "photos-dropdown.h"
 #include "photos-source-manager.h"
+#include "photos-search-match-manager.h"
 #include "photos-search-type-manager.h"
 
 
 struct _PhotosDropdownPrivate
 {
   GtkWidget *grid;
+  GtkWidget *match_view;
   GtkWidget *source_view;
   GtkWidget *type_view;
+  PhotosBaseManager *srch_mtch_mngr;
   PhotosBaseManager *srch_typ_mngr;
   PhotosBaseManager *src_mngr;
 };
@@ -67,6 +70,7 @@ photos_dropdown_dispose (GObject *object)
   PhotosDropdown *self = PHOTOS_DROPDOWN (object);
   PhotosDropdownPrivate *priv = self->priv;
 
+  g_clear_object (&priv->srch_mtch_mngr);
   g_clear_object (&priv->srch_typ_mngr);
   g_clear_object (&priv->src_mngr);
 
@@ -84,13 +88,15 @@ photos_dropdown_init (PhotosDropdown *self)
   self->priv = photos_dropdown_get_instance_private (self);
   priv = self->priv;
 
+  priv->srch_mtch_mngr = photos_search_match_manager_dup_singleton ();
   priv->srch_typ_mngr = photos_search_type_manager_dup_singleton ();
   priv->src_mngr = photos_source_manager_dup_singleton ();
 
+  priv->match_view = photos_base_view_new (priv->srch_mtch_mngr);
   priv->source_view = photos_base_view_new (priv->src_mngr);
   priv->type_view = photos_base_view_new (priv->srch_typ_mngr);
-  /* TODO: SearchMatchManager */
 
+  g_signal_connect_swapped (priv->match_view, "item-activated", G_CALLBACK (photos_dropdown_item_activated), self);
   g_signal_connect_swapped (priv->source_view, "item-activated", G_CALLBACK (photos_dropdown_item_activated), self);
   g_signal_connect_swapped (priv->type_view, "item-activated", G_CALLBACK (photos_dropdown_item_activated), self);
 
@@ -107,6 +113,7 @@ photos_dropdown_init (PhotosDropdown *self)
 
   gtk_container_add (GTK_CONTAINER (priv->grid), priv->source_view);
   gtk_container_add (GTK_CONTAINER (priv->grid), priv->type_view);
+  gtk_container_add (GTK_CONTAINER (priv->grid), priv->match_view);
 
   photos_dropdown_hide (self);
   gtk_widget_show_all (GTK_WIDGET (self));
