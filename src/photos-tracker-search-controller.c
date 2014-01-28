@@ -29,6 +29,8 @@
 #include "photos-mode-controller.h"
 #include "photos-offset-search-controller.h"
 #include "photos-query-builder.h"
+#include "photos-search-controller.h"
+#include "photos-search-match-manager.h"
 #include "photos-search-type-manager.h"
 #include "photos-source-manager.h"
 #include "photos-tracker-search-controller.h"
@@ -38,9 +40,11 @@ struct _PhotosTrackerSearchControllerPrivate
 {
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *src_mngr;
+  PhotosBaseManager *srch_mtch_mngr;
   PhotosBaseManager *srch_typ_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
+  PhotosSearchController *srch_cntrlr;
 };
 
 
@@ -78,6 +82,19 @@ photos_tracker_search_controller_get_query (PhotosTrackerController *trk_cntrlr)
 }
 
 
+static void
+photos_tracker_search_controller_search_match_active_changed (PhotosTrackerSearchController *self)
+{
+  const gchar *str;
+
+  str = photos_search_controller_get_string (self->priv->srch_cntrlr);
+  if (str == NULL || str[0] == '\0')
+    return;
+
+  photos_tracker_controller_refresh_for_object (PHOTOS_TRACKER_CONTROLLER (self));
+}
+
+
 static GObject *
 photos_tracker_search_controller_constructor (GType type,
                                               guint n_construct_params,
@@ -106,9 +123,11 @@ photos_tracker_search_controller_dispose (GObject *object)
 
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->src_mngr);
+  g_clear_object (&priv->srch_mtch_mngr);
   g_clear_object (&priv->srch_typ_mngr);
   g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->offset_cntrlr);
+  g_clear_object (&priv->srch_cntrlr);
 
   G_OBJECT_CLASS (photos_tracker_search_controller_parent_class)->dispose (object);
 }
@@ -134,6 +153,12 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
                             G_CALLBACK (photos_tracker_controller_refresh_for_object),
                             self);
 
+  priv->srch_mtch_mngr = photos_search_match_manager_dup_singleton ();
+  g_signal_connect_swapped (priv->srch_mtch_mngr,
+                            "active-changed",
+                            G_CALLBACK (photos_tracker_search_controller_search_match_active_changed),
+                            self);
+
   priv->srch_typ_mngr = photos_search_type_manager_dup_singleton ();
   g_signal_connect_swapped (priv->srch_typ_mngr,
                             "active-changed",
@@ -142,6 +167,12 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
   priv->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
+
+  priv->srch_cntrlr = photos_search_controller_dup_singleton ();
+  g_signal_connect_swapped (priv->srch_cntrlr,
+                            "search-string-changed",
+                            G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                            self);
 }
 
 
