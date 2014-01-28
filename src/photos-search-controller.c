@@ -128,13 +128,16 @@ photos_search_controller_get_string (PhotosSearchController *self)
 gchar **
 photos_search_controller_get_terms (PhotosSearchController *self)
 {
+  gchar *escaped_str;
   gchar *str;
   gchar **terms;
 
-  str = tracker_sparql_escape_string (self->priv->str);
+  escaped_str = tracker_sparql_escape_string (self->priv->str);
+  str = g_utf8_casefold (escaped_str, -1);
   /* TODO: find out what str.replace(/ + /g, ' ') does */
   terms = g_strsplit (str, " ", -1);
   g_free (str);
+  g_free (escaped_str);
   return terms;
 }
 
