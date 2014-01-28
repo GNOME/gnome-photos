@@ -28,7 +28,6 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
-#include "photos-collection-manager.h"
 #include "photos-enums.h"
 #include "photos-item-manager.h"
 #include "photos-marshalers.h"
@@ -43,7 +42,6 @@ struct _PhotosTrackerControllerPrivate
 {
   GCancellable *cancellable;
   GError *queue_error;
-  PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosModeController *mode_cntrlr;
@@ -249,7 +247,6 @@ photos_tracker_controller_refresh_internal (PhotosTrackerController *self, gint 
     }
 
   photos_tracker_controller_set_query_status (self, TRUE);
-  photos_base_manager_clear (priv->item_mngr);
   photos_tracker_controller_perform_current_query (self);
 }
 
@@ -329,7 +326,6 @@ photos_tracker_controller_dispose (GObject *object)
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
   PhotosTrackerControllerPrivate *priv = self->priv;
 
-  g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->mode_cntrlr);
@@ -383,12 +379,6 @@ photos_tracker_controller_init (PhotosTrackerController *self)
 
   priv->cancellable = g_cancellable_new ();
   priv->item_mngr = photos_item_manager_dup_singleton ();
-
-  priv->col_mngr = photos_collection_manager_dup_singleton ();
-  g_signal_connect_swapped (priv->col_mngr,
-                            "active-changed",
-                            G_CALLBACK (photos_tracker_controller_refresh_for_object),
-                            self);
 
   priv->src_mngr = photos_source_manager_dup_singleton ();
   g_signal_connect_swapped (priv->src_mngr,

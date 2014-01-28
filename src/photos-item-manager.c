@@ -266,11 +266,16 @@ void
 photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
 {
   PhotosBaseItem *item = NULL;
+  GObject *object;
   const gchar *id;
 
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
-  if (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id) != NULL)
-    goto out;
+  object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id);
+  if (object != NULL)
+    {
+      g_signal_emit_by_name (self, "object-added", object);
+      goto out;
+    }
 
   item = photos_item_manager_create_item (self, cursor);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (item));

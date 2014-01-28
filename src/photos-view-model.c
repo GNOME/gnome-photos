@@ -28,10 +28,15 @@
 #include "photos-collection-manager.h"
 #include "photos-enums.h"
 #include "photos-item-manager.h"
+#include "photos-mode-controller.h"
 #include "photos-offset-collections-controller.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-offset-overview-controller.h"
 #include "photos-offset-search-controller.h"
+#include "photos-tracker-collections-controller.h"
+#include "photos-tracker-favorites-controller.h"
+#include "photos-tracker-overview-controller.h"
+#include "photos-tracker-search-controller.h"
 #include "photos-view-model.h"
 
 
@@ -39,7 +44,9 @@ struct _PhotosViewModelPrivate
 {
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
+  PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
+  PhotosTrackerController *trk_cntrlr;
   PhotosWindowMode mode;
   gchar *row_ref_key;
   gint n_rows;
@@ -140,8 +147,17 @@ static void
 photos_view_model_clear (PhotosViewModel *self)
 {
   PhotosViewModelPrivate *priv = self->priv;
+  GHashTable *items;
+  GHashTableIter iter;
+  PhotosBaseItem *item;
+
+  items = photos_base_manager_get_objects (priv->item_mngr);
+  g_hash_table_iter_init (&iter, items);
+  while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &item))
+    g_object_set_data (G_OBJECT (item), priv->row_ref_key, NULL);
 
   gtk_list_store_clear (GTK_LIST_STORE (self));
+
   priv->n_rows = 0;
   priv->oldest_mtime = G_MAXINT64;
 }
@@ -216,7 +232,7 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
       is_collection = photos_base_item_is_collection (item);
       if (!is_collection && row_ref != NULL && active_collection == NULL)
         photos_view_model_object_removed (self, G_OBJECT (item));
-      else if (is_collection  && row_ref == NULL)
+      else if (is_collection  && row_ref == NULL && active_collection == NULL)
         photos_view_model_add_item (self, item);
     }
   else if (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES)
@@ -258,15 +274,22 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
   PhotosViewModelPrivate *priv = self->priv;
+  PhotosWindowMode mode;
   GObject *active_collection;
+  GtkTreeRowReference *row_ref;
   gboolean is_collection;
   gboolean is_favorite;
+
+  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
+  if (row_ref != NULL)
+    return;
 
   active_collection = photos_base_manager_get_active_object (priv->col_mngr);
   is_collection = photos_base_item_is_collection (item);
   is_favorite = photos_base_item_is_favorite (item);
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
 
-  if (active_collection == NULL)
+  if (active_collection == NULL || priv->mode != mode)
     {
       if ((priv->mode == PHOTOS_WINDOW_MODE_COLLECTIONS && !is_collection)
           || (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES && !is_favorite)
@@ -282,6 +305,16 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
 
 
 static void
+photos_view_model_query_status_changed (PhotosViewModel *self, gboolean query_status)
+{
+  if (query_status == FALSE)
+    return;
+
+  photos_view_model_clear (self);
+}
+
+
+static void
 photos_view_model_constructed (GObject *object)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
@@ -293,18 +326,22 @@ photos_view_model_constructed (GObject *object)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
       priv->offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
+      priv->trk_cntrlr = photos_tracker_collections_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
       priv->offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
+      priv->trk_cntrlr = photos_tracker_favorites_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
       priv->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
+      priv->trk_cntrlr = photos_tracker_overview_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_SEARCH:
       priv->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
+      priv->trk_cntrlr = photos_tracker_search_controller_dup_singleton ();
       break;
 
     default:
@@ -314,7 +351,11 @@ photos_view_model_constructed (GObject *object)
 
   g_signal_connect_swapped (priv->item_mngr, "object-added", G_CALLBACK (photos_view_model_object_added), self);
   g_signal_connect_swapped (priv->item_mngr, "object-removed", G_CALLBACK (photos_view_model_object_removed), self);
-  g_signal_connect_swapped (priv->item_mngr, "clear", G_CALLBACK (photos_view_model_clear), self);
+
+  g_signal_connect_swapped (priv->trk_cntrlr,
+                            "query-status-changed",
+                            G_CALLBACK (photos_view_model_query_status_changed),
+                            self);
 }
 
 
@@ -332,7 +373,9 @@ photos_view_model_dispose (GObject *object)
 
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
+  g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->offset_cntrlr);
+  g_clear_object (&priv->trk_cntrlr);
 
   G_OBJECT_CLASS (photos_view_model_parent_class)->dispose (object);
 }
@@ -390,6 +433,7 @@ photos_view_model_init (PhotosViewModel *self)
 
   priv->col_mngr = photos_collection_manager_dup_singleton ();
   priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
 
   priv->oldest_mtime = G_MAXINT64;
 }

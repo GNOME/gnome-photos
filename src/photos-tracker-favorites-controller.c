@@ -31,6 +31,7 @@
 struct _PhotosTrackerFavoritesControllerPrivate
 {
   PhotosBaseManager *col_mngr;
+  PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
 };
 
@@ -38,6 +39,19 @@ struct _PhotosTrackerFavoritesControllerPrivate
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosTrackerFavoritesController,
                             photos_tracker_favorites_controller,
                             PHOTOS_TYPE_TRACKER_CONTROLLER);
+
+
+static void
+photos_tracker_favorites_controller_col_active_changed (PhotosTrackerFavoritesController *self)
+{
+  PhotosWindowMode mode;
+
+  mode = photos_mode_controller_get_window_mode (self->priv->mode_cntrlr);
+  if (mode != PHOTOS_WINDOW_MODE_FAVORITES)
+    return;
+
+  photos_tracker_controller_refresh_for_object (PHOTOS_TRACKER_CONTROLLER (self));
+}
 
 
 static PhotosOffsetController *
@@ -93,6 +107,7 @@ photos_tracker_favorites_controller_dispose (GObject *object)
   PhotosTrackerFavoritesControllerPrivate *priv = self->priv;
 
   g_clear_object (&priv->col_mngr);
+  g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->offset_cntrlr);
 
   G_OBJECT_CLASS (photos_tracker_favorites_controller_parent_class)->dispose (object);
@@ -108,6 +123,12 @@ photos_tracker_favorites_controller_init (PhotosTrackerFavoritesController *self
   priv = self->priv;
 
   priv->col_mngr = photos_collection_manager_dup_singleton ();
+  g_signal_connect_swapped (priv->col_mngr,
+                            "active-changed",
+                            G_CALLBACK (photos_tracker_favorites_controller_col_active_changed),
+                            self);
+
+  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
   priv->offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
 }
 
