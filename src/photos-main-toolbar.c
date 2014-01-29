@@ -785,6 +785,16 @@ photos_main_toolbar_new (GtkOverlay *overlay)
 }
 
 
+gboolean
+photos_main_toolbar_handle_event (PhotosMainToolbar *self, GdkEventKey *event)
+{
+  gboolean ret_val = FALSE;
+
+  ret_val = photos_searchbar_handle_event (PHOTOS_SEARCHBAR (self->priv->searchbar), event);
+  return ret_val;
+}
+
+
 void
 photos_main_toolbar_set_stack (PhotosMainToolbar *self, GtkStack *stack)
 {
