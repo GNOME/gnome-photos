@@ -46,6 +46,7 @@
 
 struct _PhotosMainToolbarPrivate
 {
+  GAction *search;
   GSimpleAction *gear_menu;
   GtkWidget *coll_back_button;
   GtkWidget *overlay;
@@ -336,7 +337,15 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
     }
 
   if (priv->searchbar != NULL && gtk_widget_get_parent (priv->searchbar) == GTK_WIDGET (self))
-    gtk_container_remove (GTK_CONTAINER (self), priv->searchbar);
+    {
+      GVariant *state;
+
+      state = g_action_get_state (priv->search);
+      if (!g_variant_get_boolean (state))
+        gtk_container_remove (GTK_CONTAINER (self), priv->searchbar);
+
+      g_variant_unref (state);
+    }
 
   if (priv->col_mngr != NULL)
     g_signal_handlers_disconnect_by_func (priv->col_mngr, photos_main_toolbar_col_active_changed, self);
@@ -429,7 +438,9 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
-  gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
+
+  if (gtk_widget_get_parent (priv->searchbar) == NULL)
+    gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
   photos_main_toolbar_col_active_changed (priv->col_mngr, object, self);
@@ -464,7 +475,9 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
-  gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
+
+  if (gtk_widget_get_parent (priv->searchbar) == NULL)
+    gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
   photos_main_toolbar_col_active_changed (priv->col_mngr, object, self);
@@ -481,7 +494,9 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
-  gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
+
+  if (gtk_widget_get_parent (priv->searchbar) == NULL)
+    gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
   photos_main_toolbar_col_active_changed (priv->col_mngr, object, self);
@@ -536,7 +551,9 @@ photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
-  gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
+
+  if (gtk_widget_get_parent (priv->searchbar) == NULL)
+    gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
   object = photos_base_manager_get_active_object (priv->col_mngr);
   photos_main_toolbar_col_active_changed (priv->col_mngr, object, self);
@@ -701,6 +718,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
 
   app = photos_application_new ();
   priv->gear_menu = G_SIMPLE_ACTION (g_action_map_lookup_action (G_ACTION_MAP (app), "gear-menu"));
+  priv->search = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
   g_object_unref (app);
 
   builder = gtk_builder_new ();

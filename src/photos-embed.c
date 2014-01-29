@@ -342,8 +342,11 @@ photos_embed_notify_visible_child (PhotosEmbed *self)
   if (mode == PHOTOS_WINDOW_MODE_NONE)
     return;
 
-  state = g_variant_new ("b", FALSE);
-  g_action_change_state (priv->search_action, state);
+  if (!photos_main_toolbar_is_focus (PHOTOS_MAIN_TOOLBAR (priv->toolbar)))
+    {
+      state = g_variant_new ("b", FALSE);
+      g_action_change_state (priv->search_action, state);
+    }
 
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, mode);
 }
