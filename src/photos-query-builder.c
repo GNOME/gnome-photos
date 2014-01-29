@@ -31,6 +31,7 @@
 #include "photos-query-builder.h"
 #include "photos-search-type.h"
 #include "photos-source-manager.h"
+#include "photos-search-match-manager.h"
 #include "photos-search-type-manager.h"
 
 
@@ -55,21 +56,32 @@ static gchar *
 photos_query_builder_filter (gint flags)
 {
   PhotosBaseManager *src_mngr;
+  PhotosBaseManager *srch_mtch_mngr;
   PhotosBaseManager *srch_typ_mngr;
   gchar *sparql;
   gchar *src_mngr_filter;
+  gchar *srch_mtch_mngr_filter;
   gchar *srch_typ_mngr_filter;
 
   src_mngr = photos_source_manager_dup_singleton ();
   src_mngr_filter = photos_base_manager_get_filter (src_mngr, flags);
 
+  srch_mtch_mngr = photos_search_match_manager_dup_singleton ();
+  srch_mtch_mngr_filter = photos_base_manager_get_filter (srch_mtch_mngr, flags);
+
   srch_typ_mngr = photos_search_type_manager_dup_singleton ();
   srch_typ_mngr_filter = photos_base_manager_get_filter (srch_typ_mngr, flags);
 
-  sparql = g_strdup_printf ("FILTER (%s && %s)", src_mngr_filter, srch_typ_mngr_filter);
+  sparql = g_strdup_printf ("FILTER (%s && %s && %s)",
+                            src_mngr_filter,
+                            srch_mtch_mngr_filter,
+                            srch_typ_mngr_filter);
 
   g_free (srch_typ_mngr_filter);
   g_object_unref (srch_typ_mngr);
+
+  g_free (srch_mtch_mngr_filter);
+  g_object_unref (srch_mtch_mngr);
 
   g_free (src_mngr_filter);
   g_object_unref (src_mngr);
