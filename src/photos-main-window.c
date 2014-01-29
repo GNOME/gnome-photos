@@ -229,21 +229,16 @@ static gboolean
 photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *event)
 {
   PhotosMainWindowPrivate *priv = self->priv;
-  GtkTextDirection direction;
   gboolean fullscreen;
 
-  direction = gtk_widget_get_direction (GTK_WIDGET (self));
   fullscreen = photos_mode_controller_get_fullscreen (priv->mode_cntrlr);
-
-  if ((fullscreen && event->keyval == GDK_KEY_Escape)
-      || ((event->state & GDK_MOD1_MASK) != 0
-          && ((direction == GTK_TEXT_DIR_LTR && event->keyval == GDK_KEY_Left)
-              || (direction == GTK_TEXT_DIR_RTL && event->keyval == GDK_KEY_Right)))
-      || event->keyval == GDK_KEY_BackSpace
-      || event->keyval == GDK_KEY_Back)
+  if (event->keyval == GDK_KEY_Escape)
     {
-      photos_base_manager_set_active_object (priv->item_mngr, NULL);
-      return GDK_EVENT_STOP;
+      if (fullscreen)
+        {
+          photos_base_manager_set_active_object (priv->item_mngr, NULL);
+          photos_mode_controller_set_window_mode (priv->mode_cntrlr, priv->old_mode);
+        }
     }
 
   return GDK_EVENT_PROPAGATE;
@@ -255,15 +250,40 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (widget);
   PhotosMainWindowPrivate *priv = self->priv;
+  PhotosMainToolbar *toolbar;
   PhotosWindowMode mode;
-  gboolean handled;
+  gboolean handled = GDK_EVENT_PROPAGATE;
+
+  toolbar = photos_embed_get_main_toolbar (PHOTOS_EMBED (priv->embed));
+  handled = photos_main_toolbar_handle_event (toolbar, event);
+  if (handled)
+    goto out;
+
+  handled = photos_main_window_handle_back_key (self, event);
+  if (handled)
+    goto out;
 
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    handled = photos_main_window_handle_key_preview (self, event);
-  else
-    handled = photos_main_window_handle_key_overview (self, event);
 
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_NONE:
+      handled = GDK_EVENT_PROPAGATE;
+      break;
+
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      handled = photos_main_window_handle_key_preview (self, event);
+      break;
+
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      handled = photos_main_window_handle_key_overview (self, event);
+      break;
+    }
+
+ out:
   if (!handled)
     handled = GTK_WIDGET_CLASS (photos_main_window_parent_class)->key_press_event (widget, event);
 
