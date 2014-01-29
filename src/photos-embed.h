@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,6 +26,8 @@
 #define PHOTOS_EMBED_H
 
 #include <gtk/gtk.h>
+
+#include "photos-main-toolbar.h"
 
 G_BEGIN_DECLS
 
@@ -69,6 +71,8 @@ struct _PhotosEmbedClass
 GType                  photos_embed_get_type               (void) G_GNUC_CONST;
 
 GtkWidget             *photos_embed_new                    (void);
+
+PhotosMainToolbar     *photos_embed_get_main_toolbar       (PhotosEmbed *self);
 
 G_END_DECLS
 

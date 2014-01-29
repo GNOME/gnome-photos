@@ -35,7 +35,6 @@
 #include "photos-error-box.h"
 #include "photos-indexing-notification.h"
 #include "photos-item-manager.h"
-#include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
 #include "photos-notification-manager.h"
 #include "photos-offset-overview-controller.h"
@@ -695,4 +694,11 @@ GtkWidget *
 photos_embed_new (void)
 {
   return g_object_new (PHOTOS_TYPE_EMBED, NULL);
+}
+
+
+PhotosMainToolbar *
+photos_embed_get_main_toolbar (PhotosEmbed *self)
+{
+  return PHOTOS_MAIN_TOOLBAR (self->priv->toolbar);
 }
