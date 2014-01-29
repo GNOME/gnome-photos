@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-14 11:09+0200\n"
-"PO-Revision-Date: 2014-01-14 11:13+0200\n"
+"POT-Creation-Date: 2014-01-29 16:53+0200\n"
+"PO-Revision-Date: 2014-01-29 16:54+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -50,7 +50,7 @@ msgstr ""
 "li> <li>אפשרות לפתיחה בעורך מלא לשינויים מתקדמים</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:96
+#: ../src/photos-search-type-manager.c:145
 msgid "Photos"
 msgstr "תמונות"
 
@@ -175,7 +175,7 @@ msgstr "יציאה"
 msgid "Album"
 msgstr "אלבום"
 
-#: ../src/photos-base-item.c:727
+#: ../src/photos-base-item.c:730
 msgid "Screenshots"
 msgstr "צילומי מסך"
 
@@ -183,15 +183,15 @@ msgstr "צילומי מסך"
 msgid "DLNA Renderer Devices"
 msgstr "התקן עיבוד DLNA"
 
-#: ../src/photos-embed.c:504
+#: ../src/photos-embed.c:612
 msgid "Recent"
 msgstr "אחרונים"
 
-#: ../src/photos-embed.c:507 ../src/photos-search-type-manager.c:82
+#: ../src/photos-embed.c:615 ../src/photos-search-type-manager.c:131
 msgid "Albums"
 msgstr "אלבומים"
 
-#: ../src/photos-embed.c:510 ../src/photos-search-type-manager.c:89
+#: ../src/photos-embed.c:618 ../src/photos-search-type-manager.c:138
 msgid "Favorites"
 msgstr "מועדפים"
 
@@ -231,57 +231,61 @@ msgstr "התמונות שלך נשמרות באינדקס"
 msgid "Some photos might not be available during this process"
 msgstr "יתכן שחלק מהתמונות לא תהינה זמינות במשך תהליך זה"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
 msgid "Load More"
 msgstr "טעינת עוד"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
 msgid "Loading…"
 msgstr "בטעינה…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:130
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
 msgid "Local"
 msgstr "מקומי"
 
-#: ../src/photos-main-toolbar.c:99
+#: ../src/photos-main-toolbar.c:111
 msgid "Click on items to select them"
 msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
 
-#: ../src/photos-main-toolbar.c:101
+#: ../src/photos-main-toolbar.c:113
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "אחת נבחרה"
 msgstr[1] "%d נבחרו"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:158
 msgid "Back"
 msgstr "חזרה"
 
-#: ../src/photos-main-toolbar.c:271
+#: ../src/photos-main-toolbar.c:282
+msgid "Search"
+msgstr "חיפוש"
+
+#: ../src/photos-main-toolbar.c:298
 msgid "Select Items"
 msgstr "בחירת פריטים"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:360 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:412 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "פתיחה באמצעות %s"
 
-#: ../src/photos-main-toolbar.c:489
+#: ../src/photos-main-toolbar.c:572
 msgid "Cancel"
 msgstr "ביטול"
 
-#: ../src/photos-main-window.c:331
+#: ../src/photos-main-window.c:441
 msgid "Access, organize and share your photos on GNOME"
 msgstr "לגשת, לארגן ולשתף את התמונות שלך ב־GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:341
+#: ../src/photos-main-window.c:451
 msgid "translator-credits"
 msgstr ""
 "ירון שהרבני <sh.yaron@gmail.com>\n"
-"יוסף אור בוצ׳קו <yoseforb@gmail.com>"
+"יוסף אור בוצ׳קו <yoseforb@gnome.org>"
 
 #: ../src/photos-organize-collection-dialog.c:76
 msgid "_Add"
@@ -298,8 +302,8 @@ msgid "Organize"
 msgstr "ארגון"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
-#: ../src/photos-selection-toolbar.c:437
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-selection-toolbar.c:438
 msgid "Open"
 msgstr "פתיחה"
 
@@ -316,17 +320,17 @@ msgid "Set as Background"
 msgstr "הגדרה כרקע"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:462
 msgid "Properties"
 msgstr "מאפיינים"
 
 #: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
+#: ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "הסרה מהמועדפים"
 
 #: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
+#: ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "הוספה למועדפים"
 
@@ -486,9 +490,37 @@ msgstr "פועל"
 msgid "Done"
 msgstr "בוצע"
 
-#: ../src/photos-search-type-manager.c:75 ../src/photos-source-manager.c:126
+#: ../src/photos-search-match-manager.c:156
+#: ../src/photos-search-type-manager.c:124 ../src/photos-source-manager.c:151
 msgid "All"
 msgstr "הכול"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:163
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "כותרת"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:170
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "יוצר"
+
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:197
+msgid "Match"
+msgstr "התאמה"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:176
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "סוג"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -498,19 +530,23 @@ msgstr "בחירת הכול"
 msgid "Select None"
 msgstr "ביטול הבחירה"
 
-#: ../src/photos-selection-toolbar.c:445
+#: ../src/photos-selection-toolbar.c:446
 msgid "Print"
 msgstr "הדפסה"
 
-#: ../src/photos-selection-toolbar.c:453
+#: ../src/photos-selection-toolbar.c:454
 msgid "Delete"
 msgstr "מחיקה"
 
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:470
 msgid "Add to Album"
 msgstr "הוספה לאלבום"
 
-#: ../src/photos-tracker-controller.c:94
+#: ../src/photos-source-manager.c:196
+msgid "Sources"
+msgstr "מקורות"
+
+#: ../src/photos-tracker-controller.c:92
 msgid "Unable to fetch the list of photos"
 msgstr "לא ניתן לקבל את רשימת התמונות"
 
