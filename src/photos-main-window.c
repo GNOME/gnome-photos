@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -41,7 +41,7 @@ struct _PhotosMainWindowPrivate
   GtkWidget *embed;
   GSettings *settings;
   PhotosBaseManager *item_mngr;
-  PhotosModeController *controller;
+  PhotosModeController *mode_cntrlr;
   guint configure_id;
 };
 
@@ -103,7 +103,7 @@ photos_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event)
 
   ret_val = GTK_WIDGET_CLASS (photos_main_window_parent_class)->configure_event (widget, event);
 
-  if (photos_mode_controller_get_fullscreen (priv->controller))
+  if (photos_mode_controller_get_fullscreen (priv->mode_cntrlr))
     return ret_val;
 
   if (priv->configure_id != 0)
@@ -135,10 +135,8 @@ photos_main_window_delete_event (GtkWidget *widget, GdkEventAny *event)
 
 
 static void
-photos_main_window_fullscreen_changed (PhotosModeController *controller, gboolean fullscreen, gpointer user_data)
+photos_main_window_fullscreen_changed (PhotosMainWindow *self, gboolean fullscreen)
 {
-  PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (user_data);
-
   if (fullscreen)
     gtk_window_fullscreen (GTK_WINDOW (self));
   else
@@ -161,7 +159,7 @@ photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *even
   gboolean fullscreen;
 
   direction = gtk_widget_get_direction (GTK_WIDGET (self));
-  fullscreen = photos_mode_controller_get_fullscreen (priv->controller);
+  fullscreen = photos_mode_controller_get_fullscreen (priv->mode_cntrlr);
 
   if ((fullscreen && event->keyval == GDK_KEY_Escape)
       || ((event->state & GDK_MOD1_MASK) != 0
@@ -186,7 +184,7 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
   PhotosWindowMode mode;
   gboolean handled;
 
-  mode = photos_mode_controller_get_window_mode (priv->controller);
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
   if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
     handled = photos_main_window_handle_key_preview (self, event);
   else
@@ -231,7 +229,7 @@ photos_main_window_dispose (GObject *object)
 
   g_clear_object (&priv->settings);
   g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->controller);
+  g_clear_object (&priv->mode_cntrlr);
 
   if (priv->configure_id != 0)
     {
@@ -276,11 +274,11 @@ photos_main_window_init (PhotosMainWindow *self)
 
   priv->item_mngr = photos_item_manager_dup_singleton ();
 
-  priv->controller = photos_mode_controller_dup_singleton ();
-  g_signal_connect (priv->controller,
-                    "fullscreen-changed",
-                    G_CALLBACK (photos_main_window_fullscreen_changed),
-                    self);
+  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  g_signal_connect_swapped (priv->mode_cntrlr,
+                            "fullscreen-changed",
+                            G_CALLBACK (photos_main_window_fullscreen_changed),
+                            self);
 
   priv->embed = photos_embed_new ();
   gtk_container_add (GTK_CONTAINER (self), priv->embed);
