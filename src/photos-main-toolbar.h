@@ -72,6 +72,8 @@ GtkWidget             *photos_main_toolbar_new                    (GtkOverlay *o
 
 gboolean               photos_main_toolbar_handle_event           (PhotosMainToolbar *self, GdkEventKey *event);
 
+gboolean               photos_main_toolbar_is_focus               (PhotosMainToolbar *self);
+
 void                   photos_main_toolbar_set_stack              (PhotosMainToolbar *self, GtkStack *stack);
 
 G_END_DECLS

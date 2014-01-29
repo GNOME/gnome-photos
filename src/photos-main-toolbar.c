@@ -795,6 +795,13 @@ photos_main_toolbar_handle_event (PhotosMainToolbar *self, GdkEventKey *event)
 }
 
 
+gboolean
+photos_main_toolbar_is_focus (PhotosMainToolbar *self)
+{
+  return photos_searchbar_is_focus (PHOTOS_SEARCHBAR (self->priv->searchbar));
+}
+
+
 void
 photos_main_toolbar_set_stack (PhotosMainToolbar *self, GtkStack *stack)
 {

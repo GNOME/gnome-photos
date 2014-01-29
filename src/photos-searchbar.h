@@ -80,6 +80,8 @@ gboolean             photos_searchbar_handle_event                  (PhotosSearc
 
 void                 photos_searchbar_hide                          (PhotosSearchbar *self);
 
+gboolean             photos_searchbar_is_focus                      (PhotosSearchbar *self);
+
 void                 photos_searchbar_set_search_change_blocked     (PhotosSearchbar *self,
                                                                      gboolean search_change_blocked);
 

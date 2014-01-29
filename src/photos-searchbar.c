@@ -319,6 +319,13 @@ photos_searchbar_hide (PhotosSearchbar *self)
 }
 
 
+gboolean
+photos_searchbar_is_focus (PhotosSearchbar *self)
+{
+  return gtk_widget_is_focus (self->priv->search_entry);
+}
+
+
 void
 photos_searchbar_set_search_change_blocked (PhotosSearchbar *self, gboolean search_change_blocked)
 {
