@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 
 #include "photos-about-data.h"
+#include "photos-collection-manager.h"
 #include "photos-embed.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
@@ -40,8 +41,10 @@ struct _PhotosMainWindowPrivate
 {
   GtkWidget *embed;
   GSettings *settings;
+  PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
+  PhotosWindowMode old_mode;
   guint configure_id;
 };
 
@@ -145,6 +148,66 @@ photos_main_window_fullscreen_changed (PhotosMainWindow *self, gboolean fullscre
 
 
 static gboolean
+photos_main_window_go_back (PhotosMainWindow *self)
+{
+  PhotosMainWindowPrivate *priv = self->priv;
+  PhotosWindowMode mode;
+  GObject *active_collection;
+  gboolean handled = TRUE;
+
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  active_collection = photos_base_manager_get_active_object (priv->col_mngr);
+
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      photos_base_manager_set_active_object (priv->item_mngr, NULL);
+      photos_mode_controller_set_window_mode (priv->mode_cntrlr, priv->old_mode);
+      break;
+
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      if (active_collection != NULL)
+        photos_item_manager_activate_previous_collection (PHOTOS_ITEM_MANAGER (self->priv->item_mngr));
+      break;
+
+    default:
+      handled = FALSE;
+      break;
+    }
+
+  return handled;
+}
+
+
+static gboolean
+photos_main_window_is_back_key (PhotosMainWindow *self, GdkEventKey *event)
+{
+  GtkTextDirection direction;
+  gboolean is_back;
+
+  direction = gtk_widget_get_direction (GTK_WIDGET (self));
+  is_back = (((event->state & GDK_MOD1_MASK) != 0
+              && ((direction == GTK_TEXT_DIR_LTR && event->keyval == GDK_KEY_Left)
+                  || (direction == GTK_TEXT_DIR_RTL && event->keyval == GDK_KEY_Right)))
+             || event->keyval == GDK_KEY_Back);
+
+  return is_back;
+}
+
+
+static gboolean
+photos_main_window_handle_back_key (PhotosMainWindow *self, GdkEventKey *event)
+{
+  if (!photos_main_window_is_back_key (self, event))
+    return FALSE;
+
+  return photos_main_window_go_back (self);
+}
+
+
+static gboolean
 photos_main_window_handle_key_overview (PhotosMainWindow *self, GdkEventKey *event)
 {
   return GDK_EVENT_PROPAGATE;
@@ -197,6 +260,13 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
 }
 
 
+static void
+photos_main_window_window_mode_changed (PhotosMainWindow *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
+{
+  self->priv->old_mode = old_mode;
+}
+
+
 static gboolean
 photos_main_window_window_state_event (GtkWidget *widget, GdkEventWindowState *event)
 {
@@ -228,6 +298,7 @@ photos_main_window_dispose (GObject *object)
   PhotosMainWindowPrivate *priv = self->priv;
 
   g_clear_object (&priv->settings);
+  g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
 
@@ -272,13 +343,20 @@ photos_main_window_init (PhotosMainWindow *self)
   if (maximized)
     gtk_window_maximize (GTK_WINDOW (self));
 
+  priv->col_mngr = photos_collection_manager_dup_singleton ();
   priv->item_mngr = photos_item_manager_dup_singleton ();
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  priv->old_mode = PHOTOS_WINDOW_MODE_NONE;
   g_signal_connect_swapped (priv->mode_cntrlr,
                             "fullscreen-changed",
                             G_CALLBACK (photos_main_window_fullscreen_changed),
                             self);
+  g_signal_connect_object (priv->mode_cntrlr,
+                           "window-mode-changed",
+                           G_CALLBACK (photos_main_window_window_mode_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   priv->embed = photos_embed_new ();
   gtk_container_add (GTK_CONTAINER (self), priv->embed);
