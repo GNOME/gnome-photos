@@ -34,6 +34,7 @@
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
+#include "photos-selection-controller.h"
 #include "photos-settings.h"
 
 
@@ -44,6 +45,7 @@ struct _PhotosMainWindowPrivate
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
+  PhotosSelectionController *sel_cntrlr;
   PhotosWindowMode old_mode;
   guint configure_id;
 };
@@ -210,7 +212,16 @@ photos_main_window_handle_back_key (PhotosMainWindow *self, GdkEventKey *event)
 static gboolean
 photos_main_window_handle_key_overview (PhotosMainWindow *self, GdkEventKey *event)
 {
-  return GDK_EVENT_PROPAGATE;
+  PhotosMainWindowPrivate *priv = self->priv;
+  gboolean handled = FALSE;
+
+  if (photos_selection_controller_get_selection_mode (priv->sel_cntrlr) && event->keyval == GDK_KEY_Escape)
+    {
+      photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
+      handled = TRUE;
+    }
+
+  return handled;
 }
 
 
@@ -301,6 +312,7 @@ photos_main_window_dispose (GObject *object)
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
+  g_clear_object (&priv->sel_cntrlr);
 
   if (priv->configure_id != 0)
     {
@@ -357,6 +369,8 @@ photos_main_window_init (PhotosMainWindow *self)
                            G_CALLBACK (photos_main_window_window_mode_changed),
                            self,
                            G_CONNECT_SWAPPED);
+
+  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
 
   priv->embed = photos_embed_new ();
   gtk_container_add (GTK_CONTAINER (self), priv->embed);
