@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -102,13 +102,13 @@ photos_empty_results_box_add_system_settings_label (PhotosEmptyResultsBox *self)
   gchar *system_settings_href;
 
   /* Translators: this should be translated in the context of the "You
-   * can add your online accounts in System Settings" sentence below
+   * can add your online accounts in Settings" sentence below
    */
-  system_settings_href = g_strconcat ("<a href=\"system-settings\">", _("System Settings"), "</a>", NULL);
+  system_settings_href = g_strconcat ("<a href=\"system-settings\">", _("Settings"), "</a>", NULL);
 
-  /* Translators: %s here is "System Settings", which is in a separate
-   * string due to markup, and should be translated only in the context
-   * of this sentence.
+  /* Translators: %s here is "Settings", which is in a separate string
+   * due to markup, and should be translated only in the context of
+   * this sentence.
    */
   details_str = g_strdup_printf (_("You can add your online accounts in %s"), system_settings_href);
 
