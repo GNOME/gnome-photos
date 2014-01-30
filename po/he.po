@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-29 16:53+0200\n"
-"PO-Revision-Date: 2014-01-29 16:54+0200\n"
+"POT-Creation-Date: 2014-01-31 00:18+0200\n"
+"PO-Revision-Date: 2014-01-31 00:18+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -196,15 +196,15 @@ msgid "Favorites"
 msgstr "מועדפים"
 
 #. Translators: this should be translated in the context of the "You
-#. * can add your online accounts in System Settings" sentence below
+#. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:107
-msgid "System Settings"
-msgstr "הגדרות מערכת"
+msgid "Settings"
+msgstr "הגדרות"
 
-#. Translators: %s here is "System Settings", which is in a separate
-#. * string due to markup, and should be translated only in the context
-#. * of this sentence.
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
 #.
 #: ../src/photos-empty-results-box.c:113
 #, c-format
@@ -549,6 +549,9 @@ msgstr "מקורות"
 #: ../src/photos-tracker-controller.c:92
 msgid "Unable to fetch the list of photos"
 msgstr "לא ניתן לקבל את רשימת התמונות"
+
+#~ msgid "System Settings"
+#~ msgstr "הגדרות מערכת"
 
 #~ msgid "About Photos"
 #~ msgstr "על אודות תמונות"
