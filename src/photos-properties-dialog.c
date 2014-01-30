@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -199,8 +199,8 @@ photos_properties_dialog_constructed (GObject *object)
 
   priv->grid = gtk_grid_new ();
   gtk_widget_set_halign (priv->grid, GTK_ALIGN_CENTER);
-  gtk_widget_set_margin_left (priv->grid, 24);
-  gtk_widget_set_margin_right (priv->grid, 24);
+  gtk_widget_set_margin_start (priv->grid, 24);
+  gtk_widget_set_margin_end (priv->grid, 24);
   gtk_widget_set_margin_bottom (priv->grid, 12);
   gtk_widget_set_margin_top (priv->grid, 12);
   gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->grid), GTK_ORIENTATION_VERTICAL);

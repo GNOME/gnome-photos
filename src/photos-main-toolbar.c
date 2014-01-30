@@ -263,7 +263,7 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
   gd_header_button_set_use_markup (GD_HEADER_BUTTON (priv->remote_display_button), TRUE);
   label = GTK_LABEL (gtk_bin_get_child (GTK_BIN (priv->remote_display_button)));
   gtk_label_set_ellipsize (label, PANGO_ELLIPSIZE_MIDDLE);
-  gtk_widget_set_margin_right (priv->remote_display_button, 12);
+  gtk_widget_set_margin_end (priv->remote_display_button, 12);
   gtk_header_bar_pack_start (GTK_HEADER_BAR (priv->toolbar), priv->remote_display_button);
   gtk_widget_show_all (priv->remote_display_button);
 

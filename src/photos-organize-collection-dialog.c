@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -80,8 +80,8 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
   sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
-  gtk_widget_set_margin_left (sw, 5);
-  gtk_widget_set_margin_right (sw, 5);
+  gtk_widget_set_margin_start (sw, 5);
+  gtk_widget_set_margin_end (sw, 5);
   gtk_widget_set_margin_bottom (sw, 3);
 
   priv->coll_view = photos_organize_collection_view_new ();

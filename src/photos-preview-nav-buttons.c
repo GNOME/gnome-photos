@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -368,8 +368,8 @@ photos_preview_nav_buttons_constructed (GObject *object)
 
   priv->prev_widget = gtk_revealer_new ();
   gtk_widget_set_halign (priv->prev_widget, GTK_ALIGN_START);
-  gtk_widget_set_margin_left (priv->prev_widget, 30);
-  gtk_widget_set_margin_right (priv->prev_widget, 30);
+  gtk_widget_set_margin_start (priv->prev_widget, 30);
+  gtk_widget_set_margin_end (priv->prev_widget, 30);
   gtk_widget_set_valign (priv->prev_widget, GTK_ALIGN_CENTER);
   gtk_revealer_set_transition_type (GTK_REVEALER (priv->prev_widget), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->overlay), priv->prev_widget);
@@ -397,8 +397,8 @@ photos_preview_nav_buttons_constructed (GObject *object)
 
   priv->next_widget = gtk_revealer_new ();
   gtk_widget_set_halign (priv->next_widget, GTK_ALIGN_END);
-  gtk_widget_set_margin_left (priv->next_widget, 30);
-  gtk_widget_set_margin_right (priv->next_widget, 30);
+  gtk_widget_set_margin_start (priv->next_widget, 30);
+  gtk_widget_set_margin_end (priv->next_widget, 30);
   gtk_widget_set_valign (priv->next_widget, GTK_ALIGN_CENTER);
   gtk_revealer_set_transition_type (GTK_REVEALER (priv->next_widget), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->overlay), priv->next_widget);
