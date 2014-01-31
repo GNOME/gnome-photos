@@ -1,0 +1,545 @@
+# Telugu translation for gnome-photos.
+# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Praveen Illa <mail2ipn@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-01-31 10:08+0000\n"
+"PO-Revision-Date: 2014-01-31 23:40+0530\n"
+"Last-Translator: Praveen Illa <mail2ipn@gmail.com>\n"
+"Language-Team: Telugu <indlinux-telugu@lists.sourceforge.net>\n"
+"Language: te\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/gnome-photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"మీ ఛాయాచిత్రాలను గ్నోమ్ పై పంచుకోవడానికి, నిర్వహించడానికి మరియు ప్రాప్యించుటకు రూపొందించిన ఒక సులువైన "
+"అనువర్తనం. ఛాయాచిత్రాలను దస్త్ర నిర్వాహకంతో నిర్వహించడానికి బదులుగా ఇది ఒక సులువైన, సొగసైన "
+"ప్రత్యామ్నాయం. అతుకులులేని క్లౌడ్ ఏకీకరణ గ్నోమ్ జాల ఖాతాలతో అందించబడుతుంది."
+
+#: ../data/gnome-photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "ఇది మిమ్మల్ని:"
+
+#: ../data/gnome-photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+
+#: ../data/gnome-photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:145
+msgid "Photos"
+msgstr "ఛాయాచిత్రాలు"
+
+#: ../data/gnome-photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "ఛాయాచిత్రాలను ప్రాప్యించండి, నిర్వహించుకోండి, పంచుకోండి."
+
+#: ../data/gnome-photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "ఛాయాచిత్రాలు, చిత్రాలు;"
+
+#: ../data/org.gnome.photos.gschema.xml.h:1
+msgid "Window size"
+msgstr "కిటికీ పరిమాణం"
+
+#: ../data/org.gnome.photos.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "కిటికీ పరిమాణం (వెడల్పు మరియు ఎత్తు)."
+
+#: ../data/org.gnome.photos.gschema.xml.h:3
+msgid "Window position"
+msgstr "కిటికీ స్థానము"
+
+#: ../data/org.gnome.photos.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "కిటికీ స్థానము (x మరియు y)"
+
+#: ../data/org.gnome.photos.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "కిటికీ గరిష్టీకరించబడింది"
+
+#: ../data/org.gnome.photos.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "కిటికీ గరిష్టీకరణ స్థితి"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (lens)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35మిమీ చలనచిత్రం)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr ""
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "రూపాంతరీకరణ విఫలం."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr ""
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "బొమ్మను నింపుటలో విఫలం."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "ఏ బొమ్మ నింపబడలేదు."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "మీకు ఈ దస్త్రాన్ని భద్రపరుచుటకు అవసరమైన అనుమతులు లేవు."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "తాత్కాలిక దస్త్ర సృష్టి విఫలం."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "కనీసం రెండు దస్త్రాల పేర్లైనా సమానంగా ఉండాలి."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "బొమ్మ వీక్షకం కొరకు సహాయాన్ని చూపించలేకపోతున్నాము"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (యూనీకోడు సరికాదు)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "నిండుతెర"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About"
+msgstr "గురించి"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "నిష్క్రమించు"
+
+#: ../src/photos-base-item.c:304
+msgid "Album"
+msgstr "ఆల్బమ్"
+
+#: ../src/photos-base-item.c:731
+msgid "Screenshots"
+msgstr "తెరపట్లు"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr ""
+
+#: ../src/photos-embed.c:612
+msgid "Recent"
+msgstr "ఇటీవలివి"
+
+#: ../src/photos-embed.c:615 ../src/photos-search-type-manager.c:131
+msgid "Albums"
+msgstr "ఆల్బమ్లు"
+
+#: ../src/photos-embed.c:618 ../src/photos-search-type-manager.c:138
+msgid "Favorites"
+msgstr "ప్రియమైనవి"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:108
+msgid "Settings"
+msgstr "అమరికలు"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:114
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr ""
+
+#: ../src/photos-empty-results-box.c:161
+msgid "No Photos Found"
+msgstr "ఎటువంచి ఛాయాచిత్రాలు కనపడలేదు"
+
+#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+msgid "Facebook"
+msgstr "ఫేస్‌బుక్"
+
+#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+msgid "Flickr"
+msgstr "ఫ్లికర్"
+
+#: ../src/photos-indexing-notification.c:169
+msgid "Your photos are being indexed"
+msgstr ""
+
+#: ../src/photos-indexing-notification.c:173
+msgid "Some photos might not be available during this process"
+msgstr "ఈ ప్రక్రియ జరుగుతున్నప్పుడు కొన్ని ఛాయాచిత్రాలు అందుబాటులో ఉండకపోవచ్చు"
+
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
+msgid "Load More"
+msgstr "మరిన్ని ఎక్కించు"
+
+#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
+msgid "Loading…"
+msgstr "ఎక్కిస్తోంది..."
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+msgid "Local"
+msgstr "స్థానికం"
+
+#: ../src/photos-main-toolbar.c:112
+msgid "Click on items to select them"
+msgstr "అంశాలను ఎంపికచేయడానికి వాటిపై నొక్కండి"
+
+#: ../src/photos-main-toolbar.c:114
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d ఎంచుకోబడింది"
+msgstr[1] "%d ఎంచుకోబడ్డాయి"
+
+#: ../src/photos-main-toolbar.c:159
+msgid "Back"
+msgstr "వెనక్కి"
+
+#: ../src/photos-main-toolbar.c:283
+msgid "Search"
+msgstr "వెతుకు"
+
+#: ../src/photos-main-toolbar.c:299
+msgid "Select Items"
+msgstr "అంశాలను ఎంచుకోండి"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:281
+#, c-format
+msgid "Open with %s"
+msgstr "%s తో తెరువు"
+
+#: ../src/photos-main-toolbar.c:573
+msgid "Cancel"
+msgstr "రద్దుచేయి"
+
+#: ../src/photos-main-window.c:441
+msgid "Access, organize and share your photos on GNOME"
+msgstr "గ్నోమ్ పై మీ ఛాయాచిత్రాలను ప్రాప్యించండి, నిర్వహించుకోండి, పంచుకోండి."
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:453
+msgid "translator-credits"
+msgstr "Praveen Illa <mail2ipn@gmail.com>, 2014"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "జతచేయి (_A)"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "సరే (_O)"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "నిర్వహించండి"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:284
+#: ../src/photos-selection-toolbar.c:440
+msgid "Open"
+msgstr "తెరువు"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "ముద్రించు..."
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr ""
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "నేపథ్యముగా అమర్చు"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-selection-toolbar.c:464
+msgid "Properties"
+msgstr "లక్షణాలు"
+
+#: ../src/photos-preview-nav-buttons.c:209
+#: ../src/photos-selection-toolbar.c:293
+msgid "Remove from favorites"
+msgstr "ఇష్టమైనవి నుండి తీసివేయి"
+
+#: ../src/photos-preview-nav-buttons.c:214
+#: ../src/photos-selection-toolbar.c:299
+msgid "Add to favorites"
+msgstr "ఇష్టమైన వాటికి జతచేయి"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "బొమ్మ అమరికలు"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "స్థానము"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "ఎడమ (_L):"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "కుడి (_R):"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "పైన (_T):"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "కింద (_B):"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "మధ్య (_C):"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "ఏదీకాదు"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "అడ్డము"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "నిలువు"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "ద్వయం"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "పరిమాణం"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "వెడల్పు (_W):"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "ఎత్తు (_H):"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "పరిమాణించుట (_S):"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "ప్రమాణం (_U):"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "మిల్లీమీటర్లు"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "అంగుళం"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "మునుజూపు"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:218
+msgctxt "Document Title"
+msgid "Title"
+msgstr "శీర్షిక"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:230
+msgctxt "Document Author"
+msgid "Author"
+msgstr "మూలకర్త"
+
+#: ../src/photos-properties-dialog.c:237
+msgid "Source"
+msgstr "మూలం"
+
+#: ../src/photos-properties-dialog.c:243
+msgid "Date Modified"
+msgstr "సవరణ తేది"
+
+#: ../src/photos-properties-dialog.c:251
+msgid "Date Created"
+msgstr "సృష్టించిన తేది"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:261
+msgctxt "Document Type"
+msgid "Type"
+msgstr "రకము"
+
+#: ../src/photos-properties-dialog.c:270
+msgid "Width"
+msgstr "వెడల్పు"
+
+#: ../src/photos-properties-dialog.c:280
+msgid "Height"
+msgstr "ఎత్తు"
+
+#: ../src/photos-properties-dialog.c:295
+msgid "Camera"
+msgstr "కెమేరా"
+
+#: ../src/photos-properties-dialog.c:305
+msgid "Exposure"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:315
+msgid "Aperture"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:325
+msgid "Focal Length"
+msgstr "నాభ్యంతరం"
+
+#: ../src/photos-properties-dialog.c:335
+msgid "ISO Speed"
+msgstr "ISO వేగం"
+
+#: ../src/photos-properties-dialog.c:345
+msgid "Flash"
+msgstr "ప్లాష్"
+
+#: ../src/photos-properties-dialog.c:536
+msgid "Off, did not fire"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:538
+msgid "On, fired"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:617
+msgid "Done"
+msgstr "అయినది"
+
+#: ../src/photos-search-match-manager.c:156
+#: ../src/photos-search-type-manager.c:124 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "అన్నీ"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:163
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "శీర్షిక [ శోధన వడబోతకం ]"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:170
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "మూలకర్త [ శోధన వడబోతకం ]"
+
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:197
+msgid "Match"
+msgstr "సరిపోల్చు"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:176
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "రకం [ శోధన వడబోతకం ]"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "అన్నీ ఎంపికచేయి"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "ఎంపికరద్దు"
+
+#: ../src/photos-selection-toolbar.c:448
+msgid "Print"
+msgstr "ముద్రించు"
+
+#: ../src/photos-selection-toolbar.c:456
+msgid "Delete"
+msgstr "తొలగించు"
+
+#: ../src/photos-selection-toolbar.c:472
+msgid "Add to Album"
+msgstr "ఆల్బమ్‌కు జతచేయి"
+
+#: ../src/photos-source-manager.c:196
+msgid "Sources"
+msgstr "మూలాలు"
+
+#: ../src/photos-tracker-controller.c:92
+msgid "Unable to fetch the list of photos"
+msgstr "ఛాయాచిత్రాల జాబితాను పొందలేకపోతుంది"
+
+#~ msgid "About Photos"
+#~ msgstr "ఛాయాచిత్రాలు గురించి"
