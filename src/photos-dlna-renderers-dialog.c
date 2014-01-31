@@ -216,15 +216,6 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self, Phot
 
 
 static void
-photos_dlna_renderers_dialog_response_cb (GtkDialog *dialog,
-                                          gint       response_id,
-                                          gpointer   user_data)
-{
-  gtk_widget_destroy (GTK_WIDGET (dialog));
-}
-
-
-static void
 photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
 {
   PhotosDlnaRenderersDialogPrivate *priv;
@@ -252,7 +243,7 @@ photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
       renderers = g_list_delete_link (renderers, renderers);
     }
 
-  g_signal_connect (self, "response", G_CALLBACK (photos_dlna_renderers_dialog_response_cb), NULL);
+  g_signal_connect (self, "response", G_CALLBACK (gtk_widget_destroy), NULL);
 }
 
 
