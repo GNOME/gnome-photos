@@ -108,6 +108,7 @@ gnome_photos_SOURCES = \
 	photos-flickr-item.h \
 	photos-header-bar.c \
 	photos-header-bar.h \
+	photos-icons.h \
 	photos-indexing-notification.c \
 	photos-indexing-notification.h \
 	photos-item-manager.c \

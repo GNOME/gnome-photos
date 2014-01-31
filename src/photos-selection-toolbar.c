@@ -31,6 +31,7 @@
 
 #include "photos-application.h"
 #include "photos-base-item.h"
+#include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-organize-collection-dialog.h"
 #include "photos-properties-dialog.h"
@@ -427,7 +428,8 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   gtk_container_add (GTK_CONTAINER (self), toolbar);
 
   priv->toolbar_favorite = gd_header_toggle_button_new ();
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (priv->toolbar_favorite), "emblem-favorite-symbolic");
+  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (priv->toolbar_favorite),
+                                           PHOTOS_ICON_FAVORITE_SYMBOLIC);
   gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_favorite);
   g_signal_connect (priv->toolbar_favorite,
                     "clicked",

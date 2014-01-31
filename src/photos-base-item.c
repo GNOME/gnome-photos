@@ -35,6 +35,7 @@
 #include "photos-base-item.h"
 #include "photos-collection-icon-watcher.h"
 #include "photos-delete-item-job.h"
+#include "photos-icons.h"
 #include "photos-print-operation.h"
 #include "photos-query.h"
 #include "photos-selection-controller.h"
@@ -135,7 +136,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
   if (priv->favorite)
     {
-      pix = photos_base_item_create_symbolic_emblem ("emblem-favorite");
+      pix = photos_base_item_create_symbolic_emblem (PHOTOS_ICON_FAVORITE);
       emblem_icons = g_list_prepend (emblem_icons, pix);
     }
 

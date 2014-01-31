@@ -35,6 +35,7 @@
 #include "photos-dlna-renderers-manager.h"
 #include "photos-dropdown.h"
 #include "photos-header-bar.h"
+#include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
 #include "photos-mode-controller.h"
@@ -152,7 +153,7 @@ photos_main_toolbar_add_back_button (PhotosMainToolbar *self)
   const gchar *icon_name;
 
   direction = gtk_widget_get_direction (GTK_WIDGET (priv->toolbar));
-  icon_name = (direction == GTK_TEXT_DIR_RTL) ? "go-next-symbolic" : "go-previous-symbolic";
+  icon_name = (direction == GTK_TEXT_DIR_RTL) ? PHOTOS_ICON_GO_NEXT_SYMBOLIC : PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC;
 
   back_button = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (back_button), _("Back"));
@@ -280,7 +281,7 @@ photos_main_toolbar_add_search_button (PhotosMainToolbar *self)
 
   search_button = gd_header_toggle_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (search_button), _("Search"));
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (search_button), "edit-find-symbolic");
+  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (search_button), PHOTOS_ICON_EDIT_FIND_SYMBOLIC);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (search_button), "app.search");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->priv->toolbar), search_button);
 
@@ -296,7 +297,7 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
 
   selection_button = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (selection_button), _("Select Items"));
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (selection_button), "object-select-symbolic");
+  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (selection_button), PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC);
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), selection_button);
   g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_select_button_clicked), self);
 
@@ -524,7 +525,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   menu_button = gd_header_menu_button_new ();
   gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_button), "app.gear-menu");
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), G_MENU_MODEL (preview_menu));
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (menu_button), "emblem-system-symbolic");
+  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (menu_button), PHOTOS_ICON_SYSTEM_SYMBOLIC);
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), menu_button);
 
   g_simple_action_set_enabled (priv->gear_menu, TRUE);

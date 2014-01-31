@@ -28,6 +28,7 @@
 #include <glib/gi18n.h>
 
 #include "photos-empty-results-box.h"
+#include "photos-icons.h"
 #include "photos-source-manager.h"
 
 
@@ -148,7 +149,7 @@ photos_empty_results_box_constructed (GObject *object)
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
   gtk_style_context_add_class (context, "dim-label");
 
-  image = gtk_image_new_from_icon_name ("emblem-photos-symbolic", GTK_ICON_SIZE_INVALID);
+  image = gtk_image_new_from_icon_name (PHOTOS_ICON_PHOTOS_SYMBOLIC, GTK_ICON_SIZE_INVALID);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 64);
   gtk_container_add (GTK_CONTAINER (self), image);
 

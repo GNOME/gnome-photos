@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 #include <libgd/gd.h>
 
+#include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-preview-model.h"
 #include "photos-preview-nav-buttons.h"
@@ -363,8 +364,8 @@ photos_preview_nav_buttons_constructed (GObject *object)
   G_OBJECT_CLASS (photos_preview_nav_buttons_parent_class)->constructed (object);
 
   is_rtl = (gtk_widget_get_direction (priv->preview_view) == GTK_TEXT_DIR_RTL);
-  prev_icon_name = is_rtl ? "go-next-symbolic" : "go-previous-symbolic";
-  next_icon_name = is_rtl ? "go-previous-symbolic" : "go-next-symbolic";
+  prev_icon_name = is_rtl ? PHOTOS_ICON_GO_NEXT_SYMBOLIC : PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC;
+  next_icon_name = is_rtl ? PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC : PHOTOS_ICON_GO_NEXT_SYMBOLIC;
 
   priv->prev_widget = gtk_revealer_new ();
   gtk_widget_set_halign (priv->prev_widget, GTK_ALIGN_START);
@@ -444,7 +445,8 @@ photos_preview_nav_buttons_constructed (GObject *object)
                             self);
 
   priv->favorite_button = gd_header_toggle_button_new ();
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (priv->favorite_button), "emblem-favorite-symbolic");
+  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (priv->favorite_button),
+                                           PHOTOS_ICON_FAVORITE_SYMBOLIC);
   gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->favorite_button);
   g_signal_connect_swapped (priv->favorite_button,
                             "clicked",
