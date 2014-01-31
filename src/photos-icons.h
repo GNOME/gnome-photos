@@ -27,7 +27,7 @@ G_BEGIN_DECLS
 
 #define PHOTOS_ICON_EDIT_FIND_SYMBOLIC "edit-find-symbolic"
 
-#define PHOTOS_ICON_FAVORITE "emblem-favorite"
+#define PHOTOS_ICON_FAVORITE "starred"
 #define PHOTOS_ICON_FAVORITE_SYMBOLIC PHOTOS_ICON_FAVORITE "-symbolic"
 
 #define PHOTOS_ICON_GO_NEXT_SYMBOLIC "go-next-symbolic"
