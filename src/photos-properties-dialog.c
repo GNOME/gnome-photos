@@ -614,8 +614,8 @@ photos_properties_dialog_init (PhotosPropertiesDialog *self)
   priv->item_mngr = photos_item_manager_dup_singleton ();
   priv->camera_cache = photos_camera_cache_dup_singleton ();
 
-  gtk_dialog_add_button (GTK_DIALOG (self), _("Done"), GTK_RESPONSE_OK);
-  gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
+  gtk_dialog_add_button (GTK_DIALOG (self), _("Done"), GTK_RESPONSE_CLOSE);
+  gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_CLOSE);
 }
 
 
@@ -653,5 +653,6 @@ photos_properties_dialog_new (GtkWindow *parent, const gchar *urn)
                        "title", _("Properties"),
                        "transient-for", parent,
                        "urn", urn,
+                       "use-header-bar", TRUE,
                        NULL);
 }

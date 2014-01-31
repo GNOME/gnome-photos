@@ -277,5 +277,9 @@ photos_dlna_renderers_dialog_new (GtkWindow *parent, const gchar *urn)
 {
   g_return_val_if_fail (GTK_IS_WINDOW (parent), NULL);
 
-  return g_object_new (PHOTOS_TYPE_DLNA_RENDERERS_DIALOG, "transient-for", parent, "urn", urn, NULL);
+  return g_object_new (PHOTOS_TYPE_DLNA_RENDERERS_DIALOG,
+                       "transient-for", parent,
+                       "urn", urn,
+                       "use-header-bar", TRUE,
+                       NULL);
 }

@@ -74,8 +74,8 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
   priv = self->priv;
 
   gtk_dialog_add_button (GTK_DIALOG (self), _("_Add"), GTK_RESPONSE_ACCEPT);
-  ok_button = gtk_dialog_add_button (GTK_DIALOG (self), _("_OK"), GTK_RESPONSE_OK);
-  gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
+  ok_button = gtk_dialog_add_button (GTK_DIALOG (self), _("_OK"), GTK_RESPONSE_CLOSE);
+  gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_CLOSE);
 
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
   sw = gtk_scrolled_window_new (NULL, NULL);
@@ -127,5 +127,6 @@ photos_organize_collection_dialog_new (GtkWindow *parent)
                        /* Translators: "Organize" refers to photos in this context */
                        "title", C_("Dialog title", "Organize"),
                        "transient-for", parent,
+                       "use-header-bar", TRUE,
                        NULL);
 }

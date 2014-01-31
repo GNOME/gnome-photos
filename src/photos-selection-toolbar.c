@@ -69,7 +69,7 @@ photos_selection_toolbar_dialog_response (GtkDialog *dialog, gint response_id, g
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
 
-  if (response_id != GTK_RESPONSE_OK)
+  if (response_id != GTK_RESPONSE_CLOSE)
     return;
 
   gtk_widget_destroy (GTK_WIDGET (dialog));
