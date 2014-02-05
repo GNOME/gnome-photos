@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-31 14:28+0000\n"
-"PO-Revision-Date: 2014-01-02 10:01+0100\n"
+"POT-Creation-Date: 2014-02-05 08:42+0000\n"
+"PO-Revision-Date: 2014-02-05 13:13+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -49,7 +49,7 @@ msgstr ""
 "li> <li>Permite abrir un editor completo para cambios más avanzados</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:89
+#: ../src/photos-search-type-manager.c:145
 msgid "Photos"
 msgstr "Fotos"
 
@@ -171,11 +171,11 @@ msgstr "Acerca de"
 msgid "Quit"
 msgstr "Salir"
 
-#: ../src/photos-base-item.c:303
+#: ../src/photos-base-item.c:304
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:727
+#: ../src/photos-base-item.c:731
 msgid "Screenshots"
 msgstr "Capturas de pantalla"
 
@@ -183,36 +183,36 @@ msgstr "Capturas de pantalla"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos de renderizado DLNA"
 
-#: ../src/photos-embed.c:505
+#: ../src/photos-embed.c:612
 msgid "Recent"
 msgstr "Recientes"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:75
+#: ../src/photos-embed.c:615 ../src/photos-search-type-manager.c:131
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:511 ../src/photos-search-type-manager.c:82
+#: ../src/photos-embed.c:618 ../src/photos-search-type-manager.c:138
 msgid "Favorites"
 msgstr "Favoritos"
 
 #. Translators: this should be translated in the context of the "You
-#. * can add your online accounts in System Settings" sentence below
+#. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:107
+#: ../src/photos-empty-results-box.c:108
 #| msgid "Image Settings"
-msgid "System Settings"
-msgstr "Configuración del sistema"
+msgid "Settings"
+msgstr "Configuración"
 
-#. Translators: %s here is "System Settings", which is in a separate
-#. * string due to markup, and should be translated only in the context
-#. * of this sentence.
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:113
+#: ../src/photos-empty-results-box.c:114
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "Puede añadir sus cuentas en línea en %s"
 
-#: ../src/photos-empty-results-box.c:160
+#: ../src/photos-empty-results-box.c:161
 msgid "No Photos Found"
 msgstr "No se encontraron fotos"
 
@@ -224,61 +224,65 @@ msgstr "Facebook"
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:168
+#: ../src/photos-indexing-notification.c:169
 msgid "Your photos are being indexed"
 msgstr "Se están indexando sus fotos"
 
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:173
 msgid "Some photos might not be available during this process"
 msgstr "Algunas fotos pueden no estar disponibles durante este proceso"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
 msgid "Load More"
 msgstr "Cargar más"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
 msgid "Loading…"
 msgstr "Cargando…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:130
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
 msgid "Local"
 msgstr "Local"
 
-#: ../src/photos-main-toolbar.c:99
+#: ../src/photos-main-toolbar.c:112
 msgid "Click on items to select them"
 msgstr "Pulse sobre los elementos para seleccionarlos"
 
-#: ../src/photos-main-toolbar.c:101
+#: ../src/photos-main-toolbar.c:114
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d seleccionada"
 msgstr[1] "%d seleccionadas"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:159
 msgid "Back"
 msgstr "Atrás"
 
-#: ../src/photos-main-toolbar.c:271
+#: ../src/photos-main-toolbar.c:283
+msgid "Search"
+msgstr "Buscar"
+
+#: ../src/photos-main-toolbar.c:299
 msgid "Select Items"
 msgstr "Seleccionar elementos"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:360 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:281
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: ../src/photos-main-toolbar.c:488
+#: ../src/photos-main-toolbar.c:573
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/photos-main-window.c:329
+#: ../src/photos-main-window.c:441
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice y comparta sus fotos en GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:453
 msgid "translator-credits"
 msgstr "Angel Méndez <angelrmm0@gmail.com>, 2012"
 
@@ -297,8 +301,8 @@ msgid "Organize"
 msgstr "Organizar"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
-#: ../src/photos-selection-toolbar.c:437
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:284
+#: ../src/photos-selection-toolbar.c:440
 msgid "Open"
 msgstr "Abrir"
 
@@ -315,17 +319,17 @@ msgid "Set as Background"
 msgstr "Establecer como fondo"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:464
 msgid "Properties"
 msgstr "Propiedades"
 
-#: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
+#: ../src/photos-preview-nav-buttons.c:209
+#: ../src/photos-selection-toolbar.c:293
 msgid "Remove from favorites"
 msgstr "Quita de favoritos"
 
-#: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
+#: ../src/photos-preview-nav-buttons.c:214
+#: ../src/photos-selection-toolbar.c:299
 msgid "Add to favorites"
 msgstr "Agregar a favoritos"
 
@@ -487,6 +491,44 @@ msgstr "Activado, disparado"
 msgid "Done"
 msgstr "Hecho"
 
+#: ../src/photos-search-match-manager.c:156
+#: ../src/photos-search-type-manager.c:124 ../src/photos-source-manager.c:151
+msgid "All"
+msgstr "Todo"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:163
+#| msgctxt "Document Title"
+#| msgid "Title"
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Título"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:170
+#| msgctxt "Document Author"
+#| msgid "Author"
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Autor"
+
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:197
+msgid "Match"
+msgstr "Coincidencia"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:176
+#| msgctxt "Document Type"
+#| msgid "Type"
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Tipo"
+
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
 msgstr "Seleccionar todo"
@@ -495,25 +537,30 @@ msgstr "Seleccionar todo"
 msgid "Select None"
 msgstr "Seleccionar nada"
 
-#: ../src/photos-selection-toolbar.c:445
+#: ../src/photos-selection-toolbar.c:448
 msgid "Print"
 msgstr "Imprimir"
 
-#: ../src/photos-selection-toolbar.c:453
+#: ../src/photos-selection-toolbar.c:456
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:472
 msgid "Add to Album"
 msgstr "Añadir al álbum"
 
-#: ../src/photos-source-manager.c:126
-msgid "All"
-msgstr "Todo"
+#: ../src/photos-source-manager.c:196
+#| msgid "Source"
+msgid "Sources"
+msgstr "Fuentes"
 
-#: ../src/photos-tracker-controller.c:83
+#: ../src/photos-tracker-controller.c:92
 msgid "Unable to fetch the list of photos"
 msgstr "No se pudo obtener la lista de fotos"
+
+#~| msgid "Image Settings"
+#~ msgid "System Settings"
+#~ msgstr "Configuración del sistema"
 
 #~ msgid "About Photos"
 #~ msgstr "Acerca de Fotos"
