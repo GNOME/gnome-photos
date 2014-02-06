@@ -1,3 +1,31 @@
+Overview of changes in 3.11.5
+=============================
+
+* Implement search
+
+* Bugs fixed:
+ 715043 srcdir != builddir failure in Continuous
+ 720404 Huge icon for DLNA media renderers
+ 720570 No photos found should appear inside stack views
+ 721402 Extremely slow when starting with a clean DB
+
+* Updated translations:
+ Traditional Chinese (Hong Kong)
+ Traditional Chinese (Taiwan)
+ Czech
+ Finnish
+ Galician
+ Greek
+ Hebrew
+ Lithuanian
+ Norwegian bokmål
+ Portuguese (Brazilian)
+ Spanish
+ Tajik
+ Telugu
+ Turkish
+
+
 Overview of changes in 3.11.4
 =============================
 
