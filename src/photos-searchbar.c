@@ -269,8 +269,8 @@ photos_searchbar_handle_event (PhotosSearchbar *self, GdkEventKey *event)
   PhotosSearchbarPrivate *priv = self->priv;
   gboolean res;
   gboolean ret_val = GDK_EVENT_PROPAGATE;
-  const gchar *new_text;
-  const gchar *old_text;
+  gchar *new_text = NULL;
+  gchar *old_text = NULL;
 
   if (priv->in)
     goto out;
@@ -293,9 +293,9 @@ photos_searchbar_handle_event (PhotosSearchbar *self, GdkEventKey *event)
                             G_CALLBACK (photos_searchbar_preedit_changed),
                             self);
 
-  old_text = gtk_entry_get_text (GTK_ENTRY (priv->search_entry));
+  old_text = g_strdup (gtk_entry_get_text (GTK_ENTRY (priv->search_entry)));
   res = gtk_widget_event (priv->search_entry, (GdkEvent *) event);
-  new_text = gtk_entry_get_text (GTK_ENTRY (priv->search_entry));
+  new_text = g_strdup (gtk_entry_get_text (GTK_ENTRY (priv->search_entry)));
 
   g_signal_handlers_disconnect_by_func (priv->search_entry, photos_searchbar_preedit_changed, self);
 
@@ -308,6 +308,8 @@ photos_searchbar_handle_event (PhotosSearchbar *self, GdkEventKey *event)
     }
 
  out:
+  g_free (new_text);
+  g_free (old_text);
   return ret_val;
 }
 
