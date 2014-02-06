@@ -258,6 +258,10 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
 
   collection = G_OBJECT (g_queue_pop_head (priv->collection_path));
   photos_base_manager_set_active_object (priv->col_mngr, collection);
+
+  if (collection == NULL)
+    photos_base_manager_set_active_object (PHOTOS_BASE_MANAGER (self), NULL);
+
   g_clear_object (&collection);
 }
 

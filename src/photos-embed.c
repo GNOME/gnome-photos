@@ -30,6 +30,7 @@
 #include <glib/gi18n.h>
 
 #include "photos-application.h"
+#include "photos-collection-manager.h"
 #include "photos-embed.h"
 #include "photos-indexing-notification.h"
 #include "photos-item-manager.h"
@@ -46,6 +47,16 @@
 #include "photos-tracker-overview-controller.h"
 #include "photos-view-container.h"
 
+
+typedef struct _PhotosEmbedSearchState PhotosEmbedSearchState;
+
+struct _PhotosEmbedSearchState
+{
+  GObject *search_type;
+  GObject *source;
+  gboolean saved;
+  gchar *str;
+};
 
 struct _PhotosEmbedPrivate
 {
@@ -64,9 +75,11 @@ struct _PhotosEmbedPrivate
   GtkWidget *stack;
   GtkWidget *stack_overlay;
   GtkWidget *toolbar;
+  PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosBaseManager *srch_mngr;
+  PhotosEmbedSearchState search_state;
   PhotosModeController *mode_cntrlr;
   PhotosSearchController *srch_cntrlr;
   PhotosTrackerController *trk_ovrvw_cntrlr;
@@ -76,6 +89,31 @@ struct _PhotosEmbedPrivate
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosEmbed, photos_embed, GTK_TYPE_BOX);
+
+
+static void photos_embed_search_changed (PhotosEmbed *self);
+
+
+static void
+photos_embed_block_search_changed (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  g_signal_handlers_block_by_func (priv->src_mngr, photos_embed_search_changed, self);
+  g_signal_handlers_block_by_func (priv->srch_mngr, photos_embed_search_changed, self);
+  g_signal_handlers_block_by_func (priv->srch_cntrlr, photos_embed_search_changed, self);
+}
+
+
+static void
+photos_embed_unblock_search_changed (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  g_signal_handlers_unblock_by_func (priv->src_mngr, photos_embed_search_changed, self);
+  g_signal_handlers_unblock_by_func (priv->srch_mngr, photos_embed_search_changed, self);
+  g_signal_handlers_unblock_by_func (priv->srch_cntrlr, photos_embed_search_changed, self);
+}
 
 
 static void
@@ -88,6 +126,17 @@ photos_embed_clear_load_timer (PhotosEmbed *self)
       g_source_remove (priv->load_show_id);
       priv->load_show_id = 0;
     }
+}
+
+
+static void
+photos_embed_clear_search (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  g_clear_object (&priv->search_state.search_type);
+  g_clear_object (&priv->search_state.source);
+  g_clear_pointer (&priv->search_state.str, g_free);
 }
 
 
@@ -197,11 +246,67 @@ photos_embed_load_show_timeout (gpointer user_data)
 
 
 static void
+photos_embed_restore_search (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  if (!priv->search_state.saved)
+    return;
+
+  photos_base_manager_set_active_object (priv->src_mngr, priv->search_state.source);
+  photos_base_manager_set_active_object (priv->srch_mngr, priv->search_state.search_type);
+  photos_search_controller_set_string (priv->srch_cntrlr, priv->search_state.str);
+  priv->search_state.saved = FALSE;
+
+  photos_embed_clear_search (self);
+}
+
+
+static void
+photos_embed_save_search (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+
+  if (priv->search_state.saved)
+    return;
+
+  photos_embed_clear_search (self);
+
+  priv->search_state.source = g_object_ref (photos_base_manager_get_active_object (priv->src_mngr));
+  priv->search_state.search_type = g_object_ref (photos_base_manager_get_active_object (priv->srch_mngr));
+  priv->search_state.str = g_strdup (photos_search_controller_get_string (priv->srch_cntrlr));
+  priv->search_state.saved = TRUE;
+}
+
+
+static void
 photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
+  PhotosWindowMode mode;
+  GObject *active_collection;
+  GObject *active_item;
   GVariant *state;
+  gboolean show_search;
+
+  /* Hide the search bar when we are moving from the search to the
+   * preview or collection viewin. Restore it when we are back.
+   */
+
+  active_collection = photos_base_manager_get_active_object (priv->col_mngr);
+  active_item = photos_base_manager_get_active_object (priv->item_mngr);
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  show_search = (mode == PHOTOS_WINDOW_MODE_PREVIEW && active_item == NULL && active_collection == NULL)
+                || (mode == PHOTOS_WINDOW_MODE_SEARCH && active_item == NULL);
+
+  if (show_search)
+    photos_embed_restore_search (self);
+  else
+    photos_embed_save_search (self);
+
+  state = g_variant_new ("b", show_search);
+  g_action_change_state (priv->search_action, state);
 
   if (object == NULL)
     return;
@@ -210,9 +315,6 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
 
   if (photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
     return;
-
-  state = g_variant_new ("b", FALSE);
-  g_action_change_state (priv->search_action, state);
 
   priv->load_show_id = g_timeout_add (400, photos_embed_load_show_timeout, g_object_ref (self));
 
@@ -290,8 +392,10 @@ photos_embed_notify_visible_child (PhotosEmbed *self)
 
   if (!photos_main_toolbar_is_focus (PHOTOS_MAIN_TOOLBAR (priv->toolbar)))
     {
+      photos_embed_block_search_changed (self);
       state = g_variant_new ("b", FALSE);
       g_action_change_state (priv->search_action, state);
+      photos_embed_unblock_search_changed (self);
     }
 
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, mode);
@@ -400,10 +504,12 @@ photos_embed_search_changed (PhotosEmbed *self)
 
   /* Whenever a search constraint is specified we want to switch to
    * the search mode, and when all constraints have been lifted we
-   * want to go back to the previous mode.
+   * want to go back to the previous mode which can be either
+   * collections, favorites or overview.
    *
-   * However there are some exceptions:
-   *  - when moving from search to preview
+   * However there are some exceptions, which are taken care of
+   * elsewhere:
+   *  - when moving from search to preview or collection view
    *  - when in preview
    */
   object = photos_base_manager_get_active_object (priv->item_mngr);
@@ -411,6 +517,9 @@ photos_embed_search_changed (PhotosEmbed *self)
   if (mode == PHOTOS_WINDOW_MODE_SEARCH && object != NULL)
     return;
   if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    return;
+
+  if (priv->old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     return;
 
   object = photos_base_manager_get_active_object (priv->src_mngr);
@@ -464,9 +573,12 @@ photos_embed_dispose (GObject *object)
   PhotosEmbed *self = PHOTOS_EMBED (object);
   PhotosEmbedPrivate *priv = self->priv;
 
+  photos_embed_clear_search (self);
+
   g_clear_object (&priv->ntfctn_mngr);
   g_clear_object (&priv->loader_cancellable);
   g_clear_object (&priv->indexing_ntfctn);
+  g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->srch_mngr);
@@ -576,6 +688,9 @@ photos_embed_init (PhotosEmbed *self)
                             "query-status-changed",
                             G_CALLBACK (photos_embed_query_status_changed),
                             self);
+
+  priv->col_mngr = photos_collection_manager_dup_singleton ();
+  g_signal_connect (priv->col_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
 
   priv->item_mngr = photos_item_manager_dup_singleton ();
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
