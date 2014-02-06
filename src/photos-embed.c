@@ -31,7 +31,6 @@
 
 #include "photos-application.h"
 #include "photos-embed.h"
-#include "photos-error-box.h"
 #include "photos-indexing-notification.h"
 #include "photos-item-manager.h"
 #include "photos-mode-controller.h"
@@ -53,7 +52,6 @@ struct _PhotosEmbedPrivate
   GAction *search_action;
   GCancellable *loader_cancellable;
   GtkWidget *collections;
-  GtkWidget *error_box;
   GtkWidget *favorites;
   GtkWidget *indexing_ntfctn;
   GtkWidget *no_results;
@@ -373,23 +371,6 @@ photos_embed_prepare_for_search (PhotosEmbed *self)
 
 
 static void
-photos_embed_set_error (PhotosEmbed *self, const gchar *primary, const gchar *secondary)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-
-  photos_error_box_update (PHOTOS_ERROR_BOX (priv->error_box), primary, secondary);
-  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "error");
-}
-
-
-static void
-photos_embed_query_error (PhotosEmbed *self, const gchar *primary, const gchar *secondary)
-{
-  photos_embed_set_error (self, primary, secondary);
-}
-
-
-static void
 photos_embed_query_status_changed (PhotosEmbed *self, gboolean querying)
 {
   PhotosEmbedPrivate *priv = self->priv;
@@ -572,9 +553,6 @@ photos_embed_init (PhotosEmbed *self)
   priv->spinner_box = photos_spinner_box_new ();
   gtk_stack_add_named (GTK_STACK (priv->stack), priv->spinner_box, "spinner");
 
-  priv->error_box = photos_error_box_new ();
-  gtk_stack_add_named (GTK_STACK (priv->stack), priv->error_box, "error");
-
   /* TODO: SearchBar.Dropdown, …
    */
 
@@ -594,7 +572,6 @@ photos_embed_init (PhotosEmbed *self)
                     self);
 
   priv->trk_ovrvw_cntrlr = photos_tracker_overview_controller_dup_singleton ();
-  g_signal_connect_swapped (priv->trk_ovrvw_cntrlr, "query-error", G_CALLBACK (photos_embed_query_error), self);
   g_signal_connect_swapped (priv->trk_ovrvw_cntrlr,
                             "query-status-changed",
                             G_CALLBACK (photos_embed_query_status_changed),

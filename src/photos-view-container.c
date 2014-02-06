@@ -29,6 +29,7 @@
 #include "photos-application.h"
 #include "photos-empty-results-box.h"
 #include "photos-enums.h"
+#include "photos-error-box.h"
 #include "photos-item-manager.h"
 #include "photos-load-more-button.h"
 #include "photos-offset-favorites-controller.h"
@@ -51,6 +52,7 @@ struct _PhotosViewContainerPrivate
   GdMainView *view;
   GtkListStore *model;
   GtkTreePath *current_path;
+  GtkWidget *error_box;
   GtkWidget *load_more;
   GtkWidget *no_results;
   PhotosBaseManager *item_mngr;
@@ -184,6 +186,23 @@ photos_view_container_item_activated (GdMainView *main_view,
 
 
 static void
+photos_view_container_set_error (PhotosViewContainer *self, const gchar *primary, const gchar *secondary)
+{
+  PhotosViewContainerPrivate *priv = self->priv;
+
+  photos_error_box_update (PHOTOS_ERROR_BOX (priv->error_box), primary, secondary);
+  gtk_stack_set_visible_child_name (GTK_STACK (self), "error");
+}
+
+
+static void
+photos_view_container_query_error (PhotosViewContainer *self, const gchar *primary, const gchar *secondary)
+{
+  photos_view_container_set_error (self, primary, secondary);
+}
+
+
+static void
 photos_view_container_query_status_changed (PhotosTrackerController *trk_cntrlr,
                                             gboolean query_status,
                                             gpointer user_data)
@@ -279,6 +298,9 @@ photos_view_container_constructed (GObject *object)
   priv->no_results = photos_empty_results_box_new ();
   gtk_stack_add_named (GTK_STACK (self), priv->no_results, "no-results");
 
+  priv->error_box = photos_error_box_new ();
+  gtk_stack_add_named (GTK_STACK (self), priv->error_box, "error");
+
   priv->view = gd_main_view_new (GD_MAIN_VIEW_ICON);
   gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (priv->view));
 
@@ -361,6 +383,11 @@ photos_view_container_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
 
+  g_signal_connect_object (priv->trk_cntrlr,
+                           "query-error",
+                           G_CALLBACK (photos_view_container_query_error),
+                           self,
+                           G_CONNECT_SWAPPED);
   g_signal_connect (priv->trk_cntrlr,
                     "query-status-changed",
                     G_CALLBACK (photos_view_container_query_status_changed),
