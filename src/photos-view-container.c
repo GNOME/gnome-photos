@@ -295,7 +295,7 @@ photos_view_container_constructed (GObject *object)
   gtk_orientable_set_orientation (GTK_ORIENTABLE (grid), GTK_ORIENTATION_VERTICAL);
   gtk_stack_add_named (GTK_STACK (self), grid, "view");
 
-  priv->no_results = photos_empty_results_box_new ();
+  priv->no_results = photos_empty_results_box_new (priv->mode);
   gtk_stack_add_named (GTK_STACK (self), priv->no_results, "no-results");
 
   priv->error_box = photos_error_box_new ();

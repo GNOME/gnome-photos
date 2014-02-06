@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,6 +26,8 @@
 #define PHOTOS_EMPTY_RESULTS_BOX_H
 
 #include <gtk/gtk.h>
+
+#include "photos-mode-controller.h"
 
 G_BEGIN_DECLS
 
@@ -68,7 +70,7 @@ struct _PhotosEmptyResultsBoxClass
 
 GType               photos_empty_results_box_get_type           (void) G_GNUC_CONST;
 
-GtkWidget          *photos_empty_results_box_new                (void);
+GtkWidget          *photos_empty_results_box_new                (PhotosWindowMode mode);
 
 G_END_DECLS
 
