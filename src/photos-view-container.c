@@ -27,9 +27,14 @@
 #include <libgd/gd.h>
 
 #include "photos-application.h"
+#include "photos-empty-results-box.h"
 #include "photos-enums.h"
 #include "photos-item-manager.h"
 #include "photos-load-more-button.h"
+#include "photos-offset-favorites-controller.h"
+#include "photos-offset-collections-controller.h"
+#include "photos-offset-overview-controller.h"
+#include "photos-offset-search-controller.h"
 #include "photos-remote-display-manager.h"
 #include "photos-selection-controller.h"
 #include "photos-tracker-collections-controller.h"
@@ -47,8 +52,10 @@ struct _PhotosViewContainerPrivate
   GtkListStore *model;
   GtkTreePath *current_path;
   GtkWidget *load_more;
+  GtkWidget *no_results;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
+  PhotosOffsetController *offset_cntrlr;
   PhotosRemoteDisplayManager *remote_mngr;
   PhotosSelectionController *sel_cntrlr;
   PhotosTrackerController *trk_cntrlr;
@@ -63,7 +70,7 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosViewContainer, photos_view_container, GTK_TYPE_GRID);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosViewContainer, photos_view_container, GTK_TYPE_STACK);
 
 
 static void
@@ -127,6 +134,16 @@ photos_view_container_connect_view (PhotosViewContainer *self)
                            G_CONNECT_SWAPPED);
 
   photos_view_container_view_changed (self);
+}
+
+
+static void
+photos_view_container_count_changed (PhotosViewContainer *self, gint count)
+{
+  if (count == 0)
+    gtk_stack_set_visible_child_name (GTK_STACK (self), "no-results");
+  else
+    gtk_stack_set_visible_child_name (GTK_STACK (self), "view");
 }
 
 
@@ -248,21 +265,29 @@ photos_view_container_constructed (GObject *object)
   PhotosViewContainerPrivate *priv = self->priv;
   GAction *action;
   GtkApplication *app;
+  GtkWidget *grid;
   gboolean status;
 
   G_OBJECT_CLASS (photos_view_container_parent_class)->constructed (object);
 
   priv->model = photos_view_model_new (priv->mode);
 
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
+  grid = gtk_grid_new ();
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (grid), GTK_ORIENTATION_VERTICAL);
+  gtk_stack_add_named (GTK_STACK (self), grid, "view");
+
+  priv->no_results = photos_empty_results_box_new ();
+  gtk_stack_add_named (GTK_STACK (self), priv->no_results, "no-results");
 
   priv->view = gd_main_view_new (GD_MAIN_VIEW_ICON);
-  gtk_container_add (GTK_CONTAINER (self), GTK_WIDGET (priv->view));
+  gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (priv->view));
 
   priv->load_more = photos_load_more_button_new (priv->mode);
-  gtk_container_add (GTK_CONTAINER (self), priv->load_more);
+  gtk_container_add (GTK_CONTAINER (grid), priv->load_more);
 
   gtk_widget_show_all (GTK_WIDGET (self));
+
+  gtk_stack_set_visible_child_full (GTK_STACK (self), "view", GTK_STACK_TRANSITION_TYPE_NONE);
 
   g_signal_connect (priv->view, "item-activated", G_CALLBACK (photos_view_container_item_activated), self);
   g_signal_connect (priv->view,
@@ -297,18 +322,22 @@ photos_view_container_constructed (GObject *object)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
       priv->trk_cntrlr = photos_tracker_collections_controller_dup_singleton ();
+      priv->offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
       priv->trk_cntrlr = photos_tracker_favorites_controller_dup_singleton ();
+      priv->offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
       priv->trk_cntrlr = photos_tracker_overview_controller_dup_singleton ();
+      priv->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_SEARCH:
       priv->trk_cntrlr = photos_tracker_search_controller_dup_singleton ();
+      priv->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
       break;
 
     default:
@@ -325,6 +354,12 @@ photos_view_container_constructed (GObject *object)
   g_signal_connect_swapped (action, "activate", G_CALLBACK (gd_main_view_unselect_all), priv->view);
 
   g_object_unref (app);
+
+  g_signal_connect_object (priv->offset_cntrlr,
+                           "count-changed",
+                           G_CALLBACK (photos_view_container_count_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   g_signal_connect (priv->trk_cntrlr,
                     "query-status-changed",
@@ -352,6 +387,7 @@ photos_view_container_dispose (GObject *object)
   g_clear_object (&priv->model);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
+  g_clear_object (&priv->offset_cntrlr);
   g_clear_object (&priv->remote_mngr);
   g_clear_object (&priv->sel_cntrlr);
   g_clear_object (&priv->trk_cntrlr);
@@ -421,7 +457,11 @@ photos_view_container_class_init (PhotosViewContainerClass *class)
 GtkWidget *
 photos_view_container_new (PhotosWindowMode mode)
 {
-  return g_object_new (PHOTOS_TYPE_VIEW_CONTAINER, "mode", mode, NULL);
+  return g_object_new (PHOTOS_TYPE_VIEW_CONTAINER,
+                       "homogeneous", TRUE,
+                       "mode", mode,
+                       "transition-type", GTK_STACK_TRANSITION_TYPE_CROSSFADE,
+                       NULL);
 }
 
 

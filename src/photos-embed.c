@@ -31,13 +31,11 @@
 
 #include "photos-application.h"
 #include "photos-embed.h"
-#include "photos-empty-results-box.h"
 #include "photos-error-box.h"
 #include "photos-indexing-notification.h"
 #include "photos-item-manager.h"
 #include "photos-mode-controller.h"
 #include "photos-notification-manager.h"
-#include "photos-offset-overview-controller.h"
 #include "photos-preview-view.h"
 #include "photos-search-controller.h"
 #include "photos-selection-toolbar.h"
@@ -46,7 +44,6 @@
 #include "photos-search-type-manager.h"
 #include "photos-source.h"
 #include "photos-source-manager.h"
-#include "photos-tracker-change-monitor.h"
 #include "photos-tracker-overview-controller.h"
 #include "photos-view-container.h"
 
@@ -73,9 +70,7 @@ struct _PhotosEmbedPrivate
   PhotosBaseManager *src_mngr;
   PhotosBaseManager *srch_mngr;
   PhotosModeController *mode_cntrlr;
-  PhotosOffsetController *offset_cntrlr;
   PhotosSearchController *srch_cntrlr;
-  PhotosTrackerChangeMonitor *monitor;
   PhotosTrackerController *trk_ovrvw_cntrlr;
   PhotosWindowMode old_mode;
   guint load_show_id;
@@ -83,9 +78,6 @@ struct _PhotosEmbedPrivate
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosEmbed, photos_embed, GTK_TYPE_BOX);
-
-
-static void photos_embed_changes_pending (PhotosEmbed *self, GHashTable *changes);
 
 
 static void
@@ -270,50 +262,6 @@ photos_embed_restore_last_page (PhotosEmbed *self)
     }
 
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), page);
-}
-
-
-static void
-photos_embed_hide_no_results_page (PhotosEmbed *self)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-
-  if (G_LIKELY (priv->monitor != NULL))
-    g_signal_handlers_disconnect_by_func (priv->monitor, photos_embed_changes_pending, self);
-
-  photos_embed_restore_last_page (self);
-}
-
-
-static void
-photos_embed_changes_pending (PhotosEmbed *self, GHashTable *changes)
-{
-  photos_embed_hide_no_results_page (self);
-}
-
-
-static void
-photos_embed_count_changed (PhotosEmbed *self, gint count)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-  PhotosWindowMode mode;
-
-  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  if (mode != PHOTOS_WINDOW_MODE_OVERVIEW)
-    return;
-
-  if (count == 0)
-    {
-      if (G_LIKELY (priv->monitor != NULL))
-        g_signal_connect_object (priv->monitor,
-                                 "changes-pending",
-                                 G_CALLBACK (photos_embed_changes_pending),
-                                 self,
-                                 G_CONNECT_SWAPPED);
-      gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "no-results");
-    }
-  else
-    photos_embed_hide_no_results_page (self);
 }
 
 
@@ -542,8 +490,6 @@ photos_embed_dispose (GObject *object)
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->srch_mngr);
   g_clear_object (&priv->mode_cntrlr);
-  g_clear_object (&priv->offset_cntrlr);
-  g_clear_object (&priv->monitor);
   g_clear_object (&priv->srch_cntrlr);
   g_clear_object (&priv->trk_ovrvw_cntrlr);
 
@@ -629,9 +575,6 @@ photos_embed_init (PhotosEmbed *self)
   priv->error_box = photos_error_box_new ();
   gtk_stack_add_named (GTK_STACK (priv->stack), priv->error_box, "error");
 
-  priv->no_results = photos_empty_results_box_new ();
-  gtk_stack_add_named (GTK_STACK (priv->stack), priv->no_results, "no-results");
-
   /* TODO: SearchBar.Dropdown, …
    */
 
@@ -657,9 +600,6 @@ photos_embed_init (PhotosEmbed *self)
                             G_CALLBACK (photos_embed_query_status_changed),
                             self);
 
-  priv->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
-  g_signal_connect_swapped (priv->offset_cntrlr, "count-changed", G_CALLBACK (photos_embed_count_changed), self);
-
   priv->item_mngr = photos_item_manager_dup_singleton ();
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
 
@@ -677,8 +617,6 @@ photos_embed_init (PhotosEmbed *self)
                             "search-string-changed",
                             G_CALLBACK (photos_embed_search_changed),
                             self);
-
-  priv->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
 
   gtk_widget_show (GTK_WIDGET (self));
 }
