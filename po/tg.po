@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-03 20:42+0000\n"
-"PO-Revision-Date: 2014-02-04 11:29+0500\n"
+"POT-Creation-Date: 2014-02-06 15:56+0000\n"
+"PO-Revision-Date: 2014-02-06 21:33+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <tg@li.org>\n"
 "Language: tg\n"
@@ -183,23 +183,26 @@ msgstr "Скриншотҳо"
 msgid "DLNA Renderer Devices"
 msgstr "Дастгоҳи коркарди DLNA"
 
-#: ../src/photos-embed.c:612
+#: ../src/photos-embed.c:651
 msgid "Recent"
 msgstr "Қаблӣ"
 
-#: ../src/photos-embed.c:615 ../src/photos-search-type-manager.c:131
+#: ../src/photos-embed.c:654 ../src/photos-search-type-manager.c:131
 msgid "Albums"
 msgstr "Албомҳо"
 
-#: ../src/photos-embed.c:618 ../src/photos-search-type-manager.c:138
+#: ../src/photos-embed.c:657 ../src/photos-search-type-manager.c:138
 msgid "Favorites"
 msgstr "Баргузидаҳо"
+
+#: ../src/photos-empty-results-box.c:111
+msgid "Name your first album"
+msgstr "Ба албоми аввалини худ ном гузоред"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:108
-#| msgid "Image Settings"
+#: ../src/photos-empty-results-box.c:131
 msgid "Settings"
 msgstr "Танзимот"
 
@@ -207,12 +210,22 @@ msgstr "Танзимот"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:114
+#: ../src/photos-empty-results-box.c:137
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "Шумо метавонед ҳисобҳои онлайни худро дар %s илова кунед"
 
-#: ../src/photos-empty-results-box.c:161
+#: ../src/photos-empty-results-box.c:187
+#| msgid "No Photos Found"
+msgid "No Albums Found"
+msgstr "Ягон албом ёфт нашудааст"
+
+#: ../src/photos-empty-results-box.c:191
+#| msgid "No Photos Found"
+msgid "No Favorites Found"
+msgstr "Ягон баргузида ёфт нашудааст"
+
+#: ../src/photos-empty-results-box.c:196
 msgid "No Photos Found"
 msgstr "Ягон сурат ёфт нашудааст"
 
@@ -496,16 +509,12 @@ msgstr "Ҳама"
 
 #. Translators: "Title" refers to "Match Title" when searching.
 #: ../src/photos-search-match-manager.c:163
-#| msgctxt "Document Title"
-#| msgid "Title"
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Сарлавҳа"
 
 #. Translators: "Author" refers to "Match Author" when searching.
 #: ../src/photos-search-match-manager.c:170
-#| msgctxt "Document Author"
-#| msgid "Author"
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Муаллиф"
@@ -521,8 +530,6 @@ msgstr "Мувофиқат"
 #. * Favorites and Photos.
 #.
 #: ../src/photos-search-type-manager.c:176
-#| msgctxt "Document Type"
-#| msgid "Type"
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Намуд"
@@ -548,7 +555,6 @@ msgid "Add to Album"
 msgstr "Илова кардан ба албом"
 
 #: ../src/photos-source-manager.c:196
-#| msgid "Source"
 msgid "Sources"
 msgstr "Манбаҳо"
 
