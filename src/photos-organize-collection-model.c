@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +28,7 @@
 #include "photos-base-item.h"
 #include "photos-collection-manager.h"
 #include "photos-fetch-collection-state-job.h"
+#include "photos-filterable.h"
 #include "photos-organize-collection-model.h"
 
 
@@ -54,7 +55,7 @@ photos_organize_collection_model_foreach (GtkTreeModel *model,
   gchar *id;
 
   gtk_tree_model_get (GTK_TREE_MODEL (self), iter, PHOTOS_ORGANIZE_MODEL_ID, &id, -1);
-  if (g_strcmp0 (photos_base_item_get_id (collection), id) == 0)
+  if (g_strcmp0 (photos_filterable_get_id (PHOTOS_FILTERABLE (collection)), id) == 0)
     {
       self->priv->coll_path = gtk_tree_path_copy (path);
       ret_val = TRUE;

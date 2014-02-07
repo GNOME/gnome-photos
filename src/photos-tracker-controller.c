@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 
 #include "photos-enums.h"
+#include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-marshalers.h"
 #include "photos-mode-controller.h"
@@ -258,14 +259,11 @@ photos_tracker_controller_refresh_for_source (PhotosTrackerController *self)
 
   if (priv->current_query->source != NULL)
     {
-      gchar *id;
+      const gchar *id;
 
-      g_object_get (priv->current_query->source, "id", &id, NULL);
-
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (priv->current_query->source));
       if (g_strcmp0 (id, PHOTOS_SOURCE_STOCK_ALL) == 0)
         photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_NONE);
-
-      g_free (id);
     }
 
   priv->refresh_pending = FALSE;

@@ -224,17 +224,14 @@ void
 photos_base_manager_add_object (PhotosBaseManager *self, GObject *object)
 {
   GObject *old_object;
-  gchar *id;
+  const gchar *id;
 
-  g_object_get (object, "id", &id, NULL);
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
   old_object = photos_base_manager_get_object_by_id (self, id);
   if (old_object != NULL)
-    {
-      g_free (id);
-      return;
-    }
+    return;
 
-  g_hash_table_insert (self->priv->objects, (gpointer) id, g_object_ref (object));
+  g_hash_table_insert (self->priv->objects, g_strdup (id), g_object_ref (object));
   g_signal_emit (self, signals[OBJECT_ADDED], 0, object);
 }
 
@@ -275,14 +272,15 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
 
   for (i = 0, l = values; l != NULL; l = l->next)
     {
-      gchar *id;
+      PhotosFilterable *filterable = PHOTOS_FILTERABLE (l->data);
+      const gchar *id;
 
-      g_object_get (l->data, "id", &id, NULL);
+      id = photos_filterable_get_id (filterable);
       if (g_strcmp0 (id, "all") != 0)
         {
           gchar *str;
 
-          str = photos_filterable_get_filter (PHOTOS_FILTERABLE (l->data));
+          str = photos_filterable_get_filter (filterable);
           if (g_strcmp0 (str, blank) == 0)
             g_free (str);
           else
@@ -291,7 +289,6 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
               i++;
             }
         }
-      g_free (id);
     }
 
   length = g_strv_length (strv);
@@ -403,11 +400,10 @@ photos_base_manager_process_new_objects (PhotosBaseManager *self, GHashTable *ne
 void
 photos_base_manager_remove_object (PhotosBaseManager *self, GObject *object)
 {
-  gchar *id;
+  const gchar *id;
 
-  g_object_get (object, "id", &id, NULL);
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
   photos_base_manager_remove_object_by_id (self, id);
-  g_free (id);
 }
 
 

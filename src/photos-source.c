@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -86,6 +86,14 @@ photos_source_get_filter (PhotosFilterable *iface)
     return photos_query_builder_filter_local ();
 
   return photos_source_build_filter_resource (self);
+}
+
+
+static const gchar *
+photos_source_get_id (PhotosFilterable *filterable)
+{
+  PhotosSource *self = PHOTOS_SOURCE (filterable);
+  return self->priv->id;
 }
 
 
@@ -249,6 +257,7 @@ static void
 photos_filterable_interface_init (PhotosFilterableInterface *iface)
 {
   iface->get_filter = photos_source_get_filter;
+  iface->get_id = photos_source_get_id;
 }
 
 

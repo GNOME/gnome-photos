@@ -27,6 +27,7 @@
 
 #include "photos-collection-manager.h"
 #include "photos-enums.h"
+#include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-mode-controller.h"
 #include "photos-offset-collections-controller.h"
@@ -75,7 +76,7 @@ photos_view_model_info_set (PhotosViewModel *self, PhotosBaseItem *item, GtkTree
 {
   gtk_list_store_set (GTK_LIST_STORE (self),
                       iter,
-                      PHOTOS_VIEW_MODEL_URN, photos_base_item_get_id (item),
+                      PHOTOS_VIEW_MODEL_URN, photos_filterable_get_id (PHOTOS_FILTERABLE (item)),
                       PHOTOS_VIEW_MODEL_URI, photos_base_item_get_uri (item),
                       PHOTOS_VIEW_MODEL_NAME, photos_base_item_get_name (item),
                       PHOTOS_VIEW_MODEL_AUTHOR, photos_base_item_get_author (item),
@@ -177,7 +178,7 @@ photos_view_model_item_removed_foreach (GtkTreeModel *model,
   gchar *value;
   gint64 mtime;
 
-  id = photos_base_item_get_id (item);
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   gtk_tree_model_get (model, iter, PHOTOS_VIEW_MODEL_URN, &value, PHOTOS_VIEW_MODEL_MTIME, &mtime, -1);
 
   if (g_strcmp0 (id, value) == 0)

@@ -27,6 +27,7 @@
 
 #include "photos-base-view.h"
 #include "photos-base-model.h"
+#include "photos-filterable.h"
 
 
 struct _PhotosBaseViewPrivate
@@ -105,18 +106,17 @@ photos_base_view_renderer_radio_cell_func (PhotosBaseView *self,
   PhotosBaseViewPrivate *priv = self->priv;
   GObject *object;
   gboolean active;
-  gchar *active_id = NULL;
+  const gchar *active_id = NULL;
   gchar *id;
 
   gtk_tree_model_get (GTK_TREE_MODEL (priv->model), iter, PHOTOS_BASE_MODEL_ID, &id, -1);
   object = photos_base_manager_get_active_object (priv->mngr);
   if (object != NULL)
-    g_object_get (object, "id", &active_id, NULL);
+    active_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
 
   active = g_strcmp0 (id, active_id) == 0;
   gtk_cell_renderer_toggle_set_active (GTK_CELL_RENDERER_TOGGLE (cell), active);
 
-  g_free (active_id);
   g_free (id);
 }
 

@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,6 +27,7 @@
 
 #include <glib.h>
 
+#include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-selection-controller.h"
 
@@ -59,10 +60,9 @@ photos_selection_controller_object_removed (PhotosBaseManager *manager, GObject 
   PhotosSelectionControllerPrivate *priv = self->priv;
   GList *l;
   gboolean changed = FALSE;
-  gchar *id;
+  const gchar *id;
 
-  g_object_get (object, "id", &id, NULL);
-
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
   l = g_list_find_custom (priv->selection, (gconstpointer) id, (GCompareFunc) g_strcmp0);
   while (l != NULL)
     {
@@ -71,8 +71,6 @@ photos_selection_controller_object_removed (PhotosBaseManager *manager, GObject 
       priv->selection = g_list_delete_link (priv->selection, l);
       l = g_list_find_custom (priv->selection, (gconstpointer) id, (GCompareFunc) g_strcmp0);
     }
-
-  g_free (id);
 
   if (changed)
     g_signal_emit (self, signals[SELECTION_CHANGED], 0);

@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,6 +31,7 @@
 #include "photos-collection-manager.h"
 #include "photos-fetch-collection-state-job.h"
 #include "photos-fetch-collections-job.h"
+#include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-query.h"
 #include "photos-query-builder.h"
@@ -117,7 +118,8 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
         {
           item_idx = (gchar *) keys->data;
           item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, item_idx));
-          if (g_strcmp0 (photos_base_item_get_id (item), photos_base_item_get_id (collection)) == 0)
+          if (g_strcmp0 (photos_filterable_get_id (PHOTOS_FILTERABLE (item)),
+                         photos_filterable_get_id (PHOTOS_FILTERABLE (collection))) == 0)
             hidden = TRUE;
         }
       g_list_free (keys);

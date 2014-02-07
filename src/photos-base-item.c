@@ -36,6 +36,7 @@
 #include "photos-base-item.h"
 #include "photos-collection-icon-watcher.h"
 #include "photos-delete-item-job.h"
+#include "photos-filterable.h"
 #include "photos-icons.h"
 #include "photos-print-operation.h"
 #include "photos-query.h"
@@ -99,8 +100,12 @@ enum
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
+static void photos_base_item_filterable_iface_init (PhotosFilterableInterface *iface);
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT);
+
+G_DEFINE_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT,
+                         G_ADD_PRIVATE (PhotosBaseItem)
+                         G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE, photos_base_item_filterable_iface_init));
 
 
 static GThreadPool *create_thumbnail_pool;
@@ -335,6 +340,14 @@ photos_base_item_download_in_thread_func (GTask *task,
 
  out:
   g_mutex_unlock (&priv->mutex_download);
+}
+
+
+static const gchar *
+photos_base_item_get_id (PhotosFilterable *filterable)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (filterable);
+  return self->priv->id;
 }
 
 
@@ -958,6 +971,13 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
 }
 
 
+static void
+photos_base_item_filterable_iface_init (PhotosFilterableInterface *iface)
+{
+  iface->get_id = photos_base_item_get_id;
+}
+
+
 gboolean
 photos_base_item_can_trash (PhotosBaseItem *self)
 {
@@ -1084,13 +1104,6 @@ GdkPixbuf *
 photos_base_item_get_icon (PhotosBaseItem *self)
 {
   return self->priv->icon;
-}
-
-
-const gchar *
-photos_base_item_get_id (PhotosBaseItem *self)
-{
-  return self->priv->id;
 }
 
 

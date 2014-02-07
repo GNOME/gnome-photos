@@ -30,6 +30,7 @@
 
 #include "photos-application.h"
 #include "photos-collection-manager.h"
+#include "photos-filterable.h"
 #include "photos-overview-searchbar.h"
 #include "photos-search-controller.h"
 #include "photos-search-match-manager.h"
@@ -72,11 +73,11 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
 {
   PhotosOverviewSearchbarPrivate *priv = self->priv;
   GObject *object;
-  gchar *id;
+  const gchar *id;
   gchar *name;
 
   object = photos_base_manager_get_active_object (mngr);
-  g_object_get (object, "id", &id, NULL);
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
   g_object_get (object, "name", &name, NULL);
 
   if (g_strcmp0 (id, "all") == 0)
@@ -88,7 +89,6 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
     }
 
   g_free (name);
-  g_free (id);
 }
 
 
@@ -97,20 +97,18 @@ photos_overview_searchbar_collection_active_changed (PhotosOverviewSearchbar *se
 {
   PhotosOverviewSearchbarPrivate *priv = self->priv;
   PhotosSearchType *search_type;
+  const gchar *id;
   const gchar *str;
-  gchar *id;
 
   search_type = PHOTOS_SEARCH_TYPE (photos_base_manager_get_active_object (priv->srch_typ_mngr));
   str = photos_search_controller_get_string (priv->srch_cntrlr);
-  g_object_get (search_type, "id", &id, NULL);
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (search_type));
 
   if (g_strcmp0 (str, "") != 0 || g_strcmp0 (id, "all") != 0)
     {
       photos_base_manager_set_active_object_by_id (priv->srch_typ_mngr, "all");
       gtk_entry_set_text (GTK_ENTRY (priv->search_entry), "");
     }
-
-  g_free (id);
 }
 
 

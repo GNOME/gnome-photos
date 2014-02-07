@@ -48,21 +48,20 @@ static gchar *
 photos_source_manager_get_filter (PhotosBaseManager *mngr, gint flags)
 {
   GObject *source;
+  const gchar *id;
   gchar *filter;
-  gchar *id;
 
   if (flags & PHOTOS_QUERY_FLAGS_SEARCH)
     source = photos_base_manager_get_active_object (mngr);
   else
     source = photos_base_manager_get_object_by_id (mngr, PHOTOS_SOURCE_STOCK_ALL);
 
-  g_object_get (source, "id", &id, NULL);
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
   if (g_strcmp0 (id, PHOTOS_SOURCE_STOCK_ALL) == 0)
     filter = photos_base_manager_get_all_filter (mngr);
   else
     filter = photos_filterable_get_filter (PHOTOS_FILTERABLE (source));
 
-  g_free (id);
   return filter;
 }
 
@@ -83,7 +82,7 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
       GoaAccount *account;
       GoaObject *object = GOA_OBJECT (l->data);
       PhotosSource *source;
-      gchar *id;
+      const gchar *id;
 
       account = goa_object_peek_account (object);
       if (account == NULL)
@@ -96,8 +95,8 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
         continue;
 
       source = photos_source_new_from_goa_object (GOA_OBJECT (l->data));
-      g_object_get (source, "id", &id, NULL);
-      g_hash_table_insert (new_sources, id, g_object_ref (source));
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
+      g_hash_table_insert (new_sources, g_strdup (id), g_object_ref (source));
       g_object_unref (source);
     }
 

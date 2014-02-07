@@ -72,14 +72,14 @@ photos_search_match_manager_get_filter (PhotosBaseManager *mngr, gint flags)
   for (i = 0; terms[i] != NULL; i++)
     {
       GHashTableIter iter;
-      gchar *id;
+      const gchar *id;
 
       g_hash_table_iter_init (&iter, objects);
       while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &search_match))
         photos_search_match_set_filter_term (search_match, terms[i]);
 
       search_match = PHOTOS_SEARCH_MATCH (photos_base_manager_get_active_object (PHOTOS_BASE_MANAGER (self)));
-      g_object_get (search_match, "id", &id, NULL);
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (search_match));
       if (g_strcmp0 (id, PHOTOS_SEARCH_MATCH_STOCK_ALL) == 0)
         filter = photos_base_manager_get_all_filter (PHOTOS_BASE_MANAGER (self));
       else
@@ -87,7 +87,6 @@ photos_search_match_manager_get_filter (PhotosBaseManager *mngr, gint flags)
 
       filters[i] = filter;
       filter = NULL;
-      g_free (id);
     }
 
   filter = g_strjoinv (" && ", filters);

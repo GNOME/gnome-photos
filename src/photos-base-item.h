@@ -119,8 +119,6 @@ gint64              photos_base_item_get_height         (PhotosBaseItem *self);
 
 GdkPixbuf          *photos_base_item_get_icon           (PhotosBaseItem *self);
 
-const gchar        *photos_base_item_get_id             (PhotosBaseItem *self);
-
 const gchar        *photos_base_item_get_identifier     (PhotosBaseItem *self);
 
 gdouble             photos_base_item_get_iso_speed      (PhotosBaseItem *self);

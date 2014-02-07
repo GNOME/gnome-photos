@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Intel Corporation. All rights reserved.
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,6 +25,7 @@
 #include "photos-dleyna-renderer-device.h"
 #include "photos-dleyna-renderer-push-host.h"
 #include "photos-dlna-renderer.h"
+#include "photos-filterable.h"
 #include "photos-mpris-player.h"
 
 
@@ -502,10 +503,10 @@ photos_dlna_renderer_match_by_item_value (gpointer key,
                                           gpointer value,
                                           gpointer user_data)
 {
-  PhotosBaseItem *a = PHOTOS_BASE_ITEM (value);
-  PhotosBaseItem *b = PHOTOS_BASE_ITEM (user_data);
+  PhotosFilterable *a = PHOTOS_FILTERABLE (value);
+  PhotosFilterable *b = PHOTOS_FILTERABLE (user_data);
 
-  return g_strcmp0 (photos_base_item_get_id (a), photos_base_item_get_id (b)) == 0;
+  return g_strcmp0 (photos_filterable_get_id (a), photos_filterable_get_id (b)) == 0;
 }
 
 

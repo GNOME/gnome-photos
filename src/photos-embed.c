@@ -32,6 +32,7 @@
 #include "photos-application.h"
 #include "photos-collection-manager.h"
 #include "photos-embed.h"
+#include "photos-filterable.h"
 #include "photos-indexing-notification.h"
 #include "photos-item-manager.h"
 #include "photos-mode-controller.h"
@@ -498,9 +499,9 @@ photos_embed_search_changed (PhotosEmbed *self)
   PhotosEmbedPrivate *priv = self->priv;
   GObject *object;
   PhotosWindowMode mode;
+  const gchar *search_type_id;
+  const gchar *source_id;
   const gchar *str;
-  gchar *search_type_id;
-  gchar *source_id;
 
   /* Whenever a search constraint is specified we want to switch to
    * the search mode, and when all constraints have been lifted we
@@ -523,10 +524,10 @@ photos_embed_search_changed (PhotosEmbed *self)
     return;
 
   object = photos_base_manager_get_active_object (priv->src_mngr);
-  g_object_get (object, "id", &source_id, NULL);
+  source_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
 
   object = photos_base_manager_get_active_object (priv->srch_mngr);
-  g_object_get (object, "id", &search_type_id, NULL);
+  search_type_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
 
   str = photos_search_controller_get_string (priv->srch_cntrlr);
 
@@ -538,9 +539,6 @@ photos_embed_search_changed (PhotosEmbed *self)
     mode = PHOTOS_WINDOW_MODE_SEARCH;
 
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, mode);
-
-  g_free (search_type_id);
-  g_free (source_id);
 }
 
 

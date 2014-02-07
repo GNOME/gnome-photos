@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Intel Corporation. All rights reserved.
+ * Copyright © 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,6 +26,8 @@
 #include <gio/gio.h>
 
 #include "photos-dlna-renderers-manager.h"
+#include "photos-filterable.h"
+
 
 typedef struct {
     PhotosRemoteDisplayManager *manager;
@@ -177,7 +180,7 @@ photos_remote_display_manager_share_cb (GObject      *source_object,
   if (error != NULL)
     {
       g_warning ("Unable to remotely display item '%s': %s",
-                 share->item != NULL ? photos_base_item_get_id (share->item) : "(none)",
+                 share->item != NULL ? photos_filterable_get_id (PHOTOS_FILTERABLE (share->item)) : "(none)",
                  error->message);
       g_signal_emit (share->manager, signals[SHARE_ERROR], 0, share->renderer, share->item, error);
       g_error_free (error);

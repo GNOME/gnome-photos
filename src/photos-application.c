@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,6 +37,7 @@
 #include "photos-base-item.h"
 #include "photos-camera-cache.h"
 #include "photos-dlna-renderers-dialog.h"
+#include "photos-filterable.h"
 #include "photos-gom-miner.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
@@ -198,7 +199,7 @@ photos_application_properties (PhotosApplication *self)
   if (item == NULL)
     return;
 
-  id = photos_base_item_get_id (item);
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   dialog = photos_properties_dialog_new (GTK_WINDOW (priv->main_window), id);
   gtk_widget_show_all (dialog);
   g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
@@ -291,7 +292,7 @@ photos_application_remote_display_current (PhotosApplication *self)
   if (item == NULL)
     return;
 
-  urn = photos_base_item_get_id (item);
+  urn = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   dialog = photos_dlna_renderers_dialog_new (GTK_WINDOW (priv->main_window), urn);
   gtk_widget_show_all (dialog);
 }

@@ -64,6 +64,14 @@ photos_search_match_get_filter (PhotosFilterable *iface)
 }
 
 
+static const gchar *
+photos_search_match_get_id (PhotosFilterable *filterable)
+{
+  PhotosSearchMatch *self = PHOTOS_SEARCH_MATCH (filterable);
+  return self->priv->id;
+}
+
+
 static void
 photos_search_match_finalize (GObject *object)
 {
@@ -180,6 +188,7 @@ static void
 photos_filterable_interface_init (PhotosFilterableInterface *iface)
 {
   iface->get_filter = photos_search_match_get_filter;
+  iface->get_id = photos_search_match_get_id;
 }
 
 

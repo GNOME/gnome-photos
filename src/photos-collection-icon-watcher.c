@@ -30,6 +30,7 @@
 #include <tracker-sparql.h>
 
 #include "photos-collection-icon-watcher.h"
+#include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-query.h"
 #include "photos-query-builder.h"
@@ -309,7 +310,7 @@ photos_collection_icon_watcher_start (PhotosCollectionIconWatcher *self)
   if (priv->collection == NULL)
     return;
 
-  id = photos_base_item_get_id (priv->collection);
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (priv->collection));
   query = photos_query_builder_collection_icon_query (id);
   photos_tracker_queue_select (priv->queue,
                                query->sparql,
