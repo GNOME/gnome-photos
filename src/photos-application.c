@@ -191,11 +191,11 @@ static void
 photos_application_properties (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
+  GObject *item;
   GtkWidget *dialog;
-  PhotosBaseItem *item;
   const gchar *id;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+  item = photos_base_manager_get_active_object (priv->item_mngr);
   if (item == NULL)
     return;
 
@@ -284,11 +284,11 @@ static void
 photos_application_remote_display_current (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
-  PhotosBaseItem *item;
+  GObject *item;
   GtkWidget *dialog;
   const gchar *urn;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+  item = photos_base_manager_get_active_object (priv->item_mngr);
   if (item == NULL)
     return;
 
