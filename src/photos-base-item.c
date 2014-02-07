@@ -30,6 +30,7 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <libgd/gd.h>
 #include <tracker-sparql.h>
 
 #include "photos-base-item.h"
@@ -198,10 +199,10 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
       GtkBorder *slice;
 
       slice = photos_utils_get_thumbnail_frame_border ();
-      priv->icon = photos_utils_embed_image_in_frame (icon,
-                                                      PACKAGE_ICONS_DIR "/thumbnail-frame.png",
-                                                      slice,
-                                                      slice);
+      priv->icon = gd_embed_image_in_frame (icon,
+                                            "resource:///org/gnome/photos/thumbnail-frame.png",
+                                            slice,
+                                            slice);
       gtk_border_free (slice);
     }
   else

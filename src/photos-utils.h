@@ -51,11 +51,6 @@ gboolean         photos_utils_create_thumbnail            (GFile *file, GCancell
 
 const gchar     *photos_utils_dot_dir                     (void);
 
-GdkPixbuf       *photos_utils_embed_image_in_frame        (GdkPixbuf *source_image,
-                                                           const gchar *frame_image_path,
-                                                           GtkBorder *slice_width,
-                                                           GtkBorder *border_width);
-
 GQuark           photos_utils_error_quark                 (void);
 
 gchar           *photos_utils_filename_strip_extension    (const gchar *filename_with_extension);

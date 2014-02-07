@@ -5,5 +5,6 @@
     <file alias="dlna-renderers-dialog.ui" preprocess="xml-stripblanks" compressed="true">photos-dlna-renderers-dialog.ui</file>
     <file alias="preview-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-preview-menu.ui</file>
     <file alias="selection-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-selection-menu.ui</file>
+    <file alias="thumbnail-frame.png" preprocess="to-pixdata">../data/thumbnail-frame.png</file>
   </gresource>
 </gresources>
