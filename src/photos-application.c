@@ -45,6 +45,7 @@
 #include "photos-properties-dialog.h"
 #include "photos-resources.h"
 #include "photos-search-context.h"
+#include "photos-search-provider.h"
 #include "photos-source-manager.h"
 
 
@@ -70,6 +71,7 @@ struct _PhotosApplicationPrivate
   PhotosCameraCache *camera_cache;
   PhotosModeController *mode_cntrlr;
   PhotosSearchContextState *state;
+  PhotosSearchProvider *search_provider;
 };
 
 static void photos_application_search_context_iface_init (PhotosSearchContextInterface *iface);
@@ -142,6 +144,15 @@ photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gp
 
 
 static void
+photos_application_activate_result (PhotosApplication *self,
+                                    const gchar *identifier,
+                                    const gchar *const *terms,
+                                    guint timestamp)
+{
+}
+
+
+static void
 photos_application_can_fullscreen_changed (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
@@ -166,6 +177,12 @@ photos_application_get_state (PhotosSearchContext *context)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (context);
   return self->priv->state;
+}
+
+
+static void
+photos_application_launch_search (PhotosApplication *self, const gchar* const *terms, guint timestamp)
+{
 }
 
 
@@ -434,6 +451,51 @@ photos_application_activate (GApplication *application)
 }
 
 
+static gboolean
+photos_application_dbus_register (GApplication *application,
+                                  GDBusConnection *connection,
+                                  const gchar *object_path,
+                                  GError **error)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (application);
+  gboolean ret_val = FALSE;
+  gchar *search_provider_path = NULL;
+
+  if (!G_APPLICATION_CLASS (photos_application_parent_class)->dbus_register (application,
+                                                                             connection,
+                                                                             object_path,
+                                                                             error))
+    goto out;
+
+  search_provider_path = g_strconcat (object_path, PHOTOS_SEARCH_PROVIDER_PATH_SUFFIX, NULL);
+  if (!photos_search_provider_dbus_export (self->priv->search_provider, connection, search_provider_path, error))
+    goto out;
+
+  ret_val = TRUE;
+
+ out:
+  g_free (search_provider_path);
+  return ret_val;
+}
+
+
+static void
+photos_application_dbus_unregister (GApplication *application,
+                                    GDBusConnection *connection,
+                                    const gchar *object_path)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (application);
+  gchar *search_provider_path = NULL;
+
+  search_provider_path = g_strconcat (object_path, PHOTOS_SEARCH_PROVIDER_PATH_SUFFIX, NULL);
+  photos_search_provider_dbus_unexport (self->priv->search_provider, connection, search_provider_path);
+
+  G_APPLICATION_CLASS (photos_application_parent_class)->dbus_unregister (application, connection, object_path);
+
+  g_free (search_provider_path);
+}
+
+
 static void
 photos_application_startup (GApplication *application)
 {
@@ -626,6 +688,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->camera_cache);
   g_clear_object (&priv->mode_cntrlr);
+  g_clear_object (&priv->search_provider);
 
   if (priv->state != NULL)
     {
@@ -647,6 +710,16 @@ photos_application_init (PhotosApplication *self)
 
   eog_debug_init ();
 
+  priv->search_provider = photos_search_provider_new ();
+  g_signal_connect_swapped (priv->search_provider,
+                            "activate-result",
+                            G_CALLBACK (photos_application_activate_result),
+                            self);
+  g_signal_connect_swapped (priv->search_provider,
+                            "launch-search",
+                            G_CALLBACK (photos_application_launch_search),
+                            self);
+
   priv->state = photos_search_context_state_new (PHOTOS_SEARCH_CONTEXT (self));
 }
 
@@ -660,6 +733,8 @@ photos_application_class_init (PhotosApplicationClass *class)
   object_class->constructor = photos_application_constructor;
   object_class->dispose = photos_application_dispose;
   application_class->activate = photos_application_activate;
+  application_class->dbus_register = photos_application_dbus_register;
+  application_class->dbus_unregister = photos_application_dbus_unregister;
   application_class->startup = photos_application_startup;
 
   /* TODO: Add miners-changed signal */
