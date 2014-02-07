@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-05 08:42+0000\n"
-"PO-Revision-Date: 2014-02-05 13:13+0100\n"
+"POT-Creation-Date: 2014-02-07 08:39+0000\n"
+"PO-Revision-Date: 2014-02-07 10:54+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -183,23 +183,26 @@ msgstr "Capturas de pantalla"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos de renderizado DLNA"
 
-#: ../src/photos-embed.c:612
+#: ../src/photos-embed.c:651
 msgid "Recent"
 msgstr "Recientes"
 
-#: ../src/photos-embed.c:615 ../src/photos-search-type-manager.c:131
+#: ../src/photos-embed.c:654 ../src/photos-search-type-manager.c:131
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:618 ../src/photos-search-type-manager.c:138
+#: ../src/photos-embed.c:657 ../src/photos-search-type-manager.c:138
 msgid "Favorites"
 msgstr "Favoritos"
+
+#: ../src/photos-empty-results-box.c:111
+msgid "Name your first album"
+msgstr "Nombre su primer álbum"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:108
-#| msgid "Image Settings"
+#: ../src/photos-empty-results-box.c:131
 msgid "Settings"
 msgstr "Configuración"
 
@@ -207,12 +210,22 @@ msgstr "Configuración"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:114
+#: ../src/photos-empty-results-box.c:137
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "Puede añadir sus cuentas en línea en %s"
 
-#: ../src/photos-empty-results-box.c:161
+#: ../src/photos-empty-results-box.c:187
+#| msgid "No Photos Found"
+msgid "No Albums Found"
+msgstr "No se encontraron álbumes"
+
+#: ../src/photos-empty-results-box.c:191
+#| msgid "No Photos Found"
+msgid "No Favorites Found"
+msgstr "No se encontraron favoritos"
+
+#: ../src/photos-empty-results-box.c:196
 msgid "No Photos Found"
 msgstr "No se encontraron fotos"
 
@@ -498,16 +511,12 @@ msgstr "Todo"
 
 #. Translators: "Title" refers to "Match Title" when searching.
 #: ../src/photos-search-match-manager.c:163
-#| msgctxt "Document Title"
-#| msgid "Title"
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Título"
 
 #. Translators: "Author" refers to "Match Author" when searching.
 #: ../src/photos-search-match-manager.c:170
-#| msgctxt "Document Author"
-#| msgid "Author"
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autor"
@@ -523,8 +532,6 @@ msgstr "Coincidencia"
 #. * Favorites and Photos.
 #.
 #: ../src/photos-search-type-manager.c:176
-#| msgctxt "Document Type"
-#| msgid "Type"
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Tipo"
@@ -550,7 +557,6 @@ msgid "Add to Album"
 msgstr "Añadir al álbum"
 
 #: ../src/photos-source-manager.c:196
-#| msgid "Source"
 msgid "Sources"
 msgstr "Fuentes"
 
