@@ -62,7 +62,6 @@ struct _PhotosBaseItemPrivate
   gboolean collection;
   gboolean failed_thumbnailing;
   gboolean favorite;
-  gboolean thumbnailed;
   const gchar *thumb_path;
   gchar *author;
   gchar *default_app_name;
@@ -199,7 +198,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
   g_object_unref (priv->icon);
 
-  if (priv->thumbnailed)
+  if (priv->thumb_path != NULL)
     {
       GtkBorder *slice;
 
@@ -411,7 +410,6 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
       goto out;
     }
 
-  priv->thumbnailed = TRUE;
   photos_base_item_check_effects_and_update_info (self);
 
  out:
@@ -552,7 +550,6 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
     photos_base_item_refresh_thumb_path (self);
   else
     {
-      priv->thumbnailed = FALSE;
       photos_base_item_create_thumbnail_async (self,
                                                NULL,
                                                photos_base_item_create_thumbnail_cb,
