@@ -155,11 +155,15 @@ photos_query_builder_query (gboolean global, gint flags, PhotosOffsetController 
 
   if (global)
     {
-      gint offset;
-      gint step;
+      gint offset = 0;
+      gint step = 50;
 
-      offset = photos_offset_controller_get_offset (offset_cntrlr);
-      step = photos_offset_controller_get_step (offset_cntrlr);
+      if (offset_cntrlr != NULL)
+        {
+          offset = photos_offset_controller_get_offset (offset_cntrlr);
+          step = photos_offset_controller_get_step (offset_cntrlr);
+        }
+
       tail_sparql = g_strdup_printf ("ORDER BY DESC (?mtime) LIMIT %d OFFSET %d", step, offset);
     }
 
