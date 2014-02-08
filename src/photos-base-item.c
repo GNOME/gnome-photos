@@ -406,11 +406,15 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
   if (error != NULL)
     {
       GFile *file;
+      gchar *uri;
 
+      file = G_FILE (g_object_get_data (G_OBJECT (stream), "file"));
+      uri = g_file_get_uri (file);
+      g_warning ("Unable to create pixbuf from %s: %s", uri, error->message);
       priv->failed_thumbnailing = TRUE;
       priv->thumb_path = NULL;
-      file = G_FILE (g_object_get_data (G_OBJECT (stream), "file"));
       g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+      g_free (uri);
       g_error_free (error);
       goto out;
     }
@@ -436,9 +440,14 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
   stream = g_file_read_finish (file, res, &error);
   if (error != NULL)
     {
+      gchar *uri;
+
+      uri = g_file_get_uri (file);
+      g_warning ("Unable to read file at %s: %s", uri, error->message);
       priv->failed_thumbnailing = TRUE;
       priv->thumb_path = NULL;
       g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+      g_free (uri);
       g_error_free (error);
       goto out;
     }
