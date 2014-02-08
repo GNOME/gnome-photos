@@ -405,7 +405,12 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
   priv->icon = gdk_pixbuf_new_from_stream_finish (res, &error);
   if (error != NULL)
     {
+      GFile *file;
+
       priv->failed_thumbnailing = TRUE;
+      priv->thumb_path = NULL;
+      file = G_FILE (g_object_get_data (G_OBJECT (stream), "file"));
+      g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
       g_error_free (error);
       goto out;
     }
@@ -432,10 +437,13 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
   if (error != NULL)
     {
       priv->failed_thumbnailing = TRUE;
+      priv->thumb_path = NULL;
+      g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
       g_error_free (error);
       goto out;
     }
 
+  g_object_set_data_full (G_OBJECT (stream), "file", g_object_ref (file), g_object_unref);
   size = photos_utils_get_icon_size ();
   gdk_pixbuf_new_from_stream_at_scale_async (G_INPUT_STREAM (stream),
                                              size,
