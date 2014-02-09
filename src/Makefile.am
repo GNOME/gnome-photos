@@ -106,6 +106,8 @@ gnome_photos_SOURCES = \
 	photos-fetch-collections-job.h \
 	photos-fetch-ids-job.c \
 	photos-fetch-ids-job.h \
+	photos-fetch-metas-job.c \
+	photos-fetch-metas-job.h \
 	photos-filterable.c \
 	photos-filterable.h \
 	photos-flickr-item.c \
