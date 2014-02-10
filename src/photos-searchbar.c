@@ -239,7 +239,7 @@ photos_searchbar_init (PhotosSearchbar *self)
 
   priv->toolbar = gtk_toolbar_new ();
   context = gtk_widget_get_style_context (priv->toolbar);
-  gtk_style_context_add_class (context, "primary-toolbar");
+  gtk_style_context_add_class (context, "search-bar");
   gtk_container_add (GTK_CONTAINER (self), priv->toolbar);
 }
 
