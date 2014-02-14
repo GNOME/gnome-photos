@@ -45,8 +45,6 @@ photos_spinner_box_constructed (GObject *object)
 {
   PhotosSpinnerBox *self = PHOTOS_SPINNER_BOX (object);
   PhotosSpinnerBoxPrivate *priv = self->priv;
-  GtkWidget *label;
-  gchar *text;
 
   G_OBJECT_CLASS (photos_spinner_box_parent_class)->constructed (object);
 
@@ -62,17 +60,6 @@ photos_spinner_box_constructed (GObject *object)
   gtk_widget_set_halign (priv->spinner, GTK_ALIGN_CENTER);
   gtk_widget_set_valign (priv->spinner, GTK_ALIGN_CENTER);
   gtk_container_add (GTK_CONTAINER (self), priv->spinner);
-
-  label = gtk_label_new (NULL);
-
-  gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-  text = g_strconcat ("<big><b>", _("Loading…"), "</b></big>", NULL);
-  gtk_label_set_label (GTK_LABEL (label), text);
-  g_free (text);
-
-  gtk_widget_set_halign (label, GTK_ALIGN_CENTER);
-  gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-  gtk_container_add (GTK_CONTAINER (self), label);
 
   gtk_widget_show_all (GTK_WIDGET (self));
 }
