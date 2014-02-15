@@ -28,13 +28,12 @@
 #include <glib.h>
 #include <libgd/gd.h>
 
-#include "photos-application.h"
 #include "photos-searchbar.h"
 
 
 struct _PhotosSearchbarPrivate
 {
-  GtkApplication *app;
+  GApplication *app;
   GtkWidget *search_container;
   GtkWidget *search_entry;
   GtkWidget *toolbar;
@@ -220,8 +219,6 @@ photos_searchbar_dispose (GObject *object)
   if (priv->app != NULL)
     photos_searchbar_enable_search (self, FALSE);
 
-  g_clear_object (&priv->app);
-
   G_OBJECT_CLASS (photos_searchbar_parent_class)->dispose (object);
 }
 
@@ -235,7 +232,7 @@ photos_searchbar_init (PhotosSearchbar *self)
   self->priv = photos_searchbar_get_instance_private (self);
   priv = self->priv;
 
-  priv->app = photos_application_new ();
+  priv->app = g_application_get_default ();
 
   priv->toolbar = gtk_toolbar_new ();
   context = gtk_widget_get_style_context (priv->toolbar);

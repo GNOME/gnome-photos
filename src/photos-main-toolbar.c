@@ -30,7 +30,6 @@
 #include <glib/gi18n.h>
 #include <libgd/gd.h>
 
-#include "photos-application.h"
 #include "photos-collection-manager.h"
 #include "photos-dlna-renderers-manager.h"
 #include "photos-dropdown.h"
@@ -511,7 +510,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   GMenu *preview_menu;
   GtkWidget *back_button;
   GtkWidget *menu_button;
-  GtkApplication *app;
+  GApplication *app;
   gboolean remote_display_available;
   GAction *remote_display_action;
 
@@ -532,11 +531,10 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 
   /* Disable the remote-display-current action if the dLeyna services are not
    * available */
-  app = photos_application_new ();
+  app = g_application_get_default ();
   remote_display_action = g_action_map_lookup_action (G_ACTION_MAP (app), "remote-display-current");
   remote_display_available = photos_dlna_renderers_manager_is_available ();
   g_simple_action_set_enabled (G_SIMPLE_ACTION (remote_display_action), remote_display_available);
-  g_object_unref (app);
 
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_main_toolbar_item_active_changed), self);
 }
@@ -704,7 +702,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv;
   GMenu *selection_menu;
-  GtkApplication *app;
+  GApplication *app;
   GtkBuilder *builder;
 
   self->priv = photos_main_toolbar_get_instance_private (self);
@@ -717,10 +715,9 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   gtk_container_add (GTK_CONTAINER (self), priv->toolbar);
   gtk_widget_show (priv->toolbar);
 
-  app = photos_application_new ();
+  app = g_application_get_default ();
   priv->gear_menu = G_SIMPLE_ACTION (g_action_map_lookup_action (G_ACTION_MAP (app), "gear-menu"));
   priv->search = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
-  g_object_unref (app);
 
   builder = gtk_builder_new ();
   gtk_builder_add_from_resource (builder, "/org/gnome/photos/selection-menu.ui", NULL);

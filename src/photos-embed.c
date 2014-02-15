@@ -29,7 +29,6 @@
 #include <gegl.h>
 #include <glib/gi18n.h>
 
-#include "photos-application.h"
 #include "photos-collection-manager.h"
 #include "photos-embed.h"
 #include "photos-filterable.h"
@@ -610,16 +609,15 @@ static void
 photos_embed_init (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv;
-  GtkApplication *app;
+  GApplication *app;
   gboolean querying;
 
   self->priv = photos_embed_get_instance_private (self);
   priv = self->priv;
 
-  app = photos_application_new ();
+  app = g_application_get_default ();
   priv->search_action = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
   g_signal_connect_swapped (app, "window-added", G_CALLBACK (photos_embed_window_added), self);
-  g_object_unref (app);
 
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   gtk_widget_show (GTK_WIDGET (self));

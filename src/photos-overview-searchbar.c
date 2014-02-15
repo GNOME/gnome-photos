@@ -28,7 +28,6 @@
 #include <gio/gio.h>
 #include <libgd/gd.h>
 
-#include "photos-application.h"
 #include "photos-collection-manager.h"
 #include "photos-filterable.h"
 #include "photos-overview-searchbar.h"
@@ -345,14 +344,13 @@ static void
 photos_overview_searchbar_init (PhotosOverviewSearchbar *self)
 {
   PhotosOverviewSearchbarPrivate *priv;
-  GtkApplication *app;
+  GApplication *app;
 
   self->priv = photos_overview_searchbar_get_instance_private (self);
   priv = self->priv;
 
-  app = photos_application_new ();
+  app = g_application_get_default ();
   priv->select_all = g_action_map_lookup_action (G_ACTION_MAP (app), "select-all");
-  g_object_unref (app);
 
   priv->src_mngr = photos_source_manager_dup_singleton ();
   g_signal_connect_object (priv->src_mngr,

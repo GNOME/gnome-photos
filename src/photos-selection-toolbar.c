@@ -29,7 +29,6 @@
 #include <glib/gi18n.h>
 #include <libgd/gd.h>
 
-#include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-icons.h"
 #include "photos-item-manager.h"
@@ -193,20 +192,18 @@ photos_selection_toolbar_properties_clicked (GtkButton *button, gpointer user_da
   PhotosSelectionToolbarPrivate *priv = self->priv;
   GList *selection;
   GList *windows;
-  GtkApplication *app;
+  GApplication *app;
   GtkWidget *dialog;
   const gchar *urn;
 
-  app = photos_application_new ();
-  windows = gtk_application_get_windows (app);
+  app = g_application_get_default ();
+  windows = gtk_application_get_windows (GTK_APPLICATION (app));
 
   selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
   urn = (gchar *) selection->data;
 
   dialog = photos_properties_dialog_new (GTK_WINDOW (windows->data), urn);
   gtk_widget_show_all (dialog);
-
-  g_object_unref (app);
 
   g_signal_connect (dialog, "response", G_CALLBACK (photos_selection_toolbar_properties_response), self);
 }

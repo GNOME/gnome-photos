@@ -26,7 +26,6 @@
 #include "config.h"
 #include <libgd/gd.h>
 
-#include "photos-application.h"
 #include "photos-empty-results-box.h"
 #include "photos-enums.h"
 #include "photos-error-box.h"
@@ -283,7 +282,7 @@ photos_view_container_constructed (GObject *object)
   PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (object);
   PhotosViewContainerPrivate *priv = self->priv;
   GAction *action;
-  GtkApplication *app;
+  GApplication *app;
   GtkWidget *grid;
   gboolean status;
 
@@ -367,15 +366,13 @@ photos_view_container_constructed (GObject *object)
       break;
     }
 
-  app = photos_application_new ();
+  app = g_application_get_default ();
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-all");
   g_signal_connect_swapped (action, "activate", G_CALLBACK (gd_main_view_select_all), priv->view);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-none");
   g_signal_connect_swapped (action, "activate", G_CALLBACK (gd_main_view_unselect_all), priv->view);
-
-  g_object_unref (app);
 
   g_signal_connect_object (priv->offset_cntrlr,
                            "count-changed",
