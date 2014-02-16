@@ -26,7 +26,6 @@
 #include "config.h"
 
 #include <glib.h>
-#include <glib/gi18n.h>
 #include <tracker-sparql.h>
 
 #include "photos-tracker-change-event.h"
