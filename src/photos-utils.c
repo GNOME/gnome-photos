@@ -34,6 +34,7 @@
 #include <tracker-sparql.h>
 #include <libgd/gd.h>
 
+#include "photos-query.h"
 #include "photos-tracker-queue.h"
 #include "photos-utils.h"
 
@@ -256,6 +257,88 @@ photos_utils_create_thumbnail (GFile *file, GCancellable *cancellable, GError **
   g_clear_object (&info);
   g_free (uri);
   return ret_val;
+}
+
+
+static GIcon *
+photos_utils_get_thumbnail_icon (const gchar *uri)
+{
+  GError *error;
+  GFile *file = NULL;
+  GFile *thumb_file = NULL;
+  GFileInfo *info = NULL;
+  GIcon *icon = NULL;
+  const gchar *thumb_path;
+
+  file = g_file_new_for_uri (uri);
+
+  error = NULL;
+  info = g_file_query_info (file, G_FILE_ATTRIBUTE_THUMBNAIL_PATH, G_FILE_QUERY_INFO_NONE, NULL, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to fetch thumbnail path for %s: %s", uri, error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  thumb_path = g_file_info_get_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
+  thumb_file = g_file_new_for_path (thumb_path);
+  icon = g_file_icon_new (thumb_file);
+
+ out:
+  g_clear_object (&thumb_file);
+  g_clear_object (&info);
+  g_clear_object (&file);
+  return icon;
+}
+
+
+GIcon *
+photos_utils_get_icon_from_cursor (TrackerSparqlCursor *cursor)
+{
+  GIcon *icon = NULL;
+  gboolean is_remote = FALSE;
+  const gchar *identifier;
+  const gchar *mime_type;
+  const gchar *rdf_type;
+
+  identifier = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL);
+  if (identifier != NULL)
+    {
+      if (g_str_has_prefix (identifier, "facebook:") || g_str_has_prefix (identifier, "flickr:"))
+        is_remote = TRUE;
+    }
+
+  if (!is_remote)
+    {
+      const gchar *uri;
+
+      uri = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URI, NULL);
+      if (uri != NULL)
+        icon = photos_utils_get_thumbnail_icon (uri);
+    }
+
+  if (icon != NULL)
+    goto out;
+
+  mime_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL);
+  if (mime_type != NULL)
+    icon = g_content_type_get_icon (mime_type);
+
+  if (icon != NULL)
+    goto out;
+
+  rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
+  if (mime_type != NULL)
+    icon = photos_utils_icon_from_rdf_type (rdf_type);
+
+  if (icon != NULL)
+    goto out;
+
+  icon = g_themed_icon_new ("image-x-generic");
+
+ out:
+  return icon;
 }
 
 

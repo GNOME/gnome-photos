@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,6 +31,7 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <gtk/gtk.h>
+#include <tracker-sparql.h>
 
 G_BEGIN_DECLS
 
@@ -48,6 +49,8 @@ GdkPixbuf       *photos_utils_create_pixbuf_from_node     (GeglNode *node);
 GIcon           *photos_utils_create_symbolic_icon        (const gchar *name, gint base_size);
 
 gboolean         photos_utils_create_thumbnail            (GFile *file, GCancellable *cancellable, GError **error);
+
+GIcon           *photos_utils_get_icon_from_cursor        (TrackerSparqlCursor *cursor);
 
 const gchar     *photos_utils_dot_dir                     (void);
 
