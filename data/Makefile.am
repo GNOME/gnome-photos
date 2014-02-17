@@ -21,6 +21,9 @@ dist_icons_DATA = \
 @INTLTOOL_XML_RULE@
 @GSETTINGS_RULES@
 
+searchproviderdir = $(datadir)/gnome-shell/search-providers
+dist_searchprovider_DATA = gnome-photos-search-provider.ini
+
 EXTRA_DIST = \
 	$(appdata_in_files) \
 	$(desktop_in_in_files) \
