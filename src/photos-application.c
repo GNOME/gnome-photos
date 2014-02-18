@@ -72,6 +72,7 @@ struct _PhotosApplicationPrivate
   PhotosModeController *mode_cntrlr;
   PhotosSearchContextState *state;
   PhotosSearchProvider *search_provider;
+  guint32 activation_timestamp;
 };
 
 static void photos_application_search_context_iface_init (PhotosSearchContextInterface *iface);
@@ -500,7 +501,8 @@ photos_application_activate (GApplication *application)
       photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
     }
 
-  gtk_window_present (GTK_WINDOW (priv->main_window));
+  gtk_window_present_with_time (GTK_WINDOW (priv->main_window), priv->activation_timestamp);
+  priv->activation_timestamp = GDK_CURRENT_TIME;
 }
 
 
@@ -755,6 +757,7 @@ photos_application_init (PhotosApplication *self)
                             self);
 
   priv->state = photos_search_context_state_new (PHOTOS_SEARCH_CONTEXT (self));
+  priv->activation_timestamp = GDK_CURRENT_TIME;
 }
 
 
