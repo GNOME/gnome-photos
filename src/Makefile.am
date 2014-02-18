@@ -1,6 +1,8 @@
-bin_PROGRAMS = gnome-photos
+dist_bin_SCRIPTS = gnome-photos
 
-gnome_photos_built_sources = \
+libexec_PROGRAMS = gnome-photos-service
+
+gnome_photos_service_built_sources = \
 	gegl-gtk-enums.c \
 	gegl-gtk-marshal.c \
 	gegl-gtk-marshal.h \
@@ -28,11 +30,11 @@ gnome_photos_built_sources = \
 	photos-tracker-resources.h \
 	$(NULL)
 
-nodist_gnome_photos_SOURCES = \
-	$(gnome_photos_built_sources) \
+nodist_gnome_photos_service_SOURCES = \
+	$(gnome_photos_service_built_sources) \
 	$(NULL)
 
-gnome_photos_SOURCES = \
+gnome_photos_service_SOURCES = \
 	eog-debug.c \
 	eog-debug.h \
 	eog-enums.h \
@@ -231,7 +233,7 @@ gnome_photos_SOURCES = \
 	$(NULL)
 
 BUILT_SOURCES = \
-	$(gnome_photos_built_sources) \
+	$(gnome_photos_service_built_sources) \
 	$(NULL)
 
 EXTRA_DIST = \
@@ -278,9 +280,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/libgd \
 	$(NULL)
 
-gnome_photos_LDFLAGS = 
+gnome_photos_service_LDFLAGS = 
 
-gnome_photos_LDADD = \
+gnome_photos_service_LDADD = \
 	$(BABL_LIBS) \
 	$(CAIRO_LIBS) \
 	$(EXEMPI_LIBS) \

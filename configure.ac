@@ -131,7 +131,7 @@ fi
 AC_CONFIG_FILES([
 Makefile
 data/Makefile
-data/gnome-photos.desktop.in
+data/org.gnome.Photos.desktop.in
 data/icons/Makefile
 libgd/Makefile
 src/Makefile

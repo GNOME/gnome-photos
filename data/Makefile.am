@@ -1,12 +1,12 @@
 SUBDIRS = icons
 
 appdatadir = $(datadir)/appdata
-appdata_in_files = $(PACKAGE_TARNAME).appdata.xml.in
+appdata_in_files = org.gnome.Photos.appdata.xml.in
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 
 desktopdir = $(datadir)/applications
-desktop_in_in_files = $(PACKAGE_TARNAME).desktop.in.in
-desktop_in_files = $(PACKAGE_TARNAME).desktop.in
+desktop_in_in_files = org.gnome.Photos.desktop.in.in
+desktop_in_files = org.gnome.Photos.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
@@ -22,17 +22,23 @@ dist_icons_DATA = \
 @GSETTINGS_RULES@
 
 searchproviderdir = $(datadir)/gnome-shell/search-providers
-dist_searchprovider_DATA = gnome-photos-search-provider.ini
+dist_searchprovider_DATA = org.gnome.Photos.search-provider.ini
+
+servicedir = $(datadir)/dbus-1/services
+service_in_files = org.gnome.Photos.service.in
+service_DATA = $(service_in_files:.service.in=.service)
 
 EXTRA_DIST = \
 	$(appdata_in_files) \
 	$(desktop_in_in_files) \
 	$(gsettings_SCHEMAS) \
+	$(service_in_files) \
 	$(NULL)
 
 CLEANFILES = \
 	$(appdata_DATA) \
 	$(desktop_DATA) \
+	$(service_DATA) \
 	$(NULL)
 
 DISTCLEANFILES = \
@@ -47,5 +53,10 @@ desktop-file-validate: $(desktop_DATA)
 check-local: desktop-file-validate
 
 .PHONY: desktop-file-validate
+
+org.gnome.Photos.service: org.gnome.Photos.service.in
+	$(AM_V_GEN)	\
+		[ -d $(@D) ] || $(mkdir_p) $(@D) ; \
+		sed -e "s|\@libexecdir\@|$(libexecdir)|" $< > $@.tmp && mv $@.tmp $@
 
 -include $(top_srcdir)/git.mk
