@@ -181,6 +181,21 @@ photos_application_get_state (PhotosSearchContext *context)
 
 
 static void
+photos_application_init_app_menu (PhotosApplication *self)
+{
+  GMenu *menu;
+  GtkBuilder *builder;
+
+  builder = gtk_builder_new ();
+  gtk_builder_add_from_resource (builder, "/org/gnome/photos/app-menu.ui", NULL);
+
+  menu = G_MENU (gtk_builder_get_object (builder, "app-menu"));
+  gtk_application_set_app_menu (GTK_APPLICATION (self), G_MENU_MODEL (menu));
+  g_object_unref (builder);
+}
+
+
+static void
 photos_application_launch_search (PhotosApplication *self, const gchar* const *terms, guint timestamp)
 {
 }
@@ -502,10 +517,8 @@ photos_application_startup (GApplication *application)
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   PhotosApplicationPrivate *priv = self->priv;
   GError *error;
-  GMenu *menu;
   GSimpleAction *action;
   GrlRegistry *registry;
-  GtkBuilder *builder;
   GtkSettings *settings;
   GVariant *state;
 
@@ -614,12 +627,7 @@ photos_application_startup (GApplication *application)
                             G_CALLBACK (photos_application_window_mode_changed),
                             self);
 
-  builder = gtk_builder_new ();
-  gtk_builder_add_from_resource (builder, "/org/gnome/photos/app-menu.ui", NULL);
-
-  menu = G_MENU (gtk_builder_get_object (builder, "app-menu"));
-  gtk_application_set_app_menu (GTK_APPLICATION (self), G_MENU_MODEL (menu));
-  g_object_unref (builder);
+  photos_application_init_app_menu (self);
 
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>q", "app.quit", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "F11", "app.fullscreen", NULL);
