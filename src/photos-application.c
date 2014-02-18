@@ -43,10 +43,12 @@
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
 #include "photos-properties-dialog.h"
+#include "photos-query.h"
 #include "photos-resources.h"
 #include "photos-search-context.h"
 #include "photos-search-controller.h"
 #include "photos-search-provider.h"
+#include "photos-single-item-job.h"
 #include "photos-source-manager.h"
 
 
@@ -178,11 +180,69 @@ photos_application_create_window (PhotosApplication *self)
 
 
 static void
+photos_application_activate_item (PhotosApplication *self, GObject *item)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+
+  photos_base_manager_set_active_object (priv->item_mngr, item);
+
+  photos_application_create_window (self);
+  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
+  g_application_activate (G_APPLICATION (self));
+
+  /* TODO: Forward the search terms when we exit the preview */
+}
+
+
+static void
+photos_application_activate_query_executed (TrackerSparqlCursor *cursor, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  PhotosApplicationPrivate *priv = self->priv;
+  GObject *item;
+  const gchar *identifier;
+
+  if (cursor == NULL)
+    goto out;
+
+  photos_item_manager_add_item (PHOTOS_ITEM_MANAGER (priv->item_mngr), cursor);
+
+  identifier = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+  item = photos_base_manager_get_object_by_id (priv->item_mngr, identifier);
+
+  photos_application_activate_item (self, item);
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
 photos_application_activate_result (PhotosApplication *self,
                                     const gchar *identifier,
                                     const gchar *const *terms,
                                     guint timestamp)
 {
+  PhotosApplicationPrivate *priv = self->priv;
+  GObject *item;
+
+  priv->activation_timestamp = timestamp;
+
+  item = photos_base_manager_get_object_by_id (priv->item_mngr, identifier);
+  if (item != NULL)
+    photos_application_activate_item (self, item);
+  else
+    {
+      PhotosSingleItemJob *job;
+
+      job = photos_single_item_job_new (identifier);
+      photos_single_item_job_run (job,
+                                  priv->state,
+                                  PHOTOS_QUERY_FLAGS_UNFILTERED,
+                                  photos_application_activate_query_executed,
+                                  g_object_ref (self));
+      g_object_unref (job);
+    }
 }
 
 
