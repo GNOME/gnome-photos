@@ -45,6 +45,7 @@
 #include "photos-properties-dialog.h"
 #include "photos-resources.h"
 #include "photos-search-context.h"
+#include "photos-search-controller.h"
 #include "photos-search-provider.h"
 #include "photos-source-manager.h"
 
@@ -231,6 +232,22 @@ photos_application_init_app_menu (PhotosApplication *self)
 static void
 photos_application_launch_search (PhotosApplication *self, const gchar* const *terms, guint timestamp)
 {
+  PhotosApplicationPrivate *priv = self->priv;
+  GVariant *state;
+  gchar *str;
+
+  photos_application_create_window (self);
+  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+
+  str = g_strjoinv (" ", (gchar **) terms);
+  photos_search_controller_set_string (priv->state->srch_cntrlr, str);
+  g_free (str);
+
+  state = g_variant_new ("b", TRUE);
+  g_action_group_change_action_state (G_ACTION_GROUP (self), "search", state);
+
+  priv->activation_timestamp = timestamp;
+  g_application_activate (G_APPLICATION (self));
 }
 
 
