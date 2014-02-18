@@ -97,6 +97,8 @@ struct _PhotosApplicationRefreshData
 };
 
 static gboolean photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner);
+static void photos_application_start_miners (PhotosApplication *self);
+static void photos_application_stop_miners (PhotosApplication *self);
 
 
 static PhotosApplicationRefreshData *
@@ -140,6 +142,36 @@ photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gp
   new_state = g_variant_new ("b", !g_variant_get_boolean (state));
   g_action_change_state (G_ACTION (simple), new_state);
   g_variant_unref (state);
+}
+
+
+static void
+photos_application_destroy (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+
+  priv->main_window = NULL;
+
+  if (priv->miners_running != NULL)
+    {
+      photos_application_stop_miners (self);
+      g_list_free_full (priv->miners_running, g_object_unref);
+      priv->miners_running = NULL;
+    }
+}
+
+
+static void
+photos_application_create_window (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+
+  if (priv->main_window != NULL)
+    return;
+
+  priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
+  g_signal_connect_swapped (priv->main_window, "destroy", G_CALLBACK (photos_application_destroy), self);
+  photos_application_start_miners (self);
 }
 
 
@@ -462,6 +494,12 @@ photos_application_activate (GApplication *application)
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   PhotosApplicationPrivate *priv = self->priv;
 
+  if (priv->main_window == NULL)
+    {
+      photos_application_create_window (self);
+      photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+    }
+
   gtk_window_present (GTK_WINDOW (priv->main_window));
 }
 
@@ -635,11 +673,6 @@ photos_application_startup (GApplication *application)
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>p", "app.print-current", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>f", "app.search", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>a", "app.select-all", NULL);
-
-  priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
-  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
-
-  photos_application_start_miners (self);
 }
 
 
@@ -666,13 +699,6 @@ photos_application_dispose (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
   PhotosApplicationPrivate *priv = self->priv;
-
-  if (priv->miners_running != NULL)
-    {
-      photos_application_stop_miners (self);
-      g_list_free_full (priv->miners_running, g_object_unref);
-      priv->miners_running = NULL;
-    }
 
   if (priv->resource != NULL)
     {
