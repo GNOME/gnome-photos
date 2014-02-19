@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos 3.11.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-09 19:52+0100\n"
-"PO-Revision-Date: 2014-02-09 19:54+0100\n"
+"POT-Creation-Date: 2014-02-19 20:12+0100\n"
+"PO-Revision-Date: 2014-02-19 20:21+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -23,7 +23,7 @@ msgid ""
 "is meant to be a simple and elegant replacement for using a file manager to "
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
-msgstr ""
+msgstr "Et enkelt program for å aksessere, organisere og dele dine bilder med GNOME. Det er ment som en enkel og elegant erstatning for bruk av filhåndterer for å ordne med bilder. Sømløs integrasjon med skytjenester tilbys gjennom GNOME kontoer på nettet."
 
 #: ../data/gnome-photos.appdata.xml.in.h:2
 msgid "It lets you:"
@@ -35,10 +35,10 @@ msgid ""
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
 "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
 "featured editor for more advanced changes</li>"
-msgstr ""
+msgstr "<li>Vis nylige bilder lokalt og på nettet</li> <li>Aksesser ditt innhold på Flickr</li> <li>Send bilder til eksterne DLNA-gjengivere</li> <li>Sett som bakgrunn</li> <li>Skriv ut bilder</li> <li>Velg favoritter</li> <li>Tillat åpning av et redigeringsprogram for mer avanserte endringer</li>"
 
 #: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:145
+#: ../src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Bilder"
 
@@ -72,17 +72,17 @@ msgstr "Vindu maksimert"
 
 #: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
-msgstr ""
+msgstr "Maksimert tilstand for vindu"
 
 #. A strftime-formatted string, to display the date the image was taken.
 #: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
 msgid "%a, %d %B %Y  %X"
-msgstr ""
+msgstr "%a, %d %B %Y  %X"
 
 #. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
 #: ../src/eog-exif-util.c:154
 msgid "%a, %d %B %Y"
-msgstr ""
+msgstr "%a, %B %d %Y"
 
 #. TRANSLATORS: This is the actual focal length used when
 #. the image was taken.
@@ -159,28 +159,27 @@ msgstr "Om"
 msgid "Quit"
 msgstr "Avslutt"
 
-#: ../src/photos-base-item.c:304
+#: ../src/photos-base-item.c:309
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:731
+#: ../src/photos-base-item.c:759
 msgid "Screenshots"
 msgstr "Skjermdump"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
-#, fuzzy
 msgid "DLNA Renderer Devices"
-msgstr "DLNA"
+msgstr "DLNA-enheter for gjengivelse"
 
-#: ../src/photos-embed.c:651
+#: ../src/photos-embed.c:649
 msgid "Recent"
 msgstr "Nylig brukt"
 
-#: ../src/photos-embed.c:654 ../src/photos-search-type-manager.c:131
+#: ../src/photos-embed.c:652 ../src/photos-search-type-manager.c:130
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:657 ../src/photos-search-type-manager.c:138
+#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Favoritter"
 
@@ -236,11 +235,11 @@ msgstr "Noen bilder vil kanskje ikke være tilgjengelige under denne prosessen"
 msgid "Load More"
 msgstr "Last flere"
 
-#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86
 msgid "Loading…"
 msgstr "Laster …"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:154
 msgid "Local"
 msgstr "Lokalt"
 
@@ -489,19 +488,19 @@ msgstr "På, fyrte"
 msgid "Done"
 msgstr "Ferdig"
 
-#: ../src/photos-search-match-manager.c:156
-#: ../src/photos-search-type-manager.c:124 ../src/photos-source-manager.c:151
+#: ../src/photos-search-match-manager.c:155
+#: ../src/photos-search-type-manager.c:123 ../src/photos-source-manager.c:150
 msgid "All"
 msgstr "Alle"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:163
+#: ../src/photos-search-match-manager.c:162
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Tittel"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:170
+#: ../src/photos-search-match-manager.c:169
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Forfatter"
@@ -509,14 +508,14 @@ msgstr "Forfatter"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:197
+#: ../src/photos-search-match-manager.c:196
 msgid "Match"
-msgstr ""
+msgstr "Søk på"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:176
+#: ../src/photos-search-type-manager.c:175
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Type"
@@ -541,10 +540,10 @@ msgstr "Slett"
 msgid "Add to Album"
 msgstr "Legg til i album"
 
-#: ../src/photos-source-manager.c:196
+#: ../src/photos-source-manager.c:195
 msgid "Sources"
 msgstr "Kilder"
 
-#: ../src/photos-tracker-controller.c:92
+#: ../src/photos-tracker-controller.c:93
 msgid "Unable to fetch the list of photos"
 msgstr "Kan ikke hente liste med bilder"
