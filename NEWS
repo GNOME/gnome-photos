@@ -1,3 +1,26 @@
+Overview of changes in 3.11.90
+==============================
+
+* Implement search provider
+
+* Turn into a DBus activated service
+
+* Bugs fixed:
+ 723729 spinner-box: Remove "Loading..."
+
+* Updated translations:
+ Assamese
+ Czech
+ French
+ Galician
+ Hebrew
+ Norwegian bokmål
+ Portuguese (Brazilian)
+ Spanish
+ Tajik
+ Ukrainian
+
+
 Overview of changes in 3.11.5
 =============================
 
