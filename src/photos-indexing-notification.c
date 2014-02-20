@@ -27,7 +27,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <libtracker-miner/tracker-miner.h>
+#include <libtracker-control/tracker-control.h>
 
 #include "photos-icons.h"
 #include "photos-indexing-notification.h"
