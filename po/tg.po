@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-06 15:56+0000\n"
-"PO-Revision-Date: 2014-02-06 21:33+0500\n"
+"POT-Creation-Date: 2014-02-20 10:03+0000\n"
+"PO-Revision-Date: 2014-02-20 18:04+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <tg@li.org>\n"
 "Language: tg\n"
@@ -17,9 +17,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.6.4\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -31,11 +31,11 @@ msgstr ""
 "файлҳо истифода баред. Дар ин Ин барнома ҳампайвандии ҳамворро тавассути "
 "ҳисобҳои онлайни GNOME ба шумо пешниҳод мекунад."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "Ба шумо имкон медиҳад:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
@@ -49,16 +49,16 @@ msgstr ""
 "намоед</li> <li>Барои татбиқи тағйироти иловагӣ ба суратҳои худ муҳаррири "
 "ҳаматарафаро истифода баред</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:145
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Суратҳо"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Ба суратҳо дастрасӣ пайдо кунед, онҳоро мураттаб ва мубодила кунед"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "Суратҳо;Тасвирҳо;"
 
@@ -171,11 +171,11 @@ msgstr "Дар бораи барнома"
 msgid "Quit"
 msgstr "Баромад"
 
-#: ../src/photos-base-item.c:304
+#: ../src/photos-base-item.c:310
 msgid "Album"
 msgstr "Албом"
 
-#: ../src/photos-base-item.c:731
+#: ../src/photos-base-item.c:760
 msgid "Screenshots"
 msgstr "Скриншотҳо"
 
@@ -183,26 +183,26 @@ msgstr "Скриншотҳо"
 msgid "DLNA Renderer Devices"
 msgstr "Дастгоҳи коркарди DLNA"
 
-#: ../src/photos-embed.c:651
+#: ../src/photos-embed.c:652
 msgid "Recent"
 msgstr "Қаблӣ"
 
-#: ../src/photos-embed.c:654 ../src/photos-search-type-manager.c:131
+#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:110
 msgid "Albums"
 msgstr "Албомҳо"
 
-#: ../src/photos-embed.c:657 ../src/photos-search-type-manager.c:138
+#: ../src/photos-embed.c:658 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Баргузидаҳо"
 
-#: ../src/photos-empty-results-box.c:111
+#: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
 msgstr "Ба албоми аввалини худ ном гузоред"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:131
+#: ../src/photos-empty-results-box.c:133
 msgid "Settings"
 msgstr "Танзимот"
 
@@ -210,30 +210,32 @@ msgstr "Танзимот"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:137
+#: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "Шумо метавонед ҳисобҳои онлайни худро дар %s илова кунед"
 
-#: ../src/photos-empty-results-box.c:187
-#| msgid "No Photos Found"
+#: ../src/photos-empty-results-box.c:189
 msgid "No Albums Found"
 msgstr "Ягон албом ёфт нашудааст"
 
-#: ../src/photos-empty-results-box.c:191
-#| msgid "No Photos Found"
+#: ../src/photos-empty-results-box.c:193
 msgid "No Favorites Found"
 msgstr "Ягон баргузида ёфт нашудааст"
 
-#: ../src/photos-empty-results-box.c:196
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "Ягон сурат ёфт нашудааст"
 
-#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Сурати беном"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "Flickr"
 
@@ -249,53 +251,53 @@ msgstr "Эҳтамол аст, ки баъзе суратҳо ҳангоми и�
 msgid "Load More"
 msgstr "Бештар бор кардан"
 
-#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86
 msgid "Loading…"
 msgstr "Бор шуда истодааст..."
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Маҳаллӣ"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:111
 msgid "Click on items to select them"
 msgstr "Барои интихоби объект онро зер кунед"
 
-#: ../src/photos-main-toolbar.c:114
+#: ../src/photos-main-toolbar.c:113
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d интихобшуда"
 msgstr[1] "%d интихобшуда"
 
-#: ../src/photos-main-toolbar.c:159
+#: ../src/photos-main-toolbar.c:158
 msgid "Back"
 msgstr "Бозгашт"
 
-#: ../src/photos-main-toolbar.c:283
+#: ../src/photos-main-toolbar.c:282
 msgid "Search"
 msgstr "Ҷустуҷӯ"
 
-#: ../src/photos-main-toolbar.c:299
+#: ../src/photos-main-toolbar.c:298
 msgid "Select Items"
 msgstr "Интихоби объект"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-main-toolbar.c:412 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Кушодан бо %s"
 
-#: ../src/photos-main-toolbar.c:573
+#: ../src/photos-main-toolbar.c:571
 msgid "Cancel"
 msgstr "Бекор кардан"
 
-#: ../src/photos-main-window.c:441
+#: ../src/photos-main-window.c:446
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Суратҳоро дар GNOME кушоед, мураттаб ва мубодила кунед"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:453
+#: ../src/photos-main-window.c:458
 msgid "translator-credits"
 msgstr "Victor Ibragimov, victor.ibragimo@gmail.com"
 
@@ -314,8 +316,8 @@ msgid "Organize"
 msgstr "Мураттаб сохтан"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:284
-#: ../src/photos-selection-toolbar.c:440
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "Кушодан"
 
@@ -332,17 +334,17 @@ msgid "Set as Background"
 msgstr "Ҳамчун пасзамина таъин кардан"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:464
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Хусусиятҳо"
 
 #: ../src/photos-preview-nav-buttons.c:209
-#: ../src/photos-selection-toolbar.c:293
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "Тоза кардан аз баргузидаҳо"
 
 #: ../src/photos-preview-nav-buttons.c:214
-#: ../src/photos-selection-toolbar.c:299
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Илова кардан ба баргузидаҳо"
 
@@ -502,34 +504,31 @@ msgstr "Фаъол, бо чароғ"
 msgid "Done"
 msgstr "Тайёр"
 
-#: ../src/photos-search-match-manager.c:156
-#: ../src/photos-search-type-manager.c:124 ../src/photos-source-manager.c:151
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Ҳама"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:163
+#: ../src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Сарлавҳа"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:170
+#: ../src/photos-search-match-manager.c:168
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Муаллиф"
 
-#. Translators: this is a verb that refers to "All", "Title" and
-#. * "Author", as in "Match All", "Match Title" and "Match Author".
-#.
-#: ../src/photos-search-match-manager.c:197
+#: ../src/photos-search-match-manager.c:205
 msgid "Match"
 msgstr "Мувофиқат"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:176
+#: ../src/photos-search-type-manager.c:153
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Намуд"
@@ -542,23 +541,23 @@ msgstr "Ҳамаро интихоб кардан"
 msgid "Select None"
 msgstr "Ҳеҷ чизро интихоб накардан"
 
-#: ../src/photos-selection-toolbar.c:448
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "Чоп кардан"
 
-#: ../src/photos-selection-toolbar.c:456
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "Нест кардан"
 
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "Илова кардан ба албом"
 
-#: ../src/photos-source-manager.c:196
+#: ../src/photos-source-manager.c:174
 msgid "Sources"
 msgstr "Манбаҳо"
 
-#: ../src/photos-tracker-controller.c:92
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Рӯйхати суратҳо бозёбӣ намешавад"
 
