@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -46,6 +46,9 @@ main (gint argc, gchar *argv[])
   g_set_prgname (PACKAGE_TARNAME);
 
   app = photos_application_new ();
+  if (g_getenv ("PHOTOS_PERSIST") != NULL)
+    g_application_hold (G_APPLICATION (app));
+
   remote_display_mngr = photos_remote_display_manager_dup_singleton ();
   exit_status = g_application_run (G_APPLICATION (app), argc, argv);
   g_object_unref (remote_display_mngr);
