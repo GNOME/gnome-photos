@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-15 21:07+0200\n"
-"PO-Revision-Date: 2014-02-15 21:09+0200\n"
-"Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
+"POT-Creation-Date: 2014-02-20 12:12+0200\n"
+"PO-Revision-Date: 2014-02-20 12:12+0200\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -33,11 +33,11 @@ msgstr ""
 "לשימוש בסייר קבצים להתמודדות עם תמונות. שילוב חלק של ענן מוצע באמצעות GNOME "
 "חשבונות מקוונים."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "הוא מאפשר לך:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
@@ -49,16 +49,16 @@ msgstr ""
 "<li>קביעה כרקע שולחן העבודה</li> <li>הדפסת תמונות</li> <li>בחירת מועדפות</"
 "li> <li>אפשרות לפתיחה בעורך מלא לשינויים מתקדמים</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:144
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "תמונות"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "לגשת, לארגן ולשתף תמונות"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "תמונות;תצלומים;צילומים;"
 
@@ -171,11 +171,11 @@ msgstr "על אודות"
 msgid "Quit"
 msgstr "יציאה"
 
-#: ../src/photos-base-item.c:309
+#: ../src/photos-base-item.c:310
 msgid "Album"
 msgstr "אלבום"
 
-#: ../src/photos-base-item.c:759
+#: ../src/photos-base-item.c:760
 msgid "Screenshots"
 msgstr "צילומי מסך"
 
@@ -183,26 +183,26 @@ msgstr "צילומי מסך"
 msgid "DLNA Renderer Devices"
 msgstr "התקן עיבוד DLNA"
 
-#: ../src/photos-embed.c:649
+#: ../src/photos-embed.c:652
 msgid "Recent"
 msgstr "אחרונים"
 
-#: ../src/photos-embed.c:652 ../src/photos-search-type-manager.c:130
+#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:110
 msgid "Albums"
 msgstr "אלבומים"
 
-#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:137
+#: ../src/photos-embed.c:658 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "מועדפים"
 
-#: ../src/photos-empty-results-box.c:111
+#: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
 msgstr "שם האלבום הראשון שלך"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:131
+#: ../src/photos-empty-results-box.c:133
 msgid "Settings"
 msgstr "הגדרות"
 
@@ -210,28 +210,32 @@ msgstr "הגדרות"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:137
+#: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "ניתן להוסיף אותך לחשבונות מקוונים ב%s"
 
-#: ../src/photos-empty-results-box.c:187
+#: ../src/photos-empty-results-box.c:189
 msgid "No Albums Found"
 msgstr "לא נמצאו אלבומים"
 
-#: ../src/photos-empty-results-box.c:191
+#: ../src/photos-empty-results-box.c:193
 msgid "No Favorites Found"
 msgstr "לא נמצאו מועדפים"
 
-#: ../src/photos-empty-results-box.c:196
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "לא נמצאו תמונות"
 
-#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "תמונה ללא כותרת"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "Flickr"
 
@@ -251,49 +255,49 @@ msgstr "טעינת עוד"
 msgid "Loading…"
 msgstr "בטעינה…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:154
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "מקומי"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:111
 msgid "Click on items to select them"
 msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
 
-#: ../src/photos-main-toolbar.c:114
+#: ../src/photos-main-toolbar.c:113
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "אחת נבחרה"
 msgstr[1] "%d נבחרו"
 
-#: ../src/photos-main-toolbar.c:159
+#: ../src/photos-main-toolbar.c:158
 msgid "Back"
 msgstr "חזרה"
 
-#: ../src/photos-main-toolbar.c:283
+#: ../src/photos-main-toolbar.c:282
 msgid "Search"
 msgstr "חיפוש"
 
-#: ../src/photos-main-toolbar.c:299
+#: ../src/photos-main-toolbar.c:298
 msgid "Select Items"
 msgstr "בחירת פריטים"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-main-toolbar.c:412 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "פתיחה באמצעות %s"
 
-#: ../src/photos-main-toolbar.c:573
+#: ../src/photos-main-toolbar.c:571
 msgid "Cancel"
 msgstr "ביטול"
 
-#: ../src/photos-main-window.c:441
+#: ../src/photos-main-window.c:446
 msgid "Access, organize and share your photos on GNOME"
 msgstr "לגשת, לארגן ולשתף את התמונות שלך ב־GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:453
+#: ../src/photos-main-window.c:458
 msgid "translator-credits"
 msgstr ""
 "ירון שהרבני <sh.yaron@gmail.com>\n"
@@ -314,8 +318,8 @@ msgid "Organize"
 msgstr "ארגון"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:284
-#: ../src/photos-selection-toolbar.c:440
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "פתיחה"
 
@@ -332,17 +336,17 @@ msgid "Set as Background"
 msgstr "הגדרה כרקע"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:464
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "מאפיינים"
 
 #: ../src/photos-preview-nav-buttons.c:209
-#: ../src/photos-selection-toolbar.c:293
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "הסרה מהמועדפים"
 
 #: ../src/photos-preview-nav-buttons.c:214
-#: ../src/photos-selection-toolbar.c:299
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "הוספה למועדפים"
 
@@ -502,34 +506,31 @@ msgstr "פועל"
 msgid "Done"
 msgstr "בוצע"
 
-#: ../src/photos-search-match-manager.c:155
-#: ../src/photos-search-type-manager.c:123 ../src/photos-source-manager.c:150
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "הכול"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:162
+#: ../src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "כותרת"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:169
+#: ../src/photos-search-match-manager.c:168
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "יוצר"
 
-#. Translators: this is a verb that refers to "All", "Title" and
-#. * "Author", as in "Match All", "Match Title" and "Match Author".
-#.
-#: ../src/photos-search-match-manager.c:196
+#: ../src/photos-search-match-manager.c:205
 msgid "Match"
 msgstr "התאמה"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:175
+#: ../src/photos-search-type-manager.c:153
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "סוג"
@@ -542,23 +543,23 @@ msgstr "בחירת הכול"
 msgid "Select None"
 msgstr "ביטול הבחירה"
 
-#: ../src/photos-selection-toolbar.c:448
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "הדפסה"
 
-#: ../src/photos-selection-toolbar.c:456
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "מחיקה"
 
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "הוספה לאלבום"
 
-#: ../src/photos-source-manager.c:195
+#: ../src/photos-source-manager.c:174
 msgid "Sources"
 msgstr "מקורות"
 
-#: ../src/photos-tracker-controller.c:93
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "לא ניתן לקבל את רשימת התמונות"
 
