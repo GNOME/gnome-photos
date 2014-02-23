@@ -1,27 +1,28 @@
 # Chinese (China) translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
+#
 # tuhaihe <1132321739qq@gmail.com>, 2013.
 # 甘露(Lu Gan) <rhythm.gan@gmail.com>, 2013.
 # Tong Hui <tonghuix@gamil.com>, 2013.
-#
+# Sphinx Jiang <yishanj13@gmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-01-02 09:13+0000\n"
-"PO-Revision-Date: 2014-01-04 16:05+0800\n"
-"Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
-"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
+"POT-Creation-Date: 2014-02-22 08:13+0000\n"
+"PO-Revision-Date: 2014-02-23 18:35+0800\n"
+"Last-Translator: Sphinx Jiang <yishanj13@gmail.com>\n"
+"Language-Team: Chinese Simplified <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Lokalize 1.5\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -31,11 +32,11 @@ msgstr ""
 "一款 GNOME 下简单的照片访问、组织和分享应用。简洁优雅，可替代文件管理器来处理"
 "照片。与 GNOME 在线账户无缝整合。"
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "它允许您："
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
@@ -46,16 +47,16 @@ msgstr ""
 "到远程 DLNA 渲染器</li> <li>设置图片为桌面背景</li> <li>打印照片</li> <li>选"
 "择收藏</li> <li>打开全功能编辑器对照片进行更多高级更改</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:89
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "照片"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "访问、管理并分享您的照片"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "Photos;Pictures;照片;相片;图片;"
 
@@ -168,11 +169,11 @@ msgstr "关于"
 msgid "Quit"
 msgstr "退出"
 
-#: ../src/photos-base-item.c:303
+#: ../src/photos-base-item.c:310
 msgid "Album"
 msgstr "相册"
 
-#: ../src/photos-base-item.c:727
+#: ../src/photos-base-item.c:760
 msgid "Screenshots"
 msgstr "截图"
 
@@ -180,100 +181,120 @@ msgstr "截图"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA 渲染设备"
 
-#: ../src/photos-embed.c:505
+#: ../src/photos-embed.c:652
 msgid "Recent"
 msgstr "最近"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:75
+#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:110
 msgid "Albums"
 msgstr "相册"
 
-#: ../src/photos-embed.c:511 ../src/photos-search-type-manager.c:82
+#: ../src/photos-embed.c:658 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "收藏"
 
-#. Translators: this should be translated in the context of the "You
-#. * can add your online accounts in System Settings" sentence below
-#.
-#: ../src/photos-empty-results-box.c:107
-msgid "System Settings"
-msgstr "系统设置"
-
-#. Translators: %s here is "System Settings", which is in a separate
-#. * string due to markup, and should be translated only in the context
-#. * of this sentence.
-#.
 #: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "命名您的第一个相册"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+msgid "Settings"
+msgstr "设置"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "您可以在“%s”中添加在线账户"
 
-#: ../src/photos-empty-results-box.c:160
+#: ../src/photos-empty-results-box.c:189
+msgid "No Albums Found"
+msgstr "未找到相册"
+
+#: ../src/photos-empty-results-box.c:193
+msgid "No Favorites Found"
+msgstr "未找到收藏夹"
+
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "未找到照片"
 
-#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "无标题照片"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:168
+#: ../src/photos-indexing-notification.c:169
 msgid "Your photos are being indexed"
 msgstr "正在索引您的照片"
 
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:173
 msgid "Some photos might not be available during this process"
 msgstr "此过程中部分照片可能无法查看"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
 msgid "Load More"
 msgstr "加载更多"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86
 msgid "Loading…"
 msgstr "正在加载…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:130
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "本地"
 
-#: ../src/photos-main-toolbar.c:99
+#: ../src/photos-main-toolbar.c:111
 msgid "Click on items to select them"
 msgstr "点击条目以选中它们"
 
-#: ../src/photos-main-toolbar.c:101
+#: ../src/photos-main-toolbar.c:113
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "已选中 %d 张"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:158
 msgid "Back"
 msgstr "返回"
 
-#: ../src/photos-main-toolbar.c:271
+#: ../src/photos-main-toolbar.c:282
+msgid "Search"
+msgstr "搜索"
+
+#: ../src/photos-main-toolbar.c:298
 msgid "Select Items"
 msgstr "选择项目"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:360 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:412 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "用 %s 打开"
 
-#: ../src/photos-main-toolbar.c:488
+#: ../src/photos-main-toolbar.c:571
 msgid "Cancel"
 msgstr "取消"
 
-#: ../src/photos-main-window.c:329
+#: ../src/photos-main-window.c:446
 msgid "Access, organize and share your photos on GNOME"
 msgstr "在 GNOME 下访问、管理和分享您的照片"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:458
 msgid "translator-credits"
 msgstr ""
 "tuhaihe <1132321739qq@gmail.com>, 2012, 2013\n"
@@ -295,7 +316,7 @@ msgid "Organize"
 msgstr "管理"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
 #: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "打开"
@@ -313,17 +334,17 @@ msgid "Set as Background"
 msgstr "设为背景"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "属性"
 
-#: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
+#: ../src/photos-preview-nav-buttons.c:209
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "从收藏移除"
 
-#: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
+#: ../src/photos-preview-nav-buttons.c:214
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "添加到收藏"
 
@@ -483,6 +504,35 @@ msgstr "开，闪光"
 msgid "Done"
 msgstr "完成"
 
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
+msgid "All"
+msgstr "全部"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "标题"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "作者"
+
+#: ../src/photos-search-match-manager.c:205
+msgid "Match"
+msgstr "匹配"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:153
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "类型"
+
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
 msgstr "全选"
@@ -499,17 +549,20 @@ msgstr "打印"
 msgid "Delete"
 msgstr "删除"
 
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "添加到相册"
 
-#: ../src/photos-source-manager.c:126
-msgid "All"
-msgstr "全部"
+#: ../src/photos-source-manager.c:174
+msgid "Sources"
+msgstr "来源"
 
-#: ../src/photos-tracker-controller.c:83
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "无法获取照片列表"
+
+#~ msgid "System Settings"
+#~ msgstr "系统设置"
 
 #~ msgid "About Photos"
 #~ msgstr "关于照片"
