@@ -313,8 +313,9 @@ trigger_processing(ViewHelper *self, GeglRectangle roi)
 void
 trigger_redraw(ViewHelper *self, GeglRectangle *redraw_rect)
 {
+    GeglRectangle invalid_rect = {0, 0, -1, -1}; /* Indicates full redraw */
+
     if (!redraw_rect) {
-        GeglRectangle invalid_rect = {0, 0, -1, -1}; /* Indicates full redraw */
         redraw_rect = &invalid_rect;
     }
 
