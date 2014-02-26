@@ -27,6 +27,8 @@
 
 #include <gtk/gtk.h>
 
+#include "photos-searchbar.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_MAIN_TOOLBAR (photos_main_toolbar_get_type ())
@@ -69,6 +71,8 @@ struct _PhotosMainToolbarClass
 GType                  photos_main_toolbar_get_type               (void) G_GNUC_CONST;
 
 GtkWidget             *photos_main_toolbar_new                    (GtkOverlay *overlay);
+
+PhotosSearchbar *      photos_main_toolbar_get_searchbar          (PhotosMainToolbar *self);
 
 gboolean               photos_main_toolbar_handle_event           (PhotosMainToolbar *self, GdkEventKey *event);
 

@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2014 Pranav Kant
  * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -48,6 +49,7 @@
 #include "photos-source-manager.h"
 #include "photos-tracker-overview-controller.h"
 #include "photos-view-container.h"
+#include "photos-view-model.h"
 
 
 typedef struct _PhotosEmbedSearchState PhotosEmbedSearchState;
@@ -142,6 +144,68 @@ photos_embed_clear_search (PhotosEmbed *self)
 }
 
 
+static GtkWidget*
+photos_embed_get_view_container_from_mode (PhotosEmbed *self, PhotosWindowMode mode)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+  GtkWidget *view_container;
+
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      view_container = priv->collections;
+      break;
+
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      view_container = priv->favorites;
+      break;
+
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      view_container = priv->overview;
+      break;
+
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      view_container = NULL;
+      break;
+
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      view_container = priv->search;
+      break;
+
+    default:
+      g_assert_not_reached ();
+    }
+
+  return view_container;
+}
+
+
+static void
+photos_embed_activate_result (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+  GtkTreeIter iter;
+  GtkListStore *store;
+  GtkWidget *view_container;
+  PhotosWindowMode mode;
+
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  view_container = photos_embed_get_view_container_from_mode (self, mode);
+  store = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
+
+  if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter))
+    {
+      GObject *item;
+      gchar *id;
+
+      gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, PHOTOS_VIEW_MODEL_URN, &id, -1);
+      item = photos_base_manager_get_object_by_id (priv->item_mngr, id);
+      photos_base_manager_set_active_object (priv->item_mngr, item);
+      g_free (id);
+    }
+}
+
+
 static void
 photos_embed_prepare_for_preview (PhotosEmbed *self)
 {
@@ -176,31 +240,7 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
     goto out;
 
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  switch (mode)
-    {
-    case PHOTOS_WINDOW_MODE_COLLECTIONS:
-      view_container = priv->collections;
-      break;
-
-    case PHOTOS_WINDOW_MODE_FAVORITES:
-      view_container = priv->favorites;
-      break;
-
-    case PHOTOS_WINDOW_MODE_OVERVIEW:
-      view_container = priv->overview;
-      break;
-
-    case PHOTOS_WINDOW_MODE_PREVIEW:
-      view_container = NULL;
-      break;
-
-    case PHOTOS_WINDOW_MODE_SEARCH:
-      view_container = priv->search;
-      break;
-
-    default:
-      g_assert_not_reached ();
-    }
+  view_container = photos_embed_get_view_container_from_mode (self, mode);
 
   /* If we are already in the preview and navigating using the
    * buttons, then we don't need this.
@@ -612,6 +652,7 @@ photos_embed_init (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv;
   GApplication *app;
+  PhotosSearchbar *searchbar;
   PhotosSearchContextState *state;
   gboolean querying;
 
@@ -642,6 +683,8 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->toolbar = photos_main_toolbar_new (GTK_OVERLAY (priv->stack_overlay));
   photos_main_toolbar_set_stack (PHOTOS_MAIN_TOOLBAR (priv->toolbar), GTK_STACK (priv->stack));
+  searchbar = photos_main_toolbar_get_searchbar (PHOTOS_MAIN_TOOLBAR (priv->toolbar));
+  g_signal_connect_swapped (searchbar, "activate-result", G_CALLBACK (photos_embed_activate_result), self);
 
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->ntfctn_mngr);

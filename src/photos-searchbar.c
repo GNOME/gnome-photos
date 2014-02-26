@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2014 Pranav Kant
  * Copyright © 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -42,6 +43,14 @@ struct _PhotosSearchbarPrivate
   gboolean search_change_blocked;
   gulong search_state_id;
 };
+
+enum
+{
+  ACTIVATE_RESULT,
+  LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosSearchbar, photos_searchbar, GTK_TYPE_REVEALER);
@@ -135,6 +144,11 @@ photos_searchbar_key_press_event (PhotosSearchbar *self, GdkEventKey *event)
   if (event->keyval == GDK_KEY_Escape)
     {
       photos_searchbar_enable_search (self, FALSE);
+      ret_val = GDK_EVENT_STOP;
+    }
+  else if (event->keyval == GDK_KEY_Return)
+    {
+      g_signal_emit (self, signals[ACTIVATE_RESULT], 0);
       ret_val = GDK_EVENT_STOP;
     }
 
@@ -250,6 +264,16 @@ photos_searchbar_class_init (PhotosSearchbarClass *class)
   object_class->dispose = photos_searchbar_dispose;
   class->hide = photos_searchbar_default_hide;
   class->show = photos_searchbar_default_show;
+
+  signals[ACTIVATE_RESULT] = g_signal_new ("activate-result",
+                                           G_TYPE_FROM_CLASS (class),
+                                           G_SIGNAL_RUN_LAST,
+                                           G_STRUCT_OFFSET (PhotosSearchbarClass, activate_result),
+                                           NULL, /* accumulator */
+                                           NULL, /* accu_data */
+                                           g_cclosure_marshal_VOID__VOID,
+                                           G_TYPE_NONE,
+                                           0);
 }
 
 

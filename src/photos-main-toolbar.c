@@ -804,6 +804,13 @@ photos_main_toolbar_new (GtkOverlay *overlay)
 }
 
 
+PhotosSearchbar *
+photos_main_toolbar_get_searchbar (PhotosMainToolbar *self)
+{
+  return PHOTOS_SEARCHBAR (self->priv->searchbar);
+}
+
+
 gboolean
 photos_main_toolbar_handle_event (PhotosMainToolbar *self, GdkEventKey *event)
 {

@@ -70,6 +70,9 @@ struct _PhotosSearchbarClass
   void (*entry_changed) (PhotosSearchbar *self);
   void (*hide) (PhotosSearchbar *self);
   void (*show) (PhotosSearchbar *self);
+
+  /* signals */
+  void (*activate_result) (PhotosSearchbar *self);
 };
 
 GType                photos_searchbar_get_type                      (void) G_GNUC_CONST;
