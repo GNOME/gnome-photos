@@ -85,7 +85,7 @@ photos_local_item_constructed (GObject *object)
   if (mime_type == NULL)
     return;
 
-  default_app = g_app_info_get_default_for_type (mime_type, TRUE);
+  default_app = g_app_info_get_default_for_type (mime_type, FALSE);
   if (default_app == NULL)
     return;
 
