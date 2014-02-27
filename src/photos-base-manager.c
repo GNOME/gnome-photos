@@ -317,7 +317,15 @@ photos_base_manager_get_filter (PhotosBaseManager *self, gint flags)
 GObject *
 photos_base_manager_get_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
-  return g_hash_table_lookup (self->priv->objects, id);
+  GObject *ret_val = NULL;
+
+  if (id == NULL)
+    goto out;
+
+  ret_val = g_hash_table_lookup (self->priv->objects, id);
+
+ out:
+  return ret_val;
 }
 
 
