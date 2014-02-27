@@ -208,6 +208,13 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
   if (old_mode == mode)
     return;
 
+  /* Always go back to the overview when activated from the search
+   * provider. It is easier to special case it here instead of all
+   * over the code.
+   */
+  if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW && mode == PHOTOS_WINDOW_MODE_NONE)
+    mode = PHOTOS_WINDOW_MODE_OVERVIEW;
+
   if (mode == PHOTOS_WINDOW_MODE_OVERVIEW
       || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
       || mode == PHOTOS_WINDOW_MODE_FAVORITES
