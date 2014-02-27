@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@
 
 struct _PhotosModeControllerPrivate
 {
+  GQueue *history;
   PhotosWindowMode mode;
   gboolean fullscreen;
   gboolean can_fullscreen;
@@ -72,6 +73,17 @@ photos_mode_controller_constructor (GType type, guint n_construct_params, GObjec
 
 
 static void
+photos_mode_controller_finalize (GObject *object)
+{
+  PhotosModeController *self = PHOTOS_MODE_CONTROLLER (object);
+
+  g_queue_free (self->priv->history);
+
+  G_OBJECT_CLASS (photos_mode_controller_parent_class)->finalize (object);
+}
+
+
+static void
 photos_mode_controller_init (PhotosModeController *self)
 {
   PhotosModeControllerPrivate *priv;
@@ -79,6 +91,7 @@ photos_mode_controller_init (PhotosModeController *self)
   self->priv = photos_mode_controller_get_instance_private (self);
   priv = self->priv;
 
+  priv->history = g_queue_new ();
   priv->mode = PHOTOS_WINDOW_MODE_NONE;
   priv->fullscreen = FALSE;
   priv->can_fullscreen = FALSE;
@@ -91,6 +104,7 @@ photos_mode_controller_class_init (PhotosModeControllerClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructor = photos_mode_controller_constructor;
+  object_class->finalize = photos_mode_controller_finalize;
 
   signals[CAN_FULLSCREEN_CHANGED] = g_signal_new ("can-fullscreen-changed",
                                                   G_TYPE_FROM_CLASS (class),
@@ -159,6 +173,37 @@ photos_mode_controller_get_window_mode (PhotosModeController *self)
 
 
 void
+photos_mode_controller_go_back (PhotosModeController *self)
+{
+  PhotosModeControllerPrivate *priv = self->priv;
+  PhotosWindowMode old_mode;
+  PhotosWindowMode tmp;
+
+  if (g_queue_is_empty (priv->history))
+    return;
+
+  old_mode = (PhotosWindowMode) GPOINTER_TO_INT (g_queue_pop_head (priv->history));
+
+  /* Always go back to the overview when activated from the search
+   * provider. It is easier to special case it here instead of all
+   * over the code.
+   */
+  if (priv->mode == PHOTOS_WINDOW_MODE_PREVIEW && old_mode == PHOTOS_WINDOW_MODE_NONE)
+    old_mode = PHOTOS_WINDOW_MODE_OVERVIEW;
+
+  if (old_mode == PHOTOS_WINDOW_MODE_NONE)
+    return;
+
+  /* Swap the old and current modes */
+  tmp = old_mode;
+  old_mode = priv->mode;
+  priv->mode = tmp;
+
+  g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, priv->mode, old_mode);
+}
+
+
+void
 photos_mode_controller_toggle_fullscreen (PhotosModeController *self)
 {
   photos_mode_controller_set_fullscreen (self, !self->priv->fullscreen);
@@ -208,19 +253,14 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
   if (old_mode == mode)
     return;
 
-  /* Always go back to the overview when activated from the search
-   * provider. It is easier to special case it here instead of all
-   * over the code.
-   */
-  if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW && mode == PHOTOS_WINDOW_MODE_NONE)
-    mode = PHOTOS_WINDOW_MODE_OVERVIEW;
-
   if (mode == PHOTOS_WINDOW_MODE_OVERVIEW
       || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
       || mode == PHOTOS_WINDOW_MODE_FAVORITES
       || mode == PHOTOS_WINDOW_MODE_SEARCH)
     photos_mode_controller_set_can_fullscreen (self, FALSE);
 
+  g_queue_push_head (priv->history, GINT_TO_POINTER (old_mode));
   priv->mode = mode;
+
   g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, priv->mode, old_mode);
 }

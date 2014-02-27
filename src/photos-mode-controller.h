@@ -90,6 +90,8 @@ PhotosWindowMode       photos_mode_controller_get_fullscreen         (PhotosMode
 
 PhotosWindowMode       photos_mode_controller_get_window_mode        (PhotosModeController *self);
 
+void                   photos_mode_controller_go_back                (PhotosModeController *self);
+
 void                   photos_mode_controller_toggle_fullscreen      (PhotosModeController *self);
 
 void                   photos_mode_controller_set_can_fullscreen     (PhotosModeController *self,

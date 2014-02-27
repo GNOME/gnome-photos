@@ -60,7 +60,6 @@ struct _PhotosMainToolbarPrivate
   PhotosModeController *mode_cntrlr;
   PhotosRemoteDisplayManager *remote_mngr;
   PhotosSelectionController *sel_cntrlr;
-  PhotosWindowMode old_mode;
 };
 
 enum
@@ -315,7 +314,7 @@ photos_main_toolbar_back_button_clicked (GtkButton *button, gpointer user_data)
   PhotosMainToolbarPrivate *priv = self->priv;
 
   photos_base_manager_set_active_object (priv->item_mngr, NULL);
-  photos_mode_controller_set_window_mode (priv->mode_cntrlr, priv->old_mode);
+  photos_mode_controller_go_back (priv->mode_cntrlr);
 }
 
 
@@ -614,14 +613,6 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
 
 
 static void
-photos_main_toolbar_window_mode_changed (PhotosMainToolbar *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
-{
-  self->priv->old_mode = old_mode;
-  photos_main_toolbar_reset_toolbar_mode (self);
-}
-
-
-static void
 photos_main_toolbar_constructed (GObject *object)
 {
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (object);
@@ -745,10 +736,9 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
                            G_CONNECT_SWAPPED);
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
-  priv->old_mode = PHOTOS_WINDOW_MODE_NONE;
   g_signal_connect_object (priv->mode_cntrlr,
                            "window-mode-changed",
-                           G_CALLBACK (photos_main_toolbar_window_mode_changed),
+                           G_CALLBACK (photos_main_toolbar_reset_toolbar_mode),
                            self,
                            G_CONNECT_SWAPPED);
 

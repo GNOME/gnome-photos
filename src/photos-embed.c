@@ -87,7 +87,6 @@ struct _PhotosEmbedPrivate
   PhotosModeController *mode_cntrlr;
   PhotosSearchController *srch_cntrlr;
   PhotosTrackerController *trk_ovrvw_cntrlr;
-  PhotosWindowMode old_mode;
   guint load_show_id;
 };
 
@@ -563,9 +562,6 @@ photos_embed_search_changed (PhotosEmbed *self)
   if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
     return;
 
-  if (priv->old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    return;
-
   object = photos_base_manager_get_active_object (priv->src_mngr);
   source_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
 
@@ -577,11 +573,9 @@ photos_embed_search_changed (PhotosEmbed *self)
   if (g_strcmp0 (search_type_id, PHOTOS_SEARCH_TYPE_STOCK_ALL) == 0
       && g_strcmp0 (source_id, PHOTOS_SOURCE_STOCK_ALL) == 0
       && (str == NULL || str [0] == '\0'))
-    mode = priv->old_mode;
+    photos_mode_controller_go_back (priv->mode_cntrlr);
   else
-    mode = PHOTOS_WINDOW_MODE_SEARCH;
-
-  photos_mode_controller_set_window_mode (priv->mode_cntrlr, mode);
+    photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_SEARCH);
 }
 
 
@@ -592,8 +586,6 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
                                   gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
-
-  self->priv->old_mode = old_mode;
 
   if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
     photos_embed_prepare_for_collections (self);
@@ -719,7 +711,6 @@ photos_embed_init (PhotosEmbed *self)
                            self, G_CONNECT_SWAPPED);
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
-  priv->old_mode = PHOTOS_WINDOW_MODE_NONE;
   g_signal_connect (priv->mode_cntrlr,
                     "window-mode-changed",
                     G_CALLBACK (photos_embed_window_mode_changed),

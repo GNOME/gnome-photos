@@ -46,7 +46,6 @@ struct _PhotosMainWindowPrivate
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosSelectionController *sel_cntrlr;
-  PhotosWindowMode old_mode;
   guint configure_id;
 };
 
@@ -164,7 +163,7 @@ photos_main_window_go_back (PhotosMainWindow *self)
     {
     case PHOTOS_WINDOW_MODE_PREVIEW:
       photos_base_manager_set_active_object (priv->item_mngr, NULL);
-      photos_mode_controller_set_window_mode (priv->mode_cntrlr, priv->old_mode);
+      photos_mode_controller_go_back (priv->mode_cntrlr);
       break;
 
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
@@ -237,7 +236,7 @@ photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *even
       if (fullscreen)
         {
           photos_base_manager_set_active_object (priv->item_mngr, NULL);
-          photos_mode_controller_set_window_mode (priv->mode_cntrlr, priv->old_mode);
+          photos_mode_controller_go_back (priv->mode_cntrlr);
         }
     }
 
@@ -288,13 +287,6 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
     handled = GTK_WIDGET_CLASS (photos_main_window_parent_class)->key_press_event (widget, event);
 
   return handled;
-}
-
-
-static void
-photos_main_window_window_mode_changed (PhotosMainWindow *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
-{
-  self->priv->old_mode = old_mode;
 }
 
 
@@ -384,16 +376,10 @@ photos_main_window_init (PhotosMainWindow *self)
   priv->item_mngr = photos_item_manager_dup_singleton ();
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
-  priv->old_mode = PHOTOS_WINDOW_MODE_NONE;
   g_signal_connect_swapped (priv->mode_cntrlr,
                             "fullscreen-changed",
                             G_CALLBACK (photos_main_window_fullscreen_changed),
                             self);
-  g_signal_connect_object (priv->mode_cntrlr,
-                           "window-mode-changed",
-                           G_CALLBACK (photos_main_window_window_mode_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
 
