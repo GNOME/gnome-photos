@@ -184,10 +184,8 @@ photos_application_activate_item (PhotosApplication *self, GObject *item)
 {
   PhotosApplicationPrivate *priv = self->priv;
 
-  photos_base_manager_set_active_object (priv->item_mngr, item);
-
   photos_application_create_window (self);
-  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
+  photos_base_manager_set_active_object (priv->item_mngr, item);
   g_application_activate (G_APPLICATION (self));
 
   /* TODO: Forward the search terms when we exit the preview */

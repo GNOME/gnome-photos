@@ -164,9 +164,6 @@ photos_embed_get_view_container_from_mode (PhotosEmbed *self, PhotosWindowMode m
       view_container = priv->overview;
       break;
 
-    case PHOTOS_WINDOW_MODE_PREVIEW:
-      view_container = NULL;
-      break;
 
     case PHOTOS_WINDOW_MODE_SEARCH:
       view_container = priv->search;
@@ -228,7 +225,6 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
   GeglNode *node;
   GtkListStore *model;
   GtkTreePath *current_path;
-  GtkWidget *view_container;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   PhotosWindowMode mode;
 
@@ -240,13 +236,19 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
     goto out;
 
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  view_container = photos_embed_get_view_container_from_mode (self, mode);
 
-  /* If we are already in the preview and navigating using the
-   * buttons, then we don't need this.
+  /* This is not needed when:
+   *  - activated from the search provider
+   *  - already in the preview and navigating using the buttons
    */
-  if (mode != PHOTOS_WINDOW_MODE_PREVIEW)
+  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+      || mode == PHOTOS_WINDOW_MODE_FAVORITES
+      || mode == PHOTOS_WINDOW_MODE_OVERVIEW
+      || mode == PHOTOS_WINDOW_MODE_SEARCH)
     {
+      GtkWidget *view_container;
+
+      view_container = photos_embed_get_view_container_from_mode (self, mode);
       current_path = photos_view_container_get_current_path (PHOTOS_VIEW_CONTAINER (view_container));
       model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
       photos_preview_view_set_model (PHOTOS_PREVIEW_VIEW (priv->preview), GTK_TREE_MODEL (model), current_path);
