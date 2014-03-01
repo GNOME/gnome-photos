@@ -1,15 +1,15 @@
 # Finnish translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013.
+# Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-10 16:39+0000\n"
-"PO-Revision-Date: 2013-12-11 22:20+0200\n"
+"POT-Creation-Date: 2014-02-24 08:13+0000\n"
+"PO-Revision-Date: 2014-02-24 21:28+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -30,11 +30,11 @@ msgstr ""
 "varten. Sen on tarkoitus korvata tiedostonhallinta kuviin liittyvässä "
 "työskentelyssä. Saumattoman pilvi-integraation tarjoaa Gnomen verkkotilit."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "Sen avulla voit:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
@@ -47,16 +47,16 @@ msgstr ""
 "<li>Valita suosikkeja</li> <li>Avata suurempia muutoksia varten erillinen "
 "kuvankäsittelysovellus</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:89
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Kuvat"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Hallitse, järjestä ja jaa kuviasi"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "Photos;Pictures;Valokuvat;Kuvat;"
 
@@ -169,11 +169,11 @@ msgstr "Tietoja"
 msgid "Quit"
 msgstr "Lopeta"
 
-#: ../src/photos-base-item.c:303
+#: ../src/photos-base-item.c:310
 msgid "Album"
 msgstr "Albumi"
 
-#: ../src/photos-base-item.c:727
+#: ../src/photos-base-item.c:760
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
@@ -181,82 +181,125 @@ msgstr "Kuvakaappaukset"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA Renderer -laitteet"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
+#: ../src/photos-embed.c:652
+msgid "Recent"
+msgstr "Viimeisimmät"
+
+#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:110
 msgid "Albums"
 msgstr "Albumit"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
+#: ../src/photos-embed.c:658 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Suosikit"
 
-#: ../src/photos-empty-results-box.c:66
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "Anna nimi ensimmäiselle albumillesi"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+#| msgid "Image Settings"
+msgid "Settings"
+msgstr "järjestelmän asetuksissa"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Voit lisätä verkkotilejä %s"
+
+#: ../src/photos-empty-results-box.c:189
+#| msgid "No Photos Found"
+msgid "No Albums Found"
+msgstr "Albumeita ei löytynyt"
+
+#: ../src/photos-empty-results-box.c:193
+#| msgid "No Photos Found"
+msgid "No Favorites Found"
+msgstr "Suosikkeja ei löytynyt"
+
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "Kuvia ei löytynyt"
 
-#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Nimetön kuva"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:168
+#: ../src/photos-indexing-notification.c:169
 msgid "Your photos are being indexed"
 msgstr "Kuviasi indeksoidaan"
 
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:173
 msgid "Some photos might not be available during this process"
 msgstr ""
 "Jotkin kuvat eivät välttämättä ole käytettävissä tämän toimenpiteen aikana"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
 msgid "Load More"
 msgstr "Lataa lisää"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86
 msgid "Loading…"
 msgstr "Ladataan…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Paikallinen"
 
-#: ../src/photos-main-toolbar.c:99
+#: ../src/photos-main-toolbar.c:111
 msgid "Click on items to select them"
 msgstr "Napsauta kohteita valitaksesi ne"
 
-#: ../src/photos-main-toolbar.c:101
+#: ../src/photos-main-toolbar.c:113
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valittu"
 msgstr[1] "%d valittu"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:158
 msgid "Back"
 msgstr "Takaisin"
 
-#: ../src/photos-main-toolbar.c:271
+#: ../src/photos-main-toolbar.c:282
+msgid "Search"
+msgstr "Etsi"
+
+#: ../src/photos-main-toolbar.c:298
 msgid "Select Items"
 msgstr "Valitse kohteet"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:360 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:412 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Avaa sovelluksella %s"
 
-#: ../src/photos-main-toolbar.c:488
+#: ../src/photos-main-toolbar.c:571
 msgid "Cancel"
 msgstr "Peru"
 
-#: ../src/photos-main-window.c:329
+#: ../src/photos-main-window.c:446
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Hallitse ja jaa kuviasi"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:458
 msgid "translator-credits"
 msgstr "Jiri Grönroos"
 
@@ -275,7 +318,7 @@ msgid "Organize"
 msgstr "Järjestä"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
 #: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "Avaa"
@@ -293,17 +336,17 @@ msgid "Set as Background"
 msgstr "Aseta taustakuvaksi"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Ominaisuudet"
 
-#: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
+#: ../src/photos-preview-nav-buttons.c:209
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "Poista suosikeista"
 
-#: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
+#: ../src/photos-preview-nav-buttons.c:214
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Lisää suosikkeihin"
 
@@ -463,6 +506,41 @@ msgstr "Päällä, käytetty"
 msgid "Done"
 msgstr "Valmis"
 
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
+msgid "All"
+msgstr "Kaikki"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+#| msgctxt "Document Title"
+#| msgid "Title"
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Otsikko"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+#| msgctxt "Document Author"
+#| msgid "Author"
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Tekijä"
+
+#: ../src/photos-search-match-manager.c:205
+msgid "Match"
+msgstr "Vastaavuus"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:153
+#| msgctxt "Document Type"
+#| msgid "Type"
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Tyyppi"
+
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
 msgstr "Valitse kaikki"
@@ -479,15 +557,16 @@ msgstr "Tulosta"
 msgid "Delete"
 msgstr "Poista"
 
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "Lisää albumiin"
 
-#: ../src/photos-source-manager.c:151
-msgid "All"
-msgstr "Kaikki"
+#: ../src/photos-source-manager.c:174
+#| msgid "Source"
+msgid "Sources"
+msgstr "Lähteet"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Kuvaluettelon hakeminen ei onnistunut"
 
