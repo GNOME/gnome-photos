@@ -86,16 +86,13 @@ photos_query_builder_optional (void)
 
 
 static gchar *
-photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gint flags)
+photos_query_builder_inner_where (PhotosSearchContextState *state, gboolean global, gint flags)
 {
   gchar *col_mngr_where = NULL;
-  gchar *filter = NULL;
-  gchar *optional = NULL;
   gchar *sparql;
   gchar *srch_typ_mngr_where = NULL;
 
   srch_typ_mngr_where = photos_base_manager_get_where (state->srch_typ_mngr, flags);
-  optional = photos_query_builder_optional ();
 
   if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
     {
@@ -105,19 +102,45 @@ photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gi
 
           col_mngr_where = photos_base_manager_get_where (state->col_mngr, flags);
         }
-
-      filter = photos_query_builder_filter (state, flags);
     }
 
-  sparql = g_strdup_printf ("WHERE { %s %s %s %s }",
+  sparql = g_strdup_printf ("WHERE { %s %s }",
                             srch_typ_mngr_where,
-                            optional,
-                            (col_mngr_where != NULL) ? col_mngr_where : "",
-                            (filter != NULL) ? filter : "");
+                            (col_mngr_where != NULL) ? col_mngr_where : "");
 
   g_free (col_mngr_where);
-  g_free (filter);
   g_free (srch_typ_mngr_where);
+
+  return sparql;
+}
+
+
+static gchar *
+photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gint flags)
+{
+  gchar *filter = NULL;
+  gchar *optional;
+  gchar *sparql;
+  gchar *where_sparql;
+
+  where_sparql = photos_query_builder_inner_where (state, global, flags);
+  optional = photos_query_builder_optional ();
+
+  if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
+    filter = photos_query_builder_filter (state, flags);
+
+  sparql = g_strdup_printf ("WHERE {{"
+                            "    SELECT ?urn rdf:type (?urn) AS ?type COUNT (?item) AS ?count %s GROUP BY (?urn)"
+                            "  }"
+                            "  %s %s"
+                            "}",
+                            where_sparql,
+                            optional,
+                            (filter != NULL) ? filter : "");
+
+  g_free (filter);
+  g_free (optional);
+  g_free (where_sparql);
 
   return sparql;
 }
@@ -149,7 +172,7 @@ photos_query_builder_query (PhotosSearchContextState *state,
       tail_sparql = g_strdup_printf ("ORDER BY DESC (?mtime) LIMIT %d OFFSET %d", step, offset);
     }
 
-  sparql = g_strconcat ("SELECT DISTINCT ?urn "
+  sparql = g_strconcat ("SELECT ?urn "
                         "nie:url (?urn) "
                         "nfo:fileName (?urn) "
                         "nie:mimeType (?urn) "

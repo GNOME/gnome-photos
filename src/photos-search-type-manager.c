@@ -41,7 +41,6 @@ static gchar *
 photos_search_type_manager_get_filter (PhotosBaseManager *mngr, gint flags)
 {
   GObject *search_type;
-  const gchar *id;
   gchar *filter;
 
   if (flags & PHOTOS_QUERY_FLAGS_COLLECTIONS)
@@ -55,12 +54,7 @@ photos_search_type_manager_get_filter (PhotosBaseManager *mngr, gint flags)
   else
     search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_ALL);
 
-  id = photos_filterable_get_id (PHOTOS_FILTERABLE (search_type));
-  if (g_strcmp0 (id, PHOTOS_SEARCH_TYPE_STOCK_ALL) == 0)
-    filter = photos_base_manager_get_all_filter (mngr);
-  else
-    filter = photos_filterable_get_filter (PHOTOS_FILTERABLE (search_type));
-
+  filter = photos_filterable_get_filter (PHOTOS_FILTERABLE (search_type));
   return filter;
 }
 
@@ -90,25 +84,31 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
 {
   PhotosSearchType *search_type;
   const gchar *item_filter;
+  gchar *all_filter;
   gchar *col_filter;
   gchar *fav_filter;
 
-  item_filter = "fn:contains (rdf:type (?urn), 'nmm#Photo')";
-  col_filter = g_strdup_printf ("(fn:starts-with (nao:identifier (?urn), '%s')"
-                                " || (?urn = nfo:image-category-screenshot))",
+  item_filter = "fn:contains (?type, 'nmm#Photo')";
+  col_filter = g_strdup_printf ("(fn:contains (?type, 'nfo#DataContainer')"
+                                " && ?count > 0"
+                                " && (fn:starts-with (nao:identifier (?urn), '%s')"
+                                "     || (?urn = nfo:image-category-screenshot)))",
                                 PHOTOS_QUERY_COLLECTIONS_IDENTIFIER);
+  all_filter = g_strdup_printf ("(%s || %s)", col_filter, item_filter);
   fav_filter = g_strdup_printf ("(%s || %s)", col_filter, item_filter);
 
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_ALL,
                                              _("All"),
-                                             "?urn a rdfs:Resource",
-                                             "(false)"); /* unused */
+                                             "?urn a rdfs:Resource. "
+                                             "OPTIONAL {?item a nie:InformationElement; nie:isPartOf ?urn}",
+                                             all_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS,
                                              _("Albums"),
-                                             "?urn a nfo:DataContainer",
+                                             "?urn a nfo:DataContainer. "
+                                             "?item a nie:InformationElement; nie:isPartOf ?urn.",
                                              col_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
@@ -129,6 +129,7 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
 
   photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SEARCH_TYPE_STOCK_PHOTOS);
 
+  g_free (all_filter);
   g_free (col_filter);
   g_free (fav_filter);
 }
