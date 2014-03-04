@@ -161,15 +161,15 @@ photos_query_builder_query (PhotosSearchContextState *state,
                         "nie:dataSource(?urn) "
                         "( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite } ) "
                         "( EXISTS { ?urn nco:contributor ?contributor FILTER ( ?contributor != ?creator ) } ) "
-                        "tracker:coalesce(nfo:fileCreated (?urn), nie:contentCreated (?urn))"
-                        "nfo:width (?urn)"
-                        "nfo:height (?urn)"
-                        "nfo:equipment (?urn)"
-                        "nmm:exposureTime (?urn)"
-                        "nmm:fnumber (?urn)"
-                        "nmm:focalLength (?urn)"
-                        "nmm:isoSpeed (?urn)"
-                        "nmm:flash (?urn)",
+                        "tracker:coalesce(nfo:fileCreated (?urn), nie:contentCreated (?urn)) "
+                        "nfo:width (?urn) "
+                        "nfo:height (?urn) "
+                        "nfo:equipment (?urn) "
+                        "nmm:exposureTime (?urn) "
+                        "nmm:fnumber (?urn) "
+                        "nmm:focalLength (?urn) "
+                        "nmm:isoSpeed (?urn) "
+                        "nmm:flash (?urn) ",
                         where_sparql,
                         tail_sparql,
                         NULL);

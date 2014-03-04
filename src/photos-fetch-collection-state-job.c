@@ -258,8 +258,8 @@ photos_fetch_collection_state_job_new (void)
 
 void
 photos_fetch_collection_state_job_run (PhotosFetchCollectionStateJob *self,
-                               PhotosFetchCollectionStateJobCallback callback,
-                               gpointer user_data)
+                                       PhotosFetchCollectionStateJobCallback callback,
+                                       gpointer user_data)
 {
   PhotosFetchCollectionStateJobPrivate *priv = self->priv;
   GList *l;
