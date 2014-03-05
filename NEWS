@@ -1,3 +1,30 @@
+Overview of changes in 3.11.91
+==============================
+
+* Bugs fixed:
+ 723664 gegl-gtk-view-helper: Avoid pointing to invalid memory
+ 725016 "Open with..." opens the wrong program
+ 725095 Allow enter to activate first search item
+ 725327 Clicking "add to collection" leads to crash
+ 725328 Unbreak activating a search provider result
+ 725329 Fix broken mode changes
+ 725589 Hide empty albums
+
+* Updated translations:
+ Simplified Chinese
+ Traditional Chinese (Hong Kong)
+ Traditional Chinese (Taiwan)
+ Czech
+ Finnish
+ Galician
+ Hebrew
+ Lithuanian
+ Norwegian bokmål
+ Portuguese (Brazilian)
+ Spanish
+ Tajik
+
+
 Overview of changes in 3.11.90
 ==============================
 
