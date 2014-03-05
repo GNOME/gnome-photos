@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos 3.11.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-19 20:12+0100\n"
-"PO-Revision-Date: 2014-02-19 20:21+0100\n"
+"POT-Creation-Date: 2014-03-05 06:56+0100\n"
+"PO-Revision-Date: 2014-03-05 06:56+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -17,36 +17,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
-msgstr "Et enkelt program for å aksessere, organisere og dele dine bilder med GNOME. Det er ment som en enkel og elegant erstatning for bruk av filhåndterer for å ordne med bilder. Sømløs integrasjon med skytjenester tilbys gjennom GNOME kontoer på nettet."
+msgstr ""
+"Et enkelt program for å aksessere, organisere og dele dine bilder med GNOME. "
+"Det er ment som en enkel og elegant erstatning for bruk av filhåndterer for "
+"å ordne med bilder. Sømløs integrasjon med skytjenester tilbys gjennom GNOME "
+"kontoer på nettet."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "Det lar deg:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
 "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
 "featured editor for more advanced changes</li>"
-msgstr "<li>Vis nylige bilder lokalt og på nettet</li> <li>Aksesser ditt innhold på Flickr</li> <li>Send bilder til eksterne DLNA-gjengivere</li> <li>Sett som bakgrunn</li> <li>Skriv ut bilder</li> <li>Velg favoritter</li> <li>Tillat åpning av et redigeringsprogram for mer avanserte endringer</li>"
+msgstr ""
+"<li>Vis nylige bilder lokalt og på nettet</li> <li>Aksesser ditt innhold på "
+"Flickr</li> <li>Send bilder til eksterne DLNA-gjengivere</li> <li>Sett som "
+"bakgrunn</li> <li>Skriv ut bilder</li> <li>Velg favoritter</li> <li>Tillat "
+"åpning av et redigeringsprogram for mer avanserte endringer</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:144
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Bilder"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Se på, organiser og del bilder"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "Foto;Bilder;"
 
@@ -159,11 +167,11 @@ msgstr "Om"
 msgid "Quit"
 msgstr "Avslutt"
 
-#: ../src/photos-base-item.c:309
+#: ../src/photos-base-item.c:310
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:759
+#: ../src/photos-base-item.c:760
 msgid "Screenshots"
 msgstr "Skjermdump"
 
@@ -171,26 +179,26 @@ msgstr "Skjermdump"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-enheter for gjengivelse"
 
-#: ../src/photos-embed.c:649
+#: ../src/photos-embed.c:689
 msgid "Recent"
 msgstr "Nylig brukt"
 
-#: ../src/photos-embed.c:652 ../src/photos-search-type-manager.c:130
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:110
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:137
+#: ../src/photos-embed.c:695 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: ../src/photos-empty-results-box.c:111
+#: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
 msgstr "Gi navn til ditt første album"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:131
+#: ../src/photos-empty-results-box.c:133
 msgid "Settings"
 msgstr "Innstillinger"
 
@@ -198,28 +206,32 @@ msgstr "Innstillinger"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:137
+#: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "Du kan legge til dine kontoer på nettet i %s"
 
-#: ../src/photos-empty-results-box.c:187
+#: ../src/photos-empty-results-box.c:189
 msgid "No Albums Found"
 msgstr "Ingen album funnet"
 
-#: ../src/photos-empty-results-box.c:191
+#: ../src/photos-empty-results-box.c:193
 msgid "No Favorites Found"
 msgstr "Ingen favoritter funnet"
 
-#: ../src/photos-empty-results-box.c:196
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "Ingen bilder funnet"
 
-#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Bilde uten tittel"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "Flickr"
 
@@ -239,49 +251,49 @@ msgstr "Last flere"
 msgid "Loading…"
 msgstr "Laster …"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:154
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokalt"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "Klikk på oppføringer for å velge dem"
 
-#: ../src/photos-main-toolbar.c:114
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valgt"
 msgstr[1] "%d valgt"
 
-#: ../src/photos-main-toolbar.c:159
+#: ../src/photos-main-toolbar.c:157
 msgid "Back"
 msgstr "Tilbake"
 
-#: ../src/photos-main-toolbar.c:283
+#: ../src/photos-main-toolbar.c:281
 msgid "Search"
 msgstr "Søk"
 
-#: ../src/photos-main-toolbar.c:299
+#: ../src/photos-main-toolbar.c:297
 msgid "Select Items"
 msgstr "Velg oppføringer"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-main-toolbar.c:411 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Åpne med %s"
 
-#: ../src/photos-main-toolbar.c:573
+#: ../src/photos-main-toolbar.c:570
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ../src/photos-main-window.c:441
+#: ../src/photos-main-window.c:432
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Se på, organiser og del dine bilder i GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:453
+#: ../src/photos-main-window.c:444
 msgid "translator-credits"
 msgstr "Kjartan Maraas <kmaraas@gnome.org>"
 
@@ -300,8 +312,8 @@ msgid "Organize"
 msgstr "Organiser"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:284
-#: ../src/photos-selection-toolbar.c:440
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "Åpne"
 
@@ -318,17 +330,17 @@ msgid "Set as Background"
 msgstr "Sett som bakgrunn"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:464
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Egenskaper"
 
 #: ../src/photos-preview-nav-buttons.c:209
-#: ../src/photos-selection-toolbar.c:293
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
 
 #: ../src/photos-preview-nav-buttons.c:214
-#: ../src/photos-selection-toolbar.c:299
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Legg til i favoritter"
 
@@ -488,34 +500,31 @@ msgstr "På, fyrte"
 msgid "Done"
 msgstr "Ferdig"
 
-#: ../src/photos-search-match-manager.c:155
-#: ../src/photos-search-type-manager.c:123 ../src/photos-source-manager.c:150
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Alle"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:162
+#: ../src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Tittel"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:169
+#: ../src/photos-search-match-manager.c:168
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Forfatter"
 
-#. Translators: this is a verb that refers to "All", "Title" and
-#. * "Author", as in "Match All", "Match Title" and "Match Author".
-#.
-#: ../src/photos-search-match-manager.c:196
+#: ../src/photos-search-match-manager.c:205
 msgid "Match"
 msgstr "Søk på"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:175
+#: ../src/photos-search-type-manager.c:153
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Type"
@@ -528,22 +537,22 @@ msgstr "Velg alle"
 msgid "Select None"
 msgstr "Velg ingen"
 
-#: ../src/photos-selection-toolbar.c:448
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "Skriv ut"
 
-#: ../src/photos-selection-toolbar.c:456
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "Slett"
 
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "Legg til i album"
 
-#: ../src/photos-source-manager.c:195
+#: ../src/photos-source-manager.c:174
 msgid "Sources"
 msgstr "Kilder"
 
-#: ../src/photos-tracker-controller.c:93
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Kan ikke hente liste med bilder"
