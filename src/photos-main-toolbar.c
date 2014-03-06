@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2014 Saurav Agarwalla
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -52,6 +53,7 @@ struct _PhotosMainToolbarPrivate
   GtkWidget *overlay;
   GtkWidget *remote_display_button;
   GtkWidget *searchbar;
+  GtkWidget *selection_button;
   GtkWidget *selection_menu;
   GtkWidget *toolbar;
   PhotosBaseManager *col_mngr;
@@ -287,7 +289,7 @@ photos_main_toolbar_add_search_button (PhotosMainToolbar *self)
 }
 
 
-static void
+static GtkWidget *
 photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
@@ -304,6 +306,8 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
                            G_CALLBACK (photos_main_toolbar_col_active_changed),
                            self,
                            0);
+
+  return selection_button;
 }
 
 
@@ -333,6 +337,12 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
     {
       gtk_widget_destroy (priv->remote_display_button);
       priv->remote_display_button = NULL;
+    }
+
+  if (priv->selection_button != NULL)
+    {
+      gtk_widget_destroy (priv->selection_button);
+      priv->selection_button = NULL;
     }
 
   if (priv->searchbar != NULL && gtk_widget_get_parent (priv->searchbar) == GTK_WIDGET (self))
@@ -435,7 +445,7 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
-  photos_main_toolbar_add_selection_button (self);
+  priv->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
   if (gtk_widget_get_parent (priv->searchbar) == NULL)
@@ -472,7 +482,7 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
-  photos_main_toolbar_add_selection_button (self);
+  priv->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
   if (gtk_widget_get_parent (priv->searchbar) == NULL)
@@ -491,7 +501,7 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
-  photos_main_toolbar_add_selection_button (self);
+  priv->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
   if (gtk_widget_get_parent (priv->searchbar) == NULL)
@@ -547,7 +557,7 @@ photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
-  photos_main_toolbar_add_selection_button (self);
+  priv->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
   if (gtk_widget_get_parent (priv->searchbar) == NULL)
@@ -578,37 +588,6 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
                            G_CONNECT_SWAPPED);
 
   photos_main_toolbar_add_search_button (self);
-}
-
-
-static void
-photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
-{
-  PhotosMainToolbarPrivate *priv = self->priv;
-  PhotosWindowMode window_mode;
-  gboolean selection_mode;
-
-  photos_main_toolbar_clear_toolbar (self);
-  selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
-  window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-
-  if (selection_mode)
-    photos_main_toolbar_populate_for_selection_mode (self);
-  else if (window_mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
-    photos_main_toolbar_populate_for_collections (self);
-  else if (window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
-    photos_main_toolbar_populate_for_favorites (self);
-  else if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
-    photos_main_toolbar_populate_for_overview (self);
-  else if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    photos_main_toolbar_populate_for_preview (self);
-  else if (window_mode == PHOTOS_WINDOW_MODE_SEARCH)
-    photos_main_toolbar_populate_for_search (self);
-
-  photos_main_toolbar_update_remote_display_button (self);
-
-  photos_main_toolbar_set_toolbar_title (self);
-  gtk_widget_show_all (priv->toolbar);
 }
 
 
@@ -736,11 +715,6 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
                            G_CONNECT_SWAPPED);
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
-  g_signal_connect_object (priv->mode_cntrlr,
-                           "window-mode-changed",
-                           G_CALLBACK (photos_main_toolbar_reset_toolbar_mode),
-                           self,
-                           G_CONNECT_SWAPPED);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
   g_signal_connect_object (priv->sel_cntrlr,
@@ -819,7 +793,51 @@ photos_main_toolbar_is_focus (PhotosMainToolbar *self)
 
 
 void
+photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  PhotosWindowMode window_mode;
+  gboolean selection_mode;
+
+  photos_main_toolbar_clear_toolbar (self);
+  selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
+  window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+
+  if (selection_mode)
+    photos_main_toolbar_populate_for_selection_mode (self);
+  else if (window_mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
+    photos_main_toolbar_populate_for_collections (self);
+  else if (window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
+    photos_main_toolbar_populate_for_favorites (self);
+  else if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+    photos_main_toolbar_populate_for_overview (self);
+  else if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    photos_main_toolbar_populate_for_preview (self);
+  else if (window_mode == PHOTOS_WINDOW_MODE_SEARCH)
+    photos_main_toolbar_populate_for_search (self);
+
+  photos_main_toolbar_update_remote_display_button (self);
+
+  photos_main_toolbar_set_toolbar_title (self);
+  gtk_widget_show_all (priv->toolbar);
+}
+
+
+void
 photos_main_toolbar_set_stack (PhotosMainToolbar *self, GtkStack *stack)
 {
   photos_header_bar_set_stack (PHOTOS_HEADER_BAR (self->priv->toolbar), stack);
+}
+
+
+void
+photos_main_toolbar_set_view_model (PhotosMainToolbar *self, PhotosViewModel *model)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  gboolean is_empty;
+
+  is_empty = (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (model), NULL) == 0);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (priv->search), !is_empty);
+  if (priv->selection_button != NULL)
+    gtk_widget_set_sensitive (priv->selection_button, !is_empty);
 }

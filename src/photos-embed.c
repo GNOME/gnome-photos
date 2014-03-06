@@ -2,6 +2,7 @@
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
  * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2014 Saurav Agarwalla
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -536,6 +537,29 @@ photos_embed_query_status_changed (PhotosEmbed *self, gboolean querying)
 
 
 static void
+photos_embed_row_changed (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+  PhotosWindowMode mode;
+
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+
+  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+      || mode == PHOTOS_WINDOW_MODE_FAVORITES
+      || mode == PHOTOS_WINDOW_MODE_OVERVIEW
+      || mode == PHOTOS_WINDOW_MODE_SEARCH)
+    {
+      GtkListStore *model;
+      GtkWidget *view_container;
+
+      view_container = photos_embed_get_view_container_from_mode (self, mode);
+      model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
+      photos_main_toolbar_set_view_model (PHOTOS_MAIN_TOOLBAR (priv->toolbar), PHOTOS_VIEW_MODEL (model));
+    }
+}
+
+
+static void
 photos_embed_search_changed (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
@@ -586,17 +610,30 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
                                   gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  PhotosEmbedPrivate *priv = self->priv;
 
-  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
-    photos_embed_prepare_for_collections (self);
-  else if (mode == PHOTOS_WINDOW_MODE_FAVORITES)
-    photos_embed_prepare_for_favorites (self);
-  else if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
-    photos_embed_prepare_for_overview (self);
-  else if (mode == PHOTOS_WINDOW_MODE_SEARCH)
-    photos_embed_prepare_for_search (self);
-  else
+  photos_main_toolbar_reset_toolbar_mode (PHOTOS_MAIN_TOOLBAR (priv->toolbar));
+
+  if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
     photos_embed_prepare_for_preview (self);
+  else
+    {
+      GtkListStore *model;
+      GtkWidget *view_container;
+
+      if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
+        photos_embed_prepare_for_collections (self);
+      else if (mode == PHOTOS_WINDOW_MODE_FAVORITES)
+        photos_embed_prepare_for_favorites (self);
+      else if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+        photos_embed_prepare_for_overview (self);
+      else if (mode == PHOTOS_WINDOW_MODE_SEARCH)
+        photos_embed_prepare_for_search (self);
+
+      view_container = photos_embed_get_view_container_from_mode (self, mode);
+      model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
+      photos_main_toolbar_set_view_model (PHOTOS_MAIN_TOOLBAR (priv->toolbar), PHOTOS_VIEW_MODEL (model));
+    }
 }
 
 
@@ -646,6 +683,7 @@ photos_embed_init (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv;
   GApplication *app;
+  GtkListStore *model;
   PhotosSearchbar *searchbar;
   PhotosSearchContextState *state;
   gboolean querying;
@@ -687,15 +725,27 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW);
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->overview, "overview", _("Recent"));
+  model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->overview));
+  g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);
+  g_signal_connect_swapped (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self);
 
   priv->collections = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTIONS);
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->collections, "collections", _("Albums"));
+  model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->collections));
+  g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);
+  g_signal_connect_swapped (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self);
 
   priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES);
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->favorites, "favorites", _("Favorites"));
+  model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->favorites));
+  g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);
+  g_signal_connect_swapped (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self);
 
   priv->search = photos_view_container_new (PHOTOS_WINDOW_MODE_SEARCH);
   gtk_stack_add_named (GTK_STACK (priv->stack), priv->search, "search");
+  model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->search));
+  g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);
+  g_signal_connect_swapped (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self);
 
   priv->preview = photos_preview_view_new (GTK_OVERLAY (priv->stack_overlay));
   gtk_stack_add_named (GTK_STACK (priv->stack), priv->preview, "preview");
