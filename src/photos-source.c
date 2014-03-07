@@ -66,7 +66,7 @@ photos_source_build_filter_resource (PhotosSource *self)
   gchar *filter;
 
   if (!priv->builtin)
-    filter = g_strdup_printf ("(nie:dataSource (?urn) = \"%s\")", priv->id);
+    filter = g_strdup_printf ("(nie:dataSource (?urn) = '%s')", priv->id);
   else
     filter = g_strdup ("(false)");
 

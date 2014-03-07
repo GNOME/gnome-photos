@@ -352,7 +352,7 @@ photos_query_builder_update_mtime_query (PhotosSearchContextState *state, const 
   tv.tv_usec = 0;
   time = g_time_val_to_iso8601 (&tv);
 
-  sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:contentLastModified \"%s\" }", resource, time);
+  sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:contentLastModified '%s' }", resource, time);
   g_free (time);
 
   return photos_query_new (state, sparql);
@@ -377,10 +377,10 @@ photos_query_builder_filter_local (void)
   path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
   pictures_uri = photos_query_builder_convert_path_to_uri (path);
 
-  filter = g_strdup_printf ("(fn:contains (nie:url (?urn), \"%s\")"
-                            " || fn:contains (nie:url (?urn), \"%s\")"
-                            " || fn:contains (nie:url (?urn), \"%s\")"
-                            " || fn:starts-with (nao:identifier (?urn), \"%s\")"
+  filter = g_strdup_printf ("(fn:contains (nie:url (?urn), '%s')"
+                            " || fn:contains (nie:url (?urn), '%s')"
+                            " || fn:contains (nie:url (?urn), '%s')"
+                            " || fn:starts-with (nao:identifier (?urn), '%s')"
                             " || (?urn = nfo:image-category-screenshot))",
                             desktop_uri,
                             download_uri,
