@@ -35,6 +35,10 @@
 #include "photos-search-type-manager.h"
 
 
+static const gchar *TRACKER_SCHEMA = "org.freedesktop.Tracker.Miner.Files";
+static const gchar *TRACKER_KEY_RECURSIVE_DIRECTORIES = "index-recursive-directories";
+
+
 static gchar *
 photos_query_builder_convert_path_to_uri (const gchar *path)
 {
@@ -362,11 +366,32 @@ photos_query_builder_update_mtime_query (PhotosSearchContextState *state, const 
 gchar *
 photos_query_builder_filter_local (void)
 {
+  GSettings *settings;
+  GString *tracker_filter;
   gchar *desktop_uri;
   gchar *download_uri;
   gchar *filter;
   const gchar *path;
   gchar *pictures_uri;
+  gchar **tracker_dirs;
+  guint i;
+
+  settings = g_settings_new (TRACKER_SCHEMA);
+  tracker_dirs = g_settings_get_strv (settings, TRACKER_KEY_RECURSIVE_DIRECTORIES);
+  tracker_filter = g_string_new ("");
+
+  for (i = 0; tracker_dirs[i] != NULL; i++)
+    {
+      gchar *tracker_uri;
+
+      /* ignore special XDG placeholders, since we handle those internally */
+      if (tracker_dirs[i][0] == '&' || tracker_dirs[i][0] == '$')
+        continue;
+
+      tracker_uri = photos_query_builder_convert_path_to_uri (tracker_dirs[i]);
+      g_string_append_printf (tracker_filter, " || fn:contains (nie:url (?urn), '%s')", tracker_uri);
+      g_free (tracker_uri);
+    }
 
   path = g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP);
   desktop_uri = photos_query_builder_convert_path_to_uri (path);
@@ -380,15 +405,20 @@ photos_query_builder_filter_local (void)
   filter = g_strdup_printf ("(fn:contains (nie:url (?urn), '%s')"
                             " || fn:contains (nie:url (?urn), '%s')"
                             " || fn:contains (nie:url (?urn), '%s')"
+                            "%s"
                             " || fn:starts-with (nao:identifier (?urn), '%s')"
                             " || (?urn = nfo:image-category-screenshot))",
                             desktop_uri,
                             download_uri,
                             pictures_uri,
+                            tracker_filter->str,
                             PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER);
   g_free (desktop_uri);
   g_free (download_uri);
   g_free (pictures_uri);
+  g_strfreev (tracker_dirs);
+  g_string_free (tracker_filter, TRUE);
+  g_object_unref(settings);
 
   return filter;
 }
