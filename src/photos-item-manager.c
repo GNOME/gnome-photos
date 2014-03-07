@@ -117,9 +117,9 @@ photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpoin
       if (object != NULL)
         {
           photos_base_item_destroy (PHOTOS_BASE_ITEM (object));
-          photos_base_manager_remove_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
           if (photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
             photos_base_manager_remove_object_by_id (priv->col_mngr, change_urn);
+          photos_base_manager_remove_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
         }
     }
 }
