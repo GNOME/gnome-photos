@@ -2,14 +2,14 @@
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 #
-# A S Alam <aalam@users.sf.net>, 2013.
+# A S Alam <aalam@users.sf.net>, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-09 09:57+0000\n"
-"PO-Revision-Date: 2013-09-09 22:08-0500\n"
+"POT-Creation-Date: 2014-03-04 20:13+0000\n"
+"PO-Revision-Date: 2014-03-04 21:21-0600\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
 "Language: pa\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -32,56 +32,57 @@ msgstr ""
 "ਕੀਤਾ ਗਿਆ ਹੈ। "
 "ਗਨੋਮ ਆਨਲਾਈਨ ਖਾਤਿਆਂ ਰਾਹੀਂ ਕਲਾਉਡ ਜੋੜ ਨੂੰ ਵੀ ਸੌਖਾ ਬਣਾਇਆ ਗਿਆ ਹੈ।"
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "ਇਹ ਤੁਹਾਨੂੰ:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
 "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
 "featured editor for more advanced changes</li>"
 msgstr ""
-"<li>ਤਾਜ਼ਾ ਲੋਕਲ ਤੇ ਆਨਲਾਈਨ ਫੋਟੋ ਵੇਖੋ</li> <li>ਆਪਣੀ ਫਲਿੱਕਰ ਸਮੱਗਰੀ ਵਰਤੋਂ</li> "
-"<li>ਰਿਮੋਟ DLNA ਰੈਂਡਰਰ ਉੱਤੇ ਫੋਟੋ ਭੇਜੋ</li> <li>ਬੈਕਗਰਾਊਂਡ ਬਣਾਉ</li><li>ਫੋਟੋ "
-"ਪਰਿੰਟ ਕਰੋ</li><li>ਪਸੰਦੀਦਾ ਦੀ ਚੋਣ ਕਰੋ</li><li>ਹੋਰ ਤਕਨੀਕੀ ਬਦਲਾਅ ਕਰਨ ਲਈ ਪੂਰੇ "
-"ਐਡੀਟਰ ਲਈ ਮਨਜ਼ੂਰ ਕਰੋ</li>"
+"<li>ਤਾਜ਼ਾ ਲੋਕਲ ਤੇ ਆਨਲਾਈਨ ਫੋਟੋ ਵੇਖੋ</li> <li>ਆਪਣੀ ਫਲਿੱਕਰ ਸਮੱਗਰੀ ਵਰਤੋਂ</li> <li>"
+"ਰਿਮੋਟ DLNA "
+"ਰੈਂਡਰਰ ਉੱਤੇ ਫੋਟੋ ਭੇਜੋ</li> <li>ਬੈਕਗਰਾਊਂਡ ਬਣਾਉ</li><li>ਫੋਟੋ ਪਰਿੰਟ ਕਰੋ</li><li>"
+"ਪਸੰਦੀਦਾ ਦੀ ਚੋਣ "
+"ਕਰੋ</li><li>ਹੋਰ ਤਕਨੀਕੀ ਬਦਲਾਅ ਕਰਨ ਲਈ ਪੂਰੇ ਐਡੀਟਰ ਲਈ ਮਨਜ਼ੂਰ ਕਰੋ</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:93
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "ਫੋਟੋ"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "ਫੋਟੋ ਵਰਤੋਂ, ਪਰਬੰਧ ਕਰੋ ਅਤੇ ਸਾਂਝੀਆਂ ਕਰੋ"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "ਫੋਟੋ;ਤਸਵੀਰਾਂ;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "ਵਿੰਡੋ ਆਕਾਰ"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "ਵਿੰਡੋ ਆਕਾਰ (ਚੌੜਾਈ ਅਤੇ ਉਚਾਈ)"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "ਵਿੰਡੋ ਸਥਿਤੀ"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "ਵਿੰਡੋ ਸਥਿਤੀ (x ਅਤੇ y)"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "ਵਿੰਡੋ ਵੱਧੋ-ਵੱਧ ਕੀਤੀ"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "ਵਿੰਡੋ ਵੱਧੋ-ਵੱਧ ਆਕਾਰ ਸਥਿਤੀ"
 
@@ -163,114 +164,169 @@ msgid "Fullscreen"
 msgstr "ਪੂਰੀ ਸਕਰੀਨ"
 
 #: ../src/photos-app-menu.ui.h:2
-msgid "About Photos"
-msgstr "ਫੋਟੋ ਬਾਰੇ"
+msgid "About"
+msgstr "ਇਸ ਬਾਰੇ"
 
 #: ../src/photos-app-menu.ui.h:3
 msgid "Quit"
 msgstr "ਬਾਹਰ"
 
-#: ../src/photos-base-item.c:303
+#: ../src/photos-base-item.c:310
 msgid "Album"
 msgstr "ਐਲਬਮ"
+
+#: ../src/photos-base-item.c:760
+msgid "Screenshots"
+msgstr "ਸਕਰੀਨਸ਼ਾਟ"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA ਰੈਂਡਰਰ ਜੰਤਰ"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:689
+msgid "Recent"
+msgstr "ਤਾਜ਼ਾ"
+
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:110
 msgid "Albums"
 msgstr "ਐਲਬਮ"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:695 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "ਪਸੰਦੀਦਾ"
 
-#: ../src/photos-empty-results-box.c:66
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "ਆਪਣੀ ਪਹਿਲੀ ਐਲਬਮ ਦਾ ਨਾਂ"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+#| msgid "Image Settings"
+msgid "Settings"
+msgstr "ਸੈਟਿੰਗ"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "ਤੁਸੀਂ %s ਵਿੱਚ ਆਪਣੇ ਆਨਲਾਈਨ ਅਕਾਊਂਟ ਸ਼ਾਮਿਲ ਕਰ ਸਕਦੇ ਹੋ"
+
+#: ../src/photos-empty-results-box.c:189
+#| msgid "No Photos Found"
+msgid "No Albums Found"
+msgstr "ਕੋਈ ਐਲਬਮ ਨਹੀਂ ਲੱਭੀ"
+
+#: ../src/photos-empty-results-box.c:193
+#| msgid "No Photos Found"
+msgid "No Favorites Found"
+msgstr "ਕੋਈ ਪਸੰਦੀਦਾ ਨਹੀਂ ਲੱਭੀ"
+
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "ਕੋਈ ਫੋਟੋ ਨਹੀਂ ਲੱਭੀ"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
+msgid "Facebook"
+msgstr "ਫੇਸਬੁੱਕ"
+
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "ਬਿਨਾਂ-ਨਾਂ ਫੋਟੋ"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "ਫਲਿੱਕਰ"
 
-#: ../src/photos-indexing-notification.c:168
+#: ../src/photos-indexing-notification.c:169
 msgid "Your photos are being indexed"
 msgstr "ਤੁਹਾਡੀਆਂ ਫੋਟੋ ਦਾ ਇੰਡੈਕਸ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:173
 msgid "Some photos might not be available during this process"
 msgstr "ਕੁਝ ਫੋਟੋ ਇਸ ਕਾਰਵਾਈ ਦੇ ਦੌਰਾਨ ਸ਼ਾਇਦ ਉਪਲੱਬਧ ਨਾ ਹੋਣ"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
 msgid "Load More"
 msgstr "ਹੋਰ ਲੋਡ"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
-#| msgid "Loading..."
+#: ../src/photos-load-more-button.c:86
 msgid "Loading…"
 msgstr "…ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "ਲੋਕਲ"
 
-#: ../src/photos-main-toolbar.c:99
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "ਆਈਟਮਾਂ ਨੂੰ ਚੁਣਨ ਲਈ ਉਹਨਾਂ ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ"
 
-#: ../src/photos-main-toolbar.c:101
+#: ../src/photos-main-toolbar.c:112
 #, c-format
-#| msgid "%d selected"
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d ਚੁਣੀ"
 msgstr[1] "%d ਚੁਣੀਆਂ"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:157
 msgid "Back"
 msgstr "ਪਿੱਛੇ"
 
-#: ../src/photos-main-toolbar.c:273
+#: ../src/photos-main-toolbar.c:281
+msgid "Search"
+msgstr "ਖੋਜ"
+
+#: ../src/photos-main-toolbar.c:297
 msgid "Select Items"
 msgstr "ਆਈਟਮਾਂ ਚੁਣੋ"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:411 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "%s ਨਾਲ ਖੋਲ੍ਹੋ"
 
-#: ../src/photos-main-toolbar.c:490
+#: ../src/photos-main-toolbar.c:570
 msgid "Cancel"
 msgstr "ਰੱਦ ਕਰੋ"
 
-#: ../src/photos-main-window.c:329
+#: ../src/photos-main-window.c:432
 msgid "Access, organize and share your photos on GNOME"
 msgstr "ਗਨੋਮ ਉੱਤੇ ਆਪਣੀਆਂ ਫੋਟੋ ਵਰਤੋਂ, ਪਰਬੰਧ ਕਰੋ ਅਤੇ ਸਾਂਝੀਆਂ ਕਰੋ"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:444
 msgid "translator-credits"
 msgstr ""
 "ਅਮਨਪਰੀਤ ਸਿੰਘ ਆਲਮ (Amanpreet Singh)\n"
 "ਪੰਜਾਬੀ ਓਪਨਸੋਰਸ ਟੀਮ (POST)"
 
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "ਸ਼ਾਮਲ(_A)"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "ਠੀਕ ਹੈ(_O)"
+
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
-#| msgid "Organize"
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "ਪਰਬੰਧ"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
 #: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "ਖੋਲ੍ਹੋ"
 
 #: ../src/photos-preview-menu.ui.h:2
-#| msgid "Print"
 msgid "Print…"
 msgstr "…ਪਰਿੰਟ ਕਰੋ"
 
@@ -282,18 +338,18 @@ msgstr "...ਉੱਤੇ ਵੇਖਾਓ"
 msgid "Set as Background"
 msgstr "ਬੈਕਗਰਾਊਂਡ ਬਣਾਓ"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "ਵਿਸ਼ੇਸ਼ਤਾ"
 
-#: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
+#: ../src/photos-preview-nav-buttons.c:209
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "ਪਸੰਦ ਵਿੱਚੋਂ ਹਟਾਓ"
 
-#: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
+#: ../src/photos-preview-nav-buttons.c:214
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "ਪਸੰਦ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ"
 
@@ -376,8 +432,7 @@ msgstr "ਝਲਕ"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
-#| msgid "Title"
+#: ../src/photos-properties-dialog.c:218
 msgctxt "Document Title"
 msgid "Title"
 msgstr "ਟਾਈਟਲ"
@@ -385,90 +440,115 @@ msgstr "ਟਾਈਟਲ"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
-#| msgid "Author"
+#: ../src/photos-properties-dialog.c:230
 msgctxt "Document Author"
 msgid "Author"
 msgstr "ਲੇਖਕ"
 
-#: ../src/photos-properties-dialog.c:236
+#: ../src/photos-properties-dialog.c:237
 msgid "Source"
 msgstr "ਸਰੋਤ"
 
-#: ../src/photos-properties-dialog.c:242
+#: ../src/photos-properties-dialog.c:243
 msgid "Date Modified"
 msgstr "ਸੋਧ ਤਾਰੀਖ"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:251
 msgid "Date Created"
 msgstr "ਬਣਾਉਣ ਮਿਤੀ"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
-#| msgid "Type"
+#: ../src/photos-properties-dialog.c:261
 msgctxt "Document Type"
 msgid "Type"
 msgstr "ਕਿਸਮ"
 
-#: ../src/photos-properties-dialog.c:269
-#| msgid "_Width:"
+#: ../src/photos-properties-dialog.c:270
 msgid "Width"
 msgstr "ਚੌੜਾਈ"
 
-#: ../src/photos-properties-dialog.c:279
-#| msgid "_Height:"
+#: ../src/photos-properties-dialog.c:280
 msgid "Height"
 msgstr "ਉਚਾਈ"
 
-#: ../src/photos-properties-dialog.c:294
+#: ../src/photos-properties-dialog.c:295
 msgid "Camera"
 msgstr "ਕੈਮਰਾ"
 
-#: ../src/photos-properties-dialog.c:304
+#: ../src/photos-properties-dialog.c:305
 msgid "Exposure"
 msgstr "ਐਕਸਪੋਜ਼ਰ"
 
-#: ../src/photos-properties-dialog.c:314
+#: ../src/photos-properties-dialog.c:315
 msgid "Aperture"
 msgstr "ਅਪਰਚਰ"
 
-#: ../src/photos-properties-dialog.c:324
+#: ../src/photos-properties-dialog.c:325
 msgid "Focal Length"
 msgstr "ਫੋਕਲ ਲੰਬਾਈ"
 
-#: ../src/photos-properties-dialog.c:334
+#: ../src/photos-properties-dialog.c:335
 msgid "ISO Speed"
 msgstr "ISO ਸਪੀਡ"
 
-#: ../src/photos-properties-dialog.c:344
+#: ../src/photos-properties-dialog.c:345
 msgid "Flash"
 msgstr "ਫਲੈਸ਼"
 
-#: ../src/photos-properties-dialog.c:527
+#: ../src/photos-properties-dialog.c:536
 msgid "Off, did not fire"
 msgstr "ਬੰਦ, ਨਹੀਂ ਚੱਲੀ"
 
-#: ../src/photos-properties-dialog.c:529
+#: ../src/photos-properties-dialog.c:538
 msgid "On, fired"
 msgstr "ਚਾਲੂ, ਫਾਇਰਡ"
 
-#: ../src/photos-properties-dialog.c:608
+#: ../src/photos-properties-dialog.c:617
 msgid "Done"
 msgstr "ਮੁਕੰਮਲ"
 
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "ਸਭ"
 
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+#| msgctxt "Document Title"
+#| msgid "Title"
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "ਟਾਈਟਲ"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+#| msgctxt "Document Author"
+#| msgid "Author"
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "ਲੇਖਕ"
+
+#: ../src/photos-search-match-manager.c:205
+msgid "Match"
+msgstr "ਮਿਲਦਾ"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:153
+#| msgctxt "Document Type"
+#| msgid "Type"
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "ਕਿਸਮ"
+
 #: ../src/photos-selection-menu.ui.h:1
-#| msgid "Select Items"
 msgid "Select All"
 msgstr "ਸਭ ਚੁਣੋ"
 
 #: ../src/photos-selection-menu.ui.h:2
-#| msgid "Select Items"
 msgid "Select None"
 msgstr "ਕੋਈ ਨਾ ਚੁਣੋ"
 
@@ -480,13 +560,21 @@ msgstr "ਪਰਿੰਟ ਕਰੋ"
 msgid "Delete"
 msgstr "ਹਟਾਓ"
 
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "ਐਲਬਮ ਵਿੱਚ ਸ਼ਾਮਿਲ"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-source-manager.c:174
+#| msgid "Source"
+msgid "Sources"
+msgstr "ਸਰੋਤ"
+
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "ਫੋਟੋ ਦੀ ਸੂਚੀ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਅਸਮਰੱਥ"
+
+#~ msgid "About Photos"
+#~ msgstr "ਫੋਟੋ ਬਾਰੇ"
 
 #~ msgid "Image"
 #~ msgstr "ਚਿੱਤਰ"
