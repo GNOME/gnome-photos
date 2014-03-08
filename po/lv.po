@@ -1,14 +1,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-11 15:36+0000\n"
-"PO-Revision-Date: 2013-09-12 18:51+0300\n"
+"POT-Creation-Date: 2014-03-07 08:14+0000\n"
+"PO-Revision-Date: 2014-03-08 19:15+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "2);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -31,59 +31,56 @@ msgstr ""
 "darbam ar fotogrāfijām. Integrāciju ar mākoņpakalpojumiem nodrošina caur "
 "GNOME tiešsaistes kontiem."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "Tā jums ļauj:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
 "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
 "featured editor for more advanced changes</li>"
 msgstr ""
-"<li>Skatīt nesenās lokālās un tiešsaistes fotogrāfijas</li> "
-"<li>Piekļūt savam Flickr saturam</li> "
-"<li>Sūtīt fotogrāfijas uz DLNA attēlotājiem</li> "
-"<li>Iestatīt kā fonu</li> "
-"<li>Drukāt fotogrāfijas</li> "
-"<li>Izvēlēties iecienītās</li> "
-"<li>Atvērt ārējo redaktoru, lai veiktu plašākas izmaiņas</li>"
+"<li>Skatīt nesenās lokālās un tiešsaistes fotogrāfijas</li> <li>Piekļūt "
+"savam Flickr saturam</li> <li>Sūtīt fotogrāfijas uz DLNA attēlotājiem</li> "
+"<li>Iestatīt kā fonu</li> <li>Drukāt fotogrāfijas</li> <li>Izvēlēties "
+"iecienītās</li> <li>Atvērt ārējo redaktoru, lai veiktu plašākas izmaiņas</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:93
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Fotogrāfijas"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Piekļūstiet, organizējiet, dalieties ar fotogrāfijām"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "Attēli;Fotogrāfijas;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Loga izmērs"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Loga izmērs (platums un augstums)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Loga novietojums"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Loga novietojums (x un y)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Logs maksimizēts"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Loga stāvoklis — maksimizēts"
 
@@ -165,62 +162,109 @@ msgid "Fullscreen"
 msgstr "Pilnekrāns"
 
 #: ../src/photos-app-menu.ui.h:2
-msgid "About Photos"
-msgstr "Par Fotogrāfijām"
+msgid "About"
+msgstr "Par"
 
 #: ../src/photos-app-menu.ui.h:3
 msgid "Quit"
 msgstr "Iziet"
 
-#: ../src/photos-base-item.c:303
+#: ../src/photos-base-item.c:310
 msgid "Album"
 msgstr "Albums"
+
+#: ../src/photos-base-item.c:760
+msgid "Screenshots"
+msgstr "Ekrānattēli"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA attēlošanas ierīces"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:689
+msgid "Recent"
+msgstr "Nesenās"
+
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:695 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Izlase"
 
-#: ../src/photos-empty-results-box.c:66
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "Nosauciet savu pirmo albumu"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+#| msgid "Image Settings"
+msgid "Settings"
+msgstr "Iestatījumi"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Savus tiešsaistes kontus var pievienot %s"
+
+#: ../src/photos-empty-results-box.c:189
+#| msgid "No Photos Found"
+msgid "No Albums Found"
+msgstr "Nav atrastu albumu"
+
+#: ../src/photos-empty-results-box.c:193
+#| msgid "No Photos Found"
+msgid "No Favorites Found"
+msgstr "Nav atrastu izlašu"
+
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "Nav atrastu fotogrāfiju"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Nenosaukta fotogrāfija"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:168
+#: ../src/photos-indexing-notification.c:169
 msgid "Your photos are being indexed"
 msgstr "Fotogrāfijas tiek indeksētas"
 
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:173
 msgid "Some photos might not be available during this process"
 msgstr "Šajā laikā dažas fotogrāfijas varētu nebūt pieejamas"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
 msgid "Load More"
 msgstr "Ielādēt vairāk"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86
 msgid "Loading…"
 msgstr "Ielādē…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokāls"
 
-#: ../src/photos-main-toolbar.c:99
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "Spiediet uz vienumiem, lai tos izvēlētos"
 
-#: ../src/photos-main-toolbar.c:101
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -228,32 +272,44 @@ msgstr[0] "%d izvēlēts"
 msgstr[1] "%d izvēlēti"
 msgstr[2] "%d izvēlētu"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:157
 msgid "Back"
 msgstr "Atpakaļ"
 
-#: ../src/photos-main-toolbar.c:273
+#: ../src/photos-main-toolbar.c:281
+msgid "Search"
+msgstr "Meklēt"
+
+#: ../src/photos-main-toolbar.c:297
 msgid "Select Items"
 msgstr "Izvēlēties vienumus"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:411 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Atvērt ar %s"
 
-#: ../src/photos-main-toolbar.c:490
+#: ../src/photos-main-toolbar.c:570
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: ../src/photos-main-window.c:329
+#: ../src/photos-main-window.c:432
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Piekļūstiet, organizējiet, dalieties ar fotogrāfijām GNOME vidē"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:444
 msgid "translator-credits"
 msgstr "Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Pievienot"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_Labi"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -262,7 +318,7 @@ msgid "Organize"
 msgstr "Organizēt"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
 #: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "Atvērt"
@@ -279,18 +335,18 @@ msgstr "Attēlot uz…"
 msgid "Set as Background"
 msgstr "Iestatīt kā fonu"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Īpašības"
 
-#: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
+#: ../src/photos-preview-nav-buttons.c:209
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "Izņemt no izlases"
 
-#: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
+#: ../src/photos-preview-nav-buttons.c:214
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Pievienot izlasei"
 
@@ -373,7 +429,7 @@ msgstr "Priekšskatījums"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
+#: ../src/photos-properties-dialog.c:218
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Nosaukums"
@@ -381,78 +437,109 @@ msgstr "Nosaukums"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
+#: ../src/photos-properties-dialog.c:230
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autors"
 
-#: ../src/photos-properties-dialog.c:236
+#: ../src/photos-properties-dialog.c:237
 msgid "Source"
 msgstr "Avots"
 
-#: ../src/photos-properties-dialog.c:242
+#: ../src/photos-properties-dialog.c:243
 msgid "Date Modified"
 msgstr "Izmaiņu datums"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:251
 msgid "Date Created"
 msgstr "Izveidošanas datums"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
+#: ../src/photos-properties-dialog.c:261
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tips"
 
-#: ../src/photos-properties-dialog.c:269
+#: ../src/photos-properties-dialog.c:270
 msgid "Width"
 msgstr "Platums"
 
-#: ../src/photos-properties-dialog.c:279
+#: ../src/photos-properties-dialog.c:280
 msgid "Height"
 msgstr "Augstums"
 
-#: ../src/photos-properties-dialog.c:294
+#: ../src/photos-properties-dialog.c:295
 msgid "Camera"
 msgstr "Fotoaparāts"
 
-#: ../src/photos-properties-dialog.c:304
+#: ../src/photos-properties-dialog.c:305
 msgid "Exposure"
 msgstr "Ekspozīcija"
 
-#: ../src/photos-properties-dialog.c:314
+#: ../src/photos-properties-dialog.c:315
 msgid "Aperture"
 msgstr "Diafragma"
 
-#: ../src/photos-properties-dialog.c:324
+#: ../src/photos-properties-dialog.c:325
 msgid "Focal Length"
 msgstr "Fokālais attālums"
 
-#: ../src/photos-properties-dialog.c:334
+#: ../src/photos-properties-dialog.c:335
 msgid "ISO Speed"
 msgstr "ISO ātrums"
 
-#: ../src/photos-properties-dialog.c:344
+#: ../src/photos-properties-dialog.c:345
 msgid "Flash"
 msgstr "Zibspuldze"
 
-#: ../src/photos-properties-dialog.c:527
+#: ../src/photos-properties-dialog.c:536
 msgid "Off, did not fire"
 msgstr "Izslēgta, neuzzibsnīja"
 
-#: ../src/photos-properties-dialog.c:529
+#: ../src/photos-properties-dialog.c:538
 msgid "On, fired"
 msgstr "Ieslēgta, uzzibsnīja"
 
-#: ../src/photos-properties-dialog.c:608
+#: ../src/photos-properties-dialog.c:617
 msgid "Done"
 msgstr "Pabeigts"
 
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Viss"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+#| msgctxt "Document Title"
+#| msgid "Title"
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Nosaukums"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+#| msgctxt "Document Author"
+#| msgid "Author"
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Autors"
+
+#: ../src/photos-search-match-manager.c:205
+msgid "Match"
+msgstr "Atbilst"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:154
+#| msgctxt "Document Type"
+#| msgid "Type"
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Tips"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -470,11 +557,18 @@ msgstr "Drukāt"
 msgid "Delete"
 msgstr "Dzēst"
 
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "Pievienot albumam"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-source-manager.c:174
+#| msgid "Source"
+msgid "Sources"
+msgstr "Avoti"
+
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Neizdevās saņemt fotogrāfiju sarakstu"
 
+#~ msgid "About Photos"
+#~ msgstr "Par Fotogrāfijām"
