@@ -588,6 +588,9 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
                            G_CONNECT_SWAPPED);
 
   photos_main_toolbar_add_search_button (self);
+
+  if (gtk_widget_get_parent (priv->searchbar) == NULL)
+    gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 }
 
 
