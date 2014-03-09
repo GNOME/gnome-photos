@@ -1,0 +1,551 @@
+# Kazakh translation for gnome-photos.
+# Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos gnome-3-12\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-03-08 20:14+0000\n"
+"PO-Revision-Date: 2014-03-09 06:32+0600\n"
+"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
+"Language-Team: Kazakh <kk@li.org>\n"
+"Language: kk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Мүмкіндіктері:"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
+msgid "Photos"
+msgstr "Фотолар"
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr ""
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr ""
+
+#: ../data/org.gnome.photos.gschema.xml.h:1
+msgid "Window size"
+msgstr "Терезе өлшемі"
+
+#: ../data/org.gnome.photos.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Терезе өлшемі (ені мен биіктігі)."
+
+#: ../data/org.gnome.photos.gschema.xml.h:3
+msgid "Window position"
+msgstr "Терезе орны"
+
+#: ../data/org.gnome.photos.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Терезе орны (x және y)."
+
+#: ../data/org.gnome.photos.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Терезе максималды етілген"
+
+#: ../data/org.gnome.photos.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Терезе максималды күйі"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (линзалар)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35мм таспасы)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr ""
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr ""
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "Бұл файл пішімі үшін EXIF қолдауы жоқ."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr ""
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr ""
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr ""
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr ""
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr ""
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr ""
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (қате Unicode)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Толық экран"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "About"
+msgstr "Осы туралы"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "Quit"
+msgstr "Шығу"
+
+#: ../src/photos-base-item.c:310
+msgid "Album"
+msgstr "Альбом"
+
+#: ../src/photos-base-item.c:760
+msgid "Screenshots"
+msgstr "Скриншоттар"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr ""
+
+#: ../src/photos-embed.c:689
+msgid "Recent"
+msgstr "Соңғы"
+
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
+msgid "Albums"
+msgstr ""
+
+#: ../src/photos-embed.c:695 ../src/photos-search-type-manager.c:117
+msgid "Favorites"
+msgstr "Таңдамалы"
+
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr ""
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+msgid "Settings"
+msgstr "Баптаулар"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Сіз желідегі тіркелгілерді %s ішінен қоса аласыз"
+
+#: ../src/photos-empty-results-box.c:189
+msgid "No Albums Found"
+msgstr ""
+
+#: ../src/photos-empty-results-box.c:193
+msgid "No Favorites Found"
+msgstr ""
+
+#: ../src/photos-empty-results-box.c:198
+msgid "No Photos Found"
+msgstr ""
+
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr ""
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:169
+msgid "Your photos are being indexed"
+msgstr ""
+
+#: ../src/photos-indexing-notification.c:173
+msgid "Some photos might not be available during this process"
+msgstr ""
+
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
+msgid "Load More"
+msgstr "Көбірек жүктеу"
+
+#: ../src/photos-load-more-button.c:86
+msgid "Loading…"
+msgstr "Жүктелуде…"
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
+msgid "Local"
+msgstr "Жергілікті"
+
+#: ../src/photos-main-toolbar.c:110
+msgid "Click on items to select them"
+msgstr "Бірнәрсені таңдау үшін оның үстіне шертіңіз"
+
+#: ../src/photos-main-toolbar.c:112
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d таңдалды"
+
+#: ../src/photos-main-toolbar.c:157
+msgid "Back"
+msgstr "Кері"
+
+#: ../src/photos-main-toolbar.c:281
+msgid "Search"
+msgstr "Іздеу"
+
+#: ../src/photos-main-toolbar.c:297
+msgid "Select Items"
+msgstr "Нәрселерді таңдау"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:411 ../src/photos-selection-toolbar.c:278
+#, c-format
+msgid "Open with %s"
+msgstr "%s көмегімен ашу"
+
+#: ../src/photos-main-toolbar.c:570
+msgid "Cancel"
+msgstr "Бас тарту"
+
+#: ../src/photos-main-window.c:432
+msgid "Access, organize and share your photos on GNOME"
+msgstr ""
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:444
+msgid "translator-credits"
+msgstr "Baurzhan Muftakhidinov <baurthefirst@gmail.com>"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "Қ_осу"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_ОК"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Реттеу"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "Ашу"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Баспаға шығару..."
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Қайда көрсету…"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Фон суреті ретінде орнату"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-selection-toolbar.c:461
+msgid "Properties"
+msgstr "Қасиеттері"
+
+#: ../src/photos-preview-nav-buttons.c:209
+#: ../src/photos-selection-toolbar.c:290
+msgid "Remove from favorites"
+msgstr "Таңдамалылардан өшіру"
+
+#: ../src/photos-preview-nav-buttons.c:214
+#: ../src/photos-selection-toolbar.c:296
+msgid "Add to favorites"
+msgstr "Таңдамалыларға қосу"
+
+#: ../src/photos-print-operation.c:270
+msgid "Image Settings"
+msgstr "Сурет баптаулары"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "Орналасуы"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "Со_л жақ:"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "Оң ж_ақ:"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "Жоғар_ы:"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "Тө_мен:"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "Ортас_ымен:"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "Жоқ"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "Горизонталды"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "Вертикалды"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "Екеуі де"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "Өлшемі"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "_Ені:"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "_Биіктігі:"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "Ма_сштабы:"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "Өлшем _бірлігі:"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "Миллиметр"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "Дюйм"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "Алдын-ала қарап шығу"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:218
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Атауы"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:230
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Автор"
+
+#: ../src/photos-properties-dialog.c:237
+msgid "Source"
+msgstr "Қайнар көзі"
+
+#: ../src/photos-properties-dialog.c:243
+msgid "Date Modified"
+msgstr "Түзетілген уақыты"
+
+#: ../src/photos-properties-dialog.c:251
+msgid "Date Created"
+msgstr "Жасалған күні"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:261
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Түрі"
+
+#: ../src/photos-properties-dialog.c:270
+msgid "Width"
+msgstr "Ені"
+
+#: ../src/photos-properties-dialog.c:280
+msgid "Height"
+msgstr "Биіктігі"
+
+#: ../src/photos-properties-dialog.c:295
+msgid "Camera"
+msgstr "Камера"
+
+#: ../src/photos-properties-dialog.c:305
+msgid "Exposure"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:315
+msgid "Aperture"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:325
+msgid "Focal Length"
+msgstr "Фокустық қашықтығы"
+
+#: ../src/photos-properties-dialog.c:335
+msgid "ISO Speed"
+msgstr "ISO жылдамдығы"
+
+#: ../src/photos-properties-dialog.c:345
+msgid "Flash"
+msgstr "Жарқылдау"
+
+#: ../src/photos-properties-dialog.c:536
+msgid "Off, did not fire"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:538
+msgid "On, fired"
+msgstr ""
+
+#: ../src/photos-properties-dialog.c:617
+msgid "Done"
+msgstr "Дайын"
+
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+msgid "All"
+msgstr "Барлығы"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Атауы"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Автор"
+
+#: ../src/photos-search-match-manager.c:205
+msgid "Match"
+msgstr "Сәйкес"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:154
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Түрі"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Барлығын таңдау"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Ештеңе таңдамау"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "Баспаға шығару"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "Өшіру"
+
+#: ../src/photos-selection-toolbar.c:469
+msgid "Add to Album"
+msgstr "Альбомға қосу"
+
+#: ../src/photos-source-manager.c:174
+msgid "Sources"
+msgstr "Қайнар көздер"
+
+#: ../src/photos-tracker-controller.c:96
+msgid "Unable to fetch the list of photos"
+msgstr "Фотолар тізімін алу мүмкін емес"
