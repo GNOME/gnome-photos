@@ -102,6 +102,20 @@ photos_view_model_reset_count_timeout (gpointer user_data)
 
 
 static void
+photos_view_model_reset_count (PhotosViewModel *self)
+{
+  PhotosViewModelPrivate *priv = self->priv;
+
+  if (priv->reset_count_id == 0)
+    priv->reset_count_id = g_timeout_add_full (G_PRIORITY_DEFAULT,
+                                               RESET_COUNT_TIMEOUT,
+                                               photos_view_model_reset_count_timeout,
+                                               g_object_ref (self),
+                                               g_object_unref);
+}
+
+
+static void
 photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
 {
   PhotosViewModelPrivate *priv = self->priv;
@@ -113,15 +127,10 @@ photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
   gint64 mtime;
 
   /* Update the count so that PhotosOffsetController has the correct
-   * values. Otherwise things like the "Load More" button will not
-   * work correctly.
+   * values. Otherwise things like the "Load More" button and "No
+   * Results" page will not work correctly.
    */
-  if (priv->reset_count_id == 0)
-    priv->reset_count_id = g_timeout_add_full (G_PRIORITY_DEFAULT,
-                                               RESET_COUNT_TIMEOUT,
-                                               photos_view_model_reset_count_timeout,
-                                               g_object_ref (self),
-                                               g_object_unref);
+  photos_view_model_reset_count (self);
 
   offset = photos_offset_controller_get_offset (priv->offset_cntrlr);
   step = photos_offset_controller_get_step (priv->offset_cntrlr);
@@ -209,6 +218,12 @@ photos_view_model_object_removed (PhotosViewModel *self, GObject *object)
 {
   PhotosViewModelPrivate *priv = self->priv;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
+
+  /* Update the count so that PhotosOffsetController has the correct
+   * values. Otherwise things like the "Load More" button and "No
+   * Results" page will not work correctly.
+   */
+  photos_view_model_reset_count (self);
 
   priv->oldest_mtime = G_MAXINT64;
   gtk_tree_model_foreach (GTK_TREE_MODEL (self), photos_view_model_item_removed_foreach, item);
