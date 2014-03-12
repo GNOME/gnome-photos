@@ -69,6 +69,7 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
                                           GdTaggedEntryTag *tag)
 {
   PhotosOverviewSearchbarPrivate *priv = self->priv;
+  GdkDevice *event_device;
   GObject *object;
   const gchar *id;
   gchar *name;
@@ -84,6 +85,10 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
       gd_tagged_entry_tag_set_label (tag, name);
       gd_tagged_entry_add_tag (priv->search_entry, tag);
     }
+
+  event_device = gtk_get_current_event_device ();
+  if (event_device != NULL)
+    gd_entry_focus_hack (priv->search_entry, event_device);
 
   g_free (name);
 }
