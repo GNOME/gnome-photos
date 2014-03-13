@@ -283,8 +283,10 @@ photos_view_container_constructed (GObject *object)
   PhotosViewContainerPrivate *priv = self->priv;
   GAction *action;
   GApplication *app;
+  GtkWidget *generic_view;
   GtkWidget *grid;
   gboolean status;
+  gint size;
 
   G_OBJECT_CLASS (photos_view_container_parent_class)->constructed (object);
 
@@ -301,6 +303,9 @@ photos_view_container_constructed (GObject *object)
   gtk_stack_add_named (GTK_STACK (self), priv->error_box, "error");
 
   priv->view = gd_main_view_new (GD_MAIN_VIEW_ICON);
+  generic_view = gd_main_view_get_generic_view (priv->view);
+  size = photos_utils_get_icon_size ();
+  gtk_icon_view_set_item_width (GTK_ICON_VIEW (generic_view), size + 24);
   gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (priv->view));
 
   priv->load_more = photos_load_more_button_new (priv->mode);
