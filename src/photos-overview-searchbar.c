@@ -88,7 +88,7 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
 
   event_device = gtk_get_current_event_device ();
   if (event_device != NULL)
-    gd_entry_focus_hack (priv->search_entry, event_device);
+    gd_entry_focus_hack (GTK_WIDGET (priv->search_entry), event_device);
 
   g_free (name);
 }
