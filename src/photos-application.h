@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -64,11 +64,16 @@ struct _PhotosApplication
 struct _PhotosApplicationClass
 {
   GtkApplicationClass parent_class;
+
+  /* signals */
+  void (*miners_changed) (PhotosApplication *self, GList *miners_running);
 };
 
 GType                  photos_application_get_type               (void) G_GNUC_CONST;
 
 GtkApplication        *photos_application_new                    (void);
+
+GList                 *photos_application_get_miners_running     (PhotosApplication *self);
 
 G_END_DECLS
 

@@ -78,6 +78,14 @@ struct _PhotosApplicationPrivate
   guint32 activation_timestamp;
 };
 
+enum
+{
+  MINERS_CHANGED,
+  LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
 static void photos_application_search_context_iface_init (PhotosSearchContextInterface *iface);
 
 
@@ -378,6 +386,7 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
   PhotosApplicationRefreshData *data;
 
   priv->miners_running = g_list_remove (priv->miners_running, miner);
+  g_signal_emit (self, signals[MINERS_CHANGED], 0, priv->miners_running);
 
   error = NULL;
   if (!gom_miner_call_refresh_db_finish (miner, res, &error))
@@ -411,6 +420,7 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
     goto out;
 
   priv->miners_running = g_list_prepend (priv->miners_running, g_object_ref (miner));
+  g_signal_emit (self, signals[MINERS_CHANGED], 0, priv->miners_running);
 
   cancellable = g_cancellable_new ();
   g_object_set_data_full (G_OBJECT (miner), "cancellable", cancellable, g_object_unref);
@@ -849,7 +859,15 @@ photos_application_class_init (PhotosApplicationClass *class)
   application_class->dbus_unregister = photos_application_dbus_unregister;
   application_class->startup = photos_application_startup;
 
-  /* TODO: Add miners-changed signal */
+  signals[MINERS_CHANGED] = g_signal_new ("miners-changed",
+                                          G_TYPE_FROM_CLASS (class),
+                                          G_SIGNAL_RUN_LAST,
+                                          G_STRUCT_OFFSET (PhotosApplicationClass, miners_changed),
+                                          NULL, /* accumulator */
+                                          NULL, /* accu_data */
+                                          g_cclosure_marshal_VOID__POINTER,
+                                          G_TYPE_NONE,
+                                          0);
 }
 
 
@@ -867,4 +885,11 @@ photos_application_new (void)
                        "application-id", "org.gnome." PACKAGE_NAME,
                        "flags", G_APPLICATION_IS_SERVICE,
                        NULL);
+}
+
+
+GList *
+photos_application_get_miners_running (PhotosApplication *self)
+{
+  return self->priv->miners_running;
 }
