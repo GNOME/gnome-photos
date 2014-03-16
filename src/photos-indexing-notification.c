@@ -311,7 +311,6 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
                             "miner-progress",
                             G_CALLBACK (photos_indexing_notification_check_notification),
                             self);
-  photos_indexing_notification_check_notification (self);
 }
 
 
