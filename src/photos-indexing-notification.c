@@ -94,7 +94,7 @@ photos_indexing_notification_destroy (PhotosIndexingNotification *self, gboolean
 
 
 static void
-photos_indexing_notification_clicked (PhotosIndexingNotification *self)
+photos_indexing_notification_close_clicked (PhotosIndexingNotification *self)
 {
   photos_indexing_notification_destroy (self, TRUE);
 }
@@ -299,8 +299,7 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   gtk_widget_set_valign (close, GTK_ALIGN_CENTER);
   gtk_container_add (GTK_CONTAINER (close), image);
   gtk_container_add (GTK_CONTAINER (self), close);
-
-  g_signal_connect_swapped (close, "clicked", G_CALLBACK (photos_indexing_notification_clicked), self);
+  g_signal_connect_swapped (close, "clicked", G_CALLBACK (photos_indexing_notification_close_clicked), self);
 
   g_signal_connect_swapped (app,
                             "miners-changed",
