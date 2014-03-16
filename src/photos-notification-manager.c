@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +28,7 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
+#include "photos-indexing-notification.h"
 #include "photos-notification-manager.h"
 #include "photos-utils.h"
 
@@ -35,6 +36,7 @@
 struct _PhotosNotificationManagerPrivate
 {
   GtkWidget *grid;
+  GtkWidget *indexing_ntfctn;
 };
 
 
@@ -51,6 +53,22 @@ photos_notification_manager_remove (PhotosNotificationManager *self)
     gtk_widget_hide (GTK_WIDGET (self));
   else
     g_list_free (children);
+}
+
+
+static void
+photos_notification_manager_constructed (GObject *object)
+{
+  PhotosNotificationManager *self = PHOTOS_NOTIFICATION_MANAGER (object);
+
+  G_OBJECT_CLASS (photos_notification_manager_parent_class)->constructed (object);
+
+  /* PhotosIndexingNotification takes a reference on
+   * PhotosNotificationManager during construction. Hence we should
+   * instantiate PhotosIndexingNotification only after we have
+   * finished constructing this object.
+   */
+  self->priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
 }
 
 
@@ -75,6 +93,17 @@ photos_notification_manager_constructor (GType type,
 
 
 static void
+photos_notification_manager_dispose (GObject *object)
+{
+  PhotosNotificationManager *self = PHOTOS_NOTIFICATION_MANAGER (object);
+
+  g_clear_object (&self->priv->indexing_ntfctn);
+
+  G_OBJECT_CLASS (photos_notification_manager_parent_class)->dispose (object);
+}
+
+
+static void
 photos_notification_manager_init (PhotosNotificationManager *self)
 {
   PhotosNotificationManagerPrivate *priv;
@@ -91,8 +120,6 @@ photos_notification_manager_init (PhotosNotificationManager *self)
   gtk_container_add (GTK_CONTAINER (self), priv->grid);
 
   g_signal_connect_swapped (priv->grid, "remove", G_CALLBACK (photos_notification_manager_remove), self);
-
-  gtk_widget_show (priv->grid);
 }
 
 
@@ -101,7 +128,9 @@ photos_notification_manager_class_init (PhotosNotificationManagerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->constructed = photos_notification_manager_constructed;
   object_class->constructor = photos_notification_manager_constructor;
+  object_class->dispose = photos_notification_manager_dispose;
 }
 
 
@@ -118,6 +147,5 @@ photos_notification_manager_add_notification (PhotosNotificationManager *self, G
   PhotosNotificationManagerPrivate *priv = self->priv;
 
   gtk_container_add (GTK_CONTAINER (priv->grid), notification);
-  gtk_widget_show_all (notification);
-  gtk_widget_show (GTK_WIDGET (self));
+  gtk_widget_show_all (GTK_WIDGET (self));
 }

@@ -35,7 +35,6 @@
 #include "photos-collection-manager.h"
 #include "photos-embed.h"
 #include "photos-filterable.h"
-#include "photos-indexing-notification.h"
 #include "photos-item-manager.h"
 #include "photos-mode-controller.h"
 #include "photos-notification-manager.h"
@@ -69,7 +68,6 @@ struct _PhotosEmbedPrivate
   GCancellable *loader_cancellable;
   GtkWidget *collections;
   GtkWidget *favorites;
-  GtkWidget *indexing_ntfctn;
   GtkWidget *no_results;
   GtkWidget *ntfctn_mngr;
   GtkWidget *overview;
@@ -647,7 +645,6 @@ photos_embed_dispose (GObject *object)
 
   g_clear_object (&priv->ntfctn_mngr);
   g_clear_object (&priv->loader_cancellable);
-  g_clear_object (&priv->indexing_ntfctn);
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
@@ -720,8 +717,6 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->ntfctn_mngr);
-
-  priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
 
   priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW);
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->overview, "overview", _("Recent"));
