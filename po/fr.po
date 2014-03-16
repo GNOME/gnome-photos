@@ -9,17 +9,18 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-10 13:34+0000\n"
-"PO-Revision-Date: 2014-02-10 15:56+0100\n"
-"Last-Translator: Alain Lojewski <allomervan@gmail.com>\n"
+"POT-Creation-Date: 2014-03-16 13:04+0000\n"
+"PO-Revision-Date: 2014-03-16 14:18+0100\n"
+"Last-Translator: Michael Scherer <misc@zarb.org>\n"
 "Language-Team: French <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.5.4\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -32,11 +33,11 @@ msgstr ""
 "intégration transparente du nuage est aussi offerte via le gestionnaire des "
 "comptes en ligne GNOME."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "Elle vous permet de :"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
@@ -49,16 +50,16 @@ msgstr ""
 "photos</li> <li>Sélectionner les favorites</li> <li>Ouvrir une application "
 "plus complète pour effectuer des modifications avancées</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:144
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Photos"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Accéder, organiser et partager des photos"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "photos;images;"
 
@@ -172,11 +173,11 @@ msgstr "À propos"
 msgid "Quit"
 msgstr "Quitter"
 
-#: ../src/photos-base-item.c:309
+#: ../src/photos-base-item.c:310
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:759
+#: ../src/photos-base-item.c:760
 msgid "Screenshots"
 msgstr "Captures d'écran"
 
@@ -184,26 +185,26 @@ msgstr "Captures d'écran"
 msgid "DLNA Renderer Devices"
 msgstr "Périphériques de rendu DLNA"
 
-#: ../src/photos-embed.c:649
+#: ../src/photos-embed.c:727
 msgid "Recent"
 msgstr "Récent"
 
-#: ../src/photos-embed.c:652 ../src/photos-search-type-manager.c:130
+#: ../src/photos-embed.c:733 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albums"
 
-#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:137
+#: ../src/photos-embed.c:739 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoris"
 
-#: ../src/photos-empty-results-box.c:111
+#: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
 msgstr "Nommer votre premier album"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:131
+#: ../src/photos-empty-results-box.c:133
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -211,28 +212,32 @@ msgstr "Paramètres"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:137
+#: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "Vous pouvez ajouter vos comptes en ligne dans %s"
 
-#: ../src/photos-empty-results-box.c:187
+#: ../src/photos-empty-results-box.c:189
 msgid "No Albums Found"
 msgstr "Aucun album trouvé"
 
-#: ../src/photos-empty-results-box.c:191
+#: ../src/photos-empty-results-box.c:193
 msgid "No Favorites Found"
 msgstr "Aucun favori trouvé"
 
-#: ../src/photos-empty-results-box.c:196
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "Aucune photo trouvée"
 
-#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Photo sans titre"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "Flickr"
 
@@ -248,11 +253,11 @@ msgstr "Certaines photos peuvent être indisponibles pendant cette opération"
 msgid "Load More"
 msgstr "En charger d'autres"
 
-#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86
 msgid "Loading…"
 msgstr "Chargement en cours…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:154
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Local"
 
@@ -280,21 +285,21 @@ msgid "Select Items"
 msgstr "Sélectionner des éléments"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Ouvrir avec %s"
 
-#: ../src/photos-main-toolbar.c:573
+#: ../src/photos-main-toolbar.c:580
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../src/photos-main-window.c:441
+#: ../src/photos-main-window.c:432
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Accéder, organiser et partager vos photos avec GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:453
+#: ../src/photos-main-window.c:444
 msgid "translator-credits"
 msgstr "Alain Lojewski, <allomervan@gmail.com>"
 
@@ -313,8 +318,8 @@ msgid "Organize"
 msgstr "Organiser"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:284
-#: ../src/photos-selection-toolbar.c:440
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "Ouvrir"
 
@@ -331,17 +336,17 @@ msgid "Set as Background"
 msgstr "Définir comme arrière-plan"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:464
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Propriétés"
 
 #: ../src/photos-preview-nav-buttons.c:209
-#: ../src/photos-selection-toolbar.c:293
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "Supprimer des favoris"
 
 #: ../src/photos-preview-nav-buttons.c:214
-#: ../src/photos-selection-toolbar.c:299
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Ajouter aux favoris"
 
@@ -501,34 +506,31 @@ msgstr "Allumé, s'est déclenché"
 msgid "Done"
 msgstr "Terminé"
 
-#: ../src/photos-search-match-manager.c:155
-#: ../src/photos-search-type-manager.c:123 ../src/photos-source-manager.c:150
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Toutes"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:162
+#: ../src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Titre"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:169
+#: ../src/photos-search-match-manager.c:168
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Auteur"
 
-#. Translators: this is a verb that refers to "All", "Title" and
-#. * "Author", as in "Match All", "Match Title" and "Match Author".
-#.
-#: ../src/photos-search-match-manager.c:196
+#: ../src/photos-search-match-manager.c:205
 msgid "Match"
 msgstr "Correspondance"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:175
+#: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Type"
@@ -541,23 +543,23 @@ msgstr "Tout sélectionner"
 msgid "Select None"
 msgstr "Ne rien sélectionner"
 
-#: ../src/photos-selection-toolbar.c:448
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "Imprimer"
 
-#: ../src/photos-selection-toolbar.c:456
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "Ajouter à l'album"
 
-#: ../src/photos-source-manager.c:195
+#: ../src/photos-source-manager.c:174
 msgid "Sources"
 msgstr "Provenances"
 
-#: ../src/photos-tracker-controller.c:93
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Impossible de récupérer la liste des photos"
 
