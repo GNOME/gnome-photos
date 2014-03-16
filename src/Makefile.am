@@ -159,6 +159,8 @@ gnome_photos_service_SOURCES = \
 	photos-preview-nav-buttons.h \
 	photos-preview-view.c \
 	photos-preview-view.h \
+	photos-print-notification.c \
+	photos-print-notification.h \
 	photos-print-operation.c \
 	photos-print-operation.h \
 	photos-print-preview.c \

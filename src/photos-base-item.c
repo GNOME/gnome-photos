@@ -38,6 +38,7 @@
 #include "photos-delete-item-job.h"
 #include "photos-filterable.h"
 #include "photos-icons.h"
+#include "photos-print-notification.h"
 #include "photos-print-operation.h"
 #include "photos-query.h"
 #include "photos-search-context.h"
@@ -810,6 +811,11 @@ photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer
                          g_object_ref (self),
                          (GClosureNotify) g_object_unref,
                          G_CONNECT_SWAPPED);
+
+
+  /* It is self managing. */
+  photos_print_notification_new (print_op);
+
   gtk_print_operation_run (print_op, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, toplevel, NULL);
 
  out:
