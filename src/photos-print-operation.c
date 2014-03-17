@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -184,7 +184,7 @@ photos_print_operation_constructed (GObject *object)
   g_object_unref (page_setup);
 
   name = g_strdup (photos_base_item_get_name (priv->item));
-  if (name == NULL)
+  if (name == NULL || name[0] == '\0')
     {
       GFile *file;
       const gchar *uri;
