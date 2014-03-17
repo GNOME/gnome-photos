@@ -95,9 +95,6 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
         {
           if (active_collection != NULL)
             primary = g_markup_printf_escaped ("%s", photos_base_item_get_name (PHOTOS_BASE_ITEM (active_collection)));
-          else
-            {
-            }
         }
       else
         {
