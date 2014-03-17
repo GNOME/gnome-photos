@@ -202,7 +202,9 @@ photos_print_operation_constructed (GObject *object)
       g_free (basename);
       g_object_unref (file);
     }
+
   gtk_print_operation_set_job_name (GTK_PRINT_OPERATION (self), name);
+  g_free (name);
 }
 
 
