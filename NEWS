@@ -1,3 +1,31 @@
+Overview of changes in 3.11.92
+==============================
+
+* Bugs fixed:
+ 696802 query-builder: Add additional directories configured in Tracker
+ 698941 view-container: Prevent the icons from shifting around
+ 725587 Selection and search should be disabled when there are no photos
+ 725813 item-manager: Do not crash when a photo is deleted underneath
+ 725934 main-toolbar: Add searchbar in selection mode
+ 726162 view-model: Reset the count when items are removed
+ 726165 overview-searchbar: Refocus the search entry after changing filters
+ 726519 Crash when moving from preview to search with a source filter
+
+* Updated translations:
+ Catalan
+ French
+ Hungarian
+ Indonesian
+ Kazakh
+ Korean
+ Latvian
+ Portuguese
+ Punjabi
+ Russian
+ Serbian
+ Ukrainian
+
+
 Overview of changes in 3.11.91
 ==============================
 
