@@ -132,7 +132,8 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
       GObject *item;
 
       item = photos_base_manager_get_active_object (priv->item_mngr);
-      primary = g_markup_printf_escaped ("%s", photos_base_item_get_name (PHOTOS_BASE_ITEM (item)));
+      if (item != NULL)
+        primary = g_markup_printf_escaped ("%s", photos_base_item_get_name (PHOTOS_BASE_ITEM (item)));
     }
 
   if (selection_mode)
