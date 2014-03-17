@@ -58,7 +58,6 @@ struct _PhotosMainToolbarPrivate
   GtkWidget *toolbar;
   PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
-  PhotosBaseManager *src_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosRemoteDisplayManager *remote_mngr;
   PhotosSelectionController *sel_cntrlr;
@@ -621,7 +620,6 @@ photos_main_toolbar_dispose (GObject *object)
   g_clear_object (&priv->searchbar);
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->remote_mngr);
   g_clear_object (&priv->sel_cntrlr);
@@ -710,13 +708,6 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
 
   priv->col_mngr = g_object_ref (state->col_mngr);
   priv->item_mngr = photos_item_manager_dup_singleton ();
-
-  priv->src_mngr = g_object_ref (state->src_mngr);
-  g_signal_connect_object (priv->src_mngr,
-                           "active-changed",
-                           G_CALLBACK (photos_main_toolbar_set_toolbar_title),
-                           self,
-                           G_CONNECT_SWAPPED);
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
 
