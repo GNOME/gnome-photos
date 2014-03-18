@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-16 08:12+0000\n"
+"POT-Creation-Date: 2014-03-17 13:08+0000\n"
 "PO-Revision-Date: 2014-03-15 02:48+0900\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
@@ -26,9 +26,9 @@ msgid ""
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"그놈에서 사진에 접근하고 정리하며 공유하는 간단한 프로그램입니다. 사진을 다"
-"룰 때 파일 관리자를 사용하는 방법보다 더 간단하고 세련된 기능이 갖추어져 있습"
-"니다. 그놈 온라인 계정에서 제공하는 감쪽같은 클라우드 통합 기능도 있습니다."
+"그놈에서 사진에 접근하고 정리하며 공유하는 간단한 프로그램입니다. 파일 관리자"
+"에서 사진을 다룰 때보다 더 간단하고 세련된 기능이 있습니다. 그놈 온라인 계정"
+"에서 제공하는 감쪽같은 클라우드 통합 기능도 있습니다."
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
@@ -256,35 +256,35 @@ msgstr "불러오는 중…"
 msgid "Local"
 msgstr "로컬"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "선택하려는 항목을 누르십시오"
 
-#: ../src/photos-main-toolbar.c:114
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "선택한 사진 %d개"
 
-#: ../src/photos-main-toolbar.c:159
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "뒤로"
 
-#: ../src/photos-main-toolbar.c:283
+#: ../src/photos-main-toolbar.c:280
 msgid "Search"
 msgstr "검색"
 
-#: ../src/photos-main-toolbar.c:299
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "항목 선택"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "%s(으)로 열기"
 
-#: ../src/photos-main-toolbar.c:580
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
 msgstr "취소"
 
@@ -344,7 +344,7 @@ msgstr "즐겨찾기에서 제거"
 msgid "Add to favorites"
 msgstr "즐겨찾기에 추가"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "그림 설정"
 
