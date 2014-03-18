@@ -70,11 +70,13 @@ struct _PhotosViewContainerClass
 
 GType                  photos_view_container_get_type               (void) G_GNUC_CONST;
 
-GtkWidget             *photos_view_container_new                    (PhotosWindowMode mode);
+GtkWidget             *photos_view_container_new                    (PhotosWindowMode mode, const gchar *name);
 
 GtkTreePath           *photos_view_container_get_current_path       (PhotosViewContainer *self);
 
 GtkListStore          *photos_view_container_get_model              (PhotosViewContainer *self);
+
+const gchar           *photos_view_container_get_name               (PhotosViewContainer *self);
 
 G_END_DECLS
 

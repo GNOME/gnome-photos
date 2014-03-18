@@ -684,6 +684,7 @@ photos_embed_init (PhotosEmbed *self)
   PhotosSearchbar *searchbar;
   PhotosSearchContextState *state;
   gboolean querying;
+  const gchar *name;
 
   self->priv = photos_embed_get_instance_private (self);
   priv = self->priv;
@@ -718,25 +719,28 @@ photos_embed_init (PhotosEmbed *self)
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->ntfctn_mngr);
 
-  priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW);
-  gtk_stack_add_titled (GTK_STACK (priv->stack), priv->overview, "overview", _("Recent"));
+  priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW, _("Recent"));
+  name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (priv->overview));
+  gtk_stack_add_titled (GTK_STACK (priv->stack), priv->overview, "overview", name);
   model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->overview));
   g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);
   g_signal_connect_swapped (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self);
 
-  priv->collections = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTIONS);
-  gtk_stack_add_titled (GTK_STACK (priv->stack), priv->collections, "collections", _("Albums"));
+  priv->collections = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTIONS, _("Albums"));
+  name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (priv->collections));
+  gtk_stack_add_titled (GTK_STACK (priv->stack), priv->collections, "collections", name);
   model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->collections));
   g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);
   g_signal_connect_swapped (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self);
 
-  priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES);
-  gtk_stack_add_titled (GTK_STACK (priv->stack), priv->favorites, "favorites", _("Favorites"));
+  priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES, _("Favorites"));
+  name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (priv->favorites));
+  gtk_stack_add_titled (GTK_STACK (priv->stack), priv->favorites, "favorites", name);
   model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->favorites));
   g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);
   g_signal_connect_swapped (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self);
 
-  priv->search = photos_view_container_new (PHOTOS_WINDOW_MODE_SEARCH);
+  priv->search = photos_view_container_new (PHOTOS_WINDOW_MODE_SEARCH, _("Search"));
   gtk_stack_add_named (GTK_STACK (priv->stack), priv->search, "search");
   model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->search));
   g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);

@@ -62,12 +62,14 @@ struct _PhotosViewContainerPrivate
   PhotosTrackerController *trk_cntrlr;
   PhotosWindowMode mode;
   gboolean disposed;
+  gchar *name;
 };
 
 enum
 {
   PROP_0,
-  PROP_MODE
+  PROP_MODE,
+  PROP_NAME
 };
 
 
@@ -281,6 +283,7 @@ photos_view_container_constructed (GObject *object)
 {
   PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (object);
   PhotosViewContainerPrivate *priv = self->priv;
+  AtkObject *accessible;
   GAction *action;
   GApplication *app;
   GtkWidget *generic_view;
@@ -289,6 +292,10 @@ photos_view_container_constructed (GObject *object)
   gint size;
 
   G_OBJECT_CLASS (photos_view_container_parent_class)->constructed (object);
+
+  accessible = gtk_widget_get_accessible (GTK_WIDGET (self));
+  if (accessible != NULL)
+    atk_object_set_name (accessible, priv->name);
 
   priv->model = photos_view_model_new (priv->mode);
 
@@ -432,8 +439,27 @@ photos_view_container_finalize (GObject *object)
   PhotosViewContainerPrivate *priv = self->priv;
 
   g_clear_pointer (&priv->current_path, (GDestroyNotify) gtk_tree_path_free);
+  g_free (priv->name);
 
   G_OBJECT_CLASS (photos_view_container_parent_class)->finalize (object);
+}
+
+
+static void
+photos_view_container_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+{
+  PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (object);
+
+  switch (prop_id)
+    {
+    case PROP_NAME:
+      g_value_set_string (value, self->priv->name);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
 }
 
 
@@ -441,11 +467,16 @@ static void
 photos_view_container_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (object);
+  PhotosViewContainerPrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_MODE:
-      self->priv->mode = (PhotosWindowMode) g_value_get_enum (value);
+      priv->mode = (PhotosWindowMode) g_value_get_enum (value);
+      break;
+
+    case PROP_NAME:
+      priv->name = g_value_dup_string (value);
       break;
 
     default:
@@ -470,6 +501,7 @@ photos_view_container_class_init (PhotosViewContainerClass *class)
   object_class->constructed = photos_view_container_constructed;
   object_class->dispose = photos_view_container_dispose;
   object_class->finalize = photos_view_container_finalize;
+  object_class->get_property = photos_view_container_get_property;
   object_class->set_property = photos_view_container_set_property;
 
   g_object_class_install_property (object_class,
@@ -480,15 +512,24 @@ photos_view_container_class_init (PhotosViewContainerClass *class)
                                                       PHOTOS_TYPE_WINDOW_MODE,
                                                       PHOTOS_WINDOW_MODE_NONE,
                                                       G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  g_object_class_install_property (object_class,
+                                   PROP_NAME,
+                                   g_param_spec_string ("name",
+                                                        "Title",
+                                                        "The string used to identify this view",
+                                                        NULL,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 }
 
 
 GtkWidget *
-photos_view_container_new (PhotosWindowMode mode)
+photos_view_container_new (PhotosWindowMode mode, const gchar *name)
 {
   return g_object_new (PHOTOS_TYPE_VIEW_CONTAINER,
                        "homogeneous", TRUE,
                        "mode", mode,
+                       "name", name,
                        "transition-type", GTK_STACK_TRANSITION_TYPE_CROSSFADE,
                        NULL);
 }
@@ -505,4 +546,11 @@ GtkListStore *
 photos_view_container_get_model (PhotosViewContainer *self)
 {
   return self->priv->model;
+}
+
+
+const gchar *
+photos_view_container_get_name (PhotosViewContainer *self)
+{
+  return self->priv->name;
 }
