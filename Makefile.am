@@ -1,6 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4 -I libgd ${ACLOCAL_FLAGS}
 
-SUBDIRS = . data libgd src po
+SUBDIRS = . data libgd src po tests
 
 INTLTOOL_FILES = \
 	intltool-extract.in \
@@ -58,8 +58,10 @@ MAINTAINERCLEANFILES = \
 	$(NULL)
 
 GITIGNOREFILES = \
-	m4 \
 	config \
+	m4/intltool.m4 \
+	m4/libtool.m4 \
+	m4/lt* \
 	$(NULL)
 
 AUTHORS:

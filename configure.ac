@@ -12,7 +12,7 @@ AC_CONFIG_SRCDIR([src])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-AM_INIT_AUTOMAKE([dist-xz no-dist-gzip tar-ustar])
+AM_INIT_AUTOMAKE([dist-xz no-dist-gzip serial-tests tar-ustar])
 AM_MAINTAINER_MODE([enable])
 
 AC_PROG_CC
@@ -119,6 +119,14 @@ LIBGD_INIT([
   tagged-entry
 ])
 
+AC_ARG_ENABLE(dogtail,
+              [AS_HELP_STRING([--enable-dogtail],
+                              [test using dogtail [default=yes]])],,
+              enable_dogtail=yes)
+AM_CONDITIONAL(ENABLE_DOGTAIL, test "$enable_dogtail" != no)
+
+GLIB_TESTS
+
 GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable glib_compile_resources gio-2.0`
 AC_SUBST(GLIB_COMPILE_RESOURCES)
 
@@ -135,6 +143,7 @@ data/org.gnome.Photos.desktop.in
 data/icons/Makefile
 libgd/Makefile
 src/Makefile
+tests/Makefile
 po/Makefile.in
 ])
 AC_OUTPUT
