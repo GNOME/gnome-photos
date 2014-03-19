@@ -1,15 +1,16 @@
 # Danish translation for gnome-photos.
-# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# Copyright (C) 2013-14 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Kris Thomsen <lakristho@gmail.com>, 2013.
+# Ask Hjorth Larsen <asklarsen@gmail.com>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 22:03+0200\n"
-"PO-Revision-Date: 2013-09-11 22:59+0100\n"
-"Last-Translator: Kris Thomsen <mail@kristhomsen.dk>\n"
+"POT-Creation-Date: 2014-03-19 22:16+0100\n"
+"PO-Revision-Date: 2014-03-15 13:20+0100\n"
+"Last-Translator: Ask Hjorth Larsen <asklarlsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -30,11 +31,11 @@ msgstr ""
 "håndtere billeder. Problemfri cloud-integration tilbydes gennem GNOME Online "
 "konti."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "Den lader dig:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
@@ -47,40 +48,40 @@ msgstr ""
 "et fuldt funktionsdygtigt redigeringsprogram for mere avancerede ændringer</"
 "li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:93
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Billeder"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Tilgå, organisér og del billeder"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "Billeder;Fotografier;"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:1
+#: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
 msgstr "Vinduesstørrelse"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:2
+#: ../data/org.gnome.photos.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Vinduesstørrelse (bredde og højde)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:3
+#: ../data/org.gnome.photos.gschema.xml.h:3
 msgid "Window position"
 msgstr "Vinduesplacering"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:4
+#: ../data/org.gnome.photos.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Vinduesplacering (x og y)."
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:5
+#: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Vindue maksimeret"
 
-#: ../data/org.gnome.photos.gschema.xml.in.h:6
+#: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Vindue maksimeret-tilstand"
 
@@ -162,98 +163,166 @@ msgid "Fullscreen"
 msgstr "Fuldskærm"
 
 #: ../src/photos-app-menu.ui.h:2
-msgid "About Photos"
-msgstr "Om Billeder"
+msgid "About"
+msgstr "Om"
 
 #: ../src/photos-app-menu.ui.h:3
 msgid "Quit"
 msgstr "Afslut"
 
-#: ../src/photos-base-item.c:303
+#: ../src/photos-base-item.c:311
 msgid "Album"
 msgstr "Album"
+
+#: ../src/photos-base-item.c:761
+msgid "Screenshots"
+msgstr "Skærmbilleder"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-renderingsenheder"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:722
+msgid "Recent"
+msgstr "Seneste"
+
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: ../src/photos-empty-results-box.c:66
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:280
+msgid "Search"
+msgstr "Søg"
+
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "Navngiv dit første album"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+msgid "Settings"
+msgstr "Indstillinger"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Du kan tilføje dine onlinekonti i %s"
+
+#: ../src/photos-empty-results-box.c:189
+msgid "No Albums Found"
+msgstr "Ingen albummer fundet"
+
+#: ../src/photos-empty-results-box.c:193
+msgid "No Favorites Found"
+msgstr "Ingen favoritter fundet"
+
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "Ingen billeder fundet"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Unavngivet billede"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:168
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr ""
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr ""
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "Dine billeder er ved at blive indekseret"
 
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Nogen billeder er muligvis ikke tilgængelige under denne proces"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
 msgid "Load More"
 msgstr "Indlæs flere"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86
 msgid "Loading…"
 msgstr "Indlæser…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokal"
 
-#: ../src/photos-main-toolbar.c:99
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Tryk på elementer for at vælge dem"
 
-#: ../src/photos-main-toolbar.c:101
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valgt"
 msgstr[1] "%d valgte"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "Tilbage"
 
-#: ../src/photos-main-toolbar.c:273
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "Vælg elementer"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Åbn med %s"
 
-#: ../src/photos-main-toolbar.c:490
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
 msgstr "Annullér"
 
-#: ../src/photos-main-window.c:329
+#: ../src/photos-main-window.c:432
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Tilgå, organisér og del dine billeder i GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:444
 msgid "translator-credits"
 msgstr ""
 "Kris Thomsen\n"
 "\n"
 "Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
 "Mere info: http://www.dansk-gruppen.dk"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Tilføj"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_O.k."
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -262,7 +331,7 @@ msgid "Organize"
 msgstr "Organisér"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
 #: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "Åbn"
@@ -279,22 +348,27 @@ msgstr "Vis på…"
 msgid "Set as Background"
 msgstr "Sæt som baggrund"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Egenskaber"
 
-#: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
+#: ../src/photos-preview-nav-buttons.c:209
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
 
-#: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
+#: ../src/photos-preview-nav-buttons.c:214
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Føj til favoritter"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr ""
+
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Indstillinger for billede"
 
@@ -373,7 +447,7 @@ msgstr "Forhåndsvisning"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
+#: ../src/photos-properties-dialog.c:218
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Titel"
@@ -381,78 +455,103 @@ msgstr "Titel"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
+#: ../src/photos-properties-dialog.c:230
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Forfatter"
 
-#: ../src/photos-properties-dialog.c:236
+#: ../src/photos-properties-dialog.c:237
 msgid "Source"
 msgstr "Kilde"
 
-#: ../src/photos-properties-dialog.c:242
+#: ../src/photos-properties-dialog.c:243
 msgid "Date Modified"
 msgstr "Redigeringsdato"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:251
 msgid "Date Created"
 msgstr "Oprettelsesdato"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
+#: ../src/photos-properties-dialog.c:261
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Type"
 
-#: ../src/photos-properties-dialog.c:269
+#: ../src/photos-properties-dialog.c:270
 msgid "Width"
 msgstr "Bredde"
 
-#: ../src/photos-properties-dialog.c:279
+#: ../src/photos-properties-dialog.c:280
 msgid "Height"
 msgstr "Højde"
 
-#: ../src/photos-properties-dialog.c:294
+#: ../src/photos-properties-dialog.c:295
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:304
+#: ../src/photos-properties-dialog.c:305
 msgid "Exposure"
 msgstr "Eksponering"
 
-#: ../src/photos-properties-dialog.c:314
+#: ../src/photos-properties-dialog.c:315
 msgid "Aperture"
 msgstr "Blænde"
 
-#: ../src/photos-properties-dialog.c:324
+#: ../src/photos-properties-dialog.c:325
 msgid "Focal Length"
 msgstr "Brændvidde"
 
-#: ../src/photos-properties-dialog.c:334
+#: ../src/photos-properties-dialog.c:335
 msgid "ISO Speed"
 msgstr "ISO-hastighed"
 
-#: ../src/photos-properties-dialog.c:344
+#: ../src/photos-properties-dialog.c:345
 msgid "Flash"
 msgstr "Blitz"
 
-#: ../src/photos-properties-dialog.c:527
+#: ../src/photos-properties-dialog.c:536
 msgid "Off, did not fire"
 msgstr "Slukket, blev ikke affyret"
 
-#: ../src/photos-properties-dialog.c:529
+#: ../src/photos-properties-dialog.c:538
 msgid "On, fired"
 msgstr "Tændt, blev affyret"
 
-#: ../src/photos-properties-dialog.c:608
+#: ../src/photos-properties-dialog.c:617
 msgid "Done"
 msgstr "Færdig"
 
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Alle"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Titel"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Forfatter"
+
+#: ../src/photos-search-match-manager.c:205
+msgid "Match"
+msgstr "Match"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:154
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Type"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -470,10 +569,17 @@ msgstr "Udskriv"
 msgid "Delete"
 msgstr "Slet"
 
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "Føj til album"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-source-manager.c:174
+msgid "Sources"
+msgstr "Kilder"
+
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Kunne ikke hente liste over billeder"
+
+#~ msgid "About Photos"
+#~ msgstr "Om Billeder"
