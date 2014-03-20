@@ -136,11 +136,18 @@ if test -z "$DESKTOP_FILE_VALIDATE"; then
   AC_MSG_ERROR([desktop-file-validate not found])
 fi
 
+#############################################
+#Documentation
+#############################################
+
+YELP_HELP_INIT
+
 AC_CONFIG_FILES([
 Makefile
 data/Makefile
 data/org.gnome.Photos.desktop.in
 data/icons/Makefile
+help/Makefile
 libgd/Makefile
 src/Makefile
 tests/Makefile

@@ -8,6 +8,10 @@
     </section>
     <section>
       <item>
+        <attribute name="action">app.help</attribute>
+        <attribute name="label" translatable="yes">_Help</attribute>
+      </item>
+      <item>
         <attribute name="action">app.about</attribute>
         <attribute name="label" translatable="yes">About</attribute>
       </item>

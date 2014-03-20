@@ -133,6 +133,15 @@ photos_application_refresh_data_free (PhotosApplicationRefreshData *data)
   g_slice_free (PhotosApplicationRefreshData, data);
 }
 
+static void
+photos_application_help (PhotosApplication *self, GVariant *parameter)
+{
+  GtkWindow *parent;
+
+  parent = gtk_application_get_active_window (GTK_APPLICATION (self));
+  gtk_show_uri (gtk_window_get_screen (parent), "help:gnome-photos",
+                GDK_CURRENT_TIME, NULL);
+}
 
 static void
 photos_application_about (PhotosApplication *self, GVariant *parameter)
@@ -693,6 +702,7 @@ photos_application_startup (GApplication *application)
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
 
   action = g_simple_action_new ("about", NULL);
+
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_about), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
@@ -753,6 +763,11 @@ photos_application_startup (GApplication *application)
                             self);
 
   photos_application_init_app_menu (self);
+
+  action = g_simple_action_new ("help", NULL);
+  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_help), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
+  g_object_unref (action);
 
   gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>q", "app.quit", NULL);
   gtk_application_add_accelerator (GTK_APPLICATION (self), "F11", "app.fullscreen", NULL);

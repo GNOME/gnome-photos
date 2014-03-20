@@ -1,6 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4 -I libgd ${ACLOCAL_FLAGS}
 
-SUBDIRS = . data libgd src po tests
+SUBDIRS = . data help libgd src po tests
 
 INTLTOOL_FILES = \
 	intltool-extract.in \

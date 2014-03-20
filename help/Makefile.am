@@ -1,0 +1,9 @@
+@YELP_HELP_RULES@
+
+HELP_ID = gnome-photos
+
+HELP_FILES = 
+
+HELP_MEDIA =
+
+HELP_LINGUAS =
