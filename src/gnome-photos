@@ -1,3 +1,0 @@
-#!/bin/sh
-
-gapplication launch org.gnome.Photos

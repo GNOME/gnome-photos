@@ -57,6 +57,6 @@ check-local: desktop-file-validate
 org.gnome.Photos.service: org.gnome.Photos.service.in
 	$(AM_V_GEN)	\
 		[ -d $(@D) ] || $(mkdir_p) $(@D) ; \
-		sed -e "s|\@libexecdir\@|$(libexecdir)|" $< > $@.tmp && mv $@.tmp $@
+		sed -e "s|\@bindir\@|$(bindir)|" $< > $@.tmp && mv $@.tmp $@
 
 -include $(top_srcdir)/git.mk

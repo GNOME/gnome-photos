@@ -883,7 +883,6 @@ photos_application_new (void)
 {
   return g_object_new (PHOTOS_TYPE_APPLICATION,
                        "application-id", "org.gnome." PACKAGE_NAME,
-                       "flags", G_APPLICATION_IS_SERVICE,
                        NULL);
 }
 
