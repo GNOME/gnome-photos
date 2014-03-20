@@ -4,14 +4,15 @@
 #
 # Balázs Úr <urbalazs at gmail dot com>, 2013, 2014.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2013.
+# Balázs Úr <urbalazs@gmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-05 08:13+0000\n"
-"PO-Revision-Date: 2014-03-05 21:06+0100\n"
-"Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
+"POT-Creation-Date: 2014-03-20 08:13+0000\n"
+"PO-Revision-Date: 2014-03-20 15:59+0100\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -28,9 +29,9 @@ msgid ""
 "Accounts."
 msgstr ""
 "Egyszerű alkalmazás fényképek eléréséhez, rendszerezéséhez és megosztásához "
-"GNOME alatt. A fájlkezelő fényképek kezelésére való használatának egyszerű és "
-"elegáns helyettesítésére tervezték. A GNOME Online fiókok használatával sima "
-"felhőintegráció érhető el."
+"GNOME alatt. A fájlkezelő fényképek kezelésére való használatának egyszerű "
+"és elegáns helyettesítésére tervezték. A GNOME Online fiókok használatával "
+"sima felhőintegráció érhető el."
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
@@ -171,11 +172,11 @@ msgstr "Névjegy"
 msgid "Quit"
 msgstr "Kilépés"
 
-#: ../src/photos-base-item.c:310
+#: ../src/photos-base-item.c:311
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:760
+#: ../src/photos-base-item.c:761
 msgid "Screenshots"
 msgstr "Képernyőképek"
 
@@ -183,17 +184,21 @@ msgstr "Képernyőképek"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA megjelenítő eszközök"
 
-#: ../src/photos-embed.c:689
+#: ../src/photos-embed.c:722
 msgid "Recent"
 msgstr "Legutóbbi"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:110
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumok"
 
-#: ../src/photos-embed.c:695 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Kedvencek"
+
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:280
+msgid "Search"
+msgstr "Keresés"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
@@ -203,7 +208,6 @@ msgstr "Nevezze el az első albumát"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:133
-#| msgid "Image Settings"
 msgid "Settings"
 msgstr "Beállítások"
 
@@ -217,12 +221,10 @@ msgid "You can add your online accounts in %s"
 msgstr "Hozzáadhatja az online fiókjait itt: %s"
 
 #: ../src/photos-empty-results-box.c:189
-#| msgid "No Photos Found"
 msgid "No Albums Found"
 msgstr "Nem találhatók albumok"
 
 #: ../src/photos-empty-results-box.c:193
-#| msgid "No Photos Found"
 msgid "No Favorites Found"
 msgstr "Nem találhatók kedvencek"
 
@@ -242,11 +244,23 @@ msgstr "Névtelen fénykép"
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:169
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Fényképek lekérése innen: %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Fényképek lekérése az online fiókokból"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "A fényképei indexelése folyamatban"
 
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Egyes fényképek lehet, hogy nem lesznek elérhetők ezen folyamat alatt"
 
@@ -262,36 +276,32 @@ msgstr "Betöltés…"
 msgid "Local"
 msgstr "Helyi"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Kattintson az elemekre a kiválasztásukhoz"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d kiválasztva"
 msgstr[1] "%d kiválasztva"
 
-#: ../src/photos-main-toolbar.c:157
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "Vissza"
 
-#: ../src/photos-main-toolbar.c:281
-msgid "Search"
-msgstr "Keresés"
-
-#: ../src/photos-main-toolbar.c:297
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "Válasszon elemeket"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:411 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Megnyitás ezzel: %s"
 
-#: ../src/photos-main-toolbar.c:570
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
 msgstr "Mégse"
 
@@ -351,7 +361,12 @@ msgstr "Eltávolítás a kedvencek közül"
 msgid "Add to favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "„%s” nyomtatása: %s"
+
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Képbeállítások"
 
@@ -508,22 +523,18 @@ msgid "Done"
 msgstr "Kész"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Összes"
 
 #. Translators: "Title" refers to "Match Title" when searching.
 #: ../src/photos-search-match-manager.c:161
-#| msgctxt "Document Title"
-#| msgid "Title"
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Cím"
 
 #. Translators: "Author" refers to "Match Author" when searching.
 #: ../src/photos-search-match-manager.c:168
-#| msgctxt "Document Author"
-#| msgid "Author"
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Szerző"
@@ -535,9 +546,7 @@ msgstr "Találat"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:153
-#| msgctxt "Document Type"
-#| msgid "Type"
+#: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Típus"
@@ -563,7 +572,6 @@ msgid "Add to Album"
 msgstr "Hozzáadás az albumhoz"
 
 #: ../src/photos-source-manager.c:174
-#| msgid "Source"
 msgid "Sources"
 msgstr "Források"
 
