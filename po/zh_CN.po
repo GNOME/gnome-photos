@@ -162,10 +162,14 @@ msgid "Fullscreen"
 msgstr "全屏"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "帮助(_H)"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "关于"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "退出"
 

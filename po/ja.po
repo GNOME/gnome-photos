@@ -145,10 +145,14 @@ msgid "Fullscreen"
 msgstr "フルスクリーン"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "ヘルプ(_H)"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About Photos"
 msgstr "このアプリケーションについて"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "終了"
 

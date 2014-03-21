@@ -166,10 +166,14 @@ msgid "Fullscreen"
 msgstr "Schermvullend"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Hulp"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About Photos"
 msgstr "Over Foto's"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Afsluiten"
 

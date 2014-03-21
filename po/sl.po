@@ -166,10 +166,14 @@ msgid "Fullscreen"
 msgstr "Celozaslonski način"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "Pomo_č"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "O programu"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Končaj"
 

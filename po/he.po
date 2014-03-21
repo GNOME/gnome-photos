@@ -164,10 +164,14 @@ msgid "Fullscreen"
 msgstr "מסך מלא"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "_עזרה"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "על אודות"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "יציאה"
 

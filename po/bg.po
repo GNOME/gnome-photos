@@ -161,10 +161,14 @@ msgid "Fullscreen"
 msgstr "На цял екран"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "Помо_щ"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "Относно"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Спиране на програмата"
 

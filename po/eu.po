@@ -162,10 +162,14 @@ msgid "Fullscreen"
 msgstr "Pantaila osoa"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Laguntza"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "Honi buruz"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Irten"
 

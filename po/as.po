@@ -166,10 +166,14 @@ msgid "Fullscreen"
 msgstr "পূৰ্ণপৰ্দা"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "সহায় (_H)"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "বিষয়ে"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "প্ৰস্থান কৰক"
 
