@@ -155,10 +155,14 @@ msgid "Fullscreen"
 msgstr "ಪೂರ್ಣತೆರೆ"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "ಸಹಾಯ (_H)"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About Photos"
 msgstr "ಫೋಟೋಸ್ ಬಗ್ಗೆ"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "ನಿರ್ಗಮಿಸು"
 

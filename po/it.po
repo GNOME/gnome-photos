@@ -164,10 +164,14 @@ msgid "Fullscreen"
 msgstr "Schermo intero"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "A_iuto"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "Informazioni"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Esci"
 

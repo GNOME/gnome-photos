@@ -168,10 +168,14 @@ msgid "Fullscreen"
 msgstr "Pełny ekran"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "Pomo_c"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "O programie"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Zakończ"
 

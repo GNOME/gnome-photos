@@ -160,10 +160,14 @@ msgid "Fullscreen"
 msgstr "Fullskjerm"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Hjelp"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "Om"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Avslutt"
 

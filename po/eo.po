@@ -159,10 +159,14 @@ msgid "Fullscreen"
 msgstr "Tutekrane"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Helpo"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About Photos"
 msgstr "Pri Fotaĵoj"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Ĉesi"
 

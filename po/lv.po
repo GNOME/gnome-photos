@@ -162,10 +162,14 @@ msgid "Fullscreen"
 msgstr "Pilnekrāns"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Palīdzība"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "Par"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Iziet"
 

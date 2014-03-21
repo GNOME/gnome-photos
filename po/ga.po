@@ -133,10 +133,14 @@ msgid "Fullscreen"
 msgstr "Lánscáileán"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "Cab_hair"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About Photos"
 msgstr "Maidir le Grianghraif"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Scoir"
 

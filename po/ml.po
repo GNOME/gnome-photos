@@ -153,10 +153,14 @@ msgid "Fullscreen"
 msgstr "സ്ക്രീന്‍ പരമാവധി വലിപ്പത്തില്‍"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "_സഹായം"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About Photos"
 msgstr "ഫോട്ടോകളെ കുറിച്ച്"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "പുറത്ത് കടക്കുക"
 

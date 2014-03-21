@@ -163,10 +163,14 @@ msgid "Fullscreen"
 msgstr "Layar penuh"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "Ba_ntuan"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "Tentang"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Keluar"
 

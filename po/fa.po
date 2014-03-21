@@ -162,10 +162,14 @@ msgid "Fullscreen"
 msgstr "تمام صفحه"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "_ﺭﺎﻬﻨﻣﺍ"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About Photos"
 msgstr "راهنما عکس‌ها"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "خروج"
 

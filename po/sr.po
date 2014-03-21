@@ -163,10 +163,14 @@ msgid "Fullscreen"
 msgstr "Цео екран"
 
 #: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "По_моћ"
+
+#: ../src/photos-app-menu.ui.h:3
 msgid "About"
 msgstr "О програму"
 
-#: ../src/photos-app-menu.ui.h:3
+#: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Изађи"
 
