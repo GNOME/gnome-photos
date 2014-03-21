@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-01-31 10:08+0000\n"
-"PO-Revision-Date: 2014-01-31 23:40+0530\n"
+"POT-Creation-Date: 2014-03-21 08:18+0000\n"
+"PO-Revision-Date: 2014-03-21 22:50+0530\n"
 "Last-Translator: Praveen Illa <mail2ipn@gmail.com>\n"
 "Language-Team: Telugu <indlinux-telugu@lists.sourceforge.net>\n"
 "Language: te\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -30,28 +30,32 @@ msgstr ""
 "అనువర్తనం. ఛాయాచిత్రాలను దస్త్ర నిర్వాహకంతో నిర్వహించడానికి బదులుగా ఇది ఒక సులువైన, సొగసైన "
 "ప్రత్యామ్నాయం. అతుకులులేని క్లౌడ్ ఏకీకరణ గ్నోమ్ జాల ఖాతాలతో అందించబడుతుంది."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "ఇది మిమ్మల్ని:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
 "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
 "featured editor for more advanced changes</li>"
 msgstr ""
+"<li>ఇటీవలి స్థానిక మరియు జాల ఛాయాచిత్రాలను చూడండి</li> <li>మీ ఫ్లికర్ విషయ సంగ్రహాన్ని ప్రాప్యించండి</"
+"li> <li>ఛాయాచిత్రాలను సుదూర DLNA రెండరర్లకు పంపండి</li> <li>నేపథ్యంగా అమర్చండి</li> "
+"<li>ఛాయాచిత్రాలను ముద్రించండి</li> <li>ఇష్టమైనవి ఎంచుకోండి</li> <li>మరిన్ని ఉన్నత మార్పుల కోసం "
+"విశేష కూర్పకముతో తెరచుటకు అనుమతిస్తుంది</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:145
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "ఛాయాచిత్రాలు"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "ఛాయాచిత్రాలను ప్రాప్యించండి, నిర్వహించుకోండి, పంచుకోండి."
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "ఛాయాచిత్రాలు, చిత్రాలు;"
 
@@ -107,7 +111,7 @@ msgstr "%.1f (35మిమీ చలనచిత్రం)"
 #: ../src/eog-image.c:595
 #, c-format
 msgid "Transformation on unloaded image."
-msgstr ""
+msgstr "లోడుకాని బొమ్మ పై రూపాంతరీకరణ"
 
 #: ../src/eog-image.c:623
 #, c-format
@@ -117,7 +121,7 @@ msgstr "రూపాంతరీకరణ విఫలం."
 #: ../src/eog-image.c:1047
 #, c-format
 msgid "EXIF not supported for this file format."
-msgstr ""
+msgstr "EXIF ఈ దస్త్ర ఆకృతికి తోడ్పాటు ఇవ్వడంలేదు."
 
 #: ../src/eog-image.c:1196
 #, c-format
@@ -164,34 +168,42 @@ msgstr "గురించి"
 msgid "Quit"
 msgstr "నిష్క్రమించు"
 
-#: ../src/photos-base-item.c:304
+#: ../src/photos-base-item.c:311
 msgid "Album"
 msgstr "ఆల్బమ్"
 
-#: ../src/photos-base-item.c:731
+#: ../src/photos-base-item.c:761
 msgid "Screenshots"
 msgstr "తెరపట్లు"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
-msgstr ""
+msgstr "DLNA రెండరర్ పరికరాలు"
 
-#: ../src/photos-embed.c:612
+#: ../src/photos-embed.c:722
 msgid "Recent"
 msgstr "ఇటీవలివి"
 
-#: ../src/photos-embed.c:615 ../src/photos-search-type-manager.c:131
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "ఆల్బమ్లు"
 
-#: ../src/photos-embed.c:618 ../src/photos-search-type-manager.c:138
+#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "ప్రియమైనవి"
+
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:280
+msgid "Search"
+msgstr "వెతుకు"
+
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "మీ మొదటి ఆల్బమ్‌కు పేరుపెట్టండి"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:108
+#: ../src/photos-empty-results-box.c:133
 msgid "Settings"
 msgstr "అమరికలు"
 
@@ -199,28 +211,52 @@ msgstr "అమరికలు"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:114
+#: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
-msgstr ""
+msgstr "%s లో మీ జాల ఖాతాలను జోడించవచ్చు"
 
-#: ../src/photos-empty-results-box.c:161
+#: ../src/photos-empty-results-box.c:189
+msgid "No Albums Found"
+msgstr "ఎటువంటి ఆల్బమ్లు కనపడలేదు"
+
+#: ../src/photos-empty-results-box.c:193
+msgid "No Favorites Found"
+msgstr "ఎటువంటి ఇష్టమైనవి కనపడలేదు"
+
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "ఎటువంచి ఛాయాచిత్రాలు కనపడలేదు"
 
-#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
 msgid "Facebook"
 msgstr "ఫేస్‌బుక్"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "పేరుపెట్టని ఛాయాచిత్రం"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "ఫ్లికర్"
 
-#: ../src/photos-indexing-notification.c:169
-msgid "Your photos are being indexed"
-msgstr ""
-
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
 #: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "%s నుండి ఛాయాచిత్రాలను తెస్తూంది"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "జాల ఖాతాల నుండి ఛాయాచిత్రాలను తెస్తూంది"
+
+#: ../src/photos-indexing-notification.c:213
+msgid "Your photos are being indexed"
+msgstr "మీ ఛాయాచిత్రాల జాబితా తయారవుతూంది"
+
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "ఈ ప్రక్రియ జరుగుతున్నప్పుడు కొన్ని ఛాయాచిత్రాలు అందుబాటులో ఉండకపోవచ్చు"
 
@@ -228,53 +264,49 @@ msgstr "ఈ ప్రక్రియ జరుగుతున్నప్పు�
 msgid "Load More"
 msgstr "మరిన్ని ఎక్కించు"
 
-#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86
 msgid "Loading…"
 msgstr "ఎక్కిస్తోంది..."
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "స్థానికం"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "అంశాలను ఎంపికచేయడానికి వాటిపై నొక్కండి"
 
-#: ../src/photos-main-toolbar.c:114
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d ఎంచుకోబడింది"
 msgstr[1] "%d ఎంచుకోబడ్డాయి"
 
-#: ../src/photos-main-toolbar.c:159
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "వెనక్కి"
 
-#: ../src/photos-main-toolbar.c:283
-msgid "Search"
-msgstr "వెతుకు"
-
-#: ../src/photos-main-toolbar.c:299
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "అంశాలను ఎంచుకోండి"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "%s తో తెరువు"
 
-#: ../src/photos-main-toolbar.c:573
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
 msgstr "రద్దుచేయి"
 
-#: ../src/photos-main-window.c:441
+#: ../src/photos-main-window.c:432
 msgid "Access, organize and share your photos on GNOME"
 msgstr "గ్నోమ్ పై మీ ఛాయాచిత్రాలను ప్రాప్యించండి, నిర్వహించుకోండి, పంచుకోండి."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:453
+#: ../src/photos-main-window.c:444
 msgid "translator-credits"
 msgstr "Praveen Illa <mail2ipn@gmail.com>, 2014"
 
@@ -293,8 +325,8 @@ msgid "Organize"
 msgstr "నిర్వహించండి"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:284
-#: ../src/photos-selection-toolbar.c:440
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "తెరువు"
 
@@ -304,28 +336,33 @@ msgstr "ముద్రించు..."
 
 #: ../src/photos-preview-menu.ui.h:3
 msgid "Display on…"
-msgstr ""
+msgstr "వీటిపై ప్రదర్శించు..."
 
 #: ../src/photos-preview-menu.ui.h:4
 msgid "Set as Background"
 msgstr "నేపథ్యముగా అమర్చు"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:464
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "లక్షణాలు"
 
 #: ../src/photos-preview-nav-buttons.c:209
-#: ../src/photos-selection-toolbar.c:293
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "ఇష్టమైనవి నుండి తీసివేయి"
 
 #: ../src/photos-preview-nav-buttons.c:214
-#: ../src/photos-selection-toolbar.c:299
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "ఇష్టమైన వాటికి జతచేయి"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "“%s” ముద్రిస్తూంది: %s"
+
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "బొమ్మ అమరికలు"
 
@@ -451,11 +488,11 @@ msgstr "కెమేరా"
 
 #: ../src/photos-properties-dialog.c:305
 msgid "Exposure"
-msgstr ""
+msgstr "ఎక్స్పోజర్"
 
 #: ../src/photos-properties-dialog.c:315
 msgid "Aperture"
-msgstr ""
+msgstr "ఎపర్చరు"
 
 #: ../src/photos-properties-dialog.c:325
 msgid "Focal Length"
@@ -471,44 +508,41 @@ msgstr "ప్లాష్"
 
 #: ../src/photos-properties-dialog.c:536
 msgid "Off, did not fire"
-msgstr ""
+msgstr "అచేతనం, వెలగలేదు"
 
 #: ../src/photos-properties-dialog.c:538
 msgid "On, fired"
-msgstr ""
+msgstr "చేతనం, వెలిగింది"
 
 #: ../src/photos-properties-dialog.c:617
 msgid "Done"
 msgstr "అయినది"
 
-#: ../src/photos-search-match-manager.c:156
-#: ../src/photos-search-type-manager.c:124 ../src/photos-source-manager.c:151
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "అన్నీ"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:163
+#: ../src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "శీర్షిక [ శోధన వడబోతకం ]"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:170
+#: ../src/photos-search-match-manager.c:168
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "మూలకర్త [ శోధన వడబోతకం ]"
 
-#. Translators: this is a verb that refers to "All", "Title" and
-#. * "Author", as in "Match All", "Match Title" and "Match Author".
-#.
-#: ../src/photos-search-match-manager.c:197
+#: ../src/photos-search-match-manager.c:205
 msgid "Match"
 msgstr "సరిపోల్చు"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:176
+#: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "రకం [ శోధన వడబోతకం ]"
@@ -521,23 +555,23 @@ msgstr "అన్నీ ఎంపికచేయి"
 msgid "Select None"
 msgstr "ఎంపికరద్దు"
 
-#: ../src/photos-selection-toolbar.c:448
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "ముద్రించు"
 
-#: ../src/photos-selection-toolbar.c:456
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "తొలగించు"
 
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "ఆల్బమ్‌కు జతచేయి"
 
-#: ../src/photos-source-manager.c:196
+#: ../src/photos-source-manager.c:174
 msgid "Sources"
 msgstr "మూలాలు"
 
-#: ../src/photos-tracker-controller.c:92
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "ఛాయాచిత్రాల జాబితాను పొందలేకపోతుంది"
 
