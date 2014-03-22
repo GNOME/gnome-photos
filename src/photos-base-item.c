@@ -50,7 +50,7 @@
 struct _PhotosBaseItemPrivate
 {
   GdkPixbuf *icon;
-  GdkPixbuf *pristine_icon;
+  GdkPixbuf *original_icon;
   GeglNode *graph;
   GeglNode *node;
   GeglRectangle bbox;
@@ -136,10 +136,9 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   PhotosBaseItemPrivate *priv = self->priv;
   GIcon *pix;
   GList *emblem_icons = NULL;
-  GdkPixbuf *icon;
+  GdkPixbuf *emblemed_pixbuf;
 
-  icon = g_object_ref (priv->icon);
-  priv->pristine_icon = g_object_ref (icon);
+  emblemed_pixbuf = g_object_ref (priv->original_icon);
 
   if (priv->favorite)
     {
@@ -158,7 +157,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
       gint width;
 
       emblem_icons = g_list_reverse (emblem_icons);
-      emblemed_icon = g_emblemed_icon_new (G_ICON (priv->icon), NULL);
+      emblemed_icon = g_emblemed_icon_new (G_ICON (priv->original_icon), NULL);
       for (l = emblem_icons; l != NULL; l = g_list_next (l))
         {
           GEmblem *emblem;
@@ -171,8 +170,8 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
       theme = gtk_icon_theme_get_default ();
 
-      width = gdk_pixbuf_get_width (priv->icon);
-      height = gdk_pixbuf_get_height (priv->icon);
+      width = gdk_pixbuf_get_width (priv->original_icon);
+      height = gdk_pixbuf_get_height (priv->original_icon);
       size = (width > height) ? width : height;
 
       icon_info = gtk_icon_theme_lookup_by_gicon (theme, emblemed_icon, size, GTK_ICON_LOOKUP_FORCE_SIZE);
@@ -190,8 +189,8 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
             }
           else
             {
-              g_object_unref (icon);
-              icon = tmp;
+              g_object_unref (emblemed_pixbuf);
+              emblemed_pixbuf = tmp;
             }
 
           g_object_unref (icon_info);
@@ -200,26 +199,41 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
       g_object_unref (emblemed_icon);
     }
 
-  g_object_unref (priv->icon);
+  g_clear_object (&priv->icon);
 
   if (priv->thumb_path != NULL)
     {
       GtkBorder *slice;
 
       slice = photos_utils_get_thumbnail_frame_border ();
-      priv->icon = gd_embed_image_in_frame (icon,
+      priv->icon = gd_embed_image_in_frame (emblemed_pixbuf,
                                             "resource:///org/gnome/photos/thumbnail-frame.png",
                                             slice,
                                             slice);
       gtk_border_free (slice);
     }
   else
-    priv->icon = g_object_ref (icon);
+    priv->icon = g_object_ref (emblemed_pixbuf);
 
   g_signal_emit (self, signals[INFO_UPDATED], 0);
 
-  g_object_unref (icon);
+  g_object_unref (emblemed_pixbuf);
   g_list_free_full (emblem_icons, g_object_unref);
+}
+
+
+static void
+photos_base_item_set_original_icon (PhotosBaseItem *self, GdkPixbuf *icon)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+
+  if (icon != NULL)
+    {
+      g_clear_object (&priv->original_icon);
+      priv->original_icon = g_object_ref (icon);
+    }
+
+  photos_base_item_check_effects_and_update_info (self);
 }
 
 
@@ -357,14 +371,10 @@ photos_base_item_get_id (PhotosFilterable *filterable)
 static void
 photos_base_item_icon_updated (PhotosBaseItem *self, GIcon *icon)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
-
   if (icon == NULL)
     return;
 
-  g_clear_object (&priv->icon);
-  priv->icon = g_object_ref (icon);
-  photos_base_item_check_effects_and_update_info (self);
+  photos_base_item_set_original_icon (self, GDK_PIXBUF (icon));
 }
 
 
@@ -403,10 +413,11 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
   PhotosBaseItemPrivate *priv = self->priv;
+  GdkPixbuf *pixbuf = NULL;
   GError *error = NULL;
   GInputStream *stream = G_INPUT_STREAM (source_object);
 
-  priv->icon = gdk_pixbuf_new_from_stream_finish (res, &error);
+  pixbuf = gdk_pixbuf_new_from_stream_finish (res, &error);
   if (error != NULL)
     {
       GFile *file;
@@ -423,10 +434,11 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
       goto out;
     }
 
-  photos_base_item_check_effects_and_update_info (self);
+  photos_base_item_set_original_icon (self, pixbuf);
 
  out:
   g_input_stream_close_async (stream, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+  g_clear_object (&pixbuf);
   g_object_unref (self);
 }
 
@@ -639,6 +651,7 @@ static void
 photos_base_item_update_icon_from_type (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv = self->priv;
+  GdkPixbuf *pixbuf = NULL;
   GIcon *icon = NULL;
   GtkIconInfo *info = NULL;
   GtkIconTheme *theme;
@@ -658,12 +671,13 @@ photos_base_item_update_icon_from_type (PhotosBaseItem *self)
                                          GTK_ICON_LOOKUP_FORCE_SIZE | GTK_ICON_LOOKUP_GENERIC_FALLBACK);
   if (info != NULL)
     {
-      priv->icon = gtk_icon_info_load_icon (info, NULL);
+      pixbuf = gtk_icon_info_load_icon (info, NULL);
       /* TODO: use a GError */
     }
 
-  photos_base_item_check_effects_and_update_info (self);
+  photos_base_item_set_original_icon (self, pixbuf);
 
+  g_clear_object (&pixbuf);
   g_clear_object (&info);
   g_clear_object (&icon);
 }
@@ -847,7 +861,7 @@ photos_base_item_dispose (GObject *object)
 
   g_clear_object (&priv->graph);
   g_clear_object (&priv->icon);
-  g_clear_object (&priv->pristine_icon);
+  g_clear_object (&priv->original_icon);
   g_clear_object (&priv->watcher);
   g_clear_object (&priv->sel_cntrlr);
   g_clear_object (&priv->cursor);
@@ -1166,9 +1180,9 @@ photos_base_item_get_name (PhotosBaseItem *self)
 
 
 GdkPixbuf *
-photos_base_item_get_pristine_icon (PhotosBaseItem *self)
+photos_base_item_get_original_icon (PhotosBaseItem *self)
 {
-  return self->priv->pristine_icon;
+  return self->priv->original_icon;
 }
 
 
