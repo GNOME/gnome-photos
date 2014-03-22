@@ -672,17 +672,11 @@ photos_embed_dispose (GObject *object)
 
 
 static void
-photos_embed_window_added (PhotosEmbed *self, GtkWindow *window)
-{
-  gtk_window_set_titlebar (window, self->priv->toolbar);
-}
-
-
-static void
 photos_embed_init (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv;
   GApplication *app;
+  GList *windows;
   GtkListStore *model;
   PhotosSearchbar *searchbar;
   PhotosSearchContextState *state;
@@ -695,7 +689,6 @@ photos_embed_init (PhotosEmbed *self)
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   priv->search_action = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
-  g_signal_connect_swapped (app, "window-added", G_CALLBACK (photos_embed_window_added), self);
 
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   gtk_widget_show (GTK_WIDGET (self));
@@ -715,6 +708,8 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->toolbar = photos_main_toolbar_new (GTK_OVERLAY (priv->stack_overlay));
   photos_main_toolbar_set_stack (PHOTOS_MAIN_TOOLBAR (priv->toolbar), GTK_STACK (priv->stack));
+  windows = gtk_application_get_windows (GTK_APPLICATION (app));
+  gtk_window_set_titlebar (GTK_WINDOW (windows->data), priv->toolbar);
   searchbar = photos_main_toolbar_get_searchbar (PHOTOS_MAIN_TOOLBAR (priv->toolbar));
   g_signal_connect_swapped (searchbar, "activate-result", G_CALLBACK (photos_embed_activate_result), self);
 

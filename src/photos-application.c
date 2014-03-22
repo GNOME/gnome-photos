@@ -976,3 +976,20 @@ photos_application_new (void)
                        "flags", G_APPLICATION_IS_SERVICE,
                        NULL);
 }
+
+
+gint
+photos_application_get_scale_factor (PhotosApplication *self)
+{
+  GList *windows;
+  gint scale_factor;
+
+  /* We do not use priv->main_window to allow widgets to use this
+   * method while they are being constructed. The widget hierarchy is
+   * created in PhotosMainWindow:constructed and at that point
+   * priv->main_window is NULL.
+   */
+  windows = gtk_application_get_windows (GTK_APPLICATION (self));
+  scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (windows->data));
+  return scale_factor;
+}
