@@ -25,6 +25,7 @@
 
 #include "config.h"
 
+#include <cairo-gobject.h>
 #include <gio/gio.h>
 
 #include "photos-base-manager.h"
@@ -83,7 +84,7 @@ photos_view_model_info_set (PhotosViewModel *self, PhotosBaseItem *item, GtkTree
                       PHOTOS_VIEW_MODEL_URI, photos_base_item_get_uri (item),
                       PHOTOS_VIEW_MODEL_NAME, photos_base_item_get_name (item),
                       PHOTOS_VIEW_MODEL_AUTHOR, photos_base_item_get_author (item),
-                      PHOTOS_VIEW_MODEL_ICON, photos_base_item_get_icon (item),
+                      PHOTOS_VIEW_MODEL_ICON, photos_base_item_get_surface (item),
                       PHOTOS_VIEW_MODEL_MTIME, photos_base_item_get_mtime (item),
                       -1);
 }
@@ -440,7 +441,7 @@ photos_view_model_init (PhotosViewModel *self)
                      G_TYPE_STRING,    /* URI */
                      G_TYPE_STRING,    /* NAME */
                      G_TYPE_STRING,    /* AUTHOR */
-                     GDK_TYPE_PIXBUF,  /* ICON */
+                     CAIRO_GOBJECT_TYPE_SURFACE,  /* ICON */
                      G_TYPE_INT64,     /* MTIME */
                      G_TYPE_BOOLEAN,   /* STATE */
                      G_TYPE_UINT};     /* PULSE (unused) */

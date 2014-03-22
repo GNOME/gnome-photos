@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@
 #include <tracker-sparql.h>
 #include <libgd/gd.h>
 
+#include "photos-application.h"
 #include "photos-query.h"
 #include "photos-tracker-queue.h"
 #include "photos-utils.h"
@@ -432,6 +433,20 @@ photos_utils_flash_on_quark (void)
 
 gint
 photos_utils_get_icon_size (void)
+{
+  GApplication *app;
+  gint scale;
+  gint size;
+
+  app = g_application_get_default ();
+  scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
+  size = photos_utils_get_icon_size_unscaled ();
+  return scale * size;
+}
+
+
+gint
+photos_utils_get_icon_size_unscaled (void)
 {
   return 256;
 }
