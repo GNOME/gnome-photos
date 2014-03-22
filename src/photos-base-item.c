@@ -27,12 +27,14 @@
 
 #include <string.h>
 
+#include <gdk/gdk.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <libgd/gd.h>
 #include <tracker-sparql.h>
 
+#include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-collection-icon-watcher.h"
 #include "photos-delete-item-job.h"
@@ -48,7 +50,7 @@
 
 struct _PhotosBaseItemPrivate
 {
-  GdkPixbuf *icon;
+  cairo_surface_t *surface;
   GdkPixbuf *original_icon;
   GeglNode *graph;
   GeglNode *node;
@@ -133,9 +135,14 @@ static void
 photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv = self->priv;
+  GApplication *app;
   GIcon *pix;
   GList *emblem_icons = NULL;
+  GList *windows;
   GdkPixbuf *emblemed_pixbuf = NULL;
+  GdkPixbuf *thumbnailed_pixbuf = NULL;
+  GdkWindow *window;
+  gint scale;
 
   if (priv->original_icon == NULL)
     goto out;
@@ -201,25 +208,32 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
       g_object_unref (emblemed_icon);
     }
 
-  g_clear_object (&priv->icon);
+  g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
 
   if (priv->thumb_path != NULL)
     {
       GtkBorder *slice;
 
       slice = photos_utils_get_thumbnail_frame_border ();
-      priv->icon = gd_embed_image_in_frame (emblemed_pixbuf,
-                                            "resource:///org/gnome/photos/thumbnail-frame.png",
-                                            slice,
-                                            slice);
+      thumbnailed_pixbuf = gd_embed_image_in_frame (emblemed_pixbuf,
+                                                    "resource:///org/gnome/photos/thumbnail-frame.png",
+                                                    slice,
+                                                    slice);
       gtk_border_free (slice);
     }
   else
-    priv->icon = g_object_ref (emblemed_pixbuf);
+    thumbnailed_pixbuf = g_object_ref (emblemed_pixbuf);
+
+  app = g_application_get_default ();
+  scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
+  windows = gtk_application_get_windows (GTK_APPLICATION (app));
+  window = gtk_widget_get_window (GTK_WIDGET (windows->data));
+  priv->surface = gdk_cairo_surface_create_from_pixbuf (thumbnailed_pixbuf, scale, window);
 
   g_signal_emit (self, signals[INFO_UPDATED], 0);
 
  out:
+  g_clear_object (&thumbnailed_pixbuf);
   g_clear_object (&emblemed_pixbuf);
   g_list_free_full (emblem_icons, g_object_unref);
 }
@@ -669,6 +683,7 @@ photos_base_item_update_icon_from_type (PhotosBaseItem *self)
 
   theme = gtk_icon_theme_get_default ();
   icon_size = photos_utils_get_icon_size ();
+
   info = gtk_icon_theme_lookup_by_gicon (theme,
                                          icon,
                                          icon_size,
@@ -865,8 +880,8 @@ photos_base_item_dispose (GObject *object)
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
   PhotosBaseItemPrivate *priv = self->priv;
 
+  g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
   g_clear_object (&priv->graph);
-  g_clear_object (&priv->icon);
   g_clear_object (&priv->original_icon);
   g_clear_object (&priv->watcher);
   g_clear_object (&priv->sel_cntrlr);
@@ -1143,13 +1158,6 @@ photos_base_item_get_height (PhotosBaseItem *self)
 }
 
 
-GdkPixbuf *
-photos_base_item_get_icon (PhotosBaseItem *self)
-{
-  return self->priv->icon;
-}
-
-
 const gchar *
 photos_base_item_get_identifier (PhotosBaseItem *self)
 {
@@ -1203,6 +1211,13 @@ const gchar *
 photos_base_item_get_source_name (PhotosBaseItem *self)
 {
   return PHOTOS_BASE_ITEM_GET_CLASS (self)->get_source_name(self);
+}
+
+
+cairo_surface_t *
+photos_base_item_get_surface (PhotosBaseItem *self)
+{
+  return self->priv->surface;
 }
 
 

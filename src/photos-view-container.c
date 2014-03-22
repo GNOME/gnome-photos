@@ -304,7 +304,7 @@ photos_view_container_constructed (GObject *object)
 
   priv->view = gd_main_view_new (GD_MAIN_VIEW_ICON);
   generic_view = gd_main_view_get_generic_view (priv->view);
-  size = photos_utils_get_icon_size ();
+  size = photos_utils_get_icon_size_unscaled ();
   gtk_icon_view_set_item_width (GTK_ICON_VIEW (generic_view), size + 24);
   gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (priv->view));
 

@@ -64,6 +64,8 @@ GQuark           photos_utils_flash_on_quark              (void);
 
 gint             photos_utils_get_icon_size               (void);
 
+gint             photos_utils_get_icon_size_unscaled      (void);
+
 char*            photos_utils_get_pixbuf_common_suffix    (GdkPixbufFormat *format);
 
 GdkPixbufFormat* photos_utils_get_pixbuf_format           (GFile *file);

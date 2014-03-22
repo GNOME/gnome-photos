@@ -117,8 +117,6 @@ gdouble             photos_base_item_get_focal_length   (PhotosBaseItem *self);
 
 gint64              photos_base_item_get_height         (PhotosBaseItem *self);
 
-GdkPixbuf          *photos_base_item_get_icon           (PhotosBaseItem *self);
-
 const gchar        *photos_base_item_get_identifier     (PhotosBaseItem *self);
 
 gdouble             photos_base_item_get_iso_speed      (PhotosBaseItem *self);
@@ -134,6 +132,8 @@ GdkPixbuf          *photos_base_item_get_original_icon  (PhotosBaseItem *self);
 const gchar        *photos_base_item_get_resource_urn   (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_source_name    (PhotosBaseItem *self);
+
+cairo_surface_t    *photos_base_item_get_surface        (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_type_description (PhotosBaseItem *self);
 
