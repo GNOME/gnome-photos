@@ -25,6 +25,7 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 
@@ -315,6 +316,30 @@ photos_main_window_window_state_event (GtkWidget *widget, GdkEventWindowState *e
 
 
 static void
+photos_main_window_constructed (GObject *object)
+{
+  PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (object);
+  PhotosMainWindowPrivate *priv = self->priv;
+  GApplication *app;
+
+  G_OBJECT_CLASS (photos_main_window_parent_class)->constructed (object);
+
+  /* HACK: Since GtkWindow:application is a non-construct property it
+   * will be set after constructed has finished. We explicitly add
+   * the window to the application here before creating the rest of
+   * the widget hierarchy. This ensures that we can use
+   * photos_application_get_scale_factor while constructing the
+   * widgets.
+   */
+  app = g_application_get_default ();
+  gtk_application_add_window (GTK_APPLICATION (app), GTK_WINDOW (self));
+
+  priv->embed = photos_embed_new ();
+  gtk_container_add (GTK_CONTAINER (self), priv->embed);
+}
+
+
+static void
 photos_main_window_dispose (GObject *object)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (object);
@@ -382,9 +407,6 @@ photos_main_window_init (PhotosMainWindow *self)
                             self);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
-
-  priv->embed = photos_embed_new ();
-  gtk_container_add (GTK_CONTAINER (self), priv->embed);
 }
 
 
@@ -394,6 +416,7 @@ photos_main_window_class_init (PhotosMainWindowClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
 
+  object_class->constructed = photos_main_window_constructed;
   object_class->dispose = photos_main_window_dispose;
   widget_class->configure_event = photos_main_window_configure_event;
   widget_class->delete_event = photos_main_window_delete_event;

@@ -75,6 +75,8 @@ GtkApplication        *photos_application_new                    (void);
 
 GList                 *photos_application_get_miners_running     (PhotosApplication *self);
 
+gint                   photos_application_get_scale_factor       (PhotosApplication *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_APPLICATION_H */
