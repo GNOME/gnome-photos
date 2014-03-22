@@ -84,7 +84,8 @@ photos_collection_icon_watcher_create_collection_icon (PhotosCollectionIconWatch
       PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
 
       original_icon = photos_base_item_get_original_icon (item);
-      icons = g_list_prepend (icons, g_object_ref (original_icon));
+      if (original_icon != NULL)
+        icons = g_list_prepend (icons, g_object_ref (original_icon));
     }
   icons = g_list_reverse (icons);
 

@@ -136,7 +136,10 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   PhotosBaseItemPrivate *priv = self->priv;
   GIcon *pix;
   GList *emblem_icons = NULL;
-  GdkPixbuf *emblemed_pixbuf;
+  GdkPixbuf *emblemed_pixbuf = NULL;
+
+  if (priv->original_icon == NULL)
+    goto out;
 
   emblemed_pixbuf = g_object_ref (priv->original_icon);
 
@@ -217,7 +220,8 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
   g_signal_emit (self, signals[INFO_UPDATED], 0);
 
-  g_object_unref (emblemed_pixbuf);
+ out:
+  g_clear_object (&emblemed_pixbuf);
   g_list_free_full (emblem_icons, g_object_unref);
 }
 
@@ -652,6 +656,7 @@ photos_base_item_update_icon_from_type (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv = self->priv;
   GdkPixbuf *pixbuf = NULL;
+  GError *error;
   GIcon *icon = NULL;
   GtkIconInfo *info = NULL;
   GtkIconTheme *theme;
@@ -669,14 +674,21 @@ photos_base_item_update_icon_from_type (PhotosBaseItem *self)
                                          icon,
                                          icon_size,
                                          GTK_ICON_LOOKUP_FORCE_SIZE | GTK_ICON_LOOKUP_GENERIC_FALLBACK);
-  if (info != NULL)
+  if (info == NULL)
+    goto out;
+
+  error = NULL;
+  pixbuf = gtk_icon_info_load_icon (info, &error);
+  if (error != NULL)
     {
-      pixbuf = gtk_icon_info_load_icon (info, NULL);
-      /* TODO: use a GError */
+      g_warning ("Unable to load pixbuf: %s", error->message);
+      g_error_free (error);
+      goto out;
     }
 
   photos_base_item_set_original_icon (self, pixbuf);
 
+ out:
   g_clear_object (&pixbuf);
   g_clear_object (&info);
   g_clear_object (&icon);
