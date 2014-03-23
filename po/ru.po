@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-09 12:21+0000\n"
-"PO-Revision-Date: 2014-03-10 12:21+0300\n"
-"Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
+"POT-Creation-Date: 2014-03-23 10:30+0000\n"
+"PO-Revision-Date: 2014-03-23 15:04+0400\n"
+"Last-Translator: Yuri Myasoedov <ymyasoedov@yandex.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.4\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
@@ -27,8 +27,8 @@ msgid ""
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Просто приложение для доступа, управления и публикации фотографий в GNOME. "
-"Это приложение упрощает работу с фотоснимками, по сравнению с обычным "
+"Простое приложение для доступа, управления и публикации фотографий в GNOME. "
+"Это приложение упрощает работу с фотоснимками по сравнению с обычным "
 "файловым менеджером. Бесшовная интеграция с облачными службами "
 "осуществляется через сетевые учётные записи GNOME."
 
@@ -80,11 +80,11 @@ msgstr "Положение окна (x, y)."
 
 #: ../data/org.gnome.photos.gschema.xml.h:5
 msgid "Window maximized"
-msgstr "Развёрнутое окно"
+msgstr "Окно максимального размера"
 
 #: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
-msgstr "Окно имеет максимальный размер"
+msgstr "Окно максимального размера"
 
 #. A strftime-formatted string, to display the date the image was taken.
 #: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
@@ -134,7 +134,7 @@ msgstr "Ошибка загрузки изображения."
 #: ../src/eog-image.c:1727 ../src/eog-image.c:1847
 #, c-format
 msgid "No image loaded."
-msgstr "Загруженные изображения отсутствуют."
+msgstr "Нет загруженных изображений."
 
 #: ../src/eog-image.c:1735 ../src/eog-image.c:1856
 #, c-format
@@ -183,15 +183,15 @@ msgstr "Снимки рабочего стола"
 msgid "DLNA Renderer Devices"
 msgstr "Устройства отрисовки DLNA"
 
-#: ../src/photos-embed.c:689
+#: ../src/photos-embed.c:727
 msgid "Recent"
 msgstr "Последние"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:733 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Альбомы"
 
-#: ../src/photos-embed.c:695 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:739 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Избранное"
 
@@ -203,7 +203,6 @@ msgstr "Дайте название своему первому альбому"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:133
-#| msgid "Image Settings"
 msgid "Settings"
 msgstr "параметрах"
 
@@ -217,12 +216,10 @@ msgid "You can add your online accounts in %s"
 msgstr "Сетевые учётные записи можно добавить в %s"
 
 #: ../src/photos-empty-results-box.c:189
-#| msgid "No Photos Found"
 msgid "No Albums Found"
 msgstr "Альбомы не найдены"
 
 #: ../src/photos-empty-results-box.c:193
-#| msgid "No Photos Found"
 msgid "No Favorites Found"
 msgstr "Избранные фотографии не найдены"
 
@@ -262,11 +259,11 @@ msgstr "Загрузка…"
 msgid "Local"
 msgstr "Локальные"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Чтобы выбрать элемент, нажмите на него"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -274,36 +271,36 @@ msgstr[0] "Выбран %d"
 msgstr[1] "Выбрано %d"
 msgstr[2] "Выбрано %d"
 
-#: ../src/photos-main-toolbar.c:157
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "Назад"
 
-#: ../src/photos-main-toolbar.c:281
+#: ../src/photos-main-toolbar.c:280
 msgid "Search"
 msgstr "Найти"
 
-#: ../src/photos-main-toolbar.c:297
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "Выбор элементов"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:411 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Открыть с помощью «%s»"
 
-#: ../src/photos-main-toolbar.c:570
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
-msgstr "Отмена"
+msgstr "Отменить"
 
 #: ../src/photos-main-window.c:432
 msgid "Access, organize and share your photos on GNOME"
-msgstr "Управление вашими фотографиям в GNOME"
+msgstr "Управление фотографиям в GNOME"
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:444
 msgid "translator-credits"
-msgstr "Alina Kruglova"
+msgstr "Алина Круглова"
 
 #: ../src/photos-organize-collection-dialog.c:76
 msgid "_Add"
@@ -352,7 +349,7 @@ msgstr "Удалить из избранного"
 msgid "Add to favorites"
 msgstr "Добавить в избранное"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Параметры изображения"
 
@@ -515,30 +512,24 @@ msgstr "Все"
 
 #. Translators: "Title" refers to "Match Title" when searching.
 #: ../src/photos-search-match-manager.c:161
-#| msgctxt "Document Title"
-#| msgid "Title"
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Заголовок"
 
 #. Translators: "Author" refers to "Match Author" when searching.
 #: ../src/photos-search-match-manager.c:168
-#| msgctxt "Document Author"
-#| msgid "Author"
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Автор"
 
 #: ../src/photos-search-match-manager.c:205
 msgid "Match"
-msgstr ""
+msgstr "Совпадает"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
 #: ../src/photos-search-type-manager.c:154
-#| msgctxt "Document Type"
-#| msgid "Type"
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Тип"
@@ -564,7 +555,6 @@ msgid "Add to Album"
 msgstr "Добавить в альбом"
 
 #: ../src/photos-source-manager.c:174
-#| msgid "Source"
 msgid "Sources"
 msgstr "Источники"
 
