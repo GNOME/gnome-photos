@@ -49,12 +49,10 @@ def _do_bus_call(method, params):
 def start():
     builddir = os.environ.get('G_TEST_BUILDDIR', None)
     if builddir and not 'TESTUTIL_DONT_START' in os.environ:
-        subprocess.Popen([os.path.join(builddir, '..', 'src', 'gnome-photos-service')],
+        subprocess.Popen([os.path.join(builddir, '..', 'src', 'gnome-photos')],
                          cwd=os.path.join(builddir, '..'))
-        utils.doDelay(2)
-
-    _do_bus_call("Activate", GLib.Variant('(a{sv})', ([],)))
-    utils.doDelay(3)
+    else:
+        _do_bus_call("Activate", GLib.Variant('(a{sv})', ([],)))
 
     app = tree.root.application('gnome-photos')
     focus.application('gnome-photos')
