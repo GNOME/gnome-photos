@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-01-31 10:08+0000\n"
-"PO-Revision-Date: 2014-01-30 20:37+0300\n"
-"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
+"POT-Creation-Date: 2014-03-27 20:34+0000\n"
+"PO-Revision-Date: 2014-03-18 17:03+0200\n"
+"Last-Translator: maria thukididu <marablack3@gmail.com>\n"
 "Language-Team: team@lists.gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Generator: Virtaal 0.7.0\n"
 "X-Project-Style: gnome\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -34,11 +34,11 @@ msgstr ""
 "των φωτογραφιών σας από τον διαχειριστή αρχείων. Προσφέρεται και η "
 "ενσωμάτωση με το cloud μέσω των GNOME Online Accounts."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "Σας επιτρέπει:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
@@ -51,16 +51,16 @@ msgstr ""
 "li> <li>Επιλογή αγαπημένων</li> <li>Να επιτρέπεται το άνοιγμα με πλήρη "
 "επεξεργαστή για περισσότερες εξειδικευμένες αλλαγές</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:145
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Φωτογραφίες"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Προσέγγιση, οργάνωση και κοινή χρήση των φωτογραφιών σας"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "Φωτογραφίες;Εικόνες;"
 
@@ -173,11 +173,11 @@ msgstr "Περί"
 msgid "Quit"
 msgstr "Έξοδος"
 
-#: ../src/photos-base-item.c:304
+#: ../src/photos-base-item.c:310
 msgid "Album"
 msgstr "Άλμπουμ"
 
-#: ../src/photos-base-item.c:731
+#: ../src/photos-base-item.c:760
 msgid "Screenshots"
 msgstr "Στιγμιότυπα"
 
@@ -185,22 +185,26 @@ msgstr "Στιγμιότυπα"
 msgid "DLNA Renderer Devices"
 msgstr "Συσκευές Αποτύπωσης DLNA"
 
-#: ../src/photos-embed.c:612
+#: ../src/photos-embed.c:727
 msgid "Recent"
 msgstr "Πρόσφατα"
 
-#: ../src/photos-embed.c:615 ../src/photos-search-type-manager.c:131
+#: ../src/photos-embed.c:733 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Δίσκοι"
 
-#: ../src/photos-embed.c:618 ../src/photos-search-type-manager.c:138
+#: ../src/photos-embed.c:739 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Αγαπημένα"
+
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "Ονομασία  του πρώτου σας λευκώματος"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:108
+#: ../src/photos-empty-results-box.c:133
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
@@ -208,20 +212,32 @@ msgstr "Ρυθμίσεις"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:114
+#: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "Μπορείτε να προσθέσετε διαδικτυακούς λογαριασμούς στο %s"
 
-#: ../src/photos-empty-results-box.c:161
+#: ../src/photos-empty-results-box.c:189
+msgid "No Albums Found"
+msgstr "Δεν Βρέθηκαν Λευκώματα"
+
+#: ../src/photos-empty-results-box.c:193
+msgid "No Favorites Found"
+msgstr "Δεν Βρέθηκαν Αγαπημένα"
+
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "Δεν βρέθηκαν φωτογραφίες"
 
-#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
+#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Άτιτλες Φωτογραφίες"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "Flickr"
 
@@ -239,53 +255,53 @@ msgstr ""
 msgid "Load More"
 msgstr "Φόρτωση περισσοτέρων"
 
-#: ../src/photos-load-more-button.c:86 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86
 msgid "Loading…"
 msgstr "Φορτώνεται…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Τοπικά"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Πατήστε στα στοιχεία για να τα επιλέξετε"
 
-#: ../src/photos-main-toolbar.c:114
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d επιλέχτηκε"
 msgstr[1] "%d επιλέχτηκαν"
 
-#: ../src/photos-main-toolbar.c:159
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "Πίσω"
 
-#: ../src/photos-main-toolbar.c:283
+#: ../src/photos-main-toolbar.c:280
 msgid "Search"
 msgstr "Αναζήτηση"
 
-#: ../src/photos-main-toolbar.c:299
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "Επιλέξτε στοιχεία"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Άνοιγμα με %s"
 
-#: ../src/photos-main-toolbar.c:573
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
 msgstr "Άκυρο"
 
-#: ../src/photos-main-window.c:441
+#: ../src/photos-main-window.c:432
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Προσέγγιση, οργάνωση και μερισμός των φωτογραφιών σας στο GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:453
+#: ../src/photos-main-window.c:444
 msgid "translator-credits"
 msgstr ""
 "Ελληνική μεταφραστική ομάδα GNOME\n"
@@ -310,8 +326,8 @@ msgid "Organize"
 msgstr "Οργάνωση"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:284
-#: ../src/photos-selection-toolbar.c:440
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "Άνοιγμα"
 
@@ -328,21 +344,21 @@ msgid "Set as Background"
 msgstr "Ορισμός ως παρασκήνιο"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:464
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Ιδιότητες"
 
 #: ../src/photos-preview-nav-buttons.c:209
-#: ../src/photos-selection-toolbar.c:293
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "Αφαίρεση από τα αγαπημένα"
 
 #: ../src/photos-preview-nav-buttons.c:214
-#: ../src/photos-selection-toolbar.c:299
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Προσθήκη στα αγαπημένα"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Ρυθμίσεις εικόνας"
 
@@ -498,34 +514,31 @@ msgstr "Ενεργό, δούλεψε"
 msgid "Done"
 msgstr "Έγινε"
 
-#: ../src/photos-search-match-manager.c:156
-#: ../src/photos-search-type-manager.c:124 ../src/photos-source-manager.c:151
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Όλα"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:163
+#: ../src/photos-search-match-manager.c:161
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Τίτλος"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:170
+#: ../src/photos-search-match-manager.c:168
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Δημιουργός"
 
-#. Translators: this is a verb that refers to "All", "Title" and
-#. * "Author", as in "Match All", "Match Title" and "Match Author".
-#.
-#: ../src/photos-search-match-manager.c:197
+#: ../src/photos-search-match-manager.c:205
 msgid "Match"
 msgstr "Συμφωνία"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:176
+#: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Τύπος"
@@ -538,23 +551,23 @@ msgstr "Επιλογή όλων"
 msgid "Select None"
 msgstr "Χωρίς επιλογή"
 
-#: ../src/photos-selection-toolbar.c:448
+#: ../src/photos-selection-toolbar.c:445
 msgid "Print"
 msgstr "Εκτύπωση"
 
-#: ../src/photos-selection-toolbar.c:456
+#: ../src/photos-selection-toolbar.c:453
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "Προσθήκη σε Άλμπουμ"
 
-#: ../src/photos-source-manager.c:196
+#: ../src/photos-source-manager.c:174
 msgid "Sources"
 msgstr "Πηγές"
 
-#: ../src/photos-tracker-controller.c:92
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Αδύνατη η προσκόμιση της λίστας των φωτογραφιών"
 
@@ -563,11 +576,3 @@ msgstr "Αδύνατη η προσκόμιση της λίστας των φωτ
 
 #~ msgid "About Photos"
 #~ msgstr "Περί του Φωτογραφίες"
-
-#~| msgid "Organize"
-#~ msgctxt "Toolbar button tooltip"
-#~ msgid "Organize"
-#~ msgstr "Οργάνωση"
-
-#~ msgid "Load %d more photos"
-#~ msgstr "Φόρτωση %d ακόμα φωτογραφιών"
