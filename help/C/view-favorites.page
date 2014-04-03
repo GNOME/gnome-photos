@@ -1,0 +1,40 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="topic" style="task"
+	id="view-favorites">
+
+  <info>
+    <link type="guide" xref="view"/>
+    <link type="seealso" xref="favorites"/>
+    <revision pkgversion="3.12" date="2014-03-13" status="draft"/>
+
+    <credit type="author copyright">
+      <name>Venkatesh Tahiliani</name>
+      <email>pulsar.viki@gmail.com</email>
+    </credit>
+    <credit type="editor copyright">
+      <name>Aruna Sankaranarayanan</name>
+      <email>safincrazy@gmail.com</email>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Open your favorite photos.</desc>
+  </info>
+
+  <title>View photos marked as favorites.</title>
+
+  <p>Your <link xref="favorites">favorite</link> photos are located in the
+  <gui>Favorites</gui> tab.</p>
+
+  <steps>
+  <title>To open a photo tagged as a favorite:</title>
+    <item>
+      <p>Select the <gui style="tab">Favorites</gui> tab.</p>
+    </item>
+    <item>
+      <p>Select photo you want to open, or use the arrow keys to navigate to
+      the photo and press <key>Enter</key>.</p>
+    </item>
+  </steps>
+
+</page>

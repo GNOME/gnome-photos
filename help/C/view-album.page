@@ -1,0 +1,40 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="topic" style="task"
+	id="view-album">
+
+  <info>
+    <link type="guide" xref="view"/>
+
+    <revision pkgversion="3.12" date="2014-03-13" status="draft"/>
+
+    <credit type="author copyright">
+      <name>Venkatesh Tahiliani</name>
+      <email>pulsar.viki@gmail.com</email>
+    </credit>
+    <credit type="editor copyright">
+      <name>Aruna Sankaranarayanan</name>
+      <email>safincrazy@gmail.com</email>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Open a photo from your albums.</desc>
+  </info>
+
+  <title>View photos from an album</title>
+  <p>To open a photo located in a specific album:</p>
+
+  <steps>
+    <item>
+      <p>Select the <gui style="tab">Albums</gui> tab.</p>
+    </item>
+    <item>
+      <p>Select the album which contains the photo.</p>
+    </item>
+    <item>
+      <p>You will see a grid of photos from the album you selected. Select a
+      photo from the grid to open it. </p>
+    </item>
+  </steps>
+
+</page>

@@ -1,0 +1,51 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="topic" style="task"
+	id="favorites-set">
+
+  <info>
+    <link type="guide" xref="favorites"/>
+
+    <revision pkgversion="3.12" date="2014-03-13" status="draft"/>
+
+    <credit type="author copyright">
+      <name>Venkatesh Tahiliani</name>
+      <email>pulsar.viki@gmail.com</email>
+    </credit>
+    <credit type="editor copyright">
+      <name>Aruna Sankaranarayanan</name>
+      <email>safincrazy@gmail.com</email>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Pick favorites from <app>Photos</app>.</desc>
+  </info>
+
+  <title>Tag your favorites</title>
+
+  <p>Photos or albums can be marked as favorites from the
+  <gui style="tab">Recent</gui> tab or <gui style="tab">Albums</gui> tab.</p>
+
+  <steps>
+  <title>To label favorite items:</title>
+    <item>
+      <p>Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on
+      whether you want to mark an album or a photo as a favorite.</p>
+    </item>
+    <item>
+      <p><link xref="selection-mode-toggle#on">Switch on</link> the selection
+      mode.</p>
+    </item>
+    <item>
+      <p><link xref="selection-mode-how">Select</link> all the items you want
+      to favorite.</p>
+    </item>
+    <item>
+      <p>To finish, select the button with the picture of a heart from the
+      toolbar at the bottom.</p>
+    </item>
+  </steps>
+
+  <p>Your favorite items can now be found in the <gui>Favorites</gui> tab.</p>
+
+</page>
