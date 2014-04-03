@@ -1,0 +1,29 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="guide" style="task"
+	id="favorites">
+
+  <info>
+    <link type="guide" xref="index"/>
+
+    <revision pkgversion="3.12" date="2014-03-13" status="draft"/>
+
+    <credit type="author copyright">
+      <name>Venkatesh Tahiliani</name>
+      <email>pulsar.viki@gmail.com</email>
+    </credit>
+    <credit type="editor copyright">
+      <name>Aruna Sankaranarayanan</name>
+      <email>safincrazy@gmail.com</email>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Tag a special image or album as a favorite.</desc>
+
+  </info>
+
+  <title>Favorite photos</title>
+    <p>You can label photos or images that you particularly like as favorites to
+    store them for easy access in the <gui>Favorites</gui> tab.</p>
+
+</page>

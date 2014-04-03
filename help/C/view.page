@@ -1,0 +1,31 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="guide" style="task"
+	id="view">
+
+  <info>
+    <link type="guide" xref="index"/>
+
+    <revision pkgversion="3.12" date="2014-03-13" status="draft"/>
+
+    <credit type="author copyright">
+      <name>Venkatesh Tahiliani</name>
+      <email>pulsar.viki@gmail.com</email>
+    </credit>
+    <credit type="editor copyright">
+      <name>Aruna Sankaranarayanan</name>
+      <email>safincrazy@gmail.com</email>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Open a photo for viewing.</desc>
+  </info>
+
+  <title>View images</title>
+
+  <p>When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab
+  open. The <gui>Recent</gui> tab contains images from your computer, the
+  <gui>Albums</gui> tab contains your photo albums, and any image you mark as a
+  favourite can be found in the <gui>Favorites</gui> tab.</p>
+
+</page>

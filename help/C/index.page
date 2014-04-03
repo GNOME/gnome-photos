@@ -1,47 +1,39 @@
 <page xmlns="http://projectmallard.org/1.0/"
-	type="guide" style="2column"
-	id="index">
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" style="2column"
+      id="index">
 
- <info>
-  <title type="link">Photos</title>
-  <credit type="author">
-   <name>Venkatesh Tahiliani</name>
-   <email>pulsar.viki@gmail.com</email>
-  </credit>
-  <credit type="editor">
-   <name>Aruna Sankaranarayanan</name>
-   <email>safincrazy@gmail.com</email>
-  </credit>
-   <license>
-   <p>
-     Creative Commons Share Alike 3.0
-   </p>
-  </license>
- </info>
-   <title>
-     <media type="image" src="media/logo1.png" width="28" height="28"></media>
-      Photos
-   </title>
-     <p>
-        <app> Photos</app> is an application a user can use as an alternative
-        to the file browser. It also enables a user to directly view photos
-        present in the picture directory in a much more interactive way and
-        perform tasks like creating albums, printing photos and setting
-        favourites.
-     </p>
-   <section id="gettingstarted" style="2column">
-     <title>
-       Getting started
-     </title>
-   </section>
-   <section id="albums" style="2column">
-      <title>
-        Albums
-      </title>
-   </section>
-   <section id="preferences" style="2column">
-      <title>
-        Preferences
-      </title>
-   </section>
+  <info>
+    <title type="text">Photos</title>
+    <revision pkgversion="3.8" date="2014-03-25" status="review"/>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc><app>Photos</app> is a personalised photo manager tool from
+    GNOME.</desc>
+  </info>
+
+  <title>
+    <media its:translate="no" type="image" src="media/logo1.png" height="32" />
+    Photos
+  </title>
+
+  <p><app>Photos</app> can be used to organise and manage your images in an
+  engaging and personalized manner. In addition to creating albums out of
+  images on your computer, you can integrate your Facebook and Flickr albums
+  with <app>Photos</app>. You can also set photos you like as your desktop
+  wallpaper, or easily bookmark them as favorites.</p>
+
+<!--
+  <section id="gettingstarted" style="2column">
+    <title>Getting started</title>
+  </section>
+
+  <section id="albums" style="2column">
+    <title>Albums</title>
+  </section>
+  <section id="preferences" style="2column">
+    <title>Preferences</title>
+  </section>
+-->
 </page>
