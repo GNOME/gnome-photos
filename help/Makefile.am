@@ -2,8 +2,16 @@
 
 HELP_ID = gnome-photos
 
-HELP_FILES = 
+HELP_FILES = \
+        favorites.page \
+        favorites-set.page \
+        index.page \
+        legal.xml \
+        view-album.page \
+        view-favorites.page \
+        view.page
 
-HELP_MEDIA =
+HELP_MEDIA = \
+	media/icon1.png
 
 HELP_LINGUAS =
