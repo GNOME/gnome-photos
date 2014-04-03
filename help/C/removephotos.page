@@ -1,0 +1,51 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="topic" style="task"
+	id="removephotos">
+
+  <info>
+    <link type="guide" xref="index#albums"/>
+   <credit type="author">
+    <name>Venkatesh Tahiliani</name>
+    <email>pulsar.viki@gmail.com</email>
+   </credit>
+    <credit type="editor">
+      <name>Aruna Sankaranarayanan</name>
+      <email>safincrazy@gmail.com</email>
+    </credit>
+    <desc> Remove photos already grouped in an album.</desc>
+  </info>
+
+  <title>Removing photos from an album</title>
+   <p>
+   Photos can be deleted from an album in the <gui style="tab">Albums</gui> tab,
+   alternatively we can delete photos present in one of the albums
+   from the <gui style="tab">Photos</gui> or <gui style="tab">Favourites</gui>
+   tab if we know the album name.
+   </p>
+ <section id="removephotos">
+  <title>To delete photos from an album:</title>
+   <steps>
+   <item>
+    <p>
+    Select the photos to be deleted using any one of the selection modes.
+    </p>
+   </item>
+   <item>
+    <p>
+    The lower secondary toolbar pops up, click on <key>Add to Album</key>.
+    </p>
+   </item>
+   <item>
+    <p>
+    A dialog box titled <gui>Organize</gui> appears, uncheck the check
+    box for the album from which the photo is to be deleted.
+    </p>
+   </item>
+   <item>
+    <p>
+    Click <key>Ok</key>
+    </p>
+   </item>
+   </steps>
+ </section>   
+</page>

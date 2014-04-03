@@ -1,0 +1,56 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="topic" style="task"
+	id="createanalbum">
+
+  <info>
+    <link type="guide" xref="index#albums"/>
+   <credit type="author">
+    <name>Venkatesh Tahiliani</name>
+    <email>pulsar.viki@gmail.com</email>
+   </credit>
+    <credit type="editor">
+      <name>Aruna Sankaranarayanan</name>
+      <email>safincrazy@gmail.com</email>
+    </credit>
+    <desc> Create an album to group your photos.</desc>
+  </info>
+  <title>Creating an album</title>
+  <p>
+  We can create an album to group a set of photos together.
+  Albums can be created by selecting photos either from the
+  <gui style="tab">Photos</gui> tab or <gui style="tab">Favourites</gui> tab.
+  An album may also be created by selecting photos from an 
+  existing album in the <gui style="tab">Albums</gui> tab.
+  </p>
+ <section id="createalbum">
+ <title>To create an album:</title>
+  <steps>
+   <item>
+    <p>
+    Select the photos to be deleted using any one of the selection modes.
+    </p>
+   </item>
+   <item>
+    <p>
+    When photos are selected a lower secondary toolbar appears.
+    Select <gui style="button">Add to Album</gui> from the secondary toolbar.
+    </p>
+   </item>
+   <item>
+    <p>
+    A dialog box labelled <gui>Organize</gui> appears, select Add from the same.
+    </p>
+   </item>
+   <item>
+    <p>
+    Type in the name of the album to be created
+    </p>
+   </item>
+   <item>
+    <p>
+    Click <key>Ok</key>
+    </p>
+   </item>
+  </steps>
+ </section>
+</page>
