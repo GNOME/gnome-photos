@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2014 Pranav Kant
  * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -50,6 +51,7 @@
 #include "photos-search-provider.h"
 #include "photos-single-item-job.h"
 #include "photos-source-manager.h"
+#include "photos-tracker-extract-priority.h"
 
 
 struct _PhotosApplicationPrivate
@@ -75,6 +77,7 @@ struct _PhotosApplicationPrivate
   PhotosModeController *mode_cntrlr;
   PhotosSearchContextState *state;
   PhotosSearchProvider *search_provider;
+  TrackerExtractPriority *extract_priority;
   guint32 activation_timestamp;
 };
 
@@ -553,6 +556,72 @@ photos_application_stop_miners (PhotosApplication *self)
 
 
 static void
+photos_application_tracker_clear_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GError *error;
+
+  error = NULL;
+  if (!tracker_extract_priority_call_clear_rdf_types_finish (self->priv->extract_priority, res, &error))
+    {
+      g_warning ("Unable to call ClearRdfTypes: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
+photos_application_tracker_set_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GError *error;
+
+  error = NULL;
+  if (!tracker_extract_priority_call_set_rdf_types_finish (self->priv->extract_priority, res, &error))
+    {
+      g_warning ("Unable to call SetRdfTypes: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
+photos_application_tracker_extract_priority (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  PhotosApplicationPrivate *priv = self->priv;
+  GError *error;
+  const gchar *const rdf_types[] = {"nfo:Image", NULL};
+
+  error = NULL;
+  priv->extract_priority = tracker_extract_priority_proxy_new_for_bus_finish (res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to create TrackerExtractPriority proxy: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  tracker_extract_priority_call_set_rdf_types (priv->extract_priority,
+                                               rdf_types,
+                                               NULL,
+                                               photos_application_tracker_set_rdf_types,
+                                               g_object_ref (self));
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
 photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
 {
   PhotosApplicationPrivate *priv = self->priv;
@@ -636,6 +705,20 @@ photos_application_dbus_unregister (GApplication *application,
 
 
 static void
+photos_application_shutdown (GApplication *application)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (application);
+
+  tracker_extract_priority_call_clear_rdf_types (self->priv->extract_priority,
+                                                 NULL,
+                                                 photos_application_tracker_clear_rdf_types,
+                                                 g_object_ref (self));
+
+  G_APPLICATION_CLASS (photos_application_parent_class)->shutdown (application);
+}
+
+
+static void
 photos_application_startup (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
@@ -681,6 +764,14 @@ photos_application_startup (GApplication *application)
                                                          "/org/gnome/OnlineMiners/Flickr",
                                                          NULL,
                                                          NULL);
+
+  tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
+                                              G_DBUS_PROXY_FLAGS_NONE,
+                                              "org.freedesktop.Tracker1.Miner.Extract",
+                                              "/org/freedesktop/Tracker1/Extract/Priority",
+                                              NULL,
+                                              photos_application_tracker_extract_priority,
+                                              g_object_ref (self));
 
   priv->item_mngr = photos_item_manager_dup_singleton ();
 
@@ -815,6 +906,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->camera_cache);
   g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->search_provider);
+  g_clear_object (&priv->extract_priority);
 
   if (priv->state != NULL)
     {
@@ -862,6 +954,7 @@ photos_application_class_init (PhotosApplicationClass *class)
   application_class->activate = photos_application_activate;
   application_class->dbus_register = photos_application_dbus_register;
   application_class->dbus_unregister = photos_application_dbus_unregister;
+  application_class->shutdown = photos_application_shutdown;
   application_class->startup = photos_application_startup;
 
   /* TODO: Add miners-changed signal */
