@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-20 12:12+0200\n"
-"PO-Revision-Date: 2014-02-20 12:12+0200\n"
-"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"POT-Creation-Date: 2014-04-03 13:35+0300\n"
+"PO-Revision-Date: 2014-04-03 13:37+0300\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -175,11 +175,11 @@ msgstr "על אודות"
 msgid "Quit"
 msgstr "יציאה"
 
-#: ../src/photos-base-item.c:310
+#: ../src/photos-base-item.c:311
 msgid "Album"
 msgstr "אלבום"
 
-#: ../src/photos-base-item.c:760
+#: ../src/photos-base-item.c:761
 msgid "Screenshots"
 msgstr "צילומי מסך"
 
@@ -187,17 +187,21 @@ msgstr "צילומי מסך"
 msgid "DLNA Renderer Devices"
 msgstr "התקן עיבוד DLNA"
 
-#: ../src/photos-embed.c:652
+#: ../src/photos-embed.c:722
 msgid "Recent"
 msgstr "אחרונים"
 
-#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:110
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "אלבומים"
 
-#: ../src/photos-embed.c:658 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "מועדפים"
+
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:280
+msgid "Search"
+msgstr "חיפוש"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
@@ -243,11 +247,23 @@ msgstr "תמונה ללא כותרת"
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:169
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "שולף תמונות מ־%s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "שולף תמונות מחשבונות מקוונים"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "התמונות שלך נשמרות באינדקס"
 
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "יתכן שחלק מהתמונות לא תהינה זמינות במשך תהליך זה"
 
@@ -263,45 +279,41 @@ msgstr "בטעינה…"
 msgid "Local"
 msgstr "מקומי"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "אחת נבחרה"
 msgstr[1] "%d נבחרו"
 
-#: ../src/photos-main-toolbar.c:158
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "חזרה"
 
-#: ../src/photos-main-toolbar.c:282
-msgid "Search"
-msgstr "חיפוש"
-
-#: ../src/photos-main-toolbar.c:298
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "בחירת פריטים"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:412 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "פתיחה באמצעות %s"
 
-#: ../src/photos-main-toolbar.c:571
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
 msgstr "ביטול"
 
-#: ../src/photos-main-window.c:446
+#: ../src/photos-main-window.c:432
 msgid "Access, organize and share your photos on GNOME"
 msgstr "לגשת, לארגן ולשתף את התמונות שלך ב־GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:458
+#: ../src/photos-main-window.c:444
 msgid "translator-credits"
 msgstr ""
 "ירון שהרבני <sh.yaron@gmail.com>\n"
@@ -339,7 +351,7 @@ msgstr "הצגה…"
 msgid "Set as Background"
 msgstr "הגדרה כרקע"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:650
 #: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "מאפיינים"
@@ -354,7 +366,12 @@ msgstr "הסרה מהמועדפים"
 msgid "Add to favorites"
 msgstr "הוספה למועדפים"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "מדפיס „%s”:‏ %s"
+
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "הגדרות התמונה"
 
@@ -506,12 +523,8 @@ msgstr "כבוי, לא פועל"
 msgid "On, fired"
 msgstr "פועל"
 
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "בוצע"
-
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "הכול"
 
@@ -534,7 +547,7 @@ msgstr "התאמה"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:153
+#: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "סוג"
@@ -566,6 +579,9 @@ msgstr "מקורות"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "לא ניתן לקבל את רשימת התמונות"
+
+#~ msgid "Done"
+#~ msgstr "בוצע"
 
 #~ msgid "System Settings"
 #~ msgstr "הגדרות מערכת"
