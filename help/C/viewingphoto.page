@@ -1,0 +1,75 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="topic" style="task"
+	id="viewingphoto">
+
+  <info>
+    <link type="guide" xref="index#gettingstarted"/>
+  <credit type="author">
+    <name>Venkatesh Tahiliani</name>
+    <email>pulsar.viki@gmail.com</email>
+  </credit>
+   <credit type="editor">
+     <name>Aruna Sankaranarayanan</name>
+     <email>safincrazy@gmail.com</email>
+   </credit>
+
+    <desc> Open a photo for viewing.</desc>
+     <license>
+	<p>
+	 Creative Commons Share Alike 3.0
+	</p>
+     </license>
+  </info>
+
+  <title>Opening a photo</title>
+
+    <p>
+	When <app>Photos</app> is opened the user is shown the <gui style="tab">Photos</gui> tab.
+	The <gui style="tab">Photos</gui> tab lists all the photos present in the pictures directory
+	in the from of a grid. We can choose to view a photo from the <gui style="tab">Photos</gui> tab,
+	the <gui style="tab">Albums</gui> tab or the <gui style="tab">Favourites</gui> tab.
+    </p>
+  <section id="viewfromphotos">
+   <title>
+	Viewing a photo from <gui style="tab">Photos</gui>
+	or <gui style="tab">Favourites</gui>.
+   </title>
+  <list>
+   <title>To open a photo:</title>
+    <item>
+     <p>
+        Select the Photos or Favourites tab click on the desired photo.
+    </p>
+   </item>
+   <item>
+    <p>
+       Navigate to the desired photo using the arrow keys or the
+       <keyseq><key>Ctrl</key><key>P</key></keyseq> to move up and
+       <keyseq><key>Ctrl</key><key>N</key></keyseq> to move down through
+       the photos grid and press <keyseq><key>Enter</key></keyseq>.
+    </p>
+   </item>
+  </list>
+  </section>
+
+   <section id="viewfromalbum">
+    <title>Viewing a photo from an album.</title>
+   <steps>
+     <item>
+      <p>
+       Select the <gui style="tab">Albums</gui> tab.
+      </p>
+     </item>
+     <item>
+     <p>
+       Navigate or click on the desired album.
+     </p>
+     </item>
+     <item>
+      <p>
+       Navigate or click on the desired photo from that album.
+      </p>
+     </item>
+    </steps>
+  </section>
+</page>

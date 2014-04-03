@@ -1,0 +1,30 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="topic" style="task"
+	id="imgasback">
+
+  <info>
+    <link type="guide" xref="index#preferences"/>
+
+<credit type="author">
+<name>Venkatesh Tahiliani</name>
+<email>pulsar.viki@gmail.com</email>
+</credit>
+
+    <credit type="editor">
+      <name>Aruna Sankaranarayanan</name>
+      <email>safincrazy@gmail.com</email>
+    </credit>
+
+    <desc> Set an image as your wallpaper.</desc>
+  </info>
+
+  <title>Set an image as background</title>
+ <section id="setbackground">
+  <title>To set an image as background:</title>
+    <steps>
+     <item><p>Open the image</p></item>
+     <item><p>Click the gear icon on the right hand side of the primary toolbar.</p></item>
+     <item><p>Select <gui style="menuitem">Set as Background</gui>.</p></item>
+    </steps>
+ </section>
+</page>

@@ -1,0 +1,60 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="topic" style="task"
+	id="addphotos">
+
+  <info>
+    <link type="guide" xref="index#albums"/>
+	<credit type="author">
+	 <name>Venkatesh Tahiliani</name>
+	 <email>pulsar.viki@gmail.com</email>
+	</credit>
+      <credit type="editor">
+        <name>Aruna Sankaranarayanan</name>
+        <email>safincrazy@gmail.com</email>
+      </credit>
+    <desc> Add photos to an existing album.</desc>
+  </info>
+
+  <title>Adding photos to an album</title>
+   <p>
+  We can add photos to an existing album present in the <gui style="tab">Albums</gui> tab.
+  The photos which are to be added to an existing album can be from
+  another album, from <gui style="tab">Favourites</gui> or from the <gui style="tab">Photos</gui> tab.
+  </p>
+ <section id="addphotos">
+   <title>To add photos to an existing album:</title>
+  <steps>
+    <item>
+     <p>
+	Select the photos using any one of the selection modes.
+     </p>
+    </item>
+    <item>
+     <p>
+	When photos are selected a lower secondary toolbar appears,
+        select <gui style="button">Add to Album</gui> from the secondary toolbar.
+     </p>
+    </item>
+    <item>
+     <p>
+	A dialog box titled <gui>Organize</gui> appears,
+        check the check box for the album to
+        which the photos are to be added.
+     </p>
+    </item>
+    <item>
+     <p>
+	Click <gui style="button">Ok</gui>
+     </p>
+    </item>
+  </steps>
+ </section>
+ <section>
+   <note>
+    <p>
+       If a check box in the <gui>Organize</gui> dialog box is already checked,
+       it indicates that the photo is already present in that album.
+    </p>
+   </note>
+ </section>
+</page>

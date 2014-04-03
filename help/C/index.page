@@ -1,0 +1,47 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="guide" style="2column"
+	id="index">
+
+ <info>
+  <title type="link">Photos</title>
+  <credit type="author">
+   <name>Venkatesh Tahiliani</name>
+   <email>pulsar.viki@gmail.com</email>
+  </credit>
+  <credit type="editor">
+   <name>Aruna Sankaranarayanan</name>
+   <email>safincrazy@gmail.com</email>
+  </credit>
+   <license>
+   <p>
+     Creative Commons Share Alike 3.0
+   </p>
+  </license>
+ </info>
+   <title>
+     <media type="image" src="media/logo1.png" width="28" height="28"></media>
+      Photos
+   </title>
+     <p>
+        <app> Photos</app> is an application a user can use as an alternative
+        to the file browser. It also enables a user to directly view photos
+        present in the picture directory in a much more interactive way and
+        perform tasks like creating albums, printing photos and setting
+        favourites.
+     </p>
+   <section id="gettingstarted" style="2column">
+     <title>
+       Getting started
+     </title>
+   </section>
+   <section id="albums" style="2column">
+      <title>
+        Albums
+      </title>
+   </section>
+   <section id="preferences" style="2column">
+      <title>
+        Preferences
+      </title>
+   </section>
+</page>

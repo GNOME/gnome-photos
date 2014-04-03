@@ -1,0 +1,58 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="topic" style="task"
+	id="imgprops">
+
+  <info>
+    <link type="guide" xref="index#preferences"/>
+
+<credit type="author">
+ <name>Venkatesh Tahiliani</name>
+ <email>pulsar.viki@gmail.com</email>
+</credit>
+<credit type="editor">
+ <name>Aruna Sankaranarayanan</name>
+ <email>safincrazy@gmail.com</email>
+</credit>
+
+    <desc> View attributes of an album or image.</desc>
+  </info>
+
+  <title>Properties</title>
+<p>
+Properties are associated with an image or an album. Attributes like title, source, date modified and type are associated with an album. Image attributes have much precise detailed information like the camera used, exposure, focal length, aperture and flash. Properties can only be viewed for an individual album or photo and cannot be viewed for a selected set of albums or photos.
+</p>
+ <section id="viewprops">
+  <title>To view properties:</title>
+  <steps>
+   <item><p>Select the photo or album using any one of the selection modes.</p></item>
+   <item><p>The lower secondary toolbar appears, click on <gui style="button">Properties</gui> to view properties of the selection.</p></item>
+   <item><p>Click <gui style="button">Done</gui> to close the Properties window.</p></item>
+  </steps>
+  <note style="tip">
+   <p>
+  Properties of an image can also be accessed from the same when opened for viewing by 
+  clicking on the gear icon on the  primary toolbar and selecting Properties.
+   </p> 
+  </note>
+ </section>
+ <section id="title">
+ <title>To change an image title:</title>
+ <p>
+  <gui style="input">Title</gui> is an editable attribute of an image or album and can be changed by accessing properties of the same.
+ </p>
+ <steps>
+  <item><p>
+   Select the photo or album using any one of the selection modes.
+  </p></item>
+  <item><p>
+  The lower secondary toolbar appears, click on <gui style="button">Properties</gui>.
+  </p></item>
+  <item><p>
+  A window titled <gui>Properties</gui> appears, edit the text for the <gui style="input">Title</gui> attribute to any desired name.
+   </p></item>
+  <item><p>
+  On completion, click <gui style="button">Done</gui>.
+  </p></item>
+ </steps>
+ </section>
+</page>
