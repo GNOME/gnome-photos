@@ -1,0 +1,45 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="topic" style="task"
+	id="deleteanalbum">
+
+  <info>
+    <link type="guide" xref="index#albums"/>
+  <credit type="author">
+   <name>Venkatesh Tahiliani</name>
+   <email>pulsar.viki@gmail.com</email>
+  </credit>
+    <credit type="editor">
+      <name>Aruna Sankaranarayanan</name>
+      <email>safincrazy@gmail.com</email>
+    </credit>
+    <desc> Delete an album.</desc>
+  </info>
+  <title>Deleting an album</title>
+  <p>
+  An album can be deleted from the Albums tab.
+  More than one album can be deleted by selecting
+  them using any one of the selection modes.
+  </p>
+ <section id="deletealbum">
+ <title>To delete an album:</title>
+ <steps>
+  <item>
+  <p>
+  Select the <gui style="tab">Albums</gui> tab.
+  </p>
+  </item>
+  <item>
+   <p>
+   Right click on the album to be deleted,alternatively use any one
+   of the selection modes to select more than one album.
+   </p>
+  </item>
+  <item>
+   <p>
+   The secondary toolbar pops up with the Delete button enabled,
+   a click on the delete button discards all the selected albums.
+   </p>
+  </item>
+ </steps>
+ </section>
+</page>

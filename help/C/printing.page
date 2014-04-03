@@ -1,0 +1,60 @@
+<page xmlns="http://projectmallard.org/1.0/"
+	type="topic" style="task"
+	id="printing">
+
+  <info>
+    <link type="guide" xref="index#preferences"/>
+
+<credit type="author">
+<name>Venkatesh Tahiliani</name>
+<email>pulsar.viki@gmail.com</email>
+</credit>
+
+    <credit type="editor">
+      <name>Aruna Sankaranarayanan</name>
+      <email>safincrazy@gmail.com</email>
+    </credit>
+
+    <desc> Print desired photos.</desc>
+  </info>
+
+  <title>Printing a photo</title>
+ <section id="printingphoto">
+ <title>To print a photo:</title>
+  <p>
+   Printing preferences can be accessed in any one of the following ways:
+  </p>
+  
+  <list>
+  <item><p>Select the photo using anyone of the selection modes
+        and click <gui style="button">Print</gui> from the secondary toolbar.
+  </p></item>
+  <item><p>
+  Hold <keyseq><key>Ctrl</key><key>P</key></keyseq> after a photo is opened for viewing.
+  </p></item>
+  <item><p>
+  Click on the gear icon in the primary toolbar and manually select <gui style="menuitem">Print</gui>.
+  </p></item>
+  </list>
+  <p>
+  From the printing preferences window:
+  </p>
+   <steps>
+   <item><p>
+   Select the printer from the <gui style="tab">General</gui> tab if more than one are available.
+   </p></item>
+   <item><p>
+   Click on the <gui style="tab">Image Settings</gui> tab and specify the position of the image either manually or by dragging it in the preview.
+   </p></item>
+   <item><p>
+   On the same tab optionally specify the height and width from the size section or leave them as default for best fit.
+   </p></item>
+   <item><p>
+   Select the <gui style="tab">Page Setup</gui> tab if a high quality paper is used. The corresponding settings for the paper size and orientation can be set here.
+   </p></item>
+   <item><p>
+   Click <gui style="button">Print</gui>.
+   </p></item>
+  </steps>
+ </section>
+</page>
