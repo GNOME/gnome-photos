@@ -24,6 +24,8 @@ gnome_photos_built_sources = \
 	photos-resources.h \
 	photos-shell-search-provider2.c \
 	photos-shell-search-provider2.h \
+	photos-tracker-extract-priority.c \
+	photos-tracker-extract-priority.h \
 	photos-tracker-resources.c \
 	photos-tracker-resources.h \
 	$(NULL)
@@ -249,6 +251,7 @@ EXTRA_DIST = \
 	photos-preview-menu.ui \
 	photos-selection-menu.ui \
 	photos-gom-miner.xml \
+	photos-tracker-extract-priority.xml \
 	photos-tracker-resources.xml \
 	photos-dleyna-renderer-device.xml \
 	photos-dleyna-renderer-manager.xml \
@@ -484,6 +487,13 @@ photos-shell-search-provider2.h photos-shell-search-provider2.c: org.gnome.Shell
 		--generate-c-code photos-shell-search-provider2 \
 		--interface-prefix org.gnome.Shell. \
 		$<
+
+photos-tracker-extract-priority.h photos-tracker-extract-priority.c: photos-tracker-extract-priority.xml
+	$(AM_V_GEN)gdbus-codegen \
+		--c-namespace Tracker \
+		--generate-c-code photos-tracker-extract-priority \
+		--interface-prefix org.freedesktop.Tracker1. \
+		$(srcdir)/photos-tracker-extract-priority.xml
 
 photos-tracker-resources.h photos-tracker-resources.c: photos-tracker-resources.xml
 	$(AM_V_GEN)gdbus-codegen \
