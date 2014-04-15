@@ -1,3 +1,19 @@
+Overview of changes in 3.12.1
+=============================
+
+* New user help (711505)
+
+* Bugs fixed:
+ 726903 Scale the thumbnails on HiDpi displays
+ 726919 Use o.fd.Tracker1.Extract.Priority interface to prioritize relevant
+        types
+ 727205 Crash if Facebook credentials expired
+
+* Updated translations:
+ Greek
+ Slovenian
+
+
 Overview of changes in 3.12.0
 =============================
 
