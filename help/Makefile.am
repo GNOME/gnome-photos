@@ -12,6 +12,6 @@ HELP_FILES = \
         view.page
 
 HELP_MEDIA = \
-	media/icon1.png
+	media/logo1.png
 
 HELP_LINGUAS =
