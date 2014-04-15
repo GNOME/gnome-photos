@@ -1,19 +1,20 @@
 <page xmlns="http://projectmallard.org/1.0/"
-	type="topic" style="task"
-	id="favorites-set">
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" style="task"
+      id="favorites-set">
 
   <info>
     <link type="guide" xref="favorites"/>
 
-    <revision pkgversion="3.12" date="2014-03-13" status="draft"/>
+    <revision pkgversion="3.12.1" date="2014-04-15" status="draft"/>
 
     <credit type="author copyright">
       <name>Venkatesh Tahiliani</name>
-      <email>pulsar.viki@gmail.com</email>
+      <email its:translate="no">pulsar.viki@gmail.com</email>
     </credit>
     <credit type="editor copyright">
       <name>Aruna Sankaranarayanan</name>
-      <email>safincrazy@gmail.com</email>
+      <email its:translate="no">safincrazy@gmail.com</email>
     </credit>
 
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
@@ -33,12 +34,10 @@
       whether you want to mark an album or a photo as a favorite.</p>
     </item>
     <item>
-      <p><link xref="selection-mode-toggle#on">Switch on</link> the selection
-      mode.</p>
+      <p>Switch on the selection mode.</p>
     </item>
     <item>
-      <p><link xref="selection-mode-how">Select</link> all the items you want
-      to favorite.</p>
+      <p>Select all the items you want to favorite.</p>
     </item>
     <item>
       <p>To finish, select the button with the picture of a heart from the
