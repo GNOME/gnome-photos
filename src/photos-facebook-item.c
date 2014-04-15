@@ -79,50 +79,46 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
 {
   GFBGraphPhoto *photo;
   const GFBGraphPhotoImage *thumbnail_image;
-  gchar *local_path, *local_dir;
-  GFile *local_file, *remote_file;
+  gchar *local_path = NULL, *local_dir = NULL;
+  GFile *local_file = NULL, *remote_file = NULL;
   gboolean ret_val = FALSE;
 
   photo = photos_facebook_get_gfbgraph_photo (item, cancellable, error);
   if (photo == NULL)
+    goto out;
+
+  thumbnail_image = gfbgraph_photo_get_image_near_width (photo, photos_utils_get_icon_size ());
+  if (thumbnail_image == NULL)
     {
-      g_error ("Can't get the photo from the Facebook Graph\n");
-    }
-  else
-    {
-    thumbnail_image = gfbgraph_photo_get_image_near_width (photo, photos_utils_get_icon_size ());
-    if (thumbnail_image == NULL)
-      {
-        g_error ("Can't get a photo size to create the thumbnail.\n");
-      }
-    else
-      {
-        remote_file = g_file_new_for_uri (thumbnail_image->source);
-
-        local_path = gnome_desktop_thumbnail_path_for_uri (photos_base_item_get_uri (item),
-                                                           GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
-        local_file = g_file_new_for_path (local_path);
-        local_dir = g_path_get_dirname (local_path);
-        g_mkdir_with_parents (local_dir, 0700);
-
-        g_debug ("Downloading %s from Facebook to %s",
-                 thumbnail_image->source, local_path);
-        if (g_file_copy (remote_file,
-                         local_file,
-                         G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
-                         cancellable,
-                         NULL,
-                         NULL,
-                         error))
-          ret_val = TRUE;
-
-        g_free (local_path);
-        g_free (local_dir);
-        g_clear_object (&local_file);
-        g_clear_object (&remote_file);
-      }
+      g_set_error (error, PHOTOS_ERROR, 0, "Failed to find an image for the thumbnail");
+      goto out;
     }
 
+  remote_file = g_file_new_for_uri (thumbnail_image->source);
+
+  local_path = gnome_desktop_thumbnail_path_for_uri (photos_base_item_get_uri (item),
+                                                     GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
+  local_file = g_file_new_for_path (local_path);
+  local_dir = g_path_get_dirname (local_path);
+  g_mkdir_with_parents (local_dir, 0700);
+
+  g_debug ("Downloading %s from Facebook to %s", thumbnail_image->source, local_path);
+  if (!g_file_copy (remote_file,
+                    local_file,
+                    G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
+                    cancellable,
+                    NULL,
+                    NULL,
+                    error))
+    goto out;
+
+  ret_val = TRUE;
+
+ out:
+  g_free (local_path);
+  g_free (local_dir);
+  g_clear_object (&local_file);
+  g_clear_object (&remote_file);
   return ret_val;
 }
 
@@ -130,59 +126,61 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
 static gchar *
 photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GFBGraphPhoto *photo;
+  GFBGraphPhoto *photo = NULL;
   const GFBGraphPhotoImage *higher_image;
   const gchar *identifier;
-  gchar *local_dir, *filename, *local_filename;
-  GFile *local_file, *remote_file;
+  gchar *local_dir = NULL, *filename = NULL, *local_filename = NULL;
+  gchar *ret_val = NULL;
+  GFile *local_file = NULL, *remote_file = NULL;
 
   photo = photos_facebook_get_gfbgraph_photo (item, cancellable, error);
   if (photo == NULL)
+    goto out;
+
+  higher_image = gfbgraph_photo_get_image_hires (photo);
+  if (higher_image == NULL)
     {
-      g_error ("Can't get the photo from the Facebook Graph\n");
-    }
-  else
-    {
-      higher_image = gfbgraph_photo_get_image_hires (photo);
-      if (higher_image == NULL)
-        {
-          g_error ("Cant' get the higher photo size from Facebook.\n");
-        }
-      else
-        {
-          remote_file = g_file_new_for_uri (higher_image->source);
-
-          /* Local path */
-          local_dir = g_build_filename (g_get_user_cache_dir (), PACKAGE_TARNAME, "facebook", NULL);
-          g_mkdir_with_parents (local_dir, 0700);
-
-          /* Local filename */
-          identifier = photos_base_item_get_identifier (item) + strlen("facebook:photos:");
-          filename = g_strdup_printf ("%s.jpeg", identifier);
-          local_filename = g_build_filename (local_dir, filename, NULL);
-
-          local_file = g_file_new_for_path (local_filename);
-
-          g_debug ("Downloading %s from Facebook to %s", higher_image->source, local_filename);
-          if (!g_file_copy (remote_file,
-                            local_file,
-                            G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
-                            cancellable,
-                            NULL,
-                            NULL,
-                            error))
-            g_warning ("Failed downloading %s from Facebook to %s\n", higher_image->source, local_filename);
-
-          g_free (filename);
-          g_free (local_dir);
-          g_clear_object (&local_file);
-          g_clear_object (&remote_file);
-        }
-
-      g_clear_object (&photo);
+      g_set_error (error, PHOTOS_ERROR, 0, "Failed to find a high resolution image");
+      goto out;
     }
 
-  return local_filename;
+  remote_file = g_file_new_for_uri (higher_image->source);
+
+  /* Local path */
+  local_dir = g_build_filename (g_get_user_cache_dir (), PACKAGE_TARNAME, "facebook", NULL);
+  g_mkdir_with_parents (local_dir, 0700);
+
+  /* Local filename */
+  identifier = photos_base_item_get_identifier (item) + strlen("facebook:photos:");
+  filename = g_strdup_printf ("%s.jpeg", identifier);
+  local_filename = g_build_filename (local_dir, filename, NULL);
+
+  local_file = g_file_new_for_path (local_filename);
+
+  g_debug ("Downloading %s from Facebook to %s", higher_image->source, local_filename);
+  if (!g_file_copy (remote_file,
+                    local_file,
+                    G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
+                    cancellable,
+                    NULL,
+                    NULL,
+                    error))
+    {
+      g_file_delete (local_file, NULL, NULL);
+      goto out;
+    }
+
+  ret_val = local_filename;
+  local_filename = NULL;
+
+ out:
+  g_free (local_filename);
+  g_free (filename);
+  g_free (local_dir);
+  g_clear_object (&local_file);
+  g_clear_object (&remote_file);
+  g_clear_object (&photo);
+  return ret_val;
 }
 
 
