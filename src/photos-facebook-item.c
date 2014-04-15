@@ -57,17 +57,19 @@ photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancella
   PhotosSource *source;
   const gchar *identifier, *resource_urn;
   GFBGraphGoaAuthorizer *authorizer;
-  GFBGraphPhoto *photo;
+  GFBGraphPhoto *photo = NULL;
 
   resource_urn = photos_base_item_get_resource_urn (item);
   source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (priv->src_mngr, resource_urn));
   authorizer = gfbgraph_goa_authorizer_new (photos_source_get_goa_object (source));
   identifier = photos_base_item_get_identifier (item) + strlen("facebook:");
 
-  gfbgraph_authorizer_refresh_authorization (GFBGRAPH_AUTHORIZER (authorizer), cancellable, error);
+  if (!gfbgraph_authorizer_refresh_authorization (GFBGRAPH_AUTHORIZER (authorizer), cancellable, error))
+    goto out;
 
   photo = gfbgraph_photo_new_from_id (GFBGRAPH_AUTHORIZER (authorizer), identifier, error);
 
+ out:
   return photo;
 }
 
