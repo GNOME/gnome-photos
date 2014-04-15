@@ -77,7 +77,7 @@ photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancella
 static gboolean
 photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GFBGraphPhoto *photo;
+  GFBGraphPhoto *photo = NULL;
   const GFBGraphPhotoImage *thumbnail_image;
   gchar *local_path = NULL, *local_dir = NULL;
   GFile *local_file = NULL, *remote_file = NULL;
@@ -119,6 +119,7 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
   g_free (local_dir);
   g_clear_object (&local_file);
   g_clear_object (&remote_file);
+  g_clear_object (&photo);
   return ret_val;
 }
 
