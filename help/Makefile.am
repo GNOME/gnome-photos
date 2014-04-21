@@ -14,4 +14,4 @@ HELP_FILES = \
 HELP_MEDIA = \
 	media/logo1.png
 
-HELP_LINGUAS =
+HELP_LINGUAS = el
