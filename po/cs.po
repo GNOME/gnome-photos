@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-20 20:14+0000\n"
-"PO-Revision-Date: 2014-02-21 08:12+0100\n"
+"POT-Creation-Date: 2014-04-23 19:07+0000\n"
+"PO-Revision-Date: 2014-04-23 21:19+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -174,11 +174,11 @@ msgstr "O aplikaci"
 msgid "Quit"
 msgstr "Ukončit"
 
-#: ../src/photos-base-item.c:310
+#: ../src/photos-base-item.c:345
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:760
+#: ../src/photos-base-item.c:804
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -186,17 +186,21 @@ msgstr "Snímky obrazovky"
 msgid "DLNA Renderer Devices"
 msgstr "Vykreslovací zařízení DLNA"
 
-#: ../src/photos-embed.c:652
+#: ../src/photos-embed.c:717
 msgid "Recent"
 msgstr "Nedávné"
 
-#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:110
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Alba"
 
-#: ../src/photos-embed.c:658 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Oblíbené"
+
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:280
+msgid "Search"
+msgstr "Hledat"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
@@ -230,7 +234,7 @@ msgstr "Nenalezeny žádné oblíbené"
 msgid "No Photos Found"
 msgstr "Nenalezeny žádné fotografie"
 
-#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
+#: ../src/photos-facebook-item.c:191 ../src/photos-facebook-item.c:221
 msgid "Facebook"
 msgstr "Facebook"
 
@@ -242,11 +246,23 @@ msgstr "Fotografie bez názvu"
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:169
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Získávají se fotografie z účtu %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Získávají se fotografie z účtů on-line"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "Vaše fotografie budou indexovány"
 
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Během tohoto procesu nemusí být některé fotografie přístupné"
 
@@ -262,11 +278,11 @@ msgstr "Načítá se…"
 msgid "Local"
 msgstr "Místní"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Kliknutím na položku ji vyberete"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -274,34 +290,30 @@ msgstr[0] "%d vybraná"
 msgstr[1] "%d vybrané"
 msgstr[2] "%d vybraných"
 
-#: ../src/photos-main-toolbar.c:158
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "Zpět"
 
-#: ../src/photos-main-toolbar.c:282
-msgid "Search"
-msgstr "Hledat"
-
-#: ../src/photos-main-toolbar.c:298
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "Vybrat položky"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:412 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Otevřít pomocí %s"
 
-#: ../src/photos-main-toolbar.c:571
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../src/photos-main-window.c:446
+#: ../src/photos-main-window.c:455
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Zobrazovat, třídit a sdílet své fotografie v GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:458
+#: ../src/photos-main-window.c:467
 msgid "translator-credits"
 msgstr "Marek Černocký, <marek@manet.cz>"
 
@@ -337,7 +349,7 @@ msgstr "Zobrazit na…"
 msgid "Set as Background"
 msgstr "Nastavit jako pozadí"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:650
 #: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -352,7 +364,12 @@ msgstr "Odebrat z oblíbených"
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Tiskne se „%s“: %s"
+
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Nastavení obrázku"
 
@@ -504,12 +521,8 @@ msgstr "Vypnut, nebyl spuštěn"
 msgid "On, fired"
 msgstr "Zapnut, byl spuštěn"
 
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "Hotovo"
-
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Vše"
 
@@ -532,7 +545,7 @@ msgstr "Porovnávat"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:153
+#: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Typ"
