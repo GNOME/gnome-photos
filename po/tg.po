@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-20 10:03+0000\n"
-"PO-Revision-Date: 2014-02-20 18:04+0500\n"
+"POT-Creation-Date: 2014-04-25 07:07+0000\n"
+"PO-Revision-Date: 2014-04-25 15:56+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <tg@li.org>\n"
 "Language: tg\n"
@@ -175,11 +175,11 @@ msgstr "Дар бораи барнома"
 msgid "Quit"
 msgstr "Баромад"
 
-#: ../src/photos-base-item.c:310
+#: ../src/photos-base-item.c:345
 msgid "Album"
 msgstr "Албом"
 
-#: ../src/photos-base-item.c:760
+#: ../src/photos-base-item.c:804
 msgid "Screenshots"
 msgstr "Скриншотҳо"
 
@@ -187,17 +187,21 @@ msgstr "Скриншотҳо"
 msgid "DLNA Renderer Devices"
 msgstr "Дастгоҳи коркарди DLNA"
 
-#: ../src/photos-embed.c:652
+#: ../src/photos-embed.c:717
 msgid "Recent"
 msgstr "Қаблӣ"
 
-#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:110
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Албомҳо"
 
-#: ../src/photos-embed.c:658 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Баргузидаҳо"
+
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:280
+msgid "Search"
+msgstr "Ҷустуҷӯ"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
@@ -231,7 +235,7 @@ msgstr "Ягон баргузида ёфт нашудааст"
 msgid "No Photos Found"
 msgstr "Ягон сурат ёфт нашудааст"
 
-#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
+#: ../src/photos-facebook-item.c:191 ../src/photos-facebook-item.c:221
 msgid "Facebook"
 msgstr "Facebook"
 
@@ -243,11 +247,23 @@ msgstr "Сурати беном"
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:169
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Бозёбии суратҳо аз %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Бозёбии суратҳо аз ҳисобҳои онлайн"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "Суратҳои шумо ба индекс мураттаб карда шудаанд"
 
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Эҳтамол аст, ки баъзе суратҳо ҳангоми ин раванд дастрас намешавад"
 
@@ -263,45 +279,41 @@ msgstr "Бор шуда истодааст..."
 msgid "Local"
 msgstr "Маҳаллӣ"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Барои интихоби объект онро зер кунед"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d интихобшуда"
 msgstr[1] "%d интихобшуда"
 
-#: ../src/photos-main-toolbar.c:158
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "Бозгашт"
 
-#: ../src/photos-main-toolbar.c:282
-msgid "Search"
-msgstr "Ҷустуҷӯ"
-
-#: ../src/photos-main-toolbar.c:298
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "Интихоби объект"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:412 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Кушодан бо %s"
 
-#: ../src/photos-main-toolbar.c:571
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
 msgstr "Бекор кардан"
 
-#: ../src/photos-main-window.c:446
+#: ../src/photos-main-window.c:455
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Суратҳоро дар GNOME кушоед, мураттаб ва мубодила кунед"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:458
+#: ../src/photos-main-window.c:467
 msgid "translator-credits"
 msgstr "Victor Ibragimov, victor.ibragimo@gmail.com"
 
@@ -337,7 +349,7 @@ msgstr "Намоиш додан дар..."
 msgid "Set as Background"
 msgstr "Ҳамчун пасзамина таъин кардан"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:650
 #: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Хусусиятҳо"
@@ -352,7 +364,12 @@ msgstr "Тоза кардан аз баргузидаҳо"
 msgid "Add to favorites"
 msgstr "Илова кардан ба баргузидаҳо"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Чопкунии “%s”: %s"
+
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Танзимоти тасвир"
 
@@ -504,12 +521,8 @@ msgstr "Хомӯш, бе чароғ"
 msgid "On, fired"
 msgstr "Фаъол, бо чароғ"
 
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "Тайёр"
-
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Ҳама"
 
@@ -532,7 +545,7 @@ msgstr "Мувофиқат"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:153
+#: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Намуд"
@@ -564,6 +577,9 @@ msgstr "Манбаҳо"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Рӯйхати суратҳо бозёбӣ намешавад"
+
+#~ msgid "Done"
+#~ msgstr "Тайёр"
 
 #~| msgid "Image Settings"
 #~ msgid "System Settings"
