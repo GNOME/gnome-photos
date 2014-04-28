@@ -279,8 +279,11 @@ AM_CPPFLAGS = \
 	$(LIBEXIF_CFLAGS) \
 	$(LIBRSVG_CFLAGS) \
 	$(TRACKER_CFLAGS) \
-	$(WARN_CFLAGS) \
 	-I$(top_srcdir)/libgd \
+	$(NULL)
+
+AM_CFLAGS = \
+	$(WARN_CFLAGS) \
 	$(NULL)
 
 gnome_photos_LDFLAGS =
