@@ -260,7 +260,6 @@ EXTRA_DIST = \
 	$(NULL)
 
 AM_CPPFLAGS = \
-	-DPACKAGE_ICONS_DIR=\""${pkgdatadir}/icons"\" \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
 	$(BABL_CFLAGS) \
 	$(CAIRO_CFLAGS) \
