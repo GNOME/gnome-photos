@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-06 22:13+0200\n"
-"PO-Revision-Date: 2013-09-15 22:01+0200\n"
-"Last-Translator: Josep Sànchez <papapep@gmx.com>\n"
+"POT-Creation-Date: 2014-05-09 00:22+0200\n"
+"PO-Revision-Date: 2014-03-10 23:18+0100\n"
+"Last-Translator: Pau Iranzo <paugnu@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca-XV\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Content-Transfer-Encoding: 8bits\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Project-Style: gnome\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -30,11 +30,11 @@ msgstr ""
 "elegant del gestor de fitxers per gestionar imatges. S'integra "
 "transparentment amb el núvol mitjançant els comptes en línia del GNOME."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
 msgid "It lets you:"
 msgstr "Vos permet:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "<li>View recent local and online photos</li> <li>Access your Flickr content</"
 "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
@@ -47,16 +47,16 @@ msgstr ""
 "fotografies</li> <li>Seleccioneu les preferides</li> <li>Obriu amb un editor "
 "complet per a canvis més avançats</li>"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:93
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Fotografies"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Accediu, gestioneu i compartiu fotografies"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "Fotografies;Imatges;"
 
@@ -167,95 +167,151 @@ msgid "_Help"
 msgstr "A_juda"
 
 #: ../src/photos-app-menu.ui.h:3
-msgid "About Photos"
-msgstr "Quant al Fotografies"
+msgid "About"
+msgstr "Quant a"
 
 #: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Ix"
 
-#: ../src/photos-base-item.c:303
+#: ../src/photos-base-item.c:344
 msgid "Album"
 msgstr "Àlbum"
+
+#: ../src/photos-base-item.c:803
+msgid "Screenshots"
+msgstr "Captures de pantalla"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Dispositius renderitzadors DLNA"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+#: ../src/photos-embed.c:722
+msgid "Recent"
+msgstr "Recent"
+
+#: ../src/photos-embed.c:728 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Àlbums"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:734 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Preferits"
 
-#: ../src/photos-empty-results-box.c:66
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "Poseu un nom al vostre primer àlbum"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+msgid "Settings"
+msgstr "Paràmetres"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Podeu afegir comptes en línia a %s"
+
+#: ../src/photos-empty-results-box.c:189
+msgid "No Albums Found"
+msgstr "No s'ha trobat cap àlbum"
+
+#: ../src/photos-empty-results-box.c:193
+msgid "No Favorites Found"
+msgstr "No s'ha trobat cap preferit"
+
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "No s'ha trobat cap fotografia"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
+#: ../src/photos-facebook-item.c:191 ../src/photos-facebook-item.c:221
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Foto sense títol"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:168
+#: ../src/photos-indexing-notification.c:169
 msgid "Your photos are being indexed"
 msgstr "S'estan indexant les fotografies"
 
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:173
 msgid "Some photos might not be available during this process"
 msgstr "Mentre duri el procés, algunes fotografies no estaran disponibles"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
 msgid "Load More"
 msgstr "Carrega'n més"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:86
 msgid "Loading…"
 msgstr "S'està carregant..."
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Local"
 
-#: ../src/photos-main-toolbar.c:99
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Feu clic als elements per seleccionar-los"
 
-#: ../src/photos-main-toolbar.c:101
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d seleccionat"
 msgstr[1] "%d seleccionats"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "Arrere"
 
-#: ../src/photos-main-toolbar.c:273
+#: ../src/photos-main-toolbar.c:280
+msgid "Search"
+msgstr "Cerca"
+
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "Selecciona els elements"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Obri amb %s"
 
-#: ../src/photos-main-toolbar.c:490
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: ../src/photos-main-window.c:329
+#: ../src/photos-main-window.c:455
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Accediu, organitzeu i compartiu les vostres fotografies amb el GNOME"
 
 #
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:467
 msgid "translator-credits"
 msgstr "Jordi Mas i Hernandez <jmas@softcatala.org>"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Afig"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_D'acord"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -264,7 +320,7 @@ msgid "Organize"
 msgstr "Organitza"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
 #: ../src/photos-selection-toolbar.c:437
 msgid "Open"
 msgstr "Obri"
@@ -281,22 +337,22 @@ msgstr "Visualitza a..."
 msgid "Set as Background"
 msgstr "Estableix com a fons"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Propietats"
 
-#: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
+#: ../src/photos-preview-nav-buttons.c:209
+#: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "Suprimeix dels preferits"
 
-#: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
+#: ../src/photos-preview-nav-buttons.c:214
+#: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Afig als preferits"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Paràmetres de la imatge"
 
@@ -375,7 +431,7 @@ msgstr "Previsualització"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
+#: ../src/photos-properties-dialog.c:218
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Títol"
@@ -383,78 +439,103 @@ msgstr "Títol"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
+#: ../src/photos-properties-dialog.c:230
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-properties-dialog.c:236
+#: ../src/photos-properties-dialog.c:237
 msgid "Source"
 msgstr "Font"
 
-#: ../src/photos-properties-dialog.c:242
+#: ../src/photos-properties-dialog.c:243
 msgid "Date Modified"
 msgstr "Data de modificació"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:251
 msgid "Date Created"
 msgstr "Data de creació"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
+#: ../src/photos-properties-dialog.c:261
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tipus"
 
-#: ../src/photos-properties-dialog.c:269
+#: ../src/photos-properties-dialog.c:270
 msgid "Width"
 msgstr "Amplada"
 
-#: ../src/photos-properties-dialog.c:279
+#: ../src/photos-properties-dialog.c:280
 msgid "Height"
 msgstr "Alçada:"
 
-#: ../src/photos-properties-dialog.c:294
+#: ../src/photos-properties-dialog.c:295
 msgid "Camera"
 msgstr "Càmera"
 
-#: ../src/photos-properties-dialog.c:304
+#: ../src/photos-properties-dialog.c:305
 msgid "Exposure"
 msgstr "Exposició"
 
-#: ../src/photos-properties-dialog.c:314
+#: ../src/photos-properties-dialog.c:315
 msgid "Aperture"
 msgstr "Obertura"
 
-#: ../src/photos-properties-dialog.c:324
+#: ../src/photos-properties-dialog.c:325
 msgid "Focal Length"
 msgstr "Longitud focal"
 
-#: ../src/photos-properties-dialog.c:334
+#: ../src/photos-properties-dialog.c:335
 msgid "ISO Speed"
 msgstr "Velocitat de l'ISO"
 
-#: ../src/photos-properties-dialog.c:344
+#: ../src/photos-properties-dialog.c:345
 msgid "Flash"
 msgstr "Flaix"
 
-#: ../src/photos-properties-dialog.c:527
+#: ../src/photos-properties-dialog.c:536
 msgid "Off, did not fire"
 msgstr "Parat, no ha disparat"
 
-#: ../src/photos-properties-dialog.c:529
+#: ../src/photos-properties-dialog.c:538
 msgid "On, fired"
 msgstr "Engegat, ha disparat"
 
-#: ../src/photos-properties-dialog.c:608
+#: ../src/photos-properties-dialog.c:617
 msgid "Done"
 msgstr "Fet"
 
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Tot"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Títol"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Autor"
+
+#: ../src/photos-search-match-manager.c:205
+msgid "Match"
+msgstr "Coincidència"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:154
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Tipus"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -472,10 +553,17 @@ msgstr "Impressió"
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:469
 msgid "Add to Album"
 msgstr "Afig a l'àlbum"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-source-manager.c:174
+msgid "Sources"
+msgstr "Fonts"
+
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "No es pot obtindre el llistat de fotografies"
+
+#~ msgid "About Photos"
+#~ msgstr "Quant al Fotografies"
