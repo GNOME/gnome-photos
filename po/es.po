@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-21 08:12+0000\n"
-"PO-Revision-Date: 2014-02-21 13:08+0100\n"
+"POT-Creation-Date: 2014-05-08 19:11+0000\n"
+"PO-Revision-Date: 2014-05-10 18:37+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: Gtranslator 2.91.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
@@ -175,11 +175,11 @@ msgstr "Acerca de"
 msgid "Quit"
 msgstr "Salir"
 
-#: ../src/photos-base-item.c:310
+#: ../src/photos-base-item.c:345
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:760
+#: ../src/photos-base-item.c:804
 msgid "Screenshots"
 msgstr "Capturas de pantalla"
 
@@ -187,17 +187,21 @@ msgstr "Capturas de pantalla"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos de renderizado DLNA"
 
-#: ../src/photos-embed.c:652
+#: ../src/photos-embed.c:717
 msgid "Recent"
 msgstr "Recientes"
 
-#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:110
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:658 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritos"
+
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:280
+msgid "Search"
+msgstr "Buscar"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
@@ -231,7 +235,7 @@ msgstr "No se encontraron favoritos"
 msgid "No Photos Found"
 msgstr "No se encontraron fotos"
 
-#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
+#: ../src/photos-facebook-item.c:191 ../src/photos-facebook-item.c:221
 msgid "Facebook"
 msgstr "Facebook"
 
@@ -243,11 +247,23 @@ msgstr "Foto sin título"
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:169
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Obteniendo fotos de %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Obteniendo fotos de cuentas en línea"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "Se están indexando sus fotos"
 
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Algunas fotos pueden no estar disponibles durante este proceso"
 
@@ -263,45 +279,41 @@ msgstr "Cargando…"
 msgid "Local"
 msgstr "Local"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Pulse sobre los elementos para seleccionarlos"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d seleccionada"
 msgstr[1] "%d seleccionadas"
 
-#: ../src/photos-main-toolbar.c:158
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "Atrás"
 
-#: ../src/photos-main-toolbar.c:282
-msgid "Search"
-msgstr "Buscar"
-
-#: ../src/photos-main-toolbar.c:298
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "Seleccionar elementos"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:412 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: ../src/photos-main-toolbar.c:571
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/photos-main-window.c:446
+#: ../src/photos-main-window.c:455
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice y comparta sus fotos en GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:458
+#: ../src/photos-main-window.c:467
 msgid "translator-credits"
 msgstr "Angel Méndez <angelrmm0@gmail.com>, 2012"
 
@@ -337,7 +349,7 @@ msgstr "Mostrar en…"
 msgid "Set as Background"
 msgstr "Establecer como fondo"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:650
 #: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Propiedades"
@@ -352,7 +364,12 @@ msgstr "Quita de favoritos"
 msgid "Add to favorites"
 msgstr "Agregar a favoritos"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Imprimiendo «%s»: %s"
+
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Configuración de la imagen"
 
@@ -505,13 +522,8 @@ msgstr "Desactivado, no se ha disparado"
 msgid "On, fired"
 msgstr "Activado, disparado"
 
-#  o Terminado
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "Hecho"
-
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Todo"
 
@@ -534,7 +546,7 @@ msgstr "Coincidencia"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:153
+#: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Tipo"
@@ -566,6 +578,10 @@ msgstr "Fuentes"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "No se pudo obtener la lista de fotos"
+
+#  o Terminado
+#~ msgid "Done"
+#~ msgstr "Hecho"
 
 #~| msgid "Image Settings"
 #~ msgid "System Settings"
