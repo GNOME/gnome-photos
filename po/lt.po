@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-24 20:14+0000\n"
-"PO-Revision-Date: 2014-02-24 23:04+0200\n"
+"POT-Creation-Date: 2014-05-25 07:11+0000\n"
+"PO-Revision-Date: 2014-05-25 22:07+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -175,11 +175,11 @@ msgstr "Apie"
 msgid "Quit"
 msgstr "Išeiti"
 
-#: ../src/photos-base-item.c:310
+#: ../src/photos-base-item.c:345
 msgid "Album"
 msgstr "Albumas"
 
-#: ../src/photos-base-item.c:760
+#: ../src/photos-base-item.c:804
 msgid "Screenshots"
 msgstr "Ekranvaizdžiai"
 
@@ -187,17 +187,21 @@ msgstr "Ekranvaizdžiai"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA piešimo įrenginiai"
 
-#: ../src/photos-embed.c:652
+#: ../src/photos-embed.c:717
 msgid "Recent"
 msgstr "Neseniai naudoti"
 
-#: ../src/photos-embed.c:655 ../src/photos-search-type-manager.c:110
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumai"
 
-#: ../src/photos-embed.c:658 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Mėgiamiausios"
+
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:280
+msgid "Search"
+msgstr "Ieškoti"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
@@ -220,12 +224,10 @@ msgid "You can add your online accounts in %s"
 msgstr "%s galite pridėti internetines paskyras"
 
 #: ../src/photos-empty-results-box.c:189
-#| msgid "No Photos Found"
 msgid "No Albums Found"
 msgstr "Nerasta albumų"
 
 #: ../src/photos-empty-results-box.c:193
-#| msgid "No Photos Found"
 msgid "No Favorites Found"
 msgstr "Nerasta mėgiamiausių"
 
@@ -233,7 +235,7 @@ msgstr "Nerasta mėgiamiausių"
 msgid "No Photos Found"
 msgstr "Nerasta nuotraukų"
 
-#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
+#: ../src/photos-facebook-item.c:191 ../src/photos-facebook-item.c:221
 msgid "Facebook"
 msgstr "Facebook"
 
@@ -245,11 +247,23 @@ msgstr "Nepavadinta nuotrauka"
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:169
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Gaunamos nuotraukos iš %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Gaunamos nuotraukos iš internetinių paskyrų"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "Jūsų nuotraukos indeksuojamos"
 
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Kai kurios nuotraukos gali būti nepasiekiamos šio proceso metu"
 
@@ -265,11 +279,11 @@ msgstr "Įkeliama…"
 msgid "Local"
 msgstr "Vietinės"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Spauskite ant elementų jiems pažymėti"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -277,34 +291,30 @@ msgstr[0] "Pasirinktas %d"
 msgstr[1] "Pasirinkti %d"
 msgstr[2] "Pasirinkta %d"
 
-#: ../src/photos-main-toolbar.c:158
+#: ../src/photos-main-toolbar.c:156
 msgid "Back"
 msgstr "Atgal"
 
-#: ../src/photos-main-toolbar.c:282
-msgid "Search"
-msgstr "Ieškoti"
-
-#: ../src/photos-main-toolbar.c:298
+#: ../src/photos-main-toolbar.c:296
 msgid "Select Items"
 msgstr "Pasirinkite elementus"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:412 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Atverti su %s"
 
-#: ../src/photos-main-toolbar.c:571
+#: ../src/photos-main-toolbar.c:577
 msgid "Cancel"
 msgstr "Atsisakyti"
 
-#: ../src/photos-main-window.c:446
+#: ../src/photos-main-window.c:455
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Pasiekite, tvarkykite ir dalinkitės savo nuotraukomis GNOME aplinkoje"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:458
+#: ../src/photos-main-window.c:467
 msgid "translator-credits"
 msgstr ""
 "Išvertė:\n"
@@ -342,7 +352,7 @@ msgstr "Rodyti su…"
 msgid "Set as Background"
 msgstr "Nustatyti kaip foną"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:650
 #: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Savybės"
@@ -357,7 +367,12 @@ msgstr "Pašalinti iš mėgiamiausių"
 msgid "Add to favorites"
 msgstr "Pridėti prie mėgiamiausių"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Spausdinama „%s“: %s"
+
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Paveikslėlio nustatymai"
 
@@ -509,12 +524,8 @@ msgstr "Išjungta, neblykstelėjo"
 msgid "On, fired"
 msgstr "Įjungta, blykstelėjo"
 
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "Atlikta"
-
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Visi"
 
@@ -537,7 +548,7 @@ msgstr "Atitikmuo"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:153
+#: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Tipas"
@@ -569,3 +580,4 @@ msgstr "Šaltiniai"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Nepavyksta gauti nuotraukų sąrašo"
+
