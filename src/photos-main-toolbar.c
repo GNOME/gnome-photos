@@ -145,16 +145,11 @@ static GtkWidget *
 photos_main_toolbar_add_back_button (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
-  GtkTextDirection direction;
   GtkWidget *back_button;
-  const gchar *icon_name;
-
-  direction = gtk_widget_get_direction (GTK_WIDGET (priv->toolbar));
-  icon_name = (direction == GTK_TEXT_DIR_RTL) ? PHOTOS_ICON_GO_NEXT_SYMBOLIC : PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC;
 
   back_button = gd_header_simple_button_new ();
   gd_header_button_set_label (GD_HEADER_BUTTON (back_button), _("Back"));
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (back_button), icon_name);
+  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (back_button), PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC);
   gtk_header_bar_pack_start (GTK_HEADER_BAR (priv->toolbar), back_button);
 
   return back_button;

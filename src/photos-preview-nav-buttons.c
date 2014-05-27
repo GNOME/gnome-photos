@@ -357,15 +357,8 @@ photos_preview_nav_buttons_constructed (GObject *object)
   GtkWidget *button;
   GtkWidget *image;
   GtkWidget *toolbar;
-  gboolean is_rtl;
-  const gchar *next_icon_name;
-  const gchar *prev_icon_name;
 
   G_OBJECT_CLASS (photos_preview_nav_buttons_parent_class)->constructed (object);
-
-  is_rtl = (gtk_widget_get_direction (priv->preview_view) == GTK_TEXT_DIR_RTL);
-  prev_icon_name = is_rtl ? PHOTOS_ICON_GO_NEXT_SYMBOLIC : PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC;
-  next_icon_name = is_rtl ? PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC : PHOTOS_ICON_GO_NEXT_SYMBOLIC;
 
   priv->prev_widget = gtk_revealer_new ();
   gtk_widget_set_halign (priv->prev_widget, GTK_ALIGN_START);
@@ -375,7 +368,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
   gtk_revealer_set_transition_type (GTK_REVEALER (priv->prev_widget), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->overlay), priv->prev_widget);
 
-  image = gtk_image_new_from_icon_name (prev_icon_name, GTK_ICON_SIZE_INVALID);
+  image = gtk_image_new_from_icon_name (PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC, GTK_ICON_SIZE_INVALID);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
 
   button = gtk_button_new ();
@@ -404,7 +397,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
   gtk_revealer_set_transition_type (GTK_REVEALER (priv->next_widget), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->overlay), priv->next_widget);
 
-  image = gtk_image_new_from_icon_name (next_icon_name, GTK_ICON_SIZE_INVALID);
+  image = gtk_image_new_from_icon_name (PHOTOS_ICON_GO_NEXT_SYMBOLIC, GTK_ICON_SIZE_INVALID);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
 
   button = gtk_button_new ();
