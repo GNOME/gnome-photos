@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-photos 3.11.x\n"
+"Project-Id-Version: gnome-photos 3.13.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-05 06:56+0100\n"
-"PO-Revision-Date: 2014-03-05 06:56+0100\n"
+"POT-Creation-Date: 2014-06-08 11:18+0200\n"
+"PO-Revision-Date: 2014-06-08 11:19+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -171,11 +171,11 @@ msgstr "Om"
 msgid "Quit"
 msgstr "Avslutt"
 
-#: ../src/photos-base-item.c:310
+#: ../src/photos-base-item.c:345
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:760
+#: ../src/photos-base-item.c:804
 msgid "Screenshots"
 msgstr "Skjermdump"
 
@@ -183,17 +183,21 @@ msgstr "Skjermdump"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-enheter for gjengivelse"
 
-#: ../src/photos-embed.c:689
+#: ../src/photos-embed.c:717
 msgid "Recent"
 msgstr "Nylig brukt"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:110
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:695 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritter"
+
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:275
+msgid "Search"
+msgstr "Søk"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
@@ -227,7 +231,7 @@ msgstr "Ingen favoritter funnet"
 msgid "No Photos Found"
 msgstr "Ingen bilder funnet"
 
-#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
+#: ../src/photos-facebook-item.c:191 ../src/photos-facebook-item.c:221
 msgid "Facebook"
 msgstr "Facebook"
 
@@ -239,11 +243,23 @@ msgstr "Bilde uten tittel"
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:169
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Henter fra bilder fra %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Henter bilder fra kontoer på nettet"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "Bildene dine blir indeksert"
 
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Noen bilder vil kanskje ikke være tilgjengelige under denne prosessen"
 
@@ -259,45 +275,41 @@ msgstr "Laster …"
 msgid "Local"
 msgstr "Lokalt"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Klikk på oppføringer for å velge dem"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valgt"
 msgstr[1] "%d valgt"
 
-#: ../src/photos-main-toolbar.c:157
+#: ../src/photos-main-toolbar.c:151
 msgid "Back"
 msgstr "Tilbake"
 
-#: ../src/photos-main-toolbar.c:281
-msgid "Search"
-msgstr "Søk"
-
-#: ../src/photos-main-toolbar.c:297
+#: ../src/photos-main-toolbar.c:291
 msgid "Select Items"
 msgstr "Velg oppføringer"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:411 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Åpne med %s"
 
-#: ../src/photos-main-toolbar.c:570
+#: ../src/photos-main-toolbar.c:572
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ../src/photos-main-window.c:432
+#: ../src/photos-main-window.c:455
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Se på, organiser og del dine bilder i GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:444
+#: ../src/photos-main-window.c:467
 msgid "translator-credits"
 msgstr "Kjartan Maraas <kmaraas@gnome.org>"
 
@@ -333,7 +345,7 @@ msgstr "Vis på …"
 msgid "Set as Background"
 msgstr "Sett som bakgrunn"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:650
 #: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Egenskaper"
@@ -348,7 +360,12 @@ msgstr "Fjern fra favoritter"
 msgid "Add to favorites"
 msgstr "Legg til i favoritter"
 
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Skriver ut «%s»: %s"
+
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Innstillinger for bilde"
 
@@ -500,12 +517,8 @@ msgstr "Av, fyrte ikke"
 msgid "On, fired"
 msgstr "På, fyrte"
 
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "Ferdig"
-
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:103 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
 msgstr "Alle"
 
@@ -528,7 +541,7 @@ msgstr "Søk på"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:153
+#: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Type"
