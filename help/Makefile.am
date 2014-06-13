@@ -15,3 +15,5 @@ HELP_MEDIA = \
 	media/logo1.png
 
 HELP_LINGUAS = de el pt_BR
+
+-include $(top_srcdir)/git.mk
