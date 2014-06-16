@@ -2,15 +2,15 @@
 # Copyright (C) 2012 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2012-2013.
+# Matej Urbančič <mateju@svn.gnome.org>, 2012-2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-31 07:40+0000\n"
-"PO-Revision-Date: 2014-03-31 21:11+0100\n"
+"POT-Creation-Date: 2014-06-16 19:14+0000\n"
+"PO-Revision-Date: 2014-06-16 22:30+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -177,11 +177,11 @@ msgstr "O programu"
 msgid "Quit"
 msgstr "Končaj"
 
-#: ../src/photos-base-item.c:310
+#: ../src/photos-base-item.c:345
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:760
+#: ../src/photos-base-item.c:804
 msgid "Screenshots"
 msgstr "Zajete slike"
 
@@ -189,17 +189,21 @@ msgstr "Zajete slike"
 msgid "DLNA Renderer Devices"
 msgstr "Naprave izrisovalnika DLNA"
 
-#: ../src/photos-embed.c:727
+#: ../src/photos-embed.c:717
 msgid "Recent"
 msgstr "Nedavno"
 
-#: ../src/photos-embed.c:733 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../src/photos-embed.c:739 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Priljubljeno"
+
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:275
+msgid "Search"
+msgstr "Iskanje"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
@@ -233,7 +237,7 @@ msgstr "Ni najdenih priljubljenih predmetov"
 msgid "No Photos Found"
 msgstr "Ni najdenih fotografij"
 
-#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
+#: ../src/photos-facebook-item.c:191 ../src/photos-facebook-item.c:221
 msgid "Facebook"
 msgstr "Facebook"
 
@@ -245,11 +249,23 @@ msgstr "Neimenovana fotografija"
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:169
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Pridobivanje fotografij preko spletne storitve %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Pridobivanje fotografij preko spletnih računov"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "Iz podatkov fotografij se pripravlja kazalo"
 
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Nekatere fotografije med opravilom lahko niso na voljo"
 
@@ -278,34 +294,30 @@ msgstr[1] "%d izbrana"
 msgstr[2] "%d izbrani"
 msgstr[3] "%d izbrane"
 
-#: ../src/photos-main-toolbar.c:156
+#: ../src/photos-main-toolbar.c:151
 msgid "Back"
 msgstr "Nazaj"
 
-#: ../src/photos-main-toolbar.c:280
-msgid "Search"
-msgstr "Iskanje"
-
-#: ../src/photos-main-toolbar.c:296
+#: ../src/photos-main-toolbar.c:291
 msgid "Select Items"
 msgstr "Izbor predmetov"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Odpri s programom %s"
 
-#: ../src/photos-main-toolbar.c:577
+#: ../src/photos-main-toolbar.c:572
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: ../src/photos-main-window.c:432
+#: ../src/photos-main-window.c:455
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Urejanje in izmenjava fotografij za namizje GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:444
+#: ../src/photos-main-window.c:467
 msgid "translator-credits"
 msgstr "Matej Urbančič <mateju@svn.gnome.org>"
 
@@ -341,7 +353,7 @@ msgstr "Pokaži na ..."
 msgid "Set as Background"
 msgstr "Nastavi kot ozadje"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:650
 #: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Lastnosti"
@@ -355,6 +367,11 @@ msgstr "Odstrani iz priljubljenih"
 #: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Dodaj med priljubljene"
+
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Tiskanje “%s”: %s"
 
 #: ../src/photos-print-operation.c:272
 msgid "Image Settings"
@@ -508,10 +525,6 @@ msgstr "Onemogočeno, bliskavica se ni sprožila"
 msgid "On, fired"
 msgstr "Omogočeno, bliskavica se je sprožila"
 
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "Končano"
-
 #: ../src/photos-search-match-manager.c:154
 #: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
@@ -568,6 +581,9 @@ msgstr "Viri"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Seznama fotografij ni mogoče pridobiti"
+
+#~ msgid "Done"
+#~ msgstr "Končano"
 
 #~ msgid "About Photos"
 #~ msgstr "O programu"
