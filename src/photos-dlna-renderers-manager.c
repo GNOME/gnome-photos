@@ -29,7 +29,7 @@
 
 struct _PhotosDlnaRenderersManagerPrivate
 {
-  DleynaManager *proxy;
+  DleynaRendererManager *proxy;
   GHashTable *renderers;
   GError *error;
 };
@@ -139,7 +139,7 @@ photos_dlna_renderers_manager_proxy_get_renderers_cb (GObject      *source_objec
   gchar **object_paths, **path;
   GError *error = NULL;
 
-  dleyna_manager_call_get_renderers_finish (priv->proxy, &object_paths, res, &error);
+  dleyna_renderer_manager_call_get_renderers_finish (priv->proxy, &object_paths, res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to fetch the list of available renderers: %s", error->message);
@@ -163,7 +163,7 @@ photos_dlna_renderers_manager_proxy_new_cb (GObject      *source_object,
   PhotosDlnaRenderersManagerPrivate *priv = self->priv;
   GError *error = NULL;
 
-  priv->proxy = dleyna_manager_proxy_new_for_bus_finish (res, &error);
+  priv->proxy = dleyna_renderer_manager_proxy_new_for_bus_finish (res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to connect to the dLeynaRenderer.Manager DBus object: %s", error->message);
@@ -178,8 +178,8 @@ photos_dlna_renderers_manager_proxy_new_cb (GObject      *source_object,
   g_signal_connect_swapped (priv->proxy, "lost-renderer",
                             G_CALLBACK (photos_dlna_renderers_manager_renderer_lost_cb), self);
 
-  dleyna_manager_call_get_renderers (priv->proxy, NULL,
-                                     photos_dlna_renderers_manager_proxy_get_renderers_cb, self);
+  dleyna_renderer_manager_call_get_renderers (priv->proxy, NULL,
+                                              photos_dlna_renderers_manager_proxy_get_renderers_cb, self);
 }
 
 
@@ -210,13 +210,13 @@ photos_dlna_renderers_manager_init (PhotosDlnaRenderersManager *self)
 
   self->priv = priv = photos_dlna_renderers_manager_get_instance_private (self);
 
-  dleyna_manager_proxy_new_for_bus (G_BUS_TYPE_SESSION,
-                                    G_DBUS_PROXY_FLAGS_NONE,
-                                    "com.intel.dleyna-renderer",
-                                    "/com/intel/dLeynaRenderer",
-                                    NULL, /* GCancellable */
-                                    photos_dlna_renderers_manager_proxy_new_cb,
-                                    self);
+  dleyna_renderer_manager_proxy_new_for_bus (G_BUS_TYPE_SESSION,
+                                             G_DBUS_PROXY_FLAGS_NONE,
+                                             "com.intel.dleyna-renderer",
+                                             "/com/intel/dLeynaRenderer",
+                                             NULL, /* GCancellable */
+                                             photos_dlna_renderers_manager_proxy_new_cb,
+                                             self);
   priv->renderers = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
 }
 

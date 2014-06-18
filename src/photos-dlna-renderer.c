@@ -32,7 +32,7 @@
 struct _PhotosDlnaRendererPrivate
 {
   DleynaRendererDevice *device;
-  DleynaPushHost *push_host;
+  DleynaRendererPushHost *push_host;
   GBusType bus_type;
   GDBusProxyFlags flags;
   GHashTable *urls_to_item;
@@ -298,13 +298,13 @@ photos_dlna_renderer_init_async (GAsyncInitable *initable,
   init_task = g_task_new (initable, cancellable, callback, user_data);
   g_task_set_priority (init_task, io_priority);
 
-  priv->push_host = dleyna_push_host_proxy_new_for_bus_sync (priv->bus_type,
-                                                             G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
-                                                             | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
-                                                             priv->well_known_name,
-                                                             priv->object_path,
-                                                             NULL,
-                                                             &error);
+  priv->push_host = dleyna_renderer_push_host_proxy_new_for_bus_sync (priv->bus_type,
+                                                                      G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
+                                                                      | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+                                                                      priv->well_known_name,
+                                                                      priv->object_path,
+                                                                      NULL,
+                                                                      &error);
   RETURN_ON_ERROR (init_task, error, "Unable to load the PushHost interface");
 
   priv->player = mpris_player_proxy_new_for_bus_sync (priv->bus_type,
@@ -419,7 +419,10 @@ photos_dlna_renderer_share_host_file_cb (GObject *source_object,
   self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
   priv = self->priv;
 
-  dleyna_push_host_call_host_file_finish (DLEYNA_PUSH_HOST (source_object), &hosted_url, res, &error);
+  dleyna_renderer_push_host_call_host_file_finish (DLEYNA_RENDERER_PUSH_HOST (source_object),
+                                                   &hosted_url,
+                                                   res,
+                                                   &error);
   RETURN_ON_ERROR (task, error, "Failed to call the HostFile method");
 
   item = g_object_get_data (G_OBJECT (task), "item");
@@ -462,11 +465,11 @@ photos_dlna_renderer_share_download_cb (GObject *source_object,
    */
 
   /* 1) DleynaRenderer.PushHost.HostFile() */
-  dleyna_push_host_call_host_file (self->priv->push_host,
-                                   filename,
-                                   g_task_get_cancellable (task),
-                                   photos_dlna_renderer_share_host_file_cb,
-                                   task);
+  dleyna_renderer_push_host_call_host_file (self->priv->push_host,
+                                            filename,
+                                            g_task_get_cancellable (task),
+                                            photos_dlna_renderer_share_host_file_cb,
+                                            task);
   g_free (filename);
 }
 
@@ -526,7 +529,7 @@ photos_dlna_renderer_unshare_remove_file_cb (GObject *source_object,
   g_hash_table_foreach_remove (priv->urls_to_item, photos_dlna_renderer_match_by_item_value, item);
   g_object_notify (G_OBJECT (self), "shared-count");
 
-  dleyna_push_host_call_remove_file_finish (DLEYNA_PUSH_HOST (source_object), res, &error);
+  dleyna_renderer_push_host_call_remove_file_finish (DLEYNA_RENDERER_PUSH_HOST (source_object), res, &error);
   if (error != NULL)
     {
       /* Assume that ignoring RemoveFile() errors is safe, since they
@@ -560,11 +563,11 @@ photos_dlna_renderer_unshare_download_cb (GObject *source_object,
   filename = photos_base_item_download_finish (PHOTOS_BASE_ITEM (source_object), res, &error);
   RETURN_ON_ERROR (task, error, "Unable to extract the local filename for the shared item");
 
-  dleyna_push_host_call_remove_file (self->priv->push_host,
-                                     filename,
-                                     g_task_get_cancellable (task),
-                                     photos_dlna_renderer_unshare_remove_file_cb,
-                                     task);
+  dleyna_renderer_push_host_call_remove_file (self->priv->push_host,
+                                              filename,
+                                              g_task_get_cancellable (task),
+                                              photos_dlna_renderer_unshare_remove_file_cb,
+                                              task);
   g_free (filename);
 }
 

@@ -457,14 +457,14 @@ photos-dleyna-renderer-device.h photos-dleyna-renderer-device.c: photos-dleyna-r
 
 photos-dleyna-renderer-manager.h photos-dleyna-renderer-manager.c: photos-dleyna-renderer-manager.xml
 	$(AM_V_GEN)gdbus-codegen \
-		--c-namespace Dleyna \
+		--c-namespace DleynaRenderer \
 		--generate-c-code photos-dleyna-renderer-manager \
 		--interface-prefix com.intel.dLeynaRenderer. \
 		$<
 
 photos-dleyna-renderer-push-host.h photos-dleyna-renderer-push-host.c: photos-dleyna-renderer-push-host.xml
 	$(AM_V_GEN)gdbus-codegen \
-		--c-namespace Dleyna \
+		--c-namespace DleynaRenderer \
 		--generate-c-code photos-dleyna-renderer-push-host \
 		--interface-prefix com.intel.dLeynaRenderer. \
 		$<
