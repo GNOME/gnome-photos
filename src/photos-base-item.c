@@ -106,9 +106,10 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static void photos_base_item_filterable_iface_init (PhotosFilterableInterface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT,
-                         G_ADD_PRIVATE (PhotosBaseItem)
-                         G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE, photos_base_item_filterable_iface_init));
+G_DEFINE_ABSTRACT_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT,
+                                  G_ADD_PRIVATE (PhotosBaseItem)
+                                  G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
+                                                         photos_base_item_filterable_iface_init));
 
 
 static GThreadPool *create_thumbnail_pool;
