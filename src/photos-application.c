@@ -52,6 +52,7 @@
 #include "photos-single-item-job.h"
 #include "photos-source-manager.h"
 #include "photos-tracker-extract-priority.h"
+#include "photos-utils.h"
 
 
 struct _PhotosApplicationPrivate
@@ -937,6 +938,8 @@ photos_application_init (PhotosApplication *self)
   priv = self->priv;
 
   eog_debug_init ();
+
+  photos_utils_ensure_builtins ();
 
   priv->search_provider = photos_search_provider_new ();
   g_signal_connect_swapped (priv->search_provider,

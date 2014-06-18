@@ -47,7 +47,13 @@ struct _PhotosFlickrItemPrivate
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosFlickrItem, photos_flickr_item, PHOTOS_TYPE_BASE_ITEM);
+G_DEFINE_TYPE_WITH_CODE (PhotosFlickrItem, photos_flickr_item, PHOTOS_TYPE_BASE_ITEM,
+                         G_ADD_PRIVATE (PhotosFlickrItem)
+                         photos_utils_ensure_extension_points ();
+                         g_io_extension_point_implement (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME,
+                                                         g_define_type_id,
+                                                         "flickr",
+                                                         0));
 
 
 typedef struct _PhotosFlickrItemSyncData PhotosFlickrItemSyncData;

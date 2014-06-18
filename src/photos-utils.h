@@ -39,6 +39,8 @@ G_BEGIN_DECLS
 #define PHOTOS_FLASH_OFF (photos_utils_flash_off_quark ())
 #define PHOTOS_FLASH_ON (photos_utils_flash_on_quark ())
 
+#define PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME "photos-base-item"
+
 #define PHOTOS_COLLECTION_SCREENSHOT \
   "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#image-category-screenshot"
 
@@ -53,6 +55,10 @@ gboolean         photos_utils_create_thumbnail            (GFile *file, GCancell
 GIcon           *photos_utils_get_icon_from_cursor        (TrackerSparqlCursor *cursor);
 
 const gchar     *photos_utils_dot_dir                     (void);
+
+void             photos_utils_ensure_builtins             (void);
+
+void             photos_utils_ensure_extension_points     (void);
 
 GQuark           photos_utils_error_quark                 (void);
 

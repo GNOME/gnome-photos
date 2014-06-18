@@ -47,7 +47,13 @@ struct _PhotosFacebookItemPrivate
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosFacebookItem, photos_facebook_item, PHOTOS_TYPE_BASE_ITEM);
+G_DEFINE_TYPE_WITH_CODE (PhotosFacebookItem, photos_facebook_item, PHOTOS_TYPE_BASE_ITEM,
+                         G_ADD_PRIVATE (PhotosFacebookItem)
+                         photos_utils_ensure_extension_points ();
+                         g_io_extension_point_implement (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME,
+                                                         g_define_type_id,
+                                                         "facebook",
+                                                         0));
 
 
 static GFBGraphPhoto *

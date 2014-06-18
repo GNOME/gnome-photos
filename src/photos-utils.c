@@ -35,6 +35,10 @@
 #include <libgd/gd.h>
 
 #include "photos-application.h"
+#include "photos-base-item.h"
+#include "photos-facebook-item.h"
+#include "photos-flickr-item.h"
+#include "photos-local-item.h"
 #include "photos-query.h"
 #include "photos-tracker-queue.h"
 #include "photos-utils.h"
@@ -361,6 +365,41 @@ photos_utils_dot_dir (void)
 
  out:
   return dot_dir;
+}
+
+
+void
+photos_utils_ensure_builtins (void)
+{
+  static gsize once_init_value = 0;
+
+  photos_utils_ensure_extension_points ();
+
+  if (g_once_init_enter (&once_init_value))
+    {
+      g_type_ensure (PHOTOS_TYPE_FACEBOOK_ITEM);
+      g_type_ensure (PHOTOS_TYPE_FLICKR_ITEM);
+      g_type_ensure (PHOTOS_TYPE_LOCAL_ITEM);
+
+      g_once_init_leave (&once_init_value, 1);
+    }
+}
+
+
+void
+photos_utils_ensure_extension_points (void)
+{
+  static gsize once_init_value = 0;
+
+  if (g_once_init_enter (&once_init_value))
+    {
+      GIOExtensionPoint *extension_point;
+
+      extension_point = g_io_extension_point_register (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
+      g_io_extension_point_set_required_type (extension_point, PHOTOS_TYPE_BASE_ITEM);
+
+      g_once_init_leave (&once_init_value, 1);
+    }
 }
 
 
