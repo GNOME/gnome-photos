@@ -70,8 +70,6 @@ struct _PhotosFlickrItemClass
 
 GType               photos_flickr_item_get_type           (void) G_GNUC_CONST;
 
-PhotosBaseItem     *photos_flickr_item_new                (TrackerSparqlCursor *cursor);
-
 G_END_DECLS
 
 #endif /* PHOTOS_LOCAL_ITEM_H */

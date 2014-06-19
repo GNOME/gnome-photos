@@ -269,13 +269,3 @@ photos_facebook_item_class_init (PhotosFacebookItemClass *class)
   base_item_class->get_source_name = photos_facebook_item_get_source_name;
   base_item_class->open = photos_facebook_item_open;
 }
-
-
-PhotosBaseItem *
-photos_facebook_item_new (TrackerSparqlCursor *cursor)
-{
-  return g_object_new (PHOTOS_TYPE_FACEBOOK_ITEM,
-                       "cursor", cursor,
-                       "failed-thumbnailing", FALSE,
-                       NULL);
-}

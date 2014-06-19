@@ -37,10 +37,12 @@
 #include "photos-single-item-job.h"
 #include "photos-tracker-change-event.h"
 #include "photos-tracker-change-monitor.h"
+#include "photos-utils.h"
 
 
 struct _PhotosItemManagerPrivate
 {
+  GIOExtensionPoint *extension_point;
   GQueue *collection_path;
   PhotosBaseManager *col_mngr;
   PhotosTrackerChangeMonitor *monitor;
@@ -230,6 +232,7 @@ photos_item_manager_init (PhotosItemManager *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
+  priv->extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
   priv->collection_path = g_queue_new ();
   priv->col_mngr = g_object_ref (state->col_mngr);
 
@@ -307,22 +310,46 @@ PhotosBaseItem *
 photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
 {
   PhotosBaseItem *ret_val = NULL;
+  GIOExtension *extension;
+  GType type;
+  const gchar *extension_name = "local";
   gchar *identifier = NULL;
+  gchar **split_identifier = NULL;
 
   identifier = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL));
+  if (identifier == NULL)
+    goto final;
 
-  if (identifier != NULL)
+  split_identifier = g_strsplit (identifier, ":", 4);
+
+  if (g_str_has_prefix (identifier, "photos:collection:"))
     {
-      if (g_str_has_prefix (identifier, "flickr:") || g_str_has_prefix (identifier, "photos:collection:flickr:"))
-        ret_val = photos_flickr_item_new (cursor);
-      else if (g_str_has_prefix (identifier, "facebook:")
-               || g_str_has_prefix (identifier, "photos:collection:facebook:"))
-        ret_val = photos_facebook_item_new (cursor);
+      /* Its a collection. */
+      extension_name = split_identifier[2];
+    }
+  else
+    {
+      /* Its a normal photo item. */
+      if (g_strv_length (split_identifier) > 1)
+        extension_name = split_identifier[0];
     }
 
-  if (ret_val == NULL)
-    ret_val = photos_local_item_new (cursor);
+ final:
+  extension = g_io_extension_point_get_extension_by_name (self->priv->extension_point, extension_name);
+  if (G_UNLIKELY (extension == NULL))
+    {
+      g_warning ("Unable to find extension %s for identifier: %s", extension_name, identifier);
+      goto out;
+    }
 
+  type = g_io_extension_get_type (extension);
+  ret_val = PHOTOS_BASE_ITEM (g_object_new (type,
+                                            "cursor", cursor,
+                                            "failed-thumbnailing", FALSE,
+                                            NULL));
+
+ out:
+  g_strfreev (split_identifier);
   g_free (identifier);
   return ret_val;
 }

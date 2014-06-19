@@ -118,13 +118,3 @@ photos_local_item_class_init (PhotosLocalItemClass *class)
   base_item_class->download = photos_local_item_download;
   base_item_class->get_source_name = photos_local_item_get_source_name;
 }
-
-
-PhotosBaseItem *
-photos_local_item_new (TrackerSparqlCursor *cursor)
-{
-  return g_object_new (PHOTOS_TYPE_LOCAL_ITEM,
-                       "cursor", cursor,
-                       "failed-thumbnailing", FALSE,
-                       NULL);
-}

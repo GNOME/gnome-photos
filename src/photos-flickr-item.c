@@ -371,13 +371,3 @@ photos_flickr_item_class_init (PhotosFlickrItemClass *class)
   base_item_class->get_source_name = photos_flickr_item_get_source_name;
   base_item_class->open = photos_flickr_item_open;
 }
-
-
-PhotosBaseItem *
-photos_flickr_item_new (TrackerSparqlCursor *cursor)
-{
-  return g_object_new (PHOTOS_TYPE_FLICKR_ITEM,
-                       "cursor", cursor,
-                       "failed-thumbnailing", FALSE,
-                       NULL);
-}
