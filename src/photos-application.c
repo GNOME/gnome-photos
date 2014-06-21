@@ -739,6 +739,12 @@ photos_application_startup (GApplication *application)
   GrlRegistry *registry;
   GtkSettings *settings;
   GVariant *state;
+  const gchar *fullscreen_accels[2] = {"F11", NULL};
+  const gchar *gear_menu_accels[2] = {"F10", NULL};
+  const gchar *print_current_accels[2] = {"<Primary>p", NULL};
+  const gchar *quit_accels[2] = {"<Primary>q", NULL};
+  const gchar *search_accels[2] = {"<Primary>f", NULL};
+  const gchar *select_all_accels[2] = {"<Primary>a", NULL};
 
   G_APPLICATION_CLASS (photos_application_parent_class)
     ->startup (application);
@@ -861,12 +867,12 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
-  gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>q", "app.quit", NULL);
-  gtk_application_add_accelerator (GTK_APPLICATION (self), "F11", "app.fullscreen", NULL);
-  gtk_application_add_accelerator (GTK_APPLICATION (self), "F10", "app.gear-menu", NULL);
-  gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>p", "app.print-current", NULL);
-  gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>f", "app.search", NULL);
-  gtk_application_add_accelerator (GTK_APPLICATION (self), "<Primary>a", "app.select-all", NULL);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.quit", quit_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.fullscreen", fullscreen_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.gear-menu", gear_menu_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.print-current", print_current_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.search", search_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.select-all", select_all_accels);
 }
 
 
