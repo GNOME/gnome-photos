@@ -34,6 +34,7 @@
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
 #include "photos-mode-controller.h"
+#include "photos-preview-view.h"
 #include "photos-search-context.h"
 #include "photos-selection-controller.h"
 #include "photos-settings.h"
@@ -229,19 +230,35 @@ static gboolean
 photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *event)
 {
   PhotosMainWindowPrivate *priv = self->priv;
+  PhotosPreviewView *preview;
   gboolean fullscreen;
+  gboolean handled = FALSE;
 
+  preview = photos_embed_get_preview (PHOTOS_EMBED (priv->embed));
   fullscreen = photos_mode_controller_get_fullscreen (priv->mode_cntrlr);
-  if (event->keyval == GDK_KEY_Escape)
+
+  switch (event->keyval)
     {
+    case GDK_KEY_Escape:
       if (fullscreen)
         {
           photos_base_manager_set_active_object (priv->item_mngr, NULL);
           photos_mode_controller_go_back (priv->mode_cntrlr);
         }
+      break;
+
+    case GDK_KEY_Left:
+      photos_preview_view_load_previous (preview);
+      handled = TRUE;
+      break;
+
+    case GDK_KEY_Right:
+      photos_preview_view_load_next (preview);
+      handled = TRUE;
+      break;
     }
 
-  return GDK_EVENT_PROPAGATE;
+  return handled;
 }
 
 

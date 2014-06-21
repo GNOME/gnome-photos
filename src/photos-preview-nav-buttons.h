@@ -76,6 +76,10 @@ PhotosPreviewNavButtons    *photos_preview_nav_buttons_new                (Photo
 
 void                        photos_preview_nav_buttons_hide               (PhotosPreviewNavButtons *self);
 
+void                        photos_preview_nav_buttons_next               (PhotosPreviewNavButtons *self);
+
+void                        photos_preview_nav_buttons_previous           (PhotosPreviewNavButtons *self);
+
 void                        photos_preview_nav_buttons_set_model          (PhotosPreviewNavButtons *self,
                                                                            GtkTreeModel *model,
                                                                            GtkTreePath *current_path);

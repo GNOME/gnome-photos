@@ -38,7 +38,6 @@
 #include "photos-item-manager.h"
 #include "photos-mode-controller.h"
 #include "photos-notification-manager.h"
-#include "photos-preview-view.h"
 #include "photos-search-controller.h"
 #include "photos-selection-toolbar.h"
 #include "photos-spinner-box.h"
@@ -815,4 +814,11 @@ PhotosMainToolbar *
 photos_embed_get_main_toolbar (PhotosEmbed *self)
 {
   return PHOTOS_MAIN_TOOLBAR (self->priv->toolbar);
+}
+
+
+PhotosPreviewView *
+photos_embed_get_preview (PhotosEmbed *self)
+{
+  return PHOTOS_PREVIEW_VIEW (self->priv->preview);
 }

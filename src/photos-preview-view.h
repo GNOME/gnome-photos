@@ -71,6 +71,10 @@ GType                  photos_preview_view_get_type               (void) G_GNUC_
 
 GtkWidget             *photos_preview_view_new                    (GtkOverlay *overlay);
 
+void                   photos_preview_view_load_next              (PhotosPreviewView *self);
+
+void                   photos_preview_view_load_previous          (PhotosPreviewView *self);
+
 void                   photos_preview_view_set_model              (PhotosPreviewView *self,
                                                                    GtkTreeModel *model,
                                                                    GtkTreePath *current_path);

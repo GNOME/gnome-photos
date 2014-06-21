@@ -243,6 +243,20 @@ photos_preview_view_new (GtkOverlay *overlay)
 
 
 void
+photos_preview_view_load_next (PhotosPreviewView *self)
+{
+  photos_preview_nav_buttons_next (self->priv->nav_buttons);
+}
+
+
+void
+photos_preview_view_load_previous (PhotosPreviewView *self)
+{
+  photos_preview_nav_buttons_previous (self->priv->nav_buttons);
+}
+
+
+void
 photos_preview_view_set_model (PhotosPreviewView *self, GtkTreeModel *model, GtkTreePath *current_path)
 {
   photos_preview_nav_buttons_set_model (self->priv->nav_buttons, model, current_path);

@@ -306,22 +306,6 @@ photos_preview_nav_buttons_set_active_path (PhotosPreviewNavButtons *self)
 
 
 static void
-photos_preview_nav_buttons_next_clicked (PhotosPreviewNavButtons *self)
-{
-  gtk_tree_path_next (self->priv->current_path);
-  photos_preview_nav_buttons_set_active_path (self);
-}
-
-
-static void
-photos_preview_nav_buttons_prev_clicked (PhotosPreviewNavButtons *self)
-{
-  gtk_tree_path_prev (self->priv->current_path);
-  photos_preview_nav_buttons_set_active_path (self);
-}
-
-
-static void
 photos_preview_nav_buttons_dispose (GObject *object)
 {
   PhotosPreviewNavButtons *self = PHOTOS_PREVIEW_NAV_BUTTONS (object);
@@ -378,7 +362,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
   gtk_container_add (GTK_CONTAINER (priv->prev_widget), button);
   g_signal_connect_swapped (button,
                             "clicked",
-                            G_CALLBACK (photos_preview_nav_buttons_prev_clicked),
+                            G_CALLBACK (photos_preview_nav_buttons_previous),
                             self);
   g_signal_connect_swapped (button,
                             "enter-notify-event",
@@ -407,7 +391,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
   gtk_container_add (GTK_CONTAINER (priv->next_widget), button);
   g_signal_connect_swapped (button,
                             "clicked",
-                            G_CALLBACK (photos_preview_nav_buttons_next_clicked),
+                            G_CALLBACK (photos_preview_nav_buttons_next),
                             self);
   g_signal_connect_swapped (button,
                             "enter-notify-event",
@@ -536,6 +520,22 @@ photos_preview_nav_buttons_hide (PhotosPreviewNavButtons *self)
   photos_preview_nav_buttons_fade_out_button (self, priv->prev_widget);
   photos_preview_nav_buttons_fade_out_button (self, priv->next_widget);
   photos_preview_nav_buttons_fade_out_button (self, priv->toolbar_widget);
+}
+
+
+void
+photos_preview_nav_buttons_next (PhotosPreviewNavButtons *self)
+{
+  gtk_tree_path_next (self->priv->current_path);
+  photos_preview_nav_buttons_set_active_path (self);
+}
+
+
+void
+photos_preview_nav_buttons_previous (PhotosPreviewNavButtons *self)
+{
+  gtk_tree_path_prev (self->priv->current_path);
+  photos_preview_nav_buttons_set_active_path (self);
 }
 
 

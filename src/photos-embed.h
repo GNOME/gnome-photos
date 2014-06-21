@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 
 #include "photos-main-toolbar.h"
+#include "photos-preview-view.h"
 
 G_BEGIN_DECLS
 
@@ -73,6 +74,8 @@ GType                  photos_embed_get_type               (void) G_GNUC_CONST;
 GtkWidget             *photos_embed_new                    (void);
 
 PhotosMainToolbar     *photos_embed_get_main_toolbar       (PhotosEmbed *self);
+
+PhotosPreviewView     *photos_embed_get_preview            (PhotosEmbed *self);
 
 G_END_DECLS
 
