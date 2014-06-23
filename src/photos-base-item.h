@@ -71,7 +71,7 @@ struct _PhotosBaseItemClass
   /* virtual methods */
   gboolean (*create_thumbnail) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   gchar *(*download) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
-  const gchar *(*get_source_name) (PhotosBaseItem *self);
+  GtkWidget *(*get_source_widget) (PhotosBaseItem *self);
   void (*open) (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp);
   void (*set_favorite) (PhotosBaseItem *self, gboolean favorite);
   void (*update_type_description) (PhotosBaseItem *self);
@@ -131,7 +131,7 @@ GdkPixbuf          *photos_base_item_get_original_icon  (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_resource_urn   (PhotosBaseItem *self);
 
-const gchar        *photos_base_item_get_source_name    (PhotosBaseItem *self);
+GtkWidget          *photos_base_item_get_source_widget  (PhotosBaseItem *self);
 
 cairo_surface_t    *photos_base_item_get_surface        (PhotosBaseItem *self);
 

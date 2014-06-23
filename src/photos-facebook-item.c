@@ -191,10 +191,15 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
 }
 
 
-static const gchar *
-photos_facebook_item_get_source_name (PhotosBaseItem *item)
+static GtkWidget *
+photos_facebook_item_get_source_widget (PhotosBaseItem *item)
 {
-  return _("Facebook");
+  GtkWidget *source_widget;
+
+  source_widget = gtk_link_button_new_with_label ("https://www.facebook.com/", _("Facebook"));
+  gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
+
+  return source_widget;
 }
 
 
@@ -266,6 +271,6 @@ photos_facebook_item_class_init (PhotosFacebookItemClass *class)
   object_class->dispose = photos_facebook_item_dispose;
   base_item_class->create_thumbnail = photos_facebook_item_create_thumbnail;
   base_item_class->download = photos_facebook_item_download;
-  base_item_class->get_source_name = photos_facebook_item_get_source_name;
+  base_item_class->get_source_widget = photos_facebook_item_get_source_widget;
   base_item_class->open = photos_facebook_item_open;
 }

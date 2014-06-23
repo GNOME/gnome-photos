@@ -1214,10 +1214,10 @@ photos_base_item_get_resource_urn (PhotosBaseItem *self)
 }
 
 
-const gchar *
-photos_base_item_get_source_name (PhotosBaseItem *self)
+GtkWidget *
+photos_base_item_get_source_widget (PhotosBaseItem *self)
 {
-  return PHOTOS_BASE_ITEM_GET_CLASS (self)->get_source_name(self);
+  return PHOTOS_BASE_ITEM_GET_CLASS (self)->get_source_widget(self);
 }
 
 

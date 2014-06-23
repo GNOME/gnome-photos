@@ -383,58 +383,7 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_grid_attach_next_to (GTK_GRID (priv->grid), author_data, author_w, GTK_POS_RIGHT, 2, 1);
     }
 
-  if (PHOTOS_IS_FACEBOOK_ITEM (item))
-    {
-      const gchar *source_name;
-
-      source_name = photos_base_item_get_source_name (item);
-      source_data = gtk_link_button_new_with_label ("https://www.facebook.com/", source_name);
-      gtk_widget_set_halign (source_data, GTK_ALIGN_START);
-    }
-  else if (PHOTOS_IS_FLICKR_ITEM (item))
-    {
-      const gchar *source_name;
-
-      source_name = photos_base_item_get_source_name (item);
-      source_data = gtk_link_button_new_with_label ("https://www.flickr.com/", source_name);
-      gtk_widget_set_halign (source_data, GTK_ALIGN_START);
-    }
-  else /* local item */
-    {
-      if (photos_base_item_is_collection (item))
-        {
-          const gchar *source_name;
-
-          source_name = photos_base_item_get_source_name (item);
-          source_data = gtk_label_new (source_name);
-          gtk_widget_set_halign (source_data, GTK_ALIGN_START);
-        }
-      else
-        {
-          GFile *file;
-          GFile *source_link;
-          GtkWidget *label;
-          const gchar *uri;
-          gchar *source_path;
-          gchar *source_uri;
-
-          uri = photos_base_item_get_uri (item);
-          file = g_file_new_for_uri (uri);
-          source_link = g_file_get_parent (file);
-          source_path = g_file_get_path (source_link);
-          source_uri = g_file_get_uri (source_link);
-
-          source_data = gtk_link_button_new_with_label (source_uri, source_path);
-          gtk_widget_set_halign (source_data, GTK_ALIGN_START);
-
-          label = gtk_bin_get_child (GTK_BIN (source_data));
-          gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
-
-          g_object_unref (source_link);
-          g_object_unref (file);
-        }
-    }
-
+  source_data = photos_base_item_get_source_widget (item);
   gtk_grid_attach_next_to (GTK_GRID (priv->grid), source_data, source, GTK_POS_RIGHT, 2, 1);
 
   date_modified_data = gtk_label_new (date_modified_str);

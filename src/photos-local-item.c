@@ -69,10 +69,42 @@ photos_local_item_download (PhotosBaseItem *item, GCancellable *cancellable, GEr
 }
 
 
-static const gchar *
-photos_local_item_get_source_name (PhotosBaseItem *item)
+static GtkWidget *
+photos_local_item_get_source_widget (PhotosBaseItem *item)
 {
-  return _("Local");
+  GtkWidget *source_widget;
+
+  if (photos_base_item_is_collection (item))
+    {
+      source_widget = gtk_label_new (_("Local"));
+      gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
+    }
+  else
+    {
+      GFile *file;
+      GFile *source_link;
+      GtkWidget *label;
+      const gchar *uri;
+      gchar *source_path;
+      gchar *source_uri;
+
+      uri = photos_base_item_get_uri (item);
+      file = g_file_new_for_uri (uri);
+      source_link = g_file_get_parent (file);
+      source_path = g_file_get_path (source_link);
+      source_uri = g_file_get_uri (source_link);
+
+      source_widget = gtk_link_button_new_with_label (source_uri, source_path);
+      gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
+
+      label = gtk_bin_get_child (GTK_BIN (source_widget));
+      gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
+
+      g_object_unref (source_link);
+      g_object_unref (file);
+    }
+
+  return source_widget;
 }
 
 
@@ -116,5 +148,5 @@ photos_local_item_class_init (PhotosLocalItemClass *class)
   object_class->constructed = photos_local_item_constructed;
   base_item_class->create_thumbnail = photos_local_item_create_thumbnail;
   base_item_class->download = photos_local_item_download;
-  base_item_class->get_source_name = photos_local_item_get_source_name;
+  base_item_class->get_source_widget = photos_local_item_get_source_widget;
 }
