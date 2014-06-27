@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-23 10:30+0000\n"
-"PO-Revision-Date: 2014-03-23 15:04+0400\n"
-"Last-Translator: Yuri Myasoedov <ymyasoedov@yandex.ru>\n"
+"POT-Creation-Date: 2014-06-27 07:17+0000\n"
+"PO-Revision-Date: 2014-06-27 15:51+0300\n"
+"Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 msgid ""
@@ -175,11 +175,11 @@ msgstr "О приложении"
 msgid "Quit"
 msgstr "Закрыть"
 
-#: ../src/photos-base-item.c:310
+#: ../src/photos-base-item.c:346
 msgid "Album"
 msgstr "Альбом"
 
-#: ../src/photos-base-item.c:760
+#: ../src/photos-base-item.c:805
 msgid "Screenshots"
 msgstr "Снимки рабочего стола"
 
@@ -187,17 +187,21 @@ msgstr "Снимки рабочего стола"
 msgid "DLNA Renderer Devices"
 msgstr "Устройства отрисовки DLNA"
 
-#: ../src/photos-embed.c:727
+#: ../src/photos-embed.c:717
 msgid "Recent"
 msgstr "Последние"
 
-#: ../src/photos-embed.c:733 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Альбомы"
 
-#: ../src/photos-embed.c:739 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Избранное"
+
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:275
+msgid "Search"
+msgstr "Найти"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
@@ -231,7 +235,7 @@ msgstr "Избранные фотографии не найдены"
 msgid "No Photos Found"
 msgstr "Фотографии не найдены"
 
-#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
+#: ../src/photos-facebook-item.c:199 ../src/photos-facebook-item.c:232
 msgid "Facebook"
 msgstr "Facebook"
 
@@ -239,15 +243,27 @@ msgstr "Facebook"
 msgid "Untitled Photo"
 msgstr "Безымянное фото"
 
-#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
+#: ../src/photos-flickr-item.c:284 ../src/photos-flickr-item.c:334
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ../src/photos-indexing-notification.c:169
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Получение фотоснимков из %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Получение фотоснимков из сетевых учётных записей"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "Фотографии индексируются"
 
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Во время этого процесса некоторые фотографии могут быть недоступны"
 
@@ -259,7 +275,7 @@ msgstr "Загрузить ещё"
 msgid "Loading…"
 msgstr "Загрузка…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:79 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Локальные"
 
@@ -275,34 +291,30 @@ msgstr[0] "Выбран %d"
 msgstr[1] "Выбрано %d"
 msgstr[2] "Выбрано %d"
 
-#: ../src/photos-main-toolbar.c:156
+#: ../src/photos-main-toolbar.c:151
 msgid "Back"
 msgstr "Назад"
 
-#: ../src/photos-main-toolbar.c:280
-msgid "Search"
-msgstr "Найти"
-
-#: ../src/photos-main-toolbar.c:296
+#: ../src/photos-main-toolbar.c:291
 msgid "Select Items"
 msgstr "Выбор элементов"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "Открыть с помощью «%s»"
 
-#: ../src/photos-main-toolbar.c:577
+#: ../src/photos-main-toolbar.c:572
 msgid "Cancel"
 msgstr "Отменить"
 
-#: ../src/photos-main-window.c:432
+#: ../src/photos-main-window.c:455
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Управление фотографиям в GNOME"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:444
+#: ../src/photos-main-window.c:467
 msgid "translator-credits"
 msgstr "Алина Круглова"
 
@@ -338,7 +350,7 @@ msgstr "Показать на…"
 msgid "Set as Background"
 msgstr "Установить как фон"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:599
 #: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Свойства"
@@ -352,6 +364,11 @@ msgstr "Удалить из избранного"
 #: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Добавить в избранное"
+
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Печать «%s»: %s"
 
 #: ../src/photos-print-operation.c:272
 msgid "Image Settings"
@@ -497,17 +514,13 @@ msgstr "ISO"
 msgid "Flash"
 msgstr "Вспышка"
 
-#: ../src/photos-properties-dialog.c:536
+#: ../src/photos-properties-dialog.c:485
 msgid "Off, did not fire"
 msgstr "Выключена, не сработала"
 
-#: ../src/photos-properties-dialog.c:538
+#: ../src/photos-properties-dialog.c:487
 msgid "On, fired"
 msgstr "Включена, сработала"
-
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "Готово"
 
 #: ../src/photos-search-match-manager.c:154
 #: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
@@ -565,6 +578,9 @@ msgstr "Источники"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Не удалось получить список фотографий"
+
+#~ msgid "Done"
+#~ msgstr "Готово"
 
 #~ msgid "About Photos"
 #~ msgstr "О приложении"
