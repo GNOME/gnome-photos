@@ -2,25 +2,28 @@
 # Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Christian Kirbach <Christian.Kirbach@gmail.com>, 2014.
+# Benjamin Steinwender <b@stbe.at>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-12\n"
-"POT-Creation-Date: 2014-05-09 07:06+0000\n"
-"PO-Revision-Date: 2014-05-09 18:41+0100\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2014-06-20 07:13+0000\n"
+"PO-Revision-Date: 2014-06-20 17:16+0100\n"
+"Last-Translator: Benjamin Steinwender <b@stbe.at>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Christian Kirbach <christian.kirbach@gmail.com>, 2014"
+msgstr ""
+"Christian Kirbach <christian.kirbach@gmail.com>, 2014Benjamin Steinwender "
+"<b@stbe.at>, 2014"
 
 #. (itstool) path: credit/name
 #: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
@@ -50,6 +53,8 @@ msgid ""
 "You can label photos or images that you particularly like as favorites to "
 "store them for easy access in the <gui>Favorites</gui> tab."
 msgstr ""
+"Sie können Fotos oder Bilder als Favoriten markieren, die Sie besonders "
+"mögen. Diese sind schnell im Reiter <gui>Favoriten</gui> verfügbar."
 
 #. (itstool) path: info/desc
 #: C/favorites-set.page:22
@@ -67,11 +72,13 @@ msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
 "\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
+"Fotos und Alben können in den Reitern <gui style=\"tab\">Zuletzt verwendet</"
+"gui> und <gui style=\"tab\">Alben</gui> als Favorit markieren werden."
 
 #. (itstool) path: steps/title
 #: C/favorites-set.page:31
 msgid "To label favorite items:"
-msgstr ""
+msgstr "So markieren Sie Objekte als Favoriten:"
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
@@ -79,6 +86,9 @@ msgid ""
 "Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
+"Wählen Sie den Reiter <gui>Alben</gui> oder den Reiter <gui>Zuletzt "
+"verwendet</gui>, je nachdem, ob Sie ein Album oder ein Foto als Favorit "
+"markieren wollen."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:37
@@ -88,7 +98,7 @@ msgstr "Schalten Sie den Auswahlmodus an."
 #. (itstool) path: item/p
 #: C/favorites-set.page:40
 msgid "Select all the items you want to favorite."
-msgstr ""
+msgstr "Wählen Sie alle zukünftigen Favoriten aus."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:43
@@ -96,11 +106,13 @@ msgid ""
 "To finish, select the button with the picture of a heart from the toolbar at "
 "the bottom."
 msgstr ""
+"Wählen Sie abschließend den Knopf mit dem Herzbild in der Werkzeugleiste "
+"ganz unten."
 
 #. (itstool) path: page/p
 #: C/favorites-set.page:48
 msgid "Your favorite items can now be found in the <gui>Favorites</gui> tab."
-msgstr ""
+msgstr "Ihre Favoriten befinden sich nun im Reiter <gui>Favoriten</gui>."
 
 #. (itstool) path: info/title
 #: C/index.page:7
@@ -128,6 +140,11 @@ msgid ""
 "with <app>Photos</app>. You can also set photos you like as your desktop "
 "wallpaper, or easily bookmark them as favorites."
 msgstr ""
+"Verwenden Sie <app>Fotos</app> zum angenehmen und auf Sie zugrschnittenen "
+"Organisieren und Verwalten Ihrer Bilder. Neben dem Erstellen von Alben Ihrer "
+"Fotos können Sie Ihre Fotoalben aus Facebook und Flickr in <app>Fotos</app> "
+"einbinden. Legen Sie Ihre Lieblingsbilder als Hintergrundbild fest, und "
+"markieren Sie diese als Favoriten."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
@@ -170,6 +187,8 @@ msgid ""
 "You will see a grid of photos from the album you selected. Select a photo "
 "from the grid to open it."
 msgstr ""
+"Es erscheint ein Raster aus Fotos des gewählten Albums. Wählen Sie ein Fotos "
+"aus dem Raster, um es zu öffnen."
 
 #. (itstool) path: info/desc
 #: C/view-favorites.page:21
@@ -187,6 +206,8 @@ msgid ""
 "Your <link xref=\"favorites\">favorite</link> photos are located in the "
 "<gui>Favorites</gui> tab."
 msgstr ""
+"Ihre <link xref=\"favorites\">favorisierten</link> Fotos befinden sich im "
+"Reiter <gui>Favoriten</gui>."
 
 #. (itstool) path: steps/title
 #: C/view-favorites.page:30
@@ -226,3 +247,8 @@ msgid ""
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
 msgstr ""
+"Wenn <app>Fotos</app> sich öffnet, sehen Sie den Reiter <gui>Zuletzt "
+"verwendet</gui>. Der Reiter <gui>Zuletzt verwendet</gui> enthält Bilder "
+"Ihres Rechners, der Reiter <gui>Alben</gui> enthält Ihre Fotoalben. Jedes "
+"Bild, dass Sie als Favorit markiert haben, befindet sich im Reiter "
+"<gui>Favoriten</gui>."
