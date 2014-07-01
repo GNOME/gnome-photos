@@ -35,11 +35,11 @@
 #include <libgd/gd.h>
 
 #include "photos-application.h"
-#include "photos-base-item.h"
 #include "photos-facebook-item.h"
 #include "photos-flickr-item.h"
 #include "photos-local-item.h"
 #include "photos-query.h"
+#include "photos-source.h"
 #include "photos-tracker-queue.h"
 #include "photos-utils.h"
 
@@ -631,6 +631,21 @@ photos_utils_get_pixbuf_savable_formats (void)
 
   return write_list;
 }
+
+
+const gchar *
+photos_utils_get_provider_name (PhotosBaseManager *src_mngr, PhotosBaseItem *item)
+{
+  PhotosSource *source;
+  const gchar *name;
+  const gchar *resource_urn;
+
+  resource_urn = photos_base_item_get_resource_urn (item);
+  source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (src_mngr, resource_urn));
+  name = photos_source_get_name (source);
+  return name;
+}
+
 
 GtkBorder *
 photos_utils_get_thumbnail_frame_border (void)

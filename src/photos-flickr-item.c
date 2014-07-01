@@ -29,7 +29,6 @@
 
 #include <gio/gio.h>
 #include <glib.h>
-#include <glib/gi18n.h>
 #include <goa/goa.h>
 #include <grilo.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
@@ -279,9 +278,12 @@ photos_flickr_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
 static GtkWidget *
 photos_flickr_item_get_source_widget (PhotosBaseItem *item)
 {
+  PhotosFlickrItem *self = PHOTOS_FLICKR_ITEM (item);
   GtkWidget *source_widget;
+  const gchar *name;
 
-  source_widget = gtk_link_button_new_with_label ("https://www.flickr.com/", _("Flickr"));
+  name = photos_utils_get_provider_name (self->priv->src_mngr, item);
+  source_widget = gtk_link_button_new_with_label ("https://www.flickr.com/", name);
   gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
 
   return source_widget;
@@ -328,10 +330,12 @@ static void
 photos_flickr_item_constructed (GObject *object)
 {
   PhotosFlickrItem *self = PHOTOS_FLICKR_ITEM (object);
+  const gchar *name;
 
   G_OBJECT_CLASS (photos_flickr_item_parent_class)->constructed (object);
 
-  photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), _("Flickr"));
+  name = photos_utils_get_provider_name (self->priv->src_mngr, PHOTOS_BASE_ITEM (self));
+  photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), name);
 }
 
 

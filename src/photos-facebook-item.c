@@ -30,7 +30,6 @@
 #include <gfbgraph/gfbgraph-goa-authorizer.h>
 #include <gio/gio.h>
 #include <glib.h>
-#include <glib/gi18n.h>
 #include <goa/goa.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
@@ -194,9 +193,12 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
 static GtkWidget *
 photos_facebook_item_get_source_widget (PhotosBaseItem *item)
 {
+  PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (item);
   GtkWidget *source_widget;
+  const gchar *name;
 
-  source_widget = gtk_link_button_new_with_label ("https://www.facebook.com/", _("Facebook"));
+  name = photos_utils_get_provider_name (self->priv->src_mngr, item);
+  source_widget = gtk_link_button_new_with_label ("https://www.facebook.com/", name);
   gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
 
   return source_widget;
@@ -226,10 +228,12 @@ static void
 photos_facebook_item_constructed (GObject *object)
 {
   PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (object);
+  const gchar *name;
 
   G_OBJECT_CLASS (photos_facebook_item_parent_class)->constructed (object);
 
-  photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), _("Facebook"));
+  name = photos_utils_get_provider_name (self->priv->src_mngr, PHOTOS_BASE_ITEM (self));
+  photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), name);
 }
 
 

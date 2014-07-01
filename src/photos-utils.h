@@ -33,6 +33,9 @@
 #include <gtk/gtk.h>
 #include <tracker-sparql.h>
 
+#include "photos-base-item.h"
+#include "photos-base-manager.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_ERROR (photos_utils_error_quark ())
@@ -79,6 +82,8 @@ GdkPixbufFormat* photos_utils_get_pixbuf_format           (GFile *file);
 GdkPixbufFormat* photos_utils_get_pixbuf_format_by_suffix (const char *suffix);
 
 GSList*          photos_utils_get_pixbuf_savable_formats  (void);
+
+const gchar     *photos_utils_get_provider_name           (PhotosBaseManager *src_mngr, PhotosBaseItem *item);
 
 GtkBorder       *photos_utils_get_thumbnail_frame_border  (void);
 
