@@ -428,6 +428,7 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
 {
   PhotosApplicationPrivate *priv = self->priv;
   GCancellable *cancellable;
+  const gchar *const index_types[] = {"photos", NULL};
 
   if (g_getenv ("PHOTOS_DISABLE_MINERS") != NULL)
     goto out;
@@ -437,7 +438,7 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
 
   cancellable = g_cancellable_new ();
   g_object_set_data_full (G_OBJECT (miner), "cancellable", cancellable, g_object_unref);
-  gom_miner_call_refresh_db (miner, cancellable, photos_application_refresh_db, g_object_ref (self));
+  gom_miner_call_refresh_db (miner, index_types, cancellable, photos_application_refresh_db, g_object_ref (self));
 
  out:
   return G_SOURCE_REMOVE;
