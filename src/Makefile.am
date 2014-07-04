@@ -135,6 +135,8 @@ gnome_photos_SOURCES = \
 	photos-main-toolbar.h \
 	photos-main-window.c \
 	photos-main-window.h \
+	photos-media-server-item.c \
+	photos-media-server-item.h \
 	photos-mode-controller.c \
 	photos-mode-controller.h \
 	photos-notification-manager.c \
