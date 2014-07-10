@@ -33,6 +33,11 @@ EXTRA_DIST = \
 	$(desktop_in_in_files) \
 	$(gsettings_SCHEMAS) \
 	$(service_in_files) \
+	dnd-counter.svg \
+	sidebar-radio-checked.svg \
+	sidebar-radio-prelight.svg \
+	sidebar-radio-selected.svg \
+	sidebar-radio-selected-prelight.svg \
 	$(NULL)
 
 CLEANFILES = \

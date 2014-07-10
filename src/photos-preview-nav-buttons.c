@@ -207,12 +207,12 @@ photos_preview_nav_buttons_update_favorite (PhotosPreviewNavButtons *self, gbool
   if (favorite)
     {
       favorite_label = g_strdup (_("Remove from favorites"));
-      gtk_style_context_add_class (context, "documents-favorite");
+      gtk_style_context_add_class (context, "photos-favorite");
     }
   else
     {
       favorite_label = g_strdup (_("Add to favorites"));
-      gtk_style_context_remove_class (context, "documents-favorite");
+      gtk_style_context_remove_class (context, "photos-favorite");
     }
 
   gtk_widget_reset_style (priv->favorite_button);

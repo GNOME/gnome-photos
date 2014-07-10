@@ -176,7 +176,7 @@ photos_load_more_button_init (PhotosLoadMoreButton *self)
 
   gtk_widget_set_no_show_all (GTK_WIDGET (self), TRUE);
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_add_class (context, "documents-load-more");
+  gtk_style_context_add_class (context, "photos-load-more");
 
   child = gtk_grid_new ();
   gtk_widget_set_halign (child, GTK_ALIGN_CENTER);

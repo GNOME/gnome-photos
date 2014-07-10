@@ -107,7 +107,7 @@ photos_dropdown_init (PhotosDropdown *self)
   gtk_widget_set_opacity (frame, 0.9);
   gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
   context = gtk_widget_get_style_context (frame);
-  gtk_style_context_add_class (context, "documents-dropdown");
+  gtk_style_context_add_class (context, "photos-dropdown");
   gtk_container_add (GTK_CONTAINER (self), frame);
 
   priv->grid = gtk_grid_new ();

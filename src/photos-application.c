@@ -568,6 +568,42 @@ photos_application_stop_miners (PhotosApplication *self)
 
 
 static void
+photos_application_theme_changed (GtkSettings *settings)
+{
+  static GtkCssProvider *provider;
+  GdkScreen *screen;
+  gchar *theme;
+
+  g_object_get (settings, "gtk-theme-name", &theme, NULL);
+  screen = gdk_screen_get_default ();
+
+  if (g_strcmp0 (theme, "Adwaita") == 0)
+    {
+      if (provider == NULL)
+        {
+          GFile *file;
+
+          provider = gtk_css_provider_new ();
+          file = g_file_new_for_uri ("resource:///org/gnome/photos/Adwaita.css");
+          gtk_css_provider_load_from_file (provider, file, NULL);
+          g_object_unref (file);
+        }
+
+      gtk_style_context_add_provider_for_screen (screen,
+                                                 GTK_STYLE_PROVIDER (provider),
+                                                 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    }
+  else if (provider != NULL)
+    {
+      gtk_style_context_remove_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider));
+      g_clear_object (&provider);
+    }
+
+  g_free (theme);
+}
+
+
+static void
 photos_application_tracker_clear_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
@@ -768,6 +804,8 @@ photos_application_startup (GApplication *application)
 
   settings = gtk_settings_get_default ();
   g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
+  g_signal_connect (settings, "notify::gtk-theme-name", G_CALLBACK (photos_application_theme_changed), NULL);
+  photos_application_theme_changed (settings);
 
   priv->facebook_miner = gom_miner_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                            G_DBUS_PROXY_FLAGS_NONE,

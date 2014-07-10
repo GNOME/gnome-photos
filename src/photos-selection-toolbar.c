@@ -289,13 +289,13 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
     {
       favorite_label = g_strdup (_("Remove from favorites"));
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->toolbar_favorite), TRUE);
-      gtk_style_context_add_class (context, "documents-favorite");
+      gtk_style_context_add_class (context, "photos-favorite");
     }
   else
     {
       favorite_label = g_strdup (_("Add to favorites"));
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->toolbar_favorite), FALSE);
-      gtk_style_context_remove_class (context, "documents-favorite");
+      gtk_style_context_remove_class (context, "photos-favorite");
     }
 
   gtk_widget_reset_style (priv->toolbar_favorite);

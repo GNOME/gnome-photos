@@ -1,0 +1,67 @@
+@define-color photos_collection_bg #000000;
+
+.documents-counter {
+    background-image: url("dnd-counter.svg");
+    background-size: contain;
+    background-color: transparent;
+    color: @theme_base_color;
+    font: bold;
+}
+
+.documents-scrolledwin.frame {
+    border-width: 1px 0 0;
+    border-radius: 0;
+}
+
+.photos-icon-bg {
+  icon-shadow: 0 1px #000000;
+}
+
+.photos-dropdown,
+.photos-dropdown .view {
+    background-color: shade (@theme_bg_color, 1.02);
+}
+
+.photos-dropdown.frame {
+    padding: 6px;
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+    border-radius: 0 0 5px 5px;
+}
+
+.photos-dropdown .view.radio,
+.photos-dropdown .view.radio:focused,
+.photos-dropdown .view.radio:selected {
+    background-image: none;
+    background-color: alpha(@theme_base_color, 0.0);
+}
+
+.photos-dropdown .view.radio:active,
+.photos-dropdown .view.radio:active:focused,
+.photos-dropdown .view.radio:active:prelight {
+    background-image: url("sidebar-radio-checked.svg");
+}
+
+.photos-dropdown .view.radio:prelight {
+    background-image: url("sidebar-radio-prelight.svg");
+}
+
+.photos-dropdown .view.radio:active:selected,
+.photos-dropdown .view.radio:active:selected:focused {
+    background-image: url("sidebar-radio-selected.svg");
+}
+
+.photos-dropdown .view.radio:selected:prelight,
+.photos-dropdown .view.radio:selected:focused {
+    background-image: url("sidebar-radio-selected-prelight.svg");
+}
+
+.photos-favorite.button:active,
+.photos-favorite.button:active:hover {
+    color: shade(@theme_selected_bg_color, 1.20);
+}
+
+.photos-collection-icon {
+    background-color: @photos_collection_bg;
+    border-radius: 8px;
+}
