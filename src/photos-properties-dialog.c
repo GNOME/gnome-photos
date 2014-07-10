@@ -30,8 +30,6 @@
 #include <glib/gi18n.h>
 
 #include "photos-camera-cache.h"
-#include "photos-facebook-item.h"
-#include "photos-flickr-item.h"
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
 #include "photos-properties-dialog.h"

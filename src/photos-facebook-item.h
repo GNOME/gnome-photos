@@ -25,8 +25,6 @@
 #ifndef PHOTOS_FACEBOOK_ITEM_H
 #define PHOTOS_FACEBOOK_ITEM_H
 
-#include <tracker-sparql.h>
-
 #include "photos-base-item.h"
 
 G_BEGIN_DECLS

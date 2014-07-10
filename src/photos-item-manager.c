@@ -30,8 +30,6 @@
 
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
-#include "photos-facebook-item.h"
-#include "photos-flickr-item.h"
 #include "photos-query.h"
 #include "photos-search-context.h"
 #include "photos-single-item-job.h"
