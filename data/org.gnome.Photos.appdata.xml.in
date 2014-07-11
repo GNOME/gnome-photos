@@ -4,8 +4,8 @@
   <id type="desktop">org.gnome.Photos.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
-  <name>Photos</name>
-  <summary>Access, organize and share your photos on GNOME</summary>
+  <_name>Photos</_name>
+  <_summary>Access, organize and share your photos on GNOME</_summary>
   <description>
     <_p>
       A simple application to access, organize and share your photos on
