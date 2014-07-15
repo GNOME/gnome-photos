@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-03 13:35+0300\n"
-"PO-Revision-Date: 2014-04-03 13:37+0300\n"
+"POT-Creation-Date: 2014-07-16 02:13+0300\n"
+"PO-Revision-Date: 2014-07-16 02:17+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -23,6 +23,16 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
+msgid "Photos"
+msgstr "תמונות"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+msgid "Access, organize and share your photos on GNOME"
+msgstr "לגשת, לארגן ולשתף את התמונות שלך ב־GNOME"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -33,26 +43,37 @@ msgstr ""
 "לשימוש בסייר קבצים להתמודדות עם תמונות. שילוב חלק של ענן מוצע באמצעות GNOME "
 "חשבונות מקוונים."
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
 msgstr "הוא מאפשר לך:"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:3
-msgid ""
-"<li>View recent local and online photos</li> <li>Access your Flickr content</"
-"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
-"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
-"featured editor for more advanced changes</li>"
-msgstr ""
-"<li>הצגת תמונות מקומיות ומרוחקות אחרונות</li> <li>גישה לתוכן Flickr שלך</li> "
-"<li>שליחת תמונות לעיבוד DLNA מרוחק</li>\n"
-"<li>קביעה כרקע שולחן העבודה</li> <li>הדפסת תמונות</li> <li>בחירת מועדפות</"
-"li> <li>אפשרות לפתיחה בעורך מלא לשינויים מתקדמים</li>"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+msgid "View recent local and online photos"
+msgstr "הצגת תמונות מקומיות ומקוונות אחרונות"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:124
-msgid "Photos"
-msgstr "תמונות"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+msgid "Access your Facebook or Flickr content"
+msgstr "גישה לתוכן Facebook או Flickr שלך"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+msgid "Send photos to remote DLNA renderers"
+msgstr "שליחת תמונות להתקני DLNA מרוחקים"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+msgid "Set as background"
+msgstr "הגדרה כרקע שולחן העבודה"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+msgid "Print photos"
+msgstr "הדפסת תמונות"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+msgid "Select favorites"
+msgstr "בחירת פריטים"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+msgid "Allow opening full featured editor for more advanced changes"
+msgstr "אפשרות לפתיחה של עורך עשיר בתכונות לשינויים מתקדמים יותר"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
@@ -175,11 +196,11 @@ msgstr "על אודות"
 msgid "Quit"
 msgstr "יציאה"
 
-#: ../src/photos-base-item.c:311
+#: ../src/photos-base-item.c:346
 msgid "Album"
 msgstr "אלבום"
 
-#: ../src/photos-base-item.c:761
+#: ../src/photos-base-item.c:805
 msgid "Screenshots"
 msgstr "צילומי מסך"
 
@@ -187,19 +208,19 @@ msgstr "צילומי מסך"
 msgid "DLNA Renderer Devices"
 msgstr "התקן עיבוד DLNA"
 
-#: ../src/photos-embed.c:722
+#: ../src/photos-embed.c:716
 msgid "Recent"
 msgstr "אחרונים"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:723 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "אלבומים"
 
-#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:730 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "מועדפים"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:280
+#: ../src/photos-embed.c:737 ../src/photos-main-toolbar.c:275
 msgid "Search"
 msgstr "חיפוש"
 
@@ -235,17 +256,9 @@ msgstr "לא נמצאו מועדפים"
 msgid "No Photos Found"
 msgstr "לא נמצאו תמונות"
 
-#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
-msgid "Facebook"
-msgstr "Facebook"
-
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
 msgstr "תמונה ללא כותרת"
-
-#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
-msgid "Flickr"
-msgstr "Flickr"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -275,7 +288,7 @@ msgstr "טעינת עוד"
 msgid "Loading…"
 msgstr "בטעינה…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:79 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "מקומי"
 
@@ -290,30 +303,26 @@ msgid_plural "%d selected"
 msgstr[0] "אחת נבחרה"
 msgstr[1] "%d נבחרו"
 
-#: ../src/photos-main-toolbar.c:156
+#: ../src/photos-main-toolbar.c:151
 msgid "Back"
 msgstr "חזרה"
 
-#: ../src/photos-main-toolbar.c:296
+#: ../src/photos-main-toolbar.c:291
 msgid "Select Items"
 msgstr "בחירת פריטים"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:278
 #, c-format
 msgid "Open with %s"
 msgstr "פתיחה באמצעות %s"
 
-#: ../src/photos-main-toolbar.c:577
+#: ../src/photos-main-toolbar.c:572
 msgid "Cancel"
 msgstr "ביטול"
 
-#: ../src/photos-main-window.c:432
-msgid "Access, organize and share your photos on GNOME"
-msgstr "לגשת, לארגן ולשתף את התמונות שלך ב־GNOME"
-
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:444
+#: ../src/photos-main-window.c:484
 msgid "translator-credits"
 msgstr ""
 "ירון שהרבני <sh.yaron@gmail.com>\n"
@@ -351,7 +360,7 @@ msgstr "הצגה…"
 msgid "Set as Background"
 msgstr "הגדרה כרקע"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:650
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
 #: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "מאפיינים"
@@ -450,7 +459,7 @@ msgstr "תצוגה מקדימה"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:218
+#: ../src/photos-properties-dialog.c:216
 msgctxt "Document Title"
 msgid "Title"
 msgstr "כותרת"
@@ -458,68 +467,68 @@ msgstr "כותרת"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:230
+#: ../src/photos-properties-dialog.c:228
 msgctxt "Document Author"
 msgid "Author"
 msgstr "יוצר"
 
-#: ../src/photos-properties-dialog.c:237
+#: ../src/photos-properties-dialog.c:235
 msgid "Source"
 msgstr "מקור"
 
-#: ../src/photos-properties-dialog.c:243
+#: ../src/photos-properties-dialog.c:241
 msgid "Date Modified"
 msgstr "תאריך השינוי"
 
-#: ../src/photos-properties-dialog.c:251
+#: ../src/photos-properties-dialog.c:249
 msgid "Date Created"
 msgstr "תאריך היצירה"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:261
+#: ../src/photos-properties-dialog.c:259
 msgctxt "Document Type"
 msgid "Type"
 msgstr "סוג"
 
-#: ../src/photos-properties-dialog.c:270
+#: ../src/photos-properties-dialog.c:268
 msgid "Width"
 msgstr "רוחב"
 
-#: ../src/photos-properties-dialog.c:280
+#: ../src/photos-properties-dialog.c:278
 msgid "Height"
 msgstr "גובה"
 
-#: ../src/photos-properties-dialog.c:295
+#: ../src/photos-properties-dialog.c:293
 msgid "Camera"
 msgstr "מצלמה"
 
-#: ../src/photos-properties-dialog.c:305
+#: ../src/photos-properties-dialog.c:303
 msgid "Exposure"
 msgstr "חשיפה"
 
-#: ../src/photos-properties-dialog.c:315
+#: ../src/photos-properties-dialog.c:313
 msgid "Aperture"
 msgstr "צמצם"
 
-#: ../src/photos-properties-dialog.c:325
+#: ../src/photos-properties-dialog.c:323
 msgid "Focal Length"
 msgstr "אורך מוקד"
 
-#: ../src/photos-properties-dialog.c:335
+#: ../src/photos-properties-dialog.c:333
 msgid "ISO Speed"
 msgstr "מהירות ISO"
 
-#: ../src/photos-properties-dialog.c:345
+#: ../src/photos-properties-dialog.c:343
 msgid "Flash"
 msgstr "מבזק"
 
-#: ../src/photos-properties-dialog.c:536
+#: ../src/photos-properties-dialog.c:483
 msgid "Off, did not fire"
 msgstr "כבוי, לא פועל"
 
-#: ../src/photos-properties-dialog.c:538
+#: ../src/photos-properties-dialog.c:485
 msgid "On, fired"
 msgstr "פועל"
 
@@ -579,6 +588,23 @@ msgstr "מקורות"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "לא ניתן לקבל את רשימת התמונות"
+
+#~ msgid ""
+#~ "<li>View recent local and online photos</li> <li>Access your Flickr "
+#~ "content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as "
+#~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
+#~ "opening full featured editor for more advanced changes</li>"
+#~ msgstr ""
+#~ "<li>הצגת תמונות מקומיות ומרוחקות אחרונות</li> <li>גישה לתוכן Flickr שלך</"
+#~ "li> <li>שליחת תמונות לעיבוד DLNA מרוחק</li>\n"
+#~ "<li>קביעה כרקע שולחן העבודה</li> <li>הדפסת תמונות</li> <li>בחירת מועדפות</"
+#~ "li> <li>אפשרות לפתיחה בעורך מלא לשינויים מתקדמים</li>"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Flickr"
+#~ msgstr "Flickr"
 
 #~ msgid "Done"
 #~ msgstr "בוצע"
