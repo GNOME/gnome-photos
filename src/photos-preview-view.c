@@ -55,14 +55,14 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosPreviewView, photos_preview_view, GTK_TYPE_SCR
 
 
 static void
-photos_preview_view_draw_background (PhotosPreviewView *self, cairo_t *cr, GdkRectangle *rect)
+photos_preview_view_draw_background (PhotosPreviewView *self, cairo_t *cr, GdkRectangle *rect, gpointer user_data)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
   GtkStyleContext *context;
   GtkStateFlags flags;
+  GtkWidget *view = GTK_WIDGET (user_data);
 
-  context = gtk_widget_get_style_context (priv->view);
-  flags = gtk_widget_get_state_flags (priv->view);
+  context = gtk_widget_get_style_context (view);
+  flags = gtk_widget_get_state_flags (view);
   gtk_style_context_save (context);
   gtk_style_context_set_state (context, flags);
   gtk_render_background (context, cr, 0, 0, rect->width, rect->height);
@@ -71,9 +71,8 @@ photos_preview_view_draw_background (PhotosPreviewView *self, cairo_t *cr, GdkRe
 
 
 static void
-photos_preview_view_scale_and_align_image (PhotosPreviewView *self)
+photos_preview_view_scale_and_align_image (PhotosPreviewView *self, GtkWidget *view)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
   GeglRectangle bbox;
   GtkAllocation alloc;
   float delta_x;
@@ -83,13 +82,13 @@ photos_preview_view_scale_and_align_image (PhotosPreviewView *self)
   /* Reset these properties, otherwise values from the previous node
    * will interfere with the current one.
    */
-  gegl_gtk_view_set_autoscale_policy (GEGL_GTK_VIEW (priv->view), GEGL_GTK_VIEW_AUTOSCALE_DISABLED);
-  gegl_gtk_view_set_scale (GEGL_GTK_VIEW (priv->view), 1.0);
-  gegl_gtk_view_set_x (GEGL_GTK_VIEW (priv->view), 0.0);
-  gegl_gtk_view_set_y (GEGL_GTK_VIEW (priv->view), 0.0);
+  gegl_gtk_view_set_autoscale_policy (GEGL_GTK_VIEW (view), GEGL_GTK_VIEW_AUTOSCALE_DISABLED);
+  gegl_gtk_view_set_scale (GEGL_GTK_VIEW (view), 1.0);
+  gegl_gtk_view_set_x (GEGL_GTK_VIEW (view), 0.0);
+  gegl_gtk_view_set_y (GEGL_GTK_VIEW (view), 0.0);
 
-  bbox = gegl_node_get_bounding_box (priv->node);
-  gtk_widget_get_allocation (priv->view, &alloc);
+  bbox = gegl_node_get_bounding_box (self->priv->node);
+  gtk_widget_get_allocation (view, &alloc);
 
   if (bbox.width > alloc.width || bbox.height > alloc.height)
     {
@@ -97,7 +96,7 @@ photos_preview_view_scale_and_align_image (PhotosPreviewView *self)
       float max_ratio;
       float width_ratio;
 
-      gegl_gtk_view_set_autoscale_policy (GEGL_GTK_VIEW (priv->view), GEGL_GTK_VIEW_AUTOSCALE_CONTENT);
+      gegl_gtk_view_set_autoscale_policy (GEGL_GTK_VIEW (view), GEGL_GTK_VIEW_AUTOSCALE_CONTENT);
 
       /* TODO: since gegl_gtk_view_get_scale is not giving the
        *       correct value of scale, we calculate it ourselves.
@@ -115,8 +114,16 @@ photos_preview_view_scale_and_align_image (PhotosPreviewView *self)
   /* At this point, alloc is definitely bigger than bbox. */
   delta_x = (alloc.width - bbox.width) / 2.0;
   delta_y = (alloc.height - bbox.height) / 2.0;
-  gegl_gtk_view_set_x (GEGL_GTK_VIEW (priv->view), -delta_x);
-  gegl_gtk_view_set_y (GEGL_GTK_VIEW (priv->view), -delta_y);
+  gegl_gtk_view_set_x (GEGL_GTK_VIEW (view), -delta_x);
+  gegl_gtk_view_set_y (GEGL_GTK_VIEW (view), -delta_y);
+}
+
+
+static void
+photos_preview_view_size_allocate (PhotosPreviewView *self, GdkRectangle *allocation, gpointer user_data)
+{
+  GtkWidget *view = GTK_WIDGET (user_data);
+  photos_preview_view_scale_and_align_image (self, view);
 }
 
 
@@ -207,7 +214,7 @@ photos_preview_view_init (PhotosPreviewView *self)
   gtk_style_context_add_class (context, "content-view");
   g_signal_connect_swapped (priv->view,
                             "size-allocate",
-                            G_CALLBACK (photos_preview_view_scale_and_align_image),
+                            G_CALLBACK (photos_preview_view_size_allocate),
                             self);
   g_signal_connect_swapped (priv->view,
                             "draw-background",
@@ -276,7 +283,7 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
     goto out;
 
   priv->node = g_object_ref (node);
-  photos_preview_view_scale_and_align_image (self);
+  photos_preview_view_scale_and_align_image (self, priv->view);
 
   /* Steals the reference to the GeglNode. */
   gegl_gtk_view_set_node (GEGL_GTK_VIEW (priv->view), g_object_ref (priv->node));
