@@ -49,6 +49,8 @@ struct _PhotosPreviewNavButtonsPrivate
   GtkWidget *toolbar_widget;
   PhotosBaseManager *item_mngr;
   PhotosPreviewAction action;
+  gboolean enable_next;
+  gboolean enable_prev;
   gboolean hover;
   gboolean visible;
   guint auto_hide_id;
@@ -58,6 +60,8 @@ struct _PhotosPreviewNavButtonsPrivate
 enum
 {
   PROP_0,
+  PROP_ENABLE_NEXT,
+  PROP_ENABLE_PREVIOUS,
   PROP_OVERLAY,
   PROP_PREVIEW_VIEW
 };
@@ -237,34 +241,33 @@ photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
   GtkTreeIter iter;
   GtkTreeIter tmp;
+  gboolean enable_next = FALSE;
+  gboolean enable_prev = FALSE;
 
   if (priv->model == NULL
       || priv->current_path == NULL
       || !priv->visible
       || !gtk_tree_model_get_iter (priv->model, &iter, priv->current_path))
     {
-      photos_preview_nav_buttons_fade_out_button (self, priv->prev_widget);
-      photos_preview_nav_buttons_fade_out_button (self, priv->next_widget);
+      enable_prev = FALSE;
+      enable_next = FALSE;
       photos_preview_nav_buttons_fade_out_button (self, priv->toolbar_widget);
-      return;
+      goto out;
     }
 
   photos_preview_nav_buttons_fade_in_button (self, priv->toolbar_widget);
 
   tmp = iter;
-  if (gtk_tree_model_iter_previous (priv->model, &tmp))
-      photos_preview_nav_buttons_fade_in_button (self, priv->prev_widget);
-  else
-      photos_preview_nav_buttons_fade_out_button (self, priv->prev_widget);
+  enable_prev = gtk_tree_model_iter_previous (priv->model, &tmp);
 
   tmp = iter;
-  if (gtk_tree_model_iter_next (priv->model, &tmp))
-      photos_preview_nav_buttons_fade_in_button (self, priv->next_widget);
-  else
-      photos_preview_nav_buttons_fade_out_button (self, priv->next_widget);
+  enable_next = gtk_tree_model_iter_next (priv->model, &tmp);
 
   if (!priv->hover)
     photos_preview_nav_buttons_queue_auto_hide (self);
+
+ out:
+  g_object_set (self, "enable-next", enable_next, "enable-previous", enable_prev, NULL);
 }
 
 
@@ -290,6 +293,30 @@ photos_preview_nav_buttons_motion_notify (PhotosPreviewNavButtons *self)
                                      g_object_ref (self),
                                      g_object_unref);
   return FALSE;
+}
+
+
+static void
+photos_preview_nav_buttons_notify_enable_next (PhotosPreviewNavButtons *self)
+{
+  PhotosPreviewNavButtonsPrivate *priv = self->priv;
+
+  if (priv->enable_next)
+    photos_preview_nav_buttons_fade_in_button (self, priv->next_widget);
+  else
+    photos_preview_nav_buttons_fade_out_button (self, priv->next_widget);
+}
+
+
+static void
+photos_preview_nav_buttons_notify_enable_previous (PhotosPreviewNavButtons *self)
+{
+  PhotosPreviewNavButtonsPrivate *priv = self->priv;
+
+  if (priv->enable_prev)
+    photos_preview_nav_buttons_fade_in_button (self, priv->prev_widget);
+  else
+    photos_preview_nav_buttons_fade_out_button (self, priv->prev_widget);
 }
 
 
@@ -448,6 +475,29 @@ photos_preview_nav_buttons_constructed (GObject *object)
 
 
 static void
+photos_preview_nav_buttons_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+{
+  PhotosPreviewNavButtons *self = PHOTOS_PREVIEW_NAV_BUTTONS (object);
+  PhotosPreviewNavButtonsPrivate *priv = self->priv;
+
+  switch (prop_id)
+    {
+    case PROP_ENABLE_NEXT:
+      g_value_set_boolean (value, priv->enable_next);
+      break;
+
+    case PROP_ENABLE_PREVIOUS:
+      g_value_set_boolean (value, priv->enable_prev);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+
+static void
 photos_preview_nav_buttons_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosPreviewNavButtons *self = PHOTOS_PREVIEW_NAV_BUTTONS (object);
@@ -455,6 +505,14 @@ photos_preview_nav_buttons_set_property (GObject *object, guint prop_id, const G
 
   switch (prop_id)
     {
+    case PROP_ENABLE_NEXT:
+      priv->enable_next = g_value_get_boolean (value);
+      break;
+
+    case PROP_ENABLE_PREVIOUS:
+      priv->enable_prev = g_value_get_boolean (value);
+      break;
+
     case PROP_OVERLAY:
       priv->overlay = GTK_WIDGET (g_value_dup_object (value));
       break;
@@ -485,6 +543,15 @@ photos_preview_nav_buttons_init (PhotosPreviewNavButtons *self)
                             self);
 
   priv->action = PHOTOS_PREVIEW_ACTION_NONE;
+
+  g_signal_connect (self,
+                    "notify::enable-next",
+                    G_CALLBACK (photos_preview_nav_buttons_notify_enable_next),
+                    NULL);
+  g_signal_connect (self,
+                    "notify::enable-previous",
+                    G_CALLBACK (photos_preview_nav_buttons_notify_enable_previous),
+                    NULL);
 }
 
 
@@ -496,7 +563,24 @@ photos_preview_nav_buttons_class_init (PhotosPreviewNavButtonsClass *class)
   object_class->constructed = photos_preview_nav_buttons_constructed;
   object_class->dispose = photos_preview_nav_buttons_dispose;
   object_class->finalize = photos_preview_nav_buttons_finalize;
+  object_class->get_property = photos_preview_nav_buttons_get_property;
   object_class->set_property = photos_preview_nav_buttons_set_property;
+
+  g_object_class_install_property (object_class,
+                                   PROP_ENABLE_NEXT,
+                                   g_param_spec_boolean ("enable-next",
+                                                         "Enable next",
+                                                         "Allow moving to the next item",
+                                                         FALSE,
+                                                         G_PARAM_READWRITE));
+
+  g_object_class_install_property (object_class,
+                                   PROP_ENABLE_PREVIOUS,
+                                   g_param_spec_boolean ("enable-previous",
+                                                         "Enable previous",
+                                                         "Allow moving to the previous item",
+                                                         FALSE,
+                                                         G_PARAM_READWRITE));
 
   g_object_class_install_property (object_class,
                                    PROP_OVERLAY,
@@ -561,6 +645,9 @@ photos_preview_nav_buttons_next (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
 
+  if (!priv->enable_next)
+    return;
+
   priv->action = PHOTOS_PREVIEW_ACTION_NEXT;
   gtk_tree_path_next (priv->current_path);
   photos_preview_nav_buttons_set_active_path (self);
@@ -573,6 +660,9 @@ void
 photos_preview_nav_buttons_previous (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
+
+  if (!priv->enable_prev)
+    return;
 
   priv->action = PHOTOS_PREVIEW_ACTION_PREVIOUS;
   gtk_tree_path_prev (priv->current_path);
