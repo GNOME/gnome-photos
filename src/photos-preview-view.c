@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,6 +39,7 @@ struct _PhotosPreviewViewPrivate
 {
   GeglNode *node;
   GtkWidget *overlay;
+  GtkWidget *stack;
   GtkWidget *view;
   PhotosModeController *mode_cntrlr;
   PhotosPreviewNavButtons *nav_buttons;
@@ -54,6 +55,9 @@ enum
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosPreviewView, photos_preview_view, GTK_TYPE_SCROLLED_WINDOW);
 
 
+static GtkWidget *photos_preview_view_create_view (PhotosPreviewView *self);
+
+
 static void
 photos_preview_view_draw_background (PhotosPreviewView *self, cairo_t *cr, GdkRectangle *rect, gpointer user_data)
 {
@@ -67,6 +71,90 @@ photos_preview_view_draw_background (PhotosPreviewView *self, cairo_t *cr, GdkRe
   gtk_style_context_set_state (context, flags);
   gtk_render_background (context, cr, 0, 0, rect->width, rect->height);
   gtk_style_context_restore (context);
+}
+
+
+static GtkWidget *
+photos_preview_view_get_invisible_view (PhotosPreviewView *self)
+{
+  PhotosPreviewViewPrivate *priv = self->priv;
+  GList *children;
+  GList *l;
+  GtkWidget *current_view;
+  GtkWidget *next_view = NULL;
+
+  current_view = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
+  children = gtk_container_get_children (GTK_CONTAINER (priv->stack));
+  for (l = children; l != NULL; l = l->next)
+    {
+      GtkWidget *view = GTK_WIDGET (l->data);
+
+      if (current_view != view)
+        {
+          next_view = view;
+          break;
+        }
+    }
+
+  g_list_free (children);
+  return next_view;
+}
+
+
+static void
+photos_preview_view_nav_buttons_activated (PhotosPreviewView *self, PhotosPreviewAction action)
+{
+  PhotosPreviewViewPrivate *priv = self->priv;
+  GtkStackTransitionType transition;
+  GtkWidget *current_view;
+  GtkWidget *next_view;
+  gint position;
+
+  if (action == PHOTOS_PREVIEW_ACTION_NONE)
+    return;
+
+  switch (action)
+    {
+    case PHOTOS_PREVIEW_ACTION_NEXT:
+      position = 0;
+      transition = GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT;
+      break;
+
+    case PHOTOS_PREVIEW_ACTION_PREVIOUS:
+      position = -1;
+      transition = GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT;
+      break;
+
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  current_view = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
+  gtk_container_child_set (GTK_CONTAINER (priv->stack), current_view, "position", position, NULL);
+
+  gtk_stack_set_transition_type (GTK_STACK (priv->stack), transition);
+
+  next_view = photos_preview_view_get_invisible_view (self);
+  gtk_stack_set_visible_child (GTK_STACK (priv->stack), next_view);
+}
+
+
+static void
+photos_preview_view_notify_transition_running (PhotosPreviewView *self)
+{
+  PhotosPreviewViewPrivate *priv = self->priv;
+  GtkWidget *old_view;
+  GtkWidget *new_view;
+
+  if (gtk_stack_get_transition_running (GTK_STACK (priv->stack)))
+    return;
+
+  old_view = photos_preview_view_get_invisible_view (self);
+  gtk_container_remove (GTK_CONTAINER (priv->stack), old_view);
+
+  new_view = photos_preview_view_create_view (self);
+  gtk_container_add (GTK_CONTAINER (priv->stack), new_view);
 }
 
 
@@ -127,6 +215,27 @@ photos_preview_view_size_allocate (PhotosPreviewView *self, GdkRectangle *alloca
 }
 
 
+static GtkWidget *
+photos_preview_view_create_view (PhotosPreviewView *self)
+{
+  GtkStyleContext *context;
+  GtkWidget *view;
+
+  view = GTK_WIDGET (gegl_gtk_view_new ());
+  gtk_widget_add_events (view, GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK);
+  context = gtk_widget_get_style_context (view);
+  gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
+  gtk_style_context_add_class (context, "content-view");
+  g_signal_connect_swapped (view, "size-allocate", G_CALLBACK (photos_preview_view_size_allocate), self);
+  g_signal_connect_swapped (view, "draw-background", G_CALLBACK (photos_preview_view_draw_background), self);
+
+  /* It has to be visible to become the visible child of priv->stack. */
+  gtk_widget_show (view);
+
+  return view;
+}
+
+
 static void
 photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
 {
@@ -156,12 +265,16 @@ photos_preview_view_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->constructed (object);
 
-  /* Add the view to the scrolled window after the default
+  /* Add the stack to the scrolled window after the default
    * adjustments have been created.
    */
-  gtk_container_add (GTK_CONTAINER (self), priv->view);
+  gtk_container_add (GTK_CONTAINER (self), priv->stack);
 
   priv->nav_buttons = photos_preview_nav_buttons_new (self, GTK_OVERLAY (priv->overlay));
+  g_signal_connect_swapped (priv->nav_buttons,
+                            "activated",
+                            G_CALLBACK (photos_preview_view_nav_buttons_activated),
+                            self);
 
   gtk_widget_show_all (GTK_WIDGET (self));
 }
@@ -191,6 +304,7 @@ photos_preview_view_init (PhotosPreviewView *self)
 {
   PhotosPreviewViewPrivate *priv;
   GtkStyleContext *context;
+  GtkWidget *view;
 
   self->priv = photos_preview_view_get_instance_private (self);
   priv = self->priv;
@@ -207,19 +321,19 @@ photos_preview_view_init (PhotosPreviewView *self)
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
   gtk_style_context_add_class (context, "documents-scrolledwin");
 
-  priv->view = GTK_WIDGET (gegl_gtk_view_new ());
-  gtk_widget_add_events (priv->view, GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK);
-  context = gtk_widget_get_style_context (priv->view);
-  gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-  gtk_style_context_add_class (context, "content-view");
-  g_signal_connect_swapped (priv->view,
-                            "size-allocate",
-                            G_CALLBACK (photos_preview_view_size_allocate),
+  priv->stack = gtk_stack_new ();
+  gtk_stack_set_transition_duration (GTK_STACK (priv->stack), 400);
+  g_signal_connect_swapped (priv->stack,
+                            "notify::transition-running",
+                            G_CALLBACK (photos_preview_view_notify_transition_running),
                             self);
-  g_signal_connect_swapped (priv->view,
-                            "draw-background",
-                            G_CALLBACK (photos_preview_view_draw_background),
-                            self);
+
+  view = photos_preview_view_create_view (self);
+  gtk_container_add (GTK_CONTAINER (priv->stack), view);
+  gtk_stack_set_visible_child (GTK_STACK (priv->stack), view);
+
+  view = photos_preview_view_create_view (self);
+  gtk_container_add (GTK_CONTAINER (priv->stack), view);
 }
 
 
@@ -274,21 +388,22 @@ void
 photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
 {
   PhotosPreviewViewPrivate *priv = self->priv;
+  GtkWidget *view;
+
+  photos_preview_nav_buttons_show (priv->nav_buttons);
 
   if (priv->node == node)
-    goto out;
+    return;
 
   g_clear_object (&priv->node);
   if (node == NULL)
-    goto out;
+    return;
 
   priv->node = g_object_ref (node);
-  photos_preview_view_scale_and_align_image (self, priv->view);
+  view = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
+  photos_preview_view_scale_and_align_image (self, view);
 
   /* Steals the reference to the GeglNode. */
-  gegl_gtk_view_set_node (GEGL_GTK_VIEW (priv->view), g_object_ref (priv->node));
-  gtk_widget_queue_draw (priv->view);
-
- out:
-  photos_preview_nav_buttons_show (priv->nav_buttons);
+  gegl_gtk_view_set_node (GEGL_GTK_VIEW (view), g_object_ref (priv->node));
+  gtk_widget_queue_draw (view);
 }
