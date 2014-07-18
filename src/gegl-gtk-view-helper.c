@@ -248,7 +248,7 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
     roi.height = rect->height;
 
     stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, roi.width);
-    buf = g_malloc(stride * roi.height);
+    buf = g_malloc0(stride * roi.height);
 
     gegl_node_blit(self->node,
                    self->scale,
