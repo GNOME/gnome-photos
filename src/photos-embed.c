@@ -219,6 +219,7 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
+  GError *error;
   GeglNode *node;
   GtkListStore *model;
   GtkTreePath *current_path;
@@ -226,11 +227,16 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
   PhotosWindowMode mode;
 
   photos_embed_clear_load_timer (self);
-
   g_clear_object (&priv->loader_cancellable);
-  node = photos_base_item_load_finish (item, res, NULL);
-  if (node == NULL)
-    goto out;
+
+  error = NULL;
+  node = photos_base_item_load_finish (item, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to load the item: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
 
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
 
