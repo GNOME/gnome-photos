@@ -1,5 +1,16 @@
 @define-color photos_collection_bg #000000;
 
+GdMainIconView.content-view {
+    -GdMainIconView-icon-size: 40;
+}
+
+/* Make spinner visible on both dark and bright backgrounds w/o making
+ * it look ugly/weird.
+ */
+GdMainIconView.content-view.cell:active {
+    color: gray;
+}
+
 .documents-counter {
     background-image: url("dnd-counter.svg");
     background-size: contain;
