@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos 3.13.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-08 11:18+0200\n"
-"PO-Revision-Date: 2014-06-08 11:19+0200\n"
+"POT-Creation-Date: 2014-07-21 14:36+0200\n"
+"PO-Revision-Date: 2014-07-21 14:37+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -18,6 +18,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
+msgid "Photos"
+msgstr "Bilder"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Se på, organiser og del dine bilder i GNOME"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -29,26 +39,37 @@ msgstr ""
 "å ordne med bilder. Sømløs integrasjon med skytjenester tilbys gjennom GNOME "
 "kontoer på nettet."
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
 msgstr "Det lar deg:"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:3
-msgid ""
-"<li>View recent local and online photos</li> <li>Access your Flickr content</"
-"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
-"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
-"featured editor for more advanced changes</li>"
-msgstr ""
-"<li>Vis nylige bilder lokalt og på nettet</li> <li>Aksesser ditt innhold på "
-"Flickr</li> <li>Send bilder til eksterne DLNA-gjengivere</li> <li>Sett som "
-"bakgrunn</li> <li>Skriv ut bilder</li> <li>Velg favoritter</li> <li>Tillat "
-"åpning av et redigeringsprogram for mer avanserte endringer</li>"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+msgid "View recent local and online photos"
+msgstr "Vis nylige bilder lokalt og på nettet"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:124
-msgid "Photos"
-msgstr "Bilder"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+msgid "Access your Facebook or Flickr content"
+msgstr "Se på ditt innhold på Facebook eller Flickr"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+msgid "Send photos to remote DLNA renderers"
+msgstr "Send bilder til eksterne DLNA-rendrere"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+msgid "Set as background"
+msgstr "Sett som bakgrunn"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+msgid "Print photos"
+msgstr "Skriv ut bilder"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+msgid "Select favorites"
+msgstr "Velg favoritter"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+msgid "Allow opening full featured editor for more advanced changes"
+msgstr "Tillat åpning av redigeringsprogram for mer avanserte endringer"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
@@ -171,11 +192,11 @@ msgstr "Om"
 msgid "Quit"
 msgstr "Avslutt"
 
-#: ../src/photos-base-item.c:345
+#: ../src/photos-base-item.c:346
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:804
+#: ../src/photos-base-item.c:805
 msgid "Screenshots"
 msgstr "Skjermdump"
 
@@ -183,19 +204,19 @@ msgstr "Skjermdump"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-enheter for gjengivelse"
 
-#: ../src/photos-embed.c:717
+#: ../src/photos-embed.c:722
 msgid "Recent"
 msgstr "Nylig brukt"
 
-#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:275
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:275
 msgid "Search"
 msgstr "Søk"
 
@@ -231,17 +252,9 @@ msgstr "Ingen favoritter funnet"
 msgid "No Photos Found"
 msgstr "Ingen bilder funnet"
 
-#: ../src/photos-facebook-item.c:191 ../src/photos-facebook-item.c:221
-msgid "Facebook"
-msgstr "Facebook"
-
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
 msgstr "Bilde uten tittel"
-
-#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
-msgid "Flickr"
-msgstr "Flickr"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -271,7 +284,7 @@ msgstr "Last flere"
 msgid "Loading…"
 msgstr "Laster …"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:79 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokalt"
 
@@ -304,12 +317,8 @@ msgstr "Åpne med %s"
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ../src/photos-main-window.c:455
-msgid "Access, organize and share your photos on GNOME"
-msgstr "Se på, organiser og del dine bilder i GNOME"
-
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:467
+#: ../src/photos-main-window.c:484
 msgid "translator-credits"
 msgstr "Kjartan Maraas <kmaraas@gnome.org>"
 
@@ -345,17 +354,17 @@ msgstr "Vis på …"
 msgid "Set as Background"
 msgstr "Sett som bakgrunn"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:650
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
 #: ../src/photos-selection-toolbar.c:461
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: ../src/photos-preview-nav-buttons.c:209
+#: ../src/photos-preview-nav-buttons.c:223
 #: ../src/photos-selection-toolbar.c:290
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
 
-#: ../src/photos-preview-nav-buttons.c:214
+#: ../src/photos-preview-nav-buttons.c:228
 #: ../src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Legg til i favoritter"
@@ -444,7 +453,7 @@ msgstr "Forhåndsvisning"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:218
+#: ../src/photos-properties-dialog.c:216
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Tittel"
@@ -452,68 +461,68 @@ msgstr "Tittel"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:230
+#: ../src/photos-properties-dialog.c:228
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Forfatter"
 
-#: ../src/photos-properties-dialog.c:237
+#: ../src/photos-properties-dialog.c:235
 msgid "Source"
 msgstr "Kilde"
 
-#: ../src/photos-properties-dialog.c:243
+#: ../src/photos-properties-dialog.c:241
 msgid "Date Modified"
 msgstr "Dato endret"
 
-#: ../src/photos-properties-dialog.c:251
+#: ../src/photos-properties-dialog.c:249
 msgid "Date Created"
 msgstr "Dato opprettet"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:261
+#: ../src/photos-properties-dialog.c:259
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Type"
 
-#: ../src/photos-properties-dialog.c:270
+#: ../src/photos-properties-dialog.c:268
 msgid "Width"
 msgstr "Bredde"
 
-#: ../src/photos-properties-dialog.c:280
+#: ../src/photos-properties-dialog.c:278
 msgid "Height"
 msgstr "Høyde"
 
-#: ../src/photos-properties-dialog.c:295
+#: ../src/photos-properties-dialog.c:293
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:305
+#: ../src/photos-properties-dialog.c:303
 msgid "Exposure"
 msgstr "Eksponering"
 
-#: ../src/photos-properties-dialog.c:315
+#: ../src/photos-properties-dialog.c:313
 msgid "Aperture"
 msgstr "Blenderåpning"
 
-#: ../src/photos-properties-dialog.c:325
+#: ../src/photos-properties-dialog.c:323
 msgid "Focal Length"
 msgstr "Brennvidde"
 
-#: ../src/photos-properties-dialog.c:335
+#: ../src/photos-properties-dialog.c:333
 msgid "ISO Speed"
 msgstr "ISO-hastighet"
 
-#: ../src/photos-properties-dialog.c:345
+#: ../src/photos-properties-dialog.c:343
 msgid "Flash"
 msgstr "Blitz"
 
-#: ../src/photos-properties-dialog.c:536
+#: ../src/photos-properties-dialog.c:483
 msgid "Off, did not fire"
 msgstr "Av, fyrte ikke"
 
-#: ../src/photos-properties-dialog.c:538
+#: ../src/photos-properties-dialog.c:485
 msgid "On, fired"
 msgstr "På, fyrte"
 
