@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2014 Pranav Kant
  * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -1046,7 +1047,7 @@ photos_base_item_filterable_iface_init (PhotosFilterableInterface *iface)
 gboolean
 photos_base_item_can_trash (PhotosBaseItem *self)
 {
-  return self->priv->collection;
+  return PHOTOS_BASE_ITEM_GET_CLASS (self)->trash != NULL;
 }
 
 
@@ -1376,13 +1377,11 @@ photos_base_item_set_favorite (PhotosBaseItem *self, gboolean favorite)
 void
 photos_base_item_trash (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
   PhotosDeleteItemJob *job;
 
-  if (!priv->collection)
-    return;
+  PHOTOS_BASE_ITEM_GET_CLASS (self)->trash (self);
 
-  job = photos_delete_item_job_new (priv->id);
+  job = photos_delete_item_job_new (self->priv->id);
   photos_delete_item_job_run (job, NULL, NULL);
   g_object_unref (job);
 }

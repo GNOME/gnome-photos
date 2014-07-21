@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2014 Pranav Kant
  * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -74,6 +75,7 @@ struct _PhotosBaseItemClass
   GtkWidget *(*get_source_widget) (PhotosBaseItem *self);
   void (*open) (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp);
   void (*set_favorite) (PhotosBaseItem *self, gboolean favorite);
+  void (*trash) (PhotosBaseItem *self);
   void (*update_type_description) (PhotosBaseItem *self);
 
   /* signals */
