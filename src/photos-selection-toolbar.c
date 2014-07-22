@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2014 Pranav Kant
  * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -30,6 +31,8 @@
 #include <libgd/gd.h>
 
 #include "photos-base-item.h"
+#include "photos-delete-notification.h"
+#include "photos-filterable.h"
 #include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-organize-collection-dialog.h"
@@ -374,6 +377,7 @@ photos_selection_toolbar_trash_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
   PhotosSelectionToolbarPrivate *priv = self->priv;
+  GList *items = NULL;
   GList *selection;
   GList *l;
 
@@ -384,10 +388,25 @@ photos_selection_toolbar_trash_clicked (GtkButton *button, gpointer user_data)
       const gchar *urn = (gchar *) l->data;
 
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
-      photos_base_item_trash (item);
+      items = g_list_prepend (items, g_object_ref (item));
     }
 
+  /* Removing an item from the item manager changes the selection, so
+   * we can't use the selection while removing items.
+   */
+  for (l = items; l != NULL; l = l->next)
+    {
+      PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
+      const gchar *urn;
+
+      urn = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
+      photos_base_manager_remove_object_by_id (priv->item_mngr, urn);
+    }
+
+  photos_delete_notification_new (items);
   photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
+
+  g_list_free_full (items, g_object_unref);
 }
 
 

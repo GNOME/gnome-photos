@@ -88,6 +88,8 @@ gnome_photos_SOURCES = \
 	photos-create-collection-job.h \
 	photos-delete-item-job.c \
 	photos-delete-item-job.h \
+	photos-delete-notification.c \
+	photos-delete-notification.h \
 	photos-dlna-renderer.c \
 	photos-dlna-renderer.h \
 	photos-dlna-renderers-dialog.c \
