@@ -33,6 +33,7 @@ EXTRA_DIST = \
 	$(desktop_in_in_files) \
 	$(gsettings_SCHEMAS) \
 	$(service_in_files) \
+	Adwaita.css \
 	dnd-counter.svg \
 	sidebar-radio-checked.svg \
 	sidebar-radio-prelight.svg \
