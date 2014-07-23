@@ -1,5 +1,81 @@
-Overview of changes in 3.13.1
+Overview of changes in 3.13.4
 =============================
+
+* New user help (711505)
+
+* Bugs fixed:
+ 696802 query-builder: Add additional directories configured in Tracker
+ 698941 view-container: Prevent the icons from shifting around
+ 708039 appdata: Set each li translatable instead of the whole <ul>
+ 723664 gegl-gtk-view-helper: Avoid pointing to invalid memory
+ 725016 "Open with..." opens the wrong program
+ 725095 Allow enter to activate first search item
+ 725156 Start adding UI tests
+ 725327 Clicking "add to collection" leads to crash
+ 725328 Unbreak activating a search provider result
+ 725329 Fix broken mode changes
+ 725587 Selection and search should be disabled when there are no photos
+ 725589 Hide empty albums
+ 725813 item-manager: Do not crash when a photo is deleted underneath
+ 725934 main-toolbar: Add searchbar in selection mode
+ 726162 view-model: Reset the count when items are removed
+ 726165 overview-searchbar: Refocus the search entry after changing filters
+ 726505 preview-view, preview-nav-buttons: Sliding transition between photos
+ 726519 Crash when moving from preview to search with a source filter
+ 726685 Keyboard navigation using arrow keys in preview mode
+ 726791 Use a single-binary setup for DBus activation
+ 726903 Scale the thumbnails on HiDpi displays
+ 726919 Use o.fd.Tracker1.Extract.Priority interface to prioritize relevant
+        types
+ 727205 Crash if Facebook credentials expired
+ 727392 properties: Use a X close button instead of "Done"
+ 729396 build: Remove GNOME_COMMON_INIT
+ 730822 Use the new support for RTL icons in GTK+
+ 731856 Properly namespace the dleyna-renderer stubs
+ 731865 Make it easier to support new sources
+ 732011 application: Use gtk_application_set_accels_for_action
+ 732676 application: Pass "photos" as the index type to RefreshDB
+ 733011 Add application-specific theme extensions
+ 733355 gegl-gtk-view-helper: Fix vertical stripes in the rendered image
+
+* Updated translations:
+ Basque
+ Catalan
+ Catalan (Valencian)
+ Simplified Chinese
+ Traditional Chinese (Hong Kong)
+ Traditional Chinese (Taiwan)
+ Czech
+ Danish
+ Finnish
+ French
+ Galician
+ German
+ Greek
+ Hebrew
+ Hungarian
+ Indonesian
+ Italian
+ Japanese
+ Kazakh
+ Khmer
+ Korean
+ Latvian
+ Lithuanian
+ Norwegian bokmål
+ Polish
+ Portuguese
+ Portuguese (Brazilian)
+ Punjabi
+ Russian
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
+ Swedish
+ Tajik
+ Telugu
+ Ukrainian
 
 
 Overview of changes in 3.11.90
