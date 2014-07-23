@@ -13,11 +13,6 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 gsettings_SCHEMAS = org.gnome.photos.gschema.xml
 .PRECIOUS: $(gsettings_SCHEMAS)
 
-iconsdir = $(pkgdatadir)/icons
-dist_icons_DATA = \
-	thumbnail-frame.png \
-	$(NULL)
-
 @INTLTOOL_XML_RULE@
 @GSETTINGS_RULES@
 
@@ -39,6 +34,7 @@ EXTRA_DIST = \
 	sidebar-radio-prelight.svg \
 	sidebar-radio-selected.svg \
 	sidebar-radio-selected-prelight.svg \
+	thumbnail-frame.png \
 	$(NULL)
 
 CLEANFILES = \
