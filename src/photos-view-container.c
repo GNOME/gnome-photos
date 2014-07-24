@@ -255,8 +255,7 @@ photos_view_container_view_selection_changed (GdMainView *main_view, gpointer us
   selected_urns = photos_utils_get_urns_from_paths (selection, GTK_TREE_MODEL (priv->model));
   photos_selection_controller_set_selection (priv->sel_cntrlr, selected_urns);
 
-  if (selection != NULL)
-    g_list_free_full (selection, (GDestroyNotify) gtk_tree_path_free);
+  g_list_free_full (selection, (GDestroyNotify) gtk_tree_path_free);
 }
 
 
