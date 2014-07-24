@@ -1,3 +1,7 @@
+@define-color theme_base_color #333333;
+@define-color theme_bg_color #393f3f;
+@define-color theme_selected_bg_color #3465a4;
+
 @define-color entry_tag_bg #888a85;
 @define-color entry_tag_fg black;
 @define-color photos_collection_bg #000000;
