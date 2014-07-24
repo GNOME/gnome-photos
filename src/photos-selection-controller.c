@@ -214,7 +214,7 @@ photos_selection_controller_set_selection (PhotosSelectionController *self, GLis
     {
       GList *l;
 
-      for (l = selection; l!= NULL; l = l->next)
+      for (l = selection; l != NULL; l = l->next)
         priv->selection = g_list_prepend (priv->selection, g_strdup (l->data));
     }
 
