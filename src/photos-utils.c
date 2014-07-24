@@ -37,6 +37,7 @@
 #include "photos-application.h"
 #include "photos-facebook-item.h"
 #include "photos-flickr-item.h"
+#include "photos-google-item.h"
 #include "photos-local-item.h"
 #include "photos-query.h"
 #include "photos-source.h"
@@ -310,7 +311,9 @@ photos_utils_get_icon_from_cursor (TrackerSparqlCursor *cursor)
   identifier = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL);
   if (identifier != NULL)
     {
-      if (g_str_has_prefix (identifier, "facebook:") || g_str_has_prefix (identifier, "flickr:"))
+      if (g_str_has_prefix (identifier, "facebook:") ||
+          g_str_has_prefix (identifier, "flickr:") ||
+          g_str_has_prefix (identifier, "google:"))
         is_remote = TRUE;
     }
 
@@ -379,6 +382,7 @@ photos_utils_ensure_builtins (void)
     {
       g_type_ensure (PHOTOS_TYPE_FACEBOOK_ITEM);
       g_type_ensure (PHOTOS_TYPE_FLICKR_ITEM);
+      g_type_ensure (PHOTOS_TYPE_GOOGLE_ITEM);
       g_type_ensure (PHOTOS_TYPE_LOCAL_ITEM);
 
       g_once_init_leave (&once_init_value, 1);

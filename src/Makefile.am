@@ -118,6 +118,8 @@ gnome_photos_SOURCES = \
 	photos-filterable.h \
 	photos-flickr-item.c \
 	photos-flickr-item.h \
+	photos-google-item.c \
+	photos-google-item.h \
 	photos-header-bar.c \
 	photos-header-bar.h \
 	photos-icons.h \
@@ -266,6 +268,7 @@ AM_CPPFLAGS = \
 	$(BABL_CFLAGS) \
 	$(CAIRO_CFLAGS) \
 	$(EXEMPI_CFLAGS) \
+	$(GDATA_CFLAGS) \
 	$(GDK_PIXBUF_CFLAGS) \
 	$(GFBGRAPH_CFLAGS) \
 	$(GEGL_CFLAGS) \
@@ -293,6 +296,7 @@ gnome_photos_LDADD = \
 	$(BABL_LIBS) \
 	$(CAIRO_LIBS) \
 	$(EXEMPI_LIBS) \
+	$(GDATA_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
 	$(GFBGRAPH_LIBS) \
 	$(GEGL_LIBS) \
