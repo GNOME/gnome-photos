@@ -67,7 +67,7 @@ photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancella
   resource_urn = photos_base_item_get_resource_urn (item);
   source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (priv->src_mngr, resource_urn));
   authorizer = gfbgraph_goa_authorizer_new (photos_source_get_goa_object (source));
-  identifier = photos_base_item_get_identifier (item) + strlen("facebook:");
+  identifier = photos_base_item_get_identifier (item) + strlen ("facebook:");
 
   if (!gfbgraph_authorizer_refresh_authorization (GFBGRAPH_AUTHORIZER (authorizer), cancellable, error))
     goto out;
@@ -271,7 +271,7 @@ photos_facebook_item_class_init (PhotosFacebookItemClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosBaseItemClass *base_item_class = PHOTOS_BASE_ITEM_CLASS (class);
 
-  object_class->constructed= photos_facebook_item_constructed;
+  object_class->constructed = photos_facebook_item_constructed;
   object_class->dispose = photos_facebook_item_dispose;
   base_item_class->create_thumbnail = photos_facebook_item_create_thumbnail;
   base_item_class->download = photos_facebook_item_download;
