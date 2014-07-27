@@ -1,0 +1,624 @@
+# Romanian translation for gnome-photos.
+# Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Bogdan Mințoi <mintoi.bogdan@gmail.com>, 2014.
+# Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-07-25 20:08+0000\n"
+"PO-Revision-Date: 2014-07-27 12:47+0200\n"
+"Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
+"Language-Team: Gnome Romanian Translation Team\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
+msgid "Photos"
+msgstr "Fotografii"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Accesați, organizați și partajați fotografiile dumneavoastră în GNOME"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"O simplă aplicație ce vă permite să accesați, organizați și să partajați "
+"fotografiile dumneavoastră în GNOME. Se dorește a fi o alternativă simplă și "
+"elegantă a unui administrator de fișiere pentru manipularea fotografiilor. "
+"Oferă integrare cloud perfectă prin intermediul GNOME Online Accounts."
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:4
+msgid "It lets you:"
+msgstr "Vă permite să:"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+msgid "View recent local and online photos"
+msgstr "Vizualizați fotografiile locale recente și cele online"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+msgid "Access your Facebook or Flickr content"
+msgstr "Accesați conținutul dumneavoastră Facebook sau Flickr"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+msgid "Send photos to remote DLNA renderers"
+msgstr "Expediați fotografii către dispozitive de randare DLNA"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+msgid "Set as background"
+msgstr "Stabiliți ca fundal"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+msgid "Print photos"
+msgstr "Tipăriți fotografii"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+msgid "Select favorites"
+msgstr "Selectați elemente favorite"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+msgid "Allow opening full featured editor for more advanced changes"
+msgstr "Permiteți deschiderea editorului complet pentru modificări mai avansate"
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Accesați, organizați și partajați fotografiile proprii în GNOME"
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Poze;Fotografii;Photos;Pictures;"
+
+#: ../data/org.gnome.photos.gschema.xml.h:1
+msgid "Window size"
+msgstr "Dimensiunea ferestrei"
+
+#: ../data/org.gnome.photos.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Dimensiunea ferestrei (lățime și înălțime)."
+
+#: ../data/org.gnome.photos.gschema.xml.h:3
+msgid "Window position"
+msgstr "Poziția ferestrei"
+
+#: ../data/org.gnome.photos.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Poziția ferestrei (x și y)."
+
+#: ../data/org.gnome.photos.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Fereastră maximizată"
+
+#: ../data/org.gnome.photos.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Starea ferestrei maximizate"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (lentile)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (film de 35mm)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Transformare pentru o imagine ce nu a fost încărcată."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Transformarea a eșuat."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "EXIF nu este suportat pentru acest format de fișier."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Imaginea nu a putut fi încărcată."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Nicio imagine încărcată."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Nu aveți privilegiile necesare pentru a putea salva fișierul."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Creearea fișierului temporar a eșuat."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Cel puțin două nume de fișiere sunt egale."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Nu se poate afișa fișierul de ajutor pentru Image Viewer"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (Unicode nevalid)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Ecran complet"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Ajutor"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "About"
+msgstr "Despre"
+
+#: ../src/photos-app-menu.ui.h:4
+msgid "Quit"
+msgstr "Ieșire"
+
+#: ../src/photos-base-item.c:347
+msgid "Album"
+msgstr "Album"
+
+#: ../src/photos-base-item.c:806
+msgid "Screenshots"
+msgstr "Capturi de ecran"
+
+#: ../src/photos-delete-notification.c:139
+msgid "Selected item has been deleted"
+msgid_plural "Selected items have been deleted"
+msgstr[0] "Elementul selectat a fost șters"
+msgstr[1] "Elementele selectate au fost șterse"
+msgstr[2] "Elementele selectate au fost șterse"
+
+#: ../src/photos-delete-notification.c:150
+msgid "Undo"
+msgstr "Anulează"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "Dispozitive de randare DLNA"
+
+#: ../src/photos-embed.c:722
+msgid "Recent"
+msgstr "Recente"
+
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
+msgid "Albums"
+msgstr "Albume"
+
+#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
+msgid "Favorites"
+msgstr "Favorite"
+
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:275
+msgid "Search"
+msgstr "Caută"
+
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "Denumiți primul dumneavoastră album"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+msgid "Settings"
+msgstr "Setări"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Puteți să adăugați conturile dumneavoastră online în %s"
+
+#: ../src/photos-empty-results-box.c:189
+msgid "No Albums Found"
+msgstr "Nu au fost găsite albume"
+
+#: ../src/photos-empty-results-box.c:193
+msgid "No Favorites Found"
+msgstr "Nu au fost găsite favorite"
+
+#: ../src/photos-empty-results-box.c:198
+msgid "No Photos Found"
+msgstr "Nu au fost găsite fotografii"
+
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Fotografie fără nume"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Se aduc fotografii de la %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Se aduc fotografii de la conturi online"
+
+#: ../src/photos-indexing-notification.c:213
+msgid "Your photos are being indexed"
+msgstr "Fotografiile dumneavoastră se indexează"
+
+#: ../src/photos-indexing-notification.c:214
+msgid "Some photos might not be available during this process"
+msgstr "Unele fotografii pot să nu fie disponibile pe durata procesului"
+
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
+msgid "Load More"
+msgstr "Încarcă mai multe"
+
+#: ../src/photos-load-more-button.c:86
+msgid "Loading…"
+msgstr "Se încarcă…"
+
+#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
+msgid "Local"
+msgstr "Local"
+
+#: ../src/photos-main-toolbar.c:108
+msgid "Click on items to select them"
+msgstr "Clic pe elemente pentru a le selecta"
+
+#: ../src/photos-main-toolbar.c:110
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d selectată"
+msgstr[1] "%d selectate"
+msgstr[2] "%d selectate"
+
+#: ../src/photos-main-toolbar.c:151
+msgid "Back"
+msgstr "Înapoi"
+
+#: ../src/photos-main-toolbar.c:291
+msgid "Select Items"
+msgstr "Selectați elemente"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:281
+#, c-format
+msgid "Open with %s"
+msgstr "Deschide cu %s"
+
+#: ../src/photos-main-toolbar.c:572
+msgid "Cancel"
+msgstr "Anulează"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:484
+msgid "translator-credits"
+msgstr "Bogdan Mințoi <mintoi.bogdan@gmail.com>"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Adaugă"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_OK"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Organizează"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:284
+#: ../src/photos-selection-toolbar.c:456
+msgid "Open"
+msgstr "Deschide"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Tipărește…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Afișează pe…"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Stabilește ca fundal"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
+#: ../src/photos-selection-toolbar.c:480
+msgid "Properties"
+msgstr "Proprietăți"
+
+#: ../src/photos-preview-nav-buttons.c:223
+#: ../src/photos-selection-toolbar.c:293
+msgid "Remove from favorites"
+msgstr "Elimină de la favorite"
+
+#: ../src/photos-preview-nav-buttons.c:228
+#: ../src/photos-selection-toolbar.c:299
+msgid "Add to favorites"
+msgstr "Adăugă la favorite"
+
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Se tipărește “%s”: %s"
+
+#: ../src/photos-print-operation.c:272
+msgid "Image Settings"
+msgstr "Setările imaginii"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "Poziție"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "_Stânga:"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "_Dreapta:"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "_Sus:"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "_Jos:"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "C_entru:"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "Nespecificat"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "Orizontal"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "Vertical"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "Ambele"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "Dimensiuni"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "_Lățime:"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "_Înălțime:"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "_Scalare:"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "_Unitate"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "Milimetri"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "Țoli"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "Previzualizare"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:216
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Titlu"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:228
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Autor"
+
+#: ../src/photos-properties-dialog.c:235
+msgid "Source"
+msgstr "Sursă"
+
+#: ../src/photos-properties-dialog.c:241
+msgid "Date Modified"
+msgstr "Data modificării"
+
+#: ../src/photos-properties-dialog.c:249
+msgid "Date Created"
+msgstr "Data creării"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:259
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Tip"
+
+#: ../src/photos-properties-dialog.c:268
+msgid "Width"
+msgstr "Lățime"
+
+#: ../src/photos-properties-dialog.c:278
+msgid "Height"
+msgstr "Înălțime"
+
+#: ../src/photos-properties-dialog.c:293
+msgid "Camera"
+msgstr "Cameră"
+
+#: ../src/photos-properties-dialog.c:303
+msgid "Exposure"
+msgstr "Expunere"
+
+#: ../src/photos-properties-dialog.c:313
+msgid "Aperture"
+msgstr "Deschidere"
+
+#: ../src/photos-properties-dialog.c:323
+msgid "Focal Length"
+msgstr "Distanța focală"
+
+#: ../src/photos-properties-dialog.c:333
+msgid "ISO Speed"
+msgstr "Viteza ISO"
+
+#: ../src/photos-properties-dialog.c:343
+msgid "Flash"
+msgstr "Bliț"
+
+#: ../src/photos-properties-dialog.c:483
+msgid "Off, did not fire"
+msgstr "Absent, nu s-a folosit"
+
+#: ../src/photos-properties-dialog.c:485
+msgid "On, fired"
+msgstr "Prezent, s-a folosit"
+
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+msgid "All"
+msgstr "Toate"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Titlu"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Autor"
+
+#: ../src/photos-search-match-manager.c:205
+msgid "Match"
+msgstr "Potrivire"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:154
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Tip"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Selectează tot"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Deselectează tot"
+
+#: ../src/photos-selection-toolbar.c:464
+msgid "Print"
+msgstr "Tipărește"
+
+#: ../src/photos-selection-toolbar.c:472
+msgid "Delete"
+msgstr "Șterge"
+
+#: ../src/photos-selection-toolbar.c:488
+msgid "Add to Album"
+msgstr "Adaugă la album"
+
+#: ../src/photos-source-manager.c:174
+msgid "Sources"
+msgstr "Surse"
+
+#: ../src/photos-tracker-controller.c:96
+msgid "Unable to fetch the list of photos"
+msgstr "Nu se poate aduce lista de fotografii"
+
+#~ msgid ""
+#~ "<li>View recent local and online photos</li> <li>Access your Flickr "
+#~ "content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as "
+#~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
+#~ "opening full featured editor for more advanced changes</li>"
+#~ msgstr ""
+#~ "<li>Vizualizați fotografii recente online sau locale</li> <li>Accesați "
+#~ "conținutul dumneavoastră Flickr</li> <li>Expediați fotografii către "
+#~ "rasterizatori DLNA aflați la distanță</li> <li>Stabiliți ca fundal</li> "
+#~ "<li>Tipăriți fotografii</li> <li>Selectați favorite</li> <li>Permiteți "
+#~ "deschiderea editorului avansat pentru mai multe modificări</li>"
+
+#~ msgid "System Settings"
+#~ msgstr "Setări de sistem"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Flickr"
+#~ msgstr "Flickr"
+
+#~ msgid "Done"
+#~ msgstr "Realizat"
