@@ -49,6 +49,7 @@ struct _PhotosMainToolbarPrivate
   GAction *search;
   GSimpleAction *gear_menu;
   GtkWidget *coll_back_button;
+  GtkWidget *favorite_button;
   GtkWidget *overlay;
   GtkWidget *remote_display_button;
   GtkWidget *searchbar;
@@ -70,6 +71,9 @@ enum
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosMainToolbar, photos_main_toolbar, GTK_TYPE_BOX);
+
+
+static void photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self, gboolean favorite);
 
 
 static void
@@ -213,13 +217,19 @@ photos_main_toolbar_item_active_changed (PhotosBaseManager *manager, GObject *ob
   PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (user_data);
   PhotosMainToolbarPrivate *priv = self->priv;
   PhotosWindowMode window_mode;
+  gboolean favorite;
 
   if (object == NULL)
     return;
 
   window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    photos_main_toolbar_set_toolbar_title (self);
+  if (window_mode != PHOTOS_WINDOW_MODE_PREVIEW)
+    return;
+
+  photos_main_toolbar_set_toolbar_title (self);
+
+  favorite = photos_base_item_is_favorite (PHOTOS_BASE_ITEM (object));
+  photos_main_toolbar_favorite_button_update (self, favorite);
 }
 
 
@@ -437,6 +447,49 @@ photos_main_toolbar_done_button_clicked (GtkButton *button, gpointer user_data)
 
 
 static void
+photos_main_toolbar_favorite_button_clicked (PhotosMainToolbar *self)
+{
+  PhotosBaseItem *item;
+  gboolean favorite;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  favorite = photos_base_item_is_favorite (item);
+  photos_base_item_set_favorite (item, !favorite);
+
+  photos_main_toolbar_favorite_button_update (self, !favorite);
+}
+
+
+static void
+photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self, gboolean favorite)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  GtkStyleContext *context;
+  gchar *favorite_label;
+
+  g_signal_handlers_block_by_func (priv->favorite_button, photos_main_toolbar_favorite_button_clicked, self);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->favorite_button), favorite);
+  g_signal_handlers_unblock_by_func (priv->favorite_button, photos_main_toolbar_favorite_button_clicked, self);
+
+  context = gtk_widget_get_style_context (priv->favorite_button);
+  if (favorite)
+    {
+      favorite_label = g_strdup (_("Remove from favorites"));
+      gtk_style_context_add_class (context, "photos-favorite");
+    }
+  else
+    {
+      favorite_label = g_strdup (_("Add to favorites"));
+      gtk_style_context_remove_class (context, "photos-favorite");
+    }
+
+  gtk_widget_reset_style (priv->favorite_button);
+  gtk_widget_set_tooltip_text (priv->favorite_button, favorite_label);
+  g_free (favorite_label);
+}
+
+
+static void
 photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
@@ -520,6 +573,8 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   GtkWidget *image;
   GtkWidget *menu_button;
   GApplication *app;
+  PhotosBaseItem *item;
+  gboolean favorite;
   gboolean remote_display_available;
   GAction *remote_display_action;
 
@@ -538,6 +593,19 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), menu_button);
 
   g_simple_action_set_enabled (priv->gear_menu, TRUE);
+
+  image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  priv->favorite_button = gtk_toggle_button_new ();
+  gtk_button_set_image (GTK_BUTTON (priv->favorite_button), image);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), priv->favorite_button);
+  g_signal_connect_swapped (priv->favorite_button,
+                            "clicked",
+                            G_CALLBACK (photos_main_toolbar_favorite_button_clicked),
+                            self);
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+  favorite = photos_base_item_is_favorite (item);
+  photos_main_toolbar_favorite_button_update (self, favorite);
 
   /* Disable the remote-display-current action if the dLeyna services are not
    * available */
