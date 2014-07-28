@@ -283,7 +283,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
     /* Translators: this is the Open action in a context menu */
     open_label = g_strdup (_("Open"));
 
-  gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_open), open_label);
+  gtk_button_set_label (GTK_BUTTON (priv->toolbar_open), open_label);
   g_free (open_label);
   g_list_free_full (apps, g_free);
 
@@ -452,40 +452,35 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
                     G_CALLBACK (photos_selection_toolbar_favorite_clicked),
                     self);
 
-  priv->toolbar_open = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_open), _("Open"));
+  priv->toolbar_open = gtk_button_new_with_label (_("Open"));
   gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_open);
   g_signal_connect (priv->toolbar_open,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_open_clicked),
                     self);
 
-  priv->toolbar_print = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_print), _("Print"));
+  priv->toolbar_print = gtk_button_new_with_label (_("Print"));
   gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_print);
   g_signal_connect (priv->toolbar_print,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_print_clicked),
                     self);
 
-  priv->toolbar_trash = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_trash), _("Delete"));
+  priv->toolbar_trash = gtk_button_new_with_label (_("Delete"));
   gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_trash);
   g_signal_connect (priv->toolbar_trash,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_trash_clicked),
                     self);
 
-  priv->toolbar_properties = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_properties), _("Properties"));
+  priv->toolbar_properties = gtk_button_new_with_label (_("Properties"));
   gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->toolbar_properties);
   g_signal_connect (priv->toolbar_properties,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_properties_clicked),
                     self);
 
-  priv->toolbar_collection = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (priv->toolbar_collection), _("Add to Album"));
+  priv->toolbar_collection = gtk_button_new_with_label (_("Add to Album"));
   gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->toolbar_collection);
   g_signal_connect (priv->toolbar_collection,
                     "clicked",

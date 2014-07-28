@@ -147,9 +147,8 @@ photos_main_toolbar_add_back_button (PhotosMainToolbar *self)
   PhotosMainToolbarPrivate *priv = self->priv;
   GtkWidget *back_button;
 
-  back_button = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (back_button), _("Back"));
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (back_button), PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC);
+  back_button = gtk_button_new_from_icon_name (PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  gtk_widget_set_tooltip_text (back_button, _("Back"));
   gtk_header_bar_pack_start (GTK_HEADER_BAR (priv->toolbar), back_button);
 
   return back_button;
@@ -251,11 +250,10 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
   name = photos_dlna_renderer_get_friendly_name (renderer);
   text = g_markup_printf_escaped ("Displaying on <b>%s</b>", name);
 
-  priv->remote_display_button = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (priv->remote_display_button), text);
-  gd_header_button_set_use_markup (GD_HEADER_BUTTON (priv->remote_display_button), TRUE);
+  priv->remote_display_button = gtk_button_new_with_label (text);
   label = GTK_LABEL (gtk_bin_get_child (GTK_BIN (priv->remote_display_button)));
   gtk_label_set_ellipsize (label, PANGO_ELLIPSIZE_MIDDLE);
+  gtk_label_set_use_markup (label, TRUE);
   gtk_widget_set_margin_end (priv->remote_display_button, 12);
   gtk_header_bar_pack_start (GTK_HEADER_BAR (priv->toolbar), priv->remote_display_button);
   gtk_widget_show_all (priv->remote_display_button);
@@ -287,9 +285,8 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
   PhotosMainToolbarPrivate *priv = self->priv;
   GtkWidget *selection_button;
 
-  selection_button = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (selection_button), _("Select Items"));
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (selection_button), PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC);
+  selection_button = gtk_button_new_from_icon_name (PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  gtk_widget_set_tooltip_text (selection_button, _("Select Items"));
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), selection_button);
   g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_select_button_clicked), self);
 
@@ -568,8 +565,7 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
 
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_SELECTION);
 
-  selection_button = gd_header_simple_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (selection_button), _("Cancel"));
+  selection_button = gtk_button_new_with_label (_("Cancel"));
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), selection_button);
   g_signal_connect (selection_button, "clicked", G_CALLBACK (photos_main_toolbar_done_button_clicked), self);
 
