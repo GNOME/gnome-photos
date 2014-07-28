@@ -1,14 +1,14 @@
 # Romanian translation for gnome-photos.
 # Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Bogdan Mințoi <mintoi.bogdan@gmail.com>, 2014.
+# Bogdan Mințoi <mintoi.bogdan [at] gmail [dot] com>, 2014.
 # Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-25 20:08+0000\n"
+"POT-Creation-Date: 2014-07-28 07:16+0000\n"
 "PO-Revision-Date: 2014-07-27 12:47+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
@@ -73,7 +73,8 @@ msgstr "Selectați elemente favorite"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:11
 msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Permiteți deschiderea editorului complet pentru modificări mai avansate"
+msgstr ""
+"Permiteți deschiderea editorului complet pentru modificări mai avansate"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
@@ -277,11 +278,11 @@ msgstr "Fotografie fără nume"
 #: ../src/photos-indexing-notification.c:173
 #, c-format
 msgid "Fetching photos from %s"
-msgstr "Se aduc fotografii de la %s"
+msgstr "Se preiau fotografii de la %s"
 
 #: ../src/photos-indexing-notification.c:176
 msgid "Fetching photos from online accounts"
-msgstr "Se aduc fotografii de la conturi online"
+msgstr "Se preiau fotografii de la conturi online"
 
 #: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
@@ -336,7 +337,7 @@ msgstr "Anulează"
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:484
 msgid "translator-credits"
-msgstr "Bogdan Mințoi <mintoi.bogdan@gmail.com>"
+msgstr "Bogdan Mințoi <mintoi.bogdan [at] gmail [dot] com>"
 
 #: ../src/photos-organize-collection-dialog.c:76
 msgid "_Add"
@@ -597,7 +598,7 @@ msgstr "Surse"
 
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
-msgstr "Nu se poate aduce lista de fotografii"
+msgstr "Nu se poate prelua lista de fotografii"
 
 #~ msgid ""
 #~ "<li>View recent local and online photos</li> <li>Access your Flickr "
