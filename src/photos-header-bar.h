@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -84,7 +84,7 @@ void                   photos_header_bar_clear                  (PhotosHeaderBar
 void                   photos_header_bar_set_mode               (PhotosHeaderBar *self, PhotosHeaderBarMode mode);
 
 void                   photos_header_bar_set_selection_menu     (PhotosHeaderBar *self,
-                                                                 GdHeaderButton *selection_menu);
+                                                                 GtkButton *selection_menu);
 
 void                   photos_header_bar_set_stack              (PhotosHeaderBar *self, GtkStack *stack);
 

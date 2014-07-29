@@ -29,7 +29,6 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgd/gd.h>
 
 #include "photos-collection-manager.h"
 #include "photos-dlna-renderers-manager.h"
@@ -133,7 +132,16 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
     }
 
   if (selection_mode)
-    gd_header_button_set_label (GD_HEADER_BUTTON (priv->selection_menu), primary);
+    {
+      if (primary != NULL)
+        {
+          GtkWidget *label;
+
+          gtk_button_set_label (GTK_BUTTON (priv->selection_menu), primary);
+          label = gtk_bin_get_child (GTK_BIN (priv->selection_menu));
+          gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+        }
+    }
   else
     gtk_header_bar_set_title (GTK_HEADER_BAR (priv->toolbar), primary);
 
@@ -509,6 +517,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   PhotosMainToolbarPrivate *priv = self->priv;
   GMenu *preview_menu;
   GtkWidget *back_button;
+  GtkWidget *image;
   GtkWidget *menu_button;
   GApplication *app;
   gboolean remote_display_available;
@@ -521,10 +530,11 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   g_signal_connect (back_button, "clicked", G_CALLBACK (photos_main_toolbar_back_button_clicked), self);
 
   preview_menu = photos_main_toolbar_create_preview_menu (self);
-  menu_button = gd_header_menu_button_new ();
+  image = gtk_image_new_from_icon_name (PHOTOS_ICON_SYSTEM_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  menu_button = gtk_menu_button_new ();
   gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_button), "app.gear-menu");
+  gtk_button_set_image (GTK_BUTTON (menu_button), image);
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), G_MENU_MODEL (preview_menu));
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (menu_button), PHOTOS_ICON_SYSTEM_SYMBOLIC);
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), menu_button);
 
   g_simple_action_set_enabled (priv->gear_menu, TRUE);
@@ -688,13 +698,11 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   gtk_builder_add_from_resource (builder, "/org/gnome/photos/selection-menu.ui", NULL);
 
   selection_menu = G_MENU (gtk_builder_get_object (builder, "selection-menu"));
-  priv->selection_menu = gd_header_menu_button_new ();
+  priv->selection_menu = gtk_menu_button_new ();
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (priv->selection_menu), G_MENU_MODEL (selection_menu));
-  gd_header_button_set_use_markup (GD_HEADER_BUTTON (priv->selection_menu), TRUE);
   g_object_unref (builder);
 
-  photos_header_bar_set_selection_menu (PHOTOS_HEADER_BAR (priv->toolbar),
-                                        GD_HEADER_BUTTON (priv->selection_menu));
+  photos_header_bar_set_selection_menu (PHOTOS_HEADER_BAR (priv->toolbar), GTK_BUTTON (priv->selection_menu));
 
   priv->col_mngr = g_object_ref (state->col_mngr);
   priv->item_mngr = photos_item_manager_dup_singleton ();
