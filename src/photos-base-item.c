@@ -645,9 +645,12 @@ photos_base_item_load (PhotosBaseItem *self, GCancellable *cancellable, GError *
 
 
 static void
-photos_base_item_load_in_thread_func (GSimpleAsyncResult *simple, GObject *object, GCancellable *cancellable)
+photos_base_item_load_in_thread_func (GTask *task,
+                                      gpointer source_object,
+                                      gpointer task_data,
+                                      GCancellable *cancellable)
 {
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv = self->priv;
   GeglNode *node;
   GError *error = NULL;
@@ -657,12 +660,13 @@ photos_base_item_load_in_thread_func (GSimpleAsyncResult *simple, GObject *objec
   node = photos_base_item_load (self, cancellable, &error);
   if (error != NULL)
     {
-      g_simple_async_result_take_error (simple, error);
-      g_simple_async_result_set_op_res_gpointer (simple, NULL, NULL);
+      g_task_return_error (task, error);
+      goto out;
     }
-  else
-    g_simple_async_result_set_op_res_gpointer (simple, (gpointer) node, g_object_unref);
 
+  g_task_return_pointer (task, node, g_object_unref);
+
+ out:
   g_mutex_unlock (&priv->mutex);
 }
 
@@ -1285,41 +1289,29 @@ photos_base_item_load_async (PhotosBaseItem *self,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
 {
-  GSimpleAsyncResult *simple;
+  GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
 
-  simple = g_simple_async_result_new (G_OBJECT (self),
-                                      callback,
-                                      user_data,
-                                      photos_base_item_load_async);
-  g_simple_async_result_set_check_cancellable (simple, cancellable);
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_check_cancellable (task, TRUE);
+  g_task_set_source_tag (task, photos_base_item_load_async);
 
-  g_simple_async_result_run_in_thread (simple,
-                                       photos_base_item_load_in_thread_func,
-                                       G_PRIORITY_DEFAULT,
-                                       cancellable);
-  g_object_unref (simple);
+  g_task_run_in_thread (task, photos_base_item_load_in_thread_func);
+  g_object_unref (task);
 }
 
 
 GeglNode *
 photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT (res);
-  GeglNode *ret_val = NULL;
+  GTask *task = G_TASK (res);
 
-  g_return_val_if_fail (g_simple_async_result_is_valid (res, G_OBJECT (self), photos_base_item_load_async), NULL);
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_load_async, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
-  if (g_simple_async_result_propagate_error (simple, error))
-    goto out;
-
-  ret_val = GEGL_NODE (g_simple_async_result_get_op_res_gpointer (simple));
-  g_object_ref (ret_val);
-
- out:
-  return ret_val;
+  return g_task_propagate_pointer (task, error);
 }
 
 
