@@ -110,7 +110,6 @@ PKG_CHECK_MODULES(TRACKER, [tracker-control-1.0 tracker-sparql-1.0])
 
 LIBGD_INIT([
   gtk-hacks
-  header-bar
   main-icon-view
   main-view
   notification
