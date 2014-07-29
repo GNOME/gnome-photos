@@ -28,7 +28,6 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <libgd/gd.h>
 
 #include "photos-base-item.h"
 #include "photos-delete-notification.h"
@@ -433,6 +432,7 @@ static void
 photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 {
   PhotosSelectionToolbarPrivate *priv;
+  GtkWidget *image;
   GtkWidget *toolbar;
 
   self->priv = photos_selection_toolbar_get_instance_private (self);
@@ -443,9 +443,9 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   toolbar = gtk_action_bar_new ();
   gtk_container_add (GTK_CONTAINER (self), toolbar);
 
-  priv->toolbar_favorite = gd_header_toggle_button_new ();
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (priv->toolbar_favorite),
-                                           PHOTOS_ICON_FAVORITE_SYMBOLIC);
+  image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  priv->toolbar_favorite = gtk_toggle_button_new ();
+  gtk_button_set_image (GTK_BUTTON (priv->toolbar_favorite), image);
   gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_favorite);
   g_signal_connect (priv->toolbar_favorite,
                     "clicked",

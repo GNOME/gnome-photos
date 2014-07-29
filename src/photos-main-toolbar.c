@@ -267,11 +267,13 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
 static GtkWidget *
 photos_main_toolbar_add_search_button (PhotosMainToolbar *self)
 {
+  GtkWidget *image;
   GtkWidget *search_button;
 
-  search_button = gd_header_toggle_button_new ();
-  gd_header_button_set_label (GD_HEADER_BUTTON (search_button), _("Search"));
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (search_button), PHOTOS_ICON_EDIT_FIND_SYMBOLIC);
+  image = gtk_image_new_from_icon_name (PHOTOS_ICON_EDIT_FIND_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  search_button = gtk_toggle_button_new ();
+  gtk_widget_set_tooltip_text (search_button, _("Search"));
+  gtk_button_set_image (GTK_BUTTON (search_button), image);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (search_button), "app.search");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->priv->toolbar), search_button);
 

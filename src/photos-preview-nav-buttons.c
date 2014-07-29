@@ -27,7 +27,6 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <libgd/gd.h>
 
 #include "photos-enums.h"
 #include "photos-icons.h"
@@ -458,9 +457,9 @@ photos_preview_nav_buttons_constructed (GObject *object)
                             G_CALLBACK (photos_preview_nav_buttons_leave_notify),
                             self);
 
-  priv->favorite_button = gd_header_toggle_button_new ();
-  gd_header_button_set_symbolic_icon_name (GD_HEADER_BUTTON (priv->favorite_button),
-                                           PHOTOS_ICON_FAVORITE_SYMBOLIC);
+  image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  priv->favorite_button = gtk_toggle_button_new ();
+  gtk_button_set_image (GTK_BUTTON (priv->favorite_button), image);
   gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->favorite_button);
   g_signal_connect_swapped (priv->favorite_button,
                             "clicked",
