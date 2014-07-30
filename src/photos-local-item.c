@@ -137,6 +137,9 @@ photos_local_item_trash (PhotosBaseItem *item)
   GFile *file;
   const gchar *uri;
 
+  if (photos_base_item_is_collection (item))
+    return;
+
   uri = photos_base_item_get_uri (item);
   file = g_file_new_for_uri (uri);
   g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, photos_local_item_delete, g_object_ref (item));
