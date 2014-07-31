@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-11 08:54+0000\n"
-"PO-Revision-Date: 2014-07-16 13:38+0200\n"
+"POT-Creation-Date: 2014-07-30 19:17+0000\n"
+"PO-Revision-Date: 2014-08-01 01:17+0200\n"
 "Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
 "Language-Team: team@lists.gnome.gr\n"
 "Language: el\n"
@@ -61,17 +61,14 @@ msgid "Send photos to remote DLNA renderers"
 msgstr "Στείλετε φωτογραφίες σε απομακρυσμένες DLNA συσκευές"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:8
-#| msgid "Set as Background"
 msgid "Set as background"
 msgstr "Ορίσετε παρασκήνιο"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:9
-#| msgid "Photos"
 msgid "Print photos"
 msgstr "Εκτυπώσετε φωτογραφίες"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:10
-#| msgid "Select Items"
 msgid "Select favorites"
 msgstr "Επιλέξετε τα αγαπημένα σας"
 
@@ -202,31 +199,41 @@ msgstr "Περί"
 msgid "Quit"
 msgstr "Έξοδος"
 
-#: ../src/photos-base-item.c:346
+#: ../src/photos-base-item.c:347
 msgid "Album"
 msgstr "Άλμπουμ"
 
-#: ../src/photos-base-item.c:805
+#: ../src/photos-base-item.c:810
 msgid "Screenshots"
 msgstr "Στιγμιότυπα"
+
+#: ../src/photos-delete-notification.c:139
+msgid "Selected item has been deleted"
+msgid_plural "Selected items have been deleted"
+msgstr[0] "Το επιλεγμένο στοιχείο έχει διαγραφεί"
+msgstr[1] "Τα επιλεγμένα στοιχεία έχουν διαγραφεί"
+
+#: ../src/photos-delete-notification.c:150
+msgid "Undo"
+msgstr "Αναίρεση"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Συσκευές αποτύπωσης DLNA"
 
-#: ../src/photos-embed.c:716
+#: ../src/photos-embed.c:722
 msgid "Recent"
 msgstr "Πρόσφατα"
 
-#: ../src/photos-embed.c:723 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Άλμπουμ"
 
-#: ../src/photos-embed.c:730 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Αγαπημένα"
 
-#: ../src/photos-embed.c:737 ../src/photos-main-toolbar.c:275
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:283
 msgid "Search"
 msgstr "Αναζήτηση"
 
@@ -296,36 +303,36 @@ msgstr "Φόρτωση περισσοτέρων"
 msgid "Loading…"
 msgstr "Φορτώνεται…"
 
-#: ../src/photos-local-item.c:79 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Τοπικά"
 
-#: ../src/photos-main-toolbar.c:108
+#: ../src/photos-main-toolbar.c:107
 msgid "Click on items to select them"
 msgstr "Πατήστε στα στοιχεία για να τα επιλέξετε"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:109
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d επιλέχτηκε"
 msgstr[1] "%d επιλέχτηκαν"
 
-#: ../src/photos-main-toolbar.c:151
+#: ../src/photos-main-toolbar.c:159
 msgid "Back"
 msgstr "Πίσω"
 
-#: ../src/photos-main-toolbar.c:291
+#: ../src/photos-main-toolbar.c:299
 msgid "Select Items"
 msgstr "Επιλέξτε στοιχεία"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:420 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Άνοιγμα με %s"
 
-#: ../src/photos-main-toolbar.c:572
+#: ../src/photos-main-toolbar.c:580
 msgid "Cancel"
 msgstr "Άκυρο"
 
@@ -357,8 +364,8 @@ msgid "Organize"
 msgstr "Οργάνωση"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
-#: ../src/photos-selection-toolbar.c:437
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-selection-toolbar.c:455
 msgid "Open"
 msgstr "Άνοιγμα"
 
@@ -375,17 +382,17 @@ msgid "Set as Background"
 msgstr "Ορισμός ως παρασκήνιο"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:476
 msgid "Properties"
 msgstr "Ιδιότητες"
 
-#: ../src/photos-preview-nav-buttons.c:209
-#: ../src/photos-selection-toolbar.c:290
+#: ../src/photos-preview-nav-buttons.c:222
+#: ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Αφαίρεση από τα αγαπημένα"
 
-#: ../src/photos-preview-nav-buttons.c:214
-#: ../src/photos-selection-toolbar.c:296
+#: ../src/photos-preview-nav-buttons.c:227
+#: ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Προσθήκη στα αγαπημένα"
 
@@ -583,15 +590,15 @@ msgstr "Επιλογή όλων"
 msgid "Select None"
 msgstr "Χωρίς επιλογή"
 
-#: ../src/photos-selection-toolbar.c:445
+#: ../src/photos-selection-toolbar.c:462
 msgid "Print"
 msgstr "Εκτύπωση"
 
-#: ../src/photos-selection-toolbar.c:453
+#: ../src/photos-selection-toolbar.c:469
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:483
 msgid "Add to Album"
 msgstr "Προσθήκη σε άλμπουμ"
 
