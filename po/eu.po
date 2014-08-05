@@ -8,9 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-30 15:33+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-05 11:39+0200\n"
 "PO-Revision-Date: 2014-07-30 11:46+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <librezale@librezale.org>\n"
@@ -24,9 +23,8 @@ msgstr ""
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1
 #: ../src/photos-search-type-manager.c:124
-#. Aplikazioaren izena da. 'Argazkiak' ordez, 'Photos' utzi behar da.
 msgid "Photos"
-msgstr "Photos"
+msgstr "Argazkiak"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
@@ -201,7 +199,7 @@ msgstr "Irten"
 msgid "Album"
 msgstr "Albuma"
 
-#: ../src/photos-base-item.c:806
+#: ../src/photos-base-item.c:810
 msgid "Screenshots"
 msgstr "Pantaila-argazkiak"
 
@@ -231,7 +229,7 @@ msgstr "Albumak"
 msgid "Favorites"
 msgstr "Gogokoak"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:283
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Bilatu"
 
@@ -303,32 +301,40 @@ msgstr "Kargatzen…"
 msgid "Local"
 msgstr "Lokala"
 
-#: ../src/photos-main-toolbar.c:107
+#: ../src/photos-main-toolbar.c:111
 msgid "Click on items to select them"
 msgstr "Egin klik elementuen gainean hautatzeko"
 
-#: ../src/photos-main-toolbar.c:109
+#: ../src/photos-main-toolbar.c:113
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d hautatuta"
 msgstr[1] "%d hautatuta"
 
-#: ../src/photos-main-toolbar.c:159
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Atzera"
 
-#: ../src/photos-main-toolbar.c:299
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Hautatu elementuak"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:420 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:428 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Ireki honekin: %s"
 
-#: ../src/photos-main-toolbar.c:580
+#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:292
+msgid "Remove from favorites"
+msgstr "Kendu gogokoetatik"
+
+#: ../src/photos-main-toolbar.c:479 ../src/photos-selection-toolbar.c:298
+msgid "Add to favorites"
+msgstr "Gehitu gogokoei"
+
+#: ../src/photos-main-toolbar.c:649
 msgid "Cancel"
 msgstr "Utzi"
 
@@ -373,16 +379,6 @@ msgstr "Ezarri atzeko plano gisa"
 #: ../src/photos-selection-toolbar.c:476
 msgid "Properties"
 msgstr "Propietateak"
-
-#: ../src/photos-preview-nav-buttons.c:222
-#: ../src/photos-selection-toolbar.c:292
-msgid "Remove from favorites"
-msgstr "Kendu gogokoetatik"
-
-#: ../src/photos-preview-nav-buttons.c:227
-#: ../src/photos-selection-toolbar.c:298
-msgid "Add to favorites"
-msgstr "Gehitu gogokoei"
 
 #: ../src/photos-print-notification.c:76
 #, c-format
