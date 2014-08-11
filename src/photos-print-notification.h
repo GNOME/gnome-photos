@@ -68,7 +68,7 @@ struct _PhotosPrintNotificationClass
 
 GType               photos_print_notification_get_type           (void) G_GNUC_CONST;
 
-GtkWidget          *photos_print_notification_new                (GtkPrintOperation *print_op);
+void                photos_print_notification_new                (GtkPrintOperation *print_op);
 
 G_END_DECLS
 
