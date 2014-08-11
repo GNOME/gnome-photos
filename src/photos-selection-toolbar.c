@@ -31,7 +31,6 @@
 
 #include "photos-base-item.h"
 #include "photos-delete-notification.h"
-#include "photos-filterable.h"
 #include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-organize-collection-dialog.h"
@@ -396,10 +395,7 @@ photos_selection_toolbar_trash_clicked (GtkButton *button, gpointer user_data)
   for (l = items; l != NULL; l = l->next)
     {
       PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
-      const gchar *urn;
-
-      urn = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
-      photos_base_manager_remove_object_by_id (priv->item_mngr, urn);
+      photos_base_manager_remove_object (priv->item_mngr, G_OBJECT (item));
     }
 
   photos_delete_notification_new (items);
