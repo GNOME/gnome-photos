@@ -142,15 +142,15 @@ photos_delete_notification_constructed (GObject *object)
   gtk_widget_set_halign (label, GTK_ALIGN_START);
   gtk_container_add (GTK_CONTAINER (self), label);
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_WINDOW_CLOSE_SYMBOLIC, GTK_ICON_SIZE_INVALID);
-  gtk_widget_set_margin_bottom (image, 2);
-  gtk_widget_set_margin_top (image, 2);
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
-
   undo = gtk_button_new_with_label (_("Undo"));
   gtk_widget_set_valign (undo, GTK_ALIGN_CENTER);
   gtk_container_add (GTK_CONTAINER (self), undo);
   g_signal_connect_swapped (undo, "clicked", G_CALLBACK (photos_delete_notification_undo_clicked), self);
+
+  image = gtk_image_new_from_icon_name (PHOTOS_ICON_WINDOW_CLOSE_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+  gtk_widget_set_margin_bottom (image, 2);
+  gtk_widget_set_margin_top (image, 2);
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
 
   close = gtk_button_new ();
   gtk_widget_set_valign (close, GTK_ALIGN_CENTER);
