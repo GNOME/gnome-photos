@@ -69,13 +69,8 @@ photos_delete_notification_remove_timeout (PhotosDeleteNotification *self)
 static void
 photos_delete_notification_destroy (PhotosDeleteNotification *self)
 {
-  GtkWidget *parent;
-
   photos_delete_notification_remove_timeout (self);
-
-  parent = gtk_widget_get_parent (GTK_WIDGET (self));
-  if (parent != NULL)
-    gtk_container_remove (GTK_CONTAINER (parent), GTK_WIDGET (self));
+  gtk_widget_destroy (GTK_WIDGET (self));
 }
 
 
