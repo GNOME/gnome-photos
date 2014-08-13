@@ -30,6 +30,7 @@
 
 #include "photos-base-manager.h"
 #include "photos-filterable.h"
+#include "photos-icons.h"
 #include "photos-overview-searchbar.h"
 #include "photos-search-context.h"
 #include "photos-search-controller.h"
@@ -222,7 +223,7 @@ photos_overview_searchbar_create_search_widgets (PhotosSearchbar *searchbar)
   PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (searchbar);
   PhotosOverviewSearchbarPrivate *priv = self->priv;
   GtkStyleContext *context;
-  GtkWidget *arrow;
+  GtkWidget *image;
 
   priv->search_entry = gd_tagged_entry_new ();
   gtk_widget_set_size_request (GTK_WIDGET (priv->search_entry), 500, -1);
@@ -246,12 +247,11 @@ photos_overview_searchbar_create_search_widgets (PhotosSearchbar *searchbar)
                            self,
                            G_CONNECT_SWAPPED);
 
+  image = gtk_image_new_from_icon_name (PHOTOS_ICON_GO_DOWN_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
   priv->dropdown_button = gtk_toggle_button_new ();
-  arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_OUT);
-  gtk_container_add (GTK_CONTAINER (priv->dropdown_button), arrow);
+  gtk_button_set_image (GTK_BUTTON (priv->dropdown_button), image);
   context = gtk_widget_get_style_context (priv->dropdown_button);
   gtk_style_context_add_class (context, "raised");
-  gtk_style_context_add_class (context, "image-button");
   g_signal_connect_swapped (priv->dropdown_button, "toggled", G_CALLBACK (photos_overview_searchbar_toggled), self);
 
   g_signal_connect_swapped (priv->dropdown,
