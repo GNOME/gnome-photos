@@ -201,11 +201,11 @@ photos_print_notification_class_init (PhotosPrintNotificationClass *class)
 void
 photos_print_notification_new (GtkPrintOperation *print_op)
 {
-  return g_object_new (PHOTOS_TYPE_PRINT_NOTIFICATION,
-                       "column-spacing", 12,
-                       "margin-start", 12,
-                       "margin-end", 12,
-                       "orientation", GTK_ORIENTATION_HORIZONTAL,
-                       "print-op", print_op,
-                       NULL);
+  g_object_new (PHOTOS_TYPE_PRINT_NOTIFICATION,
+                "column-spacing", 12,
+                "margin-start", 12,
+                "margin-end", 12,
+                "orientation", GTK_ORIENTATION_HORIZONTAL,
+                "print-op", print_op,
+                NULL);
 }
