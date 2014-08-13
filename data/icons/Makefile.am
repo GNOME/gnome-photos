@@ -1,5 +1,6 @@
 public_icon_themes = \
 	hicolor	\
+	HighContrast \
 	$(NULL)
 
 public_icons = \
@@ -9,10 +10,17 @@ public_icons = \
 	hicolor_apps_32x32_gnome-photos.png \
 	hicolor_apps_48x48_gnome-photos.png \
 	hicolor_apps_256x256_gnome-photos.png \
+	HighContrast_apps_16x16_gnome-photos.png \
+	HighContrast_apps_22x22_gnome-photos.png \
+	HighContrast_apps_24x24_gnome-photos.png \
+	HighContrast_apps_32x32_gnome-photos.png \
+	HighContrast_apps_48x48_gnome-photos.png \
+	HighContrast_apps_256x256_gnome-photos.png \
 	$(NULL)
 
 noinst_DATA = \
 	hicolor_gnome-photos.svg \
+	HighContrast_gnome-photos.svg \
 	$(NULL)
 
 EXTRA_DIST = \
