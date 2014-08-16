@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos 3.13.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-21 14:36+0200\n"
-"PO-Revision-Date: 2014-07-21 14:37+0200\n"
+"POT-Creation-Date: 2014-08-16 11:51+0200\n"
+"PO-Revision-Date: 2014-08-16 11:51+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -192,13 +192,23 @@ msgstr "Om"
 msgid "Quit"
 msgstr "Avslutt"
 
-#: ../src/photos-base-item.c:346
+#: ../src/photos-base-item.c:347
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:805
+#: ../src/photos-base-item.c:810
 msgid "Screenshots"
 msgstr "Skjermdump"
+
+#: ../src/photos-delete-notification.c:134
+msgid "Selected item has been deleted"
+msgid_plural "Selected items have been deleted"
+msgstr[0] "Valgt oppføring er slettet"
+msgstr[1] "Valgte oppføringer er slettet"
+
+#: ../src/photos-delete-notification.c:140
+msgid "Undo"
+msgstr "Angre"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
@@ -216,7 +226,7 @@ msgstr "Album"
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:275
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Søk"
 
@@ -284,36 +294,44 @@ msgstr "Last flere"
 msgid "Loading…"
 msgstr "Laster …"
 
-#: ../src/photos-local-item.c:79 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokalt"
 
-#: ../src/photos-main-toolbar.c:108
+#: ../src/photos-main-toolbar.c:111
 msgid "Click on items to select them"
 msgstr "Klikk på oppføringer for å velge dem"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:113
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valgt"
 msgstr[1] "%d valgt"
 
-#: ../src/photos-main-toolbar.c:151
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Tilbake"
 
-#: ../src/photos-main-toolbar.c:291
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Velg oppføringer"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:428 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "Åpne med %s"
 
-#: ../src/photos-main-toolbar.c:572
+#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Fjern fra favoritter"
+
+#: ../src/photos-main-toolbar.c:479 ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Legg til i favoritter"
+
+#: ../src/photos-main-toolbar.c:649
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -337,8 +355,8 @@ msgid "Organize"
 msgstr "Organiser"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
-#: ../src/photos-selection-toolbar.c:437
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:451
 msgid "Open"
 msgstr "Åpne"
 
@@ -355,19 +373,9 @@ msgid "Set as Background"
 msgstr "Sett som bakgrunn"
 
 #: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:472
 msgid "Properties"
 msgstr "Egenskaper"
-
-#: ../src/photos-preview-nav-buttons.c:223
-#: ../src/photos-selection-toolbar.c:290
-msgid "Remove from favorites"
-msgstr "Fjern fra favoritter"
-
-#: ../src/photos-preview-nav-buttons.c:228
-#: ../src/photos-selection-toolbar.c:296
-msgid "Add to favorites"
-msgstr "Legg til i favoritter"
 
 #: ../src/photos-print-notification.c:76
 #, c-format
@@ -563,15 +571,15 @@ msgstr "Velg alle"
 msgid "Select None"
 msgstr "Velg ingen"
 
-#: ../src/photos-selection-toolbar.c:445
+#: ../src/photos-selection-toolbar.c:458
 msgid "Print"
 msgstr "Skriv ut"
 
-#: ../src/photos-selection-toolbar.c:453
+#: ../src/photos-selection-toolbar.c:465
 msgid "Delete"
 msgstr "Slett"
 
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:479
 msgid "Add to Album"
 msgstr "Legg til i album"
 
