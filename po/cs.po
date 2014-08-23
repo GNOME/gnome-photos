@@ -63,7 +63,7 @@ msgstr "Nastavit fotku jako pozadí"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:9
 msgid "Print photos"
-msgstr "Tisknout fotky"
+msgstr "Vytisknout fotky"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:10
 msgid "Select favorites"
@@ -71,7 +71,7 @@ msgstr "Vybírat oblíbené fotky"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:11
 msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Otevírat fotky v plnohodnotném editoru kvůli náročnějším úpravám"
+msgstr "Otevírat fotky v plnohodnotném editoru kvůli složitějším úpravám"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
