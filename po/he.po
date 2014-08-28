@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-21 00:40+0300\n"
-"PO-Revision-Date: 2014-08-21 00:41+0300\n"
+"POT-Creation-Date: 2014-08-28 17:17+0300\n"
+"PO-Revision-Date: 2014-08-28 17:18+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -69,7 +69,7 @@ msgstr "הדפסת תמונות"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:10
 msgid "Select favorites"
-msgstr "בחירת פריטים"
+msgstr "בחירת מועדפים"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:11
 msgid "Allow opening full featured editor for more advanced changes"
