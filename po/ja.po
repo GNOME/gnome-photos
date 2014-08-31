@@ -2,16 +2,17 @@
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # victory  <victory.deb@gmail.com>, 2013.
-# Jiro Matsuzawa  <jmatsuzawa@gnome.org>, 2013.
+# Jiro Matsuzawa  <jmatsuzawa@gnome.org>, 2013, 2014.
 # Ikuya Awashiro <ikuya@fruitsbasket.info>, 2014.
+# Hajime Taira <htaira@redhat.com>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-04-15 14:33+0000\n"
-"PO-Revision-Date: 2014-03-30 21:07+0900\n"
-"Last-Translator: Ikuya Awashiro <ikuya@fruitsbasket.info>\n"
+"POT-Creation-Date: 2014-08-29 07:20+0000\n"
+"PO-Revision-Date: 2014-08-29 20:52+0900\n"
+"Last-Translator: Hajime Taira <htaira@redhat.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -20,25 +21,54 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-msgid "A simple application to access, organize and share your photos on GNOME. It is meant to be a simple and elegant replacement for using a file manager to deal with photos. Seamless cloud integration is offered through GNOME Online Accounts."
-msgstr "GNOME 上で、写真の参照、整理、共有を行うシンプルなアプリケーションです。ファイルマネージャーを使う必要はなく、無駄のない洗練された写真管理ができます。GNOME オンラインアカウントを通じて、クラウドとシームレスに連携して利用できます。"
-
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2
-msgid "It lets you:"
-msgstr "機能:"
-
-#: ../data/org.gnome.Photos.appdata.xml.in.h:3
-msgid "<li>View recent local and online photos</li> <li>Access your Flickr content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow opening full featured editor for more advanced changes</li>"
-msgstr "<li>ローカルとリモート両方の最近の写真の閲覧</li><li>ユーザーの Flickr コンテンツへアクセス</li><li>リモートの DLNA レンダラーへ写真を送信</li><li>背景画像の設定</li><li>写真の印刷</li><li>お気に入りの選択</li><li>フル機能搭載の編集ツールを開いて高度な編集も可能</li>"
-
 #: ../data/org.gnome.Photos.desktop.in.in.h:1
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "写真"
 
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+msgid "Access, organize and share your photos on GNOME"
+msgstr "GNOME で写真の表示、整理、共有します"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
+msgid "A simple application to access, organize and share your photos on GNOME. It is meant to be a simple and elegant replacement for using a file manager to deal with photos. Seamless cloud integration is offered through GNOME Online Accounts."
+msgstr "GNOME 上で、写真の参照、整理、共有を行うシンプルなアプリケーションです。ファイルマネージャーを使う必要はなく、無駄のない洗練された写真管理ができます。GNOME オンラインアカウントを通じて、クラウドとシームレスに連携して利用できます。"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:4
+msgid "It lets you:"
+msgstr "機能:"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+msgid "View recent local and online photos"
+msgstr "ローカルおよびオンラインで最近使用した写真を表示する"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+msgid "Access your Facebook or Flickr content"
+msgstr "Facebook または Flickr 上のあなたのコンテンツにアクセスする"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+msgid "Send photos to remote DLNA renderers"
+msgstr "写真をリモート DLNA レンダラーへ転送する"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+msgid "Set as background"
+msgstr "背景として設定する"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+msgid "Print photos"
+msgstr "写真を印刷する"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+msgid "Select favorites"
+msgstr "お気に入りを選択する"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+msgid "Allow opening full featured editor for more advanced changes"
+msgstr "フル機能のエディターで開いて高度な編集を行う"
+
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
-msgstr "写真の参照、整理、共有を行います"
+msgstr "写真の表示、整理、共有を行います"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
@@ -147,7 +177,7 @@ msgstr "フルスクリーン"
 
 #: ../src/photos-app-menu.ui.h:2
 msgid "_Help"
-msgstr ""
+msgstr "ヘルプ(_H)"
 
 #: ../src/photos-app-menu.ui.h:3
 msgid "About"
@@ -157,13 +187,22 @@ msgstr "このアプリケーションについて"
 msgid "Quit"
 msgstr "終了"
 
-#: ../src/photos-base-item.c:344
+#: ../src/photos-base-item.c:347
 msgid "Album"
 msgstr "アルバム"
 
-#: ../src/photos-base-item.c:803
+#: ../src/photos-base-item.c:810
 msgid "Screenshots"
 msgstr "スクリーンショット"
+
+#: ../src/photos-delete-notification.c:134
+msgid "Selected item has been deleted"
+msgid_plural "Selected items have been deleted"
+msgstr[0] "選択したアイテムを削除しました"
+
+#: ../src/photos-delete-notification.c:140
+msgid "Undo"
+msgstr "元に戻す"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
@@ -173,13 +212,17 @@ msgstr "DLNA レンダラーデバイス"
 msgid "Recent"
 msgstr "最近"
 
-#: ../src/photos-embed.c:728 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "アルバム"
 
-#: ../src/photos-embed.c:734 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "お気に入り"
+
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:289
+msgid "Search"
+msgstr "検索"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
@@ -213,23 +256,27 @@ msgstr "お気に入りが見つかりませんでした"
 msgid "No Photos Found"
 msgstr "写真が見つかりませんでした"
 
-#: ../src/photos-facebook-item.c:191 ../src/photos-facebook-item.c:221
-msgid "Facebook"
-msgstr "Facebook"
-
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
 msgstr "名前のない写真"
 
-#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
-msgid "Flickr"
-msgstr "Flickr"
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "%s から写真を取得しています"
 
-#: ../src/photos-indexing-notification.c:169
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "オンラインアカウントから写真を取得しています"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "写真の索引を作成しています"
 
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "この処理中は一部の写真が利用できなくなるかもしれません"
 
@@ -241,48 +288,48 @@ msgstr "もっと読み込む"
 msgid "Loading…"
 msgstr "読み込み中…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "ローカル"
 
-#: ../src/photos-main-toolbar.c:108
+#: ../src/photos-main-toolbar.c:111
 msgid "Click on items to select them"
-msgstr "アイテムをクリックして選択してください"
+msgstr "アイテムを選択してください"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:113
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d 件選択"
 
-#: ../src/photos-main-toolbar.c:156
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "戻る"
 
-#: ../src/photos-main-toolbar.c:280
-msgid "Search"
-msgstr "検索"
-
-#: ../src/photos-main-toolbar.c:296
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
-msgstr "アイテムを選択"
+msgstr "アイテムを選択します"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:428 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "%s で開く"
 
-#: ../src/photos-main-toolbar.c:577
+#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "お気に入りから削除"
+
+#: ../src/photos-main-toolbar.c:479 ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "お気に入りに追加"
+
+#: ../src/photos-main-toolbar.c:649
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: ../src/photos-main-window.c:455
-msgid "Access, organize and share your photos on GNOME"
-msgstr "GNOME 上の写真のアクセス、管理、共有"
-
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:467
+#: ../src/photos-main-window.c:484
 msgid "translator-credits"
 msgstr ""
 "松澤 二郎 <jmatsuzawa@gnome.org>\n"
@@ -303,8 +350,8 @@ msgid "Organize"
 msgstr "管理"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
-#: ../src/photos-selection-toolbar.c:437
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:451
 msgid "Open"
 msgstr "開く"
 
@@ -320,20 +367,15 @@ msgstr "表示するデバイス…"
 msgid "Set as Background"
 msgstr "背景として設定"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
+#: ../src/photos-selection-toolbar.c:472
 msgid "Properties"
 msgstr "プロパティ"
 
-#: ../src/photos-preview-nav-buttons.c:209
-#: ../src/photos-selection-toolbar.c:290
-msgid "Remove from favorites"
-msgstr "お気に入りから削除"
-
-#: ../src/photos-preview-nav-buttons.c:214
-#: ../src/photos-selection-toolbar.c:296
-msgid "Add to favorites"
-msgstr "お気に入りに追加"
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "\"%s\" を印刷中: %s"
 
 #: ../src/photos-print-operation.c:272
 msgid "Image Settings"
@@ -414,7 +456,7 @@ msgstr "プレビュー"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:218
+#: ../src/photos-properties-dialog.c:216
 msgctxt "Document Title"
 msgid "Title"
 msgstr "タイトル"
@@ -422,79 +464,75 @@ msgstr "タイトル"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:230
+#: ../src/photos-properties-dialog.c:228
 msgctxt "Document Author"
 msgid "Author"
 msgstr "作者"
 
-#: ../src/photos-properties-dialog.c:237
+#: ../src/photos-properties-dialog.c:235
 msgid "Source"
 msgstr "ソース"
 
-#: ../src/photos-properties-dialog.c:243
+#: ../src/photos-properties-dialog.c:241
 msgid "Date Modified"
 msgstr "更新日時"
 
-#: ../src/photos-properties-dialog.c:251
+#: ../src/photos-properties-dialog.c:249
 msgid "Date Created"
 msgstr "作成日時"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:261
+#: ../src/photos-properties-dialog.c:259
 msgctxt "Document Type"
 msgid "Type"
 msgstr "種類"
 
-#: ../src/photos-properties-dialog.c:270
+#: ../src/photos-properties-dialog.c:268
 msgid "Width"
 msgstr "幅"
 
-#: ../src/photos-properties-dialog.c:280
+#: ../src/photos-properties-dialog.c:278
 msgid "Height"
 msgstr "高さ"
 
-#: ../src/photos-properties-dialog.c:295
+#: ../src/photos-properties-dialog.c:293
 msgid "Camera"
 msgstr "カメラ"
 
-#: ../src/photos-properties-dialog.c:305
+#: ../src/photos-properties-dialog.c:303
 msgid "Exposure"
 msgstr "露出"
 
-#: ../src/photos-properties-dialog.c:315
+#: ../src/photos-properties-dialog.c:313
 msgid "Aperture"
 msgstr "絞り"
 
-#: ../src/photos-properties-dialog.c:325
+#: ../src/photos-properties-dialog.c:323
 msgid "Focal Length"
 msgstr "焦点距離"
 
-#: ../src/photos-properties-dialog.c:335
+#: ../src/photos-properties-dialog.c:333
 msgid "ISO Speed"
 msgstr "ISO 速度"
 
-#: ../src/photos-properties-dialog.c:345
+#: ../src/photos-properties-dialog.c:343
 msgid "Flash"
 msgstr "フラッシュ"
 
-#: ../src/photos-properties-dialog.c:536
+#: ../src/photos-properties-dialog.c:483
 msgid "Off, did not fire"
 msgstr "オフ、使わない"
 
-#: ../src/photos-properties-dialog.c:538
+#: ../src/photos-properties-dialog.c:485
 msgid "On, fired"
 msgstr "オン、使う"
-
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "完了"
 
 #: ../src/photos-search-match-manager.c:154
 #: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
 msgid "All"
-msgstr "全て"
+msgstr "すべて"
 
 #. Translators: "Title" refers to "Match Title" when searching.
 #: ../src/photos-search-match-manager.c:161
@@ -522,21 +560,21 @@ msgstr "種類"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
-msgstr "全て選択"
+msgstr "すべて選択する"
 
 #: ../src/photos-selection-menu.ui.h:2
 msgid "Select None"
-msgstr "全て選択解除"
+msgstr "すべて解除する"
 
-#: ../src/photos-selection-toolbar.c:445
+#: ../src/photos-selection-toolbar.c:458
 msgid "Print"
 msgstr "印刷"
 
-#: ../src/photos-selection-toolbar.c:453
+#: ../src/photos-selection-toolbar.c:465
 msgid "Delete"
 msgstr "削除"
 
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:479
 msgid "Add to Album"
 msgstr "アルバムに追加"
 
@@ -547,6 +585,15 @@ msgstr "ソース"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "写真一覧を取得できません"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Flickr"
+#~ msgstr "Flickr"
+
+#~ msgid "Done"
+#~ msgstr "完了"
 
 #~ msgid "About Photos"
 #~ msgstr "このアプリケーションについて"
