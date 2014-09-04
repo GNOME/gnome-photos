@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-05-25 07:11+0000\n"
-"PO-Revision-Date: 2014-05-25 14:49+0700\n"
+"POT-Creation-Date: 2014-09-02 07:21+0000\n"
+"PO-Revision-Date: 2014-09-04 11:19+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -17,9 +17,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.9\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
+msgid "Photos"
+msgstr "Foto"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Mengakses, menata, dan berbagai foto Anda pada GNOME"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -31,27 +41,39 @@ msgstr ""
 "pemakaian manajer berkas untuk berurusan dengan foto. Integrasi cloud yang "
 "mulus ditawarkan melalui Akun Daring GNOME."
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
 msgstr "Ini memungkinkan Anda:"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:3
-msgid ""
-"<li>View recent local and online photos</li> <li>Access your Flickr content</"
-"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
-"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
-"featured editor for more advanced changes</li>"
-msgstr ""
-"<li>Melihat foto lokal dan daring baru-baru ini</li> <li>Mengakses isi "
-"Flickr Anda</li> <li>Mengirim foto ke perender DLNA remote</li> "
-"<li>Menjadikan latar belakang</li> <li>Mencetak foto</li> <li>Memilih "
-"favorit</li> <li>Mengijinkan membuka penyunting berfitur lengkap untuk "
-"perubahan tingkat lanjut</li>"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+msgid "View recent local and online photos"
+msgstr "Melihat foto lokal dan daring baru-baru ini"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:124
-msgid "Photos"
-msgstr "Foto"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+msgid "Access your Facebook or Flickr content"
+msgstr "Mengakses isi Facebook atau Flickr Anda"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+msgid "Send photos to remote DLNA renderers"
+msgstr "Mengirim foto ke perender DLNA remote"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+msgid "Set as background"
+msgstr "Jadikan latar belakang"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+msgid "Print photos"
+msgstr "Cetak foto"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+msgid "Select favorites"
+msgstr "Pilh favorit"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+msgid "Allow opening full featured editor for more advanced changes"
+msgstr ""
+"Mengijinkan membuka penyunting berfitur lengkap untuk lebih banyak perubahan "
+"tingkat lanjut"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
@@ -174,31 +196,40 @@ msgstr "Tentang"
 msgid "Quit"
 msgstr "Keluar"
 
-#: ../src/photos-base-item.c:345
+#: ../src/photos-base-item.c:347
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:804
+#: ../src/photos-base-item.c:810
 msgid "Screenshots"
 msgstr "Cuplikan Layar"
+
+#: ../src/photos-delete-notification.c:134
+msgid "Selected item has been deleted"
+msgid_plural "Selected items have been deleted"
+msgstr[0] "Butir-butir yang dipilih telah dihapus"
+
+#: ../src/photos-delete-notification.c:140
+msgid "Undo"
+msgstr "Tak Jadi"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Perangkat Perender DLNA"
 
-#: ../src/photos-embed.c:717
+#: ../src/photos-embed.c:722
 msgid "Recent"
 msgstr "Terkini"
 
-#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favorit"
 
-#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:280
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Cari"
 
@@ -234,17 +265,9 @@ msgstr "Tak Ditemukan Favorit"
 msgid "No Photos Found"
 msgstr "Tak Ditemukan Foto"
 
-#: ../src/photos-facebook-item.c:191 ../src/photos-facebook-item.c:221
-msgid "Facebook"
-msgstr "Facebook"
-
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
 msgstr "Foto Tanpa Judul"
-
-#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
-msgid "Flickr"
-msgstr "Flickr"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -274,44 +297,48 @@ msgstr "Muat Lebih Banyak"
 msgid "Loading…"
 msgstr "Memuat..."
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokal"
 
-#: ../src/photos-main-toolbar.c:108
+#: ../src/photos-main-toolbar.c:111
 msgid "Click on items to select them"
 msgstr "Klik pada butir untuk memilihnya"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:113
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d dipilih"
 
-#: ../src/photos-main-toolbar.c:156
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Mundur"
 
-#: ../src/photos-main-toolbar.c:296
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Pilh Butir"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:428 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "Buka dengan %s"
 
-#: ../src/photos-main-toolbar.c:577
+#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Hapus dari favorit"
+
+#: ../src/photos-main-toolbar.c:479 ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Tambah ke favorit"
+
+#: ../src/photos-main-toolbar.c:649
 msgid "Cancel"
 msgstr "Batal"
 
-#: ../src/photos-main-window.c:455
-msgid "Access, organize and share your photos on GNOME"
-msgstr "Mengakses, menata, dan berbagai foto Anda pada GNOME"
-
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:467
+#: ../src/photos-main-window.c:484
 msgid "translator-credits"
 msgstr "Andika Triwidada <andika@gmail.com>, 2013"
 
@@ -330,8 +357,8 @@ msgid "Organize"
 msgstr "Tata"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
-#: ../src/photos-selection-toolbar.c:437
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:451
 msgid "Open"
 msgstr "Buka"
 
@@ -347,20 +374,10 @@ msgstr "Tampilkan pada..."
 msgid "Set as Background"
 msgstr "Jadikan Latar Belakang"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:650
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
+#: ../src/photos-selection-toolbar.c:472
 msgid "Properties"
 msgstr "Properti"
-
-#: ../src/photos-preview-nav-buttons.c:209
-#: ../src/photos-selection-toolbar.c:290
-msgid "Remove from favorites"
-msgstr "Hapus dari favorit"
-
-#: ../src/photos-preview-nav-buttons.c:214
-#: ../src/photos-selection-toolbar.c:296
-msgid "Add to favorites"
-msgstr "Tambah ke favorit"
 
 #: ../src/photos-print-notification.c:76
 #, c-format
@@ -446,7 +463,7 @@ msgstr "Pratinjau"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:218
+#: ../src/photos-properties-dialog.c:216
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Judul"
@@ -454,68 +471,68 @@ msgstr "Judul"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:230
+#: ../src/photos-properties-dialog.c:228
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Pencipta"
 
-#: ../src/photos-properties-dialog.c:237
+#: ../src/photos-properties-dialog.c:235
 msgid "Source"
 msgstr "Sumber"
 
-#: ../src/photos-properties-dialog.c:243
+#: ../src/photos-properties-dialog.c:241
 msgid "Date Modified"
 msgstr "Tanggal Diubah"
 
-#: ../src/photos-properties-dialog.c:251
+#: ../src/photos-properties-dialog.c:249
 msgid "Date Created"
 msgstr "Tanggal Dibuat"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:261
+#: ../src/photos-properties-dialog.c:259
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tipe"
 
-#: ../src/photos-properties-dialog.c:270
+#: ../src/photos-properties-dialog.c:268
 msgid "Width"
 msgstr "Lebar"
 
-#: ../src/photos-properties-dialog.c:280
+#: ../src/photos-properties-dialog.c:278
 msgid "Height"
 msgstr "Tinggi"
 
-#: ../src/photos-properties-dialog.c:295
+#: ../src/photos-properties-dialog.c:293
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:305
+#: ../src/photos-properties-dialog.c:303
 msgid "Exposure"
 msgstr "Eksposur"
 
-#: ../src/photos-properties-dialog.c:315
+#: ../src/photos-properties-dialog.c:313
 msgid "Aperture"
 msgstr "Bukaan"
 
-#: ../src/photos-properties-dialog.c:325
+#: ../src/photos-properties-dialog.c:323
 msgid "Focal Length"
 msgstr "Panjang Fokus"
 
-#: ../src/photos-properties-dialog.c:335
+#: ../src/photos-properties-dialog.c:333
 msgid "ISO Speed"
 msgstr "Kecepatan ISO"
 
-#: ../src/photos-properties-dialog.c:345
+#: ../src/photos-properties-dialog.c:343
 msgid "Flash"
 msgstr "Lampu Kilat"
 
-#: ../src/photos-properties-dialog.c:536
+#: ../src/photos-properties-dialog.c:483
 msgid "Off, did not fire"
 msgstr "Mati, tak ditembakkan"
 
-#: ../src/photos-properties-dialog.c:538
+#: ../src/photos-properties-dialog.c:485
 msgid "On, fired"
 msgstr "Nyala, ditembakkan"
 
@@ -556,15 +573,15 @@ msgstr "Pilih Semua"
 msgid "Select None"
 msgstr "Pilih Tak Satupun"
 
-#: ../src/photos-selection-toolbar.c:445
+#: ../src/photos-selection-toolbar.c:458
 msgid "Print"
 msgstr "Cetak"
 
-#: ../src/photos-selection-toolbar.c:453
+#: ../src/photos-selection-toolbar.c:465
 msgid "Delete"
 msgstr "Hapus"
 
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:479
 msgid "Add to Album"
 msgstr "Tambah ke Album"
 
