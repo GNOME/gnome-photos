@@ -1,3 +1,40 @@
+Overview of changes in 3.13.91
+==============================
+
+* Support accessing photos from PicasaWeb (711563)
+
+* Undo-able deletion of photos and albums (720222)
+
+* Support accessing photos from DLNA media servers (728913)
+
+* Bugs fixed:
+ 733011 Add application-specific theme extensions
+ 733216 Move the favorites button in the preview to the header bar
+ 733850 Stop using GdHeaderButton
+ 734398 Missing high contrast icon
+
+* Updated translations:
+ Assamese
+ Basque
+ Catalan
+ Catalan (Valencian)
+ Traditional Chinese (Hong Kong)
+ Traditional Chinese (Taiwan)
+ Czech
+ English (British)
+ Galician
+ Greek
+ Hebrew
+ Indonesian
+ Japanese
+ Lithuanian
+ Norwegian bokmål
+ Portuguese (Brazilian)
+ Romanian
+ Russian
+ Spanish
+
+
 Overview of changes in 3.13.4
 =============================
 
