@@ -14,6 +14,6 @@ HELP_FILES = \
 HELP_MEDIA = \
 	media/logo1.png
 
-HELP_LINGUAS = de el es hu pt_BR ro
+HELP_LINGUAS = de el es fr hu pt_BR ro
 
 -include $(top_srcdir)/git.mk
