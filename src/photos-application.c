@@ -57,6 +57,7 @@
 
 struct _PhotosApplicationPrivate
 {
+  GList *miners;
   GList *miners_running;
   GResource *resource;
   GSettings *settings;
@@ -70,10 +71,6 @@ struct _PhotosApplicationPrivate
   GSimpleAction *sel_none_action;
   GSimpleAction *set_bg_action;
   GSimpleAction *remote_display_action;
-  GomMiner *facebook_miner;
-  GomMiner *flickr_miner;
-  GomMiner *google_miner;
-  GomMiner *media_server_miner;
   GtkWidget *main_window;
   PhotosBaseManager *item_mngr;
   PhotosCameraCache *camera_cache;
@@ -451,18 +448,17 @@ static void
 photos_application_refresh_miners (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
+  GList *l;
 
-  if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->state->src_mngr), "facebook"))
-    photos_application_refresh_miner_now (self, priv->facebook_miner);
+  for (l = priv->miners; l != NULL; l = l->next)
+    {
+      GomMiner *miner = GOM_MINER (l->data);
+      const gchar *provider_type;
 
-  if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->state->src_mngr), "flickr"))
-    photos_application_refresh_miner_now (self, priv->flickr_miner);
-
-  if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->state->src_mngr), "google"))
-    photos_application_refresh_miner_now (self, priv->google_miner);
-
-  if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->state->src_mngr), "media_server"))
-    photos_application_refresh_miner_now (self, priv->media_server_miner);
+      provider_type = g_object_get_data (G_OBJECT (miner), "provider-type");
+      if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->state->src_mngr), provider_type))
+        photos_application_refresh_miner_now (self, miner);
+    }
 }
 
 
@@ -780,6 +776,9 @@ photos_application_startup (GApplication *application)
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   PhotosApplicationPrivate *priv = self->priv;
   GError *error;
+  GIOExtensionPoint *extension_point;
+  GList *extensions;
+  GList *l;
   GSimpleAction *action;
   GrlRegistry *registry;
   GtkSettings *settings;
@@ -815,33 +814,35 @@ photos_application_startup (GApplication *application)
   g_signal_connect (settings, "notify::gtk-theme-name", G_CALLBACK (photos_application_theme_changed), NULL);
   photos_application_theme_changed (settings);
 
-  priv->facebook_miner = gom_miner_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                           G_DBUS_PROXY_FLAGS_NONE,
-                                                           "org.gnome.OnlineMiners.Facebook",
-                                                           "/org/gnome/OnlineMiners/Facebook",
-                                                           NULL,
-                                                           NULL);
+  extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
+  extensions = g_io_extension_point_get_extensions (extension_point);
+  for (l = extensions; l != NULL; l = l->next)
+    {
+      GIOExtension *extension = (GIOExtension *) l->data;
+      PhotosBaseItemClass *base_item_class;
 
-  priv->flickr_miner = gom_miner_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                         G_DBUS_PROXY_FLAGS_NONE,
-                                                         "org.gnome.OnlineMiners.Flickr",
-                                                         "/org/gnome/OnlineMiners/Flickr",
-                                                         NULL,
-                                                         NULL);
+      base_item_class = PHOTOS_BASE_ITEM_CLASS (g_io_extension_ref_class (extension));
+      if (base_item_class->miner_name != NULL && base_item_class->miner_object_path != NULL)
+        {
+          GomMiner *miner;
+          const gchar *extension_name;
 
-  priv->google_miner = gom_miner_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                         G_DBUS_PROXY_FLAGS_NONE,
-                                                         "org.gnome.OnlineMiners.GData",
-                                                         "/org/gnome/OnlineMiners/GData",
-                                                         NULL,
-                                                         NULL);
+          miner = gom_miner_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                    G_DBUS_PROXY_FLAGS_NONE,
+                                                    base_item_class->miner_name,
+                                                    base_item_class->miner_object_path,
+                                                    NULL,
+                                                    NULL);
 
-  priv->media_server_miner = gom_miner_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                               G_DBUS_PROXY_FLAGS_NONE,
-                                                               "org.gnome.OnlineMiners.MediaServer",
-                                                               "/org/gnome/OnlineMiners/MediaServer",
-                                                               NULL,
-                                                               NULL);
+          extension_name = g_io_extension_get_name (extension);
+          g_object_set_data_full (G_OBJECT (miner), "provider-type", g_strdup (extension_name), g_free);
+
+          priv->miners = g_list_prepend (priv->miners, g_object_ref (miner));
+          g_object_unref (miner);
+        }
+
+      g_type_class_unref (base_item_class);
+    }
 
   tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
                                               G_DBUS_PROXY_FLAGS_NONE,
@@ -961,6 +962,12 @@ photos_application_dispose (GObject *object)
   PhotosApplication *self = PHOTOS_APPLICATION (object);
   PhotosApplicationPrivate *priv = self->priv;
 
+  if (priv->miners != NULL)
+    {
+      g_list_free_full (priv->miners, g_object_unref);
+      priv->miners = NULL;
+    }
+
   if (priv->resource != NULL)
     {
       g_resources_unregister (priv->resource);
@@ -978,10 +985,6 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->sel_all_action);
   g_clear_object (&priv->sel_none_action);
   g_clear_object (&priv->set_bg_action);
-  g_clear_object (&priv->facebook_miner);
-  g_clear_object (&priv->flickr_miner);
-  g_clear_object (&priv->google_miner);
-  g_clear_object (&priv->media_server_miner);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->camera_cache);
   g_clear_object (&priv->mode_cntrlr);

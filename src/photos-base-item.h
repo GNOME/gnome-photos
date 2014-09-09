@@ -69,6 +69,9 @@ struct _PhotosBaseItemClass
 {
   GObjectClass parent_class;
 
+  const gchar *miner_name;
+  const gchar *miner_object_path;
+
   /* virtual methods */
   gboolean (*create_thumbnail) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   gchar *(*download) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);

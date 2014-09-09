@@ -373,6 +373,9 @@ photos_flickr_item_class_init (PhotosFlickrItemClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosBaseItemClass *base_item_class = PHOTOS_BASE_ITEM_CLASS (class);
 
+  base_item_class->miner_name = "org.gnome.OnlineMiners.Flickr";
+  base_item_class->miner_object_path = "/org/gnome/OnlineMiners/Flickr";
+
   object_class->constructed = photos_flickr_item_constructed;
   object_class->dispose = photos_flickr_item_dispose;
   base_item_class->create_thumbnail = photos_flickr_item_create_thumbnail;

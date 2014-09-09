@@ -182,6 +182,9 @@ photos_media_server_item_class_init (PhotosMediaServerItemClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosBaseItemClass *base_item_class = PHOTOS_BASE_ITEM_CLASS (class);
 
+  base_item_class->miner_name = "org.gnome.OnlineMiners.MediaServer";
+  base_item_class->miner_object_path = "/org/gnome/OnlineMiners/MediaServer";
+
   object_class->constructed = photos_media_server_item_constructed;
   object_class->dispose = photos_media_server_item_dispose;
   base_item_class->create_thumbnail = photos_media_server_item_create_thumbnail;
