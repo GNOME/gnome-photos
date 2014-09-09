@@ -1,20 +1,21 @@
 # French translation for gnome-photos-help
 # Copyright (C) 2014 GNOME's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photo package.
-# Guillaume Bernard <filorin@laposte.net>, 2014
 # Alain Lojewski <allomervan@gmail.com>, 2014
+# Guillaume Bernard <filorin@gmx.com>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-06-17 07:11+0000\n"
-"PO-Revision-Date: 2014-06-17 16:44 UTC\n"
-"Last-Translator: Alain Lojewski <allomervan@gmail.com>\n"
-"Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
+"POT-Creation-Date: 2014-09-09 09:03+0000\n"
+"PO-Revision-Date: 2014-09-08 20:34+0200\n"
+"Last-Translator: Guillaume Bernard <filorin@gmx.com>\n"
+"Language-Team: français <gnomefr@traduc.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -43,7 +44,7 @@ msgstr "Marquer une image particulière ou un album en tant que favori."
 #. (itstool) path: page/title
 #: C/favorites.page:25
 msgid "Favorite photos"
-msgstr "Photos Favorites"
+msgstr "Photos favorites"
 
 #. (itstool) path: page/p
 #: C/favorites.page:26
@@ -51,8 +52,9 @@ msgid ""
 "You can label photos or images that you particularly like as favorites to "
 "store them for easy access in the <gui>Favorites</gui> tab."
 msgstr ""
-"Pour marquer des photos ou des images que vous aimez particulièrement et y "
-"avoir ensuite facilement accès, stockez-les dans l'onglet <gui>Favoris</gui>."
+"Pour avoir facilement accès aux photos ou images que vous aimez "
+"particulièrement, marquez les et elles se trouveront dans l'onglet "
+"<gui>Favoris</gui>."
 
 #. (itstool) path: info/desc
 #: C/favorites-set.page:22
@@ -101,10 +103,10 @@ msgstr "Sélectionnez tous les éléments que vous voulez placer en favoris."
 #. (itstool) path: item/p
 #: C/favorites-set.page:43
 msgid ""
-"To finish, select the button with the picture of a heart from the toolbar at "
+"To finish, select the button with the picture of a star from the toolbar at "
 "the bottom."
 msgstr ""
-"Pour terminer, cliquez sur le bouton avec un coeur dans la barre d'outils "
+"Pour terminer, cliquez sur le bouton avec une étoile dans la barre d'outils "
 "inférieure."
 
 #. (itstool) path: page/p
@@ -122,8 +124,7 @@ msgstr "Photos"
 #. (itstool) path: info/desc
 #: C/index.page:12
 msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
-msgstr ""
-"<app>Photos</app> est un outil personnalisé de gestion de photos pour GNOME."
+msgstr "<app>Photos</app> est un outil de gestion de photos pour GNOME."
 
 #. (itstool) path: page/title
 #: C/index.page:16
@@ -141,9 +142,9 @@ msgid ""
 msgstr ""
 "<app>Photos</app> sert à organiser et gérer vos images de manière attrayante "
 "et personnalisée. En plus de créer des albums avec les images présentes dans "
-"votre ordinateur, <app>Photos</app> peut aussi intégrer vos albums Facebook "
-"et Flickr. Il sert aussi à configurer des photos que vous aimez comme fond "
-"d'écran, ou facilement les marquer comme favorites."
+"votre ordinateur, Vous pouvez aussi intégrer vos albums Facebook et Flickr. "
+"Vous pouvez aussi configurer votre fond d'écran, et marquer vos photos comme "
+"favorites."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
