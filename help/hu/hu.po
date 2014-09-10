@@ -123,7 +123,7 @@ msgstr "Fényképek"
 #: C/index.page:12
 msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
 msgstr ""
-"A <app>Fényképek</gui> a GNOME személyre szabott fényképkezelő eszköze."
+"A <app>Fényképek</app> a GNOME személyre szabott fényképkezelő eszköze."
 
 #. (itstool) path: page/title
 #: C/index.page:16
