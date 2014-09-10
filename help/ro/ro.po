@@ -218,7 +218,7 @@ msgstr "Pentru a deschide o fotografie marcată ca favorită:"
 #. (itstool) path: item/p
 #: C/view-favorites.page:32
 msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
-msgstr "Selectați tabul <gui style=\"tab>Favorite</gui>."
+msgstr "Selectați tabul <gui style=\"tab\">Favorite</gui>."
 
 #. (itstool) path: item/p
 #: C/view-favorites.page:35
