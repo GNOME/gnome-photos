@@ -1,0 +1,244 @@
+# Korean translation for gnome-photos.
+# Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Seong-ho Cho <shcho@gnome.org>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"POT-Creation-Date: 2014-09-13 07:20+0000\n"
+"PO-Revision-Date: 2014-09-13 23:22+0900\n"
+"Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
+"Language-Team: Korean <gnome-kr@googlegroups.com>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "조성호 <shcho@gnome.org>"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
+#: C/view-favorites.page:11 C/view.page:11
+msgid "Venkatesh Tahiliani"
+msgstr "Venkatesh Tahiliani"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:15 C/favorites-set.page:16 C/view-album.page:15
+#: C/view-favorites.page:15 C/view.page:15
+msgid "Aruna Sankaranarayanan"
+msgstr "Aruna Sankaranarayanan"
+
+#. (itstool) path: info/desc
+#: C/favorites.page:21
+msgid "Tag a special image or album as a favorite."
+msgstr "관심있는 특별한 그림이나 앨범에 태그합니다."
+
+#. (itstool) path: page/title
+#: C/favorites.page:25
+msgid "Favorite photos"
+msgstr "관심있는 사진"
+
+#. (itstool) path: page/p
+#: C/favorites.page:26
+msgid ""
+"You can label photos or images that you particularly like as favorites to "
+"store them for easy access in the <gui>Favorites</gui> tab."
+msgstr ""
+"<gui>즐겨찾기</gui> 탭에 쉽게 접근하려 즐겨찾기로 저장하는 만큼 좋아하는 사진"
+"이나 이미지에 레이블을 달 수 있습니다."
+
+#. (itstool) path: info/desc
+#: C/favorites-set.page:22
+msgid "Pick favorites from <app>Photos</app>."
+msgstr "<app>사진</app>에서 관심거리를 고르십시오."
+
+#. (itstool) path: page/title
+#: C/favorites-set.page:25
+msgid "Tag your favorites"
+msgstr "관심 요소 태깅"
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:27
+msgid ""
+"Photos or albums can be marked as favorites from the <gui style=\"tab"
+"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+msgstr ""
+"<gui style=\"tab\">최근</gui> 탭 또는 <gui style=\"tab\">앨범</gui> 탭에서 사"
+"진 또는 앨범에 즐겨찾기 표시할 수 있습니다."
+
+#. (itstool) path: steps/title
+#: C/favorites-set.page:31
+msgid "To label favorite items:"
+msgstr "관심있는 항목에 레이블을 달려면:"
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:33
+msgid ""
+"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"whether you want to mark an album or a photo as a favorite."
+msgstr ""
+"앨범에 넣을지 즐겨찾기 표시할 지 여부에 따라 <gui>앨범</gui> 탭 또는 <gui>최"
+"근</gui> 탭을 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:37
+msgid "Switch on the selection mode."
+msgstr "선택 모드를 바꾸십시오."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:40
+msgid "Select all the items you want to favorite."
+msgstr "즐겨찾기에 넣을 모든 항목을 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:43
+msgid ""
+"To finish, select the button with the picture of a star from the toolbar at "
+"the bottom."
+msgstr "마치려면, 하단 도구 모음에서 별 그림 단추를 선택하십시오."
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:48
+msgid "Your favorite items can now be found in the <gui>Favorites</gui> tab."
+msgstr "즐겨찾을 항목은 <gui>즐겨찾기</gui> 탭에서 보실 수 있습니다."
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Photos"
+msgstr "사진"
+
+#. (itstool) path: info/desc
+#: C/index.page:12
+msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
+msgstr "<app>사진</app>은 그놈용 개인 사진 관리자 도구입니다."
+
+#. (itstool) path: page/title
+#: C/index.page:16
+msgid "<_:media-1/> Photos"
+msgstr "<_:media-1/> 사진"
+
+#. (itstool) path: page/p
+#: C/index.page:21
+msgid ""
+"<app>Photos</app> can be used to organise and manage your images in an "
+"engaging and personalized manner. In addition to creating albums out of "
+"images on your computer, you can integrate your Facebook and Flickr albums "
+"with <app>Photos</app>. You can also set photos you like as your desktop "
+"wallpaper, or easily bookmark them as favorites."
+msgstr ""
+"<app>사진</app>은 매력적이고 개인적인 방식으로 그림을 모으고 관리하는데 사용"
+"할 수 있습니다. 게다가 컴퓨터에 있는 모든 이미지로 앨범을 만들려고 페이스북, "
+"플리커 앨범을 <app>사진</app>과 통합할 수 있습니다. 좋아하는 사진을 데스크톱 "
+"배경 화면으로 설정하거나, 즐겨찾기 표시를 하여 쉽게 책갈피에 넣을 수 있습니"
+"다."
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "크리에이티브 커먼즈 저작자 표시 3.0 Unported 라이선스"
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "이 문서는 <_:link-1/>에 따른 활용을 허가합니다."
+
+#. (itstool) path: info/desc
+#: C/view-album.page:21
+msgid "Open a photo from your albums."
+msgstr "앨범에서 사진을 엽니다."
+
+#. (itstool) path: page/title
+#: C/view-album.page:24
+msgid "View photos from an album"
+msgstr "앨범에서 사진 보기"
+
+#. (itstool) path: page/p
+#: C/view-album.page:25
+msgid "To open a photo located in a specific album:"
+msgstr "일부 앨범에 위치한 사진을 열려면:"
+
+#. (itstool) path: item/p
+#: C/view-album.page:29
+msgid "Select the <gui style=\"tab\">Albums</gui> tab."
+msgstr "<gui style=\"tab\">앨범</gui> 탭을 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/view-album.page:32
+msgid "Select the album which contains the photo."
+msgstr "사진이 들어있는 앨범을 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/view-album.page:35
+msgid ""
+"You will see a grid of photos from the album you selected. Select a photo "
+"from the grid to open it."
+msgstr ""
+"앨범에서 여러분이 선택한 사진은 바둑판 모양으로 정렬해서 보입니다. 열어보려"
+"는 사진을 바둑판 배치 화면에서 선택하십시오."
+
+#. (itstool) path: info/desc
+#: C/view-favorites.page:21
+msgid "Open your favorite photos."
+msgstr "관심있는 사진을 여십시오."
+
+#. (itstool) path: page/title
+#: C/view-favorites.page:24
+msgid "View photos marked as favorites."
+msgstr "즐겨찾기로 표시한 사진을 봅니다."
+
+#. (itstool) path: page/p
+#: C/view-favorites.page:26
+msgid ""
+"Your <link xref=\"favorites\">favorite</link> photos are located in the "
+"<gui>Favorites</gui> tab."
+msgstr ""
+"<link xref=\"favorites\">즐겨찾기</link> 사진은 <gui>즐겨찾기</gui> 탭에 있습"
+"니다."
+
+#. (itstool) path: steps/title
+#: C/view-favorites.page:30
+msgid "To open a photo tagged as a favorite:"
+msgstr "즐겨찾는 항목으로 태깅한 사진을 열려면:"
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:32
+msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
+msgstr "<gui style=\"tab\">즐겨찾기</gui> 탭을 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:35
+msgid ""
+"Select photo you want to open, or use the arrow keys to navigate to the "
+"photo and press <key>Enter</key>."
+msgstr ""
+"열어 보려는 사진을 선택하거나 화살표 키로 사진을 찾아보고 <key>Enter</key>키"
+"를 누르십시오."
+
+#. (itstool) path: info/desc
+#: C/view.page:21
+msgid "Open a photo for viewing."
+msgstr "보려는 사진을 여십시오."
+
+#. (itstool) path: page/title
+#: C/view.page:24
+msgid "View images"
+msgstr "그림 보기"
+
+#. (itstool) path: page/p
+#: C/view.page:26
+msgid ""
+"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
+"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
+"a favourite can be found in the <gui>Favorites</gui> tab."
+msgstr ""
+"<app>사진</app>을 열면, 열려있는 <gui>최근</gui> 탭이 보입니다. <gui>최근</"
+"gui> 탭에는 컴퓨터에 있는 그림이 있으며, <gui>앨범</gui> 탭에는 사진 앨범이 "
+"있고, 즐겨찾기로 표시한 그림은 <gui>즐겨찾기</gui> 탭에 있습니다."
