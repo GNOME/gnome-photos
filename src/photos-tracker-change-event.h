@@ -42,6 +42,8 @@ PhotosTrackerChangeEvent  *photos_tracker_change_event_new        (gint32 urn_id
                                                                    gint32 predicate_id,
                                                                    gboolean is_delete);
 
+PhotosTrackerChangeEvent  *photos_tracker_change_event_copy       (PhotosTrackerChangeEvent *event);
+
 void                       photos_tracker_change_event_free       (PhotosTrackerChangeEvent *self);
 
 PhotosTrackerChangeEventType photos_tracker_change_event_get_type (PhotosTrackerChangeEvent *self);

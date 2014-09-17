@@ -96,7 +96,7 @@ photos_tracker_change_monitor_query_data_free (PhotosTrackerChangeMonitorQueryDa
     g_hash_table_unref (data->id_table);
 
   if (data->events != NULL)
-    g_queue_free (data->events);
+    g_queue_free_full (data->events, (GDestroyNotify) photos_tracker_change_event_free);
 
   g_slice_free (PhotosTrackerChangeMonitorQueryData, data);
 }
@@ -129,12 +129,9 @@ photos_tracker_change_monitor_add_event (PhotosTrackerChangeMonitor *self, Photo
   old_change_event = (PhotosTrackerChangeEvent *) g_hash_table_lookup (priv->pending_changes, urn);
 
   if (old_change_event != NULL)
-    {
-      photos_tracker_change_event_merge (old_change_event, change_event);
-      photos_tracker_change_event_free (change_event);
-    }
+    photos_tracker_change_event_merge (old_change_event, change_event);
   else
-    g_hash_table_insert (priv->pending_changes, g_strdup (urn), change_event);
+    g_hash_table_insert (priv->pending_changes, g_strdup (urn), photos_tracker_change_event_copy (change_event));
 }
 
 
@@ -159,7 +156,7 @@ photos_tracker_change_monitor_send_events (PhotosTrackerChangeMonitor *self, GHa
       urn = (gchar *) g_hash_table_lookup (id_table, GINT_TO_POINTER (urn_id));
 
       photos_tracker_change_event_set_resolved_values (change_event, urn, predicate);
-      photos_tracker_change_monitor_add_event (self, change_event); /* steals change_event */
+      photos_tracker_change_monitor_add_event (self, change_event);
     }
 
   g_signal_emit (self, signals[CHANGES_PENDING], 0, priv->pending_changes);

@@ -68,6 +68,22 @@ photos_tracker_change_event_new (gint32 urn_id, gint32 predicate_id, gboolean is
 }
 
 
+PhotosTrackerChangeEvent *
+photos_tracker_change_event_copy (PhotosTrackerChangeEvent *event)
+{
+  PhotosTrackerChangeEvent *self;
+
+  self = g_slice_new0 (PhotosTrackerChangeEvent);
+  self->type = event->type;
+  self->predicate = g_strdup (event->predicate);
+  self->urn = g_strdup (event->urn);
+  self->predicate_id = event->predicate_id;
+  self->urn_id = event->urn_id;
+
+  return self;
+}
+
+
 PhotosTrackerChangeEventType
 photos_tracker_change_event_get_type (PhotosTrackerChangeEvent *self)
 {
