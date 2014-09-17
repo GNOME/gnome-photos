@@ -1,3 +1,27 @@
+Overview of changes in 3.13.92
+==============================
+
+* Bugs fixed:
+ 731865 Make it easier to support new sources
+ 734762 Drop some deprecated baggage
+ 735746 Guard against failure to resolve IDs
+ 736186 help: favorites are now marked using a star icon, not a heart icon
+
+* Updated translations:
+ Danish
+ Finnish
+ French
+ Galician
+ German
+ Hungarian
+ Korean
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
+ Swedish
+
+
 Overview of changes in 3.13.91
 ==============================
 
