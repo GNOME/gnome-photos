@@ -80,10 +80,10 @@ struct _PhotosTrackerChangeMonitorQueryData
 
 struct _TrackerResourcesEvent
 {
-  gint32 first;
-  gint32 second;
-  gint32 third;
-  gint32 fourth;
+  gint32 graph;
+  gint32 subject;
+  gint32 predicate;
+  gint32 object;
 } __attribute__ ((packed));
 
 
@@ -282,10 +282,10 @@ photos_tracker_change_monitor_add_pending_event (PhotosTrackerChangeMonitor *sel
   if (priv->pending_events_id != 0)
     g_source_remove (priv->pending_events_id);
 
-  g_hash_table_insert (priv->unresolved_ids, GINT_TO_POINTER (event->second), NULL);
-  g_hash_table_insert (priv->unresolved_ids, GINT_TO_POINTER (event->third), NULL);
+  g_hash_table_insert (priv->unresolved_ids, GINT_TO_POINTER (event->subject), NULL);
+  g_hash_table_insert (priv->unresolved_ids, GINT_TO_POINTER (event->predicate), NULL);
 
-  change_event = photos_tracker_change_event_new (event->second, event->third, is_delete);
+  change_event = photos_tracker_change_event_new (event->subject, event->predicate, is_delete);
   g_queue_push_tail (priv->pending_events, change_event);
 
   if (priv->pending_events->length >= CHANGE_MONITOR_MAX_ITEMS)
