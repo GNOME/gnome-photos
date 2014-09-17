@@ -153,7 +153,12 @@ photos_tracker_change_monitor_send_events (PhotosTrackerChangeMonitor *self, GHa
       urn_id = photos_tracker_change_event_get_urn_id (change_event);
 
       predicate = (gchar *) g_hash_table_lookup (id_table, GINT_TO_POINTER (predicate_id));
+      if (G_UNLIKELY (predicate == NULL))
+        continue;
+
       urn = (gchar *) g_hash_table_lookup (id_table, GINT_TO_POINTER (urn_id));
+      if (G_UNLIKELY (urn == NULL))
+        continue;
 
       photos_tracker_change_event_set_resolved_values (change_event, urn, predicate);
       photos_tracker_change_monitor_add_event (self, change_event);
