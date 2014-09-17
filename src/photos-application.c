@@ -718,6 +718,7 @@ photos_application_dbus_register (GApplication *application,
                                   GError **error)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
+  PhotosApplicationPrivate *priv = self->priv;
   gboolean ret_val = FALSE;
   gchar *search_provider_path = NULL;
 
@@ -728,8 +729,11 @@ photos_application_dbus_register (GApplication *application,
     goto out;
 
   search_provider_path = g_strconcat (object_path, PHOTOS_SEARCH_PROVIDER_PATH_SUFFIX, NULL);
-  if (!photos_search_provider_dbus_export (self->priv->search_provider, connection, search_provider_path, error))
-    goto out;
+  if (!photos_search_provider_dbus_export (priv->search_provider, connection, search_provider_path, error))
+    {
+      g_clear_object (&priv->search_provider);
+      goto out;
+    }
 
   ret_val = TRUE;
 
@@ -745,14 +749,19 @@ photos_application_dbus_unregister (GApplication *application,
                                     const gchar *object_path)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
-  gchar *search_provider_path = NULL;
+  PhotosApplicationPrivate *priv = self->priv;
 
-  search_provider_path = g_strconcat (object_path, PHOTOS_SEARCH_PROVIDER_PATH_SUFFIX, NULL);
-  photos_search_provider_dbus_unexport (self->priv->search_provider, connection, search_provider_path);
+  if (priv->search_provider != NULL)
+    {
+      gchar *search_provider_path = NULL;
+
+      search_provider_path = g_strconcat (object_path, PHOTOS_SEARCH_PROVIDER_PATH_SUFFIX, NULL);
+      photos_search_provider_dbus_unexport (priv->search_provider, connection, search_provider_path);
+      g_clear_object (&priv->search_provider);
+      g_free (search_provider_path);
+    }
 
   G_APPLICATION_CLASS (photos_application_parent_class)->dbus_unregister (application, connection, object_path);
-
-  g_free (search_provider_path);
 }
 
 
@@ -988,7 +997,6 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->camera_cache);
   g_clear_object (&priv->mode_cntrlr);
-  g_clear_object (&priv->search_provider);
   g_clear_object (&priv->extract_priority);
 
   if (priv->state != NULL)
