@@ -28,11 +28,12 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-base-manager.h"
 #include "photos-enums.h"
 #include "photos-icons.h"
-#include "photos-item-manager.h"
 #include "photos-preview-model.h"
 #include "photos-preview-nav-buttons.h"
+#include "photos-search-context.h"
 #include "photos-view-model.h"
 
 
@@ -435,11 +436,16 @@ static void
 photos_preview_nav_buttons_init (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_preview_nav_buttons_get_instance_private (self);
   priv = self->priv;
 
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->item_mngr = g_object_ref (state->item_mngr);
 
   priv->action = PHOTOS_PREVIEW_ACTION_NONE;
 

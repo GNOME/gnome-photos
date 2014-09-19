@@ -25,10 +25,12 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
 #include <glib.h>
 
+#include "photos-base-manager.h"
 #include "photos-filterable.h"
-#include "photos-item-manager.h"
+#include "photos-search-context.h"
 #include "photos-selection-controller.h"
 
 
@@ -125,11 +127,16 @@ static void
 photos_selection_controller_init (PhotosSelectionController *self)
 {
   PhotosSelectionControllerPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_selection_controller_get_instance_private (self);
   priv = self->priv;
 
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->item_mngr = g_object_ref (state->item_mngr);
   g_signal_connect (priv->item_mngr,
                     "object-removed",
                     G_CALLBACK (photos_selection_controller_object_removed),

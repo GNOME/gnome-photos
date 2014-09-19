@@ -47,7 +47,7 @@ struct _PhotosOverviewSearchbarPrivate
   GtkWidget *dropdown;
   GtkWidget *dropdown_button;
   GtkWidget *search_container;
-  PhotosBaseManager *col_mngr;
+  PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosBaseManager *srch_mtch_mngr;
   PhotosBaseManager *srch_typ_mngr;
@@ -315,7 +315,7 @@ photos_overview_searchbar_dispose (GObject *object)
   PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (object);
   PhotosOverviewSearchbarPrivate *priv = self->priv;
 
-  g_clear_object (&priv->col_mngr);
+  g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->srch_mtch_mngr);
   g_clear_object (&priv->srch_typ_mngr);
@@ -379,9 +379,9 @@ photos_overview_searchbar_init (PhotosOverviewSearchbar *self)
                            self,
                            G_CONNECT_SWAPPED);
 
-  priv->col_mngr = g_object_ref (state->col_mngr);
-  g_signal_connect_object (priv->col_mngr,
-                           "active-changed",
+  priv->item_mngr = g_object_ref (state->item_mngr);
+  g_signal_connect_object (priv->item_mngr,
+                           "active-collection-changed",
                            G_CALLBACK (photos_overview_searchbar_collection_active_changed),
                            self,
                            G_CONNECT_SWAPPED);

@@ -28,6 +28,7 @@
 #include <gio/gio.h>
 
 #include "photos-base-manager.h"
+#include "photos-item-manager.h"
 #include "photos-mode-controller.h"
 #include "photos-offset-search-controller.h"
 #include "photos-query-builder.h"
@@ -38,7 +39,7 @@
 
 struct _PhotosTrackerSearchControllerPrivate
 {
-  PhotosBaseManager *col_mngr;
+  PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosBaseManager *srch_mtch_mngr;
   PhotosBaseManager *srch_typ_mngr;
@@ -127,7 +128,7 @@ photos_tracker_search_controller_dispose (GObject *object)
   PhotosTrackerSearchController *self = PHOTOS_TRACKER_SEARCH_CONTROLLER (object);
   PhotosTrackerSearchControllerPrivate *priv = self->priv;
 
-  g_clear_object (&priv->col_mngr);
+  g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->srch_mtch_mngr);
   g_clear_object (&priv->srch_typ_mngr);
@@ -152,9 +153,9 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->col_mngr = g_object_ref (state->col_mngr);
-  g_signal_connect_swapped (priv->col_mngr,
-                            "active-changed",
+  priv->item_mngr = g_object_ref (state->item_mngr);
+  g_signal_connect_swapped (priv->item_mngr,
+                            "active-collection-changed",
                             G_CALLBACK (photos_tracker_search_controller_col_active_changed),
                             self);
 

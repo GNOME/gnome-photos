@@ -27,7 +27,7 @@
 
 #include <gio/gio.h>
 
-#include "photos-base-manager.h"
+#include "photos-item-manager.h"
 #include "photos-query-builder.h"
 #include "photos-offset-collections-controller.h"
 #include "photos-search-context.h"
@@ -35,7 +35,7 @@
 
 struct _PhotosOffsetCollectionsControllerPrivate
 {
-  PhotosBaseManager *col_mngr;
+  PhotosBaseManager *item_mngr;
 };
 
 
@@ -49,11 +49,11 @@ photos_offset_collections_controller_get_query (PhotosOffsetController *offset_c
 {
   PhotosOffsetCollectionsController *self = PHOTOS_OFFSET_COLLECTIONS_CONTROLLER (offset_cntrlr);
   GApplication *app;
-  GObject *collection;
+  PhotosBaseItem *collection;
   PhotosSearchContextState *state;
   gint flags;
 
-  collection = photos_base_manager_get_active_object (self->priv->col_mngr);
+  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->priv->item_mngr));
   if (collection != NULL)
     flags = PHOTOS_QUERY_FLAGS_NONE;
   else
@@ -91,7 +91,7 @@ photos_offset_collections_controller_dispose (GObject *object)
 {
   PhotosOffsetCollectionsController *self = PHOTOS_OFFSET_COLLECTIONS_CONTROLLER (object);
 
-  g_clear_object (&self->priv->col_mngr);
+  g_clear_object (&self->priv->item_mngr);
 
   G_OBJECT_CLASS (photos_offset_collections_controller_parent_class)->dispose (object);
 }
@@ -110,7 +110,7 @@ photos_offset_collections_controller_init (PhotosOffsetCollectionsController *se
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->col_mngr = g_object_ref (state->col_mngr);
+  priv->item_mngr = g_object_ref (state->item_mngr);
 }
 
 

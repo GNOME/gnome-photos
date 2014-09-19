@@ -384,7 +384,7 @@ photos_tracker_controller_init (PhotosTrackerController *self)
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   priv->cancellable = g_cancellable_new ();
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->item_mngr = g_object_ref (state->item_mngr);
 
   priv->src_mngr = g_object_ref (state->src_mngr);
   g_signal_connect_swapped (priv->src_mngr,

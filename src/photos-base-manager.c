@@ -59,6 +59,22 @@ static guint signals[LAST_SIGNAL] = { 0 };
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseManager, photos_base_manager, G_TYPE_OBJECT);
 
 
+static void
+photos_base_manager_default_add_object (PhotosBaseManager *self, GObject *object)
+{
+  GObject *old_object;
+  const gchar *id;
+
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
+  old_object = photos_base_manager_get_object_by_id (self, id);
+  if (old_object != NULL)
+    return;
+
+  g_hash_table_insert (self->priv->objects, g_strdup (id), g_object_ref (object));
+  g_signal_emit (self, signals[OBJECT_ADDED], 0, object);
+}
+
+
 static gchar *
 photos_base_manager_default_get_filter (PhotosBaseManager *self, gint flags)
 {
@@ -70,6 +86,22 @@ static gchar *
 photos_base_manager_default_get_where (PhotosBaseManager *self, gint flags)
 {
   return g_strdup ("");
+}
+
+
+static void
+photos_base_manager_default_remove_object_by_id (PhotosBaseManager *self, const gchar *id)
+{
+  GObject *object;
+
+  object = photos_base_manager_get_object_by_id (self, id);
+  if (object == NULL)
+    return;
+
+  g_object_ref (object);
+  g_hash_table_remove (self->priv->objects, id);
+  g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
+  g_object_unref (object);
 }
 
 
@@ -159,8 +191,10 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   object_class->dispose = photos_base_manager_dispose;
   object_class->finalize = photos_base_manager_finalize;
   object_class->set_property = photos_base_manager_set_property;
+  class->add_object = photos_base_manager_default_add_object;
   class->get_filter = photos_base_manager_default_get_filter;
   class->get_where = photos_base_manager_default_get_where;
+  class->remove_object_by_id = photos_base_manager_default_remove_object_by_id;
   class->set_active_object = photos_base_manager_default_set_active_object;
 
   g_object_class_install_property (object_class,
@@ -223,16 +257,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
 void
 photos_base_manager_add_object (PhotosBaseManager *self, GObject *object)
 {
-  GObject *old_object;
-  const gchar *id;
-
-  id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
-  old_object = photos_base_manager_get_object_by_id (self, id);
-  if (old_object != NULL)
-    return;
-
-  g_hash_table_insert (self->priv->objects, g_strdup (id), g_object_ref (object));
-  g_signal_emit (self, signals[OBJECT_ADDED], 0, object);
+  PHOTOS_BASE_MANAGER_GET_CLASS (self)->add_object (self, object);
 }
 
 
@@ -418,16 +443,7 @@ photos_base_manager_remove_object (PhotosBaseManager *self, GObject *object)
 void
 photos_base_manager_remove_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
-  GObject *object;
-
-  object = photos_base_manager_get_object_by_id (self, id);
-  if (object == NULL)
-    return;
-
-  g_object_ref (object);
-  g_hash_table_remove (self->priv->objects, id);
-  g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
-  g_object_unref (object);
+  PHOTOS_BASE_MANAGER_GET_CLASS (self)->remove_object_by_id (self, id);
 }
 
 

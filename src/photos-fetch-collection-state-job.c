@@ -41,7 +41,6 @@
 struct _PhotosFetchCollectionStateJobPrivate
 {
   GHashTable *collections_for_items;
-  PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosSelectionController *sel_cntrlr;
   PhotosFetchCollectionStateJobCallback callback;
@@ -94,7 +93,7 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
   const gchar *coll_idx;
 
   collection_state = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-  collections = photos_base_manager_get_objects (priv->col_mngr);
+  collections = photos_item_manager_get_collections (PHOTOS_ITEM_MANAGER (priv->item_mngr));
 
   /* For all the registered collections… */
   g_hash_table_iter_init (&iter1, collections);
@@ -196,7 +195,6 @@ photos_fetch_collection_state_job_dispose (GObject *object)
   PhotosFetchCollectionStateJob *self = PHOTOS_FETCH_COLLECTION_STATE_JOB (object);
   PhotosFetchCollectionStateJobPrivate *priv = self->priv;
 
-  g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->sel_cntrlr);
 
@@ -233,8 +231,7 @@ photos_fetch_collection_state_job_init (PhotosFetchCollectionStateJob *self)
                                                        g_free,
                                                        photos_fetch_collection_state_job_value_destroy_func);
 
-  priv->col_mngr = g_object_ref (state->col_mngr);
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->item_mngr = g_object_ref (state->item_mngr);
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
 }
 

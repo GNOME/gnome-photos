@@ -23,7 +23,7 @@
 
 #include <gio/gio.h>
 
-#include "photos-base-manager.h"
+#include "photos-item-manager.h"
 #include "photos-mode-controller.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-query-builder.h"
@@ -33,7 +33,7 @@
 
 struct _PhotosTrackerFavoritesControllerPrivate
 {
-  PhotosBaseManager *col_mngr;
+  PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
 };
@@ -71,11 +71,11 @@ photos_tracker_favorites_controller_get_query (PhotosTrackerController *trk_cntr
   PhotosTrackerFavoritesController *self = PHOTOS_TRACKER_FAVORITES_CONTROLLER (trk_cntrlr);
   PhotosTrackerFavoritesControllerPrivate *priv = self->priv;
   GApplication *app;
-  GObject *collection;
+  PhotosBaseItem *collection;
   PhotosSearchContextState *state;
   gint flags;
 
-  collection = photos_base_manager_get_active_object (priv->col_mngr);
+  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
   if (collection != NULL)
     flags = PHOTOS_QUERY_FLAGS_NONE;
   else
@@ -114,7 +114,7 @@ photos_tracker_favorites_controller_dispose (GObject *object)
   PhotosTrackerFavoritesController *self = PHOTOS_TRACKER_FAVORITES_CONTROLLER (object);
   PhotosTrackerFavoritesControllerPrivate *priv = self->priv;
 
-  g_clear_object (&priv->col_mngr);
+  g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->offset_cntrlr);
 
@@ -135,9 +135,9 @@ photos_tracker_favorites_controller_init (PhotosTrackerFavoritesController *self
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->col_mngr = g_object_ref (state->col_mngr);
-  g_signal_connect_swapped (priv->col_mngr,
-                            "active-changed",
+  priv->item_mngr = g_object_ref (state->item_mngr);
+  g_signal_connect_swapped (priv->item_mngr,
+                            "active-collection-changed",
                             G_CALLBACK (photos_tracker_favorites_controller_col_active_changed),
                             self);
 

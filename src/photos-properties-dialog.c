@@ -29,10 +29,11 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-base-manager.h"
 #include "photos-camera-cache.h"
-#include "photos-item-manager.h"
 #include "photos-local-item.h"
 #include "photos-properties-dialog.h"
+#include "photos-search-context.h"
 #include "photos-utils.h"
 
 
@@ -553,12 +554,17 @@ static void
 photos_properties_dialog_init (PhotosPropertiesDialog *self)
 {
   PhotosPropertiesDialogPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_properties_dialog_get_instance_private (self);
   priv = self->priv;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   priv->cancellable = g_cancellable_new ();
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->item_mngr = g_object_ref (state->item_mngr);
   priv->camera_cache = photos_camera_cache_dup_singleton ();
 }
 

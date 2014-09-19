@@ -27,15 +27,16 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-base-manager.h"
 #include "photos-dleyna-renderer-device.h"
 #include "photos-dleyna-renderer-push-host.h"
 #include "photos-dlna-renderer.h"
 #include "photos-dlna-renderers-manager.h"
 #include "photos-icons.h"
-#include "photos-item-manager.h"
 #include "photos-local-item.h"
 #include "photos-mode-controller.h"
 #include "photos-remote-display-manager.h"
+#include "photos-search-context.h"
 
 
 struct _PhotosDlnaRenderersDialogPrivate
@@ -219,12 +220,17 @@ static void
 photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
 {
   PhotosDlnaRenderersDialogPrivate *priv;
+  GApplication *app;
   GList *renderers;
+  PhotosSearchContextState *state;
 
   self->priv = photos_dlna_renderers_dialog_get_instance_private (self);
   priv = self->priv;
 
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->item_mngr = g_object_ref (state->item_mngr);
   priv->renderers_mngr = photos_dlna_renderers_manager_dup_singleton ();
   priv->remote_mngr = photos_remote_display_manager_dup_singleton ();
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();

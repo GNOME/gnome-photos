@@ -68,11 +68,14 @@ struct _PhotosItemManager
 struct _PhotosItemManagerClass
 {
   PhotosBaseManagerClass parent_class;
+
+  /* signals */
+  void (*active_collection_changed) (PhotosItemManager *self, PhotosBaseItem *collection);
 };
 
 GType                     photos_item_manager_get_type           (void) G_GNUC_CONST;
 
-PhotosBaseManager        *photos_item_manager_dup_singleton      (void);
+PhotosBaseManager        *photos_item_manager_new                (void);
 
 void                      photos_item_manager_activate_previous_collection (PhotosItemManager *self);
 
@@ -81,6 +84,10 @@ void                      photos_item_manager_add_item           (PhotosItemMana
 
 PhotosBaseItem           *photos_item_manager_create_item        (PhotosItemManager *self,
                                                                   TrackerSparqlCursor *cursor);
+
+PhotosBaseItem           *photos_item_manager_get_active_collection (PhotosItemManager *self);
+
+GHashTable               *photos_item_manager_get_collections       (PhotosItemManager *self);
 
 G_END_DECLS
 

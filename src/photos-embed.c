@@ -32,7 +32,6 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 
-#include "photos-collection-manager.h"
 #include "photos-embed.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
@@ -77,7 +76,6 @@ struct _PhotosEmbedPrivate
   GtkWidget *stack;
   GtkWidget *stack_overlay;
   GtkWidget *toolbar;
-  PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosBaseManager *srch_mngr;
@@ -331,8 +329,8 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
+  PhotosBaseItem *active_collection;
   PhotosWindowMode mode;
-  GObject *active_collection;
   GObject *active_item;
   GVariant *state;
   gboolean show_search;
@@ -341,7 +339,7 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
    * preview or collection viewin. Restore it when we are back.
    */
 
-  active_collection = photos_base_manager_get_active_object (priv->col_mngr);
+  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
   active_item = photos_base_manager_get_active_object (priv->item_mngr);
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
   show_search = (mode == PHOTOS_WINDOW_MODE_PREVIEW && active_item == NULL && active_collection == NULL)
@@ -650,7 +648,6 @@ photos_embed_dispose (GObject *object)
 
   g_clear_object (&priv->ntfctn_mngr);
   g_clear_object (&priv->loader_cancellable);
-  g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->srch_mngr);
@@ -775,10 +772,7 @@ photos_embed_init (PhotosEmbed *self)
                             G_CALLBACK (photos_embed_query_status_changed),
                             self);
 
-  priv->col_mngr = g_object_ref (state->col_mngr);
-  g_signal_connect (priv->col_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
-
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->item_mngr = g_object_ref (state->item_mngr);
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
 
   priv->src_mngr = g_object_ref (state->src_mngr);

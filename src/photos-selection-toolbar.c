@@ -30,11 +30,12 @@
 #include <glib/gi18n.h>
 
 #include "photos-base-item.h"
+#include "photos-base-manager.h"
 #include "photos-delete-notification.h"
 #include "photos-icons.h"
-#include "photos-item-manager.h"
 #include "photos-organize-collection-dialog.h"
 #include "photos-properties-dialog.h"
+#include "photos-search-context.h"
 #include "photos-selection-controller.h"
 #include "photos-selection-toolbar.h"
 #include "photos-utils.h"
@@ -428,11 +429,16 @@ static void
 photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 {
   PhotosSelectionToolbarPrivate *priv;
+  GApplication *app;
   GtkWidget *image;
   GtkWidget *toolbar;
+  PhotosSearchContextState *state;
 
   self->priv = photos_selection_toolbar_get_instance_private (self);
   priv = self->priv;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   priv->item_listeners = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
 
@@ -485,7 +491,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   gtk_widget_show_all (GTK_WIDGET (self));
 
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->item_mngr = g_object_ref (state->item_mngr);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
   g_signal_connect (priv->sel_cntrlr,

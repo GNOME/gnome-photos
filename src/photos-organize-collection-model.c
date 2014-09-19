@@ -212,7 +212,7 @@ photos_organize_collection_model_init (PhotosOrganizeCollectionModel *self)
 
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
 
-  priv->manager = g_object_ref (state->col_mngr);
+  priv->manager = g_object_ref (state->item_mngr);
 
   g_signal_connect_object (priv->manager,
                            "object-added",

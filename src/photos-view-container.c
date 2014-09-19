@@ -36,6 +36,7 @@
 #include "photos-offset-overview-controller.h"
 #include "photos-offset-search-controller.h"
 #include "photos-remote-display-manager.h"
+#include "photos-search-context.h"
 #include "photos-selection-controller.h"
 #include "photos-tracker-collections-controller.h"
 #include "photos-tracker-favorites-controller.h"
@@ -288,10 +289,14 @@ photos_view_container_constructed (GObject *object)
   GApplication *app;
   GtkWidget *generic_view;
   GtkWidget *grid;
+  PhotosSearchContextState *state;
   gboolean status;
   gint size;
 
   G_OBJECT_CLASS (photos_view_container_parent_class)->constructed (object);
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   accessible = gtk_widget_get_accessible (GTK_WIDGET (self));
   if (accessible != NULL)
@@ -332,7 +337,7 @@ photos_view_container_constructed (GObject *object)
                     G_CALLBACK (photos_view_container_view_selection_changed),
                     self);
 
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->item_mngr = g_object_ref (state->item_mngr);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
   g_signal_connect (priv->sel_cntrlr,
@@ -377,8 +382,6 @@ photos_view_container_constructed (GObject *object)
       g_assert_not_reached ();
       break;
     }
-
-  app = g_application_get_default ();
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-all");
   g_signal_connect_swapped (action, "activate", G_CALLBACK (gd_main_view_select_all), priv->view);

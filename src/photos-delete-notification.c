@@ -23,10 +23,11 @@
 #include <glib/gi18n.h>
 
 #include "photos-base-item.h"
+#include "photos-base-manager.h"
 #include "photos-delete-notification.h"
 #include "photos-icons.h"
 #include "photos-notification-manager.h"
-#include "photos-item-manager.h"
+#include "photos-search-context.h"
 
 
 struct _PhotosDeleteNotificationPrivate
@@ -212,12 +213,17 @@ static void
 photos_delete_notification_init (PhotosDeleteNotification *self)
 {
   PhotosDeleteNotificationPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_delete_notification_get_instance_private (self);
   priv = self->priv;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->item_mngr = g_object_ref (state->item_mngr);
 }
 
 

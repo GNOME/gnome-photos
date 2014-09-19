@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,9 +24,10 @@
 #include <glib.h>
 
 #include "photos-base-item.h"
-#include "photos-item-manager.h"
+#include "photos-base-manager.h"
 #include "photos-preview-model.h"
 #include "photos-query.h"
+#include "photos-search-context.h"
 #include "photos-view-model.h"
 
 
@@ -80,11 +81,16 @@ static void
 photos_preview_model_init (PhotosPreviewModel *self)
 {
   PhotosPreviewModelPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_preview_model_get_instance_private (self);
   priv = self->priv;
 
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->item_mngr = g_object_ref (state->item_mngr);
   gtk_tree_model_filter_set_visible_func (GTK_TREE_MODEL_FILTER (self), photos_preview_model_visible, self, NULL);
 }
 

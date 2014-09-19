@@ -72,7 +72,6 @@ struct _PhotosApplicationPrivate
   GSimpleAction *set_bg_action;
   GSimpleAction *remote_display_action;
   GtkWidget *main_window;
-  PhotosBaseManager *item_mngr;
   PhotosCameraCache *camera_cache;
   PhotosModeController *mode_cntrlr;
   PhotosSearchContextState *state;
@@ -205,7 +204,7 @@ photos_application_activate_item (PhotosApplication *self, GObject *item)
   PhotosApplicationPrivate *priv = self->priv;
 
   photos_application_create_window (self);
-  photos_base_manager_set_active_object (priv->item_mngr, item);
+  photos_base_manager_set_active_object (priv->state->item_mngr, item);
   g_application_activate (G_APPLICATION (self));
 
   /* TODO: Forward the search terms when we exit the preview */
@@ -223,10 +222,10 @@ photos_application_activate_query_executed (TrackerSparqlCursor *cursor, gpointe
   if (cursor == NULL)
     goto out;
 
-  photos_item_manager_add_item (PHOTOS_ITEM_MANAGER (priv->item_mngr), cursor);
+  photos_item_manager_add_item (PHOTOS_ITEM_MANAGER (priv->state->item_mngr), cursor);
 
   identifier = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
-  item = photos_base_manager_get_object_by_id (priv->item_mngr, identifier);
+  item = photos_base_manager_get_object_by_id (priv->state->item_mngr, identifier);
 
   photos_application_activate_item (self, item);
 
@@ -246,7 +245,7 @@ photos_application_activate_result (PhotosApplication *self,
 
   priv->activation_timestamp = timestamp;
 
-  item = photos_base_manager_get_object_by_id (priv->item_mngr, identifier);
+  item = photos_base_manager_get_object_by_id (priv->state->item_mngr, identifier);
   if (item != NULL)
     photos_application_activate_item (self, item);
   else
@@ -337,7 +336,7 @@ photos_application_open_current (PhotosApplication *self)
   PhotosBaseItem *item;
   guint32 time;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
   if (item == NULL)
     return;
 
@@ -353,7 +352,7 @@ photos_application_print_current (PhotosApplication *self)
   PhotosApplicationPrivate *priv = self->priv;
   PhotosBaseItem *item;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
   if (item == NULL)
     return;
 
@@ -369,7 +368,7 @@ photos_application_properties (PhotosApplication *self)
   GtkWidget *dialog;
   const gchar *id;
 
-  item = photos_base_manager_get_active_object (priv->item_mngr);
+  item = photos_base_manager_get_active_object (priv->state->item_mngr);
   if (item == NULL)
     return;
 
@@ -470,7 +469,7 @@ photos_application_remote_display_current (PhotosApplication *self)
   GtkWidget *dialog;
   const gchar *urn;
 
-  item = photos_base_manager_get_active_object (priv->item_mngr);
+  item = photos_base_manager_get_active_object (priv->state->item_mngr);
   if (item == NULL)
     return;
 
@@ -526,7 +525,7 @@ photos_application_set_bg (PhotosApplication *self)
 {
   PhotosBaseItem *item;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->state->item_mngr));
   if (item == NULL)
     return;
 
@@ -861,8 +860,6 @@ photos_application_startup (GApplication *application)
                                               photos_application_tracker_extract_priority,
                                               g_object_ref (self));
 
-  priv->item_mngr = photos_item_manager_dup_singleton ();
-
   /* A dummy reference to keep it alive during the lifetime of the
    * application.
    */
@@ -994,7 +991,6 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->sel_all_action);
   g_clear_object (&priv->sel_none_action);
   g_clear_object (&priv->set_bg_action);
-  g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->camera_cache);
   g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->extract_priority);

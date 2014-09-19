@@ -28,6 +28,7 @@
 #include <glib.h>
 #include <tracker-sparql.h>
 
+#include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
 #include "photos-query.h"
@@ -40,14 +41,54 @@
 
 struct _PhotosItemManagerPrivate
 {
+  GHashTable *collections;
   GIOExtensionPoint *extension_point;
   GQueue *collection_path;
-  PhotosBaseManager *col_mngr;
+  PhotosBaseItem *active_collection;
   PhotosTrackerChangeMonitor *monitor;
 };
 
+enum
+{
+  ACTIVE_COLLECTION_CHANGED,
+  LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER);
+
+
+static void
+photos_item_manager_add_object (PhotosBaseManager *mngr, GObject *object)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
+  PhotosItemManagerPrivate *priv = self->priv;
+  PhotosBaseItem *item;
+  const gchar *id;
+  gpointer *old_collection;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (object));
+
+  item = PHOTOS_BASE_ITEM (object);
+
+  if (!photos_base_item_is_collection (item))
+    goto end;
+
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
+  if (id == NULL)
+    goto end;
+
+  old_collection = g_hash_table_lookup (priv->collections, id);
+  if (old_collection != NULL)
+    goto end;
+
+  g_hash_table_insert (priv->collections, g_strdup (id), g_object_ref (item));
+
+ end:
+  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->add_object (mngr, object);
+}
 
 
 static void
@@ -89,7 +130,6 @@ static void
 photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpointer user_data)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
-  PhotosItemManagerPrivate *priv = self->priv;
   PhotosTrackerChangeEvent *change_event = (PhotosTrackerChangeEvent *) value;
   PhotosTrackerChangeEventType change_type;
   const gchar *change_urn;
@@ -117,8 +157,6 @@ photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpoin
       if (object != NULL)
         {
           photos_base_item_destroy (PHOTOS_BASE_ITEM (object));
-          if (photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
-            photos_base_manager_remove_object_by_id (priv->col_mngr, change_urn);
           photos_base_manager_remove_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
         }
     }
@@ -139,61 +177,99 @@ photos_item_manager_collection_path_free_foreach (gpointer data, gpointer user_d
 }
 
 
+static gchar *
+photos_item_manager_get_where (PhotosBaseManager *mngr, gint flags)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
+  PhotosItemManagerPrivate *priv = self->priv;
+
+  if (priv->active_collection == NULL)
+    return g_strdup ("");
+
+  return photos_base_item_get_where (priv->active_collection);
+}
+
+
+static void
+photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *id)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
+  PhotosItemManagerPrivate *priv = self->priv;
+  gpointer *collection;
+
+  if (id == NULL)
+    goto end;
+
+  collection = g_hash_table_lookup (priv->collections, id);
+  if (collection == NULL)
+    goto end;
+
+  g_hash_table_remove (priv->collections, id);
+
+ end:
+  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->remove_object_by_id (mngr, id);
+}
+
+
 static gboolean
 photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *object)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (manager);
   PhotosItemManagerPrivate *priv = self->priv;
+  GObject *active_item;
   GtkRecentManager *recent;
-  gboolean ret_val;
+  gboolean active_collection_changed = FALSE;
+  gboolean ret_val = FALSE;
   const gchar *uri;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object) || object == NULL, FALSE);
 
-  ret_val = PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->set_active_object (manager, object);
+  active_item = photos_base_manager_get_active_object (manager);
 
-  if (!ret_val)
-    goto out;
-
+  /* Passing NULL is a way to go back to the current collection or
+   * overview from the preview. However, you can't do that when you
+   * are looking at a collection.
+   */
   if (object == NULL)
-    goto out;
+    {
+      if (active_item != (GObject *) priv->active_collection)
+        object = (GObject *) priv->active_collection;
+      else
+        goto out;
+    }
+
+  /* This is when we are going back to the overview from the preview. */
+  if (object == NULL)
+    goto end;
 
   if (photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
     {
-      GObject *collection;
+      /* This is when we are going back to the collection from the
+       * preview.
+       */
+      if (object == (GObject *) priv->active_collection)
+        goto end;
 
-      collection = photos_base_manager_get_active_object (priv->col_mngr);
-      g_queue_push_head (priv->collection_path, (collection != NULL) ? g_object_ref (collection) : NULL);
-      photos_base_manager_set_active_object (priv->col_mngr, object);
-      goto out;
+      g_queue_push_head (priv->collection_path,
+                         (priv->active_collection != NULL) ? g_object_ref (priv->active_collection) : NULL);
+
+      g_clear_object (&priv->active_collection);
+      priv->active_collection = g_object_ref (object);
+      active_collection_changed = TRUE;
+      goto end;
     }
 
   recent = gtk_recent_manager_get_default ();
   uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
   gtk_recent_manager_add_item (recent, uri);
 
+ end:
+  ret_val = PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->set_active_object (manager, object);
+  if (active_collection_changed)
+    g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, priv->active_collection);
+
  out:
   return ret_val;
-}
-
-
-static GObject *
-photos_item_manager_constructor (GType                  type,
-                                 guint                  n_construct_params,
-                                 GObjectConstructParam *construct_params)
-{
-  static GObject *self = NULL;
-
-  if (self == NULL)
-    {
-      self = G_OBJECT_CLASS (photos_item_manager_parent_class)->constructor (type,
-                                                                             n_construct_params,
-                                                                             construct_params);
-      g_object_add_weak_pointer (self, (gpointer) &self);
-      return self;
-    }
-
-  return g_object_ref (self);
 }
 
 
@@ -210,7 +286,8 @@ photos_item_manager_dispose (GObject *object)
       priv->collection_path = NULL;
     }
 
-  g_clear_object (&priv->col_mngr);
+  g_clear_pointer (&priv->collections, (GDestroyNotify) g_hash_table_unref);
+  g_clear_object (&priv->active_collection);
   g_clear_object (&priv->monitor);
 
   G_OBJECT_CLASS (photos_item_manager_parent_class)->dispose (object);
@@ -221,18 +298,13 @@ static void
 photos_item_manager_init (PhotosItemManager *self)
 {
   PhotosItemManagerPrivate *priv = self->priv;
-  GApplication *app;
-  PhotosSearchContextState *state;
 
   self->priv = photos_item_manager_get_instance_private (self);
   priv = self->priv;
 
-  app = g_application_get_default ();
-  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
-
+  priv->collections = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
   priv->extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
   priv->collection_path = g_queue_new ();
-  priv->col_mngr = g_object_ref (state->col_mngr);
 
   priv->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
   if (G_LIKELY (priv->monitor != NULL))
@@ -249,14 +321,28 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosBaseManagerClass *base_manager_class = PHOTOS_BASE_MANAGER_CLASS (class);
 
-  object_class->constructor = photos_item_manager_constructor;
   object_class->dispose = photos_item_manager_dispose;
+  base_manager_class->add_object = photos_item_manager_add_object;
+  base_manager_class->get_where = photos_item_manager_get_where;
   base_manager_class->set_active_object = photos_item_manager_set_active_object;
+  base_manager_class->remove_object_by_id = photos_item_manager_remove_object_by_id;
+
+  signals[ACTIVE_COLLECTION_CHANGED] = g_signal_new ("active-collection-changed",
+                                                     G_TYPE_FROM_CLASS (class),
+                                                     G_SIGNAL_RUN_LAST,
+                                                     G_STRUCT_OFFSET (PhotosItemManagerClass,
+                                                                      active_collection_changed),
+                                                     NULL, /*accumulator */
+                                                     NULL, /*accu_data */
+                                                     g_cclosure_marshal_VOID__OBJECT,
+                                                     G_TYPE_NONE,
+                                                     1,
+                                                     PHOTOS_TYPE_BASE_ITEM);
 }
 
 
 PhotosBaseManager *
-photos_item_manager_dup_singleton (void)
+photos_item_manager_new (void)
 {
   return g_object_new (PHOTOS_TYPE_ITEM_MANAGER, NULL);
 }
@@ -266,13 +352,21 @@ void
 photos_item_manager_activate_previous_collection (PhotosItemManager *self)
 {
   PhotosItemManagerPrivate *priv = self->priv;
-  GObject *collection;
+  gpointer *collection;
 
-  collection = G_OBJECT (g_queue_pop_head (priv->collection_path));
-  photos_base_manager_set_active_object (priv->col_mngr, collection);
+  collection = g_queue_pop_head (priv->collection_path);
+  g_assert (collection == NULL || PHOTOS_IS_BASE_ITEM (collection));
 
-  if (collection == NULL)
-    photos_base_manager_set_active_object (PHOTOS_BASE_MANAGER (self), NULL);
+  g_clear_object (&priv->active_collection);
+
+  if (collection != NULL)
+    g_object_ref (collection);
+  priv->active_collection = PHOTOS_BASE_ITEM (collection);
+
+  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
+    ->set_active_object (PHOTOS_BASE_MANAGER (self), (GObject *) collection);
+
+  g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, priv->active_collection);
 
   g_clear_object (&collection);
 }
@@ -295,9 +389,6 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
 
   item = photos_item_manager_create_item (self, cursor);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (item));
-
-  if (photos_base_item_is_collection (item))
-    photos_base_manager_add_object (self->priv->col_mngr, G_OBJECT (item));
 
  out:
   g_clear_object (&item);
@@ -350,4 +441,18 @@ photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *c
   g_strfreev (split_identifier);
   g_free (identifier);
   return ret_val;
+}
+
+
+PhotosBaseItem *
+photos_item_manager_get_active_collection (PhotosItemManager *self)
+{
+  return self->priv->active_collection;
+}
+
+
+GHashTable *
+photos_item_manager_get_collections (PhotosItemManager *self)
+{
+  return self->priv->collections;
 }

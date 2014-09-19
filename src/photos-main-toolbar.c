@@ -30,7 +30,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "photos-collection-manager.h"
 #include "photos-dlna-renderers-manager.h"
 #include "photos-dropdown.h"
 #include "photos-header-bar.h"
@@ -56,7 +55,6 @@ struct _PhotosMainToolbarPrivate
   GtkWidget *selection_button;
   GtkWidget *selection_menu;
   GtkWidget *toolbar;
-  PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosRemoteDisplayManager *remote_mngr;
@@ -80,12 +78,12 @@ static void
 photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
-  GObject *active_collection;
+  PhotosBaseItem *active_collection;
   PhotosWindowMode window_mode;
   gboolean selection_mode;
   gchar *primary = NULL;
 
-  active_collection = photos_base_manager_get_active_object (priv->col_mngr);
+  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
   selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
   window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
 
@@ -97,7 +95,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
       if (!selection_mode)
         {
           if (active_collection != NULL)
-            primary = g_markup_printf_escaped ("%s", photos_base_item_get_name (PHOTOS_BASE_ITEM (active_collection)));
+            primary = g_markup_printf_escaped ("%s", photos_base_item_get_name (active_collection));
         }
       else
         {
@@ -115,7 +113,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
           if (active_collection != NULL)
             {
               primary =  g_markup_printf_escaped ("<b>%s</b> (%s)",
-                                                  photos_base_item_get_name (PHOTOS_BASE_ITEM (active_collection)),
+                                                  photos_base_item_get_name (active_collection),
                                                   label);
             }
           else
@@ -175,12 +173,12 @@ photos_main_toolbar_coll_back_button_clicked (PhotosMainToolbar *self)
 
 
 static void
-photos_main_toolbar_col_active_changed (PhotosMainToolbar *self, GObject *object)
+photos_main_toolbar_col_active_changed (PhotosMainToolbar *self, PhotosBaseItem *collection)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
   PhotosHeaderBarMode mode;
 
-  if (object != NULL)
+  if (collection != NULL)
     {
       mode = PHOTOS_HEADER_BAR_MODE_STANDALONE;
       if (priv->coll_back_button == NULL)
@@ -309,8 +307,8 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
                             G_CALLBACK (photos_main_toolbar_select_button_clicked),
                             self);
 
-  g_signal_connect_object (priv->col_mngr,
-                           "active-changed",
+  g_signal_connect_object (priv->item_mngr,
+                           "active-collection-changed",
                            G_CALLBACK (photos_main_toolbar_col_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
@@ -363,11 +361,11 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
       g_variant_unref (state);
     }
 
-  if (priv->col_mngr != NULL)
-    g_signal_handlers_disconnect_by_func (priv->col_mngr, photos_main_toolbar_col_active_changed, self);
-
   if (priv->item_mngr != NULL)
-    g_signal_handlers_disconnect_by_func (priv->item_mngr, photos_main_toolbar_item_active_changed, self);
+    {
+      g_signal_handlers_disconnect_by_func (priv->item_mngr, photos_main_toolbar_col_active_changed, self);
+      g_signal_handlers_disconnect_by_func (priv->item_mngr, photos_main_toolbar_item_active_changed, self);
+    }
 
   if (priv->sel_cntrlr != NULL)
     g_signal_handlers_disconnect_by_func (priv->sel_cntrlr, photos_main_toolbar_set_toolbar_title, self);
@@ -490,7 +488,7 @@ static void
 photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
-  GObject *object;
+  PhotosBaseItem *collection;
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
@@ -500,8 +498,8 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
   if (gtk_widget_get_parent (priv->searchbar) == NULL)
     gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
-  object = photos_base_manager_get_active_object (priv->col_mngr);
-  photos_main_toolbar_col_active_changed (self, object);
+  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+  photos_main_toolbar_col_active_changed (self, collection);
 }
 
 
@@ -527,7 +525,7 @@ static void
 photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
-  GObject *object;
+  PhotosBaseItem *collection;
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
@@ -537,8 +535,8 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
   if (gtk_widget_get_parent (priv->searchbar) == NULL)
     gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
-  object = photos_base_manager_get_active_object (priv->col_mngr);
-  photos_main_toolbar_col_active_changed (self, object);
+  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+  photos_main_toolbar_col_active_changed (self, collection);
 }
 
 
@@ -546,7 +544,7 @@ static void
 photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
-  GObject *object;
+  PhotosBaseItem *collection;
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
@@ -556,8 +554,8 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   if (gtk_widget_get_parent (priv->searchbar) == NULL)
     gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
-  object = photos_base_manager_get_active_object (priv->col_mngr);
-  photos_main_toolbar_col_active_changed (self, object);
+  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+  photos_main_toolbar_col_active_changed (self, collection);
 }
 
 
@@ -623,7 +621,7 @@ static void
 photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
-  GObject *object;
+  PhotosBaseItem *collection;
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (priv->toolbar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
@@ -633,8 +631,8 @@ photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
   if (gtk_widget_get_parent (priv->searchbar) == NULL)
     gtk_container_add (GTK_CONTAINER (self), priv->searchbar);
 
-  object = photos_base_manager_get_active_object (priv->col_mngr);
-  photos_main_toolbar_col_active_changed (self, object);
+  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+  photos_main_toolbar_col_active_changed (self, collection);
 }
 
 
@@ -690,7 +688,6 @@ photos_main_toolbar_dispose (GObject *object)
   photos_main_toolbar_clear_state_data (self);
 
   g_clear_object (&priv->searchbar);
-  g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->remote_mngr);
@@ -776,8 +773,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
 
   photos_header_bar_set_selection_menu (PHOTOS_HEADER_BAR (priv->toolbar), GTK_BUTTON (priv->selection_menu));
 
-  priv->col_mngr = g_object_ref (state->col_mngr);
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->item_mngr = g_object_ref (state->item_mngr);
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
 

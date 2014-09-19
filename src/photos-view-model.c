@@ -47,7 +47,6 @@
 
 struct _PhotosViewModelPrivate
 {
-  PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
@@ -237,12 +236,12 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (user_data);
   PhotosViewModelPrivate *priv = self->priv;
-  GObject *active_collection;
   GtkTreeIter iter;
   GtkTreePath *path;
   GtkTreeRowReference *row_ref;
+  PhotosBaseItem *active_collection;
 
-  active_collection = photos_base_manager_get_active_object (priv->col_mngr);
+  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
   row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
 
   if (priv->mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
@@ -294,8 +293,8 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
   PhotosViewModelPrivate *priv = self->priv;
+  PhotosBaseItem *active_collection;
   PhotosWindowMode mode;
-  GObject *active_collection;
   GtkTreeRowReference *row_ref;
   gboolean is_collection;
   gboolean is_favorite;
@@ -304,7 +303,7 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
   if (row_ref != NULL)
     return;
 
-  active_collection = photos_base_manager_get_active_object (priv->col_mngr);
+  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
   is_collection = photos_base_item_is_collection (item);
   is_favorite = photos_base_item_is_favorite (item);
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
@@ -391,7 +390,6 @@ photos_view_model_dispose (GObject *object)
       priv->reset_count_id = 0;
     }
 
-  g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->offset_cntrlr);
@@ -456,8 +454,7 @@ photos_view_model_init (PhotosViewModel *self)
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self), PHOTOS_VIEW_MODEL_MTIME, GTK_SORT_DESCENDING);
 
-  priv->col_mngr = g_object_ref (state->col_mngr);
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->item_mngr = g_object_ref (state->item_mngr);
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
 
   priv->oldest_mtime = G_MAXINT64;

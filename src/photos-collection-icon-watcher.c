@@ -406,12 +406,17 @@ static void
 photos_collection_icon_watcher_init (PhotosCollectionIconWatcher *self)
 {
   PhotosCollectionIconWatcherPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   self->priv = photos_collection_icon_watcher_get_instance_private (self);
   priv = self->priv;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   priv->item_connections = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->item_mngr = g_object_ref (state->item_mngr);
   priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 

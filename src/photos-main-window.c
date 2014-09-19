@@ -44,7 +44,6 @@ struct _PhotosMainWindowPrivate
 {
   GtkWidget *embed;
   GSettings *settings;
-  PhotosBaseManager *col_mngr;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosSelectionController *sel_cntrlr;
@@ -154,12 +153,12 @@ static gboolean
 photos_main_window_go_back (PhotosMainWindow *self)
 {
   PhotosMainWindowPrivate *priv = self->priv;
+  PhotosBaseItem *active_collection;
   PhotosWindowMode mode;
-  GObject *active_collection;
   gboolean handled = TRUE;
 
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  active_collection = photos_base_manager_get_active_object (priv->col_mngr);
+  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
 
   switch (mode)
     {
@@ -363,7 +362,6 @@ photos_main_window_dispose (GObject *object)
   PhotosMainWindowPrivate *priv = self->priv;
 
   g_clear_object (&priv->settings);
-  g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->sel_cntrlr);
@@ -414,8 +412,7 @@ photos_main_window_init (PhotosMainWindow *self)
   if (maximized)
     gtk_window_maximize (GTK_WINDOW (self));
 
-  priv->col_mngr = g_object_ref (state->col_mngr);
-  priv->item_mngr = photos_item_manager_dup_singleton ();
+  priv->item_mngr = g_object_ref (state->item_mngr);
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
   g_signal_connect_swapped (priv->mode_cntrlr,

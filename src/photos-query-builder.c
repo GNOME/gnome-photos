@@ -27,7 +27,7 @@
 
 #include <gio/gio.h>
 
-#include "photos-collection-manager.h"
+#include "photos-base-manager.h"
 #include "photos-query-builder.h"
 #include "photos-search-type.h"
 #include "photos-source-manager.h"
@@ -92,7 +92,7 @@ photos_query_builder_optional (void)
 static gchar *
 photos_query_builder_inner_where (PhotosSearchContextState *state, gboolean global, gint flags)
 {
-  gchar *col_mngr_where = NULL;
+  gchar *item_mngr_where = NULL;
   gchar *sparql;
   gchar *srch_typ_mngr_where = NULL;
 
@@ -104,15 +104,15 @@ photos_query_builder_inner_where (PhotosSearchContextState *state, gboolean glob
         {
           /* TODO: SearchCategoryManager */
 
-          col_mngr_where = photos_base_manager_get_where (state->col_mngr, flags);
+          item_mngr_where = photos_base_manager_get_where (state->item_mngr, flags);
         }
     }
 
   sparql = g_strdup_printf ("WHERE { %s %s }",
                             srch_typ_mngr_where,
-                            (col_mngr_where != NULL) ? col_mngr_where : "");
+                            (item_mngr_where != NULL) ? item_mngr_where : "");
 
-  g_free (col_mngr_where);
+  g_free (item_mngr_where);
   g_free (srch_typ_mngr_where);
 
   return sparql;
