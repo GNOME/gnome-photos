@@ -105,11 +105,16 @@ photos_searchbar_enable_search (PhotosSearchbar *self, gboolean enable)
 
 
 static gboolean
+photos_is_escape_event (PhotosSearchbar *self, GdkEventKey *event)
+{
+  return event->keyval == GDK_KEY_Escape;
+}
+
+
+static gboolean
 photos_is_keynav_event (PhotosSearchbar *self, GdkEventKey *event)
 {
-  return event->keyval == GDK_KEY_Tab
-    || event->keyval == GDK_KEY_KP_Tab
-    || event->keyval == GDK_KEY_Up
+  return event->keyval == GDK_KEY_Up
     || event->keyval == GDK_KEY_KP_Up
     || event->keyval == GDK_KEY_Down
     || event->keyval == GDK_KEY_KP_Down
@@ -124,8 +129,7 @@ photos_is_keynav_event (PhotosSearchbar *self, GdkEventKey *event)
     || event->keyval == GDK_KEY_Page_Up
     || event->keyval == GDK_KEY_KP_Page_Up
     || event->keyval == GDK_KEY_Page_Down
-    || event->keyval == GDK_KEY_KP_Page_Down
-    || ((event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0);
+    || event->keyval == GDK_KEY_KP_Page_Down;
 }
 
 
@@ -137,22 +141,9 @@ photos_is_space_event (PhotosSearchbar *self, GdkEventKey *event)
 
 
 static gboolean
-photos_searchbar_key_press_event (PhotosSearchbar *self, GdkEventKey *event)
+photos_is_tab_event (PhotosSearchbar *self, GdkEventKey *event)
 {
-  gboolean ret_val = GDK_EVENT_PROPAGATE;
-
-  if (event->keyval == GDK_KEY_Escape)
-    {
-      photos_searchbar_enable_search (self, FALSE);
-      ret_val = GDK_EVENT_STOP;
-    }
-  else if (event->keyval == GDK_KEY_Return)
-    {
-      g_signal_emit (self, signals[ACTIVATE_RESULT], 0);
-      ret_val = GDK_EVENT_STOP;
-    }
-
-  return ret_val;
+  return event->keyval == GDK_KEY_Tab || event->keyval == GDK_KEY_KP_Tab;
 }
 
 
@@ -192,10 +183,6 @@ photos_searchbar_constructed (GObject *object)
   gtk_container_add (GTK_CONTAINER (item), priv->search_container);
   gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), item, 0);
 
-  g_signal_connect_swapped (priv->search_entry,
-                            "key-press-event",
-                            G_CALLBACK (photos_searchbar_key_press_event),
-                            self);
   g_signal_connect_swapped (priv->search_entry,
                             "search-changed",
                             G_CALLBACK (photos_searchbar_search_changed),
@@ -288,25 +275,57 @@ gboolean
 photos_searchbar_handle_event (PhotosSearchbar *self, GdkEventKey *event)
 {
   PhotosSearchbarPrivate *priv = self->priv;
+  gboolean is_escape;
+  gboolean is_keynav;
+  gboolean is_space;
+  gboolean is_tab;
   gboolean res;
   gboolean ret_val = GDK_EVENT_PROPAGATE;
   gchar *new_text = NULL;
   gchar *old_text = NULL;
 
-  if (priv->in)
-    goto out;
-
   if (gtk_widget_get_parent (GTK_WIDGET (self)) == NULL)
     goto out;
 
-  if (photos_is_keynav_event (self, event))
+  /* Skip if the search bar is shown and the focus is elsewhere */
+  if (priv->in && !gtk_widget_is_focus (priv->search_entry))
     goto out;
 
-  if (photos_is_space_event (self, event))
+  is_escape = photos_is_escape_event (self, event);
+  is_keynav = photos_is_keynav_event (self, event);
+  is_space = photos_is_space_event (self, event);
+  is_tab = photos_is_tab_event (self, event);
+
+  /* Skip these if the search bar is hidden. */
+  if (!priv->in && (is_escape || is_keynav || is_space || is_tab))
     goto out;
+
+  /* At this point, either the search bar is hidden and the event is
+   * neither escape nor keynav nor space; or the search bar is shown
+   * and has the focus. */
+
+  if (is_escape)
+    {
+      photos_searchbar_enable_search (self, FALSE);
+      ret_val = GDK_EVENT_STOP;
+      goto out;
+    }
+  else if (event->keyval == GDK_KEY_Return)
+    {
+      g_signal_emit (self, signals[ACTIVATE_RESULT], 0);
+      ret_val = GDK_EVENT_STOP;
+      goto out;
+    }
 
   if (!gtk_widget_get_realized (priv->search_entry))
     gtk_widget_realize (priv->search_entry);
+
+  /* Since we can have keynav or space only when the search bar is
+   * show, we want to handle it. Otherwise it will hinder text
+   * input. However, we don't want to handle tabs so that focus can
+   * be shifted to other widgets.
+   */
+  ret_val = is_keynav || is_space;
 
   priv->preedit_changed = FALSE;
   g_signal_connect_swapped (priv->search_entry,
