@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2014-09-13 07:20+0000\n"
+"POT-Creation-Date: 2014-09-18 21:19+0000\n"
 "PO-Revision-Date: 2014-09-13 23:22+0900\n"
 "Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
@@ -142,7 +142,7 @@ msgstr ""
 #. (itstool) path: p/link
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-msgstr "크리에이티브 커먼즈 저작자 표시 3.0 Unported 라이선스"
+msgstr "크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 Unported 라이선스"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
