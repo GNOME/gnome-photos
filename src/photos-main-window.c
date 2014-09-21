@@ -271,12 +271,12 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
   PhotosWindowMode mode;
   gboolean handled = GDK_EVENT_PROPAGATE;
 
-  toolbar = photos_embed_get_main_toolbar (PHOTOS_EMBED (priv->embed));
-  handled = photos_main_toolbar_handle_event (toolbar, event);
+  handled = photos_main_window_handle_back_key (self, event);
   if (handled)
     goto out;
 
-  handled = photos_main_window_handle_back_key (self, event);
+  toolbar = photos_embed_get_main_toolbar (PHOTOS_EMBED (priv->embed));
+  handled = photos_main_toolbar_handle_event (toolbar, event);
   if (handled)
     goto out;
 
