@@ -4,19 +4,20 @@
 #
 # Tibor Attila Anca <anca.tibor at posteo dot de>, 2014.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2014.
+# Balázs Úr <urbalazs at gmail dot com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos_help master\n"
-"POT-Creation-Date: 2014-06-25 19:13+0000\n"
-"PO-Revision-Date: 2014-06-29 17:18+0200\n"
-"Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
+"POT-Creation-Date: 2014-09-21 07:13+0000\n"
+"PO-Revision-Date: 2014-09-21 10:28+0200\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.2\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -101,12 +102,15 @@ msgstr "Jelölje ki az összes kedvencnek szánt elemet."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:43
+#| msgid ""
+#| "To finish, select the button with the picture of a heart from the toolbar "
+#| "at the bottom."
 msgid ""
-"To finish, select the button with the picture of a heart from the toolbar at "
+"To finish, select the button with the picture of a star from the toolbar at "
 "the bottom."
 msgstr ""
-"A befejezéshez kattintson az alsó sáv eszköztárában található szív alakú "
-"gombra."
+"A befejezéshez kattintson az alsó sáv eszköztárában található csillag képpel "
+"ellátott gombra."
 
 #. (itstool) path: page/p
 #: C/favorites-set.page:48
@@ -224,8 +228,8 @@ msgid ""
 "Select photo you want to open, or use the arrow keys to navigate to the "
 "photo and press <key>Enter</key>."
 msgstr ""
-"Válassza ki a megnyitandó fényképet, vagy lépjen a fényképre a nyílbillentyűk "
-"segítségével, és nyomja meg az <key>Entert</key>."
+"Válassza ki a megnyitandó fényképet, vagy lépjen a fényképre a "
+"nyílbillentyűk segítségével, és nyomja meg az <key>Entert</key>."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
