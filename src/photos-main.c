@@ -25,6 +25,8 @@
 
 #include "config.h"
 
+#include <locale.h>
+
 #include <glib.h>
 #include <glib/gi18n.h>
 
@@ -38,6 +40,8 @@ main (gint argc, gchar *argv[])
   GtkApplication *app;
   PhotosRemoteDisplayManager *remote_display_mngr;
   gint exit_status;
+
+  setlocale (LC_ALL, "");
 
   bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
