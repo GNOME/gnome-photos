@@ -105,8 +105,8 @@ static void
 photos_preview_view_nav_buttons_activated (PhotosPreviewView *self, PhotosPreviewAction action)
 {
   PhotosPreviewViewPrivate *priv = self->priv;
-  GtkStackTransitionType transition;
   GtkWidget *current_view;
+  GtkWidget *new_view;
   GtkWidget *next_view;
   gint position;
 
@@ -117,12 +117,10 @@ photos_preview_view_nav_buttons_activated (PhotosPreviewView *self, PhotosPrevie
     {
     case PHOTOS_PREVIEW_ACTION_NEXT:
       position = 0;
-      transition = GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT;
       break;
 
     case PHOTOS_PREVIEW_ACTION_PREVIOUS:
       position = -1;
-      transition = GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT;
       break;
 
     default:
@@ -133,25 +131,10 @@ photos_preview_view_nav_buttons_activated (PhotosPreviewView *self, PhotosPrevie
   current_view = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
   gtk_container_child_set (GTK_CONTAINER (priv->stack), current_view, "position", position, NULL);
 
-  gtk_stack_set_transition_type (GTK_STACK (priv->stack), transition);
-
   next_view = photos_preview_view_get_invisible_view (self);
   gtk_stack_set_visible_child (GTK_STACK (priv->stack), next_view);
-}
 
-
-static void
-photos_preview_view_notify_transition_running (PhotosPreviewView *self)
-{
-  PhotosPreviewViewPrivate *priv = self->priv;
-  GtkWidget *old_view;
-  GtkWidget *new_view;
-
-  if (gtk_stack_get_transition_running (GTK_STACK (priv->stack)))
-    return;
-
-  old_view = photos_preview_view_get_invisible_view (self);
-  gtk_container_remove (GTK_CONTAINER (priv->stack), old_view);
+  gtk_container_remove (GTK_CONTAINER (priv->stack), current_view);
 
   new_view = photos_preview_view_create_view (self);
   gtk_container_add (GTK_CONTAINER (priv->stack), new_view);
@@ -322,11 +305,6 @@ photos_preview_view_init (PhotosPreviewView *self)
   gtk_style_context_add_class (context, "documents-scrolledwin");
 
   priv->stack = gtk_stack_new ();
-  gtk_stack_set_transition_duration (GTK_STACK (priv->stack), 400);
-  g_signal_connect_swapped (priv->stack,
-                            "notify::transition-running",
-                            G_CALLBACK (photos_preview_view_notify_transition_running),
-                            self);
 
   view = photos_preview_view_create_view (self);
   gtk_container_add (GTK_CONTAINER (priv->stack), view);
