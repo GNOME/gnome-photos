@@ -1,3 +1,23 @@
+Overview of changes in 3.14.0
+=============================
+
+* Bugs fixed:
+ 726505 preview-view: Disable the sliding transition
+
+* Updated translations:
+ Simplified Chinese
+ Czech
+ Gaelic (Scottish)
+ Greek
+ Hungarian
+ Korean
+ Nepali
+ Polish
+ Punjabi
+ Turkish
+ Ukrainian
+
+
 Overview of changes in 3.13.92
 ==============================
 
