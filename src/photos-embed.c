@@ -266,7 +266,6 @@ photos_embed_load_show_timeout (gpointer user_data)
   PhotosEmbedPrivate *priv = self->priv;
 
   priv->load_show_id = 0;
-  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "spinner");
   photos_spinner_box_start (PHOTOS_SPINNER_BOX (priv->spinner_box));
   g_object_unref (self);
   return G_SOURCE_REMOVE;
@@ -343,45 +342,6 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
 
   state = g_variant_new ("b", show_search);
   g_action_change_state (priv->search_action, state);
-}
-
-
-static void
-photos_embed_restore_last_page (PhotosEmbed *self)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-  PhotosWindowMode mode;
-  const gchar *page;
-
-  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  switch (mode)
-    {
-    case PHOTOS_WINDOW_MODE_COLLECTIONS:
-      page = "collections";
-      break;
-
-    case PHOTOS_WINDOW_MODE_FAVORITES:
-      page = "favorites";
-      break;
-
-    case PHOTOS_WINDOW_MODE_OVERVIEW:
-      page = "overview";
-      break;
-
-    case PHOTOS_WINDOW_MODE_PREVIEW:
-      page = "preview";
-      break;
-
-    case PHOTOS_WINDOW_MODE_SEARCH:
-      page = "search";
-      break;
-
-    default:
-      g_assert_not_reached ();
-      break;
-    }
-
-  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), page);
 }
 
 
@@ -472,15 +432,9 @@ photos_embed_query_status_changed (PhotosEmbed *self, gboolean querying)
   PhotosEmbedPrivate *priv = self->priv;
 
   if (querying)
-    {
-      photos_spinner_box_start (PHOTOS_SPINNER_BOX (priv->spinner_box));
-      gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "spinner");
-    }
+    photos_spinner_box_start (PHOTOS_SPINNER_BOX (priv->spinner_box));
   else
-    {
-      photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
-      photos_embed_restore_last_page (self);
-    }
+    photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
 }
 
 
@@ -693,7 +647,7 @@ photos_embed_init (PhotosEmbed *self)
   gtk_stack_add_named (GTK_STACK (priv->stack), priv->preview, "preview");
 
   priv->spinner_box = photos_spinner_box_new ();
-  gtk_stack_add_named (GTK_STACK (priv->stack), priv->spinner_box, "spinner");
+  gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->spinner_box);
 
   /* TODO: SearchBar.Dropdown, …
    */

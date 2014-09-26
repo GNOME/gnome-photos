@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,7 +37,7 @@ struct _PhotosSpinnerBoxPrivate
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosSpinnerBox, photos_spinner_box, GTK_TYPE_GRID);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosSpinnerBox, photos_spinner_box, GTK_TYPE_REVEALER);
 
 
 static void
@@ -47,13 +47,6 @@ photos_spinner_box_constructed (GObject *object)
   PhotosSpinnerBoxPrivate *priv = self->priv;
 
   G_OBJECT_CLASS (photos_spinner_box_parent_class)->constructed (object);
-
-  gtk_widget_set_halign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
-  gtk_widget_set_hexpand (GTK_WIDGET (self), TRUE);
-  gtk_widget_set_valign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
-  gtk_widget_set_vexpand (GTK_WIDGET (self), TRUE);
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing (GTK_GRID (self), 24);
 
   priv->spinner = gtk_spinner_new ();
   gtk_widget_set_size_request (priv->spinner, 128, 128);
@@ -84,13 +77,18 @@ photos_spinner_box_class_init (PhotosSpinnerBoxClass *class)
 GtkWidget *
 photos_spinner_box_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_SPINNER_BOX, NULL);
+  return g_object_new (PHOTOS_TYPE_SPINNER_BOX,
+                       "halign", GTK_ALIGN_CENTER,
+                       "transition-type", GTK_REVEALER_TRANSITION_TYPE_CROSSFADE,
+                       "valign", GTK_ALIGN_CENTER,
+                       NULL);
 }
 
 
 void
 photos_spinner_box_start (PhotosSpinnerBox *self)
 {
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self), TRUE);
   gtk_spinner_start (GTK_SPINNER (self->priv->spinner));
 }
 
@@ -98,5 +96,6 @@ photos_spinner_box_start (PhotosSpinnerBox *self)
 void
 photos_spinner_box_stop (PhotosSpinnerBox *self)
 {
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self), FALSE);
   gtk_spinner_stop (GTK_SPINNER (self->priv->spinner));
 }
