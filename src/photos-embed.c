@@ -215,47 +215,16 @@ static void
 photos_embed_load_finished (PhotosEmbed *self, PhotosBaseItem *item, GeglNode *node)
 {
   PhotosEmbedPrivate *priv = self->priv;
-  GtkListStore *model;
-  GtkTreePath *current_path;
-  PhotosWindowMode mode;
 
   photos_embed_clear_load_timer (self);
+  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
+
   if (node == NULL)
     return;
-
-  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-
-  /* This is not needed when:
-   *  - activated from the search provider
-   *  - already in the preview and navigating using the buttons
-   */
-  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-      || mode == PHOTOS_WINDOW_MODE_FAVORITES
-      || mode == PHOTOS_WINDOW_MODE_OVERVIEW
-      || mode == PHOTOS_WINDOW_MODE_SEARCH)
-    {
-      GtkWidget *view_container;
-
-      view_container = photos_embed_get_view_container_from_mode (self, mode);
-      current_path = photos_view_container_get_current_path (PHOTOS_VIEW_CONTAINER (view_container));
-      model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
-      photos_preview_view_set_model (PHOTOS_PREVIEW_VIEW (priv->preview), GTK_TREE_MODEL (model), current_path);
-    }
 
   photos_preview_view_set_node (PHOTOS_PREVIEW_VIEW (priv->preview), node);
 
   /* TODO: set toolbar model */
-
-  /* If we are already in the preview and navigating using the
-   * buttons, then the window-mode-changed signal won't be fired. So
-   * we need to prepare it ourselves.
-   */
-  if (mode != PHOTOS_WINDOW_MODE_PREVIEW)
-    photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
-  else
-    photos_embed_prepare_for_preview (self);
-
-  photos_mode_controller_set_can_fullscreen (priv->mode_cntrlr, TRUE);
 }
 
 
@@ -275,6 +244,33 @@ photos_embed_load_show_timeout (gpointer user_data)
 static void
 photos_embed_load_started (PhotosEmbed *self)
 {
+  PhotosEmbedPrivate *priv = self->priv;
+  PhotosWindowMode mode;
+
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+
+  /* This is not needed when:
+   *  - activated from the search provider
+   *  - already in the preview and navigating using the buttons
+   */
+  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+      || mode == PHOTOS_WINDOW_MODE_FAVORITES
+      || mode == PHOTOS_WINDOW_MODE_OVERVIEW
+      || mode == PHOTOS_WINDOW_MODE_SEARCH)
+    {
+      GtkListStore *model;
+      GtkTreePath *current_path;
+      GtkWidget *view_container;
+
+      view_container = photos_embed_get_view_container_from_mode (self, mode);
+      current_path = photos_view_container_get_current_path (PHOTOS_VIEW_CONTAINER (view_container));
+      model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
+      photos_preview_view_set_model (PHOTOS_PREVIEW_VIEW (priv->preview), GTK_TREE_MODEL (model), current_path);
+    }
+
+  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
+  photos_mode_controller_set_can_fullscreen (priv->mode_cntrlr, TRUE);
+
   photos_embed_clear_load_timer (self);
   self->priv->load_show_id = g_timeout_add (400, photos_embed_load_show_timeout, g_object_ref (self));
 }
