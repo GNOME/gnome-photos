@@ -217,10 +217,9 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (manager);
   PhotosItemManagerPrivate *priv = self->priv;
   GObject *active_item;
-  GtkRecentManager *recent;
   gboolean active_collection_changed = FALSE;
   gboolean ret_val = FALSE;
-  const gchar *uri;
+  gboolean start_loading = FALSE;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object) || object == NULL, FALSE);
 
@@ -256,17 +255,25 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
       g_clear_object (&priv->active_collection);
       priv->active_collection = g_object_ref (object);
       active_collection_changed = TRUE;
-      goto end;
     }
-
-  recent = gtk_recent_manager_get_default ();
-  uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
-  gtk_recent_manager_add_item (recent, uri);
+  else
+    start_loading = TRUE;
 
  end:
   ret_val = PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->set_active_object (manager, object);
-  if (active_collection_changed)
+
+  if (ret_val && active_collection_changed)
     g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, priv->active_collection);
+
+  if (ret_val && start_loading)
+    {
+      GtkRecentManager *recent;
+      const gchar *uri;
+
+      recent = gtk_recent_manager_get_default ();
+      uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
+      gtk_recent_manager_add_item (recent, uri);
+    }
 
  out:
   return ret_val;
