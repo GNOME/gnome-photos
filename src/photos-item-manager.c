@@ -25,6 +25,7 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
 #include <glib.h>
 #include <tracker-sparql.h>
 
@@ -41,6 +42,7 @@
 
 struct _PhotosItemManagerPrivate
 {
+  GCancellable *loader_cancellable;
   GHashTable *collections;
   GIOExtensionPoint *extension_point;
   GQueue *collection_path;
@@ -51,6 +53,8 @@ struct _PhotosItemManagerPrivate
 enum
 {
   ACTIVE_COLLECTION_CHANGED,
+  LOAD_FINISHED,
+  LOAD_STARTED,
   LAST_SIGNAL
 };
 
@@ -171,6 +175,19 @@ photos_item_manager_changes_pending (PhotosItemManager *self, GHashTable *change
 
 
 static void
+photos_item_manager_clear_active_item_load (PhotosItemManager *self)
+{
+  PhotosItemManagerPrivate *priv = self->priv;
+
+  if (priv->loader_cancellable != NULL)
+    {
+      g_cancellable_cancel (priv->loader_cancellable);
+      g_clear_object (&priv->loader_cancellable);
+    }
+}
+
+
+static void
 photos_item_manager_collection_path_free_foreach (gpointer data, gpointer user_data)
 {
   g_clear_object (&data);
@@ -187,6 +204,33 @@ photos_item_manager_get_where (PhotosBaseManager *mngr, gint flags)
     return g_strdup ("");
 
   return photos_base_item_get_where (priv->active_collection);
+}
+
+
+static void
+photos_item_manager_item_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
+  PhotosItemManagerPrivate *priv = self->priv;
+  GError *error;
+  GeglNode *node = NULL;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+
+  g_clear_object (&priv->loader_cancellable);
+
+  error = NULL;
+  node = photos_base_item_load_finish (item, res, &error);
+  if (error != NULL)
+    {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to load the item: %s", error->message);
+      g_error_free (error);
+    }
+
+  g_signal_emit (self, signals[LOAD_FINISHED], 0, item, node);
+
+  g_clear_object (&node);
+  g_object_unref (self);
 }
 
 
@@ -237,6 +281,8 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
         goto out;
     }
 
+  photos_item_manager_clear_active_item_load (self);
+
   /* This is when we are going back to the overview from the preview. */
   if (object == NULL)
     goto end;
@@ -273,6 +319,14 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
       recent = gtk_recent_manager_get_default ();
       uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
       gtk_recent_manager_add_item (recent, uri);
+
+      priv->loader_cancellable = g_cancellable_new ();
+      photos_base_item_load_async (PHOTOS_BASE_ITEM (object),
+                                   priv->loader_cancellable,
+                                   photos_item_manager_item_load,
+                                   g_object_ref (self));
+
+      g_signal_emit (self, signals[LOAD_STARTED], 0, PHOTOS_BASE_ITEM (object));
     }
 
  out:
@@ -294,6 +348,7 @@ photos_item_manager_dispose (GObject *object)
     }
 
   g_clear_pointer (&priv->collections, (GDestroyNotify) g_hash_table_unref);
+  g_clear_object (&priv->loader_cancellable);
   g_clear_object (&priv->active_collection);
   g_clear_object (&priv->monitor);
 
@@ -345,6 +400,31 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
                                                      G_TYPE_NONE,
                                                      1,
                                                      PHOTOS_TYPE_BASE_ITEM);
+
+  signals[LOAD_FINISHED] = g_signal_new ("load-finished",
+                                         G_TYPE_FROM_CLASS (class),
+                                         G_SIGNAL_RUN_LAST,
+                                         G_STRUCT_OFFSET (PhotosItemManagerClass,
+                                                          load_finished),
+                                         NULL, /*accumulator */
+                                         NULL, /*accu_data */
+                                         g_cclosure_marshal_generic,
+                                         G_TYPE_NONE,
+                                         2,
+                                         PHOTOS_TYPE_BASE_ITEM,
+                                         GEGL_TYPE_NODE);
+
+  signals[LOAD_STARTED] = g_signal_new ("load-started",
+                                        G_TYPE_FROM_CLASS (class),
+                                        G_SIGNAL_RUN_LAST,
+                                        G_STRUCT_OFFSET (PhotosItemManagerClass,
+                                                         load_started),
+                                        NULL, /*accumulator */
+                                        NULL, /*accu_data */
+                                        g_cclosure_marshal_VOID__OBJECT,
+                                        G_TYPE_NONE,
+                                        1,
+                                        PHOTOS_TYPE_BASE_ITEM);
 }
 
 
@@ -360,6 +440,8 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
 {
   PhotosItemManagerPrivate *priv = self->priv;
   gpointer *collection;
+
+  photos_item_manager_clear_active_item_load (self);
 
   collection = g_queue_pop_head (priv->collection_path);
   g_assert (collection == NULL || PHOTOS_IS_BASE_ITEM (collection));

@@ -25,6 +25,7 @@
 #ifndef PHOTOS_ITEM_MANAGER_H
 #define PHOTOS_ITEM_MANAGER_H
 
+#include <gegl.h>
 #include <gtk/gtk.h>
 #include <tracker-sparql.h>
 
@@ -71,6 +72,8 @@ struct _PhotosItemManagerClass
 
   /* signals */
   void (*active_collection_changed) (PhotosItemManager *self, PhotosBaseItem *collection);
+  void (*load_finished)             (PhotosItemManager *self, PhotosBaseItem *item, GeglNode *node);
+  void (*load_started)              (PhotosItemManager *self, PhotosBaseItem *item);
 };
 
 GType                     photos_item_manager_get_type           (void) G_GNUC_CONST;

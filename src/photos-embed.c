@@ -63,7 +63,6 @@ struct _PhotosEmbedSearchState
 struct _PhotosEmbedPrivate
 {
   GAction *search_action;
-  GCancellable *loader_cancellable;
   GtkWidget *collections;
   GtkWidget *favorites;
   GtkWidget *no_results;
@@ -213,28 +212,16 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
 
 
 static void
-photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_embed_load_finished (PhotosEmbed *self, PhotosBaseItem *item, GeglNode *node)
 {
-  PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
-  GError *error;
-  GeglNode *node;
   GtkListStore *model;
   GtkTreePath *current_path;
-  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   PhotosWindowMode mode;
 
   photos_embed_clear_load_timer (self);
-  g_clear_object (&priv->loader_cancellable);
-
-  error = NULL;
-  node = photos_base_item_load_finish (item, res, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to load the item: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  if (node == NULL)
+    return;
 
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
 
@@ -269,10 +256,6 @@ photos_embed_item_load (GObject *source_object, GAsyncResult *res, gpointer user
     photos_embed_prepare_for_preview (self);
 
   photos_mode_controller_set_can_fullscreen (priv->mode_cntrlr, TRUE);
-
- out:
-  g_clear_object (&node);
-  g_object_unref (self);
 }
 
 
@@ -287,6 +270,14 @@ photos_embed_load_show_timeout (gpointer user_data)
   photos_spinner_box_start (PHOTOS_SPINNER_BOX (priv->spinner_box));
   g_object_unref (self);
   return G_SOURCE_REMOVE;
+}
+
+
+static void
+photos_embed_load_started (PhotosEmbed *self)
+{
+  photos_embed_clear_load_timer (self);
+  self->priv->load_show_id = g_timeout_add (400, photos_embed_load_show_timeout, g_object_ref (self));
 }
 
 
@@ -352,22 +343,6 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
 
   state = g_variant_new ("b", show_search);
   g_action_change_state (priv->search_action, state);
-
-  if (object == NULL)
-    return;
-
-  photos_embed_clear_load_timer (self);
-
-  if (photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
-    return;
-
-  priv->load_show_id = g_timeout_add (400, photos_embed_load_show_timeout, g_object_ref (self));
-
-  priv->loader_cancellable = g_cancellable_new ();
-  photos_base_item_load_async (PHOTOS_BASE_ITEM (object),
-                               priv->loader_cancellable,
-                               photos_embed_item_load,
-                               g_object_ref (self));
 }
 
 
@@ -453,13 +428,6 @@ photos_embed_prepare_for_collections (PhotosEmbed *self)
   PhotosEmbedPrivate *priv = self->priv;
 
   photos_base_manager_set_active_object (priv->item_mngr, NULL);
-
-  if (priv->loader_cancellable != NULL)
-    {
-      g_cancellable_cancel (priv->loader_cancellable);
-      g_clear_object (&priv->loader_cancellable);
-    }
-
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "collections");
 }
@@ -471,13 +439,6 @@ photos_embed_prepare_for_favorites (PhotosEmbed *self)
   PhotosEmbedPrivate *priv = self->priv;
 
   photos_base_manager_set_active_object (priv->item_mngr, NULL);
-
-  if (priv->loader_cancellable != NULL)
-    {
-      g_cancellable_cancel (priv->loader_cancellable);
-      g_clear_object (&priv->loader_cancellable);
-    }
-
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "favorites");
 }
@@ -489,13 +450,6 @@ photos_embed_prepare_for_overview (PhotosEmbed *self)
   PhotosEmbedPrivate *priv = self->priv;
 
   photos_base_manager_set_active_object (priv->item_mngr, NULL);
-
-  if (priv->loader_cancellable != NULL)
-    {
-      g_cancellable_cancel (priv->loader_cancellable);
-      g_clear_object (&priv->loader_cancellable);
-    }
-
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "overview");
 }
@@ -507,13 +461,6 @@ photos_embed_prepare_for_search (PhotosEmbed *self)
   PhotosEmbedPrivate *priv = self->priv;
 
   photos_base_manager_set_active_object (priv->item_mngr, NULL);
-
-  if (priv->loader_cancellable != NULL)
-    {
-      g_cancellable_cancel (priv->loader_cancellable);
-      g_clear_object (&priv->loader_cancellable);
-    }
-
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "search");
 }
@@ -647,7 +594,6 @@ photos_embed_dispose (GObject *object)
   photos_embed_clear_search (self);
 
   g_clear_object (&priv->ntfctn_mngr);
-  g_clear_object (&priv->loader_cancellable);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->srch_mngr);
@@ -774,6 +720,8 @@ photos_embed_init (PhotosEmbed *self)
 
   priv->item_mngr = g_object_ref (state->item_mngr);
   g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
+  g_signal_connect_swapped (priv->item_mngr, "load-finished", G_CALLBACK (photos_embed_load_finished), self);
+  g_signal_connect_swapped (priv->item_mngr, "load-started", G_CALLBACK (photos_embed_load_started), self);
 
   priv->src_mngr = g_object_ref (state->src_mngr);
   g_signal_connect_swapped (priv->src_mngr, "active-changed", G_CALLBACK (photos_embed_search_changed), self);
