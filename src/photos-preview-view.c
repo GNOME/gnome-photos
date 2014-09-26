@@ -373,15 +373,24 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
   if (priv->node == node)
     return;
 
-  g_clear_object (&priv->node);
-  if (node == NULL)
-    return;
-
-  priv->node = g_object_ref (node);
   view = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
-  photos_preview_view_scale_and_align_image (self, view);
+  g_clear_object (&priv->node);
 
-  /* Steals the reference to the GeglNode. */
-  gegl_gtk_view_set_node (GEGL_GTK_VIEW (view), g_object_ref (priv->node));
-  gtk_widget_queue_draw (view);
+  if (node == NULL)
+    {
+      gtk_container_remove (GTK_CONTAINER (priv->stack), view);
+
+      view = photos_preview_view_create_view (self);
+      gtk_container_add (GTK_CONTAINER (priv->stack), view);
+    }
+  else
+    {
+      priv->node = g_object_ref (node);
+
+      photos_preview_view_scale_and_align_image (self, view);
+
+      /* Steals the reference to the GeglNode. */
+      gegl_gtk_view_set_node (GEGL_GTK_VIEW (view), g_object_ref (priv->node));
+      gtk_widget_queue_draw (view);
+    }
 }

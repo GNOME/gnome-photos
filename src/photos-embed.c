@@ -207,6 +207,7 @@ photos_embed_prepare_for_preview (PhotosEmbed *self)
    */
 
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
+  photos_preview_view_set_node (PHOTOS_PREVIEW_VIEW (priv->preview), NULL);
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "preview");
 }
 
