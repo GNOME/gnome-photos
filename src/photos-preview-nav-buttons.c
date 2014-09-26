@@ -263,7 +263,9 @@ photos_preview_nav_buttons_set_active_path (PhotosPreviewNavButtons *self)
   PhotosBaseItem *item;
   gchar *id;
 
-  gtk_tree_model_get_iter (priv->model, &iter, priv->current_path);
+  if (!gtk_tree_model_get_iter (priv->model, &iter, priv->current_path))
+    return;
+
   gtk_tree_model_filter_convert_iter_to_child_iter (GTK_TREE_MODEL_FILTER (priv->model), &child_iter, &iter);
   child_model = gtk_tree_model_filter_get_model (GTK_TREE_MODEL_FILTER (priv->model));
   gtk_tree_model_get (child_model, &child_iter, PHOTOS_VIEW_MODEL_URN, &id, -1);
