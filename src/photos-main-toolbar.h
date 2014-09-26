@@ -81,6 +81,9 @@ gboolean               photos_main_toolbar_is_focus               (PhotosMainToo
 
 void                   photos_main_toolbar_reset_toolbar_mode     (PhotosMainToolbar *self);
 
+void                   photos_main_toolbar_set_cancellable        (PhotosMainToolbar *self,
+                                                                   GCancellable *cancellable);
+
 void                   photos_main_toolbar_set_stack              (PhotosMainToolbar *self, GtkStack *stack);
 
 void                   photos_main_toolbar_set_view_model         (PhotosMainToolbar *self, PhotosViewModel *model);

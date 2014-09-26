@@ -326,7 +326,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
                                    photos_item_manager_item_load,
                                    g_object_ref (self));
 
-      g_signal_emit (self, signals[LOAD_STARTED], 0, PHOTOS_BASE_ITEM (object));
+      g_signal_emit (self, signals[LOAD_STARTED], 0, PHOTOS_BASE_ITEM (object), priv->loader_cancellable);
     }
 
  out:
@@ -421,10 +421,11 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
                                                          load_started),
                                         NULL, /*accumulator */
                                         NULL, /*accu_data */
-                                        g_cclosure_marshal_VOID__OBJECT,
+                                        g_cclosure_marshal_generic,
                                         G_TYPE_NONE,
-                                        1,
-                                        PHOTOS_TYPE_BASE_ITEM);
+                                        2,
+                                        PHOTOS_TYPE_BASE_ITEM,
+                                        G_TYPE_CANCELLABLE);
 }
 
 

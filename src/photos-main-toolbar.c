@@ -46,6 +46,7 @@
 struct _PhotosMainToolbarPrivate
 {
   GAction *search;
+  GCancellable *loader_cancellable;
   GSimpleAction *gear_menu;
   GtkWidget *coll_back_button;
   GtkWidget *favorite_button;
@@ -321,6 +322,9 @@ static void
 photos_main_toolbar_back_button_clicked (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
+
+  if (priv->loader_cancellable != NULL)
+    g_cancellable_cancel (priv->loader_cancellable);
 
   photos_base_manager_set_active_object (priv->item_mngr, NULL);
   photos_mode_controller_go_back (priv->mode_cntrlr);
@@ -687,6 +691,7 @@ photos_main_toolbar_dispose (GObject *object)
 
   photos_main_toolbar_clear_state_data (self);
 
+  g_clear_object (&priv->loader_cancellable);
   g_clear_object (&priv->searchbar);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
@@ -881,6 +886,23 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
 
   photos_main_toolbar_set_toolbar_title (self);
   gtk_widget_show_all (priv->toolbar);
+}
+
+
+void
+photos_main_toolbar_set_cancellable (PhotosMainToolbar *self, GCancellable *cancellable)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+
+  if (cancellable == priv->loader_cancellable)
+    return;
+
+  g_clear_object (&priv->loader_cancellable);
+
+  if (cancellable != NULL)
+    g_object_ref (cancellable);
+
+  priv->loader_cancellable = cancellable;
 }
 
 

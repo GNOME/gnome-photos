@@ -73,7 +73,7 @@ struct _PhotosItemManagerClass
   /* signals */
   void (*active_collection_changed) (PhotosItemManager *self, PhotosBaseItem *collection);
   void (*load_finished)             (PhotosItemManager *self, PhotosBaseItem *item, GeglNode *node);
-  void (*load_started)              (PhotosItemManager *self, PhotosBaseItem *item);
+  void (*load_started)              (PhotosItemManager *self, PhotosBaseItem *item, GCancellable *cancellable);
 };
 
 GType                     photos_item_manager_get_type           (void) G_GNUC_CONST;
