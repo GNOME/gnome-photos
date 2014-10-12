@@ -174,27 +174,21 @@ photos_empty_results_box_constructed (GObject *object)
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
   gtk_style_context_add_class (context, "dim-label");
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_PHOTOS_SYMBOLIC, GTK_ICON_SIZE_INVALID);
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 64);
-  gtk_container_add (GTK_CONTAINER (self), image);
-
-  priv->labels_grid = gtk_grid_new ();
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->labels_grid), GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing (GTK_GRID (priv->labels_grid), 12);
-  gtk_container_add (GTK_CONTAINER (self), priv->labels_grid);
-
   switch (priv->mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      image = gtk_image_new_from_icon_name (PHOTOS_ICON_PHOTOS_SYMBOLIC, GTK_ICON_SIZE_INVALID);
       label = g_strconcat ("<b><span size=\"large\">", _("No Albums Found"), "</span></b>", NULL);
       break;
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
-      label = g_strconcat ("<b><span size=\"large\">", _("No Favorites Found"), "</span></b>", NULL);
+      image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+      label = g_strconcat ("<b><span size=\"large\">", _("Starred photos will appear here"), "</span></b>", NULL);
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
+      image = gtk_image_new_from_icon_name (PHOTOS_ICON_PHOTOS_SYMBOLIC, GTK_ICON_SIZE_INVALID);
       label = g_strconcat ("<b><span size=\"large\">", _("No Photos Found"), "</span></b>", NULL);
       break;
 
@@ -202,6 +196,14 @@ photos_empty_results_box_constructed (GObject *object)
       g_assert_not_reached ();
       break;
     }
+
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 64);
+  gtk_container_add (GTK_CONTAINER (self), image);
+
+  priv->labels_grid = gtk_grid_new ();
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->labels_grid), GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing (GTK_GRID (priv->labels_grid), 12);
+  gtk_container_add (GTK_CONTAINER (self), priv->labels_grid);
 
   title_label = gtk_label_new (label);
   gtk_widget_set_halign (title_label, GTK_ALIGN_START);
