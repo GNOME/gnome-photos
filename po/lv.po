@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2014-10-10 18:54+0000\n"
-"PO-Revision-Date: 2014-10-12 14:53+0300\n"
+"PO-Revision-Date: 2014-10-12 14:55+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -387,7 +387,7 @@ msgstr "Īpašības"
 #: ../src/photos-print-notification.c:76
 #, c-format
 msgid "Printing “%s”: %s"
-msgstr ""
+msgstr "Drukā “%s”: %s"
 
 #: ../src/photos-print-operation.c:272
 msgid "Image Settings"
