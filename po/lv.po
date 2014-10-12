@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-07 08:14+0000\n"
-"PO-Revision-Date: 2014-03-08 19:13+0200\n"
+"POT-Creation-Date: 2014-10-10 18:54+0000\n"
+"PO-Revision-Date: 2014-10-12 14:53+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -20,6 +20,16 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
+msgid "Photos"
+msgstr "Fotogrāfijas"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Piekļūstiet, organizējiet, dalieties ar fotogrāfijām GNOME vidē"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -31,26 +41,40 @@ msgstr ""
 "darbam ar fotogrāfijām. Integrāciju ar mākoņpakalpojumiem nodrošina caur "
 "GNOME tiešsaistes kontiem."
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
 msgstr "Tā jums ļauj:"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:3
-msgid ""
-"<li>View recent local and online photos</li> <li>Access your Flickr content</"
-"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
-"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
-"featured editor for more advanced changes</li>"
-msgstr ""
-"<li>Skatīt nesenās lokālās un tiešsaistes fotogrāfijas</li> <li>Piekļūt "
-"savam Flickr saturam</li> <li>Sūtīt fotogrāfijas uz DLNA attēlotājiem</li> "
-"<li>Iestatīt kā fonu</li> <li>Drukāt fotogrāfijas</li> <li>Izvēlēties "
-"iecienītās</li> <li>Atvērt ārējo redaktoru, lai veiktu plašākas izmaiņas</li>"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+msgid "View recent local and online photos"
+msgstr "Skatiet nesenās lokālās un tiešsaistes fotogrāfijas"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:124
-msgid "Photos"
-msgstr "Fotogrāfijas"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+msgid "Access your Facebook or Flickr content"
+msgstr "Piekļūstiet savam Facebook vai Flickr saturam"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+msgid "Send photos to remote DLNA renderers"
+msgstr "Sūtiet fotogrāfijas uz attālinātiem DLNA attēlotājiem"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+#| msgid "Set as Background"
+msgid "Set as background"
+msgstr "Iestatīt kā fonu"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+#| msgid "Photos"
+msgid "Print photos"
+msgstr "Drukāt fotogrāfijas"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+#| msgid "Select Items"
+msgid "Select favorites"
+msgstr "Izvēlēties izlasi"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+msgid "Allow opening full featured editor for more advanced changes"
+msgstr "Ļauj atvērt redaktoru plašākām rediģēšanas iespējām"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
@@ -173,29 +197,44 @@ msgstr "Par"
 msgid "Quit"
 msgstr "Iziet"
 
-#: ../src/photos-base-item.c:310
+#: ../src/photos-base-item.c:347
 msgid "Album"
 msgstr "Albums"
 
-#: ../src/photos-base-item.c:760
+#: ../src/photos-base-item.c:810
 msgid "Screenshots"
 msgstr "Ekrānattēli"
+
+#: ../src/photos-delete-notification.c:134
+msgid "Selected item has been deleted"
+msgid_plural "Selected items have been deleted"
+msgstr[0] "Izvēlētais vienums ir izdzēsts"
+msgstr[1] "Izvēlētie vienumi ir izdzēsti"
+msgstr[2] "Izvēlētie vienumi ir izdzēsti"
+
+#: ../src/photos-delete-notification.c:140
+msgid "Undo"
+msgstr "Atsaukt"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA attēlošanas ierīces"
 
-#: ../src/photos-embed.c:689
+#: ../src/photos-embed.c:722
 msgid "Recent"
 msgstr "Nesenās"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../src/photos-embed.c:695 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Izlase"
+
+#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:289
+msgid "Search"
+msgstr "Meklēt"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
@@ -205,7 +244,6 @@ msgstr "Nosauciet savu pirmo albumu"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:133
-#| msgid "Image Settings"
 msgid "Settings"
 msgstr "Iestatījumi"
 
@@ -219,12 +257,10 @@ msgid "You can add your online accounts in %s"
 msgstr "Savus tiešsaistes kontus var pievienot %s"
 
 #: ../src/photos-empty-results-box.c:189
-#| msgid "No Photos Found"
 msgid "No Albums Found"
 msgstr "Nav atrastu albumu"
 
 #: ../src/photos-empty-results-box.c:193
-#| msgid "No Photos Found"
 msgid "No Favorites Found"
 msgstr "Nav atrastu izlašu"
 
@@ -232,23 +268,27 @@ msgstr "Nav atrastu izlašu"
 msgid "No Photos Found"
 msgstr "Nav atrastu fotogrāfiju"
 
-#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
-msgid "Facebook"
-msgstr "Facebook"
-
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
 msgstr "Nenosaukta fotogrāfija"
 
-#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
-msgid "Flickr"
-msgstr "Flickr"
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Saņem fotogrāfijas no %s"
 
-#: ../src/photos-indexing-notification.c:169
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Saņem fotogrāfijas no tiešsaistes kontiem"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "Fotogrāfijas tiek indeksētas"
 
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Šajā laikā dažas fotogrāfijas varētu nebūt pieejamas"
 
@@ -260,15 +300,15 @@ msgstr "Ielādēt vairāk"
 msgid "Loading…"
 msgstr "Ielādē…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokāls"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:111
 msgid "Click on items to select them"
 msgstr "Spiediet uz vienumiem, lai tos izvēlētos"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:113
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -276,34 +316,34 @@ msgstr[0] "%d izvēlēts"
 msgstr[1] "%d izvēlēti"
 msgstr[2] "%d izvēlētu"
 
-#: ../src/photos-main-toolbar.c:157
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Atpakaļ"
 
-#: ../src/photos-main-toolbar.c:281
-msgid "Search"
-msgstr "Meklēt"
-
-#: ../src/photos-main-toolbar.c:297
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Izvēlēties vienumus"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:411 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:428 ../src/photos-selection-toolbar.c:279
 #, c-format
 msgid "Open with %s"
 msgstr "Atvērt ar %s"
 
-#: ../src/photos-main-toolbar.c:570
+#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:291
+msgid "Remove from favorites"
+msgstr "Izņemt no izlases"
+
+#: ../src/photos-main-toolbar.c:479 ../src/photos-selection-toolbar.c:297
+msgid "Add to favorites"
+msgstr "Pievienot izlasei"
+
+#: ../src/photos-main-toolbar.c:649
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: ../src/photos-main-window.c:432
-msgid "Access, organize and share your photos on GNOME"
-msgstr "Piekļūstiet, organizējiet, dalieties ar fotogrāfijām GNOME vidē"
-
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:444
+#: ../src/photos-main-window.c:484
 msgid "translator-credits"
 msgstr "Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>"
 
@@ -322,8 +362,8 @@ msgid "Organize"
 msgstr "Organizēt"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
-#: ../src/photos-selection-toolbar.c:437
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
+#: ../src/photos-selection-toolbar.c:451
 msgid "Open"
 msgstr "Atvērt"
 
@@ -339,22 +379,17 @@ msgstr "Attēlot uz…"
 msgid "Set as Background"
 msgstr "Iestatīt kā fonu"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
+#: ../src/photos-selection-toolbar.c:472
 msgid "Properties"
 msgstr "Īpašības"
 
-#: ../src/photos-preview-nav-buttons.c:209
-#: ../src/photos-selection-toolbar.c:290
-msgid "Remove from favorites"
-msgstr "Izņemt no izlases"
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr ""
 
-#: ../src/photos-preview-nav-buttons.c:214
-#: ../src/photos-selection-toolbar.c:296
-msgid "Add to favorites"
-msgstr "Pievienot izlasei"
-
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Attēla iestatījumi"
 
@@ -433,7 +468,7 @@ msgstr "Priekšskatījums"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:218
+#: ../src/photos-properties-dialog.c:216
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Nosaukums"
@@ -441,74 +476,70 @@ msgstr "Nosaukums"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:230
+#: ../src/photos-properties-dialog.c:228
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autors"
 
-#: ../src/photos-properties-dialog.c:237
+#: ../src/photos-properties-dialog.c:235
 msgid "Source"
 msgstr "Avots"
 
-#: ../src/photos-properties-dialog.c:243
+#: ../src/photos-properties-dialog.c:241
 msgid "Date Modified"
 msgstr "Izmaiņu datums"
 
-#: ../src/photos-properties-dialog.c:251
+#: ../src/photos-properties-dialog.c:249
 msgid "Date Created"
 msgstr "Izveidošanas datums"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:261
+#: ../src/photos-properties-dialog.c:259
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tips"
 
-#: ../src/photos-properties-dialog.c:270
+#: ../src/photos-properties-dialog.c:268
 msgid "Width"
 msgstr "Platums"
 
-#: ../src/photos-properties-dialog.c:280
+#: ../src/photos-properties-dialog.c:278
 msgid "Height"
 msgstr "Augstums"
 
-#: ../src/photos-properties-dialog.c:295
+#: ../src/photos-properties-dialog.c:293
 msgid "Camera"
 msgstr "Fotoaparāts"
 
-#: ../src/photos-properties-dialog.c:305
+#: ../src/photos-properties-dialog.c:303
 msgid "Exposure"
 msgstr "Ekspozīcija"
 
-#: ../src/photos-properties-dialog.c:315
+#: ../src/photos-properties-dialog.c:313
 msgid "Aperture"
 msgstr "Diafragma"
 
-#: ../src/photos-properties-dialog.c:325
+#: ../src/photos-properties-dialog.c:323
 msgid "Focal Length"
 msgstr "Fokālais attālums"
 
-#: ../src/photos-properties-dialog.c:335
+#: ../src/photos-properties-dialog.c:333
 msgid "ISO Speed"
 msgstr "ISO ātrums"
 
-#: ../src/photos-properties-dialog.c:345
+#: ../src/photos-properties-dialog.c:343
 msgid "Flash"
 msgstr "Zibspuldze"
 
-#: ../src/photos-properties-dialog.c:536
+#: ../src/photos-properties-dialog.c:483
 msgid "Off, did not fire"
 msgstr "Izslēgta, neuzzibsnīja"
 
-#: ../src/photos-properties-dialog.c:538
+#: ../src/photos-properties-dialog.c:485
 msgid "On, fired"
 msgstr "Ieslēgta, uzzibsnīja"
-
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "Pabeigts"
 
 #: ../src/photos-search-match-manager.c:154
 #: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
@@ -517,16 +548,12 @@ msgstr "Viss"
 
 #. Translators: "Title" refers to "Match Title" when searching.
 #: ../src/photos-search-match-manager.c:161
-#| msgctxt "Document Title"
-#| msgid "Title"
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Nosaukums"
 
 #. Translators: "Author" refers to "Match Author" when searching.
 #: ../src/photos-search-match-manager.c:168
-#| msgctxt "Document Author"
-#| msgid "Author"
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autors"
@@ -539,8 +566,6 @@ msgstr "Atbilst"
 #. * Favorites and Photos.
 #.
 #: ../src/photos-search-type-manager.c:154
-#| msgctxt "Document Type"
-#| msgid "Type"
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Tips"
@@ -553,26 +578,46 @@ msgstr "Izvēlēties visu"
 msgid "Select None"
 msgstr "Neizvēlēties nevienu"
 
-#: ../src/photos-selection-toolbar.c:445
+#: ../src/photos-selection-toolbar.c:458
 msgid "Print"
 msgstr "Drukāt"
 
-#: ../src/photos-selection-toolbar.c:453
+#: ../src/photos-selection-toolbar.c:465
 msgid "Delete"
 msgstr "Dzēst"
 
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:479
 msgid "Add to Album"
 msgstr "Pievienot albumam"
 
 #: ../src/photos-source-manager.c:174
-#| msgid "Source"
 msgid "Sources"
 msgstr "Avoti"
 
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Neizdevās saņemt fotogrāfiju sarakstu"
+
+#~ msgid ""
+#~ "<li>View recent local and online photos</li> <li>Access your Flickr "
+#~ "content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as "
+#~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
+#~ "opening full featured editor for more advanced changes</li>"
+#~ msgstr ""
+#~ "<li>Skatīt nesenās lokālās un tiešsaistes fotogrāfijas</li> <li>Piekļūt "
+#~ "savam Flickr saturam</li> <li>Sūtīt fotogrāfijas uz DLNA attēlotājiem</"
+#~ "li> <li>Iestatīt kā fonu</li> <li>Drukāt fotogrāfijas</li> <li>Izvēlēties "
+#~ "iecienītās</li> <li>Atvērt ārējo redaktoru, lai veiktu plašākas izmaiņas</"
+#~ "li>"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Flickr"
+#~ msgstr "Flickr"
+
+#~ msgid "Done"
+#~ msgstr "Pabeigts"
 
 #~ msgid "About Photos"
 #~ msgstr "Par Fotogrāfijām"
