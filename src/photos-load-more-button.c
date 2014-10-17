@@ -57,14 +57,13 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosLoadMoreButton, photos_load_more_button, GTK_T
 
 
 static void
-photos_load_more_button_count_changed (PhotosOffsetController *offset_cntrlr, gint count, gpointer user_data)
+photos_load_more_button_count_changed (PhotosLoadMoreButton *self)
 {
-  PhotosLoadMoreButton *self = PHOTOS_LOAD_MORE_BUTTON (user_data);
   PhotosLoadMoreButtonPrivate *priv = self->priv;
   gboolean visible;
   gint remaining;
 
-  remaining = photos_offset_controller_get_remaining (offset_cntrlr);
+  remaining = photos_offset_controller_get_remaining (priv->offset_cntrlr);
   visible = !(remaining <= 0 || priv->block);
   gtk_widget_set_visible (GTK_WIDGET (self), visible);
 
@@ -96,7 +95,6 @@ photos_load_more_button_constructed (GObject *object)
 {
   PhotosLoadMoreButton *self = PHOTOS_LOAD_MORE_BUTTON (object);
   PhotosLoadMoreButtonPrivate *priv = self->priv;
-  gint count;
 
   G_OBJECT_CLASS (photos_load_more_button_parent_class)->constructed (object);
 
@@ -127,10 +125,9 @@ photos_load_more_button_constructed (GObject *object)
                            "count-changed",
                            G_CALLBACK (photos_load_more_button_count_changed),
                            self,
-                           0);
+                           G_CONNECT_SWAPPED);
 
-  count = photos_offset_controller_get_count (priv->offset_cntrlr);
-  photos_load_more_button_count_changed (priv->offset_cntrlr, count, self);
+  photos_load_more_button_count_changed (self);
 }
 
 
@@ -230,13 +227,10 @@ void
 photos_load_more_button_set_block (PhotosLoadMoreButton *self, gboolean block)
 {
   PhotosLoadMoreButtonPrivate *priv = self->priv;
-  gint count;
 
   if (priv->block == block)
     return;
 
   priv->block = block;
-
-  count = photos_offset_controller_get_count (priv->offset_cntrlr);
-  photos_load_more_button_count_changed (priv->offset_cntrlr, count, self);
+  photos_load_more_button_count_changed (self);
 }
