@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-12\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-08 20:14+0000\n"
-"PO-Revision-Date: 2014-03-09 06:32+0600\n"
+"POT-Creation-Date: 2014-10-06 19:25+0000\n"
+"PO-Revision-Date: 2014-10-20 08:54+0600\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk@li.org>\n"
 "Language: kk\n"
@@ -17,40 +17,72 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.9\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
+msgid "Photos"
+msgstr "Фотолар"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
+msgid "Access, organize and share your photos on GNOME"
+msgstr ""
+"GNOME ішінде фотосуреттеріңізге қатынаңыз, реттеңіз және олармен бөлісіңіз"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
+"GNOME ішінде фотосуреттеріңізге қатынау, реттеу және олармен бөлісуді мүмкін "
+"ететін кішігірім қолданба. Ол фотолармен жұмыс істеуге файлдар басқарушысын "
+"алмастыра алатын қолданба ретінде дайындалған. GNOME желідегі тіркелгілері "
+"арқылы бұлттық қызметтермен байланыс іске асырылған."
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
 msgstr "Мүмкіндіктері:"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:3
-msgid ""
-"<li>View recent local and online photos</li> <li>Access your Flickr content</"
-"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
-"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
-"featured editor for more advanced changes</li>"
-msgstr ""
+#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+msgid "View recent local and online photos"
+msgstr "Жуырдағы жергілікті және онлайн фотоларын қарау"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:124
-msgid "Photos"
-msgstr "Фотолар"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+msgid "Access your Facebook or Flickr content"
+msgstr "Өзіңіздің Facebook не Flickr құрамасына қатынаңыз."
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+msgid "Send photos to remote DLNA renderers"
+msgstr "Фотоларды қашықтағы DLNA өңдеушілеріне жіберу"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+msgid "Set as background"
+msgstr "Фон ретінде орнату"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+msgid "Print photos"
+msgstr "Фотоларды баспаға шығару"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+msgid "Select favorites"
+msgstr "Таңдамалыларды белгілеу"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+msgid "Allow opening full featured editor for more advanced changes"
+msgstr ""
+"Кеңейтілген өзгерістерді жасау үшін мүмкіндіктері көбірек түзеткішті ашуды "
+"рұқсат ету"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
-msgstr ""
+msgstr "Фотоларға қатынау, реттеу және олармен бөлісу"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
-msgstr ""
+msgstr "Фотолар;Суреттер;"
 
 #: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
@@ -104,12 +136,12 @@ msgstr "%.1f (35мм таспасы)"
 #: ../src/eog-image.c:595
 #, c-format
 msgid "Transformation on unloaded image."
-msgstr ""
+msgstr "Жүктелген суретті түрлендіру."
 
 #: ../src/eog-image.c:623
 #, c-format
 msgid "Transformation failed."
-msgstr ""
+msgstr "Түрлендіру сәтсіз."
 
 #: ../src/eog-image.c:1047
 #, c-format
@@ -119,31 +151,31 @@ msgstr "Бұл файл пішімі үшін EXIF қолдауы жоқ."
 #: ../src/eog-image.c:1196
 #, c-format
 msgid "Image loading failed."
-msgstr ""
+msgstr "Суретті жүктеу сәтсіз."
 
 #: ../src/eog-image.c:1727 ../src/eog-image.c:1847
 #, c-format
 msgid "No image loaded."
-msgstr ""
+msgstr "Ешбір сурет жүктелмеді."
 
 #: ../src/eog-image.c:1735 ../src/eog-image.c:1856
 #, c-format
 msgid "You do not have the permissions necessary to save the file."
-msgstr ""
+msgstr "Файлды сақтау үшін керек рұқсаттарыңыз жоқ."
 
 #: ../src/eog-image.c:1745 ../src/eog-image.c:1867
 #, c-format
 msgid "Temporary file creation failed."
-msgstr ""
+msgstr "Уақытша файлды жасау сәтсіз."
 
 #: ../src/eog-uri-converter.c:984
 #, c-format
 msgid "At least two file names are equal."
-msgstr ""
+msgstr "Кем дегенде, екі файлдың аттары бірдей"
 
 #: ../src/eog-util.c:68
 msgid "Could not display help for Image Viewer"
-msgstr ""
+msgstr "Суреттерді көрсетушісі үшін көмекті көрсету мүмкін емес."
 
 #: ../src/eog-util.c:116
 msgid " (invalid Unicode)"
@@ -165,33 +197,46 @@ msgstr "Осы туралы"
 msgid "Quit"
 msgstr "Шығу"
 
-#: ../src/photos-base-item.c:310
+#: ../src/photos-base-item.c:347
 msgid "Album"
 msgstr "Альбом"
 
-#: ../src/photos-base-item.c:760
+#: ../src/photos-base-item.c:810
 msgid "Screenshots"
 msgstr "Скриншоттар"
 
+#: ../src/photos-delete-notification.c:135
+msgid "Selected item has been deleted"
+msgid_plural "Selected items have been deleted"
+msgstr[0] "Таңдалған нәрсе(лер) өшірілді"
+
+#: ../src/photos-delete-notification.c:141
+msgid "Undo"
+msgstr "Болдырмау"
+
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
-msgstr ""
+msgstr "DLNA өңдеу құрылғылары"
 
-#: ../src/photos-embed.c:689
+#: ../src/photos-embed.c:619
 msgid "Recent"
 msgstr "Соңғы"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
 msgid "Albums"
-msgstr ""
+msgstr "Альбомдар"
 
-#: ../src/photos-embed.c:695 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Таңдамалы"
 
+#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
+msgid "Search"
+msgstr "Іздеу"
+
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
-msgstr ""
+msgstr "Бірінші альбомыңызды атаңыз"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
@@ -211,35 +256,39 @@ msgstr "Сіз желідегі тіркелгілерді %s ішінен қо�
 
 #: ../src/photos-empty-results-box.c:189
 msgid "No Albums Found"
-msgstr ""
+msgstr "Альбомдар табылмады"
 
 #: ../src/photos-empty-results-box.c:193
 msgid "No Favorites Found"
-msgstr ""
+msgstr "Таңдамалыл табылмады"
 
 #: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
-msgstr ""
-
-#: ../src/photos-facebook-item.c:190 ../src/photos-facebook-item.c:220
-msgid "Facebook"
-msgstr "Facebook"
+msgstr "Фотолар табылмады"
 
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
-msgstr ""
+msgstr "Атаусыз фото"
 
-#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
-msgid "Flickr"
-msgstr "Flickr"
-
-#: ../src/photos-indexing-notification.c:169
-msgid "Your photos are being indexed"
-msgstr ""
-
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
 #: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "%s ішінен фотоларды алу"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Фотоларды желідегі тіркелгілерден алу"
+
+#: ../src/photos-indexing-notification.c:213
+msgid "Your photos are being indexed"
+msgstr "Фотоларыңыз индекстелді"
+
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
-msgstr ""
+msgstr "Бұл үрдіс кезінде кейбір фотолар қолжетерсіз болуы мүмкін"
 
 #: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
 msgid "Load More"
@@ -249,7 +298,7 @@ msgstr "Көбірек жүктеу"
 msgid "Loading…"
 msgstr "Жүктелуде…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Жергілікті"
 
@@ -263,34 +312,34 @@ msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d таңдалды"
 
-#: ../src/photos-main-toolbar.c:157
+#: ../src/photos-main-toolbar.c:162
 msgid "Back"
 msgstr "Кері"
 
-#: ../src/photos-main-toolbar.c:281
-msgid "Search"
-msgstr "Іздеу"
-
-#: ../src/photos-main-toolbar.c:297
+#: ../src/photos-main-toolbar.c:304
 msgid "Select Items"
 msgstr "Нәрселерді таңдау"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:411 ../src/photos-selection-toolbar.c:278
+#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "%s көмегімен ашу"
 
-#: ../src/photos-main-toolbar.c:570
+#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+msgid "Remove from favorites"
+msgstr "Таңдамалылардан өшіру"
+
+#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+msgid "Add to favorites"
+msgstr "Таңдамалыларға қосу"
+
+#: ../src/photos-main-toolbar.c:651
 msgid "Cancel"
 msgstr "Бас тарту"
 
-#: ../src/photos-main-window.c:432
-msgid "Access, organize and share your photos on GNOME"
-msgstr ""
-
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:444
+#: ../src/photos-main-window.c:481
 msgid "translator-credits"
 msgstr "Baurzhan Muftakhidinov <baurthefirst@gmail.com>"
 
@@ -309,8 +358,8 @@ msgid "Organize"
 msgstr "Реттеу"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
-#: ../src/photos-selection-toolbar.c:437
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Ашу"
 
@@ -326,22 +375,17 @@ msgstr "Қайда көрсету…"
 msgid "Set as Background"
 msgstr "Фон суреті ретінде орнату"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:603
+#: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Қасиеттері"
 
-#: ../src/photos-preview-nav-buttons.c:209
-#: ../src/photos-selection-toolbar.c:290
-msgid "Remove from favorites"
-msgstr "Таңдамалылардан өшіру"
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "“%s” баспаға шығару: %s"
 
-#: ../src/photos-preview-nav-buttons.c:214
-#: ../src/photos-selection-toolbar.c:296
-msgid "Add to favorites"
-msgstr "Таңдамалыларға қосу"
-
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Сурет баптаулары"
 
@@ -420,7 +464,7 @@ msgstr "Алдын-ала қарап шығу"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:218
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Атауы"
@@ -428,74 +472,70 @@ msgstr "Атауы"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:230
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Автор"
 
-#: ../src/photos-properties-dialog.c:237
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Қайнар көзі"
 
-#: ../src/photos-properties-dialog.c:243
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Түзетілген уақыты"
 
-#: ../src/photos-properties-dialog.c:251
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Жасалған күні"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:261
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Түрі"
 
-#: ../src/photos-properties-dialog.c:270
+#: ../src/photos-properties-dialog.c:269
 msgid "Width"
 msgstr "Ені"
 
-#: ../src/photos-properties-dialog.c:280
+#: ../src/photos-properties-dialog.c:279
 msgid "Height"
 msgstr "Биіктігі"
 
-#: ../src/photos-properties-dialog.c:295
+#: ../src/photos-properties-dialog.c:294
 msgid "Camera"
 msgstr "Камера"
 
-#: ../src/photos-properties-dialog.c:305
+#: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
-msgstr ""
+msgstr "Экспозиция"
 
-#: ../src/photos-properties-dialog.c:315
+#: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
-msgstr ""
+msgstr "Диафрагма"
 
-#: ../src/photos-properties-dialog.c:325
+#: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
 msgstr "Фокустық қашықтығы"
 
-#: ../src/photos-properties-dialog.c:335
+#: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
 msgstr "ISO жылдамдығы"
 
-#: ../src/photos-properties-dialog.c:345
+#: ../src/photos-properties-dialog.c:344
 msgid "Flash"
 msgstr "Жарқылдау"
 
-#: ../src/photos-properties-dialog.c:536
+#: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
-msgstr ""
+msgstr "Сөнд., жарқылдамады"
 
-#: ../src/photos-properties-dialog.c:538
+#: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
-msgstr ""
-
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "Дайын"
+msgstr "Іске қосулы, жарқылдады"
 
 #: ../src/photos-search-match-manager.c:154
 #: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
@@ -534,15 +574,15 @@ msgstr "Барлығын таңдау"
 msgid "Select None"
 msgstr "Ештеңе таңдамау"
 
-#: ../src/photos-selection-toolbar.c:445
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "Баспаға шығару"
 
-#: ../src/photos-selection-toolbar.c:453
+#: ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "Өшіру"
 
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:485
 msgid "Add to Album"
 msgstr "Альбомға қосу"
 
@@ -553,3 +593,12 @@ msgstr "Қайнар көздер"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Фотолар тізімін алу мүмкін емес"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Flickr"
+#~ msgstr "Flickr"
+
+#~ msgid "Done"
+#~ msgstr "Дайын"
