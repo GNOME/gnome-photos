@@ -297,7 +297,7 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
 
   close = gtk_button_new ();
   gtk_widget_set_valign (close, GTK_ALIGN_CENTER);
-  gtk_container_add (GTK_CONTAINER (close), image);
+  gtk_button_set_image (GTK_BUTTON (close), image);
   gtk_container_add (GTK_CONTAINER (self), close);
   g_signal_connect_swapped (close, "clicked", G_CALLBACK (photos_indexing_notification_close_clicked), self);
 

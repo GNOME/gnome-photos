@@ -324,7 +324,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
 
   button = gtk_button_new ();
-  gtk_container_add (GTK_CONTAINER (button), image);
+  gtk_button_set_image (GTK_BUTTON (button), image);
   context = gtk_widget_get_style_context (button);
   gtk_style_context_add_class (context, "osd");
   gtk_container_add (GTK_CONTAINER (priv->prev_widget), button);
@@ -353,7 +353,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
 
   button = gtk_button_new ();
-  gtk_container_add (GTK_CONTAINER (button), image);
+  gtk_button_set_image (GTK_BUTTON (button), image);
   context = gtk_widget_get_style_context (button);
   gtk_style_context_add_class (context, "osd");
   gtk_container_add (GTK_CONTAINER (priv->next_widget), button);

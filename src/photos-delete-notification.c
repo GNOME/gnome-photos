@@ -151,7 +151,7 @@ photos_delete_notification_constructed (GObject *object)
   gtk_widget_set_valign (close, GTK_ALIGN_CENTER);
   gtk_button_set_focus_on_click (GTK_BUTTON (close), FALSE);
   gtk_button_set_relief (GTK_BUTTON (close), GTK_RELIEF_NONE);
-  gtk_container_add (GTK_CONTAINER (close), image);
+  gtk_button_set_image (GTK_BUTTON (close), image);
   gtk_container_add (GTK_CONTAINER (self), close);
   g_signal_connect_swapped (close, "clicked", G_CALLBACK (photos_delete_notification_delete_items), self);
 
