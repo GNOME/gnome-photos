@@ -40,7 +40,7 @@ G_BEGIN_DECLS
 
 #define PHOTOS_ICON_PROCESS_STOP_SYMBOLIC "process-stop-symbolic"
 
-#define PHOTOS_ICON_SYSTEM_SYMBOLIC "emblem-system-symbolic"
+#define PHOTOS_ICON_SYSTEM_SYMBOLIC "open-menu-symbolic"
 
 #define PHOTOS_ICON_VIDEO_DISPLAY_SYMBOLIC "video-display-symbolic"
 
