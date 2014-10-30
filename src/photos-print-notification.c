@@ -170,7 +170,7 @@ photos_print_notification_init (PhotosPrintNotification *self)
 
   priv->stop_button = gtk_button_new ();
   gtk_widget_set_valign (priv->stop_button, GTK_ALIGN_CENTER);
-  gtk_container_add (GTK_CONTAINER (priv->stop_button), image);
+  gtk_button_set_image (GTK_BUTTON (priv->stop_button), image);
   gtk_container_add (GTK_CONTAINER (self), priv->stop_button);
   g_signal_connect_swapped (priv->stop_button,
                             "clicked",
