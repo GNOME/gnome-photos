@@ -1,3 +1,19 @@
+Overview of changes in 3.14.2
+=============================
+
+* Bugs fixed:
+ 737310 Ensure that icon-only buttons get the 'image-button' style class
+ 738527 Fix crash when reading scale factor after window has been destroyed
+
+* Updated translations:
+ Dutch
+ Friulian
+ Italian
+ Kazakh
+ Latvian
+ Persian
+
+
 Overview of changes in 3.14.0
 =============================
 
