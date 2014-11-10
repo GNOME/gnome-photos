@@ -1085,7 +1085,7 @@ gint
 photos_application_get_scale_factor (PhotosApplication *self)
 {
   GList *windows;
-  gint scale_factor;
+  gint ret_val = 1;
 
   /* We do not use priv->main_window to allow widgets to use this
    * method while they are being constructed. The widget hierarchy is
@@ -1093,6 +1093,11 @@ photos_application_get_scale_factor (PhotosApplication *self)
    * priv->main_window is NULL.
    */
   windows = gtk_application_get_windows (GTK_APPLICATION (self));
-  scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (windows->data));
-  return scale_factor;
+  if (windows == NULL)
+    goto out;
+
+  ret_val = gtk_widget_get_scale_factor (GTK_WIDGET (windows->data));
+
+ out:
+  return ret_val;
 }
