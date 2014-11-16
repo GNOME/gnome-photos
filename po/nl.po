@@ -2,27 +2,39 @@
 #
 # This file is distributed under the same license as the gnome-photos package.
 #
+#
 # Erwin <donnut@outlook.com>, 2013.
 # Reinout van Schouwen <reinouts@gnome.org>, 2013.
 # Wouter Bolsterlee <wbolster@gnome.org>, 2013.
-#
+# Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-10 14:48+0100\n"
-"PO-Revision-Date: 2013-11-10 14:48+0100\n"
-"Last-Translator: Wouter Bolsterlee <wbolster@gnome.org>\n"
-"Language-Team: Dutch <vertaling@vrijschrift.org>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-11-16 08:13+0000\n"
+"PO-Revision-Date: 2014-11-16 17:01+0100\n"
+"Last-Translator: Hannie Dumoleyn <hannie@ubuntu-nl.org>\n"
+"Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Lokalize 1.5\n"
 "X-Project-Style: gnome\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
+msgid "Photos"
+msgstr "Foto's"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Uw foto's  benaderen, beheren en delen op Gnome"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -34,33 +46,43 @@ msgstr ""
 "bestandsbeheerprogramma om foto's te beheren. Via Gnome Online Accounts "
 "wordt een naadloze integratie met de cloud geboden."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
-msgstr "Het laat u:"
+msgstr "U kunt hiermee:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
-msgid ""
-"<li>View recent local and online photos</li> <li>Access your Flickr content</"
-"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
-"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
-"featured editor for more advanced changes</li>"
-msgstr ""
-"<li>recente foto's bekijken, online en lokaal</li> <li>toegang hebben tot uw "
-"inhoud op Flickr</li> <li>foto's naar externe DLNA Renderers sturen</li> "
-"<li>foto's als achtergrond instellen</li> <li>foto's afdrukken</li> "
-"<li>favorieten selecteren</li> <li>een volwaardige editor opstarten voor "
-"uitgebreidere bewerkingen</li>"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+msgid "View recent local and online photos"
+msgstr "Recente foto's, lokaal en online, bekijken"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:89
-msgid "Photos"
-msgstr "Foto's"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+msgid "Access your Facebook or Flickr content"
+msgstr "Toegang krijgen tot uw Facebook- of Flickr-inhoud"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+msgid "Send photos to remote DLNA renderers"
+msgstr "Foto's versturen naar externe DLNA-renderers"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+msgid "Set as background"
+msgstr "Als achtergrond instellen"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+msgid "Print photos"
+msgstr "Foto's afdrukken"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+msgid "Select favorites"
+msgstr "Favorieten selecteren"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+msgid "Allow opening full featured editor for more advanced changes"
+msgstr "Openen van complete editor voor geavanceerde wijzigingen toestaan"
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
-msgstr "Foto's benaderen, beheren en delen."
+msgstr "Foto's benaderen, beheren en delen"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "Photos;Pictures;Foto's;Afbeeldingen;"
 
@@ -170,100 +192,164 @@ msgid "_Help"
 msgstr "_Hulp"
 
 #: ../src/photos-app-menu.ui.h:3
-msgid "About Photos"
-msgstr "Over Foto's"
+msgid "About"
+msgstr "Info"
 
 #: ../src/photos-app-menu.ui.h:4
 msgid "Quit"
 msgstr "Afsluiten"
 
-#: ../src/photos-base-item.c:303
+#: ../src/photos-base-item.c:347
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:727
+#: ../src/photos-base-item.c:810
 msgid "Screenshots"
 msgstr "Schermafdrukken"
+
+#: ../src/photos-delete-notification.c:135
+msgid "Selected item has been deleted"
+msgid_plural "Selected items have been deleted"
+msgstr[0] "Het geselecteerde item is gewist"
+msgstr[1] "De geselecteerde items zijn gewist"
+
+#: ../src/photos-delete-notification.c:141
+msgid "Undo"
+msgstr "Ongedaan maken"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA Renderer-apparaten"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
+#: ../src/photos-embed.c:619
+msgid "Recent"
+msgstr "Recent"
+
+#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albums"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
+#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favorieten"
 
-#: ../src/photos-empty-results-box.c:66
+#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
+msgid "Search"
+msgstr "Zoeken"
+
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "Geef uw eerste album een naam"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+msgid "Settings"
+msgstr "Instellingen"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "U kunt uw online-accounts toevoegen in %s"
+
+#: ../src/photos-empty-results-box.c:189
+msgid "No Albums Found"
+msgstr "Geen albums gevonden"
+
+#: ../src/photos-empty-results-box.c:193
+msgid "No Favorites Found"
+msgstr "Geen favorieten gevonden"
+
+#: ../src/photos-empty-results-box.c:198
 msgid "No Photos Found"
 msgstr "Geen foto's gevonden"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
-msgid "Flickr"
-msgstr "Flickr"
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Foto zonder titel"
 
-#: ../src/photos-indexing-notification.c:168
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Foto's worden opgehaald van %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Foto's worden opgehaald van online-accounts"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "Uw foto's worden geïndexeerd"
 
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
-msgstr "Sommige foto's kunnen tijdens deze bewerking niet beschikbaar zijn"
+msgstr ""
+"Het kan zijn dat sommige foto's tijdens deze bewerking niet beschikbaar zijn"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:191
 msgid "Load More"
 msgstr "Meer laden"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
+#: ../src/photos-load-more-button.c:85
 msgid "Loading…"
 msgstr "Laden…"
 
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokaal"
 
-#: ../src/photos-main-toolbar.c:99
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "Klik op items om ze te selecteren"
 
-#: ../src/photos-main-toolbar.c:101
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d geselecteerd"
 msgstr[1] "%d geselecteerd"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:162
 msgid "Back"
 msgstr "Terug"
 
-#: ../src/photos-main-toolbar.c:273
+#: ../src/photos-main-toolbar.c:304
 msgid "Select Items"
 msgstr "Items selecteren"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Openen met %s"
 
-#: ../src/photos-main-toolbar.c:490
+#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+msgid "Remove from favorites"
+msgstr "Uit favorieten verwijderen"
+
+#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+msgid "Add to favorites"
+msgstr "Aan favorieten toevoegen"
+
+#: ../src/photos-main-toolbar.c:651
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: ../src/photos-main-window.c:329
-msgid "Access, organize and share your photos on GNOME"
-msgstr "Benader, beheer en deel uw foto's op Gnome"
-
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:481
 msgid "translator-credits"
 msgstr ""
 "Erwin Poeze <donnut@outlook.com>\n"
-"Reinout van Schouwen <reinouts@gnome.org>"
+"Reinout van Schouwen <reinouts@gnome.org>\n"
+"Hannie Dumoleyn <hannie@ubuntu-nl.org>"
 
 #: ../src/photos-organize-collection-dialog.c:76
 msgid "_Add"
@@ -280,8 +366,8 @@ msgid "Organize"
 msgstr "Beheren"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
-#: ../src/photos-selection-toolbar.c:437
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Openen"
 
@@ -297,22 +383,17 @@ msgstr "Tonen op…"
 msgid "Set as Background"
 msgstr "Als achtergrond instellen"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:603
+#: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Eigenschappen"
 
-#: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
-msgid "Remove from favorites"
-msgstr "Uit favorieten verwijderen"
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Afdrukken van ‘%s’: %s"
 
-#: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
-msgid "Add to favorites"
-msgstr "Aan favorieten toevoegen"
-
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-operation.c:272
 msgid "Image Settings"
 msgstr "Afbeeldingsinstellingen"
 
@@ -456,17 +537,42 @@ msgstr "ISO-snelheid"
 msgid "Flash"
 msgstr "Flits"
 
-#: ../src/photos-properties-dialog.c:527
+#: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
 msgstr "Uitgeschakeld, flitser deed het niet"
 
-#: ../src/photos-properties-dialog.c:529
+#: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
 msgstr "Ingeschakeld, geflitst"
 
-#: ../src/photos-properties-dialog.c:608
-msgid "Done"
-msgstr "Klaar"
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+msgid "All"
+msgstr "Alles"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Titel"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Auteur"
+
+#: ../src/photos-search-match-manager.c:205
+msgid "Match"
+msgstr "Overeenkomst"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:154
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Soort"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -476,22 +582,43 @@ msgstr "Alles selecteren"
 msgid "Select None"
 msgstr "Niets selecteren"
 
-#: ../src/photos-selection-toolbar.c:445
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "Afdrukken"
 
-#: ../src/photos-selection-toolbar.c:453
+#: ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:485
 msgid "Add to Album"
 msgstr "Aan album toevoegen"
 
-#: ../src/photos-source-manager.c:151
-msgid "All"
-msgstr "Alles"
+#: ../src/photos-source-manager.c:174
+msgid "Sources"
+msgstr "Bronnen"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Ophalen van lijst met foto's is mislukt"
+
+#~ msgid ""
+#~ "<li>View recent local and online photos</li> <li>Access your Flickr "
+#~ "content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as "
+#~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
+#~ "opening full featured editor for more advanced changes</li>"
+#~ msgstr ""
+#~ "<li>recente foto's bekijken, online en lokaal</li> <li>toegang hebben tot "
+#~ "uw inhoud op Flickr</li> <li>foto's naar externe DLNA Renderers sturen</"
+#~ "li> <li>foto's als achtergrond instellen</li> <li>foto's afdrukken</li> "
+#~ "<li>favorieten selecteren</li> <li>een volwaardige editor opstarten voor "
+#~ "uitgebreidere bewerkingen</li>"
+
+#~ msgid "About Photos"
+#~ msgstr "Over Foto's"
+
+#~ msgid "Flickr"
+#~ msgstr "Flickr"
+
+#~ msgid "Done"
+#~ msgstr "Klaar"
