@@ -504,9 +504,13 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
   PhotosBaseItemPrivate *priv = self->priv;
+  GApplication *app;
   GdkPixbuf *pixbuf = NULL;
+  GdkPixbuf *scaled_pixbuf = NULL;
   GError *error = NULL;
   GInputStream *stream = G_INPUT_STREAM (source_object);
+  gint icon_size;
+  gint scale;
 
   pixbuf = gdk_pixbuf_new_from_stream_finish (res, &error);
   if (error != NULL)
@@ -526,10 +530,15 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
       goto out;
     }
 
-  photos_base_item_set_original_icon (self, pixbuf);
+  app = g_application_get_default ();
+  scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
+  icon_size = photos_utils_get_icon_size_unscaled ();
+  scaled_pixbuf = photos_utils_downscale_pixbuf_for_scale (pixbuf, icon_size, scale);
+  photos_base_item_set_original_icon (self, scaled_pixbuf);
 
  out:
   g_input_stream_close_async (stream, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+  g_clear_object (&scaled_pixbuf);
   g_clear_object (&pixbuf);
   g_object_unref (self);
 }
@@ -543,7 +552,6 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
   GError *error = NULL;
   GFile *file = G_FILE (source_object);
   GFileInputStream *stream;
-  gint size;
 
   stream = g_file_read_finish (file, res, &error);
   if (error != NULL)
@@ -562,14 +570,10 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
     }
 
   g_object_set_data_full (G_OBJECT (stream), "file", g_object_ref (file), g_object_unref);
-  size = photos_utils_get_icon_size ();
-  gdk_pixbuf_new_from_stream_at_scale_async (G_INPUT_STREAM (stream),
-                                             size,
-                                             size,
-                                             TRUE,
-                                             NULL,
-                                             photos_base_item_refresh_thumb_path_pixbuf,
-                                             g_object_ref (self));
+  gdk_pixbuf_new_from_stream_async (G_INPUT_STREAM (stream),
+                                    NULL,
+                                    photos_base_item_refresh_thumb_path_pixbuf,
+                                    g_object_ref (self));
   g_object_unref (stream);
 
  out:

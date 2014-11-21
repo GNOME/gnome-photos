@@ -434,6 +434,75 @@ photos_utils_dot_dir (void)
 }
 
 
+GdkPixbuf *
+photos_utils_downscale_pixbuf_for_scale (GdkPixbuf *pixbuf, gint size, gint scale)
+{
+  GdkPixbuf *ret_val;
+  gint height;
+  gint pixbuf_size;
+  gint scaled_size;
+  gint width;
+
+  height = gdk_pixbuf_get_height (pixbuf);
+  width = gdk_pixbuf_get_width (pixbuf);
+  pixbuf_size = MAX (height, width);
+
+  scaled_size = size * scale;
+
+  /* On Hi-Dpi displays, a pixbuf should never appear smaller than on
+   * Lo-Dpi. Therefore, if a pixbuf lies between (size, size * scale)
+   * we scale it up to size * scale, so that it doesn't look smaller.
+   * Similarly, if a pixbuf is smaller than size, then we increase its
+   * dimensions by the scale factor.
+   */
+
+  if (pixbuf_size == scaled_size)
+    {
+      ret_val = g_object_ref (pixbuf);
+    }
+  else if (pixbuf_size > size)
+    {
+      if (height == width)
+        {
+          height = scaled_size;
+          width = scaled_size;
+        }
+      else if (height > width)
+        {
+          width = (gint) (0.5 + (gdouble) (width * scaled_size) / (gdouble) height);
+          height = scaled_size;
+        }
+      else
+        {
+          height = (gint) (0.5 + (gdouble) (height * scaled_size) / (gdouble) width);
+          width = scaled_size;
+        }
+
+      height = MAX (height, 1);
+      width = MAX (width, 1);
+      ret_val = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
+    }
+  else /* pixbuf_size <= size */
+    {
+      if (scale == 1)
+        {
+          ret_val = g_object_ref (pixbuf);
+        }
+      else
+        {
+          height *= scale;
+          width *= scale;
+
+          height = MAX (height, 1);
+          width = MAX (width, 1);
+          ret_val = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
+        }
+    }
+
+  return ret_val;
+}
+
+
 void
 photos_utils_ensure_builtins (void)
 {

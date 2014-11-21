@@ -64,6 +64,8 @@ GIcon           *photos_utils_get_icon_from_cursor        (TrackerSparqlCursor *
 
 const gchar     *photos_utils_dot_dir                     (void);
 
+GdkPixbuf       *photos_utils_downscale_pixbuf_for_scale  (GdkPixbuf *pixbuf, gint size, gint scale);
+
 void             photos_utils_ensure_builtins             (void);
 
 void             photos_utils_ensure_extension_points     (void);
