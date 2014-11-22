@@ -21,6 +21,7 @@
 /* Based on code from:
  *   + Documents
  *   + Eye of GNOME
+ *   + Totem
  */
 
 #ifndef PHOTOS_UTILS_H
@@ -46,6 +47,10 @@ G_BEGIN_DECLS
 
 #define PHOTOS_COLLECTION_SCREENSHOT \
   "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#image-category-screenshot"
+
+void             photos_utils_border_pixbuf               (GdkPixbuf *pixbuf);
+
+GdkPixbuf       *photos_utils_center_pixbuf               (GdkPixbuf *pixbuf, gint size);
 
 GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
 

@@ -49,6 +49,74 @@
 static const gchar *dot_dir;
 
 
+static void
+photos_utils_put_pixel (guchar *p)
+{
+  p[0] = 46;
+  p[1] = 52;
+  p[2] = 54;
+  p[3] = 0xff;
+}
+
+
+void
+photos_utils_border_pixbuf (GdkPixbuf *pixbuf)
+{
+  gint height;
+  gint width;
+  gint rowstride;
+  gint x;
+  gint y;
+  guchar *pixels;
+
+  height = gdk_pixbuf_get_height (pixbuf);
+  width = gdk_pixbuf_get_width (pixbuf);
+
+  pixels = gdk_pixbuf_get_pixels (pixbuf);
+  rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+
+  /* top */
+  for (x = 0; x < width; x++)
+    photos_utils_put_pixel (pixels + x * 4);
+
+  /* bottom */
+  for (x = 0; x < width; x++)
+    photos_utils_put_pixel (pixels + (height - 1) * rowstride + x * 4);
+
+  /* left */
+  for (y = 1; y < height - 1; y++)
+    photos_utils_put_pixel (pixels + y * rowstride);
+
+  /* right */
+  for (y = 1; y < height - 1; y++)
+    photos_utils_put_pixel (pixels + y * rowstride + (width - 1) * 4);
+}
+
+
+GdkPixbuf *
+photos_utils_center_pixbuf (GdkPixbuf *pixbuf, gint size)
+{
+  GdkPixbuf *opaque_pixbuf = NULL;
+  GdkPixbuf *ret_val;
+  gint height;
+  gint pixbuf_size;
+  gint width;
+  guint32 color;
+
+  height = gdk_pixbuf_get_height (pixbuf);
+  width = gdk_pixbuf_get_width (pixbuf);
+  pixbuf_size = MAX (height, width);
+
+  ret_val = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, size, size);
+  gdk_pixbuf_fill (ret_val, 0x00000000);
+  gdk_pixbuf_copy_area (pixbuf, 0, 0, width, height, ret_val, (size - width) / 2, (size - height) / 2);
+
+ out:
+  g_clear_object (&opaque_pixbuf);
+  return ret_val;
+}
+
+
 GIcon *
 photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
 {

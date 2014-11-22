@@ -113,10 +113,71 @@ G_DEFINE_ABSTRACT_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJEC
                                                          photos_base_item_filterable_iface_init));
 
 
+static GdkPixbuf *failed_icon;
+static GdkPixbuf *thumbnailing_icon;
 static GThreadPool *create_thumbnail_pool;
 
 
 static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor);
+
+
+static GdkPixbuf *
+photos_base_item_create_placeholder_icon (const gchar *icon_name)
+{
+  GApplication *app;
+  GdkPixbuf *centered_pixbuf = NULL;
+  GdkPixbuf *pixbuf = NULL;
+  GdkPixbuf *ret_val = NULL;
+  GError *error;
+  GIcon *icon = NULL;
+  GList *windows;
+  GtkIconInfo *info = NULL;
+  GtkIconTheme *theme;
+  GtkStyleContext *context;
+  gint icon_size;
+  gint scale;
+
+  app = g_application_get_default ();
+  windows = gtk_application_get_windows (GTK_APPLICATION (app));
+  if (windows == NULL)
+    goto out;
+
+  icon = g_themed_icon_new (icon_name);
+  scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
+  theme = gtk_icon_theme_get_default ();
+  info = gtk_icon_theme_lookup_by_gicon_for_scale (theme,
+                                                   icon,
+                                                   16,
+                                                   scale,
+                                                   GTK_ICON_LOOKUP_FORCE_SIZE | GTK_ICON_LOOKUP_FORCE_SYMBOLIC);
+  if (info == NULL)
+    goto out;
+
+  context = gtk_widget_get_style_context (GTK_WIDGET (windows->data));
+
+  error = NULL;
+  pixbuf = gtk_icon_info_load_symbolic_for_context (info, context, NULL, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to load icon '%s': %s", icon_name, error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  icon_size = photos_utils_get_icon_size ();
+  centered_pixbuf = photos_utils_center_pixbuf (pixbuf, icon_size);
+  photos_utils_border_pixbuf (centered_pixbuf);
+
+  ret_val = centered_pixbuf;
+  centered_pixbuf = NULL;
+
+ out:
+  g_clear_object (&centered_pixbuf);
+  g_clear_object (&pixbuf);
+  g_clear_object (&info);
+  g_clear_object (&icon);
+  return ret_val;
+}
 
 
 static GIcon *
@@ -429,6 +490,16 @@ photos_base_item_refresh_executed (TrackerSparqlCursor *cursor, gpointer user_da
 
 
 static void
+photos_base_item_set_failed_icon (PhotosBaseItem *self)
+{
+  if (failed_icon == NULL)
+    failed_icon = photos_base_item_create_placeholder_icon (PHOTOS_ICON_IMAGE_X_GENERIC_SYMBOLIC);
+
+  photos_base_item_set_original_icon (self, failed_icon);
+}
+
+
+static void
 photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
@@ -449,6 +520,7 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
       priv->failed_thumbnailing = TRUE;
       priv->thumb_path = NULL;
       g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+      photos_base_item_set_failed_icon (self);
       g_free (uri);
       g_error_free (error);
       goto out;
@@ -483,6 +555,7 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
       priv->failed_thumbnailing = TRUE;
       priv->thumb_path = NULL;
       g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+      photos_base_item_set_failed_icon (self);
       g_free (uri);
       g_error_free (error);
       goto out;
@@ -534,15 +607,21 @@ photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res,
     {
       g_warning ("Unable to query info for file at %s: %s", priv->uri, error->message);
       priv->failed_thumbnailing = TRUE;
+      photos_base_item_set_failed_icon (self);
       g_error_free (error);
       goto out;
     }
 
   priv->thumb_path = g_file_info_get_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
   if (priv->thumb_path != NULL)
-    photos_base_item_refresh_thumb_path (self);
+    {
+      photos_base_item_refresh_thumb_path (self);
+    }
   else
-    priv->failed_thumbnailing = TRUE;
+    {
+      priv->failed_thumbnailing = TRUE;
+      photos_base_item_set_failed_icon (self);
+    }
 
  out:
   g_object_unref (self);
@@ -563,6 +642,7 @@ photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res,
     {
       priv->failed_thumbnailing = TRUE;
       g_warning ("Unable to create thumbnail: %s", error->message);
+      photos_base_item_set_failed_icon (self);
       g_error_free (error);
       goto out;
     }
@@ -594,6 +674,7 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
     {
       g_warning ("Unable to query info for file at %s: %s", priv->uri, error->message);
       priv->failed_thumbnailing = TRUE;
+      photos_base_item_set_failed_icon (self);
       g_error_free (error);
       goto out;
     }
@@ -672,47 +753,12 @@ photos_base_item_load_in_thread_func (GTask *task,
 
 
 static void
-photos_base_item_update_icon_from_type (PhotosBaseItem *self)
+photos_base_item_set_thumbnailing_icon (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
-  GdkPixbuf *pixbuf = NULL;
-  GError *error;
-  GIcon *icon = NULL;
-  GtkIconInfo *info = NULL;
-  GtkIconTheme *theme;
-  gint icon_size;
+  if (thumbnailing_icon == NULL)
+    thumbnailing_icon = photos_base_item_create_placeholder_icon (PHOTOS_ICON_CONTENT_LOADING_SYMBOLIC);
 
-  if (priv->mime_type != NULL)
-    icon = g_content_type_get_icon (priv->mime_type);
-
-  if (icon == NULL)
-    icon = photos_utils_icon_from_rdf_type (priv->rdf_type);
-
-  theme = gtk_icon_theme_get_default ();
-  icon_size = photos_utils_get_icon_size ();
-
-  info = gtk_icon_theme_lookup_by_gicon (theme,
-                                         icon,
-                                         icon_size,
-                                         GTK_ICON_LOOKUP_FORCE_SIZE | GTK_ICON_LOOKUP_GENERIC_FALLBACK);
-  if (info == NULL)
-    goto out;
-
-  error = NULL;
-  pixbuf = gtk_icon_info_load_icon (info, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to load pixbuf: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
-
-  photos_base_item_set_original_icon (self, pixbuf);
-
- out:
-  g_clear_object (&pixbuf);
-  g_clear_object (&info);
-  g_clear_object (&icon);
+  photos_base_item_set_original_icon (self, thumbnailing_icon);
 }
 
 
@@ -728,7 +774,7 @@ photos_base_item_refresh_icon (PhotosBaseItem *self)
       return;
     }
 
-  photos_base_item_update_icon_from_type (self);
+  photos_base_item_set_thumbnailing_icon (self);
 
   if (priv->collection)
     {

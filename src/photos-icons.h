@@ -25,6 +25,8 @@
 
 G_BEGIN_DECLS
 
+#define PHOTOS_ICON_CONTENT_LOADING_SYMBOLIC "content-loading-symbolic"
+
 #define PHOTOS_ICON_EDIT_FIND_SYMBOLIC "edit-find-symbolic"
 
 #define PHOTOS_ICON_FAVORITE "starred"
@@ -33,6 +35,8 @@ G_BEGIN_DECLS
 #define PHOTOS_ICON_GO_DOWN_SYMBOLIC "go-down-symbolic"
 #define PHOTOS_ICON_GO_NEXT_SYMBOLIC "go-next-symbolic"
 #define PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC "go-previous-symbolic"
+
+#define PHOTOS_ICON_IMAGE_X_GENERIC_SYMBOLIC "image-x-generic-symbolic"
 
 #define PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC "object-select-symbolic"
 
