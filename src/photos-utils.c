@@ -96,23 +96,17 @@ photos_utils_border_pixbuf (GdkPixbuf *pixbuf)
 GdkPixbuf *
 photos_utils_center_pixbuf (GdkPixbuf *pixbuf, gint size)
 {
-  GdkPixbuf *opaque_pixbuf = NULL;
   GdkPixbuf *ret_val;
   gint height;
-  gint pixbuf_size;
   gint width;
-  guint32 color;
-
-  height = gdk_pixbuf_get_height (pixbuf);
-  width = gdk_pixbuf_get_width (pixbuf);
-  pixbuf_size = MAX (height, width);
 
   ret_val = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, size, size);
   gdk_pixbuf_fill (ret_val, 0x00000000);
+
+  height = gdk_pixbuf_get_height (pixbuf);
+  width = gdk_pixbuf_get_width (pixbuf);
   gdk_pixbuf_copy_area (pixbuf, 0, 0, width, height, ret_val, (size - width) / 2, (size - height) / 2);
 
- out:
-  g_clear_object (&opaque_pixbuf);
   return ret_val;
 }
 
