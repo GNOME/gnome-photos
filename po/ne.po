@@ -78,7 +78,7 @@ msgstr "सञ्जाल साझेदार वा संसाधन प�
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
-msgstr "फोटो;तस्विर"
+msgstr "फोटो;तस्विर;"
 
 #: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
