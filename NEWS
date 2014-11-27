@@ -1,3 +1,35 @@
+Overview of changes in 3.15.2
+=============================
+
+* Bugs fixed:
+ 709362 base-item, utils: Use subtler images for loading and failure
+ 726505 preview-view: Disable the sliding transition
+ 734845 Show a back button while loading a preview
+ 737071 Improve our state machine, try to enforce the invariants better and
+        avoid races
+ 737310 Ensure that icon-only buttons get the 'image-button' style class
+ 737425 Overlay the spinner instead of switching to a different view
+ 738527 Fix crash when reading scale factor after window has been destroyed
+
+* Updated translations:
+ Simplified Chinese
+ Czech
+ Dutch
+ Gaelic (Scottish)
+ Hungarian
+ Italian
+ Kazakh
+ Korean
+ Latvian
+ Nepali
+ Persian
+ Polish
+ Portuguese
+ Punjabi
+ Turkish
+ Ukrainian
+
+
 Overview of changes in 3.13.92
 ==============================
 
