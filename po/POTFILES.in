@@ -15,7 +15,10 @@ src/photos-delete-notification.c
 [type: gettext/glade]src/photos-dlna-renderers-dialog.ui
 src/photos-embed.c
 src/photos-empty-results-box.c
+src/photos-facebook-item.c
 src/photos-fetch-metas-job.c
+src/photos-flickr-item.c
+src/photos-google-item.c
 src/photos-indexing-notification.c
 src/photos-load-more-button.c
 src/photos-local-item.c

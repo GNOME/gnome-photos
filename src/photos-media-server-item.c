@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
+ * Copyright © 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -50,6 +51,14 @@ G_DEFINE_TYPE_WITH_CODE (PhotosMediaServerItem, photos_media_server_item, PHOTOS
                                                          g_define_type_id,
                                                          "media-server",
                                                          0));
+
+
+static gchar *
+photos_media_server_item_create_name_fallback (PhotosBaseItem *item)
+{
+  /* TODO: provide a sane fallback */
+  return g_strdup ("");
+}
 
 
 static gboolean
@@ -187,6 +196,7 @@ photos_media_server_item_class_init (PhotosMediaServerItemClass *class)
 
   object_class->constructed = photos_media_server_item_constructed;
   object_class->dispose = photos_media_server_item_dispose;
+  base_item_class->create_name_fallback = photos_media_server_item_create_name_fallback;
   base_item_class->create_thumbnail = photos_media_server_item_create_thumbnail;
   base_item_class->download = photos_media_server_item_download;
   base_item_class->get_source_widget = photos_media_server_item_get_source_widget;

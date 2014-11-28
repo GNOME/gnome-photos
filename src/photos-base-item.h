@@ -73,6 +73,7 @@ struct _PhotosBaseItemClass
   const gchar *miner_object_path;
 
   /* virtual methods */
+  gchar *(*create_name_fallback) (PhotosBaseItem *self);
   gboolean (*create_thumbnail) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   gchar *(*download) (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   GtkWidget *(*get_source_widget) (PhotosBaseItem *self);
@@ -116,6 +117,8 @@ gdouble             photos_base_item_get_exposure_time  (PhotosBaseItem *self);
 
 GQuark              photos_base_item_get_flash          (PhotosBaseItem *self);
 
+const gchar        *photos_base_item_get_filename       (PhotosBaseItem *self);
+
 gdouble             photos_base_item_get_fnumber        (PhotosBaseItem *self);
 
 gdouble             photos_base_item_get_focal_length   (PhotosBaseItem *self);
@@ -131,6 +134,8 @@ const gchar        *photos_base_item_get_mime_type      (PhotosBaseItem *self);
 gint64              photos_base_item_get_mtime          (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_name           (PhotosBaseItem *self);
+
+const gchar        *photos_base_item_get_name_with_fallback (PhotosBaseItem *self);
 
 GdkPixbuf          *photos_base_item_get_original_icon  (PhotosBaseItem *self);
 

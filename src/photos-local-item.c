@@ -64,6 +64,18 @@ photos_local_item_delete (GObject *source_object, GAsyncResult *res, gpointer us
 }
 
 
+static gchar *
+photos_local_item_create_name_fallback (PhotosBaseItem *item)
+{
+  const gchar *filename;
+  gchar *ret_val;
+
+  filename = photos_base_item_get_filename (item);
+  ret_val = photos_utils_filename_strip_extension (filename);
+  return ret_val;
+}
+
+
 static gboolean
 photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
@@ -187,6 +199,7 @@ photos_local_item_class_init (PhotosLocalItemClass *class)
   PhotosBaseItemClass *base_item_class = PHOTOS_BASE_ITEM_CLASS (class);
 
   object_class->constructed = photos_local_item_constructed;
+  base_item_class->create_name_fallback = photos_local_item_create_name_fallback;
   base_item_class->create_thumbnail = photos_local_item_create_thumbnail;
   base_item_class->download = photos_local_item_download;
   base_item_class->get_source_widget = photos_local_item_get_source_widget;

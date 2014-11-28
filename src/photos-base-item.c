@@ -70,10 +70,12 @@ struct _PhotosBaseItemPrivate
   const gchar *thumb_path;
   gchar *author;
   gchar *default_app_name;
+  gchar *filename;
   gchar *id;
   gchar *identifier;
   gchar *mime_type;
   gchar *name;
+  gchar *name_fallback;
   gchar *rdf_type;
   gchar *resource_urn;
   gchar *type_description;
@@ -865,6 +867,8 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
     title = "";
   priv->name = g_strdup (title);
 
+  priv->filename = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_FILENAME, NULL));
+
   priv->width = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_WIDTH);
   priv->height = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_HEIGHT);
 
@@ -879,6 +883,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   flash = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_FLASH, NULL);
   priv->flash = g_quark_from_string (flash);
 
+  priv->name_fallback = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_name_fallback (self);
   photos_base_item_refresh_icon (self);
 }
 
@@ -961,10 +966,12 @@ photos_base_item_finalize (GObject *object)
 
   g_free (priv->author);
   g_free (priv->default_app_name);
+  g_free (priv->filename);
   g_free (priv->id);
   g_free (priv->identifier);
   g_free (priv->mime_type);
   g_free (priv->name);
+  g_free (priv->name_fallback);
   g_free (priv->rdf_type);
   g_free (priv->resource_urn);
   g_free (priv->type_description);
@@ -1199,6 +1206,13 @@ photos_base_item_get_flash (PhotosBaseItem *self)
 }
 
 
+const gchar *
+photos_base_item_get_filename (PhotosBaseItem *self)
+{
+  return self->priv->filename;
+}
+
+
 gdouble
 photos_base_item_get_fnumber (PhotosBaseItem *self)
 {
@@ -1252,6 +1266,20 @@ const gchar *
 photos_base_item_get_name (PhotosBaseItem *self)
 {
   return self->priv->name;
+}
+
+
+const gchar *
+photos_base_item_get_name_with_fallback (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  const gchar *name;
+
+  name = priv->name;
+  if (name == NULL || name[0] == '\0')
+    name = priv->name_fallback;
+
+  return name;
 }
 
 

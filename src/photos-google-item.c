@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2014 Red Hat, Inc.
  * Copyright © 2014 Saurav Agarwalla
  *
  * This program is free software; you can redistribute it and/or
@@ -28,6 +29,7 @@
 #include <gdata/gdata.h>
 #include <gio/gio.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
 #include "photos-base-manager.h"
@@ -50,6 +52,33 @@ G_DEFINE_TYPE_WITH_CODE (PhotosGoogleItem, photos_google_item, PHOTOS_TYPE_BASE_
                                                          g_define_type_id,
                                                          "google",
                                                          0));
+
+
+static gchar *
+photos_google_item_create_name_fallback (PhotosBaseItem *item)
+{
+  PhotosGoogleItem *self = PHOTOS_GOOGLE_ITEM (item);
+  GDateTime *date_modified;
+  const gchar *provider_name;
+  gchar *ret_val;
+  gchar *date_modified_str;
+  gint64 mtime;
+
+  provider_name = photos_utils_get_provider_name (self->priv->src_mngr, item);
+
+  mtime = photos_base_item_get_mtime (item);
+  date_modified = g_date_time_new_from_unix_local (mtime);
+  date_modified_str = g_date_time_format (date_modified, "%x");
+
+  /* Translators: this is the fallback title in the form
+   *  "Facebook — 2nd January 2013".
+   */
+  ret_val = g_strdup_printf ("%s — %s", provider_name, date_modified_str);
+
+  g_free (date_modified_str);
+  g_date_time_unref (date_modified);
+  return ret_val;
+}
 
 
 static GDataEntry *
@@ -307,6 +336,7 @@ photos_google_item_class_init (PhotosGoogleItemClass *class)
 
   object_class->constructed = photos_google_item_constructed;
   object_class->dispose = photos_google_item_dispose;
+  base_item_class->create_name_fallback = photos_google_item_create_name_fallback;
   base_item_class->create_thumbnail = photos_google_item_create_thumbnail;
   base_item_class->download = photos_google_item_download;
   base_item_class->get_source_widget = photos_google_item_get_source_widget;
