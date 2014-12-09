@@ -123,19 +123,30 @@ photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
   GtkWidgetPath *path;
   gint cur_x;
   gint cur_y;
-  gint idx;
   gint padding;
   gint pix_height;
   gint pix_width;
   gint scale_size;
   gint tile_size;
+  guint idx;
+  guint n_grid;
+  guint n_pixbufs;
+  guint n_tiles;
 
-  /* TODO: do not hardcode 4, but scale to another layout if more
-   * pixbufs are provided.
-   */
+  n_pixbufs = g_list_length (pixbufs);
+  if (n_pixbufs < 3)
+    {
+      n_grid = 1;
+      n_tiles = 1;
+    }
+  else
+    {
+      n_grid = 2;
+      n_tiles = 4;
+    }
 
   padding = MAX (base_size / 10, 4);
-  tile_size = (base_size - (3 * padding)) / 2;
+  tile_size = (base_size - ((n_grid + 1) * padding)) / n_grid;
 
   context = gtk_style_context_new ();
   gtk_style_context_add_class (context, "photos-collection-icon");
@@ -155,7 +166,7 @@ photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
   cur_x = padding;
   cur_y = padding;
 
-  while (l != NULL && idx < 4)
+  while (l != NULL && idx < n_tiles)
     {
       pix = l->data;
       pix_width = gdk_pixbuf_get_width (pix);
@@ -177,18 +188,18 @@ photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
       cairo_paint (cr);
       cairo_restore (cr);
 
-      if ((idx % 2) == 0)
-        {
-          cur_x += tile_size + padding;
-        }
-      else
+      idx++;
+      l = l->next;
+
+      if ((idx % n_grid) == 0)
         {
           cur_x = padding;
           cur_y += tile_size + padding;
         }
-
-      idx++;
-      l = l->next;
+      else
+        {
+          cur_x += tile_size + padding;
+        }
     }
 
   ret_val = G_ICON (gdk_pixbuf_get_from_surface (surface, 0, 0, base_size, base_size));
