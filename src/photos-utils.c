@@ -134,7 +134,7 @@ photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
    * pixbufs are provided.
    */
 
-  padding = MAX (floor (base_size / 10), 4);
+  padding = MAX (base_size / 10, 4);
   tile_size = (base_size - (3 * padding)) / 2;
 
   context = gtk_style_context_new ();
