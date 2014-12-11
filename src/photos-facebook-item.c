@@ -75,7 +75,7 @@ photos_facebook_item_create_name_fallback (PhotosBaseItem *item)
   /* Translators: this is the fallback title in the form
    *  "Facebook — 2nd January 2013".
    */
-  ret_val = g_strdup_printf ("%s — %s", provider_name, date_modified_str);
+  ret_val = g_strdup_printf (_("%s — %s"), provider_name, date_modified_str);
 
   g_free (date_modified_str);
   g_date_time_unref (date_modified);
