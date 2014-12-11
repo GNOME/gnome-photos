@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2006, 2007 The Free Software Foundation
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -719,7 +719,7 @@ photos_print_setup_wrap_in_frame (const gchar *label, GtkWidget *child)
   gchar *bold_text;
 
   label_widget = gtk_label_new ("");
-  gtk_misc_set_alignment (GTK_MISC (label_widget), 0.0, 0.5);
+  gtk_label_set_xalign (GTK_LABEL (label_widget), 0.0);
   gtk_widget_show (label_widget);
 
   bold_text = g_markup_printf_escaped ("<b>%s</b>", label);
@@ -749,7 +749,7 @@ grid_attach_spin_button_with_label (GtkWidget *grid, const gchar* text_label, gi
   GtkWidget *spin_button;
 
   label = gtk_label_new_with_mnemonic (text_label);
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
   spin_button = gtk_spin_button_new_with_range (0, 100, 0.01);
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (spin_button), 2);
   gtk_entry_set_width_chars (GTK_ENTRY (spin_button), 6);
@@ -912,7 +912,7 @@ photos_print_setup_init (PhotosPrintSetup *self)
   priv->bottom = grid_attach_spin_button_with_label (grid, _("_Bottom:"), 2, 1);
 
   label = gtk_label_new_with_mnemonic (_("C_enter:"));
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
 
   combobox = gtk_combo_box_text_new ();
   gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (combobox), CENTER_NONE, _("None"));
@@ -947,7 +947,7 @@ photos_print_setup_init (PhotosPrintSetup *self)
   priv->scaling = hscale;
 
   label = gtk_label_new_with_mnemonic (_("_Unit:"));
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  gtk_label_set_xalign (GTK_LABEL (label), 0.0);
 
   combobox = gtk_combo_box_text_new ();
   gtk_combo_box_text_insert_text (GTK_COMBO_BOX_TEXT (combobox), UNIT_MM, _("Millimeters"));

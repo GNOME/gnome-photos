@@ -112,10 +112,10 @@ photos_empty_results_box_add_collections_label (PhotosEmptyResultsBox *self)
 
   details = gtk_label_new (_("Name your first album"));
   gtk_widget_set_halign (details, GTK_ALIGN_START);
-  gtk_misc_set_alignment (GTK_MISC (details), 0.0, 0.5);
   gtk_label_set_line_wrap (GTK_LABEL (details), TRUE);
   gtk_label_set_max_width_chars (GTK_LABEL (details), 24);
   gtk_label_set_use_markup (GTK_LABEL (details), TRUE);
+  gtk_label_set_xalign (GTK_LABEL (details), 0.0);
   gtk_container_add (GTK_CONTAINER (self->priv->labels_grid), details);
 }
 
@@ -140,10 +140,10 @@ photos_empty_results_box_add_system_settings_label (PhotosEmptyResultsBox *self)
 
   details = gtk_label_new (details_str);
   gtk_widget_set_halign (details, GTK_ALIGN_START);
-  gtk_misc_set_alignment (GTK_MISC (details), 0.0, 0.5);
   gtk_label_set_line_wrap (GTK_LABEL (details), TRUE);
   gtk_label_set_max_width_chars (GTK_LABEL (details), 24);
   gtk_label_set_use_markup (GTK_LABEL (details), TRUE);
+  gtk_label_set_xalign (GTK_LABEL (details), 0.0);
   gtk_container_add (GTK_CONTAINER (self->priv->labels_grid), details);
 
   g_signal_connect_swapped (details, "activate-link", G_CALLBACK (photos_empty_results_box_activate_link), self);
