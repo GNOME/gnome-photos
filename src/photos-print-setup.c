@@ -628,39 +628,36 @@ on_preview_pixbuf_moved (PhotosPrintPreview *preview, gpointer user_data)
 
 
 static gboolean
-on_preview_image_scrolled (GtkWidget *widget,
-			   GdkEventScroll *event,
-			   gpointer user_data)
+on_preview_image_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer user_data)
 {
-	PhotosPrintSetupPrivate *priv = PHOTOS_PRINT_SETUP (user_data)->priv;
-	PhotosPrintPreview *preview = PHOTOS_PRINT_PREVIEW (widget);
-	gfloat scale;
+  PhotosPrintSetup *self = PHOTOS_PRINT_SETUP (user_data);
+  PhotosPrintSetupPrivate *priv = self->priv;
+  PhotosPrintPreview *preview = PHOTOS_PRINT_PREVIEW (widget);
+  gfloat scale;
 
-	scale = photos_print_preview_get_scale (preview);
+  scale = photos_print_preview_get_scale (preview);
 
-	if (!photos_print_preview_point_in_image_area (preview,
-						    event->x, event->y))
-	{
-		return FALSE;
-	}
+  if (!photos_print_preview_point_in_image_area (preview, event->x, event->y))
+    return FALSE;
 
-	switch (event->direction) {
-	case GDK_SCROLL_UP:
-		/* scale up */
-		scale *= 1.1;
-		break;
-	case GDK_SCROLL_DOWN:
-		/* scale down */
-		scale *= 0.9;
-		break;
-	default:
-		return FALSE;
-		break;
-	}
+  switch (event->direction)
+    {
+    case GDK_SCROLL_UP:
+      /* scale up */
+      scale *= 1.1;
+      break;
+    case GDK_SCROLL_DOWN:
+      /* scale down */
+      scale *= 0.9;
+      break;
+    default:
+      return FALSE;
+      break;
+    }
 
-	gtk_range_set_value (GTK_RANGE (priv->scaling), 100*scale);
+  gtk_range_set_value (GTK_RANGE (priv->scaling), 100*scale);
 
-	return TRUE;
+  return TRUE;
 }
 
 
@@ -730,23 +727,21 @@ photos_print_setup_wrap_in_frame (const gchar *label, GtkWidget *child)
 
 
 static GtkWidget *
-grid_attach_spin_button_with_label (GtkWidget *grid,
-				    const gchar* text_label,
-				    gint left, gint top)
+grid_attach_spin_button_with_label (GtkWidget *grid, const gchar* text_label, gint left, gint top)
 {
-	GtkWidget *label, *spin_button;
+  GtkWidget *label;
+  GtkWidget *spin_button;
 
-	label = gtk_label_new_with_mnemonic (text_label);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	spin_button = gtk_spin_button_new_with_range (0, 100, 0.01);
-	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (spin_button), 2);
-	gtk_entry_set_width_chars (GTK_ENTRY (spin_button), 6);
-	gtk_grid_attach (GTK_GRID (grid), label, left, top, 1, 1);
-	gtk_grid_attach_next_to (GTK_GRID (grid), spin_button, label,
-				 GTK_POS_RIGHT, 1, 1);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), spin_button);
+  label = gtk_label_new_with_mnemonic (text_label);
+  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  spin_button = gtk_spin_button_new_with_range (0, 100, 0.01);
+  gtk_spin_button_set_digits (GTK_SPIN_BUTTON (spin_button), 2);
+  gtk_entry_set_width_chars (GTK_ENTRY (spin_button), 6);
+  gtk_grid_attach (GTK_GRID (grid), label, left, top, 1, 1);
+  gtk_grid_attach_next_to (GTK_GRID (grid), spin_button, label, GTK_POS_RIGHT, 1, 1);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label), spin_button);
 
-	return spin_button;
+  return spin_button;
 }
 
 
