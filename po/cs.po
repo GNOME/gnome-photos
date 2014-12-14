@@ -27,7 +27,7 @@ msgstr "Fotky"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
-msgstr "Zobrazovat, třídit a sdílet své fotografie v GNOME"
+msgstr "Prohlížejte si, roztříďte a sdílejte své fotografie v GNOME"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
