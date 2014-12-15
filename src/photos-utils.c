@@ -21,6 +21,7 @@
 /* Based on code from:
  *   + Documents
  *   + Eye of GNOME
+ *   + Totem
  */
 
 
