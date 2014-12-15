@@ -1,3 +1,15 @@
+Overview of changes in 3.15.3
+=============================
+
+* Bugs fixed:
+ 733214 Use a fallback name in the header bar during preview
+ 740417 Don't scale up thumbnails
+ 740624 Albums with only one photo look odd
+
+* Updated translations:
+ Czech
+
+
 Overview of changes in 3.15.2
 =============================
 
