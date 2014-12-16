@@ -485,7 +485,13 @@ photos_properties_dialog_constructed (GObject *object)
       else if (flash == PHOTOS_FLASH_ON)
         flash_str = g_strdup (_("On, fired"));
       else
-        g_assert_not_reached ();
+        {
+          const gchar *str;
+
+          str = g_quark_to_string (flash);
+          g_warning ("Unknown value for nmm:flash: %s", str);
+          g_assert_not_reached ();
+        }
 
       flash_data = gtk_label_new (flash_str);
       gtk_widget_set_halign (flash_data, GTK_ALIGN_START);
