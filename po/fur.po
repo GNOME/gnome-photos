@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2014-12-24 08:17+0000\n"
-"PO-Revision-Date: 2014-12-24 17:26+0100\n"
+"PO-Revision-Date: 2014-12-24 17:28+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -51,7 +51,7 @@ msgstr "Viôt fotos locâi e online recents"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:6
 msgid "Access your Facebook or Flickr content"
-msgstr ""
+msgstr "Acedi ai tiei contignûts di Facebook o Flickr"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:7
 msgid "Send photos to remote DLNA renderers"
