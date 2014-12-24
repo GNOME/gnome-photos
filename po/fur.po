@@ -1,0 +1,605 @@
+# Friulian translation for gnome-photos.
+# Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Fabio Tomat <f.t.public@gmail.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-12-24 08:17+0000\n"
+"PO-Revision-Date: 2014-12-24 17:26+0100\n"
+"Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
+"Language-Team: Friulian <fur@li.org>\n"
+"Language: fur\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
+msgid "Photos"
+msgstr "Fotos"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Jentre, organize e condivît lis tôs fotos su GNOME"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Une semplice aplicazion par acedi, organizâ e condividi lis tôs fotos su "
+"GNOME. Al è fat par sedi une semplice e elegante sostituzion a un file "
+"manager par ministrâ lis fotos. Le integrazion cun il cloud a je ufierte vie "
+"GNOME Online Accounts."
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:4
+msgid "It lets you:"
+msgstr "A ti permet di:"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+msgid "View recent local and online photos"
+msgstr "Viôt fotos locâi e online recents"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+msgid "Access your Facebook or Flickr content"
+msgstr ""
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+msgid "Send photos to remote DLNA renderers"
+msgstr "Invie fotos a visôrs DLNA rimots"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+msgid "Set as background"
+msgstr "Dopre come sfont"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+msgid "Print photos"
+msgstr "Stampe fotos"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+msgid "Select favorites"
+msgstr "Selezione preferîts"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+msgid "Allow opening full featured editor for more advanced changes"
+msgstr ""
+"Al permet di vierzi un editor cun plenis funzions par modifichis plui "
+"avanzadis"
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Acedi, ministre e condivît fotos"
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Fotos;Inmagjinis;"
+
+#: ../data/org.gnome.photos.gschema.xml.h:1
+msgid "Window size"
+msgstr "Dimension barcon"
+
+#: ../data/org.gnome.photos.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Dimension barcon (largjece e altece)."
+
+#: ../data/org.gnome.photos.gschema.xml.h:3
+msgid "Window position"
+msgstr "Posizion barcon"
+
+#: ../data/org.gnome.photos.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Posizion barcon (x e y)"
+
+#: ../data/org.gnome.photos.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Barcon slargjât"
+
+#: ../data/org.gnome.photos.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Stât barcon slargjât"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (obietîf)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm film)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Trasformazion su figure no cjariade."
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Trasformazion falide."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "EXIF no supuartât par chest formât di file."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Cjariament figure falide."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Nissune figure cjariade."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "No tu âs i permès necessaris par salvâ il file."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Creazion file temporani falide."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Almancul doi nons di file a son compagns."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Impussibil mostrâ il jutori par Visôr di figuris"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr " (Unicode no valit)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Plen visôr"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Jutori"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "About"
+msgstr "Informazions"
+
+#: ../src/photos-app-menu.ui.h:4
+msgid "Quit"
+msgstr "Jes"
+
+#: ../src/photos-base-item.c:410
+msgid "Album"
+msgstr "Album"
+
+#: ../src/photos-base-item.c:862
+msgid "Screenshots"
+msgstr "Videadis"
+
+#: ../src/photos-delete-notification.c:135
+msgid "Selected item has been deleted"
+msgid_plural "Selected items have been deleted"
+msgstr[0] "L'element selezionât al è stât eliminât"
+msgstr[1] "I elements selezionâts a son stâts eliminâts"
+
+#: ../src/photos-delete-notification.c:141
+msgid "Undo"
+msgstr "Anule"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "Dispositîfs visôrs DLNA"
+
+#: ../src/photos-embed.c:619
+msgid "Recent"
+msgstr "Recent"
+
+#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
+msgid "Albums"
+msgstr "Album"
+
+#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
+msgid "Favorites"
+msgstr "Preferîts"
+
+#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
+msgid "Search"
+msgstr "Cîr"
+
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "Da un non al tô prin album"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+msgid "Settings"
+msgstr "Impostazions"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Tu puedis zontâ i tiei account online in %s"
+
+#: ../src/photos-empty-results-box.c:189
+msgid "No Albums Found"
+msgstr "Nissun album cjatât"
+
+#: ../src/photos-empty-results-box.c:193
+msgid "No Favorites Found"
+msgstr "Nissun preferît cjatât"
+
+#: ../src/photos-empty-results-box.c:198
+msgid "No Photos Found"
+msgstr "Nissune foto cjatade"
+
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:78 ../src/photos-flickr-item.c:88
+#: ../src/photos-google-item.c:76
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
+
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Foto cence non"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Daûr a tirâ ju fotos di %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Daûr a tirâ ju fotos dai account online"
+
+#: ../src/photos-indexing-notification.c:213
+msgid "Your photos are being indexed"
+msgstr "Lis tôs fotos a son stadis metudis in indiç"
+
+#: ../src/photos-indexing-notification.c:214
+msgid "Some photos might not be available during this process"
+msgstr "Cualchi foto a podarès no sedi disponibil dilunc chest procès"
+
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:191
+msgid "Load More"
+msgstr "Cjarie ancjemò"
+
+#: ../src/photos-load-more-button.c:85
+msgid "Loading…"
+msgstr "Daûr a cjariâ..."
+
+#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+msgid "Local"
+msgstr "Locâl"
+
+#: ../src/photos-main-toolbar.c:110
+msgid "Click on items to select them"
+msgstr "Cliche sui elements par selezionâju"
+
+#: ../src/photos-main-toolbar.c:112
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d selezionât"
+msgstr[1] "%d selezionâts"
+
+#: ../src/photos-main-toolbar.c:162
+msgid "Back"
+msgstr "Indaûr"
+
+#: ../src/photos-main-toolbar.c:304
+msgid "Select Items"
+msgstr "Selezione elements"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#, c-format
+msgid "Open with %s"
+msgstr "Vierç cun %s"
+
+#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+msgid "Remove from favorites"
+msgstr "Gjave dai preferîts"
+
+#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+msgid "Add to favorites"
+msgstr "Zonte tai preferîts"
+
+#: ../src/photos-main-toolbar.c:651
+msgid "Cancel"
+msgstr "Anule"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:481
+msgid "translator-credits"
+msgstr "Fabio Tomat <f.t.public@gmail.com>"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Zonte"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_OK"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Organize"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-selection-toolbar.c:457
+msgid "Open"
+msgstr "Vierç"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Stampe..."
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Mostre su..."
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Dopre come sfont"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:609
+#: ../src/photos-selection-toolbar.c:478
+msgid "Properties"
+msgstr "Proprietâts"
+
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Stampe “%s”: %s"
+
+#: ../src/photos-print-operation.c:272
+msgid "Image Settings"
+msgstr "Impostazions figure"
+
+#: ../src/photos-print-setup.c:890
+msgid "Position"
+msgstr "Posizion"
+
+#: ../src/photos-print-setup.c:893
+msgid "_Left:"
+msgstr "_Çampe:"
+
+#: ../src/photos-print-setup.c:894
+msgid "_Right:"
+msgstr "_Diestre:"
+
+#: ../src/photos-print-setup.c:895
+msgid "_Top:"
+msgstr "_Parsore:"
+
+#: ../src/photos-print-setup.c:896
+msgid "_Bottom:"
+msgstr "_Sot:"
+
+#: ../src/photos-print-setup.c:898
+msgid "C_enter:"
+msgstr "C_entri:"
+
+#: ../src/photos-print-setup.c:902
+msgid "None"
+msgstr "Nissune"
+
+#: ../src/photos-print-setup.c:903
+msgid "Horizontal"
+msgstr "Orizontâl"
+
+#: ../src/photos-print-setup.c:904
+msgid "Vertical"
+msgstr "Verticâl"
+
+#: ../src/photos-print-setup.c:905
+msgid "Both"
+msgstr "Ducj i doi"
+
+#: ../src/photos-print-setup.c:918
+msgid "Size"
+msgstr "Dimension"
+
+#: ../src/photos-print-setup.c:921
+msgid "_Width:"
+msgstr "_Largjece:"
+
+#: ../src/photos-print-setup.c:922
+msgid "_Height:"
+msgstr "_Altece:"
+
+#: ../src/photos-print-setup.c:924
+msgid "_Scaling:"
+msgstr "_Scjale:"
+
+#: ../src/photos-print-setup.c:933
+msgid "_Unit:"
+msgstr "_Unitât:"
+
+#: ../src/photos-print-setup.c:937
+msgid "Millimeters"
+msgstr "Milimetris"
+
+#: ../src/photos-print-setup.c:938
+msgid "Inches"
+msgstr "Oncis"
+
+#: ../src/photos-print-setup.c:966
+msgid "Preview"
+msgstr "Anteprime"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:217
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Titul"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:229
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Autôr"
+
+#: ../src/photos-properties-dialog.c:236
+msgid "Source"
+msgstr "Sorzint"
+
+#: ../src/photos-properties-dialog.c:242
+msgid "Date Modified"
+msgstr "Date modifiche"
+
+#: ../src/photos-properties-dialog.c:250
+msgid "Date Created"
+msgstr "Date creazion"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:260
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Gjenar"
+
+#: ../src/photos-properties-dialog.c:269
+msgid "Width"
+msgstr "Largjece"
+
+#: ../src/photos-properties-dialog.c:279
+msgid "Height"
+msgstr "Altece"
+
+#: ../src/photos-properties-dialog.c:294
+msgid "Camera"
+msgstr "Cjamare"
+
+#: ../src/photos-properties-dialog.c:304
+msgid "Exposure"
+msgstr "Esposizion"
+
+#: ../src/photos-properties-dialog.c:314
+msgid "Aperture"
+msgstr "Viertidure"
+
+#: ../src/photos-properties-dialog.c:324
+msgid "Focal Length"
+msgstr "Lungjece focâl"
+
+#: ../src/photos-properties-dialog.c:334
+msgid "ISO Speed"
+msgstr "Velocitât ISO"
+
+#: ../src/photos-properties-dialog.c:344
+msgid "Flash"
+msgstr "Flash"
+
+#: ../src/photos-properties-dialog.c:484
+msgid "Off, did not fire"
+msgstr "Studât, nol à iluminât"
+
+#: ../src/photos-properties-dialog.c:486
+msgid "On, fired"
+msgstr "Piât, al à iluminât"
+
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+msgid "All"
+msgstr "Dutis"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Titul"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Autôr"
+
+#: ../src/photos-search-match-manager.c:205
+msgid "Match"
+msgstr "Corispuint"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:154
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Gjenar"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Selezione dutis"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Nissune selezion"
+
+#: ../src/photos-selection-toolbar.c:464
+msgid "Print"
+msgstr "Stampe"
+
+#: ../src/photos-selection-toolbar.c:471
+msgid "Delete"
+msgstr "Elimine"
+
+#: ../src/photos-selection-toolbar.c:485
+msgid "Add to Album"
+msgstr "Zonte tal album"
+
+#: ../src/photos-source-manager.c:174
+msgid "Sources"
+msgstr "Sorzints"
+
+#: ../src/photos-tracker-controller.c:96
+msgid "Unable to fetch the list of photos"
+msgstr "Impussibil vê la liste das fotos"
