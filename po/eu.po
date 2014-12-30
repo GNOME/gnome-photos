@@ -2,7 +2,6 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-#
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2013, 2014.
 #
 msgid ""
@@ -10,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-08-07 12:14+0200\n"
-"PO-Revision-Date: 2014-07-29 19:34+0200\n"
+"POT-Creation-Date: 2014-12-30 16:34+0100\n"
+"PO-Revision-Date: 2014-12-30 16:34+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <librezale@librezale.org>\n"
 "Language: eu\n"
@@ -27,7 +26,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Argazkiak"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Atzitu, antolatu eta partekatu zure argazkiak GNOMEn"
 
@@ -196,21 +195,21 @@ msgstr "Honi buruz"
 msgid "Quit"
 msgstr "Irten"
 
-#: ../src/photos-base-item.c:347
+#: ../src/photos-base-item.c:410
 msgid "Album"
 msgstr "Albuma"
 
-#: ../src/photos-base-item.c:810
+#: ../src/photos-base-item.c:862
 msgid "Screenshots"
 msgstr "Pantaila-argazkiak"
 
-#: ../src/photos-delete-notification.c:139
+#: ../src/photos-delete-notification.c:135
 msgid "Selected item has been deleted"
 msgid_plural "Selected items have been deleted"
 msgstr[0] "Hautatutako elementua ezabatu da"
 msgstr[1] "Hautatutako elementuak ezabatu dira"
 
-#: ../src/photos-delete-notification.c:150
+#: ../src/photos-delete-notification.c:141
 msgid "Undo"
 msgstr "Desegin"
 
@@ -218,19 +217,19 @@ msgstr "Desegin"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA errendatzaileen gailuak"
 
-#: ../src/photos-embed.c:722
+#: ../src/photos-embed.c:619
 msgid "Recent"
 msgstr "Duela gutxi erabilita"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumak"
 
-#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Gogokoak"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:289
+#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
 msgid "Search"
 msgstr "Bilatu"
 
@@ -266,6 +265,15 @@ msgstr "Ez da gogokorik aurkitu"
 msgid "No Photos Found"
 msgstr "Ez da argazkirik aurkitu"
 
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:78 ../src/photos-flickr-item.c:88
+#: ../src/photos-google-item.c:76
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
+
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
 msgstr "Izengabeko argazkia"
@@ -290,57 +298,57 @@ msgstr "Zure argazkiak indexatzen ari dira"
 msgid "Some photos might not be available during this process"
 msgstr "Argazki batzuk ez dira erabilgarri egongo prozesuan zehar"
 
-#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
+#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:191
 msgid "Load More"
 msgstr "Kargatu gehiago"
 
-#: ../src/photos-load-more-button.c:86
+#: ../src/photos-load-more-button.c:85
 msgid "Loading…"
 msgstr "Kargatzen…"
 
-#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokala"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "Egin klik elementuen gainean hautatzeko"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d hautatuta"
 msgstr[1] "%d hautatuta"
 
-#: ../src/photos-main-toolbar.c:163
+#: ../src/photos-main-toolbar.c:162
 msgid "Back"
 msgstr "Atzera"
 
-#: ../src/photos-main-toolbar.c:305
+#: ../src/photos-main-toolbar.c:304
 msgid "Select Items"
 msgstr "Hautatu elementuak"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:428 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Ireki honekin: %s"
 
-#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Kendu gogokoetatik"
 
-#: ../src/photos-main-toolbar.c:479 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Gehitu gogokoei"
 
-#: ../src/photos-main-toolbar.c:649
+#: ../src/photos-main-toolbar.c:651
 msgid "Cancel"
 msgstr "Utzi"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:484
+#: ../src/photos-main-window.c:481
 msgid "translator-credits"
 msgstr "Iñaki Larrañaga Murgoitio <dooteo@zundan.com>"
 
@@ -360,7 +368,7 @@ msgstr "Antolatu"
 
 #. Translators: this is the Open action in a context menu
 #: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
-#: ../src/photos-selection-toolbar.c:455
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Ireki"
 
@@ -376,8 +384,8 @@ msgstr "Bistaratu…"
 msgid "Set as Background"
 msgstr "Ezarri atzeko plano gisa"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
-#: ../src/photos-selection-toolbar.c:476
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:609
+#: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Propietateak"
 
@@ -390,82 +398,82 @@ msgstr "“%s” inprimatzen: %s"
 msgid "Image Settings"
 msgstr "Irudiaren ezarpenak"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:890
 msgid "Position"
 msgstr "Posizioa"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:893
 msgid "_Left:"
 msgstr "E_zkerra:"
 
-#: ../src/photos-print-setup.c:899
+#: ../src/photos-print-setup.c:894
 msgid "_Right:"
 msgstr "E_skuina:"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:895
 msgid "_Top:"
 msgstr "_Goia:"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:896
 msgid "_Bottom:"
 msgstr "_Behea:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:898
 msgid "C_enter:"
 msgstr "Z_entruan:"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:902
 msgid "None"
 msgstr "Bat ere ez"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:903
 msgid "Horizontal"
 msgstr "Horizontala"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:904
 msgid "Vertical"
 msgstr "Bertikala"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:905
 msgid "Both"
 msgstr "Biak"
 
-#: ../src/photos-print-setup.c:923
+#: ../src/photos-print-setup.c:918
 msgid "Size"
 msgstr "Tamaina"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:921
 msgid "_Width:"
 msgstr "_Zabalera:"
 
-#: ../src/photos-print-setup.c:927
+#: ../src/photos-print-setup.c:922
 msgid "_Height:"
 msgstr "_Altuera:"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:924
 msgid "_Scaling:"
 msgstr "_Eskalatzea:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:933
 msgid "_Unit:"
 msgstr "_Unitatea:"
 
-#: ../src/photos-print-setup.c:942
+#: ../src/photos-print-setup.c:937
 msgid "Millimeters"
 msgstr "Milimetroak"
 
-#: ../src/photos-print-setup.c:943
+#: ../src/photos-print-setup.c:938
 msgid "Inches"
 msgstr "Hazbeteak"
 
-#: ../src/photos-print-setup.c:971
+#: ../src/photos-print-setup.c:966
 msgid "Preview"
 msgstr "Aurrebista"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:216
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Titulua"
@@ -473,68 +481,68 @@ msgstr "Titulua"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:228
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Egilea"
 
-#: ../src/photos-properties-dialog.c:235
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Iturburua"
 
-#: ../src/photos-properties-dialog.c:241
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Aldatze-data"
 
-#: ../src/photos-properties-dialog.c:249
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Sortze-data"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:259
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Mota"
 
-#: ../src/photos-properties-dialog.c:268
+#: ../src/photos-properties-dialog.c:269
 msgid "Width"
 msgstr "Zabalera"
 
-#: ../src/photos-properties-dialog.c:278
+#: ../src/photos-properties-dialog.c:279
 msgid "Height"
 msgstr "Altuera"
 
-#: ../src/photos-properties-dialog.c:293
+#: ../src/photos-properties-dialog.c:294
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:303
+#: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
 msgstr "Esposizioa"
 
-#: ../src/photos-properties-dialog.c:313
+#: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
 msgstr "Irekiera"
 
-#: ../src/photos-properties-dialog.c:323
+#: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
 msgstr "Foku-distantzia"
 
-#: ../src/photos-properties-dialog.c:333
+#: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
 msgstr "ISO abiadura"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:344
 msgid "Flash"
 msgstr "Flasha"
 
-#: ../src/photos-properties-dialog.c:483
+#: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
 msgstr "Desaktibatuta, flashik gabe"
 
-#: ../src/photos-properties-dialog.c:485
+#: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
 msgstr "Aktibatuta, flasharekin"
 
@@ -575,15 +583,15 @@ msgstr "Hautatu dena"
 msgid "Select None"
 msgstr "Hautatu bat ere ez"
 
-#: ../src/photos-selection-toolbar.c:462
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "Inprimatu"
 
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: ../src/photos-selection-toolbar.c:483
+#: ../src/photos-selection-toolbar.c:485
 msgid "Add to Album"
 msgstr "Gehitu albumari"
 
