@@ -125,8 +125,6 @@ gnome_photos_SOURCES = \
 	photos-indexing-notification.h \
 	photos-item-manager.c \
 	photos-item-manager.h \
-	photos-load-more-button.c \
-	photos-load-more-button.h \
 	photos-local-item.c \
 	photos-local-item.h \
 	photos-main-toolbar.c \

@@ -30,7 +30,6 @@
 #include "photos-enums.h"
 #include "photos-error-box.h"
 #include "photos-item-manager.h"
-#include "photos-load-more-button.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-offset-collections-controller.h"
 #include "photos-offset-overview-controller.h"
@@ -53,7 +52,6 @@ struct _PhotosViewContainerPrivate
   GtkListStore *model;
   GtkTreePath *current_path;
   GtkWidget *error_box;
-  GtkWidget *load_more;
   GtkWidget *no_results;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
@@ -78,66 +76,21 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosViewContainer, photos_view_container, GTK_TYPE
 
 
 static void
-photos_view_container_view_changed (PhotosViewContainer *self)
+photos_view_container_view_changed (PhotosViewContainer *self, GtkPositionType pos)
 {
-  PhotosViewContainerPrivate *priv = self->priv;
-  GtkAdjustment *vadjustment;
-  GtkWidget *vscrollbar;
-  gboolean end = FALSE;
-  gdouble page_size;
-  gdouble upper;
-  gdouble value;
-  gint reveal_area_height = 32;
-
-  vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (priv->view));
-  if (vscrollbar == NULL || !gtk_widget_get_visible (GTK_WIDGET (vscrollbar)))
-    {
-      photos_load_more_button_set_block (PHOTOS_LOAD_MORE_BUTTON (priv->load_more), TRUE);
-      return;
-    }
-
-  vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
-  page_size = gtk_adjustment_get_page_size (vadjustment);
-  upper = gtk_adjustment_get_upper (vadjustment);
-  value = gtk_adjustment_get_value (vadjustment);
-
-  /* Special case these values which happen at construction */
-  if ((gint) value == 0 && (gint) upper == 1 && (gint) page_size == 1)
-    end = FALSE;
-  else
-    end = !(value < (upper - page_size - reveal_area_height));
-
-  photos_load_more_button_set_block (PHOTOS_LOAD_MORE_BUTTON (priv->load_more), !end);
+  if (pos == GTK_POS_BOTTOM)
+    photos_offset_controller_increase_offset (self->priv->offset_cntrlr);
 }
 
 
 static void
 photos_view_container_connect_view (PhotosViewContainer *self)
 {
-  PhotosViewContainerPrivate *priv = self->priv;
-  GtkAdjustment *vadjustment;
-  GtkWidget *vscrollbar;
-
-  vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
-  g_signal_connect_object (vadjustment,
-                           "changed",
+  g_signal_connect_object (self->priv->view,
+                           "edge-overshot",
                            G_CALLBACK (photos_view_container_view_changed),
                            self,
                            G_CONNECT_SWAPPED);
-  g_signal_connect_object (vadjustment,
-                           "value-changed",
-                           G_CALLBACK (photos_view_container_view_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-
-  vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (priv->view));
-  g_signal_connect_object (vscrollbar,
-                           "notify::visible",
-                           G_CALLBACK (photos_view_container_view_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-
-  photos_view_container_view_changed (self);
 }
 
 
@@ -155,14 +108,8 @@ static void
 photos_view_container_disconnect_view (PhotosViewContainer *self)
 {
   PhotosViewContainerPrivate *priv = self->priv;
-  GtkAdjustment *vadjustment;
-  GtkWidget *vscrollbar;
 
-  vadjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->view));
-  vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (priv->view));
-
-  g_signal_handlers_disconnect_by_func (vadjustment, photos_view_container_view_changed, self);
-  g_signal_handlers_disconnect_by_func (vscrollbar, photos_view_container_view_changed, self);
+  g_signal_handlers_disconnect_by_func (priv->view, photos_view_container_view_changed, self);
 }
 
 
@@ -319,9 +266,6 @@ photos_view_container_constructed (GObject *object)
   size = photos_utils_get_icon_size_unscaled ();
   gtk_icon_view_set_item_width (GTK_ICON_VIEW (generic_view), size + 24);
   gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (priv->view));
-
-  priv->load_more = photos_load_more_button_new (priv->mode);
-  gtk_container_add (GTK_CONTAINER (grid), priv->load_more);
 
   gtk_widget_show_all (GTK_WIDGET (self));
 
