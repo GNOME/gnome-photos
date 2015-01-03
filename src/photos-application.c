@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 Pranav Kant
+ * Copyright © 2014, 2015 Pranav Kant
  * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -101,6 +101,13 @@ enum
 {
   MINER_REFRESH_TIMEOUT = 60 /* s */
 };
+
+static const gchar *DESKTOP_BACKGROUND_SCHEMA = "org.gnome.desktop.background";
+static const gchar *DESKTOP_KEY_PICTURE_URI = "picture-uri";
+static const gchar *DESKTOP_KEY_PICTURE_OPTIONS = "picture-options";
+static const gchar *DESKTOP_KEY_COLOR_SHADING_TYPE = "color-shading-type";
+static const gchar *DESKTOP_KEY_PRIMARY_COLOR = "primary-color";
+static const gchar *DESKTOP_KEY_SECONDARY_COLOR = "secondary-color";
 
 typedef struct _PhotosApplicationRefreshData PhotosApplicationRefreshData;
 
@@ -508,11 +515,11 @@ photos_application_set_bg_download (GObject *source_object, GAsyncResult *res, g
     }
 
 
-  g_settings_set_string (priv->settings, "picture-uri", filename);
-  g_settings_set_enum (priv->settings, "picture-options", G_DESKTOP_BACKGROUND_STYLE_ZOOM);
-  g_settings_set_enum (priv->settings, "color-shading-type", G_DESKTOP_BACKGROUND_SHADING_SOLID);
-  g_settings_set_string (priv->settings, "primary-color", "#000000000000");
-  g_settings_set_string (priv->settings, "secondary-color", "#000000000000");
+  g_settings_set_string (priv->settings, DESKTOP_KEY_PICTURE_URI, filename);
+  g_settings_set_enum (priv->settings, DESKTOP_KEY_PICTURE_OPTIONS, G_DESKTOP_BACKGROUND_STYLE_ZOOM);
+  g_settings_set_enum (priv->settings, DESKTOP_KEY_COLOR_SHADING_TYPE, G_DESKTOP_BACKGROUND_SHADING_SOLID);
+  g_settings_set_string (priv->settings, DESKTOP_KEY_PRIMARY_COLOR, "#000000000000");
+  g_settings_set_string (priv->settings, DESKTOP_KEY_SECONDARY_COLOR, "#000000000000");
 
  out:
   g_free (filename);
@@ -812,7 +819,7 @@ photos_application_startup (GApplication *application)
       g_error_free (error);
     }
 
-  priv->settings = g_settings_new ("org.gnome.desktop.background");
+  priv->settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
 
   priv->resource = photos_get_resource ();
   g_resources_register (priv->resource);
