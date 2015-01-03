@@ -60,7 +60,7 @@ struct _PhotosApplicationPrivate
   GList *miners;
   GList *miners_running;
   GResource *resource;
-  GSettings *settings;
+  GSettings *bg_settings;
   GSimpleAction *fs_action;
   GSimpleAction *gear_action;
   GSimpleAction *open_action;
@@ -515,11 +515,11 @@ photos_application_set_bg_download (GObject *source_object, GAsyncResult *res, g
     }
 
 
-  g_settings_set_string (priv->settings, DESKTOP_KEY_PICTURE_URI, filename);
-  g_settings_set_enum (priv->settings, DESKTOP_KEY_PICTURE_OPTIONS, G_DESKTOP_BACKGROUND_STYLE_ZOOM);
-  g_settings_set_enum (priv->settings, DESKTOP_KEY_COLOR_SHADING_TYPE, G_DESKTOP_BACKGROUND_SHADING_SOLID);
-  g_settings_set_string (priv->settings, DESKTOP_KEY_PRIMARY_COLOR, "#000000000000");
-  g_settings_set_string (priv->settings, DESKTOP_KEY_SECONDARY_COLOR, "#000000000000");
+  g_settings_set_string (priv->bg_settings, DESKTOP_KEY_PICTURE_URI, filename);
+  g_settings_set_enum (priv->bg_settings, DESKTOP_KEY_PICTURE_OPTIONS, G_DESKTOP_BACKGROUND_STYLE_ZOOM);
+  g_settings_set_enum (priv->bg_settings, DESKTOP_KEY_COLOR_SHADING_TYPE, G_DESKTOP_BACKGROUND_SHADING_SOLID);
+  g_settings_set_string (priv->bg_settings, DESKTOP_KEY_PRIMARY_COLOR, "#000000000000");
+  g_settings_set_string (priv->bg_settings, DESKTOP_KEY_SECONDARY_COLOR, "#000000000000");
 
  out:
   g_free (filename);
@@ -819,7 +819,7 @@ photos_application_startup (GApplication *application)
       g_error_free (error);
     }
 
-  priv->settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
+  priv->bg_settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
 
   priv->resource = photos_get_resource ();
   g_resources_register (priv->resource);
@@ -988,7 +988,7 @@ photos_application_dispose (GObject *object)
       priv->resource = NULL;
     }
 
-  g_clear_object (&priv->settings);
+  g_clear_object (&priv->bg_settings);
   g_clear_object (&priv->fs_action);
   g_clear_object (&priv->gear_action);
   g_clear_object (&priv->open_action);
