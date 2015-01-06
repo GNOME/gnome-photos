@@ -2,15 +2,15 @@
 # Copyright (C) 2013. Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnome-photos package.
 #
-# Balázs Úr <urbalazs at gmail dot com>, 2013, 2014.
+# Balázs Úr <urbalazs at gmail dot com>, 2013, 2014, 2015.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-20 08:16+0000\n"
-"PO-Revision-Date: 2014-12-20 13:40+0100\n"
+"POT-Creation-Date: 2015-01-06 20:13+0000\n"
+"PO-Revision-Date: 2015-01-06 22:42+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -255,15 +255,15 @@ msgstr "Beállítások"
 msgid "You can add your online accounts in %s"
 msgstr "Hozzáadhatja az online fiókjait itt: %s"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Nem találhatók albumok"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "Nem találhatók kedvencek"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "A csillagozott fényképek itt fognak megjelenni"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Nem találhatók fényképek"
 
@@ -299,14 +299,6 @@ msgstr "A fényképei indexelése folyamatban"
 #: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Egyes fényképek lehet, hogy nem lesznek elérhetők ezen folyamat alatt"
-
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:191
-msgid "Load More"
-msgstr "Továbbiak betöltése"
-
-#: ../src/photos-load-more-button.c:85
-msgid "Loading…"
-msgstr "Betöltés…"
 
 #: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
 msgid "Local"
@@ -604,6 +596,15 @@ msgstr "Források"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Nem kérhető le a fényképek listája"
+
+#~ msgid "No Favorites Found"
+#~ msgstr "Nem találhatók kedvencek"
+
+#~ msgid "Load More"
+#~ msgstr "Továbbiak betöltése"
+
+#~ msgid "Loading…"
+#~ msgstr "Betöltés…"
 
 #~ msgid ""
 #~ "<li>View recent local and online photos</li> <li>Access your Flickr "
