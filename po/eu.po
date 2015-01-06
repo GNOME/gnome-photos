@@ -2,15 +2,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2013, 2014.
 #
+# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-30 16:34+0100\n"
-"PO-Revision-Date: 2014-12-30 16:34+0100\n"
+"POT-Creation-Date: 2015-01-06 20:36+0100\n"
+"PO-Revision-Date: 2015-01-06 20:38+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <librezale@librezale.org>\n"
 "Language: eu\n"
@@ -253,15 +253,15 @@ msgstr "Ezarpenak"
 msgid "You can add your online accounts in %s"
 msgstr "Zure lineako kotuak gehi ditzakezu '%s'(e)n"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Ez da albumik aurkitu"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "Ez da gogokorik aurkitu"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "Izarrak dituzten argazkiak hemen agertuko dira"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Ez da argazkirik aurkitu"
 
@@ -297,14 +297,6 @@ msgstr "Zure argazkiak indexatzen ari dira"
 #: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Argazki batzuk ez dira erabilgarri egongo prozesuan zehar"
-
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:191
-msgid "Load More"
-msgstr "Kargatu gehiago"
-
-#: ../src/photos-load-more-button.c:85
-msgid "Loading…"
-msgstr "Kargatzen…"
 
 #: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
 msgid "Local"
@@ -602,6 +594,15 @@ msgstr "Iturburuak"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Ezin da argazkien zerrenda lortu"
+
+#~ msgid "No Favorites Found"
+#~ msgstr "Ez da gogokorik aurkitu"
+
+#~ msgid "Load More"
+#~ msgstr "Kargatu gehiago"
+
+#~ msgid "Loading…"
+#~ msgstr "Kargatzen…"
 
 #~ msgid ""
 #~ "<li>View recent local and online photos</li> <li>Access your Flickr "
