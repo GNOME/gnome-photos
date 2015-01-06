@@ -86,11 +86,10 @@ photos_view_container_view_changed (PhotosViewContainer *self, GtkPositionType p
 static void
 photos_view_container_connect_view (PhotosViewContainer *self)
 {
-  g_signal_connect_object (self->priv->view,
-                           "edge-overshot",
-                           G_CALLBACK (photos_view_container_view_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
+  g_signal_connect_swapped (self->priv->view,
+                            "edge-overshot",
+                            G_CALLBACK (photos_view_container_view_changed),
+                            self);
 }
 
 
