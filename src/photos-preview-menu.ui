@@ -18,6 +18,10 @@
         <attribute name="action">app.set-background</attribute>
         <attribute name="label" translatable="yes">Set as Background</attribute>
       </item>
+      <item>
+        <attribute name="action">app.set-screensaver</attribute>
+        <attribute name="label" translatable="yes">Set as Lock Screen</attribute>
+      </item>
     </section>
     <section>
       <item>

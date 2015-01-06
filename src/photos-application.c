@@ -61,6 +61,7 @@ struct _PhotosApplicationPrivate
   GList *miners_running;
   GResource *resource;
   GSettings *bg_settings;
+  GSettings *ss_settings;
   GSimpleAction *fs_action;
   GSimpleAction *gear_action;
   GSimpleAction *open_action;
@@ -70,6 +71,7 @@ struct _PhotosApplicationPrivate
   GSimpleAction *sel_all_action;
   GSimpleAction *sel_none_action;
   GSimpleAction *set_bg_action;
+  GSimpleAction *set_ss_action;
   GSimpleAction *remote_display_action;
   GtkWidget *main_window;
   PhotosCameraCache *camera_cache;
@@ -103,6 +105,7 @@ enum
 };
 
 static const gchar *DESKTOP_BACKGROUND_SCHEMA = "org.gnome.desktop.background";
+static const gchar *DESKTOP_SCREENSAVER_SCHEMA = "org.gnome.desktop.screensaver";
 static const gchar *DESKTOP_KEY_PICTURE_URI = "picture-uri";
 static const gchar *DESKTOP_KEY_PICTURE_OPTIONS = "picture-options";
 static const gchar *DESKTOP_KEY_COLOR_SHADING_TYPE = "color-shading-type";
@@ -494,12 +497,11 @@ photos_application_quit (PhotosApplication *self, GVariant *parameter)
 
 
 static void
-photos_application_set_bg_download (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_application_set_bg_common_download (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  PhotosApplicationPrivate *priv = self->priv;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   GError *error;
+  GSettings *settings = G_SETTINGS (user_data);
   gchar *filename = NULL;
 
   error = NULL;
@@ -514,29 +516,31 @@ photos_application_set_bg_download (GObject *source_object, GAsyncResult *res, g
       goto out;
     }
 
-
-  g_settings_set_string (priv->bg_settings, DESKTOP_KEY_PICTURE_URI, filename);
-  g_settings_set_enum (priv->bg_settings, DESKTOP_KEY_PICTURE_OPTIONS, G_DESKTOP_BACKGROUND_STYLE_ZOOM);
-  g_settings_set_enum (priv->bg_settings, DESKTOP_KEY_COLOR_SHADING_TYPE, G_DESKTOP_BACKGROUND_SHADING_SOLID);
-  g_settings_set_string (priv->bg_settings, DESKTOP_KEY_PRIMARY_COLOR, "#000000000000");
-  g_settings_set_string (priv->bg_settings, DESKTOP_KEY_SECONDARY_COLOR, "#000000000000");
+  g_settings_set_string (settings, DESKTOP_KEY_PICTURE_URI, filename);
+  g_settings_set_enum (settings, DESKTOP_KEY_PICTURE_OPTIONS, G_DESKTOP_BACKGROUND_STYLE_ZOOM);
+  g_settings_set_enum (settings, DESKTOP_KEY_COLOR_SHADING_TYPE, G_DESKTOP_BACKGROUND_SHADING_SOLID);
+  g_settings_set_string (settings, DESKTOP_KEY_PRIMARY_COLOR, "#000000000000");
+  g_settings_set_string (settings, DESKTOP_KEY_SECONDARY_COLOR, "#000000000000");
 
  out:
   g_free (filename);
-  g_object_unref (self);
+  g_object_unref (settings);
 }
 
 
 static void
-photos_application_set_bg (PhotosApplication *self)
+photos_application_set_bg_common (PhotosApplication *self, GVariant *parameter, gpointer user_data)
 {
+  GSimpleAction *action = G_SIMPLE_ACTION (user_data);
+  GSettings *settings;
   PhotosBaseItem *item;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->state->item_mngr));
   if (item == NULL)
     return;
 
-  photos_base_item_download_async (item, NULL, photos_application_set_bg_download, g_object_ref (self));
+  settings = G_SETTINGS (g_object_get_data (G_OBJECT (action), "settings"));
+  photos_base_item_download_async (item, NULL, photos_application_set_bg_common_download, g_object_ref (settings));
 }
 
 
@@ -697,6 +701,7 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
   g_simple_action_set_enabled (priv->print_action, enable);
   g_simple_action_set_enabled (priv->properties_action, enable);
   g_simple_action_set_enabled (priv->set_bg_action, enable);
+  g_simple_action_set_enabled (priv->set_ss_action, enable);
 }
 
 
@@ -820,6 +825,7 @@ photos_application_startup (GApplication *application)
     }
 
   priv->bg_settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
+  priv->ss_settings = g_settings_new (DESKTOP_SCREENSAVER_SCHEMA);
 
   priv->resource = photos_get_resource ();
   g_resources_register (priv->resource);
@@ -927,8 +933,20 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->sel_none_action));
 
   priv->set_bg_action = g_simple_action_new ("set-background", NULL);
-  g_signal_connect_swapped (priv->set_bg_action, "activate", G_CALLBACK (photos_application_set_bg), self);
+  g_object_set_data_full (G_OBJECT (priv->set_bg_action),
+                          "settings",
+                          g_object_ref (priv->bg_settings),
+                          g_object_unref);
+  g_signal_connect_swapped (priv->set_bg_action, "activate", G_CALLBACK (photos_application_set_bg_common), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->set_bg_action));
+
+  priv->set_ss_action = g_simple_action_new ("set-screensaver", NULL);
+  g_object_set_data_full (G_OBJECT (priv->set_ss_action),
+                          "settings",
+                          g_object_ref (priv->ss_settings),
+                          g_object_unref);
+  g_signal_connect_swapped (priv->set_ss_action, "activate", G_CALLBACK (photos_application_set_bg_common), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->set_ss_action));
 
   g_signal_connect_swapped (priv->mode_cntrlr,
                             "window-mode-changed",
@@ -989,6 +1007,7 @@ photos_application_dispose (GObject *object)
     }
 
   g_clear_object (&priv->bg_settings);
+  g_clear_object (&priv->ss_settings);
   g_clear_object (&priv->fs_action);
   g_clear_object (&priv->gear_action);
   g_clear_object (&priv->open_action);
@@ -998,6 +1017,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->sel_all_action);
   g_clear_object (&priv->sel_none_action);
   g_clear_object (&priv->set_bg_action);
+  g_clear_object (&priv->set_ss_action);
   g_clear_object (&priv->camera_cache);
   g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->extract_priority);
