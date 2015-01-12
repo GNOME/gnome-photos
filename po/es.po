@@ -2,15 +2,15 @@
 # Copyright (C) 2012 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Zed  <angelrmm0@gmail.com>, 2012.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013, 2014.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-17 08:18+0000\n"
-"PO-Revision-Date: 2014-12-17 12:19+0100\n"
+"POT-Creation-Date: 2015-01-12 08:15+0000\n"
+"PO-Revision-Date: 2015-01-12 12:05+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -254,15 +254,15 @@ msgstr "Configuración"
 msgid "You can add your online accounts in %s"
 msgstr "Puede añadir sus cuentas en línea en %s"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "No se encontraron álbumes"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "No se encontraron favoritos"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "Las fotos favoritas aparecerán aquí"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "No se encontraron fotos"
 
@@ -298,14 +298,6 @@ msgstr "Se están indexando sus fotos"
 #: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Algunas fotos pueden no estar disponibles durante este proceso"
-
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:191
-msgid "Load More"
-msgstr "Cargar más"
-
-#: ../src/photos-load-more-button.c:85
-msgid "Loading…"
-msgstr "Cargando…"
 
 #: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
 msgid "Local"
@@ -604,6 +596,15 @@ msgstr "Fuentes"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "No se pudo obtener la lista de fotos"
+
+#~ msgid "No Favorites Found"
+#~ msgstr "No se encontraron favoritos"
+
+#~ msgid "Load More"
+#~ msgstr "Cargar más"
+
+#~ msgid "Loading…"
+#~ msgstr "Cargando…"
 
 #~ msgid ""
 #~ "<li>View recent local and online photos</li> <li>Access your Flickr "
