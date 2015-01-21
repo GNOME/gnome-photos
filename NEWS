@@ -1,3 +1,22 @@
+Overview of changes in 3.15.4
+=============================
+
+* Bugs fixed:
+ 688566 Replace "Load More" button with edge hit detection
+ 736551 empty-results-box: Change text and icon for favorites
+ 741590 Allow setting the lock screen background from the preview
+
+* Updated translations:
+ Basque
+ Czech
+ Friulian
+ Galician
+ Hungarian
+ Indonesian
+ Portuguese (Brazilian)
+ Spanish
+
+
 Overview of changes in 3.15.3
 =============================
 
