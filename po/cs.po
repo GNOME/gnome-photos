@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-06 20:13+0000\n"
+"POT-Creation-Date: 2015-01-21 10:39+0000\n"
 "PO-Revision-Date: 2015-01-07 08:16+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -377,7 +377,11 @@ msgstr "Zobrazit na…"
 msgid "Set as Background"
 msgstr "Nastavit jako pozadí"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:609
+#: ../src/photos-preview-menu.ui.h:5
+msgid "Set as Lock Screen"
+msgstr "Nastavit jako zamykací obrazovku"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
 #: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -595,12 +599,3 @@ msgstr "Zdroje"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Nelze získat seznam fotografií."
-
-#~ msgid "No Favorites Found"
-#~ msgstr "Nenalezeny žádné oblíbené"
-
-#~ msgid "Load More"
-#~ msgstr "Načíst další"
-
-#~ msgid "Loading…"
-#~ msgstr "Načítá se…"
