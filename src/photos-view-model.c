@@ -127,7 +127,7 @@ photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
   gint64 mtime;
 
   /* Update the count so that PhotosOffsetController has the correct
-   * values. Otherwise things like the "Load More" button and "No
+   * values. Otherwise things like loading more items and "No
    * Results" page will not work correctly.
    */
   photos_view_model_reset_count (self);
@@ -220,7 +220,7 @@ photos_view_model_object_removed (PhotosViewModel *self, GObject *object)
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
 
   /* Update the count so that PhotosOffsetController has the correct
-   * values. Otherwise things like the "Load More" button and "No
+   * values. Otherwise things like loading more items and "No
    * Results" page will not work correctly.
    */
   photos_view_model_reset_count (self);
