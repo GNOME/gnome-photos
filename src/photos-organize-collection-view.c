@@ -261,6 +261,8 @@ photos_organize_collection_view_text_editing_canceled (PhotosOrganizeCollectionV
                                                             path,
                                                             text);
         }
+
+      gtk_tree_path_free (path);
     }
   else
     photos_organize_collection_model_remove_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (priv->model));

@@ -312,6 +312,7 @@ photos_organize_collection_model_remove_placeholder (PhotosOrganizeCollectionMod
   if (gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &placeholder_iter, placeholder_path))
     gtk_list_store_remove (GTK_LIST_STORE (self), &placeholder_iter);
 
+  gtk_tree_path_free (placeholder_path);
   gtk_tree_row_reference_free (priv->placeholder_ref);
   priv->placeholder_ref = NULL;
 }

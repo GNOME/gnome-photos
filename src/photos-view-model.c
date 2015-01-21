@@ -284,6 +284,7 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
 
       gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &iter, path);
       photos_view_model_info_set (self, item, &iter);
+      gtk_tree_path_free (path);
     }
 }
 
