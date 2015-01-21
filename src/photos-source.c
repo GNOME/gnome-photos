@@ -232,7 +232,7 @@ photos_source_class_init (PhotosSourceClass *class)
                                    g_param_spec_string ("id",
                                                         "",
                                                         "",
-                                                        "",
+                                                        NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 
   g_object_class_install_property (object_class,
@@ -240,7 +240,7 @@ photos_source_class_init (PhotosSourceClass *class)
                                    g_param_spec_string ("name",
                                                         "",
                                                         "",
-                                                        "",
+                                                        NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 
   g_object_class_install_property (object_class,
