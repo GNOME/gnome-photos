@@ -21,19 +21,12 @@
 
 #include "config.h"
 
-#include "photos-remote-display-manager.h"
-
 #include <gio/gio.h>
 
 #include "photos-dlna-renderers-manager.h"
 #include "photos-filterable.h"
+#include "photos-remote-display-manager.h"
 
-
-typedef struct {
-    PhotosRemoteDisplayManager *manager;
-    PhotosDlnaRenderer *renderer;
-    PhotosBaseItem *item;
-} Share;
 
 struct _PhotosRemoteDisplayManagerPrivate
 {
@@ -53,7 +46,18 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static GObject *remote_display_manager_singleton = NULL;
 
+
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosRemoteDisplayManager, photos_remote_display_manager, G_TYPE_OBJECT);
+
+
+typedef struct _Share Share;
+
+struct _Share
+{
+  PhotosRemoteDisplayManager *manager;
+  PhotosDlnaRenderer *renderer;
+  PhotosBaseItem *item;
+};
 
 
 static Share *
@@ -80,6 +84,7 @@ photos_remote_display_manager_share_destroy (Share *share)
   g_free (share);
 }
 
+
 static void
 photos_remote_display_manager_dispose (GObject *object)
 {
@@ -94,8 +99,8 @@ photos_remote_display_manager_dispose (GObject *object)
 
 
 static GObject *
-photos_remote_display_manager_constructor (GType                  type,
-                                           guint                  n_construct_params,
+photos_remote_display_manager_constructor (GType type,
+                                           guint n_construct_params,
                                            GObjectConstructParam *construct_params)
 {
   if (remote_display_manager_singleton != NULL)
@@ -110,16 +115,18 @@ photos_remote_display_manager_constructor (GType                  type,
   return remote_display_manager_singleton;
 }
 
+
 static void
 photos_remote_display_manager_renderer_lost_cb (PhotosRemoteDisplayManager *self,
-                                                PhotosDlnaRenderer         *renderer,
-                                                gpointer                    user_data)
+                                                PhotosDlnaRenderer *renderer,
+                                                gpointer user_data)
 {
   PhotosRemoteDisplayManagerPrivate *priv = self->priv;
 
   if (renderer == priv->renderer)
     photos_remote_display_manager_stop (self);
 }
+
 
 static void
 photos_remote_display_manager_init (PhotosRemoteDisplayManager *self)
@@ -136,6 +143,7 @@ photos_remote_display_manager_init (PhotosRemoteDisplayManager *self)
                            G_CALLBACK (photos_remote_display_manager_renderer_lost_cb), self,
                            G_CONNECT_SWAPPED);
 }
+
 
 static void
 photos_remote_display_manager_class_init (PhotosRemoteDisplayManagerClass *class)
@@ -166,9 +174,7 @@ photos_remote_display_manager_class_init (PhotosRemoteDisplayManagerClass *class
 
 
 static void
-photos_remote_display_manager_share_cb (GObject      *source_object,
-                                        GAsyncResult *res,
-                                        gpointer      user_data)
+photos_remote_display_manager_share_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   Share *share = user_data;
   PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (source_object);
@@ -196,9 +202,7 @@ out:
 
 
 static void
-photos_remote_display_manager_unshare_all_cb (GObject      *source_object,
-                                              GAsyncResult *res,
-                                              gpointer      user_data)
+photos_remote_display_manager_unshare_all_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (source_object);
   PhotosRemoteDisplayManager *self = PHOTOS_REMOTE_DISPLAY_MANAGER (user_data);
@@ -227,8 +231,7 @@ photos_remote_display_manager_dup_singleton (void)
 
 
 void
-photos_remote_display_manager_set_renderer (PhotosRemoteDisplayManager *self,
-                                            PhotosDlnaRenderer         *renderer)
+photos_remote_display_manager_set_renderer (PhotosRemoteDisplayManager *self, PhotosDlnaRenderer *renderer)
 {
   PhotosRemoteDisplayManagerPrivate *priv = self->priv;
 
@@ -247,8 +250,7 @@ photos_remote_display_manager_get_renderer (PhotosRemoteDisplayManager *self)
 
 
 void
-photos_remote_display_manager_render (PhotosRemoteDisplayManager *self,
-                                      PhotosBaseItem             *item)
+photos_remote_display_manager_render (PhotosRemoteDisplayManager *self, PhotosBaseItem *item)
 {
   PhotosRemoteDisplayManagerPrivate *priv = self->priv;
   Share *share;

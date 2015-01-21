@@ -145,6 +145,7 @@ photos_application_refresh_data_free (PhotosApplicationRefreshData *data)
   g_slice_free (PhotosApplicationRefreshData, data);
 }
 
+
 static void
 photos_application_help (PhotosApplication *self, GVariant *parameter)
 {
@@ -154,6 +155,7 @@ photos_application_help (PhotosApplication *self, GVariant *parameter)
   gtk_show_uri (gtk_window_get_screen (parent), "help:gnome-photos",
                 GDK_CURRENT_TIME, NULL);
 }
+
 
 static void
 photos_application_about (PhotosApplication *self, GVariant *parameter)
