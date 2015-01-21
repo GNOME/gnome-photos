@@ -138,8 +138,7 @@ photos_organize_collection_view_create_collection_executed (const gchar *created
 
  out:
   g_clear_object (&job);
-  if (path != NULL)
-    gtk_tree_path_free (path);
+  gtk_tree_path_free (path);
   g_object_unref (self);
 }
 
