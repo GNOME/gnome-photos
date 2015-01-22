@@ -132,11 +132,14 @@ static void
 update_autoscale(ViewHelper *self)
 {
     GdkRectangle viewport = self->widget_allocation;
-    GeglRectangle bbox = gegl_node_get_bounding_box(self->node);
-    model_rect_to_view_rect(self, &bbox);
+    GeglRectangle bbox;
 
-    if (!self->node || viewport.width < 0 || viewport.height < 0
-            || bbox.width < 0 || bbox.height < 0)
+    if (!self->node || viewport.width < 0 || viewport.height < 0)
+        return;
+
+    bbox = gegl_node_get_bounding_box(self->node);
+    model_rect_to_view_rect(self, &bbox);
+    if (bbox.width < 0 || bbox.height < 0)
         return;
 
     if (self->autoscale_policy == GEGL_GTK_VIEW_AUTOSCALE_WIDGET) {
