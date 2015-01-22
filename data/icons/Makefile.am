@@ -1,25 +1,18 @@
 public_icon_themes = \
-	HighContrast \
 	hicolor	\
 	$(NULL)
 
 public_icons = \
-	HighContrast_apps_16x16_gnome-photos.png \
-	HighContrast_apps_22x22_gnome-photos.png \
-	HighContrast_apps_24x24_gnome-photos.png \
-	HighContrast_apps_32x32_gnome-photos.png \
-	HighContrast_apps_48x48_gnome-photos.png \
-	HighContrast_apps_256x256_gnome-photos.png \
 	hicolor_apps_16x16_gnome-photos.png \
 	hicolor_apps_22x22_gnome-photos.png \
 	hicolor_apps_24x24_gnome-photos.png \
 	hicolor_apps_32x32_gnome-photos.png \
 	hicolor_apps_48x48_gnome-photos.png \
 	hicolor_apps_256x256_gnome-photos.png \
+	hicolor_apps_scalable_gnome-photos-symbolic.svg \
 	$(NULL)
 
 noinst_DATA = \
-	HighContrast_gnome-photos.svg \
 	hicolor_gnome-photos.svg \
 	$(NULL)
 
