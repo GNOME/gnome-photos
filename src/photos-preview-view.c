@@ -144,11 +144,15 @@ photos_preview_view_nav_buttons_activated (PhotosPreviewView *self, PhotosPrevie
 static void
 photos_preview_view_scale_and_align_image (PhotosPreviewView *self, GtkWidget *view)
 {
+  PhotosPreviewViewPrivate *priv = self->priv;
   GeglRectangle bbox;
   GtkAllocation alloc;
   float delta_x;
   float delta_y;
   float scale = 1.0;
+
+  if (priv->node == NULL)
+    return;
 
   /* Reset these properties, otherwise values from the previous node
    * will interfere with the current one.
@@ -158,7 +162,7 @@ photos_preview_view_scale_and_align_image (PhotosPreviewView *self, GtkWidget *v
   gegl_gtk_view_set_x (GEGL_GTK_VIEW (view), 0.0);
   gegl_gtk_view_set_y (GEGL_GTK_VIEW (view), 0.0);
 
-  bbox = gegl_node_get_bounding_box (self->priv->node);
+  bbox = gegl_node_get_bounding_box (priv->node);
   gtk_widget_get_allocation (view, &alloc);
 
   if (bbox.width > alloc.width || bbox.height > alloc.height)
