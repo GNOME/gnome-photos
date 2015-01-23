@@ -260,7 +260,7 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
     gegl_node_blit(self->node,
                    self->scale,
                    &roi,
-                   babl_format("B'aG'aR'aA u8"),
+                   babl_format("cairo-ARGB32"),
                    (gpointer)buf,
                    GEGL_AUTO_ROWSTRIDE,
                    GEGL_BLIT_CACHE | (self->block ? 0 : GEGL_BLIT_DIRTY));
