@@ -244,6 +244,8 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
     guchar          *buf = NULL;
     GeglRectangle   roi;
     gint            stride;
+    gint64          end;
+    gint64          start;
 
     roi.x = self->x + rect->x;
     roi.y = self->y + rect->y;
@@ -253,6 +255,8 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
     stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, roi.width);
     buf = g_malloc0(stride * roi.height);
 
+    start = g_get_monotonic_time ();
+
     gegl_node_blit(self->node,
                    self->scale,
                    &roi,
@@ -260,6 +264,9 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
                    (gpointer)buf,
                    GEGL_AUTO_ROWSTRIDE,
                    GEGL_BLIT_CACHE | (self->block ? 0 : GEGL_BLIT_DIRTY));
+
+    end = g_get_monotonic_time ();
+    g_debug ("Node Blit: %" G_GINT64_FORMAT, end - start);
 
     surface = cairo_image_surface_create_for_data(buf,
               CAIRO_FORMAT_ARGB32,
