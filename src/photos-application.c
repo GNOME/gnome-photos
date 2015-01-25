@@ -883,7 +883,6 @@ photos_application_startup (GApplication *application)
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
 
   action = g_simple_action_new ("about", NULL);
-
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_about), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
