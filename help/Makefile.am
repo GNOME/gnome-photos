@@ -9,7 +9,8 @@ HELP_FILES = \
         legal.xml \
         view-album.page \
         view-favorites.page \
-        view.page
+        view-photos.page \
+		view.page
 
 HELP_MEDIA = \
 	media/logo1.png
