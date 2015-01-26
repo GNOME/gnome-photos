@@ -5,7 +5,7 @@
   <info>
     <link type="guide" xref="view"/>
 
-    <revision pkgversion="3.12" date="2014-05-20" status="draft"/>
+    <revision pkgversion="3.14" date="2015-01-26" status="draft"/>
     <credit type="author">
       <name>Rashi Aswani</name>
       <email>aswanirashi19@gmail.com</email>
@@ -18,10 +18,10 @@
 
   <title>View recent photos</title>
 
-  <p>The <gui style="tab">Recent</gui> tab displays photos from the local file
-  system locations like <file>~/Downloads</file>, <file>~/Pictures</file>
-  and from the online collections. You can also add other locations, even
-  cloud-based collections like Flickr or Facebook photographs, through
+  <p>The <gui style="tab">Recent</gui> tab displays photos from local file
+  system locations such as <file>~/Downloads</file>, <file>~/Pictures</file>
+  and from online collections. You can also add other locations, even
+  cloud-based collections such as Flickr or Facebook photographs, through
   <app>GNOME Online Accounts</app>.</p>
 
   <p>To add other local file system locations:</p>
