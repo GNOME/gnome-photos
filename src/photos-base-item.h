@@ -173,7 +173,28 @@ void                photos_base_item_open                    (PhotosBaseItem *se
                                                               GdkScreen *screen,
                                                               guint32 timestamp);
 
+void                photos_base_item_operation_add           (PhotosBaseItem *self,
+                                                              const gchar *operation,
+                                                              const gchar *first_property_name,
+                                                              ...) G_GNUC_NULL_TERMINATED;
+
+gboolean            photos_base_item_operation_get           (PhotosBaseItem *self,
+                                                              const gchar *operation,
+                                                              const gchar *first_property_name,
+                                                              ...) G_GNUC_NULL_TERMINATED G_GNUC_WARN_UNUSED_RESULT;
+
+gboolean            photos_base_item_operation_undo          (PhotosBaseItem *self);
+
 void                photos_base_item_print                   (PhotosBaseItem *self, GtkWidget *toplevel);
+
+void                photos_base_item_process_async           (PhotosBaseItem *self,
+                                                              GCancellable *cancellable,
+                                                              GAsyncReadyCallback callback,
+                                                              gpointer user_data);
+
+gboolean            photos_base_item_process_finish          (PhotosBaseItem *self,
+                                                              GAsyncResult *res,
+                                                              GError **error);
 
 void                photos_base_item_refresh                 (PhotosBaseItem *self);
 

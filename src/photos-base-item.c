@@ -26,6 +26,7 @@
 
 #include "config.h"
 
+#include <stdarg.h>
 #include <string.h>
 
 #include <gdk/gdk.h>
@@ -42,6 +43,7 @@
 #include "photos-filterable.h"
 #include "photos-icons.h"
 #include "photos-local-item.h"
+#include "photos-pipeline.h"
 #include "photos-print-notification.h"
 #include "photos-print-operation.h"
 #include "photos-query.h"
@@ -56,13 +58,14 @@ struct _PhotosBaseItemPrivate
   cairo_surface_t *surface;
   GdkPixbuf *original_icon;
   GeglNode *graph;
-  GeglNode *node;
+  GeglNode *load;
   GeglRectangle bbox;
   GMutex mutex_download;
   GMutex mutex;
   GQuark equipment;
   GQuark flash;
   PhotosCollectionIconWatcher *watcher;
+  PhotosPipeline *pipeline;
   PhotosSelectionController *sel_cntrlr;
   TrackerSparqlCursor *cursor;
   gboolean collection;
@@ -736,6 +739,7 @@ static GeglNode *
 photos_base_item_load (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
   PhotosBaseItemPrivate *priv = self->priv;
+  GeglNode *output;
   GeglNode *ret_val = NULL;
   gchar *path = NULL;
 
@@ -743,10 +747,12 @@ photos_base_item_load (PhotosBaseItem *self, GCancellable *cancellable, GError *
   if (path == NULL)
     goto out;
 
-  gegl_node_set (priv->node, "path", path, NULL);
-  gegl_node_process (priv->node);
-  priv->bbox = gegl_node_get_bounding_box (priv->node);
-  ret_val = g_object_ref (priv->node);
+  gegl_node_set (priv->load, "path", path, NULL);
+  output = photos_pipeline_get_output (priv->pipeline);
+  gegl_node_process (output);
+  priv->bbox = gegl_node_get_bounding_box (output);
+
+  ret_val = g_object_ref (output);
 
  out:
   g_free (path);
@@ -775,6 +781,44 @@ photos_base_item_load_in_thread_func (GTask *task,
     }
 
   g_task_return_pointer (task, node, g_object_unref);
+
+ out:
+  g_mutex_unlock (&priv->mutex);
+}
+
+
+static void
+photos_base_item_process (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  GeglNode *output;
+
+  output = photos_pipeline_get_output (priv->pipeline);
+  gegl_node_process (output);
+  priv->bbox = gegl_node_get_bounding_box (output);
+}
+
+
+static void
+photos_base_item_process_in_thread_func (GTask *task,
+                                         gpointer source_object,
+                                         gpointer task_data,
+                                         GCancellable *cancellable)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  PhotosBaseItemPrivate *priv = self->priv;
+  GError *error = NULL;
+
+  g_mutex_lock (&priv->mutex);
+
+  photos_base_item_process (self, cancellable, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_boolean (task, TRUE);
 
  out:
   g_mutex_unlock (&priv->mutex);
@@ -974,6 +1018,7 @@ photos_base_item_dispose (GObject *object)
   g_clear_object (&priv->graph);
   g_clear_object (&priv->original_icon);
   g_clear_object (&priv->watcher);
+  g_clear_object (&priv->pipeline);
   g_clear_object (&priv->sel_cntrlr);
   g_clear_object (&priv->cursor);
 
@@ -1397,8 +1442,15 @@ photos_base_item_load_async (PhotosBaseItem *self,
 
   if (priv->graph == NULL)
     {
+      GeglNode *graph;
+
       priv->graph = gegl_node_new ();
-      priv->node = gegl_node_new_child (priv->graph, "operation", "gegl:load", NULL);
+      priv->load = gegl_node_new_child (priv->graph, "operation", "gegl:load", NULL);
+
+      priv->pipeline = photos_pipeline_new (priv->graph);
+      graph = photos_pipeline_get_graph (priv->pipeline);
+
+      gegl_node_link_many (priv->load, graph, NULL);
     }
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -1430,9 +1482,72 @@ photos_base_item_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestam
 
 
 void
+photos_base_item_operation_add (PhotosBaseItem *self, const gchar *operation, const gchar *first_property_name, ...)
+{
+  va_list ap;
+
+  va_start (ap, first_property_name);
+  photos_pipeline_add (self->priv->pipeline, operation, first_property_name, ap);
+  va_end (ap);
+}
+
+
+gboolean
+photos_base_item_operation_get (PhotosBaseItem *self, const gchar *operation, const gchar *first_property_name, ...)
+{
+  gboolean ret_val;
+  va_list ap;
+
+  va_start (ap, first_property_name);
+  ret_val = photos_pipeline_get (self->priv->pipeline, operation, first_property_name, ap);
+  va_end (ap);
+
+  return ret_val;
+}
+
+
+gboolean
+photos_base_item_operation_undo (PhotosBaseItem *self)
+{
+  return photos_pipeline_undo (self->priv->pipeline);
+}
+
+
+void
 photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
 {
   photos_base_item_load_async (self, NULL, photos_base_item_print_load, g_object_ref (toplevel));
+}
+
+
+void
+photos_base_item_process_async (PhotosBaseItem *self,
+                                GCancellable *cancellable,
+                                GAsyncReadyCallback callback,
+                                gpointer user_data)
+{
+  GTask *task;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_process_async);
+
+  g_task_run_in_thread (task, photos_base_item_process_in_thread_func);
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_process_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_process_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 
