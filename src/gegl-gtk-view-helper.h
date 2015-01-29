@@ -48,11 +48,6 @@ struct _ViewHelper {
     gboolean       block;    /* blocking render */
     GeglGtkViewAutoscale autoscale_policy;
 
-    guint          monitor_id;
-    GeglProcessor *processor;
-    GQueue        *processing_queue; /* Queue of rectangles that needs to be processed */
-    GeglRectangle *currently_processed_rect;
-
     GdkRectangle   widget_allocation; /* The allocated size of the widget */
 };
 

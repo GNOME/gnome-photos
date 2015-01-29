@@ -42,8 +42,6 @@ static guint view_helper_signals[N_SIGNALS] = { 0 };
 static void
 finalize(GObject *gobject);
 void
-trigger_processing(ViewHelper *self, GeglRectangle roi);
-void
 trigger_redraw(ViewHelper *self, GeglRectangle *redraw_rect);
 
 
@@ -87,11 +85,6 @@ view_helper_init(ViewHelper *self)
     self->autoscale_policy = GEGL_GTK_VIEW_AUTOSCALE_CONTENT;
     self->block = FALSE;
 
-    self->monitor_id  = 0;
-    self->processor = NULL;
-    self->processing_queue = g_queue_new();
-    self->currently_processed_rect = NULL;
-
     self->widget_allocation = invalid_gdkrect;
 }
 
@@ -100,22 +93,8 @@ finalize(GObject *gobject)
 {
     ViewHelper *self = VIEW_HELPER(gobject);
 
-    if (self->monitor_id) {
-        g_source_remove(self->monitor_id);
-        self->monitor_id = 0;
-    }
-
     if (self->node)
         g_object_unref(self->node);
-
-    if (self->processor)
-        g_object_unref(self->processor);
-
-    g_queue_free_full(self->processing_queue, g_free);
-
-    if (self->currently_processed_rect) {
-        g_free(self->currently_processed_rect);
-    }
 }
 
 /* Transform a rectangle from model to view coordinates. */
@@ -163,55 +142,6 @@ update_autoscale(ViewHelper *self)
     }
 
 }
-
-static void
-invalidated_event(GeglNode      *node,
-                  GeglRectangle *rect,
-                  ViewHelper    *self)
-{
-    trigger_processing(self, *rect);
-}
-
-static gboolean
-task_monitor(ViewHelper *self)
-{
-    gboolean processing_done;
-
-    if (!self->processor || !self->node) {
-        return FALSE;
-    }
-
-    // PERFORMANCE: combine all the rects added to the queue during a single
-    // iteration of the main loop somehow
-
-    if (!self->currently_processed_rect) {
-
-        if (g_queue_is_empty(self->processing_queue)) {
-            // Unregister worker
-            self->monitor_id = 0;
-            return FALSE;
-        }
-        else {
-            // Fetch next rect to process
-            self->currently_processed_rect = (GeglRectangle *)g_queue_pop_tail(self->processing_queue);
-            g_assert(self->currently_processed_rect);
-            gegl_processor_set_rectangle(self->processor, self->currently_processed_rect);
-        }
-    }
-
-    processing_done = !gegl_processor_work(self->processor, NULL);
-
-    if (processing_done) {
-        // Go to next region
-        if (self->currently_processed_rect) {
-            g_free(self->currently_processed_rect);
-        }
-        self->currently_processed_rect = NULL;
-    }
-
-    return TRUE;
-}
-
 
 /* When the GeglNode has been computed,
  * find out if the size of the vie changed and
@@ -287,43 +217,6 @@ view_helper_set_allocation(ViewHelper *self, GdkRectangle *allocation)
     update_autoscale(self);
 }
 
-/* Trigger processing of the GeglNode */
-void
-trigger_processing(ViewHelper *self, GeglRectangle roi)
-{
-    GeglRectangle *rect;
-
-    //GeglRectangle    roi;
-
-    // PERFORMANCE: determine the area that the view widget is interested in,
-    // and calculate the intersection with the invalidated rect
-    // and only pass this value as the ROI
-    // Would then also have to follow changes in view transformation
-
-    if (!self->node)
-        return;
-
-//    roi.x = self->x / self->scale;
-//    roi.y = self->y / self->scale;
-
-//    roi.width = ceil(self->widget_allocation.width / self->scale + 1);
-//    roi.height = ceil(self->widget_allocation.height / self->scale + 1);
-
-    if (self->monitor_id == 0) {
-        self->monitor_id = g_idle_add_full(G_PRIORITY_LOW,
-                                           (GSourceFunc) task_monitor, self,
-                                           NULL);
-    }
-
-    // Add the invalidated region to the dirty
-    rect = g_new(GeglRectangle, 1);
-    rect->x = roi.x;
-    rect->y = roi.y;
-    rect->width = roi.width;
-    rect->height = roi.height;
-    g_queue_push_head(self->processing_queue, rect);
-}
-
 void
 trigger_redraw(ViewHelper *self, GeglRectangle *redraw_rect)
 {
@@ -347,26 +240,14 @@ view_helper_set_node(ViewHelper *self, GeglNode *node)
         g_object_unref(self->node);
 
     if (node) {
-        GeglRectangle bbox;
-
         g_object_ref(node);
         self->node = node;
 
         g_signal_connect_object(self->node, "computed",
                                 G_CALLBACK(computed_event),
                                 self, 0);
-        g_signal_connect_object(self->node, "invalidated",
-                                G_CALLBACK(invalidated_event),
-                                self, 0);
-
-        if (self->processor)
-            g_object_unref(self->processor);
-
-        bbox = gegl_node_get_bounding_box(self->node);
-        self->processor = gegl_node_new_processor(self->node, &bbox);
 
         update_autoscale(self);
-        trigger_processing(self, bbox);
 
     } else
         self->node = NULL;
