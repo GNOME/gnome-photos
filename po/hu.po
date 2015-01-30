@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-06 20:13+0000\n"
-"PO-Revision-Date: 2015-01-06 22:42+0100\n"
+"POT-Creation-Date: 2015-01-30 20:22+0000\n"
+"PO-Revision-Date: 2015-01-30 21:43+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -378,7 +378,12 @@ msgstr "Megjelenítés ezen…"
 msgid "Set as Background"
 msgstr "Beállítás háttérként"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:609
+#: ../src/photos-preview-menu.ui.h:5
+#| msgid "Set as background"
+msgid "Set as Lock Screen"
+msgstr "Beállítás zároló képernyőként"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
 #: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Tulajdonságok"
