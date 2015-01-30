@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the gnome-photos package.
 # alinofka <alinofka@gmail.com>, 2012.
 # Yuri Myasoedov <ymyasoedov@yandex.ru>, 2014.
+# Stas Solovey <whats_up@tut.by>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-05 07:19+0000\n"
-"PO-Revision-Date: 2014-09-05 16:39+0400\n"
-"Last-Translator: Yuri Myasoedov <ymyasoedov@yandex.ru>\n"
-"Language-Team: русский <gnome-cyr@gnome.org>\n"
+"POT-Creation-Date: 2015-01-30 08:18+0000\n"
+"PO-Revision-Date: 2015-01-30 15:19+0300\n"
+"Last-Translator: Stas Solovey <whats_up@tut.by>\n"
+"Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Фотографии"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Управление фотографиям в GNOME"
 
@@ -60,17 +61,14 @@ msgid "Send photos to remote DLNA renderers"
 msgstr "отправлять фотографии на удалённые DLNA-отрисовщики"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:8
-#| msgid "Set as Background"
 msgid "Set as background"
 msgstr "устанавливать фон"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:9
-#| msgid "Photos"
 msgid "Print photos"
 msgstr "печатать фотографии"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:10
-#| msgid "Select Items"
 msgid "Select favorites"
 msgstr "выбирать избранные фотографии"
 
@@ -199,22 +197,22 @@ msgstr "О приложении"
 msgid "Quit"
 msgstr "Закрыть"
 
-#: ../src/photos-base-item.c:347
+#: ../src/photos-base-item.c:410
 msgid "Album"
 msgstr "Альбом"
 
-#: ../src/photos-base-item.c:810
+#: ../src/photos-base-item.c:862
 msgid "Screenshots"
 msgstr "Снимки рабочего стола"
 
-#: ../src/photos-delete-notification.c:134
+#: ../src/photos-delete-notification.c:135
 msgid "Selected item has been deleted"
 msgid_plural "Selected items have been deleted"
 msgstr[0] "Выделенный элемент был удалён"
 msgstr[1] "Выделенные элементы были удалены"
 msgstr[2] "Выделенные элементы были удалены"
 
-#: ../src/photos-delete-notification.c:140
+#: ../src/photos-delete-notification.c:141
 msgid "Undo"
 msgstr "Отменить"
 
@@ -222,19 +220,19 @@ msgstr "Отменить"
 msgid "DLNA Renderer Devices"
 msgstr "Устройства отрисовки DLNA"
 
-#: ../src/photos-embed.c:722
+#: ../src/photos-embed.c:619
 msgid "Recent"
 msgstr "Последние"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Альбомы"
 
-#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Избранное"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:289
+#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
 msgid "Search"
 msgstr "Найти"
 
@@ -258,17 +256,26 @@ msgstr "параметрах"
 msgid "You can add your online accounts in %s"
 msgstr "Сетевые учётные записи можно добавить в %s"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Альбомы не найдены"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "Избранные фотографии не найдены"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "Избранные фото будут отображаться здесь"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Фотографии не найдены"
+
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:78 ../src/photos-flickr-item.c:88
+#: ../src/photos-google-item.c:76
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
 
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
@@ -294,23 +301,15 @@ msgstr "Фотографии индексируются"
 msgid "Some photos might not be available during this process"
 msgstr "Во время этого процесса некоторые фотографии могут быть недоступны"
 
-#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
-msgid "Load More"
-msgstr "Загрузить ещё"
-
-#: ../src/photos-load-more-button.c:86
-msgid "Loading…"
-msgstr "Загрузка…"
-
-#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Локальные"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "Чтобы выбрать элемент, нажмите на него"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -318,34 +317,34 @@ msgstr[0] "Выбран %d"
 msgstr[1] "Выбрано %d"
 msgstr[2] "Выбрано %d"
 
-#: ../src/photos-main-toolbar.c:163
+#: ../src/photos-main-toolbar.c:162
 msgid "Back"
 msgstr "Назад"
 
-#: ../src/photos-main-toolbar.c:305
+#: ../src/photos-main-toolbar.c:304
 msgid "Select Items"
 msgstr "Выбор элементов"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:428 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Открыть с помощью «%s»"
 
-#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:291
+#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Удалить из избранного"
 
-#: ../src/photos-main-toolbar.c:479 ../src/photos-selection-toolbar.c:297
+#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Добавить в избранное"
 
-#: ../src/photos-main-toolbar.c:649
+#: ../src/photos-main-toolbar.c:651
 msgid "Cancel"
 msgstr "Отменить"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:484
+#: ../src/photos-main-window.c:481
 msgid "translator-credits"
 msgstr "Алина Круглова"
 
@@ -364,8 +363,8 @@ msgid "Organize"
 msgstr "Упорядочить"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
-#: ../src/photos-selection-toolbar.c:451
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Открыть"
 
@@ -379,10 +378,15 @@ msgstr "Показать на…"
 
 #: ../src/photos-preview-menu.ui.h:4
 msgid "Set as Background"
-msgstr "Установить как фон"
+msgstr "Установить как фон рабочего стола"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-preview-menu.ui.h:5
+#| msgid "Set as background"
+msgid "Set as Lock Screen"
+msgstr "Установить как фон экрана блокировки"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
+#: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Свойства"
 
@@ -395,82 +399,82 @@ msgstr "Печать «%s»: %s"
 msgid "Image Settings"
 msgstr "Параметры изображения"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:890
 msgid "Position"
 msgstr "Положение"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:893
 msgid "_Left:"
 msgstr "С_лева:"
 
-#: ../src/photos-print-setup.c:899
+#: ../src/photos-print-setup.c:894
 msgid "_Right:"
 msgstr "С_права:"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:895
 msgid "_Top:"
 msgstr "С_верху:"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:896
 msgid "_Bottom:"
 msgstr "С_низу:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:898
 msgid "C_enter:"
 msgstr "_Центр:"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:902
 msgid "None"
 msgstr "Нет"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:903
 msgid "Horizontal"
 msgstr "По горизонтали"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:904
 msgid "Vertical"
 msgstr "По вертикали"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:905
 msgid "Both"
 msgstr "Оба направления"
 
-#: ../src/photos-print-setup.c:923
+#: ../src/photos-print-setup.c:918
 msgid "Size"
 msgstr "Размер"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:921
 msgid "_Width:"
 msgstr "_Ширина:"
 
-#: ../src/photos-print-setup.c:927
+#: ../src/photos-print-setup.c:922
 msgid "_Height:"
 msgstr "_Высота:"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:924
 msgid "_Scaling:"
 msgstr "_Масштаб:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:933
 msgid "_Unit:"
 msgstr "_Единица:"
 
-#: ../src/photos-print-setup.c:942
+#: ../src/photos-print-setup.c:937
 msgid "Millimeters"
 msgstr "Миллиметры"
 
-#: ../src/photos-print-setup.c:943
+#: ../src/photos-print-setup.c:938
 msgid "Inches"
 msgstr "Дюймы"
 
-#: ../src/photos-print-setup.c:971
+#: ../src/photos-print-setup.c:966
 msgid "Preview"
 msgstr "Предварительный просмотр"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:216
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Заголовок"
@@ -478,68 +482,68 @@ msgstr "Заголовок"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:228
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Автор"
 
-#: ../src/photos-properties-dialog.c:235
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Источник"
 
-#: ../src/photos-properties-dialog.c:241
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Дата изменения"
 
-#: ../src/photos-properties-dialog.c:249
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Дата создания"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:259
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Тип"
 
-#: ../src/photos-properties-dialog.c:268
+#: ../src/photos-properties-dialog.c:269
 msgid "Width"
 msgstr "Ширина"
 
-#: ../src/photos-properties-dialog.c:278
+#: ../src/photos-properties-dialog.c:279
 msgid "Height"
 msgstr "Высота"
 
-#: ../src/photos-properties-dialog.c:293
+#: ../src/photos-properties-dialog.c:294
 msgid "Camera"
 msgstr "Камера"
 
-#: ../src/photos-properties-dialog.c:303
+#: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
 msgstr "Экспозиция"
 
-#: ../src/photos-properties-dialog.c:313
+#: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
 msgstr "Диафрагма"
 
-#: ../src/photos-properties-dialog.c:323
+#: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
 msgstr "Фокусное расстояние"
 
-#: ../src/photos-properties-dialog.c:333
+#: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
 msgstr "ISO"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:344
 msgid "Flash"
 msgstr "Вспышка"
 
-#: ../src/photos-properties-dialog.c:483
+#: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
 msgstr "Выключена, не сработала"
 
-#: ../src/photos-properties-dialog.c:485
+#: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
 msgstr "Включена, сработала"
 
@@ -580,15 +584,15 @@ msgstr "Выбрать все"
 msgid "Select None"
 msgstr "Отменить выбор"
 
-#: ../src/photos-selection-toolbar.c:458
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "Печать"
 
-#: ../src/photos-selection-toolbar.c:465
+#: ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "Удалить"
 
-#: ../src/photos-selection-toolbar.c:479
+#: ../src/photos-selection-toolbar.c:485
 msgid "Add to Album"
 msgstr "Добавить в альбом"
 
@@ -599,3 +603,12 @@ msgstr "Источники"
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
 msgstr "Не удалось получить список фотографий"
+
+#~ msgid "No Favorites Found"
+#~ msgstr "Избранные фотографии не найдены"
+
+#~ msgid "Load More"
+#~ msgstr "Загрузить ещё"
+
+#~ msgid "Loading…"
+#~ msgstr "Загрузка…"
