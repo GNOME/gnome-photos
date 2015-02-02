@@ -87,7 +87,7 @@ static void
 photos_view_container_connect_view (PhotosViewContainer *self)
 {
   g_signal_connect_swapped (self->priv->view,
-                            "edge-overshot",
+                            "edge-reached",
                             G_CALLBACK (photos_view_container_view_changed),
                             self);
 }
