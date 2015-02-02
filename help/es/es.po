@@ -1,11 +1,11 @@
 #
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2014.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-09-10 07:19+0000\n"
-"PO-Revision-Date: 2014-09-10 12:14+0200\n"
+"POT-Creation-Date: 2015-01-27 08:17+0000\n"
+"PO-Revision-Date: 2015-02-02 13:47+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -18,7 +18,7 @@ msgstr ""
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2014"
+msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2014, 2015"
 
 #. (itstool) path: credit/name
 #: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
@@ -98,9 +98,6 @@ msgstr "Seleccione los elementos que quiere etiquetar como favoritos."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:43
-#| msgid ""
-#| "To finish, select the button with the picture of a heart from the toolbar "
-#| "at the bottom."
 msgid ""
 "To finish, select the button with the picture of a star from the toolbar at "
 "the bottom."
@@ -229,6 +226,71 @@ msgid ""
 msgstr ""
 "Seleccione la foto que quiere abrir, o use las teclas de flechas para "
 "navegar hasta la foto y pulse <key>Intro</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+#| msgid "Open your favorite photos."
+msgid "Open your recent photos."
+msgstr "Abrir sus fotos recientes."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Ver las fotos recientes"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Para ver las fotos recientes:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+#| msgid "Select the <gui style=\"tab\">Albums</gui> tab."
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Seleccione la pestaña <gui style=\"tab\">Recientes</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+#, fuzzy
+#| msgid ""
+#| "You will see a grid of photos from the album you selected. Select a photo "
+#| "from the grid to open it."
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr ""
+"Verá una cuadrícula con las fotos del álbum seleccionado. Seleccione una "
+"foto para abrirla."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
