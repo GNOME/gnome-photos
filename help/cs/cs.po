@@ -1,13 +1,13 @@
 # Czech translation for gnome-photos.
 # Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Marek Černocký <marek@manet.cz>, 2014.
+# Marek Černocký <marek@manet.cz>, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2014-09-21 21:17+0000\n"
-"PO-Revision-Date: 2014-09-09 06:38+0200\n"
+"POT-Creation-Date: 2015-02-04 08:21+0000\n"
+"PO-Revision-Date: 2015-02-04 12:32+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -223,6 +223,72 @@ msgid ""
 msgstr ""
 "Vyberte fotku, kterou chcete otevřít, nebo použijte kurzorové šipky k pohybu "
 "po fotkách a následně zmáčkněte <key>Enter</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "Jak otevřít nedávno použité fotografie."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Zobrazení nedávných fotografií"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"Karta <gui style=\"tab\">Nedávné</gui> zobrazuje fotografie uložené v "
+"místním souborovém systému, jako jsou složky <file>~/Stažené</file> nebo "
+"<file>~/Obrázky</file>, a z alb on-line. Můžete přidat i další umístění, "
+"včetně cloudových alb, jako je Flickr nebo fotografie na Facebooku, a to "
+"pomocí <app>Účtů on-line</app>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "Když chcete přidat další umístění v souborovém systému:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr "Jděte na <guiseq><gui>Nastavení</gui> <gui>Hledat</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Klikněte na tlačítko s ozubenými koly vpravo dole. Můžete vybrat umístění, "
+"která chcete zobrazit na kartě <gui style=\"tab\">Nedávné</gui>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Aby se zobrazily nedávné fotografie:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Vyberte kartu <gui style=\"tab\">Nedávné</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr ""
+"Fotografie uvidíte rozmístěné v pravidelné mřížce. Vyberte v ní fotku a ta "
+"se otevře."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
