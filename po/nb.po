@@ -5,11 +5,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-photos 3.13.x\n"
+"Project-Id-Version: gnome-photos 3.15.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-16 11:51+0200\n"
-"PO-Revision-Date: 2014-08-16 11:51+0200\n"
-"Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
+"POT-Creation-Date: 2015-02-08 20:00+0100\n"
+"PO-Revision-Date: 2015-02-08 20:00+0100\n"
+"Last-Translator: Åka Sikrom <a4NOSPAMPLEASETHANKYOU@hush.com>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -23,9 +23,9 @@ msgstr ""
 msgid "Photos"
 msgstr "Bilder"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
 msgid "Access, organize and share your photos on GNOME"
-msgstr "Se på, organiser og del dine bilder i GNOME"
+msgstr "Se på, organiser og del bilder i GNOME"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
@@ -34,9 +34,9 @@ msgid ""
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Et enkelt program for å aksessere, organisere og dele dine bilder med GNOME. "
-"Det er ment som en enkel og elegant erstatning for bruk av filhåndterer for "
-"å ordne med bilder. Sømløs integrasjon med skytjenester tilbys gjennom GNOME "
+"Et enkelt program for å se på, organisere og dele bilder med GNOME. Det er "
+"ment som en enkel og elegant erstatning for filutforskeren til "
+"bildebehandling. Sømløs integrasjon med skytjenester tilbys gjennom GNOME-"
 "kontoer på nettet."
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:4
@@ -45,11 +45,11 @@ msgstr "Det lar deg:"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:5
 msgid "View recent local and online photos"
-msgstr "Vis nylige bilder lokalt og på nettet"
+msgstr "Vis nylige bilder lokalt og på nett"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:6
 msgid "Access your Facebook or Flickr content"
-msgstr "Se på ditt innhold på Facebook eller Flickr"
+msgstr "Få tilgang til Facebook- eller Flickr-innhold"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:7
 msgid "Send photos to remote DLNA renderers"
@@ -57,7 +57,7 @@ msgstr "Send bilder til eksterne DLNA-rendrere"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:8
 msgid "Set as background"
-msgstr "Sett som bakgrunn"
+msgstr "Bruk som bakgrunn"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:9
 msgid "Print photos"
@@ -131,27 +131,27 @@ msgstr "%.1f (35mm film)"
 #: ../src/eog-image.c:595
 #, c-format
 msgid "Transformation on unloaded image."
-msgstr "Transformering på bilde som ikke er lastet."
+msgstr "Transformering på bilde som ikke er lastet inn."
 
 #: ../src/eog-image.c:623
 #, c-format
 msgid "Transformation failed."
-msgstr "Transformering feilet."
+msgstr "Transformering mislyktes."
 
 #: ../src/eog-image.c:1047
 #, c-format
 msgid "EXIF not supported for this file format."
-msgstr "EXIF er ikke støttet for dette filformatet."
+msgstr "EXIF støttes ikke for dette filformatet."
 
 #: ../src/eog-image.c:1196
 #, c-format
 msgid "Image loading failed."
-msgstr "Lasting av bilde feilet."
+msgstr "Lasting av bilde mislyktes."
 
 #: ../src/eog-image.c:1727 ../src/eog-image.c:1847
 #, c-format
 msgid "No image loaded."
-msgstr "Ingen bilder lastet."
+msgstr "Ingen bilder åpnet."
 
 #: ../src/eog-image.c:1735 ../src/eog-image.c:1856
 #, c-format
@@ -170,7 +170,7 @@ msgstr "Minst to filnavn er like."
 
 #: ../src/eog-util.c:68
 msgid "Could not display help for Image Viewer"
-msgstr "Kunne ikke vise hjelp for bildevisning"
+msgstr "Klarte ikke å vise hjelp for bildevisning"
 
 #: ../src/eog-util.c:116
 msgid " (invalid Unicode)"
@@ -192,21 +192,21 @@ msgstr "Om"
 msgid "Quit"
 msgstr "Avslutt"
 
-#: ../src/photos-base-item.c:347
+#: ../src/photos-base-item.c:410
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:810
+#: ../src/photos-base-item.c:862
 msgid "Screenshots"
-msgstr "Skjermdump"
+msgstr "Skjermbilder"
 
-#: ../src/photos-delete-notification.c:134
+#: ../src/photos-delete-notification.c:135
 msgid "Selected item has been deleted"
 msgid_plural "Selected items have been deleted"
 msgstr[0] "Valgt oppføring er slettet"
 msgstr[1] "Valgte oppføringer er slettet"
 
-#: ../src/photos-delete-notification.c:140
+#: ../src/photos-delete-notification.c:141
 msgid "Undo"
 msgstr "Angre"
 
@@ -214,19 +214,19 @@ msgstr "Angre"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-enheter for gjengivelse"
 
-#: ../src/photos-embed.c:722
+#: ../src/photos-embed.c:619
 msgid "Recent"
 msgstr "Nylig brukt"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:289
+#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
 msgid "Search"
 msgstr "Søk"
 
@@ -248,19 +248,28 @@ msgstr "Innstillinger"
 #: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
-msgstr "Du kan legge til dine kontoer på nettet i %s"
+msgstr "Du kan legge til nettkontoer i %s"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Ingen album funnet"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "Ingen favoritter funnet"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "Stjernemerkede bilder vises her"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Ingen bilder funnet"
+
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:78 ../src/photos-flickr-item.c:88
+#: ../src/photos-google-item.c:76
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
 
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
@@ -280,63 +289,55 @@ msgstr "Henter bilder fra kontoer på nettet"
 
 #: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
-msgstr "Bildene dine blir indeksert"
+msgstr "Bildene blir indeksert"
 
 #: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Noen bilder vil kanskje ikke være tilgjengelige under denne prosessen"
 
-#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
-msgid "Load More"
-msgstr "Last flere"
-
-#: ../src/photos-load-more-button.c:86
-msgid "Loading…"
-msgstr "Laster …"
-
-#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokalt"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "Klikk på oppføringer for å velge dem"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valgt"
 msgstr[1] "%d valgt"
 
-#: ../src/photos-main-toolbar.c:163
+#: ../src/photos-main-toolbar.c:162
 msgid "Back"
 msgstr "Tilbake"
 
-#: ../src/photos-main-toolbar.c:305
+#: ../src/photos-main-toolbar.c:304
 msgid "Select Items"
 msgstr "Velg oppføringer"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:428 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Åpne med %s"
 
-#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:291
+#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
 
-#: ../src/photos-main-toolbar.c:479 ../src/photos-selection-toolbar.c:297
+#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Legg til i favoritter"
 
-#: ../src/photos-main-toolbar.c:649
+#: ../src/photos-main-toolbar.c:651
 msgid "Cancel"
 msgstr "Avbryt"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:484
+#: ../src/photos-main-window.c:481
 msgid "translator-credits"
 msgstr "Kjartan Maraas <kmaraas@gnome.org>"
 
@@ -355,8 +356,8 @@ msgid "Organize"
 msgstr "Organiser"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
-#: ../src/photos-selection-toolbar.c:451
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Åpne"
 
@@ -370,10 +371,14 @@ msgstr "Vis på …"
 
 #: ../src/photos-preview-menu.ui.h:4
 msgid "Set as Background"
-msgstr "Sett som bakgrunn"
+msgstr "Bruk som bakgrunn"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-preview-menu.ui.h:5
+msgid "Set as Lock Screen"
+msgstr "Bruk som låseskjerm"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
+#: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Egenskaper"
 
@@ -386,82 +391,82 @@ msgstr "Skriver ut «%s»: %s"
 msgid "Image Settings"
 msgstr "Innstillinger for bilde"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:890
 msgid "Position"
 msgstr "Posisjon"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:893
 msgid "_Left:"
 msgstr "_Venstre:"
 
-#: ../src/photos-print-setup.c:899
+#: ../src/photos-print-setup.c:894
 msgid "_Right:"
 msgstr "Høy_re:"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:895
 msgid "_Top:"
 msgstr "_Topp:"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:896
 msgid "_Bottom:"
 msgstr "_Bunn:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:898
 msgid "C_enter:"
 msgstr "S_enter:"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:902
 msgid "None"
 msgstr "Ingen"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:903
 msgid "Horizontal"
 msgstr "Horisontal"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:904
 msgid "Vertical"
 msgstr "Vertikal"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:905
 msgid "Both"
 msgstr "Begge"
 
-#: ../src/photos-print-setup.c:923
+#: ../src/photos-print-setup.c:918
 msgid "Size"
 msgstr "Størrelse"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:921
 msgid "_Width:"
 msgstr "_Bredde:"
 
-#: ../src/photos-print-setup.c:927
+#: ../src/photos-print-setup.c:922
 msgid "_Height:"
 msgstr "_Høyde:"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:924
 msgid "_Scaling:"
 msgstr "_Skalering:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:933
 msgid "_Unit:"
 msgstr "_Enhet:"
 
-#: ../src/photos-print-setup.c:942
+#: ../src/photos-print-setup.c:937
 msgid "Millimeters"
 msgstr "Millimeter"
 
-#: ../src/photos-print-setup.c:943
+#: ../src/photos-print-setup.c:938
 msgid "Inches"
 msgstr "Tommer"
 
-#: ../src/photos-print-setup.c:971
+#: ../src/photos-print-setup.c:966
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:216
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Tittel"
@@ -469,68 +474,68 @@ msgstr "Tittel"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:228
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Forfatter"
 
-#: ../src/photos-properties-dialog.c:235
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Kilde"
 
-#: ../src/photos-properties-dialog.c:241
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Dato endret"
 
-#: ../src/photos-properties-dialog.c:249
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Dato opprettet"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:259
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Type"
 
-#: ../src/photos-properties-dialog.c:268
+#: ../src/photos-properties-dialog.c:269
 msgid "Width"
 msgstr "Bredde"
 
-#: ../src/photos-properties-dialog.c:278
+#: ../src/photos-properties-dialog.c:279
 msgid "Height"
 msgstr "Høyde"
 
-#: ../src/photos-properties-dialog.c:293
+#: ../src/photos-properties-dialog.c:294
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:303
+#: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
 msgstr "Eksponering"
 
-#: ../src/photos-properties-dialog.c:313
+#: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
 msgstr "Blenderåpning"
 
-#: ../src/photos-properties-dialog.c:323
+#: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
 msgstr "Brennvidde"
 
-#: ../src/photos-properties-dialog.c:333
+#: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
 msgstr "ISO-hastighet"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:344
 msgid "Flash"
 msgstr "Blitz"
 
-#: ../src/photos-properties-dialog.c:483
+#: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
 msgstr "Av, fyrte ikke"
 
-#: ../src/photos-properties-dialog.c:485
+#: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
 msgstr "På, fyrte"
 
@@ -571,15 +576,15 @@ msgstr "Velg alle"
 msgid "Select None"
 msgstr "Velg ingen"
 
-#: ../src/photos-selection-toolbar.c:458
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "Skriv ut"
 
-#: ../src/photos-selection-toolbar.c:465
+#: ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "Slett"
 
-#: ../src/photos-selection-toolbar.c:479
+#: ../src/photos-selection-toolbar.c:485
 msgid "Add to Album"
 msgstr "Legg til i album"
 
@@ -589,4 +594,13 @@ msgstr "Kilder"
 
 #: ../src/photos-tracker-controller.c:96
 msgid "Unable to fetch the list of photos"
-msgstr "Kan ikke hente liste med bilder"
+msgstr "Klarte ikke å hente liste med bilder"
+
+#~ msgid "No Favorites Found"
+#~ msgstr "Ingen favoritter funnet"
+
+#~ msgid "Load More"
+#~ msgstr "Last flere"
+
+#~ msgid "Loading…"
+#~ msgstr "Laster …"
