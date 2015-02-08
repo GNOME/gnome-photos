@@ -1,0 +1,253 @@
+# Hungarian translation for gnome-photos_help.
+# Copyright (C) 2014. Free Software Foundation, Inc.
+# This file is distributed under the same license as the user help.
+#
+# Tibor Attila Anca <anca.tibor at posteo dot de>, 2014.
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2014.
+# Balázs Úr <urbalazs at gmail dot com>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos_help master\n"
+"POT-Creation-Date: 2015-02-08 20:21+0000\n"
+"PO-Revision-Date: 2014-09-21 10:30+0200\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.2\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr ""
+"Kelemen Gábor <kelemeng at gnome dot hu>\n"
+"Anca Tibor Attila <anca dot tibor at posteo dot de>"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
+#: C/view-favorites.page:11 C/view.page:11
+msgid "Venkatesh Tahiliani"
+msgstr "Venkatesh Tahiliani"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:15 C/favorites-set.page:16 C/view-album.page:15
+#: C/view-favorites.page:15 C/view.page:15
+msgid "Aruna Sankaranarayanan"
+msgstr "Aruna Sankaranarayanan"
+
+#. (itstool) path: info/desc
+#: C/favorites.page:21
+msgid "Tag a special image or album as a favorite."
+msgstr "Fontos képek vagy albumok címkézése kedvencként."
+
+#. (itstool) path: page/title
+#: C/favorites.page:25
+msgid "Favorite photos"
+msgstr "Kedvenc fényképek"
+
+#. (itstool) path: page/p
+#: C/favorites.page:26
+msgid ""
+"You can label photos or images that you particularly like as favorites to "
+"store them for easy access in the <gui>Favorites</gui> tab."
+msgstr ""
+"A leginkább kedvelt fényképeket és ábrákat meg lehet jelölni kedvencnek, "
+"hogy ezeket a <gui>Kedvencek</gui> lapon egyszerűen elérhesse."
+
+#. (itstool) path: info/desc
+#: C/favorites-set.page:22
+msgid "Pick favorites from <app>Photos</app>."
+msgstr "Kedvencek kiválasztása a <app>Fényképekből</app>."
+
+#. (itstool) path: page/title
+#: C/favorites-set.page:25
+msgid "Tag your favorites"
+msgstr "Kedvencek címkézése"
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:27
+msgid ""
+"Photos or albums can be marked as favorites from the <gui style=\"tab"
+"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+msgstr ""
+"A fényképeket vagy albumokat a <gui style=\"tab\">Legújabb</gui> vagy az "
+"<gui style=\"tab\">Albumok</gui> lapon jelölheti meg kedvencként."
+
+#. (itstool) path: steps/title
+#: C/favorites-set.page:31
+msgid "To label favorite items:"
+msgstr "Kedvenc elemek megjelölése:"
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:33
+msgid ""
+"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"whether you want to mark an album or a photo as a favorite."
+msgstr ""
+"Válassza az <gui>Album</gui> vagy a <gui>Legújabb</gui> fület, attól "
+"függően, hogy fényképet vagy albumot szeretne megjelölni kedvencként."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:37
+msgid "Switch on the selection mode."
+msgstr "Kapcsolja be a kijelölési módot."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:40
+msgid "Select all the items you want to favorite."
+msgstr "Jelölje ki az összes kedvencnek szánt elemet."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:43
+msgid ""
+"To finish, select the button with the picture of a star from the toolbar at "
+"the bottom."
+msgstr ""
+"A befejezéshez kattintson az alsó sáv eszköztárában található csillag képpel "
+"ellátott gombra."
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:48
+msgid "Your favorite items can now be found in the <gui>Favorites</gui> tab."
+msgstr "A kedvencei mostantól a <gui>Kedvencek</gui> lapon érhetők el."
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Photos"
+msgstr "Fényképek"
+
+#. (itstool) path: info/desc
+#: C/index.page:12
+msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
+msgstr ""
+"A <app>Fényképek</app> a GNOME személyre szabott fényképkezelő eszköze."
+
+#. (itstool) path: page/title
+#: C/index.page:16
+msgid "<_:media-1/> Photos"
+msgstr "<_:media-1/> Fényképek"
+
+#. (itstool) path: page/p
+#: C/index.page:21
+msgid ""
+"<app>Photos</app> can be used to organise and manage your images in an "
+"engaging and personalized manner. In addition to creating albums out of "
+"images on your computer, you can integrate your Facebook and Flickr albums "
+"with <app>Photos</app>. You can also set photos you like as your desktop "
+"wallpaper, or easily bookmark them as favorites."
+msgstr ""
+"A <app>Fényképek</app> alkalmazással egyszerűen és személyre szabottan "
+"rendezheti és kezelheti képeit. A számítógépen található képek albumokba "
+"rendezésén túl a Facebook és Flickr fiókokban található albumait is "
+"kezelheti az alkalmazásból. A fényképeket asztali háttérképként is "
+"beállíthatja, vagy megjelölheti őket kedvencként."
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "Ez a munka a <_:link-1/> feltételei szerint használható."
+
+#. (itstool) path: info/desc
+#: C/view-album.page:21
+msgid "Open a photo from your albums."
+msgstr "Egy fénykép megnyitása az albumokból."
+
+#. (itstool) path: page/title
+#: C/view-album.page:24
+msgid "View photos from an album"
+msgstr "Fényképek megtekintése egy albumban"
+
+#. (itstool) path: page/p
+#: C/view-album.page:25
+msgid "To open a photo located in a specific album:"
+msgstr "Egy adott albumban található fénykép megnyitásához:"
+
+#. (itstool) path: item/p
+#: C/view-album.page:29
+msgid "Select the <gui style=\"tab\">Albums</gui> tab."
+msgstr "Válassza az <gui style=\"tab\">Albumok</gui> fület."
+
+#. (itstool) path: item/p
+#: C/view-album.page:32
+msgid "Select the album which contains the photo."
+msgstr "Válassza ki a fényképet tartalmazó albumot."
+
+#. (itstool) path: item/p
+#: C/view-album.page:35
+msgid ""
+"You will see a grid of photos from the album you selected. Select a photo "
+"from the grid to open it."
+msgstr ""
+"Egy rácsban megjelennek a kiválasztott albumban található fényképek. "
+"Válasszon egy fényképet a rácsról a megnyitásához."
+
+#. (itstool) path: info/desc
+#: C/view-favorites.page:21
+msgid "Open your favorite photos."
+msgstr "Kedvenc fényképek megnyitása."
+
+#. (itstool) path: page/title
+#: C/view-favorites.page:24
+msgid "View photos marked as favorites."
+msgstr "A kedvencnek jelölt fényképek megtekintése."
+
+#. (itstool) path: page/p
+#: C/view-favorites.page:26
+msgid ""
+"Your <link xref=\"favorites\">favorite</link> photos are located in the "
+"<gui>Favorites</gui> tab."
+msgstr ""
+"A <link xref=\"favorites\">kedvenc</link> fényképeit a <gui>Kedvencek</gui> "
+"lapon érheti el."
+
+#. (itstool) path: steps/title
+#: C/view-favorites.page:30
+msgid "To open a photo tagged as a favorite:"
+msgstr "Egy kedvencnek címkézett fénykép megnyitásához:"
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:32
+msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
+msgstr "Válassza ki a <gui style=\"tab\">Kedvencek</gui> fület."
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:35
+msgid ""
+"Select photo you want to open, or use the arrow keys to navigate to the "
+"photo and press <key>Enter</key>."
+msgstr ""
+"Válassza ki a megnyitandó fényképet, vagy lépjen a fényképre a "
+"nyílbillentyűk segítségével, és nyomja meg az <key>Entert</key>."
+
+#. (itstool) path: info/desc
+#: C/view.page:21
+msgid "Open a photo for viewing."
+msgstr "Egy fénykép megtekintése."
+
+#. (itstool) path: page/title
+#: C/view.page:24
+msgid "View images"
+msgstr "Képek megtekintése"
+
+#. (itstool) path: page/p
+#: C/view.page:26
+msgid ""
+"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
+"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
+"a favourite can be found in the <gui>Favorites</gui> tab."
+msgstr ""
+"A <app>Fényképek</app> indításakor a <gui>Legújabb</gui> lapot látja. Ez a "
+"lap tartalmazza a számítógépen található fényképeket, az <gui>Albumok</gui> "
+"lap a fényképalbumokat mutatja, míg a kedvencnek jelölt képeket a "
+"<gui>Kedvencek</gui> lapon érheti el."
+
