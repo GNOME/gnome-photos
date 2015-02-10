@@ -76,7 +76,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosViewContainer, photos_view_container, GTK_TYPE
 
 
 static void
-photos_view_container_view_changed (PhotosViewContainer *self, GtkPositionType pos)
+photos_view_container_edge_reached (PhotosViewContainer *self, GtkPositionType pos)
 {
   if (pos == GTK_POS_BOTTOM)
     photos_offset_controller_increase_offset (self->priv->offset_cntrlr);
@@ -88,7 +88,7 @@ photos_view_container_connect_view (PhotosViewContainer *self)
 {
   g_signal_connect_swapped (self->priv->view,
                             "edge-reached",
-                            G_CALLBACK (photos_view_container_view_changed),
+                            G_CALLBACK (photos_view_container_edge_reached),
                             self);
 }
 
@@ -108,7 +108,7 @@ photos_view_container_disconnect_view (PhotosViewContainer *self)
 {
   PhotosViewContainerPrivate *priv = self->priv;
 
-  g_signal_handlers_disconnect_by_func (priv->view, photos_view_container_view_changed, self);
+  g_signal_handlers_disconnect_by_func (priv->view, photos_view_container_edge_reached, self);
 }
 
 
