@@ -84,6 +84,8 @@ gnome_photos_SOURCES = \
 	photos-create-collection-icon-job.h \
 	photos-create-collection-job.c \
 	photos-create-collection-job.h \
+	photos-debug.c \
+	photos-debug.h \
 	photos-delete-item-job.c \
 	photos-delete-item-job.h \
 	photos-delete-notification.c \
