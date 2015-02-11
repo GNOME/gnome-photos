@@ -17,7 +17,7 @@ AM_MAINTAINER_MODE([enable])
 
 AX_IS_RELEASE([git-directory])
 
-AX_CHECK_ENABLE_DEBUG(,,,[$ax_is_release])
+AX_CHECK_ENABLE_DEBUG([yes],,, [$ax_is_release])
 AX_COMPILER_FLAGS([WARN_CFLAGS], [WARN_LDFLAGS], [$ax_is_release])
 
 AC_PROG_CC
