@@ -288,7 +288,9 @@ AM_CFLAGS = \
 	$(WARN_CFLAGS) \
 	$(NULL)
 
-gnome_photos_LDFLAGS =
+gnome_photos_LDFLAGS = \
+	$(WARN_LDFLAGS) \
+	$(NULL)
 
 gnome_photos_LDADD = \
 	$(BABL_LIBS) \
