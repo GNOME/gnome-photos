@@ -64,7 +64,7 @@ G_DEFINE_TYPE_WITH_CODE (PhotosDlnaRenderer, photos_dlna_renderer, G_TYPE_OBJECT
   G_STMT_START { \
     if (error != NULL) \
       { \
-        g_debug ("%s: %s: %s", G_STRFUNC, msg, error->message); \
+        g_warning ("%s: %s: %s", G_STRFUNC, msg, error->message); \
         g_task_return_error (task, error); \
         g_object_unref (task); \
         return; \
