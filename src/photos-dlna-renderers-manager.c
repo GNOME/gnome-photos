@@ -22,6 +22,7 @@
 
 #include <gio/gio.h>
 
+#include "photos-debug.h"
 #include "photos-dleyna-renderer-manager.h"
 #include "photos-dlna-renderers-manager.h"
 #include "photos-dlna-renderer.h"
@@ -84,10 +85,11 @@ photos_dlna_renderers_manager_renderer_new_cb (GObject      *source_object,
     }
 
   object_path = photos_dlna_renderer_get_object_path (renderer);
-  g_debug ("%s '%s' %s %s", G_STRFUNC,
-           photos_dlna_renderer_get_friendly_name (renderer),
-           photos_dlna_renderer_get_udn (renderer),
-           object_path);
+  photos_debug (PHOTOS_DEBUG_DLNA,
+                "%s '%s' %s %s", G_STRFUNC,
+                photos_dlna_renderer_get_friendly_name (renderer),
+                photos_dlna_renderer_get_udn (renderer),
+                object_path);
   g_hash_table_insert (priv->renderers, (gpointer) object_path, renderer);
   g_signal_emit (self, signals[RENDERER_FOUND], 0, renderer);
 }
@@ -120,10 +122,11 @@ photos_dlna_renderers_manager_renderer_lost_cb (PhotosDlnaRenderersManager *self
   g_return_if_fail (renderer != NULL);
 
   g_hash_table_steal (priv->renderers, object_path);
-  g_debug ("%s '%s' %s %s", G_STRFUNC,
-           photos_dlna_renderer_get_friendly_name (renderer),
-           photos_dlna_renderer_get_udn (renderer),
-           object_path);
+  photos_debug (PHOTOS_DEBUG_DLNA,
+                "%s '%s' %s %s", G_STRFUNC,
+                photos_dlna_renderer_get_friendly_name (renderer),
+                photos_dlna_renderer_get_udn (renderer),
+                object_path);
   g_signal_emit (self, signals[RENDERER_LOST], 0, renderer);
   g_object_unref (renderer);
 }
@@ -171,7 +174,7 @@ photos_dlna_renderers_manager_proxy_new_cb (GObject      *source_object,
       return;
     }
 
-  g_debug ("%s DLNA renderers manager initialized", G_STRFUNC);
+  photos_debug (PHOTOS_DEBUG_DLNA, "%s DLNA renderers manager initialized", G_STRFUNC);
 
   g_signal_connect_swapped (priv->proxy, "found-renderer",
                             G_CALLBACK (photos_dlna_renderers_manager_renderer_found_cb), self);

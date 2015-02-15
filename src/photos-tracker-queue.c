@@ -28,6 +28,7 @@
 #include <glib.h>
 #include <tracker-sparql.h>
 
+#include "photos-debug.h"
 #include "photos-tracker-queue.h"
 
 
@@ -137,7 +138,7 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
   data = g_queue_peek_head (priv->queue);
   priv->running = TRUE;
 
-  g_debug ("%s", data->sparql);
+  photos_debug (PHOTOS_DEBUG_TRACKER, "%s", data->sparql);
 
   switch (data->query_type)
     {

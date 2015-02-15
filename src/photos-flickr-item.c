@@ -35,6 +35,7 @@
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
 #include "photos-base-manager.h"
+#include "photos-debug.h"
 #include "photos-flickr-item.h"
 #include "photos-search-context.h"
 #include "photos-source.h"
@@ -222,7 +223,7 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   local_dir = g_path_get_dirname (local_path);
   g_mkdir_with_parents (local_dir, 0700);
 
-  g_debug ("Downloading %s from Flickr to %s", thumbnail_uri, local_path);
+  photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Flickr to %s", thumbnail_uri, local_path);
   if (!g_file_copy (remote_file,
                     local_file,
                     G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
@@ -276,7 +277,7 @@ photos_flickr_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
 
   if (!g_file_test (local_path, G_FILE_TEST_EXISTS))
     {
-      g_debug ("Downloading %s from Flickr to %s", uri, local_path);
+      photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Flickr to %s", uri, local_path);
       if (!g_file_copy (remote_file,
                         local_file,
                         G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,

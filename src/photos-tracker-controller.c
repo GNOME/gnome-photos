@@ -31,6 +31,7 @@
 #include <gio/gio.h>
 
 #include "photos-base-manager.h"
+#include "photos-debug.h"
 #include "photos-enums.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
@@ -141,7 +142,7 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
     }
 
   now = g_get_monotonic_time ();
-  g_debug ("Query Cursor: %" G_GINT64_FORMAT, (now - priv->last_query_time) / 1000000);
+  photos_debug (PHOTOS_DEBUG_TRACKER, "Query Cursor: %" G_GINT64_FORMAT, (now - priv->last_query_time) / 1000000);
 
   photos_item_manager_add_item (PHOTOS_ITEM_MANAGER (priv->item_mngr), cursor);
   tracker_sparql_cursor_next_async (cursor,
@@ -223,7 +224,9 @@ photos_tracker_controller_set_query_status (PhotosTrackerController *self, gbool
     priv->last_query_time = now;
   else
     {
-      g_debug ("Query Elapsed: %" G_GINT64_FORMAT, (now - priv->last_query_time) / 1000000);
+      photos_debug (PHOTOS_DEBUG_TRACKER,
+                    "Query Elapsed: %" G_GINT64_FORMAT,
+                    (now - priv->last_query_time) / 1000000);
       priv->last_query_time = 0;
     }
 

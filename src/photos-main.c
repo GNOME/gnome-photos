@@ -31,6 +31,7 @@
 #include <glib/gi18n.h>
 
 #include "photos-application.h"
+#include "photos-debug.h"
 #include "photos-remote-display-manager.h"
 
 
@@ -42,6 +43,8 @@ main (gint argc, gchar *argv[])
   gint exit_status;
 
   setlocale (LC_ALL, "");
+
+  photos_debug_init ();
 
   bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");

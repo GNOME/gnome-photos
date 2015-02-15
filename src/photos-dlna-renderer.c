@@ -22,6 +22,7 @@
 
 #include "config.h"
 
+#include "photos-debug.h"
 #include "photos-dleyna-renderer-device.h"
 #include "photos-dleyna-renderer-push-host.h"
 #include "photos-dlna-renderer.h"
@@ -430,7 +431,7 @@ photos_dlna_renderer_share_host_file_cb (GObject *source_object,
   g_object_notify (G_OBJECT (self), "shared-count");
 
   /* 2) Mpris.Player.OpenUri(hosted_url) */
-  g_debug ("%s %s", G_STRFUNC, hosted_url);
+  photos_debug (PHOTOS_DEBUG_DLNA, "%s %s", G_STRFUNC, hosted_url);
   mpris_player_call_open_uri (priv->player, hosted_url,
                               g_task_get_cancellable (task),
                               photos_dlna_renderer_share_open_uri_cb,

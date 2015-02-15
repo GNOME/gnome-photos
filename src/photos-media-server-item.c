@@ -32,6 +32,7 @@
 #include <glib.h>
 
 #include "photos-base-manager.h"
+#include "photos-debug.h"
 #include "photos-media-server-item.h"
 #include "photos-search-context.h"
 #include "photos-source.h"
@@ -102,7 +103,7 @@ photos_media_server_item_download (PhotosBaseItem *item, GCancellable *cancellab
 
   if (!g_file_test (local_path, G_FILE_TEST_EXISTS))
     {
-      g_debug ("Downloading %s from Media Server to %s", uri, local_path);
+      photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Media Server to %s", uri, local_path);
       if (!g_file_copy (remote_file,
                         local_file,
                         G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,

@@ -35,6 +35,7 @@
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
 #include "photos-base-manager.h"
+#include "photos-debug.h"
 #include "photos-facebook-item.h"
 #include "photos-search-context.h"
 #include "photos-source.h"
@@ -135,7 +136,7 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
   local_dir = g_path_get_dirname (local_path);
   g_mkdir_with_parents (local_dir, 0700);
 
-  g_debug ("Downloading %s from Facebook to %s", thumbnail_image->source, local_path);
+  photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Facebook to %s", thumbnail_image->source, local_path);
   if (!g_file_copy (remote_file,
                     local_file,
                     G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
@@ -191,7 +192,7 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
 
   local_file = g_file_new_for_path (local_filename);
 
-  g_debug ("Downloading %s from Facebook to %s", higher_image->source, local_filename);
+  photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Facebook to %s", higher_image->source, local_filename);
   if (!g_file_copy (remote_file,
                     local_file,
                     G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,

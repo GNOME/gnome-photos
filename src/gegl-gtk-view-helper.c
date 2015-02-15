@@ -22,6 +22,8 @@
 #include <math.h>
 #include <babl/babl.h>
 
+#include "photos-debug.h"
+
 
 G_DEFINE_TYPE(ViewHelper, view_helper, G_TYPE_OBJECT)
 
@@ -266,7 +268,7 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
                    GEGL_BLIT_CACHE | (self->block ? 0 : GEGL_BLIT_DIRTY));
 
     end = g_get_monotonic_time ();
-    g_debug ("Node Blit: %" G_GINT64_FORMAT, end - start);
+    photos_debug (PHOTOS_DEBUG_GEGL, "Node Blit: %" G_GINT64_FORMAT, end - start);
 
     surface = cairo_image_surface_create_for_data(buf,
               CAIRO_FORMAT_ARGB32,
