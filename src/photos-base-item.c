@@ -1164,10 +1164,10 @@ photos_base_item_get_author (PhotosBaseItem *self)
 }
 
 
-GeglRectangle
-photos_base_item_get_bbox (PhotosBaseItem *self)
+void
+photos_base_item_get_bbox (PhotosBaseItem *self, GeglRectangle *out_bbox)
 {
-  return self->priv->bbox;
+  *out_bbox = self->priv->bbox;
 }
 
 
