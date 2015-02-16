@@ -144,6 +144,8 @@ get_scale_to_px_factor (PhotosPrintSetup *self)
     case GTK_UNIT_INCH:
       factor = FACTOR_INCH_TO_PIXEL;
       break;
+    case GTK_UNIT_NONE:
+    case GTK_UNIT_POINTS:
     default:
       g_assert_not_reached ();
     }
@@ -346,6 +348,9 @@ photos_print_setup_position_values_changed (PhotosPrintSetup *self,
         pos *= FACTOR_MM_TO_INCH;
       photos_print_preview_set_image_position (PHOTOS_PRINT_PREVIEW (priv->preview), -1, pos);
       break;
+    default:
+      g_assert_not_reached ();
+      break;
     }
 }
 
@@ -452,6 +457,9 @@ photos_print_setup_size_changed (PhotosPrintSetup *self,
       orig_size_y = (gdouble) bbox.width / factor;
       orig_size_x = (gdouble) bbox.height / factor;
       break;
+    default:
+      g_assert_not_reached ();
+      break;
     }
 
   scale = CLAMP (size_x / orig_size_x, 0, 1);
@@ -470,6 +478,9 @@ photos_print_setup_size_changed (PhotosPrintSetup *self,
       break;
     case CHANGE_VERT:
       update_image_pos_ranges (self, page_size_y, page_size_x, size_y, size_x);
+      break;
+    default:
+      g_assert_not_reached ();
       break;
     }
 
@@ -566,6 +577,8 @@ photos_print_setup_set_scale_unit (PhotosPrintSetup *setup, GtkUnit unit)
       step = 0.01;
       page = 0.1;
       break;
+    case GTK_UNIT_NONE:
+    case GTK_UNIT_POINTS:
     default:
       g_assert_not_reached ();
     }
@@ -650,6 +663,9 @@ on_preview_image_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer us
       /* scale down */
       scale *= 0.9;
       break;
+    case GDK_SCROLL_LEFT:
+    case GDK_SCROLL_RIGHT:
+    case GDK_SCROLL_SMOOTH:
     default:
       return FALSE;
       break;

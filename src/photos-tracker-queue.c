@@ -166,6 +166,10 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
                                                     photos_tracker_queue_collector,
                                                     g_object_ref (self));
       break;
+
+    default:
+      g_assert_not_reached ();
+      break;
     }
 }
 
