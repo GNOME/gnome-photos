@@ -17,11 +17,13 @@
  * Copyright (C) 2011 Jon Nordby <jononor@gmail.com>
  */
 
-#include "gegl-gtk-view-helper.h"
+#include "config.h"
 
 #include <math.h>
+
 #include <babl/babl.h>
 
+#include "gegl-gtk-view-helper.h"
 #include "photos-debug.h"
 
 
