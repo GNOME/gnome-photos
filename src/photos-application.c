@@ -60,6 +60,7 @@
 
 struct _PhotosApplicationPrivate
 {
+  GCancellable *create_miners_cancellable;
   GList *miners;
   GList *miners_running;
   GResource *resource;
@@ -84,7 +85,10 @@ struct _PhotosApplicationPrivate
   PhotosSearchContextState *state;
   PhotosSearchProvider *search_provider;
   TrackerExtractPriority *extract_priority;
+  guint create_miners_count;
   guint32 activation_timestamp;
+  gulong source_added_id;
+  gulong source_removed_id;
 };
 
 enum
@@ -117,7 +121,15 @@ static const gchar *DESKTOP_KEY_COLOR_SHADING_TYPE = "color-shading-type";
 static const gchar *DESKTOP_KEY_PRIMARY_COLOR = "primary-color";
 static const gchar *DESKTOP_KEY_SECONDARY_COLOR = "secondary-color";
 
+typedef struct _PhotosApplicationCreateData PhotosApplicationCreateData;
 typedef struct _PhotosApplicationRefreshData PhotosApplicationRefreshData;
+
+struct _PhotosApplicationCreateData
+{
+  PhotosApplication *application;
+  gchar *extension_name;
+  gchar *miner_name;
+};
 
 struct _PhotosApplicationRefreshData
 {
@@ -127,7 +139,33 @@ struct _PhotosApplicationRefreshData
 
 static gboolean photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner);
 static void photos_application_start_miners (PhotosApplication *self);
+static void photos_application_start_miners_second (PhotosApplication *self);
 static void photos_application_stop_miners (PhotosApplication *self);
+
+
+static PhotosApplicationCreateData *
+photos_application_create_data_new (PhotosApplication *application,
+                                    const gchar *extension_name,
+                                    const gchar *miner_name)
+{
+  PhotosApplicationCreateData *data;
+
+  data = g_slice_new0 (PhotosApplicationCreateData);
+  data->application = g_object_ref (application);
+  data->extension_name = g_strdup (extension_name);
+  data->miner_name = g_strdup (miner_name);
+  return data;
+}
+
+
+static void
+photos_application_create_data_free (PhotosApplicationCreateData *data)
+{
+  g_object_unref (data->application);
+  g_free (data->extension_name);
+  g_free (data->miner_name);
+  g_slice_free (PhotosApplicationCreateData, data);
+}
 
 
 static PhotosApplicationRefreshData *
@@ -192,6 +230,84 @@ photos_application_destroy (PhotosApplication *self)
 
   priv->main_window = NULL;
   photos_application_stop_miners (self);
+}
+
+
+static void
+photos_application_gom_miner (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplicationCreateData *data = (PhotosApplicationCreateData *) user_data;
+  PhotosApplication *self = data->application;
+  PhotosApplicationPrivate *priv = self->priv;
+  GError *error;
+  GomMiner *miner = NULL;
+
+  error = NULL;
+  miner = gom_miner_proxy_new_for_bus_finish (res, &error);
+  if (error != NULL)
+    {
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          g_error_free (error);
+          goto out;
+        }
+      else
+        {
+          g_warning ("Unable to create GomMiner proxy for %s: %s", data->miner_name, error->message);
+          g_error_free (error);
+          goto maybe_continue;
+        }
+    }
+
+  g_object_set_data_full (G_OBJECT (miner), "provider-type", g_strdup (data->extension_name), g_free);
+  priv->miners = g_list_prepend (priv->miners, g_object_ref (miner));
+
+ maybe_continue:
+  if (priv->create_miners_count == 1)
+    photos_application_start_miners_second (self);
+
+ out:
+  priv->create_miners_count--;
+  g_clear_object (&miner);
+  photos_application_create_data_free (data);
+}
+
+
+static void
+photos_application_create_miners (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  GIOExtensionPoint *extension_point;
+  GList *extensions;
+  GList *l;
+
+  extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
+  extensions = g_io_extension_point_get_extensions (extension_point);
+  for (l = extensions; l != NULL; l = l->next)
+    {
+      GIOExtension *extension = (GIOExtension *) l->data;
+      PhotosApplicationCreateData *data;
+      PhotosBaseItemClass *base_item_class;
+
+      base_item_class = PHOTOS_BASE_ITEM_CLASS (g_io_extension_ref_class (extension));
+      if (base_item_class->miner_name != NULL && base_item_class->miner_object_path != NULL)
+        {
+          const gchar *extension_name;
+
+          extension_name = g_io_extension_get_name (extension);
+          data = photos_application_create_data_new (self, extension_name, base_item_class->miner_name);
+          gom_miner_proxy_new_for_bus (G_BUS_TYPE_SESSION,
+                                       G_DBUS_PROXY_FLAGS_NONE,
+                                       base_item_class->miner_name,
+                                       base_item_class->miner_object_path,
+                                       priv->create_miners_cancellable,
+                                       photos_application_gom_miner,
+                                       data);
+          priv->create_miners_count++;
+        }
+
+      g_type_class_unref (base_item_class);
+    }
 }
 
 
@@ -533,20 +649,27 @@ photos_application_set_bg_common (PhotosApplication *self, GVariant *parameter, 
 static void
 photos_application_start_miners (PhotosApplication *self)
 {
+  photos_application_create_miners (self);
+}
+
+
+static void
+photos_application_start_miners_second (PhotosApplication *self)
+{
   PhotosApplicationPrivate *priv = self->priv;
 
   photos_application_refresh_miners (self);
 
-  g_signal_connect_object (priv->state->src_mngr,
-                           "object-added",
-                           G_CALLBACK (photos_application_refresh_miners),
-                           self,
-                           G_CONNECT_SWAPPED);
-  g_signal_connect_object (priv->state->src_mngr,
-                           "object-removed",
-                           G_CALLBACK (photos_application_refresh_miners),
-                           self,
-                           G_CONNECT_SWAPPED);
+  priv->source_added_id = g_signal_connect_object (priv->state->src_mngr,
+                                                   "object-added",
+                                                   G_CALLBACK (photos_application_refresh_miners),
+                                                   self,
+                                                   G_CONNECT_SWAPPED);
+  priv->source_removed_id = g_signal_connect_object (priv->state->src_mngr,
+                                                     "object-removed",
+                                                     G_CALLBACK (photos_application_refresh_miners),
+                                                     self,
+                                                     G_CONNECT_SWAPPED);
 }
 
 
@@ -556,6 +679,10 @@ photos_application_stop_miners (PhotosApplication *self)
   PhotosApplicationPrivate *priv = self->priv;
   GList *l;
 
+  g_cancellable_cancel (priv->create_miners_cancellable);
+  g_clear_object (&priv->create_miners_cancellable);
+  priv->create_miners_cancellable = g_cancellable_new ();
+
   for (l = priv->miners_running; l != NULL; l = l->next)
     {
       GomMiner *miner = GOM_MINER (l->data);
@@ -564,6 +691,21 @@ photos_application_stop_miners (PhotosApplication *self)
       cancellable = g_object_get_data (G_OBJECT (miner), "cancellable");
       g_cancellable_cancel (cancellable);
     }
+
+  if (priv->source_added_id != 0)
+    {
+      g_signal_handler_disconnect (priv->state->src_mngr, priv->source_added_id);
+      priv->source_added_id = 0;
+    }
+
+  if (priv->source_removed_id != 0)
+    {
+      g_signal_handler_disconnect (priv->state->src_mngr, priv->source_removed_id);
+      priv->source_removed_id = 0;
+    }
+
+  g_list_free_full (priv->miners, g_object_unref);
+  priv->miners = NULL;
 }
 
 
@@ -791,9 +933,6 @@ photos_application_startup (GApplication *application)
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   PhotosApplicationPrivate *priv = self->priv;
   GError *error;
-  GIOExtensionPoint *extension_point;
-  GList *extensions;
-  GList *l;
   GSimpleAction *action;
   GrlRegistry *registry;
   GtkSettings *settings;
@@ -819,6 +958,8 @@ photos_application_startup (GApplication *application)
       g_error_free (error);
     }
 
+  priv->create_miners_cancellable = g_cancellable_new ();
+
   priv->bg_settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
   priv->ss_settings = g_settings_new (DESKTOP_SCREENSAVER_SCHEMA);
 
@@ -829,43 +970,6 @@ photos_application_startup (GApplication *application)
   g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
   g_signal_connect (settings, "notify::gtk-theme-name", G_CALLBACK (photos_application_theme_changed), NULL);
   photos_application_theme_changed (settings);
-
-  extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
-  extensions = g_io_extension_point_get_extensions (extension_point);
-  for (l = extensions; l != NULL; l = l->next)
-    {
-      GIOExtension *extension = (GIOExtension *) l->data;
-      PhotosBaseItemClass *base_item_class;
-
-      base_item_class = PHOTOS_BASE_ITEM_CLASS (g_io_extension_ref_class (extension));
-      if (base_item_class->miner_name != NULL && base_item_class->miner_object_path != NULL)
-        {
-          GomMiner *miner;
-          const gchar *extension_name;
-
-          error = NULL;
-          miner = gom_miner_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                    G_DBUS_PROXY_FLAGS_NONE,
-                                                    base_item_class->miner_name,
-                                                    base_item_class->miner_object_path,
-                                                    NULL,
-                                                    &error);
-          if (error != NULL)
-            {
-              g_warning ("Unable to create GomMiner proxy for %s: %s", base_item_class->miner_name, error->message);
-              g_error_free (error);
-              continue;
-            }
-
-          extension_name = g_io_extension_get_name (extension);
-          g_object_set_data_full (G_OBJECT (miner), "provider-type", g_strdup (extension_name), g_free);
-
-          priv->miners = g_list_prepend (priv->miners, g_object_ref (miner));
-          g_object_unref (miner);
-        }
-
-      g_type_class_unref (base_item_class);
-    }
 
   tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
                                               G_DBUS_PROXY_FLAGS_NONE,
@@ -1030,6 +1134,7 @@ photos_application_dispose (GObject *object)
       priv->resource = NULL;
     }
 
+  g_clear_object (&priv->create_miners_cancellable);
   g_clear_object (&priv->bg_settings);
   g_clear_object (&priv->ss_settings);
   g_clear_object (&priv->fs_action);
@@ -1055,6 +1160,20 @@ photos_application_dispose (GObject *object)
     }
 
   G_OBJECT_CLASS (photos_application_parent_class)->dispose (object);
+}
+
+
+static void
+photos_application_finalize (GObject *object)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (object);
+  PhotosApplicationPrivate *priv = self->priv;
+
+  if (G_UNLIKELY (priv->create_miners_count != 0))
+    g_critical ("Application is being destroyed while %u miner proxies are still being created.",
+                priv->create_miners_count);
+
+  G_OBJECT_CLASS (photos_application_parent_class)->finalize (object);
 }
 
 
@@ -1093,6 +1212,7 @@ photos_application_class_init (PhotosApplicationClass *class)
 
   object_class->constructor = photos_application_constructor;
   object_class->dispose = photos_application_dispose;
+  object_class->finalize = photos_application_finalize;
   application_class->activate = photos_application_activate;
   application_class->dbus_register = photos_application_dbus_register;
   application_class->dbus_unregister = photos_application_dbus_unregister;
