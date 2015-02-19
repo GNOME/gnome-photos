@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-13 00:50+0100\n"
-"PO-Revision-Date: 2015-01-13 00:51+0200\n"
+"POT-Creation-Date: 2015-02-19 11:23+0100\n"
+"PO-Revision-Date: 2015-02-19 11:35+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -266,8 +266,8 @@ msgstr "Non se atoparon fotografías"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:78 ../src/photos-flickr-item.c:88
-#: ../src/photos-google-item.c:76
+#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-google-item.c:77
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -340,7 +340,7 @@ msgstr "Cancelar"
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:481
 msgid "translator-credits"
-msgstr "Fran Dieguez <frandieguez@gnome.org>, 2012."
+msgstr "Fran Dieguez <frandieguez@gnome.org>, 2012-2015."
 
 #: ../src/photos-organize-collection-dialog.c:76
 msgid "_Add"
@@ -374,7 +374,11 @@ msgstr "Mostrar en…"
 msgid "Set as Background"
 msgstr "Estabelecer como fondo de pantalla"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:609
+#: ../src/photos-preview-menu.ui.h:5
+msgid "Set as Lock Screen"
+msgstr "Estabelecer como pantalla de bloqueo"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
 #: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Propiedades"
@@ -388,75 +392,75 @@ msgstr "Imprimindo «%s»: %s"
 msgid "Image Settings"
 msgstr "Configuracións da imaxe"
 
-#: ../src/photos-print-setup.c:890
+#: ../src/photos-print-setup.c:906
 msgid "Position"
 msgstr "Posición"
 
-#: ../src/photos-print-setup.c:893
+#: ../src/photos-print-setup.c:909
 msgid "_Left:"
 msgstr "E_squerda:"
 
-#: ../src/photos-print-setup.c:894
+#: ../src/photos-print-setup.c:910
 msgid "_Right:"
 msgstr "_Dereita:"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:911
 msgid "_Top:"
 msgstr "Su_perior:"
 
-#: ../src/photos-print-setup.c:896
+#: ../src/photos-print-setup.c:912
 msgid "_Bottom:"
 msgstr "_Inferior:"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:914
 msgid "C_enter:"
 msgstr "C_entrada:"
 
-#: ../src/photos-print-setup.c:902
+#: ../src/photos-print-setup.c:918
 msgid "None"
 msgstr "Ningunha"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:919
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: ../src/photos-print-setup.c:904
+#: ../src/photos-print-setup.c:920
 msgid "Vertical"
 msgstr "Vertical"
 
-#: ../src/photos-print-setup.c:905
+#: ../src/photos-print-setup.c:921
 msgid "Both"
 msgstr "Ambos"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:934
 msgid "Size"
 msgstr "Tamaño"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:937
 msgid "_Width:"
 msgstr "_Largura:"
 
-#: ../src/photos-print-setup.c:922
+#: ../src/photos-print-setup.c:938
 msgid "_Height:"
 msgstr "Al_tura:"
 
-#: ../src/photos-print-setup.c:924
+#: ../src/photos-print-setup.c:940
 msgid "_Scaling:"
 msgstr "E_scalado:"
 
-#: ../src/photos-print-setup.c:933
+#: ../src/photos-print-setup.c:949
 msgid "_Unit:"
 msgstr "_Unidade:"
 
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:953
 msgid "Millimeters"
 msgstr "Milímetros"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:954
 msgid "Inches"
 msgstr "Polgadas"
 
-#: ../src/photos-print-setup.c:966
+#: ../src/photos-print-setup.c:982
 msgid "Preview"
 msgstr "Previsualizar"
 
@@ -589,7 +593,7 @@ msgstr "Engadir ao álbum"
 msgid "Sources"
 msgstr "Orixes"
 
-#: ../src/photos-tracker-controller.c:96
+#: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
 msgstr "Non foi posíbel obter a lista de fotografías"
 
