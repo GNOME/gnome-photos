@@ -6,25 +6,25 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2014-04-29 07:07+0000\n"
-"PO-Revision-Date: 2014-04-20 14:21+0300\n"
-"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
+"POT-Creation-Date: 2015-01-26 16:00+0000\n"
+"PO-Revision-Date: 2015-02-19 21:58+0200\n"
+"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
 "Language-Team: www.gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Project-Style: gnome\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Ελληνική μεταφραστική ομάδα του GNOME\n"
-" Δημήτρης Σπίγγος <dmtrs32@gmail.com>, 2014\n"
-"Για περισσότερα δείτε: http://gnome.gr"
+"Ελληνική μεταφραστική ομάδα GNOME <team@gnome.gr>, 2014\n"
+" Δημήτρης Σπίγγος <dmtrs32@gmail.com>, 2014 Θάνος Τρυφωνίδης <tomtryf@gmail."
+"com>, 2014"
 
 #. (itstool) path: credit/name
 #: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
@@ -41,7 +41,7 @@ msgstr "Aruna Sankaranarayanan"
 #. (itstool) path: info/desc
 #: C/favorites.page:21
 msgid "Tag a special image or album as a favorite."
-msgstr "Χαρακτηρισμός μιας συγκεκριμένης εικόνας ή συλλογής ως αγαπημένης."
+msgstr "Σημειώστε μια συγκεκριμένη εικόνα ή άλμπουμ ως αγαπημένο."
 
 #. (itstool) path: page/title
 #: C/favorites.page:25
@@ -61,7 +61,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/favorites-set.page:22
 msgid "Pick favorites from <app>Photos</app>."
-msgstr "Επιλέξτε αγαπημένες από τις <app>Φωτογραφίες</app>."
+msgstr "Επιλέξτε τα αγαπημένα σας από τις <app>Φωτογραφίες</app>."
 
 #. (itstool) path: page/title
 #: C/favorites-set.page:25
@@ -74,8 +74,8 @@ msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
 "\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
-"Φωτογραφίες ή συλλογές μπορούν να σημειωθούν ως αγαπημένες από την καρτέλα "
-"<gui style=\"tab\">πρόσφατα</gui> ή την καρτέλα <gui style=\"tab\">Συλλογές</"
+"Φωτογραφίες ή άλμπουμ μπορούν να σημειωθούν ως αγαπημένα από την καρτέλα "
+"<gui style=\"tab\">Πρόσφατα</gui> ή την καρτέλα <gui style=\"tab\">Άλμπουμ</"
 "gui>."
 
 #. (itstool) path: steps/title
@@ -89,8 +89,8 @@ msgid ""
 "Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
-"Επιλέξτε την καρτέλα <gui>Συλλογές</gui> ή την καρτέλα <gui>Πρόσφατα</gui> "
-"ανάλογα με το να θέλετε να σημειώσετε μια συλλογή ή μια φωτογραφία ως "
+"Επιλέξτε την καρτέλα <gui>Άλμπουμ</gui> ή την καρτέλα <gui>Πρόσφατα</gui> "
+"ανάλογα με το να θέλετε να σημειώσετε ένα άλμπουμ ή μια φωτογραφία ως "
 "αγαπημένη."
 
 #. (itstool) path: item/p
@@ -101,16 +101,16 @@ msgstr "Εναλλαγή στην κατάσταση επιλογής."
 #. (itstool) path: item/p
 #: C/favorites-set.page:40
 msgid "Select all the items you want to favorite."
-msgstr "Επιλέξτε όλα τα στοιχεία που θέλετε ως αγαπημένα."
+msgstr "Επιλέξτε όλα τα στοιχεία που θέλετε να σημειώσετε ως αγαπημένα."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:43
 msgid ""
-"To finish, select the button with the picture of a heart from the toolbar at "
+"To finish, select the button with the picture of a star from the toolbar at "
 "the bottom."
 msgstr ""
-"Για να τελειώσετε, επιλέξτε το πλήκτρο με την εικόνα καρδιάς από την "
-"εργαλειοθήκη στο τέλος."
+"Για να τελειώσετε, επιλέξτε το πλήκτρο με την εικόνα ενός αστεριού από την "
+"εργαλειοθήκη στο κάτω μέρος."
 
 #. (itstool) path: page/p
 #: C/favorites-set.page:48
@@ -156,38 +156,38 @@ msgstr ""
 #. (itstool) path: p/link
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "Άδεια Creative Commons Attribution-ShareAlike 3.0 Unported"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/>."
-msgstr "Αυτή η δουλειά αδειοδοτήθηκε από <_:link-1/>."
+msgstr "Αυτή η δουλειά αδειοδοτήθηκε υπό την <_:link-1/>."
 
 #. (itstool) path: info/desc
 #: C/view-album.page:21
 msgid "Open a photo from your albums."
-msgstr "Άνοιγμα μιας φωτογραφίας από τις συλλογές σας."
+msgstr "Ανοίξτε μια φωτογραφία από τις συλλογές σας."
 
 #. (itstool) path: page/title
 #: C/view-album.page:24
 msgid "View photos from an album"
-msgstr "Προβολή φωτογραφιών από μια συλλογή"
+msgstr "Προβολή φωτογραφιών από ένα άλμπουμ"
 
 #. (itstool) path: page/p
 #: C/view-album.page:25
 msgid "To open a photo located in a specific album:"
 msgstr ""
-"Για να ανοίξετε μια φωτογραφία που βρίσκεται σε μια συγκεκριμένη συλλογή:"
+"Για να ανοίξετε μια φωτογραφία που βρίσκεται σε ένα συγκεκριμένο άλμπουμ:"
 
 #. (itstool) path: item/p
 #: C/view-album.page:29
 msgid "Select the <gui style=\"tab\">Albums</gui> tab."
-msgstr "Επιλέξτε την καρτέλα <gui style=\"tab\">Συλλογές</gui>."
+msgstr "Επιλέξτε την καρτέλα <gui style=\"tab\">Άλμπουμ</gui>."
 
 #. (itstool) path: item/p
 #: C/view-album.page:32
 msgid "Select the album which contains the photo."
-msgstr "Επιλέξτε τη συλλογή που περιέχει τη φωτογραφία."
+msgstr "Επιλέξτε το άλμπουμ που περιέχει τη φωτογραφία."
 
 #. (itstool) path: item/p
 #: C/view-album.page:35
@@ -195,7 +195,7 @@ msgid ""
 "You will see a grid of photos from the album you selected. Select a photo "
 "from the grid to open it."
 msgstr ""
-"Θα δείτε ένα πλέγμα φωτογραφιών από τη συλλογή που επιλέξατε. Επιλέξτε μια "
+"Θα δείτε ένα πλέγμα φωτογραφιών από το άλμπουμ που επιλέξατε. Επιλέξτε μια "
 "φωτογραφία από το πλέγμα για να την ανοίξετε."
 
 #. (itstool) path: info/desc
@@ -206,7 +206,7 @@ msgstr "Ανοίξτε τις αγαπημένες σας φωτογραφίες
 #. (itstool) path: page/title
 #: C/view-favorites.page:24
 msgid "View photos marked as favorites."
-msgstr "Προβάλετε τις φωτογραφίες που είναι σημειωμένες ως αγαπημένες."
+msgstr "Προβολή φωτογραφιών που είναι σημειωμένες ως αγαπημένες."
 
 #. (itstool) path: page/p
 #: C/view-favorites.page:26
@@ -234,8 +234,81 @@ msgid ""
 "photo and press <key>Enter</key>."
 msgstr ""
 "Επιλέξτε τη φωτογραφία που θέλετε να ανοίξετε, ή χρησιμοποιήστε τα πλήκτρα "
-"βελών για να περιηγηθείτε στην φωτογραφία και πατήστε το πλήκτρο "
-"<key>Εισαγωγή</key>."
+"βελών για να περιηγηθείτε στην φωτογραφία και πατήστε το πλήκτρο <key>Enter</"
+"key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+#| msgid "Open your favorite photos."
+msgid "Open your recent photos."
+msgstr "Ανοίξτε τις πρόσφατες φωτογραφίες σας."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Προβολή πρόσφατων φωτογραφιών"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"Η καρτέλα <gui style=\"tab\">Πρόσφατα</gui> εμφανίζει φωτογραφίες από "
+"τοποθεσίες του συστήματος όπως <file>~/Λήψεις</file>, <file>~/Φωτογραφίες</"
+"file> και από συλλογές στο διαδίκτυο. Μπορείτε επίσης να προσθέσετε "
+"τοποθεσίες συλλογών όπως Flickr ή Facebook, μέσω των <app>Διαδικτυακοί "
+"Λογαριασμοί GNOME</app>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "Για να προσθέσετε άλλες τοποθεσίες συστήματος:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr ""
+"Μετακινηθείτε στις <guiseq><gui>Ρυθμίσεις</gui><gui>Αναζήτηση</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Κάντε κλικ στο γρανάζι στην κάτω δεξιά γωνία. Μπορείτε να επιλέξετε τις "
+"τοποθεσίες που θέλετε να προβάλονται στην καρτέλα <gui style=\"tab"
+"\">Πρόσφατα</gui>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Για την προβολή των πρόσφατων φωτογραφιών:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+#| msgid "Select the <gui style=\"tab\">Albums</gui> tab."
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Επιλέξτε την καρτέλα <gui style=\"tab\">Πρόσφατα</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+#| msgid ""
+#| "You will see a grid of photos from the album you selected. Select a photo "
+#| "from the grid to open it."
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr ""
+"Θα δείτε ένα πλέγμα φωτογραφιών. Επιλέξτε μια φωτογραφία από το πλέγμα για "
+"να την ανοίξετε."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
@@ -257,6 +330,6 @@ msgid ""
 msgstr ""
 "Όταν ανοίγονται οι <app>Φωτογραφίες</app>, θα δείτε να ανοίγει η καρτέλα "
 "<gui>Πρόσφατα</gui>. Η καρτέλα <gui>Πρόσφατα</gui> περιέχει εικόνες από τον "
-"υπολογιστή σας, η καρτέλα <gui>Συλλογές</gui> περιέχει τις συλλογές "
+"υπολογιστή σας, η καρτέλα <gui>Άλμπουμ</gui> περιέχει τις συλλογές "
 "φωτογραφιών και οποιαδήποτε εικόνα σημειώσατε ως αγαπημένη μπορεί να βρεθεί "
 "στην καρτέλα <gui>Αγαπημένα</gui>."
