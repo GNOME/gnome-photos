@@ -1,3 +1,32 @@
+Overview of changes in 3.15.90
+==============================
+
+* Bugs fixed:
+ 711505 Documentation updates
+ 731391 Sluggish next/previous buttons
+ 731437 Port to GEGL 0.3
+ 733213 Jerky transition when opening some photos from the grid
+ 737990 icons: Use symbolics for HighContrast icons
+ 743853 view-container: Use edge-reached signal instead of edge-overshot
+ 744305 Add basic debugging infrastructure
+ 744309 Remove use of deprecated gnome-common
+ 744590 base-item: Silence -Waggregate-return
+
+* Updated translations:
+ Basque
+ Czech
+ Galician
+ Greek
+ Hebrew
+ Hungarian
+ Norwegian bokmål
+ Russian
+ Slovak
+ Slovenian
+ Spanish
+ Turkish
+
+
 Overview of changes in 3.15.4
 =============================
 
