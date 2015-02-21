@@ -4,22 +4,23 @@
 # Tom Tryfonidis <tomtryf@gmail.com>, 2012.
 # keratea <dmtrs32@gmail.com>, 2013.
 # Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2013, 2014.
-# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013.
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013, 2015.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-30 19:17+0000\n"
-"PO-Revision-Date: 2014-08-01 01:17+0200\n"
-"Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
-"Language-Team: team@lists.gnome.gr\n"
+"POT-Creation-Date: 2015-02-21 08:33+0000\n"
+"PO-Revision-Date: 2015-02-21 15:24+0200\n"
+"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
+"Language-Team: Greek, Modern (1453-) <opensuse-translation-el@opensuse.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Gtranslator 2.91.6\n"
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
@@ -28,7 +29,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Φωτογραφίες"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Προσπελάστε, οργανώστε και μοιραστείτε τις φωτογραφίες σας στο GNOME"
 
@@ -199,21 +200,21 @@ msgstr "Περί"
 msgid "Quit"
 msgstr "Έξοδος"
 
-#: ../src/photos-base-item.c:347
+#: ../src/photos-base-item.c:410
 msgid "Album"
 msgstr "Άλμπουμ"
 
-#: ../src/photos-base-item.c:810
+#: ../src/photos-base-item.c:862
 msgid "Screenshots"
 msgstr "Στιγμιότυπα"
 
-#: ../src/photos-delete-notification.c:139
+#: ../src/photos-delete-notification.c:135
 msgid "Selected item has been deleted"
 msgid_plural "Selected items have been deleted"
 msgstr[0] "Το επιλεγμένο στοιχείο έχει διαγραφεί"
 msgstr[1] "Τα επιλεγμένα στοιχεία έχουν διαγραφεί"
 
-#: ../src/photos-delete-notification.c:150
+#: ../src/photos-delete-notification.c:141
 msgid "Undo"
 msgstr "Αναίρεση"
 
@@ -221,19 +222,19 @@ msgstr "Αναίρεση"
 msgid "DLNA Renderer Devices"
 msgstr "Συσκευές αποτύπωσης DLNA"
 
-#: ../src/photos-embed.c:722
+#: ../src/photos-embed.c:619
 msgid "Recent"
 msgstr "Πρόσφατα"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Άλμπουμ"
 
-#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Αγαπημένα"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:283
+#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
 msgid "Search"
 msgstr "Αναζήτηση"
 
@@ -257,17 +258,26 @@ msgstr "Ρυθμίσεις"
 msgid "You can add your online accounts in %s"
 msgstr "Μπορείτε να προσθέσετε διαδικτυακούς λογαριασμούς στο %s"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Δεν βρέθηκαν άλμπουμ"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "Δεν βρέθηκαν αγαπημένα"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "Οι επισημασμένες φωτογραφίες θα εμφανίζονται εδώ"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Δεν βρέθηκαν φωτογραφίες"
+
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-google-item.c:77
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
 
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
@@ -295,49 +305,49 @@ msgstr ""
 "Μερικές φωτογραφίες μπορεί να μην είναι διαθέσιμες κατά τη διάρκεια αυτής "
 "της διεργασίας"
 
-#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
-msgid "Load More"
-msgstr "Φόρτωση περισσοτέρων"
-
-#: ../src/photos-load-more-button.c:86
-msgid "Loading…"
-msgstr "Φορτώνεται…"
-
-#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Τοπικά"
 
-#: ../src/photos-main-toolbar.c:107
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "Πατήστε στα στοιχεία για να τα επιλέξετε"
 
-#: ../src/photos-main-toolbar.c:109
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d επιλέχτηκε"
 msgstr[1] "%d επιλέχτηκαν"
 
-#: ../src/photos-main-toolbar.c:159
+#: ../src/photos-main-toolbar.c:162
 msgid "Back"
 msgstr "Πίσω"
 
-#: ../src/photos-main-toolbar.c:299
+#: ../src/photos-main-toolbar.c:304
 msgid "Select Items"
 msgstr "Επιλέξτε στοιχεία"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:420 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Άνοιγμα με %s"
 
-#: ../src/photos-main-toolbar.c:580
+#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+msgid "Remove from favorites"
+msgstr "Αφαίρεση από τα αγαπημένα"
+
+#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+msgid "Add to favorites"
+msgstr "Προσθήκη στα αγαπημένα"
+
+#: ../src/photos-main-toolbar.c:651
 msgid "Cancel"
 msgstr "Άκυρο"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:484
+#: ../src/photos-main-window.c:482
 msgid "translator-credits"
 msgstr ""
 "Ελληνική μεταφραστική ομάδα GNOME\n"
@@ -365,7 +375,7 @@ msgstr "Οργάνωση"
 
 #. Translators: this is the Open action in a context menu
 #: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
-#: ../src/photos-selection-toolbar.c:455
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Άνοιγμα"
 
@@ -381,20 +391,15 @@ msgstr "Εμφάνιση σε…"
 msgid "Set as Background"
 msgstr "Ορισμός ως παρασκήνιο"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
-#: ../src/photos-selection-toolbar.c:476
+#: ../src/photos-preview-menu.ui.h:5
+#| msgid "Set as background"
+msgid "Set as Lock Screen"
+msgstr "Ορισμός ως κλειδωμένης οθόνης"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
+#: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Ιδιότητες"
-
-#: ../src/photos-preview-nav-buttons.c:222
-#: ../src/photos-selection-toolbar.c:292
-msgid "Remove from favorites"
-msgstr "Αφαίρεση από τα αγαπημένα"
-
-#: ../src/photos-preview-nav-buttons.c:227
-#: ../src/photos-selection-toolbar.c:298
-msgid "Add to favorites"
-msgstr "Προσθήκη στα αγαπημένα"
 
 #: ../src/photos-print-notification.c:76
 #, c-format
@@ -405,82 +410,82 @@ msgstr "Εκτύπωση “%s”: %s"
 msgid "Image Settings"
 msgstr "Ρυθμίσεις εικόνας"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:906
 msgid "Position"
 msgstr "Θέση"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:909
 msgid "_Left:"
 msgstr "_Αριστερά:"
 
-#: ../src/photos-print-setup.c:899
+#: ../src/photos-print-setup.c:910
 msgid "_Right:"
 msgstr "_Δεξιά:"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:911
 msgid "_Top:"
 msgstr "_Πάνω:"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:912
 msgid "_Bottom:"
 msgstr "_Κάτω:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:914
 msgid "C_enter:"
 msgstr "_Κέντρο:"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:918
 msgid "None"
 msgstr "Καμία"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:919
 msgid "Horizontal"
 msgstr "Οριζόντια"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:920
 msgid "Vertical"
 msgstr "Κάθετα"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:921
 msgid "Both"
 msgstr "Και τα δύο"
 
-#: ../src/photos-print-setup.c:923
+#: ../src/photos-print-setup.c:934
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:937
 msgid "_Width:"
 msgstr "_Πλάτος:"
 
-#: ../src/photos-print-setup.c:927
+#: ../src/photos-print-setup.c:938
 msgid "_Height:"
 msgstr "Ύ_ψος:"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:940
 msgid "_Scaling:"
 msgstr "_Κλιμάκωση:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:949
 msgid "_Unit:"
 msgstr "_Μονάδα:"
 
-#: ../src/photos-print-setup.c:942
+#: ../src/photos-print-setup.c:953
 msgid "Millimeters"
 msgstr "Χιλιοστά"
 
-#: ../src/photos-print-setup.c:943
+#: ../src/photos-print-setup.c:954
 msgid "Inches"
 msgstr "Ίντσες"
 
-#: ../src/photos-print-setup.c:971
+#: ../src/photos-print-setup.c:982
 msgid "Preview"
 msgstr "Προεπισκόπηση"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:216
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Τίτλος"
@@ -488,68 +493,68 @@ msgstr "Τίτλος"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:228
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Δημιουργός"
 
-#: ../src/photos-properties-dialog.c:235
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Πηγή"
 
-#: ../src/photos-properties-dialog.c:241
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Ημερομηνία τροποποίησης"
 
-#: ../src/photos-properties-dialog.c:249
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Ημερομηνία δημιουργίας"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:259
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Τύπος"
 
-#: ../src/photos-properties-dialog.c:268
+#: ../src/photos-properties-dialog.c:269
 msgid "Width"
 msgstr "Πλάτος"
 
-#: ../src/photos-properties-dialog.c:278
+#: ../src/photos-properties-dialog.c:279
 msgid "Height"
 msgstr "Ύψος"
 
-#: ../src/photos-properties-dialog.c:293
+#: ../src/photos-properties-dialog.c:294
 msgid "Camera"
 msgstr "Κάμερα"
 
-#: ../src/photos-properties-dialog.c:303
+#: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
 msgstr "Έκθεση"
 
-#: ../src/photos-properties-dialog.c:313
+#: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
 msgstr "Διάφραγμα"
 
-#: ../src/photos-properties-dialog.c:323
+#: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
 msgstr "Εστιακή απόσταση"
 
-#: ../src/photos-properties-dialog.c:333
+#: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
 msgstr "Ταχύτητα ISO"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:344
 msgid "Flash"
 msgstr "Φλας"
 
-#: ../src/photos-properties-dialog.c:483
+#: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
 msgstr "Ανενεργό, δεν δούλεψε"
 
-#: ../src/photos-properties-dialog.c:485
+#: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
 msgstr "Ενεργό, δούλεψε"
 
@@ -590,15 +595,15 @@ msgstr "Επιλογή όλων"
 msgid "Select None"
 msgstr "Χωρίς επιλογή"
 
-#: ../src/photos-selection-toolbar.c:462
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "Εκτύπωση"
 
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: ../src/photos-selection-toolbar.c:483
+#: ../src/photos-selection-toolbar.c:485
 msgid "Add to Album"
 msgstr "Προσθήκη σε άλμπουμ"
 
@@ -606,9 +611,18 @@ msgstr "Προσθήκη σε άλμπουμ"
 msgid "Sources"
 msgstr "Πηγές"
 
-#: ../src/photos-tracker-controller.c:96
+#: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
 msgstr "Αδύνατη η ανάκτηση της λίστας των φωτογραφιών"
+
+#~ msgid "No Favorites Found"
+#~ msgstr "Δεν βρέθηκαν αγαπημένα"
+
+#~ msgid "Load More"
+#~ msgstr "Φόρτωση περισσοτέρων"
+
+#~ msgid "Loading…"
+#~ msgstr "Φορτώνεται…"
 
 #~ msgid ""
 #~ "<li>View recent local and online photos</li> <li>Access your Flickr "
