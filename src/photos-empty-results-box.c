@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -192,6 +192,8 @@ photos_empty_results_box_constructed (GObject *object)
       label = g_strconcat ("<b><span size=\"large\">", _("No Photos Found"), "</span></b>", NULL);
       break;
 
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
     default:
       g_assert_not_reached ();
       break;
@@ -234,6 +236,8 @@ photos_empty_results_box_constructed (GObject *object)
         }
       break;
 
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
     default:
       g_assert_not_reached ();
       break;

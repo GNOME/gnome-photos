@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  * Copyright © 2014 Saurav Agarwalla
  *
  * This program is free software; you can redistribute it and/or
@@ -163,6 +163,8 @@ photos_embed_get_view_container_from_mode (PhotosEmbed *self, PhotosWindowMode m
       view_container = priv->search;
       break;
 
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
     default:
       g_assert_not_reached ();
     }
