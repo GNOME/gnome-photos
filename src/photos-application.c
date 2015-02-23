@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014, 2015 Pranav Kant
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -186,13 +186,7 @@ photos_application_destroy (PhotosApplication *self)
   PhotosApplicationPrivate *priv = self->priv;
 
   priv->main_window = NULL;
-
-  if (priv->miners_running != NULL)
-    {
-      photos_application_stop_miners (self);
-      g_list_free_full (priv->miners_running, g_object_unref);
-      priv->miners_running = NULL;
-    }
+  photos_application_stop_miners (self);
 }
 
 
@@ -995,6 +989,12 @@ photos_application_dispose (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
   PhotosApplicationPrivate *priv = self->priv;
+
+  if (priv->miners_running != NULL)
+    {
+      g_list_free_full (priv->miners_running, g_object_unref);
+      priv->miners_running = NULL;
+    }
 
   if (priv->miners != NULL)
     {
