@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -320,7 +320,7 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
   photos_view_model_add_item (self, item);
 
  out:
-  g_signal_connect (item, "info-updated", G_CALLBACK (photos_view_model_info_updated), self);
+  g_signal_connect_object (item, "info-updated", G_CALLBACK (photos_view_model_info_updated), self, 0);
 }
 
 
