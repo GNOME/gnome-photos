@@ -1094,7 +1094,6 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                              1,
                                              FALSE,
                                              NULL);
-  g_assert (create_thumbnail_pool != NULL);
 }
 
 
