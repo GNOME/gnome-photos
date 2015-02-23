@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -301,10 +301,11 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   gtk_container_add (GTK_CONTAINER (self), close);
   g_signal_connect_swapped (close, "clicked", G_CALLBACK (photos_indexing_notification_close_clicked), self);
 
-  g_signal_connect_swapped (app,
-                            "miners-changed",
-                            G_CALLBACK (photos_indexing_notification_check_notification),
-                            self);
+  g_signal_connect_object (app,
+                           "miners-changed",
+                           G_CALLBACK (photos_indexing_notification_check_notification),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   g_signal_connect_swapped (priv->manager,
                             "miner-progress",
