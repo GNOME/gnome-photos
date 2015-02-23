@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 Pranav Kant
+ * Copyright © 2014, 2015 Pranav Kant
  * Copyright © 2012, 2013, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -41,6 +41,7 @@
 #include "photos-delete-item-job.h"
 #include "photos-filterable.h"
 #include "photos-icons.h"
+#include "photos-local-item.h"
 #include "photos-print-notification.h"
 #include "photos-print-operation.h"
 #include "photos-query.h"
@@ -344,6 +345,27 @@ photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_d
 
  out:
   g_object_unref (task);
+}
+
+
+static gint
+photos_base_item_create_thumbnail_sort_func (gconstpointer a, gconstpointer b, gpointer user_data)
+{
+  GTask *task_a = G_TASK (a);
+  GTask *task_b = G_TASK (b);
+  PhotosBaseItem *item_a;
+  PhotosBaseItem *item_b;
+  gint ret_val = 0;
+
+  item_a = PHOTOS_BASE_ITEM (g_task_get_source_object (task_a));
+  item_b = PHOTOS_BASE_ITEM (g_task_get_source_object (task_b));
+
+  if (PHOTOS_IS_LOCAL_ITEM (item_a))
+    ret_val = -1;
+  else if (PHOTOS_IS_LOCAL_ITEM (item_b))
+    ret_val = 1;
+
+  return ret_val;
 }
 
 
@@ -1094,6 +1116,9 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                              1,
                                              FALSE,
                                              NULL);
+  g_thread_pool_set_sort_function (create_thumbnail_pool,
+                                   (GCompareDataFunc) photos_base_item_create_thumbnail_sort_func,
+                                   NULL);
 }
 
 
