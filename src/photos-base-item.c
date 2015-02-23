@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014, 2015 Pranav Kant
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -208,7 +208,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   GList *windows;
   GdkPixbuf *emblemed_pixbuf = NULL;
   GdkPixbuf *thumbnailed_pixbuf = NULL;
-  GdkWindow *window;
+  GdkWindow *window = NULL;
   gint scale;
 
   if (priv->original_icon == NULL)
@@ -294,7 +294,9 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   app = g_application_get_default ();
   scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
   windows = gtk_application_get_windows (GTK_APPLICATION (app));
-  window = gtk_widget_get_window (GTK_WIDGET (windows->data));
+  if (windows != NULL)
+    window = gtk_widget_get_window (GTK_WIDGET (windows->data));
+
   priv->surface = gdk_cairo_surface_create_from_pixbuf (thumbnailed_pixbuf, scale, window);
 
   g_signal_emit (self, signals[INFO_UPDATED], 0);
