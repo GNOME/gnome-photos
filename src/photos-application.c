@@ -812,8 +812,7 @@ photos_application_startup (GApplication *application)
   const gchar *search_accels[2] = {"<Primary>f", NULL};
   const gchar *select_all_accels[2] = {"<Primary>a", NULL};
 
-  G_APPLICATION_CLASS (photos_application_parent_class)
-    ->startup (application);
+  G_APPLICATION_CLASS (photos_application_parent_class)->startup (application);
 
   gegl_init (NULL, NULL);
 
