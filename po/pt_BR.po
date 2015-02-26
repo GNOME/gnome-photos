@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-23 16:05+0000\n"
-"PO-Revision-Date: 2015-02-02 06:25-0300\n"
+"POT-Creation-Date: 2015-02-26 09:17+0000\n"
+"PO-Revision-Date: 2015-02-26 12:55-0300\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.7.3\n"
+"X-Generator: Poedit 1.7.4\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Fotos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acesse, organize e compartilhe suas fotos no GNOME"
 
@@ -342,8 +342,18 @@ msgstr "Adicionar aos favoritos"
 msgid "Cancel"
 msgstr "Cancelar"
 
+#: ../src/photos-main-window.c:464
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Copyright © 2013 Intel Corporation. Todos direitos reservados.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:482
+#: ../src/photos-main-window.c:474
 msgid "translator-credits"
 msgstr "Rafael Ferreira <rafael.f.f1@gmail.com>, 2013"
 
