@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-23 08:14+0000\n"
-"PO-Revision-Date: 2015-01-23 11:30+0100\n"
+"POT-Creation-Date: 2015-02-26 09:17+0000\n"
+"PO-Revision-Date: 2015-02-26 18:55+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Fotos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice y comparta sus fotos en GNOME"
 
@@ -196,11 +196,11 @@ msgstr "Acerca de"
 msgid "Quit"
 msgstr "Salir"
 
-#: ../src/photos-base-item.c:410
+#: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:862
+#: ../src/photos-base-item.c:886
 msgid "Screenshots"
 msgstr "Capturas de pantalla"
 
@@ -218,19 +218,19 @@ msgstr "Deshacer"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos de renderizado DLNA"
 
-#: ../src/photos-embed.c:619
+#: ../src/photos-embed.c:621
 msgid "Recent"
 msgstr "Recientes"
 
-#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
 msgid "Search"
 msgstr "Buscar"
 
@@ -269,8 +269,8 @@ msgstr "No se encontraron fotos"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:78 ../src/photos-flickr-item.c:88
-#: ../src/photos-google-item.c:76
+#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-google-item.c:77
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -340,8 +340,18 @@ msgstr "Agregar a favoritos"
 msgid "Cancel"
 msgstr "Cancelar"
 
+#: ../src/photos-main-window.c:464
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Copyright © 2013 Intel Corporation. Todos los derechos reservados.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:481
+#: ../src/photos-main-window.c:474
 msgid "translator-credits"
 msgstr "Angel Méndez <angelrmm0@gmail.com>, 2012"
 
@@ -378,7 +388,6 @@ msgid "Set as Background"
 msgstr "Establecer como fondo"
 
 #: ../src/photos-preview-menu.ui.h:5
-#| msgid "Set as background"
 msgid "Set as Lock Screen"
 msgstr "Establecer como fondo de la pantalla de bloqueo"
 
@@ -396,76 +405,76 @@ msgstr "Imprimiendo «%s»: %s"
 msgid "Image Settings"
 msgstr "Configuración de la imagen"
 
-#: ../src/photos-print-setup.c:890
+#: ../src/photos-print-setup.c:906
 msgid "Position"
 msgstr "Posición"
 
-#: ../src/photos-print-setup.c:893
+#: ../src/photos-print-setup.c:909
 msgid "_Left:"
 msgstr "_Izquierda:"
 
-#: ../src/photos-print-setup.c:894
+#: ../src/photos-print-setup.c:910
 msgid "_Right:"
 msgstr "_Derecha:"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:911
 msgid "_Top:"
 msgstr "_Arriba:"
 
-#: ../src/photos-print-setup.c:896
+#: ../src/photos-print-setup.c:912
 msgid "_Bottom:"
 msgstr "_Abajo:"
 
 # _Centrar:  (If Its an action) or _Centro: (If describing place) 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:914
 msgid "C_enter:"
 msgstr "_Centro:"
 
-#: ../src/photos-print-setup.c:902
+#: ../src/photos-print-setup.c:918
 msgid "None"
 msgstr "Ninguna"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:919
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: ../src/photos-print-setup.c:904
+#: ../src/photos-print-setup.c:920
 msgid "Vertical"
 msgstr "Vertical"
 
-#: ../src/photos-print-setup.c:905
+#: ../src/photos-print-setup.c:921
 msgid "Both"
 msgstr "Ambas"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:934
 msgid "Size"
 msgstr "Tamaño"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:937
 msgid "_Width:"
 msgstr "A_nchura:"
 
-#: ../src/photos-print-setup.c:922
+#: ../src/photos-print-setup.c:938
 msgid "_Height:"
 msgstr "A_ltura:"
 
-#: ../src/photos-print-setup.c:924
+#: ../src/photos-print-setup.c:940
 msgid "_Scaling:"
 msgstr "E_scalado:"
 
-#: ../src/photos-print-setup.c:933
+#: ../src/photos-print-setup.c:949
 msgid "_Unit:"
 msgstr "_Unidad:"
 
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:953
 msgid "Millimeters"
 msgstr "Milímetros"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:954
 msgid "Inches"
 msgstr "Pulgadas"
 
-#: ../src/photos-print-setup.c:966
+#: ../src/photos-print-setup.c:982
 msgid "Preview"
 msgstr "Vista previa"
 
@@ -598,7 +607,7 @@ msgstr "Añadir al álbum"
 msgid "Sources"
 msgstr "Fuentes"
 
-#: ../src/photos-tracker-controller.c:96
+#: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
 msgstr "No se pudo obtener la lista de fotos"
 
