@@ -546,8 +546,7 @@ photos_preview_nav_buttons_hide (PhotosPreviewNavButtons *self)
 
   priv->action = PHOTOS_PREVIEW_ACTION_NONE;
   priv->visible = FALSE;
-  photos_preview_nav_buttons_fade_out_button (self, priv->prev_widget);
-  photos_preview_nav_buttons_fade_out_button (self, priv->next_widget);
+  photos_preview_nav_buttons_update_visibility (self);
 
   g_signal_emit (self, signals[ACTIVATED], 0, priv->action);
 }
