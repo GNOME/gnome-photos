@@ -434,7 +434,7 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
   GCancellable *cancellable;
   const gchar *const index_types[] = {"photos", NULL};
 
-  if (g_getenv ("PHOTOS_DISABLE_MINERS") != NULL)
+  if (g_getenv ("GNOME_PHOTOS_DISABLE_MINERS") != NULL)
     goto out;
 
   priv->miners_running = g_list_prepend (priv->miners_running, g_object_ref (miner));

@@ -53,7 +53,7 @@ main (gint argc, gchar *argv[])
   g_set_prgname (PACKAGE_TARNAME);
 
   app = photos_application_new ();
-  if (g_getenv ("PHOTOS_PERSIST") != NULL)
+  if (g_getenv ("GNOME_PHOTOS_PERSIST") != NULL)
     g_application_hold (G_APPLICATION (app));
 
   remote_display_mngr = photos_remote_display_manager_dup_singleton ();
