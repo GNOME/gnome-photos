@@ -39,6 +39,7 @@
 
 struct _PhotosPreviewNavButtonsPrivate
 {
+  GtkGesture *tap_gesture;
   GtkTreeModel *model;
   GtkTreePath *current_path;
   GtkWidget *next_widget;
@@ -49,8 +50,8 @@ struct _PhotosPreviewNavButtonsPrivate
   PhotosPreviewAction action;
   gboolean enable_next;
   gboolean enable_prev;
-  gboolean hover;
   gboolean visible;
+  gboolean visible_internal;
   guint auto_hide_id;
   guint motion_id;
 };
@@ -114,14 +115,45 @@ photos_preview_nav_buttons_fade_out_button (PhotosPreviewNavButtons *self, GtkWi
 }
 
 
+static void
+photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
+{
+  PhotosPreviewNavButtonsPrivate *priv = self->priv;
+  GtkTreeIter iter;
+  GtkTreeIter tmp;
+  gboolean enable_next = FALSE;
+  gboolean enable_prev = FALSE;
+
+  if (priv->model == NULL
+      || priv->current_path == NULL
+      || !priv->visible
+      || !priv->visible_internal
+      || !gtk_tree_model_get_iter (priv->model, &iter, priv->current_path))
+    {
+      enable_prev = FALSE;
+      enable_next = FALSE;
+      goto out;
+    }
+
+  tmp = iter;
+  enable_prev = gtk_tree_model_iter_previous (priv->model, &tmp);
+
+  tmp = iter;
+  enable_next = gtk_tree_model_iter_next (priv->model, &tmp);
+
+ out:
+  g_object_set (self, "enable-next", enable_next, "enable-previous", enable_prev, NULL);
+}
+
+
 static gboolean
 photos_preview_nav_buttons_auto_hide (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
 
-  photos_preview_nav_buttons_fade_out_button (self, priv->prev_widget);
-  photos_preview_nav_buttons_fade_out_button (self, priv->next_widget);
   priv->auto_hide_id = 0;
+  priv->visible_internal = FALSE;
+  photos_preview_nav_buttons_update_visibility (self);
   return G_SOURCE_REMOVE;
 }
 
@@ -142,7 +174,6 @@ photos_preview_nav_buttons_unqueue_auto_hide (PhotosPreviewNavButtons *self)
 static gboolean
 photos_preview_nav_buttons_enter_notify (PhotosPreviewNavButtons *self)
 {
-  self->priv->hover = TRUE;
   photos_preview_nav_buttons_unqueue_auto_hide (self);
   return FALSE;
 }
@@ -165,50 +196,20 @@ photos_preview_nav_buttons_queue_auto_hide (PhotosPreviewNavButtons *self)
 static gboolean
 photos_preview_nav_buttons_leave_notify (PhotosPreviewNavButtons *self)
 {
-  self->priv->hover = FALSE;
   photos_preview_nav_buttons_queue_auto_hide (self);
   return FALSE;
-}
-
-
-static void
-photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
-{
-  PhotosPreviewNavButtonsPrivate *priv = self->priv;
-  GtkTreeIter iter;
-  GtkTreeIter tmp;
-  gboolean enable_next = FALSE;
-  gboolean enable_prev = FALSE;
-
-  if (priv->model == NULL
-      || priv->current_path == NULL
-      || !priv->visible
-      || !gtk_tree_model_get_iter (priv->model, &iter, priv->current_path))
-    {
-      enable_prev = FALSE;
-      enable_next = FALSE;
-      goto out;
-    }
-
-  tmp = iter;
-  enable_prev = gtk_tree_model_iter_previous (priv->model, &tmp);
-
-  tmp = iter;
-  enable_next = gtk_tree_model_iter_next (priv->model, &tmp);
-
-  if (!priv->hover)
-    photos_preview_nav_buttons_queue_auto_hide (self);
-
- out:
-  g_object_set (self, "enable-next", enable_next, "enable-previous", enable_prev, NULL);
 }
 
 
 static gboolean
 photos_preview_nav_buttons_motion_notify_timeout (PhotosPreviewNavButtons *self)
 {
-  self->priv->motion_id = 0;
+  PhotosPreviewNavButtonsPrivate *priv = self->priv;
+
+  priv->motion_id = 0;
+  priv->visible_internal = TRUE;
   photos_preview_nav_buttons_update_visibility (self);
+  photos_preview_nav_buttons_queue_auto_hide (self);
   return G_SOURCE_REMOVE;
 }
 
@@ -233,6 +234,25 @@ photos_preview_nav_buttons_motion_notify (PhotosPreviewNavButtons *self, GdkEven
                                      g_object_ref (self),
                                      g_object_unref);
   return FALSE;
+}
+
+
+static void
+photos_preview_nav_buttons_multi_press_released (PhotosPreviewNavButtons *self)
+{
+  PhotosPreviewNavButtonsPrivate *priv = self->priv;
+
+  gtk_gesture_set_state (GTK_GESTURE (priv->tap_gesture), GTK_EVENT_SEQUENCE_CLAIMED);
+  priv->visible_internal = !priv->visible_internal;
+  photos_preview_nav_buttons_unqueue_auto_hide (self);
+  photos_preview_nav_buttons_update_visibility (self);
+}
+
+
+static void
+photos_preview_nav_buttons_multi_press_stopped (PhotosPreviewNavButtons *self)
+{
+  gtk_gesture_set_state (GTK_GESTURE (self->priv->tap_gesture), GTK_EVENT_SEQUENCE_DENIED);
 }
 
 
@@ -290,6 +310,7 @@ photos_preview_nav_buttons_dispose (GObject *object)
   PhotosPreviewNavButtons *self = PHOTOS_PREVIEW_NAV_BUTTONS (object);
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
 
+  g_clear_object (&priv->tap_gesture);
   g_clear_object (&priv->model);
   g_clear_object (&priv->overlay);
   g_clear_object (&priv->preview_view);
@@ -383,6 +404,17 @@ photos_preview_nav_buttons_constructed (GObject *object)
   g_signal_connect_swapped (priv->overlay,
                             "motion-notify-event",
                             G_CALLBACK (photos_preview_nav_buttons_motion_notify),
+                            self);
+
+  priv->tap_gesture = gtk_gesture_multi_press_new (priv->preview_view);
+  gtk_gesture_single_set_touch_only (GTK_GESTURE_SINGLE (priv->tap_gesture), TRUE);
+  g_signal_connect_swapped (priv->tap_gesture,
+                            "released",
+                            G_CALLBACK (photos_preview_nav_buttons_multi_press_released),
+                            self);
+  g_signal_connect_swapped (priv->tap_gesture,
+                            "stopped",
+                            G_CALLBACK (photos_preview_nav_buttons_multi_press_stopped),
                             self);
 }
 
@@ -546,6 +578,7 @@ photos_preview_nav_buttons_hide (PhotosPreviewNavButtons *self)
 
   priv->action = PHOTOS_PREVIEW_ACTION_NONE;
   priv->visible = FALSE;
+  priv->visible_internal = FALSE;
   photos_preview_nav_buttons_update_visibility (self);
 
   g_signal_emit (self, signals[ACTIVATED], 0, priv->action);
@@ -609,7 +642,9 @@ photos_preview_nav_buttons_show (PhotosPreviewNavButtons *self)
 
   priv->action = PHOTOS_PREVIEW_ACTION_NONE;
   priv->visible = TRUE;
+  priv->visible_internal = TRUE;
   photos_preview_nav_buttons_update_visibility (self);
+  photos_preview_nav_buttons_queue_auto_hide (self);
 
   g_signal_emit (self, signals[ACTIVATED], 0, priv->action);
 }
