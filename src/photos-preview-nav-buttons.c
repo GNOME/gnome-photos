@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -214,11 +214,18 @@ photos_preview_nav_buttons_motion_notify_timeout (PhotosPreviewNavButtons *self)
 
 
 static gboolean
-photos_preview_nav_buttons_motion_notify (PhotosPreviewNavButtons *self)
+photos_preview_nav_buttons_motion_notify (PhotosPreviewNavButtons *self, GdkEventMotion *event)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
+  GdkDevice *device;
+  GdkInputSource input_source;
 
   if (priv->motion_id != 0)
+    return FALSE;
+
+  device = gdk_event_get_source_device ((GdkEvent *) event);
+  input_source = gdk_device_get_source (device);
+  if (input_source == GDK_SOURCE_TOUCHSCREEN)
     return FALSE;
 
   priv->motion_id = g_idle_add_full (G_PRIORITY_DEFAULT,
