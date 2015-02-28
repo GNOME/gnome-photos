@@ -1,15 +1,15 @@
 # Lithuanian translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Aurimas Černius <aurisc4@gmail.com>, 2013, 2014.
+# Aurimas Černius <aurisc4@gmail.com>, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-25 19:18+0000\n"
-"PO-Revision-Date: 2014-07-25 23:07+0300\n"
+"POT-Creation-Date: 2015-02-28 08:23+0000\n"
+"PO-Revision-Date: 2015-02-28 18:20+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Nuotraukos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Pasiekite, tvarkykite ir dalinkitės savo nuotraukomis GNOME aplinkoje"
 
@@ -59,17 +59,14 @@ msgid "Send photos to remote DLNA renderers"
 msgstr "Siųsti nuotraukas į nutolusius DLNA piešėjus"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:8
-#| msgid "Set as Background"
 msgid "Set as background"
 msgstr "Nustatyti kaip foną"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:9
-#| msgid "Photos"
 msgid "Print photos"
 msgstr "Spausdinti nuotraukas"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:10
-#| msgid "Select Items"
 msgid "Select favorites"
 msgstr "Pasirinkite mėgiamiausias"
 
@@ -199,22 +196,22 @@ msgstr "Apie"
 msgid "Quit"
 msgstr "Išeiti"
 
-#: ../src/photos-base-item.c:347
+#: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Albumas"
 
-#: ../src/photos-base-item.c:806
+#: ../src/photos-base-item.c:886
 msgid "Screenshots"
 msgstr "Ekranvaizdžiai"
 
-#: ../src/photos-delete-notification.c:139
+#: ../src/photos-delete-notification.c:135
 msgid "Selected item has been deleted"
 msgid_plural "Selected items have been deleted"
 msgstr[0] "Pasirinktas elementas buvo ištrintas"
 msgstr[1] "Pasirinkti elementai buvo ištrinti"
 msgstr[2] "Pasirinkti elementai buvo ištrinti"
 
-#: ../src/photos-delete-notification.c:150
+#: ../src/photos-delete-notification.c:141
 msgid "Undo"
 msgstr "Atšaukti"
 
@@ -222,19 +219,19 @@ msgstr "Atšaukti"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA piešimo įrenginiai"
 
-#: ../src/photos-embed.c:722
+#: ../src/photos-embed.c:621
 msgid "Recent"
 msgstr "Neseniai naudoti"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumai"
 
-#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Mėgiamiausios"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:275
+#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
 msgid "Search"
 msgstr "Ieškoti"
 
@@ -258,17 +255,26 @@ msgstr "Nustatymai"
 msgid "You can add your online accounts in %s"
 msgstr "%s galite pridėti internetines paskyras"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Nerasta albumų"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "Nerasta mėgiamiausių"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "Žvaigždute pažymėtos nuotraukos bus matomos čia"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Nerasta nuotraukų"
+
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-google-item.c:77
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
 
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
@@ -294,23 +300,15 @@ msgstr "Jūsų nuotraukos indeksuojamos"
 msgid "Some photos might not be available during this process"
 msgstr "Kai kurios nuotraukos gali būti nepasiekiamos šio proceso metu"
 
-#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
-msgid "Load More"
-msgstr "Įkelti daugiau"
-
-#: ../src/photos-load-more-button.c:86
-msgid "Loading…"
-msgstr "Įkeliama…"
-
-#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Vietinės"
 
-#: ../src/photos-main-toolbar.c:108
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "Spauskite ant elementų jiems pažymėti"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -318,26 +316,44 @@ msgstr[0] "Pasirinktas %d"
 msgstr[1] "Pasirinkti %d"
 msgstr[2] "Pasirinkta %d"
 
-#: ../src/photos-main-toolbar.c:151
+#: ../src/photos-main-toolbar.c:162
 msgid "Back"
 msgstr "Atgal"
 
-#: ../src/photos-main-toolbar.c:291
+#: ../src/photos-main-toolbar.c:304
 msgid "Select Items"
 msgstr "Pasirinkite elementus"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Atverti su %s"
 
-#: ../src/photos-main-toolbar.c:572
+#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+msgid "Remove from favorites"
+msgstr "Pašalinti iš mėgiamiausių"
+
+#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+msgid "Add to favorites"
+msgstr "Pridėti prie mėgiamiausių"
+
+#: ../src/photos-main-toolbar.c:651
 msgid "Cancel"
 msgstr "Atsisakyti"
 
+#: ../src/photos-main-window.c:464
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Autorinės teisės © 2013 Intel Corporation. Visos teisės saugomos.\n"
+"Autorinės teisės © 2014, 2015 Pranav Kant\n"
+"Autorinės teisės © 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:484
+#: ../src/photos-main-window.c:474
 msgid "translator-credits"
 msgstr ""
 "Išvertė:\n"
@@ -358,8 +374,8 @@ msgid "Organize"
 msgstr "Tvarkyti"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:284
-#: ../src/photos-selection-toolbar.c:456
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Atverti"
 
@@ -375,20 +391,15 @@ msgstr "Rodyti su…"
 msgid "Set as Background"
 msgstr "Nustatyti kaip foną"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
-#: ../src/photos-selection-toolbar.c:480
+#: ../src/photos-preview-menu.ui.h:5
+#| msgid "Set as background"
+msgid "Set as Lock Screen"
+msgstr "Nustatyti kaip ekrano užraktą"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
+#: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Savybės"
-
-#: ../src/photos-preview-nav-buttons.c:223
-#: ../src/photos-selection-toolbar.c:293
-msgid "Remove from favorites"
-msgstr "Pašalinti iš mėgiamiausių"
-
-#: ../src/photos-preview-nav-buttons.c:228
-#: ../src/photos-selection-toolbar.c:299
-msgid "Add to favorites"
-msgstr "Pridėti prie mėgiamiausių"
 
 #: ../src/photos-print-notification.c:76
 #, c-format
@@ -399,82 +410,82 @@ msgstr "Spausdinama „%s“: %s"
 msgid "Image Settings"
 msgstr "Paveikslėlio nustatymai"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:906
 msgid "Position"
 msgstr "Padėtis"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:909
 msgid "_Left:"
 msgstr "_Kairė:"
 
-#: ../src/photos-print-setup.c:899
+#: ../src/photos-print-setup.c:910
 msgid "_Right:"
 msgstr "_Dešinė:"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:911
 msgid "_Top:"
 msgstr "_Viršus:"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:912
 msgid "_Bottom:"
 msgstr "_Apačia:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:914
 msgid "C_enter:"
 msgstr "C_entras:"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:918
 msgid "None"
 msgstr "Nėra"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:919
 msgid "Horizontal"
 msgstr "Horizontali"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:920
 msgid "Vertical"
 msgstr "Vertikali"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:921
 msgid "Both"
 msgstr "Abi"
 
-#: ../src/photos-print-setup.c:923
+#: ../src/photos-print-setup.c:934
 msgid "Size"
 msgstr "Dydis"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:937
 msgid "_Width:"
 msgstr "_Plotis:"
 
-#: ../src/photos-print-setup.c:927
+#: ../src/photos-print-setup.c:938
 msgid "_Height:"
 msgstr "_Aukštis:"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:940
 msgid "_Scaling:"
 msgstr "Iš_tempimas:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:949
 msgid "_Unit:"
 msgstr "_Vienetai:"
 
-#: ../src/photos-print-setup.c:942
+#: ../src/photos-print-setup.c:953
 msgid "Millimeters"
 msgstr "Milimetrai"
 
-#: ../src/photos-print-setup.c:943
+#: ../src/photos-print-setup.c:954
 msgid "Inches"
 msgstr "Coliai"
 
-#: ../src/photos-print-setup.c:971
+#: ../src/photos-print-setup.c:982
 msgid "Preview"
 msgstr "Peržiūra"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:216
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Pavadinimas"
@@ -482,68 +493,68 @@ msgstr "Pavadinimas"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:228
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autorius"
 
-#: ../src/photos-properties-dialog.c:235
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Šaltinis"
 
-#: ../src/photos-properties-dialog.c:241
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Keitimo data"
 
-#: ../src/photos-properties-dialog.c:249
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Sukūrimo data"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:259
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tipas"
 
-#: ../src/photos-properties-dialog.c:268
+#: ../src/photos-properties-dialog.c:269
 msgid "Width"
 msgstr "Plotis"
 
-#: ../src/photos-properties-dialog.c:278
+#: ../src/photos-properties-dialog.c:279
 msgid "Height"
 msgstr "Aukštis"
 
-#: ../src/photos-properties-dialog.c:293
+#: ../src/photos-properties-dialog.c:294
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:303
+#: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
 msgstr "Išlaikymas"
 
-#: ../src/photos-properties-dialog.c:313
+#: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
 msgstr "Diafragma"
 
-#: ../src/photos-properties-dialog.c:323
+#: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
 msgstr "Židinio nuotolis"
 
-#: ../src/photos-properties-dialog.c:333
+#: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
 msgstr "ISO greitis"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:344
 msgid "Flash"
 msgstr "Blykstė"
 
-#: ../src/photos-properties-dialog.c:483
+#: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
 msgstr "Išjungta, neblykstelėjo"
 
-#: ../src/photos-properties-dialog.c:485
+#: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
 msgstr "Įjungta, blykstelėjo"
 
@@ -588,11 +599,11 @@ msgstr "Nieko nepasirinkti"
 msgid "Print"
 msgstr "Spausdinti"
 
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "Trinti"
 
-#: ../src/photos-selection-toolbar.c:488
+#: ../src/photos-selection-toolbar.c:485
 msgid "Add to Album"
 msgstr "Pridėti į albumą"
 
@@ -600,7 +611,15 @@ msgstr "Pridėti į albumą"
 msgid "Sources"
 msgstr "Šaltiniai"
 
-#: ../src/photos-tracker-controller.c:96
+#: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
 msgstr "Nepavyksta gauti nuotraukų sąrašo"
 
+#~ msgid "No Favorites Found"
+#~ msgstr "Nerasta mėgiamiausių"
+
+#~ msgid "Load More"
+#~ msgstr "Įkelti daugiau"
+
+#~ msgid "Loading…"
+#~ msgstr "Įkeliama…"
