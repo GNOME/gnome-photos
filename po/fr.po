@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-23 20:21+0000\n"
-"PO-Revision-Date: 2015-02-24 01:56+0100\n"
+"POT-Creation-Date: 2015-03-01 20:26+0000\n"
+"PO-Revision-Date: 2015-03-01 22:26+0100\n"
 "Last-Translator: Michael Scherer <misc@zarb.org>\n"
 "Language-Team: French <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Photos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Accéder, organiser et partager vos photos avec GNOME"
 
@@ -342,8 +342,18 @@ msgstr "Ajouter aux favoris"
 msgid "Cancel"
 msgstr "Annuler"
 
+#: ../src/photos-main-window.c:464
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Copyright © 2013 Intel Corporation. Tous droits réservés.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:482
+#: ../src/photos-main-window.c:474
 msgid "translator-credits"
 msgstr "Alain Lojewski, <allomervan@gmail.com>"
 
