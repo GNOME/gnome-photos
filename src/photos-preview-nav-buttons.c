@@ -599,8 +599,6 @@ photos_preview_nav_buttons_set_model (PhotosPreviewNavButtons *self, GtkTreeMode
       priv->current_path = gtk_tree_model_filter_convert_child_path_to_path (GTK_TREE_MODEL_FILTER (priv->model),
                                                                              current_path);
     }
-
-  photos_preview_nav_buttons_update_visibility (self);
 }
 
 
