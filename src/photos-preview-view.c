@@ -362,7 +362,10 @@ photos_preview_view_load_previous (PhotosPreviewView *self)
 void
 photos_preview_view_set_model (PhotosPreviewView *self, GtkTreeModel *model, GtkTreePath *current_path)
 {
+  PhotosPreviewViewPrivate *priv = self->priv;
+
   photos_preview_nav_buttons_set_model (self->priv->nav_buttons, model, current_path);
+  photos_preview_nav_buttons_show (priv->nav_buttons);
 }
 
 
@@ -371,8 +374,6 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
 {
   PhotosPreviewViewPrivate *priv = self->priv;
   GtkWidget *view;
-
-  photos_preview_nav_buttons_show (priv->nav_buttons);
 
   if (priv->node == node)
     return;
