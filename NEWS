@@ -1,3 +1,35 @@
+Overview of changes in 3.15.91
+==============================
+
+* Bugs fixed:
+ 738527 Fix crash when trying to use window after it has been destroyed
+ 740425 base-item: Thumbnail local items before remote ones
+ 744841 main-window: Prevent multiple about dialogs from opening
+ 745070 indexing-notification: Fix the lifetime of the miners-changed handler
+ 745071 application: Fix a crash when stopping the miners
+ 745072 view-model: Fix the lifetime of the info-updated handler
+
+* Updated translations:
+ Traditional Chinese (Taiwan)
+ Czech
+ French
+ German
+ Greek
+ Hebrew
+ Hungarian
+ Kazakh
+ Lithuanian
+ Polish
+ Portuguese (Brazilian)
+ Russian
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
+ Swedish
+ Ukrainian
+
+
 Overview of changes in 3.15.90
 ==============================
 
