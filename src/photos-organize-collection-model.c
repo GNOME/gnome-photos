@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -95,14 +95,14 @@ static void
 photos_organize_collection_model_fetch_collection_state_executed (GHashTable *collection_state, gpointer user_data)
 {
   PhotosOrganizeCollectionModel *self = PHOTOS_ORGANIZE_COLLECTION_MODEL (user_data);
-  GHashTableIter iter;
+  GHashTableIter collection_state_iter;
   const gchar *idx;
   gpointer value;
 
   photos_organize_collection_model_remove_placeholder (self);
 
-  g_hash_table_iter_init (&iter, collection_state);
-  while (g_hash_table_iter_next (&iter, (gpointer) &idx, (gpointer) &value))
+  g_hash_table_iter_init (&collection_state_iter, collection_state);
+  while (g_hash_table_iter_next (&collection_state_iter, (gpointer) &idx, (gpointer) &value))
     {
       GtkTreeIter *iter;
       PhotosBaseItem *collection;
