@@ -117,6 +117,8 @@ photos_print_operation_draw_page (GtkPrintOperation *operation, GtkPrintContext 
       x0 = priv->left_margin * dpi_x / 25.4;
       y0 = priv->top_margin  * dpi_y / 25.4;
       break;
+    case GTK_UNIT_NONE:
+    case GTK_UNIT_POINTS:
     default:
       g_assert_not_reached ();
     }
