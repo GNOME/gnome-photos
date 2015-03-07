@@ -69,7 +69,7 @@ struct _PhotosOverviewSearchbarClass
 
 GType                photos_overview_searchbar_get_type                      (void) G_GNUC_CONST;
 
-GtkWidget           *photos_overview_searchbar_new                           (PhotosDropdown *dropdown);
+GtkWidget           *photos_overview_searchbar_new                           (void);
 
 G_END_DECLS
 

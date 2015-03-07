@@ -391,14 +391,7 @@ photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
 static GtkWidget *
 photos_main_toolbar_create_overview_searchbar (PhotosMainToolbar *self)
 {
-  GtkWidget *dropdown;
-  GtkWidget *searchbar;
-
-  dropdown = photos_dropdown_new ();
-  gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->overlay), dropdown);
-  searchbar = photos_overview_searchbar_new (PHOTOS_DROPDOWN (dropdown));
-
-  return searchbar;
+  return photos_overview_searchbar_new ();
 }
 
 

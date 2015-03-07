@@ -43,23 +43,8 @@ struct _PhotosDropdownPrivate
   PhotosBaseManager *src_mngr;
 };
 
-enum
-{
-  ITEM_ACTIVATED,
-  LAST_SIGNAL
-};
 
-static guint signals[LAST_SIGNAL] = { 0 };
-
-
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosDropdown, photos_dropdown, GTK_TYPE_REVEALER);
-
-
-static void
-photos_dropdown_item_activated (PhotosDropdown *self)
-{
-  g_signal_emit (self, signals[ITEM_ACTIVATED], 0);
-}
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosDropdown, photos_dropdown, GTK_TYPE_POPOVER);
 
 
 static void
@@ -82,7 +67,6 @@ photos_dropdown_init (PhotosDropdown *self)
   PhotosDropdownPrivate *priv;
   GApplication *app;
   GtkStyleContext *context;
-  GtkWidget *frame;
   PhotosSearchContextState *state;
 
   self->priv = photos_dropdown_get_instance_private (self);
@@ -99,27 +83,23 @@ photos_dropdown_init (PhotosDropdown *self)
   priv->source_view = photos_base_view_new (priv->src_mngr);
   priv->type_view = photos_base_view_new (priv->srch_typ_mngr);
 
-  g_signal_connect_swapped (priv->match_view, "item-activated", G_CALLBACK (photos_dropdown_item_activated), self);
-  g_signal_connect_swapped (priv->source_view, "item-activated", G_CALLBACK (photos_dropdown_item_activated), self);
-  g_signal_connect_swapped (priv->type_view, "item-activated", G_CALLBACK (photos_dropdown_item_activated), self);
-
-  frame = gtk_frame_new (NULL);
-  gtk_widget_set_opacity (frame, 0.9);
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
-  context = gtk_widget_get_style_context (frame);
-  gtk_style_context_add_class (context, "photos-dropdown");
-  gtk_container_add (GTK_CONTAINER (self), frame);
-
   priv->grid = gtk_grid_new ();
+  gtk_widget_set_margin_start (priv->grid, 10);
+  gtk_widget_set_margin_end (priv->grid, 10);
+  gtk_widget_set_margin_bottom (priv->grid, 10);
+  gtk_widget_set_margin_top (priv->grid, 10);
   gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->grid), GTK_ORIENTATION_HORIZONTAL);
-  gtk_container_add (GTK_CONTAINER (frame), priv->grid);
+  gtk_grid_set_row_homogeneous (GTK_GRID (priv->grid), TRUE);
+  gtk_container_add (GTK_CONTAINER (self), priv->grid);
 
   gtk_container_add (GTK_CONTAINER (priv->grid), priv->source_view);
   gtk_container_add (GTK_CONTAINER (priv->grid), priv->type_view);
   gtk_container_add (GTK_CONTAINER (priv->grid), priv->match_view);
 
-  photos_dropdown_hide (self);
-  gtk_widget_show_all (GTK_WIDGET (self));
+  context = gtk_widget_get_style_context (GTK_WIDGET (self));
+  gtk_style_context_add_class (context, "photos-dropdown");
+  gtk_widget_hide (GTK_WIDGET(self));
+  gtk_widget_show_all (GTK_WIDGET (priv->grid));
 }
 
 
@@ -129,36 +109,11 @@ photos_dropdown_class_init (PhotosDropdownClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->dispose = photos_dropdown_dispose;
-
-  signals[ITEM_ACTIVATED] = g_signal_new ("item-activated",
-                                          G_TYPE_FROM_CLASS (class),
-                                          G_SIGNAL_RUN_LAST,
-                                          G_STRUCT_OFFSET (PhotosDropdownClass,
-                                                           item_activated),
-                                          NULL, /*accumulator */
-                                          NULL, /*accu_data */
-                                          g_cclosure_marshal_VOID__VOID,
-                                          G_TYPE_NONE,
-                                          0);
 }
 
 
 GtkWidget *
-photos_dropdown_new (void)
+photos_dropdown_new (GtkWidget *relative_to)
 {
-  return g_object_new (PHOTOS_TYPE_DROPDOWN, "halign", GTK_ALIGN_CENTER, "valign", GTK_ALIGN_START, NULL);
-}
-
-
-void
-photos_dropdown_hide (PhotosDropdown *self)
-{
-  gtk_revealer_set_reveal_child (GTK_REVEALER (self), FALSE);
-}
-
-
-void
-photos_dropdown_show (PhotosDropdown *self)
-{
-  gtk_revealer_set_reveal_child (GTK_REVEALER (self), TRUE);
+  return g_object_new (PHOTOS_TYPE_DROPDOWN, "relative-to", relative_to, "height_request", 240, NULL);
 }

@@ -57,21 +57,18 @@ typedef struct _PhotosDropdownPrivate PhotosDropdownPrivate;
 
 struct _PhotosDropdown
 {
-  GtkRevealer parent_instance;
+  GtkPopover parent_instance;
   PhotosDropdownPrivate *priv;
 };
 
 struct _PhotosDropdownClass
 {
-  GtkRevealerClass parent_class;
-
-  /* signals */
-  void (*item_activated) (PhotosDropdown *self);
+  GtkPopoverClass parent_class;
 };
 
 GType                     photos_dropdown_get_type             (void) G_GNUC_CONST;
 
-GtkWidget                *photos_dropdown_new                  (void);
+GtkWidget                *photos_dropdown_new                  (GtkWidget *relative_to);
 
 void                      photos_dropdown_hide                 (PhotosDropdown *self);
 

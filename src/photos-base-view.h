@@ -66,9 +66,6 @@ struct _PhotosBaseView
 struct _PhotosBaseViewClass
 {
   GtkTreeViewClass parent_class;
-
-  /* signals */
-  void (*item_activated) (PhotosBaseView *self);
 };
 
 GType             photos_base_view_get_type               (void) G_GNUC_CONST;

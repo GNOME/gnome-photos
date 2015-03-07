@@ -45,14 +45,6 @@ enum
   PROP_MANAGER
 };
 
-enum
-{
-  ITEM_ACTIVATED,
-  LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseView, photos_base_view, GTK_TYPE_TREE_VIEW);
 
@@ -155,10 +147,7 @@ photos_base_view_row_activated (GtkTreeView *tree_view, GtkTreePath *path, GtkTr
 
   gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
   gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, PHOTOS_BASE_MODEL_ID, &id, -1);
-
-  g_signal_emit (self, signals[ITEM_ACTIVATED], 0);
   photos_base_manager_set_active_object_by_id (priv->mngr, id);
-
   g_free (id);
 }
 
@@ -271,17 +260,6 @@ photos_base_view_class_init (PhotosBaseViewClass *class)
                                                         "The manager whose data is being rendered by this view",
                                                         PHOTOS_TYPE_BASE_MANAGER,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  signals[ITEM_ACTIVATED] = g_signal_new ("item-activated",
-                                          G_TYPE_FROM_CLASS (class),
-                                          G_SIGNAL_RUN_LAST,
-                                          G_STRUCT_OFFSET (PhotosBaseViewClass,
-                                                           item_activated),
-                                          NULL, /*accumulator */
-                                          NULL, /*accu_data */
-                                          g_cclosure_marshal_VOID__VOID,
-                                          G_TYPE_NONE,
-                                          0);
 }
 
 
