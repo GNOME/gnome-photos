@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-26 02:36+0200\n"
-"PO-Revision-Date: 2015-02-26 02:38+0300\n"
+"POT-Creation-Date: 2015-03-08 13:00+0200\n"
+"PO-Revision-Date: 2015-03-08 13:01+0300\n"
 "Last-Translator: Daniel Korostil <ted.korostiled@gmail.com>\n"
 "Language-Team: linux.org.ua\n"
 "Language: uk\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Світлини"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Доступатись, упорядковувати і ділитись вашими фотографіями у GNOME"
 
@@ -340,8 +340,18 @@ msgstr "Додати до улюбленого"
 msgid "Cancel"
 msgstr "Скасувати"
 
+#: ../src/photos-main-window.c:464
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"© 2013 Intel Corporation. Усі права захищено.\n"
+"© 2014, 2015 Pranav Kant\n"
+"© 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:482
+#: ../src/photos-main-window.c:474
 msgid "translator-credits"
 msgstr "Коростіль Данило <ted.korostiled@gmail.com>"
 
@@ -391,7 +401,7 @@ msgstr "Властивості"
 msgid "Printing “%s”: %s"
 msgstr "Друкування «%s»: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Параметри зображення"
 
