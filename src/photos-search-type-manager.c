@@ -151,5 +151,8 @@ photos_search_type_manager_new (void)
   /* Translators: "Type" refers to a search filter. eg., All, Albums,
    * Favorites and Photos.
    */
-  return g_object_new (PHOTOS_TYPE_SEARCH_TYPE_MANAGER, "title", C_("Search Filter", "Type"), NULL);
+  return g_object_new (PHOTOS_TYPE_SEARCH_TYPE_MANAGER,
+                       "action-id", "search-type",
+                       "title", C_("Search Filter", "Type"),
+                       NULL);
 }

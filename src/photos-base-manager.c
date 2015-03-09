@@ -35,12 +35,14 @@ struct _PhotosBaseManagerPrivate
 {
   GHashTable *objects;
   GObject *active_object;
+  gchar *action_id;
   gchar *title;
 };
 
 enum
 {
   PROP_0,
+  PROP_ACTION_ID,
   PROP_TITLE
 };
 
@@ -146,8 +148,10 @@ static void
 photos_base_manager_finalize (GObject *object)
 {
   PhotosBaseManager *self = PHOTOS_BASE_MANAGER (object);
+  PhotosBaseManagerPrivate *priv = self->priv;
 
-  g_free (self->priv->title);
+  g_free (priv->action_id);
+  g_free (priv->title);
 
   G_OBJECT_CLASS (photos_base_manager_parent_class)->finalize (object);
 }
@@ -157,11 +161,16 @@ static void
 photos_base_manager_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosBaseManager *self = PHOTOS_BASE_MANAGER (object);
+  PhotosBaseManagerPrivate *priv = self->priv;
 
   switch (prop_id)
     {
+    case PROP_ACTION_ID:
+      priv->action_id = g_value_dup_string (value);
+      break;
+
     case PROP_TITLE:
-      self->priv->title = g_value_dup_string (value);
+      priv->title = g_value_dup_string (value);
       break;
 
     default:
@@ -196,6 +205,14 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   class->get_where = photos_base_manager_default_get_where;
   class->remove_object_by_id = photos_base_manager_default_remove_object_by_id;
   class->set_active_object = photos_base_manager_default_set_active_object;
+
+  g_object_class_install_property (object_class,
+                                   PROP_ACTION_ID,
+                                   g_param_spec_string ("action_id",
+                                                        "Action ID",
+                                                        "GAction ID for search options",
+                                                        NULL,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_object_class_install_property (object_class,
                                    PROP_TITLE,
@@ -269,6 +286,13 @@ photos_base_manager_clear (PhotosBaseManager *self)
   g_hash_table_remove_all (priv->objects);
   g_clear_object (&priv->active_object);
   g_signal_emit (self, signals[CLEAR], 0);
+}
+
+
+const gchar *
+photos_base_manager_get_action_id (PhotosBaseManager *self)
+{
+  return self->priv->action_id;
 }
 
 

@@ -85,6 +85,8 @@ void                photos_base_manager_add_object               (PhotosBaseMana
 
 void                photos_base_manager_clear                    (PhotosBaseManager *self);
 
+const gchar        *photos_base_manager_get_action_id            (PhotosBaseManager *self);
+
 GObject            *photos_base_manager_get_active_object        (PhotosBaseManager *self);
 
 gchar              *photos_base_manager_get_all_filter           (PhotosBaseManager *self);

@@ -201,6 +201,7 @@ photos_search_match_manager_new (PhotosSearchController *srch_cntrlr)
    * "Author", as in "Match All", "Match Title" and "Match Author".
    */
   return g_object_new (PHOTOS_TYPE_SEARCH_MATCH_MANAGER,
+                       "action-id", "search-match",
                        "search-controller", srch_cntrlr,
                        "title", _("Match"),
                        NULL);
