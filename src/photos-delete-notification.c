@@ -123,6 +123,7 @@ photos_delete_notification_constructed (GObject *object)
 {
   PhotosDeleteNotification *self = PHOTOS_DELETE_NOTIFICATION (object);
   PhotosDeleteNotificationPrivate *priv = self->priv;
+  gchar *msg;
   GtkWidget *close;
   GtkWidget *image;
   GtkWidget *label;
@@ -132,11 +133,20 @@ photos_delete_notification_constructed (GObject *object)
   G_OBJECT_CLASS (photos_delete_notification_parent_class)->constructed (object);
 
   length = g_list_length (priv->items);
-  label = gtk_label_new (ngettext ("Selected item has been deleted",
-                                   "Selected items have been deleted",
-                                   length));
+  if (length == 1)
+    {
+      const gchar *name;
+
+      name = photos_base_item_get_name_with_fallback (PHOTOS_BASE_ITEM (priv->items->data));
+      msg = g_strdup_printf ("“%s” deleted", name);
+    }
+  else
+    msg = g_strdup_printf (ngettext ("%d item deleted", "%d items deleted", length), length);
+
+  label = gtk_label_new (msg);
   gtk_widget_set_halign (label, GTK_ALIGN_START);
   gtk_container_add (GTK_CONTAINER (self), label);
+  g_free (msg);
 
   undo = gtk_button_new_with_label (_("Undo"));
   gtk_widget_set_valign (undo, GTK_ALIGN_CENTER);
