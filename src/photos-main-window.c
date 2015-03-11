@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -174,6 +174,8 @@ photos_main_window_go_back (PhotosMainWindow *self)
         photos_item_manager_activate_previous_collection (PHOTOS_ITEM_MANAGER (self->priv->item_mngr));
       break;
 
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
     default:
       handled = FALSE;
       break;
@@ -255,6 +257,9 @@ photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *even
       photos_preview_view_load_next (preview);
       handled = TRUE;
       break;
+
+    default:
+      break;
     }
 
   return handled;
@@ -296,6 +301,10 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       handled = photos_main_window_handle_key_overview (self, event);
+      break;
+
+    default:
+      g_assert_not_reached ();
       break;
     }
 
