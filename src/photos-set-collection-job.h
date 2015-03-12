@@ -35,38 +35,14 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SET_COLLECTION_JOB, PhotosSetCollectionJob))
 
-#define PHOTOS_SET_COLLECTION_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_SET_COLLECTION_JOB, PhotosSetCollectionJobClass))
-
 #define PHOTOS_IS_SET_COLLECTION_JOB(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_SET_COLLECTION_JOB))
 
-#define PHOTOS_IS_SET_COLLECTION_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_SET_COLLECTION_JOB))
-
-#define PHOTOS_SET_COLLECTION_JOB_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_SET_COLLECTION_JOB, PhotosSetCollectionJobClass))
-
 typedef void (*PhotosSetCollectionJobCallback) (gpointer);
 
-typedef struct _PhotosSetCollectionJob        PhotosSetCollectionJob;
-typedef struct _PhotosSetCollectionJobClass   PhotosSetCollectionJobClass;
-typedef struct _PhotosSetCollectionJobPrivate PhotosSetCollectionJobPrivate;
-
-struct _PhotosSetCollectionJob
-{
-  GObject parent_instance;
-  PhotosSetCollectionJobPrivate *priv;
-};
-
-struct _PhotosSetCollectionJobClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosSetCollectionJob      PhotosSetCollectionJob;
+typedef struct _PhotosSetCollectionJobClass PhotosSetCollectionJobClass;
 
 GType                     photos_set_collection_job_get_type    (void) G_GNUC_CONST;
 
