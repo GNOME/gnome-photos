@@ -99,8 +99,16 @@ photos_base_model_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_base_model_parent_class)->constructed (object);
 
-  g_signal_connect_swapped (priv->mngr, "object-added", G_CALLBACK (photos_base_model_refresh), self);
-  g_signal_connect_swapped (priv->mngr, "object-removed", G_CALLBACK (photos_base_model_refresh), self);
+  g_signal_connect_object (priv->mngr,
+                           "object-added",
+                           G_CALLBACK (photos_base_model_refresh),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (priv->mngr,
+                           "object-removed",
+                           G_CALLBACK (photos_base_model_refresh),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   photos_base_model_refresh (self);
 }
