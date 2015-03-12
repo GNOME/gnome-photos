@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -123,6 +123,7 @@ photos_preview_view_nav_buttons_activated (PhotosPreviewView *self, PhotosPrevie
       position = -1;
       break;
 
+    case PHOTOS_PREVIEW_ACTION_NONE:
     default:
       g_assert_not_reached ();
       break;
