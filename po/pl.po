@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-12 22:08+0100\n"
-"PO-Revision-Date: 2015-03-12 22:10+0100\n"
+"POT-Creation-Date: 2015-03-12 22:26+0100\n"
+"PO-Revision-Date: 2015-03-12 22:27+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -206,6 +206,11 @@ msgstr "Album"
 #: ../src/photos-base-item.c:886
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
+
+#: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "Usunięto \"%s\""
 
 #: ../src/photos-delete-notification.c:144
 #, c-format
