@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SPINNER_BOX, PhotosSpinnerBox))
 
-#define PHOTOS_SPINNER_BOX_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_SPINNER_BOX, PhotosSpinnerBoxClass))
-
 #define PHOTOS_IS_SPINNER_BOX(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_SPINNER_BOX))
 
-#define PHOTOS_IS_SPINNER_BOX_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_SPINNER_BOX))
-
-#define PHOTOS_SPINNER_BOX_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_SPINNER_BOX, PhotosSpinnerBoxClass))
-
-typedef struct _PhotosSpinnerBox        PhotosSpinnerBox;
-typedef struct _PhotosSpinnerBoxClass   PhotosSpinnerBoxClass;
-typedef struct _PhotosSpinnerBoxPrivate PhotosSpinnerBoxPrivate;
-
-struct _PhotosSpinnerBox
-{
-  GtkRevealer parent_instance;
-  PhotosSpinnerBoxPrivate *priv;
-};
-
-struct _PhotosSpinnerBoxClass
-{
-  GtkRevealerClass parent_class;
-};
+typedef struct _PhotosSpinnerBox      PhotosSpinnerBox;
+typedef struct _PhotosSpinnerBoxClass PhotosSpinnerBoxClass;
 
 GType                  photos_spinner_box_get_type               (void) G_GNUC_CONST;
 

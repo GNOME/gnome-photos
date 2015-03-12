@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,28 +31,33 @@
 #include "photos-spinner-box.h"
 
 
-struct _PhotosSpinnerBoxPrivate
+struct _PhotosSpinnerBox
 {
+  GtkRevealer parent_instance;
   GtkWidget *spinner;
 };
 
+struct _PhotosSpinnerBoxClass
+{
+  GtkRevealerClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosSpinnerBox, photos_spinner_box, GTK_TYPE_REVEALER);
+
+G_DEFINE_TYPE (PhotosSpinnerBox, photos_spinner_box, GTK_TYPE_REVEALER);
 
 
 static void
 photos_spinner_box_constructed (GObject *object)
 {
   PhotosSpinnerBox *self = PHOTOS_SPINNER_BOX (object);
-  PhotosSpinnerBoxPrivate *priv = self->priv;
 
   G_OBJECT_CLASS (photos_spinner_box_parent_class)->constructed (object);
 
-  priv->spinner = gtk_spinner_new ();
-  gtk_widget_set_size_request (priv->spinner, 128, 128);
-  gtk_widget_set_halign (priv->spinner, GTK_ALIGN_CENTER);
-  gtk_widget_set_valign (priv->spinner, GTK_ALIGN_CENTER);
-  gtk_container_add (GTK_CONTAINER (self), priv->spinner);
+  self->spinner = gtk_spinner_new ();
+  gtk_widget_set_size_request (self->spinner, 128, 128);
+  gtk_widget_set_halign (self->spinner, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign (self->spinner, GTK_ALIGN_CENTER);
+  gtk_container_add (GTK_CONTAINER (self), self->spinner);
 
   gtk_widget_show_all (GTK_WIDGET (self));
 }
@@ -61,7 +66,6 @@ photos_spinner_box_constructed (GObject *object)
 static void
 photos_spinner_box_init (PhotosSpinnerBox *self)
 {
-  self->priv = photos_spinner_box_get_instance_private (self);
 }
 
 
@@ -89,7 +93,7 @@ void
 photos_spinner_box_start (PhotosSpinnerBox *self)
 {
   gtk_revealer_set_reveal_child (GTK_REVEALER (self), TRUE);
-  gtk_spinner_start (GTK_SPINNER (self->priv->spinner));
+  gtk_spinner_start (GTK_SPINNER (self->spinner));
 }
 
 
@@ -97,5 +101,5 @@ void
 photos_spinner_box_stop (PhotosSpinnerBox *self)
 {
   gtk_revealer_set_reveal_child (GTK_REVEALER (self), FALSE);
-  gtk_spinner_stop (GTK_SPINNER (self->priv->spinner));
+  gtk_spinner_stop (GTK_SPINNER (self->spinner));
 }
