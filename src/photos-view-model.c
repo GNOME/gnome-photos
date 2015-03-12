@@ -369,13 +369,22 @@ photos_view_model_constructed (GObject *object)
       break;
     }
 
-  g_signal_connect_swapped (priv->item_mngr, "object-added", G_CALLBACK (photos_view_model_object_added), self);
-  g_signal_connect_swapped (priv->item_mngr, "object-removed", G_CALLBACK (photos_view_model_object_removed), self);
+  g_signal_connect_object (priv->item_mngr,
+                           "object-added",
+                           G_CALLBACK (photos_view_model_object_added),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (priv->item_mngr,
+                           "object-removed",
+                           G_CALLBACK (photos_view_model_object_removed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
-  g_signal_connect_swapped (priv->trk_cntrlr,
-                            "query-status-changed",
-                            G_CALLBACK (photos_view_model_query_status_changed),
-                            self);
+  g_signal_connect_object (priv->trk_cntrlr,
+                           "query-status-changed",
+                           G_CALLBACK (photos_view_model_query_status_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 
