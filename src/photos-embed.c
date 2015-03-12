@@ -659,40 +659,60 @@ photos_embed_init (PhotosEmbed *self)
                            self, G_CONNECT_SWAPPED);
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
-  g_signal_connect (priv->mode_cntrlr,
-                    "window-mode-changed",
-                    G_CALLBACK (photos_embed_window_mode_changed),
-                    self);
-  g_signal_connect (priv->mode_cntrlr,
-                    "fullscreen-changed",
-                    G_CALLBACK (photos_embed_fullscreen_changed),
-                    self);
+  g_signal_connect_object (priv->mode_cntrlr,
+                           "window-mode-changed",
+                           G_CALLBACK (photos_embed_window_mode_changed),
+                           self,
+                           0);
+  g_signal_connect_object (priv->mode_cntrlr,
+                           "fullscreen-changed",
+                           G_CALLBACK (photos_embed_fullscreen_changed),
+                           self,
+                           0);
 
   priv->trk_ovrvw_cntrlr = photos_tracker_overview_controller_dup_singleton ();
-  g_signal_connect_swapped (priv->trk_ovrvw_cntrlr,
-                            "query-status-changed",
-                            G_CALLBACK (photos_embed_query_status_changed),
-                            self);
+  g_signal_connect_object (priv->trk_ovrvw_cntrlr,
+                           "query-status-changed",
+                           G_CALLBACK (photos_embed_query_status_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   priv->item_mngr = g_object_ref (state->item_mngr);
-  g_signal_connect (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self);
-  g_signal_connect_swapped (priv->item_mngr, "load-finished", G_CALLBACK (photos_embed_load_finished), self);
-  g_signal_connect_swapped (priv->item_mngr, "load-started", G_CALLBACK (photos_embed_load_started), self);
+  g_signal_connect_object (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self, 0);
+  g_signal_connect_object (priv->item_mngr,
+                           "load-finished",
+                           G_CALLBACK (photos_embed_load_finished),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (priv->item_mngr,
+                           "load-started",
+                           G_CALLBACK (photos_embed_load_started),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   priv->src_mngr = g_object_ref (state->src_mngr);
-  g_signal_connect_swapped (priv->src_mngr, "active-changed", G_CALLBACK (photos_embed_search_changed), self);
+  g_signal_connect_object (priv->src_mngr,
+                           "active-changed",
+                           G_CALLBACK (photos_embed_search_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   priv->srch_mngr = g_object_ref (state->srch_typ_mngr);
-  g_signal_connect_swapped (priv->srch_mngr, "active-changed", G_CALLBACK (photos_embed_search_changed), self);
+  g_signal_connect_object (priv->srch_mngr,
+                           "active-changed",
+                           G_CALLBACK (photos_embed_search_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   querying = photos_tracker_controller_get_query_status (priv->trk_ovrvw_cntrlr);
   photos_embed_query_status_changed (self, querying);
 
   priv->srch_cntrlr = g_object_ref (state->srch_cntrlr);
-  g_signal_connect_swapped (priv->srch_cntrlr,
-                            "search-string-changed",
-                            G_CALLBACK (photos_embed_search_changed),
-                            self);
+  g_signal_connect_object (priv->srch_cntrlr,
+                           "search-string-changed",
+                           G_CALLBACK (photos_embed_search_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   gtk_widget_show (GTK_WIDGET (self));
 }
