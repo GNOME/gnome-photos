@@ -11,16 +11,16 @@ msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-26 09:17+0000\n"
-"PO-Revision-Date: 2015-02-26 12:24+0200\n"
-"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
+"POT-Creation-Date: 2015-03-12 21:25+0000\n"
+"PO-Revision-Date: 2015-03-12 23:43+0200\n"
+"Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <opensuse-translation-el@opensuse.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Φωτογραφίες"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Προσπελάστε, οργανώστε και μοιραστείτε τις φωτογραφίες σας στο GNOME"
 
@@ -208,13 +208,19 @@ msgstr "Άλμπουμ"
 msgid "Screenshots"
 msgstr "Στιγμιότυπα"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Το επιλεγμένο στοιχείο έχει διαγραφεί"
-msgstr[1] "Τα επιλεγμένα στοιχεία έχουν διαγραφεί"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "Διαγράφηκε το “%s”"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "Διαγράφηκε %d στοιχείο"
+msgstr[1] "Διαγράφηκαν %d στοιχεία"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Αναίρεση"
 
@@ -346,7 +352,7 @@ msgstr "Προσθήκη στα αγαπημένα"
 msgid "Cancel"
 msgstr "Άκυρο"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -357,7 +363,7 @@ msgstr ""
 "Πνευματική Ιδιοκτησία © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr ""
 "Ελληνική μεταφραστική ομάδα GNOME\n"
@@ -415,7 +421,7 @@ msgstr "Ιδιότητες"
 msgid "Printing “%s”: %s"
 msgstr "Εκτύπωση “%s”: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Ρυθμίσεις εικόνας"
 
