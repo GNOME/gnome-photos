@@ -283,19 +283,21 @@ photos_view_container_constructed (GObject *object)
   priv->item_mngr = g_object_ref (state->item_mngr);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
-  g_signal_connect (priv->sel_cntrlr,
-                    "selection-mode-changed",
-                    G_CALLBACK (photos_view_container_selection_mode_changed),
-                    self);
+  g_signal_connect_object (priv->sel_cntrlr,
+                           "selection-mode-changed",
+                           G_CALLBACK (photos_view_container_selection_mode_changed),
+                           self,
+                           0);
   photos_view_container_selection_mode_changed (priv->sel_cntrlr,
                                                 photos_selection_controller_get_selection_mode (priv->sel_cntrlr),
                                                 self);
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
-  g_signal_connect (priv->mode_cntrlr,
-                    "window-mode-changed",
-                    G_CALLBACK (photos_view_container_window_mode_changed),
-                    self);
+  g_signal_connect_object (priv->mode_cntrlr,
+                           "window-mode-changed",
+                           G_CALLBACK (photos_view_container_window_mode_changed),
+                           self,
+                           0);
 
   priv->remote_mngr = photos_remote_display_manager_dup_singleton ();
 
@@ -343,10 +345,11 @@ photos_view_container_constructed (GObject *object)
                            G_CALLBACK (photos_view_container_query_error),
                            self,
                            G_CONNECT_SWAPPED);
-  g_signal_connect (priv->trk_cntrlr,
-                    "query-status-changed",
-                    G_CALLBACK (photos_view_container_query_status_changed),
-                    self);
+  g_signal_connect_object (priv->trk_cntrlr,
+                           "query-status-changed",
+                           G_CALLBACK (photos_view_container_query_status_changed),
+                           self,
+                           0);
   photos_tracker_controller_start (priv->trk_cntrlr);
 
   status = photos_tracker_controller_get_query_status (priv->trk_cntrlr);
