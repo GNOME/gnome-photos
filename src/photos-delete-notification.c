@@ -138,7 +138,7 @@ photos_delete_notification_constructed (GObject *object)
       const gchar *name;
 
       name = photos_base_item_get_name_with_fallback (PHOTOS_BASE_ITEM (priv->items->data));
-      msg = g_strdup_printf ("“%s” deleted", name);
+      msg = g_strdup_printf (_("“%s” deleted"), name);
     }
   else
     msg = g_strdup_printf (ngettext ("%d item deleted", "%d items deleted", length), length);
