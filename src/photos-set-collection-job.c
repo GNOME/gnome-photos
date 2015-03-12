@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,8 +38,9 @@
 #include "photos-update-mtime-job.h"
 
 
-struct _PhotosSetCollectionJobPrivate
+struct _PhotosSetCollectionJob
 {
+  GObject parent_instance;
   PhotosSelectionController *sel_cntrlr;
   PhotosSetCollectionJobCallback callback;
   PhotosTrackerQueue *queue;
@@ -47,6 +48,11 @@ struct _PhotosSetCollectionJobPrivate
   gchar *collection_urn;
   gint running_jobs;
   gpointer user_data;
+};
+
+struct _PhotosSetCollectionJobClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -57,17 +63,16 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosSetCollectionJob, photos_set_collection_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosSetCollectionJob, photos_set_collection_job, G_TYPE_OBJECT);
 
 
 static void
 photos_set_collection_job_update_mtime (gpointer user_data)
 {
   PhotosSetCollectionJob *self = PHOTOS_SET_COLLECTION_JOB (user_data);
-  PhotosSetCollectionJobPrivate *priv = self->priv;
 
-  if (priv->callback != NULL)
-    (*priv->callback) (priv->user_data);
+  if (self->callback != NULL)
+    (*self->callback) (self->user_data);
 
   g_object_unref (self);
 }
@@ -76,14 +81,12 @@ photos_set_collection_job_update_mtime (gpointer user_data)
 static void
 photos_set_collection_job_job_collector (PhotosSetCollectionJob *self)
 {
-  PhotosSetCollectionJobPrivate *priv = self->priv;
-
-  priv->running_jobs--;
-  if (priv->running_jobs == 0)
+  self->running_jobs--;
+  if (self->running_jobs == 0)
     {
       PhotosUpdateMtimeJob *job;
 
-      job = photos_update_mtime_job_new (priv->collection_urn);
+      job = photos_update_mtime_job_new (self->collection_urn);
       photos_update_mtime_job_run (job, photos_set_collection_job_update_mtime, g_object_ref (self));
       g_object_unref (job);
     }
@@ -114,10 +117,9 @@ static void
 photos_set_collection_job_dispose (GObject *object)
 {
   PhotosSetCollectionJob *self = PHOTOS_SET_COLLECTION_JOB (object);
-  PhotosSetCollectionJobPrivate *priv = self->priv;
 
-  g_clear_object (&priv->sel_cntrlr);
-  g_clear_object (&priv->queue);
+  g_clear_object (&self->sel_cntrlr);
+  g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_set_collection_job_parent_class)->dispose (object);
 }
@@ -128,7 +130,7 @@ photos_set_collection_job_finalize (GObject *object)
 {
   PhotosSetCollectionJob *self = PHOTOS_SET_COLLECTION_JOB (object);
 
-  g_free (self->priv->collection_urn);
+  g_free (self->collection_urn);
 
   G_OBJECT_CLASS (photos_set_collection_job_parent_class)->finalize (object);
 }
@@ -138,16 +140,15 @@ static void
 photos_set_collection_job_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosSetCollectionJob *self = PHOTOS_SET_COLLECTION_JOB (object);
-  PhotosSetCollectionJobPrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_COLLECTION_URN:
-      priv->collection_urn = g_value_dup_string (value);
+      self->collection_urn = g_value_dup_string (value);
       break;
 
     case PROP_SETTING:
-      priv->setting = g_value_get_boolean (value);
+      self->setting = g_value_get_boolean (value);
       break;
 
     default:
@@ -160,13 +161,8 @@ photos_set_collection_job_set_property (GObject *object, guint prop_id, const GV
 static void
 photos_set_collection_job_init (PhotosSetCollectionJob *self)
 {
-  PhotosSetCollectionJobPrivate *priv = self->priv;
-
-  self->priv = photos_set_collection_job_get_instance_private (self);
-  priv = self->priv;
-
-  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->sel_cntrlr = photos_selection_controller_dup_singleton ();
+  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 
@@ -213,37 +209,36 @@ photos_set_collection_job_run (PhotosSetCollectionJob *self,
                                PhotosSetCollectionJobCallback callback,
                                gpointer user_data)
 {
-  PhotosSetCollectionJobPrivate *priv = self->priv;
   GApplication *app;
   GList *l;
   GList *urns;
   PhotosSearchContextState *state;
 
-  if (G_UNLIKELY (priv->queue == NULL))
+  if (G_UNLIKELY (self->queue == NULL))
     {
       if (callback != NULL)
         (*callback) (user_data);
       return;
     }
 
-  priv->callback = callback;
-  priv->user_data = user_data;
+  self->callback = callback;
+  self->user_data = user_data;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  urns = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  urns = photos_selection_controller_get_selection (self->sel_cntrlr);
   for (l = urns; l != NULL; l = l->next)
     {
       PhotosQuery *query;
       const gchar *urn = (gchar *) l->data;
 
-      if (g_strcmp0 (priv->collection_urn, urn) == 0)
+      if (g_strcmp0 (self->collection_urn, urn) == 0)
         continue;
 
-      priv->running_jobs++;
-      query = photos_query_builder_set_collection_query (state, urn, priv->collection_urn, priv->setting);
-      photos_tracker_queue_update (priv->queue,
+      self->running_jobs++;
+      query = photos_query_builder_set_collection_query (state, urn, self->collection_urn, self->setting);
+      photos_tracker_queue_update (self->queue,
                                    query->sparql,
                                    NULL,
                                    photos_set_collection_job_query_executed,
