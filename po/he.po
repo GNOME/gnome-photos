@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-12 16:44+0200\n"
-"PO-Revision-Date: 2015-03-12 16:45+0200\n"
+"POT-Creation-Date: 2015-03-12 23:20+0200\n"
+"PO-Revision-Date: 2015-03-12 23:21+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -203,6 +203,11 @@ msgstr "אלבום"
 #: ../src/photos-base-item.c:886
 msgid "Screenshots"
 msgstr "צילומי מסך"
+
+#: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "‏„%s” נמחק"
 
 #: ../src/photos-delete-notification.c:144
 #, c-format
