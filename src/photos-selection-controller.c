@@ -137,10 +137,11 @@ photos_selection_controller_init (PhotosSelectionController *self)
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   priv->item_mngr = g_object_ref (state->item_mngr);
-  g_signal_connect (priv->item_mngr,
-                    "object-removed",
-                    G_CALLBACK (photos_selection_controller_object_removed),
-                    self);
+  g_signal_connect_object (priv->item_mngr,
+                           "object-removed",
+                           G_CALLBACK (photos_selection_controller_object_removed),
+                           self,
+                           0);
 }
 
 
