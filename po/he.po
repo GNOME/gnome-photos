@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-02 00:56+0200\n"
-"PO-Revision-Date: 2015-03-02 00:59+0200\n"
-"Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
+"POT-Creation-Date: 2015-03-12 16:44+0200\n"
+"PO-Revision-Date: 2015-03-12 16:45+0200\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Photos"
 msgstr "תמונות"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "לגשת, לארגן ולשתף את התמונות שלך ב־GNOME"
 
@@ -204,13 +204,14 @@ msgstr "אלבום"
 msgid "Screenshots"
 msgstr "צילומי מסך"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "נמחק הפריט שנבחר"
-msgstr[1] "נמחקו הפריטים שנבחרו"
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "פריט אחד נמחק"
+msgstr[1] "%d פריטים נמחקו"
 
-#: ../src/photos-delete-notification.c:141
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "ביטול"
 
@@ -323,24 +324,24 @@ msgid "Select Items"
 msgstr "בחירת פריטים"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:423 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "פתיחה באמצעות %s"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:469 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "הסרה מהמועדפים"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "הוספה למועדפים"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:644
 msgid "Cancel"
 msgstr "ביטול"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -351,7 +352,7 @@ msgstr ""
 "Copyright © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr ""
 "ירון שהרבני <sh.yaron@gmail.com>\n"
@@ -403,7 +404,7 @@ msgstr "מאפיינים"
 msgid "Printing “%s”: %s"
 msgstr "מדפיס „%s”:‏ %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "הגדרות התמונה"
 
@@ -572,14 +573,11 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "יוצר"
 
-#: ../src/photos-search-match-manager.c:205
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "התאמה"
 
-#. Translators: "Type" refers to a search filter. eg., All, Albums,
-#. * Favorites and Photos.
-#.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "סוג"
