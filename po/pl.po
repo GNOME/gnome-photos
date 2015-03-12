@@ -4,16 +4,16 @@
 # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-# Piotr Drąg <piotrdrag@gmail.com>, 2012-2013.
+# Piotr Drąg <piotrdrag@gmail.com>, 2012-2015.
 # Paweł Żołnowski <pawel@zolnowski.name>, 2014-2015.
 # Aviary.pl <gnomepl@aviary.pl>, 2012-2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-05 23:10+0100\n"
-"PO-Revision-Date: 2015-03-05 20:44+0100\n"
-"Last-Translator: Paweł Żołnowski <pawel@zolnowski.name>\n"
+"POT-Creation-Date: 2015-03-12 22:08+0100\n"
+"PO-Revision-Date: 2015-03-12 22:10+0100\n"
+"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Zdjęcia"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Dostęp, organizowanie i współdzielenie zdjęć w środowisku GNOME"
 
@@ -207,14 +207,15 @@ msgstr "Album"
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Usunięto zaznaczony element"
-msgstr[1] "Usunięto zaznaczone elementy"
-msgstr[2] "Usunięto zaznaczone elementy"
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "Usunięto %d element"
+msgstr[1] "Usunięto %d elementy"
+msgstr[2] "Usunięto %d elementów"
 
-#: ../src/photos-delete-notification.c:141
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Cofnij"
 
@@ -345,7 +346,7 @@ msgstr "Dodaj do ulubionych"
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -356,10 +357,10 @@ msgstr ""
 "Copyright © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr ""
-"Piotr Drąg <piotrdrag@gmail.com>, 2012-2013\n"
+"Piotr Drąg <piotrdrag@gmail.com>, 2012-2015\n"
 "Paweł Żołnowski <pawel@zolnowski.name>, 2014-2015\n"
 "Aviary.pl <gnomepl@aviary.pl>, 2012-2015"
 
@@ -409,7 +410,7 @@ msgstr "Właściwości"
 msgid "Printing “%s”: %s"
 msgstr "Drukowanie zdjęcia \"%s\": %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Ustawienia obrazu"
 
