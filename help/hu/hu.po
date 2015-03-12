@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the user help.
 #
 # Tibor Attila Anca <anca.tibor at posteo dot de>, 2014.
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2014.
-# Balázs Úr <urbalazs at gmail dot com>, 2014.
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2014, 2015.
+# Balázs Úr <urbalazs at gmail dot com>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos_help master\n"
-"POT-Creation-Date: 2014-09-21 07:13+0000\n"
-"PO-Revision-Date: 2014-09-21 10:28+0200\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
-"Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
+"POT-Creation-Date: 2015-03-01 20:26+0000\n"
+"PO-Revision-Date: 2015-03-12 01:00+0100\n"
+"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
+"Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Lokalize 1.5\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -102,9 +102,6 @@ msgstr "Jelölje ki az összes kedvencnek szánt elemet."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:43
-#| msgid ""
-#| "To finish, select the button with the picture of a heart from the toolbar "
-#| "at the bottom."
 msgid ""
 "To finish, select the button with the picture of a star from the toolbar at "
 "the bottom."
@@ -230,6 +227,76 @@ msgid ""
 msgstr ""
 "Válassza ki a megnyitandó fényképet, vagy lépjen a fényképre a "
 "nyílbillentyűk segítségével, és nyomja meg az <key>Entert</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "Legutóbbi fényképek megnyitása."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Legutóbbi fényképek megtekintése"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"A <gui style=\"tab\">Legutóbbi</gui> lap a helyi fájlrendszer helyeiről, "
+"mint például a <file>~/Letöltések</file>, <file>~/Fényképek</file>, valamint "
+"az online gyűjteményekből jelenít meg fényképeket. Hozzáadhat további "
+"helyeket, akár felhőalapú gyűjteményeket is – mint például a Flickr vagy "
+"Facebook "
+"fényképek – a <app>GNOME Online fiókokon</app> keresztül."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "Egyéb helyi fájlrendszerhelyek hozzáadásához:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr ""
+"Válassza a <guiseq><gui>Beállítások</gui><gui>Keresés</gui></guiseq> "
+"menüpontot."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Kattintson a jobb alsó fogaskerék gombra. Ezután kiválaszthatja azokat a "
+"helyeket, amelyeket meg szeretne jeleníteni a <gui style=\"tab\">Legutóbbi</"
+"gui> lapon."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "A legutóbbi fényképek megtekintéséhez:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Válassza a <gui style=\"tab\">Legutóbbi</gui> lapot."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr ""
+"A fényképek rácsát fogja látni. Válasszon egy fényképet a rácsról a "
+"megnyitásához."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
