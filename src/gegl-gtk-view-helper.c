@@ -175,6 +175,8 @@ invalidated_event(GeglNode      *node,
 static gboolean
 task_monitor(ViewHelper *self)
 {
+    gboolean processing_done;
+
     if (!self->processor || !self->node) {
         return FALSE;
     }
@@ -197,7 +199,7 @@ task_monitor(ViewHelper *self)
         }
     }
 
-    gboolean processing_done = !gegl_processor_work(self->processor, NULL);
+    processing_done = !gegl_processor_work(self->processor, NULL);
 
     if (processing_done) {
         // Go to next region
@@ -221,10 +223,12 @@ computed_event(GeglNode      *node,
                GeglRectangle *rect,
                ViewHelper    *self)
 {
+    GeglRectangle redraw_rect;
+
     update_autoscale(self);
 
     /* Emit redraw-needed */
-    GeglRectangle redraw_rect = *rect;
+    redraw_rect = *rect;
     model_rect_to_view_rect(self, &redraw_rect);
 
     trigger_redraw(self, &redraw_rect);
@@ -295,6 +299,8 @@ view_helper_set_allocation(ViewHelper *self, GdkRectangle *allocation)
 void
 trigger_processing(ViewHelper *self, GeglRectangle roi)
 {
+    GeglRectangle *rect;
+
     //GeglRectangle    roi;
 
     // PERFORMANCE: determine the area that the view widget is interested in,
@@ -318,7 +324,7 @@ trigger_processing(ViewHelper *self, GeglRectangle roi)
     }
 
     // Add the invalidated region to the dirty
-    GeglRectangle *rect = g_new(GeglRectangle, 1);
+    rect = g_new(GeglRectangle, 1);
     rect->x = roi.x;
     rect->y = roi.y;
     rect->width = roi.width;
@@ -349,6 +355,8 @@ view_helper_set_node(ViewHelper *self, GeglNode *node)
         g_object_unref(self->node);
 
     if (node) {
+        GeglRectangle bbox;
+
         g_object_ref(node);
         self->node = node;
 
@@ -362,7 +370,7 @@ view_helper_set_node(ViewHelper *self, GeglNode *node)
         if (self->processor)
             g_object_unref(self->processor);
 
-        GeglRectangle bbox = gegl_node_get_bounding_box(self->node);
+        bbox = gegl_node_get_bounding_box(self->node);
         self->processor = gegl_node_new_processor(self->node, &bbox);
 
         update_autoscale(self);
