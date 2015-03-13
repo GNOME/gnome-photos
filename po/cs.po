@@ -5,11 +5,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-photos master\n"
+"Project-Id-Version: gnome-photos gnome-3.16\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-02 08:26+0000\n"
-"PO-Revision-Date: 2015-03-02 19:15+0100\n"
+"POT-Creation-Date: 2015-03-13 20:24+0000\n"
+"PO-Revision-Date: 2015-03-14 00:09+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Fotky"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Prohlížejte si, roztříďte a sdílejte své fotografie v GNOME"
 
@@ -202,14 +202,20 @@ msgstr "Album"
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Vybraná položka byla smazána"
-msgstr[1] "Vybrané položky byly smazány"
-msgstr[2] "Vybrané položky byly smazány"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "Smazána položka „%s“"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "Smazána %d položka"
+msgstr[1] "Smazány %d položky"
+msgstr[2] "Smazáno %d položek"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Zpět"
 
@@ -340,7 +346,7 @@ msgstr "Přidat do oblíbených"
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -351,7 +357,7 @@ msgstr ""
 "Copyright © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr "Marek Černocký, <marek@manet.cz>"
 
@@ -401,7 +407,7 @@ msgstr "Vlastnosti"
 msgid "Printing “%s”: %s"
 msgstr "Tiskne se „%s“: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Nastavení obrázku"
 
