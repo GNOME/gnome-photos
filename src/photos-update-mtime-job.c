@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,12 +36,18 @@
 #include "photos-tracker-queue.h"
 
 
-struct _PhotosUpdateMtimeJobPrivate
+struct _PhotosUpdateMtimeJob
 {
+  GObject parent_instance;
   PhotosUpdateMtimeJobCallback callback;
   PhotosTrackerQueue *queue;
   gchar *urn;
   gpointer user_data;
+};
+
+struct _PhotosUpdateMtimeJobClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -51,14 +57,13 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosUpdateMtimeJob, photos_update_mtime_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosUpdateMtimeJob, photos_update_mtime_job, G_TYPE_OBJECT);
 
 
 static void
 photos_update_mtime_job_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosUpdateMtimeJob *self = PHOTOS_UPDATE_MTIME_JOB (user_data);
-  PhotosUpdateMtimeJobPrivate *priv = self->priv;
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   GError *error;
 
@@ -72,8 +77,8 @@ photos_update_mtime_job_query_executed (GObject *source_object, GAsyncResult *re
     }
 
  out:
-  if (priv->callback != NULL)
-    (*priv->callback) (priv->user_data);
+  if (self->callback != NULL)
+    (*self->callback) (self->user_data);
 }
 
 
@@ -81,9 +86,8 @@ static void
 photos_update_mtime_job_dispose (GObject *object)
 {
   PhotosUpdateMtimeJob *self = PHOTOS_UPDATE_MTIME_JOB (object);
-  PhotosUpdateMtimeJobPrivate *priv = self->priv;
 
-  g_clear_object (&priv->queue);
+  g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_update_mtime_job_parent_class)->dispose (object);
 }
@@ -94,7 +98,7 @@ photos_update_mtime_job_finalize (GObject *object)
 {
   PhotosUpdateMtimeJob *self = PHOTOS_UPDATE_MTIME_JOB (object);
 
-  g_free (self->priv->urn);
+  g_free (self->urn);
 
   G_OBJECT_CLASS (photos_update_mtime_job_parent_class)->finalize (object);
 }
@@ -108,7 +112,7 @@ photos_update_mtime_job_set_property (GObject *object, guint prop_id, const GVal
   switch (prop_id)
     {
     case PROP_URN:
-      self->priv->urn = g_value_dup_string (value);
+      self->urn = g_value_dup_string (value);
       break;
 
     default:
@@ -121,12 +125,7 @@ photos_update_mtime_job_set_property (GObject *object, guint prop_id, const GVal
 static void
 photos_update_mtime_job_init (PhotosUpdateMtimeJob *self)
 {
-  PhotosUpdateMtimeJobPrivate *priv = self->priv;
-
-  self->priv = photos_update_mtime_job_get_instance_private (self);
-  priv = self->priv;
-
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 
@@ -161,26 +160,25 @@ photos_update_mtime_job_run (PhotosUpdateMtimeJob *self,
                              PhotosUpdateMtimeJobCallback callback,
                              gpointer user_data)
 {
-  PhotosUpdateMtimeJobPrivate *priv = self->priv;
   GApplication *app;
   PhotosQuery *query;
   PhotosSearchContextState *state;
 
-  if (G_UNLIKELY (priv->queue == NULL))
+  if (G_UNLIKELY (self->queue == NULL))
     {
       if (callback != NULL)
         (*callback) (user_data);
       return;
     }
 
-  priv->callback = callback;
-  priv->user_data = user_data;
+  self->callback = callback;
+  self->user_data = user_data;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  query = photos_query_builder_update_mtime_query (state, priv->urn);
-  photos_tracker_queue_update (priv->queue,
+  query = photos_query_builder_update_mtime_query (state, self->urn);
+  photos_tracker_queue_update (self->queue,
                                query->sparql,
                                NULL,
                                photos_update_mtime_job_query_executed,
