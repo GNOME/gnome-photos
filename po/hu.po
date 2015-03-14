@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-27 20:23+0000\n"
-"PO-Revision-Date: 2015-02-27 21:58+0100\n"
+"POT-Creation-Date: 2015-03-14 08:24+0000\n"
+"PO-Revision-Date: 2015-03-14 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Fényképek"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Fényképek elérése, rendszerezése és megosztása a GNOME-ban"
 
@@ -205,13 +205,21 @@ msgstr "Album"
 msgid "Screenshots"
 msgstr "Képernyőképek"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "A kijelölt elem törölve lett"
-msgstr[1] "A kijelölt elemek törölve lettek"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "„%s” törölve"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+#| msgid "Selected item has been deleted"
+#| msgid_plural "Selected items have been deleted"
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d elem törölve lett"
+msgstr[1] "%d elem törölve lett"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Visszavonás"
 
@@ -324,24 +332,24 @@ msgid "Select Items"
 msgstr "Válasszon elemeket"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:423 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Megnyitás ezzel: %s"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:469 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:644
 msgid "Cancel"
 msgstr "Mégse"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -352,7 +360,7 @@ msgstr ""
 "Copyright © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr "Úr Balázs <urbalazs at gmail dot com>, 2014."
 
@@ -402,7 +410,7 @@ msgstr "Tulajdonságok"
 msgid "Printing “%s”: %s"
 msgstr "„%s” nyomtatása: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Képbeállítások"
 
@@ -571,14 +579,11 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "Szerző"
 
-#: ../src/photos-search-match-manager.c:205
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "Találat"
 
-#. Translators: "Type" refers to a search filter. eg., All, Albums,
-#. * Favorites and Photos.
-#.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Típus"
