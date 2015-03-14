@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-28 08:23+0000\n"
-"PO-Revision-Date: 2015-02-28 18:20+0200\n"
+"POT-Creation-Date: 2015-03-14 10:13+0000\n"
+"PO-Revision-Date: 2015-03-14 21:03+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Nuotraukos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Pasiekite, tvarkykite ir dalinkitės savo nuotraukomis GNOME aplinkoje"
 
@@ -204,14 +204,22 @@ msgstr "Albumas"
 msgid "Screenshots"
 msgstr "Ekranvaizdžiai"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Pasirinktas elementas buvo ištrintas"
-msgstr[1] "Pasirinkti elementai buvo ištrinti"
-msgstr[2] "Pasirinkti elementai buvo ištrinti"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "„%s“ ištrinta"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+#| msgid "Selected item has been deleted"
+#| msgid_plural "Selected items have been deleted"
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d elementas ištrintas"
+msgstr[1] "%d elementai ištrinti"
+msgstr[2] "%d elementų ištrinta"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Atšaukti"
 
@@ -342,7 +350,7 @@ msgstr "Pridėti prie mėgiamiausių"
 msgid "Cancel"
 msgstr "Atsisakyti"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -353,7 +361,7 @@ msgstr ""
 "Autorinės teisės © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr ""
 "Išvertė:\n"
@@ -392,7 +400,6 @@ msgid "Set as Background"
 msgstr "Nustatyti kaip foną"
 
 #: ../src/photos-preview-menu.ui.h:5
-#| msgid "Set as background"
 msgid "Set as Lock Screen"
 msgstr "Nustatyti kaip ekrano užraktą"
 
@@ -406,7 +413,7 @@ msgstr "Savybės"
 msgid "Printing “%s”: %s"
 msgstr "Spausdinama „%s“: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Paveikslėlio nustatymai"
 
