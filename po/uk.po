@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-08 13:00+0200\n"
-"PO-Revision-Date: 2015-03-08 13:01+0300\n"
+"POT-Creation-Date: 2015-03-14 12:11+0200\n"
+"PO-Revision-Date: 2015-03-14 12:12+0300\n"
 "Last-Translator: Daniel Korostil <ted.korostiled@gmail.com>\n"
 "Language-Team: linux.org.ua\n"
 "Language: uk\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Світлини"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Доступатись, упорядковувати і ділитись вашими фотографіями у GNOME"
 
@@ -202,14 +202,20 @@ msgstr "Альбом"
 msgid "Screenshots"
 msgstr "Знімки екрана"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Вибраний об'єкт вилучено"
-msgstr[1] "Вибрані об'єкти вилучено"
-msgstr[2] "Вибрані об'єкти вилучено"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "«%s» вилучено"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d об'єкт вилучено"
+msgstr[1] "%d об'єкти вилучено"
+msgstr[2] "%d об'єктів вилучено"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Повернути"
 
@@ -323,24 +329,24 @@ msgid "Select Items"
 msgstr "Вибрати об'єкти"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:423 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Відкрити через %s"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:469 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Вилучити з улюбленого"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Додати до улюбленого"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:644
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -351,7 +357,7 @@ msgstr ""
 "© 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr "Коростіль Данило <ted.korostiled@gmail.com>"
 
@@ -570,14 +576,11 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "Автора"
 
-#: ../src/photos-search-match-manager.c:205
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "Звірити"
 
-#. Translators: "Type" refers to a search filter. eg., All, Albums,
-#. * Favorites and Photos.
-#.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Тип"
