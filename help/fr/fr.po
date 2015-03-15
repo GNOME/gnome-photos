@@ -2,14 +2,15 @@
 # Copyright (C) 2014 GNOME's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photo package.
 # Alain Lojewski <allomervan@gmail.com>, 2014
-# Guillaume Bernard <filorin@gmx.com>, 2014.
+# Guillaume Bernard <translate@filorin.fr>, 2014, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-09-09 09:03+0000\n"
-"PO-Revision-Date: 2014-09-08 20:34+0200\n"
-"Last-Translator: Guillaume Bernard <filorin@gmx.com>\n"
+"Project-Id-Version: gnome-photos\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org\n"
+"POT-Creation-Date: 2015-03-13 23:11+0000\n"
+"PO-Revision-Date: 2015-03-14 00:18+0100\n"
+"Last-Translator: Guillaume Bernard <translate@filorin.fr>\n"
 "Language-Team: français <gnomefr@traduc.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -21,7 +22,7 @@ msgstr ""
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Guillaume Bernard <filorin@laposte.net>, 2014\n"
+"Guillaume Bernard <filorin@laposte.net>, 2014, 2015\n"
 "Alain Lojewski <allomervan@gmail.com>, 2014"
 
 #. (itstool) path: credit/name
@@ -229,6 +230,71 @@ msgid ""
 msgstr ""
 "Selectionner la photo que vous voulez ouvrir, ou utilisez les touches "
 "fléchées pour naviguer jusqu'à la photo et appuyez sur <key>Entrée</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "Ouvrir vos photos récentes."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Consulter les photos récentes"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"L'onglet <gui style=\"tab\">Récent</gui> affiche les photographies du "
+"système de fichier local comme les dossiers <file>~/Téléchargements</file>, "
+"<file>~/Images</file> et les collections de photos en ligne. Vous pouvez "
+"ajouter des répertoires, même des répertoires distants comme Flickr ou "
+"Facebook, grâce à <app>Comptes en ligne</app>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "Pour ajouter d'autres répertoires du système de fichier local :"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr "Aller à <guiseq><gui>Préférences</gui><gui>Rechercher</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Cliquez sur la roue crantée en bas à droite. Vous pouvez sélectionner les "
+"répertoires que vous voulez afficher dans l'onglet <gui style=\"tab"
+"\">Récent</gui>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Pour consulter les photos récentes :"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Sélectionnez l'onglet <gui style=\"tab\">Récent</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr "Une grille de photos s'affiche. Sélectionnez-en une pour l'ouvrir."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
