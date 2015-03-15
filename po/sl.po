@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-28 16:21+0000\n"
-"PO-Revision-Date: 2015-02-28 21:14+0100\n"
+"POT-Creation-Date: 2015-03-15 08:16+0000\n"
+"PO-Revision-Date: 2015-03-15 09:49+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Fotografije"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Urejanje in izmenjava fotografij za namizje GNOME"
 
@@ -205,15 +205,21 @@ msgstr "Album"
 msgid "Screenshots"
 msgstr "Zajete slike"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Izbrani predmeti so izbrisani"
-msgstr[1] "Izbran predmet je izbrisan"
-msgstr[2] "Izbrana predmeta sta izbrisana"
-msgstr[3] "Izbrani predmeti so izbrisani"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "“%s” je izbrisan"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d predmetov je izbrisanih"
+msgstr[1] "%d predmet je izbrisan"
+msgstr[2] "%d predmeta sta izbrisana"
+msgstr[3] "%d predmeti so izbrisani"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Razveljavi"
 
@@ -345,7 +351,7 @@ msgstr "Dodaj med priljubljene"
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -356,7 +362,7 @@ msgstr ""
 "Avtorske pravice © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr "Matej Urbančič <mateju@svn.gnome.org>"
 
@@ -406,7 +412,7 @@ msgstr "Lastnosti"
 msgid "Printing “%s”: %s"
 msgstr "Tiskanje “%s”: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Nastavitve slik"
 
