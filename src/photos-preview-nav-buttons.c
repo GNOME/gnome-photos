@@ -123,7 +123,6 @@ photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
   if (priv->model == NULL
       || priv->current_path == NULL
       || !priv->visible
-      || !priv->visible_internal
       || !gtk_tree_model_get_iter (priv->model, &iter, priv->current_path))
     {
       priv->enable_prev = FALSE;
@@ -138,12 +137,12 @@ photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
   priv->enable_next = gtk_tree_model_iter_next (priv->model, &tmp);
 
  out:
-  if (priv->enable_next)
+  if (priv->visible_internal && priv->enable_next)
     photos_preview_nav_buttons_fade_in_button (self, priv->next_widget);
   else
     photos_preview_nav_buttons_fade_out_button (self, priv->next_widget);
 
-  if (priv->enable_prev)
+  if (priv->visible_internal && priv->enable_prev)
     photos_preview_nav_buttons_fade_in_button (self, priv->prev_widget);
   else
     photos_preview_nav_buttons_fade_out_button (self, priv->prev_widget);
