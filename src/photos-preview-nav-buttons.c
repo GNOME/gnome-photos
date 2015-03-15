@@ -518,6 +518,7 @@ photos_preview_nav_buttons_next (PhotosPreviewNavButtons *self)
   priv->action = PHOTOS_PREVIEW_ACTION_NEXT;
   gtk_tree_path_next (priv->current_path);
   photos_preview_nav_buttons_set_active_path (self);
+  photos_preview_nav_buttons_update_visibility (self);
 
   g_signal_emit (self, signals[ACTIVATED], 0, priv->action);
 }
@@ -534,6 +535,7 @@ photos_preview_nav_buttons_previous (PhotosPreviewNavButtons *self)
   priv->action = PHOTOS_PREVIEW_ACTION_PREVIOUS;
   gtk_tree_path_prev (priv->current_path);
   photos_preview_nav_buttons_set_active_path (self);
+  photos_preview_nav_buttons_update_visibility (self);
 
   g_signal_emit (self, signals[ACTIVATED], 0, priv->action);
 }
