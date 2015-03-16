@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-03-14 12:52+0000\n"
-"PO-Revision-Date: 2015-03-14 17:20+0100\n"
+"PO-Revision-Date: 2015-03-16 19:35+0100\n"
 "Last-Translator: Guillaume Bernard <translate@filorin.fr>\n"
 "Language-Team: French <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -268,7 +268,7 @@ msgstr "Aucun album trouvé"
 
 #: ../src/photos-empty-results-box.c:186
 msgid "Starred photos will appear here"
-msgstr "Les photos favorites appararîtront ici"
+msgstr "Les photos favorites apparaîtront ici"
 
 #: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
@@ -525,11 +525,11 @@ msgstr "Type"
 
 #: ../src/photos-properties-dialog.c:269
 msgid "Width"
-msgstr "Largeur :"
+msgstr "Largeur"
 
 #: ../src/photos-properties-dialog.c:279
 msgid "Height"
-msgstr "Hauteur :"
+msgstr "Hauteur"
 
 #: ../src/photos-properties-dialog.c:294
 msgid "Camera"
