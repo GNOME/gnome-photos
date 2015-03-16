@@ -1,23 +1,23 @@
 # Korean translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Seong-ho Cho <darkcircle.0426@gmail.com>, 2013, 2014.
+# Seong-ho Cho <shcho@gnome.org>, 2013-2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-07 10:40+0000\n"
-"PO-Revision-Date: 2014-09-07 17:36+0900\n"
-"Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
+"POT-Creation-Date: 2015-03-15 23:10+0000\n"
+"PO-Revision-Date: 2015-03-16 17:06+0900\n"
+"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.6.9\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1
@@ -193,20 +193,26 @@ msgstr "정보"
 msgid "Quit"
 msgstr "끝내기"
 
-#: ../src/photos-base-item.c:347
+#: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "앨범"
 
-#: ../src/photos-base-item.c:810
+#: ../src/photos-base-item.c:886
 msgid "Screenshots"
 msgstr "스크린샷"
 
-#: ../src/photos-delete-notification.c:134
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "선택한 항목을 삭제했습니다"
+#: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "“%s” 항목을 삭제했습니다"
 
-#: ../src/photos-delete-notification.c:140
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "항목 %d개를 삭제했습니다"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "실행 취소"
 
@@ -214,19 +220,19 @@ msgstr "실행 취소"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA 렌더러 장치"
 
-#: ../src/photos-embed.c:722
+#: ../src/photos-embed.c:621
 msgid "Recent"
 msgstr "최근"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "앨범"
 
-#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "즐겨찾기"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:289
+#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
 msgid "Search"
 msgstr "검색"
 
@@ -250,17 +256,26 @@ msgstr "설정"
 msgid "You can add your online accounts in %s"
 msgstr "%s에 온라인 계정을 추가할 수 있습니다"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "앨범이 없습니다"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "즐겨찾기가 없습니다"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "중요 표시한 사진은 여기에 나타납니다"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "사진이 없습니다"
+
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-google-item.c:77
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
 
 #: ../src/photos-fetch-metas-job.c:163
 msgid "Untitled Photo"
@@ -286,58 +301,60 @@ msgstr "사진을 인덱싱하는 중입니다"
 msgid "Some photos might not be available during this process"
 msgstr "이 처리 과정 중 일부 사진은 사용할 수 없습니다"
 
-#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
-msgid "Load More"
-msgstr "더 불러오기"
-
-#: ../src/photos-load-more-button.c:86
-msgid "Loading…"
-msgstr "불러오는 중…"
-
-#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "로컬"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "선택하려는 항목을 누르십시오"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "선택한 사진 %d개"
 
-#: ../src/photos-main-toolbar.c:163
+#: ../src/photos-main-toolbar.c:162
 msgid "Back"
 msgstr "뒤로"
 
-#: ../src/photos-main-toolbar.c:305
+#: ../src/photos-main-toolbar.c:304
 msgid "Select Items"
 msgstr "항목 선택"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:428 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "%s(으)로 열기"
 
-#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:291
+#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "즐겨찾기에서 제거"
 
-#: ../src/photos-main-toolbar.c:479 ../src/photos-selection-toolbar.c:297
+#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "즐겨찾기에 추가"
 
-#: ../src/photos-main-toolbar.c:649
+#: ../src/photos-main-toolbar.c:651
 msgid "Cancel"
 msgstr "취소"
 
+#: ../src/photos-main-window.c:473
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:484
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
-msgstr "조성호 <darkcircle.0426@gmail.com>"
+msgstr "조성호 <shcho@gnome.org>"
 
 #: ../src/photos-organize-collection-dialog.c:76
 msgid "_Add"
@@ -354,8 +371,8 @@ msgid "Organize"
 msgstr "정리하기"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
-#: ../src/photos-selection-toolbar.c:451
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "열기"
 
@@ -371,8 +388,12 @@ msgstr "다음에 표시하기…"
 msgid "Set as Background"
 msgstr "배경 화면으로 설정"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-preview-menu.ui.h:5
+msgid "Set as Lock Screen"
+msgstr "잠금 화면으로 설정"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
+#: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "속성"
 
@@ -381,86 +402,86 @@ msgstr "속성"
 msgid "Printing “%s”: %s"
 msgstr "“%s” 인쇄 중: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "그림 설정"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:906
 msgid "Position"
 msgstr "위치"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:909
 msgid "_Left:"
 msgstr "왼쪽(_L):"
 
-#: ../src/photos-print-setup.c:899
+#: ../src/photos-print-setup.c:910
 msgid "_Right:"
 msgstr "오른쪽(_R):"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:911
 msgid "_Top:"
 msgstr "위(_T):"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:912
 msgid "_Bottom:"
 msgstr "아래(_B):"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:914
 msgid "C_enter:"
 msgstr "가운데(_E):"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:918
 msgid "None"
 msgstr "없음"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:919
 msgid "Horizontal"
 msgstr "수평"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:920
 msgid "Vertical"
 msgstr "수직"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:921
 msgid "Both"
 msgstr "둘 다"
 
-#: ../src/photos-print-setup.c:923
+#: ../src/photos-print-setup.c:934
 msgid "Size"
 msgstr "크기"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:937
 msgid "_Width:"
-msgstr "폭(_W):"
+msgstr "너비(_W):"
 
-#: ../src/photos-print-setup.c:927
+#: ../src/photos-print-setup.c:938
 msgid "_Height:"
-msgstr "너비(_H):"
+msgstr "높이(_H):"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:940
 msgid "_Scaling:"
 msgstr "크기조절(_S):"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:949
 msgid "_Unit:"
 msgstr "단위(_U):"
 
-#: ../src/photos-print-setup.c:942
+#: ../src/photos-print-setup.c:953
 msgid "Millimeters"
 msgstr "밀리미터"
 
-#: ../src/photos-print-setup.c:943
+#: ../src/photos-print-setup.c:954
 msgid "Inches"
 msgstr "인치"
 
-#: ../src/photos-print-setup.c:971
+#: ../src/photos-print-setup.c:982
 msgid "Preview"
 msgstr "미리 보기"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:216
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "제목"
@@ -468,68 +489,68 @@ msgstr "제목"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:228
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "촬영자"
 
-#: ../src/photos-properties-dialog.c:235
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "원본"
 
-#: ../src/photos-properties-dialog.c:241
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "수정 날짜"
 
-#: ../src/photos-properties-dialog.c:249
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "만든 날짜"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:259
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "형식"
 
-#: ../src/photos-properties-dialog.c:268
+#: ../src/photos-properties-dialog.c:269
 msgid "Width"
 msgstr "폭"
 
-#: ../src/photos-properties-dialog.c:278
+#: ../src/photos-properties-dialog.c:279
 msgid "Height"
-msgstr "너비"
+msgstr "높이"
 
-#: ../src/photos-properties-dialog.c:293
+#: ../src/photos-properties-dialog.c:294
 msgid "Camera"
 msgstr "카메라"
 
-#: ../src/photos-properties-dialog.c:303
+#: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
 msgstr "노출"
 
-#: ../src/photos-properties-dialog.c:313
+#: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
 msgstr "조리개"
 
-#: ../src/photos-properties-dialog.c:323
+#: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
 msgstr "초점 길이"
 
-#: ../src/photos-properties-dialog.c:333
+#: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
 msgstr "ISO 속도"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:344
 msgid "Flash"
 msgstr "플래시"
 
-#: ../src/photos-properties-dialog.c:483
+#: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
 msgstr "끔, 터뜨리지 않음"
 
-#: ../src/photos-properties-dialog.c:485
+#: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
 msgstr "켬, 터뜨림"
 
@@ -570,15 +591,15 @@ msgstr "모두 선택"
 msgid "Select None"
 msgstr "선택하지 않음"
 
-#: ../src/photos-selection-toolbar.c:458
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "인쇄"
 
-#: ../src/photos-selection-toolbar.c:465
+#: ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "삭제"
 
-#: ../src/photos-selection-toolbar.c:479
+#: ../src/photos-selection-toolbar.c:485
 msgid "Add to Album"
 msgstr "앨범에 추가"
 
@@ -586,26 +607,6 @@ msgstr "앨범에 추가"
 msgid "Sources"
 msgstr "원본"
 
-#: ../src/photos-tracker-controller.c:96
+#: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
 msgstr "사진 목록을 가져올 수 없습니다"
-
-#~ msgid ""
-#~ "<li>View recent local and online photos</li> <li>Access your Flickr "
-#~ "content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as "
-#~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
-#~ "opening full featured editor for more advanced changes</li>"
-#~ msgstr ""
-#~ "<li>최근 로컬 사진과 온라인 사진 보기</li> <li>플리커 컨텐트에 접근</li> "
-#~ "<li>원격 DLNA 렌더러에 사진 전송</li> <li>배경 화면으로 설정</li> <li>사"
-#~ "진 인쇄</li> <li>즐겨찾기 설정</li> <li>고급스런 편집이 필요할 때 더욱 다"
-#~ "양한 기능의 편집기 프로그램으로 열기</li>"
-
-#~ msgid "Facebook"
-#~ msgstr "페이스북"
-
-#~ msgid "Flickr"
-#~ msgstr "플리커"
-
-#~ msgid "Done"
-#~ msgstr "완료"
