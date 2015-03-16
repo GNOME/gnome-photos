@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-26 09:17+0000\n"
-"PO-Revision-Date: 2015-02-26 18:55+0100\n"
+"POT-Creation-Date: 2015-03-16 08:21+0000\n"
+"PO-Revision-Date: 2015-03-16 17:44+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Fotos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice y comparta sus fotos en GNOME"
 
@@ -204,13 +204,21 @@ msgstr "Álbum"
 msgid "Screenshots"
 msgstr "Capturas de pantalla"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Seleccionar un elemento que se ha eliminado"
-msgstr[1] "Seleccionar elementos que se han eliminado"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "«%s» eliminado"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+#| msgid "Selected item has been deleted"
+#| msgid_plural "Selected items have been deleted"
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d elemento eliminado"
+msgstr[1] "%d elementos eliminados"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Deshacer"
 
@@ -340,7 +348,7 @@ msgstr "Agregar a favoritos"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -351,7 +359,7 @@ msgstr ""
 "Copyright © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr "Angel Méndez <angelrmm0@gmail.com>, 2012"
 
@@ -401,7 +409,7 @@ msgstr "Propiedades"
 msgid "Printing “%s”: %s"
 msgstr "Imprimiendo «%s»: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Configuración de la imagen"
 
