@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +28,7 @@
 #include <gio/gio.h>
 #include <libgd/gd.h>
 
+#include "photos-base-item.h"
 #include "photos-base-manager.h"
 #include "photos-filterable.h"
 #include "photos-icons.h"
@@ -96,12 +97,15 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
 
 
 static void
-photos_overview_searchbar_collection_active_changed (PhotosOverviewSearchbar *self)
+photos_overview_searchbar_collection_active_changed (PhotosOverviewSearchbar *self, PhotosBaseItem *collection)
 {
   PhotosOverviewSearchbarPrivate *priv = self->priv;
   PhotosSearchType *search_type;
   const gchar *id;
   const gchar *str;
+
+  if (collection == NULL)
+    return;
 
   search_type = PHOTOS_SEARCH_TYPE (photos_base_manager_get_active_object (priv->srch_typ_mngr));
   str = photos_search_controller_get_string (priv->srch_cntrlr);
