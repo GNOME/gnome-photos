@@ -3,28 +3,29 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Fran Diéguez <frandieguez@gnome.org>, 2012.
 # Fran Dieguez <frandieguez@gnome.org>, 2012, 2013, 2014, 2015.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-19 11:23+0100\n"
-"PO-Revision-Date: 2015-02-19 11:35+0200\n"
+"POT-Creation-Date: 2015-03-18 00:48+0100\n"
+"PO-Revision-Date: 2015-03-18 00:48+0100\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
-"Language-Team: gnome-l10n-gl@gnome.org\n"
+"Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
-msgstr "Fotos\t"
+msgstr "Fotos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice e comparta as súas fotos en GNOME"
 
@@ -193,21 +194,27 @@ msgstr "Sobre"
 msgid "Quit"
 msgstr "Saír"
 
-#: ../src/photos-base-item.c:410
+#: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:862
+#: ../src/photos-base-item.c:886
 msgid "Screenshots"
 msgstr "Capturas de pantallas"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "O elemento seleccionado foi eliminado"
-msgstr[1] "Os elementos seleccionados foron eliminados"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "“%s” eliminado"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d elemento eliminado"
+msgstr[1] "%d elementos eliminados"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Desfacer"
 
@@ -215,19 +222,19 @@ msgstr "Desfacer"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos renderizadores de DLNA"
 
-#: ../src/photos-embed.c:619
+#: ../src/photos-embed.c:621
 msgid "Recent"
 msgstr "Recente"
 
-#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritas"
 
-#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
 msgid "Search"
 msgstr "Buscar"
 
@@ -337,8 +344,18 @@ msgstr "Engadir aos marcadores"
 msgid "Cancel"
 msgstr "Cancelar"
 
+#: ../src/photos-main-window.c:473
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Copyright © 2013 Intel Corporation. Todos os dereitos reservados.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:481
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr "Fran Dieguez <frandieguez@gnome.org>, 2012-2015."
 
@@ -388,7 +405,7 @@ msgstr "Propiedades"
 msgid "Printing “%s”: %s"
 msgstr "Imprimindo «%s»: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Configuracións da imaxe"
 
