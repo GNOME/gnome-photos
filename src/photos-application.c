@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2015 Alessandro Bono
  * Copyright © 2014, 2015 Pranav Kant
  * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
@@ -48,8 +49,11 @@
 #include "photos-resources.h"
 #include "photos-search-context.h"
 #include "photos-search-controller.h"
+#include "photos-search-match.h"
+#include "photos-search-type.h"
 #include "photos-search-provider.h"
 #include "photos-single-item-job.h"
+#include "photos-source.h"
 #include "photos-source-manager.h"
 #include "photos-tracker-extract-priority.h"
 #include "photos-utils.h"
@@ -68,6 +72,9 @@ struct _PhotosApplicationPrivate
   GSimpleAction *print_action;
   GSimpleAction *properties_action;
   GSimpleAction *search_action;
+  GSimpleAction *search_match_action;
+  GSimpleAction *search_source_action;
+  GSimpleAction *search_type_action;
   GSimpleAction *sel_all_action;
   GSimpleAction *sel_none_action;
   GSimpleAction *set_bg_action;
@@ -685,6 +692,14 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
   PhotosApplicationPrivate *priv = self->priv;
   gboolean enable;
 
+  enable = (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+            || PHOTOS_WINDOW_MODE_FAVORITES
+            || PHOTOS_WINDOW_MODE_OVERVIEW
+            || PHOTOS_WINDOW_MODE_SEARCH);
+  g_simple_action_set_enabled (priv->search_match_action, enable);
+  g_simple_action_set_enabled (priv->search_source_action, enable);
+  g_simple_action_set_enabled (priv->search_type_action, enable);
+
   enable = (mode == PHOTOS_WINDOW_MODE_OVERVIEW
             || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
             || mode == PHOTOS_WINDOW_MODE_FAVORITES);
@@ -799,6 +814,7 @@ photos_application_startup (GApplication *application)
   GrlRegistry *registry;
   GtkSettings *settings;
   GVariant *state;
+  GVariantType *parameter_type;
   const gchar *fullscreen_accels[2] = {"F11", NULL};
   const gchar *gear_menu_accels[2] = {"F10", NULL};
   const gchar *print_current_accels[2] = {"<Primary>p", NULL};
@@ -923,6 +939,24 @@ photos_application_startup (GApplication *application)
   g_signal_connect (priv->search_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->search_action));
 
+  parameter_type = g_variant_type_new ("s");
+  state = g_variant_new ("s", PHOTOS_SEARCH_MATCH_STOCK_ALL);
+  priv->search_match_action = g_simple_action_new_stateful ("search-match", parameter_type, state);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->search_match_action));
+  g_variant_type_free (parameter_type);
+
+  parameter_type = g_variant_type_new ("s");
+  state = g_variant_new ("s", PHOTOS_SOURCE_STOCK_ALL);
+  priv->search_source_action = g_simple_action_new_stateful ("search-source", parameter_type, state);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->search_source_action));
+  g_variant_type_free (parameter_type);
+
+  parameter_type = g_variant_type_new ("s");
+  state = g_variant_new ("s", PHOTOS_SEARCH_TYPE_STOCK_ALL);
+  priv->search_type_action = g_simple_action_new_stateful ("search-type", parameter_type, state);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->search_type_action));
+  g_variant_type_free (parameter_type);
+
   priv->sel_all_action = g_simple_action_new ("select-all", NULL);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->sel_all_action));
 
@@ -1017,6 +1051,9 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->print_action);
   g_clear_object (&priv->properties_action);
   g_clear_object (&priv->search_action);
+  g_clear_object (&priv->search_match_action);
+  g_clear_object (&priv->search_source_action);
+  g_clear_object (&priv->search_type_action);
   g_clear_object (&priv->sel_all_action);
   g_clear_object (&priv->sel_none_action);
   g_clear_object (&priv->set_bg_action);
