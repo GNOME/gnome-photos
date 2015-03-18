@@ -70,10 +70,6 @@ GType                     photos_dropdown_get_type             (void) G_GNUC_CON
 
 GtkWidget                *photos_dropdown_new                  (GtkWidget *relative_to);
 
-void                      photos_dropdown_hide                 (PhotosDropdown *self);
-
-void                      photos_dropdown_show                 (PhotosDropdown *self);
-
 G_END_DECLS
 
 #endif /* PHOTOS_DROPDOWN_H */
