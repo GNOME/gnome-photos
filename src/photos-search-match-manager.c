@@ -197,12 +197,12 @@ photos_search_match_manager_class_init (PhotosSearchMatchManagerClass *class)
 PhotosBaseManager *
 photos_search_match_manager_new (PhotosSearchController *srch_cntrlr)
 {
-  /* Translators: this is a verb that refers to "All", "Title" and
-   * "Author", as in "Match All", "Match Title" and "Match Author".
-   */
   return g_object_new (PHOTOS_TYPE_SEARCH_MATCH_MANAGER,
                        "action-id", "search-match",
                        "search-controller", srch_cntrlr,
+  /* Translators: this is a verb that refers to "All", "Title" and
+   * "Author", as in "Match All", "Match Title" and "Match Author".
+   */
                        "title", _("Match"),
                        NULL);
 }
