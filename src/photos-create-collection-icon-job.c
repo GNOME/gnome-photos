@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,13 +31,19 @@
 #include "photos-tracker-queue.h"
 
 
-struct _PhotosCreateCollectionIconJobPrivate
+struct _PhotosCreateCollectionIconJob
 {
+  GObject parent_instance;
   GIcon *icon;
   PhotosCreateCollectionIconJobCallback callback;
   PhotosTrackerQueue *queue;
   gchar *urn;
   gpointer user_data;
+};
+
+struct _PhotosCreateCollectionIconJobClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -47,18 +53,16 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosCreateCollectionIconJob, photos_create_collection_icon_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosCreateCollectionIconJob, photos_create_collection_icon_job, G_TYPE_OBJECT);
 
 
 static void
 photos_create_collection_icon_job_emit_callback (PhotosCreateCollectionIconJob *self)
 {
-  PhotosCreateCollectionIconJobPrivate *priv = self->priv;
-
-  if (priv->callback == NULL)
+  if (self->callback == NULL)
     return;
 
-  (*priv->callback) (priv->icon, priv->user_data);
+  (*self->callback) (self->icon, self->user_data);
 }
 
 
@@ -66,10 +70,9 @@ static void
 photos_create_collection_icon_job_dispose (GObject *object)
 {
   PhotosCreateCollectionIconJob *self = PHOTOS_CREATE_COLLECTION_ICON_JOB (object);
-  PhotosCreateCollectionIconJobPrivate *priv = self->priv;
 
-  g_clear_object (&priv->icon);
-  g_clear_object (&priv->queue);
+  g_clear_object (&self->icon);
+  g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_create_collection_icon_job_parent_class)->dispose (object);
 }
@@ -80,7 +83,7 @@ photos_create_collection_icon_job_finalize (GObject *object)
 {
   PhotosCreateCollectionIconJob *self = PHOTOS_CREATE_COLLECTION_ICON_JOB (object);
 
-  g_free (self->priv->urn);
+  g_free (self->urn);
 
   G_OBJECT_CLASS (photos_create_collection_icon_job_parent_class)->finalize (object);
 }
@@ -97,7 +100,7 @@ photos_create_collection_icon_job_set_property (GObject *object,
   switch (prop_id)
     {
     case PROP_URN:
-      self->priv->urn = g_value_dup_string (value);
+      self->urn = g_value_dup_string (value);
       break;
 
     default:
@@ -110,12 +113,7 @@ photos_create_collection_icon_job_set_property (GObject *object,
 static void
 photos_create_collection_icon_job_init (PhotosCreateCollectionIconJob *self)
 {
-  PhotosCreateCollectionIconJobPrivate *priv = self->priv;
-
-  self->priv = photos_create_collection_icon_job_get_instance_private (self);
-  priv = self->priv;
-
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 
@@ -150,16 +148,14 @@ photos_create_collection_icon_job_run (PhotosCreateCollectionIconJob *self,
                                        PhotosCreateCollectionIconJobCallback callback,
                                        gpointer user_data)
 {
-  PhotosCreateCollectionIconJobPrivate *priv = self->priv;
-
-  if (G_UNLIKELY (priv->queue == NULL))
+  if (G_UNLIKELY (self->queue == NULL))
     {
       photos_create_collection_icon_job_emit_callback (self);
       return;
     }
 
-  priv->callback = callback;
-  priv->user_data = user_data;
+  self->callback = callback;
+  self->user_data = user_data;
 
   /* TODO: build collection icon query */
   photos_create_collection_icon_job_emit_callback (self);
