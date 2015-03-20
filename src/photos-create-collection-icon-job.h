@@ -35,38 +35,14 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_CREATE_COLLECTION_ICON_JOB, PhotosCreateCollectionIconJob))
 
-#define PHOTOS_CREATE_COLLECTION_ICON_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_CREATE_COLLECTION_ICON_JOB, PhotosCreateCollectionIconJobClass))
-
 #define PHOTOS_IS_CREATE_COLLECTION_ICON_JOB(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_CREATE_COLLECTION_ICON_JOB))
 
-#define PHOTOS_IS_CREATE_COLLECTION_ICON_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_CREATE_COLLECTION_ICON_JOB))
-
-#define PHOTOS_CREATE_COLLECTION_ICON_JOB_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_CREATE_COLLECTION_ICON_JOB, PhotosCreateCollectionIconJobClass))
-
 typedef void (*PhotosCreateCollectionIconJobCallback) (GIcon *, gpointer);
 
-typedef struct _PhotosCreateCollectionIconJob        PhotosCreateCollectionIconJob;
-typedef struct _PhotosCreateCollectionIconJobClass   PhotosCreateCollectionIconJobClass;
-typedef struct _PhotosCreateCollectionIconJobPrivate PhotosCreateCollectionIconJobPrivate;
-
-struct _PhotosCreateCollectionIconJob
-{
-  GObject parent_instance;
-  PhotosCreateCollectionIconJobPrivate *priv;
-};
-
-struct _PhotosCreateCollectionIconJobClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosCreateCollectionIconJob      PhotosCreateCollectionIconJob;
+typedef struct _PhotosCreateCollectionIconJobClass PhotosCreateCollectionIconJobClass;
 
 GType                          photos_create_collection_icon_job_get_type  (void) G_GNUC_CONST;
 
