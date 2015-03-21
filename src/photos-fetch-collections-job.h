@@ -35,38 +35,14 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_FETCH_COLLECTIONS_JOB, PhotosFetchCollectionsJob))
 
-#define PHOTOS_FETCH_COLLECTIONS_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_FETCH_COLLECTIONS_JOB, PhotosFetchCollectionsJobClass))
-
 #define PHOTOS_IS_FETCH_COLLECTIONS_JOB(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_FETCH_COLLECTIONS_JOB))
 
-#define PHOTOS_IS_FETCH_COLLECTIONS_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_FETCH_COLLECTIONS_JOB))
-
-#define PHOTOS_FETCH_COLLECTIONS_JOB_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_FETCH_COLLECTIONS_JOB, PhotosFetchCollectionsJobClass))
-
 typedef void (*PhotosFetchCollectionsJobCallback) (GList *, gpointer);
 
-typedef struct _PhotosFetchCollectionsJob        PhotosFetchCollectionsJob;
-typedef struct _PhotosFetchCollectionsJobClass   PhotosFetchCollectionsJobClass;
-typedef struct _PhotosFetchCollectionsJobPrivate PhotosFetchCollectionsJobPrivate;
-
-struct _PhotosFetchCollectionsJob
-{
-  GObject parent_instance;
-  PhotosFetchCollectionsJobPrivate *priv;
-};
-
-struct _PhotosFetchCollectionsJobClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosFetchCollectionsJob      PhotosFetchCollectionsJob;
+typedef struct _PhotosFetchCollectionsJobClass PhotosFetchCollectionsJobClass;
 
 GType                      photos_fetch_collections_job_get_type    (void) G_GNUC_CONST;
 
