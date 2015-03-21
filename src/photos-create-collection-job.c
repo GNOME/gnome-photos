@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,13 +36,19 @@
 #include "photos-tracker-queue.h"
 
 
-struct _PhotosCreateCollectionJobPrivate
+struct _PhotosCreateCollectionJob
 {
+  GObject parent_instance;
   PhotosCreateCollectionJobCallback callback;
   PhotosTrackerQueue *queue;
   const gchar *created_urn;
   gchar *name;
   gpointer user_data;
+};
+
+struct _PhotosCreateCollectionJobClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -52,14 +58,13 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosCreateCollectionJob, photos_create_collection_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosCreateCollectionJob, photos_create_collection_job, G_TYPE_OBJECT);
 
 
 static void
 photos_create_collection_job_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosCreateCollectionJob *self = PHOTOS_CREATE_COLLECTION_JOB (user_data);
-  PhotosCreateCollectionJobPrivate *priv = self->priv;
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   GError *error;
   GVariant *variant;
@@ -99,13 +104,13 @@ photos_create_collection_job_query_executed (GObject *source_object, GAsyncResul
   g_variant_unref (variant);
 
   if (g_strcmp0 (key, "res") == 0)
-    priv->created_urn = val;
+    self->created_urn = val;
 
  out:
-  if (priv->callback != NULL)
-    (*priv->callback) (priv->created_urn, priv->user_data);
+  if (self->callback != NULL)
+    (*self->callback) (self->created_urn, self->user_data);
 
-  priv->created_urn = NULL;
+  self->created_urn = NULL;
   g_free (val);
   g_free (key);
 }
@@ -116,7 +121,7 @@ photos_create_collection_job_dispose (GObject *object)
 {
   PhotosCreateCollectionJob *self = PHOTOS_CREATE_COLLECTION_JOB (object);
 
-  g_clear_object (&self->priv->queue);
+  g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_create_collection_job_parent_class)->dispose (object);
 }
@@ -127,7 +132,7 @@ photos_create_collection_job_finalize (GObject *object)
 {
   PhotosCreateCollectionJob *self = PHOTOS_CREATE_COLLECTION_JOB (object);
 
-  g_free (self->priv->name);
+  g_free (self->name);
 
   G_OBJECT_CLASS (photos_create_collection_job_parent_class)->finalize (object);
 }
@@ -141,7 +146,7 @@ photos_create_collection_job_set_property (GObject *object, guint prop_id, const
   switch (prop_id)
     {
     case PROP_NAME:
-      self->priv->name = g_value_dup_string (value);
+      self->name = g_value_dup_string (value);
       break;
 
     default:
@@ -154,12 +159,7 @@ photos_create_collection_job_set_property (GObject *object, guint prop_id, const
 static void
 photos_create_collection_job_init (PhotosCreateCollectionJob *self)
 {
-  PhotosCreateCollectionJobPrivate *priv;
-
-  self->priv = photos_create_collection_job_get_instance_private (self);
-  priv = self->priv;
-
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 
@@ -194,26 +194,25 @@ photos_create_collection_job_run (PhotosCreateCollectionJob *self,
                                   PhotosCreateCollectionJobCallback callback,
                                   gpointer user_data)
 {
-  PhotosCreateCollectionJobPrivate *priv = self->priv;
   GApplication *app;
   PhotosQuery *query;
   PhotosSearchContextState *state;
 
-  if (G_UNLIKELY (priv->queue == NULL))
+  if (G_UNLIKELY (self->queue == NULL))
     {
       if (callback != NULL)
         (*callback) (NULL, user_data);
       return;
     }
 
-  priv->callback = callback;
-  priv->user_data = user_data;
+  self->callback = callback;
+  self->user_data = user_data;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  query = photos_query_builder_create_collection_query (state, priv->name);
-  photos_tracker_queue_update_blank (priv->queue,
+  query = photos_query_builder_create_collection_query (state, self->name);
+  photos_tracker_queue_update_blank (self->queue,
                                      query->sparql,
                                      NULL,
                                      photos_create_collection_job_query_executed,
