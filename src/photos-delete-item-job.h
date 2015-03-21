@@ -35,38 +35,14 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_DELETE_ITEM_JOB, PhotosDeleteItemJob))
 
-#define PHOTOS_DELETE_ITEM_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_DELETE_ITEM_JOB, PhotosDeleteItemJobClass))
-
 #define PHOTOS_IS_DELETE_ITEM_JOB(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_DELETE_ITEM_JOB))
 
-#define PHOTOS_IS_DELETE_ITEM_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_DELETE_ITEM_JOB))
-
-#define PHOTOS_DELETE_ITEM_JOB_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_DELETE_ITEM_JOB, PhotosDeleteItemJobClass))
-
 typedef void (*PhotosDeleteItemJobCallback) (gpointer);
 
-typedef struct _PhotosDeleteItemJob        PhotosDeleteItemJob;
-typedef struct _PhotosDeleteItemJobClass   PhotosDeleteItemJobClass;
-typedef struct _PhotosDeleteItemJobPrivate PhotosDeleteItemJobPrivate;
-
-struct _PhotosDeleteItemJob
-{
-  GObject parent_instance;
-  PhotosDeleteItemJobPrivate *priv;
-};
-
-struct _PhotosDeleteItemJobClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosDeleteItemJob      PhotosDeleteItemJob;
+typedef struct _PhotosDeleteItemJobClass PhotosDeleteItemJobClass;
 
 GType                       photos_delete_item_job_get_type    (void) G_GNUC_CONST;
 
