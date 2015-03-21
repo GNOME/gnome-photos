@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,12 +36,18 @@
 #include "photos-tracker-queue.h"
 
 
-struct _PhotosDeleteItemJobPrivate
+struct _PhotosDeleteItemJob
 {
+  GObject parent_instance;
   PhotosDeleteItemJobCallback callback;
   PhotosTrackerQueue *queue;
   gchar *urn;
   gpointer user_data;
+};
+
+struct _PhotosDeleteItemJobClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -51,14 +57,13 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosDeleteItemJob, photos_delete_item_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosDeleteItemJob, photos_delete_item_job, G_TYPE_OBJECT);
 
 
 static void
 photos_delete_item_job_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosDeleteItemJob *self = PHOTOS_DELETE_ITEM_JOB (user_data);
-  PhotosDeleteItemJobPrivate *priv = self->priv;
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   GError *error;
 
@@ -72,8 +77,8 @@ photos_delete_item_job_query_executed (GObject *source_object, GAsyncResult *res
     }
 
  out:
-  if (priv->callback != NULL)
-    (*priv->callback) (priv->user_data);
+  if (self->callback != NULL)
+    (*self->callback) (self->user_data);
 }
 
 
@@ -82,7 +87,7 @@ photos_delete_item_job_dispose (GObject *object)
 {
   PhotosDeleteItemJob *self = PHOTOS_DELETE_ITEM_JOB (object);
 
-  g_clear_object (&self->priv->queue);
+  g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_delete_item_job_parent_class)->dispose (object);
 }
@@ -93,7 +98,7 @@ photos_delete_item_job_finalize (GObject *object)
 {
   PhotosDeleteItemJob *self = PHOTOS_DELETE_ITEM_JOB (object);
 
-  g_free (self->priv->urn);
+  g_free (self->urn);
 
   G_OBJECT_CLASS (photos_delete_item_job_parent_class)->finalize (object);
 }
@@ -107,7 +112,7 @@ photos_delete_item_job_set_property (GObject *object, guint prop_id, const GValu
   switch (prop_id)
     {
     case PROP_URN:
-      self->priv->urn = g_value_dup_string (value);
+      self->urn = g_value_dup_string (value);
       break;
 
     default:
@@ -120,12 +125,7 @@ photos_delete_item_job_set_property (GObject *object, guint prop_id, const GValu
 static void
 photos_delete_item_job_init (PhotosDeleteItemJob *self)
 {
-  PhotosDeleteItemJobPrivate *priv;
-
-  self->priv = photos_delete_item_job_get_instance_private (self);
-  priv = self->priv;
-
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 
@@ -160,26 +160,25 @@ photos_delete_item_job_run (PhotosDeleteItemJob *self,
                             PhotosDeleteItemJobCallback callback,
                             gpointer user_data)
 {
-  PhotosDeleteItemJobPrivate *priv = self->priv;
   GApplication *app;
   PhotosQuery *query;
   PhotosSearchContextState *state;
 
-  if (G_UNLIKELY (priv->queue == NULL))
+  if (G_UNLIKELY (self->queue == NULL))
     {
       if (callback != NULL)
         (*callback) (user_data);
       return;
     }
 
-  priv->callback = callback;
-  priv->user_data = user_data;
+  self->callback = callback;
+  self->user_data = user_data;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  query = photos_query_builder_delete_resource_query (state, priv->urn);
-  photos_tracker_queue_update (priv->queue,
+  query = photos_query_builder_delete_resource_query (state, self->urn);
+  photos_tracker_queue_update (self->queue,
                                query->sparql,
                                NULL,
                                photos_delete_item_job_query_executed,
