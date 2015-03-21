@@ -7,23 +7,23 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-12\n"
-"POT-Creation-Date: 2014-06-20 07:13+0000\n"
-"PO-Revision-Date: 2014-06-20 17:16+0100\n"
-"Last-Translator: Benjamin Steinwender <b@stbe.at>\n"
+"POT-Creation-Date: 2015-03-12 00:01+0000\n"
+"PO-Revision-Date: 2015-03-12 17:54+0100\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.7.3\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Christian Kirbach <christian.kirbach@gmail.com>, 2014Benjamin Steinwender "
-"<b@stbe.at>, 2014"
+"Christian Kirbach <christian.kirbach@gmail.com>, 2014, 2015\n"
+"Benjamin Steinwender <b@stbe.at>, 2014"
 
 #. (itstool) path: credit/name
 #: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
@@ -103,11 +103,11 @@ msgstr "Wählen Sie alle zukünftigen Favoriten aus."
 #. (itstool) path: item/p
 #: C/favorites-set.page:43
 msgid ""
-"To finish, select the button with the picture of a heart from the toolbar at "
+"To finish, select the button with the picture of a star from the toolbar at "
 "the bottom."
 msgstr ""
-"Wählen Sie abschließend den Knopf mit dem Herzbild in der Werkzeugleiste "
-"ganz unten."
+"Wählen Sie abschließend den Knopf mit dem Bild eines Sterns in der "
+"Werkzeugleiste ganz unten."
 
 #. (itstool) path: page/p
 #: C/favorites-set.page:48
@@ -228,6 +228,72 @@ msgstr ""
 "Wählen Sie die Fotos, die Sie öffnen möchten. Alternativ verwenden Sie die "
 "Pfeiltasten, um zum Foto zu gelangen, und drücken Sie anschließend die "
 "<key>Eingabetaste</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "So öffnen Sie die zuletzt verwendeten Fotos."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Zuletzt verwendete Fotos ansehen"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"Der Reiter <gui style=\"tab\">Zuletzt verwendet</gui> zeigt Fotos auf Orten "
+"in lokalen Dateisystemen wir z.B. <file>~/Downloads</file>, <file>~/Bilder</"
+"file> und Online-Sammlungen. Sie können zusätzlich andere Orte hinzufügen, "
+"und sogar Sammlungen aus der Cloud wie beispielsweise Flickr oder Facebook-"
+"Fotos mittels <app>GNOME Online-Konten</app>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "So fügen Sie andere lokale Dateisysteme hinzu:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr "Wählen Sie <guiseq><gui>Einstellungen</gui><gui>Suche</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Klicken Sie auf den Knopf mit dem Zahnrad unten rechts. Wählen Sie die Orte "
+"im Reiter <gui style=\"tab\">Zuletzt verwendet</gui>, die Sie ansehen wollen."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "So betrachten Sie zuletzt verwendete Fotos:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Wählen Sie den Reiter <gui style=\"tab\">Zuletzt verwendet</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr ""
+"Es erscheint ein Raster aus Fotos. Wählen Sie ein Fotos aus dem Raster, um "
+"es zu öffnen."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
