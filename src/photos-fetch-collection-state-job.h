@@ -35,21 +35,9 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_FETCH_COLLECTION_STATE_JOB, PhotosFetchCollectionStateJob))
 
-#define PHOTOS_FETCH_COLLECTION_STATE_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_FETCH_COLLECTION_STATE_JOB, PhotosFetchCollectionStateJobClass))
-
 #define PHOTOS_IS_FETCH_COLLECTION_STATE_JOB(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_FETCH_COLLECTION_STATE_JOB))
-
-#define PHOTOS_IS_FETCH_COLLECTION_STATE_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_FETCH_COLLECTION_STATE_JOB))
-
-#define PHOTOS_FETCH_COLLECTION_STATE_JOB_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_FETCH_COLLECTION_STATE_JOB, PhotosFetchCollectionStateJobClass))
 
 typedef enum
 {
@@ -61,20 +49,8 @@ typedef enum
 
 typedef void (*PhotosFetchCollectionStateJobCallback) (GHashTable *, gpointer);
 
-typedef struct _PhotosFetchCollectionStateJob        PhotosFetchCollectionStateJob;
-typedef struct _PhotosFetchCollectionStateJobClass   PhotosFetchCollectionStateJobClass;
-typedef struct _PhotosFetchCollectionStateJobPrivate PhotosFetchCollectionStateJobPrivate;
-
-struct _PhotosFetchCollectionStateJob
-{
-  GObject parent_instance;
-  PhotosFetchCollectionStateJobPrivate *priv;
-};
-
-struct _PhotosFetchCollectionStateJobClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosFetchCollectionStateJob      PhotosFetchCollectionStateJob;
+typedef struct _PhotosFetchCollectionStateJobClass PhotosFetchCollectionStateJobClass;
 
 GType                          photos_fetch_collection_state_job_get_type (void) G_GNUC_CONST;
 

@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,8 +38,9 @@
 #include "photos-selection-controller.h"
 
 
-struct _PhotosFetchCollectionStateJobPrivate
+struct _PhotosFetchCollectionStateJob
 {
+  GObject parent_instance;
   GHashTable *collections_for_items;
   PhotosBaseManager *item_mngr;
   PhotosSelectionController *sel_cntrlr;
@@ -48,8 +49,13 @@ struct _PhotosFetchCollectionStateJobPrivate
   gpointer user_data;
 };
 
+struct _PhotosFetchCollectionStateJobClass
+{
+  GObjectClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosFetchCollectionStateJob, photos_fetch_collection_state_job, G_TYPE_OBJECT);
+
+G_DEFINE_TYPE (PhotosFetchCollectionStateJob, photos_fetch_collection_state_job, G_TYPE_OBJECT);
 
 
 typedef struct _PhotosFetchCollectionStateJobData PhotosFetchCollectionStateJobData;
@@ -85,7 +91,6 @@ photos_fetch_collection_state_job_data_new (PhotosFetchCollectionStateJob *job, 
 static void
 photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *self)
 {
-  PhotosFetchCollectionStateJobPrivate *priv = self->priv;
   GHashTable *collection_state;
   GHashTable *collections;
   GHashTableIter iter1;
@@ -93,7 +98,7 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
   const gchar *coll_idx;
 
   collection_state = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-  collections = photos_item_manager_get_collections (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+  collections = photos_item_manager_get_collections (PHOTOS_ITEM_MANAGER (self->item_mngr));
 
   /* For all the registered collections… */
   g_hash_table_iter_init (&iter1, collections);
@@ -112,23 +117,23 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
       /* If the only object we are fetching collection state for is a
        * collection itself, hide this if it is the same collection.
        */
-      keys = g_hash_table_get_keys (priv->collections_for_items);
+      keys = g_hash_table_get_keys (self->collections_for_items);
       if (g_list_length (keys) == 1)
         {
           item_idx = (gchar *) keys->data;
-          item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, item_idx));
+          item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, item_idx));
           if (g_strcmp0 (photos_filterable_get_id (PHOTOS_FILTERABLE (item)),
                          photos_filterable_get_id (PHOTOS_FILTERABLE (collection))) == 0)
             hidden = TRUE;
         }
       g_list_free (keys);
 
-      g_hash_table_iter_init (&iter2, priv->collections_for_items);
+      g_hash_table_iter_init (&iter2, self->collections_for_items);
       while (g_hash_table_iter_next (&iter2, (gpointer *) &item_idx, (gpointer *) &collections_for_item))
         {
           const gchar *identifier;
 
-          item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, item_idx));
+          item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, item_idx));
 
           /* If one of the selected items is part of this collection… */
           if (g_list_find_custom (collections_for_item, coll_idx, (GCompareFunc) g_strcmp0) != NULL)
@@ -155,8 +160,8 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
       g_hash_table_insert (collection_state, g_strdup (coll_idx), GINT_TO_POINTER (state));
     }
 
-  if (priv->callback != NULL)
-    (*priv->callback) (collection_state, priv->user_data);
+  if (self->callback != NULL)
+    (*self->callback) (collection_state, self->user_data);
 
   g_hash_table_unref (collection_state);
 }
@@ -167,15 +172,14 @@ photos_fetch_collection_state_job_job_collector (GList *collections_for_item, gp
 {
   PhotosFetchCollectionStateJobData *data = user_data;
   PhotosFetchCollectionStateJob *self = data->job;
-  PhotosFetchCollectionStateJobPrivate *priv = self->priv;
   const gchar *urn = data->urn;
 
-  g_hash_table_insert (priv->collections_for_items,
+  g_hash_table_insert (self->collections_for_items,
                        g_strdup (urn),
                        g_list_copy_deep (collections_for_item, (GCopyFunc) g_strdup, NULL));
 
-  priv->running_jobs--;
-  if (priv->running_jobs == 0)
+  self->running_jobs--;
+  if (self->running_jobs == 0)
     photos_fetch_collection_state_job_emit_callback (self);
 
   photos_fetch_collection_state_job_data_free (data);
@@ -193,10 +197,9 @@ static void
 photos_fetch_collection_state_job_dispose (GObject *object)
 {
   PhotosFetchCollectionStateJob *self = PHOTOS_FETCH_COLLECTION_STATE_JOB (object);
-  PhotosFetchCollectionStateJobPrivate *priv = self->priv;
 
-  g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->sel_cntrlr);
+  g_clear_object (&self->item_mngr);
+  g_clear_object (&self->sel_cntrlr);
 
   G_OBJECT_CLASS (photos_fetch_collection_state_job_parent_class)->dispose (object);
 }
@@ -207,7 +210,7 @@ photos_fetch_collection_state_job_finalize (GObject *object)
 {
   PhotosFetchCollectionStateJob *self = PHOTOS_FETCH_COLLECTION_STATE_JOB (object);
 
-  g_hash_table_unref (self->priv->collections_for_items);
+  g_hash_table_unref (self->collections_for_items);
 
   G_OBJECT_CLASS (photos_fetch_collection_state_job_parent_class)->finalize (object);
 }
@@ -216,23 +219,19 @@ photos_fetch_collection_state_job_finalize (GObject *object)
 static void
 photos_fetch_collection_state_job_init (PhotosFetchCollectionStateJob *self)
 {
-  PhotosFetchCollectionStateJobPrivate *priv = self->priv;
   GApplication *app;
   PhotosSearchContextState *state;
-
-  self->priv = photos_fetch_collection_state_job_get_instance_private (self);
-  priv = self->priv;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->collections_for_items = g_hash_table_new_full (g_str_hash,
+  self->collections_for_items = g_hash_table_new_full (g_str_hash,
                                                        g_str_equal,
                                                        g_free,
                                                        photos_fetch_collection_state_job_value_destroy_func);
 
-  priv->item_mngr = g_object_ref (state->item_mngr);
-  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
+  self->item_mngr = g_object_ref (state->item_mngr);
+  self->sel_cntrlr = photos_selection_controller_dup_singleton ();
 }
 
 
@@ -258,21 +257,20 @@ photos_fetch_collection_state_job_run (PhotosFetchCollectionStateJob *self,
                                        PhotosFetchCollectionStateJobCallback callback,
                                        gpointer user_data)
 {
-  PhotosFetchCollectionStateJobPrivate *priv = self->priv;
   GList *l;
   GList *urns;
 
-  priv->callback = callback;
-  priv->user_data = user_data;
+  self->callback = callback;
+  self->user_data = user_data;
 
-  urns = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  urns = photos_selection_controller_get_selection (self->sel_cntrlr);
   for (l = urns; l != NULL; l = l->next)
     {
       PhotosFetchCollectionStateJobData *data;
       PhotosFetchCollectionsJob *job;
       const gchar *urn = (gchar *) l->data;
 
-      priv->running_jobs++;
+      self->running_jobs++;
       job = photos_fetch_collections_job_new (urn);
       data = photos_fetch_collection_state_job_data_new (self, urn);
       photos_fetch_collections_job_run (job, photos_fetch_collection_state_job_job_collector, data);
