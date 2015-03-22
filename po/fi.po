@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-02 20:36+0000\n"
-"PO-Revision-Date: 2015-03-02 23:31+0200\n"
+"POT-Creation-Date: 2015-03-19 08:19+0000\n"
+"PO-Revision-Date: 2015-03-22 09:16+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -208,6 +208,20 @@ msgstr[0] "Valittu kohde on poistettu"
 msgstr[1] "Valitut kohteet on poistettu"
 
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "“%s” poistettu"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+#| msgid "Selected item has been deleted"
+#| msgid_plural "Selected items have been deleted"
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d kohde poistettu"
+msgstr[1] "%d kohdetta poistettu"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Kumoa"
 
@@ -338,7 +352,7 @@ msgstr "Lisää suosikkeihin"
 msgid "Cancel"
 msgstr "Peru"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -349,7 +363,7 @@ msgstr ""
 "Tekijänoikeus © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr "Jiri Grönroos"
 
@@ -386,7 +400,6 @@ msgid "Set as Background"
 msgstr "Aseta taustakuvaksi"
 
 #: ../src/photos-preview-menu.ui.h:5
-#| msgid "Set as background"
 msgid "Set as Lock Screen"
 msgstr "Aseta lukitusnäytön taustaksi"
 
@@ -400,7 +413,7 @@ msgstr "Ominaisuudet"
 msgid "Printing “%s”: %s"
 msgstr "Tulostetaan “%s”: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Kuvan asetukset"
 
