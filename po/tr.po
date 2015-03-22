@@ -8,16 +8,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-14 08:20+0000\n"
-"PO-Revision-Date: 2015-02-14 12:33+0000\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-03-22 08:19+0000\n"
+"PO-Revision-Date: 2015-03-22 17:50+0200\n"
 "Last-Translator: Muhammet Kara <muhammetk@gmail.com>\n"
-"Language-Team: Türkçe <gnome-turk@gnome.org>\n"
+"Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1
@@ -25,7 +27,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Fotoğraflar"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "GNOME üzerinde fotoğraflarınıza erişin, yönetin ve paylaşın"
 
@@ -33,9 +35,13 @@ msgstr "GNOME üzerinde fotoğraflarınıza erişin, yönetin ve paylaşın"
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online"
-" Accounts."
-msgstr "GNOME'da fotoğraflarınıza erişmek, düzenlemek ve paylaşmak için basit bir uygulama. Bir dosya yöneticisinin yerine, fotoğraflarla uğraşmak için basit ve zarif bir alternatif olarak düşünüldü. GNOME Çevrimiçi Hesapları ile kusursuz bulut bütünleşmesi sunulmaktadır."
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"GNOME'da fotoğraflarınıza erişmek, düzenlemek ve paylaşmak için basit bir "
+"uygulama. Bir dosya yöneticisinin yerine, fotoğraflarla uğraşmak için basit "
+"ve zarif bir alternatif olarak düşünüldü. GNOME Çevrimiçi Hesapları ile "
+"kusursuz bulut bütünleşmesi sunulmaktadır."
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
@@ -67,7 +73,8 @@ msgstr "Gözdeleri seç"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:11
 msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Daha gelişmiş değişiklikler için tam özellikli düzenleyici açmaya izin ver"
+msgstr ""
+"Daha gelişmiş değişiklikler için tam özellikli düzenleyici açmaya izin ver"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
@@ -106,8 +113,7 @@ msgstr "Pencerenin ekranı kapladığı durum"
 msgid "%a, %d %B %Y  %X"
 msgstr "%d %B %Y %a, %X"
 
-#. A strftime-formatted string, to display the date the image was taken, for
-#. the case we don't have the time.
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
 #: ../src/eog-exif-util.c:154
 msgid "%a, %d %B %Y"
 msgstr "%d %B %Y %a"
@@ -191,20 +197,28 @@ msgstr "Hakkında"
 msgid "Quit"
 msgstr "Çık"
 
-#: ../src/photos-base-item.c:410
+#: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Albüm"
 
-#: ../src/photos-base-item.c:862
+#: ../src/photos-base-item.c:886
 msgid "Screenshots"
 msgstr "Ekran görüntüleri"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Seçilen öğeler silindi"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "“%s” silindi"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+#| msgid "Selected item has been deleted"
+#| msgid_plural "Selected items have been deleted"
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d öge silindi"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Geri Al"
 
@@ -212,19 +226,19 @@ msgstr "Geri Al"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA Yorumlayıcı Cihazları"
 
-#: ../src/photos-embed.c:619
+#: ../src/photos-embed.c:621
 msgid "Recent"
 msgstr "Son kullanılan"
 
-#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albümler"
 
-#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Gözdeler"
 
-#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
 msgid "Search"
 msgstr "Ara"
 
@@ -234,6 +248,7 @@ msgstr "İlk albümünüze isim verin"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
+#.
 #: ../src/photos-empty-results-box.c:133
 msgid "Settings"
 msgstr "Ayarlar"
@@ -241,6 +256,7 @@ msgstr "Ayarlar"
 #. Translators: %s here is "Settings", which is in a separate string
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
+#.
 #: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
@@ -260,8 +276,9 @@ msgstr "Hiç Fotoğraf Bulunamadı"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
-#: ../src/photos-facebook-item.c:78 ../src/photos-flickr-item.c:88
-#: ../src/photos-google-item.c:76
+#.
+#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-google-item.c:77
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -272,6 +289,7 @@ msgstr "Adsız Fotoğraf"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
+#.
 #: ../src/photos-indexing-notification.c:173
 #, c-format
 msgid "Fetching photos from %s"
@@ -329,10 +347,22 @@ msgstr "Gözdelere ekle"
 msgid "Cancel"
 msgstr "Vazgeç"
 
+#: ../src/photos-main-window.c:473
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Telif Hakkı © 2013 Intel Corporation. Tüm hakları saklıdır.\n"
+"Telif Hakkı © 2014, 2015 Pranav Kant\n"
+"Telif Hakkı © 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:481
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
-msgstr "Gökhan Gurbetoğlu <ggurbet@gmail.com>"
+msgstr ""
+"Gökhan Gurbetoğlu <ggurbet@gmail.com>\n"
+"Muhammet Kara <muhammetk@gmail.com>"
 
 #: ../src/photos-organize-collection-dialog.c:76
 msgid "_Add"
@@ -380,84 +410,85 @@ msgstr "Özellikler"
 msgid "Printing “%s”: %s"
 msgstr "“%s” yazdırılıyor: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Resim Ayarları"
 
-#: ../src/photos-print-setup.c:890
+#: ../src/photos-print-setup.c:906
 msgid "Position"
 msgstr "Konum"
 
-#: ../src/photos-print-setup.c:893
+#: ../src/photos-print-setup.c:909
 msgid "_Left:"
 msgstr "_Sol:"
 
-#: ../src/photos-print-setup.c:894
+#: ../src/photos-print-setup.c:910
 msgid "_Right:"
 msgstr "S_ağ:"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:911
 msgid "_Top:"
 msgstr "Üs_t:"
 
-#: ../src/photos-print-setup.c:896
+#: ../src/photos-print-setup.c:912
 msgid "_Bottom:"
 msgstr "_Alt:"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:914
 msgid "C_enter:"
 msgstr "_Merkez:"
 
-#: ../src/photos-print-setup.c:902
+#: ../src/photos-print-setup.c:918
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:919
 msgid "Horizontal"
 msgstr "Yatay"
 
-#: ../src/photos-print-setup.c:904
+#: ../src/photos-print-setup.c:920
 msgid "Vertical"
 msgstr "Dikey"
 
-#: ../src/photos-print-setup.c:905
+#: ../src/photos-print-setup.c:921
 msgid "Both"
 msgstr "Her ikisi"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:934
 msgid "Size"
 msgstr "Boyut"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:937
 msgid "_Width:"
 msgstr "_Genişlik:"
 
-#: ../src/photos-print-setup.c:922
+#: ../src/photos-print-setup.c:938
 msgid "_Height:"
 msgstr "_Yükseklik:"
 
-#: ../src/photos-print-setup.c:924
+#: ../src/photos-print-setup.c:940
 msgid "_Scaling:"
 msgstr "Ö_lçekleme:"
 
-#: ../src/photos-print-setup.c:933
+#: ../src/photos-print-setup.c:949
 msgid "_Unit:"
 msgstr "_Birim:"
 
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:953
 msgid "Millimeters"
 msgstr "Milimetre"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:954
 msgid "Inches"
 msgstr "İnç"
 
-#: ../src/photos-print-setup.c:966
+#: ../src/photos-print-setup.c:982
 msgid "Preview"
 msgstr "Önizleme"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
+#.
 #: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
@@ -465,6 +496,7 @@ msgstr "Başlık"
 
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
+#.
 #: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
@@ -484,6 +516,7 @@ msgstr "Oluşturulma Tarihi"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
+#.
 #: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
@@ -552,6 +585,7 @@ msgstr "Eşleştir"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
+#.
 #: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
@@ -581,6 +615,6 @@ msgstr "Albüme Ekle"
 msgid "Sources"
 msgstr "Kaynaklar"
 
-#: ../src/photos-tracker-controller.c:96
+#: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
 msgstr "Fotoğrafların listesi alınamıyor"
