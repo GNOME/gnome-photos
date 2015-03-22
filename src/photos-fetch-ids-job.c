@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,14 +35,20 @@
 #include "photos-tracker-queue.h"
 
 
-struct _PhotosFetchIdsJobPrivate
+struct _PhotosFetchIdsJob
 {
+  GObject parent_instance;
   GCancellable *cancellable;
   GPtrArray *ids;
   PhotosFetchIdsJobCallback callback;
   PhotosTrackerQueue *queue;
   gchar **terms;
   gpointer user_data;
+};
+
+struct _PhotosFetchIdsJobClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -52,19 +58,17 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosFetchIdsJob, photos_fetch_ids_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosFetchIdsJob, photos_fetch_ids_job, G_TYPE_OBJECT);
 
 
 static void
 photos_fetch_ids_job_emit_callback (PhotosFetchIdsJob *self)
 {
-  PhotosFetchIdsJobPrivate *priv = self->priv;
-
-  if (priv->callback == NULL)
+  if (self->callback == NULL)
     return;
 
-  g_ptr_array_add (priv->ids, NULL);
-  (*priv->callback) ((const gchar *const *) priv->ids->pdata, priv->user_data);
+  g_ptr_array_add (self->ids, NULL);
+  (*self->callback) ((const gchar *const *) self->ids->pdata, self->user_data);
 }
 
 
@@ -72,7 +76,6 @@ static void
 photos_fetch_ids_job_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosFetchIdsJob *self = PHOTOS_FETCH_IDS_JOB (user_data);
-  PhotosFetchIdsJobPrivate *priv = self->priv;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GError *error;
   gboolean valid;
@@ -90,9 +93,9 @@ photos_fetch_ids_job_cursor_next (GObject *source_object, GAsyncResult *res, gpo
     goto end;
 
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
-  g_ptr_array_add (priv->ids, g_strdup (id));
+  g_ptr_array_add (self->ids, g_strdup (id));
 
-  tracker_sparql_cursor_next_async (cursor, priv->cancellable, photos_fetch_ids_job_cursor_next, self);
+  tracker_sparql_cursor_next_async (cursor, self->cancellable, photos_fetch_ids_job_cursor_next, self);
   return;
 
  end:
@@ -121,7 +124,7 @@ photos_fetch_ids_job_query_executed (GObject *source_object, GAsyncResult *res, 
     }
 
   tracker_sparql_cursor_next_async (cursor,
-                                    self->priv->cancellable,
+                                    self->cancellable,
                                     photos_fetch_ids_job_cursor_next,
                                     g_object_ref (self));
   g_object_unref (cursor);
@@ -132,11 +135,10 @@ static void
 photos_fetch_ids_job_dispose (GObject *object)
 {
   PhotosFetchIdsJob *self = PHOTOS_FETCH_IDS_JOB (object);
-  PhotosFetchIdsJobPrivate *priv = self->priv;
 
-  g_clear_pointer (&priv->ids, (GDestroyNotify) g_ptr_array_unref);
-  g_clear_object (&priv->cancellable);
-  g_clear_object (&priv->queue);
+  g_clear_pointer (&self->ids, (GDestroyNotify) g_ptr_array_unref);
+  g_clear_object (&self->cancellable);
+  g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_fetch_ids_job_parent_class)->dispose (object);
 }
@@ -147,7 +149,7 @@ photos_fetch_ids_job_finalize (GObject *object)
 {
   PhotosFetchIdsJob *self = PHOTOS_FETCH_IDS_JOB (object);
 
-  g_strfreev (self->priv->terms);
+  g_strfreev (self->terms);
 
   G_OBJECT_CLASS (photos_fetch_ids_job_parent_class)->finalize (object);
 }
@@ -161,7 +163,7 @@ photos_fetch_ids_job_set_property (GObject *object, guint prop_id, const GValue 
   switch (prop_id)
     {
     case PROP_TERMS:
-      self->priv->terms = g_value_dup_boxed (value);
+      self->terms = g_value_dup_boxed (value);
       break;
 
     default:
@@ -174,13 +176,8 @@ photos_fetch_ids_job_set_property (GObject *object, guint prop_id, const GValue 
 static void
 photos_fetch_ids_job_init (PhotosFetchIdsJob *self)
 {
-  PhotosFetchIdsJobPrivate *priv = self->priv;
-
-  self->priv = photos_fetch_ids_job_get_instance_private (self);
-  priv = self->priv;
-
-  priv->ids = g_ptr_array_new_with_free_func (g_free);
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->ids = g_ptr_array_new_with_free_func (g_free);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 
@@ -217,31 +214,30 @@ photos_fetch_ids_job_run (PhotosFetchIdsJob *self,
                           PhotosFetchIdsJobCallback callback,
                           gpointer user_data)
 {
-  PhotosFetchIdsJobPrivate *priv = self->priv;
   PhotosQuery *query;
   gchar *str;
 
-  priv->callback = callback;
-  priv->user_data = user_data;
+  self->callback = callback;
+  self->user_data = user_data;
 
-  if (G_UNLIKELY (priv->queue == NULL))
+  if (G_UNLIKELY (self->queue == NULL))
     {
       photos_fetch_ids_job_emit_callback (self);
       return;
     }
 
-  g_clear_object (&priv->cancellable);
+  g_clear_object (&self->cancellable);
   if (cancellable != NULL)
-    priv->cancellable = g_object_ref (cancellable);
+    self->cancellable = g_object_ref (cancellable);
 
-  str = g_strjoinv (" ", (gchar **) priv->terms);
+  str = g_strjoinv (" ", (gchar **) self->terms);
   photos_search_controller_set_string (state->srch_cntrlr, str);
   g_free (str);
 
   query = photos_query_builder_global_query (state, PHOTOS_QUERY_FLAGS_SEARCH, NULL);
-  photos_tracker_queue_select (priv->queue,
+  photos_tracker_queue_select (self->queue,
                                query->sparql,
-                               priv->cancellable,
+                               self->cancellable,
                                photos_fetch_ids_job_query_executed,
                                g_object_ref (self),
                                g_object_unref);
