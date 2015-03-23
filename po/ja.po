@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-06 18:18+0000\n"
-"PO-Revision-Date: 2015-03-07 21:52+0900\n"
+"POT-Creation-Date: 2015-03-22 08:20+0000\n"
+"PO-Revision-Date: 2015-03-22 22:10+0900\n"
 "Last-Translator: Jiro Matsuzawa <jmatsuzawa@gnome.org>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Photos"
 msgstr "写真"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "GNOME で写真の表示、整理、共有します"
 
@@ -195,12 +195,18 @@ msgstr "アルバム"
 msgid "Screenshots"
 msgstr "スクリーンショット"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "選択したアイテムを削除しました"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "“%s”を削除しました"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d 件を削除しました"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "元に戻す"
 
@@ -312,24 +318,24 @@ msgid "Select Items"
 msgstr "アイテムを選択します"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:423 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "%s で開く"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:469 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "お気に入りから削除"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "お気に入りに追加"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:644
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -340,7 +346,7 @@ msgstr ""
 "Copyright © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr ""
 "松澤 二郎 <jmatsuzawa@gnome.org>\n"
@@ -561,14 +567,17 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "作者"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "一致項目"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "種類"
