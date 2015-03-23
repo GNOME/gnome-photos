@@ -1,5 +1,41 @@
-Overview of changes in 3.15.92
-==============================
+Overview of changes in 3.16.0
+=============================
+
+* Bugs fixed:
+ 745756 delete-notification: Improve the message
+ 746104 Fix the lifetime of the signal handlers
+ 746152 Arrow keys doesn't work after nav buttons auto hide
+
+* Updated translations:
+ Basque
+ Bosnian
+ Catalan
+ Traditional Chinese (Taiwan)
+ Czech
+ Danish
+ Finnish
+ French
+ Galician
+ German
+ Greek
+ Hebrew
+ Hungarian
+ Indonesian
+ Japanese
+ Kazakh
+ Korean
+ Lithuanian
+ Norwegian bokmål
+ Polish
+ Portuguese (Brazilian)
+ Russian
+ Slovak
+ Slovenian
+ Spanish
+ Swedish
+ Tajik
+ Turkish
+ Ukrainian
 
 
 Overview of changes in 3.15.91
