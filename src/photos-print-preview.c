@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2006, 2007, 2008 The Free Software Foundation
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -621,11 +621,13 @@ press_inside_image_area (PhotosPrintPreview *preview, guint x, guint y)
   PhotosPrintPreviewPrivate *priv;
   gint x0;
   gint y0;
+  gint xs = (gint) x;
+  gint ys = (gint) y;
 
   priv = preview->priv;
   get_current_image_coordinates (preview, &x0, &y0);
 
-  if (x >= x0 &&  y >= y0 && x <= x0 + priv->r_width && y <= y0 + priv->r_height)
+  if (xs >= x0 &&  ys >= y0 && xs <= x0 + priv->r_width && ys <= y0 + priv->r_height)
     return TRUE;
 
   return FALSE;
@@ -849,6 +851,9 @@ button_press_event_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_d
     case 1:
       preview->priv->grabbed = press_inside_image_area (preview, event->x, event->y);
       break;
+
+    default:
+      break;
     }
 
   if (preview->priv->grabbed)
@@ -874,6 +879,10 @@ button_release_event_cb (GtkWidget *widget, GdkEventButton *event, gpointer user
       preview->priv->r_dx = 0;
       preview->priv->r_dy = 0;
       gtk_widget_queue_draw (GTK_WIDGET (preview));
+      break;
+
+    default:
+      break;
     }
 
   return FALSE;
@@ -910,6 +919,9 @@ key_press_event_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
     case GDK_KEY_Down:
       property = "pixbuf-y-align";
       delta = 0.01;
+      break;
+
+    default:
       break;
     }
 
