@@ -580,6 +580,7 @@ draw_cb (GtkDrawingArea *drawing_area,
 	return TRUE;
 }
 
+
 /**
  * get_current_image_coordinates:
  * @preview: an #PhotosPrintPreview
@@ -590,18 +591,18 @@ draw_cb (GtkDrawingArea *drawing_area,
  * with the properties of the given @preview widget.
  **/
 static void
-get_current_image_coordinates (PhotosPrintPreview *preview,
-			       gint *x0, gint *y0)
+get_current_image_coordinates (PhotosPrintPreview *preview, gint *x0, gint *y0)
 {
-	PhotosPrintPreviewPrivate *priv;
-	GtkAllocation allocation;
+  PhotosPrintPreviewPrivate *priv;
+  GtkAllocation allocation;
 
-	priv = preview->priv;
-	gtk_widget_get_allocation (GTK_WIDGET (priv->area), &allocation);
+  priv = preview->priv;
+  gtk_widget_get_allocation (GTK_WIDGET (priv->area), &allocation);
 
-	*x0 = (gint)((1 - priv->pixbuf_x_align)*priv->l_rmargin +  priv->pixbuf_x_align*(allocation.width - priv->r_rmargin - priv->r_width));
-	*y0 = (gint)((1 - priv->pixbuf_y_align)*priv->t_rmargin +  priv->pixbuf_y_align*(allocation.height - priv->b_rmargin - priv->r_height));
+  *x0 = (gint) ((1 - priv->pixbuf_x_align) * priv->l_rmargin +  priv->pixbuf_x_align * (allocation.width - priv->r_rmargin - priv->r_width));
+  *y0 = (gint) ((1 - priv->pixbuf_y_align) * priv->t_rmargin +  priv->pixbuf_y_align * (allocation.height - priv->b_rmargin - priv->r_height));
 }
+
 
 /**
  * press_inside_image_area:
@@ -615,60 +616,62 @@ get_current_image_coordinates (PhotosPrintPreview *preview,
  * %FALSE otherwise.
  **/
 static gboolean
-press_inside_image_area (PhotosPrintPreview *preview,
-			 guint x,
-			 guint y)
+press_inside_image_area (PhotosPrintPreview *preview, guint x, guint y)
 {
-	PhotosPrintPreviewPrivate *priv;
-	gint x0, y0;
+  PhotosPrintPreviewPrivate *priv;
+  gint x0;
+  gint y0;
 
-	priv = preview->priv;
-	get_current_image_coordinates (preview, &x0, &y0);
+  priv = preview->priv;
+  get_current_image_coordinates (preview, &x0, &y0);
 
-	if (x >= x0 &&  y >= y0 &&
-	    x <= x0 + priv->r_width && y <= y0 + priv->r_height)
-		return TRUE;
+  if (x >= x0 &&  y >= y0 && x <= x0 + priv->r_width && y <= y0 + priv->r_height)
+    return TRUE;
 
-	return FALSE;
+  return FALSE;
 }
+
 
 gboolean
-photos_print_preview_point_in_image_area (PhotosPrintPreview *preview,
-				       guint x,
-				       guint y)
+photos_print_preview_point_in_image_area (PhotosPrintPreview *preview, guint x, guint y)
 {
-	g_return_val_if_fail (PHOTOS_IS_PRINT_PREVIEW (preview), FALSE);
+  g_return_val_if_fail (PHOTOS_IS_PRINT_PREVIEW (preview), FALSE);
 
-	return press_inside_image_area (preview, x, y);
+  return press_inside_image_area (preview, x, y);
 }
+
 
 static void
 create_image_scaled (PhotosPrintPreview *preview)
 {
-	PhotosPrintPreviewPrivate *priv = preview->priv;
+  PhotosPrintPreviewPrivate *priv = preview->priv;
 
-	if (!priv->pixbuf_scaled) {
-		gint i_width, i_height;
-		GtkAllocation allocation;
+  if (priv->pixbuf_scaled == NULL)
+    {
+      gint i_height;
+      gint i_width;
+      GtkAllocation allocation;
 
-		gtk_widget_get_allocation (priv->area, &allocation);
-		i_width = gdk_pixbuf_get_width (priv->pixbuf);
-		i_height = gdk_pixbuf_get_height (priv->pixbuf);
+      gtk_widget_get_allocation (priv->area, &allocation);
+      i_width = gdk_pixbuf_get_width (priv->pixbuf);
+      i_height = gdk_pixbuf_get_height (priv->pixbuf);
 
-                if ((i_width > allocation.width) ||
-		    (i_height > allocation.height)) {
-			gdouble scale;
-			scale = MIN ((gdouble) allocation.width/i_width,
-				     (gdouble) allocation.height/i_height);
-			priv->pixbuf_scaled = gdk_pixbuf_scale_simple (priv->pixbuf,
-								      i_width*scale,
-								      i_height*scale,
-								      GDK_INTERP_TILES);
-		} else {
-			priv->pixbuf_scaled = priv->pixbuf;
-			g_object_ref (priv->pixbuf_scaled);
-		}
-	}
+      if ((i_width > allocation.width) || (i_height > allocation.height))
+        {
+          gdouble scale;
+
+          scale = MIN ((gdouble) allocation.width/i_width, (gdouble) allocation.height/i_height);
+          priv->pixbuf_scaled = gdk_pixbuf_scale_simple (priv->pixbuf,
+                                                         i_width * scale,
+                                                         i_height * scale,
+                                                         GDK_INTERP_TILES);
+        }
+      else
+        {
+          priv->pixbuf_scaled = priv->pixbuf;
+          g_object_ref (priv->pixbuf_scaled);
+        }
+    }
 }
 
 static GdkPixbuf *
@@ -800,205 +803,214 @@ create_surface_from_pixbuf (GdkPixbuf *pixbuf)
   return surface;
 }
 
+
 static void
 create_surface (PhotosPrintPreview *preview)
 {
-	PhotosPrintPreviewPrivate *priv = preview->priv;
-	GdkPixbuf *pixbuf;
+  PhotosPrintPreviewPrivate *priv = preview->priv;
+  GdkPixbuf *pixbuf;
 
-	if (priv->surface) {
-		cairo_surface_destroy (priv->surface);
-		priv->surface = NULL;
-	}
+  if (priv->surface != NULL)
+    {
+      cairo_surface_destroy (priv->surface);
+      priv->surface = NULL;
+    }
 
-	pixbuf = create_preview_buffer (preview);
-	if (pixbuf) {
-		priv->surface = create_surface_from_pixbuf (pixbuf);
-		g_object_unref (pixbuf);
-	}
-	priv->flag_create_surface = FALSE;
+  pixbuf = create_preview_buffer (preview);
+  if (pixbuf != NULL)
+    {
+      priv->surface = create_surface_from_pixbuf (pixbuf);
+      g_object_unref (pixbuf);
+    }
+
+  priv->flag_create_surface = FALSE;
 }
+
 
 static gboolean
 create_surface_when_idle (PhotosPrintPreview *preview)
 {
-	create_surface (preview);
+  create_surface (preview);
 
-	return FALSE;
+  return FALSE;
 }
+
 
 static gboolean
-button_press_event_cb (GtkWidget *widget,
-		       GdkEventButton *event,
-		       gpointer user_data)
+button_press_event_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
-	PhotosPrintPreview *preview = PHOTOS_PRINT_PREVIEW (user_data);
+  PhotosPrintPreview *preview = PHOTOS_PRINT_PREVIEW (user_data);
 
-	preview->priv->cursorx = event->x;
-	preview->priv->cursory = event->y;
+  preview->priv->cursorx = event->x;
+  preview->priv->cursory = event->y;
 
-	switch (event->button) {
-	case 1:
-		preview->priv->grabbed = press_inside_image_area (preview, event->x, event->y);
-		break;
-	}
+  switch (event->button)
+    {
+    case 1:
+      preview->priv->grabbed = press_inside_image_area (preview, event->x, event->y);
+      break;
+    }
 
-	if (preview->priv->grabbed) {
-		gtk_widget_queue_draw (GTK_WIDGET (preview));
-	}
+  if (preview->priv->grabbed)
+    {
+      gtk_widget_queue_draw (GTK_WIDGET (preview));
+    }
 
-	gtk_widget_grab_focus (preview->priv->area);
+  gtk_widget_grab_focus (preview->priv->area);
 
-	return FALSE;
+  return FALSE;
 }
+
 
 static gboolean
-button_release_event_cb (GtkWidget *widget,
-			 GdkEventButton *event,
-			 gpointer user_data)
+button_release_event_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
-	PhotosPrintPreview *preview = PHOTOS_PRINT_PREVIEW (user_data);
+  PhotosPrintPreview *preview = PHOTOS_PRINT_PREVIEW (user_data);
 
-	switch (event->button) {
-	case 1:
-		preview->priv->grabbed = FALSE;
-		preview->priv->r_dx = 0;
-		preview->priv->r_dy = 0;
-		gtk_widget_queue_draw (GTK_WIDGET (preview));
+  switch (event->button)
+    {
+    case 1:
+      preview->priv->grabbed = FALSE;
+      preview->priv->r_dx = 0;
+      preview->priv->r_dy = 0;
+      gtk_widget_queue_draw (GTK_WIDGET (preview));
+    }
 
-	}
-	return FALSE;
+  return FALSE;
 }
+
 
 static gboolean
-key_press_event_cb (GtkWidget   *widget,
-		    GdkEventKey *event,
-		    gpointer     user_data)
+key_press_event_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
-	gfloat delta, align;
-	gboolean stop_emission = FALSE;
-	const gchar *property;
+  gboolean stop_emission = FALSE;
+  const gchar *property;
+  gfloat align;
+  gfloat delta;
 
-	delta = 0;
+  delta = 0;
 
-	switch (event->keyval) {
-	case GDK_KEY_Left:
-		property = "pixbuf-x-align";
-		delta = -0.01;
-		break;
-	case GDK_KEY_Right:
-		property = "pixbuf-x-align";
-		delta = 0.01;
-		break;
-	case GDK_KEY_Up:
-		property = "pixbuf-y-align";
-		delta = -0.01;
-		break;
-	case GDK_KEY_Down:
-		property = "pixbuf-y-align";
-		delta = 0.01;
-		break;
-	}
+  switch (event->keyval)
+    {
+    case GDK_KEY_Left:
+      property = "pixbuf-x-align";
+      delta = -0.01;
+      break;
 
-	if (delta != 0) {
-		g_object_get (G_OBJECT (user_data),
-			      property, &align,
-			      NULL);
+    case GDK_KEY_Right:
+      property = "pixbuf-x-align";
+      delta = 0.01;
+      break;
 
-		align += delta;
-		align = CLAMP (align, 0, 1);
-		g_object_set (G_OBJECT (user_data),
-			      property, align,
-			      NULL);
+    case GDK_KEY_Up:
+      property = "pixbuf-y-align";
+      delta = -0.01;
+      break;
 
-		stop_emission = TRUE;
-		g_signal_emit (G_OBJECT (user_data),
-			       preview_signals
-			       [SIGNAL_PIXBUF_MOVED], 0);
-	}
+    case GDK_KEY_Down:
+      property = "pixbuf-y-align";
+      delta = 0.01;
+      break;
+    }
 
-	return stop_emission;
+  if (delta != 0)
+    {
+      g_object_get (G_OBJECT (user_data), property, &align, NULL);
+      align += delta;
+      align = CLAMP (align, 0, 1);
+      g_object_set (G_OBJECT (user_data), property, align, NULL);
+
+      stop_emission = TRUE;
+      g_signal_emit (G_OBJECT (user_data), preview_signals[SIGNAL_PIXBUF_MOVED], 0);
+    }
+
+  return stop_emission;
 }
+
 
 static gboolean
-motion_notify_event_cb (GtkWidget      *widget,
-			GdkEventMotion *event,
-			gpointer        user_data)
+motion_notify_event_cb (GtkWidget *widget, GdkEventMotion *event, gpointer user_data)
 {
-	PhotosPrintPreviewPrivate *priv = PHOTOS_PRINT_PREVIEW (user_data)->priv;
-	gdouble dx, dy;
-	GtkAllocation allocation;
+  PhotosPrintPreviewPrivate *priv = PHOTOS_PRINT_PREVIEW (user_data)->priv;
+  GtkAllocation allocation;
+  gdouble dx, dy;
 
-	if (priv->grabbed) {
-		dx = event->x - priv->cursorx;
-		dy = event->y - priv->cursory;
+  if (priv->grabbed)
+    {
+      dx = event->x - priv->cursorx;
+      dy = event->y - priv->cursory;
 
-		gtk_widget_get_allocation (widget, &allocation);
+      gtk_widget_get_allocation (widget, &allocation);
 
-		/* Make sure the image stays inside the margins */
+      /* Make sure the image stays inside the margins */
 
-		priv->pixbuf_x_align += (dx + priv->r_dx)/(allocation.width  - priv->r_width - priv->l_rmargin - priv->r_rmargin);
-		if (priv->pixbuf_x_align < 0. || priv->pixbuf_x_align > 1.) {
-			priv->pixbuf_x_align = CLAMP (priv->pixbuf_x_align, 0., 1.);
-			priv->r_dx += dx;
-		}
-		else
-			priv->r_dx = 0;
+      priv->pixbuf_x_align += (dx + priv->r_dx) / (allocation.width  - priv->r_width - priv->l_rmargin - priv->r_rmargin);
+      if (priv->pixbuf_x_align < 0. || priv->pixbuf_x_align > 1.)
+        {
+          priv->pixbuf_x_align = CLAMP (priv->pixbuf_x_align, 0., 1.);
+          priv->r_dx += dx;
+        }
+      else
+        priv->r_dx = 0;
 
-		priv->pixbuf_y_align += (dy + priv->r_dy)/(allocation.height - priv->r_height - priv->t_rmargin - priv->b_rmargin);
-		if (priv->pixbuf_y_align < 0. || priv->pixbuf_y_align > 1.) {
-			priv->pixbuf_y_align = CLAMP (priv->pixbuf_y_align, 0., 1.);
-			priv->r_dy += dy;
-		} else
-			priv->r_dy = 0;
+      priv->pixbuf_y_align += (dy + priv->r_dy) / (allocation.height - priv->r_height - priv->t_rmargin - priv->b_rmargin);
+      if (priv->pixbuf_y_align < 0. || priv->pixbuf_y_align > 1.)
+        {
+          priv->pixbuf_y_align = CLAMP (priv->pixbuf_y_align, 0., 1.);
+          priv->r_dy += dy;
+        }
+      else
+        priv->r_dy = 0;
 
-		/* we do this to correctly change the property values */
-		g_object_set (PHOTOS_PRINT_PREVIEW (user_data),
-			      "pixbuf-x-align", priv->pixbuf_x_align,
-			      "pixbuf-y-align", priv->pixbuf_y_align,
-			      NULL);
+      /* we do this to correctly change the property values */
+      g_object_set (PHOTOS_PRINT_PREVIEW (user_data),
+                    "pixbuf-x-align", priv->pixbuf_x_align,
+                    "pixbuf-y-align", priv->pixbuf_y_align,
+                    NULL);
 
-		priv->cursorx = event->x;
-		priv->cursory = event->y;
+      priv->cursorx = event->x;
+      priv->cursory = event->y;
 
-		g_signal_emit (G_OBJECT (user_data),
-			       preview_signals
-			       [SIGNAL_PIXBUF_MOVED], 0);
-	} else {
-		if (press_inside_image_area (PHOTOS_PRINT_PREVIEW (user_data), event->x, event->y)) {
-		  	GdkCursor *cursor;
-			cursor = gdk_cursor_new_for_display (gtk_widget_get_display (widget),
-							     GDK_FLEUR);
-			gdk_window_set_cursor (gtk_widget_get_window (widget),
-					       cursor);
-			g_object_unref (cursor);
-		} else {
-			gdk_window_set_cursor (gtk_widget_get_window (widget),
-					       NULL);
-		}
-	}
-	return FALSE;
+      g_signal_emit (G_OBJECT (user_data), preview_signals[SIGNAL_PIXBUF_MOVED], 0);
+    }
+  else
+    {
+      if (press_inside_image_area (PHOTOS_PRINT_PREVIEW (user_data), event->x, event->y))
+        {
+          GdkCursor *cursor;
+          cursor = gdk_cursor_new_for_display (gtk_widget_get_display (widget), GDK_FLEUR);
+          gdk_window_set_cursor (gtk_widget_get_window (widget), cursor);
+          g_object_unref (cursor);
+        }
+      else
+        {
+          gdk_window_set_cursor (gtk_widget_get_window (widget), NULL);
+        }
+    }
+
+  return FALSE;
 }
+
 
 static void
-size_allocate_cb (GtkWidget *widget,
-		  GtkAllocation *allocation,
-		  gpointer user_data)
+size_allocate_cb (GtkWidget *widget, GtkAllocation *allocation, gpointer user_data)
 {
-	PhotosPrintPreview *preview;
+  PhotosPrintPreview *preview;
 
-	preview = PHOTOS_PRINT_PREVIEW (user_data);
-	update_relative_sizes (preview);
+  preview = PHOTOS_PRINT_PREVIEW (user_data);
+  update_relative_sizes (preview);
 
-	preview->priv->flag_create_surface = TRUE;
+  preview->priv->flag_create_surface = TRUE;
 
-	if (preview->priv->pixbuf_scaled) {
-		g_object_unref (preview->priv->pixbuf_scaled);
-		preview->priv->pixbuf_scaled = NULL;
-	}
+  if (preview->priv->pixbuf_scaled != NULL)
+    {
+      g_object_unref (preview->priv->pixbuf_scaled);
+      preview->priv->pixbuf_scaled = NULL;
+    }
 
-	g_idle_add ((GSourceFunc) create_surface_when_idle, preview);
+  g_idle_add ((GSourceFunc) create_surface_when_idle, preview);
 }
+
 
 static void
 photos_print_preview_draw (PhotosPrintPreview *preview, cairo_t *cr)
