@@ -271,7 +271,7 @@ photos_dlna_renderers_dialog_class_init (PhotosDlnaRenderersDialogClass *class)
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/photos/dlna-renderers-dialog.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/dlna-renderers-dialog.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhotosDlnaRenderersDialog, listbox);
   gtk_widget_class_bind_template_callback (widget_class, photos_dlna_renderers_dialog_row_activated_cb);

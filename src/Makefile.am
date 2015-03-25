@@ -249,9 +249,9 @@ EXTRA_DIST = \
 	photos-enums.h.template \
 	photos-generate-about \
 	photos.gresource.xml \
-	photos-app-menu.ui \
 	photos-dlna-renderers-dialog.ui \
 	photos-marshalers.list \
+	photos-menus.ui \
 	photos-preview-menu.ui \
 	photos-selection-menu.ui \
 	photos-gom-miner.xml \

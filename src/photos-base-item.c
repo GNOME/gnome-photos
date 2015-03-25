@@ -283,7 +283,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
       slice = photos_utils_get_thumbnail_frame_border ();
       thumbnailed_pixbuf = gd_embed_image_in_frame (emblemed_pixbuf,
-                                                    "resource:///org/gnome/photos/thumbnail-frame.png",
+                                                    "resource:///org/gnome/Photos/thumbnail-frame.png",
                                                     slice,
                                                     slice);
       gtk_border_free (slice);

@@ -305,21 +305,6 @@ photos_application_get_state (PhotosSearchContext *context)
 
 
 static void
-photos_application_init_app_menu (PhotosApplication *self)
-{
-  GMenu *menu;
-  GtkBuilder *builder;
-
-  builder = gtk_builder_new ();
-  gtk_builder_add_from_resource (builder, "/org/gnome/photos/app-menu.ui", NULL);
-
-  menu = G_MENU (gtk_builder_get_object (builder, "app-menu"));
-  gtk_application_set_app_menu (GTK_APPLICATION (self), G_MENU_MODEL (menu));
-  g_object_unref (builder);
-}
-
-
-static void
 photos_application_launch_search (PhotosApplication *self, const gchar* const *terms, guint timestamp)
 {
   PhotosApplicationPrivate *priv = self->priv;
@@ -601,7 +586,7 @@ photos_application_theme_changed (GtkSettings *settings)
           GFile *file;
 
           provider = gtk_css_provider_new ();
-          file = g_file_new_for_uri ("resource:///org/gnome/photos/Adwaita.css");
+          file = g_file_new_for_uri ("resource:///org/gnome/Photos/Adwaita.css");
           gtk_css_provider_load_from_file (provider, file, NULL);
           g_object_unref (file);
         }
@@ -983,8 +968,6 @@ photos_application_startup (GApplication *application)
                             "window-mode-changed",
                             G_CALLBACK (photos_application_window_mode_changed),
                             self);
-
-  photos_application_init_app_menu (self);
 
   action = g_simple_action_new ("help", NULL);
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_help), self);

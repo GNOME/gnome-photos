@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  * Copyright © 2014 Saurav Agarwalla
  *
  * This program is free software; you can redistribute it and/or
@@ -403,7 +403,7 @@ photos_main_toolbar_create_preview_menu (PhotosMainToolbar *self)
   PhotosBaseItem *item;
 
   builder = gtk_builder_new ();
-  gtk_builder_add_from_resource (builder, "/org/gnome/photos/preview-menu.ui", NULL);
+  gtk_builder_add_from_resource (builder, "/org/gnome/Photos/preview-menu.ui", NULL);
 
   menu = G_MENU (g_object_ref (gtk_builder_get_object (builder, "preview-menu")));
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
@@ -762,7 +762,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   priv->search = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
 
   builder = gtk_builder_new ();
-  gtk_builder_add_from_resource (builder, "/org/gnome/photos/selection-menu.ui", NULL);
+  gtk_builder_add_from_resource (builder, "/org/gnome/Photos/selection-menu.ui", NULL);
 
   selection_menu = G_MENU (gtk_builder_get_object (builder, "selection-menu"));
   priv->selection_menu = gtk_menu_button_new ();
