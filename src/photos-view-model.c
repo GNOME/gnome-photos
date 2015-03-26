@@ -364,6 +364,8 @@ photos_view_model_constructed (GObject *object)
       priv->trk_cntrlr = photos_tracker_search_controller_dup_singleton ();
       break;
 
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
     default:
       g_assert_not_reached ();
       break;
