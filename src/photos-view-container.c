@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -323,6 +323,8 @@ photos_view_container_constructed (GObject *object)
       priv->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
       break;
 
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
     default:
       g_assert_not_reached ();
       break;
