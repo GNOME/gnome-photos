@@ -125,7 +125,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
           g_free (label);
         }
     }
-  else if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
+  else if (window_mode == PHOTOS_WINDOW_MODE_EDIT || window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     {
       GObject *item;
 
@@ -494,6 +494,28 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
 
 
 static void
+photos_main_toolbar_populate_for_edit (PhotosMainToolbar *self)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  GtkStyleContext *context;
+  GtkWidget *cancel_button;
+  GtkWidget *done_button;
+
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), PHOTOS_HEADER_BAR_MODE_STANDALONE);
+
+  cancel_button = gtk_button_new_with_label (_("Cancel"));
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (cancel_button), "app.edit-cancel");
+  gtk_header_bar_pack_start (GTK_HEADER_BAR (priv->toolbar), cancel_button);
+
+  done_button = gtk_button_new_with_label (_("Done"));
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (done_button), "app.save-current");
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), done_button);
+  context = gtk_widget_get_style_context (done_button);
+  gtk_style_context_add_class (context, "suggested-action");
+}
+
+
+static void
 photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
@@ -838,6 +860,8 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
     photos_main_toolbar_populate_for_selection_mode (self);
   else if (window_mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
     photos_main_toolbar_populate_for_collections (self);
+  else if (window_mode == PHOTOS_WINDOW_MODE_EDIT)
+    photos_main_toolbar_populate_for_edit (self);
   else if (window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
     photos_main_toolbar_populate_for_favorites (self);
   else if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
