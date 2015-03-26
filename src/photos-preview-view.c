@@ -165,6 +165,7 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:

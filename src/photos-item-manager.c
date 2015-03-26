@@ -693,7 +693,8 @@ photos_mode_controller_go_back (PhotosModeController *self)
     old_mode = PHOTOS_WINDOW_MODE_OVERVIEW;
 
   g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_NONE);
-  g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
+  g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW
+                    || (self->mode == PHOTOS_WINDOW_MODE_EDIT && old_mode == PHOTOS_WINDOW_MODE_PREVIEW));
 
   g_queue_pop_head (self->history);
 
@@ -710,7 +711,7 @@ photos_mode_controller_go_back (PhotosModeController *self)
       PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
         ->set_active_object (PHOTOS_BASE_MANAGER (self), (GObject *) self->active_collection);
     }
-  else
+  else if (old_mode != PHOTOS_WINDOW_MODE_EDIT)
     {
       photos_item_manager_collection_path_free (self);
       self->collection_path = g_queue_new ();
@@ -753,7 +754,8 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
 
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
-  g_return_if_fail (self->mode != PHOTOS_WINDOW_MODE_PREVIEW);
+  g_return_if_fail (self->mode != PHOTOS_WINDOW_MODE_PREVIEW
+                    || (self->mode == PHOTOS_WINDOW_MODE_PREVIEW && mode == PHOTOS_WINDOW_MODE_EDIT));
 
   if (!photos_item_manager_set_window_mode_internal (self, mode, &old_mode))
     return;
@@ -761,20 +763,23 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
   photos_item_manager_update_fullscreen (self);
   photos_item_manager_clear_active_item_load (self);
 
-  photos_item_manager_collection_path_free (self);
-  self->collection_path = g_queue_new ();
-
-  if (self->active_collection != NULL)
+  if (mode != PHOTOS_WINDOW_MODE_EDIT)
     {
-      g_clear_object (&self->active_collection);
-      active_collection_changed = TRUE;
+      photos_item_manager_collection_path_free (self);
+      self->collection_path = g_queue_new ();
+
+      if (self->active_collection != NULL)
+        {
+          g_clear_object (&self->active_collection);
+          active_collection_changed = TRUE;
+        }
+
+      PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
+        ->set_active_object (PHOTOS_BASE_MANAGER (self), NULL);
+
+      if (active_collection_changed)
+        g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
     }
-
-  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
-    ->set_active_object (PHOTOS_BASE_MANAGER (self), NULL);
-
-  if (active_collection_changed)
-    g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
 
   g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, mode, old_mode);
 }

@@ -334,6 +334,7 @@ photos_view_container_constructed (GObject *object)
       break;
 
     case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_PREVIEW:
     default:
       g_assert_not_reached ();

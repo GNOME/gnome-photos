@@ -166,6 +166,7 @@ photos_embed_get_view_container_from_mode (PhotosEmbed *self, PhotosWindowMode m
       break;
 
     case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_PREVIEW:
     default:
       g_assert_not_reached ();
@@ -592,6 +593,9 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
 
   switch (mode)
     {
+    case PHOTOS_WINDOW_MODE_EDIT:
+      break;
+
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
       photos_embed_prepare_for_collections (self, old_mode);
       goto set_toolbar_model;

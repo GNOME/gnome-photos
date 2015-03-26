@@ -175,6 +175,7 @@ photos_main_window_go_back (PhotosMainWindow *self)
       break;
 
     case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     default:
       handled = FALSE;
@@ -284,6 +285,7 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
       handled = GDK_EVENT_PROPAGATE;
       break;
 
