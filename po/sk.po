@@ -5,18 +5,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-13 09:53+0000\n"
-"PO-Revision-Date: 2015-03-13 17:49+0100\n"
+"POT-Creation-Date: 2015-03-27 08:38+0000\n"
+"PO-Revision-Date: 2015-03-27 17:17+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Vé 0.1.4\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
+"X-Generator: Poedit 1.7.4\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1
@@ -247,6 +247,7 @@ msgstr "Pomenujte svoj prvý album"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
+#.
 #: ../src/photos-empty-results-box.c:133
 msgid "Settings"
 msgstr "Nastaveniach"
@@ -254,6 +255,7 @@ msgstr "Nastaveniach"
 #. Translators: %s here is "Settings", which is in a separate string
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
+#.
 #: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
@@ -273,6 +275,7 @@ msgstr "Nenašli sa žiadne fotografie"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
+#.
 #: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
 #: ../src/photos-google-item.c:77
 #, c-format
@@ -285,6 +288,7 @@ msgstr "Fotografia bez názvu"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
+#.
 #: ../src/photos-indexing-notification.c:173
 #, c-format
 msgid "Fetching photos from %s"
@@ -502,6 +506,7 @@ msgstr "Náhľad"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
+#.
 #: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
@@ -509,6 +514,7 @@ msgstr "Názov"
 
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
+#.
 #: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
@@ -528,6 +534,7 @@ msgstr "Dátum vytvorenia"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
+#.
 #: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
@@ -600,6 +607,7 @@ msgstr "Porovnávať"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
+#.
 #: ../src/photos-search-type-manager.c:154
 msgctxt "Search Filter"
 msgid "Type"
