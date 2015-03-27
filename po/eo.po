@@ -1,15 +1,15 @@
 # Esperanto translation for gnome-photos.
 # Copyright (C) 2013 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnome-photos package.
-# Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>, 2013.
-#
+# Daniel PUENTES <blatberk@openmailbox.org>, 2015.
+# Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>, 2013, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-11-29 16:53+0000\n"
-"PO-Revision-Date: 2013-11-28 20:40+0100\n"
+"POT-Creation-Date: 2015-03-27 19:42+0000\n"
+"PO-Revision-Date: 2015-03-28 00:38+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <gnome-l10n-eo@lists.launchpad.net>\n"
 "Language: eo\n"
@@ -20,7 +20,17 @@ msgstr ""
 "X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
+msgid "Photos"
+msgstr "Fotaĵoj"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Aliru, administri kaj kunhavigi viajn fotaĵojn sur GNOMO"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -32,28 +42,43 @@ msgstr ""
 "trakti fotaĵojn. Rekta nuba integrigo estas oferata per Retaj kontoj de "
 "GNOMO."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
 msgstr "Ĝi permesas al vi:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
-msgid ""
-"<li>View recent local and online photos</li> <li>Access your Flickr content</"
-"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
-"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
-"featured editor for more advanced changes</li>"
-msgstr ""
+#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+msgid "View recent local and online photos"
+msgstr "Vidigi lastatempajn fotaĵojn, lokajn kaj retajn"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:89
-msgid "Photos"
-msgstr "Fotaĵoj"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+msgid "Access your Facebook or Flickr content"
+msgstr "Atingi vian Facebook- aŭ Flickr-enhavon"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+msgid "Send photos to remote DLNA renderers"
+msgstr "Sendi fotaĵojn al foraj DLNA-bildigiloj"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+msgid "Set as background"
+msgstr "Agordi kiel fono"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+msgid "Print photos"
+msgstr "Presi fotaĵojn"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+msgid "Select favorites"
+msgstr "Elekti ŝatatajn"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+msgid "Allow opening full featured editor for more advanced changes"
+msgstr "Permesi malfermon de funkciriĉa redaktilo, por altnivelaj ŝanĝojn"
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Aliri, administri kaj kunhavigi dokumentojn"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "Fotaĵoj;Bildoj;"
 
@@ -84,12 +109,12 @@ msgstr "Maksimumigita stato de fenestro"
 #. A strftime-formatted string, to display the date the image was taken.
 #: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
 msgid "%a, %d %B %Y  %X"
-msgstr ""
+msgstr "%a, %d %B %Y  %X"
 
 #. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
 #: ../src/eog-exif-util.c:154
 msgid "%a, %d %B %Y"
-msgstr ""
+msgstr "%a, %d %B %Y"
 
 #. TRANSLATORS: This is the actual focal length used when
 #. the image was taken.
@@ -154,111 +179,186 @@ msgstr "Ne eblis montri helpon por Bildomontrilo"
 msgid " (invalid Unicode)"
 msgstr " (nevalida unikodo)"
 
-#: ../src/photos-app-menu.ui.h:1
+#: ../src/photos-app-menu.ui.h:1 ../src/photos-menus.ui.h:1
 msgid "Fullscreen"
 msgstr "Tutekrane"
 
-#: ../src/photos-app-menu.ui.h:2
+#: ../src/photos-app-menu.ui.h:2 ../src/photos-menus.ui.h:2
 msgid "_Help"
 msgstr "_Helpo"
 
-#: ../src/photos-app-menu.ui.h:3
-msgid "About Photos"
-msgstr "Pri Fotaĵoj"
+#: ../src/photos-app-menu.ui.h:3 ../src/photos-menus.ui.h:3
+msgid "About"
+msgstr "Pri"
 
-#: ../src/photos-app-menu.ui.h:4
+#: ../src/photos-app-menu.ui.h:4 ../src/photos-menus.ui.h:4
 msgid "Quit"
 msgstr "Ĉesi"
 
-#: ../src/photos-base-item.c:303
+#: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Albumo"
 
-#: ../src/photos-base-item.c:727
+#: ../src/photos-base-item.c:886
 msgid "Screenshots"
 msgstr "Ekrankopioj"
 
+#: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "“%s” forigita"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d ero forigita"
+msgstr[1] "%d eroj forigitaj"
+
+#: ../src/photos-delete-notification.c:151
+msgid "Undo"
+msgstr "Malfari"
+
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
-msgstr ""
+msgstr "DLNA-bildigaj aparatoj"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
+#: ../src/photos-embed.c:621
+msgid "Recent"
+msgstr "Lastatempa"
+
+#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumoj"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
+#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Preferaĵoj"
 
-#: ../src/photos-empty-results-box.c:66
+#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:289
+msgid "Search"
+msgstr "Serĉi"
+
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "Nomi vian unuan albumon"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+msgid "Settings"
+msgstr "Agordoj"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Vi povas aldoni viajn retajn kontojn en %s"
+
+#: ../src/photos-empty-results-box.c:181
+msgid "No Albums Found"
+msgstr "Ne trovis albumon"
+
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "Ŝatataj fotaĵoj aperos ĉi tie"
+
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Ne trovis fotaĵon"
 
-#: ../src/photos-facebook-item.c:188 ../src/photos-facebook-item.c:218
-msgid "Facebook"
-msgstr ""
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-google-item.c:77
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
-msgid "Flickr"
-msgstr "Flickr"
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Sentitola fotaĵo"
 
-#: ../src/photos-indexing-notification.c:168
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
+#: ../src/photos-indexing-notification.c:173
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Venigante fotaĵojn el %s"
+
+#: ../src/photos-indexing-notification.c:176
+msgid "Fetching photos from online accounts"
+msgstr "Venigante fotaĵojn de retaj kontoj"
+
+#: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
 msgstr "Viaj fotoaĵj estas indeksataj"
 
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
 msgstr "Kelkaj fotaĵoj ne povus esti haveblaj dum ĉi tiu procezo"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
-msgid "Load More"
-msgstr "Ŝarĝi pli"
-
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
-msgid "Loading…"
-msgstr "Ŝargante…"
-
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Loke"
 
-#: ../src/photos-main-toolbar.c:99
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "Klaku sur eroj por elekti ilin"
 
-#: ../src/photos-main-toolbar.c:101
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d elektita"
 msgstr[1] "%d elektitaj"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Reen"
 
-#: ../src/photos-main-toolbar.c:271
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Elekti erojn"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:360 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Malfermi per %s"
 
-#: ../src/photos-main-toolbar.c:488
+#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:292
+msgid "Remove from favorites"
+msgstr "Forigi de la preferaĵoj"
+
+#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:298
+msgid "Add to favorites"
+msgstr "Aldoni al la preferaĵoj"
+
+#: ../src/photos-main-toolbar.c:645
 msgid "Cancel"
 msgstr "Nuligi"
 
-#: ../src/photos-main-window.c:329
-msgid "Access, organize and share your photos on GNOME"
-msgstr "Aliru, administri kaj kunhavigi viajn fotaĵojn sur GNOMO"
+#: ../src/photos-main-window.c:473
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Kopirajto © 2013 Intel Corporation. Ĉiuj rajtoj rezervitaj.\n"
+"Kopirajto © 2014, 2015 Pranav Kant\n"
+"Kopirajto © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
-msgstr "Kristjan SCHMIDT, 2013."
+msgstr "Kristjan SCHMIDT, Daniel PUENTES"
 
 #: ../src/photos-organize-collection-dialog.c:76
 msgid "_Add"
@@ -275,8 +375,8 @@ msgid "Organize"
 msgstr "Administri"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
-#: ../src/photos-selection-toolbar.c:437
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Malfermi"
 
@@ -292,101 +392,100 @@ msgstr "Montri sur…"
 msgid "Set as Background"
 msgstr "Agordi kiel fono"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-preview-menu.ui.h:5
+msgid "Set as Lock Screen"
+msgstr "Agordi kiel fono de ŝlosa ekrano"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
+#: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Atributoj"
 
-#: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
-msgid "Remove from favorites"
-msgstr "Forigi de la preferaĵoj"
+#: ../src/photos-print-notification.c:76
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Presante “%s”: %s"
 
-#: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
-msgid "Add to favorites"
-msgstr "Aldoni al la preferaĵoj"
-
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Bildagordaro"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:906
 msgid "Position"
 msgstr "Pozicio"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:909
 msgid "_Left:"
 msgstr "Ma_ldekstre:"
 
-#: ../src/photos-print-setup.c:899
+#: ../src/photos-print-setup.c:910
 msgid "_Right:"
 msgstr "Dekst_re:"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:911
 msgid "_Top:"
 msgstr "Su_pre:"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:912
 msgid "_Bottom:"
 msgstr "Su_be:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:914
 msgid "C_enter:"
 msgstr "C_entre:"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:918
 msgid "None"
 msgstr "Neniu"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:919
 msgid "Horizontal"
 msgstr "Horizontale"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:920
 msgid "Vertical"
 msgstr "Vertikale"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:921
 msgid "Both"
 msgstr "Ambaŭ"
 
-#: ../src/photos-print-setup.c:923
+#: ../src/photos-print-setup.c:934
 msgid "Size"
 msgstr "Grando"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:937
 msgid "_Width:"
 msgstr "_Larĝo:"
 
-#: ../src/photos-print-setup.c:927
+#: ../src/photos-print-setup.c:938
 msgid "_Height:"
 msgstr "Al_to:"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:940
 msgid "_Scaling:"
 msgstr "_Skalado:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:949
 msgid "_Unit:"
 msgstr "_Unuo:"
 
-#: ../src/photos-print-setup.c:942
+#: ../src/photos-print-setup.c:953
 msgid "Millimeters"
 msgstr "Milimetroj"
 
-#: ../src/photos-print-setup.c:943
+#: ../src/photos-print-setup.c:954
 msgid "Inches"
 msgstr "Coloj"
 
-#: ../src/photos-print-setup.c:971
+#: ../src/photos-print-setup.c:982
 msgid "Preview"
 msgstr "Antaŭrigardo"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:218
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Titolo"
@@ -394,74 +493,102 @@ msgstr "Titolo"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:230
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Aŭtoro"
 
-#: ../src/photos-properties-dialog.c:237
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Fonto"
 
-#: ../src/photos-properties-dialog.c:243
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Dato de modifado"
 
-#: ../src/photos-properties-dialog.c:251
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Dato de kreado"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:261
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/photos-properties-dialog.c:270
+#: ../src/photos-properties-dialog.c:269
 msgid "Width"
 msgstr "Larĝo"
 
-#: ../src/photos-properties-dialog.c:280
+#: ../src/photos-properties-dialog.c:279
 msgid "Height"
 msgstr "Alto"
 
-#: ../src/photos-properties-dialog.c:295
+#: ../src/photos-properties-dialog.c:294
 msgid "Camera"
 msgstr "Kamerao"
 
-#: ../src/photos-properties-dialog.c:305
+#: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
 msgstr "Impreso"
 
-#: ../src/photos-properties-dialog.c:315
+#: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
 msgstr "Aperturo"
 
-#: ../src/photos-properties-dialog.c:325
+#: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
 msgstr "Longo de la fokuso"
 
-#: ../src/photos-properties-dialog.c:335
+#: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
 msgstr "ISO-rapido"
 
-#: ../src/photos-properties-dialog.c:345
+#: ../src/photos-properties-dialog.c:344
 msgid "Flash"
 msgstr "Fulmo"
 
-#: ../src/photos-properties-dialog.c:536
+#: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
-msgstr ""
+msgstr "Elŝaltita, ĝi ne pafis"
 
-#: ../src/photos-properties-dialog.c:538
+#: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
-msgstr ""
+msgstr "Enŝaltita, ĝi pafis"
 
-#: ../src/photos-properties-dialog.c:617
-msgid "Done"
-msgstr "Farite"
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+msgid "All"
+msgstr "Ĉiuj"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Titolo"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Aŭtoro"
+
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:206
+msgid "Match"
+msgstr "Kongrui"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:156
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Tipo"
 
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
@@ -471,22 +598,37 @@ msgstr "Elekti ĉiujn"
 msgid "Select None"
 msgstr "Elekti neniun"
 
-#: ../src/photos-selection-toolbar.c:445
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "Presi"
 
-#: ../src/photos-selection-toolbar.c:453
+#: ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "Forigi"
 
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.c:485
 msgid "Add to Album"
 msgstr "Aldoni al albumo"
 
-#: ../src/photos-source-manager.c:151
-msgid "All"
-msgstr "Ĉiuj"
+#: ../src/photos-source-manager.c:174
+msgid "Sources"
+msgstr "Fontoj"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
 msgstr "Ne eblis venigi la liston de fotaĵoj"
+
+#~ msgid "About Photos"
+#~ msgstr "Pri Fotaĵoj"
+
+#~ msgid "Flickr"
+#~ msgstr "Flickr"
+
+#~ msgid "Load More"
+#~ msgstr "Ŝarĝi pli"
+
+#~ msgid "Loading…"
+#~ msgstr "Ŝargante…"
+
+#~ msgid "Done"
+#~ msgstr "Farite"
