@@ -515,29 +515,45 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
+  GtkListStore *model;
+  GtkWidget *view_container;
 
   photos_main_toolbar_reset_toolbar_mode (PHOTOS_MAIN_TOOLBAR (priv->toolbar));
 
-  if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    photos_embed_prepare_for_preview (self);
-  else
+  switch (mode)
     {
-      GtkListStore *model;
-      GtkWidget *view_container;
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      photos_embed_prepare_for_collections (self);
+      goto set_toolbar_model;
 
-      if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
-        photos_embed_prepare_for_collections (self);
-      else if (mode == PHOTOS_WINDOW_MODE_FAVORITES)
-        photos_embed_prepare_for_favorites (self);
-      else if (mode == PHOTOS_WINDOW_MODE_OVERVIEW)
-        photos_embed_prepare_for_overview (self);
-      else if (mode == PHOTOS_WINDOW_MODE_SEARCH)
-        photos_embed_prepare_for_search (self);
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      photos_embed_prepare_for_favorites (self);
+      goto set_toolbar_model;
 
-      view_container = photos_embed_get_view_container_from_mode (self, mode);
-      model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
-      photos_main_toolbar_set_view_model (PHOTOS_MAIN_TOOLBAR (priv->toolbar), PHOTOS_VIEW_MODEL (model));
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      photos_embed_prepare_for_overview (self);
+      goto set_toolbar_model;
+
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      photos_embed_prepare_for_preview (self);
+      break;
+
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      photos_embed_prepare_for_search (self);
+      goto set_toolbar_model;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    default:
+      g_assert_not_reached ();
+      break;
     }
+
+  return;
+
+ set_toolbar_model:
+  view_container = photos_embed_get_view_container_from_mode (self, mode);
+  model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
+  photos_main_toolbar_set_view_model (PHOTOS_MAIN_TOOLBAR (priv->toolbar), PHOTOS_VIEW_MODEL (model));
 }
 
 
