@@ -678,9 +678,9 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
   gboolean enable;
 
   enable = (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-            || PHOTOS_WINDOW_MODE_FAVORITES
-            || PHOTOS_WINDOW_MODE_OVERVIEW
-            || PHOTOS_WINDOW_MODE_SEARCH);
+            || mode == PHOTOS_WINDOW_MODE_FAVORITES
+            || mode == PHOTOS_WINDOW_MODE_OVERVIEW
+            || mode == PHOTOS_WINDOW_MODE_SEARCH);
   g_simple_action_set_enabled (priv->search_match_action, enable);
   g_simple_action_set_enabled (priv->search_source_action, enable);
   g_simple_action_set_enabled (priv->search_type_action, enable);
