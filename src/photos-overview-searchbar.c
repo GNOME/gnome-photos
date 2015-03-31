@@ -211,7 +211,7 @@ photos_overview_searchbar_toggled (PhotosOverviewSearchbar *self)
   PhotosOverviewSearchbarPrivate *priv = self->priv;
 
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->dropdown_button)))
-    gtk_widget_show (GTK_WIDGET(priv->dropdown));
+    gtk_widget_show_all (priv->dropdown);
 }
 
 

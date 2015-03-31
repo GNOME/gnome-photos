@@ -25,7 +25,7 @@
 #ifndef PHOTOS_BASE_MODEL_H
 #define PHOTOS_BASE_MODEL_H
 
-#include <gtk/gtk.h>
+#include <gio/gio.h>
 
 #include "photos-base-manager.h"
 
@@ -53,31 +53,26 @@ G_BEGIN_DECLS
   (G_TYPE_INSTANCE_GET_CLASS ((obj), \
    PHOTOS_TYPE_BASE_MODEL, PhotosBaseModelClass))
 
-typedef enum
-{
-  PHOTOS_BASE_MODEL_ID,
-  PHOTOS_BASE_MODEL_NAME,
-  PHOTOS_BASE_MODEL_HEADING_TEXT
-} PhotosBaseModelColumns;
-
 typedef struct _PhotosBaseModel        PhotosBaseModel;
 typedef struct _PhotosBaseModelClass   PhotosBaseModelClass;
 typedef struct _PhotosBaseModelPrivate PhotosBaseModelPrivate;
 
 struct _PhotosBaseModel
 {
-  GtkListStore parent_instance;
+  GObject parent_instance;
   PhotosBaseModelPrivate *priv;
 };
 
 struct _PhotosBaseModelClass
 {
-  GtkListStoreClass parent_class;
+  GObjectClass parent_class;
 };
 
 GType             photos_base_model_get_type               (void) G_GNUC_CONST;
 
-GtkListStore     *photos_base_model_new                    (PhotosBaseManager *mngr);
+PhotosBaseModel  *photos_base_model_new                    (PhotosBaseManager *mngr);
+
+GMenu            *photos_base_model_get_model              (PhotosBaseModel *self);
 
 G_END_DECLS
 
