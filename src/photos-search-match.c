@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -59,8 +59,16 @@ photos_search_match_get_filter (PhotosFilterable *iface)
 {
   PhotosSearchMatch *self = PHOTOS_SEARCH_MATCH (iface);
   PhotosSearchMatchPrivate *priv = self->priv;
+  char *ret_val;
 
-  return g_strdup_printf (priv->filter, priv->term);
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wformat-nonliteral"
+
+  ret_val = g_strdup_printf (priv->filter, priv->term);
+
+  #pragma GCC diagnostic pop
+
+  return ret_val;
 }
 
 
