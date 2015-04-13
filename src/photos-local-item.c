@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,28 +40,6 @@ G_DEFINE_TYPE_WITH_CODE (PhotosLocalItem, photos_local_item, PHOTOS_TYPE_BASE_IT
                                                          g_define_type_id,
                                                          "local",
                                                          0));
-
-
-static void
-photos_local_item_delete (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (user_data);
-  GError *error;
-  GFile *file = G_FILE (source_object);
-
-  error = NULL;
-  g_file_delete_finish (file, res, &error);
-  if (error != NULL)
-    {
-      const gchar *uri;
-
-      uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (self));
-      g_warning ("Unable to delete %s: %s", uri, error->message);
-      g_error_free (error);
-    }
-
-  g_object_unref (self);
-}
 
 
 static gboolean
@@ -132,6 +110,28 @@ photos_local_item_get_source_widget (PhotosBaseItem *item)
 
 
 static void
+photos_local_item_trash_finish (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (user_data);
+  GError *error;
+  GFile *file = G_FILE (source_object);
+
+  error = NULL;
+  g_file_trash_finish (file, res, &error);
+  if (error != NULL)
+    {
+      const gchar *uri;
+
+      uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (self));
+      g_warning ("Unable to trash %s: %s", uri, error->message);
+      g_error_free (error);
+    }
+
+  g_object_unref (self);
+}
+
+
+static void
 photos_local_item_trash (PhotosBaseItem *item)
 {
   GFile *file;
@@ -142,7 +142,7 @@ photos_local_item_trash (PhotosBaseItem *item)
 
   uri = photos_base_item_get_uri (item);
   file = g_file_new_for_uri (uri);
-  g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, photos_local_item_delete, g_object_ref (item));
+  g_file_trash_async (file, G_PRIORITY_DEFAULT, NULL, photos_local_item_trash_finish, g_object_ref (item));
 
   g_object_unref (file);
 
