@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-ph"
 "otos&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-03-25 08:30+0000\n"
-"PO-Revision-Date: 2015-04-20 15:44+0000\n"
+"PO-Revision-Date: 2015-04-21 11:26+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "Language: is\n"
@@ -36,22 +36,27 @@ msgid ""
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
+"Einfalt forrit til að skoða, skipuleggja og deila myndunum þínum í GNOME. Það "
+"er hugsað til þess að vera einföld og hreinleg leið til að eiga við myndir án "
+"þess að þurfa að nota skráastjóra. Boðið er upp á fljótvirka samhæfni við "
+"netský í gegnum 'GNOME Online "
+"Accounts'."
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
-msgstr ""
+msgstr "Gerir þér kleift að:"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:5
 msgid "View recent local and online photos"
-msgstr ""
+msgstr "Sko-a nýlegar ljósmyndir á tölvunni eða myndir á netinu"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:6
 msgid "Access your Facebook or Flickr content"
-msgstr ""
+msgstr "Fá aðgang að efni á Facebook eða Flickr"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:7
 msgid "Send photos to remote DLNA renderers"
-msgstr ""
+msgstr "Senda myndir á fjarlæga DLNA-myndgerðarþjóna"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:8
 msgid "Set as background"
@@ -63,19 +68,19 @@ msgstr "Prenta ljósmyndir"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:10
 msgid "Select favorites"
-msgstr ""
+msgstr "Velja eftirlætismyndir"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:11
 msgid "Allow opening full featured editor for more advanced changes"
-msgstr ""
+msgstr "Opna fullbúin myndvinnsluforrit til að vinna betur með myndirnar"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
-msgstr ""
+msgstr "Skipuleggja, njóta og deila myndunum þínum"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
-msgstr ""
+msgstr "Myndir;ljósmyndir"
 
 #: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
@@ -99,19 +104,17 @@ msgstr "Gluggi hámarkaður"
 
 #: ../data/org.gnome.photos.gschema.xml.h:6
 msgid "Window maximized state"
-msgstr ""
+msgstr "Hvort glugginn er hámarkaður"
 
 #. A strftime-formatted string, to display the date the image was taken.
 #: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-#, fuzzy
 msgid "%a, %d %B %Y  %X"
-msgstr "%a, %d %B %Y  %X"
+msgstr "%a, %d. %B %Y  %X"
 
 #. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
 #: ../src/eog-exif-util.c:154
-#, fuzzy
 msgid "%a, %d %B %Y"
-msgstr "%a, %d %B %Y"
+msgstr "%a, %d. %B %Y"
 
 #. TRANSLATORS: This is the actual focal length used when
 #. the image was taken.
@@ -218,7 +221,7 @@ msgstr "Afturkalla"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
-msgstr ""
+msgstr "DLNA myndgerðartæki"
 
 #: ../src/photos-embed.c:621
 msgid "Recent"
@@ -238,7 +241,7 @@ msgstr "Leita"
 
 #: ../src/photos-empty-results-box.c:113
 msgid "Name your first album"
-msgstr ""
+msgstr "Settu inn heiti á fyrsta albúminu þínu"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
@@ -254,7 +257,7 @@ msgstr "Stillingar"
 #: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
-msgstr ""
+msgstr "Þú getur sett inn aðganga þína á netinu í %s"
 
 #: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
@@ -262,7 +265,7 @@ msgstr "Engin albúm fundust"
 
 #: ../src/photos-empty-results-box.c:186
 msgid "Starred photos will appear here"
-msgstr ""
+msgstr "Stjörnumerktar myndir munu birtast hér"
 
 #: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
@@ -287,19 +290,19 @@ msgstr "Ónefnd mynd"
 #: ../src/photos-indexing-notification.c:173
 #, c-format
 msgid "Fetching photos from %s"
-msgstr ""
+msgstr "Sæki myndir frá %s"
 
 #: ../src/photos-indexing-notification.c:176
 msgid "Fetching photos from online accounts"
-msgstr ""
+msgstr "Sæki myndir frá aðgöngum á netinu"
 
 #: ../src/photos-indexing-notification.c:213
 msgid "Your photos are being indexed"
-msgstr ""
+msgstr "Verið er að yfirfara myndirnar þínar"
 
 #: ../src/photos-indexing-notification.c:214
 msgid "Some photos might not be available during this process"
-msgstr ""
+msgstr "Einhverjar myndir gætu verið ekki tiltækar á meðan á ferlinu stendur"
 
 #: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
 msgid "Local"
@@ -549,11 +552,11 @@ msgstr "Leifturljós"
 
 #: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
-msgstr ""
+msgstr "Slökkt, hleypti ekki af"
 
 #: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
-msgstr ""
+msgstr "Kveikt, hleypti af"
 
 #: ../src/photos-search-match-manager.c:154
 #: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
@@ -610,6 +613,6 @@ msgstr "Uppruni"
 
 #: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
-msgstr ""
+msgstr "Tókst ekki að nálgast lista yfir myndir"
 
 
