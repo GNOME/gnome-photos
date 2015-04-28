@@ -1,0 +1,561 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Sveinn í Felli <sv1@fellsnet.is>, 2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-04-26 19:40+0000\n"
+"PO-Revision-Date: 2015-04-28 08:39+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
+"Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
+"Language: is\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Einfalt forrit til að skoða, skipuleggja og deila myndunum þínum í GNOME. Það "
+"er hugsað til þess að vera einföld og hreinleg leið til að eiga við myndir án "
+"þess að þurfa að nota skráastjóra. Boðið er upp á fljótvirka samhæfni við "
+"netský í gegnum 'GNOME Online "
+"Accounts'."
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2
+msgid "It lets you:"
+msgstr "Gerir þér kleift að:"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
+msgid ""
+"<li>View recent local and online photos</li> <li>Access your Flickr content</"
+"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+"featured editor for more advanced changes</li>"
+msgstr ""
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../src/photos-search-type-manager.c:124
+msgid "Photos"
+msgstr "Ljósmyndir"
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
+msgid "Access, organize and share photos"
+msgstr "Skipuleggja, njóta og deila myndunum þínum"
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
+msgid "Photos;Pictures;"
+msgstr "Myndir;ljósmyndir"
+
+#: ../data/org.gnome.photos.gschema.xml.h:1
+msgid "Window size"
+msgstr "Gluggastærð"
+
+#: ../data/org.gnome.photos.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Breidd og hæð glugga."
+
+#: ../data/org.gnome.photos.gschema.xml.h:3
+msgid "Window position"
+msgstr "Staðsetning glugga"
+
+#: ../data/org.gnome.photos.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Staðsetning glugga (x og y)."
+
+#: ../data/org.gnome.photos.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Gluggi hámarkaður"
+
+#: ../data/org.gnome.photos.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Hvort glugginn er hámarkaður"
+
+#. A strftime-formatted string, to display the date the image was taken.
+#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
+msgid "%a, %d %B %Y  %X"
+msgstr "%a, %d. %B %Y  %X"
+
+#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
+#: ../src/eog-exif-util.c:154
+msgid "%a, %d %B %Y"
+msgstr "%a, %d. %B %Y"
+
+#. TRANSLATORS: This is the actual focal length used when
+#. the image was taken.
+#: ../src/eog-exif-util.c:251
+#, c-format
+msgid "%.1f (lens)"
+msgstr "%.1f (linsa)"
+
+#. Print as float to get a similar look as above.
+#. TRANSLATORS: This is the equivalent focal length assuming
+#. a 35mm film camera.
+#: ../src/eog-exif-util.c:262
+#, c-format
+msgid "%.1f (35mm film)"
+msgstr "%.1f (35mm filma)"
+
+#: ../src/eog-image.c:595
+#, c-format
+msgid "Transformation on unloaded image."
+msgstr "Umbreyting á óhlaðinni mynd"
+
+#: ../src/eog-image.c:623
+#, c-format
+msgid "Transformation failed."
+msgstr "Umbreyting mistókst."
+
+#: ../src/eog-image.c:1047
+#, c-format
+msgid "EXIF not supported for this file format."
+msgstr "Þetta skráasnið styður ekki EXIF."
+
+#: ../src/eog-image.c:1196
+#, c-format
+msgid "Image loading failed."
+msgstr "Ekki tókst að hlaða myndinni."
+
+#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
+#, c-format
+msgid "No image loaded."
+msgstr "Engar innhlaðnar myndir."
+
+#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
+#, c-format
+msgid "You do not have the permissions necessary to save the file."
+msgstr "Þú hefur ekki næg réttindi til að vista skrána."
+
+#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
+#, c-format
+msgid "Temporary file creation failed."
+msgstr "Gerð bráðabirgðaskrár mistókst."
+
+#: ../src/eog-uri-converter.c:984
+#, c-format
+msgid "At least two file names are equal."
+msgstr "Að minnsta kosti tvö skráaheiti eru eins."
+
+#: ../src/eog-util.c:68
+msgid "Could not display help for Image Viewer"
+msgstr "Ekki tókst að birta hjálp fyrir forritið"
+
+#: ../src/eog-util.c:116
+msgid " (invalid Unicode)"
+msgstr "(ógildur Unikóði)"
+
+#: ../src/photos-app-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Fylla skjá"
+
+#: ../src/photos-app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Hjálp"
+
+#: ../src/photos-app-menu.ui.h:3
+msgid "About"
+msgstr "Um hugbúnaðinn"
+
+#: ../src/photos-app-menu.ui.h:4
+msgid "Quit"
+msgstr "Hætta"
+
+#: ../src/photos-base-item.c:344
+msgid "Album"
+msgstr "Albúm"
+
+#: ../src/photos-base-item.c:803
+msgid "Screenshots"
+msgstr "Skjámyndir"
+
+#: ../src/photos-dlna-renderers-dialog.ui.h:1
+msgid "DLNA Renderer Devices"
+msgstr "DLNA myndgerðartæki"
+
+#: ../src/photos-embed.c:722
+msgid "Recent"
+msgstr "Nýlegt"
+
+#: ../src/photos-embed.c:728 ../src/photos-search-type-manager.c:109
+msgid "Albums"
+msgstr "Albúm"
+
+#: ../src/photos-embed.c:734 ../src/photos-search-type-manager.c:117
+msgid "Favorites"
+msgstr "Eftirlæti"
+
+#: ../src/photos-empty-results-box.c:113
+msgid "Name your first album"
+msgstr "Settu inn heiti á fyrsta albúminu þínu"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:133
+msgid "Settings"
+msgstr "Stillingar"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:139
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "Þú getur sett inn aðganga þína á netinu í %s"
+
+#: ../src/photos-empty-results-box.c:189
+msgid "No Albums Found"
+msgstr "Engin albúm fundust"
+
+#: ../src/photos-empty-results-box.c:193
+msgid "No Favorites Found"
+msgstr "Engin Eftirlæti fundust"
+
+#: ../src/photos-empty-results-box.c:198
+msgid "No Photos Found"
+msgstr "Engar ljósmyndir fundust"
+
+#: ../src/photos-facebook-item.c:191 ../src/photos-facebook-item.c:221
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../src/photos-fetch-metas-job.c:163
+msgid "Untitled Photo"
+msgstr "Ónefnd mynd"
+
+#: ../src/photos-flickr-item.c:276 ../src/photos-flickr-item.c:323
+msgid "Flickr"
+msgstr "Flickr"
+
+#: ../src/photos-indexing-notification.c:169
+msgid "Your photos are being indexed"
+msgstr "Verið er að yfirfara myndirnar þínar"
+
+#: ../src/photos-indexing-notification.c:173
+msgid "Some photos might not be available during this process"
+msgstr "Einhverjar myndir gætu verið ekki tiltækar á meðan á ferlinu stendur"
+
+#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
+msgid "Load More"
+msgstr "Hlaða inn fleiri"
+
+#: ../src/photos-load-more-button.c:86
+msgid "Loading…"
+msgstr "Hleð inn..."
+
+#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:134
+msgid "Local"
+msgstr "Staðvært"
+
+#: ../src/photos-main-toolbar.c:108
+msgid "Click on items to select them"
+msgstr "Smelltu á hluti til að velja þá"
+
+#: ../src/photos-main-toolbar.c:110
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d valið"
+msgstr[1] "%d valið"
+
+#: ../src/photos-main-toolbar.c:156
+msgid "Back"
+msgstr "Til baka"
+
+#: ../src/photos-main-toolbar.c:280
+msgid "Search"
+msgstr "Leita"
+
+#: ../src/photos-main-toolbar.c:296
+msgid "Select Items"
+msgstr "Veldu atriði"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-main-toolbar.c:418 ../src/photos-selection-toolbar.c:278
+#, c-format
+msgid "Open with %s"
+msgstr "Opna með %s"
+
+#: ../src/photos-main-toolbar.c:577
+msgid "Cancel"
+msgstr "Hætta við"
+
+#: ../src/photos-main-window.c:455
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Skipuleggðu, njóttu og deildu myndunum þínum"
+
+#. Translators: Put your names here
+#: ../src/photos-main-window.c:467
+msgid "translator-credits"
+msgstr "Sveinn í Felli, sv1@fellsnet.is"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "_Bæta við"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "Í _lagi"
+
+#. Translators: "Organize" refers to photos in this context
+#: ../src/photos-organize-collection-dialog.c:128
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Skipuleggja"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-selection-toolbar.c:437
+msgid "Open"
+msgstr "Opna"
+
+#: ../src/photos-preview-menu.ui.h:2
+msgid "Print…"
+msgstr "Prenta…"
+
+#: ../src/photos-preview-menu.ui.h:3
+msgid "Display on…"
+msgstr "Birta á …"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Set as Background"
+msgstr "Setja sem bakgrunnsmynd"
+
+#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:653
+#: ../src/photos-selection-toolbar.c:461
+msgid "Properties"
+msgstr "Eiginleikar"
+
+#: ../src/photos-preview-nav-buttons.c:209
+#: ../src/photos-selection-toolbar.c:290
+msgid "Remove from favorites"
+msgstr "Fjarlægja úr Eftirlæti"
+
+#: ../src/photos-preview-nav-buttons.c:214
+#: ../src/photos-selection-toolbar.c:296
+msgid "Add to favorites"
+msgstr "Bæta við Eftirlæti"
+
+#: ../src/photos-print-operation.c:272
+msgid "Image Settings"
+msgstr "Myndstillingar"
+
+#: ../src/photos-print-setup.c:895
+msgid "Position"
+msgstr "Staðsetning"
+
+#: ../src/photos-print-setup.c:898
+msgid "_Left:"
+msgstr "_Vinstri:"
+
+#: ../src/photos-print-setup.c:899
+msgid "_Right:"
+msgstr "_Hægri"
+
+#: ../src/photos-print-setup.c:900
+msgid "_Top:"
+msgstr "_Uppi:"
+
+#: ../src/photos-print-setup.c:901
+msgid "_Bottom:"
+msgstr "_Niðri:"
+
+#: ../src/photos-print-setup.c:903
+msgid "C_enter:"
+msgstr "_Miðjað:"
+
+#: ../src/photos-print-setup.c:907
+msgid "None"
+msgstr "Ekkert"
+
+#: ../src/photos-print-setup.c:908
+msgid "Horizontal"
+msgstr "Lárétt"
+
+#: ../src/photos-print-setup.c:909
+msgid "Vertical"
+msgstr "Lóðrétt"
+
+#: ../src/photos-print-setup.c:910
+msgid "Both"
+msgstr "Bæði"
+
+#: ../src/photos-print-setup.c:923
+msgid "Size"
+msgstr "Stærð"
+
+#: ../src/photos-print-setup.c:926
+msgid "_Width:"
+msgstr "_Breidd:"
+
+#: ../src/photos-print-setup.c:927
+msgid "_Height:"
+msgstr "_Hæð:"
+
+#: ../src/photos-print-setup.c:929
+msgid "_Scaling:"
+msgstr "_Kvörðun:"
+
+#: ../src/photos-print-setup.c:938
+msgid "_Unit:"
+msgstr "_Eining:"
+
+#: ../src/photos-print-setup.c:942
+msgid "Millimeters"
+msgstr "Millímetrar"
+
+#: ../src/photos-print-setup.c:943
+msgid "Inches"
+msgstr "Tommur"
+
+#: ../src/photos-print-setup.c:971
+msgid "Preview"
+msgstr "Forskoðun"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:218
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Titill"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: ../src/photos-properties-dialog.c:230
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Höfundur"
+
+#: ../src/photos-properties-dialog.c:237
+msgid "Source"
+msgstr "Uppruni"
+
+#: ../src/photos-properties-dialog.c:243
+msgid "Date Modified"
+msgstr "Breytt þann"
+
+#: ../src/photos-properties-dialog.c:251
+msgid "Date Created"
+msgstr "Búið til þann"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: ../src/photos-properties-dialog.c:261
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Tegund"
+
+#: ../src/photos-properties-dialog.c:270
+msgid "Width"
+msgstr "Breidd"
+
+#: ../src/photos-properties-dialog.c:280
+msgid "Height"
+msgstr "Hæð"
+
+#: ../src/photos-properties-dialog.c:295
+msgid "Camera"
+msgstr "Myndavél"
+
+#: ../src/photos-properties-dialog.c:305
+msgid "Exposure"
+msgstr "Lýsingartími"
+
+#: ../src/photos-properties-dialog.c:315
+msgid "Aperture"
+msgstr "Ljósop"
+
+#: ../src/photos-properties-dialog.c:325
+msgid "Focal Length"
+msgstr "Brennivídd"
+
+#: ../src/photos-properties-dialog.c:335
+msgid "ISO Speed"
+msgstr "ISO hraði"
+
+#: ../src/photos-properties-dialog.c:345
+msgid "Flash"
+msgstr "Leifturljós"
+
+#: ../src/photos-properties-dialog.c:536
+msgid "Off, did not fire"
+msgstr "Slökkt, hleypti ekki af"
+
+#: ../src/photos-properties-dialog.c:538
+msgid "On, fired"
+msgstr "Kveikt, hleypti af"
+
+#: ../src/photos-properties-dialog.c:617
+msgid "Done"
+msgstr "Lokið"
+
+#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+msgid "All"
+msgstr "Allt"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:161
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Titill"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:168
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Höfundur"
+
+#: ../src/photos-search-match-manager.c:205
+msgid "Match"
+msgstr "Samsvarar"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:154
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Tegund"
+
+#: ../src/photos-selection-menu.ui.h:1
+msgid "Select All"
+msgstr "Velja allt"
+
+#: ../src/photos-selection-menu.ui.h:2
+msgid "Select None"
+msgstr "Velja ekkert"
+
+#: ../src/photos-selection-toolbar.c:445
+msgid "Print"
+msgstr "Prenta"
+
+#: ../src/photos-selection-toolbar.c:453
+msgid "Delete"
+msgstr "Eyða"
+
+#: ../src/photos-selection-toolbar.c:469
+msgid "Add to Album"
+msgstr "Bæta í albúm"
+
+#: ../src/photos-source-manager.c:174
+msgid "Sources"
+msgstr "Uppruni"
+
+#: ../src/photos-tracker-controller.c:96
+msgid "Unable to fetch the list of photos"
+msgstr "Tókst ekki að nálgast lista yfir myndir"
+
