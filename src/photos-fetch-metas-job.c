@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,13 +39,19 @@
 #include "photos-utils.h"
 
 
-struct _PhotosFetchMetasJobPrivate
+struct _PhotosFetchMetasJob
 {
+  GObject parent_instance;
   GList *metas;
   PhotosFetchMetasJobCallback callback;
   gchar **ids;
   gpointer user_data;
   guint active_jobs;
+};
+
+struct _PhotosFetchMetasJobClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -55,7 +61,7 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosFetchMetasJob, photos_fetch_metas_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosFetchMetasJob, photos_fetch_metas_job, G_TYPE_OBJECT);
 
 
 static PhotosFetchMeta *
@@ -77,22 +83,18 @@ photos_fetch_meta_new (GIcon *icon, const gchar *id, const gchar *title)
 static void
 photos_fetch_metas_job_emit_callback (PhotosFetchMetasJob *self)
 {
-  PhotosFetchMetasJobPrivate *priv = self->priv;
-
-  if (priv->callback == NULL)
+  if (self->callback == NULL)
     return;
 
-  (*priv->callback) (priv->metas, priv->user_data);
+  (*self->callback) (self->metas, self->user_data);
 }
 
 
 static void
 photos_fetch_metas_job_collector (PhotosFetchMetasJob *self)
 {
-  PhotosFetchMetasJobPrivate *priv = self->priv;
-
-  priv->active_jobs--;
-  if (priv->active_jobs == 0)
+  self->active_jobs--;
+  if (self->active_jobs == 0)
     photos_fetch_metas_job_emit_callback (self);
 }
 
@@ -102,12 +104,9 @@ photos_fetch_metas_job_create_collection_icon_executed (GIcon *icon, gpointer us
 {
   GTask *task = G_TASK (user_data);
   PhotosFetchMetasJob *self;
-  PhotosFetchMetasJobPrivate *priv;
   PhotosFetchMeta *meta;
 
   self = PHOTOS_FETCH_METAS_JOB (g_task_get_source_object (task));
-  priv = self->priv;
-
   meta = (PhotosFetchMeta *) g_task_get_task_data (task);
 
   if (icon != NULL)
@@ -116,7 +115,7 @@ photos_fetch_metas_job_create_collection_icon_executed (GIcon *icon, gpointer us
       meta->icon = g_object_ref (icon);
     }
 
-  priv->metas = g_list_prepend (priv->metas, meta);
+  self->metas = g_list_prepend (self->metas, meta);
   photos_fetch_metas_job_collector (self);
   g_object_unref (task);
 }
@@ -142,7 +141,6 @@ static void
 photos_fetch_metas_job_executed (TrackerSparqlCursor *cursor, gpointer user_data)
 {
   PhotosFetchMetasJob *self = PHOTOS_FETCH_METAS_JOB (user_data);
-  PhotosFetchMetasJobPrivate *priv = self->priv;
   GIcon *icon = NULL;
   PhotosFetchMeta *meta;
   gboolean is_collection;
@@ -168,7 +166,7 @@ photos_fetch_metas_job_executed (TrackerSparqlCursor *cursor, gpointer user_data
     photos_fetch_metas_job_create_collection_pixbuf (self, meta);
   else
     {
-      priv->metas = g_list_prepend (priv->metas, meta);
+      self->metas = g_list_prepend (self->metas, meta);
       photos_fetch_metas_job_collector (self);
     }
 
@@ -181,10 +179,9 @@ static void
 photos_fetch_metas_job_finalize (GObject *object)
 {
   PhotosFetchMetasJob *self = PHOTOS_FETCH_METAS_JOB (object);
-  PhotosFetchMetasJobPrivate *priv = self->priv;
 
-  g_list_free_full (priv->metas, (GDestroyNotify) photos_fetch_meta_free);
-  g_strfreev (self->priv->ids);
+  g_list_free_full (self->metas, (GDestroyNotify) photos_fetch_meta_free);
+  g_strfreev (self->ids);
 
   G_OBJECT_CLASS (photos_fetch_metas_job_parent_class)->finalize (object);
 }
@@ -198,7 +195,7 @@ photos_fetch_metas_job_set_property (GObject *object, guint prop_id, const GValu
   switch (prop_id)
     {
     case PROP_IDS:
-      self->priv->ids = g_value_dup_boxed (value);
+      self->ids = g_value_dup_boxed (value);
       break;
 
     default:
@@ -211,7 +208,6 @@ photos_fetch_metas_job_set_property (GObject *object, guint prop_id, const GValu
 static void
 photos_fetch_metas_job_init (PhotosFetchMetasJob *self)
 {
-  self->priv = photos_fetch_metas_job_get_instance_private (self);
 }
 
 
@@ -272,17 +268,16 @@ photos_fetch_metas_job_run (PhotosFetchMetasJob *self,
                             PhotosFetchMetasJobCallback callback,
                             gpointer user_data)
 {
-  PhotosFetchMetasJobPrivate *priv = self->priv;
   guint i;
 
-  priv->callback = callback;
-  priv->user_data = user_data;
-  priv->active_jobs = g_strv_length (priv->ids);
+  self->callback = callback;
+  self->user_data = user_data;
+  self->active_jobs = g_strv_length (self->ids);
 
-  for (i = 0; priv->ids[i] != NULL; i++)
+  for (i = 0; self->ids[i] != NULL; i++)
     {
       PhotosSingleItemJob *job;
-      const gchar *id = priv->ids[i];
+      const gchar *id = self->ids[i];
 
       job = photos_single_item_job_new (id);
       photos_single_item_job_run (job,
