@@ -37,21 +37,9 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_FETCH_METAS_JOB, PhotosFetchMetasJob))
 
-#define PHOTOS_FETCH_METAS_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_FETCH_METAS_JOB, PhotosFetchMetasJobClass))
-
 #define PHOTOS_IS_FETCH_METAS_JOB(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_FETCH_METAS_JOB))
-
-#define PHOTOS_IS_FETCH_METAS_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_FETCH_METAS_JOB))
-
-#define PHOTOS_FETCH_METAS_JOB_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_FETCH_METAS_JOB, PhotosFetchMetasJobClass))
 
 typedef struct _PhotosFetchMeta PhotosFetchMeta;
 
@@ -67,20 +55,8 @@ void                   photos_fetch_meta_free                   (PhotosFetchMeta
 
 typedef void (*PhotosFetchMetasJobCallback) (GList *, gpointer);
 
-typedef struct _PhotosFetchMetasJob        PhotosFetchMetasJob;
-typedef struct _PhotosFetchMetasJobClass   PhotosFetchMetasJobClass;
-typedef struct _PhotosFetchMetasJobPrivate PhotosFetchMetasJobPrivate;
-
-struct _PhotosFetchMetasJob
-{
-  GObject parent_instance;
-  PhotosFetchMetasJobPrivate *priv;
-};
-
-struct _PhotosFetchMetasJobClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosFetchMetasJob      PhotosFetchMetasJob;
+typedef struct _PhotosFetchMetasJobClass PhotosFetchMetasJobClass;
 
 GType                  photos_fetch_metas_job_get_type          (void) G_GNUC_CONST;
 
