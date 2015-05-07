@@ -372,8 +372,12 @@ static void
 photos_collection_icon_watcher_finalize (GObject *object)
 {
   PhotosCollectionIconWatcher *self = PHOTOS_COLLECTION_ICON_WATCHER (object);
+  PhotosCollectionIconWatcherPrivate *priv = self->priv;
 
-  g_list_free_full (self->priv->urns, g_free);
+  g_list_free_full (priv->urns, g_free);
+
+  if (priv->collection != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (priv->collection), (gpointer *) &priv->collection);
 
   G_OBJECT_CLASS (photos_collection_icon_watcher_parent_class)->finalize (object);
 }
