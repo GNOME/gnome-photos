@@ -174,6 +174,7 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
       break;
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
+      photos_preview_nav_buttons_show (priv->nav_buttons);
       break;
 
     case PHOTOS_WINDOW_MODE_NONE:
