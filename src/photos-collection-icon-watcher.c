@@ -396,7 +396,8 @@ photos_collection_icon_watcher_set_property (GObject *object,
     {
     case PROP_COLLECTION:
       priv->collection = PHOTOS_BASE_ITEM (g_value_get_object (value)); /* self is owned by collection */
-      g_object_add_weak_pointer (G_OBJECT (priv->collection), (gpointer *) &priv->collection);
+      if (priv->collection != NULL)
+        g_object_add_weak_pointer (G_OBJECT (priv->collection), (gpointer *) &priv->collection);
       break;
 
     default:
