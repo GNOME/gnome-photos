@@ -305,8 +305,10 @@ photos_embed_prepare_for_preview (PhotosEmbed *self, PhotosWindowMode old_mode)
       g_action_change_state (priv->search_action, state);
     }
 
-  /* This is not needed when activated from the search provider. */
-  if (old_mode != PHOTOS_WINDOW_MODE_NONE)
+  /* This is not needed when activated from the search provider, or
+   * when returning from the edit mode.
+   */
+  if (old_mode != PHOTOS_WINDOW_MODE_NONE && old_mode != PHOTOS_WINDOW_MODE_EDIT)
     {
       GtkListStore *model;
       GtkTreePath *current_path;
@@ -318,8 +320,10 @@ photos_embed_prepare_for_preview (PhotosEmbed *self, PhotosWindowMode old_mode)
       photos_preview_view_set_model (PHOTOS_PREVIEW_VIEW (priv->preview), GTK_TREE_MODEL (model), current_path);
     }
 
+  if (old_mode != PHOTOS_WINDOW_MODE_EDIT)
+    photos_preview_view_set_node (PHOTOS_PREVIEW_VIEW (priv->preview), NULL);
+
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
-  photos_preview_view_set_node (PHOTOS_PREVIEW_VIEW (priv->preview), NULL);
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "preview");
 }
 
