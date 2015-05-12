@@ -1,3 +1,19 @@
+Overview of changes in 3.16.2
+=============================
+
+* Bugs fixed:
+ 746252 Google album titles appear htmlescaped
+ 745972 Update to latest AX_* macros from upstream
+ 747696 local-item: Use the trash
+
+* Updated translations:
+ Simplified Chinese
+ Esperanto
+ Icelandic
+ Italian
+ Slovak
+
+
 Overview of changes in 3.16.0
 =============================
 
