@@ -79,7 +79,7 @@ msgstr "Skipuleggja, njóta og deila myndunum þínum"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
-msgstr "Myndir;ljósmyndir"
+msgstr "Myndir;ljósmyndir;"
 
 #: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
