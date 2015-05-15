@@ -298,10 +298,11 @@ photos_preview_view_init (PhotosPreviewView *self)
   priv = self->priv;
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
-  g_signal_connect_swapped (priv->mode_cntrlr,
-                            "window-mode-changed",
-                            G_CALLBACK (photos_preview_view_window_mode_changed),
-                            self);
+  g_signal_connect_object (priv->mode_cntrlr,
+                           "window-mode-changed",
+                           G_CALLBACK (photos_preview_view_window_mode_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   gtk_widget_set_hexpand (GTK_WIDGET (self), TRUE);
   gtk_widget_set_vexpand (GTK_WIDGET (self), TRUE);
