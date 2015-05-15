@@ -670,9 +670,11 @@ photos_embed_init (PhotosEmbed *self)
   /* TODO: SearchBar.Dropdown, …
    */
 
-  g_signal_connect_object (priv->stack, "notify::visible-child",
+  g_signal_connect_object (priv->stack,
+                           "notify::visible-child",
                            G_CALLBACK (photos_embed_notify_visible_child),
-                           self, G_CONNECT_SWAPPED);
+                           self,
+                           G_CONNECT_SWAPPED);
 
   priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
   g_signal_connect_object (priv->mode_cntrlr,
