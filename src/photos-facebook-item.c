@@ -192,17 +192,23 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
 
   local_file = g_file_new_for_path (local_filename);
 
-  photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Facebook to %s", higher_image->source, local_filename);
-  if (!g_file_copy (remote_file,
-                    local_file,
-                    G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
-                    cancellable,
-                    NULL,
-                    NULL,
-                    error))
+  if (!g_file_test (local_filename, G_FILE_TEST_EXISTS))
     {
-      g_file_delete (local_file, NULL, NULL);
-      goto out;
+      photos_debug (PHOTOS_DEBUG_NETWORK,
+                    "Downloading %s from Facebook to %s",
+                    higher_image->source,
+                    local_filename);
+      if (!g_file_copy (remote_file,
+                        local_file,
+                        G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
+                        cancellable,
+                        NULL,
+                        NULL,
+                        error))
+        {
+          g_file_delete (local_file, NULL, NULL);
+          goto out;
+        }
     }
 
   ret_val = local_filename;
