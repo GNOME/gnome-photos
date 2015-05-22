@@ -172,6 +172,16 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
   gchar *local_path = NULL;
   gchar *ret_val = NULL;
 
+  cache_dir = g_get_user_cache_dir ();
+  local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "facebook", NULL);
+  g_mkdir_with_parents (local_dir, 0700);
+
+  identifier = photos_base_item_get_identifier (item) + strlen ("facebook:photos:");
+  local_filename = g_strdup_printf ("%s.jpeg", identifier);
+  local_path = g_build_filename (local_dir, local_filename, NULL);
+  if (g_file_test (local_path, G_FILE_TEST_EXISTS))
+    goto end;
+
   photo = photos_facebook_get_gfbgraph_photo (item, cancellable, error);
   if (photo == NULL)
     goto out;
@@ -184,32 +194,22 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
     }
 
   remote_file = g_file_new_for_uri (higher_image->source);
-  cache_dir = g_get_user_cache_dir ();
-
-  local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "facebook", NULL);
-  g_mkdir_with_parents (local_dir, 0700);
-
-  identifier = photos_base_item_get_identifier (item) + strlen ("facebook:photos:");
-  local_filename = g_strdup_printf ("%s.jpeg", identifier);
-  local_path = g_build_filename (local_dir, local_filename, NULL);
   local_file = g_file_new_for_path (local_path);
 
-  if (!g_file_test (local_path, G_FILE_TEST_EXISTS))
+  photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Facebook to %s", higher_image->source, local_path);
+  if (!g_file_copy (remote_file,
+                    local_file,
+                    G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
+                    cancellable,
+                    NULL,
+                    NULL,
+                    error))
     {
-      photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Facebook to %s", higher_image->source, local_path);
-      if (!g_file_copy (remote_file,
-                        local_file,
-                        G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
-                        cancellable,
-                        NULL,
-                        NULL,
-                        error))
-        {
-          g_file_delete (local_file, NULL, NULL);
-          goto out;
-        }
+      g_file_delete (local_file, NULL, NULL);
+      goto out;
     }
 
+ end:
   ret_val = local_path;
   local_path = NULL;
 
