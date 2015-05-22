@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Álvaro Peña
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -163,10 +163,14 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
 {
   GFBGraphPhoto *photo = NULL;
   const GFBGraphPhotoImage *higher_image;
+  GFile *local_file = NULL;
+  GFile *remote_file = NULL;
+  const gchar *cache_dir;
   const gchar *identifier;
-  gchar *local_dir = NULL, *filename = NULL, *local_filename = NULL;
+  gchar *local_dir = NULL;
+  gchar *local_filename = NULL;
+  gchar *local_path = NULL;
   gchar *ret_val = NULL;
-  GFile *local_file = NULL, *remote_file = NULL;
 
   photo = photos_facebook_get_gfbgraph_photo (item, cancellable, error);
   if (photo == NULL)
@@ -180,24 +184,19 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
     }
 
   remote_file = g_file_new_for_uri (higher_image->source);
+  cache_dir = g_get_user_cache_dir ();
 
-  /* Local path */
-  local_dir = g_build_filename (g_get_user_cache_dir (), PACKAGE_TARNAME, "facebook", NULL);
+  local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "facebook", NULL);
   g_mkdir_with_parents (local_dir, 0700);
 
-  /* Local filename */
-  identifier = photos_base_item_get_identifier (item) + strlen("facebook:photos:");
-  filename = g_strdup_printf ("%s.jpeg", identifier);
-  local_filename = g_build_filename (local_dir, filename, NULL);
+  identifier = photos_base_item_get_identifier (item) + strlen ("facebook:photos:");
+  local_filename = g_strdup_printf ("%s.jpeg", identifier);
+  local_path = g_build_filename (local_dir, local_filename, NULL);
+  local_file = g_file_new_for_path (local_path);
 
-  local_file = g_file_new_for_path (local_filename);
-
-  if (!g_file_test (local_filename, G_FILE_TEST_EXISTS))
+  if (!g_file_test (local_path, G_FILE_TEST_EXISTS))
     {
-      photos_debug (PHOTOS_DEBUG_NETWORK,
-                    "Downloading %s from Facebook to %s",
-                    higher_image->source,
-                    local_filename);
+      photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Facebook to %s", higher_image->source, local_path);
       if (!g_file_copy (remote_file,
                         local_file,
                         G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
@@ -211,12 +210,12 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
         }
     }
 
-  ret_val = local_filename;
-  local_filename = NULL;
+  ret_val = local_path;
+  local_path = NULL;
 
  out:
+  g_free (local_path);
   g_free (local_filename);
-  g_free (filename);
   g_free (local_dir);
   g_clear_object (&local_file);
   g_clear_object (&remote_file);
