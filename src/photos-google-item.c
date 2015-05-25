@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014, 2015 Red Hat, Inc.
  * Copyright © 2014 Saurav Agarwalla
  *
  * This program is free software; you can redistribute it and/or
@@ -198,11 +198,30 @@ photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
   GFile *local_file = NULL;
   GFile *remote_file = NULL;
   const gchar *cache_dir;
+  const gchar *identifier;
+  const gchar *mime_type;
   const gchar *uri;
+  gchar *extension = NULL;
+  gchar *identifier_hash = NULL;
   gchar *local_dir = NULL;
   gchar *local_filename = NULL;
   gchar *local_path = NULL;
   gchar *ret_val = NULL;
+
+  cache_dir = g_get_user_cache_dir ();
+  local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "google", NULL);
+  g_mkdir_with_parents (local_dir, 0700);
+
+  identifier = photos_base_item_get_identifier (item);
+  identifier_hash = g_compute_checksum_for_string (G_CHECKSUM_SHA1, identifier, -1);
+  mime_type = photos_base_item_get_mime_type (item);
+  extension = photos_utils_get_extension_from_mime_type (mime_type);
+  if (extension == NULL)
+    extension = g_strdup ("tmp");
+  local_filename = g_strdup_printf ("%s.%s", identifier_hash, extension);
+  local_path = g_build_filename (local_dir, local_filename, NULL);
+  if (g_file_test (local_path, G_FILE_TEST_EXISTS))
+    goto end;
 
   entry = photos_google_get_picasaweb_file (item, cancellable, error);
   if (entry == NULL)
@@ -210,31 +229,22 @@ photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
 
   uri = gdata_entry_get_content_uri (entry);
   remote_file = g_file_new_for_uri (uri);
-  cache_dir = g_get_user_cache_dir ();
-
-  local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "google", NULL);
-  g_mkdir_with_parents (local_dir, 0700);
-
-  local_filename = g_file_get_basename (remote_file);
-  local_path = g_build_filename (local_dir, local_filename, NULL);
   local_file = g_file_new_for_path (local_path);
 
-  if (!g_file_test (local_path, G_FILE_TEST_EXISTS))
+  photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Google to %s", uri, local_path);
+  if (!g_file_copy (remote_file,
+                    local_file,
+                    G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
+                    cancellable,
+                    NULL,
+                    NULL,
+                    error))
     {
-      photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Google to %s", uri, local_path);
-      if (!g_file_copy (remote_file,
-                        local_file,
-                        G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
-                        cancellable,
-                        NULL,
-                        NULL,
-                        error))
-        {
-          g_file_delete (local_file, NULL, NULL);
-          goto out;
-        }
+      g_file_delete (local_file, NULL, NULL);
+      goto out;
     }
 
+ end:
   ret_val = local_path;
   local_path = NULL;
 
@@ -242,6 +252,8 @@ photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
   g_free (local_path);
   g_free (local_filename);
   g_free (local_dir);
+  g_free (identifier_hash);
+  g_free (extension);
   g_clear_object (&local_file);
   g_clear_object (&remote_file);
   g_clear_object (&entry);
