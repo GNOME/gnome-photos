@@ -1,19 +1,26 @@
-Overview of changes in 3.17.1
+Overview of changes in 3.17.2
 =============================
 
 * Bugs fixed:
  726462 Improve keyboard navigation for searchbar
  745756 delete-notification: Improve the message
+ 745972 Update to latest AX_* macros from upstream
  746104 Fix the lifetime of the signal handlers
  746152 Arrow keys doesn't work after nav buttons auto hide
+ 746252 Google album titles appear htmlescaped
+ 746731 Let GtkApplication load the app menu automatically
+ 747696 local-item: Use the trash
 
 * Updated translations:
+ Aragonese
  Basque
  Bosnian
  Catalan
+ Simplified Chinese
  Traditional Chinese (Taiwan)
  Czech
  Danish
+ Esperanto
  Finnish
  French
  Galician
@@ -22,11 +29,13 @@ Overview of changes in 3.17.1
  Hebrew
  Hungarian
  Indonesian
+ Italian
  Japanese
  Kazakh
  Korean
  Lithuanian
  Norwegian bokmål
+ Occitan
  Polish
  Portuguese (Brazilian)
  Russian
