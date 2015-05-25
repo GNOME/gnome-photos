@@ -166,7 +166,9 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
   GFile *local_file = NULL;
   GFile *remote_file = NULL;
   const gchar *cache_dir;
+  const gchar *mime_type;
   const gchar *identifier;
+  gchar *extension = NULL;
   gchar *local_dir = NULL;
   gchar *local_filename = NULL;
   gchar *local_path = NULL;
@@ -177,7 +179,11 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
   g_mkdir_with_parents (local_dir, 0700);
 
   identifier = photos_base_item_get_identifier (item) + strlen ("facebook:");
-  local_filename = g_strdup_printf ("%s.jpeg", identifier);
+  mime_type = photos_base_item_get_mime_type (item);
+  extension = photos_utils_get_extension_from_mime_type (mime_type);
+  if (extension == NULL)
+    extension = g_strdup ("tmp");
+  local_filename = g_strdup_printf ("%s.%s", identifier, extension);
   local_path = g_build_filename (local_dir, local_filename, NULL);
   if (g_file_test (local_path, G_FILE_TEST_EXISTS))
     goto end;
@@ -217,6 +223,7 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
   g_free (local_path);
   g_free (local_filename);
   g_free (local_dir);
+  g_free (extension);
   g_clear_object (&local_file);
   g_clear_object (&remote_file);
   g_clear_object (&photo);
