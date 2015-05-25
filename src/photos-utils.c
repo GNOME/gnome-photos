@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -616,6 +616,41 @@ GQuark
 photos_utils_flash_on_quark (void)
 {
   return g_quark_from_static_string ("http://www.tracker-project.org/temp/nmm#flash-on");
+}
+
+
+gchar *
+photos_utils_get_extension_from_mime_type (const gchar *mime_type)
+{
+  GSList *formats;
+  GSList *l;
+  gchar *ret_val = NULL;
+
+  formats = gdk_pixbuf_get_formats ();
+
+  for (l = formats; l != NULL; l = l->next)
+    {
+      GdkPixbufFormat *format = (GdkPixbufFormat*) l->data;
+      gchar **supported_mime_types;
+      guint i;
+
+      supported_mime_types = gdk_pixbuf_format_get_mime_types (format);
+      for (i = 0; supported_mime_types[i] != NULL; i++)
+        {
+          if (g_strcmp0 (mime_type, supported_mime_types[i]) == 0)
+            {
+              ret_val = photos_utils_get_pixbuf_common_suffix (format);
+              break;
+            }
+        }
+
+      g_strfreev (supported_mime_types);
+      if (ret_val != NULL)
+        break;
+    }
+
+  g_slist_free (formats);
+  return ret_val;
 }
 
 

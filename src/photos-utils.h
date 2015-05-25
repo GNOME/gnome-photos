@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -77,6 +77,8 @@ gchar           *photos_utils_filename_strip_extension    (const gchar *filename
 GQuark           photos_utils_flash_off_quark             (void);
 
 GQuark           photos_utils_flash_on_quark              (void);
+
+gchar           *photos_utils_get_extension_from_mime_type (const gchar *mime_type);
 
 gint             photos_utils_get_icon_size               (void);
 
