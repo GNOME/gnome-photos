@@ -176,7 +176,7 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
   local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "facebook", NULL);
   g_mkdir_with_parents (local_dir, 0700);
 
-  identifier = photos_base_item_get_identifier (item) + strlen ("facebook:photos:");
+  identifier = photos_base_item_get_identifier (item) + strlen ("facebook:");
   local_filename = g_strdup_printf ("%s.jpeg", identifier);
   local_path = g_build_filename (local_dir, local_filename, NULL);
   if (g_file_test (local_path, G_FILE_TEST_EXISTS))
