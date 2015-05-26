@@ -68,7 +68,6 @@ struct _PhotosBaseItemPrivate
   gboolean collection;
   gboolean failed_thumbnailing;
   gboolean favorite;
-  gboolean loaded_once;
   const gchar *thumb_path;
   gchar *author;
   gchar *default_app_name;
@@ -740,16 +739,11 @@ photos_base_item_load (PhotosBaseItem *self, GCancellable *cancellable, GError *
   GeglNode *ret_val = NULL;
   gchar *path = NULL;
 
-  if (!priv->loaded_once)
-    {
-      path = photos_base_item_download (self, cancellable, error);
-      if (path == NULL)
-        goto out;
+  path = photos_base_item_download (self, cancellable, error);
+  if (path == NULL)
+    goto out;
 
-      gegl_node_set (priv->node, "path", path, NULL);
-      priv->loaded_once = TRUE;
-    }
-
+  gegl_node_set (priv->node, "path", path, NULL);
   gegl_node_process (priv->node);
   priv->bbox = gegl_node_get_bounding_box (priv->node);
   ret_val = g_object_ref (priv->node);
