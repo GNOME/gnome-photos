@@ -39,6 +39,7 @@
 #include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-collection-icon-watcher.h"
+#include "photos-debug.h"
 #include "photos-delete-item-job.h"
 #include "photos-filterable.h"
 #include "photos-icons.h"
@@ -57,8 +58,12 @@ struct _PhotosBaseItemPrivate
 {
   cairo_surface_t *surface;
   GdkPixbuf *original_icon;
-  GeglNode *graph;
+  GeglNode *buffer_sink;
+  GeglNode *buffer_source;
+  GeglNode *edit_graph;
+  GeglNode *load_graph;
   GeglNode *load;
+  GeglProcessor *processor;
   GMutex mutex_download;
   GMutex mutex;
   GQuark equipment;
@@ -734,12 +739,11 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
 }
 
 
-static GeglNode *
-photos_base_item_load (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
+static GeglBuffer *
+photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
   PhotosBaseItemPrivate *priv = self->priv;
-  GeglNode *output;
-  GeglNode *ret_val = NULL;
+  GeglBuffer *ret_val = NULL;
   gchar *path = NULL;
 
   path = photos_base_item_download (self, cancellable, error);
@@ -747,10 +751,8 @@ photos_base_item_load (PhotosBaseItem *self, GCancellable *cancellable, GError *
     goto out;
 
   gegl_node_set (priv->load, "path", path, NULL);
-  output = photos_pipeline_get_output (priv->pipeline);
-  gegl_node_process (output);
-
-  ret_val = g_object_ref (output);
+  gegl_node_set (priv->buffer_sink, "buffer", &ret_val, NULL);
+  gegl_node_process (priv->buffer_sink);
 
  out:
   g_free (path);
@@ -759,26 +761,26 @@ photos_base_item_load (PhotosBaseItem *self, GCancellable *cancellable, GError *
 
 
 static void
-photos_base_item_load_in_thread_func (GTask *task,
-                                      gpointer source_object,
-                                      gpointer task_data,
-                                      GCancellable *cancellable)
+photos_base_item_load_buffer_in_thread_func (GTask *task,
+                                             gpointer source_object,
+                                             gpointer task_data,
+                                             GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv = self->priv;
-  GeglNode *node;
+  GeglBuffer *buffer;
   GError *error = NULL;
 
   g_mutex_lock (&priv->mutex);
 
-  node = photos_base_item_load (self, cancellable, &error);
+  buffer = photos_base_item_load_buffer (self, cancellable, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
       goto out;
     }
 
-  g_task_return_pointer (task, node, g_object_unref);
+  g_task_return_pointer (task, buffer, g_object_unref);
 
  out:
   g_mutex_unlock (&priv->mutex);
@@ -786,39 +788,147 @@ photos_base_item_load_in_thread_func (GTask *task,
 
 
 static void
-photos_base_item_process (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
+photos_base_item_load_buffer_async (PhotosBaseItem *self,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
 {
   PhotosBaseItemPrivate *priv = self->priv;
-  GeglNode *output;
+  GTask *task;
 
-  output = photos_pipeline_get_output (priv->pipeline);
-  gegl_node_process (output);
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+
+  if (priv->load_graph == NULL)
+    {
+      priv->load_graph = gegl_node_new ();
+      priv->load = gegl_node_new_child (priv->load_graph, "operation", "gegl:load", NULL);
+      priv->buffer_sink = gegl_node_new_child (priv->load_graph, "operation", "gegl:buffer-sink", NULL);
+      gegl_node_link (priv->load, priv->buffer_sink);
+
+    }
+
+  if (priv->edit_graph == NULL)
+    {
+      GeglNode *graph;
+
+      priv->edit_graph = gegl_node_new ();
+      priv->buffer_source = gegl_node_new_child (priv->edit_graph, "operation", "gegl:buffer-source", NULL);
+      priv->pipeline = photos_pipeline_new (priv->edit_graph);
+      graph = photos_pipeline_get_graph (priv->pipeline);
+      gegl_node_link (priv->buffer_source, graph);
+    }
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_load_buffer_async);
+
+  g_task_run_in_thread (task, photos_base_item_load_buffer_in_thread_func);
+  g_object_unref (task);
+}
+
+
+static GeglBuffer *
+photos_base_item_load_buffer_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_load_buffer_async, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  return g_task_propagate_pointer (task, error);
 }
 
 
 static void
-photos_base_item_process_in_thread_func (GTask *task,
-                                         gpointer source_object,
-                                         gpointer task_data,
-                                         GCancellable *cancellable)
+photos_base_item_load_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  PhotosBaseItemPrivate *priv = self->priv;
-  GError *error = NULL;
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItem *self;
+  GeglNode *graph;
+  GError *error;
 
-  g_mutex_lock (&priv->mutex);
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
 
-  photos_base_item_process (self, cancellable, &error);
+  error = NULL;
+  photos_base_item_process_finish (self, res, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
       goto out;
     }
 
-  g_task_return_boolean (task, TRUE);
+  graph = photos_pipeline_get_graph (self->priv->pipeline);
+  g_task_return_pointer (task, g_object_ref (graph), g_object_unref);
 
  out:
-  g_mutex_unlock (&priv->mutex);
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_load_load_buffer (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
+  const Babl *format;
+  GCancellable *cancellable;
+  GeglBuffer *buffer = NULL;
+  GError *error;
+  const gchar *format_name;
+
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  priv = self->priv;
+
+  cancellable = g_task_get_cancellable (task);
+
+  error = NULL;
+  buffer = photos_base_item_load_buffer_finish (self, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  format = gegl_buffer_get_format (buffer);
+  format_name = babl_get_name (format);
+  photos_debug (PHOTOS_DEBUG_GEGL, "Buffer loaded: %s", format_name);
+
+  gegl_node_set (priv->buffer_source, "buffer", buffer, NULL);
+
+  g_clear_object (&priv->processor);
+  priv->processor = photos_pipeline_new_processor (priv->pipeline);
+
+  photos_base_item_process_async (self, cancellable, photos_base_item_load_process, g_object_ref (task));
+
+ out:
+  g_clear_object (&buffer);
+  g_object_unref (task);
+}
+
+
+static gboolean
+photos_base_item_process_idle (gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItem *self;
+  GCancellable *cancellable;
+  gboolean result = FALSE;
+
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  cancellable = g_task_get_cancellable (task);
+
+  if (g_cancellable_is_cancelled (cancellable))
+    goto done;
+
+  if (gegl_processor_work (self->priv->processor, NULL))
+    return G_SOURCE_CONTINUE;
+
+  result = TRUE;
+
+ done:
+  g_task_return_boolean (task, result);
+  return G_SOURCE_REMOVE;
 }
 
 
@@ -1012,7 +1122,9 @@ photos_base_item_dispose (GObject *object)
   PhotosBaseItemPrivate *priv = self->priv;
 
   g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
-  g_clear_object (&priv->graph);
+  g_clear_object (&priv->edit_graph);
+  g_clear_object (&priv->load_graph);
+  g_clear_object (&priv->processor);
   g_clear_object (&priv->original_icon);
   g_clear_object (&priv->watcher);
   g_clear_object (&priv->pipeline);
@@ -1425,28 +1537,14 @@ photos_base_item_load_async (PhotosBaseItem *self,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
 
-  if (priv->graph == NULL)
-    {
-      GeglNode *graph;
-
-      priv->graph = gegl_node_new ();
-      priv->load = gegl_node_new_child (priv->graph, "operation", "gegl:load", NULL);
-
-      priv->pipeline = photos_pipeline_new (priv->graph);
-      graph = photos_pipeline_get_graph (priv->pipeline);
-
-      gegl_node_link_many (priv->load, graph, NULL);
-    }
-
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_load_async);
 
-  g_task_run_in_thread (task, photos_base_item_load_in_thread_func);
+  photos_base_item_load_buffer_async (self, cancellable, photos_base_item_load_load_buffer, g_object_ref (task));
   g_object_unref (task);
 }
 
@@ -1523,7 +1621,7 @@ photos_base_item_process_async (PhotosBaseItem *self,
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_process_async);
 
-  g_task_run_in_thread (task, photos_base_item_process_in_thread_func);
+  g_idle_add_full (G_PRIORITY_DEFAULT_IDLE, photos_base_item_process_idle, g_object_ref (task), g_object_unref);
   g_object_unref (task);
 }
 
