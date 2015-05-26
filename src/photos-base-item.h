@@ -108,8 +108,6 @@ gchar              *photos_base_item_download_finish         (PhotosBaseItem *se
 
 const gchar        *photos_base_item_get_author              (PhotosBaseItem *self);
 
-void                photos_base_item_get_bbox                (PhotosBaseItem *self, GeglRectangle *out_bbox);
-
 gint64              photos_base_item_get_date_created        (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_default_app_name    (PhotosBaseItem *self);
