@@ -4,6 +4,7 @@
 
 #include "photos-enums.h"
 #include "photos-item-manager.h"
+#include "photos-operation-insta-common.h"
 
 /*** END file-header ***/
 

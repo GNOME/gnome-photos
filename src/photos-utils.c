@@ -41,6 +41,8 @@
 #include "photos-google-item.h"
 #include "photos-local-item.h"
 #include "photos-media-server-item.h"
+#include "photos-operation-insta-curve.h"
+#include "photos-operation-insta-filter.h"
 #include "photos-query.h"
 #include "photos-source.h"
 #include "photos-tracker-collections-controller.h"
@@ -519,6 +521,9 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_GOOGLE_ITEM);
       g_type_ensure (PHOTOS_TYPE_LOCAL_ITEM);
       g_type_ensure (PHOTOS_TYPE_MEDIA_SERVER_ITEM);
+
+      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
 
       g_type_ensure (PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER);
       g_type_ensure (PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER);

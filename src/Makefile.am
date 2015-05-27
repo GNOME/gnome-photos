@@ -119,6 +119,11 @@ gnome_photos_SOURCES = \
 	photos-offset-overview-controller.h \
 	photos-offset-search-controller.c \
 	photos-offset-search-controller.h \
+	photos-operation-insta-common.h \
+	photos-operation-insta-curve.c \
+	photos-operation-insta-curve.h \
+	photos-operation-insta-filter.c \
+	photos-operation-insta-filter.h \
 	photos-organize-collection-dialog.c \
 	photos-organize-collection-dialog.h \
 	photos-organize-collection-model.c \
@@ -362,6 +367,7 @@ stamp-photos-enums.h: photos-enums.h.template
 		( glib-mkenums \
 			--template $(srcdir)/photos-enums.h.template \
                         $(srcdir)/photos-item-manager.h \
+                        $(srcdir)/photos-operation-insta-common.h \
                 ) >> xgen-etbh \
 		&& ( cmp -s xgen-etbh photos-enums.h || cp xgen-etbh photos-enums.h ) \
 		&& rm -f xgen-etbh \
@@ -373,6 +379,7 @@ photos-enums.c: photos-enums.c.template
 		( glib-mkenums \
 			--template $(srcdir)/photos-enums.c.template \
                         $(srcdir)/photos-item-manager.h \
+                        $(srcdir)/photos-operation-insta-common.h \
                 ) >> xgen-etbc \
 		&& ( cmp -s xgen-etbc photos-enums.c || cp xgen-etbc photos-enums.c ) \
 		&& rm -f xgen-etbc \
