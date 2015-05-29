@@ -109,8 +109,6 @@ get_private(GeglGtkView *self)
 #define GET_PRIVATE(self) (get_private(self))
 
 
-static void      gegl_gtk_view_class_init(GeglGtkViewClass  *klass);
-static void      gegl_gtk_view_init(GeglGtkView       *self);
 static void      finalize(GObject        *gobject);
 static void      set_property(GObject        *gobject,
                               guint           prop_id,
