@@ -455,7 +455,7 @@ expose_event(GtkWidget      *widget,
  * Returns: New #GeglGtkView
  **/
 GeglGtkView *
-gegl_gtk_view_new()
+gegl_gtk_view_new(void)
 {
     return GEGL_GTK_VIEW(g_object_new(GEGL_GTK_TYPE_VIEW, NULL));
 }
