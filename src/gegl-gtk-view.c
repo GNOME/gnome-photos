@@ -455,14 +455,6 @@ gegl_gtk_view_new(void)
     return GEGL_GTK_VIEW(g_object_new(GEGL_GTK_TYPE_VIEW, NULL));
 }
 
-GeglGtkView *
-gegl_gtk_view_new_for_buffer(GeglBuffer *buffer)
-{
-    GeglNode *node = gegl_node("gegl:buffer-source",
-                     "buffer", buffer, NULL);
-    return gegl_gtk_view_new_for_node(node);
-}
-
 /**
  * gegl_gtk_view_new_for_node:
  * @node: The #GeglNode to display

@@ -55,7 +55,6 @@ GType           gegl_gtk_view_get_type(void) G_GNUC_CONST;
 
 GeglGtkView *gegl_gtk_view_new(void);
 GeglGtkView *gegl_gtk_view_new_for_node(GeglNode *node);
-GeglGtkView *gegl_gtk_view_new_for_buffer(GeglBuffer *buffer);
 
 void gegl_gtk_view_set_node(GeglGtkView *self, GeglNode *node);
 GeglNode *gegl_gtk_view_get_node(GeglGtkView *self);
