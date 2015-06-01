@@ -32,21 +32,25 @@
 #include "gegl-gtk-view.h"
 #include "photos-base-item.h"
 #include "photos-item-manager.h"
+#include "photos-edit-palette.h"
 #include "photos-operation-insta-common.h"
 #include "photos-preview-nav-buttons.h"
 #include "photos-preview-view.h"
 #include "photos-search-context.h"
+#include "photos-tool.h"
 
 
 struct _PhotosPreviewViewPrivate
 {
   GeglNode *node;
   GtkWidget *overlay;
+  GtkWidget *revealer;
   GtkWidget *stack;
   GtkWidget *view;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosPreviewNavButtons *nav_buttons;
+  PhotosTool *current_tool;
 };
 
 enum
@@ -62,6 +66,54 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosPreviewView, photos_preview_view, GTK_TYPE_SCR
 static GtkWidget *photos_preview_view_create_view (PhotosPreviewView *self);
 
 
+static gboolean
+photos_preview_view_button_press_event (PhotosPreviewView *self, GdkEvent *event)
+{
+  PhotosPreviewViewPrivate *priv = self->priv;
+  gboolean ret_val = GDK_EVENT_PROPAGATE;
+
+  if (priv->current_tool == NULL)
+    goto out;
+
+  switch (event->button.button)
+    {
+    case 1:
+      ret_val = photos_tool_left_click_event (priv->current_tool, &(event->button));
+      break;
+
+    default:
+      break;
+    }
+
+ out:
+  return ret_val;
+}
+
+
+static gboolean
+photos_preview_view_button_release_event (PhotosPreviewView *self, GdkEvent *event)
+{
+  PhotosPreviewViewPrivate *priv = self->priv;
+  gboolean ret_val = GDK_EVENT_PROPAGATE;
+
+  if (priv->current_tool == NULL)
+    goto out;
+
+  switch (event->button.button)
+    {
+    case 1:
+      ret_val = photos_tool_left_unclick_event (priv->current_tool, &(event->button));
+      break;
+
+    default:
+      break;
+    }
+
+ out:
+  return ret_val;
+}
+
+
 static void
 photos_preview_view_draw_background (PhotosPreviewView *self, cairo_t *cr, GdkRectangle *rect, gpointer user_data)
 {
@@ -75,6 +127,18 @@ photos_preview_view_draw_background (PhotosPreviewView *self, cairo_t *cr, GdkRe
   gtk_style_context_set_state (context, flags);
   gtk_render_background (context, cr, 0, 0, rect->width, rect->height);
   gtk_style_context_restore (context);
+}
+
+
+static void
+photos_preview_view_draw_overlay (PhotosPreviewView *self, cairo_t *cr, GdkRectangle *rect, gpointer user_data)
+{
+  PhotosPreviewViewPrivate *priv = self->priv;
+
+  if (priv->current_tool == NULL)
+    return;
+
+  photos_tool_draw (priv->current_tool, cr, rect);
 }
 
 
@@ -102,6 +166,22 @@ photos_preview_view_get_invisible_view (PhotosPreviewView *self)
 
   g_list_free (children);
   return next_view;
+}
+
+
+static gboolean
+photos_preview_view_motion_notify_event (PhotosPreviewView *self, GdkEvent *event)
+{
+  PhotosPreviewViewPrivate *priv = self->priv;
+  gboolean ret_val = GDK_EVENT_PROPAGATE;
+
+  if (priv->current_tool == NULL)
+    goto out;
+
+  ret_val = photos_tool_motion_event (priv->current_tool, &(event->motion));
+
+ out:
+  return ret_val;
 }
 
 
@@ -147,11 +227,22 @@ photos_preview_view_create_view (PhotosPreviewView *self)
   GtkWidget *view;
 
   view = GTK_WIDGET (gegl_gtk_view_new ());
-  gtk_widget_add_events (view, GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK);
+  gtk_widget_add_events (view,
+                         GDK_BUTTON_PRESS_MASK
+                         | GDK_BUTTON_RELEASE_MASK
+                         | GDK_POINTER_MOTION_MASK
+                         | GDK_POINTER_MOTION_HINT_MASK);
   context = gtk_widget_get_style_context (view);
   gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
   gtk_style_context_add_class (context, "content-view");
+  g_signal_connect_swapped (view, "button-press-event", G_CALLBACK (photos_preview_view_button_press_event), self);
+  g_signal_connect_swapped (view,
+                            "button-release-event",
+                            G_CALLBACK (photos_preview_view_button_release_event),
+                            self);
+  g_signal_connect_swapped (view, "motion-notify-event", G_CALLBACK (photos_preview_view_motion_notify_event), self);
   g_signal_connect_swapped (view, "draw-background", G_CALLBACK (photos_preview_view_draw_background), self);
+  g_signal_connect_swapped (view, "draw-overlay", G_CALLBACK (photos_preview_view_draw_overlay), self);
 
   /* It has to be visible to become the visible child of priv->stack. */
   gtk_widget_show (view);
@@ -304,6 +395,34 @@ photos_preview_view_sharpen (PhotosPreviewView *self, GVariant *parameter)
 
 
 static void
+photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
+{
+  PhotosPreviewViewPrivate *priv = self->priv;
+  GtkWidget *view;
+
+  if (priv->current_tool == tool)
+    return;
+
+  if (priv->current_tool != NULL)
+    photos_tool_deactivate (priv->current_tool);
+
+  g_clear_object (&priv->current_tool);
+  view = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
+
+  if (tool != NULL)
+    {
+      PhotosBaseItem *item;
+
+      priv->current_tool = g_object_ref (tool);
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+      photos_tool_activate (priv->current_tool, item, GEGL_GTK_VIEW (view));
+    }
+
+  gtk_widget_queue_draw (view);
+}
+
+
+static void
 photos_preview_view_undo (PhotosPreviewView *self)
 {
   PhotosBaseItem *item;
@@ -325,15 +444,21 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
-    case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
+      gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer), FALSE);
       photos_preview_nav_buttons_hide (priv->nav_buttons);
       photos_preview_nav_buttons_set_model (priv->nav_buttons, NULL, NULL);
       break;
 
+    case PHOTOS_WINDOW_MODE_EDIT:
+      gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer), TRUE);
+      photos_preview_nav_buttons_hide (priv->nav_buttons);
+      break;
+
     case PHOTOS_WINDOW_MODE_PREVIEW:
+      gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer), FALSE);
       photos_preview_nav_buttons_show (priv->nav_buttons);
       break;
 
@@ -354,6 +479,7 @@ photos_preview_view_dispose (GObject *object)
   g_clear_object (&priv->node);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
+  g_clear_object (&priv->current_tool);
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->dispose (object);
 }
@@ -364,13 +490,26 @@ photos_preview_view_constructed (GObject *object)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
   PhotosPreviewViewPrivate *priv = self->priv;
+  GtkWidget *grid;
+  GtkWidget *palette;
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->constructed (object);
+
+  grid = gtk_grid_new ();
+  gtk_container_add (GTK_CONTAINER (self), grid);
 
   /* Add the stack to the scrolled window after the default
    * adjustments have been created.
    */
-  gtk_container_add (GTK_CONTAINER (self), priv->stack);
+  gtk_container_add (GTK_CONTAINER (grid), priv->stack);
+
+  priv->revealer = gtk_revealer_new ();
+  gtk_revealer_set_transition_type (GTK_REVEALER (priv->revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_LEFT);
+  gtk_container_add (GTK_CONTAINER (grid), priv->revealer);
+
+  palette = photos_edit_palette_new ();
+  gtk_container_add (GTK_CONTAINER (priv->revealer), palette);
+  g_signal_connect_swapped (palette, "tool-changed", G_CALLBACK (photos_preview_view_tool_changed), self);
 
   priv->nav_buttons = photos_preview_nav_buttons_new (self, GTK_OVERLAY (priv->overlay));
   gtk_widget_show_all (GTK_WIDGET (self));
@@ -428,6 +567,8 @@ photos_preview_view_init (PhotosPreviewView *self)
   gtk_style_context_add_class (context, "documents-scrolledwin");
 
   priv->stack = gtk_stack_new ();
+  gtk_widget_set_hexpand (priv->stack, TRUE);
+  gtk_widget_set_vexpand (priv->stack, TRUE);
 
   view = photos_preview_view_create_view (self);
   gtk_container_add (GTK_CONTAINER (priv->stack), view);
