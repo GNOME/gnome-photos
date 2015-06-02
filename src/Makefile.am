@@ -188,6 +188,8 @@ gnome_photos_SOURCES = \
 	photos-source-manager.h \
 	photos-spinner-box.c \
 	photos-spinner-box.h \
+	photos-tool.c \
+	photos-tool.h \
 	photos-tracker-change-event.c \
 	photos-tracker-change-event.h \
 	photos-tracker-change-monitor.c \
