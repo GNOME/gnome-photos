@@ -45,6 +45,7 @@
 #include "photos-operation-insta-filter.h"
 #include "photos-query.h"
 #include "photos-source.h"
+#include "photos-tool.h"
 #include "photos-tracker-collections-controller.h"
 #include "photos-tracker-controller.h"
 #include "photos-tracker-favorites-controller.h"
@@ -546,6 +547,9 @@ photos_utils_ensure_extension_points (void)
 
       extension_point = g_io_extension_point_register (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
       g_io_extension_point_set_required_type (extension_point, PHOTOS_TYPE_BASE_ITEM);
+
+      extension_point = g_io_extension_point_register (PHOTOS_TOOL_EXTENSION_POINT_NAME);
+      g_io_extension_point_set_required_type (extension_point, PHOTOS_TYPE_TOOL);
 
       extension_point = g_io_extension_point_register (PHOTOS_TRACKER_CONTROLLER_EXTENSION_POINT_NAME);
       g_io_extension_point_set_required_type (extension_point, PHOTOS_TYPE_TRACKER_CONTROLLER);
