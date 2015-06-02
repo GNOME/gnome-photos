@@ -46,6 +46,7 @@
 #include "photos-query.h"
 #include "photos-source.h"
 #include "photos-tool.h"
+#include "photos-tool-enhance.h"
 #include "photos-tracker-collections-controller.h"
 #include "photos-tracker-controller.h"
 #include "photos-tracker-favorites-controller.h"
@@ -525,6 +526,8 @@ photos_utils_ensure_builtins (void)
 
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
+
+      g_type_ensure (PHOTOS_TYPE_TOOL_ENHANCE);
 
       g_type_ensure (PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER);
       g_type_ensure (PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER);

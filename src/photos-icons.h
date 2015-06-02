@@ -36,6 +36,8 @@ G_BEGIN_DECLS
 #define PHOTOS_ICON_GO_NEXT_SYMBOLIC "go-next-symbolic"
 #define PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC "go-previous-symbolic"
 
+#define PHOTOS_ICON_IMAGE_AUTO_ADJUST_SYMBOLIC "image-auto-adjust-symbolic"
+
 #define PHOTOS_ICON_IMAGE_X_GENERIC_SYMBOLIC "image-x-generic-symbolic"
 
 #define PHOTOS_ICON_NOT_FAVORITE "non-starred"
