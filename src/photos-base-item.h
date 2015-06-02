@@ -26,6 +26,7 @@
 #ifndef PHOTOS_BASE_ITEM_H
 #define PHOTOS_BASE_ITEM_H
 
+#include <cairo.h>
 #include <gegl.h>
 #include <gio/gio.h>
 #include <glib-object.h>
