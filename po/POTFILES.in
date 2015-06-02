@@ -32,4 +32,5 @@ src/photos-selection-toolbar.c
 src/photos-source-manager.c
 src/photos-spinner-box.c
 src/photos-tool-enhance.c
+src/photos-tool-filters.c
 src/photos-tracker-controller.c
