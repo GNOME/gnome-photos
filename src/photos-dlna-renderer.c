@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Intel Corporation. All rights reserved.
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -82,7 +82,7 @@ photos_dlna_renderer_dispose (GObject *object)
   g_clear_object (&priv->device);
   g_clear_object (&priv->push_host);
   g_clear_object (&priv->player);
-  g_clear_pointer (&priv->urls_to_item, g_hash_table_unref);
+  g_clear_pointer (&priv->urls_to_item, (GDestroyNotify) g_hash_table_unref);
 
   G_OBJECT_CLASS (photos_dlna_renderer_parent_class)->dispose (object);
 }

@@ -58,7 +58,7 @@ photos_dlna_renderers_manager_dispose (GObject *object)
   PhotosDlnaRenderersManagerPrivate *priv = self->priv;
 
   g_clear_object (&priv->proxy);
-  g_clear_pointer (&priv->renderers, g_hash_table_unref);
+  g_clear_pointer (&priv->renderers, (GDestroyNotify) g_hash_table_unref);
   g_clear_error (&priv->error);
 
   G_OBJECT_CLASS (photos_dlna_renderers_manager_parent_class)->dispose (object);
