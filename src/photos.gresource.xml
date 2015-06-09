@@ -13,4 +13,14 @@
     <file alias="sidebar-radio-selected-prelight.svg" preprocess="to-pixdata">../data/sidebar-radio-selected-prelight.svg</file>
     <file alias="thumbnail-frame.png" preprocess="to-pixdata">../data/thumbnail-frame.png</file>
   </gresource>
+
+  <gresource prefix="/org/gnome/Photos/icons">
+    <file alias="image-adjust-color-symbolic.svg">../data/icons/image-adjust-color-symbolic.svg</file>
+    <file alias="image-auto-adjust-symbolic.svg">../data/icons/image-auto-adjust-symbolic.svg</file>
+    <file alias="image-crop-symbolic.svg">../data/icons/image-crop-symbolic.svg</file>
+    <file alias="image-denoise-symbolic.svg">../data/icons/image-denoise-symbolic.svg</file>
+    <file alias="image-edit-symbolic.svg">../data/icons/image-edit-symbolic.svg</file>
+    <file alias="image-filter-symbolic.svg">../data/icons/image-filter-symbolic.svg</file>
+    <file alias="image-sharpen-symbolic.svg">../data/icons/image-sharpen-symbolic.svg</file>
+  </gresource>
 </gresources>

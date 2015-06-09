@@ -982,6 +982,7 @@ photos_application_startup (GApplication *application)
   GError *error;
   GSimpleAction *action;
   GrlRegistry *registry;
+  GtkIconTheme *icon_theme;
   GtkSettings *settings;
   GVariant *state;
   GVariantType *parameter_type;
@@ -1013,6 +1014,9 @@ photos_application_startup (GApplication *application)
 
   priv->resource = photos_get_resource ();
   g_resources_register (priv->resource);
+
+  icon_theme = gtk_icon_theme_get_default ();
+  gtk_icon_theme_add_resource_path (icon_theme, "/org/gnome/Photos/icons");
 
   settings = gtk_settings_get_default ();
   g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);

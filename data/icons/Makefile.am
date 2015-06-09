@@ -14,6 +14,10 @@ public_icons = \
 
 noinst_DATA = \
 	hicolor_gnome-photos.svg \
+	image-crop-symbolic.svg \
+	image-denoise-symbolic.svg \
+	image-filter-symbolic.svg \
+	image-sharpen-symbolic.svg \
 	$(NULL)
 
 EXTRA_DIST = \
