@@ -21,12 +21,14 @@
 /* Based on code from:
  *   + Documents
  *   + Eye of GNOME
+ *   + Shotwell
  *   + Totem
  */
 
 #ifndef PHOTOS_UTILS_H
 #define PHOTOS_UTILS_H
 
+#include <cairo.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gegl.h>
 #include <gio/gio.h>
@@ -66,11 +68,33 @@ GIcon           *photos_utils_get_icon_from_cursor        (TrackerSparqlCursor *
 
 GdkPixbuf       *photos_utils_downscale_pixbuf_for_scale  (GdkPixbuf *pixbuf, gint size, gint scale);
 
+void             photos_utils_draw_rectangle_handles      (cairo_t *cr,
+                                                           gdouble x,
+                                                           gdouble y,
+                                                           gdouble width,
+                                                           gdouble height,
+                                                           gdouble offset,
+                                                           gdouble radius);
+
+void             photos_utils_draw_rectangle_thirds       (cairo_t *cr,
+                                                           gdouble x,
+                                                           gdouble y,
+                                                           gdouble width,
+                                                           gdouble height);
+
 void             photos_utils_ensure_builtins             (void);
 
 void             photos_utils_ensure_extension_points     (void);
 
+gboolean         photos_utils_equal_double                (gdouble a, gdouble b);
+
 GQuark           photos_utils_error_quark                 (void);
+
+gdouble          photos_utils_eval_radial_line            (gdouble crop_center_x,
+                                                           gdouble crop_center_y,
+                                                           gdouble corner_x,
+                                                           gdouble corner_y,
+                                                           gdouble event_x);
 
 gchar           *photos_utils_filename_strip_extension    (const gchar *filename_with_extension);
 

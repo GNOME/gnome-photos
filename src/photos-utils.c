@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2009 Yorba Foundation
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,6 +22,7 @@
 /* Based on code from:
  *   + Documents
  *   + Eye of GNOME
+ *   + Shotwell
  *   + Totem
  */
 
@@ -29,7 +31,6 @@
 
 #include <string.h>
 
-#include <cairo.h>
 #include <glib.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 #include <tracker-sparql.h>
@@ -46,6 +47,7 @@
 #include "photos-query.h"
 #include "photos-source.h"
 #include "photos-tool.h"
+#include "photos-tool-crop.h"
 #include "photos-tool-enhance.h"
 #include "photos-tool-filters.h"
 #include "photos-tracker-collections-controller.h"
@@ -55,6 +57,9 @@
 #include "photos-tracker-queue.h"
 #include "photos-tracker-search-controller.h"
 #include "photos-utils.h"
+
+
+static const gdouble EPSILON = 1e-5;
 
 
 static void
@@ -511,6 +516,65 @@ photos_utils_downscale_pixbuf_for_scale (GdkPixbuf *pixbuf, gint size, gint scal
 
 
 void
+photos_utils_draw_rectangle_handles (cairo_t *cr,
+                                     gdouble x,
+                                     gdouble y,
+                                     gdouble width,
+                                     gdouble height,
+                                     gdouble offset,
+                                     gdouble radius)
+{
+  cairo_save (cr);
+
+  cairo_new_sub_path (cr);
+  cairo_arc (cr, x - offset, y - offset, radius, 0.0, 2.0 * M_PI);
+  cairo_fill (cr);
+
+  cairo_new_sub_path (cr);
+  cairo_arc (cr, x + width + offset, y - offset, radius, 0.0, 2.0 * M_PI);
+  cairo_fill (cr);
+
+  cairo_new_sub_path (cr);
+  cairo_arc (cr, x + width + offset, y + height + offset, radius, 0.0, 2.0 * M_PI);
+  cairo_fill (cr);
+
+  cairo_new_sub_path (cr);
+  cairo_arc (cr, x - offset, y + height + offset, radius, 0.0, 2.0 * M_PI);
+  cairo_fill (cr);
+
+  cairo_restore (cr);
+}
+
+
+void
+photos_utils_draw_rectangle_thirds (cairo_t *cr, gdouble x, gdouble y, gdouble width, gdouble height)
+{
+  const gdouble one_third_x = width / 3.0;
+  const gdouble one_third_y = height / 3.0;
+
+  cairo_save (cr);
+
+  cairo_move_to (cr, x + one_third_x, y);
+  cairo_line_to (cr, x + one_third_x, y + height);
+  cairo_stroke (cr);
+
+  cairo_move_to (cr, x + 2.0 * one_third_x, y);
+  cairo_line_to (cr, x + 2.0 * one_third_x, y + height);
+  cairo_stroke (cr);
+
+  cairo_move_to (cr, x, y + one_third_y);
+  cairo_line_to (cr, x + width, y + one_third_y);
+  cairo_stroke (cr);
+
+  cairo_move_to (cr, x, y + 2.0 * one_third_y);
+  cairo_line_to (cr, x + width, y + 2.0 * one_third_y);
+  cairo_stroke (cr);
+
+  cairo_restore (cr);
+}
+
+
+void
 photos_utils_ensure_builtins (void)
 {
   static gsize once_init_value = 0;
@@ -528,6 +592,7 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
 
+      g_type_ensure (PHOTOS_TYPE_TOOL_CROP);
       g_type_ensure (PHOTOS_TYPE_TOOL_ENHANCE);
       g_type_ensure (PHOTOS_TYPE_TOOL_FILTERS);
 
@@ -564,10 +629,37 @@ photos_utils_ensure_extension_points (void)
 }
 
 
+gboolean
+photos_utils_equal_double (gdouble a, gdouble b)
+{
+  const gdouble diff = a - b;
+  return diff > -EPSILON && diff < EPSILON;
+}
+
+
 GQuark
 photos_utils_error_quark (void)
 {
   return g_quark_from_static_string ("gnome-photos-error-quark");
+}
+
+
+gdouble
+photos_utils_eval_radial_line (gdouble crop_center_x,
+                               gdouble crop_center_y,
+                               gdouble corner_x,
+                               gdouble corner_y,
+                               gdouble event_x)
+{
+  gdouble decision_intercept;
+  gdouble decision_slope;
+  gdouble projected_y;
+
+  decision_slope = (corner_y - crop_center_y) / (corner_x - crop_center_x);
+  decision_intercept = corner_y - (decision_slope * corner_x);
+  projected_y = decision_slope * event_x + decision_intercept;
+
+  return projected_y;
 }
 
 

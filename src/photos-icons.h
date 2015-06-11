@@ -37,6 +37,7 @@ G_BEGIN_DECLS
 #define PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC "go-previous-symbolic"
 
 #define PHOTOS_ICON_IMAGE_AUTO_ADJUST_SYMBOLIC "image-auto-adjust-symbolic"
+#define PHOTOS_ICON_IMAGE_CROP_SYMBOLIC "image-crop-symbolic"
 #define PHOTOS_ICON_IMAGE_FILTER_SYMBOLIC "image-filter-symbolic"
 
 #define PHOTOS_ICON_IMAGE_X_GENERIC_SYMBOLIC "image-x-generic-symbolic"
