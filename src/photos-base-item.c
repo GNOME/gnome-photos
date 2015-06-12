@@ -1105,8 +1105,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
   signals[INFO_UPDATED] = g_signal_new ("info-updated",
                                         G_TYPE_FROM_CLASS (class),
                                         G_SIGNAL_RUN_LAST,
-                                        G_STRUCT_OFFSET (PhotosBaseItemClass,
-                                                         info_updated),
+                                        G_STRUCT_OFFSET (PhotosBaseItemClass, info_updated),
                                         NULL, /* accumulator */
                                         NULL, /* accu_data */
                                         g_cclosure_marshal_VOID__VOID,

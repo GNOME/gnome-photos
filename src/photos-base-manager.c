@@ -225,8 +225,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   signals[ACTIVE_CHANGED] = g_signal_new ("active-changed",
                                           G_TYPE_FROM_CLASS (class),
                                           G_SIGNAL_RUN_LAST,
-                                          G_STRUCT_OFFSET (PhotosBaseManagerClass,
-                                                           active_changed),
+                                          G_STRUCT_OFFSET (PhotosBaseManagerClass, active_changed),
                                           NULL, /*accumulator */
                                           NULL, /*accu_data */
                                           g_cclosure_marshal_VOID__OBJECT,
@@ -237,8 +236,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   signals[CLEAR] = g_signal_new ("clear",
                                  G_TYPE_FROM_CLASS (class),
                                  G_SIGNAL_RUN_LAST,
-                                 G_STRUCT_OFFSET (PhotosBaseManagerClass,
-                                                  clear),
+                                 G_STRUCT_OFFSET (PhotosBaseManagerClass, clear),
                                  NULL, /*accumulator */
                                  NULL, /*accu_data */
                                  g_cclosure_marshal_VOID__VOID,
@@ -248,8 +246,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   signals[OBJECT_ADDED] = g_signal_new ("object-added",
                                         G_TYPE_FROM_CLASS (class),
                                         G_SIGNAL_RUN_LAST,
-                                        G_STRUCT_OFFSET (PhotosBaseManagerClass,
-                                                         object_added),
+                                        G_STRUCT_OFFSET (PhotosBaseManagerClass, object_added),
                                         NULL, /*accumulator */
                                         NULL, /* accu_data */
                                         g_cclosure_marshal_VOID__OBJECT,
@@ -260,8 +257,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   signals[OBJECT_REMOVED] = g_signal_new ("object-removed",
                                           G_TYPE_FROM_CLASS (class),
                                           G_SIGNAL_RUN_LAST,
-                                          G_STRUCT_OFFSET (PhotosBaseManagerClass,
-                                                           object_removed),
+                                          G_STRUCT_OFFSET (PhotosBaseManagerClass, object_removed),
                                           NULL, /*accumulator */
                                           NULL, /*accu_data */
                                           g_cclosure_marshal_VOID__OBJECT,
