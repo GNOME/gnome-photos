@@ -41,10 +41,8 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosOrganizeCollectionDialog, photos_organize_coll
 
 
 static gboolean
-photos_organize_collection_dialog_button_press_event (GtkWidget *widget, GdkEvent *event, gpointer user_data)
+photos_organize_collection_dialog_button_press_event (PhotosOrganizeCollectionDialog *self, GdkEvent *event)
 {
-  PhotosOrganizeCollectionDialog *self = PHOTOS_ORGANIZE_COLLECTION_DIALOG (user_data);
-
   photos_organize_collection_view_confirmed_choice (PHOTOS_ORGANIZE_COLLECTION_VIEW (self->priv->coll_view));
   return FALSE;
 }
@@ -98,10 +96,10 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
    *   editing-canceled signal and add the collection in that case
    *   instead.
    */
-  g_signal_connect (ok_button,
-                    "button-press-event",
-                    G_CALLBACK (photos_organize_collection_dialog_button_press_event),
-                    self);
+  g_signal_connect_swapped (ok_button,
+                            "button-press-event",
+                            G_CALLBACK (photos_organize_collection_dialog_button_press_event),
+                            self);
 }
 
 
