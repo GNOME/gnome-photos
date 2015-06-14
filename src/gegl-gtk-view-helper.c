@@ -236,21 +236,25 @@ view_helper_set_node(ViewHelper *self, GeglNode *node)
     if (self->node == node)
         return;
 
-    if (self->node)
+    if (self->node) {
+        g_signal_handler_disconnect (self->node, self->computed_id);
         g_object_unref(self->node);
+    }
 
     if (node) {
         g_object_ref(node);
         self->node = node;
 
-        g_signal_connect_object(self->node, "computed",
-                                G_CALLBACK(computed_event),
-                                self, 0);
+        self->computed_id = g_signal_connect_object(self->node, "computed",
+                                                    G_CALLBACK(computed_event),
+                                                    self, 0);
 
         update_autoscale(self);
 
-    } else
+    } else {
         self->node = NULL;
+        self->computed_id = 0;
+    }
 }
 
 GeglNode *

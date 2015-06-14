@@ -49,6 +49,8 @@ struct _ViewHelper {
     GeglGtkViewAutoscale autoscale_policy;
 
     GdkRectangle   widget_allocation; /* The allocated size of the widget */
+
+    gulong computed_id;
 };
 
 struct _ViewHelperClass {
