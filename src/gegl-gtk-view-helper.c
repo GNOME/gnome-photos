@@ -223,15 +223,7 @@ computed_event(GeglNode      *node,
                GeglRectangle *rect,
                ViewHelper    *self)
 {
-    GeglRectangle redraw_rect;
-
     update_autoscale(self);
-
-    /* Emit redraw-needed */
-    redraw_rect = *rect;
-    model_rect_to_view_rect(self, &redraw_rect);
-
-    trigger_redraw(self, &redraw_rect);
 }
 
 ViewHelper *
