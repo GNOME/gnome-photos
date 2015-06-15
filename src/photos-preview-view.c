@@ -142,67 +142,6 @@ photos_preview_view_nav_buttons_activated (PhotosPreviewView *self, PhotosPrevie
 }
 
 
-static void
-photos_preview_view_scale_and_align_image (PhotosPreviewView *self, GtkWidget *view)
-{
-  PhotosPreviewViewPrivate *priv = self->priv;
-  GeglRectangle bbox;
-  GtkAllocation alloc;
-  float delta_x;
-  float delta_y;
-  float scale = 1.0;
-
-  if (priv->node == NULL)
-    return;
-
-  /* Reset these properties, otherwise values from the previous node
-   * will interfere with the current one.
-   */
-  gegl_gtk_view_set_autoscale_policy (GEGL_GTK_VIEW (view), GEGL_GTK_VIEW_AUTOSCALE_DISABLED);
-  gegl_gtk_view_set_scale (GEGL_GTK_VIEW (view), 1.0);
-  gegl_gtk_view_set_x (GEGL_GTK_VIEW (view), 0.0);
-  gegl_gtk_view_set_y (GEGL_GTK_VIEW (view), 0.0);
-
-  bbox = gegl_node_get_bounding_box (priv->node);
-  gtk_widget_get_allocation (view, &alloc);
-
-  if (bbox.width > alloc.width || bbox.height > alloc.height)
-    {
-      float height_ratio;
-      float max_ratio;
-      float width_ratio;
-
-      gegl_gtk_view_set_autoscale_policy (GEGL_GTK_VIEW (view), GEGL_GTK_VIEW_AUTOSCALE_CONTENT);
-
-      /* TODO: since gegl_gtk_view_get_scale is not giving the
-       *       correct value of scale, we calculate it ourselves.
-       */
-      height_ratio = (float) bbox.height / alloc.height;
-      width_ratio = (float) bbox.width / alloc.width;
-      max_ratio = width_ratio >= height_ratio ? width_ratio : height_ratio;
-      scale = 1.0 / max_ratio;
-
-      bbox.width = (gint) (scale * bbox.width + 0.5);
-      bbox.height = (gint) (scale * bbox.height + 0.5);
-    }
-
-
-  /* At this point, alloc is definitely bigger than bbox. */
-  delta_x = (alloc.width - bbox.width) / 2.0;
-  delta_y = (alloc.height - bbox.height) / 2.0;
-  gegl_gtk_view_set_x (GEGL_GTK_VIEW (view), -delta_x);
-  gegl_gtk_view_set_y (GEGL_GTK_VIEW (view), -delta_y);
-}
-
-
-static void
-photos_preview_view_size_allocate (PhotosPreviewView *self, GdkRectangle *allocation, gpointer user_data)
-{
-  GtkWidget *view = GTK_WIDGET (user_data);
-  photos_preview_view_scale_and_align_image (self, view);
-}
-
-
 static GtkWidget *
 photos_preview_view_create_view (PhotosPreviewView *self)
 {
@@ -214,7 +153,6 @@ photos_preview_view_create_view (PhotosPreviewView *self)
   context = gtk_widget_get_style_context (view);
   gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
   gtk_style_context_add_class (context, "content-view");
-  g_signal_connect_swapped (view, "size-allocate", G_CALLBACK (photos_preview_view_size_allocate), self);
   g_signal_connect_swapped (view, "draw-background", G_CALLBACK (photos_preview_view_draw_background), self);
 
   /* It has to be visible to become the visible child of priv->stack. */
@@ -408,8 +346,6 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
   else
     {
       priv->node = g_object_ref (node);
-
-      photos_preview_view_scale_and_align_image (self, view);
 
       /* Steals the reference to the GeglNode. */
       gegl_gtk_view_set_node (GEGL_GTK_VIEW (view), g_object_ref (priv->node));

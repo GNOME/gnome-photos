@@ -15,6 +15,7 @@
  *
  * Copyright (C) 2003, 2004, 2006 Øyvind Kolås <pippin@gimp.org>
  * Copyright (C) 2011 Jon Nordby <jononor@gmail.com>
+ * Copyright (C) 2015 Red Hat, Inc.
  */
 
 #include "config.h"
@@ -121,24 +122,40 @@ update_autoscale(ViewHelper *self)
         return;
 
     bbox = gegl_node_get_bounding_box(self->node);
-    model_rect_to_view_rect(self, &bbox);
     if (bbox.width < 0 || bbox.height < 0)
         return;
 
     if (self->autoscale_policy == GEGL_GTK_VIEW_AUTOSCALE_WIDGET) {
         /* Request widget size change */
         /* XXX: Should we reset scale/x/y here? */
+        model_rect_to_view_rect(self, &bbox);
         g_signal_emit(self, view_helper_signals[SIGNAL_SIZE_CHANGED],
                       0, &bbox, NULL);
 
     } else if (self->autoscale_policy == GEGL_GTK_VIEW_AUTOSCALE_CONTENT) {
         /* Calculate and set scaling factor to make the content fit inside */
-        float width_ratio = bbox.width / (float)viewport.width;
-        float height_ratio = bbox.height / (float)viewport.height;
-        float max_ratio = width_ratio >= height_ratio ? width_ratio : height_ratio;
+        float delta_x;
+        float delta_y;
+        float scale = 1.0;
 
-        float current_scale = view_helper_get_scale(self);
-        view_helper_set_scale(self, current_scale * (1.0 / max_ratio));
+        if (bbox.width > viewport.width || bbox.height > viewport.height) {
+            float width_ratio = bbox.width / (float)viewport.width;
+            float height_ratio = bbox.height / (float)viewport.height;
+            float max_ratio = width_ratio >= height_ratio ? width_ratio : height_ratio;
+
+            scale = 1.0 / max_ratio;
+
+            bbox.width = (gint) (scale * bbox.width + 0.5);
+            bbox.height = (gint) (scale * bbox.height + 0.5);
+        }
+
+        self->scale = scale;
+
+        /* At this point, viewport is definitely bigger than bbox. */
+        delta_x = (viewport.width - bbox.width) / 2.0;
+        delta_y = (viewport.height - bbox.height) / 2.0;
+        self->x = -delta_x;
+        self->y = -delta_y;
     }
 
 }
