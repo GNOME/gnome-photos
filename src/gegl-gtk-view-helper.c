@@ -297,32 +297,10 @@ view_helper_get_scale(ViewHelper *self)
     return self->scale;
 }
 
-void
-view_helper_set_x(ViewHelper *self, float x)
-{
-    if (self->x == x)
-        return;
-
-    self->x = x;
-    update_autoscale(self);
-    trigger_redraw(self, NULL);
-}
-
 float
 view_helper_get_x(ViewHelper *self)
 {
     return self->x;
-}
-
-void
-view_helper_set_y(ViewHelper *self, float y)
-{
-    if (self->y == y)
-        return;
-
-    self->y = y;
-    update_autoscale(self);
-    trigger_redraw(self, NULL);
 }
 
 float

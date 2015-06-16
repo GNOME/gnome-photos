@@ -71,10 +71,8 @@ GeglNode *view_helper_get_node(ViewHelper *self);
 void view_helper_set_scale(ViewHelper *self, float scale);
 float view_helper_get_scale(ViewHelper *self);
 
-void view_helper_set_x(ViewHelper *self, float x);
 float view_helper_get_x(ViewHelper *self);
 
-void view_helper_set_y(ViewHelper *self, float y);
 float view_helper_get_y(ViewHelper *self);
 
 void view_helper_get_transformation(ViewHelper *self, GeglMatrix3 *matrix);

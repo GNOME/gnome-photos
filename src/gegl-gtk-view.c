@@ -160,15 +160,13 @@ gegl_gtk_view_class_init(GeglGtkViewClass *klass)
                                             "X",
                                             "X origin",
                                             -G_MAXFLOAT, G_MAXFLOAT, 0.0,
-                                            G_PARAM_CONSTRUCT |
-                                            G_PARAM_READWRITE));
+                                            G_PARAM_READABLE));
     g_object_class_install_property(gobject_class, PROP_Y,
                                     g_param_spec_float("y",
                                             "Y",
                                             "Y origin",
                                             -G_MAXFLOAT, G_MAXFLOAT, 0.0,
-                                            G_PARAM_CONSTRUCT |
-                                            G_PARAM_READWRITE));
+                                            G_PARAM_READABLE));
     g_object_class_install_property(gobject_class, PROP_SCALE,
                                     g_param_spec_double("scale",
                                             "Scale",
@@ -287,14 +285,8 @@ set_property(GObject      *gobject,
     case PROP_NODE:
         gegl_gtk_view_set_node(self, GEGL_NODE(g_value_get_object(value)));
         break;
-    case PROP_X:
-        gegl_gtk_view_set_x(self, g_value_get_float(value));
-        break;
     case PROP_BLOCK:
         priv->block = g_value_get_boolean(value);
-        break;
-    case PROP_Y:
-        gegl_gtk_view_set_y(self, g_value_get_float(value));
         break;
     case PROP_SCALE:
         gegl_gtk_view_set_scale(self, g_value_get_double(value));
@@ -538,19 +530,6 @@ gegl_gtk_view_get_scale(GeglGtkView *self)
 }
 
 /**
- * gegl_gtk_view_set_x:
- * @self: A #GeglGtkView
- * @x:
- *
- * Setter for the :x property
- **/
-void
-gegl_gtk_view_set_x(GeglGtkView *self, float x)
-{
-    view_helper_set_x(GET_PRIVATE(self), x);
-}
-
-/**
  * gegl_gtk_view_get_x:
  * @self: A #GeglGtkView
  *
@@ -562,19 +541,6 @@ float
 gegl_gtk_view_get_x(GeglGtkView *self)
 {
     return view_helper_get_x(GET_PRIVATE(self));
-}
-
-/**
- * gegl_gtk_view_set_y:
- * @self: A #GeglGtkView
- * @y:
- *
- * Setter for the :y property
- **/
-void
-gegl_gtk_view_set_y(GeglGtkView *self, float y)
-{
-    view_helper_set_y(GET_PRIVATE(self), y);
 }
 
 /**
