@@ -120,12 +120,16 @@ photos_preview_view_draw_background (PhotosPreviewView *self, cairo_t *cr, GdkRe
   GtkStyleContext *context;
   GtkStateFlags flags;
   GtkWidget *view = GTK_WIDGET (user_data);
+  gint height;
+  gint width;
 
   context = gtk_widget_get_style_context (view);
   flags = gtk_widget_get_state_flags (view);
   gtk_style_context_save (context);
   gtk_style_context_set_state (context, flags);
-  gtk_render_background (context, cr, 0, 0, rect->width, rect->height);
+  height = gtk_widget_get_allocated_height (view);
+  width = gtk_widget_get_allocated_width (view);
+  gtk_render_background (context, cr, 0, 0, width, height);
   gtk_style_context_restore (context);
 }
 
