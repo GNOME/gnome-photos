@@ -384,12 +384,9 @@ photos_base_manager_get_objects (PhotosBaseManager *self)
 guint
 photos_base_manager_get_objects_count (PhotosBaseManager *self)
 {
-  GList *keys;
   guint count;
 
-  keys = g_hash_table_get_keys (self->priv->objects);
-  count = g_list_length (keys);
-  g_list_free (keys);
+  count = g_hash_table_size (self->priv->objects);
   return count;
 }
 
