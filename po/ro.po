@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the gnome-photos package.
 # Bogdan Mințoi <mintoi.bogdan [at] gmail [dot] com>, 2014.
 # Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2014.
+# Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-28 07:16+0000\n"
-"PO-Revision-Date: 2014-07-27 12:47+0200\n"
+"POT-Creation-Date: 2015-06-19 07:45+0000\n"
+"PO-Revision-Date: 2015-06-19 20:39+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
 "Language: ro\n"
@@ -181,38 +182,30 @@ msgstr "Nu se poate afișa fișierul de ajutor pentru Image Viewer"
 msgid " (invalid Unicode)"
 msgstr " (Unicode nevalid)"
 
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Ecran complet"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "_Ajutor"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "Despre"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "Ieșire"
-
-#: ../src/photos-base-item.c:347
+#: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:806
+#: ../src/photos-base-item.c:886
 msgid "Screenshots"
 msgstr "Capturi de ecran"
 
-#: ../src/photos-delete-notification.c:139
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Elementul selectat a fost șters"
-msgstr[1] "Elementele selectate au fost șterse"
-msgstr[2] "Elementele selectate au fost șterse"
+#: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "„%s” șters"
 
-#: ../src/photos-delete-notification.c:150
+#: ../src/photos-delete-notification.c:144
+#, c-format
+#| msgid "Selected item has been deleted"
+#| msgid_plural "Selected items have been deleted"
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d element șters"
+msgstr[1] "%d elemente șterse"
+msgstr[2] "%d de elemente șterse"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Anulează"
 
@@ -220,19 +213,19 @@ msgstr "Anulează"
 msgid "DLNA Renderer Devices"
 msgstr "Dispozitive de randare DLNA"
 
-#: ../src/photos-embed.c:722
+#: ../src/photos-embed.c:637
 msgid "Recent"
 msgstr "Recente"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:644 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albume"
 
-#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:651 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favorite"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:275
+#: ../src/photos-embed.c:658 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Caută"
 
@@ -256,19 +249,28 @@ msgstr "Setări"
 msgid "You can add your online accounts in %s"
 msgstr "Puteți să adăugați conturile dumneavoastră online în %s"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Nu au fost găsite albume"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "Nu au fost găsite favorite"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "Fotografiile favorite vor apărea aici"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Nu au fost găsite fotografii"
 
-#: ../src/photos-fetch-metas-job.c:163
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-google-item.c:77
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
+
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Fotografie fără nume"
 
@@ -292,23 +294,15 @@ msgstr "Fotografiile dumneavoastră se indexează"
 msgid "Some photos might not be available during this process"
 msgstr "Unele fotografii pot să nu fie disponibile pe durata procesului"
 
-#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
-msgid "Load More"
-msgstr "Încarcă mai multe"
-
-#: ../src/photos-load-more-button.c:86
-msgid "Loading…"
-msgstr "Se încarcă…"
-
-#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Local"
 
-#: ../src/photos-main-toolbar.c:108
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "Clic pe elemente pentru a le selecta"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -316,46 +310,80 @@ msgstr[0] "%d selectată"
 msgstr[1] "%d selectate"
 msgstr[2] "%d selectate"
 
-#: ../src/photos-main-toolbar.c:151
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Înapoi"
 
-#: ../src/photos-main-toolbar.c:291
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Selectați elemente"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:413 ../src/photos-selection-toolbar.c:281
+#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Deschide cu %s"
 
-#: ../src/photos-main-toolbar.c:572
+#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:292
+msgid "Remove from favorites"
+msgstr "Elimină de la favorite"
+
+#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:298
+msgid "Add to favorites"
+msgstr "Adăugă la favorite"
+
+#: ../src/photos-main-toolbar.c:645
 msgid "Cancel"
 msgstr "Anulează"
 
+#: ../src/photos-main-window.c:473
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Drepturi de atuor © 2013 Intel Corporation. Toate drepturile rezervate.\n"
+"Drepturi de atuor © 2014, 2015 Pranav Kant\n"
+"Drepturi de atuor © 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:484
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr "Bogdan Mințoi <mintoi.bogdan [at] gmail [dot] com>"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Ecran complet"
+
+#: ../src/photos-menus.ui.h:2
+msgid "_Help"
+msgstr "_Ajutor"
+
+#: ../src/photos-menus.ui.h:3
+msgid "About"
+msgstr "Despre"
+
+#: ../src/photos-menus.ui.h:4
+msgid "Quit"
+msgstr "Ieșire"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "_Adaugă"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_OK"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organizează"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:284
-#: ../src/photos-selection-toolbar.c:456
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Deschide"
 
@@ -371,106 +399,101 @@ msgstr "Afișează pe…"
 msgid "Set as Background"
 msgstr "Stabilește ca fundal"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
-#: ../src/photos-selection-toolbar.c:480
+#: ../src/photos-preview-menu.ui.h:5
+#| msgid "Set as background"
+msgid "Set as Lock Screen"
+msgstr "Stabiliți ca fundal"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
+#: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Proprietăți"
-
-#: ../src/photos-preview-nav-buttons.c:223
-#: ../src/photos-selection-toolbar.c:293
-msgid "Remove from favorites"
-msgstr "Elimină de la favorite"
-
-#: ../src/photos-preview-nav-buttons.c:228
-#: ../src/photos-selection-toolbar.c:299
-msgid "Add to favorites"
-msgstr "Adăugă la favorite"
 
 #: ../src/photos-print-notification.c:76
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Se tipărește “%s”: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Setările imaginii"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:906
 msgid "Position"
 msgstr "Poziție"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:909
 msgid "_Left:"
 msgstr "_Stânga:"
 
-#: ../src/photos-print-setup.c:899
+#: ../src/photos-print-setup.c:910
 msgid "_Right:"
 msgstr "_Dreapta:"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:911
 msgid "_Top:"
 msgstr "_Sus:"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:912
 msgid "_Bottom:"
 msgstr "_Jos:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:914
 msgid "C_enter:"
 msgstr "C_entru:"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:918
 msgid "None"
 msgstr "Nespecificat"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:919
 msgid "Horizontal"
 msgstr "Orizontal"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:920
 msgid "Vertical"
 msgstr "Vertical"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:921
 msgid "Both"
 msgstr "Ambele"
 
-#: ../src/photos-print-setup.c:923
+#: ../src/photos-print-setup.c:934
 msgid "Size"
 msgstr "Dimensiuni"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:937
 msgid "_Width:"
 msgstr "_Lățime:"
 
-#: ../src/photos-print-setup.c:927
+#: ../src/photos-print-setup.c:938
 msgid "_Height:"
 msgstr "_Înălțime:"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:940
 msgid "_Scaling:"
 msgstr "_Scalare:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:949
 msgid "_Unit:"
 msgstr "_Unitate"
 
-#: ../src/photos-print-setup.c:942
+#: ../src/photos-print-setup.c:953
 msgid "Millimeters"
 msgstr "Milimetri"
 
-#: ../src/photos-print-setup.c:943
+#: ../src/photos-print-setup.c:954
 msgid "Inches"
 msgstr "Țoli"
 
-#: ../src/photos-print-setup.c:971
+#: ../src/photos-print-setup.c:982
 msgid "Preview"
 msgstr "Previzualizare"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:216
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Titlu"
@@ -478,68 +501,68 @@ msgstr "Titlu"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:228
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-properties-dialog.c:235
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Sursă"
 
-#: ../src/photos-properties-dialog.c:241
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Data modificării"
 
-#: ../src/photos-properties-dialog.c:249
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Data creării"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:259
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tip"
 
-#: ../src/photos-properties-dialog.c:268
+#: ../src/photos-properties-dialog.c:269
 msgid "Width"
 msgstr "Lățime"
 
-#: ../src/photos-properties-dialog.c:278
+#: ../src/photos-properties-dialog.c:279
 msgid "Height"
 msgstr "Înălțime"
 
-#: ../src/photos-properties-dialog.c:293
+#: ../src/photos-properties-dialog.c:294
 msgid "Camera"
 msgstr "Cameră"
 
-#: ../src/photos-properties-dialog.c:303
+#: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
 msgstr "Expunere"
 
-#: ../src/photos-properties-dialog.c:313
+#: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
 msgstr "Deschidere"
 
-#: ../src/photos-properties-dialog.c:323
+#: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
 msgstr "Distanța focală"
 
-#: ../src/photos-properties-dialog.c:333
+#: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
 msgstr "Viteza ISO"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:344
 msgid "Flash"
 msgstr "Bliț"
 
-#: ../src/photos-properties-dialog.c:483
+#: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
 msgstr "Absent, nu s-a folosit"
 
-#: ../src/photos-properties-dialog.c:485
+#: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
 msgstr "Prezent, s-a folosit"
 
@@ -560,14 +583,17 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "Potrivire"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Tip"
@@ -584,11 +610,11 @@ msgstr "Deselectează tot"
 msgid "Print"
 msgstr "Tipărește"
 
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "Șterge"
 
-#: ../src/photos-selection-toolbar.c:488
+#: ../src/photos-selection-toolbar.c:485
 msgid "Add to Album"
 msgstr "Adaugă la album"
 
@@ -596,9 +622,18 @@ msgstr "Adaugă la album"
 msgid "Sources"
 msgstr "Surse"
 
-#: ../src/photos-tracker-controller.c:96
+#: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
 msgstr "Nu se poate prelua lista de fotografii"
+
+#~ msgid "No Favorites Found"
+#~ msgstr "Nu au fost găsite favorite"
+
+#~ msgid "Load More"
+#~ msgstr "Încarcă mai multe"
+
+#~ msgid "Loading…"
+#~ msgstr "Se încarcă…"
 
 #~ msgid ""
 #~ "<li>View recent local and online photos</li> <li>Access your Flickr "
