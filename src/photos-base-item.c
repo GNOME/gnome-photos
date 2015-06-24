@@ -1341,6 +1341,23 @@ photos_base_item_get_author (PhotosBaseItem *self)
 }
 
 
+gboolean
+photos_base_item_get_bbox_source (PhotosBaseItem *self, GeglRectangle *bbox)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  gboolean ret_val = FALSE;
+
+  if (priv->buffer_source == NULL)
+    goto out;
+
+  *bbox = gegl_node_get_bounding_box (priv->buffer_source);
+  ret_val = TRUE;
+
+ out:
+  return ret_val;
+}
+
+
 gint64
 photos_base_item_get_date_created (PhotosBaseItem *self)
 {
