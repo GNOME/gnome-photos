@@ -96,7 +96,7 @@ photos_preview_nav_buttons_notify_child_revealed (PhotosPreviewNavButtons *self,
   GtkWidget *widget = GTK_WIDGET (user_data);
 
   if (!gtk_revealer_get_child_revealed (GTK_REVEALER (widget)))
-      gtk_widget_hide (widget);
+    gtk_widget_hide (widget);
 
   g_signal_handlers_disconnect_by_func (widget, photos_preview_nav_buttons_notify_child_revealed, self);
 }
