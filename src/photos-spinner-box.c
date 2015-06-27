@@ -47,6 +47,16 @@ G_DEFINE_TYPE (PhotosSpinnerBox, photos_spinner_box, GTK_TYPE_REVEALER);
 
 
 static void
+photos_spinner_box_notify_child_revealed (GtkRevealer *revealer)
+{
+  if (!gtk_revealer_get_child_revealed (revealer))
+    gtk_widget_hide (GTK_WIDGET (revealer));
+
+  g_signal_handlers_disconnect_by_func (revealer, photos_spinner_box_notify_child_revealed, NULL);
+}
+
+
+static void
 photos_spinner_box_constructed (GObject *object)
 {
   PhotosSpinnerBox *self = PHOTOS_SPINNER_BOX (object);
@@ -58,8 +68,6 @@ photos_spinner_box_constructed (GObject *object)
   gtk_widget_set_halign (self->spinner, GTK_ALIGN_CENTER);
   gtk_widget_set_valign (self->spinner, GTK_ALIGN_CENTER);
   gtk_container_add (GTK_CONTAINER (self), self->spinner);
-
-  gtk_widget_show_all (GTK_WIDGET (self));
 }
 
 
@@ -92,6 +100,7 @@ photos_spinner_box_new (void)
 void
 photos_spinner_box_start (PhotosSpinnerBox *self)
 {
+  gtk_widget_show_all (GTK_WIDGET (self));
   gtk_revealer_set_reveal_child (GTK_REVEALER (self), TRUE);
   gtk_spinner_start (GTK_SPINNER (self->spinner));
 }
@@ -101,5 +110,7 @@ void
 photos_spinner_box_stop (PhotosSpinnerBox *self)
 {
   gtk_revealer_set_reveal_child (GTK_REVEALER (self), FALSE);
+  g_signal_connect (self, "notify::child-revealed", G_CALLBACK (photos_spinner_box_notify_child_revealed), NULL);
+
   gtk_spinner_stop (GTK_SPINNER (self->spinner));
 }
