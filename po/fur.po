@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-24 08:17+0000\n"
-"PO-Revision-Date: 2014-12-24 17:28+0100\n"
+"POT-Creation-Date: 2015-07-26 19:47+0000\n"
+"PO-Revision-Date: 2015-07-26 23:14+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.1\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1
@@ -25,9 +25,9 @@ msgstr ""
 msgid "Photos"
 msgstr "Fotos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
-msgstr "Jentre, organize e condivît lis tôs fotos su GNOME"
+msgstr "Dopre, organize e condivît lis tôs fotos su GNOME"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
@@ -36,7 +36,7 @@ msgid ""
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Une semplice aplicazion par acedi, organizâ e condividi lis tôs fotos su "
+"Une semplice aplicazion par doprâ, organizâ e condividi lis tôs fotos su "
 "GNOME. Al è fat par sedi une semplice e elegante sostituzion a un file "
 "manager par ministrâ lis fotos. Le integrazion cun il cloud a je ufierte vie "
 "GNOME Online Accounts."
@@ -51,7 +51,7 @@ msgstr "Viôt fotos locâi e online recents"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:6
 msgid "Access your Facebook or Flickr content"
-msgstr "Acedi ai tiei contignûts di Facebook o Flickr"
+msgstr "Jentre tai tiei contignûts di Facebook o Flickr"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:7
 msgid "Send photos to remote DLNA renderers"
@@ -77,7 +77,7 @@ msgstr ""
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
-msgstr "Acedi, ministre e condivît fotos"
+msgstr "Dopre, ministre e condivît fotos"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
@@ -180,37 +180,27 @@ msgstr "Impussibil mostrâ il jutori par Visôr di figuris"
 msgid " (invalid Unicode)"
 msgstr " (Unicode no valit)"
 
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Plen visôr"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "_Jutori"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "Informazions"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "Jes"
-
-#: ../src/photos-base-item.c:410
+#: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:862
+#: ../src/photos-base-item.c:886
 msgid "Screenshots"
 msgstr "Videadis"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "L'element selezionât al è stât eliminât"
-msgstr[1] "I elements selezionâts a son stâts eliminâts"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "“%s” eliminade"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d element eliminât"
+msgstr[1] "%d elements eliminâts"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Anule"
 
@@ -218,19 +208,19 @@ msgstr "Anule"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositîfs visôrs DLNA"
 
-#: ../src/photos-embed.c:619
+#: ../src/photos-embed.c:637
 msgid "Recent"
 msgstr "Recent"
 
-#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:644 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:651 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Preferîts"
 
-#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:658 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Cîr"
 
@@ -254,28 +244,28 @@ msgstr "Impostazions"
 msgid "You can add your online accounts in %s"
 msgstr "Tu puedis zontâ i tiei account online in %s"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Nissun album cjatât"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "Nissun preferît cjatât"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "Lis fotos segnadis cuntune stele a vegnaran fûr chi"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Nissune foto cjatade"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:78 ../src/photos-flickr-item.c:88
-#: ../src/photos-google-item.c:76
+#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-google-item.c:77
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:163
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Foto cence non"
 
@@ -299,15 +289,7 @@ msgstr "Lis tôs fotos a son stadis metudis in indiç"
 msgid "Some photos might not be available during this process"
 msgstr "Cualchi foto a podarès no sedi disponibil dilunc chest procès"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:191
-msgid "Load More"
-msgstr "Cjarie ancjemò"
-
-#: ../src/photos-load-more-button.c:85
-msgid "Loading…"
-msgstr "Daûr a cjariâ..."
-
-#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Locâl"
 
@@ -322,47 +304,73 @@ msgid_plural "%d selected"
 msgstr[0] "%d selezionât"
 msgstr[1] "%d selezionâts"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Indaûr"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Selezione elements"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Vierç cun %s"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Gjave dai preferîts"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Zonte tai preferîts"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:645
 msgid "Cancel"
 msgstr "Anule"
 
+#: ../src/photos-main-window.c:473
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Copyright © 2013 Intel Corporation. Ducj i dirits riservâts.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:481
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr "Fabio Tomat <f.t.public@gmail.com>"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Plen visôr"
+
+#: ../src/photos-menus.ui.h:2
+msgid "_Help"
+msgstr "_Jutori"
+
+#: ../src/photos-menus.ui.h:3
+msgid "About"
+msgstr "Informazions"
+
+#: ../src/photos-menus.ui.h:4
+msgid "Quit"
+msgstr "Jes"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "_Zonte"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_OK"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organize"
@@ -385,7 +393,11 @@ msgstr "Mostre su..."
 msgid "Set as Background"
 msgstr "Dopre come sfont"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:609
+#: ../src/photos-preview-menu.ui.h:5
+msgid "Set as Lock Screen"
+msgstr "Dopre come bloc visôr"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
 #: ../src/photos-selection-toolbar.c:478
 msgid "Properties"
 msgstr "Proprietâts"
@@ -395,79 +407,79 @@ msgstr "Proprietâts"
 msgid "Printing “%s”: %s"
 msgstr "Stampe “%s”: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Impostazions figure"
 
-#: ../src/photos-print-setup.c:890
+#: ../src/photos-print-setup.c:906
 msgid "Position"
 msgstr "Posizion"
 
-#: ../src/photos-print-setup.c:893
+#: ../src/photos-print-setup.c:909
 msgid "_Left:"
 msgstr "_Çampe:"
 
-#: ../src/photos-print-setup.c:894
+#: ../src/photos-print-setup.c:910
 msgid "_Right:"
 msgstr "_Diestre:"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:911
 msgid "_Top:"
 msgstr "_Parsore:"
 
-#: ../src/photos-print-setup.c:896
+#: ../src/photos-print-setup.c:912
 msgid "_Bottom:"
 msgstr "_Sot:"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:914
 msgid "C_enter:"
 msgstr "C_entri:"
 
-#: ../src/photos-print-setup.c:902
+#: ../src/photos-print-setup.c:918
 msgid "None"
 msgstr "Nissune"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:919
 msgid "Horizontal"
 msgstr "Orizontâl"
 
-#: ../src/photos-print-setup.c:904
+#: ../src/photos-print-setup.c:920
 msgid "Vertical"
 msgstr "Verticâl"
 
-#: ../src/photos-print-setup.c:905
+#: ../src/photos-print-setup.c:921
 msgid "Both"
 msgstr "Ducj i doi"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:934
 msgid "Size"
 msgstr "Dimension"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:937
 msgid "_Width:"
 msgstr "_Largjece:"
 
-#: ../src/photos-print-setup.c:922
+#: ../src/photos-print-setup.c:938
 msgid "_Height:"
 msgstr "_Altece:"
 
-#: ../src/photos-print-setup.c:924
+#: ../src/photos-print-setup.c:940
 msgid "_Scaling:"
 msgstr "_Scjale:"
 
-#: ../src/photos-print-setup.c:933
+#: ../src/photos-print-setup.c:949
 msgid "_Unit:"
 msgstr "_Unitât:"
 
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:953
 msgid "Millimeters"
 msgstr "Milimetris"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:954
 msgid "Inches"
 msgstr "Oncis"
 
-#: ../src/photos-print-setup.c:966
+#: ../src/photos-print-setup.c:982
 msgid "Preview"
 msgstr "Anteprime"
 
@@ -564,14 +576,17 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autôr"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "Corispuint"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Gjenar"
@@ -600,6 +615,15 @@ msgstr "Zonte tal album"
 msgid "Sources"
 msgstr "Sorzints"
 
-#: ../src/photos-tracker-controller.c:96
+#: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
 msgstr "Impussibil vê la liste das fotos"
+
+#~ msgid "No Favorites Found"
+#~ msgstr "Nissun preferît cjatât"
+
+#~ msgid "Load More"
+#~ msgstr "Cjarie ancjemò"
+
+#~ msgid "Loading…"
+#~ msgstr "Daûr a cjariâ..."
