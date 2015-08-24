@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-12 22:26+0100\n"
-"PO-Revision-Date: 2015-03-12 22:27+0100\n"
+"POT-Creation-Date: 2015-08-24 17:32+0200\n"
+"PO-Revision-Date: 2015-08-24 17:33+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -133,7 +133,7 @@ msgstr "%.1f (obiektyw)"
 #: ../src/eog-exif-util.c:262
 #, c-format
 msgid "%.1f (35mm film)"
-msgstr "%.1f (film 35mm)"
+msgstr "%.1f (film 35 mm)"
 
 #: ../src/eog-image.c:595
 #, c-format
@@ -183,22 +183,6 @@ msgstr "Nie można wyświetlić pomocy przeglądarki obrazów"
 msgid " (invalid Unicode)"
 msgstr " (nieprawidłowe kodowanie Unicode)"
 
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Pełny ekran"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "Pomo_c"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "O programie"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "Zakończ"
-
 #: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Album"
@@ -210,7 +194,7 @@ msgstr "Zrzuty ekranu"
 #: ../src/photos-delete-notification.c:141
 #, c-format
 msgid "“%s” deleted"
-msgstr "Usunięto \"%s\""
+msgstr "Usunięto „%s”"
 
 #: ../src/photos-delete-notification.c:144
 #, c-format
@@ -228,19 +212,19 @@ msgstr "Cofnij"
 msgid "DLNA Renderer Devices"
 msgstr "Urządzenia mechanizmu wyświetlającego DLNA"
 
-#: ../src/photos-embed.c:621
+#: ../src/photos-embed.c:637
 msgid "Recent"
 msgstr "Ostatnie"
 
-#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:644 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:651 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Ulubione"
 
-#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:658 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Wyszukaj"
 
@@ -285,7 +269,7 @@ msgstr "Nie odnaleziono zdjęć"
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:163
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Zdjęcie bez nazwy"
 
@@ -309,7 +293,7 @@ msgstr "Zdjęcia są indeksowane"
 msgid "Some photos might not be available during this process"
 msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
 
-#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokalne"
 
@@ -325,29 +309,29 @@ msgstr[0] "Zaznaczono: %d"
 msgstr[1] "Zaznaczono: %d"
 msgstr[2] "Zaznaczono: %d"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Wstecz"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Wybór elementów"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
-msgstr "Otwórz za pomocą %s"
+msgstr "Otwórz za pomocą „%s”"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:645
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -369,16 +353,32 @@ msgstr ""
 "Paweł Żołnowski <pawel@zolnowski.name>, 2014-2015\n"
 "Aviary.pl <gnomepl@aviary.pl>, 2012-2015"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Pełny ekran"
+
+#: ../src/photos-menus.ui.h:2
+msgid "_Help"
+msgstr "Pomo_c"
+
+#: ../src/photos-menus.ui.h:3
+msgid "About"
+msgstr "O programie"
+
+#: ../src/photos-menus.ui.h:4
+msgid "Quit"
+msgstr "Zakończ"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "_Dodaj"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_OK"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organizacja"
@@ -413,7 +413,7 @@ msgstr "Właściwości"
 #: ../src/photos-print-notification.c:76
 #, c-format
 msgid "Printing “%s”: %s"
-msgstr "Drukowanie zdjęcia \"%s\": %s"
+msgstr "Drukowanie zdjęcia „%s”: %s"
 
 #: ../src/photos-print-operation.c:274
 msgid "Image Settings"
@@ -584,14 +584,17 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "autora"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "Wyszukiwanie"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Typ"
