@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-15 09:26+0000\n"
+"POT-Creation-Date: 2015-07-21 19:46+0000\n"
 "PO-Revision-Date: 2015-03-15 22:29+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <chinese-l10n@googlegroups.com>\n"
@@ -37,7 +37,7 @@ msgid ""
 "Accounts."
 msgstr ""
 "簡單的應用程式，讓您可以在 GNOME 中存取、管理與分享您的相片。它希望能成為以檔"
-"案管理程式處理相片的優雅替代方案。透過 GNOME 線上帳號提供無縫的雲端整合。"
+"案管理員處理相片的優雅替代方案。透過 GNOME 線上帳號提供無縫的雲端整合。"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
@@ -176,22 +176,6 @@ msgstr "無法顯示影像檢視器的說明文件"
 msgid " (invalid Unicode)"
 msgstr "(無效的萬國碼)"
 
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "全螢幕"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "求助(_H)"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "關於"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "結束"
-
 #: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "相簿"
@@ -219,19 +203,19 @@ msgstr "取消動作"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA 繪製裝置"
 
-#: ../src/photos-embed.c:621
+#: ../src/photos-embed.c:637
 msgid "Recent"
 msgstr "最近"
 
-#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:644 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "相簿"
 
-#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:651 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "喜好"
 
-#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:658 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "搜尋"
 
@@ -276,7 +260,7 @@ msgstr "找不到相片"
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:163
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "無標題相片"
 
@@ -300,7 +284,7 @@ msgstr "您的相片已被索引"
 msgid "Some photos might not be available during this process"
 msgstr "部分相片在這個程序中可能無法使用"
 
-#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "本地端"
 
@@ -314,29 +298,29 @@ msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "已選擇 %d 個"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "返回"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "選擇項目"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "以 %s 開啟"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "自喜好移除"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "加入喜好中"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:645
 msgid "Cancel"
 msgstr "取消"
 
@@ -355,16 +339,32 @@ msgstr ""
 msgid "translator-credits"
 msgstr "Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>, 2013"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "全螢幕"
+
+#: ../src/photos-menus.ui.h:2
+msgid "_Help"
+msgstr "求助(_H)"
+
+#: ../src/photos-menus.ui.h:3
+msgid "About"
+msgstr "關於"
+
+#: ../src/photos-menus.ui.h:4
+msgid "Quit"
+msgstr "結束"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "加入(_A)"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "確定(_O)"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "整理"
@@ -570,14 +570,17 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "作者"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "符合"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "類型"
@@ -626,7 +629,7 @@ msgstr "無法擷取相片清單"
 #~ "opening full featured editor for more advanced changes</li>"
 #~ msgstr ""
 #~ "<li>檢視最近使用的本地與線上相片</li> <li>存取您的 Flickr 內容</li> <li>傳"
-#~ "送相片到遠端的 DLNA 播放器</li> <li>設定為背景圖片</li> <li>列印相片</li> "
+#~ "送相片到遠端的 DLNA 播放器</li> <li>設定為背景影像</li> <li>列印相片</li> "
 #~ "<li>選擇喜好相片</li> <li>允許開啟全功能的編輯器進行更多進階變更</li>"
 
 #~ msgid "Facebook"
