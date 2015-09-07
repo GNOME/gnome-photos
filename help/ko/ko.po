@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2014-09-18 21:19+0000\n"
-"PO-Revision-Date: 2014-09-13 23:22+0900\n"
+"POT-Creation-Date: 2015-09-06 07:52+0000\n"
+"PO-Revision-Date: 2015-09-06 22:41+0900\n"
 "Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -220,6 +220,71 @@ msgid ""
 msgstr ""
 "열어 보려는 사진을 선택하거나 화살표 키로 사진을 찾아보고 <key>Enter</key>키"
 "를 누르십시오."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "최근 사진을 여십시오."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "최근 사진 보기"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"<gui style=\"tab\">최근</gui> 은 로컬 파일 시스템의 <file>~/다운로드</"
+"file>,  <file>~/사진</file>과 같은 위치와 온라인 사진첩에 있는 사진을 표시합"
+"니다. <app>그놈 온라인 계정</app>을 통해 플리커 또는 페이스북 앨범의 클라우"
+"드 기반 저장소도 추가할 수 있습니다."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "다른 파일 시스템 위치를 추가하려면:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr "<guiseq><gui>설정</gui><gui>검색</gui></guiseq>으로 이동하십시오."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"우측 하단의 기어 단추를 누르십시오.  <gui style=\"tab\">최근</gui> 탭에 표시"
+"하고자 하는 위치를 선택할 수 있습니다."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "최근 사진을 보려면:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "<gui style=\"tab\">최근</gui> 탭을 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr ""
+"바둑판 모양새로 나타난 사진을 볼 수 있습니다. 열어보고자 하는 사진을 바둑판 "
+"목록에서 선택하십시오."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
