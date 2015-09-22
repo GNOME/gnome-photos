@@ -7,17 +7,20 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-04 08:25+0000\n"
-"PO-Revision-Date: 2015-03-05 21:48+0200\n"
-"Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
+"POT-Creation-Date: 2015-09-22 08:16+0000\n"
+"PO-Revision-Date: 2015-09-22 15:27+0200\n"
+"Last-Translator: Marko M. Kostić (Marko M. Kostić) <marko.m.kostic@gmail."
+"com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-Bookmarks: -1,36,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1
@@ -25,7 +28,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Fotografije"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:463
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Pristupite, razvrstajte i delite vaše fotografije na Gnomu"
 
@@ -178,22 +181,6 @@ msgstr "Ne mogu da prikažem pomoć za Preglednika slika"
 msgid " (invalid Unicode)"
 msgstr " (neispravan Unikod)"
 
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Ceo ekran"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "Po_moć"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "O programu"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "Izađi"
-
 #: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Album"
@@ -202,15 +189,21 @@ msgstr "Album"
 msgid "Screenshots"
 msgstr "Snimci ekrana"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Izabrana stavka je izbrisana"
-msgstr[1] "Izabrane stavke su izbrisane"
-msgstr[2] "Izabrane stavke su izbrisane"
-msgstr[3] "Izabrana stavka je izbrisana"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "Stavka „%s“ je obrisana"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d stavka je obrisana."
+msgstr[1] "%d stavke su obrisane."
+msgstr[2] "%d stavki je obrisano."
+msgstr[3] "Jedna stavka je obrisana."
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Opozovi"
 
@@ -218,19 +211,19 @@ msgstr "Opozovi"
 msgid "DLNA Renderer Devices"
 msgstr "Uređaji DLNA iscrtavača"
 
-#: ../src/photos-embed.c:621
+#: ../src/photos-embed.c:637
 msgid "Recent"
 msgstr "Skorašnje"
 
-#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:644 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:651 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Omiljene"
 
-#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:658 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Potraži"
 
@@ -275,7 +268,7 @@ msgstr "Nisam pronašao fotografije"
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:163
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Neimenovana fotografija"
 
@@ -299,7 +292,7 @@ msgstr "Vaše fotografije su popisane"
 msgid "Some photos might not be available during this process"
 msgstr "Neke fotografije neće biti dostupne za vreme ovog postupka"
 
-#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Mesno"
 
@@ -316,33 +309,33 @@ msgstr[1] "%d izabrane"
 msgstr[2] "%d izabranih"
 msgstr[3] "jedna izabrana"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Nazad"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Izaberi stavke"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Otvori programom „%s“"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Uklonite iz omiljenih"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Dodajte u omiljene"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:645
 msgid "Cancel"
 msgstr "Otkaži"
 
-#: ../src/photos-main-window.c:464
+#: ../src/photos-main-window.c:473
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -353,23 +346,40 @@ msgstr ""
 "Autorska prava © 2012, 2013, 2014 Red Het, Ink."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:474
+#: ../src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr ""
 "  Miroslav Nikolić\n"
+"  Marko M. Kostić (Marko M. Kostić) <marko.m.kostic@gmail.com>\n"
 "\n"
 "  http://prevod.org — prevod na srpski jezik"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Ceo ekran"
+
+#: ../src/photos-menus.ui.h:2
+msgid "_Help"
+msgstr "Po_moć"
+
+#: ../src/photos-menus.ui.h:3
+msgid "About"
+msgstr "O programu"
+
+#: ../src/photos-menus.ui.h:4
+msgid "Quit"
+msgstr "Izađi"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "_Dodaj"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "U _redu"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Razvrstavanje"
@@ -393,7 +403,6 @@ msgid "Set as Background"
 msgstr "Postavi za pozadinu"
 
 #: ../src/photos-preview-menu.ui.h:5
-#| msgid "Set as background"
 msgid "Set as Lock Screen"
 msgstr "Postavi za ekran zaključavanja"
 
@@ -407,7 +416,7 @@ msgstr "Svojstva"
 msgid "Printing “%s”: %s"
 msgstr "Štampam „%s“: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Podešavanja slike"
 
@@ -576,14 +585,17 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "stvaraoca"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "Poklopi"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Vrsta"
