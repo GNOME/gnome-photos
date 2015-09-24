@@ -26,6 +26,7 @@ GdMainIconView.content-view.cell:active {
 }
 
 .documents-entry-tag {
+    background-image: none;
     background-color: @entry_tag_bg;
     color: @entry_tag_fg;
 
