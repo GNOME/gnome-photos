@@ -228,13 +228,7 @@ photos_mode_controller_set_fullscreen (PhotosModeController *self, gboolean full
 {
   PhotosModeControllerPrivate *priv = self->priv;
 
-  if (priv->mode != PHOTOS_WINDOW_MODE_PREVIEW)
-    return;
-
   if (priv->fullscreen == fullscreen)
-    return;
-
-  if (fullscreen && !priv->can_fullscreen)
     return;
 
   priv->fullscreen = fullscreen;

@@ -320,6 +320,7 @@ static gboolean
 photos_main_window_window_state_event (GtkWidget *widget, GdkEventWindowState *event)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (widget);
+  PhotosMainWindowPrivate *priv = self->priv;
   GdkWindow *window;
   GdkWindowState state;
   gboolean maximized;
@@ -331,10 +332,15 @@ photos_main_window_window_state_event (GtkWidget *widget, GdkEventWindowState *e
   state = gdk_window_get_state (window);
 
   if (state & GDK_WINDOW_STATE_FULLSCREEN)
-    return ret_val;
+    {
+      photos_mode_controller_set_fullscreen (priv->mode_cntrlr, TRUE);
+      return ret_val;
+    }
+
+  photos_mode_controller_set_fullscreen (priv->mode_cntrlr, FALSE);
 
   maximized = (state & GDK_WINDOW_STATE_MAXIMIZED);
-  g_settings_set_boolean (self->priv->settings, "window-maximized", maximized);
+  g_settings_set_boolean (priv->settings, "window-maximized", maximized);
 
   return ret_val;
 }
