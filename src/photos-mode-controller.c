@@ -158,14 +158,14 @@ photos_mode_controller_dup_singleton (void)
 }
 
 
-PhotosWindowMode
+gboolean
 photos_mode_controller_get_can_fullscreen (PhotosModeController *self)
 {
   return self->priv->can_fullscreen;
 }
 
 
-PhotosWindowMode
+gboolean
 photos_mode_controller_get_fullscreen (PhotosModeController *self)
 {
   return self->priv->fullscreen;
