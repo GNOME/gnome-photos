@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -247,10 +247,9 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
   if (old_mode == mode)
     return;
 
-  if (mode == PHOTOS_WINDOW_MODE_OVERVIEW
-      || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-      || mode == PHOTOS_WINDOW_MODE_FAVORITES
-      || mode == PHOTOS_WINDOW_MODE_SEARCH)
+  if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    photos_mode_controller_set_can_fullscreen (self, TRUE);
+  else
     photos_mode_controller_set_can_fullscreen (self, FALSE);
 
   g_queue_push_head (priv->history, GINT_TO_POINTER (old_mode));

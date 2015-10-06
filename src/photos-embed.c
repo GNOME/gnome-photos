@@ -273,8 +273,6 @@ photos_embed_load_started (PhotosEmbed *self, PhotosBaseItem *item, GCancellable
     }
 
   photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
-  photos_mode_controller_set_can_fullscreen (priv->mode_cntrlr, TRUE);
-
   photos_main_toolbar_set_cancellable (PHOTOS_MAIN_TOOLBAR (priv->toolbar), cancellable);
 
   photos_embed_clear_load_timer (self);
