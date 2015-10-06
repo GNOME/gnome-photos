@@ -54,6 +54,13 @@ static guint signals[LAST_SIGNAL] = { 0 };
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosModeController, photos_mode_controller, G_TYPE_OBJECT);
 
 
+static gboolean
+photos_mode_controller_can_fullscreen_policy (PhotosModeController *self, PhotosWindowMode mode)
+{
+  return mode == PHOTOS_WINDOW_MODE_PREVIEW;
+}
+
+
 static GObject *
 photos_mode_controller_constructor (GType type, guint n_construct_params, GObjectConstructParam *construct_params)
 {
@@ -178,6 +185,7 @@ photos_mode_controller_go_back (PhotosModeController *self)
   PhotosModeControllerPrivate *priv = self->priv;
   PhotosWindowMode old_mode;
   PhotosWindowMode tmp;
+  gboolean policy;
 
   if (g_queue_is_empty (priv->history))
     return;
@@ -193,6 +201,9 @@ photos_mode_controller_go_back (PhotosModeController *self)
 
   if (old_mode == PHOTOS_WINDOW_MODE_NONE)
     return;
+
+  policy = photos_mode_controller_can_fullscreen_policy (self, old_mode);
+  photos_mode_controller_set_can_fullscreen (self, policy);
 
   /* Swap the old and current modes */
   tmp = old_mode;
@@ -241,16 +252,15 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
 {
   PhotosModeControllerPrivate *priv = self->priv;
   PhotosWindowMode old_mode;
+  gboolean policy;
 
   old_mode = priv->mode;
 
   if (old_mode == mode)
     return;
 
-  if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    photos_mode_controller_set_can_fullscreen (self, TRUE);
-  else
-    photos_mode_controller_set_can_fullscreen (self, FALSE);
+  policy = photos_mode_controller_can_fullscreen_policy (self, mode);
+  photos_mode_controller_set_can_fullscreen (self, policy);
 
   g_queue_push_head (priv->history, GINT_TO_POINTER (old_mode));
   priv->mode = mode;
