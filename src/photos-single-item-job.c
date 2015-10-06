@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,13 +33,19 @@
 #include "photos-tracker-queue.h"
 
 
-struct _PhotosSingleItemJobPrivate
+struct _PhotosSingleItemJob
 {
+  GObject parent_instance;
   PhotosSingleItemJobCallback callback;
   PhotosTrackerQueue *queue;
   TrackerSparqlCursor *cursor;
   gchar *urn;
   gpointer user_data;
+};
+
+struct _PhotosSingleItemJobClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -49,18 +55,16 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosSingleItemJob, photos_single_item_job, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosSingleItemJob, photos_single_item_job, G_TYPE_OBJECT);
 
 
 static void
 photos_single_item_job_emit_callback (PhotosSingleItemJob *self)
 {
-  PhotosSingleItemJobPrivate *priv = self->priv;
-
-  if (priv->callback == NULL)
+  if (self->callback == NULL)
     return;
 
-  (*priv->callback) (priv->cursor, priv->user_data);
+  (*self->callback) (self->cursor, self->user_data);
 }
 
 
@@ -68,7 +72,6 @@ static void
 photos_single_item_job_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSingleItemJob *self = PHOTOS_SINGLE_ITEM_JOB (user_data);
-  PhotosSingleItemJobPrivate *priv = self->priv;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GError *error;
   gboolean valid;
@@ -84,7 +87,7 @@ photos_single_item_job_cursor_next (GObject *source_object, GAsyncResult *res, g
   else if (!valid)
     goto out;
 
-  priv->cursor = g_object_ref (cursor);
+  self->cursor = g_object_ref (cursor);
 
  out:
   photos_single_item_job_emit_callback (self);
@@ -123,10 +126,9 @@ static void
 photos_single_item_job_dispose (GObject *object)
 {
   PhotosSingleItemJob *self = PHOTOS_SINGLE_ITEM_JOB (object);
-  PhotosSingleItemJobPrivate *priv = self->priv;
 
-  g_clear_object (&priv->cursor);
-  g_clear_object (&priv->queue);
+  g_clear_object (&self->cursor);
+  g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_single_item_job_parent_class)->dispose (object);
 }
@@ -137,7 +139,7 @@ photos_single_item_job_finalize (GObject *object)
 {
   PhotosSingleItemJob *self = PHOTOS_SINGLE_ITEM_JOB (object);
 
-  g_free (self->priv->urn);
+  g_free (self->urn);
 
   G_OBJECT_CLASS (photos_single_item_job_parent_class)->finalize (object);
 }
@@ -151,7 +153,7 @@ photos_single_item_job_set_property (GObject *object, guint prop_id, const GValu
   switch (prop_id)
     {
     case PROP_URN:
-      self->priv->urn = g_value_dup_string (value);
+      self->urn = g_value_dup_string (value);
       break;
 
     default:
@@ -164,12 +166,7 @@ photos_single_item_job_set_property (GObject *object, guint prop_id, const GValu
 static void
 photos_single_item_job_init (PhotosSingleItemJob *self)
 {
-  PhotosSingleItemJobPrivate *priv = self->priv;
-
-  self->priv = photos_single_item_job_get_instance_private (self);
-  priv = self->priv;
-
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
 
@@ -206,21 +203,20 @@ photos_single_item_job_run (PhotosSingleItemJob *self,
                             PhotosSingleItemJobCallback callback,
                             gpointer user_data)
 {
-  PhotosSingleItemJobPrivate *priv = self->priv;
   PhotosQuery *query;
 
-  if (G_UNLIKELY (priv->queue == NULL))
+  if (G_UNLIKELY (self->queue == NULL))
     {
       if (callback != NULL)
         (*callback) (NULL, user_data);
       return;
     }
 
-  priv->callback = callback;
-  priv->user_data = user_data;
+  self->callback = callback;
+  self->user_data = user_data;
 
-  query = photos_query_builder_single_query (state, flags, priv->urn);
-  photos_tracker_queue_select (priv->queue,
+  query = photos_query_builder_single_query (state, flags, self->urn);
+  photos_tracker_queue_select (self->queue,
                                query->sparql,
                                NULL,
                                photos_single_item_job_query_executed,

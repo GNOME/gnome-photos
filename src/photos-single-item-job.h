@@ -38,38 +38,14 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SINGLE_ITEM_JOB, PhotosSingleItemJob))
 
-#define PHOTOS_SINGLE_ITEM_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_SINGLE_ITEM_JOB, PhotosSingleItemJobClass))
-
 #define PHOTOS_IS_SINGLE_ITEM_JOB(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_SINGLE_ITEM_JOB))
 
-#define PHOTOS_IS_SINGLE_ITEM_JOB_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_SINGLE_ITEM_JOB))
-
-#define PHOTOS_SINGLE_ITEM_JOB_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_SINGLE_ITEM_JOB, PhotosSingleItemJobClass))
-
 typedef void (*PhotosSingleItemJobCallback) (TrackerSparqlCursor *, gpointer);
 
-typedef struct _PhotosSingleItemJob        PhotosSingleItemJob;
-typedef struct _PhotosSingleItemJobClass   PhotosSingleItemJobClass;
-typedef struct _PhotosSingleItemJobPrivate PhotosSingleItemJobPrivate;
-
-struct _PhotosSingleItemJob
-{
-  GObject parent_instance;
-  PhotosSingleItemJobPrivate *priv;
-};
-
-struct _PhotosSingleItemJobClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosSingleItemJob      PhotosSingleItemJob;
+typedef struct _PhotosSingleItemJobClass PhotosSingleItemJobClass;
 
 GType                  photos_single_item_job_get_type             (void) G_GNUC_CONST;
 
