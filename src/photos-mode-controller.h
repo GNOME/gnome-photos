@@ -94,9 +94,6 @@ void                   photos_mode_controller_go_back                (PhotosMode
 
 void                   photos_mode_controller_toggle_fullscreen      (PhotosModeController *self);
 
-void                   photos_mode_controller_set_can_fullscreen     (PhotosModeController *self,
-                                                                      gboolean              can_fullscreen);
-
 void                   photos_mode_controller_set_fullscreen         (PhotosModeController *self,
                                                                       gboolean              fullscreen);
 
