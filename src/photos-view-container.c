@@ -173,6 +173,16 @@ photos_view_container_query_status_changed (PhotosTrackerController *trk_cntrlr,
 
 
 static void
+photos_view_container_select_all (PhotosViewContainer *self)
+{
+  PhotosViewContainerPrivate *priv = self->priv;
+
+  photos_selection_controller_set_selection_mode (priv->sel_cntrlr, TRUE);
+  gd_main_view_select_all (priv->view);
+}
+
+
+static void
 photos_view_container_selection_mode_changed (PhotosSelectionController *sel_cntrlr,
                                               gboolean mode,
                                               gpointer user_data)
@@ -331,7 +341,7 @@ photos_view_container_constructed (GObject *object)
     }
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-all");
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (gd_main_view_select_all), priv->view);
+  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_view_container_select_all), self);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-none");
   g_signal_connect_swapped (action, "activate", G_CALLBACK (gd_main_view_unselect_all), priv->view);
