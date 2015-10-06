@@ -777,6 +777,7 @@ photos_application_shutdown (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
 
+  gegl_exit ();
   tracker_extract_priority_call_clear_rdf_types (self->priv->extract_priority,
                                                  NULL,
                                                  photos_application_tracker_clear_rdf_types,
