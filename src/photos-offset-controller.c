@@ -196,6 +196,11 @@ void
 photos_offset_controller_increase_offset (PhotosOffsetController *self)
 {
   PhotosOffsetControllerPrivate *priv = self->priv;
+  gint remaining;
+
+  remaining = photos_offset_controller_get_remaining (self);
+  if (remaining <= 0)
+    return;
 
   priv->offset += OFFSET_STEP;
   g_signal_emit (self, signals[OFFSET_CHANGED], 0, priv->offset);
