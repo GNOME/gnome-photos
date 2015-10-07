@@ -44,6 +44,7 @@ G_BEGIN_DECLS
 #define PHOTOS_FLASH_ON (photos_utils_flash_on_quark ())
 
 #define PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME "photos-base-item"
+#define PHOTOS_TRACKER_CONTROLLER_EXTENSION_POINT_NAME "photos-tracker-controller"
 
 #define PHOTOS_COLLECTION_SCREENSHOT \
   "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#image-category-screenshot"
