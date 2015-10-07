@@ -45,7 +45,9 @@
 #include "photos-search-type-manager.h"
 #include "photos-source.h"
 #include "photos-source-manager.h"
+#include "photos-tracker-controller.h"
 #include "photos-tracker-overview-controller.h"
+#include "photos-utils.h"
 #include "photos-view-container.h"
 #include "photos-view-model.h"
 
@@ -63,6 +65,7 @@ struct _PhotosEmbedSearchState
 struct _PhotosEmbedPrivate
 {
   GAction *search_action;
+  GIOExtensionPoint *extension_point;
   GtkWidget *collections;
   GtkWidget *favorites;
   GtkWidget *no_results;
@@ -315,6 +318,32 @@ photos_embed_save_search (PhotosEmbed *self)
 
 
 static void
+photos_embed_tracker_controllers_set_frozen (PhotosEmbed *self, gboolean frozen)
+{
+  GList *extensions;
+  GList *l;
+
+  extensions = g_io_extension_point_get_extensions (self->priv->extension_point);
+  for (l = extensions; l != NULL; l = l->next)
+    {
+      GIOExtension *extension = (GIOExtension *) l->data;
+      GType type;
+      PhotosTrackerController *trk_cntrlr;
+
+      type = g_io_extension_get_type (extension);
+
+      /* Strictly speaking, we need to set the "mode" too, but that
+       * is a bit inconvenient, so we operate under the assumption
+       * that the objects have already been constructed.
+       */
+      trk_cntrlr = PHOTOS_TRACKER_CONTROLLER (g_object_new (type, NULL));
+      photos_tracker_controller_set_frozen (trk_cntrlr, frozen);
+      g_object_unref (trk_cntrlr);
+    }
+}
+
+
+static void
 photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
@@ -325,12 +354,22 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
   GVariant *state;
   gboolean show_search;
 
+  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+  active_item = photos_base_manager_get_active_object (priv->item_mngr);
+
+  /* We want to freeze before saving the search state and to thaw
+   * after restoring it. We could thaw it earlier too, but that would
+   * lead to a bunch of needless queries from the TrackerControllers.
+   *
+   * Note that we don't want to freeze when showing a collection.
+   */
+  if (active_item != (GObject *) active_collection) /* active_item != NULL */
+    photos_embed_tracker_controllers_set_frozen (self, TRUE);
+
   /* Hide the search bar when we are moving from the search to the
    * preview or collection viewin. Restore it when we are back.
    */
 
-  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
-  active_item = photos_base_manager_get_active_object (priv->item_mngr);
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
   show_search = (mode == PHOTOS_WINDOW_MODE_PREVIEW && active_item == NULL && active_collection == NULL)
                 || (mode == PHOTOS_WINDOW_MODE_SEARCH && active_item == NULL);
@@ -342,6 +381,10 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
 
   state = g_variant_new ("b", show_search);
   g_action_change_state (priv->search_action, state);
+
+  /* See above. */
+  if (active_item == (GObject *) active_collection) /* active_item == NULL */
+    photos_embed_tracker_controllers_set_frozen (self, FALSE);
 }
 
 
@@ -608,6 +651,8 @@ photos_embed_init (PhotosEmbed *self)
 
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   gtk_widget_show (GTK_WIDGET (self));
+
+  priv->extension_point = g_io_extension_point_lookup (PHOTOS_TRACKER_CONTROLLER_EXTENSION_POINT_NAME);
 
   priv->selection_toolbar = photos_selection_toolbar_new ();
   gtk_box_pack_end (GTK_BOX (self), priv->selection_toolbar, FALSE, FALSE, 0);
