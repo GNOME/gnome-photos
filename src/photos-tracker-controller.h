@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -78,6 +78,9 @@ struct _PhotosTrackerControllerClass
 };
 
 GType                     photos_tracker_controller_get_type          (void) G_GNUC_CONST;
+
+void                      photos_tracker_controller_set_frozen        (PhotosTrackerController *self,
+                                                                       gboolean frozen);
 
 gboolean                  photos_tracker_controller_get_query_status  (PhotosTrackerController *self);
 

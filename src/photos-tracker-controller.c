@@ -54,6 +54,7 @@ struct _PhotosTrackerControllerPrivate
   PhotosQuery *current_query;
   PhotosTrackerQueue *queue;
   PhotosWindowMode mode;
+  gboolean is_frozen;
   gboolean is_started;
   gboolean query_queued;
   gboolean querying;
@@ -242,6 +243,9 @@ photos_tracker_controller_refresh_internal (PhotosTrackerController *self, gint 
   PhotosTrackerControllerPrivate *priv = self->priv;
 
   priv->is_started = TRUE;
+
+  if (priv->is_frozen)
+    return;
 
   if (flags & PHOTOS_TRACKER_REFRESH_FLAGS_RESET_OFFSET)
     photos_offset_controller_reset_offset (priv->offset_cntrlr);
@@ -456,6 +460,13 @@ void
 photos_tracker_controller_refresh_for_object (PhotosTrackerController *self)
 {
   photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_RESET_OFFSET);
+}
+
+
+void
+photos_tracker_controller_set_frozen (PhotosTrackerController *self, gboolean frozen)
+{
+  self->priv->is_frozen = frozen;
 }
 
 
