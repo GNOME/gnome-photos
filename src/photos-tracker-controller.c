@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -84,7 +84,8 @@ G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhotosTrackerController, photos_tracker_con
 typedef enum
 {
   PHOTOS_TRACKER_REFRESH_FLAGS_NONE = 0,
-  PHOTOS_TRACKER_REFRESH_FLAGS_RESET_OFFSET = 1 << 0
+  PHOTOS_TRACKER_REFRESH_FLAGS_DONT_SET_QUERY_STATUS = 1 << 0,
+  PHOTOS_TRACKER_REFRESH_FLAGS_RESET_OFFSET = 1 << 1,
 } PhotosTrackerRefreshFlags;
 
 static void photos_tracker_controller_refresh_internal (PhotosTrackerController *self, gint flags);
@@ -206,7 +207,7 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
 static void
 photos_tracker_controller_offset_changed (PhotosTrackerController *self)
 {
-  photos_tracker_controller_perform_current_query (self);
+  photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_DONT_SET_QUERY_STATUS);
 }
 
 
@@ -253,7 +254,9 @@ photos_tracker_controller_refresh_internal (PhotosTrackerController *self, gint 
       return;
     }
 
-  photos_tracker_controller_set_query_status (self, TRUE);
+  if (!(flags & PHOTOS_TRACKER_REFRESH_FLAGS_DONT_SET_QUERY_STATUS))
+    photos_tracker_controller_set_query_status (self, TRUE);
+
   photos_tracker_controller_perform_current_query (self);
 }
 
