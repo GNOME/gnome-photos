@@ -43,7 +43,12 @@
 #include "photos-media-server-item.h"
 #include "photos-query.h"
 #include "photos-source.h"
+#include "photos-tracker-collections-controller.h"
+#include "photos-tracker-controller.h"
+#include "photos-tracker-favorites-controller.h"
+#include "photos-tracker-overview-controller.h"
 #include "photos-tracker-queue.h"
+#include "photos-tracker-search-controller.h"
 #include "photos-utils.h"
 
 
@@ -530,6 +535,11 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_LOCAL_ITEM);
       g_type_ensure (PHOTOS_TYPE_MEDIA_SERVER_ITEM);
 
+      g_type_ensure (PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER);
+      g_type_ensure (PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER);
+      g_type_ensure (PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER);
+      g_type_ensure (PHOTOS_TYPE_TRACKER_SEARCH_CONTROLLER);
+
       g_once_init_leave (&once_init_value, 1);
     }
 }
@@ -546,6 +556,9 @@ photos_utils_ensure_extension_points (void)
 
       extension_point = g_io_extension_point_register (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
       g_io_extension_point_set_required_type (extension_point, PHOTOS_TYPE_BASE_ITEM);
+
+      extension_point = g_io_extension_point_register (PHOTOS_TRACKER_CONTROLLER_EXTENSION_POINT_NAME);
+      g_io_extension_point_set_required_type (extension_point, PHOTOS_TYPE_TRACKER_CONTROLLER);
 
       g_once_init_leave (&once_init_value, 1);
     }

@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,6 +35,7 @@
 #include "photos-search-context.h"
 #include "photos-search-controller.h"
 #include "photos-tracker-search-controller.h"
+#include "photos-utils.h"
 
 
 struct _PhotosTrackerSearchControllerPrivate
@@ -49,9 +50,15 @@ struct _PhotosTrackerSearchControllerPrivate
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosTrackerSearchController,
-                            photos_tracker_search_controller,
-                            PHOTOS_TYPE_TRACKER_CONTROLLER);
+G_DEFINE_TYPE_WITH_CODE (PhotosTrackerSearchController,
+                         photos_tracker_search_controller,
+                         PHOTOS_TYPE_TRACKER_CONTROLLER,
+                         G_ADD_PRIVATE (PhotosTrackerSearchController)
+                         photos_utils_ensure_extension_points ();
+                         g_io_extension_point_implement (PHOTOS_TRACKER_CONTROLLER_EXTENSION_POINT_NAME,
+                                                         g_define_type_id,
+                                                         "search",
+                                                         0));
 
 
 static void
