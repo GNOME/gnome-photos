@@ -217,8 +217,7 @@ photos_searchbar_dispose (GObject *object)
       priv->search_state_id = 0;
     }
 
-  if (priv->app != NULL)
-    photos_searchbar_enable_search (self, FALSE);
+  photos_searchbar_enable_search (self, FALSE);
 
   G_OBJECT_CLASS (photos_searchbar_parent_class)->dispose (object);
 }
