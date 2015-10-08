@@ -844,12 +844,19 @@ photos_application_startup (GApplication *application)
           GomMiner *miner;
           const gchar *extension_name;
 
+          error = NULL;
           miner = gom_miner_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                     G_DBUS_PROXY_FLAGS_NONE,
                                                     base_item_class->miner_name,
                                                     base_item_class->miner_object_path,
                                                     NULL,
-                                                    NULL);
+                                                    &error);
+          if (error != NULL)
+            {
+              g_warning ("Unable to create GomMiner proxy for %s: %s", base_item_class->miner_name, error->message);
+              g_error_free (error);
+              continue;
+            }
 
           extension_name = g_io_extension_get_name (extension);
           g_object_set_data_full (G_OBJECT (miner), "provider-type", g_strdup (extension_name), g_free);
