@@ -465,6 +465,7 @@ photos_main_window_new (GtkApplication *application)
                        "application", application,
                        "title", _(PACKAGE_NAME),
                        "window-position", GTK_WIN_POS_CENTER,
+                       "show-menubar", FALSE,
                        NULL);
 }
 
