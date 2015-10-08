@@ -319,7 +319,7 @@ photos_application_launch_search (PhotosApplication *self, const gchar* const *t
   g_free (str);
 
   state = g_variant_new ("b", TRUE);
-  g_action_group_change_action_state (G_ACTION_GROUP (self), "search", state);
+  g_action_change_state (G_ACTION (priv->search_action), state);
 
   priv->activation_timestamp = timestamp;
   g_application_activate (G_APPLICATION (self));
