@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,7 +34,7 @@
 
 struct _PhotosSearchbarPrivate
 {
-  GApplication *app;
+  GAction *search;
   GtkWidget *search_container;
   GtkWidget *search_entry;
   GtkWidget *toolbar;
@@ -57,8 +57,10 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosSearchbar, photos_searchbar, GTK_TYPE_REVEALER
 
 
 static void
-photos_searchbar_action_state_changed (PhotosSearchbar *self, const gchar *action_name, GVariant *value)
+photos_searchbar_change_state (PhotosSearchbar *self, GVariant *value)
 {
+  g_simple_action_set_state (G_SIMPLE_ACTION (self->priv->search), value);
+
   if (g_variant_get_boolean (value))
     photos_searchbar_show (self);
   else
@@ -100,7 +102,7 @@ photos_searchbar_enable_search (PhotosSearchbar *self, gboolean enable)
   GVariant *state;
 
   state = g_variant_new ("b", enable);
-  g_action_group_change_action_state (G_ACTION_GROUP (self->priv->app), "search", state);
+  g_action_change_state (self->priv->search, state);
 }
 
 
@@ -171,6 +173,7 @@ photos_searchbar_constructed (GObject *object)
 {
   PhotosSearchbar *self = PHOTOS_SEARCHBAR (object);
   PhotosSearchbarPrivate *priv = self->priv;
+  GApplication *app;
   GtkToolItem *item;
   GVariant *state;
 
@@ -189,16 +192,19 @@ photos_searchbar_constructed (GObject *object)
                             self);
 
 
+  app = g_application_get_default ();
+  priv->search = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
+
   /* g_signal_connect_object will not be able to disconnect the
    * handler in time because we change the state of the action during
    * dispose.
    */
-  priv->search_state_id = g_signal_connect_swapped (priv->app,
-                                                    "action-state-changed::search",
-                                                    G_CALLBACK (photos_searchbar_action_state_changed),
+  priv->search_state_id = g_signal_connect_swapped (priv->search,
+                                                    "change-state",
+                                                    G_CALLBACK (photos_searchbar_change_state),
                                                     self);
-  state = g_action_group_get_action_state (G_ACTION_GROUP (priv->app), "search");
-  photos_searchbar_action_state_changed (self, "search", state);
+  state = g_action_get_state (priv->search);
+  photos_searchbar_change_state (self, state);
   g_variant_unref (state);
 
   gtk_widget_show_all (GTK_WIDGET (self));
@@ -213,7 +219,7 @@ photos_searchbar_dispose (GObject *object)
 
   if (priv->search_state_id != 0)
     {
-      g_signal_handler_disconnect (priv->app, priv->search_state_id);
+      g_signal_handler_disconnect (priv->search, priv->search_state_id);
       priv->search_state_id = 0;
     }
 
@@ -231,8 +237,6 @@ photos_searchbar_init (PhotosSearchbar *self)
 
   self->priv = photos_searchbar_get_instance_private (self);
   priv = self->priv;
-
-  priv->app = g_application_get_default ();
 
   priv->toolbar = gtk_toolbar_new ();
   context = gtk_widget_get_style_context (priv->toolbar);
