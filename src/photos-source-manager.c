@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,6 +37,7 @@
 
 struct _PhotosSourceManagerPrivate
 {
+  GCancellable *cancellable;
   GoaClient *client;
 };
 
@@ -108,11 +109,56 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
 
 
 static void
+photos_source_manager_goa_client (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosSourceManager *self;
+  PhotosSourceManagerPrivate *priv;
+  GError *error;
+  GoaClient *client;
+
+  error = NULL;
+  client = goa_client_new_finish (res, &error);
+  if (error != NULL)
+    {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to create GoaClient: %s", error->message);
+
+      g_error_free (error);
+      return;
+    }
+
+  self = PHOTOS_SOURCE_MANAGER (user_data);
+  priv = self->priv;
+
+  priv->client = client;
+  g_signal_connect_swapped (priv->client,
+                            "account-added",
+                            G_CALLBACK (photos_source_manager_refresh_accounts),
+                            self);
+  g_signal_connect_swapped (priv->client,
+                            "account-changed",
+                            G_CALLBACK (photos_source_manager_refresh_accounts),
+                            self);
+  g_signal_connect_swapped (priv->client,
+                            "account-removed",
+                            G_CALLBACK (photos_source_manager_refresh_accounts),
+                            self);
+
+  photos_source_manager_refresh_accounts (self);
+}
+
+
+static void
 photos_source_manager_dispose (GObject *object)
 {
   PhotosSourceManager *self = PHOTOS_SOURCE_MANAGER (object);
+  PhotosSourceManagerPrivate *priv = self->priv;
 
-  g_clear_object (&self->priv->client);
+  if (priv->cancellable != NULL)
+    g_cancellable_cancel (priv->cancellable);
+
+  g_clear_object (&priv->cancellable);
+  g_clear_object (&priv->client);
 
   G_OBJECT_CLASS (photos_source_manager_parent_class)->dispose (object);
 }
@@ -121,7 +167,7 @@ photos_source_manager_dispose (GObject *object)
 static void
 photos_source_manager_init (PhotosSourceManager *self)
 {
-  PhotosSourceManagerPrivate *priv = self->priv;
+  PhotosSourceManagerPrivate *priv;
   PhotosSource *source;
 
   self->priv = photos_source_manager_get_instance_private (self);
@@ -135,24 +181,9 @@ photos_source_manager_init (PhotosSourceManager *self)
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source));
   g_object_unref (source);
 
-  priv->client = goa_client_new_sync (NULL, NULL); /* TODO: use GError */
-  if (priv->client != NULL)
-    {
-      g_signal_connect_swapped (priv->client,
-                                "account-added",
-                                G_CALLBACK (photos_source_manager_refresh_accounts),
-                                self);
-      g_signal_connect_swapped (priv->client,
-                                "account-changed",
-                                G_CALLBACK (photos_source_manager_refresh_accounts),
-                                self);
-      g_signal_connect_swapped (priv->client,
-                                "account-removed",
-                                G_CALLBACK (photos_source_manager_refresh_accounts),
-                                self);
-    }
+  priv->cancellable = g_cancellable_new ();
+  goa_client_new (priv->cancellable, photos_source_manager_goa_client, self);
 
-  photos_source_manager_refresh_accounts (self);
   photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SOURCE_STOCK_ALL);
 }
 
