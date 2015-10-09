@@ -36,7 +36,6 @@
 #include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
-#include "photos-mode-controller.h"
 #include "photos-overview-searchbar.h"
 #include "photos-remote-display-manager.h"
 #include "photos-search-context.h"
@@ -327,7 +326,6 @@ photos_main_toolbar_back_button_clicked (PhotosMainToolbar *self)
   if (priv->loader_cancellable != NULL)
     g_cancellable_cancel (priv->loader_cancellable);
 
-  photos_base_manager_set_active_object (priv->item_mngr, NULL);
   photos_mode_controller_go_back (priv->mode_cntrlr);
 }
 
@@ -774,7 +772,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
 
   priv->item_mngr = g_object_ref (state->item_mngr);
 
-  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
   g_signal_connect_object (priv->sel_cntrlr,

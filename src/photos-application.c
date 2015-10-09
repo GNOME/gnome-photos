@@ -43,7 +43,6 @@
 #include "photos-gom-miner.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
-#include "photos-mode-controller.h"
 #include "photos-properties-dialog.h"
 #include "photos-query.h"
 #include "photos-resources.h"
@@ -82,7 +81,6 @@ struct _PhotosApplicationPrivate
   GSimpleAction *remote_display_action;
   GtkWidget *main_window;
   PhotosCameraCache *camera_cache;
-  PhotosModeController *mode_cntrlr;
   PhotosSearchContextState *state;
   PhotosSearchProvider *search_provider;
   TrackerExtractPriority *extract_priority;
@@ -282,7 +280,7 @@ photos_application_can_fullscreen_changed (PhotosApplication *self)
   PhotosApplicationPrivate *priv = self->priv;
   gboolean can_fullscreen;
 
-  can_fullscreen = photos_mode_controller_get_can_fullscreen (priv->mode_cntrlr);
+  can_fullscreen = photos_mode_controller_get_can_fullscreen (priv->state->mode_cntrlr);
   g_simple_action_set_enabled (priv->fs_action, can_fullscreen);
 }
 
@@ -292,7 +290,7 @@ photos_application_fullscreen (PhotosApplication *self, GVariant *parameter)
 {
   PhotosApplicationPrivate *priv = self->priv;
 
-  photos_mode_controller_toggle_fullscreen (priv->mode_cntrlr);
+  photos_mode_controller_toggle_fullscreen (priv->state->mode_cntrlr);
 }
 
 
@@ -312,7 +310,7 @@ photos_application_launch_search (PhotosApplication *self, const gchar* const *t
   gchar *str;
 
   photos_application_create_window (self);
-  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+  photos_mode_controller_set_window_mode (priv->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
 
   str = g_strjoinv (" ", (gchar **) terms);
   photos_search_controller_set_string (priv->state->srch_cntrlr, str);
@@ -710,7 +708,7 @@ photos_application_activate (GApplication *application)
   if (priv->main_window == NULL)
     {
       photos_application_create_window (self);
-      photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+      photos_mode_controller_set_window_mode (priv->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
     }
 
   gtk_window_present_with_time (GTK_WINDOW (priv->main_window), priv->activation_timestamp);
@@ -882,8 +880,6 @@ photos_application_startup (GApplication *application)
    */
   priv->camera_cache = photos_camera_cache_dup_singleton ();
 
-  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
-
   action = g_simple_action_new ("about", NULL);
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_about), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
@@ -893,7 +889,7 @@ photos_application_startup (GApplication *application)
   g_signal_connect_swapped (priv->fs_action, "activate", G_CALLBACK (photos_application_fullscreen), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->fs_action));
 
-  g_signal_connect_swapped (priv->mode_cntrlr,
+  g_signal_connect_swapped (priv->state->mode_cntrlr,
                             "can-fullscreen-changed",
                             G_CALLBACK (photos_application_can_fullscreen_changed),
                             self);
@@ -972,7 +968,7 @@ photos_application_startup (GApplication *application)
   g_signal_connect_swapped (priv->set_ss_action, "activate", G_CALLBACK (photos_application_set_bg_common), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->set_ss_action));
 
-  g_signal_connect_swapped (priv->mode_cntrlr,
+  g_signal_connect_swapped (priv->state->mode_cntrlr,
                             "window-mode-changed",
                             G_CALLBACK (photos_application_window_mode_changed),
                             self);
@@ -1050,7 +1046,6 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->set_bg_action);
   g_clear_object (&priv->set_ss_action);
   g_clear_object (&priv->camera_cache);
-  g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->extract_priority);
 
   if (priv->state != NULL)

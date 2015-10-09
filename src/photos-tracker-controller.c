@@ -36,7 +36,6 @@
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-marshalers.h"
-#include "photos-mode-controller.h"
 #include "photos-query-builder.h"
 #include "photos-search-context.h"
 #include "photos-tracker-controller.h"
@@ -317,12 +316,6 @@ photos_tracker_controller_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_tracker_controller_parent_class)->constructed (object);
 
-  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
-  g_signal_connect_swapped (priv->mode_cntrlr,
-                            "window-mode-changed",
-                            G_CALLBACK (photos_tracker_controller_window_mode_changed),
-                            self);
-
   priv->offset_cntrlr = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_offset_controller (self);
   g_signal_connect_swapped (priv->offset_cntrlr,
                             "offset-changed",
@@ -404,6 +397,12 @@ photos_tracker_controller_init (PhotosTrackerController *self)
   g_signal_connect_swapped (priv->src_mngr,
                             "object-removed",
                             G_CALLBACK (photos_tracker_controller_source_object_added_removed),
+                            self);
+
+  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
+  g_signal_connect_swapped (priv->mode_cntrlr,
+                            "window-mode-changed",
+                            G_CALLBACK (photos_tracker_controller_window_mode_changed),
                             self);
 
   priv->queue = photos_tracker_queue_dup_singleton (NULL, &priv->queue_error);

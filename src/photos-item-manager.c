@@ -29,9 +29,11 @@
 #include <glib.h>
 #include <tracker-sparql.h>
 
+#include "photos-enums.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
+#include "photos-marshalers.h"
 #include "photos-query.h"
 #include "photos-search-context.h"
 #include "photos-single-item-job.h"
@@ -47,8 +49,11 @@ struct _PhotosItemManager
   GHashTable *collections;
   GIOExtensionPoint *extension_point;
   GQueue *collection_path;
+  GQueue *history;
   PhotosBaseItem *active_collection;
   PhotosTrackerChangeMonitor *monitor;
+  PhotosWindowMode mode;
+  gboolean fullscreen;
 };
 
 struct _PhotosItemManagerClass
@@ -57,15 +62,21 @@ struct _PhotosItemManagerClass
 
   /* signals */
   void (*active_collection_changed) (PhotosItemManager *self, PhotosBaseItem *collection);
+  void (*can_fullscreen_changed)    (PhotosItemManager *self);
+  void (*fullscreen_changed)        (PhotosItemManager *self, gboolean fullscreen);
   void (*load_finished)             (PhotosItemManager *self, PhotosBaseItem *item, GeglNode *node);
   void (*load_started)              (PhotosItemManager *self, PhotosBaseItem *item, GCancellable *cancellable);
+  void (*window_mode_changed)       (PhotosItemManager *self, PhotosWindowMode mode, PhotosWindowMode old_mode);
 };
 
 enum
 {
   ACTIVE_COLLECTION_CHANGED,
+  CAN_FULLSCREEN_CHANGED,
+  FULLSCREEN_CHANGED,
   LOAD_FINISHED,
   LOAD_STARTED,
+  WINDOW_MODE_CHANGED,
   LAST_SIGNAL
 };
 
@@ -202,6 +213,14 @@ photos_item_manager_collection_path_free_foreach (gpointer data, gpointer user_d
 }
 
 
+static void
+photos_item_manager_collection_path_free (PhotosItemManager *self)
+{
+  g_queue_foreach (self->collection_path, photos_item_manager_collection_path_free_foreach, NULL);
+  g_queue_free (self->collection_path);
+}
+
+
 static gchar *
 photos_item_manager_get_where (PhotosBaseManager *mngr, gint flags)
 {
@@ -260,47 +279,66 @@ photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *i
 }
 
 
+static void
+photos_item_manager_update_fullscreen (PhotosItemManager *self)
+{
+  /* Should be called after priv->mode has been updated. */
+
+  if (!photos_mode_controller_get_can_fullscreen (self) && self->fullscreen)
+    photos_mode_controller_set_fullscreen (self, FALSE);
+
+  g_signal_emit (self, signals[CAN_FULLSCREEN_CHANGED], 0);
+}
+
+
+static gboolean
+photos_item_manager_set_window_mode_internal (PhotosItemManager *self,
+                                              PhotosWindowMode mode,
+                                              PhotosWindowMode *out_old_mode)
+{
+  PhotosWindowMode old_mode;
+  gboolean ret_val = FALSE;
+
+  old_mode = self->mode;
+
+  if (old_mode == mode)
+    goto out;
+
+  g_queue_push_head (self->history, GINT_TO_POINTER (old_mode));
+  self->mode = mode;
+
+  if (out_old_mode != NULL)
+    *out_old_mode = old_mode;
+
+  ret_val = TRUE;
+
+ out:
+  return ret_val;
+}
+
+
 static gboolean
 photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *object)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (manager);
   GObject *active_item;
+  PhotosWindowMode old_mode;
   gboolean active_collection_changed = FALSE;
   gboolean ret_val = FALSE;
   gboolean start_loading = FALSE;
+  gboolean window_mode_changed = FALSE;
 
-  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object) || object == NULL, FALSE);
+  g_return_val_if_fail (object != NULL, FALSE);
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object), FALSE);
 
   active_item = photos_base_manager_get_active_object (manager);
   if (object == active_item)
     goto out;
 
-  /* Passing NULL is a way to go back to the current collection or
-   * overview from the preview. However, you can't do that when you
-   * are looking at a collection.
-   */
-  if (object == NULL)
-    {
-      if (active_item != (GObject *) self->active_collection)
-        object = (GObject *) self->active_collection;
-      else
-        goto out;
-    }
-
   photos_item_manager_clear_active_item_load (self);
-
-  /* This is when we are going back to the overview from the preview. */
-  if (object == NULL)
-    goto end;
 
   if (photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
     {
-      /* This is when we are going back to the collection from the
-       * preview.
-       */
-      if (object == (GObject *) self->active_collection)
-        goto end;
-
       g_queue_push_head (self->collection_path,
                          (self->active_collection != NULL) ? g_object_ref (self->active_collection) : NULL);
 
@@ -309,15 +347,26 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
       active_collection_changed = TRUE;
     }
   else
-    start_loading = TRUE;
+    {
+      window_mode_changed = photos_item_manager_set_window_mode_internal (self,
+                                                                          PHOTOS_WINDOW_MODE_PREVIEW,
+                                                                          &old_mode);
+      photos_item_manager_update_fullscreen (self);
+      start_loading = TRUE;
+    }
 
- end:
   ret_val = PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->set_active_object (manager, object);
   /* We have already eliminated the possibility of failure. */
   g_assert (ret_val == TRUE);
 
+  active_item = photos_base_manager_get_active_object (manager);
+  g_assert (active_item == object);
+
   if (active_collection_changed)
-    g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
+    {
+      g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
+      g_assert (active_item == (GObject *) self->active_collection);
+    }
 
   if (start_loading)
     {
@@ -335,6 +384,11 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
                                    g_object_ref (self));
 
       g_signal_emit (self, signals[LOAD_STARTED], 0, PHOTOS_BASE_ITEM (object), self->loader_cancellable);
+
+      if (window_mode_changed)
+        g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, PHOTOS_WINDOW_MODE_PREVIEW, old_mode);
+
+      g_assert (active_item != (GObject *) self->active_collection);
     }
 
  out:
@@ -349,8 +403,7 @@ photos_item_manager_dispose (GObject *object)
 
   if (self->collection_path != NULL)
     {
-      g_queue_foreach (self->collection_path, photos_item_manager_collection_path_free_foreach, NULL);
-      g_queue_free (self->collection_path);
+      photos_item_manager_collection_path_free (self);
       self->collection_path = NULL;
     }
 
@@ -364,11 +417,24 @@ photos_item_manager_dispose (GObject *object)
 
 
 static void
+photos_item_manager_finalize (GObject *object)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (object);
+
+  g_queue_free (self->history);
+
+  G_OBJECT_CLASS (photos_item_manager_parent_class)->finalize (object);
+}
+
+
+static void
 photos_item_manager_init (PhotosItemManager *self)
 {
   self->collections = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
   self->extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
   self->collection_path = g_queue_new ();
+  self->history = g_queue_new ();
+  self->mode = PHOTOS_WINDOW_MODE_NONE;
 
   self->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
   if (G_LIKELY (self->monitor != NULL))
@@ -376,6 +442,8 @@ photos_item_manager_init (PhotosItemManager *self)
                               "changes-pending",
                               G_CALLBACK (photos_item_manager_changes_pending),
                               self);
+
+  self->fullscreen = FALSE;
 }
 
 
@@ -386,6 +454,7 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   PhotosBaseManagerClass *base_manager_class = PHOTOS_BASE_MANAGER_CLASS (class);
 
   object_class->dispose = photos_item_manager_dispose;
+  object_class->finalize = photos_item_manager_finalize;
   base_manager_class->add_object = photos_item_manager_add_object;
   base_manager_class->get_where = photos_item_manager_get_where;
   base_manager_class->set_active_object = photos_item_manager_set_active_object;
@@ -402,6 +471,29 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
                                                      G_TYPE_NONE,
                                                      1,
                                                      PHOTOS_TYPE_BASE_ITEM);
+
+  signals[CAN_FULLSCREEN_CHANGED] = g_signal_new ("can-fullscreen-changed",
+                                                  G_TYPE_FROM_CLASS (class),
+                                                  G_SIGNAL_RUN_LAST,
+                                                  G_STRUCT_OFFSET (PhotosItemManagerClass,
+                                                                   can_fullscreen_changed),
+                                                  NULL, /*accumulator */
+                                                  NULL, /*accu_data */
+                                                  g_cclosure_marshal_VOID__VOID,
+                                                  G_TYPE_NONE,
+                                                  0);
+
+  signals[FULLSCREEN_CHANGED] = g_signal_new ("fullscreen-changed",
+                                              G_TYPE_FROM_CLASS (class),
+                                              G_SIGNAL_RUN_LAST,
+                                              G_STRUCT_OFFSET (PhotosItemManagerClass,
+                                                               fullscreen_changed),
+                                              NULL, /*accumulator */
+                                              NULL, /* accu_data */
+                                              g_cclosure_marshal_VOID__BOOLEAN,
+                                              G_TYPE_NONE,
+                                              1,
+                                              G_TYPE_BOOLEAN);
 
   signals[LOAD_FINISHED] = g_signal_new ("load-finished",
                                          G_TYPE_FROM_CLASS (class),
@@ -428,6 +520,19 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
                                         2,
                                         PHOTOS_TYPE_BASE_ITEM,
                                         G_TYPE_CANCELLABLE);
+
+  signals[WINDOW_MODE_CHANGED] = g_signal_new ("window-mode-changed",
+                                               G_TYPE_FROM_CLASS (class),
+                                               G_SIGNAL_RUN_LAST,
+                                               G_STRUCT_OFFSET (PhotosItemManagerClass,
+                                                                window_mode_changed),
+                                               NULL, /*accumulator */
+                                               NULL, /*accu_data */
+                                               _photos_marshal_VOID__ENUM_ENUM,
+                                               G_TYPE_NONE,
+                                               2,
+                                               PHOTOS_TYPE_WINDOW_MODE,
+                                               PHOTOS_TYPE_WINDOW_MODE);
 }
 
 
@@ -546,4 +651,129 @@ GHashTable *
 photos_item_manager_get_collections (PhotosItemManager *self)
 {
   return self->collections;
+}
+
+
+gboolean
+photos_mode_controller_get_can_fullscreen (PhotosModeController *self)
+{
+  return self->mode == PHOTOS_WINDOW_MODE_PREVIEW;
+}
+
+
+gboolean
+photos_mode_controller_get_fullscreen (PhotosModeController *self)
+{
+  return self->fullscreen;
+}
+
+
+PhotosWindowMode
+photos_mode_controller_get_window_mode (PhotosModeController *self)
+{
+  return self->mode;
+}
+
+
+void
+photos_mode_controller_go_back (PhotosModeController *self)
+{
+  PhotosWindowMode old_mode;
+  PhotosWindowMode tmp;
+
+  g_return_if_fail (!g_queue_is_empty (self->history));
+
+  old_mode = (PhotosWindowMode) GPOINTER_TO_INT (g_queue_peek_head (self->history));
+
+  /* Always go back to the overview when activated from the search
+   * provider. It is easier to special case it here instead of all
+   * over the code.
+   */
+  if (self->mode == PHOTOS_WINDOW_MODE_PREVIEW && old_mode == PHOTOS_WINDOW_MODE_NONE)
+    old_mode = PHOTOS_WINDOW_MODE_OVERVIEW;
+
+  g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_NONE);
+  g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
+
+  g_queue_pop_head (self->history);
+
+  /* Swap the old and current modes */
+  tmp = old_mode;
+  old_mode = self->mode;
+  self->mode = tmp;
+
+  photos_item_manager_update_fullscreen (self);
+  photos_item_manager_clear_active_item_load (self);
+
+  if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    {
+      PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
+        ->set_active_object (PHOTOS_BASE_MANAGER (self), (GObject *) self->active_collection);
+    }
+  else
+    {
+      photos_item_manager_collection_path_free (self);
+      self->collection_path = g_queue_new ();
+
+      g_clear_object (&self->active_collection);
+
+      PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
+        ->set_active_object (PHOTOS_BASE_MANAGER (self), NULL);
+
+      g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
+    }
+
+  g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, self->mode, old_mode);
+}
+
+
+void
+photos_mode_controller_toggle_fullscreen (PhotosModeController *self)
+{
+  photos_mode_controller_set_fullscreen (self, !self->fullscreen);
+}
+
+
+void
+photos_mode_controller_set_fullscreen (PhotosModeController *self, gboolean fullscreen)
+{
+  if (self->fullscreen == fullscreen)
+    return;
+
+  self->fullscreen = fullscreen;
+  g_signal_emit (self, signals[FULLSCREEN_CHANGED], 0, self->fullscreen);
+}
+
+
+void
+photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindowMode mode)
+{
+  PhotosWindowMode old_mode;
+  gboolean active_collection_changed = FALSE;
+
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
+
+  if (!photos_item_manager_set_window_mode_internal (self, mode, &old_mode))
+    return;
+
+  photos_item_manager_update_fullscreen (self);
+  photos_item_manager_clear_active_item_load (self);
+
+  photos_item_manager_collection_path_free (self);
+  self->collection_path = g_queue_new ();
+
+  if (self->active_collection != NULL)
+    {
+      g_clear_object (&self->active_collection);
+      active_collection_changed = TRUE;
+    }
+
+  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
+    ->set_active_object (PHOTOS_BASE_MANAGER (self), NULL);
+
+  if (active_collection_changed)
+    g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
+
+  g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, mode, old_mode);
 }

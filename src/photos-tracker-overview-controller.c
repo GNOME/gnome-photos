@@ -27,7 +27,7 @@
 
 #include <gio/gio.h>
 
-#include "photos-mode-controller.h"
+#include "photos-item-manager.h"
 #include "photos-offset-overview-controller.h"
 #include "photos-query-builder.h"
 #include "photos-search-context.h"

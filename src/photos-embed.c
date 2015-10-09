@@ -35,7 +35,6 @@
 #include "photos-embed.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
-#include "photos-mode-controller.h"
 #include "photos-notification-manager.h"
 #include "photos-search-controller.h"
 #include "photos-selection-toolbar.h"
@@ -203,13 +202,107 @@ photos_embed_activate_result (PhotosEmbed *self)
 
 
 static void
-photos_embed_prepare_for_preview (PhotosEmbed *self)
+photos_embed_restore_search (PhotosEmbed *self)
 {
   PhotosEmbedPrivate *priv = self->priv;
+  GVariant *state;
+
+  if (!priv->search_state.saved)
+    return;
+
+  photos_base_manager_set_active_object (priv->src_mngr, priv->search_state.source);
+  photos_base_manager_set_active_object (priv->srch_mngr, priv->search_state.search_type);
+  photos_search_controller_set_string (priv->srch_cntrlr, priv->search_state.str);
+  priv->search_state.saved = FALSE;
+
+  photos_embed_clear_search (self);
+
+  state = g_variant_new ("b", TRUE);
+  g_action_change_state (priv->search_action, state);
+}
+
+
+static void
+photos_embed_save_search (PhotosEmbed *self)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+  GVariant *state;
+
+  if (priv->search_state.saved)
+    return;
+
+  photos_embed_clear_search (self);
+
+  priv->search_state.source = g_object_ref (photos_base_manager_get_active_object (priv->src_mngr));
+  priv->search_state.search_type = g_object_ref (photos_base_manager_get_active_object (priv->srch_mngr));
+  priv->search_state.str = g_strdup (photos_search_controller_get_string (priv->srch_cntrlr));
+  priv->search_state.saved = TRUE;
+
+  state = g_variant_new ("b", FALSE);
+  g_action_change_state (priv->search_action, state);
+}
+
+
+static void
+photos_embed_tracker_controllers_set_frozen (PhotosEmbed *self, gboolean frozen)
+{
+  GList *extensions;
+  GList *l;
+
+  extensions = g_io_extension_point_get_extensions (self->priv->extension_point);
+  for (l = extensions; l != NULL; l = l->next)
+    {
+      GIOExtension *extension = (GIOExtension *) l->data;
+      GType type;
+      PhotosTrackerController *trk_cntrlr;
+
+      type = g_io_extension_get_type (extension);
+
+      /* Strictly speaking, we need to set the "mode" too, but that
+       * is a bit inconvenient, so we operate under the assumption
+       * that the objects have already been constructed.
+       */
+      trk_cntrlr = PHOTOS_TRACKER_CONTROLLER (g_object_new (type, NULL));
+      photos_tracker_controller_set_frozen (trk_cntrlr, frozen);
+      g_object_unref (trk_cntrlr);
+    }
+}
+
+
+static void
+photos_embed_prepare_for_preview (PhotosEmbed *self, PhotosWindowMode old_mode)
+{
+  PhotosEmbedPrivate *priv = self->priv;
+  PhotosBaseItem *active_collection;
 
   /* TODO: SearchController,
    *       ErrorHandler
    */
+
+  /* We want to freeze before saving the search state and to thaw
+   * after restoring it. We could thaw it earlier too, but that would
+   * lead to a bunch of needless queries from the TrackerControllers.
+   *
+   * Note that we don't want to freeze when showing a collection.
+   */
+  photos_embed_tracker_controllers_set_frozen (self, TRUE);
+
+  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+  if (old_mode == PHOTOS_WINDOW_MODE_SEARCH && active_collection == NULL)
+    photos_embed_save_search (self);
+
+  /* This is not needed when activated from the search provider. */
+  if (old_mode != PHOTOS_WINDOW_MODE_NONE)
+    {
+      GtkListStore *model;
+      GtkTreePath *current_path;
+      GtkWidget *view_container;
+
+      view_container = photos_embed_get_view_container_from_mode (self, old_mode);
+      current_path = photos_view_container_get_current_path (PHOTOS_VIEW_CONTAINER (view_container));
+      model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
+      photos_preview_view_set_model (PHOTOS_PREVIEW_VIEW (priv->preview), GTK_TREE_MODEL (model), current_path);
+    }
 
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
   photos_preview_view_set_node (PHOTOS_PREVIEW_VIEW (priv->preview), NULL);
@@ -252,139 +345,46 @@ static void
 photos_embed_load_started (PhotosEmbed *self, PhotosBaseItem *item, GCancellable *cancellable)
 {
   PhotosEmbedPrivate *priv = self->priv;
-  PhotosWindowMode mode;
 
-  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-
-  /* This is not needed when:
-   *  - activated from the search provider
-   *  - already in the preview and navigating using the buttons
-   */
-  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-      || mode == PHOTOS_WINDOW_MODE_FAVORITES
-      || mode == PHOTOS_WINDOW_MODE_OVERVIEW
-      || mode == PHOTOS_WINDOW_MODE_SEARCH)
-    {
-      GtkListStore *model;
-      GtkTreePath *current_path;
-      GtkWidget *view_container;
-
-      view_container = photos_embed_get_view_container_from_mode (self, mode);
-      current_path = photos_view_container_get_current_path (PHOTOS_VIEW_CONTAINER (view_container));
-      model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
-      photos_preview_view_set_model (PHOTOS_PREVIEW_VIEW (priv->preview), GTK_TREE_MODEL (model), current_path);
-    }
-
-  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_PREVIEW);
   photos_main_toolbar_set_cancellable (PHOTOS_MAIN_TOOLBAR (priv->toolbar), cancellable);
-
   photos_embed_clear_load_timer (self);
   self->priv->load_show_id = g_timeout_add (400, photos_embed_load_show_timeout, g_object_ref (self));
 }
 
 
 static void
-photos_embed_restore_search (PhotosEmbed *self)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-
-  if (!priv->search_state.saved)
-    return;
-
-  photos_base_manager_set_active_object (priv->src_mngr, priv->search_state.source);
-  photos_base_manager_set_active_object (priv->srch_mngr, priv->search_state.search_type);
-  photos_search_controller_set_string (priv->srch_cntrlr, priv->search_state.str);
-  priv->search_state.saved = FALSE;
-
-  photos_embed_clear_search (self);
-}
-
-
-static void
-photos_embed_save_search (PhotosEmbed *self)
-{
-  PhotosEmbedPrivate *priv = self->priv;
-
-  if (priv->search_state.saved)
-    return;
-
-  photos_embed_clear_search (self);
-
-  priv->search_state.source = g_object_ref (photos_base_manager_get_active_object (priv->src_mngr));
-  priv->search_state.search_type = g_object_ref (photos_base_manager_get_active_object (priv->srch_mngr));
-  priv->search_state.str = g_strdup (photos_search_controller_get_string (priv->srch_cntrlr));
-  priv->search_state.saved = TRUE;
-}
-
-
-static void
-photos_embed_tracker_controllers_set_frozen (PhotosEmbed *self, gboolean frozen)
-{
-  GList *extensions;
-  GList *l;
-
-  extensions = g_io_extension_point_get_extensions (self->priv->extension_point);
-  for (l = extensions; l != NULL; l = l->next)
-    {
-      GIOExtension *extension = (GIOExtension *) l->data;
-      GType type;
-      PhotosTrackerController *trk_cntrlr;
-
-      type = g_io_extension_get_type (extension);
-
-      /* Strictly speaking, we need to set the "mode" too, but that
-       * is a bit inconvenient, so we operate under the assumption
-       * that the objects have already been constructed.
-       */
-      trk_cntrlr = PHOTOS_TRACKER_CONTROLLER (g_object_new (type, NULL));
-      photos_tracker_controller_set_frozen (trk_cntrlr, frozen);
-      g_object_unref (trk_cntrlr);
-    }
-}
-
-
-static void
-photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
+photos_embed_active_collection_changed (PhotosBaseManager *manager, PhotosBaseItem *collection, gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
   PhotosEmbedPrivate *priv = self->priv;
-  PhotosBaseItem *active_collection;
   PhotosWindowMode mode;
-  GObject *active_item;
-  GVariant *state;
-  gboolean show_search;
-
-  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
-  active_item = photos_base_manager_get_active_object (priv->item_mngr);
-
-  /* We want to freeze before saving the search state and to thaw
-   * after restoring it. We could thaw it earlier too, but that would
-   * lead to a bunch of needless queries from the TrackerControllers.
-   *
-   * Note that we don't want to freeze when showing a collection.
-   */
-  if (active_item != (GObject *) active_collection) /* active_item != NULL */
-    photos_embed_tracker_controllers_set_frozen (self, TRUE);
-
-  /* Hide the search bar when we are moving from the search to the
-   * preview or collection viewin. Restore it when we are back.
-   */
 
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  show_search = (mode == PHOTOS_WINDOW_MODE_PREVIEW && active_item == NULL && active_collection == NULL)
-                || (mode == PHOTOS_WINDOW_MODE_SEARCH && active_item == NULL);
+  if (mode != PHOTOS_WINDOW_MODE_SEARCH)
+    return;
 
-  if (show_search)
-    photos_embed_restore_search (self);
+  if (collection == NULL)
+    {
+      photos_embed_restore_search (self);
+    }
   else
-    photos_embed_save_search (self);
+    {
+      PhotosSearchType *search_type;
+      const gchar *str;
+      const gchar *id;
 
-  state = g_variant_new ("b", show_search);
-  g_action_change_state (priv->search_action, state);
+      photos_embed_save_search (self);
 
-  /* See above. */
-  if (active_item == (GObject *) active_collection)
-    photos_embed_tracker_controllers_set_frozen (self, FALSE);
+      search_type = PHOTOS_SEARCH_TYPE (photos_base_manager_get_active_object (priv->srch_mngr));
+      str = photos_search_controller_get_string (priv->srch_cntrlr);
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (search_type));
+
+      if (g_strcmp0 (str, "") != 0 || g_strcmp0 (id, "all") != 0)
+        {
+          photos_base_manager_set_active_object_by_id (priv->srch_mngr, "all");
+          photos_search_controller_set_string (priv->srch_cntrlr, "");
+        }
+    }
 }
 
 
@@ -426,44 +426,60 @@ photos_embed_notify_visible_child (PhotosEmbed *self)
 
 
 static void
-photos_embed_prepare_for_collections (PhotosEmbed *self)
+photos_embed_prepare_for_collections (PhotosEmbed *self, PhotosWindowMode old_mode)
 {
   PhotosEmbedPrivate *priv = self->priv;
 
-  photos_base_manager_set_active_object (priv->item_mngr, NULL);
+  if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    photos_embed_tracker_controllers_set_frozen (self, FALSE);
+
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "collections");
 }
 
 
 static void
-photos_embed_prepare_for_favorites (PhotosEmbed *self)
+photos_embed_prepare_for_favorites (PhotosEmbed *self, PhotosWindowMode old_mode)
 {
   PhotosEmbedPrivate *priv = self->priv;
 
-  photos_base_manager_set_active_object (priv->item_mngr, NULL);
+  if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    photos_embed_tracker_controllers_set_frozen (self, FALSE);
+
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "favorites");
 }
 
 
 static void
-photos_embed_prepare_for_overview (PhotosEmbed *self)
+photos_embed_prepare_for_overview (PhotosEmbed *self, PhotosWindowMode old_mode)
 {
   PhotosEmbedPrivate *priv = self->priv;
 
-  photos_base_manager_set_active_object (priv->item_mngr, NULL);
+  if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    photos_embed_tracker_controllers_set_frozen (self, FALSE);
+
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "overview");
 }
 
 
 static void
-photos_embed_prepare_for_search (PhotosEmbed *self)
+photos_embed_prepare_for_search (PhotosEmbed *self, PhotosWindowMode old_mode)
 {
   PhotosEmbedPrivate *priv = self->priv;
 
-  photos_base_manager_set_active_object (priv->item_mngr, NULL);
+  if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    {
+      PhotosBaseItem *active_collection;
+
+      active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+      if (active_collection == NULL)
+        photos_embed_restore_search (self);
+
+      photos_embed_tracker_controllers_set_frozen (self, FALSE);
+    }
+
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "search");
 }
@@ -564,23 +580,23 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
-      photos_embed_prepare_for_collections (self);
+      photos_embed_prepare_for_collections (self, old_mode);
       goto set_toolbar_model;
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
-      photos_embed_prepare_for_favorites (self);
+      photos_embed_prepare_for_favorites (self, old_mode);
       goto set_toolbar_model;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
-      photos_embed_prepare_for_overview (self);
+      photos_embed_prepare_for_overview (self, old_mode);
       goto set_toolbar_model;
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
-      photos_embed_prepare_for_preview (self);
+      photos_embed_prepare_for_preview (self, old_mode);
       break;
 
     case PHOTOS_WINDOW_MODE_SEARCH:
-      photos_embed_prepare_for_search (self);
+      photos_embed_prepare_for_search (self, old_mode);
       goto set_toolbar_model;
 
     case PHOTOS_WINDOW_MODE_NONE:
@@ -719,7 +735,7 @@ photos_embed_init (PhotosEmbed *self)
                            self,
                            G_CONNECT_SWAPPED);
 
-  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
   g_signal_connect_object (priv->mode_cntrlr,
                            "window-mode-changed",
                            G_CALLBACK (photos_embed_window_mode_changed),
@@ -739,7 +755,11 @@ photos_embed_init (PhotosEmbed *self)
                            G_CONNECT_SWAPPED);
 
   priv->item_mngr = g_object_ref (state->item_mngr);
-  g_signal_connect_object (priv->item_mngr, "active-changed", G_CALLBACK (photos_embed_active_changed), self, 0);
+  g_signal_connect_object (priv->item_mngr,
+                           "active-collection-changed",
+                           G_CALLBACK (photos_embed_active_collection_changed),
+                           self,
+                           0);
   g_signal_connect_object (priv->item_mngr,
                            "load-finished",
                            G_CALLBACK (photos_embed_load_finished),

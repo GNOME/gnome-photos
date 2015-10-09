@@ -133,8 +133,6 @@ gnome_photos_SOURCES = \
 	photos-main-window.h \
 	photos-media-server-item.c \
 	photos-media-server-item.h \
-	photos-mode-controller.c \
-	photos-mode-controller.h \
 	photos-notification-manager.c \
 	photos-notification-manager.h \
 	photos-offset-collections-controller.c \
@@ -397,7 +395,7 @@ stamp-photos-enums.h: photos-enums.h.template
 	$(AM_V_GEN) ( \
 		( glib-mkenums \
 			--template $(srcdir)/photos-enums.h.template \
-                        $(srcdir)/photos-mode-controller.h \
+                        $(srcdir)/photos-item-manager.h \
                         $(srcdir)/photos-preview-nav-buttons.h \
                 ) >> xgen-etbh \
 		&& ( cmp -s xgen-etbh photos-enums.h || cp xgen-etbh photos-enums.h ) \
@@ -409,7 +407,7 @@ photos-enums.c: photos-enums.c.template
 	$(AM_V_GEN) ( \
 		( glib-mkenums \
 			--template $(srcdir)/photos-enums.c.template \
-                        $(srcdir)/photos-mode-controller.h \
+                        $(srcdir)/photos-item-manager.h \
                         $(srcdir)/photos-preview-nav-buttons.h \
                 ) >> xgen-etbc \
 		&& ( cmp -s xgen-etbc photos-enums.c || cp xgen-etbc photos-enums.c ) \

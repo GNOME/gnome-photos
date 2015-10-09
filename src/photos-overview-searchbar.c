@@ -49,7 +49,6 @@ struct _PhotosOverviewSearchbarPrivate
   GtkWidget *dropdown;
   GtkWidget *dropdown_button;
   GtkWidget *search_container;
-  PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosBaseManager *srch_mtch_mngr;
   PhotosBaseManager *srch_typ_mngr;
@@ -88,29 +87,6 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
     gd_entry_focus_hack (GTK_WIDGET (priv->search_entry), event_device);
 
   g_free (name);
-}
-
-
-static void
-photos_overview_searchbar_collection_active_changed (PhotosOverviewSearchbar *self, PhotosBaseItem *collection)
-{
-  PhotosOverviewSearchbarPrivate *priv = self->priv;
-  PhotosSearchType *search_type;
-  const gchar *id;
-  const gchar *str;
-
-  if (collection == NULL)
-    return;
-
-  search_type = PHOTOS_SEARCH_TYPE (photos_base_manager_get_active_object (priv->srch_typ_mngr));
-  str = photos_search_controller_get_string (priv->srch_cntrlr);
-  id = photos_filterable_get_id (PHOTOS_FILTERABLE (search_type));
-
-  if (g_strcmp0 (str, "") != 0 || g_strcmp0 (id, "all") != 0)
-    {
-      photos_base_manager_set_active_object_by_id (priv->srch_typ_mngr, "all");
-      gtk_entry_set_text (GTK_ENTRY (priv->search_entry), "");
-    }
 }
 
 
@@ -303,7 +279,6 @@ photos_overview_searchbar_dispose (GObject *object)
   PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (object);
   PhotosOverviewSearchbarPrivate *priv = self->priv;
 
-  g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->srch_mtch_mngr);
   g_clear_object (&priv->srch_typ_mngr);
@@ -346,13 +321,6 @@ photos_overview_searchbar_init (PhotosOverviewSearchbar *self)
   g_signal_connect_object (priv->srch_typ_mngr,
                            "active-changed",
                            G_CALLBACK (photos_overview_searchbar_search_type_active_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-
-  priv->item_mngr = g_object_ref (state->item_mngr);
-  g_signal_connect_object (priv->item_mngr,
-                           "active-collection-changed",
-                           G_CALLBACK (photos_overview_searchbar_collection_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
 

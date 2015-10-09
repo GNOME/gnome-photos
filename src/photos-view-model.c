@@ -31,7 +31,6 @@
 #include "photos-base-manager.h"
 #include "photos-enums.h"
 #include "photos-filterable.h"
-#include "photos-item-manager.h"
 #include "photos-offset-collections-controller.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-offset-overview-controller.h"
@@ -466,7 +465,7 @@ photos_view_model_init (PhotosViewModel *self)
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self), PHOTOS_VIEW_MODEL_MTIME, GTK_SORT_DESCENDING);
 
   priv->item_mngr = g_object_ref (state->item_mngr);
-  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
 
   priv->oldest_mtime = G_MAXINT64;
 }

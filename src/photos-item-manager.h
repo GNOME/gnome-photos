@@ -44,8 +44,31 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_ITEM_MANAGER))
 
+#define PHOTOS_TYPE_MODE_CONTROLLER (photos_item_manager_get_type ())
+
+#define PHOTOS_MODE_CONTROLLER(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
+   PHOTOS_TYPE_MODE_CONTROLLER, PhotosModeController))
+
+#define PHOTOS_IS_MODE_CONTROLLER(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
+   PHOTOS_TYPE_MODE_CONTROLLER))
+
+typedef enum
+{
+  PHOTOS_WINDOW_MODE_NONE,
+  PHOTOS_WINDOW_MODE_COLLECTIONS,
+  PHOTOS_WINDOW_MODE_FAVORITES,
+  PHOTOS_WINDOW_MODE_OVERVIEW,
+  PHOTOS_WINDOW_MODE_PREVIEW,
+  PHOTOS_WINDOW_MODE_SEARCH
+} PhotosWindowMode;
+
 typedef struct _PhotosItemManager      PhotosItemManager;
 typedef struct _PhotosItemManagerClass PhotosItemManagerClass;
+
+typedef struct _PhotosItemManager      PhotosModeController;
+typedef struct _PhotosItemManagerClass PhotosModeControllerClass;
 
 GType                     photos_item_manager_get_type           (void) G_GNUC_CONST;
 
@@ -62,6 +85,22 @@ PhotosBaseItem           *photos_item_manager_create_item        (PhotosItemMana
 PhotosBaseItem           *photos_item_manager_get_active_collection (PhotosItemManager *self);
 
 GHashTable               *photos_item_manager_get_collections       (PhotosItemManager *self);
+
+gboolean                  photos_mode_controller_get_can_fullscreen (PhotosModeController *self);
+
+gboolean                  photos_mode_controller_get_fullscreen     (PhotosModeController *self);
+
+PhotosWindowMode          photos_mode_controller_get_window_mode    (PhotosModeController *self);
+
+void                      photos_mode_controller_go_back            (PhotosModeController *self);
+
+void                      photos_mode_controller_toggle_fullscreen  (PhotosModeController *self);
+
+void                      photos_mode_controller_set_fullscreen     (PhotosModeController *self,
+                                                                     gboolean              fullscreen);
+
+void                      photos_mode_controller_set_window_mode    (PhotosModeController *self,
+                                                                     PhotosWindowMode      mode);
 
 G_END_DECLS
 

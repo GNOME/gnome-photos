@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Intel Corporation. All rights reserved.
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,8 +33,8 @@
 #include "photos-dlna-renderer.h"
 #include "photos-dlna-renderers-manager.h"
 #include "photos-icons.h"
+#include "photos-item-manager.h"
 #include "photos-local-item.h"
-#include "photos-mode-controller.h"
 #include "photos-remote-display-manager.h"
 #include "photos-search-context.h"
 
@@ -233,7 +233,7 @@ photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
   priv->item_mngr = g_object_ref (state->item_mngr);
   priv->renderers_mngr = photos_dlna_renderers_manager_dup_singleton ();
   priv->remote_mngr = photos_remote_display_manager_dup_singleton ();
-  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
 
   gtk_widget_init_template (GTK_WIDGET (self));
 

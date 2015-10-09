@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,7 +28,7 @@
 #include <gtk/gtk.h>
 
 #include "photos-base-item.h"
-#include "photos-mode-controller.h"
+#include "photos-item-manager.h"
 
 G_BEGIN_DECLS
 

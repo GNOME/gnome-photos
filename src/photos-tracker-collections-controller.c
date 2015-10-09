@@ -24,7 +24,6 @@
 #include <gio/gio.h>
 
 #include "photos-item-manager.h"
-#include "photos-mode-controller.h"
 #include "photos-offset-collections-controller.h"
 #include "photos-query-builder.h"
 #include "photos-search-context.h"
@@ -148,7 +147,7 @@ photos_tracker_collections_controller_init (PhotosTrackerCollectionsController *
                             G_CALLBACK (photos_tracker_collections_controller_col_active_changed),
                             self);
 
-  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
   priv->offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
 }
 

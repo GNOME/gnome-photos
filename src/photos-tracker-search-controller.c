@@ -29,7 +29,6 @@
 
 #include "photos-base-manager.h"
 #include "photos-item-manager.h"
-#include "photos-mode-controller.h"
 #include "photos-offset-search-controller.h"
 #include "photos-query-builder.h"
 #include "photos-search-context.h"
@@ -184,7 +183,7 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
                             G_CALLBACK (photos_tracker_controller_refresh_for_object),
                             self);
 
-  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
   priv->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
 
   priv->srch_cntrlr = g_object_ref (state->srch_cntrlr);

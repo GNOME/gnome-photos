@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -51,6 +51,7 @@ typedef struct _PhotosSearchContextInterface PhotosSearchContextInterface;
 struct _PhotosSearchContextState
 {
   gpointer item_mngr;
+  gpointer mode_cntrlr;
   gpointer src_mngr;
   gpointer srch_mtch_mngr;
   gpointer srch_typ_mngr;

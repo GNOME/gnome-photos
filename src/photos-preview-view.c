@@ -26,12 +26,14 @@
 #include "config.h"
 
 #include <glib.h>
+#include <gio/gio.h>
 #include <glib/gi18n.h>
 
 #include "gegl-gtk-view.h"
-#include "photos-mode-controller.h"
+#include "photos-item-manager.h"
 #include "photos-preview-nav-buttons.h"
 #include "photos-preview-view.h"
+#include "photos-search-context.h"
 
 
 struct _PhotosPreviewViewPrivate
@@ -243,13 +245,18 @@ static void
 photos_preview_view_init (PhotosPreviewView *self)
 {
   PhotosPreviewViewPrivate *priv;
+  GApplication *app;
   GtkStyleContext *context;
   GtkWidget *view;
+  PhotosSearchContextState *state;
 
   self->priv = photos_preview_view_get_instance_private (self);
   priv = self->priv;
 
-  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
   g_signal_connect_object (priv->mode_cntrlr,
                            "window-mode-changed",
                            G_CALLBACK (photos_preview_view_window_mode_changed),

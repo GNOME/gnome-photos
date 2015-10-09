@@ -302,7 +302,7 @@ photos_view_container_constructed (GObject *object)
                                                 photos_selection_controller_get_selection_mode (priv->sel_cntrlr),
                                                 self);
 
-  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
   g_signal_connect_object (priv->mode_cntrlr,
                            "window-mode-changed",
                            G_CALLBACK (photos_view_container_window_mode_changed),

@@ -33,7 +33,6 @@
 #include "photos-embed.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
-#include "photos-mode-controller.h"
 #include "photos-preview-view.h"
 #include "photos-search-context.h"
 #include "photos-selection-controller.h"
@@ -163,7 +162,6 @@ photos_main_window_go_back (PhotosMainWindow *self)
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_PREVIEW:
-      photos_base_manager_set_active_object (priv->item_mngr, NULL);
       photos_mode_controller_go_back (priv->mode_cntrlr);
       break;
 
@@ -242,10 +240,7 @@ photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *even
     {
     case GDK_KEY_Escape:
       if (fullscreen)
-        {
-          photos_base_manager_set_active_object (priv->item_mngr, NULL);
-          photos_mode_controller_go_back (priv->mode_cntrlr);
-        }
+        photos_mode_controller_go_back (priv->mode_cntrlr);
       break;
 
     case GDK_KEY_Left:
@@ -429,7 +424,7 @@ photos_main_window_init (PhotosMainWindow *self)
 
   priv->item_mngr = g_object_ref (state->item_mngr);
 
-  priv->mode_cntrlr = photos_mode_controller_dup_singleton ();
+  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
   g_signal_connect_swapped (priv->mode_cntrlr,
                             "fullscreen-changed",
                             G_CALLBACK (photos_main_window_fullscreen_changed),

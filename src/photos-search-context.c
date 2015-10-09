@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -51,6 +51,7 @@ photos_search_context_state_new (PhotosSearchContext *self)
 
   state = g_slice_new0 (PhotosSearchContextState);
   state->item_mngr = photos_item_manager_new ();
+  state->mode_cntrlr = g_object_ref (state->item_mngr);
   state->src_mngr = photos_source_manager_new ();
   state->srch_cntrlr = photos_search_controller_new ();
   state->srch_mtch_mngr = photos_search_match_manager_new (state->srch_cntrlr);
@@ -64,6 +65,7 @@ void
 photos_search_context_state_free (PhotosSearchContextState *state)
 {
   g_object_unref (state->item_mngr);
+  g_object_unref (state->mode_cntrlr);
   g_object_unref (state->src_mngr);
   g_object_unref (state->srch_mtch_mngr);
   g_object_unref (state->srch_typ_mngr);
