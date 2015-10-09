@@ -479,7 +479,7 @@ photos_main_window_show_about (PhotosMainWindow *self)
                          "comments", _("Access, organize and share your photos on GNOME"),
                          "copyright", _("Copyright © 2013 Intel Corporation. All rights reserved.\n"
                                         "Copyright © 2014, 2015 Pranav Kant\n"
-                                        "Copyright © 2012, 2013, 2014 Red Hat, Inc."),
+                                        "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."),
                          "license-type", GTK_LICENSE_GPL_2_0,
                          "logo-icon-name", PACKAGE_TARNAME,
                          "program-name", _(PACKAGE_NAME),
