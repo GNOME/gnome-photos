@@ -1,3 +1,16 @@
+Overview of changes in 3.18.1
+=============================
+
+* Bugs fixed:
+ 688566 offset-controller: Prevent loading more items than there actually is
+ 725508 Can not handle window manager's unfull/full screen operation
+ 741593 No pagination buttons when previewing search results
+ 755600 Fix the background of GdTaggedEntry tags
+ 756131 Disable can-fullscreen when going back, and simplify the state
+        changes / signal emissions
+ 756221 Disabling application menu adds a redundant toolbar
+
+
 Overview of changes in 3.18.0
 =============================
 
