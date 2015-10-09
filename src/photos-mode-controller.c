@@ -44,6 +44,7 @@ struct _PhotosModeControllerClass
 {
   GObjectClass parent_class;
 
+  /* signals */
   void (*can_fullscreen_changed) (PhotosModeController *self);
   void (*fullscreen_changed)     (PhotosModeController *self, gboolean fullscreen);
   void (*window_mode_changed)    (PhotosModeController *self, PhotosWindowMode mode, PhotosWindowMode old_mode);
