@@ -677,7 +677,7 @@ photos_embed_init (PhotosEmbed *self)
   priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
   gtk_overlay_add_overlay (GTK_OVERLAY (priv->stack_overlay), priv->ntfctn_mngr);
 
-  priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW, _("Recent"));
+  priv->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW, _("Photos"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (priv->overview));
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->overview, "overview", name);
   model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->overview));
