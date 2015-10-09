@@ -32,7 +32,6 @@
 #include "photos-enums.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
-#include "photos-mode-controller.h"
 #include "photos-offset-collections-controller.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-offset-overview-controller.h"
