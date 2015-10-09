@@ -272,6 +272,8 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object) || object == NULL, FALSE);
 
   active_item = photos_base_manager_get_active_object (manager);
+  if (object == active_item)
+    goto out;
 
   /* Passing NULL is a way to go back to the current collection or
    * overview from the preview. However, you can't do that when you
@@ -311,11 +313,13 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
 
  end:
   ret_val = PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->set_active_object (manager, object);
+  /* We have already eliminated the possibility of failure. */
+  g_assert (ret_val == TRUE);
 
-  if (ret_val && active_collection_changed)
+  if (active_collection_changed)
     g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
 
-  if (ret_val && start_loading)
+  if (start_loading)
     {
       GtkRecentManager *recent;
       const gchar *uri;
