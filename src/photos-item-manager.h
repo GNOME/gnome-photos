@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,41 +40,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_ITEM_MANAGER, PhotosItemManager))
 
-#define PHOTOS_ITEM_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_ITEM_MANAGER, PhotosItemManagerClass))
-
 #define PHOTOS_IS_ITEM_MANAGER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_ITEM_MANAGER))
 
-#define PHOTOS_IS_ITEM_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_ITEM_MANAGER))
-
-#define PHOTOS_ITEM_MANAGER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_ITEM_MANAGER, PhotosItemManagerClass))
-
-typedef struct _PhotosItemManager        PhotosItemManager;
-typedef struct _PhotosItemManagerClass   PhotosItemManagerClass;
-typedef struct _PhotosItemManagerPrivate PhotosItemManagerPrivate;
-
-struct _PhotosItemManager
-{
-  PhotosBaseManager parent_instance;
-  PhotosItemManagerPrivate *priv;
-};
-
-struct _PhotosItemManagerClass
-{
-  PhotosBaseManagerClass parent_class;
-
-  /* signals */
-  void (*active_collection_changed) (PhotosItemManager *self, PhotosBaseItem *collection);
-  void (*load_finished)             (PhotosItemManager *self, PhotosBaseItem *item, GeglNode *node);
-  void (*load_started)              (PhotosItemManager *self, PhotosBaseItem *item, GCancellable *cancellable);
-};
+typedef struct _PhotosItemManager      PhotosItemManager;
+typedef struct _PhotosItemManagerClass PhotosItemManagerClass;
 
 GType                     photos_item_manager_get_type           (void) G_GNUC_CONST;
 
