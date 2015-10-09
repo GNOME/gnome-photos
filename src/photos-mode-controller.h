@@ -35,21 +35,9 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_MODE_CONTROLLER, PhotosModeController))
 
-#define PHOTOS_MODE_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_MODE_CONTROLLER, PhotosModeControllerClass))
-
 #define PHOTOS_IS_MODE_CONTROLLER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_MODE_CONTROLLER))
-
-#define PHOTOS_IS_MODE_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_MODE_CONTROLLER))
-
-#define PHOTOS_MODE_CONTROLLER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_MODE_CONTROLLER, PhotosModeControllerClass))
 
 typedef enum
 {
@@ -61,24 +49,8 @@ typedef enum
   PHOTOS_WINDOW_MODE_SEARCH
 } PhotosWindowMode;
 
-typedef struct _PhotosModeController        PhotosModeController;
-typedef struct _PhotosModeControllerClass   PhotosModeControllerClass;
-typedef struct _PhotosModeControllerPrivate PhotosModeControllerPrivate;
-
-struct _PhotosModeController
-{
-  GObject parent_instance;
-  PhotosModeControllerPrivate *priv;
-};
-
-struct _PhotosModeControllerClass
-{
-  GObjectClass parent_class;
-
-  void (*can_fullscreen_changed) (PhotosModeController *self);
-  void (*fullscreen_changed)     (PhotosModeController *self, gboolean fullscreen);
-  void (*window_mode_changed)    (PhotosModeController *self, PhotosWindowMode mode, PhotosWindowMode old_mode);
-};
+typedef struct _PhotosModeController      PhotosModeController;
+typedef struct _PhotosModeControllerClass PhotosModeControllerClass;
 
 GType                  photos_mode_controller_get_type               (void) G_GNUC_CONST;
 

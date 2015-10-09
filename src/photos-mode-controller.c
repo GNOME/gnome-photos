@@ -32,11 +32,21 @@
 #include "photos-mode-controller.h"
 
 
-struct _PhotosModeControllerPrivate
+struct _PhotosModeController
 {
+  GObject parent_instance;
   GQueue *history;
   PhotosWindowMode mode;
   gboolean fullscreen;
+};
+
+struct _PhotosModeControllerClass
+{
+  GObjectClass parent_class;
+
+  void (*can_fullscreen_changed) (PhotosModeController *self);
+  void (*fullscreen_changed)     (PhotosModeController *self, gboolean fullscreen);
+  void (*window_mode_changed)    (PhotosModeController *self, PhotosWindowMode mode, PhotosWindowMode old_mode);
 };
 
 enum
@@ -50,15 +60,13 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosModeController, photos_mode_controller, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosModeController, photos_mode_controller, G_TYPE_OBJECT);
 
 
 static void
 photos_mode_controller_update_fullscreen (PhotosModeController *self)
 {
-  PhotosModeControllerPrivate *priv = self->priv;
-
-  if (!photos_mode_controller_get_can_fullscreen (self) && priv->fullscreen)
+  if (!photos_mode_controller_get_can_fullscreen (self) && self->fullscreen)
     photos_mode_controller_set_fullscreen (self, FALSE);
 
   g_signal_emit (self, signals[CAN_FULLSCREEN_CHANGED], 0);
@@ -88,7 +96,7 @@ photos_mode_controller_finalize (GObject *object)
 {
   PhotosModeController *self = PHOTOS_MODE_CONTROLLER (object);
 
-  g_queue_free (self->priv->history);
+  g_queue_free (self->history);
 
   G_OBJECT_CLASS (photos_mode_controller_parent_class)->finalize (object);
 }
@@ -97,14 +105,9 @@ photos_mode_controller_finalize (GObject *object)
 static void
 photos_mode_controller_init (PhotosModeController *self)
 {
-  PhotosModeControllerPrivate *priv;
-
-  self->priv = photos_mode_controller_get_instance_private (self);
-  priv = self->priv;
-
-  priv->history = g_queue_new ();
-  priv->mode = PHOTOS_WINDOW_MODE_NONE;
-  priv->fullscreen = FALSE;
+  self->history = g_queue_new ();
+  self->mode = PHOTOS_WINDOW_MODE_NONE;
+  self->fullscreen = FALSE;
 }
 
 
@@ -164,41 +167,40 @@ photos_mode_controller_dup_singleton (void)
 gboolean
 photos_mode_controller_get_can_fullscreen (PhotosModeController *self)
 {
-  return self->priv->mode == PHOTOS_WINDOW_MODE_PREVIEW;
+  return self->mode == PHOTOS_WINDOW_MODE_PREVIEW;
 }
 
 
 gboolean
 photos_mode_controller_get_fullscreen (PhotosModeController *self)
 {
-  return self->priv->fullscreen;
+  return self->fullscreen;
 }
 
 
 PhotosWindowMode
 photos_mode_controller_get_window_mode (PhotosModeController *self)
 {
-  return self->priv->mode;
+  return self->mode;
 }
 
 
 void
 photos_mode_controller_go_back (PhotosModeController *self)
 {
-  PhotosModeControllerPrivate *priv = self->priv;
   PhotosWindowMode old_mode;
   PhotosWindowMode tmp;
 
-  if (g_queue_is_empty (priv->history))
+  if (g_queue_is_empty (self->history))
     return;
 
-  old_mode = (PhotosWindowMode) GPOINTER_TO_INT (g_queue_pop_head (priv->history));
+  old_mode = (PhotosWindowMode) GPOINTER_TO_INT (g_queue_pop_head (self->history));
 
   /* Always go back to the overview when activated from the search
    * provider. It is easier to special case it here instead of all
    * over the code.
    */
-  if (priv->mode == PHOTOS_WINDOW_MODE_PREVIEW && old_mode == PHOTOS_WINDOW_MODE_NONE)
+  if (self->mode == PHOTOS_WINDOW_MODE_PREVIEW && old_mode == PHOTOS_WINDOW_MODE_NONE)
     old_mode = PHOTOS_WINDOW_MODE_OVERVIEW;
 
   if (old_mode == PHOTOS_WINDOW_MODE_NONE)
@@ -206,48 +208,45 @@ photos_mode_controller_go_back (PhotosModeController *self)
 
   /* Swap the old and current modes */
   tmp = old_mode;
-  old_mode = priv->mode;
-  priv->mode = tmp;
+  old_mode = self->mode;
+  self->mode = tmp;
 
   photos_mode_controller_update_fullscreen (self);
-  g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, priv->mode, old_mode);
+  g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, self->mode, old_mode);
 }
 
 
 void
 photos_mode_controller_toggle_fullscreen (PhotosModeController *self)
 {
-  photos_mode_controller_set_fullscreen (self, !self->priv->fullscreen);
+  photos_mode_controller_set_fullscreen (self, !self->fullscreen);
 }
 
 
 void
 photos_mode_controller_set_fullscreen (PhotosModeController *self, gboolean fullscreen)
 {
-  PhotosModeControllerPrivate *priv = self->priv;
-
-  if (priv->fullscreen == fullscreen)
+  if (self->fullscreen == fullscreen)
     return;
 
-  priv->fullscreen = fullscreen;
-  g_signal_emit (self, signals[FULLSCREEN_CHANGED], 0, priv->fullscreen);
+  self->fullscreen = fullscreen;
+  g_signal_emit (self, signals[FULLSCREEN_CHANGED], 0, self->fullscreen);
 }
 
 
 void
 photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindowMode mode)
 {
-  PhotosModeControllerPrivate *priv = self->priv;
   PhotosWindowMode old_mode;
 
-  old_mode = priv->mode;
+  old_mode = self->mode;
 
   if (old_mode == mode)
     return;
 
-  g_queue_push_head (priv->history, GINT_TO_POINTER (old_mode));
-  priv->mode = mode;
+  g_queue_push_head (self->history, GINT_TO_POINTER (old_mode));
+  self->mode = mode;
 
   photos_mode_controller_update_fullscreen (self);
-  g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, priv->mode, old_mode);
+  g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, self->mode, old_mode);
 }
