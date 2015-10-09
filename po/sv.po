@@ -1,37 +1,46 @@
 # Swedish translation for gnome-photos.
-# Copyright (C) 2014-2015 gnome-photos's COPYRIGHT HOLDER
+# Copyright © 2014-2015 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014, 2015.
 # Sebastian Rasmussen <sebras@gmail.com>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-14 10:13+0000\n"
-"PO-Revision-Date: 2015-03-14 12:24+0100\n"
-"Last-Translator: Josef Andersson <josef.andersson@fripost.org>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-10-09 11:49+0000\n"
+"PO-Revision-Date: 2015-10-09 18:14+0200\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.5\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:680
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Foton"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Titta på, organisera och dela dina foton i GNOME"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:3
-msgid "A simple application to access, organize and share your photos on GNOME. It is meant to be a simple and elegant replacement for using a file manager to deal with photos. Seamless cloud integration is offered through GNOME Online Accounts."
-msgstr "Ett enkelt program för att visa, organisera och dela dina foton i GNOME. Det är tänkt som ett enkelt och elegant alternativ till att använda en filhanterare för att hantera foton. Integration med molntjänster erbjuds genom GNOME Nätkonton."
+msgid ""
+"A simple application to access, organize and share your photos on GNOME. It "
+"is meant to be a simple and elegant replacement for using a file manager to "
+"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Ett enkelt program för att visa, organisera och dela dina foton i GNOME. Det "
+"är tänkt som ett enkelt och elegant alternativ till att använda en "
+"filhanterare för att hantera foton. Integration med molntjänster erbjuds "
+"genom GNOME Nätkonton."
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
@@ -63,7 +72,9 @@ msgstr "Välj favoriter"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:11
 msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Tillåt att en funktionellt komplett redigerare öppnas för mer avancerade förändringar"
+msgstr ""
+"Tillåt att en funktionellt komplett redigerare öppnas för mer avancerade "
+"förändringar"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
@@ -170,22 +181,6 @@ msgstr "Kunde inte visa hjälp för Bildvisare"
 msgid " (invalid Unicode)"
 msgstr " (ogiltig Unicode)"
 
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Helskärm"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "_Hjälp"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "Om"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "Avsluta"
-
 #: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Album"
@@ -201,8 +196,6 @@ msgstr "”%s” har tagits bort"
 
 #: ../src/photos-delete-notification.c:144
 #, c-format
-#| msgid "Selected item has been deleted"
-#| msgid_plural "Selected items have been deleted"
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d objekt har tagits bort"
@@ -216,19 +209,15 @@ msgstr "Ångra"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-renderingsenheter"
 
-#: ../src/photos-embed.c:621
-msgid "Recent"
-msgstr "Senaste"
-
-#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:687 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:694 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoriter"
 
-#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:701 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Sök"
 
@@ -273,7 +262,7 @@ msgstr "Inga foton hittades"
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:163
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Namnlöst foto"
 
@@ -297,7 +286,7 @@ msgstr "Dina foton indexeras"
 msgid "Some photos might not be available during this process"
 msgstr "Några foton kanske inte är tillgängliga under denna process"
 
-#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Lokalt"
 
@@ -312,44 +301,44 @@ msgid_plural "%d selected"
 msgstr[0] "%d markerat"
 msgstr[1] "%d markerade"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Tillbaka"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Markera objekt"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Öppna med %s"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Ta bort från favoriter"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Lägg till i favoriter"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:645
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ../src/photos-main-window.c:473
+#: ../src/photos-main-window.c:480
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 msgstr ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:483
+#: ../src/photos-main-window.c:490
 msgid "translator-credits"
 msgstr ""
 "Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
@@ -357,16 +346,32 @@ msgstr ""
 "Skicka synpunkter på översättningen till\n"
 "<tp-sv@listor.tp-sv.se>."
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Helskärm"
+
+#: ../src/photos-menus.ui.h:2
+msgid "_Help"
+msgstr "_Hjälp"
+
+#: ../src/photos-menus.ui.h:3
+msgid "About"
+msgstr "Om"
+
+#: ../src/photos-menus.ui.h:4
+msgid "Quit"
+msgstr "Avsluta"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "_Lägg till"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_OK"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organisera"
@@ -556,7 +561,7 @@ msgid "On, fired"
 msgstr "På, utlöstes"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
 msgid "All"
 msgstr "Alla"
 
@@ -572,14 +577,17 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "Upphovsman"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "Matcha"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Typ"
@@ -604,11 +612,13 @@ msgstr "Ta bort"
 msgid "Add to Album"
 msgstr "Lägg till i album"
 
-#: ../src/photos-source-manager.c:174
+#: ../src/photos-source-manager.c:205
 msgid "Sources"
 msgstr "Källor"
 
-#: ../src/photos-tracker-controller.c:97
+#: ../src/photos-tracker-controller.c:99
 msgid "Unable to fetch the list of photos"
 msgstr "Kunde inte hämta fotolistan"
 
+#~ msgid "Recent"
+#~ msgstr "Senaste"
