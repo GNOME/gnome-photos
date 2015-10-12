@@ -383,7 +383,7 @@ photos_embed_active_changed (PhotosBaseManager *manager, GObject *object, gpoint
   g_action_change_state (priv->search_action, state);
 
   /* See above. */
-  if (active_item == (GObject *) active_collection) /* active_item == NULL */
+  if (active_item == (GObject *) active_collection)
     photos_embed_tracker_controllers_set_frozen (self, FALSE);
 }
 
