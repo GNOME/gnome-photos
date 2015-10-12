@@ -38,6 +38,9 @@ G_BEGIN_DECLS
 
 #define PHOTOS_ICON_IMAGE_X_GENERIC_SYMBOLIC "image-x-generic-symbolic"
 
+#define PHOTOS_ICON_NOT_FAVORITE "non-starred"
+#define PHOTOS_ICON_NOT_FAVORITE_SYMBOLIC PHOTOS_ICON_NOT_FAVORITE "-symbolic"
+
 #define PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC "object-select-symbolic"
 
 #define PHOTOS_ICON_PHOTOS_SYMBOLIC "emblem-photos-symbolic"

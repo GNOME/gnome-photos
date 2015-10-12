@@ -455,26 +455,25 @@ static void
 photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self, gboolean favorite)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
-  GtkStyleContext *context;
+  GtkWidget *image;
   gchar *favorite_label;
 
   g_signal_handlers_block_by_func (priv->favorite_button, photos_main_toolbar_favorite_button_clicked, self);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->favorite_button), favorite);
   g_signal_handlers_unblock_by_func (priv->favorite_button, photos_main_toolbar_favorite_button_clicked, self);
 
-  context = gtk_widget_get_style_context (priv->favorite_button);
   if (favorite)
     {
       favorite_label = g_strdup (_("Remove from favorites"));
-      gtk_style_context_add_class (context, "photos-favorite");
+      image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
     }
   else
     {
       favorite_label = g_strdup (_("Add to favorites"));
-      gtk_style_context_remove_class (context, "photos-favorite");
+      image = gtk_image_new_from_icon_name (PHOTOS_ICON_NOT_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
     }
 
-  gtk_widget_reset_style (priv->favorite_button);
+  gtk_button_set_image (GTK_BUTTON (priv->favorite_button), image);
   gtk_widget_set_tooltip_text (priv->favorite_button, favorite_label);
   g_free (favorite_label);
 }
@@ -585,9 +584,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 
   g_simple_action_set_enabled (priv->gear_menu, TRUE);
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
   priv->favorite_button = gtk_toggle_button_new ();
-  gtk_button_set_image (GTK_BUTTON (priv->favorite_button), image);
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), priv->favorite_button);
   g_signal_connect_swapped (priv->favorite_button,
                             "clicked",
