@@ -104,8 +104,7 @@ GdMainIconView.content-view.cell:active {
     background-image: url("sidebar-radio-selected-prelight.svg");
 }
 
-.photos-favorite.button:active,
-.photos-favorite.button:active:hover {
+.photos-favorite.button {
     color: shade(@theme_selected_bg_color, 1.20);
 }
 
