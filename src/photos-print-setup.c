@@ -713,7 +713,6 @@ on_preview_image_key_pressed (GtkWidget *widget, GdkEventKey *event, gpointer us
 static GtkWidget *
 photos_print_setup_wrap_in_frame (const gchar *label, GtkWidget *child)
 {
-  GtkWidget *alignment;
   GtkWidget *frame;
   GtkWidget *label_widget;
   gchar *bold_text;
@@ -729,14 +728,13 @@ photos_print_setup_wrap_in_frame (const gchar *label, GtkWidget *child)
   frame = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
   gtk_box_pack_start (GTK_BOX (frame), label_widget, FALSE, FALSE, 0);
 
-  alignment = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 12, 0);
-  gtk_box_pack_start (GTK_BOX (frame), alignment, FALSE, FALSE, 0);
+  gtk_widget_set_margin_start (child, 12);
+  gtk_widget_set_halign (child, GTK_ALIGN_FILL);
+  gtk_widget_set_valign (child, GTK_ALIGN_FILL);
 
-  gtk_container_add (GTK_CONTAINER (alignment), child);
+  gtk_box_pack_start (GTK_BOX (frame), child, FALSE, FALSE, 0);
 
   gtk_widget_show (frame);
-  gtk_widget_show (alignment);
 
   return frame;
 }
