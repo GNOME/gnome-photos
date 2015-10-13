@@ -288,8 +288,21 @@ photos_embed_prepare_for_preview (PhotosEmbed *self, PhotosWindowMode old_mode)
   photos_embed_tracker_controllers_set_frozen (self, TRUE);
 
   active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
-  if (old_mode == PHOTOS_WINDOW_MODE_SEARCH && active_collection == NULL)
-    photos_embed_save_search (self);
+  if (old_mode == PHOTOS_WINDOW_MODE_SEARCH)
+    {
+      if (active_collection == NULL)
+        photos_embed_save_search (self);
+    }
+  else
+    {
+      GVariant *state;
+
+      /* Hide any empty search bars that might have been floating
+       * around.
+       */
+      state = g_variant_new ("b", FALSE);
+      g_action_change_state (priv->search_action, state);
+    }
 
   /* This is not needed when activated from the search provider. */
   if (old_mode != PHOTOS_WINDOW_MODE_NONE)
