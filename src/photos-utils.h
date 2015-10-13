@@ -101,8 +101,6 @@ GList           *photos_utils_get_urns_from_paths         (GList *paths, GtkTree
 
 GIcon           *photos_utils_icon_from_rdf_type          (const gchar *type);
 
-gboolean         photos_utils_queue_thumbnail_job_for_file_finish (GAsyncResult *res);
-
 void             photos_utils_set_edited_name             (const gchar *urn, const gchar *title);
 
 void             photos_utils_set_favorite                (const gchar *urn, gboolean is_favorite);

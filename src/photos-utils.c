@@ -896,14 +896,6 @@ photos_utils_icon_from_rdf_type (const gchar *type)
 }
 
 
-gboolean
-photos_utils_queue_thumbnail_job_for_file_finish (GAsyncResult *res)
-{
-  GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT (res);
-  return g_simple_async_result_get_op_res_gboolean (simple);
-}
-
-
 static void
 photos_utils_update_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
