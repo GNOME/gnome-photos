@@ -344,8 +344,7 @@ msgstr ""
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:483
 msgid "translator-credits"
-msgstr ""
-"António Lima <amrlima@gmail.com>\n"
+msgstr "António Lima <amrlima@gmail.com>\n"
 "Pedro Albuquerque <palbuquerque73@gmail.com>"
 
 #: ../src/photos-menus.ui.h:1
@@ -621,7 +620,7 @@ msgstr "Fontes"
 
 #: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
-msgstr "Impossível obter a lista de fotos"
+msgstr "Impossível obter a lista de fotografias"
 
 #~ msgid "No Favorites Found"
 #~ msgstr "Nenhum favorito encontrado"
