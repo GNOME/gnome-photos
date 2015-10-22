@@ -218,7 +218,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   GList *apps = NULL;
   GList *l;
   GList *selection;
-  GtkStyleContext *context;
+  GtkWidget *image;
   gboolean has_selection;
   gboolean show_collection;
   gboolean show_favorite;
@@ -286,21 +286,20 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   g_free (open_label);
   g_list_free_full (apps, g_free);
 
-  context = gtk_widget_get_style_context (priv->toolbar_favorite);
   if (show_favorite && fav_count == sel_length)
     {
       favorite_label = g_strdup (_("Remove from favorites"));
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->toolbar_favorite), TRUE);
-      gtk_style_context_add_class (context, "photos-favorite");
+      image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
     }
   else
     {
       favorite_label = g_strdup (_("Add to favorites"));
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->toolbar_favorite), FALSE);
-      gtk_style_context_remove_class (context, "photos-favorite");
+      image = gtk_image_new_from_icon_name (PHOTOS_ICON_NOT_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
     }
 
-  gtk_widget_reset_style (priv->toolbar_favorite);
+  gtk_button_set_image (GTK_BUTTON (priv->toolbar_favorite), image);
   gtk_widget_set_tooltip_text (priv->toolbar_favorite, favorite_label);
   g_free (favorite_label);
 
@@ -430,7 +429,6 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 {
   PhotosSelectionToolbarPrivate *priv;
   GApplication *app;
-  GtkWidget *image;
   GtkWidget *toolbar;
   PhotosSearchContextState *state;
 
@@ -445,9 +443,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   toolbar = gtk_action_bar_new ();
   gtk_container_add (GTK_CONTAINER (self), toolbar);
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
   priv->toolbar_favorite = gtk_toggle_button_new ();
-  gtk_button_set_image (GTK_BUTTON (priv->toolbar_favorite), image);
   gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_favorite);
   g_signal_connect (priv->toolbar_favorite,
                     "clicked",
