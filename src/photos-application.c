@@ -60,7 +60,7 @@
 
 struct _PhotosApplicationPrivate
 {
-  GCancellable *create_miners_cancellable;
+  GCancellable *create_window_cancellable;
   GList *miners;
   GList *miners_running;
   GResource *resource;
@@ -224,12 +224,46 @@ photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gp
 
 
 static void
+photos_application_tracker_clear_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GError *error;
+  TrackerExtractPriority *extract_priority = TRACKER_EXTRACT_PRIORITY (source_object);
+
+  error = NULL;
+  if (!tracker_extract_priority_call_clear_rdf_types_finish (extract_priority, res, &error))
+    {
+      g_warning ("Unable to call ClearRdfTypes: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
 photos_application_destroy (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
 
   priv->main_window = NULL;
+
+  g_cancellable_cancel (priv->create_window_cancellable);
+  g_clear_object (&priv->create_window_cancellable);
+  priv->create_window_cancellable = g_cancellable_new ();
+
   photos_application_stop_miners (self);
+
+  if (priv->extract_priority != NULL)
+    {
+      tracker_extract_priority_call_clear_rdf_types (priv->extract_priority,
+                                                     NULL,
+                                                     photos_application_tracker_clear_rdf_types,
+                                                     g_object_ref (self));
+      g_clear_object (&priv->extract_priority);
+    }
 }
 
 
@@ -300,7 +334,7 @@ photos_application_create_miners (PhotosApplication *self)
                                        G_DBUS_PROXY_FLAGS_NONE,
                                        base_item_class->miner_name,
                                        base_item_class->miner_object_path,
-                                       priv->create_miners_cancellable,
+                                       priv->create_window_cancellable,
                                        photos_application_gom_miner,
                                        data);
           priv->create_miners_count++;
@@ -308,6 +342,56 @@ photos_application_create_miners (PhotosApplication *self)
 
       g_type_class_unref (base_item_class);
     }
+}
+
+
+static void
+photos_application_tracker_set_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GError *error;
+  TrackerExtractPriority *extract_priority = TRACKER_EXTRACT_PRIORITY (source_object);
+
+  error = NULL;
+  if (!tracker_extract_priority_call_set_rdf_types_finish (extract_priority, res, &error))
+    {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to call SetRdfTypes: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
+photos_application_tracker_extract_priority (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  PhotosApplicationPrivate *priv = self->priv;
+  GError *error;
+  const gchar *const rdf_types[] = {"nfo:Image", NULL};
+
+  error = NULL;
+  priv->extract_priority = tracker_extract_priority_proxy_new_for_bus_finish (res, &error);
+  if (error != NULL)
+    {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to create TrackerExtractPriority proxy: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  tracker_extract_priority_call_set_rdf_types (priv->extract_priority,
+                                               rdf_types,
+                                               priv->create_window_cancellable,
+                                               photos_application_tracker_set_rdf_types,
+                                               g_object_ref (self));
+
+ out:
+  g_object_unref (self);
 }
 
 
@@ -321,6 +405,15 @@ photos_application_create_window (PhotosApplication *self)
 
   priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
   g_signal_connect_swapped (priv->main_window, "destroy", G_CALLBACK (photos_application_destroy), self);
+
+  tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
+                                              G_DBUS_PROXY_FLAGS_NONE,
+                                              "org.freedesktop.Tracker1.Miner.Extract",
+                                              "/org/freedesktop/Tracker1/Extract/Priority",
+                                              priv->create_window_cancellable,
+                                              photos_application_tracker_extract_priority,
+                                              g_object_ref (self));
+
   photos_application_start_miners (self);
 }
 
@@ -679,10 +772,6 @@ photos_application_stop_miners (PhotosApplication *self)
   PhotosApplicationPrivate *priv = self->priv;
   GList *l;
 
-  g_cancellable_cancel (priv->create_miners_cancellable);
-  g_clear_object (&priv->create_miners_cancellable);
-  priv->create_miners_cancellable = g_cancellable_new ();
-
   for (l = priv->miners_running; l != NULL; l = l->next)
     {
       GomMiner *miner = GOM_MINER (l->data);
@@ -742,72 +831,6 @@ photos_application_theme_changed (GtkSettings *settings)
     }
 
   g_free (theme);
-}
-
-
-static void
-photos_application_tracker_clear_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error;
-
-  error = NULL;
-  if (!tracker_extract_priority_call_clear_rdf_types_finish (self->priv->extract_priority, res, &error))
-    {
-      g_warning ("Unable to call ClearRdfTypes: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
-
- out:
-  g_object_unref (self);
-}
-
-
-static void
-photos_application_tracker_set_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error;
-
-  error = NULL;
-  if (!tracker_extract_priority_call_set_rdf_types_finish (self->priv->extract_priority, res, &error))
-    {
-      g_warning ("Unable to call SetRdfTypes: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
-
- out:
-  g_object_unref (self);
-}
-
-
-static void
-photos_application_tracker_extract_priority (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  PhotosApplicationPrivate *priv = self->priv;
-  GError *error;
-  const gchar *const rdf_types[] = {"nfo:Image", NULL};
-
-  error = NULL;
-  priv->extract_priority = tracker_extract_priority_proxy_new_for_bus_finish (res, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to create TrackerExtractPriority proxy: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
-
-  tracker_extract_priority_call_set_rdf_types (priv->extract_priority,
-                                               rdf_types,
-                                               NULL,
-                                               photos_application_tracker_set_rdf_types,
-                                               g_object_ref (self));
-
- out:
-  g_object_unref (self);
 }
 
 
@@ -915,13 +938,7 @@ photos_application_dbus_unregister (GApplication *application,
 static void
 photos_application_shutdown (GApplication *application)
 {
-  PhotosApplication *self = PHOTOS_APPLICATION (application);
-
   gegl_exit ();
-  tracker_extract_priority_call_clear_rdf_types (self->priv->extract_priority,
-                                                 NULL,
-                                                 photos_application_tracker_clear_rdf_types,
-                                                 g_object_ref (self));
 
   G_APPLICATION_CLASS (photos_application_parent_class)->shutdown (application);
 }
@@ -958,7 +975,7 @@ photos_application_startup (GApplication *application)
       g_error_free (error);
     }
 
-  priv->create_miners_cancellable = g_cancellable_new ();
+  priv->create_window_cancellable = g_cancellable_new ();
 
   priv->bg_settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
   priv->ss_settings = g_settings_new (DESKTOP_SCREENSAVER_SCHEMA);
@@ -970,14 +987,6 @@ photos_application_startup (GApplication *application)
   g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
   g_signal_connect (settings, "notify::gtk-theme-name", G_CALLBACK (photos_application_theme_changed), NULL);
   photos_application_theme_changed (settings);
-
-  tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
-                                              G_DBUS_PROXY_FLAGS_NONE,
-                                              "org.freedesktop.Tracker1.Miner.Extract",
-                                              "/org/freedesktop/Tracker1/Extract/Priority",
-                                              NULL,
-                                              photos_application_tracker_extract_priority,
-                                              g_object_ref (self));
 
   /* A dummy reference to keep it alive during the lifetime of the
    * application.
@@ -1134,7 +1143,7 @@ photos_application_dispose (GObject *object)
       priv->resource = NULL;
     }
 
-  g_clear_object (&priv->create_miners_cancellable);
+  g_clear_object (&priv->create_window_cancellable);
   g_clear_object (&priv->bg_settings);
   g_clear_object (&priv->ss_settings);
   g_clear_object (&priv->fs_action);
