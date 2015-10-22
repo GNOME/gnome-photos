@@ -289,13 +289,11 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   if (show_favorite && fav_count == sel_length)
     {
       favorite_label = g_strdup (_("Remove from favorites"));
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->toolbar_favorite), TRUE);
       image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
     }
   else
     {
       favorite_label = g_strdup (_("Add to favorites"));
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->toolbar_favorite), FALSE);
       image = gtk_image_new_from_icon_name (PHOTOS_ICON_NOT_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
     }
 
@@ -443,7 +441,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   toolbar = gtk_action_bar_new ();
   gtk_container_add (GTK_CONTAINER (self), toolbar);
 
-  priv->toolbar_favorite = gtk_toggle_button_new ();
+  priv->toolbar_favorite = gtk_button_new ();
   gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_favorite);
   g_signal_connect (priv->toolbar_favorite,
                     "clicked",

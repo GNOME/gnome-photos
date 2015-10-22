@@ -458,10 +458,6 @@ photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self, gboolean fa
   GtkWidget *image;
   gchar *favorite_label;
 
-  g_signal_handlers_block_by_func (priv->favorite_button, photos_main_toolbar_favorite_button_clicked, self);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->favorite_button), favorite);
-  g_signal_handlers_unblock_by_func (priv->favorite_button, photos_main_toolbar_favorite_button_clicked, self);
-
   if (favorite)
     {
       favorite_label = g_strdup (_("Remove from favorites"));
@@ -584,7 +580,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 
   g_simple_action_set_enabled (priv->gear_menu, TRUE);
 
-  priv->favorite_button = gtk_toggle_button_new ();
+  priv->favorite_button = gtk_button_new ();
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), priv->favorite_button);
   g_signal_connect_swapped (priv->favorite_button,
                             "clicked",
