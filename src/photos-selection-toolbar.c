@@ -108,6 +108,7 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
   PhotosSelectionToolbarPrivate *priv = self->priv;
+  GList *items = NULL;
   GList *selection;
   GList *l;
 
@@ -119,14 +120,27 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
     {
       const gchar *urn = (gchar *) l->data;
       PhotosBaseItem *item;
-      gboolean favorite;
 
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
+      items = g_list_prepend (items, g_object_ref (item));
+    }
+
+  /* photos_base_item_set_favorite will emit info-updated signal while
+   * looping: there is a chance that the selection will get modified
+   * while we are iterating over it. To avoid this we make a copy of
+   * the selection and work on it.
+   */
+  for (l = items; l != NULL; l = l->next)
+    {
+      PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
+      gboolean favorite;
+
       favorite = photos_base_item_is_favorite (item);
       photos_base_item_set_favorite (item, !favorite);
     }
 
   photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
+  g_list_free_full (items, g_object_unref);
 }
 
 
