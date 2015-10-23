@@ -79,7 +79,6 @@ struct _PhotosApplicationPrivate
   GSimpleAction *sel_none_action;
   GSimpleAction *set_bg_action;
   GSimpleAction *set_ss_action;
-  GSimpleAction *remote_display_action;
   GtkWidget *main_window;
   PhotosCameraCache *camera_cache;
   PhotosSearchContextState *state;
@@ -1029,12 +1028,10 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
-  priv->remote_display_action = g_simple_action_new ("remote-display-current", NULL);
-  g_signal_connect_swapped (priv->remote_display_action,
-                            "activate",
-                            G_CALLBACK (photos_application_remote_display_current),
-                            self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->remote_display_action));
+  action = g_simple_action_new ("remote-display-current", NULL);
+  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_remote_display_current), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
+  g_object_unref (action);
 
   state = g_variant_new ("b", FALSE);
   priv->search_action = g_simple_action_new_stateful ("search", NULL, state);
