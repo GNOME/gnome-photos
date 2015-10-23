@@ -184,8 +184,7 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
   gchar *text;
   const gchar *name;
 
-  if (priv->remote_display_button != NULL)
-    gtk_widget_destroy (priv->remote_display_button);
+  g_clear_pointer (&priv->remote_display_button, (GDestroyNotify) gtk_widget_destroy);
 
   renderer = photos_remote_display_manager_get_renderer (priv->remote_mngr);
   name = photos_dlna_renderer_get_friendly_name (renderer);
@@ -221,7 +220,7 @@ photos_main_toolbar_update_remote_display_button (PhotosMainToolbar *self)
   if (active && !selection_mode && window_mode != PHOTOS_WINDOW_MODE_PREVIEW)
     photos_main_toolbar_add_remote_display_button (self);
   else
-    g_clear_pointer (&priv->remote_display_button, gtk_widget_destroy);
+    g_clear_pointer (&priv->remote_display_button, (GDestroyNotify) gtk_widget_destroy);
 }
 
 
@@ -255,11 +254,7 @@ photos_main_toolbar_col_active_changed (PhotosMainToolbar *self, PhotosBaseItem 
   else
     {
       mode = PHOTOS_HEADER_BAR_MODE_NORMAL;
-      if (priv->coll_back_button != NULL)
-        {
-          gtk_widget_destroy (priv->coll_back_button);
-          priv->coll_back_button = NULL;
-        }
+      g_clear_pointer (&priv->coll_back_button, (GDestroyNotify) gtk_widget_destroy);
     }
 
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), mode);
@@ -354,23 +349,9 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
 
-  if (priv->coll_back_button != NULL)
-    {
-      gtk_widget_destroy (priv->coll_back_button);
-      priv->coll_back_button = NULL;
-    }
-
-  if (priv->remote_display_button != NULL)
-    {
-      gtk_widget_destroy (priv->remote_display_button);
-      priv->remote_display_button = NULL;
-    }
-
-  if (priv->selection_button != NULL)
-    {
-      gtk_widget_destroy (priv->selection_button);
-      priv->selection_button = NULL;
-    }
+  g_clear_pointer (&priv->coll_back_button, (GDestroyNotify) gtk_widget_destroy);
+  g_clear_pointer (&priv->remote_display_button, (GDestroyNotify) gtk_widget_destroy);
+  g_clear_pointer (&priv->selection_button, (GDestroyNotify) gtk_widget_destroy);
 
   if (priv->searchbar != NULL && gtk_widget_get_parent (priv->searchbar) == GTK_WIDGET (self))
     {
