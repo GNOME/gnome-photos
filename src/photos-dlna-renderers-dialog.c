@@ -92,7 +92,7 @@ photos_dlna_renderers_dialog_row_activated_cb (PhotosDlnaRenderersDialog *self,
   photos_remote_display_manager_set_renderer (priv->remote_mngr, renderer);
   photos_remote_display_manager_render (priv->remote_mngr, item);
 
-  photos_mode_controller_set_window_mode (priv->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+  photos_mode_controller_go_back (priv->mode_cntrlr);
 
   gtk_dialog_response (GTK_DIALOG (self), GTK_RESPONSE_ACCEPT);
 }
