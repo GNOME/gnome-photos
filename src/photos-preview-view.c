@@ -103,32 +103,12 @@ photos_preview_view_get_invisible_view (PhotosPreviewView *self)
 
 
 static void
-photos_preview_view_nav_buttons_activated (PhotosPreviewView *self, PhotosPreviewAction action)
+photos_preview_view_navigate (PhotosPreviewView *self, gint position)
 {
   PhotosPreviewViewPrivate *priv = self->priv;
   GtkWidget *current_view;
   GtkWidget *new_view;
   GtkWidget *next_view;
-  gint position;
-
-  if (action == PHOTOS_PREVIEW_ACTION_NONE)
-    return;
-
-  switch (action)
-    {
-    case PHOTOS_PREVIEW_ACTION_NEXT:
-      position = 0;
-      break;
-
-    case PHOTOS_PREVIEW_ACTION_PREVIOUS:
-      position = -1;
-      break;
-
-    case PHOTOS_PREVIEW_ACTION_NONE:
-    default:
-      g_assert_not_reached ();
-      break;
-    }
 
   current_view = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
   gtk_container_child_set (GTK_CONTAINER (priv->stack), current_view, "position", position, NULL);
@@ -140,6 +120,20 @@ photos_preview_view_nav_buttons_activated (PhotosPreviewView *self, PhotosPrevie
 
   new_view = photos_preview_view_create_view (self);
   gtk_container_add (GTK_CONTAINER (priv->stack), new_view);
+}
+
+
+static void
+photos_preview_view_navigate_next (PhotosPreviewView *self)
+{
+  photos_preview_view_navigate (self, 0);
+}
+
+
+static void
+photos_preview_view_navigate_previous (PhotosPreviewView *self)
+{
+  photos_preview_view_navigate (self, -1);
 }
 
 
@@ -213,11 +207,6 @@ photos_preview_view_constructed (GObject *object)
   gtk_container_add (GTK_CONTAINER (self), priv->stack);
 
   priv->nav_buttons = photos_preview_nav_buttons_new (self, GTK_OVERLAY (priv->overlay));
-  g_signal_connect_swapped (priv->nav_buttons,
-                            "activated",
-                            G_CALLBACK (photos_preview_view_nav_buttons_activated),
-                            self);
-
   gtk_widget_show_all (GTK_WIDGET (self));
 }
 
@@ -245,6 +234,7 @@ static void
 photos_preview_view_init (PhotosPreviewView *self)
 {
   PhotosPreviewViewPrivate *priv;
+  GAction *action;
   GApplication *app;
   GtkStyleContext *context;
   GtkWidget *view;
@@ -277,6 +267,12 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   view = photos_preview_view_create_view (self);
   gtk_container_add (GTK_CONTAINER (priv->stack), view);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "load-next");
+  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_preview_view_navigate_next), self);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "load-previous");
+  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_preview_view_navigate_previous), self);
 }
 
 
@@ -303,20 +299,6 @@ GtkWidget *
 photos_preview_view_new (GtkOverlay *overlay)
 {
   return g_object_new (PHOTOS_TYPE_PREVIEW_VIEW, "overlay", overlay, NULL);
-}
-
-
-void
-photos_preview_view_load_next (PhotosPreviewView *self)
-{
-  photos_preview_nav_buttons_next (self->priv->nav_buttons);
-}
-
-
-void
-photos_preview_view_load_previous (PhotosPreviewView *self)
-{
-  photos_preview_nav_buttons_previous (self->priv->nav_buttons);
 }
 
 

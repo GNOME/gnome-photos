@@ -75,8 +75,6 @@ GtkWidget             *photos_embed_new                    (void);
 
 PhotosMainToolbar     *photos_embed_get_main_toolbar       (PhotosEmbed *self);
 
-PhotosPreviewView     *photos_embed_get_preview            (PhotosEmbed *self);
-
 G_END_DECLS
 
 #endif /* PHOTOS_EMBED_H */

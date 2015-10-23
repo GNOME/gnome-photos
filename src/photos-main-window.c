@@ -41,6 +41,8 @@
 
 struct _PhotosMainWindowPrivate
 {
+  GAction *load_next;
+  GAction *load_previous;
   GtkWidget *embed;
   GSettings *settings;
   PhotosBaseManager *item_mngr;
@@ -229,11 +231,9 @@ static gboolean
 photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *event)
 {
   PhotosMainWindowPrivate *priv = self->priv;
-  PhotosPreviewView *preview;
   gboolean fullscreen;
   gboolean handled = FALSE;
 
-  preview = photos_embed_get_preview (PHOTOS_EMBED (priv->embed));
   fullscreen = photos_mode_controller_get_fullscreen (priv->mode_cntrlr);
 
   switch (event->keyval)
@@ -244,12 +244,12 @@ photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *even
       break;
 
     case GDK_KEY_Left:
-      photos_preview_view_load_previous (preview);
+      g_action_activate (priv->load_previous, NULL);
       handled = TRUE;
       break;
 
     case GDK_KEY_Right:
-      photos_preview_view_load_next (preview);
+      g_action_activate (priv->load_next, NULL);
       handled = TRUE;
       break;
 
@@ -359,6 +359,9 @@ photos_main_window_constructed (GObject *object)
    */
   app = g_application_get_default ();
   gtk_application_add_window (GTK_APPLICATION (app), GTK_WINDOW (self));
+
+  priv->load_next = g_action_map_lookup_action (G_ACTION_MAP (app), "load-next");
+  priv->load_previous = g_action_map_lookup_action (G_ACTION_MAP (app), "load-previous");
 
   priv->embed = photos_embed_new ();
   gtk_container_add (GTK_CONTAINER (self), priv->embed);

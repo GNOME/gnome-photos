@@ -29,7 +29,6 @@
 #include <glib/gi18n.h>
 
 #include "photos-base-manager.h"
-#include "photos-enums.h"
 #include "photos-icons.h"
 #include "photos-preview-model.h"
 #include "photos-preview-nav-buttons.h"
@@ -39,6 +38,8 @@
 
 struct _PhotosPreviewNavButtonsPrivate
 {
+  GAction *load_next;
+  GAction *load_previous;
   GtkGesture *tap_gesture;
   GtkTreeModel *model;
   GtkTreePath *current_path;
@@ -47,7 +48,6 @@ struct _PhotosPreviewNavButtonsPrivate
   GtkWidget *prev_widget;
   GtkWidget *preview_view;
   PhotosBaseManager *item_mngr;
-  PhotosPreviewAction action;
   gboolean enable_next;
   gboolean enable_prev;
   gboolean visible;
@@ -62,14 +62,6 @@ enum
   PROP_OVERLAY,
   PROP_PREVIEW_VIEW
 };
-
-enum
-{
-  ACTIVATED,
-  LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosPreviewNavButtons, photos_preview_nav_buttons, G_TYPE_OBJECT);
@@ -146,6 +138,9 @@ photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
     photos_preview_nav_buttons_fade_in_button (self, priv->prev_widget);
   else
     photos_preview_nav_buttons_fade_out_button (self, priv->prev_widget);
+
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (priv->load_next), priv->enable_next);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (priv->load_previous), priv->enable_prev);
 }
 
 
@@ -284,6 +279,34 @@ photos_preview_nav_buttons_set_active_path (PhotosPreviewNavButtons *self)
 
 
 static void
+photos_preview_nav_buttons_next (PhotosPreviewNavButtons *self)
+{
+  PhotosPreviewNavButtonsPrivate *priv = self->priv;
+
+  if (!priv->enable_next)
+    return;
+
+  gtk_tree_path_next (priv->current_path);
+  photos_preview_nav_buttons_set_active_path (self);
+  photos_preview_nav_buttons_update_visibility (self);
+}
+
+
+static void
+photos_preview_nav_buttons_previous (PhotosPreviewNavButtons *self)
+{
+  PhotosPreviewNavButtonsPrivate *priv = self->priv;
+
+  if (!priv->enable_prev)
+    return;
+
+  gtk_tree_path_prev (priv->current_path);
+  photos_preview_nav_buttons_set_active_path (self);
+  photos_preview_nav_buttons_update_visibility (self);
+}
+
+
+static void
 photos_preview_nav_buttons_dispose (GObject *object)
 {
   PhotosPreviewNavButtons *self = PHOTOS_PREVIEW_NAV_BUTTONS (object);
@@ -335,13 +358,10 @@ photos_preview_nav_buttons_constructed (GObject *object)
 
   button = gtk_button_new ();
   gtk_button_set_image (GTK_BUTTON (button), image);
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.load-previous");
   context = gtk_widget_get_style_context (button);
   gtk_style_context_add_class (context, "osd");
   gtk_container_add (GTK_CONTAINER (priv->prev_widget), button);
-  g_signal_connect_swapped (button,
-                            "clicked",
-                            G_CALLBACK (photos_preview_nav_buttons_previous),
-                            self);
   g_signal_connect_swapped (button,
                             "enter-notify-event",
                             G_CALLBACK (photos_preview_nav_buttons_enter_notify),
@@ -364,13 +384,10 @@ photos_preview_nav_buttons_constructed (GObject *object)
 
   button = gtk_button_new ();
   gtk_button_set_image (GTK_BUTTON (button), image);
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.load-next");
   context = gtk_widget_get_style_context (button);
   gtk_style_context_add_class (context, "osd");
   gtk_container_add (GTK_CONTAINER (priv->next_widget), button);
-  g_signal_connect_swapped (button,
-                            "clicked",
-                            G_CALLBACK (photos_preview_nav_buttons_next),
-                            self);
   g_signal_connect_swapped (button,
                             "enter-notify-event",
                             G_CALLBACK (photos_preview_nav_buttons_enter_notify),
@@ -434,9 +451,21 @@ photos_preview_nav_buttons_init (PhotosPreviewNavButtons *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->item_mngr = g_object_ref (state->item_mngr);
+  priv->load_next = g_action_map_lookup_action (G_ACTION_MAP (app), "load-next");
+  g_signal_connect_object (priv->load_next,
+                           "activate",
+                           G_CALLBACK (photos_preview_nav_buttons_next),
+                           self,
+                           G_CONNECT_SWAPPED);
 
-  priv->action = PHOTOS_PREVIEW_ACTION_NONE;
+  priv->load_previous = g_action_map_lookup_action (G_ACTION_MAP (app), "load-previous");
+  g_signal_connect_object (priv->load_previous,
+                           "activate",
+                           G_CALLBACK (photos_preview_nav_buttons_previous),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  priv->item_mngr = g_object_ref (state->item_mngr);
 }
 
 
@@ -465,17 +494,6 @@ photos_preview_nav_buttons_class_init (PhotosPreviewNavButtonsClass *class)
                                                         "The widget used for showing the preview",
                                                         PHOTOS_TYPE_PREVIEW_VIEW,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
-
-  signals[ACTIVATED] = g_signal_new ("activated",
-                                     G_TYPE_FROM_CLASS (class),
-                                     G_SIGNAL_RUN_LAST,
-                                     G_STRUCT_OFFSET (PhotosPreviewNavButtonsClass, activated),
-                                     NULL, /*accumulator */
-                                     NULL, /*accu_data */
-                                     g_cclosure_marshal_generic,
-                                     G_TYPE_NONE,
-                                     1,
-                                     PHOTOS_TYPE_PREVIEW_ACTION);
 }
 
 
@@ -486,58 +504,14 @@ photos_preview_nav_buttons_new (PhotosPreviewView *preview_view, GtkOverlay *ove
 }
 
 
-PhotosPreviewAction
-photos_preview_nav_buttons_get_action (PhotosPreviewNavButtons *self)
-{
-  return self->priv->action;
-}
-
-
 void
 photos_preview_nav_buttons_hide (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
 
-  priv->action = PHOTOS_PREVIEW_ACTION_NONE;
   priv->visible = FALSE;
   priv->visible_internal = FALSE;
   photos_preview_nav_buttons_update_visibility (self);
-
-  g_signal_emit (self, signals[ACTIVATED], 0, priv->action);
-}
-
-
-void
-photos_preview_nav_buttons_next (PhotosPreviewNavButtons *self)
-{
-  PhotosPreviewNavButtonsPrivate *priv = self->priv;
-
-  if (!priv->enable_next)
-    return;
-
-  priv->action = PHOTOS_PREVIEW_ACTION_NEXT;
-  gtk_tree_path_next (priv->current_path);
-  photos_preview_nav_buttons_set_active_path (self);
-  photos_preview_nav_buttons_update_visibility (self);
-
-  g_signal_emit (self, signals[ACTIVATED], 0, priv->action);
-}
-
-
-void
-photos_preview_nav_buttons_previous (PhotosPreviewNavButtons *self)
-{
-  PhotosPreviewNavButtonsPrivate *priv = self->priv;
-
-  if (!priv->enable_prev)
-    return;
-
-  priv->action = PHOTOS_PREVIEW_ACTION_PREVIOUS;
-  gtk_tree_path_prev (priv->current_path);
-  photos_preview_nav_buttons_set_active_path (self);
-  photos_preview_nav_buttons_update_visibility (self);
-
-  g_signal_emit (self, signals[ACTIVATED], 0, priv->action);
 }
 
 
@@ -564,11 +538,8 @@ photos_preview_nav_buttons_show (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
 
-  priv->action = PHOTOS_PREVIEW_ACTION_NONE;
   priv->visible = TRUE;
   priv->visible_internal = TRUE;
   photos_preview_nav_buttons_update_visibility (self);
   photos_preview_nav_buttons_queue_auto_hide (self);
-
-  g_signal_emit (self, signals[ACTIVATED], 0, priv->action);
 }

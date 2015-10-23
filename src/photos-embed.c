@@ -833,10 +833,3 @@ photos_embed_get_main_toolbar (PhotosEmbed *self)
 {
   return PHOTOS_MAIN_TOOLBAR (self->priv->toolbar);
 }
-
-
-PhotosPreviewView *
-photos_embed_get_preview (PhotosEmbed *self)
-{
-  return PHOTOS_PREVIEW_VIEW (self->priv->preview);
-}
