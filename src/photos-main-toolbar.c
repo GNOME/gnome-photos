@@ -167,76 +167,6 @@ photos_main_toolbar_add_back_button (PhotosMainToolbar *self)
 
 
 static void
-photos_main_toolbar_coll_back_button_clicked (PhotosMainToolbar *self)
-{
-  photos_item_manager_activate_previous_collection (PHOTOS_ITEM_MANAGER (self->priv->item_mngr));
-}
-
-
-static void
-photos_main_toolbar_col_active_changed (PhotosMainToolbar *self, PhotosBaseItem *collection)
-{
-  PhotosMainToolbarPrivate *priv = self->priv;
-  PhotosHeaderBarMode mode;
-
-  if (collection != NULL)
-    {
-      mode = PHOTOS_HEADER_BAR_MODE_STANDALONE;
-      if (priv->coll_back_button == NULL)
-        {
-          priv->coll_back_button = photos_main_toolbar_add_back_button (self);
-          gtk_widget_show (priv->coll_back_button);
-
-          g_signal_connect_swapped (priv->coll_back_button,
-                                    "clicked",
-                                    G_CALLBACK (photos_main_toolbar_coll_back_button_clicked),
-                                    self);
-        }
-    }
-  else
-    {
-      mode = PHOTOS_HEADER_BAR_MODE_NORMAL;
-      if (priv->coll_back_button != NULL)
-        {
-          gtk_widget_destroy (priv->coll_back_button);
-          priv->coll_back_button = NULL;
-        }
-    }
-
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), mode);
-  photos_main_toolbar_set_toolbar_title (self);
-}
-
-
-static void
-photos_main_toolbar_item_active_changed (PhotosMainToolbar *self, GObject *object)
-{
-  PhotosMainToolbarPrivate *priv = self->priv;
-  PhotosWindowMode window_mode;
-  gboolean favorite;
-
-  if (object == NULL)
-    return;
-
-  window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  if (window_mode != PHOTOS_WINDOW_MODE_PREVIEW)
-    return;
-
-  photos_main_toolbar_set_toolbar_title (self);
-
-  favorite = photos_base_item_is_favorite (PHOTOS_BASE_ITEM (object));
-  photos_main_toolbar_favorite_button_update (self, favorite);
-}
-
-
-static void
-photos_main_toolbar_select_button_clicked (PhotosMainToolbar *self)
-{
-  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, TRUE);
-}
-
-
-static void
 photos_main_toolbar_remote_display_button_clicked (PhotosMainToolbar *self)
 {
   PhotosMainToolbarPrivate *priv = self->priv;
@@ -274,6 +204,95 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
                             G_CALLBACK (photos_main_toolbar_remote_display_button_clicked),
                             self);
   g_free (text);
+}
+
+
+static void
+photos_main_toolbar_update_remote_display_button (PhotosMainToolbar *self)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  PhotosWindowMode window_mode;
+  gboolean selection_mode, active;
+
+  selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
+  window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  active = photos_remote_display_manager_is_active (priv->remote_mngr);
+
+  if (active && !selection_mode && window_mode != PHOTOS_WINDOW_MODE_PREVIEW)
+    photos_main_toolbar_add_remote_display_button (self);
+  else
+    g_clear_pointer (&priv->remote_display_button, gtk_widget_destroy);
+}
+
+
+static void
+photos_main_toolbar_coll_back_button_clicked (PhotosMainToolbar *self)
+{
+  photos_item_manager_activate_previous_collection (PHOTOS_ITEM_MANAGER (self->priv->item_mngr));
+}
+
+
+static void
+photos_main_toolbar_col_active_changed (PhotosMainToolbar *self, PhotosBaseItem *collection)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  PhotosHeaderBarMode mode;
+
+  if (collection != NULL)
+    {
+      mode = PHOTOS_HEADER_BAR_MODE_STANDALONE;
+      if (priv->coll_back_button == NULL)
+        {
+          priv->coll_back_button = photos_main_toolbar_add_back_button (self);
+          gtk_widget_show (priv->coll_back_button);
+
+          g_signal_connect_swapped (priv->coll_back_button,
+                                    "clicked",
+                                    G_CALLBACK (photos_main_toolbar_coll_back_button_clicked),
+                                    self);
+        }
+    }
+  else
+    {
+      mode = PHOTOS_HEADER_BAR_MODE_NORMAL;
+      if (priv->coll_back_button != NULL)
+        {
+          gtk_widget_destroy (priv->coll_back_button);
+          priv->coll_back_button = NULL;
+        }
+    }
+
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (priv->toolbar), mode);
+  photos_main_toolbar_update_remote_display_button (self);
+  photos_main_toolbar_set_toolbar_title (self);
+}
+
+
+static void
+photos_main_toolbar_item_active_changed (PhotosMainToolbar *self, GObject *object)
+{
+  PhotosMainToolbarPrivate *priv = self->priv;
+  PhotosWindowMode window_mode;
+  gboolean favorite;
+
+  if (object == NULL)
+    return;
+
+  window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  if (window_mode != PHOTOS_WINDOW_MODE_PREVIEW)
+    return;
+
+  photos_main_toolbar_set_toolbar_title (self);
+
+  favorite = photos_base_item_is_favorite (PHOTOS_BASE_ITEM (object));
+  photos_main_toolbar_favorite_button_update (self, favorite);
+}
+
+
+static void
+photos_main_toolbar_select_button_clicked (PhotosMainToolbar *self)
+{
+  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, TRUE);
 }
 
 
@@ -491,24 +510,6 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
 
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
   photos_main_toolbar_col_active_changed (self, collection);
-}
-
-
-static void
-photos_main_toolbar_update_remote_display_button (PhotosMainToolbar *self)
-{
-  PhotosMainToolbarPrivate *priv = self->priv;
-  PhotosWindowMode window_mode;
-  gboolean selection_mode, active;
-
-  selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
-  window_mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  active = photos_remote_display_manager_is_active (priv->remote_mngr);
-
-  if (active && !selection_mode && window_mode != PHOTOS_WINDOW_MODE_PREVIEW)
-    photos_main_toolbar_add_remote_display_button (self);
-  else
-    g_clear_pointer (&priv->remote_display_button, gtk_widget_destroy);
 }
 
 
