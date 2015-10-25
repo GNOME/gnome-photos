@@ -29,7 +29,9 @@
 #include <glib/gi18n.h>
 
 #include "photos-base-manager.h"
+#include "photos-delete-notification.h"
 #include "photos-icons.h"
+#include "photos-item-manager.h"
 #include "photos-preview-model.h"
 #include "photos-preview-nav-buttons.h"
 #include "photos-search-context.h"
@@ -48,12 +50,15 @@ struct _PhotosPreviewNavButtonsPrivate
   GtkWidget *prev_widget;
   GtkWidget *preview_view;
   PhotosBaseManager *item_mngr;
+  PhotosModeController *mode_cntrlr;
   gboolean enable_next;
   gboolean enable_prev;
   gboolean visible;
   gboolean visible_internal;
   guint auto_hide_id;
   guint motion_id;
+  gulong row_deleted_id;
+  gulong row_inserted_id;
 };
 
 enum
@@ -65,6 +70,36 @@ enum
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosPreviewNavButtons, photos_preview_nav_buttons, G_TYPE_OBJECT);
+
+
+static void
+photos_preview_nav_buttons_delete (PhotosPreviewNavButtons *self)
+{
+  PhotosPreviewNavButtonsPrivate *priv = self->priv;
+  GList *items = NULL;
+  PhotosBaseItem *item;
+  PhotosWindowMode mode;
+
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  if (mode != PHOTOS_WINDOW_MODE_PREVIEW)
+    return;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
+  if (item == NULL)
+    return;
+
+  if (priv->enable_next)
+    g_action_activate (priv->load_next, NULL);
+  else if (priv->enable_prev)
+    g_action_activate (priv->load_previous, NULL);
+  else
+    photos_mode_controller_go_back (priv->mode_cntrlr);
+
+  items = g_list_prepend (items, g_object_ref (item));
+  photos_base_manager_remove_object (priv->item_mngr, G_OBJECT (item));
+  photos_delete_notification_new (items);
+  g_list_free_full (items, g_object_unref);
+}
 
 
 static void
@@ -260,6 +295,13 @@ photos_preview_nav_buttons_multi_press_stopped (PhotosPreviewNavButtons *self)
 
 
 static void
+photos_preview_nav_buttons_row_changed (PhotosPreviewNavButtons *self)
+{
+  photos_preview_nav_buttons_update_visibility (self);
+}
+
+
+static void
 photos_preview_nav_buttons_set_active_path (PhotosPreviewNavButtons *self, GtkTreePath *current_path)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
@@ -331,6 +373,7 @@ photos_preview_nav_buttons_dispose (GObject *object)
   g_clear_object (&priv->overlay);
   g_clear_object (&priv->preview_view);
   g_clear_object (&priv->item_mngr);
+  g_clear_object (&priv->mode_cntrlr);
 
   G_OBJECT_CLASS (photos_preview_nav_buttons_parent_class)->dispose (object);
 }
@@ -456,6 +499,7 @@ static void
 photos_preview_nav_buttons_init (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv;
+  GAction *action;
   GApplication *app;
   PhotosSearchContextState *state;
 
@@ -480,6 +524,14 @@ photos_preview_nav_buttons_init (PhotosPreviewNavButtons *self)
                            G_CONNECT_SWAPPED);
 
   priv->item_mngr = g_object_ref (state->item_mngr);
+  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "delete");
+  g_signal_connect_object (action,
+                           "activate",
+                           G_CALLBACK (photos_preview_nav_buttons_delete),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 
@@ -536,9 +588,32 @@ photos_preview_nav_buttons_set_model (PhotosPreviewNavButtons *self,
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
 
+  if (priv->row_deleted_id != 0)
+    {
+      g_signal_handler_disconnect (priv->model, priv->row_deleted_id);
+      priv->row_deleted_id = 0;
+    }
+
+  if (priv->row_inserted_id != 0)
+    {
+      g_signal_handler_disconnect (priv->model, priv->row_inserted_id);
+      priv->row_inserted_id = 0;
+    }
+
   g_clear_object (&priv->model);
+
   if (child_model != NULL)
-    priv->model = photos_preview_model_new (child_model);
+    {
+      priv->model = photos_preview_model_new (child_model);
+      priv->row_deleted_id = g_signal_connect_swapped (priv->model,
+                                                       "row-deleted",
+                                                       G_CALLBACK (photos_preview_nav_buttons_row_changed),
+                                                       self);
+      priv->row_inserted_id = g_signal_connect_swapped (priv->model,
+                                                        "row-inserted",
+                                                        G_CALLBACK (photos_preview_nav_buttons_row_changed),
+                                                        self);
+    }
 
   g_clear_pointer (&priv->current_row, (GDestroyNotify) gtk_tree_row_reference_free);
 

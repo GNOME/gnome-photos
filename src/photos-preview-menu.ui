@@ -11,6 +11,10 @@
         <attribute name="accel">&lt;Primary&gt;p</attribute>
       </item>
       <item>
+        <attribute name="action">app.delete</attribute>
+        <attribute name="label" translatable="yes">Delete</attribute>
+      </item>
+      <item>
         <attribute name="action">app.remote-display-current</attribute>
         <attribute name="label" translatable="yes">Display on…</attribute>
       </item>

@@ -160,13 +160,16 @@ photos_preview_view_create_view (PhotosPreviewView *self)
 static void
 photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
 {
+  PhotosPreviewViewPrivate *priv = self->priv;
+
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
-      photos_preview_nav_buttons_hide (self->priv->nav_buttons);
+      photos_preview_nav_buttons_hide (priv->nav_buttons);
+      photos_preview_nav_buttons_set_model (priv->nav_buttons, NULL, NULL);
       break;
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
