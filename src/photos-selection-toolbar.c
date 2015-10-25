@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -92,6 +92,43 @@ photos_selection_toolbar_collection_clicked (GtkButton *button, gpointer user_da
   dialog = photos_organize_collection_dialog_new (GTK_WINDOW (toplevel));
   gtk_widget_show_all (dialog);
   g_signal_connect (dialog, "response", G_CALLBACK (photos_selection_toolbar_dialog_response), self);
+}
+
+
+static void
+photos_selection_toolbar_delete (PhotosSelectionToolbar *self)
+{
+  PhotosSelectionToolbarPrivate *priv = self->priv;
+  GList *items = NULL;
+  GList *selection;
+  GList *l;
+
+  if (!photos_selection_controller_get_selection_mode (priv->sel_cntrlr))
+    return;
+
+  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  for (l = selection; l != NULL; l = l->next)
+    {
+      PhotosBaseItem *item;
+      const gchar *urn = (gchar *) l->data;
+
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
+      items = g_list_prepend (items, g_object_ref (item));
+    }
+
+  /* Removing an item from the item manager changes the selection, so
+   * we can't use the selection while removing items.
+   */
+  for (l = items; l != NULL; l = l->next)
+    {
+      PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
+      photos_base_manager_remove_object (priv->item_mngr, G_OBJECT (item));
+    }
+
+  photos_delete_notification_new (items);
+  photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
+
+  g_list_free_full (items, g_object_unref);
 }
 
 
@@ -370,41 +407,6 @@ photos_selection_toolbar_selection_mode_changed (PhotosSelectionController *sel_
 
 
 static void
-photos_selection_toolbar_trash_clicked (GtkButton *button, gpointer user_data)
-{
-  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-  PhotosSelectionToolbarPrivate *priv = self->priv;
-  GList *items = NULL;
-  GList *selection;
-  GList *l;
-
-  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
-  for (l = selection; l != NULL; l = l->next)
-    {
-      PhotosBaseItem *item;
-      const gchar *urn = (gchar *) l->data;
-
-      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
-      items = g_list_prepend (items, g_object_ref (item));
-    }
-
-  /* Removing an item from the item manager changes the selection, so
-   * we can't use the selection while removing items.
-   */
-  for (l = items; l != NULL; l = l->next)
-    {
-      PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
-      photos_base_manager_remove_object (priv->item_mngr, G_OBJECT (item));
-    }
-
-  photos_delete_notification_new (items);
-  photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
-
-  g_list_free_full (items, g_object_unref);
-}
-
-
-static void
 photos_selection_toolbar_dispose (GObject *object)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (object);
@@ -422,6 +424,7 @@ static void
 photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 {
   PhotosSelectionToolbarPrivate *priv;
+  GAction *action;
   GApplication *app;
   GtkWidget *toolbar;
   PhotosSearchContextState *state;
@@ -459,11 +462,8 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
                     self);
 
   priv->toolbar_trash = gtk_button_new_with_label (_("Delete"));
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->toolbar_trash), "app.delete");
   gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_trash);
-  g_signal_connect (priv->toolbar_trash,
-                    "clicked",
-                    G_CALLBACK (photos_selection_toolbar_trash_clicked),
-                    self);
 
   priv->toolbar_properties = gtk_button_new_with_label (_("Properties"));
   gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->toolbar_properties);
@@ -492,6 +492,13 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
                     "selection-mode-changed",
                     G_CALLBACK (photos_selection_toolbar_selection_mode_changed),
                     self);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "delete");
+  g_signal_connect_object (action,
+                           "activate",
+                           G_CALLBACK (photos_selection_toolbar_delete),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 

@@ -1001,6 +1001,10 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
+  action = g_simple_action_new ("delete", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
+  g_object_unref (action);
+
   priv->fs_action = g_simple_action_new ("fullscreen", NULL);
   g_signal_connect_swapped (priv->fs_action, "activate", G_CALLBACK (photos_application_fullscreen), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->fs_action));
