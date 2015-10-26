@@ -67,14 +67,9 @@ enum
 
 
 static void
-photos_selection_toolbar_dialog_response (GtkDialog *dialog, gint response_id, gpointer user_data)
+photos_selection_toolbar_dialog_response (GtkWindow *dialog, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-
-  if (response_id != GTK_RESPONSE_CLOSE)
-    return;
-
-  gtk_widget_destroy (GTK_WIDGET (dialog));
   photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
 }
 
@@ -92,7 +87,7 @@ photos_selection_toolbar_collection_clicked (GtkButton *button, gpointer user_da
 
   dialog = photos_organize_collection_dialog_new (GTK_WINDOW (toplevel));
   gtk_widget_show_all (dialog);
-  g_signal_connect (dialog, "response", G_CALLBACK (photos_selection_toolbar_dialog_response), self);
+  g_signal_connect (dialog, "destroy", G_CALLBACK (photos_selection_toolbar_dialog_response), self);
 }
 
 

@@ -57,13 +57,13 @@ typedef struct _PhotosOrganizeCollectionDialogPrivate PhotosOrganizeCollectionDi
 
 struct _PhotosOrganizeCollectionDialog
 {
-  GtkDialog parent_instance;
+  GtkWindow parent_instance;
   PhotosOrganizeCollectionDialogPrivate *priv;
 };
 
 struct _PhotosOrganizeCollectionDialogClass
 {
-  GtkDialogClass parent_class;
+  GtkWindowClass parent_class;
 };
 
 GType               photos_organize_collection_dialog_get_type           (void) G_GNUC_CONST;

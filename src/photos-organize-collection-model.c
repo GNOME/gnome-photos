@@ -143,6 +143,7 @@ photos_organize_collection_model_refresh_state (PhotosOrganizeCollectionModel *s
   photos_fetch_collection_state_job_run (job,
                                          photos_organize_collection_model_fetch_collection_state_executed,
                                          g_object_ref (self));
+  g_object_unref (job);
 }
 
 

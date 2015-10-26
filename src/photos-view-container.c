@@ -195,6 +195,11 @@ photos_view_container_view_selection_changed (PhotosViewContainer *self)
   PhotosViewContainerPrivate *priv = self->priv;
   GList *selected_urns;
   GList *selection;
+  PhotosWindowMode mode;
+
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  if (priv->mode != mode)
+    return;
 
   selection = gd_main_view_get_selection (priv->view);
   selected_urns = photos_utils_get_urns_from_paths (selection, GTK_TREE_MODEL (priv->model));

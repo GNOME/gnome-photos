@@ -130,6 +130,8 @@ gnome_photos_SOURCES = \
 	photos-operation-insta-filter.h \
 	photos-organize-collection-dialog.c \
 	photos-organize-collection-dialog.h \
+	photos-organize-collection-list.c \
+	photos-organize-collection-list.h \
 	photos-organize-collection-model.c \
 	photos-organize-collection-model.h \
 	photos-organize-collection-view.c \
