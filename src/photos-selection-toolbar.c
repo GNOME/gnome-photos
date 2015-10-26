@@ -479,14 +479,16 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   priv->item_mngr = g_object_ref (state->item_mngr);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
-  g_signal_connect_swapped (priv->sel_cntrlr,
-                            "selection-changed",
-                            G_CALLBACK (photos_selection_toolbar_selection_changed),
-                            self);
-  g_signal_connect_swapped (priv->sel_cntrlr,
-                            "selection-mode-changed",
-                            G_CALLBACK (photos_selection_toolbar_selection_mode_changed),
-                            self);
+  g_signal_connect_object (priv->sel_cntrlr,
+                           "selection-changed",
+                           G_CALLBACK (photos_selection_toolbar_selection_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (priv->sel_cntrlr,
+                           "selection-mode-changed",
+                           G_CALLBACK (photos_selection_toolbar_selection_mode_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "delete");
   g_signal_connect_object (action,
