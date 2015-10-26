@@ -327,10 +327,11 @@ photos_selection_toolbar_set_item_listeners (PhotosSelectionToolbar *self, GList
       gulong id;
 
       object = photos_base_manager_get_object_by_id (priv->item_mngr, urn);
-      id = g_signal_connect_swapped (object,
-                                     "info-updated",
-                                     G_CALLBACK (photos_selection_toolbar_set_item_visibility),
-                                     self);
+      id = g_signal_connect_object (object,
+                                    "info-updated",
+                                    G_CALLBACK (photos_selection_toolbar_set_item_visibility),
+                                    self,
+                                    G_CONNECT_SWAPPED);
       g_hash_table_insert (priv->item_listeners, GUINT_TO_POINTER (id), g_object_ref (object));
     }
 }
