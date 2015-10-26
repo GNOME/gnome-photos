@@ -63,8 +63,6 @@ gboolean         photos_utils_create_thumbnail            (GFile *file, GCancell
 
 GIcon           *photos_utils_get_icon_from_cursor        (TrackerSparqlCursor *cursor);
 
-const gchar     *photos_utils_dot_dir                     (void);
-
 GdkPixbuf       *photos_utils_downscale_pixbuf_for_scale  (GdkPixbuf *pixbuf, gint size, gint scale);
 
 void             photos_utils_ensure_builtins             (void);
@@ -86,12 +84,6 @@ gint             photos_utils_get_icon_size               (void);
 gint             photos_utils_get_icon_size_unscaled      (void);
 
 char*            photos_utils_get_pixbuf_common_suffix    (GdkPixbufFormat *format);
-
-GdkPixbufFormat* photos_utils_get_pixbuf_format           (GFile *file);
-
-GdkPixbufFormat* photos_utils_get_pixbuf_format_by_suffix (const char *suffix);
-
-GSList*          photos_utils_get_pixbuf_savable_formats  (void);
 
 const gchar     *photos_utils_get_provider_name           (PhotosBaseManager *src_mngr, PhotosBaseItem *item);
 

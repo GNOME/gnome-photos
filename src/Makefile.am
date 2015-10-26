@@ -35,32 +35,6 @@ nodist_gnome_photos_SOURCES = \
 	$(NULL)
 
 gnome_photos_SOURCES = \
-	eog-debug.c \
-	eog-debug.h \
-	eog-enums.h \
-	eog-exif-util.c \
-	eog-exif-util.h \
-	eog-image.c \
-	eog-image.h \
-	eog-image-private.h \
-	eog-image-save-info.c \
-	eog-image-save-info.h \
-	eog-job-queue.c \
-	eog-job-queue.h \
-	eog-jobs.c \
-	eog-jobs.h \
-	eog-metadata-reader.c \
-	eog-metadata-reader.h \
-	eog-metadata-reader-jpg.c \
-	eog-metadata-reader-jpg.h \
-	eog-metadata-reader-png.c \
-	eog-metadata-reader-png.h \
-	eog-transform.c \
-	eog-transform.h \
-	eog-uri-converter.c \
-	eog-uri-converter.h \
-	eog-util.c \
-	eog-util.h \
 	gegl-gtk-enums.h \
 	gegl-gtk-view.c \
 	gegl-gtk-view.h \
@@ -263,7 +237,6 @@ AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
 	$(BABL_CFLAGS) \
 	$(CAIRO_CFLAGS) \
-	$(EXEMPI_CFLAGS) \
 	$(GDATA_CFLAGS) \
 	$(GDK_PIXBUF_CFLAGS) \
 	$(GFBGRAPH_CFLAGS) \
@@ -275,9 +248,6 @@ AM_CPPFLAGS = \
 	$(GRILO_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(GTK_UNIX_PRINT_CFLAGS) \
-	$(LCMS_CFLAGS) \
-	$(LIBEXIF_CFLAGS) \
-	$(LIBRSVG_CFLAGS) \
 	$(TRACKER_CFLAGS) \
 	-I$(top_srcdir)/libgd \
 	$(NULL)
@@ -293,7 +263,6 @@ gnome_photos_LDFLAGS = \
 gnome_photos_LDADD = \
 	$(BABL_LIBS) \
 	$(CAIRO_LIBS) \
-	$(EXEMPI_LIBS) \
 	$(GDATA_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
 	$(GFBGRAPH_LIBS) \
@@ -305,9 +274,6 @@ gnome_photos_LDADD = \
 	$(GRILO_LIBS) \
 	$(GTK_LIBS) \
 	$(GTK_UNIX_PRINT_LIBS) \
-	$(LCMS_LIBS) \
-	$(LIBEXIF_LIBS) \
-	$(LIBRSVG_LIBS) \
 	$(TRACKER_LIBS) \
 	$(LIBM) \
 	$(top_builddir)/libgd/libgd.la \

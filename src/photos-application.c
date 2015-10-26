@@ -34,7 +34,6 @@
 #include <grilo.h>
 #include <libgnome-desktop/gnome-bg.h>
 
-#include "eog-debug.h"
 #include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-camera-cache.h"
@@ -1208,8 +1207,6 @@ photos_application_init (PhotosApplication *self)
 
   self->priv = photos_application_get_instance_private (self);
   priv = self->priv;
-
-  eog_debug_init ();
 
   photos_utils_ensure_builtins ();
 

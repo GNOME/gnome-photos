@@ -3,10 +3,6 @@
 data/org.gnome.Photos.appdata.xml.in
 data/org.gnome.Photos.desktop.in.in
 data/org.gnome.photos.gschema.xml
-src/eog-exif-util.c
-src/eog-image.c
-src/eog-uri-converter.c
-src/eog-util.c
 src/photos-application.c
 src/photos-base-item.c
 src/photos-delete-notification.c

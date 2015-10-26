@@ -52,9 +52,6 @@
 #include "photos-utils.h"
 
 
-static const gchar *dot_dir;
-
-
 static void
 photos_utils_put_pixel (guchar *p)
 {
@@ -430,27 +427,6 @@ photos_utils_get_icon_from_cursor (TrackerSparqlCursor *cursor)
 }
 
 
-const gchar *
-photos_utils_dot_dir (void)
-{
-  const gchar *config_dir;
-
-  if (dot_dir == NULL)
-    {
-      config_dir = g_get_user_config_dir ();
-      dot_dir = g_build_filename (config_dir, PACKAGE_TARNAME, NULL);
-    }
-
-  if (g_file_test (dot_dir, G_FILE_TEST_IS_DIR))
-    goto out;
-
-  g_mkdir_with_parents (dot_dir, 0700);
-
- out:
-  return dot_dir;
-}
-
-
 GdkPixbuf *
 photos_utils_downscale_pixbuf_for_scale (GdkPixbuf *pixbuf, gint size, gint scale)
 {
@@ -719,114 +695,6 @@ photos_utils_get_pixbuf_common_suffix (GdkPixbufFormat *format)
   g_strfreev (extensions);
 
   return result;
-}
-
-
-static gchar *
-photos_utils_get_pixbuf_suffix_from_basename (const gchar *basename)
-{
-  gchar *suffix;
-  gchar *suffix_start;
-  guint len;
-
-  /* FIXME: does this work for all locales? */
-  suffix_start = g_utf8_strrchr (basename, -1, '.');
-
-  if (suffix_start == NULL)
-    return NULL;
-
-  len = strlen (suffix_start) - 1;
-  suffix = g_strndup (suffix_start+1, len);
-
-  return suffix;
-}
-
-
-GdkPixbufFormat *
-photos_utils_get_pixbuf_format (GFile *file)
-{
-  GdkPixbufFormat *format;
-  gchar *basename;
-  gchar *path;
-  gchar *suffix;
-
-  g_return_val_if_fail (file != NULL, NULL);
-
-  path = g_file_get_path (file);
-  basename = g_path_get_basename (path);
-  suffix = photos_utils_get_pixbuf_suffix_from_basename (basename);
-
-  format = photos_utils_get_pixbuf_format_by_suffix (suffix);
-
-  g_free (path);
-  g_free (basename);
-  g_free (suffix);
-
-  return format;
-}
-
-
-GdkPixbufFormat*
-photos_utils_get_pixbuf_format_by_suffix (const gchar *suffix)
-{
-  GSList *list;
-  GSList *it;
-  GdkPixbufFormat *result = NULL;
-
-  g_return_val_if_fail (suffix != NULL, NULL);
-
-  list = gdk_pixbuf_get_formats ();
-
-  for (it = list; (it != NULL) && (result == NULL); it = it->next)
-    {
-      GdkPixbufFormat *format;
-      gchar **extensions;
-      gint i;
-
-      format = (GdkPixbufFormat*) it->data;
-
-      extensions = gdk_pixbuf_format_get_extensions (format);
-      for (i = 0; extensions[i] != NULL; i++)
-        {
-          /* g_print ("check extension: %s against %s\n", extensions[i], suffix); */
-          if (g_ascii_strcasecmp (suffix, extensions[i]) == 0)
-            {
-              result = format;
-              break;
-          }
-        }
-
-      g_strfreev (extensions);
-    }
-
-  g_slist_free (list);
-
-  return result;
-}
-
-
-GSList *
-photos_utils_get_pixbuf_savable_formats (void)
-{
-  GSList *list;
-  GSList *write_list = NULL;
-  GSList *it;
-
-  list = gdk_pixbuf_get_formats ();
-
-  for (it = list; it != NULL; it = it->next)
-    {
-      GdkPixbufFormat *format;
-
-      format = (GdkPixbufFormat*) it->data;
-      if (gdk_pixbuf_format_is_writable (format))
-        write_list = g_slist_prepend (write_list, format);
-    }
-
-  g_slist_free (list);
-  write_list = g_slist_reverse (write_list);
-
-  return write_list;
 }
 
 

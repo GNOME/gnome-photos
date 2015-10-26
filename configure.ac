@@ -30,15 +30,12 @@ AC_SUBST(LIBM)
 GLIB_GSETTINGS
 
 CAIRO_MIN_VERSION=1.14.0
-EXEMPI_MIN_VERSION=1.99.5
 GDATA_MIN_VERSION=0.15.2
 GFBGRAPH_MIN_VERSION=0.2.1
 GLIB_MIN_VERSION=2.39.3
 GOA_MIN_VERSION=3.8.0
 GRILO_MIN_VERSION=0.3.0
 GTK_MIN_VERSION=3.15.5
-LIBEXIF_MIN_VERSION=0.6.14
-LIBRSVG_MIN_VERSION=2.26.0
 
 AX_REQUIRE_DEFINED([IT_PROG_INTLTOOL])
 IT_PROG_INTLTOOL([0.50.1])
@@ -50,9 +47,6 @@ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"],
 AM_GLIB_GNU_GETTEXT
 
 LT_INIT
-
-# Used to keep eog-exif-util.c and eog-util.c aligned with EOG
-AC_CHECK_FUNCS(strptime)
 
 # ****************************************************************
 # Support for nl_langinfo (_NL_MEASUREMENT_MEASUREMENT) (optional)
@@ -68,27 +62,11 @@ if test "$have_langinfo_measurement" = "yes"; then
             [Define if _NL_MEASUREMENT_MEASUREMENT is available])
 fi
 
-# ***************
-# ZLIB (required)
-# ***************
-
-have_zlib=yes
-AC_CHECK_HEADERS([zlib.h],
-	[AC_CHECK_LIB([z], [inflate],
-		[AC_CHECK_LIB([z], [crc32], [], [have_zlib=no])],
-		[have_zlib=no])],
-	[have_zlib=no])
-
-if test x$have_zlib = xno; then
-	AC_MSG_ERROR([No sufficient zlib library found on your system.])
-fi
-
 PKG_CHECK_MODULES(BABL, [babl])
 
 PKG_CHECK_MODULES(CAIRO, [cairo >= $CAIRO_MIN_VERSION cairo-gobject])
 AC_DEFINE([HAVE_CAIRO_GOBJECT], [], [We want gegl-gtk to use the cairo-gobject code path])
 
-PKG_CHECK_MODULES(EXEMPI, [exempi-2.0 >= $EXEMPI_MIN_VERSION])
 PKG_CHECK_MODULES(GFBGRAPH, [libgfbgraph-0.2 >= $GFBGRAPH_MIN_VERSION])
 PKG_CHECK_MODULES(GDATA, [libgdata >= $GDATA_MIN_VERSION])
 PKG_CHECK_MODULES(GEGL, [gegl-0.3])
@@ -108,9 +86,6 @@ PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= $GTK_MIN_VERSION])
 AC_DEFINE([HAVE_GTK3], [], [We want gegl-gtk to use the GTK+ 3.x code path])
 
 PKG_CHECK_MODULES(GTK_UNIX_PRINT, [gtk+-unix-print-3.0])
-PKG_CHECK_MODULES(LCMS, [lcms2])
-PKG_CHECK_MODULES(LIBEXIF, [libexif >= $LIBEXIF_MIN_VERSION])
-PKG_CHECK_MODULES(LIBRSVG, [librsvg-2.0 >= $LIBRSVG_MIN_VERSION])
 PKG_CHECK_MODULES(TRACKER, [tracker-control-1.0 tracker-sparql-1.0])
 
 AX_REQUIRE_DEFINED([LIBGD_INIT])
