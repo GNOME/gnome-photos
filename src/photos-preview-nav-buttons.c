@@ -42,7 +42,7 @@ struct _PhotosPreviewNavButtonsPrivate
   GAction *load_previous;
   GtkGesture *tap_gesture;
   GtkTreeModel *model;
-  GtkTreePath *current_path;
+  GtkTreeRowReference *current_row;
   GtkWidget *next_widget;
   GtkWidget *overlay;
   GtkWidget *prev_widget;
@@ -72,7 +72,7 @@ photos_preview_nav_buttons_fade_in_button (PhotosPreviewNavButtons *self, GtkWid
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
 
-  if (priv->model == NULL || priv->current_path == NULL)
+  if (priv->model == NULL || !gtk_tree_row_reference_valid (priv->current_row))
     return;
 
   gtk_widget_show_all (widget);
@@ -111,16 +111,19 @@ photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
   GtkTreeIter iter;
   GtkTreeIter tmp;
+  GtkTreePath *current_path = NULL;
 
   if (priv->model == NULL
-      || priv->current_path == NULL
-      || !priv->visible
-      || !gtk_tree_model_get_iter (priv->model, &iter, priv->current_path))
+      || !gtk_tree_row_reference_valid (priv->current_row)
+      || !priv->visible)
     {
       priv->enable_prev = FALSE;
       priv->enable_next = FALSE;
       goto out;
     }
+
+  current_path = gtk_tree_row_reference_get_path (priv->current_row);
+  gtk_tree_model_get_iter (priv->model, &iter, current_path);
 
   tmp = iter;
   priv->enable_prev = gtk_tree_model_iter_previous (priv->model, &tmp);
@@ -141,6 +144,8 @@ photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
 
   g_simple_action_set_enabled (G_SIMPLE_ACTION (priv->load_next), priv->enable_next);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (priv->load_previous), priv->enable_prev);
+
+  g_clear_pointer (&current_path, (GDestroyNotify) gtk_tree_path_free);
 }
 
 
@@ -255,7 +260,7 @@ photos_preview_nav_buttons_multi_press_stopped (PhotosPreviewNavButtons *self)
 
 
 static void
-photos_preview_nav_buttons_set_active_path (PhotosPreviewNavButtons *self)
+photos_preview_nav_buttons_set_active_path (PhotosPreviewNavButtons *self, GtkTreePath *current_path)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
   GtkTreeIter child_iter;
@@ -264,8 +269,11 @@ photos_preview_nav_buttons_set_active_path (PhotosPreviewNavButtons *self)
   PhotosBaseItem *item;
   gchar *id;
 
-  if (!gtk_tree_model_get_iter (priv->model, &iter, priv->current_path))
+  if (!gtk_tree_model_get_iter (priv->model, &iter, current_path))
     return;
+
+  g_clear_pointer (&priv->current_row, (GDestroyNotify) gtk_tree_row_reference_free);
+  priv->current_row = gtk_tree_row_reference_new (priv->model, current_path);
 
   gtk_tree_model_filter_convert_iter_to_child_iter (GTK_TREE_MODEL_FILTER (priv->model), &child_iter, &iter);
   child_model = gtk_tree_model_filter_get_model (GTK_TREE_MODEL_FILTER (priv->model));
@@ -282,13 +290,16 @@ static void
 photos_preview_nav_buttons_next (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
+  GtkTreePath *current_path;
 
   if (!priv->enable_next)
     return;
 
-  gtk_tree_path_next (priv->current_path);
-  photos_preview_nav_buttons_set_active_path (self);
+  current_path = gtk_tree_row_reference_get_path (priv->current_row);
+  gtk_tree_path_next (current_path);
+  photos_preview_nav_buttons_set_active_path (self, current_path);
   photos_preview_nav_buttons_update_visibility (self);
+  gtk_tree_path_free (current_path);
 }
 
 
@@ -296,13 +307,16 @@ static void
 photos_preview_nav_buttons_previous (PhotosPreviewNavButtons *self)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
+  GtkTreePath *current_path;
 
   if (!priv->enable_prev)
     return;
 
-  gtk_tree_path_prev (priv->current_path);
-  photos_preview_nav_buttons_set_active_path (self);
+  current_path = gtk_tree_row_reference_get_path (priv->current_row);
+  gtk_tree_path_prev (current_path);
+  photos_preview_nav_buttons_set_active_path (self, current_path);
   photos_preview_nav_buttons_update_visibility (self);
+  gtk_tree_path_free (current_path);
 }
 
 
@@ -328,7 +342,7 @@ photos_preview_nav_buttons_finalize (GObject *object)
   PhotosPreviewNavButtons *self = PHOTOS_PREVIEW_NAV_BUTTONS (object);
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
 
-  g_clear_pointer (&priv->current_path, (GDestroyNotify) gtk_tree_path_free);
+  g_clear_pointer (&priv->current_row, (GDestroyNotify) gtk_tree_row_reference_free);
 
   G_OBJECT_CLASS (photos_preview_nav_buttons_parent_class)->finalize (object);
 }
@@ -526,11 +540,16 @@ photos_preview_nav_buttons_set_model (PhotosPreviewNavButtons *self,
   if (child_model != NULL)
     priv->model = photos_preview_model_new (child_model);
 
-  g_clear_pointer (&priv->current_path, (GDestroyNotify) gtk_tree_path_free);
+  g_clear_pointer (&priv->current_row, (GDestroyNotify) gtk_tree_row_reference_free);
+
   if (child_model != NULL && current_child_path != NULL)
     {
-      priv->current_path = gtk_tree_model_filter_convert_child_path_to_path (GTK_TREE_MODEL_FILTER (priv->model),
-                                                                             current_child_path);
+      GtkTreePath *current_path;
+
+      current_path = gtk_tree_model_filter_convert_child_path_to_path (GTK_TREE_MODEL_FILTER (priv->model),
+                                                                       current_child_path);
+      priv->current_row = gtk_tree_row_reference_new (priv->model, current_path);
+      gtk_tree_path_free (current_path);
     }
 }
 
