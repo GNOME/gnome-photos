@@ -375,9 +375,8 @@ photos_selection_toolbar_set_item_listeners (PhotosSelectionToolbar *self, GList
 
 
 static void
-photos_selection_toolbar_selection_changed (PhotosSelectionController *sel_cntrlr, gpointer user_data)
+photos_selection_toolbar_selection_changed (PhotosSelectionToolbar *self)
 {
-  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
   PhotosSelectionToolbarPrivate *priv = self->priv;
   GList *selection;
 
@@ -393,14 +392,10 @@ photos_selection_toolbar_selection_changed (PhotosSelectionController *sel_cntrl
 
 
 static void
-photos_selection_toolbar_selection_mode_changed (PhotosSelectionController *sel_cntrlr,
-                                                 gboolean mode,
-                                                 gpointer user_data)
+photos_selection_toolbar_selection_mode_changed (PhotosSelectionToolbar *self, gboolean mode)
 {
-  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-
   if (mode)
-    photos_selection_toolbar_selection_changed (sel_cntrlr, self);
+    photos_selection_toolbar_selection_changed (self);
   else
     gtk_revealer_set_reveal_child (GTK_REVEALER (self), FALSE);
 }
@@ -484,14 +479,14 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   priv->item_mngr = g_object_ref (state->item_mngr);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
-  g_signal_connect (priv->sel_cntrlr,
-                    "selection-changed",
-                    G_CALLBACK (photos_selection_toolbar_selection_changed),
-                    self);
-  g_signal_connect (priv->sel_cntrlr,
-                    "selection-mode-changed",
-                    G_CALLBACK (photos_selection_toolbar_selection_mode_changed),
-                    self);
+  g_signal_connect_swapped (priv->sel_cntrlr,
+                            "selection-changed",
+                            G_CALLBACK (photos_selection_toolbar_selection_changed),
+                            self);
+  g_signal_connect_swapped (priv->sel_cntrlr,
+                            "selection-mode-changed",
+                            G_CALLBACK (photos_selection_toolbar_selection_mode_changed),
+                            self);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "delete");
   g_signal_connect_object (action,
