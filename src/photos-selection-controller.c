@@ -218,14 +218,7 @@ photos_selection_controller_set_selection (PhotosSelectionController *self, GLis
   g_list_free_full (priv->selection, g_free);
   priv->selection = NULL;
 
-  if (selection != NULL)
-    {
-      GList *l;
-
-      for (l = selection; l != NULL; l = l->next)
-        priv->selection = g_list_prepend (priv->selection, g_strdup (l->data));
-    }
-
+  priv->selection = g_list_copy_deep (selection, (GCopyFunc) g_strdup, NULL);
   g_signal_emit (self, signals[SELECTION_CHANGED], 0);
 }
 
