@@ -527,7 +527,7 @@ photos_preview_nav_buttons_set_model (PhotosPreviewNavButtons *self,
     priv->model = photos_preview_model_new (child_model);
 
   g_clear_pointer (&priv->current_path, (GDestroyNotify) gtk_tree_path_free);
-  if (current_child_path != NULL)
+  if (child_model != NULL && current_child_path != NULL)
     {
       priv->current_path = gtk_tree_model_filter_convert_child_path_to_path (GTK_TREE_MODEL_FILTER (priv->model),
                                                                              current_child_path);
