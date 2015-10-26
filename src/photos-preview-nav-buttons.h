@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -77,8 +77,8 @@ PhotosPreviewNavButtons    *photos_preview_nav_buttons_new                (Photo
 void                        photos_preview_nav_buttons_hide               (PhotosPreviewNavButtons *self);
 
 void                        photos_preview_nav_buttons_set_model          (PhotosPreviewNavButtons *self,
-                                                                           GtkTreeModel *model,
-                                                                           GtkTreePath *current_path);
+                                                                           GtkTreeModel *child_model,
+                                                                           GtkTreePath *current_child_path);
 
 void                        photos_preview_nav_buttons_show               (PhotosPreviewNavButtons *self);
 

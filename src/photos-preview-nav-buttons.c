@@ -516,19 +516,21 @@ photos_preview_nav_buttons_hide (PhotosPreviewNavButtons *self)
 
 
 void
-photos_preview_nav_buttons_set_model (PhotosPreviewNavButtons *self, GtkTreeModel *model, GtkTreePath *current_path)
+photos_preview_nav_buttons_set_model (PhotosPreviewNavButtons *self,
+                                      GtkTreeModel *child_model,
+                                      GtkTreePath *current_child_path)
 {
   PhotosPreviewNavButtonsPrivate *priv = self->priv;
 
   g_clear_object (&priv->model);
-  if (model != NULL)
-    priv->model = photos_preview_model_new (model);
+  if (child_model != NULL)
+    priv->model = photos_preview_model_new (child_model);
 
   g_clear_pointer (&priv->current_path, (GDestroyNotify) gtk_tree_path_free);
-  if (current_path != NULL)
+  if (current_child_path != NULL)
     {
       priv->current_path = gtk_tree_model_filter_convert_child_path_to_path (GTK_TREE_MODEL_FILTER (priv->model),
-                                                                             current_path);
+                                                                             current_child_path);
     }
 }
 
