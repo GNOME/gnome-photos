@@ -215,6 +215,9 @@ photos_selection_controller_set_selection (PhotosSelectionController *self, GLis
   if (priv->is_frozen)
     return;
 
+  if (priv->selection == NULL && selection == NULL)
+    return;
+
   g_list_free_full (priv->selection, g_free);
   priv->selection = NULL;
 
