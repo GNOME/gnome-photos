@@ -26,4 +26,4 @@ EXTRA_DIST += \
 	$(NULL)
 endif
 
-include $(top_srcdir)/git.mk
+-include $(top_srcdir)/git.mk
