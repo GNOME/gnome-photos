@@ -50,6 +50,9 @@
 #include "photos-single-item-job.h"
 #include "photos-utils.h"
 
+const GdkRGBA SMALL_EMBLEM_COLOR = { 1.0, 1.0, 1.0, 1.0 };
+const int SMALL_EMBLEM_SIZE = 16;
+const int EMBLEM_PADDING = 8;
 
 struct _PhotosBaseItemPrivate
 {
@@ -108,6 +111,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 static void photos_base_item_filterable_iface_init (PhotosFilterableInterface *iface);
+static GdkPixbuf * photos_base_item_add_emblem_icon (PhotosBaseItem *self, GdkPixbuf *pixbuf, const gchar *icon_name, GtkCornerType corner_type);
 
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT,
@@ -183,27 +187,11 @@ photos_base_item_create_placeholder_icon (const gchar *icon_name)
 }
 
 
-static GIcon *
-photos_base_item_create_symbolic_emblem (const gchar *name)
-{
-  GIcon *pix;
-  gint size;
-
-  size = photos_utils_get_icon_size ();
-  pix = photos_utils_create_symbolic_icon (name, size);
-  if (pix == NULL)
-    pix = g_themed_icon_new (name);
-
-  return pix;
-}
-
-
 static void
 photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv = self->priv;
   GApplication *app;
-  GIcon *pix;
   GList *emblem_icons = NULL;
   GList *windows;
   GdkPixbuf *emblemed_pixbuf = NULL;
@@ -215,65 +203,8 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
     goto out;
 
   emblemed_pixbuf = g_object_ref (priv->original_icon);
-
   if (priv->favorite)
-    {
-      pix = photos_base_item_create_symbolic_emblem (PHOTOS_ICON_FAVORITE);
-      emblem_icons = g_list_prepend (emblem_icons, pix);
-    }
-
-  if (g_list_length (emblem_icons) > 0)
-    {
-      GIcon *emblemed_icon;
-      GList *l;
-      GtkIconInfo *icon_info;
-      GtkIconTheme *theme;
-      gint height;
-      gint size;
-      gint width;
-
-      emblem_icons = g_list_reverse (emblem_icons);
-      emblemed_icon = g_emblemed_icon_new (G_ICON (priv->original_icon), NULL);
-      for (l = emblem_icons; l != NULL; l = g_list_next (l))
-        {
-          GEmblem *emblem;
-          GIcon *emblem_icon = G_ICON (l->data);
-
-          emblem = g_emblem_new (emblem_icon);
-          g_emblemed_icon_add_emblem (G_EMBLEMED_ICON (emblemed_icon), emblem);
-          g_object_unref (emblem);
-        }
-
-      theme = gtk_icon_theme_get_default ();
-
-      width = gdk_pixbuf_get_width (priv->original_icon);
-      height = gdk_pixbuf_get_height (priv->original_icon);
-      size = (width > height) ? width : height;
-
-      icon_info = gtk_icon_theme_lookup_by_gicon (theme, emblemed_icon, size, GTK_ICON_LOOKUP_FORCE_SIZE);
-
-      if (icon_info != NULL)
-        {
-          GError *error = NULL;
-          GdkPixbuf *tmp;
-
-          tmp = gtk_icon_info_load_icon (icon_info, &error);
-          if (error != NULL)
-            {
-              g_warning ("Unable to render the emblem: %s", error->message);
-              g_error_free (error);
-            }
-          else
-            {
-              g_object_unref (emblemed_pixbuf);
-              emblemed_pixbuf = tmp;
-            }
-
-          g_object_unref (icon_info);
-        }
-
-      g_object_unref (emblemed_icon);
-    }
+      emblemed_pixbuf = photos_base_item_add_emblem_icon(self, emblemed_pixbuf, PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_CORNER_BOTTOM_LEFT);
 
   g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
 
@@ -307,6 +238,52 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   g_list_free_full (emblem_icons, g_object_unref);
 }
 
+static GdkPixbuf *
+photos_base_item_add_emblem_icon (PhotosBaseItem *self, GdkPixbuf *pixbuf, const gchar *icon_name, GtkCornerType corner_type)
+{
+  GError *error = NULL;
+  GdkPixbuf *emblem = NULL;
+  GdkPixbuf *emblemed = NULL;
+  GtkIconTheme *theme;
+  GtkIconInfo *icon_info;
+  gint offset_x;
+  gint offset_y;
+
+  theme = gtk_icon_theme_get_default ();
+
+  icon_info = gtk_icon_theme_lookup_icon (theme, icon_name, SMALL_EMBLEM_SIZE, GTK_ICON_LOOKUP_FORCE_SIZE);
+
+  if (icon_info == NULL)
+    {
+      g_warning ("Unable to find icon %s", icon_name);
+      return pixbuf;
+    }
+
+  emblem = gtk_icon_info_load_symbolic (icon_info, &SMALL_EMBLEM_COLOR, NULL, NULL, NULL, NULL, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to render the emblem: %s", error->message);
+      g_error_free (error);
+      return pixbuf;
+    }
+  g_object_unref (icon_info);
+
+  if (corner_type == GTK_CORNER_TOP_RIGHT || corner_type == GTK_CORNER_BOTTOM_RIGHT)
+    offset_x = gdk_pixbuf_get_width (pixbuf) - gdk_pixbuf_get_width (emblem) - EMBLEM_PADDING;
+  else
+    offset_x = EMBLEM_PADDING;
+
+  if (corner_type == GTK_CORNER_BOTTOM_LEFT || corner_type == GTK_CORNER_BOTTOM_RIGHT)
+    offset_y = gdk_pixbuf_get_height (pixbuf) - gdk_pixbuf_get_height (emblem) - EMBLEM_PADDING;
+  else
+    offset_y = EMBLEM_PADDING;
+
+  emblemed = gdk_pixbuf_copy (pixbuf);
+  gdk_pixbuf_composite (emblem, emblemed, offset_x, offset_y, SMALL_EMBLEM_SIZE, SMALL_EMBLEM_SIZE, offset_x, offset_y, 1.0, 1.0, GDK_INTERP_BILINEAR, 255);
+
+  g_object_unref (pixbuf);
+  return emblemed;
+}
 
 static void
 photos_base_item_set_original_icon (PhotosBaseItem *self, GdkPixbuf *icon)
