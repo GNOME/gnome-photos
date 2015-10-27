@@ -148,6 +148,11 @@ fi
 AX_REQUIRE_DEFINED([YELP_HELP_INIT])
 YELP_HELP_INIT
 
+# work around intltool-update issues during 'make distcheck'
+AS_IF([test "x$0" != "x./configure"], [
+  AC_SUBST([INTLTOOL_UPDATE], [/bin/true])
+])
+
 AC_CONFIG_FILES([
 Makefile
 data/Makefile
