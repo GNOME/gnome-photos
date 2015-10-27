@@ -16,8 +16,8 @@ try:
 
     albums_button = app.child('Albums')
     albums_button.click()
-    recent_button = app.child('Recent')
-    recent_button.click()
+    photos_button = app.child('Photos')
+    photos_button.click()
     favorites_button = app.child('Favorites')
     favorites_button.click()
 finally:
