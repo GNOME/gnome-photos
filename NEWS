@@ -3,12 +3,24 @@ Overview of changes in 3.19.1
 
 * Bugs fixed:
  688566 offset-controller: Prevent loading more items than there actually is
+ 729072 Rename "Recent" view to "Photos"
  725508 Can not handle window manager's unfull/full screen operation
+ 732799 Unusual behaviour while displaying on DLNA renderers
+ 733660 Let photos be deleted from the preview
+ 737071 Merge PhotosModeController into PhotosItemManager
  741593 No pagination buttons when previewing search results
+ 744627 Search provider starts a lot of miners
+ 751106 Don't toggle the star button and use a filled/unfilled icon instead of
+        coloring it
  755600 Fix the background of GdTaggedEntry tags
  756131 Disable can-fullscreen when going back, and simplify the state
         changes / signal emissions
  756221 Disabling application menu adds a redundant toolbar
+
+* Updated translations:
+ Czech
+ Portuguese
+ Swedish
 
 
 Overview of changes in 3.18.0
