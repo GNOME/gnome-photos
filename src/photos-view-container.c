@@ -341,10 +341,18 @@ photos_view_container_constructed (GObject *object)
     }
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-all");
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_view_container_select_all), self);
+  g_signal_connect_object (action,
+                           "activate",
+                           G_CALLBACK (photos_view_container_select_all),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-none");
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (gd_main_view_unselect_all), priv->view);
+  g_signal_connect_object (action,
+                           "activate",
+                           G_CALLBACK (gd_main_view_unselect_all),
+                           priv->view,
+                           G_CONNECT_SWAPPED);
 
   g_signal_connect_object (priv->offset_cntrlr,
                            "count-changed",
