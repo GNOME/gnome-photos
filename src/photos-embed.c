@@ -665,28 +665,28 @@ photos_embed_init (PhotosEmbed *self)
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (priv->overview));
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->overview, "overview", name);
   model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->overview));
-  g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);
-  g_signal_connect_swapped (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self);
+  g_signal_connect_object (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
+  g_signal_connect_object (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
 
   priv->collections = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTIONS, _("Albums"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (priv->collections));
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->collections, "collections", name);
   model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->collections));
-  g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);
-  g_signal_connect_swapped (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self);
+  g_signal_connect_object (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
+  g_signal_connect_object (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
 
   priv->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES, _("Favorites"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (priv->favorites));
   gtk_stack_add_titled (GTK_STACK (priv->stack), priv->favorites, "favorites", name);
   model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->favorites));
-  g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);
-  g_signal_connect_swapped (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self);
+  g_signal_connect_object (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
+  g_signal_connect_object (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
 
   priv->search = photos_view_container_new (PHOTOS_WINDOW_MODE_SEARCH, _("Search"));
   gtk_stack_add_named (GTK_STACK (priv->stack), priv->search, "search");
   model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (priv->search));
-  g_signal_connect_swapped (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self);
-  g_signal_connect_swapped (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self);
+  g_signal_connect_object (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
+  g_signal_connect_object (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
 
   priv->preview = photos_preview_view_new (GTK_OVERLAY (priv->stack_overlay));
   gtk_stack_add_named (GTK_STACK (priv->stack), priv->preview, "preview");
