@@ -106,11 +106,7 @@ photos_view_model_reset_count (PhotosViewModel *self)
   PhotosViewModelPrivate *priv = self->priv;
 
   if (priv->reset_count_id == 0)
-    priv->reset_count_id = g_timeout_add_full (G_PRIORITY_DEFAULT,
-                                               RESET_COUNT_TIMEOUT,
-                                               photos_view_model_reset_count_timeout,
-                                               g_object_ref (self),
-                                               g_object_unref);
+    priv->reset_count_id = g_timeout_add (RESET_COUNT_TIMEOUT, photos_view_model_reset_count_timeout, self);
 }
 
 
