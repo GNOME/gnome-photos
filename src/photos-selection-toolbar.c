@@ -218,7 +218,7 @@ photos_selection_toolbar_print_clicked (GtkButton *button, gpointer user_data)
   const gchar *urn;
 
   selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
-  if (g_list_length (selection) != 1)
+  if (selection != NULL && selection->next == NULL) /* length == 1 */
     return;
 
   urn = (gchar *) selection->data;
@@ -280,14 +280,12 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gchar *favorite_label;
   gchar *open_label;
   guint fav_count = 0;
-  guint apps_length;
-  guint sel_length;
+  guint sel_length = 0;
 
   priv->inside_refresh = TRUE;
 
   selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
-  sel_length = g_list_length (selection);
-  has_selection = sel_length > 0;
+  has_selection = selection != NULL;
 
   show_collection = has_selection;
   show_favorite = has_selection;
@@ -313,12 +311,12 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 
       show_trash = show_trash && photos_base_item_can_trash (item);
       show_print = show_print && !photos_base_item_is_collection (item);
+
+      sel_length++;
     }
 
   show_favorite = show_favorite && ((fav_count == 0) || (fav_count == sel_length));
-
-  apps_length = g_list_length (apps);
-  show_open = (apps_length > 0);
+  show_open = apps != NULL;
 
   if (sel_length > 1)
     {
@@ -326,7 +324,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
       show_properties = FALSE;
     }
 
-  if (apps_length == 1)
+  if (apps != NULL && apps->next == NULL) /* length == 1 */
     /* Translators: this is the Open action in a context menu */
     open_label = g_strdup_printf (_("Open with %s"), (gchar *) apps->data);
   else
