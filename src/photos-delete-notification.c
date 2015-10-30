@@ -183,11 +183,8 @@ photos_delete_notification_dispose (GObject *object)
   PhotosDeleteNotification *self = PHOTOS_DELETE_NOTIFICATION (object);
   PhotosDeleteNotificationPrivate *priv = self->priv;
 
-  if (priv->items != NULL)
-    {
-      g_list_free_full (priv->items, g_object_unref);
-      priv->items = NULL;
-    }
+  g_list_free_full (priv->items, g_object_unref);
+  priv->items = NULL;
 
   g_clear_object (&priv->ntfctn_mngr);
   g_clear_object (&priv->item_mngr);
