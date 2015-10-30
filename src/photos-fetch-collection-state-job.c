@@ -106,27 +106,28 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
     {
       GHashTableIter iter2;
       GList *collections_for_item;
-      GList *keys;
       PhotosBaseItem *item;
       gboolean found = FALSE;
       gboolean hidden = FALSE;
       gboolean not_found = FALSE;
       const gchar *item_idx;
       gint state = PHOTOS_COLLECTION_STATE_NORMAL;
+      gpointer *keys;
+      guint length;
 
       /* If the only object we are fetching collection state for is a
        * collection itself, hide this if it is the same collection.
        */
-      keys = g_hash_table_get_keys (self->collections_for_items);
-      if (g_list_length (keys) == 1)
+      keys = g_hash_table_get_keys_as_array (self->collections_for_items, &length);
+      if (length == 1)
         {
-          item_idx = (gchar *) keys->data;
+          item_idx = ((gchar **) keys)[0];
           item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, item_idx));
           if (g_strcmp0 (photos_filterable_get_id (PHOTOS_FILTERABLE (item)),
                          photos_filterable_get_id (PHOTOS_FILTERABLE (collection))) == 0)
             hidden = TRUE;
         }
-      g_list_free (keys);
+      g_free (keys);
 
       g_hash_table_iter_init (&iter2, self->collections_for_items);
       while (g_hash_table_iter_next (&iter2, (gpointer *) &item_idx, (gpointer *) &collections_for_item))
