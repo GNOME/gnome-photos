@@ -478,7 +478,7 @@ photos_properties_dialog_constructed (GObject *object)
   if (flash_w != NULL)
     {
       GtkWidget *flash_data;
-      gchar *flash_str;
+      gchar *flash_str = NULL;
 
       if (flash == PHOTOS_FLASH_OFF)
         flash_str = g_strdup (_("Off, did not fire"));
@@ -490,7 +490,6 @@ photos_properties_dialog_constructed (GObject *object)
 
           str = g_quark_to_string (flash);
           g_warning ("Unknown value for nmm:flash: %s", str);
-          g_assert_not_reached ();
         }
 
       flash_data = gtk_label_new (flash_str);
