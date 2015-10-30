@@ -406,6 +406,9 @@ photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
 {
   PhotosBaseItemPrivate *priv = self->priv;
 
+  if (favorite == priv->favorite)
+    return;
+
   priv->favorite = favorite;
   photos_base_item_check_effects_and_update_info (self);
   photos_utils_set_favorite (priv->id, favorite);
