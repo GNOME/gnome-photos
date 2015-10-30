@@ -258,6 +258,8 @@ photos_delete_notification_class_init (PhotosDeleteNotificationClass *class)
 void
 photos_delete_notification_new (GList *items)
 {
+  g_return_if_fail (items != NULL);
+
   g_object_new (PHOTOS_TYPE_DELETE_NOTIFICATION,
                 "column-spacing", 12,
                 "items", items,
