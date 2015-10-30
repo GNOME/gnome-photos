@@ -225,7 +225,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
       emblem_icons = g_list_prepend (emblem_icons, pix);
     }
 
-  if (g_list_length (emblem_icons) > 0)
+  if (emblem_icons != NULL)
     {
       GIcon *emblemed_icon;
       GList *l;
