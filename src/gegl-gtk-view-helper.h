@@ -45,6 +45,7 @@ struct _ViewHelper {
     gfloat         x;
     gfloat         y;
     gdouble        scale;
+    gint           scale_factor;
     gboolean       block;    /* blocking render */
     GeglGtkViewAutoscale autoscale_policy;
 
@@ -63,7 +64,7 @@ GType view_helper_get_type(void) G_GNUC_CONST;
 ViewHelper *view_helper_new(void);
 
 void view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect);
-void view_helper_set_allocation(ViewHelper *self, GdkRectangle *allocation);
+void view_helper_set_allocation(ViewHelper *self, GdkRectangle *allocation, gint scale_factor);
 
 void view_helper_set_node(ViewHelper *self, GeglNode *node);
 GeglNode *view_helper_get_node(ViewHelper *self);
