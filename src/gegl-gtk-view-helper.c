@@ -194,8 +194,8 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
     gint64          end;
     gint64          start;
 
-    roi.x = self->x + rect->x;
-    roi.y = self->y + rect->y;
+    roi.x = (gint) self->x + rect->x;
+    roi.y = (gint) self->y + rect->y;
     roi.width  = rect->width;
     roi.height = rect->height;
 
