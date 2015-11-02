@@ -363,7 +363,10 @@ static void
 size_allocate(GtkWidget *widget, GdkRectangle *allocation, gpointer user_data)
 {
     GeglGtkView *self = GEGL_GTK_VIEW(widget);
-    view_helper_set_allocation(GET_PRIVATE(self), allocation);
+    gint scale_factor;
+
+    scale_factor = gtk_widget_get_scale_factor (widget);
+    view_helper_set_allocation(GET_PRIVATE(self), allocation, scale_factor);
 }
 
 static void

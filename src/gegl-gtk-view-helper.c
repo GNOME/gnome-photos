@@ -83,6 +83,7 @@ view_helper_init(ViewHelper *self)
     self->x           = 0;
     self->y           = 0;
     self->scale       = 1.0;
+    self->scale_factor = 1;
     self->autoscale_policy = GEGL_GTK_VIEW_AUTOSCALE_CONTENT;
     self->block = FALSE;
 
@@ -137,10 +138,12 @@ update_autoscale(ViewHelper *self)
         float delta_x;
         float delta_y;
         float scale = 1.0;
+        const gint real_viewport_height = viewport.height * self->scale_factor;
+        const gint real_viewport_width = viewport.width * self->scale_factor;
 
-        if (bbox.width > viewport.width || bbox.height > viewport.height) {
-            float width_ratio = bbox.width / (float)viewport.width;
-            float height_ratio = bbox.height / (float)viewport.height;
+        if (bbox.width > real_viewport_width || bbox.height > real_viewport_height) {
+            float width_ratio = bbox.width / (float)real_viewport_width;
+            float height_ratio = bbox.height / (float)real_viewport_height;
             float max_ratio = width_ratio >= height_ratio ? width_ratio : height_ratio;
 
             scale = 1.0 / max_ratio;
@@ -152,8 +155,8 @@ update_autoscale(ViewHelper *self)
         self->scale = scale;
 
         /* At this point, viewport is definitely bigger than bbox. */
-        delta_x = (viewport.width - bbox.width) / 2.0;
-        delta_y = (viewport.height - bbox.height) / 2.0;
+        delta_x = (real_viewport_width - bbox.width) / 2.0;
+        delta_y = (real_viewport_height - bbox.height) / 2.0;
         self->x = -delta_x;
         self->y = -delta_y;
     }
@@ -194,10 +197,10 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
     gint64          end;
     gint64          start;
 
-    roi.x = (gint) self->x + rect->x;
-    roi.y = (gint) self->y + rect->y;
-    roi.width  = rect->width;
-    roi.height = rect->height;
+    roi.x = (gint) self->x + rect->x * self->scale_factor;
+    roi.y = (gint) self->y + rect->y * self->scale_factor;
+    roi.width  = rect->width * self->scale_factor;
+    roi.height = rect->height * self->scale_factor;
 
     stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, roi.width);
     buf = g_malloc0(stride * roi.height);
@@ -219,6 +222,7 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
               CAIRO_FORMAT_ARGB32,
               roi.width, roi.height,
               stride);
+    cairo_surface_set_device_scale (surface, (gdouble) self->scale_factor, (gdouble) self->scale_factor);
     cairo_set_source_surface(cr, surface, rect->x, rect->y);
     cairo_paint(cr);
 
@@ -228,9 +232,10 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
 }
 
 void
-view_helper_set_allocation(ViewHelper *self, GdkRectangle *allocation)
+view_helper_set_allocation(ViewHelper *self, GdkRectangle *allocation, gint scale_factor)
 {
     self->widget_allocation = *allocation;
+    self->scale_factor = scale_factor;
     update_autoscale(self);
 }
 
