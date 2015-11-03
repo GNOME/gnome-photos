@@ -401,8 +401,7 @@ photos_main_toolbar_create_preview_menu (PhotosMainToolbar *self)
   GtkBuilder *builder;
   PhotosBaseItem *item;
 
-  builder = gtk_builder_new ();
-  gtk_builder_add_from_resource (builder, "/org/gnome/Photos/preview-menu.ui", NULL);
+  builder = gtk_builder_new_from_resource ("/org/gnome/Photos/preview-menu.ui");
 
   menu = G_MENU (g_object_ref (gtk_builder_get_object (builder, "preview-menu")));
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
@@ -735,8 +734,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   priv->gear_menu = G_SIMPLE_ACTION (g_action_map_lookup_action (G_ACTION_MAP (app), "gear-menu"));
   priv->search = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
 
-  builder = gtk_builder_new ();
-  gtk_builder_add_from_resource (builder, "/org/gnome/Photos/selection-menu.ui", NULL);
+  builder = gtk_builder_new_from_resource ("/org/gnome/Photos/selection-menu.ui");
 
   selection_menu = G_MENU (gtk_builder_get_object (builder, "selection-menu"));
   priv->selection_menu = gtk_menu_button_new ();
