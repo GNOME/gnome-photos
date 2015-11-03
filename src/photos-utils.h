@@ -57,7 +57,7 @@ GIcon           *photos_utils_create_collection_icon      (gint base_size, GList
 
 GdkPixbuf       *photos_utils_create_pixbuf_from_node     (GeglNode *node);
 
-GIcon           *photos_utils_create_symbolic_icon        (const gchar *name, gint base_size);
+GIcon           *photos_utils_create_symbolic_icon_for_scale (const gchar *name, gint base_size, gint scale);
 
 gboolean         photos_utils_create_thumbnail            (GFile *file, GCancellable *cancellable, GError **error);
 
