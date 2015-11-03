@@ -1,3 +1,24 @@
+Overview of changes in 3.16.3
+=============================
+
+* Bugs fixed:
+ 688566 offset-controller: Prevent loading more items than there actually is
+ 725508 Can not handle window manager's unfull/full screen operation
+ 734766 properties-dialog: Be more forgiving of unknown nmm:flash values
+ 741593 No pagination buttons when previewing search results
+ 746104 Fix the lifetime of the signal handlers
+ 751106 Make favorite button's icon retain the active color
+ 756131 Disable can-fullscreen when going back, and simplify the state
+        changes / signal emissions
+ 756221 Disabling application menu adds a redundant toolbar
+ 757015 Improve the responsiveness of the favorite button
+ 757199 Crash when quitting due to the ViewModel outliving the Embed
+
+* Updated translations:
+ Occitan
+ Portuguese
+
+
 Overview of changes in 3.16.2
 =============================
 
