@@ -234,7 +234,7 @@ photos_utils_create_pixbuf_from_node (GeglNode *node)
 
 
 GIcon *
-photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
+photos_utils_create_symbolic_icon_for_scale (const gchar *name, gint base_size, gint scale)
 {
   GIcon *icon;
   GIcon *ret_val = NULL;
@@ -243,6 +243,7 @@ photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
   GtkIconTheme *theme;
   GtkStyleContext *style;
   GtkWidgetPath *path;
+  cairo_surface_t *icon_surface = NULL;
   cairo_surface_t *surface;
   cairo_t *cr;
   gchar *symbolic_name;
@@ -251,11 +252,14 @@ photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
   gint emblem_pos;
   gint emblem_size;
   gint total_size;
+  gint total_size_scaled;
 
   total_size = base_size / 2;
+  total_size_scaled = total_size * scale;
   emblem_size = bg_size - emblem_margin * 2;
 
-  surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, total_size, total_size);
+  surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, total_size_scaled, total_size_scaled);
+  cairo_surface_set_device_scale (surface, (gdouble) scale, (gdouble) scale);
   cr = cairo_create (surface);
 
   style = gtk_style_context_new ();
@@ -274,7 +278,7 @@ photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
   g_free (symbolic_name);
 
   theme = gtk_icon_theme_get_default();
-  info = gtk_icon_theme_lookup_by_gicon (theme, icon, emblem_size, GTK_ICON_LOOKUP_FORCE_SIZE);
+  info = gtk_icon_theme_lookup_by_gicon_for_scale (theme, icon, emblem_size, scale, GTK_ICON_LOOKUP_FORCE_SIZE);
   g_object_unref (icon);
 
   if (info == NULL)
@@ -286,14 +290,17 @@ photos_utils_create_symbolic_icon (const gchar *name, gint base_size)
   if (pixbuf == NULL)
     goto out;
 
-  emblem_pos = total_size - emblem_size - emblem_margin;
-  gtk_render_icon (style, cr, pixbuf, emblem_pos, emblem_pos);
+  icon_surface = gdk_cairo_surface_create_from_pixbuf (pixbuf, scale, NULL);
   g_object_unref (pixbuf);
 
-  ret_val = G_ICON (gdk_pixbuf_get_from_surface (surface, 0, 0, total_size, total_size));
+  emblem_pos = total_size - emblem_size - emblem_margin;
+  gtk_render_icon_surface (style, cr, icon_surface, emblem_pos, emblem_pos);
+
+  ret_val = G_ICON (gdk_pixbuf_get_from_surface (surface, 0, 0, total_size_scaled, total_size_scaled));
 
  out:
   g_object_unref (style);
+  cairo_surface_destroy (icon_surface);
   cairo_surface_destroy (surface);
   cairo_destroy (cr);
 

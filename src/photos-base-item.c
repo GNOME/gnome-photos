@@ -184,13 +184,13 @@ photos_base_item_create_placeholder_icon (const gchar *icon_name)
 
 
 static GIcon *
-photos_base_item_create_symbolic_emblem (const gchar *name)
+photos_base_item_create_symbolic_emblem (const gchar *name, gint scale)
 {
   GIcon *pix;
   gint size;
 
-  size = photos_utils_get_icon_size ();
-  pix = photos_utils_create_symbolic_icon (name, size);
+  size = photos_utils_get_icon_size_unscaled ();
+  pix = photos_utils_create_symbolic_icon_for_scale (name, size, scale);
   if (pix == NULL)
     pix = g_themed_icon_new (name);
 
@@ -214,11 +214,14 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   if (priv->original_icon == NULL)
     goto out;
 
+  app = g_application_get_default ();
+  scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
+
   emblemed_pixbuf = g_object_ref (priv->original_icon);
 
   if (priv->favorite)
     {
-      pix = photos_base_item_create_symbolic_emblem (PHOTOS_ICON_FAVORITE);
+      pix = photos_base_item_create_symbolic_emblem (PHOTOS_ICON_FAVORITE, scale);
       emblem_icons = g_list_prepend (emblem_icons, pix);
     }
 
@@ -291,8 +294,6 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   else
     thumbnailed_pixbuf = g_object_ref (emblemed_pixbuf);
 
-  app = g_application_get_default ();
-  scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
   windows = gtk_application_get_windows (GTK_APPLICATION (app));
   if (windows != NULL)
     window = gtk_widget_get_window (GTK_WIDGET (windows->data));
