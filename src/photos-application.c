@@ -957,7 +957,7 @@ photos_application_startup (GApplication *application)
   GtkSettings *settings;
   GVariant *state;
   GVariantType *parameter_type;
-  const gchar *delete_accels[2] = {"Delete", "KP_Delete", NULL};
+  const gchar *delete_accels[3] = {"Delete", "KP_Delete", NULL};
   const gchar *fullscreen_accels[2] = {"F11", NULL};
   const gchar *gear_menu_accels[2] = {"F10", NULL};
   const gchar *print_current_accels[2] = {"<Primary>p", NULL};
