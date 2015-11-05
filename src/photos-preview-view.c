@@ -231,11 +231,7 @@ photos_preview_view_create_view (PhotosPreviewView *self)
   GtkWidget *view;
 
   view = GTK_WIDGET (gegl_gtk_view_new ());
-  gtk_widget_add_events (view,
-                         GDK_BUTTON_PRESS_MASK
-                         | GDK_BUTTON_RELEASE_MASK
-                         | GDK_POINTER_MOTION_MASK
-                         | GDK_POINTER_MOTION_HINT_MASK);
+  gtk_widget_add_events (view, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK);
   context = gtk_widget_get_style_context (view);
   gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
   gtk_style_context_add_class (context, "content-view");
