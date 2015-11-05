@@ -9,24 +9,24 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-06-07 19:45+0000\n"
-"PO-Revision-Date: 2015-06-11 06:55+0100\n"
-"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
+"POT-Creation-Date: 2015-11-04 14:04+0000\n"
+"PO-Revision-Date: 2015-11-05 07:17+0000\n"
+"Last-Translator:  <>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:709
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Fotografias"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:477
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Aceda, organize e partilhe as suas fotografias no GNOME"
 
@@ -106,84 +106,11 @@ msgstr "Janela maximizada"
 msgid "Window maximized state"
 msgstr "Estado maximizado da janela"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%a, %d %B %Y  %X"
-
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%a, %d %B %Y"
-
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f (lentes)"
-
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f (rolo 35mm)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "Transformação numa imagem não carregada."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "Transformação falhou."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "EXIF não suportado por este formato de ficheiro."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "Carregamento da imagem falhou."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "Nenhuma imagem carregada."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "Não possui as permissões necessárias para gravar o ficheiro."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "Criação do ficheiro temporário falhou."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "Pelo menos dois nomes de ficheiro são iguais."
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "Impossível mostrar a ajuda para o Visualizador de imagens"
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (Unicode inválido)"
-
-#: ../src/photos-base-item.c:434
+#: ../src/photos-base-item.c:442
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:886
+#: ../src/photos-base-item.c:894
 msgid "Screenshots"
 msgstr "Capturas de ecrã"
 
@@ -194,8 +121,6 @@ msgstr "“%s” eliminada"
 
 #: ../src/photos-delete-notification.c:144
 #, c-format
-#| msgid "Selected item has been deleted"
-#| msgid_plural "Selected items have been deleted"
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d item eliminado"
@@ -209,19 +134,15 @@ msgstr "Desfazer"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos DLNA de composição de imagens"
 
-#: ../src/photos-embed.c:637
-msgid "Recent"
-msgstr "Recente"
-
-#: ../src/photos-embed.c:644 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:716 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Álbuns"
 
-#: ../src/photos-embed.c:651 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:723 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: ../src/photos-embed.c:658 ../src/photos-main-toolbar.c:289
+#: ../src/photos-embed.c:730 ../src/photos-main-toolbar.c:302
 msgid "Search"
 msgstr "Procurar"
 
@@ -290,61 +211,62 @@ msgstr "As suas fotografias estão a ser indexadas"
 msgid "Some photos might not be available during this process"
 msgstr "Algumas fotografias podem não estar disponíveis durante este processo"
 
-#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Local"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:109
 msgid "Click on items to select them"
 msgstr "Clique nos itens para os selecionar"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:111
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d selecionada"
 msgstr[1] "%d selecionadas"
 
-#: ../src/photos-main-toolbar.c:163
+#: ../src/photos-main-toolbar.c:162
 msgid "Back"
 msgstr "Recuar"
 
-#: ../src/photos-main-toolbar.c:305
+#: ../src/photos-main-toolbar.c:318
 msgid "Select Items"
 msgstr "Selecionar itens"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:331
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir com %s"
 
-#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:462 ../src/photos-selection-toolbar.c:342
 msgid "Remove from favorites"
 msgstr "Remover dos favoritos"
 
-#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:467 ../src/photos-selection-toolbar.c:347
 msgid "Add to favorites"
 msgstr "Adicionar aos favoritos"
 
-#: ../src/photos-main-toolbar.c:645
+#: ../src/photos-main-toolbar.c:617
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/photos-main-window.c:473
+#: ../src/photos-main-window.c:478
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 msgstr ""
 "Copyright © 2013 Intel Corporation. Todos os direitos reservados.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:483
+#: ../src/photos-main-window.c:488
 msgid "translator-credits"
 msgstr "António Lima <amrlima@gmail.com>\n"
+"Tiago S. <almosthumane@portugalmail.pt>\n"
 "Pedro Albuquerque <palbuquerque73@gmail.com>"
 
 #: ../src/photos-menus.ui.h:1
@@ -363,23 +285,23 @@ msgstr "Sobre"
 msgid "Quit"
 msgstr "Sair"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "_Adicionar"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_Aceitar"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organizar"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
-#: ../src/photos-selection-toolbar.c:457
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
+#: ../src/photos-selection-toolbar.c:459
 msgid "Open"
 msgstr "Abrir"
 
@@ -387,21 +309,24 @@ msgstr "Abrir"
 msgid "Print…"
 msgstr "Imprimir..."
 
-#: ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-preview-menu.ui.h:3 ../src/photos-selection-toolbar.c:473
+msgid "Delete"
+msgstr "Eliminar"
+
+#: ../src/photos-preview-menu.ui.h:4
 msgid "Display on…"
 msgstr "Mostrar em..."
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Set as Background"
 msgstr "Definir como fundo"
 
-#: ../src/photos-preview-menu.ui.h:5
-#| msgid "Set as background"
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Lock Screen"
 msgstr "Definir como ecrã bloqueado"
 
-#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
-#: ../src/photos-selection-toolbar.c:478
+#: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
+#: ../src/photos-selection-toolbar.c:477
 msgid "Properties"
 msgstr "Propriedades"
 
@@ -414,75 +339,75 @@ msgstr "A imprimir \"%s\": %s"
 msgid "Image Settings"
 msgstr "Definições de imagem"
 
-#: ../src/photos-print-setup.c:906
+#: ../src/photos-print-setup.c:904
 msgid "Position"
 msgstr "Posição"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:907
 msgid "_Left:"
 msgstr "_Esquerda:"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:908
 msgid "_Right:"
 msgstr "_Direita:"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:909
 msgid "_Top:"
 msgstr "_Topo:"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:910
 msgid "_Bottom:"
 msgstr "_Fundo:"
 
-#: ../src/photos-print-setup.c:914
+#: ../src/photos-print-setup.c:912
 msgid "C_enter:"
 msgstr "_Centro:"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Nenhum"
 
-#: ../src/photos-print-setup.c:919
+#: ../src/photos-print-setup.c:917
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: ../src/photos-print-setup.c:920
+#: ../src/photos-print-setup.c:918
 msgid "Vertical"
 msgstr "Vertical"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "Ambos"
 
-#: ../src/photos-print-setup.c:934
+#: ../src/photos-print-setup.c:932
 msgid "Size"
 msgstr "Tamanho"
 
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:935
 msgid "_Width:"
 msgstr "_Largura:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:936
 msgid "_Height:"
 msgstr "_Altura:"
 
-#: ../src/photos-print-setup.c:940
+#: ../src/photos-print-setup.c:938
 msgid "_Scaling:"
 msgstr "_Escala:"
 
-#: ../src/photos-print-setup.c:949
+#: ../src/photos-print-setup.c:947
 msgid "_Unit:"
 msgstr "_Unidade:"
 
-#: ../src/photos-print-setup.c:953
+#: ../src/photos-print-setup.c:951
 msgid "Millimeters"
 msgstr "Milímetros"
 
-#: ../src/photos-print-setup.c:954
+#: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Polegadas"
 
-#: ../src/photos-print-setup.c:982
+#: ../src/photos-print-setup.c:980
 msgid "Preview"
 msgstr "Antever"
 
@@ -563,7 +488,7 @@ msgid "On, fired"
 msgstr "Ligado, disparou"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
 msgid "All"
 msgstr "Todas"
 
@@ -602,25 +527,66 @@ msgstr "Selecionar todas"
 msgid "Select None"
 msgstr "Não selecionar nenhuma"
 
-#: ../src/photos-selection-toolbar.c:464
+#: ../src/photos-selection-toolbar.c:466
 msgid "Print"
 msgstr "Imprimir"
 
-#: ../src/photos-selection-toolbar.c:471
-msgid "Delete"
-msgstr "Eliminar"
-
-#: ../src/photos-selection-toolbar.c:485
+#: ../src/photos-selection-toolbar.c:484
 msgid "Add to Album"
 msgstr "Adicionar ao álbum"
 
-#: ../src/photos-source-manager.c:174
+#: ../src/photos-source-manager.c:205
 msgid "Sources"
 msgstr "Fontes"
 
-#: ../src/photos-tracker-controller.c:97
+#: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Impossível obter a lista de fotografias"
+
+#~ msgid "%a, %d %B %Y  %X"
+#~ msgstr "%a, %d %B %Y  %X"
+
+#~ msgid "%a, %d %B %Y"
+#~ msgstr "%a, %d %B %Y"
+
+#~ msgid "%.1f (lens)"
+#~ msgstr "%.1f (lentes)"
+
+#~ msgid "%.1f (35mm film)"
+#~ msgstr "%.1f (rolo 35mm)"
+
+#~ msgid "Transformation on unloaded image."
+#~ msgstr "Transformação numa imagem não carregada."
+
+#~ msgid "Transformation failed."
+#~ msgstr "Transformação falhou."
+
+#~ msgid "EXIF not supported for this file format."
+#~ msgstr "EXIF não suportado por este formato de ficheiro."
+
+#~ msgid "Image loading failed."
+#~ msgstr "Carregamento da imagem falhou."
+
+#~ msgid "No image loaded."
+#~ msgstr "Nenhuma imagem carregada."
+
+#~ msgid "You do not have the permissions necessary to save the file."
+#~ msgstr "Não possui as permissões necessárias para gravar o ficheiro."
+
+#~ msgid "Temporary file creation failed."
+#~ msgstr "Criação do ficheiro temporário falhou."
+
+#~ msgid "At least two file names are equal."
+#~ msgstr "Pelo menos dois nomes de ficheiro são iguais."
+
+#~ msgid "Could not display help for Image Viewer"
+#~ msgstr "Impossível mostrar a ajuda para o Visualizador de imagens"
+
+#~ msgid " (invalid Unicode)"
+#~ msgstr " (Unicode inválido)"
+
+#~ msgid "Recent"
+#~ msgstr "Recente"
 
 #~ msgid "No Favorites Found"
 #~ msgstr "Nenhum favorito encontrado"
