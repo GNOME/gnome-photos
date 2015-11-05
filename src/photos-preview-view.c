@@ -310,6 +310,9 @@ photos_preview_view_set_model (PhotosPreviewView *self, GtkTreeModel *model, Gtk
 {
   PhotosPreviewViewPrivate *priv = self->priv;
 
+  g_return_if_fail (model != NULL);
+  g_return_if_fail (current_path != NULL);
+
   photos_preview_nav_buttons_set_model (self->priv->nav_buttons, model, current_path);
   photos_preview_nav_buttons_show (priv->nav_buttons);
 }
