@@ -381,7 +381,6 @@ photos_base_item_create_thumbnail_async (PhotosBaseItem *self,
   GTask *task;
 
   task = g_task_new (self, cancellable, callback, user_data);
-  g_task_set_check_cancellable (task, TRUE);
   g_task_set_source_tag (task, photos_base_item_create_thumbnail_async);
 
   g_thread_pool_push (create_thumbnail_pool, g_object_ref (task), NULL);
@@ -1169,7 +1168,6 @@ photos_base_item_download_async (PhotosBaseItem *self,
   GTask *task;
 
   task = g_task_new (self, cancellable, callback, user_data);
-  g_task_set_check_cancellable (task, TRUE);
   g_task_set_source_tag (task, photos_base_item_download_async);
 
   g_task_run_in_thread (task, photos_base_item_download_in_thread_func);
@@ -1405,7 +1403,6 @@ photos_base_item_load_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
 
   task = g_task_new (self, cancellable, callback, user_data);
-  g_task_set_check_cancellable (task, TRUE);
   g_task_set_source_tag (task, photos_base_item_load_async);
 
   g_task_run_in_thread (task, photos_base_item_load_in_thread_func);

@@ -196,7 +196,6 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
   const gchar *camera;
 
   task = g_task_new (self, cancellable, callback, user_data);
-  g_task_set_check_cancellable (task, TRUE);
   g_task_set_source_tag (task, photos_camera_cache_get_camera_async);
   g_task_set_task_data (task, GUINT_TO_POINTER (id), NULL);
 
