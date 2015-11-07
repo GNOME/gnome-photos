@@ -148,13 +148,15 @@ update_autoscale(ViewHelper *self)
 
             bbox.width = (gint) (scale * bbox.width + 0.5);
             bbox.height = (gint) (scale * bbox.height + 0.5);
+            bbox.x = (gint) (scale * bbox.x + 0.5);
+            bbox.y = (gint) (scale * bbox.y + 0.5);
         }
 
         self->scale = scale;
 
         /* At this point, viewport is definitely bigger than bbox. */
-        self->x = (bbox.width - real_viewport_width) / 2.0;
-        self->y = (bbox.height - real_viewport_height) / 2.0;
+        self->x = (bbox.width - real_viewport_width) / 2.0 + bbox.x;
+        self->y = (bbox.height - real_viewport_height) / 2.0 + bbox.y;
     }
 
 }
