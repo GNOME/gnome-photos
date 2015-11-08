@@ -1,3 +1,18 @@
+Overview of changes in 3.18.2
+=============================
+
+* Bugs fixed:
+ 734766 properties-dialog: Be more forgiving of unknown nmm:flash values
+ 747446 gegl-gtk-view, gegl-gtk-view-helper: Fix HiDpi rendering
+ 751106 Make favorite button's icon retain the active color
+ 756133 view-model: Stop listening to info-updated when an item is removed
+ 757015 Improve the responsiveness of the favorite button
+ 757199 Crash when quitting due to the ViewModel outliving the Embed
+
+* Updated translations:
+ Portuguese
+
+
 Overview of changes in 3.18.1
 =============================
 
