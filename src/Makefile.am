@@ -190,6 +190,8 @@ gnome_photos_SOURCES = \
 	photos-spinner-box.h \
 	photos-tool.c \
 	photos-tool.h \
+	photos-tool-colors.c \
+	photos-tool-colors.h \
 	photos-tool-crop.c \
 	photos-tool-crop.h \
 	photos-tool-enhance.c \

@@ -47,6 +47,7 @@
 #include "photos-query.h"
 #include "photos-source.h"
 #include "photos-tool.h"
+#include "photos-tool-colors.h"
 #include "photos-tool-crop.h"
 #include "photos-tool-enhance.h"
 #include "photos-tool-filters.h"
@@ -592,6 +593,7 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
 
+      g_type_ensure (PHOTOS_TYPE_TOOL_COLORS);
       g_type_ensure (PHOTOS_TYPE_TOOL_CROP);
       g_type_ensure (PHOTOS_TYPE_TOOL_ENHANCE);
       g_type_ensure (PHOTOS_TYPE_TOOL_FILTERS);
