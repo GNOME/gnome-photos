@@ -331,20 +331,20 @@ photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_d
   PhotosBaseItem *self;
   GCancellable *cancellable;
   GError *error;
-  gboolean op_res;
+  gboolean result;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
   cancellable = g_task_get_cancellable (task);
 
   error = NULL;
-  op_res = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_thumbnail (self, cancellable, &error);
+  result = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_thumbnail (self, cancellable, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
       goto out;
     }
 
-  g_task_return_boolean (task, op_res);
+  g_task_return_boolean (task, result);
 
  out:
   g_object_unref (task);

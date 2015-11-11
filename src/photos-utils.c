@@ -219,9 +219,11 @@ GdkPixbuf *
 photos_utils_create_pixbuf_from_node (GeglNode *node)
 {
   GdkPixbuf *pixbuf = NULL;
+  GeglNode *graph;
   GeglNode *save_pixbuf;
 
-  save_pixbuf = gegl_node_new_child (gegl_node_get_parent (node),
+  graph = gegl_node_get_parent (node);
+  save_pixbuf = gegl_node_new_child (graph,
                                      "operation", "gegl:save-pixbuf",
                                      "pixbuf", &pixbuf,
                                      NULL);
