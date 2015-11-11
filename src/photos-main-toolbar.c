@@ -559,6 +559,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   PhotosMainToolbarPrivate *priv = self->priv;
   GMenu *preview_menu;
   GtkWidget *back_button;
+  GtkWidget *edit_button;
   GtkWidget *image;
   GtkWidget *menu_button;
   GApplication *app;
@@ -582,6 +583,10 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), menu_button);
 
   g_simple_action_set_enabled (priv->gear_menu, TRUE);
+
+  edit_button = gtk_button_new_from_icon_name (PHOTOS_ICON_IMAGE_EDIT_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (edit_button), "app.edit-current");
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), edit_button);
 
   priv->favorite_button = gtk_button_new ();
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), priv->favorite_button);
