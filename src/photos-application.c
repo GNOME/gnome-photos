@@ -68,6 +68,7 @@ struct _PhotosApplicationPrivate
   GSimpleAction *brightness_contrast_action;
   GSimpleAction *crop_action;
   GSimpleAction *denoise_action;
+  GSimpleAction *edit_cancel_action;
   GSimpleAction *fs_action;
   GSimpleAction *gear_action;
   GSimpleAction *insta_action;
@@ -76,6 +77,7 @@ struct _PhotosApplicationPrivate
   GSimpleAction *open_action;
   GSimpleAction *print_action;
   GSimpleAction *properties_action;
+  GSimpleAction *save_action;
   GSimpleAction *search_action;
   GSimpleAction *search_match_action;
   GSimpleAction *search_source_action;
@@ -501,6 +503,42 @@ photos_application_can_fullscreen_changed (PhotosApplication *self)
 
 
 static void
+photos_application_edit_cancel_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GError *error = NULL;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+
+  photos_base_item_process_finish (item, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to process item: %s", error->message);
+      g_error_free (error);
+    }
+
+  /* Go back, no matter what. */
+  photos_mode_controller_go_back (self->priv->state->mode_cntrlr);
+  g_object_unref (self);
+}
+
+
+static void
+photos_application_edit_cancel (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  PhotosBaseItem *item;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+  g_return_if_fail (item != NULL);
+
+  while (photos_base_item_operation_undo (item))
+    ;
+
+  photos_base_item_process_async (item, NULL, photos_application_edit_cancel_process, g_object_ref (self));
+}
+
+
+static void
 photos_application_edit_current (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
@@ -712,6 +750,97 @@ photos_application_quit (PhotosApplication *self, GVariant *parameter)
 
 
 static void
+photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+  GError *error = NULL;
+
+  photos_base_item_save_finish (item, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to save: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  photos_mode_controller_go_back (self->priv->state->mode_cntrlr);
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
+photos_application_save (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  GDateTime *now = NULL;
+  GError *error = NULL;
+  GFile *parent = NULL;
+  PhotosBaseItem *item;
+  const gchar *mime_type;
+  const gchar *pictures_path;
+  gchar *filename = NULL;
+  gchar *extension = NULL;
+  gchar *origin = NULL;
+  gchar *parent_path = NULL;
+  gchar *path = NULL;
+  gchar *type = NULL;
+  gchar *uri = NULL;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+  g_return_if_fail (item != NULL);
+
+  pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
+  parent_path = g_build_filename (pictures_path, PACKAGE_TARNAME "-exported", NULL);
+  parent = g_file_new_for_path (parent_path);
+  g_file_make_directory_with_parents (parent, NULL, &error);
+  if (error != NULL)
+    {
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+        {
+          g_error_free (error);
+          goto carry_on;
+        }
+      else
+        {
+          g_warning ("Unable to create %s: %s", parent_path, error->message);
+          g_error_free (error);
+          goto out;
+        }
+    }
+
+ carry_on:
+  now = g_date_time_new_now_local ();
+  origin = g_date_time_format (now, "%Y-%m-%d %H-%M-%S");
+
+  mime_type = photos_base_item_get_mime_type (item);
+  extension = photos_utils_get_extension_from_mime_type (mime_type);
+
+  filename = g_strdup_printf ("%s.%s", origin, extension);
+  path = g_build_filename (parent_path, filename, NULL);
+  uri = photos_utils_convert_path_to_uri (path);
+
+  type = photos_utils_get_pixbuf_type_from_mime_type (mime_type);
+
+  photos_base_item_save_async (item, uri, type, NULL, photos_application_save_save, g_object_ref (self));
+
+ out:
+  if (now != NULL)
+    g_date_time_unref (now);
+
+  g_free (filename);
+  g_free (origin);
+  g_free (parent_path);
+  g_free (path);
+  g_free (type);
+  g_free (uri);
+  g_clear_object (&parent);
+}
+
+
+static void
 photos_application_set_bg_common_download (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
@@ -864,7 +993,9 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
   g_simple_action_set_enabled (priv->brightness_contrast_action, enable);
   g_simple_action_set_enabled (priv->crop_action, enable);
   g_simple_action_set_enabled (priv->denoise_action, enable);
+  g_simple_action_set_enabled (priv->edit_cancel_action, enable);
   g_simple_action_set_enabled (priv->insta_action, enable);
+  g_simple_action_set_enabled (priv->save_action, enable);
   g_simple_action_set_enabled (priv->sharpen_action, enable);
   g_simple_action_set_enabled (priv->undo_action, enable);
 
@@ -1050,6 +1181,13 @@ photos_application_startup (GApplication *application)
   priv->denoise_action = g_simple_action_new ("denoise-current", G_VARIANT_TYPE_UINT16);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->denoise_action));
 
+  priv->edit_cancel_action = g_simple_action_new ("edit-cancel", NULL);
+  g_signal_connect_swapped (priv->edit_cancel_action,
+                            "activate",
+                            G_CALLBACK (photos_application_edit_cancel),
+                            self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->edit_cancel_action));
+
   action = g_simple_action_new ("edit-current", NULL);
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_edit_current), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
@@ -1099,6 +1237,10 @@ photos_application_startup (GApplication *application)
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_remote_display_current), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
+
+  priv->save_action = g_simple_action_new ("save-current", NULL);
+  g_signal_connect_swapped (priv->save_action, "activate", G_CALLBACK (photos_application_save), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->save_action));
 
   state = g_variant_new ("b", FALSE);
   priv->search_action = g_simple_action_new_stateful ("search", NULL, state);
@@ -1220,6 +1362,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->brightness_contrast_action);
   g_clear_object (&priv->crop_action);
   g_clear_object (&priv->denoise_action);
+  g_clear_object (&priv->edit_cancel_action);
   g_clear_object (&priv->fs_action);
   g_clear_object (&priv->gear_action);
   g_clear_object (&priv->insta_action);
@@ -1228,6 +1371,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->open_action);
   g_clear_object (&priv->print_action);
   g_clear_object (&priv->properties_action);
+  g_clear_object (&priv->save_action);
   g_clear_object (&priv->search_action);
   g_clear_object (&priv->search_match_action);
   g_clear_object (&priv->search_source_action);
