@@ -198,6 +198,17 @@ gboolean            photos_base_item_process_finish          (PhotosBaseItem *se
 
 void                photos_base_item_refresh                 (PhotosBaseItem *self);
 
+void                photos_base_item_save_async              (PhotosBaseItem *self,
+                                                              const gchar *uri,
+                                                              const gchar *type,
+                                                              GCancellable *cancellable,
+                                                              GAsyncReadyCallback callback,
+                                                              gpointer user_data);
+
+gboolean            photos_base_item_save_finish             (PhotosBaseItem *self,
+                                                              GAsyncResult *res,
+                                                              GError **error);
+
 void                photos_base_item_set_default_app_name    (PhotosBaseItem *self, const gchar *default_app_name);
 
 void                photos_base_item_set_favorite            (PhotosBaseItem *self, gboolean favorite);

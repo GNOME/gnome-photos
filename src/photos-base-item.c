@@ -933,6 +933,89 @@ photos_base_item_process_idle (gpointer user_data)
 
 
 static void
+photos_base_item_save_save_to_stream (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  GError *error = NULL;
+  gboolean result;
+
+  result = gdk_pixbuf_save_to_stream_finish (res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_boolean (task, result);
+
+ out:
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_replace (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
+  GCancellable *cancellable;
+  GdkPixbuf *pixbuf = NULL;
+  GError *error = NULL;
+  GeglNode *graph;
+  GFile *file = G_FILE (source_object);
+  GFileOutputStream *stream = NULL;
+  const gchar *type;
+
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  priv = self->priv;
+
+  cancellable = g_task_get_cancellable (task);
+  type = (const gchar *) g_task_get_task_data (task);
+
+  stream = g_file_replace_finish (file, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  if (priv->processor == NULL)
+    {
+      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to find a processor for the GEGL graph");
+      goto out;
+    }
+
+  if (gegl_processor_work (priv->processor, NULL))
+    {
+      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Have not finished processing the GEGL graph");
+      goto out;
+    }
+
+  graph = photos_pipeline_get_graph (priv->pipeline);
+  pixbuf = photos_utils_create_pixbuf_from_node (graph);
+  if (pixbuf == NULL)
+    {
+      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to create a GdkPixbuf from the GEGL graph");
+      goto out;
+    }
+
+  gdk_pixbuf_save_to_stream_async (pixbuf,
+                                   G_OUTPUT_STREAM (stream),
+                                   type,
+                                   cancellable,
+                                   photos_base_item_save_save_to_stream,
+                                   g_object_ref (task),
+                                   NULL);
+
+ out:
+  g_clear_object (&pixbuf);
+  g_clear_object (&stream);
+  g_object_unref (task);
+}
+
+
+static void
 photos_base_item_set_thumbnailing_icon (PhotosBaseItem *self)
 {
   if (thumbnailing_icon == NULL)
@@ -1673,6 +1756,58 @@ photos_base_item_refresh (PhotosBaseItem *self)
                               photos_base_item_refresh_executed,
                               g_object_ref (self));
   g_object_unref (job);
+}
+
+
+void
+photos_base_item_save_async (PhotosBaseItem *self,
+                             const gchar *uri,
+                             const gchar *type,
+                             GCancellable *cancellable,
+                             GAsyncReadyCallback callback,
+                             gpointer user_data)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  GFile *file;
+  GTask *task;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  g_return_if_fail (uri != NULL && uri[0] != '\0');
+  g_return_if_fail (type != NULL && type[0] != '\0');
+  g_return_if_fail (priv->edit_graph != NULL);
+  g_return_if_fail (priv->load_graph != NULL);
+  g_return_if_fail (priv->processor != NULL);
+  g_return_if_fail (!gegl_processor_work (priv->processor, NULL));
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_save_async);
+  g_task_set_task_data (task, g_strdup (type), g_free);
+
+  file = g_file_new_for_uri (uri);
+  g_file_replace_async (file,
+                        NULL,
+                        TRUE,
+                        G_FILE_CREATE_REPLACE_DESTINATION,
+                        G_PRIORITY_DEFAULT,
+                        cancellable,
+                        photos_base_item_save_replace,
+                        g_object_ref (task));
+
+  g_object_unref (file);
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_save_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 
