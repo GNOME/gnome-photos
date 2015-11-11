@@ -832,6 +832,41 @@ photos_utils_get_pixbuf_common_suffix (GdkPixbufFormat *format)
 }
 
 
+gchar *
+photos_utils_get_pixbuf_type_from_mime_type (const gchar *mime_type)
+{
+  GSList *formats;
+  GSList *l;
+  gchar *ret_val = NULL;
+
+  formats = gdk_pixbuf_get_formats ();
+
+  for (l = formats; l != NULL; l = l->next)
+    {
+      GdkPixbufFormat *format = (GdkPixbufFormat*) l->data;
+      gchar **supported_mime_types;
+      guint i;
+
+      supported_mime_types = gdk_pixbuf_format_get_mime_types (format);
+      for (i = 0; supported_mime_types[i] != NULL; i++)
+        {
+          if (g_strcmp0 (mime_type, supported_mime_types[i]) == 0)
+            {
+              ret_val = gdk_pixbuf_format_get_name (format);
+              break;
+            }
+        }
+
+      g_strfreev (supported_mime_types);
+      if (ret_val != NULL)
+        break;
+    }
+
+  g_slist_free (formats);
+  return ret_val;
+}
+
+
 const gchar *
 photos_utils_get_provider_name (PhotosBaseManager *src_mngr, PhotosBaseItem *item)
 {

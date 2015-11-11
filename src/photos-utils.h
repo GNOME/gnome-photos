@@ -112,6 +112,8 @@ gint             photos_utils_get_icon_size_unscaled      (void);
 
 char*            photos_utils_get_pixbuf_common_suffix    (GdkPixbufFormat *format);
 
+gchar           *photos_utils_get_pixbuf_type_from_mime_type (const gchar *mime_type);
+
 const gchar     *photos_utils_get_provider_name           (PhotosBaseManager *src_mngr, PhotosBaseItem *item);
 
 GtkBorder       *photos_utils_get_thumbnail_frame_border  (void);
