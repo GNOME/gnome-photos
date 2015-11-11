@@ -56,6 +56,8 @@ void             photos_utils_border_pixbuf               (GdkPixbuf *pixbuf);
 
 GdkPixbuf       *photos_utils_center_pixbuf               (GdkPixbuf *pixbuf, gint size);
 
+gchar           *photos_utils_convert_path_to_uri         (const gchar *path);
+
 GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
 
 GdkPixbuf       *photos_utils_create_pixbuf_from_node     (GeglNode *node);

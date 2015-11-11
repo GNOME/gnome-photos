@@ -125,6 +125,23 @@ photos_utils_center_pixbuf (GdkPixbuf *pixbuf, gint size)
 }
 
 
+gchar *
+photos_utils_convert_path_to_uri (const gchar *path)
+{
+  GFile *file;
+  gchar *uri;
+
+  if (path == NULL)
+    return g_strdup ("");
+
+  file = g_file_new_for_path (path);
+  uri = g_file_get_uri (file);
+  g_object_unref (file);
+
+  return uri;
+}
+
+
 GIcon *
 photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
 {

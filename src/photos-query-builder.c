@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,27 +33,11 @@
 #include "photos-source-manager.h"
 #include "photos-search-match-manager.h"
 #include "photos-search-type-manager.h"
+#include "photos-utils.h"
 
 
 static const gchar *TRACKER_SCHEMA = "org.freedesktop.Tracker.Miner.Files";
 static const gchar *TRACKER_KEY_RECURSIVE_DIRECTORIES = "index-recursive-directories";
-
-
-static gchar *
-photos_query_builder_convert_path_to_uri (const gchar *path)
-{
-  GFile *file;
-  gchar *uri;
-
-  if (path == NULL)
-    return g_strdup ("");
-
-  file = g_file_new_for_path (path);
-  uri = g_file_get_uri (file);
-  g_object_unref (file);
-
-  return uri;
-}
 
 
 static gchar *
@@ -388,19 +372,19 @@ photos_query_builder_filter_local (void)
       if (tracker_dirs[i][0] == '&' || tracker_dirs[i][0] == '$')
         continue;
 
-      tracker_uri = photos_query_builder_convert_path_to_uri (tracker_dirs[i]);
+      tracker_uri = photos_utils_convert_path_to_uri (tracker_dirs[i]);
       g_string_append_printf (tracker_filter, " || fn:contains (nie:url (?urn), '%s')", tracker_uri);
       g_free (tracker_uri);
     }
 
   path = g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP);
-  desktop_uri = photos_query_builder_convert_path_to_uri (path);
+  desktop_uri = photos_utils_convert_path_to_uri (path);
 
   path = g_get_user_special_dir (G_USER_DIRECTORY_DOWNLOAD);
-  download_uri = photos_query_builder_convert_path_to_uri (path);
+  download_uri = photos_utils_convert_path_to_uri (path);
 
   path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
-  pictures_uri = photos_query_builder_convert_path_to_uri (path);
+  pictures_uri = photos_utils_convert_path_to_uri (path);
 
   filter = g_strdup_printf ("(fn:contains (nie:url (?urn), '%s')"
                             " || fn:contains (nie:url (?urn), '%s')"
