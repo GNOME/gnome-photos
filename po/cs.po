@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-10-24 08:45+0000\n"
-"PO-Revision-Date: 2015-10-24 22:30+0200\n"
+"POT-Creation-Date: 2015-11-12 09:51+0000\n"
+"PO-Revision-Date: 2015-11-12 19:02+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:709
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:717
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Fotky"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:474
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Prohlížejte si, roztříďte a sdílejte své fotografie v GNOME"
 
@@ -105,84 +105,11 @@ msgstr "Okno maximalizováno"
 msgid "Window maximized state"
 msgstr "Stav maximalizace okna"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%a, %e. %B %Y  %X"
-
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%a, %e. %B %Y"
-
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f (objektiv)"
-
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f (35mm film)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "Transformace na nenačteném obrázku."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "Transformace selhala."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "U tohoto formátu souboru není podporován EXIF."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "Selhalo načtení obrázku."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "Nebyl načten žádný obrázek."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "Nemáte oprávnění potřebná k uložení souboru."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "Selhalo vytvoření dočasného souboru."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "Nejméně dva názvy souborů jsou stejné."
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "Nelze zobrazit nápovědu pro Prohlížeč obrázků."
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (neplatný Unikód)"
-
-#: ../src/photos-base-item.c:434
+#: ../src/photos-base-item.c:448
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:886
+#: ../src/photos-base-item.c:1119
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -207,15 +134,15 @@ msgstr "Zpět"
 msgid "DLNA Renderer Devices"
 msgstr "Vykreslovací zařízení DLNA"
 
-#: ../src/photos-embed.c:716 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Alba"
 
-#: ../src/photos-embed.c:723 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Oblíbené"
 
-#: ../src/photos-embed.c:730 ../src/photos-main-toolbar.c:302
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:302
 msgid "Search"
 msgstr "Hledat"
 
@@ -308,25 +235,30 @@ msgstr "Zpět"
 msgid "Select Items"
 msgstr "Vybrat položky"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:422 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:329
 #, c-format
 msgid "Open with %s"
 msgstr "Otevřít pomocí %s"
 
-#: ../src/photos-main-toolbar.c:463 ../src/photos-selection-toolbar.c:291
+#: ../src/photos-main-toolbar.c:462 ../src/photos-selection-toolbar.c:340
 msgid "Remove from favorites"
 msgstr "Odebrat z oblíbených"
 
-#: ../src/photos-main-toolbar.c:468 ../src/photos-selection-toolbar.c:296
+#: ../src/photos-main-toolbar.c:467 ../src/photos-selection-toolbar.c:345
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
 
-#: ../src/photos-main-toolbar.c:618
+#: ../src/photos-main-toolbar.c:506 ../src/photos-main-toolbar.c:644
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../src/photos-main-window.c:475
+#: ../src/photos-main-toolbar.c:510
+msgid "Done"
+msgstr "Hotovo"
+
+#: ../src/photos-main-window.c:480
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -337,7 +269,7 @@ msgstr ""
 "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:485
+#: ../src/photos-main-window.c:490
 msgid "translator-credits"
 msgstr "Marek Černocký, <marek@manet.cz>"
 
@@ -372,8 +304,8 @@ msgid "Organize"
 msgstr "Třídění"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
-#: ../src/photos-selection-toolbar.c:451
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:332
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Otevřít"
 
@@ -381,20 +313,24 @@ msgstr "Otevřít"
 msgid "Print…"
 msgstr "Tisk…"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-preview-menu.ui.h:3 ../src/photos-selection-toolbar.c:471
+msgid "Delete"
+msgstr "Smazat"
+
+#: ../src/photos-preview-menu.ui.h:4
 msgid "Display on…"
 msgstr "Zobrazit na…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Set as Background"
 msgstr "Nastavit jako pozadí"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Lock Screen"
 msgstr "Nastavit jako zamykací obrazovku"
 
-#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
+#: ../src/photos-selection-toolbar.c:475
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -431,7 +367,7 @@ msgstr "_Dole:"
 msgid "C_enter:"
 msgstr "Vy_středit:"
 
-#: ../src/photos-print-setup.c:916
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:88
 msgid "None"
 msgstr "nijak"
 
@@ -595,15 +531,11 @@ msgstr "Vybrat vše"
 msgid "Select None"
 msgstr "Zrušit výběr"
 
-#: ../src/photos-selection-toolbar.c:458
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "Tisk"
 
-#: ../src/photos-selection-toolbar.c:465
-msgid "Delete"
-msgstr "Smazat"
-
-#: ../src/photos-selection-toolbar.c:479
+#: ../src/photos-selection-toolbar.c:482
 msgid "Add to Album"
 msgstr "Přidat album"
 
@@ -611,9 +543,90 @@ msgstr "Přidat album"
 msgid "Sources"
 msgstr "Zdroje"
 
+#: ../src/photos-tool-colors.c:193
+msgid "Brightness"
+msgstr "Jas"
+
+#: ../src/photos-tool-colors.c:214
+msgid "Contrast"
+msgstr "Kontrast"
+
+#: ../src/photos-tool-colors.c:241
+msgid "Colors"
+msgstr "Barvy"
+
+#: ../src/photos-tool-crop.c:126
+msgid "Free"
+msgstr "Volný"
+
+#: ../src/photos-tool-crop.c:127
+msgid "Original Size"
+msgstr "Původní velikost"
+
+#: ../src/photos-tool-crop.c:128
+msgid "Screen"
+msgstr "Obrazovka"
+
+#: ../src/photos-tool-crop.c:129
+msgid "Golden Cut"
+msgstr "Zlatý řez"
+
+#: ../src/photos-tool-crop.c:130
+msgid "Square"
+msgstr "Čtverec"
+
+#: ../src/photos-tool-crop.c:131
+msgid "A3 (297 × 420 mm)"
+msgstr "A3 (297 × 420 mm)"
+
+#: ../src/photos-tool-crop.c:132
+msgid "A4 (210 × 297 mm)"
+msgstr "A4 (210 × 297 mm)"
+
+#: ../src/photos-tool-crop.c:1106
+msgid "Reset"
+msgstr "Původní"
+
+#: ../src/photos-tool-crop.c:1127
+msgid "Crop"
+msgstr "Oříznout"
+
+#: ../src/photos-tool-enhance.c:205
+msgid "Sharpen"
+msgstr "Zaostřit"
+
+#: ../src/photos-tool-enhance.c:225
+msgid "Denoise"
+msgstr "Odstranit šum"
+
+#: ../src/photos-tool-enhance.c:251
+msgid "Enhance"
+msgstr "Vylepšit"
+
+#: ../src/photos-tool-filters.c:94
+msgid "1977"
+msgstr "1977"
+
+#: ../src/photos-tool-filters.c:101
+msgid "Brannan"
+msgstr "Brannan"
+
+#: ../src/photos-tool-filters.c:107
+msgid "Gotham"
+msgstr "Gotham"
+
+#: ../src/photos-tool-filters.c:114
+msgid "Gray"
+msgstr "Černobílá"
+
+#: ../src/photos-tool-filters.c:120
+msgid "Nashville"
+msgstr "Nashville"
+
+#: ../src/photos-tool-filters.c:136
+msgid "Filters"
+msgstr "Filtry"
+
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Nelze získat seznam fotografií."
-
-#~ msgid "Recent"
-#~ msgstr "Nedávné"
