@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_FACEBOOK_ITEM, PhotosFacebookItem))
 
-#define PHOTOS_FACEBOOK_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_FACEBOOK_ITEM, PhotosFacebookItemClass))
-
 #define PHOTOS_IS_FACEBOOK_ITEM(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_FACEBOOK_ITEM))
 
-#define PHOTOS_IS_FACEBOOK_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_FACEBOOK_ITEM))
-
-#define PHOTOS_FACEBOOK_ITEM_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_FACEBOOK_ITEM, PhotosFacebookItemClass))
-
-typedef struct _PhotosFacebookItem        PhotosFacebookItem;
-typedef struct _PhotosFacebookItemClass   PhotosFacebookItemClass;
-typedef struct _PhotosFacebookItemPrivate PhotosFacebookItemPrivate;
-
-struct _PhotosFacebookItem
-{
-  PhotosBaseItem parent_instance;
-  PhotosFacebookItemPrivate *priv;
-};
-
-struct _PhotosFacebookItemClass
-{
-  PhotosBaseItemClass parent_class;
-};
+typedef struct _PhotosFacebookItem      PhotosFacebookItem;
+typedef struct _PhotosFacebookItemClass PhotosFacebookItemClass;
 
 GType               photos_facebook_item_get_type           (void) G_GNUC_CONST;
 
