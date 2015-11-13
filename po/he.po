@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-12 23:20+0200\n"
-"PO-Revision-Date: 2015-03-12 23:21+0200\n"
-"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"POT-Creation-Date: 2015-11-13 13:13+0200\n"
+"PO-Revision-Date: 2015-11-13 13:31+0200\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -20,15 +20,15 @@ msgstr ""
 "X-Poedit-Language: Hebrew\n"
 "X-Poedit-Country: ISRAEL\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:717
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "תמונות"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
 msgid "Access, organize and share your photos on GNOME"
 msgstr "לגשת, לארגן ולשתף את התמונות שלך ב־GNOME"
 
@@ -107,100 +107,11 @@ msgstr "Window maximized"
 msgid "Window maximized state"
 msgstr "Window maximized state"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%a, ה־%e ב%B %Y  %X"
-
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%a, ה־%e ב%B %Y"
-
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f (עדשה)"
-
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f (סרט 35 מ״מ)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "התמרה על תמונה שלא נטענה."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "ההתמרה נכשלה."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "אין תמיכה ב־EXIF במבנה קובץ זה."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "טעינת התמונה נכשלה."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "לא נטענה תמונה."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "אין לך את ההרשאות המתאימות לשמירת קובץ זה."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "יצירת הקובץ הזמני נכשלה."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "לפחות שניים משמות הקבצים זהים."
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "לא ניתן להציג את העזרה למציג התמונות"
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (יוניקוד שגוי)"
-
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "מסך מלא"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "_עזרה"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "על אודות"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "יציאה"
-
-#: ../src/photos-base-item.c:434
+#: ../src/photos-base-item.c:448
 msgid "Album"
 msgstr "אלבום"
 
-#: ../src/photos-base-item.c:886
+#: ../src/photos-base-item.c:1119
 msgid "Screenshots"
 msgstr "צילומי מסך"
 
@@ -224,19 +135,15 @@ msgstr "ביטול"
 msgid "DLNA Renderer Devices"
 msgstr "התקן עיבוד DLNA"
 
-#: ../src/photos-embed.c:621
-msgid "Recent"
-msgstr "אחרונים"
-
-#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "אלבומים"
 
-#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "מועדפים"
 
-#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:302
 msgid "Search"
 msgstr "חיפוש"
 
@@ -281,7 +188,7 @@ msgstr "לא נמצאו תמונות"
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:163
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "תמונה ללא כותרת"
 
@@ -305,15 +212,15 @@ msgstr "התמונות שלך נשמרות באינדקס"
 msgid "Some photos might not be available during this process"
 msgstr "יתכן שחלק מהתמונות לא תהינה זמינות במשך תהליך זה"
 
-#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "מקומי"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:109
 msgid "Click on items to select them"
 msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:111
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -324,61 +231,82 @@ msgstr[1] "%d נבחרו"
 msgid "Back"
 msgstr "חזרה"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:318
 msgid "Select Items"
 msgstr "בחירת פריטים"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:423 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:329
 #, c-format
 msgid "Open with %s"
 msgstr "פתיחה באמצעות %s"
 
-#: ../src/photos-main-toolbar.c:469 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:462 ../src/photos-selection-toolbar.c:340
 msgid "Remove from favorites"
 msgstr "הסרה מהמועדפים"
 
-#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:467 ../src/photos-selection-toolbar.c:345
 msgid "Add to favorites"
 msgstr "הוספה למועדפים"
 
-#: ../src/photos-main-toolbar.c:644
+#: ../src/photos-main-toolbar.c:506 ../src/photos-main-toolbar.c:644
 msgid "Cancel"
 msgstr "ביטול"
 
-#: ../src/photos-main-window.c:473
+#: ../src/photos-main-toolbar.c:510
+msgid "Done"
+msgstr "בוצע"
+
+#: ../src/photos-main-window.c:480
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 msgstr ""
 "‏Copyright © 2013 Intel Corporation. כל הזכויות שמורות.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:483
+#: ../src/photos-main-window.c:490
 msgid "translator-credits"
 msgstr ""
 "ירון שהרבני <sh.yaron@gmail.com>\n"
 "יוסף אור בוצ׳קו <yoseforb@gnome.org>"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "מסך מלא"
+
+#: ../src/photos-menus.ui.h:2
+msgid "_Help"
+msgstr "_עזרה"
+
+#: ../src/photos-menus.ui.h:3
+msgid "About"
+msgstr "על אודות"
+
+#: ../src/photos-menus.ui.h:4
+msgid "Quit"
+msgstr "יציאה"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "הו_ספה"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_אישור"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "ארגון"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:332
 #: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "פתיחה"
@@ -387,20 +315,24 @@ msgstr "פתיחה"
 msgid "Print…"
 msgstr "הדפסה…"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-preview-menu.ui.h:3 ../src/photos-selection-toolbar.c:471
+msgid "Delete"
+msgstr "מחיקה"
+
+#: ../src/photos-preview-menu.ui.h:4
 msgid "Display on…"
 msgstr "הצגה…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Set as Background"
 msgstr "הגדרה כרקע שולחן העבודה"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Lock Screen"
 msgstr "הגדרה כרקע מסך הנעילה"
 
-#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
-#: ../src/photos-selection-toolbar.c:478
+#: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
+#: ../src/photos-selection-toolbar.c:475
 msgid "Properties"
 msgstr "מאפיינים"
 
@@ -413,75 +345,75 @@ msgstr "מדפיס „%s”:‏ %s"
 msgid "Image Settings"
 msgstr "הגדרות התמונה"
 
-#: ../src/photos-print-setup.c:906
+#: ../src/photos-print-setup.c:904
 msgid "Position"
 msgstr "מיקום"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:907
 msgid "_Left:"
 msgstr "_שמאל:"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:908
 msgid "_Right:"
 msgstr "י_מין:"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:909
 msgid "_Top:"
 msgstr "למ_עלה:"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:910
 msgid "_Bottom:"
 msgstr "למ_טה:"
 
-#: ../src/photos-print-setup.c:914
+#: ../src/photos-print-setup.c:912
 msgid "C_enter:"
 msgstr "מ_רכז:"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:88
 msgid "None"
 msgstr "ללא"
 
-#: ../src/photos-print-setup.c:919
+#: ../src/photos-print-setup.c:917
 msgid "Horizontal"
 msgstr "אופקי"
 
-#: ../src/photos-print-setup.c:920
+#: ../src/photos-print-setup.c:918
 msgid "Vertical"
 msgstr "אנכי"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "שניהם"
 
-#: ../src/photos-print-setup.c:934
+#: ../src/photos-print-setup.c:932
 msgid "Size"
 msgstr "גודל"
 
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:935
 msgid "_Width:"
 msgstr "_רוחב:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:936
 msgid "_Height:"
 msgstr "_גובה:"
 
-#: ../src/photos-print-setup.c:940
+#: ../src/photos-print-setup.c:938
 msgid "_Scaling:"
 msgstr "_אמת מידה:"
 
-#: ../src/photos-print-setup.c:949
+#: ../src/photos-print-setup.c:947
 msgid "_Unit:"
 msgstr "י_חידה:"
 
-#: ../src/photos-print-setup.c:953
+#: ../src/photos-print-setup.c:951
 msgid "Millimeters"
 msgstr "מילימטרים"
 
-#: ../src/photos-print-setup.c:954
+#: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "אינצ׳ים"
 
-#: ../src/photos-print-setup.c:982
+#: ../src/photos-print-setup.c:980
 msgid "Preview"
 msgstr "תצוגה מקדימה"
 
@@ -562,7 +494,7 @@ msgid "On, fired"
 msgstr "פועל"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
 msgid "All"
 msgstr "הכול"
 
@@ -578,10 +510,16 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "יוצר"
 
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
 #: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "התאמה"
 
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
 #: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
@@ -599,21 +537,146 @@ msgstr "ביטול הבחירה"
 msgid "Print"
 msgstr "הדפסה"
 
-#: ../src/photos-selection-toolbar.c:471
-msgid "Delete"
-msgstr "מחיקה"
-
-#: ../src/photos-selection-toolbar.c:485
+#: ../src/photos-selection-toolbar.c:482
 msgid "Add to Album"
 msgstr "הוספה לאלבום"
 
-#: ../src/photos-source-manager.c:174
+#: ../src/photos-source-manager.c:205
 msgid "Sources"
 msgstr "מקורות"
 
-#: ../src/photos-tracker-controller.c:97
+#: ../src/photos-tool-colors.c:193
+msgid "Brightness"
+msgstr "בהירות"
+
+#: ../src/photos-tool-colors.c:214
+msgid "Contrast"
+msgstr "ניגודיות"
+
+#: ../src/photos-tool-colors.c:241
+msgid "Colors"
+msgstr "צבעים"
+
+#: ../src/photos-tool-crop.c:126
+msgid "Free"
+msgstr "חופשי"
+
+#: ../src/photos-tool-crop.c:127
+msgid "Original Size"
+msgstr "גודל מקורי"
+
+#: ../src/photos-tool-crop.c:128
+msgid "Screen"
+msgstr "מסך"
+
+#: ../src/photos-tool-crop.c:129
+msgid "Golden Cut"
+msgstr "יחס הזהב"
+
+#: ../src/photos-tool-crop.c:130
+msgid "Square"
+msgstr "ריבוע"
+
+#: ../src/photos-tool-crop.c:131
+msgid "A3 (297 × 420 mm)"
+msgstr "‏A3 ‏(297 × 420 מ״מ)"
+
+#: ../src/photos-tool-crop.c:132
+msgid "A4 (210 × 297 mm)"
+msgstr "‏A4 ‏(210 × 297 מ״מ)"
+
+#: ../src/photos-tool-crop.c:1106
+msgid "Reset"
+msgstr "איפוס"
+
+#: ../src/photos-tool-crop.c:1127
+msgid "Crop"
+msgstr "חיתוך"
+
+#: ../src/photos-tool-enhance.c:205
+msgid "Sharpen"
+msgstr "חידוד"
+
+#: ../src/photos-tool-enhance.c:225
+msgid "Denoise"
+msgstr "הפחתת רעש"
+
+#: ../src/photos-tool-enhance.c:251
+msgid "Enhance"
+msgstr "שיפור"
+
+#: ../src/photos-tool-filters.c:94
+msgid "1977"
+msgstr "1977"
+
+#: ../src/photos-tool-filters.c:101
+msgid "Brannan"
+msgstr "Brannan"
+
+#: ../src/photos-tool-filters.c:107
+msgid "Gotham"
+msgstr "Gotham"
+
+#: ../src/photos-tool-filters.c:114
+msgid "Gray"
+msgstr "אפור"
+
+#: ../src/photos-tool-filters.c:120
+msgid "Nashville"
+msgstr "Nashville"
+
+#: ../src/photos-tool-filters.c:136
+msgid "Filters"
+msgstr "מסננים"
+
+#: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "לא ניתן לקבל את רשימת התמונות"
+
+#~ msgid "%a, %d %B %Y  %X"
+#~ msgstr "%a, ה־%e ב%B %Y  %X"
+
+#~ msgid "%a, %d %B %Y"
+#~ msgstr "%a, ה־%e ב%B %Y"
+
+#~ msgid "%.1f (lens)"
+#~ msgstr "%.1f (עדשה)"
+
+#~ msgid "%.1f (35mm film)"
+#~ msgstr "%.1f (סרט 35 מ״מ)"
+
+#~ msgid "Transformation on unloaded image."
+#~ msgstr "התמרה על תמונה שלא נטענה."
+
+#~ msgid "Transformation failed."
+#~ msgstr "ההתמרה נכשלה."
+
+#~ msgid "EXIF not supported for this file format."
+#~ msgstr "אין תמיכה ב־EXIF במבנה קובץ זה."
+
+#~ msgid "Image loading failed."
+#~ msgstr "טעינת התמונה נכשלה."
+
+#~ msgid "No image loaded."
+#~ msgstr "לא נטענה תמונה."
+
+#~ msgid "You do not have the permissions necessary to save the file."
+#~ msgstr "אין לך את ההרשאות המתאימות לשמירת קובץ זה."
+
+#~ msgid "Temporary file creation failed."
+#~ msgstr "יצירת הקובץ הזמני נכשלה."
+
+#~ msgid "At least two file names are equal."
+#~ msgstr "לפחות שניים משמות הקבצים זהים."
+
+#~ msgid "Could not display help for Image Viewer"
+#~ msgstr "לא ניתן להציג את העזרה למציג התמונות"
+
+#~ msgid " (invalid Unicode)"
+#~ msgstr " (יוניקוד שגוי)"
+
+#~ msgid "Recent"
+#~ msgstr "אחרונים"
 
 #~ msgid "No Favorites Found"
 #~ msgstr "לא נמצאו מועדפים"
@@ -640,9 +703,6 @@ msgstr "לא ניתן לקבל את רשימת התמונות"
 
 #~ msgid "Flickr"
 #~ msgstr "Flickr"
-
-#~ msgid "Done"
-#~ msgstr "בוצע"
 
 #~ msgid "System Settings"
 #~ msgstr "הגדרות מערכת"
