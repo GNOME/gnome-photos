@@ -34,6 +34,17 @@
 #include "photos-utils.h"
 
 
+struct _PhotosLocalItem
+{
+  PhotosBaseItem parent_instance;
+};
+
+struct _PhotosLocalItemClass
+{
+  PhotosBaseItemClass parent_class;
+};
+
+
 G_DEFINE_TYPE_WITH_CODE (PhotosLocalItem, photos_local_item, PHOTOS_TYPE_BASE_ITEM,
                          photos_utils_ensure_extension_points ();
                          g_io_extension_point_implement (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME,

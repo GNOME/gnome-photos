@@ -37,36 +37,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_LOCAL_ITEM, PhotosLocalItem))
 
-#define PHOTOS_LOCAL_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_LOCAL_ITEM, PhotosLocalItemClass))
-
 #define PHOTOS_IS_LOCAL_ITEM(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_LOCAL_ITEM))
 
-#define PHOTOS_IS_LOCAL_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_LOCAL_ITEM))
-
-#define PHOTOS_LOCAL_ITEM_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_LOCAL_ITEM, PhotosLocalItemClass))
-
-typedef struct _PhotosLocalItem        PhotosLocalItem;
-typedef struct _PhotosLocalItemClass   PhotosLocalItemClass;
-typedef struct _PhotosLocalItemPrivate PhotosLocalItemPrivate;
-
-struct _PhotosLocalItem
-{
-  PhotosBaseItem parent_instance;
-  PhotosLocalItemPrivate *priv;
-};
-
-struct _PhotosLocalItemClass
-{
-  PhotosBaseItemClass parent_class;
-};
+typedef struct _PhotosLocalItem      PhotosLocalItem;
+typedef struct _PhotosLocalItemClass PhotosLocalItemClass;
 
 GType               photos_local_item_get_type           (void) G_GNUC_CONST;
 
