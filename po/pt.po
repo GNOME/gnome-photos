@@ -7,11 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-11-04 14:04+0000\n"
-"PO-Revision-Date: 2015-11-05 07:17+0000\n"
-"Last-Translator:  <>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-11-13 21:49+0000\n"
+"PO-Revision-Date: 2015-11-14 08:09+0000\n"
+"Last-Translator: <>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
@@ -19,14 +18,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.4\n"
+"X-Language: pt_PT\n"
+"X-Source-Language: C\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:709
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:717
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Fotografias"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:477
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Aceda, organize e partilhe as suas fotografias no GNOME"
 
@@ -106,11 +107,11 @@ msgstr "Janela maximizada"
 msgid "Window maximized state"
 msgstr "Estado maximizado da janela"
 
-#: ../src/photos-base-item.c:442
+#: ../src/photos-base-item.c:448
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:894
+#: ../src/photos-base-item.c:1119
 msgid "Screenshots"
 msgstr "Capturas de ecrã"
 
@@ -134,15 +135,15 @@ msgstr "Desfazer"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos DLNA de composição de imagens"
 
-#: ../src/photos-embed.c:716 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Álbuns"
 
-#: ../src/photos-embed.c:723 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: ../src/photos-embed.c:730 ../src/photos-main-toolbar.c:302
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:302
 msgid "Search"
 msgstr "Procurar"
 
@@ -181,7 +182,7 @@ msgstr "Nenhuma fotografia encontrada"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:89
 #: ../src/photos-google-item.c:77
 #, c-format
 msgid "%s — %s"
@@ -211,7 +212,7 @@ msgstr "As suas fotografias estão a ser indexadas"
 msgid "Some photos might not be available during this process"
 msgstr "Algumas fotografias podem não estar disponíveis durante este processo"
 
-#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:103 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Local"
 
@@ -234,25 +235,30 @@ msgstr "Recuar"
 msgid "Select Items"
 msgstr "Selecionar itens"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:331
+#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:329
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir com %s"
 
-#: ../src/photos-main-toolbar.c:462 ../src/photos-selection-toolbar.c:342
+#: ../src/photos-main-toolbar.c:462 ../src/photos-selection-toolbar.c:340
 msgid "Remove from favorites"
 msgstr "Remover dos favoritos"
 
-#: ../src/photos-main-toolbar.c:467 ../src/photos-selection-toolbar.c:347
+#: ../src/photos-main-toolbar.c:467 ../src/photos-selection-toolbar.c:345
 msgid "Add to favorites"
 msgstr "Adicionar aos favoritos"
 
-#: ../src/photos-main-toolbar.c:617
+#: ../src/photos-main-toolbar.c:506 ../src/photos-main-toolbar.c:644
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/photos-main-window.c:478
+#: ../src/photos-main-toolbar.c:510
+msgid "Done"
+msgstr "Concluído"
+
+#: ../src/photos-main-window.c:480
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -263,9 +269,10 @@ msgstr ""
 "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:488
+#: ../src/photos-main-window.c:490
 msgid "translator-credits"
-msgstr "António Lima <amrlima@gmail.com>\n"
+msgstr ""
+"António Lima <amrlima@gmail.com>\n"
 "Tiago S. <almosthumane@portugalmail.pt>\n"
 "Pedro Albuquerque <palbuquerque73@gmail.com>"
 
@@ -300,8 +307,8 @@ msgid "Organize"
 msgstr "Organizar"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
-#: ../src/photos-selection-toolbar.c:459
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:332
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Abrir"
 
@@ -309,7 +316,7 @@ msgstr "Abrir"
 msgid "Print…"
 msgstr "Imprimir..."
 
-#: ../src/photos-preview-menu.ui.h:3 ../src/photos-selection-toolbar.c:473
+#: ../src/photos-preview-menu.ui.h:3 ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -326,7 +333,7 @@ msgid "Set as Lock Screen"
 msgstr "Definir como ecrã bloqueado"
 
 #: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
-#: ../src/photos-selection-toolbar.c:477
+#: ../src/photos-selection-toolbar.c:475
 msgid "Properties"
 msgstr "Propriedades"
 
@@ -363,7 +370,7 @@ msgstr "_Fundo:"
 msgid "C_enter:"
 msgstr "_Centro:"
 
-#: ../src/photos-print-setup.c:916
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:88
 msgid "None"
 msgstr "Nenhum"
 
@@ -527,17 +534,104 @@ msgstr "Selecionar todas"
 msgid "Select None"
 msgstr "Não selecionar nenhuma"
 
-#: ../src/photos-selection-toolbar.c:466
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "Imprimir"
 
-#: ../src/photos-selection-toolbar.c:484
+#: ../src/photos-selection-toolbar.c:482
 msgid "Add to Album"
 msgstr "Adicionar ao álbum"
 
 #: ../src/photos-source-manager.c:205
 msgid "Sources"
 msgstr "Fontes"
+
+#: ../src/photos-tool-colors.c:193
+msgid "Brightness"
+msgstr "Brilho"
+
+#: ../src/photos-tool-colors.c:214
+msgid "Contrast"
+msgstr "Contraste"
+
+#: ../src/photos-tool-colors.c:241
+msgid "Colors"
+msgstr "Cores"
+
+#: ../src/photos-tool-crop.c:126
+msgid "Free"
+msgstr "Livre"
+
+#: ../src/photos-tool-crop.c:127
+msgid "Original Size"
+msgstr "Tamanho original"
+
+#: ../src/photos-tool-crop.c:128
+#| msgid "Screenshots"
+msgid "Screen"
+msgstr "Ecrã"
+
+#: ../src/photos-tool-crop.c:129
+msgid "Golden Cut"
+msgstr "Corte dourado"
+
+#: ../src/photos-tool-crop.c:130
+msgid "Square"
+msgstr "Quadrado"
+
+#: ../src/photos-tool-crop.c:131
+msgid "A3 (297 × 420 mm)"
+msgstr "A3 (297 × 420 mm)"
+
+#: ../src/photos-tool-crop.c:132
+msgid "A4 (210 × 297 mm)"
+msgstr "A4 (210 × 297 mm)"
+
+#: ../src/photos-tool-crop.c:1106
+msgid "Reset"
+msgstr "Repor"
+
+#: ../src/photos-tool-crop.c:1127
+msgid "Crop"
+msgstr "Recortar"
+
+#: ../src/photos-tool-enhance.c:205
+msgid "Sharpen"
+msgstr "Focar"
+
+#: ../src/photos-tool-enhance.c:225
+msgid "Denoise"
+msgstr "Remover ruído"
+
+#: ../src/photos-tool-enhance.c:251
+#| msgid "Cancel"
+msgid "Enhance"
+msgstr "Melhorar"
+
+#: ../src/photos-tool-filters.c:94
+msgid "1977"
+msgstr "1977"
+
+#: ../src/photos-tool-filters.c:101
+msgid "Brannan"
+msgstr "Brannan"
+
+#: ../src/photos-tool-filters.c:107
+msgid "Gotham"
+msgstr "Gotham"
+
+#: ../src/photos-tool-filters.c:114
+msgid "Gray"
+msgstr "Cinzento"
+
+#: ../src/photos-tool-filters.c:120
+msgid "Nashville"
+msgstr "Nashville"
+
+#: ../src/photos-tool-filters.c:136
+#| msgid "Millimeters"
+msgid "Filters"
+msgstr "Filtros"
 
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
@@ -603,20 +697,17 @@ msgstr "Impossível obter a lista de fotografias"
 #~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
 #~ "opening full featured editor for more advanced changes</li>"
 #~ msgstr ""
-#~ "<li>Ver fotos locais e online</li> <li>Aceder ao seu conteúdo do Flickr</"
-#~ "li> <li>Enviar fotos para renderizadores DLNA remotos</li> <li>Definir "
-#~ "como fundo</li> <li>Imprimir fotos</li> <li>Selecionar favoritas</li> "
-#~ "<li>Permitir abrir um editor com mais funcionalidades para alterações "
-#~ "avançadas</li>"
+#~ "<li>Ver fotos locais e online</li> <li>Aceder ao seu conteúdo do "
+#~ "Flickr</li> <li>Enviar fotos para renderizadores DLNA remotos</li> "
+#~ "<li>Definir como fundo</li> <li>Imprimir fotos</li> <li>Selecionar "
+#~ "favoritas</li> <li>Permitir abrir um editor com mais funcionalidades para "
+#~ "alterações avançadas</li>"
 
 #~ msgid "Facebook"
 #~ msgstr "Facebook"
 
 #~ msgid "Flickr"
 #~ msgstr "Flickr"
-
-#~ msgid "Done"
-#~ msgstr "Concluído"
 
 #~ msgid "About Photos"
 #~ msgstr "Sobre Fotos"
