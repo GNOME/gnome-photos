@@ -160,7 +160,8 @@ photos_application_create_data_new (PhotosApplication *application,
   PhotosApplicationCreateData *data;
 
   data = g_slice_new0 (PhotosApplicationCreateData);
-  data->application = g_object_ref (application);
+  g_application_hold (G_APPLICATION (application));
+  data->application = application;
   data->extension_name = g_strdup (extension_name);
   data->miner_name = g_strdup (miner_name);
   return data;
@@ -170,7 +171,7 @@ photos_application_create_data_new (PhotosApplication *application,
 static void
 photos_application_create_data_free (PhotosApplicationCreateData *data)
 {
-  g_object_unref (data->application);
+  g_application_release (G_APPLICATION (data->application));
   g_free (data->extension_name);
   g_free (data->miner_name);
   g_slice_free (PhotosApplicationCreateData, data);
@@ -183,7 +184,8 @@ photos_application_refresh_data_new (PhotosApplication *application, GomMiner *m
   PhotosApplicationRefreshData *data;
 
   data = g_slice_new0 (PhotosApplicationRefreshData);
-  data->application = g_object_ref (application);
+  g_application_hold (G_APPLICATION (application));
+  data->application = application;
   data->miner = g_object_ref (miner);
   return data;
 }
@@ -192,7 +194,7 @@ photos_application_refresh_data_new (PhotosApplication *application, GomMiner *m
 static void
 photos_application_refresh_data_free (PhotosApplicationRefreshData *data)
 {
-  g_object_unref (data->application);
+  g_application_release (G_APPLICATION (data->application));
   g_object_unref (data->miner);
   g_slice_free (PhotosApplicationRefreshData, data);
 }
@@ -248,7 +250,7 @@ photos_application_tracker_clear_rdf_types (GObject *source_object, GAsyncResult
     }
 
  out:
-  g_object_unref (self);
+  g_application_release (G_APPLICATION (self));
 }
 
 
@@ -273,10 +275,11 @@ photos_application_destroy (PhotosApplication *self)
 
   if (priv->extract_priority != NULL)
     {
+      g_application_hold (G_APPLICATION (self));
       tracker_extract_priority_call_clear_rdf_types (priv->extract_priority,
                                                      NULL,
                                                      photos_application_tracker_clear_rdf_types,
-                                                     g_object_ref (self));
+                                                     self);
       g_clear_object (&priv->extract_priority);
     }
 }
@@ -377,7 +380,7 @@ photos_application_tracker_set_rdf_types (GObject *source_object, GAsyncResult *
     }
 
  out:
-  g_object_unref (self);
+  g_application_release (G_APPLICATION (self));
 }
 
 
@@ -399,14 +402,15 @@ photos_application_tracker_extract_priority (GObject *source_object, GAsyncResul
       goto out;
     }
 
+  g_application_hold (G_APPLICATION (self));
   tracker_extract_priority_call_set_rdf_types (priv->extract_priority,
                                                rdf_types,
                                                priv->create_window_cancellable,
                                                photos_application_tracker_set_rdf_types,
-                                               g_object_ref (self));
+                                               self);
 
  out:
-  g_object_unref (self);
+  g_application_release (G_APPLICATION (self));
 }
 
 
@@ -421,13 +425,14 @@ photos_application_create_window (PhotosApplication *self)
   priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
   g_signal_connect_swapped (priv->main_window, "destroy", G_CALLBACK (photos_application_destroy), self);
 
+  g_application_hold (G_APPLICATION (self));
   tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
                                               G_DBUS_PROXY_FLAGS_NONE,
                                               "org.freedesktop.Tracker1.Miner.Extract",
                                               "/org/freedesktop/Tracker1/Extract/Priority",
                                               priv->create_window_cancellable,
                                               photos_application_tracker_extract_priority,
-                                              g_object_ref (self));
+                                              self);
 
   photos_application_start_miners (self);
 }
@@ -465,7 +470,7 @@ photos_application_activate_query_executed (TrackerSparqlCursor *cursor, gpointe
   photos_application_activate_item (self, item);
 
  out:
-  g_object_unref (self);
+  g_application_release (G_APPLICATION (self));
 }
 
 
@@ -488,11 +493,12 @@ photos_application_activate_result (PhotosApplication *self,
       PhotosSingleItemJob *job;
 
       job = photos_single_item_job_new (identifier);
+      g_application_hold (G_APPLICATION (self));
       photos_single_item_job_run (job,
                                   priv->state,
                                   PHOTOS_QUERY_FLAGS_UNFILTERED,
                                   photos_application_activate_query_executed,
-                                  g_object_ref (self));
+                                  self);
       g_object_unref (job);
     }
 }
@@ -525,7 +531,7 @@ photos_application_edit_cancel_process (GObject *source_object, GAsyncResult *re
 
   /* Go back, no matter what. */
   photos_mode_controller_go_back (self->priv->state->mode_cntrlr);
-  g_object_unref (self);
+  g_application_release (G_APPLICATION (self));
 }
 
 
@@ -541,7 +547,8 @@ photos_application_edit_cancel (PhotosApplication *self)
   while (photos_base_item_operation_undo (item))
     ;
 
-  photos_base_item_process_async (item, NULL, photos_application_edit_cancel_process, g_object_ref (self));
+  g_application_hold (G_APPLICATION (self));
+  photos_base_item_process_async (item, NULL, photos_application_edit_cancel_process, self);
 }
 
 
@@ -692,7 +699,7 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
                                                        (GDestroyNotify) photos_application_refresh_data_free);
 
  out:
-  g_object_unref (self);
+  g_application_release (G_APPLICATION (self));
   g_object_unref (miner);
 }
 
@@ -712,7 +719,8 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
 
   cancellable = g_cancellable_new ();
   g_object_set_data_full (G_OBJECT (miner), "cancellable", cancellable, g_object_unref);
-  gom_miner_call_refresh_db (miner, index_types, cancellable, photos_application_refresh_db, g_object_ref (self));
+  g_application_hold (G_APPLICATION (self));
+  gom_miner_call_refresh_db (miner, index_types, cancellable, photos_application_refresh_db, self);
 }
 
 
@@ -777,7 +785,7 @@ photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointe
   photos_mode_controller_go_back (self->priv->state->mode_cntrlr);
 
  out:
-  g_object_unref (self);
+  g_application_release (G_APPLICATION (self));
 }
 
 
@@ -834,7 +842,8 @@ photos_application_save (PhotosApplication *self)
 
   type = photos_utils_get_pixbuf_type_from_mime_type (mime_type);
 
-  photos_base_item_save_async (item, uri, type, NULL, photos_application_save_save, g_object_ref (self));
+  g_application_hold (G_APPLICATION (self));
+  photos_base_item_save_async (item, uri, type, NULL, photos_application_save_save, self);
 
  out:
   if (now != NULL)
