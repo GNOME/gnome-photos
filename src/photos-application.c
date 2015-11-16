@@ -94,6 +94,7 @@ struct _PhotosApplicationPrivate
   PhotosSearchProvider *search_provider;
   TrackerExtractPriority *extract_priority;
   guint create_miners_count;
+  guint refresh_miner_id;
   guint32 activation_timestamp;
   gulong source_added_id;
   gulong source_removed_id;
@@ -257,6 +258,12 @@ photos_application_destroy (PhotosApplication *self)
   PhotosApplicationPrivate *priv = self->priv;
 
   priv->main_window = NULL;
+
+  if (priv->refresh_miner_id != 0)
+    {
+      g_source_remove (priv->refresh_miner_id);
+      priv->refresh_miner_id = 0;
+    }
 
   g_cancellable_cancel (priv->create_window_cancellable);
   g_clear_object (&priv->create_window_cancellable);
@@ -646,8 +653,10 @@ static gboolean
 photos_application_refresh_miner_timeout (gpointer user_data)
 {
   PhotosApplicationRefreshData *data = (PhotosApplicationRefreshData *) user_data;
+  PhotosApplication *self = data->application;
 
-  photos_application_refresh_miner_now (data->application, data->miner);
+  self->priv->refresh_miner_id = 0;
+  photos_application_refresh_miner_now (self, data->miner);
   return G_SOURCE_REMOVE;
 }
 
@@ -660,6 +669,8 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
   GError *error;
   GomMiner *miner = GOM_MINER (source_object);
   PhotosApplicationRefreshData *data;
+
+  g_assert (priv->refresh_miner_id == 0);
 
   priv->miners_running = g_list_remove (priv->miners_running, miner);
   g_signal_emit (self, signals[MINERS_CHANGED], 0, priv->miners_running);
@@ -674,11 +685,11 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
     }
 
   data = photos_application_refresh_data_new (self, miner);
-  g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
-                              MINER_REFRESH_TIMEOUT,
-                              photos_application_refresh_miner_timeout,
-                              data,
-                              (GDestroyNotify) photos_application_refresh_data_free);
+  priv->refresh_miner_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
+                                                       MINER_REFRESH_TIMEOUT,
+                                                       photos_application_refresh_miner_timeout,
+                                                       data,
+                                                       (GDestroyNotify) photos_application_refresh_data_free);
 
  out:
   g_object_unref (self);
@@ -1403,6 +1414,8 @@ photos_application_finalize (GObject *object)
   if (G_UNLIKELY (priv->create_miners_count != 0))
     g_critical ("Application is being destroyed while %u miner proxies are still being created.",
                 priv->create_miners_count);
+
+  g_assert (priv->refresh_miner_id == 0);
 
   G_OBJECT_CLASS (photos_application_parent_class)->finalize (object);
 }
