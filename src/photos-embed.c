@@ -333,7 +333,6 @@ photos_embed_load_finished (PhotosEmbed *self, PhotosBaseItem *item, GeglNode *n
 {
   PhotosEmbedPrivate *priv = self->priv;
 
-  photos_main_toolbar_set_cancellable (PHOTOS_MAIN_TOOLBAR (priv->toolbar), NULL);
   photos_embed_clear_load_timer (self);
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (priv->spinner_box));
 
@@ -360,11 +359,8 @@ photos_embed_load_show_timeout (gpointer user_data)
 
 
 static void
-photos_embed_load_started (PhotosEmbed *self, PhotosBaseItem *item, GCancellable *cancellable)
+photos_embed_load_started (PhotosEmbed *self, PhotosBaseItem *item)
 {
-  PhotosEmbedPrivate *priv = self->priv;
-
-  photos_main_toolbar_set_cancellable (PHOTOS_MAIN_TOOLBAR (priv->toolbar), cancellable);
   photos_embed_clear_load_timer (self);
   self->priv->load_show_id = g_timeout_add (400, photos_embed_load_show_timeout, g_object_ref (self));
 }

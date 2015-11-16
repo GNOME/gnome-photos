@@ -383,7 +383,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
                                    photos_item_manager_item_load,
                                    g_object_ref (self));
 
-      g_signal_emit (self, signals[LOAD_STARTED], 0, PHOTOS_BASE_ITEM (object), self->loader_cancellable);
+      g_signal_emit (self, signals[LOAD_STARTED], 0, PHOTOS_BASE_ITEM (object));
 
       if (window_mode_changed)
         g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, PHOTOS_WINDOW_MODE_PREVIEW, old_mode);
@@ -515,11 +515,10 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
                                                          load_started),
                                         NULL, /*accumulator */
                                         NULL, /*accu_data */
-                                        g_cclosure_marshal_generic,
+                                        g_cclosure_marshal_VOID__OBJECT,
                                         G_TYPE_NONE,
-                                        2,
-                                        PHOTOS_TYPE_BASE_ITEM,
-                                        G_TYPE_CANCELLABLE);
+                                        1,
+                                        PHOTOS_TYPE_BASE_ITEM);
 
   signals[WINDOW_MODE_CHANGED] = g_signal_new ("window-mode-changed",
                                                G_TYPE_FROM_CLASS (class),
