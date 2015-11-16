@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-photos 3.15.x\n"
+"Project-Id-Version: gnome-photos 3.19.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-19 20:57+0100\n"
-"PO-Revision-Date: 2015-03-19 20:58+0100\n"
+"POT-Creation-Date: 2015-11-16 07:13+0100\n"
+"PO-Revision-Date: 2015-11-16 07:15+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -18,12 +18,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:717
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Bilder"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Se på, organiser og del bilder i GNOME"
 
@@ -103,100 +103,11 @@ msgstr "Vindu maksimert"
 msgid "Window maximized state"
 msgstr "Maksimert tilstand for vindu"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%a, %d %B %Y  %X"
-
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%a, %B %d %Y"
-
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f (linse)"
-
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f (35mm film)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "Transformering på bilde som ikke er lastet inn."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "Transformering mislyktes."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "EXIF støttes ikke for dette filformatet."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "Lasting av bilde mislyktes."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "Ingen bilder åpnet."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "Du har ikke tilstrekkelige rettigheter til å lagre filen."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "Feil ved oppretting av midlertidig fil."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "Minst to filnavn er like."
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "Klarte ikke å vise hjelp for bildevisning"
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (ugyldig Unicode)"
-
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Fullskjerm"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "_Hjelp"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "Om"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "Avslutt"
-
-#: ../src/photos-base-item.c:434
+#: ../src/photos-base-item.c:448
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:886
+#: ../src/photos-base-item.c:1119
 msgid "Screenshots"
 msgstr "Skjermbilder"
 
@@ -220,19 +131,15 @@ msgstr "Angre"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-enheter for gjengivelse"
 
-#: ../src/photos-embed.c:621
-msgid "Recent"
-msgstr "Nylig brukt"
-
-#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:302
 msgid "Search"
 msgstr "Søk"
 
@@ -271,13 +178,13 @@ msgstr "Ingen bilder funnet"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:89
 #: ../src/photos-google-item.c:77
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:163
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Bilde uten tittel"
 
@@ -301,15 +208,15 @@ msgstr "Bildene blir indeksert"
 msgid "Some photos might not be available during this process"
 msgstr "Noen bilder vil kanskje ikke være tilgjengelige under denne prosessen"
 
-#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:103 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Lokalt"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:109
 msgid "Click on items to select them"
 msgstr "Klikk på oppføringer for å velge dem"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:111
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -320,59 +227,80 @@ msgstr[1] "%d valgt"
 msgid "Back"
 msgstr "Tilbake"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:318
 msgid "Select Items"
 msgstr "Velg oppføringer"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:423 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:329
 #, c-format
 msgid "Open with %s"
 msgstr "Åpne med %s"
 
-#: ../src/photos-main-toolbar.c:469 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:462 ../src/photos-selection-toolbar.c:340
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
 
-#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:467 ../src/photos-selection-toolbar.c:345
 msgid "Add to favorites"
 msgstr "Legg til i favoritter"
 
-#: ../src/photos-main-toolbar.c:644
+#: ../src/photos-main-toolbar.c:506 ../src/photos-main-toolbar.c:644
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ../src/photos-main-window.c:473
+#: ../src/photos-main-toolbar.c:510
+msgid "Done"
+msgstr "Ferdig"
+
+#: ../src/photos-main-window.c:480
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 msgstr ""
 "Opphavsrett © 2013 Intel Corporation. Alle rettigheter reserveres.\n"
 "Opphavsrett © 2014, 2015 Pranav Kant\n"
-"Opphavsrett 2012, 2013, 2014 Red Hat, Inc."
+"Opphavsrett 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:483
+#: ../src/photos-main-window.c:490
 msgid "translator-credits"
 msgstr "Kjartan Maraas <kmaraas@gnome.org>"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Fullskjerm"
+
+#: ../src/photos-menus.ui.h:2
+msgid "_Help"
+msgstr "_Hjelp"
+
+#: ../src/photos-menus.ui.h:3
+msgid "About"
+msgstr "Om"
+
+#: ../src/photos-menus.ui.h:4
+msgid "Quit"
+msgstr "Avslutt"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "_Legg til"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_OK"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organiser"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:332
 #: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Åpne"
@@ -381,20 +309,24 @@ msgstr "Åpne"
 msgid "Print…"
 msgstr "Skriv ut …"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-preview-menu.ui.h:3 ../src/photos-selection-toolbar.c:471
+msgid "Delete"
+msgstr "Slett"
+
+#: ../src/photos-preview-menu.ui.h:4
 msgid "Display on…"
 msgstr "Vis på …"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Set as Background"
 msgstr "Bruk som bakgrunn"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Lock Screen"
 msgstr "Bruk som låseskjerm"
 
-#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
-#: ../src/photos-selection-toolbar.c:478
+#: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
+#: ../src/photos-selection-toolbar.c:475
 msgid "Properties"
 msgstr "Egenskaper"
 
@@ -407,75 +339,75 @@ msgstr "Skriver ut «%s»: %s"
 msgid "Image Settings"
 msgstr "Innstillinger for bilde"
 
-#: ../src/photos-print-setup.c:906
+#: ../src/photos-print-setup.c:904
 msgid "Position"
 msgstr "Posisjon"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:907
 msgid "_Left:"
 msgstr "_Venstre:"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:908
 msgid "_Right:"
 msgstr "Høy_re:"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:909
 msgid "_Top:"
 msgstr "_Topp:"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:910
 msgid "_Bottom:"
 msgstr "_Bunn:"
 
-#: ../src/photos-print-setup.c:914
+#: ../src/photos-print-setup.c:912
 msgid "C_enter:"
 msgstr "S_enter:"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:88
 msgid "None"
 msgstr "Ingen"
 
-#: ../src/photos-print-setup.c:919
+#: ../src/photos-print-setup.c:917
 msgid "Horizontal"
 msgstr "Horisontal"
 
-#: ../src/photos-print-setup.c:920
+#: ../src/photos-print-setup.c:918
 msgid "Vertical"
 msgstr "Vertikal"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "Begge"
 
-#: ../src/photos-print-setup.c:934
+#: ../src/photos-print-setup.c:932
 msgid "Size"
 msgstr "Størrelse"
 
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:935
 msgid "_Width:"
 msgstr "_Bredde:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:936
 msgid "_Height:"
 msgstr "_Høyde:"
 
-#: ../src/photos-print-setup.c:940
+#: ../src/photos-print-setup.c:938
 msgid "_Scaling:"
 msgstr "_Skalering:"
 
-#: ../src/photos-print-setup.c:949
+#: ../src/photos-print-setup.c:947
 msgid "_Unit:"
 msgstr "_Enhet:"
 
-#: ../src/photos-print-setup.c:953
+#: ../src/photos-print-setup.c:951
 msgid "Millimeters"
 msgstr "Millimeter"
 
-#: ../src/photos-print-setup.c:954
+#: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Tommer"
 
-#: ../src/photos-print-setup.c:982
+#: ../src/photos-print-setup.c:980
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
@@ -556,7 +488,7 @@ msgid "On, fired"
 msgstr "På, fyrte"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
 msgid "All"
 msgstr "Alle"
 
@@ -599,18 +531,98 @@ msgstr "Velg ingen"
 msgid "Print"
 msgstr "Skriv ut"
 
-#: ../src/photos-selection-toolbar.c:471
-msgid "Delete"
-msgstr "Slett"
-
-#: ../src/photos-selection-toolbar.c:485
+#: ../src/photos-selection-toolbar.c:482
 msgid "Add to Album"
 msgstr "Legg til i album"
 
-#: ../src/photos-source-manager.c:174
+#: ../src/photos-source-manager.c:205
 msgid "Sources"
 msgstr "Kilder"
 
-#: ../src/photos-tracker-controller.c:97
+#: ../src/photos-tool-colors.c:193
+msgid "Brightness"
+msgstr "Lysstyrke"
+
+#: ../src/photos-tool-colors.c:214
+msgid "Contrast"
+msgstr "Kontrast"
+
+#: ../src/photos-tool-colors.c:241
+msgid "Colors"
+msgstr "Farger"
+
+#: ../src/photos-tool-crop.c:126
+msgid "Free"
+msgstr "Ledig"
+
+#: ../src/photos-tool-crop.c:127
+msgid "Original Size"
+msgstr "Opprinnelig størrelse"
+
+#: ../src/photos-tool-crop.c:128
+msgid "Screen"
+msgstr "Skjerm"
+
+#: ../src/photos-tool-crop.c:129
+msgid "Golden Cut"
+msgstr "Det gylne snitt"
+
+#: ../src/photos-tool-crop.c:130
+msgid "Square"
+msgstr "Firkant"
+
+#: ../src/photos-tool-crop.c:131
+msgid "A3 (297 × 420 mm)"
+msgstr "A3 (297 × 420 mm)"
+
+#: ../src/photos-tool-crop.c:132
+msgid "A4 (210 × 297 mm)"
+msgstr "A4 (210 × 297 mm)"
+
+#: ../src/photos-tool-crop.c:1106
+msgid "Reset"
+msgstr "Nullstill"
+
+#: ../src/photos-tool-crop.c:1127
+msgid "Crop"
+msgstr "Beskjær"
+
+#: ../src/photos-tool-enhance.c:205
+msgid "Sharpen"
+msgstr "Skarpere"
+
+#: ../src/photos-tool-enhance.c:225
+msgid "Denoise"
+msgstr "Mindre støy"
+
+#: ../src/photos-tool-enhance.c:251
+msgid "Enhance"
+msgstr "Forbedre"
+
+#: ../src/photos-tool-filters.c:94
+msgid "1977"
+msgstr "1977"
+
+#: ../src/photos-tool-filters.c:101
+msgid "Brannan"
+msgstr "Brannan"
+
+#: ../src/photos-tool-filters.c:107
+msgid "Gotham"
+msgstr "Gotham"
+
+#: ../src/photos-tool-filters.c:114
+msgid "Gray"
+msgstr "Grå"
+
+#: ../src/photos-tool-filters.c:120
+msgid "Nashville"
+msgstr "Nashville"
+
+#: ../src/photos-tool-filters.c:136
+msgid "Filters"
+msgstr "Filtre"
+
+#: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Klarte ikke å hente liste med bilder"
