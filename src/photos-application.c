@@ -1411,10 +1411,7 @@ photos_application_finalize (GObject *object)
   PhotosApplication *self = PHOTOS_APPLICATION (object);
   PhotosApplicationPrivate *priv = self->priv;
 
-  if (G_UNLIKELY (priv->create_miners_count != 0))
-    g_critical ("Application is being destroyed while %u miner proxies are still being created.",
-                priv->create_miners_count);
-
+  g_assert (priv->create_miners_count == 0);
   g_assert (priv->refresh_miner_id == 0);
 
   G_OBJECT_CLASS (photos_application_parent_class)->finalize (object);
