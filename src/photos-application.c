@@ -145,7 +145,7 @@ struct _PhotosApplicationRefreshData
   GomMiner *miner;
 };
 
-static gboolean photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner);
+static void photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner);
 static void photos_application_start_miners (PhotosApplication *self);
 static void photos_application_start_miners_second (PhotosApplication *self);
 static void photos_application_stop_miners (PhotosApplication *self);
@@ -646,7 +646,9 @@ static gboolean
 photos_application_refresh_miner_timeout (gpointer user_data)
 {
   PhotosApplicationRefreshData *data = (PhotosApplicationRefreshData *) user_data;
-  return photos_application_refresh_miner_now (data->application, data->miner);
+
+  photos_application_refresh_miner_now (data->application, data->miner);
+  return G_SOURCE_REMOVE;
 }
 
 
@@ -684,7 +686,7 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
 }
 
 
-static gboolean
+static void
 photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
 {
   PhotosApplicationPrivate *priv = self->priv;
@@ -692,7 +694,7 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
   const gchar *const index_types[] = {"photos", NULL};
 
   if (g_getenv ("GNOME_PHOTOS_DISABLE_MINERS") != NULL)
-    goto out;
+    return;
 
   priv->miners_running = g_list_prepend (priv->miners_running, g_object_ref (miner));
   g_signal_emit (self, signals[MINERS_CHANGED], 0, priv->miners_running);
@@ -700,9 +702,6 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
   cancellable = g_cancellable_new ();
   g_object_set_data_full (G_OBJECT (miner), "cancellable", cancellable, g_object_unref);
   gom_miner_call_refresh_db (miner, index_types, cancellable, photos_application_refresh_db, g_object_ref (self));
-
- out:
-  return G_SOURCE_REMOVE;
 }
 
 
