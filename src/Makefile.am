@@ -241,6 +241,7 @@ EXTRA_DIST = \
 	photos-generate-about \
 	photos.gresource.xml \
 	photos-dlna-renderers-dialog.ui \
+	photos-help-overlay.ui \
 	photos-marshalers.list \
 	photos-menus.ui \
 	photos-preview-menu.ui \

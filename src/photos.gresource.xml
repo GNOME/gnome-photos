@@ -14,6 +14,7 @@
   </gresource>
 
   <gresource prefix="/org/gnome/Photos/gtk">
+    <file alias="help-overlay.ui" preprocess="xml-stripblanks" compressed="true">photos-help-overlay.ui</file>
     <file alias="menus.ui" preprocess="xml-stripblanks" compressed="true">photos-menus.ui</file>
   </gresource>
 

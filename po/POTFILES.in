@@ -13,6 +13,7 @@ src/photos-facebook-item.c
 src/photos-fetch-metas-job.c
 src/photos-flickr-item.c
 src/photos-google-item.c
+[type: gettext/glade]src/photos-help-overlay.ui
 src/photos-indexing-notification.c
 src/photos-local-item.c
 src/photos-main-toolbar.c
