@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-10-31 09:50+0000\n"
-"PO-Revision-Date: 2015-10-31 13:38+0200\n"
+"POT-Creation-Date: 2015-11-18 09:53+0000\n"
+"PO-Revision-Date: 2015-11-18 16:57+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -20,12 +20,12 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:709
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:717
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Kuvat"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:477
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Hallitse ja jaa kuviasi"
 
@@ -104,11 +104,11 @@ msgstr "Suurennettu ikkuna"
 msgid "Window maximized state"
 msgstr "Suurennetun ikkunan tila"
 
-#: ../src/photos-base-item.c:441
+#: ../src/photos-base-item.c:448
 msgid "Album"
 msgstr "Albumi"
 
-#: ../src/photos-base-item.c:893
+#: ../src/photos-base-item.c:1119
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
@@ -132,15 +132,15 @@ msgstr "Kumoa"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA Renderer -laitteet"
 
-#: ../src/photos-embed.c:716 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumit"
 
-#: ../src/photos-embed.c:723 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Suosikit"
 
-#: ../src/photos-embed.c:730 ../src/photos-main-toolbar.c:302
+#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:302
 msgid "Search"
 msgstr "Etsi"
 
@@ -179,7 +179,7 @@ msgstr "Kuvia ei löytynyt"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:89
 #: ../src/photos-google-item.c:77
 #, c-format
 msgid "%s — %s"
@@ -210,7 +210,7 @@ msgid "Some photos might not be available during this process"
 msgstr ""
 "Jotkin kuvat eivät välttämättä ole käytettävissä tämän toimenpiteen aikana"
 
-#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:103 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Paikallinen"
 
@@ -233,29 +233,30 @@ msgstr "Takaisin"
 msgid "Select Items"
 msgstr "Valitse kohteet"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:422 ../src/photos-selection-toolbar.c:331
+#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:329
 #, c-format
 msgid "Open with %s"
 msgstr "Avaa sovelluksella %s"
 
-#: ../src/photos-main-toolbar.c:463 ../src/photos-selection-toolbar.c:342
+#: ../src/photos-main-toolbar.c:462 ../src/photos-selection-toolbar.c:340
 msgid "Remove from favorites"
 msgstr "Poista suosikeista"
 
-#: ../src/photos-main-toolbar.c:468 ../src/photos-selection-toolbar.c:347
+#: ../src/photos-main-toolbar.c:467 ../src/photos-selection-toolbar.c:345
 msgid "Add to favorites"
 msgstr "Lisää suosikkeihin"
 
-#: ../src/photos-main-toolbar.c:618
+#: ../src/photos-main-toolbar.c:506 ../src/photos-main-toolbar.c:644
 msgid "Cancel"
 msgstr "Peru"
 
-#: ../src/photos-main-window.c:478
-#| msgid ""
-#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#| "Copyright © 2014, 2015 Pranav Kant\n"
-#| "Copyright © 2012, 2013, 2014 Red Hat, Inc."
+#: ../src/photos-main-toolbar.c:510
+msgid "Done"
+msgstr "Valmis"
+
+#: ../src/photos-main-window.c:480
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -266,7 +267,7 @@ msgstr ""
 "Tekijänoikeus © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:488
+#: ../src/photos-main-window.c:490
 msgid "translator-credits"
 msgstr "Jiri Grönroos"
 
@@ -301,8 +302,8 @@ msgid "Organize"
 msgstr "Järjestä"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
-#: ../src/photos-selection-toolbar.c:459
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:332
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Avaa"
 
@@ -310,7 +311,7 @@ msgstr "Avaa"
 msgid "Print…"
 msgstr "Tulosta…"
 
-#: ../src/photos-preview-menu.ui.h:3 ../src/photos-selection-toolbar.c:473
+#: ../src/photos-preview-menu.ui.h:3 ../src/photos-selection-toolbar.c:471
 msgid "Delete"
 msgstr "Poista"
 
@@ -327,7 +328,7 @@ msgid "Set as Lock Screen"
 msgstr "Aseta lukitusnäytön taustaksi"
 
 #: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
-#: ../src/photos-selection-toolbar.c:477
+#: ../src/photos-selection-toolbar.c:475
 msgid "Properties"
 msgstr "Ominaisuudet"
 
@@ -364,7 +365,7 @@ msgstr "_Ala:"
 msgid "C_enter:"
 msgstr "_Keski:"
 
-#: ../src/photos-print-setup.c:916
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:88
 msgid "None"
 msgstr "Ei mitään"
 
@@ -528,17 +529,106 @@ msgstr "Valitse kaikki"
 msgid "Select None"
 msgstr "Älä valitse mitään"
 
-#: ../src/photos-selection-toolbar.c:466
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "Tulosta"
 
-#: ../src/photos-selection-toolbar.c:484
+#: ../src/photos-selection-toolbar.c:482
 msgid "Add to Album"
 msgstr "Lisää albumiin"
 
 #: ../src/photos-source-manager.c:205
 msgid "Sources"
 msgstr "Lähteet"
+
+#: ../src/photos-tool-colors.c:193
+msgid "Brightness"
+msgstr "Valoisuus"
+
+#: ../src/photos-tool-colors.c:214
+msgid "Contrast"
+msgstr "Kontrasti"
+
+#: ../src/photos-tool-colors.c:241
+msgid "Colors"
+msgstr "Värit"
+
+#: ../src/photos-tool-crop.c:126
+msgid "Free"
+msgstr ""
+
+#: ../src/photos-tool-crop.c:127
+msgid "Original Size"
+msgstr "Alkuperäinen koko"
+
+#: ../src/photos-tool-crop.c:128
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screen"
+msgstr "Kuvakaappaukset"
+
+#: ../src/photos-tool-crop.c:129
+msgid "Golden Cut"
+msgstr ""
+
+#: ../src/photos-tool-crop.c:130
+msgid "Square"
+msgstr ""
+
+#: ../src/photos-tool-crop.c:131
+msgid "A3 (297 × 420 mm)"
+msgstr "A3 (297 × 420 mm)"
+
+#: ../src/photos-tool-crop.c:132
+msgid "A4 (210 × 297 mm)"
+msgstr "A4 (210 × 297 mm)"
+
+#: ../src/photos-tool-crop.c:1106
+msgid "Reset"
+msgstr "Palauta"
+
+#: ../src/photos-tool-crop.c:1127
+msgid "Crop"
+msgstr "Rajaa"
+
+#: ../src/photos-tool-enhance.c:205
+msgid "Sharpen"
+msgstr "Terävöitä"
+
+#: ../src/photos-tool-enhance.c:225
+msgid "Denoise"
+msgstr "Vähennä kohinaa"
+
+#: ../src/photos-tool-enhance.c:251
+#, fuzzy
+#| msgid "Cancel"
+msgid "Enhance"
+msgstr "Peru"
+
+#: ../src/photos-tool-filters.c:94
+msgid "1977"
+msgstr ""
+
+#: ../src/photos-tool-filters.c:101
+msgid "Brannan"
+msgstr ""
+
+#: ../src/photos-tool-filters.c:107
+msgid "Gotham"
+msgstr ""
+
+#: ../src/photos-tool-filters.c:114
+msgid "Gray"
+msgstr ""
+
+#: ../src/photos-tool-filters.c:120
+msgid "Nashville"
+msgstr ""
+
+#: ../src/photos-tool-filters.c:136
+#| msgid "Millimeters"
+msgid "Filters"
+msgstr "Suodattimet"
 
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
@@ -620,9 +710,6 @@ msgstr "Kuvaluettelon hakeminen ei onnistunut"
 
 #~ msgid "Flickr"
 #~ msgstr "Flickr"
-
-#~ msgid "Done"
-#~ msgstr "Valmis"
 
 #~ msgid "About Photos"
 #~ msgstr "Tietoja - Kuvat"
