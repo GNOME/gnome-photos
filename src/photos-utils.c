@@ -243,6 +243,33 @@ photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
 }
 
 
+GeglNode *
+photos_utils_create_orientation_node (GeglNode *parent, GQuark orientation)
+{
+  GeglNode *ret_val = NULL;
+  double degrees = 1.0;
+
+  if (orientation == PHOTOS_ORIENTATION_TOP)
+    goto out;
+
+  if (orientation == PHOTOS_ORIENTATION_BOTTOM)
+    degrees = -180.0;
+  else if (orientation == PHOTOS_ORIENTATION_LEFT)
+    degrees = -270.0;
+  else if (orientation == PHOTOS_ORIENTATION_RIGHT)
+    degrees = -90.0;
+
+  if (degrees < 0.0)
+    ret_val = gegl_node_new_child (parent, "operation", "gegl:rotate-on-center", "degrees", degrees, NULL);
+
+ out:
+  if (ret_val == NULL)
+    ret_val = gegl_node_new_child (parent, "operation", "gegl:nop", NULL);
+
+  return ret_val;
+}
+
+
 GdkPixbuf *
 photos_utils_create_pixbuf_from_node (GeglNode *node)
 {
@@ -930,6 +957,34 @@ photos_utils_icon_from_rdf_type (const gchar *type)
     ret_val = photos_utils_create_collection_icon (size, NULL);
 
   return ret_val;
+}
+
+
+GQuark
+photos_utils_orientation_bottom_quark (void)
+{
+  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-bottom");
+}
+
+
+GQuark
+photos_utils_orientation_left_quark (void)
+{
+  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-left");
+}
+
+
+GQuark
+photos_utils_orientation_right_quark (void)
+{
+  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-right");
+}
+
+
+GQuark
+photos_utils_orientation_top_quark (void)
+{
+  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-top");
 }
 
 

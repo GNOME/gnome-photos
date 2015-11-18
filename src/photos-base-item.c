@@ -68,6 +68,7 @@ struct _PhotosBaseItemPrivate
   GMutex mutex;
   GQuark equipment;
   GQuark flash;
+  GQuark orientation;
   PhotosCollectionIconWatcher *watcher;
   PhotosPipeline *pipeline;
   PhotosSelectionController *sel_cntrlr;
@@ -800,11 +801,13 @@ photos_base_item_load_buffer_async (PhotosBaseItem *self,
 
   if (priv->load_graph == NULL)
     {
+      GeglNode *orientation;
+
       priv->load_graph = gegl_node_new ();
       priv->load = gegl_node_new_child (priv->load_graph, "operation", "gegl:load", NULL);
+      orientation = photos_utils_create_orientation_node (priv->load_graph, priv->orientation);
       priv->buffer_sink = gegl_node_new_child (priv->load_graph, "operation", "gegl:buffer-sink", NULL);
-      gegl_node_link (priv->load, priv->buffer_sink);
-
+      gegl_node_link_many (priv->load, orientation, priv->buffer_sink, NULL);
     }
 
   if (priv->edit_graph == NULL)
@@ -1081,6 +1084,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   const gchar *equipment;
   const gchar *flash;
   const gchar *mtime;
+  const gchar *orientation;
   const gchar *title;
   const gchar *uri;
 
@@ -1131,6 +1135,9 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 
   equipment = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_EQUIPMENT, NULL);
   priv->equipment = g_quark_from_string (equipment);
+
+  orientation = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_ORIENTATION, NULL);
+  priv->orientation = g_quark_from_string (orientation);
 
   priv->exposure_time = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_EXPOSURE_TIME);
   priv->fnumber = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_FNUMBER);

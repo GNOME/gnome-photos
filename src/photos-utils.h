@@ -44,6 +44,10 @@ G_BEGIN_DECLS
 #define PHOTOS_ERROR (photos_utils_error_quark ())
 #define PHOTOS_FLASH_OFF (photos_utils_flash_off_quark ())
 #define PHOTOS_FLASH_ON (photos_utils_flash_on_quark ())
+#define PHOTOS_ORIENTATION_BOTTOM (photos_utils_orientation_bottom_quark ())
+#define PHOTOS_ORIENTATION_LEFT (photos_utils_orientation_left_quark ())
+#define PHOTOS_ORIENTATION_RIGHT (photos_utils_orientation_right_quark ())
+#define PHOTOS_ORIENTATION_TOP (photos_utils_orientation_top_quark ())
 
 #define PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME "photos-base-item"
 #define PHOTOS_TOOL_EXTENSION_POINT_NAME "photos-tool"
@@ -59,6 +63,8 @@ GdkPixbuf       *photos_utils_center_pixbuf               (GdkPixbuf *pixbuf, gi
 gchar           *photos_utils_convert_path_to_uri         (const gchar *path);
 
 GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
+
+GeglNode        *photos_utils_create_orientation_node     (GeglNode *parent, GQuark orientation);
 
 GdkPixbuf       *photos_utils_create_pixbuf_from_node     (GeglNode *node);
 
@@ -121,6 +127,14 @@ GtkBorder       *photos_utils_get_thumbnail_frame_border  (void);
 GList           *photos_utils_get_urns_from_paths         (GList *paths, GtkTreeModel *model);
 
 GIcon           *photos_utils_icon_from_rdf_type          (const gchar *type);
+
+GQuark           photos_utils_orientation_bottom_quark    (void);
+
+GQuark           photos_utils_orientation_left_quark      (void);
+
+GQuark           photos_utils_orientation_right_quark     (void);
+
+GQuark           photos_utils_orientation_top_quark       (void);
 
 void             photos_utils_set_edited_name             (const gchar *urn, const gchar *title);
 

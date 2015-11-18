@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -51,6 +51,7 @@ typedef enum
   PHOTOS_QUERY_COLUMNS_WIDTH,
   PHOTOS_QUERY_COLUMNS_HEIGHT,
   PHOTOS_QUERY_COLUMNS_EQUIPMENT,
+  PHOTOS_QUERY_COLUMNS_ORIENTATION,
   PHOTOS_QUERY_COLUMNS_EXPOSURE_TIME,
   PHOTOS_QUERY_COLUMNS_FNUMBER,
   PHOTOS_QUERY_COLUMNS_FOCAL_LENGTH,

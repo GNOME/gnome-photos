@@ -176,6 +176,7 @@ photos_query_builder_query (PhotosSearchContextState *state,
                         "nfo:width (?urn) "
                         "nfo:height (?urn) "
                         "nfo:equipment (?urn) "
+                        "nfo:orientation (?urn) "
                         "nmm:exposureTime (?urn) "
                         "nmm:fnumber (?urn) "
                         "nmm:focalLength (?urn) "
