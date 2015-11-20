@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-11-18 09:53+0000\n"
-"PO-Revision-Date: 2015-11-18 16:57+0200\n"
+"POT-Creation-Date: 2015-11-20 09:54+0000\n"
+"PO-Revision-Date: 2015-11-20 21:05+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:717
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:713
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Kuvat"
@@ -104,11 +104,11 @@ msgstr "Suurennettu ikkuna"
 msgid "Window maximized state"
 msgstr "Suurennetun ikkunan tila"
 
-#: ../src/photos-base-item.c:448
+#: ../src/photos-base-item.c:449
 msgid "Album"
 msgstr "Albumi"
 
-#: ../src/photos-base-item.c:1119
+#: ../src/photos-base-item.c:1123
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
@@ -132,15 +132,16 @@ msgstr "Kumoa"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA Renderer -laitteet"
 
-#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:720 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumit"
 
-#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:727 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Suosikit"
 
-#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:302
+#: ../src/photos-embed.c:734 ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Etsi"
 
@@ -189,6 +190,69 @@ msgstr "%s — %s"
 msgid "Untitled Photo"
 msgstr "Nimetön kuva"
 
+#: ../src/photos-help-overlay.ui.h:1
+msgid "General"
+msgstr "Yleiset"
+
+#: ../src/photos-help-overlay.ui.h:2
+msgid "Show help"
+msgstr "Näytä ohje"
+
+#: ../src/photos-help-overlay.ui.h:3 ../src/photos-menus.ui.h:5
+msgid "Quit"
+msgstr "Lopeta"
+
+#: ../src/photos-help-overlay.ui.h:4
+#| msgid "Print photos"
+msgid "Print the current photo"
+msgstr "Tulosta nykyinen kuva"
+
+#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-selection-toolbar.c:471
+msgid "Delete"
+msgstr "Poista"
+
+#: ../src/photos-help-overlay.ui.h:6
+msgid "Navigation"
+msgstr "Liikkuminen"
+
+#: ../src/photos-help-overlay.ui.h:7
+#| msgid "Print photos"
+msgid "Next photo"
+msgstr "Seuraava kuva"
+
+#: ../src/photos-help-overlay.ui.h:8
+#| msgid "Print photos"
+msgid "Previous photo"
+msgstr "Edellinen kuva"
+
+#: ../src/photos-help-overlay.ui.h:9
+msgid "Go back"
+msgstr "Takaisin"
+
+#: ../src/photos-help-overlay.ui.h:10
+#, fuzzy
+#| msgid "Preview"
+msgid "Overview"
+msgstr "Esikatsele"
+
+#: ../src/photos-help-overlay.ui.h:12
+#| msgid "Select All"
+msgid "Select all"
+msgstr "Valitse kaikki"
+
+#: ../src/photos-help-overlay.ui.h:13 ../src/photos-print-setup.c:980
+msgid "Preview"
+msgstr "Esikatsele"
+
+#: ../src/photos-help-overlay.ui.h:14
+msgid "Action menu"
+msgstr "Toimintovalikko"
+
+#: ../src/photos-help-overlay.ui.h:15 ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Koko näyttö"
+
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
 #.
@@ -214,45 +278,45 @@ msgstr ""
 msgid "Local"
 msgstr "Paikallinen"
 
-#: ../src/photos-main-toolbar.c:109
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Napsauta kohteita valitaksesi ne"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valittu"
 msgstr[1] "%d valittu"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Takaisin"
 
-#: ../src/photos-main-toolbar.c:318
+#: ../src/photos-main-toolbar.c:317
 msgid "Select Items"
 msgstr "Valitse kohteet"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:329
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:329
 #, c-format
 msgid "Open with %s"
 msgstr "Avaa sovelluksella %s"
 
-#: ../src/photos-main-toolbar.c:462 ../src/photos-selection-toolbar.c:340
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:340
 msgid "Remove from favorites"
 msgstr "Poista suosikeista"
 
-#: ../src/photos-main-toolbar.c:467 ../src/photos-selection-toolbar.c:345
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:345
 msgid "Add to favorites"
 msgstr "Lisää suosikkeihin"
 
-#: ../src/photos-main-toolbar.c:506 ../src/photos-main-toolbar.c:644
+#: ../src/photos-main-toolbar.c:500 ../src/photos-main-toolbar.c:638
 msgid "Cancel"
 msgstr "Peru"
 
-#: ../src/photos-main-toolbar.c:510
+#: ../src/photos-main-toolbar.c:504
 msgid "Done"
 msgstr "Valmis"
 
@@ -271,21 +335,17 @@ msgstr ""
 msgid "translator-credits"
 msgstr "Jiri Grönroos"
 
-#: ../src/photos-menus.ui.h:1
-msgid "Fullscreen"
-msgstr "Koko näyttö"
-
 #: ../src/photos-menus.ui.h:2
+msgid "Keyboard Shortcuts"
+msgstr "Pikanäppäimet"
+
+#: ../src/photos-menus.ui.h:3
 msgid "_Help"
 msgstr "O_hje"
 
-#: ../src/photos-menus.ui.h:3
+#: ../src/photos-menus.ui.h:4
 msgid "About"
 msgstr "Tietoja"
-
-#: ../src/photos-menus.ui.h:4
-msgid "Quit"
-msgstr "Lopeta"
 
 #: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
@@ -310,10 +370,6 @@ msgstr "Avaa"
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Print…"
 msgstr "Tulosta…"
-
-#: ../src/photos-preview-menu.ui.h:3 ../src/photos-selection-toolbar.c:471
-msgid "Delete"
-msgstr "Poista"
 
 #: ../src/photos-preview-menu.ui.h:4
 msgid "Display on…"
@@ -408,10 +464,6 @@ msgstr "Millimetrit"
 #: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Tuumat"
-
-#: ../src/photos-print-setup.c:980
-msgid "Preview"
-msgstr "Esikatsele"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
@@ -600,10 +652,9 @@ msgid "Denoise"
 msgstr "Vähennä kohinaa"
 
 #: ../src/photos-tool-enhance.c:251
-#, fuzzy
 #| msgid "Cancel"
 msgid "Enhance"
-msgstr "Peru"
+msgstr "Paranna"
 
 #: ../src/photos-tool-filters.c:94
 msgid "1977"
@@ -626,7 +677,6 @@ msgid "Nashville"
 msgstr ""
 
 #: ../src/photos-tool-filters.c:136
-#| msgid "Millimeters"
 msgid "Filters"
 msgstr "Suodattimet"
 
