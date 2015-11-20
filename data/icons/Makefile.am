@@ -14,8 +14,11 @@ public_icons = \
 
 noinst_DATA = \
 	hicolor_gnome-photos.svg \
+	image-adjust-color-symbolic.svg \
+	image-auto-adjust-symbolic.svg \
 	image-crop-symbolic.svg \
 	image-denoise-symbolic.svg \
+	image-edit-symbolic.svg \
 	image-filter-symbolic.svg \
 	image-sharpen-symbolic.svg \
 	$(NULL)
