@@ -7,10 +7,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-11-13 21:49+0000\n"
-"PO-Revision-Date: 2015-11-14 08:09+0000\n"
-"Last-Translator: <>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-11-19 09:50+0000\n"
+"PO-Revision-Date: 2015-11-21 09:14+0000\n"
+"Last-Translator:  <>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +23,7 @@ msgstr ""
 "X-Source-Language: C\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:717
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:713
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Fotografias"
@@ -107,11 +108,11 @@ msgstr "Janela maximizada"
 msgid "Window maximized state"
 msgstr "Estado maximizado da janela"
 
-#: ../src/photos-base-item.c:448
+#: ../src/photos-base-item.c:449
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:1119
+#: ../src/photos-base-item.c:1123
 msgid "Screenshots"
 msgstr "Capturas de ecrã"
 
@@ -135,15 +136,16 @@ msgstr "Desfazer"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos DLNA de composição de imagens"
 
-#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:720 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Álbuns"
 
-#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:727 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:302
+#: ../src/photos-embed.c:734 ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Procurar"
 
@@ -192,6 +194,63 @@ msgstr "%s — %s"
 msgid "Untitled Photo"
 msgstr "Fotografia sem nome"
 
+#: ../src/photos-help-overlay.ui.h:1
+msgid "General"
+msgstr "Geral"
+
+#: ../src/photos-help-overlay.ui.h:2
+msgid "Show help"
+msgstr "Mostrar ajuda"
+
+#: ../src/photos-help-overlay.ui.h:3 ../src/photos-menus.ui.h:5
+msgid "Quit"
+msgstr "Sair"
+
+#: ../src/photos-help-overlay.ui.h:4
+msgid "Print the current photo"
+msgstr "Imprimir fotografia atual"
+
+#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-selection-toolbar.c:471
+msgid "Delete"
+msgstr "Eliminar"
+
+#: ../src/photos-help-overlay.ui.h:6
+msgid "Navigation"
+msgstr "Navegação"
+
+#: ../src/photos-help-overlay.ui.h:7
+msgid "Next photo"
+msgstr "Fotografia seguinte"
+
+#: ../src/photos-help-overlay.ui.h:8
+msgid "Previous photo"
+msgstr "Fotografia anterior"
+
+#: ../src/photos-help-overlay.ui.h:9
+msgid "Go back"
+msgstr "Recuar"
+
+#: ../src/photos-help-overlay.ui.h:10
+msgid "Overview"
+msgstr "Visão geral"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgid "Select all"
+msgstr "Selecionar tudo"
+
+#: ../src/photos-help-overlay.ui.h:13 ../src/photos-print-setup.c:980
+msgid "Preview"
+msgstr "Antever"
+
+#: ../src/photos-help-overlay.ui.h:14
+msgid "Action menu"
+msgstr "Menu Ação"
+
+#: ../src/photos-help-overlay.ui.h:15 ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Ecrã completo"
+
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
 #.
@@ -216,45 +275,45 @@ msgstr "Algumas fotografias podem não estar disponíveis durante este processo"
 msgid "Local"
 msgstr "Local"
 
-#: ../src/photos-main-toolbar.c:109
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Clique nos itens para os selecionar"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d selecionada"
 msgstr[1] "%d selecionadas"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Recuar"
 
-#: ../src/photos-main-toolbar.c:318
+#: ../src/photos-main-toolbar.c:317
 msgid "Select Items"
 msgstr "Selecionar itens"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:329
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:329
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir com %s"
 
-#: ../src/photos-main-toolbar.c:462 ../src/photos-selection-toolbar.c:340
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:340
 msgid "Remove from favorites"
 msgstr "Remover dos favoritos"
 
-#: ../src/photos-main-toolbar.c:467 ../src/photos-selection-toolbar.c:345
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:345
 msgid "Add to favorites"
 msgstr "Adicionar aos favoritos"
 
-#: ../src/photos-main-toolbar.c:506 ../src/photos-main-toolbar.c:644
+#: ../src/photos-main-toolbar.c:500 ../src/photos-main-toolbar.c:638
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/photos-main-toolbar.c:510
+#: ../src/photos-main-toolbar.c:504
 msgid "Done"
 msgstr "Concluído"
 
@@ -276,21 +335,17 @@ msgstr ""
 "Tiago S. <almosthumane@portugalmail.pt>\n"
 "Pedro Albuquerque <palbuquerque73@gmail.com>"
 
-#: ../src/photos-menus.ui.h:1
-msgid "Fullscreen"
-msgstr "Ecrã completo"
-
 #: ../src/photos-menus.ui.h:2
+msgid "Keyboard Shortcuts"
+msgstr "Atalhos de teclado"
+
+#: ../src/photos-menus.ui.h:3
 msgid "_Help"
 msgstr "A_Juda"
 
-#: ../src/photos-menus.ui.h:3
+#: ../src/photos-menus.ui.h:4
 msgid "About"
 msgstr "Sobre"
-
-#: ../src/photos-menus.ui.h:4
-msgid "Quit"
-msgstr "Sair"
 
 #: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
@@ -315,10 +370,6 @@ msgstr "Abrir"
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Print…"
 msgstr "Imprimir..."
-
-#: ../src/photos-preview-menu.ui.h:3 ../src/photos-selection-toolbar.c:471
-msgid "Delete"
-msgstr "Eliminar"
 
 #: ../src/photos-preview-menu.ui.h:4
 msgid "Display on…"
@@ -413,10 +464,6 @@ msgstr "Milímetros"
 #: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Polegadas"
-
-#: ../src/photos-print-setup.c:980
-msgid "Preview"
-msgstr "Antever"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
@@ -567,7 +614,6 @@ msgid "Original Size"
 msgstr "Tamanho original"
 
 #: ../src/photos-tool-crop.c:128
-#| msgid "Screenshots"
 msgid "Screen"
 msgstr "Ecrã"
 
@@ -604,7 +650,6 @@ msgid "Denoise"
 msgstr "Remover ruído"
 
 #: ../src/photos-tool-enhance.c:251
-#| msgid "Cancel"
 msgid "Enhance"
 msgstr "Melhorar"
 
@@ -629,7 +674,6 @@ msgid "Nashville"
 msgstr "Nashville"
 
 #: ../src/photos-tool-filters.c:136
-#| msgid "Millimeters"
 msgid "Filters"
 msgstr "Filtros"
 
@@ -697,11 +741,11 @@ msgstr "Impossível obter a lista de fotografias"
 #~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
 #~ "opening full featured editor for more advanced changes</li>"
 #~ msgstr ""
-#~ "<li>Ver fotos locais e online</li> <li>Aceder ao seu conteúdo do "
-#~ "Flickr</li> <li>Enviar fotos para renderizadores DLNA remotos</li> "
-#~ "<li>Definir como fundo</li> <li>Imprimir fotos</li> <li>Selecionar "
-#~ "favoritas</li> <li>Permitir abrir um editor com mais funcionalidades para "
-#~ "alterações avançadas</li>"
+#~ "<li>Ver fotos locais e online</li> <li>Aceder ao seu conteúdo do Flickr</"
+#~ "li> <li>Enviar fotos para renderizadores DLNA remotos</li> <li>Definir "
+#~ "como fundo</li> <li>Imprimir fotos</li> <li>Selecionar favoritas</li> "
+#~ "<li>Permitir abrir um editor com mais funcionalidades para alterações "
+#~ "avançadas</li>"
 
 #~ msgid "Facebook"
 #~ msgstr "Facebook"
