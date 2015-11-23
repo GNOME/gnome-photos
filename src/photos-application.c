@@ -60,6 +60,7 @@
 struct _PhotosApplicationPrivate
 {
   GCancellable *create_window_cancellable;
+  GHashTable *refresh_miner_ids;
   GList *miners;
   GList *miners_running;
   GResource *resource;
@@ -94,7 +95,6 @@ struct _PhotosApplicationPrivate
   PhotosSearchProvider *search_provider;
   TrackerExtractPriority *extract_priority;
   guint create_miners_count;
-  guint refresh_miner_id;
   guint32 activation_timestamp;
   gulong source_added_id;
   gulong source_removed_id;
@@ -258,14 +258,19 @@ static void
 photos_application_destroy (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
+  GHashTableIter iter;
+  gpointer refresh_miner_id_data;
 
   priv->main_window = NULL;
 
-  if (priv->refresh_miner_id != 0)
+  g_hash_table_iter_init (&iter, priv->refresh_miner_ids);
+  while (g_hash_table_iter_next (&iter, NULL, &refresh_miner_id_data))
     {
-      g_source_remove (priv->refresh_miner_id);
-      priv->refresh_miner_id = 0;
+      guint refresh_miner_id = GPOINTER_TO_UINT (refresh_miner_id_data);
+      g_source_remove (refresh_miner_id);
     }
+
+  g_hash_table_remove_all (priv->refresh_miner_ids);
 
   g_cancellable_cancel (priv->create_window_cancellable);
   g_clear_object (&priv->create_window_cancellable);
@@ -662,7 +667,7 @@ photos_application_refresh_miner_timeout (gpointer user_data)
   PhotosApplicationRefreshData *data = (PhotosApplicationRefreshData *) user_data;
   PhotosApplication *self = data->application;
 
-  self->priv->refresh_miner_id = 0;
+  g_hash_table_remove (self->priv->refresh_miner_ids, data->miner);
   photos_application_refresh_miner_now (self, data->miner);
   return G_SOURCE_REMOVE;
 }
@@ -676,8 +681,11 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
   GError *error;
   GomMiner *miner = GOM_MINER (source_object);
   PhotosApplicationRefreshData *data;
+  gpointer refresh_miner_id_data;
+  guint refresh_miner_id;
 
-  g_assert (priv->refresh_miner_id == 0);
+  refresh_miner_id_data = g_hash_table_lookup (priv->refresh_miner_ids, miner);
+  g_assert_null (refresh_miner_id_data);
 
   priv->miners_running = g_list_remove (priv->miners_running, miner);
   g_signal_emit (self, signals[MINERS_CHANGED], 0, priv->miners_running);
@@ -692,11 +700,12 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
     }
 
   data = photos_application_refresh_data_new (self, miner);
-  priv->refresh_miner_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
-                                                       MINER_REFRESH_TIMEOUT,
-                                                       photos_application_refresh_miner_timeout,
-                                                       data,
-                                                       (GDestroyNotify) photos_application_refresh_data_free);
+  refresh_miner_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
+                                                 MINER_REFRESH_TIMEOUT,
+                                                 photos_application_refresh_miner_timeout,
+                                                 data,
+                                                 (GDestroyNotify) photos_application_refresh_data_free);
+  g_hash_table_insert (priv->refresh_miner_ids, miner, GUINT_TO_POINTER (refresh_miner_id));
 
  out:
   g_application_release (G_APPLICATION (self));
@@ -1118,6 +1127,14 @@ photos_application_dbus_unregister (GApplication *application,
 static void
 photos_application_shutdown (GApplication *application)
 {
+  PhotosApplication *self = PHOTOS_APPLICATION (application);
+  PhotosApplicationPrivate *priv = self->priv;
+  guint refresh_miner_ids_size;
+
+  refresh_miner_ids_size = g_hash_table_size (priv->refresh_miner_ids);
+  g_assert (refresh_miner_ids_size == 0);
+
+  g_clear_pointer (&priv->refresh_miner_ids, (GDestroyNotify) g_hash_table_unref);
   gegl_exit ();
 
   G_APPLICATION_CLASS (photos_application_parent_class)->shutdown (application);
@@ -1158,6 +1175,7 @@ photos_application_startup (GApplication *application)
     }
 
   priv->create_window_cancellable = g_cancellable_new ();
+  priv->refresh_miner_ids = g_hash_table_new (g_direct_hash, g_direct_equal);
 
   priv->bg_settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
   priv->ss_settings = g_settings_new (DESKTOP_SCREENSAVER_SCHEMA);
@@ -1418,10 +1436,8 @@ static void
 photos_application_finalize (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
-  PhotosApplicationPrivate *priv = self->priv;
 
-  g_assert (priv->create_miners_count == 0);
-  g_assert (priv->refresh_miner_id == 0);
+  g_assert (self->priv->create_miners_count == 0);
 
   G_OBJECT_CLASS (photos_application_parent_class)->finalize (object);
 }
