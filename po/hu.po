@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-10-25 09:51+0000\n"
-"PO-Revision-Date: 2015-10-25 19:22+0100\n"
+"POT-Creation-Date: 2015-11-22 21:50+0000\n"
+"PO-Revision-Date: 2015-11-23 08:48+0100\n"
 "Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -21,12 +21,12 @@ msgstr ""
 "X-Generator: Poedit 1.8.5\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:709
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:713
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Fényképek"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:474
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Fényképek elérése, rendszerezése és megosztása a GNOME-ban"
 
@@ -108,84 +108,11 @@ msgstr "Ablak teljes méretű"
 msgid "Window maximized state"
 msgstr "Az ablak maximalizált állapota"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%Y. %B %e. %a, %X"
-
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%Y. %B %e. %a"
-
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f (lencse)"
-
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f (35 mm film)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "Átalakítás a be nem töltött képen."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "Az átalakítás meghiúsult."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "Az EXIF nem támogatott ehhez a fájlformátumhoz."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "A kép betöltése meghiúsult."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "Nincs kép betöltve."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "Nem rendelkezik a fájl mentéséhez szükséges jogosultságokkal."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "Átmeneti fájl létrehozása sikertelen."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "Legalább két fájlnév azonos."
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "Nem sikerült megjeleníteni a Képmegjelenítő súgóját"
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (érvénytelen Unicode)"
-
-#: ../src/photos-base-item.c:434
+#: ../src/photos-base-item.c:449
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:886
+#: ../src/photos-base-item.c:1123
 msgid "Screenshots"
 msgstr "Képernyőképek"
 
@@ -209,15 +136,16 @@ msgstr "Visszavonás"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA megjelenítő eszközök"
 
-#: ../src/photos-embed.c:716 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:720 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumok"
 
-#: ../src/photos-embed.c:723 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:727 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Kedvencek"
 
-#: ../src/photos-embed.c:730 ../src/photos-main-toolbar.c:302
+#: ../src/photos-embed.c:734 ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Keresés"
 
@@ -256,7 +184,7 @@ msgstr "Nem találhatók fényképek"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:89
 #: ../src/photos-google-item.c:77
 #, c-format
 msgid "%s — %s"
@@ -265,6 +193,63 @@ msgstr "%s — %s"
 #: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Névtelen fénykép"
+
+#: ../src/photos-help-overlay.ui.h:1
+msgid "General"
+msgstr "Általános"
+
+#: ../src/photos-help-overlay.ui.h:2
+msgid "Show help"
+msgstr "Súgó megjelenítése"
+
+#: ../src/photos-help-overlay.ui.h:3 ../src/photos-menus.ui.h:5
+msgid "Quit"
+msgstr "Kilépés"
+
+#: ../src/photos-help-overlay.ui.h:4
+msgid "Print the current photo"
+msgstr "Jelenlegi fénykép nyomtatása"
+
+#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-selection-toolbar.c:471
+msgid "Delete"
+msgstr "Törlés"
+
+#: ../src/photos-help-overlay.ui.h:6
+msgid "Navigation"
+msgstr "Navigáció"
+
+#: ../src/photos-help-overlay.ui.h:7
+msgid "Next photo"
+msgstr "Következő fotó"
+
+#: ../src/photos-help-overlay.ui.h:8
+msgid "Previous photo"
+msgstr "Előző fotó"
+
+#: ../src/photos-help-overlay.ui.h:9
+msgid "Go back"
+msgstr "Vissza"
+
+#: ../src/photos-help-overlay.ui.h:10
+msgid "Overview"
+msgstr "Áttekintés"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgid "Select all"
+msgstr "Összes kijelölése"
+
+#: ../src/photos-help-overlay.ui.h:13 ../src/photos-print-setup.c:980
+msgid "Preview"
+msgstr "Előnézet"
+
+#: ../src/photos-help-overlay.ui.h:14
+msgid "Action menu"
+msgstr "Műveleti menü"
+
+#: ../src/photos-help-overlay.ui.h:15 ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Teljes képernyő"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -286,48 +271,53 @@ msgstr "A fényképei indexelése folyamatban"
 msgid "Some photos might not be available during this process"
 msgstr "Egyes fényképek lehet, hogy nem lesznek elérhetők ezen folyamat alatt"
 
-#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:103 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Helyi"
 
-#: ../src/photos-main-toolbar.c:109
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Kattintson az elemekre a kiválasztásukhoz"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d kiválasztva"
 msgstr[1] "%d kiválasztva"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Vissza"
 
-#: ../src/photos-main-toolbar.c:318
+#: ../src/photos-main-toolbar.c:317
 msgid "Select Items"
 msgstr "Válasszon elemeket"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:422 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:329
 #, c-format
 msgid "Open with %s"
 msgstr "Megnyitás ezzel: %s"
 
-#: ../src/photos-main-toolbar.c:463 ../src/photos-selection-toolbar.c:291
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:340
 msgid "Remove from favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
-#: ../src/photos-main-toolbar.c:468 ../src/photos-selection-toolbar.c:296
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:345
 msgid "Add to favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
-#: ../src/photos-main-toolbar.c:618
+#: ../src/photos-main-toolbar.c:500 ../src/photos-main-toolbar.c:638
 msgid "Cancel"
 msgstr "Mégse"
 
-#: ../src/photos-main-window.c:475
+#: ../src/photos-main-toolbar.c:504
+msgid "Done"
+msgstr "Kész"
+
+#: ../src/photos-main-window.c:480
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -338,27 +328,23 @@ msgstr ""
 "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:485
+#: ../src/photos-main-window.c:490
 msgid "translator-credits"
 msgstr ""
 "Úr Balázs <urbalazs at gmail dot com>, 2014.\n"
 "Meskó Balázs <meskobalazs at gmail dot com>, 2015."
 
-#: ../src/photos-menus.ui.h:1
-msgid "Fullscreen"
-msgstr "Teljes képernyő"
-
 #: ../src/photos-menus.ui.h:2
+msgid "Keyboard Shortcuts"
+msgstr "Gyorsbillentyűk"
+
+#: ../src/photos-menus.ui.h:3
 msgid "_Help"
 msgstr "_Súgó"
 
-#: ../src/photos-menus.ui.h:3
+#: ../src/photos-menus.ui.h:4
 msgid "About"
 msgstr "Névjegy"
-
-#: ../src/photos-menus.ui.h:4
-msgid "Quit"
-msgstr "Kilépés"
 
 #: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
@@ -375,8 +361,8 @@ msgid "Organize"
 msgstr "Rendszerezés"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
-#: ../src/photos-selection-toolbar.c:451
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:332
+#: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Megnyitás"
 
@@ -384,20 +370,20 @@ msgstr "Megnyitás"
 msgid "Print…"
 msgstr "Nyomtatás…"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-preview-menu.ui.h:4
 msgid "Display on…"
 msgstr "Megjelenítés ezen…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Set as Background"
 msgstr "Beállítás háttérként"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Lock Screen"
 msgstr "Beállítás zároló képernyőként"
 
-#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
+#: ../src/photos-selection-toolbar.c:475
 msgid "Properties"
 msgstr "Tulajdonságok"
 
@@ -434,7 +420,7 @@ msgstr "_Lent:"
 msgid "C_enter:"
 msgstr "_Középre:"
 
-#: ../src/photos-print-setup.c:916
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:88
 msgid "None"
 msgstr "Nincs"
 
@@ -477,10 +463,6 @@ msgstr "Milliméter"
 #: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Hüvelyk"
-
-#: ../src/photos-print-setup.c:980
-msgid "Preview"
-msgstr "Előnézet"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
@@ -598,15 +580,11 @@ msgstr "Összes kijelölése"
 msgid "Select None"
 msgstr "Kijelölés megszüntetése"
 
-#: ../src/photos-selection-toolbar.c:458
+#: ../src/photos-selection-toolbar.c:464
 msgid "Print"
 msgstr "Nyomtatás"
 
-#: ../src/photos-selection-toolbar.c:465
-msgid "Delete"
-msgstr "Törlés"
-
-#: ../src/photos-selection-toolbar.c:479
+#: ../src/photos-selection-toolbar.c:482
 msgid "Add to Album"
 msgstr "Hozzáadás az albumhoz"
 
@@ -614,9 +592,135 @@ msgstr "Hozzáadás az albumhoz"
 msgid "Sources"
 msgstr "Források"
 
+#: ../src/photos-tool-colors.c:193
+msgid "Brightness"
+msgstr "Fényerő"
+
+#: ../src/photos-tool-colors.c:214
+msgid "Contrast"
+msgstr "Kontraszt"
+
+#: ../src/photos-tool-colors.c:241
+msgid "Colors"
+msgstr "Színek"
+
+#: ../src/photos-tool-crop.c:126
+msgid "Free"
+msgstr "Szabad"
+
+#: ../src/photos-tool-crop.c:127
+msgid "Original Size"
+msgstr "Eredeti méret"
+
+#: ../src/photos-tool-crop.c:128
+msgid "Screen"
+msgstr "Képernyő"
+
+#: ../src/photos-tool-crop.c:129
+msgid "Golden Cut"
+msgstr "Aranymetszés"
+
+#: ../src/photos-tool-crop.c:130
+msgid "Square"
+msgstr "Négyzet"
+
+#: ../src/photos-tool-crop.c:131
+msgid "A3 (297 × 420 mm)"
+msgstr "A3 (297 x 420 mm)"
+
+#: ../src/photos-tool-crop.c:132
+msgid "A4 (210 × 297 mm)"
+msgstr "A4 (210 × 297 mm)"
+
+#: ../src/photos-tool-crop.c:1106
+msgid "Reset"
+msgstr "Visszaállítás"
+
+#: ../src/photos-tool-crop.c:1127
+msgid "Crop"
+msgstr "Vágás"
+
+#: ../src/photos-tool-enhance.c:205
+msgid "Sharpen"
+msgstr "Élesítés"
+
+#: ../src/photos-tool-enhance.c:225
+msgid "Denoise"
+msgstr "Zajmentesítés"
+
+#: ../src/photos-tool-enhance.c:251
+msgid "Enhance"
+msgstr "Feljavítás"
+
+#: ../src/photos-tool-filters.c:94
+msgid "1977"
+msgstr "1977"
+
+#: ../src/photos-tool-filters.c:101
+msgid "Brannan"
+msgstr "Brannan"
+
+#: ../src/photos-tool-filters.c:107
+msgid "Gotham"
+msgstr "Gotham"
+
+#: ../src/photos-tool-filters.c:114
+msgid "Gray"
+msgstr "Gray"
+
+#: ../src/photos-tool-filters.c:120
+msgid "Nashville"
+msgstr "Nashville"
+
+#: ../src/photos-tool-filters.c:136
+msgid "Filters"
+msgstr "Szűrők"
+
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Nem kérhető le a fényképek listája"
+
+#~ msgid "%a, %d %B %Y  %X"
+#~ msgstr "%Y. %B %e. %a, %X"
+
+#~ msgid "%a, %d %B %Y"
+#~ msgstr "%Y. %B %e. %a"
+
+#~ msgid "%.1f (lens)"
+#~ msgstr "%.1f (lencse)"
+
+#~ msgid "%.1f (35mm film)"
+#~ msgstr "%.1f (35 mm film)"
+
+#~ msgid "Transformation on unloaded image."
+#~ msgstr "Átalakítás a be nem töltött képen."
+
+#~ msgid "Transformation failed."
+#~ msgstr "Az átalakítás meghiúsult."
+
+#~ msgid "EXIF not supported for this file format."
+#~ msgstr "Az EXIF nem támogatott ehhez a fájlformátumhoz."
+
+#~ msgid "Image loading failed."
+#~ msgstr "A kép betöltése meghiúsult."
+
+#~ msgid "No image loaded."
+#~ msgstr "Nincs kép betöltve."
+
+#~ msgid "You do not have the permissions necessary to save the file."
+#~ msgstr "Nem rendelkezik a fájl mentéséhez szükséges jogosultságokkal."
+
+#~ msgid "Temporary file creation failed."
+#~ msgstr "Átmeneti fájl létrehozása sikertelen."
+
+#~ msgid "At least two file names are equal."
+#~ msgstr "Legalább két fájlnév azonos."
+
+#~ msgid "Could not display help for Image Viewer"
+#~ msgstr "Nem sikerült megjeleníteni a Képmegjelenítő súgóját"
+
+#~ msgid " (invalid Unicode)"
+#~ msgstr " (érvénytelen Unicode)"
 
 #~ msgid "Recent"
 #~ msgstr "Legutóbbi"
@@ -647,9 +751,6 @@ msgstr "Nem kérhető le a fényképek listája"
 
 #~ msgid "Flickr"
 #~ msgstr "Flickr"
-
-#~ msgid "Done"
-#~ msgstr "Kész"
 
 #~ msgid "About Photos"
 #~ msgstr "Fényképek névjegye"
