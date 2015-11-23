@@ -91,6 +91,13 @@ GType               photos_base_item_get_type                (void) G_GNUC_CONST
 
 gboolean            photos_base_item_can_trash               (PhotosBaseItem *self);
 
+cairo_surface_t    *photos_base_item_create_preview          (PhotosBaseItem *self,
+                                                              gint size,
+                                                              gint scale,
+                                                              const gchar *operation,
+                                                              const gchar *first_property_name,
+                                                              ...) G_GNUC_NULL_TERMINATED G_GNUC_WARN_UNUSED_RESULT;
+
 void                photos_base_item_destroy                 (PhotosBaseItem *self);
 
 gchar              *photos_base_item_download                (PhotosBaseItem *self,

@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include <gdk/gdk.h>
+#include <gegl-plugin.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
@@ -1377,6 +1378,116 @@ gboolean
 photos_base_item_can_trash (PhotosBaseItem *self)
 {
   return PHOTOS_BASE_ITEM_GET_CLASS (self)->trash != NULL;
+}
+
+
+cairo_surface_t *
+photos_base_item_create_preview (PhotosBaseItem *self,
+                                 gint size,
+                                 gint scale,
+                                 const gchar *operation,
+                                 const gchar *first_property_name,
+                                 ...)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  GeglBuffer *buffer_orig = NULL;
+  GeglBuffer *buffer = NULL;
+  GeglNode *buffer_source;
+  GeglNode *crop;
+  GeglNode *graph = NULL;
+  GeglNode *operation_node;
+  GeglOperation *op;
+  GeglProcessor *processor = NULL;
+  GeglRectangle bbox;
+  GeglRectangle roi;
+  cairo_surface_t *surface = NULL;
+  static const cairo_user_data_key_t key;
+  const Babl *format;
+  const gchar *name;
+  gdouble x;
+  gdouble y;
+  gdouble zoom;
+  gint min_dimension;
+  gint size_scaled;
+  gint stride;
+  gint64 end;
+  gint64 start;
+  guchar *buf = NULL;
+  va_list ap;
+
+  g_return_val_if_fail (operation != NULL && operation[0] != '\0', NULL);
+  g_return_val_if_fail (priv->buffer_source != NULL, NULL);
+  g_return_val_if_fail (priv->edit_graph != NULL, NULL);
+  g_return_val_if_fail (priv->load_graph != NULL, NULL);
+
+  op = gegl_node_get_gegl_operation (priv->buffer_source);
+  g_return_val_if_fail (op != NULL, NULL);
+
+  name = gegl_operation_get_name (op);
+  g_return_val_if_fail (g_strcmp0 (name, "gegl:buffer-source") == 0, NULL);
+
+  gegl_node_get (priv->buffer_source, "buffer", &buffer_orig, NULL);
+  buffer = gegl_buffer_dup (buffer_orig);
+
+  bbox = *gegl_buffer_get_extent (buffer);
+  min_dimension = bbox.height < bbox.width ? bbox.height : bbox.width;
+  x = (gdouble) (bbox.width - min_dimension) / 2.0;
+  y = (gdouble) (bbox.height - min_dimension) / 2.0;
+  size_scaled = size * scale;
+  zoom = (gdouble) size_scaled / (gdouble) min_dimension;
+
+  graph = gegl_node_new ();
+  buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer, NULL);
+  crop = gegl_node_new_child (graph,
+                              "operation", "gegl:crop",
+                              "height", (gdouble) min_dimension,
+                              "width", (gdouble) min_dimension,
+                              "x", x,
+                              "y", y,
+                              NULL);
+
+  operation_node = gegl_node_new_child (graph, "operation", operation, NULL);
+
+  va_start (ap, first_property_name);
+  gegl_node_set_valist (operation_node, first_property_name, ap);
+  va_end (ap);
+
+  gegl_node_link_many (buffer_source, crop, operation_node, NULL);
+  processor = gegl_node_new_processor (operation_node, NULL);
+
+  start = g_get_monotonic_time ();
+
+  while (gegl_processor_work (processor, NULL));
+
+  end = g_get_monotonic_time ();
+  photos_debug (PHOTOS_DEBUG_GEGL, "Create Preview: Process: %" G_GINT64_FORMAT, end - start);
+
+  roi.height = size_scaled;
+  roi.width = size_scaled;
+  roi.x = (gint) (x * zoom + 0.5);
+  roi.y = (gint) (y * zoom + 0.5);
+
+  stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32, roi.width);
+  buf = g_malloc0 (stride * roi.height);
+  format = babl_format ("cairo-ARGB32");
+
+  start = g_get_monotonic_time ();
+
+  gegl_node_blit (operation_node, zoom, &roi, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_BLIT_DEFAULT);
+
+  end = g_get_monotonic_time ();
+  photos_debug (PHOTOS_DEBUG_GEGL, "Create Preview: Node Blit: %" G_GINT64_FORMAT, end - start);
+
+  surface = cairo_image_surface_create_for_data (buf, CAIRO_FORMAT_ARGB32, roi.width, roi.height, stride);
+  cairo_surface_set_device_scale (surface, (gdouble) scale, (gdouble) scale);
+  cairo_surface_set_user_data (surface, &key, buf, (cairo_destroy_func_t) g_free);
+
+  g_object_unref (buffer);
+  g_object_unref (buffer_orig);
+  g_object_unref (graph);
+  g_object_unref (processor);
+
+  return surface;
 }
 
 
