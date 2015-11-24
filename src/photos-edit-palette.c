@@ -172,6 +172,7 @@ photos_edit_palette_init (PhotosEditPalette *self)
 
   extension_point = g_io_extension_point_lookup (PHOTOS_TOOL_EXTENSION_POINT_NAME);
   extensions = g_io_extension_point_get_extensions (extension_point);
+  extensions = g_list_copy (extensions);
   extensions = g_list_sort (extensions, photos_edit_palette_extensions_sort_func);
 
   size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
@@ -204,6 +205,7 @@ photos_edit_palette_init (PhotosEditPalette *self)
 
   gtk_widget_show_all (GTK_WIDGET (self));
   g_object_unref (size_group);
+  g_list_free (extensions);
 }
 
 
