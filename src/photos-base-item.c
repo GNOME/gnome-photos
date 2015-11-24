@@ -137,57 +137,14 @@ static GdkPixbuf *
 photos_base_item_create_placeholder_icon (const gchar *icon_name)
 {
   GApplication *app;
-  GdkPixbuf *centered_pixbuf = NULL;
-  GdkPixbuf *pixbuf = NULL;
   GdkPixbuf *ret_val = NULL;
-  GError *error;
-  GIcon *icon = NULL;
-  GList *windows;
-  GtkIconInfo *info = NULL;
-  GtkIconTheme *theme;
-  GtkStyleContext *context;
   gint icon_size;
   gint scale;
 
   app = g_application_get_default ();
-  windows = gtk_application_get_windows (GTK_APPLICATION (app));
-  if (windows == NULL)
-    goto out;
-
-  icon = g_themed_icon_new (icon_name);
+  icon_size = photos_utils_get_icon_size_unscaled ();
   scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
-  theme = gtk_icon_theme_get_default ();
-  info = gtk_icon_theme_lookup_by_gicon_for_scale (theme,
-                                                   icon,
-                                                   16,
-                                                   scale,
-                                                   GTK_ICON_LOOKUP_FORCE_SIZE | GTK_ICON_LOOKUP_FORCE_SYMBOLIC);
-  if (info == NULL)
-    goto out;
-
-  context = gtk_widget_get_style_context (GTK_WIDGET (windows->data));
-
-  error = NULL;
-  pixbuf = gtk_icon_info_load_symbolic_for_context (info, context, NULL, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to load icon '%s': %s", icon_name, error->message);
-      g_error_free (error);
-      goto out;
-    }
-
-  icon_size = photos_utils_get_icon_size ();
-  centered_pixbuf = photos_utils_center_pixbuf (pixbuf, icon_size);
-  photos_utils_border_pixbuf (centered_pixbuf);
-
-  ret_val = centered_pixbuf;
-  centered_pixbuf = NULL;
-
- out:
-  g_clear_object (&centered_pixbuf);
-  g_clear_object (&pixbuf);
-  g_clear_object (&info);
-  g_clear_object (&icon);
+  ret_val = photos_utils_create_placeholder_icon_for_scale (icon_name, icon_size, scale);
   return ret_val;
 }
 

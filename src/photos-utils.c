@@ -271,6 +271,63 @@ photos_utils_create_orientation_node (GeglNode *parent, GQuark orientation)
 
 
 GdkPixbuf *
+photos_utils_create_placeholder_icon_for_scale (const gchar *name, gint size, gint scale)
+{
+  GApplication *app;
+  GdkPixbuf *centered_pixbuf = NULL;
+  GdkPixbuf *pixbuf = NULL;
+  GdkPixbuf *ret_val = NULL;
+  GError *error;
+  GIcon *icon = NULL;
+  GList *windows;
+  GtkIconInfo *info = NULL;
+  GtkIconTheme *theme;
+  GtkStyleContext *context;
+  gint size_scaled;
+
+  app = g_application_get_default ();
+  windows = gtk_application_get_windows (GTK_APPLICATION (app));
+  if (windows == NULL)
+    goto out;
+
+  icon = g_themed_icon_new (name);
+  theme = gtk_icon_theme_get_default ();
+  info = gtk_icon_theme_lookup_by_gicon_for_scale (theme,
+                                                   icon,
+                                                   16,
+                                                   scale,
+                                                   GTK_ICON_LOOKUP_FORCE_SIZE | GTK_ICON_LOOKUP_FORCE_SYMBOLIC);
+  if (info == NULL)
+    goto out;
+
+  context = gtk_widget_get_style_context (GTK_WIDGET (windows->data));
+
+  error = NULL;
+  pixbuf = gtk_icon_info_load_symbolic_for_context (info, context, NULL, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to load icon '%s': %s", name, error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  size_scaled = size * scale;
+  centered_pixbuf = photos_utils_center_pixbuf (pixbuf, size_scaled);
+  photos_utils_border_pixbuf (centered_pixbuf);
+
+  ret_val = centered_pixbuf;
+  centered_pixbuf = NULL;
+
+ out:
+  g_clear_object (&centered_pixbuf);
+  g_clear_object (&pixbuf);
+  g_clear_object (&info);
+  g_clear_object (&icon);
+  return ret_val;
+}
+
+
+GdkPixbuf *
 photos_utils_create_pixbuf_from_node (GeglNode *node)
 {
   GdkPixbuf *pixbuf = NULL;

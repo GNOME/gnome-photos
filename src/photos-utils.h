@@ -68,6 +68,8 @@ GeglNode        *photos_utils_create_orientation_node     (GeglNode *parent, GQu
 
 GdkPixbuf       *photos_utils_create_pixbuf_from_node     (GeglNode *node);
 
+GdkPixbuf       *photos_utils_create_placeholder_icon_for_scale (const gchar *name, gint size, gint scale);
+
 GIcon           *photos_utils_create_symbolic_icon_for_scale (const gchar *name, gint base_size, gint scale);
 
 gboolean         photos_utils_create_thumbnail            (GFile *file, GCancellable *cancellable, GError **error);
