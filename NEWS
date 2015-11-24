@@ -1,3 +1,28 @@
+Overview of changes in 3.19.2
+=============================
+
+* Experimental editing support
+
+* Bugs fixed:
+ 733660 Let photos be deleted from the preview
+ 734766 properties-dialog: Be more forgiving of unknown nmm:flash values
+ 747446 Fix HiDpi rendering
+ 757015 Clicking the favorite button doesn't update the UI immediately
+ 757199 Crash when quitting due to the ViewModel outliving the Embed
+ 757363 Don't use g_list_length unless we really need to
+
+* Updated translations:
+ Czech
+ Finnish
+ Gaelic (Scottish)
+ German
+ Hebrew
+ Hungarian
+ Norwegian bokmål
+ Portuguese
+ Spanish
+
+
 Overview of changes in 3.19.1
 =============================
 
