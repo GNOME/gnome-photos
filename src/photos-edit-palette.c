@@ -35,7 +35,6 @@ struct _PhotosEditPalette
 {
   GtkListBox parent_instance;
   GList *tools;
-  GtkSizeGroup *size_group;
   PhotosModeController *mode_cntrlr;
 };
 
@@ -145,7 +144,6 @@ photos_edit_palette_dispose (GObject *object)
   g_list_free_full (self->tools, g_object_unref);
   self->tools = NULL;
 
-  g_clear_object (&self->size_group);
   g_clear_object (&self->mode_cntrlr);
 
   G_OBJECT_CLASS (photos_edit_palette_parent_class)->dispose (object);
@@ -159,6 +157,7 @@ photos_edit_palette_init (PhotosEditPalette *self)
   GIOExtensionPoint *extension_point;
   GList *extensions;
   GList *l;
+  GtkSizeGroup *size_group;
   PhotosSearchContextState *state;
 
   app = g_application_get_default ();
@@ -175,7 +174,7 @@ photos_edit_palette_init (PhotosEditPalette *self)
   extensions = g_io_extension_point_get_extensions (extension_point);
   extensions = g_list_sort (extensions, photos_edit_palette_extensions_sort_func);
 
-  self->size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+  size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
   for (l = extensions; l != NULL; l = l->next)
     {
@@ -188,7 +187,7 @@ photos_edit_palette_init (PhotosEditPalette *self)
       tool = PHOTOS_TOOL (g_object_new (type, NULL));
       self->tools = g_list_prepend (self->tools, g_object_ref (tool));
 
-      row = photos_edit_palette_row_new (tool, self->size_group);
+      row = photos_edit_palette_row_new (tool, size_group);
       gtk_container_add (GTK_CONTAINER (self), row);
 
       g_signal_connect_swapped (tool, "hide-requested", G_CALLBACK (photos_edit_palette_hide_requested), self);
@@ -204,6 +203,7 @@ photos_edit_palette_init (PhotosEditPalette *self)
                            G_CONNECT_SWAPPED);
 
   gtk_widget_show_all (GTK_WIDGET (self));
+  g_object_unref (size_group);
 }
 
 
