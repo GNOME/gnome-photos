@@ -62,8 +62,8 @@ struct _PhotosToolCrop
   GeglRectangle bbox_scaled;
   GeglRectangle bbox_source;
   GtkListStore *model;
+  GtkWidget *box;
   GtkWidget *combo_box;
-  GtkWidget *grid;
   GtkWidget *reset_button;
   GtkWidget *view;
   PhotosToolCropLocation location;
@@ -982,7 +982,7 @@ static GtkWidget *
 photos_tool_crop_get_widget (PhotosTool *tool)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (tool);
-  return self->grid;
+  return self->box;
 }
 
 
@@ -1061,7 +1061,7 @@ photos_tool_crop_dispose (GObject *object)
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (object);
 
   g_clear_object (&self->model);
-  g_clear_object (&self->grid);
+  g_clear_object (&self->box);
   g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
 
   G_OBJECT_CLASS (photos_tool_crop_parent_class)->dispose (object);
@@ -1094,18 +1094,20 @@ photos_tool_crop_init (PhotosToolCrop *self)
                           -1);
     }
 
-  self->grid = g_object_ref_sink (gtk_grid_new ());
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self->grid), GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing (GTK_GRID (self->grid), 12);
+  /* We really need a GtkBox here. A GtkGrid won't work because it
+   * doesn't expand the children to fill the full width of the
+   * palette.
+   */
+  self->box = g_object_ref_sink (gtk_box_new (GTK_ORIENTATION_VERTICAL, 12));
 
   self->combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL (self->model));
   gtk_combo_box_set_active (GTK_COMBO_BOX (self->combo_box), 1);
-  gtk_container_add (GTK_CONTAINER (self->grid), self->combo_box);
+  gtk_container_add (GTK_CONTAINER (self->box), self->combo_box);
   g_signal_connect_swapped (self->combo_box, "changed", G_CALLBACK (photos_tool_crop_changed), self);
 
   self->reset_button = gtk_button_new_with_label (_("Reset"));
   gtk_widget_set_halign (self->reset_button, GTK_ALIGN_END);
-  gtk_container_add (GTK_CONTAINER (self->grid), self->reset_button);
+  gtk_container_add (GTK_CONTAINER (self->box), self->reset_button);
   g_signal_connect_swapped (self->reset_button, "clicked", G_CALLBACK (photos_tool_crop_reset_clicked), self);
 
   renderer = gtk_cell_renderer_text_new ();
