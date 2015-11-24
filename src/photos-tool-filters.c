@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
+#include "photos-application.h"
 #include "photos-icons.h"
 #include "photos-operation-insta-common.h"
 #include "photos-tool.h"
@@ -35,7 +36,10 @@
 struct _PhotosToolFilters
 {
   PhotosTool parent_instance;
+  GList *buttons;
   GtkWidget *grid;
+  PhotosBaseItem *item;
+  guint create_preview_id;
 };
 
 struct _PhotosToolFiltersClass
@@ -52,9 +56,63 @@ G_DEFINE_TYPE_WITH_CODE (PhotosToolFilters, photos_tool_filters, PHOTOS_TYPE_TOO
                                                          500));
 
 
+static gboolean
+photos_tool_filters_create_preview_idle (gpointer user_data)
+{
+  PhotosToolFilters *self = PHOTOS_TOOL_FILTERS (user_data);
+  GApplication *app;
+  GtkWidget *button;
+  GtkWidget *image;
+  GVariant *target_value;
+  PhotosOperationInstaPreset preset;
+  cairo_surface_t *surface;
+  gboolean ret_val = G_SOURCE_CONTINUE;
+  gint scale;
+
+  g_return_val_if_fail (self->buttons != NULL, G_SOURCE_REMOVE);
+
+  app = g_application_get_default ();
+  scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
+
+  button = GTK_WIDGET (self->buttons->data);
+  target_value = gtk_actionable_get_action_target_value (GTK_ACTIONABLE (button));
+  preset = (PhotosOperationInstaPreset) g_variant_get_int16 (target_value);
+
+  surface = photos_base_item_create_preview (self->item,
+                                             96,
+                                             scale,
+                                             "photos:insta-filter",
+                                             "preset", preset,
+                                             NULL);
+  image = gtk_image_new_from_surface (surface);
+  gtk_button_set_image (GTK_BUTTON (button), image);
+
+  gtk_widget_show (image);
+
+  self->buttons = g_list_remove_link (self->buttons, self->buttons);
+  if (self->buttons == NULL)
+    {
+      self->create_preview_id = 0;
+      ret_val = G_SOURCE_REMOVE;
+    }
+
+  cairo_surface_destroy (surface);
+  return ret_val;
+}
+
+
 static void
 photos_tool_filters_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *view)
 {
+  PhotosToolFilters *self = PHOTOS_TOOL_FILTERS (tool);
+
+  if (self->buttons == NULL || self->create_preview_id != 0)
+    return;
+
+  g_clear_object (&self->item);
+  self->item = g_object_ref (item);
+
+  self->create_preview_id = g_idle_add_full (G_PRIORITY_LOW, photos_tool_filters_create_preview_idle, self, NULL);
 }
 
 
@@ -71,58 +129,122 @@ photos_tool_filters_dispose (GObject *object)
 {
   PhotosToolFilters *self = PHOTOS_TOOL_FILTERS (object);
 
+  if (self->create_preview_id != 0)
+    {
+      g_source_remove (self->create_preview_id);
+      self->create_preview_id = 0;
+    }
+
   g_clear_object (&self->grid);
+  g_clear_object (&self->item);
 
   G_OBJECT_CLASS (photos_tool_filters_parent_class)->dispose (object);
 }
 
 
 static void
+photos_tool_filters_finalize (GObject *object)
+{
+  PhotosToolFilters *self = PHOTOS_TOOL_FILTERS (object);
+
+  g_list_free (self->buttons);
+
+  G_OBJECT_CLASS (photos_tool_filters_parent_class)->finalize (object);
+}
+
+
+static void
 photos_tool_filters_init (PhotosToolFilters *self)
 {
+  GApplication *app;
+  GdkPixbuf *preview_icon = NULL;
   GtkWidget *button;
+  GtkWidget *image;
+  cairo_surface_t *preview_icon_surface = NULL;
+  gint scale;
   guint row = 0;
+
+  app = g_application_get_default ();
+  scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
+  preview_icon = photos_utils_create_placeholder_icon_for_scale (PHOTOS_ICON_CONTENT_LOADING_SYMBOLIC, 96, scale);
+  if (preview_icon != NULL)
+    preview_icon_surface = gdk_cairo_surface_create_from_pixbuf (preview_icon, scale, NULL);
 
   self->grid = g_object_ref_sink (gtk_grid_new ());
 
+  image = gtk_image_new_from_surface (preview_icon_surface);
   button = gtk_button_new_with_label (_("None"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_NONE);
+  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
+  gtk_button_set_image (GTK_BUTTON (button), image);
+  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
   gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
+  self->buttons = g_list_prepend (self->buttons, button);
 
+  image = gtk_image_new_from_surface (preview_icon_surface);
   button = gtk_button_new_with_label (_("1977"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_1977);
+  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
+  gtk_button_set_image (GTK_BUTTON (button), image);
+  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
   gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
+  self->buttons = g_list_prepend (self->buttons, button);
   row++;
 
+  image = gtk_image_new_from_surface (preview_icon_surface);
   button = gtk_button_new_with_label (_("Brannan"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_BRANNAN);
+  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
+  gtk_button_set_image (GTK_BUTTON (button), image);
+  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
   gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
+  self->buttons = g_list_prepend (self->buttons, button);
 
+  image = gtk_image_new_from_surface (preview_icon_surface);
   button = gtk_button_new_with_label (_("Gotham"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_GOTHAM);
+  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
+  gtk_button_set_image (GTK_BUTTON (button), image);
+  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
   gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
+  self->buttons = g_list_prepend (self->buttons, button);
   row++;
 
+  image = gtk_image_new_from_surface (preview_icon_surface);
   button = gtk_button_new_with_label (_("Gray"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_GRAY);
+  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
+  gtk_button_set_image (GTK_BUTTON (button), image);
+  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
   gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
+  self->buttons = g_list_prepend (self->buttons, button);
 
+  image = gtk_image_new_from_surface (preview_icon_surface);
   button = gtk_button_new_with_label (_("Nashville"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_NASHVILLE);
+  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
+  gtk_button_set_image (GTK_BUTTON (button), image);
+  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
   gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
+  self->buttons = g_list_prepend (self->buttons, button);
   row++;
+
+  self->buttons = g_list_reverse (self->buttons);
+
+  g_clear_object (&preview_icon);
+  g_clear_pointer (&preview_icon_surface, (GDestroyNotify) cairo_surface_destroy);
 }
 
 
@@ -136,6 +258,7 @@ photos_tool_filters_class_init (PhotosToolFiltersClass *class)
   tool_class->name = _("Filters");
 
   object_class->dispose = photos_tool_filters_dispose;
+  object_class->finalize = photos_tool_filters_finalize;
   tool_class->activate = photos_tool_filters_activate;
   tool_class->get_widget = photos_tool_filters_get_widget;
 }
