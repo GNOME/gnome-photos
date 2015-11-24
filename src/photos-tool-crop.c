@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2015 Umang Jain
  * Copyright © 2015 Red Hat, Inc.
  * Copyright © 2011, 2012, 2013, 2014, 2015 Yorba Foundation
  *
@@ -64,7 +65,9 @@ struct _PhotosToolCrop
   GtkListStore *model;
   GtkWidget *box;
   GtkWidget *combo_box;
+  GtkWidget *lock_button;
   GtkWidget *reset_button;
+  GtkWidget *revealer;
   GtkWidget *view;
   PhotosToolCropLocation location;
   cairo_surface_t *surface;
@@ -121,6 +124,9 @@ enum
   CONSTRAINT_COLUMN_BASIS_WIDTH = 3
 };
 
+/* "Free" is excluded from the GtkComboBox and represented by the
+ *  GtkCheckButton. Adjust accordingly.
+ */
 static PhotosToolCropConstraint CONSTRAINTS[] =
 {
   { PHOTOS_TOOL_CROP_ASPECT_RATIO_ANY, N_("Free"), 0, 0 },
@@ -300,13 +306,30 @@ photos_tool_crop_change_constraint (PhotosToolCrop *self)
 }
 
 
+static gint
+photos_tool_crop_get_active (PhotosToolCrop *self)
+{
+  gint active;
+
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->lock_button)))
+    {
+      active = gtk_combo_box_get_active (GTK_COMBO_BOX (self->combo_box)) + 1;
+      g_return_val_if_fail (active >= 1, -1);
+    }
+  else
+    active = 0;
+
+  return active;
+}
+
+
 static void
 photos_tool_crop_init_crop (PhotosToolCrop *self)
 {
   gdouble aspect_ratio;
   gint active;
 
-  active = gtk_combo_box_get_active (GTK_COMBO_BOX (self->combo_box));
+  active = photos_tool_crop_get_active (self);
   g_return_if_fail (active >= 0);
 
   self->crop_aspect_ratio = photos_tool_crop_calculate_aspect_ratio (self, (guint) active);
@@ -770,11 +793,13 @@ photos_tool_crop_set_location (PhotosToolCrop *self, gdouble event_x, gdouble ev
 
 
 static void
-photos_tool_crop_changed (PhotosToolCrop *self)
+photos_tool_crop_active_changed (PhotosToolCrop *self)
 {
   gint active;
 
-  active = gtk_combo_box_get_active (GTK_COMBO_BOX (self->combo_box));
+  g_return_if_fail (!self->reset);
+
+  active = photos_tool_crop_get_active (self);
   g_return_if_fail (active >= 0);
 
   self->crop_aspect_ratio = photos_tool_crop_calculate_aspect_ratio (self, (guint) active);
@@ -782,6 +807,36 @@ photos_tool_crop_changed (PhotosToolCrop *self)
     return;
 
   photos_tool_crop_change_constraint (self);
+}
+
+
+static void
+photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
+{
+  g_signal_handlers_block_by_func (self->combo_box, photos_tool_crop_active_changed, self);
+  g_signal_handlers_block_by_func (self->lock_button, photos_tool_crop_active_changed, self);
+
+  if (active == -1) /* reset */
+    {
+      gtk_combo_box_set_active (GTK_COMBO_BOX (self->combo_box), 0);
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->lock_button), TRUE);
+    }
+  else if (active == 0)
+    {
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->lock_button), FALSE);
+    }
+  else if (active > 0)
+    {
+      gtk_combo_box_set_active (GTK_COMBO_BOX (self->combo_box), active);
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->lock_button), TRUE);
+    }
+  else
+    {
+      g_warn_if_reached ();
+    }
+
+  g_signal_handlers_unblock_by_func (self->combo_box, photos_tool_crop_active_changed, self);
+  g_signal_handlers_unblock_by_func (self->lock_button, photos_tool_crop_active_changed, self);
 }
 
 
@@ -810,10 +865,7 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
 
   self->crop_aspect_ratio = self->crop_width / self->crop_height;
   active = photos_tool_crop_find_constraint (self, self->crop_aspect_ratio);
-
-  g_signal_handlers_block_by_func (self->combo_box, photos_tool_crop_changed, self);
-  gtk_combo_box_set_active (GTK_COMBO_BOX (self->combo_box), (gint) active);
-  g_signal_handlers_unblock_by_func (self->combo_box, photos_tool_crop_changed, self);
+  photos_tool_crop_set_active (self, (gint) active);
 
   photos_tool_crop_surface_draw (self);
 
@@ -1080,7 +1132,7 @@ photos_tool_crop_init (PhotosToolCrop *self)
 
   self->model = gtk_list_store_new (4, G_TYPE_INT, G_TYPE_STRING, G_TYPE_UINT, G_TYPE_UINT);
 
-  for (i = 0; i < G_N_ELEMENTS (CONSTRAINTS); i++)
+  for (i = 1; i < G_N_ELEMENTS (CONSTRAINTS); i++)
     {
       GtkTreeIter iter;
 
@@ -1100,10 +1152,20 @@ photos_tool_crop_init (PhotosToolCrop *self)
    */
   self->box = g_object_ref_sink (gtk_box_new (GTK_ORIENTATION_VERTICAL, 12));
 
+  self->lock_button = gtk_check_button_new_with_label (_("Lock aspect ratio"));
+  gtk_container_add (GTK_CONTAINER (self->box), self->lock_button);
+  g_signal_connect_swapped (self->lock_button, "toggled", G_CALLBACK (photos_tool_crop_active_changed), self);
+
+  self->revealer = gtk_revealer_new ();
+  gtk_container_add (GTK_CONTAINER (self->box), self->revealer);
+  gtk_revealer_set_transition_type (GTK_REVEALER (self->revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN);
+  g_object_bind_property (self->lock_button, "active", self->revealer, "reveal-child", G_BINDING_DEFAULT);
+
   self->combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL (self->model));
-  gtk_combo_box_set_active (GTK_COMBO_BOX (self->combo_box), 1);
-  gtk_container_add (GTK_CONTAINER (self->box), self->combo_box);
-  g_signal_connect_swapped (self->combo_box, "changed", G_CALLBACK (photos_tool_crop_changed), self);
+  gtk_container_add (GTK_CONTAINER (self->revealer), self->combo_box);
+  g_signal_connect_swapped (self->combo_box, "changed", G_CALLBACK (photos_tool_crop_active_changed), self);
+
+  photos_tool_crop_set_active (self, -1);
 
   self->reset_button = gtk_button_new_with_label (_("Reset"));
   gtk_widget_set_halign (self->reset_button, GTK_ALIGN_END);
