@@ -1389,7 +1389,6 @@ photos_application_dispose (GObject *object)
   if (priv->resource != NULL)
     {
       g_resources_unregister (priv->resource);
-      g_resource_unref (priv->resource);
       priv->resource = NULL;
     }
 
