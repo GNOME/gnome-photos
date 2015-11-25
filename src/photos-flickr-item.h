@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_FLICKR_ITEM, PhotosFlickrItem))
 
-#define PHOTOS_FLICKR_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_FLICKR_ITEM, PhotosFlickrItemClass))
-
 #define PHOTOS_IS_FLICKR_ITEM(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_FLICKR_ITEM))
 
-#define PHOTOS_IS_FLICKR_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_FLICKR_ITEM))
-
-#define PHOTOS_FLICKR_ITEM_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_FLICKR_ITEM, PhotosFlickrItemClass))
-
-typedef struct _PhotosFlickrItem        PhotosFlickrItem;
-typedef struct _PhotosFlickrItemClass   PhotosFlickrItemClass;
-typedef struct _PhotosFlickrItemPrivate PhotosFlickrItemPrivate;
-
-struct _PhotosFlickrItem
-{
-  PhotosBaseItem parent_instance;
-  PhotosFlickrItemPrivate *priv;
-};
-
-struct _PhotosFlickrItemClass
-{
-  PhotosBaseItemClass parent_class;
-};
+typedef struct _PhotosFlickrItem      PhotosFlickrItem;
+typedef struct _PhotosFlickrItemClass PhotosFlickrItemClass;
 
 GType               photos_flickr_item_get_type           (void) G_GNUC_CONST;
 
