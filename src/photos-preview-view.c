@@ -60,7 +60,7 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosPreviewView, photos_preview_view, GTK_TYPE_SCROLLED_WINDOW);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosPreviewView, photos_preview_view, GTK_TYPE_BIN);
 
 
 static GtkWidget *photos_preview_view_create_view (PhotosPreviewView *self);
@@ -228,13 +228,20 @@ static GtkWidget *
 photos_preview_view_create_view (PhotosPreviewView *self)
 {
   GtkStyleContext *context;
+  GtkWidget *sw;
   GtkWidget *view;
+
+  sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
+  context = gtk_widget_get_style_context (sw);
+  gtk_style_context_add_class (context, "documents-scrolledwin");
 
   view = GTK_WIDGET (gegl_gtk_view_new ());
   gtk_widget_add_events (view, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK);
   context = gtk_widget_get_style_context (view);
   gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
   gtk_style_context_add_class (context, "content-view");
+  gtk_container_add (GTK_CONTAINER (sw), view);
   g_signal_connect_swapped (view, "button-press-event", G_CALLBACK (photos_preview_view_button_press_event), self);
   g_signal_connect_swapped (view,
                             "button-release-event",
@@ -245,9 +252,9 @@ photos_preview_view_create_view (PhotosPreviewView *self)
   g_signal_connect_swapped (view, "draw-overlay", G_CALLBACK (photos_preview_view_draw_overlay), self);
 
   /* It has to be visible to become the visible child of priv->stack. */
-  gtk_widget_show (view);
+  gtk_widget_show_all (sw);
 
-  return view;
+  return sw;
 }
 
 
@@ -257,7 +264,9 @@ photos_preview_view_process (GObject *source_object, GAsyncResult *res, gpointer
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
   PhotosPreviewViewPrivate *priv = self->priv;
   GError *error = NULL;
+  GtkWidget *sw;
   GtkWidget *view;
+  GtkWidget *viewport;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
   photos_base_item_process_finish (item, res, &error);
@@ -267,7 +276,9 @@ photos_preview_view_process (GObject *source_object, GAsyncResult *res, gpointer
       g_error_free (error);
     }
 
-  view = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
+  sw = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
+  viewport = gtk_bin_get_child (GTK_BIN (sw));
+  view = gtk_bin_get_child (GTK_BIN (viewport));
   gtk_widget_queue_draw (view);
 }
 
@@ -398,7 +409,9 @@ static void
 photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
 {
   PhotosPreviewViewPrivate *priv = self->priv;
+  GtkWidget *sw;
   GtkWidget *view;
+  GtkWidget *viewport;
 
   if (priv->current_tool == tool)
     return;
@@ -407,7 +420,9 @@ photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
     photos_tool_deactivate (priv->current_tool);
 
   g_clear_object (&priv->current_tool);
-  view = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
+  sw = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
+  viewport = gtk_bin_get_child (GTK_BIN (sw));
+  view = gtk_bin_get_child (GTK_BIN (viewport));
 
   if (tool != NULL)
     {
@@ -490,26 +505,8 @@ photos_preview_view_constructed (GObject *object)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
   PhotosPreviewViewPrivate *priv = self->priv;
-  GtkWidget *grid;
-  GtkWidget *palette;
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->constructed (object);
-
-  grid = gtk_grid_new ();
-  gtk_container_add (GTK_CONTAINER (self), grid);
-
-  /* Add the stack to the scrolled window after the default
-   * adjustments have been created.
-   */
-  gtk_container_add (GTK_CONTAINER (grid), priv->stack);
-
-  priv->revealer = gtk_revealer_new ();
-  gtk_revealer_set_transition_type (GTK_REVEALER (priv->revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_LEFT);
-  gtk_container_add (GTK_CONTAINER (grid), priv->revealer);
-
-  palette = photos_edit_palette_new ();
-  gtk_container_add (GTK_CONTAINER (priv->revealer), palette);
-  g_signal_connect_swapped (palette, "tool-changed", G_CALLBACK (photos_preview_view_tool_changed), self);
 
   priv->nav_buttons = photos_preview_nav_buttons_new (self, GTK_OVERLAY (priv->overlay));
   gtk_widget_show_all (GTK_WIDGET (self));
@@ -541,7 +538,9 @@ photos_preview_view_init (PhotosPreviewView *self)
   PhotosPreviewViewPrivate *priv;
   GAction *action;
   GApplication *app;
-  GtkStyleContext *context;
+  GtkWidget *grid;
+  GtkWidget *palette;
+  GtkWidget *sw;
   GtkWidget *view;
   PhotosSearchContextState *state;
 
@@ -562,13 +561,14 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   gtk_widget_set_hexpand (GTK_WIDGET (self), TRUE);
   gtk_widget_set_vexpand (GTK_WIDGET (self), TRUE);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (self), GTK_SHADOW_IN);
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_add_class (context, "documents-scrolledwin");
+
+  grid = gtk_grid_new ();
+  gtk_container_add (GTK_CONTAINER (self), grid);
 
   priv->stack = gtk_stack_new ();
   gtk_widget_set_hexpand (priv->stack, TRUE);
   gtk_widget_set_vexpand (priv->stack, TRUE);
+  gtk_container_add (GTK_CONTAINER (grid), priv->stack);
 
   view = photos_preview_view_create_view (self);
   gtk_container_add (GTK_CONTAINER (priv->stack), view);
@@ -576,6 +576,19 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   view = photos_preview_view_create_view (self);
   gtk_container_add (GTK_CONTAINER (priv->stack), view);
+
+  priv->revealer = gtk_revealer_new ();
+  gtk_revealer_set_transition_type (GTK_REVEALER (priv->revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_LEFT);
+  gtk_container_add (GTK_CONTAINER (grid), priv->revealer);
+
+  sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
+  gtk_container_add (GTK_CONTAINER (priv->revealer), sw);
+
+  palette = photos_edit_palette_new ();
+  gtk_container_add (GTK_CONTAINER (sw), palette);
+  g_signal_connect_swapped (palette, "tool-changed", G_CALLBACK (photos_preview_view_tool_changed), self);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "brightness-contrast-current");
   g_signal_connect_object (action,
@@ -650,24 +663,30 @@ void
 photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
 {
   PhotosPreviewViewPrivate *priv = self->priv;
-  GtkWidget *view;
+  GtkWidget *sw;
 
   if (priv->node == node)
     return;
 
-  view = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
+  sw = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
   g_clear_object (&priv->node);
 
   if (node == NULL)
     {
-      gtk_container_remove (GTK_CONTAINER (priv->stack), view);
+      gtk_container_remove (GTK_CONTAINER (priv->stack), sw);
 
-      view = photos_preview_view_create_view (self);
-      gtk_container_add (GTK_CONTAINER (priv->stack), view);
+      sw = photos_preview_view_create_view (self);
+      gtk_container_add (GTK_CONTAINER (priv->stack), sw);
     }
   else
     {
+      GtkWidget *view;
+      GtkWidget *viewport;
+
       priv->node = g_object_ref (node);
+
+      viewport = gtk_bin_get_child (GTK_BIN (sw));
+      view = gtk_bin_get_child (GTK_BIN (viewport));
 
       /* Steals the reference to the GeglNode. */
       gegl_gtk_view_set_node (GEGL_GTK_VIEW (view), g_object_ref (priv->node));

@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,13 +58,13 @@ typedef struct _PhotosPreviewViewPrivate PhotosPreviewViewPrivate;
 
 struct _PhotosPreviewView
 {
-  GtkScrolledWindow parent_instance;
+  GtkBin parent_instance;
   PhotosPreviewViewPrivate *priv;
 };
 
 struct _PhotosPreviewViewClass
 {
-  GtkScrolledWindowClass parent_class;
+  GtkBinClass parent_class;
 };
 
 GType                  photos_preview_view_get_type               (void) G_GNUC_CONST;
