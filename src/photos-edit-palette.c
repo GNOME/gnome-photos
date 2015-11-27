@@ -25,8 +25,6 @@
 
 #include "photos-edit-palette.h"
 #include "photos-edit-palette-row.h"
-#include "photos-item-manager.h"
-#include "photos-search-context.h"
 #include "photos-tool.h"
 #include "photos-utils.h"
 
@@ -35,7 +33,6 @@ struct _PhotosEditPalette
 {
   GtkListBox parent_instance;
   GList *tools;
-  PhotosModeController *mode_cntrlr;
 };
 
 struct _PhotosEditPaletteClass
@@ -75,19 +72,6 @@ photos_edit_palette_extensions_sort_func (gconstpointer a, gconstpointer b)
 static void
 photos_edit_palette_hide_requested (PhotosEditPalette *self)
 {
-  g_signal_emit (self, signals[TOOL_CHANGED], 0, NULL);
-}
-
-
-static void
-photos_edit_palette_window_mode_changed (PhotosEditPalette *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
-{
-  GtkListBoxRow *row;
-  gint i;
-
-  for (i = 0; (row = gtk_list_box_get_row_at_index (GTK_LIST_BOX (self), i)) != NULL; i++)
-    photos_edit_palette_row_hide_details (PHOTOS_EDIT_PALETTE_ROW (row));
-
   g_signal_emit (self, signals[TOOL_CHANGED], 0, NULL);
 }
 
@@ -144,8 +128,6 @@ photos_edit_palette_dispose (GObject *object)
   g_list_free_full (self->tools, g_object_unref);
   self->tools = NULL;
 
-  g_clear_object (&self->mode_cntrlr);
-
   G_OBJECT_CLASS (photos_edit_palette_parent_class)->dispose (object);
 }
 
@@ -153,15 +135,10 @@ photos_edit_palette_dispose (GObject *object)
 static void
 photos_edit_palette_init (PhotosEditPalette *self)
 {
-  GApplication *app;
   GIOExtensionPoint *extension_point;
   GList *extensions;
   GList *l;
   GtkSizeGroup *size_group;
-  PhotosSearchContextState *state;
-
-  app = g_application_get_default ();
-  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   gtk_widget_set_vexpand (GTK_WIDGET (self), TRUE);
   gtk_list_box_set_selection_mode (GTK_LIST_BOX (self), GTK_SELECTION_NONE);
@@ -196,13 +173,6 @@ photos_edit_palette_init (PhotosEditPalette *self)
       g_object_unref (tool);
     }
 
-  self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
-  g_signal_connect_object (self->mode_cntrlr,
-                           "window-mode-changed",
-                           G_CALLBACK (photos_edit_palette_window_mode_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-
   gtk_widget_show_all (GTK_WIDGET (self));
   g_object_unref (size_group);
   g_list_free (extensions);
@@ -235,4 +205,17 @@ GtkWidget *
 photos_edit_palette_new (void)
 {
   return g_object_new (PHOTOS_TYPE_EDIT_PALETTE, NULL);
+}
+
+
+void
+photos_edit_palette_hide_details (PhotosEditPalette *self)
+{
+  GtkListBoxRow *row;
+  gint i;
+
+  for (i = 0; (row = gtk_list_box_get_row_at_index (GTK_LIST_BOX (self), i)) != NULL; i++)
+    photos_edit_palette_row_hide_details (PHOTOS_EDIT_PALETTE_ROW (row));
+
+  g_signal_emit (self, signals[TOOL_CHANGED], 0, NULL);
 }

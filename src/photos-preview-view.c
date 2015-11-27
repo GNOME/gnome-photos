@@ -44,6 +44,7 @@ struct _PhotosPreviewViewPrivate
 {
   GeglNode *node;
   GtkWidget *overlay;
+  GtkWidget *palette;
   GtkWidget *revealer;
   GtkWidget *stack;
   GtkWidget *view;
@@ -471,6 +472,7 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer), FALSE);
+      photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (priv->palette));
       photos_preview_nav_buttons_hide (priv->nav_buttons);
       photos_preview_nav_buttons_set_model (priv->nav_buttons, NULL, NULL);
       break;
@@ -482,6 +484,7 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
       gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer), FALSE);
+      photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (priv->palette));
       photos_preview_nav_buttons_show (priv->nav_buttons);
       break;
 
@@ -547,7 +550,6 @@ photos_preview_view_init (PhotosPreviewView *self)
   GAction *action;
   GApplication *app;
   GtkWidget *grid;
-  GtkWidget *palette;
   GtkWidget *sw;
   GtkWidget *view_container;
   PhotosSearchContextState *state;
@@ -594,9 +596,9 @@ photos_preview_view_init (PhotosPreviewView *self)
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
   gtk_container_add (GTK_CONTAINER (priv->revealer), sw);
 
-  palette = photos_edit_palette_new ();
-  gtk_container_add (GTK_CONTAINER (sw), palette);
-  g_signal_connect_swapped (palette, "tool-changed", G_CALLBACK (photos_preview_view_tool_changed), self);
+  priv->palette = photos_edit_palette_new ();
+  gtk_container_add (GTK_CONTAINER (sw), priv->palette);
+  g_signal_connect_swapped (priv->palette, "tool-changed", G_CALLBACK (photos_preview_view_tool_changed), self);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "brightness-contrast-current");
   g_signal_connect_object (action,
