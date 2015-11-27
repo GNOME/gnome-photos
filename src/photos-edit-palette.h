@@ -44,6 +44,8 @@ GtkWidget             *photos_edit_palette_new                    (void);
 
 void                   photos_edit_palette_hide_details           (PhotosEditPalette *self);
 
+void                   photos_edit_palette_show                   (PhotosEditPalette *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_EDIT_PALETTE_H */

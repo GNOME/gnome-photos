@@ -427,9 +427,12 @@ photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
     return;
 
   if (priv->current_tool != NULL)
-    photos_tool_deactivate (priv->current_tool);
+    {
+      photos_tool_deactivate (priv->current_tool);
+      g_object_remove_weak_pointer (G_OBJECT (priv->current_tool), (gpointer *) &priv->current_tool);
+      priv->current_tool = NULL;
+    }
 
-  g_clear_object (&priv->current_tool);
   view_container = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
   view = photos_preview_view_get_view_from_view_container (view_container);
 
@@ -437,7 +440,9 @@ photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
     {
       PhotosBaseItem *item;
 
-      priv->current_tool = g_object_ref (tool);
+      priv->current_tool = tool;
+      g_object_add_weak_pointer (G_OBJECT (priv->current_tool), (gpointer *) &priv->current_tool);
+
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
       photos_tool_activate (priv->current_tool, item, GEGL_GTK_VIEW (view));
     }
@@ -479,6 +484,7 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
 
     case PHOTOS_WINDOW_MODE_EDIT:
       gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer), TRUE);
+      photos_edit_palette_show (PHOTOS_EDIT_PALETTE (priv->palette));
       photos_preview_nav_buttons_hide (priv->nav_buttons);
       break;
 
@@ -505,9 +511,21 @@ photos_preview_view_dispose (GObject *object)
   g_clear_object (&priv->node);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
-  g_clear_object (&priv->current_tool);
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->dispose (object);
+}
+
+
+static void
+photos_preview_view_finalize (GObject *object)
+{
+  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
+  PhotosPreviewViewPrivate *priv = self->priv;
+
+  if (priv->current_tool != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (priv->current_tool), (gpointer *) &priv->current_tool);
+
+  G_OBJECT_CLASS (photos_preview_view_parent_class)->finalize (object);
 }
 
 
@@ -637,6 +655,7 @@ photos_preview_view_class_init (PhotosPreviewViewClass *class)
 
   object_class->constructed = photos_preview_view_constructed;
   object_class->dispose = photos_preview_view_dispose;
+  object_class->finalize = photos_preview_view_finalize;
   object_class->set_property = photos_preview_view_set_property;
 
   g_object_class_install_property (object_class,
