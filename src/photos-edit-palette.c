@@ -24,6 +24,7 @@
 #include <gio/gio.h>
 
 #include "photos-edit-palette.h"
+#include "photos-edit-palette-row.h"
 #include "photos-item-manager.h"
 #include "photos-search-context.h"
 #include "photos-tool.h"
@@ -73,18 +74,7 @@ photos_edit_palette_extensions_sort_func (gconstpointer a, gconstpointer b)
 
 
 static void
-photos_edit_palette_hide_requested (GtkListBoxRow *row)
-{
-  GtkRevealer *revealer;
-
-  revealer = GTK_REVEALER (g_object_get_data (G_OBJECT (row), "edit-tool-details-revealer"));
-  gtk_revealer_set_reveal_child (revealer, FALSE);
-  gtk_list_box_row_set_activatable (row, TRUE);
-}
-
-
-static void
-photos_edit_palette_hide_requested_second (PhotosEditPalette *self)
+photos_edit_palette_hide_requested (PhotosEditPalette *self)
 {
   g_signal_emit (self, signals[TOOL_CHANGED], 0, NULL);
 }
@@ -97,13 +87,7 @@ photos_edit_palette_window_mode_changed (PhotosEditPalette *self, PhotosWindowMo
   gint i;
 
   for (i = 0; (row = gtk_list_box_get_row_at_index (GTK_LIST_BOX (self), i)) != NULL; i++)
-    {
-      GtkRevealer *revealer;
-
-      gtk_list_box_row_set_activatable (row, TRUE);
-      revealer = GTK_REVEALER (g_object_get_data (G_OBJECT (row), "edit-tool-details-revealer"));
-      gtk_revealer_set_reveal_child (revealer, FALSE);
-    }
+    photos_edit_palette_row_hide_details (PHOTOS_EDIT_PALETTE_ROW (row));
 
   g_signal_emit (self, signals[TOOL_CHANGED], 0, NULL);
 }
@@ -114,25 +98,20 @@ photos_edit_palette_row_activated (GtkListBox *box, GtkListBoxRow *row)
 {
   PhotosEditPalette *self = PHOTOS_EDIT_PALETTE (box);
   GtkListBoxRow *other_row;
-  GtkRevealer *revealer;
   PhotosTool *tool;
   gint i;
 
-  gtk_list_box_row_set_activatable (row, FALSE);
-  revealer = GTK_REVEALER (g_object_get_data (G_OBJECT (row), "edit-tool-details-revealer"));
-  gtk_revealer_set_reveal_child (revealer, TRUE);
+  photos_edit_palette_row_show_details (PHOTOS_EDIT_PALETTE_ROW (row));
 
   for (i = 0; (other_row = gtk_list_box_get_row_at_index (box, i)) != NULL; i++)
     {
       if (other_row == row)
         continue;
 
-      gtk_list_box_row_set_activatable (other_row, TRUE);
-      revealer = GTK_REVEALER (g_object_get_data (G_OBJECT (other_row), "edit-tool-details-revealer"));
-      gtk_revealer_set_reveal_child (revealer, FALSE);
+      photos_edit_palette_row_hide_details (PHOTOS_EDIT_PALETTE_ROW (other_row));
     }
 
-  tool = PHOTOS_TOOL (g_object_get_data (G_OBJECT (row), "edit-tool"));
+  tool = photos_edit_palette_row_get_tool (PHOTOS_EDIT_PALETTE_ROW (row));
   g_signal_emit (self, signals[TOOL_CHANGED], 0, tool);
 }
 
@@ -202,66 +181,18 @@ photos_edit_palette_init (PhotosEditPalette *self)
     {
       GIOExtension *extension = (GIOExtension *) l->data;
       GType type;
-      GtkWidget *grid0;
-      GtkWidget *grid1;
-      GtkWidget *image;
-      GtkWidget *label;
-      GtkWidget *revealer;
       GtkWidget *row;
-      GtkWidget *tool_widget;
       PhotosTool *tool;
-      const gchar *icon_name;
-      const gchar *name;
-      gchar *name_markup;
 
       type = g_io_extension_get_type (extension);
       tool = PHOTOS_TOOL (g_object_new (type, NULL));
       self->tools = g_list_prepend (self->tools, g_object_ref (tool));
 
-      row = gtk_list_box_row_new ();
-      g_object_set_data_full (G_OBJECT (row), "edit-tool", g_object_ref (tool), g_object_unref);
+      row = photos_edit_palette_row_new (tool, self->size_group);
       gtk_container_add (GTK_CONTAINER (self), row);
 
-      grid0 = gtk_grid_new ();
-      gtk_widget_set_margin_bottom (grid0, 6);
-      gtk_widget_set_margin_start (grid0, 18);
-      gtk_widget_set_margin_end (grid0, 18);
-      gtk_widget_set_margin_top (grid0, 6);
-      gtk_orientable_set_orientation (GTK_ORIENTABLE (grid0), GTK_ORIENTATION_VERTICAL);
-      gtk_container_add (GTK_CONTAINER (row), grid0);
+      g_signal_connect_swapped (tool, "hide-requested", G_CALLBACK (photos_edit_palette_hide_requested), self);
 
-      grid1 = gtk_grid_new ();
-      gtk_orientable_set_orientation (GTK_ORIENTABLE (grid1), GTK_ORIENTATION_HORIZONTAL);
-      gtk_grid_set_column_spacing (GTK_GRID (grid1), 12);
-      gtk_container_add (GTK_CONTAINER (grid0), grid1);
-
-      icon_name = photos_tool_get_icon_name (tool);
-      image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON);
-      gtk_container_add (GTK_CONTAINER (grid1), image);
-
-      name = photos_tool_get_name (tool);
-      label = gtk_label_new (NULL);
-      name_markup = g_strdup_printf ("<b>%s</b>", name);
-      gtk_label_set_markup (GTK_LABEL (label), name_markup);
-      gtk_container_add (GTK_CONTAINER (grid1), label);
-
-      revealer = gtk_revealer_new ();
-      gtk_revealer_set_transition_type (GTK_REVEALER (revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN);
-      g_object_set_data (G_OBJECT (row), "edit-tool-details-revealer", revealer);
-      gtk_container_add (GTK_CONTAINER (grid0), revealer);
-
-      tool_widget = photos_tool_get_widget (tool);
-      gtk_widget_set_margin_bottom (tool_widget, 12);
-      gtk_widget_set_margin_top (tool_widget, 12);
-      gtk_container_add (GTK_CONTAINER (revealer), tool_widget);
-      gtk_size_group_add_widget (self->size_group, tool_widget);
-
-      g_signal_connect_swapped (tool, "hide-requested", G_CALLBACK (photos_edit_palette_hide_requested), row);
-      g_signal_connect_swapped (tool,
-                                "hide-requested",
-                                G_CALLBACK (photos_edit_palette_hide_requested_second),
-                                self);
-      g_free (name_markup);
       g_object_unref (tool);
     }
 

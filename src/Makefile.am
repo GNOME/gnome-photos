@@ -74,6 +74,8 @@ gnome_photos_SOURCES = \
 	photos-edit-bar.h \
 	photos-edit-palette.c \
 	photos-edit-palette.h \
+	photos-edit-palette-row.c \
+	photos-edit-palette-row.h \
 	photos-embed.c \
 	photos-embed.h \
 	photos-empty-results-box.c \
