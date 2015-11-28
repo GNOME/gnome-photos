@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-12\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-12 23:06+0000\n"
-"PO-Revision-Date: 2015-03-13 09:33+0500\n"
+"POT-Creation-Date: 2015-11-28 09:49+0000\n"
+"PO-Revision-Date: 2015-11-28 23:56+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk@li.org>\n"
 "Language: kk\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.8.5\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:713
 #: ../src/photos-search-type-manager.c:124
 msgid "Photos"
 msgstr "Фотолар"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
 msgid "Access, organize and share your photos on GNOME"
 msgstr ""
 "GNOME ішінде фотосуреттеріңізге қатынаңыз, реттеңіз және олармен бөлісіңіз"
@@ -108,100 +108,11 @@ msgstr "Терезе максималды етілген"
 msgid "Window maximized state"
 msgstr "Терезе максималды күйі"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%a, %d %B %Y  %X"
-
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%a, %d %B %Y"
-
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f (линзалар)"
-
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f (35мм таспасы)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "Жүктелген суретті түрлендіру."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "Түрлендіру сәтсіз."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "Бұл файл пішімі үшін EXIF қолдауы жоқ."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "Суретті жүктеу сәтсіз."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "Ешбір сурет жүктелмеді."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "Файлды сақтау үшін керек рұқсаттарыңыз жоқ."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "Уақытша файлды жасау сәтсіз."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "Кем дегенде, екі файлдың аттары бірдей"
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "Суреттерді көрсетушісі үшін көмекті көрсету мүмкін емес."
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (қате Unicode)"
-
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Толық экран"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "Кө_мек"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "Осы туралы"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "Шығу"
-
-#: ../src/photos-base-item.c:434
+#: ../src/photos-base-item.c:407
 msgid "Album"
 msgstr "Альбом"
 
-#: ../src/photos-base-item.c:886
+#: ../src/photos-base-item.c:1081
 msgid "Screenshots"
 msgstr "Скриншоттар"
 
@@ -224,19 +135,16 @@ msgstr "Болдырмау"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA өңдеу құрылғылары"
 
-#: ../src/photos-embed.c:621
-msgid "Recent"
-msgstr "Соңғы"
-
-#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:720 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Альбомдар"
 
-#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:727 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Таңдамалы"
 
-#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:734 ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Іздеу"
 
@@ -275,15 +183,72 @@ msgstr "Фотолар табылмады"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
 #: ../src/photos-google-item.c:77
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:163
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Атаусыз фото"
+
+#: ../src/photos-help-overlay.ui.h:1
+msgid "General"
+msgstr "Жалпы"
+
+#: ../src/photos-help-overlay.ui.h:2
+msgid "Show help"
+msgstr "Көмекті көрсету"
+
+#: ../src/photos-help-overlay.ui.h:3 ../src/photos-menus.ui.h:5
+msgid "Quit"
+msgstr "Шығу"
+
+#: ../src/photos-help-overlay.ui.h:4
+msgid "Print the current photo"
+msgstr "Ағымдағы фотоны баспаға шығару"
+
+#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-selection-toolbar.c:471
+msgid "Delete"
+msgstr "Өшіру"
+
+#: ../src/photos-help-overlay.ui.h:6
+msgid "Navigation"
+msgstr "Навигация"
+
+#: ../src/photos-help-overlay.ui.h:7
+msgid "Next photo"
+msgstr "Келесі фото"
+
+#: ../src/photos-help-overlay.ui.h:8
+msgid "Previous photo"
+msgstr "Алдыңғы фото"
+
+#: ../src/photos-help-overlay.ui.h:9
+msgid "Go back"
+msgstr "Артқа"
+
+#: ../src/photos-help-overlay.ui.h:10
+msgid "Overview"
+msgstr "Шолу"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgid "Select all"
+msgstr "Барлығын таңдау"
+
+#: ../src/photos-help-overlay.ui.h:13 ../src/photos-print-setup.c:980
+msgid "Preview"
+msgstr "Алдын-ала қарап шығу"
+
+#: ../src/photos-help-overlay.ui.h:14
+msgid "Action menu"
+msgstr "Әрекеттер мәзірі"
+
+#: ../src/photos-help-overlay.ui.h:15 ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Толық экран"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -305,77 +270,98 @@ msgstr "Фотоларыңыз индекстелді"
 msgid "Some photos might not be available during this process"
 msgstr "Бұл үрдіс кезінде кейбір фотолар қолжетерсіз болуы мүмкін"
 
-#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:103 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Жергілікті"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Бірнәрсені таңдау үшін оның үстіне шертіңіз"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d таңдалды"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Кері"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:317
 msgid "Select Items"
 msgstr "Нәрселерді таңдау"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:329
 #, c-format
 msgid "Open with %s"
 msgstr "%s көмегімен ашу"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:340
 msgid "Remove from favorites"
 msgstr "Таңдамалылардан өшіру"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:345
 msgid "Add to favorites"
 msgstr "Таңдамалыларға қосу"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:500 ../src/photos-main-toolbar.c:638
 msgid "Cancel"
 msgstr "Бас тарту"
 
-#: ../src/photos-main-window.c:473
+#: ../src/photos-main-toolbar.c:504
+msgid "Done"
+msgstr "Дайын"
+
+#: ../src/photos-main-window.c:480
+#| msgid ""
+#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#| "Copyright © 2014, 2015 Pranav Kant\n"
+#| "Copyright © 2012, 2013, 2014 Red Hat, Inc."
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 msgstr ""
 "Copyright © 2013 Intel Corporation. Барлық құқықтары қорғалған.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:483
+#: ../src/photos-main-window.c:490
 msgid "translator-credits"
 msgstr "Baurzhan Muftakhidinov <baurthefirst@gmail.com>"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:2
+msgid "Keyboard Shortcuts"
+msgstr "Пернетақта жарлықтары"
+
+#: ../src/photos-menus.ui.h:3
+msgid "_Help"
+msgstr "Кө_мек"
+
+#: ../src/photos-menus.ui.h:4
+msgid "About"
+msgstr "Осы туралы"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "Қ_осу"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_ОК"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Реттеу"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:332
 #: ../src/photos-selection-toolbar.c:457
 msgid "Open"
 msgstr "Ашу"
@@ -384,20 +370,20 @@ msgstr "Ашу"
 msgid "Print…"
 msgstr "Баспаға шығару..."
 
-#: ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-preview-menu.ui.h:4
 msgid "Display on…"
 msgstr "Қайда көрсету…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Set as Background"
 msgstr "Фон суреті ретінде орнату"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Lock Screen"
 msgstr "Блоктау экраны ретінде орнату"
 
-#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
-#: ../src/photos-selection-toolbar.c:478
+#: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
+#: ../src/photos-selection-toolbar.c:475
 msgid "Properties"
 msgstr "Қасиеттері"
 
@@ -410,77 +396,73 @@ msgstr "\"%s\" баспаға шығару: %s"
 msgid "Image Settings"
 msgstr "Сурет баптаулары"
 
-#: ../src/photos-print-setup.c:906
+#: ../src/photos-print-setup.c:904
 msgid "Position"
 msgstr "Орналасуы"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:907
 msgid "_Left:"
 msgstr "Со_л жақ:"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:908
 msgid "_Right:"
 msgstr "Оң ж_ақ:"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:909
 msgid "_Top:"
 msgstr "Жоғар_ы:"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:910
 msgid "_Bottom:"
 msgstr "Тө_мен:"
 
-#: ../src/photos-print-setup.c:914
+#: ../src/photos-print-setup.c:912
 msgid "C_enter:"
 msgstr "Ортас_ымен:"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:176
 msgid "None"
 msgstr "Жоқ"
 
-#: ../src/photos-print-setup.c:919
+#: ../src/photos-print-setup.c:917
 msgid "Horizontal"
 msgstr "Горизонталды"
 
-#: ../src/photos-print-setup.c:920
+#: ../src/photos-print-setup.c:918
 msgid "Vertical"
 msgstr "Вертикалды"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "Екеуі де"
 
-#: ../src/photos-print-setup.c:934
+#: ../src/photos-print-setup.c:932
 msgid "Size"
 msgstr "Өлшемі"
 
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:935
 msgid "_Width:"
 msgstr "_Ені:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:936
 msgid "_Height:"
 msgstr "_Биіктігі:"
 
-#: ../src/photos-print-setup.c:940
+#: ../src/photos-print-setup.c:938
 msgid "_Scaling:"
 msgstr "Ма_сштабы:"
 
-#: ../src/photos-print-setup.c:949
+#: ../src/photos-print-setup.c:947
 msgid "_Unit:"
 msgstr "Өлшем _бірлігі:"
 
-#: ../src/photos-print-setup.c:953
+#: ../src/photos-print-setup.c:951
 msgid "Millimeters"
 msgstr "Миллиметр"
 
-#: ../src/photos-print-setup.c:954
+#: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Дюйм"
-
-#: ../src/photos-print-setup.c:982
-msgid "Preview"
-msgstr "Алдын-ала қарап шығу"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
@@ -559,7 +541,7 @@ msgid "On, fired"
 msgstr "Іске қосулы, жарқылдады"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
 msgid "All"
 msgstr "Барлығы"
 
@@ -575,14 +557,17 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "Автор"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "Сәйкес"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Түрі"
@@ -599,21 +584,150 @@ msgstr "Ештеңе таңдамау"
 msgid "Print"
 msgstr "Баспаға шығару"
 
-#: ../src/photos-selection-toolbar.c:471
-msgid "Delete"
-msgstr "Өшіру"
-
-#: ../src/photos-selection-toolbar.c:485
+#: ../src/photos-selection-toolbar.c:482
 msgid "Add to Album"
 msgstr "Альбомға қосу"
 
-#: ../src/photos-source-manager.c:174
+#: ../src/photos-source-manager.c:205
 msgid "Sources"
 msgstr "Қайнар көздер"
 
-#: ../src/photos-tracker-controller.c:97
+#: ../src/photos-tool-colors.c:193
+msgid "Brightness"
+msgstr "Жарықтылығы"
+
+#: ../src/photos-tool-colors.c:214
+msgid "Contrast"
+msgstr "Контраст"
+
+#: ../src/photos-tool-colors.c:241
+msgid "Colors"
+msgstr "Түстер"
+
+#: ../src/photos-tool-crop.c:132
+msgid "Free"
+msgstr "Бос"
+
+#: ../src/photos-tool-crop.c:133
+msgid "Original Size"
+msgstr "Бастапқы өлшемі"
+
+#: ../src/photos-tool-crop.c:134
+msgid "Screen"
+msgstr "Экран"
+
+#: ../src/photos-tool-crop.c:135
+msgid "Golden Cut"
+msgstr "Алтын арақатынас"
+
+#: ../src/photos-tool-crop.c:136
+msgid "Square"
+msgstr "Шаршы"
+
+#: ../src/photos-tool-crop.c:137
+msgid "A3 (297 × 420 mm)"
+msgstr "A3 (297 × 420 мм)"
+
+#: ../src/photos-tool-crop.c:138
+msgid "A4 (210 × 297 mm)"
+msgstr "A4 (210 × 297 мм)"
+
+#: ../src/photos-tool-crop.c:1156
+msgid "Lock aspect ratio"
+msgstr "Жақтар арақатынасын бекіту"
+
+#: ../src/photos-tool-crop.c:1171
+msgid "Reset"
+msgstr "Тастау"
+
+#: ../src/photos-tool-crop.c:1192
+msgid "Crop"
+msgstr "Қиып жіберу"
+
+#: ../src/photos-tool-enhance.c:205
+msgid "Sharpen"
+msgstr "Ашықтығын көтеру"
+
+#: ../src/photos-tool-enhance.c:225
+msgid "Denoise"
+msgstr "Шуын азайту"
+
+#: ../src/photos-tool-enhance.c:251
+msgid "Enhance"
+msgstr "Жақсарту"
+
+#: ../src/photos-tool-filters.c:187
+msgid "1977"
+msgstr "1977"
+
+#: ../src/photos-tool-filters.c:199
+msgid "Brannan"
+msgstr "Бреннан"
+
+#: ../src/photos-tool-filters.c:210
+msgid "Gotham"
+msgstr "Готэм"
+
+#: ../src/photos-tool-filters.c:222
+msgid "Gray"
+msgstr "Сұр"
+
+#: ../src/photos-tool-filters.c:233
+msgid "Nashville"
+msgstr "Нешвилл"
+
+#: ../src/photos-tool-filters.c:258
+msgid "Filters"
+msgstr "Сүзгілер"
+
+#: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Фотолар тізімін алу мүмкін емес"
+
+#~ msgid "%a, %d %B %Y  %X"
+#~ msgstr "%a, %d %B %Y  %X"
+
+#~ msgid "%a, %d %B %Y"
+#~ msgstr "%a, %d %B %Y"
+
+#~ msgid "%.1f (lens)"
+#~ msgstr "%.1f (линзалар)"
+
+#~ msgid "%.1f (35mm film)"
+#~ msgstr "%.1f (35мм таспасы)"
+
+#~ msgid "Transformation on unloaded image."
+#~ msgstr "Жүктелген суретті түрлендіру."
+
+#~ msgid "Transformation failed."
+#~ msgstr "Түрлендіру сәтсіз."
+
+#~ msgid "EXIF not supported for this file format."
+#~ msgstr "Бұл файл пішімі үшін EXIF қолдауы жоқ."
+
+#~ msgid "Image loading failed."
+#~ msgstr "Суретті жүктеу сәтсіз."
+
+#~ msgid "No image loaded."
+#~ msgstr "Ешбір сурет жүктелмеді."
+
+#~ msgid "You do not have the permissions necessary to save the file."
+#~ msgstr "Файлды сақтау үшін керек рұқсаттарыңыз жоқ."
+
+#~ msgid "Temporary file creation failed."
+#~ msgstr "Уақытша файлды жасау сәтсіз."
+
+#~ msgid "At least two file names are equal."
+#~ msgstr "Кем дегенде, екі файлдың аттары бірдей"
+
+#~ msgid "Could not display help for Image Viewer"
+#~ msgstr "Суреттерді көрсетушісі үшін көмекті көрсету мүмкін емес."
+
+#~ msgid " (invalid Unicode)"
+#~ msgstr " (қате Unicode)"
+
+#~ msgid "Recent"
+#~ msgstr "Соңғы"
 
 #~ msgid "No Favorites Found"
 #~ msgstr "Таңдамалыл табылмады"
@@ -629,6 +743,3 @@ msgstr "Фотолар тізімін алу мүмкін емес"
 
 #~ msgid "Flickr"
 #~ msgstr "Flickr"
-
-#~ msgid "Done"
-#~ msgstr "Дайын"
