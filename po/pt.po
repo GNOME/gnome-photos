@@ -9,18 +9,19 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-11-19 09:50+0000\n"
-"PO-Revision-Date: 2015-11-21 09:14+0000\n"
-"Last-Translator:  <>\n"
-"Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
+"POT-Creation-Date: 2015-11-27 21:47+0000\n"
+"PO-Revision-Date: 2015-11-28 09:36+0000\n"
+"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
+"Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\\n\n"
+"X-Generator: Gtranslator 2.91.6\n"
 "X-Language: pt_PT\n"
 "X-Source-Language: C\n"
+"X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:713
@@ -108,11 +109,11 @@ msgstr "Janela maximizada"
 msgid "Window maximized state"
 msgstr "Estado maximizado da janela"
 
-#: ../src/photos-base-item.c:449
+#: ../src/photos-base-item.c:407
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:1123
+#: ../src/photos-base-item.c:1081
 msgid "Screenshots"
 msgstr "Capturas de ecrã"
 
@@ -184,7 +185,7 @@ msgstr "Nenhuma fotografia encontrada"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:89
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
 #: ../src/photos-google-item.c:77
 #, c-format
 msgid "%s — %s"
@@ -421,7 +422,7 @@ msgstr "_Fundo:"
 msgid "C_enter:"
 msgstr "_Centro:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:88
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:176
 msgid "None"
 msgstr "Nenhum"
 
@@ -605,39 +606,43 @@ msgstr "Contraste"
 msgid "Colors"
 msgstr "Cores"
 
-#: ../src/photos-tool-crop.c:126
+#: ../src/photos-tool-crop.c:132
 msgid "Free"
 msgstr "Livre"
 
-#: ../src/photos-tool-crop.c:127
+#: ../src/photos-tool-crop.c:133
 msgid "Original Size"
 msgstr "Tamanho original"
 
-#: ../src/photos-tool-crop.c:128
+#: ../src/photos-tool-crop.c:134
 msgid "Screen"
 msgstr "Ecrã"
 
-#: ../src/photos-tool-crop.c:129
+#: ../src/photos-tool-crop.c:135
 msgid "Golden Cut"
 msgstr "Corte dourado"
 
-#: ../src/photos-tool-crop.c:130
+#: ../src/photos-tool-crop.c:136
 msgid "Square"
 msgstr "Quadrado"
 
-#: ../src/photos-tool-crop.c:131
+#: ../src/photos-tool-crop.c:137
 msgid "A3 (297 × 420 mm)"
 msgstr "A3 (297 × 420 mm)"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:138
 msgid "A4 (210 × 297 mm)"
 msgstr "A4 (210 × 297 mm)"
 
-#: ../src/photos-tool-crop.c:1106
+#: ../src/photos-tool-crop.c:1156
+msgid "Lock aspect ratio"
+msgstr "Trancar proporções"
+
+#: ../src/photos-tool-crop.c:1171
 msgid "Reset"
 msgstr "Repor"
 
-#: ../src/photos-tool-crop.c:1127
+#: ../src/photos-tool-crop.c:1192
 msgid "Crop"
 msgstr "Recortar"
 
@@ -653,27 +658,27 @@ msgstr "Remover ruído"
 msgid "Enhance"
 msgstr "Melhorar"
 
-#: ../src/photos-tool-filters.c:94
+#: ../src/photos-tool-filters.c:187
 msgid "1977"
 msgstr "1977"
 
-#: ../src/photos-tool-filters.c:101
+#: ../src/photos-tool-filters.c:199
 msgid "Brannan"
 msgstr "Brannan"
 
-#: ../src/photos-tool-filters.c:107
+#: ../src/photos-tool-filters.c:210
 msgid "Gotham"
 msgstr "Gotham"
 
-#: ../src/photos-tool-filters.c:114
+#: ../src/photos-tool-filters.c:222
 msgid "Gray"
 msgstr "Cinzento"
 
-#: ../src/photos-tool-filters.c:120
+#: ../src/photos-tool-filters.c:233
 msgid "Nashville"
 msgstr "Nashville"
 
-#: ../src/photos-tool-filters.c:136
+#: ../src/photos-tool-filters.c:258
 msgid "Filters"
 msgstr "Filtros"
 
