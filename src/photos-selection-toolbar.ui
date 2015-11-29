@@ -25,9 +25,26 @@
         </packing>
       </child>
       <child>
+        <object class="GtkSeparator">
+          <property name="visible">1</property>
+          <property name="orientation">vertical</property>
+        </object>
+        <packing>
+          <property name="pack_type">start</property>
+        </packing>
+      </child>
+      <child>
         <object class="GtkButton" id="toolbar_print">
           <property name="visible">1</property>
-          <property name="label" translatable="yes">Print</property>
+          <style>
+            <class name="image-button"/>
+          </style>
+          <child>
+            <object class="GtkImage">
+              <property name="visible">1</property>
+              <property name="icon_name">document-print-symbolic</property>
+            </object>
+          </child>
           <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
                   handler="photos_selection_toolbar_print_clicked" />
         </object>
@@ -38,8 +55,16 @@
       <child>
         <object class="GtkButton" id="toolbar_trash">
           <property name="visible">1</property>
-          <property name="label" translatable="yes">Delete</property>
           <property name="action_name">app.delete</property>
+          <style>
+            <class name="image-button"/>
+          </style>
+          <child>
+            <object class="GtkImage">
+              <property name="visible">1</property>
+              <property name="icon_name">user-trash-symbolic</property>
+            </object>
+          </child>
         </object>
         <packing>
           <property name="pack_type">start</property>
