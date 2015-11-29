@@ -56,7 +56,7 @@ struct _PhotosSelectionToolbarPrivate
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosSelectionToolbar, photos_selection_toolbar, GTK_TYPE_REVEALER);
+G_DEFINE_TYPE_WITH_PRIVATE (PhotosSelectionToolbar, photos_selection_toolbar, GTK_TYPE_ACTION_BAR);
 
 
 enum
@@ -399,7 +399,7 @@ photos_selection_toolbar_selection_changed (PhotosSelectionToolbar *self)
   photos_selection_toolbar_set_item_listeners (self, selection);
 
   photos_selection_toolbar_set_item_visibility (self);
-  gtk_revealer_set_reveal_child (GTK_REVEALER (self), TRUE);
+  gtk_widget_show (GTK_WIDGET (self));
 }
 
 
@@ -409,7 +409,7 @@ photos_selection_toolbar_selection_mode_changed (PhotosSelectionToolbar *self, g
   if (mode)
     photos_selection_toolbar_selection_changed (self);
   else
-    gtk_revealer_set_reveal_child (GTK_REVEALER (self), FALSE);
+    gtk_widget_hide (GTK_WIDGET (self));
 }
 
 
@@ -433,7 +433,6 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   PhotosSelectionToolbarPrivate *priv;
   GAction *action;
   GApplication *app;
-  GtkWidget *toolbar;
   PhotosSearchContextState *state;
 
   self->priv = photos_selection_toolbar_get_instance_private (self);
@@ -444,49 +443,50 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->item_listeners = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
 
-  toolbar = gtk_action_bar_new ();
-  gtk_container_add (GTK_CONTAINER (self), toolbar);
-
   priv->toolbar_favorite = gtk_button_new ();
-  gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_favorite);
+  gtk_widget_show (GTK_WIDGET (priv->toolbar_favorite));
+  gtk_action_bar_pack_start (GTK_ACTION_BAR (self), priv->toolbar_favorite);
   g_signal_connect (priv->toolbar_favorite,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_favorite_clicked),
                     self);
 
   priv->toolbar_open = gtk_button_new_with_label (_("Open"));
-  gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_open);
+  gtk_widget_show (GTK_WIDGET (priv->toolbar_open));
+  gtk_action_bar_pack_start (GTK_ACTION_BAR (self), priv->toolbar_open);
   g_signal_connect (priv->toolbar_open,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_open_clicked),
                     self);
 
   priv->toolbar_print = gtk_button_new_with_label (_("Print"));
-  gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_print);
+  gtk_widget_show (GTK_WIDGET (priv->toolbar_print));
+  gtk_action_bar_pack_start (GTK_ACTION_BAR (self), priv->toolbar_print);
   g_signal_connect (priv->toolbar_print,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_print_clicked),
                     self);
 
   priv->toolbar_trash = gtk_button_new_with_label (_("Delete"));
+  gtk_widget_show (GTK_WIDGET (priv->toolbar_trash));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->toolbar_trash), "app.delete");
-  gtk_action_bar_pack_start (GTK_ACTION_BAR (toolbar), priv->toolbar_trash);
+  gtk_action_bar_pack_start (GTK_ACTION_BAR (self), priv->toolbar_trash);
 
   priv->toolbar_properties = gtk_button_new_with_label (_("Properties"));
-  gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->toolbar_properties);
+  gtk_widget_show (GTK_WIDGET (priv->toolbar_properties));
+  gtk_action_bar_pack_end (GTK_ACTION_BAR (self), priv->toolbar_properties);
   g_signal_connect (priv->toolbar_properties,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_properties_clicked),
                     self);
 
   priv->toolbar_collection = gtk_button_new_with_label (_("Add to Album"));
-  gtk_action_bar_pack_end (GTK_ACTION_BAR (toolbar), priv->toolbar_collection);
+  gtk_widget_show (GTK_WIDGET (priv->toolbar_collection));
+  gtk_action_bar_pack_end (GTK_ACTION_BAR (self), priv->toolbar_collection);
   g_signal_connect (priv->toolbar_collection,
                     "clicked",
                     G_CALLBACK (photos_selection_toolbar_collection_clicked),
                     self);
-
-  gtk_widget_show_all (GTK_WIDGET (self));
 
   priv->item_mngr = g_object_ref (state->item_mngr);
 
@@ -523,7 +523,5 @@ photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
 GtkWidget *
 photos_selection_toolbar_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_SELECTION_TOOLBAR,
-                       "transition-type", GTK_REVEALER_TRANSITION_TYPE_SLIDE_UP,
-                       NULL);
+  return g_object_new (PHOTOS_TYPE_SELECTION_TOOLBAR, NULL);
 }

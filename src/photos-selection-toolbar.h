@@ -57,13 +57,13 @@ typedef struct _PhotosSelectionToolbarPrivate PhotosSelectionToolbarPrivate;
 
 struct _PhotosSelectionToolbar
 {
-  GtkRevealer parent_instance;
+  GtkActionBar parent_instance;
   PhotosSelectionToolbarPrivate *priv;
 };
 
 struct _PhotosSelectionToolbarClass
 {
-  GtkRevealerClass parent_class;
+  GtkActionBarClass parent_class;
 };
 
 GType                     photos_selection_toolbar_get_type             (void) G_GNUC_CONST;
