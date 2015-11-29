@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2015 Alessandro Bono
  * Copyright © 2014 Pranav Kant
  * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
@@ -443,50 +444,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 
   priv->item_listeners = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
 
-  priv->toolbar_favorite = gtk_button_new ();
-  gtk_widget_show (GTK_WIDGET (priv->toolbar_favorite));
-  gtk_action_bar_pack_start (GTK_ACTION_BAR (self), priv->toolbar_favorite);
-  g_signal_connect (priv->toolbar_favorite,
-                    "clicked",
-                    G_CALLBACK (photos_selection_toolbar_favorite_clicked),
-                    self);
-
-  priv->toolbar_open = gtk_button_new_with_label (_("Open"));
-  gtk_widget_show (GTK_WIDGET (priv->toolbar_open));
-  gtk_action_bar_pack_start (GTK_ACTION_BAR (self), priv->toolbar_open);
-  g_signal_connect (priv->toolbar_open,
-                    "clicked",
-                    G_CALLBACK (photos_selection_toolbar_open_clicked),
-                    self);
-
-  priv->toolbar_print = gtk_button_new_with_label (_("Print"));
-  gtk_widget_show (GTK_WIDGET (priv->toolbar_print));
-  gtk_action_bar_pack_start (GTK_ACTION_BAR (self), priv->toolbar_print);
-  g_signal_connect (priv->toolbar_print,
-                    "clicked",
-                    G_CALLBACK (photos_selection_toolbar_print_clicked),
-                    self);
-
-  priv->toolbar_trash = gtk_button_new_with_label (_("Delete"));
-  gtk_widget_show (GTK_WIDGET (priv->toolbar_trash));
-  gtk_actionable_set_action_name (GTK_ACTIONABLE (priv->toolbar_trash), "app.delete");
-  gtk_action_bar_pack_start (GTK_ACTION_BAR (self), priv->toolbar_trash);
-
-  priv->toolbar_properties = gtk_button_new_with_label (_("Properties"));
-  gtk_widget_show (GTK_WIDGET (priv->toolbar_properties));
-  gtk_action_bar_pack_end (GTK_ACTION_BAR (self), priv->toolbar_properties);
-  g_signal_connect (priv->toolbar_properties,
-                    "clicked",
-                    G_CALLBACK (photos_selection_toolbar_properties_clicked),
-                    self);
-
-  priv->toolbar_collection = gtk_button_new_with_label (_("Add to Album"));
-  gtk_widget_show (GTK_WIDGET (priv->toolbar_collection));
-  gtk_action_bar_pack_end (GTK_ACTION_BAR (self), priv->toolbar_collection);
-  g_signal_connect (priv->toolbar_collection,
-                    "clicked",
-                    G_CALLBACK (photos_selection_toolbar_collection_clicked),
-                    self);
+  gtk_widget_init_template (GTK_WIDGET (self));
 
   priv->item_mngr = g_object_ref (state->item_mngr);
 
@@ -515,8 +473,22 @@ static void
 photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
 
   object_class->dispose = photos_selection_toolbar_dispose;
+
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/selection-toolbar.ui");
+  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_favorite);
+  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_open);
+  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_print);
+  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_trash);
+  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_properties);
+  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_collection);
+  gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_favorite_clicked);
+  gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_open_clicked);
+  gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_print_clicked);
+  gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_properties_clicked);
+  gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_collection_clicked);
 }
 
 

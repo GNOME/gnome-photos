@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="gnome-photos">
+  <!-- interface-requires gtk+ 3.11 -->
+  <template class="PhotosSelectionToolbar" parent="GtkActionBar">
+    <property name="visible">0</property>
+      <child>
+        <object class="GtkButton" id="toolbar_favorite">
+          <property name="visible">1</property>
+          <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
+                  handler="photos_selection_toolbar_favorite_clicked" />
+        </object>
+        <packing>
+          <property name="pack_type">start</property>
+        </packing>
+      </child>
+      <child>
+        <object class="GtkButton" id="toolbar_open">
+          <property name="visible">1</property>
+          <property name="label" translatable="yes">Open</property>
+          <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
+                  handler="photos_selection_toolbar_open_clicked" />
+        </object>
+        <packing>
+          <property name="pack_type">start</property>
+        </packing>
+      </child>
+      <child>
+        <object class="GtkButton" id="toolbar_print">
+          <property name="visible">1</property>
+          <property name="label" translatable="yes">Print</property>
+          <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
+                  handler="photos_selection_toolbar_print_clicked" />
+        </object>
+        <packing>
+          <property name="pack_type">start</property>
+        </packing>
+      </child>
+      <child>
+        <object class="GtkButton" id="toolbar_trash">
+          <property name="visible">1</property>
+          <property name="label" translatable="yes">Delete</property>
+          <property name="action_name">app.delete</property>
+        </object>
+        <packing>
+          <property name="pack_type">start</property>
+        </packing>
+      </child>
+      <child>
+        <object class="GtkButton" id="toolbar_properties">
+          <property name="visible">1</property>
+          <property name="label" translatable="yes">Properties</property>
+          <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
+                  handler="photos_selection_toolbar_properties_clicked" />
+        </object>
+        <packing>
+          <property name="pack_type">end</property>
+        </packing>
+      </child>
+      <child>
+        <object class="GtkButton" id="toolbar_collection">
+          <property name="visible">1</property>
+          <property name="label" translatable="yes">Add to Album</property>
+          <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
+                  handler="photos_selection_toolbar_collection_clicked" />
+        </object>
+        <packing>
+          <property name="pack_type">end</property>
+        </packing>
+      </child>
+  </template>
+</interface>

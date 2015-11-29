@@ -248,6 +248,7 @@ EXTRA_DIST = \
 	photos-menus.ui \
 	photos-preview-menu.ui \
 	photos-selection-menu.ui \
+	photos-selection-toolbar.ui \
 	photos-gom-miner.xml \
 	photos-tracker-extract-priority.xml \
 	photos-tracker-resources.xml \
