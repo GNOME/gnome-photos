@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-07-25 19:49+0000\n"
-"PO-Revision-Date: 2014-10-07 07:29+0100\n"
+"POT-Creation-Date: 2015-06-07 19:45+0000\n"
+"PO-Revision-Date: 2015-06-11 06:55+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "Language: pt\n"
@@ -37,10 +37,10 @@ msgid ""
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Uma aplicação simples para aceder, organizar e partilhar as suas "
-"fotografiass no GNOME. Pretende ser um substituto simples e elegante à "
-"utilização de um gestor de ficheiros para lidar com fotografias. É oferecida "
-"uma integração na nuvem através das Contas online do GNOME."
+"Uma aplicação simples para aceder, organizar e partilhar as suas fotografias "
+"no GNOME. Pretende ser um substituto simples e elegante à utilização de um "
+"gestor de ficheiros para lidar com fotografias. É oferecida uma integração "
+"na nuvem através das Contas online do GNOME."
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
@@ -179,22 +179,6 @@ msgstr "Impossível mostrar a ajuda para o Visualizador de imagens"
 msgid " (invalid Unicode)"
 msgstr " (Unicode inválido)"
 
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Ecrã completo"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "A_Juda"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "Sobre"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "Sair"
-
 #: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Álbum"
@@ -225,19 +209,19 @@ msgstr "Desfazer"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos DLNA de composição de imagens"
 
-#: ../src/photos-embed.c:621
+#: ../src/photos-embed.c:637
 msgid "Recent"
 msgstr "Recente"
 
-#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:644 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Álbuns"
 
-#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:651 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:289
+#: ../src/photos-embed.c:658 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Procurar"
 
@@ -330,20 +314,20 @@ msgid "Select Items"
 msgstr "Selecionar itens"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:431 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir com %s"
 
-#: ../src/photos-main-toolbar.c:477 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Remover dos favoritos"
 
-#: ../src/photos-main-toolbar.c:482 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Adicionar aos favoritos"
 
-#: ../src/photos-main-toolbar.c:652
+#: ../src/photos-main-toolbar.c:645
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -360,10 +344,24 @@ msgstr ""
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:483
 msgid "translator-credits"
-msgstr ""
-"António Lima <amrlima@gmail.com>\n"
+msgstr "António Lima <amrlima@gmail.com>\n"
 "Pedro Albuquerque <palbuquerque73@gmail.com>"
 
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Ecrã completo"
+
+#: ../src/photos-menus.ui.h:2
+msgid "_Help"
+msgstr "A_Juda"
+
+#: ../src/photos-menus.ui.h:3
+msgid "About"
+msgstr "Sobre"
+
+#: ../src/photos-menus.ui.h:4
+msgid "Quit"
+msgstr "Sair"
 
 #: ../src/photos-organize-collection-dialog.c:76
 msgid "_Add"
@@ -581,14 +579,17 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "Comparar"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Tipo"
@@ -619,7 +620,7 @@ msgstr "Fontes"
 
 #: ../src/photos-tracker-controller.c:97
 msgid "Unable to fetch the list of photos"
-msgstr "Impossível obter a lista de fotos"
+msgstr "Impossível obter a lista de fotografias"
 
 #~ msgid "No Favorites Found"
 #~ msgstr "Nenhum favorito encontrado"
