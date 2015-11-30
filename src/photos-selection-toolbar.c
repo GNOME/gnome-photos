@@ -219,7 +219,7 @@ photos_selection_toolbar_print_clicked (GtkButton *button, gpointer user_data)
   const gchar *urn;
 
   selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
-  if (selection != NULL && selection->next == NULL) /* length == 1 */
+  if (selection == NULL || selection->next != NULL) /* length != 1 */
     return;
 
   urn = (gchar *) selection->data;
