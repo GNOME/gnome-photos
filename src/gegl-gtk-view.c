@@ -22,10 +22,7 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 #include <gegl.h>
-
-#ifdef HAVE_CAIRO_GOBJECT
 #include <cairo-gobject.h>
-#endif
 
 #include "gegl-gtk-view.h"
 #include "gegl-gtk-view-helper.h"
@@ -90,7 +87,6 @@ enum {
     PROP_AUTOSCALE_POLICY
 };
 
-#ifdef HAVE_CAIRO_GOBJECT
 enum {
     SIGNAL_DRAW_BACKGROUND,
     SIGNAL_DRAW_OVERLAY,
@@ -98,7 +94,6 @@ enum {
 };
 
 static guint gegl_view_signals[N_SIGNALS];
-#endif
 
 static ViewHelper *
 get_private(GeglGtkView *self)
@@ -196,7 +191,6 @@ gegl_gtk_view_class_init(GeglGtkViewClass *klass)
  *
  * Note:
  * Manipulating the view widget in the signal handler is not supported.
- * This signal is only available if GEGL-GTK was build with Cairo GObject support.
  **/
 
 /**
@@ -209,12 +203,7 @@ gegl_gtk_view_class_init(GeglGtkViewClass *klass)
 *
 * Allows consumers to draw an overlay for the widget, for instance
 * for simple user interface elements.
-*
-* Note:
-* Manipulating the view widget in the signal handler is not supported.
-* This signal is only available if GEGL-GTK was build with Cairo GObject support.
 **/
-#ifdef HAVE_CAIRO_GOBJECT
     gegl_view_signals[SIGNAL_DRAW_BACKGROUND] =
         g_signal_new("draw-background",
                      G_TYPE_FROM_CLASS(klass),
@@ -234,8 +223,6 @@ gegl_gtk_view_class_init(GeglGtkViewClass *klass)
                      NULL,
                      gegl_gtk_marshal_VOID__BOXED_BOXED,
                      G_TYPE_NONE, 2, CAIRO_GOBJECT_TYPE_CONTEXT, GDK_TYPE_RECTANGLE);
-#endif
-
 }
 
 static void
@@ -361,26 +348,22 @@ draw_implementation(GeglGtkView *self, cairo_t *cr, GdkRectangle *rect)
 {
     ViewHelper *priv = GET_PRIVATE(self);
 
-#ifdef HAVE_CAIRO_GOBJECT
     /* Draw background */
     cairo_save(cr);
     g_signal_emit(G_OBJECT(self), gegl_view_signals[SIGNAL_DRAW_BACKGROUND],
                   0, cr, rect, NULL);
     cairo_restore(cr);
-#endif
 
     /* Draw the gegl node */
     cairo_save(cr);
     view_helper_draw(priv, cr, rect);
     cairo_restore(cr);
 
-#ifdef HAVE_CAIRO_GOBJECT
     /* Draw overlay */
     cairo_save(cr);
     g_signal_emit(G_OBJECT(self), gegl_view_signals[SIGNAL_DRAW_OVERLAY],
                   0, cr, rect, NULL);
     cairo_restore(cr);
-#endif
 }
 
 static gboolean

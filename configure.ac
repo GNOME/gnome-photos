@@ -64,10 +64,7 @@ if test "$have_langinfo_measurement" = "yes"; then
 fi
 
 PKG_CHECK_MODULES(BABL, [babl])
-
 PKG_CHECK_MODULES(CAIRO, [cairo >= $CAIRO_MIN_VERSION cairo-gobject])
-AC_DEFINE([HAVE_CAIRO_GOBJECT], [], [We want gegl-gtk to use the cairo-gobject code path])
-
 PKG_CHECK_MODULES(GFBGRAPH, [libgfbgraph-0.2 >= $GFBGRAPH_MIN_VERSION])
 PKG_CHECK_MODULES(GDATA, [libgdata >= $GDATA_MIN_VERSION])
 PKG_CHECK_MODULES(GEGL, [gegl-0.3 >= $GEGL_MIN_VERSION])
