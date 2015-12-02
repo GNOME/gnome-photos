@@ -15,6 +15,7 @@
  *
  * Copyright (C) 2003, 2004, 2006 Øyvind Kolås <pippin@gimp.org>
  * Copyright (C) 2011 Jon Nordby <jononor@gmail.com>
+ * Copyright (C) 2015 Red Hat, Inc.
  */
 
 #ifndef __VIEW_HELPER_H__
@@ -44,7 +45,7 @@ struct _ViewHelper {
     GeglNode      *node;
     gfloat         x;
     gfloat         y;
-    gdouble        scale;
+    gdouble        zoom;
     gint           scale_factor;
     gboolean       block;    /* blocking render */
     GeglGtkViewAutoscale autoscale_policy;
@@ -69,8 +70,8 @@ void view_helper_set_allocation(ViewHelper *self, GdkRectangle *allocation, gint
 void view_helper_set_node(ViewHelper *self, GeglNode *node);
 GeglNode *view_helper_get_node(ViewHelper *self);
 
-void view_helper_set_scale(ViewHelper *self, float scale);
-float view_helper_get_scale(ViewHelper *self);
+void view_helper_set_zoom(ViewHelper *self, float zoom);
+float view_helper_get_zoom(ViewHelper *self);
 
 float view_helper_get_x(ViewHelper *self);
 

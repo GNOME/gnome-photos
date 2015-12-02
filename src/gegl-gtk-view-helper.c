@@ -82,7 +82,7 @@ view_helper_init(ViewHelper *self)
     self->node        = NULL;
     self->x           = 0;
     self->y           = 0;
-    self->scale       = 1.0;
+    self->zoom        = 1.0;
     self->scale_factor = 1;
     self->autoscale_policy = GEGL_GTK_VIEW_AUTOSCALE_CONTENT;
     self->block = FALSE;
@@ -105,10 +105,10 @@ model_rect_to_view_rect(ViewHelper *self, GeglRectangle *rect)
 {
     GeglRectangle temp;
 
-    temp.x = self->scale * (rect->x) - self->x;
-    temp.y = self->scale * (rect->y) - self->y;
-    temp.width = ceil(self->scale * rect->width);
-    temp.height = ceil(self->scale * rect->height);
+    temp.x = self->zoom * (rect->x) - self->x;
+    temp.y = self->zoom * (rect->y) - self->y;
+    temp.width = ceil(self->zoom * rect->width);
+    temp.height = ceil(self->zoom * rect->height);
 
     *rect = temp;
 }
@@ -128,14 +128,14 @@ update_autoscale(ViewHelper *self)
 
     if (self->autoscale_policy == GEGL_GTK_VIEW_AUTOSCALE_WIDGET) {
         /* Request widget size change */
-        /* XXX: Should we reset scale/x/y here? */
+        /* XXX: Should we reset zoom/x/y here? */
         model_rect_to_view_rect(self, &bbox);
         g_signal_emit(self, view_helper_signals[SIGNAL_SIZE_CHANGED],
                       0, &bbox, NULL);
 
     } else if (self->autoscale_policy == GEGL_GTK_VIEW_AUTOSCALE_CONTENT) {
         /* Calculate and set scaling factor to make the content fit inside */
-        float scale = 1.0;
+        float zoom = 1.0;
         const gint real_viewport_height = viewport.height * self->scale_factor;
         const gint real_viewport_width = viewport.width * self->scale_factor;
 
@@ -144,15 +144,15 @@ update_autoscale(ViewHelper *self)
             float height_ratio = bbox.height / (float)real_viewport_height;
             float max_ratio = width_ratio >= height_ratio ? width_ratio : height_ratio;
 
-            scale = 1.0 / max_ratio;
+            zoom = 1.0 / max_ratio;
 
-            bbox.width = (gint) (scale * bbox.width + 0.5);
-            bbox.height = (gint) (scale * bbox.height + 0.5);
-            bbox.x = (gint) (scale * bbox.x + 0.5);
-            bbox.y = (gint) (scale * bbox.y + 0.5);
+            bbox.width = (gint) (zoom * bbox.width + 0.5);
+            bbox.height = (gint) (zoom * bbox.height + 0.5);
+            bbox.x = (gint) (zoom * bbox.x + 0.5);
+            bbox.y = (gint) (zoom * bbox.y + 0.5);
         }
 
-        self->scale = scale;
+        self->zoom = zoom;
 
         /* At this point, viewport is definitely bigger than bbox. */
         self->x = (bbox.width - real_viewport_width) / 2.0 + bbox.x;
@@ -206,7 +206,7 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
     start = g_get_monotonic_time ();
 
     gegl_node_blit(self->node,
-                   self->scale,
+                   self->zoom,
                    &roi,
                    babl_format("cairo-ARGB32"),
                    (gpointer)buf,
@@ -284,20 +284,20 @@ view_helper_get_node(ViewHelper *self)
 }
 
 void
-view_helper_set_scale(ViewHelper *self, float scale)
+view_helper_set_zoom(ViewHelper *self, float zoom)
 {
-    if (self->scale == scale)
+    if (self->zoom == zoom)
         return;
 
-    self->scale = scale;
+    self->zoom = zoom;
     update_autoscale(self);
     trigger_redraw(self, NULL);
 }
 
 float
-view_helper_get_scale(ViewHelper *self)
+view_helper_get_zoom(ViewHelper *self)
 {
-    return self->scale;
+    return self->zoom;
 }
 
 float
@@ -317,12 +317,12 @@ void view_helper_get_transformation(ViewHelper *self, GeglMatrix3 *matrix)
     /* XXX: Below gives the right result, but is it really the
      * way we want transformations to work? */
 
-    matrix->coeff [0][0] = self->scale; /* xx */
+    matrix->coeff [0][0] = self->zoom; /* xx */
     matrix->coeff [0][1] = 0.0; /* xy */
     matrix->coeff [0][2] = -self->x; /* x0 */
 
     matrix->coeff [1][0] = 0.0; /* yx */
-    matrix->coeff [1][1] = self->scale; /* yy */
+    matrix->coeff [1][1] = self->zoom; /* yy */
     matrix->coeff [1][2] = -self->y; /* y0 */
 
     matrix->coeff [2][0] = 0.0;

@@ -59,8 +59,8 @@ GeglGtkView *gegl_gtk_view_new_for_node(GeglNode *node);
 void gegl_gtk_view_set_node(GeglGtkView *self, GeglNode *node);
 GeglNode *gegl_gtk_view_get_node(GeglGtkView *self);
 
-void gegl_gtk_view_set_scale(GeglGtkView *self, float scale);
-float gegl_gtk_view_get_scale(GeglGtkView *self);
+void gegl_gtk_view_set_zoom(GeglGtkView *self, float zoom);
+float gegl_gtk_view_get_zoom(GeglGtkView *self);
 
 float gegl_gtk_view_get_x(GeglGtkView *self);
 

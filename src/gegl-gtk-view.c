@@ -49,7 +49,7 @@
  * The widget can show a transformed view of the GeglNode. Scaling and
  * transformations are supported, as well as autoscaling.
  * For manual control over the transformation see
- * methods gegl_gtk_view_set_scale(), gegl_gtk_view_set_x() and
+ * methods gegl_gtk_view_set_zoom(), gegl_gtk_view_set_x() and
  * gegl_gtk_view_set_y(), or use the corresponding properties.
  * For changing the autoscaling behavior, see
  * gegl_gtk_view_set_autoscale_policy()
@@ -85,7 +85,7 @@ enum {
     PROP_NODE,
     PROP_X,
     PROP_Y,
-    PROP_SCALE,
+    PROP_ZOOM,
     PROP_BLOCK,
     PROP_AUTOSCALE_POLICY
 };
@@ -167,9 +167,9 @@ gegl_gtk_view_class_init(GeglGtkViewClass *klass)
                                             "Y origin",
                                             -G_MAXFLOAT, G_MAXFLOAT, 0.0,
                                             G_PARAM_READABLE));
-    g_object_class_install_property(gobject_class, PROP_SCALE,
-                                    g_param_spec_double("scale",
-                                            "Scale",
+    g_object_class_install_property(gobject_class, PROP_ZOOM,
+                                    g_param_spec_double("zoom",
+                                            "Zoom",
                                             "Zoom factor",
                                             0.0, 100.0, 1.00,
                                             G_PARAM_CONSTRUCT |
@@ -288,8 +288,8 @@ set_property(GObject      *gobject,
     case PROP_BLOCK:
         priv->block = g_value_get_boolean(value);
         break;
-    case PROP_SCALE:
-        gegl_gtk_view_set_scale(self, g_value_get_double(value));
+    case PROP_ZOOM:
+        gegl_gtk_view_set_zoom(self, g_value_get_double(value));
         break;
     case PROP_AUTOSCALE_POLICY:
         gegl_gtk_view_set_autoscale_policy(self, g_value_get_enum(value));
@@ -323,8 +323,8 @@ get_property(GObject      *gobject,
     case PROP_Y:
         g_value_set_float(value, gegl_gtk_view_get_y(self));
         break;
-    case PROP_SCALE:
-        g_value_set_double(value, gegl_gtk_view_get_scale(self));
+    case PROP_ZOOM:
+        g_value_set_double(value, gegl_gtk_view_get_zoom(self));
         break;
     case PROP_AUTOSCALE_POLICY:
         g_value_set_enum(value, gegl_gtk_view_get_autoscale_policy(self));
@@ -498,30 +498,30 @@ gegl_gtk_view_get_node(GeglGtkView *self)
 }
 
 /**
- * gegl_gtk_view_set_scale:
+ * gegl_gtk_view_set_zoom:
  * @self: A #GeglGtkView
- * @scale:
+ * @zoom:
  *
- * Setter for the :scale property
+ * Setter for the :zoom property
  **/
 void
-gegl_gtk_view_set_scale(GeglGtkView *self, float scale)
+gegl_gtk_view_set_zoom(GeglGtkView *self, float zoom)
 {
-    view_helper_set_scale(GET_PRIVATE(self), scale);
+    view_helper_set_zoom(GET_PRIVATE(self), zoom);
 }
 
 /**
- * gegl_gtk_view_get_scale:
+ * gegl_gtk_view_get_zoom:
  * @self: A #GeglGtkView
  *
- * Getter for the :scale property
+ * Getter for the :zoom property
  *
  * Returns:
  **/
 float
-gegl_gtk_view_get_scale(GeglGtkView *self)
+gegl_gtk_view_get_zoom(GeglGtkView *self)
 {
-    return view_helper_get_scale(GET_PRIVATE(self));
+    return view_helper_get_zoom(GET_PRIVATE(self));
 }
 
 /**

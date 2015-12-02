@@ -60,7 +60,7 @@ struct _PhotosToolCrop
 {
   PhotosTool parent_instance;
   GAction *crop;
-  GeglRectangle bbox_scaled;
+  GeglRectangle bbox_zoomed;
   GeglRectangle bbox_source;
   GtkListStore *model;
   GtkWidget *box;
@@ -235,18 +235,18 @@ static void
 photos_tool_crop_surface_create (PhotosToolCrop *self)
 {
   GdkWindow *window;
-  gfloat scale;
+  gfloat zoom;
 
   g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
 
   window = gtk_widget_get_window (self->view);
-  scale = gegl_gtk_view_get_scale (GEGL_GTK_VIEW (self->view));
-  self->bbox_scaled.height = (gint) (scale * self->bbox_source.height + 0.5);
-  self->bbox_scaled.width = (gint) (scale * self->bbox_source.width + 0.5);
+  zoom = gegl_gtk_view_get_zoom (GEGL_GTK_VIEW (self->view));
+  self->bbox_zoomed.height = (gint) (zoom * self->bbox_source.height + 0.5);
+  self->bbox_zoomed.width = (gint) (zoom * self->bbox_source.width + 0.5);
   self->surface = gdk_window_create_similar_surface (window,
                                                      CAIRO_CONTENT_COLOR_ALPHA,
-                                                     self->bbox_scaled.width,
-                                                     self->bbox_scaled.height);
+                                                     self->bbox_zoomed.width,
+                                                     self->bbox_zoomed.height);
 }
 
 
@@ -340,17 +340,17 @@ photos_tool_crop_init_crop (PhotosToolCrop *self)
 
   if (self->crop_aspect_ratio < aspect_ratio)
     {
-      self->crop_height = 0.7 * self->bbox_scaled.height;
+      self->crop_height = 0.7 * self->bbox_zoomed.height;
       self->crop_width = self->crop_height * self->crop_aspect_ratio;
     }
   else
     {
-      self->crop_width = 0.7 * self->bbox_scaled.width;
+      self->crop_width = 0.7 * self->bbox_zoomed.width;
       self->crop_height = self->crop_width / self->crop_aspect_ratio;
     }
 
-  self->crop_x = ((gdouble) self->bbox_scaled.width - self->crop_width) / 2.0;
-  self->crop_y = ((gdouble) self->bbox_scaled.height - self->crop_height) / 2.0;
+  self->crop_x = ((gdouble) self->bbox_zoomed.width - self->crop_width) / 2.0;
+  self->crop_y = ((gdouble) self->bbox_zoomed.height - self->crop_height) / 2.0;
 
  out:
   photos_tool_crop_surface_draw (self);
@@ -578,8 +578,8 @@ photos_tool_crop_set_crop (PhotosToolCrop *self, gdouble event_x, gdouble event_
       {
         gboolean x_adj = FALSE;
         gboolean y_adj = FALSE;
-        gdouble bbox_scaled_height = (gdouble) self->bbox_scaled.height;
-        gdouble bbox_scaled_width = (gdouble) self->bbox_scaled.width;
+        gdouble bbox_zoomed_height = (gdouble) self->bbox_zoomed.height;
+        gdouble bbox_zoomed_width = (gdouble) self->bbox_zoomed.width;
 
         self->crop_x += delta_x;
         self->crop_y += delta_y;
@@ -598,15 +598,15 @@ photos_tool_crop_set_crop (PhotosToolCrop *self, gdouble event_x, gdouble event_
             y_adj = TRUE;
           }
 
-        if (self->crop_x + self->crop_width > bbox_scaled_width)
+        if (self->crop_x + self->crop_width > bbox_zoomed_width)
           {
-            self->crop_width = bbox_scaled_width - self->crop_x;
+            self->crop_width = bbox_zoomed_width - self->crop_x;
             x_adj = TRUE;
           }
 
-        if (self->crop_y + self->crop_height > bbox_scaled_height)
+        if (self->crop_y + self->crop_height > bbox_zoomed_height)
           {
-            self->crop_height = bbox_scaled_height - self->crop_y;
+            self->crop_height = bbox_zoomed_height - self->crop_y;
             y_adj = TRUE;
           }
 
@@ -616,7 +616,7 @@ photos_tool_crop_set_crop (PhotosToolCrop *self, gdouble event_x, gdouble event_
               self->crop_width = crop_width_old;
             else
               {
-                self->crop_x = bbox_scaled_width - crop_width_old;
+                self->crop_x = bbox_zoomed_width - crop_width_old;
                 self->crop_width = crop_width_old;
               }
           }
@@ -627,7 +627,7 @@ photos_tool_crop_set_crop (PhotosToolCrop *self, gdouble event_x, gdouble event_
               self->crop_height = crop_height_old;
             else
               {
-                self->crop_y = bbox_scaled_height - crop_height_old;
+                self->crop_y = bbox_zoomed_height - crop_height_old;
                 self->crop_height = crop_height_old;
               }
           }
@@ -672,9 +672,9 @@ photos_tool_crop_set_crop (PhotosToolCrop *self, gdouble event_x, gdouble event_
   if (self->crop_height < CROP_MIN_SIZE
       || self->crop_width < CROP_MIN_SIZE
       || self->crop_x < 0.0
-      || self->crop_x + self->crop_width > self->bbox_scaled.width
+      || self->crop_x + self->crop_width > self->bbox_zoomed.width
       || self->crop_y < 0.0
-      || self->crop_y + self->crop_height > self->bbox_scaled.height)
+      || self->crop_y + self->crop_height > self->bbox_zoomed.height)
     {
       self->crop_height = crop_height_old;
       self->crop_width = crop_width_old;
@@ -846,7 +846,7 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (user_data);
   GError *error = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-  gfloat scale;
+  gfloat zoom;
   guint active;
 
   photos_base_item_process_finish (item, res, &error);
@@ -857,11 +857,11 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
       goto out;
     }
 
-  scale = gegl_gtk_view_get_scale (GEGL_GTK_VIEW (self->view));
-  self->crop_height *= scale;
-  self->crop_width *= scale;
-  self->crop_x *= scale;
-  self->crop_y *= scale;
+  zoom = gegl_gtk_view_get_zoom (GEGL_GTK_VIEW (self->view));
+  self->crop_height *= zoom;
+  self->crop_width *= zoom;
+  self->crop_x *= zoom;
+  self->crop_y *= zoom;
 
   self->crop_aspect_ratio = self->crop_width / self->crop_height;
   active = photos_tool_crop_find_constraint (self, self->crop_aspect_ratio);
@@ -892,17 +892,17 @@ photos_tool_crop_size_allocate (PhotosToolCrop *self, GdkRectangle *allocation)
   gdouble crop_x_ratio;
   gdouble crop_y_ratio;
 
-  crop_height_ratio = self->crop_height / (gdouble) self->bbox_scaled.height;
-  crop_width_ratio = self->crop_width / (gdouble) self->bbox_scaled.width;
-  crop_x_ratio = self->crop_x / (gdouble) self->bbox_scaled.width;
-  crop_y_ratio = self->crop_y / (gdouble) self->bbox_scaled.height;
+  crop_height_ratio = self->crop_height / (gdouble) self->bbox_zoomed.height;
+  crop_width_ratio = self->crop_width / (gdouble) self->bbox_zoomed.width;
+  crop_x_ratio = self->crop_x / (gdouble) self->bbox_zoomed.width;
+  crop_y_ratio = self->crop_y / (gdouble) self->bbox_zoomed.height;
 
   photos_tool_crop_surface_create (self);
 
-  self->crop_height = crop_height_ratio * (gdouble) self->bbox_scaled.height;
-  self->crop_width = crop_width_ratio * (gdouble) self->bbox_scaled.width;
-  self->crop_x = crop_x_ratio * (gdouble) self->bbox_scaled.width;
-  self->crop_y = crop_y_ratio * (gdouble) self->bbox_scaled.height;
+  self->crop_height = crop_height_ratio * (gdouble) self->bbox_zoomed.height;
+  self->crop_width = crop_width_ratio * (gdouble) self->bbox_zoomed.width;
+  self->crop_x = crop_x_ratio * (gdouble) self->bbox_zoomed.width;
+  self->crop_y = crop_y_ratio * (gdouble) self->bbox_zoomed.height;
 
   photos_tool_crop_surface_draw (self);
 }
@@ -938,7 +938,7 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *
       g_return_if_fail (y >= 0.0);
 
       /* These values are invalid until they are multiplied by the
-       * view's scale, which we won't know until we have finished
+       * view's zoom, which we won't know until we have finished
        * processing with the reset gegl:crop values.
        */
       self->crop_height = height;
@@ -982,16 +982,16 @@ photos_tool_crop_deactivate (PhotosTool *tool)
     {
       GVariantBuilder parameter;
       GVariantType *parameter_type;
-      gfloat scale;
+      gfloat zoom;
 
-      scale = gegl_gtk_view_get_scale (GEGL_GTK_VIEW (self->view));
+      zoom = gegl_gtk_view_get_zoom (GEGL_GTK_VIEW (self->view));
 
       parameter_type = g_variant_type_new ("a{sd}");
       g_variant_builder_init (&parameter, parameter_type);
-      g_variant_builder_add (&parameter, "{sd}", "height", self->crop_height / scale);
-      g_variant_builder_add (&parameter, "{sd}", "width", self->crop_width / scale);
-      g_variant_builder_add (&parameter, "{sd}", "x", self->crop_x / scale);
-      g_variant_builder_add (&parameter, "{sd}", "y", self->crop_y / scale);
+      g_variant_builder_add (&parameter, "{sd}", "height", self->crop_height / zoom);
+      g_variant_builder_add (&parameter, "{sd}", "width", self->crop_width / zoom);
+      g_variant_builder_add (&parameter, "{sd}", "x", self->crop_x / zoom);
+      g_variant_builder_add (&parameter, "{sd}", "y", self->crop_y / zoom);
       g_action_activate (self->crop, g_variant_builder_end (&parameter));
 
       g_variant_type_free (parameter_type);
