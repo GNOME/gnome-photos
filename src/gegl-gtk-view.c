@@ -119,15 +119,8 @@ static void      get_property(GObject        *gobject,
                               GValue         *value,
                               GParamSpec     *pspec);
 
-#ifdef HAVE_GTK2
-static gboolean  expose_event(GtkWidget      *widget,
-                              GdkEventExpose *event);
-#endif
-#ifdef HAVE_GTK3
 static gboolean  draw(GtkWidget *widget,
                       cairo_t *cr);
-#endif
-
 
 static void
 trigger_redraw(ViewHelper *priv, GeglRectangle *rect, GeglGtkView *view);
@@ -147,13 +140,7 @@ gegl_gtk_view_class_init(GeglGtkViewClass *klass)
     gobject_class->set_property = set_property;
     gobject_class->get_property = get_property;
 
-#ifdef HAVE_GTK2
-    widget_class->expose_event        = expose_event;
-#endif
-
-#ifdef HAVE_GTK3
     widget_class->draw                = draw;
-#endif
 
     g_object_class_install_property(gobject_class, PROP_X,
                                     g_param_spec_float("x",
@@ -396,7 +383,6 @@ draw_implementation(GeglGtkView *self, cairo_t *cr, GdkRectangle *rect)
 #endif
 }
 
-#ifdef HAVE_GTK3
 static gboolean
 draw(GtkWidget *widget, cairo_t *cr)
 {
@@ -413,34 +399,6 @@ draw(GtkWidget *widget, cairo_t *cr)
 
     return FALSE;
 }
-#endif
-
-#ifdef HAVE_GTK2
-static gboolean
-expose_event(GtkWidget      *widget,
-             GdkEventExpose *event)
-{
-    GeglGtkView *self = GEGL_GTK_VIEW(widget);
-    ViewHelper *priv = GET_PRIVATE(self);
-    cairo_t      *cr;
-    GdkRectangle rect;
-
-    if (!priv->node)
-        return FALSE;
-
-    cr = gdk_cairo_create(widget->window);
-    gdk_cairo_region(cr, event->region);
-    cairo_clip(cr);
-    gdk_region_get_clipbox(event->region, &rect);
-
-    draw_implementation(self, cr, &rect);
-
-    cairo_destroy(cr);
-
-    return FALSE;
-}
-#endif
-
 
 /**
  * gegl_gtk_view_new:

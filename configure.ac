@@ -82,10 +82,7 @@ PKG_CHECK_MODULES(GOA, [goa-1.0 >= $GOA_MIN_VERSION])
 AC_DEFINE([GOA_API_IS_SUBJECT_TO_CHANGE], [], [We are aware that GOA's API can change])
 
 PKG_CHECK_MODULES(GRILO, [grilo-0.3 >= $GRILO_MIN_VERSION])
-
 PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= $GTK_MIN_VERSION])
-AC_DEFINE([HAVE_GTK3], [], [We want gegl-gtk to use the GTK+ 3.x code path])
-
 PKG_CHECK_MODULES(GTK_UNIX_PRINT, [gtk+-unix-print-3.0])
 PKG_CHECK_MODULES(TRACKER, [tracker-control-1.0 tracker-sparql-1.0])
 
