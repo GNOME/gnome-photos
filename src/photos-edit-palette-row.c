@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015 Umang Jain
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +29,7 @@ struct _PhotosEditPaletteRow
 {
   GtkListBoxRow parent_instance;
   GtkWidget *details_revealer;
+  GtkWidget *row_revealer;
   PhotosTool *tool;
   GtkSizeGroup *size_group;
 };
@@ -63,13 +65,17 @@ photos_edit_palette_row_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_edit_palette_row_parent_class)->constructed (object);
 
+  self->row_revealer = gtk_revealer_new();
+  gtk_revealer_set_transition_type (GTK_REVEALER (self->row_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN);
+  gtk_container_add (GTK_CONTAINER (self), self->row_revealer);
+
   grid0 = gtk_grid_new ();
   gtk_widget_set_margin_bottom (grid0, 6);
   gtk_widget_set_margin_start (grid0, 18);
   gtk_widget_set_margin_end (grid0, 18);
   gtk_widget_set_margin_top (grid0, 6);
   gtk_orientable_set_orientation (GTK_ORIENTABLE (grid0), GTK_ORIENTATION_VERTICAL);
-  gtk_container_add (GTK_CONTAINER (self), grid0);
+  gtk_container_add (GTK_CONTAINER (self->row_revealer), grid0);
 
   grid1 = gtk_grid_new ();
   gtk_orientable_set_orientation (GTK_ORIENTABLE (grid1), GTK_ORIENTATION_HORIZONTAL);
@@ -218,4 +224,10 @@ photos_edit_palette_row_show_details (PhotosEditPaletteRow *self)
 {
   gtk_list_box_row_set_activatable (GTK_LIST_BOX_ROW (self), FALSE);
   gtk_revealer_set_reveal_child (GTK_REVEALER (self->details_revealer), TRUE);
+}
+
+void
+photos_edit_palette_row_show (PhotosEditPaletteRow *self)
+{
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->row_revealer), TRUE);
 }

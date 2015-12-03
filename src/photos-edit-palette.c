@@ -221,6 +221,7 @@ photos_edit_palette_show (PhotosEditPalette *self)
 
       row = photos_edit_palette_row_new (tool, size_group);
       gtk_container_add (GTK_CONTAINER (self), row);
+      photos_edit_palette_row_show (PHOTOS_EDIT_PALETTE_ROW (row));
 
       g_signal_connect_swapped (tool, "hide-requested", G_CALLBACK (photos_edit_palette_hide_requested), self);
 

@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015 Umang Jain
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -49,6 +50,8 @@ PhotosTool            *photos_edit_palette_row_get_tool               (PhotosEdi
 void                   photos_edit_palette_row_hide_details           (PhotosEditPaletteRow *self);
 
 void                   photos_edit_palette_row_show_details           (PhotosEditPaletteRow *self);
+
+void                   photos_edit_palette_row_show                   (PhotosEditPaletteRow *self);
 
 G_END_DECLS
 
