@@ -29,6 +29,7 @@
 #include "photos-icons.h"
 #include "photos-operation-insta-common.h"
 #include "photos-tool.h"
+#include "photos-tool-filter-button.h"
 #include "photos-tool-filters.h"
 #include "photos-utils.h"
 
@@ -85,7 +86,7 @@ photos_tool_filters_create_preview_idle (gpointer user_data)
                                              "preset", preset,
                                              NULL);
   image = gtk_image_new_from_surface (surface);
-  gtk_button_set_image (GTK_BUTTON (button), image);
+  photos_tool_filter_button_set_image (PHOTOS_TOOL_FILTER_BUTTON (button), image);
 
   gtk_widget_show (image);
 
@@ -156,95 +157,51 @@ photos_tool_filters_finalize (GObject *object)
 static void
 photos_tool_filters_init (PhotosToolFilters *self)
 {
-  GApplication *app;
-  GdkPixbuf *preview_icon = NULL;
   GtkWidget *button;
-  GtkWidget *image;
-  cairo_surface_t *preview_icon_surface = NULL;
-  gint scale;
   guint row = 0;
-
-  app = g_application_get_default ();
-  scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
-  preview_icon = photos_utils_create_placeholder_icon_for_scale (PHOTOS_ICON_CONTENT_LOADING_SYMBOLIC, 96, scale);
-  if (preview_icon != NULL)
-    preview_icon_surface = gdk_cairo_surface_create_from_pixbuf (preview_icon, scale, NULL);
 
   self->grid = g_object_ref_sink (gtk_grid_new ());
 
-  image = gtk_image_new_from_surface (preview_icon_surface);
-  button = gtk_button_new_with_label (_("None"));
+  button = photos_tool_filter_button_new (_("None"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_NONE);
-  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
-  gtk_button_set_image (GTK_BUTTON (button), image);
-  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
-  gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
 
-  image = gtk_image_new_from_surface (preview_icon_surface);
-  button = gtk_button_new_with_label (_("1977"));
+  button = photos_tool_filter_button_new (_("1977"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_1977);
-  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
-  gtk_button_set_image (GTK_BUTTON (button), image);
-  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
-  gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
   row++;
 
-  image = gtk_image_new_from_surface (preview_icon_surface);
-  button = gtk_button_new_with_label (_("Brannan"));
+  button = photos_tool_filter_button_new (_("Brannan"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_BRANNAN);
-  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
-  gtk_button_set_image (GTK_BUTTON (button), image);
-  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
-  gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
 
-  image = gtk_image_new_from_surface (preview_icon_surface);
-  button = gtk_button_new_with_label (_("Gotham"));
+  button = photos_tool_filter_button_new (_("Gotham"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_GOTHAM);
-  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
-  gtk_button_set_image (GTK_BUTTON (button), image);
-  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
-  gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
   row++;
 
-  image = gtk_image_new_from_surface (preview_icon_surface);
-  button = gtk_button_new_with_label (_("Gray"));
+  button = photos_tool_filter_button_new (_("Gray"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_GRAY);
-  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
-  gtk_button_set_image (GTK_BUTTON (button), image);
-  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
-  gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
 
-  image = gtk_image_new_from_surface (preview_icon_surface);
-  button = gtk_button_new_with_label (_("Nashville"));
+  button = photos_tool_filter_button_new (_("Nashville"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_NASHVILLE);
-  gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
-  gtk_button_set_image (GTK_BUTTON (button), image);
-  gtk_button_set_image_position (GTK_BUTTON (button), GTK_POS_TOP);
-  gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
   row++;
 
   self->buttons = g_list_reverse (self->buttons);
-
-  g_clear_object (&preview_icon);
-  g_clear_pointer (&preview_icon_surface, (GDestroyNotify) cairo_surface_destroy);
 }
 
 

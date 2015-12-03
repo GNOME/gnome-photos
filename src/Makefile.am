@@ -202,6 +202,8 @@ gnome_photos_SOURCES = \
 	photos-tool-crop.h \
 	photos-tool-enhance.c \
 	photos-tool-enhance.h \
+	photos-tool-filter-button.c \
+	photos-tool-filter-button.h \
 	photos-tool-filters.c \
 	photos-tool-filters.h \
 	photos-tracker-change-event.c \
