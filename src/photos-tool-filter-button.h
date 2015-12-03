@@ -40,7 +40,10 @@ typedef struct _PhotosToolFilterButtonClass PhotosToolFilterButtonClass;
 
 GType                  photos_tool_filter_button_get_type               (void) G_GNUC_CONST;
 
-GtkWidget             *photos_tool_filter_button_new                    (const gchar *label);
+GtkWidget             *photos_tool_filter_button_new                    (GtkWidget *group_member,
+                                                                         const gchar *label);
+
+GtkWidget             *photos_tool_filter_button_get_group              (PhotosToolFilterButton *self);
 
 void                   photos_tool_filter_button_set_image              (PhotosToolFilterButton *self,
                                                                          GtkWidget *image);

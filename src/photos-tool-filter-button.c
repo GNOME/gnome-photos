@@ -33,7 +33,10 @@
 struct _PhotosToolFilterButton
 {
   GtkBin parent_instance;
+  GtkRadioButton *group;
   GtkWidget *button;
+  GtkWidget *overlay;
+  GtkWidget *selected_image;
   gchar *label;
 };
 
@@ -45,6 +48,7 @@ struct _PhotosToolFilterButtonClass
 enum
 {
   PROP_0,
+  PROP_GROUP,
   PROP_LABEL,
 
   /* GtkActionable properties */
@@ -93,6 +97,16 @@ photos_tool_filter_button_set_action_target_value (GtkActionable *actionable, GV
 
 
 static void
+photos_tool_filter_button_toggled (PhotosToolFilterButton *self)
+{
+  gboolean active;
+
+  active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->button));
+  gtk_widget_set_visible (self->selected_image, active);
+}
+
+
+static void
 photos_tool_filter_button_constructed (GObject *object)
 {
   PhotosToolFilterButton *self = PHOTOS_TOOL_FILTER_BUTTON (object);
@@ -111,15 +125,19 @@ photos_tool_filter_button_constructed (GObject *object)
     preview_icon_surface = gdk_cairo_surface_create_from_pixbuf (preview_icon, scale, NULL);
 
   image = gtk_image_new_from_surface (preview_icon_surface);
-  self->button = gtk_button_new_with_label (self->label);
+  self->button = gtk_radio_button_new_with_label_from_widget (self->group, self->label);
   gtk_button_set_always_show_image (GTK_BUTTON (self->button), TRUE);
   gtk_button_set_image (GTK_BUTTON (self->button), image);
   gtk_button_set_image_position (GTK_BUTTON (self->button), GTK_POS_TOP);
   gtk_button_set_relief (GTK_BUTTON (self->button), GTK_RELIEF_NONE);
-  gtk_container_add (GTK_CONTAINER (self), self->button);
+  gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (self->button), FALSE);
+  gtk_container_add (GTK_CONTAINER (self->overlay), self->button);
+  g_signal_connect_swapped (self->button, "toggled", G_CALLBACK (photos_tool_filter_button_toggled), self);
+  photos_tool_filter_button_toggled (self);
 
   g_clear_object (&preview_icon);
   g_clear_pointer (&preview_icon_surface, (GDestroyNotify) cairo_surface_destroy);
+  self->group = NULL; /* We will not need it any more */
 }
 
 
@@ -173,6 +191,10 @@ photos_tool_filter_button_set_property (GObject *object, guint prop_id, const GV
 
   switch (prop_id)
     {
+    case PROP_GROUP:
+      self->group = GTK_RADIO_BUTTON (g_value_get_object (value));
+      break;
+
     case PROP_LABEL:
       self->label = g_value_dup_string (value);
       break;
@@ -205,6 +227,15 @@ photos_tool_filter_button_set_property (GObject *object, guint prop_id, const GV
 static void
 photos_tool_filter_button_init (PhotosToolFilterButton *self)
 {
+  self->overlay = gtk_overlay_new ();
+  gtk_container_add (GTK_CONTAINER (self), self->overlay);
+
+  self->selected_image = gtk_image_new_from_icon_name (PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+  gtk_widget_set_halign (self->selected_image, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign (self->selected_image, GTK_ALIGN_CENTER);
+  gtk_widget_set_no_show_all (self->selected_image, TRUE);
+  gtk_image_set_pixel_size (GTK_IMAGE (self->selected_image), 48);
+  gtk_overlay_add_overlay (GTK_OVERLAY (self->overlay), self->selected_image);
 }
 
 
@@ -217,6 +248,14 @@ photos_tool_filter_button_class_init (PhotosToolFilterButtonClass *class)
   object_class->finalize = photos_tool_filter_button_finalize;
   object_class->get_property = photos_tool_filter_button_get_property;
   object_class->set_property = photos_tool_filter_button_set_property;
+
+  g_object_class_install_property (object_class,
+                                   PROP_GROUP,
+                                   g_param_spec_object ("group",
+                                                        "Group",
+                                                        "The group of buttons to which this belongs",
+                                                        GTK_TYPE_RADIO_BUTTON,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_object_class_install_property (object_class,
                                    PROP_LABEL,
@@ -242,9 +281,17 @@ photos_tool_filter_button_actionable_iface_init (GtkActionableInterface *iface)
 
 
 GtkWidget *
-photos_tool_filter_button_new (const gchar *label)
+photos_tool_filter_button_new (GtkWidget *group_member, const gchar *label)
 {
-  return g_object_new (PHOTOS_TYPE_TOOL_FILTER_BUTTON, "label", label, NULL);
+  g_return_val_if_fail (group_member == NULL || GTK_IS_RADIO_BUTTON (group_member), NULL);
+  return g_object_new (PHOTOS_TYPE_TOOL_FILTER_BUTTON, "group", group_member, "label", label, NULL);
+}
+
+
+GtkWidget *
+photos_tool_filter_button_get_group (PhotosToolFilterButton *self)
+{
+  return self->button;
 }
 
 

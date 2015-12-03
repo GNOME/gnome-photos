@@ -158,43 +158,45 @@ static void
 photos_tool_filters_init (PhotosToolFilters *self)
 {
   GtkWidget *button;
+  GtkWidget *group = NULL;
   guint row = 0;
 
   self->grid = g_object_ref_sink (gtk_grid_new ());
 
-  button = photos_tool_filter_button_new (_("None"));
+  button = photos_tool_filter_button_new (group, _("None"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
+  group = photos_tool_filter_button_get_group (PHOTOS_TOOL_FILTER_BUTTON (button));
   self->buttons = g_list_prepend (self->buttons, button);
 
-  button = photos_tool_filter_button_new (_("1977"));
+  button = photos_tool_filter_button_new (group, _("1977"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_1977);
   gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
   row++;
 
-  button = photos_tool_filter_button_new (_("Brannan"));
+  button = photos_tool_filter_button_new (group, _("Brannan"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_BRANNAN);
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
 
-  button = photos_tool_filter_button_new (_("Gotham"));
+  button = photos_tool_filter_button_new (group, _("Gotham"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_GOTHAM);
   gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
   row++;
 
-  button = photos_tool_filter_button_new (_("Gray"));
+  button = photos_tool_filter_button_new (group, _("Gray"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_GRAY);
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
 
-  button = photos_tool_filter_button_new (_("Nashville"));
+  button = photos_tool_filter_button_new (group, _("Nashville"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_NASHVILLE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
