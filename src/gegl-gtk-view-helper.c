@@ -131,7 +131,7 @@ update_autoscale(ViewHelper *self)
 
     } else if (self->autoscale_policy == GEGL_GTK_VIEW_AUTOSCALE_CONTENT) {
         /* Calculate and set scaling factor to make the content fit inside */
-        float zoom = 1.0;
+        float zoom_scaled = 1.0;
         const gint real_viewport_height = viewport.height * self->scale_factor;
         const gint real_viewport_width = viewport.width * self->scale_factor;
 
@@ -140,19 +140,23 @@ update_autoscale(ViewHelper *self)
             float height_ratio = bbox.height / (float)real_viewport_height;
             float max_ratio = width_ratio >= height_ratio ? width_ratio : height_ratio;
 
-            zoom = 1.0 / max_ratio;
+            zoom_scaled = 1.0 / max_ratio;
 
-            bbox.width = (gint) (zoom * bbox.width + 0.5);
-            bbox.height = (gint) (zoom * bbox.height + 0.5);
-            bbox.x = (gint) (zoom * bbox.x + 0.5);
-            bbox.y = (gint) (zoom * bbox.y + 0.5);
+            bbox.width = (gint) (zoom_scaled * bbox.width + 0.5);
+            bbox.height = (gint) (zoom_scaled * bbox.height + 0.5);
+            bbox.x = (gint) (zoom_scaled * bbox.x + 0.5);
+            bbox.y = (gint) (zoom_scaled * bbox.y + 0.5);
         }
 
-        self->zoom = zoom;
+        self->zoom_scaled = zoom_scaled;
+        self->zoom = self->zoom_scaled / (gdouble) self->scale_factor;
 
         /* At this point, viewport is definitely bigger than bbox. */
-        self->x = (bbox.width - real_viewport_width) / 2.0 + bbox.x;
-        self->y = (bbox.height - real_viewport_height) / 2.0 + bbox.y;
+        self->x_scaled = (bbox.width - real_viewport_width) / 2.0 + bbox.x;
+        self->y_scaled = (bbox.height - real_viewport_height) / 2.0 + bbox.y;
+
+        self->x = self->x_scaled / (gfloat) self->scale_factor;
+        self->y = self->y_scaled / (gfloat) self->scale_factor;
     }
 
 }
@@ -191,8 +195,8 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
     gint64          end;
     gint64          start;
 
-    roi.x = (gint) self->x + rect->x * self->scale_factor;
-    roi.y = (gint) self->y + rect->y * self->scale_factor;
+    roi.x = (gint) self->x_scaled + rect->x * self->scale_factor;
+    roi.y = (gint) self->y_scaled + rect->y * self->scale_factor;
     roi.width  = rect->width * self->scale_factor;
     roi.height = rect->height * self->scale_factor;
 
@@ -202,7 +206,7 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
     start = g_get_monotonic_time ();
 
     gegl_node_blit(self->node,
-                   self->zoom,
+                   self->zoom_scaled,
                    &roi,
                    babl_format("cairo-ARGB32"),
                    (gpointer)buf,
@@ -286,6 +290,7 @@ view_helper_set_zoom(ViewHelper *self, float zoom)
         return;
 
     self->zoom = zoom;
+    self->zoom_scaled = self->zoom * self->scale_factor;
     update_autoscale(self);
     trigger_redraw(self, NULL);
 }
@@ -313,13 +318,13 @@ void view_helper_get_transformation(ViewHelper *self, GeglMatrix3 *matrix)
     /* XXX: Below gives the right result, but is it really the
      * way we want transformations to work? */
 
-    matrix->coeff [0][0] = self->zoom; /* xx */
+    matrix->coeff [0][0] = self->zoom_scaled; /* xx */
     matrix->coeff [0][1] = 0.0; /* xy */
-    matrix->coeff [0][2] = -self->x; /* x0 */
+    matrix->coeff [0][2] = -self->x_scaled; /* x0 */
 
     matrix->coeff [1][0] = 0.0; /* yx */
-    matrix->coeff [1][1] = self->zoom; /* yy */
-    matrix->coeff [1][2] = -self->y; /* y0 */
+    matrix->coeff [1][1] = self->zoom_scaled; /* yy */
+    matrix->coeff [1][2] = -self->y_scaled; /* y0 */
 
     matrix->coeff [2][0] = 0.0;
     matrix->coeff [2][1] = 0.0;

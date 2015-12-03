@@ -986,6 +986,12 @@ photos_tool_crop_deactivate (PhotosTool *tool)
 
       zoom = gegl_gtk_view_get_zoom (GEGL_GTK_VIEW (self->view));
 
+      /* GEGL needs the parameters to be in device pixels. So, we
+       * should multiply the extents of the crop rectangle and the
+       * zoom by the scale factor to convert them. However, the scale
+       * factor will cancel itself in the numerator and denominator,
+       * so, in practice, the conversion is unnecessary.
+       */
       parameter_type = g_variant_type_new ("a{sd}");
       g_variant_builder_init (&parameter, parameter_type);
       g_variant_builder_add (&parameter, "{sd}", "height", self->crop_height / zoom);
