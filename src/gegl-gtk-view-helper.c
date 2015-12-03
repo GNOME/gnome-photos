@@ -79,13 +79,9 @@ view_helper_init(ViewHelper *self)
 {
     GdkRectangle invalid_gdkrect = {0, 0, -1, -1};
 
-    self->node        = NULL;
-    self->x           = 0;
-    self->y           = 0;
     self->zoom        = 1.0;
     self->scale_factor = 1;
     self->autoscale_policy = GEGL_GTK_VIEW_AUTOSCALE_CONTENT;
-    self->block = FALSE;
 
     self->widget_allocation = invalid_gdkrect;
 }
