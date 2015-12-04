@@ -230,6 +230,8 @@ gnome_photos_SOURCES = \
 	photos-view-container.h \
 	photos-view-model.c \
 	photos-view-model.h \
+	photos-widget-shader.c \
+	photos-widget-shader.h \
 	photos-main.c \
 	$(NULL)
 
