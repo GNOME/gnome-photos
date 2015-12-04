@@ -70,8 +70,6 @@ gnome_photos_SOURCES = \
 	photos-dlna-renderers-manager.h \
 	photos-dropdown.c \
 	photos-dropdown.h \
-	photos-edit-bar.c \
-	photos-edit-bar.h \
 	photos-edit-palette.c \
 	photos-edit-palette.h \
 	photos-edit-palette-row.c \
