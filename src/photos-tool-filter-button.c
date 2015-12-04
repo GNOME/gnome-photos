@@ -28,6 +28,7 @@
 #include "photos-icons.h"
 #include "photos-tool-filter-button.h"
 #include "photos-utils.h"
+#include "photos-widget-shader.h"
 
 
 struct _PhotosToolFilterButton
@@ -113,6 +114,7 @@ photos_tool_filter_button_constructed (GObject *object)
   GApplication *app;
   GdkPixbuf *preview_icon = NULL;
   GtkWidget *image;
+  PhotosWidgetShader *shader;
   cairo_surface_t *preview_icon_surface = NULL;
   gint scale;
 
@@ -125,6 +127,8 @@ photos_tool_filter_button_constructed (GObject *object)
     preview_icon_surface = gdk_cairo_surface_create_from_pixbuf (preview_icon, scale, NULL);
 
   image = gtk_image_new_from_surface (preview_icon_surface);
+  shader = photos_widget_shader_new (image);
+
   self->button = gtk_radio_button_new_with_label_from_widget (self->group, self->label);
   gtk_button_set_always_show_image (GTK_BUTTON (self->button), TRUE);
   gtk_button_set_image (GTK_BUTTON (self->button), image);
@@ -132,6 +136,7 @@ photos_tool_filter_button_constructed (GObject *object)
   gtk_button_set_relief (GTK_BUTTON (self->button), GTK_RELIEF_NONE);
   gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (self->button), FALSE);
   gtk_container_add (GTK_CONTAINER (self->overlay), self->button);
+  g_object_bind_property (self->button, "active", shader, "active", G_BINDING_SYNC_CREATE);
   g_signal_connect_swapped (self->button, "toggled", G_CALLBACK (photos_tool_filter_button_toggled), self);
   photos_tool_filter_button_toggled (self);
 
@@ -298,5 +303,9 @@ photos_tool_filter_button_get_group (PhotosToolFilterButton *self)
 void
 photos_tool_filter_button_set_image (PhotosToolFilterButton *self, GtkWidget *image)
 {
+  PhotosWidgetShader *shader;
+
   gtk_button_set_image (GTK_BUTTON (self->button), image);
+  shader = photos_widget_shader_new (image);
+  g_object_bind_property (self->button, "active", shader, "active", G_BINDING_SYNC_CREATE);
 }
