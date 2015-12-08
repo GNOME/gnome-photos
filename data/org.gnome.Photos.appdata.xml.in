@@ -25,7 +25,12 @@
     </ul>
   </description>
   <screenshots>
-    <screenshot type="default" width="940" height="592">https://help.gnome.org/misc/release-notes/3.10/figures/gnome-photos.png</screenshot>
+    <screenshot type="default">
+      <image type="source">https://git.gnome.org/browse/gnome-photos/plain/data/screenshots/gnome-photos-1.png</image>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://git.gnome.org/browse/gnome-photos/plain/data/screenshots/gnome-photos-2.png</image>
+    </screenshot>
   </screenshots>
   <url type="homepage">https://wiki.gnome.org/Apps/Photos</url>
   <updatecontact>debarshir_at_gnome.org</updatecontact>
