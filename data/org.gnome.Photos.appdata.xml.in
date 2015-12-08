@@ -24,6 +24,13 @@
       <_li>Allow opening full featured editor for more advanced changes</_li>
     </ul>
   </description>
+  <kudos>
+    <kudo>AppMenu</kudo>
+    <kudo>HiDpiIcon</kudo>
+    <kudo>ModernToolkit</kudo>
+    <kudo>SearchProvider</kudo>
+    <kudo>UserDocs</kudo>
+  </kudos>
   <screenshots>
     <screenshot type="default" width="940" height="592">https://help.gnome.org/misc/release-notes/3.10/figures/gnome-photos.png</screenshot>
   </screenshots>
