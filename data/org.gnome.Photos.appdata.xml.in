@@ -24,6 +24,13 @@
       <_li>Allow opening full featured editor for more advanced changes</_li>
     </ul>
   </description>
+  <kudos>
+    <kudo>AppMenu</kudo>
+    <kudo>HiDpiIcon</kudo>
+    <kudo>ModernToolkit</kudo>
+    <kudo>SearchProvider</kudo>
+    <kudo>UserDocs</kudo>
+  </kudos>
   <screenshots>
     <screenshot type="default">
       <image type="source">https://git.gnome.org/browse/gnome-photos/plain/data/screenshots/gnome-photos-1.png</image>
