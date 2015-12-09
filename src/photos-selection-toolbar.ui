@@ -84,7 +84,7 @@
       <child>
         <object class="GtkButton" id="toolbar_collection">
           <property name="visible">1</property>
-          <property name="label" translatable="yes">Add to Album</property>
+          <property name="label" translatable="yes">Albums</property>
           <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
                   handler="photos_selection_toolbar_collection_clicked" />
         </object>
