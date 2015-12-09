@@ -113,12 +113,8 @@ photos_view_container_disconnect_view (PhotosViewContainer *self)
 
 
 static void
-photos_view_container_item_activated (GdMainView *main_view,
-                                      const gchar * id,
-                                      const GtkTreePath *path,
-                                      gpointer user_data)
+photos_view_container_item_activated (PhotosViewContainer *self, const gchar * id, const GtkTreePath *path)
 {
-  PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (user_data);
   PhotosViewContainerPrivate *priv = self->priv;
   GObject *object;
 
@@ -151,11 +147,8 @@ photos_view_container_query_error (PhotosViewContainer *self, const gchar *prima
 
 
 static void
-photos_view_container_query_status_changed (PhotosTrackerController *trk_cntrlr,
-                                            gboolean query_status,
-                                            gpointer user_data)
+photos_view_container_query_status_changed (PhotosViewContainer *self, gboolean query_status)
 {
-  PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (user_data);
   PhotosViewContainerPrivate *priv = self->priv;
 
   if (!query_status)
@@ -183,32 +176,27 @@ photos_view_container_select_all (PhotosViewContainer *self)
 
 
 static void
-photos_view_container_selection_mode_changed (PhotosSelectionController *sel_cntrlr,
-                                              gboolean mode,
-                                              gpointer user_data)
+photos_view_container_selection_mode_changed (PhotosViewContainer *self, gboolean mode)
 {
-  PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (user_data);
   gd_main_view_set_selection_mode (self->priv->view, mode);
 }
 
 
 static void
-photos_view_container_selection_mode_request (GdMainView *main_view, gpointer user_data)
+photos_view_container_selection_mode_request (PhotosViewContainer *self)
 {
-  PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (user_data);
   photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, TRUE);
 }
 
 
 static void
-photos_view_container_view_selection_changed (GdMainView *main_view, gpointer user_data)
+photos_view_container_view_selection_changed (PhotosViewContainer *self)
 {
-  PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (user_data);
   PhotosViewContainerPrivate *priv = self->priv;
   GList *selected_urns;
   GList *selection;
 
-  selection = gd_main_view_get_selection (main_view);
+  selection = gd_main_view_get_selection (priv->view);
   selected_urns = photos_utils_get_urns_from_paths (selection, GTK_TREE_MODEL (priv->model));
   photos_selection_controller_set_selection (priv->sel_cntrlr, selected_urns);
 
@@ -218,13 +206,10 @@ photos_view_container_view_selection_changed (GdMainView *main_view, gpointer us
 
 
 static void
-photos_view_container_window_mode_changed (PhotosModeController *mode_cntrlr,
+photos_view_container_window_mode_changed (PhotosViewContainer *self,
                                            PhotosWindowMode mode,
-                                           PhotosWindowMode old_mode,
-                                           gpointer user_data)
+                                           PhotosWindowMode old_mode)
 {
-  PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (user_data);
-
   photos_view_container_disconnect_view (self);
 
   if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
@@ -280,15 +265,15 @@ photos_view_container_constructed (GObject *object)
 
   gtk_stack_set_visible_child_full (GTK_STACK (self), "view", GTK_STACK_TRANSITION_TYPE_NONE);
 
-  g_signal_connect (priv->view, "item-activated", G_CALLBACK (photos_view_container_item_activated), self);
-  g_signal_connect (priv->view,
-                    "selection-mode-request",
-                    G_CALLBACK (photos_view_container_selection_mode_request),
-                    self);
-  g_signal_connect (priv->view,
-                    "view-selection-changed",
-                    G_CALLBACK (photos_view_container_view_selection_changed),
-                    self);
+  g_signal_connect_swapped (priv->view, "item-activated", G_CALLBACK (photos_view_container_item_activated), self);
+  g_signal_connect_swapped (priv->view,
+                            "selection-mode-request",
+                            G_CALLBACK (photos_view_container_selection_mode_request),
+                            self);
+  g_signal_connect_swapped (priv->view,
+                            "view-selection-changed",
+                            G_CALLBACK (photos_view_container_view_selection_changed),
+                            self);
 
   priv->item_mngr = g_object_ref (state->item_mngr);
 
@@ -297,17 +282,16 @@ photos_view_container_constructed (GObject *object)
                            "selection-mode-changed",
                            G_CALLBACK (photos_view_container_selection_mode_changed),
                            self,
-                           0);
-  photos_view_container_selection_mode_changed (priv->sel_cntrlr,
-                                                photos_selection_controller_get_selection_mode (priv->sel_cntrlr),
-                                                self);
+                           G_CONNECT_SWAPPED);
+  photos_view_container_selection_mode_changed (self,
+                                                photos_selection_controller_get_selection_mode (priv->sel_cntrlr));
 
   priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
   g_signal_connect_object (priv->mode_cntrlr,
                            "window-mode-changed",
                            G_CALLBACK (photos_view_container_window_mode_changed),
                            self,
-                           0);
+                           G_CONNECT_SWAPPED);
 
   priv->remote_mngr = photos_remote_display_manager_dup_singleton ();
 
@@ -370,11 +354,11 @@ photos_view_container_constructed (GObject *object)
                            "query-status-changed",
                            G_CALLBACK (photos_view_container_query_status_changed),
                            self,
-                           0);
+                           G_CONNECT_SWAPPED);
   photos_tracker_controller_start (priv->trk_cntrlr);
 
   status = photos_tracker_controller_get_query_status (priv->trk_cntrlr);
-  photos_view_container_query_status_changed (priv->trk_cntrlr, status, self);
+  photos_view_container_query_status_changed (self, status);
 }
 
 
