@@ -387,6 +387,9 @@ photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 
   PhotosBaseItemPrivate *priv = self->priv;
   GError *error;
 
+  if (priv->default_app_name == NULL)
+    return;
+
   error = NULL;
   gtk_show_uri (screen, priv->uri, timestamp, &error);
   if (error != NULL)
