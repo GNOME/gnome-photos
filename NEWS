@@ -1,3 +1,22 @@
+Overview of changes in 3.19.3
+=============================
+
+* Bugs fixed:
+ 740434 Be more robust when opening with an external application
+ 757363 selection-toolbar: Unbreak printing
+ 758227 Crop palette improvements
+ 758352 Cropping is broken on HiDpi screens
+ 758554 edit-palette, edit-palette-row: Add a vertical accordian effect
+ 758809 Use icons in the selection toolbar
+
+* Updated translations:
+ Greek
+ Kazakh
+ Portuguese
+ Slovak
+ Spanish
+
+
 Overview of changes in 3.19.2
 =============================
 
