@@ -58,6 +58,7 @@
 struct _PhotosBaseItemPrivate
 {
   cairo_surface_t *surface;
+  GAppInfo *default_app;
   GdkPixbuf *original_icon;
   GeglNode *buffer_sink;
   GeglNode *buffer_source;
@@ -390,12 +391,35 @@ photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 
   if (priv->default_app_name == NULL)
     return;
 
-  error = NULL;
-  gtk_show_uri (screen, priv->uri, timestamp, &error);
-  if (error != NULL)
+  /* Without a default_app, launch in the web browser, otherwise use
+   * that system application.
+   */
+
+  if (priv->default_app != NULL)
     {
-      g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
-      g_error_free (error);
+      GList *uris = NULL;
+
+      uris = g_list_prepend (uris, g_strdup (priv->uri));
+
+      error = NULL;
+      g_app_info_launch_uris (priv->default_app, uris, NULL, &error);
+      if (error != NULL)
+        {
+          g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
+          g_error_free (error);
+        }
+
+      g_list_free_full (uris, g_free);
+    }
+  else
+    {
+      error = NULL;
+      gtk_show_uri (screen, priv->uri, timestamp, &error);
+      if (error != NULL)
+        {
+          g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
+          g_error_free (error);
+        }
     }
 }
 
@@ -1173,6 +1197,7 @@ photos_base_item_dispose (GObject *object)
   PhotosBaseItemPrivate *priv = self->priv;
 
   g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
+  g_clear_object (&priv->default_app);
   g_clear_object (&priv->edit_graph);
   g_clear_object (&priv->load_graph);
   g_clear_object (&priv->processor);
@@ -1890,10 +1915,36 @@ photos_base_item_save_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
 
 
 void
+photos_base_item_set_default_app (PhotosBaseItem *self, GAppInfo *default_app)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  const gchar *default_app_name;
+
+  if (priv->default_app == NULL && default_app == NULL)
+    return;
+
+  if (priv->default_app != NULL && default_app != NULL && g_app_info_equal (priv->default_app, default_app))
+    return;
+
+  g_clear_object (&priv->default_app);
+  g_free (priv->default_app_name);
+
+  if (default_app == NULL)
+    return;
+
+  priv->default_app = g_object_ref (default_app);
+
+  default_app_name = g_app_info_get_name (default_app);
+  priv->default_app_name = g_strdup (default_app_name);
+}
+
+
+void
 photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *default_app_name)
 {
   PhotosBaseItemPrivate *priv = self->priv;
 
+  g_clear_object (&priv->default_app);
   g_free (priv->default_app_name);
   priv->default_app_name = g_strdup (default_app_name);
 }

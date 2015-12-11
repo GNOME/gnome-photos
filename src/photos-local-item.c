@@ -177,7 +177,6 @@ photos_local_item_constructed (GObject *object)
 {
   PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (object);
   GAppInfo *default_app = NULL;
-  const gchar *default_app_name;
   const gchar *mime_type;
 
   G_OBJECT_CLASS (photos_local_item_parent_class)->constructed (object);
@@ -190,9 +189,7 @@ photos_local_item_constructed (GObject *object)
   if (default_app == NULL)
     return;
 
-  default_app_name = g_app_info_get_name (default_app);
-  photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), default_app_name);
-
+  photos_base_item_set_default_app (PHOTOS_BASE_ITEM (self), default_app);
   g_object_unref (default_app);
 }
 

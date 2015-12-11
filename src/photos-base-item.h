@@ -216,6 +216,8 @@ gboolean            photos_base_item_save_finish             (PhotosBaseItem *se
                                                               GAsyncResult *res,
                                                               GError **error);
 
+void                photos_base_item_set_default_app         (PhotosBaseItem *self, GAppInfo *default_app);
+
 void                photos_base_item_set_default_app_name    (PhotosBaseItem *self, const gchar *default_app_name);
 
 void                photos_base_item_set_favorite            (PhotosBaseItem *self, gboolean favorite);
