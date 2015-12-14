@@ -40,14 +40,19 @@
 #include "photos-utils.h"
 
 
-struct _PhotosGoogleItemPrivate
+struct _PhotosGoogleItem
 {
+  PhotosBaseItem parent_instance;
   PhotosBaseManager *src_mngr;
+};
+
+struct _PhotosGoogleItemClass
+{
+  PhotosBaseItemClass parent_class;
 };
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosGoogleItem, photos_google_item, PHOTOS_TYPE_BASE_ITEM,
-                         G_ADD_PRIVATE (PhotosGoogleItem)
                          photos_utils_ensure_extension_points ();
                          g_io_extension_point_implement (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME,
                                                          g_define_type_id,
@@ -65,7 +70,7 @@ photos_google_item_create_name_fallback (PhotosBaseItem *item)
   gchar *date_modified_str;
   gint64 mtime;
 
-  provider_name = photos_utils_get_provider_name (self->priv->src_mngr, item);
+  provider_name = photos_utils_get_provider_name (self->src_mngr, item);
 
   mtime = photos_base_item_get_mtime (item);
   date_modified = g_date_time_new_from_unix_local (mtime);
@@ -85,7 +90,7 @@ photos_google_item_create_name_fallback (PhotosBaseItem *item)
 static GDataEntry *
 photos_google_get_picasaweb_file (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  PhotosGoogleItemPrivate *priv = PHOTOS_GOOGLE_ITEM (item)->priv;
+  PhotosGoogleItem *self = PHOTOS_GOOGLE_ITEM (item);
   PhotosSource *source;
   GDataAuthorizationDomain *authorization_domain;
   GDataEntry *entry;
@@ -96,7 +101,7 @@ photos_google_get_picasaweb_file (PhotosBaseItem *item, GCancellable *cancellabl
   const gchar *resource_urn;
 
   resource_urn = photos_base_item_get_resource_urn (item);
-  source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (priv->src_mngr, resource_urn));
+  source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (self->src_mngr, resource_urn));
   authorizer = gdata_goa_authorizer_new (photos_source_get_goa_object (source));
   identifier = photos_base_item_get_identifier (item) + strlen ("google:picasaweb:");
   service = gdata_picasaweb_service_new (GDATA_AUTHORIZER (authorizer));
@@ -268,7 +273,7 @@ photos_google_item_get_source_widget (PhotosBaseItem *item)
   GtkWidget *source_widget;
   const gchar *name;
 
-  name = photos_utils_get_provider_name (self->priv->src_mngr, item);
+  name = photos_utils_get_provider_name (self->src_mngr, item);
   source_widget = gtk_link_button_new_with_label ("https://picasaweb.google.com/", name);
   gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
 
@@ -305,7 +310,7 @@ photos_google_item_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_google_item_parent_class)->constructed (object);
 
-  name = photos_utils_get_provider_name (self->priv->src_mngr, PHOTOS_BASE_ITEM (self));
+  name = photos_utils_get_provider_name (self->src_mngr, PHOTOS_BASE_ITEM (self));
   photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), name);
 }
 
@@ -315,7 +320,7 @@ photos_google_item_dispose (GObject *object)
 {
   PhotosGoogleItem *self = PHOTOS_GOOGLE_ITEM (object);
 
-  g_clear_object (&self->priv->src_mngr);
+  g_clear_object (&self->src_mngr);
 
   G_OBJECT_CLASS (photos_google_item_parent_class)->dispose (object);
 }
@@ -324,17 +329,13 @@ photos_google_item_dispose (GObject *object)
 static void
 photos_google_item_init (PhotosGoogleItem *self)
 {
-  PhotosGoogleItemPrivate *priv;
   GApplication *app;
   PhotosSearchContextState *state;
-
-  self->priv = photos_google_item_get_instance_private (self);
-  priv = self->priv;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->src_mngr = g_object_ref (state->src_mngr);
+  self->src_mngr = g_object_ref (state->src_mngr);
 }
 
 

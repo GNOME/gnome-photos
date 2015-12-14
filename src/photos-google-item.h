@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_GOOGLE_ITEM, PhotosGoogleItem))
 
-#define PHOTOS_GOOGLE_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_GOOGLE_ITEM, PhotosGoogleItemClass))
-
 #define PHOTOS_IS_GOOGLE_ITEM(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_GOOGLE_ITEM))
 
-#define PHOTOS_IS_GOOGLE_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_GOOGLE_ITEM))
-
-#define PHOTOS_GOOGLE_ITEM_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_GOOGLE_ITEM, PhotosGoogleItemClass))
-
-typedef struct _PhotosGoogleItem        PhotosGoogleItem;
-typedef struct _PhotosGoogleItemClass   PhotosGoogleItemClass;
-typedef struct _PhotosGoogleItemPrivate PhotosGoogleItemPrivate;
-
-struct _PhotosGoogleItem
-{
-  PhotosBaseItem parent_instance;
-  PhotosGoogleItemPrivate *priv;
-};
-
-struct _PhotosGoogleItemClass
-{
-  PhotosBaseItemClass parent_class;
-};
+typedef struct _PhotosGoogleItem      PhotosGoogleItem;
+typedef struct _PhotosGoogleItemClass PhotosGoogleItemClass;
 
 GType               photos_google_item_get_type           (void) G_GNUC_CONST;
 
