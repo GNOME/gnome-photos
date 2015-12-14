@@ -370,8 +370,6 @@ photos_preview_nav_buttons_dispose (GObject *object)
 
   g_clear_object (&priv->tap_gesture);
   g_clear_object (&priv->model);
-  g_clear_object (&priv->overlay);
-  g_clear_object (&priv->preview_view);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
 
@@ -469,6 +467,10 @@ photos_preview_nav_buttons_constructed (GObject *object)
                             "stopped",
                             G_CALLBACK (photos_preview_nav_buttons_multi_press_stopped),
                             self);
+
+  /* We will not need them any more */
+  priv->overlay = NULL;
+  priv->preview_view = NULL;
 }
 
 
@@ -481,11 +483,11 @@ photos_preview_nav_buttons_set_property (GObject *object, guint prop_id, const G
   switch (prop_id)
     {
     case PROP_OVERLAY:
-      priv->overlay = GTK_WIDGET (g_value_dup_object (value));
+      priv->overlay = GTK_WIDGET (g_value_get_object (value)); /* overlay is owned by preview_view */
       break;
 
     case PROP_PREVIEW_VIEW:
-      priv->preview_view = GTK_WIDGET (g_value_dup_object (value));
+      priv->preview_view = GTK_WIDGET (g_value_get_object (value)); /* self is owned by preview_view */
       break;
 
     default:
