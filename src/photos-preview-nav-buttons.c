@@ -370,6 +370,8 @@ photos_preview_nav_buttons_dispose (GObject *object)
 
   g_clear_object (&priv->tap_gesture);
   g_clear_object (&priv->model);
+  g_clear_object (&priv->next_widget);
+  g_clear_object (&priv->prev_widget);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
 
@@ -400,7 +402,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_preview_nav_buttons_parent_class)->constructed (object);
 
-  priv->prev_widget = gtk_revealer_new ();
+  priv->prev_widget = g_object_ref_sink (gtk_revealer_new ());
   gtk_widget_set_halign (priv->prev_widget, GTK_ALIGN_START);
   gtk_widget_set_margin_start (priv->prev_widget, 30);
   gtk_widget_set_margin_end (priv->prev_widget, 30);
@@ -426,7 +428,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
                             G_CALLBACK (photos_preview_nav_buttons_leave_notify),
                             self);
 
-  priv->next_widget = gtk_revealer_new ();
+  priv->next_widget = g_object_ref_sink (gtk_revealer_new ());
   gtk_widget_set_halign (priv->next_widget, GTK_ALIGN_END);
   gtk_widget_set_margin_start (priv->next_widget, 30);
   gtk_widget_set_margin_end (priv->next_widget, 30);
