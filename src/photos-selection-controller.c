@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -100,17 +100,6 @@ photos_selection_controller_constructor (GType                  type,
 
 
 static void
-photos_selection_controller_dispose (GObject *object)
-{
-  PhotosSelectionController *self = PHOTOS_SELECTION_CONTROLLER (object);
-
-  g_clear_object (&self->priv->item_mngr);
-
-  G_OBJECT_CLASS (photos_selection_controller_parent_class)->dispose (object);
-}
-
-
-static void
 photos_selection_controller_finalize (GObject *object)
 {
   PhotosSelectionController *self = PHOTOS_SELECTION_CONTROLLER (object);
@@ -118,6 +107,9 @@ photos_selection_controller_finalize (GObject *object)
 
   if (priv->selection != NULL)
     g_list_free_full (priv->selection, g_free);
+
+  if (priv->item_mngr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
 
   G_OBJECT_CLASS (photos_selection_controller_parent_class)->finalize (object);
 }
@@ -136,7 +128,8 @@ photos_selection_controller_init (PhotosSelectionController *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->item_mngr = g_object_ref (state->item_mngr);
+  priv->item_mngr = state->item_mngr;
+  g_object_add_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
   g_signal_connect_object (priv->item_mngr,
                            "object-removed",
                            G_CALLBACK (photos_selection_controller_object_removed),
@@ -151,7 +144,6 @@ photos_selection_controller_class_init (PhotosSelectionControllerClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructor = photos_selection_controller_constructor;
-  object_class->dispose = photos_selection_controller_dispose;
   object_class->finalize = photos_selection_controller_finalize;
 
   signals[SELECTION_CHANGED] = g_signal_new ("selection-changed",
