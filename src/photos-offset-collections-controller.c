@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -48,12 +48,15 @@ static PhotosQuery *
 photos_offset_collections_controller_get_query (PhotosOffsetController *offset_cntrlr)
 {
   PhotosOffsetCollectionsController *self = PHOTOS_OFFSET_COLLECTIONS_CONTROLLER (offset_cntrlr);
+  PhotosOffsetCollectionsControllerPrivate *priv = self->priv;
   GApplication *app;
   PhotosBaseItem *collection;
   PhotosSearchContextState *state;
   gint flags;
 
-  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->priv->item_mngr));
+  g_return_val_if_fail (priv->item_mngr != NULL, NULL);
+
+  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
   if (collection != NULL)
     flags = PHOTOS_QUERY_FLAGS_NONE;
   else
@@ -87,13 +90,15 @@ photos_offset_collections_controller_constructor (GType type,
 
 
 static void
-photos_offset_collections_controller_dispose (GObject *object)
+photos_offset_collections_controller_finalize (GObject *object)
 {
   PhotosOffsetCollectionsController *self = PHOTOS_OFFSET_COLLECTIONS_CONTROLLER (object);
+  PhotosOffsetCollectionsControllerPrivate *priv = self->priv;
 
-  g_clear_object (&self->priv->item_mngr);
+  if (priv->item_mngr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
 
-  G_OBJECT_CLASS (photos_offset_collections_controller_parent_class)->dispose (object);
+  G_OBJECT_CLASS (photos_offset_collections_controller_parent_class)->finalize (object);
 }
 
 
@@ -110,7 +115,8 @@ photos_offset_collections_controller_init (PhotosOffsetCollectionsController *se
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->item_mngr = g_object_ref (state->item_mngr);
+  priv->item_mngr = state->item_mngr;
+  g_object_add_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
 }
 
 
@@ -121,7 +127,7 @@ photos_offset_collections_controller_class_init (PhotosOffsetCollectionsControll
   PhotosOffsetControllerClass *offset_controller_class = PHOTOS_OFFSET_CONTROLLER_CLASS (class);
 
   object_class->constructor = photos_offset_collections_controller_constructor;
-  object_class->dispose = photos_offset_collections_controller_dispose;
+  object_class->finalize = photos_offset_collections_controller_finalize;
   offset_controller_class->get_query = photos_offset_collections_controller_get_query;
 }
 
