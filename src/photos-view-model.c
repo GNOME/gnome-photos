@@ -159,6 +159,8 @@ photos_view_model_clear (PhotosViewModel *self)
   GHashTableIter iter;
   PhotosBaseItem *item;
 
+  g_return_if_fail (priv->item_mngr != NULL);
+
   items = photos_base_manager_get_objects (priv->item_mngr);
   g_hash_table_iter_init (&iter, items);
   while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &item))
@@ -235,6 +237,8 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
   GtkTreeRowReference *row_ref;
   PhotosBaseItem *active_collection;
 
+  g_return_if_fail (priv->item_mngr != NULL);
+
   active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
   row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
 
@@ -296,6 +300,9 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
   const gchar *id;
   gpointer data;
   guint info_updated_id;
+
+  g_return_if_fail (priv->item_mngr != NULL);
+  g_return_if_fail (priv->mode_cntrlr != NULL);
 
   row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
   if (row_ref != NULL)
@@ -436,8 +443,6 @@ photos_view_model_dispose (GObject *object)
       priv->reset_count_id = 0;
     }
 
-  g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->offset_cntrlr);
   g_clear_object (&priv->trk_cntrlr);
 
@@ -450,6 +455,12 @@ photos_view_model_finalize (GObject *object)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
   PhotosViewModelPrivate *priv = self->priv;
+
+  if (priv->item_mngr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
+
+  if (priv->mode_cntrlr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (priv->mode_cntrlr), (gpointer *) &priv->mode_cntrlr);
 
   g_hash_table_unref (priv->info_updated_ids);
   g_free (priv->row_ref_key);
@@ -504,8 +515,11 @@ photos_view_model_init (PhotosViewModel *self)
 
   priv->info_updated_ids = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
-  priv->item_mngr = g_object_ref (state->item_mngr);
-  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
+  priv->item_mngr = state->item_mngr;
+  g_object_add_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
+
+  priv->mode_cntrlr = state->mode_cntrlr;
+  g_object_add_weak_pointer (G_OBJECT (priv->mode_cntrlr), (gpointer *) &priv->mode_cntrlr);
 
   priv->oldest_mtime = G_MAXINT64;
 }
