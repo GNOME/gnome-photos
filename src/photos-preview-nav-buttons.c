@@ -568,6 +568,9 @@ photos_preview_nav_buttons_class_init (PhotosPreviewNavButtonsClass *class)
 PhotosPreviewNavButtons *
 photos_preview_nav_buttons_new (PhotosPreviewView *preview_view, GtkOverlay *overlay)
 {
+  g_return_val_if_fail (PHOTOS_IS_PREVIEW_VIEW (preview_view), NULL);
+  g_return_val_if_fail (GTK_IS_OVERLAY (overlay), NULL);
+
   return g_object_new (PHOTOS_TYPE_PREVIEW_NAV_BUTTONS, "preview-view", preview_view, "overlay", overlay, NULL);
 }
 
