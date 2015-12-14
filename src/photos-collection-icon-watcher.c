@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -171,7 +171,7 @@ photos_collection_icon_watcher_to_query_executed (TrackerSparqlCursor *cursor, g
   PhotosCollectionIconWatcher *self = PHOTOS_COLLECTION_ICON_WATCHER (user_data);
   PhotosCollectionIconWatcherPrivate *priv = self->priv;
 
-  if (cursor != NULL)
+  if (cursor != NULL && priv->item_mngr != NULL)
     {
       PhotosBaseItem *item;
 
@@ -192,6 +192,8 @@ photos_collection_icon_watcher_finished (PhotosCollectionIconWatcher *self)
   GList *l;
   GList *to_query = NULL;
   PhotosSearchContextState *state;
+
+  g_return_if_fail (priv->item_mngr != NULL);
 
   if (priv->urns == NULL)
     return;
@@ -361,7 +363,6 @@ photos_collection_icon_watcher_dispose (GObject *object)
   g_list_free_full (priv->items, g_object_unref);
   priv->items = NULL;
 
-  g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->queue);
 
   G_OBJECT_CLASS (photos_collection_icon_watcher_parent_class)->dispose (object);
@@ -378,6 +379,9 @@ photos_collection_icon_watcher_finalize (GObject *object)
 
   if (priv->collection != NULL)
     g_object_remove_weak_pointer (G_OBJECT (priv->collection), (gpointer *) &priv->collection);
+
+  if (priv->item_mngr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
 
   G_OBJECT_CLASS (photos_collection_icon_watcher_parent_class)->finalize (object);
 }
@@ -421,7 +425,10 @@ photos_collection_icon_watcher_init (PhotosCollectionIconWatcher *self)
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   priv->item_connections = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
-  priv->item_mngr = g_object_ref (state->item_mngr);
+
+  priv->item_mngr = state->item_mngr;
+  g_object_add_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
+
   priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
