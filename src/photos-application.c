@@ -820,7 +820,7 @@ photos_application_save (PhotosApplication *self)
   g_return_if_fail (item != NULL);
 
   pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
-  parent_path = g_build_filename (pictures_path, PACKAGE_TARNAME "-exported", NULL);
+  parent_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
   parent = g_file_new_for_path (parent_path);
   g_file_make_directory_with_parents (parent, NULL, &error);
   if (error != NULL)

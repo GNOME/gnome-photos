@@ -55,6 +55,7 @@ G_BEGIN_DECLS
 
 #define PHOTOS_COLLECTION_SCREENSHOT \
   "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#image-category-screenshot"
+#define PHOTOS_EXPORT_SUBPATH PACKAGE_TARNAME "-exported"
 
 void             photos_utils_border_pixbuf               (GdkPixbuf *pixbuf);
 
