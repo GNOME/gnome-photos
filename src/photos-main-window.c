@@ -41,6 +41,7 @@
 
 struct _PhotosMainWindowPrivate
 {
+  GAction *edit_cancel;
   GAction *load_next;
   GAction *load_previous;
   GtkWidget *embed;
@@ -213,6 +214,21 @@ photos_main_window_handle_back_key (PhotosMainWindow *self, GdkEventKey *event)
 
 
 static gboolean
+photos_main_window_handle_key_edit (PhotosMainWindow *self, GdkEventKey *event)
+{
+  gboolean handled = FALSE;
+
+  if (event->keyval == GDK_KEY_Escape)
+    {
+      g_action_activate (self->priv->edit_cancel, NULL);
+      handled = TRUE;
+    }
+
+  return handled;
+}
+
+
+static gboolean
 photos_main_window_handle_key_overview (PhotosMainWindow *self, GdkEventKey *event)
 {
   PhotosMainWindowPrivate *priv = self->priv;
@@ -285,8 +301,11 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_NONE:
-    case PHOTOS_WINDOW_MODE_EDIT:
       handled = GDK_EVENT_PROPAGATE;
+      break;
+
+    case PHOTOS_WINDOW_MODE_EDIT:
+      handled = photos_main_window_handle_key_edit (self, event);
       break;
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
@@ -362,6 +381,7 @@ photos_main_window_constructed (GObject *object)
   app = g_application_get_default ();
   gtk_application_add_window (GTK_APPLICATION (app), GTK_WINDOW (self));
 
+  priv->edit_cancel = g_action_map_lookup_action (G_ACTION_MAP (app), "edit-cancel");
   priv->load_next = g_action_map_lookup_action (G_ACTION_MAP (app), "load-next");
   priv->load_previous = g_action_map_lookup_action (G_ACTION_MAP (app), "load-previous");
 
