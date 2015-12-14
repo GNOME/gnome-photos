@@ -53,9 +53,12 @@ G_DEFINE_TYPE_WITH_CODE (PhotosTrackerFavoritesController,
 static void
 photos_tracker_favorites_controller_col_active_changed (PhotosTrackerFavoritesController *self)
 {
+  PhotosTrackerFavoritesControllerPrivate *priv = self->priv;
   PhotosWindowMode mode;
 
-  mode = photos_mode_controller_get_window_mode (self->priv->mode_cntrlr);
+  g_return_if_fail (priv->mode_cntrlr != NULL);
+
+  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
   if (mode != PHOTOS_WINDOW_MODE_FAVORITES)
     return;
 
@@ -80,6 +83,8 @@ photos_tracker_favorites_controller_get_query (PhotosTrackerController *trk_cntr
   PhotosBaseItem *collection;
   PhotosSearchContextState *state;
   gint flags;
+
+  g_return_val_if_fail (priv->item_mngr != NULL, NULL);
 
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
   if (collection != NULL)
@@ -118,13 +123,26 @@ static void
 photos_tracker_favorites_controller_dispose (GObject *object)
 {
   PhotosTrackerFavoritesController *self = PHOTOS_TRACKER_FAVORITES_CONTROLLER (object);
-  PhotosTrackerFavoritesControllerPrivate *priv = self->priv;
 
-  g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->mode_cntrlr);
-  g_clear_object (&priv->offset_cntrlr);
+  g_clear_object (&self->priv->offset_cntrlr);
 
   G_OBJECT_CLASS (photos_tracker_favorites_controller_parent_class)->dispose (object);
+}
+
+
+static void
+photos_tracker_favorites_controller_finalize (GObject *object)
+{
+  PhotosTrackerFavoritesController *self = PHOTOS_TRACKER_FAVORITES_CONTROLLER (object);
+  PhotosTrackerFavoritesControllerPrivate *priv = self->priv;
+
+  if (priv->item_mngr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
+
+  if (priv->mode_cntrlr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (priv->mode_cntrlr), (gpointer *) &priv->mode_cntrlr);
+
+  G_OBJECT_CLASS (photos_tracker_favorites_controller_parent_class)->finalize (object);
 }
 
 
@@ -141,13 +159,16 @@ photos_tracker_favorites_controller_init (PhotosTrackerFavoritesController *self
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->item_mngr = g_object_ref (state->item_mngr);
+  priv->item_mngr = state->item_mngr;
+  g_object_add_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
   g_signal_connect_swapped (priv->item_mngr,
                             "active-collection-changed",
                             G_CALLBACK (photos_tracker_favorites_controller_col_active_changed),
                             self);
 
-  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
+  priv->mode_cntrlr = state->mode_cntrlr;
+  g_object_add_weak_pointer (G_OBJECT (priv->mode_cntrlr), (gpointer *) &priv->mode_cntrlr);
+
   priv->offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
 }
 
@@ -160,6 +181,7 @@ photos_tracker_favorites_controller_class_init (PhotosTrackerFavoritesController
 
   object_class->constructor = photos_tracker_favorites_controller_constructor;
   object_class->dispose = photos_tracker_favorites_controller_dispose;
+  object_class->finalize = photos_tracker_favorites_controller_finalize;
   tracker_controller_class->get_offset_controller = photos_tracker_favorites_controller_get_offset_controller;
   tracker_controller_class->get_query = photos_tracker_favorites_controller_get_query;
 }
