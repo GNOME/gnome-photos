@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,8 +34,9 @@
 #include "photos-tracker-resources.h"
 
 
-struct _PhotosTrackerChangeMonitorPrivate
+struct _PhotosTrackerChangeMonitor
 {
+  GObject parent_instance;
   GHashTable *pending_changes;
   GHashTable *unresolved_ids;
   GQueue *pending_events;
@@ -43,6 +44,14 @@ struct _PhotosTrackerChangeMonitorPrivate
   TrackerResources *resource_service;
   guint outstanding_ops;
   guint pending_events_id;
+};
+
+struct _PhotosTrackerChangeMonitorClass
+{
+  GObjectClass parent_class;
+
+  /* signals */
+  void (*changes_pending) (PhotosTrackerChangeMonitor *self, GHashTable *changes);
 };
 
 enum
@@ -56,9 +65,8 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static void photos_tracker_change_monitor_initable_iface_init (GInitableIface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (PhotosTrackerChangeMonitor, photos_tracker_change_monitor, G_TYPE_OBJECT,
-                         G_ADD_PRIVATE (PhotosTrackerChangeMonitor)
-                         G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE, photos_tracker_change_monitor_initable_iface_init));
+G_DEFINE_TYPE_EXTENDED (PhotosTrackerChangeMonitor, photos_tracker_change_monitor, G_TYPE_OBJECT, 0,
+                        G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE, photos_tracker_change_monitor_initable_iface_init));
 
 
 enum
@@ -121,24 +129,22 @@ photos_tracker_change_monitor_query_data_new (PhotosTrackerChangeMonitor *self,
 static void
 photos_tracker_change_monitor_add_event (PhotosTrackerChangeMonitor *self, PhotosTrackerChangeEvent *change_event)
 {
-  PhotosTrackerChangeMonitorPrivate *priv = self->priv;
   PhotosTrackerChangeEvent *old_change_event;
   const gchar *urn;
 
   urn = photos_tracker_change_event_get_urn (change_event);
-  old_change_event = (PhotosTrackerChangeEvent *) g_hash_table_lookup (priv->pending_changes, urn);
+  old_change_event = (PhotosTrackerChangeEvent *) g_hash_table_lookup (self->pending_changes, urn);
 
   if (old_change_event != NULL)
     photos_tracker_change_event_merge (old_change_event, change_event);
   else
-    g_hash_table_insert (priv->pending_changes, g_strdup (urn), photos_tracker_change_event_copy (change_event));
+    g_hash_table_insert (self->pending_changes, g_strdup (urn), photos_tracker_change_event_copy (change_event));
 }
 
 
 static void
 photos_tracker_change_monitor_send_events (PhotosTrackerChangeMonitor *self, GHashTable *id_table, GQueue *events)
 {
-  PhotosTrackerChangeMonitorPrivate *priv = self->priv;
   GList *l;
 
   for (l = events->head; l != NULL; l = l->next)
@@ -164,8 +170,8 @@ photos_tracker_change_monitor_send_events (PhotosTrackerChangeMonitor *self, GHa
       photos_tracker_change_monitor_add_event (self, change_event);
     }
 
-  g_signal_emit (self, signals[CHANGES_PENDING], 0, priv->pending_changes);
-  g_hash_table_remove_all (priv->pending_changes);
+  g_signal_emit (self, signals[CHANGES_PENDING], 0, self->pending_changes);
+  g_hash_table_remove_all (self->pending_changes);
 }
 
 
@@ -236,7 +242,6 @@ photos_tracker_change_monitor_query_executed (GObject *source_object, GAsyncResu
 static gboolean
 photos_tracker_change_monitor_process_events (PhotosTrackerChangeMonitor *self)
 {
-  PhotosTrackerChangeMonitorPrivate *priv = self->priv;
   GHashTable *id_table;
   GHashTableIter iter;
   GQueue *events;
@@ -244,13 +249,13 @@ photos_tracker_change_monitor_process_events (PhotosTrackerChangeMonitor *self)
   PhotosTrackerChangeMonitorQueryData *data;
   gpointer id;
 
-  events = priv->pending_events;
-  priv->pending_events = g_queue_new ();
+  events = self->pending_events;
+  self->pending_events = g_queue_new ();
 
-  id_table = priv->unresolved_ids;
-  priv->unresolved_ids = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
+  id_table = self->unresolved_ids;
+  self->unresolved_ids = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
 
-  priv->pending_events_id = 0;
+  self->pending_events_id = 0;
 
   sparql = g_string_new ("SELECT");
 
@@ -261,7 +266,7 @@ photos_tracker_change_monitor_process_events (PhotosTrackerChangeMonitor *self)
   g_string_append (sparql, " {}");
 
   data = photos_tracker_change_monitor_query_data_new (self, id_table, events);
-  photos_tracker_queue_select (priv->queue,
+  photos_tracker_queue_select (self->queue,
                                sparql->str,
                                NULL,
                                photos_tracker_change_monitor_query_executed,
@@ -278,22 +283,21 @@ photos_tracker_change_monitor_add_pending_event (PhotosTrackerChangeMonitor *sel
                                                  const TrackerResourcesEvent *event,
                                                  gboolean is_delete)
 {
-  PhotosTrackerChangeMonitorPrivate *priv = self->priv;
   PhotosTrackerChangeEvent *change_event;
 
-  if (priv->pending_events_id != 0)
-    g_source_remove (priv->pending_events_id);
+  if (self->pending_events_id != 0)
+    g_source_remove (self->pending_events_id);
 
-  g_hash_table_insert (priv->unresolved_ids, GINT_TO_POINTER (event->subject), NULL);
-  g_hash_table_insert (priv->unresolved_ids, GINT_TO_POINTER (event->predicate), NULL);
+  g_hash_table_insert (self->unresolved_ids, GINT_TO_POINTER (event->subject), NULL);
+  g_hash_table_insert (self->unresolved_ids, GINT_TO_POINTER (event->predicate), NULL);
 
   change_event = photos_tracker_change_event_new (event->subject, event->predicate, is_delete);
-  g_queue_push_tail (priv->pending_events, change_event);
+  g_queue_push_tail (self->pending_events, change_event);
 
-  if (priv->pending_events->length >= CHANGE_MONITOR_MAX_ITEMS)
+  if (self->pending_events->length >= CHANGE_MONITOR_MAX_ITEMS)
     photos_tracker_change_monitor_process_events (self);
   else
-    priv->pending_events_id = g_timeout_add_full (G_PRIORITY_DEFAULT,
+    self->pending_events_id = g_timeout_add_full (G_PRIORITY_DEFAULT,
                                                   CHANGE_MONITOR_TIMEOUT,
                                                   (GSourceFunc) photos_tracker_change_monitor_process_events,
                                                   g_object_ref (self),
@@ -351,10 +355,9 @@ static void
 photos_tracker_change_monitor_dispose (GObject *object)
 {
   PhotosTrackerChangeMonitor *self = PHOTOS_TRACKER_CHANGE_MONITOR (object);
-  PhotosTrackerChangeMonitorPrivate *priv = self->priv;
 
-  g_clear_object (&priv->queue);
-  g_clear_object (&priv->resource_service);
+  g_clear_object (&self->queue);
+  g_clear_object (&self->resource_service);
 
   G_OBJECT_CLASS (photos_tracker_change_monitor_parent_class)->dispose (object);
 }
@@ -364,12 +367,11 @@ static void
 photos_tracker_change_monitor_finalize (GObject *object)
 {
   PhotosTrackerChangeMonitor *self = PHOTOS_TRACKER_CHANGE_MONITOR (object);
-  PhotosTrackerChangeMonitorPrivate *priv = self->priv;
 
-  g_hash_table_unref (priv->pending_changes);
-  g_hash_table_unref (priv->unresolved_ids);
+  g_hash_table_unref (self->pending_changes);
+  g_hash_table_unref (self->unresolved_ids);
 
-  g_queue_free_full (priv->pending_events, (GDestroyNotify) photos_tracker_change_event_free);
+  g_queue_free_full (self->pending_events, (GDestroyNotify) photos_tracker_change_event_free);
 
   G_OBJECT_CLASS (photos_tracker_change_monitor_parent_class)->finalize (object);
 }
@@ -378,19 +380,14 @@ photos_tracker_change_monitor_finalize (GObject *object)
 static void
 photos_tracker_change_monitor_init (PhotosTrackerChangeMonitor *self)
 {
-  PhotosTrackerChangeMonitorPrivate *priv;
-
-  self->priv = photos_tracker_change_monitor_get_instance_private (self);
-  priv = self->priv;
-
-  priv->pending_changes = g_hash_table_new_full (g_str_hash,
+  self->pending_changes = g_hash_table_new_full (g_str_hash,
                                                  g_str_equal,
                                                  g_free,
                                                  (GDestroyNotify) photos_tracker_change_event_free);
 
-  priv->unresolved_ids = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
+  self->unresolved_ids = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
 
-  priv->pending_events = g_queue_new ();
+  self->pending_events = g_queue_new ();
 }
 
 
@@ -420,32 +417,31 @@ static gboolean
 photos_tracker_change_monitor_initable_init (GInitable *initable, GCancellable *cancellable, GError **error)
 {
   PhotosTrackerChangeMonitor *self = PHOTOS_TRACKER_CHANGE_MONITOR (initable);
-  PhotosTrackerChangeMonitorPrivate *priv = self->priv;
   gboolean ret_val = TRUE;
 
-  if (G_LIKELY (priv->queue != NULL && priv->resource_service != NULL))
+  if (G_LIKELY (self->queue != NULL && self->resource_service != NULL))
     goto out;
 
-  priv->queue = photos_tracker_queue_dup_singleton (cancellable, error);
-  if (G_UNLIKELY (priv->queue == NULL))
+  self->queue = photos_tracker_queue_dup_singleton (cancellable, error);
+  if (G_UNLIKELY (self->queue == NULL))
     {
       ret_val = FALSE;
       goto out;
     }
 
-  priv->resource_service = tracker_resources_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+  self->resource_service = tracker_resources_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                                      G_DBUS_PROXY_FLAGS_NONE,
                                                                      "org.freedesktop.Tracker1",
                                                                      "/org/freedesktop/Tracker1/Resources",
                                                                      cancellable,
                                                                      error);
-  if (G_UNLIKELY (priv->resource_service == NULL))
+  if (G_UNLIKELY (self->resource_service == NULL))
     {
       ret_val = FALSE;
       goto out;
     }
 
-  g_signal_connect (priv->resource_service,
+  g_signal_connect (self->resource_service,
                     "graph-updated",
                     G_CALLBACK (photos_tracker_change_monitor_graph_updated),
                     self);

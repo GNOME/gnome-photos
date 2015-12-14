@@ -35,39 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_TRACKER_CHANGE_MONITOR, PhotosTrackerChangeMonitor))
 
-#define PHOTOS_TRACKER_CHANGE_MONITOR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_TRACKER_CHANGE_MONITOR, PhotosTrackerChangeMonitorClass))
-
 #define PHOTOS_IS_TRACKER_CHANGE_MONITOR(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_TRACKER_CHANGE_MONITOR))
 
-#define PHOTOS_IS_TRACKER_CHANGE_MONITOR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_TRACKER_CHANGE_MONITOR))
-
-#define PHOTOS_TRACKER_CHANGE_MONITOR_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_TRACKER_CHANGE_MONITOR, PhotosTrackerChangeMonitorClass))
-
-typedef struct _PhotosTrackerChangeMonitor        PhotosTrackerChangeMonitor;
-typedef struct _PhotosTrackerChangeMonitorClass   PhotosTrackerChangeMonitorClass;
-typedef struct _PhotosTrackerChangeMonitorPrivate PhotosTrackerChangeMonitorPrivate;
-
-struct _PhotosTrackerChangeMonitor
-{
-  GObject parent_instance;
-  PhotosTrackerChangeMonitorPrivate *priv;
-};
-
-struct _PhotosTrackerChangeMonitorClass
-{
-  GObjectClass parent_class;
-
-  /* signals */
-  void (*changes_pending) (PhotosTrackerChangeMonitor *self, GHashTable *changes);
-};
+typedef struct _PhotosTrackerChangeMonitor      PhotosTrackerChangeMonitor;
+typedef struct _PhotosTrackerChangeMonitorClass PhotosTrackerChangeMonitorClass;
 
 GType                        photos_tracker_change_monitor_get_type         (void) G_GNUC_CONST;
 
