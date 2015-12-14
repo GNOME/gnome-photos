@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_MEDIA_SERVER_ITEM, PhotosMediaServerItem))
 
-#define PHOTOS_MEDIA_SERVER_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_MEDIA_SERVER_ITEM, PhotosMediaServerItemClass))
-
 #define PHOTOS_IS_MEDIA_SERVER_ITEM(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_MEDIA_SERVER_ITEM))
 
-#define PHOTOS_IS_MEDIA_SERVER_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_MEDIA_SERVER_ITEM))
-
-#define PHOTOS_MEDIA_SERVER_ITEM_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_MEDIA_SERVER_ITEM, PhotosMediaServerItemClass))
-
-typedef struct _PhotosMediaServerItem        PhotosMediaServerItem;
-typedef struct _PhotosMediaServerItemClass   PhotosMediaServerItemClass;
-typedef struct _PhotosMediaServerItemPrivate PhotosMediaServerItemPrivate;
-
-struct _PhotosMediaServerItem
-{
-  PhotosBaseItem parent_instance;
-  PhotosMediaServerItemPrivate *priv;
-};
-
-struct _PhotosMediaServerItemClass
-{
-  PhotosBaseItemClass parent_class;
-};
+typedef struct _PhotosMediaServerItem      PhotosMediaServerItem;
+typedef struct _PhotosMediaServerItemClass PhotosMediaServerItemClass;
 
 GType               photos_media_server_item_get_type           (void) G_GNUC_CONST;
 

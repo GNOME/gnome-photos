@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,14 +39,19 @@
 #include "photos-utils.h"
 
 
-struct _PhotosMediaServerItemPrivate
+struct _PhotosMediaServerItem
 {
+  PhotosBaseItem parent_instance;
   PhotosBaseManager *src_mngr;
+};
+
+struct _PhotosMediaServerItemClass
+{
+  PhotosBaseItemClass parent_class;
 };
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosMediaServerItem, photos_media_server_item, PHOTOS_TYPE_BASE_ITEM,
-                         G_ADD_PRIVATE (PhotosMediaServerItem)
                          photos_utils_ensure_extension_points ();
                          g_io_extension_point_implement (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME,
                                                          g_define_type_id,
@@ -137,7 +142,7 @@ photos_media_server_item_get_source_widget (PhotosBaseItem *item)
   GtkWidget *source_widget;
   const gchar *name;
 
-  name = photos_utils_get_provider_name (self->priv->src_mngr, item);
+  name = photos_utils_get_provider_name (self->src_mngr, item);
   source_widget = gtk_label_new (name);
   gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
 
@@ -153,7 +158,7 @@ photos_media_server_item_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_media_server_item_parent_class)->constructed (object);
 
-  name = photos_utils_get_provider_name (self->priv->src_mngr, PHOTOS_BASE_ITEM (self));
+  name = photos_utils_get_provider_name (self->src_mngr, PHOTOS_BASE_ITEM (self));
   photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), name);
 }
 
@@ -163,7 +168,7 @@ photos_media_server_item_dispose (GObject *object)
 {
   PhotosMediaServerItem *self = PHOTOS_MEDIA_SERVER_ITEM (object);
 
-  g_clear_object (&self->priv->src_mngr);
+  g_clear_object (&self->src_mngr);
 
   G_OBJECT_CLASS (photos_media_server_item_parent_class)->dispose (object);
 }
@@ -172,17 +177,13 @@ photos_media_server_item_dispose (GObject *object)
 static void
 photos_media_server_item_init (PhotosMediaServerItem *self)
 {
-  PhotosMediaServerItemPrivate *priv;
   GApplication *app;
   PhotosSearchContextState *state;
-
-  self->priv = photos_media_server_item_get_instance_private (self);
-  priv = self->priv;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->src_mngr = g_object_ref (state->src_mngr);
+  self->src_mngr = g_object_ref (state->src_mngr);
 }
 
 
