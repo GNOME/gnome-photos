@@ -511,6 +511,7 @@ photos_preview_view_dispose (GObject *object)
   g_clear_object (&priv->node);
   g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->mode_cntrlr);
+  g_clear_object (&priv->nav_buttons);
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->dispose (object);
 }
