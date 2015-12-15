@@ -77,6 +77,21 @@ if test "$have_langinfo_measurement" = "yes"; then
             [Define if _NL_MEASUREMENT_MEASUREMENT is available])
 fi
 
+AC_MSG_CHECKING([for fast counters with rdtscp])
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
+#include <x86intrin.h>
+int main (int argc, char *argv[]) { int cpu; __builtin_ia32_rdtscp (&cpu); return 0; }]])],
+              [have_rdtscp=yes],
+              [have_rdtscp=no])
+              AC_MSG_RESULT([$have_rdtscp])
+              AS_IF([test "$have_rdtscp" = "yes"],
+              [CFLAGS="$CFLAGS -DEGG_HAVE_RDTSCP"])
+
+AC_CHECK_FUNCS([sched_getcpu])
+
+AC_CHECK_FUNCS([shm_open], [LIBRT=], [AC_CHECK_LIB([rt], [shm_open], [LIBRT=-lrt], [LIBRT=])])
+AC_SUBST(LIBRT)
+
 PKG_CHECK_MODULES(BABL, [babl])
 PKG_CHECK_MODULES(CAIRO, [cairo >= $CAIRO_MIN_VERSION cairo-gobject])
 PKG_CHECK_MODULES(GFBGRAPH, [libgfbgraph-0.2 >= $GFBGRAPH_MIN_VERSION])
