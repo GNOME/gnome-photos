@@ -713,9 +713,7 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
 
       priv->node = g_object_ref (node);
       view = photos_preview_view_get_view_from_view_container (view_container);
-
-      /* Steals the reference to the GeglNode. */
-      gegl_gtk_view_set_node (GEGL_GTK_VIEW (view), g_object_ref (priv->node));
+      gegl_gtk_view_set_node (GEGL_GTK_VIEW (view), priv->node);
       gtk_widget_queue_draw (view);
     }
 }
