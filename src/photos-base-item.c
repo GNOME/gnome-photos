@@ -1740,6 +1740,7 @@ photos_base_item_load_async (PhotosBaseItem *self,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
 {
+  PhotosBaseItemPrivate *priv = self->priv;
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
@@ -1747,7 +1748,21 @@ photos_base_item_load_async (PhotosBaseItem *self,
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_load_async);
 
-  photos_base_item_load_buffer_async (self, cancellable, photos_base_item_load_load_buffer, g_object_ref (task));
+  if (priv->pipeline != NULL)
+    {
+      GeglNode *graph;
+
+      graph = photos_pipeline_get_graph (priv->pipeline);
+      g_task_return_pointer (task, g_object_ref (graph), g_object_unref);
+    }
+  else
+    {
+      photos_base_item_load_buffer_async (self,
+                                          cancellable,
+                                          photos_base_item_load_load_buffer,
+                                          g_object_ref (task));
+    }
+
   g_object_unref (task);
 }
 
