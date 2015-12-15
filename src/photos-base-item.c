@@ -101,6 +101,7 @@ struct _PhotosBaseItemPrivate
   gdouble iso_speed;
   gint64 date_created;
   gint64 height;
+  gint64 last_active;
   gint64 mtime;
   gint64 width;
 };
@@ -1782,6 +1783,7 @@ photos_base_item_init (PhotosBaseItem *self)
   g_mutex_init (&priv->mutex);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
+  priv->last_active = -1;
 }
 
 
@@ -2419,6 +2421,18 @@ photos_base_item_is_favorite (PhotosBaseItem *self)
 
 
 void
+photos_base_item_last_active_update (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+
+  if (priv->collection)
+    return;
+
+  priv->last_active = g_get_monotonic_time ();
+}
+
+
+void
 photos_base_item_load_async (PhotosBaseItem *self,
                              GCancellable *cancellable,
                              GAsyncReadyCallback callback,
@@ -2435,6 +2449,8 @@ photos_base_item_load_async (PhotosBaseItem *self,
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_load_async);
+
+  priv->last_active = 0;
 
   if (priv->pipeline != NULL)
     {
@@ -2870,4 +2886,29 @@ photos_base_item_trash (PhotosBaseItem *self)
   job = photos_delete_item_job_new (self->priv->id);
   photos_delete_item_job_run (job, NULL, NULL, NULL);
   g_object_unref (job);
+}
+
+
+void
+photos_base_item_unload (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv = self->priv;
+  gint64 now;
+
+  if (priv->last_active <= 0)
+    return;
+
+  now = g_get_monotonic_time ();
+  if (now - priv->last_active < PHOTOS_ITEM_UNLOAD_TIMEOUT * 1000000)
+    return;
+
+  priv->last_active = -1;
+
+  priv->buffer_sink = NULL;
+  priv->buffer_source = NULL;
+  priv->load = NULL;
+  g_clear_object (&priv->edit_graph);
+  g_clear_object (&priv->load_graph);
+  g_clear_object (&priv->pipeline);
+  g_clear_object (&priv->processor);
 }

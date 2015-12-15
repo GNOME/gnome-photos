@@ -57,6 +57,11 @@ G_BEGIN_DECLS
   "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#image-category-screenshot"
 #define PHOTOS_EXPORT_SUBPATH "Exports"
 
+enum
+{
+  PHOTOS_ITEM_UNLOAD_TIMEOUT = 10 /* s */
+};
+
 void             photos_utils_border_pixbuf               (GdkPixbuf *pixbuf);
 
 void             photos_utils_buffer_zoom_async           (GeglBuffer *buffer,

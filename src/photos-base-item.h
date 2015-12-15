@@ -194,6 +194,8 @@ gboolean            photos_base_item_is_collection           (PhotosBaseItem *se
 
 gboolean            photos_base_item_is_favorite             (PhotosBaseItem *self);
 
+void                photos_base_item_last_active_update      (PhotosBaseItem *self);
+
 void                photos_base_item_load_async              (PhotosBaseItem *self,
                                                               GCancellable *cancellable,
                                                               GAsyncReadyCallback callback,
@@ -278,6 +280,8 @@ void                photos_base_item_set_favorite            (PhotosBaseItem *se
 void                photos_base_item_thumbnailing_stop       (void);
 
 void                photos_base_item_trash                   (PhotosBaseItem *self);
+
+void                photos_base_item_unload                  (PhotosBaseItem *self);
 
 G_END_DECLS
 

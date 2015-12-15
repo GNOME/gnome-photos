@@ -56,6 +56,8 @@ struct _PhotosItemManager
   PhotosTrackerChangeMonitor *monitor;
   PhotosWindowMode mode;
   gboolean fullscreen;
+  gboolean unload_queue_again;
+  guint unload_timeout_id;
 };
 
 struct _PhotosItemManagerClass
@@ -87,6 +89,9 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER);
 EGG_DEFINE_COUNTER (instances, "PhotosItemManager", "Instances", "Number of PhotosItemManager instances")
+
+
+static void photos_item_manager_unload_queue (PhotosItemManager *self);
 
 
 static void
@@ -282,6 +287,19 @@ photos_item_manager_item_load (GObject *source_object, GAsyncResult *res, gpoint
 
 
 static void
+photos_item_manager_last_active_update (PhotosItemManager *self)
+{
+  PhotosBaseItem *item;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (PHOTOS_BASE_MANAGER (self)));
+  if (item == NULL)
+    return;
+
+  photos_base_item_last_active_update (item);
+}
+
+
+static void
 photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *id)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
@@ -298,6 +316,46 @@ photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *i
 
  end:
   PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->remove_object_by_id (mngr, id);
+}
+
+
+static gboolean
+photos_item_manager_unload_timeout (gpointer user_data)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
+  GHashTable *items;
+  GHashTableIter iter;
+  PhotosBaseItem *item;
+
+  self->unload_timeout_id = 0;
+
+  items = photos_base_manager_get_objects (PHOTOS_BASE_MANAGER (self));
+  g_hash_table_iter_init (&iter, items);
+  while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &item))
+    photos_base_item_unload (item);
+
+  if (self->unload_queue_again)
+    {
+      self->unload_queue_again = FALSE;
+      photos_item_manager_unload_queue (self);
+    }
+
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
+photos_item_manager_unload_queue (PhotosItemManager *self)
+{
+  if (self->unload_timeout_id != 0)
+    {
+      self->unload_queue_again = TRUE;
+      return;
+    }
+
+  self->unload_timeout_id = g_timeout_add_seconds (PHOTOS_ITEM_UNLOAD_TIMEOUT,
+                                                   photos_item_manager_unload_timeout,
+                                                   self);
 }
 
 
@@ -378,6 +436,8 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
       start_loading = TRUE;
     }
 
+  photos_item_manager_last_active_update (self);
+
   ret_val = PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->set_active_object (manager, object);
   /* We have already eliminated the possibility of failure. */
   g_assert (ret_val == TRUE);
@@ -414,6 +474,8 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
       g_assert (active_item != (GObject *) self->active_collection);
     }
 
+  photos_item_manager_unload_queue (self);
+
  out:
   return ret_val;
 }
@@ -430,6 +492,12 @@ photos_item_manager_dispose (GObject *object)
     {
       photos_item_manager_collection_path_free (self);
       self->collection_path = NULL;
+    }
+
+  if (self->unload_timeout_id != 0)
+    {
+      g_source_remove (self->unload_timeout_id);
+      self->unload_timeout_id = 0;
     }
 
   g_clear_pointer (&self->collections, (GDestroyNotify) g_hash_table_unref);
@@ -588,9 +656,12 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
     g_object_ref (collection);
   self->active_collection = PHOTOS_BASE_ITEM (collection);
 
+  photos_item_manager_last_active_update (self);
+
   PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
     ->set_active_object (PHOTOS_BASE_MANAGER (self), (GObject *) collection);
 
+  photos_item_manager_unload_queue (self);
   g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
 
   g_clear_object (&collection);
@@ -753,8 +824,12 @@ photos_mode_controller_go_back (PhotosModeController *self)
   if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     {
       self->load_state = PHOTOS_LOAD_STATE_NONE;
+      photos_item_manager_last_active_update (self);
+
       PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
         ->set_active_object (PHOTOS_BASE_MANAGER (self), (GObject *) self->active_collection);
+
+      photos_item_manager_unload_queue (self);
     }
   else if (old_mode != PHOTOS_WINDOW_MODE_EDIT)
     {
@@ -763,10 +838,12 @@ photos_mode_controller_go_back (PhotosModeController *self)
 
       g_clear_object (&self->active_collection);
       self->load_state = PHOTOS_LOAD_STATE_NONE;
+      photos_item_manager_last_active_update (self);
 
       PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
         ->set_active_object (PHOTOS_BASE_MANAGER (self), NULL);
 
+      photos_item_manager_unload_queue (self);
       g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
     }
 
@@ -829,8 +906,12 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
           active_collection_changed = TRUE;
         }
 
+      photos_item_manager_last_active_update (self);
+
       PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
         ->set_active_object (PHOTOS_BASE_MANAGER (self), NULL);
+
+      photos_item_manager_unload_queue (self);
 
       if (active_collection_changed)
         g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
