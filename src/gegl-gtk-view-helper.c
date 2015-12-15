@@ -93,6 +93,8 @@ finalize(GObject *gobject)
 
     if (self->node)
         g_object_unref(self->node);
+
+    G_OBJECT_CLASS(view_helper_parent_class)->finalize(gobject);
 }
 
 /* Transform a rectangle from model to view coordinates. */
