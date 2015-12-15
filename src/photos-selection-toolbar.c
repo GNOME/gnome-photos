@@ -307,7 +307,8 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
         fav_count++;
 
       default_app_name = photos_base_item_get_default_app_name (item);
-      if (default_app_name != NULL && g_list_find (apps, default_app_name) == NULL)
+      if (default_app_name != NULL
+          && g_list_find_custom (apps, default_app_name, (GCompareFunc) g_strcmp0) == NULL)
         apps = g_list_prepend (apps, (gpointer) g_strdup (default_app_name));
 
       show_trash = show_trash && photos_base_item_can_trash (item);
