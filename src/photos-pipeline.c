@@ -94,6 +94,8 @@ photos_pipeline_constructed (GObject *object)
   input = gegl_node_get_input_proxy (self->graph, "input");
   output = gegl_node_get_output_proxy (self->graph, "output");
   gegl_node_link (input, output);
+
+  g_clear_object (&self->parent); /* We will not need it any more */
 }
 
 
