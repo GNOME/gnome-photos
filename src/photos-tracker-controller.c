@@ -133,6 +133,9 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
   gboolean valid;
   gint64 now;
 
+  if (priv->item_mngr == NULL)
+    goto out;
+
   valid = tracker_sparql_cursor_next_finish (cursor, res, NULL); /* TODO: use GError */
   if (!valid)
     {
@@ -290,6 +293,8 @@ photos_tracker_controller_source_object_added_removed (PhotosTrackerController *
   PhotosTrackerControllerPrivate *priv = self->priv;
   PhotosWindowMode mode;
 
+  g_return_if_fail (priv->mode_cntrlr != NULL);
+
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
   if (mode == priv->mode)
     photos_tracker_controller_refresh_for_source (self);
@@ -332,9 +337,7 @@ photos_tracker_controller_dispose (GObject *object)
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
   PhotosTrackerControllerPrivate *priv = self->priv;
 
-  g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
-  g_clear_object (&priv->mode_cntrlr);
   g_clear_object (&priv->offset_cntrlr);
   g_clear_object (&priv->queue);
 
@@ -347,6 +350,12 @@ photos_tracker_controller_finalize (GObject *object)
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
   PhotosTrackerControllerPrivate *priv = self->priv;
+
+  if (priv->item_mngr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
+
+  if (priv->mode_cntrlr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (priv->mode_cntrlr), (gpointer *) &priv->mode_cntrlr);
 
   g_clear_error (&priv->queue_error);
 
@@ -389,7 +398,9 @@ photos_tracker_controller_init (PhotosTrackerController *self)
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   priv->cancellable = g_cancellable_new ();
-  priv->item_mngr = g_object_ref (state->item_mngr);
+
+  priv->item_mngr = state->item_mngr;
+  g_object_add_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
 
   priv->src_mngr = g_object_ref (state->src_mngr);
   g_signal_connect_swapped (priv->src_mngr,
@@ -401,7 +412,8 @@ photos_tracker_controller_init (PhotosTrackerController *self)
                             G_CALLBACK (photos_tracker_controller_source_object_added_removed),
                             self);
 
-  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
+  priv->mode_cntrlr = state->mode_cntrlr;
+  g_object_add_weak_pointer (G_OBJECT (priv->mode_cntrlr), (gpointer *) &priv->mode_cntrlr);
   g_signal_connect_swapped (priv->mode_cntrlr,
                             "window-mode-changed",
                             G_CALLBACK (photos_tracker_controller_window_mode_changed),
