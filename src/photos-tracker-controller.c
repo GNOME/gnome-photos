@@ -138,8 +138,7 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
     {
       tracker_sparql_cursor_close (cursor);
       photos_tracker_controller_query_finished (self, NULL);
-      g_object_unref (self);
-      return;
+      goto out;
     }
 
   now = g_get_monotonic_time ();
@@ -149,7 +148,10 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
   tracker_sparql_cursor_next_async (cursor,
                                     priv->cancellable,
                                     photos_tracker_controller_cursor_next,
-                                    self);
+                                    g_object_ref (self));
+
+ out:
+  g_object_unref (self);
 }
 
 
