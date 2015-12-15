@@ -28,6 +28,7 @@
 #include <gio/gio.h>
 #include <glib.h>
 
+#include "egg-counter.h"
 #include "photos-base-manager.h"
 #include "photos-filterable.h"
 #include "photos-search-context.h"
@@ -62,6 +63,10 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE (PhotosSelectionController, photos_selection_controller, G_TYPE_OBJECT);
+EGG_DEFINE_COUNTER (instances,
+                    "PhotosSelectionController",
+                    "Instances",
+                    "Number of PhotosSelectionController instances")
 
 
 static void
@@ -119,6 +124,8 @@ photos_selection_controller_finalize (GObject *object)
     g_object_remove_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
 
   G_OBJECT_CLASS (photos_selection_controller_parent_class)->finalize (object);
+
+  EGG_COUNTER_DEC (instances);
 }
 
 
@@ -127,6 +134,8 @@ photos_selection_controller_init (PhotosSelectionController *self)
 {
   GApplication *app;
   PhotosSearchContextState *state;
+
+  EGG_COUNTER_INC (instances);
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));

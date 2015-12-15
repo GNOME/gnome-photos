@@ -39,6 +39,7 @@
 #include <libgd/gd.h>
 #include <tracker-sparql.h>
 
+#include "egg-counter.h"
 #include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-collection-icon-watcher.h"
@@ -127,6 +128,7 @@ G_DEFINE_ABSTRACT_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJEC
                                   G_ADD_PRIVATE (PhotosBaseItem)
                                   G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                          photos_base_item_filterable_iface_init));
+EGG_DEFINE_COUNTER (instances, "PhotosBaseItem", "Instances", "Number of PhotosBaseItem instances")
 
 
 typedef struct _PhotosBaseItemSaveData PhotosBaseItemSaveData;
@@ -1718,6 +1720,8 @@ photos_base_item_finalize (GObject *object)
   g_mutex_clear (&priv->mutex);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->finalize (object);
+
+  EGG_COUNTER_DEC (instances);
 }
 
 
@@ -1766,6 +1770,8 @@ static void
 photos_base_item_init (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
+
+  EGG_COUNTER_INC (instances);
 
   self->priv = photos_base_item_get_instance_private (self);
   priv = self->priv;

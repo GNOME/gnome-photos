@@ -28,6 +28,7 @@
 #include <glib.h>
 #include <tracker-sparql.h>
 
+#include "egg-counter.h"
 #include "photos-offset-controller.h"
 #include "photos-query-builder.h"
 #include "photos-tracker-queue.h"
@@ -52,6 +53,10 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhotosOffsetController, photos_offset_controller, G_TYPE_OBJECT);
+EGG_DEFINE_COUNTER (instances,
+                    "PhotosOffsetController",
+                    "Instances",
+                    "Number of PhotosOffsetController instances")
 
 
 enum
@@ -144,9 +149,20 @@ photos_offset_controller_dispose (GObject *object)
 
 
 static void
+photos_offset_controller_finalize (GObject *object)
+{
+  G_OBJECT_CLASS (photos_offset_controller_parent_class)->finalize (object);
+
+  EGG_COUNTER_DEC (instances);
+}
+
+
+static void
 photos_offset_controller_init (PhotosOffsetController *self)
 {
   PhotosOffsetControllerPrivate *priv;
+
+  EGG_COUNTER_INC (instances);
 
   priv = photos_offset_controller_get_instance_private (self);
 
@@ -161,6 +177,7 @@ photos_offset_controller_class_init (PhotosOffsetControllerClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->dispose = photos_offset_controller_dispose;
+  object_class->finalize = photos_offset_controller_finalize;
 
   signals[COUNT_CHANGED] = g_signal_new ("count-changed",
                                          G_TYPE_FROM_CLASS (class),

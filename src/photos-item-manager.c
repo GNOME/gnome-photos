@@ -29,6 +29,7 @@
 #include <glib.h>
 #include <tracker-sparql.h>
 
+#include "egg-counter.h"
 #include "photos-enums.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
@@ -85,6 +86,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER);
+EGG_DEFINE_COUNTER (instances, "PhotosItemManager", "Instances", "Number of PhotosItemManager instances")
 
 
 static void
@@ -445,12 +447,16 @@ photos_item_manager_finalize (GObject *object)
   g_queue_free (self->history);
 
   G_OBJECT_CLASS (photos_item_manager_parent_class)->finalize (object);
+
+  EGG_COUNTER_DEC (instances);
 }
 
 
 static void
 photos_item_manager_init (PhotosItemManager *self)
 {
+  EGG_COUNTER_INC (instances);
+
   self->collections = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
   self->extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
   self->collection_path = g_queue_new ();
