@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 Red Hat, Inc.
+ * Copyright © 2012, 2015 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -217,6 +217,8 @@ photos_offset_controller_reset_count (PhotosOffsetController *self)
     return;
 
   query = PHOTOS_OFFSET_CONTROLLER_GET_CLASS (self)->get_query (self);
+  g_return_if_fail (query != NULL);
+
   photos_tracker_queue_select (priv->queue,
                                query->sparql,
                                NULL,
