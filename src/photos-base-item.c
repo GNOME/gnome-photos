@@ -2848,6 +2848,17 @@ photos_base_item_set_favorite (PhotosBaseItem *self, gboolean favorite)
 
 
 void
+photos_base_item_thumbnailing_stop (void)
+{
+  if (create_thumbnail_pool == NULL)
+    return;
+
+  g_thread_pool_free (create_thumbnail_pool, TRUE, TRUE);
+  create_thumbnail_pool = NULL;
+}
+
+
+void
 photos_base_item_trash (PhotosBaseItem *self)
 {
   PhotosDeleteItemJob *job;

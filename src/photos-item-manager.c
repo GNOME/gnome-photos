@@ -424,6 +424,8 @@ photos_item_manager_dispose (GObject *object)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (object);
 
+  photos_base_item_thumbnailing_stop ();
+
   if (self->collection_path != NULL)
     {
       photos_item_manager_collection_path_free (self);
