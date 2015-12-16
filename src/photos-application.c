@@ -1167,11 +1167,21 @@ photos_application_startup (GApplication *application)
 
   grl_init (NULL, NULL);
   registry = grl_registry_get_default ();
+
   error = NULL;
-  if (!grl_registry_load_plugin_by_id (registry, "grl-flickr", &error))
+  if (!grl_registry_load_all_plugins (registry, FALSE, &error))
     {
-      g_warning ("Unable to load Grilo's Flickr plugin: %s", error->message);
+      g_warning ("Unable to load Grilo plugins: %s", error->message);
       g_error_free (error);
+    }
+  else
+    {
+      error = NULL;
+      if (!grl_registry_activate_plugin_by_id (registry, "grl-flickr", &error))
+        {
+          g_warning ("Unable to activate Grilo's Flickr plugin: %s", error->message);
+          g_error_free (error);
+        }
     }
 
   priv->create_window_cancellable = g_cancellable_new ();
