@@ -1135,7 +1135,6 @@ photos_application_shutdown (GApplication *application)
   g_assert (refresh_miner_ids_size == 0);
 
   g_clear_pointer (&priv->refresh_miner_ids, (GDestroyNotify) g_hash_table_unref);
-  gegl_exit ();
 
   G_APPLICATION_CLASS (photos_application_parent_class)->shutdown (application);
 }
@@ -1447,6 +1446,9 @@ photos_application_finalize (GObject *object)
   PhotosApplication *self = PHOTOS_APPLICATION (object);
 
   g_assert (self->priv->create_miners_count == 0);
+
+  if (!g_application_get_is_remote (G_APPLICATION (self)))
+    gegl_exit ();
 
   G_OBJECT_CLASS (photos_application_parent_class)->finalize (object);
 }
