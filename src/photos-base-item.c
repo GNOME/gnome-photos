@@ -926,16 +926,14 @@ photos_base_item_save_save_to_stream (GObject *source_object, GAsyncResult *res,
 {
   GTask *task = G_TASK (user_data);
   GError *error = NULL;
-  gboolean result;
 
-  result = gdk_pixbuf_save_to_stream_finish (res, &error);
-  if (error != NULL)
+  if (!gdk_pixbuf_save_to_stream_finish (res, &error))
     {
       g_task_return_error (task, error);
       goto out;
     }
 
-  g_task_return_boolean (task, result);
+  g_task_return_boolean (task, TRUE);
 
  out:
   g_object_unref (task);

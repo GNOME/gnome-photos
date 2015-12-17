@@ -576,8 +576,7 @@ photos_application_edit_cancel_process (GObject *source_object, GAsyncResult *re
   GError *error = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
-  photos_base_item_process_finish (item, res, &error);
-  if (error != NULL)
+  if (!photos_base_item_process_finish (item, res, &error))
     {
       g_warning ("Unable to process item: %s", error->message);
       g_error_free (error);
