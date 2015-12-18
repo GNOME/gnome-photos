@@ -82,6 +82,13 @@ GeglProcessor         *photos_pipeline_new_processor     (PhotosPipeline *self);
 
 void                   photos_pipeline_reset             (PhotosPipeline *self);
 
+void                   photos_pipeline_save_async        (PhotosPipeline *self,
+                                                          GCancellable *cancellable,
+                                                          GAsyncReadyCallback callback,
+                                                          gpointer user_data);
+
+gboolean               photos_pipeline_save_finish       (PhotosPipeline *self, GAsyncResult *res, GError **error);
+
 gboolean               photos_pipeline_undo              (PhotosPipeline *self);
 
 G_END_DECLS

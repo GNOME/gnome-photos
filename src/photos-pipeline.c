@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <string.h>
+
 #include <glib.h>
 
 #include "photos-debug.h"
@@ -84,6 +86,28 @@ photos_pipeline_to_xml (PhotosPipeline *self)
 
   return ret_val;
 }
+
+
+static void
+photos_pipeline_save_replace_contents (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  GError *error;
+  GFile *file = G_FILE (source_object);
+
+  error = NULL;
+  if (!g_file_replace_contents_finish (file, res, NULL, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_boolean (task, TRUE);
+
+ out:
+  g_object_unref (task);
+}
+
 
 static void
 photos_pipeline_constructed (GObject *object)
@@ -361,6 +385,55 @@ photos_pipeline_reset (PhotosPipeline *self)
                               NULL);
   gegl_node_link_many (input, node, output, NULL);
   g_hash_table_insert (self->hash, g_strdup ("photos:insta-filter"), g_object_ref (node));
+}
+
+
+void
+photos_pipeline_save_async (PhotosPipeline *self,
+                            GCancellable *cancellable,
+                            GAsyncReadyCallback callback,
+                            gpointer user_data)
+{
+  GFile *file;
+  GTask *task;
+  gchar *xml = NULL;
+  gsize len;
+
+  xml = photos_pipeline_to_xml (self);
+  g_return_if_fail (xml != NULL);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_pipeline_save_async);
+  g_task_set_task_data (task, g_strdup (xml), g_free);
+
+  file = g_file_new_for_uri (self->uri);
+  len = strlen (xml);
+  g_file_replace_contents_async (file,
+                                 xml,
+                                 len,
+                                 NULL,
+                                 FALSE,
+                                 G_FILE_CREATE_REPLACE_DESTINATION,
+                                 cancellable,
+                                 photos_pipeline_save_replace_contents,
+                                 g_object_ref (task));
+
+  g_free (xml);
+  g_object_unref (file);
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_pipeline_save_finish (PhotosPipeline *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_pipeline_save_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 
