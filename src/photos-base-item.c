@@ -779,10 +779,11 @@ photos_base_item_load_buffer_async (PhotosBaseItem *self,
                                     GAsyncReadyCallback callback,
                                     gpointer user_data)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = self->priv;
 
   if (priv->load_graph == NULL)
     {
@@ -1740,10 +1741,11 @@ photos_base_item_load_async (PhotosBaseItem *self,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = self->priv;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_load_async);
@@ -1884,12 +1886,14 @@ photos_base_item_save_async (PhotosBaseItem *self,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GFile *file;
   GTask *task;
   gchar *type = NULL;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = self->priv;
+
   g_return_if_fail (uri != NULL && uri[0] != '\0');
   g_return_if_fail (priv->edit_graph != NULL);
   g_return_if_fail (priv->load_graph != NULL);
