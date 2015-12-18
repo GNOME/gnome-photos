@@ -28,6 +28,7 @@
 #include "photos-debug.h"
 #include "photos-operation-insta-common.h"
 #include "photos-pipeline.h"
+#include "photos-utils.h"
 
 
 struct _PhotosPipeline
@@ -212,6 +213,109 @@ photos_pipeline_class_init (PhotosPipelineClass *class)
 
 
 static void
+photos_pipeline_async_initable_init_load_contents (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  PhotosPipeline *self;
+  GeglNode *graph = NULL;
+  GeglNode *input;
+  GeglNode *node;
+  GeglNode *output;
+  GeglNode *parent;
+  GError *error;
+  GFile *file = G_FILE (source_object);
+  GSList *children = NULL;
+  GSList *l;
+  gchar *contents = NULL;
+
+  self = PHOTOS_PIPELINE (g_task_get_source_object (task));
+
+  error = NULL;
+  if (!g_file_load_contents_finish (file, res, &contents, NULL, NULL, &error))
+    {
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+        {
+          g_error_free (error);
+          goto carry_on;
+        }
+      else
+        {
+          g_task_return_error (task, error);
+          goto out;
+        }
+    }
+
+  parent = gegl_node_get_parent (self->graph);
+  g_clear_object (&self->graph);
+
+  /* HACK: This graph is busted. eg., the input and output proxies
+   * point to the same GeglNode. I can't imagine this to be
+   * anything else other than a GEGL bug.
+   *
+   * Therefore, we are going to re-construct a proper graph
+   * ourselves.
+   */
+  graph = gegl_node_new_from_xml (contents, "/");
+  if (graph == NULL)
+    {
+      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to deserialize from XML");
+      goto out;
+    }
+
+  self->graph = gegl_node_new ();
+  if (parent != NULL)
+    gegl_node_add_child (parent, self->graph);
+
+  input = gegl_node_get_input_proxy (self->graph, "input");
+  output = gegl_node_get_output_proxy (self->graph, "output");
+
+  children = gegl_node_get_children (graph);
+  if (children == NULL)
+    {
+      gegl_node_link (input, output);
+      goto carry_on;
+    }
+
+  for (l = children; l != NULL; l = l->next)
+    {
+      const gchar *operation;
+
+      node = GEGL_NODE (l->data);
+
+      g_object_ref (node);
+      gegl_node_remove_child (graph, node);
+      gegl_node_add_child (self->graph, node);
+      g_object_unref (node);
+
+      operation = gegl_node_get_operation (node);
+      g_hash_table_insert (self->hash, g_strdup (operation), g_object_ref (node));
+    }
+
+  node = GEGL_NODE (children->data);
+  gegl_node_link (input, node);
+
+  for (l = children; l != NULL && l->next != NULL; l = l->next)
+    {
+      GeglNode *sink = GEGL_NODE (l->next->data);
+      GeglNode *source = GEGL_NODE (l->data);
+      gegl_node_link (source, sink);
+    }
+
+  node = GEGL_NODE (l->data);
+  gegl_node_link (node, output);
+
+ carry_on:
+  g_task_return_boolean (task, TRUE);
+
+ out:
+  g_free (contents);
+  g_slist_free (children);
+  g_clear_object (&graph);
+  g_object_unref (task);
+}
+
+
+static void
 photos_pipeline_async_initable_init_async (GAsyncInitable *initable,
                                            gint io_priority,
                                            GCancellable *cancellable,
@@ -219,12 +323,26 @@ photos_pipeline_async_initable_init_async (GAsyncInitable *initable,
                                            gpointer user_data)
 {
   PhotosPipeline *self = PHOTOS_PIPELINE (initable);
-  GTask *task;
+  GFile *file = NULL;
+  GTask *task = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_pipeline_async_initable_init_async);
 
-  g_task_return_boolean (task, TRUE);
+  if (self->uri == NULL)
+    {
+      g_task_return_boolean (task, TRUE);
+      goto out;
+    }
+
+  file = g_file_new_for_uri (self->uri);
+  g_file_load_contents_async (file,
+                              cancellable,
+                              photos_pipeline_async_initable_init_load_contents,
+                              g_object_ref (task));
+
+ out:
+  g_clear_object (&file);
   g_object_unref (task);
 }
 
