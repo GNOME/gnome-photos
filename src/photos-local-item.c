@@ -65,6 +65,30 @@ photos_local_item_create_name_fallback (PhotosBaseItem *item)
 }
 
 
+static gchar *
+photos_local_item_create_pipeline_path (PhotosBaseItem *item)
+{
+  const gchar *data_dir;
+  const gchar *uri;
+  gchar *app_data_dir;
+  gchar *md5;
+  gchar *path;
+
+  uri = photos_base_item_get_uri (item);
+  md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
+  data_dir = g_get_user_data_dir ();
+
+  app_data_dir = g_build_filename (data_dir, PACKAGE_TARNAME, "local", NULL);
+  g_mkdir_with_parents (app_data_dir, 0700);
+
+  path = g_build_filename (app_data_dir, md5, NULL);
+
+  g_free (app_data_dir);
+  g_free (md5);
+  return path;
+}
+
+
 static gboolean
 photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
@@ -208,6 +232,7 @@ photos_local_item_class_init (PhotosLocalItemClass *class)
 
   object_class->constructed = photos_local_item_constructed;
   base_item_class->create_name_fallback = photos_local_item_create_name_fallback;
+  base_item_class->create_pipeline_path = photos_local_item_create_pipeline_path;
   base_item_class->create_thumbnail = photos_local_item_create_thumbnail;
   base_item_class->download = photos_local_item_download;
   base_item_class->get_source_widget = photos_local_item_get_source_widget;

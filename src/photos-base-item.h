@@ -75,6 +75,7 @@ struct _PhotosBaseItemClass
 
   /* virtual methods */
   gchar      *(*create_name_fallback)       (PhotosBaseItem *self);
+  gchar      *(*create_pipeline_path)       (PhotosBaseItem *self);
   gboolean    (*create_thumbnail)           (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   gchar      *(*download)                   (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   GtkWidget  *(*get_source_widget)          (PhotosBaseItem *self);
