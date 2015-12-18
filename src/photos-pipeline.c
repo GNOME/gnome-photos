@@ -35,6 +35,7 @@ struct _PhotosPipeline
   GHashTable *hash;
   GQueue *history;
   GeglNode *graph;
+  gchar *uri;
 };
 
 struct _PhotosPipelineClass
@@ -46,6 +47,7 @@ enum
 {
   PROP_0,
   PROP_PARENT,
+  PROP_URI
 };
 
 static void photos_pipeline_async_initable_iface_init (GAsyncInitableIface *iface);
@@ -121,6 +123,7 @@ photos_pipeline_finalize (GObject *object)
   PhotosPipeline *self = PHOTOS_PIPELINE (object);
 
   g_queue_free (self->history);
+  g_free (self->uri);
 
   G_OBJECT_CLASS (photos_pipeline_parent_class)->finalize (object);
 }
@@ -135,6 +138,10 @@ photos_pipeline_set_property (GObject *object, guint prop_id, const GValue *valu
     {
     case PROP_PARENT:
       self->parent = GEGL_NODE (g_value_dup_object (value));
+      break;
+
+    case PROP_URI:
+      self->uri = g_value_dup_string (value);
       break;
 
     default:
@@ -168,6 +175,14 @@ photos_pipeline_class_init (PhotosPipelineClass *class)
                                                         "GeglNode object",
                                                         "A GeglNode representing the parent graph",
                                                         GEGL_TYPE_NODE,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  g_object_class_install_property (object_class,
+                                   PROP_URI,
+                                   g_param_spec_string ("uri",
+                                                        "An URI",
+                                                        "The location to save this pipeline",
+                                                        NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 }
 
@@ -214,6 +229,7 @@ photos_pipeline_async_initable_iface_init (GAsyncInitableIface *iface)
 
 void
 photos_pipeline_new_async (GeglNode *parent,
+                           const gchar *uri,
                            GCancellable *cancellable,
                            GAsyncReadyCallback callback,
                            gpointer user_data)
@@ -224,6 +240,7 @@ photos_pipeline_new_async (GeglNode *parent,
                               callback,
                               user_data,
                               "parent", parent,
+                              "uri", uri,
                               NULL);
 }
 

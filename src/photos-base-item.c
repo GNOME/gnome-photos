@@ -1795,12 +1795,27 @@ photos_base_item_load_async (PhotosBaseItem *self,
     }
   else
     {
+      PhotosBaseItemClass *class;
+      gchar *uri = NULL;
+
+      class = PHOTOS_BASE_ITEM_GET_CLASS (self);
+      if (class->create_pipeline_path != NULL)
+        {
+          gchar *path;
+
+          path = class->create_pipeline_path (self);
+          uri = photos_utils_convert_path_to_uri (path);
+          g_free (path);
+        }
+
       priv->edit_graph = gegl_node_new ();
       priv->buffer_source = gegl_node_new_child (priv->edit_graph, "operation", "gegl:buffer-source", NULL);
       photos_pipeline_new_async (priv->edit_graph,
+                                 uri,
                                  cancellable,
                                  photos_base_item_load_pipeline,
                                  g_object_ref (task));
+      g_free (uri);
     }
 
   g_object_unref (task);

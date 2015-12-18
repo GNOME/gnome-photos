@@ -56,6 +56,7 @@ typedef struct _PhotosPipelineClass PhotosPipelineClass;
 GType                  photos_pipeline_get_type          (void) G_GNUC_CONST;
 
 void                   photos_pipeline_new_async         (GeglNode *parent,
+                                                          const gchar *uri,
                                                           GCancellable *cancellable,
                                                           GAsyncReadyCallback callback,
                                                           gpointer user_data);
