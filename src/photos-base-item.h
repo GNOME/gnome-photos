@@ -193,6 +193,15 @@ gboolean            photos_base_item_operation_get           (PhotosBaseItem *se
 
 gboolean            photos_base_item_operation_undo          (PhotosBaseItem *self);
 
+void                photos_base_item_pipeline_save_async     (PhotosBaseItem *self,
+                                                              GCancellable *cancellable,
+                                                              GAsyncReadyCallback callback,
+                                                              gpointer user_data);
+
+gboolean            photos_base_item_pipeline_save_finish    (PhotosBaseItem *self,
+                                                              GAsyncResult *res,
+                                                              GError **error);
+
 void                photos_base_item_print                   (PhotosBaseItem *self, GtkWidget *toplevel);
 
 void                photos_base_item_process_async           (PhotosBaseItem *self,

@@ -918,6 +918,29 @@ photos_base_item_load_pipeline (GObject *source_object, GAsyncResult *res, gpoin
 }
 
 
+static void
+photos_base_item_pipeline_save_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItem *self;
+  GError *error;
+
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+
+  error = NULL;
+  if (!photos_pipeline_save_finish (self->priv->pipeline, res, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_boolean (task, TRUE);
+
+ out:
+  g_object_unref (task);
+}
+
+
 static gboolean
 photos_base_item_process_idle (gpointer user_data)
 {
@@ -1871,6 +1894,47 @@ gboolean
 photos_base_item_operation_undo (PhotosBaseItem *self)
 {
   return photos_pipeline_undo (self->priv->pipeline);
+}
+
+
+void
+photos_base_item_pipeline_save_async (PhotosBaseItem *self,
+                                      GCancellable *cancellable,
+                                      GAsyncReadyCallback callback,
+                                      gpointer user_data)
+{
+  PhotosBaseItemPrivate *priv;
+  GTask *task;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = self->priv;
+
+  g_return_if_fail (priv->edit_graph != NULL);
+  g_return_if_fail (priv->load_graph != NULL);
+  g_return_if_fail (priv->pipeline != NULL);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_pipeline_save_async);
+
+  photos_pipeline_save_async (priv->pipeline,
+                              cancellable,
+                              photos_base_item_pipeline_save_save,
+                              g_object_ref (task));
+
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_pipeline_save_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_pipeline_save_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 
