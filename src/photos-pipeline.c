@@ -48,8 +48,11 @@ enum
   PROP_PARENT,
 };
 
+static void photos_pipeline_async_initable_iface_init (GAsyncInitableIface *iface);
 
-G_DEFINE_TYPE (PhotosPipeline, photos_pipeline, G_TYPE_OBJECT);
+
+G_DEFINE_TYPE_EXTENDED (PhotosPipeline, photos_pipeline, G_TYPE_OBJECT, 0,
+                        G_IMPLEMENT_INTERFACE (G_TYPE_ASYNC_INITABLE, photos_pipeline_async_initable_iface_init));
 
 
 static gchar *
@@ -169,10 +172,72 @@ photos_pipeline_class_init (PhotosPipelineClass *class)
 }
 
 
-PhotosPipeline *
-photos_pipeline_new (GeglNode *parent)
+static void
+photos_pipeline_async_initable_init_async (GAsyncInitable *initable,
+                                           gint io_priority,
+                                           GCancellable *cancellable,
+                                           GAsyncReadyCallback callback,
+                                           gpointer user_data)
 {
-  return g_object_new (PHOTOS_TYPE_PIPELINE, "parent", parent, NULL);
+  PhotosPipeline *self = PHOTOS_PIPELINE (initable);
+  GTask *task;
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_pipeline_async_initable_init_async);
+
+  g_task_return_boolean (task, TRUE);
+  g_object_unref (task);
+}
+
+
+static gboolean
+photos_pipeline_async_initable_init_finish (GAsyncInitable *initable, GAsyncResult *res, GError **error)
+{
+  PhotosPipeline *self = PHOTOS_PIPELINE (initable);
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_pipeline_async_initable_init_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
+}
+
+
+static void
+photos_pipeline_async_initable_iface_init (GAsyncInitableIface *iface)
+{
+  iface->init_async = photos_pipeline_async_initable_init_async;
+  iface->init_finish = photos_pipeline_async_initable_init_finish;
+}
+
+
+void
+photos_pipeline_new_async (GeglNode *parent,
+                           GCancellable *cancellable,
+                           GAsyncReadyCallback callback,
+                           gpointer user_data)
+{
+  g_async_initable_new_async (PHOTOS_TYPE_PIPELINE,
+                              G_PRIORITY_DEFAULT,
+                              cancellable,
+                              callback,
+                              user_data,
+                              "parent", parent,
+                              NULL);
+}
+
+
+PhotosPipeline *
+photos_pipeline_new_finish (GAsyncResult *res, GError **error)
+{
+  GObject *ret_val;
+  GObject *source_object;
+
+  source_object = g_async_result_get_source_object (res);
+  ret_val = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
+  g_object_unref (source_object);
+  return PHOTOS_PIPELINE (ret_val);
 }
 
 

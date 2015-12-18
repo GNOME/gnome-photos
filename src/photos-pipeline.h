@@ -24,6 +24,7 @@
 #include <stdarg.h>
 
 #include <gegl.h>
+#include <gio/gio.h>
 
 G_BEGIN_DECLS
 
@@ -54,7 +55,13 @@ typedef struct _PhotosPipelineClass PhotosPipelineClass;
 
 GType                  photos_pipeline_get_type          (void) G_GNUC_CONST;
 
-PhotosPipeline        *photos_pipeline_new               (GeglNode *parent);
+void                   photos_pipeline_new_async         (GeglNode *parent,
+                                                          GCancellable *cancellable,
+                                                          GAsyncReadyCallback callback,
+                                                          gpointer user_data);
+
+PhotosPipeline        *photos_pipeline_new_finish        (GAsyncResult *res,
+                                                          GError **error);
 
 void                   photos_pipeline_add               (PhotosPipeline *self,
                                                           const gchar *operation,

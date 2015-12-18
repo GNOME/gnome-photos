@@ -796,17 +796,6 @@ photos_base_item_load_buffer_async (PhotosBaseItem *self,
       gegl_node_link_many (priv->load, orientation, priv->buffer_sink, NULL);
     }
 
-  if (priv->edit_graph == NULL)
-    {
-      GeglNode *graph;
-
-      priv->edit_graph = gegl_node_new ();
-      priv->buffer_source = gegl_node_new_child (priv->edit_graph, "operation", "gegl:buffer-source", NULL);
-      priv->pipeline = photos_pipeline_new (priv->edit_graph);
-      graph = photos_pipeline_get_graph (priv->pipeline);
-      gegl_node_link (priv->buffer_source, graph);
-    }
-
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_load_buffer_async);
 
@@ -892,6 +881,39 @@ photos_base_item_load_load_buffer (GObject *source_object, GAsyncResult *res, gp
 
  out:
   g_clear_object (&buffer);
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_load_pipeline (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
+  GeglNode *graph;
+  GCancellable *cancellable;
+  GError *error;
+
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  priv = self->priv;
+
+  cancellable = g_task_get_cancellable (task);
+
+  error = NULL;
+  priv->pipeline = photos_pipeline_new_finish (res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  graph = photos_pipeline_get_graph (priv->pipeline);
+  gegl_node_link (priv->buffer_source, graph);
+
+  photos_base_item_load_buffer_async (self, cancellable, photos_base_item_load_load_buffer, g_object_ref (task));
+
+ out:
   g_object_unref (task);
 }
 
@@ -1759,6 +1781,8 @@ photos_base_item_load_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
 
+  g_return_if_fail (priv->edit_graph == NULL || priv->pipeline != NULL);
+
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_load_async);
 
@@ -1771,10 +1795,12 @@ photos_base_item_load_async (PhotosBaseItem *self,
     }
   else
     {
-      photos_base_item_load_buffer_async (self,
-                                          cancellable,
-                                          photos_base_item_load_load_buffer,
-                                          g_object_ref (task));
+      priv->edit_graph = gegl_node_new ();
+      priv->buffer_source = gegl_node_new_child (priv->edit_graph, "operation", "gegl:buffer-source", NULL);
+      photos_pipeline_new_async (priv->edit_graph,
+                                 cancellable,
+                                 photos_base_item_load_pipeline,
+                                 g_object_ref (task));
     }
 
   g_object_unref (task);
