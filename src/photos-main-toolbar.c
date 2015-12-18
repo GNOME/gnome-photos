@@ -502,7 +502,7 @@ photos_main_toolbar_populate_for_edit (PhotosMainToolbar *self)
   gtk_header_bar_pack_start (GTK_HEADER_BAR (priv->toolbar), cancel_button);
 
   done_button = gtk_button_new_with_label (_("Done"));
-  gtk_actionable_set_action_name (GTK_ACTIONABLE (done_button), "app.save-current");
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (done_button), "app.edit-done");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (priv->toolbar), done_button);
   context = gtk_widget_get_style_context (done_button);
   gtk_style_context_add_class (context, "suggested-action");
