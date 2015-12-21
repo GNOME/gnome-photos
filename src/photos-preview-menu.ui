@@ -6,6 +6,10 @@
         <attribute name="label" translatable="yes">Open</attribute>
       </item>
       <item>
+        <attribute name="action">app.save-current</attribute>
+        <attribute name="label" translatable="yes">Export…</attribute>
+      </item>
+      <item>
         <attribute name="action">app.print-current</attribute>
         <attribute name="label" translatable="yes">Print…</attribute>
         <attribute name="accel">&lt;Primary&gt;p</attribute>

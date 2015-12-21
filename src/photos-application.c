@@ -256,7 +256,6 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (priv->edit_cancel_action, enable);
   g_simple_action_set_enabled (priv->edit_done_action, enable);
   g_simple_action_set_enabled (priv->insta_action, enable);
-  g_simple_action_set_enabled (priv->save_action, enable);
   g_simple_action_set_enabled (priv->sharpen_action, enable);
   g_simple_action_set_enabled (priv->undo_action, enable);
 
@@ -283,6 +282,7 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (priv->open_action, enable);
   g_simple_action_set_enabled (priv->print_action, enable);
   g_simple_action_set_enabled (priv->properties_action, enable);
+  g_simple_action_set_enabled (priv->save_action, enable);
   g_simple_action_set_enabled (priv->set_bg_action, enable);
   g_simple_action_set_enabled (priv->set_ss_action, enable);
 
@@ -891,8 +891,6 @@ photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointe
       g_error_free (error);
       goto out;
     }
-
-  photos_mode_controller_go_back (self->priv->state->mode_cntrlr);
 
  out:
   g_application_release (G_APPLICATION (self));
