@@ -70,6 +70,8 @@ gnome_photos_SOURCES = \
 	photos-dlna-renderers-manager.h \
 	photos-dropdown.c \
 	photos-dropdown.h \
+	photos-export-dialog.c \
+	photos-export-dialog.h \
 	photos-edit-palette.c \
 	photos-edit-palette.h \
 	photos-edit-palette-row.c \
@@ -249,6 +251,7 @@ EXTRA_DIST = \
 	photos-generate-about \
 	photos.gresource.xml \
 	photos-dlna-renderers-dialog.ui \
+	photos-export-dialog.ui \
 	photos-help-overlay.ui \
 	photos-marshalers.list \
 	photos-menus.ui \
