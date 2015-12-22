@@ -774,11 +774,16 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
 
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
-  g_return_if_fail (self->mode != PHOTOS_WINDOW_MODE_PREVIEW
-                    || (self->mode == PHOTOS_WINDOW_MODE_PREVIEW && mode == PHOTOS_WINDOW_MODE_EDIT));
 
   if (mode == PHOTOS_WINDOW_MODE_EDIT)
-    g_return_if_fail (self->load_state == PHOTOS_LOAD_STATE_FINISHED);
+    {
+      g_return_if_fail (self->load_state == PHOTOS_LOAD_STATE_FINISHED);
+      g_return_if_fail (self->mode == PHOTOS_WINDOW_MODE_PREVIEW);
+    }
+  else
+    {
+      g_return_if_fail (self->mode != PHOTOS_WINDOW_MODE_PREVIEW);
+    }
 
   if (!photos_item_manager_set_window_mode_internal (self, mode, &old_mode))
     return;
