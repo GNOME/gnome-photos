@@ -131,6 +131,8 @@ GList           *photos_utils_get_urns_from_paths         (GList *paths, GtkTree
 
 GIcon           *photos_utils_icon_from_rdf_type          (const gchar *type);
 
+gboolean         photos_utils_make_directory_with_parents (GFile *file, GCancellable *cancellable, GError **error);
+
 GQuark           photos_utils_orientation_bottom_quark    (void);
 
 GQuark           photos_utils_orientation_left_quark      (void);

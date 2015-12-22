@@ -877,23 +877,13 @@ photos_application_save (PhotosApplication *self)
   pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
   parent_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
   parent = g_file_new_for_path (parent_path);
-  g_file_make_directory_with_parents (parent, NULL, &error);
-  if (error != NULL)
+  if (!photos_utils_make_directory_with_parents (parent, NULL, &error))
     {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
-        {
-          g_error_free (error);
-          goto carry_on;
-        }
-      else
-        {
-          g_warning ("Unable to create %s: %s", parent_path, error->message);
-          g_error_free (error);
-          goto out;
-        }
+      g_warning ("Unable to create %s: %s", parent_path, error->message);
+      g_error_free (error);
+      goto out;
     }
 
- carry_on:
   now = g_date_time_new_now_local ();
   origin = g_date_time_format (now, "%Y-%m-%d %H-%M-%S");
 

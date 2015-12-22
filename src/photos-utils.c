@@ -1017,6 +1017,29 @@ photos_utils_icon_from_rdf_type (const gchar *type)
 }
 
 
+gboolean
+photos_utils_make_directory_with_parents (GFile *file, GCancellable *cancellable, GError **error)
+{
+  GError *local_error = NULL;
+  gboolean ret_val;
+
+  ret_val = g_file_make_directory_with_parents (file, cancellable, &local_error);
+  if (local_error != NULL)
+    {
+      if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+        {
+          g_clear_error (&local_error);
+          ret_val = TRUE;
+        }
+    }
+
+  if (local_error != NULL)
+    g_propagate_error (error, local_error);
+
+  return ret_val;
+}
+
+
 GQuark
 photos_utils_orientation_bottom_quark (void)
 {
