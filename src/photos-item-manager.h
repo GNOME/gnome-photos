@@ -56,6 +56,14 @@ G_BEGIN_DECLS
 
 typedef enum
 {
+  PHOTOS_LOAD_STATE_NONE,
+  PHOTOS_LOAD_STATE_ERROR,
+  PHOTOS_LOAD_STATE_FINISHED,
+  PHOTOS_LOAD_STATE_STARTED
+} PhotosLoadState;
+
+typedef enum
+{
   PHOTOS_WINDOW_MODE_NONE,
   PHOTOS_WINDOW_MODE_COLLECTIONS,
   PHOTOS_WINDOW_MODE_EDIT,
@@ -86,6 +94,8 @@ PhotosBaseItem           *photos_item_manager_create_item        (PhotosItemMana
 PhotosBaseItem           *photos_item_manager_get_active_collection (PhotosItemManager *self);
 
 GHashTable               *photos_item_manager_get_collections       (PhotosItemManager *self);
+
+PhotosLoadState           photos_item_manager_get_load_state        (PhotosItemManager *self);
 
 gboolean                  photos_mode_controller_get_can_fullscreen (PhotosModeController *self);
 

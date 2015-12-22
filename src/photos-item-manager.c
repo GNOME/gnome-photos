@@ -51,6 +51,7 @@ struct _PhotosItemManager
   GQueue *collection_path;
   GQueue *history;
   PhotosBaseItem *active_collection;
+  PhotosLoadState load_state;
   PhotosTrackerChangeMonitor *monitor;
   PhotosWindowMode mode;
   gboolean fullscreen;
@@ -249,7 +250,13 @@ photos_item_manager_item_load (GObject *source_object, GAsyncResult *res, gpoint
     {
       if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
         g_warning ("Unable to load the item: %s", error->message);
+
+      self->load_state = PHOTOS_LOAD_STATE_ERROR;
       g_error_free (error);
+    }
+  else
+    {
+      self->load_state = PHOTOS_LOAD_STATE_FINISHED;
     }
 
   g_signal_emit (self, signals[LOAD_FINISHED], 0, item, node);
@@ -344,6 +351,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
 
       g_clear_object (&self->active_collection);
       self->active_collection = g_object_ref (object);
+      self->load_state = PHOTOS_LOAD_STATE_NONE;
       active_collection_changed = TRUE;
     }
   else
@@ -352,6 +360,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
                                                                           PHOTOS_WINDOW_MODE_PREVIEW,
                                                                           &old_mode);
       photos_item_manager_update_fullscreen (self);
+      self->load_state = PHOTOS_LOAD_STATE_STARTED;
       start_loading = TRUE;
     }
 
@@ -653,6 +662,13 @@ photos_item_manager_get_collections (PhotosItemManager *self)
 }
 
 
+PhotosLoadState
+photos_item_manager_get_load_state (PhotosItemManager *self)
+{
+  return self->load_state;
+}
+
+
 gboolean
 photos_mode_controller_get_can_fullscreen (PhotosModeController *self)
 {
@@ -695,6 +711,9 @@ photos_mode_controller_go_back (PhotosModeController *self)
   g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW
                     || (self->mode == PHOTOS_WINDOW_MODE_EDIT && old_mode == PHOTOS_WINDOW_MODE_PREVIEW));
 
+  if (self->mode == PHOTOS_WINDOW_MODE_EDIT)
+    g_return_if_fail (self->load_state == PHOTOS_LOAD_STATE_FINISHED);
+
   g_queue_pop_head (self->history);
 
   /* Swap the old and current modes */
@@ -707,6 +726,7 @@ photos_mode_controller_go_back (PhotosModeController *self)
 
   if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     {
+      self->load_state = PHOTOS_LOAD_STATE_NONE;
       PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
         ->set_active_object (PHOTOS_BASE_MANAGER (self), (GObject *) self->active_collection);
     }
@@ -716,6 +736,7 @@ photos_mode_controller_go_back (PhotosModeController *self)
       self->collection_path = g_queue_new ();
 
       g_clear_object (&self->active_collection);
+      self->load_state = PHOTOS_LOAD_STATE_NONE;
 
       PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
         ->set_active_object (PHOTOS_BASE_MANAGER (self), NULL);
@@ -756,6 +777,9 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
   g_return_if_fail (self->mode != PHOTOS_WINDOW_MODE_PREVIEW
                     || (self->mode == PHOTOS_WINDOW_MODE_PREVIEW && mode == PHOTOS_WINDOW_MODE_EDIT));
 
+  if (mode == PHOTOS_WINDOW_MODE_EDIT)
+    g_return_if_fail (self->load_state == PHOTOS_LOAD_STATE_FINISHED);
+
   if (!photos_item_manager_set_window_mode_internal (self, mode, &old_mode))
     return;
 
@@ -764,6 +788,7 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
 
   if (mode != PHOTOS_WINDOW_MODE_EDIT)
     {
+      self->load_state = PHOTOS_LOAD_STATE_NONE;
       photos_item_manager_collection_path_free (self);
       self->collection_path = g_queue_new ();
 
