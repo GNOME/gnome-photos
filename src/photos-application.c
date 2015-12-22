@@ -911,6 +911,7 @@ photos_application_save (PhotosApplication *self)
   if (now != NULL)
     g_date_time_unref (now);
 
+  g_free (extension);
   g_free (filename);
   g_free (origin);
   g_free (parent_path);
