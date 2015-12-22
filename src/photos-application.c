@@ -869,7 +869,6 @@ photos_application_save (PhotosApplication *self)
   gchar *origin = NULL;
   gchar *parent_path = NULL;
   gchar *path = NULL;
-  gchar *type = NULL;
   gchar *uri = NULL;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
@@ -905,10 +904,8 @@ photos_application_save (PhotosApplication *self)
   path = g_build_filename (parent_path, filename, NULL);
   uri = photos_utils_convert_path_to_uri (path);
 
-  type = photos_utils_get_pixbuf_type_from_mime_type (mime_type);
-
   g_application_hold (G_APPLICATION (self));
-  photos_base_item_save_async (item, uri, type, NULL, photos_application_save_save, self);
+  photos_base_item_save_async (item, uri, NULL, photos_application_save_save, self);
 
  out:
   if (now != NULL)
@@ -918,7 +915,6 @@ photos_application_save (PhotosApplication *self)
   g_free (origin);
   g_free (parent_path);
   g_free (path);
-  g_free (type);
   g_free (uri);
   g_clear_object (&parent);
 }

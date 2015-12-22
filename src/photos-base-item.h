@@ -207,7 +207,6 @@ void                photos_base_item_refresh                 (PhotosBaseItem *se
 
 void                photos_base_item_save_async              (PhotosBaseItem *self,
                                                               const gchar *uri,
-                                                              const gchar *type,
                                                               GCancellable *cancellable,
                                                               GAsyncReadyCallback callback,
                                                               gpointer user_data);

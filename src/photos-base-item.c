@@ -1880,7 +1880,6 @@ photos_base_item_refresh (PhotosBaseItem *self)
 void
 photos_base_item_save_async (PhotosBaseItem *self,
                              const gchar *uri,
-                             const gchar *type,
                              GCancellable *cancellable,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
@@ -1888,14 +1887,17 @@ photos_base_item_save_async (PhotosBaseItem *self,
   PhotosBaseItemPrivate *priv = self->priv;
   GFile *file;
   GTask *task;
+  gchar *type = NULL;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   g_return_if_fail (uri != NULL && uri[0] != '\0');
-  g_return_if_fail (type != NULL && type[0] != '\0');
   g_return_if_fail (priv->edit_graph != NULL);
   g_return_if_fail (priv->load_graph != NULL);
   g_return_if_fail (priv->processor != NULL);
   g_return_if_fail (!gegl_processor_work (priv->processor, NULL));
+
+  type = photos_utils_get_pixbuf_type_from_mime_type (priv->mime_type);
+  g_return_if_fail (type != NULL);
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_save_async);
@@ -1911,6 +1913,7 @@ photos_base_item_save_async (PhotosBaseItem *self,
                         photos_base_item_save_replace,
                         g_object_ref (task));
 
+  g_free (type);
   g_object_unref (file);
   g_object_unref (task);
 }
