@@ -235,6 +235,55 @@ photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gp
 
 
 static void
+photos_application_actions_update (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  PhotosLoadState load_state;
+  PhotosWindowMode mode;
+  gboolean enable;
+
+  load_state = photos_item_manager_get_load_state (priv->state->item_mngr);
+  mode = photos_mode_controller_get_window_mode (priv->state->mode_cntrlr);
+
+  enable = (mode == PHOTOS_WINDOW_MODE_EDIT);
+  g_simple_action_set_enabled (priv->brightness_contrast_action, enable);
+  g_simple_action_set_enabled (priv->crop_action, enable);
+  g_simple_action_set_enabled (priv->denoise_action, enable);
+  g_simple_action_set_enabled (priv->edit_cancel_action, enable);
+  g_simple_action_set_enabled (priv->insta_action, enable);
+  g_simple_action_set_enabled (priv->save_action, enable);
+  g_simple_action_set_enabled (priv->sharpen_action, enable);
+  g_simple_action_set_enabled (priv->undo_action, enable);
+
+  enable = (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+            || mode == PHOTOS_WINDOW_MODE_FAVORITES
+            || mode == PHOTOS_WINDOW_MODE_OVERVIEW
+            || mode == PHOTOS_WINDOW_MODE_SEARCH);
+  g_simple_action_set_enabled (priv->search_match_action, enable);
+  g_simple_action_set_enabled (priv->search_source_action, enable);
+  g_simple_action_set_enabled (priv->search_type_action, enable);
+
+  enable = (mode == PHOTOS_WINDOW_MODE_OVERVIEW
+            || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+            || mode == PHOTOS_WINDOW_MODE_FAVORITES);
+  g_simple_action_set_enabled (priv->sel_all_action, enable);
+  g_simple_action_set_enabled (priv->sel_none_action, enable);
+
+  enable = (mode == PHOTOS_WINDOW_MODE_PREVIEW);
+  g_simple_action_set_enabled (priv->load_next_action, enable);
+  g_simple_action_set_enabled (priv->load_previous_action, enable);
+
+  enable = (load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW);
+  g_simple_action_set_enabled (priv->gear_action, enable);
+  g_simple_action_set_enabled (priv->open_action, enable);
+  g_simple_action_set_enabled (priv->print_action, enable);
+  g_simple_action_set_enabled (priv->properties_action, enable);
+  g_simple_action_set_enabled (priv->set_bg_action, enable);
+  g_simple_action_set_enabled (priv->set_ss_action, enable);
+}
+
+
+static void
 photos_application_tracker_clear_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
@@ -607,6 +656,13 @@ photos_application_launch_search (PhotosApplication *self, const gchar* const *t
 
   priv->activation_timestamp = timestamp;
   g_application_activate (G_APPLICATION (self));
+}
+
+
+static void
+photos_application_load_changed (PhotosApplication *self)
+{
+  photos_application_actions_update (self);
 }
 
 
@@ -1012,44 +1068,9 @@ photos_application_theme_changed (GtkSettings *settings)
 
 
 static void
-photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
+photos_application_window_mode_changed (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
-  gboolean enable;
-
-  enable = (mode == PHOTOS_WINDOW_MODE_EDIT);
-  g_simple_action_set_enabled (priv->brightness_contrast_action, enable);
-  g_simple_action_set_enabled (priv->crop_action, enable);
-  g_simple_action_set_enabled (priv->denoise_action, enable);
-  g_simple_action_set_enabled (priv->edit_cancel_action, enable);
-  g_simple_action_set_enabled (priv->insta_action, enable);
-  g_simple_action_set_enabled (priv->save_action, enable);
-  g_simple_action_set_enabled (priv->sharpen_action, enable);
-  g_simple_action_set_enabled (priv->undo_action, enable);
-
-  enable = (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-            || mode == PHOTOS_WINDOW_MODE_FAVORITES
-            || mode == PHOTOS_WINDOW_MODE_OVERVIEW
-            || mode == PHOTOS_WINDOW_MODE_SEARCH);
-  g_simple_action_set_enabled (priv->search_match_action, enable);
-  g_simple_action_set_enabled (priv->search_source_action, enable);
-  g_simple_action_set_enabled (priv->search_type_action, enable);
-
-  enable = (mode == PHOTOS_WINDOW_MODE_OVERVIEW
-            || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-            || mode == PHOTOS_WINDOW_MODE_FAVORITES);
-  g_simple_action_set_enabled (priv->sel_all_action, enable);
-  g_simple_action_set_enabled (priv->sel_none_action, enable);
-
-  enable = (mode == PHOTOS_WINDOW_MODE_PREVIEW);
-  g_simple_action_set_enabled (priv->gear_action, enable);
-  g_simple_action_set_enabled (priv->load_next_action, enable);
-  g_simple_action_set_enabled (priv->load_previous_action, enable);
-  g_simple_action_set_enabled (priv->open_action, enable);
-  g_simple_action_set_enabled (priv->print_action, enable);
-  g_simple_action_set_enabled (priv->properties_action, enable);
-  g_simple_action_set_enabled (priv->set_bg_action, enable);
-  g_simple_action_set_enabled (priv->set_ss_action, enable);
+  photos_application_actions_update (self);
 }
 
 
@@ -1356,6 +1377,15 @@ photos_application_startup (GApplication *application)
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.print-current", print_current_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.search", search_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.select-all", select_all_accels);
+
+  g_signal_connect_swapped (priv->state->item_mngr,
+                            "load-finished",
+                            G_CALLBACK (photos_application_load_changed),
+                            self);
+  g_signal_connect_swapped (priv->state->item_mngr,
+                            "load-started",
+                            G_CALLBACK (photos_application_load_changed),
+                            self);
 }
 
 
