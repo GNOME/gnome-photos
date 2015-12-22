@@ -38,6 +38,7 @@
 #include "photos-base-item.h"
 #include "photos-camera-cache.h"
 #include "photos-dlna-renderers-dialog.h"
+#include "photos-export-dialog.h"
 #include "photos-filterable.h"
 #include "photos-gom-miner.h"
 #include "photos-item-manager.h"
@@ -898,34 +899,85 @@ photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointe
 
 
 static void
-photos_application_save (PhotosApplication *self)
+photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   PhotosApplicationPrivate *priv = self->priv;
-  GError *error = NULL;
-  GFile *parent = NULL;
+  GError *error;
+  GFile *export = NULL;
+  GFile *tmp;
   PhotosBaseItem *item;
+  const gchar *export_dir_name;
   const gchar *pictures_path;
-  gchar *parent_path = NULL;
+  gchar *export_path = NULL;
+  gdouble zoom;
+
+  if (response_id != GTK_RESPONSE_OK)
+    goto out;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
   g_return_if_fail (item != NULL);
 
   pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
-  parent_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
-  parent = g_file_new_for_path (parent_path);
-  if (!photos_utils_make_directory_with_parents (parent, NULL, &error))
+  export_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
+  export = g_file_new_for_path (export_path);
+
+  error = NULL;
+  if (!photos_utils_make_directory_with_parents (export, NULL, &error))
     {
-      g_warning ("Unable to create %s: %s", parent_path, error->message);
+      g_warning ("Unable to create %s: %s", export_path, error->message);
       g_error_free (error);
       goto out;
     }
 
+  export_dir_name = photos_export_dialog_get_dir_name (PHOTOS_EXPORT_DIALOG (dialog));
+
+  error = NULL;
+  tmp = g_file_get_child_for_display_name (export, export_dir_name, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to get a child for %s: %s", export_dir_name, error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  g_object_unref (export);
+  export = tmp;
+
+  error = NULL;
+  if (!photos_utils_make_directory_with_parents (export, NULL, &error))
+    {
+      g_warning ("Unable to create %s: %s", export_path, error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  zoom = photos_export_dialog_get_zoom (PHOTOS_EXPORT_DIALOG (dialog));
+
   g_application_hold (G_APPLICATION (self));
-  photos_base_item_save_async (item, parent, 1.0, NULL, photos_application_save_save, self);
+  photos_base_item_save_async (item, export, zoom, NULL, photos_application_save_save, self);
 
  out:
-  g_free (parent_path);
-  g_clear_object (&parent);
+  g_free (export_path);
+  g_clear_object (&export);
+  gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+
+static void
+photos_application_save (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  GtkWidget *dialog;
+  PhotosBaseItem *item;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+  g_return_if_fail (item != NULL);
+  g_return_if_fail (!photos_base_item_is_collection (item));
+
+  dialog = photos_export_dialog_new (GTK_WINDOW (priv->main_window), item);
+  gtk_widget_show_all (dialog);
+  g_signal_connect (dialog, "response", G_CALLBACK (photos_application_save_response), self);
 }
 
 
