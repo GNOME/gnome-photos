@@ -2012,7 +2012,7 @@ photos_base_item_refresh (PhotosBaseItem *self)
 
 void
 photos_base_item_save_async (PhotosBaseItem *self,
-                             const gchar *uri,
+                             GFile *dir,
                              GCancellable *cancellable,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
@@ -2025,7 +2025,7 @@ photos_base_item_save_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
 
-  g_return_if_fail (uri != NULL && uri[0] != '\0');
+  g_return_if_fail (G_IS_FILE (dir));
   g_return_if_fail (priv->edit_graph != NULL);
   g_return_if_fail (priv->load_graph != NULL);
   g_return_if_fail (priv->processor != NULL);
@@ -2038,7 +2038,7 @@ photos_base_item_save_async (PhotosBaseItem *self,
   g_task_set_source_tag (task, photos_base_item_save_async);
   g_task_set_task_data (task, g_strdup (type), g_free);
 
-  file = g_file_new_for_uri (uri);
+  file = g_file_get_child (dir, priv->filename);
   g_file_replace_async (file,
                         NULL,
                         TRUE,

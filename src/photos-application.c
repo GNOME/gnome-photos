@@ -901,18 +901,11 @@ static void
 photos_application_save (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
-  GDateTime *now = NULL;
   GError *error = NULL;
   GFile *parent = NULL;
   PhotosBaseItem *item;
-  const gchar *mime_type;
   const gchar *pictures_path;
-  gchar *filename = NULL;
-  gchar *extension = NULL;
-  gchar *origin = NULL;
   gchar *parent_path = NULL;
-  gchar *path = NULL;
-  gchar *uri = NULL;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
   g_return_if_fail (item != NULL);
@@ -927,29 +920,11 @@ photos_application_save (PhotosApplication *self)
       goto out;
     }
 
-  now = g_date_time_new_now_local ();
-  origin = g_date_time_format (now, "%Y-%m-%d %H-%M-%S");
-
-  mime_type = photos_base_item_get_mime_type (item);
-  extension = photos_utils_get_extension_from_mime_type (mime_type);
-
-  filename = g_strdup_printf ("%s.%s", origin, extension);
-  path = g_build_filename (parent_path, filename, NULL);
-  uri = photos_utils_convert_path_to_uri (path);
-
   g_application_hold (G_APPLICATION (self));
-  photos_base_item_save_async (item, uri, NULL, photos_application_save_save, self);
+  photos_base_item_save_async (item, parent, NULL, photos_application_save_save, self);
 
  out:
-  if (now != NULL)
-    g_date_time_unref (now);
-
-  g_free (extension);
-  g_free (filename);
-  g_free (origin);
   g_free (parent_path);
-  g_free (path);
-  g_free (uri);
   g_clear_object (&parent);
 }
 

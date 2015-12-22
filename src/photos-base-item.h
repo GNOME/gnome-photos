@@ -218,7 +218,7 @@ gboolean            photos_base_item_process_finish          (PhotosBaseItem *se
 void                photos_base_item_refresh                 (PhotosBaseItem *self);
 
 void                photos_base_item_save_async              (PhotosBaseItem *self,
-                                                              const gchar *uri,
+                                                              GFile *dir,
                                                               GCancellable *cancellable,
                                                               GAsyncReadyCallback callback,
                                                               gpointer user_data);
