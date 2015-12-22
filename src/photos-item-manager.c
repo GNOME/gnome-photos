@@ -708,11 +708,16 @@ photos_mode_controller_go_back (PhotosModeController *self)
     old_mode = PHOTOS_WINDOW_MODE_OVERVIEW;
 
   g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_NONE);
-  g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW
-                    || (self->mode == PHOTOS_WINDOW_MODE_EDIT && old_mode == PHOTOS_WINDOW_MODE_PREVIEW));
 
   if (self->mode == PHOTOS_WINDOW_MODE_EDIT)
-    g_return_if_fail (self->load_state == PHOTOS_LOAD_STATE_FINISHED);
+    {
+      g_return_if_fail (self->load_state == PHOTOS_LOAD_STATE_FINISHED);
+      g_return_if_fail (old_mode == PHOTOS_WINDOW_MODE_PREVIEW);
+    }
+  else
+    {
+      g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
+    }
 
   g_queue_pop_head (self->history);
 
