@@ -103,6 +103,8 @@ gnome_photos_SOURCES = \
 	photos-indexing-notification.h \
 	photos-item-manager.c \
 	photos-item-manager.h \
+	photos-jpeg-count.c \
+	photos-jpeg-count.h \
 	photos-local-item.c \
 	photos-local-item.h \
 	photos-main-toolbar.c \
@@ -128,6 +130,8 @@ gnome_photos_SOURCES = \
 	photos-operation-insta-curve.h \
 	photos-operation-insta-filter.c \
 	photos-operation-insta-filter.h \
+	photos-operation-jpg-guess-sizes.c \
+	photos-operation-jpg-guess-sizes.h \
 	photos-organize-collection-dialog.c \
 	photos-organize-collection-dialog.h \
 	photos-organize-collection-model.c \
@@ -301,6 +305,7 @@ gnome_photos_LDADD = \
 	$(GRILO_LIBS) \
 	$(GTK_LIBS) \
 	$(GTK_UNIX_PRINT_LIBS) \
+	$(JPEG_LIBS) \
 	$(TRACKER_LIBS) \
 	$(LIBM) \
 	$(top_builddir)/libgd/libgd.la \

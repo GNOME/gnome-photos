@@ -49,6 +49,20 @@ AM_GLIB_GNU_GETTEXT
 
 LT_INIT
 
+AC_CHECK_LIB([jpeg], [jpeg_destroy_decompress], , AC_MSG_ERROR([JPEG library not found]))
+AC_MSG_CHECKING([for jpeglib.h])
+AC_PREPROC_IFELSE([AC_LANG_SOURCE([[
+#include <stdio.h>
+#undef HAVE_STDDEF_H
+#undef HAVE_STDLIB_H
+#undef PACKAGE
+#undef VERSION
+#include <jpeglib.h>]])],
+                  AC_MSG_RESULT([yes]),
+                  AC_MSG_ERROR([JPEG header file not found]))
+AC_CHECK_LIB([jpeg], [jpeg_save_markers], JPEG_LIBS='-ljpeg', AC_MSG_ERROR([JPEG library is too old]))
+AC_SUBST(JPEG_LIBS)
+
 # ****************************************************************
 # Support for nl_langinfo (_NL_MEASUREMENT_MEASUREMENT) (optional)
 # ****************************************************************

@@ -44,6 +44,7 @@
 #include "photos-media-server-item.h"
 #include "photos-operation-insta-curve.h"
 #include "photos-operation-insta-filter.h"
+#include "photos-operation-jpg-guess-sizes.h"
 #include "photos-query.h"
 #include "photos-source.h"
 #include "photos-tool.h"
@@ -713,6 +714,7 @@ photos_utils_ensure_builtins (void)
 
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_JPG_GUESS_SIZES);
 
       g_type_ensure (PHOTOS_TYPE_TOOL_COLORS);
       g_type_ensure (PHOTOS_TYPE_TOOL_CROP);
