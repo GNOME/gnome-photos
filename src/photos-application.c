@@ -69,6 +69,7 @@ struct _PhotosApplicationPrivate
   GSimpleAction *brightness_contrast_action;
   GSimpleAction *crop_action;
   GSimpleAction *denoise_action;
+  GSimpleAction *edit_action;
   GSimpleAction *edit_cancel_action;
   GSimpleAction *edit_done_action;
   GSimpleAction *fs_action;
@@ -239,10 +240,12 @@ static void
 photos_application_actions_update (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
+  PhotosBaseItem *item;
   PhotosLoadState load_state;
   PhotosWindowMode mode;
   gboolean enable;
 
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
   load_state = photos_item_manager_get_load_state (priv->state->item_mngr);
   mode = photos_mode_controller_get_window_mode (priv->state->mode_cntrlr);
 
@@ -282,6 +285,11 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (priv->properties_action, enable);
   g_simple_action_set_enabled (priv->set_bg_action, enable);
   g_simple_action_set_enabled (priv->set_ss_action, enable);
+
+  enable = (load_state == PHOTOS_LOAD_STATE_FINISHED
+            && mode == PHOTOS_WINDOW_MODE_PREVIEW
+            && photos_base_item_can_edit (item));
+  g_simple_action_set_enabled (priv->edit_action, enable);
 }
 
 
@@ -1279,10 +1287,9 @@ photos_application_startup (GApplication *application)
                             self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->edit_cancel_action));
 
-  action = g_simple_action_new ("edit-current", NULL);
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_edit_current), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  g_object_unref (action);
+  priv->edit_action = g_simple_action_new ("edit-current", NULL);
+  g_signal_connect_swapped (priv->edit_action, "activate", G_CALLBACK (photos_application_edit_current), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->edit_action));
 
   priv->edit_done_action = g_simple_action_new ("edit-done", NULL);
   g_signal_connect_swapped (priv->edit_done_action,
@@ -1468,6 +1475,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->brightness_contrast_action);
   g_clear_object (&priv->crop_action);
   g_clear_object (&priv->denoise_action);
+  g_clear_object (&priv->edit_action);
   g_clear_object (&priv->edit_cancel_action);
   g_clear_object (&priv->edit_done_action);
   g_clear_object (&priv->fs_action);

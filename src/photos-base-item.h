@@ -90,6 +90,8 @@ struct _PhotosBaseItemClass
 
 GType               photos_base_item_get_type                (void) G_GNUC_CONST;
 
+gboolean            photos_base_item_can_edit                (PhotosBaseItem *self);
+
 gboolean            photos_base_item_can_trash               (PhotosBaseItem *self);
 
 cairo_surface_t    *photos_base_item_create_preview          (PhotosBaseItem *self,
