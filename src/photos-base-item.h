@@ -227,6 +227,17 @@ gboolean            photos_base_item_save_finish             (PhotosBaseItem *se
                                                               GAsyncResult *res,
                                                               GError **error);
 
+void                photos_base_item_save_guess_sizes_async  (PhotosBaseItem *self,
+                                                              GCancellable *cancellable,
+                                                              GAsyncReadyCallback callback,
+                                                              gpointer user_data);
+
+gboolean            photos_base_item_save_guess_sizes_finish (PhotosBaseItem *self,
+                                                              GAsyncResult *res,
+                                                              gsize *out_size,
+                                                              gsize *out_size_1,
+                                                              GError **error);
+
 void                photos_base_item_set_default_app         (PhotosBaseItem *self, GAppInfo *default_app);
 
 void                photos_base_item_set_default_app_name    (PhotosBaseItem *self, const gchar *default_app_name);
