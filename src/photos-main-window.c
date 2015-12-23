@@ -39,8 +39,9 @@
 #include "photos-settings.h"
 
 
-struct _PhotosMainWindowPrivate
+struct _PhotosMainWindow
 {
+  GtkApplicationWindow parent_instance;
   GAction *edit_cancel;
   GAction *load_next;
   GAction *load_previous;
@@ -52,8 +53,13 @@ struct _PhotosMainWindowPrivate
   guint configure_id;
 };
 
+struct _PhotosMainWindowClass
+{
+  GtkApplicationWindowClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosMainWindow, photos_main_window, GTK_TYPE_APPLICATION_WINDOW);
+
+G_DEFINE_TYPE (PhotosMainWindow, photos_main_window, GTK_TYPE_APPLICATION_WINDOW);
 
 
 enum
@@ -67,7 +73,6 @@ enum
 static void
 photos_main_window_save_geometry (PhotosMainWindow *self)
 {
-  PhotosMainWindowPrivate *priv = self->priv;
   GVariant *variant;
   GdkWindow *window;
   GdkWindowState state;
@@ -81,11 +86,11 @@ photos_main_window_save_geometry (PhotosMainWindow *self)
 
   gtk_window_get_size (GTK_WINDOW (self), (gint *) &size[0], (gint *) &size[1]);
   variant = g_variant_new_fixed_array (G_VARIANT_TYPE_INT32, size, 2, sizeof (size[0]));
-  g_settings_set_value (priv->settings, "window-size", variant);
+  g_settings_set_value (self->settings, "window-size", variant);
 
   gtk_window_get_position (GTK_WINDOW (self), (gint *) &position[0], (gint *) &position[1]);
   variant = g_variant_new_fixed_array (G_VARIANT_TYPE_INT32, position, 2, sizeof (position[0]));
-  g_settings_set_value (priv->settings, "window-position", variant);
+  g_settings_set_value (self->settings, "window-position", variant);
 }
 
 
@@ -94,7 +99,7 @@ photos_main_window_configure_id_timeout (gpointer user_data)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (user_data);
 
-  self->priv->configure_id = 0;
+  self->configure_id = 0;
   photos_main_window_save_geometry (self);
 
   return G_SOURCE_REMOVE;
@@ -105,21 +110,20 @@ static gboolean
 photos_main_window_configure_event (GtkWidget *widget, GdkEventConfigure *event)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (widget);
-  PhotosMainWindowPrivate *priv = self->priv;
   gboolean ret_val;
 
   ret_val = GTK_WIDGET_CLASS (photos_main_window_parent_class)->configure_event (widget, event);
 
-  if (photos_mode_controller_get_fullscreen (priv->mode_cntrlr))
+  if (photos_mode_controller_get_fullscreen (self->mode_cntrlr))
     return ret_val;
 
-  if (priv->configure_id != 0)
+  if (self->configure_id != 0)
     {
-      g_source_remove (priv->configure_id);
-      priv->configure_id = 0;
+      g_source_remove (self->configure_id);
+      self->configure_id = 0;
     }
 
-  priv->configure_id = g_timeout_add (CONFIGURE_ID_TIMEOUT, photos_main_window_configure_id_timeout, self);
+  self->configure_id = g_timeout_add (CONFIGURE_ID_TIMEOUT, photos_main_window_configure_id_timeout, self);
   return ret_val;
 }
 
@@ -128,12 +132,11 @@ static gboolean
 photos_main_window_delete_event (GtkWidget *widget, GdkEventAny *event)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (widget);
-  PhotosMainWindowPrivate *priv = self->priv;
 
-  if (priv->configure_id != 0)
+  if (self->configure_id != 0)
     {
-      g_source_remove (priv->configure_id);
-      priv->configure_id = 0;
+      g_source_remove (self->configure_id);
+      self->configure_id = 0;
     }
 
   photos_main_window_save_geometry (self);
@@ -154,25 +157,24 @@ photos_main_window_fullscreen_changed (PhotosMainWindow *self, gboolean fullscre
 static gboolean
 photos_main_window_go_back (PhotosMainWindow *self)
 {
-  PhotosMainWindowPrivate *priv = self->priv;
   PhotosBaseItem *active_collection;
   PhotosWindowMode mode;
   gboolean handled = TRUE;
 
-  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
-  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+  mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
+  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
 
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_PREVIEW:
-      photos_mode_controller_go_back (priv->mode_cntrlr);
+      photos_mode_controller_go_back (self->mode_cntrlr);
       break;
 
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_SEARCH:
       if (active_collection != NULL)
-        photos_item_manager_activate_previous_collection (PHOTOS_ITEM_MANAGER (self->priv->item_mngr));
+        photos_item_manager_activate_previous_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
       break;
 
     case PHOTOS_WINDOW_MODE_NONE:
@@ -220,7 +222,7 @@ photos_main_window_handle_key_edit (PhotosMainWindow *self, GdkEventKey *event)
 
   if (event->keyval == GDK_KEY_Escape)
     {
-      g_action_activate (self->priv->edit_cancel, NULL);
+      g_action_activate (self->edit_cancel, NULL);
       handled = TRUE;
     }
 
@@ -231,12 +233,11 @@ photos_main_window_handle_key_edit (PhotosMainWindow *self, GdkEventKey *event)
 static gboolean
 photos_main_window_handle_key_overview (PhotosMainWindow *self, GdkEventKey *event)
 {
-  PhotosMainWindowPrivate *priv = self->priv;
   gboolean handled = FALSE;
 
-  if (photos_selection_controller_get_selection_mode (priv->sel_cntrlr) && event->keyval == GDK_KEY_Escape)
+  if (photos_selection_controller_get_selection_mode (self->sel_cntrlr) && event->keyval == GDK_KEY_Escape)
     {
-      photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
+      photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
       handled = TRUE;
     }
 
@@ -247,26 +248,25 @@ photos_main_window_handle_key_overview (PhotosMainWindow *self, GdkEventKey *eve
 static gboolean
 photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *event)
 {
-  PhotosMainWindowPrivate *priv = self->priv;
   gboolean fullscreen;
   gboolean handled = FALSE;
 
-  fullscreen = photos_mode_controller_get_fullscreen (priv->mode_cntrlr);
+  fullscreen = photos_mode_controller_get_fullscreen (self->mode_cntrlr);
 
   switch (event->keyval)
     {
     case GDK_KEY_Escape:
       if (fullscreen)
-        photos_mode_controller_go_back (priv->mode_cntrlr);
+        photos_mode_controller_go_back (self->mode_cntrlr);
       break;
 
     case GDK_KEY_Left:
-      g_action_activate (priv->load_previous, NULL);
+      g_action_activate (self->load_previous, NULL);
       handled = TRUE;
       break;
 
     case GDK_KEY_Right:
-      g_action_activate (priv->load_next, NULL);
+      g_action_activate (self->load_next, NULL);
       handled = TRUE;
       break;
 
@@ -282,7 +282,6 @@ static gboolean
 photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (widget);
-  PhotosMainWindowPrivate *priv = self->priv;
   PhotosMainToolbar *toolbar;
   PhotosWindowMode mode;
   gboolean handled = GDK_EVENT_PROPAGATE;
@@ -291,12 +290,12 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
   if (handled)
     goto out;
 
-  toolbar = photos_embed_get_main_toolbar (PHOTOS_EMBED (priv->embed));
+  toolbar = photos_embed_get_main_toolbar (PHOTOS_EMBED (self->embed));
   handled = photos_main_toolbar_handle_event (toolbar, event);
   if (handled)
     goto out;
 
-  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
 
   switch (mode)
     {
@@ -336,7 +335,6 @@ static gboolean
 photos_main_window_window_state_event (GtkWidget *widget, GdkEventWindowState *event)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (widget);
-  PhotosMainWindowPrivate *priv = self->priv;
   GdkWindow *window;
   GdkWindowState state;
   gboolean maximized;
@@ -349,14 +347,14 @@ photos_main_window_window_state_event (GtkWidget *widget, GdkEventWindowState *e
 
   if (state & GDK_WINDOW_STATE_FULLSCREEN)
     {
-      photos_mode_controller_set_fullscreen (priv->mode_cntrlr, TRUE);
+      photos_mode_controller_set_fullscreen (self->mode_cntrlr, TRUE);
       return ret_val;
     }
 
-  photos_mode_controller_set_fullscreen (priv->mode_cntrlr, FALSE);
+  photos_mode_controller_set_fullscreen (self->mode_cntrlr, FALSE);
 
   maximized = (state & GDK_WINDOW_STATE_MAXIMIZED);
-  g_settings_set_boolean (priv->settings, "window-maximized", maximized);
+  g_settings_set_boolean (self->settings, "window-maximized", maximized);
 
   return ret_val;
 }
@@ -366,7 +364,6 @@ static void
 photos_main_window_constructed (GObject *object)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (object);
-  PhotosMainWindowPrivate *priv = self->priv;
   GApplication *app;
 
   G_OBJECT_CLASS (photos_main_window_parent_class)->constructed (object);
@@ -381,12 +378,12 @@ photos_main_window_constructed (GObject *object)
   app = g_application_get_default ();
   gtk_application_add_window (GTK_APPLICATION (app), GTK_WINDOW (self));
 
-  priv->edit_cancel = g_action_map_lookup_action (G_ACTION_MAP (app), "edit-cancel");
-  priv->load_next = g_action_map_lookup_action (G_ACTION_MAP (app), "load-next");
-  priv->load_previous = g_action_map_lookup_action (G_ACTION_MAP (app), "load-previous");
+  self->edit_cancel = g_action_map_lookup_action (G_ACTION_MAP (app), "edit-cancel");
+  self->load_next = g_action_map_lookup_action (G_ACTION_MAP (app), "load-next");
+  self->load_previous = g_action_map_lookup_action (G_ACTION_MAP (app), "load-previous");
 
-  priv->embed = photos_embed_new ();
-  gtk_container_add (GTK_CONTAINER (self), priv->embed);
+  self->embed = photos_embed_new ();
+  gtk_container_add (GTK_CONTAINER (self), self->embed);
 }
 
 
@@ -394,17 +391,16 @@ static void
 photos_main_window_dispose (GObject *object)
 {
   PhotosMainWindow *self = PHOTOS_MAIN_WINDOW (object);
-  PhotosMainWindowPrivate *priv = self->priv;
 
-  g_clear_object (&priv->settings);
-  g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->mode_cntrlr);
-  g_clear_object (&priv->sel_cntrlr);
+  g_clear_object (&self->settings);
+  g_clear_object (&self->item_mngr);
+  g_clear_object (&self->mode_cntrlr);
+  g_clear_object (&self->sel_cntrlr);
 
-  if (priv->configure_id != 0)
+  if (self->configure_id != 0)
     {
-      g_source_remove (priv->configure_id);
-      priv->configure_id = 0;
+      g_source_remove (self->configure_id);
+      self->configure_id = 0;
     }
 
   G_OBJECT_CLASS (photos_main_window_parent_class)->dispose (object);
@@ -414,7 +410,6 @@ photos_main_window_dispose (GObject *object)
 static void
 photos_main_window_init (PhotosMainWindow *self)
 {
-  PhotosMainWindowPrivate *priv;
   GApplication *app;
   GVariant *variant;
   PhotosSearchContextState *state;
@@ -423,39 +418,36 @@ photos_main_window_init (PhotosMainWindow *self)
   const gint32 *size;
   gsize n_elements;
 
-  self->priv = photos_main_window_get_instance_private (self);
-  priv = self->priv;
-
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->settings = photos_settings_new ();
+  self->settings = photos_settings_new ();
 
-  variant = g_settings_get_value (priv->settings, "window-size");
+  variant = g_settings_get_value (self->settings, "window-size");
   size = g_variant_get_fixed_array (variant, &n_elements, sizeof (gint32));
   if (n_elements == 2)
     gtk_window_set_default_size (GTK_WINDOW (self), size[0], size[1]);
   g_variant_unref (variant);
 
-  variant = g_settings_get_value (priv->settings, "window-position");
+  variant = g_settings_get_value (self->settings, "window-position");
   position = g_variant_get_fixed_array (variant, &n_elements, sizeof (gint32));
   if (n_elements == 2)
     gtk_window_move (GTK_WINDOW (self), position[0], position[1]);
   g_variant_unref (variant);
 
-  maximized = g_settings_get_boolean (priv->settings, "window-maximized");
+  maximized = g_settings_get_boolean (self->settings, "window-maximized");
   if (maximized)
     gtk_window_maximize (GTK_WINDOW (self));
 
-  priv->item_mngr = g_object_ref (state->item_mngr);
+  self->item_mngr = g_object_ref (state->item_mngr);
 
-  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
-  g_signal_connect_swapped (priv->mode_cntrlr,
+  self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
+  g_signal_connect_swapped (self->mode_cntrlr,
                             "fullscreen-changed",
                             G_CALLBACK (photos_main_window_fullscreen_changed),
                             self);
 
-  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
+  self->sel_cntrlr = photos_selection_controller_dup_singleton ();
 }
 
 
