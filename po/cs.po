@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-11-12 09:51+0000\n"
-"PO-Revision-Date: 2015-11-12 19:02+0100\n"
+"POT-Creation-Date: 2015-12-24 09:51+0000\n"
+"PO-Revision-Date: 2015-12-24 13:21+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -20,12 +20,12 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:717
-#: ../src/photos-search-type-manager.c:124
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:713
+#: ../src/photos-search-type-manager.c:125
 msgid "Photos"
 msgstr "Fotky"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Prohlížejte si, roztříďte a sdílejte své fotografie v GNOME"
 
@@ -105,11 +105,11 @@ msgstr "Okno maximalizováno"
 msgid "Window maximized state"
 msgstr "Stav maximalizace okna"
 
-#: ../src/photos-base-item.c:448
+#: ../src/photos-base-item.c:434
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1119
+#: ../src/photos-base-item.c:1107
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -134,15 +134,16 @@ msgstr "Zpět"
 msgid "DLNA Renderer Devices"
 msgstr "Vykreslovací zařízení DLNA"
 
-#: ../src/photos-embed.c:724 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:720 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Alba"
 
-#: ../src/photos-embed.c:731 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:727 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Oblíbené"
 
-#: ../src/photos-embed.c:738 ../src/photos-main-toolbar.c:302
+#: ../src/photos-embed.c:734 ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Hledat"
 
@@ -181,8 +182,8 @@ msgstr "Nenalezeny žádné fotografie"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
-#: ../src/photos-google-item.c:77
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
+#: ../src/photos-google-item.c:82
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -190,6 +191,62 @@ msgstr "%s — %s"
 #: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Fotografie bez názvu"
+
+#: ../src/photos-help-overlay.ui.h:1
+msgid "General"
+msgstr "Obecné"
+
+#: ../src/photos-help-overlay.ui.h:2
+msgid "Show help"
+msgstr "Zobrazit nápovědu"
+
+#: ../src/photos-help-overlay.ui.h:3 ../src/photos-menus.ui.h:5
+msgid "Quit"
+msgstr "Ukončit"
+
+#: ../src/photos-help-overlay.ui.h:4
+msgid "Print the current photo"
+msgstr "Vytisknout aktuální fotku"
+
+#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:3
+msgid "Delete"
+msgstr "Smazat"
+
+#: ../src/photos-help-overlay.ui.h:6
+msgid "Navigation"
+msgstr "Ovládání"
+
+#: ../src/photos-help-overlay.ui.h:7
+msgid "Next photo"
+msgstr "Následující fotka"
+
+#: ../src/photos-help-overlay.ui.h:8
+msgid "Previous photo"
+msgstr "Předchozí fotka"
+
+#: ../src/photos-help-overlay.ui.h:9
+msgid "Go back"
+msgstr "Jít zpět"
+
+#: ../src/photos-help-overlay.ui.h:10
+msgid "Overview"
+msgstr "Přehled"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgid "Select all"
+msgstr "Vybrat vše"
+
+#: ../src/photos-help-overlay.ui.h:13 ../src/photos-print-setup.c:980
+msgid "Preview"
+msgstr "Náhled"
+
+#: ../src/photos-help-overlay.ui.h:14
+msgid "Action menu"
+msgstr "Nabídka činností"
+
+#: ../src/photos-help-overlay.ui.h:15 ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Celá obrazovka"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -211,15 +268,15 @@ msgstr "Vaše fotografie budou indexovány"
 msgid "Some photos might not be available during this process"
 msgstr "Během tohoto procesu nemusí být některé fotografie přístupné"
 
-#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:103 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Místní"
 
-#: ../src/photos-main-toolbar.c:109
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Kliknutím na položku ji vyberete"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -227,38 +284,38 @@ msgstr[0] "%d vybraná"
 msgstr[1] "%d vybrané"
 msgstr[2] "%d vybraných"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Zpět"
 
-#: ../src/photos-main-toolbar.c:318
+#: ../src/photos-main-toolbar.c:317
 msgid "Select Items"
 msgstr "Vybrat položky"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:421 ../src/photos-selection-toolbar.c:329
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:331
 #, c-format
 msgid "Open with %s"
 msgstr "Otevřít pomocí %s"
 
-#: ../src/photos-main-toolbar.c:462 ../src/photos-selection-toolbar.c:340
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:342
 msgid "Remove from favorites"
 msgstr "Odebrat z oblíbených"
 
-#: ../src/photos-main-toolbar.c:467 ../src/photos-selection-toolbar.c:345
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:347
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
 
-#: ../src/photos-main-toolbar.c:506 ../src/photos-main-toolbar.c:644
+#: ../src/photos-main-toolbar.c:500 ../src/photos-main-toolbar.c:638
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../src/photos-main-toolbar.c:510
+#: ../src/photos-main-toolbar.c:504
 msgid "Done"
 msgstr "Hotovo"
 
-#: ../src/photos-main-window.c:480
+#: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -269,25 +326,21 @@ msgstr ""
 "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:490
+#: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr "Marek Černocký, <marek@manet.cz>"
 
-#: ../src/photos-menus.ui.h:1
-msgid "Fullscreen"
-msgstr "Celá obrazovka"
-
 #: ../src/photos-menus.ui.h:2
+msgid "Keyboard Shortcuts"
+msgstr "Klávesové zkratky"
+
+#: ../src/photos-menus.ui.h:3
 msgid "_Help"
 msgstr "_Nápověda"
 
-#: ../src/photos-menus.ui.h:3
+#: ../src/photos-menus.ui.h:4
 msgid "About"
 msgstr "O aplikaci"
-
-#: ../src/photos-menus.ui.h:4
-msgid "Quit"
-msgstr "Ukončit"
 
 #: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
@@ -304,18 +357,14 @@ msgid "Organize"
 msgstr "Třídění"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:332
-#: ../src/photos-selection-toolbar.c:457
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
+#: ../src/photos-selection-toolbar.ui.h:1
 msgid "Open"
 msgstr "Otevřít"
 
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Print…"
 msgstr "Tisk…"
-
-#: ../src/photos-preview-menu.ui.h:3 ../src/photos-selection-toolbar.c:471
-msgid "Delete"
-msgstr "Smazat"
 
 #: ../src/photos-preview-menu.ui.h:4
 msgid "Display on…"
@@ -330,7 +379,7 @@ msgid "Set as Lock Screen"
 msgstr "Nastavit jako zamykací obrazovku"
 
 #: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
-#: ../src/photos-selection-toolbar.c:475
+#: ../src/photos-selection-toolbar.ui.h:2
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -367,7 +416,7 @@ msgstr "_Dole:"
 msgid "C_enter:"
 msgstr "Vy_středit:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:88
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:166
 msgid "None"
 msgstr "nijak"
 
@@ -410,10 +459,6 @@ msgstr "milimetry"
 #: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "palce"
-
-#: ../src/photos-print-setup.c:980
-msgid "Preview"
-msgstr "Náhled"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
@@ -518,7 +563,7 @@ msgstr "Porovnávat"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:156
+#: ../src/photos-search-type-manager.c:157
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Typ"
@@ -531,11 +576,7 @@ msgstr "Vybrat vše"
 msgid "Select None"
 msgstr "Zrušit výběr"
 
-#: ../src/photos-selection-toolbar.c:464
-msgid "Print"
-msgstr "Tisk"
-
-#: ../src/photos-selection-toolbar.c:482
+#: ../src/photos-selection-toolbar.ui.h:3
 msgid "Add to Album"
 msgstr "Přidat album"
 
@@ -555,39 +596,43 @@ msgstr "Kontrast"
 msgid "Colors"
 msgstr "Barvy"
 
-#: ../src/photos-tool-crop.c:126
+#: ../src/photos-tool-crop.c:132
 msgid "Free"
 msgstr "Volný"
 
-#: ../src/photos-tool-crop.c:127
+#: ../src/photos-tool-crop.c:133
 msgid "Original Size"
 msgstr "Původní velikost"
 
-#: ../src/photos-tool-crop.c:128
+#: ../src/photos-tool-crop.c:134
 msgid "Screen"
 msgstr "Obrazovka"
 
-#: ../src/photos-tool-crop.c:129
+#: ../src/photos-tool-crop.c:135
 msgid "Golden Cut"
 msgstr "Zlatý řez"
 
-#: ../src/photos-tool-crop.c:130
+#: ../src/photos-tool-crop.c:136
 msgid "Square"
 msgstr "Čtverec"
 
-#: ../src/photos-tool-crop.c:131
+#: ../src/photos-tool-crop.c:137
 msgid "A3 (297 × 420 mm)"
 msgstr "A3 (297 × 420 mm)"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:138
 msgid "A4 (210 × 297 mm)"
 msgstr "A4 (210 × 297 mm)"
 
-#: ../src/photos-tool-crop.c:1106
+#: ../src/photos-tool-crop.c:1162
+msgid "Lock aspect ratio"
+msgstr "Uzamknout poměr stran"
+
+#: ../src/photos-tool-crop.c:1177
 msgid "Reset"
 msgstr "Původní"
 
-#: ../src/photos-tool-crop.c:1127
+#: ../src/photos-tool-crop.c:1198
 msgid "Crop"
 msgstr "Oříznout"
 
@@ -603,27 +648,27 @@ msgstr "Odstranit šum"
 msgid "Enhance"
 msgstr "Vylepšit"
 
-#: ../src/photos-tool-filters.c:94
+#: ../src/photos-tool-filters.c:173
 msgid "1977"
 msgstr "1977"
 
-#: ../src/photos-tool-filters.c:101
+#: ../src/photos-tool-filters.c:180
 msgid "Brannan"
 msgstr "Brannan"
 
-#: ../src/photos-tool-filters.c:107
+#: ../src/photos-tool-filters.c:186
 msgid "Gotham"
 msgstr "Gotham"
 
-#: ../src/photos-tool-filters.c:114
+#: ../src/photos-tool-filters.c:193
 msgid "Gray"
 msgstr "Černobílá"
 
-#: ../src/photos-tool-filters.c:120
+#: ../src/photos-tool-filters.c:199
 msgid "Nashville"
 msgstr "Nashville"
 
-#: ../src/photos-tool-filters.c:136
+#: ../src/photos-tool-filters.c:217
 msgid "Filters"
 msgstr "Filtry"
 
