@@ -987,13 +987,27 @@ photos_base_item_save_replace (GObject *source_object, GAsyncResult *res, gpoint
       goto out;
     }
 
-  gdk_pixbuf_save_to_stream_async (pixbuf,
-                                   G_OUTPUT_STREAM (stream),
-                                   type,
-                                   cancellable,
-                                   photos_base_item_save_save_to_stream,
-                                   g_object_ref (task),
-                                   NULL);
+  if (g_strcmp0 (type, "jpeg") == 0)
+    {
+      gdk_pixbuf_save_to_stream_async (pixbuf,
+                                       G_OUTPUT_STREAM (stream),
+                                       type,
+                                       cancellable,
+                                       photos_base_item_save_save_to_stream,
+                                       g_object_ref (task),
+                                       "quality", "90",
+                                       NULL);
+    }
+  else
+    {
+      gdk_pixbuf_save_to_stream_async (pixbuf,
+                                       G_OUTPUT_STREAM (stream),
+                                       type,
+                                       cancellable,
+                                       photos_base_item_save_save_to_stream,
+                                       g_object_ref (task),
+                                       NULL);
+    }
 
  out:
   g_clear_object (&pixbuf);
