@@ -1374,6 +1374,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
                                  ...)
 {
   PhotosBaseItemPrivate *priv = self->priv;
+  const Babl *format;
   GeglBuffer *buffer_orig = NULL;
   GeglBuffer *buffer = NULL;
   GeglNode *buffer_source;
@@ -1386,7 +1387,6 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   GeglRectangle roi;
   cairo_surface_t *surface = NULL;
   static const cairo_user_data_key_t key;
-  const Babl *format;
   const gchar *name;
   gdouble x;
   gdouble y;
