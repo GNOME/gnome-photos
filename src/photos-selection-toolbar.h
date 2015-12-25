@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SELECTION_TOOLBAR, PhotosSelectionToolbar))
 
-#define PHOTOS_SELECTION_TOOLBAR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_SELECTION_TOOLBAR, PhotosSelectionToolbarClass))
-
 #define PHOTOS_IS_SELECTION_TOOLBAR(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_SELECTION_TOOLBAR))
 
-#define PHOTOS_IS_SELECTION_TOOLBAR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_SELECTION_TOOLBAR))
-
-#define PHOTOS_SELECTION_TOOLBAR_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_SELECTION_TOOLBAR, PhotosSelectionToolbarClass))
-
-typedef struct _PhotosSelectionToolbar        PhotosSelectionToolbar;
-typedef struct _PhotosSelectionToolbarClass   PhotosSelectionToolbarClass;
-typedef struct _PhotosSelectionToolbarPrivate PhotosSelectionToolbarPrivate;
-
-struct _PhotosSelectionToolbar
-{
-  GtkActionBar parent_instance;
-  PhotosSelectionToolbarPrivate *priv;
-};
-
-struct _PhotosSelectionToolbarClass
-{
-  GtkActionBarClass parent_class;
-};
+typedef struct _PhotosSelectionToolbar      PhotosSelectionToolbar;
+typedef struct _PhotosSelectionToolbarClass PhotosSelectionToolbarClass;
 
 GType                     photos_selection_toolbar_get_type             (void) G_GNUC_CONST;
 

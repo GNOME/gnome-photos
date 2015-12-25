@@ -42,8 +42,9 @@
 #include "photos-utils.h"
 
 
-struct _PhotosSelectionToolbarPrivate
+struct _PhotosSelectionToolbar
 {
+  GtkActionBar parent_instance;
   GHashTable *item_listeners;
   GtkWidget *toolbar_collection;
   GtkWidget *toolbar_favorite;
@@ -56,8 +57,13 @@ struct _PhotosSelectionToolbarPrivate
   gboolean inside_refresh;
 };
 
+struct _PhotosSelectionToolbarClass
+{
+  GtkActionBarClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosSelectionToolbar, photos_selection_toolbar, GTK_TYPE_ACTION_BAR);
+
+G_DEFINE_TYPE (PhotosSelectionToolbar, photos_selection_toolbar, GTK_TYPE_ACTION_BAR);
 
 
 enum
@@ -75,7 +81,7 @@ photos_selection_toolbar_dialog_response (GtkDialog *dialog, gint response_id, g
     return;
 
   gtk_widget_destroy (GTK_WIDGET (dialog));
-  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
+  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
 }
 
 
@@ -99,21 +105,20 @@ photos_selection_toolbar_collection_clicked (GtkButton *button, gpointer user_da
 static void
 photos_selection_toolbar_delete (PhotosSelectionToolbar *self)
 {
-  PhotosSelectionToolbarPrivate *priv = self->priv;
   GList *items = NULL;
   GList *selection;
   GList *l;
 
-  if (!photos_selection_controller_get_selection_mode (priv->sel_cntrlr))
+  if (!photos_selection_controller_get_selection_mode (self->sel_cntrlr))
     return;
 
-  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   for (l = selection; l != NULL; l = l->next)
     {
       PhotosBaseItem *item;
       const gchar *urn = (gchar *) l->data;
 
-      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, urn));
       items = g_list_prepend (items, g_object_ref (item));
     }
 
@@ -123,11 +128,11 @@ photos_selection_toolbar_delete (PhotosSelectionToolbar *self)
   for (l = items; l != NULL; l = l->next)
     {
       PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
-      photos_base_manager_remove_object (priv->item_mngr, G_OBJECT (item));
+      photos_base_manager_remove_object (self->item_mngr, G_OBJECT (item));
     }
 
   photos_delete_notification_new (items);
-  photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
+  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
 
   g_list_free_full (items, g_object_unref);
 }
@@ -145,21 +150,20 @@ static void
 photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-  PhotosSelectionToolbarPrivate *priv = self->priv;
   GList *items = NULL;
   GList *selection;
   GList *l;
 
-  if (priv->inside_refresh)
+  if (self->inside_refresh)
     return;
 
-  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   for (l = selection; l != NULL; l = l->next)
     {
       const gchar *urn = (gchar *) l->data;
       PhotosBaseItem *item;
 
-      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, urn));
       items = g_list_prepend (items, g_object_ref (item));
     }
 
@@ -177,7 +181,7 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
       photos_base_item_set_favorite (item, !favorite);
     }
 
-  photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
+  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
   g_list_free_full (items, g_object_unref);
 }
 
@@ -186,11 +190,10 @@ static void
 photos_selection_toolbar_open_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-  PhotosSelectionToolbarPrivate *priv = self->priv;
   GList *selection;
   GList *l;
 
-  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   for (l = selection; l != NULL; l = l->next)
     {
       const gchar *urn = (gchar *) l->data;
@@ -198,13 +201,13 @@ photos_selection_toolbar_open_clicked (GtkButton *button, gpointer user_data)
       PhotosBaseItem *item;
       guint32 time;
 
-      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, urn));
       screen = gtk_widget_get_screen (GTK_WIDGET (button));
       time = gtk_get_current_event_time ();
       photos_base_item_open (item, screen, time);
     }
 
-  photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
+  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
 }
 
 
@@ -212,18 +215,17 @@ static void
 photos_selection_toolbar_print_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-  PhotosSelectionToolbarPrivate *priv = self->priv;
   GList *selection;
   GtkWidget *toplevel;
   PhotosBaseItem *item;
   const gchar *urn;
 
-  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   if (selection == NULL || selection->next != NULL) /* length != 1 */
     return;
 
   urn = (gchar *) selection->data;
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, urn));
   toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
   photos_base_item_print (item, toplevel);
 }
@@ -235,7 +237,7 @@ photos_selection_toolbar_properties_response (GtkDialog *dialog, gint response_i
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
 
   gtk_widget_destroy (GTK_WIDGET (dialog));
-  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
+  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
 }
 
 
@@ -243,7 +245,6 @@ static void
 photos_selection_toolbar_properties_clicked (GtkButton *button, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-  PhotosSelectionToolbarPrivate *priv = self->priv;
   GList *selection;
   GList *windows;
   GApplication *app;
@@ -253,7 +254,7 @@ photos_selection_toolbar_properties_clicked (GtkButton *button, gpointer user_da
   app = g_application_get_default ();
   windows = gtk_application_get_windows (GTK_APPLICATION (app));
 
-  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   urn = (gchar *) selection->data;
 
   dialog = photos_properties_dialog_new (GTK_WINDOW (windows->data), urn);
@@ -266,7 +267,6 @@ photos_selection_toolbar_properties_clicked (GtkButton *button, gpointer user_da
 static void
 photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 {
-  PhotosSelectionToolbarPrivate *priv = self->priv;
   GList *apps = NULL;
   GList *l;
   GList *selection;
@@ -283,9 +283,9 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   guint fav_count = 0;
   guint sel_length = 0;
 
-  priv->inside_refresh = TRUE;
+  self->inside_refresh = TRUE;
 
-  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   has_selection = selection != NULL;
 
   show_collection = has_selection;
@@ -301,7 +301,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
       const gchar *default_app_name;
       const gchar *urn = (gchar *) l->data;
 
-      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, urn));
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, urn));
 
       if (photos_base_item_is_favorite (item))
         fav_count++;
@@ -333,7 +333,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
     /* Translators: this is the Open action in a context menu */
     open_label = g_strdup (_("Open"));
 
-  gtk_button_set_label (GTK_BUTTON (priv->toolbar_open), open_label);
+  gtk_button_set_label (GTK_BUTTON (self->toolbar_open), open_label);
   g_free (open_label);
   g_list_free_full (apps, g_free);
 
@@ -348,28 +348,27 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
       image = gtk_image_new_from_icon_name (PHOTOS_ICON_NOT_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
     }
 
-  gtk_button_set_image (GTK_BUTTON (priv->toolbar_favorite), image);
-  gtk_widget_set_tooltip_text (priv->toolbar_favorite, favorite_label);
+  gtk_button_set_image (GTK_BUTTON (self->toolbar_favorite), image);
+  gtk_widget_set_tooltip_text (self->toolbar_favorite, favorite_label);
   g_free (favorite_label);
 
-  gtk_widget_set_sensitive (priv->toolbar_collection, show_collection);
-  gtk_widget_set_sensitive (priv->toolbar_print, show_print);
-  gtk_widget_set_sensitive (priv->toolbar_properties, show_properties);
-  gtk_widget_set_sensitive (priv->toolbar_trash, show_trash);
-  gtk_widget_set_sensitive (priv->toolbar_open, show_open);
-  gtk_widget_set_sensitive (priv->toolbar_favorite, show_favorite);
+  gtk_widget_set_sensitive (self->toolbar_collection, show_collection);
+  gtk_widget_set_sensitive (self->toolbar_print, show_print);
+  gtk_widget_set_sensitive (self->toolbar_properties, show_properties);
+  gtk_widget_set_sensitive (self->toolbar_trash, show_trash);
+  gtk_widget_set_sensitive (self->toolbar_open, show_open);
+  gtk_widget_set_sensitive (self->toolbar_favorite, show_favorite);
 
-  priv->inside_refresh = FALSE;
+  self->inside_refresh = FALSE;
 }
 
 
 static void
 photos_selection_toolbar_set_item_listeners (PhotosSelectionToolbar *self, GList *selection)
 {
-  PhotosSelectionToolbarPrivate *priv = self->priv;
   GList *l;
 
-  g_hash_table_foreach_remove (priv->item_listeners, photos_selection_toolbar_disconnect_listeners_foreach, NULL);
+  g_hash_table_foreach_remove (self->item_listeners, photos_selection_toolbar_disconnect_listeners_foreach, NULL);
 
   for (l = selection; l != NULL; l = g_list_next (l))
     {
@@ -377,13 +376,13 @@ photos_selection_toolbar_set_item_listeners (PhotosSelectionToolbar *self, GList
       gchar *urn = (gchar *) l->data;
       gulong id;
 
-      object = photos_base_manager_get_object_by_id (priv->item_mngr, urn);
+      object = photos_base_manager_get_object_by_id (self->item_mngr, urn);
       id = g_signal_connect_object (object,
                                     "info-updated",
                                     G_CALLBACK (photos_selection_toolbar_set_item_visibility),
                                     self,
                                     G_CONNECT_SWAPPED);
-      g_hash_table_insert (priv->item_listeners, GUINT_TO_POINTER (id), g_object_ref (object));
+      g_hash_table_insert (self->item_listeners, GUINT_TO_POINTER (id), g_object_ref (object));
     }
 }
 
@@ -391,13 +390,12 @@ photos_selection_toolbar_set_item_listeners (PhotosSelectionToolbar *self, GList
 static void
 photos_selection_toolbar_selection_changed (PhotosSelectionToolbar *self)
 {
-  PhotosSelectionToolbarPrivate *priv = self->priv;
   GList *selection;
 
-  if (!photos_selection_controller_get_selection_mode (priv->sel_cntrlr))
+  if (!photos_selection_controller_get_selection_mode (self->sel_cntrlr))
     return;
 
-  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   photos_selection_toolbar_set_item_listeners (self, selection);
 
   photos_selection_toolbar_set_item_visibility (self);
@@ -419,11 +417,10 @@ static void
 photos_selection_toolbar_dispose (GObject *object)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (object);
-  PhotosSelectionToolbarPrivate *priv = self->priv;
 
-  g_clear_pointer (&priv->item_listeners, (GDestroyNotify) g_hash_table_unref);
-  g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->sel_cntrlr);
+  g_clear_pointer (&self->item_listeners, (GDestroyNotify) g_hash_table_unref);
+  g_clear_object (&self->item_mngr);
+  g_clear_object (&self->sel_cntrlr);
 
   G_OBJECT_CLASS (photos_selection_toolbar_parent_class)->dispose (object);
 }
@@ -432,30 +429,26 @@ photos_selection_toolbar_dispose (GObject *object)
 static void
 photos_selection_toolbar_init (PhotosSelectionToolbar *self)
 {
-  PhotosSelectionToolbarPrivate *priv;
   GAction *action;
   GApplication *app;
   PhotosSearchContextState *state;
 
-  self->priv = photos_selection_toolbar_get_instance_private (self);
-  priv = self->priv;
-
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->item_listeners = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
+  self->item_listeners = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  priv->item_mngr = g_object_ref (state->item_mngr);
+  self->item_mngr = g_object_ref (state->item_mngr);
 
-  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
-  g_signal_connect_object (priv->sel_cntrlr,
+  self->sel_cntrlr = photos_selection_controller_dup_singleton ();
+  g_signal_connect_object (self->sel_cntrlr,
                            "selection-changed",
                            G_CALLBACK (photos_selection_toolbar_selection_changed),
                            self,
                            G_CONNECT_SWAPPED);
-  g_signal_connect_object (priv->sel_cntrlr,
+  g_signal_connect_object (self->sel_cntrlr,
                            "selection-mode-changed",
                            G_CALLBACK (photos_selection_toolbar_selection_mode_changed),
                            self,
@@ -479,12 +472,12 @@ photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
   object_class->dispose = photos_selection_toolbar_dispose;
 
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/selection-toolbar.ui");
-  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_favorite);
-  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_open);
-  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_print);
-  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_trash);
-  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_properties);
-  gtk_widget_class_bind_template_child_private (widget_class, PhotosSelectionToolbar, toolbar_collection);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_favorite);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_open);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_print);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_trash);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_properties);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_collection);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_favorite_clicked);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_open_clicked);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_print_clicked);
