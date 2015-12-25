@@ -1704,6 +1704,32 @@ photos_base_item_get_author (PhotosBaseItem *self)
 
 
 gboolean
+photos_base_item_get_bbox_edited (PhotosBaseItem *self, GeglRectangle *out_bbox)
+{
+  PhotosBaseItemPrivate *priv;
+  GeglNode *graph;
+  GeglRectangle bbox;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  priv = self->priv;
+
+  g_return_val_if_fail (priv->edit_graph != NULL, FALSE);
+  g_return_val_if_fail (priv->load_graph != NULL, FALSE);
+  g_return_val_if_fail (priv->pipeline != NULL, FALSE);
+  g_return_val_if_fail (priv->processor != NULL, FALSE);
+  g_return_val_if_fail (!gegl_processor_work (priv->processor, NULL), FALSE);
+
+  graph = photos_pipeline_get_graph (priv->pipeline);
+  bbox = gegl_node_get_bounding_box (graph);
+
+  if (out_bbox != NULL)
+    *out_bbox = bbox;
+
+  return TRUE;
+}
+
+
+gboolean
 photos_base_item_get_bbox_source (PhotosBaseItem *self, GeglRectangle *bbox)
 {
   PhotosBaseItemPrivate *priv = self->priv;
