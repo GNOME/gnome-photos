@@ -140,7 +140,7 @@ update_autoscale(ViewHelper *self)
         if (bbox.width > real_viewport_width || bbox.height > real_viewport_height) {
             float width_ratio = bbox.width / (float)real_viewport_width;
             float height_ratio = bbox.height / (float)real_viewport_height;
-            float max_ratio = width_ratio >= height_ratio ? width_ratio : height_ratio;
+            float max_ratio =  MAX (height_ratio, width_ratio);
 
             zoom_scaled = 1.0 / max_ratio;
 

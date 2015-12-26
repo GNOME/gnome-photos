@@ -1487,7 +1487,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   buffer = gegl_buffer_dup (buffer_orig);
 
   bbox = *gegl_buffer_get_extent (buffer);
-  min_dimension = bbox.height < bbox.width ? bbox.height : bbox.width;
+  min_dimension = MIN (bbox.height, bbox.width);
   x = (gdouble) (bbox.width - min_dimension) / 2.0;
   y = (gdouble) (bbox.height - min_dimension) / 2.0;
   size_scaled = size * scale;
