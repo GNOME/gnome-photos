@@ -522,7 +522,11 @@ photos_pipeline_save_async (PhotosPipeline *self,
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_pipeline_save_async);
-  g_task_set_task_data (task, g_strdup (xml), g_free);
+
+  /* We need to keep 'xml' alive until g_file_replace_contents_async
+   * returns.
+   */
+  g_task_set_task_data (task, xml, g_free);
 
   file = g_file_new_for_uri (self->uri);
   len = strlen (xml);
@@ -536,7 +540,6 @@ photos_pipeline_save_async (PhotosPipeline *self,
                                  photos_pipeline_save_replace_contents,
                                  g_object_ref (task));
 
-  g_free (xml);
   g_object_unref (file);
   g_object_unref (task);
 }
