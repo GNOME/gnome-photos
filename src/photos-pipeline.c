@@ -245,9 +245,6 @@ photos_pipeline_async_initable_init_load_contents (GObject *source_object, GAsyn
         }
     }
 
-  parent = gegl_node_get_parent (self->graph);
-  g_clear_object (&self->graph);
-
   /* HACK: This graph is busted. eg., the input and output proxies
    * point to the same GeglNode. I can't imagine this to be
    * anything else other than a GEGL bug.
@@ -258,9 +255,16 @@ photos_pipeline_async_initable_init_load_contents (GObject *source_object, GAsyn
   graph = gegl_node_new_from_xml (contents, "/");
   if (graph == NULL)
     {
-      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to deserialize from XML");
-      goto out;
+      gchar *uri;
+
+      uri = g_file_get_uri (file);
+      g_warning ("Unable to deserialize from %s", uri);
+      g_free (uri);
+      goto carry_on;
     }
+
+  parent = gegl_node_get_parent (self->graph);
+  g_clear_object (&self->graph);
 
   self->graph = gegl_node_new ();
   if (parent != NULL)
