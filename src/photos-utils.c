@@ -142,6 +142,26 @@ photos_utils_convert_path_to_uri (const gchar *path)
 }
 
 
+GeglBuffer *
+photos_utils_create_buffer_from_node (GeglNode *node)
+{
+  GeglBuffer *buffer = NULL;
+  GeglNode *buffer_sink;
+  GeglNode *graph;
+
+  graph = gegl_node_get_parent (node);
+  buffer_sink = gegl_node_new_child (graph,
+                                     "operation", "gegl:buffer-sink",
+                                     "buffer", &buffer,
+                                     NULL);
+  gegl_node_link (node, buffer_sink);
+  gegl_node_process (buffer_sink);
+  g_object_unref (buffer_sink);
+
+  return buffer;
+}
+
+
 GIcon *
 photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
 {

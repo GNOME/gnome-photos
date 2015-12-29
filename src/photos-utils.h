@@ -63,6 +63,8 @@ GdkPixbuf       *photos_utils_center_pixbuf               (GdkPixbuf *pixbuf, gi
 
 gchar           *photos_utils_convert_path_to_uri         (const gchar *path);
 
+GeglBuffer      *photos_utils_create_buffer_from_node     (GeglNode *node);
+
 GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
 
 GeglNode        *photos_utils_create_orientation_node     (GeglNode *parent, GQuark orientation);
