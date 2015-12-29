@@ -219,6 +219,7 @@ void                photos_base_item_refresh                 (PhotosBaseItem *se
 
 void                photos_base_item_save_async              (PhotosBaseItem *self,
                                                               GFile *dir,
+                                                              gdouble zoom,
                                                               GCancellable *cancellable,
                                                               GAsyncReadyCallback callback,
                                                               gpointer user_data);

@@ -921,7 +921,7 @@ photos_application_save (PhotosApplication *self)
     }
 
   g_application_hold (G_APPLICATION (self));
-  photos_base_item_save_async (item, parent, NULL, photos_application_save_save, self);
+  photos_base_item_save_async (item, parent, 1.0, NULL, photos_application_save_save, self);
 
  out:
   g_free (parent_path);
