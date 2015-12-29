@@ -134,9 +134,17 @@ photos_pipeline_dispose (GObject *object)
 {
   PhotosPipeline *self = PHOTOS_PIPELINE (object);
 
+  /* We must drop all references to the child nodes before destroying
+   * the graph. The other option would be to ensure that the
+   * GeglProcessor is destroyed before its Pipeline, but since that is
+   * harder to enforce, let's do this instead.
+   *
+   * See: https://bugzilla.gnome.org/show_bug.cgi?id=759995
+   */
+  g_clear_pointer (&self->hash, (GDestroyNotify) g_hash_table_unref);
+
   g_clear_object (&self->graph);
   g_clear_object (&self->parent);
-  g_clear_pointer (&self->hash, (GDestroyNotify) g_hash_table_unref);
 
   G_OBJECT_CLASS (photos_pipeline_parent_class)->dispose (object);
 }
