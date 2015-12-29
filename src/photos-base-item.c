@@ -946,22 +946,18 @@ photos_base_item_process_idle (gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   PhotosBaseItem *self;
-  GCancellable *cancellable;
-  gboolean result = FALSE;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
-  cancellable = g_task_get_cancellable (task);
 
-  if (g_cancellable_is_cancelled (cancellable))
+  if (g_task_return_error_if_cancelled (task))
     goto done;
 
   if (gegl_processor_work (self->priv->processor, NULL))
     return G_SOURCE_CONTINUE;
 
-  result = TRUE;
+  g_task_return_boolean (task, TRUE);
 
  done:
-  g_task_return_boolean (task, result);
   return G_SOURCE_REMOVE;
 }
 
