@@ -59,6 +59,14 @@ G_BEGIN_DECLS
 
 void             photos_utils_border_pixbuf               (GdkPixbuf *pixbuf);
 
+void             photos_utils_buffer_zoom_async           (GeglBuffer *buffer,
+                                                           gdouble zoom,
+                                                           GCancellable *cancellable,
+                                                           GAsyncReadyCallback callback,
+                                                           gpointer user_data);
+
+GeglBuffer      *photos_utils_buffer_zoom_finish          (GeglBuffer *buffer, GAsyncResult *res, GError **error);
+
 GdkPixbuf       *photos_utils_center_pixbuf               (GdkPixbuf *pixbuf, gint size);
 
 gchar           *photos_utils_convert_path_to_uri         (const gchar *path);

@@ -108,6 +108,103 @@ photos_utils_border_pixbuf (GdkPixbuf *pixbuf)
 }
 
 
+static GeglBuffer *
+photos_utils_buffer_zoom (GeglBuffer *buffer, gdouble zoom, GCancellable *cancellable, GError **error)
+{
+  GeglBuffer *ret_val = NULL;
+  GeglNode *buffer_sink;
+  GeglNode *buffer_source;
+  GeglNode *graph;
+  GeglNode *scale;
+
+  graph = gegl_node_new ();
+  buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer, NULL);
+  scale = gegl_node_new_child (graph, "operation", "gegl:scale-ratio", "x", zoom, "y", zoom, NULL);
+  buffer_sink = gegl_node_new_child (graph, "operation", "gegl:buffer-sink", "buffer", &ret_val, NULL);
+  gegl_node_link_many (buffer_source, scale, buffer_sink, NULL);
+  gegl_node_process (buffer_sink);
+
+  g_object_unref (graph);
+  return ret_val;
+}
+
+
+static void
+photos_utils_buffer_zoom_in_thread_func (GTask *task,
+                                         gpointer source_object,
+                                         gpointer task_data,
+                                         GCancellable *cancellable)
+{
+  GeglBuffer *buffer = GEGL_BUFFER (source_object);
+  GeglBuffer *result = NULL;
+  GError *error;
+  const gchar *zoom_str = (const gchar *) task_data;
+  gchar *endptr;
+  gdouble zoom;
+
+  zoom = g_ascii_strtod (zoom_str, &endptr);
+  g_assert (*endptr == '\0');
+
+  error = NULL;
+  result = photos_utils_buffer_zoom (buffer, zoom, cancellable, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_pointer (task, g_object_ref (result), g_object_unref);
+
+ out:
+  g_clear_object (&result);
+}
+
+
+void
+photos_utils_buffer_zoom_async (GeglBuffer *buffer,
+                                gdouble zoom,
+                                GCancellable *cancellable,
+                                GAsyncReadyCallback callback,
+                                gpointer user_data)
+{
+  GTask *task;
+  gchar zoom_str[G_ASCII_DTOSTR_BUF_SIZE];
+
+  g_return_if_fail (GEGL_IS_BUFFER (buffer));
+  g_return_if_fail (zoom > 0.0);
+
+  task = g_task_new (buffer, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_utils_buffer_zoom_async);
+
+  if (GEGL_FLOAT_EQUAL ((gfloat) zoom, 1.0))
+    {
+      g_task_return_pointer (task, g_object_ref (buffer), g_object_unref);
+      goto out;
+    }
+
+  g_ascii_dtostr (zoom_str, G_N_ELEMENTS (zoom_str), zoom);
+  g_task_set_task_data (task, g_strdup (zoom_str), g_free);
+
+  g_task_run_in_thread (task, photos_utils_buffer_zoom_in_thread_func);
+
+ out:
+  g_object_unref (task);
+}
+
+
+GeglBuffer *
+photos_utils_buffer_zoom_finish (GeglBuffer *buffer, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, buffer), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_utils_buffer_zoom_async, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  return g_task_propagate_pointer (task, error);
+}
+
+
 GdkPixbuf *
 photos_utils_center_pixbuf (GdkPixbuf *pixbuf, gint size)
 {
