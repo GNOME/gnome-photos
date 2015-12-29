@@ -2134,7 +2134,9 @@ photos_base_item_save_async (PhotosBaseItem *self,
 
   g_return_if_fail (G_IS_FILE (dir));
   g_return_if_fail (priv->edit_graph != NULL);
+  g_return_if_fail (priv->filename != NULL && priv->filename[0] != '\0');
   g_return_if_fail (priv->load_graph != NULL);
+  g_return_if_fail (priv->pipeline != NULL);
   g_return_if_fail (priv->processor != NULL);
   g_return_if_fail (!gegl_processor_work (priv->processor, NULL));
 
