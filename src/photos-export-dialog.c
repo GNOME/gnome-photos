@@ -35,6 +35,7 @@ struct _PhotosExportDialog
   GtkWidget *folder_name_label;
   GtkWidget *full_button;
   GtkWidget *full_label;
+  GtkWidget *msg_label;
   GtkWidget *reduced_button;
   GtkWidget *reduced_label;
   GtkWidget *size_label;
@@ -202,10 +203,25 @@ photos_export_dialog_set_property (GObject *object, guint prop_id, const GValue 
 static void
 photos_export_dialog_init (PhotosExportDialog *self)
 {
+  const gchar *pictures_path;
+  gchar *msg;
+  gchar *pictures_path_basename;
+
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->cancellable = g_cancellable_new ();
+
+  pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
+  pictures_path_basename = g_path_get_basename (pictures_path);
+  msg = g_strdup_printf (_("Photos are exported to the %s ▶ %s folder."),
+                         pictures_path_basename,
+                         PHOTOS_EXPORT_SUBPATH);
+  gtk_label_set_label (GTK_LABEL (self->msg_label), msg);
+
   self->reduced_zoom = -1.0;
+
+  g_free (msg);
+  g_free (pictures_path_basename);
 }
 
 
@@ -232,6 +248,7 @@ photos_export_dialog_class_init (PhotosExportDialogClass *class)
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, folder_name_label);
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, full_button);
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, full_label);
+  gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, msg_label);
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, reduced_button);
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, reduced_label);
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, size_label);
