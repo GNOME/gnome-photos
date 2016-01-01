@@ -134,6 +134,8 @@ gnome_photos_SOURCES = \
 	photos-operation-insta-filter.h \
 	photos-operation-jpg-guess-sizes.c \
 	photos-operation-jpg-guess-sizes.h \
+	photos-operation-png-guess-sizes.c \
+	photos-operation-png-guess-sizes.h \
 	photos-organize-collection-dialog.c \
 	photos-organize-collection-dialog.h \
 	photos-organize-collection-model.c \
@@ -144,6 +146,8 @@ gnome_photos_SOURCES = \
 	photos-overview-searchbar.h \
 	photos-pipeline.c \
 	photos-pipeline.h \
+	photos-png-count.c \
+	photos-png-count.h \
 	photos-preview-model.c \
 	photos-preview-model.h \
 	photos-preview-nav-buttons.c \
@@ -282,6 +286,7 @@ AM_CPPFLAGS = \
 	$(GRILO_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(GTK_UNIX_PRINT_CFLAGS) \
+	$(PNG_CFLAGS) \
 	$(TRACKER_CFLAGS) \
 	-I$(top_srcdir)/libgd \
 	$(NULL)
@@ -309,6 +314,7 @@ gnome_photos_LDADD = \
 	$(GTK_LIBS) \
 	$(GTK_UNIX_PRINT_LIBS) \
 	$(JPEG_LIBS) \
+	$(PNG_LIBS) \
 	$(TRACKER_LIBS) \
 	$(LIBM) \
 	$(top_builddir)/libgd/libgd.la \
