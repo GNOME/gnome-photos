@@ -6,22 +6,23 @@
 # Avelino <adelino.avelino@academico.ifrn.edu.br>, 2013.
 # Fábio Nogueira <fnogueira@gnome.org>, 2014.
 # Enrico Nicoletto <liverig@gmail.com>, 2013, 2014, 2015.
-#
+# Felipe Braga <fbobraga@gmail.com>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-15 20:18+0000\n"
-"PO-Revision-Date: 2015-03-15 20:08-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"POT-Creation-Date: 2015-05-06 07:32+0000\n"
+"PO-Revision-Date: 2015-05-06 12:56-0200\n"
+"Last-Translator: Felipe Braga <fbobraga@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1
@@ -213,8 +214,6 @@ msgstr "“%s” excluído"
 
 #: ../src/photos-delete-notification.c:144
 #, c-format
-#| msgid "Selected item has been deleted"
-#| msgid_plural "Selected items have been deleted"
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d item excluído"
@@ -240,7 +239,7 @@ msgstr "Álbuns"
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Pesquisar"
 
@@ -270,7 +269,7 @@ msgstr "Nenhum álbum encontrado"
 
 #: ../src/photos-empty-results-box.c:186
 msgid "Starred photos will appear here"
-msgstr "Fotos em destaque vão aparecer aqui"
+msgstr "Fotos marcadas como favoritas vão aparecer aqui"
 
 #: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
@@ -309,7 +308,7 @@ msgstr "Suas fotos estão sendo indexadas"
 msgid "Some photos might not be available during this process"
 msgstr "Algumas fotos podem não estar disponíveis durante este processo"
 
-#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Local"
 
@@ -324,29 +323,29 @@ msgid_plural "%d selected"
 msgstr[0] "%d selecionada"
 msgstr[1] "%d selecionadas"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Voltar"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Selecionar itens"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:431 ../src/photos-selection-toolbar.c:280
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir com %s"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:477 ../src/photos-selection-toolbar.c:292
 msgid "Remove from favorites"
 msgstr "Remover dos favoritos"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:482 ../src/photos-selection-toolbar.c:298
 msgid "Add to favorites"
 msgstr "Adicionar aos favoritos"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:652
 msgid "Cancel"
 msgstr "Cancelar"
 
