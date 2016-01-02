@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014, 2015 Pranav Kant
- * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -2153,7 +2153,7 @@ photos_base_item_save_async (PhotosBaseItem *self,
   GeglBuffer *buffer;
   GeglNode *graph;
   PhotosBaseItemSaveData *data;
-  gchar *type = NULL;
+  const gchar *type;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
@@ -2166,8 +2166,10 @@ photos_base_item_save_async (PhotosBaseItem *self,
   g_return_if_fail (priv->processor != NULL);
   g_return_if_fail (!gegl_processor_work (priv->processor, NULL));
 
-  type = photos_utils_get_pixbuf_type_from_mime_type (priv->mime_type);
-  g_return_if_fail (type != NULL);
+  if (g_strcmp0 (priv->mime_type, "image/png") == 0)
+    type = "png";
+  else
+    type = "jpeg";
 
   data = photos_base_item_save_data_new (dir, type);
 
@@ -2183,7 +2185,6 @@ photos_base_item_save_async (PhotosBaseItem *self,
                                   photos_base_item_save_buffer_zoom,
                                   g_object_ref (task));
 
-  g_free (type);
   g_object_unref (buffer);
   g_object_unref (task);
 }
