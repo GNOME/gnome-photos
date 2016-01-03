@@ -1002,7 +1002,7 @@ photos_base_item_save_guess_sizes_from_buffer (GeglBuffer *buffer,
   GeglNode *buffer_source;
   GeglNode *graph;
   GeglNode *guess_sizes;
-  gsize sizes[0];
+  gsize sizes[2];
 
   graph = gegl_node_new ();
   buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer, NULL);
