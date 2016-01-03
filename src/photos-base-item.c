@@ -144,13 +144,20 @@ static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, Tracker
 
 
 static PhotosBaseItemSaveData *
-photos_base_item_save_data_new (GFile *dir, const gchar *type)
+photos_base_item_save_data_new (GFile *dir, GeglBuffer *buffer, const gchar *type)
 {
   PhotosBaseItemSaveData *data;
 
   data = g_slice_new0 (PhotosBaseItemSaveData);
-  data->dir = g_object_ref (dir);
+
+  if (dir != NULL)
+    data->dir = g_object_ref (dir);
+
+  if (buffer != NULL)
+    data->buffer = g_object_ref (buffer);
+
   data->type = g_strdup (type);
+
   return data;
 }
 
@@ -158,7 +165,7 @@ photos_base_item_save_data_new (GFile *dir, const gchar *type)
 static void
 photos_base_item_save_data_free (PhotosBaseItemSaveData *data)
 {
-  g_object_unref (data->dir);
+  g_clear_object (&data->dir);
   g_clear_object (&data->buffer);
   g_free (data->type);
   g_slice_free (PhotosBaseItemSaveData, data);
@@ -2171,7 +2178,7 @@ photos_base_item_save_async (PhotosBaseItem *self,
   else
     type = "jpeg";
 
-  data = photos_base_item_save_data_new (dir, type);
+  data = photos_base_item_save_data_new (dir, NULL, type);
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_save_async);
