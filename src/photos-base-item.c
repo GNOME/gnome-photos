@@ -131,7 +131,7 @@ typedef struct _PhotosBaseItemSaveData PhotosBaseItemSaveData;
 struct _PhotosBaseItemSaveData
 {
   GFile *dir;
-  GeglNode *buffer;
+  GeglBuffer *buffer;
   gchar *type;
 };
 
