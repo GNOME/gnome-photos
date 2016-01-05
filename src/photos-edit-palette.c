@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -101,27 +101,6 @@ photos_edit_palette_row_activated (GtkListBox *box, GtkListBoxRow *row)
 
 
 static void
-photos_edit_palette_update_header_func (GtkListBoxRow *row, GtkListBoxRow *before)
-{
-  GtkWidget *header;
-
-  if (before == NULL)
-    {
-      gtk_list_box_row_set_header (row, NULL);
-      return;
-    }
-
-  header = gtk_list_box_row_get_header (row);
-  if (header == NULL)
-    {
-      header = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-      gtk_widget_show (header);
-      gtk_list_box_row_set_header (row, header);
-    }
-}
-
-
-static void
 photos_edit_palette_dispose (GObject *object)
 {
   PhotosEditPalette *self = PHOTOS_EDIT_PALETTE (object);
@@ -138,10 +117,7 @@ photos_edit_palette_init (PhotosEditPalette *self)
 {
   gtk_widget_set_vexpand (GTK_WIDGET (self), TRUE);
   gtk_list_box_set_selection_mode (GTK_LIST_BOX (self), GTK_SELECTION_NONE);
-  gtk_list_box_set_header_func (GTK_LIST_BOX (self),
-                                (GtkListBoxUpdateHeaderFunc) photos_edit_palette_update_header_func,
-                                NULL,
-                                NULL);
+  gtk_list_box_set_header_func (GTK_LIST_BOX (self), photos_utils_list_box_header_func, NULL, NULL);
 
   self->extension_point = g_io_extension_point_lookup (PHOTOS_TOOL_EXTENSION_POINT_NAME);
 

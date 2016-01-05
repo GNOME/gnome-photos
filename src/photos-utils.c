@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015, 2016 Red Hat, Inc.
  * Copyright © 2009 Yorba Foundation
  *
  * This program is free software; you can redistribute it and/or
@@ -1133,6 +1133,27 @@ photos_utils_icon_from_rdf_type (const gchar *type)
     ret_val = photos_utils_create_collection_icon (size, NULL);
 
   return ret_val;
+}
+
+
+void
+photos_utils_list_box_header_func (GtkListBoxRow *row, GtkListBoxRow *before, gpointer user_data)
+{
+  GtkWidget *header;
+
+  if (before == NULL)
+    {
+      gtk_list_box_row_set_header (row, NULL);
+      return;
+    }
+
+  header = gtk_list_box_row_get_header (row);
+  if (header == NULL)
+    {
+      header = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+      gtk_widget_show (header);
+      gtk_list_box_row_set_header (row, header);
+    }
 }
 
 
