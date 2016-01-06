@@ -2,7 +2,7 @@
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2015 Alessandro Bono
  * Copyright © 2014, 2015 Pranav Kant
- * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -123,6 +123,26 @@ G_DEFINE_TYPE_WITH_CODE (PhotosApplication, photos_application, GTK_TYPE_APPLICA
 enum
 {
   MINER_REFRESH_TIMEOUT = 60 /* s */
+};
+
+static const gchar *REQUIRED_GEGL_OPS[] =
+{
+  "gegl:buffer-sink",
+  "gegl:buffer-source",
+  "gegl:crop",
+  "gegl:gray",
+  "gegl:load",
+  "gegl:nop",
+  "gegl:rotate-on-center",
+  "gegl:save-pixbuf",
+  "gegl:scale-ratio",
+
+  /* Used by gegl:load */
+  "gegl:jp2-load",
+  "gegl:jpg-load",
+  "gegl:png-load",
+  "gegl:raw-load",
+  "gegl:text"
 };
 
 static const gchar *DESKTOP_BACKGROUND_SCHEMA = "org.gnome.desktop.background";
@@ -428,6 +448,26 @@ photos_application_create_miners (PhotosApplication *self)
 }
 
 
+static gboolean
+photos_application_sanity_check_gegl (PhotosApplication *self)
+{
+  gboolean ret_val = TRUE;
+  guint i;
+
+  for (i = 0; i < G_N_ELEMENTS (REQUIRED_GEGL_OPS); i++)
+    {
+      if (!gegl_has_operation (REQUIRED_GEGL_OPS[i]))
+        {
+          g_warning ("Unable to find GEGL operation %s: Check your GEGL install", REQUIRED_GEGL_OPS[i]);
+          ret_val = FALSE;
+          break;
+        }
+    }
+
+  return ret_val;
+}
+
+
 static void
 photos_application_tracker_set_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
@@ -479,13 +519,15 @@ photos_application_tracker_extract_priority (GObject *source_object, GAsyncResul
 }
 
 
-static void
+static gboolean
 photos_application_create_window (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
 
   if (priv->main_window != NULL)
-    return;
+    return TRUE;
+
+  g_return_val_if_fail (photos_application_sanity_check_gegl (self), FALSE);
 
   priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
   g_signal_connect_swapped (priv->main_window, "destroy", G_CALLBACK (photos_application_destroy), self);
@@ -500,6 +542,7 @@ photos_application_create_window (PhotosApplication *self)
                                               self);
 
   photos_application_start_miners (self);
+  return TRUE;
 }
 
 
@@ -508,7 +551,9 @@ photos_application_activate_item (PhotosApplication *self, GObject *item)
 {
   PhotosApplicationPrivate *priv = self->priv;
 
-  photos_application_create_window (self);
+  if (!photos_application_create_window (self))
+    return;
+
   photos_base_manager_set_active_object (priv->state->item_mngr, item);
   g_application_activate (G_APPLICATION (self));
 
@@ -690,7 +735,9 @@ photos_application_launch_search (PhotosApplication *self, const gchar* const *t
   GVariant *state;
   gchar *str;
 
-  photos_application_create_window (self);
+  if (!photos_application_create_window (self))
+    return;
+
   photos_mode_controller_set_window_mode (priv->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
 
   str = g_strjoinv (" ", (gchar **) terms);
@@ -1139,7 +1186,9 @@ photos_application_activate (GApplication *application)
 
   if (priv->main_window == NULL)
     {
-      photos_application_create_window (self);
+      if (!photos_application_create_window (self))
+        return;
+
       photos_mode_controller_set_window_mode (priv->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
     }
 
