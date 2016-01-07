@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,10 +36,13 @@ struct _PhotosToolColors
 {
   PhotosTool parent_instance;
   GAction *brightness_contrast;
+  GAction *saturation;
   GtkWidget *box;
   GtkWidget *brightness_scale;
   GtkWidget *contrast_scale;
+  GtkWidget *saturation_scale;
   guint brightness_contrast_value_changed_id;
+  guint saturation_value_changed_id;
 };
 
 struct _PhotosToolColorsClass
@@ -64,6 +67,10 @@ static const gdouble CONTRAST_DEFAULT = 1.0;
 static const gdouble CONTRAST_MAXIMUM = 2.0;
 static const gdouble CONTRAST_MINIMUM = 0.0;
 static const gdouble CONTRAST_STEP = 0.1;
+static const gdouble SATURATION_DEFAULT = 1.0;
+static const gdouble SATURATION_MAXIMUM = 2.0;
+static const gdouble SATURATION_MINIMUM = 0.0;
+static const gdouble SATURATION_STEP = 0.1;
 
 
 static gboolean
@@ -89,6 +96,22 @@ photos_tool_colors_brightness_contrast_value_changed_timeout (gpointer user_data
 }
 
 
+static gboolean
+photos_tool_colors_saturation_value_changed_timeout (gpointer user_data)
+{
+  PhotosToolColors *self = PHOTOS_TOOL_COLORS (user_data);
+  GVariant *parameter;
+  gdouble value;
+
+  value = gtk_range_get_value (GTK_RANGE (self->saturation_scale));
+  parameter = g_variant_new_double (value);
+  g_action_activate (self->saturation, parameter);
+
+  self->saturation_value_changed_id = 0;
+  return G_SOURCE_REMOVE;
+}
+
+
 static void
 photos_tool_colors_brightness_contrast_value_changed (PhotosToolColors *self)
 {
@@ -103,11 +126,24 @@ photos_tool_colors_brightness_contrast_value_changed (PhotosToolColors *self)
 
 
 static void
+photos_tool_colors_saturation_value_changed (PhotosToolColors *self)
+{
+  if (self->saturation_value_changed_id != 0)
+    g_source_remove (self->saturation_value_changed_id);
+
+  self->saturation_value_changed_id = g_timeout_add (150,
+                                                     photos_tool_colors_saturation_value_changed_timeout,
+                                                     self);
+}
+
+
+static void
 photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *view)
 {
   PhotosToolColors *self = PHOTOS_TOOL_COLORS (tool);
   gdouble brightness;
   gdouble contrast;
+  gfloat saturation;
 
   if (!photos_base_item_operation_get (item,
                                        "gegl:brightness-contrast",
@@ -119,8 +155,12 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView
       contrast = CONTRAST_DEFAULT;
     }
 
+  if (!photos_base_item_operation_get (item, "photos:saturation", "scale", &saturation, NULL))
+    saturation = SATURATION_DEFAULT;
+
   brightness = CLAMP (brightness, BRIGHTNESS_MINIMUM, BRIGHTNESS_MAXIMUM);
   contrast = CLAMP (contrast, CONTRAST_MINIMUM, CONTRAST_MAXIMUM);
+  saturation = CLAMP (saturation, SATURATION_MINIMUM, SATURATION_MAXIMUM);
 
   g_signal_handlers_block_by_func (self->brightness_scale,
                                    photos_tool_colors_brightness_contrast_value_changed,
@@ -128,14 +168,17 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView
   g_signal_handlers_block_by_func (self->contrast_scale,
                                    photos_tool_colors_brightness_contrast_value_changed,
                                    self);
+  g_signal_handlers_block_by_func (self->saturation_scale, photos_tool_colors_saturation_value_changed, self);
   gtk_range_set_value (GTK_RANGE (self->brightness_scale), brightness);
   gtk_range_set_value (GTK_RANGE (self->contrast_scale), contrast);
+  gtk_range_set_value (GTK_RANGE (self->saturation_scale), saturation);
   g_signal_handlers_unblock_by_func (self->brightness_scale,
                                      photos_tool_colors_brightness_contrast_value_changed,
                                      self);
   g_signal_handlers_unblock_by_func (self->contrast_scale,
                                      photos_tool_colors_brightness_contrast_value_changed,
                                      self);
+  g_signal_handlers_unblock_by_func (self->saturation_scale, photos_tool_colors_saturation_value_changed, self);
 }
 
 
@@ -166,6 +209,9 @@ photos_tool_colors_finalize (GObject *object)
   if (self->brightness_contrast_value_changed_id != 0)
     g_source_remove (self->brightness_contrast_value_changed_id);
 
+  if (self->saturation_value_changed_id != 0)
+    g_source_remove (self->saturation_value_changed_id);
+
   G_OBJECT_CLASS (photos_tool_colors_parent_class)->dispose (object);
 }
 
@@ -180,6 +226,7 @@ photos_tool_colors_init (PhotosToolColors *self)
 
   app = g_application_get_default ();
   self->brightness_contrast = g_action_map_lookup_action (G_ACTION_MAP (app), "brightness-contrast-current");
+  self->saturation = g_action_map_lookup_action (G_ACTION_MAP (app), "saturation-current");
 
   /* We really need a GtkBox here. A GtkGrid won't work because it
    * doesn't expand the children to fill the full width of the
@@ -227,6 +274,26 @@ photos_tool_colors_init (PhotosToolColors *self)
   g_signal_connect_swapped (self->contrast_scale,
                             "value-changed",
                             G_CALLBACK (photos_tool_colors_brightness_contrast_value_changed),
+                            self);
+  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
+  gtk_container_add (GTK_CONTAINER (self->box), box);
+
+  label = gtk_label_new (_("Saturation"));
+  gtk_widget_set_halign (label, GTK_ALIGN_START);
+  context = gtk_widget_get_style_context (label);
+  gtk_style_context_add_class (context, "dim-label");
+  gtk_container_add (GTK_CONTAINER (box), label);
+
+  self->saturation_scale = gtk_scale_new_with_range (GTK_ORIENTATION_HORIZONTAL,
+                                                     SATURATION_MINIMUM,
+                                                     SATURATION_MAXIMUM,
+                                                     SATURATION_STEP);
+  gtk_scale_add_mark (GTK_SCALE (self->saturation_scale), SATURATION_DEFAULT, GTK_POS_BOTTOM, NULL);
+  gtk_scale_set_draw_value (GTK_SCALE (self->saturation_scale), FALSE);
+  gtk_container_add (GTK_CONTAINER (box), self->saturation_scale);
+  g_signal_connect_swapped (self->saturation_scale,
+                            "value-changed",
+                            G_CALLBACK (photos_tool_colors_saturation_value_changed),
                             self);
 }
 
