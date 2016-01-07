@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the gnome-photos package.
 # Zed  <angelrmm0@gmail.com>, 2012.
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013, 2014, 2015., 2015.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013, 2014, 2015., 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-12-01 09:48+0000\n"
-"PO-Revision-Date: 2015-12-01 12:47+0100\n"
+"POT-Creation-Date: 2016-01-06 21:53+0000\n"
+"PO-Revision-Date: 2016-01-07 09:10+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -22,12 +22,12 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:713
-#: ../src/photos-search-type-manager.c:124
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:715
+#: ../src/photos-search-type-manager.c:125
 msgid "Photos"
 msgstr "Fotos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice y comparta sus fotos en GNOME"
 
@@ -108,11 +108,11 @@ msgstr "Ventana maximizada"
 msgid "Window maximized state"
 msgstr "Estado maximizado de la ventana"
 
-#: ../src/photos-base-item.c:407
+#: ../src/photos-base-item.c:465
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:1081
+#: ../src/photos-base-item.c:1270
 msgid "Screenshots"
 msgstr "Capturas de pantalla"
 
@@ -136,15 +136,15 @@ msgstr "Deshacer"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos de renderizado DLNA"
 
-#: ../src/photos-embed.c:720 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:722 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:727 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: ../src/photos-embed.c:734 ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-embed.c:736 ../src/photos-help-overlay.ui.h:11
 #: ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Buscar"
@@ -181,11 +181,50 @@ msgstr "Las fotos favoritas aparecerán aquí"
 msgid "No Photos Found"
 msgstr "No se encontraron fotos"
 
+#: ../src/photos-export-dialog.ui.h:1
+#| msgid "Exposure"
+msgid "Export"
+msgstr "Exportar"
+
+#: ../src/photos-export-dialog.ui.h:2
+msgid "_Folder Name"
+msgstr "Nombre de la _carpeta"
+
+#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
+msgid "Size"
+msgstr "Tamaño"
+
+#: ../src/photos-export-dialog.ui.h:4
+msgid "F_ull"
+msgstr "C_ompleto"
+
+#: ../src/photos-export-dialog.ui.h:5
+msgid "_Reduced"
+msgstr "_Reducido"
+
+#: ../src/photos-export-dialog.ui.h:6
+#| msgid "Cancel"
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#: ../src/photos-export-dialog.ui.h:7
+#| msgid "Exposure"
+msgid "_Export"
+msgstr "_Exportar"
+
+#. Translators: this is the default sub-directory where photos
+#. *  will be exported.
+#.
+#: ../src/photos-export-dialog.c:159
+#| msgid "%a, %d %B %Y"
+msgid "%e %B %Y"
+msgstr "%e %B %Y"
+
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
 #: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
-#: ../src/photos-google-item.c:77
+#: ../src/photos-google-item.c:82
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -210,7 +249,7 @@ msgstr "Salir"
 msgid "Print the current photo"
 msgstr "Imprimir la foto actual"
 
-#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:4
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -270,7 +309,7 @@ msgstr "Se están indexando sus fotos"
 msgid "Some photos might not be available during this process"
 msgstr "Algunas fotos pueden no estar disponibles durante este proceso"
 
-#: ../src/photos-local-item.c:103 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Local"
 
@@ -295,16 +334,16 @@ msgstr "Seleccionar elementos"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:330
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:331
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:341
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:342
 msgid "Remove from favorites"
 msgstr "Quita de favoritos"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:346
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:347
 msgid "Add to favorites"
 msgstr "Agregar a favoritos"
 
@@ -317,7 +356,7 @@ msgstr "Cancelar"
 msgid "Done"
 msgstr "Hecho"
 
-#: ../src/photos-main-window.c:480
+#: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -328,7 +367,7 @@ msgstr ""
 "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:490
+#: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2015\n"
@@ -361,28 +400,32 @@ msgid "Organize"
 msgstr "Organizar"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:333
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
 #: ../src/photos-selection-toolbar.ui.h:1
 msgid "Open"
 msgstr "Abrir"
 
 #: ../src/photos-preview-menu.ui.h:2
+msgid "Export…"
+msgstr "Exportar…"
+
+#: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
 msgstr "Imprimir…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
 msgstr "Mostrar en…"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Background"
 msgstr "Establecer como fondo"
 
-#: ../src/photos-preview-menu.ui.h:6
+#: ../src/photos-preview-menu.ui.h:7
 msgid "Set as Lock Screen"
 msgstr "Establecer como fondo de la pantalla de bloqueo"
 
-#: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Properties"
 msgstr "Propiedades"
@@ -421,7 +464,7 @@ msgstr "_Abajo:"
 msgid "C_enter:"
 msgstr "_Centro:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:176
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:166
 msgid "None"
 msgstr "Ninguna"
 
@@ -436,10 +479,6 @@ msgstr "Vertical"
 #: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "Ambas"
-
-#: ../src/photos-print-setup.c:932
-msgid "Size"
-msgstr "Tamaño"
 
 #: ../src/photos-print-setup.c:935
 msgid "_Width:"
@@ -568,7 +607,7 @@ msgstr "Coincidencia"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:156
+#: ../src/photos-search-type-manager.c:157
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Tipo"
@@ -629,15 +668,15 @@ msgstr "A3 (297 × 420 mm)"
 msgid "A4 (210 × 297 mm)"
 msgstr "A4 (210 × 297 mm)"
 
-#: ../src/photos-tool-crop.c:1156
+#: ../src/photos-tool-crop.c:1162
 msgid "Lock aspect ratio"
 msgstr "Bloquear relación de aspecto"
 
-#: ../src/photos-tool-crop.c:1171
+#: ../src/photos-tool-crop.c:1177
 msgid "Reset"
 msgstr "Reiniciar"
 
-#: ../src/photos-tool-crop.c:1192
+#: ../src/photos-tool-crop.c:1198
 msgid "Crop"
 msgstr "Recortar"
 
@@ -653,27 +692,27 @@ msgstr "Eliminar ruido"
 msgid "Enhance"
 msgstr "Mejorar"
 
-#: ../src/photos-tool-filters.c:187
+#: ../src/photos-tool-filters.c:173
 msgid "1977"
 msgstr "1977"
 
-#: ../src/photos-tool-filters.c:199
+#: ../src/photos-tool-filters.c:180
 msgid "Brannan"
 msgstr "Brannan"
 
-#: ../src/photos-tool-filters.c:210
+#: ../src/photos-tool-filters.c:186
 msgid "Gotham"
 msgstr "Gotham"
 
-#: ../src/photos-tool-filters.c:222
+#: ../src/photos-tool-filters.c:193
 msgid "Gray"
 msgstr "Gris"
 
-#: ../src/photos-tool-filters.c:233
+#: ../src/photos-tool-filters.c:199
 msgid "Nashville"
 msgstr "Nashville"
 
-#: ../src/photos-tool-filters.c:258
+#: ../src/photos-tool-filters.c:217
 msgid "Filters"
 msgstr "Filtros"
 
@@ -686,9 +725,6 @@ msgstr "No se pudo obtener la lista de fotos"
 
 #~ msgid "%a, %d %B %Y  %X"
 #~ msgstr "%a, %d %B %Y  %X"
-
-#~ msgid "%a, %d %B %Y"
-#~ msgstr "%a, %d %B %Y"
 
 #~ msgid "%.1f (lens)"
 #~ msgstr "%.1f (lens)"
