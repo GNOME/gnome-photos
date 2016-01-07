@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-12-30 20:42+0000\n"
-"PO-Revision-Date: 2015-12-30 22:52+0100\n"
+"POT-Creation-Date: 2016-01-07 16:55+0000\n"
+"PO-Revision-Date: 2016-01-07 18:07+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:715
@@ -112,11 +112,11 @@ msgstr "Fenster maximiert"
 msgid "Window maximized state"
 msgstr "Fenstermaximierungsstatus"
 
-#: ../src/photos-base-item.c:465
+#: ../src/photos-base-item.c:472
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1270
+#: ../src/photos-base-item.c:1288
 msgid "Screenshots"
 msgstr "Bildschirmfotos"
 
@@ -210,7 +210,6 @@ msgid "_Cancel"
 msgstr "_Abbrechen"
 
 #: ../src/photos-export-dialog.ui.h:7
-#| msgid "Export…"
 msgid "_Export"
 msgstr "_Exportieren"
 
@@ -218,7 +217,6 @@ msgstr "_Exportieren"
 #. *  will be exported.
 #.
 #: ../src/photos-export-dialog.c:159
-#| msgid "%a, %d %B %Y"
 msgid "%e %B %Y"
 msgstr "%e. %B %Y"
 
@@ -632,15 +630,19 @@ msgstr "Zu Album hinzufügen"
 msgid "Sources"
 msgstr "Quellen"
 
-#: ../src/photos-tool-colors.c:193
+#: ../src/photos-tool-colors.c:240
 msgid "Brightness"
 msgstr "Helligkeit"
 
-#: ../src/photos-tool-colors.c:214
+#: ../src/photos-tool-colors.c:261
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:241
+#: ../src/photos-tool-colors.c:281
+msgid "Saturation"
+msgstr "Sättigung"
+
+#: ../src/photos-tool-colors.c:308
 msgid "Colors"
 msgstr "Farben"
 
