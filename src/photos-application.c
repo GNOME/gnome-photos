@@ -81,6 +81,7 @@ struct _PhotosApplicationPrivate
   GSimpleAction *open_action;
   GSimpleAction *print_action;
   GSimpleAction *properties_action;
+  GSimpleAction *saturation_action;
   GSimpleAction *save_action;
   GSimpleAction *search_action;
   GSimpleAction *search_match_action;
@@ -277,6 +278,7 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (priv->edit_cancel_action, enable);
   g_simple_action_set_enabled (priv->edit_done_action, enable);
   g_simple_action_set_enabled (priv->insta_action, enable);
+  g_simple_action_set_enabled (priv->saturation_action, enable);
   g_simple_action_set_enabled (priv->sharpen_action, enable);
   g_simple_action_set_enabled (priv->undo_action, enable);
 
@@ -1417,6 +1419,9 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
+  priv->saturation_action = g_simple_action_new ("saturation-current", G_VARIANT_TYPE_DOUBLE);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->saturation_action));
+
   priv->save_action = g_simple_action_new ("save-current", NULL);
   g_signal_connect_swapped (priv->save_action, "activate", G_CALLBACK (photos_application_save), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->save_action));
@@ -1560,6 +1565,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->open_action);
   g_clear_object (&priv->print_action);
   g_clear_object (&priv->properties_action);
+  g_clear_object (&priv->saturation_action);
   g_clear_object (&priv->save_action);
   g_clear_object (&priv->search_action);
   g_clear_object (&priv->search_match_action);
