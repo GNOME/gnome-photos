@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014, 2015 Pranav Kant
- * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -126,12 +126,50 @@ G_DEFINE_ABSTRACT_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJEC
                                                          photos_base_item_filterable_iface_init));
 
 
+typedef struct _PhotosBaseItemSaveData PhotosBaseItemSaveData;
+
+struct _PhotosBaseItemSaveData
+{
+  GFile *dir;
+  GeglBuffer *buffer;
+  gchar *type;
+};
+
 static GdkPixbuf *failed_icon;
 static GdkPixbuf *thumbnailing_icon;
 static GThreadPool *create_thumbnail_pool;
 
 
 static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor);
+
+
+static PhotosBaseItemSaveData *
+photos_base_item_save_data_new (GFile *dir, GeglBuffer *buffer, const gchar *type)
+{
+  PhotosBaseItemSaveData *data;
+
+  data = g_slice_new0 (PhotosBaseItemSaveData);
+
+  if (dir != NULL)
+    data->dir = g_object_ref (dir);
+
+  if (buffer != NULL)
+    data->buffer = g_object_ref (buffer);
+
+  data->type = g_strdup (type);
+
+  return data;
+}
+
+
+static void
+photos_base_item_save_data_free (PhotosBaseItemSaveData *data)
+{
+  g_clear_object (&data->dir);
+  g_clear_object (&data->buffer);
+  g_free (data->type);
+  g_slice_free (PhotosBaseItemSaveData, data);
+}
 
 
 static GdkPixbuf *
@@ -946,28 +984,25 @@ photos_base_item_process_idle (gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   PhotosBaseItem *self;
-  GCancellable *cancellable;
-  gboolean result = FALSE;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
-  cancellable = g_task_get_cancellable (task);
 
-  if (g_cancellable_is_cancelled (cancellable))
+  if (g_task_return_error_if_cancelled (task))
     goto done;
 
   if (gegl_processor_work (self->priv->processor, NULL))
     return G_SOURCE_CONTINUE;
 
-  result = TRUE;
+  g_task_return_boolean (task, TRUE);
 
  done:
-  g_task_return_boolean (task, result);
   return G_SOURCE_REMOVE;
 }
 
 
 static void
 photos_base_item_save_guess_sizes_from_buffer (GeglBuffer *buffer,
+                                               const gchar *mime_type,
                                                gsize *out_size,
                                                gsize *out_size_1,
                                                GCancellable *cancellable)
@@ -975,16 +1010,26 @@ photos_base_item_save_guess_sizes_from_buffer (GeglBuffer *buffer,
   GeglNode *buffer_source;
   GeglNode *graph;
   GeglNode *guess_sizes;
-  gsize sizes[0];
+  gsize sizes[2];
 
   graph = gegl_node_new ();
   buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer, NULL);
-  guess_sizes = gegl_node_new_child (graph,
-                                     "operation", "photos:jpg-guess-sizes",
-                                     "optimize", FALSE,
-                                     "progressive", FALSE,
-                                     "sampling", TRUE,
-                                     NULL);
+
+  if (g_strcmp0 (mime_type, "image/png") == 0)
+    guess_sizes = gegl_node_new_child (graph,
+                                       "operation", "photos:png-guess-sizes",
+                                       "background", FALSE,
+                                       "bitdepth", 8,
+                                       "compression", -1,
+                                       NULL);
+  else
+    guess_sizes = gegl_node_new_child (graph,
+                                       "operation", "photos:jpg-guess-sizes",
+                                       "optimize", FALSE,
+                                       "progressive", FALSE,
+                                       "sampling", TRUE,
+                                       NULL);
+
   gegl_node_link (buffer_source, guess_sizes);
   gegl_node_process (guess_sizes);
 
@@ -1004,11 +1049,11 @@ photos_base_item_save_guess_sizes_in_thread_func (GTask *task,
                                                   gpointer task_data,
                                                   GCancellable *cancellable)
 {
-  GeglBuffer *buffer = GEGL_BUFFER (task_data);
+  PhotosBaseItemSaveData *data = (PhotosBaseItemSaveData *) task_data;
   gsize *sizes;
 
   sizes = g_malloc0_n (2, sizeof (gsize));
-  photos_base_item_save_guess_sizes_from_buffer (buffer, &sizes[0], &sizes[1], cancellable);
+  photos_base_item_save_guess_sizes_from_buffer (data->buffer, data->type, &sizes[0], &sizes[1], cancellable);
   g_task_return_pointer (task, sizes, g_free);
 }
 
@@ -1036,21 +1081,17 @@ static void
 photos_base_item_save_replace (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
-  PhotosBaseItem *self;
-  PhotosBaseItemPrivate *priv;
   GCancellable *cancellable;
   GdkPixbuf *pixbuf = NULL;
   GError *error = NULL;
-  GeglNode *graph;
+  GeglNode *buffer_source;
+  GeglNode *graph = NULL;
   GFile *file = G_FILE (source_object);
   GFileOutputStream *stream = NULL;
-  const gchar *type;
-
-  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
-  priv = self->priv;
+  PhotosBaseItemSaveData *data;
 
   cancellable = g_task_get_cancellable (task);
-  type = (const gchar *) g_task_get_task_data (task);
+  data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
   stream = g_file_replace_finish (file, res, &error);
   if (error != NULL)
@@ -1059,31 +1100,20 @@ photos_base_item_save_replace (GObject *source_object, GAsyncResult *res, gpoint
       goto out;
     }
 
-  if (priv->processor == NULL)
-    {
-      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to find a processor for the GEGL graph");
-      goto out;
-    }
-
-  if (gegl_processor_work (priv->processor, NULL))
-    {
-      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Have not finished processing the GEGL graph");
-      goto out;
-    }
-
-  graph = photos_pipeline_get_graph (priv->pipeline);
-  pixbuf = photos_utils_create_pixbuf_from_node (graph);
+  graph = gegl_node_new ();
+  buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", data->buffer, NULL);
+  pixbuf = photos_utils_create_pixbuf_from_node (buffer_source);
   if (pixbuf == NULL)
     {
-      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to create a GdkPixbuf from the GEGL graph");
+      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to create a GdkPixbuf from the GeglBuffer");
       goto out;
     }
 
-  if (g_strcmp0 (type, "jpeg") == 0)
+  if (g_strcmp0 (data->type, "jpeg") == 0)
     {
       gdk_pixbuf_save_to_stream_async (pixbuf,
                                        G_OUTPUT_STREAM (stream),
-                                       type,
+                                       data->type,
                                        cancellable,
                                        photos_base_item_save_save_to_stream,
                                        g_object_ref (task),
@@ -1094,7 +1124,7 @@ photos_base_item_save_replace (GObject *source_object, GAsyncResult *res, gpoint
     {
       gdk_pixbuf_save_to_stream_async (pixbuf,
                                        G_OUTPUT_STREAM (stream),
-                                       type,
+                                       data->type,
                                        cancellable,
                                        photos_base_item_save_save_to_stream,
                                        g_object_ref (task),
@@ -1102,8 +1132,53 @@ photos_base_item_save_replace (GObject *source_object, GAsyncResult *res, gpoint
     }
 
  out:
+  g_clear_object (&graph);
   g_clear_object (&pixbuf);
   g_clear_object (&stream);
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItem *self;
+  GCancellable *cancellable;
+  GError *error;
+  GFile *file = NULL;
+  GeglBuffer *buffer = GEGL_BUFFER (source_object);
+  GeglBuffer *buffer_zoomed = NULL;
+  PhotosBaseItemSaveData *data;
+
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
+
+  error = NULL;
+  buffer_zoomed = photos_utils_buffer_zoom_finish (buffer, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_assert_null (data->buffer);
+  data->buffer = g_object_ref (buffer_zoomed);
+
+  file = g_file_get_child (data->dir, self->priv->filename);
+  g_file_replace_async (file,
+                        NULL,
+                        TRUE,
+                        G_FILE_CREATE_REPLACE_DESTINATION,
+                        G_PRIORITY_DEFAULT,
+                        cancellable,
+                        photos_base_item_save_replace,
+                        g_object_ref (task));
+
+ out:
+  g_clear_object (&buffer_zoomed);
+  g_clear_object (&file);
   g_object_unref (task);
 }
 
@@ -1647,6 +1722,32 @@ photos_base_item_get_author (PhotosBaseItem *self)
 
 
 gboolean
+photos_base_item_get_bbox_edited (PhotosBaseItem *self, GeglRectangle *out_bbox)
+{
+  PhotosBaseItemPrivate *priv;
+  GeglNode *graph;
+  GeglRectangle bbox;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  priv = self->priv;
+
+  g_return_val_if_fail (priv->edit_graph != NULL, FALSE);
+  g_return_val_if_fail (priv->load_graph != NULL, FALSE);
+  g_return_val_if_fail (priv->pipeline != NULL, FALSE);
+  g_return_val_if_fail (priv->processor != NULL, FALSE);
+  g_return_val_if_fail (!gegl_processor_work (priv->processor, NULL), FALSE);
+
+  graph = photos_pipeline_get_graph (priv->pipeline);
+  bbox = gegl_node_get_bounding_box (graph);
+
+  if (out_bbox != NULL)
+    *out_bbox = bbox;
+
+  return TRUE;
+}
+
+
+gboolean
 photos_base_item_get_bbox_source (PhotosBaseItem *self, GeglRectangle *bbox)
 {
   PhotosBaseItemPrivate *priv = self->priv;
@@ -2060,43 +2161,49 @@ photos_base_item_refresh (PhotosBaseItem *self)
 void
 photos_base_item_save_async (PhotosBaseItem *self,
                              GFile *dir,
+                             gdouble zoom,
                              GCancellable *cancellable,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
 {
   PhotosBaseItemPrivate *priv;
-  GFile *file;
   GTask *task;
-  gchar *type = NULL;
+  GeglBuffer *buffer;
+  GeglNode *graph;
+  PhotosBaseItemSaveData *data;
+  const gchar *type;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
 
   g_return_if_fail (G_IS_FILE (dir));
   g_return_if_fail (priv->edit_graph != NULL);
+  g_return_if_fail (priv->filename != NULL && priv->filename[0] != '\0');
   g_return_if_fail (priv->load_graph != NULL);
+  g_return_if_fail (priv->pipeline != NULL);
   g_return_if_fail (priv->processor != NULL);
   g_return_if_fail (!gegl_processor_work (priv->processor, NULL));
 
-  type = photos_utils_get_pixbuf_type_from_mime_type (priv->mime_type);
-  g_return_if_fail (type != NULL);
+  if (g_strcmp0 (priv->mime_type, "image/png") == 0)
+    type = "png";
+  else
+    type = "jpeg";
+
+  data = photos_base_item_save_data_new (dir, NULL, type);
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_save_async);
-  g_task_set_task_data (task, g_strdup (type), g_free);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
 
-  file = g_file_get_child (dir, priv->filename);
-  g_file_replace_async (file,
-                        NULL,
-                        TRUE,
-                        G_FILE_CREATE_REPLACE_DESTINATION,
-                        G_PRIORITY_DEFAULT,
-                        cancellable,
-                        photos_base_item_save_replace,
-                        g_object_ref (task));
+  graph = photos_pipeline_get_graph (priv->pipeline);
+  buffer = photos_utils_create_buffer_from_node (graph);
+  photos_utils_buffer_zoom_async (buffer,
+                                  zoom,
+                                  cancellable,
+                                  photos_base_item_save_buffer_zoom,
+                                  g_object_ref (task));
 
-  g_free (type);
-  g_object_unref (file);
+  g_object_unref (buffer);
   g_object_unref (task);
 }
 
@@ -2124,6 +2231,7 @@ photos_base_item_save_guess_sizes_async (PhotosBaseItem *self,
   GeglBuffer *buffer;
   GeglNode *graph;
   GTask *task;
+  PhotosBaseItemSaveData *data;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
@@ -2137,9 +2245,11 @@ photos_base_item_save_guess_sizes_async (PhotosBaseItem *self,
   graph = photos_pipeline_get_graph (priv->pipeline);
   buffer = photos_utils_create_buffer_from_node (graph);
 
+  data = photos_base_item_save_data_new (NULL, buffer, priv->mime_type);
+
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_save_guess_sizes_async);
-  g_task_set_task_data (task, g_object_ref (buffer), g_object_unref);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
 
   g_task_run_in_thread (task, photos_base_item_save_guess_sizes_in_thread_func);
 

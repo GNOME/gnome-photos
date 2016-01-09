@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Intel Corporation. All rights reserved.
- * Copyright © 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,6 +37,7 @@
 #include "photos-local-item.h"
 #include "photos-remote-display-manager.h"
 #include "photos-search-context.h"
+#include "photos-utils.h"
 
 
 struct _PhotosDlnaRenderersDialogPrivate
@@ -58,23 +59,6 @@ enum
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosDlnaRenderersDialog, photos_dlna_renderers_dialog, GTK_TYPE_DIALOG);
-
-
-static void
-photos_dlna_renderers_separator_cb (GtkListBoxRow *row,
-                                    GtkListBoxRow *before,
-                                    gpointer user_data)
-{
-  GtkWidget *separator;
-
-  separator = gtk_list_box_row_get_header (row);
-  if (separator == NULL && before != NULL)
-    {
-      separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-      gtk_list_box_row_set_header (row, separator);
-      gtk_widget_show (separator);
-    }
-}
 
 
 static void
@@ -237,7 +221,7 @@ photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  gtk_list_box_set_header_func (priv->listbox, photos_dlna_renderers_separator_cb, NULL, NULL);
+  gtk_list_box_set_header_func (priv->listbox, photos_utils_list_box_header_func, NULL, NULL);
 
   renderers = photos_dlna_renderers_manager_dup_renderers (priv->renderers_mngr);
 

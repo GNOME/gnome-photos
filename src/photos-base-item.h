@@ -118,6 +118,8 @@ gchar              *photos_base_item_download_finish         (PhotosBaseItem *se
 
 const gchar        *photos_base_item_get_author              (PhotosBaseItem *self);
 
+gboolean            photos_base_item_get_bbox_edited         (PhotosBaseItem *self, GeglRectangle *out_bbox);
+
 gboolean            photos_base_item_get_bbox_source         (PhotosBaseItem *self, GeglRectangle *bbox);
 
 gint64              photos_base_item_get_date_created        (PhotosBaseItem *self);
@@ -219,6 +221,7 @@ void                photos_base_item_refresh                 (PhotosBaseItem *se
 
 void                photos_base_item_save_async              (PhotosBaseItem *self,
                                                               GFile *dir,
+                                                              gdouble zoom,
                                                               GCancellable *cancellable,
                                                               GAsyncReadyCallback callback,
                                                               gpointer user_data);

@@ -70,6 +70,8 @@ gnome_photos_SOURCES = \
 	photos-dlna-renderers-manager.h \
 	photos-dropdown.c \
 	photos-dropdown.h \
+	photos-export-dialog.c \
+	photos-export-dialog.h \
 	photos-edit-palette.c \
 	photos-edit-palette.h \
 	photos-edit-palette-row.c \
@@ -132,6 +134,10 @@ gnome_photos_SOURCES = \
 	photos-operation-insta-filter.h \
 	photos-operation-jpg-guess-sizes.c \
 	photos-operation-jpg-guess-sizes.h \
+	photos-operation-png-guess-sizes.c \
+	photos-operation-png-guess-sizes.h \
+	photos-operation-saturation.c \
+	photos-operation-saturation.h \
 	photos-organize-collection-dialog.c \
 	photos-organize-collection-dialog.h \
 	photos-organize-collection-model.c \
@@ -142,6 +148,8 @@ gnome_photos_SOURCES = \
 	photos-overview-searchbar.h \
 	photos-pipeline.c \
 	photos-pipeline.h \
+	photos-png-count.c \
+	photos-png-count.h \
 	photos-preview-model.c \
 	photos-preview-model.h \
 	photos-preview-nav-buttons.c \
@@ -249,6 +257,7 @@ EXTRA_DIST = \
 	photos-generate-about \
 	photos.gresource.xml \
 	photos-dlna-renderers-dialog.ui \
+	photos-export-dialog.ui \
 	photos-help-overlay.ui \
 	photos-marshalers.list \
 	photos-menus.ui \
@@ -279,6 +288,7 @@ AM_CPPFLAGS = \
 	$(GRILO_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(GTK_UNIX_PRINT_CFLAGS) \
+	$(PNG_CFLAGS) \
 	$(TRACKER_CFLAGS) \
 	-I$(top_srcdir)/libgd \
 	$(NULL)
@@ -306,6 +316,7 @@ gnome_photos_LDADD = \
 	$(GTK_LIBS) \
 	$(GTK_UNIX_PRINT_LIBS) \
 	$(JPEG_LIBS) \
+	$(PNG_LIBS) \
 	$(TRACKER_LIBS) \
 	$(LIBM) \
 	$(top_builddir)/libgd/libgd.la \

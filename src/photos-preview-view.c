@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2013, 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -401,6 +401,22 @@ photos_preview_view_insta (PhotosPreviewView *self, GVariant *parameter)
 
 
 static void
+photos_preview_view_saturation (PhotosPreviewView *self, GVariant *parameter)
+{
+  PhotosBaseItem *item;
+  gfloat scale;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  if (item == NULL)
+    return;
+
+  scale = (gfloat) g_variant_get_double (parameter);
+  photos_base_item_operation_add (item, "photos:saturation", "scale", scale, NULL);
+  photos_base_item_process_async (item, NULL, photos_preview_view_process, self);
+}
+
+
+static void
 photos_preview_view_sharpen (PhotosPreviewView *self, GVariant *parameter)
 {
   PhotosBaseItem *item;
@@ -640,6 +656,13 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "load-previous");
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_preview_view_navigate_previous), self);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "saturation-current");
+  g_signal_connect_object (action,
+                           "activate",
+                           G_CALLBACK (photos_preview_view_saturation),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "sharpen-current");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_sharpen), self, G_CONNECT_SWAPPED);

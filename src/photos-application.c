@@ -2,7 +2,7 @@
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2015 Alessandro Bono
  * Copyright © 2014, 2015 Pranav Kant
- * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,6 +38,7 @@
 #include "photos-base-item.h"
 #include "photos-camera-cache.h"
 #include "photos-dlna-renderers-dialog.h"
+#include "photos-export-dialog.h"
 #include "photos-filterable.h"
 #include "photos-gom-miner.h"
 #include "photos-item-manager.h"
@@ -80,6 +81,7 @@ struct _PhotosApplicationPrivate
   GSimpleAction *open_action;
   GSimpleAction *print_action;
   GSimpleAction *properties_action;
+  GSimpleAction *saturation_action;
   GSimpleAction *save_action;
   GSimpleAction *search_action;
   GSimpleAction *search_match_action;
@@ -122,6 +124,26 @@ G_DEFINE_TYPE_WITH_CODE (PhotosApplication, photos_application, GTK_TYPE_APPLICA
 enum
 {
   MINER_REFRESH_TIMEOUT = 60 /* s */
+};
+
+static const gchar *REQUIRED_GEGL_OPS[] =
+{
+  "gegl:buffer-sink",
+  "gegl:buffer-source",
+  "gegl:crop",
+  "gegl:gray",
+  "gegl:load",
+  "gegl:nop",
+  "gegl:rotate-on-center",
+  "gegl:save-pixbuf",
+  "gegl:scale-ratio",
+
+  /* Used by gegl:load */
+  "gegl:jp2-load",
+  "gegl:jpg-load",
+  "gegl:png-load",
+  "gegl:raw-load",
+  "gegl:text"
 };
 
 static const gchar *DESKTOP_BACKGROUND_SCHEMA = "org.gnome.desktop.background";
@@ -256,6 +278,7 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (priv->edit_cancel_action, enable);
   g_simple_action_set_enabled (priv->edit_done_action, enable);
   g_simple_action_set_enabled (priv->insta_action, enable);
+  g_simple_action_set_enabled (priv->saturation_action, enable);
   g_simple_action_set_enabled (priv->sharpen_action, enable);
   g_simple_action_set_enabled (priv->undo_action, enable);
 
@@ -427,6 +450,26 @@ photos_application_create_miners (PhotosApplication *self)
 }
 
 
+static gboolean
+photos_application_sanity_check_gegl (PhotosApplication *self)
+{
+  gboolean ret_val = TRUE;
+  guint i;
+
+  for (i = 0; i < G_N_ELEMENTS (REQUIRED_GEGL_OPS); i++)
+    {
+      if (!gegl_has_operation (REQUIRED_GEGL_OPS[i]))
+        {
+          g_warning ("Unable to find GEGL operation %s: Check your GEGL install", REQUIRED_GEGL_OPS[i]);
+          ret_val = FALSE;
+          break;
+        }
+    }
+
+  return ret_val;
+}
+
+
 static void
 photos_application_tracker_set_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
@@ -478,13 +521,15 @@ photos_application_tracker_extract_priority (GObject *source_object, GAsyncResul
 }
 
 
-static void
+static gboolean
 photos_application_create_window (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
 
   if (priv->main_window != NULL)
-    return;
+    return TRUE;
+
+  g_return_val_if_fail (photos_application_sanity_check_gegl (self), FALSE);
 
   priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
   g_signal_connect_swapped (priv->main_window, "destroy", G_CALLBACK (photos_application_destroy), self);
@@ -499,6 +544,7 @@ photos_application_create_window (PhotosApplication *self)
                                               self);
 
   photos_application_start_miners (self);
+  return TRUE;
 }
 
 
@@ -507,7 +553,9 @@ photos_application_activate_item (PhotosApplication *self, GObject *item)
 {
   PhotosApplicationPrivate *priv = self->priv;
 
-  photos_application_create_window (self);
+  if (!photos_application_create_window (self))
+    return;
+
   photos_base_manager_set_active_object (priv->state->item_mngr, item);
   g_application_activate (G_APPLICATION (self));
 
@@ -689,7 +737,9 @@ photos_application_launch_search (PhotosApplication *self, const gchar* const *t
   GVariant *state;
   gchar *str;
 
-  photos_application_create_window (self);
+  if (!photos_application_create_window (self))
+    return;
+
   photos_mode_controller_set_window_mode (priv->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
 
   str = g_strjoinv (" ", (gchar **) terms);
@@ -898,34 +948,85 @@ photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointe
 
 
 static void
-photos_application_save (PhotosApplication *self)
+photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   PhotosApplicationPrivate *priv = self->priv;
-  GError *error = NULL;
-  GFile *parent = NULL;
+  GError *error;
+  GFile *export = NULL;
+  GFile *tmp;
   PhotosBaseItem *item;
+  const gchar *export_dir_name;
   const gchar *pictures_path;
-  gchar *parent_path = NULL;
+  gchar *export_path = NULL;
+  gdouble zoom;
+
+  if (response_id != GTK_RESPONSE_OK)
+    goto out;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
   g_return_if_fail (item != NULL);
 
   pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
-  parent_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
-  parent = g_file_new_for_path (parent_path);
-  if (!photos_utils_make_directory_with_parents (parent, NULL, &error))
+  export_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
+  export = g_file_new_for_path (export_path);
+
+  error = NULL;
+  if (!photos_utils_make_directory_with_parents (export, NULL, &error))
     {
-      g_warning ("Unable to create %s: %s", parent_path, error->message);
+      g_warning ("Unable to create %s: %s", export_path, error->message);
       g_error_free (error);
       goto out;
     }
 
+  export_dir_name = photos_export_dialog_get_dir_name (PHOTOS_EXPORT_DIALOG (dialog));
+
+  error = NULL;
+  tmp = g_file_get_child_for_display_name (export, export_dir_name, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to get a child for %s: %s", export_dir_name, error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  g_object_unref (export);
+  export = tmp;
+
+  error = NULL;
+  if (!photos_utils_make_directory_with_parents (export, NULL, &error))
+    {
+      g_warning ("Unable to create %s: %s", export_path, error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  zoom = photos_export_dialog_get_zoom (PHOTOS_EXPORT_DIALOG (dialog));
+
   g_application_hold (G_APPLICATION (self));
-  photos_base_item_save_async (item, parent, NULL, photos_application_save_save, self);
+  photos_base_item_save_async (item, export, zoom, NULL, photos_application_save_save, self);
 
  out:
-  g_free (parent_path);
-  g_clear_object (&parent);
+  g_free (export_path);
+  g_clear_object (&export);
+  gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+
+static void
+photos_application_save (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  GtkWidget *dialog;
+  PhotosBaseItem *item;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+  g_return_if_fail (item != NULL);
+  g_return_if_fail (!photos_base_item_is_collection (item));
+
+  dialog = photos_export_dialog_new (GTK_WINDOW (priv->main_window), item);
+  gtk_widget_show_all (dialog);
+  g_signal_connect (dialog, "response", G_CALLBACK (photos_application_save_response), self);
 }
 
 
@@ -1087,7 +1188,9 @@ photos_application_activate (GApplication *application)
 
   if (priv->main_window == NULL)
     {
-      photos_application_create_window (self);
+      if (!photos_application_create_window (self))
+        return;
+
       photos_mode_controller_set_window_mode (priv->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
     }
 
@@ -1316,6 +1419,9 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
+  priv->saturation_action = g_simple_action_new ("saturation-current", G_VARIANT_TYPE_DOUBLE);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->saturation_action));
+
   priv->save_action = g_simple_action_new ("save-current", NULL);
   g_signal_connect_swapped (priv->save_action, "activate", G_CALLBACK (photos_application_save), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->save_action));
@@ -1459,6 +1565,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->open_action);
   g_clear_object (&priv->print_action);
   g_clear_object (&priv->properties_action);
+  g_clear_object (&priv->saturation_action);
   g_clear_object (&priv->save_action);
   g_clear_object (&priv->search_action);
   g_clear_object (&priv->search_match_action);

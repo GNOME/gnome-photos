@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015, 2016 Red Hat, Inc.
  * Copyright © 2009 Yorba Foundation
  *
  * This program is free software; you can redistribute it and/or
@@ -45,6 +45,8 @@
 #include "photos-operation-insta-curve.h"
 #include "photos-operation-insta-filter.h"
 #include "photos-operation-jpg-guess-sizes.h"
+#include "photos-operation-png-guess-sizes.h"
+#include "photos-operation-saturation.h"
 #include "photos-query.h"
 #include "photos-source.h"
 #include "photos-tool.h"
@@ -812,6 +814,8 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
       g_type_ensure (PHOTOS_TYPE_OPERATION_JPG_GUESS_SIZES);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_SATURATION);
 
       g_type_ensure (PHOTOS_TYPE_TOOL_COLORS);
       g_type_ensure (PHOTOS_TYPE_TOOL_CROP);
@@ -1035,41 +1039,6 @@ photos_utils_get_pixbuf_common_suffix (GdkPixbufFormat *format)
 }
 
 
-gchar *
-photos_utils_get_pixbuf_type_from_mime_type (const gchar *mime_type)
-{
-  GSList *formats;
-  GSList *l;
-  gchar *ret_val = NULL;
-
-  formats = gdk_pixbuf_get_formats ();
-
-  for (l = formats; l != NULL; l = l->next)
-    {
-      GdkPixbufFormat *format = (GdkPixbufFormat*) l->data;
-      gchar **supported_mime_types;
-      guint i;
-
-      supported_mime_types = gdk_pixbuf_format_get_mime_types (format);
-      for (i = 0; supported_mime_types[i] != NULL; i++)
-        {
-          if (g_strcmp0 (mime_type, supported_mime_types[i]) == 0)
-            {
-              ret_val = gdk_pixbuf_format_get_name (format);
-              break;
-            }
-        }
-
-      g_strfreev (supported_mime_types);
-      if (ret_val != NULL)
-        break;
-    }
-
-  g_slist_free (formats);
-  return ret_val;
-}
-
-
 const gchar *
 photos_utils_get_provider_name (PhotosBaseManager *src_mngr, PhotosBaseItem *item)
 {
@@ -1133,6 +1102,27 @@ photos_utils_icon_from_rdf_type (const gchar *type)
     ret_val = photos_utils_create_collection_icon (size, NULL);
 
   return ret_val;
+}
+
+
+void
+photos_utils_list_box_header_func (GtkListBoxRow *row, GtkListBoxRow *before, gpointer user_data)
+{
+  GtkWidget *header;
+
+  if (before == NULL)
+    {
+      gtk_list_box_row_set_header (row, NULL);
+      return;
+    }
+
+  header = gtk_list_box_row_get_header (row);
+  if (header == NULL)
+    {
+      header = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+      gtk_widget_show (header);
+      gtk_list_box_row_set_header (row, header);
+    }
 }
 
 

@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -135,20 +135,17 @@ photos_operation_jpg_guess_sizes_count (GeglBuffer *buffer,
   bpp = babl_format_get_bytes_per_pixel (format);
   row_pointer[0] = g_malloc (width * bpp);
 
-  while (cinfo.next_scanline < cinfo.image_height) {
-    GeglRectangle rect;
+  while (cinfo.next_scanline < cinfo.image_height)
+    {
+      GeglRectangle rect;
 
-    rect.x = src_x;
-    rect.y = src_y + cinfo.next_scanline;
-    rect.width = width;
-    rect.height = 1;
-
-    gegl_buffer_get (buffer, &rect, zoom, format,
-                     row_pointer[0], GEGL_AUTO_ROWSTRIDE,
-                     GEGL_ABYSS_NONE);
-
-    jpeg_write_scanlines (&cinfo, row_pointer, 1);
-  }
+      rect.x = src_x;
+      rect.y = src_y + cinfo.next_scanline;
+      rect.width = width;
+      rect.height = 1;
+      gegl_buffer_get (buffer, &rect, zoom, format, row_pointer[0], GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+      jpeg_write_scanlines (&cinfo, row_pointer, 1);
+    }
 
   jpeg_finish_compress (&cinfo);
   jpeg_destroy_compress (&cinfo);

@@ -1,15 +1,15 @@
 # Czech translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Marek Černocký <marek@manet.cz>, 2013, 2014, 2015.
+# Marek Černocký <marek@manet.cz>, 2013, 2014, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-12-24 09:51+0000\n"
-"PO-Revision-Date: 2015-12-24 13:21+0100\n"
+"POT-Creation-Date: 2016-01-01 09:54+0000\n"
+"PO-Revision-Date: 2016-01-01 20:42+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:713
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:715
 #: ../src/photos-search-type-manager.c:125
 msgid "Photos"
 msgstr "Fotky"
@@ -105,11 +105,11 @@ msgstr "Okno maximalizováno"
 msgid "Window maximized state"
 msgstr "Stav maximalizace okna"
 
-#: ../src/photos-base-item.c:434
+#: ../src/photos-base-item.c:465
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1107
+#: ../src/photos-base-item.c:1270
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -134,15 +134,15 @@ msgstr "Zpět"
 msgid "DLNA Renderer Devices"
 msgstr "Vykreslovací zařízení DLNA"
 
-#: ../src/photos-embed.c:720 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:722 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Alba"
 
-#: ../src/photos-embed.c:727 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Oblíbené"
 
-#: ../src/photos-embed.c:734 ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-embed.c:736 ../src/photos-help-overlay.ui.h:11
 #: ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Hledat"
@@ -179,6 +179,44 @@ msgstr "Fotografie s hvězdičkami se objeví zde"
 msgid "No Photos Found"
 msgstr "Nenalezeny žádné fotografie"
 
+#: ../src/photos-export-dialog.ui.h:1
+#| msgid "Exposure"
+msgid "Export"
+msgstr "Export"
+
+#: ../src/photos-export-dialog.ui.h:2
+msgid "_Folder Name"
+msgstr "Název _složky"
+
+#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
+msgid "Size"
+msgstr "Velikost"
+
+#: ../src/photos-export-dialog.ui.h:4
+msgid "F_ull"
+msgstr "Ú_plná"
+
+#: ../src/photos-export-dialog.ui.h:5
+msgid "_Reduced"
+msgstr "Z_menšená"
+
+#: ../src/photos-export-dialog.ui.h:6
+#| msgid "Cancel"
+msgid "_Cancel"
+msgstr "_Zrušit"
+
+#: ../src/photos-export-dialog.ui.h:7
+#| msgid "Exposure"
+msgid "_Export"
+msgstr "_Exportovat"
+
+#. Translators: this is the default sub-directory where photos
+#. *  will be exported.
+#.
+#: ../src/photos-export-dialog.c:159
+msgid "%e %B %Y"
+msgstr "%e. %B %Y"
+
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
@@ -208,7 +246,7 @@ msgstr "Ukončit"
 msgid "Print the current photo"
 msgstr "Vytisknout aktuální fotku"
 
-#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:4
 msgid "Delete"
 msgstr "Smazat"
 
@@ -268,7 +306,7 @@ msgstr "Vaše fotografie budou indexovány"
 msgid "Some photos might not be available during this process"
 msgstr "Během tohoto procesu nemusí být některé fotografie přístupné"
 
-#: ../src/photos-local-item.c:103 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Místní"
 
@@ -363,22 +401,26 @@ msgid "Open"
 msgstr "Otevřít"
 
 #: ../src/photos-preview-menu.ui.h:2
+msgid "Export…"
+msgstr "Export…"
+
+#: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
 msgstr "Tisk…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
 msgstr "Zobrazit na…"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Background"
 msgstr "Nastavit jako pozadí"
 
-#: ../src/photos-preview-menu.ui.h:6
+#: ../src/photos-preview-menu.ui.h:7
 msgid "Set as Lock Screen"
 msgstr "Nastavit jako zamykací obrazovku"
 
-#: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -431,10 +473,6 @@ msgstr "svisle"
 #: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "v obou směrech"
-
-#: ../src/photos-print-setup.c:932
-msgid "Size"
-msgstr "Velikost"
 
 #: ../src/photos-print-setup.c:935
 msgid "_Width:"

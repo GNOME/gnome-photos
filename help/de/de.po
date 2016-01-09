@@ -7,23 +7,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-12\n"
-"POT-Creation-Date: 2015-03-12 00:01+0000\n"
-"PO-Revision-Date: 2015-03-12 17:54+0100\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2016-01-07 09:52+0000\n"
+"PO-Revision-Date: 2016-01-07 18:12+0100\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.3\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Christian Kirbach <christian.kirbach@gmail.com>, 2014, 2015\n"
-"Benjamin Steinwender <b@stbe.at>, 2014"
+"Benjamin Steinwender <b@stbe.at>, 2014\n"
+"Mario Blättermann <mario.blaettermann@gmail.com>, 2016"
 
 #. (itstool) path: credit/name
 #: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
@@ -73,7 +74,7 @@ msgid ""
 "\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
 "Fotos und Alben können in den Reitern <gui style=\"tab\">Zuletzt verwendet</"
-"gui> und <gui style=\"tab\">Alben</gui> als Favorit markieren werden."
+"gui> und <gui style=\"tab\">Alben</gui> als Favorit markiert werden."
 
 #. (itstool) path: steps/title
 #: C/favorites-set.page:31
@@ -140,7 +141,7 @@ msgid ""
 "with <app>Photos</app>. You can also set photos you like as your desktop "
 "wallpaper, or easily bookmark them as favorites."
 msgstr ""
-"Verwenden Sie <app>Fotos</app> zum angenehmen und auf Sie zugrschnittenen "
+"Verwenden Sie <app>Fotos</app> zum angenehmen und auf Sie zugeschnittenen "
 "Organisieren und Verwalten Ihrer Bilder. Neben dem Erstellen von Alben Ihrer "
 "Fotos können Sie Ihre Fotoalben aus Facebook und Flickr in <app>Fotos</app> "
 "einbinden. Legen Sie Ihre Lieblingsbilder als Hintergrundbild fest, und "
@@ -212,7 +213,7 @@ msgstr ""
 #. (itstool) path: steps/title
 #: C/view-favorites.page:30
 msgid "To open a photo tagged as a favorite:"
-msgstr "So öffnen Sie ein Foto, dass als Favorit markiert ist:"
+msgstr "So öffnen Sie ein Foto, das als Favorit markiert ist:"
 
 #. (itstool) path: item/p
 #: C/view-favorites.page:32
@@ -254,7 +255,7 @@ msgid ""
 "Online Accounts</app>."
 msgstr ""
 "Der Reiter <gui style=\"tab\">Zuletzt verwendet</gui> zeigt Fotos auf Orten "
-"in lokalen Dateisystemen wir z.B. <file>~/Downloads</file>, <file>~/Bilder</"
+"in lokalen Dateisystemen wie z.B. <file>~/Downloads</file>, <file>~/Bilder</"
 "file> und Online-Sammlungen. Sie können zusätzlich andere Orte hinzufügen, "
 "und sogar Sammlungen aus der Cloud wie beispielsweise Flickr oder Facebook-"
 "Fotos mittels <app>GNOME Online-Konten</app>."
@@ -292,8 +293,8 @@ msgstr "Wählen Sie den Reiter <gui style=\"tab\">Zuletzt verwendet</gui>."
 #: C/view-photos.page:46
 msgid "You will see a grid of photos. Select a photo from the grid to open it."
 msgstr ""
-"Es erscheint ein Raster aus Fotos. Wählen Sie ein Fotos aus dem Raster, um "
-"es zu öffnen."
+"Es erscheint ein Raster aus Fotos. Wählen Sie ein Foto aus dem Raster, um es "
+"zu öffnen."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
@@ -316,5 +317,5 @@ msgstr ""
 "Wenn <app>Fotos</app> sich öffnet, sehen Sie den Reiter <gui>Zuletzt "
 "verwendet</gui>. Der Reiter <gui>Zuletzt verwendet</gui> enthält Bilder "
 "Ihres Rechners, der Reiter <gui>Alben</gui> enthält Ihre Fotoalben. Jedes "
-"Bild, dass Sie als Favorit markiert haben, befindet sich im Reiter "
+"Bild, das Sie als Favorit markiert haben, befindet sich im Reiter "
 "<gui>Favoriten</gui>."

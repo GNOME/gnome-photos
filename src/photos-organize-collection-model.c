@@ -210,7 +210,7 @@ photos_organize_collection_model_init (PhotosOrganizeCollectionModel *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  gtk_list_store_set_column_types (GTK_LIST_STORE (self), sizeof (columns) / sizeof (columns[0]), columns);
+  gtk_list_store_set_column_types (GTK_LIST_STORE (self), G_N_ELEMENTS (columns), columns);
 
   priv->manager = g_object_ref (state->item_mngr);
 
