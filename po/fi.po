@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-01-06 09:49+0000\n"
-"PO-Revision-Date: 2016-01-06 15:08+0200\n"
+"POT-Creation-Date: 2016-01-10 09:54+0000\n"
+"PO-Revision-Date: 2016-01-10 17:52+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -104,11 +104,11 @@ msgstr "Suurennettu ikkuna"
 msgid "Window maximized state"
 msgstr "Suurennetun ikkunan tila"
 
-#: ../src/photos-base-item.c:465
+#: ../src/photos-base-item.c:472
 msgid "Album"
 msgstr "Albumi"
 
-#: ../src/photos-base-item.c:1270
+#: ../src/photos-base-item.c:1288
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
@@ -178,7 +178,6 @@ msgid "No Photos Found"
 msgstr "Kuvia ei löytynyt"
 
 #: ../src/photos-export-dialog.ui.h:1
-#| msgid "Exposure"
 msgid "Export"
 msgstr "Vie"
 
@@ -192,19 +191,17 @@ msgstr "Koko"
 
 #: ../src/photos-export-dialog.ui.h:4
 msgid "F_ull"
-msgstr ""
+msgstr "T_äysin"
 
 #: ../src/photos-export-dialog.ui.h:5
 msgid "_Reduced"
-msgstr ""
+msgstr "_Vähennetty"
 
 #: ../src/photos-export-dialog.ui.h:6
-#| msgid "Cancel"
 msgid "_Cancel"
 msgstr "_Peru"
 
 #: ../src/photos-export-dialog.ui.h:7
-#| msgid "Exposure"
 msgid "_Export"
 msgstr "_Vie"
 
@@ -267,10 +264,9 @@ msgid "Go back"
 msgstr "Takaisin"
 
 #: ../src/photos-help-overlay.ui.h:10
-#, fuzzy
 #| msgid "Preview"
 msgid "Overview"
-msgstr "Esikatsele"
+msgstr "Näkymä"
 
 #: ../src/photos-help-overlay.ui.h:12
 msgid "Select all"
@@ -278,7 +274,7 @@ msgstr "Valitse kaikki"
 
 #: ../src/photos-help-overlay.ui.h:13 ../src/photos-print-setup.c:980
 msgid "Preview"
-msgstr "Esikatsele"
+msgstr "Katselu"
 
 #: ../src/photos-help-overlay.ui.h:14
 msgid "Action menu"
@@ -624,15 +620,20 @@ msgstr "Lisää albumiin"
 msgid "Sources"
 msgstr "Lähteet"
 
-#: ../src/photos-tool-colors.c:193
+#: ../src/photos-tool-colors.c:240
 msgid "Brightness"
 msgstr "Valoisuus"
 
-#: ../src/photos-tool-colors.c:214
+#: ../src/photos-tool-colors.c:261
 msgid "Contrast"
 msgstr "Kontrasti"
 
-#: ../src/photos-tool-colors.c:241
+#: ../src/photos-tool-colors.c:281
+#| msgid "Navigation"
+msgid "Saturation"
+msgstr "Kylläisyys"
+
+#: ../src/photos-tool-colors.c:308
 msgid "Colors"
 msgstr "Värit"
 
@@ -645,18 +646,17 @@ msgid "Original Size"
 msgstr "Alkuperäinen koko"
 
 #: ../src/photos-tool-crop.c:134
-#, fuzzy
 #| msgid "Screenshots"
 msgid "Screen"
-msgstr "Kuvakaappaukset"
+msgstr "Näyttö"
 
 #: ../src/photos-tool-crop.c:135
 msgid "Golden Cut"
-msgstr ""
+msgstr "Kultainen leikkaus"
 
 #: ../src/photos-tool-crop.c:136
 msgid "Square"
-msgstr ""
+msgstr "Neliö"
 
 #: ../src/photos-tool-crop.c:137
 msgid "A3 (297 × 420 mm)"
@@ -696,11 +696,11 @@ msgstr "1977"
 
 #: ../src/photos-tool-filters.c:180
 msgid "Brannan"
-msgstr ""
+msgstr "Brannan"
 
 #: ../src/photos-tool-filters.c:186
 msgid "Gotham"
-msgstr ""
+msgstr "Gotham"
 
 #: ../src/photos-tool-filters.c:193
 msgid "Gray"
@@ -708,7 +708,7 @@ msgstr "Harmaa"
 
 #: ../src/photos-tool-filters.c:199
 msgid "Nashville"
-msgstr ""
+msgstr "Nashville"
 
 #: ../src/photos-tool-filters.c:217
 msgid "Filters"
