@@ -28,9 +28,12 @@
 #include "photos-operation-saturation.h"
 
 
+typedef void (*PhotosOperationProcessFunc) (GeglOperation *, void *, void *, glong, const GeglRectangle *, gint);
+
 struct _PhotosOperationSaturation
 {
   GeglOperationPointFilter parent_instance;
+  PhotosOperationProcessFunc process;
   gfloat scale;
 };
 
@@ -49,13 +52,13 @@ enum
 G_DEFINE_TYPE (PhotosOperationSaturation, photos_operation_saturation, GEGL_TYPE_OPERATION_POINT_FILTER);
 
 
-static gboolean
-photos_operation_saturation_process (GeglOperation *operation,
-                                     void *in_buf,
-                                     void *out_buf,
-                                     glong n_pixels,
-                                     const GeglRectangle *roi,
-                                     gint level)
+static void
+photos_operation_saturation_process_lch (GeglOperation *operation,
+                                         void *in_buf,
+                                         void *out_buf,
+                                         glong n_pixels,
+                                         const GeglRectangle *roi,
+                                         gint level)
 {
   PhotosOperationSaturation *self = PHOTOS_OPERATION_SATURATION (operation);
   gfloat *in = in_buf;
@@ -71,18 +74,16 @@ photos_operation_saturation_process (GeglOperation *operation,
       in += 3;
       out += 3;
     }
-
-  return TRUE;
 }
 
 
-static gboolean
-photos_operation_saturation_process_alpha (GeglOperation *operation,
-                                           void *in_buf,
-                                           void *out_buf,
-                                           glong n_pixels,
-                                           const GeglRectangle *roi,
-                                           gint level)
+static void
+photos_operation_saturation_process_lch_alpha (GeglOperation *operation,
+                                               void *in_buf,
+                                               void *out_buf,
+                                               glong n_pixels,
+                                               const GeglRectangle *roi,
+                                               gint level)
 {
   PhotosOperationSaturation *self = PHOTOS_OPERATION_SATURATION (operation);
   gfloat *in = in_buf;
@@ -99,15 +100,13 @@ photos_operation_saturation_process_alpha (GeglOperation *operation,
       in += 4;
       out += 4;
     }
-
-  return TRUE;
 }
 
 
 static void
 photos_operation_saturation_prepare (GeglOperation *operation)
 {
-  GeglOperationPointFilterClass *point_filter_class = GEGL_OPERATION_POINT_FILTER_GET_CLASS (operation);
+  PhotosOperationSaturation *self = PHOTOS_OPERATION_SATURATION (operation);
   const Babl *format;
   const Babl *input_format;
 
@@ -118,16 +117,31 @@ photos_operation_saturation_prepare (GeglOperation *operation)
   if (babl_format_has_alpha (input_format))
     {
       format = babl_format ("CIE LCH(ab) alpha float");
-      point_filter_class->process = photos_operation_saturation_process_alpha;
+      self->process = photos_operation_saturation_process_lch_alpha;
     }
   else
     {
       format = babl_format ("CIE LCH(ab) float");
-      point_filter_class->process = photos_operation_saturation_process;
+      self->process = photos_operation_saturation_process_lch;
     }
 
   gegl_operation_set_format (operation, "input", format);
   gegl_operation_set_format (operation, "output", format);
+}
+
+
+static gboolean
+photos_operation_saturation_process (GeglOperation *operation,
+                                     void *in_buf,
+                                     void *out_buf,
+                                     glong n_pixels,
+                                     const GeglRectangle *roi,
+                                     gint level)
+{
+  PhotosOperationSaturation *self = PHOTOS_OPERATION_SATURATION (operation);
+
+  self->process (operation, in_buf, out_buf, n_pixels, roi, level);
+  return TRUE;
 }
 
 
@@ -185,7 +199,7 @@ photos_operation_saturation_class_init (PhotosOperationSaturationClass *class)
   object_class->get_property = photos_operation_saturation_get_property;
   object_class->set_property = photos_operation_saturation_set_property;
   operation_class->prepare = photos_operation_saturation_prepare;
-  point_filter_class->process = NULL; /* will be assigned in prepare */
+  point_filter_class->process = photos_operation_saturation_process;
 
   g_object_class_install_property (object_class,
                                    PROP_SCALE,
