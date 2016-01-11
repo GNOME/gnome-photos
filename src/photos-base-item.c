@@ -2,6 +2,7 @@
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014, 2015 Pranav Kant
  * Copyright © 2012, 2013, 2014, 2015, 2016 Red Hat, Inc.
+ * Copyright © 2016 Umang Jain
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,6 +32,7 @@
 
 #include <gdk/gdk.h>
 #include <gegl-plugin.h>
+#include <gexiv2/gexiv2.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
@@ -1059,12 +1061,42 @@ photos_base_item_save_guess_sizes_in_thread_func (GTask *task,
 
 
 static void
-photos_base_item_save_save_to_stream (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_save_metadata_in_thread_func (GTask *task,
+                                               gpointer source_object,
+                                               gpointer task_data,
+                                               GCancellable *cancellable)
 {
-  GTask *task = G_TASK (user_data);
-  GError *error = NULL;
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  PhotosBaseItemPrivate *priv = self->priv;
+  GError *error;
+  GFile *file = G_FILE (task_data);
+  GExiv2Metadata *metadata = NULL;
+  gchar *export_path = NULL;
+  gchar *source_path = NULL;
 
-  if (!gdk_pixbuf_save_to_stream_finish (res, &error))
+  g_mutex_lock (&priv->mutex_download);
+
+  error = NULL;
+  source_path = photos_base_item_download (self, cancellable, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  metadata = gexiv2_metadata_new ();
+
+  error = NULL;
+  if (!gexiv2_metadata_open_path (metadata, source_path, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  export_path = g_file_get_path (file);
+
+  error = NULL;
+  if (!gexiv2_metadata_save_file (metadata, export_path, &error))
     {
       g_task_return_error (task, error);
       goto out;
@@ -1073,6 +1105,94 @@ photos_base_item_save_save_to_stream (GObject *source_object, GAsyncResult *res,
   g_task_return_boolean (task, TRUE);
 
  out:
+  g_mutex_unlock (&priv->mutex_download);
+  g_clear_object (&metadata);
+  g_free (export_path);
+  g_free (source_path);
+}
+
+
+static void
+photos_base_item_save_metadata_async (PhotosBaseItem *self,
+                                      GFile *file,
+                                      GCancellable *cancellable,
+                                      GAsyncReadyCallback callback,
+                                      gpointer user_data)
+{
+  GTask *task;
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_save_metadata_async);
+  g_task_set_task_data (task, g_object_ref (file), g_object_unref);
+
+  g_task_run_in_thread (task, photos_base_item_save_metadata_in_thread_func);
+  g_object_unref (task);
+}
+
+
+static gboolean
+photos_base_item_save_metadata_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_metadata_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
+}
+
+
+static void
+photos_base_item_save_save_metadata (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GError *error;
+  GTask *task = G_TASK (user_data);
+
+  error = NULL;
+  if (!photos_base_item_save_metadata_finish (self, res, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_boolean (task, TRUE);
+
+ out:
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_save_to_stream (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItem *self;
+  PhotosBaseItemSaveData *data;
+  GCancellable *cancellable;
+  GError *error = NULL;
+  GFile *file = NULL;
+
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
+
+  if (!gdk_pixbuf_save_to_stream_finish (res, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  file = g_file_get_child (data->dir, self->priv->filename);
+  photos_base_item_save_metadata_async (self,
+                                        file,
+                                        cancellable,
+                                        photos_base_item_save_save_metadata,
+                                        g_object_ref (task));
+
+ out:
+  g_clear_object (&file);
   g_object_unref (task);
 }
 

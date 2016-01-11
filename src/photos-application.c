@@ -28,6 +28,7 @@
 #include "config.h"
 
 #include <gegl.h>
+#include <gexiv2/gexiv2.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
@@ -525,9 +526,13 @@ static gboolean
 photos_application_create_window (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
+  gboolean gexiv2_initialized;
 
   if (priv->main_window != NULL)
     return TRUE;
+
+  gexiv2_initialized = gexiv2_initialize ();
+  g_return_val_if_fail (gexiv2_initialized, FALSE);
 
   g_return_val_if_fail (photos_application_sanity_check_gegl (self), FALSE);
 
