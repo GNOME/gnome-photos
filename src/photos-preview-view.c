@@ -404,13 +404,13 @@ static void
 photos_preview_view_saturation (PhotosPreviewView *self, GVariant *parameter)
 {
   PhotosBaseItem *item;
-  gfloat scale;
+  gdouble scale;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
   if (item == NULL)
     return;
 
-  scale = (gfloat) g_variant_get_double (parameter);
+  scale = g_variant_get_double (parameter);
   photos_base_item_operation_add (item, "photos:saturation", "scale", scale, NULL);
   photos_base_item_process_async (item, NULL, photos_preview_view_process, self);
 }

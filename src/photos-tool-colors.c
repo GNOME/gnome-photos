@@ -143,7 +143,7 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView
   PhotosToolColors *self = PHOTOS_TOOL_COLORS (tool);
   gdouble brightness;
   gdouble contrast;
-  gfloat saturation;
+  gdouble saturation;
 
   if (!photos_base_item_operation_get (item,
                                        "gegl:brightness-contrast",

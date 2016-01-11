@@ -139,7 +139,7 @@ photos_operation_saturation_get_property (GObject *object, guint prop_id, GValue
   switch (prop_id)
     {
     case PROP_SCALE:
-      g_value_set_float (value, self->scale);
+      g_value_set_double (value, (gdouble) self->scale);
       break;
 
     default:
@@ -157,7 +157,7 @@ photos_operation_saturation_set_property (GObject *object, guint prop_id, const 
   switch (prop_id)
     {
     case PROP_SCALE:
-      self->scale = g_value_get_float (value);
+      self->scale = (gfloat) g_value_get_double (value);
       break;
 
     default:
@@ -189,13 +189,13 @@ photos_operation_saturation_class_init (PhotosOperationSaturationClass *class)
 
   g_object_class_install_property (object_class,
                                    PROP_SCALE,
-                                   g_param_spec_float ("scale",
-                                                       "Scale",
-                                                       "Strength of effect",
-                                                       0.0,
-                                                       2.0,
-                                                       1.0,
-                                                       G_PARAM_CONSTRUCT | G_PARAM_READWRITE));
+                                   g_param_spec_double ("scale",
+                                                        "Scale",
+                                                        "Strength of effect",
+                                                        0.0,
+                                                        2.0,
+                                                        1.0,
+                                                        G_PARAM_CONSTRUCT | G_PARAM_READWRITE));
 
   gegl_operation_class_set_keys (operation_class,
                                  "name", "photos:saturation",
