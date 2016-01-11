@@ -53,6 +53,57 @@ G_DEFINE_TYPE (PhotosOperationSaturation, photos_operation_saturation, GEGL_TYPE
 
 
 static void
+photos_operation_saturation_process_lab (GeglOperation *operation,
+                                         void *in_buf,
+                                         void *out_buf,
+                                         glong n_pixels,
+                                         const GeglRectangle *roi,
+                                         gint level)
+{
+  PhotosOperationSaturation *self = PHOTOS_OPERATION_SATURATION (operation);
+  gfloat *in = in_buf;
+  gfloat *out = out_buf;
+  glong i;
+
+  for (i = 0; i < n_pixels; i++)
+    {
+      out[0] = in[0];
+      out[1] = in[1] * self->scale;
+      out[2] = in[2] * self->scale;
+
+      in += 3;
+      out += 3;
+    }
+}
+
+
+static void
+photos_operation_saturation_process_lab_alpha (GeglOperation *operation,
+                                               void *in_buf,
+                                               void *out_buf,
+                                               glong n_pixels,
+                                               const GeglRectangle *roi,
+                                               gint level)
+{
+  PhotosOperationSaturation *self = PHOTOS_OPERATION_SATURATION (operation);
+  gfloat *in = in_buf;
+  gfloat *out = out_buf;
+  glong i;
+
+  for (i = 0; i < n_pixels; i++)
+    {
+      out[0] = in[0];
+      out[1] = in[1] * self->scale;
+      out[2] = in[2] * self->scale;
+      out[3] = in[3];
+
+      in += 4;
+      out += 4;
+    }
+}
+
+
+static void
 photos_operation_saturation_process_lch (GeglOperation *operation,
                                          void *in_buf,
                                          void *out_buf,
@@ -109,20 +160,42 @@ photos_operation_saturation_prepare (GeglOperation *operation)
   PhotosOperationSaturation *self = PHOTOS_OPERATION_SATURATION (operation);
   const Babl *format;
   const Babl *input_format;
+  const Babl *model_input;
+  const Babl *model_lch;
 
   input_format = gegl_operation_get_source_format (operation, "input");
   if (input_format == NULL)
     return;
 
+  model_input = babl_format_get_model (input_format);
+
   if (babl_format_has_alpha (input_format))
     {
-      format = babl_format ("CIE LCH(ab) alpha float");
-      self->process = photos_operation_saturation_process_lch_alpha;
+      model_lch = babl_model ("CIE LCH(ab) alpha");
+      if (model_input == model_lch)
+        {
+          format = babl_format ("CIE LCH(ab) alpha float");
+          self->process = photos_operation_saturation_process_lch_alpha;
+        }
+      else
+        {
+          format = babl_format ("CIE Lab alpha float");
+          self->process = photos_operation_saturation_process_lab_alpha;
+        }
     }
   else
     {
-      format = babl_format ("CIE LCH(ab) float");
-      self->process = photos_operation_saturation_process_lch;
+      model_lch = babl_model ("CIE LCH(ab)");
+      if (model_input == model_lch)
+        {
+          format = babl_format ("CIE LCH(ab) float");
+          self->process = photos_operation_saturation_process_lch;
+        }
+      else
+        {
+          format = babl_format ("CIE Lab float");
+          self->process = photos_operation_saturation_process_lab;
+        }
     }
 
   gegl_operation_set_format (operation, "input", format);
