@@ -2,26 +2,29 @@
 # Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Gabriel Speckhahn <gabspeck@gmail.com>, 2014.
+# Felipe Braga <fbobraga@gmail.com>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2014-04-22 07:09+0000\n"
-"PO-Revision-Date: 2014-04-22 14:37-0200\n"
-"Last-Translator: Gabriel Speckhahn <gabspeck@gmail.com>\n"
+"POT-Creation-Date: 2016-01-01 19:43+0000\n"
+"PO-Revision-Date: 2016-01-01 19:54-0200\n"
+"Last-Translator: Felipe Braga <fbobraga@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 1.8.4\n"
 "X-Project-Style: gnome\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Gabriel Speckhahn <gabspeck@gmail.com>, 2014"
+msgstr ""
+"Gabriel Speckhahn <gabspeck@gmail.com>, 2014\n"
+"Felipe Braga <fbobraga@gmail.com>, 2016"
 
 #. (itstool) path: credit/name
 #: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
@@ -98,11 +101,11 @@ msgstr "Selecione todos os itens que você deseja marcar como favoritos."
 #. (itstool) path: item/p
 #: C/favorites-set.page:43
 msgid ""
-"To finish, select the button with the picture of a heart from the toolbar at "
+"To finish, select the button with the picture of a star from the toolbar at "
 "the bottom."
 msgstr ""
-"Para terminar, selecione o botão com a imagem de um coração na barra de "
-"ferramentas na parte inferior."
+"Para terminar, selecione o botão com a imagem de uma estrela na barra de "
+"ferramentas da parte inferior."
 
 #. (itstool) path: page/p
 #: C/favorites-set.page:48
@@ -226,6 +229,69 @@ msgid ""
 msgstr ""
 "Selecione a foto que deseja abrir, ou use as teclas de seta para navegar até "
 "a foto e pressione <key>Enter</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "Abra suas fotos recentes."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Vendo fotos recentes"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"A aba <gui style=\"tab\">Recentes</gui> mostra fotos de pastas locais como "
+"<file>~/Downloads</file>, <file>~/Imagens</file> e de coleções online. Você "
+"pode adicionar outras fontes, até de coleções em nuvem como fotos do Flickr "
+"ou do Facebook, através das <app>Contas on-line do GNOME</app>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "Para adicionar outras fontes locais:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr "Vá até <guiseq><gui>Preferências</gui><gui>Pesquisar</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Clique no botão de engrenagem na parte inferior direita. Lá, você poderá "
+"pode escolher os locais mostrados na aba <gui style=\"tab\">Recentes</gui>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Para visualizar fotos recentes:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Selecione a aba <gui style=\"tab\">Recentes</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr "Você verá uma grade de fotos. Selecione uma foto para abri-la."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
