@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,10 +32,13 @@
 #include "photos-operation-insta-curve.h"
 
 
+typedef void (*PhotosOperationProcessFunc) (GeglOperation *, void *, void *, glong, const GeglRectangle *, gint);
+
 struct _PhotosOperationInstaCurve
 {
   GeglOperationPointFilter parent_instance;
   PhotosOperationInstaPreset preset;
+  PhotosOperationProcessFunc process;
 };
 
 struct _PhotosOperationInstaCurveClass
@@ -324,7 +327,7 @@ photos_operation_insta_curve_interpolate (gfloat input, const guint8 *curve1, co
 }
 
 
-static gboolean
+static void
 photos_operation_insta_curve_1977_process_float (GeglOperation *operation,
                                                  void *in_buf,
                                                  void *out_buf,
@@ -345,12 +348,10 @@ photos_operation_insta_curve_1977_process_float (GeglOperation *operation,
       in += 3;
       out += 3;
     }
-
-  return TRUE;
 }
 
 
-static gboolean
+static void
 photos_operation_insta_curve_1977_process_u8 (GeglOperation *operation,
                                               void *in_buf,
                                               void *out_buf,
@@ -375,12 +376,10 @@ photos_operation_insta_curve_1977_process_u8 (GeglOperation *operation,
       in += 3;
       out += 3;
     }
-
-  return TRUE;
 }
 
 
-static gboolean
+static void
 photos_operation_insta_curve_brannan_process_float (GeglOperation *operation,
                                                     void *in_buf,
                                                     void *out_buf,
@@ -416,12 +415,10 @@ photos_operation_insta_curve_brannan_process_float (GeglOperation *operation,
       in += 3;
       out += 3;
     }
-
-  return TRUE;
 }
 
 
-static gboolean
+static void
 photos_operation_insta_curve_brannan_process_u8 (GeglOperation *operation,
                                                  void *in_buf,
                                                  void *out_buf,
@@ -461,12 +458,10 @@ photos_operation_insta_curve_brannan_process_u8 (GeglOperation *operation,
       in += 3;
       out += 3;
     }
-
-  return TRUE;
 }
 
 
-static gboolean
+static void
 photos_operation_insta_curve_gotham_process_float (GeglOperation *operation,
                                                    void *in_buf,
                                                    void *out_buf,
@@ -487,12 +482,10 @@ photos_operation_insta_curve_gotham_process_float (GeglOperation *operation,
       in += 3;
       out += 3;
     }
-
-  return TRUE;
 }
 
 
-static gboolean
+static void
 photos_operation_insta_curve_gotham_process_u8 (GeglOperation *operation,
                                                 void *in_buf,
                                                 void *out_buf,
@@ -517,12 +510,10 @@ photos_operation_insta_curve_gotham_process_u8 (GeglOperation *operation,
       in += 3;
       out += 3;
     }
-
-  return TRUE;
 }
 
 
-static gboolean
+static void
 photos_operation_insta_curve_nashville_process_float (GeglOperation *operation,
                                                       void *in_buf,
                                                       void *out_buf,
@@ -550,12 +541,10 @@ photos_operation_insta_curve_nashville_process_float (GeglOperation *operation,
       in += 3;
       out += 3;
     }
-
-  return TRUE;
 }
 
 
-static gboolean
+static void
 photos_operation_insta_curve_nashville_process_u8 (GeglOperation *operation,
                                                    void *in_buf,
                                                    void *out_buf,
@@ -599,8 +588,6 @@ photos_operation_insta_curve_nashville_process_u8 (GeglOperation *operation,
       in += 3;
       out += 3;
     }
-
-  return TRUE;
 }
 
 
@@ -608,7 +595,6 @@ static void
 photos_operation_insta_curve_prepare (GeglOperation *operation)
 {
   PhotosOperationInstaCurve *self = PHOTOS_OPERATION_INSTA_CURVE (operation);
-  GeglOperationPointFilterClass *point_filter_class = GEGL_OPERATION_POINT_FILTER_GET_CLASS (operation);
   const Babl *format;
   const Babl *format_float;
   const Babl *format_u8;
@@ -632,12 +618,12 @@ photos_operation_insta_curve_prepare (GeglOperation *operation)
       if (type == type_u8)
         {
           format = format_u8;
-          point_filter_class->process = photos_operation_insta_curve_1977_process_u8;
+          self->process = photos_operation_insta_curve_1977_process_u8;
         }
       else
         {
           format = format_float;
-          point_filter_class->process = photos_operation_insta_curve_1977_process_float;
+          self->process = photos_operation_insta_curve_1977_process_float;
         }
       break;
 
@@ -645,12 +631,12 @@ photos_operation_insta_curve_prepare (GeglOperation *operation)
       if (type == type_u8)
         {
           format = format_u8;
-          point_filter_class->process = photos_operation_insta_curve_brannan_process_u8;
+          self->process = photos_operation_insta_curve_brannan_process_u8;
         }
       else
         {
           format = format_float;
-          point_filter_class->process = photos_operation_insta_curve_brannan_process_float;
+          self->process = photos_operation_insta_curve_brannan_process_float;
         }
       break;
 
@@ -658,12 +644,12 @@ photos_operation_insta_curve_prepare (GeglOperation *operation)
       if (type == type_u8)
         {
           format = format_u8;
-          point_filter_class->process = photos_operation_insta_curve_gotham_process_u8;
+          self->process = photos_operation_insta_curve_gotham_process_u8;
         }
       else
         {
           format = format_float;
-          point_filter_class->process = photos_operation_insta_curve_gotham_process_float;
+          self->process = photos_operation_insta_curve_gotham_process_float;
         }
       break;
 
@@ -671,12 +657,12 @@ photos_operation_insta_curve_prepare (GeglOperation *operation)
       if (type == type_u8)
         {
           format = format_u8;
-          point_filter_class->process = photos_operation_insta_curve_nashville_process_u8;
+          self->process = photos_operation_insta_curve_nashville_process_u8;
         }
       else
         {
           format = format_float;
-          point_filter_class->process = photos_operation_insta_curve_nashville_process_float;
+          self->process = photos_operation_insta_curve_nashville_process_float;
         }
       break;
 
@@ -688,6 +674,21 @@ photos_operation_insta_curve_prepare (GeglOperation *operation)
 
   gegl_operation_set_format (operation, "input", format);
   gegl_operation_set_format (operation, "output", format);
+}
+
+
+static gboolean
+photos_operation_insta_curve_process (GeglOperation *operation,
+                                      void *in_buf,
+                                      void *out_buf,
+                                      glong n_pixels,
+                                      const GeglRectangle *roi,
+                                      gint level)
+{
+  PhotosOperationInstaCurve *self = PHOTOS_OPERATION_INSTA_CURVE (operation);
+
+  self->process (operation, in_buf, out_buf, n_pixels, roi, level);
+  return TRUE;
 }
 
 
@@ -745,7 +746,7 @@ photos_operation_insta_curve_class_init (PhotosOperationInstaCurveClass *class)
   object_class->get_property = photos_operation_insta_curve_get_property;
   object_class->set_property = photos_operation_insta_curve_set_property;
   operation_class->prepare = photos_operation_insta_curve_prepare;
-  point_filter_class->process = NULL; /* will be assigned in prepare */
+  point_filter_class->process = photos_operation_insta_curve_process;
 
   g_object_class_install_property (object_class,
                                    PROP_PRESET,
