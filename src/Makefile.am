@@ -136,6 +136,8 @@ gnome_photos_SOURCES = \
 	photos-operation-jpg-guess-sizes.h \
 	photos-operation-png-guess-sizes.c \
 	photos-operation-png-guess-sizes.h \
+	photos-operation-radial-gradient.c \
+	photos-operation-radial-gradient.h \
 	photos-operation-saturation.c \
 	photos-operation-saturation.h \
 	photos-organize-collection-dialog.c \
