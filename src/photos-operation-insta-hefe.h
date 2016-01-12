@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015, 2016 Red Hat, Inc.
+ * Copyright © 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,22 +18,28 @@
  * 02110-1301, USA.
  */
 
-#ifndef PHOTOS_OPERATION_INSTA_COMMON_H
-#define PHOTOS_OPERATION_INSTA_COMMON_H
+#ifndef PHOTOS_OPERATION_INSTA_HEFE_H
+#define PHOTOS_OPERATION_INSTA_HEFE_H
+
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
-typedef enum
-{
-  PHOTOS_OPERATION_INSTA_PRESET_NONE,
-  PHOTOS_OPERATION_INSTA_PRESET_1977,
-  PHOTOS_OPERATION_INSTA_PRESET_BRANNAN,
-  PHOTOS_OPERATION_INSTA_PRESET_GOTHAM,
-  PHOTOS_OPERATION_INSTA_PRESET_GRAY,
-  PHOTOS_OPERATION_INSTA_PRESET_HEFE,
-  PHOTOS_OPERATION_INSTA_PRESET_NASHVILLE
-} PhotosOperationInstaPreset;
+#define PHOTOS_TYPE_OPERATION_INSTA_HEFE (photos_operation_insta_hefe_get_type ())
+
+#define PHOTOS_OPERATION_INSTA_HEFE(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
+   PHOTOS_TYPE_OPERATION_INSTA_HEFE, PhotosOperationInstaHefe))
+
+#define PHOTOS_IS_OPERATION_INSTA_HEFE(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
+   PHOTOS_TYPE_OPERATION_INSTA_HEFE))
+
+typedef struct _PhotosOperationInstaHefe      PhotosOperationInstaHefe;
+typedef struct _PhotosOperationInstaHefeClass PhotosOperationInstaHefeClass;
+
+GType            photos_operation_insta_hefe_get_type       (void) G_GNUC_CONST;
 
 G_END_DECLS
 
-#endif /* PHOTOS_OPERATION_INSTA_COMMON_H */
+#endif /* PHOTOS_OPERATION_INSTA_HEFE_H */

@@ -132,6 +132,12 @@ gnome_photos_SOURCES = \
 	photos-operation-insta-curve.h \
 	photos-operation-insta-filter.c \
 	photos-operation-insta-filter.h \
+	photos-operation-insta-hefe.c \
+	photos-operation-insta-hefe.h \
+	photos-operation-insta-hefe-curve.c \
+	photos-operation-insta-hefe-curve.h \
+	photos-operation-insta-hefe-vignette.c \
+	photos-operation-insta-hefe-vignette.h \
 	photos-operation-jpg-guess-sizes.c \
 	photos-operation-jpg-guess-sizes.h \
 	photos-operation-png-guess-sizes.c \

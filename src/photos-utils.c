@@ -44,6 +44,9 @@
 #include "photos-media-server-item.h"
 #include "photos-operation-insta-curve.h"
 #include "photos-operation-insta-filter.h"
+#include "photos-operation-insta-hefe.h"
+#include "photos-operation-insta-hefe-curve.h"
+#include "photos-operation-insta-hefe-vignette.h"
 #include "photos-operation-jpg-guess-sizes.h"
 #include "photos-operation-png-guess-sizes.h"
 #include "photos-operation-saturation.h"
@@ -813,6 +816,9 @@ photos_utils_ensure_builtins (void)
 
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE_CURVE);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE_VIGNETTE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_JPG_GUESS_SIZES);
       g_type_ensure (PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES);
       g_type_ensure (PHOTOS_TYPE_OPERATION_SATURATION);
