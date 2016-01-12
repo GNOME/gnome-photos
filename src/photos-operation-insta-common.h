@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,6 +30,7 @@ typedef enum
   PHOTOS_OPERATION_INSTA_PRESET_BRANNAN,
   PHOTOS_OPERATION_INSTA_PRESET_GOTHAM,
   PHOTOS_OPERATION_INSTA_PRESET_GRAY,
+  PHOTOS_OPERATION_INSTA_PRESET_HEFE,
   PHOTOS_OPERATION_INSTA_PRESET_NASHVILLE
 } PhotosOperationInstaPreset;
 
