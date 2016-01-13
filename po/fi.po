@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-01-10 09:54+0000\n"
-"PO-Revision-Date: 2016-01-10 17:52+0200\n"
+"POT-Creation-Date: 2016-01-13 09:52+0000\n"
+"PO-Revision-Date: 2016-01-13 12:25+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -209,10 +209,9 @@ msgstr "_Vie"
 #. *  will be exported.
 #.
 #: ../src/photos-export-dialog.c:159
-#, fuzzy
 #| msgid "%a, %d %B %Y"
 msgid "%e %B %Y"
-msgstr "%A, %e %Bta %Y"
+msgstr "%e. %Bta %Y"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -264,7 +263,6 @@ msgid "Go back"
 msgstr "Takaisin"
 
 #: ../src/photos-help-overlay.ui.h:10
-#| msgid "Preview"
 msgid "Overview"
 msgstr "Näkymä"
 
@@ -629,7 +627,6 @@ msgid "Contrast"
 msgstr "Kontrasti"
 
 #: ../src/photos-tool-colors.c:281
-#| msgid "Navigation"
 msgid "Saturation"
 msgstr "Kylläisyys"
 
@@ -639,14 +636,13 @@ msgstr "Värit"
 
 #: ../src/photos-tool-crop.c:132
 msgid "Free"
-msgstr ""
+msgstr "Vapaa"
 
 #: ../src/photos-tool-crop.c:133
 msgid "Original Size"
 msgstr "Alkuperäinen koko"
 
 #: ../src/photos-tool-crop.c:134
-#| msgid "Screenshots"
 msgid "Screen"
 msgstr "Näyttö"
 
