@@ -176,7 +176,7 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self, Phot
   gtk_grid_set_column_spacing (GTK_GRID (row_grid), 12);
   gtk_container_add (GTK_CONTAINER (row), row_grid);
 
-  g_object_set_data_full (G_OBJECT (row), "renderer", renderer, g_object_unref);
+  g_object_set_data_full (G_OBJECT (row), "renderer", g_object_ref (renderer), g_object_unref);
 
   name = photos_dlna_renderer_get_friendly_name (renderer);
 
@@ -231,6 +231,7 @@ photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
 
       photos_dlna_renderers_dialog_add_renderer (self, renderer);
       renderers = g_list_delete_link (renderers, renderers);
+      g_object_unref (renderer);
     }
 
   g_signal_connect (self, "response", G_CALLBACK (gtk_widget_destroy), NULL);
