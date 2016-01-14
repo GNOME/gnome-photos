@@ -179,33 +179,6 @@ photos_operation_insta_filter_detect (GeglOperation *operation, gint x, gint y)
 
 
 static void
-photos_operation_insta_filter_prepare (GeglOperation *operation)
-{
-  const Babl *format;
-  const Babl *format_float;
-  const Babl *format_u8;
-  const Babl *input_format;
-  const Babl *type;
-  const Babl *type_u8;
-
-  input_format = gegl_operation_get_source_format (operation, "input");
-  type = babl_format_get_type (input_format, 0);
-
-  format_float = babl_format ("R'G'B' float");
-  format_u8 = babl_format ("R'G'B' u8");
-  type_u8 = babl_type ("u8");
-
-  if (type == type_u8)
-    format = format_u8;
-  else
-    format = format_float;
-
-  gegl_operation_set_format (operation, "input", format);
-  gegl_operation_set_format (operation, "output", format);
-}
-
-
-static void
 photos_operation_insta_filter_finalize (GObject *object)
 {
   PhotosOperationInstaFilter *self = PHOTOS_OPERATION_INSTA_FILTER (object);
@@ -273,7 +246,6 @@ photos_operation_insta_filter_class_init (PhotosOperationInstaFilterClass *class
   object_class->set_property = photos_operation_insta_filter_set_property;
   operation_class->attach = photos_operation_insta_filter_attach;
   operation_class->detect = photos_operation_insta_filter_detect;
-  operation_class->prepare = photos_operation_insta_filter_prepare;
 
   g_object_class_install_property (object_class,
                                    PROP_PRESET,
