@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -171,7 +171,7 @@ photos_operation_insta_filter_detect (GeglOperation *operation, gint x, gint y)
   GeglRectangle bounds;
 
   bounds = gegl_node_get_bounding_box (self->output);
-  if (x >= bounds.x && y >= bounds.y && x  < bounds.x + bounds.width && y  < bounds.y + bounds.height)
+  if (x >= bounds.x && y >= bounds.y && x < bounds.x + bounds.width && y < bounds.y + bounds.height)
     return operation->node;
 
   return NULL;
