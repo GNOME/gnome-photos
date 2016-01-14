@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -190,9 +190,9 @@ photos_tool_filters_init (PhotosToolFilters *self)
   self->buttons = g_list_prepend (self->buttons, button);
   row++;
 
-  button = photos_tool_filter_button_new (group, _("Gray"));
+  button = photos_tool_filter_button_new (group, _("Hefe"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
-  gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_GRAY);
+  gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_HEFE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
 
