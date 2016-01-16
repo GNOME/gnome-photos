@@ -60,9 +60,9 @@ G_DEFINE_TYPE_WITH_CODE (PhotosToolColors, photos_tool_colors, PHOTOS_TYPE_TOOL,
 
 
 static const gdouble BRIGHTNESS_DEFAULT = 0.0;
-static const gdouble BRIGHTNESS_MAXIMUM = 1.0;
-static const gdouble BRIGHTNESS_MINIMUM = -1.0;
-static const gdouble BRIGHTNESS_STEP = 0.1;
+static const gdouble BRIGHTNESS_MAXIMUM = 0.5;
+static const gdouble BRIGHTNESS_MINIMUM = -0.5;
+static const gdouble BRIGHTNESS_STEP = 0.05;
 static const gdouble CONTRAST_DEFAULT = 1.0;
 static const gdouble CONTRAST_MAXIMUM = 2.0;
 static const gdouble CONTRAST_MINIMUM = 0.0;
