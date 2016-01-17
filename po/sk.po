@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-12-06 09:49+0000\n"
-"PO-Revision-Date: 2015-12-06 14:27+0100\n"
+"POT-Creation-Date: 2016-01-16 21:51+0000\n"
+"PO-Revision-Date: 2016-01-17 09:29+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -19,12 +19,12 @@ msgstr ""
 "X-Generator: Poedit 1.8.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:713
-#: ../src/photos-search-type-manager.c:124
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:715
+#: ../src/photos-search-type-manager.c:125
 msgid "Photos"
 msgstr "Fotografie"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
 msgid "Access, organize and share your photos on GNOME"
 msgstr ""
 "Pristupujte k vašim fotografiám, organizujte a sprístupňujte ich v prostredí "
@@ -106,11 +106,11 @@ msgstr "Maximalizované okno"
 msgid "Window maximized state"
 msgstr "Maximalizovaný stav okna"
 
-#: ../src/photos-base-item.c:407
+#: ../src/photos-base-item.c:472
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1081
+#: ../src/photos-base-item.c:1288
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -135,15 +135,15 @@ msgstr "Vrátiť späť"
 msgid "DLNA Renderer Devices"
 msgstr "Vykresľovacie zariadenia DLNA"
 
-#: ../src/photos-embed.c:720 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:722 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../src/photos-embed.c:727 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Obľúbené"
 
-#: ../src/photos-embed.c:734 ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-embed.c:736 ../src/photos-help-overlay.ui.h:11
 #: ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Hľadať"
@@ -180,11 +180,47 @@ msgstr "Tu budú zobrazené fotografie označené hviezdičkou"
 msgid "No Photos Found"
 msgstr "Nenašli sa žiadne fotografie"
 
+#: ../src/photos-export-dialog.ui.h:1
+msgid "Export"
+msgstr "Exportovanie"
+
+#: ../src/photos-export-dialog.ui.h:2
+msgid "_Folder Name"
+msgstr "Názov _priečinka"
+
+# frame
+#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
+msgid "Size"
+msgstr "Veľkosť"
+
+#: ../src/photos-export-dialog.ui.h:4
+msgid "F_ull"
+msgstr "Pl_ná"
+
+#: ../src/photos-export-dialog.ui.h:5
+msgid "_Reduced"
+msgstr "Z_redukovaná"
+
+#: ../src/photos-export-dialog.ui.h:6
+msgid "_Cancel"
+msgstr "_Zrušiť"
+
+#: ../src/photos-export-dialog.ui.h:7
+msgid "_Export"
+msgstr "_Exportovať"
+
+#. Translators: this is the default sub-directory where photos
+#. *  will be exported.
+#.
+#: ../src/photos-export-dialog.c:159
+msgid "%e %B %Y"
+msgstr "%e. %B %Y"
+
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
 #: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
-#: ../src/photos-google-item.c:77
+#: ../src/photos-google-item.c:82
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -209,7 +245,7 @@ msgstr "Ukončiť"
 msgid "Print the current photo"
 msgstr "Tlač aktuálnej fotografie"
 
-#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:4
 msgid "Delete"
 msgstr "Odstrániť"
 
@@ -271,7 +307,7 @@ msgstr "Prebieha indexovanie vašich fotografií"
 msgid "Some photos might not be available during this process"
 msgstr "Niektoré fotografie nemusia byť počas tohoto procesu dostupné"
 
-#: ../src/photos-local-item.c:103 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Miestne"
 
@@ -298,16 +334,16 @@ msgstr "Vyberie položky"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:330
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:331
 #, c-format
 msgid "Open with %s"
 msgstr "Otvoriť pomocou %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:341
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:342
 msgid "Remove from favorites"
 msgstr "Odstrániť z obľúbených"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:346
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:347
 msgid "Add to favorites"
 msgstr "Pridá medzi obľúbené"
 
@@ -319,7 +355,7 @@ msgstr "Zrušiť"
 msgid "Done"
 msgstr "Dokončiť"
 
-#: ../src/photos-main-window.c:480
+#: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -330,7 +366,7 @@ msgstr ""
 "Autorské práva © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:490
+#: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr "Dušan Kazik <prescott66@gmail.com>"
 
@@ -361,28 +397,32 @@ msgid "Organize"
 msgstr "Organizovanie"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:333
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
 #: ../src/photos-selection-toolbar.ui.h:1
 msgid "Open"
 msgstr "Otvoriť"
 
 #: ../src/photos-preview-menu.ui.h:2
+msgid "Export…"
+msgstr "Exportovať…"
+
+#: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
 msgstr "Tlačiť…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
 msgstr "Zobraziť na…"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Background"
 msgstr "Nastaviť ako pozadie plochy"
 
-#: ../src/photos-preview-menu.ui.h:6
+#: ../src/photos-preview-menu.ui.h:7
 msgid "Set as Lock Screen"
 msgstr "Nastaviť ako uzamknutú obrazovku"
 
-#: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -445,11 +485,6 @@ msgstr "Zvislo"
 #: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "Vodorovne aj zvislo"
-
-# frame
-#: ../src/photos-print-setup.c:932
-msgid "Size"
-msgstr "Veľkosť"
 
 # spin button label
 #: ../src/photos-print-setup.c:935
@@ -588,7 +623,7 @@ msgstr "Porovnávať"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:156
+#: ../src/photos-search-type-manager.c:157
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Typ"
@@ -609,15 +644,19 @@ msgstr "Pridať do albumu"
 msgid "Sources"
 msgstr "Zdroje"
 
-#: ../src/photos-tool-colors.c:193
+#: ../src/photos-tool-colors.c:240
 msgid "Brightness"
 msgstr "Jas"
 
-#: ../src/photos-tool-colors.c:214
+#: ../src/photos-tool-colors.c:261
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:241
+#: ../src/photos-tool-colors.c:281
+msgid "Saturation"
+msgstr "Sýtosť"
+
+#: ../src/photos-tool-colors.c:308
 msgid "Colors"
 msgstr "Farby"
 
@@ -704,9 +743,6 @@ msgstr "Nepodarilo sa získať zoznam fotografií"
 
 #~ msgid "%a, %d %B %Y  %X"
 #~ msgstr "%A, %e. %B %Y  %X"
-
-#~ msgid "%a, %d %B %Y"
-#~ msgstr "%A, %e. %B %Y"
 
 #~ msgid "%.1f (lens)"
 #~ msgstr "%.1f (šošovka)"
