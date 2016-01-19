@@ -62,6 +62,24 @@ G_DEFINE_TYPE (PhotosExportDialog, photos_export_dialog, GTK_TYPE_DIALOG);
 static const gint PIXEL_SIZES[] = {2048, 1024};
 
 
+static gchar *
+photos_export_dialog_create_size_str (gint height, gint width, guint64 size)
+{
+  gchar *ret_val;
+  gchar *size_str;
+
+  size_str = g_format_size (size);
+
+  /* Translators: this is the estimated size of the exported image in
+   * the form "1600×1067 (0.6 GB)".
+   */
+  ret_val = g_strdup_printf (_("%d×%d (%s)"), width, height, size_str);
+
+  g_free (size_str);
+  return ret_val;
+}
+
+
 static void
 photos_export_dialog_show_size_options (PhotosExportDialog *self, gboolean progress)
 {
@@ -100,6 +118,8 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
   PhotosExportDialog *self;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   GError *error;
+  GeglRectangle bbox;
+  gboolean got_bbox_edited;
   gchar *size_str;
   gchar *size_str_markup;
   gsize sizes[2];
@@ -122,7 +142,10 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
 
   self = PHOTOS_EXPORT_DIALOG (user_data);
 
-  size_str = g_format_size ((guint64) sizes[0]);
+  got_bbox_edited = photos_base_item_get_bbox_edited (self->item, &bbox);
+  g_return_if_fail (got_bbox_edited);
+
+  size_str = photos_export_dialog_create_size_str (bbox.height, bbox.width, (guint64) sizes[0]);
   size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
   gtk_label_set_markup (GTK_LABEL (self->full_label), size_str_markup);
   g_free (size_str);
@@ -130,10 +153,14 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
 
   if (self->reduced_zoom > 0.0)
     {
+      gint reduced_height;
+      gint reduced_width;
       gsize reduced_size;
 
+      reduced_height = (gint) ((gdouble) bbox.height * self->reduced_zoom + 0.5);
+      reduced_width = (gint) ((gdouble) bbox.width * self->reduced_zoom + 0.5);
       reduced_size = (gsize) (sizes[1] + (sizes[0] - sizes[1]) * (self->reduced_zoom - 0.5) / (1.0 - 0.5) + 0.5);
-      size_str = g_format_size ((guint64) reduced_size);
+      size_str = photos_export_dialog_create_size_str (reduced_height, reduced_width, (guint64) reduced_size);
       size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
       gtk_label_set_markup (GTK_LABEL (self->reduced_label), size_str_markup);
       g_free (size_str);
