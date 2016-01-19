@@ -61,7 +61,7 @@ GdMainIconView.content-view.cell:active {
 }
 
 .photos-icon-bg {
-  icon-shadow: 0 1px #000000;
+  -gtk-icon-shadow: 0 1px #000000;
 }
 
 .photos-dropdown,
@@ -77,29 +77,29 @@ GdMainIconView.content-view.cell:active {
 }
 
 .photos-dropdown .view.radio,
-.photos-dropdown .view.radio:focused,
+.photos-dropdown .view.radio:focus,
 .photos-dropdown .view.radio:selected {
     background-image: none;
     background-color: alpha(@theme_base_color, 0.0);
 }
 
 .photos-dropdown .view.radio:active,
-.photos-dropdown .view.radio:active:focused,
-.photos-dropdown .view.radio:active:prelight {
+.photos-dropdown .view.radio:active:focus,
+.photos-dropdown .view.radio:active:hover {
     background-image: url("sidebar-radio-checked.svg");
 }
 
-.photos-dropdown .view.radio:prelight {
+.photos-dropdown .view.radio:hover {
     background-image: url("sidebar-radio-prelight.svg");
 }
 
 .photos-dropdown .view.radio:active:selected,
-.photos-dropdown .view.radio:active:selected:focused {
+.photos-dropdown .view.radio:active:selected:focus {
     background-image: url("sidebar-radio-selected.svg");
 }
 
-.photos-dropdown .view.radio:selected:prelight,
-.photos-dropdown .view.radio:selected:focused {
+.photos-dropdown .view.radio:selected:hover,
+.photos-dropdown .view.radio:selected:focus {
     background-image: url("sidebar-radio-selected-prelight.svg");
 }
 
