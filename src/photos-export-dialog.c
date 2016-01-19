@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -68,6 +68,7 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   GError *error;
   gchar *size_str;
+  gchar *size_str_markup;
   gsize sizes[2];
 
   error = NULL;
@@ -82,8 +83,10 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
   self = PHOTOS_EXPORT_DIALOG (user_data);
 
   size_str = g_format_size ((guint64) sizes[0]);
-  gtk_label_set_text (GTK_LABEL (self->full_label), size_str);
+  size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
+  gtk_label_set_markup (GTK_LABEL (self->full_label), size_str_markup);
   g_free (size_str);
+  g_free (size_str_markup);
 
   if (self->reduced_zoom > 0.0)
     {
@@ -91,8 +94,10 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
 
       reduced_size = (gsize) (sizes[1] + (sizes[0] - sizes[1]) * (self->reduced_zoom - 0.5) / (1.0 - 0.5) + 0.5);
       size_str = g_format_size ((guint64) reduced_size);
-      gtk_label_set_text (GTK_LABEL (self->reduced_label), size_str);
+      size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
+      gtk_label_set_markup (GTK_LABEL (self->reduced_label), size_str_markup);
       g_free (size_str);
+      g_free (size_str_markup);
     }
 }
 
