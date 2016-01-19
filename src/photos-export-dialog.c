@@ -35,6 +35,7 @@ struct _PhotosExportDialog
   GtkWidget *folder_name_label;
   GtkWidget *full_button;
   GtkWidget *full_label;
+  GtkWidget *progress_label;
   GtkWidget *reduced_button;
   GtkWidget *reduced_label;
   GtkWidget *size_label;
@@ -62,6 +63,38 @@ static const gint PIXEL_SIZES[] = {2048, 1024};
 
 
 static void
+photos_export_dialog_show_size_options (PhotosExportDialog *self, gboolean progress)
+{
+  gdouble progress_opacity;
+  gdouble progress_opacity_invert;
+
+  gtk_widget_set_margin_bottom (self->dir_entry, 6);
+  gtk_widget_set_margin_bottom (self->folder_name_label, 6);
+
+  progress_opacity = progress ? 1.0 : 0.0;
+  progress_opacity_invert = !progress ? 1.0 : 0.0;
+
+  gtk_widget_show (self->progress_label);
+  gtk_widget_set_opacity (self->progress_label, progress_opacity);
+
+  gtk_widget_show (self->full_label);
+  gtk_widget_set_opacity (self->full_label, progress_opacity_invert);
+
+  gtk_widget_show (self->full_button);
+  gtk_widget_set_opacity (self->full_button, progress_opacity_invert);
+
+  gtk_widget_show (self->reduced_button);
+  gtk_widget_set_opacity (self->reduced_button, progress_opacity_invert);
+
+  gtk_widget_show (self->reduced_label);
+  gtk_widget_set_opacity (self->reduced_label, progress_opacity_invert);
+
+  gtk_widget_show (self->size_label);
+  gtk_widget_set_opacity (self->size_label, progress_opacity_invert);
+}
+
+
+static void
 photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosExportDialog *self;
@@ -74,10 +107,17 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
   error = NULL;
   if (!photos_base_item_save_guess_sizes_finish (item, res, &sizes[0], &sizes[1], &error))
     {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to guess sizes: %s", error->message);
-      g_error_free (error);
-      return;
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          g_error_free (error);
+          return;
+        }
+      else
+        {
+          g_warning ("Unable to guess sizes: %s", error->message);
+          g_error_free (error);
+          goto out;
+        }
     }
 
   self = PHOTOS_EXPORT_DIALOG (user_data);
@@ -99,19 +139,9 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
       g_free (size_str);
       g_free (size_str_markup);
     }
-}
 
-
-static void
-photos_export_dialog_show_size_options (PhotosExportDialog *self)
-{
-  gtk_widget_set_margin_bottom (self->dir_entry, 6);
-  gtk_widget_set_margin_bottom (self->folder_name_label, 6);
-  gtk_widget_show (self->full_label);
-  gtk_widget_show (self->full_button);
-  gtk_widget_show (self->reduced_button);
-  gtk_widget_show (self->reduced_label);
-  gtk_widget_show (self->size_label);
+ out:
+  photos_export_dialog_show_size_options (self, FALSE);
 }
 
 
@@ -147,7 +177,7 @@ photos_export_dialog_constructed (GObject *object)
           if (max_dimension > PIXEL_SIZES[i])
             {
               self->reduced_zoom = (gdouble) PIXEL_SIZES[i] / (gdouble) max_dimension;
-              photos_export_dialog_show_size_options (self);
+              photos_export_dialog_show_size_options (self, TRUE);
               photos_base_item_save_guess_sizes_async (self->item,
                                                        self->cancellable,
                                                        photos_export_dialog_guess_sizes,
@@ -207,9 +237,16 @@ photos_export_dialog_set_property (GObject *object, guint prop_id, const GValue 
 static void
 photos_export_dialog_init (PhotosExportDialog *self)
 {
+  gchar *progress_str_markup;
+
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->cancellable = g_cancellable_new ();
+
+  progress_str_markup = g_strdup_printf ("<small>%s</small>", _("Calculating export size…"));
+  gtk_label_set_markup (GTK_LABEL (self->progress_label), progress_str_markup);
+  g_free (progress_str_markup);
+
   self->reduced_zoom = -1.0;
 }
 
@@ -237,6 +274,7 @@ photos_export_dialog_class_init (PhotosExportDialogClass *class)
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, folder_name_label);
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, full_button);
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, full_label);
+  gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, progress_label);
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, reduced_button);
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, reduced_label);
   gtk_widget_class_bind_template_child (widget_class, PhotosExportDialog, size_label);
