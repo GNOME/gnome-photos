@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,35 +58,6 @@ static void photos_pipeline_async_initable_iface_init (GAsyncInitableIface *ifac
 
 G_DEFINE_TYPE_EXTENDED (PhotosPipeline, photos_pipeline, G_TYPE_OBJECT, 0,
                         G_IMPLEMENT_INTERFACE (G_TYPE_ASYNC_INITABLE, photos_pipeline_async_initable_iface_init));
-
-
-static gchar *
-photos_pipeline_to_xml (PhotosPipeline *self)
-{
-  GeglNode *input;
-  GeglNode *last;
-  GeglNode *output;
-  gchar *ret_val;
-
-  /* PhotosPipeline can be connected to a gegl:buffer-source, in which
-   * case we will get a WARNING about trying to serialize the
-   * GeglBuffer. We work around that.
-   */
-
-  input = gegl_node_get_input_proxy (self->graph, "input");
-  output = gegl_node_get_output_proxy (self->graph, "output");
-
-  last = gegl_node_get_producer (input, "input", NULL);
-  if (last != NULL)
-    gegl_node_disconnect (input, "input");
-
-  ret_val = gegl_node_to_xml (output, "/");
-
-  if (last != NULL)
-    gegl_node_link (last, input);
-
-  return ret_val;
-}
 
 
 static void
@@ -439,7 +410,7 @@ photos_pipeline_add (PhotosPipeline *self, const gchar *operation, const gchar *
 
   gegl_node_set_valist (node, first_property_name, ap);
 
-  xml = photos_pipeline_to_xml (self);
+  xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
 
   /* We want to remove the nodes from the graph too. */
@@ -529,7 +500,7 @@ photos_pipeline_save_async (PhotosPipeline *self,
   gchar *xml = NULL;
   gsize len;
 
-  xml = photos_pipeline_to_xml (self);
+  xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   g_return_if_fail (xml != NULL);
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -596,7 +567,7 @@ photos_pipeline_undo (PhotosPipeline *self)
   gegl_node_disconnect (last, "input");
   gegl_node_link (last2, output);
 
-  xml = photos_pipeline_to_xml (self);
+  xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
 
   ret_val = TRUE;
