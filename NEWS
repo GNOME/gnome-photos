@@ -1,3 +1,29 @@
+Overview of changes in 3.19.4
+=============================
+
+* Support saturation adjustment
+
+* Bugs fixed:
+ 746940 preview-nav-buttons: Crashes if shutdown and fade_out_button coincide
+ 759155 tool-colors: Restrict the range of the brightness slider
+ 759156 application, base-item: Preserve metadata when saving
+ 759331 Don't show empty albums in favorites
+ 759363 Explicit exports functionality with more options
+ 759521 application: Adapt to Grilo 0.3.0 API changes
+ 760865 theme: Don't use deprecated pseudo classes
+
+* Updated translations:
+ Czech
+ Finnish
+ German
+ Hebrew
+ Lithuanian
+ Norwegian bokmål
+ Portuguese (Brazilian)
+ Slovak
+ Spanish
+
+
 Overview of changes in 3.19.3
 =============================
 
