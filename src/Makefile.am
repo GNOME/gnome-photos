@@ -127,6 +127,8 @@ gnome_photos_SOURCES = \
 	photos-offset-overview-controller.h \
 	photos-offset-search-controller.c \
 	photos-offset-search-controller.h \
+	photos-operation-add.c \
+	photos-operation-add.h \
 	photos-operation-insta-common.h \
 	photos-operation-insta-curve.c \
 	photos-operation-insta-curve.h \

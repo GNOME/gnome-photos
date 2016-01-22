@@ -42,6 +42,7 @@
 #include "photos-google-item.h"
 #include "photos-local-item.h"
 #include "photos-media-server-item.h"
+#include "photos-operation-add.h"
 #include "photos-operation-insta-curve.h"
 #include "photos-operation-insta-filter.h"
 #include "photos-operation-jpg-guess-sizes.h"
@@ -812,6 +813,7 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_LOCAL_ITEM);
       g_type_ensure (PHOTOS_TYPE_MEDIA_SERVER_ITEM);
 
+      g_type_ensure (PHOTOS_TYPE_OPERATION_ADD);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
       g_type_ensure (PHOTOS_TYPE_OPERATION_JPG_GUESS_SIZES);
