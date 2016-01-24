@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,13 +33,19 @@
 #include "photos-notification-manager.h"
 
 
-struct _PhotosPrintNotificationPrivate
+struct _PhotosPrintNotification
 {
+  GtkGrid parent_instance;
   GtkPrintOperation *print_op;
   GtkWidget *ntfctn_mngr;
   GtkWidget *spinner;
   GtkWidget *status_label;
   GtkWidget *stop_button;
+};
+
+struct _PhotosPrintNotificationClass
+{
+  GtkGridClass parent_class;
 };
 
 enum
@@ -49,34 +55,31 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosPrintNotification, photos_print_notification, GTK_TYPE_GRID);
+G_DEFINE_TYPE (PhotosPrintNotification, photos_print_notification, GTK_TYPE_GRID);
 
 
 static void
 photos_print_notification_begin_print (PhotosPrintNotification *self)
 {
-  PhotosPrintNotificationPrivate *priv = self->priv;
-
-  photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (priv->ntfctn_mngr),
+  photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr),
                                                 GTK_WIDGET (self));
-  gtk_spinner_start (GTK_SPINNER (priv->spinner));
+  gtk_spinner_start (GTK_SPINNER (self->spinner));
 }
 
 
 static void
 photos_print_notification_status_changed (PhotosPrintNotification *self)
 {
-  PhotosPrintNotificationPrivate *priv = self->priv;
   const gchar *status_str;
   gchar *job_name = NULL;
   gchar *status = NULL;
 
-  status_str = gtk_print_operation_get_status_string (priv->print_op);
-  g_object_get (priv->print_op, "job-name", &job_name, NULL);
+  status_str = gtk_print_operation_get_status_string (self->print_op);
+  g_object_get (self->print_op, "job-name", &job_name, NULL);
   status = g_strdup_printf (_("Printing “%s”: %s"), job_name, status_str);
-  gtk_label_set_text (GTK_LABEL (priv->status_label), status);
+  gtk_label_set_text (GTK_LABEL (self->status_label), status);
 
-  if (gtk_print_operation_is_finished (priv->print_op))
+  if (gtk_print_operation_is_finished (self->print_op))
     gtk_widget_destroy (GTK_WIDGET (self));
 
   g_free (job_name);
@@ -87,7 +90,7 @@ photos_print_notification_status_changed (PhotosPrintNotification *self)
 static void
 photos_print_notification_stop_clicked (PhotosPrintNotification *self)
 {
-  gtk_print_operation_cancel (self->priv->print_op);
+  gtk_print_operation_cancel (self->print_op);
   gtk_widget_destroy (GTK_WIDGET (self));
 }
 
@@ -96,16 +99,15 @@ static void
 photos_print_notification_constructed (GObject *object)
 {
   PhotosPrintNotification *self = PHOTOS_PRINT_NOTIFICATION (object);
-  PhotosPrintNotificationPrivate *priv = self->priv;
 
   G_OBJECT_CLASS (photos_print_notification_parent_class)->constructed (object);
 
-  g_signal_connect_object (priv->print_op,
+  g_signal_connect_object (self->print_op,
                            "begin-print",
                            G_CALLBACK (photos_print_notification_begin_print),
                            self,
                            G_CONNECT_SWAPPED);
-  g_signal_connect_object (priv->print_op,
+  g_signal_connect_object (self->print_op,
                            "status-changed",
                            G_CALLBACK (photos_print_notification_status_changed),
                            self,
@@ -117,10 +119,9 @@ static void
 photos_print_notification_dispose (GObject *object)
 {
   PhotosPrintNotification *self = PHOTOS_PRINT_NOTIFICATION (object);
-  PhotosPrintNotificationPrivate *priv = self->priv;
 
-  g_clear_object (&priv->print_op);
-  g_clear_object (&priv->ntfctn_mngr);
+  g_clear_object (&self->print_op);
+  g_clear_object (&self->ntfctn_mngr);
 
   G_OBJECT_CLASS (photos_print_notification_parent_class)->dispose (object);
 }
@@ -134,7 +135,7 @@ photos_print_notification_set_property (GObject *object, guint prop_id, const GV
   switch (prop_id)
     {
     case PROP_PRINT_OP:
-      self->priv->print_op = GTK_PRINT_OPERATION (g_value_dup_object (value));
+      self->print_op = GTK_PRINT_OPERATION (g_value_dup_object (value));
       break;
 
     default:
@@ -147,32 +148,28 @@ photos_print_notification_set_property (GObject *object, guint prop_id, const GV
 static void
 photos_print_notification_init (PhotosPrintNotification *self)
 {
-  PhotosPrintNotificationPrivate *priv;
   GtkWidget *image;
 
-  self->priv = photos_print_notification_get_instance_private (self);
-  priv = self->priv;
+  self->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
 
-  priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
+  self->spinner = gtk_spinner_new ();
+  gtk_widget_set_size_request (self->spinner, 16, 16);
+  gtk_container_add (GTK_CONTAINER (self), self->spinner);
 
-  priv->spinner = gtk_spinner_new ();
-  gtk_widget_set_size_request (priv->spinner, 16, 16);
-  gtk_container_add (GTK_CONTAINER (self), priv->spinner);
-
-  priv->status_label = gtk_label_new (NULL);
-  gtk_widget_set_halign (priv->status_label, GTK_ALIGN_START);
-  gtk_container_add (GTK_CONTAINER (self), priv->status_label);
+  self->status_label = gtk_label_new (NULL);
+  gtk_widget_set_halign (self->status_label, GTK_ALIGN_START);
+  gtk_container_add (GTK_CONTAINER (self), self->status_label);
 
   image = gtk_image_new_from_icon_name (PHOTOS_ICON_PROCESS_STOP_SYMBOLIC, GTK_ICON_SIZE_INVALID);
   gtk_widget_set_margin_bottom (image, 2);
   gtk_widget_set_margin_top (image, 2);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
 
-  priv->stop_button = gtk_button_new ();
-  gtk_widget_set_valign (priv->stop_button, GTK_ALIGN_CENTER);
-  gtk_button_set_image (GTK_BUTTON (priv->stop_button), image);
-  gtk_container_add (GTK_CONTAINER (self), priv->stop_button);
-  g_signal_connect_swapped (priv->stop_button,
+  self->stop_button = gtk_button_new ();
+  gtk_widget_set_valign (self->stop_button, GTK_ALIGN_CENTER);
+  gtk_button_set_image (GTK_BUTTON (self->stop_button), image);
+  gtk_container_add (GTK_CONTAINER (self), self->stop_button);
+  g_signal_connect_swapped (self->stop_button,
                             "clicked",
                             G_CALLBACK (photos_print_notification_stop_clicked),
                             self);

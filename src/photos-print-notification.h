@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_PRINT_NOTIFICATION, PhotosPrintNotification))
 
-#define PHOTOS_PRINT_NOTIFICATION_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_PRINT_NOTIFICATION, PhotosPrintNotificationClass))
-
 #define PHOTOS_IS_PRINT_NOTIFICATION(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_PRINT_NOTIFICATION))
 
-#define PHOTOS_IS_PRINT_NOTIFICATION_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_PRINT_NOTIFICATION))
-
-#define PHOTOS_PRINT_NOTIFICATION_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_PRINT_NOTIFICATION, PhotosPrintNotificationClass))
-
-typedef struct _PhotosPrintNotification        PhotosPrintNotification;
-typedef struct _PhotosPrintNotificationClass   PhotosPrintNotificationClass;
-typedef struct _PhotosPrintNotificationPrivate PhotosPrintNotificationPrivate;
-
-struct _PhotosPrintNotification
-{
-  GtkGrid parent_instance;
-  PhotosPrintNotificationPrivate *priv;
-};
-
-struct _PhotosPrintNotificationClass
-{
-  GtkGridClass parent_class;
-};
+typedef struct _PhotosPrintNotification      PhotosPrintNotification;
+typedef struct _PhotosPrintNotificationClass PhotosPrintNotificationClass;
 
 GType               photos_print_notification_get_type           (void) G_GNUC_CONST;
 
