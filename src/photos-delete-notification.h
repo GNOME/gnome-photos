@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
+ * Copyright © 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,7 +23,7 @@
 #define PHOTOS_DELETE_NOTIFICATION_H
 
 #include <glib.h>
-#include <gtk/gtk.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
@@ -32,36 +33,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_DELETE_NOTIFICATION, PhotosDeleteNotification))
 
-#define PHOTOS_DELETE_NOTIFICATION_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_DELETE_NOTIFICATION, PhotosDeleteNotificationClass))
-
 #define PHOTOS_IS_DELETE_NOTIFICATION(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_DELETE_NOTIFICATION))
 
-#define PHOTOS_IS_DELETE_NOTIFICATION_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_DELETE_NOTIFICATION))
-
-#define PHOTOS_DELETE_NOTIFICATION_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_DELETE_NOTIFICATION, PhotosDeleteNotificationClass))
-
-typedef struct _PhotosDeleteNotification        PhotosDeleteNotification;
-typedef struct _PhotosDeleteNotificationClass   PhotosDeleteNotificationClass;
-typedef struct _PhotosDeleteNotificationPrivate PhotosDeleteNotificationPrivate;
-
-struct _PhotosDeleteNotification
-{
-  GtkGrid parent_instance;
-  PhotosDeleteNotificationPrivate *priv;
-};
-
-struct _PhotosDeleteNotificationClass
-{
-  GtkGridClass parent_class;
-};
+typedef struct _PhotosDeleteNotification      PhotosDeleteNotification;
+typedef struct _PhotosDeleteNotificationClass PhotosDeleteNotificationClass;
 
 GType               photos_delete_notification_get_type           (void) G_GNUC_CONST;
 

@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
- * Copyright © 2014, 2015 Red Hat, Inc.
+ * Copyright © 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <glib/gi18n.h>
+#include <gtk/gtk.h>
 
 #include "photos-base-item.h"
 #include "photos-base-manager.h"
@@ -31,13 +32,20 @@
 #include "photos-search-context.h"
 
 
-struct _PhotosDeleteNotificationPrivate
+struct _PhotosDeleteNotification
 {
+  GtkGrid parent_instance;
   GList *items;
   GtkWidget *ntfctn_mngr;
   PhotosBaseManager *item_mngr;
   guint timeout_id;
 };
+
+struct _PhotosDeleteNotificationClass
+{
+  GtkGridClass parent_class;
+};
+
 
 enum
 {
@@ -46,7 +54,7 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosDeleteNotification, photos_delete_notification, GTK_TYPE_GRID);
+G_DEFINE_TYPE (PhotosDeleteNotification, photos_delete_notification, GTK_TYPE_GRID);
 
 
 enum
@@ -58,12 +66,10 @@ enum
 static void
 photos_delete_notification_remove_timeout (PhotosDeleteNotification *self)
 {
-  PhotosDeleteNotificationPrivate *priv = self->priv;
-
-  if (priv->timeout_id != 0)
+  if (self->timeout_id != 0)
     {
-      g_source_remove (priv->timeout_id);
-      priv->timeout_id = 0;
+      g_source_remove (self->timeout_id);
+      self->timeout_id = 0;
     }
 }
 
@@ -79,10 +85,9 @@ photos_delete_notification_destroy (PhotosDeleteNotification *self)
 static void
 photos_delete_notification_delete_items (PhotosDeleteNotification *self)
 {
-  PhotosDeleteNotificationPrivate *priv = self->priv;
   GList *l;
 
-  for (l = priv->items; l != NULL; l = l->next)
+  for (l = self->items; l != NULL; l = l->next)
     {
       PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
       photos_base_item_trash (item);
@@ -97,7 +102,7 @@ photos_delete_notification_timeout (gpointer user_data)
 {
   PhotosDeleteNotification *self = PHOTOS_DELETE_NOTIFICATION (user_data);
 
-  self->priv->timeout_id = 0;
+  self->timeout_id = 0;
   photos_delete_notification_delete_items (self);
   return G_SOURCE_REMOVE;
 }
@@ -106,13 +111,12 @@ photos_delete_notification_timeout (gpointer user_data)
 static void
 photos_delete_notification_undo_clicked (PhotosDeleteNotification *self)
 {
-  PhotosDeleteNotificationPrivate *priv = self->priv;
   GList *l;
 
-  for (l = priv->items; l != NULL; l = l->next)
+  for (l = self->items; l != NULL; l = l->next)
     {
       GObject *item = G_OBJECT (l->data);
-      photos_base_manager_add_object (priv->item_mngr, item);
+      photos_base_manager_add_object (self->item_mngr, item);
     }
 
   photos_delete_notification_destroy (self);
@@ -123,7 +127,6 @@ static void
 photos_delete_notification_constructed (GObject *object)
 {
   PhotosDeleteNotification *self = PHOTOS_DELETE_NOTIFICATION (object);
-  PhotosDeleteNotificationPrivate *priv = self->priv;
   gchar *msg;
   GtkWidget *close;
   GtkWidget *image;
@@ -133,12 +136,12 @@ photos_delete_notification_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_delete_notification_parent_class)->constructed (object);
 
-  length = g_list_length (priv->items);
+  length = g_list_length (self->items);
   if (length == 1)
     {
       const gchar *name;
 
-      name = photos_base_item_get_name_with_fallback (PHOTOS_BASE_ITEM (priv->items->data));
+      name = photos_base_item_get_name_with_fallback (PHOTOS_BASE_ITEM (self->items->data));
       msg = g_strdup_printf (_("“%s” deleted"), name);
     }
   else
@@ -167,10 +170,10 @@ photos_delete_notification_constructed (GObject *object)
   gtk_container_add (GTK_CONTAINER (self), close);
   g_signal_connect_swapped (close, "clicked", G_CALLBACK (photos_delete_notification_delete_items), self);
 
-  photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (priv->ntfctn_mngr),
+  photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr),
                                                 GTK_WIDGET (self));
 
-  priv->timeout_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
+  self->timeout_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
                                                  DELETE_TIMEOUT,
                                                  photos_delete_notification_timeout,
                                                  g_object_ref (self),
@@ -182,13 +185,12 @@ static void
 photos_delete_notification_dispose (GObject *object)
 {
   PhotosDeleteNotification *self = PHOTOS_DELETE_NOTIFICATION (object);
-  PhotosDeleteNotificationPrivate *priv = self->priv;
 
-  g_list_free_full (priv->items, g_object_unref);
-  priv->items = NULL;
+  g_list_free_full (self->items, g_object_unref);
+  self->items = NULL;
 
-  g_clear_object (&priv->ntfctn_mngr);
-  g_clear_object (&priv->item_mngr);
+  g_clear_object (&self->ntfctn_mngr);
+  g_clear_object (&self->item_mngr);
 
   G_OBJECT_CLASS (photos_delete_notification_parent_class)->dispose (object);
 }
@@ -206,7 +208,7 @@ photos_delete_notification_set_property (GObject *object, guint prop_id, const G
         GList *items;
 
         items = (GList *) g_value_get_pointer (value);
-        self->priv->items = g_list_copy_deep (items, (GCopyFunc) g_object_ref, NULL);
+        self->items = g_list_copy_deep (items, (GCopyFunc) g_object_ref, NULL);
         break;
       }
 
@@ -220,18 +222,14 @@ photos_delete_notification_set_property (GObject *object, guint prop_id, const G
 static void
 photos_delete_notification_init (PhotosDeleteNotification *self)
 {
-  PhotosDeleteNotificationPrivate *priv;
   GApplication *app;
   PhotosSearchContextState *state;
-
-  self->priv = photos_delete_notification_get_instance_private (self);
-  priv = self->priv;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
-  priv->item_mngr = g_object_ref (state->item_mngr);
+  self->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
+  self->item_mngr = g_object_ref (state->item_mngr);
 }
 
 
