@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,8 +37,9 @@
 #include "photos-notification-manager.h"
 
 
-struct _PhotosIndexingNotificationPrivate
+struct _PhotosIndexingNotification
 {
+  GtkGrid parent_instance;
   GtkWidget *ntfctn_mngr;
   GtkWidget *primary_label;
   GtkWidget *secondary_label;
@@ -49,8 +50,13 @@ struct _PhotosIndexingNotificationPrivate
   guint timeout_id;
 };
 
+struct _PhotosIndexingNotificationClass
+{
+  GtkGridClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosIndexingNotification, photos_indexing_notification, GTK_TYPE_GRID);
+
+G_DEFINE_TYPE (PhotosIndexingNotification, photos_indexing_notification, GTK_TYPE_GRID);
 
 
 enum
@@ -64,12 +70,10 @@ static const gchar *MINER_FILES = "org.freedesktop.Tracker1.Miner.Files";
 static void
 photos_indexing_notification_remove_timeout (PhotosIndexingNotification *self)
 {
-  PhotosIndexingNotificationPrivate *priv = self->priv;
-
-  if (priv->timeout_id != 0)
+  if (self->timeout_id != 0)
     {
-      g_source_remove (priv->timeout_id);
-      priv->timeout_id = 0;
+      g_source_remove (self->timeout_id);
+      self->timeout_id = 0;
     }
 }
 
@@ -77,19 +81,18 @@ photos_indexing_notification_remove_timeout (PhotosIndexingNotification *self)
 static void
 photos_indexing_notification_destroy (PhotosIndexingNotification *self, gboolean closed)
 {
-  PhotosIndexingNotificationPrivate *priv = self->priv;
   GtkWidget *parent;
 
   photos_indexing_notification_remove_timeout (self);
 
-  priv->on_display = FALSE;
-  gtk_spinner_stop (GTK_SPINNER (priv->spinner));
+  self->on_display = FALSE;
+  gtk_spinner_stop (GTK_SPINNER (self->spinner));
 
   parent = gtk_widget_get_parent (GTK_WIDGET (self));
   if (parent != NULL)
     gtk_container_remove (GTK_CONTAINER (parent), GTK_WIDGET (self));
 
-  priv->closed = closed;
+  self->closed = closed;
 }
 
 
@@ -105,20 +108,18 @@ photos_indexing_notification_update (PhotosIndexingNotification *self,
                                      const gchar *primary_text,
                                      const gchar *secondary_text)
 {
-  PhotosIndexingNotificationPrivate *priv = self->priv;
-
-  gtk_label_set_label (GTK_LABEL (priv->primary_label), primary_text);
-  gtk_label_set_label (GTK_LABEL (priv->secondary_label), secondary_text);
+  gtk_label_set_label (GTK_LABEL (self->primary_label), primary_text);
+  gtk_label_set_label (GTK_LABEL (self->secondary_label), secondary_text);
 
   if (secondary_text != NULL)
     {
-      gtk_widget_set_vexpand (priv->primary_label, FALSE);
-      gtk_widget_show (priv->secondary_label);
+      gtk_widget_set_vexpand (self->primary_label, FALSE);
+      gtk_widget_show (self->secondary_label);
     }
   else
     {
-      gtk_widget_set_vexpand (priv->primary_label, TRUE);
-      gtk_widget_hide (priv->secondary_label);
+      gtk_widget_set_vexpand (self->primary_label, TRUE);
+      gtk_widget_hide (self->secondary_label);
     }
 }
 
@@ -128,18 +129,16 @@ photos_indexing_notification_display (PhotosIndexingNotification *self,
                                       const gchar *primary_text,
                                       const gchar *secondary_text)
 {
-  PhotosIndexingNotificationPrivate *priv = self->priv;
-
-  if (priv->on_display)
+  if (self->on_display)
     return;
 
-  if (priv->closed)
+  if (self->closed)
     return;
 
-  photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (priv->ntfctn_mngr),
+  photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr),
                                                 GTK_WIDGET (self));
-  gtk_spinner_start (GTK_SPINNER (priv->spinner));
-  priv->on_display = TRUE;
+  gtk_spinner_start (GTK_SPINNER (self->spinner));
+  self->on_display = TRUE;
 
   photos_indexing_notification_update (self, primary_text, secondary_text);
 }
@@ -155,7 +154,7 @@ photos_indexing_notification_timeout (gpointer user_data)
   const gchar *display_name = NULL;
   gchar *primary = NULL;
 
-  self->priv->timeout_id = 0;
+  self->timeout_id = 0;
 
   app = g_application_get_default ();
   miners_running = photos_application_get_miners_running (PHOTOS_APPLICATION (app));
@@ -185,19 +184,18 @@ photos_indexing_notification_timeout (gpointer user_data)
 static void
 photos_indexing_notification_check_notification (PhotosIndexingNotification *self)
 {
-  PhotosIndexingNotificationPrivate *priv = self->priv;
   GApplication *app;
   GList *miners_running;
   GSList *running;
   gboolean is_indexing_local = FALSE;
   gboolean is_indexing_remote = FALSE;
 
-  running = tracker_miner_manager_get_running (priv->manager);
+  running = tracker_miner_manager_get_running (self->manager);
   if (g_slist_find_custom (running, (gconstpointer) MINER_FILES, (GCompareFunc) g_strcmp0) != NULL)
     {
       gdouble progress;
 
-      tracker_miner_manager_get_status (priv->manager, MINER_FILES, NULL, &progress, NULL);
+      tracker_miner_manager_get_status (self->manager, MINER_FILES, NULL, &progress, NULL);
       if (progress < 1)
         is_indexing_local = TRUE;
     }
@@ -216,7 +214,7 @@ photos_indexing_notification_check_notification (PhotosIndexingNotification *sel
   else if (is_indexing_remote)
     {
       photos_indexing_notification_remove_timeout (self);
-      priv->timeout_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
+      self->timeout_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
                                                      REMOTE_MINER_TIMEOUT,
                                                      photos_indexing_notification_timeout,
                                                      g_object_ref (self),
@@ -234,10 +232,9 @@ static void
 photos_indexing_notification_dispose (GObject *object)
 {
   PhotosIndexingNotification *self = PHOTOS_INDEXING_NOTIFICATION (object);
-  PhotosIndexingNotificationPrivate *priv = self->priv;
 
-  g_clear_object (&priv->ntfctn_mngr);
-  g_clear_object (&priv->manager);
+  g_clear_object (&self->ntfctn_mngr);
+  g_clear_object (&self->manager);
 
   G_OBJECT_CLASS (photos_indexing_notification_parent_class)->dispose (object);
 }
@@ -246,7 +243,6 @@ photos_indexing_notification_dispose (GObject *object)
 static void
 photos_indexing_notification_init (PhotosIndexingNotification *self)
 {
-  PhotosIndexingNotificationPrivate *priv;
   GApplication *app;
   GError *error;
   GtkStyleContext *context;
@@ -254,13 +250,10 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   GtkWidget *image;
   GtkWidget *labels;
 
-  self->priv = photos_indexing_notification_get_instance_private (self);
-  priv = self->priv;
-
   app = g_application_get_default ();
 
   error = NULL;
-  priv->manager = tracker_miner_manager_new_full (FALSE, &error);
+  self->manager = tracker_miner_manager_new_full (FALSE, &error);
   if (error != NULL)
     {
       g_warning ("Unable to create a TrackerMinerManager, indexing progress notification won't work: %s",
@@ -269,26 +262,26 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
       return;
     }
 
-  priv->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
+  self->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
 
-  priv->spinner = gtk_spinner_new ();
-  gtk_widget_set_size_request (priv->spinner, 16, 16);
-  gtk_container_add (GTK_CONTAINER (self), priv->spinner);
+  self->spinner = gtk_spinner_new ();
+  gtk_widget_set_size_request (self->spinner, 16, 16);
+  gtk_container_add (GTK_CONTAINER (self), self->spinner);
 
   labels = gtk_grid_new ();
   gtk_orientable_set_orientation (GTK_ORIENTABLE (labels), GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing (GTK_GRID (labels), 3);
   gtk_container_add (GTK_CONTAINER (self), labels);
 
-  priv->primary_label = gtk_label_new (NULL);
-  gtk_widget_set_halign (priv->primary_label, GTK_ALIGN_START);
-  gtk_container_add (GTK_CONTAINER (labels), priv->primary_label);
+  self->primary_label = gtk_label_new (NULL);
+  gtk_widget_set_halign (self->primary_label, GTK_ALIGN_START);
+  gtk_container_add (GTK_CONTAINER (labels), self->primary_label);
 
-  priv->secondary_label = gtk_label_new (NULL);
-  gtk_widget_set_halign (priv->secondary_label, GTK_ALIGN_START);
-  context = gtk_widget_get_style_context (priv->secondary_label);
+  self->secondary_label = gtk_label_new (NULL);
+  gtk_widget_set_halign (self->secondary_label, GTK_ALIGN_START);
+  context = gtk_widget_get_style_context (self->secondary_label);
   gtk_style_context_add_class (context, "dim-label");
-  gtk_container_add (GTK_CONTAINER (labels), priv->secondary_label);
+  gtk_container_add (GTK_CONTAINER (labels), self->secondary_label);
 
   image = gtk_image_new_from_icon_name (PHOTOS_ICON_WINDOW_CLOSE_SYMBOLIC, GTK_ICON_SIZE_INVALID);
   gtk_widget_set_margin_bottom (image, 2);
@@ -307,7 +300,7 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
                            self,
                            G_CONNECT_SWAPPED);
 
-  g_signal_connect_swapped (priv->manager,
+  g_signal_connect_swapped (self->manager,
                             "miner-progress",
                             G_CALLBACK (photos_indexing_notification_check_notification),
                             self);

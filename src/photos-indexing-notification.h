@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_INDEXING_NOTIFICATION, PhotosIndexingNotification))
 
-#define PHOTOS_INDEXING_NOTIFICATION_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_INDEXING_NOTIFICATION, PhotosIndexingNotificationClass))
-
 #define PHOTOS_IS_INDEXING_NOTIFICATION(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_INDEXING_NOTIFICATION))
 
-#define PHOTOS_IS_INDEXING_NOTIFICATION_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_INDEXING_NOTIFICATION))
-
-#define PHOTOS_INDEXING_NOTIFICATION_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_INDEXING_NOTIFICATION, PhotosIndexingNotificationClass))
-
-typedef struct _PhotosIndexingNotification        PhotosIndexingNotification;
-typedef struct _PhotosIndexingNotificationClass   PhotosIndexingNotificationClass;
-typedef struct _PhotosIndexingNotificationPrivate PhotosIndexingNotificationPrivate;
-
-struct _PhotosIndexingNotification
-{
-  GtkGrid parent_instance;
-  PhotosIndexingNotificationPrivate *priv;
-};
-
-struct _PhotosIndexingNotificationClass
-{
-  GtkGridClass parent_class;
-};
+typedef struct _PhotosIndexingNotification      PhotosIndexingNotification;
+typedef struct _PhotosIndexingNotificationClass PhotosIndexingNotificationClass;
 
 GType               photos_indexing_notification_get_type           (void) G_GNUC_CONST;
 
