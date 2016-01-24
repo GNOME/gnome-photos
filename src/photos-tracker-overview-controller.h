@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER, PhotosTrackerOverviewController))
 
-#define PHOTOS_TRACKER_OVERVIEW_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER, PhotosTrackerOverviewControllerClass))
-
 #define PHOTOS_IS_TRACKER_OVERVIEW_CONTROLLER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER))
 
-#define PHOTOS_IS_TRACKER_OVERVIEW_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER))
-
-#define PHOTOS_TRACKER_OVERVIEW_CONTROLLER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER, PhotosTrackerOverviewControllerClass))
-
-typedef struct _PhotosTrackerOverviewController        PhotosTrackerOverviewController;
-typedef struct _PhotosTrackerOverviewControllerClass   PhotosTrackerOverviewControllerClass;
-typedef struct _PhotosTrackerOverviewControllerPrivate PhotosTrackerOverviewControllerPrivate;
-
-struct _PhotosTrackerOverviewController
-{
-  PhotosTrackerController parent_instance;
-  PhotosTrackerOverviewControllerPrivate *priv;
-};
-
-struct _PhotosTrackerOverviewControllerClass
-{
-  PhotosTrackerControllerClass parent_class;
-};
+typedef struct _PhotosTrackerOverviewController      PhotosTrackerOverviewController;
+typedef struct _PhotosTrackerOverviewControllerClass PhotosTrackerOverviewControllerClass;
 
 GType                     photos_tracker_overview_controller_get_type          (void) G_GNUC_CONST;
 
