@@ -667,7 +667,6 @@ photos_operation_insta_curve_prepare (GeglOperation *operation)
       break;
 
     case PHOTOS_OPERATION_INSTA_PRESET_NONE:
-    case PHOTOS_OPERATION_INSTA_PRESET_GRAY:
     case PHOTOS_OPERATION_INSTA_PRESET_HEFE:
     default:
       g_assert_not_reached ();
