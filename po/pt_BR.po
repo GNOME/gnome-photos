@@ -1,28 +1,28 @@
 # Brazilian Portuguese translation for gnome-photos.
-# Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
+# Copyright (C) 2016 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Rafael Ferreira <rafael.f.f1@gmail.com>, 2012, 2013, 2014.
 # Antonio Fernandes C. Neto <fernandesn@gnome.org>, 2013.
 # Avelino <adelino.avelino@academico.ifrn.edu.br>, 2013.
 # Fábio Nogueira <fnogueira@gnome.org>, 2014.
 # Enrico Nicoletto <liverig@gmail.com>, 2013, 2014, 2015.
-# Gustavo Marques <gutodisse@gmail.com> 2015.
+# Gustavo Marques <gutodisse@gmail.com> 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-12-30 20:42+0000\n"
-"PO-Revision-Date: 2015-11-19 16:32-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"POT-Creation-Date: 2016-01-25 08:35+0000\n"
+"PO-Revision-Date: 2016-01-18 00:38-0300\n"
+"Last-Translator: Gustavo Marques <gutodisse@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:715
@@ -110,27 +110,27 @@ msgstr "Janela maximizada"
 msgid "Window maximized state"
 msgstr "Estado de janela maximizada"
 
-#: ../src/photos-base-item.c:465
+#: ../src/photos-base-item.c:474
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:1270
+#: ../src/photos-base-item.c:1408
 msgid "Screenshots"
 msgstr "Capturas de telas"
 
-#: ../src/photos-delete-notification.c:141
+#: ../src/photos-delete-notification.c:145
 #, c-format
 msgid "“%s” deleted"
 msgstr "“%s” excluído"
 
-#: ../src/photos-delete-notification.c:144
+#: ../src/photos-delete-notification.c:148
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d item excluído"
 msgstr[1] "%d itens excluídos"
 
-#: ../src/photos-delete-notification.c:151
+#: ../src/photos-delete-notification.c:155
 msgid "Undo"
 msgstr "Desfazer"
 
@@ -184,14 +184,12 @@ msgid "No Photos Found"
 msgstr "Nenhuma foto encontrada"
 
 #: ../src/photos-export-dialog.ui.h:1
-#, fuzzy
-#| msgid "Exposure"
 msgid "Export"
-msgstr "Exposição"
+msgstr "Exportar"
 
 #: ../src/photos-export-dialog.ui.h:2
 msgid "_Folder Name"
-msgstr ""
+msgstr "Nome da _pasta"
 
 #: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
 msgid "Size"
@@ -199,32 +197,38 @@ msgstr "Tamanho"
 
 #: ../src/photos-export-dialog.ui.h:4
 msgid "F_ull"
-msgstr ""
+msgstr "C_heio"
 
 #: ../src/photos-export-dialog.ui.h:5
 msgid "_Reduced"
-msgstr ""
+msgstr "_Reduzido"
 
 #: ../src/photos-export-dialog.ui.h:6
-#, fuzzy
-#| msgid "Cancel"
 msgid "_Cancel"
-msgstr "Cancelar"
+msgstr "_Cancelar"
 
 #: ../src/photos-export-dialog.ui.h:7
-#, fuzzy
-#| msgid "Exposure"
 msgid "_Export"
-msgstr "Exposição"
+msgstr "_Exportar"
+
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: ../src/photos-export-dialog.c:76
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
 
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:159
-#, fuzzy
-#| msgid "%a, %d %B %Y"
+#: ../src/photos-export-dialog.c:221
 msgid "%e %B %Y"
-msgstr "%a, %d de %B de %Y"
+msgstr "%e %B %Y"
+
+#: ../src/photos-export-dialog.c:273
+msgid "Calculating export size…"
+msgstr "Calculando tamanho da exportação…"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -289,7 +293,7 @@ msgstr "Visualização"
 
 #: ../src/photos-help-overlay.ui.h:14
 msgid "Action menu"
-msgstr ""
+msgstr "Menu de ações"
 
 #: ../src/photos-help-overlay.ui.h:15 ../src/photos-menus.ui.h:1
 msgid "Fullscreen"
@@ -298,20 +302,20 @@ msgstr "Tela cheia"
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
 #.
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:172
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Obtendo fotos do %s"
 
-#: ../src/photos-indexing-notification.c:176
+#: ../src/photos-indexing-notification.c:175
 msgid "Fetching photos from online accounts"
 msgstr "Obtendo fotos de contas on-line"
 
-#: ../src/photos-indexing-notification.c:213
+#: ../src/photos-indexing-notification.c:211
 msgid "Your photos are being indexed"
 msgstr "Suas fotos estão sendo indexadas"
 
-#: ../src/photos-indexing-notification.c:214
+#: ../src/photos-indexing-notification.c:212
 msgid "Some photos might not be available during this process"
 msgstr "Algumas fotos podem não estar disponíveis durante este processo"
 
@@ -412,7 +416,7 @@ msgstr "Abrir"
 
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Export…"
-msgstr ""
+msgstr "Exportar…"
 
 #: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
@@ -435,7 +439,7 @@ msgstr "Definir como tela de bloqueio"
 msgid "Properties"
 msgstr "Propriedades"
 
-#: ../src/photos-print-notification.c:76
+#: ../src/photos-print-notification.c:79
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Imprimindo “%s”: %s"
@@ -632,15 +636,19 @@ msgstr "Adicionar ao álbum"
 msgid "Sources"
 msgstr "Fontes"
 
-#: ../src/photos-tool-colors.c:193
+#: ../src/photos-tool-colors.c:240
 msgid "Brightness"
 msgstr "Brilho"
 
-#: ../src/photos-tool-colors.c:214
+#: ../src/photos-tool-colors.c:261
 msgid "Contrast"
 msgstr "Contraste"
 
-#: ../src/photos-tool-colors.c:241
+#: ../src/photos-tool-colors.c:281
+msgid "Saturation"
+msgstr "Saturação"
+
+#: ../src/photos-tool-colors.c:308
 msgid "Colors"
 msgstr "Cores"
 
@@ -658,7 +666,7 @@ msgstr "Tela"
 
 #: ../src/photos-tool-crop.c:135
 msgid "Golden Cut"
-msgstr ""
+msgstr "Proporção áurea"
 
 #: ../src/photos-tool-crop.c:136
 msgid "Square"
@@ -674,7 +682,7 @@ msgstr "A4 (210 × 297 mm)"
 
 #: ../src/photos-tool-crop.c:1162
 msgid "Lock aspect ratio"
-msgstr ""
+msgstr "Fixar proporção"
 
 #: ../src/photos-tool-crop.c:1177
 msgid "Reset"
@@ -686,7 +694,7 @@ msgstr "Cortar"
 
 #: ../src/photos-tool-enhance.c:205
 msgid "Sharpen"
-msgstr ""
+msgstr "Ajustar nitidez"
 
 #: ../src/photos-tool-enhance.c:225
 msgid "Denoise"
@@ -702,19 +710,19 @@ msgstr "1977"
 
 #: ../src/photos-tool-filters.c:180
 msgid "Brannan"
-msgstr ""
+msgstr "Brannan"
 
 #: ../src/photos-tool-filters.c:186
 msgid "Gotham"
-msgstr ""
+msgstr "Gotham"
 
 #: ../src/photos-tool-filters.c:193
-msgid "Gray"
-msgstr ""
+msgid "Hefe"
+msgstr "Hefe"
 
 #: ../src/photos-tool-filters.c:199
 msgid "Nashville"
-msgstr ""
+msgstr "Nashville"
 
 #: ../src/photos-tool-filters.c:217
 msgid "Filters"
@@ -723,6 +731,9 @@ msgstr "Filtros"
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Não foi possível obter a lista de fotos"
+
+#~ msgid "Gray"
+#~ msgstr "Cinzento"
 
 #~ msgid "Print"
 #~ msgstr "Imprimir"
