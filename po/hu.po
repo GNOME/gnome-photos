@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-11-22 21:50+0000\n"
-"PO-Revision-Date: 2015-11-23 08:48+0100\n"
+"POT-Creation-Date: 2016-01-24 21:54+0000\n"
+"PO-Revision-Date: 2016-01-24 23:35+0100\n"
 "Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -21,12 +21,12 @@ msgstr ""
 "X-Generator: Poedit 1.8.5\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:713
-#: ../src/photos-search-type-manager.c:124
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:715
+#: ../src/photos-search-type-manager.c:125
 msgid "Photos"
 msgstr "Fényképek"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Fényképek elérése, rendszerezése és megosztása a GNOME-ban"
 
@@ -108,11 +108,11 @@ msgstr "Ablak teljes méretű"
 msgid "Window maximized state"
 msgstr "Az ablak maximalizált állapota"
 
-#: ../src/photos-base-item.c:449
+#: ../src/photos-base-item.c:474
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1123
+#: ../src/photos-base-item.c:1408
 msgid "Screenshots"
 msgstr "Képernyőképek"
 
@@ -136,15 +136,15 @@ msgstr "Visszavonás"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA megjelenítő eszközök"
 
-#: ../src/photos-embed.c:720 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:722 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumok"
 
-#: ../src/photos-embed.c:727 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Kedvencek"
 
-#: ../src/photos-embed.c:734 ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-embed.c:736 ../src/photos-help-overlay.ui.h:11
 #: ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Keresés"
@@ -181,11 +181,58 @@ msgstr "A csillagozott fényképek itt fognak megjelenni"
 msgid "No Photos Found"
 msgstr "Nem találhatók fényképek"
 
+#: ../src/photos-export-dialog.ui.h:1
+msgid "Export"
+msgstr "Exportálás"
+
+#: ../src/photos-export-dialog.ui.h:2
+msgid "_Folder Name"
+msgstr "_Mappanév"
+
+#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
+msgid "Size"
+msgstr "Méret"
+
+#: ../src/photos-export-dialog.ui.h:4
+msgid "F_ull"
+msgstr "_Teljes"
+
+#: ../src/photos-export-dialog.ui.h:5
+msgid "_Reduced"
+msgstr "_Csökkentett"
+
+#: ../src/photos-export-dialog.ui.h:6
+msgid "_Cancel"
+msgstr "_Mégse"
+
+#: ../src/photos-export-dialog.ui.h:7
+msgid "_Export"
+msgstr "_Exportálás"
+
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: ../src/photos-export-dialog.c:76
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
+
+#. Translators: this is the default sub-directory where photos
+#. *  will be exported.
+#.
+#: ../src/photos-export-dialog.c:221
+msgid "%e %B %Y"
+msgstr "%Y. %B %e"
+
+#: ../src/photos-export-dialog.c:273
+msgid "Calculating export size…"
+msgstr "Exportálási méret kiszámítása…"
+
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:89
-#: ../src/photos-google-item.c:77
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
+#: ../src/photos-google-item.c:82
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -210,8 +257,7 @@ msgstr "Kilépés"
 msgid "Print the current photo"
 msgstr "Jelenlegi fénykép nyomtatása"
 
-#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:3
-#: ../src/photos-selection-toolbar.c:471
+#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:4
 msgid "Delete"
 msgstr "Törlés"
 
@@ -271,7 +317,7 @@ msgstr "A fényképei indexelése folyamatban"
 msgid "Some photos might not be available during this process"
 msgstr "Egyes fényképek lehet, hogy nem lesznek elérhetők ezen folyamat alatt"
 
-#: ../src/photos-local-item.c:103 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Helyi"
 
@@ -296,16 +342,16 @@ msgstr "Válasszon elemeket"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:329
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:331
 #, c-format
 msgid "Open with %s"
 msgstr "Megnyitás ezzel: %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:340
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:342
 msgid "Remove from favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:345
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:347
 msgid "Add to favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
@@ -317,7 +363,7 @@ msgstr "Mégse"
 msgid "Done"
 msgstr "Kész"
 
-#: ../src/photos-main-window.c:480
+#: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
@@ -328,7 +374,7 @@ msgstr ""
 "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:490
+#: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr ""
 "Úr Balázs <urbalazs at gmail dot com>, 2014.\n"
@@ -361,29 +407,33 @@ msgid "Organize"
 msgstr "Rendszerezés"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:332
-#: ../src/photos-selection-toolbar.c:457
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
+#: ../src/photos-selection-toolbar.ui.h:1
 msgid "Open"
 msgstr "Megnyitás"
 
 #: ../src/photos-preview-menu.ui.h:2
+msgid "Export…"
+msgstr "Exportálás…"
+
+#: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
 msgstr "Nyomtatás…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
 msgstr "Megjelenítés ezen…"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Background"
 msgstr "Beállítás háttérként"
 
-#: ../src/photos-preview-menu.ui.h:6
+#: ../src/photos-preview-menu.ui.h:7
 msgid "Set as Lock Screen"
 msgstr "Beállítás zároló képernyőként"
 
-#: ../src/photos-preview-menu.ui.h:7 ../src/photos-properties-dialog.c:608
-#: ../src/photos-selection-toolbar.c:475
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
+#: ../src/photos-selection-toolbar.ui.h:2
 msgid "Properties"
 msgstr "Tulajdonságok"
 
@@ -420,7 +470,7 @@ msgstr "_Lent:"
 msgid "C_enter:"
 msgstr "_Középre:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:88
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:166
 msgid "None"
 msgstr "Nincs"
 
@@ -435,10 +485,6 @@ msgstr "Függőleges"
 #: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "Mindkettő"
-
-#: ../src/photos-print-setup.c:932
-msgid "Size"
-msgstr "Méret"
 
 #: ../src/photos-print-setup.c:935
 msgid "_Width:"
@@ -567,7 +613,7 @@ msgstr "Találat"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:156
+#: ../src/photos-search-type-manager.c:157
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Típus"
@@ -580,11 +626,7 @@ msgstr "Összes kijelölése"
 msgid "Select None"
 msgstr "Kijelölés megszüntetése"
 
-#: ../src/photos-selection-toolbar.c:464
-msgid "Print"
-msgstr "Nyomtatás"
-
-#: ../src/photos-selection-toolbar.c:482
+#: ../src/photos-selection-toolbar.ui.h:3
 msgid "Add to Album"
 msgstr "Hozzáadás az albumhoz"
 
@@ -592,51 +634,59 @@ msgstr "Hozzáadás az albumhoz"
 msgid "Sources"
 msgstr "Források"
 
-#: ../src/photos-tool-colors.c:193
+#: ../src/photos-tool-colors.c:240
 msgid "Brightness"
 msgstr "Fényerő"
 
-#: ../src/photos-tool-colors.c:214
+#: ../src/photos-tool-colors.c:261
 msgid "Contrast"
 msgstr "Kontraszt"
 
-#: ../src/photos-tool-colors.c:241
+#: ../src/photos-tool-colors.c:281
+msgid "Saturation"
+msgstr "Telítettség"
+
+#: ../src/photos-tool-colors.c:308
 msgid "Colors"
 msgstr "Színek"
 
-#: ../src/photos-tool-crop.c:126
+#: ../src/photos-tool-crop.c:132
 msgid "Free"
 msgstr "Szabad"
 
-#: ../src/photos-tool-crop.c:127
+#: ../src/photos-tool-crop.c:133
 msgid "Original Size"
 msgstr "Eredeti méret"
 
-#: ../src/photos-tool-crop.c:128
+#: ../src/photos-tool-crop.c:134
 msgid "Screen"
 msgstr "Képernyő"
 
-#: ../src/photos-tool-crop.c:129
+#: ../src/photos-tool-crop.c:135
 msgid "Golden Cut"
 msgstr "Aranymetszés"
 
-#: ../src/photos-tool-crop.c:130
+#: ../src/photos-tool-crop.c:136
 msgid "Square"
 msgstr "Négyzet"
 
-#: ../src/photos-tool-crop.c:131
+#: ../src/photos-tool-crop.c:137
 msgid "A3 (297 × 420 mm)"
 msgstr "A3 (297 x 420 mm)"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:138
 msgid "A4 (210 × 297 mm)"
 msgstr "A4 (210 × 297 mm)"
 
-#: ../src/photos-tool-crop.c:1106
+#: ../src/photos-tool-crop.c:1162
+msgid "Lock aspect ratio"
+msgstr "Méretarány zárolása"
+
+#: ../src/photos-tool-crop.c:1177
 msgid "Reset"
 msgstr "Visszaállítás"
 
-#: ../src/photos-tool-crop.c:1127
+#: ../src/photos-tool-crop.c:1198
 msgid "Crop"
 msgstr "Vágás"
 
@@ -652,27 +702,27 @@ msgstr "Zajmentesítés"
 msgid "Enhance"
 msgstr "Feljavítás"
 
-#: ../src/photos-tool-filters.c:94
+#: ../src/photos-tool-filters.c:173
 msgid "1977"
 msgstr "1977"
 
-#: ../src/photos-tool-filters.c:101
+#: ../src/photos-tool-filters.c:180
 msgid "Brannan"
 msgstr "Brannan"
 
-#: ../src/photos-tool-filters.c:107
+#: ../src/photos-tool-filters.c:186
 msgid "Gotham"
 msgstr "Gotham"
 
-#: ../src/photos-tool-filters.c:114
-msgid "Gray"
-msgstr "Gray"
+#: ../src/photos-tool-filters.c:193
+msgid "Hefe"
+msgstr "Hefe"
 
-#: ../src/photos-tool-filters.c:120
+#: ../src/photos-tool-filters.c:199
 msgid "Nashville"
 msgstr "Nashville"
 
-#: ../src/photos-tool-filters.c:136
+#: ../src/photos-tool-filters.c:217
 msgid "Filters"
 msgstr "Szűrők"
 
@@ -680,11 +730,14 @@ msgstr "Szűrők"
 msgid "Unable to fetch the list of photos"
 msgstr "Nem kérhető le a fényképek listája"
 
+#~ msgid "Print"
+#~ msgstr "Nyomtatás"
+
+#~ msgid "Gray"
+#~ msgstr "Gray"
+
 #~ msgid "%a, %d %B %Y  %X"
 #~ msgstr "%Y. %B %e. %a, %X"
-
-#~ msgid "%a, %d %B %Y"
-#~ msgstr "%Y. %B %e. %a"
 
 #~ msgid "%.1f (lens)"
 #~ msgstr "%.1f (lencse)"
