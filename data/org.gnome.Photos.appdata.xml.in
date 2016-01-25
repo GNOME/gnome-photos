@@ -42,4 +42,5 @@
   <url type="homepage">https://wiki.gnome.org/Apps/Photos</url>
   <updatecontact>debarshir_at_gnome.org</updatecontact>
   <project_group>GNOME</project_group>
+  <translation type="gettext">gnome-photos</translation>
 </application>
