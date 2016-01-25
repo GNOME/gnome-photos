@@ -31,36 +31,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER, PhotosTrackerCollectionsController))
 
-#define PHOTOS_TRACKER_COLLECTIONS_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER, PhotosTrackerCollectionsControllerClass))
-
 #define PHOTOS_IS_TRACKER_COLLECTIONS_CONTROLLER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER))
 
-#define PHOTOS_IS_TRACKER_COLLECTIONS_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER))
-
-#define PHOTOS_TRACKER_COLLECTIONS_CONTROLLER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER, PhotosTrackerCollectionsControllerClass))
-
-typedef struct _PhotosTrackerCollectionsController        PhotosTrackerCollectionsController;
-typedef struct _PhotosTrackerCollectionsControllerClass   PhotosTrackerCollectionsControllerClass;
-typedef struct _PhotosTrackerCollectionsControllerPrivate PhotosTrackerCollectionsControllerPrivate;
-
-struct _PhotosTrackerCollectionsController
-{
-  PhotosTrackerController parent_instance;
-  PhotosTrackerCollectionsControllerPrivate *priv;
-};
-
-struct _PhotosTrackerCollectionsControllerClass
-{
-  PhotosTrackerControllerClass parent_class;
-};
+typedef struct _PhotosTrackerCollectionsController      PhotosTrackerCollectionsController;
+typedef struct _PhotosTrackerCollectionsControllerClass PhotosTrackerCollectionsControllerClass;
 
 GType                     photos_tracker_collections_controller_get_type          (void) G_GNUC_CONST;
 
