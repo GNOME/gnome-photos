@@ -36,36 +36,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_PREVIEW_VIEW, PhotosPreviewView))
 
-#define PHOTOS_PREVIEW_VIEW_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_PREVIEW_VIEW, PhotosPreviewViewClass))
-
 #define PHOTOS_IS_PREVIEW_VIEW(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_PREVIEW_VIEW))
 
-#define PHOTOS_IS_PREVIEW_VIEW_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_PREVIEW_VIEW))
-
-#define PHOTOS_PREVIEW_VIEW_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_PREVIEW_VIEW, PhotosPreviewViewClass))
-
-typedef struct _PhotosPreviewView        PhotosPreviewView;
-typedef struct _PhotosPreviewViewClass   PhotosPreviewViewClass;
-typedef struct _PhotosPreviewViewPrivate PhotosPreviewViewPrivate;
-
-struct _PhotosPreviewView
-{
-  GtkBin parent_instance;
-  PhotosPreviewViewPrivate *priv;
-};
-
-struct _PhotosPreviewViewClass
-{
-  GtkBinClass parent_class;
-};
+typedef struct _PhotosPreviewView      PhotosPreviewView;
+typedef struct _PhotosPreviewViewClass PhotosPreviewViewClass;
 
 GType                  photos_preview_view_get_type               (void) G_GNUC_CONST;
 

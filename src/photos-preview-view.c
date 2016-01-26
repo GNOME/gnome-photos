@@ -40,8 +40,9 @@
 #include "photos-tool.h"
 
 
-struct _PhotosPreviewViewPrivate
+struct _PhotosPreviewView
 {
+  GtkBin parent_instance;
   GeglNode *node;
   GtkWidget *overlay;
   GtkWidget *palette;
@@ -54,6 +55,11 @@ struct _PhotosPreviewViewPrivate
   PhotosTool *current_tool;
 };
 
+struct _PhotosPreviewViewClass
+{
+  GtkBinClass parent_class;
+};
+
 enum
 {
   PROP_0,
@@ -61,7 +67,7 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosPreviewView, photos_preview_view, GTK_TYPE_BIN);
+G_DEFINE_TYPE (PhotosPreviewView, photos_preview_view, GTK_TYPE_BIN);
 
 
 static GtkWidget *photos_preview_view_create_view_with_container (PhotosPreviewView *self);
@@ -70,16 +76,15 @@ static GtkWidget *photos_preview_view_create_view_with_container (PhotosPreviewV
 static gboolean
 photos_preview_view_button_press_event (PhotosPreviewView *self, GdkEvent *event)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
   gboolean ret_val = GDK_EVENT_PROPAGATE;
 
-  if (priv->current_tool == NULL)
+  if (self->current_tool == NULL)
     goto out;
 
   switch (event->button.button)
     {
     case 1:
-      ret_val = photos_tool_left_click_event (priv->current_tool, &(event->button));
+      ret_val = photos_tool_left_click_event (self->current_tool, &(event->button));
       break;
 
     default:
@@ -94,16 +99,15 @@ photos_preview_view_button_press_event (PhotosPreviewView *self, GdkEvent *event
 static gboolean
 photos_preview_view_button_release_event (PhotosPreviewView *self, GdkEvent *event)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
   gboolean ret_val = GDK_EVENT_PROPAGATE;
 
-  if (priv->current_tool == NULL)
+  if (self->current_tool == NULL)
     goto out;
 
   switch (event->button.button)
     {
     case 1:
-      ret_val = photos_tool_left_unclick_event (priv->current_tool, &(event->button));
+      ret_val = photos_tool_left_unclick_event (self->current_tool, &(event->button));
       break;
 
     default:
@@ -138,26 +142,23 @@ photos_preview_view_draw_background (PhotosPreviewView *self, cairo_t *cr, GdkRe
 static void
 photos_preview_view_draw_overlay (PhotosPreviewView *self, cairo_t *cr, GdkRectangle *rect, gpointer user_data)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
-
-  if (priv->current_tool == NULL)
+  if (self->current_tool == NULL)
     return;
 
-  photos_tool_draw (priv->current_tool, cr, rect);
+  photos_tool_draw (self->current_tool, cr, rect);
 }
 
 
 static GtkWidget *
 photos_preview_view_get_invisible_child (PhotosPreviewView *self)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
   GList *children;
   GList *l;
   GtkWidget *current_view_container;
   GtkWidget *next_view_container = NULL;
 
-  current_view_container = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
-  children = gtk_container_get_children (GTK_CONTAINER (priv->stack));
+  current_view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  children = gtk_container_get_children (GTK_CONTAINER (self->stack));
   for (l = children; l != NULL; l = l->next)
     {
       GtkWidget *view_container = GTK_WIDGET (l->data);
@@ -177,13 +178,12 @@ photos_preview_view_get_invisible_child (PhotosPreviewView *self)
 static gboolean
 photos_preview_view_motion_notify_event (PhotosPreviewView *self, GdkEvent *event)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
   gboolean ret_val = GDK_EVENT_PROPAGATE;
 
-  if (priv->current_tool == NULL)
+  if (self->current_tool == NULL)
     goto out;
 
-  ret_val = photos_tool_motion_event (priv->current_tool, &(event->motion));
+  ret_val = photos_tool_motion_event (self->current_tool, &(event->motion));
 
  out:
   return ret_val;
@@ -193,21 +193,20 @@ photos_preview_view_motion_notify_event (PhotosPreviewView *self, GdkEvent *even
 static void
 photos_preview_view_navigate (PhotosPreviewView *self, gint position)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
   GtkWidget *current_view_container;
   GtkWidget *new_view_container;
   GtkWidget *next_view_container;
 
-  current_view_container = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
-  gtk_container_child_set (GTK_CONTAINER (priv->stack), current_view_container, "position", position, NULL);
+  current_view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  gtk_container_child_set (GTK_CONTAINER (self->stack), current_view_container, "position", position, NULL);
 
   next_view_container = photos_preview_view_get_invisible_child (self);
-  gtk_stack_set_visible_child (GTK_STACK (priv->stack), next_view_container);
+  gtk_stack_set_visible_child (GTK_STACK (self->stack), next_view_container);
 
-  gtk_container_remove (GTK_CONTAINER (priv->stack), current_view_container);
+  gtk_container_remove (GTK_CONTAINER (self->stack), current_view_container);
 
   new_view_container = photos_preview_view_create_view_with_container (self);
-  gtk_container_add (GTK_CONTAINER (priv->stack), new_view_container);
+  gtk_container_add (GTK_CONTAINER (self->stack), new_view_container);
 }
 
 
@@ -252,7 +251,7 @@ photos_preview_view_create_view_with_container (PhotosPreviewView *self)
   g_signal_connect_swapped (view, "draw-background", G_CALLBACK (photos_preview_view_draw_background), self);
   g_signal_connect_swapped (view, "draw-overlay", G_CALLBACK (photos_preview_view_draw_overlay), self);
 
-  /* It has to be visible to become the visible child of priv->stack. */
+  /* It has to be visible to become the visible child of self->stack. */
   gtk_widget_show_all (sw);
 
   return sw;
@@ -275,7 +274,6 @@ static void
 photos_preview_view_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
-  PhotosPreviewViewPrivate *priv = self->priv;
   GError *error = NULL;
   GtkWidget *view_container;
   GtkWidget *view;
@@ -288,7 +286,7 @@ photos_preview_view_process (GObject *source_object, GAsyncResult *res, gpointer
       g_error_free (error);
     }
 
-  view_container = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   view = photos_preview_view_get_view_from_view_container (view_container);
   gtk_widget_queue_draw (view);
 }
@@ -304,7 +302,7 @@ photos_preview_view_brightness_contrast (PhotosPreviewView *self, GVariant *para
   gdouble contrast = -G_MAXDOUBLE;
   gdouble value;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   if (item == NULL)
     return;
 
@@ -341,7 +339,7 @@ photos_preview_view_crop (PhotosPreviewView *self, GVariant *parameter)
   gdouble x = -1.0;
   gdouble y = -1.0;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   if (item == NULL)
     return;
 
@@ -374,7 +372,7 @@ photos_preview_view_denoise (PhotosPreviewView *self, GVariant *parameter)
   PhotosBaseItem *item;
   guint16 iterations;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   if (item == NULL)
     return;
 
@@ -390,7 +388,7 @@ photos_preview_view_insta (PhotosPreviewView *self, GVariant *parameter)
   PhotosBaseItem *item;
   PhotosOperationInstaPreset preset;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   if (item == NULL)
     return;
 
@@ -406,7 +404,7 @@ photos_preview_view_saturation (PhotosPreviewView *self, GVariant *parameter)
   PhotosBaseItem *item;
   gdouble scale;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   if (item == NULL)
     return;
 
@@ -422,7 +420,7 @@ photos_preview_view_sharpen (PhotosPreviewView *self, GVariant *parameter)
   PhotosBaseItem *item;
   gdouble scale;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   if (item == NULL)
     return;
 
@@ -435,32 +433,31 @@ photos_preview_view_sharpen (PhotosPreviewView *self, GVariant *parameter)
 static void
 photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
   GtkWidget *view_container;
   GtkWidget *view;
 
-  if (priv->current_tool == tool)
+  if (self->current_tool == tool)
     return;
 
-  if (priv->current_tool != NULL)
+  if (self->current_tool != NULL)
     {
-      photos_tool_deactivate (priv->current_tool);
-      g_object_remove_weak_pointer (G_OBJECT (priv->current_tool), (gpointer *) &priv->current_tool);
-      priv->current_tool = NULL;
+      photos_tool_deactivate (self->current_tool);
+      g_object_remove_weak_pointer (G_OBJECT (self->current_tool), (gpointer *) &self->current_tool);
+      self->current_tool = NULL;
     }
 
-  view_container = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   view = photos_preview_view_get_view_from_view_container (view_container);
 
   if (tool != NULL)
     {
       PhotosBaseItem *item;
 
-      priv->current_tool = tool;
-      g_object_add_weak_pointer (G_OBJECT (priv->current_tool), (gpointer *) &priv->current_tool);
+      self->current_tool = tool;
+      g_object_add_weak_pointer (G_OBJECT (self->current_tool), (gpointer *) &self->current_tool);
 
-      item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->item_mngr));
-      photos_tool_activate (priv->current_tool, item, GEGL_GTK_VIEW (view));
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+      photos_tool_activate (self->current_tool, item, GEGL_GTK_VIEW (view));
     }
 
   gtk_widget_queue_draw (view);
@@ -472,7 +469,7 @@ photos_preview_view_undo (PhotosPreviewView *self)
 {
   PhotosBaseItem *item;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   if (item == NULL)
     return;
 
@@ -484,30 +481,28 @@ photos_preview_view_undo (PhotosPreviewView *self)
 static void
 photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
-
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
-      gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer), FALSE);
-      photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (priv->palette));
-      photos_preview_nav_buttons_hide (priv->nav_buttons);
-      photos_preview_nav_buttons_set_model (priv->nav_buttons, NULL, NULL);
+      gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer), FALSE);
+      photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (self->palette));
+      photos_preview_nav_buttons_hide (self->nav_buttons);
+      photos_preview_nav_buttons_set_model (self->nav_buttons, NULL, NULL);
       break;
 
     case PHOTOS_WINDOW_MODE_EDIT:
-      gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer), TRUE);
-      photos_edit_palette_show (PHOTOS_EDIT_PALETTE (priv->palette));
-      photos_preview_nav_buttons_hide (priv->nav_buttons);
+      gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer), TRUE);
+      photos_edit_palette_show (PHOTOS_EDIT_PALETTE (self->palette));
+      photos_preview_nav_buttons_hide (self->nav_buttons);
       break;
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
-      gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer), FALSE);
-      photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (priv->palette));
-      photos_preview_nav_buttons_show (priv->nav_buttons);
+      gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer), FALSE);
+      photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (self->palette));
+      photos_preview_nav_buttons_show (self->nav_buttons);
       break;
 
     case PHOTOS_WINDOW_MODE_NONE:
@@ -522,12 +517,11 @@ static void
 photos_preview_view_dispose (GObject *object)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
-  PhotosPreviewViewPrivate *priv = self->priv;
 
-  g_clear_object (&priv->node);
-  g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->mode_cntrlr);
-  g_clear_object (&priv->nav_buttons);
+  g_clear_object (&self->node);
+  g_clear_object (&self->item_mngr);
+  g_clear_object (&self->mode_cntrlr);
+  g_clear_object (&self->nav_buttons);
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->dispose (object);
 }
@@ -537,10 +531,9 @@ static void
 photos_preview_view_finalize (GObject *object)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
-  PhotosPreviewViewPrivate *priv = self->priv;
 
-  if (priv->current_tool != NULL)
-    g_object_remove_weak_pointer (G_OBJECT (priv->current_tool), (gpointer *) &priv->current_tool);
+  if (self->current_tool != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (self->current_tool), (gpointer *) &self->current_tool);
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->finalize (object);
 }
@@ -550,11 +543,10 @@ static void
 photos_preview_view_constructed (GObject *object)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
-  PhotosPreviewViewPrivate *priv = self->priv;
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->constructed (object);
 
-  priv->nav_buttons = photos_preview_nav_buttons_new (self, GTK_OVERLAY (priv->overlay));
+  self->nav_buttons = photos_preview_nav_buttons_new (self, GTK_OVERLAY (self->overlay));
   gtk_widget_show_all (GTK_WIDGET (self));
 }
 
@@ -563,12 +555,11 @@ static void
 photos_preview_view_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
-  PhotosPreviewViewPrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_OVERLAY:
-      priv->overlay = GTK_WIDGET (g_value_dup_object (value));
+      self->overlay = GTK_WIDGET (g_value_dup_object (value));
       break;
 
     default:
@@ -581,7 +572,6 @@ photos_preview_view_set_property (GObject *object, guint prop_id, const GValue *
 static void
 photos_preview_view_init (PhotosPreviewView *self)
 {
-  PhotosPreviewViewPrivate *priv;
   GAction *action;
   GApplication *app;
   GtkWidget *grid;
@@ -589,16 +579,13 @@ photos_preview_view_init (PhotosPreviewView *self)
   GtkWidget *view_container;
   PhotosSearchContextState *state;
 
-  self->priv = photos_preview_view_get_instance_private (self);
-  priv = self->priv;
-
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->item_mngr = g_object_ref (state->item_mngr);
+  self->item_mngr = g_object_ref (state->item_mngr);
 
-  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
-  g_signal_connect_object (priv->mode_cntrlr,
+  self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
+  g_signal_connect_object (self->mode_cntrlr,
                            "window-mode-changed",
                            G_CALLBACK (photos_preview_view_window_mode_changed),
                            self,
@@ -610,30 +597,30 @@ photos_preview_view_init (PhotosPreviewView *self)
   grid = gtk_grid_new ();
   gtk_container_add (GTK_CONTAINER (self), grid);
 
-  priv->stack = gtk_stack_new ();
-  gtk_widget_set_hexpand (priv->stack, TRUE);
-  gtk_widget_set_vexpand (priv->stack, TRUE);
-  gtk_container_add (GTK_CONTAINER (grid), priv->stack);
+  self->stack = gtk_stack_new ();
+  gtk_widget_set_hexpand (self->stack, TRUE);
+  gtk_widget_set_vexpand (self->stack, TRUE);
+  gtk_container_add (GTK_CONTAINER (grid), self->stack);
 
   view_container = photos_preview_view_create_view_with_container (self);
-  gtk_container_add (GTK_CONTAINER (priv->stack), view_container);
-  gtk_stack_set_visible_child (GTK_STACK (priv->stack), view_container);
+  gtk_container_add (GTK_CONTAINER (self->stack), view_container);
+  gtk_stack_set_visible_child (GTK_STACK (self->stack), view_container);
 
   view_container = photos_preview_view_create_view_with_container (self);
-  gtk_container_add (GTK_CONTAINER (priv->stack), view_container);
+  gtk_container_add (GTK_CONTAINER (self->stack), view_container);
 
-  priv->revealer = gtk_revealer_new ();
-  gtk_revealer_set_transition_type (GTK_REVEALER (priv->revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_LEFT);
-  gtk_container_add (GTK_CONTAINER (grid), priv->revealer);
+  self->revealer = gtk_revealer_new ();
+  gtk_revealer_set_transition_type (GTK_REVEALER (self->revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_LEFT);
+  gtk_container_add (GTK_CONTAINER (grid), self->revealer);
 
   sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
-  gtk_container_add (GTK_CONTAINER (priv->revealer), sw);
+  gtk_container_add (GTK_CONTAINER (self->revealer), sw);
 
-  priv->palette = photos_edit_palette_new ();
-  gtk_container_add (GTK_CONTAINER (sw), priv->palette);
-  g_signal_connect_swapped (priv->palette, "tool-changed", G_CALLBACK (photos_preview_view_tool_changed), self);
+  self->palette = photos_edit_palette_new ();
+  gtk_container_add (GTK_CONTAINER (sw), self->palette);
+  g_signal_connect_swapped (self->palette, "tool-changed", G_CALLBACK (photos_preview_view_tool_changed), self);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "brightness-contrast-current");
   g_signal_connect_object (action,
@@ -702,42 +689,39 @@ photos_preview_view_new (GtkOverlay *overlay)
 void
 photos_preview_view_set_model (PhotosPreviewView *self, GtkTreeModel *model, GtkTreePath *current_path)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
-
   g_return_if_fail (model != NULL);
   g_return_if_fail (current_path != NULL);
 
-  photos_preview_nav_buttons_set_model (self->priv->nav_buttons, model, current_path);
-  photos_preview_nav_buttons_show (priv->nav_buttons);
+  photos_preview_nav_buttons_set_model (self->nav_buttons, model, current_path);
+  photos_preview_nav_buttons_show (self->nav_buttons);
 }
 
 
 void
 photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
 {
-  PhotosPreviewViewPrivate *priv = self->priv;
   GtkWidget *view_container;;
 
-  if (priv->node == node)
+  if (self->node == node)
     return;
 
-  view_container = gtk_stack_get_visible_child (GTK_STACK (priv->stack));
-  g_clear_object (&priv->node);
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  g_clear_object (&self->node);
 
   if (node == NULL)
     {
-      gtk_container_remove (GTK_CONTAINER (priv->stack), view_container);
+      gtk_container_remove (GTK_CONTAINER (self->stack), view_container);
 
       view_container = photos_preview_view_create_view_with_container (self);
-      gtk_container_add (GTK_CONTAINER (priv->stack), view_container);
+      gtk_container_add (GTK_CONTAINER (self->stack), view_container);
     }
   else
     {
       GtkWidget *view;
 
-      priv->node = g_object_ref (node);
+      self->node = g_object_ref (node);
       view = photos_preview_view_get_view_from_view_container (view_container);
-      gegl_gtk_view_set_node (GEGL_GTK_VIEW (view), priv->node);
+      gegl_gtk_view_set_node (GEGL_GTK_VIEW (view), self->node);
       gtk_widget_queue_draw (view);
     }
 }
