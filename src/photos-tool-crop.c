@@ -81,6 +81,7 @@ struct _PhotosToolCrop
   gdouble crop_y;
   gdouble event_x_last;
   gdouble event_y_last;
+  gint combo_box_active;
   gulong size_allocate_id;
 };
 
@@ -313,7 +314,7 @@ photos_tool_crop_get_active (PhotosToolCrop *self)
 
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->lock_button)))
     {
-      active = gtk_combo_box_get_active (GTK_COMBO_BOX (self->combo_box)) + 1;
+      active = self->combo_box_active + 1;
       g_return_val_if_fail (active >= 1, -1);
     }
   else
@@ -811,14 +812,22 @@ photos_tool_crop_active_changed (PhotosToolCrop *self)
 
 
 static void
+photos_tool_crop_combo_box_changed (PhotosToolCrop *self)
+{
+  self->combo_box_active = gtk_combo_box_get_active (GTK_COMBO_BOX (self->combo_box));
+  photos_tool_crop_active_changed (self);
+}
+
+
+static void
 photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
 {
-  g_signal_handlers_block_by_func (self->combo_box, photos_tool_crop_active_changed, self);
+  g_signal_handlers_block_by_func (self->combo_box, photos_tool_crop_combo_box_changed, self);
   g_signal_handlers_block_by_func (self->lock_button, photos_tool_crop_active_changed, self);
 
   if (active == -1) /* reset */
     {
-      gtk_combo_box_set_active (GTK_COMBO_BOX (self->combo_box), 0);
+      self->combo_box_active = 0;
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->lock_button), TRUE);
     }
   else if (active == 0)
@@ -827,7 +836,7 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
     }
   else if (active > 0)
     {
-      gtk_combo_box_set_active (GTK_COMBO_BOX (self->combo_box), active);
+      self->combo_box_active = active;
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->lock_button), TRUE);
     }
   else
@@ -835,7 +844,9 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
       g_warn_if_reached ();
     }
 
-  g_signal_handlers_unblock_by_func (self->combo_box, photos_tool_crop_active_changed, self);
+  gtk_combo_box_set_active (GTK_COMBO_BOX (self->combo_box), self->combo_box_active);
+
+  g_signal_handlers_unblock_by_func (self->combo_box, photos_tool_crop_combo_box_changed, self);
   g_signal_handlers_unblock_by_func (self->lock_button, photos_tool_crop_active_changed, self);
 }
 
@@ -1170,7 +1181,7 @@ photos_tool_crop_init (PhotosToolCrop *self)
 
   self->combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL (self->model));
   gtk_container_add (GTK_CONTAINER (self->revealer), self->combo_box);
-  g_signal_connect_swapped (self->combo_box, "changed", G_CALLBACK (photos_tool_crop_active_changed), self);
+  g_signal_connect_swapped (self->combo_box, "changed", G_CALLBACK (photos_tool_crop_combo_box_changed), self);
 
   photos_tool_crop_set_active (self, -1);
 
