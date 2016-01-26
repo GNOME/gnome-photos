@@ -126,6 +126,20 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
+                <property name="title" translatable="yes">Edit the current photo</property>
+                <property name="accelerator">&lt;Primary&gt;e</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="title" translatable="yes">Export the current photo</property>
+                <property name="accelerator">&lt;Primary&gt;x</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
                 <property name="title" translatable="yes">Action menu</property>
                 <property name="accelerator">F10</property>
               </object>

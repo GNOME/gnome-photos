@@ -1287,10 +1287,12 @@ photos_application_startup (GApplication *application)
   GVariant *state;
   GVariantType *parameter_type;
   const gchar *delete_accels[3] = {"Delete", "KP_Delete", NULL};
+  const gchar *edit_accels[2] = {"<Primary>e", NULL};
   const gchar *fullscreen_accels[2] = {"F11", NULL};
   const gchar *gear_menu_accels[2] = {"F10", NULL};
   const gchar *print_current_accels[2] = {"<Primary>p", NULL};
   const gchar *quit_accels[2] = {"<Primary>q", NULL};
+  const gchar *save_accels[2] = {"<Primary>x", NULL};
   const gchar *search_accels[2] = {"<Primary>f", NULL};
   const gchar *select_all_accels[2] = {"<Primary>a", NULL};
 
@@ -1494,9 +1496,11 @@ photos_application_startup (GApplication *application)
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.quit", quit_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.delete", delete_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.edit-current", edit_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.fullscreen", fullscreen_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.gear-menu", gear_menu_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.print-current", print_current_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.save-current", save_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.search", search_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.select-all", select_all_accels);
 
