@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <math.h>
+
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
@@ -63,9 +65,9 @@ static const gdouble BRIGHTNESS_DEFAULT = 0.0;
 static const gdouble BRIGHTNESS_MAXIMUM = 0.5;
 static const gdouble BRIGHTNESS_MINIMUM = -0.5;
 static const gdouble BRIGHTNESS_STEP = 0.05;
-static const gdouble CONTRAST_DEFAULT = 1.0;
-static const gdouble CONTRAST_MAXIMUM = 2.0;
-static const gdouble CONTRAST_MINIMUM = 0.0;
+static const gdouble CONTRAST_DEFAULT = 0.0;
+static const gdouble CONTRAST_MAXIMUM = 1.0;
+static const gdouble CONTRAST_MINIMUM = -1.0;
 static const gdouble CONTRAST_STEP = 0.1;
 static const gdouble SATURATION_DEFAULT = 1.0;
 static const gdouble SATURATION_MAXIMUM = 2.0;
@@ -81,14 +83,16 @@ photos_tool_colors_brightness_contrast_value_changed_timeout (gpointer user_data
   GVariantType *parameter_type;
   gdouble brightness;
   gdouble contrast;
+  gdouble contrast_real;
 
   brightness = gtk_range_get_value (GTK_RANGE (self->brightness_scale));
   contrast = gtk_range_get_value (GTK_RANGE (self->contrast_scale));
 
+  contrast_real = pow (2.0, contrast);
   parameter_type = g_variant_type_new ("a{sd}");
   g_variant_builder_init (&parameter, parameter_type);
   g_variant_builder_add (&parameter, "{sd}", "brightness", brightness);
-  g_variant_builder_add (&parameter, "{sd}", "contrast", contrast);
+  g_variant_builder_add (&parameter, "{sd}", "contrast", contrast_real);
   g_action_activate (self->brightness_contrast, g_variant_builder_end (&parameter));
 
   self->brightness_contrast_value_changed_id = 0;
@@ -143,13 +147,18 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView
   PhotosToolColors *self = PHOTOS_TOOL_COLORS (tool);
   gdouble brightness;
   gdouble contrast;
+  gdouble contrast_real;
   gdouble saturation;
 
-  if (!photos_base_item_operation_get (item,
-                                       "gegl:brightness-contrast",
-                                       "brightness", &brightness,
-                                       "contrast", &contrast,
-                                       NULL))
+  if (photos_base_item_operation_get (item,
+                                      "gegl:brightness-contrast",
+                                      "brightness", &brightness,
+                                      "contrast", &contrast_real,
+                                      NULL))
+    {
+      contrast = log2 (contrast_real);
+    }
+  else
     {
       brightness = BRIGHTNESS_DEFAULT;
       contrast = CONTRAST_DEFAULT;
