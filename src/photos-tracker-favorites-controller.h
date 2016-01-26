@@ -31,36 +31,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER, PhotosTrackerFavoritesController))
 
-#define PHOTOS_TRACKER_FAVORITES_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER, PhotosTrackerFavoritesControllerClass))
-
 #define PHOTOS_IS_TRACKER_FAVORITES_CONTROLLER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER))
 
-#define PHOTOS_IS_TRACKER_FAVORITES_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER))
-
-#define PHOTOS_TRACKER_FAVORITES_CONTROLLER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER, PhotosTrackerFavoritesControllerClass))
-
-typedef struct _PhotosTrackerFavoritesController        PhotosTrackerFavoritesController;
-typedef struct _PhotosTrackerFavoritesControllerClass   PhotosTrackerFavoritesControllerClass;
-typedef struct _PhotosTrackerFavoritesControllerPrivate PhotosTrackerFavoritesControllerPrivate;
-
-struct _PhotosTrackerFavoritesController
-{
-  PhotosTrackerController parent_instance;
-  PhotosTrackerFavoritesControllerPrivate *priv;
-};
-
-struct _PhotosTrackerFavoritesControllerClass
-{
-  PhotosTrackerControllerClass parent_class;
-};
+typedef struct _PhotosTrackerFavoritesController      PhotosTrackerFavoritesController;
+typedef struct _PhotosTrackerFavoritesControllerClass PhotosTrackerFavoritesControllerClass;
 
 GType                     photos_tracker_favorites_controller_get_type          (void) G_GNUC_CONST;
 
