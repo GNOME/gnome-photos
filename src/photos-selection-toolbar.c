@@ -282,6 +282,10 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gchar *open_label;
   guint fav_count = 0;
   guint sel_length = 0;
+  GApplication *app;
+  GAction *action;
+
+  app = g_application_get_default ();
 
   self->inside_refresh = TRUE;
 
@@ -355,9 +359,11 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gtk_widget_set_sensitive (self->toolbar_collection, show_collection);
   gtk_widget_set_sensitive (self->toolbar_print, show_print);
   gtk_widget_set_sensitive (self->toolbar_properties, show_properties);
-  gtk_widget_set_sensitive (self->toolbar_trash, show_trash);
   gtk_widget_set_sensitive (self->toolbar_open, show_open);
   gtk_widget_set_sensitive (self->toolbar_favorite, show_favorite);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "delete");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), show_trash);
 
   self->inside_refresh = FALSE;
 }
