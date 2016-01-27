@@ -1,7 +1,7 @@
 # German translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2013, 2015, 2016.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2013, 2015-2016.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2013.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2013-2015.
 # Tobias Endrigkeit <tobiasendrigkeit@outlook.com>, 2013.
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-01-24 03:24+0000\n"
-"PO-Revision-Date: 2016-01-24 10:35+0100\n"
+"POT-Creation-Date: 2016-01-27 10:45+0000\n"
+"PO-Revision-Date: 2016-01-27 19:47+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Generator: Poedit 1.8.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:715
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
 #: ../src/photos-search-type-manager.c:125
 msgid "Photos"
 msgstr "Fotos"
@@ -120,19 +120,19 @@ msgstr "Album"
 msgid "Screenshots"
 msgstr "Bildschirmfotos"
 
-#: ../src/photos-delete-notification.c:141
+#: ../src/photos-delete-notification.c:145
 #, c-format
 msgid "“%s” deleted"
 msgstr "»%s« wurde gelöscht"
 
-#: ../src/photos-delete-notification.c:144
+#: ../src/photos-delete-notification.c:148
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d Objekt wurde gelöscht"
 msgstr[1] "%d Objekte wurden gelöscht"
 
-#: ../src/photos-delete-notification.c:151
+#: ../src/photos-delete-notification.c:155
 msgid "Undo"
 msgstr "Rückgängig"
 
@@ -140,15 +140,15 @@ msgstr "Rückgängig"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-Darstellungsgerät"
 
-#: ../src/photos-embed.c:722 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Alben"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoriten"
 
-#: ../src/photos-embed.c:736 ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-embed.c:706 ../src/photos-help-overlay.ui.h:11
 #: ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Suchen"
@@ -294,30 +294,38 @@ msgid "Preview"
 msgstr "Vorschau"
 
 #: ../src/photos-help-overlay.ui.h:14
+msgid "Edit the current photo"
+msgstr "Das aktuelle Foto bearbeiten"
+
+#: ../src/photos-help-overlay.ui.h:15
+msgid "Export the current photo"
+msgstr "Das aktuelle Foto exportieren"
+
+#: ../src/photos-help-overlay.ui.h:16
 msgid "Action menu"
 msgstr "Aktions-Menü"
 
-#: ../src/photos-help-overlay.ui.h:15 ../src/photos-menus.ui.h:1
+#: ../src/photos-help-overlay.ui.h:17 ../src/photos-menus.ui.h:1
 msgid "Fullscreen"
 msgstr "Vollbild"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
 #.
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:172
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Fotos werden von %s geholt"
 
-#: ../src/photos-indexing-notification.c:176
+#: ../src/photos-indexing-notification.c:175
 msgid "Fetching photos from online accounts"
 msgstr "Fotos werden von Online-Konten geholt"
 
-#: ../src/photos-indexing-notification.c:213
+#: ../src/photos-indexing-notification.c:211
 msgid "Your photos are being indexed"
 msgstr "Ihre Fotos werden indiziert"
 
-#: ../src/photos-indexing-notification.c:214
+#: ../src/photos-indexing-notification.c:212
 msgid "Some photos might not be available during this process"
 msgstr "Einige Fotos könnten während dieses Vorgangs nicht verfügbar sein"
 
@@ -445,7 +453,7 @@ msgstr "Als Sperrbildschirm festlegen"
 msgid "Properties"
 msgstr "Eigenschaften"
 
-#: ../src/photos-print-notification.c:76
+#: ../src/photos-print-notification.c:79
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "»%s« wird gedruckt: %s"
@@ -642,19 +650,19 @@ msgstr "Zu Album hinzufügen"
 msgid "Sources"
 msgstr "Quellen"
 
-#: ../src/photos-tool-colors.c:240
+#: ../src/photos-tool-colors.c:249
 msgid "Brightness"
 msgstr "Helligkeit"
 
-#: ../src/photos-tool-colors.c:261
+#: ../src/photos-tool-colors.c:270
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:281
+#: ../src/photos-tool-colors.c:290
 msgid "Saturation"
 msgstr "Sättigung"
 
-#: ../src/photos-tool-colors.c:308
+#: ../src/photos-tool-colors.c:317
 msgid "Colors"
 msgstr "Farben"
 
