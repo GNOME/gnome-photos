@@ -52,6 +52,7 @@
 #include "photos-search-match.h"
 #include "photos-search-type.h"
 #include "photos-search-provider.h"
+#include "photos-selection-controller.h"
 #include "photos-single-item-job.h"
 #include "photos-source.h"
 #include "photos-source-manager.h"
@@ -98,6 +99,7 @@ struct _PhotosApplicationPrivate
   PhotosCameraCache *camera_cache;
   PhotosSearchContextState *state;
   PhotosSearchProvider *search_provider;
+  PhotosSelectionController *sel_cntrlr;
   TrackerExtractPriority *extract_priority;
   guint create_miners_count;
   guint32 activation_timestamp;
@@ -259,6 +261,34 @@ photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gp
 }
 
 
+static PhotosBaseItem *
+photos_application_get_selection_or_active_item (PhotosApplication *self)
+{
+  PhotosApplicationPrivate *priv = self->priv;
+  PhotosBaseItem *item = NULL;
+
+  if (photos_selection_controller_get_selection_mode (priv->sel_cntrlr))
+    {
+      GList *selection;
+      const gchar *urn;
+
+      selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+      if (selection == NULL || selection->next != NULL) /* length != NULL */
+        goto out;
+
+      urn = (gchar *) selection->data;
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->state->item_mngr, urn));
+    }
+  else
+    {
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+    }
+
+ out:
+  return item;
+}
+
+
 static void
 photos_application_actions_update (PhotosApplication *self)
 {
@@ -268,7 +298,7 @@ photos_application_actions_update (PhotosApplication *self)
   PhotosWindowMode mode;
   gboolean enable;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+  item = photos_application_get_selection_or_active_item (self);
   load_state = photos_item_manager_get_load_state (priv->state->item_mngr);
   mode = photos_mode_controller_get_window_mode (priv->state->mode_cntrlr);
 
@@ -306,9 +336,14 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (priv->open_action, enable);
   g_simple_action_set_enabled (priv->print_action, enable);
   g_simple_action_set_enabled (priv->properties_action, enable);
-  g_simple_action_set_enabled (priv->save_action, enable);
   g_simple_action_set_enabled (priv->set_bg_action, enable);
   g_simple_action_set_enabled (priv->set_ss_action, enable);
+
+  enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
+            || (photos_selection_controller_get_selection_mode (priv->sel_cntrlr)
+                && item != NULL
+                && !photos_base_item_is_collection (item)));
+  g_simple_action_set_enabled (priv->save_action, enable);
 
   enable = (load_state == PHOTOS_LOAD_STATE_FINISHED
             && mode == PHOTOS_WINDOW_MODE_PREVIEW
@@ -948,6 +983,7 @@ photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointe
     }
 
  out:
+  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
   g_application_release (G_APPLICATION (self));
 }
 
@@ -956,7 +992,6 @@ static void
 photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  PhotosApplicationPrivate *priv = self->priv;
   GError *error;
   GFile *export = NULL;
   GFile *tmp;
@@ -969,7 +1004,7 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
   if (response_id != GTK_RESPONSE_OK)
     goto out;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+  item = photos_application_get_selection_or_active_item (self);
   g_return_if_fail (item != NULL);
 
   pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
@@ -1025,7 +1060,7 @@ photos_application_save (PhotosApplication *self)
   GtkWidget *dialog;
   PhotosBaseItem *item;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+  item = photos_application_get_selection_or_active_item (self);
   g_return_if_fail (item != NULL);
   g_return_if_fail (!photos_base_item_is_collection (item));
 
@@ -1186,6 +1221,13 @@ photos_application_window_mode_changed (PhotosApplication *self)
 
 
 static void
+photos_application_selection_changed (PhotosApplication *self)
+{
+  photos_application_actions_update (self);
+}
+
+
+static void
 photos_application_activate (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
@@ -1340,6 +1382,17 @@ photos_application_startup (GApplication *application)
    * application.
    */
   priv->camera_cache = photos_camera_cache_dup_singleton ();
+
+  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
+  g_signal_connect_swapped (priv->sel_cntrlr,
+                            "selection-changed",
+                            G_CALLBACK (photos_application_selection_changed),
+                            self);
+
+  g_signal_connect_swapped (priv->sel_cntrlr,
+                            "selection-mode-changed",
+                            G_CALLBACK (photos_application_selection_changed),
+                            self);
 
   action = g_simple_action_new ("about", NULL);
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_about), self);
@@ -1587,6 +1640,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->sharpen_action);
   g_clear_object (&priv->undo_action);
   g_clear_object (&priv->camera_cache);
+  g_clear_object (&priv->sel_cntrlr);
   g_clear_object (&priv->extract_priority);
 
   if (priv->state != NULL)

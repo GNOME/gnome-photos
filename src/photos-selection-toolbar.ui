@@ -14,6 +14,16 @@
         </packing>
       </child>
       <child>
+        <object class="GtkButton">
+          <property name="visible">1</property>
+          <property name="action_name">app.save-current</property>
+          <property name="label" translatable="yes">Export</property>
+        </object>
+        <packing>
+          <property name="pack_type">start</property>
+        </packing>
+      </child>
+      <child>
         <object class="GtkButton" id="toolbar_open">
           <property name="visible">1</property>
           <property name="label" translatable="yes">Open</property>

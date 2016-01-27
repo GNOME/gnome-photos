@@ -173,25 +173,40 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
 
 
 static void
-photos_export_dialog_constructed (GObject *object)
+photos_export_dialog_load (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-  PhotosExportDialog *self = PHOTOS_EXPORT_DIALOG (object);
+  PhotosExportDialog *self;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+  GDateTime *now = NULL;
+  GError *error;
+  GeglNode *node = NULL;
+  gboolean success = TRUE;
+  gchar *now_str = NULL;
 
-  G_OBJECT_CLASS (photos_export_dialog_parent_class)->constructed (object);
-
-  if (photos_base_item_is_collection (self->item))
+  error = NULL;
+  node = photos_base_item_load_finish (item, result, &error);
+  if (error != NULL)
     {
-      const gchar *name;
+      success = FALSE;
 
-      name = photos_base_item_get_name_with_fallback (self->item);
-      gtk_entry_set_text (GTK_ENTRY (self->dir_entry), name);
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          g_error_free (error);
+          goto out;
+        }
+      else
+        {
+          g_warning ("Unable to load the item: %s", error->message);
+          g_error_free (error);
+        }
     }
-  else
+
+  self = PHOTOS_EXPORT_DIALOG (user_data);
+
+  if (success)
     {
-      GDateTime *now;
       GeglRectangle bbox;
       gboolean got_bbox_edited;
-      gchar *now_str;
       gint max_dimension;
       guint i;
 
@@ -212,18 +227,41 @@ photos_export_dialog_constructed (GObject *object)
               break;
             }
         }
+    }
 
-      now = g_date_time_new_now_local ();
+  now = g_date_time_new_now_local ();
 
-      /* Translators: this is the default sub-directory where photos
-       *  will be exported.
-       */
-      now_str = g_date_time_format (now, _("%e %B %Y"));
+  /* Translators: this is the default sub-directory where photos
+   *  will be exported.
+   */
+  now_str = g_date_time_format (now, _("%e %B %Y"));
 
-      gtk_entry_set_text (GTK_ENTRY (self->dir_entry), now_str);
+  gtk_entry_set_text (GTK_ENTRY (self->dir_entry), now_str);
 
-      g_free (now_str);
-      g_date_time_unref (now);
+ out:
+  g_free (now_str);
+  g_clear_object (&node);
+  g_clear_pointer (&now, (GDestroyNotify) g_date_time_unref);
+}
+
+
+static void
+photos_export_dialog_constructed (GObject *object)
+{
+  PhotosExportDialog *self = PHOTOS_EXPORT_DIALOG (object);
+
+  G_OBJECT_CLASS (photos_export_dialog_parent_class)->constructed (object);
+
+  if (photos_base_item_is_collection (self->item))
+    {
+      const gchar *name;
+
+      name = photos_base_item_get_name_with_fallback (self->item);
+      gtk_entry_set_text (GTK_ENTRY (self->dir_entry), name);
+    }
+  else
+    {
+      photos_base_item_load_async (self->item, self->cancellable, photos_export_dialog_load, self);
     }
 }
 
