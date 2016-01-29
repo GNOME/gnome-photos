@@ -131,15 +131,14 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
   PhotosExportDialog *self;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   GError *error;
-  GeglRectangle bbox;
-  gboolean got_bbox_edited;
-  gchar *size_str;
-  gchar *size_str_markup;
+  gboolean success = TRUE;
   gsize sizes[2];
 
   error = NULL;
   if (!photos_base_item_save_guess_sizes_finish (item, res, &sizes[0], &sizes[1], &error))
     {
+      success = FALSE;
+
       if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
         {
           g_error_free (error);
@@ -149,38 +148,46 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
         {
           g_warning ("Unable to guess sizes: %s", error->message);
           g_error_free (error);
-          goto out;
         }
     }
 
   self = PHOTOS_EXPORT_DIALOG (user_data);
 
-  got_bbox_edited = photos_base_item_get_bbox_edited (self->item, &bbox);
-  g_return_if_fail (got_bbox_edited);
-
-  size_str = photos_export_dialog_create_size_str (bbox.height, bbox.width, (guint64) sizes[0]);
-  size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
-  gtk_label_set_markup (GTK_LABEL (self->full_label), size_str_markup);
-  g_free (size_str);
-  g_free (size_str_markup);
-
-  if (self->reduced_zoom > 0.0)
+  if (success)
     {
-      gint reduced_height;
-      gint reduced_width;
-      gsize reduced_size;
+      GeglRectangle bbox;
+      gboolean got_bbox_edited;
+      gchar *size_str;
+      gchar *size_str_markup;
 
-      reduced_height = (gint) ((gdouble) bbox.height * self->reduced_zoom + 0.5);
-      reduced_width = (gint) ((gdouble) bbox.width * self->reduced_zoom + 0.5);
-      reduced_size = (gsize) (sizes[1] + (sizes[0] - sizes[1]) * (self->reduced_zoom - 0.5) / (1.0 - 0.5) + 0.5);
-      size_str = photos_export_dialog_create_size_str (reduced_height, reduced_width, (guint64) reduced_size);
+      got_bbox_edited = photos_base_item_get_bbox_edited (self->item, &bbox);
+      g_return_if_fail (got_bbox_edited);
+
+      size_str = photos_export_dialog_create_size_str (bbox.height, bbox.width, (guint64) sizes[0]);
       size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
-      gtk_label_set_markup (GTK_LABEL (self->reduced_label), size_str_markup);
+      gtk_label_set_markup (GTK_LABEL (self->full_label), size_str_markup);
       g_free (size_str);
       g_free (size_str_markup);
+
+      if (self->reduced_zoom > 0.0)
+        {
+          gint reduced_height;
+          gint reduced_width;
+          gsize reduced_size;
+
+          reduced_height = (gint) ((gdouble) bbox.height * self->reduced_zoom + 0.5);
+          reduced_width = (gint) ((gdouble) bbox.width * self->reduced_zoom + 0.5);
+          reduced_size = (gsize) (sizes[1]
+                                  + (sizes[0] - sizes[1]) * (self->reduced_zoom - 0.5) / (1.0 - 0.5)
+                                  + 0.5);
+          size_str = photos_export_dialog_create_size_str (reduced_height, reduced_width, (guint64) reduced_size);
+          size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
+          gtk_label_set_markup (GTK_LABEL (self->reduced_label), size_str_markup);
+          g_free (size_str);
+          g_free (size_str_markup);
+        }
     }
 
- out:
   photos_export_dialog_show_size_options (self, FALSE);
 }
 
