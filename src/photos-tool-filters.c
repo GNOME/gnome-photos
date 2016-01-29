@@ -106,6 +106,7 @@ static void
 photos_tool_filters_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *view)
 {
   PhotosToolFilters *self = PHOTOS_TOOL_FILTERS (tool);
+  PhotosOperationInstaPreset preset;
 
   if (self->buttons == NULL || self->create_preview_id != 0)
     return;
@@ -114,6 +115,27 @@ photos_tool_filters_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkVie
   self->item = g_object_ref (item);
 
   self->create_preview_id = g_idle_add_full (G_PRIORITY_LOW, photos_tool_filters_create_preview_idle, self, NULL);
+
+  if (photos_base_item_operation_get (item, "photos:insta-filter", "preset", &preset, NULL))
+    {
+      GList *l;
+
+      for (l = self->buttons; l != NULL; l = l->next)
+        {
+          GtkWidget *button = GTK_WIDGET (l->data);
+          GVariant *target_value;
+          PhotosOperationInstaPreset button_preset;
+
+          target_value = gtk_actionable_get_action_target_value (GTK_ACTIONABLE (button));
+          button_preset = (PhotosOperationInstaPreset) g_variant_get_int16 (target_value);
+
+          if (preset == button_preset)
+            {
+              photos_tool_filter_button_set_active (PHOTOS_TOOL_FILTER_BUTTON (button), TRUE);
+              break;
+            }
+        }
+    }
 }
 
 

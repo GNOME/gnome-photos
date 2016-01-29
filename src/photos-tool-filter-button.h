@@ -45,6 +45,9 @@ GtkWidget             *photos_tool_filter_button_new                    (GtkWidg
 
 GtkWidget             *photos_tool_filter_button_get_group              (PhotosToolFilterButton *self);
 
+void                   photos_tool_filter_button_set_active             (PhotosToolFilterButton *self,
+                                                                         gboolean is_active);
+
 void                   photos_tool_filter_button_set_image              (PhotosToolFilterButton *self,
                                                                          GtkWidget *image);
 

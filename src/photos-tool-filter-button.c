@@ -301,6 +301,13 @@ photos_tool_filter_button_get_group (PhotosToolFilterButton *self)
 
 
 void
+photos_tool_filter_button_set_active (PhotosToolFilterButton *self, gboolean is_active)
+{
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->button), is_active);
+}
+
+
+void
 photos_tool_filter_button_set_image (PhotosToolFilterButton *self, GtkWidget *image)
 {
   PhotosWidgetShader *shader;
