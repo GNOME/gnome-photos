@@ -103,6 +103,16 @@ GdMainIconView.content-view.cell:active {
     background-image: url("sidebar-radio-selected-prelight.svg");
 }
 
+.photos-fade-in {
+    opacity: 1.0;
+    transition: opacity 0.2s ease-out;
+}
+
+.photos-fade-out {
+    opacity: 0.0;
+    transition: opacity 0.2s ease-out;
+}
+
 .photos-collection-icon {
     background-color: @photos_collection_bg;
     border-radius: 8px;
