@@ -47,8 +47,8 @@ struct _ViewHelper {
     gfloat         x_scaled;
     gfloat         y;
     gfloat         y_scaled;
-    gdouble        zoom;
-    gdouble        zoom_scaled;
+    gfloat         zoom;
+    gfloat         zoom_scaled;
     gint           scale_factor;
     gboolean       block;    /* blocking render */
     GeglGtkViewAutoscale autoscale_policy;

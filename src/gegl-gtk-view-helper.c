@@ -151,7 +151,7 @@ update_autoscale(ViewHelper *self)
         }
 
         self->zoom_scaled = zoom_scaled;
-        self->zoom = self->zoom_scaled / (gdouble) self->scale_factor;
+        self->zoom = self->zoom_scaled / (gfloat) self->scale_factor;
 
         /* At this point, viewport is definitely bigger than bbox. */
         self->x_scaled = (bbox.width - real_viewport_width) / 2.0 + bbox.x;
@@ -208,7 +208,7 @@ view_helper_draw(ViewHelper *self, cairo_t *cr, GdkRectangle *rect)
     start = g_get_monotonic_time ();
 
     gegl_node_blit(self->node,
-                   self->zoom_scaled,
+                   (gdouble) self->zoom_scaled,
                    &roi,
                    babl_format("cairo-ARGB32"),
                    (gpointer)buf,
