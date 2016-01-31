@@ -103,6 +103,8 @@ gnome_photos_SOURCES = \
 	photos-header-bar.c \
 	photos-header-bar.h \
 	photos-icons.h \
+	photos-image-container.c \
+	photos-image-container.h \
 	photos-image-view.c \
 	photos-image-view.h \
 	photos-indexing-notification.c \
