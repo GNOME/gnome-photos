@@ -142,7 +142,7 @@ photos_tool_colors_saturation_value_changed (PhotosToolColors *self)
 
 
 static void
-photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *view)
+photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageView *view)
 {
   PhotosToolColors *self = PHOTOS_TOOL_COLORS (tool);
   gdouble brightness;

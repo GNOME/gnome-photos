@@ -35,8 +35,8 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "gegl-gtk-view.h"
 #include "photos-icons.h"
+#include "photos-image-view.h"
 #include "photos-tool.h"
 #include "photos-tool-crop.h"
 #include "photos-utils.h"
@@ -214,10 +214,10 @@ photos_tool_crop_redraw_damaged_area (PhotosToolCrop *self)
   gdouble x;
   gdouble y;
 
-  x = (gdouble) gegl_gtk_view_get_x (GEGL_GTK_VIEW (self->view));
+  x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
   x = -x + self->crop_x - damage_offset;
 
-  y = (gdouble) gegl_gtk_view_get_y (GEGL_GTK_VIEW (self->view));
+  y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
   y = -y + self->crop_y - damage_offset;
 
   area.height = (gint) (self->crop_height + 2 * damage_offset + 0.5) + 2;
@@ -240,7 +240,7 @@ photos_tool_crop_surface_create (PhotosToolCrop *self)
   g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
 
   window = gtk_widget_get_window (self->view);
-  zoom = gegl_gtk_view_get_zoom (GEGL_GTK_VIEW (self->view));
+  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
   self->bbox_zoomed.height = (gint) (zoom * self->bbox_source.height + 0.5);
   self->bbox_zoomed.width = (gint) (zoom * self->bbox_source.width + 0.5);
   self->surface = gdk_window_create_similar_surface (window,
@@ -914,7 +914,7 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
 
   photos_tool_crop_surface_create (self);
 
-  zoom = gegl_gtk_view_get_zoom (GEGL_GTK_VIEW (self->view));
+  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
   self->crop_height *= zoom;
   self->crop_width *= zoom;
   self->crop_x *= zoom;
@@ -951,7 +951,7 @@ photos_tool_crop_reset_clicked (PhotosToolCrop *self)
 
 
 static void
-photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *view)
+photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageView *view)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (tool);
   gboolean got_bbox_source;
@@ -1027,7 +1027,7 @@ photos_tool_crop_deactivate (PhotosTool *tool)
       GVariantType *parameter_type;
       gfloat zoom;
 
-      zoom = gegl_gtk_view_get_zoom (GEGL_GTK_VIEW (self->view));
+      zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
 
       /* GEGL needs the parameters to be in device pixels. So, we
        * should multiply the extents of the crop rectangle and the
@@ -1067,10 +1067,10 @@ photos_tool_crop_draw (PhotosTool *tool, cairo_t *cr, GdkRectangle *rect)
   g_return_if_fail (self->activated);
   g_return_if_fail (self->view != NULL);
 
-  x = (gdouble) gegl_gtk_view_get_x (GEGL_GTK_VIEW (self->view));
+  x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
   x = -x;
 
-  y = (gdouble) gegl_gtk_view_get_y (GEGL_GTK_VIEW (self->view));
+  y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
   y = -y;
 
   cairo_save (cr);
@@ -1100,8 +1100,8 @@ photos_tool_crop_left_click_event (PhotosTool *tool, GdkEventButton *event)
 
   self->grabbed = TRUE;
 
-  x = (gdouble) gegl_gtk_view_get_x (GEGL_GTK_VIEW (self->view));
-  y = (gdouble) gegl_gtk_view_get_y (GEGL_GTK_VIEW (self->view));
+  x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
+  y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
   self->event_x_last = event->x + x;
   self->event_y_last = event->y + y;
 
@@ -1137,8 +1137,8 @@ photos_tool_crop_motion_event (PhotosTool *tool, GdkEventMotion *event)
   g_return_val_if_fail (self->activated, GDK_EVENT_PROPAGATE);
   g_return_val_if_fail (self->view != NULL, GDK_EVENT_PROPAGATE);
 
-  x = (gdouble) gegl_gtk_view_get_x (GEGL_GTK_VIEW (self->view));
-  y = (gdouble) gegl_gtk_view_get_y (GEGL_GTK_VIEW (self->view));
+  x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
+  y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
   event_x = event->x + x;
   event_y = event->y + y;
 

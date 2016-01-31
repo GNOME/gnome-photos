@@ -121,7 +121,7 @@ photos_tool_enhance_sharpen_value_changed (PhotosToolEnhance *self)
 
 
 static void
-photos_tool_enhance_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *view)
+photos_tool_enhance_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageView *view)
 {
   PhotosToolEnhance *self = PHOTOS_TOOL_ENHANCE (tool);
   gdouble sharpen_scale;

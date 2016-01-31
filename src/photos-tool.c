@@ -112,7 +112,7 @@ photos_tool_class_init (PhotosToolClass *class)
 
 
 void
-photos_tool_activate (PhotosTool *self, PhotosBaseItem *item, GeglGtkView *view)
+photos_tool_activate (PhotosTool *self, PhotosBaseItem *item, PhotosImageView *view)
 {
   PHOTOS_TOOL_GET_CLASS (self)->activate (self, item, view);
 }

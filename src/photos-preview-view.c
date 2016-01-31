@@ -29,8 +29,8 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 
-#include "gegl-gtk-view.h"
 #include "photos-base-item.h"
+#include "photos-image-view.h"
 #include "photos-item-manager.h"
 #include "photos-edit-palette.h"
 #include "photos-operation-insta-common.h"
@@ -235,11 +235,7 @@ photos_preview_view_create_view_with_container (PhotosPreviewView *self)
   context = gtk_widget_get_style_context (sw);
   gtk_style_context_add_class (context, "documents-scrolledwin");
 
-  view = GTK_WIDGET (gegl_gtk_view_new ());
-  gtk_widget_add_events (view, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK);
-  context = gtk_widget_get_style_context (view);
-  gtk_style_context_add_class (context, GTK_STYLE_CLASS_VIEW);
-  gtk_style_context_add_class (context, "content-view");
+  view = photos_image_view_new ();
   gtk_container_add (GTK_CONTAINER (sw), view);
   g_signal_connect_swapped (view, "button-press-event", G_CALLBACK (photos_preview_view_button_press_event), self);
   g_signal_connect_swapped (view,
@@ -479,7 +475,7 @@ photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
       g_signal_connect_object (tool, "activated", G_CALLBACK (photos_preview_view_tool_activated), self, 0);
 
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
-      photos_tool_activate (tool, item, GEGL_GTK_VIEW (view));
+      photos_tool_activate (tool, item, PHOTOS_IMAGE_VIEW (view));
     }
 }
 
@@ -790,7 +786,7 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
 
       self->node = g_object_ref (node);
       view = photos_preview_view_get_view_from_view_container (view_container);
-      gegl_gtk_view_set_node (GEGL_GTK_VIEW (view), self->node);
+      photos_image_view_set_node (PHOTOS_IMAGE_VIEW (view), self->node);
       gtk_widget_queue_draw (view);
     }
 }

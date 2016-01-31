@@ -1,9 +1,6 @@
 bin_PROGRAMS = gnome-photos
 
 gnome_photos_built_sources = \
-	gegl-gtk-enums.c \
-	gegl-gtk-marshal.c \
-	gegl-gtk-marshal.h \
 	photos-about-data.c \
 	photos-about-data.h \
 	photos-enums.c \
@@ -35,11 +32,6 @@ nodist_gnome_photos_SOURCES = \
 	$(NULL)
 
 gnome_photos_SOURCES = \
-	gegl-gtk-enums.h \
-	gegl-gtk-view.c \
-	gegl-gtk-view.h \
-	gegl-gtk-view-helper.c \
-	gegl-gtk-view-helper.h \
 	photos-application.c \
 	photos-application.h \
 	photos-base-manager.c \
@@ -101,6 +93,8 @@ gnome_photos_SOURCES = \
 	photos-header-bar.c \
 	photos-header-bar.h \
 	photos-icons.h \
+	photos-image-view.c \
+	photos-image-view.h \
 	photos-indexing-notification.c \
 	photos-indexing-notification.h \
 	photos-item-manager.c \
@@ -256,7 +250,6 @@ BUILT_SOURCES = \
 	$(NULL)
 
 EXTRA_DIST = \
-	gegl-gtk-marshal.list \
 	org.gnome.ShellSearchProvider2.xml \
 	photos-enums.c.template \
 	photos-enums.h.template \
@@ -332,7 +325,6 @@ gnome_photos_LDADD = \
 
 CLEANFILES = \
 	$(BUILT_SOURCES) \
-	stamp-gegl-gtk-marshal.h \
 	stamp-photos-about-data.h \
 	stamp-photos-enums.h \
 	stamp-photos-marshalers.h \
@@ -345,42 +337,6 @@ CLEANFILES = \
 	xgen-tmc \
 	xgen-tmh \
 	$(NULL)
-
-gegl-gtk-enums.c: $(srcdir)/gegl-gtk-enums.h
-	$(AM_V_GEN) ( \
-		glib-mkenums \
-			--fhead "/* This is a generated file, do not edit directly */\n\n#include \"config.h\"\n#include <glib-object.h>\n#include \"gegl-gtk-enums.h\"" \
-			--fprod "\n/* enumerations from \"@filename@\" */" \
-			--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n	static const G@Type@Value values[] = {" \
-			--vprod "	  { @VALUENAME@, \"@valuenick@\", \"@valuenick@\" }," \
-			--vtail "	  { 0, NULL, NULL }\n	};\n	etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n\n" \
-			$(srcdir)/gegl-gtk-enums.h > gegl-gtk-enums.c \
-	)
-
-gegl-gtk-marshal.h: stamp-gegl-gtk-marshal.h
-	@true
-
-stamp-gegl-gtk-marshal.h: gegl-gtk-marshal.list Makefile
-	$(AM_V_GEN) ( \
-		( glib-genmarshal \
-			--prefix=gegl_gtk_marshal \
-			--header $(srcdir)/gegl-gtk-marshal.list \
-		) >> xgen-gmh \
-		&& ( cmp -s xgen-gmh gegl-gtk-marshal.h || cp xgen-gmh gegl-gtk-marshal.h ) \
-		&& rm -f xgen-gmh \
-		&& echo timestamp > $(@F) \
-	)
-
-gegl-gtk-marshal.c: gegl-gtk-marshal.list gegl-gtk-marshal.h Makefile
-	$(AM_V_GEN) ( \
-		echo "#include \"gegl-gtk-marshal.h\"" > xgen-gmc \
-		&& ( glib-genmarshal \
-			--prefix=gegl_gtk_marshal \
-			--body $(srcdir)/gegl-gtk-marshal.list \
-		   ) >> xgen-gmc \
-		&& cp xgen-gmc gegl-gtk-marshal.c \
-		&& rm -f xgen-gmc \
-	)
 
 photos-about-data.h: stamp-photos-about-data.h
 	@true

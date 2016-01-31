@@ -25,8 +25,8 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
-#include "gegl-gtk-view.h"
 #include "photos-base-item.h"
+#include "photos-image-view.h"
 
 G_BEGIN_DECLS
 
@@ -70,7 +70,7 @@ struct _PhotosToolClass
   const gchar *name;
 
   /* virtual methods */
-  void          (*activate)                   (PhotosTool *self, PhotosBaseItem *item, GeglGtkView *view);
+  void          (*activate)                   (PhotosTool *self, PhotosBaseItem *item, PhotosImageView *view);
   void          (*deactivate)                 (PhotosTool *self);
   void          (*draw)                       (PhotosTool *self, cairo_t *cr, GdkRectangle *rect);
   GtkWidget    *(*get_widget)                 (PhotosTool *self);
@@ -85,7 +85,9 @@ struct _PhotosToolClass
 
 GType               photos_tool_get_type                (void) G_GNUC_CONST;
 
-void                photos_tool_activate                (PhotosTool *self, PhotosBaseItem *item, GeglGtkView *view);
+void                photos_tool_activate                (PhotosTool *self,
+                                                         PhotosBaseItem *item,
+                                                         PhotosImageView *view);
 
 void                photos_tool_deactivate              (PhotosTool *self);
 

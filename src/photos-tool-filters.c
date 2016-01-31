@@ -103,7 +103,7 @@ photos_tool_filters_create_preview_idle (gpointer user_data)
 
 
 static void
-photos_tool_filters_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *view)
+photos_tool_filters_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageView *view)
 {
   PhotosToolFilters *self = PHOTOS_TOOL_FILTERS (tool);
   PhotosOperationInstaPreset preset;
