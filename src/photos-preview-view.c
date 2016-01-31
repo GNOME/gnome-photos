@@ -48,7 +48,6 @@ struct _PhotosPreviewView
   GtkWidget *palette;
   GtkWidget *revealer;
   GtkWidget *stack;
-  GtkWidget *view;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosPreviewNavButtons *nav_buttons;
