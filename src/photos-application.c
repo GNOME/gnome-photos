@@ -273,7 +273,7 @@ photos_application_get_selection_or_active_item (PhotosApplication *self)
       const gchar *urn;
 
       selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
-      if (selection == NULL || selection->next != NULL) /* length != NULL */
+      if (selection == NULL || selection->next != NULL) /* length != 1 */
         goto out;
 
       urn = (gchar *) selection->data;
