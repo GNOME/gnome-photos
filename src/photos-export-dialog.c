@@ -197,11 +197,9 @@ photos_export_dialog_load (GObject *source_object, GAsyncResult *result, gpointe
 {
   PhotosExportDialog *self;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-  GDateTime *now = NULL;
   GError *error;
   GeglNode *node = NULL;
   gboolean success = TRUE;
-  gchar *now_str = NULL;
 
   error = NULL;
   node = photos_base_item_load_finish (item, result, &error);
@@ -249,19 +247,9 @@ photos_export_dialog_load (GObject *source_object, GAsyncResult *result, gpointe
         }
     }
 
-  now = g_date_time_new_now_local ();
-
-  /* Translators: this is the default sub-directory where photos
-   *  will be exported.
-   */
-  now_str = g_date_time_format (now, _("%e %B %Y"));
-
-  gtk_entry_set_text (GTK_ENTRY (self->dir_entry), now_str);
 
  out:
-  g_free (now_str);
   g_clear_object (&node);
-  g_clear_pointer (&now, (GDestroyNotify) g_date_time_unref);
 }
 
 
@@ -281,7 +269,22 @@ photos_export_dialog_constructed (GObject *object)
     }
   else
     {
+      GDateTime *now;
+      gchar *now_str;
+
+      now = g_date_time_new_now_local ();
+
+      /* Translators: this is the default sub-directory where photos
+       *  will be exported.
+       */
+      now_str = g_date_time_format (now, _("%e %B %Y"));
+
+      gtk_entry_set_text (GTK_ENTRY (self->dir_entry), now_str);
+
       photos_base_item_load_async (self->item, self->cancellable, photos_export_dialog_load, self);
+
+      g_date_time_unref (now);
+      g_free (now_str);
     }
 }
 
