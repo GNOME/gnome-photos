@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-01-27 10:45+0000\n"
-"PO-Revision-Date: 2016-01-27 19:47+0100\n"
+"POT-Creation-Date: 2016-02-01 17:04+0000\n"
+"PO-Revision-Date: 2016-02-01 19:44+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -148,8 +148,7 @@ msgstr "Alben"
 msgid "Favorites"
 msgstr "Favoriten"
 
-#: ../src/photos-embed.c:706 ../src/photos-help-overlay.ui.h:11
-#: ../src/photos-main-toolbar.c:301
+#: ../src/photos-embed.c:706 ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Suchen"
 
@@ -185,7 +184,7 @@ msgstr "Fotos mit Bewertung werden hier angezeigt"
 msgid "No Photos Found"
 msgstr "Keine Fotos gefunden"
 
-#: ../src/photos-export-dialog.ui.h:1
+#: ../src/photos-export-dialog.ui.h:1 ../src/photos-selection-toolbar.ui.h:1
 msgid "Export"
 msgstr "Exportieren"
 
@@ -224,11 +223,11 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:221
+#: ../src/photos-export-dialog.c:257
 msgid "%e %B %Y"
 msgstr "%e. %B %Y"
 
-#: ../src/photos-export-dialog.c:273
+#: ../src/photos-export-dialog.c:331
 msgid "Calculating export size…"
 msgstr "Exportgröße wird berechnet …"
 
@@ -246,66 +245,87 @@ msgid "Untitled Photo"
 msgstr "Unbenanntes Foto"
 
 #: ../src/photos-help-overlay.ui.h:1
+msgctxt "shortcut window"
 msgid "General"
 msgstr "Allgemein"
 
 #: ../src/photos-help-overlay.ui.h:2
+msgctxt "shortcut window"
 msgid "Show help"
 msgstr "Hilfe anzeigen"
 
-#: ../src/photos-help-overlay.ui.h:3 ../src/photos-menus.ui.h:5
+#: ../src/photos-help-overlay.ui.h:3
+msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Beenden"
 
 #: ../src/photos-help-overlay.ui.h:4
+msgctxt "shortcut window"
 msgid "Print the current photo"
 msgstr "Das aktuelle Foto drucken"
 
-#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-help-overlay.ui.h:5
+msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Löschen"
 
 #: ../src/photos-help-overlay.ui.h:6
+msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigation"
 
 #: ../src/photos-help-overlay.ui.h:7
+msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Nächstes Foto"
 
 #: ../src/photos-help-overlay.ui.h:8
+msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Vorheriges Foto"
 
 #: ../src/photos-help-overlay.ui.h:9
+msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Zurück gehen"
 
 #: ../src/photos-help-overlay.ui.h:10
+msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Übersicht"
 
+#: ../src/photos-help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Suchen"
+
 #: ../src/photos-help-overlay.ui.h:12
+msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Alle auswählen"
 
-#: ../src/photos-help-overlay.ui.h:13 ../src/photos-print-setup.c:980
+#: ../src/photos-help-overlay.ui.h:13
+msgctxt "shortcut window"
 msgid "Preview"
 msgstr "Vorschau"
 
 #: ../src/photos-help-overlay.ui.h:14
+msgctxt "shortcut window"
 msgid "Edit the current photo"
 msgstr "Das aktuelle Foto bearbeiten"
 
 #: ../src/photos-help-overlay.ui.h:15
+msgctxt "shortcut window"
 msgid "Export the current photo"
 msgstr "Das aktuelle Foto exportieren"
 
 #: ../src/photos-help-overlay.ui.h:16
+msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Aktions-Menü"
 
-#: ../src/photos-help-overlay.ui.h:17 ../src/photos-menus.ui.h:1
+#: ../src/photos-help-overlay.ui.h:17
+msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Vollbild"
 
@@ -396,6 +416,10 @@ msgstr ""
 "Tobias Endrigkeit <tobiasendrigkeit@outlook.com>\n"
 "Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>"
 
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Vollbild"
+
 #: ../src/photos-menus.ui.h:2
 msgid "Keyboard Shortcuts"
 msgstr "Tastenkürzel"
@@ -407,6 +431,10 @@ msgstr "_Hilfe"
 #: ../src/photos-menus.ui.h:4
 msgid "About"
 msgstr "Info"
+
+#: ../src/photos-menus.ui.h:5
+msgid "Quit"
+msgstr "Beenden"
 
 #: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
@@ -424,7 +452,7 @@ msgstr "Organisieren"
 
 #. Translators: this is the Open action in a context menu
 #: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
-#: ../src/photos-selection-toolbar.ui.h:1
+#: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Öffnen"
 
@@ -435,6 +463,10 @@ msgstr "Exportieren …"
 #: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
 msgstr "Drucken …"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Delete"
+msgstr "Löschen"
 
 #: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
@@ -449,7 +481,7 @@ msgid "Set as Lock Screen"
 msgstr "Als Sperrbildschirm festlegen"
 
 #: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
-#: ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Eigenschaften"
 
@@ -525,6 +557,10 @@ msgstr "Millimeter"
 #: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Zoll"
+
+#: ../src/photos-print-setup.c:980
+msgid "Preview"
+msgstr "Vorschau"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
@@ -642,7 +678,7 @@ msgstr "Alle auswählen"
 msgid "Select None"
 msgstr "Nichts auswählen"
 
-#: ../src/photos-selection-toolbar.ui.h:3
+#: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Zu Album hinzufügen"
 
