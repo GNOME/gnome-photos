@@ -50,7 +50,6 @@ struct _PhotosSelectionToolbar
   GtkWidget *toolbar_favorite;
   GtkWidget *toolbar_open;
   GtkWidget *toolbar_properties;
-  GtkWidget *toolbar_trash;
   PhotosBaseManager *item_mngr;
   PhotosSelectionController *sel_cntrlr;
   gboolean inside_refresh;
@@ -255,7 +254,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gboolean show_favorite;
   gboolean show_open;
   gboolean show_properties;
-  gboolean show_trash;
   gchar *favorite_label;
   gchar *open_label;
   guint fav_count = 0;
@@ -270,7 +268,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   show_favorite = has_selection;
   show_open = has_selection;
   show_properties = has_selection;
-  show_trash = has_selection;
 
   for (l = selection; l != NULL; l = g_list_next (l))
     {
@@ -287,8 +284,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
       if (default_app_name != NULL
           && g_list_find_custom (apps, default_app_name, (GCompareFunc) g_strcmp0) == NULL)
         apps = g_list_prepend (apps, (gpointer) g_strdup (default_app_name));
-
-      show_trash = show_trash && photos_base_item_can_trash (item);
 
       sel_length++;
     }
@@ -329,7 +324,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 
   gtk_widget_set_sensitive (self->toolbar_collection, show_collection);
   gtk_widget_set_sensitive (self->toolbar_properties, show_properties);
-  gtk_widget_set_sensitive (self->toolbar_trash, show_trash);
   gtk_widget_set_sensitive (self->toolbar_open, show_open);
   gtk_widget_set_sensitive (self->toolbar_favorite, show_favorite);
 
@@ -448,7 +442,6 @@ photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/selection-toolbar.ui");
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_favorite);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_open);
-  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_trash);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_properties);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_collection);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_favorite_clicked);

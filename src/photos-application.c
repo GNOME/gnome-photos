@@ -71,6 +71,7 @@ struct _PhotosApplicationPrivate
   GSettings *ss_settings;
   GSimpleAction *brightness_contrast_action;
   GSimpleAction *crop_action;
+  GSimpleAction *delete_action;
   GSimpleAction *denoise_action;
   GSimpleAction *edit_action;
   GSimpleAction *edit_cancel_action;
@@ -294,13 +295,18 @@ photos_application_actions_update (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
   PhotosBaseItem *item;
+  GList *l;
+  GList *selection;
   PhotosLoadState load_state;
   PhotosWindowMode mode;
   gboolean enable;
+  gboolean selection_mode;
 
   item = photos_application_get_selection_or_active_item (self);
   load_state = photos_item_manager_get_load_state (priv->state->item_mngr);
   mode = photos_mode_controller_get_window_mode (priv->state->mode_cntrlr);
+  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+  selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
 
   enable = (mode == PHOTOS_WINDOW_MODE_EDIT);
   g_simple_action_set_enabled (priv->brightness_contrast_action, enable);
@@ -339,11 +345,23 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (priv->set_ss_action, enable);
 
   enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
-            || (photos_selection_controller_get_selection_mode (priv->sel_cntrlr)
-                && item != NULL
-                && !photos_base_item_is_collection (item)));
+            || (selection_mode && item != NULL && !photos_base_item_is_collection (item)));
   g_simple_action_set_enabled (priv->print_action, enable);
   g_simple_action_set_enabled (priv->save_action, enable);
+
+  enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED
+             && mode == PHOTOS_WINDOW_MODE_PREVIEW
+             && photos_base_item_can_trash (item))
+            || (selection_mode && selection != NULL));
+  for (l = selection; l != NULL; l = l->next)
+    {
+      PhotosBaseItem *selected_item;
+      const gchar *urn = (gchar *) l->data;
+
+      selected_item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->state->item_mngr, urn));
+      enable = enable && photos_base_item_can_trash (selected_item);
+    }
+  g_simple_action_set_enabled (priv->delete_action, enable);
 
   enable = (load_state == PHOTOS_LOAD_STATE_FINISHED
             && mode == PHOTOS_WINDOW_MODE_PREVIEW
@@ -1373,9 +1391,8 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->crop_action));
   g_variant_type_free (parameter_type);
 
-  action = g_simple_action_new ("delete", NULL);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  g_object_unref (action);
+  priv->delete_action = g_simple_action_new ("delete", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->delete_action));
 
   priv->denoise_action = g_simple_action_new ("denoise-current", G_VARIANT_TYPE_UINT16);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->denoise_action));
@@ -1575,6 +1592,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->ss_settings);
   g_clear_object (&priv->brightness_contrast_action);
   g_clear_object (&priv->crop_action);
+  g_clear_object (&priv->delete_action);
   g_clear_object (&priv->denoise_action);
   g_clear_object (&priv->edit_action);
   g_clear_object (&priv->edit_cancel_action);
