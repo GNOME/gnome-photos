@@ -334,7 +334,6 @@ photos_application_actions_update (PhotosApplication *self)
   enable = (load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW);
   g_simple_action_set_enabled (priv->gear_action, enable);
   g_simple_action_set_enabled (priv->open_action, enable);
-  g_simple_action_set_enabled (priv->print_action, enable);
   g_simple_action_set_enabled (priv->properties_action, enable);
   g_simple_action_set_enabled (priv->set_bg_action, enable);
   g_simple_action_set_enabled (priv->set_ss_action, enable);
@@ -343,6 +342,7 @@ photos_application_actions_update (PhotosApplication *self)
             || (photos_selection_controller_get_selection_mode (priv->sel_cntrlr)
                 && item != NULL
                 && !photos_base_item_is_collection (item)));
+  g_simple_action_set_enabled (priv->print_action, enable);
   g_simple_action_set_enabled (priv->save_action, enable);
 
   enable = (load_state == PHOTOS_LOAD_STATE_FINISHED
@@ -789,7 +789,7 @@ photos_application_print_current (PhotosApplication *self)
   PhotosApplicationPrivate *priv = self->priv;
   PhotosBaseItem *item;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+  item = photos_application_get_selection_or_active_item (self);
   if (item == NULL)
     return;
 

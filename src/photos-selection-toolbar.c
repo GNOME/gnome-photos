@@ -49,7 +49,6 @@ struct _PhotosSelectionToolbar
   GtkWidget *toolbar_collection;
   GtkWidget *toolbar_favorite;
   GtkWidget *toolbar_open;
-  GtkWidget *toolbar_print;
   GtkWidget *toolbar_properties;
   GtkWidget *toolbar_trash;
   PhotosBaseManager *item_mngr;
@@ -212,26 +211,6 @@ photos_selection_toolbar_open_clicked (GtkButton *button, gpointer user_data)
 
 
 static void
-photos_selection_toolbar_print_clicked (GtkButton *button, gpointer user_data)
-{
-  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-  GList *selection;
-  GtkWidget *toplevel;
-  PhotosBaseItem *item;
-  const gchar *urn;
-
-  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
-  if (selection == NULL || selection->next != NULL) /* length != 1 */
-    return;
-
-  urn = (gchar *) selection->data;
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, urn));
-  toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
-  photos_base_item_print (item, toplevel);
-}
-
-
-static void
 photos_selection_toolbar_properties_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
@@ -275,7 +254,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gboolean show_collection;
   gboolean show_favorite;
   gboolean show_open;
-  gboolean show_print;
   gboolean show_properties;
   gboolean show_trash;
   gchar *favorite_label;
@@ -291,7 +269,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   show_collection = has_selection;
   show_favorite = has_selection;
   show_open = has_selection;
-  show_print = has_selection;
   show_properties = has_selection;
   show_trash = has_selection;
 
@@ -312,7 +289,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
         apps = g_list_prepend (apps, (gpointer) g_strdup (default_app_name));
 
       show_trash = show_trash && photos_base_item_can_trash (item);
-      show_print = show_print && !photos_base_item_is_collection (item);
 
       sel_length++;
     }
@@ -322,7 +298,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 
   if (sel_length > 1)
     {
-      show_print = FALSE;
       show_properties = FALSE;
     }
 
@@ -353,7 +328,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   g_free (favorite_label);
 
   gtk_widget_set_sensitive (self->toolbar_collection, show_collection);
-  gtk_widget_set_sensitive (self->toolbar_print, show_print);
   gtk_widget_set_sensitive (self->toolbar_properties, show_properties);
   gtk_widget_set_sensitive (self->toolbar_trash, show_trash);
   gtk_widget_set_sensitive (self->toolbar_open, show_open);
@@ -474,13 +448,11 @@ photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/selection-toolbar.ui");
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_favorite);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_open);
-  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_print);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_trash);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_properties);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_collection);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_favorite_clicked);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_open_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_print_clicked);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_properties_clicked);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_collection_clicked);
 }

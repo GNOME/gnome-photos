@@ -46,6 +46,7 @@
       <child>
         <object class="GtkButton" id="toolbar_print">
           <property name="visible">1</property>
+          <property name="action_name">app.print-current</property>
           <style>
             <class name="image-button"/>
           </style>
@@ -55,8 +56,6 @@
               <property name="icon_name">document-print-symbolic</property>
             </object>
           </child>
-          <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
-                  handler="photos_selection_toolbar_print_clicked" />
         </object>
         <packing>
           <property name="pack_type">start</property>
