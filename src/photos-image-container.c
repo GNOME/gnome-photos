@@ -24,6 +24,7 @@
 #include <cairo-gobject.h>
 #include <glib.h>
 
+#include "egg-animation.h"
 #include "photos-image-container.h"
 #include "photos-image-view.h"
 #include "photos-utils.h"
@@ -32,13 +33,18 @@
 struct _PhotosImageContainer
 {
   GtkBin parent_instance;
+  GeglNode *crop;
   GeglNode *buffer_source;
   GeglNode *graph;
+  GeglNode *graph_anim;
   GeglNode *node;
+  GeglRectangle bbox;
   GtkWidget *stack;
   GtkWidget *view;
+  GtkWidget *view_anim;
   cairo_region_t *bbox_region;
   cairo_region_t *region;
+  guint computed_id;
 };
 
 struct _PhotosImageContainerClass
@@ -61,33 +67,49 @@ static void photos_image_container_computed (PhotosImageContainer *self, GeglRec
 
 
 static void
-photos_image_container_notify_transition_running (GtkStack *stack, GParamSpec *pspec, gpointer user_data)
+photos_image_container_invalidated (PhotosImageContainer *self, GeglRectangle *rect)
 {
-  GtkWidget *view = GTK_WIDGET (user_data);
+  GeglRectangle bbox;
 
-  if (!gtk_stack_get_transition_running (stack))
-    gtk_widget_destroy (view);
+  g_clear_pointer (&self->bbox_region, (GDestroyNotify) cairo_region_destroy);
+  g_clear_pointer (&self->region, (GDestroyNotify) cairo_region_destroy);
 
-  g_signal_handlers_disconnect_by_func (stack, photos_image_container_notify_transition_running, view);
+  self->region = cairo_region_create ();
+  self->bbox_region = cairo_region_create_rectangle ((cairo_rectangle_int_t *) &bbox);
 }
 
 
-static gboolean
-photos_image_container_computed_idle (gpointer user_data)
+static void
+photos_image_container_notify_transition_running (PhotosImageContainer *self)
 {
-  PhotosImageContainer *self = PHOTOS_IMAGE_CONTAINER (user_data);
+  g_signal_handlers_disconnect_by_func (self->stack,
+                                        photos_image_container_notify_transition_running,
+                                        self->view_anim);
+
+  if (!gtk_stack_get_transition_running (GTK_STACK (self->stack)))
+    g_clear_pointer (&self->view_anim, (GDestroyNotify) gtk_widget_destroy);
+}
+
+
+static void
+photos_image_container_crossfade (PhotosImageContainer *self)
+{
   const Babl *format;
   GeglBuffer *buffer;
   GeglBuffer *buffer_orig;
-  GtkWidget *view;
 
-  g_return_val_if_fail (self->buffer_source != NULL, G_SOURCE_REMOVE);
+  g_clear_object (&self->graph_anim);
+  self->graph_anim = gegl_node_new ();
 
-  view = photos_image_view_new ();
-  photos_image_view_set_node (PHOTOS_IMAGE_VIEW (view), self->buffer_source);
-  gtk_container_add (GTK_CONTAINER (self->stack), view);
-  gtk_widget_show (view);
-  gtk_stack_set_visible_child (GTK_STACK (self->stack), view);
+  g_object_ref (self->buffer_source);
+  gegl_node_remove_child (self->graph, self->buffer_source);
+  gegl_node_add_child (self->graph_anim, self->buffer_source);
+  g_object_unref (self->buffer_source);
+
+  self->view_anim = photos_image_view_new_from_node (self->buffer_source);
+  gtk_container_add (GTK_CONTAINER (self->stack), self->view_anim);
+  gtk_widget_show (self->view_anim);
+  gtk_stack_set_visible_child (GTK_STACK (self->stack), self->view_anim);
 
   g_clear_object (&self->graph);
   g_signal_handlers_block_by_func (self->node, photos_image_container_computed, self);
@@ -103,16 +125,229 @@ photos_image_container_computed_idle (gpointer user_data)
   gegl_node_process (self->buffer_source);
   photos_image_view_set_node (PHOTOS_IMAGE_VIEW (self->view), self->buffer_source);
   gtk_stack_set_visible_child_full (GTK_STACK (self->stack), "view", GTK_STACK_TRANSITION_TYPE_CROSSFADE);
-  g_signal_connect (self->stack,
-                    "notify::transition-running",
-                    G_CALLBACK (photos_image_container_notify_transition_running),
-                    view);
+  g_signal_connect_swapped (self->stack,
+                            "notify::transition-running",
+                            G_CALLBACK (photos_image_container_notify_transition_running),
+                            self);
 
-  gtk_widget_queue_draw (GTK_WIDGET (self));
   g_signal_handlers_unblock_by_func (self->node, photos_image_container_computed, self);
 
   g_object_unref (buffer);
   g_object_unref (buffer_orig);
+}
+
+
+static void
+photos_image_container_notify_animation (PhotosImageContainer *self)
+{
+  g_message ("photos_image_container_notify_animation");
+  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "view");
+  g_clear_pointer (&self->view_anim, (GDestroyNotify) gtk_widget_destroy);
+  gtk_widget_queue_draw (GTK_WIDGET (self->view));
+}
+
+
+static void
+photos_image_container_rubber_band_tick (PhotosImageContainer *self)
+{
+  g_message ("photos_image_container_rubber_band_tick: %p", self->crop);
+  gegl_node_process (self->crop);
+  photos_image_view_set_node (PHOTOS_IMAGE_VIEW (self->view_anim), self->crop);
+  gtk_widget_queue_draw (GTK_WIDGET (self->view));
+}
+
+
+static void
+photos_image_container_rubber_band_contract (PhotosImageContainer *self)
+{
+  const Babl *format;
+  EggAnimation *animation;
+  GdkFrameClock *frame_clock;
+  GeglBuffer *buffer;
+  GeglBuffer *buffer_orig;
+  GeglOperation *op;
+  GeglRectangle bbox;
+  guint transition_duration;
+
+  g_clear_object (&self->graph_anim);
+  self->graph_anim = gegl_node_new ();
+
+  g_object_ref (self->buffer_source);
+  gegl_node_remove_child (self->graph, self->buffer_source);
+  gegl_node_add_child (self->graph_anim, self->buffer_source);
+  g_object_unref (self->buffer_source);
+
+  self->crop = gegl_node_new_child (self->graph_anim,
+                                    "operation", "gegl:crop",
+                                    "height", (gdouble) self->bbox.height,
+                                    "width", (gdouble) self->bbox.width,
+                                    "x", (gdouble) self->bbox.x,
+                                    "y", (gdouble) self->bbox.y,
+                                    NULL);
+
+  gegl_node_link (self->buffer_source, self->crop);
+  gegl_node_process (self->crop);
+
+  self->view_anim = photos_image_view_new_from_node (self->crop);
+  gtk_container_add (GTK_CONTAINER (self->stack), self->view_anim);
+  gtk_widget_show (self->view_anim);
+  gtk_stack_set_visible_child (GTK_STACK (self->stack), self->view_anim);
+
+  g_clear_object (&self->graph);
+  g_signal_handlers_block_by_func (self->node, photos_image_container_computed, self);
+
+  format = babl_format ("cairo-ARGB32");
+  buffer_orig = photos_utils_create_buffer_from_node (self->node, format);
+  buffer = gegl_buffer_dup (buffer_orig);
+  self->graph = gegl_node_new ();
+  self->buffer_source = gegl_node_new_child (self->graph,
+                                             "operation", "gegl:buffer-source",
+                                             "buffer", buffer,
+                                             NULL);
+  gegl_node_process (self->buffer_source);
+  photos_image_view_set_node (PHOTOS_IMAGE_VIEW (self->view), self->buffer_source);
+
+  g_signal_handlers_unblock_by_func (self->node, photos_image_container_computed, self);
+
+  bbox = gegl_node_get_bounding_box (self->node);
+  g_message ("photos_image_container_rubber_band_contract: %d %d %d %d",
+             bbox.x, bbox.y, bbox.width, bbox.height);
+
+  op = gegl_node_get_gegl_operation (self->crop);
+  frame_clock = gtk_widget_get_frame_clock (self->stack);
+  transition_duration = gtk_stack_get_transition_duration (GTK_STACK (self->stack));
+  animation = egg_object_animate_full (op,
+                                       EGG_ANIMATION_EASE_OUT_CUBIC,
+                                       transition_duration,
+                                       frame_clock,
+                                       NULL,
+                                       self,
+                                       "height", (gdouble) bbox.height,
+                                       "width", (gdouble) bbox.width,
+                                       "x", (gdouble) bbox.x,
+                                       "y", (gdouble) bbox.y,
+                                       NULL);
+
+  g_signal_connect_swapped (animation, "tick", G_CALLBACK (photos_image_container_rubber_band_tick), self);
+  g_object_weak_ref (G_OBJECT (animation), (GWeakNotify) photos_image_container_notify_animation, self);
+
+  self->bbox = bbox;
+
+  g_object_unref (buffer);
+  g_object_unref (buffer_orig);
+}
+
+
+static void
+photos_image_container_rubber_band_expand (PhotosImageContainer *self)
+{
+  const Babl *format;
+  EggAnimation *animation;
+  GdkFrameClock *frame_clock;
+  GeglBuffer *buffer;
+  GeglBuffer *buffer_orig;
+  GeglOperation *op;
+  GeglRectangle bbox;
+  guint transition_duration;
+
+  g_clear_object (&self->graph);
+  g_clear_object (&self->graph_anim);
+  g_signal_handlers_block_by_func (self->node, photos_image_container_computed, self);
+
+  format = babl_format ("cairo-ARGB32");
+  buffer_orig = photos_utils_create_buffer_from_node (self->node, format);
+  buffer = gegl_buffer_dup (buffer_orig);
+
+  self->graph_anim = gegl_node_new ();
+  self->buffer_source = gegl_node_new_child (self->graph_anim,
+                                             "operation", "gegl:buffer-source",
+                                             "buffer", buffer,
+                                             NULL);
+  self->crop = gegl_node_new_child (self->graph_anim,
+                                    "operation", "gegl:crop",
+                                    "height", (gdouble) self->bbox.height,
+                                    "width", (gdouble) self->bbox.width,
+                                    "x", (gdouble) self->bbox.x,
+                                    "y", (gdouble) self->bbox.y,
+                                    NULL);
+  gegl_node_link (self->buffer_source, self->crop);
+  gegl_node_process (self->crop);
+
+  self->view_anim = photos_image_view_new_from_node (self->crop);
+  gtk_container_add (GTK_CONTAINER (self->stack), self->view_anim);
+  gtk_widget_show (self->view_anim);
+  gtk_stack_set_visible_child (GTK_STACK (self->stack), self->view_anim);
+
+  self->graph = gegl_node_new ();
+  self->buffer_source = gegl_node_new_child (self->graph,
+                                             "operation", "gegl:buffer-source",
+                                             "buffer", buffer,
+                                             NULL);
+  gegl_node_process (self->buffer_source);
+  photos_image_view_set_node (PHOTOS_IMAGE_VIEW (self->view), self->buffer_source);
+
+  g_signal_handlers_unblock_by_func (self->node, photos_image_container_computed, self);
+
+  bbox = gegl_node_get_bounding_box (self->node);
+  g_message ("photos_image_container_rubber_band_expand: %d %d %d %d", bbox.x, bbox.y, bbox.width, bbox.height);
+
+  op = gegl_node_get_gegl_operation (self->crop);
+  frame_clock = gtk_widget_get_frame_clock (self->stack);
+  transition_duration = gtk_stack_get_transition_duration (GTK_STACK (self->stack)) * 10;
+  animation = egg_object_animate_full (op,
+                                       EGG_ANIMATION_EASE_OUT_CUBIC,
+                                       transition_duration,
+                                       frame_clock,
+                                       NULL,
+                                       self,
+                                       "height", (gdouble) bbox.height,
+                                       "width", (gdouble) bbox.width,
+                                       "x", (gdouble) bbox.x,
+                                       "y", (gdouble) bbox.y,
+                                       NULL);
+
+  g_signal_connect_swapped (animation, "tick", G_CALLBACK (photos_image_container_rubber_band_tick), self);
+  g_object_weak_ref (G_OBJECT (animation), (GWeakNotify) photos_image_container_notify_animation, self);
+
+  self->bbox = bbox;
+
+  g_object_unref (buffer);
+  g_object_unref (buffer_orig);
+}
+
+
+static void
+photos_image_container_rubber_band (PhotosImageContainer *self)
+{
+  GeglRectangle bbox;
+
+  bbox = gegl_node_get_bounding_box (self->node);
+  if (gegl_rectangle_contains (&self->bbox, &bbox))
+    photos_image_container_rubber_band_contract (self);
+  else
+    photos_image_container_rubber_band_expand (self);
+}
+
+
+static gboolean
+photos_image_container_computed_idle (gpointer user_data)
+{
+  PhotosImageContainer *self = PHOTOS_IMAGE_CONTAINER (user_data);
+  GeglRectangle bbox;
+
+  self->computed_id = 0;
+
+  g_return_val_if_fail (self->buffer_source != NULL, G_SOURCE_REMOVE);
+  g_return_val_if_fail (self->node != NULL, G_SOURCE_REMOVE);
+
+  g_message ("photos_image_computed_idle: %p", self->node);
+
+  bbox = gegl_node_get_bounding_box (self->node);
+  if (gegl_rectangle_equal (&self->bbox, &bbox))
+    photos_image_container_crossfade (self);
+  else
+    photos_image_container_rubber_band (self);
+
   return G_SOURCE_REMOVE;
 }
 
@@ -122,11 +357,14 @@ photos_image_container_computed (PhotosImageContainer *self, GeglRectangle *rect
 {
   cairo_status_t status;
 
+  if (self->computed_id != 0)
+    return;
+
   status = cairo_region_union_rectangle (self->region, (cairo_rectangle_int_t *) rect);
   g_assert_cmpint (status, ==, CAIRO_STATUS_SUCCESS);
 
   if (cairo_region_equal (self->bbox_region, self->region))
-    g_idle_add (photos_image_container_computed_idle, self);
+    self->computed_id = g_idle_add_full (G_PRIORITY_HIGH_IDLE, photos_image_container_computed_idle, self, NULL);
 }
 
 
@@ -135,7 +373,14 @@ photos_image_container_dispose (GObject *object)
 {
   PhotosImageContainer *self = PHOTOS_IMAGE_CONTAINER (object);
 
+  if (self->computed_id != 0)
+    {
+      g_source_remove (self->computed_id);
+      self->computed_id = 0;
+    }
+
   g_clear_object (&self->graph);
+  g_clear_object (&self->graph_anim);
   g_clear_object (&self->node);
 
   G_OBJECT_CLASS (photos_image_container_parent_class)->dispose (object);
@@ -284,9 +529,14 @@ photos_image_container_set_node (PhotosImageContainer *self, GeglNode *node)
     return;
 
   if (self->node != NULL)
-    g_signal_handlers_disconnect_by_func (self->node, photos_image_container_computed, self);
+    {
+      g_signal_handlers_disconnect_by_func (self->node, photos_image_container_computed, self);
+      g_signal_handlers_disconnect_by_func (self->node, photos_image_container_invalidated, self);
+    }
 
+  gegl_rectangle_set (&self->bbox, 0, 0, 0, 0);
   self->buffer_source = NULL;
+
   g_clear_object (&self->graph);
   g_clear_object (&self->node);
   g_clear_pointer (&self->bbox_region, (GDestroyNotify) cairo_region_destroy);
@@ -297,12 +547,11 @@ photos_image_container_set_node (PhotosImageContainer *self, GeglNode *node)
       const Babl *format;
       GeglBuffer *buffer;
       GeglBuffer *buffer_orig;
-      GeglRectangle bbox;
 
       g_object_ref (node);
 
-      bbox = gegl_node_get_bounding_box (node);
-      self->bbox_region = cairo_region_create_rectangle ((cairo_rectangle_int_t *) &bbox);
+      self->bbox = gegl_node_get_bounding_box (node);
+      self->bbox_region = cairo_region_create_rectangle ((cairo_rectangle_int_t *) &self->bbox);
       self->region = cairo_region_create ();
 
       format = babl_format ("cairo-ARGB32");
@@ -318,6 +567,11 @@ photos_image_container_set_node (PhotosImageContainer *self, GeglNode *node)
       g_signal_connect_object (node,
                                "computed",
                                G_CALLBACK (photos_image_container_computed),
+                               self,
+                               G_CONNECT_SWAPPED);
+      g_signal_connect_object (node,
+                               "invalidated",
+                               G_CALLBACK (photos_image_container_invalidated),
                                self,
                                G_CONNECT_SWAPPED);
 

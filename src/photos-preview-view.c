@@ -32,6 +32,7 @@
 #include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-done-notification.h"
+#include "photos-image-container.h"
 #include "photos-image-view.h"
 #include "photos-edit-palette.h"
 #include "photos-operation-insta-common.h"
@@ -229,17 +230,11 @@ photos_preview_view_navigate_previous (PhotosPreviewView *self)
 static GtkWidget *
 photos_preview_view_create_view_with_container (PhotosPreviewView *self)
 {
-  GtkStyleContext *context;
-  GtkWidget *sw;
   GtkWidget *view;
+  GtkWidget *view_container;
 
-  sw = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
-  context = gtk_widget_get_style_context (sw);
-  gtk_style_context_add_class (context, "documents-scrolledwin");
-
-  view = photos_image_view_new ();
-  gtk_container_add (GTK_CONTAINER (sw), view);
+  view_container = photos_image_container_new ();
+  view = photos_image_container_get_view (PHOTOS_IMAGE_CONTAINER (view_container));
   g_signal_connect_swapped (view, "button-press-event", G_CALLBACK (photos_preview_view_button_press_event), self);
   g_signal_connect_swapped (view,
                             "button-release-event",
@@ -250,21 +245,9 @@ photos_preview_view_create_view_with_container (PhotosPreviewView *self)
   g_signal_connect_swapped (view, "draw-overlay", G_CALLBACK (photos_preview_view_draw_overlay), self);
 
   /* It has to be visible to become the visible child of self->stack. */
-  gtk_widget_show_all (sw);
+  gtk_widget_show_all (view_container);
 
-  return sw;
-}
-
-
-static GtkWidget *
-photos_preview_view_get_view_from_view_container (GtkWidget *view_container)
-{
-  GtkWidget *view;
-  GtkWidget *viewport;
-
-  viewport = gtk_bin_get_child (GTK_BIN (view_container));
-  view = gtk_bin_get_child (GTK_BIN (viewport));
-  return view;
+  return view_container;
 }
 
 
@@ -408,7 +391,7 @@ photos_preview_view_draw (PhotosPreviewView *self)
   GtkWidget *view_container;
 
   view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
-  view = photos_preview_view_get_view_from_view_container (view_container);
+  view = photos_image_container_get_view (PHOTOS_IMAGE_CONTAINER (view_container));
   gtk_widget_queue_draw (view);
 }
 
@@ -519,7 +502,7 @@ photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
 
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
       view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
-      view = photos_preview_view_get_view_from_view_container (view_container);
+      view = photos_image_container_get_view (PHOTOS_IMAGE_CONTAINER (view_container));
       photos_tool_activate (tool, item, PHOTOS_IMAGE_VIEW (view));
     }
 }
@@ -825,10 +808,7 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
     }
   else
     {
-      GtkWidget *view;
-
       self->node = g_object_ref (node);
-      view = photos_preview_view_get_view_from_view_container (view_container);
-      photos_image_view_set_node (PHOTOS_IMAGE_VIEW (view), self->node);
+      photos_image_container_set_node (PHOTOS_IMAGE_CONTAINER (view_container), self->node);
     }
 }
