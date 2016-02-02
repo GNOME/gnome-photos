@@ -441,4 +441,5 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
 
   self->node = node;
   photos_image_view_update (self);
+  gtk_widget_queue_draw (GTK_WIDGET (self));
 }

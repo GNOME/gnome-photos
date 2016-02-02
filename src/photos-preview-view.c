@@ -787,6 +787,5 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
       self->node = g_object_ref (node);
       view = photos_preview_view_get_view_from_view_container (view_container);
       photos_image_view_set_node (PHOTOS_IMAGE_VIEW (view), self->node);
-      gtk_widget_queue_draw (view);
     }
 }
