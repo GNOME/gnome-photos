@@ -478,6 +478,50 @@ photos_preview_view_undo (PhotosPreviewView *self)
 
 
 static void
+photos_preview_view_edit_done_pipeline_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+  GApplication *app;
+  GError *error;
+
+  error = NULL;
+  if (!photos_base_item_pipeline_save_finish (item, res, &error))
+    {
+      g_warning ("Unable to save pipeline: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  photos_mode_controller_go_back (self->mode_cntrlr);
+
+ out:
+  app = g_application_get_default ();
+  g_application_release (G_APPLICATION (app));
+  g_object_unref (self);
+}
+
+
+static void
+photos_preview_view_edit_done (PhotosPreviewView *self)
+{
+  PhotosBaseItem *item;
+  GApplication *app;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+  g_return_if_fail (item != NULL);
+
+  app = g_application_get_default ();
+  g_application_hold (app);
+
+  photos_base_item_pipeline_save_async (item,
+                                        NULL,
+                                        photos_preview_view_edit_done_pipeline_save,
+                                        g_object_ref (self));
+}
+
+
+static void
 photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
 {
   switch (mode)
@@ -633,6 +677,9 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "denoise-current");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_denoise), self, G_CONNECT_SWAPPED);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "edit-done");
+  g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_edit_done), self, G_CONNECT_SWAPPED);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "insta-current");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_insta), self, G_CONNECT_SWAPPED);

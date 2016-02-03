@@ -704,42 +704,6 @@ photos_application_edit_cancel (PhotosApplication *self)
 
 
 static void
-photos_application_edit_done_pipeline_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
-
-  error = NULL;
-  if (!photos_base_item_pipeline_save_finish (item, res, &error))
-    {
-      g_warning ("Unable to save pipeline: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
-
-  photos_mode_controller_go_back (self->priv->state->mode_cntrlr);
-
- out:
-  g_application_release (G_APPLICATION (self));
-}
-
-
-static void
-photos_application_edit_done (PhotosApplication *self)
-{
-  PhotosApplicationPrivate *priv = self->priv;
-  PhotosBaseItem *item;
-
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
-  g_return_if_fail (item != NULL);
-
-  g_application_hold (G_APPLICATION (self));
-  photos_base_item_pipeline_save_async (item, NULL, photos_application_edit_done_pipeline_save, self);
-}
-
-
-static void
 photos_application_edit_current (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
@@ -1428,10 +1392,6 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->edit_action));
 
   priv->edit_done_action = g_simple_action_new ("edit-done", NULL);
-  g_signal_connect_swapped (priv->edit_done_action,
-                            "activate",
-                            G_CALLBACK (photos_application_edit_done),
-                            self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->edit_done_action));
 
   priv->fs_action = g_simple_action_new ("fullscreen", NULL);
