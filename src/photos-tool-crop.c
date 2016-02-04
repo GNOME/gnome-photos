@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  * Copyright © 2015 Umang Jain
  * Copyright © 2011, 2012, 2013, 2014, 2015 Yorba Foundation
  *
@@ -868,6 +868,8 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
       goto out;
     }
 
+  photos_tool_crop_surface_create (self);
+
   zoom = gegl_gtk_view_get_zoom (GEGL_GTK_VIEW (self->view));
   self->crop_height *= zoom;
   self->crop_width *= zoom;
@@ -933,7 +935,6 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *
   g_return_if_fail (got_bbox_source);
 
   self->view = GTK_WIDGET (view);
-  photos_tool_crop_surface_create (self);
 
   if (photos_base_item_operation_get (item,
                                       "gegl:crop",
@@ -968,6 +969,7 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *
     }
   else
     {
+      photos_tool_crop_surface_create (self);
       photos_tool_crop_init_crop (self);
     }
 
