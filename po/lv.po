@@ -1,14 +1,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013, 2014, 2015.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-09-20 07:59+0000\n"
-"PO-Revision-Date: 2015-09-20 18:50+0300\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-ph"
+"otos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-02-04 09:55+0000\n"
+"PO-Revision-Date: 2016-02-05 18:32+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:124
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
+#: ../src/photos-search-type-manager.c:125
 msgid "Photos"
 msgstr "Fotogrāfijas"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Piekļūstiet, organizējiet, dalieties ar fotogrāfijām GNOME vidē"
 
@@ -105,103 +105,28 @@ msgstr "Logs maksimizēts"
 msgid "Window maximized state"
 msgstr "Loga stāvoklis — maksimizēts"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%a, %Y. gada %d. %B  %X"
-
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%Y. gada %d. %B"
-
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f (lēca)"
-
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f (35mm filmiņa)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "Neielādēta attēla pārveidošana."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "Neizdevās pārveidot."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "Šis datnes formāts neatbalsta EXIF."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "Neizdevās ielādēt attēlu."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "Nav ielādētu attēlu."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "Jums nav šīs datnes saglabāšanai nepieciešamo atļauju."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "Neizdevās izveidot pagaidu datni."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "Vismaz divu datņu nosaukumi ir vienādi."
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "Nevarēja parādīt attēla skatītāja palīdzību"
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (nederīgs unikods)"
-
-#: ../src/photos-base-item.c:434
+#: ../src/photos-base-item.c:474
 msgid "Album"
 msgstr "Albums"
 
-#: ../src/photos-base-item.c:886
+#: ../src/photos-base-item.c:1408
 msgid "Screenshots"
 msgstr "Ekrānattēli"
 
-#: ../src/photos-delete-notification.c:141
+#: ../src/photos-delete-notification.c:145
 #, c-format
 msgid "“%s” deleted"
 msgstr "“%s” izdzēsts"
 
-#: ../src/photos-delete-notification.c:144
+#: ../src/photos-delete-notification.c:148
 #, c-format
-#| msgid "Selected item has been deleted"
-#| msgid_plural "Selected items have been deleted"
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "Izdzēsts %d vienums"
 msgstr[1] "Izdzēsti %d vienumi"
 msgstr[2] "Izdzēsti %d vienumi"
 
-#: ../src/photos-delete-notification.c:151
+#: ../src/photos-delete-notification.c:155
 msgid "Undo"
 msgstr "Atsaukt"
 
@@ -209,19 +134,15 @@ msgstr "Atsaukt"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA attēlošanas ierīces"
 
-#: ../src/photos-embed.c:637
-msgid "Recent"
-msgstr "Nesenās"
-
-#: ../src/photos-embed.c:644 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../src/photos-embed.c:651 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Izlase"
 
-#: ../src/photos-embed.c:658 ../src/photos-main-toolbar.c:289
+#: ../src/photos-embed.c:706 ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Meklēt"
 
@@ -257,11 +178,62 @@ msgstr "Ar zvaigzni atzīmētās parādīsies šeit"
 msgid "No Photos Found"
 msgstr "Nav atrastu fotogrāfiju"
 
+#: ../src/photos-export-dialog.ui.h:1 ../src/photos-selection-toolbar.ui.h:1
+#| msgid "Exposure"
+msgid "Export"
+msgstr "Eksportēt"
+
+#: ../src/photos-export-dialog.ui.h:2
+msgid "_Folder Name"
+msgstr "_Mapes nosaukums"
+
+#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
+msgid "Size"
+msgstr "Izmērs"
+
+#: ../src/photos-export-dialog.ui.h:4
+msgid "F_ull"
+msgstr "P_ilns"
+
+#: ../src/photos-export-dialog.ui.h:5
+msgid "_Reduced"
+msgstr "_Reducēts"
+
+#: ../src/photos-export-dialog.ui.h:6
+#| msgid "Cancel"
+msgid "_Cancel"
+msgstr "At_celt"
+
+#: ../src/photos-export-dialog.ui.h:7
+#| msgid "Exposure"
+msgid "_Export"
+msgstr "_Eksportēt"
+
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: ../src/photos-export-dialog.c:76
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
+
+#. Translators: this is the default sub-directory where photos
+#. *  will be exported.
+#.
+#: ../src/photos-export-dialog.c:280
+#| msgid "%a, %d %B %Y"
+msgid "%e %B %Y"
+msgstr "%Y. gada %e. %B"
+
+#: ../src/photos-export-dialog.c:334
+msgid "Calculating export size…"
+msgstr "Rēķina eksporta izmēru…"
+
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
-#: ../src/photos-google-item.c:77
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
+#: ../src/photos-google-item.c:82
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -270,35 +242,130 @@ msgstr "%s — %s"
 msgid "Untitled Photo"
 msgstr "Nenosaukta fotogrāfija"
 
+#: ../src/photos-help-overlay.ui.h:1
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Vispārīgi"
+
+#: ../src/photos-help-overlay.ui.h:2
+msgctxt "shortcut window"
+msgid "Show help"
+msgstr "Rādīt palīdzību"
+
+#: ../src/photos-help-overlay.ui.h:3
+#| msgid "Quit"
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Iziet"
+
+#: ../src/photos-help-overlay.ui.h:4
+#| msgid "Print photos"
+msgctxt "shortcut window"
+msgid "Print the current photo"
+msgstr "Drukāt pašreizējo fotogrāfiju"
+
+#: ../src/photos-help-overlay.ui.h:5
+#| msgid "Delete"
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Dzēst"
+
+#: ../src/photos-help-overlay.ui.h:6
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Navigācija"
+
+#: ../src/photos-help-overlay.ui.h:7
+#| msgid "Print photos"
+msgctxt "shortcut window"
+msgid "Next photo"
+msgstr "Nākamā fotogrāfija"
+
+#: ../src/photos-help-overlay.ui.h:8
+#| msgid "Print photos"
+msgctxt "shortcut window"
+msgid "Previous photo"
+msgstr "Iepriekšējā fotogrāfija"
+
+#: ../src/photos-help-overlay.ui.h:9
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Iet atpakaļ"
+
+#: ../src/photos-help-overlay.ui.h:10
+#| msgid "Preview"
+msgctxt "shortcut window"
+msgid "Overview"
+msgstr "Pārskats"
+
+#: ../src/photos-help-overlay.ui.h:11
+#| msgid "Search"
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Meklēt"
+
+#: ../src/photos-help-overlay.ui.h:12
+#| msgid "Select All"
+msgctxt "shortcut window"
+msgid "Select all"
+msgstr "Izvēlēties visu"
+
+#: ../src/photos-help-overlay.ui.h:13
+#| msgid "Preview"
+msgctxt "shortcut window"
+msgid "Preview"
+msgstr "Priekšskatījums"
+
+#: ../src/photos-help-overlay.ui.h:14
+msgctxt "shortcut window"
+msgid "Edit the current photo"
+msgstr "Rediģēt pašreizējo fotogrāfiju"
+
+#: ../src/photos-help-overlay.ui.h:15
+msgctxt "shortcut window"
+msgid "Export the current photo"
+msgstr "Eksportēt pašreizējo fotogrāfiju"
+
+#: ../src/photos-help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Action menu"
+msgstr "Darbības izvēlne"
+
+#: ../src/photos-help-overlay.ui.h:17
+#| msgid "Fullscreen"
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "Pilnekrāns"
+
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
 #.
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:172
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Saņem fotogrāfijas no %s"
 
-#: ../src/photos-indexing-notification.c:176
+#: ../src/photos-indexing-notification.c:175
 msgid "Fetching photos from online accounts"
 msgstr "Saņem fotogrāfijas no tiešsaistes kontiem"
 
-#: ../src/photos-indexing-notification.c:213
+#: ../src/photos-indexing-notification.c:211
 msgid "Your photos are being indexed"
 msgstr "Fotogrāfijas tiek indeksētas"
 
-#: ../src/photos-indexing-notification.c:214
+#: ../src/photos-indexing-notification.c:212
 msgid "Some photos might not be available during this process"
 msgstr "Šajā laikā dažas fotogrāfijas varētu nebūt pieejamas"
 
-#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Lokāls"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Spiediet uz vienumiem, lai tos izvēlētos"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -306,44 +373,53 @@ msgstr[0] "%d izvēlēts"
 msgstr[1] "%d izvēlēti"
 msgstr[2] "%d izvēlētu"
 
-#: ../src/photos-main-toolbar.c:163
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Atpakaļ"
 
-#: ../src/photos-main-toolbar.c:305
+#: ../src/photos-main-toolbar.c:317
 msgid "Select Items"
 msgstr "Izvēlēties vienumus"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:331
 #, c-format
 msgid "Open with %s"
 msgstr "Atvērt ar %s"
 
-#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:342
 msgid "Remove from favorites"
 msgstr "Izņemt no izlases"
 
-#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:347
 msgid "Add to favorites"
 msgstr "Pievienot izlasei"
 
-#: ../src/photos-main-toolbar.c:645
+#: ../src/photos-main-toolbar.c:500 ../src/photos-main-toolbar.c:638
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: ../src/photos-main-window.c:473
+#: ../src/photos-main-toolbar.c:504
+msgid "Done"
+msgstr "Pabeigts"
+
+#: ../src/photos-main-window.c:492
+#| msgid ""
+#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#| "Copyright © 2014, 2015 Pranav Kant\n"
+#| "Copyright © 2012, 2013, 2014 Red Hat, Inc."
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 msgstr ""
 "Autortiesības © 2013 Intel Corporation. Visas tiesības paturētas.\n"
 "Autortiesības © 2014, 2015 Pranav Kant\n"
-"Autortiesības © 2012, 2013, 2014 Red Hat, Inc."
+"Autortiesības © 2012, 2013, 2014, 2015 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:483
+#: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr "Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>"
 
@@ -352,14 +428,18 @@ msgid "Fullscreen"
 msgstr "Pilnekrāns"
 
 #: ../src/photos-menus.ui.h:2
+msgid "Keyboard Shortcuts"
+msgstr "Tastatūras saīsnes"
+
+#: ../src/photos-menus.ui.h:3
 msgid "_Help"
 msgstr "_Palīdzība"
 
-#: ../src/photos-menus.ui.h:3
+#: ../src/photos-menus.ui.h:4
 msgid "About"
 msgstr "Par"
 
-#: ../src/photos-menus.ui.h:4
+#: ../src/photos-menus.ui.h:5
 msgid "Quit"
 msgstr "Iziet"
 
@@ -378,34 +458,41 @@ msgid "Organize"
 msgstr "Organizēt"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
-#: ../src/photos-selection-toolbar.c:457
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
+#: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Atvērt"
 
 #: ../src/photos-preview-menu.ui.h:2
+msgid "Export…"
+msgstr "Eksportēt…"
+
+#: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
 msgstr "Drukāt…"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Delete"
+msgstr "Dzēst"
+
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
 msgstr "Attēlot uz…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Background"
 msgstr "Iestatīt kā fonu"
 
-#: ../src/photos-preview-menu.ui.h:5
-#| msgid "Set as background"
+#: ../src/photos-preview-menu.ui.h:7
 msgid "Set as Lock Screen"
 msgstr "Iestatīt kā ekrāna bloķētāju"
 
-#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
-#: ../src/photos-selection-toolbar.c:478
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
+#: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Īpašības"
 
-#: ../src/photos-print-notification.c:76
+#: ../src/photos-print-notification.c:79
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Drukā “%s”: %s"
@@ -414,75 +501,71 @@ msgstr "Drukā “%s”: %s"
 msgid "Image Settings"
 msgstr "Attēla iestatījumi"
 
-#: ../src/photos-print-setup.c:906
+#: ../src/photos-print-setup.c:904
 msgid "Position"
 msgstr "Novietojums"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:907
 msgid "_Left:"
 msgstr "Pa _kreisi:"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:908
 msgid "_Right:"
 msgstr "Pa _labi:"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:909
 msgid "_Top:"
 msgstr "_Augšā:"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:910
 msgid "_Bottom:"
 msgstr "A_pakšā:"
 
-#: ../src/photos-print-setup.c:914
+#: ../src/photos-print-setup.c:912
 msgid "C_enter:"
 msgstr "C_entrā:"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:166
 msgid "None"
 msgstr "Nav"
 
-#: ../src/photos-print-setup.c:919
+#: ../src/photos-print-setup.c:917
 msgid "Horizontal"
 msgstr "Horizontāli"
 
-#: ../src/photos-print-setup.c:920
+#: ../src/photos-print-setup.c:918
 msgid "Vertical"
 msgstr "Vertikāli"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "Abi"
 
-#: ../src/photos-print-setup.c:934
-msgid "Size"
-msgstr "Izmērs"
-
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:935
 msgid "_Width:"
 msgstr "_Platums:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:936
 msgid "_Height:"
 msgstr "_Augstums:"
 
-#: ../src/photos-print-setup.c:940
+#: ../src/photos-print-setup.c:938
 msgid "_Scaling:"
 msgstr "Palielinājum_s:"
 
-#: ../src/photos-print-setup.c:949
+#: ../src/photos-print-setup.c:947
 msgid "_Unit:"
 msgstr "Mēr_vienības:"
 
-#: ../src/photos-print-setup.c:953
+#: ../src/photos-print-setup.c:951
 msgid "Millimeters"
 msgstr "Milimetri"
 
-#: ../src/photos-print-setup.c:954
+#: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Collas"
 
-#: ../src/photos-print-setup.c:982
+#: ../src/photos-print-setup.c:980
 msgid "Preview"
 msgstr "Priekšskatījums"
 
@@ -563,7 +646,7 @@ msgid "On, fired"
 msgstr "Ieslēgta, uzzibsnīja"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
 msgid "All"
 msgstr "Viss"
 
@@ -589,7 +672,7 @@ msgstr "Atbilst"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:156
+#: ../src/photos-search-type-manager.c:157
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Tips"
@@ -602,22 +685,109 @@ msgstr "Izvēlēties visu"
 msgid "Select None"
 msgstr "Neizvēlēties nevienu"
 
-#: ../src/photos-selection-toolbar.c:464
-msgid "Print"
-msgstr "Drukāt"
-
-#: ../src/photos-selection-toolbar.c:471
-msgid "Delete"
-msgstr "Dzēst"
-
-#: ../src/photos-selection-toolbar.c:485
+#: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Pievienot albumam"
 
-#: ../src/photos-source-manager.c:174
+#: ../src/photos-source-manager.c:205
 msgid "Sources"
 msgstr "Avoti"
 
-#: ../src/photos-tracker-controller.c:97
+#: ../src/photos-tool-colors.c:249
+msgid "Brightness"
+msgstr "Gaišums"
+
+#: ../src/photos-tool-colors.c:270
+msgid "Contrast"
+msgstr "Kontrasts"
+
+#: ../src/photos-tool-colors.c:290
+msgid "Saturation"
+msgstr "Piesātinājums"
+
+#: ../src/photos-tool-colors.c:317
+msgid "Colors"
+msgstr "Krāsas"
+
+#: ../src/photos-tool-crop.c:132
+msgid "Free"
+msgstr "Brīvs"
+
+#: ../src/photos-tool-crop.c:133
+msgid "Original Size"
+msgstr "Sākotnējais izmērs"
+
+#: ../src/photos-tool-crop.c:134
+#| msgid "Screenshots"
+msgid "Screen"
+msgstr "Ekrāns"
+
+#: ../src/photos-tool-crop.c:135
+msgid "Golden Cut"
+msgstr "Zelta griezums"
+
+#: ../src/photos-tool-crop.c:136
+msgid "Square"
+msgstr "Kvadrāts"
+
+#: ../src/photos-tool-crop.c:137
+msgid "A3 (297 × 420 mm)"
+msgstr "A3 (297 × 420 mm)"
+
+#: ../src/photos-tool-crop.c:138
+msgid "A4 (210 × 297 mm)"
+msgstr "A4 (210 × 297 mm)"
+
+#: ../src/photos-tool-crop.c:1162
+msgid "Lock aspect ratio"
+msgstr "Fiksēt izmēru attiecību"
+
+#: ../src/photos-tool-crop.c:1177
+msgid "Reset"
+msgstr "Atiestatīt"
+
+#: ../src/photos-tool-crop.c:1198
+msgid "Crop"
+msgstr "Kadrēt"
+
+#: ../src/photos-tool-enhance.c:205
+msgid "Sharpen"
+msgstr "Asināt"
+
+#: ../src/photos-tool-enhance.c:225
+msgid "Denoise"
+msgstr "Noņemt troksni"
+
+#: ../src/photos-tool-enhance.c:251
+#| msgid "Cancel"
+msgid "Enhance"
+msgstr "Uzlabot"
+
+#: ../src/photos-tool-filters.c:173
+msgid "1947"
+msgstr "1947"
+
+#: ../src/photos-tool-filters.c:180
+msgid "Calistoga"
+msgstr "Kalistoga"
+
+#: ../src/photos-tool-filters.c:186
+msgid "Mogadishu"
+msgstr "Mogadīšo"
+
+#: ../src/photos-tool-filters.c:193
+msgid "Caap"
+msgstr "Caap"
+
+#: ../src/photos-tool-filters.c:199
+msgid "Hometown"
+msgstr "Dzimtā pilsēta"
+
+#: ../src/photos-tool-filters.c:217
+#| msgid "Millimeters"
+msgid "Filters"
+msgstr "Filtri"
+
+#: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Neizdevās saņemt fotogrāfiju sarakstu"
