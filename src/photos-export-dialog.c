@@ -247,7 +247,6 @@ photos_export_dialog_load (GObject *source_object, GAsyncResult *result, gpointe
         }
     }
 
-
  out:
   g_clear_object (&node);
 }
