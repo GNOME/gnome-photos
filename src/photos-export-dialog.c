@@ -81,47 +81,50 @@ photos_export_dialog_create_size_str (gint height, gint width, guint64 size)
 
 
 static void
-photos_export_dialog_show_size_options (PhotosExportDialog *self, gboolean progress)
+photos_export_dialog_show_size_options (PhotosExportDialog *self, gboolean size_options, gboolean progress)
 {
   GtkStyleContext *context;
-  const gchar *progress_class_name;
-  const gchar *progress_invert_class_name;
+  const gchar *class_name;
+  const gchar *invert_class_name;
 
   gtk_widget_set_margin_bottom (self->dir_entry, 6);
   gtk_widget_set_margin_bottom (self->folder_name_label, 6);
 
-  progress_class_name = progress ? "photos-fade-in" : "photos-fade-out";
-  progress_invert_class_name = !progress ? "photos-fade-in" : "photos-fade-out";
+  class_name = progress ? "photos-fade-in" : "photos-fade-out";
+  invert_class_name = !progress ? "photos-fade-in" : "photos-fade-out";
 
   gtk_widget_show (self->progress_label);
   context = gtk_widget_get_style_context (self->progress_label);
-  gtk_style_context_remove_class (context, progress_invert_class_name);
-  gtk_style_context_add_class (context, progress_class_name);
+  gtk_style_context_remove_class (context, invert_class_name);
+  gtk_style_context_add_class (context, class_name);
+
+  class_name = size_options ? "photos-fade-in" : "photos-fade-out";
+  invert_class_name = !size_options ? "photos-fade-in" : "photos-fade-out";
 
   gtk_widget_show (self->full_label);
   context = gtk_widget_get_style_context (self->full_label);
-  gtk_style_context_remove_class (context, progress_class_name);
-  gtk_style_context_add_class (context, progress_invert_class_name);
+  gtk_style_context_remove_class (context, invert_class_name);
+  gtk_style_context_add_class (context, class_name);
 
   gtk_widget_show (self->full_button);
   context = gtk_widget_get_style_context (self->full_button);
-  gtk_style_context_remove_class (context, progress_class_name);
-  gtk_style_context_add_class (context, progress_invert_class_name);
+  gtk_style_context_remove_class (context, invert_class_name);
+  gtk_style_context_add_class (context, class_name);
 
   gtk_widget_show (self->reduced_button);
   context = gtk_widget_get_style_context (self->reduced_button);
-  gtk_style_context_remove_class (context, progress_class_name);
-  gtk_style_context_add_class (context, progress_invert_class_name);
+  gtk_style_context_remove_class (context, invert_class_name);
+  gtk_style_context_add_class (context, class_name);
 
   gtk_widget_show (self->reduced_label);
   context = gtk_widget_get_style_context (self->reduced_label);
-  gtk_style_context_remove_class (context, progress_class_name);
-  gtk_style_context_add_class (context, progress_invert_class_name);
+  gtk_style_context_remove_class (context, invert_class_name);
+  gtk_style_context_add_class (context, class_name);
 
   gtk_widget_show (self->size_label);
   context = gtk_widget_get_style_context (self->size_label);
-  gtk_style_context_remove_class (context, progress_class_name);
-  gtk_style_context_add_class (context, progress_invert_class_name);
+  gtk_style_context_remove_class (context, invert_class_name);
+  gtk_style_context_add_class (context, class_name);
 }
 
 
@@ -188,7 +191,7 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
         }
     }
 
-  photos_export_dialog_show_size_options (self, FALSE);
+  photos_export_dialog_show_size_options (self, TRUE, FALSE);
 }
 
 
@@ -221,6 +224,8 @@ photos_export_dialog_load (GObject *source_object, GAsyncResult *result, gpointe
 
   self = PHOTOS_EXPORT_DIALOG (user_data);
 
+  photos_export_dialog_show_size_options (self, FALSE, FALSE);
+
   if (success)
     {
       GeglRectangle bbox;
@@ -237,7 +242,7 @@ photos_export_dialog_load (GObject *source_object, GAsyncResult *result, gpointe
           if (max_dimension > PIXEL_SIZES[i])
             {
               self->reduced_zoom = (gdouble) PIXEL_SIZES[i] / (gdouble) max_dimension;
-              photos_export_dialog_show_size_options (self, TRUE);
+              photos_export_dialog_show_size_options (self, FALSE, TRUE);
               photos_base_item_save_guess_sizes_async (self->item,
                                                        self->cancellable,
                                                        photos_export_dialog_guess_sizes,
@@ -280,6 +285,7 @@ photos_export_dialog_constructed (GObject *object)
 
       gtk_entry_set_text (GTK_ENTRY (self->dir_entry), now_str);
 
+      photos_export_dialog_show_size_options (self, FALSE, TRUE);
       photos_base_item_load_async (self->item, self->cancellable, photos_export_dialog_load, self);
 
       g_date_time_unref (now);
