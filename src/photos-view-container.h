@@ -37,36 +37,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_VIEW_CONTAINER, PhotosViewContainer))
 
-#define PHOTOS_VIEW_CONTAINER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_VIEW_CONTAINER, PhotosViewContainerClass))
-
 #define PHOTOS_IS_VIEW_CONTAINER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_VIEW_CONTAINER))
 
-#define PHOTOS_IS_VIEW_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_VIEW_CONTAINER))
-
-#define PHOTOS_VIEW_CONTAINER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_VIEW_CONTAINER, PhotosViewContainerClass))
-
-typedef struct _PhotosViewContainer        PhotosViewContainer;
-typedef struct _PhotosViewContainerClass   PhotosViewContainerClass;
-typedef struct _PhotosViewContainerPrivate PhotosViewContainerPrivate;
-
-struct _PhotosViewContainer
-{
-  GtkStack parent_instance;
-  PhotosViewContainerPrivate *priv;
-};
-
-struct _PhotosViewContainerClass
-{
-  GtkStackClass parent_class;
-};
+typedef struct _PhotosViewContainer      PhotosViewContainer;
+typedef struct _PhotosViewContainerClass PhotosViewContainerClass;
 
 GType                  photos_view_container_get_type               (void) G_GNUC_CONST;
 
