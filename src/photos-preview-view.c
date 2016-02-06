@@ -511,6 +511,8 @@ photos_preview_view_edit_done (PhotosPreviewView *self)
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   g_return_if_fail (item != NULL);
 
+  photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (self->palette));
+
   app = g_application_get_default ();
   g_application_hold (app);
 
