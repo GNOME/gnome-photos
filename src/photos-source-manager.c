@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,14 +35,20 @@
 #include "photos-source-manager.h"
 
 
-struct _PhotosSourceManagerPrivate
+struct _PhotosSourceManager
 {
+  PhotosBaseManager parent_instance;
   GCancellable *cancellable;
   GoaClient *client;
 };
 
+struct _PhotosSourceManagerClass
+{
+  PhotosBaseManagerClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosSourceManager, photos_source_manager, PHOTOS_TYPE_BASE_MANAGER);
+
+G_DEFINE_TYPE (PhotosSourceManager, photos_source_manager, PHOTOS_TYPE_BASE_MANAGER);
 
 
 static gchar *
@@ -70,12 +76,11 @@ photos_source_manager_get_filter (PhotosBaseManager *mngr, gint flags)
 static void
 photos_source_manager_refresh_accounts (PhotosSourceManager *self)
 {
-  PhotosSourceManagerPrivate *priv = self->priv;
   GHashTable *new_sources;
   GList *accounts;
   GList *l;
 
-  accounts = goa_client_get_accounts (priv->client);
+  accounts = goa_client_get_accounts (self->client);
   new_sources = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
   for (l = accounts; l != NULL; l = l->next)
@@ -112,7 +117,6 @@ static void
 photos_source_manager_goa_client (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSourceManager *self;
-  PhotosSourceManagerPrivate *priv;
   GError *error;
   GoaClient *client;
 
@@ -128,18 +132,17 @@ photos_source_manager_goa_client (GObject *source_object, GAsyncResult *res, gpo
     }
 
   self = PHOTOS_SOURCE_MANAGER (user_data);
-  priv = self->priv;
 
-  priv->client = client;
-  g_signal_connect_swapped (priv->client,
+  self->client = client;
+  g_signal_connect_swapped (self->client,
                             "account-added",
                             G_CALLBACK (photos_source_manager_refresh_accounts),
                             self);
-  g_signal_connect_swapped (priv->client,
+  g_signal_connect_swapped (self->client,
                             "account-changed",
                             G_CALLBACK (photos_source_manager_refresh_accounts),
                             self);
-  g_signal_connect_swapped (priv->client,
+  g_signal_connect_swapped (self->client,
                             "account-removed",
                             G_CALLBACK (photos_source_manager_refresh_accounts),
                             self);
@@ -152,13 +155,12 @@ static void
 photos_source_manager_dispose (GObject *object)
 {
   PhotosSourceManager *self = PHOTOS_SOURCE_MANAGER (object);
-  PhotosSourceManagerPrivate *priv = self->priv;
 
-  if (priv->cancellable != NULL)
-    g_cancellable_cancel (priv->cancellable);
+  if (self->cancellable != NULL)
+    g_cancellable_cancel (self->cancellable);
 
-  g_clear_object (&priv->cancellable);
-  g_clear_object (&priv->client);
+  g_clear_object (&self->cancellable);
+  g_clear_object (&self->client);
 
   G_OBJECT_CLASS (photos_source_manager_parent_class)->dispose (object);
 }
@@ -167,11 +169,7 @@ photos_source_manager_dispose (GObject *object)
 static void
 photos_source_manager_init (PhotosSourceManager *self)
 {
-  PhotosSourceManagerPrivate *priv;
   PhotosSource *source;
-
-  self->priv = photos_source_manager_get_instance_private (self);
-  priv = self->priv;
 
   source = photos_source_new (PHOTOS_SOURCE_STOCK_ALL, _("All"), TRUE);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source));
@@ -181,8 +179,8 @@ photos_source_manager_init (PhotosSourceManager *self)
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source));
   g_object_unref (source);
 
-  priv->cancellable = g_cancellable_new ();
-  goa_client_new (priv->cancellable, photos_source_manager_goa_client, self);
+  self->cancellable = g_cancellable_new ();
+  goa_client_new (self->cancellable, photos_source_manager_goa_client, self);
 
   photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SOURCE_STOCK_ALL);
 }

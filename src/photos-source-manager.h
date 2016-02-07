@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SOURCE_MANAGER, PhotosSourceManager))
 
-#define PHOTOS_SOURCE_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_SOURCE_MANAGER, PhotosSourceManagerClass))
-
 #define PHOTOS_IS_SOURCE_MANAGER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_SOURCE_MANAGER))
 
-#define PHOTOS_IS_SOURCE_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_SOURCE_MANAGER))
-
-#define PHOTOS_SOURCE_MANAGER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_SOURCE_MANAGER, PhotosSourceManagerClass))
-
-typedef struct _PhotosSourceManager        PhotosSourceManager;
-typedef struct _PhotosSourceManagerClass   PhotosSourceManagerClass;
-typedef struct _PhotosSourceManagerPrivate PhotosSourceManagerPrivate;
-
-struct _PhotosSourceManager
-{
-  PhotosBaseManager parent_instance;
-  PhotosSourceManagerPrivate *priv;
-};
-
-struct _PhotosSourceManagerClass
-{
-  PhotosBaseManagerClass parent_class;
-};
+typedef struct _PhotosSourceManager      PhotosSourceManager;
+typedef struct _PhotosSourceManagerClass PhotosSourceManagerClass;
 
 GType                     photos_source_manager_get_type           (void) G_GNUC_CONST;
 
