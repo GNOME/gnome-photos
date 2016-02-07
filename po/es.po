@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-01-25 09:54+0000\n"
-"PO-Revision-Date: 2016-01-25 16:26+0100\n"
+"POT-Creation-Date: 2016-01-31 21:56+0000\n"
+"PO-Revision-Date: 2016-02-01 15:39+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:715
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
 #: ../src/photos-search-type-manager.c:125
 msgid "Photos"
 msgstr "Fotos"
@@ -136,15 +136,15 @@ msgstr "Deshacer"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos de renderizado DLNA"
 
-#: ../src/photos-embed.c:722 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: ../src/photos-embed.c:736 ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-embed.c:706 ../src/photos-help-overlay.ui.h:11
 #: ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Buscar"
@@ -181,7 +181,7 @@ msgstr "Las fotos favoritas aparecerán aquí"
 msgid "No Photos Found"
 msgstr "No se encontraron fotos"
 
-#: ../src/photos-export-dialog.ui.h:1
+#: ../src/photos-export-dialog.ui.h:1 ../src/photos-selection-toolbar.ui.h:1
 msgid "Export"
 msgstr "Exportar"
 
@@ -220,11 +220,11 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:221
+#: ../src/photos-export-dialog.c:250
 msgid "%e %B %Y"
 msgstr "%e %B %Y"
 
-#: ../src/photos-export-dialog.c:273
+#: ../src/photos-export-dialog.c:324
 msgid "Calculating export size…"
 msgstr "Calculando el tamaño de la exportación…"
 
@@ -290,10 +290,20 @@ msgid "Preview"
 msgstr "Vista previa"
 
 #: ../src/photos-help-overlay.ui.h:14
+#| msgid "Print the current photo"
+msgid "Edit the current photo"
+msgstr "Editar la foto actual"
+
+#: ../src/photos-help-overlay.ui.h:15
+#| msgid "Print the current photo"
+msgid "Export the current photo"
+msgstr "Exportar la foto actual"
+
+#: ../src/photos-help-overlay.ui.h:16
 msgid "Action menu"
 msgstr "Menú de acción"
 
-#: ../src/photos-help-overlay.ui.h:15 ../src/photos-menus.ui.h:1
+#: ../src/photos-help-overlay.ui.h:17 ../src/photos-menus.ui.h:1
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
@@ -409,7 +419,7 @@ msgstr "Organizar"
 
 #. Translators: this is the Open action in a context menu
 #: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
-#: ../src/photos-selection-toolbar.ui.h:1
+#: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Abrir"
 
@@ -434,7 +444,7 @@ msgid "Set as Lock Screen"
 msgstr "Establecer como fondo de la pantalla de bloqueo"
 
 #: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
-#: ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Propiedades"
 
@@ -628,7 +638,7 @@ msgstr "Seleccionar todo"
 msgid "Select None"
 msgstr "Seleccionar nada"
 
-#: ../src/photos-selection-toolbar.ui.h:3
+#: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Añadir al álbum"
 
@@ -636,19 +646,19 @@ msgstr "Añadir al álbum"
 msgid "Sources"
 msgstr "Fuentes"
 
-#: ../src/photos-tool-colors.c:240
+#: ../src/photos-tool-colors.c:249
 msgid "Brightness"
 msgstr "Brillo"
 
-#: ../src/photos-tool-colors.c:261
+#: ../src/photos-tool-colors.c:270
 msgid "Contrast"
 msgstr "Contraste"
 
-#: ../src/photos-tool-colors.c:281
+#: ../src/photos-tool-colors.c:290
 msgid "Saturation"
 msgstr "Saturación"
 
-#: ../src/photos-tool-colors.c:308
+#: ../src/photos-tool-colors.c:317
 msgid "Colors"
 msgstr "Colores"
 
@@ -718,7 +728,7 @@ msgstr "Gotham"
 
 #: ../src/photos-tool-filters.c:193
 msgid "Hefe"
-msgstr ""
+msgstr "Hefe"
 
 #: ../src/photos-tool-filters.c:199
 msgid "Nashville"
