@@ -1438,7 +1438,7 @@ static void
 photos_base_item_print_operation_done (PhotosBaseItem *self, GtkPrintOperationResult result)
 {
   if (result == GTK_PRINT_OPERATION_RESULT_APPLY)
-      photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
+    photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
 }
 
 
