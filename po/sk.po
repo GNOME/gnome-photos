@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-05 21:55+0000\n"
-"PO-Revision-Date: 2016-02-06 10:31+0100\n"
+"POT-Creation-Date: 2016-02-07 21:55+0000\n"
+"PO-Revision-Date: 2016-02-08 07:44+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -110,7 +110,7 @@ msgstr "Maximalizovaný stav okna"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1408
+#: ../src/photos-base-item.c:1405
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -179,7 +179,8 @@ msgstr "Tu budú zobrazené fotografie označené hviezdičkou"
 msgid "No Photos Found"
 msgstr "Nenašli sa žiadne fotografie"
 
-#: ../src/photos-export-dialog.ui.h:1 ../src/photos-selection-toolbar.ui.h:1
+#: ../src/photos-export-dialog.ui.h:1
+msgctxt "dialog title"
 msgid "Export"
 msgstr "Exportovanie"
 
@@ -219,11 +220,11 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:280
+#: ../src/photos-export-dialog.c:284
 msgid "%e %B %Y"
 msgstr "%e. %B %Y"
 
-#: ../src/photos-export-dialog.c:334
+#: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "Vypočítava sa veľkosť exportu…"
 
@@ -692,6 +693,10 @@ msgstr "Vybrať všetky"
 #: ../src/photos-selection-menu.ui.h:2
 msgid "Select None"
 msgstr "Zrušiť výber"
+
+#: ../src/photos-selection-toolbar.ui.h:1
+msgid "Export"
+msgstr "Exportovanie"
 
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
