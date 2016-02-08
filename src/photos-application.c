@@ -728,8 +728,7 @@ photos_application_edit_current (PhotosApplication *self)
   PhotosBaseItem *item;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
-  if (item == NULL)
-    return;
+  g_return_if_fail (item != NULL);
 
   photos_mode_controller_set_window_mode (priv->state->mode_cntrlr, PHOTOS_WINDOW_MODE_EDIT);
 }
@@ -792,8 +791,7 @@ photos_application_open_current (PhotosApplication *self)
   guint32 time;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
-  if (item == NULL)
-    return;
+  g_return_if_fail (item != NULL);
 
   screen = gtk_window_get_screen (GTK_WINDOW (priv->main_window));
   time = gtk_get_current_event_time ();
@@ -808,8 +806,7 @@ photos_application_print_current (PhotosApplication *self)
   PhotosBaseItem *item;
 
   item = photos_application_get_selection_or_active_item (self);
-  if (item == NULL)
-    return;
+  g_return_if_fail (item != NULL);
 
   photos_base_item_print (item, priv->main_window);
 }
@@ -824,8 +821,7 @@ photos_application_properties (PhotosApplication *self)
   const gchar *id;
 
   item = photos_base_manager_get_active_object (priv->state->item_mngr);
-  if (item == NULL)
-    return;
+  g_return_if_fail (item != NULL);
 
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   dialog = photos_properties_dialog_new (GTK_WINDOW (priv->main_window), id);
@@ -933,8 +929,7 @@ photos_application_remote_display_current (PhotosApplication *self)
   const gchar *urn;
 
   item = photos_base_manager_get_active_object (priv->state->item_mngr);
-  if (item == NULL)
-    return;
+  g_return_if_fail (item != NULL);
 
   urn = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   dialog = photos_dlna_renderers_dialog_new (GTK_WINDOW (priv->main_window), urn);
@@ -1092,8 +1087,7 @@ photos_application_set_bg_common (PhotosApplication *self, GVariant *parameter, 
   PhotosBaseItem *item;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->state->item_mngr));
-  if (item == NULL)
-    return;
+  g_return_if_fail (item != NULL);
 
   settings = G_SETTINGS (g_object_get_data (G_OBJECT (action), "settings"));
   photos_base_item_download_async (item, NULL, photos_application_set_bg_common_download, g_object_ref (settings));
