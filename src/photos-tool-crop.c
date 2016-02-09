@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2015, 2016 Red Hat, Inc.
- * Copyright © 2015 Umang Jain
+ * Copyright © 2015, 2016 Umang Jain
  * Copyright © 2011, 2012, 2013, 2014, 2015 Yorba Foundation
  *
  * This program is free software; you can redistribute it and/or
@@ -62,9 +62,8 @@ struct _PhotosToolCrop
   GAction *crop;
   GeglRectangle bbox_zoomed;
   GeglRectangle bbox_source;
-  GtkListStore *model;
   GtkWidget *box;
-  GtkWidget *combo_box;
+  GtkWidget *list_box;
   GtkWidget *lock_button;
   GtkWidget *reset_button;
   GtkWidget *revealer;
@@ -81,7 +80,7 @@ struct _PhotosToolCrop
   gdouble crop_y;
   gdouble event_x_last;
   gdouble event_y_last;
-  gint combo_box_active;
+  gint list_box_active;
   gulong size_allocate_id;
 };
 
@@ -125,7 +124,7 @@ enum
   CONSTRAINT_COLUMN_BASIS_WIDTH = 3
 };
 
-/* "Free" is excluded from the GtkComboBox and represented by the
+/* "Free" is excluded from the GtkListBox and represented by the
  *  GtkCheckButton. Adjust accordingly.
  */
 static PhotosToolCropConstraint CONSTRAINTS[] =
@@ -314,7 +313,7 @@ photos_tool_crop_get_active (PhotosToolCrop *self)
 
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->lock_button)))
     {
-      active = self->combo_box_active + 1;
+      active = self->list_box_active + 1;
       g_return_val_if_fail (active >= 1, -1);
     }
   else
@@ -812,9 +811,27 @@ photos_tool_crop_active_changed (PhotosToolCrop *self)
 
 
 static void
-photos_tool_crop_combo_box_changed (PhotosToolCrop *self)
+photos_tool_crop_list_box_update (PhotosToolCrop *self, GtkListBoxRow *active_row)
 {
-  self->combo_box_active = gtk_combo_box_get_active (GTK_COMBO_BOX (self->combo_box));
+  GtkListBoxRow *row;
+  gint i;
+
+  for (i = 0; (row = gtk_list_box_get_row_at_index (GTK_LIST_BOX (self->list_box), i)) != NULL; i++)
+    {
+      GtkWidget *image;
+
+      image = GTK_WIDGET (g_object_get_data (G_OBJECT (row), "image"));
+      gtk_widget_set_visible (image, row == active_row);
+    }
+}
+
+
+static void
+photos_tool_crop_list_box_row_activated (PhotosToolCrop *self, GtkListBoxRow *row)
+{
+  photos_tool_crop_list_box_update (self, row);
+
+  self->list_box_active = gtk_list_box_row_get_index (GTK_LIST_BOX_ROW (row));
   photos_tool_crop_active_changed (self);
 }
 
@@ -822,12 +839,14 @@ photos_tool_crop_combo_box_changed (PhotosToolCrop *self)
 static void
 photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
 {
-  g_signal_handlers_block_by_func (self->combo_box, photos_tool_crop_combo_box_changed, self);
+  GtkListBoxRow *row;
+
+  g_signal_handlers_block_by_func (self->list_box, photos_tool_crop_list_box_row_activated, self);
   g_signal_handlers_block_by_func (self->lock_button, photos_tool_crop_active_changed, self);
 
   if (active == -1) /* reset */
     {
-      self->combo_box_active = 0;
+      self->list_box_active = 0;
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->lock_button), TRUE);
     }
   else if (active == 0)
@@ -836,7 +855,7 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
     }
   else if (active > 0)
     {
-      self->combo_box_active = active;
+      self->list_box_active = active;
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->lock_button), TRUE);
     }
   else
@@ -844,9 +863,10 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
       g_warn_if_reached ();
     }
 
-  gtk_combo_box_set_active (GTK_COMBO_BOX (self->combo_box), self->combo_box_active);
+  row = gtk_list_box_get_row_at_index (GTK_LIST_BOX (self->list_box), self->list_box_active);
+  photos_tool_crop_list_box_update (self, row);
 
-  g_signal_handlers_unblock_by_func (self->combo_box, photos_tool_crop_combo_box_changed, self);
+  g_signal_handlers_unblock_by_func (self->list_box, photos_tool_crop_list_box_row_activated, self);
   g_signal_handlers_unblock_by_func (self->lock_button, photos_tool_crop_active_changed, self);
 }
 
@@ -1142,7 +1162,6 @@ photos_tool_crop_dispose (GObject *object)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (object);
 
-  g_clear_object (&self->model);
   g_clear_object (&self->box);
   g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
 
@@ -1154,27 +1173,10 @@ static void
 photos_tool_crop_init (PhotosToolCrop *self)
 {
   GApplication *app;
-  GtkCellRenderer *renderer;
   guint i;
 
   app = g_application_get_default ();
   self->crop = g_action_map_lookup_action (G_ACTION_MAP (app), "crop-current");
-
-  self->model = gtk_list_store_new (4, G_TYPE_INT, G_TYPE_STRING, G_TYPE_UINT, G_TYPE_UINT);
-
-  for (i = 1; i < G_N_ELEMENTS (CONSTRAINTS); i++)
-    {
-      GtkTreeIter iter;
-
-      gtk_list_store_append (self->model, &iter);
-      gtk_list_store_set (self->model,
-                          &iter,
-                          CONSTRAINT_COLUMN_ASPECT_RATIO, CONSTRAINTS[i].aspect_ratio_type,
-                          CONSTRAINT_COLUMN_NAME, CONSTRAINTS[i].name,
-                          CONSTRAINT_COLUMN_BASIS_HEIGHT, CONSTRAINTS[i].basis_height,
-                          CONSTRAINT_COLUMN_BASIS_WIDTH, CONSTRAINTS[i].basis_width,
-                          -1);
-    }
 
   /* We really need a GtkBox here. A GtkGrid won't work because it
    * doesn't expand the children to fill the full width of the
@@ -1191,9 +1193,41 @@ photos_tool_crop_init (PhotosToolCrop *self)
   gtk_revealer_set_transition_type (GTK_REVEALER (self->revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN);
   g_object_bind_property (self->lock_button, "active", self->revealer, "reveal-child", G_BINDING_DEFAULT);
 
-  self->combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL (self->model));
-  gtk_container_add (GTK_CONTAINER (self->revealer), self->combo_box);
-  g_signal_connect_swapped (self->combo_box, "changed", G_CALLBACK (photos_tool_crop_combo_box_changed), self);
+  self->list_box = gtk_list_box_new ();
+  gtk_list_box_set_selection_mode (GTK_LIST_BOX (self->list_box), GTK_SELECTION_NONE);
+  gtk_container_add (GTK_CONTAINER (self->revealer), self->list_box);
+  g_signal_connect_swapped (self->list_box,
+                            "row-activated",
+                            G_CALLBACK (photos_tool_crop_list_box_row_activated),
+                            self);
+
+  for (i = 1; i < G_N_ELEMENTS (CONSTRAINTS); i++)
+    {
+      GtkWidget *grid;
+      GtkWidget *image;
+      GtkWidget *label;
+      GtkWidget *row;
+
+      row = gtk_list_box_row_new ();
+      gtk_container_add (GTK_CONTAINER (self->list_box), row);
+
+      grid = gtk_grid_new ();
+      gtk_widget_set_margin_bottom (grid, 3);
+      gtk_widget_set_margin_top (grid, 3);
+      gtk_orientable_set_orientation (GTK_ORIENTABLE (grid), GTK_ORIENTATION_HORIZONTAL);
+      gtk_grid_set_column_spacing (GTK_GRID (grid), 6);
+      gtk_container_add (GTK_CONTAINER (row), grid);
+
+      label = gtk_label_new (CONSTRAINTS[i].name);
+      gtk_container_add (GTK_CONTAINER (grid), label);
+
+      image = gtk_image_new_from_icon_name (PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+      gtk_widget_set_no_show_all (image, TRUE);
+      gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
+      gtk_container_add (GTK_CONTAINER (grid), image);
+
+      g_object_set_data (G_OBJECT (row), "image", image);
+    }
 
   photos_tool_crop_set_active (self, -1);
 
@@ -1201,10 +1235,6 @@ photos_tool_crop_init (PhotosToolCrop *self)
   gtk_widget_set_halign (self->reset_button, GTK_ALIGN_END);
   gtk_container_add (GTK_CONTAINER (self->box), self->reset_button);
   g_signal_connect_swapped (self->reset_button, "clicked", G_CALLBACK (photos_tool_crop_reset_clicked), self);
-
-  renderer = gtk_cell_renderer_text_new ();
-  gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (self->combo_box), renderer, TRUE);
-  gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (self->combo_box), renderer, "text", CONSTRAINT_COLUMN_NAME);
 
   self->event_x_last = -1.0;
   self->event_y_last = -1.0;
