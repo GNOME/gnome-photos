@@ -127,15 +127,17 @@ photos_tool_filter_button_constructed (GObject *object)
     preview_icon_surface = gdk_cairo_surface_create_from_pixbuf (preview_icon, scale, NULL);
 
   image = gtk_image_new_from_surface (preview_icon_surface);
+  gtk_container_add (GTK_CONTAINER (self->overlay), image);
   shader = photos_widget_shader_new (image);
+  gtk_widget_show (image);
 
   self->button = gtk_radio_button_new_with_label_from_widget (self->group, self->label);
   gtk_button_set_always_show_image (GTK_BUTTON (self->button), TRUE);
-  gtk_button_set_image (GTK_BUTTON (self->button), image);
+  gtk_button_set_image (GTK_BUTTON (self->button), self->overlay);
   gtk_button_set_image_position (GTK_BUTTON (self->button), GTK_POS_TOP);
   gtk_button_set_relief (GTK_BUTTON (self->button), GTK_RELIEF_NONE);
   gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (self->button), FALSE);
-  gtk_container_add (GTK_CONTAINER (self->overlay), self->button);
+  gtk_container_add (GTK_CONTAINER (self), self->button);
   g_object_bind_property (self->button, "active", shader, "active", G_BINDING_SYNC_CREATE);
   g_signal_connect_swapped (self->button, "toggled", G_CALLBACK (photos_tool_filter_button_toggled), self);
   photos_tool_filter_button_toggled (self);
@@ -233,7 +235,6 @@ static void
 photos_tool_filter_button_init (PhotosToolFilterButton *self)
 {
   self->overlay = gtk_overlay_new ();
-  gtk_container_add (GTK_CONTAINER (self), self->overlay);
 
   self->selected_image = gtk_image_new_from_icon_name (PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC, GTK_ICON_SIZE_INVALID);
   gtk_widget_set_halign (self->selected_image, GTK_ALIGN_CENTER);
@@ -311,8 +312,15 @@ void
 photos_tool_filter_button_set_image (PhotosToolFilterButton *self, GtkWidget *image)
 {
   PhotosWidgetShader *shader;
+  GtkWidget *old_image;
 
-  gtk_button_set_image (GTK_BUTTON (self->button), image);
+  old_image = gtk_bin_get_child (GTK_BIN (self->overlay));
+  if (image == old_image)
+    return;
+
+  gtk_widget_destroy (old_image);
+  gtk_container_add (GTK_CONTAINER (self->overlay), image);
   shader = photos_widget_shader_new (image);
   g_object_bind_property (self->button, "active", shader, "active", G_BINDING_SYNC_CREATE);
+  gtk_widget_show (image);
 }
