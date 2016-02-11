@@ -852,6 +852,30 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
 
 
 static void
+photos_tool_crop_size_allocate (PhotosToolCrop *self, GdkRectangle *allocation)
+{
+  gdouble crop_height_ratio;
+  gdouble crop_width_ratio;
+  gdouble crop_x_ratio;
+  gdouble crop_y_ratio;
+
+  crop_height_ratio = self->crop_height / (gdouble) self->bbox_zoomed.height;
+  crop_width_ratio = self->crop_width / (gdouble) self->bbox_zoomed.width;
+  crop_x_ratio = self->crop_x / (gdouble) self->bbox_zoomed.width;
+  crop_y_ratio = self->crop_y / (gdouble) self->bbox_zoomed.height;
+
+  photos_tool_crop_surface_create (self);
+
+  self->crop_height = crop_height_ratio * (gdouble) self->bbox_zoomed.height;
+  self->crop_width = crop_width_ratio * (gdouble) self->bbox_zoomed.width;
+  self->crop_x = crop_x_ratio * (gdouble) self->bbox_zoomed.width;
+  self->crop_y = crop_y_ratio * (gdouble) self->bbox_zoomed.height;
+
+  photos_tool_crop_surface_draw (self);
+}
+
+
+static void
 photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (user_data);
@@ -882,6 +906,12 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
 
   photos_tool_crop_surface_draw (self);
 
+  self->size_allocate_id = g_signal_connect_object (self->view,
+                                                    "size-allocate",
+                                                    G_CALLBACK (photos_tool_crop_size_allocate),
+                                                    self,
+                                                    G_CONNECT_SWAPPED);
+
  out:
   gtk_widget_queue_draw (self->view);
   g_object_unref (self);
@@ -894,30 +924,6 @@ photos_tool_crop_reset_clicked (PhotosToolCrop *self)
   self->reset = TRUE;
   photos_tool_crop_set_active (self, -1);
   g_signal_emit_by_name (self, "hide-requested");
-}
-
-
-static void
-photos_tool_crop_size_allocate (PhotosToolCrop *self, GdkRectangle *allocation)
-{
-  gdouble crop_height_ratio;
-  gdouble crop_width_ratio;
-  gdouble crop_x_ratio;
-  gdouble crop_y_ratio;
-
-  crop_height_ratio = self->crop_height / (gdouble) self->bbox_zoomed.height;
-  crop_width_ratio = self->crop_width / (gdouble) self->bbox_zoomed.width;
-  crop_x_ratio = self->crop_x / (gdouble) self->bbox_zoomed.width;
-  crop_y_ratio = self->crop_y / (gdouble) self->bbox_zoomed.height;
-
-  photos_tool_crop_surface_create (self);
-
-  self->crop_height = crop_height_ratio * (gdouble) self->bbox_zoomed.height;
-  self->crop_width = crop_width_ratio * (gdouble) self->bbox_zoomed.width;
-  self->crop_x = crop_x_ratio * (gdouble) self->bbox_zoomed.width;
-  self->crop_y = crop_y_ratio * (gdouble) self->bbox_zoomed.height;
-
-  photos_tool_crop_surface_draw (self);
 }
 
 
@@ -971,13 +977,13 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *
     {
       photos_tool_crop_surface_create (self);
       photos_tool_crop_init_crop (self);
-    }
 
-  self->size_allocate_id = g_signal_connect_object (self->view,
-                                                    "size-allocate",
-                                                    G_CALLBACK (photos_tool_crop_size_allocate),
-                                                    self,
-                                                    G_CONNECT_SWAPPED);
+      self->size_allocate_id = g_signal_connect_object (self->view,
+                                                        "size-allocate",
+                                                        G_CALLBACK (photos_tool_crop_size_allocate),
+                                                        self,
+                                                        G_CONNECT_SWAPPED);
+    }
 
   self->activated = TRUE;
   self->reset = FALSE;
