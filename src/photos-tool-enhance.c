@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -144,6 +144,8 @@ photos_tool_enhance_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkVie
   g_signal_handlers_block_by_func (self->sharpen_scale, photos_tool_enhance_sharpen_value_changed, self);
   gtk_range_set_value (GTK_RANGE (self->sharpen_scale), sharpen_scale);
   g_signal_handlers_unblock_by_func (self->sharpen_scale, photos_tool_enhance_sharpen_value_changed, self);
+
+  g_signal_emit_by_name (self, "activated");
 }
 
 

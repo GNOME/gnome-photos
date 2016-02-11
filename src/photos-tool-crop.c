@@ -912,6 +912,10 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
                                                     self,
                                                     G_CONNECT_SWAPPED);
 
+  self->activated = TRUE;
+  self->reset = FALSE;
+  g_signal_emit_by_name (self, "activated");
+
  out:
   gtk_widget_queue_draw (self->view);
   g_object_unref (self);
@@ -983,10 +987,11 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView *
                                                         G_CALLBACK (photos_tool_crop_size_allocate),
                                                         self,
                                                         G_CONNECT_SWAPPED);
-    }
 
-  self->activated = TRUE;
-  self->reset = FALSE;
+      self->activated = TRUE;
+      self->reset = FALSE;
+      g_signal_emit_by_name (self, "activated");
+    }
 }
 
 

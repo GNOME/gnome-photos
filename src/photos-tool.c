@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,6 +30,7 @@
 
 enum
 {
+  ACTIVATED,
   HIDE_REQUESTED,
   LAST_SIGNAL
 };
@@ -87,6 +88,16 @@ photos_tool_class_init (PhotosToolClass *class)
   class->left_click_event = photos_tool_default_left_click_event;
   class->left_unclick_event = photos_tool_default_left_unclick_event;
   class->motion_event = photos_tool_default_motion_event;
+
+  signals[ACTIVATED] = g_signal_new ("activated",
+                                     G_TYPE_FROM_CLASS (class),
+                                     G_SIGNAL_RUN_LAST,
+                                     G_STRUCT_OFFSET (PhotosToolClass, activated),
+                                     NULL, /* accumulator */
+                                     NULL, /* accu_data */
+                                     g_cclosure_marshal_VOID__VOID,
+                                     G_TYPE_NONE,
+                                     0);
 
   signals[HIDE_REQUESTED] = g_signal_new ("hide-requested",
                                           G_TYPE_FROM_CLASS (class),

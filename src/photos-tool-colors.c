@@ -188,6 +188,8 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkView
                                      photos_tool_colors_brightness_contrast_value_changed,
                                      self);
   g_signal_handlers_unblock_by_func (self->saturation_scale, photos_tool_colors_saturation_value_changed, self);
+
+  g_signal_emit_by_name (self, "activated");
 }
 
 

@@ -430,6 +430,24 @@ photos_preview_view_sharpen (PhotosPreviewView *self, GVariant *parameter)
 
 
 static void
+photos_preview_view_tool_activated (PhotosTool *tool, gpointer user_data)
+{
+  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
+  GtkWidget *view_container;
+  GtkWidget *view;
+
+  g_return_if_fail (self->current_tool == NULL);
+
+  self->current_tool = tool;
+  g_object_add_weak_pointer (G_OBJECT (self->current_tool), (gpointer *) &self->current_tool);
+
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  view = photos_preview_view_get_view_from_view_container (view_container);
+  gtk_widget_queue_draw (view);
+}
+
+
+static void
 photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
 {
   GtkWidget *view_container;
@@ -442,24 +460,27 @@ photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
     {
       photos_tool_deactivate (self->current_tool);
       g_object_remove_weak_pointer (G_OBJECT (self->current_tool), (gpointer *) &self->current_tool);
+      g_signal_handlers_disconnect_by_func (self->current_tool, photos_preview_view_tool_activated, self);
       self->current_tool = NULL;
     }
 
   view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   view = photos_preview_view_get_view_from_view_container (view_container);
 
-  if (tool != NULL)
+  if (tool == NULL)
+    {
+      self->current_tool = NULL;
+      gtk_widget_queue_draw (view);
+    }
+  else
     {
       PhotosBaseItem *item;
 
-      self->current_tool = tool;
-      g_object_add_weak_pointer (G_OBJECT (self->current_tool), (gpointer *) &self->current_tool);
+      g_signal_connect_object (tool, "activated", G_CALLBACK (photos_preview_view_tool_activated), self, 0);
 
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
-      photos_tool_activate (self->current_tool, item, GEGL_GTK_VIEW (view));
+      photos_tool_activate (tool, item, GEGL_GTK_VIEW (view));
     }
-
-  gtk_widget_queue_draw (view);
 }
 
 

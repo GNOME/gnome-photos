@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -79,6 +79,7 @@ struct _PhotosToolClass
   gboolean      (*motion_event)               (PhotosTool *self, GdkEventMotion *event);
 
   /* signals */
+  void          (*activated)                  (PhotosTool *self);
   void          (*hide_requested)             (PhotosTool *self);
 };
 

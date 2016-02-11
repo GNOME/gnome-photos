@@ -109,7 +109,7 @@ photos_tool_filters_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkVie
   PhotosOperationInstaPreset preset;
 
   if (self->buttons == NULL || self->create_preview_id != 0)
-    return;
+    goto out;
 
   g_clear_object (&self->item);
   self->item = g_object_ref (item);
@@ -136,6 +136,9 @@ photos_tool_filters_activate (PhotosTool *tool, PhotosBaseItem *item, GeglGtkVie
             }
         }
     }
+
+ out:
+  g_signal_emit_by_name (self, "activated");
 }
 
 
