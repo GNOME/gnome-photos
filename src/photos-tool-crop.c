@@ -917,7 +917,6 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
   g_signal_emit_by_name (self, "activated");
 
  out:
-  gtk_widget_queue_draw (self->view);
   g_object_unref (self);
 }
 
