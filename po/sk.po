@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-07 21:55+0000\n"
-"PO-Revision-Date: 2016-02-08 07:44+0100\n"
+"POT-Creation-Date: 2016-02-11 10:23+0000\n"
+"PO-Revision-Date: 2016-02-11 21:40+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
@@ -348,7 +348,7 @@ msgstr "Prebieha indexovanie vašich fotografií"
 msgid "Some photos might not be available during this process"
 msgstr "Niektoré fotografie nemusia byť počas tohoto procesu dostupné"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Miestne"
 
@@ -375,16 +375,16 @@ msgstr "Vyberie položky"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:331
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:301
 #, c-format
 msgid "Open with %s"
 msgstr "Otvoriť pomocou %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:342
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:312
 msgid "Remove from favorites"
 msgstr "Odstrániť z obľúbených"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:347
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:317
 msgid "Add to favorites"
 msgstr "Pridá medzi obľúbené"
 
@@ -446,7 +446,7 @@ msgid "Organize"
 msgstr "Organizovanie"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:304
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Otvoriť"
@@ -520,7 +520,7 @@ msgid "C_enter:"
 msgstr "Vystr_ediť:"
 
 # combobox text
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:188
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
 msgid "None"
 msgstr "Nijako"
 
@@ -655,7 +655,7 @@ msgid "On, fired"
 msgstr "Zapnutý, použitý"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Všetko"
 
@@ -702,23 +702,23 @@ msgstr "Exportovanie"
 msgid "Add to Album"
 msgstr "Pridať do albumu"
 
-#: ../src/photos-source-manager.c:205
+#: ../src/photos-source-manager.c:203
 msgid "Sources"
 msgstr "Zdroje"
 
-#: ../src/photos-tool-colors.c:249
+#: ../src/photos-tool-colors.c:251
 msgid "Brightness"
 msgstr "Jas"
 
-#: ../src/photos-tool-colors.c:270
+#: ../src/photos-tool-colors.c:272
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:290
+#: ../src/photos-tool-colors.c:292
 msgid "Saturation"
 msgstr "Sýtosť"
 
-#: ../src/photos-tool-colors.c:317
+#: ../src/photos-tool-colors.c:319
 msgid "Colors"
 msgstr "Farby"
 
@@ -735,8 +735,8 @@ msgid "Screen"
 msgstr "Obrazovka"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden Cut"
-msgstr "Zlatý rez"
+msgid "Golden ratio"
+msgstr "Zlatý pomer"
 
 #: ../src/photos-tool-crop.c:136
 msgid "Square"
@@ -750,52 +750,52 @@ msgstr "A3 (297 × 420 mm)"
 msgid "A4 (210 × 297 mm)"
 msgstr "A4 (210 × 297 mm)"
 
-#: ../src/photos-tool-crop.c:1162
+#: ../src/photos-tool-crop.c:1187
 msgid "Lock aspect ratio"
 msgstr "Uzamknúť pomer strán"
 
-#: ../src/photos-tool-crop.c:1177
+#: ../src/photos-tool-crop.c:1234
 msgid "Reset"
 msgstr "Vynulovať"
 
-#: ../src/photos-tool-crop.c:1198
+#: ../src/photos-tool-crop.c:1251
 msgid "Crop"
 msgstr "Oreže"
 
-#: ../src/photos-tool-enhance.c:205
+#: ../src/photos-tool-enhance.c:207
 msgid "Sharpen"
 msgstr "Doostriť"
 
-#: ../src/photos-tool-enhance.c:225
+#: ../src/photos-tool-enhance.c:227
 msgid "Denoise"
 msgstr "Odstránenie šumu"
 
-#: ../src/photos-tool-enhance.c:251
+#: ../src/photos-tool-enhance.c:253
 msgid "Enhance"
 msgstr "Vylepšiť"
 
-#: ../src/photos-tool-filters.c:195
+#: ../src/photos-tool-filters.c:198
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:202
+#: ../src/photos-tool-filters.c:205
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:208
+#: ../src/photos-tool-filters.c:211
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:215
+#: ../src/photos-tool-filters.c:218
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:221
+#: ../src/photos-tool-filters.c:224
 msgid "Hometown"
 msgstr "Hometown"
 
 # combobox text
-#: ../src/photos-tool-filters.c:239
+#: ../src/photos-tool-filters.c:242
 msgid "Filters"
 msgstr "Filtre"
 
