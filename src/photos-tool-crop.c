@@ -855,7 +855,7 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
     }
   else if (active > 0)
     {
-      self->list_box_active = active;
+      self->list_box_active = active - 1;
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->lock_button), TRUE);
     }
   else
