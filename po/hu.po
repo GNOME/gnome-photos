@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-06 20:11+0000\n"
-"PO-Revision-Date: 2016-02-05 19:42+0100\n"
+"POT-Creation-Date: 2016-02-12 09:55+0000\n"
+"PO-Revision-Date: 2016-02-12 15:37+0100\n"
 "Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -112,7 +112,7 @@ msgstr "Az ablak maximalizált állapota"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1408
+#: ../src/photos-base-item.c:1405
 msgid "Screenshots"
 msgstr "Képernyőképek"
 
@@ -220,11 +220,11 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:280
+#: ../src/photos-export-dialog.c:284
 msgid "%e %B %Y"
 msgstr "%Y. %B %e"
 
-#: ../src/photos-export-dialog.c:334
+#: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "Exportálási méret kiszámítása…"
 
@@ -346,7 +346,7 @@ msgstr "A fényképei indexelése folyamatban"
 msgid "Some photos might not be available during this process"
 msgstr "Egyes fényképek lehet, hogy nem lesznek elérhetők ezen folyamat alatt"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Helyi"
 
@@ -371,16 +371,16 @@ msgstr "Válasszon elemeket"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:331
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:301
 #, c-format
 msgid "Open with %s"
 msgstr "Megnyitás ezzel: %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:342
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:312
 msgid "Remove from favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:347
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:317
 msgid "Add to favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
@@ -444,7 +444,7 @@ msgid "Organize"
 msgstr "Rendszerezés"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:304
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Megnyitás"
@@ -511,7 +511,7 @@ msgstr "_Lent:"
 msgid "C_enter:"
 msgstr "_Középre:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:188
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
 msgid "None"
 msgstr "Nincs"
 
@@ -632,7 +632,7 @@ msgid "On, fired"
 msgstr "Bekapcsolva, villant"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Összes"
 
@@ -679,23 +679,23 @@ msgstr "Exportálás"
 msgid "Add to Album"
 msgstr "Hozzáadás az albumhoz"
 
-#: ../src/photos-source-manager.c:205
+#: ../src/photos-source-manager.c:203
 msgid "Sources"
 msgstr "Források"
 
-#: ../src/photos-tool-colors.c:249
+#: ../src/photos-tool-colors.c:251
 msgid "Brightness"
 msgstr "Fényerő"
 
-#: ../src/photos-tool-colors.c:270
+#: ../src/photos-tool-colors.c:272
 msgid "Contrast"
 msgstr "Kontraszt"
 
-#: ../src/photos-tool-colors.c:290
+#: ../src/photos-tool-colors.c:292
 msgid "Saturation"
 msgstr "Telítettség"
 
-#: ../src/photos-tool-colors.c:317
+#: ../src/photos-tool-colors.c:319
 msgid "Colors"
 msgstr "Színek"
 
@@ -712,7 +712,7 @@ msgid "Screen"
 msgstr "Képernyő"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden Cut"
+msgid "Golden ratio"
 msgstr "Aranymetszés"
 
 #: ../src/photos-tool-crop.c:136
@@ -727,51 +727,51 @@ msgstr "A3 (297 x 420 mm)"
 msgid "A4 (210 × 297 mm)"
 msgstr "A4 (210 × 297 mm)"
 
-#: ../src/photos-tool-crop.c:1162
+#: ../src/photos-tool-crop.c:1187
 msgid "Lock aspect ratio"
 msgstr "Méretarány zárolása"
 
-#: ../src/photos-tool-crop.c:1177
+#: ../src/photos-tool-crop.c:1234
 msgid "Reset"
 msgstr "Visszaállítás"
 
-#: ../src/photos-tool-crop.c:1198
+#: ../src/photos-tool-crop.c:1251
 msgid "Crop"
 msgstr "Vágás"
 
-#: ../src/photos-tool-enhance.c:205
+#: ../src/photos-tool-enhance.c:207
 msgid "Sharpen"
 msgstr "Élesítés"
 
-#: ../src/photos-tool-enhance.c:225
+#: ../src/photos-tool-enhance.c:227
 msgid "Denoise"
 msgstr "Zajmentesítés"
 
-#: ../src/photos-tool-enhance.c:251
+#: ../src/photos-tool-enhance.c:253
 msgid "Enhance"
 msgstr "Feljavítás"
 
-#: ../src/photos-tool-filters.c:195
+#: ../src/photos-tool-filters.c:198
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:202
+#: ../src/photos-tool-filters.c:205
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:208
+#: ../src/photos-tool-filters.c:211
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:215
+#: ../src/photos-tool-filters.c:218
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:221
+#: ../src/photos-tool-filters.c:224
 msgid "Hometown"
 msgstr "Szülőváros"
 
-#: ../src/photos-tool-filters.c:239
+#: ../src/photos-tool-filters.c:242
 msgid "Filters"
 msgstr "Szűrők"
 
