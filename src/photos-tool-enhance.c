@@ -59,7 +59,7 @@ G_DEFINE_TYPE_WITH_CODE (PhotosToolEnhance, photos_tool_enhance, PHOTOS_TYPE_TOO
 
 
 static const gdouble DENOISE_ITERATIONS_DEFAULT = 0.0;
-static const gdouble DENOISE_ITERATIONS_MAXIMUM = 8.0;
+static const gdouble DENOISE_ITERATIONS_MAXIMUM = 16.0;
 static const gdouble DENOISE_ITERATIONS_MINIMUM = 0.0;
 static const gdouble DENOISE_ITERATIONS_STEP = 1.0;
 static const gdouble SHARPEN_SCALE_DEFAULT = 0.0;
