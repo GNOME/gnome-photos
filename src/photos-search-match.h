@@ -35,40 +35,16 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SEARCH_MATCH, PhotosSearchMatch))
 
-#define PHOTOS_SEARCH_MATCH_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_SEARCH_MATCH, PhotosSearchMatchClass))
-
 #define PHOTOS_IS_SEARCH_MATCH(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_SEARCH_MATCH))
-
-#define PHOTOS_IS_SEARCH_MATCH_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_SEARCH_MATCH))
-
-#define PHOTOS_SEARCH_MATCH_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_SEARCH_MATCH, PhotosSearchMatchClass))
 
 #define PHOTOS_SEARCH_MATCH_STOCK_ALL "all"
 #define PHOTOS_SEARCH_MATCH_STOCK_AUTHOR "author"
 #define PHOTOS_SEARCH_MATCH_STOCK_TITLE "title"
 
-typedef struct _PhotosSearchMatch        PhotosSearchMatch;
-typedef struct _PhotosSearchMatchClass   PhotosSearchMatchClass;
-typedef struct _PhotosSearchMatchPrivate PhotosSearchMatchPrivate;
-
-struct _PhotosSearchMatch
-{
-  GObject parent_instance;
-  PhotosSearchMatchPrivate *priv;
-};
-
-struct _PhotosSearchMatchClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosSearchMatch      PhotosSearchMatch;
+typedef struct _PhotosSearchMatchClass PhotosSearchMatchClass;
 
 GType                 photos_search_match_get_type           (void) G_GNUC_CONST;
 

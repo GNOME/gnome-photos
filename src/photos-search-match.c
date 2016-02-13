@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014, 2015 Red Hat, Inc.
+ * Copyright © 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,12 +29,18 @@
 #include "photos-search-match.h"
 
 
-struct _PhotosSearchMatchPrivate
+struct _PhotosSearchMatch
 {
+  GObject parent_instance;
   gchar *filter;
   gchar *id;
   gchar *name;
   gchar *term;
+};
+
+struct _PhotosSearchMatchClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -49,7 +55,6 @@ static void photos_filterable_interface_init (PhotosFilterableInterface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosSearchMatch, photos_search_match, G_TYPE_OBJECT,
-                         G_ADD_PRIVATE (PhotosSearchMatch)
                          G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                 photos_filterable_interface_init));
 
@@ -58,13 +63,12 @@ static gchar *
 photos_search_match_get_filter (PhotosFilterable *iface)
 {
   PhotosSearchMatch *self = PHOTOS_SEARCH_MATCH (iface);
-  PhotosSearchMatchPrivate *priv = self->priv;
   char *ret_val;
 
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wformat-nonliteral"
 
-  ret_val = g_strdup_printf (priv->filter, priv->term);
+  ret_val = g_strdup_printf (self->filter, self->term);
 
   #pragma GCC diagnostic pop
 
@@ -76,7 +80,7 @@ static const gchar *
 photos_search_match_get_id (PhotosFilterable *filterable)
 {
   PhotosSearchMatch *self = PHOTOS_SEARCH_MATCH (filterable);
-  return self->priv->id;
+  return self->id;
 }
 
 
@@ -84,12 +88,11 @@ static void
 photos_search_match_finalize (GObject *object)
 {
   PhotosSearchMatch *self = PHOTOS_SEARCH_MATCH (object);
-  PhotosSearchMatchPrivate *priv = self->priv;
 
-  g_free (priv->filter);
-  g_free (priv->id);
-  g_free (priv->name);
-  g_free (priv->term);
+  g_free (self->filter);
+  g_free (self->id);
+  g_free (self->name);
+  g_free (self->term);
 
   G_OBJECT_CLASS (photos_search_match_parent_class)->finalize (object);
 }
@@ -99,16 +102,15 @@ static void
 photos_search_match_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
   PhotosSearchMatch *self = PHOTOS_SEARCH_MATCH (object);
-  PhotosSearchMatchPrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_ID:
-      g_value_set_string (value, priv->id);
+      g_value_set_string (value, self->id);
       break;
 
     case PROP_NAME:
-      g_value_set_string (value, priv->name);
+      g_value_set_string (value, self->name);
       break;
 
     default:
@@ -122,20 +124,19 @@ static void
 photos_search_match_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosSearchMatch *self = PHOTOS_SEARCH_MATCH (object);
-  PhotosSearchMatchPrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_FILTER:
-      priv->filter = g_value_dup_string (value);
+      self->filter = g_value_dup_string (value);
       break;
 
     case PROP_ID:
-      priv->id = g_value_dup_string (value);
+      self->id = g_value_dup_string (value);
       break;
 
     case PROP_NAME:
-      priv->name = g_value_dup_string (value);
+      self->name = g_value_dup_string (value);
       break;
 
     default:
@@ -148,12 +149,7 @@ photos_search_match_set_property (GObject *object, guint prop_id, const GValue *
 static void
 photos_search_match_init (PhotosSearchMatch *self)
 {
-  PhotosSearchMatchPrivate *priv;
-
-  self->priv = photos_search_match_get_instance_private (self);
-  priv = self->priv;
-
-  priv->term = g_strdup ("");
+  self->term = g_strdup ("");
 }
 
 
@@ -210,11 +206,9 @@ photos_search_match_new (const gchar *id, const gchar *name, const gchar *filter
 void
 photos_search_match_set_filter_term (PhotosSearchMatch *self, const gchar *term)
 {
-  PhotosSearchMatchPrivate *priv = self->priv;
-
-  if (g_strcmp0 (priv->term, term) == 0)
+  if (g_strcmp0 (self->term, term) == 0)
     return;
 
-  g_free (priv->term);
-  priv->term = g_strdup (term);
+  g_free (self->term);
+  self->term = g_strdup (term);
 }
