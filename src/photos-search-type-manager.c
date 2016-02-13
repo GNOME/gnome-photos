@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,6 +32,17 @@
 #include "photos-query.h"
 #include "photos-search-type.h"
 #include "photos-search-type-manager.h"
+
+
+struct _PhotosSearchTypeManager
+{
+  PhotosBaseManager parent_instance;
+};
+
+struct _PhotosSearchTypeManagerClass
+{
+  PhotosBaseManagerClass parent_class;
+};
 
 
 G_DEFINE_TYPE (PhotosSearchTypeManager, photos_search_type_manager, PHOTOS_TYPE_BASE_MANAGER);
