@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_PROPERTIES_DIALOG, PhotosPropertiesDialog))
 
-#define PHOTOS_PROPERTIES_DIALOG_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_PROPERTIES_DIALOG, PhotosPropertiesDialogClass))
-
 #define PHOTOS_IS_PROPERTIES_DIALOG(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_PROPERTIES_DIALOG))
 
-#define PHOTOS_IS_PROPERTIES_DIALOG_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_PROPERTIES_DIALOG))
-
-#define PHOTOS_PROPERTIES_DIALOG_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_PROPERTIES_DIALOG, PhotosPropertiesDialogClass))
-
-typedef struct _PhotosPropertiesDialog        PhotosPropertiesDialog;
-typedef struct _PhotosPropertiesDialogClass   PhotosPropertiesDialogClass;
-typedef struct _PhotosPropertiesDialogPrivate PhotosPropertiesDialogPrivate;
-
-struct _PhotosPropertiesDialog
-{
-  GtkDialog parent_instance;
-  PhotosPropertiesDialogPrivate *priv;
-};
-
-struct _PhotosPropertiesDialogClass
-{
-  GtkDialogClass parent_class;
-};
+typedef struct _PhotosPropertiesDialog      PhotosPropertiesDialog;
+typedef struct _PhotosPropertiesDialogClass PhotosPropertiesDialogClass;
 
 GType               photos_properties_dialog_get_type           (void) G_GNUC_CONST;
 

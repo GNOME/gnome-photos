@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,8 +37,9 @@
 #include "photos-utils.h"
 
 
-struct _PhotosPropertiesDialogPrivate
+struct _PhotosPropertiesDialog
 {
+  GtkDialog parent_instance;
   GCancellable *cancellable;
   GtkWidget *camera_w;
   GtkWidget *grid;
@@ -49,6 +50,10 @@ struct _PhotosPropertiesDialogPrivate
   guint title_entry_timeout;
 };
 
+struct _PhotosPropertiesDialogClass
+{
+  GtkDialogClass parent_class;
+};
 
 enum
 {
@@ -57,7 +62,7 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosPropertiesDialog, photos_properties_dialog, GTK_TYPE_DIALOG);
+G_DEFINE_TYPE (PhotosPropertiesDialog, photos_properties_dialog, GTK_TYPE_DIALOG);
 
 
 enum
@@ -70,7 +75,6 @@ static void
 photos_properties_dialog_get_camera (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosPropertiesDialog *self;
-  PhotosPropertiesDialogPrivate *priv;
   GError *error;
   gchar *camera;
 
@@ -86,7 +90,6 @@ photos_properties_dialog_get_camera (GObject *source_object, GAsyncResult *res, 
 
   /* Now we know that self has not been destroyed. */
   self = PHOTOS_PROPERTIES_DIALOG (user_data);
-  priv = self->priv;
 
   if (camera != NULL)
     {
@@ -94,7 +97,7 @@ photos_properties_dialog_get_camera (GObject *source_object, GAsyncResult *res, 
 
       camera_data = gtk_label_new (camera);
       gtk_widget_set_halign (camera_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (priv->grid), camera_data, priv->camera_w, GTK_POS_RIGHT, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), camera_data, self->camera_w, GTK_POS_RIGHT, 2, 1);
       gtk_widget_show (camera_data);
     }
 
@@ -106,12 +109,11 @@ static gboolean
 photos_properties_dialog_title_entry_timeout (gpointer user_data)
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (user_data);
-  PhotosPropertiesDialogPrivate *priv = self->priv;
   const gchar *new_title;
 
-  priv->title_entry_timeout = 0;
-  new_title = gtk_entry_get_text (GTK_ENTRY (priv->title_entry));
-  photos_utils_set_edited_name (priv->urn, new_title);
+  self->title_entry_timeout = 0;
+  new_title = gtk_entry_get_text (GTK_ENTRY (self->title_entry));
+  photos_utils_set_edited_name (self->urn, new_title);
 
   g_object_unref (self);
   return G_SOURCE_REMOVE;
@@ -122,15 +124,14 @@ static void
 photos_properties_dialog_title_entry_changed (GtkEditable *editable, gpointer user_data)
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (user_data);
-  PhotosPropertiesDialogPrivate *priv = self->priv;
 
-  if (priv->title_entry_timeout != 0)
+  if (self->title_entry_timeout != 0)
     {
-      g_source_remove (priv->title_entry_timeout);
-      priv->title_entry_timeout = 0;
+      g_source_remove (self->title_entry_timeout);
+      self->title_entry_timeout = 0;
     }
 
-  priv->title_entry_timeout = g_timeout_add (TITLE_ENTRY_TIMEOUT,
+  self->title_entry_timeout = g_timeout_add (TITLE_ENTRY_TIMEOUT,
                                              photos_properties_dialog_title_entry_timeout,
                                              g_object_ref (self));
 }
@@ -140,7 +141,6 @@ static void
 photos_properties_dialog_constructed (GObject *object)
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (object);
-  PhotosPropertiesDialogPrivate *priv = self->priv;
   GDateTime *date_modified;
   GtkStyleContext *context;
   GtkWidget *author_w = NULL;
@@ -179,7 +179,7 @@ photos_properties_dialog_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_properties_dialog_parent_class)->constructed (object);
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr, priv->urn));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, self->urn));
 
   mtime = photos_base_item_get_mtime (item);
   date_modified = g_date_time_new_from_unix_local (mtime);
@@ -196,20 +196,20 @@ photos_properties_dialog_constructed (GObject *object)
       g_date_time_unref (date_created);
     }
 
-  priv->grid = gtk_grid_new ();
-  gtk_widget_set_halign (priv->grid, GTK_ALIGN_CENTER);
-  gtk_widget_set_margin_start (priv->grid, 24);
-  gtk_widget_set_margin_end (priv->grid, 24);
-  gtk_widget_set_margin_bottom (priv->grid, 12);
-  gtk_widget_set_margin_top (priv->grid, 12);
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->grid), GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_column_homogeneous (GTK_GRID (priv->grid), TRUE);
-  gtk_grid_set_column_spacing (GTK_GRID (priv->grid), 24);
-  gtk_grid_set_row_homogeneous (GTK_GRID (priv->grid), TRUE);
-  gtk_grid_set_row_spacing (GTK_GRID (priv->grid), 6);
+  self->grid = gtk_grid_new ();
+  gtk_widget_set_halign (self->grid, GTK_ALIGN_CENTER);
+  gtk_widget_set_margin_start (self->grid, 24);
+  gtk_widget_set_margin_end (self->grid, 24);
+  gtk_widget_set_margin_bottom (self->grid, 12);
+  gtk_widget_set_margin_top (self->grid, 12);
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (self->grid), GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_column_homogeneous (GTK_GRID (self->grid), TRUE);
+  gtk_grid_set_column_spacing (GTK_GRID (self->grid), 24);
+  gtk_grid_set_row_homogeneous (GTK_GRID (self->grid), TRUE);
+  gtk_grid_set_row_spacing (GTK_GRID (self->grid), 6);
 
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
-  gtk_box_pack_start (GTK_BOX (content_area), priv->grid, TRUE, TRUE, 2);
+  gtk_box_pack_start (GTK_BOX (content_area), self->grid, TRUE, TRUE, 2);
 
   /* Translators: this is the label next to the photo title in the
    * properties dialog
@@ -218,7 +218,7 @@ photos_properties_dialog_constructed (GObject *object)
   gtk_widget_set_halign (title, GTK_ALIGN_END);
   context = gtk_widget_get_style_context (title);
   gtk_style_context_add_class (context, "dim-label");
-  gtk_container_add (GTK_CONTAINER (priv->grid), title);
+  gtk_container_add (GTK_CONTAINER (self->grid), title);
 
   author = photos_base_item_get_author (item);
   if (author != NULL && author[0] != '\0')
@@ -230,20 +230,20 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (author_w, GTK_ALIGN_END);
       context = gtk_widget_get_style_context (author_w);
       gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (priv->grid), author_w);
+      gtk_container_add (GTK_CONTAINER (self->grid), author_w);
     }
 
   source = gtk_label_new (_("Source"));
   gtk_widget_set_halign (source, GTK_ALIGN_END);
   context = gtk_widget_get_style_context (source);
   gtk_style_context_add_class (context, "dim-label");
-  gtk_container_add (GTK_CONTAINER (priv->grid), source);
+  gtk_container_add (GTK_CONTAINER (self->grid), source);
 
   date_modified_w = gtk_label_new (_("Date Modified"));
   gtk_widget_set_halign (date_modified_w, GTK_ALIGN_END);
   context = gtk_widget_get_style_context (date_modified_w);
   gtk_style_context_add_class (context, "dim-label");
-  gtk_container_add (GTK_CONTAINER (priv->grid), date_modified_w);
+  gtk_container_add (GTK_CONTAINER (self->grid), date_modified_w);
 
   if (date_created_str != NULL)
     {
@@ -251,7 +251,7 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (date_created_w, GTK_ALIGN_END);
       context = gtk_widget_get_style_context (date_created_w);
       gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (priv->grid), date_created_w);
+      gtk_container_add (GTK_CONTAINER (self->grid), date_created_w);
     }
 
   /* Translators: this is the label next to the photo type in the
@@ -261,7 +261,7 @@ photos_properties_dialog_constructed (GObject *object)
   gtk_widget_set_halign (item_type, GTK_ALIGN_END);
   context = gtk_widget_get_style_context (item_type);
   gtk_style_context_add_class (context, "dim-label");
-  gtk_container_add (GTK_CONTAINER (priv->grid), item_type);
+  gtk_container_add (GTK_CONTAINER (self->grid), item_type);
 
   width = photos_base_item_get_width (item);
   if (width > 0)
@@ -270,7 +270,7 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (width_w, GTK_ALIGN_END);
       context = gtk_widget_get_style_context (width_w);
       gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (priv->grid), width_w);
+      gtk_container_add (GTK_CONTAINER (self->grid), width_w);
     }
 
   height = photos_base_item_get_height (item);
@@ -280,22 +280,22 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (height_w, GTK_ALIGN_END);
       context = gtk_widget_get_style_context (height_w);
       gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (priv->grid), height_w);
+      gtk_container_add (GTK_CONTAINER (self->grid), height_w);
     }
 
   equipment = photos_base_item_get_equipment (item);
-  photos_camera_cache_get_camera_async (priv->camera_cache,
+  photos_camera_cache_get_camera_async (self->camera_cache,
                                         equipment,
-                                        priv->cancellable,
+                                        self->cancellable,
                                         photos_properties_dialog_get_camera,
                                         self);
   if (equipment != 0)
     {
-      priv->camera_w = gtk_label_new (_("Camera"));
-      gtk_widget_set_halign (priv->camera_w, GTK_ALIGN_END);
-      context = gtk_widget_get_style_context (priv->camera_w);
+      self->camera_w = gtk_label_new (_("Camera"));
+      gtk_widget_set_halign (self->camera_w, GTK_ALIGN_END);
+      context = gtk_widget_get_style_context (self->camera_w);
       gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (priv->grid), priv->camera_w);
+      gtk_container_add (GTK_CONTAINER (self->grid), self->camera_w);
     }
 
   exposure_time = photos_base_item_get_exposure_time (item);
@@ -305,7 +305,7 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (exposure_time_w, GTK_ALIGN_END);
       context = gtk_widget_get_style_context (exposure_time_w);
       gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (priv->grid), exposure_time_w);
+      gtk_container_add (GTK_CONTAINER (self->grid), exposure_time_w);
     }
 
   fnumber = photos_base_item_get_fnumber (item);
@@ -315,7 +315,7 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (fnumber_w, GTK_ALIGN_END);
       context = gtk_widget_get_style_context (fnumber_w);
       gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (priv->grid), fnumber_w);
+      gtk_container_add (GTK_CONTAINER (self->grid), fnumber_w);
     }
 
   focal_length = photos_base_item_get_focal_length (item);
@@ -325,7 +325,7 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (focal_length_w, GTK_ALIGN_END);
       context = gtk_widget_get_style_context (focal_length_w);
       gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (priv->grid), focal_length_w);
+      gtk_container_add (GTK_CONTAINER (self->grid), focal_length_w);
     }
 
   iso_speed = photos_base_item_get_iso_speed (item);
@@ -335,7 +335,7 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (iso_speed_w, GTK_ALIGN_END);
       context = gtk_widget_get_style_context (iso_speed_w);
       gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (priv->grid), iso_speed_w);
+      gtk_container_add (GTK_CONTAINER (self->grid), iso_speed_w);
     }
 
   flash = photos_base_item_get_flash (item);
@@ -345,33 +345,33 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (flash_w, GTK_ALIGN_END);
       context = gtk_widget_get_style_context (flash_w);
       gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (priv->grid), flash_w);
+      gtk_container_add (GTK_CONTAINER (self->grid), flash_w);
     }
 
   name = photos_base_item_get_name (item);
 
   if (PHOTOS_IS_LOCAL_ITEM (item))
     {
-      priv->title_entry = gtk_entry_new ();
-      gtk_widget_set_halign (priv->title_entry, GTK_ALIGN_START);
-      gtk_widget_set_hexpand (priv->title_entry, TRUE);
-      gtk_entry_set_activates_default (GTK_ENTRY (priv->title_entry), TRUE);
-      gtk_entry_set_text (GTK_ENTRY (priv->title_entry), name);
-      gtk_entry_set_width_chars (GTK_ENTRY (priv->title_entry), 40);
-      gtk_editable_set_editable (GTK_EDITABLE (priv->title_entry), TRUE);
+      self->title_entry = gtk_entry_new ();
+      gtk_widget_set_halign (self->title_entry, GTK_ALIGN_START);
+      gtk_widget_set_hexpand (self->title_entry, TRUE);
+      gtk_entry_set_activates_default (GTK_ENTRY (self->title_entry), TRUE);
+      gtk_entry_set_text (GTK_ENTRY (self->title_entry), name);
+      gtk_entry_set_width_chars (GTK_ENTRY (self->title_entry), 40);
+      gtk_editable_set_editable (GTK_EDITABLE (self->title_entry), TRUE);
 
-      g_signal_connect (priv->title_entry,
+      g_signal_connect (self->title_entry,
                         "changed",
                         G_CALLBACK (photos_properties_dialog_title_entry_changed),
                         self);
     }
   else
     {
-      priv->title_entry = gtk_label_new (name);
-      gtk_widget_set_halign (priv->title_entry, GTK_ALIGN_START);
+      self->title_entry = gtk_label_new (name);
+      gtk_widget_set_halign (self->title_entry, GTK_ALIGN_START);
     }
 
-  gtk_grid_attach_next_to (GTK_GRID (priv->grid), priv->title_entry, title, GTK_POS_RIGHT, 2, 1);
+  gtk_grid_attach_next_to (GTK_GRID (self->grid), self->title_entry, title, GTK_POS_RIGHT, 2, 1);
 
   if (author_w != NULL)
     {
@@ -379,15 +379,15 @@ photos_properties_dialog_constructed (GObject *object)
 
       author_data = gtk_label_new (author);
       gtk_widget_set_halign (author_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (priv->grid), author_data, author_w, GTK_POS_RIGHT, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), author_data, author_w, GTK_POS_RIGHT, 2, 1);
     }
 
   source_data = photos_base_item_get_source_widget (item);
-  gtk_grid_attach_next_to (GTK_GRID (priv->grid), source_data, source, GTK_POS_RIGHT, 2, 1);
+  gtk_grid_attach_next_to (GTK_GRID (self->grid), source_data, source, GTK_POS_RIGHT, 2, 1);
 
   date_modified_data = gtk_label_new (date_modified_str);
   gtk_widget_set_halign (date_modified_data, GTK_ALIGN_START);
-  gtk_grid_attach_next_to (GTK_GRID (priv->grid), date_modified_data, date_modified_w, GTK_POS_RIGHT, 2, 1);
+  gtk_grid_attach_next_to (GTK_GRID (self->grid), date_modified_data, date_modified_w, GTK_POS_RIGHT, 2, 1);
 
   if (date_created_w != NULL)
     {
@@ -395,13 +395,13 @@ photos_properties_dialog_constructed (GObject *object)
 
       date_created_data = gtk_label_new (date_created_str);
       gtk_widget_set_halign (date_created_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (priv->grid), date_created_data, date_created_w, GTK_POS_RIGHT, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), date_created_data, date_created_w, GTK_POS_RIGHT, 2, 1);
     }
 
   type_description = photos_base_item_get_type_description (item);
   item_type_data = gtk_label_new (type_description);
   gtk_widget_set_halign (item_type_data, GTK_ALIGN_START);
-  gtk_grid_attach_next_to (GTK_GRID (priv->grid), item_type_data, item_type, GTK_POS_RIGHT, 2, 1);
+  gtk_grid_attach_next_to (GTK_GRID (self->grid), item_type_data, item_type, GTK_POS_RIGHT, 2, 1);
 
   if (width_w != NULL)
     {
@@ -411,7 +411,7 @@ photos_properties_dialog_constructed (GObject *object)
       width_str = g_strdup_printf ("%"G_GINT64_FORMAT" pixels", width);
       width_data = gtk_label_new (width_str);
       gtk_widget_set_halign (width_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (priv->grid), width_data, width_w, GTK_POS_RIGHT, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), width_data, width_w, GTK_POS_RIGHT, 2, 1);
       g_free (width_str);
     }
 
@@ -423,7 +423,7 @@ photos_properties_dialog_constructed (GObject *object)
       height_str = g_strdup_printf ("%"G_GINT64_FORMAT" pixels", height);
       height_data = gtk_label_new (height_str);
       gtk_widget_set_halign (height_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (priv->grid), height_data, height_w, GTK_POS_RIGHT, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), height_data, height_w, GTK_POS_RIGHT, 2, 1);
       g_free (height_str);
     }
 
@@ -435,7 +435,7 @@ photos_properties_dialog_constructed (GObject *object)
       exposure_time_str = g_strdup_printf ("%.3lf sec", exposure_time);
       exposure_time_data = gtk_label_new (exposure_time_str);
       gtk_widget_set_halign (exposure_time_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (priv->grid), exposure_time_data, exposure_time_w, GTK_POS_RIGHT, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), exposure_time_data, exposure_time_w, GTK_POS_RIGHT, 2, 1);
       g_free (exposure_time_str);
     }
 
@@ -447,7 +447,7 @@ photos_properties_dialog_constructed (GObject *object)
       fnumber_str = g_strdup_printf ("f/%.1lf", fnumber);
       fnumber_data = gtk_label_new (fnumber_str);
       gtk_widget_set_halign (fnumber_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (priv->grid), fnumber_data, fnumber_w, GTK_POS_RIGHT, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), fnumber_data, fnumber_w, GTK_POS_RIGHT, 2, 1);
       g_free (fnumber_str);
     }
 
@@ -459,7 +459,7 @@ photos_properties_dialog_constructed (GObject *object)
       focal_length_str = g_strdup_printf ("%.0lf mm", focal_length);
       focal_length_data = gtk_label_new (focal_length_str);
       gtk_widget_set_halign (focal_length_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (priv->grid), focal_length_data, focal_length_w, GTK_POS_RIGHT, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), focal_length_data, focal_length_w, GTK_POS_RIGHT, 2, 1);
       g_free (focal_length_str);
     }
 
@@ -471,7 +471,7 @@ photos_properties_dialog_constructed (GObject *object)
       iso_speed_str = g_strdup_printf ("%.0lf", iso_speed);
       iso_speed_data = gtk_label_new (iso_speed_str);
       gtk_widget_set_halign (iso_speed_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (priv->grid), iso_speed_data, iso_speed_w, GTK_POS_RIGHT, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), iso_speed_data, iso_speed_w, GTK_POS_RIGHT, 2, 1);
       g_free (iso_speed_str);
     }
 
@@ -494,7 +494,7 @@ photos_properties_dialog_constructed (GObject *object)
 
       flash_data = gtk_label_new (flash_str);
       gtk_widget_set_halign (flash_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (priv->grid), flash_data, flash_w, GTK_POS_RIGHT, 2, 1);
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), flash_data, flash_w, GTK_POS_RIGHT, 2, 1);
       g_free (flash_str);
     }
 
@@ -507,16 +507,15 @@ static void
 photos_properties_dialog_dispose (GObject *object)
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (object);
-  PhotosPropertiesDialogPrivate *priv = self->priv;
 
-  if (priv->cancellable != NULL)
+  if (self->cancellable != NULL)
     {
-      g_cancellable_cancel (priv->cancellable);
-      g_clear_object (&priv->cancellable);
+      g_cancellable_cancel (self->cancellable);
+      g_clear_object (&self->cancellable);
     }
 
-  g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->camera_cache);
+  g_clear_object (&self->item_mngr);
+  g_clear_object (&self->camera_cache);
 
   G_OBJECT_CLASS (photos_properties_dialog_parent_class)->dispose (object);
 }
@@ -526,12 +525,11 @@ static void
 photos_properties_dialog_finalize (GObject *object)
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (object);
-  PhotosPropertiesDialogPrivate *priv = self->priv;
 
-  g_free (priv->urn);
+  g_free (self->urn);
 
-  if (priv->title_entry_timeout != 0)
-    g_source_remove (priv->title_entry_timeout);
+  if (self->title_entry_timeout != 0)
+    g_source_remove (self->title_entry_timeout);
 
   G_OBJECT_CLASS (photos_properties_dialog_parent_class)->finalize (object);
 }
@@ -545,7 +543,7 @@ photos_properties_dialog_set_property (GObject *object, guint prop_id, const GVa
   switch (prop_id)
     {
     case PROP_URN:
-      self->priv->urn = g_value_dup_string (value);
+      self->urn = g_value_dup_string (value);
       break;
 
     default:
@@ -558,19 +556,15 @@ photos_properties_dialog_set_property (GObject *object, guint prop_id, const GVa
 static void
 photos_properties_dialog_init (PhotosPropertiesDialog *self)
 {
-  PhotosPropertiesDialogPrivate *priv;
   GApplication *app;
   PhotosSearchContextState *state;
-
-  self->priv = photos_properties_dialog_get_instance_private (self);
-  priv = self->priv;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->cancellable = g_cancellable_new ();
-  priv->item_mngr = g_object_ref (state->item_mngr);
-  priv->camera_cache = photos_camera_cache_dup_singleton ();
+  self->cancellable = g_cancellable_new ();
+  self->item_mngr = g_object_ref (state->item_mngr);
+  self->camera_cache = photos_camera_cache_dup_singleton ();
 }
 
 
