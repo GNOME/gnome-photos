@@ -459,11 +459,9 @@ photos_pipeline_get_output (PhotosPipeline *self)
 GeglProcessor *
 photos_pipeline_new_processor (PhotosPipeline *self)
 {
-  GeglNode *output;
   GeglProcessor *processor;
 
-  output = gegl_node_get_output_proxy (self->graph, "output");
-  processor = gegl_node_new_processor (output, NULL);
+  processor = gegl_node_new_processor (self->graph, NULL);
   return processor;
 }
 
