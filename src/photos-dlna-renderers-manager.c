@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Intel Corporation. All rights reserved.
+ * Copyright © 2013, 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,11 +29,17 @@
 #include "photos-dlna-renderer.h"
 
 
-struct _PhotosDlnaRenderersManagerPrivate
+struct _PhotosDlnaRenderersManager
 {
+  GObject parent_instance;
   DleynaRendererManager *proxy;
   GHashTable *renderers;
   GError *error;
+};
+
+struct _PhotosDlnaRenderersManagerClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -45,7 +52,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosDlnaRenderersManager, photos_dlna_renderers_manager, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosDlnaRenderersManager, photos_dlna_renderers_manager, G_TYPE_OBJECT);
 
 
 static GObject *photos_dlna_renderers_manager_singleton = NULL;
@@ -55,11 +62,10 @@ static void
 photos_dlna_renderers_manager_dispose (GObject *object)
 {
   PhotosDlnaRenderersManager *self = PHOTOS_DLNA_RENDERERS_MANAGER (object);
-  PhotosDlnaRenderersManagerPrivate *priv = self->priv;
 
-  g_clear_object (&priv->proxy);
-  g_clear_pointer (&priv->renderers, (GDestroyNotify) g_hash_table_unref);
-  g_clear_error (&priv->error);
+  g_clear_object (&self->proxy);
+  g_clear_pointer (&self->renderers, (GDestroyNotify) g_hash_table_unref);
+  g_clear_error (&self->error);
 
   G_OBJECT_CLASS (photos_dlna_renderers_manager_parent_class)->dispose (object);
 }
@@ -71,7 +77,6 @@ photos_dlna_renderers_manager_renderer_new_cb (GObject      *source_object,
                                                gpointer      user_data)
 {
   PhotosDlnaRenderersManager *self = PHOTOS_DLNA_RENDERERS_MANAGER (user_data);
-  PhotosDlnaRenderersManagerPrivate *priv = self->priv;
   PhotosDlnaRenderer *renderer;
   const gchar *object_path;
   GError *error = NULL;
@@ -80,7 +85,7 @@ photos_dlna_renderers_manager_renderer_new_cb (GObject      *source_object,
   if (error != NULL)
     {
       g_warning ("Unable to load renderer object: %s", error->message);
-      g_propagate_error (&priv->error, error);
+      g_propagate_error (&self->error, error);
       return;
     }
 
@@ -90,7 +95,7 @@ photos_dlna_renderers_manager_renderer_new_cb (GObject      *source_object,
                 photos_dlna_renderer_get_friendly_name (renderer),
                 photos_dlna_renderer_get_udn (renderer),
                 object_path);
-  g_hash_table_insert (priv->renderers, (gpointer) object_path, renderer);
+  g_hash_table_insert (self->renderers, (gpointer) object_path, renderer);
   g_signal_emit (self, signals[RENDERER_FOUND], 0, renderer);
 }
 
@@ -115,13 +120,12 @@ photos_dlna_renderers_manager_renderer_lost_cb (PhotosDlnaRenderersManager *self
                                                 const gchar                *object_path,
                                                 gpointer                   *data)
 {
-  PhotosDlnaRenderersManagerPrivate *priv = self->priv;
   PhotosDlnaRenderer *renderer;
 
-  renderer = PHOTOS_DLNA_RENDERER (g_hash_table_lookup (priv->renderers, object_path));
+  renderer = PHOTOS_DLNA_RENDERER (g_hash_table_lookup (self->renderers, object_path));
   g_return_if_fail (renderer != NULL);
 
-  g_hash_table_steal (priv->renderers, object_path);
+  g_hash_table_steal (self->renderers, object_path);
   photos_debug (PHOTOS_DEBUG_DLNA,
                 "%s '%s' %s %s", G_STRFUNC,
                 photos_dlna_renderer_get_friendly_name (renderer),
@@ -138,15 +142,14 @@ photos_dlna_renderers_manager_proxy_get_renderers_cb (GObject      *source_objec
                                                       gpointer      user_data)
 {
   PhotosDlnaRenderersManager *self = user_data;
-  PhotosDlnaRenderersManagerPrivate *priv = self->priv;
   gchar **object_paths, **path;
   GError *error = NULL;
 
-  dleyna_renderer_manager_call_get_renderers_finish (priv->proxy, &object_paths, res, &error);
+  dleyna_renderer_manager_call_get_renderers_finish (self->proxy, &object_paths, res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to fetch the list of available renderers: %s", error->message);
-      g_propagate_error (&priv->error, error);
+      g_propagate_error (&self->error, error);
       return;
     }
 
@@ -163,25 +166,24 @@ photos_dlna_renderers_manager_proxy_new_cb (GObject      *source_object,
                                             gpointer      user_data)
 {
   PhotosDlnaRenderersManager *self = user_data;
-  PhotosDlnaRenderersManagerPrivate *priv = self->priv;
   GError *error = NULL;
 
-  priv->proxy = dleyna_renderer_manager_proxy_new_for_bus_finish (res, &error);
+  self->proxy = dleyna_renderer_manager_proxy_new_for_bus_finish (res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to connect to the dLeynaRenderer.Manager DBus object: %s", error->message);
-      g_propagate_error (&priv->error, error);
+      g_propagate_error (&self->error, error);
       return;
     }
 
   photos_debug (PHOTOS_DEBUG_DLNA, "%s DLNA renderers manager initialized", G_STRFUNC);
 
-  g_signal_connect_swapped (priv->proxy, "found-renderer",
+  g_signal_connect_swapped (self->proxy, "found-renderer",
                             G_CALLBACK (photos_dlna_renderers_manager_renderer_found_cb), self);
-  g_signal_connect_swapped (priv->proxy, "lost-renderer",
+  g_signal_connect_swapped (self->proxy, "lost-renderer",
                             G_CALLBACK (photos_dlna_renderers_manager_renderer_lost_cb), self);
 
-  dleyna_renderer_manager_call_get_renderers (priv->proxy, NULL,
+  dleyna_renderer_manager_call_get_renderers (self->proxy, NULL,
                                               photos_dlna_renderers_manager_proxy_get_renderers_cb, self);
 }
 
@@ -209,10 +211,6 @@ photos_dlna_renderers_manager_constructor (GType                  type,
 static void
 photos_dlna_renderers_manager_init (PhotosDlnaRenderersManager *self)
 {
-  PhotosDlnaRenderersManagerPrivate *priv;
-
-  self->priv = priv = photos_dlna_renderers_manager_get_instance_private (self);
-
   dleyna_renderer_manager_proxy_new_for_bus (G_BUS_TYPE_SESSION,
                                              G_DBUS_PROXY_FLAGS_NONE,
                                              "com.intel.dleyna-renderer",
@@ -220,7 +218,7 @@ photos_dlna_renderers_manager_init (PhotosDlnaRenderersManager *self)
                                              NULL, /* GCancellable */
                                              photos_dlna_renderers_manager_proxy_new_cb,
                                              self);
-  priv->renderers = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
+  self->renderers = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
 }
 
 
@@ -254,10 +252,9 @@ photos_dlna_renderers_manager_dup_singleton (void)
 GList *
 photos_dlna_renderers_manager_dup_renderers (PhotosDlnaRenderersManager *self)
 {
-  PhotosDlnaRenderersManagerPrivate *priv = self->priv;
   GList *renderers;
 
-  renderers = g_hash_table_get_values (priv->renderers);
+  renderers = g_hash_table_get_values (self->renderers);
   g_list_foreach (renderers, (GFunc) g_object_ref, NULL);
 
   return renderers;
@@ -274,5 +271,5 @@ photos_dlna_renderers_manager_is_available (void)
 
   self = PHOTOS_DLNA_RENDERERS_MANAGER (photos_dlna_renderers_manager_singleton);
 
-  return self->priv->error == NULL;
+  return self->error == NULL;
 }

@@ -31,36 +31,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_DLNA_RENDERERS_MANAGER, PhotosDlnaRenderersManager))
 
-#define PHOTOS_DLNA_RENDERERS_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_DLNA_RENDERERS_MANAGER, PhotosDlnaRenderersManagerClass))
-
 #define PHOTOS_IS_DLNA_RENDERERS_MANAGER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_DLNA_RENDERERS_MANAGER))
 
-#define PHOTOS_IS_DLNA_RENDERERS_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_DLNA_RENDERERS_MANAGER))
-
-#define PHOTOS_DLNA_RENDERERS_MANAGER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_DLNA_RENDERERS_MANAGER, PhotosDlnaRenderersManagerClass))
-
-typedef struct _PhotosDlnaRenderersManager        PhotosDlnaRenderersManager;
-typedef struct _PhotosDlnaRenderersManagerClass   PhotosDlnaRenderersManagerClass;
-typedef struct _PhotosDlnaRenderersManagerPrivate PhotosDlnaRenderersManagerPrivate;
-
-struct _PhotosDlnaRenderersManager
-{
-  GObject parent_instance;
-  PhotosDlnaRenderersManagerPrivate *priv;
-};
-
-struct _PhotosDlnaRenderersManagerClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosDlnaRenderersManager      PhotosDlnaRenderersManager;
+typedef struct _PhotosDlnaRenderersManagerClass PhotosDlnaRenderersManagerClass;
 
 GType                       photos_dlna_renderers_manager_get_type      (void) G_GNUC_CONST;
 
