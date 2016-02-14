@@ -38,36 +38,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_PREVIEW_NAV_BUTTONS, PhotosPreviewNavButtons))
 
-#define PHOTOS_PREVIEW_NAV_BUTTONS_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_PREVIEW_VIEW, PhotosPreviewNavButtonsClass))
-
 #define PHOTOS_IS_PREVIEW_VIEW(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_PREVIEW_VIEW))
 
-#define PHOTOS_IS_PREVIEW_NAV_BUTTONS_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_PREVIEW_VIEW))
-
-#define PHOTOS_PREVIEW_NAV_BUTTONS_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_PREVIEW_VIEW, PhotosPreviewNavButtonsClass))
-
-typedef struct _PhotosPreviewNavButtons        PhotosPreviewNavButtons;
-typedef struct _PhotosPreviewNavButtonsClass   PhotosPreviewNavButtonsClass;
-typedef struct _PhotosPreviewNavButtonsPrivate PhotosPreviewNavButtonsPrivate;
-
-struct _PhotosPreviewNavButtons
-{
-  GObject parent_instance;
-  PhotosPreviewNavButtonsPrivate *priv;
-};
-
-struct _PhotosPreviewNavButtonsClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosPreviewNavButtons      PhotosPreviewNavButtons;
+typedef struct _PhotosPreviewNavButtonsClass PhotosPreviewNavButtonsClass;
 
 GType                       photos_preview_nav_buttons_get_type           (void) G_GNUC_CONST;
 
