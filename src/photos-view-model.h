@@ -38,21 +38,9 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_VIEW_MODEL, PhotosViewModel))
 
-#define PHOTOS_VIEW_MODEL_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_VIEW_MODEL, PhotosViewModelClass))
-
 #define PHOTOS_IS_VIEW_MODEL(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_VIEW_MODEL))
-
-#define PHOTOS_IS_VIEW_MODEL_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_VIEW_MODEL))
-
-#define PHOTOS_VIEW_MODEL_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_VIEW_MODEL, PhotosViewModelClass))
 
 typedef enum
 {
@@ -66,20 +54,8 @@ typedef enum
   PHOTOS_VIEW_MODEL_PULSE /* unused */
 } PhotosViewModelColumns;
 
-typedef struct _PhotosViewModel        PhotosViewModel;
-typedef struct _PhotosViewModelClass   PhotosViewModelClass;
-typedef struct _PhotosViewModelPrivate PhotosViewModelPrivate;
-
-struct _PhotosViewModel
-{
-  GtkListStore parent_instance;
-  PhotosViewModelPrivate *priv;
-};
-
-struct _PhotosViewModelClass
-{
-  GtkListStoreClass parent_class;
-};
+typedef struct _PhotosViewModel      PhotosViewModel;
+typedef struct _PhotosViewModelClass PhotosViewModelClass;
 
 GType             photos_view_model_get_type               (void) G_GNUC_CONST;
 

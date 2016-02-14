@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc.
+ * Copyright © 2012, 2013, 2014, 2015, 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,8 +43,9 @@
 #include "photos-view-model.h"
 
 
-struct _PhotosViewModelPrivate
+struct _PhotosViewModel
 {
+  GtkListStore parent_instance;
   GHashTable *info_updated_ids;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
@@ -57,6 +58,11 @@ struct _PhotosViewModelPrivate
   guint reset_count_id;
 };
 
+struct _PhotosViewModelClass
+{
+  GtkListStoreClass parent_class;
+};
+
 enum
 {
   PROP_0,
@@ -64,7 +70,7 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosViewModel, photos_view_model, GTK_TYPE_LIST_STORE);
+G_DEFINE_TYPE (PhotosViewModel, photos_view_model, GTK_TYPE_LIST_STORE);
 
 
 enum
@@ -92,10 +98,9 @@ static gboolean
 photos_view_model_reset_count_timeout (gpointer user_data)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (user_data);
-  PhotosViewModelPrivate *priv = self->priv;
 
-  priv->reset_count_id = 0;
-  photos_offset_controller_reset_count (priv->offset_cntrlr);
+  self->reset_count_id = 0;
+  photos_offset_controller_reset_count (self->offset_cntrlr);
   return G_SOURCE_REMOVE;
 }
 
@@ -103,17 +108,14 @@ photos_view_model_reset_count_timeout (gpointer user_data)
 static void
 photos_view_model_reset_count (PhotosViewModel *self)
 {
-  PhotosViewModelPrivate *priv = self->priv;
-
-  if (priv->reset_count_id == 0)
-    priv->reset_count_id = g_timeout_add (RESET_COUNT_TIMEOUT, photos_view_model_reset_count_timeout, self);
+  if (self->reset_count_id == 0)
+    self->reset_count_id = g_timeout_add (RESET_COUNT_TIMEOUT, photos_view_model_reset_count_timeout, self);
 }
 
 
 static void
 photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
 {
-  PhotosViewModelPrivate *priv = self->priv;
   GtkTreeIter iter;
   GtkTreePath *path;
   GtkTreeRowReference *row_ref;
@@ -127,25 +129,25 @@ photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
    */
   photos_view_model_reset_count (self);
 
-  offset = photos_offset_controller_get_offset (priv->offset_cntrlr);
-  step = photos_offset_controller_get_step (priv->offset_cntrlr);
+  offset = photos_offset_controller_get_offset (self->offset_cntrlr);
+  step = photos_offset_controller_get_step (self->offset_cntrlr);
   mtime = photos_base_item_get_mtime (item);
-  if (priv->n_rows >= offset + step && mtime < priv->oldest_mtime)
+  if (self->n_rows >= offset + step && mtime < self->oldest_mtime)
     return;
 
   gtk_list_store_append (GTK_LIST_STORE (self), &iter);
   photos_view_model_info_set (self, item, &iter);
 
-  priv->n_rows++;
-  if (mtime < priv->oldest_mtime)
-    priv->oldest_mtime = mtime;
+  self->n_rows++;
+  if (mtime < self->oldest_mtime)
+    self->oldest_mtime = mtime;
 
   path = gtk_tree_model_get_path (GTK_TREE_MODEL (self), &iter);
   row_ref = gtk_tree_row_reference_new (GTK_TREE_MODEL (self), path);
   gtk_tree_path_free (path);
 
   g_object_set_data_full (G_OBJECT (item),
-                          self->priv->row_ref_key,
+                          self->row_ref_key,
                           row_ref,
                           (GDestroyNotify) gtk_tree_row_reference_free);
 }
@@ -154,22 +156,21 @@ photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
 static void
 photos_view_model_clear (PhotosViewModel *self)
 {
-  PhotosViewModelPrivate *priv = self->priv;
   GHashTable *items;
   GHashTableIter iter;
   PhotosBaseItem *item;
 
-  g_return_if_fail (priv->item_mngr != NULL);
+  g_return_if_fail (self->item_mngr != NULL);
 
-  items = photos_base_manager_get_objects (priv->item_mngr);
+  items = photos_base_manager_get_objects (self->item_mngr);
   g_hash_table_iter_init (&iter, items);
   while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &item))
-    g_object_set_data (G_OBJECT (item), priv->row_ref_key, NULL);
+    g_object_set_data (G_OBJECT (item), self->row_ref_key, NULL);
 
   gtk_list_store_clear (GTK_LIST_STORE (self));
 
-  priv->n_rows = 0;
-  priv->oldest_mtime = G_MAXINT64;
+  self->n_rows = 0;
+  self->oldest_mtime = G_MAXINT64;
 }
 
 
@@ -180,7 +181,6 @@ photos_view_model_item_removed_foreach (GtkTreeModel *model,
                                         gpointer user_data)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (model);
-  PhotosViewModelPrivate *priv = self->priv;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (user_data);
   gboolean ret_val = FALSE;
   const gchar *id;
@@ -200,10 +200,10 @@ photos_view_model_item_removed_foreach (GtkTreeModel *model,
 
       gtk_list_store_remove (GTK_LIST_STORE (model), iter);
       gtk_tree_path_next (path); /* Ensure that path in sync with iter. */
-      priv->n_rows--;
+      self->n_rows--;
     }
-  else if (mtime < priv->oldest_mtime)
-    priv->oldest_mtime = mtime;
+  else if (mtime < self->oldest_mtime)
+    self->oldest_mtime = mtime;
 
   g_free (value);
   return ret_val;
@@ -213,17 +213,15 @@ photos_view_model_item_removed_foreach (GtkTreeModel *model,
 static void
 photos_view_model_remove_item (PhotosViewModel *self, PhotosBaseItem *item)
 {
-  PhotosViewModelPrivate *priv = self->priv;
-
   /* Update the count so that PhotosOffsetController has the correct
    * values. Otherwise things like loading more items and "No
    * Results" page will not work correctly.
    */
   photos_view_model_reset_count (self);
 
-  priv->oldest_mtime = G_MAXINT64;
+  self->oldest_mtime = G_MAXINT64;
   gtk_tree_model_foreach (GTK_TREE_MODEL (self), photos_view_model_item_removed_foreach, item);
-  g_object_set_data (G_OBJECT (item), priv->row_ref_key, NULL);
+  g_object_set_data (G_OBJECT (item), self->row_ref_key, NULL);
 }
 
 
@@ -231,18 +229,17 @@ static void
 photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (user_data);
-  PhotosViewModelPrivate *priv = self->priv;
   GtkTreeIter iter;
   GtkTreePath *path;
   GtkTreeRowReference *row_ref;
   PhotosBaseItem *active_collection;
 
-  g_return_if_fail (priv->item_mngr != NULL);
+  g_return_if_fail (self->item_mngr != NULL);
 
-  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
-  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
+  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
+  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), self->row_ref_key);
 
-  if (priv->mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
+  if (self->mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
     {
       gboolean is_collection;
 
@@ -252,7 +249,7 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
       else if (is_collection  && row_ref == NULL && active_collection == NULL)
         photos_view_model_add_item (self, item);
     }
-  else if (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES)
+  else if (self->mode == PHOTOS_WINDOW_MODE_FAVORITES)
     {
       gboolean is_favorite;
 
@@ -262,7 +259,7 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
       else if (is_favorite  && row_ref == NULL && active_collection == NULL)
         photos_view_model_add_item (self, item);
     }
-  else if (priv->mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+  else if (self->mode == PHOTOS_WINDOW_MODE_OVERVIEW)
     {
       gboolean is_collection;
 
@@ -273,7 +270,7 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
         photos_view_model_add_item (self, item);
     }
 
-  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
+  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), self->row_ref_key);
   if (row_ref != NULL)
     {
       path = gtk_tree_row_reference_get_path (row_ref);
@@ -291,7 +288,6 @@ static void
 photos_view_model_object_added (PhotosViewModel *self, GObject *object)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
-  PhotosViewModelPrivate *priv = self->priv;
   PhotosBaseItem *active_collection;
   PhotosWindowMode mode;
   GtkTreeRowReference *row_ref;
@@ -301,32 +297,32 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
   gpointer data;
   guint info_updated_id;
 
-  g_return_if_fail (priv->item_mngr != NULL);
-  g_return_if_fail (priv->mode_cntrlr != NULL);
+  g_return_if_fail (self->item_mngr != NULL);
+  g_return_if_fail (self->mode_cntrlr != NULL);
 
-  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), priv->row_ref_key);
+  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), self->row_ref_key);
   if (row_ref != NULL)
     return;
 
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
-  data = g_hash_table_lookup (priv->info_updated_ids, id);
+  data = g_hash_table_lookup (self->info_updated_ids, id);
   if (data != NULL)
     {
       info_updated_id = GPOINTER_TO_UINT (data);
       g_signal_handler_disconnect (item, (gulong) info_updated_id);
-      g_hash_table_remove (priv->info_updated_ids, id);
+      g_hash_table_remove (self->info_updated_ids, id);
     }
 
-  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
   is_collection = photos_base_item_is_collection (item);
   is_favorite = photos_base_item_is_favorite (item);
-  mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
+  mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
 
-  if (active_collection == NULL || priv->mode != mode)
+  if (active_collection == NULL || self->mode != mode)
     {
-      if ((priv->mode == PHOTOS_WINDOW_MODE_COLLECTIONS && !is_collection)
-          || (priv->mode == PHOTOS_WINDOW_MODE_FAVORITES && !is_favorite)
-          || (priv->mode == PHOTOS_WINDOW_MODE_OVERVIEW && is_collection))
+      if ((self->mode == PHOTOS_WINDOW_MODE_COLLECTIONS && !is_collection)
+          || (self->mode == PHOTOS_WINDOW_MODE_FAVORITES && !is_favorite)
+          || (self->mode == PHOTOS_WINDOW_MODE_OVERVIEW && is_collection))
         goto out;
     }
 
@@ -338,14 +334,13 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
                                                      G_CALLBACK (photos_view_model_info_updated),
                                                      self,
                                                      0);
-  g_hash_table_insert (priv->info_updated_ids, g_strdup (id), GUINT_TO_POINTER (info_updated_id));
+  g_hash_table_insert (self->info_updated_ids, g_strdup (id), GUINT_TO_POINTER (info_updated_id));
 }
 
 
 static void
 photos_view_model_object_removed (PhotosViewModel *self, GObject *object)
 {
-  PhotosViewModelPrivate *priv = self->priv;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
   const gchar *id;
   gpointer data;
@@ -354,13 +349,13 @@ photos_view_model_object_removed (PhotosViewModel *self, GObject *object)
   photos_view_model_remove_item (self, item);
 
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
-  data = g_hash_table_lookup (priv->info_updated_ids, id);
+  data = g_hash_table_lookup (self->info_updated_ids, id);
 
   g_return_if_fail (data != NULL);
 
   info_updated_id = GPOINTER_TO_UINT (data);
   g_signal_handler_disconnect (item, (gulong) info_updated_id);
-  g_hash_table_remove (priv->info_updated_ids, id);
+  g_hash_table_remove (self->info_updated_ids, id);
 }
 
 
@@ -378,30 +373,29 @@ static void
 photos_view_model_constructed (GObject *object)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
-  PhotosViewModelPrivate *priv = self->priv;
 
   G_OBJECT_CLASS (photos_view_model_parent_class)->constructed (object);
 
-  switch (priv->mode)
+  switch (self->mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
-      priv->offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
-      priv->trk_cntrlr = photos_tracker_collections_controller_dup_singleton ();
+      self->offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
+      self->trk_cntrlr = photos_tracker_collections_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
-      priv->offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
-      priv->trk_cntrlr = photos_tracker_favorites_controller_dup_singleton ();
+      self->offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
+      self->trk_cntrlr = photos_tracker_favorites_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
-      priv->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
-      priv->trk_cntrlr = photos_tracker_overview_controller_dup_singleton ();
+      self->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
+      self->trk_cntrlr = photos_tracker_overview_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_SEARCH:
-      priv->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
-      priv->trk_cntrlr = photos_tracker_search_controller_dup_singleton ();
+      self->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
+      self->trk_cntrlr = photos_tracker_search_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_NONE:
@@ -412,18 +406,18 @@ photos_view_model_constructed (GObject *object)
       break;
     }
 
-  g_signal_connect_object (priv->item_mngr,
+  g_signal_connect_object (self->item_mngr,
                            "object-added",
                            G_CALLBACK (photos_view_model_object_added),
                            self,
                            G_CONNECT_SWAPPED);
-  g_signal_connect_object (priv->item_mngr,
+  g_signal_connect_object (self->item_mngr,
                            "object-removed",
                            G_CALLBACK (photos_view_model_object_removed),
                            self,
                            G_CONNECT_SWAPPED);
 
-  g_signal_connect_object (priv->trk_cntrlr,
+  g_signal_connect_object (self->trk_cntrlr,
                            "query-status-changed",
                            G_CALLBACK (photos_view_model_query_status_changed),
                            self,
@@ -435,16 +429,15 @@ static void
 photos_view_model_dispose (GObject *object)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
-  PhotosViewModelPrivate *priv = self->priv;
 
-  if (priv->reset_count_id != 0)
+  if (self->reset_count_id != 0)
     {
-      g_source_remove (priv->reset_count_id);
-      priv->reset_count_id = 0;
+      g_source_remove (self->reset_count_id);
+      self->reset_count_id = 0;
     }
 
-  g_clear_object (&priv->offset_cntrlr);
-  g_clear_object (&priv->trk_cntrlr);
+  g_clear_object (&self->offset_cntrlr);
+  g_clear_object (&self->trk_cntrlr);
 
   G_OBJECT_CLASS (photos_view_model_parent_class)->dispose (object);
 }
@@ -454,16 +447,15 @@ static void
 photos_view_model_finalize (GObject *object)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
-  PhotosViewModelPrivate *priv = self->priv;
 
-  if (priv->item_mngr != NULL)
-    g_object_remove_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
+  if (self->item_mngr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
 
-  if (priv->mode_cntrlr != NULL)
-    g_object_remove_weak_pointer (G_OBJECT (priv->mode_cntrlr), (gpointer *) &priv->mode_cntrlr);
+  if (self->mode_cntrlr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (self->mode_cntrlr), (gpointer *) &self->mode_cntrlr);
 
-  g_hash_table_unref (priv->info_updated_ids);
-  g_free (priv->row_ref_key);
+  g_hash_table_unref (self->info_updated_ids);
+  g_free (self->row_ref_key);
 
   G_OBJECT_CLASS (photos_view_model_parent_class)->finalize (object);
 }
@@ -473,13 +465,12 @@ static void
 photos_view_model_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
-  PhotosViewModelPrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_MODE:
-      priv->mode = (PhotosWindowMode) g_value_get_enum (value);
-      priv->row_ref_key = g_strdup_printf ("row-ref-%d", priv->mode);
+      self->mode = (PhotosWindowMode) g_value_get_enum (value);
+      self->row_ref_key = g_strdup_printf ("row-ref-%d", self->mode);
       break;
 
     default:
@@ -492,7 +483,6 @@ photos_view_model_set_property (GObject *object, guint prop_id, const GValue *va
 static void
 photos_view_model_init (PhotosViewModel *self)
 {
-  PhotosViewModelPrivate *priv;
   GApplication *app;
   GType columns[] = {G_TYPE_STRING,    /* URN */
                      G_TYPE_STRING,    /* URI */
@@ -504,24 +494,21 @@ photos_view_model_init (PhotosViewModel *self)
                      G_TYPE_UINT};     /* PULSE (unused) */
   PhotosSearchContextState *state;
 
-  self->priv = photos_view_model_get_instance_private (self);
-  priv = self->priv;
-
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), G_N_ELEMENTS (columns), columns);
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self), PHOTOS_VIEW_MODEL_MTIME, GTK_SORT_DESCENDING);
 
-  priv->info_updated_ids = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+  self->info_updated_ids = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
-  priv->item_mngr = state->item_mngr;
-  g_object_add_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
+  self->item_mngr = state->item_mngr;
+  g_object_add_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
 
-  priv->mode_cntrlr = state->mode_cntrlr;
-  g_object_add_weak_pointer (G_OBJECT (priv->mode_cntrlr), (gpointer *) &priv->mode_cntrlr);
+  self->mode_cntrlr = state->mode_cntrlr;
+  g_object_add_weak_pointer (G_OBJECT (self->mode_cntrlr), (gpointer *) &self->mode_cntrlr);
 
-  priv->oldest_mtime = G_MAXINT64;
+  self->oldest_mtime = G_MAXINT64;
 }
 
 
