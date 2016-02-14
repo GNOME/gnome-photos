@@ -4,15 +4,15 @@
 # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-# Piotr Drąg <piotrdrag@gmail.com>, 2012-2015.
+# Piotr Drąg <piotrdrag@gmail.com>, 2012-2016.
 # Paweł Żołnowski <pawel@zolnowski.name>, 2014-2015.
-# Aviary.pl <gnomepl@aviary.pl>, 2012-2015.
+# Aviary.pl <gnomepl@aviary.pl>, 2012-2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-06 21:10+0100\n"
-"PO-Revision-Date: 2015-08-24 17:33+0200\n"
+"POT-Creation-Date: 2016-02-14 18:21+0100\n"
+"PO-Revision-Date: 2016-02-14 18:22+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
-#: ../src/photos-search-type-manager.c:125
+#: ../src/photos-search-type-manager.c:136
 msgid "Photos"
 msgstr "Zdjęcia"
 
@@ -114,7 +114,7 @@ msgstr "Stan maksymalizacji okna"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1408
+#: ../src/photos-base-item.c:1405
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
@@ -139,11 +139,11 @@ msgstr "Cofnij"
 msgid "DLNA Renderer Devices"
 msgstr "Urządzenia mechanizmu wyświetlającego DLNA"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Ulubione"
 
@@ -223,11 +223,11 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:280
+#: ../src/photos-export-dialog.c:284
 msgid "%e %B %Y"
 msgstr "%e %B %Y"
 
-#: ../src/photos-export-dialog.c:334
+#: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "Obliczanie rozmiaru eksportu…"
 
@@ -349,7 +349,7 @@ msgstr "Zdjęcia są indeksowane"
 msgid "Some photos might not be available during this process"
 msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Lokalne"
 
@@ -375,16 +375,16 @@ msgstr "Wybór elementów"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:331
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:301
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą „%s”"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:342
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:312
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:347
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:317
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
 
@@ -449,7 +449,7 @@ msgid "Organize"
 msgstr "Organizacja"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:304
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Otwórz"
@@ -478,7 +478,7 @@ msgstr "Ustaw jako tło"
 msgid "Set as Lock Screen"
 msgstr "Ustaw jako tło ekranu blokady"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:602
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Właściwości"
@@ -516,7 +516,7 @@ msgstr "_Dół:"
 msgid "C_enter:"
 msgstr "Śr_odek:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:188
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
 msgid "None"
 msgstr "Brak"
 
@@ -637,7 +637,7 @@ msgid "On, fired"
 msgstr "Włączona"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Wszystkie"
 
@@ -663,7 +663,7 @@ msgstr "Wyszukiwanie"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:157
+#: ../src/photos-search-type-manager.c:168
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Typ"
@@ -684,23 +684,23 @@ msgstr "Wyeksportuj"
 msgid "Add to Album"
 msgstr "Dodaj do albumu"
 
-#: ../src/photos-source-manager.c:205
+#: ../src/photos-source-manager.c:203
 msgid "Sources"
 msgstr "Źródła"
 
-#: ../src/photos-tool-colors.c:249
+#: ../src/photos-tool-colors.c:251
 msgid "Brightness"
 msgstr "Jasność"
 
-#: ../src/photos-tool-colors.c:270
+#: ../src/photos-tool-colors.c:272
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:290
+#: ../src/photos-tool-colors.c:292
 msgid "Saturation"
 msgstr "Nasycenie"
 
-#: ../src/photos-tool-colors.c:317
+#: ../src/photos-tool-colors.c:319
 msgid "Colors"
 msgstr "Kolory"
 
@@ -717,7 +717,7 @@ msgid "Screen"
 msgstr "Ekran"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden Cut"
+msgid "Golden ratio"
 msgstr "Złoty podział"
 
 #: ../src/photos-tool-crop.c:136
@@ -732,51 +732,51 @@ msgstr "A3 (297×420 mm)"
 msgid "A4 (210 × 297 mm)"
 msgstr "A4 (210×297 mm)"
 
-#: ../src/photos-tool-crop.c:1162
+#: ../src/photos-tool-crop.c:1187
 msgid "Lock aspect ratio"
 msgstr "Zablokowanie proporcji"
 
-#: ../src/photos-tool-crop.c:1177
+#: ../src/photos-tool-crop.c:1234
 msgid "Reset"
 msgstr "Przywróć"
 
-#: ../src/photos-tool-crop.c:1198
+#: ../src/photos-tool-crop.c:1251
 msgid "Crop"
 msgstr "Kadruj"
 
-#: ../src/photos-tool-enhance.c:205
+#: ../src/photos-tool-enhance.c:207
 msgid "Sharpen"
 msgstr "Wyostrz"
 
-#: ../src/photos-tool-enhance.c:225
+#: ../src/photos-tool-enhance.c:227
 msgid "Denoise"
 msgstr "Usuń szum"
 
-#: ../src/photos-tool-enhance.c:251
+#: ../src/photos-tool-enhance.c:253
 msgid "Enhance"
 msgstr "Uwydatnij"
 
-#: ../src/photos-tool-filters.c:195
+#: ../src/photos-tool-filters.c:198
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:202
+#: ../src/photos-tool-filters.c:205
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:208
+#: ../src/photos-tool-filters.c:211
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:215
+#: ../src/photos-tool-filters.c:218
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:221
+#: ../src/photos-tool-filters.c:224
 msgid "Hometown"
 msgstr "Hometown"
 
-#: ../src/photos-tool-filters.c:239
+#: ../src/photos-tool-filters.c:242
 msgid "Filters"
 msgstr "Filtry"
 
