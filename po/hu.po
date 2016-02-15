@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-12 09:55+0000\n"
-"PO-Revision-Date: 2016-02-12 15:37+0100\n"
+"POT-Creation-Date: 2016-02-14 21:53+0000\n"
+"PO-Revision-Date: 2016-02-15 07:38+0100\n"
 "Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
-#: ../src/photos-search-type-manager.c:125
+#: ../src/photos-search-type-manager.c:136
 msgid "Photos"
 msgstr "Fényképek"
 
@@ -136,11 +136,11 @@ msgstr "Visszavonás"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA megjelenítő eszközök"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albumok"
 
-#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Kedvencek"
 
@@ -258,73 +258,93 @@ msgstr "Kilépés"
 
 #: ../src/photos-help-overlay.ui.h:4
 msgctxt "shortcut window"
-msgid "Print the current photo"
-msgstr "Jelenlegi fénykép nyomtatása"
-
-#: ../src/photos-help-overlay.ui.h:5
-msgctxt "shortcut window"
-msgid "Delete"
-msgstr "Törlés"
-
-#: ../src/photos-help-overlay.ui.h:6
-msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigáció"
 
-#: ../src/photos-help-overlay.ui.h:7
+#: ../src/photos-help-overlay.ui.h:5
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Következő fénykép"
 
-#: ../src/photos-help-overlay.ui.h:8
+#: ../src/photos-help-overlay.ui.h:6
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Előző fénykép"
 
-#: ../src/photos-help-overlay.ui.h:9
+#: ../src/photos-help-overlay.ui.h:7
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Vissza"
 
-#: ../src/photos-help-overlay.ui.h:10
+#: ../src/photos-help-overlay.ui.h:8
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Áttekintés"
 
-#: ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-help-overlay.ui.h:9
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Keresés"
 
-#: ../src/photos-help-overlay.ui.h:12
+#: ../src/photos-help-overlay.ui.h:10
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Összes kijelölése"
 
+#: ../src/photos-help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr "Kiválasztott fényképek nyomtatása"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "Kiválasztott fényképek törlése"
+
 #: ../src/photos-help-overlay.ui.h:13
 msgctxt "shortcut window"
-msgid "Preview"
-msgstr "Előnézet"
+msgid "Photo view"
+msgstr "Fénykép nézet"
 
 #: ../src/photos-help-overlay.ui.h:14
 msgctxt "shortcut window"
-msgid "Edit the current photo"
-msgstr "Jelenlegi fénykép szerkesztése"
+msgid "Edit"
+msgstr "Szerkesztés"
 
 #: ../src/photos-help-overlay.ui.h:15
 msgctxt "shortcut window"
-msgid "Export the current photo"
-msgstr "Jelenlegi fénykép exportálása"
+msgid "Export"
+msgstr "Exportálás"
 
 #: ../src/photos-help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "Nyomtatás"
+
+#: ../src/photos-help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Törlés"
+
+#: ../src/photos-help-overlay.ui.h:18
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Műveleti menü"
 
-#: ../src/photos-help-overlay.ui.h:17
+#: ../src/photos-help-overlay.ui.h:19
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Teljes képernyő"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "Szerkesztés nézet"
+
+#: ../src/photos-help-overlay.ui.h:21
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "Mégse"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -473,7 +493,7 @@ msgstr "Beállítás háttérként"
 msgid "Set as Lock Screen"
 msgstr "Beállítás zároló képernyőként"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:602
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Tulajdonságok"
@@ -632,7 +652,7 @@ msgid "On, fired"
 msgstr "Bekapcsolva, villant"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:174
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Összes"
 
@@ -658,7 +678,7 @@ msgstr "Találat"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:157
+#: ../src/photos-search-type-manager.c:168
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Típus"
@@ -779,6 +799,22 @@ msgstr "Szűrők"
 msgid "Unable to fetch the list of photos"
 msgstr "Nem kérhető le a fényképek listája"
 
+#~ msgctxt "shortcut window"
+#~ msgid "Print the current photo"
+#~ msgstr "Jelenlegi fénykép nyomtatása"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Preview"
+#~ msgstr "Előnézet"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Edit the current photo"
+#~ msgstr "Jelenlegi fénykép szerkesztése"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Export the current photo"
+#~ msgstr "Jelenlegi fénykép exportálása"
+
 #~ msgid "1977"
 #~ msgstr "1977"
 
@@ -793,9 +829,6 @@ msgstr "Nem kérhető le a fényképek listája"
 
 #~ msgid "Nashville"
 #~ msgstr "Nashville"
-
-#~ msgid "Print"
-#~ msgstr "Nyomtatás"
 
 #~ msgid "Gray"
 #~ msgstr "Gray"
