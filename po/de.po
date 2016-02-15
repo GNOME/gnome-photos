@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-04 08:33+0000\n"
-"PO-Revision-Date: 2016-02-04 10:24+0100\n"
+"POT-Creation-Date: 2016-02-15 09:53+0000\n"
+"PO-Revision-Date: 2016-02-15 20:33+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -25,7 +25,7 @@ msgstr ""
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
-#: ../src/photos-search-type-manager.c:125
+#: ../src/photos-search-type-manager.c:136
 msgid "Photos"
 msgstr "Fotos"
 
@@ -116,7 +116,7 @@ msgstr "Fenstermaximierungsstatus"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1408
+#: ../src/photos-base-item.c:1405
 msgid "Screenshots"
 msgstr "Bildschirmfotos"
 
@@ -140,11 +140,11 @@ msgstr "Rückgängig"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-Darstellungsgerät"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Alben"
 
-#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Favoriten"
 
@@ -184,7 +184,8 @@ msgstr "Fotos mit Bewertung werden hier angezeigt"
 msgid "No Photos Found"
 msgstr "Keine Fotos gefunden"
 
-#: ../src/photos-export-dialog.ui.h:1 ../src/photos-selection-toolbar.ui.h:1
+#: ../src/photos-export-dialog.ui.h:1
+msgctxt "dialog title"
 msgid "Export"
 msgstr "Exportieren"
 
@@ -223,11 +224,11 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:280
+#: ../src/photos-export-dialog.c:284
 msgid "%e %B %Y"
 msgstr "%e. %B %Y"
 
-#: ../src/photos-export-dialog.c:334
+#: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "Exportgröße wird berechnet …"
 
@@ -261,73 +262,93 @@ msgstr "Beenden"
 
 #: ../src/photos-help-overlay.ui.h:4
 msgctxt "shortcut window"
-msgid "Print the current photo"
-msgstr "Das aktuelle Foto drucken"
-
-#: ../src/photos-help-overlay.ui.h:5
-msgctxt "shortcut window"
-msgid "Delete"
-msgstr "Löschen"
-
-#: ../src/photos-help-overlay.ui.h:6
-msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigation"
 
-#: ../src/photos-help-overlay.ui.h:7
+#: ../src/photos-help-overlay.ui.h:5
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Nächstes Foto"
 
-#: ../src/photos-help-overlay.ui.h:8
+#: ../src/photos-help-overlay.ui.h:6
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Vorheriges Foto"
 
-#: ../src/photos-help-overlay.ui.h:9
+#: ../src/photos-help-overlay.ui.h:7
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Zurück gehen"
 
-#: ../src/photos-help-overlay.ui.h:10
+#: ../src/photos-help-overlay.ui.h:8
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Übersicht"
 
-#: ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-help-overlay.ui.h:9
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Suchen"
 
-#: ../src/photos-help-overlay.ui.h:12
+#: ../src/photos-help-overlay.ui.h:10
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Alle auswählen"
 
+#: ../src/photos-help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr "Ausgewählte Fotos drucken"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "Ausgewählte Fotos löschen"
+
 #: ../src/photos-help-overlay.ui.h:13
 msgctxt "shortcut window"
-msgid "Preview"
-msgstr "Vorschau"
+msgid "Photo view"
+msgstr "Fotoansicht"
 
 #: ../src/photos-help-overlay.ui.h:14
 msgctxt "shortcut window"
-msgid "Edit the current photo"
-msgstr "Das aktuelle Foto bearbeiten"
+msgid "Edit"
+msgstr "Bearbeiten"
 
 #: ../src/photos-help-overlay.ui.h:15
 msgctxt "shortcut window"
-msgid "Export the current photo"
-msgstr "Das aktuelle Foto exportieren"
+msgid "Export"
+msgstr "Exportieren"
 
 #: ../src/photos-help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "Drucken"
+
+#: ../src/photos-help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Löschen"
+
+#: ../src/photos-help-overlay.ui.h:18
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Aktions-Menü"
 
-#: ../src/photos-help-overlay.ui.h:17
+#: ../src/photos-help-overlay.ui.h:19
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Vollbild"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "Bearbeitungsansicht"
+
+#: ../src/photos-help-overlay.ui.h:21
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "Abbrechen"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -349,7 +370,7 @@ msgstr "Ihre Fotos werden indiziert"
 msgid "Some photos might not be available during this process"
 msgstr "Einige Fotos könnten während dieses Vorgangs nicht verfügbar sein"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Lokal"
 
@@ -374,16 +395,16 @@ msgstr "Objekte auswählen"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:331
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:301
 #, c-format
 msgid "Open with %s"
 msgstr "Öffnen mit %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:342
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:312
 msgid "Remove from favorites"
 msgstr "Aus Favoriten entfernen"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:347
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:317
 msgid "Add to favorites"
 msgstr "Zu Favoriten hinzufügen"
 
@@ -451,7 +472,7 @@ msgid "Organize"
 msgstr "Organisieren"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:304
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Öffnen"
@@ -480,7 +501,7 @@ msgstr "Als Hintergrund festlegen"
 msgid "Set as Lock Screen"
 msgstr "Als Sperrbildschirm festlegen"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:602
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Eigenschaften"
@@ -518,7 +539,7 @@ msgstr "_Unten:"
 msgid "C_enter:"
 msgstr "Mitt_e:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:166
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
 msgid "None"
 msgstr "Kein"
 
@@ -639,7 +660,7 @@ msgid "On, fired"
 msgstr "An, löste aus"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Alle"
 
@@ -665,7 +686,7 @@ msgstr "Übereinstimmung"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:157
+#: ../src/photos-search-type-manager.c:168
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Typ"
@@ -678,27 +699,31 @@ msgstr "Alle auswählen"
 msgid "Select None"
 msgstr "Nichts auswählen"
 
+#: ../src/photos-selection-toolbar.ui.h:1
+msgid "Export"
+msgstr "Exportieren"
+
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Zu Album hinzufügen"
 
-#: ../src/photos-source-manager.c:205
+#: ../src/photos-source-manager.c:203
 msgid "Sources"
 msgstr "Quellen"
 
-#: ../src/photos-tool-colors.c:249
+#: ../src/photos-tool-colors.c:251
 msgid "Brightness"
 msgstr "Helligkeit"
 
-#: ../src/photos-tool-colors.c:270
+#: ../src/photos-tool-colors.c:272
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:290
+#: ../src/photos-tool-colors.c:292
 msgid "Saturation"
 msgstr "Sättigung"
 
-#: ../src/photos-tool-colors.c:317
+#: ../src/photos-tool-colors.c:319
 msgid "Colors"
 msgstr "Farben"
 
@@ -715,7 +740,7 @@ msgid "Screen"
 msgstr "Bildschirm"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden Cut"
+msgid "Golden ratio"
 msgstr "Goldener Schnitt"
 
 #: ../src/photos-tool-crop.c:136
@@ -730,57 +755,73 @@ msgstr "A3 (297 × 420 mm)"
 msgid "A4 (210 × 297 mm)"
 msgstr "A4 (210 × 297 mm)"
 
-#: ../src/photos-tool-crop.c:1162
+#: ../src/photos-tool-crop.c:1187
 msgid "Lock aspect ratio"
 msgstr "Seitenverhältnis beibehalten"
 
-#: ../src/photos-tool-crop.c:1177
+#: ../src/photos-tool-crop.c:1234
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: ../src/photos-tool-crop.c:1198
+#: ../src/photos-tool-crop.c:1251
 msgid "Crop"
 msgstr "Zuschneiden"
 
-#: ../src/photos-tool-enhance.c:205
+#: ../src/photos-tool-enhance.c:207
 msgid "Sharpen"
 msgstr "Schärfen"
 
-#: ../src/photos-tool-enhance.c:225
+#: ../src/photos-tool-enhance.c:227
 msgid "Denoise"
 msgstr "Entrauschen"
 
-#: ../src/photos-tool-enhance.c:251
+#: ../src/photos-tool-enhance.c:253
 msgid "Enhance"
 msgstr "Verbessern"
 
-#: ../src/photos-tool-filters.c:173
+#: ../src/photos-tool-filters.c:198
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:180
+#: ../src/photos-tool-filters.c:205
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:186
+#: ../src/photos-tool-filters.c:211
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:193
+#: ../src/photos-tool-filters.c:218
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:199
+#: ../src/photos-tool-filters.c:224
 msgid "Hometown"
 msgstr "Hometown"
 
-#: ../src/photos-tool-filters.c:217
+#: ../src/photos-tool-filters.c:242
 msgid "Filters"
 msgstr "Filter"
 
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Die Liste der Fotos kann nicht abgeholt werden"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Print the current photo"
+#~ msgstr "Das aktuelle Foto drucken"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Preview"
+#~ msgstr "Vorschau"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Edit the current photo"
+#~ msgstr "Das aktuelle Foto bearbeiten"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Export the current photo"
+#~ msgstr "Das aktuelle Foto exportieren"
 
 #~ msgid "1977"
 #~ msgstr "1977"
@@ -799,9 +840,6 @@ msgstr "Die Liste der Fotos kann nicht abgeholt werden"
 
 #~ msgid "Gray"
 #~ msgstr "Grau"
-
-#~ msgid "Print"
-#~ msgstr "Drucken"
 
 #~ msgid "%a, %d %B %Y  %X"
 #~ msgstr "%a, %B.%d %Y  %X"
