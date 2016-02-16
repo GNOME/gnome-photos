@@ -134,8 +134,7 @@ static PhotosToolCropConstraint CONSTRAINTS[] =
   { PHOTOS_TOOL_CROP_ASPECT_RATIO_SCREEN, N_("Screen"), 0, 0 },
   { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("Golden ratio"), 100000, 161803},
   { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("Square"), 1, 1 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("A3 (297 × 420 mm)"), 297, 420 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("A4 (210 × 297 mm)"), 297, 210 }
+  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("A paper sizes"), 297, 420 }
 };
 
 static const gdouble CROP_MIN_SIZE = 16.0;
