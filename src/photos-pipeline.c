@@ -470,14 +470,15 @@ void
 photos_pipeline_reset (PhotosPipeline *self)
 {
   GeglNode *input;
+  GeglNode *last;
   GeglNode *node;
   GeglNode *output;
 
-  while (photos_pipeline_undo (self))
-    ;
-
   input = gegl_node_get_input_proxy (self->graph, "input");
   output = gegl_node_get_output_proxy (self->graph, "output");
+  last = gegl_node_get_producer (output, "input", NULL);
+  g_return_if_fail (last == input);
+
   node = gegl_node_new_child (self->graph,
                               "operation", "photos:insta-filter",
                               "preset", PHOTOS_OPERATION_INSTA_PRESET_NONE,
