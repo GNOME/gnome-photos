@@ -1011,13 +1011,7 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageVi
       self->crop_x = x;
       self->crop_y = y;
 
-      photos_base_item_operation_add (item,
-                                      "gegl:crop",
-                                      "height", (gdouble) self->bbox_source.height,
-                                      "width", (gdouble) self->bbox_source.width,
-                                      "x", (gdouble) self->bbox_source.x,
-                                      "y", (gdouble) self->bbox_source.y,
-                                      NULL);
+      photos_base_item_operation_remove (item, "gegl:crop");
       photos_base_item_process_async (item, NULL, photos_tool_crop_process, g_object_ref (self));
     }
   else
