@@ -80,8 +80,6 @@ GeglNode              *photos_pipeline_get_output        (PhotosPipeline *self);
 
 GeglProcessor         *photos_pipeline_new_processor     (PhotosPipeline *self);
 
-void                   photos_pipeline_reset             (PhotosPipeline *self);
-
 void                   photos_pipeline_save_async        (PhotosPipeline *self,
                                                           GCancellable *cancellable,
                                                           GAsyncReadyCallback callback,

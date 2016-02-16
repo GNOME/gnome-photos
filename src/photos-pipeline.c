@@ -61,6 +61,28 @@ G_DEFINE_TYPE_EXTENDED (PhotosPipeline, photos_pipeline, G_TYPE_OBJECT, 0,
 
 
 static void
+photos_pipeline_reset (PhotosPipeline *self)
+{
+  GeglNode *input;
+  GeglNode *last;
+  GeglNode *node;
+  GeglNode *output;
+
+  input = gegl_node_get_input_proxy (self->graph, "input");
+  output = gegl_node_get_output_proxy (self->graph, "output");
+  last = gegl_node_get_producer (output, "input", NULL);
+  g_return_if_fail (last == input);
+
+  node = gegl_node_new_child (self->graph,
+                              "operation", "photos:insta-filter",
+                              "preset", PHOTOS_OPERATION_INSTA_PRESET_NONE,
+                              NULL);
+  gegl_node_link_many (input, node, output, NULL);
+  g_hash_table_insert (self->hash, g_strdup ("photos:insta-filter"), g_object_ref (node));
+}
+
+
+static void
 photos_pipeline_save_replace_contents (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
@@ -463,28 +485,6 @@ photos_pipeline_new_processor (PhotosPipeline *self)
 
   processor = gegl_node_new_processor (self->graph, NULL);
   return processor;
-}
-
-
-void
-photos_pipeline_reset (PhotosPipeline *self)
-{
-  GeglNode *input;
-  GeglNode *last;
-  GeglNode *node;
-  GeglNode *output;
-
-  input = gegl_node_get_input_proxy (self->graph, "input");
-  output = gegl_node_get_output_proxy (self->graph, "output");
-  last = gegl_node_get_producer (output, "input", NULL);
-  g_return_if_fail (last == input);
-
-  node = gegl_node_new_child (self->graph,
-                              "operation", "photos:insta-filter",
-                              "preset", PHOTOS_OPERATION_INSTA_PRESET_NONE,
-                              NULL);
-  gegl_node_link_many (input, node, output, NULL);
-  g_hash_table_insert (self->hash, g_strdup ("photos:insta-filter"), g_object_ref (node));
 }
 
 
