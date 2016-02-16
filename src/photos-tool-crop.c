@@ -817,10 +817,19 @@ photos_tool_crop_list_box_update (PhotosToolCrop *self, GtkListBoxRow *active_ro
 
   for (i = 0; (row = gtk_list_box_get_row_at_index (GTK_LIST_BOX (self->list_box), i)) != NULL; i++)
     {
+      GtkStyleContext *context;
       GtkWidget *image;
+      GtkWidget *ratio_label;
 
       image = GTK_WIDGET (g_object_get_data (G_OBJECT (row), "image"));
       gtk_widget_set_visible (image, row == active_row);
+
+      ratio_label = GTK_WIDGET (g_object_get_data (G_OBJECT (row), "ratio-label"));
+      context = gtk_widget_get_style_context (ratio_label);
+      if (row == active_row)
+        gtk_style_context_remove_class (context, "dim-label");
+      else
+        gtk_style_context_add_class (context, "dim-label");
     }
 }
 
@@ -953,16 +962,32 @@ static void
 photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageView *view)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (tool);
+  GtkListBoxRow *row;
   gboolean got_bbox_source;
   gdouble height = -1.0;
   gdouble width = -1.0;
   gdouble x = -1.0;
   gdouble y = -1.0;
+  gint i;
 
   got_bbox_source = photos_base_item_get_bbox_source (item, &self->bbox_source);
   g_return_if_fail (got_bbox_source);
 
   self->view = GTK_WIDGET (view);
+
+  for (i = 0; (row = gtk_list_box_get_row_at_index (GTK_LIST_BOX (self->list_box), i)) != NULL; i++)
+    {
+      GtkWidget *ratio_label;
+      gchar *ratio_text;
+      gdouble constraint_aspect_ratio;
+
+      constraint_aspect_ratio = photos_tool_crop_calculate_aspect_ratio (self, i + 1);
+      /* Translators: this is the aspect ratio of the crop tool */
+      ratio_text = g_strdup_printf (_("%.2f"), constraint_aspect_ratio);
+      ratio_label = GTK_WIDGET (g_object_get_data (G_OBJECT (row), "ratio-label"));
+      gtk_label_set_text (GTK_LABEL (ratio_label), ratio_text);
+      g_free (ratio_text);
+    }
 
   if (photos_base_item_operation_get (item,
                                       "gegl:crop",
@@ -1202,15 +1227,18 @@ photos_tool_crop_init (PhotosToolCrop *self)
 
   for (i = 1; i < G_N_ELEMENTS (CONSTRAINTS); i++)
     {
+      GtkStyleContext *context;
       GtkWidget *grid;
       GtkWidget *image;
       GtkWidget *label;
+      GtkWidget *ratio_label;
       GtkWidget *row;
 
       row = gtk_list_box_row_new ();
       gtk_container_add (GTK_CONTAINER (self->list_box), row);
 
       grid = gtk_grid_new ();
+      gtk_widget_set_hexpand (grid, FALSE);
       gtk_widget_set_margin_bottom (grid, 3);
       gtk_widget_set_margin_top (grid, 3);
       gtk_orientable_set_orientation (GTK_ORIENTABLE (grid), GTK_ORIENTATION_HORIZONTAL);
@@ -1225,7 +1253,15 @@ photos_tool_crop_init (PhotosToolCrop *self)
       gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
       gtk_container_add (GTK_CONTAINER (grid), image);
 
+      ratio_label = gtk_label_new (NULL);
+      gtk_widget_set_halign (ratio_label, GTK_ALIGN_END);
+      gtk_widget_set_hexpand (ratio_label, TRUE);
+      context = gtk_widget_get_style_context (ratio_label);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (grid), ratio_label);
+
       g_object_set_data (G_OBJECT (row), "image", image);
+      g_object_set_data (G_OBJECT (row), "ratio-label", ratio_label);
     }
 
   photos_tool_crop_set_active (self, -1);
