@@ -481,20 +481,6 @@ photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
 
 
 static void
-photos_preview_view_undo (PhotosPreviewView *self)
-{
-  PhotosBaseItem *item;
-
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
-  if (item == NULL)
-    return;
-
-  photos_base_item_operation_undo (item);
-  photos_base_item_process_async (item, NULL, photos_preview_view_process, self);
-}
-
-
-static void
 photos_preview_view_edit_done_pipeline_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
@@ -718,9 +704,6 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "sharpen-current");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_sharpen), self, G_CONNECT_SWAPPED);
-
-  action = g_action_map_lookup_action (G_ACTION_MAP (app), "undo-current");
-  g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_undo), self, G_CONNECT_SWAPPED);
 }
 
 

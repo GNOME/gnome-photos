@@ -95,7 +95,6 @@ struct _PhotosApplicationPrivate
   GSimpleAction *set_bg_action;
   GSimpleAction *set_ss_action;
   GSimpleAction *sharpen_action;
-  GSimpleAction *undo_action;
   GtkWidget *main_window;
   PhotosCameraCache *camera_cache;
   PhotosSearchContextState *state;
@@ -319,7 +318,6 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (priv->insta_action, enable);
   g_simple_action_set_enabled (priv->saturation_action, enable);
   g_simple_action_set_enabled (priv->sharpen_action, enable);
-  g_simple_action_set_enabled (priv->undo_action, enable);
 
   enable = (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
             || mode == PHOTOS_WINDOW_MODE_FAVORITES
@@ -1536,9 +1534,6 @@ photos_application_startup (GApplication *application)
   priv->sharpen_action = g_simple_action_new ("sharpen-current", G_VARIANT_TYPE_DOUBLE);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->sharpen_action));
 
-  priv->undo_action = g_simple_action_new ("undo-current", NULL);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->undo_action));
-
   g_signal_connect_swapped (priv->state->mode_cntrlr,
                             "window-mode-changed",
                             G_CALLBACK (photos_application_window_mode_changed),
@@ -1641,7 +1636,6 @@ photos_application_dispose (GObject *object)
   g_clear_object (&priv->set_bg_action);
   g_clear_object (&priv->set_ss_action);
   g_clear_object (&priv->sharpen_action);
-  g_clear_object (&priv->undo_action);
   g_clear_object (&priv->camera_cache);
   g_clear_object (&priv->sel_cntrlr);
   g_clear_object (&priv->extract_priority);
