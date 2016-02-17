@@ -299,6 +299,7 @@ photos_application_actions_update (PhotosApplication *self)
   GList *selection;
   PhotosLoadState load_state;
   PhotosWindowMode mode;
+  gboolean can_open;
   gboolean can_trash;
   gboolean enable;
   gboolean selection_mode;
@@ -340,7 +341,6 @@ photos_application_actions_update (PhotosApplication *self)
 
   enable = (load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW);
   g_simple_action_set_enabled (priv->gear_action, enable);
-  g_simple_action_set_enabled (priv->open_action, enable);
   g_simple_action_set_enabled (priv->properties_action, enable);
   g_simple_action_set_enabled (priv->set_bg_action, enable);
   g_simple_action_set_enabled (priv->set_ss_action, enable);
@@ -350,6 +350,7 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (priv->print_action, enable);
   g_simple_action_set_enabled (priv->save_action, enable);
 
+  can_open = FALSE;
   can_trash = selection != NULL;
   for (l = selection; l != NULL; l = l->next)
     {
@@ -358,6 +359,9 @@ photos_application_actions_update (PhotosApplication *self)
 
       selected_item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->state->item_mngr, urn));
       can_trash = can_trash && photos_base_item_can_trash (selected_item);
+
+      if (photos_base_item_get_default_app_name (selected_item) != NULL)
+        can_open = TRUE;
     }
 
   enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED
@@ -365,6 +369,10 @@ photos_application_actions_update (PhotosApplication *self)
              && photos_base_item_can_trash (item))
             || (selection_mode && can_trash));
   g_simple_action_set_enabled (priv->delete_action, enable);
+
+  enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
+            || (selection_mode && can_open));
+  g_simple_action_set_enabled (priv->open_action, enable);
 
   enable = (load_state == PHOTOS_LOAD_STATE_FINISHED
             && mode == PHOTOS_WINDOW_MODE_PREVIEW
@@ -793,12 +801,32 @@ photos_application_open_current (PhotosApplication *self)
   PhotosBaseItem *item;
   guint32 time;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
-  g_return_if_fail (item != NULL);
-
   screen = gtk_window_get_screen (GTK_WINDOW (priv->main_window));
   time = gtk_get_current_event_time ();
-  photos_base_item_open (item, screen, time);
+
+  if (photos_selection_controller_get_selection_mode (priv->sel_cntrlr))
+    {
+      GList *l;
+      GList *selection;
+
+      selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+      for (l = selection; l != NULL; l = l->next)
+        {
+          const gchar *urn = (gchar *) l->data;
+
+          item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->state->item_mngr, urn));
+          photos_base_item_open (item, screen, time);
+        }
+    }
+  else
+    {
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+      g_return_if_fail (item != NULL);
+
+      photos_base_item_open (item, screen, time);
+    }
+
+  photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
 }
 
 

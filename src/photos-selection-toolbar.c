@@ -185,31 +185,6 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
 
 
 static void
-photos_selection_toolbar_open_clicked (GtkButton *button, gpointer user_data)
-{
-  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-  GList *selection;
-  GList *l;
-
-  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
-  for (l = selection; l != NULL; l = l->next)
-    {
-      const gchar *urn = (gchar *) l->data;
-      GdkScreen *screen;
-      PhotosBaseItem *item;
-      guint32 time;
-
-      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, urn));
-      screen = gtk_widget_get_screen (GTK_WIDGET (button));
-      time = gtk_get_current_event_time ();
-      photos_base_item_open (item, screen, time);
-    }
-
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
-}
-
-
-static void
 photos_selection_toolbar_properties_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
@@ -252,7 +227,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gboolean has_selection;
   gboolean show_collection;
   gboolean show_favorite;
-  gboolean show_open;
   gboolean show_properties;
   gchar *favorite_label;
   gchar *open_label;
@@ -266,7 +240,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 
   show_collection = has_selection;
   show_favorite = has_selection;
-  show_open = has_selection;
   show_properties = has_selection;
 
   for (l = selection; l != NULL; l = g_list_next (l))
@@ -289,7 +262,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
     }
 
   show_favorite = show_favorite && ((fav_count == 0) || (fav_count == sel_length));
-  show_open = apps != NULL;
 
   if (sel_length > 1)
     {
@@ -324,7 +296,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 
   gtk_widget_set_sensitive (self->toolbar_collection, show_collection);
   gtk_widget_set_sensitive (self->toolbar_properties, show_properties);
-  gtk_widget_set_sensitive (self->toolbar_open, show_open);
   gtk_widget_set_sensitive (self->toolbar_favorite, show_favorite);
 
   self->inside_refresh = FALSE;
@@ -445,7 +416,6 @@ photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_properties);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_collection);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_favorite_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_open_clicked);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_properties_clicked);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_collection_clicked);
 }

@@ -27,8 +27,7 @@
         <object class="GtkButton" id="toolbar_open">
           <property name="visible">1</property>
           <property name="label" translatable="yes">Open</property>
-          <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
-                  handler="photos_selection_toolbar_open_clicked" />
+          <property name="action_name">app.open-current</property>
         </object>
         <packing>
           <property name="pack_type">start</property>
