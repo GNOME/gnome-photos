@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-14 18:21+0100\n"
-"PO-Revision-Date: 2016-02-14 18:22+0100\n"
+"POT-Creation-Date: 2016-02-17 22:45+0100\n"
+"PO-Revision-Date: 2016-02-17 22:47+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -261,73 +261,93 @@ msgstr "Zakończenie działania"
 
 #: ../src/photos-help-overlay.ui.h:4
 msgctxt "shortcut window"
-msgid "Print the current photo"
-msgstr "Wydrukowanie bieżącego zdjęcia"
-
-#: ../src/photos-help-overlay.ui.h:5
-msgctxt "shortcut window"
-msgid "Delete"
-msgstr "Usunięcie"
-
-#: ../src/photos-help-overlay.ui.h:6
-msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Nawigacja"
 
-#: ../src/photos-help-overlay.ui.h:7
+#: ../src/photos-help-overlay.ui.h:5
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Następne zdjęcie"
 
-#: ../src/photos-help-overlay.ui.h:8
+#: ../src/photos-help-overlay.ui.h:6
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Poprzednie zdjęcie"
 
-#: ../src/photos-help-overlay.ui.h:9
+#: ../src/photos-help-overlay.ui.h:7
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Wstecz"
 
-#: ../src/photos-help-overlay.ui.h:10
+#: ../src/photos-help-overlay.ui.h:8
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Przegląd"
 
-#: ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-help-overlay.ui.h:9
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Wyszukiwanie"
 
-#: ../src/photos-help-overlay.ui.h:12
+#: ../src/photos-help-overlay.ui.h:10
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Zaznaczenie wszystkiego"
 
+#: ../src/photos-help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr "Wydrukowanie zaznaczonych zdjęć"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "Usunięcie zaznaczonych zdjęć"
+
 #: ../src/photos-help-overlay.ui.h:13
 msgctxt "shortcut window"
-msgid "Preview"
-msgstr "Podgląd"
+msgid "Photo view"
+msgstr "Widok zdjęcia"
 
 #: ../src/photos-help-overlay.ui.h:14
 msgctxt "shortcut window"
-msgid "Edit the current photo"
-msgstr "Modyfikacja bieżącego zdjęcia"
+msgid "Edit"
+msgstr "Edycja"
 
 #: ../src/photos-help-overlay.ui.h:15
 msgctxt "shortcut window"
-msgid "Export the current photo"
-msgstr "Wyeksportowanie bieżącego zdjęcia"
+msgid "Export"
+msgstr "Wyeksportowanie"
 
 #: ../src/photos-help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "Wydrukowanie"
+
+#: ../src/photos-help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Usunięcie"
+
+#: ../src/photos-help-overlay.ui.h:18
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Menu działań"
 
-#: ../src/photos-help-overlay.ui.h:17
+#: ../src/photos-help-overlay.ui.h:19
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Pełny ekran"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "Widok edycji"
+
+#: ../src/photos-help-overlay.ui.h:21
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "Anulowanie"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -375,16 +395,16 @@ msgstr "Wybór elementów"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:301
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:273
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą „%s”"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:312
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:284
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:317
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:289
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
 
@@ -399,12 +419,12 @@ msgstr "Gotowe"
 #: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 msgstr ""
 "Copyright © 2013 Intel Corporation. Wszelkie prawa zastrzeżone.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Copyright © 2014-2015 Pranav Kant\n"
+"Copyright © 2012-2016 Red Hat, Inc."
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:502
@@ -449,7 +469,7 @@ msgid "Organize"
 msgstr "Organizacja"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:304
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:276
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Otwórz"
@@ -725,22 +745,24 @@ msgid "Square"
 msgstr "Kwadrat"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A3 (297 × 420 mm)"
-msgstr "A3 (297×420 mm)"
+msgid "A paper sizes"
+msgstr "Format papieru A"
 
-#: ../src/photos-tool-crop.c:138
-msgid "A4 (210 × 297 mm)"
-msgstr "A4 (210×297 mm)"
+#. Translators: this is the aspect ratio of the crop tool
+#: ../src/photos-tool-crop.c:986
+#, c-format
+msgid "%.2f"
+msgstr "%.2f"
 
-#: ../src/photos-tool-crop.c:1187
+#: ../src/photos-tool-crop.c:1211
 msgid "Lock aspect ratio"
 msgstr "Zablokowanie proporcji"
 
-#: ../src/photos-tool-crop.c:1234
+#: ../src/photos-tool-crop.c:1269
 msgid "Reset"
 msgstr "Przywróć"
 
-#: ../src/photos-tool-crop.c:1251
+#: ../src/photos-tool-crop.c:1286
 msgid "Crop"
 msgstr "Kadruj"
 
