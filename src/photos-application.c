@@ -299,6 +299,7 @@ photos_application_actions_update (PhotosApplication *self)
   GList *selection;
   PhotosLoadState load_state;
   PhotosWindowMode mode;
+  gboolean can_trash;
   gboolean enable;
   gboolean selection_mode;
 
@@ -349,18 +350,20 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (priv->print_action, enable);
   g_simple_action_set_enabled (priv->save_action, enable);
 
-  enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED
-             && mode == PHOTOS_WINDOW_MODE_PREVIEW
-             && photos_base_item_can_trash (item))
-            || (selection_mode && selection != NULL));
+  can_trash = selection != NULL;
   for (l = selection; l != NULL; l = l->next)
     {
       PhotosBaseItem *selected_item;
       const gchar *urn = (gchar *) l->data;
 
       selected_item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->state->item_mngr, urn));
-      enable = enable && photos_base_item_can_trash (selected_item);
+      can_trash = can_trash && photos_base_item_can_trash (selected_item);
     }
+
+  enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED
+             && mode == PHOTOS_WINDOW_MODE_PREVIEW
+             && photos_base_item_can_trash (item))
+            || (selection_mode && can_trash));
   g_simple_action_set_enabled (priv->delete_action, enable);
 
   enable = (load_state == PHOTOS_LOAD_STATE_FINISHED
