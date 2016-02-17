@@ -2176,6 +2176,13 @@ photos_base_item_operation_undo (PhotosBaseItem *self)
 }
 
 
+gboolean
+photos_base_item_operation_remove (PhotosBaseItem *self, const gchar *operation)
+{
+  return photos_pipeline_remove (self->priv->pipeline, operation);
+}
+
+
 void
 photos_base_item_operations_revert (PhotosBaseItem *self)
 {

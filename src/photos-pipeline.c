@@ -578,6 +578,42 @@ photos_pipeline_undo (PhotosPipeline *self)
 }
 
 
+gboolean
+photos_pipeline_remove (PhotosPipeline *self, const gchar *operation)
+{
+  GeglNode *node;
+  GeglNode *source;
+  GeglNode **sinks = NULL;
+  gboolean ret_val = FALSE;
+  gchar *xml = NULL;
+  gint i;
+  gint nsinks;
+
+  node = GEGL_NODE (g_hash_table_lookup (self->hash, operation));
+  if (node == NULL)
+    goto out;
+
+  source = gegl_node_get_producer (node, "input", NULL);
+  nsinks = gegl_node_get_consumers (node, "output", &sinks, NULL);
+
+  g_hash_table_remove (self->hash, operation);
+  gegl_node_remove_child (self->graph, node);
+
+  for (i = 0; i < nsinks; i++)
+    gegl_node_link (source, sinks[i]);
+
+  xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
+  photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
+
+  ret_val = TRUE;
+
+ out:
+  g_free (sinks);
+  g_free (xml);
+  return ret_val;
+}
+
+
 void
 photos_pipeline_revert (PhotosPipeline *self)
 {

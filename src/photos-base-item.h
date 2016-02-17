@@ -197,6 +197,8 @@ gboolean            photos_base_item_operation_get           (PhotosBaseItem *se
 
 gboolean            photos_base_item_operation_undo          (PhotosBaseItem *self);
 
+gboolean            photos_base_item_operation_remove        (PhotosBaseItem *self, const gchar *operation);
+
 void                photos_base_item_operations_revert       (PhotosBaseItem *self);
 
 void                photos_base_item_pipeline_save_async     (PhotosBaseItem *self,
