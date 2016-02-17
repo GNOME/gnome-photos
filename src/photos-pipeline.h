@@ -89,6 +89,8 @@ gboolean               photos_pipeline_save_finish       (PhotosPipeline *self, 
 
 gboolean               photos_pipeline_undo              (PhotosPipeline *self);
 
+void                   photos_pipeline_revert            (PhotosPipeline *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_PIPELINE_H */

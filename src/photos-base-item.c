@@ -2177,6 +2177,13 @@ photos_base_item_operation_undo (PhotosBaseItem *self)
 
 
 void
+photos_base_item_operations_revert (PhotosBaseItem *self)
+{
+  return photos_pipeline_revert (self->priv->pipeline);
+}
+
+
+void
 photos_base_item_pipeline_save_async (PhotosBaseItem *self,
                                       GCancellable *cancellable,
                                       GAsyncReadyCallback callback,

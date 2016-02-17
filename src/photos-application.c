@@ -722,8 +722,7 @@ photos_application_edit_cancel (PhotosApplication *self)
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
   g_return_if_fail (item != NULL);
 
-  while (photos_base_item_operation_undo (item))
-    ;
+  photos_base_item_operations_revert (item);
 
   g_application_hold (G_APPLICATION (self));
   photos_base_item_process_async (item, NULL, photos_application_edit_cancel_process, self);
