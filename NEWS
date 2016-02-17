@@ -3,7 +3,7 @@ Overview of changes in 3.19.90
 
 * Bugs fixed:
  758227 Crop palette improvements
- 759155 Better ranges for teh contrast and denoise sliders
+ 759155 Better ranges for the contrast and denoise sliders
  759460 help-overlay: Various improvements
  760838 Support exporting from selection mode
  760931 Cropping not being applied after clicking "Done"
