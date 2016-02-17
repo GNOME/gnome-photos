@@ -1,3 +1,37 @@
+Overview of changes in 3.19.90
+==============================
+
+* Bugs fixed:
+ 758227 Crop palette improvements
+ 759155 Better ranges for teh contrast and denoise sliders
+ 759460 help-overlay: Various improvements
+ 760838 Support exporting from selection mode
+ 760931 Cropping not being applied after clicking "Done"
+ 761076 Add keyboard shortcuts for edit and export
+ 761158 Filter tool doesn't reflect the previously applied filter when
+        re-activated
+ 761559 Replace gegl-gtk with a simpler and streamlined widget
+ 761587 Centralize action toggle logic
+ 761626 tool-filter-button: Selected icon is not centered on the image
+ 761674 Restarting the app and trying to re-crop a cropped item leads to black
+        areas
+
+* Updated translations:
+ Catalan
+ Traditional Chinese (Taiwan)
+ Danish
+ German
+ Greek
+ Hungarian
+ Kazakh
+ Latvian
+ Polish
+ Portuguese (Brazilian)
+ Serbian
+ Slovak
+ Spanish
+
+
 Overview of changes in 3.19.4
 =============================
 
