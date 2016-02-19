@@ -133,6 +133,7 @@ typedef struct _PhotosBaseItemSaveData PhotosBaseItemSaveData;
 struct _PhotosBaseItemSaveData
 {
   GFile *dir;
+  GFile *unique_file;
   GeglBuffer *buffer;
   gchar *type;
 };
@@ -168,6 +169,7 @@ static void
 photos_base_item_save_data_free (PhotosBaseItemSaveData *data)
 {
   g_clear_object (&data->dir);
+  g_clear_object (&data->unique_file);
   g_clear_object (&data->buffer);
   g_free (data->type);
   g_slice_free (PhotosBaseItemSaveData, data);
@@ -1147,7 +1149,6 @@ photos_base_item_save_save_metadata (GObject *source_object, GAsyncResult *res, 
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GError *error;
-  GFile *file = NULL;
   GTask *task = G_TASK (user_data);
   PhotosBaseItemSaveData *data;
 
@@ -1160,11 +1161,9 @@ photos_base_item_save_save_metadata (GObject *source_object, GAsyncResult *res, 
       goto out;
     }
 
-  file = g_file_get_child (data->dir, self->priv->filename);
-  g_task_return_pointer (task, g_object_ref (file), g_object_unref);
+  g_task_return_pointer (task, g_object_ref (data->unique_file), g_object_unref);
 
  out:
-  g_clear_object (&file);
   g_object_unref (task);
 }
 
@@ -1177,7 +1176,6 @@ photos_base_item_save_save_to_stream (GObject *source_object, GAsyncResult *res,
   PhotosBaseItemSaveData *data;
   GCancellable *cancellable;
   GError *error = NULL;
-  GFile *file = NULL;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
   cancellable = g_task_get_cancellable (task);
@@ -1189,21 +1187,19 @@ photos_base_item_save_save_to_stream (GObject *source_object, GAsyncResult *res,
       goto out;
     }
 
-  file = g_file_get_child (data->dir, self->priv->filename);
   photos_base_item_save_metadata_async (self,
-                                        file,
+                                        data->unique_file,
                                         cancellable,
                                         photos_base_item_save_save_metadata,
                                         g_object_ref (task));
 
  out:
-  g_clear_object (&file);
   g_object_unref (task);
 }
 
 
 static void
-photos_base_item_save_replace (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_save_create (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   GCancellable *cancellable;
@@ -1212,18 +1208,23 @@ photos_base_item_save_replace (GObject *source_object, GAsyncResult *res, gpoint
   GeglNode *buffer_source;
   GeglNode *graph = NULL;
   GFile *file = G_FILE (source_object);
+  GFile *unique_file = NULL;
   GFileOutputStream *stream = NULL;
   PhotosBaseItemSaveData *data;
 
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
-  stream = g_file_replace_finish (file, res, &error);
+  stream = photos_utils_file_create_finish (file, res, &unique_file, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
       goto out;
     }
+
+  g_assert_null (data->unique_file);
+  g_assert_true (G_IS_FILE (unique_file));
+  data->unique_file = g_object_ref (unique_file);
 
   graph = gegl_node_new ();
   buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", data->buffer, NULL);
@@ -1260,6 +1261,7 @@ photos_base_item_save_replace (GObject *source_object, GAsyncResult *res, gpoint
   g_clear_object (&graph);
   g_clear_object (&pixbuf);
   g_clear_object (&stream);
+  g_clear_object (&unique_file);
   g_object_unref (task);
 }
 
@@ -1292,14 +1294,12 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
   data->buffer = g_object_ref (buffer_zoomed);
 
   file = g_file_get_child (data->dir, self->priv->filename);
-  g_file_replace_async (file,
-                        NULL,
-                        TRUE,
-                        G_FILE_CREATE_REPLACE_DESTINATION,
-                        G_PRIORITY_DEFAULT,
-                        cancellable,
-                        photos_base_item_save_replace,
-                        g_object_ref (task));
+  photos_utils_file_create_async (file,
+                                  G_FILE_CREATE_NONE,
+                                  G_PRIORITY_DEFAULT,
+                                  cancellable,
+                                  photos_base_item_save_create,
+                                  g_object_ref (task));
 
  out:
   g_clear_object (&buffer_zoomed);

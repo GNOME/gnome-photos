@@ -121,6 +121,18 @@ gdouble          photos_utils_eval_radial_line            (gdouble crop_center_x
                                                            gdouble corner_y,
                                                            gdouble event_x);
 
+void             photos_utils_file_create_async           (GFile *file,
+                                                           GFileCreateFlags flags,
+                                                           gint io_priority,
+                                                           GCancellable *cancellable,
+                                                           GAsyncReadyCallback callback,
+                                                           gpointer user_data);
+
+GFileOutputStream *photos_utils_file_create_finish        (GFile *file,
+                                                           GAsyncResult *res,
+                                                           GFile **out_unique_file,
+                                                           GError **error);
+
 gchar           *photos_utils_filename_strip_extension    (const gchar *filename_with_extension);
 
 GQuark           photos_utils_flash_off_quark             (void);
@@ -128,6 +140,7 @@ GQuark           photos_utils_flash_off_quark             (void);
 GQuark           photos_utils_flash_on_quark              (void);
 
 gchar           *photos_utils_get_extension_from_mime_type (const gchar *mime_type);
+
 
 gint             photos_utils_get_icon_size               (void);
 

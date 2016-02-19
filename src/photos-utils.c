@@ -68,6 +68,18 @@
 
 static const gdouble EPSILON = 1e-5;
 
+typedef struct _PhotosUtilsFileCreateData PhotosUtilsFileCreateData;
+
+struct _PhotosUtilsFileCreateData
+{
+  GFile *dir;
+  GFileCreateFlags flags;
+  gchar *basename;
+  gchar *extension;
+  gint io_priority;
+  guint count;
+};
+
 
 static void
 photos_utils_put_pixel (guchar *p)
@@ -932,6 +944,170 @@ photos_utils_filename_strip_extension (const gchar *filename_with_extension)
     *end = '\0';
 
   return filename;
+}
+
+
+static void
+photos_utils_file_create_data_free (PhotosUtilsFileCreateData *data)
+{
+  g_object_unref (data->dir);
+  g_free (data->basename);
+  g_free (data->extension);
+  g_slice_free (PhotosUtilsFileCreateData, data);
+}
+
+
+static gchar *
+photos_utils_file_create_data_get_filename (PhotosUtilsFileCreateData *data)
+{
+  gchar *ret_val;
+
+  if (data->count > 0)
+    ret_val = g_strdup_printf ("%s(%u)%s", data->basename, data->count, data->extension);
+  else
+    ret_val = g_strdup_printf ("%s%s", data->basename, data->extension);
+
+  return ret_val;
+}
+
+
+static PhotosUtilsFileCreateData *
+photos_utils_file_create_data_new (GFile *file, GFileCreateFlags flags, gint io_priority)
+{
+  PhotosUtilsFileCreateData *data;
+  gchar *filename;
+
+  data = g_slice_new0 (PhotosUtilsFileCreateData);
+
+  filename = g_file_get_basename (file);
+  data->dir = g_file_get_parent (file);
+  data->basename = photos_utils_filename_strip_extension (filename);
+  data->extension = g_strdup (photos_utils_filename_get_extension_offset (filename));
+  data->count = 0;
+  data->flags = flags;
+  data->io_priority = io_priority;
+
+  g_free (filename);
+
+  return data;
+}
+
+
+static void
+photos_utils_file_create_create (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GCancellable *cancellable;
+  GError *error = NULL;
+  GFile *file = G_FILE (source_object);
+  GFile *unique_file = NULL;
+  GFileOutputStream *stream = NULL;
+  GTask *task = G_TASK (user_data);
+  PhotosUtilsFileCreateData *data;
+  gchar *filename = NULL;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosUtilsFileCreateData *) g_task_get_task_data (task);
+
+  stream = g_file_create_finish (file, res, &error);
+  if (error != NULL)
+    {
+
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+        {
+          g_task_return_error (task, error);
+          goto out;
+        }
+
+      if (data->count == G_MAXUINT)
+        {
+          g_task_return_new_error (task, PHOTOS_ERROR, 0, "Exceeded number of copies of a file");
+          goto out;
+        }
+
+      data->count++;
+
+      filename = photos_utils_file_create_data_get_filename (data);
+      unique_file = g_file_get_child (data->dir, filename);
+
+      g_file_create_async (unique_file,
+                           data->flags,
+                           data->io_priority,
+                           cancellable,
+                           photos_utils_file_create_create,
+                           g_object_ref (task));
+
+      goto out;
+    }
+
+  g_task_return_pointer (task, g_object_ref (stream), g_object_unref);
+
+ out:
+  g_free (filename);
+  g_clear_object (&stream);
+  g_clear_object (&unique_file);
+  g_object_unref (task);
+}
+
+
+void
+photos_utils_file_create_async (GFile *file,
+                                GFileCreateFlags flags,
+                                gint io_priority,
+                                GCancellable *cancellable,
+                                GAsyncReadyCallback callback,
+                                gpointer user_data)
+{
+  GTask *task;
+  PhotosUtilsFileCreateData *data;
+
+  task = g_task_new (file, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_utils_file_create_async);
+
+  data = photos_utils_file_create_data_new (file, flags, io_priority);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_utils_file_create_data_free);
+
+  g_file_create_async (file,
+                       data->flags,
+                       data->io_priority,
+                       cancellable,
+                       photos_utils_file_create_create,
+                       g_object_ref (task));
+
+  g_object_unref (task);
+}
+
+
+GFileOutputStream *
+photos_utils_file_create_finish (GFile *file, GAsyncResult *res, GFile **out_unique_file, GError **error)
+{
+  GTask *task = G_TASK (res);
+  GFileOutputStream *ret_val = NULL;
+  PhotosUtilsFileCreateData *data;
+
+  g_return_val_if_fail (g_task_is_valid (res, file), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_utils_file_create_async, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  data = (PhotosUtilsFileCreateData *) g_task_get_task_data (task);
+  g_return_val_if_fail (data != NULL, NULL);
+
+  ret_val = g_task_propagate_pointer (task, error);
+  if (ret_val == NULL)
+    goto out;
+
+  if (out_unique_file != NULL)
+    {
+      GFile *unique_file;
+      gchar *filename = NULL;
+
+      filename = photos_utils_file_create_data_get_filename (data);
+      unique_file = g_file_get_child (data->dir, filename);
+      *out_unique_file = unique_file;
+      g_free (filename);
+    }
+
+ out:
+  return ret_val;
 }
 
 
