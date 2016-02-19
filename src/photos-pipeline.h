@@ -87,8 +87,6 @@ void                   photos_pipeline_save_async        (PhotosPipeline *self,
 
 gboolean               photos_pipeline_save_finish       (PhotosPipeline *self, GAsyncResult *res, GError **error);
 
-gboolean               photos_pipeline_undo              (PhotosPipeline *self);
-
 gboolean               photos_pipeline_remove            (PhotosPipeline *self, const gchar *operation);
 
 void                   photos_pipeline_revert            (PhotosPipeline *self);

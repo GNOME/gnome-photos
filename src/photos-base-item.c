@@ -2170,13 +2170,6 @@ photos_base_item_operation_get (PhotosBaseItem *self, const gchar *operation, co
 
 
 gboolean
-photos_base_item_operation_undo (PhotosBaseItem *self)
-{
-  return photos_pipeline_undo (self->priv->pipeline);
-}
-
-
-gboolean
 photos_base_item_operation_remove (PhotosBaseItem *self, const gchar *operation)
 {
   return photos_pipeline_remove (self->priv->pipeline, operation);

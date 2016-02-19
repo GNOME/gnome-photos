@@ -36,7 +36,6 @@ struct _PhotosPipeline
   GObject parent_instance;
   GeglNode *parent;
   GHashTable *hash;
-  GQueue *history;
   GeglNode *graph;
   gchar *uri;
 };
@@ -148,7 +147,6 @@ photos_pipeline_finalize (GObject *object)
 {
   PhotosPipeline *self = PHOTOS_PIPELINE (object);
 
-  g_queue_free (self->history);
   g_free (self->uri);
 
   G_OBJECT_CLASS (photos_pipeline_parent_class)->finalize (object);
@@ -181,7 +179,6 @@ static void
 photos_pipeline_init (PhotosPipeline *self)
 {
   self->hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
-  self->history = g_queue_new ();
 }
 
 
@@ -435,10 +432,6 @@ photos_pipeline_add (PhotosPipeline *self, const gchar *operation, const gchar *
   xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
 
-  /* We want to remove the nodes from the graph too. */
-  g_queue_free_full (self->history, g_object_unref);
-  self->history = g_queue_new ();
-
   g_free (xml);
 }
 
@@ -537,44 +530,6 @@ photos_pipeline_save_finish (PhotosPipeline *self, GAsyncResult *res, GError **e
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   return g_task_propagate_boolean (task, error);
-}
-
-
-gboolean
-photos_pipeline_undo (PhotosPipeline *self)
-{
-  GeglNode *input;
-  GeglNode *last;
-  GeglNode *last2;
-  GeglNode *output;
-  gboolean ret_val = FALSE;
-  gchar *operation = NULL;
-  gchar *xml = NULL;
-
-  input = gegl_node_get_input_proxy (self->graph, "input");
-  output = gegl_node_get_output_proxy (self->graph, "output");
-  last = gegl_node_get_producer (output, "input", NULL);
-  if (last == input)
-    goto out;
-
-  gegl_node_get (last, "operation", &operation, NULL);
-  g_hash_table_remove (self->hash, operation);
-  g_queue_push_head (self->history, last);
-
-  last2 = gegl_node_get_producer (last, "input", NULL);
-  gegl_node_disconnect (output, "input");
-  gegl_node_disconnect (last, "input");
-  gegl_node_link (last2, output);
-
-  xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
-  photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
-
-  ret_val = TRUE;
-
- out:
-  g_free (xml);
-  g_free (operation);
-  return ret_val;
 }
 
 

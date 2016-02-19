@@ -195,8 +195,6 @@ gboolean            photos_base_item_operation_get           (PhotosBaseItem *se
                                                               const gchar *first_property_name,
                                                               ...) G_GNUC_NULL_TERMINATED G_GNUC_WARN_UNUSED_RESULT;
 
-gboolean            photos_base_item_operation_undo          (PhotosBaseItem *self);
-
 gboolean            photos_base_item_operation_remove        (PhotosBaseItem *self, const gchar *operation);
 
 void                photos_base_item_operations_revert       (PhotosBaseItem *self);
