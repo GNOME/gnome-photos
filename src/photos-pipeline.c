@@ -620,6 +620,7 @@ photos_pipeline_revert (PhotosPipeline *self)
   GeglNode *input;
   GeglNode *last;
   GeglNode *output;
+  gchar *xml;
 
   input = gegl_node_get_input_proxy (self->graph, "input");
   output = gegl_node_get_output_proxy (self->graph, "output");
@@ -634,4 +635,9 @@ photos_pipeline_revert (PhotosPipeline *self)
     }
 
   gegl_node_link (input, output);
+
+  xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
+  photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
+
+  g_free (xml);
 }
