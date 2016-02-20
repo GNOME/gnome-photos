@@ -81,6 +81,84 @@ photos_pipeline_reset (PhotosPipeline *self)
 }
 
 
+static gboolean
+photos_pipeline_create_graph_from_xml (PhotosPipeline *self, gchar *contents)
+{
+  GeglNode *graph = NULL;
+  GeglNode *input;
+  GeglNode *node;
+  GeglNode *output;
+  GeglNode *parent;
+  GSList *children = NULL;
+  GSList *l;
+  gboolean ret_val = FALSE;
+
+  /* HACK: This graph is busted. eg., the input and output proxies
+   * point to the same GeglNode. I can't imagine this to be
+   * anything else other than a GEGL bug.
+   *
+   * Therefore, we are going to re-construct a proper graph
+   * ourselves.
+   */
+  graph = gegl_node_new_from_xml (contents, "/");
+  if (graph == NULL)
+    goto out;
+
+  parent = gegl_node_get_parent (self->graph);
+  g_clear_object (&self->graph);
+
+  self->graph = gegl_node_new ();
+  if (parent != NULL)
+    gegl_node_add_child (parent, self->graph);
+
+  input = gegl_node_get_input_proxy (self->graph, "input");
+  output = gegl_node_get_output_proxy (self->graph, "output");
+
+  children = gegl_node_get_children (graph);
+  if (children == NULL)
+    {
+      gegl_node_link (input, output);
+      goto carry_on;
+    }
+
+  for (l = children; l != NULL; l = l->next)
+    {
+      const gchar *operation;
+
+      node = GEGL_NODE (l->data);
+
+      g_object_ref (node);
+      gegl_node_remove_child (graph, node);
+      gegl_node_add_child (self->graph, node);
+      g_object_unref (node);
+
+      operation = gegl_node_get_operation (node);
+      g_hash_table_insert (self->hash, g_strdup (operation), g_object_ref (node));
+    }
+
+  node = GEGL_NODE (children->data);
+  gegl_node_link (input, node);
+
+  for (l = children; l != NULL && l->next != NULL; l = l->next)
+    {
+      GeglNode *sink = GEGL_NODE (l->next->data);
+      GeglNode *source = GEGL_NODE (l->data);
+      gegl_node_link (source, sink);
+    }
+
+  node = GEGL_NODE (l->data);
+  gegl_node_link (node, output);
+
+ carry_on:
+  ret_val = TRUE;
+
+ out:
+  g_slist_free (children);
+  g_clear_object (&graph);
+  return ret_val;
+}
+
+
 static void
 photos_pipeline_save_replace_contents (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
@@ -215,15 +293,8 @@ photos_pipeline_async_initable_init_load_contents (GObject *source_object, GAsyn
 {
   GTask *task = G_TASK (user_data);
   PhotosPipeline *self;
-  GeglNode *graph = NULL;
-  GeglNode *input;
-  GeglNode *node;
-  GeglNode *output;
-  GeglNode *parent;
   GError *error;
   GFile *file = G_FILE (source_object);
-  GSList *children = NULL;
-  GSList *l;
   gchar *contents = NULL;
 
   self = PHOTOS_PIPELINE (g_task_get_source_object (task));
@@ -243,76 +314,20 @@ photos_pipeline_async_initable_init_load_contents (GObject *source_object, GAsyn
         }
     }
 
-  /* HACK: This graph is busted. eg., the input and output proxies
-   * point to the same GeglNode. I can't imagine this to be
-   * anything else other than a GEGL bug.
-   *
-   * Therefore, we are going to re-construct a proper graph
-   * ourselves.
-   */
-  graph = gegl_node_new_from_xml (contents, "/");
-  if (graph == NULL)
+  if (!(photos_pipeline_create_graph_from_xml (self, contents)))
     {
       gchar *uri;
 
       uri = g_file_get_uri (file);
       g_warning ("Unable to deserialize from %s", uri);
       g_free (uri);
-      goto carry_on;
     }
-
-  parent = gegl_node_get_parent (self->graph);
-  g_clear_object (&self->graph);
-
-  self->graph = gegl_node_new ();
-  if (parent != NULL)
-    gegl_node_add_child (parent, self->graph);
-
-  input = gegl_node_get_input_proxy (self->graph, "input");
-  output = gegl_node_get_output_proxy (self->graph, "output");
-
-  children = gegl_node_get_children (graph);
-  if (children == NULL)
-    {
-      gegl_node_link (input, output);
-      goto carry_on;
-    }
-
-  for (l = children; l != NULL; l = l->next)
-    {
-      const gchar *operation;
-
-      node = GEGL_NODE (l->data);
-
-      g_object_ref (node);
-      gegl_node_remove_child (graph, node);
-      gegl_node_add_child (self->graph, node);
-      g_object_unref (node);
-
-      operation = gegl_node_get_operation (node);
-      g_hash_table_insert (self->hash, g_strdup (operation), g_object_ref (node));
-    }
-
-  node = GEGL_NODE (children->data);
-  gegl_node_link (input, node);
-
-  for (l = children; l != NULL && l->next != NULL; l = l->next)
-    {
-      GeglNode *sink = GEGL_NODE (l->next->data);
-      GeglNode *source = GEGL_NODE (l->data);
-      gegl_node_link (source, sink);
-    }
-
-  node = GEGL_NODE (l->data);
-  gegl_node_link (node, output);
 
  carry_on:
   g_task_return_boolean (task, TRUE);
 
  out:
   g_free (contents);
-  g_slist_free (children);
-  g_clear_object (&graph);
   g_object_unref (task);
 }
 
