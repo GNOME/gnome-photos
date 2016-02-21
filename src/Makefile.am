@@ -64,6 +64,8 @@ gnome_photos_SOURCES = \
 	photos-dropdown.h \
 	photos-export-dialog.c \
 	photos-export-dialog.h \
+	photos-export-notification.c \
+	photos-export-notification.h \
 	photos-edit-palette.c \
 	photos-edit-palette.h \
 	photos-edit-palette-row.c \

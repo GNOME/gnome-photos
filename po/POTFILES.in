@@ -11,6 +11,7 @@ src/photos-embed.c
 src/photos-empty-results-box.c
 [type: gettext/glade]src/photos-export-dialog.ui
 src/photos-export-dialog.c
+src/photos-export-notification.c
 src/photos-facebook-item.c
 src/photos-fetch-metas-job.c
 src/photos-flickr-item.c

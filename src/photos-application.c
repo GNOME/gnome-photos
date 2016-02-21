@@ -40,6 +40,7 @@
 #include "photos-camera-cache.h"
 #include "photos-dlna-renderers-dialog.h"
 #include "photos-export-dialog.h"
+#include "photos-export-notification.h"
 #include "photos-filterable.h"
 #include "photos-gom-miner.h"
 #include "photos-item-manager.h"
@@ -993,19 +994,25 @@ photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointe
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   GError *error = NULL;
   GFile *file = NULL;
+  GList *items = NULL;
 
   file = photos_base_item_save_finish (item, res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to save: %s", error->message);
+      photos_export_notification_new_with_error (error);
       g_error_free (error);
       goto out;
     }
+
+  items = g_list_prepend (items, g_object_ref (item));
+  photos_export_notification_new (items, file);
 
  out:
   photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
   g_application_release (G_APPLICATION (self));
   g_clear_object (&file);
+  g_list_free_full (items, g_object_unref);
 }
 
 
@@ -1036,6 +1043,7 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
   if (!photos_utils_make_directory_with_parents (export, NULL, &error))
     {
       g_warning ("Unable to create %s: %s", export_path, error->message);
+      photos_export_notification_new_with_error (error);
       g_error_free (error);
       goto out;
     }
@@ -1047,6 +1055,7 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
   if (error != NULL)
     {
       g_warning ("Unable to get a child for %s: %s", export_dir_name, error->message);
+      photos_export_notification_new_with_error (error);
       g_error_free (error);
       goto out;
     }
@@ -1058,6 +1067,7 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
   if (!photos_utils_make_directory_with_parents (export, NULL, &error))
     {
       g_warning ("Unable to create %s: %s", export_path, error->message);
+      photos_export_notification_new_with_error (error);
       g_error_free (error);
       goto out;
     }
