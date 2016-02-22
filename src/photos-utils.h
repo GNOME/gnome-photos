@@ -83,7 +83,10 @@ GdkPixbuf       *photos_utils_create_placeholder_icon_for_scale (const gchar *na
 
 GIcon           *photos_utils_create_symbolic_icon_for_scale (const gchar *name, gint base_size, gint scale);
 
-gboolean         photos_utils_create_thumbnail            (GFile *file, GCancellable *cancellable, GError **error);
+gboolean         photos_utils_create_thumbnail            (GFile *file,
+                                                           const gchar *mime_type,
+                                                           GCancellable *cancellable,
+                                                           GError **error);
 
 GIcon           *photos_utils_get_icon_from_cursor        (TrackerSparqlCursor *cursor);
 
