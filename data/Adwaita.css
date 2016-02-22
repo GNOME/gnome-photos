@@ -24,7 +24,7 @@ GdMainIconView.content-view.cell:active {
     font: bold;
 }
 
-.documents-entry-tag {
+.photos-entry-tag {
     background-image: none;
     background-color: @entry_tag_bg;
     color: @entry_tag_fg;
@@ -36,22 +36,22 @@ GdMainIconView.content-view.cell:active {
     padding: 4px;
 }
 
-.documents-entry-tag:hover {
+.photos-entry-tag:hover {
     background-color: shade(@entry_tag_bg, 1.10);
     color: @entry_tag_fg;
 }
 
-.documents-entry-tag.button,
-.documents-entry-tag.button:hover,
-.documents-entry-tag.button:active,
-.documents-entry-tag.button:active:hover {
+.photos-entry-tag.button,
+.photos-entry-tag.button:hover,
+.photos-entry-tag.button:active,
+.photos-entry-tag.button:active:hover {
     background-color: transparent;
     background-image: none;
     border-image: none;
     border-width: 0;
 }
 
-.documents-entry-tag.button:hover {
+.photos-entry-tag.button:hover {
     color: shade(@entry_tag_bg, 2.10);
 }
 

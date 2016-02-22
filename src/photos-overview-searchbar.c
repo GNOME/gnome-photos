@@ -212,8 +212,13 @@ photos_overview_searchbar_create_search_widgets (PhotosSearchbar *searchbar)
   photos_searchbar_set_search_entry (PHOTOS_SEARCHBAR (self), GTK_WIDGET (priv->search_entry));
 
   priv->src_tag = gd_tagged_entry_tag_new (NULL);
+  gd_tagged_entry_tag_set_style (priv->src_tag, "photos-entry-tag");
+
   priv->srch_mtch_tag = gd_tagged_entry_tag_new (NULL);
+  gd_tagged_entry_tag_set_style (priv->srch_mtch_tag, "photos-entry-tag");
+
   priv->srch_typ_tag = gd_tagged_entry_tag_new (NULL);
+  gd_tagged_entry_tag_set_style (priv->srch_typ_tag, "photos-entry-tag");
 
   g_signal_connect_object (priv->srch_cntrlr,
                            "search-string-changed",
