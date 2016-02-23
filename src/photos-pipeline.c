@@ -88,7 +88,6 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, gchar *contents)
   GeglNode *input;
   GeglNode *node;
   GeglNode *output;
-  GeglNode *parent;
   GSList *children = NULL;
   GSList *l;
   gboolean ret_val = FALSE;
@@ -104,12 +103,7 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, gchar *contents)
   if (graph == NULL)
     goto out;
 
-  parent = gegl_node_get_parent (self->graph);
-  g_clear_object (&self->graph);
-
-  self->graph = gegl_node_new ();
-  if (parent != NULL)
-    gegl_node_add_child (parent, self->graph);
+  photos_utils_remove_children_from_node (self->graph);
 
   input = gegl_node_get_input_proxy (self->graph, "input");
   output = gegl_node_get_output_proxy (self->graph, "output");
