@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2015 – 2016 Red Hat, Inc.
+ * Copyright © 2016 Umang Jain
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,6 +38,7 @@ struct _PhotosPipeline
   GeglNode *parent;
   GHashTable *hash;
   GeglNode *graph;
+  gchar *snapshot;
   gchar *uri;
 };
 
@@ -103,6 +105,7 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, gchar *contents)
   if (graph == NULL)
     goto out;
 
+  g_hash_table_remove_all (self->hash);
   photos_utils_remove_children_from_node (self->graph);
 
   input = gegl_node_get_input_proxy (self->graph, "input");
@@ -219,6 +222,7 @@ photos_pipeline_finalize (GObject *object)
 {
   PhotosPipeline *self = PHOTOS_PIPELINE (object);
 
+  g_free (self->snapshot);
   g_free (self->uri);
 
   G_OBJECT_CLASS (photos_pipeline_parent_class)->finalize (object);
@@ -583,11 +587,24 @@ photos_pipeline_revert (PhotosPipeline *self)
 {
   gchar *xml;
 
-  g_hash_table_remove_all (self->hash);
-  photos_utils_remove_children_from_node (self->graph);
+  g_return_if_fail (self->snapshot != NULL);
+
+  if (!photos_pipeline_create_graph_from_xml (self, self->snapshot))
+    g_warning ("Unable to revert to: %s", self->snapshot);
+
+  g_clear_pointer (&self->snapshot, g_free);
 
   xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
 
   g_free (xml);
+}
+
+
+void
+photos_pipeline_snapshot (PhotosPipeline *self)
+{
+  g_free (self->snapshot);
+  self->snapshot = gegl_node_to_xml_full (self->graph, self->graph, "/");
+  photos_debug (PHOTOS_DEBUG_GEGL, "Snapshot: %s", self->snapshot);
 }

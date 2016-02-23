@@ -208,6 +208,8 @@ gboolean            photos_base_item_pipeline_save_finish    (PhotosBaseItem *se
                                                               GAsyncResult *res,
                                                               GError **error);
 
+void                photos_base_item_pipeline_snapshot       (PhotosBaseItem *self);
+
 void                photos_base_item_print                   (PhotosBaseItem *self, GtkWidget *toplevel);
 
 void                photos_base_item_process_async           (PhotosBaseItem *self,

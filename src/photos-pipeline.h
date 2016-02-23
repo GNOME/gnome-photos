@@ -91,6 +91,8 @@ gboolean               photos_pipeline_remove            (PhotosPipeline *self, 
 
 void                   photos_pipeline_revert            (PhotosPipeline *self);
 
+void                   photos_pipeline_snapshot          (PhotosPipeline *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_PIPELINE_H */

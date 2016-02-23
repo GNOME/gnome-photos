@@ -2225,6 +2225,13 @@ photos_base_item_pipeline_save_finish (PhotosBaseItem *self, GAsyncResult *res, 
 
 
 void
+photos_base_item_pipeline_snapshot (PhotosBaseItem *self)
+{
+  return photos_pipeline_snapshot (self->priv->pipeline);
+}
+
+
+void
 photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
 {
   photos_base_item_load_async (self, NULL, photos_base_item_print_load, g_object_ref (toplevel));

@@ -738,6 +738,7 @@ photos_application_edit_current (PhotosApplication *self)
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
   g_return_if_fail (item != NULL);
 
+  photos_base_item_pipeline_snapshot (item);
   photos_mode_controller_set_window_mode (priv->state->mode_cntrlr, PHOTOS_WINDOW_MODE_EDIT);
 }
 
