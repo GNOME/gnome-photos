@@ -600,8 +600,11 @@ photos_pipeline_revert (PhotosPipeline *self)
 
   while (last != NULL && last != input)
     {
+      GeglNode *last2;
+
+      last2 = gegl_node_get_producer (last, "input", NULL);
       gegl_node_remove_child (self->graph, last);
-      last = gegl_node_get_producer (output, "input", NULL);
+      last = last2;
     }
 
   gegl_node_link (input, output);
