@@ -173,7 +173,10 @@ photos_operation_insta_hefe_vignette_get_property (GObject *object, guint prop_i
 
 
 static void
-photos_operation_insta_hefe_vignette_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+photos_operation_insta_hefe_vignette_set_property (GObject *object,
+                                                   guint prop_id,
+                                                   const GValue *value,
+                                                   GParamSpec *pspec)
 {
   PhotosOperationInstaHefeVignette *self = PHOTOS_OPERATION_INSTA_HEFE_VIGNETTE (object);
 
