@@ -1195,6 +1195,34 @@ photos_utils_update_executed (GObject *source_object, GAsyncResult *res, gpointe
 
 
 void
+photos_utils_remove_children_from_node (GeglNode *node)
+{
+  GeglNode *input;
+  GeglNode *last;
+  GeglNode *output;
+  GeglOperation *operation;
+
+  operation = gegl_node_get_gegl_operation (node);
+  g_return_if_fail (operation == NULL);
+
+  input = gegl_node_get_input_proxy (node, "input");
+  output = gegl_node_get_output_proxy (node, "output");
+  last = gegl_node_get_producer (output, "input", NULL);
+
+  while (last != NULL && last != input)
+    {
+      GeglNode *last2;
+
+      last2 = gegl_node_get_producer (last, "input", NULL);
+      gegl_node_remove_child (node, last);
+      last = last2;
+    }
+
+  gegl_node_link (input, output);
+}
+
+
+void
 photos_utils_set_edited_name (const gchar *urn, const gchar *title)
 {
   GError *error;

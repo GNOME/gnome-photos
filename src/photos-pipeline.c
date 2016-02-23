@@ -587,27 +587,10 @@ photos_pipeline_remove (PhotosPipeline *self, const gchar *operation)
 void
 photos_pipeline_revert (PhotosPipeline *self)
 {
-  GeglNode *input;
-  GeglNode *last;
-  GeglNode *output;
   gchar *xml;
 
-  input = gegl_node_get_input_proxy (self->graph, "input");
-  output = gegl_node_get_output_proxy (self->graph, "output");
-  last = gegl_node_get_producer (output, "input", NULL);
-
   g_hash_table_remove_all (self->hash);
-
-  while (last != NULL && last != input)
-    {
-      GeglNode *last2;
-
-      last2 = gegl_node_get_producer (last, "input", NULL);
-      gegl_node_remove_child (self->graph, last);
-      last = last2;
-    }
-
-  gegl_node_link (input, output);
+  photos_utils_remove_children_from_node (self->graph);
 
   xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);

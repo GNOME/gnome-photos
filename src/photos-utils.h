@@ -157,6 +157,8 @@ GQuark           photos_utils_orientation_right_quark     (void);
 
 GQuark           photos_utils_orientation_top_quark       (void);
 
+void             photos_utils_remove_children_from_node   (GeglNode *node);
+
 void             photos_utils_set_edited_name             (const gchar *urn, const gchar *title);
 
 void             photos_utils_set_favorite                (const gchar *urn, gboolean is_favorite);
