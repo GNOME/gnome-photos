@@ -546,23 +546,18 @@ photos_utils_create_symbolic_icon_for_scale (const gchar *name, gint base_size, 
 
 
 gboolean
-photos_utils_create_thumbnail (GFile *file, const gchar *mime_type, GCancellable *cancellable, GError **error)
+photos_utils_create_thumbnail (GFile *file,
+                               const gchar *mime_type,
+                               gint64 mtime,
+                               GCancellable *cancellable,
+                               GError **error)
 {
   GnomeDesktopThumbnailFactory *factory = NULL;
-  GFileInfo *info = NULL;
-  const gchar *attributes = G_FILE_ATTRIBUTE_TIME_MODIFIED;
   gboolean ret_val = FALSE;
   gchar *uri = NULL;
   GdkPixbuf *pixbuf = NULL;
-  guint64 mtime;
 
   uri = g_file_get_uri (file);
-  info = g_file_query_info (file, attributes, G_FILE_QUERY_INFO_NONE, cancellable, error);
-  if (info == NULL)
-    goto out;
-
-  mtime = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
-
   factory = gnome_desktop_thumbnail_factory_new (GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE);
   pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (factory, uri, mime_type);
   if (pixbuf == NULL)
@@ -581,7 +576,6 @@ photos_utils_create_thumbnail (GFile *file, const gchar *mime_type, GCancellable
  out:
   g_clear_object (&pixbuf);
   g_clear_object (&factory);
-  g_clear_object (&info);
   g_free (uri);
   return ret_val;
 }

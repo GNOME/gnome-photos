@@ -74,11 +74,13 @@ photos_media_server_item_create_thumbnail (PhotosBaseItem *item, GCancellable *c
   gboolean ret_val;
   const gchar *mime_type;
   const gchar *uri;
+  gint64 mtime;
 
   uri = photos_base_item_get_uri (item);
   file = g_file_new_for_uri (uri);
   mime_type = photos_base_item_get_mime_type (item);
-  ret_val = photos_utils_create_thumbnail (file, mime_type, cancellable, error);
+  mtime = photos_base_item_get_mtime (item);
+  ret_val = photos_utils_create_thumbnail (file, mime_type, mtime, cancellable, error);
 
   g_object_unref (file);
   return ret_val;
