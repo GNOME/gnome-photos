@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-15 09:53+0000\n"
-"PO-Revision-Date: 2016-02-15 21:49+0100\n"
+"POT-Creation-Date: 2016-02-24 21:59+0000\n"
+"PO-Revision-Date: 2016-02-25 07:54+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -367,7 +367,7 @@ msgstr "Prebieha indexovanie vašich fotografií"
 msgid "Some photos might not be available during this process"
 msgstr "Niektoré fotografie nemusia byť počas tohoto procesu dostupné"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:131 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Miestne"
 
@@ -394,16 +394,16 @@ msgstr "Vyberie položky"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:301
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:273
 #, c-format
 msgid "Open with %s"
 msgstr "Otvoriť pomocou %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:312
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:284
 msgid "Remove from favorites"
 msgstr "Odstrániť z obľúbených"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:317
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:289
 msgid "Add to favorites"
 msgstr "Pridá medzi obľúbené"
 
@@ -418,12 +418,12 @@ msgstr "Dokončiť"
 #: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 msgstr ""
 "Autorské práva © 2013 Spoločnosť Intel. Všetky práva vyhradené.\n"
-"Autorské práva © 2014, 2015 Pranav Kant\n"
-"Autorské práva © 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Autorské práva © 2014 - 2015 Pranav Kant\n"
+"Autorské práva © 2012 - 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:502
@@ -465,7 +465,7 @@ msgid "Organize"
 msgstr "Organizovanie"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:304
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:276
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Otvoriť"
@@ -762,22 +762,24 @@ msgid "Square"
 msgstr "Štvorec"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A3 (297 × 420 mm)"
-msgstr "A3 (297 × 420 mm)"
+msgid "A paper sizes"
+msgstr "Veľkosti papiera"
 
-#: ../src/photos-tool-crop.c:138
-msgid "A4 (210 × 297 mm)"
-msgstr "A4 (210 × 297 mm)"
+#. Translators: this is the aspect ratio of the crop tool
+#: ../src/photos-tool-crop.c:986
+#, c-format
+msgid "%.2f"
+msgstr "%.2f"
 
-#: ../src/photos-tool-crop.c:1187
+#: ../src/photos-tool-crop.c:1205
 msgid "Lock aspect ratio"
 msgstr "Uzamknúť pomer strán"
 
-#: ../src/photos-tool-crop.c:1234
+#: ../src/photos-tool-crop.c:1263
 msgid "Reset"
 msgstr "Vynulovať"
 
-#: ../src/photos-tool-crop.c:1251
+#: ../src/photos-tool-crop.c:1280
 msgid "Crop"
 msgstr "Oreže"
 
@@ -821,6 +823,12 @@ msgstr "Filtre"
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Nepodarilo sa získať zoznam fotografií"
+
+#~ msgid "A3 (297 × 420 mm)"
+#~ msgstr "A3 (297 × 420 mm)"
+
+#~ msgid "A4 (210 × 297 mm)"
+#~ msgstr "A4 (210 × 297 mm)"
 
 #~ msgctxt "shortcut window"
 #~ msgid "Print the current photo"
