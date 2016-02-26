@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-01 17:17+0000\n"
-"PO-Revision-Date: 2016-02-01 20:25+0200\n"
+"POT-Creation-Date: 2016-02-18 09:55+0000\n"
+"PO-Revision-Date: 2016-02-20 13:18+0200\n"
 "Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <opensuse-translation-el@opensuse.org>\n"
 "Language: el\n"
@@ -20,12 +20,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
-#: ../src/photos-search-type-manager.c:125
+#: ../src/photos-search-type-manager.c:136
 msgid "Photos"
 msgstr "Φωτογραφίες"
 
@@ -115,7 +115,7 @@ msgstr "Κατάσταση μεγιστοποιημένου παραθύρου"
 msgid "Album"
 msgstr "Άλμπουμ"
 
-#: ../src/photos-base-item.c:1408
+#: ../src/photos-base-item.c:1405
 msgid "Screenshots"
 msgstr "Στιγμιότυπα"
 
@@ -139,11 +139,11 @@ msgstr "Αναίρεση"
 msgid "DLNA Renderer Devices"
 msgstr "Συσκευές αποτύπωσης DLNA"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Άλμπουμ"
 
-#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Αγαπημένα"
 
@@ -169,7 +169,7 @@ msgstr "Ρυθμίσεις"
 #: ../src/photos-empty-results-box.c:139
 #, c-format
 msgid "You can add your online accounts in %s"
-msgstr "Μπορείτε να προσθέσετε διαδικτυακούς λογαριασμούς στο %s"
+msgstr "Μπορείτε να προσθέσετε διαδικτυακούς λογαριασμούς από τις %s"
 
 #: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
@@ -183,7 +183,8 @@ msgstr "Οι επισημασμένες φωτογραφίες θα εμφανί
 msgid "No Photos Found"
 msgstr "Δεν βρέθηκαν φωτογραφίες"
 
-#: ../src/photos-export-dialog.ui.h:1 ../src/photos-selection-toolbar.ui.h:1
+#: ../src/photos-export-dialog.ui.h:1
+msgctxt "dialog title"
 msgid "Export"
 msgstr "Εξαγωγή"
 
@@ -197,11 +198,11 @@ msgstr "Μέγεθος"
 
 #: ../src/photos-export-dialog.ui.h:4
 msgid "F_ull"
-msgstr ""
+msgstr "Πλή_ρης"
 
 #: ../src/photos-export-dialog.ui.h:5
 msgid "_Reduced"
-msgstr ""
+msgstr "M_ειωμένο"
 
 #: ../src/photos-export-dialog.ui.h:6
 msgid "_Cancel"
@@ -222,11 +223,11 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:280
+#: ../src/photos-export-dialog.c:284
 msgid "%e %B %Y"
 msgstr "%e %B %Y"
 
-#: ../src/photos-export-dialog.c:334
+#: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "Υπολογισμός μεγέθους εξαγωγής…"
 
@@ -260,73 +261,93 @@ msgstr "Έξοδος"
 
 #: ../src/photos-help-overlay.ui.h:4
 msgctxt "shortcut window"
-msgid "Print the current photo"
-msgstr "Εκτύπωση της τρέχουσας φωτογραφίας"
-
-#: ../src/photos-help-overlay.ui.h:5
-msgctxt "shortcut window"
-msgid "Delete"
-msgstr "Διαγραφή"
-
-#: ../src/photos-help-overlay.ui.h:6
-msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Περιήγηση"
 
-#: ../src/photos-help-overlay.ui.h:7
+#: ../src/photos-help-overlay.ui.h:5
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Επόμενη φωτογραφία"
 
-#: ../src/photos-help-overlay.ui.h:8
+#: ../src/photos-help-overlay.ui.h:6
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Προηγούμενη φωτογραφία"
 
-#: ../src/photos-help-overlay.ui.h:9
+#: ../src/photos-help-overlay.ui.h:7
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Μετάβαση πίσω"
 
-#: ../src/photos-help-overlay.ui.h:10
+#: ../src/photos-help-overlay.ui.h:8
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Επισκόπηση"
 
-#: ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-help-overlay.ui.h:9
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Αναζήτηση"
 
-#: ../src/photos-help-overlay.ui.h:12
+#: ../src/photos-help-overlay.ui.h:10
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Επιλογή όλων"
 
+#: ../src/photos-help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr "Εκτύπωση επιλεγμένων φωτογραφιών"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "Διαγραφή επιλεγμένων φωτογραφιών"
+
 #: ../src/photos-help-overlay.ui.h:13
 msgctxt "shortcut window"
-msgid "Preview"
-msgstr "Προεπισκόπηση"
+msgid "Photo view"
+msgstr "Προβολή φωτογραφίας"
 
 #: ../src/photos-help-overlay.ui.h:14
 msgctxt "shortcut window"
-msgid "Edit the current photo"
-msgstr "Επεξεργασία της τρέχουσας φωτογραφίας"
+msgid "Edit"
+msgstr "Επεξεργασία"
 
 #: ../src/photos-help-overlay.ui.h:15
 msgctxt "shortcut window"
-msgid "Export the current photo"
-msgstr "Εξαγωγή της τρέχουσας φωτογραφίας"
+msgid "Export"
+msgstr "Εξαγωγή"
 
 #: ../src/photos-help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "Εκτύπωση"
+
+#: ../src/photos-help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: ../src/photos-help-overlay.ui.h:18
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Μενού ενεργειών"
 
-#: ../src/photos-help-overlay.ui.h:17
+#: ../src/photos-help-overlay.ui.h:19
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Πλήρης οθόνη"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "Προβολή επεξεργασίας"
+
+#: ../src/photos-help-overlay.ui.h:21
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "Aκύρωση"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -350,7 +371,7 @@ msgstr ""
 "Μερικές φωτογραφίες μπορεί να μην είναι διαθέσιμες κατά τη διάρκεια αυτής "
 "της διεργασίας"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Τοπικά"
 
@@ -375,16 +396,16 @@ msgstr "Επιλογή αντικειμένων"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:335
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:273
 #, c-format
 msgid "Open with %s"
 msgstr "Άνοιγμα με %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:346
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:284
 msgid "Remove from favorites"
 msgstr "Αφαίρεση από τα αγαπημένα"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:351
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:289
 msgid "Add to favorites"
 msgstr "Προσθήκη στα αγαπημένα"
 
@@ -399,12 +420,12 @@ msgstr "Έγινε"
 #: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 msgstr ""
 "Πνευματική Ιδιοκτησία © 2013 Intel Corporation. All rights reserved.\n"
-"Πνευματική Ιδιοκτησία © 2014, 2015 Pranav Kant\n"
-"Πνευματική Ιδιοκτησία © 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Πνευματική Ιδιοκτησία © 2014 – 2015 Pranav Kant\n"
+"Πνευματική Ιδιοκτησία © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:502
@@ -454,7 +475,7 @@ msgid "Organize"
 msgstr "Οργάνωση"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:338
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:276
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Άνοιγμα"
@@ -483,7 +504,7 @@ msgstr "Ορισμός ως παρασκήνιο"
 msgid "Set as Lock Screen"
 msgstr "Ορισμός ως οθόνη κλειδώματος"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:602
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Ιδιότητες"
@@ -521,7 +542,7 @@ msgstr "Κά_τω:"
 msgid "C_enter:"
 msgstr "_Κέντρο:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:166
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
 msgid "None"
 msgstr "Καμία"
 
@@ -642,7 +663,7 @@ msgid "On, fired"
 msgstr "Ενεργό, δούλεψε"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Όλα"
 
@@ -668,7 +689,7 @@ msgstr "Αντιστοίχιση"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:157
+#: ../src/photos-search-type-manager.c:168
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Τύπος"
@@ -681,33 +702,37 @@ msgstr "Επιλογή όλων"
 msgid "Select None"
 msgstr "Χωρίς επιλογή"
 
+#: ../src/photos-selection-toolbar.ui.h:1
+msgid "Export"
+msgstr "Εξαγωγή"
+
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Προσθήκη σε άλμπουμ"
 
-#: ../src/photos-source-manager.c:205
+#: ../src/photos-source-manager.c:203
 msgid "Sources"
 msgstr "Πηγές"
 
-#: ../src/photos-tool-colors.c:249
+#: ../src/photos-tool-colors.c:251
 msgid "Brightness"
 msgstr "Φωτεινότητα"
 
-#: ../src/photos-tool-colors.c:270
+#: ../src/photos-tool-colors.c:272
 msgid "Contrast"
 msgstr "Αντίθεση"
 
-#: ../src/photos-tool-colors.c:290
+#: ../src/photos-tool-colors.c:292
 msgid "Saturation"
 msgstr "Κορεσμός"
 
-#: ../src/photos-tool-colors.c:317
+#: ../src/photos-tool-colors.c:319
 msgid "Colors"
 msgstr "Χρώματα"
 
 #: ../src/photos-tool-crop.c:132
 msgid "Free"
-msgstr ""
+msgstr "Ελεύθερο"
 
 #: ../src/photos-tool-crop.c:133
 msgid "Original Size"
@@ -718,66 +743,68 @@ msgid "Screen"
 msgstr "Οθόνη"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden Cut"
-msgstr "Χρυσή τομή"
+msgid "Golden ratio"
+msgstr "Η χρυσή τομή"
 
 #: ../src/photos-tool-crop.c:136
 msgid "Square"
 msgstr "Τετράγωνο"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A3 (297 × 420 mm)"
-msgstr "A3 (297 × 420 mm)"
+msgid "A paper sizes"
+msgstr "Μεγέθη χαρτιού"
 
-#: ../src/photos-tool-crop.c:138
-msgid "A4 (210 × 297 mm)"
-msgstr "A4 (210 × 297 mm)"
+#. Translators: this is the aspect ratio of the crop tool
+#: ../src/photos-tool-crop.c:986
+#, c-format
+msgid "%.2f"
+msgstr "%.2f"
 
-#: ../src/photos-tool-crop.c:1162
+#: ../src/photos-tool-crop.c:1211
 msgid "Lock aspect ratio"
 msgstr "Κλείδωμα λόγου διαστάσεων"
 
-#: ../src/photos-tool-crop.c:1177
+#: ../src/photos-tool-crop.c:1269
 msgid "Reset"
 msgstr "Επαναφορά"
 
-#: ../src/photos-tool-crop.c:1198
+#: ../src/photos-tool-crop.c:1286
 msgid "Crop"
 msgstr "Περικοπή"
 
-#: ../src/photos-tool-enhance.c:205
+#: ../src/photos-tool-enhance.c:207
 msgid "Sharpen"
 msgstr "Όξυνση"
 
-#: ../src/photos-tool-enhance.c:225
+#: ../src/photos-tool-enhance.c:227
 msgid "Denoise"
 msgstr ""
 
-#: ../src/photos-tool-enhance.c:251
+#: ../src/photos-tool-enhance.c:253
 msgid "Enhance"
 msgstr "Βελτίωση"
 
-#: ../src/photos-tool-filters.c:173
-msgid "1977"
-msgstr "1977"
+#: ../src/photos-tool-filters.c:198
+msgid "1947"
+msgstr "1947"
 
-#: ../src/photos-tool-filters.c:180
-msgid "Brannan"
+#: ../src/photos-tool-filters.c:205
+msgid "Calistoga"
 msgstr ""
 
-#: ../src/photos-tool-filters.c:186
-msgid "Gotham"
-msgstr "Σκοτεινό"
-
-#: ../src/photos-tool-filters.c:193
-msgid "Hefe"
+#: ../src/photos-tool-filters.c:211
+msgid "Mogadishu"
 msgstr ""
 
-#: ../src/photos-tool-filters.c:199
-msgid "Nashville"
+#: ../src/photos-tool-filters.c:218
+msgid "Caap"
 msgstr ""
 
-#: ../src/photos-tool-filters.c:217
+#: ../src/photos-tool-filters.c:224
+msgid "Hometown"
+msgstr ""
+
+#: ../src/photos-tool-filters.c:242
 msgid "Filters"
 msgstr "Φίλτρα"
 
@@ -785,11 +812,36 @@ msgstr "Φίλτρα"
 msgid "Unable to fetch the list of photos"
 msgstr "Αδύνατη η ανάκτηση της λίστας των φωτογραφιών"
 
+#~ msgctxt "shortcut window"
+#~ msgid "Print the current photo"
+#~ msgstr "Εκτύπωση της τρέχουσας φωτογραφίας"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Preview"
+#~ msgstr "Προεπισκόπηση"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Edit the current photo"
+#~ msgstr "Επεξεργασία της τρέχουσας φωτογραφίας"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Export the current photo"
+#~ msgstr "Εξαγωγή της τρέχουσας φωτογραφίας"
+
+#~ msgid "A3 (297 × 420 mm)"
+#~ msgstr "A3 (297 × 420 mm)"
+
+#~ msgid "A4 (210 × 297 mm)"
+#~ msgstr "A4 (210 × 297 mm)"
+
+#~ msgid "1977"
+#~ msgstr "1977"
+
+#~ msgid "Gotham"
+#~ msgstr "Σκοτεινό"
+
 #~ msgid "Gray"
 #~ msgstr "Γκρίζο"
-
-#~ msgid "Print"
-#~ msgstr "Εκτύπωση"
 
 #~ msgid "%a, %d %B %Y  %X"
 #~ msgstr "%a, %d %B %Y  %X"
