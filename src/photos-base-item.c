@@ -1145,7 +1145,11 @@ photos_base_item_save_save_metadata (GObject *source_object, GAsyncResult *res, 
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GError *error;
+  GFile *file = NULL;
   GTask *task = G_TASK (user_data);
+  PhotosBaseItemSaveData *data;
+
+  data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
   error = NULL;
   if (!photos_base_item_save_metadata_finish (self, res, &error))
@@ -1154,9 +1158,11 @@ photos_base_item_save_save_metadata (GObject *source_object, GAsyncResult *res, 
       goto out;
     }
 
-  g_task_return_boolean (task, TRUE);
+  file = g_file_get_child (data->dir, self->priv->filename);
+  g_task_return_pointer (task, g_object_ref (file), g_object_unref);
 
  out:
+  g_clear_object (&file);
   g_object_unref (task);
 }
 
@@ -2345,7 +2351,7 @@ photos_base_item_save_async (PhotosBaseItem *self,
 }
 
 
-gboolean
+GFile *
 photos_base_item_save_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
   GTask *task = G_TASK (res);
@@ -2354,7 +2360,7 @@ photos_base_item_save_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-  return g_task_propagate_boolean (task, error);
+  return g_task_propagate_pointer (task, error);
 }
 
 

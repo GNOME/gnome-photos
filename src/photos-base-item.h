@@ -230,9 +230,9 @@ void                photos_base_item_save_async              (PhotosBaseItem *se
                                                               GAsyncReadyCallback callback,
                                                               gpointer user_data);
 
-gboolean            photos_base_item_save_finish             (PhotosBaseItem *self,
+GFile              *photos_base_item_save_finish             (PhotosBaseItem *self,
                                                               GAsyncResult *res,
-                                                              GError **error);
+                                                              GError **error) G_GNUC_WARN_UNUSED_RESULT;
 
 void                photos_base_item_save_guess_sizes_async  (PhotosBaseItem *self,
                                                               GCancellable *cancellable,

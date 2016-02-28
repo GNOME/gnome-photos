@@ -979,8 +979,9 @@ photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointe
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   GError *error = NULL;
+  GFile *file = NULL;
 
-  photos_base_item_save_finish (item, res, &error);
+  file = photos_base_item_save_finish (item, res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to save: %s", error->message);
@@ -991,6 +992,7 @@ photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointe
  out:
   photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
   g_application_release (G_APPLICATION (self));
+  g_clear_object (&file);
 }
 
 
