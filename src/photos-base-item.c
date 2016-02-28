@@ -488,7 +488,7 @@ photos_base_item_download_in_thread_func (GTask *task,
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv = self->priv;
   GError *error;
-  gchar *path;
+  gchar *path = NULL;
 
   g_mutex_lock (&priv->mutex_download);
 
@@ -500,9 +500,10 @@ photos_base_item_download_in_thread_func (GTask *task,
       goto out;
     }
 
-  g_task_return_pointer (task, path, g_free);
+  g_task_return_pointer (task, g_strdup (path), g_free);
 
  out:
+  g_free (path);
   g_mutex_unlock (&priv->mutex_download);
 }
 
@@ -794,7 +795,7 @@ photos_base_item_load_buffer_in_thread_func (GTask *task,
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv = self->priv;
-  GeglBuffer *buffer;
+  GeglBuffer *buffer = NULL;
   GError *error = NULL;
 
   g_mutex_lock (&priv->mutex);
@@ -806,9 +807,10 @@ photos_base_item_load_buffer_in_thread_func (GTask *task,
       goto out;
     }
 
-  g_task_return_pointer (task, buffer, g_object_unref);
+  g_task_return_pointer (task, g_object_ref (buffer), g_object_unref);
 
  out:
+  g_clear_object (&buffer);
   g_mutex_unlock (&priv->mutex);
 }
 
