@@ -1,15 +1,15 @@
 # Kazakh translation for gnome-photos.
 # Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2014.
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2014-2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-12\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-07 21:55+0000\n"
-"PO-Revision-Date: 2016-02-08 13:44+0500\n"
+"POT-Creation-Date: 2016-02-28 21:52+0000\n"
+"PO-Revision-Date: 2016-02-29 14:36+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk@li.org>\n"
 "Language: kk\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
-#: ../src/photos-search-type-manager.c:125
+#: ../src/photos-search-type-manager.c:136
 msgid "Photos"
 msgstr "Фотолар"
 
@@ -135,11 +135,11 @@ msgstr "Болдырмау"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA өңдеу құрылғылары"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Альбомдар"
 
-#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Таңдамалы"
 
@@ -220,7 +220,6 @@ msgstr "%d×%d (%s)"
 #. *  will be exported.
 #.
 #: ../src/photos-export-dialog.c:284
-#| msgid "%a, %d %B %Y"
 msgid "%e %B %Y"
 msgstr "%e %B %Y"
 
@@ -258,73 +257,93 @@ msgstr "Шығу"
 
 #: ../src/photos-help-overlay.ui.h:4
 msgctxt "shortcut window"
-msgid "Print the current photo"
-msgstr "Ағымдағы фотоны баспаға шығару"
-
-#: ../src/photos-help-overlay.ui.h:5
-msgctxt "shortcut window"
-msgid "Delete"
-msgstr "Өшіру"
-
-#: ../src/photos-help-overlay.ui.h:6
-msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Навигация"
 
-#: ../src/photos-help-overlay.ui.h:7
+#: ../src/photos-help-overlay.ui.h:5
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Келесі фото"
 
-#: ../src/photos-help-overlay.ui.h:8
+#: ../src/photos-help-overlay.ui.h:6
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Алдыңғы фото"
 
-#: ../src/photos-help-overlay.ui.h:9
+#: ../src/photos-help-overlay.ui.h:7
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Артқа өту"
 
-#: ../src/photos-help-overlay.ui.h:10
+#: ../src/photos-help-overlay.ui.h:8
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Шолу"
 
-#: ../src/photos-help-overlay.ui.h:11
+#: ../src/photos-help-overlay.ui.h:9
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Іздеу"
 
-#: ../src/photos-help-overlay.ui.h:12
+#: ../src/photos-help-overlay.ui.h:10
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Барлығын таңдау"
 
+#: ../src/photos-help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr "Таңдалған фотоларды баспаға шығару"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "Таңдалған фотоларды өшіру"
+
 #: ../src/photos-help-overlay.ui.h:13
 msgctxt "shortcut window"
-msgid "Preview"
-msgstr "Алдын-ала қарау"
+msgid "Photo view"
+msgstr "Фото көрінісі"
 
 #: ../src/photos-help-overlay.ui.h:14
 msgctxt "shortcut window"
-msgid "Edit the current photo"
-msgstr "Ағымдағы фотоны түзету"
+msgid "Edit"
+msgstr "Түзету"
 
 #: ../src/photos-help-overlay.ui.h:15
 msgctxt "shortcut window"
-msgid "Export the current photo"
-msgstr "Ағымдағы фотоны экспорттау"
+msgid "Export"
+msgstr "Экспорт"
 
 #: ../src/photos-help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "Баспаға шығару"
+
+#: ../src/photos-help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Өшіру"
+
+#: ../src/photos-help-overlay.ui.h:18
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Әрекеттер мәзірі"
 
-#: ../src/photos-help-overlay.ui.h:17
+#: ../src/photos-help-overlay.ui.h:19
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Толық экран"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "Түзету көрінісі"
+
+#: ../src/photos-help-overlay.ui.h:21
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "Бас тарту"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -346,7 +365,7 @@ msgstr "Фотоларыңыз индекстелді"
 msgid "Some photos might not be available during this process"
 msgstr "Бұл үрдіс кезінде кейбір фотолар қолжетерсіз болуы мүмкін"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:131 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Жергілікті"
 
@@ -370,16 +389,16 @@ msgstr "Нәрселерді таңдау"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:331
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:273
 #, c-format
 msgid "Open with %s"
 msgstr "%s көмегімен ашу"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:342
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:284
 msgid "Remove from favorites"
 msgstr "Таңдамалылардан өшіру"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:347
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:289
 msgid "Add to favorites"
 msgstr "Таңдамалыларға қосу"
 
@@ -394,12 +413,12 @@ msgstr "Дайын"
 #: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 msgstr ""
 "Copyright © 2013 Intel Corporation. Барлық құқықтары қорғалған.\n"
 "Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Copyright © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:502
@@ -441,7 +460,7 @@ msgid "Organize"
 msgstr "Реттеу"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:276
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Ашу"
@@ -470,7 +489,7 @@ msgstr "Фон суреті ретінде орнату"
 msgid "Set as Lock Screen"
 msgstr "Блоктау экраны ретінде орнату"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:602
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Қасиеттері"
@@ -508,7 +527,7 @@ msgstr "Тө_мен:"
 msgid "C_enter:"
 msgstr "Ортас_ымен:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:188
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
 msgid "None"
 msgstr "Жоқ"
 
@@ -629,7 +648,7 @@ msgid "On, fired"
 msgstr "Іске қосулы, жарқылдады"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Барлығы"
 
@@ -655,7 +674,7 @@ msgstr "Сәйкес"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:157
+#: ../src/photos-search-type-manager.c:168
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Түрі"
@@ -676,23 +695,23 @@ msgstr "Экспорт"
 msgid "Add to Album"
 msgstr "Альбомға қосу"
 
-#: ../src/photos-source-manager.c:205
+#: ../src/photos-source-manager.c:203
 msgid "Sources"
 msgstr "Қайнар көздер"
 
-#: ../src/photos-tool-colors.c:249
+#: ../src/photos-tool-colors.c:251
 msgid "Brightness"
 msgstr "Жарықтылығы"
 
-#: ../src/photos-tool-colors.c:270
+#: ../src/photos-tool-colors.c:272
 msgid "Contrast"
 msgstr "Контраст"
 
-#: ../src/photos-tool-colors.c:290
+#: ../src/photos-tool-colors.c:292
 msgid "Saturation"
 msgstr "Қаңықтылығы"
 
-#: ../src/photos-tool-colors.c:317
+#: ../src/photos-tool-colors.c:319
 msgid "Colors"
 msgstr "Түстер"
 
@@ -709,7 +728,7 @@ msgid "Screen"
 msgstr "Экран"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden Cut"
+msgid "Golden ratio"
 msgstr "Алтын арақатынас"
 
 #: ../src/photos-tool-crop.c:136
@@ -717,58 +736,60 @@ msgid "Square"
 msgstr "Шаршы"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A3 (297 × 420 mm)"
-msgstr "A3 (297 × 420 мм)"
+msgid "A paper sizes"
+msgstr "Қағаз өлшемдері"
 
-#: ../src/photos-tool-crop.c:138
-msgid "A4 (210 × 297 mm)"
-msgstr "A4 (210 × 297 мм)"
+#. Translators: this is the aspect ratio of the crop tool
+#: ../src/photos-tool-crop.c:986
+#, c-format
+msgid "%.2f"
+msgstr "%.2f"
 
-#: ../src/photos-tool-crop.c:1162
+#: ../src/photos-tool-crop.c:1205
 msgid "Lock aspect ratio"
 msgstr "Жақтар арақатынасын бекіту"
 
-#: ../src/photos-tool-crop.c:1177
+#: ../src/photos-tool-crop.c:1263
 msgid "Reset"
 msgstr "Тастау"
 
-#: ../src/photos-tool-crop.c:1198
+#: ../src/photos-tool-crop.c:1280
 msgid "Crop"
 msgstr "Қиып жіберу"
 
-#: ../src/photos-tool-enhance.c:205
+#: ../src/photos-tool-enhance.c:207
 msgid "Sharpen"
 msgstr "Ашықтығын көтеру"
 
-#: ../src/photos-tool-enhance.c:225
+#: ../src/photos-tool-enhance.c:227
 msgid "Denoise"
 msgstr "Шуын азайту"
 
-#: ../src/photos-tool-enhance.c:251
+#: ../src/photos-tool-enhance.c:253
 msgid "Enhance"
 msgstr "Жақсарту"
 
-#: ../src/photos-tool-filters.c:195
+#: ../src/photos-tool-filters.c:198
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:202
+#: ../src/photos-tool-filters.c:205
 msgid "Calistoga"
-msgstr ""
+msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:208
+#: ../src/photos-tool-filters.c:211
 msgid "Mogadishu"
-msgstr ""
+msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:215
+#: ../src/photos-tool-filters.c:218
 msgid "Caap"
-msgstr ""
+msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:221
+#: ../src/photos-tool-filters.c:224
 msgid "Hometown"
 msgstr "Туған қала"
 
-#: ../src/photos-tool-filters.c:239
+#: ../src/photos-tool-filters.c:242
 msgid "Filters"
 msgstr "Сүзгілер"
 
@@ -776,8 +797,27 @@ msgstr "Сүзгілер"
 msgid "Unable to fetch the list of photos"
 msgstr "Фотолар тізімін алу мүмкін емес"
 
-#~ msgid "Print"
-#~ msgstr "Баспаға шығару"
+#~ msgctxt "shortcut window"
+#~ msgid "Print the current photo"
+#~ msgstr "Ағымдағы фотоны баспаға шығару"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Preview"
+#~ msgstr "Алдын-ала қарау"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Edit the current photo"
+#~ msgstr "Ағымдағы фотоны түзету"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Export the current photo"
+#~ msgstr "Ағымдағы фотоны экспорттау"
+
+#~ msgid "A3 (297 × 420 mm)"
+#~ msgstr "A3 (297 × 420 мм)"
+
+#~ msgid "A4 (210 × 297 mm)"
+#~ msgstr "A4 (210 × 297 мм)"
 
 #~ msgid "1977"
 #~ msgstr "1977"
