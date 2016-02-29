@@ -2,15 +2,16 @@
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>, 2015.
+# Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-05-23 07:45+0000\n"
-"PO-Revision-Date: 2015-05-23 18:29+0200\n"
-"Last-Translator: Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>\n"
-"Language-Team: Tot en òc (totenoc.eu)\n"
+"POT-Creation-Date: 2016-02-17 17:07+0000\n"
+"PO-Revision-Date: 2016-02-29 23:07+0200\n"
+"Last-Translator: Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>\n"
+"Language-Team: Tot En Òc\n"
 "Language: oc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,12 +21,12 @@ msgstr ""
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:124
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
+#: ../src/photos-search-type-manager.c:136
 msgid "Photos"
 msgstr "Fòtos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Accedir, organizar e partejar vòstras fòtos amb GNOME"
 
@@ -59,7 +60,7 @@ msgstr "Mandar de fòtos a de motors de rendut DLNA distants"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:8
 msgid "Set as background"
-msgstr "Definir coma rèire plan"
+msgstr "Definir coma rèireplan"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:9
 msgid "Print photos"
@@ -106,100 +107,27 @@ msgstr "Agrandiment de la fenèstra"
 msgid "Window maximized state"
 msgstr "Nivèl d'agrandiment de la fenèstra"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%a, %d %B %Y  %X"
-
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%a, %d %B %Y"
-
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f (focala)"
-
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f (pellicula 35mm)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "Transformacion d'un imatge pas cargat."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "La transformacion a fracassat."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "EXIF pas pres en carga per aqueste format de fichièr."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "Lo cargament de l'imatge a fracassat."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "Cap d'imatge pas cargat."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "Avètz pas las permissions necessàrias per enregistrar lo fichièr."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "La creacion del fichièr temporari a fracassat."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "I a agut minimum dos noms de fichièr identics."
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "Impossible d'afichar l'ajuda pel visionador d'imatges"
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (Unicode invalid)"
-
-#: ../src/photos-base-item.c:434
+#: ../src/photos-base-item.c:474
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:886
+#: ../src/photos-base-item.c:1405
 msgid "Screenshots"
 msgstr "Capturas d'ecran"
 
-#: ../src/photos-delete-notification.c:141
+#: ../src/photos-delete-notification.c:145
 #, c-format
 msgid "“%s” deleted"
 msgstr "« %s » suprimit"
 
-#: ../src/photos-delete-notification.c:144
+#: ../src/photos-delete-notification.c:148
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d element suprimit"
 msgstr[1] "%d elements suprimits"
 
-#: ../src/photos-delete-notification.c:151
+#: ../src/photos-delete-notification.c:155
 msgid "Undo"
 msgstr "Anullar"
 
@@ -207,19 +135,15 @@ msgstr "Anullar"
 msgid "DLNA Renderer Devices"
 msgstr "Periferics de rendut DLNA"
 
-#: ../src/photos-embed.c:637
-msgid "Recent"
-msgstr "Recent"
-
-#: ../src/photos-embed.c:644 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albums"
 
-#: ../src/photos-embed.c:651 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Favorits"
 
-#: ../src/photos-embed.c:658 ../src/photos-main-toolbar.c:289
+#: ../src/photos-embed.c:706 ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Recèrca"
 
@@ -255,11 +179,63 @@ msgstr "Las fòtos favoritas apareisseràn aicí"
 msgid "No Photos Found"
 msgstr "Cap de fòto pas trobada"
 
+#: ../src/photos-export-dialog.ui.h:1
+#| msgid "Exposure"
+msgctxt "dialog title"
+msgid "Export"
+msgstr "Exportar"
+
+#: ../src/photos-export-dialog.ui.h:2
+msgid "_Folder Name"
+msgstr "Nom del _dorsièr"
+
+#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
+msgid "Size"
+msgstr "Talha"
+
+#: ../src/photos-export-dialog.ui.h:4
+msgid "F_ull"
+msgstr ""
+
+#: ../src/photos-export-dialog.ui.h:5
+msgid "_Reduced"
+msgstr ""
+
+#: ../src/photos-export-dialog.ui.h:6
+#| msgid "Cancel"
+msgid "_Cancel"
+msgstr "A_nullar"
+
+#: ../src/photos-export-dialog.ui.h:7
+#| msgid "Exposure"
+msgid "_Export"
+msgstr "_Exportar"
+
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: ../src/photos-export-dialog.c:76
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
+
+#. Translators: this is the default sub-directory where photos
+#. *  will be exported.
+#.
+#: ../src/photos-export-dialog.c:284
+#| msgid "%a, %d %B %Y"
+msgid "%e %B %Y"
+msgstr "%e %B %Y"
+
+#: ../src/photos-export-dialog.c:339
+msgid "Calculating export size…"
+msgstr ""
+
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
-#: ../src/photos-google-item.c:77
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
+#: ../src/photos-google-item.c:82
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -268,79 +244,206 @@ msgstr "%s — %s"
 msgid "Untitled Photo"
 msgstr "Fòto sens títol"
 
+#: ../src/photos-help-overlay.ui.h:1
+msgctxt "shortcut window"
+msgid "General"
+msgstr "General"
+
+#: ../src/photos-help-overlay.ui.h:2
+msgctxt "shortcut window"
+msgid "Show help"
+msgstr "Afichar l'ajuda"
+
+#: ../src/photos-help-overlay.ui.h:3
+#| msgid "Quit"
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Quitar"
+
+#: ../src/photos-help-overlay.ui.h:4
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Navigacion"
+
+#: ../src/photos-help-overlay.ui.h:5
+#| msgid "Print photos"
+msgctxt "shortcut window"
+msgid "Next photo"
+msgstr "Fòto seguenta"
+
+#: ../src/photos-help-overlay.ui.h:6
+#| msgid "Print photos"
+msgctxt "shortcut window"
+msgid "Previous photo"
+msgstr "Fòto precedenta"
+
+#: ../src/photos-help-overlay.ui.h:7
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Retorn"
+
+#: ../src/photos-help-overlay.ui.h:8
+#| msgid "Preview"
+msgctxt "shortcut window"
+msgid "Overview"
+msgstr "Vista d'ensemble"
+
+#: ../src/photos-help-overlay.ui.h:9
+#| msgid "Search"
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Recercar"
+
+#: ../src/photos-help-overlay.ui.h:10
+#| msgid "Select All"
+msgctxt "shortcut window"
+msgid "Select all"
+msgstr "Seleccionar tot"
+
+#: ../src/photos-help-overlay.ui.h:11
+#| msgid "Print photos"
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr "Imprimir las fòtos seleccionadas"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "Suprimir las fòtos seleccionadas"
+
+#: ../src/photos-help-overlay.ui.h:13
+#| msgid "Photos"
+msgctxt "shortcut window"
+msgid "Photo view"
+msgstr ""
+
+#: ../src/photos-help-overlay.ui.h:14
+msgctxt "shortcut window"
+msgid "Edit"
+msgstr ""
+
+#: ../src/photos-help-overlay.ui.h:15
+#| msgid "Exposure"
+msgctxt "shortcut window"
+msgid "Export"
+msgstr "Exportar"
+
+#: ../src/photos-help-overlay.ui.h:16
+#| msgid "Print"
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "Imprimir"
+
+#: ../src/photos-help-overlay.ui.h:17
+#| msgid "Delete"
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Suprimir"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
+msgid "Action menu"
+msgstr ""
+
+#: ../src/photos-help-overlay.ui.h:19
+#| msgid "Fullscreen"
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "Ecran complet"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr ""
+
+#: ../src/photos-help-overlay.ui.h:21
+#| msgid "Cancel"
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "Anullar"
+
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
 #.
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:172
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Recuperacion de las fòtos dempuèi %s"
 
-#: ../src/photos-indexing-notification.c:176
+#: ../src/photos-indexing-notification.c:175
 msgid "Fetching photos from online accounts"
 msgstr "Recuperacion de las fòtos dempuèi los comptes en linha"
 
-#: ../src/photos-indexing-notification.c:213
+#: ../src/photos-indexing-notification.c:211
 msgid "Your photos are being indexed"
 msgstr "Vòstras fòtos son en cors d'indexacion"
 
-#: ../src/photos-indexing-notification.c:214
+#: ../src/photos-indexing-notification.c:212
 msgid "Some photos might not be available during this process"
 msgstr "D'unas fòtos pòdon èsser indisponiblas pendent aquesta operacion"
 
-#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Local"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Clicar suls elements per los seleccionar"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d seleccionat"
 msgstr[1] "%d seleccionats"
 
-#: ../src/photos-main-toolbar.c:163
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Retorn"
 
-#: ../src/photos-main-toolbar.c:305
+#: ../src/photos-main-toolbar.c:317
 msgid "Select Items"
 msgstr "Seleccionar d'elements"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:273
 #, c-format
 msgid "Open with %s"
 msgstr "Dobrir amb %s"
 
-#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:284
 msgid "Remove from favorites"
 msgstr "Suprimir dels favorits"
 
-#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:289
 msgid "Add to favorites"
 msgstr "Apondre als favorits"
 
-#: ../src/photos-main-toolbar.c:645
+#: ../src/photos-main-toolbar.c:500 ../src/photos-main-toolbar.c:638
 msgid "Cancel"
 msgstr "Anullar"
 
-#: ../src/photos-main-window.c:473
+#: ../src/photos-main-toolbar.c:504
+msgid "Done"
+msgstr ""
+
+#: ../src/photos-main-window.c:492
+#| msgid ""
+#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#| "Copyright © 2014, 2015 Pranav Kant\n"
+#| "Copyright © 2012, 2013, 2014 Red Hat, Inc."
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 msgstr ""
 "Copyright © 2013 Intel Corporation. Totes los dreches reservats.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:483
+#: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr "Cédric Valmary (totenoc.eu), <cvalmary@yahoo.fr>"
 
@@ -349,59 +452,71 @@ msgid "Fullscreen"
 msgstr "Ecran complet"
 
 #: ../src/photos-menus.ui.h:2
+msgid "Keyboard Shortcuts"
+msgstr "Acorchis de clavièr"
+
+#: ../src/photos-menus.ui.h:3
 msgid "_Help"
 msgstr "A_juda"
 
-#: ../src/photos-menus.ui.h:3
+#: ../src/photos-menus.ui.h:4
 msgid "About"
 msgstr "A prepaus"
 
-#: ../src/photos-menus.ui.h:4
+#: ../src/photos-menus.ui.h:5
 msgid "Quit"
 msgstr "Quitar"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "_Apondre"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_D'acòrdi"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organizar"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
-#: ../src/photos-selection-toolbar.c:457
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:276
+#: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Dobrir"
 
 #: ../src/photos-preview-menu.ui.h:2
+msgid "Export…"
+msgstr "Exportar…"
+
+#: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
 msgstr "Imprimir…"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Delete"
+msgstr "Suprimir"
+
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
 msgstr "Afichar sus…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Background"
-msgstr "Definir coma rèire plan"
+msgstr "Definir coma rèireplan"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:7
 msgid "Set as Lock Screen"
-msgstr "Definir coma ecran de varrolhatge"
+msgstr "Definir coma ecran de verrolhatge"
 
-#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
-#: ../src/photos-selection-toolbar.c:478
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:602
+#: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Proprietats"
 
-#: ../src/photos-print-notification.c:76
+#: ../src/photos-print-notification.c:79
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Impression de « %s » : %s"
@@ -410,75 +525,71 @@ msgstr "Impression de « %s » : %s"
 msgid "Image Settings"
 msgstr "Paramètres de l'imatge"
 
-#: ../src/photos-print-setup.c:906
+#: ../src/photos-print-setup.c:904
 msgid "Position"
 msgstr "Posicion"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:907
 msgid "_Left:"
 msgstr "A Es_quèrra :"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:908
 msgid "_Right:"
 msgstr "A _drecha :"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:909
 msgid "_Top:"
 msgstr "A_mont :"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:910
 msgid "_Bottom:"
 msgstr "A_val :"
 
-#: ../src/photos-print-setup.c:914
+#: ../src/photos-print-setup.c:912
 msgid "C_enter:"
 msgstr "Al _centre :"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
 msgid "None"
 msgstr "Pas cap"
 
-#: ../src/photos-print-setup.c:919
+#: ../src/photos-print-setup.c:917
 msgid "Horizontal"
 msgstr "Orizontala"
 
-#: ../src/photos-print-setup.c:920
+#: ../src/photos-print-setup.c:918
 msgid "Vertical"
 msgstr "Verticala"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "Los dos"
 
-#: ../src/photos-print-setup.c:934
-msgid "Size"
-msgstr "Talha"
-
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:935
 msgid "_Width:"
 msgstr "_Largor :"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:936
 msgid "_Height:"
 msgstr "_Nautor :"
 
-#: ../src/photos-print-setup.c:940
+#: ../src/photos-print-setup.c:938
 msgid "_Scaling:"
 msgstr "Es_cala :"
 
-#: ../src/photos-print-setup.c:949
+#: ../src/photos-print-setup.c:947
 msgid "_Unit:"
 msgstr "_Unitat :"
 
-#: ../src/photos-print-setup.c:953
+#: ../src/photos-print-setup.c:951
 msgid "Millimeters"
 msgstr "Millimètres"
 
-#: ../src/photos-print-setup.c:954
+#: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Poces"
 
-#: ../src/photos-print-setup.c:982
+#: ../src/photos-print-setup.c:980
 msgid "Preview"
 msgstr "Apercebut"
 
@@ -559,7 +670,7 @@ msgid "On, fired"
 msgstr "Alucat, s'es desenclavat"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Totas"
 
@@ -585,7 +696,7 @@ msgstr "Correspondéncia"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:156
+#: ../src/photos-search-type-manager.c:168
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Tipe"
@@ -598,25 +709,161 @@ msgstr "Seleccionar tot"
 msgid "Select None"
 msgstr "Seleccionar pas res"
 
-#: ../src/photos-selection-toolbar.c:464
-msgid "Print"
-msgstr "Imprimir"
+#: ../src/photos-selection-toolbar.ui.h:1
+#| msgid "Exposure"
+msgid "Export"
+msgstr "Exportar"
 
-#: ../src/photos-selection-toolbar.c:471
-msgid "Delete"
-msgstr "Suprimir"
-
-#: ../src/photos-selection-toolbar.c:485
+#: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Apondre a l'album"
 
-#: ../src/photos-source-manager.c:174
+#: ../src/photos-source-manager.c:203
 msgid "Sources"
 msgstr "Provenéncias"
 
-#: ../src/photos-tracker-controller.c:97
+#: ../src/photos-tool-colors.c:251
+msgid "Brightness"
+msgstr "Luminositat"
+
+#: ../src/photos-tool-colors.c:272
+msgid "Contrast"
+msgstr "Contraste"
+
+#: ../src/photos-tool-colors.c:292
+msgid "Saturation"
+msgstr "Saturacion"
+
+#: ../src/photos-tool-colors.c:319
+msgid "Colors"
+msgstr "Colors"
+
+#: ../src/photos-tool-crop.c:132
+msgid "Free"
+msgstr "Gratuit"
+
+#: ../src/photos-tool-crop.c:133
+msgid "Original Size"
+msgstr "Talha originala"
+
+#: ../src/photos-tool-crop.c:134
+#| msgid "Screenshots"
+msgid "Screen"
+msgstr "Ecran"
+
+#: ../src/photos-tool-crop.c:135
+msgid "Golden ratio"
+msgstr ""
+
+#: ../src/photos-tool-crop.c:136
+msgid "Square"
+msgstr "Carrat"
+
+#: ../src/photos-tool-crop.c:137
+msgid "A paper sizes"
+msgstr ""
+
+#. Translators: this is the aspect ratio of the crop tool
+#: ../src/photos-tool-crop.c:986
+#, c-format
+msgid "%.2f"
+msgstr "%.2f"
+
+#: ../src/photos-tool-crop.c:1211
+msgid "Lock aspect ratio"
+msgstr ""
+
+#: ../src/photos-tool-crop.c:1269
+msgid "Reset"
+msgstr "Reïnicializar"
+
+#: ../src/photos-tool-crop.c:1286
+msgid "Crop"
+msgstr "Decopatge"
+
+#: ../src/photos-tool-enhance.c:207
+msgid "Sharpen"
+msgstr ""
+
+#: ../src/photos-tool-enhance.c:227
+msgid "Denoise"
+msgstr ""
+
+#: ../src/photos-tool-enhance.c:253
+#| msgid "Cancel"
+msgid "Enhance"
+msgstr "Melhorament"
+
+#: ../src/photos-tool-filters.c:198
+msgid "1947"
+msgstr "1947"
+
+#: ../src/photos-tool-filters.c:205
+msgid "Calistoga"
+msgstr "Calistoga"
+
+#: ../src/photos-tool-filters.c:211
+msgid "Mogadishu"
+msgstr "Mogadishu"
+
+#: ../src/photos-tool-filters.c:218
+msgid "Caap"
+msgstr ""
+
+#: ../src/photos-tool-filters.c:224
+msgid "Hometown"
+msgstr ""
+
+#: ../src/photos-tool-filters.c:242
+#| msgid "Millimeters"
+msgid "Filters"
+msgstr "Filtres"
+
+#: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Impossible de recuperar la lista de las fòtos"
+
+#~ msgid "%a, %d %B %Y  %X"
+#~ msgstr "%a, %d %B %Y  %X"
+
+#~ msgid "%.1f (lens)"
+#~ msgstr "%.1f (focala)"
+
+#~ msgid "%.1f (35mm film)"
+#~ msgstr "%.1f (pellicula 35mm)"
+
+#~ msgid "Transformation on unloaded image."
+#~ msgstr "Transformacion d'un imatge pas cargat."
+
+#~ msgid "Transformation failed."
+#~ msgstr "La transformacion a fracassat."
+
+#~ msgid "EXIF not supported for this file format."
+#~ msgstr "EXIF pas pres en carga per aqueste format de fichièr."
+
+#~ msgid "Image loading failed."
+#~ msgstr "Lo cargament de l'imatge a fracassat."
+
+#~ msgid "No image loaded."
+#~ msgstr "Cap d'imatge pas cargat."
+
+#~ msgid "You do not have the permissions necessary to save the file."
+#~ msgstr "Avètz pas las permissions necessàrias per enregistrar lo fichièr."
+
+#~ msgid "Temporary file creation failed."
+#~ msgstr "La creacion del fichièr temporari a fracassat."
+
+#~ msgid "At least two file names are equal."
+#~ msgstr "I a agut minimum dos noms de fichièr identics."
+
+#~ msgid "Could not display help for Image Viewer"
+#~ msgstr "Impossible d'afichar l'ajuda pel visionador d'imatges"
+
+#~ msgid " (invalid Unicode)"
+#~ msgstr " (Unicode invalid)"
+
+#~ msgid "Recent"
+#~ msgstr "Recent"
 
 #~ msgid ""
 #~ "<li>View recent local and online photos</li> <li>Access your Flickr "
@@ -624,8 +871,8 @@ msgstr "Impossible de recuperar la lista de las fòtos"
 #~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
 #~ "opening full featured editor for more advanced changes</li>"
 #~ msgstr ""
-#~ "<li>Visionner vos photos récentes localement ou en ligne</li> <li>Accéder "
+#~ "<li>Visionner vos photos récentes localement o en ligne</li> <li>Accedir "
 #~ "à vos contenus sur Flickr</li> <li>Envoyer des photos à des moteurs de "
 #~ "rendu DLNA distants</li> <li>Configurer un arrière-plan</li> <li>Imprimer "
-#~ "des photos</li> <li>Sélectionner les favorites</li> <li>Ouvrir une "
+#~ "des photos</li> <li>Sélectionner les favorites</li> <li>Ouvrir una "
 #~ "application plus complète pour effectuer des modifications avancées</li>"
