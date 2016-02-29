@@ -82,8 +82,7 @@
         <object class="GtkButton" id="toolbar_properties">
           <property name="visible">1</property>
           <property name="label" translatable="yes">Properties</property>
-          <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
-                  handler="photos_selection_toolbar_properties_clicked" />
+          <property name="action_name">app.properties</property>
         </object>
         <packing>
           <property name="pack_type">end</property>

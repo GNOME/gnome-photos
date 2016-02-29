@@ -339,9 +339,12 @@ photos_application_actions_update (PhotosApplication *self)
 
   enable = (load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW);
   g_simple_action_set_enabled (priv->gear_action, enable);
-  g_simple_action_set_enabled (priv->properties_action, enable);
   g_simple_action_set_enabled (priv->set_bg_action, enable);
   g_simple_action_set_enabled (priv->set_ss_action, enable);
+
+  enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
+            || (selection_mode && item != NULL));
+  g_simple_action_set_enabled (priv->properties_action, enable);
 
   enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
             || (selection_mode && item != NULL && !photos_base_item_is_collection (item)));
@@ -842,20 +845,30 @@ photos_application_print_current (PhotosApplication *self)
 
 
 static void
+photos_application_properties_response (GtkDialog *dialog, gint response_id, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+
+  gtk_widget_destroy (GTK_WIDGET (dialog));
+  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
+}
+
+
+static void
 photos_application_properties (PhotosApplication *self)
 {
   PhotosApplicationPrivate *priv = self->priv;
-  GObject *item;
   GtkWidget *dialog;
+  PhotosBaseItem *item;
   const gchar *id;
 
-  item = photos_base_manager_get_active_object (priv->state->item_mngr);
+  item = photos_application_get_selection_or_active_item (self);
   g_return_if_fail (item != NULL);
 
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   dialog = photos_properties_dialog_new (GTK_WINDOW (priv->main_window), id);
   gtk_widget_show_all (dialog);
-  g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
+  g_signal_connect (dialog, "response", G_CALLBACK (photos_application_properties_response), self);
 }
 
 

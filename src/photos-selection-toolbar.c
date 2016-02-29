@@ -35,7 +35,6 @@
 #include "photos-delete-notification.h"
 #include "photos-icons.h"
 #include "photos-organize-collection-dialog.h"
-#include "photos-properties-dialog.h"
 #include "photos-search-context.h"
 #include "photos-selection-controller.h"
 #include "photos-selection-toolbar.h"
@@ -49,7 +48,6 @@ struct _PhotosSelectionToolbar
   GtkWidget *toolbar_collection;
   GtkWidget *toolbar_favorite;
   GtkWidget *toolbar_open;
-  GtkWidget *toolbar_properties;
   PhotosBaseManager *item_mngr;
   PhotosSelectionController *sel_cntrlr;
   gboolean inside_refresh;
@@ -185,39 +183,6 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
 
 
 static void
-photos_selection_toolbar_properties_response (GtkDialog *dialog, gint response_id, gpointer user_data)
-{
-  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-
-  gtk_widget_destroy (GTK_WIDGET (dialog));
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
-}
-
-
-static void
-photos_selection_toolbar_properties_clicked (GtkButton *button, gpointer user_data)
-{
-  PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
-  GList *selection;
-  GList *windows;
-  GApplication *app;
-  GtkWidget *dialog;
-  const gchar *urn;
-
-  app = g_application_get_default ();
-  windows = gtk_application_get_windows (GTK_APPLICATION (app));
-
-  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
-  urn = (gchar *) selection->data;
-
-  dialog = photos_properties_dialog_new (GTK_WINDOW (windows->data), urn);
-  gtk_widget_show_all (dialog);
-
-  g_signal_connect (dialog, "response", G_CALLBACK (photos_selection_toolbar_properties_response), self);
-}
-
-
-static void
 photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 {
   GList *apps = NULL;
@@ -227,7 +192,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gboolean has_selection;
   gboolean show_collection;
   gboolean show_favorite;
-  gboolean show_properties;
   gchar *favorite_label;
   gchar *open_label;
   guint fav_count = 0;
@@ -240,7 +204,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 
   show_collection = has_selection;
   show_favorite = has_selection;
-  show_properties = has_selection;
 
   for (l = selection; l != NULL; l = g_list_next (l))
     {
@@ -262,11 +225,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
     }
 
   show_favorite = show_favorite && ((fav_count == 0) || (fav_count == sel_length));
-
-  if (sel_length > 1)
-    {
-      show_properties = FALSE;
-    }
 
   if (apps != NULL && apps->next == NULL) /* length == 1 */
     /* Translators: this is the Open action in a context menu */
@@ -295,7 +253,6 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   g_free (favorite_label);
 
   gtk_widget_set_sensitive (self->toolbar_collection, show_collection);
-  gtk_widget_set_sensitive (self->toolbar_properties, show_properties);
   gtk_widget_set_sensitive (self->toolbar_favorite, show_favorite);
 
   self->inside_refresh = FALSE;
@@ -413,10 +370,8 @@ photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/selection-toolbar.ui");
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_favorite);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_open);
-  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_properties);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_collection);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_favorite_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_properties_clicked);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_collection_clicked);
 }
 
