@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 19:09+0100\n"
-"PO-Revision-Date: 2016-02-24 19:16+0200\n"
+"POT-Creation-Date: 2016-03-01 22:18+0100\n"
+"PO-Revision-Date: 2016-03-01 22:19+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -108,7 +108,7 @@ msgstr "Estado da xanela maximizada"
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:1405
+#: ../src/photos-base-item.c:1413
 msgid "Screenshots"
 msgstr "Capturas de pantallas"
 
@@ -387,16 +387,16 @@ msgstr "Elementos seleccionados"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:273
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:284
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
 msgid "Remove from favorites"
 msgstr "Quitar dos marcadores"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:289
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
 msgid "Add to favorites"
 msgstr "Engadir aos marcadores"
 
@@ -458,7 +458,7 @@ msgid "Organize"
 msgstr "Organizar"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:276
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:234
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Abrir"
@@ -735,7 +735,7 @@ msgstr "Cadrado"
 
 #: ../src/photos-tool-crop.c:137
 msgid "A paper sizes"
-msgstr ""
+msgstr "Un tamaño de papel"
 
 #. Translators: this is the aspect ratio of the crop tool
 #: ../src/photos-tool-crop.c:986
