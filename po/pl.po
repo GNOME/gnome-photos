@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-17 22:45+0100\n"
-"PO-Revision-Date: 2016-02-17 22:47+0100\n"
+"POT-Creation-Date: 2016-03-02 16:15+0100\n"
+"PO-Revision-Date: 2016-03-02 16:17+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -114,7 +114,7 @@ msgstr "Stan maksymalizacji okna"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1405
+#: ../src/photos-base-item.c:1413
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
@@ -230,6 +230,45 @@ msgstr "%e %B %Y"
 #: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "Obliczanie rozmiaru eksportu…"
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export: not enough space"
+msgstr "Wyeksportowanie się nie powiodło: za mało miejsca"
+
+#: ../src/photos-export-notification.c:245
+msgid "Failed to export"
+msgstr "Wyeksportowanie się nie powiodło"
+
+#: ../src/photos-export-notification.c:252
+#, c-format
+msgid "“%s” exported"
+msgstr "Wyeksportowano „%s”"
+
+#: ../src/photos-export-notification.c:256
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "Wyeksportowano %d element"
+msgstr[1] "Wyeksportowano %d elementy"
+msgstr[2] "Wyeksportowano %d elementów"
+
+#: ../src/photos-export-notification.c:273
+msgid "Analyze"
+msgstr "Analizuj"
+
+#: ../src/photos-export-notification.c:278
+msgid "Empty Trash"
+msgstr "Opróżnij kosz"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "Otwórz"
+
+#: ../src/photos-export-notification.c:302
+msgid "Export Folder"
+msgstr "Wyeksportuj katalog"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -369,7 +408,7 @@ msgstr "Zdjęcia są indeksowane"
 msgid "Some photos might not be available during this process"
 msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:131 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Lokalne"
 
@@ -395,16 +434,16 @@ msgstr "Wybór elementów"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:273
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą „%s”"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:284
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:289
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
 
@@ -467,12 +506,6 @@ msgstr "_OK"
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organizacja"
-
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:276
-#: ../src/photos-selection-toolbar.ui.h:2
-msgid "Open"
-msgstr "Otwórz"
 
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Export…"
@@ -754,15 +787,15 @@ msgstr "Format papieru A"
 msgid "%.2f"
 msgstr "%.2f"
 
-#: ../src/photos-tool-crop.c:1211
+#: ../src/photos-tool-crop.c:1205
 msgid "Lock aspect ratio"
 msgstr "Zablokowanie proporcji"
 
-#: ../src/photos-tool-crop.c:1269
+#: ../src/photos-tool-crop.c:1263
 msgid "Reset"
 msgstr "Przywróć"
 
-#: ../src/photos-tool-crop.c:1286
+#: ../src/photos-tool-crop.c:1280
 msgid "Crop"
 msgstr "Kadruj"
 
