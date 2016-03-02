@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-01 22:18+0100\n"
-"PO-Revision-Date: 2016-03-01 22:19+0200\n"
+"POT-Creation-Date: 2016-03-02 11:36+0100\n"
+"PO-Revision-Date: 2016-03-02 11:36+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -223,6 +223,44 @@ msgstr "%e de %B de %Y"
 #: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "Calculando o tamaño da exportación…"
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export: not enough space"
+msgstr "Produciuse un fallo ao exportar: non hai espacio dabondo"
+
+#: ../src/photos-export-notification.c:245
+msgid "Failed to export"
+msgstr "Produciuse un fallo ao exportar"
+
+#: ../src/photos-export-notification.c:252
+#, c-format
+msgid "“%s” exported"
+msgstr "“%s” exportado"
+
+#: ../src/photos-export-notification.c:256
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d elemento exportado"
+msgstr[1] "%d elementos exportados"
+
+#: ../src/photos-export-notification.c:273
+msgid "Analyze"
+msgstr "Analizar"
+
+#: ../src/photos-export-notification.c:278
+msgid "Empty Trash"
+msgstr "Baleirar lixo"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "Abrir"
+
+#: ../src/photos-export-notification.c:302
+msgid "Export Folder"
+msgstr "Exportar cartafol"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -456,12 +494,6 @@ msgstr "_Aceptar"
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organizar"
-
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:234
-#: ../src/photos-selection-toolbar.ui.h:2
-msgid "Open"
-msgstr "Abrir"
 
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Export…"
