@@ -1,3 +1,29 @@
+Overview of changes in 3.19.91
+==============================
+
+* Bugs fixed:
+ 761587 Use GAction for properties
+ 761683 Fix resetting crop tool
+ 762046 Cancel reverts editings to previous set
+ 762371 Add notifications when photos are exported
+
+* Updated translations:
+ Catalan
+ Traditional Chinese (Taiwan)
+ Czech
+ Galician
+ German
+ Greek
+ Hebrew
+ Kazakh
+ Occitan
+ Polish
+ Portuguese (Brazilian)
+ Serbian
+ Slovak
+ Spanish
+ Swedish
+
 Overview of changes in 3.19.90
 ==============================
 
