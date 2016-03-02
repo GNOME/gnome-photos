@@ -1239,7 +1239,7 @@ photos_tool_crop_init (PhotosToolCrop *self)
       gtk_grid_set_column_spacing (GTK_GRID (grid), 6);
       gtk_container_add (GTK_CONTAINER (row), grid);
 
-      label = gtk_label_new (CONSTRAINTS[i].name);
+      label = gtk_label_new (_(CONSTRAINTS[i].name));
       gtk_container_add (GTK_CONTAINER (grid), label);
 
       image = gtk_image_new_from_icon_name (PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC, GTK_ICON_SIZE_INVALID);
