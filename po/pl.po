@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-02 16:15+0100\n"
-"PO-Revision-Date: 2016-03-02 16:17+0100\n"
+"POT-Creation-Date: 2016-03-03 16:57+0100\n"
+"PO-Revision-Date: 2016-03-03 16:58+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -763,7 +763,7 @@ msgstr "Wolne"
 
 #: ../src/photos-tool-crop.c:133
 msgid "Original Size"
-msgstr "Oryginalny rozmiar"
+msgstr "Oryginalne wymiary"
 
 #: ../src/photos-tool-crop.c:134
 msgid "Screen"
@@ -797,19 +797,19 @@ msgstr "Przywróć"
 
 #: ../src/photos-tool-crop.c:1280
 msgid "Crop"
-msgstr "Kadruj"
+msgstr "Kadrowanie"
 
 #: ../src/photos-tool-enhance.c:207
 msgid "Sharpen"
-msgstr "Wyostrz"
+msgstr "Wyostrzanie"
 
 #: ../src/photos-tool-enhance.c:227
 msgid "Denoise"
-msgstr "Usuń szum"
+msgstr "Usuwanie szumu"
 
 #: ../src/photos-tool-enhance.c:253
 msgid "Enhance"
-msgstr "Uwydatnij"
+msgstr "Uwydatnianie"
 
 #: ../src/photos-tool-filters.c:198
 msgid "1947"
