@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_TRACKER_QUEUE, PhotosTrackerQueue))
 
-#define PHOTOS_TRACKER_QUEUE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_TRACKER_QUEUE, PhotosTrackerQueueClass))
-
 #define PHOTOS_IS_TRACKER_QUEUE(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_TRACKER_QUEUE))
 
-#define PHOTOS_IS_TRACKER_QUEUE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_TRACKER_QUEUE))
-
-#define PHOTOS_TRACKER_QUEUE_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_TRACKER_QUEUE, PhotosTrackerQueueClass))
-
-typedef struct _PhotosTrackerQueue        PhotosTrackerQueue;
-typedef struct _PhotosTrackerQueueClass   PhotosTrackerQueueClass;
-typedef struct _PhotosTrackerQueuePrivate PhotosTrackerQueuePrivate;
-
-struct _PhotosTrackerQueue
-{
-  GObject parent_instance;
-  PhotosTrackerQueuePrivate *priv;
-};
-
-struct _PhotosTrackerQueueClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosTrackerQueue      PhotosTrackerQueue;
+typedef struct _PhotosTrackerQueueClass PhotosTrackerQueueClass;
 
 GType                  photos_tracker_queue_get_type               (void) G_GNUC_CONST;
 

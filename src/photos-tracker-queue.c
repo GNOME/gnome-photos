@@ -32,18 +32,23 @@
 #include "photos-tracker-queue.h"
 
 
-struct _PhotosTrackerQueuePrivate
+struct _PhotosTrackerQueue
 {
+  GObject parent_instance;
   GQueue *queue;
   TrackerSparqlConnection *connection;
   gboolean running;
+};
+
+struct _PhotosTrackerQueueClass
+{
+  GObjectClass parent_class;
 };
 
 static void photos_tracker_queue_initable_iface_init (GInitableIface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosTrackerQueue, photos_tracker_queue, G_TYPE_OBJECT,
-                         G_ADD_PRIVATE (PhotosTrackerQueue)
                          G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE, photos_tracker_queue_initable_iface_init));
 
 
@@ -109,13 +114,12 @@ static void
 photos_tracker_queue_collector (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (user_data);
-  PhotosTrackerQueuePrivate *priv = self->priv;
   PhotosTrackerQueueData *data;
 
-  data = g_queue_pop_head (priv->queue);
+  data = g_queue_pop_head (self->queue);
   if (data->callback != NULL)
     (*data->callback) (source_object, res, data->user_data);
-  priv->running = FALSE;
+  self->running = FALSE;
   photos_tracker_queue_data_free (data);
 
   photos_tracker_queue_check (self);
@@ -126,24 +130,23 @@ photos_tracker_queue_collector (GObject *source_object, GAsyncResult *res, gpoin
 static void
 photos_tracker_queue_check (PhotosTrackerQueue *self)
 {
-  PhotosTrackerQueuePrivate *priv = self->priv;
   PhotosTrackerQueueData *data;
 
-  if (priv->running)
+  if (self->running)
     return;
 
-  if (priv->queue->length == 0)
+  if (self->queue->length == 0)
     return;
 
-  data = g_queue_peek_head (priv->queue);
-  priv->running = TRUE;
+  data = g_queue_peek_head (self->queue);
+  self->running = TRUE;
 
   photos_debug (PHOTOS_DEBUG_TRACKER, "%s", data->sparql);
 
   switch (data->query_type)
     {
     case PHOTOS_TRACKER_QUERY_SELECT:
-      tracker_sparql_connection_query_async (priv->connection,
+      tracker_sparql_connection_query_async (self->connection,
                                              data->sparql,
                                              data->cancellable,
                                              photos_tracker_queue_collector,
@@ -151,7 +154,7 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
       break;
 
     case PHOTOS_TRACKER_QUERY_UPDATE:
-      tracker_sparql_connection_update_async (priv->connection,
+      tracker_sparql_connection_update_async (self->connection,
                                               data->sparql,
                                               G_PRIORITY_DEFAULT,
                                               data->cancellable,
@@ -160,7 +163,7 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
       break;
 
     case PHOTOS_TRACKER_QUERY_UPDATE_BLANK:
-      tracker_sparql_connection_update_blank_async (priv->connection,
+      tracker_sparql_connection_update_blank_async (self->connection,
                                                     data->sparql,
                                                     G_PRIORITY_DEFAULT,
                                                     data->cancellable,
@@ -198,7 +201,7 @@ photos_tracker_queue_dispose (GObject *object)
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (object);
 
-  g_clear_object (&self->priv->connection);
+  g_clear_object (&self->connection);
 
   G_OBJECT_CLASS (photos_tracker_queue_parent_class)->dispose (object);
 }
@@ -209,7 +212,7 @@ photos_tracker_queue_finalize (GObject *object)
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (object);
 
-  g_queue_free (self->priv->queue);
+  g_queue_free (self->queue);
 
   G_OBJECT_CLASS (photos_tracker_queue_parent_class)->finalize (object);
 }
@@ -218,12 +221,7 @@ photos_tracker_queue_finalize (GObject *object)
 static void
 photos_tracker_queue_init (PhotosTrackerQueue *self)
 {
-  PhotosTrackerQueuePrivate *priv = self->priv;
-
-  self->priv = photos_tracker_queue_get_instance_private (self);
-  priv = self->priv;
-
-  priv->queue = g_queue_new ();
+  self->queue = g_queue_new ();
 }
 
 
@@ -242,14 +240,13 @@ static gboolean
 photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellable, GError **error)
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (initable);
-  PhotosTrackerQueuePrivate *priv = self->priv;
   gboolean ret_val = TRUE;
 
-  if (G_LIKELY (priv->connection != NULL))
+  if (G_LIKELY (self->connection != NULL))
     goto out;
 
-  priv->connection = tracker_sparql_connection_get (cancellable, error);
-  if (G_UNLIKELY (priv->connection == NULL))
+  self->connection = tracker_sparql_connection_get (cancellable, error);
+  if (G_UNLIKELY (self->connection == NULL))
     ret_val = FALSE;
 
  out:
@@ -291,7 +288,7 @@ photos_tracker_queue_select (PhotosTrackerQueue *self,
                                         user_data,
                                         destroy_data);
 
-  g_queue_push_tail (self->priv->queue, data);
+  g_queue_push_tail (self->queue, data);
   photos_tracker_queue_check (self);
 }
 
@@ -316,7 +313,7 @@ photos_tracker_queue_update (PhotosTrackerQueue *self,
                                         user_data,
                                         destroy_data);
 
-  g_queue_push_tail (self->priv->queue, data);
+  g_queue_push_tail (self->queue, data);
   photos_tracker_queue_check (self);
 }
 
@@ -341,6 +338,6 @@ photos_tracker_queue_update_blank (PhotosTrackerQueue *self,
                                         user_data,
                                         destroy_data);
 
-  g_queue_push_tail (self->priv->queue, data);
+  g_queue_push_tail (self->queue, data);
   photos_tracker_queue_check (self);
 }
