@@ -31,13 +31,19 @@
 #include "photos-view-model.h"
 
 
-struct _PhotosPreviewModelPrivate
+struct _PhotosPreviewModel
 {
+  GtkTreeModelFilter parent_instance;
   PhotosBaseManager *item_mngr;
 };
 
+struct _PhotosPreviewModelClass
+{
+  GtkTreeModelFilterClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosPreviewModel, photos_preview_model, GTK_TYPE_TREE_MODEL_FILTER);
+
+G_DEFINE_TYPE (PhotosPreviewModel, photos_preview_model, GTK_TYPE_TREE_MODEL_FILTER);
 
 
 static gboolean
@@ -53,7 +59,7 @@ photos_preview_model_visible (GtkTreeModel *model, GtkTreeIter *iter, gpointer u
   if (id == NULL)
     goto out;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->priv->item_mngr, id));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, id));
   identifier = photos_base_item_get_identifier (item);
   if (identifier != NULL && g_str_has_prefix (identifier, PHOTOS_QUERY_COLLECTIONS_IDENTIFIER))
     goto out;
@@ -71,7 +77,7 @@ photos_preview_model_dispose (GObject *object)
 {
   PhotosPreviewModel *self = PHOTOS_PREVIEW_MODEL (object);
 
-  g_clear_object (&self->priv->item_mngr);
+  g_clear_object (&self->item_mngr);
 
   G_OBJECT_CLASS (photos_preview_model_parent_class)->dispose (object);
 }
@@ -80,17 +86,13 @@ photos_preview_model_dispose (GObject *object)
 static void
 photos_preview_model_init (PhotosPreviewModel *self)
 {
-  PhotosPreviewModelPrivate *priv;
   GApplication *app;
   PhotosSearchContextState *state;
-
-  self->priv = photos_preview_model_get_instance_private (self);
-  priv = self->priv;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->item_mngr = g_object_ref (state->item_mngr);
+  self->item_mngr = g_object_ref (state->item_mngr);
   gtk_tree_model_filter_set_visible_func (GTK_TREE_MODEL_FILTER (self), photos_preview_model_visible, self, NULL);
 }
 

@@ -32,36 +32,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_PREVIEW_MODEL, PhotosPreviewModel))
 
-#define PHOTOS_PREVIEW_MODEL_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_PREVIEW_MODEL, PhotosPreviewModelClass))
-
 #define PHOTOS_IS_PREVIEW_MODEL(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_PREVIEW_MODEL))
 
-#define PHOTOS_IS_PREVIEW_MODEL_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_PREVIEW_MODEL))
-
-#define PHOTOS_PREVIEW_MODEL_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_PREVIEW_MODEL, PhotosPreviewModelClass))
-
-typedef struct _PhotosPreviewModel        PhotosPreviewModel;
-typedef struct _PhotosPreviewModelClass   PhotosPreviewModelClass;
-typedef struct _PhotosPreviewModelPrivate PhotosPreviewModelPrivate;
-
-struct _PhotosPreviewModel
-{
-  GtkTreeModelFilter parent_instance;
-  PhotosPreviewModelPrivate *priv;
-};
-
-struct _PhotosPreviewModelClass
-{
-  GtkTreeModelFilterClass parent_class;
-};
+typedef struct _PhotosPreviewModel      PhotosPreviewModel;
+typedef struct _PhotosPreviewModelClass PhotosPreviewModelClass;
 
 GType             photos_preview_model_get_type               (void) G_GNUC_CONST;
 
