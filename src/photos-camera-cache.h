@@ -32,36 +32,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_CAMERA_CACHE, PhotosCameraCache))
 
-#define PHOTOS_CAMERA_CACHE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_CAMERA_CACHE, PhotosCameraCacheClass))
-
 #define PHOTOS_IS_CAMERA_CACHE(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_CAMERA_CACHE))
 
-#define PHOTOS_IS_CAMERA_CACHE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_CAMERA_CACHE))
-
-#define PHOTOS_CAMERA_CACHE_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_CAMERA_CACHE, PhotosCameraCacheClass))
-
-typedef struct _PhotosCameraCache        PhotosCameraCache;
-typedef struct _PhotosCameraCacheClass   PhotosCameraCacheClass;
-typedef struct _PhotosCameraCachePrivate PhotosCameraCachePrivate;
-
-struct _PhotosCameraCache
-{
-  GObject parent_instance;
-  PhotosCameraCachePrivate *priv;
-};
-
-struct _PhotosCameraCacheClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosCameraCache      PhotosCameraCache;
+typedef struct _PhotosCameraCacheClass PhotosCameraCacheClass;
 
 GType                  photos_camera_cache_get_type               (void) G_GNUC_CONST;
 

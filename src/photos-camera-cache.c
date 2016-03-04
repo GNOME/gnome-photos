@@ -29,15 +29,21 @@
 #include "photos-tracker-queue.h"
 
 
-struct _PhotosCameraCachePrivate
+struct _PhotosCameraCache
 {
+  GObject parent_instance;
   GError *queue_error;
   GHashTable *cache;
   PhotosTrackerQueue *queue;
 };
 
+struct _PhotosCameraCacheClass
+{
+  GObjectClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosCameraCache, photos_camera_cache, G_TYPE_OBJECT);
+
+G_DEFINE_TYPE (PhotosCameraCache, photos_camera_cache, G_TYPE_OBJECT);
 
 
 static void
@@ -45,7 +51,6 @@ photos_camera_cache_cursor_next (GObject *source_object, GAsyncResult *res, gpoi
 {
   GTask *task = G_TASK (user_data);
   PhotosCameraCache *self;
-  PhotosCameraCachePrivate *priv;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GError *error;
   const gchar *manufacturer;
@@ -54,7 +59,6 @@ photos_camera_cache_cursor_next (GObject *source_object, GAsyncResult *res, gpoi
   gpointer key;
 
   self = PHOTOS_CAMERA_CACHE (g_task_get_source_object (task));
-  priv = self->priv;
 
   error = NULL;
   tracker_sparql_cursor_next_finish (cursor, res, &error);
@@ -77,7 +81,7 @@ photos_camera_cache_cursor_next (GObject *source_object, GAsyncResult *res, gpoi
     camera = g_strconcat (manufacturer, " ", model, NULL);
 
   key = g_task_get_task_data (task);
-  g_hash_table_insert (priv->cache, key, camera);
+  g_hash_table_insert (self->cache, key, camera);
 
   g_task_return_pointer (task, g_strdup (camera), g_free);
 
@@ -131,7 +135,7 @@ photos_camera_cache_dispose (GObject *object)
 {
   PhotosCameraCache *self = PHOTOS_CAMERA_CACHE (object);
 
-  g_clear_object (&self->priv->queue);
+  g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_camera_cache_parent_class)->dispose (object);
 }
@@ -141,10 +145,9 @@ static void
 photos_camera_cache_finalize (GObject *object)
 {
   PhotosCameraCache *self = PHOTOS_CAMERA_CACHE (object);
-  PhotosCameraCachePrivate *priv = self->priv;
 
-  g_clear_error (&priv->queue_error);
-  g_hash_table_unref (priv->cache);
+  g_clear_error (&self->queue_error);
+  g_hash_table_unref (self->cache);
 
   G_OBJECT_CLASS (photos_camera_cache_parent_class)->finalize (object);
 }
@@ -153,13 +156,8 @@ photos_camera_cache_finalize (GObject *object)
 static void
 photos_camera_cache_init (PhotosCameraCache *self)
 {
-  PhotosCameraCachePrivate *priv;
-
-  self->priv = photos_camera_cache_get_instance_private (self);
-  priv = self->priv;
-
-  priv->cache = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
-  priv->queue = photos_tracker_queue_dup_singleton (NULL, &priv->queue_error);
+  self->cache = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, &self->queue_error);
 }
 
 
@@ -188,7 +186,6 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
                                       GAsyncReadyCallback callback,
                                       gpointer user_data)
 {
-  PhotosCameraCachePrivate *priv = self->priv;
   GApplication *app;
   GTask *task;
   PhotosQuery *query;
@@ -199,16 +196,16 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
   g_task_set_source_tag (task, photos_camera_cache_get_camera_async);
   g_task_set_task_data (task, GUINT_TO_POINTER (id), NULL);
 
-  camera = g_hash_table_lookup (priv->cache, GUINT_TO_POINTER (id));
+  camera = g_hash_table_lookup (self->cache, GUINT_TO_POINTER (id));
   if (camera != NULL)
     {
       g_task_return_pointer (task, g_strdup (camera), g_free);
       goto out;
     }
 
-  if (G_UNLIKELY (priv->queue == NULL))
+  if (G_UNLIKELY (self->queue == NULL))
     {
-      g_task_return_error (task, g_error_copy (priv->queue_error));
+      g_task_return_error (task, g_error_copy (self->queue_error));
       goto out;
     }
 
@@ -216,7 +213,7 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   query = photos_query_builder_equipment_query (state, id);
-  photos_tracker_queue_select (priv->queue,
+  photos_tracker_queue_select (self->queue,
                                query->sparql,
                                cancellable,
                                photos_camera_cache_equipment_query_executed,
