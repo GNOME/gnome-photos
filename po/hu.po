@@ -3,22 +3,22 @@
 # This file is distributed under the same license as the gnome-photos package.
 #
 # Balázs Úr <urbalazs at gmail dot com>, 2013, 2014, 2015.
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2013.
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2013, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-14 21:53+0000\n"
-"PO-Revision-Date: 2016-02-15 07:38+0100\n"
-"Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
+"POT-Creation-Date: 2016-03-04 09:55+0000\n"
+"PO-Revision-Date: 2016-03-04 20:16+0100\n"
+"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
@@ -112,7 +112,7 @@ msgstr "Az ablak maximalizált állapota"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1405
+#: ../src/photos-base-item.c:1413
 msgid "Screenshots"
 msgstr "Képernyőképek"
 
@@ -227,6 +227,48 @@ msgstr "%Y. %B %e"
 #: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "Exportálási méret kiszámítása…"
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export: not enough space"
+msgstr "Nem sikerült az exportálás: nincs elég hely"
+
+#: ../src/photos-export-notification.c:245
+msgid "Failed to export"
+msgstr "Nem sikerült az exportálás"
+
+#: ../src/photos-export-notification.c:252
+#, c-format
+#| msgid "“%s” deleted"
+msgid "“%s” exported"
+msgstr "„%s” exportálva"
+
+#: ../src/photos-export-notification.c:256
+#, c-format
+#| msgid "%d item deleted"
+#| msgid_plural "%d items deleted"
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d elem exportálva"
+msgstr[1] "%d elem exportálva"
+
+#: ../src/photos-export-notification.c:273
+msgid "Analyze"
+msgstr "Elemzés"
+
+#: ../src/photos-export-notification.c:278
+msgid "Empty Trash"
+msgstr "Kuka ürítése"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "Megnyitás"
+
+#: ../src/photos-export-notification.c:302
+#| msgid "Export"
+msgid "Export Folder"
+msgstr "Mappa exportálása"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -366,7 +408,7 @@ msgstr "A fényképei indexelése folyamatban"
 msgid "Some photos might not be available during this process"
 msgstr "Egyes fényképek lehet, hogy nem lesznek elérhetők ezen folyamat alatt"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:131 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Helyi"
 
@@ -391,16 +433,16 @@ msgstr "Válasszon elemeket"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:301
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
 #, c-format
 msgid "Open with %s"
 msgstr "Megnyitás ezzel: %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:312
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
 msgid "Remove from favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:317
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
 msgid "Add to favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
@@ -413,14 +455,18 @@ msgid "Done"
 msgstr "Kész"
 
 #: ../src/photos-main-window.c:492
+#| msgid ""
+#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#| "Copyright © 2014, 2015 Pranav Kant\n"
+#| "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 msgstr ""
 "Copyright © 2013 Intel Corporation. Minden jog fenntartva.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:502
@@ -462,12 +508,6 @@ msgstr "_OK"
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Rendszerezés"
-
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:304
-#: ../src/photos-selection-toolbar.ui.h:2
-msgid "Open"
-msgstr "Megnyitás"
 
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Export…"
@@ -719,43 +759,53 @@ msgstr "Telítettség"
 msgid "Colors"
 msgstr "Színek"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:131
 msgid "Free"
 msgstr "Szabad"
 
+#: ../src/photos-tool-crop.c:132
+#| msgid "Original Size"
+msgid "Original"
+msgstr "Eredeti"
+
 #: ../src/photos-tool-crop.c:133
-msgid "Original Size"
-msgstr "Eredeti méret"
+#| msgid "Square"
+msgid "1×1 (Square)"
+msgstr "1×1 (Négyzet)"
 
 #: ../src/photos-tool-crop.c:134
-msgid "Screen"
-msgstr "Képernyő"
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden ratio"
-msgstr "Aranymetszés"
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
 
 #: ../src/photos-tool-crop.c:136
-msgid "Square"
-msgstr "Négyzet"
+msgid "7×5"
+msgstr "7×5"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A3 (297 × 420 mm)"
-msgstr "A3 (297 x 420 mm)"
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
 
 #: ../src/photos-tool-crop.c:138
-msgid "A4 (210 × 297 mm)"
-msgstr "A4 (210 × 297 mm)"
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:1187
+#: ../src/photos-tool-crop.c:139
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1169
 msgid "Lock aspect ratio"
 msgstr "Méretarány zárolása"
 
-#: ../src/photos-tool-crop.c:1234
+#: ../src/photos-tool-crop.c:1217
 msgid "Reset"
 msgstr "Visszaállítás"
 
-#: ../src/photos-tool-crop.c:1251
+#: ../src/photos-tool-crop.c:1234
 msgid "Crop"
 msgstr "Vágás"
 
@@ -798,6 +848,18 @@ msgstr "Szűrők"
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Nem kérhető le a fényképek listája"
+
+#~ msgid "Screen"
+#~ msgstr "Képernyő"
+
+#~ msgid "Golden ratio"
+#~ msgstr "Aranymetszés"
+
+#~ msgid "A3 (297 × 420 mm)"
+#~ msgstr "A3 (297 x 420 mm)"
+
+#~ msgid "A4 (210 × 297 mm)"
+#~ msgstr "A4 (210 × 297 mm)"
 
 #~ msgctxt "shortcut window"
 #~ msgid "Print the current photo"
