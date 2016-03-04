@@ -61,8 +61,9 @@
 #include "photos-utils.h"
 
 
-struct _PhotosApplicationPrivate
+struct _PhotosApplication
 {
+  GtkApplication parent_instance;
   GCancellable *create_window_cancellable;
   GHashTable *refresh_miner_ids;
   GList *miners;
@@ -108,6 +109,14 @@ struct _PhotosApplicationPrivate
   gulong source_removed_id;
 };
 
+struct _PhotosApplicationClass
+{
+  GtkApplicationClass parent_class;
+
+  /* signals */
+  void (*miners_changed) (PhotosApplication *self, GList *miners_running);
+};
+
 enum
 {
   MINERS_CHANGED,
@@ -120,7 +129,6 @@ static void photos_application_search_context_iface_init (PhotosSearchContextInt
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosApplication, photos_application, GTK_TYPE_APPLICATION,
-                         G_ADD_PRIVATE (PhotosApplication)
                          G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_SEARCH_CONTEXT,
                                                 photos_application_search_context_iface_init));
 
@@ -242,7 +250,7 @@ photos_application_help (PhotosApplication *self, GVariant *parameter)
 static void
 photos_application_about (PhotosApplication *self, GVariant *parameter)
 {
-  photos_main_window_show_about (PHOTOS_MAIN_WINDOW (self->priv->main_window));
+  photos_main_window_show_about (PHOTOS_MAIN_WINDOW (self->main_window));
 }
 
 
@@ -265,24 +273,23 @@ photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gp
 static PhotosBaseItem *
 photos_application_get_selection_or_active_item (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   PhotosBaseItem *item = NULL;
 
-  if (photos_selection_controller_get_selection_mode (priv->sel_cntrlr))
+  if (photos_selection_controller_get_selection_mode (self->sel_cntrlr))
     {
       GList *selection;
       const gchar *urn;
 
-      selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+      selection = photos_selection_controller_get_selection (self->sel_cntrlr);
       if (selection == NULL || selection->next != NULL) /* length != 1 */
         goto out;
 
       urn = (gchar *) selection->data;
-      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->state->item_mngr, urn));
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->state->item_mngr, urn));
     }
   else
     {
-      item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->state->item_mngr));
     }
 
  out:
@@ -293,7 +300,6 @@ photos_application_get_selection_or_active_item (PhotosApplication *self)
 static void
 photos_application_actions_update (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   PhotosBaseItem *item;
   GList *l;
   GList *selection;
@@ -305,52 +311,52 @@ photos_application_actions_update (PhotosApplication *self)
   gboolean selection_mode;
 
   item = photos_application_get_selection_or_active_item (self);
-  load_state = photos_item_manager_get_load_state (priv->state->item_mngr);
-  mode = photos_mode_controller_get_window_mode (priv->state->mode_cntrlr);
-  selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
-  selection_mode = photos_selection_controller_get_selection_mode (priv->sel_cntrlr);
+  load_state = photos_item_manager_get_load_state (self->state->item_mngr);
+  mode = photos_mode_controller_get_window_mode (self->state->mode_cntrlr);
+  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
+  selection_mode = photos_selection_controller_get_selection_mode (self->sel_cntrlr);
 
   enable = (mode == PHOTOS_WINDOW_MODE_EDIT);
-  g_simple_action_set_enabled (priv->brightness_contrast_action, enable);
-  g_simple_action_set_enabled (priv->crop_action, enable);
-  g_simple_action_set_enabled (priv->denoise_action, enable);
-  g_simple_action_set_enabled (priv->edit_cancel_action, enable);
-  g_simple_action_set_enabled (priv->edit_done_action, enable);
-  g_simple_action_set_enabled (priv->insta_action, enable);
-  g_simple_action_set_enabled (priv->saturation_action, enable);
-  g_simple_action_set_enabled (priv->sharpen_action, enable);
+  g_simple_action_set_enabled (self->brightness_contrast_action, enable);
+  g_simple_action_set_enabled (self->crop_action, enable);
+  g_simple_action_set_enabled (self->denoise_action, enable);
+  g_simple_action_set_enabled (self->edit_cancel_action, enable);
+  g_simple_action_set_enabled (self->edit_done_action, enable);
+  g_simple_action_set_enabled (self->insta_action, enable);
+  g_simple_action_set_enabled (self->saturation_action, enable);
+  g_simple_action_set_enabled (self->sharpen_action, enable);
 
   enable = (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
             || mode == PHOTOS_WINDOW_MODE_FAVORITES
             || mode == PHOTOS_WINDOW_MODE_OVERVIEW
             || mode == PHOTOS_WINDOW_MODE_SEARCH);
-  g_simple_action_set_enabled (priv->search_match_action, enable);
-  g_simple_action_set_enabled (priv->search_source_action, enable);
-  g_simple_action_set_enabled (priv->search_type_action, enable);
+  g_simple_action_set_enabled (self->search_match_action, enable);
+  g_simple_action_set_enabled (self->search_source_action, enable);
+  g_simple_action_set_enabled (self->search_type_action, enable);
 
   enable = (mode == PHOTOS_WINDOW_MODE_OVERVIEW
             || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
             || mode == PHOTOS_WINDOW_MODE_FAVORITES);
-  g_simple_action_set_enabled (priv->sel_all_action, enable);
-  g_simple_action_set_enabled (priv->sel_none_action, enable);
+  g_simple_action_set_enabled (self->sel_all_action, enable);
+  g_simple_action_set_enabled (self->sel_none_action, enable);
 
   enable = (mode == PHOTOS_WINDOW_MODE_PREVIEW);
-  g_simple_action_set_enabled (priv->load_next_action, enable);
-  g_simple_action_set_enabled (priv->load_previous_action, enable);
+  g_simple_action_set_enabled (self->load_next_action, enable);
+  g_simple_action_set_enabled (self->load_previous_action, enable);
 
   enable = (load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW);
-  g_simple_action_set_enabled (priv->gear_action, enable);
-  g_simple_action_set_enabled (priv->set_bg_action, enable);
-  g_simple_action_set_enabled (priv->set_ss_action, enable);
+  g_simple_action_set_enabled (self->gear_action, enable);
+  g_simple_action_set_enabled (self->set_bg_action, enable);
+  g_simple_action_set_enabled (self->set_ss_action, enable);
 
   enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
             || (selection_mode && item != NULL));
-  g_simple_action_set_enabled (priv->properties_action, enable);
+  g_simple_action_set_enabled (self->properties_action, enable);
 
   enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
             || (selection_mode && item != NULL && !photos_base_item_is_collection (item)));
-  g_simple_action_set_enabled (priv->print_action, enable);
-  g_simple_action_set_enabled (priv->save_action, enable);
+  g_simple_action_set_enabled (self->print_action, enable);
+  g_simple_action_set_enabled (self->save_action, enable);
 
   can_open = FALSE;
   can_trash = selection != NULL;
@@ -359,7 +365,7 @@ photos_application_actions_update (PhotosApplication *self)
       PhotosBaseItem *selected_item;
       const gchar *urn = (gchar *) l->data;
 
-      selected_item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->state->item_mngr, urn));
+      selected_item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->state->item_mngr, urn));
       can_trash = can_trash && photos_base_item_can_trash (selected_item);
 
       if (photos_base_item_get_default_app_name (selected_item) != NULL)
@@ -370,16 +376,16 @@ photos_application_actions_update (PhotosApplication *self)
              && mode == PHOTOS_WINDOW_MODE_PREVIEW
              && photos_base_item_can_trash (item))
             || (selection_mode && can_trash));
-  g_simple_action_set_enabled (priv->delete_action, enable);
+  g_simple_action_set_enabled (self->delete_action, enable);
 
   enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
             || (selection_mode && can_open));
-  g_simple_action_set_enabled (priv->open_action, enable);
+  g_simple_action_set_enabled (self->open_action, enable);
 
   enable = (load_state == PHOTOS_LOAD_STATE_FINISHED
             && mode == PHOTOS_WINDOW_MODE_PREVIEW
             && photos_base_item_can_edit (item));
-  g_simple_action_set_enabled (priv->edit_action, enable);
+  g_simple_action_set_enabled (self->edit_action, enable);
 }
 
 
@@ -406,35 +412,34 @@ photos_application_tracker_clear_rdf_types (GObject *source_object, GAsyncResult
 static void
 photos_application_destroy (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   GHashTableIter iter;
   gpointer refresh_miner_id_data;
 
-  priv->main_window = NULL;
+  self->main_window = NULL;
 
-  g_hash_table_iter_init (&iter, priv->refresh_miner_ids);
+  g_hash_table_iter_init (&iter, self->refresh_miner_ids);
   while (g_hash_table_iter_next (&iter, NULL, &refresh_miner_id_data))
     {
       guint refresh_miner_id = GPOINTER_TO_UINT (refresh_miner_id_data);
       g_source_remove (refresh_miner_id);
     }
 
-  g_hash_table_remove_all (priv->refresh_miner_ids);
+  g_hash_table_remove_all (self->refresh_miner_ids);
 
-  g_cancellable_cancel (priv->create_window_cancellable);
-  g_clear_object (&priv->create_window_cancellable);
-  priv->create_window_cancellable = g_cancellable_new ();
+  g_cancellable_cancel (self->create_window_cancellable);
+  g_clear_object (&self->create_window_cancellable);
+  self->create_window_cancellable = g_cancellable_new ();
 
   photos_application_stop_miners (self);
 
-  if (priv->extract_priority != NULL)
+  if (self->extract_priority != NULL)
     {
       g_application_hold (G_APPLICATION (self));
-      tracker_extract_priority_call_clear_rdf_types (priv->extract_priority,
+      tracker_extract_priority_call_clear_rdf_types (self->extract_priority,
                                                      NULL,
                                                      photos_application_tracker_clear_rdf_types,
                                                      self);
-      g_clear_object (&priv->extract_priority);
+      g_clear_object (&self->extract_priority);
     }
 }
 
@@ -444,7 +449,6 @@ photos_application_gom_miner (GObject *source_object, GAsyncResult *res, gpointe
 {
   PhotosApplicationCreateData *data = (PhotosApplicationCreateData *) user_data;
   PhotosApplication *self = data->application;
-  PhotosApplicationPrivate *priv = self->priv;
   GError *error;
   GomMiner *miner = NULL;
 
@@ -466,14 +470,14 @@ photos_application_gom_miner (GObject *source_object, GAsyncResult *res, gpointe
     }
 
   g_object_set_data_full (G_OBJECT (miner), "provider-type", g_strdup (data->extension_name), g_free);
-  priv->miners = g_list_prepend (priv->miners, g_object_ref (miner));
+  self->miners = g_list_prepend (self->miners, g_object_ref (miner));
 
  maybe_continue:
-  if (priv->create_miners_count == 1)
+  if (self->create_miners_count == 1)
     photos_application_start_miners_second (self);
 
  out:
-  priv->create_miners_count--;
+  self->create_miners_count--;
   g_clear_object (&miner);
   photos_application_create_data_free (data);
 }
@@ -482,7 +486,6 @@ photos_application_gom_miner (GObject *source_object, GAsyncResult *res, gpointe
 static void
 photos_application_create_miners (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   GIOExtensionPoint *extension_point;
   GList *extensions;
   GList *l;
@@ -506,10 +509,10 @@ photos_application_create_miners (PhotosApplication *self)
                                        G_DBUS_PROXY_FLAGS_NONE,
                                        base_item_class->miner_name,
                                        base_item_class->miner_object_path,
-                                       priv->create_window_cancellable,
+                                       self->create_window_cancellable,
                                        photos_application_gom_miner,
                                        data);
-          priv->create_miners_count++;
+          self->create_miners_count++;
         }
 
       g_type_class_unref (base_item_class);
@@ -562,12 +565,11 @@ static void
 photos_application_tracker_extract_priority (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  PhotosApplicationPrivate *priv = self->priv;
   GError *error;
   const gchar *const rdf_types[] = {"nfo:Image", NULL};
 
   error = NULL;
-  priv->extract_priority = tracker_extract_priority_proxy_new_for_bus_finish (res, &error);
+  self->extract_priority = tracker_extract_priority_proxy_new_for_bus_finish (res, &error);
   if (error != NULL)
     {
       if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
@@ -577,9 +579,9 @@ photos_application_tracker_extract_priority (GObject *source_object, GAsyncResul
     }
 
   g_application_hold (G_APPLICATION (self));
-  tracker_extract_priority_call_set_rdf_types (priv->extract_priority,
+  tracker_extract_priority_call_set_rdf_types (self->extract_priority,
                                                rdf_types,
-                                               priv->create_window_cancellable,
+                                               self->create_window_cancellable,
                                                photos_application_tracker_set_rdf_types,
                                                self);
 
@@ -591,10 +593,9 @@ photos_application_tracker_extract_priority (GObject *source_object, GAsyncResul
 static gboolean
 photos_application_create_window (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   gboolean gexiv2_initialized;
 
-  if (priv->main_window != NULL)
+  if (self->main_window != NULL)
     return TRUE;
 
   gexiv2_initialized = gexiv2_initialize ();
@@ -602,15 +603,15 @@ photos_application_create_window (PhotosApplication *self)
 
   g_return_val_if_fail (photos_application_sanity_check_gegl (self), FALSE);
 
-  priv->main_window = photos_main_window_new (GTK_APPLICATION (self));
-  g_signal_connect_swapped (priv->main_window, "destroy", G_CALLBACK (photos_application_destroy), self);
+  self->main_window = photos_main_window_new (GTK_APPLICATION (self));
+  g_signal_connect_swapped (self->main_window, "destroy", G_CALLBACK (photos_application_destroy), self);
 
   g_application_hold (G_APPLICATION (self));
   tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
                                               G_DBUS_PROXY_FLAGS_NONE,
                                               "org.freedesktop.Tracker1.Miner.Extract",
                                               "/org/freedesktop/Tracker1/Extract/Priority",
-                                              priv->create_window_cancellable,
+                                              self->create_window_cancellable,
                                               photos_application_tracker_extract_priority,
                                               self);
 
@@ -622,12 +623,10 @@ photos_application_create_window (PhotosApplication *self)
 static void
 photos_application_activate_item (PhotosApplication *self, GObject *item)
 {
-  PhotosApplicationPrivate *priv = self->priv;
-
   if (!photos_application_create_window (self))
     return;
 
-  photos_base_manager_set_active_object (priv->state->item_mngr, item);
+  photos_base_manager_set_active_object (self->state->item_mngr, item);
   g_application_activate (G_APPLICATION (self));
 
   /* TODO: Forward the search terms when we exit the preview */
@@ -638,17 +637,16 @@ static void
 photos_application_activate_query_executed (TrackerSparqlCursor *cursor, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  PhotosApplicationPrivate *priv = self->priv;
   GObject *item;
   const gchar *identifier;
 
   if (cursor == NULL)
     goto out;
 
-  photos_item_manager_add_item (PHOTOS_ITEM_MANAGER (priv->state->item_mngr), cursor);
+  photos_item_manager_add_item (PHOTOS_ITEM_MANAGER (self->state->item_mngr), cursor);
 
   identifier = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
-  item = photos_base_manager_get_object_by_id (priv->state->item_mngr, identifier);
+  item = photos_base_manager_get_object_by_id (self->state->item_mngr, identifier);
 
   photos_application_activate_item (self, item);
 
@@ -663,12 +661,11 @@ photos_application_activate_result (PhotosApplication *self,
                                     const gchar *const *terms,
                                     guint timestamp)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   GObject *item;
 
-  priv->activation_timestamp = timestamp;
+  self->activation_timestamp = timestamp;
 
-  item = photos_base_manager_get_object_by_id (priv->state->item_mngr, identifier);
+  item = photos_base_manager_get_object_by_id (self->state->item_mngr, identifier);
   if (item != NULL)
     photos_application_activate_item (self, item);
   else
@@ -678,7 +675,7 @@ photos_application_activate_result (PhotosApplication *self,
       job = photos_single_item_job_new (identifier);
       g_application_hold (G_APPLICATION (self));
       photos_single_item_job_run (job,
-                                  priv->state,
+                                  self->state,
                                   PHOTOS_QUERY_FLAGS_UNFILTERED,
                                   photos_application_activate_query_executed,
                                   self);
@@ -690,11 +687,10 @@ photos_application_activate_result (PhotosApplication *self,
 static void
 photos_application_can_fullscreen_changed (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   gboolean can_fullscreen;
 
-  can_fullscreen = photos_mode_controller_get_can_fullscreen (priv->state->mode_cntrlr);
-  g_simple_action_set_enabled (priv->fs_action, can_fullscreen);
+  can_fullscreen = photos_mode_controller_get_can_fullscreen (self->state->mode_cntrlr);
+  g_simple_action_set_enabled (self->fs_action, can_fullscreen);
 }
 
 
@@ -712,7 +708,7 @@ photos_application_edit_cancel_process (GObject *source_object, GAsyncResult *re
     }
 
   /* Go back, no matter what. */
-  photos_mode_controller_go_back (self->priv->state->mode_cntrlr);
+  photos_mode_controller_go_back (self->state->mode_cntrlr);
   g_application_release (G_APPLICATION (self));
 }
 
@@ -720,10 +716,9 @@ photos_application_edit_cancel_process (GObject *source_object, GAsyncResult *re
 static void
 photos_application_edit_cancel (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   PhotosBaseItem *item;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->state->item_mngr));
   g_return_if_fail (item != NULL);
 
   photos_base_item_operations_revert (item);
@@ -736,23 +731,20 @@ photos_application_edit_cancel (PhotosApplication *self)
 static void
 photos_application_edit_current (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   PhotosBaseItem *item;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->state->item_mngr));
   g_return_if_fail (item != NULL);
 
   photos_base_item_pipeline_snapshot (item);
-  photos_mode_controller_set_window_mode (priv->state->mode_cntrlr, PHOTOS_WINDOW_MODE_EDIT);
+  photos_mode_controller_set_window_mode (self->state->mode_cntrlr, PHOTOS_WINDOW_MODE_EDIT);
 }
 
 
 static void
 photos_application_fullscreen (PhotosApplication *self, GVariant *parameter)
 {
-  PhotosApplicationPrivate *priv = self->priv;
-
-  photos_mode_controller_toggle_fullscreen (priv->state->mode_cntrlr);
+  photos_mode_controller_toggle_fullscreen (self->state->mode_cntrlr);
 }
 
 
@@ -760,30 +752,29 @@ static PhotosSearchContextState *
 photos_application_get_state (PhotosSearchContext *context)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (context);
-  return self->priv->state;
+  return self->state;
 }
 
 
 static void
 photos_application_launch_search (PhotosApplication *self, const gchar* const *terms, guint timestamp)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   GVariant *state;
   gchar *str;
 
   if (!photos_application_create_window (self))
     return;
 
-  photos_mode_controller_set_window_mode (priv->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+  photos_mode_controller_set_window_mode (self->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
 
   str = g_strjoinv (" ", (gchar **) terms);
-  photos_search_controller_set_string (priv->state->srch_cntrlr, str);
+  photos_search_controller_set_string (self->state->srch_cntrlr, str);
   g_free (str);
 
   state = g_variant_new ("b", TRUE);
-  g_action_change_state (G_ACTION (priv->search_action), state);
+  g_action_change_state (G_ACTION (self->search_action), state);
 
-  priv->activation_timestamp = timestamp;
+  self->activation_timestamp = timestamp;
   g_application_activate (G_APPLICATION (self));
 }
 
@@ -798,50 +789,48 @@ photos_application_load_changed (PhotosApplication *self)
 static void
 photos_application_open_current (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   GdkScreen *screen;
   PhotosBaseItem *item;
   guint32 time;
 
-  screen = gtk_window_get_screen (GTK_WINDOW (priv->main_window));
+  screen = gtk_window_get_screen (GTK_WINDOW (self->main_window));
   time = gtk_get_current_event_time ();
 
-  if (photos_selection_controller_get_selection_mode (priv->sel_cntrlr))
+  if (photos_selection_controller_get_selection_mode (self->sel_cntrlr))
     {
       GList *l;
       GList *selection;
 
-      selection = photos_selection_controller_get_selection (priv->sel_cntrlr);
+      selection = photos_selection_controller_get_selection (self->sel_cntrlr);
       for (l = selection; l != NULL; l = l->next)
         {
           const gchar *urn = (gchar *) l->data;
 
-          item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->state->item_mngr, urn));
+          item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->state->item_mngr, urn));
           photos_base_item_open (item, screen, time);
         }
     }
   else
     {
-      item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (priv->state->item_mngr));
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->state->item_mngr));
       g_return_if_fail (item != NULL);
 
       photos_base_item_open (item, screen, time);
     }
 
-  photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
+  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
 }
 
 
 static void
 photos_application_print_current (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   PhotosBaseItem *item;
 
   item = photos_application_get_selection_or_active_item (self);
   g_return_if_fail (item != NULL);
 
-  photos_base_item_print (item, priv->main_window);
+  photos_base_item_print (item, self->main_window);
 }
 
 
@@ -851,14 +840,13 @@ photos_application_properties_response (GtkDialog *dialog, gint response_id, gpo
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
 
   gtk_widget_destroy (GTK_WIDGET (dialog));
-  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
+  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
 }
 
 
 static void
 photos_application_properties (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   GtkWidget *dialog;
   PhotosBaseItem *item;
   const gchar *id;
@@ -867,7 +855,7 @@ photos_application_properties (PhotosApplication *self)
   g_return_if_fail (item != NULL);
 
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
-  dialog = photos_properties_dialog_new (GTK_WINDOW (priv->main_window), id);
+  dialog = photos_properties_dialog_new (GTK_WINDOW (self->main_window), id);
   gtk_widget_show_all (dialog);
   g_signal_connect (dialog, "response", G_CALLBACK (photos_application_properties_response), self);
 }
@@ -879,7 +867,7 @@ photos_application_refresh_miner_timeout (gpointer user_data)
   PhotosApplicationRefreshData *data = (PhotosApplicationRefreshData *) user_data;
   PhotosApplication *self = data->application;
 
-  g_hash_table_remove (self->priv->refresh_miner_ids, data->miner);
+  g_hash_table_remove (self->refresh_miner_ids, data->miner);
   photos_application_refresh_miner_now (self, data->miner);
   return G_SOURCE_REMOVE;
 }
@@ -889,18 +877,17 @@ static void
 photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  PhotosApplicationPrivate *priv = self->priv;
   GError *error;
   GomMiner *miner = GOM_MINER (source_object);
   PhotosApplicationRefreshData *data;
   gpointer refresh_miner_id_data;
   guint refresh_miner_id;
 
-  refresh_miner_id_data = g_hash_table_lookup (priv->refresh_miner_ids, miner);
+  refresh_miner_id_data = g_hash_table_lookup (self->refresh_miner_ids, miner);
   g_assert_null (refresh_miner_id_data);
 
-  priv->miners_running = g_list_remove (priv->miners_running, miner);
-  g_signal_emit (self, signals[MINERS_CHANGED], 0, priv->miners_running);
+  self->miners_running = g_list_remove (self->miners_running, miner);
+  g_signal_emit (self, signals[MINERS_CHANGED], 0, self->miners_running);
 
   error = NULL;
   if (!gom_miner_call_refresh_db_finish (miner, res, &error))
@@ -917,7 +904,7 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
                                                  photos_application_refresh_miner_timeout,
                                                  data,
                                                  (GDestroyNotify) photos_application_refresh_data_free);
-  g_hash_table_insert (priv->refresh_miner_ids, miner, GUINT_TO_POINTER (refresh_miner_id));
+  g_hash_table_insert (self->refresh_miner_ids, miner, GUINT_TO_POINTER (refresh_miner_id));
 
  out:
   g_application_release (G_APPLICATION (self));
@@ -928,15 +915,14 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
 static void
 photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   GCancellable *cancellable;
   const gchar *const index_types[] = {"photos", NULL};
 
   if (g_getenv ("GNOME_PHOTOS_DISABLE_MINERS") != NULL)
     return;
 
-  priv->miners_running = g_list_prepend (priv->miners_running, g_object_ref (miner));
-  g_signal_emit (self, signals[MINERS_CHANGED], 0, priv->miners_running);
+  self->miners_running = g_list_prepend (self->miners_running, g_object_ref (miner));
+  g_signal_emit (self, signals[MINERS_CHANGED], 0, self->miners_running);
 
   cancellable = g_cancellable_new ();
   g_object_set_data_full (G_OBJECT (miner), "cancellable", cancellable, g_object_unref);
@@ -948,16 +934,15 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
 static void
 photos_application_refresh_miners (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   GList *l;
 
-  for (l = priv->miners; l != NULL; l = l->next)
+  for (l = self->miners; l != NULL; l = l->next)
     {
       GomMiner *miner = GOM_MINER (l->data);
       const gchar *provider_type;
 
       provider_type = g_object_get_data (G_OBJECT (miner), "provider-type");
-      if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (priv->state->src_mngr), provider_type))
+      if (photos_source_manager_has_provider_type (PHOTOS_SOURCE_MANAGER (self->state->src_mngr), provider_type))
         photos_application_refresh_miner_now (self, miner);
     }
 }
@@ -966,16 +951,15 @@ photos_application_refresh_miners (PhotosApplication *self)
 static void
 photos_application_remote_display_current (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   GObject *item;
   GtkWidget *dialog;
   const gchar *urn;
 
-  item = photos_base_manager_get_active_object (priv->state->item_mngr);
+  item = photos_base_manager_get_active_object (self->state->item_mngr);
   g_return_if_fail (item != NULL);
 
   urn = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
-  dialog = photos_dlna_renderers_dialog_new (GTK_WINDOW (priv->main_window), urn);
+  dialog = photos_dlna_renderers_dialog_new (GTK_WINDOW (self->main_window), urn);
   gtk_widget_show_all (dialog);
 }
 
@@ -983,7 +967,7 @@ photos_application_remote_display_current (PhotosApplication *self)
 static void
 photos_application_quit (PhotosApplication *self, GVariant *parameter)
 {
-  gtk_widget_destroy (self->priv->main_window);
+  gtk_widget_destroy (self->main_window);
 }
 
 
@@ -1009,7 +993,7 @@ photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointe
   photos_export_notification_new (items, file);
 
  out:
-  photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
+  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
   g_application_release (G_APPLICATION (self));
   g_clear_object (&file);
   g_list_free_full (items, g_object_unref);
@@ -1087,7 +1071,6 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
 static void
 photos_application_save (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   GtkWidget *dialog;
   PhotosBaseItem *item;
 
@@ -1095,7 +1078,7 @@ photos_application_save (PhotosApplication *self)
   g_return_if_fail (item != NULL);
   g_return_if_fail (!photos_base_item_is_collection (item));
 
-  dialog = photos_export_dialog_new (GTK_WINDOW (priv->main_window), item);
+  dialog = photos_export_dialog_new (GTK_WINDOW (self->main_window), item);
   gtk_widget_show_all (dialog);
   g_signal_connect (dialog, "response", G_CALLBACK (photos_application_save_response), self);
 }
@@ -1140,7 +1123,7 @@ photos_application_set_bg_common (PhotosApplication *self, GVariant *parameter, 
   GSettings *settings;
   PhotosBaseItem *item;
 
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->priv->state->item_mngr));
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->state->item_mngr));
   g_return_if_fail (item != NULL);
 
   settings = G_SETTINGS (g_object_get_data (G_OBJECT (action), "settings"));
@@ -1158,16 +1141,14 @@ photos_application_start_miners (PhotosApplication *self)
 static void
 photos_application_start_miners_second (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
-
   photos_application_refresh_miners (self);
 
-  priv->source_added_id = g_signal_connect_object (priv->state->src_mngr,
+  self->source_added_id = g_signal_connect_object (self->state->src_mngr,
                                                    "object-added",
                                                    G_CALLBACK (photos_application_refresh_miners),
                                                    self,
                                                    G_CONNECT_SWAPPED);
-  priv->source_removed_id = g_signal_connect_object (priv->state->src_mngr,
+  self->source_removed_id = g_signal_connect_object (self->state->src_mngr,
                                                      "object-removed",
                                                      G_CALLBACK (photos_application_refresh_miners),
                                                      self,
@@ -1178,10 +1159,9 @@ photos_application_start_miners_second (PhotosApplication *self)
 static void
 photos_application_stop_miners (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv = self->priv;
   GList *l;
 
-  for (l = priv->miners_running; l != NULL; l = l->next)
+  for (l = self->miners_running; l != NULL; l = l->next)
     {
       GomMiner *miner = GOM_MINER (l->data);
       GCancellable *cancellable;
@@ -1190,20 +1170,20 @@ photos_application_stop_miners (PhotosApplication *self)
       g_cancellable_cancel (cancellable);
     }
 
-  if (priv->source_added_id != 0)
+  if (self->source_added_id != 0)
     {
-      g_signal_handler_disconnect (priv->state->src_mngr, priv->source_added_id);
-      priv->source_added_id = 0;
+      g_signal_handler_disconnect (self->state->src_mngr, self->source_added_id);
+      self->source_added_id = 0;
     }
 
-  if (priv->source_removed_id != 0)
+  if (self->source_removed_id != 0)
     {
-      g_signal_handler_disconnect (priv->state->src_mngr, priv->source_removed_id);
-      priv->source_removed_id = 0;
+      g_signal_handler_disconnect (self->state->src_mngr, self->source_removed_id);
+      self->source_removed_id = 0;
     }
 
-  g_list_free_full (priv->miners, g_object_unref);
-  priv->miners = NULL;
+  g_list_free_full (self->miners, g_object_unref);
+  self->miners = NULL;
 }
 
 
@@ -1261,18 +1241,17 @@ static void
 photos_application_activate (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
-  PhotosApplicationPrivate *priv = self->priv;
 
-  if (priv->main_window == NULL)
+  if (self->main_window == NULL)
     {
       if (!photos_application_create_window (self))
         return;
 
-      photos_mode_controller_set_window_mode (priv->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+      photos_mode_controller_set_window_mode (self->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
     }
 
-  gtk_window_present_with_time (GTK_WINDOW (priv->main_window), priv->activation_timestamp);
-  priv->activation_timestamp = GDK_CURRENT_TIME;
+  gtk_window_present_with_time (GTK_WINDOW (self->main_window), self->activation_timestamp);
+  self->activation_timestamp = GDK_CURRENT_TIME;
 }
 
 
@@ -1283,7 +1262,6 @@ photos_application_dbus_register (GApplication *application,
                                   GError **error)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
-  PhotosApplicationPrivate *priv = self->priv;
   gboolean ret_val = FALSE;
   gchar *search_provider_path = NULL;
 
@@ -1294,9 +1272,9 @@ photos_application_dbus_register (GApplication *application,
     goto out;
 
   search_provider_path = g_strconcat (object_path, PHOTOS_SEARCH_PROVIDER_PATH_SUFFIX, NULL);
-  if (!photos_search_provider_dbus_export (priv->search_provider, connection, search_provider_path, error))
+  if (!photos_search_provider_dbus_export (self->search_provider, connection, search_provider_path, error))
     {
-      g_clear_object (&priv->search_provider);
+      g_clear_object (&self->search_provider);
       goto out;
     }
 
@@ -1314,15 +1292,14 @@ photos_application_dbus_unregister (GApplication *application,
                                     const gchar *object_path)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
-  PhotosApplicationPrivate *priv = self->priv;
 
-  if (priv->search_provider != NULL)
+  if (self->search_provider != NULL)
     {
       gchar *search_provider_path = NULL;
 
       search_provider_path = g_strconcat (object_path, PHOTOS_SEARCH_PROVIDER_PATH_SUFFIX, NULL);
-      photos_search_provider_dbus_unexport (priv->search_provider, connection, search_provider_path);
-      g_clear_object (&priv->search_provider);
+      photos_search_provider_dbus_unexport (self->search_provider, connection, search_provider_path);
+      g_clear_object (&self->search_provider);
       g_free (search_provider_path);
     }
 
@@ -1334,13 +1311,12 @@ static void
 photos_application_shutdown (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
-  PhotosApplicationPrivate *priv = self->priv;
   guint refresh_miner_ids_size;
 
-  refresh_miner_ids_size = g_hash_table_size (priv->refresh_miner_ids);
+  refresh_miner_ids_size = g_hash_table_size (self->refresh_miner_ids);
   g_assert (refresh_miner_ids_size == 0);
 
-  g_clear_pointer (&priv->refresh_miner_ids, (GDestroyNotify) g_hash_table_unref);
+  g_clear_pointer (&self->refresh_miner_ids, (GDestroyNotify) g_hash_table_unref);
 
   G_APPLICATION_CLASS (photos_application_parent_class)->shutdown (application);
 }
@@ -1350,7 +1326,6 @@ static void
 photos_application_startup (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
-  PhotosApplicationPrivate *priv = self->priv;
   GError *error;
   GSimpleAction *action;
   GrlRegistry *registry;
@@ -1391,14 +1366,14 @@ photos_application_startup (GApplication *application)
         }
     }
 
-  priv->create_window_cancellable = g_cancellable_new ();
-  priv->refresh_miner_ids = g_hash_table_new (g_direct_hash, g_direct_equal);
+  self->create_window_cancellable = g_cancellable_new ();
+  self->refresh_miner_ids = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-  priv->bg_settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
-  priv->ss_settings = g_settings_new (DESKTOP_SCREENSAVER_SCHEMA);
+  self->bg_settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
+  self->ss_settings = g_settings_new (DESKTOP_SCREENSAVER_SCHEMA);
 
-  priv->resource = photos_get_resource ();
-  g_resources_register (priv->resource);
+  self->resource = photos_get_resource ();
+  g_resources_register (self->resource);
 
   icon_theme = gtk_icon_theme_get_default ();
   gtk_icon_theme_add_resource_path (icon_theme, "/org/gnome/Photos/icons");
@@ -1411,15 +1386,15 @@ photos_application_startup (GApplication *application)
   /* A dummy reference to keep it alive during the lifetime of the
    * application.
    */
-  priv->camera_cache = photos_camera_cache_dup_singleton ();
+  self->camera_cache = photos_camera_cache_dup_singleton ();
 
-  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
-  g_signal_connect_swapped (priv->sel_cntrlr,
+  self->sel_cntrlr = photos_selection_controller_dup_singleton ();
+  g_signal_connect_swapped (self->sel_cntrlr,
                             "selection-changed",
                             G_CALLBACK (photos_application_selection_changed),
                             self);
 
-  g_signal_connect_swapped (priv->sel_cntrlr,
+  g_signal_connect_swapped (self->sel_cntrlr,
                             "selection-mode-changed",
                             G_CALLBACK (photos_application_selection_changed),
                             self);
@@ -1430,69 +1405,69 @@ photos_application_startup (GApplication *application)
   g_object_unref (action);
 
   parameter_type = g_variant_type_new ("a{sd}");
-  priv->brightness_contrast_action = g_simple_action_new ("brightness-contrast-current", parameter_type);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->brightness_contrast_action));
+  self->brightness_contrast_action = g_simple_action_new ("brightness-contrast-current", parameter_type);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->brightness_contrast_action));
   g_variant_type_free (parameter_type);
 
   parameter_type = g_variant_type_new ("a{sd}");
-  priv->crop_action = g_simple_action_new ("crop-current", parameter_type);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->crop_action));
+  self->crop_action = g_simple_action_new ("crop-current", parameter_type);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->crop_action));
   g_variant_type_free (parameter_type);
 
-  priv->delete_action = g_simple_action_new ("delete", NULL);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->delete_action));
+  self->delete_action = g_simple_action_new ("delete", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->delete_action));
 
-  priv->denoise_action = g_simple_action_new ("denoise-current", G_VARIANT_TYPE_UINT16);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->denoise_action));
+  self->denoise_action = g_simple_action_new ("denoise-current", G_VARIANT_TYPE_UINT16);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->denoise_action));
 
-  priv->edit_cancel_action = g_simple_action_new ("edit-cancel", NULL);
-  g_signal_connect_swapped (priv->edit_cancel_action,
+  self->edit_cancel_action = g_simple_action_new ("edit-cancel", NULL);
+  g_signal_connect_swapped (self->edit_cancel_action,
                             "activate",
                             G_CALLBACK (photos_application_edit_cancel),
                             self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->edit_cancel_action));
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->edit_cancel_action));
 
-  priv->edit_action = g_simple_action_new ("edit-current", NULL);
-  g_signal_connect_swapped (priv->edit_action, "activate", G_CALLBACK (photos_application_edit_current), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->edit_action));
+  self->edit_action = g_simple_action_new ("edit-current", NULL);
+  g_signal_connect_swapped (self->edit_action, "activate", G_CALLBACK (photos_application_edit_current), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->edit_action));
 
-  priv->edit_done_action = g_simple_action_new ("edit-done", NULL);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->edit_done_action));
+  self->edit_done_action = g_simple_action_new ("edit-done", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->edit_done_action));
 
-  priv->fs_action = g_simple_action_new ("fullscreen", NULL);
-  g_signal_connect_swapped (priv->fs_action, "activate", G_CALLBACK (photos_application_fullscreen), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->fs_action));
+  self->fs_action = g_simple_action_new ("fullscreen", NULL);
+  g_signal_connect_swapped (self->fs_action, "activate", G_CALLBACK (photos_application_fullscreen), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->fs_action));
 
-  g_signal_connect_swapped (priv->state->mode_cntrlr,
+  g_signal_connect_swapped (self->state->mode_cntrlr,
                             "can-fullscreen-changed",
                             G_CALLBACK (photos_application_can_fullscreen_changed),
                             self);
 
   state = g_variant_new ("b", FALSE);
-  priv->gear_action = g_simple_action_new_stateful ("gear-menu", NULL, state);
-  g_signal_connect (priv->gear_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->gear_action));
+  self->gear_action = g_simple_action_new_stateful ("gear-menu", NULL, state);
+  g_signal_connect (self->gear_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->gear_action));
 
-  priv->insta_action = g_simple_action_new ("insta-current", G_VARIANT_TYPE_INT16);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->insta_action));
+  self->insta_action = g_simple_action_new ("insta-current", G_VARIANT_TYPE_INT16);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->insta_action));
 
-  priv->load_next_action = g_simple_action_new ("load-next", NULL);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->load_next_action));
+  self->load_next_action = g_simple_action_new ("load-next", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->load_next_action));
 
-  priv->load_previous_action = g_simple_action_new ("load-previous", NULL);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->load_previous_action));
+  self->load_previous_action = g_simple_action_new ("load-previous", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->load_previous_action));
 
-  priv->open_action = g_simple_action_new ("open-current", NULL);
-  g_signal_connect_swapped (priv->open_action, "activate", G_CALLBACK (photos_application_open_current), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->open_action));
+  self->open_action = g_simple_action_new ("open-current", NULL);
+  g_signal_connect_swapped (self->open_action, "activate", G_CALLBACK (photos_application_open_current), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->open_action));
 
-  priv->print_action = g_simple_action_new ("print-current", NULL);
-  g_signal_connect_swapped (priv->print_action, "activate", G_CALLBACK (photos_application_print_current), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->print_action));
+  self->print_action = g_simple_action_new ("print-current", NULL);
+  g_signal_connect_swapped (self->print_action, "activate", G_CALLBACK (photos_application_print_current), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->print_action));
 
-  priv->properties_action = g_simple_action_new ("properties", NULL);
-  g_signal_connect_swapped (priv->properties_action, "activate", G_CALLBACK (photos_application_properties), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->properties_action));
+  self->properties_action = g_simple_action_new ("properties", NULL);
+  g_signal_connect_swapped (self->properties_action, "activate", G_CALLBACK (photos_application_properties), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->properties_action));
 
   action = g_simple_action_new ("quit", NULL);
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_quit), self);
@@ -1504,62 +1479,62 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
-  priv->saturation_action = g_simple_action_new ("saturation-current", G_VARIANT_TYPE_DOUBLE);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->saturation_action));
+  self->saturation_action = g_simple_action_new ("saturation-current", G_VARIANT_TYPE_DOUBLE);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->saturation_action));
 
-  priv->save_action = g_simple_action_new ("save-current", NULL);
-  g_signal_connect_swapped (priv->save_action, "activate", G_CALLBACK (photos_application_save), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->save_action));
+  self->save_action = g_simple_action_new ("save-current", NULL);
+  g_signal_connect_swapped (self->save_action, "activate", G_CALLBACK (photos_application_save), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->save_action));
 
   state = g_variant_new ("b", FALSE);
-  priv->search_action = g_simple_action_new_stateful ("search", NULL, state);
-  g_signal_connect (priv->search_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->search_action));
+  self->search_action = g_simple_action_new_stateful ("search", NULL, state);
+  g_signal_connect (self->search_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_action));
 
   parameter_type = g_variant_type_new ("s");
   state = g_variant_new ("s", PHOTOS_SEARCH_MATCH_STOCK_ALL);
-  priv->search_match_action = g_simple_action_new_stateful ("search-match", parameter_type, state);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->search_match_action));
+  self->search_match_action = g_simple_action_new_stateful ("search-match", parameter_type, state);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_match_action));
   g_variant_type_free (parameter_type);
 
   parameter_type = g_variant_type_new ("s");
   state = g_variant_new ("s", PHOTOS_SOURCE_STOCK_ALL);
-  priv->search_source_action = g_simple_action_new_stateful ("search-source", parameter_type, state);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->search_source_action));
+  self->search_source_action = g_simple_action_new_stateful ("search-source", parameter_type, state);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_source_action));
   g_variant_type_free (parameter_type);
 
   parameter_type = g_variant_type_new ("s");
   state = g_variant_new ("s", PHOTOS_SEARCH_TYPE_STOCK_ALL);
-  priv->search_type_action = g_simple_action_new_stateful ("search-type", parameter_type, state);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->search_type_action));
+  self->search_type_action = g_simple_action_new_stateful ("search-type", parameter_type, state);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_type_action));
   g_variant_type_free (parameter_type);
 
-  priv->sel_all_action = g_simple_action_new ("select-all", NULL);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->sel_all_action));
+  self->sel_all_action = g_simple_action_new ("select-all", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->sel_all_action));
 
-  priv->sel_none_action = g_simple_action_new ("select-none", NULL);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->sel_none_action));
+  self->sel_none_action = g_simple_action_new ("select-none", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->sel_none_action));
 
-  priv->set_bg_action = g_simple_action_new ("set-background", NULL);
-  g_object_set_data_full (G_OBJECT (priv->set_bg_action),
+  self->set_bg_action = g_simple_action_new ("set-background", NULL);
+  g_object_set_data_full (G_OBJECT (self->set_bg_action),
                           "settings",
-                          g_object_ref (priv->bg_settings),
+                          g_object_ref (self->bg_settings),
                           g_object_unref);
-  g_signal_connect_swapped (priv->set_bg_action, "activate", G_CALLBACK (photos_application_set_bg_common), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->set_bg_action));
+  g_signal_connect_swapped (self->set_bg_action, "activate", G_CALLBACK (photos_application_set_bg_common), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->set_bg_action));
 
-  priv->set_ss_action = g_simple_action_new ("set-screensaver", NULL);
-  g_object_set_data_full (G_OBJECT (priv->set_ss_action),
+  self->set_ss_action = g_simple_action_new ("set-screensaver", NULL);
+  g_object_set_data_full (G_OBJECT (self->set_ss_action),
                           "settings",
-                          g_object_ref (priv->ss_settings),
+                          g_object_ref (self->ss_settings),
                           g_object_unref);
-  g_signal_connect_swapped (priv->set_ss_action, "activate", G_CALLBACK (photos_application_set_bg_common), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->set_ss_action));
+  g_signal_connect_swapped (self->set_ss_action, "activate", G_CALLBACK (photos_application_set_bg_common), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->set_ss_action));
 
-  priv->sharpen_action = g_simple_action_new ("sharpen-current", G_VARIANT_TYPE_DOUBLE);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (priv->sharpen_action));
+  self->sharpen_action = g_simple_action_new ("sharpen-current", G_VARIANT_TYPE_DOUBLE);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->sharpen_action));
 
-  g_signal_connect_swapped (priv->state->mode_cntrlr,
+  g_signal_connect_swapped (self->state->mode_cntrlr,
                             "window-mode-changed",
                             G_CALLBACK (photos_application_window_mode_changed),
                             self);
@@ -1579,11 +1554,11 @@ photos_application_startup (GApplication *application)
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.search", search_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.select-all", select_all_accels);
 
-  g_signal_connect_swapped (priv->state->item_mngr,
+  g_signal_connect_swapped (self->state->item_mngr,
                             "load-finished",
                             G_CALLBACK (photos_application_load_changed),
                             self);
-  g_signal_connect_swapped (priv->state->item_mngr,
+  g_signal_connect_swapped (self->state->item_mngr,
                             "load-started",
                             G_CALLBACK (photos_application_load_changed),
                             self);
@@ -1594,63 +1569,62 @@ static void
 photos_application_dispose (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
-  PhotosApplicationPrivate *priv = self->priv;
 
-  if (priv->miners_running != NULL)
+  if (self->miners_running != NULL)
     {
-      g_list_free_full (priv->miners_running, g_object_unref);
-      priv->miners_running = NULL;
+      g_list_free_full (self->miners_running, g_object_unref);
+      self->miners_running = NULL;
     }
 
-  if (priv->miners != NULL)
+  if (self->miners != NULL)
     {
-      g_list_free_full (priv->miners, g_object_unref);
-      priv->miners = NULL;
+      g_list_free_full (self->miners, g_object_unref);
+      self->miners = NULL;
     }
 
-  if (priv->resource != NULL)
+  if (self->resource != NULL)
     {
-      g_resources_unregister (priv->resource);
-      priv->resource = NULL;
+      g_resources_unregister (self->resource);
+      self->resource = NULL;
     }
 
-  g_clear_object (&priv->create_window_cancellable);
-  g_clear_object (&priv->bg_settings);
-  g_clear_object (&priv->ss_settings);
-  g_clear_object (&priv->brightness_contrast_action);
-  g_clear_object (&priv->crop_action);
-  g_clear_object (&priv->delete_action);
-  g_clear_object (&priv->denoise_action);
-  g_clear_object (&priv->edit_action);
-  g_clear_object (&priv->edit_cancel_action);
-  g_clear_object (&priv->edit_done_action);
-  g_clear_object (&priv->fs_action);
-  g_clear_object (&priv->gear_action);
-  g_clear_object (&priv->insta_action);
-  g_clear_object (&priv->load_next_action);
-  g_clear_object (&priv->load_previous_action);
-  g_clear_object (&priv->open_action);
-  g_clear_object (&priv->print_action);
-  g_clear_object (&priv->properties_action);
-  g_clear_object (&priv->saturation_action);
-  g_clear_object (&priv->save_action);
-  g_clear_object (&priv->search_action);
-  g_clear_object (&priv->search_match_action);
-  g_clear_object (&priv->search_source_action);
-  g_clear_object (&priv->search_type_action);
-  g_clear_object (&priv->sel_all_action);
-  g_clear_object (&priv->sel_none_action);
-  g_clear_object (&priv->set_bg_action);
-  g_clear_object (&priv->set_ss_action);
-  g_clear_object (&priv->sharpen_action);
-  g_clear_object (&priv->camera_cache);
-  g_clear_object (&priv->sel_cntrlr);
-  g_clear_object (&priv->extract_priority);
+  g_clear_object (&self->create_window_cancellable);
+  g_clear_object (&self->bg_settings);
+  g_clear_object (&self->ss_settings);
+  g_clear_object (&self->brightness_contrast_action);
+  g_clear_object (&self->crop_action);
+  g_clear_object (&self->delete_action);
+  g_clear_object (&self->denoise_action);
+  g_clear_object (&self->edit_action);
+  g_clear_object (&self->edit_cancel_action);
+  g_clear_object (&self->edit_done_action);
+  g_clear_object (&self->fs_action);
+  g_clear_object (&self->gear_action);
+  g_clear_object (&self->insta_action);
+  g_clear_object (&self->load_next_action);
+  g_clear_object (&self->load_previous_action);
+  g_clear_object (&self->open_action);
+  g_clear_object (&self->print_action);
+  g_clear_object (&self->properties_action);
+  g_clear_object (&self->saturation_action);
+  g_clear_object (&self->save_action);
+  g_clear_object (&self->search_action);
+  g_clear_object (&self->search_match_action);
+  g_clear_object (&self->search_source_action);
+  g_clear_object (&self->search_type_action);
+  g_clear_object (&self->sel_all_action);
+  g_clear_object (&self->sel_none_action);
+  g_clear_object (&self->set_bg_action);
+  g_clear_object (&self->set_ss_action);
+  g_clear_object (&self->sharpen_action);
+  g_clear_object (&self->camera_cache);
+  g_clear_object (&self->sel_cntrlr);
+  g_clear_object (&self->extract_priority);
 
-  if (priv->state != NULL)
+  if (self->state != NULL)
     {
-      photos_search_context_state_free (priv->state);
-      priv->state = NULL;
+      photos_search_context_state_free (self->state);
+      self->state = NULL;
     }
 
   G_OBJECT_CLASS (photos_application_parent_class)->dispose (object);
@@ -1662,7 +1636,7 @@ photos_application_finalize (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
 
-  g_assert (self->priv->create_miners_count == 0);
+  g_assert (self->create_miners_count == 0);
 
   if (!g_application_get_is_remote (G_APPLICATION (self)))
     gegl_exit ();
@@ -1674,25 +1648,20 @@ photos_application_finalize (GObject *object)
 static void
 photos_application_init (PhotosApplication *self)
 {
-  PhotosApplicationPrivate *priv;
-
-  self->priv = photos_application_get_instance_private (self);
-  priv = self->priv;
-
   photos_utils_ensure_builtins ();
 
-  priv->search_provider = photos_search_provider_new ();
-  g_signal_connect_swapped (priv->search_provider,
+  self->search_provider = photos_search_provider_new ();
+  g_signal_connect_swapped (self->search_provider,
                             "activate-result",
                             G_CALLBACK (photos_application_activate_result),
                             self);
-  g_signal_connect_swapped (priv->search_provider,
+  g_signal_connect_swapped (self->search_provider,
                             "launch-search",
                             G_CALLBACK (photos_application_launch_search),
                             self);
 
-  priv->state = photos_search_context_state_new (PHOTOS_SEARCH_CONTEXT (self));
-  priv->activation_timestamp = GDK_CURRENT_TIME;
+  self->state = photos_search_context_state_new (PHOTOS_SEARCH_CONTEXT (self));
+  self->activation_timestamp = GDK_CURRENT_TIME;
 }
 
 
@@ -1741,7 +1710,7 @@ photos_application_new (void)
 GList *
 photos_application_get_miners_running (PhotosApplication *self)
 {
-  return self->priv->miners_running;
+  return self->miners_running;
 }
 
 
@@ -1751,10 +1720,10 @@ photos_application_get_scale_factor (PhotosApplication *self)
   GList *windows;
   gint ret_val = 1;
 
-  /* We do not use priv->main_window to allow widgets to use this
+  /* We do not use self->main_window to allow widgets to use this
    * method while they are being constructed. The widget hierarchy is
    * created in PhotosMainWindow:constructed and at that point
-   * priv->main_window is NULL.
+   * self->main_window is NULL.
    */
   windows = gtk_application_get_windows (GTK_APPLICATION (self));
   if (windows == NULL)

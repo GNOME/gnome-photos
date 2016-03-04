@@ -35,39 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_APPLICATION, PhotosApplication))
 
-#define PHOTOS_APPLICATION_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_APPLICATION, PhotosApplicationClass))
-
 #define PHOTOS_IS_APPLICATION(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_APPLICATION))
 
-#define PHOTOS_IS_APPLICATION_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_APPLICATION))
-
-#define PHOTOS_APPLICATION_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_APPLICATION, PhotosApplicationClass))
-
-typedef struct _PhotosApplication        PhotosApplication;
-typedef struct _PhotosApplicationClass   PhotosApplicationClass;
-typedef struct _PhotosApplicationPrivate PhotosApplicationPrivate;
-
-struct _PhotosApplication
-{
-  GtkApplication parent_instance;
-  PhotosApplicationPrivate *priv;
-};
-
-struct _PhotosApplicationClass
-{
-  GtkApplicationClass parent_class;
-
-  /* signals */
-  void (*miners_changed) (PhotosApplication *self, GList *miners_running);
-};
+typedef struct _PhotosApplication      PhotosApplication;
+typedef struct _PhotosApplicationClass PhotosApplicationClass;
 
 GType                  photos_application_get_type               (void) G_GNUC_CONST;
 
