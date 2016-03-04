@@ -29,12 +29,18 @@
 #include "photos-search-type.h"
 
 
-struct _PhotosSearchTypePrivate
+struct _PhotosSearchType
 {
+  GObject parent_instance;
   gchar *filter;
   gchar *id;
   gchar *name;
   gchar *where;
+};
+
+struct _PhotosSearchTypeClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -50,7 +56,6 @@ static void photos_filterable_interface_init (PhotosFilterableInterface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosSearchType, photos_search_type, G_TYPE_OBJECT,
-                         G_ADD_PRIVATE (PhotosSearchType)
                          G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                 photos_filterable_interface_init));
 
@@ -59,7 +64,7 @@ static gchar *
 photos_search_type_get_filter (PhotosFilterable *iface)
 {
   PhotosSearchType *self = PHOTOS_SEARCH_TYPE (iface);
-  return g_strdup (self->priv->filter);
+  return g_strdup (self->filter);
 }
 
 
@@ -67,7 +72,7 @@ static const gchar *
 photos_search_type_get_id (PhotosFilterable *filterable)
 {
   PhotosSearchType *self = PHOTOS_SEARCH_TYPE (filterable);
-  return self->priv->id;
+  return self->id;
 }
 
 
@@ -75,7 +80,7 @@ static gchar *
 photos_search_type_get_where (PhotosFilterable *iface)
 {
   PhotosSearchType *self = PHOTOS_SEARCH_TYPE (iface);
-  return g_strdup (self->priv->where);
+  return g_strdup (self->where);
 }
 
 
@@ -83,12 +88,11 @@ static void
 photos_search_type_finalize (GObject *object)
 {
   PhotosSearchType *self = PHOTOS_SEARCH_TYPE (object);
-  PhotosSearchTypePrivate *priv = self->priv;
 
-  g_free (priv->filter);
-  g_free (priv->id);
-  g_free (priv->name);
-  g_free (priv->where);
+  g_free (self->filter);
+  g_free (self->id);
+  g_free (self->name);
+  g_free (self->where);
 
   G_OBJECT_CLASS (photos_search_type_parent_class)->finalize (object);
 }
@@ -98,16 +102,15 @@ static void
 photos_search_type_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
   PhotosSearchType *self = PHOTOS_SEARCH_TYPE (object);
-  PhotosSearchTypePrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_ID:
-      g_value_set_string (value, priv->id);
+      g_value_set_string (value, self->id);
       break;
 
     case PROP_NAME:
-      g_value_set_string (value, priv->name);
+      g_value_set_string (value, self->name);
       break;
 
     default:
@@ -121,24 +124,23 @@ static void
 photos_search_type_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosSearchType *self = PHOTOS_SEARCH_TYPE (object);
-  PhotosSearchTypePrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_FILTER:
-      priv->filter = g_value_dup_string (value);
+      self->filter = g_value_dup_string (value);
       break;
 
     case PROP_ID:
-      priv->id = g_value_dup_string (value);
+      self->id = g_value_dup_string (value);
       break;
 
     case PROP_NAME:
-      priv->name = g_value_dup_string (value);
+      self->name = g_value_dup_string (value);
       break;
 
     case PROP_WHERE:
-      priv->where = g_value_dup_string (value);
+      self->where = g_value_dup_string (value);
       break;
 
     default:
@@ -151,7 +153,6 @@ photos_search_type_set_property (GObject *object, guint prop_id, const GValue *v
 static void
 photos_search_type_init (PhotosSearchType *self)
 {
-  self->priv = photos_search_type_get_instance_private (self);
 }
 
 
