@@ -36,36 +36,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_OVERVIEW_SEARCHBAR, PhotosOverviewSearchbar))
 
-#define PHOTOS_OVERVIEW_SEARCHBAR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_OVERVIEW_SEARCHBAR, PhotosOverviewSearchbarClass))
-
 #define PHOTOS_IS_OVERVIEW_SEARCHBAR(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_OVERVIEW_SEARCHBAR))
 
-#define PHOTOS_IS_OVERVIEW_SEARCHBAR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_OVERVIEW_SEARCHBAR))
-
-#define PHOTOS_OVERVIEW_SEARCHBAR_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_OVERVIEW_SEARCHBAR, PhotosOverviewSearchbarClass))
-
-typedef struct _PhotosOverviewSearchbar        PhotosOverviewSearchbar;
-typedef struct _PhotosOverviewSearchbarClass   PhotosOverviewSearchbarClass;
-typedef struct _PhotosOverviewSearchbarPrivate PhotosOverviewSearchbarPrivate;
-
-struct _PhotosOverviewSearchbar
-{
-  PhotosSearchbar parent_instance;
-  PhotosOverviewSearchbarPrivate *priv;
-};
-
-struct _PhotosOverviewSearchbarClass
-{
-  PhotosSearchbarClass parent_class;
-};
+typedef struct _PhotosOverviewSearchbar      PhotosOverviewSearchbar;
+typedef struct _PhotosOverviewSearchbarClass PhotosOverviewSearchbarClass;
 
 GType                photos_overview_searchbar_get_type                      (void) G_GNUC_CONST;
 
