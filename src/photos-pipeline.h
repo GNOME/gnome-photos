@@ -34,21 +34,9 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_PIPELINE, PhotosPipeline))
 
-#define PHOTOS_PIPELINE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_PIPELINE, PhotosPipelineClass))
-
 #define PHOTOS_IS_PIPELINE(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_PIPELINE))
-
-#define PHOTOS_IS_PIPELINE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_PIPELINE))
-
-#define PHOTOS_PIPELINE_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_PIPELINE, PhotosPipelineClass))
 
 typedef struct _PhotosPipeline      PhotosPipeline;
 typedef struct _PhotosPipelineClass PhotosPipelineClass;
