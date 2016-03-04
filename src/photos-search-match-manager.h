@@ -36,36 +36,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SEARCH_MATCH_MANAGER, PhotosSearchMatchManager))
 
-#define PHOTOS_SEARCH_MATCH_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_SEARCH_MATCH_MANAGER, PhotosSearchMatchManagerClass))
-
 #define PHOTOS_IS_SEARCH_MATCH_MANAGER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_SEARCH_MATCH_MANAGER))
 
-#define PHOTOS_IS_SEARCH_MATCH_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_SEARCH_MATCH_MANAGER))
-
-#define PHOTOS_SEARCH_MATCH_MANAGER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_SEARCH_MATCH_MANAGER, PhotosSearchMatchManagerClass))
-
-typedef struct _PhotosSearchMatchManager        PhotosSearchMatchManager;
-typedef struct _PhotosSearchMatchManagerClass   PhotosSearchMatchManagerClass;
-typedef struct _PhotosSearchMatchManagerPrivate PhotosSearchMatchManagerPrivate;
-
-struct _PhotosSearchMatchManager
-{
-  PhotosBaseManager parent_instance;
-  PhotosSearchMatchManagerPrivate *priv;
-};
-
-struct _PhotosSearchMatchManagerClass
-{
-  PhotosBaseManagerClass parent_class;
-};
+typedef struct _PhotosSearchMatchManager      PhotosSearchMatchManager;
+typedef struct _PhotosSearchMatchManagerClass PhotosSearchMatchManagerClass;
 
 GType                     photos_search_match_manager_get_type           (void) G_GNUC_CONST;
 

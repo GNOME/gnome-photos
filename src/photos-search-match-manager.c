@@ -34,9 +34,15 @@
 #include "photos-search-match-manager.h"
 
 
-struct _PhotosSearchMatchManagerPrivate
+struct _PhotosSearchMatchManager
 {
+  PhotosBaseManager parent_instance;
   PhotosSearchController *srch_cntrlr;
+};
+
+struct _PhotosSearchMatchManagerClass
+{
+  PhotosBaseManagerClass parent_class;
 };
 
 enum
@@ -46,7 +52,7 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosSearchMatchManager, photos_search_match_manager, PHOTOS_TYPE_BASE_MANAGER);
+G_DEFINE_TYPE (PhotosSearchMatchManager, photos_search_match_manager, PHOTOS_TYPE_BASE_MANAGER);
 
 
 static gchar *
@@ -66,7 +72,7 @@ photos_search_match_manager_get_filter (PhotosBaseManager *mngr, gint flags)
   if (!(flags & PHOTOS_QUERY_FLAGS_SEARCH))
     goto out;
 
-  terms = photos_search_controller_get_terms (self->priv->srch_cntrlr);
+  terms = photos_search_controller_get_terms (self->srch_cntrlr);
   n_terms = g_strv_length (terms);
   if (n_terms == 0)
     goto out;
@@ -110,7 +116,7 @@ photos_search_match_manager_dispose (GObject *object)
 {
   PhotosSearchMatchManager *self = PHOTOS_SEARCH_MATCH_MANAGER (object);
 
-  g_clear_object (&self->priv->srch_cntrlr);
+  g_clear_object (&self->srch_cntrlr);
 
   G_OBJECT_CLASS (photos_search_match_manager_parent_class)->dispose (object);
 }
@@ -124,7 +130,7 @@ photos_search_match_manager_set_property (GObject *object, guint prop_id, const 
   switch (prop_id)
     {
     case PROP_SEARCH_CONTROLLER:
-      self->priv->srch_cntrlr = PHOTOS_SEARCH_CONTROLLER (g_value_dup_object (value)); /* self is owned by context */
+      self->srch_cntrlr = PHOTOS_SEARCH_CONTROLLER (g_value_dup_object (value)); /* self is owned by context */
       break;
 
     default:
@@ -140,8 +146,6 @@ photos_search_match_manager_init (PhotosSearchMatchManager *self)
   PhotosSearchMatch *search_match;
   const gchar *author_filter;
   const gchar *title_filter;
-
-  self->priv = photos_search_match_manager_get_instance_private (self);
 
   author_filter = "fn:contains ("
                   "  tracker:case-fold (tracker:coalesce (nco:fullname (?creator), nco:fullname(?publisher))),"
