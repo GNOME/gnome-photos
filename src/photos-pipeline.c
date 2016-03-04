@@ -121,6 +121,7 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, gchar *contents)
   for (l = children; l != NULL; l = l->next)
     {
       const gchar *operation;
+      const gchar *operation_compat;
 
       node = GEGL_NODE (l->data);
 
@@ -131,6 +132,10 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, gchar *contents)
 
       operation = gegl_node_get_operation (node);
       g_hash_table_insert (self->hash, g_strdup (operation), g_object_ref (node));
+
+      operation_compat = gegl_operation_get_key (operation, "compat-name");
+      if (operation_compat != NULL)
+        g_hash_table_insert (self->hash, g_strdup (operation_compat), g_object_ref (node));
     }
 
   node = GEGL_NODE (children->data);
