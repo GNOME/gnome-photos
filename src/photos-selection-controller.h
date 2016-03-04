@@ -35,39 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SELECTION_CONTROLLER, PhotosSelectionController))
 
-#define PHOTOS_SELECTION_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_SELECTION_CONTROLLER, PhotosSelectionControllerClass))
-
 #define PHOTOS_IS_SELECTION_CONTROLLER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_SELECTION_CONTROLLER))
 
-#define PHOTOS_IS_SELECTION_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_SELECTION_CONTROLLER))
-
-#define PHOTOS_SELECTION_CONTROLLER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_SELECTION_CONTROLLER, PhotosSelectionControllerClass))
-
-typedef struct _PhotosSelectionController        PhotosSelectionController;
-typedef struct _PhotosSelectionControllerClass   PhotosSelectionControllerClass;
-typedef struct _PhotosSelectionControllerPrivate PhotosSelectionControllerPrivate;
-
-struct _PhotosSelectionController
-{
-  GObject parent_instance;
-  PhotosSelectionControllerPrivate *priv;
-};
-
-struct _PhotosSelectionControllerClass
-{
-  GObjectClass parent_class;
-
-  void (*selection_changed)      (PhotosSelectionController *self);
-  void (*selection_mode_changed) (PhotosSelectionController *self);
-};
+typedef struct _PhotosSelectionController      PhotosSelectionController;
+typedef struct _PhotosSelectionControllerClass PhotosSelectionControllerClass;
 
 GType                       photos_selection_controller_get_type           (void) G_GNUC_CONST;
 

@@ -34,12 +34,21 @@
 #include "photos-selection-controller.h"
 
 
-struct _PhotosSelectionControllerPrivate
+struct _PhotosSelectionController
 {
+  GObject parent_instance;
   GList *selection;
   PhotosBaseManager *item_mngr;
   gboolean is_frozen;
   gboolean selection_mode;
+};
+
+struct _PhotosSelectionControllerClass
+{
+  GObjectClass parent_class;
+
+  void (*selection_changed)      (PhotosSelectionController *self);
+  void (*selection_mode_changed) (PhotosSelectionController *self);
 };
 
 enum
@@ -52,26 +61,25 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosSelectionController, photos_selection_controller, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosSelectionController, photos_selection_controller, G_TYPE_OBJECT);
 
 
 static void
 photos_selection_controller_object_removed (PhotosBaseManager *manager, GObject *object, gpointer user_data)
 {
   PhotosSelectionController *self = PHOTOS_SELECTION_CONTROLLER (user_data);
-  PhotosSelectionControllerPrivate *priv = self->priv;
   GList *l;
   gboolean changed = FALSE;
   const gchar *id;
 
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
-  l = g_list_find_custom (priv->selection, (gconstpointer) id, (GCompareFunc) g_strcmp0);
+  l = g_list_find_custom (self->selection, (gconstpointer) id, (GCompareFunc) g_strcmp0);
   while (l != NULL)
     {
       changed = TRUE;
       g_free (l->data);
-      priv->selection = g_list_delete_link (priv->selection, l);
-      l = g_list_find_custom (priv->selection, (gconstpointer) id, (GCompareFunc) g_strcmp0);
+      self->selection = g_list_delete_link (self->selection, l);
+      l = g_list_find_custom (self->selection, (gconstpointer) id, (GCompareFunc) g_strcmp0);
     }
 
   if (changed)
@@ -103,13 +111,12 @@ static void
 photos_selection_controller_finalize (GObject *object)
 {
   PhotosSelectionController *self = PHOTOS_SELECTION_CONTROLLER (object);
-  PhotosSelectionControllerPrivate *priv = self->priv;
 
-  if (priv->selection != NULL)
-    g_list_free_full (priv->selection, g_free);
+  if (self->selection != NULL)
+    g_list_free_full (self->selection, g_free);
 
-  if (priv->item_mngr != NULL)
-    g_object_remove_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
+  if (self->item_mngr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
 
   G_OBJECT_CLASS (photos_selection_controller_parent_class)->finalize (object);
 }
@@ -118,19 +125,15 @@ photos_selection_controller_finalize (GObject *object)
 static void
 photos_selection_controller_init (PhotosSelectionController *self)
 {
-  PhotosSelectionControllerPrivate *priv;
   GApplication *app;
   PhotosSearchContextState *state;
-
-  self->priv = photos_selection_controller_get_instance_private (self);
-  priv = self->priv;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->item_mngr = state->item_mngr;
-  g_object_add_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
-  g_signal_connect_object (priv->item_mngr,
+  self->item_mngr = state->item_mngr;
+  g_object_add_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
+  g_signal_connect_object (self->item_mngr,
                            "object-removed",
                            G_CALLBACK (photos_selection_controller_object_removed),
                            self,
@@ -181,39 +184,37 @@ photos_selection_controller_dup_singleton (void)
 void
 photos_selection_controller_freeze_selection (PhotosSelectionController *self, gboolean freeze)
 {
-  self->priv->is_frozen = freeze;
+  self->is_frozen = freeze;
 }
 
 
 GList *
 photos_selection_controller_get_selection (PhotosSelectionController *self)
 {
-  return self->priv->selection;
+  return self->selection;
 }
 
 
 gboolean
 photos_selection_controller_get_selection_mode (PhotosSelectionController *self)
 {
-  return self->priv->selection_mode;
+  return self->selection_mode;
 }
 
 
 void
 photos_selection_controller_set_selection (PhotosSelectionController *self, GList *selection)
 {
-  PhotosSelectionControllerPrivate *priv = self->priv;
-
-  if (priv->is_frozen)
+  if (self->is_frozen)
     return;
 
-  if (priv->selection == NULL && selection == NULL)
+  if (self->selection == NULL && selection == NULL)
     return;
 
-  g_list_free_full (priv->selection, g_free);
-  priv->selection = NULL;
+  g_list_free_full (self->selection, g_free);
+  self->selection = NULL;
 
-  priv->selection = g_list_copy_deep (selection, (GCopyFunc) g_strdup, NULL);
+  self->selection = g_list_copy_deep (selection, (GCopyFunc) g_strdup, NULL);
   g_signal_emit (self, signals[SELECTION_CHANGED], 0);
 }
 
@@ -221,11 +222,9 @@ photos_selection_controller_set_selection (PhotosSelectionController *self, GLis
 void
 photos_selection_controller_set_selection_mode (PhotosSelectionController *self, gboolean mode)
 {
-  PhotosSelectionControllerPrivate *priv = self->priv;
-
-  if (priv->selection_mode == mode)
+  if (self->selection_mode == mode)
     return;
 
-  priv->selection_mode = mode;
-  g_signal_emit (self, signals[SELECTION_MODE_CHANGED], 0, priv->selection_mode);
+  self->selection_mode = mode;
+  g_signal_emit (self, signals[SELECTION_MODE_CHANGED], 0, self->selection_mode);
 }
