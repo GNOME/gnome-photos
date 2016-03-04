@@ -60,6 +60,8 @@ gnome_photos_SOURCES = \
 	photos-dlna-renderers-dialog.h \
 	photos-dlna-renderers-manager.c \
 	photos-dlna-renderers-manager.h \
+	photos-done-notification.c \
+	photos-done-notification.h \
 	photos-dropdown.c \
 	photos-dropdown.h \
 	photos-export-dialog.c \

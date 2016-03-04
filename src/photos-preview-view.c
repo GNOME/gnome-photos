@@ -30,6 +30,7 @@
 #include <glib/gi18n.h>
 
 #include "photos-base-item.h"
+#include "photos-done-notification.h"
 #include "photos-image-view.h"
 #include "photos-item-manager.h"
 #include "photos-edit-palette.h"
@@ -500,6 +501,8 @@ photos_preview_view_edit_done_pipeline_save (GObject *source_object, GAsyncResul
     }
 
   photos_mode_controller_go_back (self->mode_cntrlr);
+
+  photos_done_notification_new (item);
 
  out:
   app = g_application_get_default ();

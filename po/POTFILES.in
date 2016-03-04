@@ -7,6 +7,7 @@ src/photos-application.c
 src/photos-base-item.c
 src/photos-delete-notification.c
 [type: gettext/glade]src/photos-dlna-renderers-dialog.ui
+src/photos-done-notification.c
 src/photos-embed.c
 src/photos-empty-results-box.c
 [type: gettext/glade]src/photos-export-dialog.ui
