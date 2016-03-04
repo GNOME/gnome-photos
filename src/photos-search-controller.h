@@ -35,39 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SEARCH_CONTROLLER, PhotosSearchController))
 
-#define PHOTOS_SEARCH_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_SEARCH_CONTROLLER, PhotosSearchControllerClass))
-
 #define PHOTOS_IS_SEARCH_CONTROLLER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_SEARCH_CONTROLLER))
 
-#define PHOTOS_IS_SEARCH_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_SEARCH_CONTROLLER))
-
-#define PHOTOS_SEARCH_CONTROLLER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_SEARCH_CONTROLLER, PhotosSearchControllerClass))
-
-typedef struct _PhotosSearchController        PhotosSearchController;
-typedef struct _PhotosSearchControllerClass   PhotosSearchControllerClass;
-typedef struct _PhotosSearchControllerPrivate PhotosSearchControllerPrivate;
-
-struct _PhotosSearchController
-{
-  GObject parent_instance;
-  PhotosSearchControllerPrivate *priv;
-};
-
-struct _PhotosSearchControllerClass
-{
-  GObjectClass parent_class;
-
-  /* signals */
-  void (*search_string_changed) (PhotosSearchController *self, const gchar *str);
-};
+typedef struct _PhotosSearchController      PhotosSearchController;
+typedef struct _PhotosSearchControllerClass PhotosSearchControllerClass;
 
 GType                      photos_search_controller_get_type       (void) G_GNUC_CONST;
 

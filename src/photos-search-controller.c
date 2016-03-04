@@ -31,9 +31,18 @@
 #include "photos-search-controller.h"
 
 
-struct _PhotosSearchControllerPrivate
+struct _PhotosSearchController
 {
+  GObject parent_instance;
   gchar *str;
+};
+
+struct _PhotosSearchControllerClass
+{
+  GObjectClass parent_class;
+
+  /* signals */
+  void (*search_string_changed) (PhotosSearchController *self, const gchar *str);
 };
 
 enum
@@ -45,7 +54,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosSearchController, photos_search_controller, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosSearchController, photos_search_controller, G_TYPE_OBJECT);
 
 
 static void
@@ -53,7 +62,7 @@ photos_search_controller_finalize (GObject *object)
 {
   PhotosSearchController *self = PHOTOS_SEARCH_CONTROLLER (object);
 
-  g_free (self->priv->str);
+  g_free (self->str);
 
   G_OBJECT_CLASS (photos_search_controller_parent_class)->finalize (object);
 }
@@ -62,12 +71,7 @@ photos_search_controller_finalize (GObject *object)
 static void
 photos_search_controller_init (PhotosSearchController *self)
 {
-  PhotosSearchControllerPrivate *priv;
-
-  self->priv = photos_search_controller_get_instance_private (self);
-  priv = self->priv;
-
-  priv->str = g_strdup ("");
+  self->str = g_strdup ("");
 }
 
 
@@ -102,7 +106,7 @@ photos_search_controller_new (void)
 const gchar *
 photos_search_controller_get_string (PhotosSearchController *self)
 {
-  return self->priv->str;
+  return self->str;
 }
 
 
@@ -113,7 +117,7 @@ photos_search_controller_get_terms (PhotosSearchController *self)
   gchar *str;
   gchar **terms;
 
-  escaped_str = tracker_sparql_escape_string (self->priv->str);
+  escaped_str = tracker_sparql_escape_string (self->str);
   str = g_utf8_casefold (escaped_str, -1);
   /* TODO: find out what str.replace(/ + /g, ' ') does */
   terms = g_strsplit (str, " ", -1);
@@ -126,12 +130,10 @@ photos_search_controller_get_terms (PhotosSearchController *self)
 void
 photos_search_controller_set_string (PhotosSearchController *self, const gchar *str)
 {
-  PhotosSearchControllerPrivate *priv = self->priv;
-
-  if (g_strcmp0 (priv->str, str) == 0)
+  if (g_strcmp0 (self->str, str) == 0)
     return;
 
-  g_free (priv->str);
-  priv->str = g_strdup (str);
-  g_signal_emit (self, signals[SEARCH_STRING_CHANGED], 0, priv->str);
+  g_free (self->str);
+  self->str = g_strdup (str);
+  g_signal_emit (self, signals[SEARCH_STRING_CHANGED], 0, self->str);
 }
