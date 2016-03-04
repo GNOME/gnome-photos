@@ -197,7 +197,7 @@ msgstr "_Повний"
 
 #: ../src/photos-export-dialog.ui.h:5
 msgid "_Reduced"
-msgstr "З_Меншений"
+msgstr "З_меншений"
 
 #: ../src/photos-export-dialog.ui.h:6
 msgid "_Cancel"
