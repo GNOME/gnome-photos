@@ -28,10 +28,16 @@
 #include "photos-remote-display-manager.h"
 
 
-struct _PhotosRemoteDisplayManagerPrivate
+struct _PhotosRemoteDisplayManager
 {
+  GObject parent_instance;
   PhotosDlnaRenderersManager *renderers_mngr;
   PhotosDlnaRenderer *renderer;
+};
+
+struct _PhotosRemoteDisplayManagerClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -47,7 +53,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static GObject *remote_display_manager_singleton = NULL;
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosRemoteDisplayManager, photos_remote_display_manager, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosRemoteDisplayManager, photos_remote_display_manager, G_TYPE_OBJECT);
 
 
 typedef struct _Share Share;
@@ -89,10 +95,9 @@ static void
 photos_remote_display_manager_dispose (GObject *object)
 {
   PhotosRemoteDisplayManager *self = PHOTOS_REMOTE_DISPLAY_MANAGER (object);
-  PhotosRemoteDisplayManagerPrivate *priv = self->priv;
 
-  g_clear_object (&priv->renderers_mngr);
-  g_clear_object (&priv->renderer);
+  g_clear_object (&self->renderers_mngr);
+  g_clear_object (&self->renderer);
 
   G_OBJECT_CLASS (photos_remote_display_manager_parent_class)->dispose (object);
 }
@@ -121,9 +126,7 @@ photos_remote_display_manager_renderer_lost_cb (PhotosRemoteDisplayManager *self
                                                 PhotosDlnaRenderer *renderer,
                                                 gpointer user_data)
 {
-  PhotosRemoteDisplayManagerPrivate *priv = self->priv;
-
-  if (renderer == priv->renderer)
+  if (renderer == self->renderer)
     photos_remote_display_manager_stop (self);
 }
 
@@ -131,15 +134,11 @@ photos_remote_display_manager_renderer_lost_cb (PhotosRemoteDisplayManager *self
 static void
 photos_remote_display_manager_init (PhotosRemoteDisplayManager *self)
 {
-  PhotosRemoteDisplayManagerPrivate *priv;
-
-  self->priv = priv = photos_remote_display_manager_get_instance_private (self);
-
   /* Keep a connection to the renderers manager alive to keep the list of
    * renderers up-to-date */
-  priv->renderers_mngr = photos_dlna_renderers_manager_dup_singleton ();
+  self->renderers_mngr = photos_dlna_renderers_manager_dup_singleton ();
 
-  g_signal_connect_object (priv->renderers_mngr, "renderer-lost",
+  g_signal_connect_object (self->renderers_mngr, "renderer-lost",
                            G_CALLBACK (photos_remote_display_manager_renderer_lost_cb), self,
                            G_CONNECT_SWAPPED);
 }
@@ -233,31 +232,28 @@ photos_remote_display_manager_dup_singleton (void)
 void
 photos_remote_display_manager_set_renderer (PhotosRemoteDisplayManager *self, PhotosDlnaRenderer *renderer)
 {
-  PhotosRemoteDisplayManagerPrivate *priv = self->priv;
-
-  g_clear_object (&priv->renderer);
+  g_clear_object (&self->renderer);
 
   if (renderer)
-    priv->renderer = g_object_ref (renderer);
+    self->renderer = g_object_ref (renderer);
 }
 
 
 PhotosDlnaRenderer *
 photos_remote_display_manager_get_renderer (PhotosRemoteDisplayManager *self)
 {
-  return self->priv->renderer;
+  return self->renderer;
 }
 
 
 void
 photos_remote_display_manager_render (PhotosRemoteDisplayManager *self, PhotosBaseItem *item)
 {
-  PhotosRemoteDisplayManagerPrivate *priv = self->priv;
   Share *share;
 
-  g_return_if_fail (priv->renderer != NULL);
+  g_return_if_fail (self->renderer != NULL);
 
-  share = photos_remote_display_manager_share_new (self, priv->renderer, item);
+  share = photos_remote_display_manager_share_new (self, self->renderer, item);
   photos_dlna_renderer_share (share->renderer, share->item, NULL,
                               photos_remote_display_manager_share_cb, share);
 }
@@ -266,11 +262,9 @@ photos_remote_display_manager_render (PhotosRemoteDisplayManager *self, PhotosBa
 void
 photos_remote_display_manager_stop (PhotosRemoteDisplayManager *self)
 {
-  PhotosRemoteDisplayManagerPrivate *priv = self->priv;
+  g_return_if_fail (self->renderer != NULL);
 
-  g_return_if_fail (priv->renderer != NULL);
-
-  photos_dlna_renderer_unshare_all (priv->renderer, NULL,
+  photos_dlna_renderer_unshare_all (self->renderer, NULL,
                                     photos_remote_display_manager_unshare_all_cb, self);
 }
 
@@ -278,10 +272,8 @@ photos_remote_display_manager_stop (PhotosRemoteDisplayManager *self)
 gboolean
 photos_remote_display_manager_is_active (PhotosRemoteDisplayManager *self)
 {
-  PhotosRemoteDisplayManagerPrivate *priv = self->priv;
-
-  if (priv->renderer == NULL)
+  if (self->renderer == NULL)
     return FALSE;
 
-  return photos_dlna_renderer_get_shared_count (priv->renderer) > 0;
+  return photos_dlna_renderer_get_shared_count (self->renderer) > 0;
 }

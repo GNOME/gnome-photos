@@ -34,36 +34,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_REMOTE_DISPLAY_MANAGER, PhotosRemoteDisplayManager))
 
-#define PHOTOS_REMOTE_DISPLAY_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_REMOTE_DISPLAY_MANAGER, PhotosRemoteDisplayManagerClass))
-
 #define PHOTOS_IS_REMOTE_DISPLAY_MANAGER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_REMOTE_DISPLAY_MANAGER))
 
-#define PHOTOS_IS_REMOTE_DISPLAY_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_REMOTE_DISPLAY_MANAGER))
-
-#define PHOTOS_REMOTE_DISPLAY_MANAGER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_REMOTE_DISPLAY_MANAGER, PhotosRemoteDisplayManagerClass))
-
-typedef struct _PhotosRemoteDisplayManager        PhotosRemoteDisplayManager;
-typedef struct _PhotosRemoteDisplayManagerClass   PhotosRemoteDisplayManagerClass;
-typedef struct _PhotosRemoteDisplayManagerPrivate PhotosRemoteDisplayManagerPrivate;
-
-struct _PhotosRemoteDisplayManager
-{
-  GObject parent_instance;
-  PhotosRemoteDisplayManagerPrivate *priv;
-};
-
-struct _PhotosRemoteDisplayManagerClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosRemoteDisplayManager      PhotosRemoteDisplayManager;
+typedef struct _PhotosRemoteDisplayManagerClass PhotosRemoteDisplayManagerClass;
 
 GType                       photos_remote_display_manager_get_type        (void) G_GNUC_CONST;
 
