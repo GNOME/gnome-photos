@@ -32,13 +32,19 @@
 #include "photos-source.h"
 
 
-struct _PhotosSourcePrivate
+struct _PhotosSource
 {
+  GObject parent_instance;
   GIcon *icon;
   GoaObject *object;
   gboolean builtin;
   gchar *id;
   gchar *name;
+};
+
+struct _PhotosSourceClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -54,7 +60,6 @@ static void photos_filterable_interface_init (PhotosFilterableInterface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosSource, photos_source, G_TYPE_OBJECT,
-                         G_ADD_PRIVATE (PhotosSource)
                          G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                 photos_filterable_interface_init));
 
@@ -62,11 +67,10 @@ G_DEFINE_TYPE_WITH_CODE (PhotosSource, photos_source, G_TYPE_OBJECT,
 static gchar *
 photos_source_build_filter_resource (PhotosSource *self)
 {
-  PhotosSourcePrivate *priv = self->priv;
   gchar *filter;
 
-  if (!priv->builtin)
-    filter = g_strdup_printf ("(nie:dataSource (?urn) = '%s')", priv->id);
+  if (!self->builtin)
+    filter = g_strdup_printf ("(nie:dataSource (?urn) = '%s')", self->id);
   else
     filter = g_strdup ("(false)");
 
@@ -78,11 +82,10 @@ static gchar *
 photos_source_get_filter (PhotosFilterable *iface)
 {
   PhotosSource *self = PHOTOS_SOURCE (iface);
-  PhotosSourcePrivate *priv = self->priv;
 
-  g_assert_cmpstr (priv->id, !=, PHOTOS_SOURCE_STOCK_ALL);
+  g_assert_cmpstr (self->id, !=, PHOTOS_SOURCE_STOCK_ALL);
 
-  if (g_strcmp0 (priv->id, PHOTOS_SOURCE_STOCK_LOCAL) == 0)
+  if (g_strcmp0 (self->id, PHOTOS_SOURCE_STOCK_LOCAL) == 0)
     return photos_query_builder_filter_local ();
 
   return photos_source_build_filter_resource (self);
@@ -93,7 +96,7 @@ static const gchar *
 photos_source_get_id (PhotosFilterable *filterable)
 {
   PhotosSource *self = PHOTOS_SOURCE (filterable);
-  return self->priv->id;
+  return self->id;
 }
 
 
@@ -101,10 +104,9 @@ static void
 photos_source_dispose (GObject *object)
 {
   PhotosSource *self = PHOTOS_SOURCE (object);
-  PhotosSourcePrivate *priv = self->priv;
 
-  g_clear_object (&priv->icon);
-  g_clear_object (&priv->object);
+  g_clear_object (&self->icon);
+  g_clear_object (&self->object);
 
   G_OBJECT_CLASS (photos_source_parent_class)->dispose (object);
 }
@@ -114,10 +116,9 @@ static void
 photos_source_finalize (GObject *object)
 {
   PhotosSource *self = PHOTOS_SOURCE (object);
-  PhotosSourcePrivate *priv = self->priv;
 
-  g_free (priv->id);
-  g_free (priv->name);
+  g_free (self->id);
+  g_free (self->name);
 
   G_OBJECT_CLASS (photos_source_parent_class)->finalize (object);
 }
@@ -127,24 +128,23 @@ static void
 photos_source_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
   PhotosSource *self = PHOTOS_SOURCE (object);
-  PhotosSourcePrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_BUILTIN:
-      g_value_set_boolean (value, priv->builtin);
+      g_value_set_boolean (value, self->builtin);
       break;
 
     case PROP_ID:
-      g_value_set_string (value, priv->id);
+      g_value_set_string (value, self->id);
       break;
 
     case PROP_NAME:
-      g_value_set_string (value, priv->name);
+      g_value_set_string (value, self->name);
       break;
 
     case PROP_OBJECT:
-      g_value_set_object (value, (gpointer) priv->object);
+      g_value_set_object (value, (gpointer) self->object);
       break;
 
     default:
@@ -158,20 +158,19 @@ static void
 photos_source_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosSource *self = PHOTOS_SOURCE (object);
-  PhotosSourcePrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_BUILTIN:
-      priv->builtin = g_value_get_boolean (value);
+      self->builtin = g_value_get_boolean (value);
       break;
 
     case PROP_ID:
-      priv->id = g_value_dup_string (value);
+      self->id = g_value_dup_string (value);
       break;
 
     case PROP_NAME:
-      priv->name = g_value_dup_string (value);
+      self->name = g_value_dup_string (value);
       break;
 
     case PROP_OBJECT:
@@ -180,18 +179,18 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
         const gchar *provider_icon;
         const gchar *provider_name;
 
-        priv->object = GOA_OBJECT (g_value_dup_object (value));
-        if (priv->object == NULL)
+        self->object = GOA_OBJECT (g_value_dup_object (value));
+        if (self->object == NULL)
           break;
 
-        account = goa_object_peek_account (priv->object);
-        priv->id = g_strdup_printf ("gd:goa-account:%s", goa_account_get_id (account));
+        account = goa_object_peek_account (self->object);
+        self->id = g_strdup_printf ("gd:goa-account:%s", goa_account_get_id (account));
 
         provider_icon = goa_account_get_provider_icon (account);
-        priv->icon = g_icon_new_for_string (provider_icon, NULL); /* TODO: use a GError */
+        self->icon = g_icon_new_for_string (provider_icon, NULL); /* TODO: use a GError */
 
         provider_name = goa_account_get_provider_name (account);
-        priv->name = g_strdup (provider_name);
+        self->name = g_strdup (provider_name);
         break;
       }
 
@@ -205,7 +204,6 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
 static void
 photos_source_init (PhotosSource *self)
 {
-  self->priv = photos_source_get_instance_private (self);
 }
 
 
@@ -279,12 +277,12 @@ photos_source_new_from_goa_object (GoaObject *object)
 const gchar *
 photos_source_get_name (PhotosSource *self)
 {
-  return self->priv->name;
+  return self->name;
 }
 
 
 GoaObject *
 photos_source_get_goa_object (PhotosSource *self)
 {
-  return self->priv->object;
+  return self->object;
 }

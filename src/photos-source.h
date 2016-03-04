@@ -36,39 +36,15 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_SOURCE, PhotosSource))
 
-#define PHOTOS_SOURCE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_SOURCE, PhotosSourceClass))
-
 #define PHOTOS_IS_SOURCE(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_SOURCE))
 
-#define PHOTOS_IS_SOURCE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_SOURCE))
-
-#define PHOTOS_SOURCE_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_SOURCE, PhotosSourceClass))
-
 #define PHOTOS_SOURCE_STOCK_ALL   "all"
 #define PHOTOS_SOURCE_STOCK_LOCAL "local"
 
-typedef struct _PhotosSource        PhotosSource;
-typedef struct _PhotosSourceClass   PhotosSourceClass;
-typedef struct _PhotosSourcePrivate PhotosSourcePrivate;
-
-struct _PhotosSource
-{
-  GObject parent_instance;
-  PhotosSourcePrivate *priv;
-};
-
-struct _PhotosSourceClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosSource      PhotosSource;
+typedef struct _PhotosSourceClass PhotosSourceClass;
 
 GType               photos_source_get_type               (void) G_GNUC_CONST;
 
