@@ -257,7 +257,8 @@ photos_operation_insta_filter_class_init (PhotosOperationInstaFilterClass *class
                                                       G_PARAM_CONSTRUCT | G_PARAM_READWRITE));
 
   gegl_operation_class_set_keys (operation_class,
-                                 "name", "photos:insta-filter",
+                                 "name", "photos:magic-filter",
+                                 "compat-name", "photos:insta-filter",
                                  "title", "Insta Filter",
                                  "description", "Apply a preset filter to an image",
                                  NULL);
