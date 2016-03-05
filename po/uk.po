@@ -463,7 +463,7 @@ msgstr ""
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:502
 msgid "translator-credits"
-msgstr "Коростіль Данило <ted.korostiled@gmail.com>"
+msgstr "Daniel Korostil <ted.korostiled@gmail.com>"
 
 #: ../src/photos-menus.ui.h:1
 msgid "Fullscreen"
