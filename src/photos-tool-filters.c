@@ -188,7 +188,8 @@ photos_tool_filters_init (PhotosToolFilters *self)
 
   self->grid = g_object_ref_sink (gtk_grid_new ());
 
-  button = photos_tool_filter_button_new (group, _("None"));
+  /* Translators: "None" refers to the nop magic filter when editing. */
+  button = photos_tool_filter_button_new (group, C_("Edit Filter", "None"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_NONE);
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
