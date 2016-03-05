@@ -299,6 +299,9 @@ photos_export_notification_constructed (GObject *object)
           g_signal_connect_swapped (open, "clicked", G_CALLBACK (photos_export_notification_open), self);
         }
 
+      /* Translators: this is the label of the button to open the
+       * folder where the item was exported.
+       */
       export_folder = gtk_button_new_with_label (_("Export Folder"));
       gtk_widget_set_valign (export_folder, GTK_ALIGN_CENTER);
       gtk_container_add (GTK_CONTAINER (self), export_folder);
