@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-02 14:08+0200\n"
-"PO-Revision-Date: 2016-03-02 14:27+0200\n"
+"POT-Creation-Date: 2016-03-05 20:02+0200\n"
+"PO-Revision-Date: 2016-03-05 20:05+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -682,19 +682,19 @@ msgstr "כבוי, לא פועל"
 msgid "On, fired"
 msgstr "פועל"
 
-#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "הכול"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "כותרת"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "יוצר"
@@ -702,7 +702,7 @@ msgstr "יוצר"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "התאמה"
 
@@ -750,45 +750,51 @@ msgstr "רוויה"
 msgid "Colors"
 msgstr "צבעים"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:131
 msgid "Free"
 msgstr "חופשי"
 
-#: ../src/photos-tool-crop.c:133
-msgid "Original Size"
+#: ../src/photos-tool-crop.c:132
+msgid "Original"
 msgstr "גודל מקורי"
 
+#: ../src/photos-tool-crop.c:133
+msgid "1×1 (Square)"
+msgstr "1×1 (ריבוע)"
+
 #: ../src/photos-tool-crop.c:134
-msgid "Screen"
-msgstr "מסך"
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden ratio"
-msgstr "יחס הזהב"
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
 
 #: ../src/photos-tool-crop.c:136
-msgid "Square"
-msgstr "ריבוע"
+msgid "7×5"
+msgstr "7×5"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A paper sizes"
-msgstr "גדלי נייר"
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
 
-#. Translators: this is the aspect ratio of the crop tool
-#: ../src/photos-tool-crop.c:986
-#, c-format
-msgid "%.2f"
-msgstr "%.2f"
+#: ../src/photos-tool-crop.c:138
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:1205
+#: ../src/photos-tool-crop.c:139
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1169
 msgid "Lock aspect ratio"
 msgstr "נעילת יחס ממדים"
 
-#: ../src/photos-tool-crop.c:1263
+#: ../src/photos-tool-crop.c:1217
 msgid "Reset"
 msgstr "איפוס"
 
-#: ../src/photos-tool-crop.c:1280
+#: ../src/photos-tool-crop.c:1234
 msgid "Crop"
 msgstr "חיתוך"
 
@@ -831,6 +837,18 @@ msgstr "מסננים"
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "לא ניתן לקבל את רשימת התמונות"
+
+#~ msgid "Screen"
+#~ msgstr "מסך"
+
+#~ msgid "Golden ratio"
+#~ msgstr "יחס הזהב"
+
+#~ msgid "A paper sizes"
+#~ msgstr "גדלי נייר"
+
+#~ msgid "%.2f"
+#~ msgstr "%.2f"
 
 #~ msgid "Print the current photo"
 #~ msgstr "הדפסת התמונה הנוכחית"
