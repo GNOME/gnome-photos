@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-04 09:55+0000\n"
-"PO-Revision-Date: 2016-03-04 19:39+0100\n"
+"POT-Creation-Date: 2016-03-05 09:56+0000\n"
+"PO-Revision-Date: 2016-03-05 11:08+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -436,7 +436,7 @@ msgstr "Vyberie položky"
 #: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
 #, c-format
 msgid "Open with %s"
-msgstr "Otvoriť pomocou %s"
+msgstr "Otvoriť pomocou programu %s"
 
 #: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
 msgid "Remove from favorites"
@@ -572,9 +572,10 @@ msgid "C_enter:"
 msgstr "Vystr_ediť:"
 
 # combobox text
+# DK:https://bugzilla.gnome.org/show_bug.cgi?id=763131
 #: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
 msgid "None"
-msgstr "Nijako"
+msgstr "Žiadny"
 
 # combobox text
 #: ../src/photos-print-setup.c:917
@@ -706,19 +707,19 @@ msgstr "Vypnutý, nepoužitý"
 msgid "On, fired"
 msgstr "Zapnutý, použitý"
 
-#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Všetko"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Názov"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autor"
@@ -726,7 +727,7 @@ msgstr "Autor"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Porovnávať"
 
@@ -783,7 +784,6 @@ msgid "Original"
 msgstr "Pôvodný"
 
 #: ../src/photos-tool-crop.c:133
-#| msgid "Square"
 msgid "1×1 (Square)"
 msgstr "1×1 (štvorec)"
 
@@ -817,15 +817,15 @@ msgstr "Uzamknúť pomer strán"
 
 #: ../src/photos-tool-crop.c:1217
 msgid "Reset"
-msgstr "Vynulovať"
+msgstr "Obnoviť"
 
 #: ../src/photos-tool-crop.c:1234
 msgid "Crop"
-msgstr "Oreže"
+msgstr "Orezať"
 
 #: ../src/photos-tool-enhance.c:207
 msgid "Sharpen"
-msgstr "Doostriť"
+msgstr "Doostrenie"
 
 #: ../src/photos-tool-enhance.c:227
 msgid "Denoise"
