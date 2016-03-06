@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-04 17:42+0100\n"
-"PO-Revision-Date: 2016-03-04 17:43+0100\n"
+"POT-Creation-Date: 2016-03-06 16:42+0100\n"
+"PO-Revision-Date: 2016-03-06 16:44+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -266,7 +266,10 @@ msgstr "Opróżnij kosz"
 msgid "Open"
 msgstr "Otwórz"
 
-#: ../src/photos-export-notification.c:302
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:305
 msgid "Export Folder"
 msgstr "Wyeksportuj katalog"
 
@@ -569,7 +572,7 @@ msgstr "_Dół:"
 msgid "C_enter:"
 msgstr "Śr_odek:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Brak"
 
@@ -689,19 +692,19 @@ msgstr "Wyłączona"
 msgid "On, fired"
 msgstr "Włączona"
 
-#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Wszystkie"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "tytułu"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "autora"
@@ -709,7 +712,7 @@ msgstr "autora"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Wyszukiwanie"
 
@@ -817,27 +820,33 @@ msgstr "Usuwanie szumu"
 msgid "Enhance"
 msgstr "Uwydatnianie"
 
-#: ../src/photos-tool-filters.c:198
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Brak"
+
+#: ../src/photos-tool-filters.c:199
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:205
+#: ../src/photos-tool-filters.c:206
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:211
+#: ../src/photos-tool-filters.c:212
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:218
+#: ../src/photos-tool-filters.c:219
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:224
+#: ../src/photos-tool-filters.c:225
 msgid "Hometown"
 msgstr "Hometown"
 
-#: ../src/photos-tool-filters.c:242
+#: ../src/photos-tool-filters.c:243
 msgid "Filters"
 msgstr "Filtry"
 
