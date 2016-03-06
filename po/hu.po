@@ -1,24 +1,24 @@
 # Hungarian translation for gnome-photos.
-# Copyright (C) 2013. Free Software Foundation, Inc.
+# Copyright (C) 2013-2016 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnome-photos package.
 #
-# Balázs Úr <urbalazs at gmail dot com>, 2013, 2014, 2015.
+# Balázs Úr <urbalazs at gmail dot com>, 2013, 2014, 2015, 2016.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2013, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-04 09:55+0000\n"
-"PO-Revision-Date: 2016-03-04 20:16+0100\n"
-"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
+"POT-Creation-Date: 2016-03-06 09:50+0000\n"
+"PO-Revision-Date: 2016-03-06 19:27+0100\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 1.2\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
@@ -238,14 +238,11 @@ msgstr "Nem sikerült az exportálás"
 
 #: ../src/photos-export-notification.c:252
 #, c-format
-#| msgid "“%s” deleted"
 msgid "“%s” exported"
 msgstr "„%s” exportálva"
 
 #: ../src/photos-export-notification.c:256
 #, c-format
-#| msgid "%d item deleted"
-#| msgid_plural "%d items deleted"
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d elem exportálva"
@@ -265,8 +262,10 @@ msgstr "Kuka ürítése"
 msgid "Open"
 msgstr "Megnyitás"
 
-#: ../src/photos-export-notification.c:302
-#| msgid "Export"
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:305
 msgid "Export Folder"
 msgstr "Mappa exportálása"
 
@@ -455,10 +454,6 @@ msgid "Done"
 msgstr "Kész"
 
 #: ../src/photos-main-window.c:492
-#| msgid ""
-#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#| "Copyright © 2014, 2015 Pranav Kant\n"
-#| "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -571,7 +566,7 @@ msgstr "_Lent:"
 msgid "C_enter:"
 msgstr "_Középre:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Nincs"
 
@@ -691,19 +686,19 @@ msgstr "Kikapcsolva, nem villant"
 msgid "On, fired"
 msgstr "Bekapcsolva, villant"
 
-#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Összes"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Cím"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Szerző"
@@ -711,7 +706,7 @@ msgstr "Szerző"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Találat"
 
@@ -764,12 +759,10 @@ msgid "Free"
 msgstr "Szabad"
 
 #: ../src/photos-tool-crop.c:132
-#| msgid "Original Size"
 msgid "Original"
 msgstr "Eredeti"
 
 #: ../src/photos-tool-crop.c:133
-#| msgid "Square"
 msgid "1×1 (Square)"
 msgstr "1×1 (Négyzet)"
 
@@ -821,27 +814,34 @@ msgstr "Zajmentesítés"
 msgid "Enhance"
 msgstr "Feljavítás"
 
-#: ../src/photos-tool-filters.c:198
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+#| msgid "None"
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Nincs"
+
+#: ../src/photos-tool-filters.c:199
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:205
+#: ../src/photos-tool-filters.c:206
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:211
+#: ../src/photos-tool-filters.c:212
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:218
+#: ../src/photos-tool-filters.c:219
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:224
+#: ../src/photos-tool-filters.c:225
 msgid "Hometown"
 msgstr "Szülőváros"
 
-#: ../src/photos-tool-filters.c:242
+#: ../src/photos-tool-filters.c:243
 msgid "Filters"
 msgstr "Szűrők"
 
