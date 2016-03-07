@@ -43,6 +43,7 @@
 struct _PhotosPreviewView
 {
   GtkBin parent_instance;
+  GAction *draw;
   GeglNode *node;
   GtkWidget *overlay;
   GtkWidget *palette;
@@ -270,8 +271,6 @@ photos_preview_view_process (GObject *source_object, GAsyncResult *res, gpointer
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
   GError *error = NULL;
-  GtkWidget *view_container;
-  GtkWidget *view;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
   photos_base_item_process_finish (item, res, &error);
@@ -281,9 +280,7 @@ photos_preview_view_process (GObject *source_object, GAsyncResult *res, gpointer
       g_error_free (error);
     }
 
-  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
-  view = photos_preview_view_get_view_from_view_container (view_container);
-  gtk_widget_queue_draw (view);
+  g_action_activate (self->draw, NULL);
 }
 
 
@@ -378,6 +375,18 @@ photos_preview_view_denoise (PhotosPreviewView *self, GVariant *parameter)
 
 
 static void
+photos_preview_view_draw (PhotosPreviewView *self)
+{
+  GtkWidget *view;
+  GtkWidget *view_container;
+
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  view = photos_preview_view_get_view_from_view_container (view_container);
+  gtk_widget_queue_draw (view);
+}
+
+
+static void
 photos_preview_view_insta (PhotosPreviewView *self, GVariant *parameter)
 {
   PhotosBaseItem *item;
@@ -429,26 +438,19 @@ static void
 photos_preview_view_tool_activated (PhotosTool *tool, gpointer user_data)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
-  GtkWidget *view_container;
-  GtkWidget *view;
 
   g_return_if_fail (self->current_tool == NULL);
 
   self->current_tool = tool;
   g_object_add_weak_pointer (G_OBJECT (self->current_tool), (gpointer *) &self->current_tool);
 
-  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
-  view = photos_preview_view_get_view_from_view_container (view_container);
-  gtk_widget_queue_draw (view);
+  g_action_activate (self->draw, NULL);
 }
 
 
 static void
 photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
 {
-  GtkWidget *view_container;
-  GtkWidget *view;
-
   if (self->current_tool == tool)
     return;
 
@@ -460,21 +462,22 @@ photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
       self->current_tool = NULL;
     }
 
-  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
-  view = photos_preview_view_get_view_from_view_container (view_container);
-
   if (tool == NULL)
     {
       self->current_tool = NULL;
-      gtk_widget_queue_draw (view);
+      g_action_activate (self->draw, NULL);
     }
   else
     {
+      GtkWidget *view;
+      GtkWidget *view_container;
       PhotosBaseItem *item;
 
       g_signal_connect_object (tool, "activated", G_CALLBACK (photos_preview_view_tool_activated), self, 0);
 
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+      view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+      view = photos_preview_view_get_view_from_view_container (view_container);
       photos_tool_activate (tool, item, PHOTOS_IMAGE_VIEW (view));
     }
 }
@@ -682,6 +685,9 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "denoise-current");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_denoise), self, G_CONNECT_SWAPPED);
+
+  self->draw = g_action_map_lookup_action (G_ACTION_MAP (app), "draw-current");
+  g_signal_connect_object (self->draw, "activate", G_CALLBACK (photos_preview_view_draw), self, G_CONNECT_SWAPPED);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "edit-done");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_edit_done), self, G_CONNECT_SWAPPED);

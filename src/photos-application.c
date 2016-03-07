@@ -75,6 +75,7 @@ struct _PhotosApplication
   GSimpleAction *crop_action;
   GSimpleAction *delete_action;
   GSimpleAction *denoise_action;
+  GSimpleAction *draw_action;
   GSimpleAction *edit_action;
   GSimpleAction *edit_cancel_action;
   GSimpleAction *edit_done_action;
@@ -386,6 +387,10 @@ photos_application_actions_update (PhotosApplication *self)
             && mode == PHOTOS_WINDOW_MODE_PREVIEW
             && photos_base_item_can_edit (item));
   g_simple_action_set_enabled (self->edit_action, enable);
+
+  enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
+            || mode == PHOTOS_WINDOW_MODE_EDIT);
+  g_simple_action_set_enabled (self->draw_action, enable);
 }
 
 
@@ -1420,6 +1425,9 @@ photos_application_startup (GApplication *application)
   self->denoise_action = g_simple_action_new ("denoise-current", G_VARIANT_TYPE_UINT16);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->denoise_action));
 
+  self->draw_action = g_simple_action_new ("draw-current", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->draw_action));
+
   self->edit_cancel_action = g_simple_action_new ("edit-cancel", NULL);
   g_signal_connect_swapped (self->edit_cancel_action,
                             "activate",
@@ -1595,6 +1603,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->crop_action);
   g_clear_object (&self->delete_action);
   g_clear_object (&self->denoise_action);
+  g_clear_object (&self->draw_action);
   g_clear_object (&self->edit_action);
   g_clear_object (&self->edit_cancel_action);
   g_clear_object (&self->edit_done_action);
