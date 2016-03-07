@@ -1,24 +1,28 @@
 # Serbian translation for gnome-photos.
-# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2015.
 # This file is distributed under the same license as the gnome-photos package.
-# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013—2016.
-# Marko M. Kostić (Marko M. Kostić) <marko.m.kostic@gmail.com>, 2015.
+#
+# Translators: 
+# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013—2015.
+# Marko M. Kostić <marko.m.kostic@gmail.com>, 2016.
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-19 12:10+0000\n"
-"PO-Revision-Date: 2016-02-19 18:55+0200\n"
-"Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
+"POT-Creation-Date: 2016-03-06 19:46+0000\n"
+"PO-Revision-Date: 2016-03-06 21:46+0100\n"
+"Last-Translator: Marko M. Kostić <marko.m.kostic@gmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
@@ -80,7 +84,7 @@ msgstr "Pristupite, razvrstajte i delite fotografije"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
-msgstr "fotografije;slike;"
+msgstr "Fotografije;Slike;"
 
 #: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
@@ -110,7 +114,7 @@ msgstr "Stanje uvećanja prozora"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1405
+#: ../src/photos-base-item.c:1413
 msgid "Screenshots"
 msgstr "Snimci ekrana"
 
@@ -187,7 +191,7 @@ msgstr "Izvoz"
 
 #: ../src/photos-export-dialog.ui.h:2
 msgid "_Folder Name"
-msgstr "Naziv _fascikle"
+msgstr "Naziv _fascikle:"
 
 #: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
 msgid "Size"
@@ -195,11 +199,11 @@ msgstr "Veličina"
 
 #: ../src/photos-export-dialog.ui.h:4
 msgid "F_ull"
-msgstr "_Cela"
+msgstr "P_una"
 
 #: ../src/photos-export-dialog.ui.h:5
 msgid "_Reduced"
-msgstr "_Umanjena"
+msgstr "S_manjena"
 
 #: ../src/photos-export-dialog.ui.h:6
 msgid "_Cancel"
@@ -226,7 +230,50 @@ msgstr "%e. %B %Y."
 
 #: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
-msgstr "Izračunavam veličinu za izvoz…"
+msgstr "Proračunavam veličinu izvoza…"
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export: not enough space"
+msgstr "Nisam uspeo da izvezem: nema dovoljno prostora"
+
+#: ../src/photos-export-notification.c:245
+msgid "Failed to export"
+msgstr "Nisam uspeo da izvezem"
+
+#: ../src/photos-export-notification.c:252
+#, c-format
+msgid "“%s” exported"
+msgstr "Stavka „%s“ je izvezena"
+
+#: ../src/photos-export-notification.c:256
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d stavka je izvezena"
+msgstr[1] "%d stavke su izvezene"
+msgstr[2] "%d stavki je izvezeno"
+msgstr[3] "Jedna stavka je izvezena"
+
+#: ../src/photos-export-notification.c:273
+msgid "Analyze"
+msgstr "Analiziraj"
+
+#: ../src/photos-export-notification.c:278
+msgid "Empty Trash"
+msgstr "Isprazni smeće"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "Otvori"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:305
+msgid "Export Folder"
+msgstr "Izvezi fasciklu"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -249,32 +296,32 @@ msgstr "Opšte"
 #: ../src/photos-help-overlay.ui.h:2
 msgctxt "shortcut window"
 msgid "Show help"
-msgstr "Prikazuje pomoć"
+msgstr "Prikaži pomoć"
 
 #: ../src/photos-help-overlay.ui.h:3
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr "Izlazi iz programa"
+msgstr "Izlaz"
 
 #: ../src/photos-help-overlay.ui.h:4
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr "Kretanje"
+msgstr "Navigacija"
 
 #: ../src/photos-help-overlay.ui.h:5
 msgctxt "shortcut window"
 msgid "Next photo"
-msgstr "Sledeća fotografija"
+msgstr "Sledeća slika"
 
 #: ../src/photos-help-overlay.ui.h:6
 msgctxt "shortcut window"
 msgid "Previous photo"
-msgstr "Prethodna fotografija"
+msgstr "Prethodna slika"
 
 #: ../src/photos-help-overlay.ui.h:7
 msgctxt "shortcut window"
 msgid "Go back"
-msgstr "Ide nazad"
+msgstr "Idi nazad"
 
 #: ../src/photos-help-overlay.ui.h:8
 msgctxt "shortcut window"
@@ -289,22 +336,22 @@ msgstr "Pretraga"
 #: ../src/photos-help-overlay.ui.h:10
 msgctxt "shortcut window"
 msgid "Select all"
-msgstr "Bira sve"
+msgstr "Izaberi sve"
 
 #: ../src/photos-help-overlay.ui.h:11
 msgctxt "shortcut window"
 msgid "Print selected photos"
-msgstr "Štampa izabrane fotografije"
+msgstr "Štampaj izabrane slike"
 
 #: ../src/photos-help-overlay.ui.h:12
 msgctxt "shortcut window"
 msgid "Delete selected photos"
-msgstr "Briše izabrane fotografije"
+msgstr "Brisanje izabranih slika"
 
 #: ../src/photos-help-overlay.ui.h:13
 msgctxt "shortcut window"
 msgid "Photo view"
-msgstr "Pregled fotografije"
+msgstr "Pregled slika"
 
 #: ../src/photos-help-overlay.ui.h:14
 msgctxt "shortcut window"
@@ -314,7 +361,7 @@ msgstr "Uređivanje"
 #: ../src/photos-help-overlay.ui.h:15
 msgctxt "shortcut window"
 msgid "Export"
-msgstr "Izvozi"
+msgstr "Izvoz"
 
 #: ../src/photos-help-overlay.ui.h:16
 msgctxt "shortcut window"
@@ -324,17 +371,17 @@ msgstr "Štampa"
 #: ../src/photos-help-overlay.ui.h:17
 msgctxt "shortcut window"
 msgid "Delete"
-msgstr "Briše"
+msgstr "Brisanje"
 
 #: ../src/photos-help-overlay.ui.h:18
 msgctxt "shortcut window"
 msgid "Action menu"
-msgstr "Izbornik radnje"
+msgstr "Izbornik radnji"
 
 #: ../src/photos-help-overlay.ui.h:19
 msgctxt "shortcut window"
 msgid "Fullscreen"
-msgstr "Ceo ekran"
+msgstr "Preko celog ekrana"
 
 #: ../src/photos-help-overlay.ui.h:20
 msgctxt "shortcut window"
@@ -344,7 +391,7 @@ msgstr "Pregled uređivanja"
 #: ../src/photos-help-overlay.ui.h:21
 msgctxt "shortcut window"
 msgid "Cancel"
-msgstr "Otkazuje"
+msgstr "Otkazivanje"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
@@ -366,7 +413,7 @@ msgstr "Vaše fotografije su popisane"
 msgid "Some photos might not be available during this process"
 msgstr "Neke fotografije neće biti dostupne za vreme ovog postupka"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:131 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Mesno"
 
@@ -393,16 +440,16 @@ msgstr "Izaberi stavke"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:273
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
 #, c-format
 msgid "Open with %s"
 msgstr "Otvori programom „%s“"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:284
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
 msgid "Remove from favorites"
 msgstr "Uklonite iz omiljenih"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:289
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
 msgid "Add to favorites"
 msgstr "Dodajte u omiljene"
 
@@ -415,27 +462,23 @@ msgid "Done"
 msgstr "Urađeno"
 
 #: ../src/photos-main-window.c:492
-#| msgid ""
-#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#| "Copyright © 2014, 2015 Pranav Kant\n"
-#| "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
 "Copyright © 2012 – 2016 Red Hat, Inc."
 msgstr ""
 "Autorska prava © 2013 Intel Korporacija. Sva prava su zadržana.\n"
-"Autorska prava © 2014 — 2015 Pranav Kant\n"
-"Autorska prava © 2012 — 2015 Red Het, Ink."
+"Autorska prava © 2014–2015 Pranav Kant\n"
+"Autorska prava © 2012–2016 Red Het, Ink."
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr ""
-"  Miroslav Nikolić\n"
-"  Marko M. Kostić (Marko M. Kostić) <marko.m.kostic@gmail.com>\n"
+"Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
+"Marko M. Kostić <marko.m.kostic@gmail.com>\n"
 "\n"
-"  http://prevod.org — prevod na srpski jezik"
+"http://prevod.org — prevod na srpski jezik"
 
 #: ../src/photos-menus.ui.h:1
 msgid "Fullscreen"
@@ -443,7 +486,7 @@ msgstr "Ceo ekran"
 
 #: ../src/photos-menus.ui.h:2
 msgid "Keyboard Shortcuts"
-msgstr "Prečice tastature"
+msgstr "Prečice na tastaturi"
 
 #: ../src/photos-menus.ui.h:3
 msgid "_Help"
@@ -470,12 +513,6 @@ msgstr "U _redu"
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Razvrstavanje"
-
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:276
-#: ../src/photos-selection-toolbar.ui.h:2
-msgid "Open"
-msgstr "Otvori"
 
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Export…"
@@ -539,7 +576,7 @@ msgstr "_Dole:"
 msgid "C_enter:"
 msgstr "_Sredina:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Ništa"
 
@@ -659,19 +696,19 @@ msgstr "Isključeno, bez blica"
 msgid "On, fired"
 msgstr "Uključeno, sa blicem"
 
-#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Sve"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "naslov"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "stvaraoca"
@@ -679,7 +716,7 @@ msgstr "stvaraoca"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Poklopi"
 
@@ -721,53 +758,59 @@ msgstr "Kontrast"
 
 #: ../src/photos-tool-colors.c:292
 msgid "Saturation"
-msgstr "Zasićenost"
+msgstr "Zasićenje"
 
 #: ../src/photos-tool-colors.c:319
 msgid "Colors"
 msgstr "Boje"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:131
 msgid "Free"
 msgstr "Slobodno"
 
+#: ../src/photos-tool-crop.c:132
+msgid "Original"
+msgstr "Izvorno"
+
 #: ../src/photos-tool-crop.c:133
-msgid "Original Size"
-msgstr "Izvorna veličina"
+msgid "1×1 (Square)"
+msgstr "1×1 (Kvadrat)"
 
 #: ../src/photos-tool-crop.c:134
-msgid "Screen"
-msgstr "Ekran"
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden ratio"
-msgstr "Zlatni presek"
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
 
 #: ../src/photos-tool-crop.c:136
-msgid "Square"
-msgstr "Kvadrat"
+msgid "7×5"
+msgstr "7×5"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A paper sizes"
-msgstr "Veličine papira"
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
 
-#. Translators: this is the aspect ratio of the crop tool
-#: ../src/photos-tool-crop.c:986
-#, c-format
-msgid "%.2f"
-msgstr "%.2f"
+#: ../src/photos-tool-crop.c:138
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:1211
+#: ../src/photos-tool-crop.c:139
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1169
 msgid "Lock aspect ratio"
 msgstr "Zaključaj odnos razmere"
 
-#: ../src/photos-tool-crop.c:1269
+#: ../src/photos-tool-crop.c:1217
 msgid "Reset"
-msgstr "Povrati"
+msgstr "Ponovo postavi"
 
-#: ../src/photos-tool-crop.c:1286
+#: ../src/photos-tool-crop.c:1234
 msgid "Crop"
-msgstr "Opseci"
+msgstr "Odreži"
 
 #: ../src/photos-tool-enhance.c:207
 msgid "Sharpen"
@@ -775,36 +818,125 @@ msgstr "Izoštri"
 
 #: ../src/photos-tool-enhance.c:227
 msgid "Denoise"
-msgstr "Ukloni buku"
+msgstr "Smanji buku"
 
 #: ../src/photos-tool-enhance.c:253
 msgid "Enhance"
 msgstr "Poboljšaj"
 
-#: ../src/photos-tool-filters.c:198
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Ništa"
+
+#: ../src/photos-tool-filters.c:199
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:205
+#: ../src/photos-tool-filters.c:206
 msgid "Calistoga"
 msgstr "Kalistoga"
 
-#: ../src/photos-tool-filters.c:211
+#: ../src/photos-tool-filters.c:212
 msgid "Mogadishu"
-msgstr "Mogadišo"
+msgstr "Mogadišu"
 
-#: ../src/photos-tool-filters.c:218
+#: ../src/photos-tool-filters.c:219
 msgid "Caap"
 msgstr "Kap"
 
-#: ../src/photos-tool-filters.c:224
+#: ../src/photos-tool-filters.c:225
 msgid "Hometown"
-msgstr "Homtaun"
+msgstr "Houmtaun"
 
-#: ../src/photos-tool-filters.c:242
+#: ../src/photos-tool-filters.c:243
 msgid "Filters"
-msgstr "Propusnici"
+msgstr "Filteri"
 
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Ne mogu da dovučem spisak fotografija"
+
+#~ msgid "Print the current photo"
+#~ msgstr "Odštampaj trenutnu sliku"
+
+#~ msgid "Screen"
+#~ msgstr "Ekran"
+
+#~ msgid "Golden Cut"
+#~ msgstr "Zlatni presek"
+
+#~ msgid "A3 (297 × 420 mm)"
+#~ msgstr "A3 (297 x 420 mm)"
+
+#~ msgid "A4 (210 × 297 mm)"
+#~ msgstr "A4 (210 x 297 mm)"
+
+#~ msgid "1977"
+#~ msgstr "1977"
+
+#~ msgid "Brannan"
+#~ msgstr "Brenan"
+
+#~ msgid "Gotham"
+#~ msgstr "Gotam"
+
+#~ msgid "Gray"
+#~ msgstr "Siva"
+
+#~ msgid "Nashville"
+#~ msgstr "Nešvil"
+
+#~ msgid "%a, %d %B %Y  %X"
+#~ msgstr "%a, %d. %b %Y. u %-H:%M:%S"
+
+#~ msgid "%.1f (lens)"
+#~ msgstr "%.1f (objektiv)"
+
+#~ msgid "%.1f (35mm film)"
+#~ msgstr "%.1f (35mm film)"
+
+#~ msgid "Transformation on unloaded image."
+#~ msgstr "Pretvaranje na neučitanoj slici."
+
+#~ msgid "Transformation failed."
+#~ msgstr "Pretvaranje nije uspelo."
+
+#~ msgid "EXIF not supported for this file format."
+#~ msgstr "EKSIF za ovaj oblik datoteke nije podržan."
+
+#~ msgid "Image loading failed."
+#~ msgstr "Učitavanje slike nije uspelo."
+
+#~ msgid "No image loaded."
+#~ msgstr "Slika nije učitana."
+
+#~ msgid "You do not have the permissions necessary to save the file."
+#~ msgstr "Nemate potrebna ovlašćenja da sačuvate datoteku."
+
+#~ msgid "Temporary file creation failed."
+#~ msgstr "Stvaranje privremene datoteke nije uspelo."
+
+#~ msgid "At least two file names are equal."
+#~ msgstr "Najmanje dva naziva datoteka su ista."
+
+#~ msgid "Could not display help for Image Viewer"
+#~ msgstr "Ne mogu da prikažem pomoć za Preglednika slika"
+
+#~ msgid " (invalid Unicode)"
+#~ msgstr " (neispravan Unikod)"
+
+#~ msgid "Recent"
+#~ msgstr "Skorašnje"
+
+#~| msgid "No Photos Found"
+#~ msgid "No Favorites Found"
+#~ msgstr "Nisam pronašao omiljene"
+
+#~ msgid "Load More"
+#~ msgstr "Učitaj još"
+
+#~| msgid "Loading..."
+#~ msgid "Loading…"
+#~ msgstr "Učitavam…"
