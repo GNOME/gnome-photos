@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the gnome-photos package.
 # alinofka <alinofka@gmail.com>, 2012.
 # Yuri Myasoedov <ymyasoedov@yandex.ru>, 2014.
-# Stas Solovey <whats_up@tut.by>, 2015.
+# Stas Solovey <whats_up@tut.by>, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-13 08:26+0000\n"
-"PO-Revision-Date: 2015-03-13 12:51+0300\n"
+"POT-Creation-Date: 2016-03-08 09:55+0000\n"
+"PO-Revision-Date: 2016-03-08 22:37+0300\n"
 "Last-Translator: Stas Solovey <whats_up@tut.by>\n"
 "Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -20,15 +20,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:124
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
+#: ../src/photos-search-type-manager.c:136
 msgid "Photos"
 msgstr "Фотографии"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Доступ, управление и обмен фотографиями в GNOME"
 
@@ -110,121 +110,28 @@ msgstr "Окно развёрнуто"
 msgid "Window maximized state"
 msgstr "Окно максимального размера"
 
-# исправление даты
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%a, %d %b. %Y  %X"
-
-# исправление даты
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%a, %d %b. %Y"
-
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f (объектив)"
-
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f (плёнка 35мм)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "Преобразование выгруженного изображения."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "Ошибка преобразования."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "EXIF не поддерживается для данного формата файла."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "Ошибка загрузки изображения."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "Нет загруженных изображений."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "Недостаточно прав для сохранения файла."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "Ошибка создания временного файла."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "Некоторые имена файлов совпадают."
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "Не удалось открыть справку для программы просмотра изображений"
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (неверный Юникод)"
-
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Полноэкранный режим"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "_Справка"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "О приложении"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "Завершить"
-
-#: ../src/photos-base-item.c:434
+#: ../src/photos-base-item.c:474
 msgid "Album"
 msgstr "Альбом"
 
-#: ../src/photos-base-item.c:886
+#: ../src/photos-base-item.c:1413
 msgid "Screenshots"
 msgstr "Снимки рабочего стола"
 
-#: ../src/photos-delete-notification.c:141
+#: ../src/photos-delete-notification.c:145
 #, c-format
 msgid "“%s” deleted"
 msgstr "Удалён объект «%s»"
 
-#: ../src/photos-delete-notification.c:144
+#: ../src/photos-delete-notification.c:148
 #, c-format
-#| msgid "Selected item has been deleted"
-#| msgid_plural "Selected items have been deleted"
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "Удалён %d элемент"
 msgstr[1] "Удалено %d элемента"
 msgstr[2] "Удалено %d элементов"
 
-#: ../src/photos-delete-notification.c:151
+#: ../src/photos-delete-notification.c:155
 msgid "Undo"
 msgstr "Отменить"
 
@@ -232,19 +139,15 @@ msgstr "Отменить"
 msgid "DLNA Renderer Devices"
 msgstr "Устройства отрисовки DLNA"
 
-#: ../src/photos-embed.c:621
-msgid "Recent"
-msgstr "Последние"
-
-#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Альбомы"
 
-#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Избранное"
 
-#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:706 ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Найти"
 
@@ -280,48 +183,264 @@ msgstr "Избранные фото будут отображаться здес
 msgid "No Photos Found"
 msgstr "Фотографии не найдены"
 
+#: ../src/photos-export-dialog.ui.h:1
+#| msgid "Exposure"
+msgctxt "dialog title"
+msgid "Export"
+msgstr "Экспортировать"
+
+#: ../src/photos-export-dialog.ui.h:2
+msgid "_Folder Name"
+msgstr "_Имя папки"
+
+#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
+msgid "Size"
+msgstr "Размер"
+
+#: ../src/photos-export-dialog.ui.h:4
+msgid "F_ull"
+msgstr "_Полное"
+
+#: ../src/photos-export-dialog.ui.h:5
+msgid "_Reduced"
+msgstr "_Уменьшенное"
+
+#: ../src/photos-export-dialog.ui.h:6
+#| msgid "Cancel"
+msgid "_Cancel"
+msgstr "_Отменить"
+
+#: ../src/photos-export-dialog.ui.h:7
+#| msgid "Exposure"
+msgid "_Export"
+msgstr "_Экспортировать"
+
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: ../src/photos-export-dialog.c:76
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
+
+# исправление даты
+#. Translators: this is the default sub-directory where photos
+#. *  will be exported.
+#.
+#: ../src/photos-export-dialog.c:284
+#| msgid "%a, %d %B %Y"
+msgid "%e %B %Y"
+msgstr "%e %b. %Y"
+
+#: ../src/photos-export-dialog.c:339
+msgid "Calculating export size…"
+msgstr "Подсчёт размера экспорта…"
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export: not enough space"
+msgstr "Не удалось экспортировать: недостаточно места"
+
+#: ../src/photos-export-notification.c:245
+msgid "Failed to export"
+msgstr "Не удалось экспортировать"
+
+#: ../src/photos-export-notification.c:252
+#, c-format
+#| msgid "“%s” deleted"
+msgid "“%s” exported"
+msgstr "«%s» экспортирован"
+
+#: ../src/photos-export-notification.c:256
+#, c-format
+#| msgid "%d item deleted"
+#| msgid_plural "%d items deleted"
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d объект экспортирован"
+msgstr[1] "%d объекта экспортировано"
+msgstr[2] "%d объектов экспортировано"
+
+#: ../src/photos-export-notification.c:273
+msgid "Analyze"
+msgstr "Анализировать"
+
+#: ../src/photos-export-notification.c:278
+msgid "Empty Trash"
+msgstr "Очистить корзину"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "Открыть"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:305
+msgid "Export Folder"
+msgstr "Папка экспорта"
+
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
-#: ../src/photos-google-item.c:77
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
+#: ../src/photos-google-item.c:82
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:163
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Безымянное фото"
+
+#: ../src/photos-help-overlay.ui.h:1
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Основное"
+
+#: ../src/photos-help-overlay.ui.h:2
+msgctxt "shortcut window"
+msgid "Show help"
+msgstr "Показать справку"
+
+#: ../src/photos-help-overlay.ui.h:3
+#| msgid "Quit"
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Завершить"
+
+#: ../src/photos-help-overlay.ui.h:4
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Навигация"
+
+#: ../src/photos-help-overlay.ui.h:5
+#| msgid "Print photos"
+msgctxt "shortcut window"
+msgid "Next photo"
+msgstr "Следующая фотография"
+
+#: ../src/photos-help-overlay.ui.h:6
+#| msgid "Print photos"
+msgctxt "shortcut window"
+msgid "Previous photo"
+msgstr "Предыдущая фотография"
+
+#: ../src/photos-help-overlay.ui.h:7
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Назад"
+
+#: ../src/photos-help-overlay.ui.h:8
+#| msgid "Preview"
+msgctxt "shortcut window"
+msgid "Overview"
+msgstr "Обзор"
+
+#: ../src/photos-help-overlay.ui.h:9
+#| msgid "Search"
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Поиск"
+
+#: ../src/photos-help-overlay.ui.h:10
+#| msgid "Select All"
+msgctxt "shortcut window"
+msgid "Select all"
+msgstr "Выбрать все"
+
+#: ../src/photos-help-overlay.ui.h:11
+#| msgid "Print photos"
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr "Напечатать выбранные фотографии"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "Удалить выбранные фотографии"
+
+#: ../src/photos-help-overlay.ui.h:13
+#| msgid "Photos"
+msgctxt "shortcut window"
+msgid "Photo view"
+msgstr "Режим просмотра фотографий"
+
+#: ../src/photos-help-overlay.ui.h:14
+msgctxt "shortcut window"
+msgid "Edit"
+msgstr "Правка"
+
+#: ../src/photos-help-overlay.ui.h:15
+#| msgid "Exposure"
+msgctxt "shortcut window"
+msgid "Export"
+msgstr "Экспорт"
+
+#: ../src/photos-help-overlay.ui.h:16
+#| msgid "Print"
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "Печать"
+
+#: ../src/photos-help-overlay.ui.h:17
+#| msgid "Delete"
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Удалить"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
+msgid "Action menu"
+msgstr "Меню действий"
+
+#: ../src/photos-help-overlay.ui.h:19
+#| msgid "Fullscreen"
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "Полноэкранный режим"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "Режим редактирования"
+
+#: ../src/photos-help-overlay.ui.h:21
+#| msgid "Cancel"
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "Отменить"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
 #.
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:172
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Получение фотоснимков из %s"
 
-#: ../src/photos-indexing-notification.c:176
+#: ../src/photos-indexing-notification.c:175
 msgid "Fetching photos from online accounts"
 msgstr "Получение фотоснимков из сетевых учётных записей"
 
-#: ../src/photos-indexing-notification.c:213
+#: ../src/photos-indexing-notification.c:211
 msgid "Your photos are being indexed"
 msgstr "Фотографии индексируются"
 
-#: ../src/photos-indexing-notification.c:214
+#: ../src/photos-indexing-notification.c:212
 msgid "Some photos might not be available during this process"
 msgstr "Во время этого процесса некоторые фотографии могут быть недоступны"
 
-#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:131 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Локальные"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Чтобы выбрать элемент, нажмите на него"
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -329,91 +448,122 @@ msgstr[0] "Выбран %d"
 msgstr[1] "Выбрано %d"
 msgstr[2] "Выбрано %d"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Назад"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:317
 msgid "Select Items"
 msgstr "Выбор элементов"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
 #, c-format
 msgid "Open with %s"
 msgstr "Открыть с помощью «%s»"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
 msgid "Remove from favorites"
 msgstr "Удалить из избранного"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
 msgid "Add to favorites"
 msgstr "Добавить в избранное"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:500 ../src/photos-main-toolbar.c:638
 msgid "Cancel"
 msgstr "Отменить"
 
-#: ../src/photos-main-window.c:473
+#: ../src/photos-main-toolbar.c:504
+msgid "Done"
+msgstr "Готово"
+
+#: ../src/photos-main-window.c:492
+#| msgid ""
+#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#| "Copyright © 2014, 2015 Pranav Kant\n"
+#| "Copyright © 2012, 2013, 2014 Red Hat, Inc."
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 msgstr ""
 "Авторское право © 2013 Intel Corporation. All rights reserved.\n"
-"Авторское право © 2014, 2015 Pranav Kant\n"
-"Авторское право © 2012, 2013, 2014 Red Hat, Inc."
+"Авторское право © 2014 – 2015 Pranav Kant\n"
+"Авторское право © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:483
+#: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr ""
 "Yuri Myasoedov <ymyasoedov@yandex.ru>, 2014.\n"
-"Stas Solovey <whats_up@tut.by>, 2015."
+"Stas Solovey <whats_up@tut.by>, 2015-2016."
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Полноэкранный режим"
+
+#: ../src/photos-menus.ui.h:2
+msgid "Keyboard Shortcuts"
+msgstr "Комбинации клавиш"
+
+#: ../src/photos-menus.ui.h:3
+msgid "_Help"
+msgstr "_Справка"
+
+#: ../src/photos-menus.ui.h:4
+msgid "About"
+msgstr "О приложении"
+
+#: ../src/photos-menus.ui.h:5
+msgid "Quit"
+msgstr "Завершить"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "_Добавить"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_ОК"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Упорядочить"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
-#: ../src/photos-selection-toolbar.c:457
-msgid "Open"
-msgstr "Открыть"
-
 #: ../src/photos-preview-menu.ui.h:2
+msgid "Export…"
+msgstr "Экспортировать…"
+
+#: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
 msgstr "Печать…"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Delete"
+msgstr "Удалить"
+
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
 msgstr "Показать на…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Background"
 msgstr "Установить как фон рабочего стола"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:7
 msgid "Set as Lock Screen"
 msgstr "Установить как фон экрана блокировки"
 
-#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
-#: ../src/photos-selection-toolbar.c:478
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:602
+#: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Свойства"
 
-#: ../src/photos-print-notification.c:76
+#: ../src/photos-print-notification.c:79
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Печать «%s»: %s"
@@ -422,75 +572,71 @@ msgstr "Печать «%s»: %s"
 msgid "Image Settings"
 msgstr "Параметры изображения"
 
-#: ../src/photos-print-setup.c:906
+#: ../src/photos-print-setup.c:904
 msgid "Position"
 msgstr "Положение"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:907
 msgid "_Left:"
 msgstr "С_лева:"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:908
 msgid "_Right:"
 msgstr "С_права:"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:909
 msgid "_Top:"
 msgstr "С_верху:"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:910
 msgid "_Bottom:"
 msgstr "С_низу:"
 
-#: ../src/photos-print-setup.c:914
+#: ../src/photos-print-setup.c:912
 msgid "C_enter:"
 msgstr "_Центр:"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Нет"
 
-#: ../src/photos-print-setup.c:919
+#: ../src/photos-print-setup.c:917
 msgid "Horizontal"
 msgstr "По горизонтали"
 
-#: ../src/photos-print-setup.c:920
+#: ../src/photos-print-setup.c:918
 msgid "Vertical"
 msgstr "По вертикали"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "Оба направления"
 
-#: ../src/photos-print-setup.c:934
-msgid "Size"
-msgstr "Размер"
-
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:935
 msgid "_Width:"
 msgstr "_Ширина:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:936
 msgid "_Height:"
 msgstr "_Высота:"
 
-#: ../src/photos-print-setup.c:940
+#: ../src/photos-print-setup.c:938
 msgid "_Scaling:"
 msgstr "_Масштаб:"
 
-#: ../src/photos-print-setup.c:949
+#: ../src/photos-print-setup.c:947
 msgid "_Unit:"
 msgstr "_Единица:"
 
-#: ../src/photos-print-setup.c:953
+#: ../src/photos-print-setup.c:951
 msgid "Millimeters"
 msgstr "Миллиметры"
 
-#: ../src/photos-print-setup.c:954
+#: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Дюймы"
 
-#: ../src/photos-print-setup.c:982
+#: ../src/photos-print-setup.c:980
 msgid "Preview"
 msgstr "Предварительный просмотр"
 
@@ -570,31 +716,34 @@ msgstr "Выключена, не сработала"
 msgid "On, fired"
 msgstr "Включена, сработала"
 
-#: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+#: ../src/photos-search-match-manager.c:158
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Все"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Заголовок"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Автор"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Совпадает"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:168
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Тип"
@@ -607,22 +756,171 @@ msgstr "Выбрать все"
 msgid "Select None"
 msgstr "Отменить выбор"
 
-#: ../src/photos-selection-toolbar.c:464
-msgid "Print"
-msgstr "Печать"
+#: ../src/photos-selection-toolbar.ui.h:1
+#| msgid "Exposure"
+msgid "Export"
+msgstr "Экспортировать"
 
-#: ../src/photos-selection-toolbar.c:471
-msgid "Delete"
-msgstr "Удалить"
-
-#: ../src/photos-selection-toolbar.c:485
+#: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Добавить в альбом"
 
-#: ../src/photos-source-manager.c:174
+#: ../src/photos-source-manager.c:203
 msgid "Sources"
 msgstr "Источники"
 
-#: ../src/photos-tracker-controller.c:97
+#: ../src/photos-tool-colors.c:251
+msgid "Brightness"
+msgstr "Яркость"
+
+#: ../src/photos-tool-colors.c:272
+msgid "Contrast"
+msgstr "Контрастность"
+
+#: ../src/photos-tool-colors.c:292
+msgid "Saturation"
+msgstr "Насыщенность"
+
+#: ../src/photos-tool-colors.c:319
+msgid "Colors"
+msgstr "Цвета"
+
+#: ../src/photos-tool-crop.c:131
+msgid "Free"
+msgstr "Свободно"
+
+#: ../src/photos-tool-crop.c:132
+msgid "Original"
+msgstr "Оригинал"
+
+#: ../src/photos-tool-crop.c:133
+msgid "1×1 (Square)"
+msgstr "1×1 (Квадрат)"
+
+#: ../src/photos-tool-crop.c:134
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
+
+#: ../src/photos-tool-crop.c:135
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
+
+#: ../src/photos-tool-crop.c:136
+msgid "7×5"
+msgstr "7×5"
+
+#: ../src/photos-tool-crop.c:137
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
+
+#: ../src/photos-tool-crop.c:138
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
+
+#: ../src/photos-tool-crop.c:139
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1169
+msgid "Lock aspect ratio"
+msgstr "Заблокировать соотношение сторон"
+
+#: ../src/photos-tool-crop.c:1217
+msgid "Reset"
+msgstr "Сбросить"
+
+#: ../src/photos-tool-crop.c:1234
+msgid "Crop"
+msgstr "Обрезать"
+
+#: ../src/photos-tool-enhance.c:207
+msgid "Sharpen"
+msgstr "Увеличить резкость"
+
+#: ../src/photos-tool-enhance.c:227
+msgid "Denoise"
+msgstr "Убрать шум"
+
+#: ../src/photos-tool-enhance.c:253
+#| msgid "Cancel"
+msgid "Enhance"
+msgstr "Усилить"
+
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+#| msgid "None"
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Нет"
+
+#: ../src/photos-tool-filters.c:199
+msgid "1947"
+msgstr "1947"
+
+#: ../src/photos-tool-filters.c:206
+msgid "Calistoga"
+msgstr "Calistoga"
+
+#: ../src/photos-tool-filters.c:212
+msgid "Mogadishu"
+msgstr "Mogadishu"
+
+#: ../src/photos-tool-filters.c:219
+msgid "Caap"
+msgstr "Caap"
+
+#: ../src/photos-tool-filters.c:225
+msgid "Hometown"
+msgstr "Hometown"
+
+#: ../src/photos-tool-filters.c:243
+#| msgid "Millimeters"
+msgid "Filters"
+msgstr "Фильтры"
+
+#: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Не удалось получить список фотографий"
+
+# исправление даты
+#~ msgid "%a, %d %B %Y  %X"
+#~ msgstr "%a, %d %b. %Y  %X"
+
+#~ msgid "%.1f (lens)"
+#~ msgstr "%.1f (объектив)"
+
+#~ msgid "%.1f (35mm film)"
+#~ msgstr "%.1f (плёнка 35мм)"
+
+#~ msgid "Transformation on unloaded image."
+#~ msgstr "Преобразование выгруженного изображения."
+
+#~ msgid "Transformation failed."
+#~ msgstr "Ошибка преобразования."
+
+#~ msgid "EXIF not supported for this file format."
+#~ msgstr "EXIF не поддерживается для данного формата файла."
+
+#~ msgid "Image loading failed."
+#~ msgstr "Ошибка загрузки изображения."
+
+#~ msgid "No image loaded."
+#~ msgstr "Нет загруженных изображений."
+
+#~ msgid "You do not have the permissions necessary to save the file."
+#~ msgstr "Недостаточно прав для сохранения файла."
+
+#~ msgid "Temporary file creation failed."
+#~ msgstr "Ошибка создания временного файла."
+
+#~ msgid "At least two file names are equal."
+#~ msgstr "Некоторые имена файлов совпадают."
+
+#~ msgid "Could not display help for Image Viewer"
+#~ msgstr "Не удалось открыть справку для программы просмотра изображений"
+
+#~ msgid " (invalid Unicode)"
+#~ msgstr " (неверный Юникод)"
+
+#~ msgid "Recent"
+#~ msgstr "Последние"
