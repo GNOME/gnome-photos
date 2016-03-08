@@ -1,14 +1,14 @@
 # Scottish Gaelic translation for gnome-photos.
 # Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# GunChleoc <fios@foramnagaidhlig.net>, 2014.
+# GunChleoc <fios@foramnagaidhlig.net>, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-14\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-23 11:56+0000\n"
-"PO-Revision-Date: 2014-09-23 13:19+0100\n"
+"POT-Creation-Date: 2016-03-08 09:55+0000\n"
+"PO-Revision-Date: 2016-03-08 19:43+0100\n"
 "Last-Translator: GunChleoc <fios@foramnagaidhlig.net>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "Language: gd\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Dealbhan"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Inntrig, cuir an rian 's co-roinn na dealbhan agad air GNOME"
 
@@ -180,39 +180,31 @@ msgstr "Cha b' urrainn dhuinn a' chobhair airson Image Viewer a shealltainn"
 msgid " (invalid Unicode)"
 msgstr " (Unicode mì-dhligheach)"
 
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Làn-sgrìn"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "Cob_hair"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "Mu dhèidhinn"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "Fàg an-seo"
-
-#: ../src/photos-base-item.c:347
+#: ../src/photos-base-item.c:442
 msgid "Album"
 msgstr "Albam"
 
-#: ../src/photos-base-item.c:810
+#: ../src/photos-base-item.c:894
 msgid "Screenshots"
 msgstr "Glacaidhean-sgrìn"
 
-#: ../src/photos-delete-notification.c:134
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Chaidh an nì a thagh thu a sguabadh às"
-msgstr[1] "Chaidh na nithean a thagh thu a sguabadh às"
-msgstr[2] "Chaidh na nithean a thagh thu a sguabadh às"
-msgstr[3] "Chaidh na nithean a thagh thu a sguabadh às"
+#: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "Chaidh “%s” a sguabadh às"
 
-#: ../src/photos-delete-notification.c:140
+#: ../src/photos-delete-notification.c:144
+#, c-format
+#| msgid "Selected item has been deleted"
+#| msgid_plural "Selected items have been deleted"
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "Chaidh %d nì a sguabadh às"
+msgstr[1] "Chaidh %d nì a sguabadh às"
+msgstr[2] "Chaidh %d nithean a sguabadh às"
+msgstr[3] "Chaidh %d nì a sguabadh às"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Neo-dhèan"
 
@@ -220,19 +212,19 @@ msgstr "Neo-dhèan"
 msgid "DLNA Renderer Devices"
 msgstr "Uidheaman reandaraiche DLNA"
 
-#: ../src/photos-embed.c:722
+#: ../src/photos-embed.c:680
 msgid "Recent"
 msgstr "O chionn goirid"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:687 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albaman"
 
-#: ../src/photos-embed.c:736 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:694 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Annsachdan"
 
-#: ../src/photos-embed.c:743 ../src/photos-main-toolbar.c:289
+#: ../src/photos-embed.c:701 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Lorg"
 
@@ -256,19 +248,28 @@ msgstr "Roghainnean"
 msgid "You can add your online accounts in %s"
 msgstr "'S urrainn dhut na cunntasan air loidhne agad a chur ris sna %s"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Cha deach albam a lorg"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "Cha deach annsachd a lorg"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "Nochdaidh dealbhan le rionnag an-seo"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Cha deach dealbh a lorg"
 
-#: ../src/photos-fetch-metas-job.c:163
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-google-item.c:77
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
+
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Dealbh gun tiotal"
 
@@ -294,23 +295,15 @@ msgstr ""
 "'S dòcha nach eil a h-uile dealbh ri fhaighinn fad 's a tha seo a' dol air "
 "adhart"
 
-#: ../src/photos-load-more-button.c:73 ../src/photos-load-more-button.c:194
-msgid "Load More"
-msgstr "Luchdaich barrachd dhiubh"
-
-#: ../src/photos-load-more-button.c:86
-msgid "Loading…"
-msgstr "'Ga luchdadh…"
-
-#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:180
 msgid "Local"
 msgstr "Ionadail"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:110
 msgid "Click on items to select them"
 msgstr "Briog air nithean gus an taghadh"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:112
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -328,45 +321,71 @@ msgid "Select Items"
 msgstr "Tagh nithean"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:428 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:424 ../src/photos-selection-toolbar.c:294
 #, c-format
 msgid "Open with %s"
 msgstr "Fosgail le %s"
 
-#: ../src/photos-main-toolbar.c:474 ../src/photos-selection-toolbar.c:291
+#: ../src/photos-main-toolbar.c:470 ../src/photos-selection-toolbar.c:306
 msgid "Remove from favorites"
 msgstr "Thoir air falbh o na h-annsachdan"
 
-#: ../src/photos-main-toolbar.c:479 ../src/photos-selection-toolbar.c:297
+#: ../src/photos-main-toolbar.c:475 ../src/photos-selection-toolbar.c:312
 msgid "Add to favorites"
 msgstr "Cuir ris na h-annsachdan"
 
-#: ../src/photos-main-toolbar.c:649
+#: ../src/photos-main-toolbar.c:645
 msgid "Cancel"
 msgstr "Sguir dheth"
 
+#: ../src/photos-main-window.c:480
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Copyright © 2013 Intel Corporation. Gach còir glèidhte.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:484
+#: ../src/photos-main-window.c:490
 msgid "translator-credits"
 msgstr "GunChleoc fios@foramnagaidhlig.net"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Làn-sgrìn"
+
+#: ../src/photos-menus.ui.h:2
+msgid "_Help"
+msgstr "Cob_hair"
+
+#: ../src/photos-menus.ui.h:3
+msgid "About"
+msgstr "Mu dhèidhinn"
+
+#: ../src/photos-menus.ui.h:4
+msgid "Quit"
+msgstr "Fàg an-seo"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "_Cuir ris"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_Ceart ma-thà"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Cuir an rian"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
-#: ../src/photos-selection-toolbar.c:451
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:297
+#: ../src/photos-selection-toolbar.c:466
 msgid "Open"
 msgstr "Fosgail"
 
@@ -382,8 +401,13 @@ msgstr "Seall air…"
 msgid "Set as Background"
 msgstr "Suidhich mar chùlaibh"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:597
-#: ../src/photos-selection-toolbar.c:472
+#: ../src/photos-preview-menu.ui.h:5
+#| msgid "Set as background"
+msgid "Set as Lock Screen"
+msgstr "Suidhich e mar an sgrìn-ghlasaidh"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:608
+#: ../src/photos-selection-toolbar.c:487
 msgid "Properties"
 msgstr "Roghainnean"
 
@@ -392,86 +416,86 @@ msgstr "Roghainnean"
 msgid "Printing “%s”: %s"
 msgstr "A' clò-bhualadh “%s”: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Roghainnean an deilbh"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:906
 msgid "Position"
 msgstr "Ionad"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:909
 msgid "_Left:"
 msgstr "_Clì:"
 
-#: ../src/photos-print-setup.c:899
+#: ../src/photos-print-setup.c:910
 msgid "_Right:"
 msgstr "_Deas:"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:911
 msgid "_Top:"
 msgstr "B_arr:"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:912
 msgid "_Bottom:"
 msgstr "_Bonn:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:914
 msgid "C_enter:"
 msgstr "M_eadhan:"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:918
 msgid "None"
 msgstr "Gun taobhachadh"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:919
 msgid "Horizontal"
 msgstr "Còmhnard"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:920
 msgid "Vertical"
 msgstr "Inghearach"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:921
 msgid "Both"
 msgstr "An dà chuid"
 
-#: ../src/photos-print-setup.c:923
+#: ../src/photos-print-setup.c:934
 msgid "Size"
 msgstr "Meud"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:937
 msgid "_Width:"
 msgstr "_Leud:"
 
-#: ../src/photos-print-setup.c:927
+#: ../src/photos-print-setup.c:938
 msgid "_Height:"
 msgstr "À_irde:"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:940
 msgid "_Scaling:"
 msgstr "_Sgèileadh:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:949
 msgid "_Unit:"
 msgstr "Ao_nad:"
 
-#: ../src/photos-print-setup.c:942
+#: ../src/photos-print-setup.c:953
 msgid "Millimeters"
 msgstr "Mille-mheatair"
 
-#: ../src/photos-print-setup.c:943
+#: ../src/photos-print-setup.c:954
 msgid "Inches"
 msgstr "Òirlich"
 
-#: ../src/photos-print-setup.c:971
+#: ../src/photos-print-setup.c:982
 msgid "Preview"
 msgstr "Ro-shealladh"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:216
+#: ../src/photos-properties-dialog.c:217
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Tiotal"
@@ -479,73 +503,73 @@ msgstr "Tiotal"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:228
+#: ../src/photos-properties-dialog.c:229
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Ùghdar"
 
-#: ../src/photos-properties-dialog.c:235
+#: ../src/photos-properties-dialog.c:236
 msgid "Source"
 msgstr "Tùs"
 
-#: ../src/photos-properties-dialog.c:241
+#: ../src/photos-properties-dialog.c:242
 msgid "Date Modified"
 msgstr "Ceann-là an atharrachaidh"
 
-#: ../src/photos-properties-dialog.c:249
+#: ../src/photos-properties-dialog.c:250
 msgid "Date Created"
 msgstr "Ceann-là a' chruthachaidh"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:259
+#: ../src/photos-properties-dialog.c:260
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Seòrsa"
 
-#: ../src/photos-properties-dialog.c:268
+#: ../src/photos-properties-dialog.c:269
 msgid "Width"
 msgstr "Leud"
 
-#: ../src/photos-properties-dialog.c:278
+#: ../src/photos-properties-dialog.c:279
 msgid "Height"
 msgstr "Àirde"
 
-#: ../src/photos-properties-dialog.c:293
+#: ../src/photos-properties-dialog.c:294
 msgid "Camera"
 msgstr "Camara"
 
-#: ../src/photos-properties-dialog.c:303
+#: ../src/photos-properties-dialog.c:304
 msgid "Exposure"
 msgstr "Deisearas"
 
-#: ../src/photos-properties-dialog.c:313
+#: ../src/photos-properties-dialog.c:314
 msgid "Aperture"
 msgstr "Fosgladh"
 
-#: ../src/photos-properties-dialog.c:323
+#: ../src/photos-properties-dialog.c:324
 msgid "Focal Length"
 msgstr "Faid an fhòcais"
 
-#: ../src/photos-properties-dialog.c:333
+#: ../src/photos-properties-dialog.c:334
 msgid "ISO Speed"
 msgstr "Luaths ISO"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:344
 msgid "Flash"
 msgstr "Solas-boillsgidh"
 
-#: ../src/photos-properties-dialog.c:483
+#: ../src/photos-properties-dialog.c:484
 msgid "Off, did not fire"
 msgstr "Dheth, cha deach e air"
 
-#: ../src/photos-properties-dialog.c:485
+#: ../src/photos-properties-dialog.c:486
 msgid "On, fired"
 msgstr "Air, chaidh e air"
 
 #: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
 msgid "All"
 msgstr "Na h-uile"
 
@@ -561,14 +585,17 @@ msgctxt "Search Filter"
 msgid "Author"
 msgstr "Ùghdar"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:206
 msgid "Match"
 msgstr "Maidse"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:156
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Seòrsa"
@@ -581,22 +608,31 @@ msgstr "Tagh na h-uile"
 msgid "Select None"
 msgstr "Na tagh gin"
 
-#: ../src/photos-selection-toolbar.c:458
+#: ../src/photos-selection-toolbar.c:473
 msgid "Print"
 msgstr "Clò-bhuail"
 
-#: ../src/photos-selection-toolbar.c:465
+#: ../src/photos-selection-toolbar.c:480
 msgid "Delete"
 msgstr "Sguab às"
 
-#: ../src/photos-selection-toolbar.c:479
+#: ../src/photos-selection-toolbar.c:494
 msgid "Add to Album"
 msgstr "Cuir ri albam"
 
-#: ../src/photos-source-manager.c:174
+#: ../src/photos-source-manager.c:205
 msgid "Sources"
 msgstr "Tùsan"
 
-#: ../src/photos-tracker-controller.c:96
+#: ../src/photos-tracker-controller.c:99
 msgid "Unable to fetch the list of photos"
 msgstr "Cha b' urrainn dhuinn liosta nan dealbhan fhaighinn"
+
+#~ msgid "No Favorites Found"
+#~ msgstr "Cha deach annsachd a lorg"
+
+#~ msgid "Load More"
+#~ msgstr "Luchdaich barrachd dhiubh"
+
+#~ msgid "Loading…"
+#~ msgstr "'Ga luchdadh…"
