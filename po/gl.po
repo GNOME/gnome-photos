@@ -1,22 +1,23 @@
-# Galician translations for PACKAGE package.
-# Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Galician translations for gnome-photos package.
+# Copyright (C) 2012 THE gnome-photos'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
 # Fran Diéguez <frandieguez@gnome.org>, 2012.
 # Fran Dieguez <frandieguez@gnome.org>, 2012, 2013, 2014, 2015, 2016.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-02 11:36+0100\n"
-"PO-Revision-Date: 2016-03-02 11:36+0200\n"
+"POT-Creation-Date: 2016-03-08 11:08+0100\n"
+"PO-Revision-Date: 2016-03-08 11:13+0100\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
-"Language-Team: gnome-l10n-gl@gnome.org\n"
+"Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
@@ -258,7 +259,10 @@ msgstr "Baleirar lixo"
 msgid "Open"
 msgstr "Abrir"
 
-#: ../src/photos-export-notification.c:302
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:305
 msgid "Export Folder"
 msgstr "Exportar cartafol"
 
@@ -557,7 +561,7 @@ msgstr "_Inferior:"
 msgid "C_enter:"
 msgstr "C_entrada:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Ningunha"
 
@@ -677,19 +681,19 @@ msgstr "Desactivado, non disparado"
 msgid "On, fired"
 msgstr "Activado, disparado"
 
-#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Todas"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Título"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autor"
@@ -697,7 +701,7 @@ msgstr "Autor"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Coincidir"
 
@@ -745,45 +749,51 @@ msgstr "Saturación"
 msgid "Colors"
 msgstr "Cores"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:131
 msgid "Free"
 msgstr "Libre"
 
+#: ../src/photos-tool-crop.c:132
+msgid "Original"
+msgstr "Orixinal"
+
 #: ../src/photos-tool-crop.c:133
-msgid "Original Size"
-msgstr "Tamaño orixinal"
+msgid "1×1 (Square)"
+msgstr "1×1 (Cadrado)"
 
 #: ../src/photos-tool-crop.c:134
-msgid "Screen"
-msgstr "Pantalla"
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden ratio"
-msgstr "Taxa dourada"
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
 
 #: ../src/photos-tool-crop.c:136
-msgid "Square"
-msgstr "Cadrado"
+msgid "7×5"
+msgstr "7×5"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A paper sizes"
-msgstr "Un tamaño de papel"
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
 
-#. Translators: this is the aspect ratio of the crop tool
-#: ../src/photos-tool-crop.c:986
-#, c-format
-msgid "%.2f"
-msgstr "%.2f"
+#: ../src/photos-tool-crop.c:138
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:1205
+#: ../src/photos-tool-crop.c:139
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1169
 msgid "Lock aspect ratio"
 msgstr "Bloquear a proporción de aspecto"
 
-#: ../src/photos-tool-crop.c:1263
+#: ../src/photos-tool-crop.c:1217
 msgid "Reset"
 msgstr "Restabelecer"
 
-#: ../src/photos-tool-crop.c:1280
+#: ../src/photos-tool-crop.c:1234
 msgid "Crop"
 msgstr "Recortar"
 
@@ -799,33 +809,51 @@ msgstr "Quitar ruído"
 msgid "Enhance"
 msgstr "Mellorar"
 
-#: ../src/photos-tool-filters.c:198
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Ningún"
+
+#: ../src/photos-tool-filters.c:199
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:205
+#: ../src/photos-tool-filters.c:206
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:211
+#: ../src/photos-tool-filters.c:212
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:218
+#: ../src/photos-tool-filters.c:219
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:224
+#: ../src/photos-tool-filters.c:225
 msgid "Hometown"
 msgstr "Hometown"
 
-#: ../src/photos-tool-filters.c:242
+#: ../src/photos-tool-filters.c:243
 msgid "Filters"
 msgstr "Filtros"
 
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Non foi posíbel obter a lista de fotografías"
+
+#~ msgid "Screen"
+#~ msgstr "Pantalla"
+
+#~ msgid "Golden ratio"
+#~ msgstr "Taxa dourada"
+
+#~ msgid "A paper sizes"
+#~ msgstr "Un tamaño de papel"
+
+#~ msgid "%.2f"
+#~ msgstr "%.2f"
 
 #~ msgid "%a, %d %B %Y  %X"
 #~ msgstr "%a, %d de %B de %Y  %X"
