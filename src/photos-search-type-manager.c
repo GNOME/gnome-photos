@@ -98,8 +98,10 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   gchar *all_filter;
   gchar *col_filter;
   gchar *fav_filter;
+  gchar *gif_filter;
 
-  item_filter = "fn:contains (?type, 'nmm#Photo')";
+  gif_filter = g_strdup ("nie:mimeType(?urn) != 'image/gif'");
+  item_filter = g_strdup_printf ("(fn:contains (?type, 'nmm#Photo') && %s)", gif_filter);
   col_filter = g_strdup_printf ("(fn:contains (?type, 'nfo#DataContainer')"
                                 " && ?count > 0"
                                 " && (fn:starts-with (nao:identifier (?urn), '%s')"
@@ -135,7 +137,7 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_PHOTOS,
                                              _("Photos"),
                                              "?urn a nmm:Photo",
-                                             "(true)");
+                                             gif_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
@@ -144,6 +146,7 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   g_free (all_filter);
   g_free (col_filter);
   g_free (fav_filter);
+  g_free (gif_filter);
 }
 
 
