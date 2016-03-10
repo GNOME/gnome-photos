@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-06 09:50+0000\n"
-"PO-Revision-Date: 2016-03-06 19:27+0100\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"POT-Creation-Date: 2016-03-10 09:55+0000\n"
+"PO-Revision-Date: 2016-03-10 14:25+0100\n"
+"Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Poedit 1.8.5\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
@@ -129,12 +129,18 @@ msgstr[0] "%d elem törölve lett"
 msgstr[1] "%d elem törölve lett"
 
 #: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:190
 msgid "Undo"
 msgstr "Visszavonás"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA megjelenítő eszközök"
+
+#: ../src/photos-done-notification.c:183
+#, c-format
+msgid "“%s” edited"
+msgstr "„%s” szerkesztve"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
@@ -258,7 +264,8 @@ msgstr "Kuka ürítése"
 
 #. Translators: this is the Open action in a context menu
 #: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-selection-toolbar.c:234
+#: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Megnyitás"
 
@@ -816,7 +823,6 @@ msgstr "Feljavítás"
 
 #. Translators: "None" refers to the nop magic filter when editing.
 #: ../src/photos-tool-filters.c:192
-#| msgid "None"
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "Nincs"
