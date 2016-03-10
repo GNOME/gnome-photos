@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-18 09:55+0000\n"
-"PO-Revision-Date: 2016-02-20 13:18+0200\n"
+"POT-Creation-Date: 2016-03-10 08:29+0000\n"
+"PO-Revision-Date: 2016-03-10 13:18+0200\n"
 "Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <opensuse-translation-el@opensuse.org>\n"
 "Language: el\n"
@@ -115,7 +115,7 @@ msgstr "Κατάσταση μεγιστοποιημένου παραθύρου"
 msgid "Album"
 msgstr "Άλμπουμ"
 
-#: ../src/photos-base-item.c:1405
+#: ../src/photos-base-item.c:1413
 msgid "Screenshots"
 msgstr "Στιγμιότυπα"
 
@@ -132,12 +132,18 @@ msgstr[0] "Διαγράφηκε %d στοιχείο"
 msgstr[1] "Διαγράφηκαν %d στοιχεία"
 
 #: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:190
 msgid "Undo"
 msgstr "Αναίρεση"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Συσκευές αποτύπωσης DLNA"
+
+#: ../src/photos-done-notification.c:183
+#, c-format
+msgid "“%s” edited"
+msgstr "Επεξεργάστηκε το “%s”"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
@@ -230,6 +236,47 @@ msgstr "%e %B %Y"
 #: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "Υπολογισμός μεγέθους εξαγωγής…"
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export: not enough space"
+msgstr "Αποτυχία εξαγωγής: ανεπαρκής χώρος"
+
+#: ../src/photos-export-notification.c:245
+msgid "Failed to export"
+msgstr "Αποτυχία εξαγωγής"
+
+#: ../src/photos-export-notification.c:252
+#, c-format
+msgid "“%s” exported"
+msgstr "Εξήχθει το “%s”"
+
+#: ../src/photos-export-notification.c:256
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d αντικείμενο εξήχθει"
+msgstr[1] "%d αντικείμενα εξήχθησαν"
+
+#: ../src/photos-export-notification.c:273
+msgid "Analyze"
+msgstr "Ανάλυση"
+
+#: ../src/photos-export-notification.c:278
+msgid "Empty Trash"
+msgstr "Άδειασμα απορριμμάτων"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "Άνοιγμα"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:305
+msgid "Export Folder"
+msgstr "Φακέλος εξαγωγής"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -371,7 +418,7 @@ msgstr ""
 "Μερικές φωτογραφίες μπορεί να μην είναι διαθέσιμες κατά τη διάρκεια αυτής "
 "της διεργασίας"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:131 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Τοπικά"
 
@@ -396,16 +443,16 @@ msgstr "Επιλογή αντικειμένων"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:273
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
 #, c-format
 msgid "Open with %s"
 msgstr "Άνοιγμα με %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:284
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
 msgid "Remove from favorites"
 msgstr "Αφαίρεση από τα αγαπημένα"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:289
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
 msgid "Add to favorites"
 msgstr "Προσθήκη στα αγαπημένα"
 
@@ -474,12 +521,6 @@ msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Οργάνωση"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:276
-#: ../src/photos-selection-toolbar.ui.h:2
-msgid "Open"
-msgstr "Άνοιγμα"
-
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Export…"
 msgstr "Εξαγωγή…"
@@ -542,7 +583,7 @@ msgstr "Κά_τω:"
 msgid "C_enter:"
 msgstr "_Κέντρο:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Καμία"
 
@@ -662,19 +703,19 @@ msgstr "Ανενεργό, δεν δούλεψε"
 msgid "On, fired"
 msgstr "Ενεργό, δούλεψε"
 
-#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Όλα"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Τίτλος"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Δημιουργός"
@@ -682,7 +723,7 @@ msgstr "Δημιουργός"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Αντιστοίχιση"
 
@@ -730,45 +771,51 @@ msgstr "Κορεσμός"
 msgid "Colors"
 msgstr "Χρώματα"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:131
 msgid "Free"
 msgstr "Ελεύθερο"
 
+#: ../src/photos-tool-crop.c:132
+msgid "Original"
+msgstr "Αρχικό"
+
 #: ../src/photos-tool-crop.c:133
-msgid "Original Size"
-msgstr "Αρχικό μέγεθος"
+msgid "1×1 (Square)"
+msgstr "1×1 (Τετράγωνο)"
 
 #: ../src/photos-tool-crop.c:134
-msgid "Screen"
-msgstr "Οθόνη"
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden ratio"
-msgstr "Η χρυσή τομή"
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
 
 #: ../src/photos-tool-crop.c:136
-msgid "Square"
-msgstr "Τετράγωνο"
+msgid "7×5"
+msgstr "7×5"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A paper sizes"
-msgstr "Μεγέθη χαρτιού"
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
 
-#. Translators: this is the aspect ratio of the crop tool
-#: ../src/photos-tool-crop.c:986
-#, c-format
-msgid "%.2f"
-msgstr "%.2f"
+#: ../src/photos-tool-crop.c:138
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:1211
+#: ../src/photos-tool-crop.c:139
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1169
 msgid "Lock aspect ratio"
 msgstr "Κλείδωμα λόγου διαστάσεων"
 
-#: ../src/photos-tool-crop.c:1269
+#: ../src/photos-tool-crop.c:1217
 msgid "Reset"
 msgstr "Επαναφορά"
 
-#: ../src/photos-tool-crop.c:1286
+#: ../src/photos-tool-crop.c:1234
 msgid "Crop"
 msgstr "Περικοπή"
 
@@ -778,39 +825,57 @@ msgstr "Όξυνση"
 
 #: ../src/photos-tool-enhance.c:227
 msgid "Denoise"
-msgstr ""
+msgstr "Αφαίρεση θορύβου"
 
 #: ../src/photos-tool-enhance.c:253
 msgid "Enhance"
 msgstr "Βελτίωση"
 
-#: ../src/photos-tool-filters.c:198
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Κανένα"
+
+#: ../src/photos-tool-filters.c:199
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:205
+#: ../src/photos-tool-filters.c:206
 msgid "Calistoga"
-msgstr ""
+msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:211
+#: ../src/photos-tool-filters.c:212
 msgid "Mogadishu"
-msgstr ""
+msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:218
+#: ../src/photos-tool-filters.c:219
 msgid "Caap"
-msgstr ""
+msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:224
+#: ../src/photos-tool-filters.c:225
 msgid "Hometown"
-msgstr ""
+msgstr "Hometown"
 
-#: ../src/photos-tool-filters.c:242
+#: ../src/photos-tool-filters.c:243
 msgid "Filters"
 msgstr "Φίλτρα"
 
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Αδύνατη η ανάκτηση της λίστας των φωτογραφιών"
+
+#~ msgid "Screen"
+#~ msgstr "Οθόνη"
+
+#~ msgid "Golden ratio"
+#~ msgstr "Η χρυσή τομή"
+
+#~ msgid "A paper sizes"
+#~ msgstr "Μεγέθη χαρτιού"
+
+#~ msgid "%.2f"
+#~ msgstr "%.2f"
 
 #~ msgctxt "shortcut window"
 #~ msgid "Print the current photo"
