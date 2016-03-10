@@ -1,28 +1,25 @@
 # Serbian translation for gnome-photos.
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2015.
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2016.
 # This file is distributed under the same license as the gnome-photos package.
-#
-# Translators: 
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013—2015.
+# Translators:
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013—2016.
 # Марко М. Костић <marko.m.kostic@gmail.com>, 2016.
-# 
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-06 19:46+0000\n"
-"PO-Revision-Date: 2016-03-06 21:46+0100\n"
-"Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
-"Language-Team: Serbian <gnom@prevod.org>\n"
+"POT-Creation-Date: 2016-03-10 09:55+0000\n"
+"PO-Revision-Date: 2016-03-10 11:50+0200\n"
+"Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
+"Language-Team: Serbian <(nothing)>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
-"X-Generator: Poedit 1.8.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
@@ -133,12 +130,19 @@ msgstr[2] "%d ставки је обрисано."
 msgstr[3] "Једна ставка је обрисана."
 
 #: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:190
 msgid "Undo"
 msgstr "Опозови"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Уређаји ДЛНА исцртавача"
+
+#: ../src/photos-done-notification.c:183
+#, c-format
+#| msgid "“%s” deleted"
+msgid "“%s” edited"
+msgstr "Ставка „%s“ је уређена"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
