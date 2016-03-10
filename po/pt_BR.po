@@ -14,16 +14,16 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-06 21:56+0000\n"
-"PO-Revision-Date: 2016-03-07 02:52-0300\n"
-"Last-Translator: Rafael Fontenelle <rffontenelle@gmail.com>\n"
+"POT-Creation-Date: 2016-03-10 09:55+0000\n"
+"PO-Revision-Date: 2016-03-10 08:50-0300\n"
+"Last-Translator: Artur de Aquino Morais <artur.morais93@outlook.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.4\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
@@ -132,12 +132,18 @@ msgstr[0] "%d item excluído"
 msgstr[1] "%d itens excluídos"
 
 #: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:190
 msgid "Undo"
 msgstr "Desfazer"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Dispositivos de renderização DLNA"
+
+#: ../src/photos-done-notification.c:183
+#, c-format
+msgid "“%s” edited"
+msgstr "“%s” editado"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
@@ -261,7 +267,8 @@ msgstr "Esvaziar lixeira"
 
 #. Translators: this is the Open action in a context menu
 #: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-selection-toolbar.c:234
+#: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Abrir"
 
