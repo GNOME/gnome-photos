@@ -12,16 +12,16 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-23 11:22+0000\n"
-"PO-Revision-Date: 2016-02-25 17:21+0100\n"
-"Last-Translator: Wolfgang Stoeggl <c72578@yahoo.de>\n"
+"POT-Creation-Date: 2016-03-10 09:55+0000\n"
+"PO-Revision-Date: 2016-03-10 19:56+0100\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
@@ -116,7 +116,7 @@ msgstr "Fenstermaximierungsstatus"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1405
+#: ../src/photos-base-item.c:1413
 msgid "Screenshots"
 msgstr "Bildschirmfotos"
 
@@ -133,12 +133,18 @@ msgstr[0] "%d Objekt wurde gelöscht"
 msgstr[1] "%d Objekte wurden gelöscht"
 
 #: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:190
 msgid "Undo"
 msgstr "Rückgängig"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-Darstellungsgerät"
+
+#: ../src/photos-done-notification.c:183
+#, c-format
+msgid "“%s” edited"
+msgstr "»%s« wurde bearbeitet"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
@@ -231,6 +237,47 @@ msgstr "%e. %B %Y"
 #: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "Exportgröße wird berechnet …"
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export: not enough space"
+msgstr "Export ist fehlgeschlagen: nicht genug Platz vorhanden"
+
+#: ../src/photos-export-notification.c:245
+msgid "Failed to export"
+msgstr "Export ist fehlgeschlagen"
+
+#: ../src/photos-export-notification.c:252
+#, c-format
+msgid "“%s” exported"
+msgstr "»%s« wurde exportiert"
+
+#: ../src/photos-export-notification.c:256
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d Objekt wurde exportiert"
+msgstr[1] "%d Objekte wurden exportiert"
+
+#: ../src/photos-export-notification.c:273
+msgid "Analyze"
+msgstr "Analysieren"
+
+#: ../src/photos-export-notification.c:278
+msgid "Empty Trash"
+msgstr "Papierkorb leeren"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "Öffnen"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:305
+msgid "Export Folder"
+msgstr "Export-Ordner"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -395,16 +442,16 @@ msgstr "Objekte auswählen"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:273
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
 #, c-format
 msgid "Open with %s"
 msgstr "Öffnen mit %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:284
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
 msgid "Remove from favorites"
 msgstr "Aus Favoriten entfernen"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:289
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
 msgid "Add to favorites"
 msgstr "Zu Favoriten hinzufügen"
 
@@ -471,12 +518,6 @@ msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organisieren"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:276
-#: ../src/photos-selection-toolbar.ui.h:2
-msgid "Open"
-msgstr "Öffnen"
-
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Export…"
 msgstr "Exportieren …"
@@ -539,7 +580,7 @@ msgstr "_Unten:"
 msgid "C_enter:"
 msgstr "Mitt_e:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Kein"
 
@@ -659,19 +700,19 @@ msgstr "Aus, löste nicht aus"
 msgid "On, fired"
 msgstr "An, löste aus"
 
-#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Alle"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Titel"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autor"
@@ -679,7 +720,7 @@ msgstr "Autor"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Übereinstimmung"
 
@@ -727,45 +768,52 @@ msgstr "Sättigung"
 msgid "Colors"
 msgstr "Farben"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:131
 msgid "Free"
 msgstr "Frei"
 
+#: ../src/photos-tool-crop.c:132
+msgid "Original"
+msgstr "Original"
+
 #: ../src/photos-tool-crop.c:133
-msgid "Original Size"
-msgstr "Originalgröße"
+#| msgid "Square"
+msgid "1×1 (Square)"
+msgstr "1:1 (quadratisch)"
 
 #: ../src/photos-tool-crop.c:134
-msgid "Screen"
-msgstr "Bildschirm"
+msgid "10×8 / 5×4"
+msgstr "10:8 / 5:4"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden ratio"
-msgstr "Goldener Schnitt"
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4:3 / 8:6 (1024×768)"
 
 #: ../src/photos-tool-crop.c:136
-msgid "Square"
-msgstr "Quadrat"
+msgid "7×5"
+msgstr "7:5"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A paper sizes"
-msgstr "A-Papiergrößen"
+msgid "3×2 / 6×4"
+msgstr "3:2 / 6:4"
 
-#. Translators: this is the aspect ratio of the crop tool
-#: ../src/photos-tool-crop.c:986
-#, c-format
-msgid "%.2f"
-msgstr "%.2f"
+#: ../src/photos-tool-crop.c:138
+msgid "16×10 (1280×800)"
+msgstr "16:10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:1205
+#: ../src/photos-tool-crop.c:139
+msgid "16×9 (1920×1080)"
+msgstr "16:9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1169
 msgid "Lock aspect ratio"
 msgstr "Seitenverhältnis beibehalten"
 
-#: ../src/photos-tool-crop.c:1263
+#: ../src/photos-tool-crop.c:1217
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: ../src/photos-tool-crop.c:1280
+#: ../src/photos-tool-crop.c:1234
 msgid "Crop"
 msgstr "Zuschneiden"
 
@@ -781,33 +829,51 @@ msgstr "Entrauschen"
 msgid "Enhance"
 msgstr "Verbessern"
 
-#: ../src/photos-tool-filters.c:198
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Keiner"
+
+#: ../src/photos-tool-filters.c:199
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:205
+#: ../src/photos-tool-filters.c:206
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:211
+#: ../src/photos-tool-filters.c:212
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:218
+#: ../src/photos-tool-filters.c:219
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:224
+#: ../src/photos-tool-filters.c:225
 msgid "Hometown"
 msgstr "Hometown"
 
-#: ../src/photos-tool-filters.c:242
+#: ../src/photos-tool-filters.c:243
 msgid "Filters"
 msgstr "Filter"
 
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Die Liste der Fotos kann nicht abgeholt werden"
+
+#~ msgid "Screen"
+#~ msgstr "Bildschirm"
+
+#~ msgid "Golden ratio"
+#~ msgstr "Goldener Schnitt"
+
+#~ msgid "A paper sizes"
+#~ msgstr "A-Papiergrößen"
+
+#~ msgid "%.2f"
+#~ msgstr "%.2f"
 
 #~ msgid "A3 (297 × 420 mm)"
 #~ msgstr "A3 (297 × 420 mm)"
