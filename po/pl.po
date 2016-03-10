@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-06 16:42+0100\n"
-"PO-Revision-Date: 2016-03-06 16:44+0100\n"
+"POT-Creation-Date: 2016-03-10 17:24+0100\n"
+"PO-Revision-Date: 2016-03-10 17:25+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -132,12 +132,18 @@ msgstr[1] "Usunięto %d elementy"
 msgstr[2] "Usunięto %d elementów"
 
 #: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:190
 msgid "Undo"
 msgstr "Cofnij"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Urządzenia mechanizmu wyświetlającego DLNA"
+
+#: ../src/photos-done-notification.c:183
+#, c-format
+msgid "“%s” edited"
+msgstr "Zmodyfikowano „%s”"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
