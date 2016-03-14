@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-02-23 11:22+0000\n"
-"PO-Revision-Date: 2016-02-27 12:48+0100\n"
-"Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
+"POT-Creation-Date: 2016-03-11 16:53+0000\n"
+"PO-Revision-Date: 2016-03-12 19:41+0100\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
@@ -108,11 +108,11 @@ msgstr "Fönster maximerat"
 msgid "Window maximized state"
 msgstr "Maximerat tillstånd för fönster"
 
-#: ../src/photos-base-item.c:474
+#: ../src/photos-base-item.c:476
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1405
+#: ../src/photos-base-item.c:1413
 msgid "Screenshots"
 msgstr "Skärmbilder"
 
@@ -129,12 +129,18 @@ msgstr[0] "%d objekt har tagits bort"
 msgstr[1] "%d objekt har tagits bort"
 
 #: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:190
 msgid "Undo"
 msgstr "Ångra"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-renderingsenheter"
+
+#: ../src/photos-done-notification.c:183
+#, c-format
+msgid "“%s” edited"
+msgstr "”%s” har redigerats"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
@@ -227,6 +233,47 @@ msgstr "%e %B %Y"
 #: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "Beräknar exportstorlek…"
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export: not enough space"
+msgstr "Misslyckades med att exportera: inte tillräckligt med utrymme"
+
+#: ../src/photos-export-notification.c:245
+msgid "Failed to export"
+msgstr "Misslyckades med att exportera"
+
+#: ../src/photos-export-notification.c:252
+#, c-format
+msgid "“%s” exported"
+msgstr "”%s” har exporterats"
+
+#: ../src/photos-export-notification.c:256
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d objekt har exporterats"
+msgstr[1] "%d objekt har exporterats"
+
+#: ../src/photos-export-notification.c:273
+msgid "Analyze"
+msgstr "Analysera"
+
+#: ../src/photos-export-notification.c:278
+msgid "Empty Trash"
+msgstr "Töm papperskorgen"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "Öppna"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:305
+msgid "Export Folder"
+msgstr "Exportmapp"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -391,16 +438,16 @@ msgstr "Markera objekt"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:273
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
 #, c-format
 msgid "Open with %s"
 msgstr "Öppna med %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:284
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
 msgid "Remove from favorites"
 msgstr "Ta bort från favoriter"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:289
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
 msgid "Add to favorites"
 msgstr "Lägg till i favoriter"
 
@@ -466,12 +513,6 @@ msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organisera"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:276
-#: ../src/photos-selection-toolbar.ui.h:2
-msgid "Open"
-msgstr "Öppna"
-
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Export…"
 msgstr "Exportera…"
@@ -534,7 +575,7 @@ msgstr "B_otten:"
 msgid "C_enter:"
 msgstr "Ce_ntrering:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Ingen"
 
@@ -654,19 +695,19 @@ msgstr "Av, utlöstes inte"
 msgid "On, fired"
 msgstr "På, utlöstes"
 
-#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Alla"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Titel"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Upphovsman"
@@ -674,7 +715,7 @@ msgstr "Upphovsman"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Matcha"
 
@@ -722,45 +763,52 @@ msgstr "Mättnad"
 msgid "Colors"
 msgstr "Färger"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:131
 msgid "Free"
 msgstr "Godtycklig"
 
-#: ../src/photos-tool-crop.c:133
-msgid "Original Size"
+#: ../src/photos-tool-crop.c:132
+msgid "Original"
 msgstr "Originalstorlek"
 
+#: ../src/photos-tool-crop.c:133
+msgid "1×1 (Square)"
+msgstr "1×1 (Kvadratisk)"
+
+# https://bugzilla.gnome.org/show_bug.cgi?id=762942#c18
 #: ../src/photos-tool-crop.c:134
-msgid "Screen"
-msgstr "Skärm"
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden ratio"
-msgstr "Gyllene snittet"
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
 
 #: ../src/photos-tool-crop.c:136
-msgid "Square"
-msgstr "Kvadratisk"
+msgid "7×5"
+msgstr "7×5"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A paper sizes"
-msgstr "A-pappersstorlekar"
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
 
-#. Translators: this is the aspect ratio of the crop tool
-#: ../src/photos-tool-crop.c:986
-#, c-format
-msgid "%.2f"
-msgstr "%.2f"
+#: ../src/photos-tool-crop.c:138
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:1205
+#: ../src/photos-tool-crop.c:139
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1169
 msgid "Lock aspect ratio"
 msgstr "Lås bildförhållande"
 
-#: ../src/photos-tool-crop.c:1263
+#: ../src/photos-tool-crop.c:1217
 msgid "Reset"
 msgstr "Återställ"
 
-#: ../src/photos-tool-crop.c:1280
+#: ../src/photos-tool-crop.c:1234
 msgid "Crop"
 msgstr "Beskär"
 
@@ -776,33 +824,51 @@ msgstr "Brusreducera"
 msgid "Enhance"
 msgstr "Förbättra"
 
-#: ../src/photos-tool-filters.c:198
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Inget"
+
+#: ../src/photos-tool-filters.c:199
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:205
+#: ../src/photos-tool-filters.c:206
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:211
+#: ../src/photos-tool-filters.c:212
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:218
+#: ../src/photos-tool-filters.c:219
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:224
+#: ../src/photos-tool-filters.c:225
 msgid "Hometown"
 msgstr "Hemstad"
 
-#: ../src/photos-tool-filters.c:242
+#: ../src/photos-tool-filters.c:243
 msgid "Filters"
 msgstr "Filter"
 
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Kunde inte hämta fotolistan"
+
+#~ msgid "Screen"
+#~ msgstr "Skärm"
+
+#~ msgid "Golden ratio"
+#~ msgstr "Gyllene snittet"
+
+#~ msgid "A paper sizes"
+#~ msgstr "A-pappersstorlekar"
+
+#~ msgid "%.2f"
+#~ msgstr "%.2f"
 
 #~ msgid "A3 (297 × 420 mm)"
 #~ msgstr "A3 (297 × 420 mm)"
