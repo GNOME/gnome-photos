@@ -37,41 +37,14 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_COLLECTION_ICON_WATCHER, PhotosCollectionIconWatcher))
 
-#define PHOTOS_COLLECTION_ICON_WATCHER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_COLLECTION_ICON_WATCHER, PhotosCollectionIconWatcherClass))
-
 #define PHOTOS_IS_COLLECTION_ICON_WATCHER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_COLLECTION_ICON_WATCHER))
 
-#define PHOTOS_IS_COLLECTION_ICON_WATCHER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_COLLECTION_ICON_WATCHER))
-
-#define PHOTOS_COLLECTION_ICON_WATCHER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_COLLECTION_ICON_WATCHER, PhotosCollectionIconWatcherClass))
-
 typedef void (*PhotosCollectionIconWatcherCallback) (TrackerSparqlCursor *, gpointer);
 
-typedef struct _PhotosCollectionIconWatcher        PhotosCollectionIconWatcher;
-typedef struct _PhotosCollectionIconWatcherClass   PhotosCollectionIconWatcherClass;
-typedef struct _PhotosCollectionIconWatcherPrivate PhotosCollectionIconWatcherPrivate;
-
-struct _PhotosCollectionIconWatcher
-{
-  GObject parent_instance;
-  PhotosCollectionIconWatcherPrivate *priv;
-};
-
-struct _PhotosCollectionIconWatcherClass
-{
-  GObjectClass parent_class;
-
-  /* signals */
-  void (*icon_updated) (PhotosCollectionIconWatcher *self, GIcon *icon);
-};
+typedef struct _PhotosCollectionIconWatcher      PhotosCollectionIconWatcher;
+typedef struct _PhotosCollectionIconWatcherClass PhotosCollectionIconWatcherClass;
 
 GType                         photos_collection_icon_watcher_get_type    (void) G_GNUC_CONST;
 
