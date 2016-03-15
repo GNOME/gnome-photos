@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_NOTIFICATION_MANAGER, PhotosNotificationManager))
 
-#define PHOTOS_NOTIFICATION_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_NOTIFICATION_MANAGER, PhotosNotificationManagerClass))
-
 #define PHOTOS_IS_NOTIFICATION_MANAGER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_NOTIFICATION_MANAGER))
 
-#define PHOTOS_IS_NOTIFICATION_MANAGER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_NOTIFICATION_MANAGER))
-
-#define PHOTOS_NOTIFICATION_MANAGER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_NOTIFICATION_MANAGER, PhotosNotificationManagerClass))
-
-typedef struct _PhotosNotificationManager        PhotosNotificationManager;
-typedef struct _PhotosNotificationManagerClass   PhotosNotificationManagerClass;
-typedef struct _PhotosNotificationManagerPrivate PhotosNotificationManagerPrivate;
-
-struct _PhotosNotificationManager
-{
-  GdNotification parent_instance;
-  PhotosNotificationManagerPrivate *priv;
-};
-
-struct _PhotosNotificationManagerClass
-{
-  GdNotificationClass parent_class;
-};
+typedef struct _PhotosNotificationManager      PhotosNotificationManager;
+typedef struct _PhotosNotificationManagerClass PhotosNotificationManagerClass;
 
 GType               photos_notification_manager_get_type           (void) G_GNUC_CONST;
 

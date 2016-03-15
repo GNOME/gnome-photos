@@ -33,14 +33,20 @@
 #include "photos-utils.h"
 
 
-struct _PhotosNotificationManagerPrivate
+struct _PhotosNotificationManager
 {
+  GdNotification parent_instance;
   GtkWidget *grid;
   GtkWidget *indexing_ntfctn;
 };
 
+struct _PhotosNotificationManagerClass
+{
+  GdNotificationClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosNotificationManager, photos_notification_manager, GD_TYPE_NOTIFICATION);
+
+G_DEFINE_TYPE (PhotosNotificationManager, photos_notification_manager, GD_TYPE_NOTIFICATION);
 
 
 static void
@@ -48,7 +54,7 @@ photos_notification_manager_remove (PhotosNotificationManager *self)
 {
   GList *children;
 
-  children = gtk_container_get_children (GTK_CONTAINER (self->priv->grid));
+  children = gtk_container_get_children (GTK_CONTAINER (self->grid));
   if (children == NULL)
     gtk_widget_hide (GTK_WIDGET (self));
   else
@@ -68,7 +74,7 @@ photos_notification_manager_constructed (GObject *object)
    * instantiate PhotosIndexingNotification only after we have
    * finished constructing this object.
    */
-  self->priv->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
+  self->indexing_ntfctn = g_object_ref_sink (photos_indexing_notification_new ());
 }
 
 
@@ -97,7 +103,7 @@ photos_notification_manager_dispose (GObject *object)
 {
   PhotosNotificationManager *self = PHOTOS_NOTIFICATION_MANAGER (object);
 
-  g_clear_object (&self->priv->indexing_ntfctn);
+  g_clear_object (&self->indexing_ntfctn);
 
   G_OBJECT_CLASS (photos_notification_manager_parent_class)->dispose (object);
 }
@@ -106,20 +112,15 @@ photos_notification_manager_dispose (GObject *object)
 static void
 photos_notification_manager_init (PhotosNotificationManager *self)
 {
-  PhotosNotificationManagerPrivate *priv;
-
-  self->priv = photos_notification_manager_get_instance_private (self);
-  priv = self->priv;
-
   gtk_widget_set_halign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
   gtk_widget_set_valign (GTK_WIDGET (self), GTK_ALIGN_START);
 
-  priv->grid = gtk_grid_new ();
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->grid), GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing (GTK_GRID (priv->grid), 6);
-  gtk_container_add (GTK_CONTAINER (self), priv->grid);
+  self->grid = gtk_grid_new ();
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (self->grid), GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing (GTK_GRID (self->grid), 6);
+  gtk_container_add (GTK_CONTAINER (self), self->grid);
 
-  g_signal_connect_swapped (priv->grid, "remove", G_CALLBACK (photos_notification_manager_remove), self);
+  g_signal_connect_swapped (self->grid, "remove", G_CALLBACK (photos_notification_manager_remove), self);
 }
 
 
@@ -144,8 +145,6 @@ photos_notification_manager_dup_singleton (void)
 void
 photos_notification_manager_add_notification (PhotosNotificationManager *self, GtkWidget *notification)
 {
-  PhotosNotificationManagerPrivate *priv = self->priv;
-
-  gtk_container_add (GTK_CONTAINER (priv->grid), notification);
+  gtk_container_add (GTK_CONTAINER (self->grid), notification);
   gtk_widget_show_all (GTK_WIDGET (self));
 }
