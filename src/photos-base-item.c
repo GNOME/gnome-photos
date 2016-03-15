@@ -1456,7 +1456,7 @@ photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GtkWindow *toplevel = GTK_WINDOW (user_data);
   GeglNode *node;
-  GtkPrintOperation *print_op;
+  GtkPrintOperation *print_op = NULL;
 
   node = photos_base_item_load_finish (self, res, NULL);
   if (node == NULL)
@@ -1478,6 +1478,7 @@ photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer
 
  out:
   g_clear_object (&node);
+  g_clear_object (&print_op);
   g_object_unref (toplevel);
 }
 
