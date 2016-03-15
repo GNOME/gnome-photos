@@ -1446,6 +1446,7 @@ static void
 photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GError *error = NULL;
   GtkWindow *toplevel = GTK_WINDOW (user_data);
   GeglNode *node;
   GtkPrintOperation *print_op = NULL;
@@ -1460,9 +1461,16 @@ photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer
   /* It is self managing. */
   photos_print_notification_new (print_op);
 
-  print_res = gtk_print_operation_run (print_op, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, toplevel, NULL);
+  print_res = gtk_print_operation_run (print_op, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, toplevel, &error);
   if (print_res == GTK_PRINT_OPERATION_RESULT_APPLY)
-    photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
+    {
+      photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
+    }
+  else if (print_res == GTK_PRINT_OPERATION_RESULT_ERROR)
+    {
+      g_warning ("Unable to print file: %s", error->message);
+      g_error_free (error);
+    }
 
  out:
   g_clear_object (&node);
