@@ -30,22 +30,27 @@
 #include "photos-error-box.h"
 
 
-struct _PhotosErrorBoxPrivate
+struct _PhotosErrorBox
 {
+  GtkGrid parent_instance;
   GtkWidget *image;
   GtkWidget *primary_label;
   GtkWidget *secondary_label;
 };
 
+struct _PhotosErrorBoxClass
+{
+  GtkGridClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosErrorBox, photos_error_box, GTK_TYPE_GRID);
+
+G_DEFINE_TYPE (PhotosErrorBox, photos_error_box, GTK_TYPE_GRID);
 
 
 static void
 photos_error_box_constructed (GObject *object)
 {
   PhotosErrorBox *self = PHOTOS_ERROR_BOX (object);
-  PhotosErrorBoxPrivate *priv = self->priv;
 
   G_OBJECT_CLASS (photos_error_box_parent_class)->constructed (object);
 
@@ -56,24 +61,24 @@ photos_error_box_constructed (GObject *object)
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing (GTK_GRID (self), 12);
 
-  priv->image = gtk_image_new_from_icon_name ("dialog-error", GTK_ICON_SIZE_INVALID);
-  gtk_image_set_pixel_size (GTK_IMAGE (priv->image), 128);
-  gtk_widget_set_halign (priv->image, GTK_ALIGN_CENTER);
-  gtk_widget_set_valign (priv->image, GTK_ALIGN_CENTER);
-  gtk_container_add (GTK_CONTAINER (self), priv->image);
+  self->image = gtk_image_new_from_icon_name ("dialog-error", GTK_ICON_SIZE_INVALID);
+  gtk_image_set_pixel_size (GTK_IMAGE (self->image), 128);
+  gtk_widget_set_halign (self->image, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign (self->image, GTK_ALIGN_CENTER);
+  gtk_container_add (GTK_CONTAINER (self), self->image);
 
-  priv->primary_label = gtk_label_new (NULL);
-  gtk_label_set_use_markup (GTK_LABEL (priv->primary_label), TRUE);
-  gtk_widget_set_halign (priv->primary_label, GTK_ALIGN_CENTER);
-  gtk_widget_set_valign (priv->primary_label, GTK_ALIGN_CENTER);
-  gtk_container_add (GTK_CONTAINER (self), priv->primary_label);
+  self->primary_label = gtk_label_new (NULL);
+  gtk_label_set_use_markup (GTK_LABEL (self->primary_label), TRUE);
+  gtk_widget_set_halign (self->primary_label, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign (self->primary_label, GTK_ALIGN_CENTER);
+  gtk_container_add (GTK_CONTAINER (self), self->primary_label);
 
-  priv->secondary_label = gtk_label_new (NULL);
-  gtk_label_set_use_markup (GTK_LABEL (priv->secondary_label), TRUE);
-  gtk_label_set_line_wrap (GTK_LABEL (priv->secondary_label), TRUE);
-  gtk_widget_set_halign (priv->secondary_label, GTK_ALIGN_CENTER);
-  gtk_widget_set_valign (priv->secondary_label, GTK_ALIGN_CENTER);
-  gtk_container_add (GTK_CONTAINER (self), priv->secondary_label);
+  self->secondary_label = gtk_label_new (NULL);
+  gtk_label_set_use_markup (GTK_LABEL (self->secondary_label), TRUE);
+  gtk_label_set_line_wrap (GTK_LABEL (self->secondary_label), TRUE);
+  gtk_widget_set_halign (self->secondary_label, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign (self->secondary_label, GTK_ALIGN_CENTER);
+  gtk_container_add (GTK_CONTAINER (self), self->secondary_label);
 
   gtk_widget_show_all (GTK_WIDGET (self));
 }
@@ -82,7 +87,6 @@ photos_error_box_constructed (GObject *object)
 static void
 photos_error_box_init (PhotosErrorBox *self)
 {
-  self->priv = photos_error_box_get_instance_private (self);
 }
 
 
@@ -105,20 +109,19 @@ photos_error_box_new (void)
 void
 photos_error_box_update (PhotosErrorBox *self, const gchar *primary, const gchar *secondary)
 {
-  PhotosErrorBoxPrivate *priv = self->priv;
   gchar *markup;
 
   if (primary != NULL)
     {
       markup = g_markup_printf_escaped ("<big><b>%s</b></big>", primary);
-      gtk_label_set_markup (GTK_LABEL (priv->primary_label), markup);
+      gtk_label_set_markup (GTK_LABEL (self->primary_label), markup);
       g_free (markup);
     }
 
   if (secondary != NULL)
     {
       markup = g_markup_escape_text (secondary, -1);
-      gtk_label_set_markup (GTK_LABEL (priv->secondary_label), markup);
+      gtk_label_set_markup (GTK_LABEL (self->secondary_label), markup);
       g_free (markup);
     }
 }

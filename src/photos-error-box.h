@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_ERROR_BOX, PhotosErrorBox))
 
-#define PHOTOS_ERROR_BOX_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_ERROR_BOX, PhotosErrorBoxClass))
-
 #define PHOTOS_IS_ERROR_BOX(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_ERROR_BOX))
 
-#define PHOTOS_IS_ERROR_BOX_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_ERROR_BOX))
-
-#define PHOTOS_ERROR_BOX_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_ERROR_BOX, PhotosErrorBoxClass))
-
-typedef struct _PhotosErrorBox        PhotosErrorBox;
-typedef struct _PhotosErrorBoxClass   PhotosErrorBoxClass;
-typedef struct _PhotosErrorBoxPrivate PhotosErrorBoxPrivate;
-
-struct _PhotosErrorBox
-{
-  GtkGrid parent_instance;
-  PhotosErrorBoxPrivate *priv;
-};
-
-struct _PhotosErrorBoxClass
-{
-  GtkGridClass parent_class;
-};
+typedef struct _PhotosErrorBox      PhotosErrorBox;
+typedef struct _PhotosErrorBoxClass PhotosErrorBoxClass;
 
 GType                  photos_error_box_get_type               (void) G_GNUC_CONST;
 
