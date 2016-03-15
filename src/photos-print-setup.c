@@ -868,7 +868,7 @@ photos_print_setup_set_property (GObject *object, guint prop_id, const GValue *v
       }
       break;
     case PROP_PAGE_SETUP:
-      priv->page_setup = GTK_PAGE_SETUP (g_value_get_object (value));
+      priv->page_setup = GTK_PAGE_SETUP (g_value_dup_object (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
