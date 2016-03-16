@@ -175,8 +175,6 @@ photos_done_notification_constructed (GObject *object)
   G_OBJECT_CLASS (photos_done_notification_parent_class)->constructed (object);
 
   gtk_grid_set_column_spacing (GTK_GRID (self), 12);
-  gtk_widget_set_margin_end (GTK_WIDGET (self), 12);
-  gtk_widget_set_margin_start (GTK_WIDGET (self), 12);
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 
   name = photos_base_item_get_name_with_fallback (PHOTOS_BASE_ITEM (self->item));

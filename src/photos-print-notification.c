@@ -200,8 +200,6 @@ photos_print_notification_new (GtkPrintOperation *print_op)
 {
   g_object_new (PHOTOS_TYPE_PRINT_NOTIFICATION,
                 "column-spacing", 12,
-                "margin-start", 12,
-                "margin-end", 12,
                 "orientation", GTK_ORIENTATION_HORIZONTAL,
                 "print-op", print_op,
                 NULL);
