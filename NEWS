@@ -1,3 +1,39 @@
+Overview of changes in 3.19.92
+==============================
+
+* Bugs fixed:
+ 762027 Fix possible integer overflow (CVE-2013-7447)
+ 762318 Don't overwrite exported photos
+ 762942 Update the crop presets
+ 763096 Add notification when user clicks Done
+ 763131 Add translation context for string "None"
+ 763133 Ambiguous string needing translator comment
+ 763500 Fix PrintOperation object leak
+
+* Updated translations:
+ Traditional Chinese (Taiwan)
+ Czech
+ Finnish
+ Friulian
+ Galician
+ German
+ Greek
+ Hebrew
+ Hungarian
+ Kazakh
+ Korean
+ Latvian
+ Lithuanian
+ Polish
+ Portuguese (Brazilian)
+ Russian
+ Serbian
+ Slovak
+ Spanish
+ Swedish
+ Ukrainian
+
+
 Overview of changes in 3.19.91
 ==============================
 
