@@ -32,7 +32,7 @@ G_BEGIN_DECLS
 #define PHOTOS_ICON_FAVORITE "starred"
 #define PHOTOS_ICON_FAVORITE_SYMBOLIC PHOTOS_ICON_FAVORITE "-symbolic"
 
-#define PHOTOS_ICON_GO_DOWN_SYMBOLIC "go-down-symbolic"
+#define PHOTOS_ICON_GO_DOWN_SYMBOLIC "pan-down-symbolic"
 #define PHOTOS_ICON_GO_NEXT_SYMBOLIC "go-next-symbolic"
 #define PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC "go-previous-symbolic"
 
