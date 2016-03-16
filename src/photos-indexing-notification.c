@@ -321,8 +321,6 @@ photos_indexing_notification_new (void)
 {
   return g_object_new (PHOTOS_TYPE_INDEXING_NOTIFICATION,
                        "column-spacing", 12,
-                       "margin-start", 12,
-                       "margin-end", 12,
                        "orientation", GTK_ORIENTATION_HORIZONTAL,
                        NULL);
 }

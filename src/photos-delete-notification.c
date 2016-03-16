@@ -259,8 +259,6 @@ photos_delete_notification_new (GList *items)
   g_object_new (PHOTOS_TYPE_DELETE_NOTIFICATION,
                 "column-spacing", 12,
                 "items", items,
-                "margin-start", 12,
-                "margin-end", 12,
                 "orientation", GTK_ORIENTATION_HORIZONTAL,
                 NULL);
 }
