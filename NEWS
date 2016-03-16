@@ -1,8 +1,12 @@
+Overview of changes in 3.21.1
+=============================
+
+
 Overview of changes in 3.19.92
 ==============================
 
 * Bugs fixed:
- 762027 Fix possible integer overflow (CVE-2013-7447)
+ 762027 Fix possible integer overflow flaw (CVE-2013-7447)
  762318 Don't overwrite exported photos
  762942 Update the crop presets
  763096 Add notification when user clicks Done
