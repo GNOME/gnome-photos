@@ -619,10 +619,10 @@ static gboolean
 press_inside_image_area (PhotosPrintPreview *preview, guint x, guint y)
 {
   PhotosPrintPreviewPrivate *priv;
+  const gint xs = (gint) x;
+  const gint ys = (gint) y;
   gint x0;
   gint y0;
-  gint xs = (gint) x;
-  gint ys = (gint) y;
 
   priv = preview->priv;
   get_current_image_coordinates (preview, &x0, &y0);
