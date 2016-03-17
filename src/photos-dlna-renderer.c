@@ -30,8 +30,9 @@
 #include "photos-mpris-player.h"
 
 
-struct _PhotosDlnaRendererPrivate
+struct _PhotosDlnaRenderer
 {
+  GObject parent_instance;
   DleynaRendererDevice *device;
   DleynaRendererPushHost *push_host;
   GBusType bus_type;
@@ -40,6 +41,11 @@ struct _PhotosDlnaRendererPrivate
   MprisPlayer *player;
   gchar *object_path;
   gchar *well_known_name;
+};
+
+struct _PhotosDlnaRendererClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -56,7 +62,6 @@ static void photos_dlna_renderer_async_initable_iface_init (GAsyncInitableIface 
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosDlnaRenderer, photos_dlna_renderer, G_TYPE_OBJECT,
-                         G_ADD_PRIVATE (PhotosDlnaRenderer)
                          G_IMPLEMENT_INTERFACE (G_TYPE_ASYNC_INITABLE,
                                                 photos_dlna_renderer_async_initable_iface_init));
 
@@ -77,12 +82,11 @@ static void
 photos_dlna_renderer_dispose (GObject *object)
 {
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (object);
-  PhotosDlnaRendererPrivate *priv = self->priv;
 
-  g_clear_object (&priv->device);
-  g_clear_object (&priv->push_host);
-  g_clear_object (&priv->player);
-  g_clear_pointer (&priv->urls_to_item, (GDestroyNotify) g_hash_table_unref);
+  g_clear_object (&self->device);
+  g_clear_object (&self->push_host);
+  g_clear_object (&self->player);
+  g_clear_pointer (&self->urls_to_item, (GDestroyNotify) g_hash_table_unref);
 
   G_OBJECT_CLASS (photos_dlna_renderer_parent_class)->dispose (object);
 }
@@ -92,10 +96,9 @@ static void
 photos_dlna_renderer_finalize (GObject *object)
 {
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (object);
-  PhotosDlnaRendererPrivate *priv = self->priv;
 
-  g_free (priv->well_known_name);
-  g_free (priv->object_path);
+  g_free (self->well_known_name);
+  g_free (self->object_path);
 
   G_OBJECT_CLASS (photos_dlna_renderer_parent_class)->finalize (object);
 }
@@ -129,24 +132,23 @@ photos_dlna_renderer_set_property (GObject *object,
                                    GParamSpec *pspec)
 {
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (object);
-  PhotosDlnaRendererPrivate *priv = self->priv;
 
   switch (prop_id)
     {
     case PROP_BUS_TYPE:
-      priv->bus_type = g_value_get_enum (value);
+      self->bus_type = g_value_get_enum (value);
       break;
 
     case PROP_FLAGS:
-      priv->flags = g_value_get_flags (value);
+      self->flags = g_value_get_flags (value);
       break;
 
     case PROP_OBJECT_PATH:
-      priv->object_path = g_value_dup_string (value);
+      self->object_path = g_value_dup_string (value);
       break;
 
     case PROP_WELL_KNOWN_NAME:
-      priv->well_known_name = g_value_dup_string (value);
+      self->well_known_name = g_value_dup_string (value);
       break;
 
     default:
@@ -159,12 +161,7 @@ photos_dlna_renderer_set_property (GObject *object,
 static void
 photos_dlna_renderer_init (PhotosDlnaRenderer *self)
 {
-  PhotosDlnaRendererPrivate *priv;
-
-  self->priv = photos_dlna_renderer_get_instance_private (self);
-  priv = self->priv;
-
-  priv->urls_to_item = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+  self->urls_to_item = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 }
 
 
@@ -276,7 +273,7 @@ photos_dlna_renderer_device_proxy_new_cb (GObject *source_object,
 
   self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (init_task));
 
-  self->priv->device = dleyna_renderer_device_proxy_new_for_bus_finish (res, &error);
+  self->device = dleyna_renderer_device_proxy_new_for_bus_finish (res, &error);
   RETURN_ON_ERROR (init_task, error, "Unable to load the RendererDevice interface");
 
   g_task_return_boolean (init_task, TRUE);
@@ -292,35 +289,34 @@ photos_dlna_renderer_init_async (GAsyncInitable *initable,
                                  gpointer user_data)
 {
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (initable);
-  PhotosDlnaRendererPrivate *priv = self->priv;
   GTask *init_task;
   GError *error = NULL;
 
   init_task = g_task_new (initable, cancellable, callback, user_data);
   g_task_set_priority (init_task, io_priority);
 
-  priv->push_host = dleyna_renderer_push_host_proxy_new_for_bus_sync (priv->bus_type,
+  self->push_host = dleyna_renderer_push_host_proxy_new_for_bus_sync (self->bus_type,
                                                                       G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
                                                                       | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
-                                                                      priv->well_known_name,
-                                                                      priv->object_path,
+                                                                      self->well_known_name,
+                                                                      self->object_path,
                                                                       NULL,
                                                                       &error);
   RETURN_ON_ERROR (init_task, error, "Unable to load the PushHost interface");
 
-  priv->player = mpris_player_proxy_new_for_bus_sync (priv->bus_type,
+  self->player = mpris_player_proxy_new_for_bus_sync (self->bus_type,
                                                       G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
                                                       | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
-                                                      priv->well_known_name,
-                                                      priv->object_path,
+                                                      self->well_known_name,
+                                                      self->object_path,
                                                       NULL,
                                                       &error);
   RETURN_ON_ERROR (init_task, error, "Unable to load the Player interface");
 
-  dleyna_renderer_device_proxy_new_for_bus (priv->bus_type,
+  dleyna_renderer_device_proxy_new_for_bus (self->bus_type,
                                             G_DBUS_PROXY_FLAGS_NONE,
-                                            priv->well_known_name,
-                                            priv->object_path,
+                                            self->well_known_name,
+                                            self->object_path,
                                             cancellable,
                                             photos_dlna_renderer_device_proxy_new_cb,
                                             init_task);
@@ -359,7 +355,7 @@ photos_dlna_renderer_async_initable_iface_init (GAsyncInitableIface *iface)
 const gchar *
 photos_dlna_renderer_get_object_path (PhotosDlnaRenderer *self)
 {
-  return self->priv->object_path;
+  return self->object_path;
 }
 
 
@@ -388,17 +384,15 @@ photos_dlna_renderer_share_open_uri_cb (GObject *source_object,
 {
   GTask *task = G_TASK (user_data);
   PhotosDlnaRenderer *self;
-  PhotosDlnaRendererPrivate *priv;
   GError *error = NULL;
 
   self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
-  priv = self->priv;
 
   mpris_player_call_open_uri_finish (MPRIS_PLAYER (source_object), res, &error);
   RETURN_ON_ERROR (task, error, "Failed to call the OpenUri method");
 
   /* 3) Mpris.Player.Play() */
-  mpris_player_call_play (priv->player,
+  mpris_player_call_play (self->player,
                           g_task_get_cancellable (task),
                           photos_dlna_renderer_share_play_cb,
                           task);
@@ -412,13 +406,11 @@ photos_dlna_renderer_share_host_file_cb (GObject *source_object,
 {
   GTask *task = G_TASK (user_data);
   PhotosDlnaRenderer *self;
-  PhotosDlnaRendererPrivate *priv;
   PhotosBaseItem *item;
   gchar *hosted_url;
   GError *error = NULL;
 
   self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
-  priv = self->priv;
 
   dleyna_renderer_push_host_call_host_file_finish (DLEYNA_RENDERER_PUSH_HOST (source_object),
                                                    &hosted_url,
@@ -427,12 +419,12 @@ photos_dlna_renderer_share_host_file_cb (GObject *source_object,
   RETURN_ON_ERROR (task, error, "Failed to call the HostFile method");
 
   item = g_object_get_data (G_OBJECT (task), "item");
-  g_hash_table_replace (priv->urls_to_item, hosted_url, g_object_ref (item));
+  g_hash_table_replace (self->urls_to_item, hosted_url, g_object_ref (item));
   g_object_notify (G_OBJECT (self), "shared-count");
 
   /* 2) Mpris.Player.OpenUri(hosted_url) */
   photos_debug (PHOTOS_DEBUG_DLNA, "%s %s", G_STRFUNC, hosted_url);
-  mpris_player_call_open_uri (priv->player, hosted_url,
+  mpris_player_call_open_uri (self->player, hosted_url,
                               g_task_get_cancellable (task),
                               photos_dlna_renderer_share_open_uri_cb,
                               task);
@@ -466,7 +458,7 @@ photos_dlna_renderer_share_download_cb (GObject *source_object,
    */
 
   /* 1) DleynaRenderer.PushHost.HostFile() */
-  dleyna_renderer_push_host_call_host_file (self->priv->push_host,
+  dleyna_renderer_push_host_call_host_file (self->push_host,
                                             filename,
                                             g_task_get_cancellable (task),
                                             photos_dlna_renderer_share_host_file_cb,
@@ -521,13 +513,12 @@ photos_dlna_renderer_unshare_remove_file_cb (GObject *source_object,
 {
   GTask *task = G_TASK (user_data);
   PhotosDlnaRenderer *self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
-  PhotosDlnaRendererPrivate *priv = self->priv;
   PhotosBaseItem *item;
   gboolean success = TRUE;
   GError *error = NULL;
 
   item = g_object_get_data (G_OBJECT (task), "item");
-  g_hash_table_foreach_remove (priv->urls_to_item, photos_dlna_renderer_match_by_item_value, item);
+  g_hash_table_foreach_remove (self->urls_to_item, photos_dlna_renderer_match_by_item_value, item);
   g_object_notify (G_OBJECT (self), "shared-count");
 
   dleyna_renderer_push_host_call_remove_file_finish (DLEYNA_RENDERER_PUSH_HOST (source_object), res, &error);
@@ -564,7 +555,7 @@ photos_dlna_renderer_unshare_download_cb (GObject *source_object,
   filename = photos_base_item_download_finish (PHOTOS_BASE_ITEM (source_object), res, &error);
   RETURN_ON_ERROR (task, error, "Unable to extract the local filename for the shared item");
 
-  dleyna_renderer_push_host_call_remove_file (self->priv->push_host,
+  dleyna_renderer_push_host_call_remove_file (self->push_host,
                                               filename,
                                               g_task_get_cancellable (task),
                                               photos_dlna_renderer_unshare_remove_file_cb,
@@ -633,14 +624,13 @@ photos_dlna_renderer_unshare_all (PhotosDlnaRenderer  *self,
                                   GAsyncReadyCallback callback,
                                   gpointer user_data)
 {
-  PhotosDlnaRendererPrivate *priv = self->priv;
   GTask *task;
   GList *items, *item;
   guint remaining;
 
   task = g_task_new (self, cancellable, callback, user_data);
 
-  items = g_hash_table_get_values (priv->urls_to_item);
+  items = g_hash_table_get_values (self->urls_to_item);
 
   remaining = g_list_length (items);
   g_task_set_task_data (task, GUINT_TO_POINTER (remaining), NULL);
@@ -721,18 +711,14 @@ photos_dlna_renderer_device_get_icon_cb (GObject *source_object,
 const gchar *
 photos_dlna_renderer_get_friendly_name (PhotosDlnaRenderer *self)
 {
-  PhotosDlnaRendererPrivate *priv = self->priv;
-
-  return dleyna_renderer_device_get_friendly_name (priv->device);
+  return dleyna_renderer_device_get_friendly_name (self->device);
 }
 
 
 const gchar *
 photos_dlna_renderer_get_udn (PhotosDlnaRenderer *self)
 {
-  PhotosDlnaRendererPrivate *priv = self->priv;
-
-  return dleyna_renderer_device_get_udn (priv->device);
+  return dleyna_renderer_device_get_udn (self->device);
 }
 
 
@@ -745,13 +731,12 @@ photos_dlna_renderer_get_icon (PhotosDlnaRenderer *self,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
 {
-  PhotosDlnaRendererPrivate *priv = self->priv;
   GTask *task;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_task_data (task, GINT_TO_POINTER (size), NULL);
 
-  dleyna_renderer_device_call_get_icon (priv->device, requested_mimetype, resolution,
+  dleyna_renderer_device_call_get_icon (self->device, requested_mimetype, resolution,
                                         cancellable, photos_dlna_renderer_device_get_icon_cb,
                                         task);
 }
@@ -771,7 +756,5 @@ photos_dlna_renderer_get_icon_finish (PhotosDlnaRenderer *self,
 guint
 photos_dlna_renderer_get_shared_count (PhotosDlnaRenderer *self)
 {
-  PhotosDlnaRendererPrivate *priv = self->priv;
-
-  return g_hash_table_size (priv->urls_to_item);
+  return g_hash_table_size (self->urls_to_item);
 }

@@ -34,36 +34,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_DLNA_RENDERER, PhotosDlnaRenderer))
 
-#define PHOTOS_DLNA_RENDERER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_DLNA_RENDERER, PhotosDlnaRendererClass))
-
 #define PHOTOS_IS_DLNA_RENDERER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_DLNA_RENDERER))
 
-#define PHOTOS_IS_DLNA_RENDERER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_DLNA_RENDERER))
-
-#define PHOTOS_DLNA_RENDERER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_DLNA_RENDERER, PhotosDlnaRendererClass))
-
-typedef struct _PhotosDlnaRenderer        PhotosDlnaRenderer;
-typedef struct _PhotosDlnaRendererClass   PhotosDlnaRendererClass;
-typedef struct _PhotosDlnaRendererPrivate PhotosDlnaRendererPrivate;
-
-struct _PhotosDlnaRenderer
-{
-  GObject parent_instance;
-  PhotosDlnaRendererPrivate *priv;
-};
-
-struct _PhotosDlnaRendererClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosDlnaRenderer      PhotosDlnaRenderer;
+typedef struct _PhotosDlnaRendererClass PhotosDlnaRendererClass;
 
 GType                 photos_dlna_renderer_get_type           (void) G_GNUC_CONST;
 
