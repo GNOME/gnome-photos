@@ -40,14 +40,20 @@
 #include "photos-utils.h"
 
 
-struct _PhotosDlnaRenderersDialogPrivate
+struct _PhotosDlnaRenderersDialog
 {
+  GtkDialog parent_instance;
   PhotosBaseManager *item_mngr;
   PhotosDlnaRenderersManager *renderers_mngr;
   PhotosRemoteDisplayManager *remote_mngr;
   PhotosModeController *mode_cntrlr;
   GtkListBox *listbox;
   gchar *urn;
+};
+
+struct _PhotosDlnaRenderersDialogClass
+{
+  GtkDialogClass parent_class;
 };
 
 
@@ -58,7 +64,7 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosDlnaRenderersDialog, photos_dlna_renderers_dialog, GTK_TYPE_DIALOG);
+G_DEFINE_TYPE (PhotosDlnaRenderersDialog, photos_dlna_renderers_dialog, GTK_TYPE_DIALOG);
 
 
 static void
@@ -66,17 +72,16 @@ photos_dlna_renderers_dialog_row_activated_cb (PhotosDlnaRenderersDialog *self,
                                                GtkListBoxRow             *row,
                                                gpointer                   user_data)
 {
-  PhotosDlnaRenderersDialogPrivate *priv = self->priv;
   PhotosBaseItem *item;
   PhotosDlnaRenderer *renderer;
 
   renderer = g_object_get_data (G_OBJECT (row), "renderer");
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (priv->item_mngr,
-                                                                 priv->urn));
-  photos_remote_display_manager_set_renderer (priv->remote_mngr, renderer);
-  photos_remote_display_manager_render (priv->remote_mngr, item);
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr,
+                                                                 self->urn));
+  photos_remote_display_manager_set_renderer (self->remote_mngr, renderer);
+  photos_remote_display_manager_render (self->remote_mngr, item);
 
-  photos_mode_controller_go_back (priv->mode_cntrlr);
+  photos_mode_controller_go_back (self->mode_cntrlr);
 
   gtk_dialog_response (GTK_DIALOG (self), GTK_RESPONSE_ACCEPT);
 }
@@ -86,12 +91,11 @@ static void
 photos_dlna_renderers_dialog_dispose (GObject *object)
 {
   PhotosDlnaRenderersDialog *self = PHOTOS_DLNA_RENDERERS_DIALOG (object);
-  PhotosDlnaRenderersDialogPrivate *priv = self->priv;
 
-  g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->renderers_mngr);
-  g_clear_object (&priv->remote_mngr);
-  g_clear_object (&priv->mode_cntrlr);
+  g_clear_object (&self->item_mngr);
+  g_clear_object (&self->renderers_mngr);
+  g_clear_object (&self->remote_mngr);
+  g_clear_object (&self->mode_cntrlr);
 
   G_OBJECT_CLASS (photos_dlna_renderers_dialog_parent_class)->dispose (object);
 }
@@ -101,9 +105,8 @@ static void
 photos_dlna_renderers_dialog_finalize (GObject *object)
 {
   PhotosDlnaRenderersDialog *self = PHOTOS_DLNA_RENDERERS_DIALOG (object);
-  PhotosDlnaRenderersDialogPrivate *priv = self->priv;
 
-  g_free (priv->urn);
+  g_free (self->urn);
 
   G_OBJECT_CLASS (photos_dlna_renderers_dialog_parent_class)->finalize (object);
 }
@@ -120,7 +123,7 @@ photos_dlna_renderers_dialog_set_property (GObject      *object,
   switch (prop_id)
     {
     case PROP_URN:
-      self->priv->urn = g_value_dup_string (value);
+      self->urn = g_value_dup_string (value);
       break;
 
     default:
@@ -159,7 +162,6 @@ out:
 static void
 photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self, PhotosDlnaRenderer *renderer)
 {
-  PhotosDlnaRenderersDialogPrivate *priv = self->priv;
   GIcon *icon;
   GtkWidget *row;
   GtkWidget *row_grid;
@@ -168,7 +170,7 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self, Phot
   const gchar *name;
 
   row = gtk_list_box_row_new ();
-  gtk_container_add (GTK_CONTAINER (priv->listbox), row);
+  gtk_container_add (GTK_CONTAINER (self->listbox), row);
 
   row_grid = gtk_grid_new ();
   gtk_container_set_border_width (GTK_CONTAINER (row_grid), 12);
@@ -203,27 +205,23 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self, Phot
 static void
 photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
 {
-  PhotosDlnaRenderersDialogPrivate *priv;
   GApplication *app;
   GList *renderers;
   PhotosSearchContextState *state;
 
-  self->priv = photos_dlna_renderers_dialog_get_instance_private (self);
-  priv = self->priv;
-
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->item_mngr = g_object_ref (state->item_mngr);
-  priv->renderers_mngr = photos_dlna_renderers_manager_dup_singleton ();
-  priv->remote_mngr = photos_remote_display_manager_dup_singleton ();
-  priv->mode_cntrlr = g_object_ref (state->mode_cntrlr);
+  self->item_mngr = g_object_ref (state->item_mngr);
+  self->renderers_mngr = photos_dlna_renderers_manager_dup_singleton ();
+  self->remote_mngr = photos_remote_display_manager_dup_singleton ();
+  self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  gtk_list_box_set_header_func (priv->listbox, photos_utils_list_box_header_func, NULL, NULL);
+  gtk_list_box_set_header_func (self->listbox, photos_utils_list_box_header_func, NULL, NULL);
 
-  renderers = photos_dlna_renderers_manager_dup_renderers (priv->renderers_mngr);
+  renderers = photos_dlna_renderers_manager_dup_renderers (self->renderers_mngr);
 
   while (renderers != NULL)
     {
@@ -258,7 +256,7 @@ photos_dlna_renderers_dialog_class_init (PhotosDlnaRenderersDialogClass *class)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/dlna-renderers-dialog.ui");
 
-  gtk_widget_class_bind_template_child_private (widget_class, PhotosDlnaRenderersDialog, listbox);
+  gtk_widget_class_bind_template_child (widget_class, PhotosDlnaRenderersDialog, listbox);
   gtk_widget_class_bind_template_callback (widget_class, photos_dlna_renderers_dialog_row_activated_cb);
 }
 

@@ -31,36 +31,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_DLNA_RENDERERS_DIALOG, PhotosDlnaRenderersDialog))
 
-#define PHOTOS_DLNA_RENDERERS_DIALOG_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_DLNA_RENDERERS_DIALOG, PhotosDlnaRenderersDialogClass))
-
 #define PHOTOS_IS_DLNA_RENDERERS_DIALOG(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_DLNA_RENDERERS_DIALOG))
 
-#define PHOTOS_IS_DLNA_RENDERERS_DIALOG_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_DLNA_RENDERERS_DIALOG))
-
-#define PHOTOS_DLNA_RENDERERS_DIALOG_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_DLNA_RENDERERS_DIALOG, PhotosDlnaRenderersDialogClass))
-
-typedef struct _PhotosDlnaRenderersDialog        PhotosDlnaRenderersDialog;
-typedef struct _PhotosDlnaRenderersDialogClass   PhotosDlnaRenderersDialogClass;
-typedef struct _PhotosDlnaRenderersDialogPrivate PhotosDlnaRenderersDialogPrivate;
-
-struct _PhotosDlnaRenderersDialog
-{
-  GtkDialog parent_instance;
-  PhotosDlnaRenderersDialogPrivate *priv;
-};
-
-struct _PhotosDlnaRenderersDialogClass
-{
-  GtkDialogClass parent_class;
-};
+typedef struct _PhotosDlnaRenderersDialog      PhotosDlnaRenderersDialog;
+typedef struct _PhotosDlnaRenderersDialogClass PhotosDlnaRenderersDialogClass;
 
 GType               photos_dlna_renderers_dialog_get_type           (void) G_GNUC_CONST;
 
