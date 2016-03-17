@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-12\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-04 09:55+0000\n"
-"PO-Revision-Date: 2016-03-04 15:04+0500\n"
+"POT-Creation-Date: 2016-03-17 02:08+0000\n"
+"PO-Revision-Date: 2016-03-17 08:42+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk@li.org>\n"
 "Language: kk\n"
@@ -108,7 +108,7 @@ msgstr "Терезе максималды етілген"
 msgid "Window maximized state"
 msgstr "Терезе максималды күйі"
 
-#: ../src/photos-base-item.c:474
+#: ../src/photos-base-item.c:476
 msgid "Album"
 msgstr "Альбом"
 
@@ -128,12 +128,18 @@ msgid_plural "%d items deleted"
 msgstr[0] "%d нәрсе өшірілді"
 
 #: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:190
 msgid "Undo"
 msgstr "Болдырмау"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA өңдеу құрылғылары"
+
+#: ../src/photos-done-notification.c:183
+#, c-format
+msgid "“%s” edited"
+msgstr "\"%s\" түзетілді"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
@@ -260,7 +266,10 @@ msgstr "Қоқыс шелегін тазарту"
 msgid "Open"
 msgstr "Ашу"
 
-#: ../src/photos-export-notification.c:302
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:305
 msgid "Export Folder"
 msgstr "Буманы экспорттау"
 
@@ -558,7 +567,7 @@ msgstr "Тө_мен:"
 msgid "C_enter:"
 msgstr "Ортас_ымен:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Жоқ"
 
@@ -678,19 +687,19 @@ msgstr "Сөнд., жарқылдамады"
 msgid "On, fired"
 msgstr "Іске қосулы, жарқылдады"
 
-#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Барлығы"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Атауы"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Автор"
@@ -698,7 +707,7 @@ msgstr "Автор"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Сәйкес"
 
@@ -806,27 +815,33 @@ msgstr "Шуын азайту"
 msgid "Enhance"
 msgstr "Жақсарту"
 
-#: ../src/photos-tool-filters.c:198
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Ешнәрсе"
+
+#: ../src/photos-tool-filters.c:199
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:205
+#: ../src/photos-tool-filters.c:206
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:211
+#: ../src/photos-tool-filters.c:212
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:218
+#: ../src/photos-tool-filters.c:219
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:224
+#: ../src/photos-tool-filters.c:225
 msgid "Hometown"
 msgstr "Туған қала"
 
-#: ../src/photos-tool-filters.c:242
+#: ../src/photos-tool-filters.c:243
 msgid "Filters"
 msgstr "Сүзгілер"
 
