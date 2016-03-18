@@ -284,7 +284,7 @@ photos_collection_icon_watcher_query_executed (GObject *source_object, GAsyncRes
 {
   PhotosCollectionIconWatcher *self = PHOTOS_COLLECTION_ICON_WATCHER (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
-  TrackerSparqlCursor *cursor;
+  TrackerSparqlCursor *cursor = NULL;
   GError *error;
 
   error = NULL;
@@ -293,14 +293,16 @@ photos_collection_icon_watcher_query_executed (GObject *source_object, GAsyncRes
     {
       g_warning ("Unable to query collection items: %s", error->message);
       g_error_free (error);
-      return;
+      goto out;
     }
 
   tracker_sparql_cursor_next_async (cursor,
                                     NULL,
                                     photos_collection_icon_watcher_cursor_next,
                                     g_object_ref (self));
-  g_object_unref (cursor);
+
+ out:
+  g_clear_object (&cursor);
 }
 
 
