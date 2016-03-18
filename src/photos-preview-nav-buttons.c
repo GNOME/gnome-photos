@@ -219,11 +219,7 @@ static void
 photos_preview_nav_buttons_queue_auto_hide (PhotosPreviewNavButtons *self)
 {
   photos_preview_nav_buttons_unqueue_auto_hide (self);
-  self->auto_hide_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
-                                                   2,
-                                                   (GSourceFunc) photos_preview_nav_buttons_auto_hide,
-                                                   g_object_ref (self),
-                                                   g_object_unref);
+  self->auto_hide_id = g_timeout_add_seconds (2, (GSourceFunc) photos_preview_nav_buttons_auto_hide, self);
 }
 
 
@@ -354,6 +350,8 @@ static void
 photos_preview_nav_buttons_dispose (GObject *object)
 {
   PhotosPreviewNavButtons *self = PHOTOS_PREVIEW_NAV_BUTTONS (object);
+
+  photos_preview_nav_buttons_unqueue_auto_hide (self);
 
   g_clear_object (&self->tap_gesture);
   g_clear_object (&self->model);
