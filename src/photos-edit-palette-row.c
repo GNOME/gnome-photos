@@ -118,6 +118,7 @@ photos_edit_palette_row_dispose (GObject *object)
   PhotosEditPaletteRow *self = PHOTOS_EDIT_PALETTE_ROW (object);
 
   g_clear_object (&self->size_group);
+  g_clear_object (&self->tool);
 
   G_OBJECT_CLASS (photos_edit_palette_row_parent_class)->dispose (object);
 }
