@@ -43,6 +43,7 @@
 struct _PhotosCollectionIconWatcher
 {
   GObject parent_instance;
+  GCancellable *cancellable;
   GHashTable *item_connections;
   GList *items;
   GList *urns;
@@ -245,37 +246,49 @@ photos_collection_icon_watcher_finished (PhotosCollectionIconWatcher *self)
 static void
 photos_collection_icon_watcher_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosCollectionIconWatcher *self = PHOTOS_COLLECTION_ICON_WATCHER (user_data);
+  PhotosCollectionIconWatcher *self;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GError *error;
   gboolean success;
   gchar *urn;
 
   error = NULL;
+  /* Note that tracker_sparql_cursor_next_finish can return FALSE even
+   * without an error.
+   */
   success = tracker_sparql_cursor_next_finish (cursor, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to query collection items: %s", error->message);
-      g_error_free (error);
-      goto end;
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          g_error_free (error);
+          return;
+        }
+      else
+        {
+          g_warning ("Unable to query collection items: %s", error->message);
+          g_error_free (error);
+        }
     }
-  else if (!success)
-    goto end;
 
-  urn = g_strdup (tracker_sparql_cursor_get_string (cursor, 0, NULL));
-  self->urns = g_list_prepend (self->urns, urn);
+  self = PHOTOS_COLLECTION_ICON_WATCHER (user_data);
 
-  tracker_sparql_cursor_next_async (cursor,
-                                    NULL,
-                                    photos_collection_icon_watcher_cursor_next,
-                                    self);
-  return;
+  if (success)
+    {
+      urn = g_strdup (tracker_sparql_cursor_get_string (cursor, 0, NULL));
+      self->urns = g_list_prepend (self->urns, urn);
 
- end:
-  self->urns = g_list_reverse (self->urns);
-  photos_collection_icon_watcher_finished (self);
-  tracker_sparql_cursor_close (cursor);
-  g_object_unref (self);
+      tracker_sparql_cursor_next_async (cursor,
+                                        self->cancellable,
+                                        photos_collection_icon_watcher_cursor_next,
+                                        self);
+    }
+  else
+    {
+      self->urns = g_list_reverse (self->urns);
+      photos_collection_icon_watcher_finished (self);
+      tracker_sparql_cursor_close (cursor);
+    }
 }
 
 
@@ -297,9 +310,9 @@ photos_collection_icon_watcher_query_executed (GObject *source_object, GAsyncRes
     }
 
   tracker_sparql_cursor_next_async (cursor,
-                                    NULL,
+                                    self->cancellable,
                                     photos_collection_icon_watcher_cursor_next,
-                                    g_object_ref (self));
+                                    self);
 
  out:
   g_clear_object (&cursor);
@@ -351,6 +364,12 @@ static void
 photos_collection_icon_watcher_dispose (GObject *object)
 {
   PhotosCollectionIconWatcher *self = PHOTOS_COLLECTION_ICON_WATCHER (object);
+
+  if (self->cancellable != NULL)
+    {
+      g_cancellable_cancel (self->cancellable);
+      g_clear_object (&self->cancellable);
+    }
 
   if (self->item_connections != NULL)
     {
@@ -417,6 +436,7 @@ photos_collection_icon_watcher_init (PhotosCollectionIconWatcher *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
+  self->cancellable = g_cancellable_new ();
   self->item_connections = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
 
   self->item_mngr = state->item_mngr;
