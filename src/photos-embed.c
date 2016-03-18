@@ -351,11 +351,7 @@ static void
 photos_embed_load_started (PhotosEmbed *self, PhotosBaseItem *item)
 {
   photos_embed_clear_load_timer (self);
-  self->load_show_id = g_timeout_add_full (G_PRIORITY_DEFAULT,
-                                           400,
-                                           photos_embed_load_show_timeout,
-                                           g_object_ref (self),
-                                           g_object_unref);
+  self->load_show_id = g_timeout_add (400, photos_embed_load_show_timeout, self);
 }
 
 
@@ -614,6 +610,7 @@ photos_embed_dispose (GObject *object)
 {
   PhotosEmbed *self = PHOTOS_EMBED (object);
 
+  photos_embed_clear_load_timer (self);
   photos_embed_clear_search (self);
 
   g_clear_object (&self->ntfctn_mngr);
