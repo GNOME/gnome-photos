@@ -28,10 +28,10 @@
 struct _PhotosEditPaletteRow
 {
   GtkListBoxRow parent_instance;
+  GtkSizeGroup *size_group;
   GtkWidget *details_revealer;
   GtkWidget *row_revealer;
   PhotosTool *tool;
-  GtkSizeGroup *size_group;
 };
 
 struct _PhotosEditPaletteRowClass
