@@ -343,7 +343,6 @@ photos_embed_load_show_timeout (gpointer user_data)
 
   self->load_show_id = 0;
   photos_spinner_box_start (PHOTOS_SPINNER_BOX (self->spinner_box));
-  g_object_unref (self);
   return G_SOURCE_REMOVE;
 }
 
@@ -352,7 +351,11 @@ static void
 photos_embed_load_started (PhotosEmbed *self, PhotosBaseItem *item)
 {
   photos_embed_clear_load_timer (self);
-  self->load_show_id = g_timeout_add (400, photos_embed_load_show_timeout, g_object_ref (self));
+  self->load_show_id = g_timeout_add_full (G_PRIORITY_DEFAULT,
+                                           400,
+                                           photos_embed_load_show_timeout,
+                                           g_object_ref (self),
+                                           g_object_unref);
 }
 
 
