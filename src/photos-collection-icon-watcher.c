@@ -248,18 +248,18 @@ photos_collection_icon_watcher_cursor_next (GObject *source_object, GAsyncResult
   PhotosCollectionIconWatcher *self = PHOTOS_COLLECTION_ICON_WATCHER (user_data);
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GError *error;
-  gboolean valid;
+  gboolean success;
   gchar *urn;
 
   error = NULL;
-  valid = tracker_sparql_cursor_next_finish (cursor, res, &error);
+  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to query collection items: %s", error->message);
       g_error_free (error);
       goto end;
     }
-  else if (!valid)
+  else if (!success)
     goto end;
 
   urn = g_strdup (tracker_sparql_cursor_get_string (cursor, 0, NULL));
