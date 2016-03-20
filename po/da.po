@@ -2,16 +2,16 @@
 # Copyright (C) 2013-16 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Kris Thomsen <lakristho@gmail.com>, 2013.
-# Ask Hjorth Larsen <asklarsen@gmail.com>, 2014-15.
 # Kenneth Nielsen <k.nielsen81@gmail.com>, 2014.
 # scootergrisen, 2016.
+# Ask Hjorth Larsen <asklarsen@gmail.com>, 2014-16.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-19 04:00+0100\n"
-"PO-Revision-Date: 2016-03-19 03:59+0100\n"
-"Last-Translator: scootergrisen\n"
+"POT-Creation-Date: 2016-03-20 15:19+0100\n"
+"PO-Revision-Date: 2016-03-20 15:18+0100\n"
+"Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -139,9 +139,9 @@ msgid "DLNA Renderer Devices"
 msgstr "DLNA-renderingsenheder"
 
 #: ../src/photos-done-notification.c:183
-#, fuzzy, c-format
+#, c-format
 msgid "“%s” edited"
-msgstr "“%s” slettet"
+msgstr "“%s” redigeret"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
@@ -188,10 +188,9 @@ msgid "No Photos Found"
 msgstr "Ingen billeder fundet"
 
 #: ../src/photos-export-dialog.ui.h:1
-#, fuzzy
 msgctxt "dialog title"
 msgid "Export"
-msgstr "Eksponering"
+msgstr "Eksportér"
 
 #: ../src/photos-export-dialog.ui.h:2
 msgid "_Folder Name"
@@ -229,9 +228,8 @@ msgstr "%d×%d (%s)"
 #. *  will be exported.
 #.
 #: ../src/photos-export-dialog.c:284
-#, fuzzy
 msgid "%e %B %Y"
-msgstr "%a, %d. %B %Y"
+msgstr "%e. %B %Y"
 
 #: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
@@ -239,31 +237,31 @@ msgstr "Udregner eksportstørrelse…"
 
 #: ../src/photos-export-notification.c:243
 msgid "Failed to export: not enough space"
-msgstr ""
+msgstr "Kunne ikke eksportere: ikke nok plads"
 
 #: ../src/photos-export-notification.c:245
 msgid "Failed to export"
-msgstr ""
+msgstr "Kunne ikke eksportere"
 
 #: ../src/photos-export-notification.c:252
-#, fuzzy, c-format
+#, c-format
 msgid "“%s” exported"
-msgstr "“%s” slettet"
+msgstr "“%s” eksporteret"
 
 #: ../src/photos-export-notification.c:256
-#, fuzzy, c-format
+#, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
-msgstr[0] "%d element slettet"
-msgstr[1] "%d elementer slettet"
+msgstr[0] "%d element eksporteret"
+msgstr[1] "%d elementer eksporteret"
 
 #: ../src/photos-export-notification.c:273
 msgid "Analyze"
-msgstr ""
+msgstr "Analysér"
 
 #: ../src/photos-export-notification.c:278
 msgid "Empty Trash"
-msgstr ""
+msgstr "Tøm papirkurv"
 
 #. Translators: this is the Open action in a context menu
 #: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
@@ -276,9 +274,8 @@ msgstr "Åbn"
 #. * folder where the item was exported.
 #.
 #: ../src/photos-export-notification.c:305
-#, fuzzy
 msgid "Export Folder"
-msgstr "Eksponering"
+msgstr "Mappe til eksport"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -344,35 +341,31 @@ msgid "Select all"
 msgstr "Vælg alle"
 
 #: ../src/photos-help-overlay.ui.h:11
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Print selected photos"
-msgstr "Udskriv billeder"
+msgstr "Udskriv valgte billeder"
 
 #: ../src/photos-help-overlay.ui.h:12
 msgctxt "shortcut window"
 msgid "Delete selected photos"
-msgstr ""
+msgstr "Slet valgte billeder"
 
 #: ../src/photos-help-overlay.ui.h:13
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Photo view"
-msgstr "Billeder"
+msgstr "Billedvisning"
 
 #: ../src/photos-help-overlay.ui.h:14
 msgctxt "shortcut window"
 msgid "Edit"
-msgstr ""
+msgstr "Redigér"
 
 #: ../src/photos-help-overlay.ui.h:15
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Export"
-msgstr "Eksponering"
+msgstr "Eksportér"
 
 #: ../src/photos-help-overlay.ui.h:16
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Udskriv"
@@ -392,13 +385,13 @@ msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Fuldskærm"
 
+# Navnet på en genvejstastgruppe, så nok ikke imperativ her
 #: ../src/photos-help-overlay.ui.h:20
 msgctxt "shortcut window"
 msgid "Edit view"
-msgstr ""
+msgstr "Redigeringsvisning"
 
 #: ../src/photos-help-overlay.ui.h:21
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Annullér"
@@ -470,15 +463,14 @@ msgid "Done"
 msgstr "Færdig"
 
 #: ../src/photos-main-window.c:492
-#, fuzzy
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
 "Copyright © 2012 – 2016 Red Hat, Inc."
 msgstr ""
-"Copyright © 2013 Intel Corporation. Alle rettigheder forbeholdt.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:502
@@ -749,9 +741,8 @@ msgid "Select None"
 msgstr "Vælg ingen"
 
 #: ../src/photos-selection-toolbar.ui.h:1
-#, fuzzy
 msgid "Export"
-msgstr "Eksponering"
+msgstr "Eksportér"
 
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
@@ -783,35 +774,35 @@ msgstr "Frihånd"
 
 #: ../src/photos-tool-crop.c:132
 msgid "Original"
-msgstr ""
+msgstr "Original"
 
 #: ../src/photos-tool-crop.c:133
 msgid "1×1 (Square)"
-msgstr ""
+msgstr "1×1 (kvadrat)"
 
 #: ../src/photos-tool-crop.c:134
 msgid "10×8 / 5×4"
-msgstr ""
+msgstr "10×8 / 5×4"
 
 #: ../src/photos-tool-crop.c:135
 msgid "4×3 / 8×6 (1024×768)"
-msgstr ""
+msgstr "4×3 / 8×6 (1024×768)"
 
 #: ../src/photos-tool-crop.c:136
 msgid "7×5"
-msgstr ""
+msgstr "7×5"
 
 #: ../src/photos-tool-crop.c:137
 msgid "3×2 / 6×4"
-msgstr ""
+msgstr "3×2 / 6×4"
 
 #: ../src/photos-tool-crop.c:138
 msgid "16×10 (1280×800)"
-msgstr ""
+msgstr "16×10 (1280×800)"
 
 #: ../src/photos-tool-crop.c:139
 msgid "16×9 (1920×1080)"
-msgstr ""
+msgstr "16×9 (1920×1080)"
 
 #: ../src/photos-tool-crop.c:1169
 msgid "Lock aspect ratio"
@@ -834,16 +825,14 @@ msgid "Denoise"
 msgstr "Fjern støj"
 
 #: ../src/photos-tool-enhance.c:253
-#, fuzzy
 msgid "Enhance"
 msgstr "Forbedr"
 
 #. Translators: "None" refers to the nop magic filter when editing.
 #: ../src/photos-tool-filters.c:192
-#, fuzzy
 msgctxt "Edit Filter"
 msgid "None"
-msgstr "Ingen"
+msgstr "Intet"
 
 #: ../src/photos-tool-filters.c:199
 msgid "1947"
@@ -858,12 +847,10 @@ msgid "Mogadishu"
 msgstr "Mogadishu"
 
 #: ../src/photos-tool-filters.c:219
-#, fuzzy
 msgid "Caap"
 msgstr "Caap"
 
 #: ../src/photos-tool-filters.c:225
-#, fuzzy
 msgid "Hometown"
 msgstr "Hjemby"
 
@@ -874,20 +861,6 @@ msgstr "Filtre"
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Kunne ikke hente liste over billeder"
-
-#, fuzzy
-#~ msgctxt "shortcut window"
-#~ msgid "Print the current photo"
-#~ msgstr "Udskriv billeder"
-
-#, fuzzy
-#~ msgctxt "shortcut window"
-#~ msgid "Preview"
-#~ msgstr "Forhåndsvisning"
-
-#, fuzzy
-#~ msgid "Screen"
-#~ msgstr "Skærmbilleder"
 
 #~ msgid "%a, %d %B %Y  %X"
 #~ msgstr "%a, %d. %B %Y  %X"
