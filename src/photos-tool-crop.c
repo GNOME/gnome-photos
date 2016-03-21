@@ -60,6 +60,7 @@ struct _PhotosToolCrop
 {
   PhotosTool parent_instance;
   GAction *crop;
+  GCancellable *cancellable;
   GeglRectangle bbox_zoomed;
   GeglRectangle bbox_source;
   GtkWidget *box;
@@ -886,7 +887,7 @@ photos_tool_crop_size_allocate (PhotosToolCrop *self, GdkRectangle *allocation)
 static void
 photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosToolCrop *self = PHOTOS_TOOL_CROP (user_data);
+  PhotosToolCrop *self;
   GError *error = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   gfloat zoom;
@@ -895,10 +896,13 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
   photos_base_item_process_finish (item, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to process item: %s", error->message);
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to process item: %s", error->message);
       g_error_free (error);
-      goto out;
+      return;
     }
+
+  self = PHOTOS_TOOL_CROP (user_data);
 
   photos_tool_crop_surface_create (self);
 
@@ -923,9 +927,6 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
   self->activated = TRUE;
   self->reset = FALSE;
   g_signal_emit_by_name (self, "activated");
-
- out:
-  g_object_unref (self);
 }
 
 
@@ -976,7 +977,7 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageVi
       self->crop_y = y;
 
       photos_base_item_operation_remove (item, "gegl:crop");
-      photos_base_item_process_async (item, NULL, photos_tool_crop_process, g_object_ref (self));
+      photos_base_item_process_async (item, self->cancellable, photos_tool_crop_process, self);
     }
   else
     {
@@ -1144,6 +1145,12 @@ photos_tool_crop_dispose (GObject *object)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (object);
 
+  if (self->cancellable != NULL)
+    {
+      g_cancellable_cancel (self->cancellable);
+      g_clear_object (&self->cancellable);
+    }
+
   g_clear_object (&self->box);
   g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
 
@@ -1159,6 +1166,8 @@ photos_tool_crop_init (PhotosToolCrop *self)
 
   app = g_application_get_default ();
   self->crop = g_action_map_lookup_action (G_ACTION_MAP (app), "crop-current");
+
+  self->cancellable = g_cancellable_new ();
 
   /* We really need a GtkBox here. A GtkGrid won't work because it
    * doesn't expand the children to fill the full width of the
