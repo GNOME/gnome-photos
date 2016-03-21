@@ -99,7 +99,7 @@ photos_offset_controller_cursor_next (GObject *source_object, GAsyncResult *res,
 static void
 photos_offset_controller_reset_count_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosOffsetController *self = PHOTOS_OFFSET_CONTROLLER (user_data);
+  PhotosOffsetController *self;
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   TrackerSparqlCursor *cursor;
   GError *error;
@@ -108,9 +108,13 @@ photos_offset_controller_reset_count_query_executed (GObject *source_object, GAs
   cursor = tracker_sparql_connection_query_finish (connection, res, &error);
   if (error != NULL)
     {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to query the item count: %s", error->message);
       g_error_free (error);
       return;
     }
+
+  self = PHOTOS_OFFSET_CONTROLLER (user_data);
 
   tracker_sparql_cursor_next_async (cursor,
                                     self->priv->cancellable,
@@ -248,10 +252,10 @@ photos_offset_controller_reset_count (PhotosOffsetController *self)
 
   photos_tracker_queue_select (priv->queue,
                                query->sparql,
-                               NULL,
+                               priv->cancellable,
                                photos_offset_controller_reset_count_query_executed,
-                               g_object_ref (self),
-                               g_object_unref);
+                               self,
+                               NULL);
   photos_query_free (query);
 }
 
