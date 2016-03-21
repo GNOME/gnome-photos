@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_DROPDOWN, PhotosDropdown))
 
-#define PHOTOS_DROPDOWN_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_DROPDOWN, PhotosDropdownClass))
-
 #define PHOTOS_IS_DROPDOWN(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_DROPDOWN))
 
-#define PHOTOS_IS_DROPDOWN_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_DROPDOWN))
-
-#define PHOTOS_DROPDOWN_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_DROPDOWN, PhotosDropdownClass))
-
-typedef struct _PhotosDropdown        PhotosDropdown;
-typedef struct _PhotosDropdownClass   PhotosDropdownClass;
-typedef struct _PhotosDropdownPrivate PhotosDropdownPrivate;
-
-struct _PhotosDropdown
-{
-  GtkPopover parent_instance;
-  PhotosDropdownPrivate *priv;
-};
-
-struct _PhotosDropdownClass
-{
-  GtkPopoverClass parent_class;
-};
+typedef struct _PhotosDropdown      PhotosDropdown;
+typedef struct _PhotosDropdownClass PhotosDropdownClass;
 
 GType                     photos_dropdown_get_type             (void) G_GNUC_CONST;
 
