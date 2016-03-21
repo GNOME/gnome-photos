@@ -143,6 +143,17 @@ photos_tracker_change_monitor_add_event (PhotosTrackerChangeMonitor *self, Photo
 
 
 static void
+photos_tracker_change_monitor_remove_timeout (PhotosTrackerChangeMonitor *self)
+{
+  if (self->pending_events_id != 0)
+    {
+      g_source_remove (self->pending_events_id);
+      self->pending_events_id = 0;
+    }
+}
+
+
+static void
 photos_tracker_change_monitor_send_events (PhotosTrackerChangeMonitor *self, GHashTable *id_table, GQueue *events)
 {
   GList *l;
@@ -285,8 +296,7 @@ photos_tracker_change_monitor_add_pending_event (PhotosTrackerChangeMonitor *sel
 {
   PhotosTrackerChangeEvent *change_event;
 
-  if (self->pending_events_id != 0)
-    g_source_remove (self->pending_events_id);
+  photos_tracker_change_monitor_remove_timeout (self);
 
   g_hash_table_insert (self->unresolved_ids, GINT_TO_POINTER (event->subject), NULL);
   g_hash_table_insert (self->unresolved_ids, GINT_TO_POINTER (event->predicate), NULL);
