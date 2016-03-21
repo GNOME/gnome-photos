@@ -173,11 +173,9 @@ photos_delete_notification_constructed (GObject *object)
   photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr),
                                                 GTK_WIDGET (self));
 
-  self->timeout_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
-                                                 DELETE_TIMEOUT,
-                                                 photos_delete_notification_timeout,
-                                                 g_object_ref (self),
-                                                 g_object_unref);
+  self->timeout_id = g_timeout_add_seconds (DELETE_TIMEOUT,
+                                            photos_delete_notification_timeout,
+                                            self);
 }
 
 
@@ -185,6 +183,8 @@ static void
 photos_delete_notification_dispose (GObject *object)
 {
   PhotosDeleteNotification *self = PHOTOS_DELETE_NOTIFICATION (object);
+
+  photos_delete_notification_remove_timeout (self);
 
   g_list_free_full (self->items, g_object_unref);
   self->items = NULL;
