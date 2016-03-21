@@ -307,11 +307,9 @@ photos_tracker_change_monitor_add_pending_event (PhotosTrackerChangeMonitor *sel
   if (self->pending_events->length >= CHANGE_MONITOR_MAX_ITEMS)
     photos_tracker_change_monitor_process_events (self);
   else
-    self->pending_events_id = g_timeout_add_full (G_PRIORITY_DEFAULT,
-                                                  CHANGE_MONITOR_TIMEOUT,
-                                                  (GSourceFunc) photos_tracker_change_monitor_process_events,
-                                                  g_object_ref (self),
-                                                  g_object_unref);
+    self->pending_events_id = g_timeout_add (CHANGE_MONITOR_TIMEOUT,
+                                             (GSourceFunc) photos_tracker_change_monitor_process_events,
+                                             self);
 }
 
 
@@ -365,6 +363,8 @@ static void
 photos_tracker_change_monitor_dispose (GObject *object)
 {
   PhotosTrackerChangeMonitor *self = PHOTOS_TRACKER_CHANGE_MONITOR (object);
+
+  photos_tracker_change_monitor_remove_timeout (self);
 
   g_clear_object (&self->queue);
   g_clear_object (&self->resource_service);
