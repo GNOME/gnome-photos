@@ -105,6 +105,17 @@ photos_properties_dialog_get_camera (GObject *source_object, GAsyncResult *res, 
 }
 
 
+static void
+photos_properties_dialog_remove_timeout (PhotosPropertiesDialog *self)
+{
+  if (self->title_entry_timeout != 0)
+    {
+      g_source_remove (self->title_entry_timeout);
+      self->title_entry_timeout = 0;
+    }
+}
+
+
 static gboolean
 photos_properties_dialog_title_entry_timeout (gpointer user_data)
 {
@@ -125,11 +136,7 @@ photos_properties_dialog_title_entry_changed (GtkEditable *editable, gpointer us
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (user_data);
 
-  if (self->title_entry_timeout != 0)
-    {
-      g_source_remove (self->title_entry_timeout);
-      self->title_entry_timeout = 0;
-    }
+  photos_properties_dialog_remove_timeout (self);
 
   self->title_entry_timeout = g_timeout_add (TITLE_ENTRY_TIMEOUT,
                                              photos_properties_dialog_title_entry_timeout,
@@ -528,8 +535,7 @@ photos_properties_dialog_finalize (GObject *object)
 
   g_free (self->urn);
 
-  if (self->title_entry_timeout != 0)
-    g_source_remove (self->title_entry_timeout);
+  photos_properties_dialog_remove_timeout (self);
 
   G_OBJECT_CLASS (photos_properties_dialog_parent_class)->finalize (object);
 }
