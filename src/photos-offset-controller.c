@@ -64,16 +64,29 @@ photos_offset_controller_cursor_next (GObject *source_object, GAsyncResult *res,
 {
   PhotosOffsetController *self = PHOTOS_OFFSET_CONTROLLER (user_data);
   PhotosOffsetControllerPrivate *priv = self->priv;
+  GError *error;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   gboolean success;
 
-  success = tracker_sparql_cursor_next_finish (cursor, res, NULL);
+  error = NULL;
+  /* Note that tracker_sparql_cursor_next_finish can return FALSE even without
+   * an error
+   */
+  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to query the item count: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
   if (success)
     {
       priv->count = (gint) tracker_sparql_cursor_get_integer (cursor, 0);
       g_signal_emit (self, signals[COUNT_CHANGED], 0, priv->count);
     }
 
+ out:
   tracker_sparql_cursor_close (cursor);
   g_object_unref (self);
 }
