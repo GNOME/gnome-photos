@@ -130,14 +130,14 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
   PhotosTrackerControllerPrivate *priv = self->priv;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
-  gboolean valid;
+  gboolean success;
   gint64 now;
 
   if (priv->item_mngr == NULL)
     goto out;
 
-  valid = tracker_sparql_cursor_next_finish (cursor, res, NULL); /* TODO: use GError */
-  if (!valid)
+  success = tracker_sparql_cursor_next_finish (cursor, res, NULL); /* TODO: use GError */
+  if (!success)
     {
       tracker_sparql_cursor_close (cursor);
       photos_tracker_controller_query_finished (self, NULL);
