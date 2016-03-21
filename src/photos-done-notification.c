@@ -206,11 +206,7 @@ photos_done_notification_constructed (GObject *object)
   photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr),
                                                 GTK_WIDGET (self));
 
-  self->timeout_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
-                                                 DONE_TIMEOUT,
-                                                 photos_done_notification_timeout,
-                                                 g_object_ref (self),
-                                                 g_object_unref);
+  self->timeout_id = g_timeout_add_seconds (DONE_TIMEOUT, photos_done_notification_timeout, self);
 }
 
 
@@ -218,6 +214,8 @@ static void
 photos_done_notification_dispose (GObject *object)
 {
   PhotosDoneNotification *self = PHOTOS_DONE_NOTIFICATION (object);
+
+  photos_done_notification_remove_timeout (self);
 
   g_clear_object (&self->item);
   g_clear_object (&self->ntfctn_mngr);
