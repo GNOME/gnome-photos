@@ -65,10 +65,10 @@ photos_offset_controller_cursor_next (GObject *source_object, GAsyncResult *res,
   PhotosOffsetController *self = PHOTOS_OFFSET_CONTROLLER (user_data);
   PhotosOffsetControllerPrivate *priv = self->priv;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
-  gboolean valid;
+  gboolean success;
 
-  valid = tracker_sparql_cursor_next_finish (cursor, res, NULL);
-  if (valid)
+  success = tracker_sparql_cursor_next_finish (cursor, res, NULL);
+  if (success)
     {
       priv->count = (gint) tracker_sparql_cursor_get_integer (cursor, 0);
       g_signal_emit (self, signals[COUNT_CHANGED], 0, priv->count);
