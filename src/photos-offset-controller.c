@@ -35,6 +35,7 @@
 
 struct _PhotosOffsetControllerPrivate
 {
+  GCancellable *cancellable;
   PhotosTrackerQueue *queue;
   gint count;
   gint offset;
@@ -62,8 +63,8 @@ enum
 static void
 photos_offset_controller_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosOffsetController *self = PHOTOS_OFFSET_CONTROLLER (user_data);
-  PhotosOffsetControllerPrivate *priv = self->priv;
+  PhotosOffsetController *self;
+  PhotosOffsetControllerPrivate *priv;
   GError *error;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   gboolean success;
@@ -75,10 +76,14 @@ photos_offset_controller_cursor_next (GObject *source_object, GAsyncResult *res,
   success = tracker_sparql_cursor_next_finish (cursor, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to query the item count: %s", error->message);
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to query the item count: %s", error->message);
       g_error_free (error);
       goto out;
     }
+
+  self = PHOTOS_OFFSET_CONTROLLER (user_data);
+  priv = self->priv;
 
   if (success)
     {
@@ -88,7 +93,6 @@ photos_offset_controller_cursor_next (GObject *source_object, GAsyncResult *res,
 
  out:
   tracker_sparql_cursor_close (cursor);
-  g_object_unref (self);
 }
 
 
@@ -108,7 +112,10 @@ photos_offset_controller_reset_count_query_executed (GObject *source_object, GAs
       return;
     }
 
-  tracker_sparql_cursor_next_async (cursor, NULL, photos_offset_controller_cursor_next, g_object_ref (self));
+  tracker_sparql_cursor_next_async (cursor,
+                                    self->priv->cancellable,
+                                    photos_offset_controller_cursor_next,
+                                    self);
   g_object_unref (cursor);
 }
 
@@ -117,6 +124,12 @@ static void
 photos_offset_controller_dispose (GObject *object)
 {
   PhotosOffsetController *self = PHOTOS_OFFSET_CONTROLLER (object);
+
+  if (self->priv->cancellable != NULL)
+    {
+      g_cancellable_cancel (self->priv->cancellable);
+      g_clear_object (&self->priv->cancellable);
+    }
 
   g_clear_object (&self->priv->queue);
 
@@ -132,6 +145,7 @@ photos_offset_controller_init (PhotosOffsetController *self)
   self->priv = photos_offset_controller_get_instance_private (self);
   priv = self->priv;
 
+  priv->cancellable = g_cancellable_new ();
   priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
 }
 
