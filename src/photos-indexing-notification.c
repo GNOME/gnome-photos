@@ -214,11 +214,9 @@ photos_indexing_notification_check_notification (PhotosIndexingNotification *sel
   else if (is_indexing_remote)
     {
       photos_indexing_notification_remove_timeout (self);
-      self->timeout_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
-                                                     REMOTE_MINER_TIMEOUT,
-                                                     photos_indexing_notification_timeout,
-                                                     g_object_ref (self),
-                                                     g_object_unref);
+      self->timeout_id = g_timeout_add_seconds (REMOTE_MINER_TIMEOUT,
+                                                photos_indexing_notification_timeout,
+                                                self);
     }
   else
     photos_indexing_notification_destroy (self, FALSE);
@@ -233,6 +231,7 @@ photos_indexing_notification_dispose (GObject *object)
 {
   PhotosIndexingNotification *self = PHOTOS_INDEXING_NOTIFICATION (object);
 
+  photos_indexing_notification_remove_timeout (self);
   g_clear_object (&self->ntfctn_mngr);
   g_clear_object (&self->manager);
 
