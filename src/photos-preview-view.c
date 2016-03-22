@@ -45,6 +45,7 @@ struct _PhotosPreviewView
 {
   GtkBin parent_instance;
   GAction *draw;
+  GCancellable *cancellable;
   GeglNode *node;
   GtkWidget *overlay;
   GtkWidget *palette;
@@ -270,16 +271,26 @@ photos_preview_view_get_view_from_view_container (GtkWidget *view_container)
 static void
 photos_preview_view_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
+  PhotosPreviewView *self;
   GError *error = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
   photos_base_item_process_finish (item, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to process item: %s", error->message);
-      g_error_free (error);
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          g_error_free (error);
+          return;
+        }
+      else
+        {
+          g_warning ("Unable to process item: %s", error->message);
+          g_error_free (error);
+        }
     }
+
+  self = PHOTOS_PREVIEW_VIEW (user_data);
 
   g_action_activate (self->draw, NULL);
 }
@@ -316,7 +327,7 @@ photos_preview_view_brightness_contrast (PhotosPreviewView *self, GVariant *para
                                   "brightness", brightness,
                                   "contrast", contrast,
                                   NULL);
-  photos_base_item_process_async (item, NULL, photos_preview_view_process, self);
+  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
 }
 
 
@@ -355,7 +366,7 @@ photos_preview_view_crop (PhotosPreviewView *self, GVariant *parameter)
   g_return_if_fail (y >= 0.0);
 
   photos_base_item_operation_add (item, "gegl:crop", "height", height, "width", width, "x", x, "y", y, NULL);
-  photos_base_item_process_async (item, NULL, photos_preview_view_process, self);
+  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
 }
 
 
@@ -371,7 +382,7 @@ photos_preview_view_denoise (PhotosPreviewView *self, GVariant *parameter)
 
   iterations = g_variant_get_uint16 (parameter);
   photos_base_item_operation_add (item, "gegl:noise-reduction", "iterations", (gint) iterations, NULL);
-  photos_base_item_process_async (item, NULL, photos_preview_view_process, self);
+  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
 }
 
 
@@ -399,7 +410,7 @@ photos_preview_view_insta (PhotosPreviewView *self, GVariant *parameter)
 
   preset = (PhotosOperationInstaPreset) g_variant_get_int16 (parameter);
   photos_base_item_operation_add (item, "photos:insta-filter", "preset", preset, NULL);
-  photos_base_item_process_async (item, NULL, photos_preview_view_process, self);
+  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
 }
 
 
@@ -415,7 +426,7 @@ photos_preview_view_saturation (PhotosPreviewView *self, GVariant *parameter)
 
   scale = g_variant_get_double (parameter);
   photos_base_item_operation_add (item, "photos:saturation", "scale", scale, NULL);
-  photos_base_item_process_async (item, NULL, photos_preview_view_process, self);
+  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
 }
 
 
@@ -431,7 +442,7 @@ photos_preview_view_sharpen (PhotosPreviewView *self, GVariant *parameter)
 
   scale = g_variant_get_double (parameter);
   photos_base_item_operation_add (item, "gegl:unsharp-mask", "scale", scale, NULL);
-  photos_base_item_process_async (item, NULL, photos_preview_view_process, self);
+  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
 }
 
 
@@ -572,6 +583,12 @@ photos_preview_view_dispose (GObject *object)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
 
+  if (self->cancellable != NULL)
+    {
+      g_cancellable_cancel (self->cancellable);
+      g_clear_object (&self->cancellable);
+    }
+
   g_clear_object (&self->node);
   g_clear_object (&self->item_mngr);
   g_clear_object (&self->mode_cntrlr);
@@ -636,6 +653,7 @@ photos_preview_view_init (PhotosPreviewView *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
+  self->cancellable = g_cancellable_new ();
   self->item_mngr = g_object_ref (state->item_mngr);
 
   self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
