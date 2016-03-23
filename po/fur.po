@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-06 09:50+0000\n"
-"PO-Revision-Date: 2016-03-06 14:47+0100\n"
+"POT-Creation-Date: 2016-03-22 22:12+0000\n"
+"PO-Revision-Date: 2016-03-23 07:07+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -107,7 +107,7 @@ msgstr "Barcon slargjât"
 msgid "Window maximized state"
 msgstr "Stât barcon slargjât"
 
-#: ../src/photos-base-item.c:474
+#: ../src/photos-base-item.c:476
 msgid "Album"
 msgstr "Album"
 
@@ -128,12 +128,18 @@ msgstr[0] "%d element eliminât"
 msgstr[1] "%d elements eliminâts"
 
 #: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:188
 msgid "Undo"
 msgstr "Anule"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Dispositîfs visôrs DLNA"
+
+#: ../src/photos-done-notification.c:181
+#, c-format
+msgid "“%s” edited"
+msgstr "“%s” modificât"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
@@ -227,36 +233,36 @@ msgstr "%e %B %Y"
 msgid "Calculating export size…"
 msgstr "Daûr a calcolâ la dimension de esportazion..."
 
-#: ../src/photos-export-notification.c:243
+#: ../src/photos-export-notification.c:241
 msgid "Failed to export: not enough space"
 msgstr "Impussibil espuartâ: nol è vonde spazi"
 
-#: ../src/photos-export-notification.c:245
+#: ../src/photos-export-notification.c:243
 msgid "Failed to export"
 msgstr "Impussibil espuartâ"
 
-#: ../src/photos-export-notification.c:252
+#: ../src/photos-export-notification.c:250
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” espuartade"
 
-#: ../src/photos-export-notification.c:256
+#: ../src/photos-export-notification.c:254
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d element espuartât"
 msgstr[1] "%d elements espuartâts"
 
-#: ../src/photos-export-notification.c:273
+#: ../src/photos-export-notification.c:271
 msgid "Analyze"
 msgstr "Analize"
 
-#: ../src/photos-export-notification.c:278
+#: ../src/photos-export-notification.c:276
 msgid "Empty Trash"
 msgstr "Disvuede scovacere"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-export-notification.c:293 ../src/photos-preview-menu.ui.h:1
 #: ../src/photos-selection-toolbar.c:234
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
@@ -265,7 +271,7 @@ msgstr "Vierç"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:305
+#: ../src/photos-export-notification.c:303
 msgid "Export Folder"
 msgstr "Cartele dulà espuartâ"
 
