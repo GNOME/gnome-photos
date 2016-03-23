@@ -61,6 +61,7 @@ struct _PhotosBaseItemPrivate
 {
   cairo_surface_t *surface;
   GAppInfo *default_app;
+  GCancellable *cancellable;
   GdkPixbuf *original_icon;
   GeglNode *buffer_sink;
   GeglNode *buffer_source;
@@ -669,8 +670,8 @@ photos_base_item_refresh_thumb_path (PhotosBaseItem *self)
 static void
 photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
   GError *error = NULL;
   GFile *file = G_FILE (source_object);
   GFileInfo *info = NULL;
@@ -678,10 +679,29 @@ photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res,
   info = g_file_query_info_finish (file, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to query info for file at %s: %s", priv->uri, error->message);
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          g_error_free (error);
+          goto out;
+        }
+      else
+        {
+          gchar *uri;
+
+          uri = g_file_get_uri (file);
+          g_warning ("Unable to query info for file at %s: %s", uri, error->message);
+          g_free (uri);
+          g_error_free (error);
+        }
+    }
+
+  self = PHOTOS_BASE_ITEM (user_data);
+  priv = self->priv;
+
+  if (info == NULL)
+    {
       priv->failed_thumbnailing = TRUE;
       photos_base_item_set_failed_icon (self);
-      g_error_free (error);
       goto out;
     }
 
@@ -698,7 +718,6 @@ photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res,
 
  out:
   g_clear_object (&info);
-  g_object_unref (self);
 }
 
 
@@ -725,9 +744,9 @@ photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res,
                            G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
                            G_FILE_QUERY_INFO_NONE,
                            G_PRIORITY_DEFAULT,
-                           NULL,
+                           priv->cancellable,
                            photos_base_item_thumbnail_path_info,
-                           g_object_ref (self));
+                           self);
 
  out:
   g_object_unref (file);
@@ -1499,6 +1518,12 @@ photos_base_item_dispose (GObject *object)
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
   PhotosBaseItemPrivate *priv = self->priv;
 
+  if (priv->cancellable != NULL)
+    {
+       g_cancellable_cancel (priv->cancellable);
+       g_clear_object (&priv->cancellable);
+    }
+
   g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
   g_clear_object (&priv->default_app);
   g_clear_object (&priv->edit_graph);
@@ -1588,6 +1613,8 @@ photos_base_item_init (PhotosBaseItem *self)
 
   self->priv = photos_base_item_get_instance_private (self);
   priv = self->priv;
+
+  priv->cancellable = g_cancellable_new ();
 
   g_mutex_init (&priv->mutex_download);
   g_mutex_init (&priv->mutex);
