@@ -109,6 +109,7 @@ photos_spinner_box_start (PhotosSpinnerBox *self)
 void
 photos_spinner_box_stop (PhotosSpinnerBox *self)
 {
+  gtk_widget_hide (GTK_WIDGET (self));
   gtk_revealer_set_reveal_child (GTK_REVEALER (self), FALSE);
   g_signal_connect (self, "notify::child-revealed", G_CALLBACK (photos_spinner_box_notify_child_revealed), NULL);
 
