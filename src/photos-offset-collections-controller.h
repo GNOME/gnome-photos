@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_OFFSET_COLLECTIONS_CONTROLLER, PhotosOffsetCollectionsController))
 
-#define PHOTOS_OFFSET_COLLECTIONS_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_OFFSET_COLLECTIONS_CONTROLLER, PhotosOffsetCollectionsControllerClass))
-
 #define PHOTOS_IS_OFFSET_COLLECTIONS_CONTROLLER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_OFFSET_COLLECTIONS_CONTROLLER))
 
-#define PHOTOS_IS_OFFSET_COLLECTIONS_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_OFFSET_COLLECTIONS_CONTROLLER))
-
-#define PHOTOS_OFFSET_COLLECTIONS_CONTROLLER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_OFFSET_COLLECTIONS_CONTROLLER, PhotosOffsetCollectionsControllerClass))
-
-typedef struct _PhotosOffsetCollectionsController        PhotosOffsetCollectionsController;
-typedef struct _PhotosOffsetCollectionsControllerClass   PhotosOffsetCollectionsControllerClass;
-typedef struct _PhotosOffsetCollectionsControllerPrivate PhotosOffsetCollectionsControllerPrivate;
-
-struct _PhotosOffsetCollectionsController
-{
-  PhotosOffsetController parent_instance;
-  PhotosOffsetCollectionsControllerPrivate *priv;
-};
-
-struct _PhotosOffsetCollectionsControllerClass
-{
-  PhotosOffsetControllerClass parent_class;
-};
+typedef struct _PhotosOffsetCollectionsController      PhotosOffsetCollectionsController;
+typedef struct _PhotosOffsetCollectionsControllerClass PhotosOffsetCollectionsControllerClass;
 
 GType                    photos_offset_collections_controller_get_type          (void) G_GNUC_CONST;
 
