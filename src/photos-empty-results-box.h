@@ -37,36 +37,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_EMPTY_RESULTS_BOX, PhotosEmptyResultsBox))
 
-#define PHOTOS_EMPTY_RESULTS_BOX_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_EMPTY_RESULTS_BOX, PhotosEmptyResultsBoxClass))
-
 #define PHOTOS_IS_EMPTY_RESULTS_BOX(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_EMPTY_RESULTS_BOX))
 
-#define PHOTOS_IS_EMPTY_RESULTS_BOX_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_EMPTY_RESULTS_BOX))
-
-#define PHOTOS_EMPTY_RESULTS_BOX_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_EMPTY_RESULTS_BOX, PhotosEmptyResultsBoxClass))
-
-typedef struct _PhotosEmptyResultsBox        PhotosEmptyResultsBox;
-typedef struct _PhotosEmptyResultsBoxClass   PhotosEmptyResultsBoxClass;
-typedef struct _PhotosEmptyResultsBoxPrivate PhotosEmptyResultsBoxPrivate;
-
-struct _PhotosEmptyResultsBox
-{
-  GtkGrid parent_instance;
-  PhotosEmptyResultsBoxPrivate *priv;
-};
-
-struct _PhotosEmptyResultsBoxClass
-{
-  GtkGridClass parent_class;
-};
+typedef struct _PhotosEmptyResultsBox      PhotosEmptyResultsBox;
+typedef struct _PhotosEmptyResultsBoxClass PhotosEmptyResultsBoxClass;
 
 GType               photos_empty_results_box_get_type           (void) G_GNUC_CONST;
 

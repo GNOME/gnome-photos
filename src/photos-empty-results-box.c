@@ -35,11 +35,17 @@
 #include "photos-source-manager.h"
 
 
-struct _PhotosEmptyResultsBoxPrivate
+struct _PhotosEmptyResultsBox
 {
+  GtkGrid parent_instance;
   GtkWidget *labels_grid;
   PhotosBaseManager *src_mngr;
   PhotosWindowMode mode;
+};
+
+struct _PhotosEmptyResultsBoxClass
+{
+  GtkGridClass parent_class;
 };
 
 enum
@@ -49,7 +55,7 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosEmptyResultsBox, photos_empty_results_box, GTK_TYPE_GRID);
+G_DEFINE_TYPE (PhotosEmptyResultsBox, photos_empty_results_box, GTK_TYPE_GRID);
 
 
 static gboolean
@@ -116,7 +122,7 @@ photos_empty_results_box_add_collections_label (PhotosEmptyResultsBox *self)
   gtk_label_set_max_width_chars (GTK_LABEL (details), 24);
   gtk_label_set_use_markup (GTK_LABEL (details), TRUE);
   gtk_label_set_xalign (GTK_LABEL (details), 0.0);
-  gtk_container_add (GTK_CONTAINER (self->priv->labels_grid), details);
+  gtk_container_add (GTK_CONTAINER (self->labels_grid), details);
 }
 
 
@@ -144,7 +150,7 @@ photos_empty_results_box_add_system_settings_label (PhotosEmptyResultsBox *self)
   gtk_label_set_max_width_chars (GTK_LABEL (details), 24);
   gtk_label_set_use_markup (GTK_LABEL (details), TRUE);
   gtk_label_set_xalign (GTK_LABEL (details), 0.0);
-  gtk_container_add (GTK_CONTAINER (self->priv->labels_grid), details);
+  gtk_container_add (GTK_CONTAINER (self->labels_grid), details);
 
   g_signal_connect_swapped (details, "activate-link", G_CALLBACK (photos_empty_results_box_activate_link), self);
 
@@ -157,7 +163,6 @@ static void
 photos_empty_results_box_constructed (GObject *object)
 {
   PhotosEmptyResultsBox *self = PHOTOS_EMPTY_RESULTS_BOX (object);
-  PhotosEmptyResultsBoxPrivate *priv = self->priv;
   GtkStyleContext *context;
   GtkWidget *image;
   GtkWidget *title_label;
@@ -174,7 +179,7 @@ photos_empty_results_box_constructed (GObject *object)
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
   gtk_style_context_add_class (context, "dim-label");
 
-  switch (priv->mode)
+  switch (self->mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
       image = gtk_image_new_from_icon_name (PHOTOS_ICON_PHOTOS_SYMBOLIC, GTK_ICON_SIZE_INVALID);
@@ -203,19 +208,19 @@ photos_empty_results_box_constructed (GObject *object)
   gtk_image_set_pixel_size (GTK_IMAGE (image), 64);
   gtk_container_add (GTK_CONTAINER (self), image);
 
-  priv->labels_grid = gtk_grid_new ();
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (priv->labels_grid), GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing (GTK_GRID (priv->labels_grid), 12);
-  gtk_container_add (GTK_CONTAINER (self), priv->labels_grid);
+  self->labels_grid = gtk_grid_new ();
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (self->labels_grid), GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing (GTK_GRID (self->labels_grid), 12);
+  gtk_container_add (GTK_CONTAINER (self), self->labels_grid);
 
   title_label = gtk_label_new (label);
   gtk_widget_set_halign (title_label, GTK_ALIGN_START);
   gtk_widget_set_vexpand (title_label, TRUE);
   gtk_label_set_use_markup (GTK_LABEL (title_label), TRUE);
-  gtk_container_add (GTK_CONTAINER (priv->labels_grid), title_label);
+  gtk_container_add (GTK_CONTAINER (self->labels_grid), title_label);
   g_free (label);
 
-  switch (priv->mode)
+  switch (self->mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
       gtk_widget_set_valign (title_label, GTK_ALIGN_START);
@@ -228,7 +233,7 @@ photos_empty_results_box_constructed (GObject *object)
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
-      if (photos_source_manager_has_online_sources (PHOTOS_SOURCE_MANAGER (self->priv->src_mngr)))
+      if (photos_source_manager_has_online_sources (PHOTOS_SOURCE_MANAGER (self->src_mngr)))
         gtk_widget_set_valign (title_label, GTK_ALIGN_CENTER);
       else
         {
@@ -254,7 +259,7 @@ photos_empty_results_box_dispose (GObject *object)
 {
   PhotosEmptyResultsBox *self = PHOTOS_EMPTY_RESULTS_BOX (object);
 
-  g_clear_object (&self->priv->src_mngr);
+  g_clear_object (&self->src_mngr);
 
   G_OBJECT_CLASS (photos_empty_results_box_parent_class)->dispose (object);
 }
@@ -268,7 +273,7 @@ photos_empty_results_box_set_property (GObject *object, guint prop_id, const GVa
   switch (prop_id)
     {
     case PROP_MODE:
-      self->priv->mode = (PhotosWindowMode) g_value_get_enum (value);
+      self->mode = (PhotosWindowMode) g_value_get_enum (value);
       break;
 
     default:
@@ -281,17 +286,13 @@ photos_empty_results_box_set_property (GObject *object, guint prop_id, const GVa
 static void
 photos_empty_results_box_init (PhotosEmptyResultsBox *self)
 {
-  PhotosEmptyResultsBoxPrivate *priv;
   GApplication *app;
   PhotosSearchContextState *state;
-
-  self->priv = photos_empty_results_box_get_instance_private (self);
-  priv = self->priv;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->src_mngr = g_object_ref (state->src_mngr);
+  self->src_mngr = g_object_ref (state->src_mngr);
 }
 
 
