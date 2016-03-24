@@ -2669,6 +2669,6 @@ photos_base_item_trash (PhotosBaseItem *self)
   PHOTOS_BASE_ITEM_GET_CLASS (self)->trash (self);
 
   job = photos_delete_item_job_new (self->priv->id);
-  photos_delete_item_job_run (job, NULL, NULL);
+  photos_delete_item_job_run (job, NULL, NULL, NULL);
   g_object_unref (job);
 }

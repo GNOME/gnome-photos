@@ -39,8 +39,6 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_DELETE_ITEM_JOB))
 
-typedef void (*PhotosDeleteItemJobCallback) (gpointer);
-
 typedef struct _PhotosDeleteItemJob      PhotosDeleteItemJob;
 typedef struct _PhotosDeleteItemJobClass PhotosDeleteItemJobClass;
 
@@ -49,8 +47,13 @@ GType                       photos_delete_item_job_get_type    (void) G_GNUC_CON
 PhotosDeleteItemJob        *photos_delete_item_job_new         (const gchar *urn);
 
 void                        photos_delete_item_job_run         (PhotosDeleteItemJob *self,
-                                                                PhotosDeleteItemJobCallback callback,
+                                                                GCancellable *cancellable,
+                                                                GAsyncReadyCallback callback,
                                                                 gpointer user_data);
+
+gboolean                    photos_delete_item_job_finish      (PhotosDeleteItemJob *self,
+                                                                GAsyncResult *res,
+                                                                GError **error);
 
 G_END_DECLS
 

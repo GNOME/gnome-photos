@@ -39,10 +39,9 @@
 struct _PhotosDeleteItemJob
 {
   GObject parent_instance;
-  PhotosDeleteItemJobCallback callback;
+  GError *queue_error;
   PhotosTrackerQueue *queue;
   gchar *urn;
-  gpointer user_data;
 };
 
 struct _PhotosDeleteItemJobClass
@@ -63,7 +62,7 @@ G_DEFINE_TYPE (PhotosDeleteItemJob, photos_delete_item_job, G_TYPE_OBJECT);
 static void
 photos_delete_item_job_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosDeleteItemJob *self = PHOTOS_DELETE_ITEM_JOB (user_data);
+  GTask *task = G_TASK (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   GError *error;
 
@@ -71,14 +70,11 @@ photos_delete_item_job_query_executed (GObject *source_object, GAsyncResult *res
   tracker_sparql_connection_update_finish (connection, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to delete item: %s", error->message);
-      g_error_free (error);
-      goto out;
+      g_task_return_error (task, error);
+      return;
     }
 
- out:
-  if (self->callback != NULL)
-    (*self->callback) (self->user_data);
+  g_task_return_boolean (task, TRUE);
 }
 
 
@@ -98,6 +94,7 @@ photos_delete_item_job_finalize (GObject *object)
 {
   PhotosDeleteItemJob *self = PHOTOS_DELETE_ITEM_JOB (object);
 
+  g_clear_error (&self->queue_error);
   g_free (self->urn);
 
   G_OBJECT_CLASS (photos_delete_item_job_parent_class)->finalize (object);
@@ -125,7 +122,7 @@ photos_delete_item_job_set_property (GObject *object, guint prop_id, const GValu
 static void
 photos_delete_item_job_init (PhotosDeleteItemJob *self)
 {
-  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, &self->queue_error);
 }
 
 
@@ -155,24 +152,38 @@ photos_delete_item_job_new (const gchar *urn)
 }
 
 
+gboolean
+photos_delete_item_job_finish (PhotosDeleteItemJob *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_delete_item_job_run, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
+}
+
+
 void
 photos_delete_item_job_run (PhotosDeleteItemJob *self,
-                            PhotosDeleteItemJobCallback callback,
+                            GCancellable *cancellable,
+                            GAsyncReadyCallback callback,
                             gpointer user_data)
 {
   GApplication *app;
+  GTask *task;
   PhotosQuery *query;
   PhotosSearchContextState *state;
 
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_delete_item_job_run);
+
   if (G_UNLIKELY (self->queue == NULL))
     {
-      if (callback != NULL)
-        (*callback) (user_data);
-      return;
+      g_task_return_error (task, g_error_copy (self->queue_error));
+      goto out;
     }
-
-  self->callback = callback;
-  self->user_data = user_data;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
@@ -182,7 +193,10 @@ photos_delete_item_job_run (PhotosDeleteItemJob *self,
                                query->sparql,
                                NULL,
                                photos_delete_item_job_query_executed,
-                               g_object_ref (self),
+                               g_object_ref (task),
                                g_object_unref);
   photos_query_free (query);
+
+ out:
+  g_object_unref (task);
 }
