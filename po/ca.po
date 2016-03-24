@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-01 21:26+0100\n"
+"POT-Creation-Date: 2016-03-24 07:22+0100\n"
 "PO-Revision-Date: 2016-01-22 18:38+0100\n"
 "Last-Translator: Jordi Mas <jmas@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -106,7 +106,7 @@ msgstr "Finestra maximitzada"
 msgid "Window maximized state"
 msgstr "Estat maximitzat de la finestra"
 
-#: ../src/photos-base-item.c:474
+#: ../src/photos-base-item.c:476
 msgid "Album"
 msgstr "Àlbum"
 
@@ -127,12 +127,18 @@ msgstr[0] "S'ha suprimit l'element %d seleccionat"
 msgstr[1] "S'han suprimit els elements %d seleccionats"
 
 #: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:188
 msgid "Undo"
 msgstr "Desfés"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "Dispositius renderitzadors DLNA"
+
+#: ../src/photos-done-notification.c:181
+#, c-format
+msgid "“%s” edited"
+msgstr "«%s» editat"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
@@ -225,6 +231,48 @@ msgstr "%e %B %Y"
 #: ../src/photos-export-dialog.c:339
 msgid "Calculating export size…"
 msgstr "S'està calculant la mida d'exportació..."
+
+#: ../src/photos-export-notification.c:241
+msgid "Failed to export: not enough space"
+msgstr "S'ha produït un error en exportar: no hi ha prou espai en disc"
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export"
+msgstr "S'ha produït un error en exportar"
+
+#: ../src/photos-export-notification.c:250
+#, c-format
+msgid "“%s” exported"
+msgstr "«%s» exportat"
+
+#: ../src/photos-export-notification.c:254
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d element exportat"
+msgstr[1] "%d elements exportats"
+
+#: ../src/photos-export-notification.c:271
+msgid "Analyze"
+msgstr "Analitza"
+
+#: ../src/photos-export-notification.c:276
+msgid "Empty Trash"
+msgstr "Buida la paperera"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:293 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:234
+#: ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "Obre"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:303
+msgid "Export Folder"
+msgstr "Carpeta d'exportació"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -364,7 +412,7 @@ msgstr "S'estan indexant les fotografies"
 msgid "Some photos might not be available during this process"
 msgstr "Mentre duri el procés, algunes fotografies no estaran disponibles"
 
-#: ../src/photos-local-item.c:131 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:132 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Local"
 
@@ -462,12 +510,6 @@ msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organitza"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:234
-#: ../src/photos-selection-toolbar.ui.h:2
-msgid "Open"
-msgstr "Obre"
-
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Export…"
 msgstr "Exporta..."
@@ -530,7 +572,7 @@ msgstr "Part in_ferior:"
 msgid "C_enter:"
 msgstr "_Centre:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Cap"
 
@@ -650,19 +692,19 @@ msgstr "Aturat, no ha disparat"
 msgid "On, fired"
 msgstr "Engegat, ha disparat"
 
-#: ../src/photos-search-match-manager.c:154
+#: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Tot"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Títol"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autor"
@@ -670,7 +712,7 @@ msgstr "Autor"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Coincidència"
 
@@ -723,40 +765,46 @@ msgid "Free"
 msgstr "Lliure"
 
 #: ../src/photos-tool-crop.c:133
-msgid "Original Size"
-msgstr "Mida original"
+msgid "Original"
+msgstr "Original"
 
 #: ../src/photos-tool-crop.c:134
-msgid "Screen"
-msgstr "Captura de pantalla"
+msgid "1×1 (Square)"
+msgstr "1×1 (quadrat)"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden ratio"
-msgstr "Ràtio d'or"
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
 
 #: ../src/photos-tool-crop.c:136
-msgid "Square"
-msgstr "Quadrat"
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A paper sizes"
-msgstr "Una mida de paper"
+msgid "7×5"
+msgstr "7×5"
 
-#. Translators: this is the aspect ratio of the crop tool
-#: ../src/photos-tool-crop.c:986
-#, c-format
-msgid "%.2f"
-msgstr "%.2f"
+#: ../src/photos-tool-crop.c:138
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:1205
+#: ../src/photos-tool-crop.c:139
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
+
+#: ../src/photos-tool-crop.c:140
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1178
 msgid "Lock aspect ratio"
 msgstr "Bloqueja la relació d'aspecte"
 
-#: ../src/photos-tool-crop.c:1263
+#: ../src/photos-tool-crop.c:1226
 msgid "Reset"
 msgstr "Restableix"
 
-#: ../src/photos-tool-crop.c:1280
+#: ../src/photos-tool-crop.c:1243
 msgid "Crop"
 msgstr "Retalla"
 
@@ -772,33 +820,51 @@ msgstr "Reducció de soroll"
 msgid "Enhance"
 msgstr "Millora"
 
-#: ../src/photos-tool-filters.c:198
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Cap"
+
+#: ../src/photos-tool-filters.c:199
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:205
+#: ../src/photos-tool-filters.c:206
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:211
+#: ../src/photos-tool-filters.c:212
 msgid "Mogadishu"
 msgstr "Mogadiscio"
 
-#: ../src/photos-tool-filters.c:218
+#: ../src/photos-tool-filters.c:219
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:224
+#: ../src/photos-tool-filters.c:225
 msgid "Hometown"
 msgstr "Hometown"
 
-#: ../src/photos-tool-filters.c:242
+#: ../src/photos-tool-filters.c:243
 msgid "Filters"
 msgstr "Filtres"
 
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "No es pot obtenir el llistat de fotografies"
+
+#~ msgid "Screen"
+#~ msgstr "Captura de pantalla"
+
+#~ msgid "Golden ratio"
+#~ msgstr "Ràtio d'or"
+
+#~ msgid "A paper sizes"
+#~ msgstr "Una mida de paper"
+
+#~ msgid "%.2f"
+#~ msgstr "%.2f"
 
 #~ msgid "Print the current photo"
 #~ msgstr "Imprimeix la foto actual"
