@@ -36,21 +36,9 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_HEADER_BAR, PhotosHeaderBar))
 
-#define PHOTOS_HEADER_BAR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_HEADER_BAR, PhotosHeaderBarClass))
-
 #define PHOTOS_IS_HEADER_BAR(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_HEADER_BAR))
-
-#define PHOTOS_IS_HEADER_BAR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_HEADER_BAR))
-
-#define PHOTOS_HEADER_BAR_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_HEADER_BAR, PhotosHeaderBarClass))
 
 typedef enum
 {
@@ -60,20 +48,8 @@ typedef enum
   PHOTOS_HEADER_BAR_MODE_STANDALONE
 } PhotosHeaderBarMode;
 
-typedef struct _PhotosHeaderBar        PhotosHeaderBar;
-typedef struct _PhotosHeaderBarClass   PhotosHeaderBarClass;
-typedef struct _PhotosHeaderBarPrivate PhotosHeaderBarPrivate;
-
-struct _PhotosHeaderBar
-{
-  GtkHeaderBar parent_instance;
-  PhotosHeaderBarPrivate *priv;
-};
-
-struct _PhotosHeaderBarClass
-{
-  GtkHeaderBarClass parent_class;
-};
+typedef struct _PhotosHeaderBar      PhotosHeaderBar;
+typedef struct _PhotosHeaderBarClass PhotosHeaderBarClass;
 
 GType                  photos_header_bar_get_type               (void) G_GNUC_CONST;
 
