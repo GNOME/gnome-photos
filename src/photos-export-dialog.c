@@ -202,14 +202,11 @@ photos_export_dialog_load (GObject *source_object, GAsyncResult *result, gpointe
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   GError *error;
   GeglNode *node = NULL;
-  gboolean success = TRUE;
 
   error = NULL;
   node = photos_base_item_load_finish (item, result, &error);
   if (error != NULL)
     {
-      success = FALSE;
-
       if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
         {
           g_error_free (error);
@@ -226,7 +223,7 @@ photos_export_dialog_load (GObject *source_object, GAsyncResult *result, gpointe
 
   photos_export_dialog_show_size_options (self, FALSE, FALSE);
 
-  if (success)
+  if (node != NULL)
     {
       GeglRectangle bbox;
       gboolean got_bbox_edited;
