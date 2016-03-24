@@ -33,30 +33,33 @@
 #include "photos-search-context.h"
 
 
-struct _PhotosOffsetFavoritesControllerPrivate
+struct _PhotosOffsetFavoritesController
 {
+  PhotosOffsetController parent_instance;
   PhotosBaseManager *item_mngr;
 };
 
+struct _PhotosOffsetFavoritesControllerClass
+{
+  PhotosOffsetControllerClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosOffsetFavoritesController,
-                            photos_offset_favorites_controller,
-                            PHOTOS_TYPE_OFFSET_CONTROLLER);
+
+G_DEFINE_TYPE (PhotosOffsetFavoritesController, photos_offset_favorites_controller, PHOTOS_TYPE_OFFSET_CONTROLLER);
 
 
 static PhotosQuery *
 photos_offset_favorites_controller_get_query (PhotosOffsetController *offset_cntrlr)
 {
   PhotosOffsetFavoritesController *self = PHOTOS_OFFSET_FAVORITES_CONTROLLER (offset_cntrlr);
-  PhotosOffsetFavoritesControllerPrivate *priv = self->priv;
   GApplication *app;
   PhotosBaseItem *collection;
   PhotosSearchContextState *state;
   gint flags;
 
-  g_return_val_if_fail (priv->item_mngr != NULL, NULL);
+  g_return_val_if_fail (self->item_mngr != NULL, NULL);
 
-  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (priv->item_mngr));
+  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
   if (collection != NULL)
     flags = PHOTOS_QUERY_FLAGS_NONE;
   else
@@ -93,10 +96,9 @@ static void
 photos_offset_favorites_controller_finalize (GObject *object)
 {
   PhotosOffsetFavoritesController *self = PHOTOS_OFFSET_FAVORITES_CONTROLLER (object);
-  PhotosOffsetFavoritesControllerPrivate *priv = self->priv;
 
-  if (priv->item_mngr != NULL)
-    g_object_remove_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
+  if (self->item_mngr != NULL)
+    g_object_remove_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
 
   G_OBJECT_CLASS (photos_offset_favorites_controller_parent_class)->finalize (object);
 }
@@ -105,18 +107,14 @@ photos_offset_favorites_controller_finalize (GObject *object)
 static void
 photos_offset_favorites_controller_init (PhotosOffsetFavoritesController *self)
 {
-  PhotosOffsetFavoritesControllerPrivate *priv;
   GApplication *app;
   PhotosSearchContextState *state;
-
-  self->priv = photos_offset_favorites_controller_get_instance_private (self);
-  priv = self->priv;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  priv->item_mngr = state->item_mngr;
-  g_object_add_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
+  self->item_mngr = state->item_mngr;
+  g_object_add_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
 }
 
 

@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_OFFSET_FAVORITES_CONTROLLER, PhotosOffsetFavoritesController))
 
-#define PHOTOS_OFFSET_FAVORITES_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_OFFSET_FAVORITES_CONTROLLER, PhotosOffsetFavoritesControllerClass))
-
 #define PHOTOS_IS_OFFSET_FAVORITES_CONTROLLER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_OFFSET_FAVORITES_CONTROLLER))
 
-#define PHOTOS_IS_OFFSET_FAVORITES_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_OFFSET_FAVORITES_CONTROLLER))
-
-#define PHOTOS_OFFSET_FAVORITES_CONTROLLER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_OFFSET_FAVORITES_CONTROLLER, PhotosOffsetFavoritesControllerClass))
-
-typedef struct _PhotosOffsetFavoritesController        PhotosOffsetFavoritesController;
-typedef struct _PhotosOffsetFavoritesControllerClass   PhotosOffsetFavoritesControllerClass;
-typedef struct _PhotosOffsetFavoritesControllerPrivate PhotosOffsetFavoritesControllerPrivate;
-
-struct _PhotosOffsetFavoritesController
-{
-  PhotosOffsetController parent_instance;
-  PhotosOffsetFavoritesControllerPrivate *priv;
-};
-
-struct _PhotosOffsetFavoritesControllerClass
-{
-  PhotosOffsetControllerClass parent_class;
-};
+typedef struct _PhotosOffsetFavoritesController      PhotosOffsetFavoritesController;
+typedef struct _PhotosOffsetFavoritesControllerClass PhotosOffsetFavoritesControllerClass;
 
 GType                    photos_offset_favorites_controller_get_type          (void) G_GNUC_CONST;
 
