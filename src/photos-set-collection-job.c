@@ -67,9 +67,18 @@ G_DEFINE_TYPE (PhotosSetCollectionJob, photos_set_collection_job, G_TYPE_OBJECT)
 
 
 static void
-photos_set_collection_job_update_mtime (gpointer user_data)
+photos_set_collection_job_update_mtime (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhotosUpdateMtimeJob *job = PHOTOS_UPDATE_MTIME_JOB (source_object);
   PhotosSetCollectionJob *self = PHOTOS_SET_COLLECTION_JOB (user_data);
+  GError *error = NULL;
+
+  photos_update_mtime_job_finish (job, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to update mtime: %s", error->message);
+      g_error_free (error);
+    }
 
   if (self->callback != NULL)
     (*self->callback) (self->user_data);
@@ -87,7 +96,7 @@ photos_set_collection_job_job_collector (PhotosSetCollectionJob *self)
       PhotosUpdateMtimeJob *job;
 
       job = photos_update_mtime_job_new (self->collection_urn);
-      photos_update_mtime_job_run (job, photos_set_collection_job_update_mtime, g_object_ref (self));
+      photos_update_mtime_job_run (job, NULL, photos_set_collection_job_update_mtime, g_object_ref (self));
       g_object_unref (job);
     }
 }

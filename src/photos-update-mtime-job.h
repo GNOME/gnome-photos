@@ -39,8 +39,6 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_UPDATE_MTIME_JOB))
 
-typedef void (*PhotosUpdateMtimeJobCallback) (gpointer);
-
 typedef struct _PhotosUpdateMtimeJob      PhotosUpdateMtimeJob;
 typedef struct _PhotosUpdateMtimeJobClass PhotosUpdateMtimeJobClass;
 
@@ -49,8 +47,14 @@ GType                   photos_update_mtime_job_get_type             (void) G_GN
 PhotosUpdateMtimeJob   *photos_update_mtime_job_new                  (const gchar *urn);
 
 void                    photos_update_mtime_job_run                  (PhotosUpdateMtimeJob *self,
-                                                                      PhotosUpdateMtimeJobCallback callback,
+                                                                      GCancellable *cancellable,
+                                                                      GAsyncReadyCallback callback,
                                                                       gpointer user_data);
+
+gboolean                photos_update_mtime_job_finish               (PhotosUpdateMtimeJob *self,
+                                                                      GAsyncResult *res,
+                                                                      GError **error);
+
 
 G_END_DECLS
 
