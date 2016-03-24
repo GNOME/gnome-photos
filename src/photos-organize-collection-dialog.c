@@ -31,19 +31,25 @@
 #include "photos-organize-collection-view.h"
 
 
-struct _PhotosOrganizeCollectionDialogPrivate
+struct _PhotosOrganizeCollectionDialog
 {
+  GtkDialog parent_instance;
   GtkWidget *coll_view;
 };
 
+struct _PhotosOrganizeCollectionDialogClass
+{
+  GtkDialogClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosOrganizeCollectionDialog, photos_organize_collection_dialog, GTK_TYPE_DIALOG);
+
+G_DEFINE_TYPE (PhotosOrganizeCollectionDialog, photos_organize_collection_dialog, GTK_TYPE_DIALOG);
 
 
 static gboolean
 photos_organize_collection_dialog_button_press_event (PhotosOrganizeCollectionDialog *self, GdkEvent *event)
 {
-  photos_organize_collection_view_confirmed_choice (PHOTOS_ORGANIZE_COLLECTION_VIEW (self->priv->coll_view));
+  photos_organize_collection_view_confirmed_choice (PHOTOS_ORGANIZE_COLLECTION_VIEW (self->coll_view));
   return FALSE;
 }
 
@@ -56,20 +62,16 @@ photos_organize_collection_dialog_response (GtkDialog *dialog, gint response_id)
   if (response_id != GTK_RESPONSE_ACCEPT)
     return;
 
-  photos_organize_collection_view_add_collection (PHOTOS_ORGANIZE_COLLECTION_VIEW (self->priv->coll_view));
+  photos_organize_collection_view_add_collection (PHOTOS_ORGANIZE_COLLECTION_VIEW (self->coll_view));
 }
 
 
 static void
 photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
 {
-  PhotosOrganizeCollectionDialogPrivate *priv;
   GtkWidget *content_area;
   GtkWidget *ok_button;
   GtkWidget *sw;
-
-  self->priv = photos_organize_collection_dialog_get_instance_private (self);
-  priv = self->priv;
 
   gtk_dialog_add_button (GTK_DIALOG (self), _("_Add"), GTK_RESPONSE_ACCEPT);
   ok_button = gtk_dialog_add_button (GTK_DIALOG (self), _("_OK"), GTK_RESPONSE_CLOSE);
@@ -82,8 +84,8 @@ photos_organize_collection_dialog_init (PhotosOrganizeCollectionDialog *self)
   gtk_widget_set_margin_end (sw, 5);
   gtk_widget_set_margin_bottom (sw, 3);
 
-  priv->coll_view = photos_organize_collection_view_new ();
-  gtk_container_add (GTK_CONTAINER (sw), priv->coll_view);
+  self->coll_view = photos_organize_collection_view_new ();
+  gtk_container_add (GTK_CONTAINER (sw), self->coll_view);
   gtk_container_add (GTK_CONTAINER (content_area), sw);
 
   /* HACK:
