@@ -34,16 +34,15 @@
 #include "photos-query-builder.h"
 #include "photos-search-context.h"
 #include "photos-tracker-queue.h"
+#include "photos-utils.h"
 
 
 struct _PhotosCreateCollectionJob
 {
   GObject parent_instance;
-  PhotosCreateCollectionJobCallback callback;
+  GError *queue_error;
   PhotosTrackerQueue *queue;
-  const gchar *created_urn;
   gchar *name;
-  gpointer user_data;
 };
 
 struct _PhotosCreateCollectionJobClass
@@ -64,7 +63,7 @@ G_DEFINE_TYPE (PhotosCreateCollectionJob, photos_create_collection_job, G_TYPE_O
 static void
 photos_create_collection_job_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosCreateCollectionJob *self = PHOTOS_CREATE_COLLECTION_JOB (user_data);
+  GTask *task = G_TASK (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   GError *error;
   GVariant *variant;
@@ -76,9 +75,8 @@ photos_create_collection_job_query_executed (GObject *source_object, GAsyncResul
   variant = tracker_sparql_connection_update_blank_finish (connection, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to create collection: %s", error->message);
-      g_error_free (error);
-      goto out;
+      g_task_return_error (task, error);
+      return;
     }
 
   child = g_variant_get_child_value (variant, 0); /* variant is now aa{ss} */
@@ -104,13 +102,10 @@ photos_create_collection_job_query_executed (GObject *source_object, GAsyncResul
   g_variant_unref (variant);
 
   if (g_strcmp0 (key, "res") == 0)
-    self->created_urn = val;
+    g_task_return_pointer (task, g_strdup (val), g_free);
+  else
+    g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to parse GVariant");
 
- out:
-  if (self->callback != NULL)
-    (*self->callback) (self->created_urn, self->user_data);
-
-  self->created_urn = NULL;
   g_free (val);
   g_free (key);
 }
@@ -132,6 +127,7 @@ photos_create_collection_job_finalize (GObject *object)
 {
   PhotosCreateCollectionJob *self = PHOTOS_CREATE_COLLECTION_JOB (object);
 
+  g_clear_error (&self->queue_error);
   g_free (self->name);
 
   G_OBJECT_CLASS (photos_create_collection_job_parent_class)->finalize (object);
@@ -159,7 +155,7 @@ photos_create_collection_job_set_property (GObject *object, guint prop_id, const
 static void
 photos_create_collection_job_init (PhotosCreateCollectionJob *self)
 {
-  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, &self->queue_error);
 }
 
 
@@ -189,24 +185,38 @@ photos_create_collection_job_new (const gchar *name)
 }
 
 
+gchar *
+photos_create_collection_job_finish (PhotosCreateCollectionJob *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_create_collection_job_run, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  return g_task_propagate_pointer (task, error);
+}
+
+
 void
 photos_create_collection_job_run (PhotosCreateCollectionJob *self,
-                                  PhotosCreateCollectionJobCallback callback,
+                                  GCancellable *cancellable,
+                                  GAsyncReadyCallback callback,
                                   gpointer user_data)
 {
   GApplication *app;
   PhotosQuery *query;
   PhotosSearchContextState *state;
+  GTask *task;
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_create_collection_job_run);
 
   if (G_UNLIKELY (self->queue == NULL))
     {
-      if (callback != NULL)
-        (*callback) (NULL, user_data);
-      return;
+      g_task_return_error (task, g_error_copy (self->queue_error));
+      goto out;
     }
-
-  self->callback = callback;
-  self->user_data = user_data;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
@@ -214,9 +224,12 @@ photos_create_collection_job_run (PhotosCreateCollectionJob *self,
   query = photos_query_builder_create_collection_query (state, self->name);
   photos_tracker_queue_update_blank (self->queue,
                                      query->sparql,
-                                     NULL,
+                                     cancellable,
                                      photos_create_collection_job_query_executed,
-                                     g_object_ref (self),
+                                     g_object_ref (task),
                                      g_object_unref);
   photos_query_free (query);
+
+ out:
+  g_object_unref (task);
 }

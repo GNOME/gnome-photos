@@ -112,13 +112,26 @@ photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *sel
 
 
 static void
-photos_organize_collection_view_create_collection_executed (const gchar *created_urn, gpointer user_data)
+photos_organize_collection_view_create_collection_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
-  PhotosOrganizeCollectionViewPrivate *priv = self->priv;
+  PhotosOrganizeCollectionView *self;
+  PhotosOrganizeCollectionViewPrivate *priv;
+  PhotosCreateCollectionJob *col_job = PHOTOS_CREATE_COLLECTION_JOB (source_object);
+  PhotosSetCollectionJob *set_job = NULL;
   GtkTreeIter iter;
   GtkTreePath *path = NULL;
-  PhotosSetCollectionJob *job = NULL;
+  GError *error = NULL;
+  const gchar *created_urn;
+
+  created_urn = photos_create_collection_job_finish (col_job, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to create collection: %s", error->message);
+      g_error_free (error);
+    }
+
+  self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
+  priv = self->priv;
 
   if (created_urn == NULL)
     {
@@ -133,11 +146,11 @@ photos_organize_collection_view_create_collection_executed (const gchar *created
   gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
   gtk_list_store_set (priv->model, &iter, PHOTOS_ORGANIZE_MODEL_ID, created_urn, -1);
 
-  job = photos_set_collection_job_new (created_urn, TRUE);
-  photos_set_collection_job_run (job, NULL, NULL);
+  set_job = photos_set_collection_job_new (created_urn, TRUE);
+  photos_set_collection_job_run (set_job, NULL, NULL);
 
  out:
-  g_clear_object (&job);
+  g_clear_object (&set_job);
   gtk_tree_path_free (path);
   g_object_unref (self);
 }
@@ -210,6 +223,7 @@ photos_organize_collection_view_text_edited_real (PhotosOrganizeCollectionView *
 
   job = photos_create_collection_job_new (new_text);
   photos_create_collection_job_run (job,
+                                    NULL,
                                     photos_organize_collection_view_create_collection_executed,
                                     g_object_ref (self));
   g_object_unref (job);
