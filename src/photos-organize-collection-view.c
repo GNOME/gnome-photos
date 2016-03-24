@@ -43,6 +43,7 @@
 
 struct _PhotosOrganizeCollectionViewPrivate
 {
+  GCancellable *cancellable;
   GtkCellRenderer *renderer_check;
   GtkCellRenderer *renderer_detail;
   GtkCellRenderer *renderer_text;
@@ -126,8 +127,16 @@ photos_organize_collection_view_create_collection_executed (GObject *source_obje
   created_urn = photos_create_collection_job_finish (col_job, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to create collection: %s", error->message);
-      g_error_free (error);
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          g_error_free (error);
+          goto out;
+        }
+      else
+        {
+          g_warning ("Unable to create collection: %s", error->message);
+          g_error_free (error);
+        }
     }
 
   self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
@@ -152,7 +161,6 @@ photos_organize_collection_view_create_collection_executed (GObject *source_obje
  out:
   g_clear_object (&set_job);
   gtk_tree_path_free (path);
-  g_object_unref (self);
 }
 
 
@@ -223,9 +231,9 @@ photos_organize_collection_view_text_edited_real (PhotosOrganizeCollectionView *
 
   job = photos_create_collection_job_new (new_text);
   photos_create_collection_job_run (job,
-                                    NULL,
+                                    priv->cancellable,
                                     photos_organize_collection_view_create_collection_executed,
-                                    g_object_ref (self));
+                                    self);
   g_object_unref (job);
 }
 
@@ -289,6 +297,12 @@ photos_organize_collection_view_dispose (GObject *object)
   PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (object);
   PhotosOrganizeCollectionViewPrivate *priv = self->priv;
 
+  if (priv->cancellable != NULL)
+    {
+      g_cancellable_cancel (priv->cancellable);
+      g_clear_object (&priv->cancellable);
+    }
+
   g_clear_object (&priv->model);
   g_clear_object (&priv->col_mngr);
   g_clear_object (&priv->src_mngr);
@@ -309,6 +323,8 @@ photos_organize_collection_view_init (PhotosOrganizeCollectionView *self)
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  priv->cancellable = g_cancellable_new ();
 
   priv->model = photos_organize_collection_model_new ();
   gtk_tree_view_set_model (GTK_TREE_VIEW (self), GTK_TREE_MODEL (priv->model));
