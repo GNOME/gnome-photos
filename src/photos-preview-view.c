@@ -261,10 +261,8 @@ static GtkWidget *
 photos_preview_view_get_view_from_view_container (GtkWidget *view_container)
 {
   GtkWidget *view;
-  GtkWidget *viewport;
 
-  viewport = gtk_bin_get_child (GTK_BIN (view_container));
-  view = gtk_bin_get_child (GTK_BIN (viewport));
+  view = gtk_bin_get_child (GTK_BIN (view_container));
   return view;
 }
 
@@ -405,12 +403,7 @@ photos_preview_view_denoise (PhotosPreviewView *self, GVariant *parameter)
 static void
 photos_preview_view_draw (PhotosPreviewView *self)
 {
-  GtkWidget *view;
-  GtkWidget *view_container;
-
-  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
-  view = photos_preview_view_get_view_from_view_container (view_container);
-  gtk_widget_queue_draw (view);
+  gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 

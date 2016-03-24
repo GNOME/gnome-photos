@@ -31,7 +31,7 @@
 
 struct _PhotosImageView
 {
-  GtkDrawingArea parent_instance;
+  GtkImageView parent_instance;
   GeglNode *node;
   gfloat x;
   gfloat x_scaled;
@@ -43,7 +43,7 @@ struct _PhotosImageView
 
 struct _PhotosImageViewClass
 {
-  GtkDrawingAreaClass parent_class;
+  GtkImageViewClass parent_class;
 
   /* signals */
   void        (*draw_background)    (PhotosImageView *self, cairo_t *cr, GdkRectangle *rect);
@@ -69,7 +69,7 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (PhotosImageView, photos_image_view, GTK_TYPE_DRAWING_AREA);
+G_DEFINE_TYPE (PhotosImageView, photos_image_view, GTK_TYPE_IMAGE_VIEW);
 
 
 static void
@@ -376,7 +376,11 @@ photos_image_view_class_init (PhotosImageViewClass *class)
 GtkWidget *
 photos_image_view_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_IMAGE_VIEW, NULL);
+  return g_object_new (PHOTOS_TYPE_IMAGE_VIEW,
+                       "fit-allocation", TRUE,
+                       "zoomable", FALSE,
+                       "rotatable", FALSE,
+                       NULL);
 }
 
 
