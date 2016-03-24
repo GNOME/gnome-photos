@@ -273,10 +273,12 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
 
   self->primary_label = gtk_label_new (NULL);
   gtk_widget_set_halign (self->primary_label, GTK_ALIGN_START);
+  gtk_widget_set_hexpand (self->primary_label, TRUE);
   gtk_container_add (GTK_CONTAINER (labels), self->primary_label);
 
   self->secondary_label = gtk_label_new (NULL);
   gtk_widget_set_halign (self->secondary_label, GTK_ALIGN_START);
+  gtk_widget_set_hexpand (self->secondary_label, TRUE);
   context = gtk_widget_get_style_context (self->secondary_label);
   gtk_style_context_add_class (context, "dim-label");
   gtk_container_add (GTK_CONTAINER (labels), self->secondary_label);

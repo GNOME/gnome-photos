@@ -149,6 +149,7 @@ photos_delete_notification_constructed (GObject *object)
 
   label = gtk_label_new (msg);
   gtk_widget_set_halign (label, GTK_ALIGN_START);
+  gtk_widget_set_hexpand (label, TRUE);
   gtk_container_add (GTK_CONTAINER (self), label);
   g_free (msg);
 

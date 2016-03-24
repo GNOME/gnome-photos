@@ -158,6 +158,7 @@ photos_print_notification_init (PhotosPrintNotification *self)
 
   self->status_label = gtk_label_new (NULL);
   gtk_widget_set_halign (self->status_label, GTK_ALIGN_START);
+  gtk_widget_set_hexpand (self->status_label, TRUE);
   gtk_container_add (GTK_CONTAINER (self), self->status_label);
 
   image = gtk_image_new_from_icon_name (PHOTOS_ICON_PROCESS_STOP_SYMBOLIC, GTK_ICON_SIZE_INVALID);
