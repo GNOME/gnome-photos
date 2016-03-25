@@ -769,8 +769,8 @@ photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res,
 static void
 photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
   GError *error = NULL;
   GFile *file = G_FILE (source_object);
   GFileInfo *info = NULL;
@@ -778,10 +778,29 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
   info = g_file_query_info_finish (file, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to query info for file at %s: %s", priv->uri, error->message);
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	{
+	  g_error_free (error);
+	  goto out;
+	}
+      else
+	{
+	  gchar *uri;
+
+	  uri = g_file_get_uri (file);
+	  g_warning ("Unable to query info for file at %s: %s", uri, error->message);
+	  g_free (uri);
+	  g_error_free (error);
+	}
+    }
+
+  self = PHOTOS_BASE_ITEM (user_data);
+  priv = self->priv;
+
+  if (info == NULL)
+    {
       priv->failed_thumbnailing = TRUE;
       photos_base_item_set_failed_icon (self);
-      g_error_free (error);
       goto out;
     }
 
@@ -798,7 +817,6 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
 
  out:
   g_clear_object (&info);
-  g_object_unref (self);
 }
 
 
@@ -1380,9 +1398,9 @@ photos_base_item_refresh_icon (PhotosBaseItem *self)
                            G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
                            G_FILE_QUERY_INFO_NONE,
                            G_PRIORITY_DEFAULT,
-                           NULL,
+                           priv->cancellable,
                            photos_base_item_file_query_info,
-                           g_object_ref (self));
+                           self);
   g_object_unref (file);
 }
 
