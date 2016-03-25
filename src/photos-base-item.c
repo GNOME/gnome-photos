@@ -1486,9 +1486,13 @@ photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer
   GtkPrintOperation *print_op = NULL;
   GtkPrintOperationResult print_res;
 
-  node = photos_base_item_load_finish (self, res, NULL);
-  if (node == NULL)
-    goto out;
+  node = photos_base_item_load_finish (self, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to load the item: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
 
   print_op = photos_print_operation_new (self, node);
 
