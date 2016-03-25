@@ -760,7 +760,7 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
   PhotosBaseItemPrivate *priv = self->priv;
   GError *error = NULL;
   GFile *file = G_FILE (source_object);
-  GFileInfo *info;
+  GFileInfo *info = NULL;
 
   info = g_file_query_info_finish (file, res, &error);
   if (error != NULL)
@@ -784,6 +784,7 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
     }
 
  out:
+  g_clear_object (&info);
   g_object_unref (self);
 }
 
