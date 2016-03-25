@@ -139,6 +139,12 @@ enum
   MINER_REFRESH_TIMEOUT = 60 /* s */
 };
 
+static const GOptionEntry COMMAND_LINE_OPTIONS[] =
+{
+  { "version", 0, G_OPTION_FLAG_NONE, G_OPTION_ARG_NONE, NULL, N_("Show the application's version"), NULL},
+  { NULL }
+};
+
 static const gchar *REQUIRED_GEGL_OPS[] =
 {
   "gegl:buffer-sink",
@@ -1312,6 +1318,21 @@ photos_application_dbus_unregister (GApplication *application,
 }
 
 
+static gint
+photos_application_handle_local_options (GApplication *application, GVariantDict *options)
+{
+  gint ret_val = -1;
+
+  if (g_variant_dict_contains (options, "version"))
+    {
+      g_print ("%s %s\n", PACKAGE_TARNAME, PACKAGE_VERSION);
+      ret_val = 0;
+    }
+
+  return ret_val;
+}
+
+
 static void
 photos_application_shutdown (GApplication *application)
 {
@@ -1671,6 +1692,8 @@ photos_application_init (PhotosApplication *self)
 
   self->state = photos_search_context_state_new (PHOTOS_SEARCH_CONTEXT (self));
   self->activation_timestamp = GDK_CURRENT_TIME;
+
+  g_application_add_main_option_entries (G_APPLICATION (self), COMMAND_LINE_OPTIONS);
 }
 
 
@@ -1685,6 +1708,7 @@ photos_application_class_init (PhotosApplicationClass *class)
   application_class->activate = photos_application_activate;
   application_class->dbus_register = photos_application_dbus_register;
   application_class->dbus_unregister = photos_application_dbus_unregister;
+  application_class->handle_local_options = photos_application_handle_local_options;
   application_class->shutdown = photos_application_shutdown;
   application_class->startup = photos_application_startup;
 
