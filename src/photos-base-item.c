@@ -1706,6 +1706,7 @@ photos_base_item_can_edit (PhotosBaseItem *self)
 gboolean
 photos_base_item_can_trash (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   return PHOTOS_BASE_ITEM_GET_CLASS (self)->trash != NULL;
 }
 
@@ -1718,7 +1719,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
                                  const gchar *first_property_name,
                                  ...)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   const Babl *format;
   GeglBuffer *buffer_orig = NULL;
   GeglBuffer *buffer = NULL;
@@ -1743,6 +1744,9 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   gint64 start;
   guchar *buf = NULL;
   va_list ap;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+  priv = self->priv;
 
   g_return_val_if_fail (operation != NULL && operation[0] != '\0', NULL);
   g_return_val_if_fail (priv->buffer_source != NULL, NULL);
@@ -1843,6 +1847,8 @@ photos_base_item_download_async (PhotosBaseItem *self,
 {
   GTask *task;
 
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_download_async);
 
@@ -1900,8 +1906,11 @@ photos_base_item_get_bbox_edited (PhotosBaseItem *self, GeglRectangle *out_bbox)
 gboolean
 photos_base_item_get_bbox_source (PhotosBaseItem *self, GeglRectangle *bbox)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   gboolean ret_val = FALSE;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  priv = self->priv;
 
   if (priv->buffer_source == NULL)
     goto out;
@@ -2182,6 +2191,8 @@ photos_base_item_operation_add (PhotosBaseItem *self, const gchar *operation, co
 {
   va_list ap;
 
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+
   va_start (ap, first_property_name);
   photos_pipeline_add (self->priv->pipeline, operation, first_property_name, ap);
   va_end (ap);
@@ -2194,6 +2205,8 @@ photos_base_item_operation_get (PhotosBaseItem *self, const gchar *operation, co
   gboolean ret_val;
   va_list ap;
 
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
   va_start (ap, first_property_name);
   ret_val = photos_pipeline_get (self->priv->pipeline, operation, first_property_name, ap);
   va_end (ap);
@@ -2205,6 +2218,7 @@ photos_base_item_operation_get (PhotosBaseItem *self, const gchar *operation, co
 gboolean
 photos_base_item_operation_remove (PhotosBaseItem *self, const gchar *operation)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   return photos_pipeline_remove (self->priv->pipeline, operation);
 }
 
@@ -2212,6 +2226,7 @@ photos_base_item_operation_remove (PhotosBaseItem *self, const gchar *operation)
 void
 photos_base_item_operations_revert (PhotosBaseItem *self)
 {
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   return photos_pipeline_revert (self->priv->pipeline);
 }
 
@@ -2260,6 +2275,7 @@ photos_base_item_pipeline_save_finish (PhotosBaseItem *self, GAsyncResult *res, 
 void
 photos_base_item_pipeline_snapshot (PhotosBaseItem *self)
 {
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   return photos_pipeline_snapshot (self->priv->pipeline);
 }
 
@@ -2267,6 +2283,7 @@ photos_base_item_pipeline_snapshot (PhotosBaseItem *self)
 void
 photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
 {
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   photos_base_item_load_async (self, NULL, photos_base_item_print_load, g_object_ref (toplevel));
 }
 
