@@ -1697,6 +1697,8 @@ photos_base_item_can_edit (PhotosBaseItem *self)
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   priv = self->priv;
 
+  g_return_val_if_fail (!priv->collection, FALSE);
+
   return PHOTOS_BASE_ITEM_GET_CLASS (self)->create_pipeline_path != NULL
     && priv->filename != NULL
     && priv->filename[0] != '\0';
@@ -1748,6 +1750,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   priv = self->priv;
 
+  g_return_val_if_fail (!priv->collection, NULL);
   g_return_val_if_fail (operation != NULL && operation[0] != '\0', NULL);
   g_return_val_if_fail (priv->buffer_source != NULL, NULL);
   g_return_val_if_fail (priv->edit_graph != NULL, NULL);
@@ -1887,6 +1890,7 @@ photos_base_item_get_bbox_edited (PhotosBaseItem *self, GeglRectangle *out_bbox)
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   priv = self->priv;
 
+  g_return_val_if_fail (!priv->collection, FALSE);
   g_return_val_if_fail (priv->edit_graph != NULL, FALSE);
   g_return_val_if_fail (priv->load_graph != NULL, FALSE);
   g_return_val_if_fail (priv->pipeline != NULL, FALSE);
@@ -1911,6 +1915,8 @@ photos_base_item_get_bbox_source (PhotosBaseItem *self, GeglRectangle *bbox)
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   priv = self->priv;
+
+  g_return_val_if_fail (!priv->collection, FALSE);
 
   if (priv->buffer_source == NULL)
     goto out;
@@ -2125,6 +2131,7 @@ photos_base_item_load_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
 
+  g_return_if_fail (!priv->collection);
   g_return_if_fail (priv->edit_graph == NULL || priv->pipeline != NULL);
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -2189,12 +2196,16 @@ photos_base_item_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestam
 void
 photos_base_item_operation_add (PhotosBaseItem *self, const gchar *operation, const gchar *first_property_name, ...)
 {
+  PhotosBaseItemPrivate *priv;
   va_list ap;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = self->priv;
+
+  g_return_if_fail (!priv->collection);
 
   va_start (ap, first_property_name);
-  photos_pipeline_add (self->priv->pipeline, operation, first_property_name, ap);
+  photos_pipeline_add (priv->pipeline, operation, first_property_name, ap);
   va_end (ap);
 }
 
@@ -2202,13 +2213,17 @@ photos_base_item_operation_add (PhotosBaseItem *self, const gchar *operation, co
 gboolean
 photos_base_item_operation_get (PhotosBaseItem *self, const gchar *operation, const gchar *first_property_name, ...)
 {
+  PhotosBaseItemPrivate *priv;
   gboolean ret_val;
   va_list ap;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  priv = self->priv;
+
+  g_return_val_if_fail (!priv->collection, FALSE);
 
   va_start (ap, first_property_name);
-  ret_val = photos_pipeline_get (self->priv->pipeline, operation, first_property_name, ap);
+  ret_val = photos_pipeline_get (priv->pipeline, operation, first_property_name, ap);
   va_end (ap);
 
   return ret_val;
@@ -2218,16 +2233,28 @@ photos_base_item_operation_get (PhotosBaseItem *self, const gchar *operation, co
 gboolean
 photos_base_item_operation_remove (PhotosBaseItem *self, const gchar *operation)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  return photos_pipeline_remove (self->priv->pipeline, operation);
+  priv = self->priv;
+
+  g_return_val_if_fail (!priv->collection, FALSE);
+
+  return photos_pipeline_remove (priv->pipeline, operation);
 }
 
 
 void
 photos_base_item_operations_revert (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  return photos_pipeline_revert (self->priv->pipeline);
+  priv = self->priv;
+
+  g_return_if_fail (!priv->collection);
+
+  return photos_pipeline_revert (priv->pipeline);
 }
 
 
@@ -2243,6 +2270,7 @@ photos_base_item_pipeline_save_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
 
+  g_return_if_fail (!priv->collection);
   g_return_if_fail (priv->edit_graph != NULL);
   g_return_if_fail (priv->load_graph != NULL);
   g_return_if_fail (priv->pipeline != NULL);
@@ -2275,8 +2303,14 @@ photos_base_item_pipeline_save_finish (PhotosBaseItem *self, GAsyncResult *res, 
 void
 photos_base_item_pipeline_snapshot (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  return photos_pipeline_snapshot (self->priv->pipeline);
+  priv = self->priv;
+
+  g_return_if_fail (!priv->collection);
+
+  return photos_pipeline_snapshot (priv->pipeline);
 }
 
 
@@ -2284,6 +2318,8 @@ void
 photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
 {
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  g_return_if_fail (!self->priv->collection);
+
   photos_base_item_load_async (self, NULL, photos_base_item_print_load, g_object_ref (toplevel));
 }
 
@@ -2299,6 +2335,8 @@ photos_base_item_process_async (PhotosBaseItem *self,
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
+
+  g_return_if_fail (!priv->collection);
 
   g_clear_object (&priv->processor);
   priv->processor = photos_pipeline_new_processor (priv->pipeline);
@@ -2363,6 +2401,7 @@ photos_base_item_save_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
 
+  g_return_if_fail (!priv->collection);
   g_return_if_fail (G_IS_FILE (dir));
   g_return_if_fail (priv->edit_graph != NULL);
   g_return_if_fail (priv->filename != NULL && priv->filename[0] != '\0');
@@ -2423,6 +2462,7 @@ photos_base_item_save_guess_sizes_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
 
+  g_return_if_fail (!priv->collection);
   g_return_if_fail (priv->edit_graph != NULL);
   g_return_if_fail (priv->load_graph != NULL);
   g_return_if_fail (priv->pipeline != NULL);
