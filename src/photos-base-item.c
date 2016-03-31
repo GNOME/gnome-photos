@@ -2254,7 +2254,7 @@ photos_base_item_operations_revert (PhotosBaseItem *self)
 
   g_return_if_fail (!priv->collection);
 
-  return photos_pipeline_revert (priv->pipeline);
+  photos_pipeline_revert (priv->pipeline);
 }
 
 
@@ -2310,7 +2310,7 @@ photos_base_item_pipeline_snapshot (PhotosBaseItem *self)
 
   g_return_if_fail (!priv->collection);
 
-  return photos_pipeline_snapshot (priv->pipeline);
+  photos_pipeline_snapshot (priv->pipeline);
 }
 
 
