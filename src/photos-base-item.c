@@ -1831,6 +1831,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
 void
 photos_base_item_destroy (PhotosBaseItem *self)
 {
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   /* TODO: SearchCategoryManager */
   g_clear_object (&self->priv->watcher);
 }
@@ -1839,6 +1840,7 @@ photos_base_item_destroy (PhotosBaseItem *self)
 gchar *
 photos_base_item_download (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return PHOTOS_BASE_ITEM_GET_CLASS (self)->download (self, cancellable, error);
 }
 
@@ -1866,6 +1868,7 @@ photos_base_item_download_finish (PhotosBaseItem *self, GAsyncResult *res, GErro
 {
   GTask *task = G_TASK (res);
 
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   g_return_val_if_fail (g_task_is_valid (res, self), NULL);
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_download_async, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
@@ -1877,6 +1880,7 @@ photos_base_item_download_finish (PhotosBaseItem *self, GAsyncResult *res, GErro
 const gchar *
 photos_base_item_get_author (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return self->priv->author;
 }
 
@@ -1933,6 +1937,7 @@ photos_base_item_get_bbox_source (PhotosBaseItem *self, GeglRectangle *bbox)
 gint64
 photos_base_item_get_date_created (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
   return self->priv->date_created;
 }
 
@@ -1940,6 +1945,7 @@ photos_base_item_get_date_created (PhotosBaseItem *self)
 const gchar *
 photos_base_item_get_default_app_name (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return self->priv->default_app_name;
 }
 
@@ -1947,6 +1953,7 @@ photos_base_item_get_default_app_name (PhotosBaseItem *self)
 GQuark
 photos_base_item_get_equipment (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
   return self->priv->equipment;
 }
 
@@ -1954,6 +1961,7 @@ photos_base_item_get_equipment (PhotosBaseItem *self)
 gdouble
 photos_base_item_get_exposure_time (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0.0);
   return self->priv->exposure_time;
 }
 
@@ -1961,6 +1969,7 @@ photos_base_item_get_exposure_time (PhotosBaseItem *self)
 GQuark
 photos_base_item_get_flash (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
   return self->priv->flash;
 }
 
@@ -1968,6 +1977,7 @@ photos_base_item_get_flash (PhotosBaseItem *self)
 const gchar *
 photos_base_item_get_filename (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return self->priv->filename;
 }
 
@@ -1975,6 +1985,7 @@ photos_base_item_get_filename (PhotosBaseItem *self)
 gdouble
 photos_base_item_get_fnumber (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0.0);
   return self->priv->fnumber;
 }
 
@@ -1982,6 +1993,7 @@ photos_base_item_get_fnumber (PhotosBaseItem *self)
 gdouble
 photos_base_item_get_focal_length (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0.0);
   return self->priv->focal_length;
 }
 
@@ -1989,6 +2001,7 @@ photos_base_item_get_focal_length (PhotosBaseItem *self)
 gint64
 photos_base_item_get_height (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
   return self->priv->height;
 }
 
@@ -1996,6 +2009,7 @@ photos_base_item_get_height (PhotosBaseItem *self)
 const gchar *
 photos_base_item_get_identifier (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return self->priv->identifier;
 }
 
@@ -2003,6 +2017,7 @@ photos_base_item_get_identifier (PhotosBaseItem *self)
 gdouble
 photos_base_item_get_iso_speed (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0.0);
   return self->priv->iso_speed;
 }
 
@@ -2010,6 +2025,7 @@ photos_base_item_get_iso_speed (PhotosBaseItem *self)
 const gchar *
 photos_base_item_get_mime_type (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return self->priv->mime_type;
 }
 
@@ -2017,6 +2033,7 @@ photos_base_item_get_mime_type (PhotosBaseItem *self)
 gint64
 photos_base_item_get_mtime (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
   return self->priv->mtime;
 }
 
@@ -2024,6 +2041,7 @@ photos_base_item_get_mtime (PhotosBaseItem *self)
 const gchar *
 photos_base_item_get_name (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return self->priv->name;
 }
 
@@ -2031,9 +2049,12 @@ photos_base_item_get_name (PhotosBaseItem *self)
 const gchar *
 photos_base_item_get_name_with_fallback (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   const gchar *name;
 
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+
+  priv = self->priv;
   name = priv->name;
   if (name == NULL || name[0] == '\0')
     name = priv->name_fallback;
@@ -2045,6 +2066,7 @@ photos_base_item_get_name_with_fallback (PhotosBaseItem *self)
 GdkPixbuf *
 photos_base_item_get_original_icon (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return self->priv->original_icon;
 }
 
@@ -2052,6 +2074,7 @@ photos_base_item_get_original_icon (PhotosBaseItem *self)
 const gchar *
 photos_base_item_get_resource_urn (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return self->priv->resource_urn;
 }
 
@@ -2059,6 +2082,7 @@ photos_base_item_get_resource_urn (PhotosBaseItem *self)
 GtkWidget *
 photos_base_item_get_source_widget (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return PHOTOS_BASE_ITEM_GET_CLASS (self)->get_source_widget(self);
 }
 
@@ -2066,6 +2090,7 @@ photos_base_item_get_source_widget (PhotosBaseItem *self)
 cairo_surface_t *
 photos_base_item_get_surface (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return self->priv->surface;
 }
 
@@ -2073,6 +2098,7 @@ photos_base_item_get_surface (PhotosBaseItem *self)
 const gchar *
 photos_base_item_get_type_description (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return self->priv->type_description;
 }
 
@@ -2080,6 +2106,7 @@ photos_base_item_get_type_description (PhotosBaseItem *self)
 const gchar *
 photos_base_item_get_uri (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   return self->priv->uri;
 }
 
@@ -2087,9 +2114,12 @@ photos_base_item_get_uri (PhotosBaseItem *self)
 gchar *
 photos_base_item_get_where (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   gchar *ret_val;
 
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+
+  priv = self->priv;
   if (priv->collection)
     ret_val = g_strconcat ("{ ?urn nie:isPartOf <", priv->id, "> }", NULL);
   else
@@ -2102,6 +2132,7 @@ photos_base_item_get_where (PhotosBaseItem *self)
 gint64
 photos_base_item_get_width (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
   return self->priv->width;
 }
 
@@ -2109,6 +2140,7 @@ photos_base_item_get_width (PhotosBaseItem *self)
 gboolean
 photos_base_item_is_collection (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   return self->priv->collection;
 }
 
@@ -2116,6 +2148,7 @@ photos_base_item_is_collection (PhotosBaseItem *self)
 gboolean
 photos_base_item_is_favorite (PhotosBaseItem *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   return self->priv->favorite;
 }
 
@@ -2179,6 +2212,7 @@ photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
 {
   GTask *task = G_TASK (res);
 
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   g_return_val_if_fail (g_task_is_valid (res, self), NULL);
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_load_async, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
@@ -2190,6 +2224,7 @@ photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
 void
 photos_base_item_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp)
 {
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   PHOTOS_BASE_ITEM_GET_CLASS (self)->open (self, screen, timestamp);
 }
 
@@ -2293,6 +2328,7 @@ photos_base_item_pipeline_save_finish (PhotosBaseItem *self, GAsyncResult *res, 
 {
   GTask *task = G_TASK (res);
 
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_pipeline_save_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
@@ -2356,6 +2392,7 @@ photos_base_item_process_finish (PhotosBaseItem *self, GAsyncResult *res, GError
 {
   GTask *task = G_TASK (res);
 
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_process_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
@@ -2370,6 +2407,8 @@ photos_base_item_refresh (PhotosBaseItem *self)
   GApplication *app;
   PhotosSearchContextState *state;
   PhotosSingleItemJob *job;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
@@ -2440,6 +2479,7 @@ photos_base_item_save_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
 {
   GTask *task = G_TASK (res);
 
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
@@ -2497,6 +2537,7 @@ photos_base_item_save_guess_sizes_finish (PhotosBaseItem *self,
   gboolean ret_val = FALSE;
   gsize *sizes;
 
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_guess_sizes_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
@@ -2520,8 +2561,12 @@ photos_base_item_save_guess_sizes_finish (PhotosBaseItem *self,
 void
 photos_base_item_set_default_app (PhotosBaseItem *self, GAppInfo *default_app)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   const gchar *default_app_name;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+
+  priv = self->priv;
 
   if (priv->default_app == NULL && default_app == NULL)
     return;
@@ -2545,8 +2590,11 @@ photos_base_item_set_default_app (PhotosBaseItem *self, GAppInfo *default_app)
 void
 photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *default_app_name)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
 
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+
+  priv = self->priv;
   g_clear_object (&priv->default_app);
   g_free (priv->default_app_name);
   priv->default_app_name = g_strdup (default_app_name);
@@ -2556,6 +2604,7 @@ photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *defaul
 void
 photos_base_item_set_favorite (PhotosBaseItem *self, gboolean favorite)
 {
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   PHOTOS_BASE_ITEM_GET_CLASS (self)->set_favorite (self, favorite);
 }
 
@@ -2564,6 +2613,8 @@ void
 photos_base_item_trash (PhotosBaseItem *self)
 {
   PhotosDeleteItemJob *job;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
 
   PHOTOS_BASE_ITEM_GET_CLASS (self)->trash (self);
 
