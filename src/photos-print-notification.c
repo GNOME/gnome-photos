@@ -150,7 +150,7 @@ photos_print_notification_init (PhotosPrintNotification *self)
 {
   GtkWidget *image;
 
-  self->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
+  self->ntfctn_mngr = photos_notification_manager_dup_singleton ();
 
   self->spinner = gtk_spinner_new ();
   gtk_widget_set_size_request (self->spinner, 16, 16);

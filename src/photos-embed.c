@@ -679,7 +679,7 @@ photos_embed_init (PhotosEmbed *self)
   searchbar = photos_main_toolbar_get_searchbar (PHOTOS_MAIN_TOOLBAR (self->toolbar));
   g_signal_connect_swapped (searchbar, "activate-result", G_CALLBACK (photos_embed_activate_result), self);
 
-  self->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
+  self->ntfctn_mngr = photos_notification_manager_dup_singleton ();
   gtk_overlay_add_overlay (GTK_OVERLAY (self->stack_overlay), self->ntfctn_mngr);
 
   self->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW, _("Photos"));

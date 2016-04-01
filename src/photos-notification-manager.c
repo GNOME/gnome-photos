@@ -91,10 +91,9 @@ photos_notification_manager_constructor (GType type,
                                                                                      n_construct_params,
                                                                                      construct_params);
       g_object_add_weak_pointer (self, (gpointer) &self);
-      return self;
     }
 
-  return g_object_ref (self);
+  return g_object_ref_sink (self);
 }
 
 

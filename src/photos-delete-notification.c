@@ -226,7 +226,7 @@ photos_delete_notification_init (PhotosDeleteNotification *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  self->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
+  self->ntfctn_mngr = photos_notification_manager_dup_singleton ();
   self->item_mngr = g_object_ref (state->item_mngr);
 }
 

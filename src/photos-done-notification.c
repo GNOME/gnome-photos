@@ -248,7 +248,7 @@ photos_done_notification_set_property (GObject *object, guint prop_id, const GVa
 static void
 photos_done_notification_init (PhotosDoneNotification *self)
 {
-  self->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
+  self->ntfctn_mngr = photos_notification_manager_dup_singleton ();
 }
 
 

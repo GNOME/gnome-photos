@@ -394,7 +394,7 @@ photos_export_notification_set_property (GObject *object, guint prop_id, const G
 static void
 photos_export_notification_init (PhotosExportNotification *self)
 {
-  self->ntfctn_mngr = g_object_ref_sink (photos_notification_manager_dup_singleton ());
+  self->ntfctn_mngr = photos_notification_manager_dup_singleton ();
 }
 
 
