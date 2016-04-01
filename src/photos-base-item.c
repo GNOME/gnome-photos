@@ -850,6 +850,64 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
 }
 
 
+static void
+photos_base_item_guess_save_sizes_from_buffer (GeglBuffer *buffer,
+                                               const gchar *mime_type,
+                                               gsize *out_size,
+                                               gsize *out_size_1,
+                                               GCancellable *cancellable)
+{
+  GeglNode *buffer_source;
+  GeglNode *graph;
+  GeglNode *guess_sizes;
+  gsize sizes[2];
+
+  graph = gegl_node_new ();
+  buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer, NULL);
+
+  if (g_strcmp0 (mime_type, "image/png") == 0)
+    guess_sizes = gegl_node_new_child (graph,
+                                       "operation", "photos:png-guess-sizes",
+                                       "background", FALSE,
+                                       "bitdepth", 8,
+                                       "compression", -1,
+                                       NULL);
+  else
+    guess_sizes = gegl_node_new_child (graph,
+                                       "operation", "photos:jpg-guess-sizes",
+                                       "optimize", FALSE,
+                                       "progressive", FALSE,
+                                       "sampling", TRUE,
+                                       NULL);
+
+  gegl_node_link (buffer_source, guess_sizes);
+  gegl_node_process (guess_sizes);
+
+  gegl_node_get (guess_sizes, "size", &sizes[0], "size-1", &sizes[1], NULL);
+  if (out_size != NULL)
+    *out_size = sizes[0];
+  if (out_size_1 != NULL)
+    *out_size_1 = sizes[1];
+
+  g_object_unref (graph);
+}
+
+
+static void
+photos_base_item_guess_save_sizes_in_thread_func (GTask *task,
+                                                  gpointer source_object,
+                                                  gpointer task_data,
+                                                  GCancellable *cancellable)
+{
+  PhotosBaseItemSaveData *data = (PhotosBaseItemSaveData *) task_data;
+  gsize *sizes;
+
+  sizes = g_malloc0_n (2, sizeof (gsize));
+  photos_base_item_guess_save_sizes_from_buffer (data->buffer, data->type, &sizes[0], &sizes[1], cancellable);
+  g_task_return_pointer (task, sizes, g_free);
+}
+
+
 static GeglBuffer *
 photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
@@ -1082,64 +1140,6 @@ photos_base_item_process_idle (gpointer user_data)
 
  done:
   return G_SOURCE_REMOVE;
-}
-
-
-static void
-photos_base_item_save_guess_sizes_from_buffer (GeglBuffer *buffer,
-                                               const gchar *mime_type,
-                                               gsize *out_size,
-                                               gsize *out_size_1,
-                                               GCancellable *cancellable)
-{
-  GeglNode *buffer_source;
-  GeglNode *graph;
-  GeglNode *guess_sizes;
-  gsize sizes[2];
-
-  graph = gegl_node_new ();
-  buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer, NULL);
-
-  if (g_strcmp0 (mime_type, "image/png") == 0)
-    guess_sizes = gegl_node_new_child (graph,
-                                       "operation", "photos:png-guess-sizes",
-                                       "background", FALSE,
-                                       "bitdepth", 8,
-                                       "compression", -1,
-                                       NULL);
-  else
-    guess_sizes = gegl_node_new_child (graph,
-                                       "operation", "photos:jpg-guess-sizes",
-                                       "optimize", FALSE,
-                                       "progressive", FALSE,
-                                       "sampling", TRUE,
-                                       NULL);
-
-  gegl_node_link (buffer_source, guess_sizes);
-  gegl_node_process (guess_sizes);
-
-  gegl_node_get (guess_sizes, "size", &sizes[0], "size-1", &sizes[1], NULL);
-  if (out_size != NULL)
-    *out_size = sizes[0];
-  if (out_size_1 != NULL)
-    *out_size_1 = sizes[1];
-
-  g_object_unref (graph);
-}
-
-
-static void
-photos_base_item_save_guess_sizes_in_thread_func (GTask *task,
-                                                  gpointer source_object,
-                                                  gpointer task_data,
-                                                  GCancellable *cancellable)
-{
-  PhotosBaseItemSaveData *data = (PhotosBaseItemSaveData *) task_data;
-  gsize *sizes;
-
-  sizes = g_malloc0_n (2, sizeof (gsize));
-  photos_base_item_save_guess_sizes_from_buffer (data->buffer, data->type, &sizes[0], &sizes[1], cancellable);
-  g_task_return_pointer (task, sizes, g_free);
 }
 
 
@@ -2208,6 +2208,76 @@ photos_base_item_get_width (PhotosBaseItem *self)
 }
 
 
+void
+photos_base_item_guess_save_sizes_async (PhotosBaseItem *self,
+                                         GCancellable *cancellable,
+                                         GAsyncReadyCallback callback,
+                                         gpointer user_data)
+{
+  PhotosBaseItemPrivate *priv;
+  GeglBuffer *buffer;
+  GeglNode *graph;
+  GTask *task;
+  PhotosBaseItemSaveData *data;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = self->priv;
+
+  g_return_if_fail (!priv->collection);
+  g_return_if_fail (priv->edit_graph != NULL);
+  g_return_if_fail (priv->load_graph != NULL);
+  g_return_if_fail (priv->pipeline != NULL);
+  g_return_if_fail (priv->processor != NULL);
+  g_return_if_fail (!gegl_processor_work (priv->processor, NULL));
+
+  graph = photos_pipeline_get_graph (priv->pipeline);
+  buffer = photos_utils_create_buffer_from_node (graph);
+
+  data = photos_base_item_save_data_new (NULL, buffer, priv->mime_type);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_guess_save_sizes_async);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
+
+  g_task_run_in_thread (task, photos_base_item_guess_save_sizes_in_thread_func);
+
+  g_object_unref (buffer);
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
+                                          GAsyncResult *res,
+                                          gsize *out_size,
+                                          gsize *out_size_1,
+                                          GError **error)
+{
+  GTask *task = G_TASK (res);
+  gboolean ret_val = FALSE;
+  gsize *sizes;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_guess_save_sizes_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  sizes = g_task_propagate_pointer (task, error);
+  if (g_task_had_error (task))
+    goto out;
+
+  ret_val = TRUE;
+
+  if (out_size != NULL)
+    *out_size = sizes[0];
+  if (out_size_1 != NULL)
+    *out_size_1 = sizes[1];
+
+ out:
+  return ret_val;
+}
+
+
 gboolean
 photos_base_item_is_collection (PhotosBaseItem *self)
 {
@@ -2557,76 +2627,6 @@ photos_base_item_save_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   return g_task_propagate_pointer (task, error);
-}
-
-
-void
-photos_base_item_save_guess_sizes_async (PhotosBaseItem *self,
-                                         GCancellable *cancellable,
-                                         GAsyncReadyCallback callback,
-                                         gpointer user_data)
-{
-  PhotosBaseItemPrivate *priv;
-  GeglBuffer *buffer;
-  GeglNode *graph;
-  GTask *task;
-  PhotosBaseItemSaveData *data;
-
-  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
-
-  g_return_if_fail (!priv->collection);
-  g_return_if_fail (priv->edit_graph != NULL);
-  g_return_if_fail (priv->load_graph != NULL);
-  g_return_if_fail (priv->pipeline != NULL);
-  g_return_if_fail (priv->processor != NULL);
-  g_return_if_fail (!gegl_processor_work (priv->processor, NULL));
-
-  graph = photos_pipeline_get_graph (priv->pipeline);
-  buffer = photos_utils_create_buffer_from_node (graph);
-
-  data = photos_base_item_save_data_new (NULL, buffer, priv->mime_type);
-
-  task = g_task_new (self, cancellable, callback, user_data);
-  g_task_set_source_tag (task, photos_base_item_save_guess_sizes_async);
-  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
-
-  g_task_run_in_thread (task, photos_base_item_save_guess_sizes_in_thread_func);
-
-  g_object_unref (buffer);
-  g_object_unref (task);
-}
-
-
-gboolean
-photos_base_item_save_guess_sizes_finish (PhotosBaseItem *self,
-                                          GAsyncResult *res,
-                                          gsize *out_size,
-                                          gsize *out_size_1,
-                                          GError **error)
-{
-  GTask *task = G_TASK (res);
-  gboolean ret_val = FALSE;
-  gsize *sizes;
-
-  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
-  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_guess_sizes_async, FALSE);
-  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
-
-  sizes = g_task_propagate_pointer (task, error);
-  if (g_task_had_error (task))
-    goto out;
-
-  ret_val = TRUE;
-
-  if (out_size != NULL)
-    *out_size = sizes[0];
-  if (out_size_1 != NULL)
-    *out_size_1 = sizes[1];
-
- out:
-  return ret_val;
 }
 
 

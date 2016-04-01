@@ -168,6 +168,17 @@ gchar              *photos_base_item_get_where               (PhotosBaseItem *se
 
 gint64              photos_base_item_get_width               (PhotosBaseItem *self);
 
+void                photos_base_item_guess_save_sizes_async  (PhotosBaseItem *self,
+                                                              GCancellable *cancellable,
+                                                              GAsyncReadyCallback callback,
+                                                              gpointer user_data);
+
+gboolean            photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
+                                                              GAsyncResult *res,
+                                                              gsize *out_size,
+                                                              gsize *out_size_1,
+                                                              GError **error);
+
 gboolean            photos_base_item_is_collection           (PhotosBaseItem *self);
 
 gboolean            photos_base_item_is_favorite             (PhotosBaseItem *self);
@@ -233,17 +244,6 @@ void                photos_base_item_save_async              (PhotosBaseItem *se
 GFile              *photos_base_item_save_finish             (PhotosBaseItem *self,
                                                               GAsyncResult *res,
                                                               GError **error) G_GNUC_WARN_UNUSED_RESULT;
-
-void                photos_base_item_save_guess_sizes_async  (PhotosBaseItem *self,
-                                                              GCancellable *cancellable,
-                                                              GAsyncReadyCallback callback,
-                                                              gpointer user_data);
-
-gboolean            photos_base_item_save_guess_sizes_finish (PhotosBaseItem *self,
-                                                              GAsyncResult *res,
-                                                              gsize *out_size,
-                                                              gsize *out_size_1,
-                                                              GError **error);
 
 void                photos_base_item_set_default_app         (PhotosBaseItem *self, GAppInfo *default_app);
 

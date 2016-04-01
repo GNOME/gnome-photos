@@ -138,7 +138,7 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
   gsize sizes[2];
 
   error = NULL;
-  if (!photos_base_item_save_guess_sizes_finish (item, res, &sizes[0], &sizes[1], &error))
+  if (!photos_base_item_guess_save_sizes_finish (item, res, &sizes[0], &sizes[1], &error))
     {
       success = FALSE;
 
@@ -240,7 +240,7 @@ photos_export_dialog_load (GObject *source_object, GAsyncResult *result, gpointe
             {
               self->reduced_zoom = (gdouble) PIXEL_SIZES[i] / (gdouble) max_dimension;
               photos_export_dialog_show_size_options (self, FALSE, TRUE);
-              photos_base_item_save_guess_sizes_async (self->item,
+              photos_base_item_guess_save_sizes_async (self->item,
                                                        self->cancellable,
                                                        photos_export_dialog_guess_sizes,
                                                        self);
