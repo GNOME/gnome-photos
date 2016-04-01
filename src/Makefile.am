@@ -263,6 +263,8 @@ gnome_photos_SOURCES = \
 	photos-widget-shader.c \
 	photos-widget-shader.h \
 	photos-main.c \
+	photos-gegl-image.c \
+	photos-gegl-image.h \
 	$(NULL)
 
 BUILT_SOURCES = \

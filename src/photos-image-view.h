@@ -59,11 +59,11 @@ GtkWidget          *photos_image_view_new_from_node      (GeglNode *node);
 
 GeglNode           *photos_image_view_get_node           (PhotosImageView *self);
 
-gfloat              photos_image_view_get_x              (PhotosImageView *self);
+double              photos_image_view_get_x              (PhotosImageView *self);
 
-gfloat              photos_image_view_get_y              (PhotosImageView *self);
+double              photos_image_view_get_y              (PhotosImageView *self);
 
-gfloat              photos_image_view_get_zoom           (PhotosImageView *self);
+double              photos_image_view_get_zoom           (PhotosImageView *self);
 
 void                photos_image_view_set_node           (PhotosImageView *self, GeglNode *node);
 

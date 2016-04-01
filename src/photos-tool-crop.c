@@ -197,6 +197,8 @@ photos_tool_crop_find_constraint (PhotosToolCrop *self, gdouble aspect_ratio)
 static void
 photos_tool_crop_redraw_damaged_area (PhotosToolCrop *self)
 {
+  gtk_widget_queue_draw (GTK_WIDGET (self->view));
+#if 0
   cairo_rectangle_int_t area;
   cairo_region_t *region;
   gdouble damage_offset = HANDLE_OFFSET + HANDLE_RADIUS;
@@ -204,10 +206,10 @@ photos_tool_crop_redraw_damaged_area (PhotosToolCrop *self)
   gdouble y;
 
   x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
-  x = -x + self->crop_x - damage_offset;
+  /*x = -x + self->crop_x - damage_offset;*/
 
   y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
-  y = -y + self->crop_y - damage_offset;
+  /*y = -y + self->crop_y - damage_offset;*/
 
   area.height = (gint) (self->crop_height + 2 * damage_offset + 0.5) + 2;
   area.width = (gint) (self->crop_width + 2 * damage_offset + 0.5) + 2;
@@ -217,6 +219,7 @@ photos_tool_crop_redraw_damaged_area (PhotosToolCrop *self)
   region = cairo_region_create_rectangle (&area);
   gtk_widget_queue_draw_region (self->view, region);
   cairo_region_destroy (region);
+#endif
 }
 
 
@@ -393,7 +396,7 @@ photos_tool_crop_set_vert_from_horiz (PhotosToolCrop *self, gboolean centered, g
 
 
 static void
-photos_tool_crop_set_crop (PhotosToolCrop *self, gdouble event_x, gdouble event_y)
+photos_tool_crop_set_crop (PhotosToolCrop *self, gdouble event_x, gdouble event_y, gdouble x, gdouble y)
 {
   PhotosToolCropLocation location;
   gboolean centered;
@@ -442,8 +445,8 @@ photos_tool_crop_set_crop (PhotosToolCrop *self, gdouble event_x, gdouble event_
     case PHOTOS_TOOL_CROP_LOCATION_BOTTOM_LEFT:
       if (self->crop_aspect_ratio < 0.0)
         {
-          self->crop_height = event_y - self->crop_y;
           self->crop_width -= event_x - self->crop_x;
+          self->crop_height = event_y - self->crop_y;
           self->crop_x = event_x;
           location = PHOTOS_TOOL_CROP_LOCATION_NONE;
         }
@@ -863,6 +866,7 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
 static void
 photos_tool_crop_size_allocate (PhotosToolCrop *self, GdkRectangle *allocation)
 {
+#if 1
   gdouble crop_height_ratio;
   gdouble crop_width_ratio;
   gdouble crop_x_ratio;
@@ -881,6 +885,7 @@ photos_tool_crop_size_allocate (PhotosToolCrop *self, GdkRectangle *allocation)
   self->crop_y = crop_y_ratio * (gdouble) self->bbox_zoomed.height;
 
   photos_tool_crop_surface_draw (self);
+#endif
 }
 
 
@@ -1011,7 +1016,7 @@ photos_tool_crop_deactivate (PhotosTool *tool)
     {
       GVariantBuilder parameter;
       GVariantType *parameter_type;
-      gfloat zoom;
+      double zoom;
 
       zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
 
@@ -1021,12 +1026,17 @@ photos_tool_crop_deactivate (PhotosTool *tool)
        * factor will cancel itself in the numerator and denominator,
        * so, in practice, the conversion is unnecessary.
        */
+
+      g_message ("Zoom: %f", zoom);
+      g_message ("unscaled: %f, %f, %f, %f", self->crop_x, self->crop_y, self->crop_width, self->crop_height);
+      g_message ("caled   : %f, %f, %f, %f", self->crop_x / zoom, self->crop_y / zoom, self->crop_width / zoom, self->crop_height / zoom);
+
       parameter_type = g_variant_type_new ("a{sd}");
       g_variant_builder_init (&parameter, parameter_type);
-      g_variant_builder_add (&parameter, "{sd}", "height", self->crop_height / zoom);
-      g_variant_builder_add (&parameter, "{sd}", "width", self->crop_width / zoom);
       g_variant_builder_add (&parameter, "{sd}", "x", self->crop_x / zoom);
       g_variant_builder_add (&parameter, "{sd}", "y", self->crop_y / zoom);
+      g_variant_builder_add (&parameter, "{sd}", "width", self->crop_width / zoom);
+      g_variant_builder_add (&parameter, "{sd}", "height", self->crop_height / zoom);
       g_action_activate (self->crop, g_variant_builder_end (&parameter));
 
       g_variant_type_free (parameter_type);
@@ -1047,20 +1057,12 @@ static void
 photos_tool_crop_draw (PhotosTool *tool, cairo_t *cr, GdkRectangle *rect)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (tool);
-  gdouble x;
-  gdouble y;
 
   g_return_if_fail (self->activated);
   g_return_if_fail (self->view != NULL);
 
-  x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
-  x = -x;
-
-  y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
-  y = -y;
-
   cairo_save (cr);
-  cairo_set_source_surface (cr, self->surface, x, y);
+  cairo_set_source_surface (cr, self->surface, 0, 0);
   cairo_paint (cr);
   cairo_restore (cr);
 }
@@ -1078,18 +1080,18 @@ static gboolean
 photos_tool_crop_left_click_event (PhotosTool *tool, GdkEventButton *event)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (tool);
-  gdouble x;
-  gdouble y;
+  double x, y;
 
   g_return_val_if_fail (self->activated, GDK_EVENT_PROPAGATE);
   g_return_val_if_fail (self->view != NULL, GDK_EVENT_PROPAGATE);
 
   self->grabbed = TRUE;
 
-  x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
-  y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
-  self->event_x_last = event->x + x;
-  self->event_y_last = event->y + y;
+  x = photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
+  y = photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
+
+  self->event_x_last = event->x - x;
+  self->event_y_last = event->y - y;
 
   return GDK_EVENT_PROPAGATE;
 }
@@ -1123,15 +1125,15 @@ photos_tool_crop_motion_event (PhotosTool *tool, GdkEventMotion *event)
   g_return_val_if_fail (self->activated, GDK_EVENT_PROPAGATE);
   g_return_val_if_fail (self->view != NULL, GDK_EVENT_PROPAGATE);
 
-  x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
-  y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
-  event_x = event->x + x;
-  event_y = event->y + y;
+  x = photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
+  y = photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
+  event_x = event->x - x;
+  event_y = event->y - y;
 
   if (self->grabbed)
     {
       if (self->location != PHOTOS_TOOL_CROP_LOCATION_NONE)
-        photos_tool_crop_set_crop (self, event_x, event_y);
+        photos_tool_crop_set_crop (self, event_x, event_y, x, y);
     }
   else
     {
