@@ -910,6 +910,37 @@ photos_base_item_guess_save_sizes_in_thread_func (GTask *task,
 }
 
 
+static void
+photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  GeglBuffer *buffer = NULL;
+  GeglNode *graph = NULL;
+  PhotosBaseItemSaveData *data;
+
+  error = NULL;
+  graph = photos_base_item_load_finish (self, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  buffer = photos_utils_create_buffer_from_node (graph);
+  data = photos_base_item_save_data_new (NULL, buffer, self->priv->mime_type);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
+
+  g_task_run_in_thread (task, photos_base_item_guess_save_sizes_in_thread_func);
+
+ out:
+  g_clear_object (&buffer);
+  g_clear_object (&graph);
+  g_object_unref (task);
+}
+
+
 static gboolean
 photos_base_item_process_idle (gpointer user_data)
 {
@@ -2337,34 +2368,16 @@ photos_base_item_guess_save_sizes_async (PhotosBaseItem *self,
                                          GAsyncReadyCallback callback,
                                          gpointer user_data)
 {
-  PhotosBaseItemPrivate *priv;
-  GeglBuffer *buffer;
-  GeglNode *graph;
   GTask *task;
-  PhotosBaseItemSaveData *data;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
-
-  g_return_if_fail (!priv->collection);
-  g_return_if_fail (priv->edit_graph != NULL);
-  g_return_if_fail (priv->load_graph != NULL);
-  g_return_if_fail (priv->pipeline != NULL);
-  g_return_if_fail (priv->processor != NULL);
-  g_return_if_fail (!gegl_processor_work (priv->processor, NULL));
-
-  graph = photos_pipeline_get_graph (priv->pipeline);
-  buffer = photos_utils_create_buffer_from_node (graph);
-
-  data = photos_base_item_save_data_new (NULL, buffer, priv->mime_type);
+  g_return_if_fail (!self->priv->collection);
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_guess_save_sizes_async);
-  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
 
-  g_task_run_in_thread (task, photos_base_item_guess_save_sizes_in_thread_func);
+  photos_base_item_load_async (self, cancellable, photos_base_item_guess_save_sizes_load, g_object_ref (task));
 
-  g_object_unref (buffer);
   g_object_unref (task);
 }
 

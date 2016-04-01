@@ -181,48 +181,6 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
 
 
 static void
-photos_export_dialog_load (GObject *source_object, GAsyncResult *result, gpointer user_data)
-{
-  PhotosExportDialog *self;
-  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
-  GeglNode *node = NULL;
-
-  error = NULL;
-  node = photos_base_item_load_finish (item, result, &error);
-  if (error != NULL)
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        {
-          g_error_free (error);
-          goto out;
-        }
-      else
-        {
-          g_warning ("Unable to load the item: %s", error->message);
-          g_error_free (error);
-        }
-    }
-
-  self = PHOTOS_EXPORT_DIALOG (user_data);
-
-  photos_export_dialog_show_size_options (self, FALSE, FALSE);
-
-  if (node != NULL)
-    {
-      photos_export_dialog_show_size_options (self, FALSE, TRUE);
-      photos_base_item_guess_save_sizes_async (self->item,
-                                               self->cancellable,
-                                               photos_export_dialog_guess_sizes,
-                                               self);
-    }
-
- out:
-  g_clear_object (&node);
-}
-
-
-static void
 photos_export_dialog_constructed (GObject *object)
 {
   PhotosExportDialog *self = PHOTOS_EXPORT_DIALOG (object);
@@ -251,7 +209,10 @@ photos_export_dialog_constructed (GObject *object)
       gtk_entry_set_text (GTK_ENTRY (self->dir_entry), now_str);
 
       photos_export_dialog_show_size_options (self, FALSE, TRUE);
-      photos_base_item_load_async (self->item, self->cancellable, photos_export_dialog_load, self);
+      photos_base_item_guess_save_sizes_async (self->item,
+                                               self->cancellable,
+                                               photos_export_dialog_guess_sizes,
+                                               self);
 
       g_date_time_unref (now);
       g_free (now_str);
