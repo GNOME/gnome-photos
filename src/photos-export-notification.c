@@ -325,9 +325,7 @@ photos_export_notification_constructed (GObject *object)
   photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr),
                                                 GTK_WIDGET (self));
 
-  self->timeout_id = g_timeout_add_seconds (EXPORT_TIMEOUT,
-                                            photos_export_notification_timeout,
-                                            self);
+  self->timeout_id = g_timeout_add_seconds (EXPORT_TIMEOUT, photos_export_notification_timeout, self);
 }
 
 
