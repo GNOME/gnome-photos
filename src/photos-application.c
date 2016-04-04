@@ -945,6 +945,63 @@ photos_application_print_current (PhotosApplication *self)
 
 
 static void
+photos_application_properties_pipeline_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GError *error;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+
+  error = NULL;
+  if (!photos_base_item_pipeline_save_finish (item, res, &error))
+    {
+      g_warning ("Unable to save pipeline: %s", error->message);
+      g_error_free (error);
+    }
+
+  g_application_release (G_APPLICATION (self));
+}
+
+
+static void
+photos_application_properties_revert_to_original (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GError *error = NULL;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+
+  if (!photos_base_item_pipeline_revert_to_original_finish (item, res, &error))
+    {
+      g_warning ("Unable to revert to original: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  g_application_hold (G_APPLICATION (self));
+  photos_base_item_pipeline_save_async (item, NULL, photos_application_properties_pipeline_save, self);
+
+ out:
+  g_action_activate (G_ACTION (self->draw_action), NULL);
+  g_application_release (G_APPLICATION (self));
+}
+
+
+static void
+photos_application_properties_discard_all_edits (PhotosApplication *self)
+{
+  PhotosBaseItem *item;
+
+  item = photos_application_get_selection_or_active_item (self);
+  g_return_if_fail (item != NULL);
+
+  g_application_hold (G_APPLICATION (self));
+  photos_base_item_pipeline_revert_to_original_async (item,
+                                                      NULL,
+                                                      photos_application_properties_revert_to_original,
+                                                      self);
+}
+
+
+static void
 photos_application_properties_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
@@ -967,6 +1024,10 @@ photos_application_properties (PhotosApplication *self)
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   dialog = photos_properties_dialog_new (GTK_WINDOW (self->main_window), id);
   gtk_widget_show_all (dialog);
+  g_signal_connect_swapped (dialog,
+                            "discard-all-edits",
+                            G_CALLBACK (photos_application_properties_discard_all_edits),
+                            self);
   g_signal_connect (dialog, "response", G_CALLBACK (photos_application_properties_response), self);
 }
 

@@ -44,6 +44,8 @@ struct _PhotosPropertiesDialog
   GtkWidget *camera_w;
   GtkWidget *grid;
   GtkWidget *title_entry;
+  GtkWidget *modified_data;
+  GtkWidget *revert_button;
   PhotosBaseManager *item_mngr;
   PhotosCameraCache *camera_cache;
   gchar *urn;
@@ -53,6 +55,9 @@ struct _PhotosPropertiesDialog
 struct _PhotosPropertiesDialogClass
 {
   GtkDialogClass parent_class;
+
+  /* signals */
+  void (*discard_all_edits) (PhotosPropertiesDialog *self);
 };
 
 enum
@@ -60,6 +65,14 @@ enum
   PROP_0,
   PROP_URN
 };
+
+enum
+{
+  DISCARD_ALL_EDITS,
+  LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE (PhotosPropertiesDialog, photos_properties_dialog, GTK_TYPE_DIALOG);
@@ -106,12 +119,69 @@ photos_properties_dialog_get_camera (GObject *source_object, GAsyncResult *res, 
 
 
 static void
+photos_properties_dialog_modified_updated (PhotosPropertiesDialog *self, gboolean is_edited)
+{
+  GtkStyleContext *context;
+
+  if (is_edited)
+    {
+      gtk_label_set_text (GTK_LABEL (self->modified_data), _("Edited in Photos"));
+      context = gtk_widget_get_style_context (self->modified_data);
+      gtk_style_context_remove_class (context, "photos-fade-out");
+      gtk_style_context_add_class (context, "photos-fade-in");
+      gtk_widget_show (self->modified_data);
+
+      context = gtk_widget_get_style_context (self->revert_button);
+      gtk_style_context_remove_class (context, "photos-fade-out");
+      gtk_style_context_add_class (context, "photos-fade-in");
+      gtk_widget_show (self->revert_button);
+    }
+  else
+    {
+      gtk_label_set_text (GTK_LABEL (self->modified_data), _("Untouched"));
+      context = gtk_widget_get_style_context (self->modified_data);
+      gtk_style_context_remove_class (context, "photos-fade-out");
+      gtk_style_context_add_class (context, "photos-fade-in");
+      gtk_widget_show (self->modified_data);
+
+      context = gtk_widget_get_style_context (self->revert_button);
+      gtk_style_context_remove_class (context, "photos-fade-in");
+      gtk_style_context_add_class (context, "photos-fade-out");
+    }
+}
+
+
+static void
 photos_properties_dialog_name_update (PhotosPropertiesDialog *self)
 {
   const gchar *new_title;
 
   new_title = gtk_entry_get_text (GTK_ENTRY (self->title_entry));
   photos_utils_set_edited_name (self->urn, new_title);
+}
+
+
+static void
+photos_properties_dialog_pipeline_is_edited (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosPropertiesDialog *self;
+  GError *error;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+  gboolean is_edited;
+
+  error = NULL;
+  is_edited = photos_base_item_pipeline_is_edited_finish (item, res, &error);
+  if (error != NULL)
+    {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to check if item has been edited or not: %s", error->message);
+      g_error_free (error);
+      return;
+    }
+
+  self = PHOTOS_PROPERTIES_DIALOG (user_data);
+
+  photos_properties_dialog_modified_updated (self, is_edited);
 }
 
 
@@ -152,6 +222,14 @@ photos_properties_dialog_title_entry_changed (GtkEditable *editable, gpointer us
 
 
 static void
+photos_properties_dialog_revert_clicked (PhotosPropertiesDialog *self)
+{
+  g_signal_emit (self, signals[DISCARD_ALL_EDITS], 0);
+  photos_properties_dialog_modified_updated (self, FALSE);
+}
+
+
+static void
 photos_properties_dialog_constructed (GObject *object)
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (object);
@@ -170,6 +248,8 @@ photos_properties_dialog_constructed (GObject *object)
   GtkWidget *iso_speed_w = NULL;
   GtkWidget *item_type;
   GtkWidget *item_type_data;
+  GtkWidget *modified_w;
+  GtkWidget *modified_grid;
   GtkWidget *source;
   GtkWidget *source_data;
   GtkWidget *title;
@@ -352,6 +432,14 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_container_add (GTK_CONTAINER (self->grid), flash_w);
     }
 
+  modified_w = gtk_label_new (_("Modifications"));
+  gtk_widget_set_halign (modified_w, GTK_ALIGN_END);
+  gtk_widget_set_valign (modified_w, GTK_ALIGN_BASELINE);
+  gtk_widget_set_vexpand (modified_w, TRUE);
+  context = gtk_widget_get_style_context (modified_w);
+  gtk_style_context_add_class (context, "dim-label");
+  gtk_container_add (GTK_CONTAINER (self->grid), modified_w);
+
   name = photos_base_item_get_name (item);
 
   if (PHOTOS_IS_LOCAL_ITEM (item))
@@ -492,6 +580,41 @@ photos_properties_dialog_constructed (GObject *object)
       g_free (flash_str);
     }
 
+  photos_base_item_pipeline_is_edited_async (item,
+                                             self->cancellable,
+                                             photos_properties_dialog_pipeline_is_edited,
+                                             self);
+
+  modified_grid = gtk_grid_new ();
+  gtk_widget_set_hexpand (modified_grid, TRUE);
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (modified_grid), GTK_ORIENTATION_HORIZONTAL);
+
+  self->modified_data = gtk_label_new (NULL);
+  gtk_widget_set_halign (self->modified_data, GTK_ALIGN_START);
+  gtk_widget_set_hexpand (self->modified_data, TRUE);
+  gtk_widget_set_no_show_all (self->modified_data, TRUE);
+  gtk_widget_set_valign (self->modified_data, GTK_ALIGN_BASELINE);
+  gtk_widget_set_vexpand (self->modified_data, TRUE);
+  context = gtk_widget_get_style_context (self->modified_data);
+  gtk_style_context_add_class (context, "photos-fade-out");
+  gtk_container_add (GTK_CONTAINER (modified_grid), self->modified_data);
+
+  self->revert_button = gtk_button_new_with_label (_("Discard all Edits"));
+  gtk_widget_set_halign (self->revert_button, GTK_ALIGN_END);
+  gtk_widget_set_hexpand (self->revert_button, TRUE);
+  gtk_widget_set_no_show_all (self->revert_button, TRUE);
+  context = gtk_widget_get_style_context (self->revert_button);
+  gtk_style_context_add_class (context, "destructive-action");
+  gtk_style_context_add_class (context, "photos-fade-out");
+  gtk_container_add (GTK_CONTAINER (modified_grid), self->revert_button);
+
+  g_signal_connect_swapped (self->revert_button,
+                            "clicked",
+                            G_CALLBACK (photos_properties_dialog_revert_clicked),
+                            self);
+
+  gtk_grid_attach_next_to (GTK_GRID (self->grid), modified_grid, modified_w, GTK_POS_RIGHT, 2, 1);
+
   g_free (date_created_str);
   g_free (date_modified_str);
 }
@@ -582,6 +705,16 @@ photos_properties_dialog_class_init (PhotosPropertiesDialogClass *class)
                                                         "An unique ID associated with this item",
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  signals[DISCARD_ALL_EDITS] = g_signal_new ("discard-all-edits",
+                                             G_TYPE_FROM_CLASS (class),
+                                             G_SIGNAL_RUN_LAST,
+                                             G_STRUCT_OFFSET (PhotosPropertiesDialogClass, discard_all_edits),
+                                             NULL, /* accumulator */
+                                             NULL, /* accu_data */
+                                             g_cclosure_marshal_VOID__VOID,
+                                             G_TYPE_NONE,
+                                             0);
 }
 
 
