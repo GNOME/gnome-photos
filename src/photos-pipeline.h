@@ -66,6 +66,8 @@ GeglNode              *photos_pipeline_get_graph         (PhotosPipeline *self);
 
 GeglNode              *photos_pipeline_get_output        (PhotosPipeline *self);
 
+gboolean               photos_pipeline_is_edited         (PhotosPipeline *self);
+
 GeglProcessor         *photos_pipeline_new_processor     (PhotosPipeline *self);
 
 void                   photos_pipeline_save_async        (PhotosPipeline *self,
@@ -78,6 +80,8 @@ gboolean               photos_pipeline_save_finish       (PhotosPipeline *self, 
 gboolean               photos_pipeline_remove            (PhotosPipeline *self, const gchar *operation);
 
 void                   photos_pipeline_revert            (PhotosPipeline *self);
+
+void                   photos_pipeline_revert_to_original(PhotosPipeline *self);
 
 void                   photos_pipeline_snapshot          (PhotosPipeline *self);
 

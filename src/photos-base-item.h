@@ -243,6 +243,24 @@ gboolean            photos_base_item_operations_revert_finish(PhotosBaseItem *se
                                                               GAsyncResult *res,
                                                               GError **error);
 
+void                photos_base_item_pipeline_is_edited_async          (PhotosBaseItem *self,
+                                                                        GCancellable *cancellable,
+                                                                        GAsyncReadyCallback callback,
+                                                                        gpointer user_data);
+
+gboolean            photos_base_item_pipeline_is_edited_finish         (PhotosBaseItem *self,
+                                                                        GAsyncResult *res,
+                                                                        GError **error);
+
+void                photos_base_item_pipeline_revert_to_original_async (PhotosBaseItem *self,
+                                                                        GCancellable *cancellable,
+                                                                        GAsyncReadyCallback callback,
+                                                                        gpointer user_data);
+
+gboolean            photos_base_item_pipeline_revert_to_original_finish (PhotosBaseItem *self,
+                                                                         GAsyncResult *res,
+                                                                         GError **error);
+
 void                photos_base_item_pipeline_save_async     (PhotosBaseItem *self,
                                                               GCancellable *cancellable,
                                                               GAsyncReadyCallback callback,

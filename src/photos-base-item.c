@@ -941,6 +941,32 @@ photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *re
 }
 
 
+static void
+photos_base_item_pipeline_is_edited_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  GeglNode *graph = NULL;
+  gboolean is_edited;
+
+  error = NULL;
+  graph = photos_base_item_load_finish (self, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  is_edited = photos_pipeline_is_edited (self->priv->pipeline);
+  g_task_return_boolean (task, is_edited);
+
+ out:
+  g_clear_object (&graph);
+  g_object_unref (task);
+}
+
+
 static gboolean
 photos_base_item_process_idle (gpointer user_data)
 {
@@ -2685,6 +2711,83 @@ photos_base_item_operations_revert_finish (PhotosBaseItem *self, GAsyncResult *r
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_operations_revert_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
+}
+
+
+void
+photos_base_item_pipeline_is_edited_async (PhotosBaseItem *self,
+                                           GCancellable *cancellable,
+                                           GAsyncReadyCallback callback,
+                                           gpointer user_data)
+{
+  PhotosBaseItemPrivate *priv;
+  GTask *task;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = self->priv;
+
+  g_return_if_fail (!priv->collection);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_pipeline_is_edited_async);
+
+  photos_base_item_load_async (self, cancellable, photos_base_item_pipeline_is_edited_load, g_object_ref (task));
+
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_pipeline_is_edited_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_pipeline_is_edited_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
+}
+
+
+void
+photos_base_item_pipeline_revert_to_original_async (PhotosBaseItem *self,
+                                                    GCancellable *cancellable,
+                                                    GAsyncReadyCallback callback,
+                                                    gpointer user_data)
+
+{
+  PhotosBaseItemPrivate *priv;
+  GTask *task;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = self->priv;
+
+  g_return_if_fail (!priv->collection);
+
+  photos_pipeline_revert_to_original (priv->pipeline);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_pipeline_revert_to_original_async);
+
+  photos_base_item_process_async (self, cancellable, photos_base_item_common_process, g_object_ref (task));
+
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_pipeline_revert_to_original_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_pipeline_revert_to_original_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   return g_task_propagate_boolean (task, error);

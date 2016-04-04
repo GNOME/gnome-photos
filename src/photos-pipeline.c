@@ -495,6 +495,49 @@ photos_pipeline_get_output (PhotosPipeline *self)
 }
 
 
+gboolean
+photos_pipeline_is_edited (PhotosPipeline *self)
+{
+  GSList *children = NULL;
+  GSList *l;
+  guint n_operations = 0;
+
+  children = gegl_node_get_children (self->graph);
+  if (children == NULL)
+    goto out;
+
+  for (l = children; l != NULL && n_operations == 0; l = l->next)
+    {
+      GeglNode *node = GEGL_NODE (l->data);
+      const char *operation;
+
+      if (gegl_node_get_passthrough (node))
+        continue;
+
+      operation = gegl_node_get_operation (node);
+
+      if (g_strcmp0 (operation, "gegl:nop") == 0)
+        {
+          continue;
+        }
+      else if (g_strcmp0 (operation, "photos:magic-filter") == 0)
+        {
+          gint preset;
+
+          gegl_node_get (node, "preset", &preset, NULL);
+          if (preset == PHOTOS_OPERATION_INSTA_PRESET_NONE)
+            continue;
+        }
+
+      n_operations++;
+    }
+
+ out:
+  g_slist_free (children);
+  return n_operations > 0;
+}
+
+
 GeglProcessor *
 photos_pipeline_new_processor (PhotosPipeline *self)
 {
@@ -602,6 +645,24 @@ photos_pipeline_revert (PhotosPipeline *self)
 
   if (!photos_pipeline_create_graph_from_xml (self, self->snapshot))
     g_warning ("Unable to revert to: %s", self->snapshot);
+
+  g_clear_pointer (&self->snapshot, g_free);
+
+  xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
+  photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
+
+  g_free (xml);
+}
+
+
+void
+photos_pipeline_revert_to_original (PhotosPipeline *self)
+{
+  const gchar *empty_xml = "<?xml version='1.0' encoding='UTF-8'?><gegl></gegl>";
+  gchar *xml;
+
+  if (!photos_pipeline_create_graph_from_xml (self, empty_xml))
+    g_warning ("Unable to revert to original");
 
   g_clear_pointer (&self->snapshot, g_free);
 
