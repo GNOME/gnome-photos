@@ -107,7 +107,9 @@ photos_tracker_controller_query_error (PhotosTrackerController *self, GError *er
 static void
 photos_tracker_controller_query_finished (PhotosTrackerController *self, GError *error)
 {
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   photos_tracker_controller_set_query_status (self, FALSE);
 
@@ -128,10 +130,12 @@ static void
 photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   gboolean success;
   gint64 now;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   if (priv->item_mngr == NULL)
     goto out;
@@ -162,9 +166,12 @@ static void
 photos_tracker_controller_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
+  PhotosTrackerControllerPrivate *priv;
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   GError *error;
   TrackerSparqlCursor *cursor;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   error = NULL;
   cursor = tracker_sparql_connection_query_finish (connection, res, &error);
@@ -176,7 +183,7 @@ photos_tracker_controller_query_executed (GObject *source_object, GAsyncResult *
     }
 
   tracker_sparql_cursor_next_async (cursor,
-                                    self->priv->cancellable,
+                                    priv->cancellable,
                                     photos_tracker_controller_cursor_next,
                                     g_object_ref (self));
   g_object_unref (cursor);
@@ -186,7 +193,9 @@ photos_tracker_controller_query_executed (GObject *source_object, GAsyncResult *
 static void
 photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
 {
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   if (priv->current_query != NULL)
     photos_query_free (priv->current_query);
@@ -221,8 +230,10 @@ photos_tracker_controller_offset_changed (PhotosTrackerController *self)
 static void
 photos_tracker_controller_set_query_status (PhotosTrackerController *self, gboolean query_status)
 {
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
   gint64 now;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   if (priv->querying == query_status)
     return;
@@ -246,7 +257,9 @@ photos_tracker_controller_set_query_status (PhotosTrackerController *self, gbool
 static void
 photos_tracker_controller_refresh_internal (PhotosTrackerController *self, gint flags)
 {
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   priv->is_started = TRUE;
 
@@ -274,7 +287,9 @@ photos_tracker_controller_refresh_internal (PhotosTrackerController *self, gint 
 static void
 photos_tracker_controller_refresh_for_source (PhotosTrackerController *self)
 {
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   if (priv->current_query->source != NULL)
     {
@@ -292,8 +307,10 @@ photos_tracker_controller_refresh_for_source (PhotosTrackerController *self)
 static void
 photos_tracker_controller_source_object_added_removed (PhotosTrackerController *self)
 {
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
   PhotosWindowMode mode;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   g_return_if_fail (priv->mode_cntrlr != NULL);
 
@@ -310,7 +327,9 @@ photos_tracker_controller_window_mode_changed (PhotosTrackerController *self,
                                                PhotosWindowMode mode,
                                                PhotosWindowMode old_mode)
 {
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   if (priv->refresh_pending && mode == priv->mode)
     photos_tracker_controller_refresh_for_source (self);
@@ -321,7 +340,9 @@ static void
 photos_tracker_controller_constructed (GObject *object)
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   G_OBJECT_CLASS (photos_tracker_controller_parent_class)->constructed (object);
 
@@ -337,7 +358,9 @@ static void
 photos_tracker_controller_dispose (GObject *object)
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->offset_cntrlr);
@@ -351,7 +374,9 @@ static void
 photos_tracker_controller_finalize (GObject *object)
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   if (priv->item_mngr != NULL)
     g_object_remove_weak_pointer (G_OBJECT (priv->item_mngr), (gpointer *) &priv->item_mngr);
@@ -372,11 +397,14 @@ static void
 photos_tracker_controller_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   switch (prop_id)
     {
     case PROP_MODE:
-      self->priv->mode = (PhotosWindowMode) g_value_get_enum (value);
+      priv->mode = (PhotosWindowMode) g_value_get_enum (value);
       break;
 
     default:
@@ -393,8 +421,7 @@ photos_tracker_controller_init (PhotosTrackerController *self)
   GApplication *app;
   PhotosSearchContextState *state;
 
-  self->priv = photos_tracker_controller_get_instance_private (self);
-  priv = self->priv;
+  priv = photos_tracker_controller_get_instance_private (self);
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
@@ -481,14 +508,19 @@ photos_tracker_controller_refresh_for_object (PhotosTrackerController *self)
 void
 photos_tracker_controller_set_frozen (PhotosTrackerController *self, gboolean frozen)
 {
-  self->priv->is_frozen = frozen;
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
+  priv->is_frozen = frozen;
 }
 
 
 void
 photos_tracker_controller_start (PhotosTrackerController *self)
 {
-  PhotosTrackerControllerPrivate *priv = self->priv;
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
 
   if (priv->is_started)
     return;
@@ -500,5 +532,8 @@ photos_tracker_controller_start (PhotosTrackerController *self)
 gboolean
 photos_tracker_controller_get_query_status (PhotosTrackerController *self)
 {
-  return self->priv->querying;
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
+  return priv->querying;
 }

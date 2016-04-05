@@ -61,7 +61,6 @@ typedef struct _PhotosTrackerControllerPrivate PhotosTrackerControllerPrivate;
 struct _PhotosTrackerController
 {
   GObject parent_instance;
-  PhotosTrackerControllerPrivate *priv;
 };
 
 struct _PhotosTrackerControllerClass
