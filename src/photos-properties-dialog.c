@@ -106,6 +106,16 @@ photos_properties_dialog_get_camera (GObject *source_object, GAsyncResult *res, 
 
 
 static void
+photos_properties_dialog_name_update (PhotosPropertiesDialog *self)
+{
+  const gchar *new_title;
+
+  new_title = gtk_entry_get_text (GTK_ENTRY (self->title_entry));
+  photos_utils_set_edited_name (self->urn, new_title);
+}
+
+
+static void
 photos_properties_dialog_remove_timeout (PhotosPropertiesDialog *self)
 {
   if (self->title_entry_timeout != 0)
@@ -120,13 +130,10 @@ static gboolean
 photos_properties_dialog_title_entry_timeout (gpointer user_data)
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (user_data);
-  const gchar *new_title;
 
   self->title_entry_timeout = 0;
-  new_title = gtk_entry_get_text (GTK_ENTRY (self->title_entry));
-  photos_utils_set_edited_name (self->urn, new_title);
+  photos_properties_dialog_name_update (self);
 
-  g_object_unref (self);
   return G_SOURCE_REMOVE;
 }
 
@@ -140,7 +147,7 @@ photos_properties_dialog_title_entry_changed (GtkEditable *editable, gpointer us
 
   self->title_entry_timeout = g_timeout_add (TITLE_ENTRY_TIMEOUT,
                                              photos_properties_dialog_title_entry_timeout,
-                                             g_object_ref (self));
+                                             self);
 }
 
 
@@ -515,6 +522,12 @@ photos_properties_dialog_dispose (GObject *object)
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (object);
 
+  /* Make sure we save the new entered name before destroying the dialog */
+  if (self->title_entry_timeout != 0)
+    photos_properties_dialog_name_update (self);
+
+  photos_properties_dialog_remove_timeout (self);
+
   if (self->cancellable != NULL)
     {
       g_cancellable_cancel (self->cancellable);
@@ -534,8 +547,6 @@ photos_properties_dialog_finalize (GObject *object)
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (object);
 
   g_free (self->urn);
-
-  photos_properties_dialog_remove_timeout (self);
 
   G_OBJECT_CLASS (photos_properties_dialog_parent_class)->finalize (object);
 }
