@@ -2053,8 +2053,8 @@ photos_base_item_get_name_with_fallback (PhotosBaseItem *self)
   const gchar *name;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-
   priv = self->priv;
+
   name = priv->name;
   if (name == NULL || name[0] == '\0')
     name = priv->name_fallback;
@@ -2118,8 +2118,8 @@ photos_base_item_get_where (PhotosBaseItem *self)
   gchar *ret_val;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-
   priv = self->priv;
+
   if (priv->collection)
     ret_val = g_strconcat ("{ ?urn nie:isPartOf <", priv->id, "> }", NULL);
   else
@@ -2565,7 +2565,6 @@ photos_base_item_set_default_app (PhotosBaseItem *self, GAppInfo *default_app)
   const gchar *default_app_name;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-
   priv = self->priv;
 
   if (priv->default_app == NULL && default_app == NULL)
@@ -2593,8 +2592,8 @@ photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *defaul
   PhotosBaseItemPrivate *priv;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-
   priv = self->priv;
+
   g_clear_object (&priv->default_app);
   g_free (priv->default_app_name);
   priv->default_app_name = g_strdup (default_app_name);
