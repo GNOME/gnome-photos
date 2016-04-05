@@ -572,8 +572,8 @@ photos_base_item_set_failed_icon (PhotosBaseItem *self)
 static void
 photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
   GApplication *app;
   GdkPixbuf *pixbuf = NULL;
   GdkPixbuf *scaled_pixbuf = NULL;
@@ -585,18 +585,33 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
   pixbuf = gdk_pixbuf_new_from_stream_finish (res, &error);
   if (error != NULL)
     {
-      GFile *file;
-      gchar *uri;
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          g_error_free (error);
+          goto out;
+        }
+      else
+        {
+          GFile *file;
+          gchar *uri;
 
-      file = G_FILE (g_object_get_data (G_OBJECT (stream), "file"));
-      uri = g_file_get_uri (file);
-      g_warning ("Unable to create pixbuf from %s: %s", uri, error->message);
+          file = G_FILE (g_object_get_data (G_OBJECT (stream), "file"));
+          uri = g_file_get_uri (file);
+          g_warning ("Unable to create pixbuf from %s: %s", uri, error->message);
+          g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+          g_free (uri);
+          g_error_free (error);
+        }
+    }
+
+  self = PHOTOS_BASE_ITEM (user_data);
+  priv = self->priv;
+
+  if (pixbuf == NULL)
+    {
       priv->failed_thumbnailing = TRUE;
       priv->thumb_path = NULL;
-      g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
       photos_base_item_set_failed_icon (self);
-      g_free (uri);
-      g_error_free (error);
       goto out;
     }
 
@@ -610,7 +625,6 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
   g_input_stream_close_async (stream, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
   g_clear_object (&scaled_pixbuf);
   g_clear_object (&pixbuf);
-  g_object_unref (self);
 }
 
 
@@ -641,9 +655,9 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
 
   g_object_set_data_full (G_OBJECT (stream), "file", g_object_ref (file), g_object_unref);
   gdk_pixbuf_new_from_stream_async (G_INPUT_STREAM (stream),
-                                    NULL,
+                                    priv->cancellable,
                                     photos_base_item_refresh_thumb_path_pixbuf,
-                                    g_object_ref (self));
+                                    self);
   g_object_unref (stream);
 
  out:
