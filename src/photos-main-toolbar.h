@@ -38,36 +38,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_MAIN_TOOLBAR, PhotosMainToolbar))
 
-#define PHOTOS_MAIN_TOOLBAR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_MAIN_TOOLBAR, PhotosMainToolbarClass))
-
 #define PHOTOS_IS_MAIN_TOOLBAR(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_MAIN_TOOLBAR))
 
-#define PHOTOS_IS_MAIN_TOOLBAR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_MAIN_TOOLBAR))
-
-#define PHOTOS_MAIN_TOOLBAR_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_MAIN_TOOLBAR, PhotosMainToolbarClass))
-
-typedef struct _PhotosMainToolbar        PhotosMainToolbar;
-typedef struct _PhotosMainToolbarClass   PhotosMainToolbarClass;
-typedef struct _PhotosMainToolbarPrivate PhotosMainToolbarPrivate;
-
-struct _PhotosMainToolbar
-{
-  GtkBox parent_instance;
-  PhotosMainToolbarPrivate *priv;
-};
-
-struct _PhotosMainToolbarClass
-{
-  GtkBoxClass parent_class;
-};
+typedef struct _PhotosMainToolbar      PhotosMainToolbar;
+typedef struct _PhotosMainToolbarClass PhotosMainToolbarClass;
 
 GType                  photos_main_toolbar_get_type               (void) G_GNUC_CONST;
 
