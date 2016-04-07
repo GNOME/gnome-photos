@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-10 17:24+0100\n"
-"PO-Revision-Date: 2016-03-10 17:25+0100\n"
+"POT-Creation-Date: 2016-04-07 20:28+0200\n"
+"PO-Revision-Date: 2016-04-07 20:29+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -32,7 +32,7 @@ msgstr "Zdjęcia"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
 msgid "Access, organize and share your photos on GNOME"
-msgstr "Dostęp, organizowanie i współdzielenie zdjęć w środowisku GNOME"
+msgstr "Dostęp, organizowanie i udostępnianie zdjęć w środowisku GNOME"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
@@ -41,7 +41,7 @@ msgid ""
 "deal with photos. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Prosty program umożliwiający oglądanie, organizowanie i współdzielenie zdjęć "
+"Prosty program umożliwiający oglądanie, organizowanie i udostępnianie zdjęć "
 "w środowisku GNOME. Został on zaprojektowany jako prosty i elegancki "
 "interfejs do zarządzania zdjęciami, zastępujący w tym celu menedżer plików. "
 "Dzięki usłudze Kont online GNOME oferuje on integrację z chmurą."
@@ -80,7 +80,7 @@ msgstr "Otwieranie rozbudowanego edytora w celu dokonania poważniejszych zmian"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
-msgstr "Oglądanie, organizowanie i współdzielenie zdjęć"
+msgstr "Oglądanie, organizowanie i udostępnianie zdjęć"
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
@@ -110,11 +110,11 @@ msgstr "Maksymalizacja okna"
 msgid "Window maximized state"
 msgstr "Stan maksymalizacji okna"
 
-#: ../src/photos-base-item.c:474
+#: ../src/photos-base-item.c:476
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1413
+#: ../src/photos-base-item.c:1415
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
@@ -132,7 +132,7 @@ msgstr[1] "Usunięto %d elementy"
 msgstr[2] "Usunięto %d elementów"
 
 #: ../src/photos-delete-notification.c:155
-#: ../src/photos-done-notification.c:190
+#: ../src/photos-done-notification.c:188
 msgid "Undo"
 msgstr "Cofnij"
 
@@ -140,7 +140,7 @@ msgstr "Cofnij"
 msgid "DLNA Renderer Devices"
 msgstr "Urządzenia mechanizmu wyświetlającego DLNA"
 
-#: ../src/photos-done-notification.c:183
+#: ../src/photos-done-notification.c:181
 #, c-format
 msgid "“%s” edited"
 msgstr "Zmodyfikowano „%s”"
@@ -237,20 +237,20 @@ msgstr "%e %B %Y"
 msgid "Calculating export size…"
 msgstr "Obliczanie rozmiaru eksportu…"
 
-#: ../src/photos-export-notification.c:243
+#: ../src/photos-export-notification.c:241
 msgid "Failed to export: not enough space"
 msgstr "Wyeksportowanie się nie powiodło: za mało miejsca"
 
-#: ../src/photos-export-notification.c:245
+#: ../src/photos-export-notification.c:243
 msgid "Failed to export"
 msgstr "Wyeksportowanie się nie powiodło"
 
-#: ../src/photos-export-notification.c:252
+#: ../src/photos-export-notification.c:250
 #, c-format
 msgid "“%s” exported"
 msgstr "Wyeksportowano „%s”"
 
-#: ../src/photos-export-notification.c:256
+#: ../src/photos-export-notification.c:254
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -258,16 +258,16 @@ msgstr[0] "Wyeksportowano %d element"
 msgstr[1] "Wyeksportowano %d elementy"
 msgstr[2] "Wyeksportowano %d elementów"
 
-#: ../src/photos-export-notification.c:273
+#: ../src/photos-export-notification.c:271
 msgid "Analyze"
 msgstr "Analizuj"
 
-#: ../src/photos-export-notification.c:278
+#: ../src/photos-export-notification.c:276
 msgid "Empty Trash"
 msgstr "Opróżnij kosz"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-export-notification.c:293 ../src/photos-preview-menu.ui.h:1
 #: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Otwórz"
@@ -275,7 +275,7 @@ msgstr "Otwórz"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:305
+#: ../src/photos-export-notification.c:303
 msgid "Export Folder"
 msgstr "Wyeksportuj katalog"
 
