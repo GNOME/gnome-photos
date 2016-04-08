@@ -63,6 +63,12 @@ G_DEFINE_TYPE_EXTENDED (PhotosPipeline, photos_pipeline, G_TYPE_OBJECT, 0,
 EGG_DEFINE_COUNTER (instances, "PhotosPipeline", "Instances", "Number of PhotosPipeline instances")
 
 
+static const gchar *OPERATIONS[] =
+{
+  "photos:insta-filter"
+};
+
+
 static void
 photos_pipeline_link_nodes (GeglNode *input, GeglNode *output, GSList *nodes)
 {
@@ -93,20 +99,31 @@ photos_pipeline_link_nodes (GeglNode *input, GeglNode *output, GSList *nodes)
 static void
 photos_pipeline_reset (PhotosPipeline *self)
 {
+  GSList *nodes = NULL;
   GeglNode *input;
   GeglNode *last;
-  GeglNode *node;
   GeglNode *output;
+  guint i;
 
   input = gegl_node_get_input_proxy (self->graph, "input");
   output = gegl_node_get_output_proxy (self->graph, "output");
   last = gegl_node_get_producer (output, "input", NULL);
   g_return_if_fail (last == input);
 
-  node = gegl_node_new_child (self->graph, "operation", "photos:insta-filter", NULL);
-  gegl_node_set_passthrough (node, TRUE);
-  gegl_node_link_many (input, node, output, NULL);
-  g_hash_table_insert (self->hash, g_strdup ("photos:insta-filter"), g_object_ref (node));
+  for (i = 0; i < G_N_ELEMENTS (OPERATIONS); i++)
+    {
+      GeglNode *node;
+
+      node = gegl_node_new_child (self->graph, "operation", OPERATIONS[i], NULL);
+      gegl_node_set_passthrough (node, TRUE);
+      g_hash_table_insert (self->hash, g_strdup (OPERATIONS[i]), g_object_ref (node));
+      nodes = g_slist_prepend (nodes, g_object_ref (node));
+    }
+
+  nodes = g_slist_reverse (nodes);
+  photos_pipeline_link_nodes (input, output, nodes);
+
+  g_slist_free_full (nodes, g_object_unref);
 }
 
 
