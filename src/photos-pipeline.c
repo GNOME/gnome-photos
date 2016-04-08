@@ -64,6 +64,33 @@ EGG_DEFINE_COUNTER (instances, "PhotosPipeline", "Instances", "Number of PhotosP
 
 
 static void
+photos_pipeline_link_nodes (GeglNode *input, GeglNode *output, GSList *nodes)
+{
+  GSList *l;
+  GeglNode *node;
+
+  if (nodes == NULL)
+    {
+      gegl_node_link (input, output);
+      return;
+    }
+
+  node = GEGL_NODE (nodes->data);
+  gegl_node_link (input, node);
+
+  for (l = nodes; l != NULL && l->next != NULL; l = l->next)
+    {
+      GeglNode *sink = GEGL_NODE (l->next->data);
+      GeglNode *source = GEGL_NODE (l->data);
+      gegl_node_link (source, sink);
+    }
+
+  node = GEGL_NODE (l->data);
+  gegl_node_link (node, output);
+}
+
+
+static void
 photos_pipeline_reset (PhotosPipeline *self)
 {
   GeglNode *input;
@@ -88,7 +115,6 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, const gchar *conten
 {
   GeglNode *graph = NULL;
   GeglNode *input;
-  GeglNode *node;
   GeglNode *output;
   GSList *children = NULL;
   GSList *l;
@@ -112,18 +138,11 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, const gchar *conten
   output = gegl_node_get_output_proxy (self->graph, "output");
 
   children = gegl_node_get_children (graph);
-  if (children == NULL)
-    {
-      gegl_node_link (input, output);
-      goto carry_on;
-    }
-
   for (l = children; l != NULL; l = l->next)
     {
+      GeglNode *node = GEGL_NODE (l->data);
       const gchar *operation;
       const gchar *operation_compat;
-
-      node = GEGL_NODE (l->data);
 
       g_object_ref (node);
       gegl_node_remove_child (graph, node);
@@ -138,20 +157,8 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, const gchar *conten
         g_hash_table_insert (self->hash, g_strdup (operation_compat), g_object_ref (node));
     }
 
-  node = GEGL_NODE (children->data);
-  gegl_node_link (input, node);
+  photos_pipeline_link_nodes (input, output, children);
 
-  for (l = children; l != NULL && l->next != NULL; l = l->next)
-    {
-      GeglNode *sink = GEGL_NODE (l->next->data);
-      GeglNode *source = GEGL_NODE (l->data);
-      gegl_node_link (source, sink);
-    }
-
-  node = GEGL_NODE (l->data);
-  gegl_node_link (node, output);
-
- carry_on:
   ret_val = TRUE;
 
  out:
