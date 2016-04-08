@@ -76,10 +76,8 @@ photos_pipeline_reset (PhotosPipeline *self)
   last = gegl_node_get_producer (output, "input", NULL);
   g_return_if_fail (last == input);
 
-  node = gegl_node_new_child (self->graph,
-                              "operation", "photos:insta-filter",
-                              "preset", PHOTOS_OPERATION_INSTA_PRESET_NONE,
-                              NULL);
+  node = gegl_node_new_child (self->graph, "operation", "photos:insta-filter", NULL);
+  gegl_node_set_passthrough (node, TRUE);
   gegl_node_link_many (input, node, output, NULL);
   g_hash_table_insert (self->hash, g_strdup ("photos:insta-filter"), g_object_ref (node));
 }
@@ -450,6 +448,10 @@ photos_pipeline_add (PhotosPipeline *self, const gchar *operation, const gchar *
       gegl_node_link_many (last, node, output, NULL);
       g_hash_table_insert (self->hash, g_strdup (operation), g_object_ref (node));
     }
+  else
+    {
+      gegl_node_set_passthrough (node, FALSE);
+    }
 
   gegl_node_set_valist (node, first_property_name, ap);
 
@@ -468,6 +470,9 @@ photos_pipeline_get (PhotosPipeline *self, const gchar *operation, const gchar *
 
   node = GEGL_NODE (g_hash_table_lookup (self->hash, operation));
   if (node == NULL)
+    goto out;
+
+  if (gegl_node_get_passthrough (node))
     goto out;
 
   gegl_node_get_valist (node, first_property_name, ap);
@@ -604,25 +609,17 @@ gboolean
 photos_pipeline_remove (PhotosPipeline *self, const gchar *operation)
 {
   GeglNode *node;
-  GeglNode *source;
-  GeglNode **sinks = NULL;
   gboolean ret_val = FALSE;
   gchar *xml = NULL;
-  gint i;
-  gint nsinks;
 
   node = GEGL_NODE (g_hash_table_lookup (self->hash, operation));
   if (node == NULL)
     goto out;
 
-  source = gegl_node_get_producer (node, "input", NULL);
-  nsinks = gegl_node_get_consumers (node, "output", &sinks, NULL);
+  if (gegl_node_get_passthrough (node))
+    goto out;
 
-  g_hash_table_remove (self->hash, operation);
-  gegl_node_remove_child (self->graph, node);
-
-  for (i = 0; i < nsinks; i++)
-    gegl_node_link (source, sinks[i]);
+  gegl_node_set_passthrough (node, TRUE);
 
   xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
@@ -630,7 +627,6 @@ photos_pipeline_remove (PhotosPipeline *self, const gchar *operation)
   ret_val = TRUE;
 
  out:
-  g_free (sinks);
   g_free (xml);
   return ret_val;
 }
