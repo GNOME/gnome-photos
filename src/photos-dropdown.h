@@ -44,7 +44,7 @@ typedef struct _PhotosDropdownClass PhotosDropdownClass;
 
 GType                     photos_dropdown_get_type             (void) G_GNUC_CONST;
 
-GtkWidget                *photos_dropdown_new                  (GtkWidget *relative_to);
+GtkWidget                *photos_dropdown_new                  (void);
 
 G_END_DECLS
 

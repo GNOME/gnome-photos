@@ -140,7 +140,7 @@ photos_dropdown_class_init (PhotosDropdownClass *class)
 
 
 GtkWidget *
-photos_dropdown_new (GtkWidget *relative_to)
+photos_dropdown_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_DROPDOWN, "relative-to", relative_to, "position", GTK_POS_BOTTOM, NULL);
+  return g_object_new (PHOTOS_TYPE_DROPDOWN, "position", GTK_POS_BOTTOM, NULL);
 }
