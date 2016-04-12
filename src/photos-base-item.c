@@ -631,8 +631,8 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
 static void
 photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
   GError *error = NULL;
   GFile *file = G_FILE (source_object);
   GFileInputStream *stream = NULL;
@@ -640,16 +640,31 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
   stream = g_file_read_finish (file, res, &error);
   if (error != NULL)
     {
-      gchar *uri;
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	{
+	  g_error_free (error);
+	  goto out;
+	}
+      else
+	{
+	  gchar *uri;
 
-      uri = g_file_get_uri (file);
-      g_warning ("Unable to read file at %s: %s", uri, error->message);
+	  uri = g_file_get_uri (file);
+	  g_warning ("Unable to read file at %s: %s", uri, error->message);
+	  g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+	  g_free (uri);
+	  g_error_free (error);
+	}
+    }
+
+  self = PHOTOS_BASE_ITEM (user_data);
+  priv = self->priv;
+
+  if (stream == NULL)
+    {
       priv->failed_thumbnailing = TRUE;
       priv->thumb_path = NULL;
-      g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
       photos_base_item_set_failed_icon (self);
-      g_free (uri);
-      g_error_free (error);
       goto out;
     }
 
@@ -660,7 +675,6 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
                                     self);
  out:
   g_clear_object (&stream);
-  g_object_unref (self);
 }
 
 
@@ -673,9 +687,9 @@ photos_base_item_refresh_thumb_path (PhotosBaseItem *self)
   thumb_file = g_file_new_for_path (priv->thumb_path);
   g_file_read_async (thumb_file,
                      G_PRIORITY_DEFAULT,
-                     NULL,
+                     priv->cancellable,
                      photos_base_item_refresh_thumb_path_read,
-                     g_object_ref (self));
+                     self);
   g_object_unref (thumb_file);
 }
 
