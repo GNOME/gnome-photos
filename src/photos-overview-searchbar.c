@@ -226,8 +226,6 @@ photos_overview_searchbar_create_search_widgets (PhotosSearchbar *searchbar)
   image = gtk_image_new_from_icon_name (PHOTOS_ICON_GO_DOWN_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
   self->dropdown_button = gtk_toggle_button_new ();
   gtk_button_set_image (GTK_BUTTON (self->dropdown_button), image);
-  context = gtk_widget_get_style_context (self->dropdown_button);
-  gtk_style_context_add_class (context, "raised");
   g_signal_connect_swapped (self->dropdown_button, "toggled", G_CALLBACK (photos_overview_searchbar_toggled), self);
 
   self->dropdown = photos_dropdown_new (GTK_WIDGET (self->dropdown_button));
