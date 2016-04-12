@@ -635,7 +635,7 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
   PhotosBaseItemPrivate *priv = self->priv;
   GError *error = NULL;
   GFile *file = G_FILE (source_object);
-  GFileInputStream *stream;
+  GFileInputStream *stream = NULL;
 
   stream = g_file_read_finish (file, res, &error);
   if (error != NULL)
@@ -658,9 +658,8 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
                                     priv->cancellable,
                                     photos_base_item_refresh_thumb_path_pixbuf,
                                     self);
-  g_object_unref (stream);
-
  out:
+  g_clear_object (&stream);
   g_object_unref (self);
 }
 
