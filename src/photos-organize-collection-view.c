@@ -119,11 +119,12 @@ photos_organize_collection_view_create_collection_executed (GObject *source_obje
   PhotosOrganizeCollectionViewPrivate *priv;
   PhotosCreateCollectionJob *col_job = PHOTOS_CREATE_COLLECTION_JOB (source_object);
   PhotosSetCollectionJob *set_job = NULL;
+  GError *error;
   GtkTreeIter iter;
   GtkTreePath *path = NULL;
-  GError *error = NULL;
   const gchar *created_urn;
 
+  error = NULL;
   created_urn = photos_create_collection_job_finish (col_job, res, &error);
   if (error != NULL)
     {

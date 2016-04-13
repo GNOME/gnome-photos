@@ -205,9 +205,9 @@ photos_create_collection_job_run (PhotosCreateCollectionJob *self,
                                   gpointer user_data)
 {
   GApplication *app;
+  GTask *task;
   PhotosQuery *query;
   PhotosSearchContextState *state;
-  GTask *task;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_create_collection_job_run);
