@@ -1,3 +1,19 @@
+Overview of changes in 3.20.1
+=============================
+
+* Bugs fixed:
+ 763908 base-item: Don't leak the GFileInfos
+
+* Updated translations:
+ Catalan
+ Chinese (Taiwan)
+ Friulian
+ Persian
+ Polish
+ Ukrainian
+ Vietnamese
+
+
 Overview of changes in 3.20.0
 =============================
 
