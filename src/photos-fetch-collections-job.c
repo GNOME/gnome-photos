@@ -68,20 +68,20 @@ photos_fetch_collections_job_cursor_next (GObject *source_object, GAsyncResult *
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GCancellable *cancellable;
   GError *error;
-  gboolean valid;
+  gboolean success;
 
   self = g_task_get_source_object (task);
   cancellable = g_task_get_cancellable (task);
 
   error = NULL;
-  valid = tracker_sparql_cursor_next_finish (cursor, res, &error);
+  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
       goto end;
     }
 
-  if (valid)
+  if (success)
     {
       gchar *urn;
 
