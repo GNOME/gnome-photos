@@ -64,15 +64,18 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseManager, photos_base_manager, G_TYPE_OBJEC
 static void
 photos_base_manager_default_add_object (PhotosBaseManager *self, GObject *object)
 {
+  PhotosBaseManagerPrivate *priv;
   GObject *old_object;
   const gchar *id;
+
+  priv = photos_base_manager_get_instance_private (self);
 
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
   old_object = photos_base_manager_get_object_by_id (self, id);
   if (old_object != NULL)
     return;
 
-  g_hash_table_insert (self->priv->objects, g_strdup (id), g_object_ref (object));
+  g_hash_table_insert (priv->objects, g_strdup (id), g_object_ref (object));
   g_signal_emit (self, signals[OBJECT_ADDED], 0, object);
 }
 
@@ -94,14 +97,17 @@ photos_base_manager_default_get_where (PhotosBaseManager *self, gint flags)
 static void
 photos_base_manager_default_remove_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
+  PhotosBaseManagerPrivate *priv;
   GObject *object;
+
+  priv = photos_base_manager_get_instance_private (self);
 
   object = photos_base_manager_get_object_by_id (self, id);
   if (object == NULL)
     return;
 
   g_object_ref (object);
-  g_hash_table_remove (self->priv->objects, id);
+  g_hash_table_remove (priv->objects, id);
   g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
   g_object_unref (object);
 }
@@ -110,7 +116,9 @@ photos_base_manager_default_remove_object_by_id (PhotosBaseManager *self, const 
 static gboolean
 photos_base_manager_default_set_active_object (PhotosBaseManager *self, GObject *object)
 {
-  PhotosBaseManagerPrivate *priv = self->priv;
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
 
   if (object == priv->active_object)
     return FALSE;
@@ -130,7 +138,9 @@ static void
 photos_base_manager_dispose (GObject *object)
 {
   PhotosBaseManager *self = PHOTOS_BASE_MANAGER (object);
-  PhotosBaseManagerPrivate *priv = self->priv;
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
 
   if (priv->objects != NULL)
     {
@@ -148,7 +158,9 @@ static void
 photos_base_manager_finalize (GObject *object)
 {
   PhotosBaseManager *self = PHOTOS_BASE_MANAGER (object);
-  PhotosBaseManagerPrivate *priv = self->priv;
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
 
   g_free (priv->action_id);
   g_free (priv->title);
@@ -161,7 +173,9 @@ static void
 photos_base_manager_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosBaseManager *self = PHOTOS_BASE_MANAGER (object);
-  PhotosBaseManagerPrivate *priv = self->priv;
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
 
   switch (prop_id)
     {
@@ -185,9 +199,7 @@ photos_base_manager_init (PhotosBaseManager *self)
 {
   PhotosBaseManagerPrivate *priv;
 
-  self->priv = photos_base_manager_get_instance_private (self);
-  priv = self->priv;
-
+  priv = photos_base_manager_get_instance_private (self);
   priv->objects = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 }
 
@@ -277,7 +289,9 @@ photos_base_manager_add_object (PhotosBaseManager *self, GObject *object)
 void
 photos_base_manager_clear (PhotosBaseManager *self)
 {
-  PhotosBaseManagerPrivate *priv = self->priv;
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
 
   g_hash_table_remove_all (priv->objects);
   g_clear_object (&priv->active_object);
@@ -288,20 +302,27 @@ photos_base_manager_clear (PhotosBaseManager *self)
 const gchar *
 photos_base_manager_get_action_id (PhotosBaseManager *self)
 {
-  return self->priv->action_id;
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
+  return priv->action_id;
 }
 
 
 GObject *
 photos_base_manager_get_active_object (PhotosBaseManager *self)
 {
-  return self->priv->active_object;
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
+  return priv->active_object;
 }
 
 
 gchar *
 photos_base_manager_get_all_filter (PhotosBaseManager *self)
 {
+  PhotosBaseManagerPrivate *priv;
   GList *l;
   GList *values;
   const gchar *blank = "(true)";
@@ -311,7 +332,9 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
   guint i;
   guint length;
 
-  values = g_hash_table_get_values (self->priv->objects);
+  priv = photos_base_manager_get_instance_private (self);
+
+  values = g_hash_table_get_values (priv->objects);
   length = g_list_length (values);
   strv = (gchar **) g_malloc0_n (length + 1, sizeof (gchar *));
 
@@ -362,12 +385,15 @@ photos_base_manager_get_filter (PhotosBaseManager *self, gint flags)
 GObject *
 photos_base_manager_get_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
+  PhotosBaseManagerPrivate *priv;
   GObject *ret_val = NULL;
+
+  priv = photos_base_manager_get_instance_private (self);
 
   if (id == NULL)
     goto out;
 
-  ret_val = g_hash_table_lookup (self->priv->objects, id);
+  ret_val = g_hash_table_lookup (priv->objects, id);
 
  out:
   return ret_val;
@@ -377,16 +403,21 @@ photos_base_manager_get_object_by_id (PhotosBaseManager *self, const gchar *id)
 GHashTable *
 photos_base_manager_get_objects (PhotosBaseManager *self)
 {
-  return self->priv->objects;
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
+  return priv->objects;
 }
 
 
 guint
 photos_base_manager_get_objects_count (PhotosBaseManager *self)
 {
+  PhotosBaseManagerPrivate *priv;
   guint count;
 
-  count = g_hash_table_size (self->priv->objects);
+  priv = photos_base_manager_get_instance_private (self);
+  count = g_hash_table_size (priv->objects);
   return count;
 }
 
@@ -394,7 +425,10 @@ photos_base_manager_get_objects_count (PhotosBaseManager *self)
 const gchar *
 photos_base_manager_get_title (PhotosBaseManager *self)
 {
-  return self->priv->title;
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
+  return priv->title;
 }
 
 

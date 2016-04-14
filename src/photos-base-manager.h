@@ -58,7 +58,6 @@ typedef struct _PhotosBaseManagerPrivate PhotosBaseManagerPrivate;
 struct _PhotosBaseManager
 {
   GObject parent_instance;
-  PhotosBaseManagerPrivate *priv;
 };
 
 struct _PhotosBaseManagerClass
