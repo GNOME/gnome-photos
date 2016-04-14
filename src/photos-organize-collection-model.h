@@ -35,21 +35,9 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_ORGANIZE_COLLECTION_MODEL, PhotosOrganizeCollectionModel))
 
-#define PHOTOS_ORGANIZE_COLLECTION_MODEL_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_MODEL, PhotosOrganizeCollectionModelClass))
-
 #define PHOTOS_IS_ORGANIZE_COLLECTION_MODEL(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_ORGANIZE_COLLECTION_MODEL))
-
-#define PHOTOS_IS_ORGANIZE_COLLECTION_MODEL_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_MODEL))
-
-#define PHOTOS_ORGANIZE_COLLECTION_MODEL_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_MODEL, PhotosOrganizeCollectionModelClass))
 
 #define PHOTOS_COLLECTION_PLACEHOLDER_ID "collection-placeholder"
 
@@ -60,20 +48,8 @@ typedef enum
   PHOTOS_ORGANIZE_MODEL_STATE
 } PhotosOrganizeModelColumns;
 
-typedef struct _PhotosOrganizeCollectionModel        PhotosOrganizeCollectionModel;
-typedef struct _PhotosOrganizeCollectionModelClass   PhotosOrganizeCollectionModelClass;
-typedef struct _PhotosOrganizeCollectionModelPrivate PhotosOrganizeCollectionModelPrivate;
-
-struct _PhotosOrganizeCollectionModel
-{
-  GtkListStore parent_instance;
-  PhotosOrganizeCollectionModelPrivate *priv;
-};
-
-struct _PhotosOrganizeCollectionModelClass
-{
-  GtkListStoreClass parent_class;
-};
+typedef struct _PhotosOrganizeCollectionModel      PhotosOrganizeCollectionModel;
+typedef struct _PhotosOrganizeCollectionModelClass PhotosOrganizeCollectionModelClass;
 
 GType             photos_organize_collection_model_get_type               (void) G_GNUC_CONST;
 

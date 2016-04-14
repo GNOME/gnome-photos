@@ -35,15 +35,21 @@
 #include "photos-search-context.h"
 
 
-struct _PhotosOrganizeCollectionModelPrivate
+struct _PhotosOrganizeCollectionModel
 {
+  GtkListStore parent_instance;
   GtkTreePath *coll_path;
   GtkTreeRowReference *placeholder_ref;
   PhotosBaseManager *manager;
 };
 
+struct _PhotosOrganizeCollectionModelClass
+{
+  GtkListStoreClass parent_class;
+};
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosOrganizeCollectionModel, photos_organize_collection_model, GTK_TYPE_LIST_STORE);
+
+G_DEFINE_TYPE (PhotosOrganizeCollectionModel, photos_organize_collection_model, GTK_TYPE_LIST_STORE);
 
 
 static gboolean
@@ -60,7 +66,7 @@ photos_organize_collection_model_foreach (GtkTreeModel *model,
   gtk_tree_model_get (GTK_TREE_MODEL (self), iter, PHOTOS_ORGANIZE_MODEL_ID, &id, -1);
   if (g_strcmp0 (photos_filterable_get_id (PHOTOS_FILTERABLE (collection)), id) == 0)
     {
-      self->priv->coll_path = gtk_tree_path_copy (path);
+      self->coll_path = gtk_tree_path_copy (path);
       ret_val = TRUE;
       goto out;
     }
@@ -75,15 +81,13 @@ static GtkTreeIter *
 photos_organize_collection_model_find_collection_iter (PhotosOrganizeCollectionModel *self,
                                                        PhotosBaseItem *collection)
 {
-  PhotosOrganizeCollectionModelPrivate *priv = self->priv;
-
   gtk_tree_model_foreach (GTK_TREE_MODEL (self), photos_organize_collection_model_foreach, collection);
-  if (priv->coll_path != NULL)
+  if (self->coll_path != NULL)
     {
       GtkTreeIter iter;
 
-      gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &iter, priv->coll_path);
-      g_clear_pointer (&priv->coll_path, (GDestroyNotify) gtk_tree_path_free);
+      gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &iter, self->coll_path);
+      g_clear_pointer (&self->coll_path, (GDestroyNotify) gtk_tree_path_free);
       return gtk_tree_iter_copy (&iter);
     }
 
@@ -111,7 +115,7 @@ photos_organize_collection_model_fetch_collection_state_executed (GHashTable *co
       if (state & PHOTOS_COLLECTION_STATE_HIDDEN)
         continue;
 
-      collection = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->priv->manager, idx));
+      collection = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->manager, idx));
       iter = photos_organize_collection_model_find_collection_iter (self, collection);
       if (iter == NULL)
         {
@@ -173,9 +177,8 @@ static void
 photos_organize_collection_model_dispose (GObject *object)
 {
   PhotosOrganizeCollectionModel *self = PHOTOS_ORGANIZE_COLLECTION_MODEL (object);
-  PhotosOrganizeCollectionModelPrivate *priv = self->priv;
 
-  g_clear_object (&priv->manager);
+  g_clear_object (&self->manager);
 
   G_OBJECT_CLASS (photos_organize_collection_model_parent_class)->dispose (object);
 }
@@ -185,10 +188,9 @@ static void
 photos_organize_collection_model_finalize (GObject *object)
 {
   PhotosOrganizeCollectionModel *self = PHOTOS_ORGANIZE_COLLECTION_MODEL (object);
-  PhotosOrganizeCollectionModelPrivate *priv = self->priv;
 
-  gtk_tree_path_free (priv->coll_path);
-  gtk_tree_row_reference_free (priv->placeholder_ref);
+  gtk_tree_path_free (self->coll_path);
+  gtk_tree_row_reference_free (self->placeholder_ref);
 
   G_OBJECT_CLASS (photos_organize_collection_model_parent_class)->finalize (object);
 }
@@ -197,29 +199,25 @@ photos_organize_collection_model_finalize (GObject *object)
 static void
 photos_organize_collection_model_init (PhotosOrganizeCollectionModel *self)
 {
-  PhotosOrganizeCollectionModelPrivate *priv;
   GApplication *app;
   GType columns[] = {G_TYPE_STRING,  /* ID */
                      G_TYPE_STRING,  /* NAME */
                      G_TYPE_INT};    /* STATE */
   PhotosSearchContextState *state;
 
-  self->priv = photos_organize_collection_model_get_instance_private (self);
-  priv = self->priv;
-
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   gtk_list_store_set_column_types (GTK_LIST_STORE (self), G_N_ELEMENTS (columns), columns);
 
-  priv->manager = g_object_ref (state->item_mngr);
+  self->manager = g_object_ref (state->item_mngr);
 
-  g_signal_connect_object (priv->manager,
+  g_signal_connect_object (self->manager,
                            "object-added",
                            G_CALLBACK (photos_organize_collection_model_object_added),
                            self,
                            0);
-  g_signal_connect_object (priv->manager,
+  g_signal_connect_object (self->manager,
                            "object-removed",
                            G_CALLBACK (photos_organize_collection_model_object_removed),
                            self,
@@ -250,7 +248,6 @@ photos_organize_collection_model_new (void)
 GtkTreePath *
 photos_organize_collection_model_add_placeholder (PhotosOrganizeCollectionModel *self)
 {
-  PhotosOrganizeCollectionModelPrivate *priv = self->priv;
   GtkTreeIter iter;
   GtkTreePath *placeholder_path;
 
@@ -266,7 +263,7 @@ photos_organize_collection_model_add_placeholder (PhotosOrganizeCollectionModel 
 
   placeholder_path = gtk_tree_model_get_path (GTK_TREE_MODEL (self), &iter);
   if (placeholder_path != NULL)
-    priv->placeholder_ref = gtk_tree_row_reference_new (GTK_TREE_MODEL (self), placeholder_path);
+    self->placeholder_ref = gtk_tree_row_reference_new (GTK_TREE_MODEL (self), placeholder_path);
 
   return placeholder_path;
 }
@@ -275,16 +272,15 @@ photos_organize_collection_model_add_placeholder (PhotosOrganizeCollectionModel 
 GtkTreePath *
 photos_organize_collection_model_get_placeholder (PhotosOrganizeCollectionModel *self, gboolean forget)
 {
-  PhotosOrganizeCollectionModelPrivate *priv = self->priv;
   GtkTreePath *ret_val = NULL;
 
-  if (priv->placeholder_ref != NULL)
-    ret_val = gtk_tree_row_reference_get_path (priv->placeholder_ref);
+  if (self->placeholder_ref != NULL)
+    ret_val = gtk_tree_row_reference_get_path (self->placeholder_ref);
 
   if (forget)
     {
-      gtk_tree_row_reference_free (priv->placeholder_ref);
-      priv->placeholder_ref = NULL;
+      gtk_tree_row_reference_free (self->placeholder_ref);
+      self->placeholder_ref = NULL;
     }
 
   return ret_val;
@@ -301,18 +297,17 @@ photos_organize_collection_model_refresh_collection_state (PhotosOrganizeCollect
 void
 photos_organize_collection_model_remove_placeholder (PhotosOrganizeCollectionModel *self)
 {
-  PhotosOrganizeCollectionModelPrivate *priv = self->priv;
   GtkTreeIter placeholder_iter;
   GtkTreePath *placeholder_path;
 
-  if (priv->placeholder_ref == NULL)
+  if (self->placeholder_ref == NULL)
     return;
 
-  placeholder_path = gtk_tree_row_reference_get_path (priv->placeholder_ref);
+  placeholder_path = gtk_tree_row_reference_get_path (self->placeholder_ref);
   if (gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &placeholder_iter, placeholder_path))
     gtk_list_store_remove (GTK_LIST_STORE (self), &placeholder_iter);
 
   gtk_tree_path_free (placeholder_path);
-  gtk_tree_row_reference_free (priv->placeholder_ref);
-  priv->placeholder_ref = NULL;
+  gtk_tree_row_reference_free (self->placeholder_ref);
+  self->placeholder_ref = NULL;
 }
