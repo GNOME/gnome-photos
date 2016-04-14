@@ -78,7 +78,6 @@ photos_fetch_collections_job_cursor_next (GObject *source_object, GAsyncResult *
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GError *error;
   gboolean valid;
-  gchar *urn;
 
   error = NULL;
   valid = tracker_sparql_cursor_next_finish (cursor, res, &error);
@@ -88,17 +87,20 @@ photos_fetch_collections_job_cursor_next (GObject *source_object, GAsyncResult *
       g_error_free (error);
       goto end;
     }
-  if (!valid)
-    goto end;
 
-  urn = g_strdup (tracker_sparql_cursor_get_string (cursor, 0, NULL));
-  self->collections = g_list_prepend (self->collections, urn);
+  if (valid)
+    {
+      gchar *urn;
 
-  tracker_sparql_cursor_next_async (cursor,
-                                    NULL,
-                                    photos_fetch_collections_job_cursor_next,
-                                    self);
-  return;
+      urn = g_strdup (tracker_sparql_cursor_get_string (cursor, 0, NULL));
+      self->collections = g_list_prepend (self->collections, urn);
+
+      tracker_sparql_cursor_next_async (cursor,
+                                        NULL,
+                                        photos_fetch_collections_job_cursor_next,
+                                        self);
+      return;
+    }
 
  end:
   self->collections = g_list_reverse (self->collections);
