@@ -37,36 +37,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_BASE_MODEL, PhotosBaseModel))
 
-#define PHOTOS_BASE_MODEL_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_BASE_MODEL, PhotosBaseModelClass))
-
 #define PHOTOS_IS_BASE_MODEL(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_BASE_MODEL))
 
-#define PHOTOS_IS_BASE_MODEL_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_BASE_MODEL))
-
-#define PHOTOS_BASE_MODEL_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_BASE_MODEL, PhotosBaseModelClass))
-
-typedef struct _PhotosBaseModel        PhotosBaseModel;
-typedef struct _PhotosBaseModelClass   PhotosBaseModelClass;
-typedef struct _PhotosBaseModelPrivate PhotosBaseModelPrivate;
-
-struct _PhotosBaseModel
-{
-  GObject parent_instance;
-  PhotosBaseModelPrivate *priv;
-};
-
-struct _PhotosBaseModelClass
-{
-  GObjectClass parent_class;
-};
+typedef struct _PhotosBaseModel      PhotosBaseModel;
+typedef struct _PhotosBaseModelClass PhotosBaseModelClass;
 
 GType             photos_base_model_get_type               (void) G_GNUC_CONST;
 

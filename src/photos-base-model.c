@@ -32,10 +32,16 @@
 #include "photos-filterable.h"
 
 
-struct _PhotosBaseModelPrivate
+struct _PhotosBaseModel
 {
+  GObject parent_instance;
   GMenu *model;
   PhotosBaseManager *mngr;
+};
+
+struct _PhotosBaseModelClass
+{
+  GObjectClass parent_class;
 };
 
 enum
@@ -45,7 +51,7 @@ enum
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseModel, photos_base_model, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhotosBaseModel, photos_base_model, G_TYPE_OBJECT);
 
 
 static void
@@ -54,21 +60,20 @@ photos_base_model_action_state_changed (PhotosBaseModel *self, const gchar *acti
   const gchar *id;
 
   id = g_variant_get_string (value, NULL);
-  photos_base_manager_set_active_object_by_id (self->priv->mngr, id);
+  photos_base_manager_set_active_object_by_id (self->mngr, id);
 }
 
 
 static void
 photos_base_model_active_changed (PhotosBaseModel *self, GObject *active_object)
 {
-  PhotosBaseModelPrivate *priv = self->priv;
   GApplication *app;
   GVariant *state;
   const gchar *action_id;
   const gchar *id;
 
   app = g_application_get_default ();
-  action_id = photos_base_manager_get_action_id (priv->mngr);
+  action_id = photos_base_manager_get_action_id (self->mngr);
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (active_object));
   state = g_variant_new ("s", id);
   g_action_group_change_action_state (G_ACTION_GROUP (app), action_id, state);
@@ -78,7 +83,6 @@ photos_base_model_active_changed (PhotosBaseModel *self, GObject *active_object)
 static void
 photos_base_model_refresh (PhotosBaseModel *self)
 {
-  PhotosBaseModelPrivate *priv = self->priv;
   GHashTable *objects;
   GHashTableIter hash_iter;
   GMenu *section;
@@ -87,15 +91,15 @@ photos_base_model_refresh (PhotosBaseModel *self)
   const gchar *id;
   const gchar *title;
 
-  g_menu_remove_all (priv->model);
+  g_menu_remove_all (self->model);
 
-  title = photos_base_manager_get_title (priv->mngr);
-  action_id = photos_base_manager_get_action_id (priv->mngr);
+  title = photos_base_manager_get_title (self->mngr);
+  action_id = photos_base_manager_get_action_id (self->mngr);
 
   section = g_menu_new ();
-  g_menu_append_section (priv->model, title, G_MENU_MODEL (section));
+  g_menu_append_section (self->model, title, G_MENU_MODEL (section));
 
-  objects = photos_base_manager_get_objects (priv->mngr);
+  objects = photos_base_manager_get_objects (self->mngr);
 
   g_hash_table_iter_init (&hash_iter, objects);
   while (g_hash_table_iter_next (&hash_iter, (gpointer *) &id, (gpointer *) &object))
@@ -122,28 +126,27 @@ static void
 photos_base_model_constructed (GObject *object)
 {
   PhotosBaseModel *self = PHOTOS_BASE_MODEL (object);
-  PhotosBaseModelPrivate *priv = self->priv;
   GApplication *app;
   const gchar *action_id;
   gchar *detailed_signal;
 
   G_OBJECT_CLASS (photos_base_model_parent_class)->constructed (object);
 
-  priv->model = g_menu_new ();
+  self->model = g_menu_new ();
 
-  g_signal_connect_object (priv->mngr,
+  g_signal_connect_object (self->mngr,
                            "object-added",
                            G_CALLBACK (photos_base_model_refresh),
                            self,
                            G_CONNECT_SWAPPED);
-  g_signal_connect_object (priv->mngr,
+  g_signal_connect_object (self->mngr,
                            "object-removed",
                            G_CALLBACK (photos_base_model_refresh),
                            self,
                            G_CONNECT_SWAPPED);
 
   app = g_application_get_default ();
-  action_id = photos_base_manager_get_action_id (priv->mngr);
+  action_id = photos_base_manager_get_action_id (self->mngr);
   detailed_signal = g_strconcat ("action-state-changed::", action_id, NULL);
   g_signal_connect_object (app,
                            detailed_signal,
@@ -152,7 +155,7 @@ photos_base_model_constructed (GObject *object)
                            G_CONNECT_SWAPPED);
   g_free (detailed_signal);
 
-  g_signal_connect_object (priv->mngr,
+  g_signal_connect_object (self->mngr,
                            "active-changed",
                            G_CALLBACK (photos_base_model_active_changed),
                            self,
@@ -166,10 +169,9 @@ static void
 photos_base_model_dispose (GObject *object)
 {
   PhotosBaseModel *self = PHOTOS_BASE_MODEL (object);
-  PhotosBaseModelPrivate *priv = self->priv;
 
-  g_clear_object (&priv->model);
-  g_clear_object (&priv->mngr);
+  g_clear_object (&self->model);
+  g_clear_object (&self->mngr);
 
   G_OBJECT_CLASS (photos_base_model_parent_class)->dispose (object);
 }
@@ -183,7 +185,7 @@ photos_base_model_set_property (GObject *object, guint prop_id, const GValue *va
   switch (prop_id)
     {
     case PROP_MANAGER:
-      self->priv->mngr = PHOTOS_BASE_MANAGER (g_value_dup_object (value));
+      self->mngr = PHOTOS_BASE_MANAGER (g_value_dup_object (value));
       break;
 
     default:
@@ -196,7 +198,6 @@ photos_base_model_set_property (GObject *object, guint prop_id, const GValue *va
 static void
 photos_base_model_init (PhotosBaseModel *self)
 {
-  self->priv = photos_base_model_get_instance_private (self);
 }
 
 
@@ -229,5 +230,5 @@ photos_base_model_new (PhotosBaseManager *mngr)
 GMenu *
 photos_base_model_get_model (PhotosBaseModel *self)
 {
-  return self->priv->model;
+  return self->model;
 }
