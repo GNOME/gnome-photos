@@ -39,11 +39,10 @@
 struct _PhotosFetchCollectionsJob
 {
   GObject parent_instance;
+  GError *queue_error;
   GList *collections;
-  PhotosFetchCollectionsJobCallback callback;
   PhotosTrackerQueue *queue;
   gchar *urn;
-  gpointer user_data;
 };
 
 struct _PhotosFetchCollectionsJobClass
@@ -62,29 +61,23 @@ G_DEFINE_TYPE (PhotosFetchCollectionsJob, photos_fetch_collections_job, G_TYPE_O
 
 
 static void
-photos_fetch_collections_job_emit_callback (PhotosFetchCollectionsJob *self)
-{
-  if (self->callback == NULL)
-    return;
-
-  (*self->callback) (self->collections, self->user_data);
-}
-
-
-static void
 photos_fetch_collections_job_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosFetchCollectionsJob *self = PHOTOS_FETCH_COLLECTIONS_JOB (user_data);
+  GTask *task = G_TASK (user_data);
+  PhotosFetchCollectionsJob *self;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
+  GCancellable *cancellable;
   GError *error;
   gboolean valid;
+
+  self = g_task_get_source_object (task);
+  cancellable = g_task_get_cancellable (task);
 
   error = NULL;
   valid = tracker_sparql_cursor_next_finish (cursor, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to fetch collections: %s", error->message);
-      g_error_free (error);
+      g_task_return_error (task, error);
       goto end;
     }
 
@@ -96,42 +89,48 @@ photos_fetch_collections_job_cursor_next (GObject *source_object, GAsyncResult *
       self->collections = g_list_prepend (self->collections, urn);
 
       tracker_sparql_cursor_next_async (cursor,
-                                        NULL,
+                                        cancellable,
                                         photos_fetch_collections_job_cursor_next,
-                                        self);
+                                        g_object_ref (task));
+
+      g_object_unref (task);
       return;
     }
 
- end:
   self->collections = g_list_reverse (self->collections);
-  photos_fetch_collections_job_emit_callback (self);
+  g_task_return_pointer (task, self->collections, NULL);
+
+ end:
   tracker_sparql_cursor_close (cursor);
-  g_object_unref (self);
+  g_object_unref (task);
 }
 
 
 static void
 photos_fetch_collections_job_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosFetchCollectionsJob *self = PHOTOS_FETCH_COLLECTIONS_JOB (user_data);
+  GTask *task = G_TASK (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
+  GCancellable *cancellable;
   TrackerSparqlCursor *cursor;
   GError *error;
+
+  cancellable = g_task_get_cancellable (task);
 
   error = NULL;
   cursor = tracker_sparql_connection_query_finish (connection, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to fetch collections: %s", error->message);
-      g_error_free (error);
-      photos_fetch_collections_job_emit_callback (self);
-      return;
+      g_task_return_error (task, error);
+      goto out;
     }
 
   tracker_sparql_cursor_next_async (cursor,
-                                    NULL,
+                                    cancellable,
                                     photos_fetch_collections_job_cursor_next,
-                                    g_object_ref (self));
+                                    g_object_ref (task));
+
+ out:
   g_object_unref (cursor);
 }
 
@@ -152,6 +151,7 @@ photos_fetch_collections_job_finalize (GObject *object)
 {
   PhotosFetchCollectionsJob *self = PHOTOS_FETCH_COLLECTIONS_JOB (object);
 
+  g_clear_error (&self->queue_error);
   g_list_free_full (self->collections, g_free);
   g_free (self->urn);
 
@@ -180,7 +180,7 @@ photos_fetch_collections_job_set_property (GObject *object, guint prop_id, const
 static void
 photos_fetch_collections_job_init (PhotosFetchCollectionsJob *self)
 {
-  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, &self->queue_error);
 }
 
 
@@ -210,24 +210,38 @@ photos_fetch_collections_job_new (const gchar *urn)
 }
 
 
+GList *
+photos_fetch_collections_job_finish (PhotosFetchCollectionsJob *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_fetch_collections_job_run, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  return g_task_propagate_pointer (task, error);
+}
+
+
 void
 photos_fetch_collections_job_run (PhotosFetchCollectionsJob *self,
-                                  PhotosFetchCollectionsJobCallback callback,
+                                  GCancellable *cancellable,
+                                  GAsyncReadyCallback callback,
                                   gpointer user_data)
 {
   GApplication *app;
+  GTask *task;
   PhotosQuery *query;
   PhotosSearchContextState *state;
 
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_fetch_collections_job_run);
+
   if (G_UNLIKELY (self->queue == NULL))
     {
-      if (callback != NULL)
-        (*callback) (NULL, user_data);
-      return;
+      g_task_return_error (task, g_error_copy (self->queue_error));
+      goto out;
     }
-
-  self->callback = callback;
-  self->user_data = user_data;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
@@ -235,9 +249,12 @@ photos_fetch_collections_job_run (PhotosFetchCollectionsJob *self,
   query = photos_query_builder_fetch_collections_query (state, self->urn);
   photos_tracker_queue_select (self->queue,
                                query->sparql,
-                               NULL,
+                               cancellable,
                                photos_fetch_collections_job_query_executed,
-                               g_object_ref (self),
+                               g_object_ref (task),
                                g_object_unref);
   photos_query_free (query);
+
+ out:
+  g_object_unref (task);
 }

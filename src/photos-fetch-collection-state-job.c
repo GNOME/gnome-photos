@@ -169,11 +169,21 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
 
 
 static void
-photos_fetch_collection_state_job_job_collector (GList *collections_for_item, gpointer user_data)
+photos_fetch_collection_state_job_job_collector (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosFetchCollectionStateJobData *data = user_data;
   PhotosFetchCollectionStateJob *self = data->job;
+  GError *error = NULL;
+  GList *collections_for_item;
+  PhotosFetchCollectionsJob *job = PHOTOS_FETCH_COLLECTIONS_JOB (source_object);
   const gchar *urn = data->urn;
+
+  collections_for_item = photos_fetch_collections_job_finish (job, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to fetch collections: %s", error->message);
+      g_error_free (error);
+    }
 
   g_hash_table_insert (self->collections_for_items,
                        g_strdup (urn),
@@ -274,7 +284,7 @@ photos_fetch_collection_state_job_run (PhotosFetchCollectionStateJob *self,
       self->running_jobs++;
       job = photos_fetch_collections_job_new (urn);
       data = photos_fetch_collection_state_job_data_new (self, urn);
-      photos_fetch_collections_job_run (job, photos_fetch_collection_state_job_job_collector, data);
+      photos_fetch_collections_job_run (job, NULL, photos_fetch_collection_state_job_job_collector, data);
       g_object_unref (job);
     }
 }

@@ -39,8 +39,6 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_FETCH_COLLECTIONS_JOB))
 
-typedef void (*PhotosFetchCollectionsJobCallback) (GList *, gpointer);
-
 typedef struct _PhotosFetchCollectionsJob      PhotosFetchCollectionsJob;
 typedef struct _PhotosFetchCollectionsJobClass PhotosFetchCollectionsJobClass;
 
@@ -49,8 +47,13 @@ GType                      photos_fetch_collections_job_get_type    (void) G_GNU
 PhotosFetchCollectionsJob *photos_fetch_collections_job_new         (const gchar *urn);
 
 void                       photos_fetch_collections_job_run         (PhotosFetchCollectionsJob *self,
-                                                                     PhotosFetchCollectionsJobCallback callback,
+                                                                     GCancellable *cancellable,
+                                                                     GAsyncReadyCallback callback,
                                                                      gpointer user_data);
+
+GList                     *photos_fetch_collections_job_finish      (PhotosFetchCollectionsJob *self,
+                                                                     GAsyncResult *res,
+                                                                     GError **error);
 
 G_END_DECLS
 
