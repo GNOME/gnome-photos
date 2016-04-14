@@ -38,36 +38,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_PRINT_OPERATION, PhotosPrintOperation))
 
-#define PHOTOS_PRINT_OPERATION_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_PRINT_OPERATION, PhotosPrintOperationClass))
-
 #define PHOTOS_IS_PRINT_OPERATION(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_PRINT_OPERATION))
 
-#define PHOTOS_IS_PRINT_OPERATION_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_PRINT_OPERATION))
-
-#define PHOTOS_PRINT_OPERATION_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_PRINT_OPERATION, PhotosPrintOperationClass))
-
-typedef struct _PhotosPrintOperation        PhotosPrintOperation;
-typedef struct _PhotosPrintOperationClass   PhotosPrintOperationClass;
-typedef struct _PhotosPrintOperationPrivate PhotosPrintOperationPrivate;
-
-struct _PhotosPrintOperation
-{
-  GtkPrintOperation parent_instance;
-  PhotosPrintOperationPrivate *priv;
-};
-
-struct _PhotosPrintOperationClass
-{
-  GtkPrintOperationClass parent_class;
-};
+typedef struct _PhotosPrintOperation      PhotosPrintOperation;
+typedef struct _PhotosPrintOperationClass PhotosPrintOperationClass;
 
 GType               photos_print_operation_get_type           (void) G_GNUC_CONST;
 
