@@ -162,18 +162,17 @@ photos_properties_dialog_constructed (GObject *object)
   GtkWidget *date_created_w = NULL;
   GtkWidget *date_modified_data;
   GtkWidget *date_modified_w;
+  GtkWidget *dimensions_w = NULL;
   GtkWidget *exposure_time_w = NULL;
   GtkWidget *flash_w = NULL;
   GtkWidget *fnumber_w = NULL;
   GtkWidget *focal_length_w = NULL;
-  GtkWidget *height_w = NULL;
   GtkWidget *iso_speed_w = NULL;
   GtkWidget *item_type;
   GtkWidget *item_type_data;
   GtkWidget *source;
   GtkWidget *source_data;
   GtkWidget *title;
-  GtkWidget *width_w = NULL;
   GQuark equipment;
   GQuark flash;
   PhotosBaseItem *item;
@@ -277,24 +276,15 @@ photos_properties_dialog_constructed (GObject *object)
   gtk_style_context_add_class (context, "dim-label");
   gtk_container_add (GTK_CONTAINER (self->grid), item_type);
 
-  width = photos_base_item_get_width (item);
-  if (width > 0)
-    {
-      width_w = gtk_label_new (_("Width"));
-      gtk_widget_set_halign (width_w, GTK_ALIGN_END);
-      context = gtk_widget_get_style_context (width_w);
-      gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (self->grid), width_w);
-    }
-
   height = photos_base_item_get_height (item);
-  if (height > 0)
+  width = photos_base_item_get_width (item);
+  if (height > 0 && width > 0)
     {
-      height_w = gtk_label_new (_("Height"));
-      gtk_widget_set_halign (height_w, GTK_ALIGN_END);
-      context = gtk_widget_get_style_context (height_w);
+      dimensions_w = gtk_label_new (_("Dimensions"));
+      gtk_widget_set_halign (dimensions_w, GTK_ALIGN_END);
+      context = gtk_widget_get_style_context (dimensions_w);
       gtk_style_context_add_class (context, "dim-label");
-      gtk_container_add (GTK_CONTAINER (self->grid), height_w);
+      gtk_container_add (GTK_CONTAINER (self->grid), dimensions_w);
     }
 
   equipment = photos_base_item_get_equipment (item);
@@ -417,28 +407,16 @@ photos_properties_dialog_constructed (GObject *object)
   gtk_widget_set_halign (item_type_data, GTK_ALIGN_START);
   gtk_grid_attach_next_to (GTK_GRID (self->grid), item_type_data, item_type, GTK_POS_RIGHT, 2, 1);
 
-  if (width_w != NULL)
+  if (dimensions_w != NULL)
     {
-      GtkWidget *width_data;
-      gchar *width_str;
+      GtkWidget *dims_data;
+      gchar *dims_str;
 
-      width_str = g_strdup_printf ("%"G_GINT64_FORMAT" pixels", width);
-      width_data = gtk_label_new (width_str);
-      gtk_widget_set_halign (width_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (self->grid), width_data, width_w, GTK_POS_RIGHT, 2, 1);
-      g_free (width_str);
-    }
-
-  if (height_w != NULL)
-    {
-      GtkWidget *height_data;
-      gchar *height_str;
-
-      height_str = g_strdup_printf ("%"G_GINT64_FORMAT" pixels", height);
-      height_data = gtk_label_new (height_str);
-      gtk_widget_set_halign (height_data, GTK_ALIGN_START);
-      gtk_grid_attach_next_to (GTK_GRID (self->grid), height_data, height_w, GTK_POS_RIGHT, 2, 1);
-      g_free (height_str);
+      dims_str = g_strdup_printf ("%" G_GINT64_FORMAT " × %" G_GINT64_FORMAT " pixels", width, height);
+      dims_data = gtk_label_new (dims_str);
+      gtk_widget_set_halign (dims_data, GTK_ALIGN_START);
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), dims_data, dimensions_w, GTK_POS_RIGHT, 2, 1);
+      g_free (dims_str);
     }
 
   if (exposure_time_w != NULL)
