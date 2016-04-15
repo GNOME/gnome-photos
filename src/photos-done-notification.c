@@ -121,7 +121,7 @@ photos_done_notification_edit_undo_process (GObject *source_object, GAsyncResult
 
   app = g_application_get_default ();
 
-  if (!photos_base_item_process_finish (item, res, &error))
+  if (!photos_base_item_operations_revert_finish (item, res, &error))
     {
       g_warning ("Unable to process item: %s", error->message);
       g_error_free (error);
@@ -147,15 +147,13 @@ photos_done_notification_undo_clicked (PhotosDoneNotification *self)
 {
   GApplication *app;
 
-  photos_base_item_operations_revert (self->item);
-
   app = g_application_get_default ();
   g_application_hold (app);
 
-  photos_base_item_process_async (self->item,
-                                  NULL,
-                                  photos_done_notification_edit_undo_process,
-                                  g_object_ref (self));
+  photos_base_item_operations_revert_async (self->item,
+                                            NULL,
+                                            photos_done_notification_edit_undo_process,
+                                            g_object_ref (self));
 
   photos_done_notification_destroy (self);
 }

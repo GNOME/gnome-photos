@@ -893,7 +893,7 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
   gfloat zoom;
   guint active;
 
-  photos_base_item_process_finish (item, res, &error);
+  photos_base_item_operation_remove_finish (item, res, &error);
   if (error != NULL)
     {
       if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
@@ -976,8 +976,11 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageVi
       self->crop_x = x;
       self->crop_y = y;
 
-      photos_base_item_operation_remove (item, "gegl:crop");
-      photos_base_item_process_async (item, self->cancellable, photos_tool_crop_process, self);
+      photos_base_item_operation_remove_async (item,
+                                               "gegl:crop",
+                                               self->cancellable,
+                                               photos_tool_crop_process,
+                                               self);
     }
   else
     {

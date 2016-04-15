@@ -929,6 +929,66 @@ photos_base_item_process_idle (gpointer user_data)
 }
 
 
+static void
+photos_base_item_process_async (PhotosBaseItem *self,
+                                GCancellable *cancellable,
+                                GAsyncReadyCallback callback,
+                                gpointer user_data)
+{
+  PhotosBaseItemPrivate *priv;
+  GTask *task;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = self->priv;
+
+  g_return_if_fail (!priv->collection);
+
+  g_clear_object (&priv->processor);
+  priv->processor = photos_pipeline_new_processor (priv->pipeline);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_process_async);
+  g_task_set_task_data (task, g_object_ref (priv->processor), g_object_unref);
+
+  g_idle_add_full (G_PRIORITY_DEFAULT_IDLE, photos_base_item_process_idle, g_object_ref (task), g_object_unref);
+  g_object_unref (task);
+}
+
+
+static gboolean
+photos_base_item_process_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_process_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
+}
+
+
+static void
+photos_base_item_common_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GTask *task = G_TASK (user_data);
+  GError *error = NULL;
+
+  if (!photos_base_item_process_finish (self, res, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_boolean (task, TRUE);
+
+ out:
+  g_object_unref (task);
+}
+
+
 static GeglBuffer *
 photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
@@ -2371,9 +2431,16 @@ photos_base_item_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestam
 
 
 void
-photos_base_item_operation_add (PhotosBaseItem *self, const gchar *operation, const gchar *first_property_name, ...)
+photos_base_item_operation_add_async (PhotosBaseItem *self,
+                                      GCancellable *cancellable,
+                                      GAsyncReadyCallback callback,
+                                      gpointer user_data,
+                                      const gchar *operation,
+                                      const gchar *first_property_name,
+                                      ...)
 {
   PhotosBaseItemPrivate *priv;
+  GTask *task;
   va_list ap;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
@@ -2384,6 +2451,27 @@ photos_base_item_operation_add (PhotosBaseItem *self, const gchar *operation, co
   va_start (ap, first_property_name);
   photos_pipeline_add (priv->pipeline, operation, first_property_name, ap);
   va_end (ap);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_operation_add_async);
+
+  photos_base_item_process_async (self, cancellable, photos_base_item_common_process, g_object_ref (task));
+
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_operation_add_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_operation_add_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 
@@ -2407,24 +2495,59 @@ photos_base_item_operation_get (PhotosBaseItem *self, const gchar *operation, co
 }
 
 
-gboolean
-photos_base_item_operation_remove (PhotosBaseItem *self, const gchar *operation)
+void
+photos_base_item_operation_remove_async (PhotosBaseItem *self,
+                                         const gchar *operation,
+                                         GCancellable *cancellable,
+                                         GAsyncReadyCallback callback,
+                                         gpointer user_data)
 {
   PhotosBaseItemPrivate *priv;
+  GTask *task;
 
-  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
 
-  g_return_val_if_fail (!priv->collection, FALSE);
+  g_return_if_fail (!priv->collection);
 
-  return photos_pipeline_remove (priv->pipeline, operation);
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_operation_remove_async);
+
+  if (!photos_pipeline_remove (priv->pipeline, operation))
+    {
+      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to find a GeglNode for %s", operation);
+      goto out;
+    }
+
+  photos_base_item_process_async (self, cancellable, photos_base_item_common_process, g_object_ref (task));
+
+ out:
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_operation_remove_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_operation_remove_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 
 void
-photos_base_item_operations_revert (PhotosBaseItem *self)
+photos_base_item_operations_revert_async (PhotosBaseItem *self,
+                                          GCancellable *cancellable,
+                                          GAsyncReadyCallback callback,
+                                          gpointer user_data)
 {
   PhotosBaseItemPrivate *priv;
+  GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = self->priv;
@@ -2432,6 +2555,27 @@ photos_base_item_operations_revert (PhotosBaseItem *self)
   g_return_if_fail (!priv->collection);
 
   photos_pipeline_revert (priv->pipeline);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_operations_revert_async);
+
+  photos_base_item_process_async (self, cancellable, photos_base_item_common_process, g_object_ref (task));
+
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_operations_revert_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_operations_revert_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 
@@ -2499,46 +2643,6 @@ photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
   g_return_if_fail (!self->priv->collection);
 
   photos_base_item_load_async (self, NULL, photos_base_item_print_load, g_object_ref (toplevel));
-}
-
-
-void
-photos_base_item_process_async (PhotosBaseItem *self,
-                                GCancellable *cancellable,
-                                GAsyncReadyCallback callback,
-                                gpointer user_data)
-{
-  PhotosBaseItemPrivate *priv;
-  GTask *task;
-
-  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
-
-  g_return_if_fail (!priv->collection);
-
-  g_clear_object (&priv->processor);
-  priv->processor = photos_pipeline_new_processor (priv->pipeline);
-
-  task = g_task_new (self, cancellable, callback, user_data);
-  g_task_set_source_tag (task, photos_base_item_process_async);
-  g_task_set_task_data (task, g_object_ref (priv->processor), g_object_unref);
-
-  g_idle_add_full (G_PRIORITY_DEFAULT_IDLE, photos_base_item_process_idle, g_object_ref (task), g_object_unref);
-  g_object_unref (task);
-}
-
-
-gboolean
-photos_base_item_process_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
-{
-  GTask *task = G_TASK (res);
-
-  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
-  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_process_async, FALSE);
-  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
-
-  return g_task_propagate_boolean (task, error);
 }
 
 

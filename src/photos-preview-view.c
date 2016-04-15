@@ -276,7 +276,7 @@ photos_preview_view_process (GObject *source_object, GAsyncResult *res, gpointer
   GError *error = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
-  photos_base_item_process_finish (item, res, &error);
+  photos_base_item_operation_add_finish (item, res, &error);
   if (error != NULL)
     {
       if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
@@ -323,12 +323,14 @@ photos_preview_view_brightness_contrast (PhotosPreviewView *self, GVariant *para
   g_return_if_fail (brightness > -G_MAXDOUBLE);
   g_return_if_fail (contrast > -G_MAXDOUBLE);
 
-  photos_base_item_operation_add (item,
-                                  "gegl:brightness-contrast",
-                                  "brightness", brightness,
-                                  "contrast", contrast,
-                                  NULL);
-  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
+  photos_base_item_operation_add_async (item,
+                                        self->cancellable,
+                                        photos_preview_view_process,
+                                        self,
+                                        "gegl:brightness-contrast",
+                                        "brightness", brightness,
+                                        "contrast", contrast,
+                                        NULL);
 }
 
 
@@ -366,8 +368,16 @@ photos_preview_view_crop (PhotosPreviewView *self, GVariant *parameter)
   g_return_if_fail (x >= 0.0);
   g_return_if_fail (y >= 0.0);
 
-  photos_base_item_operation_add (item, "gegl:crop", "height", height, "width", width, "x", x, "y", y, NULL);
-  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
+  photos_base_item_operation_add_async (item,
+                                        self->cancellable,
+                                        photos_preview_view_process,
+                                        self,
+                                        "gegl:crop",
+                                        "height", height,
+                                        "width", width,
+                                        "x", x,
+                                        "y", y,
+                                        NULL);
 }
 
 
@@ -382,8 +392,13 @@ photos_preview_view_denoise (PhotosPreviewView *self, GVariant *parameter)
     return;
 
   iterations = g_variant_get_uint16 (parameter);
-  photos_base_item_operation_add (item, "gegl:noise-reduction", "iterations", (gint) iterations, NULL);
-  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
+  photos_base_item_operation_add_async (item,
+                                        self->cancellable,
+                                        photos_preview_view_process,
+                                        self,
+                                        "gegl:noise-reduction",
+                                        "iterations", (gint) iterations,
+                                        NULL);
 }
 
 
@@ -410,8 +425,13 @@ photos_preview_view_insta (PhotosPreviewView *self, GVariant *parameter)
     return;
 
   preset = (PhotosOperationInstaPreset) g_variant_get_int16 (parameter);
-  photos_base_item_operation_add (item, "photos:insta-filter", "preset", preset, NULL);
-  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
+  photos_base_item_operation_add_async (item,
+                                        self->cancellable,
+                                        photos_preview_view_process,
+                                        self,
+                                        "photos:insta-filter",
+                                        "preset", preset,
+                                        NULL);
 }
 
 
@@ -426,8 +446,13 @@ photos_preview_view_saturation (PhotosPreviewView *self, GVariant *parameter)
     return;
 
   scale = g_variant_get_double (parameter);
-  photos_base_item_operation_add (item, "photos:saturation", "scale", scale, NULL);
-  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
+  photos_base_item_operation_add_async (item,
+                                        self->cancellable,
+                                        photos_preview_view_process,
+                                        self,
+                                        "photos:saturation",
+                                        "scale", scale,
+                                        NULL);
 }
 
 
@@ -442,8 +467,13 @@ photos_preview_view_sharpen (PhotosPreviewView *self, GVariant *parameter)
     return;
 
   scale = g_variant_get_double (parameter);
-  photos_base_item_operation_add (item, "gegl:unsharp-mask", "scale", scale, NULL);
-  photos_base_item_process_async (item, self->cancellable, photos_preview_view_process, self);
+  photos_base_item_operation_add_async (item,
+                                        self->cancellable,
+                                        photos_preview_view_process,
+                                        self,
+                                        "gegl:unsharp-mask",
+                                        "scale", scale,
+                                        NULL);
 }
 
 
