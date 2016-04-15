@@ -213,6 +213,8 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, urn));
 
+      show_collection = show_collection && !photos_base_item_is_collection (item);
+
       if (photos_base_item_is_favorite (item))
         fav_count++;
 
