@@ -24,8 +24,8 @@ struct _PhotosGeglImage
   guchar *buf;
   const Babl *format;
   GeglRectangle roi;
-  int stride;
   int scale_factor;
+  gboolean need_blit;
 };
 
 struct _PhotosGeglImageClass

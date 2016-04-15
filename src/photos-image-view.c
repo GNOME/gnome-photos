@@ -247,7 +247,7 @@ photos_image_view_new (void)
 {
   return g_object_new (PHOTOS_TYPE_IMAGE_VIEW,
                        "fit-allocation", TRUE,
-                       /*"zoomable", FALSE,*/
+                       "zoomable", FALSE,
                        "rotatable", FALSE,
                        NULL);
 }
