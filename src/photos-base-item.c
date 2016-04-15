@@ -2200,7 +2200,7 @@ gboolean
 photos_base_item_is_favorite (PhotosBaseItem *self)
 {
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  return self->priv->favorite;
+  return !self->priv->collection && self->priv->favorite;
 }
 
 
@@ -2655,6 +2655,7 @@ void
 photos_base_item_set_favorite (PhotosBaseItem *self, gboolean favorite)
 {
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  g_return_if_fail (!self->priv->collection);
   PHOTOS_BASE_ITEM_GET_CLASS (self)->set_favorite (self, favorite);
 }
 
