@@ -29,6 +29,7 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 
+#include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-done-notification.h"
 #include "photos-image-view.h"
@@ -498,7 +499,7 @@ photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
 static void
 photos_preview_view_edit_done_pipeline_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
+  PhotosPreviewView *self;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   GApplication *app;
   GError *error;
@@ -506,19 +507,23 @@ photos_preview_view_edit_done_pipeline_save (GObject *source_object, GAsyncResul
   error = NULL;
   if (!photos_base_item_pipeline_save_finish (item, res, &error))
     {
-      g_warning ("Unable to save pipeline: %s", error->message);
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to save pipeline: Unexpected destruction of PhotosPreviewView");
+      else
+        g_warning ("Unable to save pipeline: %s", error->message);
+
       g_error_free (error);
       goto out;
     }
 
+  self = PHOTOS_PREVIEW_VIEW (user_data);
   photos_mode_controller_go_back (self->mode_cntrlr);
 
   photos_done_notification_new (item);
 
  out:
   app = g_application_get_default ();
-  g_application_release (G_APPLICATION (app));
-  g_object_unref (self);
+  photos_application_release (PHOTOS_APPLICATION (app));
 }
 
 
@@ -534,12 +539,12 @@ photos_preview_view_edit_done (PhotosPreviewView *self)
   photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (self->palette));
 
   app = g_application_get_default ();
-  g_application_hold (app);
+  photos_application_hold (PHOTOS_APPLICATION (app));
 
   photos_base_item_pipeline_save_async (item,
-                                        NULL,
+                                        self->cancellable,
                                         photos_preview_view_edit_done_pipeline_save,
-                                        g_object_ref (self));
+                                        self);
 }
 
 
