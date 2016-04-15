@@ -42,24 +42,12 @@ photos_gegl_image_render_surface (PhotosGeglImage *image)
     /*{*/
       image->surface = cairo_image_surface_create_for_data (image->buf,
                                                             CAIRO_FORMAT_ARGB32,
-                                                            image->width,
-                                                            image->height,
+                                                            image->width * image->view_scale,
+                                                            image->height * image->view_scale,
                                                             image->stride);
     /*}*/
 
   g_signal_emit_by_name (G_OBJECT (image), "changed", 0);
-}
-
-static void
-photos_gegl_image_draw (GtkAbstractImage *_image, cairo_t *ct)
-{
-  PhotosGeglImage *image = PHOTOS_GEGL_IMAGE (_image);
-
-  if (image->surface)
-    {
-      cairo_scale (ct, 1.0 / image->view_scale, 1.0 / image->view_scale);
-      cairo_set_source_surface (ct, image->surface, 0, 0);
-    }
 }
 
 static void
@@ -84,18 +72,33 @@ photos_gegl_image_update_bbox (PhotosGeglImage *image)
       image->width  = box.width;
       image->height = box.height;
 
-      image->roi.x = box.x * image->view_scale;
-      image->roi.y = box.y * image->view_scale;
-      image->roi.width  = box.width  * image->scale_factor * image->view_scale;
-      image->roi.height = box.height * image->scale_factor * image->view_scale;
+      image->roi.x      = box.x;
+      image->roi.y      = box.y;
+      image->roi.width  = box.width  /* image->scale_factor */* image->view_scale;
+      image->roi.height = box.height /* image->scale_factor */* image->view_scale;
 
-      image->stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32, image->roi.width);
+
+
+      image->stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32,
+                                                     box.width * image->view_scale);
 
       g_clear_pointer (&image->buf, g_free);
       g_clear_pointer (&image->buf, cairo_surface_destroy);
 
-      image->buf = g_malloc (image->stride * image->roi.height * image->view_scale);
+      image->buf = g_malloc (image->stride * box.height); /* stride is already scaled */
     /*}*/
+}
+
+static void
+photos_gegl_image_draw (GtkAbstractImage *_image, cairo_t *ct)
+{
+  PhotosGeglImage *image = PHOTOS_GEGL_IMAGE (_image);
+
+  if (image->surface)
+    {
+      cairo_scale (ct, 1.0 / image->view_scale, 1.0 / image->view_scale);
+      cairo_set_source_surface (ct, image->surface, 0, 0);
+    }
 }
 
 static void
@@ -160,6 +163,10 @@ photos_gegl_image_class_init (PhotosGeglImageClass *klass)
 void
 photos_gegl_image_set_view_scale (PhotosGeglImage *image, double view_scale)
 {
+  if (view_scale == image->view_scale)
+    return;
+
   image->view_scale = view_scale;
+
   photos_gegl_image_render_surface (image);
 }
