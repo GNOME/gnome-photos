@@ -111,11 +111,11 @@ photos_image_view_get_property (GObject *object, guint prop_id, GValue *value, G
       break;
 
     case PROP_X:
-      g_value_set_float (value, 0);
+      g_value_set_double (value, 0);
       break;
 
     case PROP_Y:
-      g_value_set_float (value, 0);
+      g_value_set_double (value, 0);
       break;
 
     case PROP_ZOOM:
@@ -247,7 +247,7 @@ photos_image_view_new (void)
 {
   return g_object_new (PHOTOS_TYPE_IMAGE_VIEW,
                        "fit-allocation", TRUE,
-                       "zoomable", FALSE,
+                       /*"zoomable", FALSE,*/
                        "rotatable", FALSE,
                        NULL);
 }

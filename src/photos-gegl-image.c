@@ -25,16 +25,16 @@ photos_gegl_image_get_scale_factor (GtkAbstractImage *_image)
 static void
 photos_gegl_image_update_bbox (PhotosGeglImage *image, gboolean scale_changed)
 {
-  GeglRectangle box    = gegl_node_get_bounding_box (image->node);
-  gboolean roi_changed = !gegl_rectangle_equal (&image->roi, &box);
+  GeglRectangle box         = gegl_node_get_bounding_box (image->node);
+  gboolean roi_size_changed = (box.width != image->width || box.height != image->height);
 
-  if (roi_changed || scale_changed)
+  image->roi = box;
+
+  if (roi_size_changed || scale_changed)
     {
       int stride;
       image->width  = box.width;
       image->height = box.height;
-
-      image->roi = box;
 
       stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32,
                                               box.width * image->view_scale);
@@ -149,7 +149,6 @@ photos_gegl_image_class_init (PhotosGeglImageClass *klass)
 void
 photos_gegl_image_set_view_scale (PhotosGeglImage *image, double view_scale)
 {
-  g_message ("New scale: %f, old scale: %f", view_scale, image->view_scale);
   if (view_scale == image->view_scale)
     return;
 
