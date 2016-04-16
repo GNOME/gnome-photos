@@ -94,7 +94,7 @@ static void
 photos_search_type_manager_init (PhotosSearchTypeManager *self)
 {
   PhotosSearchType *search_type;
-  const gchar *item_filter;
+  gchar *item_filter;
   gchar *all_filter;
   gchar *col_filter;
   gchar *fav_filter;
@@ -143,6 +143,7 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
 
   photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SEARCH_TYPE_STOCK_PHOTOS);
 
+  g_free (item_filter);
   g_free (all_filter);
   g_free (col_filter);
   g_free (fav_filter);
