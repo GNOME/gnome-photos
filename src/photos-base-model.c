@@ -112,6 +112,7 @@ photos_base_model_refresh (PhotosBaseModel *self)
       g_menu_append_item (section, menu_item);
 
       g_free (name);
+      g_object_unref (menu_item);
     }
 
   g_object_unref (section);
