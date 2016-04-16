@@ -111,11 +111,11 @@ photos_image_view_get_property (GObject *object, guint prop_id, GValue *value, G
       break;
 
     case PROP_X:
-      g_value_set_double (value, 0);
+      g_value_set_double (value, photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self)));
       break;
 
     case PROP_Y:
-      g_value_set_double (value, 0);
+      g_value_set_double (value, photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self)));
       break;
 
     case PROP_ZOOM:
