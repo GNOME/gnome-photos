@@ -280,7 +280,10 @@ photos_overview_searchbar_dispose (GObject *object)
   PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (object);
 
   g_clear_object (&self->src_mngr);
+  g_clear_object (&self->src_tag);
+  g_clear_object (&self->srch_typ_tag);
   g_clear_object (&self->srch_mtch_mngr);
+  g_clear_object (&self->srch_mtch_tag);
   g_clear_object (&self->srch_typ_mngr);
   g_clear_object (&self->srch_cntrlr);
 
