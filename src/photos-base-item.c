@@ -1440,6 +1440,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 {
   PhotosBaseItemPrivate *priv = self->priv;
   GTimeVal timeval;
+  gboolean favorite;
   const gchar *date_created;
   const gchar *equipment;
   const gchar *flash;
@@ -1455,7 +1456,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   priv->identifier = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL));
   priv->author = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_AUTHOR, NULL));
   priv->resource_urn = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_URN, NULL));
-  priv->favorite = tracker_sparql_cursor_get_boolean (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_FAVORITE);
+  favorite = tracker_sparql_cursor_get_boolean (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_FAVORITE);
 
   mtime = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MTIME, NULL);
   if (mtime != NULL)
@@ -1469,6 +1470,8 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   priv->mime_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL));
   priv->rdf_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL));
   photos_base_item_update_info_from_type (self);
+
+  priv->favorite = favorite && !priv->collection;
 
   date_created = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_DATE_CREATED, NULL);
   if (date_created != NULL)
@@ -2205,7 +2208,7 @@ gboolean
 photos_base_item_is_favorite (PhotosBaseItem *self)
 {
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  return !self->priv->collection && self->priv->favorite;
+  return self->priv->favorite;
 }
 
 
