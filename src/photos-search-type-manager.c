@@ -97,7 +97,6 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   gchar *item_filter;
   gchar *all_filter;
   gchar *col_filter;
-  gchar *fav_filter;
   gchar *gif_filter;
 
   gif_filter = g_strdup ("nie:mimeType(?urn) != 'image/gif'");
@@ -108,7 +107,6 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
                                 "     || (?urn = nfo:image-category-screenshot)))",
                                 PHOTOS_QUERY_COLLECTIONS_IDENTIFIER);
   all_filter = g_strdup_printf ("(%s || %s)", col_filter, item_filter);
-  fav_filter = g_strdup_printf ("(%s || %s)", col_filter, item_filter);
 
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_ALL,
                                              _("All"),
@@ -128,9 +126,8 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
 
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_FAVORITES,
                                              _("Favorites"),
-                                             "?urn a rdfs:Resource; nao:hasTag nao:predefined-tag-favorite. "
-                                             "OPTIONAL {?item a nie:InformationElement; nie:isPartOf ?urn}",
-                                             fav_filter);
+                                             "?urn a nmm:Photo; nao:hasTag nao:predefined-tag-favorite. ",
+                                             gif_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
 
@@ -146,7 +143,6 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   g_free (item_filter);
   g_free (all_filter);
   g_free (col_filter);
-  g_free (fav_filter);
   g_free (gif_filter);
 }
 
