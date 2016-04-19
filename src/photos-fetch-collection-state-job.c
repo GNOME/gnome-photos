@@ -58,36 +58,6 @@ struct _PhotosFetchCollectionStateJobClass
 G_DEFINE_TYPE (PhotosFetchCollectionStateJob, photos_fetch_collection_state_job, G_TYPE_OBJECT);
 
 
-typedef struct _PhotosFetchCollectionStateJobData PhotosFetchCollectionStateJobData;
-
-struct _PhotosFetchCollectionStateJobData
-{
-  PhotosFetchCollectionStateJob *job;
-  gchar *urn;
-};
-
-
-static void
-photos_fetch_collection_state_job_data_free (PhotosFetchCollectionStateJobData *data)
-{
-  g_object_unref (data->job);
-  g_free (data->urn);
-  g_slice_free (PhotosFetchCollectionStateJobData, data);
-}
-
-
-static PhotosFetchCollectionStateJobData *
-photos_fetch_collection_state_job_data_new (PhotosFetchCollectionStateJob *job, const gchar *urn)
-{
-  PhotosFetchCollectionStateJobData *data;
-
-  data = g_slice_new0 (PhotosFetchCollectionStateJobData);
-  data->job = g_object_ref (job);
-  data->urn = g_strdup (urn);
-  return data;
-}
-
-
 static void
 photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *self)
 {
@@ -171,12 +141,11 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
 static void
 photos_fetch_collection_state_job_job_collector (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosFetchCollectionStateJobData *data = user_data;
-  PhotosFetchCollectionStateJob *self = data->job;
+  PhotosFetchCollectionStateJob *self = PHOTOS_FETCH_COLLECTION_STATE_JOB (user_data);
   GError *error = NULL;
   GList *collections_for_item;
   PhotosFetchCollectionsJob *job = PHOTOS_FETCH_COLLECTIONS_JOB (source_object);
-  const gchar *urn = data->urn;
+  const gchar *urn;
 
   collections_for_item = photos_fetch_collections_job_finish (job, res, &error);
   if (error != NULL)
@@ -185,6 +154,7 @@ photos_fetch_collection_state_job_job_collector (GObject *source_object, GAsyncR
       g_error_free (error);
     }
 
+  urn = photos_fetch_collections_job_get_urn (job);
   g_hash_table_insert (self->collections_for_items,
                        g_strdup (urn),
                        g_list_copy_deep (collections_for_item, (GCopyFunc) g_strdup, NULL));
@@ -193,7 +163,7 @@ photos_fetch_collection_state_job_job_collector (GObject *source_object, GAsyncR
   if (self->running_jobs == 0)
     photos_fetch_collection_state_job_emit_callback (self);
 
-  photos_fetch_collection_state_job_data_free (data);
+  g_object_unref (self);
 }
 
 
@@ -277,14 +247,15 @@ photos_fetch_collection_state_job_run (PhotosFetchCollectionStateJob *self,
   urns = photos_selection_controller_get_selection (self->sel_cntrlr);
   for (l = urns; l != NULL; l = l->next)
     {
-      PhotosFetchCollectionStateJobData *data;
       PhotosFetchCollectionsJob *job;
       const gchar *urn = (gchar *) l->data;
 
       self->running_jobs++;
       job = photos_fetch_collections_job_new (urn);
-      data = photos_fetch_collection_state_job_data_new (self, urn);
-      photos_fetch_collections_job_run (job, NULL, photos_fetch_collection_state_job_job_collector, data);
+      photos_fetch_collections_job_run (job,
+                                        NULL,
+                                        photos_fetch_collection_state_job_job_collector,
+                                        g_object_ref (self));
       g_object_unref (job);
     }
 }
