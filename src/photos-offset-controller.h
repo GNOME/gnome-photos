@@ -60,7 +60,6 @@ typedef struct _PhotosOffsetControllerPrivate PhotosOffsetControllerPrivate;
 struct _PhotosOffsetController
 {
   GObject parent_instance;
-  PhotosOffsetControllerPrivate *priv;
 };
 
 struct _PhotosOffsetControllerClass

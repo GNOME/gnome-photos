@@ -83,7 +83,7 @@ photos_offset_controller_cursor_next (GObject *source_object, GAsyncResult *res,
     }
 
   self = PHOTOS_OFFSET_CONTROLLER (user_data);
-  priv = self->priv;
+  priv = photos_offset_controller_get_instance_private (self);
 
   if (success)
     {
@@ -100,9 +100,12 @@ static void
 photos_offset_controller_reset_count_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosOffsetController *self = PHOTOS_OFFSET_CONTROLLER (user_data);
+  PhotosOffsetControllerPrivate *priv;
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   TrackerSparqlCursor *cursor;
   GError *error;
+
+  priv = photos_offset_controller_get_instance_private (self);
 
   error = NULL;
   cursor = tracker_sparql_connection_query_finish (connection, res, &error);
@@ -113,7 +116,7 @@ photos_offset_controller_reset_count_query_executed (GObject *source_object, GAs
     }
 
   tracker_sparql_cursor_next_async (cursor,
-                                    self->priv->cancellable,
+                                    priv->cancellable,
                                     photos_offset_controller_cursor_next,
                                     self);
   g_object_unref (cursor);
@@ -124,14 +127,17 @@ static void
 photos_offset_controller_dispose (GObject *object)
 {
   PhotosOffsetController *self = PHOTOS_OFFSET_CONTROLLER (object);
+  PhotosOffsetControllerPrivate *priv;
 
-  if (self->priv->cancellable != NULL)
+  priv = photos_offset_controller_get_instance_private (self);
+
+  if (priv->cancellable != NULL)
     {
-      g_cancellable_cancel (self->priv->cancellable);
-      g_clear_object (&self->priv->cancellable);
+      g_cancellable_cancel (priv->cancellable);
+      g_clear_object (&priv->cancellable);
     }
 
-  g_clear_object (&self->priv->queue);
+  g_clear_object (&priv->queue);
 
   G_OBJECT_CLASS (photos_offset_controller_parent_class)->dispose (object);
 }
@@ -142,8 +148,7 @@ photos_offset_controller_init (PhotosOffsetController *self)
 {
   PhotosOffsetControllerPrivate *priv;
 
-  self->priv = photos_offset_controller_get_instance_private (self);
-  priv = self->priv;
+  priv = photos_offset_controller_get_instance_private (self);
 
   priv->cancellable = g_cancellable_new ();
   priv->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
@@ -193,21 +198,29 @@ photos_offset_controller_new (void)
 gint
 photos_offset_controller_get_count (PhotosOffsetController *self)
 {
-  return self->priv->count;
+  PhotosOffsetControllerPrivate *priv;
+
+  priv = photos_offset_controller_get_instance_private (self);
+  return priv->count;
 }
 
 
 gint
 photos_offset_controller_get_offset (PhotosOffsetController *self)
 {
-  return self->priv->offset;
+  PhotosOffsetControllerPrivate *priv;
+
+  priv = photos_offset_controller_get_instance_private (self);
+  return priv->offset;
 }
 
 
 gint
 photos_offset_controller_get_remaining (PhotosOffsetController *self)
 {
-  PhotosOffsetControllerPrivate *priv = self->priv;
+  PhotosOffsetControllerPrivate *priv;
+
+  priv = photos_offset_controller_get_instance_private (self);
   return priv->count - (priv->offset + OFFSET_STEP);
 }
 
@@ -222,8 +235,10 @@ photos_offset_controller_get_step (PhotosOffsetController *self)
 void
 photos_offset_controller_increase_offset (PhotosOffsetController *self)
 {
-  PhotosOffsetControllerPrivate *priv = self->priv;
+  PhotosOffsetControllerPrivate *priv;
   gint remaining;
+
+  priv = photos_offset_controller_get_instance_private (self);
 
   remaining = photos_offset_controller_get_remaining (self);
   if (remaining <= 0)
@@ -237,8 +252,10 @@ photos_offset_controller_increase_offset (PhotosOffsetController *self)
 void
 photos_offset_controller_reset_count (PhotosOffsetController *self)
 {
-  PhotosOffsetControllerPrivate *priv = self->priv;
+  PhotosOffsetControllerPrivate *priv;
   PhotosQuery *query;
+
+  priv = photos_offset_controller_get_instance_private (self);
 
   if (G_UNLIKELY (priv->queue == NULL))
     return;
@@ -259,5 +276,8 @@ photos_offset_controller_reset_count (PhotosOffsetController *self)
 void
 photos_offset_controller_reset_offset (PhotosOffsetController *self)
 {
-  self->priv->offset = 0;
+  PhotosOffsetControllerPrivate *priv;
+
+  priv = photos_offset_controller_get_instance_private (self);
+  priv->offset = 0;
 }
