@@ -223,6 +223,14 @@ photos_fetch_collections_job_finish (PhotosFetchCollectionsJob *self, GAsyncResu
 }
 
 
+const gchar *
+photos_fetch_collections_job_get_urn (PhotosFetchCollectionsJob *self)
+{
+  g_return_val_if_fail (PHOTOS_IS_FETCH_COLLECTIONS_JOB (self), NULL);
+  return self->urn;
+}
+
+
 void
 photos_fetch_collections_job_run (PhotosFetchCollectionsJob *self,
                                   GCancellable *cancellable,

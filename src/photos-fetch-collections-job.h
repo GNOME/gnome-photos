@@ -55,6 +55,8 @@ GList                     *photos_fetch_collections_job_finish      (PhotosFetch
                                                                      GAsyncResult *res,
                                                                      GError **error);
 
+const gchar               *photos_fetch_collections_job_get_urn     (PhotosFetchCollectionsJob *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_FETCH_COLLECTIONS_JOB_H */
