@@ -123,11 +123,8 @@ photos_gegl_image_finalize (GObject *_image)
 {
   PhotosGeglImage *image = PHOTOS_GEGL_IMAGE (_image);
 
-  if (image->surface)
-    cairo_surface_destroy (image->surface);
-
-  if (image->buf)
-    g_free (image->buf);
+  g_clear_pointer (&image->surface, cairo_surface_destroy);
+  g_clear_pointer (&image->buf, g_free);
 
   G_OBJECT_CLASS (photos_gegl_image_parent_class)->finalize (_image);
 }
