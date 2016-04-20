@@ -59,7 +59,11 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosSearchbar, photos_searchbar, GTK_TYPE_REVEALER
 static void
 photos_searchbar_change_state (PhotosSearchbar *self, GVariant *value)
 {
-  g_simple_action_set_state (G_SIMPLE_ACTION (self->priv->search), value);
+  PhotosSearchbarPrivate *priv;
+
+  priv = photos_searchbar_get_instance_private (self);
+
+  g_simple_action_set_state (G_SIMPLE_ACTION (priv->search), value);
 
   if (g_variant_get_boolean (value))
     photos_searchbar_show (self);
@@ -71,7 +75,9 @@ photos_searchbar_change_state (PhotosSearchbar *self, GVariant *value)
 static void
 photos_searchbar_default_hide (PhotosSearchbar *self)
 {
-  PhotosSearchbarPrivate *priv = self->priv;
+  PhotosSearchbarPrivate *priv;
+
+  priv = photos_searchbar_get_instance_private (self);
 
   priv->in = FALSE;
   gtk_revealer_set_reveal_child (GTK_REVEALER (self), FALSE);
@@ -84,8 +90,10 @@ photos_searchbar_default_hide (PhotosSearchbar *self)
 static void
 photos_searchbar_default_show (PhotosSearchbar *self)
 {
-  PhotosSearchbarPrivate *priv = self->priv;
+  PhotosSearchbarPrivate *priv;
   GdkDevice *event_device;
+
+  priv = photos_searchbar_get_instance_private (self);
 
   event_device = gtk_get_current_event_device ();
   gtk_revealer_set_reveal_child (GTK_REVEALER (self), TRUE);
@@ -99,10 +107,13 @@ photos_searchbar_default_show (PhotosSearchbar *self)
 static void
 photos_searchbar_enable_search (PhotosSearchbar *self, gboolean enable)
 {
+  PhotosSearchbarPrivate *priv;
   GVariant *state;
 
+  priv = photos_searchbar_get_instance_private (self);
+
   state = g_variant_new ("b", enable);
-  g_action_change_state (self->priv->search, state);
+  g_action_change_state (priv->search, state);
 }
 
 
@@ -152,14 +163,19 @@ photos_is_tab_event (PhotosSearchbar *self, GdkEventKey *event)
 static void
 photos_searchbar_preedit_changed (PhotosSearchbar *self, const gchar *preedit)
 {
-  self->priv->preedit_changed = TRUE;
+  PhotosSearchbarPrivate *priv;
+
+  priv = photos_searchbar_get_instance_private (self);
+  priv->preedit_changed = TRUE;
 }
 
 
 static void
 photos_searchbar_search_changed (PhotosSearchbar *self)
 {
-  PhotosSearchbarPrivate *priv = self->priv;
+  PhotosSearchbarPrivate *priv;
+
+  priv = photos_searchbar_get_instance_private (self);
 
   if (priv->search_change_blocked)
     return;
@@ -172,10 +188,12 @@ static void
 photos_searchbar_constructed (GObject *object)
 {
   PhotosSearchbar *self = PHOTOS_SEARCHBAR (object);
-  PhotosSearchbarPrivate *priv = self->priv;
+  PhotosSearchbarPrivate *priv;
   GApplication *app;
   GtkToolItem *item;
   GVariant *state;
+
+  priv = photos_searchbar_get_instance_private (self);
 
   G_OBJECT_CLASS (photos_searchbar_parent_class)->constructed (object);
 
@@ -215,7 +233,9 @@ static void
 photos_searchbar_dispose (GObject *object)
 {
   PhotosSearchbar *self = PHOTOS_SEARCHBAR (object);
-  PhotosSearchbarPrivate *priv = self->priv;
+  PhotosSearchbarPrivate *priv;
+
+  priv = photos_searchbar_get_instance_private (self);
 
   if (priv->search_state_id != 0)
     {
@@ -235,8 +255,7 @@ photos_searchbar_init (PhotosSearchbar *self)
   PhotosSearchbarPrivate *priv;
   GtkStyleContext *context;
 
-  self->priv = photos_searchbar_get_instance_private (self);
-  priv = self->priv;
+  priv = photos_searchbar_get_instance_private (self);
 
   priv->toolbar = gtk_toolbar_new ();
   context = gtk_widget_get_style_context (priv->toolbar);
@@ -277,7 +296,7 @@ photos_searchbar_new (void)
 gboolean
 photos_searchbar_handle_event (PhotosSearchbar *self, GdkEventKey *event)
 {
-  PhotosSearchbarPrivate *priv = self->priv;
+  PhotosSearchbarPrivate *priv;
   gboolean is_escape;
   gboolean is_keynav;
   gboolean is_space;
@@ -286,6 +305,8 @@ photos_searchbar_handle_event (PhotosSearchbar *self, GdkEventKey *event)
   gboolean ret_val = GDK_EVENT_PROPAGATE;
   gchar *new_text = NULL;
   gchar *old_text = NULL;
+
+  priv = photos_searchbar_get_instance_private (self);
 
   if (gtk_widget_get_parent (GTK_WIDGET (self)) == NULL)
     goto out;
@@ -367,28 +388,40 @@ photos_searchbar_hide (PhotosSearchbar *self)
 gboolean
 photos_searchbar_is_focus (PhotosSearchbar *self)
 {
-  return gtk_widget_is_focus (self->priv->search_entry);
+  PhotosSearchbarPrivate *priv;
+
+  priv = photos_searchbar_get_instance_private (self);
+  return gtk_widget_is_focus (priv->search_entry);
 }
 
 
 void
 photos_searchbar_set_search_change_blocked (PhotosSearchbar *self, gboolean search_change_blocked)
 {
-  self->priv->search_change_blocked = search_change_blocked;
+  PhotosSearchbarPrivate *priv;
+
+  priv = photos_searchbar_get_instance_private (self);
+  priv->search_change_blocked = search_change_blocked;
 }
 
 
 void
 photos_searchbar_set_search_container (PhotosSearchbar *self, GtkWidget *search_container)
 {
-  self->priv->search_container = search_container;
+  PhotosSearchbarPrivate *priv;
+
+  priv = photos_searchbar_get_instance_private (self);
+  priv->search_container = search_container;
 }
 
 
 void
 photos_searchbar_set_search_entry (PhotosSearchbar *self, GtkWidget *search_entry)
 {
-  self->priv->search_entry = search_entry;
+  PhotosSearchbarPrivate *priv;
+
+  priv = photos_searchbar_get_instance_private (self);
+  priv->search_entry = search_entry;
 }
 
 

@@ -58,7 +58,6 @@ typedef struct _PhotosSearchbarPrivate PhotosSearchbarPrivate;
 struct _PhotosSearchbar
 {
   GtkRevealer parent_instance;
-  PhotosSearchbarPrivate *priv;
 };
 
 struct _PhotosSearchbarClass
