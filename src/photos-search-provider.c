@@ -79,17 +79,29 @@ photos_search_provider_activate_result (PhotosSearchProvider *self,
 
 
 static void
-photos_search_provider_fetch_ids_executed (const gchar *const *ids, gpointer user_data)
+photos_search_provider_fetch_ids_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GApplication *app;
   GDBusMethodInvocation *invocation = G_DBUS_METHOD_INVOCATION (user_data);
+  PhotosFetchIdsJob *job = PHOTOS_FETCH_IDS_JOB (source_object);
+  GError *error = NULL;
   GVariant *parameters;
+  const gchar *const *ids;
 
   app = g_application_get_default ();
   g_application_release (app);
 
+  ids = photos_fetch_ids_job_finish (job, res, &error);
+  if (error != NULL)
+    {
+      g_dbus_method_invocation_take_error (invocation, error);
+      goto out;
+    }
+
   parameters = g_variant_new ("(^as)", ids);
   g_dbus_method_invocation_return_value (invocation, parameters);
+
+ out:
   g_object_unref (invocation);
 }
 

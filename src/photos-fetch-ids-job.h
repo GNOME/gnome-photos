@@ -50,10 +50,14 @@ GType                photos_fetch_ids_job_get_type          (void) G_GNUC_CONST;
 
 PhotosFetchIdsJob   *photos_fetch_ids_job_new               (const gchar *const *terms);
 
+const gchar *const  *photos_fetch_ids_job_finish            (PhotosFetchIdsJob *self,
+                                                             GAsyncResult *res,
+                                                             GError **error);
+
 void                 photos_fetch_ids_job_run               (PhotosFetchIdsJob *self,
                                                              PhotosSearchContextState *state,
                                                              GCancellable *cancellable,
-                                                             PhotosFetchIdsJobCallback callback,
+                                                             GAsyncReadyCallback callback,
                                                              gpointer user_data);
 
 G_END_DECLS
