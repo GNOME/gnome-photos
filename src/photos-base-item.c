@@ -81,7 +81,6 @@ struct _PhotosBaseItemPrivate
   gboolean collection;
   gboolean failed_thumbnailing;
   gboolean favorite;
-  const gchar *thumb_path;
   gchar *author;
   gchar *default_app_name;
   gchar *filename;
@@ -92,6 +91,7 @@ struct _PhotosBaseItemPrivate
   gchar *name_fallback;
   gchar *rdf_type;
   gchar *resource_urn;
+  gchar *thumb_path;
   gchar *type_description;
   gchar *uri;
   gdouble exposure_time;
@@ -610,7 +610,7 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
   if (pixbuf == NULL)
     {
       priv->failed_thumbnailing = TRUE;
-      priv->thumb_path = NULL;
+      g_clear_pointer (&priv->thumb_path, g_free);
       photos_base_item_set_failed_icon (self);
       goto out;
     }
@@ -663,7 +663,7 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
   if (stream == NULL)
     {
       priv->failed_thumbnailing = TRUE;
-      priv->thumb_path = NULL;
+      g_clear_pointer (&priv->thumb_path, g_free);
       photos_base_item_set_failed_icon (self);
       goto out;
     }
@@ -725,6 +725,8 @@ photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res,
   self = PHOTOS_BASE_ITEM (user_data);
   priv = self->priv;
 
+  g_clear_pointer (&priv->thumb_path, g_free);
+
   if (info == NULL)
     {
       priv->failed_thumbnailing = TRUE;
@@ -732,7 +734,7 @@ photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res,
       goto out;
     }
 
-  priv->thumb_path = g_file_info_get_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
+  priv->thumb_path = g_strdup (g_file_info_get_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH));
   if (priv->thumb_path != NULL)
     {
       photos_base_item_refresh_thumb_path (self);
@@ -811,6 +813,8 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
   self = PHOTOS_BASE_ITEM (user_data);
   priv = self->priv;
 
+  g_clear_pointer (&priv->thumb_path, g_free);
+
   if (info == NULL)
     {
       priv->failed_thumbnailing = TRUE;
@@ -818,7 +822,7 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
       goto out;
     }
 
-  priv->thumb_path = g_file_info_get_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
+  priv->thumb_path = g_strdup (g_file_info_get_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH));
   if (priv->thumb_path != NULL)
     photos_base_item_refresh_thumb_path (self);
   else
@@ -1607,6 +1611,7 @@ photos_base_item_finalize (GObject *object)
   g_free (priv->name_fallback);
   g_free (priv->rdf_type);
   g_free (priv->resource_urn);
+  g_free (priv->thumb_path);
   g_free (priv->type_description);
   g_free (priv->uri);
 
