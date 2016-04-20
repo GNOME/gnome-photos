@@ -79,7 +79,6 @@ photos_fetch_ids_job_cursor_next (GObject *source_object, GAsyncResult *res, gpo
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GError *error;
   gboolean success;
-  const gchar *id;
 
   error = NULL;
   success = tracker_sparql_cursor_next_finish (cursor, res, &error);
@@ -89,14 +88,17 @@ photos_fetch_ids_job_cursor_next (GObject *source_object, GAsyncResult *res, gpo
       g_error_free (error);
       goto end;
     }
-  if(!success)
-    goto end;
 
-  id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
-  g_ptr_array_add (self->ids, g_strdup (id));
+  if (success)
+    {
+      const gchar *id;
 
-  tracker_sparql_cursor_next_async (cursor, self->cancellable, photos_fetch_ids_job_cursor_next, self);
-  return;
+      id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+      g_ptr_array_add (self->ids, g_strdup (id));
+
+      tracker_sparql_cursor_next_async (cursor, self->cancellable, photos_fetch_ids_job_cursor_next, self);
+      return;
+    }
 
  end:
   photos_fetch_ids_job_emit_callback (self);
