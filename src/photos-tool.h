@@ -52,14 +52,12 @@ G_BEGIN_DECLS
   (G_TYPE_INSTANCE_GET_CLASS ((obj), \
    PHOTOS_TYPE_TOOL, PhotosToolClass))
 
-typedef struct _PhotosTool        PhotosTool;
-typedef struct _PhotosToolClass   PhotosToolClass;
-typedef struct _PhotosToolPrivate PhotosToolPrivate;
+typedef struct _PhotosTool      PhotosTool;
+typedef struct _PhotosToolClass PhotosToolClass;
 
 struct _PhotosTool
 {
   GObject parent_instance;
-  PhotosToolPrivate *priv;
 };
 
 struct _PhotosToolClass
