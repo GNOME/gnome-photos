@@ -141,9 +141,11 @@ get_scale_to_px_factor (PhotosPrintSetup *self)
     case GTK_UNIT_MM:
       factor = FACTOR_MM_TO_PIXEL;
       break;
+
     case GTK_UNIT_INCH:
       factor = FACTOR_INCH_TO_PIXEL;
       break;
+
     case GTK_UNIT_NONE:
     case GTK_UNIT_POINTS:
     default:
@@ -206,31 +208,30 @@ on_center_changed (GtkComboBox *combobox, gpointer user_data)
   switch (active)
     {
     case CENTER_HORIZONTAL:
-      photos_print_setup_center (gtk_page_setup_get_page_width (priv->page_setup,
-                                                                priv->current_unit),
+      photos_print_setup_center (gtk_page_setup_get_page_width (priv->page_setup, priv->current_unit),
                                  gtk_spin_button_get_value (GTK_SPIN_BUTTON (priv->width)),
                                  GTK_SPIN_BUTTON (priv->left),
                                  GTK_SPIN_BUTTON (priv->right));
       break;
+
     case CENTER_VERTICAL:
-      photos_print_setup_center (gtk_page_setup_get_page_height (priv->page_setup,
-                                                                 priv->current_unit),
+      photos_print_setup_center (gtk_page_setup_get_page_height (priv->page_setup, priv->current_unit),
                                  gtk_spin_button_get_value (GTK_SPIN_BUTTON (priv->height)),
                                  GTK_SPIN_BUTTON (priv->top),
                                  GTK_SPIN_BUTTON (priv->bottom));
       break;
+
     case CENTER_BOTH:
-      photos_print_setup_center (gtk_page_setup_get_page_width (priv->page_setup,
-                                                                priv->current_unit),
+      photos_print_setup_center (gtk_page_setup_get_page_width (priv->page_setup, priv->current_unit),
                                  gtk_spin_button_get_value (GTK_SPIN_BUTTON (priv->width)),
                                  GTK_SPIN_BUTTON (priv->left),
                                  GTK_SPIN_BUTTON (priv->right));
-      photos_print_setup_center (gtk_page_setup_get_page_height (priv->page_setup,
-                                                                 priv->current_unit),
+      photos_print_setup_center (gtk_page_setup_get_page_height (priv->page_setup, priv->current_unit),
                                  gtk_spin_button_get_value (GTK_SPIN_BUTTON (priv->height)),
                                  GTK_SPIN_BUTTON (priv->top),
                                  GTK_SPIN_BUTTON (priv->bottom));
       break;
+
     case CENTER_NONE:
     default:
       break;
@@ -241,24 +242,18 @@ on_center_changed (GtkComboBox *combobox, gpointer user_data)
 
 
 static void
-update_image_pos_ranges (PhotosPrintSetup *setup,
+update_image_pos_ranges (PhotosPrintSetup *self,
 			 gdouble page_width,
 			 gdouble page_height,
 			 gdouble width,
 			 gdouble height)
 {
-	PhotosPrintSetupPrivate *priv;
+  PhotosPrintSetupPrivate *priv = self->priv;
 
-	priv = setup->priv;
-
-	gtk_spin_button_set_range (GTK_SPIN_BUTTON (priv->left),
-				   0, page_width - width);
-	gtk_spin_button_set_range (GTK_SPIN_BUTTON (priv->right),
-				   0, page_width - width);
-	gtk_spin_button_set_range (GTK_SPIN_BUTTON (priv->top),
-				   0, page_height - height);
-	gtk_spin_button_set_range (GTK_SPIN_BUTTON (priv->bottom),
-				   0, page_height - height);
+  gtk_spin_button_set_range (GTK_SPIN_BUTTON (priv->left), 0, page_width - width);
+  gtk_spin_button_set_range (GTK_SPIN_BUTTON (priv->right), 0, page_width - width);
+  gtk_spin_button_set_range (GTK_SPIN_BUTTON (priv->top), 0, page_height - height);
+  gtk_spin_button_set_range (GTK_SPIN_BUTTON (priv->bottom), 0, page_height - height);
 }
 
 
@@ -342,12 +337,14 @@ photos_print_setup_position_values_changed (PhotosPrintSetup *self,
         pos *= FACTOR_MM_TO_INCH;
       photos_print_preview_set_image_position (PHOTOS_PRINT_PREVIEW (priv->preview), pos, -1);
       break;
+
     case CHANGE_VERT:
       pos = gtk_spin_button_get_value (GTK_SPIN_BUTTON (priv->top));
       if (priv->current_unit == GTK_UNIT_MM)
         pos *= FACTOR_MM_TO_INCH;
       photos_print_preview_set_image_position (PHOTOS_PRINT_PREVIEW (priv->preview), -1, pos);
       break;
+
     default:
       g_assert_not_reached ();
       break;
@@ -453,10 +450,12 @@ photos_print_setup_size_changed (PhotosPrintSetup *self,
       orig_size_x = (gdouble) bbox.width / factor;
       orig_size_y = (gdouble) bbox.height / factor;
       break;
+
     case CHANGE_VERT:
       orig_size_y = (gdouble) bbox.width / factor;
       orig_size_x = (gdouble) bbox.height / factor;
       break;
+
     default:
       g_assert_not_reached ();
       break;
@@ -476,9 +475,11 @@ photos_print_setup_size_changed (PhotosPrintSetup *self,
     case CHANGE_HORIZ:
       update_image_pos_ranges (self, page_size_x, page_size_y, size_x, size_y);
       break;
+
     case CHANGE_VERT:
       update_image_pos_ranges (self, page_size_y, page_size_x, size_y, size_x);
       break;
+
     default:
       g_assert_not_reached ();
       break;
@@ -494,68 +495,66 @@ photos_print_setup_size_changed (PhotosPrintSetup *self,
 }
 
 static void
-on_width_value_changed (GtkSpinButton *spinbutton,
-			gpointer       user_data)
+on_width_value_changed (GtkSpinButton *spinbutton, gpointer user_data)
 {
-	PhotosPrintSetupPrivate *priv = PHOTOS_PRINT_SETUP (user_data)->priv;
+  PhotosPrintSetup *self = PHOTOS_PRINT_SETUP (user_data);
+  PhotosPrintSetupPrivate *priv = self->priv;
 
-	photos_print_setup_size_changed (PHOTOS_PRINT_SETUP (user_data),
-                                         priv->width, priv->height,
-                                         priv->left, priv->right,
-                                         priv->top, priv->bottom,
-                                         gtk_page_setup_get_page_width (priv->page_setup,
-                                                                        priv->current_unit),
-                                         gtk_page_setup_get_page_height (priv->page_setup,
-                                                                         priv->current_unit),
-                                         CHANGE_HORIZ);
+  photos_print_setup_size_changed (self,
+                                   priv->width,
+                                   priv->height,
+                                   priv->left,
+                                   priv->right,
+                                   priv->top,
+                                   priv->bottom,
+                                   gtk_page_setup_get_page_width (priv->page_setup, priv->current_unit),
+                                   gtk_page_setup_get_page_height (priv->page_setup, priv->current_unit),
+                                   CHANGE_HORIZ);
 }
 
 
 static void
-on_height_value_changed (GtkSpinButton *spinbutton,
-			 gpointer       user_data)
+on_height_value_changed (GtkSpinButton *spinbutton, gpointer user_data)
 {
-	PhotosPrintSetupPrivate *priv = PHOTOS_PRINT_SETUP (user_data)->priv;
+  PhotosPrintSetup *self = PHOTOS_PRINT_SETUP (user_data);
+  PhotosPrintSetupPrivate *priv = self->priv;
 
-	photos_print_setup_size_changed (PHOTOS_PRINT_SETUP (user_data),
-                                         priv->height, priv->width,
-                                         priv->top, priv->bottom,
-                                         priv->left, priv->right,
-                                         gtk_page_setup_get_page_height (priv->page_setup,
-                                                                         priv->current_unit),
-                                         gtk_page_setup_get_page_width (priv->page_setup,
-                                                                        priv->current_unit),
-                                         CHANGE_VERT);
+  photos_print_setup_size_changed (self,
+                                   priv->height,
+                                   priv->width,
+                                   priv->top,
+                                   priv->bottom,
+                                   priv->left,
+                                   priv->right,
+                                   gtk_page_setup_get_page_height (priv->page_setup, priv->current_unit),
+                                   gtk_page_setup_get_page_width (priv->page_setup, priv->current_unit),
+                                   CHANGE_VERT);
 }
 
 
 static void
-change_unit (GtkSpinButton *spinbutton,
-	     gdouble factor,
-	     gint digits,
-	     gdouble step,
-	     gdouble page)
+change_unit (GtkSpinButton *spinbutton, gdouble factor, gint digits, gdouble step, gdouble page)
 {
-	gdouble value;
-	gdouble range;
+  gdouble value;
+  gdouble range;
 
-	gtk_spin_button_get_range (spinbutton, NULL, &range);
-	range *= factor;
+  gtk_spin_button_get_range (spinbutton, NULL, &range);
+  range *= factor;
 
-	value = gtk_spin_button_get_value (spinbutton);
-	value *= factor;
+  value = gtk_spin_button_get_value (spinbutton);
+  value *= factor;
 
-	gtk_spin_button_set_range (spinbutton, 0, range);
-	gtk_spin_button_set_value (spinbutton, value);
-	gtk_spin_button_set_digits (spinbutton, digits);
-	gtk_spin_button_set_increments  (spinbutton, step, page);
+  gtk_spin_button_set_range (spinbutton, 0, range);
+  gtk_spin_button_set_value (spinbutton, value);
+  gtk_spin_button_set_digits (spinbutton, digits);
+  gtk_spin_button_set_increments  (spinbutton, step, page);
 }
 
 
 static void
-photos_print_setup_set_scale_unit (PhotosPrintSetup *setup, GtkUnit unit)
+photos_print_setup_set_scale_unit (PhotosPrintSetup *self, GtkUnit unit)
 {
-  PhotosPrintSetupPrivate *priv = setup->priv;
+  PhotosPrintSetupPrivate *priv = self->priv;
   gdouble factor;
   gdouble step, page;
   gint digits;
@@ -571,19 +570,21 @@ photos_print_setup_set_scale_unit (PhotosPrintSetup *setup, GtkUnit unit)
       step = 1;
       page = 10;
       break;
+
     case GTK_UNIT_INCH:
       factor = FACTOR_MM_TO_INCH;
       digits = 2;
       step = 0.01;
       page = 0.1;
       break;
+
     case GTK_UNIT_NONE:
     case GTK_UNIT_POINTS:
     default:
       g_assert_not_reached ();
     }
 
-  photos_print_setup_block_handlers (setup);
+  photos_print_setup_block_handlers (self);
 
   change_unit (GTK_SPIN_BUTTON (priv->width), factor, digits, step, page);
   change_unit (GTK_SPIN_BUTTON (priv->height), factor, digits, step, page);
@@ -592,7 +593,7 @@ photos_print_setup_set_scale_unit (PhotosPrintSetup *setup, GtkUnit unit)
   change_unit (GTK_SPIN_BUTTON (priv->top), factor, digits, step, page);
   change_unit (GTK_SPIN_BUTTON (priv->bottom), factor, digits, step, page);
 
-  photos_print_setup_unblock_handlers (setup);
+  photos_print_setup_unblock_handlers (self);
 
   priv->current_unit = unit;
 }
@@ -608,9 +609,11 @@ on_unit_changed (GtkComboBox *combobox, gpointer user_data)
     case UNIT_INCH:
       unit = GTK_UNIT_INCH;
       break;
+
     case UNIT_MM:
       unit = GTK_UNIT_MM;
       break;
+
     default:
       g_assert_not_reached ();
     }
@@ -659,10 +662,12 @@ on_preview_image_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer us
       /* scale up */
       scale *= 1.1;
       break;
+
     case GDK_SCROLL_DOWN:
       /* scale down */
       scale *= 0.9;
       break;
+
     case GDK_SCROLL_LEFT:
     case GDK_SCROLL_RIGHT:
     case GDK_SCROLL_SMOOTH:
@@ -680,7 +685,8 @@ on_preview_image_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer us
 static gboolean
 on_preview_image_key_pressed (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
-  PhotosPrintSetupPrivate *priv = PHOTOS_PRINT_SETUP (user_data)->priv;
+  PhotosPrintSetup *self = PHOTOS_PRINT_SETUP (user_data);
+  PhotosPrintSetupPrivate *priv = self->priv;
   PhotosPrintPreview *preview = PHOTOS_PRINT_PREVIEW (widget);
   gfloat scale;
 
@@ -693,17 +699,19 @@ on_preview_image_key_pressed (GtkWidget *widget, GdkEventKey *event, gpointer us
       /* scale up */
       scale *= 1.1;
       break;
+
     case GDK_KEY_KP_Subtract:
     case GDK_KEY_minus:
       /* scale down */
       scale *= 0.9;
       break;
+
     default:
       return FALSE;
       break;
     }
 
-  gtk_range_set_value (GTK_RANGE (priv->scaling), 100*scale);
+  gtk_range_set_value (GTK_RANGE (priv->scaling), 100 * scale);
 
   return TRUE;
 }
@@ -867,9 +875,11 @@ photos_print_setup_set_property (GObject *object, guint prop_id, const GValue *v
           }
       }
       break;
+
     case PROP_PAGE_SETUP:
       priv->page_setup = GTK_PAGE_SETUP (g_value_dup_object (value));
       break;
+
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
