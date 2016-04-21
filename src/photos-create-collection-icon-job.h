@@ -48,8 +48,13 @@ GType                          photos_create_collection_icon_job_get_type  (void
 
 PhotosCreateCollectionIconJob *photos_create_collection_icon_job_new       (const gchar *urn);
 
+GIcon                         *photos_create_collection_icon_job_finish    (PhotosCreateCollectionIconJob *self,
+                                                                            GAsyncResult *res,
+                                                                            GError **error);
+
 void                           photos_create_collection_icon_job_run (PhotosCreateCollectionIconJob *self,
-                                                                      PhotosCreateCollectionIconJobCallback callback,
+                                                                      GCancellable *cancellable,
+                                                                      GAsyncReadyCallback callback,
                                                                       gpointer user_data);
 
 G_END_DECLS

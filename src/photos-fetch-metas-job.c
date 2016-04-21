@@ -100,14 +100,24 @@ photos_fetch_metas_job_collector (PhotosFetchMetasJob *self)
 
 
 static void
-photos_fetch_metas_job_create_collection_icon_executed (GIcon *icon, gpointer user_data)
+photos_fetch_metas_job_create_collection_icon_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
+  GError *error = NULL;
+  GIcon *icon = NULL;
+  PhotosCreateCollectionIconJob *job = PHOTOS_CREATE_COLLECTION_ICON_JOB (source_object);
   PhotosFetchMetasJob *self;
   PhotosFetchMeta *meta;
 
   self = PHOTOS_FETCH_METAS_JOB (g_task_get_source_object (task));
   meta = (PhotosFetchMeta *) g_task_get_task_data (task);
+
+  icon = photos_create_collection_icon_job_finish (job, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to create collection icon: %s", error->message);
+      g_error_free (error);
+    }
 
   if (icon != NULL)
     {
@@ -131,6 +141,7 @@ photos_fetch_metas_job_create_collection_pixbuf (PhotosFetchMetasJob *self, Phot
   task = g_task_new (self, NULL, NULL, NULL);
   g_task_set_task_data (task, meta, NULL);
   photos_create_collection_icon_job_run (job,
+                                         NULL,
                                          photos_fetch_metas_job_create_collection_icon_executed,
                                          g_object_ref (task));
   g_object_unref (task);

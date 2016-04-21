@@ -29,13 +29,14 @@
 #include "photos-query-builder.h"
 #include "photos-create-collection-icon-job.h"
 #include "photos-tracker-queue.h"
+#include "photos-utils.h"
 
 
 struct _PhotosCreateCollectionIconJob
 {
   GObject parent_instance;
+  GError *queue_error;
   GIcon *icon;
-  PhotosCreateCollectionIconJobCallback callback;
   PhotosTrackerQueue *queue;
   gchar *urn;
   gpointer user_data;
@@ -57,16 +58,6 @@ G_DEFINE_TYPE (PhotosCreateCollectionIconJob, photos_create_collection_icon_job,
 
 
 static void
-photos_create_collection_icon_job_emit_callback (PhotosCreateCollectionIconJob *self)
-{
-  if (self->callback == NULL)
-    return;
-
-  (*self->callback) (self->icon, self->user_data);
-}
-
-
-static void
 photos_create_collection_icon_job_dispose (GObject *object)
 {
   PhotosCreateCollectionIconJob *self = PHOTOS_CREATE_COLLECTION_ICON_JOB (object);
@@ -83,6 +74,7 @@ photos_create_collection_icon_job_finalize (GObject *object)
 {
   PhotosCreateCollectionIconJob *self = PHOTOS_CREATE_COLLECTION_ICON_JOB (object);
 
+  g_clear_error (&self->queue_error);
   g_free (self->urn);
 
   G_OBJECT_CLASS (photos_create_collection_icon_job_parent_class)->finalize (object);
@@ -113,7 +105,7 @@ photos_create_collection_icon_job_set_property (GObject *object,
 static void
 photos_create_collection_icon_job_init (PhotosCreateCollectionIconJob *self)
 {
-  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, &self->queue_error);
 }
 
 
@@ -143,20 +135,38 @@ photos_create_collection_icon_job_new (const gchar *urn)
 }
 
 
+GIcon *
+photos_create_collection_icon_job_finish (PhotosCreateCollectionIconJob *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_create_collection_icon_job_run, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  return g_task_propagate_pointer (task, error);
+}
+
+
 void
 photos_create_collection_icon_job_run (PhotosCreateCollectionIconJob *self,
-                                       PhotosCreateCollectionIconJobCallback callback,
+                                       GCancellable *cancellable,
+                                       GAsyncReadyCallback callback,
                                        gpointer user_data)
 {
+  GTask *task;
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_create_collection_icon_job_run);
+
   if (G_UNLIKELY (self->queue == NULL))
     {
-      photos_create_collection_icon_job_emit_callback (self);
+      g_task_return_error (task, g_error_copy (self->queue_error));
       return;
     }
 
-  self->callback = callback;
-  self->user_data = user_data;
-
   /* TODO: build collection icon query */
-  photos_create_collection_icon_job_emit_callback (self);
+  g_task_return_new_error (task, PHOTOS_ERROR, 0, "Unable to create collection icon");
+
+  g_object_unref (task);
 }
