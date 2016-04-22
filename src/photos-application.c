@@ -104,7 +104,9 @@ struct _PhotosApplication
   PhotosSearchProvider *search_provider;
   PhotosSelectionController *sel_cntrlr;
   TrackerExtractPriority *extract_priority;
+  gboolean main_window_deleted;
   guint create_miners_count;
+  guint use_count;
   guint32 activation_timestamp;
   gulong source_added_id;
   gulong source_removed_id;
@@ -420,6 +422,20 @@ photos_application_tracker_clear_rdf_types (GObject *source_object, GAsyncResult
 }
 
 
+static gboolean
+photos_application_delete_event (PhotosApplication *self)
+{
+  gboolean ret_val = GDK_EVENT_PROPAGATE;
+
+  self->main_window_deleted = TRUE;
+
+  if (self->use_count > 0)
+    ret_val = gtk_widget_hide_on_delete (self->main_window);
+
+  return ret_val;
+}
+
+
 static void
 photos_application_destroy (PhotosApplication *self)
 {
@@ -615,7 +631,14 @@ photos_application_create_window (PhotosApplication *self)
   g_return_val_if_fail (photos_application_sanity_check_gegl (self), FALSE);
 
   self->main_window = photos_main_window_new (GTK_APPLICATION (self));
+  g_signal_connect_object (self->main_window,
+                           "delete-event",
+                           G_CALLBACK (photos_application_delete_event),
+                           self,
+                           G_CONNECT_AFTER | G_CONNECT_SWAPPED);
   g_signal_connect_swapped (self->main_window, "destroy", G_CALLBACK (photos_application_destroy), self);
+
+  self->main_window_deleted = FALSE;
 
   g_application_hold (G_APPLICATION (self));
   tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
@@ -1766,4 +1789,24 @@ photos_application_get_scale_factor (PhotosApplication *self)
 
  out:
   return ret_val;
+}
+
+
+void
+photos_application_hold (PhotosApplication *self)
+{
+  g_return_if_fail (PHOTOS_IS_APPLICATION (self));
+  self->use_count++;
+}
+
+
+void
+photos_application_release (PhotosApplication *self)
+{
+  g_return_if_fail (PHOTOS_IS_APPLICATION (self));
+  g_return_if_fail (self->use_count > 0);
+
+  self->use_count--;
+  if (self->main_window_deleted && self->use_count == 0)
+    gtk_widget_destroy (self->main_window);
 }

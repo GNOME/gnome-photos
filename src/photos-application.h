@@ -50,6 +50,10 @@ GList                 *photos_application_get_miners_running     (PhotosApplicat
 
 gint                   photos_application_get_scale_factor       (PhotosApplication *self);
 
+void                   photos_application_hold                   (PhotosApplication *self);
+
+void                   photos_application_release                (PhotosApplication *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_APPLICATION_H */
