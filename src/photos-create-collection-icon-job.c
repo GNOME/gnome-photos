@@ -39,7 +39,6 @@ struct _PhotosCreateCollectionIconJob
   GIcon *icon;
   PhotosTrackerQueue *queue;
   gchar *urn;
-  gpointer user_data;
 };
 
 struct _PhotosCreateCollectionIconJobClass
