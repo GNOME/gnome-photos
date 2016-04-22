@@ -100,13 +100,15 @@ photos_fetch_metas_job_collector (PhotosFetchMetasJob *self)
 
 
 static void
-photos_fetch_metas_job_create_collection_icon_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_fetch_metas_job_create_collection_icon_executed (GObject *source_object,
+                                                        GAsyncResult *res,
+                                                        gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
+  PhotosFetchMetasJob *self;
   GError *error = NULL;
   GIcon *icon = NULL;
   PhotosCreateCollectionIconJob *job = PHOTOS_CREATE_COLLECTION_ICON_JOB (source_object);
-  PhotosFetchMetasJob *self;
   PhotosFetchMeta *meta;
 
   self = PHOTOS_FETCH_METAS_JOB (g_task_get_source_object (task));
