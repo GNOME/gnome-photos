@@ -972,7 +972,7 @@ photos_application_remote_display_current (PhotosApplication *self)
 static void
 photos_application_quit (PhotosApplication *self, GVariant *parameter)
 {
-  gtk_widget_destroy (self->main_window);
+  gtk_window_close (GTK_WINDOW (self->main_window));
 }
 
 
