@@ -2,7 +2,7 @@
 _Name=Photos
 _Comment=Access, organize and share photos
 Exec=@PACKAGE_TARNAME@
-Icon=@PACKAGE_TARNAME@
+Icon=org.gnome.Photos
 DBusActivatable=true
 StartupNotify=true
 Terminal=false
