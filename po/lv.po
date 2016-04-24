@@ -5,10 +5,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-ph"
-"otos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-05 09:56+0000\n"
-"PO-Revision-Date: 2016-03-05 13:20+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-04-24 09:18+0000\n"
+"PO-Revision-Date: 2016-04-24 16:13+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -105,11 +105,11 @@ msgstr "Logs maksimizēts"
 msgid "Window maximized state"
 msgstr "Loga stāvoklis — maksimizēts"
 
-#: ../src/photos-base-item.c:474
+#: ../src/photos-base-item.c:476
 msgid "Album"
 msgstr "Albums"
 
-#: ../src/photos-base-item.c:1413
+#: ../src/photos-base-item.c:1419
 msgid "Screenshots"
 msgstr "Ekrānattēli"
 
@@ -127,12 +127,19 @@ msgstr[1] "Izdzēsti %d vienumi"
 msgstr[2] "Izdzēsti %d vienumi"
 
 #: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:188
 msgid "Undo"
 msgstr "Atsaukt"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "DLNA attēlošanas ierīces"
+
+#: ../src/photos-done-notification.c:181
+#, c-format
+#| msgid "“%s” deleted"
+msgid "“%s” edited"
+msgstr "“%s” rediģēts"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
@@ -179,7 +186,6 @@ msgid "No Photos Found"
 msgstr "Nav atrastu fotogrāfiju"
 
 #: ../src/photos-export-dialog.ui.h:1
-#| msgid "Export"
 msgctxt "dialog title"
 msgid "Export"
 msgstr "Eksportēt"
@@ -227,46 +233,45 @@ msgstr "%Y. gada %e. %B"
 msgid "Calculating export size…"
 msgstr "Rēķina eksporta izmēru…"
 
-#: ../src/photos-export-notification.c:243
+#: ../src/photos-export-notification.c:241
 msgid "Failed to export: not enough space"
 msgstr "Neizdevās eksportēt — nepietiek vietas"
 
-#: ../src/photos-export-notification.c:245
+#: ../src/photos-export-notification.c:243
 msgid "Failed to export"
 msgstr "Neizdevās eksportēt"
 
-#: ../src/photos-export-notification.c:252
+#: ../src/photos-export-notification.c:250
 #, c-format
-#| msgid "“%s” deleted"
 msgid "“%s” exported"
 msgstr "“%s” ir eksportēts"
 
-#: ../src/photos-export-notification.c:256
+#: ../src/photos-export-notification.c:254
 #, c-format
-#| msgid "%d item deleted"
-#| msgid_plural "%d items deleted"
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "Eksportēts %d vienums"
 msgstr[1] "Eksportēti %d vienumi"
 msgstr[2] "Eksportēti %d vienumi"
 
-#: ../src/photos-export-notification.c:273
+#: ../src/photos-export-notification.c:271
 msgid "Analyze"
 msgstr "Analizēt"
 
-#: ../src/photos-export-notification.c:278
+#: ../src/photos-export-notification.c:276
 msgid "Empty Trash"
 msgstr "Iztukšot miskasti"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-export-notification.c:293 ../src/photos-preview-menu.ui.h:1
 #: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Atvērt"
 
-#: ../src/photos-export-notification.c:302
-#| msgid "Export"
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:303
 msgid "Export Folder"
 msgstr "Eksportēt mapi"
 
@@ -334,7 +339,6 @@ msgid "Select all"
 msgstr "Izvēlēties visu"
 
 #: ../src/photos-help-overlay.ui.h:11
-#| msgid "Print photos"
 msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Drukāt atlasītās fotogrāfijas"
@@ -345,7 +349,6 @@ msgid "Delete selected photos"
 msgstr "Dzēst atlasītās fotogrāfijas"
 
 #: ../src/photos-help-overlay.ui.h:13
-#| msgid "Photos"
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Fotogrāfiju skats"
@@ -356,13 +359,11 @@ msgid "Edit"
 msgstr "Rediģēt"
 
 #: ../src/photos-help-overlay.ui.h:15
-#| msgid "Export"
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Eksportēt"
 
 #: ../src/photos-help-overlay.ui.h:16
-#| msgid "Print…"
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Drukāt"
@@ -388,7 +389,6 @@ msgid "Edit view"
 msgstr "Rediģēt skatu"
 
 #: ../src/photos-help-overlay.ui.h:21
-#| msgid "Cancel"
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Atcelt"
@@ -461,10 +461,6 @@ msgid "Done"
 msgstr "Pabeigts"
 
 #: ../src/photos-main-window.c:492
-#| msgid ""
-#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#| "Copyright © 2014, 2015 Pranav Kant\n"
-#| "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -575,7 +571,7 @@ msgstr "A_pakšā:"
 msgid "C_enter:"
 msgstr "C_entrā:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:191
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Nav"
 
@@ -768,12 +764,10 @@ msgid "Free"
 msgstr "Brīvs"
 
 #: ../src/photos-tool-crop.c:132
-#| msgid "Original Size"
 msgid "Original"
 msgstr "Oriģināls"
 
 #: ../src/photos-tool-crop.c:133
-#| msgid "Square"
 msgid "1×1 (Square)"
 msgstr "1×1 (Kvadrāts)"
 
@@ -825,30 +819,38 @@ msgstr "Noņemt troksni"
 msgid "Enhance"
 msgstr "Uzlabot"
 
-#: ../src/photos-tool-filters.c:198
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+#| msgid "None"
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Nav"
+
+#: ../src/photos-tool-filters.c:199
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:205
+#: ../src/photos-tool-filters.c:206
 msgid "Calistoga"
 msgstr "Kalistoga"
 
-#: ../src/photos-tool-filters.c:211
+#: ../src/photos-tool-filters.c:212
 msgid "Mogadishu"
 msgstr "Mogadīšo"
 
-#: ../src/photos-tool-filters.c:218
+#: ../src/photos-tool-filters.c:219
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:224
+#: ../src/photos-tool-filters.c:225
 msgid "Hometown"
 msgstr "Dzimtā pilsēta"
 
-#: ../src/photos-tool-filters.c:242
+#: ../src/photos-tool-filters.c:243
 msgid "Filters"
 msgstr "Filtri"
 
 #: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Neizdevās saņemt fotogrāfiju sarakstu"
+
