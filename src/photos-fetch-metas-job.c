@@ -151,15 +151,26 @@ photos_fetch_metas_job_create_collection_pixbuf (PhotosFetchMetasJob *self, Phot
 
 
 static void
-photos_fetch_metas_job_executed (TrackerSparqlCursor *cursor, gpointer user_data)
+photos_fetch_metas_job_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosFetchMetasJob *self = PHOTOS_FETCH_METAS_JOB (user_data);
+  GError *error = NULL;
   GIcon *icon = NULL;
   PhotosFetchMeta *meta;
+  PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
+  TrackerSparqlCursor *cursor = NULL;
   gboolean is_collection;
   const gchar *id;
   const gchar *rdf_type;
   const gchar *title;
+
+  cursor = photos_single_item_job_finish (job, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to query single item: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
 
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
   title = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_TITLE, NULL);
@@ -183,6 +194,8 @@ photos_fetch_metas_job_executed (TrackerSparqlCursor *cursor, gpointer user_data
       photos_fetch_metas_job_collector (self);
     }
 
+ out:
+  g_clear_object (&cursor);
   g_clear_object (&icon);
   g_object_unref (self);
 }
@@ -296,6 +309,7 @@ photos_fetch_metas_job_run (PhotosFetchMetasJob *self,
       photos_single_item_job_run (job,
                                   state,
                                   PHOTOS_QUERY_FLAGS_UNFILTERED,
+                                  NULL,
                                   photos_fetch_metas_job_executed,
                                   g_object_ref (self));
       g_object_unref (job);

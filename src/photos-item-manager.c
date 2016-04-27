@@ -118,9 +118,20 @@ photos_item_manager_add_object (PhotosBaseManager *mngr, GObject *object)
 
 
 static void
-photos_item_manager_item_created_executed (TrackerSparqlCursor *cursor, gpointer user_data)
+photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
+  GError *error = NULL;
+  PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
+  TrackerSparqlCursor *cursor = NULL;
+
+  cursor = photos_single_item_job_finish (job, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to query single item: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
 
   if (cursor == NULL)
     goto out;
@@ -128,6 +139,7 @@ photos_item_manager_item_created_executed (TrackerSparqlCursor *cursor, gpointer
   photos_item_manager_add_item (self, cursor);
 
  out:
+  g_clear_object (&cursor);
   g_object_unref (self);
 }
 
@@ -146,6 +158,7 @@ photos_item_manager_item_created (PhotosItemManager *self, const gchar *urn)
   photos_single_item_job_run (job,
                               state,
                               PHOTOS_QUERY_FLAGS_NONE,
+                              NULL,
                               photos_item_manager_item_created_executed,
                               g_object_ref (self));
   g_object_unref (job);

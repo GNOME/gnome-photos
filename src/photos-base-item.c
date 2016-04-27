@@ -545,9 +545,20 @@ photos_base_item_refresh_collection_icon (PhotosBaseItem *self)
 
 
 static void
-photos_base_item_refresh_executed (TrackerSparqlCursor *cursor, gpointer user_data)
+photos_base_item_refresh_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
+  GError *error = NULL;
+  PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
+  TrackerSparqlCursor *cursor = NULL;
+
+  cursor = photos_single_item_job_finish (job, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to query single item: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
 
   if (cursor == NULL)
     goto out;
@@ -555,6 +566,7 @@ photos_base_item_refresh_executed (TrackerSparqlCursor *cursor, gpointer user_da
   photos_base_item_populate_from_cursor (self, cursor);
 
  out:
+  g_clear_object (&cursor);
   g_object_unref (self);
 }
 
@@ -2476,6 +2488,7 @@ photos_base_item_refresh (PhotosBaseItem *self)
   photos_single_item_job_run (job,
                               state,
                               PHOTOS_QUERY_FLAGS_NONE,
+                              NULL,
                               photos_base_item_refresh_executed,
                               g_object_ref (self));
   g_object_unref (job);

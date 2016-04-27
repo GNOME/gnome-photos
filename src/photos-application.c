@@ -668,11 +668,22 @@ photos_application_activate_item (PhotosApplication *self, GObject *item)
 
 
 static void
-photos_application_activate_query_executed (TrackerSparqlCursor *cursor, gpointer user_data)
+photos_application_activate_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GError *error = NULL;
   GObject *item;
+  PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
+  TrackerSparqlCursor *cursor = NULL;
   const gchar *identifier;
+
+  cursor = photos_single_item_job_finish (job, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to query single item: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
 
   if (cursor == NULL)
     goto out;
@@ -685,6 +696,7 @@ photos_application_activate_query_executed (TrackerSparqlCursor *cursor, gpointe
   photos_application_activate_item (self, item);
 
  out:
+  g_clear_object (&cursor);
   g_application_release (G_APPLICATION (self));
 }
 
@@ -711,6 +723,7 @@ photos_application_activate_result (PhotosApplication *self,
       photos_single_item_job_run (job,
                                   self->state,
                                   PHOTOS_QUERY_FLAGS_UNFILTERED,
+                                  NULL,
                                   photos_application_activate_query_executed,
                                   self);
       g_object_unref (job);

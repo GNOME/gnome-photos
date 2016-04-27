@@ -51,10 +51,15 @@ GType                  photos_single_item_job_get_type             (void) G_GNUC
 
 PhotosSingleItemJob   *photos_single_item_job_new                  (const gchar *urn);
 
+TrackerSparqlCursor   *photos_single_item_job_finish               (PhotosSingleItemJob *self,
+                                                                    GAsyncResult *res,
+                                                                    GError **error);
+
 void                   photos_single_item_job_run                  (PhotosSingleItemJob *self,
                                                                     PhotosSearchContextState *state,
                                                                     gint flags,
-                                                                    PhotosSingleItemJobCallback callback,
+                                                                    GCancellable *cancellable,
+                                                                    GAsyncReadyCallback callback,
                                                                     gpointer user_data);
 
 G_END_DECLS

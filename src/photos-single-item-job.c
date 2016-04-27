@@ -36,11 +36,9 @@
 struct _PhotosSingleItemJob
 {
   GObject parent_instance;
-  PhotosSingleItemJobCallback callback;
+  GError *queue_error;
   PhotosTrackerQueue *queue;
-  TrackerSparqlCursor *cursor;
   gchar *urn;
-  gpointer user_data;
 };
 
 struct _PhotosSingleItemJobClass
@@ -59,46 +57,40 @@ G_DEFINE_TYPE (PhotosSingleItemJob, photos_single_item_job, G_TYPE_OBJECT);
 
 
 static void
-photos_single_item_job_emit_callback (PhotosSingleItemJob *self)
-{
-  if (self->callback == NULL)
-    return;
-
-  (*self->callback) (self->cursor, self->user_data);
-}
-
-
-static void
 photos_single_item_job_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosSingleItemJob *self = PHOTOS_SINGLE_ITEM_JOB (user_data);
+  GTask *task = G_TASK (user_data);
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
+  GDestroyNotify result_destroy = NULL;
   GError *error;
   gboolean valid;
+  gpointer result = NULL;
 
   error = NULL;
   valid = tracker_sparql_cursor_next_finish (cursor, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to query single item: %s", error->message);
-      g_error_free (error);
+      g_task_return_error (task, error);
       goto out;
     }
-  else if (!valid)
-    goto out;
 
-  self->cursor = g_object_ref (cursor);
+  if (valid)
+    {
+      result = g_object_ref (cursor);
+      result_destroy = g_object_unref;
+    }
+
+  g_task_return_pointer (task, result, result_destroy);
 
  out:
-  photos_single_item_job_emit_callback (self);
-  g_object_unref (self);
+  g_object_unref (task);
 }
 
 
 static void
 photos_single_item_job_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosSingleItemJob *self = PHOTOS_SINGLE_ITEM_JOB (user_data);
+  GTask *task = G_TASK (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   TrackerSparqlCursor *cursor;
   GError *error;
@@ -107,16 +99,14 @@ photos_single_item_job_query_executed (GObject *source_object, GAsyncResult *res
   cursor = tracker_sparql_connection_query_finish (connection, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to query single item: %s", error->message);
-      g_error_free (error);
-      photos_single_item_job_emit_callback (self);
+      g_task_return_error (task, error);
       return;
     }
 
   tracker_sparql_cursor_next_async (cursor,
-                                    NULL,
+                                    g_task_get_cancellable (task),
                                     photos_single_item_job_cursor_next,
-                                    g_object_ref (self));
+                                    g_object_ref (task));
   g_object_unref (cursor);
 }
 
@@ -126,7 +116,7 @@ photos_single_item_job_dispose (GObject *object)
 {
   PhotosSingleItemJob *self = PHOTOS_SINGLE_ITEM_JOB (object);
 
-  g_clear_object (&self->cursor);
+  g_clear_error (&self->queue_error);
   g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_single_item_job_parent_class)->dispose (object);
@@ -165,7 +155,7 @@ photos_single_item_job_set_property (GObject *object, guint prop_id, const GValu
 static void
 photos_single_item_job_init (PhotosSingleItemJob *self)
 {
-  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, &self->queue_error);
 }
 
 
@@ -195,31 +185,48 @@ photos_single_item_job_new (const gchar *urn)
 }
 
 
+TrackerSparqlCursor *
+photos_single_item_job_finish (PhotosSingleItemJob *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_single_item_job_run, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  return g_task_propagate_pointer (task, error);
+}
+
+
 void
 photos_single_item_job_run (PhotosSingleItemJob *self,
                             PhotosSearchContextState *state,
                             gint flags,
-                            PhotosSingleItemJobCallback callback,
+                            GCancellable *cancellable,
+                            GAsyncReadyCallback callback,
                             gpointer user_data)
 {
+  GTask *task;
   PhotosQuery *query;
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_single_item_job_run);
 
   if (G_UNLIKELY (self->queue == NULL))
     {
-      if (callback != NULL)
-        (*callback) (NULL, user_data);
-      return;
+      g_task_return_error (task, g_error_copy (self->queue_error));
+      goto out;
     }
-
-  self->callback = callback;
-  self->user_data = user_data;
 
   query = photos_query_builder_single_query (state, flags, self->urn);
   photos_tracker_queue_select (self->queue,
                                query->sparql,
-                               NULL,
+                               cancellable,
                                photos_single_item_job_query_executed,
-                               g_object_ref (self),
+                               g_object_ref (task),
                                g_object_unref);
   photos_query_free (query);
+
+ out:
+  g_object_unref (task);
 }
