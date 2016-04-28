@@ -1,6 +1,36 @@
 Overview of changes in 3.21.1
 =============================
 
+* Bugs fixed:
+ 762725 Avoid GIFs
+ 763292 Improve the alignment of notifications
+ 763908 Cancel or remove pending internal asynchronous operations or sources
+        during destruction
+ 763881 edit-palette-row: Don't leak the PhotosTool
+ 764076 application: Make app.quit use the same path as the close button
+ 764083 Add guards to methods in BaseItem which do not operate on collections
+ 764086 Convert jobs API to async calls
+ 764680 Disable favouriting albums
+ 764681 Prevent nested collections
+
+* Updated translations:
+ Basque
+ Catalan
+ Simplified Chinese
+ Traditional Chinese (Taiwan)
+ Danish
+ French
+ Friulian
+ Italian
+ Japanese
+ Kazakh
+ Korean
+ Persian
+ Polish
+ Swedish
+ Ukrainian
+ Vietnamese
+
 
 Overview of changes in 3.19.92
 ==============================
