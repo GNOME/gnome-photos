@@ -2,13 +2,13 @@
 # Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Gabriel Speckhahn <gabspeck@gmail.com>, 2014.
-#
+# Felipe Braga <fbobraga@gmail.com>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2014-04-22 07:09+0000\n"
-"PO-Revision-Date: 2014-04-22 14:37-0200\n"
-"Last-Translator: Gabriel Speckhahn <gabspeck@gmail.com>\n"
+"POT-Creation-Date: 2015-05-06 07:32+0000\n"
+"PO-Revision-Date: 2015-05-06 12:52-0200\n"
+"Last-Translator: Felipe Braga <fbobraga@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -97,11 +97,14 @@ msgstr "Selecione todos os itens que você deseja marcar como favoritos."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:43
+#| msgid ""
+#| "To finish, select the button with the picture of a heart from the toolbar "
+#| "at the bottom."
 msgid ""
-"To finish, select the button with the picture of a heart from the toolbar at "
+"To finish, select the button with the picture of a star from the toolbar at "
 "the bottom."
 msgstr ""
-"Para terminar, selecione o botão com a imagem de um coração na barra de "
+"Para terminar, selecione o botão com a imagem de uma estrela na barra de "
 "ferramentas na parte inferior."
 
 #. (itstool) path: page/p
@@ -226,6 +229,78 @@ msgid ""
 msgstr ""
 "Selecione a foto que deseja abrir, ou use as teclas de seta para navegar até "
 "a foto e pressione <key>Enter</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+#| msgid "Open your favorite photos."
+msgid "Open your recent photos."
+msgstr "Abra suas fotos recentes."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Visualizar fotos recentes"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"A aba <gui style=\"tab\">Recentes</gui> exibe fotos de pastas do sistema de "
+"arquivos locais, tais como <file>~/Downloads</file>, <file>~/Imagens</file> "
+"e de coleções on-line. Você também pode adicionar outros locais e coleções, "
+"mesmo com base em nuvem, como o Flickr ou Facebook, através das <app>Contas "
+"on-line </app> do GNOME."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "Para adicionar outros locais do sistema de arquivos:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr ""
+"Abra as <guiseq><gui>Configurações do "
+"sistema</gui><gui>Pesquisa</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Clique no botão de engrenagem no canto inferior direito. Você pode "
+"selecionar os locais de que você deseja que sejam exibidas fotos na aba <gui "
+"style=\"tab\">Recentes</gui>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Para visualizar fotos recentes:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+#| msgid "Select the <gui style=\"tab\">Albums</gui> tab."
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Selecione a aba <gui style=\"tab\">Recentes</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+#| msgid ""
+#| "You will see a grid of photos from the album you selected. Select a photo "
+#| "from the grid to open it."
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr "Você verá uma grade de fotos. Selecione uma foto da grade para abri-la."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
