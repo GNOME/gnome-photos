@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-04-29 09:21+0000\n"
-"PO-Revision-Date: 2016-02-29 23:07+0200\n"
+"PO-Revision-Date: 2016-05-09 20:00+0200\n"
 "Last-Translator: Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>\n"
 "Language-Team: Tot En Òc\n"
 "Language: oc\n"
@@ -137,10 +137,10 @@ msgid "DLNA Renderer Devices"
 msgstr "Periferics de rendut DLNA"
 
 #: ../src/photos-done-notification.c:181
-#, fuzzy, c-format
+#, c-format
 #| msgid "“%s” deleted"
 msgid "“%s” edited"
-msgstr "« %s » suprimit"
+msgstr "« %s » editat"
 
 #: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
@@ -243,19 +243,19 @@ msgid "Failed to export"
 msgstr ""
 
 #: ../src/photos-export-notification.c:250
-#, fuzzy, c-format
+#, c-format
 #| msgid "“%s” deleted"
 msgid "“%s” exported"
-msgstr "« %s » suprimit"
+msgstr "« %s » exportat"
 
 #: ../src/photos-export-notification.c:254
-#, fuzzy, c-format
+#, c-format
 #| msgid "%d item deleted"
 #| msgid_plural "%d items deleted"
 msgid "%d item exported"
 msgid_plural "%d items exported"
-msgstr[0] "%d element suprimit"
-msgstr[1] "%d elements suprimits"
+msgstr[0] "%d element exportat"
+msgstr[1] "%d elements exportats"
 
 #: ../src/photos-export-notification.c:272
 msgid "Analyze"
@@ -275,10 +275,9 @@ msgstr "Dobrir"
 #. * folder where the item was exported.
 #.
 #: ../src/photos-export-notification.c:304
-#, fuzzy
 #| msgid "Export"
 msgid "Export Folder"
-msgstr "Exportar"
+msgstr "Exportar lo dorsièr"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
