@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-photos 3.19.x\n"
+"Project-Id-Version: gnome-photos 3.20.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-10 19:58+0100\n"
-"PO-Revision-Date: 2016-01-10 20:00+0100\n"
+"POT-Creation-Date: 2016-05-23 20:19+0200\n"
+"PO-Revision-Date: 2016-05-23 20:27+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -18,8 +18,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:715
-#: ../src/photos-search-type-manager.c:125
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
+#: ../src/photos-search-type-manager.c:136
 msgid "Photos"
 msgstr "Bilder"
 
@@ -103,27 +103,28 @@ msgstr "Vindu maksimert"
 msgid "Window maximized state"
 msgstr "Maksimert tilstand for vindu"
 
-#: ../src/photos-base-item.c:472
+#: ../src/photos-base-item.c:476
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1288
+#: ../src/photos-base-item.c:1419
 msgid "Screenshots"
 msgstr "Skjermbilder"
 
-#: ../src/photos-delete-notification.c:141
+#: ../src/photos-delete-notification.c:145
 #, c-format
 msgid "“%s” deleted"
 msgstr "«%s» slettet"
 
-#: ../src/photos-delete-notification.c:144
+#: ../src/photos-delete-notification.c:148
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d oppføring ble slettet"
 msgstr[1] "%d oppføringer ble slettet"
 
-#: ../src/photos-delete-notification.c:151
+#: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:188
 msgid "Undo"
 msgstr "Angre"
 
@@ -131,16 +132,20 @@ msgstr "Angre"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-enheter for gjengivelse"
 
-#: ../src/photos-embed.c:722 ../src/photos-search-type-manager.c:109
+#: ../src/photos-done-notification.c:181
+#, c-format
+msgid "“%s” edited"
+msgstr "«%s» redigert"
+
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:729 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: ../src/photos-embed.c:736 ../src/photos-help-overlay.ui.h:11
-#: ../src/photos-main-toolbar.c:301
+#: ../src/photos-embed.c:706 ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Søk"
 
@@ -177,6 +182,7 @@ msgid "No Photos Found"
 msgstr "Ingen bilder funnet"
 
 #: ../src/photos-export-dialog.ui.h:1
+msgctxt "dialog title"
 msgid "Export"
 msgstr "Eksporter"
 
@@ -204,12 +210,65 @@ msgstr "A_vbryt"
 msgid "_Export"
 msgstr "_Eksporter"
 
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: ../src/photos-export-dialog.c:76
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
+
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:159
+#: ../src/photos-export-dialog.c:284
 msgid "%e %B %Y"
 msgstr "%B %e %Y"
+
+#: ../src/photos-export-dialog.c:339
+msgid "Calculating export size…"
+msgstr "Beregner størrelse for eksport …"
+
+#: ../src/photos-export-notification.c:241
+msgid "Failed to export: not enough space"
+msgstr "Klarte ikke å eksportere: ikke nok plass"
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export"
+msgstr "Klarte ikke å eksportere"
+
+#: ../src/photos-export-notification.c:250
+#, c-format
+msgid "“%s” exported"
+msgstr "«%s» eksportert"
+
+#: ../src/photos-export-notification.c:254
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d oppføring ble eksportert"
+msgstr[1] "%d oppføringer ble eksportert"
+
+#: ../src/photos-export-notification.c:271
+msgid "Analyze"
+msgstr "Analyser"
+
+#: ../src/photos-export-notification.c:276
+msgid "Empty Trash"
+msgstr "Tøm papirkurv"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:293 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "Åpne"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:303
+msgid "Export Folder"
+msgstr "Eksporter mappe"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
@@ -225,82 +284,131 @@ msgid "Untitled Photo"
 msgstr "Bilde uten tittel"
 
 #: ../src/photos-help-overlay.ui.h:1
+msgctxt "shortcut window"
 msgid "General"
 msgstr "Generelt"
 
 #: ../src/photos-help-overlay.ui.h:2
+msgctxt "shortcut window"
 msgid "Show help"
 msgstr "Vis hjelp"
 
-#: ../src/photos-help-overlay.ui.h:3 ../src/photos-menus.ui.h:5
+#: ../src/photos-help-overlay.ui.h:3
+msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Avslutt"
 
 #: ../src/photos-help-overlay.ui.h:4
-msgid "Print the current photo"
-msgstr "Skriv ut dette bildet"
-
-#: ../src/photos-help-overlay.ui.h:5 ../src/photos-preview-menu.ui.h:4
-msgid "Delete"
-msgstr "Slett"
-
-#: ../src/photos-help-overlay.ui.h:6
+msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigasjon"
 
-#: ../src/photos-help-overlay.ui.h:7
+#: ../src/photos-help-overlay.ui.h:5
+msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Neste bilde"
 
-#: ../src/photos-help-overlay.ui.h:8
+#: ../src/photos-help-overlay.ui.h:6
+msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Forrige bilde"
 
-#: ../src/photos-help-overlay.ui.h:9
+#: ../src/photos-help-overlay.ui.h:7
+msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Gå tilbake"
 
-#: ../src/photos-help-overlay.ui.h:10
+#: ../src/photos-help-overlay.ui.h:8
+msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Oversikt"
 
-#: ../src/photos-help-overlay.ui.h:12
+#: ../src/photos-help-overlay.ui.h:9
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Søk"
+
+#: ../src/photos-help-overlay.ui.h:10
+msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Velg alle"
 
-#: ../src/photos-help-overlay.ui.h:13 ../src/photos-print-setup.c:980
-msgid "Preview"
-msgstr "Forhåndsvisning"
+#: ../src/photos-help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr "Skriv ut valgte bilder"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "Slett valgte bilder"
+
+#: ../src/photos-help-overlay.ui.h:13
+msgctxt "shortcut window"
+msgid "Photo view"
+msgstr "Bildevisning"
 
 #: ../src/photos-help-overlay.ui.h:14
+msgctxt "shortcut window"
+msgid "Edit"
+msgstr "Rediger"
+
+#: ../src/photos-help-overlay.ui.h:15
+msgctxt "shortcut window"
+msgid "Export"
+msgstr "Eksporter"
+
+#: ../src/photos-help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "Skriv ut"
+
+#: ../src/photos-help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Slett"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Handlingsmeny"
 
-#: ../src/photos-help-overlay.ui.h:15 ../src/photos-menus.ui.h:1
+#: ../src/photos-help-overlay.ui.h:19
+msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Fullskjerm"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "Redigeringsvisning"
+
+#: ../src/photos-help-overlay.ui.h:21
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "Avbryt"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
 #.
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:172
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Henter fra bilder fra %s"
 
-#: ../src/photos-indexing-notification.c:176
+#: ../src/photos-indexing-notification.c:175
 msgid "Fetching photos from online accounts"
 msgstr "Henter bilder fra kontoer på nettet"
 
-#: ../src/photos-indexing-notification.c:213
+#: ../src/photos-indexing-notification.c:211
 msgid "Your photos are being indexed"
 msgstr "Bildene blir indeksert"
 
-#: ../src/photos-indexing-notification.c:214
+#: ../src/photos-indexing-notification.c:212
 msgid "Some photos might not be available during this process"
 msgstr "Noen bilder vil kanskje ikke være tilgjengelige under denne prosessen"
 
-#: ../src/photos-local-item.c:127 ../src/photos-source-manager.c:180
+#: ../src/photos-local-item.c:131 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Lokalt"
 
@@ -325,16 +433,16 @@ msgstr "Velg oppføringer"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:331
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
 #, c-format
 msgid "Open with %s"
 msgstr "Åpne med %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:342
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:347
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
 msgid "Add to favorites"
 msgstr "Legg til i favoritter"
 
@@ -349,17 +457,21 @@ msgstr "Ferdig"
 #: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 msgstr ""
 "Opphavsrett © 2013 Intel Corporation. Alle rettigheter reserveres.\n"
 "Opphavsrett © 2014, 2015 Pranav Kant\n"
-"Opphavsrett 2012, 2013, 2014, 2015 Red Hat, Inc."
+"Opphavsrett © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr "Kjartan Maraas <kmaraas@gnome.org>"
+
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Fullskjerm"
 
 #: ../src/photos-menus.ui.h:2
 msgid "Keyboard Shortcuts"
@@ -372,6 +484,10 @@ msgstr "_Hjelp"
 #: ../src/photos-menus.ui.h:4
 msgid "About"
 msgstr "Om"
+
+#: ../src/photos-menus.ui.h:5
+msgid "Quit"
+msgstr "Avslutt"
 
 #: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
@@ -387,12 +503,6 @@ msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organiser"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:334
-#: ../src/photos-selection-toolbar.ui.h:1
-msgid "Open"
-msgstr "Åpne"
-
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Export…"
 msgstr "Eksporter …"
@@ -400,6 +510,10 @@ msgstr "Eksporter …"
 #: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
 msgstr "Skriv ut …"
+
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Delete"
+msgstr "Slett"
 
 #: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
@@ -413,12 +527,12 @@ msgstr "Bruk som bakgrunn"
 msgid "Set as Lock Screen"
 msgstr "Bruk som låseskjerm"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:608
-#: ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:602
+#: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: ../src/photos-print-notification.c:76
+#: ../src/photos-print-notification.c:79
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Skriver ut «%s»: %s"
@@ -451,7 +565,7 @@ msgstr "_Bunn:"
 msgid "C_enter:"
 msgstr "S_enter:"
 
-#: ../src/photos-print-setup.c:916 ../src/photos-tool-filters.c:166
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Ingen"
 
@@ -490,6 +604,10 @@ msgstr "Millimeter"
 #: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Tommer"
+
+#: ../src/photos-print-setup.c:980
+msgid "Preview"
+msgstr "Forhåndsvisning"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
@@ -567,19 +685,19 @@ msgstr "Av, fyrte ikke"
 msgid "On, fired"
 msgstr "På, fyrte"
 
-#: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:176
+#: ../src/photos-search-match-manager.c:158
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Alle"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Tittel"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Forfatter"
@@ -587,14 +705,14 @@ msgstr "Forfatter"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:206
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Søk på"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:157
+#: ../src/photos-search-type-manager.c:168
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Type"
@@ -607,103 +725,121 @@ msgstr "Velg alle"
 msgid "Select None"
 msgstr "Velg ingen"
 
-#: ../src/photos-selection-toolbar.ui.h:3
+#: ../src/photos-selection-toolbar.ui.h:1
+msgid "Export"
+msgstr "Eksporter"
+
+#: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Legg til i album"
 
-#: ../src/photos-source-manager.c:205
+#: ../src/photos-source-manager.c:203
 msgid "Sources"
 msgstr "Kilder"
 
-#: ../src/photos-tool-colors.c:240
+#: ../src/photos-tool-colors.c:251
 msgid "Brightness"
 msgstr "Lysstyrke"
 
-#: ../src/photos-tool-colors.c:261
+#: ../src/photos-tool-colors.c:272
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:281
+#: ../src/photos-tool-colors.c:292
 msgid "Saturation"
 msgstr "Metning"
 
-#: ../src/photos-tool-colors.c:308
+#: ../src/photos-tool-colors.c:319
 msgid "Colors"
 msgstr "Farger"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:131
 msgid "Free"
 msgstr "Ledig"
 
+#: ../src/photos-tool-crop.c:132
+msgid "Original"
+msgstr "Original"
+
 #: ../src/photos-tool-crop.c:133
-msgid "Original Size"
-msgstr "Opprinnelig størrelse"
+msgid "1×1 (Square)"
+msgstr "1x1 (Firkant)"
 
 #: ../src/photos-tool-crop.c:134
-msgid "Screen"
-msgstr "Skjerm"
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
 
 #: ../src/photos-tool-crop.c:135
-msgid "Golden Cut"
-msgstr "Det gylne snitt"
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
 
 #: ../src/photos-tool-crop.c:136
-msgid "Square"
-msgstr "Firkant"
+msgid "7×5"
+msgstr "7×5"
 
 #: ../src/photos-tool-crop.c:137
-msgid "A3 (297 × 420 mm)"
-msgstr "A3 (297 × 420 mm)"
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
 
 #: ../src/photos-tool-crop.c:138
-msgid "A4 (210 × 297 mm)"
-msgstr "A4 (210 × 297 mm)"
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:1162
+#: ../src/photos-tool-crop.c:139
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1169
 msgid "Lock aspect ratio"
 msgstr "Lås høyde-/breddeforhold"
 
-#: ../src/photos-tool-crop.c:1177
+#: ../src/photos-tool-crop.c:1217
 msgid "Reset"
 msgstr "Nullstill"
 
-#: ../src/photos-tool-crop.c:1198
+#: ../src/photos-tool-crop.c:1234
 msgid "Crop"
 msgstr "Beskjær"
 
-#: ../src/photos-tool-enhance.c:205
+#: ../src/photos-tool-enhance.c:207
 msgid "Sharpen"
 msgstr "Skarpere"
 
-#: ../src/photos-tool-enhance.c:225
+#: ../src/photos-tool-enhance.c:227
 msgid "Denoise"
 msgstr "Mindre støy"
 
-#: ../src/photos-tool-enhance.c:251
+#: ../src/photos-tool-enhance.c:253
 msgid "Enhance"
 msgstr "Forbedre"
 
-#: ../src/photos-tool-filters.c:173
-msgid "1977"
-msgstr "1977"
-
-#: ../src/photos-tool-filters.c:180
-msgid "Brannan"
-msgstr "Brannan"
-
-#: ../src/photos-tool-filters.c:186
-msgid "Gotham"
-msgstr "Gotham"
-
-#: ../src/photos-tool-filters.c:193
-msgid "Gray"
-msgstr "Grå"
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Ingen"
 
 #: ../src/photos-tool-filters.c:199
-msgid "Nashville"
-msgstr "Nashville"
+msgid "1947"
+msgstr "1947"
 
-#: ../src/photos-tool-filters.c:217
+#: ../src/photos-tool-filters.c:206
+msgid "Calistoga"
+msgstr "Calistoga"
+
+#: ../src/photos-tool-filters.c:212
+msgid "Mogadishu"
+msgstr "Mogadishu"
+
+#: ../src/photos-tool-filters.c:219
+msgid "Caap"
+msgstr "Caap"
+
+#: ../src/photos-tool-filters.c:225
+msgid "Hometown"
+msgstr "Hjemby"
+
+#: ../src/photos-tool-filters.c:243
 msgid "Filters"
 msgstr "Filtre"
 
