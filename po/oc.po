@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-04-29 09:21+0000\n"
+"POT-Creation-Date: 2016-05-23 18:28+0000\n"
 "PO-Revision-Date: 2016-05-09 20:00+0200\n"
 "Last-Translator: Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>\n"
 "Language-Team: Tot En Òc\n"
@@ -138,7 +138,6 @@ msgstr "Periferics de rendut DLNA"
 
 #: ../src/photos-done-notification.c:181
 #, c-format
-#| msgid "“%s” deleted"
 msgid "“%s” edited"
 msgstr "« %s » editat"
 
@@ -244,14 +243,11 @@ msgstr ""
 
 #: ../src/photos-export-notification.c:250
 #, c-format
-#| msgid "“%s” deleted"
 msgid "“%s” exported"
 msgstr "« %s » exportat"
 
 #: ../src/photos-export-notification.c:254
 #, c-format
-#| msgid "%d item deleted"
-#| msgid_plural "%d items deleted"
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d element exportat"
@@ -275,7 +271,6 @@ msgstr "Dobrir"
 #. * folder where the item was exported.
 #.
 #: ../src/photos-export-notification.c:304
-#| msgid "Export"
 msgid "Export Folder"
 msgstr "Exportar lo dorsièr"
 
@@ -767,12 +762,10 @@ msgid "Free"
 msgstr "Gratuit"
 
 #: ../src/photos-tool-crop.c:133
-#| msgid "Original Size"
 msgid "Original"
 msgstr "Original"
 
 #: ../src/photos-tool-crop.c:134
-#| msgid "Square"
 msgid "1×1 (Square)"
 msgstr "1×1 (Carrat)"
 
@@ -826,7 +819,6 @@ msgstr "Melhorament"
 
 #. Translators: "None" refers to the nop magic filter when editing.
 #: ../src/photos-tool-filters.c:192
-#| msgid "None"
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "Pas cap"
@@ -914,8 +906,8 @@ msgstr "Impossible de recuperar la lista de las fòtos"
 #~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
 #~ "opening full featured editor for more advanced changes</li>"
 #~ msgstr ""
-#~ "<li>Visionar vòstras fòtos recentas localament o en linha</li> <li>Accedir "
-#~ "a vòstras contenguts sus Flickr</li> <li>Mandar de fòtos a de motors de "
-#~ "rendut DLNA distants</li> <li>Configurar un rèireplan</li> <li>Imprimir "
-#~ "de fòtos</li> <li>Seleccionar lqs favoritqs</li> <li>Dobrir una "
-#~ "aplicacion mai completa per efectuar de modificacions avançadas</li>"
+#~ "<li>Visionar vòstras fòtos recentas localament o en linha</li> "
+#~ "<li>Accedir a vòstras contenguts sus Flickr</li> <li>Mandar de fòtos a de "
+#~ "motors de rendut DLNA distants</li> <li>Configurar un rèireplan</li> "
+#~ "<li>Imprimir de fòtos</li> <li>Seleccionar lqs favoritqs</li> <li>Dobrir "
+#~ "una aplicacion mai completa per efectuar de modificacions avançadas</li>"
