@@ -9,6 +9,9 @@ test -z "$srcdir" && srcdir=.
     exit 1
 }
 
+olddir=`pwd`
+cd $srcdir
+
 PKG_NAME=`autoconf --trace "AC_INIT:$1" "$srcdir/configure.ac"`
 ACLOCAL_FLAGS="-I libgd $ACLOCAL_FLAGS"
 
@@ -33,6 +36,8 @@ set -x
 
 intltoolize --force --copy --automake || exit 1
 autoreconf --verbose --force --install -Wno-portability || exit 1
+
+cd $olddir
 
 if [ "$NOCONFIGURE" = "" ]; then
         $srcdir/configure "$@" || exit 1
