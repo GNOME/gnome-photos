@@ -21,7 +21,7 @@ GdMainIconView.content-view.cell:active {
     background-size: contain;
     background-color: transparent;
     color: @theme_base_color;
-    font: bold;
+    font-weight: bold;
 }
 
 .photos-entry-tag {
