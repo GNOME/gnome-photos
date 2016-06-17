@@ -1647,7 +1647,7 @@ photos_application_finalize (GObject *object)
 
   g_assert (self->create_miners_count == 0);
 
-  if (!g_application_get_is_remote (G_APPLICATION (self)))
+  if (g_application_get_is_registered (G_APPLICATION (self)) && !g_application_get_is_remote (G_APPLICATION (self)))
     gegl_exit ();
 
   G_OBJECT_CLASS (photos_application_parent_class)->finalize (object);
