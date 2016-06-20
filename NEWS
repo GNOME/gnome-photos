@@ -1,3 +1,23 @@
+Overview of changes in 3.21.3
+=============================
+
+* Bugs fixed:
+ 760796 Doesn't have a --version flag
+ 763908 preview-view: Hold the UI while saving the pipeline
+ 764076 application: Add API to prevent the main window from getting destroyed
+
+* Updated translations:
+ Catalan
+ Gaelic (Scottish)
+ Indonesian
+ Norwegian bokmål
+ Occitan
+ Portuguese
+ Portuguese (Brazilian)
+ Spanish
+ Turkish
+
+
 Overview of changes in 3.21.1
 =============================
 
