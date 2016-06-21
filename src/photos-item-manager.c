@@ -447,10 +447,11 @@ photos_item_manager_init (PhotosItemManager *self)
 
   self->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
   if (G_LIKELY (self->monitor != NULL))
-    g_signal_connect_swapped (self->monitor,
-                              "changes-pending",
-                              G_CALLBACK (photos_item_manager_changes_pending),
-                              self);
+    g_signal_connect_object (self->monitor,
+                             "changes-pending",
+                             G_CALLBACK (photos_item_manager_changes_pending),
+                             self,
+                             G_CONNECT_SWAPPED);
 
   self->fullscreen = FALSE;
 }
