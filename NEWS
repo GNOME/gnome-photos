@@ -1,3 +1,19 @@
+Overview of changes in 3.20.2
+=============================
+
+* Bugs fixed:
+ 763881 edit-palette-row: Don't leak the PhotosTool
+ 765295 Invalid memory access when reading G_FILE_ATTRIBUTE_THUMBNAIL_PATH
+
+* Updated translations:
+ Simplified Chinese
+ Indonesian
+ Latvian
+ Norwegian bokmål
+ Portuguese
+ Turkish
+
+
 Overview of changes in 3.20.1
 =============================
 
