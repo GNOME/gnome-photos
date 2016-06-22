@@ -91,7 +91,6 @@ photos_single_item_job_cursor_next (GObject *source_object, GAsyncResult *res, g
 
  out:
   photos_single_item_job_emit_callback (self);
-  tracker_sparql_cursor_close (cursor);
   g_object_unref (self);
 }
 
