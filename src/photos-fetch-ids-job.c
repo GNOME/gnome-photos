@@ -106,14 +106,12 @@ photos_fetch_ids_job_cursor_next (GObject *source_object, GAsyncResult *res, gpo
 static void
 photos_fetch_ids_job_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosFetchIdsJob *self;
   GCancellable *cancellable;
   GTask *task = G_TASK (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   TrackerSparqlCursor *cursor;
   GError *error;
 
-  self = PHOTOS_FETCH_IDS_JOB (g_task_get_source_object (task));
   cancellable = g_task_get_cancellable (task);
 
   error = NULL;
