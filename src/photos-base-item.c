@@ -908,6 +908,27 @@ photos_base_item_guess_save_sizes_in_thread_func (GTask *task,
 }
 
 
+static gboolean
+photos_base_item_process_idle (gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  GeglProcessor *processor;
+
+  processor = GEGL_PROCESSOR (g_task_get_task_data (task));
+
+  if (g_task_return_error_if_cancelled (task))
+    goto done;
+
+  if (gegl_processor_work (processor, NULL))
+    return G_SOURCE_CONTINUE;
+
+  g_task_return_boolean (task, TRUE);
+
+ done:
+  return G_SOURCE_REMOVE;
+}
+
+
 static GeglBuffer *
 photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
@@ -1119,27 +1140,6 @@ photos_base_item_pipeline_save_save (GObject *source_object, GAsyncResult *res, 
 
  out:
   g_object_unref (task);
-}
-
-
-static gboolean
-photos_base_item_process_idle (gpointer user_data)
-{
-  GTask *task = G_TASK (user_data);
-  GeglProcessor *processor;
-
-  processor = GEGL_PROCESSOR (g_task_get_task_data (task));
-
-  if (g_task_return_error_if_cancelled (task))
-    goto done;
-
-  if (gegl_processor_work (processor, NULL))
-    return G_SOURCE_CONTINUE;
-
-  g_task_return_boolean (task, TRUE);
-
- done:
-  return G_SOURCE_REMOVE;
 }
 
 
