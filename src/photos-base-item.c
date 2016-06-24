@@ -1425,6 +1425,8 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   priv->name = g_strdup (title);
 
   priv->filename = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_FILENAME, NULL));
+  if ((priv->filename == NULL || priv->filename[0] == '\0') && !priv->collection)
+    priv->filename = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_filename_fallback (self);
 
   priv->width = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_WIDTH);
   priv->height = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_HEIGHT);

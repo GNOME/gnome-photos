@@ -61,6 +61,31 @@ G_DEFINE_TYPE_WITH_CODE (PhotosGoogleItem, photos_google_item, PHOTOS_TYPE_BASE_
 
 
 static gchar *
+photos_google_item_create_filename_fallback (PhotosBaseItem *item)
+{
+  const gchar *identifier;
+  const gchar *mime_type;
+  gchar *extension = NULL;
+  gchar *identifier_hash = NULL;
+  gchar *ret_val;
+
+  identifier = photos_base_item_get_identifier (item);
+  identifier_hash = g_compute_checksum_for_string (G_CHECKSUM_SHA1, identifier, -1);
+
+  mime_type = photos_base_item_get_mime_type (item);
+  extension = photos_utils_get_extension_from_mime_type (mime_type);
+  if (extension == NULL)
+    extension = g_strdup ("tmp");
+
+  ret_val = g_strdup_printf ("%s.%s", identifier_hash, extension);
+
+  g_free (extension);
+  g_free (identifier_hash);
+  return ret_val;
+}
+
+
+static gchar *
 photos_google_item_create_name_fallback (PhotosBaseItem *item)
 {
   PhotosGoogleItem *self = PHOTOS_GOOGLE_ITEM (item);
@@ -203,13 +228,9 @@ photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
   GFile *local_file = NULL;
   GFile *remote_file = NULL;
   const gchar *cache_dir;
-  const gchar *identifier;
-  const gchar *mime_type;
+  const gchar *local_filename;
   const gchar *uri;
-  gchar *extension = NULL;
-  gchar *identifier_hash = NULL;
   gchar *local_dir = NULL;
-  gchar *local_filename = NULL;
   gchar *local_path = NULL;
   gchar *ret_val = NULL;
 
@@ -217,13 +238,7 @@ photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
   local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "google", NULL);
   g_mkdir_with_parents (local_dir, 0700);
 
-  identifier = photos_base_item_get_identifier (item);
-  identifier_hash = g_compute_checksum_for_string (G_CHECKSUM_SHA1, identifier, -1);
-  mime_type = photos_base_item_get_mime_type (item);
-  extension = photos_utils_get_extension_from_mime_type (mime_type);
-  if (extension == NULL)
-    extension = g_strdup ("tmp");
-  local_filename = g_strdup_printf ("%s.%s", identifier_hash, extension);
+  local_filename = photos_base_item_get_filename (item);
   local_path = g_build_filename (local_dir, local_filename, NULL);
   if (g_file_test (local_path, G_FILE_TEST_EXISTS))
     goto end;
@@ -255,10 +270,7 @@ photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
 
  out:
   g_free (local_path);
-  g_free (local_filename);
   g_free (local_dir);
-  g_free (identifier_hash);
-  g_free (extension);
   g_clear_object (&local_file);
   g_clear_object (&remote_file);
   g_clear_object (&entry);
@@ -350,6 +362,7 @@ photos_google_item_class_init (PhotosGoogleItemClass *class)
 
   object_class->constructed = photos_google_item_constructed;
   object_class->dispose = photos_google_item_dispose;
+  base_item_class->create_filename_fallback = photos_google_item_create_filename_fallback;
   base_item_class->create_name_fallback = photos_google_item_create_name_fallback;
   base_item_class->create_thumbnail = photos_google_item_create_thumbnail;
   base_item_class->download = photos_google_item_download;

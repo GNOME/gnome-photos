@@ -63,6 +63,27 @@ G_DEFINE_TYPE_WITH_CODE (PhotosFacebookItem, photos_facebook_item, PHOTOS_TYPE_B
 
 
 static gchar *
+photos_facebook_item_create_filename_fallback (PhotosBaseItem *item)
+{
+  const gchar *identifier;
+  const gchar *mime_type;
+  gchar *extension = NULL;
+  gchar *ret_val;
+
+  identifier = photos_base_item_get_identifier (item) + strlen ("facebook:");
+  mime_type = photos_base_item_get_mime_type (item);
+  extension = photos_utils_get_extension_from_mime_type (mime_type);
+  if (extension == NULL)
+    extension = g_strdup ("tmp");
+
+  ret_val = g_strdup_printf ("%s.%s", identifier, extension);
+
+  g_free (extension);
+  return ret_val;
+}
+
+
+static gchar *
 photos_facebook_item_create_name_fallback (PhotosBaseItem *item)
 {
   PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (item);
@@ -171,11 +192,8 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
   GFile *local_file = NULL;
   GFile *remote_file = NULL;
   const gchar *cache_dir;
-  const gchar *mime_type;
-  const gchar *identifier;
-  gchar *extension = NULL;
+  const gchar *local_filename;
   gchar *local_dir = NULL;
-  gchar *local_filename = NULL;
   gchar *local_path = NULL;
   gchar *ret_val = NULL;
 
@@ -183,12 +201,7 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
   local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "facebook", NULL);
   g_mkdir_with_parents (local_dir, 0700);
 
-  identifier = photos_base_item_get_identifier (item) + strlen ("facebook:");
-  mime_type = photos_base_item_get_mime_type (item);
-  extension = photos_utils_get_extension_from_mime_type (mime_type);
-  if (extension == NULL)
-    extension = g_strdup ("tmp");
-  local_filename = g_strdup_printf ("%s.%s", identifier, extension);
+  local_filename = photos_base_item_get_filename (item);
   local_path = g_build_filename (local_dir, local_filename, NULL);
   if (g_file_test (local_path, G_FILE_TEST_EXISTS))
     goto end;
@@ -226,9 +239,7 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
 
  out:
   g_free (local_path);
-  g_free (local_filename);
   g_free (local_dir);
-  g_free (extension);
   g_clear_object (&local_file);
   g_clear_object (&remote_file);
   g_clear_object (&photo);
@@ -318,6 +329,7 @@ photos_facebook_item_class_init (PhotosFacebookItemClass *class)
 
   object_class->constructed = photos_facebook_item_constructed;
   object_class->dispose = photos_facebook_item_dispose;
+  base_item_class->create_filename_fallback = photos_facebook_item_create_filename_fallback;
   base_item_class->create_name_fallback = photos_facebook_item_create_name_fallback;
   base_item_class->create_thumbnail = photos_facebook_item_create_thumbnail;
   base_item_class->download = photos_facebook_item_download;

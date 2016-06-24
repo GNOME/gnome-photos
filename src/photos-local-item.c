@@ -54,6 +54,14 @@ G_DEFINE_TYPE_WITH_CODE (PhotosLocalItem, photos_local_item, PHOTOS_TYPE_BASE_IT
 
 
 static gchar *
+photos_local_item_create_filename_fallback (PhotosBaseItem *item)
+{
+  g_warn_if_reached ();
+  return NULL;
+}
+
+
+static gchar *
 photos_local_item_create_name_fallback (PhotosBaseItem *item)
 {
   const gchar *filename;
@@ -235,6 +243,7 @@ photos_local_item_class_init (PhotosLocalItemClass *class)
   PhotosBaseItemClass *base_item_class = PHOTOS_BASE_ITEM_CLASS (class);
 
   object_class->constructed = photos_local_item_constructed;
+  base_item_class->create_filename_fallback = photos_local_item_create_filename_fallback;
   base_item_class->create_name_fallback = photos_local_item_create_name_fallback;
   base_item_class->create_pipeline_path = photos_local_item_create_pipeline_path;
   base_item_class->create_thumbnail = photos_local_item_create_thumbnail;
