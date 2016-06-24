@@ -74,6 +74,7 @@ struct _PhotosBaseItemClass
   const gchar *miner_object_path;
 
   /* virtual methods */
+  gchar      *(*create_filename_fallback)   (PhotosBaseItem *self);
   gchar      *(*create_name_fallback)       (PhotosBaseItem *self);
   gchar      *(*create_pipeline_path)       (PhotosBaseItem *self);
   gboolean    (*create_thumbnail)           (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
