@@ -60,6 +60,22 @@ G_DEFINE_TYPE_WITH_CODE (PhotosMediaServerItem, photos_media_server_item, PHOTOS
 
 
 static gchar *
+photos_media_server_item_create_filename_fallback (PhotosBaseItem *item)
+{
+  GFile *file = NULL;
+  const gchar *uri;
+  gchar *ret_val;
+
+  uri = photos_base_item_get_uri (item);
+  file = g_file_new_for_uri (uri);
+  ret_val = g_file_get_basename (file);
+
+  g_object_unref (file);
+  return ret_val;
+}
+
+
+static gchar *
 photos_media_server_item_create_name_fallback (PhotosBaseItem *item)
 {
   /* TODO: provide a sane fallback */
@@ -202,6 +218,7 @@ photos_media_server_item_class_init (PhotosMediaServerItemClass *class)
 
   object_class->constructed = photos_media_server_item_constructed;
   object_class->dispose = photos_media_server_item_dispose;
+  base_item_class->create_filename_fallback = photos_media_server_item_create_filename_fallback;
   base_item_class->create_name_fallback = photos_media_server_item_create_name_fallback;
   base_item_class->create_thumbnail = photos_media_server_item_create_thumbnail;
   base_item_class->download = photos_media_server_item_download;

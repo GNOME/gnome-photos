@@ -73,6 +73,22 @@ struct _PhotosFlickrItemSyncData
 
 
 static gchar *
+photos_flickr_item_create_filename_fallback (PhotosBaseItem *item)
+{
+  GFile *file = NULL;
+  const gchar *uri;
+  gchar *ret_val;
+
+  uri = photos_base_item_get_uri (item);
+  file = g_file_new_for_uri (uri);
+  ret_val = g_file_get_basename (file);
+
+  g_object_unref (file);
+  return ret_val;
+}
+
+
+static gchar *
 photos_flickr_item_create_name_fallback (PhotosBaseItem *item)
 {
   PhotosFlickrItem *self = PHOTOS_FLICKR_ITEM (item);
@@ -263,9 +279,9 @@ photos_flickr_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
   GFile *local_file = NULL;
   GFile *remote_file = NULL;
   const gchar *cache_dir;
+  const gchar *local_filename;
   const gchar *uri;
   gchar *local_dir = NULL;
-  gchar *local_filename = NULL;
   gchar *local_path = NULL;
   gchar *ret_val = NULL;
 
@@ -276,7 +292,7 @@ photos_flickr_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
   local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "flickr", NULL);
   g_mkdir_with_parents (local_dir, 0700);
 
-  local_filename = g_file_get_basename (remote_file);
+  local_filename = photos_base_item_get_filename (item);
   local_path = g_build_filename (local_dir, local_filename, NULL);
   local_file = g_file_new_for_path (local_path);
 
@@ -301,7 +317,6 @@ photos_flickr_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
 
  out:
   g_free (local_path);
-  g_free (local_filename);
   g_free (local_dir);
   g_object_unref (local_file);
   g_object_unref (remote_file);
@@ -407,6 +422,7 @@ photos_flickr_item_class_init (PhotosFlickrItemClass *class)
 
   object_class->constructed = photos_flickr_item_constructed;
   object_class->dispose = photos_flickr_item_dispose;
+  base_item_class->create_filename_fallback = photos_flickr_item_create_filename_fallback;
   base_item_class->create_name_fallback = photos_flickr_item_create_name_fallback;
   base_item_class->create_thumbnail = photos_flickr_item_create_thumbnail;
   base_item_class->download = photos_flickr_item_download;
