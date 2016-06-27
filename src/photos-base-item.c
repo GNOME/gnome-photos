@@ -142,6 +142,7 @@ struct _PhotosBaseItemSaveData
 static GdkPixbuf *failed_icon;
 static GdkPixbuf *thumbnailing_icon;
 static GThreadPool *create_thumbnail_pool;
+static const gint PIXEL_SIZES[] = {2048, 1024};
 
 
 static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor);
@@ -2330,12 +2331,16 @@ photos_base_item_guess_save_sizes_async (PhotosBaseItem *self,
 gboolean
 photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
                                           GAsyncResult *res,
-                                          gsize *out_full_size,
-                                          gsize *out_reduced_size,
+                                          PhotosBaseItemSize *out_full_size,
+                                          PhotosBaseItemSize *out_reduced_size,
                                           GError **error)
 {
   GTask *task = G_TASK (res);
+  GeglRectangle bbox;
   gboolean ret_val = FALSE;
+  gint max_dimension;
+  gdouble reduced_zoom = -1.0;
+  guint i;
   gsize *sizes;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
@@ -2347,12 +2352,44 @@ photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
   if (g_task_had_error (task))
     goto out;
 
+  if (!photos_base_item_get_bbox_edited (self, &bbox))
+    {
+      g_set_error (error, PHOTOS_ERROR, 0, "Failed to get the bounding box");
+      goto out;
+    }
+
   ret_val = TRUE;
 
+  max_dimension = MAX (bbox.height, bbox.width);
+  for (i = 0; i < G_N_ELEMENTS (PIXEL_SIZES); i++)
+    {
+      if (max_dimension > PIXEL_SIZES[i])
+        {
+          reduced_zoom = (gdouble) PIXEL_SIZES[i] / (gdouble) max_dimension;
+          break;
+        }
+    }
+
   if (out_full_size != NULL)
-    *out_full_size = sizes[0];
+    {
+      out_full_size->height = bbox.height;
+      out_full_size->width = bbox.width;
+      out_full_size->bytes = sizes[0];
+      out_full_size->zoom = 1.0;
+    }
+
   if (out_reduced_size != NULL)
-    *out_reduced_size = sizes[1];
+    {
+      out_reduced_size->zoom = reduced_zoom;
+      if (reduced_zoom > 0.0)
+        {
+          out_reduced_size->height = (gint) ((gdouble) bbox.height * reduced_zoom + 0.5);
+          out_reduced_size->width = (gint) ((gdouble) bbox.width * reduced_zoom + 0.5);
+          out_reduced_size->bytes = (gsize) (sizes[1]
+                                             + (sizes[0] - sizes[1]) * (reduced_zoom - 0.5) / (1.0 - 0.5)
+                                             + 0.5);
+        }
+    }
 
  out:
   return ret_val;

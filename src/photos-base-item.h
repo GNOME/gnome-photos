@@ -56,6 +56,16 @@ G_BEGIN_DECLS
   (G_TYPE_INSTANCE_GET_CLASS ((obj), \
    PHOTOS_TYPE_BASE_ITEM, PhotosBaseItemClass))
 
+typedef struct _PhotosBaseItemSize PhotosBaseItemSize;
+
+struct _PhotosBaseItemSize
+{
+  gdouble zoom;
+  gint height;
+  gint width;
+  gsize bytes;
+};
+
 typedef struct _PhotosBaseItem        PhotosBaseItem;
 typedef struct _PhotosBaseItemClass   PhotosBaseItemClass;
 typedef struct _PhotosBaseItemPrivate PhotosBaseItemPrivate;
@@ -176,8 +186,8 @@ void                photos_base_item_guess_save_sizes_async  (PhotosBaseItem *se
 
 gboolean            photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
                                                               GAsyncResult *res,
-                                                              gsize *out_full_size,
-                                                              gsize *out_reduced_size,
+                                                              PhotosBaseItemSize *out_full_size,
+                                                              PhotosBaseItemSize *out_reduced_size,
                                                               GError **error);
 
 gboolean            photos_base_item_is_collection           (PhotosBaseItem *self);
