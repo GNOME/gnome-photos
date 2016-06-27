@@ -1773,9 +1773,7 @@ photos_base_item_can_edit (PhotosBaseItem *self)
 
   g_return_val_if_fail (!priv->collection, FALSE);
 
-  return PHOTOS_BASE_ITEM_GET_CLASS (self)->create_pipeline_path != NULL
-    && priv->filename != NULL
-    && priv->filename[0] != '\0';
+  return PHOTOS_BASE_ITEM_GET_CLASS (self)->create_pipeline_path != NULL;
 }
 
 
