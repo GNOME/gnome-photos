@@ -176,8 +176,8 @@ void                photos_base_item_guess_save_sizes_async  (PhotosBaseItem *se
 
 gboolean            photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
                                                               GAsyncResult *res,
-                                                              gsize *out_size,
-                                                              gsize *out_size_1,
+                                                              gsize *out_full_size,
+                                                              gsize *out_reduced_size,
                                                               GError **error);
 
 gboolean            photos_base_item_is_collection           (PhotosBaseItem *self);

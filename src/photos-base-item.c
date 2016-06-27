@@ -850,8 +850,8 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
 static void
 photos_base_item_guess_save_sizes_from_buffer (GeglBuffer *buffer,
                                                const gchar *mime_type,
-                                               gsize *out_size,
-                                               gsize *out_size_1,
+                                               gsize *out_full_size,
+                                               gsize *out_reduced_size,
                                                GCancellable *cancellable)
 {
   GeglNode *buffer_source;
@@ -881,10 +881,10 @@ photos_base_item_guess_save_sizes_from_buffer (GeglBuffer *buffer,
   gegl_node_process (guess_sizes);
 
   gegl_node_get (guess_sizes, "size", &sizes[0], "size-1", &sizes[1], NULL);
-  if (out_size != NULL)
-    *out_size = sizes[0];
-  if (out_size_1 != NULL)
-    *out_size_1 = sizes[1];
+  if (out_full_size != NULL)
+    *out_full_size = sizes[0];
+  if (out_reduced_size != NULL)
+    *out_reduced_size = sizes[1];
 
   g_object_unref (graph);
 }
@@ -2330,8 +2330,8 @@ photos_base_item_guess_save_sizes_async (PhotosBaseItem *self,
 gboolean
 photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
                                           GAsyncResult *res,
-                                          gsize *out_size,
-                                          gsize *out_size_1,
+                                          gsize *out_full_size,
+                                          gsize *out_reduced_size,
                                           GError **error)
 {
   GTask *task = G_TASK (res);
@@ -2349,10 +2349,10 @@ photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
 
   ret_val = TRUE;
 
-  if (out_size != NULL)
-    *out_size = sizes[0];
-  if (out_size_1 != NULL)
-    *out_size_1 = sizes[1];
+  if (out_full_size != NULL)
+    *out_full_size = sizes[0];
+  if (out_reduced_size != NULL)
+    *out_reduced_size = sizes[1];
 
  out:
   return ret_val;
