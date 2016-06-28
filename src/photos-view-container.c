@@ -486,13 +486,13 @@ photos_view_container_activate_result (PhotosViewContainer *self)
 
   if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->model), &iter))
     {
-      GObject *item;
-      gchar *id;
+      GtkTreePath *path;
+      GtkWidget *generic_view;
 
-      gtk_tree_model_get (GTK_TREE_MODEL (self->model), &iter, PHOTOS_VIEW_MODEL_URN, &id, -1);
-      item = photos_base_manager_get_object_by_id (self->item_mngr, id);
-      photos_base_manager_set_active_object (self->item_mngr, item);
-      g_free (id);
+      path = gtk_tree_model_get_path (GTK_TREE_MODEL (self->model), &iter);
+      generic_view = gd_main_view_get_generic_view (self->view);
+      gtk_icon_view_item_activated (GTK_ICON_VIEW (generic_view), path);
+      gtk_tree_path_free (path);
     }
 }
 
