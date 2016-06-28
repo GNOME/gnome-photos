@@ -479,6 +479,24 @@ photos_view_container_new (PhotosWindowMode mode, const gchar *name)
 }
 
 
+void
+photos_view_container_activate_result (PhotosViewContainer *self)
+{
+  GtkTreeIter iter;
+
+  if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->model), &iter))
+    {
+      GObject *item;
+      gchar *id;
+
+      gtk_tree_model_get (GTK_TREE_MODEL (self->model), &iter, PHOTOS_VIEW_MODEL_URN, &id, -1);
+      item = photos_base_manager_get_object_by_id (self->item_mngr, id);
+      photos_base_manager_set_active_object (self->item_mngr, item);
+      g_free (id);
+    }
+}
+
+
 GtkTreePath *
 photos_view_container_get_current_path (PhotosViewContainer *self)
 {

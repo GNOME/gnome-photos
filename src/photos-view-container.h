@@ -48,6 +48,8 @@ GType                  photos_view_container_get_type               (void) G_GNU
 
 GtkWidget             *photos_view_container_new                    (PhotosWindowMode mode, const gchar *name);
 
+void                   photos_view_container_activate_result        (PhotosViewContainer *self);
+
 GtkTreePath           *photos_view_container_get_current_path       (PhotosViewContainer *self);
 
 GtkListStore          *photos_view_container_get_model              (PhotosViewContainer *self);
