@@ -118,6 +118,8 @@ photos_view_container_item_activated (PhotosViewContainer *self, const gchar * i
 {
   GObject *object;
 
+  g_clear_pointer (&self->current_path, (GDestroyNotify) gtk_tree_path_free);
+
   self->current_path = gtk_tree_path_copy (path);
   object = photos_base_manager_get_object_by_id (self->item_mngr, id);
 
