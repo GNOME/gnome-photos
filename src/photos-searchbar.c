@@ -334,7 +334,7 @@ photos_searchbar_handle_event (PhotosSearchbar *self, GdkEventKey *event)
       ret_val = GDK_EVENT_STOP;
       goto out;
     }
-  else if (event->keyval == GDK_KEY_Return)
+  else if (priv->in && event->keyval == GDK_KEY_Return)
     {
       g_signal_emit (self, signals[ACTIVATE_RESULT], 0);
       ret_val = GDK_EVENT_STOP;
