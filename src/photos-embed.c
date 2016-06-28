@@ -48,7 +48,6 @@
 #include "photos-tracker-overview-controller.h"
 #include "photos-utils.h"
 #include "photos-view-container.h"
-#include "photos-view-model.h"
 
 
 typedef struct _PhotosEmbedSearchState PhotosEmbedSearchState;
@@ -176,25 +175,12 @@ photos_embed_get_view_container_from_mode (PhotosEmbed *self, PhotosWindowMode m
 static void
 photos_embed_activate_result (PhotosEmbed *self)
 {
-  GtkTreeIter iter;
-  GtkListStore *store;
   GtkWidget *view_container;
   PhotosWindowMode mode;
 
   mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
   view_container = photos_embed_get_view_container_from_mode (self, mode);
-  store = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
-
-  if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter))
-    {
-      GObject *item;
-      gchar *id;
-
-      gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, PHOTOS_VIEW_MODEL_URN, &id, -1);
-      item = photos_base_manager_get_object_by_id (self->item_mngr, id);
-      photos_base_manager_set_active_object (self->item_mngr, item);
-      g_free (id);
-    }
+  photos_view_container_activate_result (PHOTOS_VIEW_CONTAINER (view_container));
 }
 
 
