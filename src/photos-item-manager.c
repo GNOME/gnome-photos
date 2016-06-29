@@ -616,9 +616,9 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
 PhotosBaseItem *
 photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
 {
-  PhotosBaseItem *ret_val = NULL;
   GIOExtension *extension;
   GType type;
+  PhotosBaseItem *ret_val = NULL;
   const gchar *extension_name = "local";
   gchar *identifier = NULL;
   gchar **split_identifier = NULL;
