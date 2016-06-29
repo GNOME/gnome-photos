@@ -202,6 +202,8 @@ gnome_photos_SOURCES = \
 	photos-set-collection-job.h \
 	photos-settings.c \
 	photos-settings.h \
+	photos-share-point.c \
+	photos-share-point.h \
 	photos-single-item-job.c \
 	photos-single-item-job.h \
 	photos-source.c \
