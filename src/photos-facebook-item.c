@@ -34,10 +34,8 @@
 #include <goa/goa.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
-#include "photos-base-manager.h"
 #include "photos-debug.h"
 #include "photos-facebook-item.h"
-#include "photos-search-context.h"
 #include "photos-source.h"
 #include "photos-utils.h"
 
@@ -45,7 +43,6 @@
 struct _PhotosFacebookItem
 {
   PhotosBaseItem parent_instance;
-  PhotosBaseManager *src_mngr;
 };
 
 struct _PhotosFacebookItemClass
@@ -86,14 +83,13 @@ photos_facebook_item_create_filename_fallback (PhotosBaseItem *item)
 static gchar *
 photos_facebook_item_create_name_fallback (PhotosBaseItem *item)
 {
-  PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (item);
   GDateTime *date_modified;
   const gchar *provider_name;
   gchar *ret_val;
   gchar *date_modified_str;
   gint64 mtime;
 
-  provider_name = photos_utils_get_provider_name (self->src_mngr, item);
+  provider_name = photos_utils_get_provider_name (item);
 
   mtime = photos_base_item_get_mtime (item);
   date_modified = g_date_time_new_from_unix_local (mtime);
@@ -113,14 +109,12 @@ photos_facebook_item_create_name_fallback (PhotosBaseItem *item)
 static GFBGraphPhoto *
 photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (item);
   PhotosSource *source;
-  const gchar *identifier, *resource_urn;
+  const gchar *identifier;
   GFBGraphGoaAuthorizer *authorizer;
   GFBGraphPhoto *photo = NULL;
 
-  resource_urn = photos_base_item_get_resource_urn (item);
-  source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (self->src_mngr, resource_urn));
+  source = photos_base_item_get_source (item);
   authorizer = gfbgraph_goa_authorizer_new (photos_source_get_goa_object (source));
   identifier = photos_base_item_get_identifier (item) + strlen ("facebook:");
 
@@ -250,11 +244,10 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
 static GtkWidget *
 photos_facebook_item_get_source_widget (PhotosBaseItem *item)
 {
-  PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (item);
   GtkWidget *source_widget;
   const gchar *name;
 
-  name = photos_utils_get_provider_name (self->src_mngr, item);
+  name = photos_utils_get_provider_name (item);
   source_widget = gtk_link_button_new_with_label ("https://www.facebook.com/", name);
   gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
 
@@ -289,32 +282,14 @@ photos_facebook_item_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_facebook_item_parent_class)->constructed (object);
 
-  name = photos_utils_get_provider_name (self->src_mngr, PHOTOS_BASE_ITEM (self));
+  name = photos_utils_get_provider_name (PHOTOS_BASE_ITEM (self));
   photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), name);
-}
-
-
-static void
-photos_facebook_item_dispose (GObject *object)
-{
-  PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (object);
-
-  g_clear_object (&self->src_mngr);
-
-  G_OBJECT_CLASS (photos_facebook_item_parent_class)->dispose (object);
 }
 
 
 static void
 photos_facebook_item_init (PhotosFacebookItem *self)
 {
-  GApplication *app;
-  PhotosSearchContextState *state;
-
-  app = g_application_get_default ();
-  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
-
-  self->src_mngr = g_object_ref (state->src_mngr);
 }
 
 
@@ -328,7 +303,6 @@ photos_facebook_item_class_init (PhotosFacebookItemClass *class)
   base_item_class->miner_object_path = "/org/gnome/OnlineMiners/Facebook";
 
   object_class->constructed = photos_facebook_item_constructed;
-  object_class->dispose = photos_facebook_item_dispose;
   base_item_class->create_filename_fallback = photos_facebook_item_create_filename_fallback;
   base_item_class->create_name_fallback = photos_facebook_item_create_name_fallback;
   base_item_class->create_thumbnail = photos_facebook_item_create_thumbnail;

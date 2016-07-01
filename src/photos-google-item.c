@@ -32,10 +32,8 @@
 #include <glib/gi18n.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
-#include "photos-base-manager.h"
 #include "photos-debug.h"
 #include "photos-google-item.h"
-#include "photos-search-context.h"
 #include "photos-source.h"
 #include "photos-utils.h"
 
@@ -43,7 +41,6 @@
 struct _PhotosGoogleItem
 {
   PhotosBaseItem parent_instance;
-  PhotosBaseManager *src_mngr;
 };
 
 struct _PhotosGoogleItemClass
@@ -95,7 +92,7 @@ photos_google_item_create_name_fallback (PhotosBaseItem *item)
   gchar *date_modified_str;
   gint64 mtime;
 
-  provider_name = photos_utils_get_provider_name (self->src_mngr, item);
+  provider_name = photos_utils_get_provider_name (item);
 
   mtime = photos_base_item_get_mtime (item);
   date_modified = g_date_time_new_from_unix_local (mtime);
@@ -123,10 +120,8 @@ photos_google_get_picasaweb_file (PhotosBaseItem *item, GCancellable *cancellabl
   GDataPicasaWebQuery *query;
   GDataPicasaWebService *service;
   const gchar *identifier;
-  const gchar *resource_urn;
 
-  resource_urn = photos_base_item_get_resource_urn (item);
-  source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (self->src_mngr, resource_urn));
+  source = photos_base_item_get_source (item);
   authorizer = gdata_goa_authorizer_new (photos_source_get_goa_object (source));
   identifier = photos_base_item_get_identifier (item) + strlen ("google:picasaweb:");
   service = gdata_picasaweb_service_new (GDATA_AUTHORIZER (authorizer));
@@ -285,7 +280,7 @@ photos_google_item_get_source_widget (PhotosBaseItem *item)
   GtkWidget *source_widget;
   const gchar *name;
 
-  name = photos_utils_get_provider_name (self->src_mngr, item);
+  name = photos_utils_get_provider_name (item);
   source_widget = gtk_link_button_new_with_label ("https://picasaweb.google.com/", name);
   gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
 
@@ -322,32 +317,14 @@ photos_google_item_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_google_item_parent_class)->constructed (object);
 
-  name = photos_utils_get_provider_name (self->src_mngr, PHOTOS_BASE_ITEM (self));
+  name = photos_utils_get_provider_name (PHOTOS_BASE_ITEM (self));
   photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), name);
-}
-
-
-static void
-photos_google_item_dispose (GObject *object)
-{
-  PhotosGoogleItem *self = PHOTOS_GOOGLE_ITEM (object);
-
-  g_clear_object (&self->src_mngr);
-
-  G_OBJECT_CLASS (photos_google_item_parent_class)->dispose (object);
 }
 
 
 static void
 photos_google_item_init (PhotosGoogleItem *self)
 {
-  GApplication *app;
-  PhotosSearchContextState *state;
-
-  app = g_application_get_default ();
-  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
-
-  self->src_mngr = g_object_ref (state->src_mngr);
 }
 
 
@@ -361,7 +338,6 @@ photos_google_item_class_init (PhotosGoogleItemClass *class)
   base_item_class->miner_object_path = "/org/gnome/OnlineMiners/GData";
 
   object_class->constructed = photos_google_item_constructed;
-  object_class->dispose = photos_google_item_dispose;
   base_item_class->create_filename_fallback = photos_google_item_create_filename_fallback;
   base_item_class->create_name_fallback = photos_google_item_create_name_fallback;
   base_item_class->create_thumbnail = photos_google_item_create_thumbnail;

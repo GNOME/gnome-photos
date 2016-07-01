@@ -32,6 +32,8 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
+#include "photos-source.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_BASE_ITEM (photos_base_item_get_type ())
@@ -166,6 +168,8 @@ const gchar        *photos_base_item_get_name_with_fallback  (PhotosBaseItem *se
 GdkPixbuf          *photos_base_item_get_original_icon       (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_resource_urn        (PhotosBaseItem *self);
+
+PhotosSource       *photos_base_item_get_source              (PhotosBaseItem *self);
 
 GtkWidget          *photos_base_item_get_source_widget       (PhotosBaseItem *self);
 

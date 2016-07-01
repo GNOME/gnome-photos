@@ -1216,14 +1216,12 @@ photos_utils_get_pixbuf_common_suffix (GdkPixbufFormat *format)
 
 
 const gchar *
-photos_utils_get_provider_name (PhotosBaseManager *src_mngr, PhotosBaseItem *item)
+photos_utils_get_provider_name (PhotosBaseItem *item)
 {
   PhotosSource *source;
   const gchar *name;
-  const gchar *resource_urn;
 
-  resource_urn = photos_base_item_get_resource_urn (item);
-  source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (src_mngr, resource_urn));
+  source = photos_base_item_get_source (item);
   name = photos_source_get_name (source);
   return name;
 }

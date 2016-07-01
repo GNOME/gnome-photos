@@ -37,7 +37,6 @@
 #include <tracker-sparql.h>
 
 #include "photos-base-item.h"
-#include "photos-base-manager.h"
 
 G_BEGIN_DECLS
 
@@ -148,7 +147,7 @@ gint             photos_utils_get_icon_size_unscaled      (void);
 
 char*            photos_utils_get_pixbuf_common_suffix    (GdkPixbufFormat *format);
 
-const gchar     *photos_utils_get_provider_name           (PhotosBaseManager *src_mngr, PhotosBaseItem *item);
+const gchar     *photos_utils_get_provider_name           (PhotosBaseItem *item);
 
 GtkBorder       *photos_utils_get_thumbnail_frame_border  (void);
 

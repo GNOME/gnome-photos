@@ -50,7 +50,6 @@ struct _PhotosOrganizeCollectionViewPrivate
   GtkListStore *model;
   GtkTreeViewColumn *view_col;
   PhotosBaseManager *item_mngr;
-  PhotosBaseManager *src_mngr;
   gboolean choice_confirmed;
 };
 
@@ -188,10 +187,8 @@ photos_organize_collection_view_detail_cell (GtkTreeViewColumn *tree_column,
     {
       PhotosSource *source;
       const gchar *name;
-      const gchar *resource_urn;
 
-      resource_urn = photos_base_item_get_resource_urn (PHOTOS_BASE_ITEM (object));
-      source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (priv->src_mngr, resource_urn));
+      source = photos_base_item_get_source (PHOTOS_BASE_ITEM (object));
       name = photos_source_get_name (source);
       g_object_set (cell_renderer, "text", name, NULL);
       gtk_cell_renderer_set_visible (cell_renderer, TRUE);
@@ -304,7 +301,6 @@ photos_organize_collection_view_dispose (GObject *object)
 
   g_clear_object (&priv->model);
   g_clear_object (&priv->item_mngr);
-  g_clear_object (&priv->src_mngr);
 
   G_OBJECT_CLASS (photos_organize_collection_view_parent_class)->dispose (object);
 }
@@ -366,7 +362,6 @@ photos_organize_collection_view_init (PhotosOrganizeCollectionView *self)
                                            NULL);
 
   priv->item_mngr = g_object_ref (state->item_mngr);
-  priv->src_mngr = g_object_ref (state->src_mngr);
 
   gtk_widget_show (GTK_WIDGET (self));
 }

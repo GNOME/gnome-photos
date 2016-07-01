@@ -31,10 +31,8 @@
 #include <gio/gio.h>
 #include <glib.h>
 
-#include "photos-base-manager.h"
 #include "photos-debug.h"
 #include "photos-media-server-item.h"
-#include "photos-search-context.h"
 #include "photos-source.h"
 #include "photos-utils.h"
 
@@ -42,7 +40,6 @@
 struct _PhotosMediaServerItem
 {
   PhotosBaseItem parent_instance;
-  PhotosBaseManager *src_mngr;
 };
 
 struct _PhotosMediaServerItemClass
@@ -158,11 +155,10 @@ photos_media_server_item_download (PhotosBaseItem *item, GCancellable *cancellab
 static GtkWidget *
 photos_media_server_item_get_source_widget (PhotosBaseItem *item)
 {
-  PhotosMediaServerItem *self = PHOTOS_MEDIA_SERVER_ITEM (item);
   GtkWidget *source_widget;
   const gchar *name;
 
-  name = photos_utils_get_provider_name (self->src_mngr, item);
+  name = photos_utils_get_provider_name (item);
   source_widget = gtk_label_new (name);
   gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
 
@@ -178,32 +174,14 @@ photos_media_server_item_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_media_server_item_parent_class)->constructed (object);
 
-  name = photos_utils_get_provider_name (self->src_mngr, PHOTOS_BASE_ITEM (self));
+  name = photos_utils_get_provider_name (PHOTOS_BASE_ITEM (self));
   photos_base_item_set_default_app_name (PHOTOS_BASE_ITEM (self), name);
-}
-
-
-static void
-photos_media_server_item_dispose (GObject *object)
-{
-  PhotosMediaServerItem *self = PHOTOS_MEDIA_SERVER_ITEM (object);
-
-  g_clear_object (&self->src_mngr);
-
-  G_OBJECT_CLASS (photos_media_server_item_parent_class)->dispose (object);
 }
 
 
 static void
 photos_media_server_item_init (PhotosMediaServerItem *self)
 {
-  GApplication *app;
-  PhotosSearchContextState *state;
-
-  app = g_application_get_default ();
-  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
-
-  self->src_mngr = g_object_ref (state->src_mngr);
 }
 
 
@@ -217,7 +195,6 @@ photos_media_server_item_class_init (PhotosMediaServerItemClass *class)
   base_item_class->miner_object_path = "/org/gnome/OnlineMiners/MediaServer";
 
   object_class->constructed = photos_media_server_item_constructed;
-  object_class->dispose = photos_media_server_item_dispose;
   base_item_class->create_filename_fallback = photos_media_server_item_create_filename_fallback;
   base_item_class->create_name_fallback = photos_media_server_item_create_name_fallback;
   base_item_class->create_thumbnail = photos_media_server_item_create_thumbnail;

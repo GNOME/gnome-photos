@@ -42,6 +42,7 @@
 #include "egg-counter.h"
 #include "photos-application.h"
 #include "photos-base-item.h"
+#include "photos-base-manager.h"
 #include "photos-collection-icon-watcher.h"
 #include "photos-debug.h"
 #include "photos-delete-item-job.h"
@@ -75,9 +76,12 @@ struct _PhotosBaseItemPrivate
   GQuark equipment;
   GQuark flash;
   GQuark orientation;
+  GQuark resource_urn;
+  PhotosBaseManager *src_mngr;
   PhotosCollectionIconWatcher *watcher;
   PhotosPipeline *pipeline;
   PhotosSelectionController *sel_cntrlr;
+  PhotosSource *source;
   TrackerSparqlCursor *cursor;
   gboolean collection;
   gboolean failed_thumbnailing;
@@ -91,7 +95,6 @@ struct _PhotosBaseItemPrivate
   gchar *name;
   gchar *name_fallback;
   gchar *rdf_type;
-  gchar *resource_urn;
   gchar *thumb_path;
   gchar *type_description;
   gchar *uri;
@@ -1512,6 +1515,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 {
   PhotosBaseItemPrivate *priv = self->priv;
   GTimeVal timeval;
+  PhotosSource *source;
   gboolean favorite;
   const gchar *author;
   const gchar *date_created;
@@ -1524,6 +1528,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   const gchar *orientation;
   const gchar *rdf_type;
   const gchar *resource_urn;
+  const gchar *source_id;
   const gchar *title;
   const gchar *uri;
   gchar *filename;
@@ -1544,7 +1549,17 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   photos_utils_set_string (&priv->author, author);
 
   resource_urn = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_URN, NULL);
-  photos_utils_set_string (&priv->resource_urn, resource_urn);
+  priv->resource_urn = g_quark_from_string (resource_urn);
+
+  if (resource_urn != NULL && g_str_has_prefix (resource_urn, "gd:goa-account:"))
+    source_id = resource_urn;
+  else
+    source_id = PHOTOS_SOURCE_STOCK_LOCAL;
+
+  source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (priv->src_mngr, source_id));
+  if (G_UNLIKELY (source == NULL))
+    g_warning ("Unable to find a source for %s", resource_urn);
+  g_set_object (&priv->source, source);
 
   favorite = tracker_sparql_cursor_get_boolean (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_FAVORITE);
 
@@ -1687,9 +1702,11 @@ photos_base_item_dispose (GObject *object)
   g_clear_object (&priv->load_graph);
   g_clear_object (&priv->processor);
   g_clear_object (&priv->original_icon);
+  g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->watcher);
   g_clear_object (&priv->pipeline);
   g_clear_object (&priv->sel_cntrlr);
+  g_clear_object (&priv->source);
   g_clear_object (&priv->cursor);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->dispose (object);
@@ -1711,7 +1728,6 @@ photos_base_item_finalize (GObject *object)
   g_free (priv->name);
   g_free (priv->name_fallback);
   g_free (priv->rdf_type);
-  g_free (priv->resource_urn);
   g_free (priv->thumb_path);
   g_free (priv->type_description);
   g_free (priv->uri);
@@ -1770,17 +1786,23 @@ static void
 photos_base_item_init (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
+  GApplication *app;
+  PhotosSearchContextState *state;
 
   EGG_COUNTER_INC (instances);
 
   self->priv = photos_base_item_get_instance_private (self);
   priv = self->priv;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   priv->cancellable = g_cancellable_new ();
 
   g_mutex_init (&priv->mutex_download);
   g_mutex_init (&priv->mutex);
 
+  priv->src_mngr = g_object_ref (state->src_mngr);
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
 }
 
@@ -2233,8 +2255,22 @@ photos_base_item_get_original_icon (PhotosBaseItem *self)
 const gchar *
 photos_base_item_get_resource_urn (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+  const gchar *resource_urn;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->resource_urn;
+  priv = self->priv;
+
+  resource_urn = g_quark_to_string (priv->resource_urn);
+  return resource_urn;
+}
+
+
+PhotosSource *
+photos_base_item_get_source (PhotosBaseItem *self)
+{
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+  return self->priv->source;
 }
 
 
