@@ -50,6 +50,7 @@ G_BEGIN_DECLS
 #define PHOTOS_ORIENTATION_TOP (photos_utils_orientation_top_quark ())
 
 #define PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME "photos-base-item"
+#define PHOTOS_SHARE_POINT_EXTENSION_POINT_NAME "photos-share-point"
 #define PHOTOS_TOOL_EXTENSION_POINT_NAME "photos-tool"
 #define PHOTOS_TRACKER_CONTROLLER_EXTENSION_POINT_NAME "photos-tracker-controller"
 
