@@ -33,19 +33,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_EMBED (photos_embed_get_type ())
-
-#define PHOTOS_EMBED(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_EMBED, PhotosEmbed))
-
-#define PHOTOS_IS_EMBED(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_EMBED))
-
-typedef struct _PhotosEmbed      PhotosEmbed;
-typedef struct _PhotosEmbedClass PhotosEmbedClass;
-
-GType                  photos_embed_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE(PhotosEmbed, photos_embed, PHOTOS, EMBED, GtkBox)
 
 GtkWidget             *photos_embed_new                    (void);
 

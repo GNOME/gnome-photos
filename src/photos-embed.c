@@ -87,11 +87,6 @@ struct _PhotosEmbed
   guint load_show_id;
 };
 
-struct _PhotosEmbedClass
-{
-  GtkBoxClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosEmbed, photos_embed, GTK_TYPE_BOX);
 
