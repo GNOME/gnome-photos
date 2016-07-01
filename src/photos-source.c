@@ -286,3 +286,10 @@ photos_source_get_goa_object (PhotosSource *self)
 {
   return self->object;
 }
+
+
+GIcon *
+photos_source_get_icon (PhotosSource *self)
+{
+  return self->icon;
+}

@@ -56,6 +56,8 @@ const gchar        *photos_source_get_name               (PhotosSource *self);
 
 GoaObject          *photos_source_get_goa_object         (PhotosSource *self);
 
+GIcon              *photos_source_get_icon               (PhotosSource *self);
+
 G_END_DECLS
 
 #endif /* PHOTOS_SOURCE_H */
