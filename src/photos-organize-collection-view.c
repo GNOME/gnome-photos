@@ -48,7 +48,7 @@ struct _PhotosOrganizeCollectionViewPrivate
   GtkCellRenderer *renderer_text;
   GtkListStore *model;
   GtkTreeViewColumn *view_col;
-  PhotosBaseManager *col_mngr;
+  PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   gboolean choice_confirmed;
 };
@@ -156,7 +156,7 @@ photos_organize_collection_view_detail_cell (GtkTreeViewColumn *tree_column,
   gchar *id;
 
   gtk_tree_model_get (GTK_TREE_MODEL (priv->model), iter, PHOTOS_ORGANIZE_MODEL_ID, &id, -1);
-  object = photos_base_manager_get_object_by_id (priv->col_mngr, id);
+  object = photos_base_manager_get_object_by_id (priv->item_mngr, id);
 
   if (object != NULL)
     {
@@ -276,7 +276,7 @@ photos_organize_collection_view_dispose (GObject *object)
   PhotosOrganizeCollectionViewPrivate *priv = self->priv;
 
   g_clear_object (&priv->model);
-  g_clear_object (&priv->col_mngr);
+  g_clear_object (&priv->item_mngr);
   g_clear_object (&priv->src_mngr);
 
   G_OBJECT_CLASS (photos_organize_collection_view_parent_class)->dispose (object);
@@ -336,7 +336,7 @@ photos_organize_collection_view_init (PhotosOrganizeCollectionView *self)
                                            self,
                                            NULL);
 
-  priv->col_mngr = g_object_ref (state->src_mngr);
+  priv->item_mngr = g_object_ref (state->item_mngr);
   priv->src_mngr = g_object_ref (state->src_mngr);
 
   gtk_widget_show (GTK_WIDGET (self));
