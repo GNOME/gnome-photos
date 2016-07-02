@@ -153,28 +153,26 @@ photos_organize_collection_view_detail_cell (GtkTreeViewColumn *tree_column,
   PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
   PhotosOrganizeCollectionViewPrivate *priv = self->priv;
   GObject *object;
+  const gchar *identifier = NULL;
   gchar *id;
 
   gtk_tree_model_get (GTK_TREE_MODEL (priv->model), iter, PHOTOS_ORGANIZE_MODEL_ID, &id, -1);
   object = photos_base_manager_get_object_by_id (priv->item_mngr, id);
 
   if (object != NULL)
+    identifier = photos_base_item_get_identifier (PHOTOS_BASE_ITEM (object));
+
+  if (identifier != NULL && !g_str_has_prefix (identifier, PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER))
     {
-      const gchar *identifier;
+      PhotosSource *source;
+      const gchar *name;
+      const gchar *resource_urn;
 
-      identifier = photos_base_item_get_identifier (PHOTOS_BASE_ITEM (object));
-      if (identifier != NULL && !g_str_has_prefix (identifier, PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER))
-        {
-          PhotosSource *source;
-          const gchar *name;
-          const gchar *resource_urn;
-
-          resource_urn = photos_base_item_get_resource_urn (PHOTOS_BASE_ITEM (object));
-          source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (priv->src_mngr, resource_urn));
-          name = photos_source_get_name (source);
-          g_object_set (cell_renderer, "text", name, NULL);
-          gtk_cell_renderer_set_visible (cell_renderer, TRUE);
-        }
+      resource_urn = photos_base_item_get_resource_urn (PHOTOS_BASE_ITEM (object));
+      source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (priv->src_mngr, resource_urn));
+      name = photos_source_get_name (source);
+      g_object_set (cell_renderer, "text", name, NULL);
+      gtk_cell_renderer_set_visible (cell_renderer, TRUE);
     }
   else
     {
