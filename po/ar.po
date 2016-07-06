@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-07-01 22:16+0000\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-ph"
+"otos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-06-18 08:04+0000\n"
 "PO-Revision-Date: ٢٠١٦-٠٦-٢١ ١٧:٣٣+0300\n"
 "Last-Translator: Safa Alfulaij <safa1996alfulaij@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
@@ -16,12 +16,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural= n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural= n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 &"
+"& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 "X-Generator: Lokalize 2.0\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:666
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "الصور"
@@ -113,7 +113,7 @@ msgstr "اعرض إصدارة التطبيق"
 msgid "Album"
 msgstr "ألبوم"
 
-#: ../src/photos-base-item.c:1558
+#: ../src/photos-base-item.c:1486
 msgid "Screenshots"
 msgstr "اللقطات"
 
@@ -134,7 +134,7 @@ msgstr[4] "حُذف %d عنصرا"
 msgstr[5] "حُذف %d عنصر"
 
 #: ../src/photos-delete-notification.c:156
-#: ../src/photos-done-notification.c:187
+#: ../src/photos-done-notification.c:189
 msgid "Undo"
 msgstr "تراجع"
 
@@ -142,20 +142,20 @@ msgstr "تراجع"
 msgid "DLNA Renderer Devices"
 msgstr "أجهزة عرض ت‌ش‌ر‌ح"
 
-#: ../src/photos-done-notification.c:179
+#: ../src/photos-done-notification.c:181
 #, c-format
 msgid "“%s” edited"
 msgstr "حُررت \"%s\""
 
-#: ../src/photos-embed.c:673 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "الألبومات"
 
-#: ../src/photos-embed.c:680 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "المفضّلة"
 
-#: ../src/photos-embed.c:687 ../src/photos-main-toolbar.c:299
+#: ../src/photos-embed.c:706 ../src/photos-main-toolbar.c:299
 msgid "Search"
 msgstr "ابحث"
 
@@ -287,13 +287,13 @@ msgstr "مجلد التصدير"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:105 ../src/photos-flickr-item.c:110
-#: ../src/photos-google-item.c:107
+#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
+#: ../src/photos-google-item.c:82
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:185
+#: ../src/photos-fetch-metas-job.c:174
 msgid "Untitled Photo"
 msgstr "صورة غير معنونة"
 
@@ -422,7 +422,7 @@ msgstr "تجري فهرسة صورك"
 msgid "Some photos might not be available during this process"
 msgstr "قد لا تتاح بعض الصور أثناء هذه العملية"
 
-#: ../src/photos-local-item.c:140 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:132 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "محلّي"
 
@@ -811,15 +811,15 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1181
+#: ../src/photos-tool-crop.c:1178
 msgid "Lock aspect ratio"
 msgstr "اقفل النّسبة الباعيّة"
 
-#: ../src/photos-tool-crop.c:1229
+#: ../src/photos-tool-crop.c:1226
 msgid "Reset"
 msgstr "صفّر"
 
-#: ../src/photos-tool-crop.c:1246
+#: ../src/photos-tool-crop.c:1243
 msgid "Crop"
 msgstr "اقتصص"
 
