@@ -1,24 +1,36 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Khaled Hosny <khaledhosny@eglug.org>, 2013.
+# Muhannad Alrusayni <muhannad.alrusayni@gmail.com>, 2016.
+# Safa Alfulaij <safa1996alfulaij@gmail.com>, 2016.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-03 00:48+0200\n"
-"PO-Revision-Date: 2013-10-03 01:00+0200\n"
-"Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-07-01 22:16+0000\n"
+"PO-Revision-Date: ٢٠١٦-٠٦-٢١ ١٧:٣٣+0300\n"
+"Last-Translator: Safa Alfulaij <safa1996alfulaij@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Virtaal 0.7.1-rc1\n"
+"Plural-Forms: nplurals=6; plural= n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: Lokalize 2.0\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.appdata.xml.in.h:1
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:666
+#: ../src/photos-search-type-manager.c:135
+msgid "Photos"
+msgstr "الصور"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
+msgid "Access, organize and share your photos on GNOME"
+msgstr "اعرض و نظّم و شارك صورك في جنوم"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:3
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -29,31 +41,43 @@ msgstr ""
 "بسيطًا و رائعًا عن مدير الملفات للتعامل مع الصور. يتوفر تكامل سلل مع الخدمات "
 "السحابية عبر حسابات الإنترنت في جنوم."
 
-#: ../data/gnome-photos.appdata.xml.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:4
 msgid "It lets you:"
 msgstr "يتيح لك:"
 
-#: ../data/gnome-photos.appdata.xml.in.h:3
-msgid ""
-"<li>View recent local and online photos</li> <li>Access your Flickr content</"
-"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
-"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
-"featured editor for more advanced changes</li>"
-msgstr ""
-"<li>عرض الصور المحلية الحديثة و عبر الإنترنت</li> <li>إرسال الصور إلى عارضات "
-"ت‌ش‌ر‌ح البعيدة</li> <li>جعل الصورة خلفية</li> <li>طبع الصور</li> "
-"<li>اختيار المفضلة</li> <li>فتح محرر صور متقدم للتغييرات المتقدمة</li>"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+msgid "View recent local and online photos"
+msgstr "عرض آخر الملفات المحلية والشبكية"
 
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:93
-msgid "Photos"
-msgstr "الصور"
+#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+msgid "Access your Facebook or Flickr content"
+msgstr "الوصول إلى محتويات فيسبوك أو فلكر"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
+#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+msgid "Send photos to remote DLNA renderers"
+msgstr "إرسال الصور إلى مصيّرات DLNA بعيدة"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+msgid "Set as background"
+msgstr "ضبط الصور كخلفية"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+msgid "Print photos"
+msgstr "طباعة الصور"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+msgid "Select favorites"
+msgstr "تفضيل الصور"
+
+#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+msgid "Allow opening full featured editor for more advanced changes"
+msgstr "إمكانية فتح محرر كامل المزايا لإجراء تعديلات متقدّمة"
+
+#: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "اعرض و نظّم و شارك الصور"
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
 msgstr "صورة;صور;"
 
@@ -81,182 +105,419 @@ msgstr "تكبير النافذة"
 msgid "Window maximized state"
 msgstr "حالة تكبير النافذة"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%A، %Oe %B %Y  %X"
+#: ../src/photos-application.c:146
+msgid "Show the application's version"
+msgstr "اعرض إصدارة التطبيق"
 
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%A، %Oe %B %Y"
-
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%I.1f (عدسة)"
-
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%I.1f (فيلم 35مم)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "التحويل على الصورة المرفوعة."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "فشل التحويل."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "إكسيف (EXIF) غير مدعوم لهذا النسق من الملفّات."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "فشل تحميل الصورة."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "لم تحمّل أي صور."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "لا تملك الصلاحيات المطلوبة لحفظ هذا الملف."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "فشل إنشاء الملف المؤقّت."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "هناك على الأقل ملفان باسم واحد."
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "تعذر عرض مساعدة عارض الصّور."
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (يونيكود غير سليم)"
-
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "ملء الشاشة"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "ﻡ_ﺱﺎﻋﺩﺓ"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About Photos"
-msgstr "عن «الصور»"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "أنهِ"
-
-#: ../src/photos-base-item.c:303
+#: ../src/photos-base-item.c:477
 msgid "Album"
 msgstr "ألبوم"
+
+#: ../src/photos-base-item.c:1558
+msgid "Screenshots"
+msgstr "اللقطات"
+
+#: ../src/photos-delete-notification.c:145
+#, c-format
+msgid "“%s” deleted"
+msgstr "حُذفت \"%s\""
+
+#: ../src/photos-delete-notification.c:148
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "لم تُحذف أي عناصر"
+msgstr[1] "حُذف عنصر واحد"
+msgstr[2] "حُذف عنصرين"
+msgstr[3] "حُذفت %d عناصر"
+msgstr[4] "حُذف %d عنصرا"
+msgstr[5] "حُذف %d عنصر"
+
+#: ../src/photos-delete-notification.c:156
+#: ../src/photos-done-notification.c:187
+msgid "Undo"
+msgstr "تراجع"
 
 #: ../src/photos-dlna-renderers-dialog.ui.h:1
 msgid "DLNA Renderer Devices"
 msgstr "أجهزة عرض ت‌ش‌ر‌ح"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:78
+#: ../src/photos-done-notification.c:179
+#, c-format
+msgid "“%s” edited"
+msgstr "حُررت \"%s\""
+
+#: ../src/photos-embed.c:673 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "الألبومات"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:85
+#: ../src/photos-embed.c:680 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "المفضّلة"
 
-#: ../src/photos-empty-results-box.c:66
+#: ../src/photos-embed.c:687 ../src/photos-main-toolbar.c:299
+msgid "Search"
+msgstr "ابحث"
+
+#: ../src/photos-empty-results-box.c:119
+msgid "Name your first album"
+msgstr "ضع اسما لألبومك الأول"
+
+#. Translators: this should be translated in the context of the "You
+#. * can add your online accounts in Settings" sentence below
+#.
+#: ../src/photos-empty-results-box.c:139
+msgid "Settings"
+msgstr "الإعدادات"
+
+#. Translators: %s here is "Settings", which is in a separate string
+#. * due to markup, and should be translated only in the context of
+#. * this sentence.
+#.
+#: ../src/photos-empty-results-box.c:145
+#, c-format
+msgid "You can add your online accounts in %s"
+msgstr "يمكنك إضافة حساباتك الشبكية من %s"
+
+#: ../src/photos-empty-results-box.c:186
+msgid "No Albums Found"
+msgstr "لم يُعثر على أي ألبوم"
+
+#: ../src/photos-empty-results-box.c:191
+msgid "Starred photos will appear here"
+msgstr "ستظهر الصور ذات النجمة هنا"
+
+#: ../src/photos-empty-results-box.c:197
 msgid "No Photos Found"
-msgstr "لم يُعثر على أي صور"
+msgstr "لم يعثر على صور"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
-msgid "Flickr"
-msgstr "فلِكَر"
+#: ../src/photos-export-dialog.ui.h:1
+msgctxt "dialog title"
+msgid "Export"
+msgstr "صدّر"
 
-#: ../src/photos-indexing-notification.c:168
-msgid "Your photos are being indexed"
-msgstr "يجري فهرسة صورِك"
+#: ../src/photos-export-dialog.ui.h:2
+msgid "_Folder Name"
+msgstr "اسم الم_جلد"
 
+#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:942
+msgid "Size"
+msgstr "الحجم"
+
+#: ../src/photos-export-dialog.ui.h:4
+msgid "F_ull"
+msgstr "_كامل"
+
+#: ../src/photos-export-dialog.ui.h:5
+msgid "_Reduced"
+msgstr "م_قلّص"
+
+#: ../src/photos-export-dialog.ui.h:6
+msgid "_Cancel"
+msgstr "أل_غِ"
+
+#: ../src/photos-export-dialog.ui.h:7
+msgid "_Export"
+msgstr "_صدّر"
+
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: ../src/photos-export-dialog.c:76
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
+
+#. Translators: this is the default sub-directory where photos
+#. *  will be exported.
+#.
+#: ../src/photos-export-dialog.c:281
+msgid "%e %B %Y"
+msgstr "%e %B %Y"
+
+#: ../src/photos-export-dialog.c:336
+msgid "Calculating export size…"
+msgstr "يحسب حجم التصدير..."
+
+#: ../src/photos-export-notification.c:241
+msgid "Failed to export: not enough space"
+msgstr "فشل التصدير: المساحة غير كافية"
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export"
+msgstr "فشل في التصدير"
+
+#: ../src/photos-export-notification.c:250
+#, c-format
+msgid "“%s” exported"
+msgstr "صُدّرت \"%s\""
+
+#: ../src/photos-export-notification.c:254
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "لم يُصدّر أي عنصر"
+msgstr[1] "صُدّر عنصر واحد"
+msgstr[2] "صُدّر عنصران"
+msgstr[3] "صُدّرت %d عناصر"
+msgstr[4] "صُدّر %d عنصرًا"
+msgstr[5] "صُدّر %d عنصر"
+
+#: ../src/photos-export-notification.c:272
+msgid "Analyze"
+msgstr "حلل"
+
+#: ../src/photos-export-notification.c:277
+msgid "Empty Trash"
+msgstr "أفرغ المهملات"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:294 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "افتح"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:304
+msgid "Export Folder"
+msgstr "مجلد التصدير"
+
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:105 ../src/photos-flickr-item.c:110
+#: ../src/photos-google-item.c:107
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
+
+#: ../src/photos-fetch-metas-job.c:185
+msgid "Untitled Photo"
+msgstr "صورة غير معنونة"
+
+#: ../src/photos-help-overlay.ui.h:1
+msgctxt "shortcut window"
+msgid "General"
+msgstr "عام"
+
+#: ../src/photos-help-overlay.ui.h:2
+msgctxt "shortcut window"
+msgid "Show help"
+msgstr "اعرض المساعدة"
+
+#: ../src/photos-help-overlay.ui.h:3
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "أنهِ"
+
+#: ../src/photos-help-overlay.ui.h:4
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "التنقّل"
+
+#: ../src/photos-help-overlay.ui.h:5
+msgctxt "shortcut window"
+msgid "Next photo"
+msgstr "الصورة التالية"
+
+#: ../src/photos-help-overlay.ui.h:6
+msgctxt "shortcut window"
+msgid "Previous photo"
+msgstr "الصورة السابقة"
+
+#: ../src/photos-help-overlay.ui.h:7
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "عُد"
+
+#: ../src/photos-help-overlay.ui.h:8
+msgctxt "shortcut window"
+msgid "Overview"
+msgstr "نظرة عامّة"
+
+#: ../src/photos-help-overlay.ui.h:9
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "ابحث"
+
+#: ../src/photos-help-overlay.ui.h:10
+msgctxt "shortcut window"
+msgid "Select all"
+msgstr "حدد الكل"
+
+#: ../src/photos-help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr "اطبع الصور المحددة"
+
+#: ../src/photos-help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "أحذف الصور المحددة"
+
+#: ../src/photos-help-overlay.ui.h:13
+msgctxt "shortcut window"
+msgid "Photo view"
+msgstr "منظور الصور"
+
+#: ../src/photos-help-overlay.ui.h:14
+msgctxt "shortcut window"
+msgid "Edit"
+msgstr "تحرير"
+
+#: ../src/photos-help-overlay.ui.h:15
+msgctxt "shortcut window"
+msgid "Export"
+msgstr "صدّر"
+
+#: ../src/photos-help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "اطبع"
+
+#: ../src/photos-help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "احذف"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
+msgid "Action menu"
+msgstr "قائمة الإجراءات"
+
+#: ../src/photos-help-overlay.ui.h:19
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "ملء الشاشة"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "منظور التحرير"
+
+#: ../src/photos-help-overlay.ui.h:21
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "ألغِ"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr.
+#.
 #: ../src/photos-indexing-notification.c:172
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "يجلب الصور من %s"
+
+#: ../src/photos-indexing-notification.c:175
+msgid "Fetching photos from online accounts"
+msgstr "يجلب الصور من الحسابات الشبكية"
+
+#: ../src/photos-indexing-notification.c:211
+msgid "Your photos are being indexed"
+msgstr "تجري فهرسة صورك"
+
+#: ../src/photos-indexing-notification.c:212
 msgid "Some photos might not be available during this process"
-msgstr "قد لا تتاح بعض الصور أثناء هذا"
+msgstr "قد لا تتاح بعض الصور أثناء هذه العملية"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
-msgid "Load More"
-msgstr "حمّل المزيد"
-
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
-msgid "Loading…"
-msgstr "يُحمّل…"
-
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: ../src/photos-local-item.c:140 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "محلّي"
 
-#: ../src/photos-main-toolbar.c:99
+#: ../src/photos-main-toolbar.c:113
 msgid "Click on items to select them"
 msgstr "انقر على العناصر لاختيارها"
 
-#: ../src/photos-main-toolbar.c:101
+#: ../src/photos-main-toolbar.c:115
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
-msgstr[0] "لا عناصر مُختارة"
-msgstr[1] "عنصر واحد مُختار"
-msgstr[2] "عنصرين مختارين"
-msgstr[3] "%d عناصر مُختارة"
-msgstr[4] "%d عنصرا مُختارة"
-msgstr[5] "%d عنصر مُختارة"
+msgstr[0] "لا عناصر محددة"
+msgstr[1] "عنصر واحد محدد"
+msgstr[2] "عنصرين محددين"
+msgstr[3] "%d عناصر محددة"
+msgstr[4] "%d عنصرا محددا"
+msgstr[5] "%d عنصر محدد"
 
-#: ../src/photos-main-toolbar.c:146
+#: ../src/photos-main-toolbar.c:165
 msgid "Back"
 msgstr "السابق"
 
-#: ../src/photos-main-toolbar.c:273
+#: ../src/photos-main-toolbar.c:314
 msgid "Select Items"
-msgstr "اختر العناصر"
+msgstr "حدد العناصر"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: ../src/photos-main-toolbar.c:408 ../src/photos-selection-toolbar.c:234
 #, c-format
 msgid "Open with %s"
 msgstr "افتح باستخدام %s"
 
-#: ../src/photos-main-toolbar.c:490
+#: ../src/photos-main-toolbar.c:448 ../src/photos-selection-toolbar.c:245
+msgid "Remove from favorites"
+msgstr "أزل من المفضّلة"
+
+#: ../src/photos-main-toolbar.c:453 ../src/photos-selection-toolbar.c:250
+msgid "Add to favorites"
+msgstr "أضف للمفضّلة"
+
+#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:623
 msgid "Cancel"
 msgstr "ألغِ"
 
-#: ../src/photos-main-window.c:329
-msgid "Access, organize and share your photos on GNOME"
-msgstr "اعرض و نظّم و شارك صورك في جنوم"
+#: ../src/photos-main-toolbar.c:494
+msgid "Done"
+msgstr "تمّ"
+
+#: ../src/photos-main-window.c:492
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
+msgstr ""
+"حقوق النسخ © 2013 شركة إنتل. جميع الحقوق محفوظة.\n"
+"حقوق النسخ © 2014 - 2015 Pranav Kant\n"
+"حقوق النسخ © 2012 - 2016 شركة رِد هات."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr ""
 "فريق عربآيز للترجمة http://www.arabeyes.org:\n"
-"خالد حسني <khaledhosny@eglug.org>"
+"خالد حسني\t<khaledhosny@eglug.org>\n"
+"صفا الفليج\t<safa1996alfulaij@gmail.com>\n"
+"مهند الرسيني\t<muhnnad.alrusayni@gmail.com>"
+
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "ملء الشاشة"
+
+#: ../src/photos-menus.ui.h:2
+msgid "Keyboard Shortcuts"
+msgstr "اختصارات لوحة المفاتيح"
+
+#: ../src/photos-menus.ui.h:3
+msgid "_Help"
+msgstr "م_ساعدة"
+
+#: ../src/photos-menus.ui.h:4
+msgid "About"
+msgstr "عنْ"
+
+#: ../src/photos-menus.ui.h:5
+msgid "Quit"
+msgstr "أنهِ"
+
+#: ../src/photos-organize-collection-dialog.c:76
+msgid "_Add"
+msgstr "أ_ضف"
+
+#: ../src/photos-organize-collection-dialog.c:77
+msgid "_OK"
+msgstr "_حسنا"
 
 #. Translators: "Organize" refers to photos in this context
 #: ../src/photos-organize-collection-dialog.c:128
@@ -264,119 +525,116 @@ msgctxt "Dialog title"
 msgid "Organize"
 msgstr "نظّم"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
-#: ../src/photos-selection-toolbar.c:437
-msgid "Open"
-msgstr "افتح"
-
 #: ../src/photos-preview-menu.ui.h:2
+msgid "Export…"
+msgstr "صدّر..."
+
+#: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
 msgstr "اطبع…"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Delete"
+msgstr "احذف"
+
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
 msgstr "أظهر في…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Background"
 msgstr "اجعلها الخلفية"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
-#: ../src/photos-selection-toolbar.c:469
+#: ../src/photos-preview-menu.ui.h:7
+msgid "Set as Lock Screen"
+msgstr "اجعلها شاشة القفل"
+
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:619
+#: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "الخصائص"
 
-#: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
-msgid "Remove from favorites"
-msgstr "أزل من المفضّلة"
+#: ../src/photos-print-notification.c:79
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "يطبع \"%s\":‏ %s"
 
-#: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
-msgid "Add to favorites"
-msgstr "أضف للمفضّلة"
-
-#: ../src/photos-print-operation.c:270
+#: ../src/photos-print-operation.c:271
 msgid "Image Settings"
 msgstr "إعدادات الصورة"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:914
 msgid "Position"
 msgstr "الموضع"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:917
 msgid "_Left:"
 msgstr "_يسار:"
 
-#: ../src/photos-print-setup.c:899
+#: ../src/photos-print-setup.c:918
 msgid "_Right:"
 msgstr "ي_مين:"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:919
 msgid "_Top:"
 msgstr "_فوق:"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:920
 msgid "_Bottom:"
 msgstr "_تحت:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:922
 msgid "C_enter:"
 msgstr "وس_ط:"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:926
 msgid "None"
 msgstr "لا شيء"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:927
 msgid "Horizontal"
 msgstr "أفقي"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:928
 msgid "Vertical"
 msgstr "رأسي"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:929
 msgid "Both"
 msgstr "كلاهما"
 
-#: ../src/photos-print-setup.c:923
-msgid "Size"
-msgstr "الحجم"
-
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:945
 msgid "_Width:"
 msgstr "ال_عرض:"
 
-#: ../src/photos-print-setup.c:927
+#: ../src/photos-print-setup.c:946
 msgid "_Height:"
 msgstr "الا_رتفاع:"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:948
 msgid "_Scaling:"
 msgstr "ال_تحجيم:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:957
 msgid "_Unit:"
 msgstr "ال_وحدة:"
 
-#: ../src/photos-print-setup.c:942
+#: ../src/photos-print-setup.c:961
 msgid "Millimeters"
 msgstr "مليمتر"
 
-#: ../src/photos-print-setup.c:943
+#: ../src/photos-print-setup.c:962
 msgid "Inches"
 msgstr "بوصة"
 
-#: ../src/photos-print-setup.c:971
+#: ../src/photos-print-setup.c:990
 msgid "Preview"
 msgstr "عاين"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
+#: ../src/photos-properties-dialog.c:231
 msgctxt "Document Title"
 msgid "Title"
 msgstr "العنوان"
@@ -384,99 +642,321 @@ msgstr "العنوان"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
+#: ../src/photos-properties-dialog.c:243
 msgctxt "Document Author"
 msgid "Author"
 msgstr "المؤلف"
 
-#: ../src/photos-properties-dialog.c:236
+#: ../src/photos-properties-dialog.c:250
 msgid "Source"
 msgstr "المصدر"
 
-#: ../src/photos-properties-dialog.c:242
+#: ../src/photos-properties-dialog.c:256
 msgid "Date Modified"
 msgstr "تاريخ التعديل"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:264
 msgid "Date Created"
 msgstr "تاريخ الإنشاء"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
+#: ../src/photos-properties-dialog.c:274
 msgctxt "Document Type"
 msgid "Type"
 msgstr "النّوع"
 
-#: ../src/photos-properties-dialog.c:269
+#: ../src/photos-properties-dialog.c:283
 msgid "Width"
 msgstr "العرض"
 
-#: ../src/photos-properties-dialog.c:279
+#: ../src/photos-properties-dialog.c:293
 msgid "Height"
 msgstr "الارتفاع"
 
-#: ../src/photos-properties-dialog.c:294
+#: ../src/photos-properties-dialog.c:308
 msgid "Camera"
 msgstr "الكمرة"
 
-#: ../src/photos-properties-dialog.c:304
+#: ../src/photos-properties-dialog.c:318
 msgid "Exposure"
 msgstr "التعرض"
 
-#: ../src/photos-properties-dialog.c:314
+#: ../src/photos-properties-dialog.c:328
 msgid "Aperture"
 msgstr "البؤرة"
 
-#: ../src/photos-properties-dialog.c:324
+#: ../src/photos-properties-dialog.c:338
 msgid "Focal Length"
 msgstr "الطول البؤري"
 
-#: ../src/photos-properties-dialog.c:334
+#: ../src/photos-properties-dialog.c:348
 msgid "ISO Speed"
 msgstr "سرعة ISO"
 
-#: ../src/photos-properties-dialog.c:344
+#: ../src/photos-properties-dialog.c:358
 msgid "Flash"
 msgstr "الوميض"
 
-#: ../src/photos-properties-dialog.c:527
+#: ../src/photos-properties-dialog.c:498
 msgid "Off, did not fire"
 msgstr "مطفأ، لم يُستخدم"
 
-#: ../src/photos-properties-dialog.c:529
+#: ../src/photos-properties-dialog.c:500
 msgid "On, fired"
 msgstr "شغال، استُخدِم"
 
-#: ../src/photos-properties-dialog.c:608
-msgid "Done"
-msgstr "تمّ"
-
-#: ../src/photos-search-type-manager.c:73 ../src/photos-source-manager.c:151
+#: ../src/photos-search-match-manager.c:158
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "الكلّ"
 
+#. Translators: "Title" refers to "Match Title" when searching.
+#: ../src/photos-search-match-manager.c:165
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "العنوان"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: ../src/photos-search-match-manager.c:172
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "المؤلف"
+
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:210
+msgid "Match"
+msgstr "طابق"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: ../src/photos-search-type-manager.c:168
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "النوع"
+
 #: ../src/photos-selection-menu.ui.h:1
 msgid "Select All"
-msgstr "اختر الكل"
+msgstr "حدّد الكل"
 
 #: ../src/photos-selection-menu.ui.h:2
 msgid "Select None"
-msgstr "أزل الاختيار عن الكل"
+msgstr "أزل تحديد الكل"
 
-#: ../src/photos-selection-toolbar.c:445
-msgid "Print"
-msgstr "اطبع"
+#: ../src/photos-selection-toolbar.ui.h:1
+msgid "Export"
+msgstr "صدّر"
 
-#: ../src/photos-selection-toolbar.c:453
-msgid "Delete"
-msgstr "احذف"
-
-#: ../src/photos-selection-toolbar.c:461
+#: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "أضف إلى الألبوم"
 
-#: ../src/photos-tracker-controller.c:82
+#: ../src/photos-source-manager.c:203
+msgid "Sources"
+msgstr "المصادر"
+
+#: ../src/photos-tool-colors.c:251
+msgid "Brightness"
+msgstr "السطوع"
+
+#: ../src/photos-tool-colors.c:272
+msgid "Contrast"
+msgstr "التباين"
+
+#: ../src/photos-tool-colors.c:292
+msgid "Saturation"
+msgstr "التشبّع"
+
+#: ../src/photos-tool-colors.c:319
+msgid "Colors"
+msgstr "الألوان"
+
+#: ../src/photos-tool-crop.c:132
+msgid "Free"
+msgstr "مفتوح"
+
+#: ../src/photos-tool-crop.c:133
+msgid "Original"
+msgstr "الأصل"
+
+#: ../src/photos-tool-crop.c:134
+msgid "1×1 (Square)"
+msgstr "1×1 (مربّع)"
+
+#: ../src/photos-tool-crop.c:135
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
+
+#: ../src/photos-tool-crop.c:136
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
+
+#: ../src/photos-tool-crop.c:137
+msgid "7×5"
+msgstr "7×5"
+
+#: ../src/photos-tool-crop.c:138
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
+
+#: ../src/photos-tool-crop.c:139
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
+
+#: ../src/photos-tool-crop.c:140
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1181
+msgid "Lock aspect ratio"
+msgstr "اقفل النّسبة الباعيّة"
+
+#: ../src/photos-tool-crop.c:1229
+msgid "Reset"
+msgstr "صفّر"
+
+#: ../src/photos-tool-crop.c:1246
+msgid "Crop"
+msgstr "اقتصص"
+
+#: ../src/photos-tool-enhance.c:207
+msgid "Sharpen"
+msgstr "اشحذ"
+
+#: ../src/photos-tool-enhance.c:227
+msgid "Denoise"
+msgstr "أزل الضجيج"
+
+#: ../src/photos-tool-enhance.c:253
+msgid "Enhance"
+msgstr "حسّن"
+
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "بدون"
+
+#: ../src/photos-tool-filters.c:199
+msgid "1947"
+msgstr "1947"
+
+#: ../src/photos-tool-filters.c:206
+msgid "Calistoga"
+msgstr "كاليستوغا"
+
+#: ../src/photos-tool-filters.c:212
+msgid "Mogadishu"
+msgstr "مقديشو"
+
+#: ../src/photos-tool-filters.c:219
+msgid "Caap"
+msgstr "Caap"
+
+#: ../src/photos-tool-filters.c:225
+msgid "Hometown"
+msgstr "هومتاون"
+
+#: ../src/photos-tool-filters.c:243
+msgid "Filters"
+msgstr "المرشّحات"
+
+#: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "تعذّر جلب قائمة الصور"
+
+#~ msgid "Print the current photo"
+#~ msgstr "اطبع الصورة الحالية"
+
+#~| msgid "Fullscreen"
+#~ msgid "Screen"
+#~ msgstr "الشاشة"
+
+#~ msgid "Golden Cut"
+#~ msgstr "قص مثالي"
+
+#~ msgid "A3 (297 × 420 mm)"
+#~ msgstr "A3 (297 × 420 مم)"
+
+#~ msgid "A4 (210 × 297 mm)"
+#~ msgstr "A4 (210 × 297 مم)"
+
+#~ msgid "1977"
+#~ msgstr "1977"
+
+#~ msgid "Brannan"
+#~ msgstr "برانان"
+
+#~ msgid "Gotham"
+#~ msgstr "غوثام"
+
+#~ msgid "Gray"
+#~ msgstr "رمادي"
+
+#~ msgid "Nashville"
+#~ msgstr "ناشفيل"
+
+#~ msgid ""
+#~ "<li>View recent local and online photos</li> <li>Access your Flickr "
+#~ "content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as "
+#~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
+#~ "opening full featured editor for more advanced changes</li>"
+#~ msgstr ""
+#~ "<li>عرض الصور المحلية الحديثة و عبر الإنترنت</li> <li>إرسال الصور إلى "
+#~ "عارضات ت‌ش‌ر‌ح البعيدة</li> <li>جعل الصورة خلفية</li> <li>طبع الصور</li> "
+#~ "<li>اختيار المفضلة</li> <li>فتح محرر صور متقدم للتغييرات المتقدمة</li>"
+
+#~ msgid "%a, %d %B %Y  %X"
+#~ msgstr "%A، %Oe %B %Y  %X"
+
+#~ msgid "%.1f (lens)"
+#~ msgstr "%I.1f (عدسة)"
+
+#~ msgid "%.1f (35mm film)"
+#~ msgstr "%I.1f (فيلم 35مم)"
+
+#~ msgid "Transformation on unloaded image."
+#~ msgstr "التحويل على الصورة المرفوعة."
+
+#~ msgid "Transformation failed."
+#~ msgstr "فشل التحويل."
+
+#~ msgid "EXIF not supported for this file format."
+#~ msgstr "إكسيف (EXIF) غير مدعوم لهذا النسق من الملفّات."
+
+#~ msgid "Image loading failed."
+#~ msgstr "فشل تحميل الصورة."
+
+#~ msgid "No image loaded."
+#~ msgstr "لم تحمّل أي صور."
+
+#~ msgid "You do not have the permissions necessary to save the file."
+#~ msgstr "لا تملك الصلاحيات المطلوبة لحفظ هذا الملف."
+
+#~ msgid "Temporary file creation failed."
+#~ msgstr "فشل إنشاء الملف المؤقّت."
+
+#~ msgid "At least two file names are equal."
+#~ msgstr "هناك على الأقل ملفان باسم واحد."
+
+#~ msgid "Could not display help for Image Viewer"
+#~ msgstr "تعذر عرض مساعدة عارض الصّور."
+
+#~ msgid " (invalid Unicode)"
+#~ msgstr " (يونيكود غير سليم)"
+
+#~ msgid "About Photos"
+#~ msgstr "عن «الصور»"
+
+#~ msgid "Flickr"
+#~ msgstr "فلِكَر"
+
+#~ msgid "Load More"
+#~ msgstr "حمّل المزيد"
+
+#~ msgid "Loading…"
+#~ msgstr "يُحمّل…"
