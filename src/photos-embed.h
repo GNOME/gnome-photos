@@ -33,7 +33,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_EMBED (photos_embed_get_type ())
-G_DECLARE_FINAL_TYPE(PhotosEmbed, photos_embed, PHOTOS, EMBED, GtkBox)
+G_DECLARE_FINAL_TYPE (PhotosEmbed, photos_embed, PHOTOS, EMBED, GtkBox)
 
 GtkWidget             *photos_embed_new                    (void);
 
