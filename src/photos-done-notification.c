@@ -39,11 +39,6 @@ struct _PhotosDoneNotification
   guint timeout_id;
 };
 
-struct _PhotosDoneNotificationClass
-{
-  GtkGridClass parent_class;
-};
-
 enum
 {
   PROP_0,

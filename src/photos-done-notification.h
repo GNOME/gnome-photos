@@ -27,21 +27,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_DONE_NOTIFICATION (photos_done_notification_get_type ())
-
-#define PHOTOS_DONE_NOTIFICATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_DONE_NOTIFICATION, PhotosDoneNotification))
-
-#define PHOTOS_IS_DONE_NOTIFICATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_DONE_NOTIFICATION))
-
-typedef struct _PhotosDoneNotification      PhotosDoneNotification;
-typedef struct _PhotosDoneNotificationClass PhotosDoneNotificationClass;
-
-GType             photos_done_notification_get_type (void) G_GNUC_CONST;
-
-void              photos_done_notification_new      (PhotosBaseItem *item);
+G_DECLARE_FINAL_TYPE (PhotosDoneNotification, photos_done_notification, PHOTOS, DONE_NOTIFICATION, GtkGrid)
 
 G_END_DECLS
 
