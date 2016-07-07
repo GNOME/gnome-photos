@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_CREATE_COLLECTION_JOB (photos_create_collection_job_get_type ())
-
-#define PHOTOS_CREATE_COLLECTION_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_CREATE_COLLECTION_JOB, PhotosCreateCollectionJob))
-
-#define PHOTOS_IS_CREATE_COLLECTION_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_CREATE_COLLECTION_JOB))
-
-typedef struct _PhotosCreateCollectionJob      PhotosCreateCollectionJob;
-typedef struct _PhotosCreateCollectionJobClass PhotosCreateCollectionJobClass;
-
-GType                       photos_create_collection_job_get_type    (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosCreateCollectionJob,
+                      photos_create_collection_job,
+                      PHOTOS,
+                      CREATE_COLLECTION_JOB,
+                      GObject)
 
 PhotosCreateCollectionJob  *photos_create_collection_job_new         (const gchar *name);
 
