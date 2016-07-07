@@ -30,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_DELETE_ITEM_JOB (photos_delete_item_job_get_type ())
-
-#define PHOTOS_DELETE_ITEM_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_DELETE_ITEM_JOB, PhotosDeleteItemJob))
-
-#define PHOTOS_IS_DELETE_ITEM_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_DELETE_ITEM_JOB))
-
-typedef struct _PhotosDeleteItemJob      PhotosDeleteItemJob;
-typedef struct _PhotosDeleteItemJobClass PhotosDeleteItemJobClass;
-
-GType                       photos_delete_item_job_get_type    (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosDeleteItemJob, photos_delete_item_job, PHOTOS, DELETE_ITEM_JOB, GObject)
 
 PhotosDeleteItemJob        *photos_delete_item_job_new         (const gchar *urn);
 

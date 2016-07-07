@@ -44,11 +44,6 @@ struct _PhotosDeleteItemJob
   gchar *urn;
 };
 
-struct _PhotosDeleteItemJobClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,
