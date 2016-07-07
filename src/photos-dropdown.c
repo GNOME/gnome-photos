@@ -48,11 +48,6 @@ struct _PhotosDropdown
   PhotosBaseManager *src_mngr;
 };
 
-struct _PhotosDropdownClass
-{
-  GtkPopoverClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosDropdown, photos_dropdown, GTK_TYPE_POPOVER);
 

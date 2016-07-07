@@ -30,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_DROPDOWN (photos_dropdown_get_type ())
-
-#define PHOTOS_DROPDOWN(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_DROPDOWN, PhotosDropdown))
-
-#define PHOTOS_IS_DROPDOWN(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_DROPDOWN))
-
-typedef struct _PhotosDropdown      PhotosDropdown;
-typedef struct _PhotosDropdownClass PhotosDropdownClass;
-
-GType                     photos_dropdown_get_type             (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosDropdown, photos_dropdown, PHOTOS, DROPDOWN, GtkPopover)
 
 GtkWidget                *photos_dropdown_new                  (void);
 
