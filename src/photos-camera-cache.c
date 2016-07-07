@@ -37,11 +37,6 @@ struct _PhotosCameraCache
   PhotosTrackerQueue *queue;
 };
 
-struct _PhotosCameraCacheClass
-{
-  GObjectClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosCameraCache, photos_camera_cache, G_TYPE_OBJECT);
 

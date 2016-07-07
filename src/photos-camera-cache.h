@@ -27,19 +27,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_CAMERA_CACHE (photos_camera_cache_get_type ())
-
-#define PHOTOS_CAMERA_CACHE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_CAMERA_CACHE, PhotosCameraCache))
-
-#define PHOTOS_IS_CAMERA_CACHE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_CAMERA_CACHE))
-
-typedef struct _PhotosCameraCache      PhotosCameraCache;
-typedef struct _PhotosCameraCacheClass PhotosCameraCacheClass;
-
-GType                  photos_camera_cache_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosCameraCache, photos_camera_cache, PHOTOS, CAMERA_CACHE, GObject)
 
 PhotosCameraCache     *photos_camera_cache_dup_singleton          (void);
 
