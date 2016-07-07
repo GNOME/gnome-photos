@@ -52,11 +52,6 @@ struct _PhotosDlnaRenderersDialog
   gchar *urn;
 };
 
-struct _PhotosDlnaRenderersDialogClass
-{
-  GtkDialogClass parent_class;
-};
-
 enum
 {
   PROP_0,

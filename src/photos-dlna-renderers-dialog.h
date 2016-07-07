@@ -26,19 +26,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_DLNA_RENDERERS_DIALOG (photos_dlna_renderers_dialog_get_type ())
-
-#define PHOTOS_DLNA_RENDERERS_DIALOG(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_DLNA_RENDERERS_DIALOG, PhotosDlnaRenderersDialog))
-
-#define PHOTOS_IS_DLNA_RENDERERS_DIALOG(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_DLNA_RENDERERS_DIALOG))
-
-typedef struct _PhotosDlnaRenderersDialog      PhotosDlnaRenderersDialog;
-typedef struct _PhotosDlnaRenderersDialogClass PhotosDlnaRenderersDialogClass;
-
-GType               photos_dlna_renderers_dialog_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosDlnaRenderersDialog,
+                      photos_dlna_renderers_dialog,
+                      PHOTOS,
+                      DLNA_RENDERERS_DIALOG,
+                      GtkDialog)
 
 GtkWidget          *photos_dlna_renderers_dialog_new                (GtkWindow *parent, const gchar *urn);
 
