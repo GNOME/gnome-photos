@@ -32,19 +32,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_BASE_MODEL (photos_base_model_get_type ())
-
-#define PHOTOS_BASE_MODEL(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_BASE_MODEL, PhotosBaseModel))
-
-#define PHOTOS_IS_BASE_MODEL(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_BASE_MODEL))
-
-typedef struct _PhotosBaseModel      PhotosBaseModel;
-typedef struct _PhotosBaseModelClass PhotosBaseModelClass;
-
-GType             photos_base_model_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosBaseModel, photos_base_model, PHOTOS, BASE_MODEL, GObject)
 
 PhotosBaseModel  *photos_base_model_new                    (PhotosBaseManager *mngr);
 

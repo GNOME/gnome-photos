@@ -39,11 +39,6 @@ struct _PhotosBaseModel
   PhotosBaseManager *mngr;
 };
 
-struct _PhotosBaseModelClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,
