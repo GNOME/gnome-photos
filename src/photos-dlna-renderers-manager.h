@@ -26,19 +26,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_DLNA_RENDERERS_MANAGER (photos_dlna_renderers_manager_get_type ())
-
-#define PHOTOS_DLNA_RENDERERS_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_DLNA_RENDERERS_MANAGER, PhotosDlnaRenderersManager))
-
-#define PHOTOS_IS_DLNA_RENDERERS_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_DLNA_RENDERERS_MANAGER))
-
-typedef struct _PhotosDlnaRenderersManager      PhotosDlnaRenderersManager;
-typedef struct _PhotosDlnaRenderersManagerClass PhotosDlnaRenderersManagerClass;
-
-GType                       photos_dlna_renderers_manager_get_type      (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosDlnaRenderersManager,
+                      photos_dlna_renderers_manager,
+                      PHOTOS,
+                      DLNA_RENDERERS_MANAGER,
+                      GObject)
 
 PhotosDlnaRenderersManager *photos_dlna_renderers_manager_dup_singleton (void);
 

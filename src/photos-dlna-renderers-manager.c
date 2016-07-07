@@ -37,11 +37,6 @@ struct _PhotosDlnaRenderersManager
   GError *error;
 };
 
-struct _PhotosDlnaRenderersManagerClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   RENDERER_FOUND,
