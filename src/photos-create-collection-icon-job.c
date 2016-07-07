@@ -41,11 +41,6 @@ struct _PhotosCreateCollectionIconJob
   gchar *urn;
 };
 
-struct _PhotosCreateCollectionIconJobClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,

@@ -30,21 +30,13 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_CREATE_COLLECTION_ICON_JOB (photos_create_collection_icon_job_get_type ())
-
-#define PHOTOS_CREATE_COLLECTION_ICON_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_CREATE_COLLECTION_ICON_JOB, PhotosCreateCollectionIconJob))
-
-#define PHOTOS_IS_CREATE_COLLECTION_ICON_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_CREATE_COLLECTION_ICON_JOB))
+G_DECLARE_FINAL_TYPE (PhotosCreateCollectionIconJob,
+                      photos_create_collection_icon_job,
+                      PHOTOS,
+                      CREATE_COLLECTION_ICON_JOB,
+                      GObject)
 
 typedef void (*PhotosCreateCollectionIconJobCallback) (GIcon *, gpointer);
-
-typedef struct _PhotosCreateCollectionIconJob      PhotosCreateCollectionIconJob;
-typedef struct _PhotosCreateCollectionIconJobClass PhotosCreateCollectionIconJobClass;
-
-GType                          photos_create_collection_icon_job_get_type  (void) G_GNUC_CONST;
 
 PhotosCreateCollectionIconJob *photos_create_collection_icon_job_new       (const gchar *urn);
 
