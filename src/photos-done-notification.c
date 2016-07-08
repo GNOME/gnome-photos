@@ -18,6 +18,7 @@
  * 02110-1301, USA.
  */
 
+
 #include "config.h"
 
 #include <glib/gi18n.h>
@@ -29,6 +30,7 @@
 #include "photos-notification-manager.h"
 #include "photos-search-context.h"
 
+
 struct _PhotosDoneNotification
 {
   GtkGrid parent_instance;
@@ -37,12 +39,10 @@ struct _PhotosDoneNotification
   guint timeout_id;
 };
 
-
 struct _PhotosDoneNotificationClass
 {
   GtkGridClass parent_class;
 };
-
 
 enum
 {

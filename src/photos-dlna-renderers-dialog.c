@@ -19,6 +19,7 @@
  * 02110-1301, USA.
  */
 
+
 #include "config.h"
 
 #include "photos-dlna-renderers-dialog.h"
@@ -55,7 +56,6 @@ struct _PhotosDlnaRenderersDialogClass
 {
   GtkDialogClass parent_class;
 };
-
 
 enum
 {

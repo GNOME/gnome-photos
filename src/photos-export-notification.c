@@ -61,7 +61,7 @@ G_DEFINE_TYPE (PhotosExportNotification, photos_export_notification, GTK_TYPE_GR
 
 enum
 {
-    EXPORT_TIMEOUT = 10 /* s */
+  EXPORT_TIMEOUT = 10 /* s */
 };
 
 static void

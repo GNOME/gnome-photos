@@ -19,6 +19,7 @@
  * 02110-1301, USA.
  */
 
+
 #include "config.h"
 
 #include <glib/gi18n.h>
@@ -46,7 +47,6 @@ struct _PhotosDeleteNotificationClass
   GtkGridClass parent_class;
 };
 
-
 enum
 {
   PROP_0,
@@ -59,7 +59,7 @@ G_DEFINE_TYPE (PhotosDeleteNotification, photos_delete_notification, GTK_TYPE_GR
 
 enum
 {
-    DELETE_TIMEOUT = 10 /* s */
+  DELETE_TIMEOUT = 10 /* s */
 };
 
 
