@@ -2750,7 +2750,7 @@ photos_base_item_set_default_app (PhotosBaseItem *self, GAppInfo *default_app)
     return;
 
   g_clear_object (&priv->default_app);
-  g_free (priv->default_app_name);
+  g_clear_pointer (&priv->default_app_name, g_free);
 
   if (default_app == NULL)
     return;
