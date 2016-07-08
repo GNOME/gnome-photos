@@ -362,8 +362,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
       g_queue_push_head (self->collection_path,
                          (self->active_collection != NULL) ? g_object_ref (self->active_collection) : NULL);
 
-      g_clear_object (&self->active_collection);
-      self->active_collection = g_object_ref (object);
+      g_set_object (&self->active_collection, PHOTOS_BASE_ITEM (object));
       self->load_state = PHOTOS_LOAD_STATE_NONE;
       active_collection_changed = TRUE;
     }

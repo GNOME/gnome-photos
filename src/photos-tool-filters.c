@@ -111,9 +111,7 @@ photos_tool_filters_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImag
   if (self->buttons == NULL || self->create_preview_id != 0)
     goto out;
 
-  g_clear_object (&self->item);
-  self->item = g_object_ref (item);
-
+  g_set_object (&self->item, item);
   self->create_preview_id = g_idle_add_full (G_PRIORITY_LOW, photos_tool_filters_create_preview_idle, self, NULL);
 
   if (photos_base_item_operation_get (item, "photos:insta-filter", "preset", &preset, NULL))

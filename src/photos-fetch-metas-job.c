@@ -122,10 +122,7 @@ photos_fetch_metas_job_create_collection_icon_executed (GObject *source_object,
     }
 
   if (icon != NULL)
-    {
-      g_clear_object (&meta->icon);
-      meta->icon = g_object_ref (icon);
-    }
+    g_set_object (&meta->icon, icon);
 
   self->metas = g_list_prepend (self->metas, meta);
   photos_fetch_metas_job_collector (self);

@@ -325,10 +325,7 @@ photos_base_item_set_original_icon (PhotosBaseItem *self, GdkPixbuf *icon)
   PhotosBaseItemPrivate *priv = self->priv;
 
   if (icon != NULL)
-    {
-      g_clear_object (&priv->original_icon);
-      priv->original_icon = g_object_ref (icon);
-    }
+    g_set_object (&priv->original_icon, icon);
 
   photos_base_item_check_effects_and_update_info (self);
 }
@@ -2749,13 +2746,11 @@ photos_base_item_set_default_app (PhotosBaseItem *self, GAppInfo *default_app)
   if (priv->default_app != NULL && default_app != NULL && g_app_info_equal (priv->default_app, default_app))
     return;
 
-  g_clear_object (&priv->default_app);
+  g_set_object (&priv->default_app, default_app);
   g_clear_pointer (&priv->default_app_name, g_free);
 
   if (default_app == NULL)
     return;
-
-  priv->default_app = g_object_ref (default_app);
 
   default_app_name = g_app_info_get_name (default_app);
   priv->default_app_name = g_strdup (default_app_name);
