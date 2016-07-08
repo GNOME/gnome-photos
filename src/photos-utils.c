@@ -1429,7 +1429,7 @@ photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
 {
   GError *error;
   PhotosTrackerQueue *queue = NULL;
-  gchar *sparql;
+  gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("%s { <%s> nao:hasTag nao:predefined-tag-favorite }",
                             (is_favorite) ? "INSERT OR REPLACE" : "DELETE",
@@ -1447,5 +1447,6 @@ photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
   photos_tracker_queue_update (queue, sparql, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
 
  out:
+  g_free (sparql);
   g_clear_object (&queue);
 }
