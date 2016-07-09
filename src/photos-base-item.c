@@ -477,7 +477,7 @@ photos_base_item_default_update_type_description (PhotosBaseItem *self)
   else if (priv->mime_type != NULL)
     description = g_content_type_get_description (priv->mime_type);
 
-  priv->type_description = description;
+  photos_utils_take_string (&priv->type_description, description);
 }
 
 
@@ -1376,21 +1376,39 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 {
   PhotosBaseItemPrivate *priv = self->priv;
   GTimeVal timeval;
+  const gchar *author;
   const gchar *date_created;
   const gchar *equipment;
   const gchar *flash;
+  const gchar *id;
+  const gchar *identifier;
+  const gchar *mime_type;
   const gchar *mtime;
   const gchar *orientation;
+  const gchar *rdf_type;
+  const gchar *resource_urn;
   const gchar *title;
   const gchar *uri;
+  gchar *filename;
+  gchar *name_fallback;
 
   uri = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URI, NULL);
-  priv->uri = g_strdup ((uri == NULL) ? "" : uri);
+  if (uri == NULL)
+    uri = "";
+  photos_utils_set_string (&priv->uri, uri);
 
-  priv->id = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL));
-  priv->identifier = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL));
-  priv->author = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_AUTHOR, NULL));
-  priv->resource_urn = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_URN, NULL));
+  id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+  photos_utils_set_string (&priv->id, id);
+
+  identifier = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL);
+  photos_utils_set_string (&priv->identifier, identifier);
+
+  author = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_AUTHOR, NULL);
+  photos_utils_set_string (&priv->author, author);
+
+  resource_urn = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_URN, NULL);
+  photos_utils_set_string (&priv->resource_urn, resource_urn);
+
   priv->favorite = tracker_sparql_cursor_get_boolean (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_FAVORITE);
 
   mtime = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MTIME, NULL);
@@ -1402,8 +1420,12 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   else
     priv->mtime = g_get_real_time () / 1000000;
 
-  priv->mime_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL));
-  priv->rdf_type = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL));
+  mime_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL);
+  photos_utils_set_string (&priv->mime_type, mime_type);
+
+  rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
+  photos_utils_set_string (&priv->rdf_type, rdf_type);
+
   photos_base_item_update_info_from_type (self);
 
   date_created = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_DATE_CREATED, NULL);
@@ -1422,11 +1444,12 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 
   if (title == NULL)
     title = "";
-  priv->name = g_strdup (title);
+  photos_utils_set_string (&priv->name, title);
 
-  priv->filename = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_FILENAME, NULL));
-  if ((priv->filename == NULL || priv->filename[0] == '\0') && !priv->collection)
-    priv->filename = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_filename_fallback (self);
+  filename = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_FILENAME, NULL));
+  if ((filename == NULL || filename[0] == '\0') && !priv->collection)
+    filename = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_filename_fallback (self);
+  photos_utils_take_string (&priv->filename, filename);
 
   priv->width = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_WIDTH);
   priv->height = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_HEIGHT);
@@ -1445,7 +1468,9 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   flash = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_FLASH, NULL);
   priv->flash = g_quark_from_string (flash);
 
-  priv->name_fallback = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_name_fallback (self);
+  name_fallback = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_name_fallback (self);
+  photos_utils_take_string (&priv->name_fallback, name_fallback);
+
   photos_base_item_refresh_icon (self);
 }
 
