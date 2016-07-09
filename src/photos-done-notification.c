@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2016 Rafael Fonseca
+ * Copyright © 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,6 +27,7 @@
 
 #include "photos-base-item.h"
 #include "photos-done-notification.h"
+#include "photos-filterable.h"
 #include "photos-icons.h"
 #include "photos-notification-manager.h"
 #include "photos-search-context.h"
@@ -34,6 +36,7 @@
 struct _PhotosDoneNotification
 {
   GtkGrid parent_instance;
+  GAction *edit_revert_action;
   PhotosBaseItem *item;
   GtkWidget *ntfctn_mngr;
   guint timeout_id;
@@ -69,6 +72,7 @@ photos_done_notification_remove_timeout (PhotosDoneNotification *self)
 static void
 photos_done_notification_destroy (PhotosDoneNotification *self)
 {
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->edit_revert_action), FALSE);
   photos_done_notification_remove_timeout (self);
   gtk_widget_destroy (GTK_WIDGET (self));
 }
@@ -86,66 +90,8 @@ photos_done_notification_timeout (gpointer user_data)
 
 
 static void
-photos_done_notification_pipeline_save_finish (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  GApplication *app;
-  GError *error = NULL;
-  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-
-  if (!photos_base_item_pipeline_save_finish (item, res, &error))
-    {
-      g_warning ("Unable to save pipeline: %s", error->message);
-      g_error_free (error);
-    }
-
-  app = g_application_get_default ();
-  g_application_release (app);
-}
-
-
-static void
-photos_done_notification_edit_undo_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  GApplication *app;
-  GAction *action;
-  GError *error = NULL;
-  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-
-  app = g_application_get_default ();
-
-  if (!photos_base_item_operations_revert_finish (item, res, &error))
-    {
-      g_warning ("Unable to process item: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
-
-  g_application_hold (app);
-  photos_base_item_pipeline_save_async (item,
-                                        NULL,
-                                        photos_done_notification_pipeline_save_finish,
-                                        NULL);
-
- out:
-  action = g_action_map_lookup_action (G_ACTION_MAP (app), "draw-current");
-  g_action_activate (action, NULL);
-  g_application_release (app);
-}
-
-
-static void
 photos_done_notification_undo_clicked (PhotosDoneNotification *self)
 {
-  GApplication *app;
-
-  app = g_application_get_default ();
-  g_application_hold (app);
-
-  photos_base_item_operations_revert_async (self->item,
-                                            NULL,
-                                            photos_done_notification_edit_undo_process,
-                                            NULL);
-
   photos_done_notification_destroy (self);
 }
 
@@ -158,6 +104,7 @@ photos_done_notification_constructed (GObject *object)
   GtkWidget *image;
   GtkWidget *label;
   GtkWidget *undo;
+  const gchar *id;
   const gchar *name;
   gchar *msg;
 
@@ -177,8 +124,19 @@ photos_done_notification_constructed (GObject *object)
 
   undo = gtk_button_new_with_label (_("Undo"));
   gtk_widget_set_valign (undo, GTK_ALIGN_CENTER);
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (undo), "app.edit-revert");
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (self->item));
+  gtk_actionable_set_action_target (GTK_ACTIONABLE (undo), "s", id);
   gtk_container_add (GTK_CONTAINER (self), undo);
-  g_signal_connect_swapped (undo, "clicked", G_CALLBACK (photos_done_notification_undo_clicked), self);
+  /* GtkButton will activate the GAction in a signal handler with the
+   * 'after' flag set. We need to ensure that we don't self-destruct
+   * before that.
+   */
+  g_signal_connect_object (undo,
+                           "clicked",
+                           G_CALLBACK (photos_done_notification_undo_clicked),
+                           self,
+                           G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 
   image = gtk_image_new_from_icon_name (PHOTOS_ICON_WINDOW_CLOSE_SYMBOLIC, GTK_ICON_SIZE_INVALID);
   gtk_widget_set_margin_bottom (image, 2);
@@ -195,6 +153,7 @@ photos_done_notification_constructed (GObject *object)
 
   photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr),
                                                 GTK_WIDGET (self));
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->edit_revert_action), TRUE);
 
   self->timeout_id = g_timeout_add_seconds (DONE_TIMEOUT, photos_done_notification_timeout, self);
 }
@@ -205,6 +164,7 @@ photos_done_notification_dispose (GObject *object)
 {
   PhotosDoneNotification *self = PHOTOS_DONE_NOTIFICATION (object);
 
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->edit_revert_action), FALSE);
   photos_done_notification_remove_timeout (self);
 
   g_clear_object (&self->item);
@@ -238,6 +198,11 @@ photos_done_notification_set_property (GObject *object, guint prop_id, const GVa
 static void
 photos_done_notification_init (PhotosDoneNotification *self)
 {
+  GApplication *app;
+
+  app = g_application_get_default ();
+  self->edit_revert_action = g_action_map_lookup_action (G_ACTION_MAP (app), "edit-revert");
+
   self->ntfctn_mngr = photos_notification_manager_dup_singleton ();
 }
 

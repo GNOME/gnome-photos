@@ -80,6 +80,7 @@ struct _PhotosApplication
   GSimpleAction *edit_action;
   GSimpleAction *edit_cancel_action;
   GSimpleAction *edit_done_action;
+  GSimpleAction *edit_revert_action;
   GSimpleAction *fs_action;
   GSimpleAction *gear_action;
   GSimpleAction *insta_action;
@@ -784,6 +785,65 @@ photos_application_edit_current (PhotosApplication *self)
 
   photos_base_item_pipeline_snapshot (item);
   photos_mode_controller_set_window_mode (self->state->mode_cntrlr, PHOTOS_WINDOW_MODE_EDIT);
+}
+
+
+static void
+photos_application_edit_revert_pipeline_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GError *error;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+
+  error = NULL;
+  if (!photos_base_item_pipeline_save_finish (item, res, &error))
+    {
+      g_warning ("Unable to save pipeline: %s", error->message);
+      g_error_free (error);
+    }
+
+  g_application_release (G_APPLICATION (self));
+}
+
+
+static void
+photos_application_edit_revert_revert (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GError *error;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+
+  error = NULL;
+  if (!photos_base_item_operations_revert_finish (item, res, &error))
+    {
+      g_warning ("Unable to process item: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  g_application_hold (G_APPLICATION (self));
+  photos_base_item_pipeline_save_async (item, NULL, photos_application_edit_revert_pipeline_save, self);
+
+ out:
+  g_action_activate (G_ACTION (self->draw_action), NULL);
+  g_application_release (G_APPLICATION (self));
+}
+
+
+static void
+photos_application_edit_revert (PhotosApplication *self, GVariant *parameter)
+{
+  PhotosBaseItem *item;
+  const gchar *id;
+
+  id = g_variant_get_string (parameter, NULL);
+  g_return_if_fail (id != NULL && id[0] != '\0');
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->state->item_mngr, id));
+  g_return_if_fail (item != NULL);
+
+  g_application_hold (G_APPLICATION (self));
+  photos_base_item_operations_revert_async (item, NULL, photos_application_edit_revert_revert, self);
 }
 
 
@@ -1530,6 +1590,14 @@ photos_application_startup (GApplication *application)
   self->edit_done_action = g_simple_action_new ("edit-done", NULL);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->edit_done_action));
 
+  self->edit_revert_action = g_simple_action_new ("edit-revert", G_VARIANT_TYPE_STRING);
+  g_simple_action_set_enabled (self->edit_revert_action, FALSE);
+  g_signal_connect_swapped (self->edit_revert_action,
+                            "activate",
+                            G_CALLBACK (photos_application_edit_revert),
+                            self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->edit_revert_action));
+
   self->fs_action = g_simple_action_new ("fullscreen", NULL);
   g_signal_connect_swapped (self->fs_action, "activate", G_CALLBACK (photos_application_fullscreen), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->fs_action));
@@ -1689,6 +1757,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->edit_action);
   g_clear_object (&self->edit_cancel_action);
   g_clear_object (&self->edit_done_action);
+  g_clear_object (&self->edit_revert_action);
   g_clear_object (&self->fs_action);
   g_clear_object (&self->gear_action);
   g_clear_object (&self->insta_action);
