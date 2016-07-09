@@ -543,6 +543,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   GtkWidget *edit_button;
   GtkWidget *image;
   GtkWidget *menu_button;
+  GtkWidget *share_button;
   GApplication *app;
   PhotosBaseItem *item;
   gboolean favorite;
@@ -564,6 +565,10 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->toolbar), menu_button);
 
   g_simple_action_set_enabled (self->gear_menu, TRUE);
+
+  share_button = gtk_button_new_from_icon_name (PHOTOS_ICON_IMAGE_SHARE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (share_button), "app.share-current");
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->toolbar), share_button);
 
   edit_button = gtk_button_new_from_icon_name (PHOTOS_ICON_IMAGE_EDIT_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (edit_button), "app.edit-current");
