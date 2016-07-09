@@ -1473,3 +1473,31 @@ photos_utils_set_string (gchar **string_ptr, const gchar *new_string)
  out:
   return ret_val;
 }
+
+
+gboolean
+photos_utils_take_string (gchar **string_ptr, gchar *new_string)
+{
+  gboolean ret_val = FALSE;
+
+  g_return_val_if_fail (string_ptr != NULL, FALSE);
+
+  if (*string_ptr == new_string)
+    {
+      new_string = NULL;
+      goto out;
+    }
+
+  if (g_strcmp0 (*string_ptr, new_string) == 0)
+    goto out;
+
+  g_free (*string_ptr);
+  *string_ptr = new_string;
+  new_string = NULL;
+
+  ret_val = TRUE;
+
+ out:
+  g_free (new_string);
+  return ret_val;
+}

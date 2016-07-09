@@ -178,6 +178,8 @@ void             photos_utils_set_favorite                (const gchar *urn, gbo
 
 gboolean         photos_utils_set_string                  (gchar **string_ptr, const gchar *new_string);
 
+gboolean         photos_utils_take_string                 (gchar **string_ptr, gchar *new_string);
+
 G_END_DECLS
 
 #endif /* PHOTOS_UTILS_H */
