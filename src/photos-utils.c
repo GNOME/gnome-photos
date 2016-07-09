@@ -1450,3 +1450,26 @@ photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
   g_free (sparql);
   g_clear_object (&queue);
 }
+
+
+gboolean
+photos_utils_set_string (gchar **string_ptr, const gchar *new_string)
+{
+  gboolean ret_val = FALSE;
+
+  g_return_val_if_fail (string_ptr != NULL, FALSE);
+
+  if (*string_ptr == new_string)
+    goto out;
+
+  if (g_strcmp0 (*string_ptr, new_string) == 0)
+    goto out;
+
+  g_free (*string_ptr);
+  *string_ptr = g_strdup (new_string);
+
+  ret_val = TRUE;
+
+ out:
+  return ret_val;
+}

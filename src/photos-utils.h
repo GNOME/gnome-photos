@@ -176,6 +176,8 @@ void             photos_utils_set_edited_name             (const gchar *urn, con
 
 void             photos_utils_set_favorite                (const gchar *urn, gboolean is_favorite);
 
+gboolean         photos_utils_set_string                  (gchar **string_ptr, const gchar *new_string);
+
 G_END_DECLS
 
 #endif /* PHOTOS_UTILS_H */
