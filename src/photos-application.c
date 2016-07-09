@@ -1557,23 +1557,17 @@ photos_application_startup (GApplication *application)
   g_signal_connect (self->search_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_action));
 
-  parameter_type = g_variant_type_new ("s");
   state = g_variant_new ("s", PHOTOS_SEARCH_MATCH_STOCK_ALL);
-  self->search_match_action = g_simple_action_new_stateful ("search-match", parameter_type, state);
+  self->search_match_action = g_simple_action_new_stateful ("search-match", G_VARIANT_TYPE_STRING, state);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_match_action));
-  g_variant_type_free (parameter_type);
 
-  parameter_type = g_variant_type_new ("s");
   state = g_variant_new ("s", PHOTOS_SOURCE_STOCK_ALL);
-  self->search_source_action = g_simple_action_new_stateful ("search-source", parameter_type, state);
+  self->search_source_action = g_simple_action_new_stateful ("search-source", G_VARIANT_TYPE_STRING, state);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_source_action));
-  g_variant_type_free (parameter_type);
 
-  parameter_type = g_variant_type_new ("s");
   state = g_variant_new ("s", PHOTOS_SEARCH_TYPE_STOCK_ALL);
-  self->search_type_action = g_simple_action_new_stateful ("search-type", parameter_type, state);
+  self->search_type_action = g_simple_action_new_stateful ("search-type", G_VARIANT_TYPE_STRING, state);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_type_action));
-  g_variant_type_free (parameter_type);
 
   self->sel_all_action = g_simple_action_new ("select-all", NULL);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->sel_all_action));
