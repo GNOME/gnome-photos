@@ -29,6 +29,8 @@ G_BEGIN_DECLS
 #define PHOTOS_TYPE_DONE_NOTIFICATION (photos_done_notification_get_type ())
 G_DECLARE_FINAL_TYPE (PhotosDoneNotification, photos_done_notification, PHOTOS, DONE_NOTIFICATION, GtkGrid)
 
+void              photos_done_notification_new      (PhotosBaseItem *item);
+
 G_END_DECLS
 
 #endif /* PHOTOS_DONE_NOTIFICATION_H */
