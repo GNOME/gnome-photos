@@ -969,6 +969,9 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
   if (g_getenv ("GNOME_PHOTOS_DISABLE_MINERS") != NULL)
     return;
 
+  if (g_list_find (self->miners_running, miner) != NULL)
+    return;
+
   self->miners_running = g_list_prepend (self->miners_running, g_object_ref (miner));
   g_signal_emit (self, signals[MINERS_CHANGED], 0, self->miners_running);
 
