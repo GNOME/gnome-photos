@@ -38,6 +38,7 @@
 #include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-camera-cache.h"
+#include "photos-debug.h"
 #include "photos-dlna-renderers-dialog.h"
 #include "photos-export-dialog.h"
 #include "photos-export-notification.h"
@@ -929,8 +930,12 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
   GList *miner_link;
   GomMiner *miner = GOM_MINER (source_object);
   PhotosApplicationRefreshData *data;
+  const gchar *name;
   gpointer refresh_miner_id_data;
   guint refresh_miner_id;
+
+  name = g_dbus_proxy_get_name (G_DBUS_PROXY (miner));
+  photos_debug (PHOTOS_DEBUG_NETWORK, "Finished RefreshDB for %s (%p)", name, miner);
 
   refresh_miner_id_data = g_hash_table_lookup (self->refresh_miner_ids, miner);
   g_assert_null (refresh_miner_id_data);
@@ -958,6 +963,8 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
                                                  (GDestroyNotify) photos_application_refresh_data_free);
   g_hash_table_insert (self->refresh_miner_ids, miner, GUINT_TO_POINTER (refresh_miner_id));
 
+  photos_debug (PHOTOS_DEBUG_NETWORK, "Added timeout for %s (%p)", name, miner);
+
  out:
   g_application_release (G_APPLICATION (self));
   g_object_unref (miner);
@@ -969,13 +976,19 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
 {
   GCancellable *cancellable;
   const gchar *const index_types[] = {"photos", NULL};
+  const gchar *name;
   gpointer refresh_miner_id_data;
 
   if (g_getenv ("GNOME_PHOTOS_DISABLE_MINERS") != NULL)
     return;
 
+  name = g_dbus_proxy_get_name (G_DBUS_PROXY (miner));
+
   if (g_list_find (self->miners_running, miner) != NULL)
-    return;
+    {
+      photos_debug (PHOTOS_DEBUG_NETWORK, "Skipped %s (%p): already running", name, miner);
+      return;
+    }
 
   refresh_miner_id_data = g_hash_table_lookup (self->refresh_miner_ids, miner);
   if (refresh_miner_id_data != NULL)
@@ -984,6 +997,7 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
 
       g_source_remove (refresh_miner_id);
       g_hash_table_remove (self->refresh_miner_ids, miner);
+      photos_debug (PHOTOS_DEBUG_NETWORK, "Removed timeout for %s (%p)", name, miner);
     }
 
   self->miners_running = g_list_prepend (self->miners_running, g_object_ref (miner));
@@ -993,6 +1007,8 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
   g_object_set_data_full (G_OBJECT (miner), "cancellable", cancellable, g_object_unref);
   g_application_hold (G_APPLICATION (self));
   gom_miner_call_refresh_db (miner, index_types, cancellable, photos_application_refresh_db, self);
+
+  photos_debug (PHOTOS_DEBUG_NETWORK, "Called RefreshDB for %s (%p)", name, miner);
 }
 
 
