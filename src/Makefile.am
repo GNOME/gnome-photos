@@ -44,6 +44,8 @@ gnome_photos_SOURCES = \
 	photos-base-item.h \
 	photos-camera-cache.c \
 	photos-camera-cache.h \
+	photos-cancellable.c \
+	photos-cancellable.h \
 	photos-collection-icon-watcher.c \
 	photos-collection-icon-watcher.h \
 	photos-create-collection-icon-job.c \
