@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2015 Pranav Kant
+ * Copyright © 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,8 +30,9 @@ typedef enum
 {
   PHOTOS_DEBUG_DLNA       = 1 << 0,
   PHOTOS_DEBUG_GEGL       = 1 << 1,
-  PHOTOS_DEBUG_NETWORK    = 1 << 2,
-  PHOTOS_DEBUG_TRACKER    = 1 << 3
+  PHOTOS_DEBUG_MEMORY     = 1 << 2,
+  PHOTOS_DEBUG_NETWORK    = 1 << 3,
+  PHOTOS_DEBUG_TRACKER    = 1 << 4
 } PhotosDebugFlags;
 
 void        photos_debug_init          (void);
