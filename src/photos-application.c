@@ -965,12 +965,22 @@ photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner)
 {
   GCancellable *cancellable;
   const gchar *const index_types[] = {"photos", NULL};
+  gpointer refresh_miner_id_data;
 
   if (g_getenv ("GNOME_PHOTOS_DISABLE_MINERS") != NULL)
     return;
 
   if (g_list_find (self->miners_running, miner) != NULL)
     return;
+
+  refresh_miner_id_data = g_hash_table_lookup (self->refresh_miner_ids, miner);
+  if (refresh_miner_id_data != NULL)
+    {
+      guint refresh_miner_id = GPOINTER_TO_UINT (refresh_miner_id_data);
+
+      g_source_remove (refresh_miner_id);
+      g_hash_table_remove (self->refresh_miner_ids, miner);
+    }
 
   self->miners_running = g_list_prepend (self->miners_running, g_object_ref (miner));
   g_signal_emit (self, signals[MINERS_CHANGED], 0, self->miners_running);
