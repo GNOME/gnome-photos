@@ -926,6 +926,7 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   GError *error;
+  GList *miner_link;
   GomMiner *miner = GOM_MINER (source_object);
   PhotosApplicationRefreshData *data;
   gpointer refresh_miner_id_data;
@@ -934,7 +935,10 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
   refresh_miner_id_data = g_hash_table_lookup (self->refresh_miner_ids, miner);
   g_assert_null (refresh_miner_id_data);
 
-  self->miners_running = g_list_remove (self->miners_running, miner);
+  miner_link = g_list_find (self->miners_running, miner);
+  g_assert_nonnull (miner_link);
+
+  self->miners_running = g_list_remove_link (self->miners_running, miner_link);
   g_signal_emit (self, signals[MINERS_CHANGED], 0, self->miners_running);
 
   error = NULL;
