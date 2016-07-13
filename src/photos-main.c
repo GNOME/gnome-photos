@@ -30,14 +30,26 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "egg-counter.h"
 #include "photos-application.h"
 #include "photos-debug.h"
 #include "photos-remote-display-manager.h"
 
 
+static void
+photos_main_counter_arena_foreach (EggCounter *counter, gpointer user_data)
+{
+  gint64 count;
+
+  count = egg_counter_get (counter);
+  photos_debug (PHOTOS_DEBUG_MEMORY, "%s.%s = %" G_GINT64_FORMAT, counter->category, counter->name, count);
+}
+
+
 gint
 main (gint argc, gchar *argv[])
 {
+  EggCounterArena *counter_arena;
   GtkApplication *app;
   PhotosRemoteDisplayManager *remote_display_mngr;
   gint exit_status;
@@ -60,6 +72,9 @@ main (gint argc, gchar *argv[])
   exit_status = g_application_run (G_APPLICATION (app), argc, argv);
   g_object_unref (remote_display_mngr);
   g_object_unref (app);
+
+  counter_arena = egg_counter_arena_get_default ();
+  egg_counter_arena_foreach (counter_arena, photos_main_counter_arena_foreach, NULL);
 
   return exit_status;
 }
