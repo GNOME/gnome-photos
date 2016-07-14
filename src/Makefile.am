@@ -327,7 +327,6 @@ gnome_photos_LDADD = \
 	$(TRACKER_LIBS) \
 	$(LIBM) \
 	$(LIBRT) \
-	-ldl \
 	$(top_builddir)/libgd/libgd.la \
 	$(NULL)
 
