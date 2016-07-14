@@ -770,10 +770,7 @@ photos_application_edit_cancel (PhotosApplication *self)
   g_return_if_fail (item != NULL);
 
   g_application_hold (G_APPLICATION (self));
-  photos_base_item_operations_revert_async (item,
-                                            NULL,
-                                            photos_application_edit_cancel_process,
-                                            self);
+  photos_base_item_operations_revert_async (item, NULL, photos_application_edit_cancel_process, self);
 }
 
 
