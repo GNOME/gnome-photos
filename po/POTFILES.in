@@ -35,6 +35,7 @@ src/photos-search-type-manager.c
 [type: gettext/glade]src/photos-selection-menu.ui
 src/photos-selection-toolbar.c
 [type: gettext/glade]src/photos-selection-toolbar.ui
+src/photos-share-point-google.c
 src/photos-source-manager.c
 src/photos-spinner-box.c
 src/photos-tool-colors.c
