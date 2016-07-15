@@ -58,6 +58,9 @@
 #include "photos-single-item-job.h"
 #include "photos-source.h"
 #include "photos-source-manager.h"
+#include "photos-share-dialog.h"
+#include "photos-share-notification.h"
+#include "photos-share-point-manager.h"
 #include "photos-tracker-extract-priority.h"
 #include "photos-utils.h"
 
@@ -99,8 +102,10 @@ struct _PhotosApplication
   GSimpleAction *sel_none_action;
   GSimpleAction *set_bg_action;
   GSimpleAction *set_ss_action;
+  GSimpleAction *share_action;
   GSimpleAction *sharpen_action;
   GtkWidget *main_window;
+  PhotosBaseManager *shr_pnt_mngr;
   PhotosCameraCache *camera_cache;
   PhotosSearchContextState *state;
   PhotosSearchProvider *search_provider;
@@ -368,6 +373,11 @@ photos_application_actions_update (PhotosApplication *self)
             || (selection_mode && item != NULL && !photos_base_item_is_collection (item)));
   g_simple_action_set_enabled (self->print_action, enable);
   g_simple_action_set_enabled (self->save_action, enable);
+
+  enable = (item != NULL
+            && ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW) || selection_mode)
+            && photos_share_point_manager_can_share (PHOTOS_SHARE_POINT_MANAGER (self->shr_pnt_mngr), item));
+  g_simple_action_set_enabled (self->share_action, enable);
 
   can_open = FALSE;
   can_trash = selection != NULL;
@@ -1335,6 +1345,69 @@ photos_application_set_bg_common (PhotosApplication *self, GVariant *parameter, 
 
 
 static void
+photos_application_share_share (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  PhotosSharePoint *share_point = PHOTOS_SHARE_POINT (source_object);
+  GError *error = NULL;
+
+  photos_share_point_share_finish (share_point, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to share the image: %s", error->message);
+      photos_share_notification_new_with_error (share_point, error);
+      g_error_free (error);
+      goto out;
+    }
+
+ out:
+  g_application_unmark_busy (G_APPLICATION (self));
+  g_application_release (G_APPLICATION (self));
+}
+
+
+static void
+photos_application_share_response (GtkDialog *dialog, gint response_id, gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  PhotosBaseItem *item;
+  PhotosSharePoint *share_point;
+
+  if (response_id != GTK_RESPONSE_OK)
+    goto out;
+
+  share_point = photos_share_dialog_get_selected_share_point (PHOTOS_SHARE_DIALOG (dialog));
+  g_return_if_fail (share_point != NULL);
+
+  item = photos_application_get_selection_or_active_item (self);
+  g_return_if_fail (item != NULL);
+
+  g_application_hold (G_APPLICATION (self));
+  g_application_mark_busy (G_APPLICATION (self));
+  photos_share_point_share_async (share_point, item, NULL, photos_application_share_share, self);
+
+ out:
+  gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+
+static void
+photos_application_share_current (PhotosApplication *self)
+{
+  GtkWidget *dialog;
+  PhotosBaseItem *item;
+
+  item = photos_application_get_selection_or_active_item (self);
+  g_return_if_fail (item != NULL);
+  g_return_if_fail (!photos_base_item_is_collection (item));
+
+  dialog = photos_share_dialog_new (GTK_WINDOW (self->main_window), item);
+  gtk_widget_show_all (dialog);
+  g_signal_connect (dialog, "response", G_CALLBACK (photos_application_share_response), self);
+}
+
+
+static void
 photos_application_start_miners (PhotosApplication *self)
 {
   photos_application_create_miners (self);
@@ -1601,6 +1674,8 @@ photos_application_startup (GApplication *application)
   g_signal_connect (settings, "notify::gtk-theme-name", G_CALLBACK (photos_application_theme_changed), NULL);
   photos_application_theme_changed (settings);
 
+  self->shr_pnt_mngr = photos_share_point_manager_dup_singleton ();
+
   /* A dummy reference to keep it alive during the lifetime of the
    * application.
    */
@@ -1754,6 +1829,10 @@ photos_application_startup (GApplication *application)
   g_signal_connect_swapped (self->set_ss_action, "activate", G_CALLBACK (photos_application_set_bg_common), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->set_ss_action));
 
+  self->share_action = g_simple_action_new ("share-current", NULL);
+  g_signal_connect_swapped (self->share_action, "activate", G_CALLBACK (photos_application_share_current), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->share_action));
+
   self->sharpen_action = g_simple_action_new ("sharpen-current", G_VARIANT_TYPE_DOUBLE);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->sharpen_action));
 
@@ -1841,7 +1920,9 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->sel_none_action);
   g_clear_object (&self->set_bg_action);
   g_clear_object (&self->set_ss_action);
+  g_clear_object (&self->share_action);
   g_clear_object (&self->sharpen_action);
+  g_clear_object (&self->shr_pnt_mngr);
   g_clear_object (&self->camera_cache);
   g_clear_object (&self->sel_cntrlr);
   g_clear_object (&self->extract_priority);
