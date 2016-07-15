@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Photos - access, organize and share your photos on GNOME
+ Copyright © 2016 Umang Jain
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ 02110-1301, USA.
+-->
+<interface>
+  <template class="PhotosShareDialog" parent="GtkDialog">
+    <property name="border_width">24</property>
+    <property name="modal">1</property>
+    <property name="resizable">0</property>
+    <property name="skip_taskbar_hint">1</property>
+    <property name="title" translatable="yes" context="dialog title">Share</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkFlowBox" id="flow_box">
+            <property name="can_focus">1</property>
+            <property name="column_spacing">18</property>
+            <property name="homogeneous">1</property>
+            <property name="row_spacing">18</property>
+            <property name="selection_mode">none</property>
+            <signal name="child-activated"
+                    object="PhotosShareDialog"
+                    swapped="yes"
+                    handler="photos_share_dialog_child_activated" />
+          </object>
+          <packing>
+            <property name="expand">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

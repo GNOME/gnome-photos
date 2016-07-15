@@ -202,6 +202,8 @@ gnome_photos_SOURCES = \
 	photos-set-collection-job.h \
 	photos-settings.c \
 	photos-settings.h \
+	photos-share-dialog.c \
+	photos-share-dialog.h \
 	photos-share-point.c \
 	photos-share-point.h \
 	photos-share-point-email.c \
@@ -279,6 +281,7 @@ EXTRA_DIST = \
 	photos-preview-menu.ui \
 	photos-selection-menu.ui \
 	photos-selection-toolbar.ui \
+	photos-share-dialog.ui \
 	photos-gom-miner.xml \
 	photos-tracker-extract-priority.xml \
 	photos-tracker-resources.xml \
