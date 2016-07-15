@@ -43,6 +43,24 @@
         </packing>
       </child>
       <child>
+        <object class="GtkButton" id="toolbar_share">
+          <property name="visible">1</property>
+          <property name="action_name">app.share-current</property>
+          <style>
+            <class name="image-button"/>
+          </style>
+          <child>
+            <object class="GtkImage">
+              <property name="visible">1</property>
+              <property name="icon_name">emblem-shared-symbolic</property>
+            </object>
+          </child>
+        </object>
+        <packing>
+          <property name="pack_type">start</property>
+        </packing>
+      </child>
+      <child>
         <object class="GtkButton" id="toolbar_print">
           <property name="visible">1</property>
           <property name="action_name">app.print-current</property>
