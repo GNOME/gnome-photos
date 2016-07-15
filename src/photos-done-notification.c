@@ -88,7 +88,6 @@ photos_done_notification_timeout (gpointer user_data)
 static void
 photos_done_notification_pipeline_save_finish (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosDoneNotification *self = PHOTOS_DONE_NOTIFICATION (user_data);
   GApplication *app;
   GError *error = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
@@ -101,14 +100,12 @@ photos_done_notification_pipeline_save_finish (GObject *source_object, GAsyncRes
 
   app = g_application_get_default ();
   g_application_release (app);
-  g_object_unref (self);
 }
 
 
 static void
 photos_done_notification_edit_undo_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosDoneNotification *self = PHOTOS_DONE_NOTIFICATION (user_data);
   GApplication *app;
   GAction *action;
   GError *error = NULL;
@@ -127,13 +124,12 @@ photos_done_notification_edit_undo_process (GObject *source_object, GAsyncResult
   photos_base_item_pipeline_save_async (item,
                                         NULL,
                                         photos_done_notification_pipeline_save_finish,
-                                        g_object_ref (self));
+                                        NULL);
 
  out:
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "draw-current");
   g_action_activate (action, NULL);
   g_application_release (app);
-  g_object_unref (self);
 }
 
 
@@ -148,7 +144,7 @@ photos_done_notification_undo_clicked (PhotosDoneNotification *self)
   photos_base_item_operations_revert_async (self->item,
                                             NULL,
                                             photos_done_notification_edit_undo_process,
-                                            g_object_ref (self));
+                                            NULL);
 
   photos_done_notification_destroy (self);
 }
