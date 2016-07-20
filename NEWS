@@ -1,3 +1,28 @@
+Overview of changes in 3.21.4
+=============================
+
+* Bugs fixed:
+ 760839 base-item: Improvements to the size-guessing API
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 763908 done-notification: Remove unnecessary references
+ 764086 Convert jobs API to async calls
+ 765105 Implicitly process the pipeline during add, remove and revert
+ 765340 Use GtkMenuButton in the overview searchbar
+ 766162 Can't export photos from online accounts
+ 767892 item-manager: Fix the lifetime of the changes-pending handler
+ 768130 Keyboard activation leads to a CRITICAL and opens the wrong item
+ 768291 source: Add photos_source_get_icon
+ 768500 The sources of remote collections are not shown in
+        OrganizeCollectionView
+ 768548 base-item: Don't leak the cursor data while refreshing
+
+* Updated translations:
+ Arabic
+ Gujarati
+ Portuguese
+ Punjabi
+
+
 Overview of changes in 3.21.3
 =============================
 
