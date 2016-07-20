@@ -75,7 +75,7 @@ msgstr "ફોટાઓ દાખલ કરો, ગોઠવો અને શૅ
 
 #: ../data/org.gnome.Photos.desktop.in.in.h:3
 msgid "Photos;Pictures;"
-msgstr "ફોટાઓ;ચિત્રો"
+msgstr "ફોટાઓ;ચિત્રો;"
 
 #: ../data/org.gnome.photos.gschema.xml.h:1
 msgid "Window size"
