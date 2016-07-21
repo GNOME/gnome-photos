@@ -1372,7 +1372,7 @@ photos_base_item_save_save_to_stream (GObject *source_object, GAsyncResult *res,
 
 
 static void
-photos_base_item_save_create (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_save_file_create (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   GCancellable *cancellable;
@@ -1475,7 +1475,7 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
                                   G_FILE_CREATE_NONE,
                                   G_PRIORITY_DEFAULT,
                                   cancellable,
-                                  photos_base_item_save_create,
+                                  photos_base_item_save_file_create,
                                   g_object_ref (task));
 
  out:
