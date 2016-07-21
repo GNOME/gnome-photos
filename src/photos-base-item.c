@@ -137,6 +137,7 @@ struct _PhotosBaseItemSaveData
 {
   GFile *dir;
   GFile *unique_file;
+  GFileOutputStream *stream;
   GeglBuffer *buffer;
   gchar *type;
 };
@@ -174,6 +175,7 @@ photos_base_item_save_data_free (PhotosBaseItemSaveData *data)
 {
   g_clear_object (&data->dir);
   g_clear_object (&data->unique_file);
+  g_clear_object (&data->stream);
   g_clear_object (&data->buffer);
   g_free (data->type);
   g_slice_free (PhotosBaseItemSaveData, data);
@@ -1311,19 +1313,20 @@ photos_base_item_save_save_metadata (GObject *source_object, GAsyncResult *res, 
 
 
 static void
-photos_base_item_save_save_to_stream (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_save_stream_close (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   PhotosBaseItem *self;
   PhotosBaseItemSaveData *data;
   GCancellable *cancellable;
+  GOutputStream *stream = G_OUTPUT_STREAM (source_object);
   GError *error = NULL;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
-  if (!gdk_pixbuf_save_to_stream_finish (res, &error))
+  if (!g_output_stream_close_finish (stream, res, &error))
     {
       g_task_return_error (task, error);
       goto out;
@@ -1334,6 +1337,34 @@ photos_base_item_save_save_to_stream (GObject *source_object, GAsyncResult *res,
                                         cancellable,
                                         photos_base_item_save_save_metadata,
                                         g_object_ref (task));
+
+ out:
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_save_to_stream (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItemSaveData *data;
+  GCancellable *cancellable;
+  GError *error = NULL;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
+
+  if (!gdk_pixbuf_save_to_stream_finish (res, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_output_stream_close_async (G_OUTPUT_STREAM (data->stream),
+                               G_PRIORITY_DEFAULT,
+                               cancellable,
+                               photos_base_item_save_stream_close,
+                               g_object_ref (task));
 
  out:
   g_object_unref (task);
@@ -1363,6 +1394,10 @@ photos_base_item_save_create (GObject *source_object, GAsyncResult *res, gpointe
       g_task_return_error (task, error);
       goto out;
     }
+
+  g_assert_null (data->stream);
+  g_assert_true (G_IS_FILE_OUTPUT_STREAM (stream));
+  data->stream = g_object_ref (stream);
 
   g_assert_null (data->unique_file);
   g_assert_true (G_IS_FILE (unique_file));
