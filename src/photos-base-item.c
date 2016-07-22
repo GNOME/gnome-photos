@@ -133,6 +133,7 @@ EGG_DEFINE_COUNTER (instances, "PhotosBaseItem", "Instances", "Number of PhotosB
 
 typedef struct _PhotosBaseItemSaveData PhotosBaseItemSaveData;
 typedef struct _PhotosBaseItemSaveBufferData PhotosBaseItemSaveBufferData;
+typedef struct _PhotosBaseItemSaveToStreamData PhotosBaseItemSaveToStreamData;
 
 struct _PhotosBaseItemSaveData
 {
@@ -146,6 +147,14 @@ struct _PhotosBaseItemSaveBufferData
 {
   GFile *file;
   GFileOutputStream *stream;
+};
+
+struct _PhotosBaseItemSaveToStreamData
+{
+  GFile *file;
+  GFileIOStream *iostream;
+  GOutputStream *ostream;
+  gdouble zoom;
 };
 
 static GdkPixbuf *failed_icon;
@@ -206,6 +215,29 @@ photos_base_item_save_buffer_data_free (PhotosBaseItemSaveBufferData *data)
   g_clear_object (&data->file);
   g_clear_object (&data->stream);
   g_slice_free (PhotosBaseItemSaveBufferData, data);
+}
+
+
+static PhotosBaseItemSaveToStreamData *
+photos_base_item_save_to_stream_data_new (GOutputStream *ostream, gdouble zoom)
+{
+  PhotosBaseItemSaveToStreamData *data;
+
+  data = g_slice_new0 (PhotosBaseItemSaveToStreamData);
+  data->ostream = g_object_ref (ostream);
+  data->zoom = zoom;
+
+  return data;
+}
+
+
+static void
+photos_base_item_save_to_stream_data_free (PhotosBaseItemSaveToStreamData *data)
+{
+  g_clear_object (&data->file);
+  g_clear_object (&data->iostream);
+  g_clear_object (&data->ostream);
+  g_slice_free (PhotosBaseItemSaveToStreamData, data);
 }
 
 
@@ -1630,6 +1662,233 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
 
 
 static void
+photos_base_item_save_to_stream_file_delete (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GError *error;
+  GFile *file = G_FILE (source_object);
+  GTask *task = G_TASK (user_data);
+
+  error = NULL;
+  if (!g_file_delete_finish (file, res, &error))
+    {
+      gchar *uri = NULL;
+
+      uri = g_file_get_uri (file);
+      g_warning ("Unable to delete temporary file %s: %s", uri, error->message);
+      g_free (uri);
+      g_error_free (error);
+    }
+
+  /* Mark the task as a success, no matter what. The item has already
+   * been saved to the GOutputStream, so it doesn't make sense to
+   * fail the task just because we failed to delete the temporary
+   * file created during the process.
+   */
+  g_task_return_boolean (task, TRUE);
+
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_to_stream_stream_close (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GCancellable *cancellable;
+  GError *error;
+  GIOStream *iostream = G_IO_STREAM (source_object);
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItemSaveToStreamData *data;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveToStreamData *) g_task_get_task_data (task);
+
+  error = NULL;
+  g_io_stream_close_finish (iostream, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_file_delete_async (data->file,
+                       G_PRIORITY_DEFAULT,
+                       cancellable,
+                       photos_base_item_save_to_stream_file_delete,
+                       g_object_ref (task));
+
+ out:
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_to_stream_stream_splice (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GCancellable *cancellable;
+  GError *error;
+  GOutputStream *ostream = G_OUTPUT_STREAM (source_object);
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItemSaveToStreamData *data;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveToStreamData *) g_task_get_task_data (task);
+
+  error = NULL;
+  g_output_stream_splice_finish (ostream, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_io_stream_close_async (G_IO_STREAM (data->iostream),
+                           G_PRIORITY_DEFAULT,
+                           cancellable,
+                           photos_base_item_save_to_stream_stream_close,
+                           g_object_ref (task));
+
+ out:
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_to_stream_save_buffer (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GCancellable *cancellable;
+  GError *error;
+  GInputStream *istream;
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItemSaveToStreamData *data;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveToStreamData *) g_task_get_task_data (task);
+
+  error = NULL;
+  if (!photos_base_item_save_buffer_finish (self, res, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  istream = g_io_stream_get_input_stream (G_IO_STREAM (data->iostream));
+  g_assert_true (g_seekable_can_seek (G_SEEKABLE (istream)));
+
+  error = NULL;
+  if (!g_seekable_seek (G_SEEKABLE (istream), 0, G_SEEK_SET, cancellable, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_output_stream_splice_async (data->ostream,
+                                istream,
+                                G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE | G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET,
+                                G_PRIORITY_DEFAULT,
+                                cancellable,
+                                photos_base_item_save_to_stream_stream_splice,
+                                g_object_ref (task));
+
+ out:
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_to_stream_buffer_zoom (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItem *self;
+  GCancellable *cancellable;
+  GError *error;
+  GFile *file = NULL;
+  GFileIOStream *iostream = NULL;
+  GOutputStream *ostream;
+  GeglBuffer *buffer = GEGL_BUFFER (source_object);
+  GeglBuffer *buffer_zoomed = NULL;
+  PhotosBaseItemSaveToStreamData *data;
+
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveToStreamData *) g_task_get_task_data (task);
+
+  error = NULL;
+  buffer_zoomed = photos_utils_buffer_zoom_finish (buffer, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  error = NULL;
+  file = g_file_new_tmp (PACKAGE_TARNAME "-XXXXXX", &iostream, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_assert_null (data->file);
+  data->file = g_object_ref (file);
+
+  g_assert_null (data->iostream);
+  data->iostream = g_object_ref (iostream);
+
+  ostream = g_io_stream_get_output_stream (G_IO_STREAM (iostream));
+  photos_base_item_save_buffer_async (self,
+                                      buffer_zoomed,
+                                      file,
+                                      G_FILE_OUTPUT_STREAM (ostream),
+                                      cancellable,
+                                      photos_base_item_save_to_stream_save_buffer,
+                                      g_object_ref (task));
+
+ out:
+  g_clear_object (&buffer_zoomed);
+  g_clear_object (&file);
+  g_clear_object (&iostream);
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_to_stream_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GCancellable *cancellable;
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  GeglBuffer *buffer = NULL;
+  GeglNode *graph = NULL;
+  PhotosBaseItemSaveToStreamData *data;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveToStreamData *) g_task_get_task_data (task);
+
+  error = NULL;
+  graph = photos_base_item_load_finish (self, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  buffer = photos_utils_create_buffer_from_node (graph);
+  photos_utils_buffer_zoom_async (buffer,
+                                  data->zoom,
+                                  cancellable,
+                                  photos_base_item_save_to_stream_buffer_zoom,
+                                  g_object_ref (task));
+
+ out:
+  g_clear_object (&buffer);
+  g_clear_object (&graph);
+  g_object_unref (task);
+}
+
+
+static void
 photos_base_item_set_thumbnailing_icon (PhotosBaseItem *self)
 {
   if (thumbnailing_icon == NULL)
@@ -3027,6 +3286,54 @@ photos_base_item_save_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   return g_task_propagate_pointer (task, error);
+}
+
+
+void
+photos_base_item_save_to_stream_async (PhotosBaseItem *self,
+                                       GOutputStream *stream,
+                                       gdouble zoom,
+                                       GCancellable *cancellable,
+                                       GAsyncReadyCallback callback,
+                                       gpointer user_data)
+{
+  PhotosBaseItemPrivate *priv;
+  GTask *task;
+  PhotosBaseItemSaveToStreamData *data;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = self->priv;
+
+  g_return_if_fail (!priv->collection);
+  g_return_if_fail (G_IS_OUTPUT_STREAM (stream));
+  g_return_if_fail (priv->filename != NULL && priv->filename[0] != '\0');
+
+  data = photos_base_item_save_to_stream_data_new (stream, zoom);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_save_to_stream_async);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_to_stream_data_free);
+
+  photos_base_item_load_async (self, cancellable, photos_base_item_save_to_stream_load, g_object_ref (task));
+
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_save_to_stream_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_to_stream_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 
