@@ -756,7 +756,11 @@ photos_application_edit_cancel_process (GObject *source_object, GAsyncResult *re
       g_error_free (error);
     }
 
-  /* Go back, no matter what. */
+  /* Go back, no matter what. The revert can only fail in very
+   * exceptional circumstances (currently I don't know of any). So,
+   * if and when it fails, we don't want to be stuck inside the EDIT
+   * mode.
+   */
   photos_mode_controller_go_back (self->state->mode_cntrlr);
   g_application_release (G_APPLICATION (self));
 }
