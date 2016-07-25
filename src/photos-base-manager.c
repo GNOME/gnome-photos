@@ -87,6 +87,24 @@ photos_base_manager_default_get_filter (PhotosBaseManager *self, gint flags)
 }
 
 
+static GObject *
+photos_base_manager_default_get_object_by_id (PhotosBaseManager *self, const gchar *id)
+{
+  PhotosBaseManagerPrivate *priv;
+  GObject *ret_val = NULL;
+
+  priv = photos_base_manager_get_instance_private (self);
+
+  if (id == NULL)
+    goto out;
+
+  ret_val = g_hash_table_lookup (priv->objects, id);
+
+ out:
+  return ret_val;
+}
+
+
 static gchar *
 photos_base_manager_default_get_where (PhotosBaseManager *self, gint flags)
 {
@@ -214,6 +232,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   object_class->set_property = photos_base_manager_set_property;
   class->add_object = photos_base_manager_default_add_object;
   class->get_filter = photos_base_manager_default_get_filter;
+  class->get_object_by_id = photos_base_manager_default_get_object_by_id;
   class->get_where = photos_base_manager_default_get_where;
   class->remove_object_by_id = photos_base_manager_default_remove_object_by_id;
   class->set_active_object = photos_base_manager_default_set_active_object;
@@ -385,18 +404,7 @@ photos_base_manager_get_filter (PhotosBaseManager *self, gint flags)
 GObject *
 photos_base_manager_get_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
-  PhotosBaseManagerPrivate *priv;
-  GObject *ret_val = NULL;
-
-  priv = photos_base_manager_get_instance_private (self);
-
-  if (id == NULL)
-    goto out;
-
-  ret_val = g_hash_table_lookup (priv->objects, id);
-
- out:
-  return ret_val;
+  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_object_by_id (self, id);
 }
 
 

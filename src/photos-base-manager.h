@@ -67,6 +67,7 @@ struct _PhotosBaseManagerClass
   /* virtual methods */
   void (*add_object)      (PhotosBaseManager *self, GObject *object);
   gchar *(*get_filter)    (PhotosBaseManager *self, gint flags);
+  GObject *(*get_object_by_id) (PhotosBaseManager *self, const gchar *id);
   gchar *(*get_where)    (PhotosBaseManager *self, gint flags);
   void (*remove_object_by_id) (PhotosBaseManager *self, const gchar *id);
   gboolean (*set_active_object)    (PhotosBaseManager *self, GObject *object);
