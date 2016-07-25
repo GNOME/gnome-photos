@@ -32,19 +32,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_LOCAL_ITEM (photos_local_item_get_type ())
-
-#define PHOTOS_LOCAL_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_LOCAL_ITEM, PhotosLocalItem))
-
-#define PHOTOS_IS_LOCAL_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_LOCAL_ITEM))
-
-typedef struct _PhotosLocalItem      PhotosLocalItem;
-typedef struct _PhotosLocalItemClass PhotosLocalItemClass;
-
-GType               photos_local_item_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosLocalItem, photos_local_item, PHOTOS, LOCAL_ITEM, PhotosBaseItem)
 
 G_END_DECLS
 
