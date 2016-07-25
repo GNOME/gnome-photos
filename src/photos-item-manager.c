@@ -52,6 +52,7 @@ struct _PhotosItemManager
   GQueue *collection_path;
   GQueue *history;
   PhotosBaseItem *active_collection;
+  PhotosBaseManager **item_mngr_chldrn;
   PhotosLoadState load_state;
   PhotosTrackerChangeMonitor *monitor;
   PhotosWindowMode mode;
@@ -234,6 +235,39 @@ photos_item_manager_collection_path_free (PhotosItemManager *self)
 {
   g_queue_foreach (self->collection_path, photos_item_manager_collection_path_free_foreach, NULL);
   g_queue_free (self->collection_path);
+}
+
+
+static PhotosBaseItem *
+photos_item_manager_get_object_by_id_from_children (PhotosItemManager *self, const gchar *id)
+{
+  PhotosBaseItem *ret_val = NULL;
+  guint i;
+
+  for (i = 0; self->item_mngr_chldrn[i] != NULL; i++)
+    {
+      PhotosBaseItem *item;
+
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr_chldrn[i], id));
+      if (item != NULL)
+        {
+          ret_val = item;
+          break;
+        }
+    }
+
+  return ret_val;
+}
+
+
+static GObject *
+photos_item_manager_get_object_by_id (PhotosBaseManager *mngr, const gchar *id)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
+  GObject *ret_val;
+
+  ret_val = G_OBJECT (photos_item_manager_get_object_by_id_from_children (self, id));
+  return ret_val;
 }
 
 
@@ -430,6 +464,17 @@ photos_item_manager_dispose (GObject *object)
       self->collection_path = NULL;
     }
 
+  if (self->item_mngr_chldrn != NULL)
+    {
+      guint i;
+
+      for (i = 0; self->item_mngr_chldrn[i] != NULL; i++)
+        g_object_unref (self->item_mngr_chldrn[i]);
+
+      g_free (self->item_mngr_chldrn);
+      self->item_mngr_chldrn = NULL;
+    }
+
   g_clear_pointer (&self->collections, (GDestroyNotify) g_hash_table_unref);
   g_clear_object (&self->loader_cancellable);
   g_clear_object (&self->active_collection);
@@ -455,12 +500,21 @@ photos_item_manager_finalize (GObject *object)
 static void
 photos_item_manager_init (PhotosItemManager *self)
 {
+  GEnumClass *window_mode_class;
+  guint i;
+
   EGG_COUNTER_INC (instances);
 
   self->collections = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
   self->extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
   self->collection_path = g_queue_new ();
   self->history = g_queue_new ();
+
+  window_mode_class = G_ENUM_CLASS (g_type_class_ref (PHOTOS_TYPE_WINDOW_MODE));
+  self->item_mngr_chldrn = (gpointer *) g_malloc0_n (window_mode_class->n_values + 1, sizeof (gpointer));
+  for (i = 0; i < window_mode_class->n_values; i++)
+    self->item_mngr_chldrn[i] = photos_base_manager_new ();
+
   self->mode = PHOTOS_WINDOW_MODE_NONE;
 
   self->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
@@ -472,6 +526,8 @@ photos_item_manager_init (PhotosItemManager *self)
                              G_CONNECT_SWAPPED);
 
   self->fullscreen = FALSE;
+
+  g_type_class_unref (window_mode_class);
 }
 
 
@@ -485,6 +541,7 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   object_class->finalize = photos_item_manager_finalize;
   base_manager_class->add_object = photos_item_manager_add_object;
   base_manager_class->get_where = photos_item_manager_get_where;
+  base_manager_class->get_object_by_id = photos_item_manager_get_object_by_id;
   base_manager_class->set_active_object = photos_item_manager_set_active_object;
   base_manager_class->remove_object_by_id = photos_item_manager_remove_object_by_id;
 
@@ -596,22 +653,30 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
 
 
 void
-photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
+photos_item_manager_add_item (PhotosItemManager *self, PhotosWindowMode mode, TrackerSparqlCursor *cursor)
 {
   PhotosBaseItem *item = NULL;
+  PhotosBaseManager *item_mngr_chld;
   GObject *object;
   const gchar *id;
 
+  item_mngr_chld = self->item_mngr_chldrn[mode];
+
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
-  object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id);
+  object = photos_base_manager_get_object_by_id (item_mngr_chld, id);
   if (object != NULL)
     {
       g_signal_emit_by_name (self, "object-added", object);
       goto out;
     }
 
-  item = photos_item_manager_create_item (self, cursor);
-  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (item));
+  item = photos_item_manager_get_object_by_id_from_children (self, id);
+  if (item != NULL)
+    g_object_ref (item);
+  else
+    item = photos_item_manager_create_item (self, cursor);
+
+  photos_base_manager_add_object (item_mngr_chld, G_OBJECT (item));
 
  out:
   g_clear_object (&item);

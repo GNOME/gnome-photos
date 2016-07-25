@@ -156,7 +156,7 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
   now = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_TRACKER, "Query Cursor: %" G_GINT64_FORMAT, (now - priv->last_query_time) / 1000000);
 
-  photos_item_manager_add_item (PHOTOS_ITEM_MANAGER (priv->item_mngr), cursor);
+  photos_item_manager_add_item (PHOTOS_ITEM_MANAGER (priv->item_mngr), self->mode, cursor);
   tracker_sparql_cursor_next_async (cursor,
                                     priv->cancellable,
                                     photos_tracker_controller_cursor_next,
