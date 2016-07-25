@@ -20,7 +20,7 @@
 -->
 <interface domain="gnome-photos">
   <template class="PhotosExportDialog" parent="GtkDialog">
-    <property name="border_width">5</property>
+    <property name="border_width">18</property>
     <property name="title" translatable="yes" context="dialog title">Export</property>
     <property name="resizable">0</property>
     <property name="modal">1</property>
