@@ -52,6 +52,7 @@
 #include "photos-operation-saturation.h"
 #include "photos-query.h"
 #include "photos-share-point.h"
+#include "photos-share-point-email.h"
 #include "photos-share-point-google.h"
 #include "photos-share-point-online.h"
 #include "photos-source.h"
@@ -850,6 +851,7 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES);
       g_type_ensure (PHOTOS_TYPE_OPERATION_SATURATION);
 
+      g_type_ensure (PHOTOS_TYPE_SHARE_POINT_EMAIL);
       g_type_ensure (PHOTOS_TYPE_SHARE_POINT_GOOGLE);
 
       g_type_ensure (PHOTOS_TYPE_TOOL_COLORS);
