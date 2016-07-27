@@ -52,6 +52,7 @@
 #include "photos-operation-saturation.h"
 #include "photos-query.h"
 #include "photos-share-point.h"
+#include "photos-share-point-online.h"
 #include "photos-source.h"
 #include "photos-tool.h"
 #include "photos-tool-colors.h"
@@ -877,6 +878,9 @@ photos_utils_ensure_extension_points (void)
 
       extension_point = g_io_extension_point_register (PHOTOS_SHARE_POINT_EXTENSION_POINT_NAME);
       g_io_extension_point_set_required_type (extension_point, PHOTOS_TYPE_SHARE_POINT);
+
+      extension_point = g_io_extension_point_register (PHOTOS_SHARE_POINT_ONLINE_EXTENSION_POINT_NAME);
+      g_io_extension_point_set_required_type (extension_point, PHOTOS_TYPE_SHARE_POINT_ONLINE);
 
       extension_point = g_io_extension_point_register (PHOTOS_TOOL_EXTENSION_POINT_NAME);
       g_io_extension_point_set_required_type (extension_point, PHOTOS_TYPE_TOOL);
