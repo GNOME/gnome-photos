@@ -57,6 +57,11 @@ G_BEGIN_DECLS
   "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#image-category-screenshot"
 #define PHOTOS_EXPORT_SUBPATH "Exports"
 
+gboolean         photos_utils_app_info_launch_uri         (GAppInfo *appinfo,
+                                                           const gchar *uri,
+                                                           GAppLaunchContext *launch_context,
+                                                           GError **error);
+
 void             photos_utils_border_pixbuf               (GdkPixbuf *pixbuf);
 
 void             photos_utils_buffer_zoom_async           (GeglBuffer *buffer,

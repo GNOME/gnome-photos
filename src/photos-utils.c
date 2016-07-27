@@ -81,6 +81,24 @@ struct _PhotosUtilsFileCreateData
 };
 
 
+gboolean
+photos_utils_app_info_launch_uri (GAppInfo *appinfo, const gchar *uri, GAppLaunchContext *launch_context, GError **error)
+{
+  GList *uris = NULL;
+  gboolean ret_val;
+
+  g_return_val_if_fail (G_IS_APP_INFO (appinfo), FALSE);
+  g_return_val_if_fail (uri != NULL && uri[0] != '\0', FALSE);
+  g_return_val_if_fail (launch_context == NULL || G_IS_APP_LAUNCH_CONTEXT (launch_context), FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  uris = g_list_prepend (uris, g_strdup (uri));
+  ret_val = g_app_info_launch_uris (appinfo, uris, launch_context, error);
+  g_list_free_full (uris, g_free);
+  return ret_val;
+}
+
+
 static void
 photos_utils_put_pixel (guchar *p)
 {
