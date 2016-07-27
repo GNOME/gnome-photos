@@ -442,19 +442,13 @@ photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 
 
   if (priv->default_app != NULL)
     {
-      GList *uris = NULL;
-
-      uris = g_list_prepend (uris, g_strdup (priv->uri));
-
       error = NULL;
-      g_app_info_launch_uris (priv->default_app, uris, NULL, &error);
+      photos_utils_app_info_launch_uri (priv->default_app, priv->uri, NULL, &error);
       if (error != NULL)
         {
           g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
           g_error_free (error);
         }
-
-      g_list_free_full (uris, g_free);
     }
   else
     {
