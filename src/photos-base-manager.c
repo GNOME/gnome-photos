@@ -451,7 +451,7 @@ photos_base_manager_process_new_objects (PhotosBaseManager *self, GHashTable *ne
       /* If old objects are not found in the newer hash table, remove
        * them.
        */
-      g_object_get (object, "builtin", &builtin, NULL);
+      builtin = photos_filterable_get_builtin (PHOTOS_FILTERABLE (object));
       if (g_hash_table_lookup (new_objects, id) == NULL && !builtin)
         {
           g_object_ref (object);
