@@ -33,9 +33,25 @@
 G_DEFINE_INTERFACE (PhotosFilterable, photos_filterable, G_TYPE_INVALID);
 
 
+static gboolean
+photos_filterable_default_get_builtin (PhotosFilterable *self)
+{
+  return FALSE;
+}
+
+
 static void
 photos_filterable_default_init (PhotosFilterableInterface *iface)
 {
+  iface->get_builtin = photos_filterable_default_get_builtin;
+}
+
+
+gboolean
+photos_filterable_get_builtin (PhotosFilterable *self)
+{
+  g_return_val_if_fail (PHOTOS_IS_FILTERABLE (self), FALSE);
+  return PHOTOS_FILTERABLE_GET_INTERFACE (self)->get_builtin (self);
 }
 
 

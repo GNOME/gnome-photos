@@ -80,6 +80,14 @@ photos_source_build_filter_resource (PhotosSource *self)
 }
 
 
+static gboolean
+photos_source_get_builtin (PhotosFilterable *iface)
+{
+  PhotosSource *self = PHOTOS_SOURCE (iface);
+  return self->builtin;
+}
+
+
 static gchar *
 photos_source_get_filter (PhotosFilterable *iface)
 {
@@ -259,6 +267,7 @@ photos_source_class_init (PhotosSourceClass *class)
 static void
 photos_filterable_interface_init (PhotosFilterableInterface *iface)
 {
+  iface->get_builtin = photos_source_get_builtin;
   iface->get_filter = photos_source_get_filter;
   iface->get_id = photos_source_get_id;
 }

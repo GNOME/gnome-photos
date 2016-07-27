@@ -50,12 +50,15 @@ struct _PhotosFilterableInterface
 {
   GTypeInterface parent_iface;
 
+  gboolean (*get_builtin) (PhotosFilterable *self);
   gchar *(*get_filter) (PhotosFilterable *self);
   const gchar *(*get_id) (PhotosFilterable *self);
   gchar *(*get_where) (PhotosFilterable *self);
 };
 
 GType               photos_filterable_get_type           (void) G_GNUC_CONST;
+
+gboolean            photos_filterable_get_builtin        (PhotosFilterable *self);
 
 gchar              *photos_filterable_get_filter         (PhotosFilterable *iface);
 
