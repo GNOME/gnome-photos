@@ -71,6 +71,8 @@ struct _PhotosBaseManagerClass
   gchar *(*get_where)    (PhotosBaseManager *self, gint flags);
   void (*remove_object_by_id) (PhotosBaseManager *self, const gchar *id);
   gboolean (*set_active_object)    (PhotosBaseManager *self, GObject *object);
+  GObject *(*get_active_object) (PhotosBaseManager *self);
+
 
   /* signals */
   void (*active_changed)   (PhotosBaseManager *self, GObject *object);

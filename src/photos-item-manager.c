@@ -46,6 +46,7 @@
 struct _PhotosItemManager
 {
   PhotosBaseManager parent_instance;
+  GObject *active_object;
   GCancellable *loader_cancellable;
   GHashTable *collections;
   GIOExtensionPoint *extension_point;
@@ -387,7 +388,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
   g_return_val_if_fail (object != NULL, FALSE);
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object), FALSE);
 
-  active_item = photos_base_manager_get_active_object (manager);
+  active_item = photos_item_manager_get_active_object (self);
   if (object == active_item)
     goto out;
 
@@ -412,11 +413,12 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
       start_loading = TRUE;
     }
 
-  ret_val = PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->set_active_object (manager, object);
+  ret_val = TRUE;
   /* We have already eliminated the possibility of failure. */
   g_assert (ret_val == TRUE);
 
-  active_item = photos_base_manager_get_active_object (manager);
+  self->active_object = object;
+  active_item = photos_item_manager_get_active_object (manager);
   g_assert (active_item == object);
 
   if (active_collection_changed)
@@ -543,6 +545,7 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   base_manager_class->get_where = photos_item_manager_get_where;
   base_manager_class->get_object_by_id = photos_item_manager_get_object_by_id;
   base_manager_class->set_active_object = photos_item_manager_set_active_object;
+  base_manager_class->get_active_object = photos_item_manager_get_active_object;
   base_manager_class->remove_object_by_id = photos_item_manager_remove_object_by_id;
 
   signals[ACTIVE_COLLECTION_CHANGED] = g_signal_new ("active-collection-changed",
@@ -729,6 +732,13 @@ photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *c
   g_strfreev (split_identifier);
   g_free (identifier);
   return ret_val;
+}
+
+
+GObject*
+photos_item_manager_get_active_object (PhotosItemManager *self)
+{
+  return self->active_object;
 }
 
 
