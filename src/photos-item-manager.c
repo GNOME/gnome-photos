@@ -95,6 +95,7 @@ static void
 photos_item_manager_add_object (PhotosBaseManager *mngr, GObject *object)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
+  PhotosBaseManager *item_mngr_chld;
   PhotosBaseItem *item;
   const gchar *id;
   gpointer *old_collection;
@@ -102,6 +103,7 @@ photos_item_manager_add_object (PhotosBaseManager *mngr, GObject *object)
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (object));
 
   item = PHOTOS_BASE_ITEM (object);
+  item_mngr_chld = self->item_mngr_chldrn[self->mode]; //self->mode is currently active?
 
   if (!photos_base_item_is_collection (item))
     goto end;
@@ -117,7 +119,7 @@ photos_item_manager_add_object (PhotosBaseManager *mngr, GObject *object)
   g_hash_table_insert (self->collections, g_strdup (id), g_object_ref (item));
 
  end:
-  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->add_object (mngr, object);
+  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->add_object (item_mngr_chld, object);
 }
 
 
