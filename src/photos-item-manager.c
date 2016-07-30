@@ -323,6 +323,7 @@ photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *i
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
   gpointer *collection;
+  guint i;
 
   if (id == NULL)
     goto end;
@@ -334,7 +335,16 @@ photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *i
   g_hash_table_remove (self->collections, id);
 
  end:
-  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->remove_object_by_id (mngr, id);
+  for (i = 0; self->item_mngr_chldrn[i] != NULL; i++)
+    {
+      PhotosBaseItem *item;
+
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr_chldrn[i], id));
+      if (item != NULL)
+        break;
+    }
+
+  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->remove_object_by_id (self->item_mngr_chldrn[i], id);
 }
 
 
