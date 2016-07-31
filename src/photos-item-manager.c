@@ -90,6 +90,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 G_DEFINE_TYPE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER);
 EGG_DEFINE_COUNTER (instances, "PhotosItemManager", "Instances", "Number of PhotosItemManager instances")
 
+static GObject* photos_item_manager_get_active_object (PhotosBaseManager *mngr);
 
 static void
 photos_item_manager_add_object (PhotosBaseManager *mngr, GObject *object)
@@ -142,7 +143,7 @@ photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult 
   if (cursor == NULL)
     goto out;
 
-  photos_item_manager_add_item (self, cursor);
+  photos_item_manager_add_item (self, self->mode,cursor);
 
  out:
   g_clear_object (&cursor);
@@ -400,7 +401,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
   g_return_val_if_fail (object != NULL, FALSE);
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object), FALSE);
 
-  active_item = photos_item_manager_get_active_object (self);
+  active_item = photos_item_manager_get_active_object (manager);
   if (object == active_item)
     goto out;
 
@@ -525,7 +526,7 @@ photos_item_manager_init (PhotosItemManager *self)
   self->history = g_queue_new ();
 
   window_mode_class = G_ENUM_CLASS (g_type_class_ref (PHOTOS_TYPE_WINDOW_MODE));
-  self->item_mngr_chldrn = (gpointer *) g_malloc0_n (window_mode_class->n_values + 1, sizeof (gpointer));
+  self->item_mngr_chldrn = (PhotosBaseManager **) g_malloc0_n (window_mode_class->n_values + 1, sizeof (gpointer));
   for (i = 0; i < window_mode_class->n_values; i++)
     self->item_mngr_chldrn[i] = photos_base_manager_new ();
 
@@ -747,9 +748,10 @@ photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *c
 }
 
 
-GObject*
-photos_item_manager_get_active_object (PhotosItemManager *self)
+static GObject*
+photos_item_manager_get_active_object (PhotosBaseManager *mngr)
 {
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
   return self->active_object;
 }
 
