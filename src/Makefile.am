@@ -204,6 +204,8 @@ gnome_photos_SOURCES = \
 	photos-settings.h \
 	photos-share-dialog.c \
 	photos-share-dialog.h \
+	photos-share-notification.c \
+	photos-share-notification.h \
 	photos-share-point.c \
 	photos-share-point.h \
 	photos-share-point-email.c \
