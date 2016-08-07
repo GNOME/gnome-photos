@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-06-17 15:13+0000\n"
-"PO-Revision-Date: 2016-07-25 12:01+0200\n"
+"POT-Creation-Date: 2016-08-04 12:47+0000\n"
+"PO-Revision-Date: 2016-08-07 18:31+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:666
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Fotos"
@@ -107,15 +107,15 @@ msgstr "Barcon slargjât"
 msgid "Window maximized state"
 msgstr "Stât barcon slargjât"
 
-#: ../src/photos-application.c:144
+#: ../src/photos-application.c:148
 msgid "Show the application's version"
 msgstr "Mostre la version de aplicazion"
 
-#: ../src/photos-base-item.c:477
+#: ../src/photos-base-item.c:479
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1486
+#: ../src/photos-base-item.c:1645
 msgid "Screenshots"
 msgstr "Videadis"
 
@@ -132,7 +132,7 @@ msgstr[0] "%d element eliminât"
 msgstr[1] "%d elements eliminâts"
 
 #: ../src/photos-delete-notification.c:156
-#: ../src/photos-done-notification.c:189
+#: ../src/photos-done-notification.c:125
 msgid "Undo"
 msgstr "Anule"
 
@@ -140,20 +140,20 @@ msgstr "Anule"
 msgid "DLNA Renderer Devices"
 msgstr "Dispositîfs visôrs DLNA"
 
-#: ../src/photos-done-notification.c:181
+#: ../src/photos-done-notification.c:117
 #, c-format
 msgid "“%s” edited"
 msgstr "“%s” modificât"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:673 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:680 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Preferîts"
 
-#: ../src/photos-embed.c:706 ../src/photos-main-toolbar.c:299
+#: ../src/photos-embed.c:687 ../src/photos-main-toolbar.c:299
 msgid "Search"
 msgstr "Cîr"
 
@@ -221,7 +221,7 @@ msgstr "_Espuarte"
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: ../src/photos-export-dialog.c:76
+#: ../src/photos-export-dialog.c:73
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
@@ -229,11 +229,11 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:281
+#: ../src/photos-export-dialog.c:207
 msgid "%e %B %Y"
 msgstr "%e %B %Y"
 
-#: ../src/photos-export-dialog.c:336
+#: ../src/photos-export-dialog.c:265
 msgid "Calculating export size…"
 msgstr "Daûr a calcolâ la dimension de esportazion..."
 
@@ -281,13 +281,13 @@ msgstr "Cartele dulà espuartâ"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
-#: ../src/photos-google-item.c:82
+#: ../src/photos-facebook-item.c:105 ../src/photos-flickr-item.c:110
+#: ../src/photos-google-item.c:107
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:174
+#: ../src/photos-fetch-metas-job.c:182
 msgid "Untitled Photo"
 msgstr "Foto cence non"
 
@@ -416,7 +416,7 @@ msgstr "Lis tôs fotos a son stadis metudis in indiç"
 msgid "Some photos might not be available during this process"
 msgstr "Cualchi foto e podarès no jessi disponibil dilunc chest procès"
 
-#: ../src/photos-local-item.c:132 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:140 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Locâl"
 
@@ -535,7 +535,7 @@ msgstr "Dopre come sfont"
 msgid "Set as Lock Screen"
 msgstr "Dopre come bloc visôr"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:619
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:597
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Proprietâts"
@@ -620,7 +620,7 @@ msgstr "Anteprime"
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:231
+#: ../src/photos-properties-dialog.c:230
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Titul"
@@ -628,68 +628,64 @@ msgstr "Titul"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:243
+#: ../src/photos-properties-dialog.c:242
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autôr"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:249
 msgid "Source"
 msgstr "Sorzint"
 
-#: ../src/photos-properties-dialog.c:256
+#: ../src/photos-properties-dialog.c:255
 msgid "Date Modified"
 msgstr "Date modifiche"
 
-#: ../src/photos-properties-dialog.c:264
+#: ../src/photos-properties-dialog.c:263
 msgid "Date Created"
 msgstr "Date creazion"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:274
+#: ../src/photos-properties-dialog.c:273
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Gjenar"
 
 #: ../src/photos-properties-dialog.c:283
-msgid "Width"
-msgstr "Largjece"
+msgid "Dimensions"
+msgstr "Dimensions"
 
-#: ../src/photos-properties-dialog.c:293
-msgid "Height"
-msgstr "Altece"
-
-#: ../src/photos-properties-dialog.c:308
+#: ../src/photos-properties-dialog.c:298
 msgid "Camera"
 msgstr "Cjamare"
 
-#: ../src/photos-properties-dialog.c:318
+#: ../src/photos-properties-dialog.c:308
 msgid "Exposure"
 msgstr "Esposizion"
 
-#: ../src/photos-properties-dialog.c:328
+#: ../src/photos-properties-dialog.c:318
 msgid "Aperture"
 msgstr "Viertidure"
 
-#: ../src/photos-properties-dialog.c:338
+#: ../src/photos-properties-dialog.c:328
 msgid "Focal Length"
 msgstr "Lungjece focâl"
 
-#: ../src/photos-properties-dialog.c:348
+#: ../src/photos-properties-dialog.c:338
 msgid "ISO Speed"
 msgstr "Velocitât ISO"
 
-#: ../src/photos-properties-dialog.c:358
+#: ../src/photos-properties-dialog.c:348
 msgid "Flash"
 msgstr "Flash"
 
-#: ../src/photos-properties-dialog.c:498
+#: ../src/photos-properties-dialog.c:476
 msgid "Off, did not fire"
 msgstr "Studât, nol à iluminât"
 
-#: ../src/photos-properties-dialog.c:500
+#: ../src/photos-properties-dialog.c:478
 msgid "On, fired"
 msgstr "Piât, al à iluminât"
 
@@ -797,15 +793,15 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1178
+#: ../src/photos-tool-crop.c:1181
 msgid "Lock aspect ratio"
 msgstr "Bloche rapuart di aspiet"
 
-#: ../src/photos-tool-crop.c:1226
+#: ../src/photos-tool-crop.c:1229
 msgid "Reset"
 msgstr "Torne tache"
 
-#: ../src/photos-tool-crop.c:1243
+#: ../src/photos-tool-crop.c:1246
 msgid "Crop"
 msgstr "Sponte"
 
@@ -822,38 +818,44 @@ msgid "Enhance"
 msgstr "Miore"
 
 #. Translators: "None" refers to the nop magic filter when editing.
-#: ../src/photos-tool-filters.c:192
+#: ../src/photos-tool-filters.c:190
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "Nissun"
 
-#: ../src/photos-tool-filters.c:199
+#: ../src/photos-tool-filters.c:197
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:206
+#: ../src/photos-tool-filters.c:204
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:212
+#: ../src/photos-tool-filters.c:210
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:219
+#: ../src/photos-tool-filters.c:217
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:225
+#: ../src/photos-tool-filters.c:223
 msgid "Hometown"
 msgstr "Tô citât"
 
-#: ../src/photos-tool-filters.c:243
+#: ../src/photos-tool-filters.c:241
 msgid "Filters"
 msgstr "Filtris"
 
-#: ../src/photos-tracker-controller.c:98
+#: ../src/photos-tracker-controller.c:103
 msgid "Unable to fetch the list of photos"
 msgstr "Impussibil vê la liste das fotos"
+
+#~ msgid "Width"
+#~ msgstr "Largjece"
+
+#~ msgid "Height"
+#~ msgstr "Altece"
 
 #~ msgid "Screen"
 #~ msgstr "Schermi"
