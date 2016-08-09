@@ -1673,11 +1673,7 @@ photos_base_item_filterable_iface_init (PhotosFilterableInterface *iface)
 gboolean
 photos_base_item_can_edit (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv;
-
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  priv = self->priv;
-
   return PHOTOS_BASE_ITEM_GET_CLASS (self)->create_pipeline_path != NULL;
 }
 
