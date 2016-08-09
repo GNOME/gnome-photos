@@ -373,6 +373,8 @@ photos_properties_dialog_constructed (GObject *object)
     {
       self->title_entry = gtk_label_new (name);
       gtk_widget_set_halign (self->title_entry, GTK_ALIGN_START);
+      gtk_label_set_ellipsize (GTK_LABEL (self->title_entry), PANGO_ELLIPSIZE_END);
+      gtk_label_set_max_width_chars (GTK_LABEL (self->title_entry), 40);
     }
 
   gtk_grid_attach_next_to (GTK_GRID (self->grid), self->title_entry, title, GTK_POS_RIGHT, 2, 1);
