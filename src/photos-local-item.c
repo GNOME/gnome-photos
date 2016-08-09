@@ -160,6 +160,7 @@ photos_local_item_get_source_widget (PhotosBaseItem *item)
 
       label = gtk_bin_get_child (GTK_BIN (source_widget));
       gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
+      gtk_label_set_max_width_chars (GTK_LABEL (label), 40);
 
       g_object_unref (source_link);
       g_object_unref (file);
