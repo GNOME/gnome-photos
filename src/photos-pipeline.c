@@ -86,7 +86,7 @@ photos_pipeline_reset (PhotosPipeline *self)
 
 
 static gboolean
-photos_pipeline_create_graph_from_xml (PhotosPipeline *self, gchar *contents)
+photos_pipeline_create_graph_from_xml (PhotosPipeline *self, const gchar *contents)
 {
   GeglNode *graph = NULL;
   GeglNode *input;
