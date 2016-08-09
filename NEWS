@@ -1,3 +1,15 @@
+Overview of changes in 3.20.3
+=============================
+
+* Bugs fixed:
+ 766162 Can't export photos from online accounts
+ 767892 item-manager: Fix the lifetime of the changes-pending handler
+ 768130 Keyboard activation leads to a CRITICAL and opens the wrong item
+ 768500 The sources of remote collections are not shown in
+        OrganizeCollectionView
+ 768548 utils: Don't leak the query string
+
+
 Overview of changes in 3.20.2
 =============================
 
