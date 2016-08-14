@@ -80,6 +80,16 @@ photos_base_manager_default_add_object (PhotosBaseManager *self, GObject *object
 }
 
 
+static GObject *
+photos_base_manager_default_get_active_object (PhotosBaseManager *self)
+{
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
+  return priv->active_object;
+}
+
+
 static gchar *
 photos_base_manager_default_get_filter (PhotosBaseManager *self, gint flags)
 {
@@ -225,6 +235,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   object_class->finalize = photos_base_manager_finalize;
   object_class->set_property = photos_base_manager_set_property;
   class->add_object = photos_base_manager_default_add_object;
+  class->get_active_object = photos_base_manager_default_get_active_object;
   class->get_filter = photos_base_manager_default_get_filter;
   class->get_object_by_id = photos_base_manager_default_get_object_by_id;
   class->get_where = photos_base_manager_default_get_where;
@@ -325,10 +336,7 @@ photos_base_manager_get_action_id (PhotosBaseManager *self)
 GObject *
 photos_base_manager_get_active_object (PhotosBaseManager *self)
 {
-  PhotosBaseManagerPrivate *priv;
-
-  priv = photos_base_manager_get_instance_private (self);
-  return priv->active_object;
+  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_active_object (self);
 }
 
 
