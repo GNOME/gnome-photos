@@ -101,7 +101,7 @@ photos_preview_nav_buttons_delete (PhotosPreviewNavButtons *self)
     photos_mode_controller_go_back (self->mode_cntrlr);
 
   items = g_list_prepend (items, g_object_ref (item));
-  photos_base_manager_remove_object (self->item_mngr, G_OBJECT (item));
+  photos_item_manager_hide_item (PHOTOS_ITEM_MANAGER (self->item_mngr), item);
   photos_delete_notification_new (items);
   g_list_free_full (items, g_object_unref);
 }

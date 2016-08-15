@@ -26,9 +26,9 @@
 #include <gtk/gtk.h>
 
 #include "photos-base-item.h"
-#include "photos-base-manager.h"
 #include "photos-delete-notification.h"
 #include "photos-icons.h"
+#include "photos-item-manager.h"
 #include "photos-notification-manager.h"
 #include "photos-search-context.h"
 
@@ -115,8 +115,8 @@ photos_delete_notification_undo_clicked (PhotosDeleteNotification *self)
 
   for (l = self->items; l != NULL; l = l->next)
     {
-      GObject *item = G_OBJECT (l->data);
-      photos_base_manager_add_object (self->item_mngr, item);
+      PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
+      photos_item_manager_unhide_item (PHOTOS_ITEM_MANAGER (self->item_mngr), item);
     }
 
   photos_delete_notification_destroy (self);

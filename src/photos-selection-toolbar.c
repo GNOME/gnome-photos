@@ -31,9 +31,9 @@
 #include <glib/gi18n.h>
 
 #include "photos-base-item.h"
-#include "photos-base-manager.h"
 #include "photos-delete-notification.h"
 #include "photos-icons.h"
+#include "photos-item-manager.h"
 #include "photos-organize-collection-dialog.h"
 #include "photos-search-context.h"
 #include "photos-selection-controller.h"
@@ -118,13 +118,13 @@ photos_selection_toolbar_delete (PhotosSelectionToolbar *self)
       items = g_list_prepend (items, g_object_ref (item));
     }
 
-  /* Removing an item from the item manager changes the selection, so
-   * we can't use the selection while removing items.
+  /* Hiding an item from the item manager changes the selection, so we
+   * can't use the selection while removing items.
    */
   for (l = items; l != NULL; l = l->next)
     {
       PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
-      photos_base_manager_remove_object (self->item_mngr, G_OBJECT (item));
+      photos_item_manager_hide_item (PHOTOS_ITEM_MANAGER (self->item_mngr), item);
     }
 
   photos_delete_notification_new (items);
