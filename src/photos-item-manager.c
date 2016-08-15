@@ -580,11 +580,7 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
   collection = g_queue_pop_head (self->collection_path);
   g_assert (collection == NULL || PHOTOS_IS_BASE_ITEM (collection));
 
-  g_clear_object (&self->active_collection);
-
-  if (collection != NULL)
-    g_object_ref (collection);
-  self->active_collection = PHOTOS_BASE_ITEM (collection);
+  g_set_object (&self->active_collection, PHOTOS_BASE_ITEM (collection));
 
   PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
     ->set_active_object (PHOTOS_BASE_MANAGER (self), (GObject *) collection);
