@@ -46,6 +46,7 @@
 struct _PhotosItemManager
 {
   PhotosBaseManager parent_instance;
+  GObject *active_object;
   GCancellable *loader_cancellable;
   GHashTable *collections;
   GHashTable *hidden_items;
@@ -91,33 +92,47 @@ G_DEFINE_TYPE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER)
 EGG_DEFINE_COUNTER (instances, "PhotosItemManager", "Instances", "Number of PhotosItemManager instances")
 
 
+typedef struct _PhotosItemManagerHiddenItem PhotosItemManagerHiddenItem;
+
+struct _PhotosItemManagerHiddenItem
+{
+  PhotosBaseItem *item;
+  gboolean *modes;
+  guint n_modes;
+};
+
+
+static PhotosItemManagerHiddenItem *
+photos_item_manager_hidden_item_new (PhotosBaseItem *item)
+{
+  GEnumClass *window_mode_class;
+  PhotosItemManagerHiddenItem *hidden_item;
+
+  hidden_item = g_slice_new0 (PhotosItemManagerHiddenItem);
+  hidden_item->item = g_object_ref (item);
+
+  window_mode_class = G_ENUM_CLASS (g_type_class_ref (PHOTOS_TYPE_WINDOW_MODE));
+  hidden_item->n_modes = window_mode_class->n_values;
+  hidden_item->modes = (gboolean *) g_malloc0_n (hidden_item->n_modes, sizeof (gboolean));
+
+  g_type_class_unref (window_mode_class);
+  return hidden_item;
+}
+
+
+static void
+photos_item_manager_hidden_item_free (PhotosItemManagerHiddenItem *hidden_item)
+{
+  g_free (hidden_item->modes);
+  g_object_ref (hidden_item->item);
+  g_slice_free (PhotosItemManagerHiddenItem, hidden_item);
+}
+
+
 static void
 photos_item_manager_add_object (PhotosBaseManager *mngr, GObject *object)
 {
-  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
-  PhotosBaseItem *item;
-  const gchar *id;
-  gpointer *old_collection;
-
-  g_return_if_fail (PHOTOS_IS_BASE_ITEM (object));
-
-  item = PHOTOS_BASE_ITEM (object);
-
-  if (!photos_base_item_is_collection (item))
-    goto end;
-
-  id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
-  if (id == NULL)
-    goto end;
-
-  old_collection = g_hash_table_lookup (self->collections, id);
-  if (old_collection != NULL)
-    goto end;
-
-  g_hash_table_insert (self->collections, g_strdup (id), g_object_ref (item));
-
- end:
-  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->add_object (mngr, object);
+  g_assert_not_reached ();
 }
 
 
@@ -256,6 +271,51 @@ photos_item_manager_cursor_is_collection (TrackerSparqlCursor *cursor)
 }
 
 
+static gboolean
+photos_item_manager_cursor_is_favorite (TrackerSparqlCursor *cursor)
+{
+  gboolean favorite;
+  const gchar *rdf_type;
+
+  favorite = tracker_sparql_cursor_get_boolean (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_FAVORITE);
+  rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
+  if (strstr (rdf_type, "nfo#DataContainer") != NULL)
+    favorite = FALSE;
+
+  return favorite;
+}
+
+
+static GObject *
+photos_item_manager_get_active_object (PhotosBaseManager *mngr)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
+  return self->active_object;
+}
+
+
+static GObject *
+photos_item_manager_get_object_by_id (PhotosBaseManager *mngr, const gchar *id)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
+  GObject *ret_val;
+
+  ret_val = photos_base_manager_get_object_by_id (self->item_mngr_chldrn[0], id);
+  return ret_val;
+}
+
+
+static GHashTable *
+photos_item_manager_get_objects (PhotosBaseManager *mngr)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
+  GHashTable *ret_val;
+
+  ret_val = photos_base_manager_get_objects (self->item_mngr_chldrn[0]);
+  return ret_val;
+}
+
+
 static gchar *
 photos_item_manager_get_where (PhotosBaseManager *mngr, gint flags)
 {
@@ -304,9 +364,22 @@ static void
 photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *id)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
+  PhotosBaseItem *item;
+  guint i;
 
   g_hash_table_remove (self->collections, id);
-  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->remove_object_by_id (mngr, id);
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
+  if (item == NULL)
+    return;
+
+  g_object_ref (item);
+
+  for (i = 0; self->item_mngr_chldrn[i] != NULL; i++)
+    photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[i], id);
+
+  g_signal_emit_by_name (self, "object-removed", G_OBJECT (item));
+  g_object_unref (item);
 }
 
 
@@ -352,7 +425,6 @@ static gboolean
 photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *object)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (manager);
-  GObject *active_item;
   PhotosWindowMode old_mode;
   gboolean active_collection_changed = FALSE;
   gboolean ret_val = FALSE;
@@ -362,8 +434,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
   g_return_val_if_fail (object != NULL, FALSE);
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object), FALSE);
 
-  active_item = photos_base_manager_get_active_object (manager);
-  if (object == active_item)
+  if (object == self->active_object)
     goto out;
 
   photos_item_manager_clear_active_item_load (self);
@@ -387,17 +458,15 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
       start_loading = TRUE;
     }
 
-  ret_val = PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->set_active_object (manager, object);
+  g_set_object (&self->active_object, object);
+  g_signal_emit_by_name (self, "active-changed", self->active_object);
   /* We have already eliminated the possibility of failure. */
-  g_assert (ret_val == TRUE);
-
-  active_item = photos_base_manager_get_active_object (manager);
-  g_assert (active_item == object);
+  ret_val = TRUE;
 
   if (active_collection_changed)
     {
       g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
-      g_assert (active_item == (GObject *) self->active_collection);
+      g_assert (self->active_object == (GObject *) self->active_collection);
     }
 
   if (start_loading)
@@ -420,7 +489,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
       if (window_mode_changed)
         g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, PHOTOS_WINDOW_MODE_PREVIEW, old_mode);
 
-      g_assert (active_item != (GObject *) self->active_collection);
+      g_assert (self->active_object != (GObject *) self->active_collection);
     }
 
  out:
@@ -452,6 +521,7 @@ photos_item_manager_dispose (GObject *object)
 
   g_clear_pointer (&self->collections, (GDestroyNotify) g_hash_table_unref);
   g_clear_pointer (&self->hidden_items, (GDestroyNotify) g_hash_table_unref);
+  g_clear_object (&self->active_object);
   g_clear_object (&self->loader_cancellable);
   g_clear_object (&self->active_collection);
   g_clear_object (&self->monitor);
@@ -482,7 +552,10 @@ photos_item_manager_init (PhotosItemManager *self)
   EGG_COUNTER_INC (instances);
 
   self->collections = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
-  self->hidden_items = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+  self->hidden_items = g_hash_table_new_full (g_str_hash,
+                                              g_str_equal,
+                                              g_free,
+                                              (GDestroyNotify) photos_item_manager_hidden_item_free);
   self->extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
   self->collection_path = g_queue_new ();
   self->history = g_queue_new ();
@@ -518,7 +591,10 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   object_class->dispose = photos_item_manager_dispose;
   object_class->finalize = photos_item_manager_finalize;
   base_manager_class->add_object = photos_item_manager_add_object;
+  base_manager_class->get_active_object = photos_item_manager_get_active_object;
   base_manager_class->get_where = photos_item_manager_get_where;
+  base_manager_class->get_object_by_id = photos_item_manager_get_object_by_id;
+  base_manager_class->get_objects = photos_item_manager_get_objects;
   base_manager_class->set_active_object = photos_item_manager_set_active_object;
   base_manager_class->remove_object_by_id = photos_item_manager_remove_object_by_id;
 
@@ -615,10 +691,9 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
   g_assert (collection == NULL || PHOTOS_IS_BASE_ITEM (collection));
 
   g_set_object (&self->active_collection, PHOTOS_BASE_ITEM (collection));
+  g_set_object (&self->active_object, G_OBJECT (collection));
 
-  PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
-    ->set_active_object (PHOTOS_BASE_MANAGER (self), (GObject *) collection);
-
+  g_signal_emit_by_name (self, "active-changed", self->active_object);
   g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
 
   g_clear_object (&collection);
@@ -628,22 +703,59 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
 void
 photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
 {
+  if (photos_item_manager_cursor_is_collection (cursor))
+    {
+      photos_item_manager_add_item_for_mode (self, PHOTOS_WINDOW_MODE_COLLECTIONS, cursor);
+    }
+  else
+    {
+      if (photos_item_manager_cursor_is_favorite (cursor))
+        photos_item_manager_add_item_for_mode (self, PHOTOS_WINDOW_MODE_FAVORITES, cursor);
+
+      photos_item_manager_add_item_for_mode (self, PHOTOS_WINDOW_MODE_OVERVIEW, cursor);
+    }
+}
+
+
+void
+photos_item_manager_add_item_for_mode (PhotosItemManager *self, PhotosWindowMode mode, TrackerSparqlCursor *cursor)
+{
   PhotosBaseItem *item = NULL;
-  GObject *object;
+  PhotosBaseManager *item_mngr_chld;
   const gchar *id;
 
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT);
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
+
+  item_mngr_chld = self->item_mngr_chldrn[mode];
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
-  object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id);
-  if (object != NULL)
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (item_mngr_chld, id));
+  if (item != NULL)
     {
-      g_signal_emit_by_name (self, "object-added", object);
-      goto out;
+      g_object_ref (item);
+      g_signal_emit_by_name (item_mngr_chld, "object-added", G_OBJECT (item));
+    }
+  else
+    {
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
+      if (item != NULL)
+        {
+          g_object_ref (item);
+        }
+      else
+        {
+          item = photos_item_manager_create_item (self, cursor);
+          if (photos_base_item_is_collection (item))
+            g_hash_table_insert (self->collections, g_strdup (id), g_object_ref (item));
+        }
+
+      photos_base_manager_add_object (item_mngr_chld, G_OBJECT (item));
+      photos_base_manager_add_object (self->item_mngr_chldrn[0], G_OBJECT (item));
     }
 
-  item = photos_item_manager_create_item (self, cursor);
-  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (item));
-
- out:
+  g_signal_emit_by_name (self, "object-added", G_OBJECT (item));
   g_clear_object (&item);
 }
 
@@ -721,8 +833,10 @@ photos_item_manager_get_load_state (PhotosItemManager *self)
 void
 photos_item_manager_hide_item (PhotosItemManager *self, PhotosBaseItem *item)
 {
-  PhotosBaseItem *old_hidden_item;
+  PhotosItemManagerHiddenItem *hidden_item;
+  PhotosItemManagerHiddenItem *old_hidden_item;
   const gchar *id;
+  guint i;
 
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
@@ -730,10 +844,25 @@ photos_item_manager_hide_item (PhotosItemManager *self, PhotosBaseItem *item)
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   g_return_if_fail (id != NULL && id[0] != '\0');
 
-  old_hidden_item = PHOTOS_BASE_ITEM (g_hash_table_lookup (self->hidden_items, id));
+  old_hidden_item = (PhotosItemManagerHiddenItem *) g_hash_table_lookup (self->hidden_items, id);
   g_return_if_fail (old_hidden_item == NULL);
 
-  g_hash_table_insert (self->hidden_items, g_strdup (id), g_object_ref (item));
+  hidden_item = photos_item_manager_hidden_item_new (item);
+  for (i = 0; self->item_mngr_chldrn[i] != NULL; i++)
+    {
+      PhotosBaseItem *item1;
+
+      g_assert_cmpuint (i, <, hidden_item->n_modes);
+
+      item1 = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr_chldrn[i], id));
+      if (item1 != NULL)
+        {
+          g_assert_true (item == item1);
+          hidden_item->modes[i] = TRUE;
+        }
+    }
+
+  g_hash_table_insert (self->hidden_items, g_strdup (id), hidden_item);
   photos_base_manager_remove_object_by_id (PHOTOS_BASE_MANAGER (self), id);
 }
 
@@ -741,8 +870,9 @@ photos_item_manager_hide_item (PhotosItemManager *self, PhotosBaseItem *item)
 void
 photos_item_manager_unhide_item (PhotosItemManager *self, PhotosBaseItem *item)
 {
-  PhotosBaseItem *hidden_item;
+  PhotosItemManagerHiddenItem *hidden_item;
   const gchar *id;
+  guint i;
 
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
@@ -750,11 +880,19 @@ photos_item_manager_unhide_item (PhotosItemManager *self, PhotosBaseItem *item)
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   g_return_if_fail (id != NULL && id[0] != '\0');
 
-  hidden_item = PHOTOS_BASE_ITEM (g_hash_table_lookup (self->hidden_items, id));
-  g_return_if_fail (hidden_item == item);
+  hidden_item = (PhotosItemManagerHiddenItem *) g_hash_table_lookup (self->hidden_items, id);
+  g_return_if_fail (hidden_item->item == item);
 
-  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (item));
+  for (i = 0; self->item_mngr_chldrn[i] != NULL; i++)
+    {
+      g_assert_cmpuint (i, <, hidden_item->n_modes);
+
+      if (hidden_item->modes[i])
+        photos_base_manager_add_object (self->item_mngr_chldrn[i], G_OBJECT (item));
+    }
+
   g_hash_table_remove (self->hidden_items, id);
+  g_signal_emit_by_name (self, "object-added", G_OBJECT (item));
 }
 
 
@@ -821,8 +959,8 @@ photos_mode_controller_go_back (PhotosModeController *self)
   if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     {
       self->load_state = PHOTOS_LOAD_STATE_NONE;
-      PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
-        ->set_active_object (PHOTOS_BASE_MANAGER (self), (GObject *) self->active_collection);
+      g_set_object (&self->active_object, G_OBJECT (self->active_collection));
+      g_signal_emit_by_name (self, "active-changed", self->active_object);
     }
   else if (old_mode != PHOTOS_WINDOW_MODE_EDIT)
     {
@@ -830,11 +968,10 @@ photos_mode_controller_go_back (PhotosModeController *self)
       self->collection_path = g_queue_new ();
 
       g_clear_object (&self->active_collection);
+      g_clear_object (&self->active_object);
       self->load_state = PHOTOS_LOAD_STATE_NONE;
 
-      PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
-        ->set_active_object (PHOTOS_BASE_MANAGER (self), NULL);
-
+      g_signal_emit_by_name (self, "active-changed", self->active_object);
       g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
     }
 
@@ -897,8 +1034,8 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
           active_collection_changed = TRUE;
         }
 
-      PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)
-        ->set_active_object (PHOTOS_BASE_MANAGER (self), NULL);
+      g_clear_object (&self->active_object);
+      g_signal_emit_by_name (self, "active-changed", self->active_object);
 
       if (active_collection_changed)
         g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
