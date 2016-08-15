@@ -141,6 +141,7 @@ struct _PhotosBaseItemSaveData
   GFile *unique_file;
   GeglBuffer *buffer;
   gchar *type;
+  gdouble zoom;
 };
 
 struct _PhotosBaseItemSaveBufferData
@@ -167,7 +168,7 @@ static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, Tracker
 
 
 static PhotosBaseItemSaveData *
-photos_base_item_save_data_new (GFile *dir, GeglBuffer *buffer, const gchar *type)
+photos_base_item_save_data_new (GFile *dir, GeglBuffer *buffer, const gchar *type, gdouble zoom)
 {
   PhotosBaseItemSaveData *data;
 
@@ -180,6 +181,7 @@ photos_base_item_save_data_new (GFile *dir, GeglBuffer *buffer, const gchar *typ
     data->buffer = g_object_ref (buffer);
 
   data->type = g_strdup (type);
+  data->zoom = zoom;
 
   return data;
 }
@@ -982,7 +984,7 @@ photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *re
     }
 
   buffer = photos_utils_create_buffer_from_node (graph);
-  data = photos_base_item_save_data_new (NULL, buffer, self->priv->mime_type);
+  data = photos_base_item_save_data_new (NULL, buffer, self->priv->mime_type, 0.0);
   g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
 
   g_task_run_in_thread (task, photos_base_item_guess_save_sizes_in_thread_func);
@@ -3230,6 +3232,42 @@ photos_base_item_refresh (PhotosBaseItem *self)
 }
 
 
+static void
+photos_base_item_save_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GCancellable *cancellable;
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  GeglBuffer *buffer = NULL;
+  GeglNode *graph = NULL;
+  PhotosBaseItemSaveData *data;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
+
+  error = NULL;
+  graph = photos_base_item_load_finish (self, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  buffer = photos_utils_create_buffer_from_node (graph);
+  photos_utils_buffer_zoom_async (buffer,
+                                  data->zoom,
+                                  cancellable,
+                                  photos_base_item_save_buffer_zoom,
+                                  g_object_ref (task));
+
+ out:
+  g_clear_object (&buffer);
+  g_clear_object (&graph);
+  g_object_unref (task);
+}
+
+
 void
 photos_base_item_save_async (PhotosBaseItem *self,
                              GFile *dir,
@@ -3240,8 +3278,6 @@ photos_base_item_save_async (PhotosBaseItem *self,
 {
   PhotosBaseItemPrivate *priv;
   GTask *task;
-  GeglBuffer *buffer;
-  GeglNode *graph;
   PhotosBaseItemSaveData *data;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
@@ -3249,28 +3285,16 @@ photos_base_item_save_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
   g_return_if_fail (G_IS_FILE (dir));
-  g_return_if_fail (priv->edit_graph != NULL);
   g_return_if_fail (priv->filename != NULL && priv->filename[0] != '\0');
-  g_return_if_fail (priv->load_graph != NULL);
-  g_return_if_fail (priv->pipeline != NULL);
-  g_return_if_fail (priv->processor != NULL);
-  g_return_if_fail (!gegl_processor_work (priv->processor, NULL));
 
-  data = photos_base_item_save_data_new (dir, NULL, NULL);
+  data = photos_base_item_save_data_new (dir, NULL, NULL, zoom);
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_save_async);
   g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
 
-  graph = photos_pipeline_get_graph (priv->pipeline);
-  buffer = photos_utils_create_buffer_from_node (graph);
-  photos_utils_buffer_zoom_async (buffer,
-                                  zoom,
-                                  cancellable,
-                                  photos_base_item_save_buffer_zoom,
-                                  g_object_ref (task));
+  photos_base_item_load_async (self, cancellable, photos_base_item_save_load, g_object_ref (task));
 
-  g_object_unref (buffer);
   g_object_unref (task);
 }
 
