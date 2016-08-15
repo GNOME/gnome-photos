@@ -480,6 +480,9 @@ photos_base_manager_remove_object (PhotosBaseManager *self, GObject *object)
 {
   const gchar *id;
 
+  g_return_if_fail (PHOTOS_IS_BASE_MANAGER (self));
+  g_return_if_fail (PHOTOS_IS_FILTERABLE (object));
+
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
   photos_base_manager_remove_object_by_id (self, id);
 }
@@ -488,6 +491,9 @@ photos_base_manager_remove_object (PhotosBaseManager *self, GObject *object)
 void
 photos_base_manager_remove_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
+  g_return_if_fail (PHOTOS_IS_BASE_MANAGER (self));
+  g_return_if_fail (id != NULL && id[0] != '\0');
+
   PHOTOS_BASE_MANAGER_GET_CLASS (self)->remove_object_by_id (self, id);
 }
 
@@ -495,6 +501,9 @@ photos_base_manager_remove_object_by_id (PhotosBaseManager *self, const gchar *i
 gboolean
 photos_base_manager_set_active_object (PhotosBaseManager *self, GObject *object)
 {
+  g_return_val_if_fail (PHOTOS_IS_BASE_MANAGER (self), FALSE);
+  g_return_val_if_fail (PHOTOS_IS_FILTERABLE (object), FALSE);
+
   return PHOTOS_BASE_MANAGER_GET_CLASS (self)->set_active_object (self, object);
 }
 
@@ -503,6 +512,9 @@ gboolean
 photos_base_manager_set_active_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
   GObject *object;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_MANAGER (self), FALSE);
+  g_return_val_if_fail (id != NULL && id[0] != '\0', FALSE);
 
   object = photos_base_manager_get_object_by_id (self, id);
   return photos_base_manager_set_active_object (self, object);
