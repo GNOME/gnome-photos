@@ -53,6 +53,7 @@ struct _PhotosItemManager
   GQueue *collection_path;
   GQueue *history;
   PhotosBaseItem *active_collection;
+  PhotosBaseManager **item_mngr_chldrn;
   PhotosLoadState load_state;
   PhotosTrackerChangeMonitor *monitor;
   PhotosWindowMode mode;
@@ -438,6 +439,17 @@ photos_item_manager_dispose (GObject *object)
       self->collection_path = NULL;
     }
 
+  if (self->item_mngr_chldrn != NULL)
+    {
+      guint i;
+
+      for (i = 0; self->item_mngr_chldrn[i] != NULL; i++)
+        g_object_unref (self->item_mngr_chldrn[i]);
+
+      g_free (self->item_mngr_chldrn);
+      self->item_mngr_chldrn = NULL;
+    }
+
   g_clear_pointer (&self->collections, (GDestroyNotify) g_hash_table_unref);
   g_clear_pointer (&self->hidden_items, (GDestroyNotify) g_hash_table_unref);
   g_clear_object (&self->loader_cancellable);
@@ -464,6 +476,9 @@ photos_item_manager_finalize (GObject *object)
 static void
 photos_item_manager_init (PhotosItemManager *self)
 {
+  GEnumClass *window_mode_class;
+  guint i;
+
   EGG_COUNTER_INC (instances);
 
   self->collections = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
@@ -471,6 +486,13 @@ photos_item_manager_init (PhotosItemManager *self)
   self->extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
   self->collection_path = g_queue_new ();
   self->history = g_queue_new ();
+
+  window_mode_class = G_ENUM_CLASS (g_type_class_ref (PHOTOS_TYPE_WINDOW_MODE));
+  self->item_mngr_chldrn = (PhotosBaseManager **) g_malloc0_n (window_mode_class->n_values + 1,
+                                                               sizeof (PhotosBaseManager *));
+  for (i = 0; i < window_mode_class->n_values; i++)
+    self->item_mngr_chldrn[i] = photos_base_manager_new ();
+
   self->mode = PHOTOS_WINDOW_MODE_NONE;
 
   self->monitor = photos_tracker_change_monitor_dup_singleton (NULL, NULL);
@@ -482,6 +504,8 @@ photos_item_manager_init (PhotosItemManager *self)
                              G_CONNECT_SWAPPED);
 
   self->fullscreen = FALSE;
+
+  g_type_class_unref (window_mode_class);
 }
 
 
