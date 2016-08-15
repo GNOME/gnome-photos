@@ -120,15 +120,9 @@ photos_base_manager_default_set_active_object (PhotosBaseManager *self, GObject 
 
   priv = photos_base_manager_get_instance_private (self);
 
-  if (object == priv->active_object)
+  if (!g_set_object (&priv->active_object, object))
     return FALSE;
 
-  g_clear_object (&priv->active_object);
-
-  if (object != NULL)
-    g_object_ref (object);
-
-  priv->active_object = object;
   g_signal_emit (self, signals[ACTIVE_CHANGED], 0, object);
   return TRUE;
 }
