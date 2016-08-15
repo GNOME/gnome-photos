@@ -28,7 +28,6 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
-#include "photos-base-manager.h"
 #include "photos-delete-notification.h"
 #include "photos-icons.h"
 #include "photos-item-manager.h"
