@@ -48,6 +48,7 @@ struct _PhotosItemManager
   PhotosBaseManager parent_instance;
   GCancellable *loader_cancellable;
   GHashTable *collections;
+  GHashTable *hidden_items;
   GIOExtensionPoint *extension_point;
   GQueue *collection_path;
   GQueue *history;
@@ -433,6 +434,7 @@ photos_item_manager_dispose (GObject *object)
     }
 
   g_clear_pointer (&self->collections, (GDestroyNotify) g_hash_table_unref);
+  g_clear_pointer (&self->hidden_items, (GDestroyNotify) g_hash_table_unref);
   g_clear_object (&self->loader_cancellable);
   g_clear_object (&self->active_collection);
   g_clear_object (&self->monitor);
@@ -460,6 +462,7 @@ photos_item_manager_init (PhotosItemManager *self)
   EGG_COUNTER_INC (instances);
 
   self->collections = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+  self->hidden_items = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
   self->extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
   self->collection_path = g_queue_new ();
   self->history = g_queue_new ();
@@ -683,6 +686,46 @@ PhotosLoadState
 photos_item_manager_get_load_state (PhotosItemManager *self)
 {
   return self->load_state;
+}
+
+
+void
+photos_item_manager_hide_item (PhotosItemManager *self, PhotosBaseItem *item)
+{
+  PhotosBaseItem *old_hidden_item;
+  const gchar *id;
+
+  g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
+
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
+  g_return_if_fail (id != NULL && id[0] != '\0');
+
+  old_hidden_item = PHOTOS_BASE_ITEM (g_hash_table_lookup (self->hidden_items, id));
+  g_return_if_fail (old_hidden_item == NULL);
+
+  g_hash_table_insert (self->hidden_items, g_strdup (id), g_object_ref (item));
+  photos_base_manager_remove_object_by_id (PHOTOS_BASE_MANAGER (self), id);
+}
+
+
+void
+photos_item_manager_unhide_item (PhotosItemManager *self, PhotosBaseItem *item)
+{
+  PhotosBaseItem *hidden_item;
+  const gchar *id;
+
+  g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
+
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
+  g_return_if_fail (id != NULL && id[0] != '\0');
+
+  hidden_item = PHOTOS_BASE_ITEM (g_hash_table_lookup (self->hidden_items, id));
+  g_return_if_fail (hidden_item == item);
+
+  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (item));
+  g_hash_table_remove (self->hidden_items, id);
 }
 
 
