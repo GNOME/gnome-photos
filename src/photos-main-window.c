@@ -485,6 +485,12 @@ photos_main_window_new (GtkApplication *application)
 void
 photos_main_window_show_about (PhotosMainWindow *self)
 {
+  GApplication *app;
+  const gchar *app_id;
+
+  app = g_application_get_default ();
+  app_id = g_application_get_application_id (app);
+
   gtk_show_about_dialog (GTK_WINDOW (self),
                          "artists", PHOTOS_ARTISTS,
                          "authors", PHOTOS_AUTHORS,
@@ -493,7 +499,7 @@ photos_main_window_show_about (PhotosMainWindow *self)
                                         "Copyright © 2014 – 2015 Pranav Kant\n"
                                         "Copyright © 2012 – 2016 Red Hat, Inc."),
                          "license-type", GTK_LICENSE_GPL_2_0,
-                         "logo-icon-name", PACKAGE_TARNAME,
+                         "logo-icon-name", app_id,
                          "program-name", _(PACKAGE_NAME),
                          "version", _(PACKAGE_VERSION),
                          "website", PACKAGE_URL,
