@@ -285,15 +285,8 @@ static void
 photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *id)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
-  gpointer *collection;
-
-  collection = g_hash_table_lookup (self->collections, id);
-  if (collection == NULL)
-    goto end;
 
   g_hash_table_remove (self->collections, id);
-
- end:
   PHOTOS_BASE_MANAGER_CLASS (photos_item_manager_parent_class)->remove_object_by_id (mngr, id);
 }
 
