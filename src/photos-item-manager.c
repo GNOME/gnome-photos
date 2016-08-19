@@ -287,9 +287,6 @@ photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *i
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
   gpointer *collection;
 
-  if (id == NULL)
-    goto end;
-
   collection = g_hash_table_lookup (self->collections, id);
   if (collection == NULL)
     goto end;
