@@ -115,6 +115,16 @@ photos_base_manager_default_get_object_by_id (PhotosBaseManager *self, const gch
 }
 
 
+static GHashTable *
+photos_base_manager_default_get_objects (PhotosBaseManager *self)
+{
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
+  return priv->objects;
+}
+
+
 static gchar *
 photos_base_manager_default_get_where (PhotosBaseManager *self, gint flags)
 {
@@ -238,6 +248,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   class->get_active_object = photos_base_manager_default_get_active_object;
   class->get_filter = photos_base_manager_default_get_filter;
   class->get_object_by_id = photos_base_manager_default_get_object_by_id;
+  class->get_objects = photos_base_manager_default_get_objects;
   class->get_where = photos_base_manager_default_get_where;
   class->remove_object_by_id = photos_base_manager_default_remove_object_by_id;
   class->set_active_object = photos_base_manager_default_set_active_object;
@@ -413,10 +424,7 @@ photos_base_manager_get_object_by_id (PhotosBaseManager *self, const gchar *id)
 GHashTable *
 photos_base_manager_get_objects (PhotosBaseManager *self)
 {
-  PhotosBaseManagerPrivate *priv;
-
-  priv = photos_base_manager_get_instance_private (self);
-  return priv->objects;
+  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_objects (self);
 }
 
 
