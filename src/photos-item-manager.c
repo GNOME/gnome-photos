@@ -237,6 +237,18 @@ photos_item_manager_collection_path_free (PhotosItemManager *self)
 }
 
 
+static gboolean
+photos_item_manager_cursor_is_collection (TrackerSparqlCursor *cursor)
+{
+  gboolean ret_val;
+  const gchar *identifier;
+
+  identifier = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL);
+  ret_val = g_str_has_prefix (identifier, "photos:collection:");
+  return ret_val;
+}
+
+
 static gchar *
 photos_item_manager_get_where (PhotosBaseManager *mngr, gint flags)
 {
@@ -620,7 +632,7 @@ photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *c
 
   split_identifier = g_strsplit (identifier, ":", 4);
 
-  if (g_str_has_prefix (identifier, "photos:collection:"))
+  if (photos_item_manager_cursor_is_collection (cursor))
     {
       /* Its a collection. */
       extension_name = split_identifier[2];
