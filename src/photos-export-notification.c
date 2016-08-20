@@ -369,11 +369,11 @@ photos_export_notification_set_property (GObject *object, guint prop_id, const G
   switch (prop_id)
     {
     case PROP_ERROR:
-      self->error = g_value_dup_boxed (value);
+      self->error = (GError *) g_value_dup_boxed (value);
       break;
 
     case PROP_FILE:
-      self->file = g_value_dup_object (value);
+      self->file = G_FILE (g_value_dup_object (value));
       break;
 
     case PROP_ITEMS:
