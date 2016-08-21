@@ -323,8 +323,7 @@ photos_export_notification_constructed (GObject *object)
   gtk_container_add (GTK_CONTAINER (self), close);
   g_signal_connect_swapped (close, "clicked", G_CALLBACK (photos_export_notification_close), self);
 
-  photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr),
-                                                GTK_WIDGET (self));
+  photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr), GTK_WIDGET (self));
 
   self->timeout_id = g_timeout_add_seconds (EXPORT_TIMEOUT, photos_export_notification_timeout, self);
 }

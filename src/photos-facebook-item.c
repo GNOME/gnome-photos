@@ -89,8 +89,8 @@ photos_facebook_item_create_name_fallback (PhotosBaseItem *item)
   PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (item);
   GDateTime *date_modified;
   const gchar *provider_name;
-  gchar *ret_val;
   gchar *date_modified_str;
+  gchar *ret_val;
   gint64 mtime;
 
   provider_name = photos_utils_get_provider_name (self->src_mngr, item);
@@ -114,10 +114,11 @@ static GFBGraphPhoto *
 photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
   PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (item);
-  PhotosSource *source;
-  const gchar *identifier, *resource_urn;
   GFBGraphGoaAuthorizer *authorizer;
   GFBGraphPhoto *photo = NULL;
+  PhotosSource *source;
+  const gchar *identifier;
+  const gchar *resource_urn;
 
   resource_urn = photos_base_item_get_resource_urn (item);
   source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (self->src_mngr, resource_urn));
@@ -137,11 +138,13 @@ photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancella
 static gboolean
 photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
+  GFile *local_file = NULL;
+  GFile *remote_file = NULL;
   GFBGraphPhoto *photo = NULL;
   const GFBGraphPhotoImage *thumbnail_image;
-  gchar *local_path = NULL, *local_dir = NULL;
-  GFile *local_file = NULL, *remote_file = NULL;
   gboolean ret_val = FALSE;
+  gchar *local_dir = NULL;
+  gchar *local_path = NULL;
 
   photo = photos_facebook_get_gfbgraph_photo (item, cancellable, error);
   if (photo == NULL)
@@ -175,8 +178,8 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
   ret_val = TRUE;
 
  out:
-  g_free (local_path);
   g_free (local_dir);
+  g_free (local_path);
   g_clear_object (&local_file);
   g_clear_object (&remote_file);
   g_clear_object (&photo);
@@ -187,10 +190,10 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
 static gchar *
 photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GFBGraphPhoto *photo = NULL;
-  const GFBGraphPhotoImage *higher_image;
   GFile *local_file = NULL;
   GFile *remote_file = NULL;
+  GFBGraphPhoto *photo = NULL;
+  const GFBGraphPhotoImage *higher_image;
   const gchar *cache_dir;
   const gchar *local_filename;
   gchar *local_dir = NULL;
@@ -238,8 +241,8 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
   local_path = NULL;
 
  out:
-  g_free (local_path);
   g_free (local_dir);
+  g_free (local_path);
   g_clear_object (&local_file);
   g_clear_object (&remote_file);
   g_clear_object (&photo);
