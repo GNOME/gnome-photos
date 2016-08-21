@@ -12,9 +12,9 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-04 12:47+0000\n"
-"PO-Revision-Date: 2016-08-05 11:44+0200\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2016-08-12 13:49+0000\n"
+"PO-Revision-Date: 2016-08-21 12:26+0200\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -120,7 +120,7 @@ msgstr "Die Versionsnummer der Anwendung zeigen"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1645
+#: ../src/photos-base-item.c:1671
 msgid "Screenshots"
 msgstr "Bildschirmfotos"
 
@@ -546,7 +546,7 @@ msgstr "Als Hintergrund festlegen"
 msgid "Set as Lock Screen"
 msgstr "Als Sperrbildschirm festlegen"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:597
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:732
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Eigenschaften"
@@ -628,10 +628,18 @@ msgstr "Zoll"
 msgid "Preview"
 msgstr "Vorschau"
 
+#: ../src/photos-properties-dialog.c:128
+msgid "Edited in Photos"
+msgstr "In GNOME Fotos bearbeitet"
+
+#: ../src/photos-properties-dialog.c:141
+msgid "Untouched"
+msgstr "Nicht verändert"
+
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:230
+#: ../src/photos-properties-dialog.c:310
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Titel"
@@ -639,66 +647,74 @@ msgstr "Titel"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:242
+#: ../src/photos-properties-dialog.c:322
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-properties-dialog.c:249
+#: ../src/photos-properties-dialog.c:329
 msgid "Source"
 msgstr "Quelle"
 
-#: ../src/photos-properties-dialog.c:255
+#: ../src/photos-properties-dialog.c:335
 msgid "Date Modified"
 msgstr "Änderungsdatum"
 
-#: ../src/photos-properties-dialog.c:263
+#: ../src/photos-properties-dialog.c:343
 msgid "Date Created"
 msgstr "Erstellungsdatum"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:273
+#: ../src/photos-properties-dialog.c:353
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/photos-properties-dialog.c:283
+#: ../src/photos-properties-dialog.c:363
 msgid "Dimensions"
 msgstr "Abmessungen"
 
-#: ../src/photos-properties-dialog.c:298
+#: ../src/photos-properties-dialog.c:378
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:308
+#: ../src/photos-properties-dialog.c:388
 msgid "Exposure"
 msgstr "Belichtung"
 
-#: ../src/photos-properties-dialog.c:318
+#: ../src/photos-properties-dialog.c:398
 msgid "Aperture"
 msgstr "Blende"
 
-#: ../src/photos-properties-dialog.c:328
+#: ../src/photos-properties-dialog.c:408
 msgid "Focal Length"
 msgstr "Brennweite"
 
-#: ../src/photos-properties-dialog.c:338
+#: ../src/photos-properties-dialog.c:418
 msgid "ISO Speed"
 msgstr "ISO-Geschwindigkeit"
 
-#: ../src/photos-properties-dialog.c:348
+#: ../src/photos-properties-dialog.c:428
 msgid "Flash"
 msgstr "Blitz"
 
-#: ../src/photos-properties-dialog.c:476
+#: ../src/photos-properties-dialog.c:435
+msgid "Modifications"
+msgstr "Änderungen"
+
+#: ../src/photos-properties-dialog.c:566
 msgid "Off, did not fire"
 msgstr "Aus, löste nicht aus"
 
-#: ../src/photos-properties-dialog.c:478
+#: ../src/photos-properties-dialog.c:568
 msgid "On, fired"
 msgstr "An, löste aus"
+
+#: ../src/photos-properties-dialog.c:602
+msgid "Discard all Edits"
+msgstr "Alle Bearbeitungen verwerfen"
 
 #: ../src/photos-search-match-manager.c:158
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
