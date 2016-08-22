@@ -1,3 +1,28 @@
+Overview of changes in 3.21.90
+==============================
+
+* Experimental sharing support (751181)
+
+* Bugs fixed:
+ 760839 Improvements to the size guessing API
+ 763156 Allow discarding all edits
+ 770157 Split ItemManager to have a separate child manager for each mode
+
+* Updated translations:
+ Czech
+ Finnish
+ French
+ Friulian
+ German
+ Hebrew
+ Hungarian
+ Icelandic
+ Indonesian
+ Portuguese
+ Slovak
+ Spanish
+
+
 Overview of changes in 3.21.4
 =============================
 
