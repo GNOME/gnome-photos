@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-12 13:49+0000\n"
-"PO-Revision-Date: 2016-08-15 14:47+0700\n"
+"POT-Creation-Date: 2016-08-22 09:06+0000\n"
+"PO-Revision-Date: 2016-08-22 16:41+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Foto"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:497
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Mengakses, menata, dan berbagai foto Anda pada GNOME"
 
@@ -107,15 +107,15 @@ msgstr "Jendela dimaksimalkan"
 msgid "Window maximized state"
 msgstr "Keadaan termaksimalkan jendela"
 
-#: ../src/photos-application.c:148
+#: ../src/photos-application.c:153
 msgid "Show the application's version"
 msgstr "Tampilkan versi aplikasi"
 
-#: ../src/photos-base-item.c:479
+#: ../src/photos-base-item.c:544
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1671
+#: ../src/photos-base-item.c:2067
 msgid "Screenshots"
 msgstr "Cuplikan Layar"
 
@@ -451,7 +451,7 @@ msgstr "Hapus dari favorit"
 msgid "Add to favorites"
 msgstr "Tambah ke favorit"
 
-#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:623
+#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:628
 msgid "Cancel"
 msgstr "Batal"
 
@@ -459,7 +459,7 @@ msgstr "Batal"
 msgid "Done"
 msgstr "Selesai"
 
-#: ../src/photos-main-window.c:492
+#: ../src/photos-main-window.c:498
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -470,7 +470,7 @@ msgstr ""
 "Hak Cipta © 2012 - 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:502
+#: ../src/photos-main-window.c:508
 msgid "translator-credits"
 msgstr "Andika Triwidada <andika@gmail.com>, 2013, 2014, 2015"
 
@@ -749,6 +749,23 @@ msgstr "Ekspor"
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Tambah ke Album"
+
+#: ../src/photos-share-dialog.ui.h:1
+msgctxt "dialog title"
+msgid "Share"
+msgstr "Berbagi"
+
+#: ../src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr "Surel"
+
+#: ../src/photos-share-point-google.c:86
+msgid "Failed to upload photo: Service not authorized"
+msgstr "Gagal mengunggah foto: Layanan tidak diotorisasi"
+
+#: ../src/photos-share-point-google.c:88
+msgid "Failed to upload photo"
+msgstr "Gagal mengunggah foto"
 
 #: ../src/photos-source-manager.c:203
 msgid "Sources"
