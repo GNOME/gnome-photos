@@ -277,7 +277,7 @@ photos_base_item_create_symbolic_emblem (const gchar *name, gint scale)
 static void
 photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GApplication *app;
   GIcon *pix;
   GList *emblem_icons = NULL;
@@ -286,6 +286,8 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   GdkPixbuf *thumbnailed_pixbuf = NULL;
   GdkWindow *window = NULL;
   gint scale;
+
+  priv = photos_base_item_get_instance_private (self);
 
   if (priv->original_icon == NULL)
     goto out;
@@ -388,7 +390,9 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 static void
 photos_base_item_set_original_icon (PhotosBaseItem *self, GdkPixbuf *icon)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
 
   if (icon != NULL)
     g_set_object (&priv->original_icon, icon);
@@ -477,7 +481,9 @@ photos_base_item_create_thumbnail_finish (PhotosBaseItem *self, GAsyncResult *re
 static void
 photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
 
   if (favorite == priv->favorite)
     return;
@@ -491,8 +497,10 @@ photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
 static void
 photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GError *error;
+
+  priv = photos_base_item_get_instance_private (self);
 
   if (priv->default_app_name == NULL)
     return;
@@ -527,8 +535,10 @@ photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 
 static void
 photos_base_item_default_update_type_description (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   gchar *description = NULL;
+
+  priv = photos_base_item_get_instance_private (self);
 
   if (priv->collection)
     description = g_strdup (_("Album"));
@@ -546,9 +556,11 @@ photos_base_item_download_in_thread_func (GTask *task,
                                           GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GError *error;
   gchar *path = NULL;
+
+  priv = photos_base_item_get_instance_private (self);
 
   g_mutex_lock (&priv->mutex_download);
 
@@ -572,7 +584,10 @@ static const gchar *
 photos_base_item_get_id (PhotosFilterable *filterable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (filterable);
-  return self->priv->id;
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
+  return priv->id;
 }
 
 
@@ -589,7 +604,9 @@ photos_base_item_icon_updated (PhotosBaseItem *self, GIcon *icon)
 static void
 photos_base_item_refresh_collection_icon (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
 
   if (priv->watcher == NULL)
     {
@@ -674,7 +691,7 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
     }
 
   self = PHOTOS_BASE_ITEM (user_data);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   if (pixbuf == NULL)
     {
@@ -727,7 +744,7 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
     }
 
   self = PHOTOS_BASE_ITEM (user_data);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   if (stream == NULL)
     {
@@ -750,8 +767,10 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
 static void
 photos_base_item_refresh_thumb_path (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GFile *thumb_file;
+
+  priv = photos_base_item_get_instance_private (self);
 
   thumb_file = g_file_new_for_path (priv->thumb_path);
   g_file_read_async (thumb_file,
@@ -792,7 +811,7 @@ photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res,
     }
 
   self = PHOTOS_BASE_ITEM (user_data);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_clear_pointer (&priv->thumb_path, g_free);
 
@@ -823,9 +842,11 @@ static void
 photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GError *error;
   GFile *file = G_FILE (user_data);
+
+  priv = photos_base_item_get_instance_private (self);
 
   error = NULL;
   photos_base_item_create_thumbnail_finish (self, res, &error);
@@ -880,7 +901,7 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
     }
 
   self = PHOTOS_BASE_ITEM (user_data);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_clear_pointer (&priv->thumb_path, g_free);
 
@@ -969,11 +990,14 @@ static void
 photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  PhotosBaseItemPrivate *priv;
   GError *error;
   GTask *task = G_TASK (user_data);
   GeglBuffer *buffer = NULL;
   GeglNode *graph = NULL;
   PhotosBaseItemSaveData *data;
+
+  priv = photos_base_item_get_instance_private (self);
 
   error = NULL;
   graph = photos_base_item_load_finish (self, res, &error);
@@ -984,7 +1008,7 @@ photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *re
     }
 
   buffer = photos_utils_create_buffer_from_node (graph);
-  data = photos_base_item_save_data_new (NULL, buffer, self->priv->mime_type, 0.0);
+  data = photos_base_item_save_data_new (NULL, buffer, priv->mime_type, 0.0);
   g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
 
   g_task_run_in_thread (task, photos_base_item_guess_save_sizes_in_thread_func);
@@ -1000,10 +1024,13 @@ static void
 photos_base_item_pipeline_is_edited_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  PhotosBaseItemPrivate *priv;
   GError *error;
   GTask *task = G_TASK (user_data);
   GeglNode *graph = NULL;
   gboolean is_edited;
+
+  priv = photos_base_item_get_instance_private (self);
 
   error = NULL;
   graph = photos_base_item_load_finish (self, res, &error);
@@ -1013,7 +1040,7 @@ photos_base_item_pipeline_is_edited_load (GObject *source_object, GAsyncResult *
       goto out;
     }
 
-  is_edited = photos_pipeline_is_edited (self->priv->pipeline);
+  is_edited = photos_pipeline_is_edited (priv->pipeline);
   g_task_return_boolean (task, is_edited);
 
  out:
@@ -1053,7 +1080,7 @@ photos_base_item_process_async (PhotosBaseItem *self,
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
 
@@ -1106,9 +1133,11 @@ photos_base_item_common_process (GObject *source_object, GAsyncResult *res, gpoi
 static GeglBuffer *
 photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GeglBuffer *ret_val = NULL;
   gchar *path = NULL;
+
+  priv = photos_base_item_get_instance_private (self);
 
   path = photos_base_item_download (self, cancellable, error);
   if (path == NULL)
@@ -1131,9 +1160,11 @@ photos_base_item_load_buffer_in_thread_func (GTask *task,
                                              GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GeglBuffer *buffer = NULL;
   GError *error = NULL;
+
+  priv = photos_base_item_get_instance_private (self);
 
   g_mutex_lock (&priv->mutex);
 
@@ -1162,7 +1193,7 @@ photos_base_item_load_buffer_async (PhotosBaseItem *self,
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   if (priv->load_graph == NULL)
     {
@@ -1201,10 +1232,12 @@ photos_base_item_load_process (GObject *source_object, GAsyncResult *res, gpoint
 {
   GTask *task = G_TASK (user_data);
   PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
   GeglNode *graph;
   GError *error;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  priv = photos_base_item_get_instance_private (self);
 
   error = NULL;
   photos_base_item_process_finish (self, res, &error);
@@ -1214,7 +1247,7 @@ photos_base_item_load_process (GObject *source_object, GAsyncResult *res, gpoint
       goto out;
     }
 
-  graph = photos_pipeline_get_graph (self->priv->pipeline);
+  graph = photos_pipeline_get_graph (priv->pipeline);
   g_task_return_pointer (task, g_object_ref (graph), g_object_unref);
 
  out:
@@ -1235,7 +1268,7 @@ photos_base_item_load_load_buffer (GObject *source_object, GAsyncResult *res, gp
   const gchar *format_name;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   cancellable = g_task_get_cancellable (task);
 
@@ -1272,7 +1305,7 @@ photos_base_item_load_pipeline (GObject *source_object, GAsyncResult *res, gpoin
   GError *error;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   cancellable = g_task_get_cancellable (task);
 
@@ -1299,12 +1332,14 @@ photos_base_item_pipeline_save_save (GObject *source_object, GAsyncResult *res, 
 {
   GTask *task = G_TASK (user_data);
   PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
   GError *error;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  priv = photos_base_item_get_instance_private (self);
 
   error = NULL;
-  if (!photos_pipeline_save_finish (self->priv->pipeline, res, &error))
+  if (!photos_pipeline_save_finish (priv->pipeline, res, &error))
     {
       g_task_return_error (task, error);
       goto out;
@@ -1324,12 +1359,14 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
                                                GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GError *error;
   GFile *file = G_FILE (task_data);
   GExiv2Metadata *metadata = NULL;
   gchar *export_path = NULL;
   gchar *source_path = NULL;
+
+  priv = photos_base_item_get_instance_private (self);
 
   g_mutex_lock (&priv->mutex_download);
 
@@ -1489,12 +1526,14 @@ photos_base_item_save_buffer_async (PhotosBaseItem *self,
                                     GAsyncReadyCallback callback,
                                     gpointer user_data)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GTask *task = NULL;
   GdkPixbuf *pixbuf = NULL;
   GeglNode *buffer_source;
   GeglNode *graph = NULL;
   PhotosBaseItemSaveBufferData *data;
+
+  priv = photos_base_item_get_instance_private (self);
 
   data = photos_base_item_save_buffer_data_new (file, stream);
 
@@ -1626,6 +1665,7 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
 {
   GTask *task = G_TASK (user_data);
   PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
   GCancellable *cancellable;
   GError *error;
   GFile *file = NULL;
@@ -1634,6 +1674,8 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
   PhotosBaseItemSaveData *data;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  priv = photos_base_item_get_instance_private (self);
+
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
@@ -1648,7 +1690,7 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
   g_assert_null (data->buffer);
   data->buffer = g_object_ref (buffer_zoomed);
 
-  file = g_file_get_child (data->dir, self->priv->filename);
+  file = g_file_get_child (data->dir, priv->filename);
   photos_utils_file_create_async (file,
                                   G_FILE_CREATE_NONE,
                                   G_PRIORITY_DEFAULT,
@@ -1903,8 +1945,10 @@ photos_base_item_set_thumbnailing_icon (PhotosBaseItem *self)
 static void
 photos_base_item_refresh_icon (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GFile *file;
+
+  priv = photos_base_item_get_instance_private (self);
 
   if (priv->thumb_path != NULL)
     {
@@ -1938,7 +1982,9 @@ photos_base_item_refresh_icon (PhotosBaseItem *self)
 static void
 photos_base_item_update_info_from_type (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
 
   if (strstr (priv->rdf_type, "nfo#DataContainer") != NULL)
     priv->collection = TRUE;
@@ -1950,7 +1996,7 @@ photos_base_item_update_info_from_type (PhotosBaseItem *self)
 static void
 photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor)
 {
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
   GTimeVal timeval;
   gboolean favorite;
   const gchar *author;
@@ -1968,6 +2014,8 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   const gchar *uri;
   gchar *filename;
   gchar *name_fallback;
+
+  priv = photos_base_item_get_instance_private (self);
 
   uri = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URI, NULL);
   if (uri == NULL)
@@ -2057,11 +2105,14 @@ static void
 photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  PhotosBaseItemPrivate *priv;
   GError *error;
   GtkWindow *toplevel = GTK_WINDOW (user_data);
   GeglNode *node;
   GtkPrintOperation *print_op = NULL;
   GtkPrintOperationResult print_res;
+
+  priv = photos_base_item_get_instance_private (self);
 
   error = NULL;
   node = photos_base_item_load_finish (self, res, &error);
@@ -2081,7 +2132,7 @@ photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer
   print_res = gtk_print_operation_run (print_op, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, toplevel, &error);
   if (print_res == GTK_PRINT_OPERATION_RESULT_APPLY)
     {
-      photos_selection_controller_set_selection_mode (self->priv->sel_cntrlr, FALSE);
+      photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
     }
   else if (print_res == GTK_PRINT_OPERATION_RESULT_ERROR)
     {
@@ -2100,7 +2151,9 @@ static void
 photos_base_item_constructed (GObject *object)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->constructed (object);
 
@@ -2113,7 +2166,9 @@ static void
 photos_base_item_dispose (GObject *object)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
 
   if (priv->cancellable != NULL)
     {
@@ -2140,7 +2195,9 @@ static void
 photos_base_item_finalize (GObject *object)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
 
   g_free (priv->author);
   g_free (priv->default_app_name);
@@ -2169,11 +2226,14 @@ static void
 photos_base_item_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
 
   switch (prop_id)
     {
     case PROP_ID:
-      g_value_set_string (value, self->priv->id);
+      g_value_set_string (value, priv->id);
       break;
 
     default:
@@ -2187,7 +2247,9 @@ static void
 photos_base_item_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (object);
-  PhotosBaseItemPrivate *priv = self->priv;
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
 
   switch (prop_id)
     {
@@ -2213,8 +2275,7 @@ photos_base_item_init (PhotosBaseItem *self)
 
   EGG_COUNTER_INC (instances);
 
-  self->priv = photos_base_item_get_instance_private (self);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   priv->cancellable = g_cancellable_new ();
 
@@ -2297,7 +2358,7 @@ photos_base_item_can_edit (PhotosBaseItem *self)
   PhotosBaseItemPrivate *priv;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_val_if_fail (!priv->collection, FALSE);
 
@@ -2348,7 +2409,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   va_list ap;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_val_if_fail (!priv->collection, NULL);
   g_return_val_if_fail (operation != NULL && operation[0] != '\0', NULL);
@@ -2430,9 +2491,13 @@ photos_base_item_create_preview (PhotosBaseItem *self,
 void
 photos_base_item_destroy (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = photos_base_item_get_instance_private (self);
+
   /* TODO: SearchCategoryManager */
-  g_clear_object (&self->priv->watcher);
+  g_clear_object (&priv->watcher);
 }
 
 
@@ -2479,8 +2544,12 @@ photos_base_item_download_finish (PhotosBaseItem *self, GAsyncResult *res, GErro
 const gchar *
 photos_base_item_get_author (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->author;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->author;
 }
 
 
@@ -2492,7 +2561,7 @@ photos_base_item_get_bbox_edited (PhotosBaseItem *self, GeglRectangle *out_bbox)
   GeglRectangle bbox;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_val_if_fail (!priv->collection, FALSE);
   g_return_val_if_fail (priv->edit_graph != NULL, FALSE);
@@ -2518,7 +2587,7 @@ photos_base_item_get_bbox_source (PhotosBaseItem *self, GeglRectangle *bbox)
   gboolean ret_val = FALSE;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_val_if_fail (!priv->collection, FALSE);
 
@@ -2536,112 +2605,168 @@ photos_base_item_get_bbox_source (PhotosBaseItem *self, GeglRectangle *bbox)
 gint64
 photos_base_item_get_date_created (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
-  return self->priv->date_created;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->date_created;
 }
 
 
 const gchar *
 photos_base_item_get_default_app_name (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->default_app_name;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->default_app_name;
 }
 
 
 GQuark
 photos_base_item_get_equipment (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
-  return self->priv->equipment;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->equipment;
 }
 
 
 gdouble
 photos_base_item_get_exposure_time (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0.0);
-  return self->priv->exposure_time;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->exposure_time;
 }
 
 
 GQuark
 photos_base_item_get_flash (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
-  return self->priv->flash;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->flash;
 }
 
 
 const gchar *
 photos_base_item_get_filename (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->filename;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->filename;
 }
 
 
 gdouble
 photos_base_item_get_fnumber (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0.0);
-  return self->priv->fnumber;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->fnumber;
 }
 
 
 gdouble
 photos_base_item_get_focal_length (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0.0);
-  return self->priv->focal_length;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->focal_length;
 }
 
 
 gint64
 photos_base_item_get_height (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
-  return self->priv->height;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->height;
 }
 
 
 const gchar *
 photos_base_item_get_identifier (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->identifier;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->identifier;
 }
 
 
 gdouble
 photos_base_item_get_iso_speed (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0.0);
-  return self->priv->iso_speed;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->iso_speed;
 }
 
 
 const gchar *
 photos_base_item_get_mime_type (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->mime_type;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->mime_type;
 }
 
 
 gint64
 photos_base_item_get_mtime (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
-  return self->priv->mtime;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->mtime;
 }
 
 
 const gchar *
 photos_base_item_get_name (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->name;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->name;
 }
 
 
@@ -2652,7 +2777,7 @@ photos_base_item_get_name_with_fallback (PhotosBaseItem *self)
   const gchar *name;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   name = priv->name;
   if (name == NULL || name[0] == '\0')
@@ -2665,16 +2790,24 @@ photos_base_item_get_name_with_fallback (PhotosBaseItem *self)
 GdkPixbuf *
 photos_base_item_get_original_icon (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->original_icon;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->original_icon;
 }
 
 
 const gchar *
 photos_base_item_get_resource_urn (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->resource_urn;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->resource_urn;
 }
 
 
@@ -2689,24 +2822,36 @@ photos_base_item_get_source_widget (PhotosBaseItem *self)
 cairo_surface_t *
 photos_base_item_get_surface (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->surface;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->surface;
 }
 
 
 const gchar *
 photos_base_item_get_type_description (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->type_description;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->type_description;
 }
 
 
 const gchar *
 photos_base_item_get_uri (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return self->priv->uri;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->uri;
 }
 
 
@@ -2717,7 +2862,7 @@ photos_base_item_get_where (PhotosBaseItem *self)
   gchar *ret_val;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   if (priv->collection)
     ret_val = g_strconcat ("{ ?urn nie:isPartOf <", priv->id, "> }", NULL);
@@ -2731,8 +2876,12 @@ photos_base_item_get_where (PhotosBaseItem *self)
 gint64
 photos_base_item_get_width (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
-  return self->priv->width;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->width;
 }
 
 
@@ -2742,10 +2891,13 @@ photos_base_item_guess_save_sizes_async (PhotosBaseItem *self,
                                          GAsyncReadyCallback callback,
                                          gpointer user_data)
 {
+  PhotosBaseItemPrivate *priv;
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  g_return_if_fail (!self->priv->collection);
+  priv = photos_base_item_get_instance_private (self);
+
+  g_return_if_fail (!priv->collection);
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_guess_save_sizes_async);
@@ -2827,16 +2979,24 @@ photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
 gboolean
 photos_base_item_is_collection (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  return self->priv->collection;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->collection;
 }
 
 
 gboolean
 photos_base_item_is_favorite (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  return self->priv->favorite;
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->favorite;
 }
 
 
@@ -2850,7 +3010,7 @@ photos_base_item_load_async (PhotosBaseItem *self,
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
   g_return_if_fail (priv->edit_graph == NULL || priv->pipeline != NULL);
@@ -2930,7 +3090,7 @@ photos_base_item_operation_add_async (PhotosBaseItem *self,
   va_list ap;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
 
@@ -2969,7 +3129,7 @@ photos_base_item_operation_get (PhotosBaseItem *self, const gchar *operation, co
   va_list ap;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_val_if_fail (!priv->collection, FALSE);
 
@@ -2992,7 +3152,7 @@ photos_base_item_operation_remove_async (PhotosBaseItem *self,
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
 
@@ -3036,7 +3196,7 @@ photos_base_item_operations_revert_async (PhotosBaseItem *self,
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
 
@@ -3075,7 +3235,7 @@ photos_base_item_pipeline_is_edited_async (PhotosBaseItem *self,
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
 
@@ -3113,7 +3273,7 @@ photos_base_item_pipeline_revert_to_original_async (PhotosBaseItem *self,
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
 
@@ -3152,7 +3312,7 @@ photos_base_item_pipeline_save_async (PhotosBaseItem *self,
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
   g_return_if_fail (priv->edit_graph != NULL);
@@ -3191,7 +3351,7 @@ photos_base_item_pipeline_snapshot (PhotosBaseItem *self)
   PhotosBaseItemPrivate *priv;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
 
@@ -3202,8 +3362,12 @@ photos_base_item_pipeline_snapshot (PhotosBaseItem *self)
 void
 photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  g_return_if_fail (!self->priv->collection);
+  priv = photos_base_item_get_instance_private (self);
+
+  g_return_if_fail (!priv->collection);
 
   photos_base_item_load_async (self, NULL, photos_base_item_print_load, g_object_ref (toplevel));
 }
@@ -3212,16 +3376,18 @@ photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
 void
 photos_base_item_refresh (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
   GApplication *app;
   PhotosSearchContextState *state;
   PhotosSingleItemJob *job;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = photos_base_item_get_instance_private (self);
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  job = photos_single_item_job_new (self->priv->id);
+  job = photos_single_item_job_new (priv->id);
   photos_single_item_job_run (job,
                               state,
                               PHOTOS_QUERY_FLAGS_NONE,
@@ -3281,7 +3447,7 @@ photos_base_item_save_async (PhotosBaseItem *self,
   PhotosBaseItemSaveData *data;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
   g_return_if_fail (G_IS_FILE (dir));
@@ -3326,7 +3492,7 @@ photos_base_item_save_to_stream_async (PhotosBaseItem *self,
   PhotosBaseItemSaveToStreamData *data;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
   g_return_if_fail (G_IS_OUTPUT_STREAM (stream));
@@ -3368,7 +3534,7 @@ photos_base_item_set_default_app (PhotosBaseItem *self, GAppInfo *default_app)
   const gchar *default_app_name;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   if (priv->default_app == NULL && default_app == NULL)
     return;
@@ -3393,7 +3559,7 @@ photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *defaul
   PhotosBaseItemPrivate *priv;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = self->priv;
+  priv = photos_base_item_get_instance_private (self);
 
   g_clear_object (&priv->default_app);
   g_free (priv->default_app_name);
@@ -3404,8 +3570,13 @@ photos_base_item_set_default_app_name (PhotosBaseItem *self, const gchar *defaul
 void
 photos_base_item_set_favorite (PhotosBaseItem *self, gboolean favorite)
 {
+  PhotosBaseItemPrivate *priv;
+
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  g_return_if_fail (!self->priv->collection);
+  priv = photos_base_item_get_instance_private (self);
+
+  g_return_if_fail (!priv->collection);
+
   PHOTOS_BASE_ITEM_GET_CLASS (self)->set_favorite (self, favorite);
 }
 
@@ -3413,13 +3584,15 @@ photos_base_item_set_favorite (PhotosBaseItem *self, gboolean favorite)
 void
 photos_base_item_trash (PhotosBaseItem *self)
 {
+  PhotosBaseItemPrivate *priv;
   PhotosDeleteItemJob *job;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = photos_base_item_get_instance_private (self);
 
   PHOTOS_BASE_ITEM_GET_CLASS (self)->trash (self);
 
-  job = photos_delete_item_job_new (self->priv->id);
+  job = photos_delete_item_job_new (priv->id);
   photos_delete_item_job_run (job, NULL, NULL, NULL);
   g_object_unref (job);
 }

@@ -73,7 +73,6 @@ typedef struct _PhotosBaseItemPrivate PhotosBaseItemPrivate;
 struct _PhotosBaseItem
 {
   GObject parent_instance;
-  PhotosBaseItemPrivate *priv;
 };
 
 struct _PhotosBaseItemClass
