@@ -828,6 +828,17 @@ photos_item_manager_get_collections (PhotosItemManager *self)
 }
 
 
+PhotosBaseManager *
+photos_item_manager_get_for_mode (PhotosItemManager *self, PhotosWindowMode mode)
+{
+  g_return_val_if_fail (mode != PHOTOS_WINDOW_MODE_NONE, NULL);
+  g_return_val_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT, NULL);
+  g_return_val_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW, NULL);
+
+  return self->item_mngr_chldrn[mode];
+}
+
+
 PhotosLoadState
 photos_item_manager_get_load_state (PhotosItemManager *self)
 {

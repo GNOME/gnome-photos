@@ -99,6 +99,9 @@ PhotosBaseItem           *photos_item_manager_get_active_collection        (Phot
 
 GHashTable               *photos_item_manager_get_collections              (PhotosItemManager *self);
 
+PhotosBaseManager        *photos_item_manager_get_for_mode                 (PhotosItemManager *self,
+                                                                            PhotosWindowMode mode);
+
 PhotosLoadState           photos_item_manager_get_load_state               (PhotosItemManager *self);
 
 void                      photos_item_manager_hide_item                    (PhotosItemManager *self, PhotosBaseItem *item);
