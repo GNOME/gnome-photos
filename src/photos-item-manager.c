@@ -697,6 +697,9 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
   g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
 
   g_clear_object (&collection);
+
+  g_return_if_fail (self->active_collection == NULL);
+  g_return_if_fail (self->active_object == NULL);
 }
 
 
