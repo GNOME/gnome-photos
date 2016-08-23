@@ -331,6 +331,50 @@ photos_item_manager_get_where (PhotosBaseManager *mngr, gint flags)
 
 
 static void
+photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
+  PhotosBaseItem *updated_item;
+  gboolean is_collection;
+  gboolean is_favorite;
+  const gchar *id;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
+
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
+  updated_item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
+  g_return_if_fail (updated_item == item);
+
+  is_collection = photos_base_item_is_collection (item);
+  is_favorite = photos_base_item_is_favorite (item);
+
+  if (is_collection)
+    {
+      if (self->active_collection == NULL)
+        photos_base_manager_add_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_COLLECTIONS], G_OBJECT (item));
+    }
+  else
+    {
+      if (is_favorite)
+        photos_base_manager_add_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_FAVORITES], G_OBJECT (item));
+
+      photos_base_manager_add_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_OVERVIEW], G_OBJECT (item));
+    }
+
+  if (is_collection)
+    {
+      photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_FAVORITES], G_OBJECT (item));
+      photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_OVERVIEW], G_OBJECT (item));
+    }
+  else
+    {
+      if (self->active_collection == NULL)
+        photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_COLLECTIONS], G_OBJECT (item));
+    }
+}
+
+
+static void
 photos_item_manager_item_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
@@ -375,6 +419,7 @@ photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *i
   if (item == NULL)
     return;
 
+  g_signal_handlers_disconnect_by_func (item, photos_item_manager_info_updated, self);
   g_object_ref (item);
 
   for (i = 0; self->item_mngr_chldrn[i] != NULL; i++)
@@ -754,27 +799,33 @@ photos_item_manager_add_item_for_mode (PhotosItemManager *self, PhotosWindowMode
   if (item != NULL)
     {
       g_object_ref (item);
-      g_signal_emit_by_name (item_mngr_chld, "object-added", G_OBJECT (item));
     }
   else
     {
+      gboolean already_present = FALSE;
+
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
       if (item != NULL)
         {
           g_object_ref (item);
+          already_present = TRUE;
         }
       else
         {
           item = photos_item_manager_create_item (self, cursor);
           if (photos_base_item_is_collection (item))
             g_hash_table_insert (self->collections, g_strdup (id), g_object_ref (item));
+
+          g_signal_connect_object (item, "info-updated", G_CALLBACK (photos_item_manager_info_updated), self, 0);
         }
 
       photos_base_manager_add_object (item_mngr_chld, G_OBJECT (item));
       photos_base_manager_add_object (self->item_mngr_chldrn[0], G_OBJECT (item));
+
+      if (!already_present)
+        g_signal_emit_by_name (self, "object-added", G_OBJECT (item));
     }
 
-  g_signal_emit_by_name (self, "object-added", G_OBJECT (item));
   g_clear_object (&item);
 }
 

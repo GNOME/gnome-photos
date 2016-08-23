@@ -232,43 +232,6 @@ photos_view_model_info_updated (PhotosBaseItem *item, gpointer user_data)
   GtkTreeIter iter;
   GtkTreePath *path;
   GtkTreeRowReference *row_ref;
-  PhotosBaseItem *active_collection;
-
-  g_return_if_fail (self->item_mngr != NULL);
-
-  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
-  row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), self->row_ref_key);
-
-  if (self->mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
-    {
-      gboolean is_collection;
-
-      is_collection = photos_base_item_is_collection (item);
-      if (!is_collection && row_ref != NULL && active_collection == NULL)
-        photos_view_model_remove_item (self, item);
-      else if (is_collection  && row_ref == NULL && active_collection == NULL)
-        photos_view_model_add_item (self, item);
-    }
-  else if (self->mode == PHOTOS_WINDOW_MODE_FAVORITES)
-    {
-      gboolean is_favorite;
-
-      is_favorite = photos_base_item_is_favorite (item);
-      if (!is_favorite && row_ref != NULL && active_collection == NULL)
-        photos_view_model_remove_item (self, item);
-      else if (is_favorite  && row_ref == NULL && active_collection == NULL)
-        photos_view_model_add_item (self, item);
-    }
-  else if (self->mode == PHOTOS_WINDOW_MODE_OVERVIEW)
-    {
-      gboolean is_collection;
-
-      is_collection = photos_base_item_is_collection (item);
-      if (is_collection && row_ref != NULL)
-        photos_view_model_remove_item (self, item);
-      else if (!is_collection  && row_ref == NULL)
-        photos_view_model_add_item (self, item);
-    }
 
   row_ref = (GtkTreeRowReference *) g_object_get_data (G_OBJECT (item), self->row_ref_key);
   if (row_ref != NULL)
@@ -288,13 +251,8 @@ static void
 photos_view_model_object_added (PhotosViewModel *self, GObject *object)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (object);
-  PhotosBaseItem *active_collection;
-  PhotosWindowMode mode;
   GtkTreeRowReference *row_ref;
-  gboolean is_collection;
-  gboolean is_favorite;
   const gchar *id;
-  gpointer data;
   guint info_updated_id;
 
   g_return_if_fail (self->item_mngr != NULL);
@@ -304,36 +262,15 @@ photos_view_model_object_added (PhotosViewModel *self, GObject *object)
   if (row_ref != NULL)
     return;
 
-  id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
-  data = g_hash_table_lookup (self->info_updated_ids, id);
-  if (data != NULL)
-    {
-      info_updated_id = GPOINTER_TO_UINT (data);
-      g_signal_handler_disconnect (item, (gulong) info_updated_id);
-      g_hash_table_remove (self->info_updated_ids, id);
-    }
-
-  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
-  is_collection = photos_base_item_is_collection (item);
-  is_favorite = photos_base_item_is_favorite (item);
-  mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
-
-  if (active_collection == NULL || self->mode != mode)
-    {
-      if ((self->mode == PHOTOS_WINDOW_MODE_COLLECTIONS && !is_collection)
-          || (self->mode == PHOTOS_WINDOW_MODE_FAVORITES && !is_favorite)
-          || (self->mode == PHOTOS_WINDOW_MODE_OVERVIEW && is_collection))
-        goto out;
-    }
-
   photos_view_model_add_item (self, item);
 
- out:
   info_updated_id = (guint) g_signal_connect_object (item,
                                                      "info-updated",
                                                      G_CALLBACK (photos_view_model_info_updated),
                                                      self,
                                                      0);
+
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   g_hash_table_insert (self->info_updated_ids, g_strdup (id), GUINT_TO_POINTER (info_updated_id));
 }
 
@@ -360,19 +297,10 @@ photos_view_model_object_removed (PhotosViewModel *self, GObject *object)
 
 
 static void
-photos_view_model_query_status_changed (PhotosViewModel *self, gboolean query_status)
-{
-  if (query_status == FALSE)
-    return;
-
-  photos_view_model_clear (self);
-}
-
-
-static void
 photos_view_model_constructed (GObject *object)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
+  PhotosBaseManager *item_mngr_chld;
 
   G_OBJECT_CLASS (photos_view_model_parent_class)->constructed (object);
 
@@ -406,22 +334,18 @@ photos_view_model_constructed (GObject *object)
       break;
     }
 
-  g_signal_connect_object (self->item_mngr,
+  item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->item_mngr), self->mode);
+  g_signal_connect_object (item_mngr_chld,
                            "object-added",
                            G_CALLBACK (photos_view_model_object_added),
                            self,
                            G_CONNECT_SWAPPED);
-  g_signal_connect_object (self->item_mngr,
+  g_signal_connect_object (item_mngr_chld,
                            "object-removed",
                            G_CALLBACK (photos_view_model_object_removed),
                            self,
                            G_CONNECT_SWAPPED);
-
-  g_signal_connect_object (self->trk_cntrlr,
-                           "query-status-changed",
-                           G_CALLBACK (photos_view_model_query_status_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (item_mngr_chld, "clear", G_CALLBACK (photos_view_model_clear), self, G_CONNECT_SWAPPED);
 }
 
 

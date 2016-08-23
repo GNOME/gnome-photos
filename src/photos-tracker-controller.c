@@ -283,7 +283,10 @@ photos_tracker_controller_refresh_internal (PhotosTrackerController *self, gint 
     }
 
   if (!(flags & PHOTOS_TRACKER_REFRESH_FLAGS_DONT_SET_QUERY_STATUS))
-    photos_tracker_controller_set_query_status (self, TRUE);
+    {
+      photos_tracker_controller_set_query_status (self, TRUE);
+      photos_item_manager_clear (PHOTOS_ITEM_MANAGER (priv->item_mngr), priv->mode);
+    }
 
   photos_tracker_controller_perform_current_query (self);
 }
