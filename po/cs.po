@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-09 16:43+0000\n"
-"PO-Revision-Date: 2016-08-12 17:37+0200\n"
+"POT-Creation-Date: 2016-08-22 09:06+0000\n"
+"PO-Revision-Date: 2016-08-23 13:12+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: čeština <gnome-cs-list@gnome.org>>\n"
+"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Fotky"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:497
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Prohlížejte si, roztříďte a sdílejte své fotografie v GNOME"
 
@@ -105,15 +105,15 @@ msgstr "Okno maximalizováno"
 msgid "Window maximized state"
 msgstr "Stav maximalizace okna"
 
-#: ../src/photos-application.c:148
+#: ../src/photos-application.c:153
 msgid "Show the application's version"
 msgstr "Zobrazit verzi aplikace"
 
-#: ../src/photos-base-item.c:479
+#: ../src/photos-base-item.c:544
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:1671
+#: ../src/photos-base-item.c:2067
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -455,7 +455,7 @@ msgstr "Odebrat z oblíbených"
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
 
-#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:623
+#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:628
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -463,7 +463,7 @@ msgstr "Zrušit"
 msgid "Done"
 msgstr "Hotovo"
 
-#: ../src/photos-main-window.c:492
+#: ../src/photos-main-window.c:498
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -474,7 +474,7 @@ msgstr ""
 "Copyright © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:502
+#: ../src/photos-main-window.c:508
 msgid "translator-credits"
 msgstr "Marek Černocký, <marek@manet.cz>"
 
@@ -619,7 +619,6 @@ msgid "Preview"
 msgstr "Náhled"
 
 #: ../src/photos-properties-dialog.c:128
-#| msgid "Untitled Photo"
 msgid "Edited in Photos"
 msgstr "Upravit v aplikaci Fotky"
 
@@ -753,7 +752,26 @@ msgstr "Export"
 
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
-msgstr "Přidat album"
+msgstr "Přidat do alba"
+
+#: ../src/photos-share-dialog.ui.h:1
+#| msgid "Sharpen"
+msgctxt "dialog title"
+msgid "Share"
+msgstr "Sdílet"
+
+#: ../src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr "Poslat e-mailem"
+
+#: ../src/photos-share-point-google.c:86
+msgid "Failed to upload photo: Service not authorized"
+msgstr "Selhalo nahrání fotografie: služba není ověřená"
+
+#: ../src/photos-share-point-google.c:88
+#| msgid "Failed to export"
+msgid "Failed to upload photo"
+msgstr "Selhalo nahrání fotografie"
 
 #: ../src/photos-source-manager.c:203
 msgid "Sources"
