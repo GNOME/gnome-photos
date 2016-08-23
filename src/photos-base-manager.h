@@ -65,20 +65,20 @@ struct _PhotosBaseManagerClass
   GObjectClass parent_class;
 
   /* virtual methods */
-  void (*add_object)      (PhotosBaseManager *self, GObject *object);
-  GObject *(*get_active_object) (PhotosBaseManager *self);
-  gchar *(*get_filter)    (PhotosBaseManager *self, gint flags);
-  GObject *(*get_object_by_id) (PhotosBaseManager *self, const gchar *id);
-  GHashTable *(*get_objects) (PhotosBaseManager *self);
-  gchar *(*get_where)    (PhotosBaseManager *self, gint flags);
-  void (*remove_object_by_id) (PhotosBaseManager *self, const gchar *id);
-  gboolean (*set_active_object)    (PhotosBaseManager *self, GObject *object);
+  void           (*add_object)             (PhotosBaseManager *self, GObject *object);
+  GObject       *(*get_active_object)      (PhotosBaseManager *self);
+  gchar         *(*get_filter)             (PhotosBaseManager *self, gint flags);
+  GObject       *(*get_object_by_id)       (PhotosBaseManager *self, const gchar *id);
+  GHashTable    *(*get_objects)            (PhotosBaseManager *self);
+  gchar         *(*get_where)              (PhotosBaseManager *self, gint flags);
+  void           (*remove_object_by_id)    (PhotosBaseManager *self, const gchar *id);
+  gboolean       (*set_active_object)      (PhotosBaseManager *self, GObject *object);
 
   /* signals */
-  void (*active_changed)   (PhotosBaseManager *self, GObject *object);
-  void (*clear)            (PhotosBaseManager *self);
-  void (*object_added)     (PhotosBaseManager *self, GObject *object);
-  void (*object_removed)   (PhotosBaseManager *self, GObject *object);
+  void           (*active_changed)         (PhotosBaseManager *self, GObject *object);
+  void           (*clear)                  (PhotosBaseManager *self);
+  void           (*object_added)           (PhotosBaseManager *self, GObject *object);
+  void           (*object_removed)         (PhotosBaseManager *self, GObject *object);
 };
 
 GType               photos_base_manager_get_type                 (void) G_GNUC_CONST;

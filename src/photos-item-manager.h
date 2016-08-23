@@ -79,47 +79,47 @@ typedef struct _PhotosItemManagerClass PhotosItemManagerClass;
 typedef struct _PhotosItemManager      PhotosModeController;
 typedef struct _PhotosItemManagerClass PhotosModeControllerClass;
 
-GType                     photos_item_manager_get_type           (void) G_GNUC_CONST;
+GType                     photos_item_manager_get_type                     (void) G_GNUC_CONST;
 
-PhotosBaseManager        *photos_item_manager_new                (void);
+PhotosBaseManager        *photos_item_manager_new                          (void);
 
 void                      photos_item_manager_activate_previous_collection (PhotosItemManager *self);
 
-void                      photos_item_manager_add_item              (PhotosItemManager *self,
-                                                                     TrackerSparqlCursor *cursor);
+void                      photos_item_manager_add_item                     (PhotosItemManager *self,
+                                                                            TrackerSparqlCursor *cursor);
 
-void                      photos_item_manager_add_item_for_mode     (PhotosItemManager *self,
-                                                                     PhotosWindowMode mode,
-                                                                     TrackerSparqlCursor *cursor);
+void                      photos_item_manager_add_item_for_mode            (PhotosItemManager *self,
+                                                                            PhotosWindowMode mode,
+                                                                            TrackerSparqlCursor *cursor);
 
-PhotosBaseItem           *photos_item_manager_create_item        (PhotosItemManager *self,
-                                                                  TrackerSparqlCursor *cursor);
+PhotosBaseItem           *photos_item_manager_create_item                  (PhotosItemManager *self,
+                                                                            TrackerSparqlCursor *cursor);
 
-PhotosBaseItem           *photos_item_manager_get_active_collection (PhotosItemManager *self);
+PhotosBaseItem           *photos_item_manager_get_active_collection        (PhotosItemManager *self);
 
-GHashTable               *photos_item_manager_get_collections       (PhotosItemManager *self);
+GHashTable               *photos_item_manager_get_collections              (PhotosItemManager *self);
 
-PhotosLoadState           photos_item_manager_get_load_state        (PhotosItemManager *self);
+PhotosLoadState           photos_item_manager_get_load_state               (PhotosItemManager *self);
 
-void                      photos_item_manager_hide_item             (PhotosItemManager *self, PhotosBaseItem *item);
+void                      photos_item_manager_hide_item                    (PhotosItemManager *self, PhotosBaseItem *item);
 
-void                      photos_item_manager_unhide_item           (PhotosItemManager *self, PhotosBaseItem *item);
+void                      photos_item_manager_unhide_item                  (PhotosItemManager *self, PhotosBaseItem *item);
 
-gboolean                  photos_mode_controller_get_can_fullscreen (PhotosModeController *self);
+gboolean                  photos_mode_controller_get_can_fullscreen        (PhotosModeController *self);
 
-gboolean                  photos_mode_controller_get_fullscreen     (PhotosModeController *self);
+gboolean                  photos_mode_controller_get_fullscreen            (PhotosModeController *self);
 
-PhotosWindowMode          photos_mode_controller_get_window_mode    (PhotosModeController *self);
+PhotosWindowMode          photos_mode_controller_get_window_mode           (PhotosModeController *self);
 
-void                      photos_mode_controller_go_back            (PhotosModeController *self);
+void                      photos_mode_controller_go_back                   (PhotosModeController *self);
 
-void                      photos_mode_controller_toggle_fullscreen  (PhotosModeController *self);
+void                      photos_mode_controller_toggle_fullscreen         (PhotosModeController *self);
 
-void                      photos_mode_controller_set_fullscreen     (PhotosModeController *self,
-                                                                     gboolean              fullscreen);
+void                      photos_mode_controller_set_fullscreen            (PhotosModeController *self,
+                                                                            gboolean              fullscreen);
 
-void                      photos_mode_controller_set_window_mode    (PhotosModeController *self,
-                                                                     PhotosWindowMode      mode);
+void                      photos_mode_controller_set_window_mode           (PhotosModeController *self,
+                                                                            PhotosWindowMode      mode);
 
 G_END_DECLS
 
