@@ -86,7 +86,8 @@ PhotosBaseManager        *photos_item_manager_new                          (void
 void                      photos_item_manager_activate_previous_collection (PhotosItemManager *self);
 
 void                      photos_item_manager_add_item                     (PhotosItemManager *self,
-                                                                            TrackerSparqlCursor *cursor);
+                                                                            TrackerSparqlCursor *cursor,
+                                                                            gboolean force);
 
 void                      photos_item_manager_add_item_for_mode            (PhotosItemManager *self,
                                                                             PhotosWindowMode mode,

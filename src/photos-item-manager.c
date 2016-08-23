@@ -157,7 +157,7 @@ photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult 
   if (cursor == NULL)
     goto out;
 
-  photos_item_manager_add_item (self, cursor);
+  photos_item_manager_add_item (self, cursor, FALSE);
 
  out:
   g_clear_object (&cursor);
@@ -706,11 +706,15 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
 
 
 void
-photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
+photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *cursor, gboolean force)
 {
   if (photos_item_manager_cursor_is_collection (cursor))
     {
-      photos_item_manager_add_item_for_mode (self, PHOTOS_WINDOW_MODE_COLLECTIONS, cursor);
+      if (self->active_collection != NULL && force)
+        photos_item_manager_activate_previous_collection (self);
+
+      if (self->active_collection == NULL)
+        photos_item_manager_add_item_for_mode (self, PHOTOS_WINDOW_MODE_COLLECTIONS, cursor);
     }
   else
     {

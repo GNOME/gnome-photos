@@ -700,7 +700,7 @@ photos_application_activate_query_executed (GObject *source_object, GAsyncResult
   if (cursor == NULL)
     goto out;
 
-  photos_item_manager_add_item (PHOTOS_ITEM_MANAGER (self->state->item_mngr), cursor);
+  photos_item_manager_add_item (PHOTOS_ITEM_MANAGER (self->state->item_mngr), cursor, TRUE);
 
   identifier = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
   item = photos_base_manager_get_object_by_id (self->state->item_mngr, identifier);
