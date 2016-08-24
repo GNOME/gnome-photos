@@ -166,6 +166,12 @@ photos_view_container_query_status_changed (PhotosViewContainer *self, gboolean 
 static void
 photos_view_container_select_all (PhotosViewContainer *self)
 {
+  PhotosWindowMode mode;
+
+  mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
+  if (self->mode != mode)
+    return;
+
   photos_selection_controller_set_selection_mode (self->sel_cntrlr, TRUE);
   gd_main_view_select_all (self->view);
 }
