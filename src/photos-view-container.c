@@ -191,7 +191,14 @@ photos_view_container_select_none (PhotosViewContainer *self)
 
 
 static void
-photos_view_container_selection_mode_changed (PhotosViewContainer *self, gboolean selection_mode)
+photos_view_container_selection_mode_request (PhotosViewContainer *self)
+{
+  photos_selection_controller_set_selection_mode (self->sel_cntrlr, TRUE);
+}
+
+
+static void
+photos_view_container_set_selection_mode (PhotosViewContainer *self, gboolean selection_mode)
 {
   PhotosWindowMode window_mode;
 
@@ -200,13 +207,6 @@ photos_view_container_selection_mode_changed (PhotosViewContainer *self, gboolea
     return;
 
   gd_main_view_set_selection_mode (self->view, selection_mode);
-}
-
-
-static void
-photos_view_container_selection_mode_request (PhotosViewContainer *self)
-{
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, TRUE);
 }
 
 
@@ -254,6 +254,7 @@ photos_view_container_constructed (GObject *object)
   GtkWidget *generic_view;
   GtkWidget *grid;
   PhotosSearchContextState *state;
+  gboolean selection_mode;
   gboolean status;
   gint size;
 
@@ -303,7 +304,7 @@ photos_view_container_constructed (GObject *object)
   self->sel_cntrlr = photos_selection_controller_dup_singleton ();
   g_signal_connect_object (self->sel_cntrlr,
                            "selection-mode-changed",
-                           G_CALLBACK (photos_view_container_selection_mode_changed),
+                           G_CALLBACK (photos_view_container_set_selection_mode),
                            self,
                            G_CONNECT_SWAPPED);
 
@@ -377,8 +378,9 @@ photos_view_container_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
 
-  photos_view_container_selection_mode_changed (self,
-                                                photos_selection_controller_get_selection_mode (self->sel_cntrlr));
+  selection_mode = photos_selection_controller_get_selection_mode (self->sel_cntrlr);
+  photos_view_container_set_selection_mode (self, selection_mode);
+
   photos_tracker_controller_start (self->trk_cntrlr);
 
   status = photos_tracker_controller_get_query_status (self->trk_cntrlr);
