@@ -73,6 +73,15 @@ enum
   PROP_PREVIEW_VIEW
 };
 
+enum
+{
+  LOAD_NEXT,
+  LOAD_PREVIOUS,
+  LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
 
 G_DEFINE_TYPE (PhotosPreviewNavButtons, photos_preview_nav_buttons, G_TYPE_OBJECT);
 
@@ -321,6 +330,8 @@ photos_preview_nav_buttons_next (PhotosPreviewNavButtons *self)
   if (!self->enable_next)
     return;
 
+  g_signal_emit (self, signals[LOAD_NEXT], 0);
+
   current_path = gtk_tree_row_reference_get_path (self->current_row);
   gtk_tree_path_next (current_path);
   photos_preview_nav_buttons_set_active_path (self, current_path);
@@ -336,6 +347,8 @@ photos_preview_nav_buttons_previous (PhotosPreviewNavButtons *self)
 
   if (!self->enable_prev)
     return;
+
+  g_signal_emit (self, signals[LOAD_PREVIOUS], 0);
 
   current_path = gtk_tree_row_reference_get_path (self->current_row);
   gtk_tree_path_prev (current_path);
@@ -541,6 +554,26 @@ photos_preview_nav_buttons_class_init (PhotosPreviewNavButtonsClass *class)
                                                         "The widget used for showing the preview",
                                                         PHOTOS_TYPE_PREVIEW_VIEW,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  signals[LOAD_NEXT] = g_signal_new ("load-next",
+                                     G_TYPE_FROM_CLASS (class),
+                                     G_SIGNAL_RUN_LAST,
+                                     0,
+                                     NULL, /*accumulator */
+                                     NULL, /*accu_data */
+                                     g_cclosure_marshal_VOID__VOID,
+                                     G_TYPE_NONE,
+                                     0);
+
+  signals[LOAD_PREVIOUS] = g_signal_new ("load-previous",
+                                         G_TYPE_FROM_CLASS (class),
+                                         G_SIGNAL_RUN_LAST,
+                                         0,
+                                         NULL, /*accumulator */
+                                         NULL, /*accu_data */
+                                         g_cclosure_marshal_VOID__VOID,
+                                         G_TYPE_NONE,
+                                         0);
 }
 
 
