@@ -26,7 +26,6 @@
 #include "photos-base-item.h"
 #include "photos-base-manager.h"
 #include "photos-preview-model.h"
-#include "photos-query.h"
 #include "photos-search-context.h"
 #include "photos-view-model.h"
 
@@ -52,7 +51,6 @@ photos_preview_model_visible (GtkTreeModel *model, GtkTreeIter *iter, gpointer u
   PhotosPreviewModel *self = PHOTOS_PREVIEW_MODEL (user_data);
   PhotosBaseItem *item;
   gboolean ret_val = FALSE;
-  const gchar *identifier;
   gchar *id;
 
   gtk_tree_model_get (model, iter, PHOTOS_VIEW_MODEL_URN, &id, -1);
@@ -60,11 +58,7 @@ photos_preview_model_visible (GtkTreeModel *model, GtkTreeIter *iter, gpointer u
     goto out;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, id));
-  identifier = photos_base_item_get_identifier (item);
-  if (identifier != NULL && g_str_has_prefix (identifier, PHOTOS_QUERY_COLLECTIONS_IDENTIFIER))
-    goto out;
-
-  ret_val = TRUE;
+  ret_val = !photos_base_item_is_collection (item);
 
  out:
   g_free (id);
