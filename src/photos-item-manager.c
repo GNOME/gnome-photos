@@ -708,6 +708,9 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
 void
 photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *cursor, gboolean force)
 {
+  g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+  g_return_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor));
+
   if (photos_item_manager_cursor_is_collection (cursor))
     {
       if (self->active_collection != NULL && force)
@@ -731,11 +734,18 @@ photos_item_manager_add_item_for_mode (PhotosItemManager *self, PhotosWindowMode
 {
   PhotosBaseItem *item = NULL;
   PhotosBaseManager *item_mngr_chld;
+  gboolean is_collection;
   const gchar *id;
 
+  g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+  g_return_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor));
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
+
+  is_collection = photos_item_manager_cursor_is_collection (cursor);
+  g_return_if_fail ((is_collection && (mode == PHOTOS_WINDOW_MODE_COLLECTIONS || mode == PHOTOS_WINDOW_MODE_SEARCH))
+                    || (!is_collection && (mode != PHOTOS_WINDOW_MODE_COLLECTIONS || self->active_collection != NULL)));
 
   item_mngr_chld = self->item_mngr_chldrn[mode];
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
