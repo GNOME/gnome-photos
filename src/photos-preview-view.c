@@ -601,6 +601,9 @@ photos_preview_view_constructed (GObject *object)
   G_OBJECT_CLASS (photos_preview_view_parent_class)->constructed (object);
 
   self->nav_buttons = photos_preview_nav_buttons_new (self, GTK_OVERLAY (self->overlay));
+  g_signal_connect_swapped (self->nav_buttons, "load-next", G_CALLBACK (photos_preview_view_navigate_next), self);
+  g_signal_connect_swapped (self->nav_buttons, "load-previous", G_CALLBACK (photos_preview_view_navigate_previous), self);
+
   gtk_widget_show_all (GTK_WIDGET (self));
 }
 
@@ -697,12 +700,6 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "insta-current");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_insta), self, G_CONNECT_SWAPPED);
-
-  action = g_action_map_lookup_action (G_ACTION_MAP (app), "load-next");
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_preview_view_navigate_next), self);
-
-  action = g_action_map_lookup_action (G_ACTION_MAP (app), "load-previous");
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_preview_view_navigate_previous), self);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "saturation-current");
   g_signal_connect_object (action,
