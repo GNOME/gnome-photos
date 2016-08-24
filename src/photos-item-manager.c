@@ -25,6 +25,8 @@
 
 #include "config.h"
 
+#include <string.h>
+
 #include <gio/gio.h>
 #include <glib.h>
 #include <tracker-sparql.h>
@@ -263,10 +265,10 @@ static gboolean
 photos_item_manager_cursor_is_collection (TrackerSparqlCursor *cursor)
 {
   gboolean ret_val;
-  const gchar *identifier;
+  const gchar *rdf_type;
 
-  identifier = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL);
-  ret_val = g_str_has_prefix (identifier, "photos:collection:");
+  rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
+  ret_val = strstr (rdf_type, "nfo#DataContainer") != NULL;
   return ret_val;
 }
 
