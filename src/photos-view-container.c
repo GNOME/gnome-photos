@@ -178,9 +178,28 @@ photos_view_container_select_all (PhotosViewContainer *self)
 
 
 static void
-photos_view_container_selection_mode_changed (PhotosViewContainer *self, gboolean mode)
+photos_view_container_select_none (PhotosViewContainer *self)
 {
-  gd_main_view_set_selection_mode (self->view, mode);
+  PhotosWindowMode mode;
+
+  mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
+  if (self->mode != mode)
+    return;
+
+  gd_main_view_unselect_all (self->view);
+}
+
+
+static void
+photos_view_container_selection_mode_changed (PhotosViewContainer *self, gboolean selection_mode)
+{
+  PhotosWindowMode window_mode;
+
+  window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
+  if (self->mode != window_mode)
+    return;
+
+  gd_main_view_set_selection_mode (self->view, selection_mode);
 }
 
 
@@ -283,8 +302,6 @@ photos_view_container_constructed (GObject *object)
                            G_CALLBACK (photos_view_container_selection_mode_changed),
                            self,
                            G_CONNECT_SWAPPED);
-  photos_view_container_selection_mode_changed (self,
-                                                photos_selection_controller_get_selection_mode (self->sel_cntrlr));
 
   self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
   g_signal_connect_object (self->mode_cntrlr,
@@ -335,8 +352,8 @@ photos_view_container_constructed (GObject *object)
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-none");
   g_signal_connect_object (action,
                            "activate",
-                           G_CALLBACK (gd_main_view_unselect_all),
-                           self->view,
+                           G_CALLBACK (photos_view_container_select_none),
+                           self,
                            G_CONNECT_SWAPPED);
 
   g_signal_connect_object (self->offset_cntrlr,
@@ -355,6 +372,9 @@ photos_view_container_constructed (GObject *object)
                            G_CALLBACK (photos_view_container_query_status_changed),
                            self,
                            G_CONNECT_SWAPPED);
+
+  photos_view_container_selection_mode_changed (self,
+                                                photos_selection_controller_get_selection_mode (self->sel_cntrlr));
   photos_tracker_controller_start (self->trk_cntrlr);
 
   status = photos_tracker_controller_get_query_status (self->trk_cntrlr);
