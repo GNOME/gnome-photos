@@ -1382,6 +1382,8 @@ photos_application_share_response (GtkDialog *dialog, gint response_id, gpointer
   item = photos_application_get_selection_or_active_item (self);
   g_return_if_fail (item != NULL);
 
+  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
+
   g_application_hold (G_APPLICATION (self));
   g_application_mark_busy (G_APPLICATION (self));
   photos_share_point_share_async (share_point, item, NULL, photos_application_share_share, self);
