@@ -1206,7 +1206,6 @@ photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointe
   photos_export_notification_new (items, file);
 
  out:
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
   g_application_release (G_APPLICATION (self));
   g_clear_object (&file);
   g_list_free_full (items, g_object_unref);
@@ -1231,6 +1230,8 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
 
   item = photos_application_get_selection_or_active_item (self);
   g_return_if_fail (item != NULL);
+
+  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
 
   pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
   export_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
