@@ -131,9 +131,17 @@ G_DEFINE_ABSTRACT_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJEC
 EGG_DEFINE_COUNTER (instances, "PhotosBaseItem", "Instances", "Number of PhotosBaseItem instances")
 
 
+typedef struct _PhotosBaseItemMetadataAddSharedData PhotosBaseItemMetadataAddSharedData;
 typedef struct _PhotosBaseItemSaveData PhotosBaseItemSaveData;
 typedef struct _PhotosBaseItemSaveBufferData PhotosBaseItemSaveBufferData;
 typedef struct _PhotosBaseItemSaveToStreamData PhotosBaseItemSaveToStreamData;
+
+struct _PhotosBaseItemMetadataAddSharedData
+{
+  gchar *account_identity;
+  gchar *provider_type;
+  gchar *shared_id;
+};
 
 struct _PhotosBaseItemSaveData
 {
@@ -165,6 +173,32 @@ static const gint PIXEL_SIZES[] = {2048, 1024};
 
 
 static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor);
+
+
+static PhotosBaseItemMetadataAddSharedData *
+photos_base_item_metadata_add_shared_data_new (const gchar *provider_type,
+                                               const gchar *account_identity,
+                                               const gchar *shared_id)
+{
+  PhotosBaseItemMetadataAddSharedData *data;
+
+  data = g_slice_new0 (PhotosBaseItemMetadataAddSharedData);
+  data->account_identity = g_strdup (account_identity);
+  data->provider_type = g_strdup (provider_type);
+  data->shared_id = g_strdup (shared_id);
+
+  return data;
+}
+
+
+static void
+photos_base_item_metadata_add_shared_data_free (PhotosBaseItemMetadataAddSharedData *data)
+{
+  g_free (data->account_identity);
+  g_free (data->provider_type);
+  g_free (data->shared_id);
+  g_slice_free (PhotosBaseItemMetadataAddSharedData, data);
+}
 
 
 static PhotosBaseItemSaveData *
@@ -1336,6 +1370,34 @@ photos_base_item_load_pipeline (GObject *source_object, GAsyncResult *res, gpoin
 
  out:
   g_object_unref (task);
+}
+
+
+static void
+photos_base_item_metadata_add_shared_in_thread_func (GTask *task,
+                                                     gpointer source_object,
+                                                     gpointer task_data,
+                                                     GCancellable *cancellable)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GError *error;
+  PhotosBaseItemMetadataAddSharedData *data = (PhotosBaseItemMetadataAddSharedData *) task_data;
+  gboolean result;
+
+  error = NULL;
+  result = PHOTOS_BASE_ITEM_GET_CLASS (self)->metadata_add_shared (self,
+                                                                   data->provider_type,
+                                                                   data->account_identity,
+                                                                   data->shared_id,
+                                                                   cancellable,
+                                                                   &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      return;
+    }
+
+  g_task_return_boolean (task, result);
 }
 
 
@@ -3078,6 +3140,52 @@ photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
   return g_task_propagate_pointer (task, error);
+}
+
+
+void
+photos_base_item_metadata_add_shared_async (PhotosBaseItem *self,
+                                            const gchar *provider_type,
+                                            const gchar *account_identity,
+                                            const gchar *shared_id,
+                                            GCancellable *cancellable,
+                                            GAsyncReadyCallback callback,
+                                            gpointer user_data)
+{
+  PhotosBaseItemPrivate *priv;
+  GTask *task;
+  PhotosBaseItemMetadataAddSharedData *data;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = photos_base_item_get_instance_private (self);
+
+  g_return_if_fail (!priv->collection);
+  g_return_if_fail (provider_type != NULL && provider_type[0] != '\0');
+  g_return_if_fail (account_identity != NULL && account_identity[0] != '\0');
+  g_return_if_fail (shared_id != NULL && shared_id[0] != '\0');
+
+  data = photos_base_item_metadata_add_shared_data_new (provider_type, account_identity, shared_id);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_metadata_add_shared_async);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_metadata_add_shared_data_free);
+
+  g_task_run_in_thread (task, photos_base_item_metadata_add_shared_in_thread_func);
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_metadata_add_shared_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_metadata_add_shared_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 

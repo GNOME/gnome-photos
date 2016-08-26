@@ -180,6 +180,18 @@ GeglNode           *photos_base_item_load_finish             (PhotosBaseItem *se
                                                               GAsyncResult *res,
                                                               GError **error);
 
+void                photos_base_item_metadata_add_shared_async  (PhotosBaseItem *self,
+                                                                 const gchar *provider_type,
+                                                                 const gchar *account_identity,
+                                                                 const gchar *shared_id,
+                                                                 GCancellable *cancellable,
+                                                                 GAsyncReadyCallback callback,
+                                                                 gpointer user_data);
+
+gboolean            photos_base_item_metadata_add_shared_finish (PhotosBaseItem *self,
+                                                                 GAsyncResult *res,
+                                                                 GError **error);
+
 void                photos_base_item_open                    (PhotosBaseItem *self,
                                                               GdkScreen *screen,
                                                               guint32 timestamp);
