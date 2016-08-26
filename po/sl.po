@@ -2,15 +2,15 @@
 # Copyright (C) 2012 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2012-2015.
+# Matej Urbančič <mateju@svn.gnome.org>, 2012-2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-15 08:16+0000\n"
-"PO-Revision-Date: 2015-03-15 09:49+0100\n"
+"POT-Creation-Date: 2016-08-26 23:03+0200\n"
+"PO-Revision-Date: 2016-08-26 23:04+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -20,15 +20,15 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1
-#: ../src/photos-search-type-manager.c:124
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:671
+#: ../src/photos-search-type-manager.c:136
 msgid "Photos"
 msgstr "Fotografije"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:472
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Urejanje in izmenjava fotografij za namizje GNOME"
 
@@ -108,109 +108,20 @@ msgstr "Razpeto okno"
 msgid "Window maximized state"
 msgstr "Razpeto glavno okno"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%a, %d. %B %Y  %X"
-
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%a, %d. %B %Y"
-
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f (leča)"
-
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f (35mm film)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "Pretvorba na še ne naloženi sliki."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "Pretvorba je spodletela."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "Zapis EXIF ni podprta oblika zapisa slike."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "Nalaganje slike je spodletelo."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "Ni naložene slike."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "Ni ustreznih dovoljenj za shranjevanje datoteke."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "Napaka med ustvarjanjem trenutne datoteke."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "Vsaj dve imeni datotek sta enaki."
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "Pomoči za pregledovalnik slik ni mogoče prikazati"
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (neveljaven Unikod)"
-
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Celozaslonski način"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "Pomo_č"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About"
-msgstr "O programu"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "Končaj"
-
-#: ../src/photos-base-item.c:434
+#: ../src/photos-base-item.c:476
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:886
+#: ../src/photos-base-item.c:1441
 msgid "Screenshots"
 msgstr "Zajete slike"
 
-#: ../src/photos-delete-notification.c:141
+#: ../src/photos-delete-notification.c:145
 #, c-format
 msgid "“%s” deleted"
 msgstr "“%s” je izbrisan"
 
-#: ../src/photos-delete-notification.c:144
+#: ../src/photos-delete-notification.c:148
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
@@ -219,7 +130,8 @@ msgstr[1] "%d predmet je izbrisan"
 msgstr[2] "%d predmeta sta izbrisana"
 msgstr[3] "%d predmeti so izbrisani"
 
-#: ../src/photos-delete-notification.c:151
+#: ../src/photos-delete-notification.c:155
+#: ../src/photos-done-notification.c:188
 msgid "Undo"
 msgstr "Razveljavi"
 
@@ -227,19 +139,20 @@ msgstr "Razveljavi"
 msgid "DLNA Renderer Devices"
 msgstr "Naprave izrisovalnika DLNA"
 
-#: ../src/photos-embed.c:621
-msgid "Recent"
-msgstr "Nedavno"
+#: ../src/photos-done-notification.c:181
+#, c-format
+msgid "“%s” edited"
+msgstr ""
 
-#: ../src/photos-embed.c:628 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:678 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../src/photos-embed.c:635 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:685 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Priljubljeno"
 
-#: ../src/photos-embed.c:642 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:692 ../src/photos-main-toolbar.c:301
 msgid "Search"
 msgstr "Iskanje"
 
@@ -275,48 +188,244 @@ msgstr "Slike z zvezdico bodo prikazane na tem mestu"
 msgid "No Photos Found"
 msgstr "Ni najdenih fotografij"
 
+#: ../src/photos-export-dialog.ui.h:1
+msgctxt "dialog title"
+msgid "Export"
+msgstr "Izvoz"
+
+#: ../src/photos-export-dialog.ui.h:2
+msgid "_Folder Name"
+msgstr "_Ime mape"
+
+#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
+msgid "Size"
+msgstr "Velikost"
+
+#: ../src/photos-export-dialog.ui.h:4
+msgid "F_ull"
+msgstr ""
+
+#: ../src/photos-export-dialog.ui.h:5
+msgid "_Reduced"
+msgstr ""
+
+#: ../src/photos-export-dialog.ui.h:6
+msgid "_Cancel"
+msgstr "_Prekliči"
+
+#: ../src/photos-export-dialog.ui.h:7
+msgid "_Export"
+msgstr "_Izvozi"
+
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: ../src/photos-export-dialog.c:76
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
+
+#. Translators: this is the default sub-directory where photos
+#. *  will be exported.
+#.
+#: ../src/photos-export-dialog.c:284
+msgid "%e %B %Y"
+msgstr "%e. %B %Y"
+
+#: ../src/photos-export-dialog.c:339
+msgid "Calculating export size…"
+msgstr ""
+
+#: ../src/photos-export-notification.c:241
+msgid "Failed to export: not enough space"
+msgstr ""
+
+#: ../src/photos-export-notification.c:243
+msgid "Failed to export"
+msgstr ""
+
+#: ../src/photos-export-notification.c:250
+#, c-format
+msgid "“%s” exported"
+msgstr ""
+
+#: ../src/photos-export-notification.c:254
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: ../src/photos-export-notification.c:271
+msgid "Analyze"
+msgstr "Preuči"
+
+#: ../src/photos-export-notification.c:276
+msgid "Empty Trash"
+msgstr "Izprazni smeti"
+
+#. Translators: this is the Open action in a context menu
+#: ../src/photos-export-notification.c:293 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+msgid "Open"
+msgstr "Odpri"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: ../src/photos-export-notification.c:303
+msgid "Export Folder"
+msgstr ""
+
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
-#: ../src/photos-google-item.c:77
+#: ../src/photos-facebook-item.c:105 ../src/photos-flickr-item.c:110
+#: ../src/photos-google-item.c:107
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:163
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Neimenovana fotografija"
+
+#: ../src/photos-help-overlay.ui.h:1
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Splošno"
+
+#: ../src/photos-help-overlay.ui.h:2
+msgctxt "shortcut window"
+msgid "Show help"
+msgstr "Pokaži pomoč"
+
+#: ../src/photos-help-overlay.ui.h:3
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Končaj"
+
+#: ../src/photos-help-overlay.ui.h:4
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Krmarjenje"
+
+#: ../src/photos-help-overlay.ui.h:5
+msgctxt "shortcut window"
+msgid "Next photo"
+msgstr "Naslednja slika"
+
+#: ../src/photos-help-overlay.ui.h:6
+msgctxt "shortcut window"
+msgid "Previous photo"
+msgstr "Predhodna slika"
+
+#: ../src/photos-help-overlay.ui.h:7
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Nazaj"
+
+#: ../src/photos-help-overlay.ui.h:8
+msgctxt "shortcut window"
+msgid "Overview"
+msgstr "Pregled"
+
+#: ../src/photos-help-overlay.ui.h:9
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Iskanje"
+
+#: ../src/photos-help-overlay.ui.h:10
+msgctxt "shortcut window"
+msgid "Select all"
+msgstr "Izberi vse"
+
+#: ../src/photos-help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr ""
+
+#: ../src/photos-help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr ""
+
+#: ../src/photos-help-overlay.ui.h:13
+msgctxt "shortcut window"
+msgid "Photo view"
+msgstr ""
+
+#: ../src/photos-help-overlay.ui.h:14
+msgctxt "shortcut window"
+msgid "Edit"
+msgstr "Uredi"
+
+#: ../src/photos-help-overlay.ui.h:15
+msgctxt "shortcut window"
+msgid "Export"
+msgstr "Izvozi"
+
+#: ../src/photos-help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "Natisni"
+
+#: ../src/photos-help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Izbriši"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
+msgid "Action menu"
+msgstr "Meni dejanj"
+
+#: ../src/photos-help-overlay.ui.h:19
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "Celozaslonski način"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "Urejevalni pogled"
+
+#: ../src/photos-help-overlay.ui.h:21
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "Prekliči"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr.
 #.
-#: ../src/photos-indexing-notification.c:173
+#: ../src/photos-indexing-notification.c:172
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Pridobivanje fotografij preko spletne storitve %s"
 
-#: ../src/photos-indexing-notification.c:176
+#: ../src/photos-indexing-notification.c:175
 msgid "Fetching photos from online accounts"
 msgstr "Pridobivanje fotografij preko spletnih računov"
 
-#: ../src/photos-indexing-notification.c:213
+#: ../src/photos-indexing-notification.c:211
 msgid "Your photos are being indexed"
 msgstr "Iz podatkov fotografij se pripravlja kazalo"
 
-#: ../src/photos-indexing-notification.c:214
+#: ../src/photos-indexing-notification.c:212
 msgid "Some photos might not be available during this process"
 msgstr "Nekatere fotografije med opravilom lahko niso na voljo"
 
-#: ../src/photos-local-item.c:114 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:139 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Krajevno"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "S klikom se predmeti izberejo."
 
-#: ../src/photos-main-toolbar.c:112
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -325,89 +434,113 @@ msgstr[1] "%d izbrana"
 msgstr[2] "%d izbrani"
 msgstr[3] "%d izbrane"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Nazaj"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:317
 msgid "Select Items"
 msgstr "Izbor predmetov"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
 #, c-format
 msgid "Open with %s"
 msgstr "Odpri s programom %s"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
 msgid "Remove from favorites"
 msgstr "Odstrani iz priljubljenih"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
 msgid "Add to favorites"
 msgstr "Dodaj med priljubljene"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:500 ../src/photos-main-toolbar.c:638
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: ../src/photos-main-window.c:473
+#: ../src/photos-main-toolbar.c:504
+msgid "Done"
+msgstr "Končano"
+
+#: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2016 Red Hat, Inc."
 msgstr ""
-"Avtorske pravice © 2013 Intel Corporation. Vse pravice pridržane.\n"
-"Avtorske pravice © 2014, 2015 Pranav Kant\n"
-"Avtorske pravice © 2012, 2013, 2014 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:483
+#: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr "Matej Urbančič <mateju@svn.gnome.org>"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-menus.ui.h:1
+msgid "Fullscreen"
+msgstr "Celozaslonski način"
+
+#: ../src/photos-menus.ui.h:2
+msgid "Keyboard Shortcuts"
+msgstr "Tipkovne bližnjice"
+
+#: ../src/photos-menus.ui.h:3
+msgid "_Help"
+msgstr "Pomo_č"
+
+#: ../src/photos-menus.ui.h:4
+msgid "About"
+msgstr "O programu"
+
+#: ../src/photos-menus.ui.h:5
+msgid "Quit"
+msgstr "Končaj"
+
+#: ../src/photos-organize-collection-dialog.c:74
 msgid "_Add"
 msgstr "_Dodaj"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:75
 msgid "_OK"
 msgstr "_V redu"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:126
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Urejanje fotografij"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
-#: ../src/photos-selection-toolbar.c:457
-msgid "Open"
-msgstr "Odpri"
-
 #: ../src/photos-preview-menu.ui.h:2
+msgid "Export…"
+msgstr "Izvozi ..."
+
+#: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
 msgstr "Natisni ..."
 
-#: ../src/photos-preview-menu.ui.h:3
+#: ../src/photos-preview-menu.ui.h:4
+msgid "Delete"
+msgstr "Izbriši"
+
+#: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
 msgstr "Pokaži na ..."
 
-#: ../src/photos-preview-menu.ui.h:4
+#: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Background"
 msgstr "Nastavi kot ozadje"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: ../src/photos-preview-menu.ui.h:7
 msgid "Set as Lock Screen"
 msgstr "Nastavi kot zaslon za zaklep"
 
-#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:609
-#: ../src/photos-selection-toolbar.c:478
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:602
+#: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Lastnosti"
 
-#: ../src/photos-print-notification.c:76
+#: ../src/photos-print-notification.c:79
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Tiskanje “%s”: %s"
@@ -416,75 +549,71 @@ msgstr "Tiskanje “%s”: %s"
 msgid "Image Settings"
 msgstr "Nastavitve slik"
 
-#: ../src/photos-print-setup.c:906
+#: ../src/photos-print-setup.c:904
 msgid "Position"
 msgstr "Položaj"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:907
 msgid "_Left:"
 msgstr "_Levo:"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:908
 msgid "_Right:"
 msgstr "_Desno:"
 
-#: ../src/photos-print-setup.c:911
+#: ../src/photos-print-setup.c:909
 msgid "_Top:"
 msgstr "_Zgoraj:"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:910
 msgid "_Bottom:"
 msgstr "_Spodaj:"
 
-#: ../src/photos-print-setup.c:914
+#: ../src/photos-print-setup.c:912
 msgid "C_enter:"
 msgstr "Sr_edina:"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:916
 msgid "None"
 msgstr "Brez"
 
-#: ../src/photos-print-setup.c:919
+#: ../src/photos-print-setup.c:917
 msgid "Horizontal"
 msgstr "Vodoravno"
 
-#: ../src/photos-print-setup.c:920
+#: ../src/photos-print-setup.c:918
 msgid "Vertical"
 msgstr "Navpično"
 
-#: ../src/photos-print-setup.c:921
+#: ../src/photos-print-setup.c:919
 msgid "Both"
 msgstr "Oba"
 
-#: ../src/photos-print-setup.c:934
-msgid "Size"
-msgstr "Velikost"
-
-#: ../src/photos-print-setup.c:937
+#: ../src/photos-print-setup.c:935
 msgid "_Width:"
 msgstr "_Širina:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:936
 msgid "_Height:"
 msgstr "_Višina:"
 
-#: ../src/photos-print-setup.c:940
+#: ../src/photos-print-setup.c:938
 msgid "_Scaling:"
 msgstr "_Merilo:"
 
-#: ../src/photos-print-setup.c:949
+#: ../src/photos-print-setup.c:947
 msgid "_Unit:"
 msgstr "_Enota:"
 
-#: ../src/photos-print-setup.c:953
+#: ../src/photos-print-setup.c:951
 msgid "Millimeters"
 msgstr "Milimetri"
 
-#: ../src/photos-print-setup.c:954
+#: ../src/photos-print-setup.c:952
 msgid "Inches"
 msgstr "Palci"
 
-#: ../src/photos-print-setup.c:982
+#: ../src/photos-print-setup.c:980
 msgid "Preview"
 msgstr "Predogled"
 
@@ -564,31 +693,34 @@ msgstr "Onemogočeno, bliskavica se ni sprožila"
 msgid "On, fired"
 msgstr "Omogočeno, bliskavica se je sprožila"
 
-#: ../src/photos-search-match-manager.c:154
-#: ../src/photos-search-type-manager.c:101 ../src/photos-source-manager.c:130
+#: ../src/photos-search-match-manager.c:158
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Vse"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:161
+#: ../src/photos-search-match-manager.c:165
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Naslov"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:168
+#: ../src/photos-search-match-manager.c:172
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Avtor"
 
-#: ../src/photos-search-match-manager.c:205
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: ../src/photos-search-match-manager.c:210
 msgid "Match"
 msgstr "Se sklada"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:154
+#: ../src/photos-search-type-manager.c:168
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Vrsta"
@@ -601,25 +733,212 @@ msgstr "Izberi vse"
 msgid "Select None"
 msgstr "Odstrani izbor"
 
-#: ../src/photos-selection-toolbar.c:464
-msgid "Print"
-msgstr "Natisni"
+#: ../src/photos-selection-toolbar.ui.h:1
+msgid "Export"
+msgstr "Izvoz"
 
-#: ../src/photos-selection-toolbar.c:471
-msgid "Delete"
-msgstr "Izbriši"
-
-#: ../src/photos-selection-toolbar.c:485
+#: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Dodaj v album"
 
-#: ../src/photos-source-manager.c:174
+#: ../src/photos-source-manager.c:203
 msgid "Sources"
 msgstr "Viri"
 
-#: ../src/photos-tracker-controller.c:97
+#: ../src/photos-tool-colors.c:251
+msgid "Brightness"
+msgstr "Svetlost"
+
+#: ../src/photos-tool-colors.c:272
+msgid "Contrast"
+msgstr "Kontrast"
+
+#: ../src/photos-tool-colors.c:292
+msgid "Saturation"
+msgstr "Nasičenost"
+
+#: ../src/photos-tool-colors.c:319
+msgid "Colors"
+msgstr "Barve"
+
+#: ../src/photos-tool-crop.c:131
+msgid "Free"
+msgstr "Prosto"
+
+#: ../src/photos-tool-crop.c:132
+msgid "Original"
+msgstr "Izvorno"
+
+#: ../src/photos-tool-crop.c:133
+msgid "1×1 (Square)"
+msgstr "1×1 (kvadrat)"
+
+#: ../src/photos-tool-crop.c:134
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
+
+#: ../src/photos-tool-crop.c:135
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
+
+#: ../src/photos-tool-crop.c:136
+msgid "7×5"
+msgstr "7×5"
+
+#: ../src/photos-tool-crop.c:137
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
+
+#: ../src/photos-tool-crop.c:138
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
+
+#: ../src/photos-tool-crop.c:139
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: ../src/photos-tool-crop.c:1169
+msgid "Lock aspect ratio"
+msgstr ""
+
+#: ../src/photos-tool-crop.c:1217
+msgid "Reset"
+msgstr "Ponastavi"
+
+#: ../src/photos-tool-crop.c:1234
+msgid "Crop"
+msgstr "Obreži"
+
+#: ../src/photos-tool-enhance.c:207
+msgid "Sharpen"
+msgstr "Izostri"
+
+#: ../src/photos-tool-enhance.c:227
+msgid "Denoise"
+msgstr ""
+
+#: ../src/photos-tool-enhance.c:253
+msgid "Enhance"
+msgstr "Izboljšaj"
+
+#. Translators: "None" refers to the nop magic filter when editing.
+#: ../src/photos-tool-filters.c:192
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Brez"
+
+#: ../src/photos-tool-filters.c:199
+msgid "1947"
+msgstr "1947"
+
+#: ../src/photos-tool-filters.c:206
+msgid "Calistoga"
+msgstr "Calistoga"
+
+#: ../src/photos-tool-filters.c:212
+msgid "Mogadishu"
+msgstr "Mogadishu"
+
+#: ../src/photos-tool-filters.c:219
+msgid "Caap"
+msgstr "Caap"
+
+#: ../src/photos-tool-filters.c:225
+msgid "Hometown"
+msgstr "Hometown"
+
+#: ../src/photos-tool-filters.c:243
+msgid "Filters"
+msgstr "Filtri"
+
+#: ../src/photos-tracker-controller.c:98
 msgid "Unable to fetch the list of photos"
 msgstr "Seznama fotografij ni mogoče pridobiti"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Preview"
+#~ msgstr "Predogled"
+
+#~ msgid ""
+#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#~ "Copyright © 2014, 2015 Pranav Kant\n"
+#~ "Copyright © 2012, 2013, 2014, 2015 Red Hat, Inc."
+#~ msgstr ""
+#~ "Avtorske pravice © 2013 Intel Corporation. Vse pravice pridržane.\n"
+#~ "Avtorske pravice © 2014, 2015 Pranav Kant\n"
+#~ "Avtorske pravice © 2012, 2013, 2014, 2015 Red Hat, Inc."
+
+#~ msgid "Original Size"
+#~ msgstr "Izvorna velikost"
+
+#~ msgid "Screen"
+#~ msgstr "Zaslon"
+
+#~ msgid "Square"
+#~ msgstr "Kvadrat"
+
+#~ msgid "A3 (297 × 420 mm)"
+#~ msgstr "A3 (297 × 420 mm)"
+
+#~ msgid "A4 (210 × 297 mm)"
+#~ msgstr "A4 (210 × 297 mm)"
+
+#~ msgid "%a, %d %B %Y  %X"
+#~ msgstr "%a, %d. %B %Y  %X"
+
+#~ msgid "%a, %d %B %Y"
+#~ msgstr "%a, %d. %B %Y"
+
+#~ msgid "%.1f (lens)"
+#~ msgstr "%.1f (leča)"
+
+#~ msgid "%.1f (35mm film)"
+#~ msgstr "%.1f (35mm film)"
+
+#~ msgid "Transformation on unloaded image."
+#~ msgstr "Pretvorba na še ne naloženi sliki."
+
+#~ msgid "Transformation failed."
+#~ msgstr "Pretvorba je spodletela."
+
+#~ msgid "EXIF not supported for this file format."
+#~ msgstr "Zapis EXIF ni podprta oblika zapisa slike."
+
+#~ msgid "Image loading failed."
+#~ msgstr "Nalaganje slike je spodletelo."
+
+#~ msgid "No image loaded."
+#~ msgstr "Ni naložene slike."
+
+#~ msgid "You do not have the permissions necessary to save the file."
+#~ msgstr "Ni ustreznih dovoljenj za shranjevanje datoteke."
+
+#~ msgid "Temporary file creation failed."
+#~ msgstr "Napaka med ustvarjanjem trenutne datoteke."
+
+#~ msgid "At least two file names are equal."
+#~ msgstr "Vsaj dve imeni datotek sta enaki."
+
+#~ msgid "Could not display help for Image Viewer"
+#~ msgstr "Pomoči za pregledovalnik slik ni mogoče prikazati"
+
+#~ msgid " (invalid Unicode)"
+#~ msgstr " (neveljaven Unikod)"
+
+#~ msgid "Recent"
+#~ msgstr "Nedavno"
+
+#~ msgid ""
+#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#~ "Copyright © 2014, 2015 Pranav Kant\n"
+#~ "Copyright © 2012, 2013, 2014 Red Hat, Inc."
+#~ msgstr ""
+#~ "Avtorske pravice © 2013 Intel Corporation. Vse pravice pridržane.\n"
+#~ "Avtorske pravice © 2014, 2015 Pranav Kant\n"
+#~ "Avtorske pravice © 2012, 2013, 2014 Red Hat, Inc."
+
+#~ msgid "Print"
+#~ msgstr "Natisni"
 
 #~ msgid "No Favorites Found"
 #~ msgstr "Ni najdenih priljubljenih predmetov"
@@ -647,9 +966,6 @@ msgstr "Seznama fotografij ni mogoče pridobiti"
 
 #~ msgid "Flickr"
 #~ msgstr "Flickr"
-
-#~ msgid "Done"
-#~ msgstr "Končano"
 
 #~ msgid "About Photos"
 #~ msgstr "O programu"
