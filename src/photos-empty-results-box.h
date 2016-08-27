@@ -32,19 +32,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_EMPTY_RESULTS_BOX (photos_empty_results_box_get_type ())
-
-#define PHOTOS_EMPTY_RESULTS_BOX(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_EMPTY_RESULTS_BOX, PhotosEmptyResultsBox))
-
-#define PHOTOS_IS_EMPTY_RESULTS_BOX(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_EMPTY_RESULTS_BOX))
-
-typedef struct _PhotosEmptyResultsBox      PhotosEmptyResultsBox;
-typedef struct _PhotosEmptyResultsBoxClass PhotosEmptyResultsBoxClass;
-
-GType               photos_empty_results_box_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosEmptyResultsBox, photos_empty_results_box, PHOTOS, EMPTY_RESULTS_BOX, GtkGrid)
 
 GtkWidget          *photos_empty_results_box_new                (PhotosWindowMode mode);
 

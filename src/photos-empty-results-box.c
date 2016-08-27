@@ -43,11 +43,6 @@ struct _PhotosEmptyResultsBox
   PhotosWindowMode mode;
 };
 
-struct _PhotosEmptyResultsBoxClass
-{
-  GtkGridClass parent_class;
-};
-
 enum
 {
   PROP_0,
