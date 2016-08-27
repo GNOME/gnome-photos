@@ -38,11 +38,6 @@ struct _PhotosErrorBox
   GtkWidget *secondary_label;
 };
 
-struct _PhotosErrorBoxClass
-{
-  GtkGridClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosErrorBox, photos_error_box, GTK_TYPE_GRID);
 

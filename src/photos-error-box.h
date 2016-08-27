@@ -30,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_ERROR_BOX (photos_error_box_get_type ())
-
-#define PHOTOS_ERROR_BOX(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_ERROR_BOX, PhotosErrorBox))
-
-#define PHOTOS_IS_ERROR_BOX(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_ERROR_BOX))
-
-typedef struct _PhotosErrorBox      PhotosErrorBox;
-typedef struct _PhotosErrorBoxClass PhotosErrorBoxClass;
-
-GType                  photos_error_box_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosErrorBox, photos_error_box, PHOTOS, ERROR_BOX, GtkGrid)
 
 GtkWidget             *photos_error_box_new                    (void);
 
