@@ -35,26 +35,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_BASE_ITEM (photos_base_item_get_type ())
-
-#define PHOTOS_BASE_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_BASE_ITEM, PhotosBaseItem))
-
-#define PHOTOS_BASE_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_BASE_ITEM, PhotosBaseItemClass))
-
-#define PHOTOS_IS_BASE_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_BASE_ITEM))
-
-#define PHOTOS_IS_BASE_ITEM_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_BASE_ITEM))
-
-#define PHOTOS_BASE_ITEM_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_BASE_ITEM, PhotosBaseItemClass))
+G_DECLARE_DERIVABLE_TYPE (PhotosBaseItem, photos_base_item, PHOTOS, BASE_ITEM, GObject);
 
 typedef struct _PhotosBaseItemSize PhotosBaseItemSize;
 
@@ -66,14 +47,7 @@ struct _PhotosBaseItemSize
   gsize bytes;
 };
 
-typedef struct _PhotosBaseItem        PhotosBaseItem;
-typedef struct _PhotosBaseItemClass   PhotosBaseItemClass;
 typedef struct _PhotosBaseItemPrivate PhotosBaseItemPrivate;
-
-struct _PhotosBaseItem
-{
-  GObject parent_instance;
-};
 
 struct _PhotosBaseItemClass
 {
@@ -97,8 +71,6 @@ struct _PhotosBaseItemClass
   /* signals */
   void        (*info_updated)               (PhotosBaseItem *self);
 };
-
-GType               photos_base_item_get_type                (void) G_GNUC_CONST;
 
 gboolean            photos_base_item_can_edit                (PhotosBaseItem *self);
 
