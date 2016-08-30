@@ -779,6 +779,53 @@ photos_item_manager_add_item_for_mode (PhotosItemManager *self, PhotosWindowMode
 }
 
 
+void
+photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
+{
+  GHashTable *items;
+  GHashTableIter iter;
+  PhotosBaseManager *item_mngr_chld;
+  const gchar *id;
+
+  g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT);
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
+
+  item_mngr_chld = self->item_mngr_chldrn[mode];
+  items = photos_base_manager_get_objects (item_mngr_chld);
+
+  g_hash_table_iter_init (&iter, items);
+  while (g_hash_table_iter_next (&iter, (gpointer *) &id, NULL))
+    {
+      PhotosBaseItem *item = NULL;
+      guint i;
+
+      for (i = 1; self->item_mngr_chldrn[i] != NULL; i++)
+        {
+          if (item_mngr_chld == self->item_mngr_chldrn[i])
+            continue;
+
+          item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr_chldrn[i], id));
+          if (item != NULL)
+            break;
+        }
+
+      if (item != NULL)
+        {
+          const gchar *id1;
+
+          id1 = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
+          g_assert_cmpstr (id, ==, id1);
+
+          photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[0], id);
+        }
+    }
+
+  photos_base_manager_clear (item_mngr_chld);
+}
+
+
 PhotosBaseItem *
 photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
 {

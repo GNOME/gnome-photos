@@ -93,6 +93,9 @@ void                      photos_item_manager_add_item_for_mode            (Phot
                                                                             PhotosWindowMode mode,
                                                                             TrackerSparqlCursor *cursor);
 
+void                      photos_item_manager_clear                        (PhotosItemManager *self,
+                                                                            PhotosWindowMode mode);
+
 PhotosBaseItem           *photos_item_manager_create_item                  (PhotosItemManager *self,
                                                                             TrackerSparqlCursor *cursor);
 
