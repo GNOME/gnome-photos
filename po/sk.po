@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-21 23:51+0000\n"
-"PO-Revision-Date: 2016-08-22 09:14+0200\n"
+"POT-Creation-Date: 2016-08-26 21:08+0000\n"
+"PO-Revision-Date: 2016-08-30 21:21+0200\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -111,11 +111,11 @@ msgstr "Maximalizovaný stav okna"
 msgid "Show the application's version"
 msgstr "Zobrazí verziu aplikácie"
 
-#: ../src/photos-base-item.c:534
+#: ../src/photos-base-item.c:544
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2019
+#: ../src/photos-base-item.c:2067
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -780,6 +780,15 @@ msgstr "Exportovanie"
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Pridať do albumu"
+
+#: ../src/photos-share-dialog.ui.h:1
+msgctxt "dialog title"
+msgid "Share"
+msgstr "Sprístupnenie"
+
+#: ../src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr "E-mail"
 
 #: ../src/photos-share-point-google.c:86
 msgid "Failed to upload photo: Service not authorized"
