@@ -145,7 +145,7 @@ photos_done_notification_constructed (GObject *object)
 
   close = gtk_button_new ();
   gtk_widget_set_valign (close, GTK_ALIGN_CENTER);
-  gtk_button_set_focus_on_click (GTK_BUTTON (close), FALSE);
+  gtk_widget_set_focus_on_click (close, FALSE);
   gtk_button_set_relief (GTK_BUTTON (close), GTK_RELIEF_NONE);
   gtk_button_set_image (GTK_BUTTON (close), image);
   gtk_container_add (GTK_CONTAINER (self), close);
