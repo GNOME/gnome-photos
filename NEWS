@@ -1,3 +1,26 @@
+Overview of changes in 3.21.91
+==============================
+
+* Bugs fixed:
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 764423 Use G_DECLARE_DERIVABLE_TYPE
+ 770342 Remove the mode-specific filtering from PhotosViewModel
+
+* Updated translations:
+ Czech
+ French
+ Friulian
+ German
+ Hungarian
+ Indonesian
+ Polish
+ Portuguese (Brazilian)
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
+
+
 Overview of changes in 3.21.90
 ==============================
 
