@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-09 16:43+0000\n"
-"PO-Revision-Date: 2016-08-12 16:29+0300\n"
+"POT-Creation-Date: 2016-08-26 21:08+0000\n"
+"PO-Revision-Date: 2016-09-03 02:21+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Kuvat"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:497
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Hallitse ja jaa kuviasi"
 
@@ -104,15 +104,15 @@ msgstr "Suurennettu ikkuna"
 msgid "Window maximized state"
 msgstr "Suurennetun ikkunan tila"
 
-#: ../src/photos-application.c:148
+#: ../src/photos-application.c:153
 msgid "Show the application's version"
 msgstr "Näytä sovelluksen versio"
 
-#: ../src/photos-base-item.c:479
+#: ../src/photos-base-item.c:544
 msgid "Album"
 msgstr "Albumi"
 
-#: ../src/photos-base-item.c:1671
+#: ../src/photos-base-item.c:2067
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
@@ -452,7 +452,7 @@ msgstr "Poista suosikeista"
 msgid "Add to favorites"
 msgstr "Lisää suosikkeihin"
 
-#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:623
+#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:628
 msgid "Cancel"
 msgstr "Peru"
 
@@ -460,7 +460,7 @@ msgstr "Peru"
 msgid "Done"
 msgstr "Valmis"
 
-#: ../src/photos-main-window.c:492
+#: ../src/photos-main-window.c:498
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -471,7 +471,7 @@ msgstr ""
 "Tekijänoikeus © 2012 - 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:502
+#: ../src/photos-main-window.c:508
 msgid "translator-credits"
 msgstr "Jiri Grönroos, 2013-2016"
 
@@ -616,7 +616,6 @@ msgid "Preview"
 msgstr "Katselu"
 
 #: ../src/photos-properties-dialog.c:128
-#| msgid "Untitled Photo"
 msgid "Edited in Photos"
 msgstr "Muokattu kuvasovelluksessa"
 
@@ -751,6 +750,25 @@ msgstr "Vie"
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Lisää albumiin"
+
+#: ../src/photos-share-dialog.ui.h:1
+#| msgid "Sharpen"
+msgctxt "dialog title"
+msgid "Share"
+msgstr "Jaa"
+
+#: ../src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr "Sähköposti"
+
+#: ../src/photos-share-point-google.c:86
+msgid "Failed to upload photo: Service not authorized"
+msgstr "Kuvan lähetys epäonnistui: palvelu ei sallittu"
+
+#: ../src/photos-share-point-google.c:88
+#| msgid "Failed to export"
+msgid "Failed to upload photo"
+msgstr "Kuvan lähetys epäonnistui"
 
 #: ../src/photos-source-manager.c:203
 msgid "Sources"
