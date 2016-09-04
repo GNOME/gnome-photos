@@ -1022,6 +1022,7 @@ photos_item_manager_unhide_item (PhotosItemManager *self, PhotosBaseItem *item)
     }
 
   g_hash_table_remove (self->hidden_items, id);
+  g_signal_connect_object (item, "info-updated", G_CALLBACK (photos_item_manager_info_updated), self, 0);
   g_signal_emit_by_name (self, "object-added", G_OBJECT (item));
 }
 
