@@ -370,6 +370,9 @@ photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
     {
       if (self->active_collection == NULL)
         photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_COLLECTIONS], G_OBJECT (item));
+
+      if (!is_favorite)
+        photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_FAVORITES], G_OBJECT (item));
     }
 }
 
