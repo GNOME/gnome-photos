@@ -862,15 +862,8 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
             break;
         }
 
-      if (item != NULL)
-        {
-          const gchar *id1;
-
-          id1 = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
-          g_assert_cmpstr (id, ==, id1);
-
-          photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[0], id);
-        }
+      if (item == NULL)
+        photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[0], id);
     }
 
   photos_base_manager_clear (item_mngr_chld);
