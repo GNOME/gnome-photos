@@ -27,6 +27,8 @@
 
 #include <gtk/gtk.h>
 
+#include "photos-gom-miner.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_APPLICATION (photos_application_get_type ())
@@ -45,6 +47,8 @@ typedef struct _PhotosApplicationClass PhotosApplicationClass;
 GType                  photos_application_get_type               (void) G_GNUC_CONST;
 
 GtkApplication        *photos_application_new                    (void);
+
+GomMiner              *photos_application_get_miner              (PhotosApplication *self, const gchar *provider_type);
 
 GList                 *photos_application_get_miners_running     (PhotosApplication *self);
 

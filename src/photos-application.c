@@ -43,7 +43,6 @@
 #include "photos-export-dialog.h"
 #include "photos-export-notification.h"
 #include "photos-filterable.h"
-#include "photos-gom-miner.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
 #include "photos-properties-dialog.h"
@@ -2016,6 +2015,29 @@ photos_application_new (void)
   return g_object_new (PHOTOS_TYPE_APPLICATION,
                        "application-id", "org.gnome." PACKAGE_NAME,
                        NULL);
+}
+
+
+GomMiner *
+photos_application_get_miner (PhotosApplication *self, const gchar *provider_type)
+{
+  GList *l;
+  GomMiner *ret_val = NULL;
+
+  for (l = self->miners; l != NULL; l = l->next)
+    {
+      GomMiner *miner = GOM_MINER (l->data);
+      const gchar *miner_provider_type;
+
+      miner_provider_type = g_object_get_data (G_OBJECT (miner), "provider-type");
+      if (g_strcmp0 (provider_type, miner_provider_type) == 0)
+        {
+          ret_val = miner;
+          break;
+        }
+    }
+
+  return ret_val;
 }
 
 
