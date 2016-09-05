@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2016 Red Hat, Inc.
  * Copyright © 2016 Umang Jain
  *
  * This program is free software; you can redistribute it and/or
@@ -25,7 +26,9 @@
 #include <gdata/gdata.h>
 #include <glib/gi18n.h>
 
+#include "photos-application.h"
 #include "photos-base-item.h"
+#include "photos-filterable.h"
 #include "photos-share-point-google.h"
 #include "photos-source.h"
 #include "photos-utils.h"
@@ -92,16 +95,47 @@ photos_share_point_google_parse_error (PhotosSharePoint *self, GError *error)
 
 
 static void
+photos_share_point_google_share_insert_shared_content (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  GomMiner *miner = GOM_MINER (source_object);
+
+  error = NULL;
+  if (!gom_miner_call_insert_shared_content_finish (miner, res, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_boolean (task, TRUE);
+
+ out:
+  g_object_unref (task);
+}
+
+
+static void
 photos_share_point_google_share_save_to_stream (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSharePointGoogle *self;
+  GApplication *app;
+  GCancellable *cancellable;
   GError *error;
   GTask *task = G_TASK (user_data);
   GDataPicasaWebFile *file_entry = NULL;
+  GoaAccount *account;
+  GoaObject *object;
+  GomMiner *miner;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+  PhotosSource *source;
   PhotosSharePointGoogleShareData *data;
+  const gchar *account_id;
+  const gchar *file_entry_id;
+  const gchar *item_id;
 
   self = PHOTOS_SHARE_POINT_GOOGLE (g_task_get_source_object (task));
+  cancellable = g_task_get_cancellable (task);
   data = (PhotosSharePointGoogleShareData *) g_task_get_task_data (task);
 
   error = NULL;
@@ -121,7 +155,30 @@ photos_share_point_google_share_save_to_stream (GObject *source_object, GAsyncRe
       goto out;
     }
 
-  g_task_return_boolean (task, TRUE);
+  app = g_application_get_default ();
+  miner = photos_application_get_miner (PHOTOS_APPLICATION (app), "google");
+  if (miner == NULL)
+    {
+      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Unable to find the google miner");
+      goto out;
+    }
+
+  source = photos_share_point_online_get_source (PHOTOS_SHARE_POINT_ONLINE (self));
+  object = photos_source_get_goa_object (source);
+  account = goa_object_peek_account (object);
+  account_id = goa_account_get_id (account);
+
+  file_entry_id = gdata_entry_get_id (GDATA_ENTRY (file_entry));
+  item_id = photos_filterable_get_id (PHOTOS_FILTERABLE (data->item));
+
+  gom_miner_call_insert_shared_content (miner,
+                                        account_id,
+                                        file_entry_id,
+                                        "photos",
+                                        item_id,
+                                        cancellable,
+                                        photos_share_point_google_share_insert_shared_content,
+                                        g_object_ref (task));
 
  out:
   g_clear_object (&file_entry);
