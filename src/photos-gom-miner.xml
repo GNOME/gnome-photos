@@ -24,6 +24,12 @@
 
 <node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
   <interface name="org.gnome.OnlineMiners.Miner">
+    <method name="InsertSharedContent">
+      <arg name="account_id" type="s" direction="in" />
+      <arg name="shared_id" type="s" direction="in" />
+      <arg name="shared_type" type="s" direction="in" />
+      <arg name="source_urn" type="s" direction="in" />
+    </method>
     <method name="RefreshDB">
       <arg name="index_types" type="as" direction="in" />
     </method>
