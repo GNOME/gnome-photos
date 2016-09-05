@@ -835,6 +835,7 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
 {
   GHashTable *items;
   GHashTableIter iter;
+  PhotosBaseItem *item;
   PhotosBaseManager *item_mngr_chld;
   const gchar *id;
 
@@ -847,9 +848,9 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
   items = photos_base_manager_get_objects (item_mngr_chld);
 
   g_hash_table_iter_init (&iter, items);
-  while (g_hash_table_iter_next (&iter, (gpointer *) &id, NULL))
+  while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &item))
     {
-      PhotosBaseItem *item = NULL;
+      PhotosBaseItem *item1 = NULL;
       guint i;
 
       for (i = 1; self->item_mngr_chldrn[i] != NULL; i++)
@@ -857,13 +858,18 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
           if (item_mngr_chld == self->item_mngr_chldrn[i])
             continue;
 
-          item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr_chldrn[i], id));
-          if (item != NULL)
+          item1 = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr_chldrn[i], id));
+          if (item1 != NULL)
             break;
         }
 
-      if (item == NULL)
-        photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[0], id);
+      if (item1 == NULL)
+        {
+          item1 = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr_chldrn[0], id));
+          g_assert_true (item == item1);
+
+          photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[0], id);
+        }
     }
 
   photos_base_manager_clear (item_mngr_chld);
