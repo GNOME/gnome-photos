@@ -494,6 +494,18 @@ photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
 }
 
 
+static gboolean
+photos_base_item_default_metadata_add_shared (PhotosBaseItem  *self,
+                                              const gchar     *provider_type,
+                                              const gchar     *account_identity,
+                                              const gchar     *shared_id,
+                                              GCancellable    *cancellable,
+                                              GError         **error)
+{
+  return TRUE;
+}
+
+
 static void
 photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp)
 {
@@ -2296,6 +2308,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
   object_class->finalize = photos_base_item_finalize;
   object_class->get_property = photos_base_item_get_property;
   object_class->set_property = photos_base_item_set_property;
+  class->metadata_add_shared = photos_base_item_default_metadata_add_shared;
   class->open = photos_base_item_default_open;
   class->set_favorite = photos_base_item_default_set_favorite;
   class->update_type_description = photos_base_item_default_update_type_description;

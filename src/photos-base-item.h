@@ -63,6 +63,12 @@ struct _PhotosBaseItemClass
   gboolean    (*create_thumbnail)           (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   gchar      *(*download)                   (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   GtkWidget  *(*get_source_widget)          (PhotosBaseItem *self);
+  gboolean    (*metadata_add_shared)        (PhotosBaseItem  *self,
+                                             const gchar     *provider_type,
+                                             const gchar     *account_identity,
+                                             const gchar     *shared_id,
+                                             GCancellable    *cancellable,
+                                             GError         **error);
   void        (*open)                       (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp);
   void        (*set_favorite)               (PhotosBaseItem *self, gboolean favorite);
   void        (*trash)                      (PhotosBaseItem *self);
