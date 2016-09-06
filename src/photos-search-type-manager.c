@@ -111,7 +111,7 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_ALL,
                                              _("All"),
                                              "?urn a rdfs:Resource. "
-                                             "OPTIONAL {?item a nie:InformationElement; nie:isPartOf ?urn}",
+                                             "OPTIONAL {?item a nmm:Photo; nie:isPartOf ?urn}",
                                              all_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
@@ -119,7 +119,7 @@ photos_search_type_manager_init (PhotosSearchTypeManager *self)
   search_type = photos_search_type_new_full (PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS,
                                              _("Albums"),
                                              "?urn a nfo:DataContainer. "
-                                             "?item a nie:InformationElement; nie:isPartOf ?urn.",
+                                             "?item a nmm:Photo; nie:isPartOf ?urn.",
                                              col_filter);
   photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (search_type));
   g_object_unref (search_type);
