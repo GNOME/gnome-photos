@@ -26,6 +26,7 @@
 
 #include "config.h"
 
+#include <gexiv2/gexiv2.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
@@ -170,6 +171,113 @@ photos_local_item_get_source_widget (PhotosBaseItem *item)
 }
 
 
+static gboolean
+photos_local_item_metadata_add_shared (PhotosBaseItem  *item,
+                                       const gchar     *provider_type,
+                                       const gchar     *account_identity,
+                                       const gchar     *shared_id,
+                                       GCancellable    *cancellable,
+                                       GError         **error)
+{
+  GVariant *shared_variant = NULL;
+  GVariantBuilder builder;
+  const GVariantType *tuple_items[] = {G_VARIANT_TYPE_STRING,   /* provider-type */
+                                       G_VARIANT_TYPE_STRING,   /* account-identity */
+                                       G_VARIANT_TYPE_STRING};  /* shared-id */
+  GVariantType *array_type = NULL;
+  GVariantType *tuple_type = NULL;
+  GExiv2Metadata *metadata = NULL;
+  gboolean ret_val = FALSE;
+  const gchar *mime_type;
+  const gchar *shared_tag = "Xmp.gnome.photos-shared";
+  const gchar *version_tag = "Xmp.gnome.photos-xmp-version";
+  gchar *path = NULL;
+  gchar *shared_string = NULL;
+  gchar *tuple_type_format = NULL;
+
+  mime_type = photos_base_item_get_mime_type (item);
+  if (g_strcmp0 (mime_type, "image/png") != 0
+      && g_strcmp0 (mime_type, "image/jp2") != 0
+      && g_strcmp0 (mime_type, "image/jpeg") != 0)
+    {
+      ret_val = TRUE;
+      goto out;
+    }
+
+  path = photos_base_item_download (item, cancellable, error);
+  if (path == NULL)
+    goto out;
+
+  metadata = gexiv2_metadata_new ();
+
+  if (!gexiv2_metadata_open_path (metadata, path, error))
+    goto out;
+
+  if (!gexiv2_metadata_set_tag_long (metadata, version_tag, 0))
+    {
+      g_set_error (error, PHOTOS_ERROR, 0, "Failed to update %s", version_tag);
+      goto out;
+    }
+
+  tuple_type = g_variant_type_new_tuple (tuple_items, G_N_ELEMENTS (tuple_items));
+  tuple_type_format = g_variant_type_dup_string (tuple_type);
+
+  array_type = g_variant_type_new_array (tuple_type);
+
+  g_variant_builder_init (&builder, array_type);
+  g_variant_builder_add (&builder, tuple_type_format, provider_type, account_identity, shared_id);
+
+  shared_string = gexiv2_metadata_get_tag_string (metadata, shared_tag);
+  if (shared_string != NULL)
+    {
+      GVariant *old_shared_variant = NULL;
+      GVariant *child = NULL;
+      GVariantIter iter;
+
+      old_shared_variant = g_variant_parse (array_type, shared_string, NULL, NULL, error);
+      if (old_shared_variant == NULL)
+        goto out;
+
+      g_variant_iter_init (&iter, old_shared_variant);
+      child = g_variant_iter_next_value (&iter);
+      while (child != NULL)
+        {
+          g_variant_builder_add_value (&builder, child);
+          g_variant_unref (child);
+          child = g_variant_iter_next_value (&iter);
+        }
+
+      g_variant_unref (old_shared_variant);
+    }
+
+  shared_variant = g_variant_builder_end (&builder);
+
+  g_free (shared_string);
+  shared_string = g_variant_print (shared_variant, TRUE);
+
+  if (!gexiv2_metadata_set_tag_string (metadata, shared_tag, shared_string))
+    {
+      g_set_error (error, PHOTOS_ERROR, 0, "Failed to update %s", shared_tag);
+      goto out;
+    }
+
+  if (!gexiv2_metadata_save_file (metadata, path, error))
+    goto out;
+
+  ret_val = TRUE;
+
+ out:
+  g_clear_object (&metadata);
+  g_clear_pointer (&array_type, (GDestroyNotify) g_variant_type_free);
+  g_clear_pointer (&tuple_type, (GDestroyNotify) g_variant_type_free);
+  g_clear_pointer (&shared_variant, (GDestroyNotify) g_variant_unref);
+  g_free (path);
+  g_free (shared_string);
+  g_free (tuple_type_format);
+  return ret_val;
+}
+
+
 static void
 photos_local_item_trash_finish (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
@@ -271,5 +379,6 @@ photos_local_item_class_init (PhotosLocalItemClass *class)
   base_item_class->create_thumbnail = photos_local_item_create_thumbnail;
   base_item_class->download = photos_local_item_download;
   base_item_class->get_source_widget = photos_local_item_get_source_widget;
+  base_item_class->metadata_add_shared = photos_local_item_metadata_add_shared;
   base_item_class->trash = photos_local_item_trash;
 }
