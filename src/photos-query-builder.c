@@ -177,6 +177,7 @@ photos_query_builder_query (PhotosSearchContextState *state,
                         "nao:identifier (?urn) "
                         "rdf:type (?urn) "
                         "nie:dataSource(?urn) "
+                        "nie:links (?urn) "
                         "( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite } ) "
                         "( EXISTS { ?urn nco:contributor ?contributor FILTER ( ?contributor != ?creator ) } ) "
                         "tracker:coalesce(nfo:fileCreated (?urn), nie:contentCreated (?urn)) "
