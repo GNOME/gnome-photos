@@ -106,6 +106,7 @@ photos_query_builder_inner_where (PhotosSearchContextState *state, gboolean glob
 static gchar *
 photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gint flags)
 {
+  const gchar *count_items = "COUNT (?item) AS ?count";
   gchar *filter = NULL;
   gchar *optional;
   gchar *sparql;
@@ -118,10 +119,11 @@ photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gi
     filter = photos_query_builder_filter (state, flags);
 
   sparql = g_strdup_printf ("WHERE {{"
-                            "    SELECT ?urn rdf:type (?urn) AS ?type COUNT (?item) AS ?count %s GROUP BY (?urn)"
+                            "    SELECT ?urn rdf:type (?urn) AS ?type %s %s GROUP BY (?urn)"
                             "  }"
                             "  %s %s"
                             "}",
+                            count_items,
                             where_sparql,
                             optional,
                             (filter != NULL) ? filter : "");
