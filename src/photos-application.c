@@ -632,12 +632,16 @@ static gboolean
 photos_application_create_window (PhotosApplication *self)
 {
   gboolean gexiv2_initialized;
+  gboolean gexiv2_registered_namespace;
 
   if (self->main_window != NULL)
     return TRUE;
 
   gexiv2_initialized = gexiv2_initialize ();
   g_return_val_if_fail (gexiv2_initialized, FALSE);
+
+  gexiv2_registered_namespace = gexiv2_metadata_register_xmp_namespace ("http://www.gnome.org/xmp", "gnome");
+  g_return_val_if_fail (gexiv2_registered_namespace, FALSE);
 
   g_return_val_if_fail (photos_application_sanity_check_gegl (self), FALSE);
 
