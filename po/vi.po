@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-04-09 21:15+0000\n"
-"PO-Revision-Date: 2016-04-10 14:52+0700\n"
+"POT-Creation-Date: 2016-09-05 21:10+0000\n"
+"PO-Revision-Date: 2016-09-06 08:03+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <gnome-vi-list@gnome.org>\n"
 "Language: vi\n"
@@ -20,12 +20,12 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
-#: ../src/photos-search-type-manager.c:138
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:666
+#: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Ảnh"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:497
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Truy cập, tổ chức và chia sẻ ảnh của bạn trên GNOME"
 
@@ -106,11 +106,15 @@ msgstr "Cửa sổ phóng to"
 msgid "Window maximized state"
 msgstr "Cửa sổ ở trạng thái phóng to hết cỡ"
 
-#: ../src/photos-base-item.c:477
+#: ../src/photos-application.c:153
+msgid "Show the application's version"
+msgstr "Hiển thị phiên bản của ứng dụng"
+
+#: ../src/photos-base-item.c:544
 msgid "Album"
 msgstr "Tuyển tập"
 
-#: ../src/photos-base-item.c:1448
+#: ../src/photos-base-item.c:2067
 msgid "Screenshots"
 msgstr "Chụp màn hình"
 
@@ -126,7 +130,7 @@ msgid_plural "%d items deleted"
 msgstr[0] "Đã xóa %d mục"
 
 #: ../src/photos-delete-notification.c:156
-#: ../src/photos-done-notification.c:189
+#: ../src/photos-done-notification.c:125
 msgid "Undo"
 msgstr "Hoàn lại"
 
@@ -134,31 +138,31 @@ msgstr "Hoàn lại"
 msgid "DLNA Renderer Devices"
 msgstr "Thiết bị vẽ DLNA"
 
-#: ../src/photos-done-notification.c:181
+#: ../src/photos-done-notification.c:117
 #, c-format
 msgid "“%s” edited"
 msgstr "“%s” đã được sửa"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:122
+#: ../src/photos-embed.c:673 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Tuyển tập"
 
-#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:130
+#: ../src/photos-embed.c:680 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Yêu thích"
 
-#: ../src/photos-embed.c:706 ../src/photos-main-toolbar.c:301
+#: ../src/photos-embed.c:687 ../src/photos-main-toolbar.c:299
 msgid "Search"
 msgstr "Tìm kiếm"
 
-#: ../src/photos-empty-results-box.c:119
+#: ../src/photos-empty-results-box.c:114
 msgid "Name your first album"
 msgstr "Tên của tuyển tập đầu tiên của bạn"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:139
+#: ../src/photos-empty-results-box.c:134
 msgid "Settings"
 msgstr "Cài đặt"
 
@@ -166,20 +170,20 @@ msgstr "Cài đặt"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:145
+#: ../src/photos-empty-results-box.c:140
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "Bạn có thể thêm tài khoản trực tuyến trong %s"
 
-#: ../src/photos-empty-results-box.c:186
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Không tìm thấy tuyển tập nào"
 
-#: ../src/photos-empty-results-box.c:191
+#: ../src/photos-empty-results-box.c:186
 msgid "Starred photos will appear here"
 msgstr "Các ảnh đã đánh sao sẽ xuất hiện ở đây"
 
-#: ../src/photos-empty-results-box.c:197
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Không tìm thấy ảnh nào"
 
@@ -192,7 +196,7 @@ msgstr "Xuất"
 msgid "_Folder Name"
 msgstr "Tên t_hư mục"
 
-#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
+#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:942
 msgid "Size"
 msgstr "Cỡ"
 
@@ -215,7 +219,7 @@ msgstr "_Xuất"
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: ../src/photos-export-dialog.c:76
+#: ../src/photos-export-dialog.c:73
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
@@ -223,17 +227,17 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:281
+#: ../src/photos-export-dialog.c:207
 msgid "%e %B %Y"
 msgstr "%e %B %Y"
 
-#: ../src/photos-export-dialog.c:336
+#: ../src/photos-export-dialog.c:265
 msgid "Calculating export size…"
 msgstr "Đang tính toán cỡ xuất…"
 
 #: ../src/photos-export-notification.c:241
 msgid "Failed to export: not enough space"
-msgstr "Gặp lỗi khi xuất: không đủ chỗ trống"
+msgstr "Gặp lỗi khi xuất ra: không đủ chỗ trống"
 
 #: ../src/photos-export-notification.c:243
 msgid "Failed to export"
@@ -256,11 +260,11 @@ msgstr "Phân tích"
 
 #: ../src/photos-export-notification.c:277
 msgid "Empty Trash"
-msgstr "Đổ thùng rác"
+msgstr "Đổ rác đi"
 
 #. Translators: this is the Open action in a context menu
 #: ../src/photos-export-notification.c:294 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Mở"
 
@@ -274,13 +278,13 @@ msgstr "Xuất thư mục"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
-#: ../src/photos-google-item.c:82
+#: ../src/photos-facebook-item.c:105 ../src/photos-flickr-item.c:110
+#: ../src/photos-google-item.c:107
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:161
+#: ../src/photos-fetch-metas-job.c:182
 msgid "Untitled Photo"
 msgstr "Ảnh không tên"
 
@@ -409,52 +413,52 @@ msgstr "Các ảnh của bạn đang được đánh mục lục"
 msgid "Some photos might not be available during this process"
 msgstr "Một số ảnh có lẽ sẽ không sẵn sàng trong suốt quá trình này"
 
-#: ../src/photos-local-item.c:132 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:140 ../src/photos-source-manager.c:178
 msgid "Local"
 msgstr "Nội bộ"
 
-#: ../src/photos-main-toolbar.c:108
+#: ../src/photos-main-toolbar.c:113
 msgid "Click on items to select them"
 msgstr "Bấm vào từng mục để chọn chúng"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:115
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d đã chọn"
 
-#: ../src/photos-main-toolbar.c:161
+#: ../src/photos-main-toolbar.c:165
 msgid "Back"
 msgstr "Lùi"
 
-#: ../src/photos-main-toolbar.c:317
+#: ../src/photos-main-toolbar.c:314
 msgid "Select Items"
 msgstr "Chọn mục"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
+#: ../src/photos-main-toolbar.c:408 ../src/photos-selection-toolbar.c:234
 #, c-format
 msgid "Open with %s"
 msgstr "Mở bằng %s"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
+#: ../src/photos-main-toolbar.c:448 ../src/photos-selection-toolbar.c:245
 msgid "Remove from favorites"
 msgstr "Bỏ khỏi danh sách ưa thích"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
+#: ../src/photos-main-toolbar.c:453 ../src/photos-selection-toolbar.c:250
 msgid "Add to favorites"
 msgstr "Thêm vào Yêu thích"
 
-#: ../src/photos-main-toolbar.c:500 ../src/photos-main-toolbar.c:638
+#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:628
 msgid "Cancel"
 msgstr "Thôi"
 
-#: ../src/photos-main-toolbar.c:504
+#: ../src/photos-main-toolbar.c:494
 msgid "Done"
 msgstr "Xong"
 
-#: ../src/photos-main-window.c:492
+#: ../src/photos-main-window.c:498
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -465,7 +469,7 @@ msgstr ""
 "Copyright © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:502
+#: ../src/photos-main-window.c:508
 msgid "translator-credits"
 msgstr "Nhóm Việt hóa GNOME <gnome-vi-list@gnome.org>"
 
@@ -527,7 +531,7 @@ msgstr "Đặt làm ảnh màn hình nền"
 msgid "Set as Lock Screen"
 msgstr "Dùng cho màn hình khóa"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:619
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:732
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Thuộc tính"
@@ -537,82 +541,90 @@ msgstr "Thuộc tính"
 msgid "Printing “%s”: %s"
 msgstr "In “%s”: %s"
 
-#: ../src/photos-print-operation.c:274
+#: ../src/photos-print-operation.c:271
 msgid "Image Settings"
 msgstr "Cài đặt ảnh"
 
-#: ../src/photos-print-setup.c:904
+#: ../src/photos-print-setup.c:914
 msgid "Position"
 msgstr "Vị trí"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:917
 msgid "_Left:"
 msgstr "T_rái:"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:918
 msgid "_Right:"
 msgstr "_Phải:"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:919
 msgid "_Top:"
 msgstr "_Trên:"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:920
 msgid "_Bottom:"
 msgstr "_Dưới:"
 
-#: ../src/photos-print-setup.c:912
+#: ../src/photos-print-setup.c:922
 msgid "C_enter:"
 msgstr "Trung tâ_m:"
 
-#: ../src/photos-print-setup.c:916
+#: ../src/photos-print-setup.c:926
 msgid "None"
 msgstr "Không"
 
-#: ../src/photos-print-setup.c:917
+#: ../src/photos-print-setup.c:927
 msgid "Horizontal"
 msgstr "Ngang"
 
-#: ../src/photos-print-setup.c:918
+#: ../src/photos-print-setup.c:928
 msgid "Vertical"
 msgstr "Dọc"
 
-#: ../src/photos-print-setup.c:919
+#: ../src/photos-print-setup.c:929
 msgid "Both"
 msgstr "Cả hai"
 
-#: ../src/photos-print-setup.c:935
+#: ../src/photos-print-setup.c:945
 msgid "_Width:"
 msgstr "_Rộng:"
 
-#: ../src/photos-print-setup.c:936
+#: ../src/photos-print-setup.c:946
 msgid "_Height:"
 msgstr "_Cao :"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:948
 msgid "_Scaling:"
 msgstr "Tỉ _lệ:"
 
-#: ../src/photos-print-setup.c:947
+#: ../src/photos-print-setup.c:957
 msgid "_Unit:"
 msgstr "Đơn _vị:"
 
-#: ../src/photos-print-setup.c:951
+#: ../src/photos-print-setup.c:961
 msgid "Millimeters"
-msgstr "Mili mét"
+msgstr "Mili-mét"
 
-#: ../src/photos-print-setup.c:952
+#: ../src/photos-print-setup.c:962
 msgid "Inches"
 msgstr "Insơ"
 
-#: ../src/photos-print-setup.c:980
+#: ../src/photos-print-setup.c:990
 msgid "Preview"
 msgstr "Xem thử"
+
+#: ../src/photos-properties-dialog.c:128
+msgid "Edited in Photos"
+msgstr "Sửa trong Ảnh"
+
+#: ../src/photos-properties-dialog.c:141
+msgid "Untouched"
+msgstr "Không động đến"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:231
+#: ../src/photos-properties-dialog.c:310
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Tiêu đề"
@@ -620,73 +632,77 @@ msgstr "Tiêu đề"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:243
+#: ../src/photos-properties-dialog.c:322
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Tác giả"
 
-#: ../src/photos-properties-dialog.c:250
+#: ../src/photos-properties-dialog.c:329
 msgid "Source"
 msgstr "Nguồn"
 
-#: ../src/photos-properties-dialog.c:256
+#: ../src/photos-properties-dialog.c:335
 msgid "Date Modified"
 msgstr "Ngày sửa đổi"
 
-#: ../src/photos-properties-dialog.c:264
+#: ../src/photos-properties-dialog.c:343
 msgid "Date Created"
 msgstr "Ngày tạo"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:274
+#: ../src/photos-properties-dialog.c:353
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Kiểu"
 
-#: ../src/photos-properties-dialog.c:283
-msgid "Width"
-msgstr "Rộng"
+#: ../src/photos-properties-dialog.c:363
+msgid "Dimensions"
+msgstr "Các chiều"
 
-#: ../src/photos-properties-dialog.c:293
-msgid "Height"
-msgstr "Cao"
-
-#: ../src/photos-properties-dialog.c:308
+#: ../src/photos-properties-dialog.c:378
 msgid "Camera"
 msgstr "Máy ảnh"
 
-#: ../src/photos-properties-dialog.c:318
+#: ../src/photos-properties-dialog.c:388
 msgid "Exposure"
 msgstr "Phơi sáng"
 
-#: ../src/photos-properties-dialog.c:328
+#: ../src/photos-properties-dialog.c:398
 msgid "Aperture"
 msgstr "Khẩu độ"
 
-#: ../src/photos-properties-dialog.c:338
+#: ../src/photos-properties-dialog.c:408
 msgid "Focal Length"
 msgstr "Tiêu cự"
 
-#: ../src/photos-properties-dialog.c:348
+#: ../src/photos-properties-dialog.c:418
 msgid "ISO Speed"
 msgstr "Tốc độ ISO"
 
-#: ../src/photos-properties-dialog.c:358
+#: ../src/photos-properties-dialog.c:428
 msgid "Flash"
 msgstr "Đèn nháy"
 
-#: ../src/photos-properties-dialog.c:498
+#: ../src/photos-properties-dialog.c:435
+msgid "Modifications"
+msgstr "Thay đổi"
+
+#: ../src/photos-properties-dialog.c:566
 msgid "Off, did not fire"
 msgstr "Tắt, đèn nháy không chớp"
 
-#: ../src/photos-properties-dialog.c:500
+#: ../src/photos-properties-dialog.c:568
 msgid "On, fired"
 msgstr "Bật, nháy đèn"
 
+#: ../src/photos-properties-dialog.c:602
+msgid "Discard all Edits"
+msgstr "Hủy mọi sửa chữa"
+
 #: ../src/photos-search-match-manager.c:158
-#: ../src/photos-search-type-manager.c:114 ../src/photos-source-manager.c:174
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
 msgid "All"
 msgstr "Tất cả"
 
@@ -712,7 +728,7 @@ msgstr "Khớp"
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:171
+#: ../src/photos-search-type-manager.c:168
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Kiểu"
@@ -732,6 +748,23 @@ msgstr "Xuất"
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Thêm vào tuyển tập"
+
+#: ../src/photos-share-dialog.ui.h:1
+msgctxt "dialog title"
+msgid "Share"
+msgstr "Chia sẻ"
+
+#: ../src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr "Thư điện tử"
+
+#: ../src/photos-share-point-google.c:86
+msgid "Failed to upload photo: Service not authorized"
+msgstr "Gặp lỗi khi tải ảnh lên: Dịch vụ chưa được ủy quyền"
+
+#: ../src/photos-share-point-google.c:88
+msgid "Failed to upload photo"
+msgstr "Gặp lỗi khi tải ảnh lên"
 
 #: ../src/photos-source-manager.c:203
 msgid "Sources"
@@ -789,15 +822,15 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1178
+#: ../src/photos-tool-crop.c:1181
 msgid "Lock aspect ratio"
 msgstr "Khóa tỷ lệ hình thể"
 
-#: ../src/photos-tool-crop.c:1226
+#: ../src/photos-tool-crop.c:1229
 msgid "Reset"
 msgstr "Đặt lại"
 
-#: ../src/photos-tool-crop.c:1243
+#: ../src/photos-tool-crop.c:1246
 msgid "Crop"
 msgstr "Xén"
 
@@ -814,35 +847,41 @@ msgid "Enhance"
 msgstr "Tăng cường"
 
 #. Translators: "None" refers to the nop magic filter when editing.
-#: ../src/photos-tool-filters.c:192
+#: ../src/photos-tool-filters.c:190
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "Không gì"
 
-#: ../src/photos-tool-filters.c:199
+#: ../src/photos-tool-filters.c:197
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:206
+#: ../src/photos-tool-filters.c:204
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:212
+#: ../src/photos-tool-filters.c:210
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:219
+#: ../src/photos-tool-filters.c:217
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:225
+#: ../src/photos-tool-filters.c:223
 msgid "Hometown"
 msgstr "Hometown"
 
-#: ../src/photos-tool-filters.c:243
+#: ../src/photos-tool-filters.c:241
 msgid "Filters"
 msgstr "Bộ lọc"
 
-#: ../src/photos-tracker-controller.c:98
+#: ../src/photos-tracker-controller.c:103
 msgid "Unable to fetch the list of photos"
 msgstr "Không thể lấy danh sách ảnh"
+
+#~ msgid "Width"
+#~ msgstr "Rộng"
+
+#~ msgid "Height"
+#~ msgstr "Cao"
