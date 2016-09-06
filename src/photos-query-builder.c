@@ -25,6 +25,8 @@
 
 #include "config.h"
 
+#include <string.h>
+
 #include <gio/gio.h>
 
 #include "photos-base-manager.h"
@@ -107,12 +109,15 @@ static gchar *
 photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gint flags)
 {
   const gchar *count_items = "COUNT (?item) AS ?count";
+  gboolean item_defined;
   gchar *filter = NULL;
   gchar *optional;
   gchar *sparql;
   gchar *where_sparql;
 
   where_sparql = photos_query_builder_inner_where (state, global, flags);
+  item_defined = strstr (where_sparql, "?item") != NULL;
+
   optional = photos_query_builder_optional ();
 
   if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
@@ -123,7 +128,7 @@ photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gi
                             "  }"
                             "  %s %s"
                             "}",
-                            count_items,
+                            item_defined ? count_items : "",
                             where_sparql,
                             optional,
                             (filter != NULL) ? filter : "");
