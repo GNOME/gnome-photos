@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-09 21:32+0300\n"
-"PO-Revision-Date: 2016-08-09 21:33+0300\n"
+"POT-Creation-Date: 2016-09-06 13:03+0300\n"
+"PO-Revision-Date: 2016-09-06 13:04+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Photos"
 msgstr "תמונות"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:497
 msgid "Access, organize and share your photos on GNOME"
 msgstr "לגשת, לארגן ולשתף את התמונות שלך ב־GNOME"
 
@@ -107,15 +107,15 @@ msgstr "Window maximized"
 msgid "Window maximized state"
 msgstr "Window maximized state"
 
-#: ../src/photos-application.c:148
+#: ../src/photos-application.c:152
 msgid "Show the application's version"
 msgstr "Show the application's version"
 
-#: ../src/photos-base-item.c:479
+#: ../src/photos-base-item.c:544
 msgid "Album"
 msgstr "אלבום"
 
-#: ../src/photos-base-item.c:1671
+#: ../src/photos-base-item.c:2067
 msgid "Screenshots"
 msgstr "צילומי מסך"
 
@@ -157,14 +157,14 @@ msgstr "מועדפים"
 msgid "Search"
 msgstr "חיפוש"
 
-#: ../src/photos-empty-results-box.c:119
+#: ../src/photos-empty-results-box.c:114
 msgid "Name your first album"
 msgstr "שם האלבום הראשון שלך"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:139
+#: ../src/photos-empty-results-box.c:134
 msgid "Settings"
 msgstr "הגדרות"
 
@@ -172,20 +172,20 @@ msgstr "הגדרות"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:145
+#: ../src/photos-empty-results-box.c:140
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "ניתן להוסיף אותך לחשבונות מקוונים ב%s"
 
-#: ../src/photos-empty-results-box.c:186
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "לא נמצאו אלבומים"
 
-#: ../src/photos-empty-results-box.c:191
+#: ../src/photos-empty-results-box.c:186
 msgid "Starred photos will appear here"
 msgstr "תמונות המסומנות בכוכב תופענה כאן"
 
-#: ../src/photos-empty-results-box.c:197
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "לא נמצאו תמונות"
 
@@ -454,7 +454,7 @@ msgstr "הסרה מהמועדפים"
 msgid "Add to favorites"
 msgstr "הוספה למועדפים"
 
-#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:623
+#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:628
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -462,7 +462,7 @@ msgstr "ביטול"
 msgid "Done"
 msgstr "בוצע"
 
-#: ../src/photos-main-window.c:492
+#: ../src/photos-main-window.c:498
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -473,7 +473,7 @@ msgstr ""
 "Copyright © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:502
+#: ../src/photos-main-window.c:508
 msgid "translator-credits"
 msgstr ""
 "ירון שהרבני <sh.yaron@gmail.com>\n"
@@ -754,6 +754,23 @@ msgstr "ייצוא"
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "הוספה לאלבום"
+
+#: ../src/photos-share-dialog.ui.h:1
+msgctxt "dialog title"
+msgid "Share"
+msgstr "שיתוף"
+
+#: ../src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr "דוא״ל"
+
+#: ../src/photos-share-point-google.c:89
+msgid "Failed to upload photo: Service not authorized"
+msgstr "שגיאה בהעלאת התמונה: שרת לא מורשה"
+
+#: ../src/photos-share-point-google.c:91
+msgid "Failed to upload photo"
+msgstr "שגיאה בהעלאת התמונה"
 
 #: ../src/photos-source-manager.c:203
 msgid "Sources"
