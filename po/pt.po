@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-12 13:49+0000\n"
-"PO-Revision-Date: 2016-08-14 22:16+0100\n"
+"POT-Creation-Date: 2016-08-26 21:08+0000\n"
+"PO-Revision-Date: 2016-09-07 06:39+0100\n"
 "Last-Translator: Tiago Santos <tiagofsantos81@sapo.pt>\n"
 "Language-Team: Português <>\n"
 "Language: pt\n"
@@ -31,7 +31,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Fotografias"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:497
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Aceda, organize e partilhe as suas fotografias no GNOME"
 
@@ -111,15 +111,15 @@ msgstr "Janela maximizada"
 msgid "Window maximized state"
 msgstr "Estado maximizado da janela"
 
-#: ../src/photos-application.c:148
+#: ../src/photos-application.c:153
 msgid "Show the application's version"
 msgstr "Mostra a versão da aplicação"
 
-#: ../src/photos-base-item.c:479
+#: ../src/photos-base-item.c:544
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:1671
+#: ../src/photos-base-item.c:2067
 msgid "Screenshots"
 msgstr "Capturas de ecrã"
 
@@ -458,7 +458,7 @@ msgstr "Remover dos favoritos"
 msgid "Add to favorites"
 msgstr "Adicionar aos favoritos"
 
-#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:623
+#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:628
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -466,7 +466,7 @@ msgstr "Cancelar"
 msgid "Done"
 msgstr "Concluído"
 
-#: ../src/photos-main-window.c:492
+#: ../src/photos-main-window.c:498
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -477,7 +477,7 @@ msgstr ""
 "Copyright © 2012 - 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:502
+#: ../src/photos-main-window.c:508
 msgid "translator-credits"
 msgstr ""
 "António Lima <amrlima@gmail.com>\n"
@@ -759,6 +759,23 @@ msgstr "Exportar"
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
 msgstr "Adicionar ao álbum"
+
+#: ../src/photos-share-dialog.ui.h:1
+msgctxt "dialog title"
+msgid "Share"
+msgstr "Partilhar"
+
+#: ../src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr "E-Mail"
+
+#: ../src/photos-share-point-google.c:86
+msgid "Failed to upload photo: Service not authorized"
+msgstr "Falha ao enviar fotografia: Serviço não autorizado"
+
+#: ../src/photos-share-point-google.c:88
+msgid "Failed to upload photo"
+msgstr "Falha na enviar fotografia"
 
 #: ../src/photos-source-manager.c:203
 msgid "Sources"
