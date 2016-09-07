@@ -54,6 +54,7 @@ typedef struct _PhotosSharePointGoogleShareData PhotosSharePointGoogleShareData;
 
 struct _PhotosSharePointGoogleShareData
 {
+  GDataPicasaWebFile *file_entry;
   GDataUploadStream *stream;
   PhotosBaseItem *item;
 };
@@ -74,6 +75,7 @@ photos_share_point_google_share_data_new (PhotosBaseItem *item)
 static void
 photos_share_point_google_share_data_free (PhotosSharePointGoogleShareData *data)
 {
+  g_clear_object (&data->file_entry);
   g_clear_object (&data->stream);
   g_clear_object (&data->item);
   g_slice_free (PhotosSharePointGoogleShareData, data);
@@ -116,14 +118,13 @@ photos_share_point_google_share_insert_shared_content (GObject *source_object, G
 
 
 static void
-photos_share_point_google_share_save_to_stream (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_share_point_google_share_metadata_add_shared (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSharePointGoogle *self;
   GApplication *app;
   GCancellable *cancellable;
   GError *error;
   GTask *task = G_TASK (user_data);
-  GDataPicasaWebFile *file_entry = NULL;
   GoaAccount *account;
   GoaObject *object;
   GomMiner *miner;
@@ -133,6 +134,65 @@ photos_share_point_google_share_save_to_stream (GObject *source_object, GAsyncRe
   const gchar *account_id;
   const gchar *file_entry_id;
   const gchar *item_id;
+
+  self = PHOTOS_SHARE_POINT_GOOGLE (g_task_get_source_object (task));
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosSharePointGoogleShareData *) g_task_get_task_data (task);
+
+  error = NULL;
+  if (!photos_base_item_metadata_add_shared_finish (item, res, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  app = g_application_get_default ();
+  miner = photos_application_get_miner (PHOTOS_APPLICATION (app), "google");
+  if (miner == NULL)
+    {
+      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Unable to find the google miner");
+      goto out;
+    }
+
+  source = photos_share_point_online_get_source (PHOTOS_SHARE_POINT_ONLINE (self));
+  object = photos_source_get_goa_object (source);
+  account = goa_object_peek_account (object);
+  account_id = goa_account_get_id (account);
+
+  file_entry_id = gdata_entry_get_id (GDATA_ENTRY (data->file_entry));
+  item_id = photos_filterable_get_id (PHOTOS_FILTERABLE (data->item));
+
+  gom_miner_call_insert_shared_content (miner,
+                                        account_id,
+                                        file_entry_id,
+                                        "photos",
+                                        item_id,
+                                        cancellable,
+                                        photos_share_point_google_share_insert_shared_content,
+                                        g_object_ref (task));
+
+ out:
+  g_object_unref (task);
+}
+
+
+static void
+photos_share_point_google_share_save_to_stream (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosSharePointGoogle *self;
+  GCancellable *cancellable;
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  GDataPicasaWebFile *file_entry = NULL;
+  GoaAccount *account;
+  GoaObject *object;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
+  PhotosSource *source;
+  PhotosSharePointGoogleShareData *data;
+  const gchar *account_identity;
+  const gchar *file_entry_id;
+  const gchar *provider_type;
+  gchar *shared_identifier = NULL;
 
   self = PHOTOS_SHARE_POINT_GOOGLE (g_task_get_source_object (task));
   cancellable = g_task_get_cancellable (task);
@@ -155,34 +215,30 @@ photos_share_point_google_share_save_to_stream (GObject *source_object, GAsyncRe
       goto out;
     }
 
-  app = g_application_get_default ();
-  miner = photos_application_get_miner (PHOTOS_APPLICATION (app), "google");
-  if (miner == NULL)
-    {
-      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Unable to find the google miner");
-      goto out;
-    }
+  g_assert_null (data->file_entry);
+  data->file_entry = g_object_ref (file_entry);
 
   source = photos_share_point_online_get_source (PHOTOS_SHARE_POINT_ONLINE (self));
   object = photos_source_get_goa_object (source);
   account = goa_object_peek_account (object);
-  account_id = goa_account_get_id (account);
+  account_identity = goa_account_get_identity (account);
+  provider_type = goa_account_get_provider_type (account);
 
   file_entry_id = gdata_entry_get_id (GDATA_ENTRY (file_entry));
-  item_id = photos_filterable_get_id (PHOTOS_FILTERABLE (data->item));
+  shared_identifier = g_strconcat ("google:picasaweb:", file_entry_id, NULL);
 
-  gom_miner_call_insert_shared_content (miner,
-                                        account_id,
-                                        file_entry_id,
-                                        "photos",
-                                        item_id,
-                                        cancellable,
-                                        photos_share_point_google_share_insert_shared_content,
-                                        g_object_ref (task));
+  photos_base_item_metadata_add_shared_async (data->item,
+                                              provider_type,
+                                              account_identity,
+                                              shared_identifier,
+                                              cancellable,
+                                              photos_share_point_google_share_metadata_add_shared,
+                                              g_object_ref (task));
 
  out:
   g_clear_object (&file_entry);
   g_object_unref (task);
+  g_free (shared_identifier);
 }
 
 
