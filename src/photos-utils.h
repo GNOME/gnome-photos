@@ -169,6 +169,8 @@ void             photos_utils_list_box_header_func        (GtkListBoxRow *row,
 
 gboolean         photos_utils_make_directory_with_parents (GFile *file, GCancellable *cancellable, GError **error);
 
+void             photos_utils_object_list_free_full       (GList *objects);
+
 GQuark           photos_utils_orientation_bottom_quark    (void);
 
 GQuark           photos_utils_orientation_left_quark      (void);

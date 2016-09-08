@@ -1356,6 +1356,13 @@ photos_utils_make_directory_with_parents (GFile *file, GCancellable *cancellable
 }
 
 
+void
+photos_utils_object_list_free_full (GList *objects)
+{
+  g_list_free_full (objects, (GDestroyNotify) g_object_unref);
+}
+
+
 GQuark
 photos_utils_orientation_bottom_quark (void)
 {
