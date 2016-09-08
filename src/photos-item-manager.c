@@ -229,6 +229,7 @@ photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpoin
     {
       GObject *object;
 
+      g_message ("changed: %s", change_urn);
       object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
       if (object != NULL)
         {
@@ -242,12 +243,14 @@ photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpoin
     }
   else if (change_type == PHOTOS_TRACKER_CHANGE_EVENT_CREATED)
     {
+      g_message ("created: %s", change_urn);
       photos_item_manager_item_created (self, change_urn);
     }
   else if (change_type == PHOTOS_TRACKER_CHANGE_EVENT_DELETED)
     {
       GObject *object;
 
+      g_message ("deleted: %s", change_urn);
       object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
       if (object != NULL)
         {
@@ -289,6 +292,16 @@ photos_item_manager_collection_path_free (PhotosItemManager *self)
 {
   g_queue_foreach (self->collection_path, photos_item_manager_collection_path_free_foreach, NULL);
   g_queue_free (self->collection_path);
+}
+
+
+static gchar *
+photos_item_manager_cursor_get_links (TrackerSparqlCursor *cursor)
+{
+  gchar *ret_val;
+
+  ret_val = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_LINKS, NULL));
+  return ret_val;
 }
 
 
@@ -818,8 +831,10 @@ photos_item_manager_add_item_for_mode (PhotosItemManager *self, PhotosWindowMode
 {
   PhotosBaseItem *item = NULL;
   PhotosBaseManager *item_mngr_chld;
+  gboolean already_present = FALSE;
   gboolean is_collection;
   const gchar *id;
+  const gchar *links;
 
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
   g_return_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor));
@@ -833,38 +848,45 @@ photos_item_manager_add_item_for_mode (PhotosItemManager *self, PhotosWindowMode
 
   item_mngr_chld = self->item_mngr_chldrn[mode];
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+  links = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_LINKS, NULL);
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (item_mngr_chld, id));
   if (item != NULL)
     {
       g_object_ref (item);
+      goto out;
+    }
+
+  g_message ("links: %s, %s", id, links);
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (item_mngr_chld, links));
+  if (item != NULL)
+    {
+      g_object_ref (item);
+      goto out;
+    }
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
+  if (item != NULL)
+    {
+      g_object_ref (item);
+      already_present = TRUE;
     }
   else
     {
-      gboolean already_present = FALSE;
+      item = photos_item_manager_create_item (self, cursor);
+      if (photos_base_item_is_collection (item))
+        g_hash_table_insert (self->collections, g_strdup (id), g_object_ref (item));
 
-      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
-      if (item != NULL)
-        {
-          g_object_ref (item);
-          already_present = TRUE;
-        }
-      else
-        {
-          item = photos_item_manager_create_item (self, cursor);
-          if (photos_base_item_is_collection (item))
-            g_hash_table_insert (self->collections, g_strdup (id), g_object_ref (item));
-
-          g_signal_connect_object (item, "info-updated", G_CALLBACK (photos_item_manager_info_updated), self, 0);
-        }
-
-      photos_base_manager_add_object (item_mngr_chld, G_OBJECT (item));
-      photos_base_manager_add_object (self->item_mngr_chldrn[0], G_OBJECT (item));
-
-      if (!already_present)
-        g_signal_emit_by_name (self, "object-added", G_OBJECT (item));
+      g_signal_connect_object (item, "info-updated", G_CALLBACK (photos_item_manager_info_updated), self, 0);
     }
 
+  photos_base_manager_add_object (item_mngr_chld, G_OBJECT (item));
+  photos_base_manager_add_object (self->item_mngr_chldrn[0], G_OBJECT (item));
+
+  if (!already_present)
+    g_signal_emit_by_name (self, "object-added", G_OBJECT (item));
+
+ out:
   g_clear_object (&item);
 }
 
