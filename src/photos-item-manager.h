@@ -108,9 +108,11 @@ PhotosBaseManager        *photos_item_manager_get_for_mode                 (Phot
 
 PhotosLoadState           photos_item_manager_get_load_state               (PhotosItemManager *self);
 
-void                      photos_item_manager_hide_item                    (PhotosItemManager *self, PhotosBaseItem *item);
+void                      photos_item_manager_hide_item                    (PhotosItemManager *self,
+                                                                            PhotosBaseItem *item);
 
-void                      photos_item_manager_unhide_item                  (PhotosItemManager *self, PhotosBaseItem *item);
+void                      photos_item_manager_unhide_item                  (PhotosItemManager *self,
+                                                                            PhotosBaseItem *item);
 
 gboolean                  photos_mode_controller_get_can_fullscreen        (PhotosModeController *self);
 
