@@ -111,6 +111,16 @@ PhotosLoadState           photos_item_manager_get_load_state               (Phot
 void                      photos_item_manager_hide_item                    (PhotosItemManager *self,
                                                                             PhotosBaseItem *item);
 
+void                      photos_item_manager_wait_for_changes_async       (PhotosItemManager *self,
+                                                                            PhotosBaseItem *item,
+                                                                            GCancellable *cancellable,
+                                                                            GAsyncReadyCallback callback,
+                                                                            gpointer user_data);
+
+gchar                    *photos_item_manager_wait_for_changes_finish      (PhotosItemManager *self,
+                                                                            GAsyncResult *res,
+                                                                            GError **error);
+
 void                      photos_item_manager_unhide_item                  (PhotosItemManager *self,
                                                                             PhotosBaseItem *item);
 

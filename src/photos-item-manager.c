@@ -52,6 +52,7 @@ struct _PhotosItemManager
   GCancellable *loader_cancellable;
   GHashTable *collections;
   GHashTable *hidden_items;
+  GHashTable *wait_for_changes_table;
   GIOExtensionPoint *extension_point;
   GQueue *collection_path;
   GQueue *history;
@@ -139,12 +140,31 @@ photos_item_manager_add_object (PhotosBaseManager *mngr, GObject *object)
 
 
 static void
+photos_item_manager_check_wait_for_changes (PhotosItemManager *self, const gchar *id, const gchar *uri)
+{
+  GList *l;
+  GList *tasks;
+
+  tasks = (GList *) g_hash_table_lookup (self->wait_for_changes_table, uri);
+  for (l = tasks; l != NULL; l = l->next)
+    {
+      GTask *task = G_TASK (l->data);
+      g_task_return_pointer (task, g_strdup (id), g_free);
+    }
+
+  g_hash_table_remove (self->wait_for_changes_table, uri);
+}
+
+
+static void
 photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
   GError *error = NULL;
   PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
   TrackerSparqlCursor *cursor = NULL;
+  const gchar *id;
+  const gchar *uri;
 
   cursor = photos_single_item_job_finish (job, res, &error);
   if (error != NULL)
@@ -158,6 +178,10 @@ photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult 
     goto out;
 
   photos_item_manager_add_item (self, cursor, FALSE);
+
+  id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+  uri = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URI, NULL);
+  photos_item_manager_check_wait_for_changes (self, id, uri);
 
  out:
   g_clear_object (&cursor);
@@ -207,7 +231,14 @@ photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpoin
 
       object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
       if (object != NULL)
-        photos_base_item_refresh (PHOTOS_BASE_ITEM (object));
+        {
+          const gchar *uri;
+
+          photos_base_item_refresh (PHOTOS_BASE_ITEM (object));
+
+          uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
+          photos_item_manager_check_wait_for_changes (self, change_urn, uri);
+        }
     }
   else if (change_type == PHOTOS_TRACKER_CHANGE_EVENT_CREATED)
     {
@@ -571,6 +602,7 @@ photos_item_manager_dispose (GObject *object)
 
   g_clear_pointer (&self->collections, (GDestroyNotify) g_hash_table_unref);
   g_clear_pointer (&self->hidden_items, (GDestroyNotify) g_hash_table_unref);
+  g_clear_pointer (&self->wait_for_changes_table, (GDestroyNotify) g_hash_table_unref);
   g_clear_object (&self->active_object);
   g_clear_object (&self->loader_cancellable);
   g_clear_object (&self->active_collection);
@@ -606,6 +638,10 @@ photos_item_manager_init (PhotosItemManager *self)
                                               g_str_equal,
                                               g_free,
                                               (GDestroyNotify) photos_item_manager_hidden_item_free);
+  self->wait_for_changes_table = g_hash_table_new_full (g_str_hash,
+                                                        g_str_equal,
+                                                        g_free,
+                                                        (GDestroyNotify) photos_utils_object_list_free_full);
   self->extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
   self->collection_path = g_queue_new ();
   self->history = g_queue_new ();
@@ -1024,6 +1060,57 @@ photos_item_manager_unhide_item (PhotosItemManager *self, PhotosBaseItem *item)
   g_hash_table_remove (self->hidden_items, id);
   g_signal_connect_object (item, "info-updated", G_CALLBACK (photos_item_manager_info_updated), self, 0);
   g_signal_emit_by_name (self, "object-added", G_OBJECT (item));
+}
+
+
+void
+photos_item_manager_wait_for_changes_async (PhotosItemManager *self,
+                                            PhotosBaseItem *item,
+                                            GCancellable *cancellable,
+                                            GAsyncReadyCallback callback,
+                                            gpointer user_data)
+{
+  GList *tasks;
+  GTask *task = NULL;
+  const gchar *uri;
+
+  g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_item_manager_wait_for_changes_async);
+
+  if (!PHOTOS_IS_LOCAL_ITEM (item))
+    {
+      const gchar *id;
+
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
+      g_task_return_pointer (task, g_strdup (id), g_free);
+      goto out;
+    }
+
+  uri = photos_base_item_get_uri (item);
+  tasks = (GList *) g_hash_table_lookup (self->wait_for_changes_table, uri);
+  tasks = g_list_copy_deep (tasks, (GCopyFunc) g_object_ref, NULL);
+  tasks = g_list_prepend (tasks, g_object_ref (task));
+  g_hash_table_insert (self->wait_for_changes_table, g_strdup (uri), tasks);
+
+ out:
+  g_clear_object (&task);
+}
+
+
+gchar *
+photos_item_manager_wait_for_changes_finish (PhotosItemManager *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), NULL);
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_item_manager_wait_for_changes_async, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  return g_task_propagate_pointer (task, error);
 }
 
 
