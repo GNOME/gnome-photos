@@ -1,3 +1,29 @@
+Overview of changes in 3.21.92
+==============================
+
+* Bugs fixed:
+ 764801 pipeline: Place gegl:crop before photos:magic-filter, and rethink some
+        implementation details
+ 770267 Link the original and shared copies in Tracker
+ 770342 Fix a typo in photos_item_manager_clear
+ 770782 Don't use an undefined ?item variable
+ 770823 Items are not removed from FAVORITES when unfavorited
+
+* Updated translations:
+ English (British)
+ Finnish
+ Galician
+ Greek
+ Hebrew
+ Kazakh
+ Korean
+ Latvian
+ Lithuanian
+ Portuguese
+ Swedish
+ Vietnamese
+
+
 Overview of changes in 3.21.91
 ==============================
 
