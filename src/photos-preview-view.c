@@ -1251,6 +1251,7 @@ photos_preview_view_init (PhotosPreviewView *self)
   GAction *action;
   GApplication *app;
   GtkWidget *grid;
+  GtkWidget *overlay;
   GtkWidget *sw;
   GtkWidget *view_container;
   PhotosSearchContextState *state;
@@ -1274,10 +1275,13 @@ photos_preview_view_init (PhotosPreviewView *self)
   grid = gtk_grid_new ();
   gtk_container_add (GTK_CONTAINER (self), grid);
 
+  overlay = gtk_overlay_new ();
+  gtk_container_add (GTK_CONTAINER (grid), overlay);
+
   self->stack = gtk_stack_new ();
   gtk_widget_set_hexpand (self->stack, TRUE);
   gtk_widget_set_vexpand (self->stack, TRUE);
-  gtk_container_add (GTK_CONTAINER (grid), self->stack);
+  gtk_container_add (GTK_CONTAINER (overlay), self->stack);
 
   view_container = photos_preview_view_create_view_with_container (self);
   gtk_container_add (GTK_CONTAINER (self->stack), view_container);
