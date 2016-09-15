@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 #define PHOTOS_TYPE_PREVIEW_VIEW (photos_preview_view_get_type ())
 G_DECLARE_FINAL_TYPE (PhotosPreviewView, photos_preview_view, PHOTOS, PREVIEW_VIEW, GtkBin);
 
-GtkWidget             *photos_preview_view_new                    (GtkOverlay *overlay);
+GtkWidget             *photos_preview_view_new                    (void);
 
 void                   photos_preview_view_set_mode               (PhotosPreviewView *self,
                                                                    PhotosWindowMode old_mode);

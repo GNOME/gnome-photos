@@ -55,7 +55,6 @@ struct _PhotosPreviewView
   GAction *zoom_out_action;
   GCancellable *cancellable;
   GeglNode *node;
-  GtkWidget *overlay;
   GtkWidget *palette;
   GtkWidget *revealer;
   GtkWidget *stack;
@@ -69,12 +68,6 @@ struct _PhotosPreviewView
   gdouble event_y_last;
   gdouble zoom_begin;
   gdouble zoom_best_fit;
-};
-
-enum
-{
-  PROP_0,
-  PROP_OVERLAY
 };
 
 
@@ -1217,31 +1210,9 @@ photos_preview_view_constructed (GObject *object)
                             G_CALLBACK (photos_preview_view_gesture_zoom_scale_changed),
                             self);
 
-  self->nav_buttons = photos_preview_nav_buttons_new (self, GTK_OVERLAY (self->overlay));
-  g_signal_connect_swapped (self->nav_buttons, "load-next", G_CALLBACK (photos_preview_view_navigate_next), self);
-  g_signal_connect_swapped (self->nav_buttons, "load-previous", G_CALLBACK (photos_preview_view_navigate_previous), self);
-
   gtk_widget_show_all (GTK_WIDGET (self));
 
   g_object_unref (gesture_zoom);
-}
-
-
-static void
-photos_preview_view_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
-{
-  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
-
-  switch (prop_id)
-    {
-    case PROP_OVERLAY:
-      self->overlay = GTK_WIDGET (g_value_dup_object (value));
-      break;
-
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-      break;
-    }
 }
 
 
@@ -1277,6 +1248,10 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   overlay = gtk_overlay_new ();
   gtk_container_add (GTK_CONTAINER (grid), overlay);
+
+  self->nav_buttons = photos_preview_nav_buttons_new (self, GTK_OVERLAY (overlay));
+  g_signal_connect_swapped (self->nav_buttons, "load-next", G_CALLBACK (photos_preview_view_navigate_next), self);
+  g_signal_connect_swapped (self->nav_buttons, "load-previous", G_CALLBACK (photos_preview_view_navigate_previous), self);
 
   self->stack = gtk_stack_new ();
   gtk_widget_set_hexpand (self->stack, TRUE);
@@ -1378,6 +1353,7 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   self->event_x_last = -1.0;
   self->event_y_last = -1.0;
+  gtk_widget_show_all (GTK_WIDGET (self));
 }
 
 
@@ -1386,25 +1362,15 @@ photos_preview_view_class_init (PhotosPreviewViewClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  object_class->constructed = photos_preview_view_constructed;
   object_class->dispose = photos_preview_view_dispose;
   object_class->finalize = photos_preview_view_finalize;
-  object_class->set_property = photos_preview_view_set_property;
-
-  g_object_class_install_property (object_class,
-                                   PROP_OVERLAY,
-                                   g_param_spec_object ("overlay",
-                                                        "GtkOverlay object",
-                                                        "The stack overlay widget",
-                                                        GTK_TYPE_OVERLAY,
-                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 }
 
 
 GtkWidget *
-photos_preview_view_new (GtkOverlay *overlay)
+photos_preview_view_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_PREVIEW_VIEW, "overlay", overlay, NULL);
+  return g_object_new (PHOTOS_TYPE_PREVIEW_VIEW, NULL);
 }
 
 

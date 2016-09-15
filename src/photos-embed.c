@@ -739,7 +739,7 @@ photos_embed_init (PhotosEmbed *self)
   self->search = photos_view_container_new (PHOTOS_WINDOW_MODE_SEARCH, _("Search"));
   gtk_stack_add_named (GTK_STACK (self->stack), self->search, "search");
 
-  self->preview = photos_preview_view_new (GTK_OVERLAY (self->stack_overlay));
+  self->preview = photos_preview_view_new ();
   gtk_stack_add_named (GTK_STACK (self->stack), self->preview, "preview");
 
   /* TODO: SearchBar.Dropdown, …
