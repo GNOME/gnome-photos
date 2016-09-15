@@ -807,7 +807,7 @@ photos_preview_view_set_model (PhotosPreviewView *self, GtkTreeModel *model, Gtk
 void
 photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
 {
-  GtkWidget *view_container;;
+  GtkWidget *view_container;
 
   if (self->node == node)
     return;
