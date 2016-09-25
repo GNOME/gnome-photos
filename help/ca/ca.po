@@ -39,19 +39,19 @@ msgstr "Etiqueteu una imatge especial o un àlbum com a preferit."
 #. (itstool) path: page/title
 #: C/favorites.page:25
 msgid "Favorite photos"
-msgstr "Fotos preferides"
+msgstr "Fotografies preferides"
 
 #. (itstool) path: page/p
 #: C/favorites.page:26
 msgid ""
 "You can label photos or images that you particularly like as favorites to "
 "store them for easy access in the <gui>Favorites</gui> tab."
-msgstr "Podeu etiquetar les fotos o imatges que us agradin especialment com a preferides per emmagatzemar-les i poder-hi accedir fàcilment a la pestanya <gui>Preferits</gui>."
+msgstr "Podeu etiquetar les fotografies o imatges que us agradin especialment com a preferides per emmagatzemar-les i poder-hi accedir fàcilment a la pestanya <gui>Preferits</gui>."
 
 #. (itstool) path: info/desc
 #: C/favorites-set.page:22
 msgid "Pick favorites from <app>Photos</app>."
-msgstr "Trieu els preferits de <app>Fotos</app>."
+msgstr "Trieu els preferits de <app>Fotografies</app>."
 
 #. (itstool) path: page/title
 #: C/favorites-set.page:25
@@ -63,7 +63,7 @@ msgstr "Etiqueteu els preferits"
 msgid ""
 "Photos or albums can be marked as favorites from the <gui "
 "style=\"tab\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
-msgstr "Es poden marcar com a preferits les fotos o els àlbums des de les pestanyes <gui style=\"tab\">Recent</gui> o <gui style=\"tab\">Àlbums</gui>."
+msgstr "Es poden marcar com a preferits les fotografies o els àlbums des de les pestanyes <gui style=\"tab\">Recent</gui> o <gui style=\"tab\">Àlbums</gui>."
 
 #. (itstool) path: steps/title
 #: C/favorites-set.page:31
@@ -103,17 +103,17 @@ msgstr "Podeu trobar els vostres elements preferits a la pestanya <gui>Preferits
 #: C/index.page:7
 msgctxt "text"
 msgid "Photos"
-msgstr "Fotos"
+msgstr "Fotografies"
 
 #. (itstool) path: info/desc
 #: C/index.page:12
 msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
-msgstr "<app>Fotos</app> és una eina de gestió de fotografies personalitzada del GNOME."
+msgstr "<app>Fotografies</app> és una eina de gestió de fotografies personalitzada del GNOME."
 
 #. (itstool) path: page/title
 #: C/index.page:16
 msgid "<_:media-1/> Photos"
-msgstr "<_:media-1/> Fotos"
+msgstr "<_:media-1/> Fotografies"
 
 #. (itstool) path: page/p
 #: C/index.page:21
@@ -123,7 +123,7 @@ msgid ""
 "images on your computer, you can integrate your Facebook and Flickr albums "
 "with <app>Photos</app>. You can also set photos you like as your desktop "
 "wallpaper, or easily bookmark them as favorites."
-msgstr "<app>Fotos</app> es pot utilitzar per organitzar i gestionar imatges d'una manera engrescadora i personalitzada. A més de crear àlbums d'imatges del vostre ordinador, podeu integrar-hi els vostres àlbums de Facebook i Flickr amb <app>Fotos</app>. També podeu establir fotos que us agradin com a fons d'escriptori o marcar-les fàcilment com a preferides."
+msgstr "<app>Fotografies</app> es pot utilitzar per organitzar i gestionar imatges d'una manera engrescadora i personalitzada. A més de crear àlbums d'imatges des del vostre ordinador, podeu integrar-hi els vostres àlbums de Facebook i Flickr amb <app>Fotografies</app>. També podeu establir fotografies que us agradin com a fons d'escriptori o marcar-les fàcilment com a preferides."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
@@ -143,7 +143,7 @@ msgstr "Obriu una foto dels vostres àlbums."
 #. (itstool) path: page/title
 #: C/view-album.page:24
 msgid "View photos from an album"
-msgstr "Vegeu fotos d'un àlbum"
+msgstr "Vegeu fotografies d'un àlbum"
 
 #. (itstool) path: page/p
 #: C/view-album.page:25
@@ -165,24 +165,24 @@ msgstr "Seleccioneu l'àlbum que conté la foto."
 msgid ""
 "You will see a grid of photos from the album you selected. Select a photo "
 "from the grid to open it."
-msgstr "Veureu una graella de fotos de l'àlbum que heu seleccionat. Seleccioneu una foto de la graella per obrir-la."
+msgstr "Veureu una graella de fotografies de l'àlbum que heu seleccionat. Seleccioneu una foto de la graella per obrir-la."
 
 #. (itstool) path: info/desc
 #: C/view-favorites.page:21
 msgid "Open your favorite photos."
-msgstr "Obriu les vostres fotos preferides."
+msgstr "Obriu les vostres fotografies preferides."
 
 #. (itstool) path: page/title
 #: C/view-favorites.page:24
 msgid "View photos marked as favorites."
-msgstr "Vegeu les fotos marcades com a preferides."
+msgstr "Vegeu les fotografies marcades com a preferides."
 
 #. (itstool) path: page/p
 #: C/view-favorites.page:26
 msgid ""
 "Your <link xref=\"favorites\">favorite</link> photos are located in the "
 "<gui>Favorites</gui> tab."
-msgstr "Les vostres fotos <link xref=\"favorites\">preferides</link> es troben a la pestanya <gui>Preferits</gui>."
+msgstr "Les vostres fotografies <link xref=\"favorites\">preferides</link> es troben a la pestanya <gui>Preferits</gui>."
 
 #. (itstool) path: steps/title
 #: C/view-favorites.page:30
@@ -209,12 +209,12 @@ msgstr "Rashi Aswani"
 #. (itstool) path: info/desc
 #: C/view-photos.page:16
 msgid "Open your recent photos."
-msgstr "Obriu les vostres fotos recents."
+msgstr "Obriu les vostres fotografies recents."
 
 #. (itstool) path: page/title
 #: C/view-photos.page:19
 msgid "View recent photos"
-msgstr "Vegeu les fotos recents."
+msgstr "Vegeu les fotografies recents."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:21
@@ -224,7 +224,7 @@ msgid ""
 "and from online collections. You can also add other locations, even cloud-"
 "based collections such as Flickr or Facebook photographs, through <app>GNOME"
 " Online Accounts</app>."
-msgstr "La pestanya <gui style=\"tab\">Recent</gui> mostra fotos de les ubicacions del sistema de fitxers local com ara <file>~/Descàrregues</file> o <file>~/Fotos</file>, i de les col·leccions en línia. També podeu afegir altres ubicacions, fins i tot que es trobin al núvol, com ara fotografies de Flickr o Facebook mitjançant <app>Comptes en línia del GNOME</app>."
+msgstr "La pestanya <gui style=\"tab\">Recent</gui> mostra fotografies de les ubicacions del sistema de fitxers local com ara <file>~/Descàrregues</file> o <file>~/Fotografies</file>, i de les col·leccions en línia. També podeu afegir altres ubicacions, fins i tot que es trobin al núvol, com ara fotografies de Flickr o Facebook mitjançant <app>Comptes en línia del GNOME</app>."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:27
@@ -246,7 +246,7 @@ msgstr "Feu clic a la rodeta dentada inferior dreta. També podeu seleccionar le
 #. (itstool) path: page/p
 #: C/view-photos.page:40
 msgid "To view recent photos:"
-msgstr "Per veure fotos recents:"
+msgstr "Per veure fotografies recents:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
@@ -257,7 +257,7 @@ msgstr "Seleccioneu la pestanya <gui style=\"tab\">Recent</gui>."
 #: C/view-photos.page:46
 msgid ""
 "You will see a grid of photos. Select a photo from the grid to open it."
-msgstr "Veureu una graella de fotos. Seleccioneu una foto de la graella per obrir-la."
+msgstr "Veureu una graella de fotografies. Seleccioneu una foto de la graella per obrir-la."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
@@ -276,4 +276,4 @@ msgid ""
 "open. The <gui>Recent</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
-msgstr "Quan l'aplicació <app>Fotos</app> és oberta veureu la pestanya <gui>Recent</gui> oberta.  La pestanya <gui>Recent</gui> conté imatges del vostre ordinador, la pestanya <gui>Àlbums</gui> conté els vostres àlbums de fotos, i podeu trobar qualsevol imatge que marqueu com a preferida a la pestanya <gui>Preferits</gui> tab."
+msgstr "Quan l'aplicació <app>Fotografies</app> és oberta veureu la pestanya <gui>Recent</gui> oberta.  La pestanya <gui>Recent</gui> conté imatges del vostre ordinador, la pestanya <gui>Àlbums</gui> conté els vostres àlbums de fotografies, i podeu trobar qualsevol imatge que marqueu com a preferida a la pestanya <gui>Preferits</gui>."
