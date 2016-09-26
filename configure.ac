@@ -78,17 +78,8 @@ if test "$have_langinfo_measurement" = "yes"; then
             [Define if _NL_MEASUREMENT_MEASUREMENT is available])
 fi
 
-AC_MSG_CHECKING([for fast counters with rdtscp])
-AC_RUN_IFELSE([AC_LANG_SOURCE([[
-#include <x86intrin.h>
-int main (int argc, char *argv[]) { int cpu; __builtin_ia32_rdtscp (&cpu); return 0; }]])],
-              [have_rdtscp=yes],
-              [have_rdtscp=no])
-              AC_MSG_RESULT([$have_rdtscp])
-              AS_IF([test "$have_rdtscp" = "yes"],
-              [CFLAGS="$CFLAGS -DEGG_HAVE_RDTSCP"])
-
-AS_CASE(["$host"], [*-*-linux*], [CFLAGS="$CFLAGS -D_GNU_SOURCE"], [])
+GB_ENABLE_RDTSCP
+AS_IF([test "x$enable_rdtscp" = "xyes"], [CFLAGS="$CFLAGS -DEGG_HAVE_RDTSCP"])
 AC_CHECK_FUNCS([sched_getcpu])
 
 AC_CHECK_FUNCS([shm_open], [LIBRT=], [AC_CHECK_LIB([rt], [shm_open], [LIBRT=-lrt], [LIBRT=])])
