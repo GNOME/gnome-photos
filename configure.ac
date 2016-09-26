@@ -20,6 +20,7 @@ AX_IS_RELEASE([git-directory])
 AX_CHECK_ENABLE_DEBUG([yes],,, [$ax_is_release])
 AX_COMPILER_FLAGS([WARN_CFLAGS], [WARN_LDFLAGS], [$ax_is_release])
 
+AC_CANONICAL_HOST
 AC_PROG_CC
 AC_PROG_CC_C_O
 AC_HEADER_STDC
@@ -87,6 +88,7 @@ int main (int argc, char *argv[]) { int cpu; __builtin_ia32_rdtscp (&cpu); retur
               AS_IF([test "$have_rdtscp" = "yes"],
               [CFLAGS="$CFLAGS -DEGG_HAVE_RDTSCP"])
 
+AS_CASE(["$host"], [*-*-linux*], [CFLAGS="$CFLAGS -D_GNU_SOURCE"], [])
 AC_CHECK_FUNCS([sched_getcpu])
 
 AC_CHECK_FUNCS([shm_open], [LIBRT=], [AC_CHECK_LIB([rt], [shm_open], [LIBRT=-lrt], [LIBRT=])])
