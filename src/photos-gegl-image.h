@@ -1,6 +1,7 @@
 
 
 #include <gtk/gtk.h>
+#include "gtkabstractimage.h"
 #include <gegl.h>
 
 typedef struct _PhotosGeglImage      PhotosGeglImage;

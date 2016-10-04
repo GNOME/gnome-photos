@@ -23,6 +23,8 @@
 
 #include <gegl.h>
 #include <gtk/gtk.h>
+#include "gtkimageview.h"
+//#include "gtkabstractimage.h"
 
 G_BEGIN_DECLS
 
