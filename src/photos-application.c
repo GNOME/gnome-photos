@@ -121,9 +121,6 @@ struct _PhotosApplication
 struct _PhotosApplicationClass
 {
   GtkApplicationClass parent_class;
-
-  /* signals */
-  void (*miners_changed) (PhotosApplication *self, GList *miners_running);
 };
 
 enum
@@ -1997,7 +1994,7 @@ photos_application_class_init (PhotosApplicationClass *class)
   signals[MINERS_CHANGED] = g_signal_new ("miners-changed",
                                           G_TYPE_FROM_CLASS (class),
                                           G_SIGNAL_RUN_LAST,
-                                          G_STRUCT_OFFSET (PhotosApplicationClass, miners_changed),
+                                          0,
                                           NULL, /* accumulator */
                                           NULL, /* accu_data */
                                           g_cclosure_marshal_VOID__POINTER,
