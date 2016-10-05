@@ -32,19 +32,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_APPLICATION (photos_application_get_type ())
-
-#define PHOTOS_APPLICATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_APPLICATION, PhotosApplication))
-
-#define PHOTOS_IS_APPLICATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_APPLICATION))
-
-typedef struct _PhotosApplication      PhotosApplication;
-typedef struct _PhotosApplicationClass PhotosApplicationClass;
-
-GType                  photos_application_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosApplication, photos_application, PHOTOS, APPLICATION, GtkApplication);
 
 GtkApplication        *photos_application_new                    (void);
 

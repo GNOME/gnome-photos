@@ -118,11 +118,6 @@ struct _PhotosApplication
   gulong source_removed_id;
 };
 
-struct _PhotosApplicationClass
-{
-  GtkApplicationClass parent_class;
-};
-
 enum
 {
   MINERS_CHANGED,
