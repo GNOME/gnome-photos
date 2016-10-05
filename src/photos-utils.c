@@ -1042,7 +1042,6 @@ photos_utils_file_create_create (GObject *source_object, GAsyncResult *res, gpoi
   stream = g_file_create_finish (file, res, &error);
   if (error != NULL)
     {
-
       if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
         {
           g_task_return_error (task, error);
