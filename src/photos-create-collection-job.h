@@ -34,7 +34,7 @@ G_DECLARE_FINAL_TYPE (PhotosCreateCollectionJob,
                       photos_create_collection_job,
                       PHOTOS,
                       CREATE_COLLECTION_JOB,
-                      GObject)
+                      GObject);
 
 PhotosCreateCollectionJob  *photos_create_collection_job_new         (const gchar *name);
 

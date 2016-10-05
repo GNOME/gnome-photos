@@ -26,7 +26,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SHARE_POINT_EMAIL (photos_share_point_email_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosSharePointEmail, photos_share_point_email, PHOTOS, SHARE_POINT_EMAIL, PhotosSharePoint)
+G_DECLARE_FINAL_TYPE (PhotosSharePointEmail, photos_share_point_email, PHOTOS, SHARE_POINT_EMAIL, PhotosSharePoint);
 
 G_END_DECLS
 

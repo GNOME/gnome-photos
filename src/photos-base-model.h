@@ -32,7 +32,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_BASE_MODEL (photos_base_model_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosBaseModel, photos_base_model, PHOTOS, BASE_MODEL, GObject)
+G_DECLARE_FINAL_TYPE (PhotosBaseModel, photos_base_model, PHOTOS, BASE_MODEL, GObject);
 
 PhotosBaseModel  *photos_base_model_new                    (PhotosBaseManager *mngr);
 

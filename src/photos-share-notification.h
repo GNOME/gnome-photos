@@ -29,7 +29,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SHARE_NOTIFICATION (photos_share_notification_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosShareNotification, photos_share_notification, PHOTOS, SHARE_NOTIFICATION, GtkGrid)
+G_DECLARE_FINAL_TYPE (PhotosShareNotification, photos_share_notification, PHOTOS, SHARE_NOTIFICATION, GtkGrid);
 
 void                photos_share_notification_new_with_error  (PhotosSharePoint *share_point, GError *error);
 

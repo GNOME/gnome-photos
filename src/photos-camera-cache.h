@@ -27,7 +27,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_CAMERA_CACHE (photos_camera_cache_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosCameraCache, photos_camera_cache, PHOTOS, CAMERA_CACHE, GObject)
+G_DECLARE_FINAL_TYPE (PhotosCameraCache, photos_camera_cache, PHOTOS, CAMERA_CACHE, GObject);
 
 PhotosCameraCache     *photos_camera_cache_dup_singleton          (void);
 

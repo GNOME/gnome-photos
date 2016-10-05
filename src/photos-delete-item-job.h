@@ -30,7 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_DELETE_ITEM_JOB (photos_delete_item_job_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosDeleteItemJob, photos_delete_item_job, PHOTOS, DELETE_ITEM_JOB, GObject)
+G_DECLARE_FINAL_TYPE (PhotosDeleteItemJob, photos_delete_item_job, PHOTOS, DELETE_ITEM_JOB, GObject);
 
 PhotosDeleteItemJob        *photos_delete_item_job_new         (const gchar *urn);
 

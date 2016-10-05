@@ -30,7 +30,7 @@ G_DECLARE_FINAL_TYPE (PhotosSharePointGoogle,
                       photos_share_point_google,
                       PHOTOS,
                       SHARE_POINT_GOOGLE,
-                      PhotosSharePointOnline)
+                      PhotosSharePointOnline);
 
 G_END_DECLS
 

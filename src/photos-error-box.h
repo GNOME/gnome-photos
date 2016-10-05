@@ -30,7 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_ERROR_BOX (photos_error_box_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosErrorBox, photos_error_box, PHOTOS, ERROR_BOX, GtkGrid)
+G_DECLARE_FINAL_TYPE (PhotosErrorBox, photos_error_box, PHOTOS, ERROR_BOX, GtkGrid);
 
 GtkWidget             *photos_error_box_new                    (void);
 

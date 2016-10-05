@@ -30,7 +30,7 @@ G_DECLARE_FINAL_TYPE (PhotosDlnaRenderersDialog,
                       photos_dlna_renderers_dialog,
                       PHOTOS,
                       DLNA_RENDERERS_DIALOG,
-                      GtkDialog)
+                      GtkDialog);
 
 GtkWidget          *photos_dlna_renderers_dialog_new                (GtkWindow *parent, const gchar *urn);
 

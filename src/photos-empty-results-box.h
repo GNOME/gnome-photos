@@ -32,7 +32,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_EMPTY_RESULTS_BOX (photos_empty_results_box_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosEmptyResultsBox, photos_empty_results_box, PHOTOS, EMPTY_RESULTS_BOX, GtkGrid)
+G_DECLARE_FINAL_TYPE (PhotosEmptyResultsBox, photos_empty_results_box, PHOTOS, EMPTY_RESULTS_BOX, GtkGrid);
 
 GtkWidget          *photos_empty_results_box_new                (PhotosWindowMode mode);
 

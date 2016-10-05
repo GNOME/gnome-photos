@@ -30,7 +30,7 @@ G_DECLARE_FINAL_TYPE (PhotosDlnaRenderersManager,
                       photos_dlna_renderers_manager,
                       PHOTOS,
                       DLNA_RENDERERS_MANAGER,
-                      GObject)
+                      GObject);
 
 PhotosDlnaRenderersManager *photos_dlna_renderers_manager_dup_singleton (void);
 

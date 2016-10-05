@@ -34,7 +34,7 @@ G_DECLARE_FINAL_TYPE (PhotosCreateCollectionIconJob,
                       photos_create_collection_icon_job,
                       PHOTOS,
                       CREATE_COLLECTION_ICON_JOB,
-                      GObject)
+                      GObject);
 
 typedef void (*PhotosCreateCollectionIconJobCallback) (GIcon *, gpointer);
 
