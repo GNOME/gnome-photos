@@ -1277,14 +1277,20 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
 {
   GTask *task = G_TASK (user_data);
   PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
   GCancellable *cancellable;
   GError *error;
   GFile *file = NULL;
   GeglBuffer *buffer = GEGL_BUFFER (source_object);
   GeglBuffer *buffer_zoomed = NULL;
   PhotosBaseItemSaveData *data;
+  const gchar *extension;
+  gchar *basename = NULL;
+  gchar *filename = NULL;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  priv = self->priv;
+
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
@@ -1299,7 +1305,11 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
   g_assert_null (data->buffer);
   data->buffer = g_object_ref (buffer_zoomed);
 
-  file = g_file_get_child (data->dir, self->priv->filename);
+  basename = photos_utils_filename_strip_extension (priv->filename);
+  extension = g_strcmp0 (priv->mime_type, "image/png") == 0 ? ".png" : ".jpg";
+  filename = g_strconcat (basename, extension, NULL);
+
+  file = g_file_get_child (data->dir, filename);
   photos_utils_file_create_async (file,
                                   G_FILE_CREATE_NONE,
                                   G_PRIORITY_DEFAULT,
@@ -1308,6 +1318,8 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
                                   g_object_ref (task));
 
  out:
+  g_free (basename);
+  g_free (filename);
   g_clear_object (&buffer_zoomed);
   g_clear_object (&file);
   g_object_unref (task);
