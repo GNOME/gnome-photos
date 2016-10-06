@@ -32,7 +32,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_LOCAL_ITEM (photos_local_item_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosLocalItem, photos_local_item, PHOTOS, LOCAL_ITEM, PhotosBaseItem)
+G_DECLARE_FINAL_TYPE (PhotosLocalItem, photos_local_item, PHOTOS, LOCAL_ITEM, PhotosBaseItem);
 
 G_END_DECLS
 
