@@ -46,11 +46,6 @@ struct _PhotosGoogleItem
   PhotosBaseManager *src_mngr;
 };
 
-struct _PhotosGoogleItemClass
-{
-  PhotosBaseItemClass parent_class;
-};
-
 
 G_DEFINE_TYPE_WITH_CODE (PhotosGoogleItem, photos_google_item, PHOTOS_TYPE_BASE_ITEM,
                          photos_utils_ensure_extension_points ();

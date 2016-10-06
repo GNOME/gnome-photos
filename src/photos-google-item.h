@@ -1,5 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
+ * Copyright © 2016 Red Hat, Inc.
  * Copyright © 2014 Saurav Agarwalla
  *
  * This program is free software; you can redistribute it and/or
@@ -30,19 +31,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_GOOGLE_ITEM (photos_google_item_get_type ())
-
-#define PHOTOS_GOOGLE_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_GOOGLE_ITEM, PhotosGoogleItem))
-
-#define PHOTOS_IS_GOOGLE_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_GOOGLE_ITEM))
-
-typedef struct _PhotosGoogleItem      PhotosGoogleItem;
-typedef struct _PhotosGoogleItemClass PhotosGoogleItemClass;
-
-GType               photos_google_item_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosGoogleItem, photos_google_item, PHOTOS, GOOGLE_ITEM, PhotosBaseItem);
 
 G_END_DECLS
 
