@@ -48,11 +48,6 @@ struct _PhotosFacebookItem
   PhotosBaseManager *src_mngr;
 };
 
-struct _PhotosFacebookItemClass
-{
-  PhotosBaseItemClass parent_class;
-};
-
 
 G_DEFINE_TYPE_WITH_CODE (PhotosFacebookItem, photos_facebook_item, PHOTOS_TYPE_BASE_ITEM,
                          photos_utils_ensure_extension_points ();

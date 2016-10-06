@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Álvaro Peña
+ * Copyright © 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,19 +31,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_FACEBOOK_ITEM (photos_facebook_item_get_type ())
-
-#define PHOTOS_FACEBOOK_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_FACEBOOK_ITEM, PhotosFacebookItem))
-
-#define PHOTOS_IS_FACEBOOK_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_FACEBOOK_ITEM))
-
-typedef struct _PhotosFacebookItem      PhotosFacebookItem;
-typedef struct _PhotosFacebookItemClass PhotosFacebookItemClass;
-
-GType               photos_facebook_item_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosFacebookItem, photos_facebook_item, PHOTOS, FACEBOOK_ITEM, PhotosBaseItem);
 
 G_END_DECLS
 
