@@ -1,3 +1,16 @@
+Overview of changes in 3.22.1
+=============================
+
+* Bugs fixed:
+ 771995 SIGILL on Intel Core 2 Duo caused by __builtin_ia32_rdtscp in
+        egg_get_current_cpu_rdtscp()
+ 772443 Wrong extension when exporting anything that's not JPEG or PNG
+
+* Updated translations:
+ Catalan
+ Danish
+
+
 Overview of changes in 3.22.0
 =============================
 
