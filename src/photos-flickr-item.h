@@ -30,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_FLICKR_ITEM (photos_flickr_item_get_type ())
-
-#define PHOTOS_FLICKR_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_FLICKR_ITEM, PhotosFlickrItem))
-
-#define PHOTOS_IS_FLICKR_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_FLICKR_ITEM))
-
-typedef struct _PhotosFlickrItem      PhotosFlickrItem;
-typedef struct _PhotosFlickrItemClass PhotosFlickrItemClass;
-
-GType               photos_flickr_item_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosFlickrItem, photos_flickr_item, PHOTOS, FLICKR_ITEM, PhotosBaseItem);
 
 G_END_DECLS
 

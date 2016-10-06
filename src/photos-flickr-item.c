@@ -48,11 +48,6 @@ struct _PhotosFlickrItem
   PhotosBaseManager *src_mngr;
 };
 
-struct _PhotosFlickrItemClass
-{
-  PhotosBaseItemClass parent_class;
-};
-
 
 G_DEFINE_TYPE_WITH_CODE (PhotosFlickrItem, photos_flickr_item, PHOTOS_TYPE_BASE_ITEM,
                          photos_utils_ensure_extension_points ();
