@@ -33,35 +33,9 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_TRACKER_CONTROLLER (photos_tracker_controller_get_type ())
+G_DECLARE_DERIVABLE_TYPE (PhotosTrackerController, photos_tracker_controller, PHOTOS, TRACKER_CONTROLLER, GObject);
 
-#define PHOTOS_TRACKER_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_TRACKER_CONTROLLER, PhotosTrackerController))
-
-#define PHOTOS_TRACKER_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_TRACKER_CONTROLLER, PhotosTrackerControllerClass))
-
-#define PHOTOS_IS_TRACKER_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_TRACKER_CONTROLLER))
-
-#define PHOTOS_IS_TRACKER_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_TRACKER_CONTROLLER))
-
-#define PHOTOS_TRACKER_CONTROLLER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_TRACKER_CONTROLLER, PhotosTrackerControllerClass))
-
-typedef struct _PhotosTrackerController        PhotosTrackerController;
-typedef struct _PhotosTrackerControllerClass   PhotosTrackerControllerClass;
 typedef struct _PhotosTrackerControllerPrivate PhotosTrackerControllerPrivate;
-
-struct _PhotosTrackerController
-{
-  GObject parent_instance;
-};
 
 struct _PhotosTrackerControllerClass
 {
@@ -75,8 +49,6 @@ struct _PhotosTrackerControllerClass
   void (*query_error) (PhotosTrackerController *self, const gchar *primary, const gchar *secondary);
   void (*query_status_changed) (PhotosTrackerController *self, gboolean querying);
 };
-
-GType                     photos_tracker_controller_get_type          (void) G_GNUC_CONST;
 
 void                      photos_tracker_controller_set_frozen        (PhotosTrackerController *self,
                                                                        gboolean frozen);
