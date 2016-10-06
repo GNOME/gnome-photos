@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
+ * Copyright © 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,19 +31,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_MEDIA_SERVER_ITEM (photos_media_server_item_get_type ())
-
-#define PHOTOS_MEDIA_SERVER_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_MEDIA_SERVER_ITEM, PhotosMediaServerItem))
-
-#define PHOTOS_IS_MEDIA_SERVER_ITEM(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_MEDIA_SERVER_ITEM))
-
-typedef struct _PhotosMediaServerItem      PhotosMediaServerItem;
-typedef struct _PhotosMediaServerItemClass PhotosMediaServerItemClass;
-
-GType               photos_media_server_item_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosMediaServerItem, photos_media_server_item, PHOTOS, MEDIA_SERVER_ITEM, PhotosBaseItem);
 
 G_END_DECLS
 

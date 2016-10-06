@@ -45,11 +45,6 @@ struct _PhotosMediaServerItem
   PhotosBaseManager *src_mngr;
 };
 
-struct _PhotosMediaServerItemClass
-{
-  PhotosBaseItemClass parent_class;
-};
-
 
 G_DEFINE_TYPE_WITH_CODE (PhotosMediaServerItem, photos_media_server_item, PHOTOS_TYPE_BASE_ITEM,
                          photos_utils_ensure_extension_points ();
