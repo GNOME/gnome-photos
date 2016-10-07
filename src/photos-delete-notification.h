@@ -23,24 +23,12 @@
 #define PHOTOS_DELETE_NOTIFICATION_H
 
 #include <glib.h>
-#include <glib-object.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_DELETE_NOTIFICATION (photos_delete_notification_get_type ())
-
-#define PHOTOS_DELETE_NOTIFICATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_DELETE_NOTIFICATION, PhotosDeleteNotification))
-
-#define PHOTOS_IS_DELETE_NOTIFICATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_DELETE_NOTIFICATION))
-
-typedef struct _PhotosDeleteNotification      PhotosDeleteNotification;
-typedef struct _PhotosDeleteNotificationClass PhotosDeleteNotificationClass;
-
-GType               photos_delete_notification_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosDeleteNotification, photos_delete_notification, PHOTOS, DELETE_NOTIFICATION, GtkGrid);
 
 void                photos_delete_notification_new                (GList *items);
 

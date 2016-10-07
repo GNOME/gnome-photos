@@ -23,7 +23,6 @@
 #include "config.h"
 
 #include <glib/gi18n.h>
-#include <gtk/gtk.h>
 
 #include "photos-base-item.h"
 #include "photos-delete-notification.h"
@@ -40,11 +39,6 @@ struct _PhotosDeleteNotification
   GtkWidget *ntfctn_mngr;
   PhotosBaseManager *item_mngr;
   guint timeout_id;
-};
-
-struct _PhotosDeleteNotificationClass
-{
-  GtkGridClass parent_class;
 };
 
 enum
