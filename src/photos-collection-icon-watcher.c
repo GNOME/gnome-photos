@@ -56,9 +56,6 @@ struct _PhotosCollectionIconWatcher
 struct _PhotosCollectionIconWatcherClass
 {
   GObjectClass parent_class;
-
-  /* signals */
-  void (*icon_updated) (PhotosCollectionIconWatcher *self, GIcon *icon);
 };
 
 enum
@@ -479,8 +476,7 @@ photos_collection_icon_watcher_class_init (PhotosCollectionIconWatcherClass *cla
   signals[ICON_UPDATED] = g_signal_new ("icon-updated",
                                         G_TYPE_FROM_CLASS (class),
                                         G_SIGNAL_RUN_LAST,
-                                        G_STRUCT_OFFSET (PhotosCollectionIconWatcherClass,
-                                                         icon_updated),
+                                        0,
                                         NULL, /* accumulator */
                                         NULL, /* accu_data */
                                         g_cclosure_marshal_VOID__OBJECT,
