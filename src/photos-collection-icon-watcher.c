@@ -53,11 +53,6 @@ struct _PhotosCollectionIconWatcher
   guint to_query_remaining;
 };
 
-struct _PhotosCollectionIconWatcherClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,

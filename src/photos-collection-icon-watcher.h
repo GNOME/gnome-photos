@@ -32,21 +32,13 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_COLLECTION_ICON_WATCHER (photos_collection_icon_watcher_get_type ())
-
-#define PHOTOS_COLLECTION_ICON_WATCHER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_COLLECTION_ICON_WATCHER, PhotosCollectionIconWatcher))
-
-#define PHOTOS_IS_COLLECTION_ICON_WATCHER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_COLLECTION_ICON_WATCHER))
+G_DECLARE_FINAL_TYPE (PhotosCollectionIconWatcher,
+                      photos_collection_icon_watcher,
+                      PHOTOS,
+                      COLLECTION_ICON_WATCHER,
+                      GObject);
 
 typedef void (*PhotosCollectionIconWatcherCallback) (TrackerSparqlCursor *, gpointer);
-
-typedef struct _PhotosCollectionIconWatcher      PhotosCollectionIconWatcher;
-typedef struct _PhotosCollectionIconWatcherClass PhotosCollectionIconWatcherClass;
-
-GType                         photos_collection_icon_watcher_get_type    (void) G_GNUC_CONST;
 
 PhotosCollectionIconWatcher  *photos_collection_icon_watcher_new         (PhotosBaseItem *collection);
 
