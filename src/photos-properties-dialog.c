@@ -248,8 +248,7 @@ photos_properties_dialog_constructed (GObject *object)
   GtkWidget *iso_speed_w = NULL;
   GtkWidget *item_type;
   GtkWidget *item_type_data;
-  GtkWidget *modified_w;
-  GtkWidget *modified_grid;
+  GtkWidget *modified_w = NULL;
   GtkWidget *source;
   GtkWidget *source_data;
   GtkWidget *title;
@@ -432,13 +431,16 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_container_add (GTK_CONTAINER (self->grid), flash_w);
     }
 
-  modified_w = gtk_label_new (_("Modifications"));
-  gtk_widget_set_halign (modified_w, GTK_ALIGN_END);
-  gtk_widget_set_valign (modified_w, GTK_ALIGN_BASELINE);
-  gtk_widget_set_vexpand (modified_w, TRUE);
-  context = gtk_widget_get_style_context (modified_w);
-  gtk_style_context_add_class (context, "dim-label");
-  gtk_container_add (GTK_CONTAINER (self->grid), modified_w);
+  if (!photos_base_item_is_collection (item))
+    {
+      modified_w = gtk_label_new (_("Modifications"));
+      gtk_widget_set_halign (modified_w, GTK_ALIGN_END);
+      gtk_widget_set_valign (modified_w, GTK_ALIGN_BASELINE);
+      gtk_widget_set_vexpand (modified_w, TRUE);
+      context = gtk_widget_get_style_context (modified_w);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (self->grid), modified_w);
+    }
 
   name = photos_base_item_get_name (item);
 
@@ -580,40 +582,45 @@ photos_properties_dialog_constructed (GObject *object)
       g_free (flash_str);
     }
 
-  photos_base_item_pipeline_is_edited_async (item,
-                                             self->cancellable,
-                                             photos_properties_dialog_pipeline_is_edited,
-                                             self);
+  if (modified_w != NULL)
+    {
+      GtkWidget *modified_grid;
 
-  modified_grid = gtk_grid_new ();
-  gtk_widget_set_hexpand (modified_grid, TRUE);
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (modified_grid), GTK_ORIENTATION_HORIZONTAL);
+      photos_base_item_pipeline_is_edited_async (item,
+                                                 self->cancellable,
+                                                 photos_properties_dialog_pipeline_is_edited,
+                                                 self);
 
-  self->modified_data = gtk_label_new (NULL);
-  gtk_widget_set_halign (self->modified_data, GTK_ALIGN_START);
-  gtk_widget_set_hexpand (self->modified_data, TRUE);
-  gtk_widget_set_no_show_all (self->modified_data, TRUE);
-  gtk_widget_set_valign (self->modified_data, GTK_ALIGN_BASELINE);
-  gtk_widget_set_vexpand (self->modified_data, TRUE);
-  context = gtk_widget_get_style_context (self->modified_data);
-  gtk_style_context_add_class (context, "photos-fade-out");
-  gtk_container_add (GTK_CONTAINER (modified_grid), self->modified_data);
+      modified_grid = gtk_grid_new ();
+      gtk_widget_set_hexpand (modified_grid, TRUE);
+      gtk_orientable_set_orientation (GTK_ORIENTABLE (modified_grid), GTK_ORIENTATION_HORIZONTAL);
 
-  self->revert_button = gtk_button_new_with_label (_("Discard all Edits"));
-  gtk_widget_set_halign (self->revert_button, GTK_ALIGN_END);
-  gtk_widget_set_hexpand (self->revert_button, TRUE);
-  gtk_widget_set_no_show_all (self->revert_button, TRUE);
-  context = gtk_widget_get_style_context (self->revert_button);
-  gtk_style_context_add_class (context, "destructive-action");
-  gtk_style_context_add_class (context, "photos-fade-out");
-  gtk_container_add (GTK_CONTAINER (modified_grid), self->revert_button);
+      self->modified_data = gtk_label_new (NULL);
+      gtk_widget_set_halign (self->modified_data, GTK_ALIGN_START);
+      gtk_widget_set_hexpand (self->modified_data, TRUE);
+      gtk_widget_set_no_show_all (self->modified_data, TRUE);
+      gtk_widget_set_valign (self->modified_data, GTK_ALIGN_BASELINE);
+      gtk_widget_set_vexpand (self->modified_data, TRUE);
+      context = gtk_widget_get_style_context (self->modified_data);
+      gtk_style_context_add_class (context, "photos-fade-out");
+      gtk_container_add (GTK_CONTAINER (modified_grid), self->modified_data);
 
-  g_signal_connect_swapped (self->revert_button,
-                            "clicked",
-                            G_CALLBACK (photos_properties_dialog_revert_clicked),
-                            self);
+      self->revert_button = gtk_button_new_with_label (_("Discard all Edits"));
+      gtk_widget_set_halign (self->revert_button, GTK_ALIGN_END);
+      gtk_widget_set_hexpand (self->revert_button, TRUE);
+      gtk_widget_set_no_show_all (self->revert_button, TRUE);
+      context = gtk_widget_get_style_context (self->revert_button);
+      gtk_style_context_add_class (context, "destructive-action");
+      gtk_style_context_add_class (context, "photos-fade-out");
+      gtk_container_add (GTK_CONTAINER (modified_grid), self->revert_button);
 
-  gtk_grid_attach_next_to (GTK_GRID (self->grid), modified_grid, modified_w, GTK_POS_RIGHT, 2, 1);
+      g_signal_connect_swapped (self->revert_button,
+                                "clicked",
+                                G_CALLBACK (photos_properties_dialog_revert_clicked),
+                                self);
+
+      gtk_grid_attach_next_to (GTK_GRID (self->grid), modified_grid, modified_w, GTK_POS_RIGHT, 2, 1);
+    }
 
   g_free (date_created_str);
   g_free (date_modified_str);
