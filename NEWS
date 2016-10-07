@@ -1,3 +1,17 @@
+Overview of changes in 3.20.4
+=============================
+
+* Bugs fixed:
+ 768548 base-item: Don't leak the cursor data while refreshing
+ 772443 Wrong extension when exporting anything that's not JPEG or PNG
+
+* Updated translations:
+ Gaelic (Scottish)
+ Icelandic
+ Slovenian
+ Ukrainian
+
+
 Overview of changes in 3.20.3
 =============================
 
