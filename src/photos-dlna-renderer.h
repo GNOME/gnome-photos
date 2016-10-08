@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Intel Corporation. All rights reserved.
+ * Copyright © 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_DLNA_RENDERER (photos_dlna_renderer_get_type ())
-
-#define PHOTOS_DLNA_RENDERER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_DLNA_RENDERER, PhotosDlnaRenderer))
-
-#define PHOTOS_IS_DLNA_RENDERER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_DLNA_RENDERER))
-
-typedef struct _PhotosDlnaRenderer      PhotosDlnaRenderer;
-typedef struct _PhotosDlnaRendererClass PhotosDlnaRendererClass;
-
-GType                 photos_dlna_renderer_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosDlnaRenderer, photos_dlna_renderer, PHOTOS, DLNA_RENDERER, GObject);
 
 void                  photos_dlna_renderer_new_for_bus        (GBusType             bus_type,
                                                                GDBusProxyFlags      flags,

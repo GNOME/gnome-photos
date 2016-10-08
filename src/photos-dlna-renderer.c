@@ -43,11 +43,6 @@ struct _PhotosDlnaRenderer
   gchar *well_known_name;
 };
 
-struct _PhotosDlnaRendererClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,
