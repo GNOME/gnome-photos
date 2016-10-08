@@ -34,11 +34,6 @@ struct _PhotosWidgetShader
   gboolean active;
 };
 
-struct _PhotosWidgetShaderClass
-{
-  GInitiallyUnownedClass parent_class;
-};
-
 enum
 {
   PROP_0,

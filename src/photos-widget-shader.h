@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Red Hat, Inc.
+ * Copyright © 2015 – 2016 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,19 +27,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_WIDGET_SHADER (photos_widget_shader_get_type ())
-
-#define PHOTOS_WIDGET_SHADER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_WIDGET_SHADER, PhotosWidgetShader))
-
-#define PHOTOS_IS_WIDGET_SHADER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_WIDGET_SHADER))
-
-typedef struct _PhotosWidgetShader      PhotosWidgetShader;
-typedef struct _PhotosWidgetShaderClass PhotosWidgetShaderClass;
-
-GType                  photos_widget_shader_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosWidgetShader, photos_widget_shader, PHOTOS, WIDGET_SHADER, GInitiallyUnowned);
 
 PhotosWidgetShader    *photos_widget_shader_new                    (GtkWidget *widget);
 
