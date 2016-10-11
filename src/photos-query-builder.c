@@ -188,7 +188,8 @@ photos_query_builder_query (PhotosSearchContextState *state,
                         "nmm:fnumber (?urn) "
                         "nmm:focalLength (?urn) "
                         "nmm:isoSpeed (?urn) "
-                        "nmm:flash (?urn) ",
+                        "nmm:flash (?urn) "
+                        "slo:location (?urn) ",
                         where_sparql,
                         tail_sparql,
                         NULL);

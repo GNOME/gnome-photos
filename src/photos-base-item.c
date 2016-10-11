@@ -87,6 +87,7 @@ struct _PhotosBaseItemPrivate
   gchar *filename;
   gchar *id;
   gchar *identifier;
+  gchar *location;
   gchar *mime_type;
   gchar *name;
   gchar *name_fallback;
@@ -2150,6 +2151,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   const gchar *flash;
   const gchar *id;
   const gchar *identifier;
+  const gchar *location;
   const gchar *mime_type;
   const gchar *mtime;
   const gchar *orientation;
@@ -2178,6 +2180,9 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   author = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_AUTHOR, NULL);
   photos_utils_set_string (&priv->author, author);
   g_object_notify (G_OBJECT (self), "secondary-text");
+
+  location = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_LOCATION, NULL);
+  photos_utils_set_string (&priv->location, location);
 
   resource_urn = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_URN, NULL);
   photos_utils_set_string (&priv->resource_urn, resource_urn);
@@ -2354,6 +2359,7 @@ photos_base_item_finalize (GObject *object)
   g_free (priv->filename);
   g_free (priv->id);
   g_free (priv->identifier);
+  g_free (priv->location);
   g_free (priv->mime_type);
   g_free (priv->name);
   g_free (priv->name_fallback);
@@ -2915,6 +2921,18 @@ photos_base_item_get_iso_speed (PhotosBaseItem *self)
   priv = photos_base_item_get_instance_private (self);
 
   return priv->iso_speed;
+}
+
+
+const gchar *
+photos_base_item_get_location (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->location;
 }
 
 

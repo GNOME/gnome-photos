@@ -132,6 +132,8 @@ const gchar        *photos_base_item_get_identifier          (PhotosBaseItem *se
 
 gdouble             photos_base_item_get_iso_speed           (PhotosBaseItem *self);
 
+const gchar        *photos_base_item_get_location            (PhotosBaseItem *self);
+
 const gchar        *photos_base_item_get_mime_type           (PhotosBaseItem *self);
 
 gint64              photos_base_item_get_mtime               (PhotosBaseItem *self);
