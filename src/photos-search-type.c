@@ -52,12 +52,12 @@ enum
   PROP_WHERE,
 };
 
-static void photos_filterable_interface_init (PhotosFilterableInterface *iface);
+static void photos_search_type_filterable_iface_init (PhotosFilterableInterface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosSearchType, photos_search_type, G_TYPE_OBJECT,
                          G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
-                                                photos_filterable_interface_init));
+                                                photos_search_type_filterable_iface_init));
 
 
 static gchar *
@@ -200,7 +200,7 @@ photos_search_type_class_init (PhotosSearchTypeClass *class)
 
 
 static void
-photos_filterable_interface_init (PhotosFilterableInterface *iface)
+photos_search_type_filterable_iface_init (PhotosFilterableInterface *iface)
 {
   iface->get_filter = photos_search_type_get_filter;
   iface->get_id = photos_search_type_get_id;
