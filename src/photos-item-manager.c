@@ -90,8 +90,11 @@ enum
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
+static void photos_item_manager_list_model_iface_init (GListModelInterface *iface);
 
-G_DEFINE_TYPE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER);
+
+G_DEFINE_TYPE_WITH_CODE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER,
+                         G_IMPLEMENT_INTERFACE (G_TYPE_LIST_MODEL, photos_item_manager_list_model_iface_init));
 EGG_DEFINE_COUNTER (instances, "PhotosItemManager", "Instances", "Number of PhotosItemManager instances")
 
 
@@ -327,6 +330,35 @@ photos_item_manager_get_active_object (PhotosBaseManager *mngr)
 }
 
 
+static gpointer
+photos_item_manager_get_item (GListModel *list, guint position)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (list);
+  gpointer item;
+
+  item = g_list_model_get_item (G_LIST_MODEL (self->item_mngr_chldrn[0]), position);
+  return item;
+}
+
+
+static GType
+photos_item_manager_get_item_type (GListModel *list)
+{
+  return PHOTOS_TYPE_BASE_ITEM;
+}
+
+
+static guint
+photos_item_manager_get_n_items (GListModel *list)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (list);
+  guint n_items;
+
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (self->item_mngr_chldrn[0]));
+  return n_items;
+}
+
+
 static GObject *
 photos_item_manager_get_object_by_id (PhotosBaseManager *mngr, const gchar *id)
 {
@@ -334,17 +366,6 @@ photos_item_manager_get_object_by_id (PhotosBaseManager *mngr, const gchar *id)
   GObject *ret_val;
 
   ret_val = photos_base_manager_get_object_by_id (self->item_mngr_chldrn[0], id);
-  return ret_val;
-}
-
-
-static GHashTable *
-photos_item_manager_get_objects (PhotosBaseManager *mngr)
-{
-  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
-  GHashTable *ret_val;
-
-  ret_val = photos_base_manager_get_objects (self->item_mngr_chldrn[0]);
   return ret_val;
 }
 
@@ -683,7 +704,6 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   base_manager_class->get_active_object = photos_item_manager_get_active_object;
   base_manager_class->get_where = photos_item_manager_get_where;
   base_manager_class->get_object_by_id = photos_item_manager_get_object_by_id;
-  base_manager_class->get_objects = photos_item_manager_get_objects;
   base_manager_class->set_active_object = photos_item_manager_set_active_object;
   base_manager_class->remove_object_by_id = photos_item_manager_remove_object_by_id;
 
@@ -759,6 +779,15 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
                                                2,
                                                PHOTOS_TYPE_WINDOW_MODE,
                                                PHOTOS_TYPE_WINDOW_MODE);
+}
+
+
+static void
+photos_item_manager_list_model_iface_init (GListModelInterface *iface)
+{
+  iface->get_item = photos_item_manager_get_item;
+  iface->get_item_type = photos_item_manager_get_item_type;
+  iface->get_n_items = photos_item_manager_get_n_items;
 }
 
 
@@ -877,11 +906,9 @@ photos_item_manager_add_item_for_mode (PhotosItemManager *self, PhotosWindowMode
 void
 photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
 {
-  GHashTable *items;
-  GHashTableIter iter;
-  PhotosBaseItem *item;
   PhotosBaseManager *item_mngr_chld;
-  const gchar *id;
+  guint i;
+  guint n_items;
 
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
@@ -889,13 +916,16 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
 
   item_mngr_chld = self->item_mngr_chldrn[mode];
-  items = photos_base_manager_get_objects (item_mngr_chld);
-
-  g_hash_table_iter_init (&iter, items);
-  while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &item))
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (item_mngr_chld));
+  for (i = 0; i < n_items; i++)
     {
+      PhotosBaseItem *item;
       PhotosBaseItem *item1 = NULL;
+      const gchar *id;
       guint j;
+
+      item = PHOTOS_BASE_ITEM (g_list_model_get_object (G_LIST_MODEL (item_mngr_chld), i));
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
 
       for (j = 1; self->item_mngr_chldrn[j] != NULL; j++)
         {
@@ -914,6 +944,8 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
 
           photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[0], id);
         }
+
+      g_object_unref (item);
     }
 
   photos_base_manager_clear (item_mngr_chld);

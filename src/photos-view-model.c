@@ -156,16 +156,20 @@ photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
 static void
 photos_view_model_clear (PhotosViewModel *self)
 {
-  GHashTable *items;
-  GHashTableIter iter;
-  PhotosBaseItem *item;
+  guint i;
+  guint n_items;
 
   g_return_if_fail (self->item_mngr != NULL);
 
-  items = photos_base_manager_get_objects (self->item_mngr);
-  g_hash_table_iter_init (&iter, items);
-  while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &item))
-    g_object_set_data (G_OBJECT (item), self->row_ref_key, NULL);
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (self->item_mngr));
+  for (i = 0; i < n_items; i++)
+    {
+      PhotosBaseItem *item;
+
+      item = PHOTOS_BASE_ITEM (g_list_model_get_object (G_LIST_MODEL (self->item_mngr), i));
+      g_object_set_data (G_OBJECT (item), self->row_ref_key, NULL);
+      g_object_unref (item);
+    }
 
   gtk_list_store_clear (GTK_LIST_STORE (self));
 

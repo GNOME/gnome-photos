@@ -20,11 +20,13 @@
 
 /* Based on code from:
  *   + Documents
+ *   + GLib
  */
 
 
 #include "config.h"
 
+#include <gio/gio.h>
 #include <glib.h>
 
 #include "photos-base-manager.h"
@@ -35,8 +37,11 @@ struct _PhotosBaseManagerPrivate
 {
   GHashTable *objects;
   GObject *active_object;
+  GSequence *sequence;
+  GSequenceIter *last_iter;
   gchar *action_id;
   gchar *title;
+  guint last_position;
 };
 
 enum
@@ -57,8 +62,58 @@ enum
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
+static void photos_base_manager_list_model_iface_init (GListModelInterface *iface);
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosBaseManager, photos_base_manager, G_TYPE_OBJECT);
+
+G_DEFINE_TYPE_WITH_CODE (PhotosBaseManager, photos_base_manager, G_TYPE_OBJECT,
+                         G_ADD_PRIVATE (PhotosBaseManager)
+                         G_IMPLEMENT_INTERFACE (G_TYPE_LIST_MODEL, photos_base_manager_list_model_iface_init));
+
+
+typedef struct _PhotosBaseManagerObjectData PhotosBaseManagerObjectData;
+
+struct _PhotosBaseManagerObjectData
+{
+  GObject *object;
+  GSequenceIter *iter;
+};
+
+
+static PhotosBaseManagerObjectData *
+photos_base_manager_object_data_new (GObject *object, GSequenceIter *iter)
+{
+  PhotosBaseManagerObjectData *object_data;
+
+  object_data = g_slice_new0 (PhotosBaseManagerObjectData);
+  object_data->object = g_object_ref (object);
+  object_data->iter = iter;
+  return object_data;
+}
+
+
+static void
+photos_base_manager_object_data_free (PhotosBaseManagerObjectData *object_data)
+{
+  g_object_unref (object_data->object);
+  g_slice_free (PhotosBaseManagerObjectData, object_data);
+}
+
+
+static void
+photos_base_manager_objects_changed (PhotosBaseManager *self, guint position, guint removed, guint added)
+{
+  PhotosBaseManagerPrivate *priv;
+
+  priv = photos_base_manager_get_instance_private (self);
+
+  if (position <= priv->last_position)
+    {
+      priv->last_iter = NULL;
+      priv->last_position = G_MAXUINT;
+    }
+
+  g_list_model_items_changed (G_LIST_MODEL (self), position, removed, added);
+}
 
 
 static void
@@ -66,7 +121,10 @@ photos_base_manager_default_add_object (PhotosBaseManager *self, GObject *object
 {
   PhotosBaseManagerPrivate *priv;
   GObject *old_object;
+  GSequenceIter *iter;
+  PhotosBaseManagerObjectData *object_data;
   const gchar *id;
+  guint position;
 
   priv = photos_base_manager_get_instance_private (self);
 
@@ -75,7 +133,13 @@ photos_base_manager_default_add_object (PhotosBaseManager *self, GObject *object
   if (old_object != NULL)
     return;
 
-  g_hash_table_insert (priv->objects, g_strdup (id), g_object_ref (object));
+  position = photos_base_manager_get_objects_count (self);
+  iter = g_sequence_append (priv->sequence, g_object_ref (object));
+
+  object_data = photos_base_manager_object_data_new (object, iter);
+  g_hash_table_insert (priv->objects, g_strdup (id), object_data);
+
+  photos_base_manager_objects_changed (self, position, 0, 1);
   g_signal_emit (self, signals[OBJECT_ADDED], 0, object);
 }
 
@@ -101,22 +165,19 @@ static GObject *
 photos_base_manager_default_get_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
   PhotosBaseManagerPrivate *priv;
-  GObject *ret_val;
+  GObject *ret_val = NULL;
+  PhotosBaseManagerObjectData *object_data;
 
   priv = photos_base_manager_get_instance_private (self);
 
-  ret_val = g_hash_table_lookup (priv->objects, id);
+  object_data = g_hash_table_lookup (priv->objects, id);
+  if (object_data == NULL)
+    goto out;
+
+  ret_val = object_data->object;
+
+ out:
   return ret_val;
-}
-
-
-static GHashTable *
-photos_base_manager_default_get_objects (PhotosBaseManager *self)
-{
-  PhotosBaseManagerPrivate *priv;
-
-  priv = photos_base_manager_get_instance_private (self);
-  return priv->objects;
 }
 
 
@@ -132,16 +193,24 @@ photos_base_manager_default_remove_object_by_id (PhotosBaseManager *self, const 
 {
   PhotosBaseManagerPrivate *priv;
   GObject *object;
+  PhotosBaseManagerObjectData *object_data;
+  guint position;
 
   priv = photos_base_manager_get_instance_private (self);
 
-  object = g_hash_table_lookup (priv->objects, id);
-  if (object == NULL)
+  object_data = g_hash_table_lookup (priv->objects, id);
+  if (object_data == NULL)
     return;
 
-  g_object_ref (object);
+  position = g_sequence_iter_get_position (object_data->iter);
+  g_sequence_remove (object_data->iter);
+
+  object = g_object_ref (object_data->object);
   g_hash_table_remove (priv->objects, id);
+
+  photos_base_manager_objects_changed (self, position, 1, 0);
   g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
+
   g_object_unref (object);
 }
 
@@ -161,6 +230,60 @@ photos_base_manager_default_set_active_object (PhotosBaseManager *self, GObject 
 }
 
 
+static gpointer
+photos_base_manager_get_item (GListModel *list, guint position)
+{
+  PhotosBaseManager *self = PHOTOS_BASE_MANAGER (list);
+  PhotosBaseManagerPrivate *priv;
+  GSequenceIter *iter = NULL;
+  gpointer ret_val = NULL;
+
+  priv = photos_base_manager_get_instance_private (self);
+
+  if (priv->last_position != G_MAXUINT)
+    {
+      if (priv->last_position == position + 1)
+        iter = g_sequence_iter_prev (priv->last_iter);
+      else if (priv->last_position == position - 1)
+        iter = g_sequence_iter_next (priv->last_iter);
+      else if (priv->last_position == position)
+        iter = priv->last_iter;
+    }
+
+  if (iter == NULL)
+    iter = g_sequence_get_iter_at_pos (priv->sequence, position);
+
+  priv->last_iter = iter;
+  priv->last_position = position;
+
+  if (g_sequence_iter_is_end (iter))
+    goto out;
+
+  ret_val = g_object_ref (g_sequence_get (iter));
+
+ out:
+  return ret_val;
+}
+
+
+static GType
+photos_base_manager_get_item_type (GListModel *list)
+{
+  return PHOTOS_TYPE_FILTERABLE;
+}
+
+
+static guint
+photos_base_manager_get_n_items (GListModel *list)
+{
+  PhotosBaseManager *self = PHOTOS_BASE_MANAGER (list);
+  guint count;
+
+  count = photos_base_manager_get_objects_count (self);
+  return count;
+}
+
+
 static void
 photos_base_manager_dispose (GObject *object)
 {
@@ -176,6 +299,7 @@ photos_base_manager_dispose (GObject *object)
     }
 
   g_clear_object (&priv->active_object);
+  g_clear_pointer (&priv->sequence, (GDestroyNotify) g_sequence_free);
 
   G_OBJECT_CLASS (photos_base_manager_parent_class)->dispose (object);
 }
@@ -227,7 +351,12 @@ photos_base_manager_init (PhotosBaseManager *self)
   PhotosBaseManagerPrivate *priv;
 
   priv = photos_base_manager_get_instance_private (self);
-  priv->objects = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+  priv->objects = g_hash_table_new_full (g_str_hash,
+                                         g_str_equal,
+                                         g_free,
+                                         (GDestroyNotify) photos_base_manager_object_data_free);
+  priv->sequence = g_sequence_new (g_object_unref);
+  priv->last_position = G_MAXUINT;
 }
 
 
@@ -243,7 +372,6 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   class->get_active_object = photos_base_manager_default_get_active_object;
   class->get_filter = photos_base_manager_default_get_filter;
   class->get_object_by_id = photos_base_manager_default_get_object_by_id;
-  class->get_objects = photos_base_manager_default_get_objects;
   class->get_where = photos_base_manager_default_get_where;
   class->remove_object_by_id = photos_base_manager_default_remove_object_by_id;
   class->set_active_object = photos_base_manager_default_set_active_object;
@@ -309,6 +437,15 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
 }
 
 
+static void
+photos_base_manager_list_model_iface_init (GListModelInterface *iface)
+{
+  iface->get_item = photos_base_manager_get_item;
+  iface->get_item_type = photos_base_manager_get_item_type;
+  iface->get_n_items = photos_base_manager_get_n_items;
+}
+
+
 PhotosBaseManager *
 photos_base_manager_new (void)
 {
@@ -330,13 +467,24 @@ void
 photos_base_manager_clear (PhotosBaseManager *self)
 {
   PhotosBaseManagerPrivate *priv;
+  GSequenceIter *begin_iter;
+  GSequenceIter *end_iter;
+  guint count;
 
   g_return_if_fail (PHOTOS_IS_BASE_MANAGER (self));
 
   priv = photos_base_manager_get_instance_private (self);
 
+  count = photos_base_manager_get_objects_count (self);
+
+  begin_iter = g_sequence_get_begin_iter (priv->sequence);
+  end_iter = g_sequence_get_end_iter (priv->sequence);
+  g_sequence_remove_range (begin_iter, end_iter);
+
   g_hash_table_remove_all (priv->objects);
   g_clear_object (&priv->active_object);
+
+  photos_base_manager_objects_changed (self, 0, count, 0);
   g_signal_emit (self, signals[CLEAR], 0);
 }
 
@@ -366,7 +514,7 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
 {
   PhotosBaseManagerPrivate *priv;
   GHashTableIter iter;
-  GObject *object;
+  PhotosBaseManagerObjectData *object_data;
   const gchar *blank = "(true)";
   const gchar *id;
   gchar *filter;
@@ -384,13 +532,13 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
 
   i = 0;
   g_hash_table_iter_init (&iter, priv->objects);
-  while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &object))
+  while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &object_data))
     {
       if (g_strcmp0 (id, "all") != 0)
         {
           gchar *str;
 
-          str = photos_filterable_get_filter (PHOTOS_FILTERABLE (object));
+          str = photos_filterable_get_filter (PHOTOS_FILTERABLE (object_data->object));
           if (g_strcmp0 (str, blank) == 0)
             g_free (str);
           else
@@ -431,14 +579,6 @@ photos_base_manager_get_object_by_id (PhotosBaseManager *self, const gchar *id)
   g_return_val_if_fail (id != NULL && id[0] != '\0', NULL);
 
   return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_object_by_id (self, id);
-}
-
-
-GHashTable *
-photos_base_manager_get_objects (PhotosBaseManager *self)
-{
-  g_return_val_if_fail (PHOTOS_IS_BASE_MANAGER (self), NULL);
-  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_objects (self);
 }
 
 
@@ -484,6 +624,7 @@ photos_base_manager_process_new_objects (PhotosBaseManager *self, GHashTable *ne
   GObject *object;
   GSList *l;
   GSList *removed_ids = NULL;
+  PhotosBaseManagerObjectData *object_data;
   const gchar *id;
 
   g_return_if_fail (PHOTOS_IS_BASE_MANAGER (self));
@@ -491,14 +632,14 @@ photos_base_manager_process_new_objects (PhotosBaseManager *self, GHashTable *ne
   priv = photos_base_manager_get_instance_private (self);
 
   g_hash_table_iter_init (&iter, priv->objects);
-  while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &object))
+  while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &object_data))
     {
       gboolean builtin;
 
       /* If old objects are not found in the newer hash table, remove
        * them.
        */
-      builtin = photos_filterable_get_builtin (PHOTOS_FILTERABLE (object));
+      builtin = photos_filterable_get_builtin (PHOTOS_FILTERABLE (object_data->object));
       if (g_hash_table_lookup (new_objects, id) == NULL && !builtin)
         removed_ids = g_slist_prepend (removed_ids, g_strdup (id));
     }

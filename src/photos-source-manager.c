@@ -25,6 +25,7 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <goa/goa.h>
@@ -207,17 +208,17 @@ photos_source_manager_new (void)
 GList *
 photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gchar *provider_type)
 {
-  GHashTable *sources;
-  GHashTableIter iter;
   GList *items = NULL;
-  PhotosSource *source;
+  guint i;
+  guint n_items;
 
-  sources = photos_base_manager_get_objects (PHOTOS_BASE_MANAGER (self));
-  g_hash_table_iter_init (&iter, sources);
-  while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &source))
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (self));
+  for (i = 0; i < n_items; i++)
     {
       GoaObject *object;
+      PhotosSource *source;
 
+      source = PHOTOS_SOURCE (g_list_model_get_object (G_LIST_MODEL (self), i));
       object = photos_source_get_goa_object (source);
       if (object != NULL)
         {
@@ -227,6 +228,8 @@ photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gc
           if (g_strcmp0 (goa_account_get_provider_type (account), provider_type) == 0)
             items = g_list_prepend (items, g_object_ref (source));
         }
+
+      g_object_unref (source);
     }
 
   return items;
@@ -236,25 +239,28 @@ photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gc
 gboolean
 photos_source_manager_has_online_sources (PhotosSourceManager *self)
 {
-  GHashTable *sources;
-  GHashTableIter iter;
-  PhotosSource *source;
+  PhotosSource *source = NULL;
   gboolean ret_val = FALSE;
+  guint i;
+  guint n_items;
 
-  sources = photos_base_manager_get_objects (PHOTOS_BASE_MANAGER (self));
-  g_hash_table_iter_init (&iter, sources);
-  while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &source))
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (self));
+  for (i = 0; i < n_items; i++)
     {
       GoaObject *object;
 
+      source = PHOTOS_SOURCE (g_list_model_get_object (G_LIST_MODEL (self), i));
       object = photos_source_get_goa_object (source);
       if (object != NULL)
         {
           ret_val = TRUE;
           break;
         }
+
+      g_clear_object (&source);
     }
 
+  g_clear_object (&source);
   return ret_val;
 }
 

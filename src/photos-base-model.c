@@ -78,13 +78,11 @@ photos_base_model_active_changed (PhotosBaseModel *self, GObject *active_object)
 static void
 photos_base_model_refresh (PhotosBaseModel *self)
 {
-  GHashTable *objects;
-  GHashTableIter hash_iter;
   GMenu *section;
-  GObject *object;
   const gchar *action_id;
-  const gchar *id;
   const gchar *title;
+  guint i;
+  guint n_items;
 
   g_menu_remove_all (self->model);
 
@@ -94,15 +92,17 @@ photos_base_model_refresh (PhotosBaseModel *self)
   section = g_menu_new ();
   g_menu_append_section (self->model, title, G_MENU_MODEL (section));
 
-  objects = photos_base_manager_get_objects (self->mngr);
-
-  g_hash_table_iter_init (&hash_iter, objects);
-  while (g_hash_table_iter_next (&hash_iter, (gpointer *) &id, (gpointer *) &object))
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (self->mngr));
+  for (i = 0; i < n_items; i++)
     {
       GMenuItem *menu_item;
+      GObject *object;
       GVariant *target_value;
+      const gchar *id;
       gchar *name;
 
+      object = g_list_model_get_object (G_LIST_MODEL (self->mngr), i);
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
       g_object_get (object, "name", &name, NULL);
 
       menu_item = g_menu_item_new (name, NULL);
@@ -112,6 +112,7 @@ photos_base_model_refresh (PhotosBaseModel *self)
 
       g_free (name);
       g_object_unref (menu_item);
+      g_object_unref (object);
     }
 
   g_object_unref (section);

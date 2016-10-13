@@ -25,6 +25,7 @@
 
 #include "config.h"
 
+#include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 
@@ -59,8 +60,6 @@ static gchar *
 photos_search_match_manager_get_filter (PhotosBaseManager *mngr, gint flags)
 {
   PhotosSearchMatchManager *self = PHOTOS_SEARCH_MATCH_MANAGER (mngr);
-  GHashTable *objects;
-  PhotosSearchMatch *search_match;
   const gchar *blank = "(true)";
   gchar *filter = NULL;
   gchar *ret_val = NULL;
@@ -77,17 +76,22 @@ photos_search_match_manager_get_filter (PhotosBaseManager *mngr, gint flags)
   if (n_terms == 0)
     goto out;
 
-  objects = photos_base_manager_get_objects (PHOTOS_BASE_MANAGER (self));
   filters = (gchar **) g_malloc0_n (n_terms + 1, sizeof (gchar *));
 
   for (i = 0; terms[i] != NULL; i++)
     {
-      GHashTableIter iter;
+      PhotosSearchMatch *search_match;
       const gchar *id;
+      guint j;
+      guint n_items;
 
-      g_hash_table_iter_init (&iter, objects);
-      while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &search_match))
-        photos_search_match_set_filter_term (search_match, terms[i]);
+      n_items = g_list_model_get_n_items (G_LIST_MODEL (self));
+      for (j = 0; j < n_items; j++)
+        {
+          search_match = PHOTOS_SEARCH_MATCH (g_list_model_get_object (G_LIST_MODEL (self), j));
+          photos_search_match_set_filter_term (search_match, terms[i]);
+          g_object_unref (search_match);
+        }
 
       search_match = PHOTOS_SEARCH_MATCH (photos_base_manager_get_active_object (PHOTOS_BASE_MANAGER (self)));
       id = photos_filterable_get_id (PHOTOS_FILTERABLE (search_match));

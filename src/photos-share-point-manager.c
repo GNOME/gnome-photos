@@ -86,11 +86,10 @@ static void
 photos_share_point_manager_refresh_share_points (PhotosSharePointManager *self)
 {
   GHashTable *new_share_points;
-  GHashTable *sources;
-  GHashTableIter iter;
   GList *extensions;
   GList *l;
-  PhotosSource *source;
+  guint i;
+  guint n_items;
 
   new_share_points = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
@@ -128,13 +127,13 @@ photos_share_point_manager_refresh_share_points (PhotosSharePointManager *self)
       g_object_unref (share_point);
     }
 
-  sources = photos_base_manager_get_objects (self->src_mngr);
-
-  g_hash_table_iter_init (&iter, sources);
-  while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &source))
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (self->src_mngr));
+  for (i = 0; i < n_items; i++)
     {
       PhotosSharePoint *share_point = NULL;
+      PhotosSource *source;
 
+      source = PHOTOS_SOURCE (g_list_model_get_object (G_LIST_MODEL (self->src_mngr), i));
       share_point = photos_share_point_manager_create_share_point_online (self, source);
       if (share_point != NULL)
         {
@@ -145,6 +144,7 @@ photos_share_point_manager_refresh_share_points (PhotosSharePointManager *self)
         }
 
       g_clear_object (&share_point);
+      g_object_unref (source);
     }
 
   photos_base_manager_process_new_objects (PHOTOS_BASE_MANAGER (self), new_share_points);
@@ -256,12 +256,10 @@ photos_share_point_manager_can_share (PhotosSharePointManager *self, PhotosBaseI
 GList *
 photos_share_point_manager_get_for_item (PhotosSharePointManager *self, PhotosBaseItem *item)
 {
-  GHashTable *share_points;
-  GHashTableIter iter;
   GList *ret_val = NULL;
-  PhotosSharePoint *share_point;
   const gchar *resource_urn;
-  const gchar *share_point_id;
+  guint i;
+  guint n_items;
 
   g_return_val_if_fail (PHOTOS_IS_SHARE_POINT_MANAGER (self), FALSE);
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (item), FALSE);
@@ -270,13 +268,20 @@ photos_share_point_manager_get_for_item (PhotosSharePointManager *self, PhotosBa
     goto out;
 
   resource_urn = photos_base_item_get_resource_urn (item);
-  share_points = photos_base_manager_get_objects (PHOTOS_BASE_MANAGER (self));
 
-  g_hash_table_iter_init (&iter, share_points);
-  while (g_hash_table_iter_next (&iter, (gpointer *) &share_point_id, (gpointer *) &share_point))
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (self));
+  for (i = 0; i < n_items; i++)
     {
+      PhotosSharePoint *share_point;
+      const gchar *share_point_id;
+
+      share_point = PHOTOS_SHARE_POINT (g_list_model_get_object (G_LIST_MODEL (self), i));
+      share_point_id = photos_filterable_get_id (PHOTOS_FILTERABLE (share_point));
+
       if (g_strcmp0 (resource_urn, share_point_id) != 0)
         ret_val = g_list_prepend (ret_val, g_object_ref (share_point));
+
+      g_object_unref (share_point);
     }
 
  out:

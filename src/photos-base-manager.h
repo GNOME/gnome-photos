@@ -43,7 +43,6 @@ struct _PhotosBaseManagerClass
   GObject       *(*get_active_object)      (PhotosBaseManager *self);
   gchar         *(*get_filter)             (PhotosBaseManager *self, gint flags);
   GObject       *(*get_object_by_id)       (PhotosBaseManager *self, const gchar *id);
-  GHashTable    *(*get_objects)            (PhotosBaseManager *self);
   gchar         *(*get_where)              (PhotosBaseManager *self, gint flags);
   void           (*remove_object_by_id)    (PhotosBaseManager *self, const gchar *id);
   gboolean       (*set_active_object)      (PhotosBaseManager *self, GObject *object);
@@ -70,8 +69,6 @@ gchar              *photos_base_manager_get_all_filter           (PhotosBaseMana
 gchar              *photos_base_manager_get_filter               (PhotosBaseManager *self, gint flags);
 
 GObject            *photos_base_manager_get_object_by_id         (PhotosBaseManager *self, const gchar *id);
-
-GHashTable         *photos_base_manager_get_objects              (PhotosBaseManager *self);
 
 guint               photos_base_manager_get_objects_count        (PhotosBaseManager *self);
 
