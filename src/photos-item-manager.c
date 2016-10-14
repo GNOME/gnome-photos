@@ -774,6 +774,8 @@ photos_item_manager_activate_previous_collection (PhotosItemManager *self)
 {
   gpointer *collection;
 
+  g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+
   photos_item_manager_clear_active_item_load (self);
 
   collection = g_queue_pop_head (self->collection_path);
@@ -928,6 +930,9 @@ photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *c
   gchar *identifier = NULL;
   gchar **split_identifier = NULL;
 
+  g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), NULL);
+  g_return_val_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor), NULL);
+
   identifier = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL));
   if (identifier == NULL)
     goto final;
@@ -970,6 +975,7 @@ photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *c
 PhotosBaseItem *
 photos_item_manager_get_active_collection (PhotosItemManager *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), NULL);
   return self->active_collection;
 }
 
@@ -977,6 +983,7 @@ photos_item_manager_get_active_collection (PhotosItemManager *self)
 GHashTable *
 photos_item_manager_get_collections (PhotosItemManager *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), NULL);
   return self->collections;
 }
 
@@ -984,6 +991,7 @@ photos_item_manager_get_collections (PhotosItemManager *self)
 PhotosBaseManager *
 photos_item_manager_get_for_mode (PhotosItemManager *self, PhotosWindowMode mode)
 {
+  g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), NULL);
   g_return_val_if_fail (mode != PHOTOS_WINDOW_MODE_NONE, NULL);
   g_return_val_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT, NULL);
   g_return_val_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW, NULL);
@@ -995,6 +1003,7 @@ photos_item_manager_get_for_mode (PhotosItemManager *self, PhotosWindowMode mode
 PhotosLoadState
 photos_item_manager_get_load_state (PhotosItemManager *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), PHOTOS_LOAD_STATE_NONE);
   return self->load_state;
 }
 
@@ -1079,6 +1088,7 @@ photos_item_manager_wait_for_changes_async (PhotosItemManager *self,
 
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_item_manager_wait_for_changes_async);
@@ -1120,6 +1130,7 @@ photos_item_manager_wait_for_changes_finish (PhotosItemManager *self, GAsyncResu
 gboolean
 photos_mode_controller_get_can_fullscreen (PhotosModeController *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_MODE_CONTROLLER (self), FALSE);
   return self->mode == PHOTOS_WINDOW_MODE_PREVIEW;
 }
 
@@ -1127,6 +1138,7 @@ photos_mode_controller_get_can_fullscreen (PhotosModeController *self)
 gboolean
 photos_mode_controller_get_fullscreen (PhotosModeController *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_MODE_CONTROLLER (self), FALSE);
   return self->fullscreen;
 }
 
@@ -1134,6 +1146,7 @@ photos_mode_controller_get_fullscreen (PhotosModeController *self)
 PhotosWindowMode
 photos_mode_controller_get_window_mode (PhotosModeController *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_MODE_CONTROLLER (self), PHOTOS_WINDOW_MODE_NONE);
   return self->mode;
 }
 
@@ -1144,6 +1157,7 @@ photos_mode_controller_go_back (PhotosModeController *self)
   PhotosWindowMode old_mode;
   PhotosWindowMode tmp;
 
+  g_return_if_fail (PHOTOS_IS_MODE_CONTROLLER (self));
   g_return_if_fail (!g_queue_is_empty (self->history));
 
   old_mode = (PhotosWindowMode) GPOINTER_TO_INT (g_queue_peek_head (self->history));
@@ -1203,6 +1217,7 @@ photos_mode_controller_go_back (PhotosModeController *self)
 void
 photos_mode_controller_toggle_fullscreen (PhotosModeController *self)
 {
+  g_return_if_fail (PHOTOS_IS_MODE_CONTROLLER (self));
   photos_mode_controller_set_fullscreen (self, !self->fullscreen);
 }
 
@@ -1210,6 +1225,8 @@ photos_mode_controller_toggle_fullscreen (PhotosModeController *self)
 void
 photos_mode_controller_set_fullscreen (PhotosModeController *self, gboolean fullscreen)
 {
+  g_return_if_fail (PHOTOS_IS_MODE_CONTROLLER (self));
+
   if (self->fullscreen == fullscreen)
     return;
 
@@ -1224,6 +1241,7 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
   PhotosWindowMode old_mode;
   gboolean active_collection_changed = FALSE;
 
+  g_return_if_fail (PHOTOS_IS_MODE_CONTROLLER (self));
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
 
