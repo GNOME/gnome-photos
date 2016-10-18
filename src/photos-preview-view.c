@@ -40,6 +40,7 @@
 #include "photos-operation-insta-common.h"
 #include "photos-preview-nav-buttons.h"
 #include "photos-preview-view.h"
+#include "photos-properties-sidebar.h"
 #include "photos-search-context.h"
 #include "photos-tool.h"
 #include "photos-utils.h"
@@ -56,7 +57,9 @@ struct _PhotosPreviewView
   GCancellable *cancellable;
   GeglNode *node;
   GtkWidget *palette;
+  GtkWidget *properties;
   GtkWidget *edit_revealer;
+  GtkWidget *properties_revealer;
   GtkWidget *stack;
   PhotosBaseManager *item_mngr;
   PhotosGestureZoom *gesture_zoom;
@@ -1268,6 +1271,13 @@ photos_preview_view_init (PhotosPreviewView *self)
   self->edit_revealer = gtk_revealer_new ();
   gtk_revealer_set_transition_type (GTK_REVEALER (self->edit_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_LEFT);
   gtk_container_add (GTK_CONTAINER (grid), self->edit_revealer);
+
+  self->properties_revealer = gtk_revealer_new ();
+  gtk_revealer_set_transition_type (GTK_REVEALER (self->properties_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_LEFT);
+  gtk_container_add (GTK_CONTAINER (grid), self->properties_revealer);
+
+  self->properties = photos_properties_sidebar_new ();
+  gtk_container_add (GTK_CONTAINER (self->properties_revealer), self->properties);
 
   sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
