@@ -56,7 +56,7 @@ struct _PhotosPreviewView
   GCancellable *cancellable;
   GeglNode *node;
   GtkWidget *palette;
-  GtkWidget *revealer;
+  GtkWidget *edit_revealer;
   GtkWidget *stack;
   PhotosBaseManager *item_mngr;
   PhotosGestureZoom *gesture_zoom;
@@ -879,20 +879,20 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
-      gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer), FALSE);
+      gtk_revealer_set_reveal_child (GTK_REVEALER (self->edit_revealer), FALSE);
       photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (self->palette));
       photos_preview_nav_buttons_hide (self->nav_buttons);
       photos_preview_nav_buttons_set_mode (self->nav_buttons, PHOTOS_WINDOW_MODE_NONE);
       break;
 
     case PHOTOS_WINDOW_MODE_EDIT:
-      gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer), TRUE);
+      gtk_revealer_set_reveal_child (GTK_REVEALER (self->edit_revealer), TRUE);
       photos_edit_palette_show (PHOTOS_EDIT_PALETTE (self->palette));
       photos_preview_nav_buttons_hide (self->nav_buttons);
       break;
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
-      gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer), FALSE);
+      gtk_revealer_set_reveal_child (GTK_REVEALER (self->edit_revealer), FALSE);
       photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (self->palette));
       photos_preview_nav_buttons_set_auto_hide (self->nav_buttons, TRUE);
       photos_preview_nav_buttons_set_show_navigation (self->nav_buttons, TRUE);
@@ -1265,14 +1265,14 @@ photos_preview_view_init (PhotosPreviewView *self)
   view_container = photos_preview_view_create_view_with_container (self);
   gtk_container_add (GTK_CONTAINER (self->stack), view_container);
 
-  self->revealer = gtk_revealer_new ();
-  gtk_revealer_set_transition_type (GTK_REVEALER (self->revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_LEFT);
-  gtk_container_add (GTK_CONTAINER (grid), self->revealer);
+  self->edit_revealer = gtk_revealer_new ();
+  gtk_revealer_set_transition_type (GTK_REVEALER (self->edit_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_LEFT);
+  gtk_container_add (GTK_CONTAINER (grid), self->edit_revealer);
 
   sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
-  gtk_container_add (GTK_CONTAINER (self->revealer), sw);
+  gtk_container_add (GTK_CONTAINER (self->edit_revealer), sw);
 
   self->palette = photos_edit_palette_new ();
   gtk_widget_set_hexpand (self->palette, FALSE);
