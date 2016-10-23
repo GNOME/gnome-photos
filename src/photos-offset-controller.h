@@ -32,35 +32,9 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OFFSET_CONTROLLER (photos_offset_controller_get_type ())
+G_DECLARE_DERIVABLE_TYPE (PhotosOffsetController, photos_offset_controller, PHOTOS, OFFSET_CONTROLLER, GObject);
 
-#define PHOTOS_OFFSET_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OFFSET_CONTROLLER, PhotosOffsetController))
-
-#define PHOTOS_OFFSET_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_OFFSET_CONTROLLER, PhotosOffsetControllerClass))
-
-#define PHOTOS_IS_OFFSET_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OFFSET_CONTROLLER))
-
-#define PHOTOS_IS_OFFSET_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_OFFSET_CONTROLLER))
-
-#define PHOTOS_OFFSET_CONTROLLER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_OFFSET_CONTROLLER, PhotosOffsetControllerClass))
-
-typedef struct _PhotosOffsetController        PhotosOffsetController;
-typedef struct _PhotosOffsetControllerClass   PhotosOffsetControllerClass;
 typedef struct _PhotosOffsetControllerPrivate PhotosOffsetControllerPrivate;
-
-struct _PhotosOffsetController
-{
-  GObject parent_instance;
-};
 
 struct _PhotosOffsetControllerClass
 {
@@ -73,8 +47,6 @@ struct _PhotosOffsetControllerClass
   void (*count_changed)      (PhotosOffsetController *self, gint count);
   void (*offset_changed)     (PhotosOffsetController *self, gint offset);
 };
-
-GType                       photos_offset_controller_get_type           (void) G_GNUC_CONST;
 
 PhotosOffsetController *    photos_offset_controller_new                (void);
 
