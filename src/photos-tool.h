@@ -31,34 +31,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_TOOL (photos_tool_get_type ())
-
-#define PHOTOS_TOOL(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_TOOL, PhotosTool))
-
-#define PHOTOS_TOOL_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_TOOL, PhotosToolClass))
-
-#define PHOTOS_IS_TOOL(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_TOOL))
-
-#define PHOTOS_IS_TOOL_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_TOOL))
-
-#define PHOTOS_TOOL_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_TOOL, PhotosToolClass))
-
-typedef struct _PhotosTool      PhotosTool;
-typedef struct _PhotosToolClass PhotosToolClass;
-
-struct _PhotosTool
-{
-  GObject parent_instance;
-};
+G_DECLARE_DERIVABLE_TYPE (PhotosTool, photos_tool, PHOTOS, TOOL, GObject);
 
 struct _PhotosToolClass
 {
@@ -80,8 +53,6 @@ struct _PhotosToolClass
   void          (*activated)                  (PhotosTool *self);
   void          (*hide_requested)             (PhotosTool *self);
 };
-
-GType               photos_tool_get_type                (void) G_GNUC_CONST;
 
 void                photos_tool_activate                (PhotosTool *self,
                                                          PhotosBaseItem *item,
