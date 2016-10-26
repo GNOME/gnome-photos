@@ -30,35 +30,9 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SEARCHBAR (photos_searchbar_get_type ())
+G_DECLARE_DERIVABLE_TYPE (PhotosSearchbar, photos_searchbar, PHOTOS, SEARCHBAR, GtkRevealer);
 
-#define PHOTOS_SEARCHBAR(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SEARCHBAR, PhotosSearchbar))
-
-#define PHOTOS_SEARCHBAR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_SEARCHBAR, PhotosSearchbarClass))
-
-#define PHOTOS_IS_SEARCHBAR(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SEARCHBAR))
-
-#define PHOTOS_IS_SEARCHBAR_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_SEARCHBAR))
-
-#define PHOTOS_SEARCHBAR_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_SEARCHBAR, PhotosSearchbarClass))
-
-typedef struct _PhotosSearchbar        PhotosSearchbar;
-typedef struct _PhotosSearchbarClass   PhotosSearchbarClass;
 typedef struct _PhotosSearchbarPrivate PhotosSearchbarPrivate;
-
-struct _PhotosSearchbar
-{
-  GtkRevealer parent_instance;
-};
 
 struct _PhotosSearchbarClass
 {
@@ -73,8 +47,6 @@ struct _PhotosSearchbarClass
   /* signals */
   void (*activate_result) (PhotosSearchbar *self);
 };
-
-GType                photos_searchbar_get_type                      (void) G_GNUC_CONST;
 
 GtkWidget           *photos_searchbar_new                           (void);
 
