@@ -29,6 +29,7 @@
     <file alias="main-toolbar.ui" preprocess="xml-stripblanks" compressed="true">photos-main-toolbar.ui</file>
     <file alias="main-window.ui" preprocess="xml-stripblanks" compressed="true">photos-main-window.ui</file>
     <file alias="preview-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-preview-menu.ui</file>
+    <file alias="properties-sidebar.ui" preprocess="xml-stripblanks" compressed="true">photos-properties-sidebar.ui</file>
     <file alias="selection-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-selection-menu.ui</file>
     <file alias="selection-toolbar.ui" preprocess="xml-stripblanks" compressed="true">photos-selection-toolbar.ui</file>
     <file alias="share-dialog.ui" preprocess="xml-stripblanks" compressed="true">photos-share-dialog.ui</file>

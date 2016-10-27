@@ -30,6 +30,7 @@ src/photos-print-notification.c
 src/photos-print-operation.c
 src/photos-print-setup.c
 src/photos-properties-dialog.c
+src/photos-properties-sidebar.ui
 src/photos-search-match-manager.c
 src/photos-search-type-manager.c
 src/photos-selection-menu.ui
