@@ -56,6 +56,7 @@ struct _PhotosPreviewView
   GAction *zoom_out_action;
   GCancellable *cancellable;
   GeglNode *node;
+  GSettings *settings;
   GtkWidget *palette;
   GtkWidget *properties;
   GtkWidget *edit_revealer;
@@ -768,6 +769,14 @@ photos_preview_view_sharpen (PhotosPreviewView *self, GVariant *parameter)
                                         NULL);
 }
 
+static void
+photos_preview_set_properties_sidebar_visibility_from_settings (PhotosPreviewView *self)
+{
+  gboolean value;
+
+  value = g_settings_get_boolean (self->settings, "show-properties-sidebar");
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->properties_revealer), value);
+}
 
 static void
 photos_preview_view_tool_activated (PhotosTool *tool, gpointer user_data)
@@ -889,12 +898,14 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
       break;
 
     case PHOTOS_WINDOW_MODE_EDIT:
+      gtk_revealer_set_reveal_child (GTK_REVEALER (self->properties_revealer), FALSE);
       gtk_revealer_set_reveal_child (GTK_REVEALER (self->edit_revealer), TRUE);
       photos_edit_palette_show (PHOTOS_EDIT_PALETTE (self->palette));
       photos_preview_nav_buttons_hide (self->nav_buttons);
       break;
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
+      photos_preview_set_properties_sidebar_visibility_from_settings (self);
       gtk_revealer_set_reveal_child (GTK_REVEALER (self->edit_revealer), FALSE);
       photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (self->palette));
       photos_preview_nav_buttons_set_auto_hide (self->nav_buttons, TRUE);
@@ -1167,6 +1178,7 @@ photos_preview_view_dispose (GObject *object)
   g_clear_object (&self->gesture_zoom);
   g_clear_object (&self->mode_cntrlr);
   g_clear_object (&self->nav_buttons);
+  g_clear_object (&self->settings);
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->dispose (object);
 }
@@ -1278,6 +1290,11 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   self->properties = photos_properties_sidebar_new ();
   gtk_container_add (GTK_CONTAINER (self->properties_revealer), self->properties);
+  self->settings = g_settings_new ("org.gnome.photos");
+  g_signal_connect_swapped (self->settings,
+                            "changed::show-properties-sidebar",
+                            G_CALLBACK (photos_preview_set_properties_sidebar_visibility_from_settings),
+                            self);
 
   sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);

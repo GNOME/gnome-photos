@@ -1,6 +1,11 @@
 <schemalist gettext-domain="gnome-photos">
   <schema id="org.gnome.photos" path="/org/gnome/photos/">
-    <key name="window-size" type="ai">
+    <key name="show-properties-sidebar" type="b">
+      <default>false</default>
+      <summary>Show the properties sidebar</summary>
+      <description>Show the properties sidebar while viewing an image</description>
+    </key>
+      <key name="window-size" type="ai">
       <default>[960, 600]</default>
       <summary>Window size</summary>
       <description>Window size (width and height).</description>

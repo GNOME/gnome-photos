@@ -1798,8 +1798,10 @@ static void
 photos_application_startup (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
+  GAction *action;
   GError *error;
   GrlRegistry *registry;
+  GSettings *settings;
   GSimpleAction *simple_action;
   GtkIconTheme *icon_theme;
   GtkSettings *gtk_settings;
@@ -2039,6 +2041,11 @@ photos_application_startup (GApplication *application)
 
   self->zoom_out_action = g_simple_action_new ("zoom-out", G_VARIANT_TYPE_VARDICT);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_out_action));
+
+  settings = g_settings_new ("org.gnome.photos");
+  action = g_settings_create_action (G_SETTINGS (settings), "show-properties-sidebar");
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
+  g_clear_object (&settings);
 
   g_signal_connect_swapped (self->state->mode_cntrlr,
                             "window-mode-changed",
