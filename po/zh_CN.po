@@ -14,9 +14,9 @@ msgstr ""
 "Project-Id-Version: gnome-photos 3.22\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-10-12 18:14+0000\n"
-"PO-Revision-Date: 2016-10-30 00:15+0800\n"
-"Last-Translator: Dingzhong Chen <wsxy162@gmail.com>\n"
+"POT-Creation-Date: 2016-10-29 16:17+0000\n"
+"PO-Revision-Date: 2016-10-30 22:04+0800\n"
+"Last-Translator: Tong Hui <tonghuix@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -864,17 +864,14 @@ msgid "1947"
 msgstr "1947"
 
 #: ../src/photos-tool-filters.c:204
-#, fuzzy
 msgid "Calistoga"
 msgstr "卡利斯托加"
 
 #: ../src/photos-tool-filters.c:210
-#, fuzzy
 msgid "Mogadishu"
 msgstr "摩加迪沙"
 
 #: ../src/photos-tool-filters.c:217
-#, fuzzy
 msgid "Caap"
 msgstr "卡普"
 
