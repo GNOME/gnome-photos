@@ -127,7 +127,7 @@ static void
 photos_item_manager_hidden_item_free (PhotosItemManagerHiddenItem *hidden_item)
 {
   g_free (hidden_item->modes);
-  g_object_ref (hidden_item->item);
+  g_object_unref (hidden_item->item);
   g_slice_free (PhotosItemManagerHiddenItem, hidden_item);
 }
 
