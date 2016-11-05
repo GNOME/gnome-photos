@@ -895,14 +895,14 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
   while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &item))
     {
       PhotosBaseItem *item1 = NULL;
-      guint i;
+      guint j;
 
-      for (i = 1; self->item_mngr_chldrn[i] != NULL; i++)
+      for (j = 1; self->item_mngr_chldrn[j] != NULL; j++)
         {
-          if (item_mngr_chld == self->item_mngr_chldrn[i])
+          if (item_mngr_chld == self->item_mngr_chldrn[j])
             continue;
 
-          item1 = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr_chldrn[i], id));
+          item1 = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr_chldrn[j], id));
           if (item1 != NULL)
             break;
         }
