@@ -1,5 +1,5 @@
 AC_INIT([Photos],
-        [3.22.1],
+        [3.22.2],
         [https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos],
         [gnome-photos],
         [https://wiki.gnome.org/Apps/Photos])

@@ -1,3 +1,16 @@
+Overview of changes in 3.22.2
+=============================
+
+* Bugs fixed:
+ 770342 item-manager: Avoid CRITICALs when favouriting contents of collections
+ 772813 properties-dialog: Don't show the modification status for collections
+
+* Updated translations:
+ Simplified Chinese
+ Traditional Chinese (Taiwan)
+ Norwegian bokmål
+
+
 Overview of changes in 3.22.1
 =============================
 
