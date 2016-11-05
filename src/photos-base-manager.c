@@ -482,6 +482,8 @@ photos_base_manager_process_new_objects (PhotosBaseManager *self, GHashTable *ne
   PhotosBaseManagerPrivate *priv;
   GHashTableIter iter;
   GObject *object;
+  GSList *l;
+  GSList *removed_ids = NULL;
   const gchar *id;
 
   g_return_if_fail (PHOTOS_IS_BASE_MANAGER (self));
@@ -498,12 +500,16 @@ photos_base_manager_process_new_objects (PhotosBaseManager *self, GHashTable *ne
        */
       builtin = photos_filterable_get_builtin (PHOTOS_FILTERABLE (object));
       if (g_hash_table_lookup (new_objects, id) == NULL && !builtin)
-        {
-          g_object_ref (object);
-          g_hash_table_iter_remove (&iter);
-          g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
-          g_object_unref (object);
-        }
+        removed_ids = g_slist_prepend (removed_ids, g_strdup (id));
+    }
+
+  /* Calling photos_base_manager_remove_object_by_id invalidates the
+   * GHashTableIter, so we can't use it while iterating the GHashTable.
+   */
+  for (l = removed_ids; l != NULL; l = l->next)
+    {
+      id = (gchar *) l->data;
+      photos_base_manager_remove_object_by_id (self, id);
     }
 
   g_hash_table_iter_init (&iter, new_objects);
@@ -517,6 +523,8 @@ photos_base_manager_process_new_objects (PhotosBaseManager *self, GHashTable *ne
     }
 
   /* TODO: merge existing item properties with new values. */
+
+  g_slist_free_full (removed_ids, g_free);
 }
 
 
