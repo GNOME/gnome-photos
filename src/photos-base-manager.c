@@ -374,7 +374,7 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
   priv = photos_base_manager_get_instance_private (self);
 
   values = g_hash_table_get_values (priv->objects);
-  length = g_list_length (values);
+  length = photos_base_manager_get_objects_count (self);
   strv = (gchar **) g_malloc0_n (length + 1, sizeof (gchar *));
 
   for (i = 0, l = values; l != NULL; l = l->next)
