@@ -362,9 +362,10 @@ gchar *
 photos_base_manager_get_all_filter (PhotosBaseManager *self)
 {
   PhotosBaseManagerPrivate *priv;
-  GList *l;
-  GList *values;
+  GHashTableIter iter;
+  GObject *object;
   const gchar *blank = "(true)";
+  const gchar *id;
   gchar *filter;
   gchar **strv;
   gchar *tmp;
@@ -373,21 +374,18 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
 
   priv = photos_base_manager_get_instance_private (self);
 
-  values = g_hash_table_get_values (priv->objects);
   length = photos_base_manager_get_objects_count (self);
   strv = (gchar **) g_malloc0_n (length + 1, sizeof (gchar *));
 
-  for (i = 0, l = values; l != NULL; l = l->next)
+  i = 0;
+  g_hash_table_iter_init (&iter, priv->objects);
+  while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &object))
     {
-      PhotosFilterable *filterable = PHOTOS_FILTERABLE (l->data);
-      const gchar *id;
-
-      id = photos_filterable_get_id (filterable);
       if (g_strcmp0 (id, "all") != 0)
         {
           gchar *str;
 
-          str = photos_filterable_get_filter (filterable);
+          str = photos_filterable_get_filter (PHOTOS_FILTERABLE (object));
           if (g_strcmp0 (str, blank) == 0)
             g_free (str);
           else
@@ -409,7 +407,6 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
   filter = g_strconcat ("(", filter, ")", NULL);
   g_free (tmp);
 
-  g_list_free (values);
   return filter;
 }
 
