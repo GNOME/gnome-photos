@@ -479,16 +479,16 @@ photos_base_manager_get_where (PhotosBaseManager *self, gint flags)
 void
 photos_base_manager_process_new_objects (PhotosBaseManager *self, GHashTable *new_objects)
 {
-  GHashTable *old_objects;
+  PhotosBaseManagerPrivate *priv;
   GHashTableIter iter;
   GObject *object;
   const gchar *id;
 
   g_return_if_fail (PHOTOS_IS_BASE_MANAGER (self));
 
-  old_objects = photos_base_manager_get_objects (self);
+  priv = photos_base_manager_get_instance_private (self);
 
-  g_hash_table_iter_init (&iter, old_objects);
+  g_hash_table_iter_init (&iter, priv->objects);
   while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &object))
     {
       gboolean builtin;
@@ -512,7 +512,7 @@ photos_base_manager_process_new_objects (PhotosBaseManager *self, GHashTable *ne
       /* If new items are not found in the older hash table, add
        * them.
        */
-      if (g_hash_table_lookup (old_objects, id) == NULL)
+      if (g_hash_table_lookup (priv->objects, id) == NULL)
         photos_base_manager_add_object (self, object);
     }
 
