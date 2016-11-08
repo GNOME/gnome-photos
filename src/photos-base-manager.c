@@ -101,16 +101,11 @@ static GObject *
 photos_base_manager_default_get_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
   PhotosBaseManagerPrivate *priv;
-  GObject *ret_val = NULL;
+  GObject *ret_val;
 
   priv = photos_base_manager_get_instance_private (self);
 
-  if (id == NULL)
-    goto out;
-
   ret_val = g_hash_table_lookup (priv->objects, id);
-
- out:
   return ret_val;
 }
 
