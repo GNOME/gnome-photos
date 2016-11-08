@@ -135,7 +135,7 @@ photos_base_manager_default_remove_object_by_id (PhotosBaseManager *self, const 
 
   priv = photos_base_manager_get_instance_private (self);
 
-  object = photos_base_manager_get_object_by_id (self, id);
+  object = g_hash_table_lookup (priv->objects, id);
   if (object == NULL)
     return;
 
