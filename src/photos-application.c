@@ -1799,8 +1799,8 @@ photos_application_startup (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   GError *error;
-  GSimpleAction *action;
   GrlRegistry *registry;
+  GSimpleAction *simple_action;
   GtkIconTheme *icon_theme;
   GtkSettings *gtk_settings;
   GVariant *state;
@@ -1878,10 +1878,10 @@ photos_application_startup (GApplication *application)
                             G_CALLBACK (photos_application_selection_changed),
                             self);
 
-  action = g_simple_action_new ("about", NULL);
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_about), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  g_object_unref (action);
+  simple_action = g_simple_action_new ("about", NULL);
+  g_signal_connect_swapped (simple_action, "activate", G_CALLBACK (photos_application_about), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (simple_action));
+  g_object_unref (simple_action);
 
   parameter_type = g_variant_type_new ("a{sd}");
   self->blacks_exposure_action = g_simple_action_new ("blacks-exposure-current", parameter_type);
@@ -1961,15 +1961,15 @@ photos_application_startup (GApplication *application)
   g_signal_connect_swapped (self->properties_action, "activate", G_CALLBACK (photos_application_properties), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->properties_action));
 
-  action = g_simple_action_new ("quit", NULL);
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_quit), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  g_object_unref (action);
+  simple_action = g_simple_action_new ("quit", NULL);
+  g_signal_connect_swapped (simple_action, "activate", G_CALLBACK (photos_application_quit), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (simple_action));
+  g_object_unref (simple_action);
 
-  action = g_simple_action_new ("remote-display-current", NULL);
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_remote_display_current), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  g_object_unref (action);
+  simple_action = g_simple_action_new ("remote-display-current", NULL);
+  g_signal_connect_swapped (simple_action, "activate", G_CALLBACK (photos_application_remote_display_current), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (simple_action));
+  g_object_unref (simple_action);
 
   self->saturation_action = g_simple_action_new ("saturation-current", G_VARIANT_TYPE_DOUBLE);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->saturation_action));
@@ -2045,10 +2045,10 @@ photos_application_startup (GApplication *application)
                             G_CALLBACK (photos_application_window_mode_changed),
                             self);
 
-  action = g_simple_action_new ("help", NULL);
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_help), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  g_object_unref (action);
+  simple_action = g_simple_action_new ("help", NULL);
+  g_signal_connect_swapped (simple_action, "activate", G_CALLBACK (photos_application_help), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (simple_action));
+  g_object_unref (simple_action);
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.quit", quit_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.delete", delete_accels);
