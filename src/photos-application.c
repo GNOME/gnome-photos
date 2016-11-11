@@ -1582,13 +1582,13 @@ photos_application_stop_miners (PhotosApplication *self)
 
 
 static void
-photos_application_theme_changed (GtkSettings *settings)
+photos_application_theme_changed (GtkSettings *gtk_settings)
 {
   static GtkCssProvider *provider;
   GdkScreen *screen;
   gchar *theme;
 
-  g_object_get (settings, "gtk-theme-name", &theme, NULL);
+  g_object_get (gtk_settings, "gtk-theme-name", &theme, NULL);
   screen = gdk_screen_get_default ();
 
   if (g_strcmp0 (theme, "Adwaita") == 0)
@@ -1802,7 +1802,7 @@ photos_application_startup (GApplication *application)
   GSimpleAction *action;
   GrlRegistry *registry;
   GtkIconTheme *icon_theme;
-  GtkSettings *settings;
+  GtkSettings *gtk_settings;
   GVariant *state;
   GVariantType *parameter_type;
   const gchar *delete_accels[3] = {"Delete", "KP_Delete", NULL};
@@ -1860,10 +1860,10 @@ photos_application_startup (GApplication *application)
   icon_theme = gtk_icon_theme_get_default ();
   gtk_icon_theme_add_resource_path (icon_theme, "/org/gnome/Photos/icons");
 
-  settings = gtk_settings_get_default ();
-  g_object_set (settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
-  g_signal_connect (settings, "notify::gtk-theme-name", G_CALLBACK (photos_application_theme_changed), NULL);
-  photos_application_theme_changed (settings);
+  gtk_settings = gtk_settings_get_default ();
+  g_object_set (gtk_settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
+  g_signal_connect (gtk_settings, "notify::gtk-theme-name", G_CALLBACK (photos_application_theme_changed), NULL);
+  photos_application_theme_changed (gtk_settings);
 
   self->shr_pnt_mngr = photos_share_point_manager_dup_singleton ();
 
