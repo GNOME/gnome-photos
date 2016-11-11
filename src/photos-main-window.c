@@ -36,7 +36,6 @@
 #include "photos-preview-view.h"
 #include "photos-search-context.h"
 #include "photos-selection-controller.h"
-#include "photos-settings.h"
 
 
 struct _PhotosMainWindow
@@ -421,7 +420,7 @@ photos_main_window_init (PhotosMainWindow *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  self->settings = photos_settings_new ();
+  self->settings = g_settings_new ("org.gnome.photos");
 
   variant = g_settings_get_value (self->settings, "window-size");
   size = g_variant_get_fixed_array (variant, &n_elements, sizeof (gint32));
