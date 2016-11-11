@@ -54,7 +54,7 @@ struct _PhotosBaseManagerClass
   void           (*object_removed)         (PhotosBaseManager *self, GObject *object);
 };
 
-PhotosBaseManager  *photos_base_manager_new                      (void);
+PhotosBaseManager  *photos_base_manager_new                      (GCompareDataFunc sort_func, gpointer sort_data);
 
 void                photos_base_manager_add_object               (PhotosBaseManager *self, GObject *object);
 

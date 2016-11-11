@@ -681,7 +681,7 @@ photos_item_manager_init (PhotosItemManager *self)
   self->item_mngr_chldrn = (PhotosBaseManager **) g_malloc0_n (window_mode_class->n_values + 1,
                                                                sizeof (PhotosBaseManager *));
   for (i = 0; i < window_mode_class->n_values; i++)
-    self->item_mngr_chldrn[i] = photos_base_manager_new ();
+    self->item_mngr_chldrn[i] = photos_base_manager_new (NULL, NULL);
 
   g_signal_connect_swapped (self->item_mngr_chldrn[0],
                             "items-changed",

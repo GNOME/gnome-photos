@@ -35,12 +35,14 @@
 
 struct _PhotosBaseManagerPrivate
 {
+  GCompareDataFunc sort_func;
   GHashTable *objects;
   GObject *active_object;
   GSequence *sequence;
   GSequenceIter *last_iter;
   gchar *action_id;
   gchar *title;
+  gpointer sort_data;
   guint last_position;
 };
 
@@ -48,6 +50,8 @@ enum
 {
   PROP_0,
   PROP_ACTION_ID,
+  PROP_SORT_DATA,
+  PROP_SORT_FUNC,
   PROP_TITLE
 };
 
@@ -133,8 +137,16 @@ photos_base_manager_default_add_object (PhotosBaseManager *self, GObject *object
   if (old_object != NULL)
     return;
 
-  position = photos_base_manager_get_objects_count (self);
-  iter = g_sequence_append (priv->sequence, g_object_ref (object));
+  if (priv->sort_func == NULL)
+    {
+      position = photos_base_manager_get_objects_count (self);
+      iter = g_sequence_append (priv->sequence, g_object_ref (object));
+    }
+  else
+    {
+      iter = g_sequence_insert_sorted (priv->sequence, g_object_ref (object), priv->sort_func, priv->sort_data);
+      position = g_sequence_iter_get_position (iter);
+    }
 
   object_data = photos_base_manager_object_data_new (object, iter);
   g_hash_table_insert (priv->objects, g_strdup (id), object_data);
@@ -334,6 +346,14 @@ photos_base_manager_set_property (GObject *object, guint prop_id, const GValue *
       priv->action_id = g_value_dup_string (value);
       break;
 
+    case PROP_SORT_DATA:
+      priv->sort_data = g_value_get_pointer (value);
+      break;
+
+    case PROP_SORT_FUNC:
+      priv->sort_func = g_value_get_pointer (value);
+      break;
+
     case PROP_TITLE:
       priv->title = g_value_dup_string (value);
       break;
@@ -383,6 +403,20 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
                                                         "GAction ID for search options",
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  g_object_class_install_property (object_class,
+                                   PROP_SORT_DATA,
+                                   g_param_spec_pointer ("sort-data",
+                                                         "Sort data",
+                                                         "Arbitrary data to be passed to the comparison function",
+                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  g_object_class_install_property (object_class,
+                                   PROP_SORT_FUNC,
+                                   g_param_spec_pointer ("sort-func",
+                                                         "Sort function",
+                                                         "Pairwise comparison function for sorting",
+                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_object_class_install_property (object_class,
                                    PROP_TITLE,
@@ -447,9 +481,9 @@ photos_base_manager_list_model_iface_init (GListModelInterface *iface)
 
 
 PhotosBaseManager *
-photos_base_manager_new (void)
+photos_base_manager_new (GCompareDataFunc sort_func, gpointer sort_data)
 {
-  return g_object_new (PHOTOS_TYPE_BASE_MANAGER, NULL);
+  return g_object_new (PHOTOS_TYPE_BASE_MANAGER, "sort-data", sort_data, "sort-func", sort_func, NULL);
 }
 
 
