@@ -216,16 +216,17 @@ photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gc
   g_hash_table_iter_init (&iter, sources);
   while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &source))
     {
-      GoaAccount *account;
       GoaObject *object;
 
       object = photos_source_get_goa_object (source);
-      if (object == NULL)
-        continue;
+      if (object != NULL)
+        {
+          GoaAccount *account;
 
-      account = goa_object_peek_account (object);
-      if (g_strcmp0 (goa_account_get_provider_type (account), provider_type) == 0)
-        items = g_list_prepend (items, g_object_ref (source));
+          account = goa_object_peek_account (object);
+          if (g_strcmp0 (goa_account_get_provider_type (account), provider_type) == 0)
+            items = g_list_prepend (items, g_object_ref (source));
+        }
     }
 
   return items;
