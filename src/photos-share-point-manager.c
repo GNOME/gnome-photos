@@ -133,16 +133,18 @@ photos_share_point_manager_refresh_share_points (PhotosSharePointManager *self)
   g_hash_table_iter_init (&iter, sources);
   while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &source))
     {
-      PhotosSharePoint *share_point;
-      const gchar *id;
+      PhotosSharePoint *share_point = NULL;
 
       share_point = photos_share_point_manager_create_share_point_online (self, source);
-      if (share_point == NULL)
-        continue;
+      if (share_point != NULL)
+        {
+          const gchar *id;
 
-      id = photos_filterable_get_id (PHOTOS_FILTERABLE (share_point));
-      g_hash_table_insert (new_share_points, g_strdup (id), g_object_ref (share_point));
-      g_object_unref (share_point);
+          id = photos_filterable_get_id (PHOTOS_FILTERABLE (share_point));
+          g_hash_table_insert (new_share_points, g_strdup (id), g_object_ref (share_point));
+        }
+
+      g_clear_object (&share_point);
     }
 
   photos_base_manager_process_new_objects (PHOTOS_BASE_MANAGER (self), new_share_points);
@@ -273,10 +275,8 @@ photos_share_point_manager_get_for_item (PhotosSharePointManager *self, PhotosBa
   g_hash_table_iter_init (&iter, share_points);
   while (g_hash_table_iter_next (&iter, (gpointer *) &share_point_id, (gpointer *) &share_point))
     {
-      if (g_strcmp0 (resource_urn, share_point_id) == 0)
-        continue;
-
-      ret_val = g_list_prepend (ret_val, g_object_ref (share_point));
+      if (g_strcmp0 (resource_urn, share_point_id) != 0)
+        ret_val = g_list_prepend (ret_val, g_object_ref (share_point));
     }
 
  out:
