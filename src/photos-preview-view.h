@@ -28,6 +28,7 @@
 #include <gegl.h>
 #include <gtk/gtk.h>
 
+#include "photos-base-item.h"
 #include "photos-item-manager.h"
 
 G_BEGIN_DECLS
@@ -39,6 +40,8 @@ GtkWidget             *photos_preview_view_new                    (void);
 
 void                   photos_preview_view_set_mode               (PhotosPreviewView *self,
                                                                    PhotosWindowMode old_mode);
+
+void                   photos_preview_view_set_item               (PhotosPreviewView *self, PhotosBaseItem *item);
 
 void                   photos_preview_view_set_node               (PhotosPreviewView *self, GeglNode *node);
 

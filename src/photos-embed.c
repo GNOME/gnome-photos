@@ -314,6 +314,7 @@ photos_embed_load_finished (PhotosEmbed *self, PhotosBaseItem *item, GeglNode *n
   if (node == NULL)
     return;
 
+  photos_preview_view_set_item (PHOTOS_PREVIEW_VIEW (self->preview), item);
   photos_preview_view_set_node (PHOTOS_PREVIEW_VIEW (self->preview), node);
 
   /* TODO: set toolbar model */

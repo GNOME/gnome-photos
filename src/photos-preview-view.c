@@ -1400,6 +1400,12 @@ photos_preview_view_new (void)
   return g_object_new (PHOTOS_TYPE_PREVIEW_VIEW, NULL);
 }
 
+void
+photos_preview_view_set_item (PhotosPreviewView *self, PhotosBaseItem *item)
+{
+  photos_properties_sidebar_set_item (PHOTOS_PROPERTIES_SIDEBAR (self->properties), item);
+}
+
 
 void
 photos_preview_view_set_mode (PhotosPreviewView *self, PhotosWindowMode old_mode)
