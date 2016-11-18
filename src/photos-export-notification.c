@@ -42,11 +42,6 @@ struct _PhotosExportNotification
   guint timeout_id;
 };
 
-struct _PhotosExportNotificationClass
-{
-  GtkGridClass parent_class;
-};
-
 enum
 {
   PROP_0,

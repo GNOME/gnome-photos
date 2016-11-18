@@ -28,19 +28,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_EXPORT_NOTIFICATION (photos_export_notification_get_type ())
-
-#define PHOTOS_EXPORT_NOTIFICATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_EXPORT_NOTIFICATION, PhotosExportNotification))
-
-#define PHOTOS_IS_EXPORT_NOTIFICATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_EXPORT_NOTIFICATION))
-
-typedef struct _PhotosExportNotification      PhotosExportNotification;
-typedef struct _PhotosExportNotificationClass PhotosExportNotificationClass;
-
-GType               photos_export_notification_get_type        (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosExportNotification, photos_export_notification, PHOTOS, EXPORT_NOTIFICATION, GtkGrid);
 
 void                photos_export_notification_new             (GList *items, GFile *file);
 
