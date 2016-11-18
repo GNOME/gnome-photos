@@ -34,11 +34,6 @@ struct _PhotosEditPaletteRow
   PhotosTool *tool;
 };
 
-struct _PhotosEditPaletteRowClass
-{
-  GtkListBoxRowClass parent_class;
-};
-
 enum
 {
   PROP_0,

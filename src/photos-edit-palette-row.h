@@ -29,19 +29,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_EDIT_PALETTE_ROW (photos_edit_palette_row_get_type ())
-
-#define PHOTOS_EDIT_PALETTE_ROW(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_EDIT_PALETTE_ROW, PhotosEditPaletteRow))
-
-#define PHOTOS_IS_EDIT_PALETTE_ROW(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_EDIT_PALETTE_ROW))
-
-typedef struct _PhotosEditPaletteRow      PhotosEditPaletteRow;
-typedef struct _PhotosEditPaletteRowClass PhotosEditPaletteRowClass;
-
-GType                  photos_edit_palette_row_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosEditPaletteRow, photos_edit_palette_row, PHOTOS, EDIT_PALETTE_ROW, GtkListBoxRow);
 
 GtkWidget             *photos_edit_palette_row_new                    (PhotosTool *tool, GtkSizeGroup *size_group);
 
