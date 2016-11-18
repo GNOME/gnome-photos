@@ -32,19 +32,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_VIEW_CONTAINER (photos_view_container_get_type ())
-
-#define PHOTOS_VIEW_CONTAINER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_VIEW_CONTAINER, PhotosViewContainer))
-
-#define PHOTOS_IS_VIEW_CONTAINER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_VIEW_CONTAINER))
-
-typedef struct _PhotosViewContainer      PhotosViewContainer;
-typedef struct _PhotosViewContainerClass PhotosViewContainerClass;
-
-GType                  photos_view_container_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosViewContainer, photos_view_container, PHOTOS, VIEW_CONTAINER, GtkStack);
 
 GtkWidget             *photos_view_container_new                    (PhotosWindowMode mode, const gchar *name);
 

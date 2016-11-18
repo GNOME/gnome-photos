@@ -65,11 +65,6 @@ struct _PhotosViewContainer
   gchar *name;
 };
 
-struct _PhotosViewContainerClass
-{
-  GtkStackClass parent_class;
-};
-
 enum
 {
   PROP_0,
