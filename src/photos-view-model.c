@@ -58,11 +58,6 @@ struct _PhotosViewModel
   guint reset_count_id;
 };
 
-struct _PhotosViewModelClass
-{
-  GtkListStoreClass parent_class;
-};
-
 enum
 {
   PROP_0,

@@ -33,14 +33,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_VIEW_MODEL (photos_view_model_get_type ())
-
-#define PHOTOS_VIEW_MODEL(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_VIEW_MODEL, PhotosViewModel))
-
-#define PHOTOS_IS_VIEW_MODEL(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_VIEW_MODEL))
+G_DECLARE_FINAL_TYPE (PhotosViewModel, photos_view_model, PHOTOS, VIEW_MODEL, GtkListStore);
 
 typedef enum
 {
@@ -53,11 +46,6 @@ typedef enum
   PHOTOS_VIEW_MODEL_SELECTED,
   PHOTOS_VIEW_MODEL_PULSE /* unused */
 } PhotosViewModelColumns;
-
-typedef struct _PhotosViewModel      PhotosViewModel;
-typedef struct _PhotosViewModelClass PhotosViewModelClass;
-
-GType             photos_view_model_get_type               (void) G_GNUC_CONST;
 
 GtkListStore     *photos_view_model_new                    (PhotosWindowMode mode);
 
