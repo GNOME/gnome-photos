@@ -39,9 +39,6 @@ struct _PhotosEditPalette
 struct _PhotosEditPaletteClass
 {
   GtkListBoxClass parent_class;
-
-  /* signals */
-  void        (*tool_changed)       (PhotosEditPalette *self, PhotosTool *tool);
 };
 
 enum
@@ -137,7 +134,7 @@ photos_edit_palette_class_init (PhotosEditPaletteClass *class)
   signals[TOOL_CHANGED] = g_signal_new ("tool-changed",
                                         G_TYPE_FROM_CLASS (class),
                                         G_SIGNAL_RUN_LAST,
-                                        G_STRUCT_OFFSET (PhotosEditPaletteClass, tool_changed),
+                                        0,
                                         NULL, /* accumulator */
                                         NULL, /* accu_data */
                                         g_cclosure_marshal_VOID__OBJECT,
