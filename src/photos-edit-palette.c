@@ -36,11 +36,6 @@ struct _PhotosEditPalette
   GList *tools;
 };
 
-struct _PhotosEditPaletteClass
-{
-  GtkListBoxClass parent_class;
-};
-
 enum
 {
   TOOL_CHANGED,

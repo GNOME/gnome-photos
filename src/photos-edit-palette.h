@@ -26,19 +26,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_EDIT_PALETTE (photos_edit_palette_get_type ())
-
-#define PHOTOS_EDIT_PALETTE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_EDIT_PALETTE, PhotosEditPalette))
-
-#define PHOTOS_IS_EDIT_PALETTE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_EDIT_PALETTE))
-
-typedef struct _PhotosEditPalette      PhotosEditPalette;
-typedef struct _PhotosEditPaletteClass PhotosEditPaletteClass;
-
-GType                  photos_edit_palette_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosEditPalette, photos_edit_palette, PHOTOS, EDIT_PALETTE, GtkListBox);
 
 GtkWidget             *photos_edit_palette_new                    (void);
 
