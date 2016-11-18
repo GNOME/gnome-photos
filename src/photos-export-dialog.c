@@ -43,12 +43,6 @@ struct _PhotosExportDialog
   gdouble reduced_zoom;
 };
 
-struct _PhotosExportDialogClass
-{
-  GtkDialogClass parent_class;
-};
-
-
 enum
 {
   PROP_0,

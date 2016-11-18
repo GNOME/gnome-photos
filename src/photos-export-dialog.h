@@ -28,19 +28,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_EXPORT_DIALOG (photos_export_dialog_get_type ())
-
-#define PHOTOS_EXPORT_DIALOG(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_EXPORT_DIALOG, PhotosExportDialog))
-
-#define PHOTOS_IS_EXPORT_DIALOG(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_EXPORT_DIALOG))
-
-typedef struct _PhotosExportDialog      PhotosExportDialog;
-typedef struct _PhotosExportDialogClass PhotosExportDialogClass;
-
-GType               photos_export_dialog_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosExportDialog, photos_export_dialog, PHOTOS, EXPORT_DIALOG, GtkDialog);
 
 GtkWidget          *photos_export_dialog_new                (GtkWindow *parent, PhotosBaseItem *item);
 
