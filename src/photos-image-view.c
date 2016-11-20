@@ -44,10 +44,6 @@ struct _PhotosImageView
 struct _PhotosImageViewClass
 {
   GtkDrawingAreaClass parent_class;
-
-  /* signals */
-  void        (*draw_background)    (PhotosImageView *self, cairo_t *cr, GdkRectangle *rect);
-  void        (*draw_overlay)       (PhotosImageView *self, cairo_t *cr, GdkRectangle *rect);
 };
 
 enum
@@ -350,7 +346,7 @@ photos_image_view_class_init (PhotosImageViewClass *class)
   signals[DRAW_BACKGROUND] = g_signal_new ("draw-background",
                                            G_TYPE_FROM_CLASS (class),
                                            G_SIGNAL_RUN_LAST,
-                                           G_STRUCT_OFFSET (PhotosImageViewClass, draw_background),
+                                           0,
                                            NULL, /* accumulator */
                                            NULL, /* accu_data */
                                            _photos_marshal_VOID__BOXED_BOXED,
@@ -362,7 +358,7 @@ photos_image_view_class_init (PhotosImageViewClass *class)
   signals[DRAW_OVERLAY] = g_signal_new ("draw-overlay",
                                         G_TYPE_FROM_CLASS (class),
                                         G_SIGNAL_RUN_LAST,
-                                        G_STRUCT_OFFSET (PhotosImageViewClass, draw_overlay),
+                                        0,
                                         NULL, /* accumulator */
                                         NULL, /* accu_data */
                                         _photos_marshal_VOID__BOXED_BOXED,
