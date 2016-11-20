@@ -44,11 +44,6 @@ struct _PhotosUpdateMtimeJob
   gchar *urn;
 };
 
-struct _PhotosUpdateMtimeJobClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,

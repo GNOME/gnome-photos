@@ -30,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_UPDATE_MTIME_JOB (photos_update_mtime_job_get_type ())
-
-#define PHOTOS_UPDATE_MTIME_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_UPDATE_MTIME_JOB, PhotosUpdateMtimeJob))
-
-#define PHOTOS_IS_UPDATE_MTIME_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_UPDATE_MTIME_JOB))
-
-typedef struct _PhotosUpdateMtimeJob      PhotosUpdateMtimeJob;
-typedef struct _PhotosUpdateMtimeJobClass PhotosUpdateMtimeJobClass;
-
-GType                   photos_update_mtime_job_get_type             (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosUpdateMtimeJob, photos_update_mtime_job, PHOTOS, UPDATE_MTIME_JOB, GObject);
 
 PhotosUpdateMtimeJob   *photos_update_mtime_job_new                  (const gchar *urn);
 
