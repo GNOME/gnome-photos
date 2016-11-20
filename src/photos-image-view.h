@@ -32,21 +32,9 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_IMAGE_VIEW, PhotosImageView))
 
-#define PHOTOS_IMAGE_VIEW_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_IMAGE_VIEW, PhotosImageViewClass))
-
 #define PHOTOS_IS_IMAGE_VIEW(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_IMAGE_VIEW))
-
-#define PHOTOS_IS_IMAGE_VIEW_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_IMAGE_VIEW))
-
-#define PHOTOS_IMAGE_VIEW_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_IMAGE_VIEW, PhotosImageViewClass))
 
 typedef struct _PhotosImageView      PhotosImageView;
 typedef struct _PhotosImageViewClass PhotosImageViewClass;
