@@ -1,5 +1,29 @@
-Overview of changes in 3.23.1
+Overview of changes in 3.23.2
 =============================
+
+* Bugs fixed:
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 764423 Use G_DECLARE_DERIVABLE_TYPE
+ 770342 item-manager: Avoid CRITICALs when favouriting contents of collections
+ 771995 SIGILL on Intel Core 2 Duo caused by __builtin_ia32_rdtscp in
+        egg_get_current_cpu_rdtscp()
+ 772443 Wrong extension when exporting anything that's not JPEG or PNG
+ 772813 properties-dialog: Don't show the modification status for collections
+ 774191 Turn PhotosBaseManager into a GListModel
+ 774253 Unable to find Photos by browsing in Software (not listed in relevant
+        categories)
+
+* Updated translations:
+ Catalan
+ Simplified Chinese
+ Traditional Chinese (Taiwan)
+ Danish
+ Friulian
+ Gaelic (Scottish)
+ Italian
+ Norwegian bokmål
+ Persian
+ Ukrainian
 
 
 Overview of changes in 3.21.92
