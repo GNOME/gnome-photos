@@ -30,21 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_FILTERABLE (photos_filterable_get_type ())
-
-#define PHOTOS_FILTERABLE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_FILTERABLE, PhotosFilterable))
-
-#define PHOTOS_IS_FILTERABLE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_FILTERABLE))
-
-#define PHOTOS_FILTERABLE_GET_IFACE(inst) \
-  (G_TYPE_INSTANCE_GET_INTERFACE ((inst), \
-   PHOTOS_TYPE_FILTERABLE, PhotosFilterableInterface))
-
-typedef struct _PhotosFilterable          PhotosFilterable;
-typedef struct _PhotosFilterableInterface PhotosFilterableInterface;
+G_DECLARE_INTERFACE (PhotosFilterable, photos_filterable, PHOTOS, FILTERABLE, GObject);
 
 struct _PhotosFilterableInterface
 {
@@ -55,8 +41,6 @@ struct _PhotosFilterableInterface
   const gchar *(*get_id) (PhotosFilterable *self);
   gchar *(*get_where) (PhotosFilterable *self);
 };
-
-GType               photos_filterable_get_type           (void) G_GNUC_CONST;
 
 gboolean            photos_filterable_get_builtin        (PhotosFilterable *self);
 
