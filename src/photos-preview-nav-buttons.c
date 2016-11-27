@@ -42,6 +42,7 @@ struct _PhotosPreviewNavButtons
   GObject parent_instance;
   GAction *load_next;
   GAction *load_previous;
+  GtkGesture *long_press_gesture;
   GtkGesture *tap_gesture;
   GtkTreeModel *model;
   GtkTreeRowReference *current_row;
@@ -273,19 +274,19 @@ photos_preview_nav_buttons_motion_notify (PhotosPreviewNavButtons *self, GdkEven
 
 
 static void
+photos_preview_nav_buttons_long_press_pressed (PhotosPreviewNavButtons *self)
+{
+  gtk_gesture_set_state (GTK_GESTURE (self->long_press_gesture), GTK_EVENT_SEQUENCE_DENIED);
+}
+
+
+static void
 photos_preview_nav_buttons_multi_press_released (PhotosPreviewNavButtons *self)
 {
   gtk_gesture_set_state (GTK_GESTURE (self->tap_gesture), GTK_EVENT_SEQUENCE_CLAIMED);
   self->visible_internal = !self->visible_internal;
   photos_preview_nav_buttons_unqueue_auto_hide (self);
   photos_preview_nav_buttons_update_visibility (self);
-}
-
-
-static void
-photos_preview_nav_buttons_multi_press_stopped (PhotosPreviewNavButtons *self)
-{
-  gtk_gesture_set_state (GTK_GESTURE (self->tap_gesture), GTK_EVENT_SEQUENCE_DENIED);
 }
 
 
@@ -365,6 +366,7 @@ photos_preview_nav_buttons_dispose (GObject *object)
 
   photos_preview_nav_buttons_unqueue_auto_hide (self);
 
+  g_clear_object (&self->long_press_gesture);
   g_clear_object (&self->tap_gesture);
   g_clear_object (&self->model);
   g_clear_object (&self->next_widget);
@@ -454,15 +456,19 @@ photos_preview_nav_buttons_constructed (GObject *object)
                             G_CALLBACK (photos_preview_nav_buttons_motion_notify),
                             self);
 
+  self->long_press_gesture = gtk_gesture_long_press_new (self->preview_view);
+  gtk_gesture_single_set_touch_only (GTK_GESTURE_SINGLE (self->long_press_gesture), TRUE);
+  g_signal_connect_swapped (self->long_press_gesture,
+                            "pressed",
+                            G_CALLBACK (photos_preview_nav_buttons_long_press_pressed),
+                            self);
+
   self->tap_gesture = gtk_gesture_multi_press_new (self->preview_view);
   gtk_gesture_single_set_touch_only (GTK_GESTURE_SINGLE (self->tap_gesture), TRUE);
+  gtk_gesture_group (self->long_press_gesture, self->tap_gesture);
   g_signal_connect_swapped (self->tap_gesture,
                             "released",
                             G_CALLBACK (photos_preview_nav_buttons_multi_press_released),
-                            self);
-  g_signal_connect_swapped (self->tap_gesture,
-                            "stopped",
-                            G_CALLBACK (photos_preview_nav_buttons_multi_press_stopped),
                             self);
 
   /* We will not need them any more */
