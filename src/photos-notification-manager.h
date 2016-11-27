@@ -25,7 +25,7 @@
 #ifndef PHOTOS_NOTIFICATION_MANAGER_H
 #define PHOTOS_NOTIFICATION_MANAGER_H
 
-#include <libgd/gd.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -34,7 +34,7 @@ G_DECLARE_FINAL_TYPE (PhotosNotificationManager,
                       photos_notification_manager,
                       PHOTOS,
                       NOTIFICATION_MANAGER,
-                      GdNotification);
+                      GtkRevealer);
 
 GtkWidget          *photos_notification_manager_dup_singleton      (void);
 

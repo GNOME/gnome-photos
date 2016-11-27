@@ -26,7 +26,6 @@
 #include "config.h"
 
 #include <glib.h>
-#include <gtk/gtk.h>
 
 #include "photos-indexing-notification.h"
 #include "photos-notification-manager.h"
@@ -35,13 +34,13 @@
 
 struct _PhotosNotificationManager
 {
-  GdNotification parent_instance;
+  GtkRevealer parent_instance;
   GtkWidget *grid;
   GtkWidget *indexing_ntfctn;
 };
 
 
-G_DEFINE_TYPE (PhotosNotificationManager, photos_notification_manager, GD_TYPE_NOTIFICATION);
+G_DEFINE_TYPE (PhotosNotificationManager, photos_notification_manager, GTK_TYPE_REVEALER);
 
 
 static void
@@ -51,9 +50,14 @@ photos_notification_manager_remove (PhotosNotificationManager *self)
 
   children = gtk_container_get_children (GTK_CONTAINER (self->grid));
   if (children == NULL)
-    gtk_widget_hide (GTK_WIDGET (self));
+    {
+      gtk_widget_hide (GTK_WIDGET (self));
+      gtk_revealer_set_reveal_child (GTK_REVEALER (self), FALSE);
+    }
   else
-    g_list_free (children);
+    {
+      g_list_free (children);
+    }
 }
 
 
@@ -106,13 +110,21 @@ photos_notification_manager_dispose (GObject *object)
 static void
 photos_notification_manager_init (PhotosNotificationManager *self)
 {
+  GtkStyleContext *context;
+  GtkWidget *frame;
+
   gtk_widget_set_halign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
   gtk_widget_set_valign (GTK_WIDGET (self), GTK_ALIGN_START);
+
+  frame = gtk_frame_new (NULL);
+  context = gtk_widget_get_style_context (frame);
+  gtk_style_context_add_class (context, "app-notification");
+  gtk_container_add (GTK_CONTAINER (self), frame);
 
   self->grid = gtk_grid_new ();
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self->grid), GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing (GTK_GRID (self->grid), 6);
-  gtk_container_add (GTK_CONTAINER (self), self->grid);
+  gtk_container_add (GTK_CONTAINER (frame), self->grid);
 
   g_signal_connect_swapped (self->grid, "remove", G_CALLBACK (photos_notification_manager_remove), self);
 }
@@ -132,7 +144,7 @@ photos_notification_manager_class_init (PhotosNotificationManagerClass *class)
 GtkWidget *
 photos_notification_manager_dup_singleton (void)
 {
-  return g_object_new (PHOTOS_TYPE_NOTIFICATION_MANAGER, "show-close-button", FALSE, "timeout", -1, NULL);
+  return g_object_new (PHOTOS_TYPE_NOTIFICATION_MANAGER, NULL);
 }
 
 
@@ -141,4 +153,5 @@ photos_notification_manager_add_notification (PhotosNotificationManager *self, G
 {
   gtk_container_add (GTK_CONTAINER (self->grid), notification);
   gtk_widget_show_all (GTK_WIDGET (self));
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self), TRUE);
 }
