@@ -49,11 +49,6 @@ struct _PhotosFetchCollectionStateJob
   gpointer user_data;
 };
 
-struct _PhotosFetchCollectionStateJobClass
-{
-  GObjectClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosFetchCollectionStateJob, photos_fetch_collection_state_job, G_TYPE_OBJECT);
 
