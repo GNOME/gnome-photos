@@ -32,21 +32,9 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_FETCH_IDS_JOB (photos_fetch_ids_job_get_type ())
-
-#define PHOTOS_FETCH_IDS_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_FETCH_IDS_JOB, PhotosFetchIdsJob))
-
-#define PHOTOS_IS_FETCH_IDS_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_FETCH_IDS_JOB))
+G_DECLARE_FINAL_TYPE (PhotosFetchIdsJob, photos_fetch_ids_job, PHOTOS, FETCH_IDS_JOB, GObject);
 
 typedef void (*PhotosFetchIdsJobCallback) (const gchar *const *, gpointer);
-
-typedef struct _PhotosFetchIdsJob      PhotosFetchIdsJob;
-typedef struct _PhotosFetchIdsJobClass PhotosFetchIdsJobClass;
-
-GType                photos_fetch_ids_job_get_type          (void) G_GNUC_CONST;
 
 PhotosFetchIdsJob   *photos_fetch_ids_job_new               (const gchar *const *terms);
 
