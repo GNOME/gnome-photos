@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_NOTIFICATION_MANAGER (photos_notification_manager_get_type ())
-
-#define PHOTOS_NOTIFICATION_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_NOTIFICATION_MANAGER, PhotosNotificationManager))
-
-#define PHOTOS_IS_NOTIFICATION_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_NOTIFICATION_MANAGER))
-
-typedef struct _PhotosNotificationManager      PhotosNotificationManager;
-typedef struct _PhotosNotificationManagerClass PhotosNotificationManagerClass;
-
-GType               photos_notification_manager_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosNotificationManager,
+                      photos_notification_manager,
+                      PHOTOS,
+                      NOTIFICATION_MANAGER,
+                      GdNotification);
 
 GtkWidget          *photos_notification_manager_dup_singleton      (void);
 

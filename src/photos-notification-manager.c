@@ -40,11 +40,6 @@ struct _PhotosNotificationManager
   GtkWidget *indexing_ntfctn;
 };
 
-struct _PhotosNotificationManagerClass
-{
-  GdNotificationClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosNotificationManager, photos_notification_manager, GD_TYPE_NOTIFICATION);
 
