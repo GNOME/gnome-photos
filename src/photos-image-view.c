@@ -41,11 +41,6 @@ struct _PhotosImageView
   gfloat zoom_scaled;
 };
 
-struct _PhotosImageViewClass
-{
-  GtkDrawingAreaClass parent_class;
-};
-
 enum
 {
   PROP_0,

@@ -27,19 +27,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_IMAGE_VIEW (photos_image_view_get_type ())
-
-#define PHOTOS_IMAGE_VIEW(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_IMAGE_VIEW, PhotosImageView))
-
-#define PHOTOS_IS_IMAGE_VIEW(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_IMAGE_VIEW))
-
-typedef struct _PhotosImageView      PhotosImageView;
-typedef struct _PhotosImageViewClass PhotosImageViewClass;
-
-GType               photos_image_view_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosImageView, photos_image_view, PHOTOS, IMAGE_VIEW, GtkDrawingArea);
 
 GtkWidget          *photos_image_view_new                (void);
 
