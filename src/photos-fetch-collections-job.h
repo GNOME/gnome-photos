@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_FETCH_COLLECTIONS_JOB (photos_fetch_collections_job_get_type ())
-
-#define PHOTOS_FETCH_COLLECTIONS_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_FETCH_COLLECTIONS_JOB, PhotosFetchCollectionsJob))
-
-#define PHOTOS_IS_FETCH_COLLECTIONS_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_FETCH_COLLECTIONS_JOB))
-
-typedef struct _PhotosFetchCollectionsJob      PhotosFetchCollectionsJob;
-typedef struct _PhotosFetchCollectionsJobClass PhotosFetchCollectionsJobClass;
-
-GType                      photos_fetch_collections_job_get_type    (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosFetchCollectionsJob,
+                      photos_fetch_collections_job,
+                      PHOTOS,
+                      FETCH_COLLECTIONS_JOB,
+                      GObject);
 
 PhotosFetchCollectionsJob *photos_fetch_collections_job_new         (const gchar *urn);
 
