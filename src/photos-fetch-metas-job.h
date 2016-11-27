@@ -32,14 +32,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_FETCH_METAS_JOB (photos_fetch_metas_job_get_type ())
-
-#define PHOTOS_FETCH_METAS_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_FETCH_METAS_JOB, PhotosFetchMetasJob))
-
-#define PHOTOS_IS_FETCH_METAS_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_FETCH_METAS_JOB))
+G_DECLARE_FINAL_TYPE (PhotosFetchMetasJob, photos_fetch_metas_job, PHOTOS, FETCH_METAS_JOB, GObject);
 
 typedef struct _PhotosFetchMeta PhotosFetchMeta;
 
@@ -54,11 +47,6 @@ PhotosFetchMeta       *photos_fetch_meta_copy                   (PhotosFetchMeta
 void                   photos_fetch_meta_free                   (PhotosFetchMeta *meta);
 
 typedef void (*PhotosFetchMetasJobCallback) (GList *, gpointer);
-
-typedef struct _PhotosFetchMetasJob      PhotosFetchMetasJob;
-typedef struct _PhotosFetchMetasJobClass PhotosFetchMetasJobClass;
-
-GType                  photos_fetch_metas_job_get_type          (void) G_GNUC_CONST;
 
 PhotosFetchMetasJob   *photos_fetch_metas_job_new               (const gchar *const *ids);
 

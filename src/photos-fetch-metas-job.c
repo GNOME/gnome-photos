@@ -49,11 +49,6 @@ struct _PhotosFetchMetasJob
   guint active_jobs;
 };
 
-struct _PhotosFetchMetasJobClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,
