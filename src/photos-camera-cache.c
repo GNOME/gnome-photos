@@ -27,6 +27,7 @@
 #include "photos-query-builder.h"
 #include "photos-search-context.h"
 #include "photos-tracker-queue.h"
+#include "photos-utils.h"
 
 
 struct _PhotosCameraCache
@@ -48,6 +49,7 @@ photos_camera_cache_cursor_next (GObject *source_object, GAsyncResult *res, gpoi
   PhotosCameraCache *self;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GError *error;
+  gboolean success;
   const gchar *manufacturer;
   const gchar *model;
   gchar *camera;
@@ -56,10 +58,19 @@ photos_camera_cache_cursor_next (GObject *source_object, GAsyncResult *res, gpoi
   self = PHOTOS_CAMERA_CACHE (g_task_get_source_object (task));
 
   error = NULL;
-  tracker_sparql_cursor_next_finish (cursor, res, &error);
+  /* Note that tracker_sparql_cursor_next_finish can return FALSE even
+   * without an error.
+   */
+  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
+      goto out;
+    }
+
+  if (!success)
+    {
+      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Cursor is empty — possibly wrong SPARQL query");
       goto out;
     }
 
