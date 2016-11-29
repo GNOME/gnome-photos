@@ -69,6 +69,9 @@ photos_fetch_collections_job_cursor_next (GObject *source_object, GAsyncResult *
   cancellable = g_task_get_cancellable (task);
 
   error = NULL;
+  /* Note that tracker_sparql_cursor_next_finish can return FALSE even
+   * without an error.
+   */
   success = tracker_sparql_cursor_next_finish (cursor, res, &error);
   if (error != NULL)
     {
