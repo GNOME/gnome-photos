@@ -63,18 +63,18 @@ photos_single_item_job_cursor_next (GObject *source_object, GAsyncResult *res, g
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GDestroyNotify result_destroy = NULL;
   GError *error;
-  gboolean valid;
+  gboolean success;
   gpointer result = NULL;
 
   error = NULL;
-  valid = tracker_sparql_cursor_next_finish (cursor, res, &error);
+  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
       goto out;
     }
 
-  if (valid)
+  if (success)
     {
       result = g_object_ref (cursor);
       result_destroy = g_object_unref;
