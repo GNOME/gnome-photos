@@ -208,7 +208,8 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
   priv->current_query = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_query (self);
   g_return_if_fail (priv->current_query != NULL);
 
-  g_cancellable_reset (priv->cancellable);
+  g_object_unref (priv->cancellable);
+  priv->cancellable = g_cancellable_new ();
 
   if (G_UNLIKELY (priv->queue == NULL))
     {
