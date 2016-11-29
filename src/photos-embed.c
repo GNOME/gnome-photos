@@ -602,19 +602,6 @@ photos_embed_dispose (GObject *object)
   g_clear_object (&self->srch_cntrlr);
   g_clear_object (&self->trk_ovrvw_cntrlr);
 
-  /* GtkStack triggers notify::visible-child during dispose and this means that
-   * we have to explicitly disconnect the signal handler before calling up to
-   * the parent implementation, or photos_embed_notify_visible_child() will
-   * get called while we're in a inconsistent state
-   *
-   * See https://bugzilla.gnome.org/show_bug.cgi?id=749012
-   */
-  if (self->stack != NULL)
-    {
-      g_signal_handlers_disconnect_by_func (self->stack, photos_embed_notify_visible_child, self);
-      self->stack = NULL;
-    }
-
   G_OBJECT_CLASS (photos_embed_parent_class)->dispose (object);
 }
 
