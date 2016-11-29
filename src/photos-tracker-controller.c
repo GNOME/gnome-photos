@@ -136,6 +136,7 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
   PhotosTrackerControllerPrivate *priv;
+  GError *error;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   gboolean success;
   gint64 now;
@@ -145,7 +146,18 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
   if (priv->item_mngr == NULL)
     goto out;
 
-  success = tracker_sparql_cursor_next_finish (cursor, res, NULL); /* TODO: use GError */
+  error = NULL;
+  /* Note that tracker_sparql_cursor_next_finish can return FALSE even
+   * without an error.
+   */
+  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
+  if (error != NULL)
+    {
+      photos_tracker_controller_query_finished (self, error);
+      g_error_free (error);
+      goto out;
+    }
+
   if (!success)
     {
       tracker_sparql_cursor_close (cursor);
