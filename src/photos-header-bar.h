@@ -31,14 +31,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_HEADER_BAR (photos_header_bar_get_type ())
-
-#define PHOTOS_HEADER_BAR(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_HEADER_BAR, PhotosHeaderBar))
-
-#define PHOTOS_IS_HEADER_BAR(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_HEADER_BAR))
+G_DECLARE_FINAL_TYPE (PhotosHeaderBar, photos_header_bar, PHOTOS, HEADER_BAR, GtkHeaderBar);
 
 typedef enum
 {
@@ -47,11 +40,6 @@ typedef enum
   PHOTOS_HEADER_BAR_MODE_SELECTION,
   PHOTOS_HEADER_BAR_MODE_STANDALONE
 } PhotosHeaderBarMode;
-
-typedef struct _PhotosHeaderBar      PhotosHeaderBar;
-typedef struct _PhotosHeaderBarClass PhotosHeaderBarClass;
-
-GType                  photos_header_bar_get_type               (void) G_GNUC_CONST;
 
 GtkWidget             *photos_header_bar_new                    (void);
 

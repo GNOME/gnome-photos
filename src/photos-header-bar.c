@@ -36,11 +36,6 @@ struct _PhotosHeaderBar
   PhotosHeaderBarMode mode;
 };
 
-struct _PhotosHeaderBarClass
-{
-  GtkHeaderBarClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosHeaderBar, photos_header_bar, GTK_TYPE_HEADER_BAR);
 
