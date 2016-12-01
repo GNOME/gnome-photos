@@ -51,7 +51,7 @@ gboolean
 photos_filterable_get_builtin (PhotosFilterable *self)
 {
   g_return_val_if_fail (PHOTOS_IS_FILTERABLE (self), FALSE);
-  return PHOTOS_FILTERABLE_GET_INTERFACE (self)->get_builtin (self);
+  return PHOTOS_FILTERABLE_GET_IFACE (self)->get_builtin (self);
 }
 
 
@@ -59,7 +59,7 @@ gchar *
 photos_filterable_get_filter (PhotosFilterable *iface)
 {
   g_return_val_if_fail (PHOTOS_IS_FILTERABLE (iface), NULL);
-  return PHOTOS_FILTERABLE_GET_INTERFACE (iface)->get_filter (iface);
+  return PHOTOS_FILTERABLE_GET_IFACE (iface)->get_filter (iface);
 }
 
 
@@ -67,7 +67,7 @@ const gchar *
 photos_filterable_get_id (PhotosFilterable *self)
 {
   g_return_val_if_fail (PHOTOS_IS_FILTERABLE (self), NULL);
-  return PHOTOS_FILTERABLE_GET_INTERFACE (self)->get_id (self);
+  return PHOTOS_FILTERABLE_GET_IFACE (self)->get_id (self);
 }
 
 
@@ -75,5 +75,5 @@ gchar *
 photos_filterable_get_where (PhotosFilterable *iface)
 {
   g_return_val_if_fail (PHOTOS_IS_FILTERABLE (iface), NULL);
-  return PHOTOS_FILTERABLE_GET_INTERFACE (iface)->get_where (iface);
+  return PHOTOS_FILTERABLE_GET_IFACE (iface)->get_where (iface);
 }
