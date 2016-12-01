@@ -30,7 +30,7 @@
 #include "photos-filterable.h"
 
 
-G_DEFINE_INTERFACE (PhotosFilterable, photos_filterable, G_TYPE_INVALID);
+G_DEFINE_INTERFACE (PhotosFilterable, photos_filterable, G_TYPE_OBJECT);
 
 
 static gboolean
