@@ -465,6 +465,13 @@ photos_item_manager_item_load (GObject *source_object, GAsyncResult *res, gpoint
 
 
 static void
+photos_item_manager_items_changed (PhotosItemManager *self, guint position, guint removed, guint added)
+{
+  g_list_model_items_changed (G_LIST_MODEL (self), position, removed, added);
+}
+
+
+static void
 photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *id)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
@@ -675,6 +682,11 @@ photos_item_manager_init (PhotosItemManager *self)
                                                                sizeof (PhotosBaseManager *));
   for (i = 0; i < window_mode_class->n_values; i++)
     self->item_mngr_chldrn[i] = photos_base_manager_new ();
+
+  g_signal_connect_swapped (self->item_mngr_chldrn[0],
+                            "items-changed",
+                            G_CALLBACK (photos_item_manager_items_changed),
+                            self);
 
   self->mode = PHOTOS_WINDOW_MODE_NONE;
 
