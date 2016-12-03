@@ -282,6 +282,28 @@ photos_main_toolbar_item_active_changed (PhotosMainToolbar *self, GObject *objec
 
 
 static void
+photos_main_toolbar_items_changed (PhotosMainToolbar *self)
+{
+  PhotosBaseManager *item_mngr_chld;
+  PhotosWindowMode window_mode;
+  gboolean is_empty;
+  guint n_items;
+
+  window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
+  if (window_mode == PHOTOS_WINDOW_MODE_NONE)
+    return;
+
+  item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->item_mngr), window_mode);
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (item_mngr_chld));
+
+  is_empty = n_items == 0;
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->search), !is_empty);
+  if (self->selection_button != NULL)
+    gtk_widget_set_sensitive (self->selection_button, !is_empty);
+}
+
+
+static void
 photos_main_toolbar_select_button_clicked (PhotosMainToolbar *self)
 {
   photos_selection_controller_set_selection_mode (self->sel_cntrlr, TRUE);
@@ -748,6 +770,11 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   photos_header_bar_set_selection_menu (PHOTOS_HEADER_BAR (self->toolbar), GTK_BUTTON (self->selection_menu));
 
   self->item_mngr = g_object_ref (state->item_mngr);
+  g_signal_connect_object (self->item_mngr,
+                           "items-changed",
+                           G_CALLBACK (photos_main_toolbar_items_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
 
@@ -852,6 +879,7 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
   else if (window_mode == PHOTOS_WINDOW_MODE_SEARCH)
     photos_main_toolbar_populate_for_search (self);
 
+  photos_main_toolbar_items_changed (self);
   photos_main_toolbar_update_remote_display_button (self);
 
   photos_main_toolbar_set_toolbar_title (self);
@@ -863,16 +891,4 @@ void
 photos_main_toolbar_set_stack (PhotosMainToolbar *self, GtkStack *stack)
 {
   photos_header_bar_set_stack (PHOTOS_HEADER_BAR (self->toolbar), stack);
-}
-
-
-void
-photos_main_toolbar_set_view_model (PhotosMainToolbar *self, PhotosViewModel *model)
-{
-  gboolean is_empty;
-
-  is_empty = (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (model), NULL) == 0);
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->search), !is_empty);
-  if (self->selection_button != NULL)
-    gtk_widget_set_sensitive (self->selection_button, !is_empty);
 }

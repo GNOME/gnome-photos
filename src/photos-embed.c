@@ -470,28 +470,6 @@ photos_embed_query_status_changed (PhotosEmbed *self, gboolean querying)
 
 
 static void
-photos_embed_row_changed (PhotosEmbed *self)
-{
-  PhotosWindowMode mode;
-
-  mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
-
-  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-      || mode == PHOTOS_WINDOW_MODE_FAVORITES
-      || mode == PHOTOS_WINDOW_MODE_OVERVIEW
-      || mode == PHOTOS_WINDOW_MODE_SEARCH)
-    {
-      GtkListStore *model;
-      GtkWidget *view_container;
-
-      view_container = photos_embed_get_view_container_from_mode (self, mode);
-      model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
-      photos_main_toolbar_set_view_model (PHOTOS_MAIN_TOOLBAR (self->toolbar), PHOTOS_VIEW_MODEL (model));
-    }
-}
-
-
-static void
 photos_embed_search_changed (PhotosEmbed *self)
 {
   GObject *object;
@@ -541,8 +519,6 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
                                   gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
-  GtkListStore *model;
-  GtkWidget *view_container;
 
   photos_main_toolbar_reset_toolbar_mode (PHOTOS_MAIN_TOOLBAR (self->toolbar));
 
@@ -553,15 +529,15 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
 
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
       photos_embed_prepare_for_collections (self, old_mode);
-      goto set_toolbar_model;
+      break;
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
       photos_embed_prepare_for_favorites (self, old_mode);
-      goto set_toolbar_model;
+      break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
       photos_embed_prepare_for_overview (self, old_mode);
-      goto set_toolbar_model;
+      break;
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
       photos_embed_prepare_for_preview (self, old_mode);
@@ -569,7 +545,7 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
 
     case PHOTOS_WINDOW_MODE_SEARCH:
       photos_embed_prepare_for_search (self, old_mode);
-      goto set_toolbar_model;
+      break;
 
     case PHOTOS_WINDOW_MODE_NONE:
     default:
@@ -578,11 +554,6 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
     }
 
   return;
-
- set_toolbar_model:
-  view_container = photos_embed_get_view_container_from_mode (self, mode);
-  model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
-  photos_main_toolbar_set_view_model (PHOTOS_MAIN_TOOLBAR (self->toolbar), PHOTOS_VIEW_MODEL (model));
 }
 
 
@@ -611,7 +582,6 @@ photos_embed_init (PhotosEmbed *self)
 {
   GApplication *app;
   GList *windows;
-  GtkListStore *model;
   PhotosSearchbar *searchbar;
   PhotosSearchContextState *state;
   gboolean querying;
@@ -653,29 +623,17 @@ photos_embed_init (PhotosEmbed *self)
   self->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW, _("Photos"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->overview));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->overview, "overview", name);
-  model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (self->overview));
-  g_signal_connect_object (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
-  g_signal_connect_object (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
 
   self->collections = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTIONS, _("Albums"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->collections));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->collections, "collections", name);
-  model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (self->collections));
-  g_signal_connect_object (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
-  g_signal_connect_object (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
 
   self->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES, _("Favorites"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->favorites));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->favorites, "favorites", name);
-  model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (self->favorites));
-  g_signal_connect_object (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
-  g_signal_connect_object (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
 
   self->search = photos_view_container_new (PHOTOS_WINDOW_MODE_SEARCH, _("Search"));
   gtk_stack_add_named (GTK_STACK (self->stack), self->search, "search");
-  model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (self->search));
-  g_signal_connect_object (model, "row-inserted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
-  g_signal_connect_object (model, "row-deleted", G_CALLBACK (photos_embed_row_changed), self, G_CONNECT_SWAPPED);
 
   self->preview = photos_preview_view_new (GTK_OVERLAY (self->stack_overlay));
   gtk_stack_add_named (GTK_STACK (self->stack), self->preview, "preview");
