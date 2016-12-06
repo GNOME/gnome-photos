@@ -51,7 +51,6 @@ struct _PhotosViewContainer
   GtkStack parent_instance;
   GdMainView *view;
   GtkListStore *model;
-  GtkTreePath *current_path;
   GtkWidget *error_box;
   GtkWidget *no_results;
   PhotosBaseManager *item_mngr;
@@ -109,13 +108,10 @@ photos_view_container_disconnect_view (PhotosViewContainer *self)
 
 
 static void
-photos_view_container_item_activated (PhotosViewContainer *self, const gchar * id, const GtkTreePath *path)
+photos_view_container_item_activated (PhotosViewContainer *self, const gchar * id)
 {
   GObject *object;
 
-  g_clear_pointer (&self->current_path, (GDestroyNotify) gtk_tree_path_free);
-
-  self->current_path = gtk_tree_path_copy (path);
   object = photos_base_manager_get_object_by_id (self->item_mngr, id);
 
   if (!photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)) &&
@@ -407,7 +403,6 @@ photos_view_container_finalize (GObject *object)
 {
   PhotosViewContainer *self = PHOTOS_VIEW_CONTAINER (object);
 
-  g_clear_pointer (&self->current_path, (GDestroyNotify) gtk_tree_path_free);
   g_free (self->name);
 
   G_OBJECT_CLASS (photos_view_container_parent_class)->finalize (object);
@@ -517,20 +512,6 @@ photos_view_container_activate_result (PhotosViewContainer *self)
       gtk_icon_view_item_activated (GTK_ICON_VIEW (generic_view), path);
       gtk_tree_path_free (path);
     }
-}
-
-
-GtkTreePath *
-photos_view_container_get_current_path (PhotosViewContainer *self)
-{
-  return self->current_path;
-}
-
-
-GtkListStore *
-photos_view_container_get_model (PhotosViewContainer *self)
-{
-  return self->model;
 }
 
 

@@ -38,10 +38,6 @@ GtkWidget             *photos_view_container_new                    (PhotosWindo
 
 void                   photos_view_container_activate_result        (PhotosViewContainer *self);
 
-GtkTreePath           *photos_view_container_get_current_path       (PhotosViewContainer *self);
-
-GtkListStore          *photos_view_container_get_model              (PhotosViewContainer *self);
-
 const gchar           *photos_view_container_get_name               (PhotosViewContainer *self);
 
 G_END_DECLS
