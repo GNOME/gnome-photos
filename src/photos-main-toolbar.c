@@ -290,8 +290,21 @@ photos_main_toolbar_items_changed (PhotosMainToolbar *self)
   guint n_items;
 
   window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
-  if (window_mode == PHOTOS_WINDOW_MODE_NONE)
-    return;
+  switch (window_mode)
+    {
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      return;
+      break;
+
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+    default:
+      break;
+    }
 
   item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->item_mngr), window_mode);
   n_items = g_list_model_get_n_items (G_LIST_MODEL (item_mngr_chld));
