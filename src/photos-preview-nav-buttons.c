@@ -333,9 +333,13 @@ static void
 photos_preview_nav_buttons_next (PhotosPreviewNavButtons *self)
 {
   GtkTreePath *current_path;
+  PhotosBaseItem *item;
 
   if (!self->enable_next)
     return;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
 
   g_signal_emit (self, signals[LOAD_NEXT], 0);
 
@@ -351,9 +355,13 @@ static void
 photos_preview_nav_buttons_previous (PhotosPreviewNavButtons *self)
 {
   GtkTreePath *current_path;
+  PhotosBaseItem *item;
 
   if (!self->enable_prev)
     return;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
 
   g_signal_emit (self, signals[LOAD_PREVIOUS], 0);
 
