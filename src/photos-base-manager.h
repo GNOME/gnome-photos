@@ -42,7 +42,9 @@ struct _PhotosBaseManagerClass
   void           (*add_object)             (PhotosBaseManager *self, GObject *object);
   GObject       *(*get_active_object)      (PhotosBaseManager *self);
   gchar         *(*get_filter)             (PhotosBaseManager *self, gint flags);
+  GObject       *(*get_next_object)        (PhotosBaseManager *self, GObject *object);
   GObject       *(*get_object_by_id)       (PhotosBaseManager *self, const gchar *id);
+  GObject       *(*get_previous_object)    (PhotosBaseManager *self, GObject *object);
   gchar         *(*get_where)              (PhotosBaseManager *self, gint flags);
   void           (*remove_object_by_id)    (PhotosBaseManager *self, const gchar *id);
   gboolean       (*set_active_object)      (PhotosBaseManager *self, GObject *object);
@@ -68,9 +70,13 @@ gchar              *photos_base_manager_get_all_filter           (PhotosBaseMana
 
 gchar              *photos_base_manager_get_filter               (PhotosBaseManager *self, gint flags);
 
+GObject            *photos_base_manager_get_next_object          (PhotosBaseManager *self, GObject *object);
+
 GObject            *photos_base_manager_get_object_by_id         (PhotosBaseManager *self, const gchar *id);
 
 guint               photos_base_manager_get_objects_count        (PhotosBaseManager *self);
+
+GObject            *photos_base_manager_get_previous_object      (PhotosBaseManager *self, GObject *object);
 
 const gchar        *photos_base_manager_get_title                (PhotosBaseManager *self);
 

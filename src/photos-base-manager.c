@@ -174,6 +174,32 @@ photos_base_manager_default_get_filter (PhotosBaseManager *self, gint flags)
 
 
 static GObject *
+photos_base_manager_default_get_next_object (PhotosBaseManager *self, GObject *object)
+{
+  PhotosBaseManagerPrivate *priv;
+  GObject *ret_val = NULL;
+  GSequenceIter *iter;
+  PhotosBaseManagerObjectData *object_data;
+  const gchar *id;
+
+  priv = photos_base_manager_get_instance_private (self);
+
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
+  object_data = g_hash_table_lookup (priv->objects, id);
+  g_return_val_if_fail (object_data != NULL, NULL);
+
+  iter = g_sequence_iter_next (object_data->iter);
+  if (g_sequence_iter_is_end (iter))
+    goto out;
+
+  ret_val = G_OBJECT (g_sequence_get (iter));
+
+ out:
+  return ret_val;
+}
+
+
+static GObject *
 photos_base_manager_default_get_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
   PhotosBaseManagerPrivate *priv;
@@ -187,6 +213,32 @@ photos_base_manager_default_get_object_by_id (PhotosBaseManager *self, const gch
     goto out;
 
   ret_val = object_data->object;
+
+ out:
+  return ret_val;
+}
+
+
+static GObject *
+photos_base_manager_default_get_previous_object (PhotosBaseManager *self, GObject *object)
+{
+  PhotosBaseManagerPrivate *priv;
+  GObject *ret_val = NULL;
+  GSequenceIter *iter;
+  PhotosBaseManagerObjectData *object_data;
+  const gchar *id;
+
+  priv = photos_base_manager_get_instance_private (self);
+
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
+  object_data = g_hash_table_lookup (priv->objects, id);
+  g_return_val_if_fail (object_data != NULL, NULL);
+
+  iter = g_sequence_iter_prev (object_data->iter);
+  if (g_sequence_iter_compare (iter, object_data->iter) == 0)
+    goto out;
+
+  ret_val = G_OBJECT (g_sequence_get (iter));
 
  out:
   return ret_val;
@@ -391,7 +443,9 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   class->add_object = photos_base_manager_default_add_object;
   class->get_active_object = photos_base_manager_default_get_active_object;
   class->get_filter = photos_base_manager_default_get_filter;
+  class->get_next_object = photos_base_manager_default_get_next_object;
   class->get_object_by_id = photos_base_manager_default_get_object_by_id;
+  class->get_previous_object = photos_base_manager_default_get_previous_object;
   class->get_where = photos_base_manager_default_get_where;
   class->remove_object_by_id = photos_base_manager_default_remove_object_by_id;
   class->set_active_object = photos_base_manager_default_set_active_object;
@@ -607,6 +661,16 @@ photos_base_manager_get_filter (PhotosBaseManager *self, gint flags)
 
 
 GObject *
+photos_base_manager_get_next_object (PhotosBaseManager *self, GObject *object)
+{
+  g_return_val_if_fail (PHOTOS_IS_BASE_MANAGER (self), NULL);
+  g_return_val_if_fail (PHOTOS_IS_FILTERABLE (object), NULL);
+
+  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_next_object (self, object);
+}
+
+
+GObject *
 photos_base_manager_get_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
   g_return_val_if_fail (PHOTOS_IS_BASE_MANAGER (self), NULL);
@@ -627,6 +691,16 @@ photos_base_manager_get_objects_count (PhotosBaseManager *self)
   priv = photos_base_manager_get_instance_private (self);
   count = g_hash_table_size (priv->objects);
   return count;
+}
+
+
+GObject *
+photos_base_manager_get_previous_object (PhotosBaseManager *self, GObject *object)
+{
+  g_return_val_if_fail (PHOTOS_IS_BASE_MANAGER (self), NULL);
+  g_return_val_if_fail (PHOTOS_IS_FILTERABLE (object), NULL);
+
+  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_previous_object (self, object);
 }
 
 
