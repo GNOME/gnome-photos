@@ -32,6 +32,7 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 
+#include "photos-base-item.h"
 #include "photos-embed.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
@@ -249,10 +250,14 @@ static void
 photos_embed_prepare_for_preview (PhotosEmbed *self, PhotosWindowMode old_mode)
 {
   PhotosBaseItem *active_collection;
+  PhotosBaseItem *item;
 
   /* TODO: SearchController,
    *       ErrorHandler
    */
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
 
   /* We want to freeze before saving the search state and to thaw
    * after restoring it. We could thaw it earlier too, but that would
