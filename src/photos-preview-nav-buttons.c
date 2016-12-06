@@ -28,10 +28,9 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-base-manager.h"
 #include "photos-delete-notification.h"
 #include "photos-icons.h"
-#include "photos-item-manager.h"
-#include "photos-preview-model.h"
 #include "photos-preview-nav-buttons.h"
 #include "photos-search-context.h"
 #include "photos-view-model.h"
@@ -44,22 +43,19 @@ struct _PhotosPreviewNavButtons
   GAction *load_previous;
   GtkGesture *long_press_gesture;
   GtkGesture *tap_gesture;
-  GtkTreeModel *model;
-  GtkTreeRowReference *current_row;
   GtkWidget *next_widget;
   GtkWidget *overlay;
   GtkWidget *prev_widget;
   GtkWidget *preview_view;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
+  PhotosWindowMode old_mode;
   gboolean enable_next;
   gboolean enable_prev;
   gboolean visible;
   gboolean visible_internal;
   guint auto_hide_id;
   guint motion_id;
-  gulong row_deleted_id;
-  gulong row_inserted_id;
 };
 
 struct _PhotosPreviewNavButtonsClass
@@ -119,7 +115,13 @@ photos_preview_nav_buttons_delete (PhotosPreviewNavButtons *self)
 static void
 photos_preview_nav_buttons_fade_in_button (PhotosPreviewNavButtons *self, GtkWidget *widget)
 {
-  if (self->model == NULL || !gtk_tree_row_reference_valid (self->current_row))
+  PhotosBaseItem *item;
+
+  if (self->old_mode == PHOTOS_WINDOW_MODE_NONE)
+    return;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+  if (item == NULL)
     return;
 
   gtk_widget_show_all (widget);
@@ -152,30 +154,66 @@ photos_preview_nav_buttons_fade_out_button (PhotosPreviewNavButtons *self, GtkWi
 }
 
 
+static PhotosBaseItem *
+photos_preview_nav_buttons_get_next_item (PhotosPreviewNavButtons *self)
+{
+  PhotosBaseItem *item;
+  PhotosBaseItem *next_item;
+  PhotosBaseManager *item_mngr_chld;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+  item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->item_mngr), self->old_mode);
+
+  do
+    {
+      next_item = PHOTOS_BASE_ITEM (photos_base_manager_get_next_object (item_mngr_chld, G_OBJECT (item)));
+      item = next_item;
+    } while (item != NULL && photos_base_item_is_collection (item));
+
+  return next_item;
+}
+
+
+static PhotosBaseItem *
+photos_preview_nav_buttons_get_previous_item (PhotosPreviewNavButtons *self)
+{
+  PhotosBaseItem *item;
+  PhotosBaseItem *previous_item;
+  PhotosBaseManager *item_mngr_chld;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+  item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->item_mngr), self->old_mode);
+
+  do
+    {
+      previous_item = PHOTOS_BASE_ITEM (photos_base_manager_get_previous_object (item_mngr_chld, G_OBJECT (item)));
+      item = previous_item;
+    } while (item != NULL && photos_base_item_is_collection (item));
+
+  return previous_item;
+}
+
+
 static void
 photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
 {
-  GtkTreeIter iter;
-  GtkTreeIter tmp;
-  GtkTreePath *current_path = NULL;
+  PhotosBaseItem *item;
+  PhotosBaseItem *next_item;
+  PhotosBaseItem *previous_item;
 
-  if (self->model == NULL
-      || !gtk_tree_row_reference_valid (self->current_row)
-      || !self->visible)
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+  if (self->old_mode == PHOTOS_WINDOW_MODE_NONE || item == NULL || !self->visible)
     {
       self->enable_prev = FALSE;
       self->enable_next = FALSE;
       goto out;
     }
 
-  current_path = gtk_tree_row_reference_get_path (self->current_row);
-  gtk_tree_model_get_iter (self->model, &iter, current_path);
+  previous_item = photos_preview_nav_buttons_get_previous_item (self);
+  self->enable_prev = previous_item != NULL;
 
-  tmp = iter;
-  self->enable_prev = gtk_tree_model_iter_previous (self->model, &tmp);
-
-  tmp = iter;
-  self->enable_next = gtk_tree_model_iter_next (self->model, &tmp);
+  next_item = photos_preview_nav_buttons_get_next_item (self);
+  self->enable_next = next_item != NULL;
 
  out:
   if (self->visible_internal && self->enable_next)
@@ -190,8 +228,6 @@ photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
 
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->load_next), self->enable_next);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->load_previous), self->enable_prev);
-
-  g_clear_pointer (&current_path, (GDestroyNotify) gtk_tree_path_free);
 }
 
 
@@ -221,6 +257,13 @@ photos_preview_nav_buttons_enter_notify (PhotosPreviewNavButtons *self)
 {
   photos_preview_nav_buttons_unqueue_auto_hide (self);
   return FALSE;
+}
+
+
+static void
+photos_preview_nav_buttons_items_changed (PhotosPreviewNavButtons *self)
+{
+  photos_preview_nav_buttons_update_visibility (self);
 }
 
 
@@ -297,43 +340,10 @@ photos_preview_nav_buttons_multi_press_end (PhotosPreviewNavButtons *self, GdkEv
 
 
 static void
-photos_preview_nav_buttons_row_changed (PhotosPreviewNavButtons *self)
-{
-  photos_preview_nav_buttons_update_visibility (self);
-}
-
-
-static void
-photos_preview_nav_buttons_set_active_path (PhotosPreviewNavButtons *self, GtkTreePath *current_path)
-{
-  GtkTreeIter child_iter;
-  GtkTreeIter iter;
-  GtkTreeModel *child_model;
-  PhotosBaseItem *item;
-  gchar *id;
-
-  if (!gtk_tree_model_get_iter (self->model, &iter, current_path))
-    return;
-
-  g_clear_pointer (&self->current_row, (GDestroyNotify) gtk_tree_row_reference_free);
-  self->current_row = gtk_tree_row_reference_new (self->model, current_path);
-
-  gtk_tree_model_filter_convert_iter_to_child_iter (GTK_TREE_MODEL_FILTER (self->model), &child_iter, &iter);
-  child_model = gtk_tree_model_filter_get_model (GTK_TREE_MODEL_FILTER (self->model));
-  gtk_tree_model_get (child_model, &child_iter, PHOTOS_VIEW_MODEL_URN, &id, -1);
-
-  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, id));
-  photos_base_manager_set_active_object (self->item_mngr, G_OBJECT (item));
-
-  g_free (id);
-}
-
-
-static void
 photos_preview_nav_buttons_next (PhotosPreviewNavButtons *self)
 {
-  GtkTreePath *current_path;
   PhotosBaseItem *item;
+  PhotosBaseItem *next_item;
 
   if (!self->enable_next)
     return;
@@ -341,21 +351,21 @@ photos_preview_nav_buttons_next (PhotosPreviewNavButtons *self)
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
 
+  next_item = photos_preview_nav_buttons_get_next_item (self);
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (next_item));
+
   g_signal_emit (self, signals[LOAD_NEXT], 0);
 
-  current_path = gtk_tree_row_reference_get_path (self->current_row);
-  gtk_tree_path_next (current_path);
-  photos_preview_nav_buttons_set_active_path (self, current_path);
+  photos_base_manager_set_active_object (self->item_mngr, G_OBJECT (next_item));
   photos_preview_nav_buttons_update_visibility (self);
-  gtk_tree_path_free (current_path);
 }
 
 
 static void
 photos_preview_nav_buttons_previous (PhotosPreviewNavButtons *self)
 {
-  GtkTreePath *current_path;
   PhotosBaseItem *item;
+  PhotosBaseItem *previous_item;
 
   if (!self->enable_prev)
     return;
@@ -363,13 +373,13 @@ photos_preview_nav_buttons_previous (PhotosPreviewNavButtons *self)
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (item));
 
+  previous_item = photos_preview_nav_buttons_get_previous_item (self);
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (previous_item));
+
   g_signal_emit (self, signals[LOAD_PREVIOUS], 0);
 
-  current_path = gtk_tree_row_reference_get_path (self->current_row);
-  gtk_tree_path_prev (current_path);
-  photos_preview_nav_buttons_set_active_path (self, current_path);
+  photos_base_manager_set_active_object (self->item_mngr, G_OBJECT (previous_item));
   photos_preview_nav_buttons_update_visibility (self);
-  gtk_tree_path_free (current_path);
 }
 
 
@@ -382,24 +392,12 @@ photos_preview_nav_buttons_dispose (GObject *object)
 
   g_clear_object (&self->long_press_gesture);
   g_clear_object (&self->tap_gesture);
-  g_clear_object (&self->model);
   g_clear_object (&self->next_widget);
   g_clear_object (&self->prev_widget);
   g_clear_object (&self->item_mngr);
   g_clear_object (&self->mode_cntrlr);
 
   G_OBJECT_CLASS (photos_preview_nav_buttons_parent_class)->dispose (object);
-}
-
-
-static void
-photos_preview_nav_buttons_finalize (GObject *object)
-{
-  PhotosPreviewNavButtons *self = PHOTOS_PREVIEW_NAV_BUTTONS (object);
-
-  g_clear_pointer (&self->current_row, (GDestroyNotify) gtk_tree_row_reference_free);
-
-  G_OBJECT_CLASS (photos_preview_nav_buttons_parent_class)->finalize (object);
 }
 
 
@@ -538,6 +536,12 @@ photos_preview_nav_buttons_init (PhotosPreviewNavButtons *self)
                            G_CONNECT_SWAPPED);
 
   self->item_mngr = g_object_ref (state->item_mngr);
+  g_signal_connect_object (self->item_mngr,
+                           "items-changed",
+                           G_CALLBACK (photos_preview_nav_buttons_items_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
   self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "delete");
@@ -556,7 +560,6 @@ photos_preview_nav_buttons_class_init (PhotosPreviewNavButtonsClass *class)
 
   object_class->constructed = photos_preview_nav_buttons_constructed;
   object_class->dispose = photos_preview_nav_buttons_dispose;
-  object_class->finalize = photos_preview_nav_buttons_finalize;
   object_class->set_property = photos_preview_nav_buttons_set_property;
 
   g_object_class_install_property (object_class,
@@ -617,48 +620,13 @@ photos_preview_nav_buttons_hide (PhotosPreviewNavButtons *self)
 
 
 void
-photos_preview_nav_buttons_set_model (PhotosPreviewNavButtons *self,
-                                      GtkTreeModel *child_model,
-                                      GtkTreePath *current_child_path)
+photos_preview_nav_buttons_set_mode (PhotosPreviewNavButtons *self, PhotosWindowMode old_mode)
 {
-  if (self->row_deleted_id != 0)
-    {
-      g_signal_handler_disconnect (self->model, self->row_deleted_id);
-      self->row_deleted_id = 0;
-    }
+  g_return_if_fail (PHOTOS_IS_PREVIEW_NAV_BUTTONS (self));
+  g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_EDIT);
+  g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
 
-  if (self->row_inserted_id != 0)
-    {
-      g_signal_handler_disconnect (self->model, self->row_inserted_id);
-      self->row_inserted_id = 0;
-    }
-
-  g_clear_object (&self->model);
-
-  if (child_model != NULL)
-    {
-      self->model = photos_preview_model_new (child_model);
-      self->row_deleted_id = g_signal_connect_swapped (self->model,
-                                                       "row-deleted",
-                                                       G_CALLBACK (photos_preview_nav_buttons_row_changed),
-                                                       self);
-      self->row_inserted_id = g_signal_connect_swapped (self->model,
-                                                        "row-inserted",
-                                                        G_CALLBACK (photos_preview_nav_buttons_row_changed),
-                                                        self);
-    }
-
-  g_clear_pointer (&self->current_row, (GDestroyNotify) gtk_tree_row_reference_free);
-
-  if (child_model != NULL && current_child_path != NULL)
-    {
-      GtkTreePath *current_path;
-
-      current_path = gtk_tree_model_filter_convert_child_path_to_path (GTK_TREE_MODEL_FILTER (self->model),
-                                                                       current_child_path);
-      self->current_row = gtk_tree_row_reference_new (self->model, current_path);
-      gtk_tree_path_free (current_path);
-    }
+  self->old_mode = old_mode;
 }
 
 

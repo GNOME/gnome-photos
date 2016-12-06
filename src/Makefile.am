@@ -156,8 +156,6 @@ gnome_photos_SOURCES = \
 	photos-pipeline.h \
 	photos-png-count.c \
 	photos-png-count.h \
-	photos-preview-model.c \
-	photos-preview-model.h \
 	photos-preview-nav-buttons.c \
 	photos-preview-nav-buttons.h \
 	photos-preview-view.c \

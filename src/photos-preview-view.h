@@ -28,6 +28,8 @@
 #include <gegl.h>
 #include <gtk/gtk.h>
 
+#include "photos-item-manager.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_PREVIEW_VIEW (photos_preview_view_get_type ())
@@ -47,9 +49,8 @@ GType                  photos_preview_view_get_type               (void) G_GNUC_
 
 GtkWidget             *photos_preview_view_new                    (GtkOverlay *overlay);
 
-void                   photos_preview_view_set_model              (PhotosPreviewView *self,
-                                                                   GtkTreeModel *model,
-                                                                   GtkTreePath *current_path);
+void                   photos_preview_view_set_mode               (PhotosPreviewView *self,
+                                                                   PhotosWindowMode old_mode);
 
 void                   photos_preview_view_set_node               (PhotosPreviewView *self, GeglNode *node);
 

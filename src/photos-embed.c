@@ -288,16 +288,7 @@ photos_embed_prepare_for_preview (PhotosEmbed *self, PhotosWindowMode old_mode)
    * when returning from the edit mode.
    */
   if (old_mode != PHOTOS_WINDOW_MODE_NONE && old_mode != PHOTOS_WINDOW_MODE_EDIT)
-    {
-      GtkListStore *model;
-      GtkTreePath *current_path;
-      GtkWidget *view_container;
-
-      view_container = photos_embed_get_view_container_from_mode (self, old_mode);
-      current_path = photos_view_container_get_current_path (PHOTOS_VIEW_CONTAINER (view_container));
-      model = photos_view_container_get_model (PHOTOS_VIEW_CONTAINER (view_container));
-      photos_preview_view_set_model (PHOTOS_PREVIEW_VIEW (self->preview), GTK_TREE_MODEL (model), current_path);
-    }
+    photos_preview_view_set_mode (PHOTOS_PREVIEW_VIEW (self->preview), old_mode);
 
   if (old_mode != PHOTOS_WINDOW_MODE_EDIT)
     photos_preview_view_set_node (PHOTOS_PREVIEW_VIEW (self->preview), NULL);

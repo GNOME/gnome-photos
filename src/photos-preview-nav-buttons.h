@@ -28,6 +28,7 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
+#include "photos-item-manager.h"
 #include "photos-preview-view.h"
 
 G_BEGIN_DECLS
@@ -52,9 +53,8 @@ PhotosPreviewNavButtons    *photos_preview_nav_buttons_new                (Photo
 
 void                        photos_preview_nav_buttons_hide               (PhotosPreviewNavButtons *self);
 
-void                        photos_preview_nav_buttons_set_model          (PhotosPreviewNavButtons *self,
-                                                                           GtkTreeModel *child_model,
-                                                                           GtkTreePath *current_child_path);
+void                        photos_preview_nav_buttons_set_mode           (PhotosPreviewNavButtons *self,
+                                                                           PhotosWindowMode old_mode);
 
 void                        photos_preview_nav_buttons_show               (PhotosPreviewNavButtons *self);
 

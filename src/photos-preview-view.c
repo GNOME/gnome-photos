@@ -33,7 +33,6 @@
 #include "photos-base-item.h"
 #include "photos-done-notification.h"
 #include "photos-image-view.h"
-#include "photos-item-manager.h"
 #include "photos-edit-palette.h"
 #include "photos-operation-insta-common.h"
 #include "photos-preview-nav-buttons.h"
@@ -590,7 +589,7 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
       gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer), FALSE);
       photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (self->palette));
       photos_preview_nav_buttons_hide (self->nav_buttons);
-      photos_preview_nav_buttons_set_model (self->nav_buttons, NULL, NULL);
+      photos_preview_nav_buttons_set_mode (self->nav_buttons, PHOTOS_WINDOW_MODE_NONE);
       break;
 
     case PHOTOS_WINDOW_MODE_EDIT:
@@ -794,12 +793,14 @@ photos_preview_view_new (GtkOverlay *overlay)
 
 
 void
-photos_preview_view_set_model (PhotosPreviewView *self, GtkTreeModel *model, GtkTreePath *current_path)
+photos_preview_view_set_mode (PhotosPreviewView *self, PhotosWindowMode old_mode)
 {
-  g_return_if_fail (model != NULL);
-  g_return_if_fail (current_path != NULL);
+  g_return_if_fail (PHOTOS_IS_PREVIEW_VIEW (self));
+  g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_NONE);
+  g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_EDIT);
+  g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
 
-  photos_preview_nav_buttons_set_model (self->nav_buttons, model, current_path);
+  photos_preview_nav_buttons_set_mode (self->nav_buttons, old_mode);
   photos_preview_nav_buttons_show (self->nav_buttons);
 }
 
