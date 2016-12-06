@@ -38,9 +38,9 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_PREVIEW_NAV_BUTTONS, PhotosPreviewNavButtons))
 
-#define PHOTOS_IS_PREVIEW_VIEW(obj) \
+#define PHOTOS_IS_PREVIEW_NAV_BUTTONS(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_PREVIEW_VIEW))
+   PHOTOS_TYPE_PREVIEW_NAV_BUTTONS))
 
 typedef struct _PhotosPreviewNavButtons      PhotosPreviewNavButtons;
 typedef struct _PhotosPreviewNavButtonsClass PhotosPreviewNavButtonsClass;
