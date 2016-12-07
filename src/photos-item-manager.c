@@ -609,6 +609,29 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
 }
 
 
+static gint
+photos_item_manager_sort_func (gconstpointer a, gconstpointer b, gpointer user_data)
+{
+  PhotosBaseItem *item_a = PHOTOS_BASE_ITEM ((gpointer) a);
+  PhotosBaseItem *item_b = PHOTOS_BASE_ITEM ((gpointer) b);
+  gint ret_val;
+  gint64 mtime_a;
+  gint64 mtime_b;
+
+  mtime_a = photos_base_item_get_mtime (item_a);
+  mtime_b = photos_base_item_get_mtime (item_b);
+
+  if (mtime_a > mtime_b)
+    ret_val = -1;
+  else if (mtime_a == mtime_b)
+    ret_val = 0;
+  else
+    ret_val = 1;
+
+  return ret_val;
+}
+
+
 static void
 photos_item_manager_dispose (GObject *object)
 {
@@ -681,7 +704,7 @@ photos_item_manager_init (PhotosItemManager *self)
   self->item_mngr_chldrn = (PhotosBaseManager **) g_malloc0_n (window_mode_class->n_values + 1,
                                                                sizeof (PhotosBaseManager *));
   for (i = 0; i < window_mode_class->n_values; i++)
-    self->item_mngr_chldrn[i] = photos_base_manager_new (NULL, NULL);
+    self->item_mngr_chldrn[i] = photos_base_manager_new (photos_item_manager_sort_func, NULL);
 
   g_signal_connect_swapped (self->item_mngr_chldrn[0],
                             "items-changed",
