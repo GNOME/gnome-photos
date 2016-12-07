@@ -2002,7 +2002,8 @@ photos_application_class_init (PhotosApplicationClass *class)
                                           NULL, /* accu_data */
                                           g_cclosure_marshal_VOID__POINTER,
                                           G_TYPE_NONE,
-                                          0);
+                                          1,
+                                          G_TYPE_POINTER);
 }
 
 
