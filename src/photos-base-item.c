@@ -110,7 +110,13 @@ enum
   PROP_0,
   PROP_CURSOR,
   PROP_FAILED_THUMBNAILING,
+  PROP_ICON,
   PROP_ID,
+  PROP_MTIME,
+  PROP_PRIMARY_TEXT,
+  PROP_PULSE,
+  PROP_SECONDARY_TEXT,
+  PROP_URI
 };
 
 enum
@@ -122,10 +128,13 @@ enum
 static guint signals[LAST_SIGNAL] = { 0 };
 
 static void photos_base_item_filterable_iface_init (PhotosFilterableInterface *iface);
+static void photos_base_item_main_box_item_iface_init (GdMainBoxItemInterface *iface);
 
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJECT,
                                   G_ADD_PRIVATE (PhotosBaseItem)
+                                  G_IMPLEMENT_INTERFACE (GD_TYPE_MAIN_BOX_ITEM,
+                                                         photos_base_item_main_box_item_iface_init)
                                   G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                          photos_base_item_filterable_iface_init));
 EGG_DEFINE_COUNTER (instances, "PhotosBaseItem", "Instances", "Number of PhotosBaseItem instances")
@@ -412,6 +421,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
   priv->surface = gdk_cairo_surface_create_from_pixbuf (thumbnailed_pixbuf, scale, window);
 
+  g_object_notify (G_OBJECT (self), "icon");
   g_signal_emit (self, signals[INFO_UPDATED], 0);
 
  out:
@@ -627,7 +637,7 @@ photos_base_item_download_in_thread_func (GTask *task,
 
 
 static const gchar *
-photos_base_item_get_id (PhotosFilterable *filterable)
+photos_base_item_filterable_get_id (PhotosFilterable *filterable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (filterable);
   PhotosBaseItemPrivate *priv;
@@ -644,6 +654,58 @@ photos_base_item_icon_updated (PhotosBaseItem *self, GIcon *icon)
     return;
 
   photos_base_item_set_original_icon (self, GDK_PIXBUF (icon));
+}
+
+
+static cairo_surface_t *
+photos_base_item_main_box_item_get_icon (GdMainBoxItem *box_item)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (box_item);
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
+  return priv->surface;
+}
+
+
+static const gchar *
+photos_base_item_main_box_item_get_id (GdMainBoxItem *box_item)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (box_item);
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
+  return priv->id;
+}
+
+
+static const gchar *
+photos_base_item_main_box_item_get_primary_text (GdMainBoxItem *box_item)
+{
+  const gchar *name;
+
+  name = photos_base_item_get_name (PHOTOS_BASE_ITEM (box_item));
+  return name;
+}
+
+
+static const gchar *
+photos_base_item_main_box_item_get_secondary_text (GdMainBoxItem *box_item)
+{
+  const gchar *author;
+
+  author = photos_base_item_get_author (PHOTOS_BASE_ITEM (box_item));
+  return author;
+}
+
+
+static const gchar *
+photos_base_item_main_box_item_get_uri (GdMainBoxItem *box_item)
+{
+  const gchar *uri;
+
+  uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (box_item));
+  return uri;
 }
 
 
@@ -2104,15 +2166,18 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   if (uri == NULL)
     uri = "";
   photos_utils_set_string (&priv->uri, uri);
+  g_object_notify (G_OBJECT (self), "uri");
 
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
   photos_utils_set_string (&priv->id, id);
+  g_object_notify (G_OBJECT (self), "id");
 
   identifier = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL);
   photos_utils_set_string (&priv->identifier, identifier);
 
   author = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_AUTHOR, NULL);
   photos_utils_set_string (&priv->author, author);
+  g_object_notify (G_OBJECT (self), "secondary-text");
 
   resource_urn = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_URN, NULL);
   photos_utils_set_string (&priv->resource_urn, resource_urn);
@@ -2127,6 +2192,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
     }
   else
     priv->mtime = g_get_real_time () / 1000000;
+  g_object_notify (G_OBJECT (self), "mtime");
 
   mime_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL);
   photos_utils_set_string (&priv->mime_type, mime_type);
@@ -2154,6 +2220,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   if (title == NULL)
     title = "";
   photos_utils_set_string (&priv->name, title);
+  g_object_notify (G_OBJECT (self), "primary-text");
 
   filename = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_FILENAME, NULL));
   if ((filename == NULL || filename[0] == '\0') && !priv->collection)
@@ -2315,8 +2382,32 @@ photos_base_item_get_property (GObject *object, guint prop_id, GValue *value, GP
 
   switch (prop_id)
     {
+    case PROP_ICON:
+      g_value_set_boxed (value, priv->surface);
+      break;
+
     case PROP_ID:
       g_value_set_string (value, priv->id);
+      break;
+
+    case PROP_MTIME:
+      g_value_set_int64 (value, priv->mtime);
+      break;
+
+    case PROP_PRIMARY_TEXT:
+      g_value_set_string (value, priv->name);
+      break;
+
+    case PROP_PULSE:
+      g_value_set_boolean (value, FALSE);
+      break;
+
+    case PROP_SECONDARY_TEXT:
+      g_value_set_string (value, priv->author);
+      break;
+
+    case PROP_URI:
+      g_value_set_string (value, priv->uri);
       break;
 
     default:
@@ -2400,14 +2491,6 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                                          FALSE,
                                                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
-  g_object_class_install_property (object_class,
-                                   PROP_ID,
-                                   g_param_spec_string ("id",
-                                                        "Uniform Resource Name",
-                                                        "An unique ID associated with this item",
-                                                        "",
-                                                        G_PARAM_READABLE));
-
   signals[INFO_UPDATED] = g_signal_new ("info-updated",
                                         G_TYPE_FROM_CLASS (class),
                                         G_SIGNAL_RUN_LAST,
@@ -2417,6 +2500,14 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                         g_cclosure_marshal_VOID__VOID,
                                         G_TYPE_NONE,
                                         0);
+
+  g_object_class_override_property (object_class, PROP_ICON, "icon");
+  g_object_class_override_property (object_class, PROP_ID, "id");
+  g_object_class_override_property (object_class, PROP_MTIME, "mtime");
+  g_object_class_override_property (object_class, PROP_PRIMARY_TEXT, "primary-text");
+  g_object_class_override_property (object_class, PROP_PULSE, "pulse");
+  g_object_class_override_property (object_class, PROP_SECONDARY_TEXT, "secondary-text");
+  g_object_class_override_property (object_class, PROP_URI, "uri");
 
   create_thumbnail_pool = g_thread_pool_new (photos_base_item_create_thumbnail_in_thread_func,
                                              NULL,
@@ -2430,7 +2521,18 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
 static void
 photos_base_item_filterable_iface_init (PhotosFilterableInterface *iface)
 {
-  iface->get_id = photos_base_item_get_id;
+  iface->get_id = photos_base_item_filterable_get_id;
+}
+
+
+static void
+photos_base_item_main_box_item_iface_init (GdMainBoxItemInterface *iface)
+{
+  iface->get_icon = photos_base_item_main_box_item_get_icon;
+  iface->get_id = photos_base_item_main_box_item_get_id;
+  iface->get_primary_text = photos_base_item_main_box_item_get_primary_text;
+  iface->get_secondary_text = photos_base_item_main_box_item_get_secondary_text;
+  iface->get_uri = photos_base_item_main_box_item_get_uri;
 }
 
 
