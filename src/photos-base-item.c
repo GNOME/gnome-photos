@@ -2423,9 +2423,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                              1,
                                              FALSE,
                                              NULL);
-  g_thread_pool_set_sort_function (create_thumbnail_pool,
-                                   (GCompareDataFunc) photos_base_item_create_thumbnail_sort_func,
-                                   NULL);
+  g_thread_pool_set_sort_function (create_thumbnail_pool, photos_base_item_create_thumbnail_sort_func, NULL);
 }
 
 
