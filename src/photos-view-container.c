@@ -38,16 +38,15 @@
 #include "photos-tracker-controller.h"
 #include "photos-utils.h"
 #include "photos-view-container.h"
-#include "photos-view-model.h"
 
 
 struct _PhotosViewContainer
 {
   GtkStack parent_instance;
-  GdMainView *view;
-  GtkListStore *model;
   GtkWidget *error_box;
   GtkWidget *no_results;
+  GtkWidget *sw;
+  GtkWidget *view;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
@@ -81,7 +80,7 @@ photos_view_container_edge_reached (PhotosViewContainer *self, GtkPositionType p
 static void
 photos_view_container_connect_view (PhotosViewContainer *self)
 {
-  g_signal_connect_swapped (self->view, "edge-reached", G_CALLBACK (photos_view_container_edge_reached), self);
+  g_signal_connect_swapped (self->sw, "edge-reached", G_CALLBACK (photos_view_container_edge_reached), self);
 }
 
 
@@ -98,22 +97,25 @@ photos_view_container_count_changed (PhotosViewContainer *self, gint count)
 static void
 photos_view_container_disconnect_view (PhotosViewContainer *self)
 {
-  g_signal_handlers_disconnect_by_func (self->view, photos_view_container_edge_reached, self);
+  g_signal_handlers_disconnect_by_func (self->sw, photos_view_container_edge_reached, self);
 }
 
 
 static void
-photos_view_container_item_activated (PhotosViewContainer *self, const gchar * id)
+photos_view_container_item_activated (PhotosViewContainer *self, GdMainBoxItem *box_item)
 {
-  GObject *object;
+  PhotosBaseItem *item;
+  const gchar *id;
 
-  object = photos_base_manager_get_object_by_id (self->item_mngr, id);
+  id = gd_main_box_item_get_id (box_item);
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, id));
+  g_return_if_fail ((gpointer) box_item == (gpointer) item);
 
-  if (!photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)) &&
+  if (!photos_base_item_is_collection (item) &&
       photos_remote_display_manager_is_active (self->remote_mngr))
-    photos_remote_display_manager_render (self->remote_mngr, PHOTOS_BASE_ITEM (object));
+    photos_remote_display_manager_render (self->remote_mngr, item);
   else
-    photos_base_manager_set_active_object (self->item_mngr, object);
+    photos_base_manager_set_active_object (self->item_mngr, G_OBJECT (item));
 }
 
 
@@ -137,14 +139,17 @@ photos_view_container_query_status_changed (PhotosViewContainer *self, gboolean 
 {
   if (!query_status)
     {
-      gd_main_view_set_model (self->view, GTK_TREE_MODEL (self->model));
+      PhotosBaseManager *item_mngr_chld;
+
+      item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->item_mngr), self->mode);
+      gd_main_box_set_model (GD_MAIN_BOX (self->view), G_LIST_MODEL (item_mngr_chld));
       photos_selection_controller_freeze_selection (self->sel_cntrlr, FALSE);
       /* TODO: update selection */
     }
   else
     {
       photos_selection_controller_freeze_selection (self->sel_cntrlr, TRUE);
-      gd_main_view_set_model (self->view, NULL);
+      gd_main_box_set_model (GD_MAIN_BOX (self->view), NULL);
     }
 }
 
@@ -159,7 +164,7 @@ photos_view_container_select_all (PhotosViewContainer *self)
     return;
 
   photos_selection_controller_set_selection_mode (self->sel_cntrlr, TRUE);
-  gd_main_view_select_all (self->view);
+  gd_main_box_select_all (GD_MAIN_BOX (self->view));
 }
 
 
@@ -172,7 +177,7 @@ photos_view_container_select_none (PhotosViewContainer *self)
   if (self->mode != mode)
     return;
 
-  gd_main_view_unselect_all (self->view);
+  gd_main_box_unselect_all (GD_MAIN_BOX (self->view));
 }
 
 
@@ -180,6 +185,21 @@ static void
 photos_view_container_selection_mode_request (PhotosViewContainer *self)
 {
   photos_selection_controller_set_selection_mode (self->sel_cntrlr, TRUE);
+}
+
+
+static void
+photos_view_container_selection_changed (PhotosViewContainer *self)
+{
+  GList *selected_urns;
+  GList *selection;
+
+  selection = gd_main_box_get_selection (GD_MAIN_BOX (self->view));
+  selected_urns = photos_utils_get_urns_from_items (selection);
+  photos_selection_controller_set_selection (self->sel_cntrlr, selected_urns);
+
+  g_list_free_full (selected_urns, g_free);
+  g_list_free_full (selection, g_object_unref);
 }
 
 
@@ -192,22 +212,7 @@ photos_view_container_set_selection_mode (PhotosViewContainer *self, gboolean se
   if (self->mode != window_mode)
     return;
 
-  gd_main_view_set_selection_mode (self->view, selection_mode);
-}
-
-
-static void
-photos_view_container_view_selection_changed (PhotosViewContainer *self)
-{
-  GList *selected_urns;
-  GList *selection;
-
-  selection = gd_main_view_get_selection (self->view);
-  selected_urns = photos_utils_get_urns_from_paths (selection, GTK_TREE_MODEL (self->model));
-  photos_selection_controller_set_selection (self->sel_cntrlr, selected_urns);
-
-  g_list_free_full (selected_urns, g_free);
-  g_list_free_full (selection, (GDestroyNotify) gtk_tree_path_free);
+  gd_main_box_set_selection_mode (GD_MAIN_BOX (self->view), selection_mode);
 }
 
 
@@ -233,12 +238,11 @@ photos_view_container_constructed (GObject *object)
   AtkObject *accessible;
   GAction *action;
   GApplication *app;
-  GtkWidget *generic_view;
+  GtkStyleContext *context;
   GtkWidget *grid;
   PhotosSearchContextState *state;
   gboolean selection_mode;
   gboolean status;
-  gint size;
 
   G_OBJECT_CLASS (photos_view_container_parent_class)->constructed (object);
 
@@ -248,8 +252,6 @@ photos_view_container_constructed (GObject *object)
   accessible = gtk_widget_get_accessible (GTK_WIDGET (self));
   if (accessible != NULL)
     atk_object_set_name (accessible, self->name);
-
-  self->model = photos_view_model_new (self->mode);
 
   grid = gtk_grid_new ();
   gtk_orientable_set_orientation (GTK_ORIENTABLE (grid), GTK_ORIENTATION_VERTICAL);
@@ -261,11 +263,17 @@ photos_view_container_constructed (GObject *object)
   self->error_box = photos_error_box_new ();
   gtk_stack_add_named (GTK_STACK (self), self->error_box, "error");
 
-  self->view = gd_main_view_new (GD_MAIN_VIEW_ICON);
-  generic_view = gd_main_view_get_generic_view (self->view);
-  size = photos_utils_get_icon_size_unscaled ();
-  gtk_icon_view_set_item_width (GTK_ICON_VIEW (generic_view), size + 24);
-  gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (self->view));
+  self->sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_set_hexpand (self->sw, TRUE);
+  gtk_widget_set_vexpand (self->sw, TRUE);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (self->sw), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (self->sw), GTK_SHADOW_IN);
+  context = gtk_widget_get_style_context (GTK_WIDGET (self->sw));
+  gtk_style_context_add_class (context, "documents-scrolledwin");
+  gtk_container_add (GTK_CONTAINER (grid), self->sw);
+
+  self->view = gd_main_box_new (GD_MAIN_BOX_ICON);
+  gtk_container_add (GTK_CONTAINER (self->sw), self->view);
 
   gtk_widget_show_all (GTK_WIDGET (self));
 
@@ -277,8 +285,8 @@ photos_view_container_constructed (GObject *object)
                             G_CALLBACK (photos_view_container_selection_mode_request),
                             self);
   g_signal_connect_swapped (self->view,
-                            "view-selection-changed",
-                            G_CALLBACK (photos_view_container_view_selection_changed),
+                            "selection-changed",
+                            G_CALLBACK (photos_view_container_selection_changed),
                             self);
 
   self->item_mngr = g_object_ref (state->item_mngr);
@@ -352,7 +360,6 @@ photos_view_container_dispose (GObject *object)
       self->disposed = TRUE;
     }
 
-  g_clear_object (&self->model);
   g_clear_object (&self->item_mngr);
   g_clear_object (&self->mode_cntrlr);
   g_clear_object (&self->offset_cntrlr);
@@ -466,18 +473,12 @@ photos_view_container_new (PhotosWindowMode mode, const gchar *name)
 void
 photos_view_container_activate_result (PhotosViewContainer *self)
 {
-  GtkTreeIter iter;
+  PhotosBaseItem *item;
+  PhotosBaseManager *item_mngr_chld;
 
-  if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->model), &iter))
-    {
-      GtkTreePath *path;
-      GtkWidget *generic_view;
-
-      path = gtk_tree_model_get_path (GTK_TREE_MODEL (self->model), &iter);
-      generic_view = gd_main_view_get_generic_view (self->view);
-      gtk_icon_view_item_activated (GTK_ICON_VIEW (generic_view), path);
-      gtk_tree_path_free (path);
-    }
+  item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->item_mngr), self->mode);
+  item = PHOTOS_BASE_ITEM (g_list_model_get_object (G_LIST_MODEL (item_mngr_chld), 0));
+  photos_base_manager_set_active_object (self->item_mngr, G_OBJECT (item));
 }
 
 

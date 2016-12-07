@@ -112,7 +112,6 @@ LIBGD_INIT([
   gtk-hacks
   main-box
   main-icon-view
-  main-view
   static
   tagged-entry
 ])

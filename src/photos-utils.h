@@ -166,7 +166,7 @@ const gchar     *photos_utils_get_provider_name           (PhotosBaseManager *sr
 
 GtkBorder       *photos_utils_get_thumbnail_frame_border  (void);
 
-GList           *photos_utils_get_urns_from_paths         (GList *paths, GtkTreeModel *model);
+GList           *photos_utils_get_urns_from_items         (GList *items);
 
 GIcon           *photos_utils_icon_from_rdf_type          (const gchar *type);
 

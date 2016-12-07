@@ -1334,22 +1334,18 @@ photos_utils_get_thumbnail_frame_border (void)
 
 
 GList *
-photos_utils_get_urns_from_paths (GList *paths, GtkTreeModel *model)
+photos_utils_get_urns_from_items (GList *items)
 {
   GList *l;
   GList *urns = NULL;
 
-  for (l = paths; l != NULL; l = l->next)
+  for (l = items; l != NULL; l = l->next)
     {
-      GtkTreeIter iter;
-      GtkTreePath *path = (GtkTreePath *) l->data;
-      gchar *id;
+      GdMainBoxItem *box_item = GD_MAIN_BOX_ITEM (l->data);
+      const gchar *id;
 
-      if (!gtk_tree_model_get_iter (model, &iter, path))
-        continue;
-
-      gtk_tree_model_get (model, &iter, GD_MAIN_COLUMN_ID, &id, -1);
-      urns = g_list_prepend (urns, id);
+      id = gd_main_box_item_get_id (box_item);
+      urns = g_list_prepend (urns, g_strdup (id));
     }
 
   return g_list_reverse (urns);

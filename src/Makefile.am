@@ -254,8 +254,6 @@ gnome_photos_SOURCES = \
 	photos-utils.h \
 	photos-view-container.c \
 	photos-view-container.h \
-	photos-view-model.c \
-	photos-view-model.h \
 	photos-widget-shader.c \
 	photos-widget-shader.h \
 	photos-main.c \
