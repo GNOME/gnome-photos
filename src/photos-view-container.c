@@ -24,6 +24,7 @@
 
 
 #include "config.h"
+
 #include <libgd/gd.h>
 
 #include "photos-empty-results-box.h"
