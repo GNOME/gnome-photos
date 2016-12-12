@@ -1,3 +1,15 @@
+Overview of changes in 3.23.3
+=============================
+
+* Bugs fixed:
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 774191 item-manager: Emit GListModel::items-changed
+ 775153 Forget the last non-range selection when leaving selection mode
+ 775562 Don't use PhotosViewModel in PhotosMainToolbar
+ 775754 Find an alternative to PhotosPreviewModel
+ 763908 tracker-controller: Don't use g_cancellable_reset
+
+
 Overview of changes in 3.23.2
 =============================
 
