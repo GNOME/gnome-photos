@@ -62,3 +62,22 @@ photos_properties_sidebar_init (PhotosPropertiesSidebar *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 }
+
+static void
+photos_properties_sidebar_clear (PhotosPropertiesSidebar *self)
+{
+  /* FIXME: g_object_clear () gives problems */
+  if (self->item)
+    {
+      g_object_unref (self->item);
+      self->item = NULL;
+    }
+}
+
+void
+photos_properties_sidebar_set_item (PhotosPropertiesSidebar *self, PhotosBaseItem *item)
+{
+  photos_properties_sidebar_clear (self);
+
+  self->item = g_object_ref (item);
+}

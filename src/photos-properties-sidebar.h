@@ -23,12 +23,17 @@
 
 #include <gtk/gtk.h>
 
+#include "photos-base-item.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_PROPERTIES_SIDEBAR (photos_properties_sidebar_get_type ())
 G_DECLARE_FINAL_TYPE (PhotosPropertiesSidebar, photos_properties_sidebar, PHOTOS, PROPERTIES_SIDEBAR, GtkScrolledWindow);
 
 GtkWidget             *photos_properties_sidebar_new                    (void);
+
+void                   photos_properties_sidebar_set_item               (PhotosPropertiesSidebar *self,
+                                                                         PhotosBaseItem *item);
 
 G_END_DECLS
 
