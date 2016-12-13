@@ -19,11 +19,14 @@
  */
 
 #include "photos-base-item.h"
+#include "photos-filterable.h"
 #include "photos-properties-sidebar.h"
+#include "photos-utils.h"
 
 struct _PhotosPropertiesSidebar
 {
   GtkScrolledWindow parent_instance;
+  GtkWidget *title_entry;
   PhotosBaseItem *item;
 };
 
@@ -41,6 +44,17 @@ photos_properties_sidebar_new (void)
 }
 
 static void
+photos_properties_sidebar_name_update (PhotosPropertiesSidebar *self)
+{
+  const gchar *new_title;
+  const gchar *urn;
+
+  urn = photos_filterable_get_id (PHOTOS_FILTERABLE (self->item));
+  new_title = gtk_entry_get_text (GTK_ENTRY (self->title_entry));
+  photos_utils_set_edited_name (urn, new_title);
+}
+
+static void
 photos_properties_sidebar_finalize (GObject *object)
 {
   G_OBJECT_CLASS (photos_properties_sidebar_parent_class)->finalize (object);
@@ -55,6 +69,7 @@ photos_properties_sidebar_class_init (PhotosPropertiesSidebarClass *klass)
   object_class->finalize = photos_properties_sidebar_finalize;
 
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/properties-sidebar.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhotosPropertiesSidebar, title_entry);
 }
 
 static void
@@ -72,6 +87,8 @@ photos_properties_sidebar_clear (PhotosPropertiesSidebar *self)
       g_object_unref (self->item);
       self->item = NULL;
     }
+
+  gtk_entry_set_text (GTK_ENTRY (self->title_entry), "");
 }
 
 void
@@ -80,4 +97,10 @@ photos_properties_sidebar_set_item (PhotosPropertiesSidebar *self, PhotosBaseIte
   photos_properties_sidebar_clear (self);
 
   self->item = g_object_ref (item);
+
+  gtk_entry_set_text (GTK_ENTRY (self->title_entry), photos_base_item_get_name (item));
+  g_signal_connect_swapped (self->title_entry,
+                            "changed",
+                            G_CALLBACK (photos_properties_sidebar_name_update),
+                            self);
 }
