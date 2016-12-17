@@ -300,6 +300,16 @@ photos_query_builder_global_query (PhotosSearchContextState *state,
 
 
 PhotosQuery *
+photos_query_builder_location_query (PhotosSearchContextState *state, const gchar *location_urn)
+{
+  gchar *sparql;
+
+  sparql = g_strdup_printf ("SELECT slo:latitude (<%s>) slo:longitude (<%s>) WHERE {}", location_urn, location_urn);
+  return photos_query_new (state, sparql);
+}
+
+
+PhotosQuery *
 photos_query_builder_set_collection_query (PhotosSearchContextState *state,
                                            const gchar *item_urn,
                                            const gchar *collection_urn,
