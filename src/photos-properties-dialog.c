@@ -1,6 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2016 Red Hat, Inc.
+ * Copyright © 2012 – 2017 Red Hat, Inc.
+ * Copyright © 2017 Shivam Tripathi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,6 +26,7 @@
 
 #include "config.h"
 
+#include <geocode-glib/geocode-glib.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
@@ -33,7 +35,9 @@
 #include "photos-camera-cache.h"
 #include "photos-local-item.h"
 #include "photos-properties-dialog.h"
+#include "photos-query-builder.h"
 #include "photos-search-context.h"
+#include "photos-tracker-queue.h"
 #include "photos-utils.h"
 
 
@@ -46,8 +50,10 @@ struct _PhotosPropertiesDialog
   GtkWidget *title_entry;
   GtkWidget *modified_data;
   GtkWidget *revert_button;
+  GtkWidget *location_w;
   PhotosBaseManager *item_mngr;
   PhotosCameraCache *camera_cache;
+  PhotosTrackerQueue *queue;
   gchar *urn;
   guint title_entry_timeout;
 };
@@ -115,6 +121,126 @@ photos_properties_dialog_get_camera (GObject *source_object, GAsyncResult *res, 
     }
 
   g_free (camera);
+}
+
+
+static void
+photos_properties_dialog_location_reverse_resolve (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosPropertiesDialog *self;
+  GError *error;
+  GeocodePlace *place = NULL;
+  GeocodeReverse *reverse = GEOCODE_REVERSE (source_object);
+  GtkWidget *location_data;
+  const gchar *location_area;
+  const gchar *location_country;
+  const gchar *location_town;
+  gchar *location_str = NULL;
+
+  error = NULL;
+  place = geocode_reverse_resolve_finish (reverse, res, &error);
+  if (error != NULL)
+    {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to resolve latitude and longitude: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  self = PHOTOS_PROPERTIES_DIALOG (user_data);
+
+  location_area = geocode_place_get_area (place);
+  location_town = geocode_place_get_town (place);
+  location_country =  geocode_place_get_country (place);
+  location_str = g_strdup_printf ("%s, %s, %s", location_area, location_town, location_country);
+
+  location_data = gtk_label_new (location_str);
+  gtk_widget_set_halign (location_data, GTK_ALIGN_START);
+  gtk_grid_attach_next_to (GTK_GRID (self->grid), location_data, self->location_w, GTK_POS_RIGHT, 2, 1);
+  gtk_widget_show (location_data);
+
+ out:
+  g_clear_object (&place);
+  g_free (location_str);
+}
+
+
+static void
+photos_properties_dialog_location_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosPropertiesDialog *self;
+  GError *error;
+  GeocodeLocation *location = NULL;
+  GeocodeReverse *reverse = NULL;
+  TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
+  gboolean success;
+  gdouble latitude;
+  gdouble longitude;
+
+  error = NULL;
+  /* Note that tracker_sparql_cursor_next_finish can return FALSE even
+   * without an error.
+   */
+  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
+  if (error != NULL)
+    {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        g_warning ("Unable to read latitude and longitude: %s", error->message);
+      g_error_free (error);
+      goto out;
+    }
+
+  self = PHOTOS_PROPERTIES_DIALOG (user_data);
+
+  /* Note that the following SPARQL query:
+   *   SELECT slo:latitude (<(foo)>) slo:longitude (<(foo)>) WHERE {}
+   * ... will not return an empty cursor, but:
+   *   (null), (null)
+   */
+  if (!success)
+    {
+      g_warning ("Cursor is empty — possibly wrong SPARQL query");
+      goto out;
+    }
+
+  latitude = tracker_sparql_cursor_get_double (cursor, 0);
+  longitude = tracker_sparql_cursor_get_double (cursor, 1);
+  location = geocode_location_new (latitude, longitude, GEOCODE_LOCATION_ACCURACY_UNKNOWN);
+  reverse = geocode_reverse_new_for_location (location);
+  geocode_reverse_resolve_async (reverse,
+                                 self->cancellable,
+                                 photos_properties_dialog_location_reverse_resolve,
+                                 self);
+
+ out:
+  g_clear_object (&location);
+  g_clear_object (&reverse);
+}
+
+
+static void
+photos_properties_dialog_location_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (user_data);
+  TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
+  TrackerSparqlCursor *cursor = NULL;
+  GError *error;
+
+  error = NULL;
+  cursor = tracker_sparql_connection_query_finish (connection, res, &error);
+  if (error != NULL)
+    {
+      g_warning ("Unable to query latitude and longitude: %s", error->message);
+      goto out;
+    }
+
+  tracker_sparql_cursor_next_async (cursor,
+                                    self->cancellable,
+                                    photos_properties_dialog_location_cursor_next,
+                                    self);
+
+ out:
+  g_clear_object (&cursor);
 }
 
 
@@ -233,7 +359,9 @@ static void
 photos_properties_dialog_constructed (GObject *object)
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (object);
+  GApplication *app;
   GDateTime *date_modified;
+  GError *error;
   GtkStyleContext *context;
   GtkWidget *author_w = NULL;
   GtkWidget *content_area;
@@ -255,7 +383,9 @@ photos_properties_dialog_constructed (GObject *object)
   GQuark equipment;
   GQuark flash;
   PhotosBaseItem *item;
+  PhotosSearchContextState *state;
   const gchar *author;
+  const gchar *location;
   const gchar *name;
   const gchar *type_description;
   gchar *date_created_str = NULL;
@@ -270,6 +400,19 @@ photos_properties_dialog_constructed (GObject *object)
   gint64 width;
 
   G_OBJECT_CLASS (photos_properties_dialog_parent_class)->constructed (object);
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  self->item_mngr = g_object_ref (state->item_mngr);
+
+  error = NULL;
+  self->queue = photos_tracker_queue_dup_singleton (NULL, &error);
+  if (G_UNLIKELY (error != NULL))
+    {
+      g_warning ("Unable to create PhotosTrackerQueue: %s", error->message);
+      g_error_free (error);
+    }
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, self->urn));
 
@@ -364,6 +507,28 @@ photos_properties_dialog_constructed (GObject *object)
       context = gtk_widget_get_style_context (dimensions_w);
       gtk_style_context_add_class (context, "dim-label");
       gtk_container_add (GTK_CONTAINER (self->grid), dimensions_w);
+    }
+
+  location = photos_base_item_get_location (item);
+  if (location != NULL && location[0] != '\0' && G_LIKELY (self->queue != NULL))
+    {
+      PhotosQuery *query;
+
+      self->location_w = gtk_label_new (_("Location"));
+      gtk_widget_set_halign (self->location_w, GTK_ALIGN_END);
+      context = gtk_widget_get_style_context (self->location_w);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (self->grid), self->location_w);
+
+      query = photos_query_builder_location_query (state, location);
+      photos_tracker_queue_select (self->queue,
+                                   query->sparql,
+                                   NULL,
+                                   photos_properties_dialog_location_query_executed,
+                                   g_object_ref (self),
+                                   g_object_unref);
+
+      photos_query_free (query);
     }
 
   equipment = photos_base_item_get_equipment (item);
@@ -650,6 +815,7 @@ photos_properties_dialog_dispose (GObject *object)
 
   g_clear_object (&self->item_mngr);
   g_clear_object (&self->camera_cache);
+  g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_properties_dialog_parent_class)->dispose (object);
 }
@@ -687,14 +853,7 @@ photos_properties_dialog_set_property (GObject *object, guint prop_id, const GVa
 static void
 photos_properties_dialog_init (PhotosPropertiesDialog *self)
 {
-  GApplication *app;
-  PhotosSearchContextState *state;
-
-  app = g_application_get_default ();
-  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
-
   self->cancellable = g_cancellable_new ();
-  self->item_mngr = g_object_ref (state->item_mngr);
   self->camera_cache = photos_camera_cache_dup_singleton ();
 }
 
