@@ -33,7 +33,6 @@
 #include "photos-icons.h"
 #include "photos-preview-nav-buttons.h"
 #include "photos-search-context.h"
-#include "photos-view-model.h"
 
 
 struct _PhotosPreviewNavButtons
