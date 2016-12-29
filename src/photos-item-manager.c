@@ -159,6 +159,18 @@ photos_item_manager_check_wait_for_changes (PhotosItemManager *self, const gchar
 }
 
 
+static gboolean
+photos_item_manager_cursor_is_collection (TrackerSparqlCursor *cursor)
+{
+  gboolean ret_val;
+  const gchar *rdf_type;
+
+  rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
+  ret_val = strstr (rdf_type, "nfo#DataContainer") != NULL;
+  return ret_val;
+}
+
+
 static void
 photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
@@ -166,8 +178,6 @@ photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult 
   GError *error = NULL;
   PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
   TrackerSparqlCursor *cursor = NULL;
-  const gchar *id;
-  const gchar *uri;
 
   cursor = photos_single_item_job_finish (job, res, &error);
   if (error != NULL)
@@ -182,9 +192,15 @@ photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult 
 
   photos_item_manager_add_item (self, cursor, FALSE);
 
-  id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
-  uri = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URI, NULL);
-  photos_item_manager_check_wait_for_changes (self, id, uri);
+  if (!photos_item_manager_cursor_is_collection (cursor))
+    {
+      const gchar *id;
+      const gchar *uri;
+
+      id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+      uri = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URI, NULL);
+      photos_item_manager_check_wait_for_changes (self, id, uri);
+    }
 
  out:
   g_clear_object (&cursor);
@@ -235,12 +251,15 @@ photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpoin
       object = photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), change_urn);
       if (object != NULL)
         {
-          const gchar *uri;
-
           photos_base_item_refresh (PHOTOS_BASE_ITEM (object));
 
-          uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
-          photos_item_manager_check_wait_for_changes (self, change_urn, uri);
+          if (!photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
+	    {
+              const gchar *uri;
+
+              uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
+              photos_item_manager_check_wait_for_changes (self, change_urn, uri);
+	    }
         }
     }
   else if (change_type == PHOTOS_TRACKER_CHANGE_EVENT_CREATED)
@@ -292,18 +311,6 @@ photos_item_manager_collection_path_free (PhotosItemManager *self)
 {
   g_queue_foreach (self->collection_path, photos_item_manager_collection_path_free_foreach, NULL);
   g_queue_free (self->collection_path);
-}
-
-
-static gboolean
-photos_item_manager_cursor_is_collection (TrackerSparqlCursor *cursor)
-{
-  gboolean ret_val;
-  const gchar *rdf_type;
-
-  rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
-  ret_val = strstr (rdf_type, "nfo#DataContainer") != NULL;
-  return ret_val;
 }
 
 
