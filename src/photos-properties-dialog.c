@@ -367,11 +367,6 @@ photos_properties_dialog_constructed (GObject *object)
     }
 
   equipment = photos_base_item_get_equipment (item);
-  photos_camera_cache_get_camera_async (self->camera_cache,
-                                        equipment,
-                                        self->cancellable,
-                                        photos_properties_dialog_get_camera,
-                                        self);
   if (equipment != 0)
     {
       self->camera_w = gtk_label_new (_("Camera"));
@@ -509,6 +504,15 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_widget_set_halign (dims_data, GTK_ALIGN_START);
       gtk_grid_attach_next_to (GTK_GRID (self->grid), dims_data, dimensions_w, GTK_POS_RIGHT, 2, 1);
       g_free (dims_str);
+    }
+
+  if (self->camera_w != NULL)
+    {
+      photos_camera_cache_get_camera_async (self->camera_cache,
+                                            equipment,
+                                            self->cancellable,
+                                            photos_properties_dialog_get_camera,
+                                            self);
     }
 
   if (exposure_time_w != NULL)
