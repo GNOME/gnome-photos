@@ -68,6 +68,11 @@ photos_camera_cache_cursor_next (GObject *source_object, GAsyncResult *res, gpoi
       goto out;
     }
 
+  /* Note that the following SPARQL query:
+   *   SELECT nfo:manufacturer (<(foo)>) nfo:model (<(foo)>) WHERE {}
+   * ... will not return an empty cursor, but:
+   *   (null), (null)
+   */
   if (!success)
     {
       g_task_return_new_error (task, PHOTOS_ERROR, 0, "Cursor is empty — possibly wrong SPARQL query");
