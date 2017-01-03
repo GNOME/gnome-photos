@@ -1,3 +1,16 @@
+Overview of changes in 3.22.3
+=============================
+
+* Bugs fixed:
+ 774253 Unable to find Photos by browsing in Software (not listed in relevant
+        categories)
+ 775153 Forget the last non-range selection when leaving selection mode
+ 776133 GdMainView: The DnD selection counter is broken on HiDpi
+
+* Updated translations:
+ Russian
+
+
 Overview of changes in 3.22.2
 =============================
 
