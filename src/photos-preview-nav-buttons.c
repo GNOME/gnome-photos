@@ -57,11 +57,6 @@ struct _PhotosPreviewNavButtons
   guint motion_id;
 };
 
-struct _PhotosPreviewNavButtonsClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,

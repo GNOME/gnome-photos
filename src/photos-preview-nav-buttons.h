@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 – 2016 Red Hat, Inc.
+ * Copyright © 2013 – 2017 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,19 +34,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_PREVIEW_NAV_BUTTONS (photos_preview_nav_buttons_get_type ())
-
-#define PHOTOS_PREVIEW_NAV_BUTTONS(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_PREVIEW_NAV_BUTTONS, PhotosPreviewNavButtons))
-
-#define PHOTOS_IS_PREVIEW_NAV_BUTTONS(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_PREVIEW_NAV_BUTTONS))
-
-typedef struct _PhotosPreviewNavButtons      PhotosPreviewNavButtons;
-typedef struct _PhotosPreviewNavButtonsClass PhotosPreviewNavButtonsClass;
-
-GType                       photos_preview_nav_buttons_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosPreviewNavButtons, photos_preview_nav_buttons, PHOTOS, PREVIEW_NAV_BUTTONS, GObject);
 
 PhotosPreviewNavButtons    *photos_preview_nav_buttons_new                (PhotosPreviewView *preview_view,
                                                                            GtkOverlay *overlay);
