@@ -43,11 +43,6 @@ struct _PhotosToolFilters
   guint create_preview_id;
 };
 
-struct _PhotosToolFiltersClass
-{
-  PhotosToolClass parent_class;
-};
-
 
 G_DEFINE_TYPE_WITH_CODE (PhotosToolFilters, photos_tool_filters, PHOTOS_TYPE_TOOL,
                          photos_utils_ensure_extension_points ();
