@@ -44,11 +44,6 @@ struct _PhotosToolEnhance
   guint sharpen_value_changed_id;
 };
 
-struct _PhotosToolEnhanceClass
-{
-  PhotosToolClass parent_class;
-};
-
 
 G_DEFINE_TYPE_WITH_CODE (PhotosToolEnhance, photos_tool_enhance, PHOTOS_TYPE_TOOL,
                          photos_utils_ensure_extension_points ();

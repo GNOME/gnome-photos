@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2016 Red Hat, Inc.
+ * Copyright © 2015 – 2017 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,19 +26,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_TOOL_ENHANCE (photos_tool_enhance_get_type ())
-
-#define PHOTOS_TOOL_ENHANCE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_TOOL_ENHANCE, PhotosToolEnhance))
-
-#define PHOTOS_IS_TOOL_ENHANCE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_TOOL_ENHANCE))
-
-typedef struct _PhotosToolEnhance      PhotosToolEnhance;
-typedef struct _PhotosToolEnhanceClass PhotosToolEnhanceClass;
-
-GType               photos_tool_enhance_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosToolEnhance, photos_tool_enhance, PHOTOS, TOOL_ENHANCE, PhotosTool);
 
 G_END_DECLS
 
