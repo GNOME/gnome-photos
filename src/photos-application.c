@@ -1634,6 +1634,7 @@ photos_application_startup (GApplication *application)
   const gchar *edit_accels[2] = {"<Primary>e", NULL};
   const gchar *fullscreen_accels[2] = {"F11", NULL};
   const gchar *gear_menu_accels[2] = {"F10", NULL};
+  const gchar *help_menu_accels[2] = {"F1", NULL};
   const gchar *print_current_accels[2] = {"<Primary>p", NULL};
   const gchar *quit_accels[2] = {"<Primary>q", NULL};
   const gchar *save_accels[2] = {"<Primary>x", NULL};
@@ -1857,6 +1858,7 @@ photos_application_startup (GApplication *application)
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.edit-current", edit_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.fullscreen", fullscreen_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.gear-menu", gear_menu_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.help", help_menu_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.print-current", print_current_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.save-current", save_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.search", search_accels);
