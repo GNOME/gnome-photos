@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2016 Red Hat, Inc.
+ * Copyright © 2015 – 2017 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,19 +26,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_TOOL_CROP (photos_tool_crop_get_type ())
-
-#define PHOTOS_TOOL_CROP(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_TOOL_CROP, PhotosToolCrop))
-
-#define PHOTOS_IS_TOOL_CROP(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_TOOL_CROP))
-
-typedef struct _PhotosToolCrop      PhotosToolCrop;
-typedef struct _PhotosToolCropClass PhotosToolCropClass;
-
-GType               photos_tool_crop_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosToolCrop, photos_tool_crop, PHOTOS, TOOL_CROP, PhotosTool);
 
 G_END_DECLS
 

@@ -85,11 +85,6 @@ struct _PhotosToolCrop
   gulong size_allocate_id;
 };
 
-struct _PhotosToolCropClass
-{
-  PhotosToolClass parent_class;
-};
-
 
 G_DEFINE_TYPE_WITH_CODE (PhotosToolCrop, photos_tool_crop, PHOTOS_TYPE_TOOL,
                          photos_utils_ensure_extension_points ();
