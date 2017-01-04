@@ -47,11 +47,6 @@ struct _PhotosToolColors
   guint saturation_value_changed_id;
 };
 
-struct _PhotosToolColorsClass
-{
-  PhotosToolClass parent_class;
-};
-
 
 G_DEFINE_TYPE_WITH_CODE (PhotosToolColors, photos_tool_colors, PHOTOS_TYPE_TOOL,
                          photos_utils_ensure_extension_points ();
