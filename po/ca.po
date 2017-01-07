@@ -127,8 +127,8 @@ msgstr "«%s» suprimit"
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
-msgstr[0] "S'ha suprimit l'element %d seleccionat"
-msgstr[1] "S'han suprimit els elements %d seleccionats"
+msgstr[0] "S'ha suprimit l'element seleccionat"
+msgstr[1] "S'han suprimit els %d elements seleccionats"
 
 #: ../src/photos-delete-notification.c:156
 #: ../src/photos-done-notification.c:125
