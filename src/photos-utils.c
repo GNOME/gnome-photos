@@ -86,7 +86,10 @@ struct _PhotosUtilsFileCreateData
 
 
 gboolean
-photos_utils_app_info_launch_uri (GAppInfo *appinfo, const gchar *uri, GAppLaunchContext *launch_context, GError **error)
+photos_utils_app_info_launch_uri (GAppInfo *appinfo,
+                                  const gchar *uri,
+                                  GAppLaunchContext *launch_context,
+                                  GError **error)
 {
   GList *uris = NULL;
   gboolean ret_val;
