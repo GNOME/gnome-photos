@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2016 Red Hat, Inc.
+ * Copyright © 2012 – 2017 Red Hat, Inc.
  * Copyright © 2009 Yorba Foundation
  *
  * This program is free software; you can redistribute it and/or
@@ -42,6 +42,10 @@
 #include "photos-google-item.h"
 #include "photos-local-item.h"
 #include "photos-media-server-item.h"
+#include "photos-offset-collections-controller.h"
+#include "photos-offset-favorites-controller.h"
+#include "photos-offset-overview-controller.h"
+#include "photos-offset-search-controller.h"
 #include "photos-operation-insta-curve.h"
 #include "photos-operation-insta-filter.h"
 #include "photos-operation-insta-hefe.h"
@@ -62,7 +66,6 @@
 #include "photos-tool-enhance.h"
 #include "photos-tool-filters.h"
 #include "photos-tracker-collections-controller.h"
-#include "photos-tracker-controller.h"
 #include "photos-tracker-favorites-controller.h"
 #include "photos-tracker-overview-controller.h"
 #include "photos-tracker-queue.h"
@@ -932,6 +935,59 @@ photos_utils_eval_radial_line (gdouble crop_center_x,
   projected_y = decision_slope * event_x + decision_intercept;
 
   return projected_y;
+}
+
+
+void
+photos_utils_get_controller (PhotosWindowMode mode,
+                             PhotosOffsetController **out_offset_cntrlr,
+                             PhotosTrackerController **out_trk_cntrlr)
+{
+  PhotosOffsetController *offset_cntrlr = NULL;
+  PhotosTrackerController *trk_cntrlr = NULL;
+
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT);
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
+
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
+      trk_cntrlr = photos_tracker_collections_controller_dup_singleton ();
+      break;
+
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
+      trk_cntrlr = photos_tracker_favorites_controller_dup_singleton ();
+      break;
+
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
+      trk_cntrlr = photos_tracker_overview_controller_dup_singleton ();
+      break;
+
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      offset_cntrlr = photos_offset_search_controller_dup_singleton ();
+      trk_cntrlr = photos_tracker_search_controller_dup_singleton ();
+      break;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  if (out_offset_cntrlr != NULL)
+    g_set_object (out_offset_cntrlr, offset_cntrlr);
+
+  if (out_trk_cntrlr != NULL)
+    g_set_object (out_trk_cntrlr, trk_cntrlr);
+
+  g_clear_object (&offset_cntrlr);
+  g_clear_object (&trk_cntrlr);
 }
 
 
