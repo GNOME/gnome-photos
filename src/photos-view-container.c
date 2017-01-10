@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2016 Red Hat, Inc.
+ * Copyright © 2012 – 2017 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,17 +31,11 @@
 #include "photos-enums.h"
 #include "photos-error-box.h"
 #include "photos-item-manager.h"
-#include "photos-offset-favorites-controller.h"
-#include "photos-offset-collections-controller.h"
-#include "photos-offset-overview-controller.h"
-#include "photos-offset-search-controller.h"
+#include "photos-offset-controller.h"
 #include "photos-remote-display-manager.h"
 #include "photos-search-context.h"
 #include "photos-selection-controller.h"
-#include "photos-tracker-collections-controller.h"
-#include "photos-tracker-favorites-controller.h"
-#include "photos-tracker-overview-controller.h"
-#include "photos-tracker-search-controller.h"
+#include "photos-tracker-controller.h"
 #include "photos-utils.h"
 #include "photos-view-container.h"
 #include "photos-view-model.h"
@@ -304,36 +298,7 @@ photos_view_container_constructed (GObject *object)
                            G_CONNECT_SWAPPED);
 
   self->remote_mngr = photos_remote_display_manager_dup_singleton ();
-
-  switch (self->mode)
-    {
-    case PHOTOS_WINDOW_MODE_COLLECTIONS:
-      self->trk_cntrlr = photos_tracker_collections_controller_dup_singleton ();
-      self->offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
-      break;
-
-    case PHOTOS_WINDOW_MODE_FAVORITES:
-      self->trk_cntrlr = photos_tracker_favorites_controller_dup_singleton ();
-      self->offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
-      break;
-
-    case PHOTOS_WINDOW_MODE_OVERVIEW:
-      self->trk_cntrlr = photos_tracker_overview_controller_dup_singleton ();
-      self->offset_cntrlr = photos_offset_overview_controller_dup_singleton ();
-      break;
-
-    case PHOTOS_WINDOW_MODE_SEARCH:
-      self->trk_cntrlr = photos_tracker_search_controller_dup_singleton ();
-      self->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
-      break;
-
-    case PHOTOS_WINDOW_MODE_NONE:
-    case PHOTOS_WINDOW_MODE_EDIT:
-    case PHOTOS_WINDOW_MODE_PREVIEW:
-    default:
-      g_assert_not_reached ();
-      break;
-    }
+  photos_utils_get_controller (self->mode, &self->offset_cntrlr, &self->trk_cntrlr);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-all");
   g_signal_connect_object (action,
