@@ -148,6 +148,9 @@ photos_item_manager_check_wait_for_changes (PhotosItemManager *self, const gchar
   GList *l;
   GList *tasks;
 
+  g_return_if_fail (id != NULL && id[0] != '\0');
+  g_return_if_fail (uri != NULL && uri[0] != '\0');
+
   tasks = (GList *) g_hash_table_lookup (self->wait_for_changes_table, uri);
   for (l = tasks; l != NULL; l = l->next)
     {
