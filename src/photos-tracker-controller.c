@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2016 Red Hat, Inc.
+ * Copyright © 2012 – 2017 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -61,6 +61,7 @@ struct _PhotosTrackerControllerPrivate
   gboolean refresh_pending;
   gint query_queued_flags;
   gint64 last_query_time;
+  guint reset_count_id;
 };
 
 enum
@@ -86,6 +87,11 @@ EGG_DEFINE_COUNTER (instances,
                     "Number of PhotosTrackerController instances")
 
 
+enum
+{
+  RESET_COUNT_TIMEOUT = 500 /* ms */
+};
+
 typedef enum
 {
   PHOTOS_TRACKER_REFRESH_FLAGS_NONE = 0,
@@ -95,6 +101,41 @@ typedef enum
 
 static void photos_tracker_controller_refresh_internal (PhotosTrackerController *self, gint flags);
 static void photos_tracker_controller_set_query_status (PhotosTrackerController *self, gboolean query_status);
+
+
+static gboolean
+photos_tracker_controller_reset_count_timeout (gpointer user_data)
+{
+  PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
+
+  priv->reset_count_id = 0;
+  photos_offset_controller_reset_count (priv->offset_cntrlr);
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
+photos_tracker_controller_item_added_removed (PhotosTrackerController *self)
+{
+  PhotosTrackerControllerPrivate *priv;
+
+  priv = photos_tracker_controller_get_instance_private (self);
+
+  /* Update the count so that PhotosOffsetController has the correct
+   * values. Otherwise things like loading more items and "No
+   * Results" page will not work correctly.
+   */
+
+  if (priv->reset_count_id == 0)
+    {
+      priv->reset_count_id = g_timeout_add (RESET_COUNT_TIMEOUT,
+                                            photos_tracker_controller_reset_count_timeout,
+                                            self);
+    }
+}
 
 
 static void
@@ -362,10 +403,23 @@ photos_tracker_controller_constructed (GObject *object)
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (object);
   PhotosTrackerControllerPrivate *priv;
+  PhotosBaseManager *item_mngr_chld;
 
   priv = photos_tracker_controller_get_instance_private (self);
 
   G_OBJECT_CLASS (photos_tracker_controller_parent_class)->constructed (object);
+
+  item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (priv->item_mngr), priv->mode);
+  g_signal_connect_object (item_mngr_chld,
+                           "object-added",
+                           G_CALLBACK (photos_tracker_controller_item_added_removed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (item_mngr_chld,
+                           "object-removed",
+                           G_CALLBACK (photos_tracker_controller_item_added_removed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   priv->offset_cntrlr = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_offset_controller (self);
   g_signal_connect_swapped (priv->offset_cntrlr,
@@ -382,6 +436,12 @@ photos_tracker_controller_dispose (GObject *object)
   PhotosTrackerControllerPrivate *priv;
 
   priv = photos_tracker_controller_get_instance_private (self);
+
+  if (priv->reset_count_id != 0)
+    {
+      g_source_remove (priv->reset_count_id);
+      priv->reset_count_id = 0;
+    }
 
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->offset_cntrlr);

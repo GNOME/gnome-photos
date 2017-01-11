@@ -50,7 +50,6 @@ struct _PhotosViewModel
   gchar *row_ref_key;
   gint n_rows;
   gint64 oldest_mtime;
-  guint reset_count_id;
 };
 
 enum
@@ -61,12 +60,6 @@ enum
 
 
 G_DEFINE_TYPE (PhotosViewModel, photos_view_model, GTK_TYPE_LIST_STORE);
-
-
-enum
-{
-  RESET_COUNT_TIMEOUT = 500 /* ms */
-};
 
 
 static void
@@ -84,25 +77,6 @@ photos_view_model_info_set (PhotosViewModel *self, PhotosBaseItem *item, GtkTree
 }
 
 
-static gboolean
-photos_view_model_reset_count_timeout (gpointer user_data)
-{
-  PhotosViewModel *self = PHOTOS_VIEW_MODEL (user_data);
-
-  self->reset_count_id = 0;
-  photos_offset_controller_reset_count (self->offset_cntrlr);
-  return G_SOURCE_REMOVE;
-}
-
-
-static void
-photos_view_model_reset_count (PhotosViewModel *self)
-{
-  if (self->reset_count_id == 0)
-    self->reset_count_id = g_timeout_add (RESET_COUNT_TIMEOUT, photos_view_model_reset_count_timeout, self);
-}
-
-
 static void
 photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
 {
@@ -112,12 +86,6 @@ photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
   gint offset;
   gint step;
   gint64 mtime;
-
-  /* Update the count so that PhotosOffsetController has the correct
-   * values. Otherwise things like loading more items and "No
-   * Results" page will not work correctly.
-   */
-  photos_view_model_reset_count (self);
 
   offset = photos_offset_controller_get_offset (self->offset_cntrlr);
   step = photos_offset_controller_get_step (self->offset_cntrlr);
@@ -207,12 +175,6 @@ photos_view_model_item_removed_foreach (GtkTreeModel *model,
 static void
 photos_view_model_remove_item (PhotosViewModel *self, PhotosBaseItem *item)
 {
-  /* Update the count so that PhotosOffsetController has the correct
-   * values. Otherwise things like loading more items and "No
-   * Results" page will not work correctly.
-   */
-  photos_view_model_reset_count (self);
-
   self->oldest_mtime = G_MAXINT64;
   gtk_tree_model_foreach (GTK_TREE_MODEL (self), photos_view_model_item_removed_foreach, item);
   g_object_set_data (G_OBJECT (item), self->row_ref_key, NULL);
@@ -319,12 +281,6 @@ static void
 photos_view_model_dispose (GObject *object)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
-
-  if (self->reset_count_id != 0)
-    {
-      g_source_remove (self->reset_count_id);
-      self->reset_count_id = 0;
-    }
 
   g_clear_object (&self->offset_cntrlr);
   g_clear_object (&self->trk_cntrlr);
