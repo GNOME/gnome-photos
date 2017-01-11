@@ -32,6 +32,7 @@
     <file alias="selection-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-selection-menu.ui</file>
     <file alias="selection-toolbar.ui" preprocess="xml-stripblanks" compressed="true">photos-selection-toolbar.ui</file>
     <file alias="share-dialog.ui" preprocess="xml-stripblanks" compressed="true">photos-share-dialog.ui</file>
+    <file alias="zoom-controls.ui" preprocess="xml-stripblanks" compressed="true">photos-zoom-controls.ui</file>
   </gresource>
 
   <gresource prefix="/org/gnome/Photos/gtk">

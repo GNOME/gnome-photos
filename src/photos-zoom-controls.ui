@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Photos - access, organize and share your photos on GNOME
+ Copyright © 2017 Red Hat, Inc.
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ 02110-1301, USA.
+-->
+<interface>
+  <template class="PhotosZoomControls" parent="GtkBin">
+    <style>
+      <class name="toolbar"/>
+    </style>
+    <child>
+      <object class="GtkGrid">
+        <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+        <child>
+          <object class="GtkRevealer" id="revealer">
+            <property name="margin_bottom">12</property>
+            <property name="transition_type">GTK_REVEALER_TRANSITION_TYPE_SLIDE_UP</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+                <style>
+                  <class name="linked"/>
+                </style>
+                <child>
+                  <object class="GtkButton" id="zoom_in_button">
+                    <property name="action_name">app.zoom-in</property>
+                    <property name="action_target">-1.0</property>
+                    <style>
+                      <class name="image-button"/>
+                      <class name="osd"/>
+                    </style>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="icon_name">zoom-in-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="zoom_out_button">
+                    <property name="action_name">app.zoom-out</property>
+                    <property name="action_target">-1.0</property>
+                    <style>
+                      <class name="image-button"/>
+                      <class name="osd"/>
+                    </style>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="icon_name">zoom-out-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="zoom_toggle_button">
+            <style>
+              <class name="osd"/>
+            </style>
+          </object>
+          <packing>
+            <property name="top_attach">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

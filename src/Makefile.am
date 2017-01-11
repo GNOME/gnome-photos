@@ -278,6 +278,8 @@ gnome_photos_SOURCES = \
 	photos-view-container.h \
 	photos-widget-shader.c \
 	photos-widget-shader.h \
+	photos-zoom-controls.c \
+	photos-zoom-controls.h \
 	photos-main.c \
 	$(NULL)
 
@@ -362,6 +364,7 @@ EXTRA_DIST = \
 	photos-selection-menu.ui \
 	photos-selection-toolbar.ui \
 	photos-share-dialog.ui \
+	photos-zoom-controls.ui \
 	photos-gom-miner.xml \
 	photos-thumbnailer-dbus.xml \
 	photos-tracker-extract-priority.xml \
