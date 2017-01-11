@@ -1093,7 +1093,7 @@ photos_item_manager_wait_for_changes_async (PhotosItemManager *self,
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_item_manager_wait_for_changes_async);
 
-  if (!PHOTOS_IS_LOCAL_ITEM (item))
+  if (!PHOTOS_IS_LOCAL_ITEM (item) || photos_base_item_is_collection (item))
     {
       const gchar *id;
 
