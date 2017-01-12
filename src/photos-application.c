@@ -158,7 +158,6 @@ static const gchar *REQUIRED_GEGL_OPS[] =
   "gegl:scale-ratio",
 
   /* Used by gegl:load */
-  "gegl:jp2-load",
   "gegl:jpg-load",
   "gegl:png-load",
   "gegl:raw-load",
