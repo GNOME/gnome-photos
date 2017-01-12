@@ -32,8 +32,6 @@
 #include "photos-enums.h"
 #include "photos-filterable.h"
 #include "photos-search-context.h"
-#include "photos-tracker-controller.h"
-#include "photos-utils.h"
 #include "photos-view-model.h"
 
 
@@ -43,7 +41,6 @@ struct _PhotosViewModel
   GHashTable *info_updated_ids;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
-  PhotosTrackerController *trk_cntrlr;
   PhotosWindowMode mode;
   gchar *row_ref_key;
 };
@@ -228,8 +225,6 @@ photos_view_model_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_view_model_parent_class)->constructed (object);
 
-  photos_utils_get_controller (self->mode, NULL, &self->trk_cntrlr);
-
   item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->item_mngr), self->mode);
   g_signal_connect_object (item_mngr_chld,
                            "object-added",
@@ -242,17 +237,6 @@ photos_view_model_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
   g_signal_connect_object (item_mngr_chld, "clear", G_CALLBACK (photos_view_model_clear), self, G_CONNECT_SWAPPED);
-}
-
-
-static void
-photos_view_model_dispose (GObject *object)
-{
-  PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
-
-  g_clear_object (&self->trk_cntrlr);
-
-  G_OBJECT_CLASS (photos_view_model_parent_class)->dispose (object);
 }
 
 
@@ -329,7 +313,6 @@ photos_view_model_class_init (PhotosViewModelClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructed = photos_view_model_constructed;
-  object_class->dispose = photos_view_model_dispose;
   object_class->finalize = photos_view_model_finalize;
   object_class->set_property = photos_view_model_set_property;
 
