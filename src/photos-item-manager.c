@@ -304,8 +304,10 @@ photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
 
   is_collection = photos_item_manager_cursor_is_collection (cursor);
-  g_return_if_fail ((is_collection && (mode == PHOTOS_WINDOW_MODE_COLLECTIONS || mode == PHOTOS_WINDOW_MODE_SEARCH))
-                    || (!is_collection && (mode != PHOTOS_WINDOW_MODE_COLLECTIONS || self->active_collection != NULL)));
+  g_return_if_fail ((is_collection
+                     && (mode == PHOTOS_WINDOW_MODE_COLLECTIONS || mode == PHOTOS_WINDOW_MODE_SEARCH))
+                    || (!is_collection
+                        && (mode != PHOTOS_WINDOW_MODE_COLLECTIONS || self->active_collection != NULL)));
 
   if (!force && !photos_item_manager_can_add_cursor_for_mode (self, cursor, mode))
     goto out;
