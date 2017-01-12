@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2016 Red Hat, Inc.
+ * Copyright © 2012 – 2017 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -110,6 +110,10 @@ PhotosLoadState           photos_item_manager_get_load_state               (Phot
 
 void                      photos_item_manager_hide_item                    (PhotosItemManager *self,
                                                                             PhotosBaseItem *item);
+
+void                      photos_item_manager_set_constraints_for_mode     (PhotosItemManager *self,
+                                                                            gboolean constrain,
+                                                                            PhotosWindowMode mode);
 
 void                      photos_item_manager_wait_for_changes_async       (PhotosItemManager *self,
                                                                             PhotosBaseItem *item,

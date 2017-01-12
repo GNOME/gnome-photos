@@ -62,6 +62,7 @@ struct _PhotosItemManager
   PhotosTrackerChangeMonitor *monitor;
   PhotosWindowMode mode;
   gboolean fullscreen;
+  gboolean *constrain_additions;
 };
 
 struct _PhotosItemManagerClass
@@ -143,6 +144,63 @@ photos_item_manager_add_object (PhotosBaseManager *mngr, GObject *object)
 
 
 static gboolean
+photos_item_manager_can_add_mtime_for_mode (PhotosItemManager *self, gint64 mtime, PhotosWindowMode mode)
+{
+  PhotosBaseItem *oldest_item = NULL;
+  PhotosBaseManager *item_mngr_chld;
+  gboolean ret_val = TRUE;
+  gint64 oldest_mtime;
+  guint n_items;
+
+  if (!self->constrain_additions[mode])
+    goto out;
+
+  item_mngr_chld = self->item_mngr_chldrn[mode];
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (item_mngr_chld));
+  if (n_items == 0)
+    goto out;
+
+  oldest_item = PHOTOS_BASE_ITEM (g_list_model_get_object (G_LIST_MODEL (item_mngr_chld), n_items - 1));
+  oldest_mtime = photos_base_item_get_mtime (oldest_item);
+
+  if (mtime > oldest_mtime)
+    goto out;
+
+  ret_val = FALSE;
+
+ out:
+  g_clear_object (&oldest_item);
+  return ret_val;
+}
+
+
+static gboolean
+photos_item_manager_can_add_cursor_for_mode (PhotosItemManager *self,
+                                             TrackerSparqlCursor *cursor,
+                                             PhotosWindowMode mode)
+{
+  gboolean ret_val = TRUE;
+  gint64 mtime;
+
+  mtime = tracker_sparql_cursor_get_boolean (cursor, PHOTOS_QUERY_COLUMNS_MTIME);
+  ret_val = photos_item_manager_can_add_mtime_for_mode (self, mtime, mode);
+  return ret_val;
+}
+
+
+static gboolean
+photos_item_manager_can_add_item_for_mode (PhotosItemManager *self, PhotosBaseItem *item, PhotosWindowMode mode)
+{
+  gboolean ret_val = TRUE;
+  gint64 mtime;
+
+  mtime = photos_base_item_get_mtime (item);
+  ret_val = photos_item_manager_can_add_mtime_for_mode (self, mtime, mode);
+  return ret_val;
+}
+
+
+static gboolean
 photos_item_manager_cursor_is_collection (TrackerSparqlCursor *cursor)
 {
   gboolean ret_val;
@@ -150,6 +208,30 @@ photos_item_manager_cursor_is_collection (TrackerSparqlCursor *cursor)
 
   rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
   ret_val = strstr (rdf_type, "nfo#DataContainer") != NULL;
+  return ret_val;
+}
+
+
+static gboolean
+photos_item_manager_try_to_add_item_for_mode (PhotosItemManager *self,
+                                              PhotosBaseItem *item,
+                                              PhotosWindowMode mode)
+{
+  gboolean ret_val = FALSE;
+
+  g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), FALSE);
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (item), FALSE);
+  g_return_val_if_fail (mode != PHOTOS_WINDOW_MODE_NONE, FALSE);
+  g_return_val_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT, FALSE);
+  g_return_val_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW, FALSE);
+
+  if (!photos_item_manager_can_add_item_for_mode (self, item, mode))
+    goto out;
+
+  photos_base_manager_add_object (self->item_mngr_chldrn[mode], G_OBJECT (item));
+  ret_val = TRUE;
+
+ out:
   return ret_val;
 }
 
@@ -178,14 +260,14 @@ photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
   if (is_collection)
     {
       if (self->active_collection == NULL)
-        photos_base_manager_add_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_COLLECTIONS], G_OBJECT (item));
+        photos_item_manager_try_to_add_item_for_mode (self, item, PHOTOS_WINDOW_MODE_COLLECTIONS);
     }
   else
     {
       if (is_favorite)
-        photos_base_manager_add_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_FAVORITES], G_OBJECT (item));
+        photos_item_manager_try_to_add_item_for_mode (self, item, PHOTOS_WINDOW_MODE_FAVORITES);
 
-      photos_base_manager_add_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_OVERVIEW], G_OBJECT (item));
+      photos_item_manager_try_to_add_item_for_mode (self, item, PHOTOS_WINDOW_MODE_OVERVIEW);
     }
 
   if (is_collection)
@@ -207,7 +289,8 @@ photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
 static void
 photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
                                          TrackerSparqlCursor *cursor,
-                                         PhotosWindowMode mode)
+                                         PhotosWindowMode mode,
+                                         gboolean force)
 {
   PhotosBaseItem *item = NULL;
   PhotosBaseManager *item_mngr_chld;
@@ -223,6 +306,9 @@ photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
   is_collection = photos_item_manager_cursor_is_collection (cursor);
   g_return_if_fail ((is_collection && (mode == PHOTOS_WINDOW_MODE_COLLECTIONS || mode == PHOTOS_WINDOW_MODE_SEARCH))
                     || (!is_collection && (mode != PHOTOS_WINDOW_MODE_COLLECTIONS || self->active_collection != NULL)));
+
+  if (!force && !photos_item_manager_can_add_cursor_for_mode (self, cursor, mode))
+    goto out;
 
   item_mngr_chld = self->item_mngr_chldrn[mode];
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
@@ -741,6 +827,7 @@ photos_item_manager_finalize (GObject *object)
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (object);
 
   g_queue_free (self->history);
+  g_free (self->constrain_additions);
 
   G_OBJECT_CLASS (photos_item_manager_parent_class)->finalize (object);
 
@@ -770,6 +857,7 @@ photos_item_manager_init (PhotosItemManager *self)
   self->history = g_queue_new ();
 
   window_mode_class = G_ENUM_CLASS (g_type_class_ref (PHOTOS_TYPE_WINDOW_MODE));
+
   self->item_mngr_chldrn = (PhotosBaseManager **) g_malloc0_n (window_mode_class->n_values + 1,
                                                                sizeof (PhotosBaseManager *));
   for (i = 0; i < window_mode_class->n_values; i++)
@@ -791,6 +879,7 @@ photos_item_manager_init (PhotosItemManager *self)
                              G_CONNECT_SWAPPED);
 
   self->fullscreen = FALSE;
+  self->constrain_additions = (gboolean *) g_malloc0_n (window_mode_class->n_values, sizeof (gboolean));
 
   g_type_class_unref (window_mode_class);
 }
@@ -939,14 +1028,14 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
         photos_item_manager_activate_previous_collection (self);
 
       if (self->active_collection == NULL)
-        photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_COLLECTIONS);
+        photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_COLLECTIONS, force);
     }
   else
     {
       if (photos_item_manager_cursor_is_favorite (cursor))
-        photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_FAVORITES);
+        photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_FAVORITES, force);
 
-      photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_OVERVIEW);
+      photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_OVERVIEW, force);
     }
 }
 
@@ -954,7 +1043,7 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
 void
 photos_item_manager_add_item_for_mode (PhotosItemManager *self, PhotosWindowMode mode, TrackerSparqlCursor *cursor)
 {
-  photos_item_manager_add_cursor_for_mode (self, cursor, mode);
+  photos_item_manager_add_cursor_for_mode (self, cursor, mode, FALSE);
 }
 
 
@@ -1133,9 +1222,22 @@ photos_item_manager_hide_item (PhotosItemManager *self, PhotosBaseItem *item)
 
 
 void
+photos_item_manager_set_constraints_for_mode (PhotosItemManager *self, gboolean constrain, PhotosWindowMode mode)
+{
+  g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT);
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
+
+  self->constrain_additions[mode] = constrain;
+}
+
+
+void
 photos_item_manager_unhide_item (PhotosItemManager *self, PhotosBaseItem *item)
 {
   PhotosItemManagerHiddenItem *hidden_item;
+  gboolean added_somewhere = FALSE;
   const gchar *id;
   guint i;
 
@@ -1148,17 +1250,22 @@ photos_item_manager_unhide_item (PhotosItemManager *self, PhotosBaseItem *item)
   hidden_item = (PhotosItemManagerHiddenItem *) g_hash_table_lookup (self->hidden_items, id);
   g_return_if_fail (hidden_item->item == item);
 
-  for (i = 0; self->item_mngr_chldrn[i] != NULL; i++)
+  for (i = 1; self->item_mngr_chldrn[i] != NULL; i++)
     {
       g_assert_cmpuint (i, <, hidden_item->n_modes);
 
       if (hidden_item->modes[i])
-        photos_base_manager_add_object (self->item_mngr_chldrn[i], G_OBJECT (item));
+        added_somewhere = added_somewhere || photos_item_manager_try_to_add_item_for_mode (self, item, i);
     }
 
   g_hash_table_remove (self->hidden_items, id);
-  g_signal_connect_object (item, "info-updated", G_CALLBACK (photos_item_manager_info_updated), self, 0);
-  g_signal_emit_by_name (self, "object-added", G_OBJECT (item));
+
+  if (added_somewhere)
+    {
+      photos_base_manager_add_object (self->item_mngr_chldrn[0], G_OBJECT (item));
+      g_signal_connect_object (item, "info-updated", G_CALLBACK (photos_item_manager_info_updated), self, 0);
+      g_signal_emit_by_name (self, "object-added", G_OBJECT (item));
+    }
 }
 
 
