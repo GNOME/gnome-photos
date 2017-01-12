@@ -118,6 +118,28 @@ photos_tracker_controller_reset_count_timeout (gpointer user_data)
 
 
 static void
+photos_tracker_controller_reset_constraint (PhotosTrackerController *self)
+{
+  PhotosTrackerControllerPrivate *priv;
+  PhotosBaseManager *item_mngr_chld;
+  gboolean constrain;
+  gint count;
+  gint offset;
+  gint step;
+
+  priv = photos_tracker_controller_get_instance_private (self);
+
+  item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (priv->item_mngr), priv->mode);
+  count = (gint) photos_base_manager_get_objects_count (item_mngr_chld);
+
+  offset = photos_offset_controller_get_offset (priv->offset_cntrlr);
+  step = photos_offset_controller_get_step (priv->offset_cntrlr);
+
+  constrain = (count >= offset + step) ? TRUE : FALSE;
+  photos_item_manager_set_constraints_for_mode (PHOTOS_ITEM_MANAGER (priv->item_mngr), constrain, priv->mode);
+}
+
+static void
 photos_tracker_controller_item_added_removed (PhotosTrackerController *self)
 {
   PhotosTrackerControllerPrivate *priv;
@@ -135,6 +157,8 @@ photos_tracker_controller_item_added_removed (PhotosTrackerController *self)
                                             photos_tracker_controller_reset_count_timeout,
                                             self);
     }
+
+  photos_tracker_controller_reset_constraint (self);
 }
 
 
@@ -282,6 +306,7 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
 static void
 photos_tracker_controller_offset_changed (PhotosTrackerController *self)
 {
+  photos_tracker_controller_reset_constraint (self);
   photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_DONT_SET_QUERY_STATUS);
 }
 

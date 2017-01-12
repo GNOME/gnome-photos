@@ -31,7 +31,6 @@
 #include "photos-base-manager.h"
 #include "photos-enums.h"
 #include "photos-filterable.h"
-#include "photos-offset-controller.h"
 #include "photos-search-context.h"
 #include "photos-tracker-controller.h"
 #include "photos-utils.h"
@@ -44,12 +43,9 @@ struct _PhotosViewModel
   GHashTable *info_updated_ids;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
-  PhotosOffsetController *offset_cntrlr;
   PhotosTrackerController *trk_cntrlr;
   PhotosWindowMode mode;
   gchar *row_ref_key;
-  gint n_rows;
-  gint64 oldest_mtime;
 };
 
 enum
@@ -83,22 +79,9 @@ photos_view_model_add_item (PhotosViewModel *self, PhotosBaseItem *item)
   GtkTreeIter iter;
   GtkTreePath *path;
   GtkTreeRowReference *row_ref;
-  gint offset;
-  gint step;
-  gint64 mtime;
-
-  offset = photos_offset_controller_get_offset (self->offset_cntrlr);
-  step = photos_offset_controller_get_step (self->offset_cntrlr);
-  mtime = photos_base_item_get_mtime (item);
-  if (self->n_rows >= offset + step && mtime < self->oldest_mtime)
-    return;
 
   gtk_list_store_append (GTK_LIST_STORE (self), &iter);
   photos_view_model_info_set (self, item, &iter);
-
-  self->n_rows++;
-  if (mtime < self->oldest_mtime)
-    self->oldest_mtime = mtime;
 
   path = gtk_tree_model_get_path (GTK_TREE_MODEL (self), &iter);
   row_ref = gtk_tree_row_reference_new (GTK_TREE_MODEL (self), path);
@@ -130,9 +113,6 @@ photos_view_model_clear (PhotosViewModel *self)
     }
 
   gtk_list_store_clear (GTK_LIST_STORE (self));
-
-  self->n_rows = 0;
-  self->oldest_mtime = G_MAXINT64;
 }
 
 
@@ -142,30 +122,19 @@ photos_view_model_item_removed_foreach (GtkTreeModel *model,
                                         GtkTreeIter *iter,
                                         gpointer user_data)
 {
-  PhotosViewModel *self = PHOTOS_VIEW_MODEL (model);
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (user_data);
   gboolean ret_val = FALSE;
   const gchar *id;
   gchar *value;
-  gint64 mtime;
 
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
-  gtk_tree_model_get (model, iter, PHOTOS_VIEW_MODEL_URN, &value, PHOTOS_VIEW_MODEL_MTIME, &mtime, -1);
+  gtk_tree_model_get (model, iter, PHOTOS_VIEW_MODEL_URN, &value, -1);
 
   if (g_strcmp0 (id, value) == 0)
     {
-      GtkTreeIter tmp;
-
-      tmp = *iter;
-      if (!gtk_tree_model_iter_next (model, &tmp))
-        ret_val = TRUE;
-
       gtk_list_store_remove (GTK_LIST_STORE (model), iter);
-      gtk_tree_path_next (path); /* Ensure that path in sync with iter. */
-      self->n_rows--;
+      ret_val = TRUE;
     }
-  else if (mtime < self->oldest_mtime)
-    self->oldest_mtime = mtime;
 
   g_free (value);
   return ret_val;
@@ -175,7 +144,6 @@ photos_view_model_item_removed_foreach (GtkTreeModel *model,
 static void
 photos_view_model_remove_item (PhotosViewModel *self, PhotosBaseItem *item)
 {
-  self->oldest_mtime = G_MAXINT64;
   gtk_tree_model_foreach (GTK_TREE_MODEL (self), photos_view_model_item_removed_foreach, item);
   g_object_set_data (G_OBJECT (item), self->row_ref_key, NULL);
 }
@@ -260,7 +228,7 @@ photos_view_model_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_view_model_parent_class)->constructed (object);
 
-  photos_utils_get_controller (self->mode, &self->offset_cntrlr, &self->trk_cntrlr);
+  photos_utils_get_controller (self->mode, NULL, &self->trk_cntrlr);
 
   item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->item_mngr), self->mode);
   g_signal_connect_object (item_mngr_chld,
@@ -282,7 +250,6 @@ photos_view_model_dispose (GObject *object)
 {
   PhotosViewModel *self = PHOTOS_VIEW_MODEL (object);
 
-  g_clear_object (&self->offset_cntrlr);
   g_clear_object (&self->trk_cntrlr);
 
   G_OBJECT_CLASS (photos_view_model_parent_class)->dispose (object);
@@ -353,8 +320,6 @@ photos_view_model_init (PhotosViewModel *self)
 
   self->mode_cntrlr = state->mode_cntrlr;
   g_object_add_weak_pointer (G_OBJECT (self->mode_cntrlr), (gpointer *) &self->mode_cntrlr);
-
-  self->oldest_mtime = G_MAXINT64;
 }
 
 
