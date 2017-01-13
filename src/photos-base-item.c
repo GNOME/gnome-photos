@@ -71,6 +71,7 @@ struct _PhotosBaseItemPrivate
   GeglNode *load;
   GeglProcessor *processor;
   GMutex mutex_download;
+  GMutex mutex_save_metadata;
   GQuark equipment;
   GQuark flash;
   GQuark orientation;
@@ -612,13 +613,8 @@ photos_base_item_download_in_thread_func (GTask *task,
                                           GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  PhotosBaseItemPrivate *priv;
   GError *error;
   gchar *path = NULL;
-
-  priv = photos_base_item_get_instance_private (self);
-
-  g_mutex_lock (&priv->mutex_download);
 
   error = NULL;
   path = photos_base_item_download (self, cancellable, &error);
@@ -632,7 +628,6 @@ photos_base_item_download_in_thread_func (GTask *task,
 
  out:
   g_free (path);
-  g_mutex_unlock (&priv->mutex_download);
 }
 
 
@@ -1268,13 +1263,8 @@ photos_base_item_load_buffer_in_thread_func (GTask *task,
                                              GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  PhotosBaseItemPrivate *priv;
   GeglBuffer *buffer = NULL;
   GError *error = NULL;
-
-  priv = photos_base_item_get_instance_private (self);
-
-  g_mutex_lock (&priv->mutex_download);
 
   buffer = photos_base_item_load_buffer (self, cancellable, &error);
   if (error != NULL)
@@ -1287,7 +1277,6 @@ photos_base_item_load_buffer_in_thread_func (GTask *task,
 
  out:
   g_clear_object (&buffer);
-  g_mutex_unlock (&priv->mutex_download);
 }
 
 
@@ -1504,7 +1493,7 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
 
   priv = photos_base_item_get_instance_private (self);
 
-  g_mutex_lock (&priv->mutex_download);
+  g_mutex_lock (&priv->mutex_save_metadata);
 
   error = NULL;
   source_path = photos_base_item_download (self, cancellable, &error);
@@ -1535,7 +1524,7 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
   g_task_return_boolean (task, TRUE);
 
  out:
-  g_mutex_unlock (&priv->mutex_download);
+  g_mutex_unlock (&priv->mutex_save_metadata);
   g_clear_object (&metadata);
   g_free (export_path);
   g_free (source_path);
@@ -2369,6 +2358,7 @@ photos_base_item_finalize (GObject *object)
   g_free (priv->uri);
 
   g_mutex_clear (&priv->mutex_download);
+  g_mutex_clear (&priv->mutex_save_metadata);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->finalize (object);
 
@@ -2458,6 +2448,7 @@ photos_base_item_init (PhotosBaseItem *self)
   priv->cancellable = g_cancellable_new ();
 
   g_mutex_init (&priv->mutex_download);
+  g_mutex_init (&priv->mutex_save_metadata);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
 }
@@ -2691,8 +2682,17 @@ photos_base_item_destroy (PhotosBaseItem *self)
 gchar *
 photos_base_item_download (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
+  PhotosBaseItemPrivate *priv;
+  gchar *ret_val;
+
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
-  return PHOTOS_BASE_ITEM_GET_CLASS (self)->download (self, cancellable, error);
+  priv = photos_base_item_get_instance_private (self);
+
+  g_mutex_lock (&priv->mutex_download);
+  ret_val = PHOTOS_BASE_ITEM_GET_CLASS (self)->download (self, cancellable, error);
+  g_mutex_unlock (&priv->mutex_download);
+
+  return ret_val;
 }
 
 
