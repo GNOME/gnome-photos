@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 – 2015 Pranav Kant
- * Copyright © 2012 – 2016 Red Hat, Inc.
+ * Copyright © 2012 – 2017 Red Hat, Inc.
  * Copyright © 2016 Umang Jain
  *
  * This program is free software; you can redistribute it and/or
@@ -71,7 +71,6 @@ struct _PhotosBaseItemPrivate
   GeglNode *load;
   GeglProcessor *processor;
   GMutex mutex_download;
-  GMutex mutex;
   GQuark equipment;
   GQuark flash;
   GQuark orientation;
@@ -1275,7 +1274,7 @@ photos_base_item_load_buffer_in_thread_func (GTask *task,
 
   priv = photos_base_item_get_instance_private (self);
 
-  g_mutex_lock (&priv->mutex);
+  g_mutex_lock (&priv->mutex_download);
 
   buffer = photos_base_item_load_buffer (self, cancellable, &error);
   if (error != NULL)
@@ -1288,7 +1287,7 @@ photos_base_item_load_buffer_in_thread_func (GTask *task,
 
  out:
   g_clear_object (&buffer);
-  g_mutex_unlock (&priv->mutex);
+  g_mutex_unlock (&priv->mutex_download);
 }
 
 
@@ -2370,7 +2369,6 @@ photos_base_item_finalize (GObject *object)
   g_free (priv->uri);
 
   g_mutex_clear (&priv->mutex_download);
-  g_mutex_clear (&priv->mutex);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->finalize (object);
 
@@ -2460,7 +2458,6 @@ photos_base_item_init (PhotosBaseItem *self)
   priv->cancellable = g_cancellable_new ();
 
   g_mutex_init (&priv->mutex_download);
-  g_mutex_init (&priv->mutex);
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
 }
