@@ -107,7 +107,7 @@ photos_camera_cache_equipment_query_executed (GObject *source_object, GAsyncResu
 {
   GTask *task = G_TASK (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
-  TrackerSparqlCursor *cursor;
+  TrackerSparqlCursor *cursor = NULL;
   GError *error;
 
   error = NULL;
@@ -115,11 +115,13 @@ photos_camera_cache_equipment_query_executed (GObject *source_object, GAsyncResu
   if (error != NULL)
     {
       g_task_return_error (task, error);
-      return;
+      goto out;
     }
 
   tracker_sparql_cursor_next_async (cursor, NULL, photos_camera_cache_cursor_next, g_object_ref (task));
-  g_object_unref (cursor);
+
+ out:
+  g_clear_object (&cursor);
 }
 
 
