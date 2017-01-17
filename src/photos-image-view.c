@@ -208,6 +208,7 @@ photos_image_view_computed (PhotosImageView *self, GeglRectangle *rect)
 
   photos_image_view_update_graph (self);
   photos_image_view_update (self);
+  gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 
