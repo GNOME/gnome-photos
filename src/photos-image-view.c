@@ -185,8 +185,10 @@ photos_image_view_computed (PhotosImageView *self, GeglRectangle *rect)
 {
   cairo_status_t status;
 
+  g_return_if_fail (PHOTOS_IS_IMAGE_VIEW (self));
   g_return_if_fail (GEGL_IS_NODE (self->buffer_source));
   g_return_if_fail (GEGL_IS_NODE (self->graph));
+  g_return_if_fail (GEGL_IS_NODE (self->node));
   g_return_if_fail (self->bbox_region != NULL);
   g_return_if_fail (self->region != NULL);
 
