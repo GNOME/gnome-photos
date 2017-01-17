@@ -37,6 +37,7 @@
 #include <libgd/gd.h>
 
 #include "photos-application.h"
+#include "photos-debug.h"
 #include "photos-facebook-item.h"
 #include "photos-flickr-item.h"
 #include "photos-google-item.h"
@@ -291,6 +292,8 @@ photos_utils_create_buffer_from_node (GeglNode *node)
   GeglBuffer *buffer = NULL;
   GeglNode *buffer_sink;
   GeglNode *graph;
+  gint64 end;
+  gint64 start;
 
   graph = gegl_node_get_parent (node);
   buffer_sink = gegl_node_new_child (graph,
@@ -298,7 +301,14 @@ photos_utils_create_buffer_from_node (GeglNode *node)
                                      "buffer", &buffer,
                                      NULL);
   gegl_node_link (node, buffer_sink);
+
+  start = g_get_monotonic_time ();
+
   gegl_node_process (buffer_sink);
+
+  end = g_get_monotonic_time ();
+  photos_debug (PHOTOS_DEBUG_GEGL, "Utils: Create Buffer from Node: %" G_GINT64_FORMAT, end - start);
+
   g_object_unref (buffer_sink);
 
   return buffer;
