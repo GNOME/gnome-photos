@@ -98,7 +98,7 @@ gboolean         photos_utils_create_thumbnail            (GFile *file,
                                                            GCancellable *cancellable,
                                                            GError **error);
 
-GeglBuffer      *photos_utils_get_buffer_from_node        (GeglNode *node);
+GeglBuffer      *photos_utils_get_buffer_from_node        (GeglNode *node, const Babl *format);
 
 GIcon           *photos_utils_get_icon_from_cursor        (TrackerSparqlCursor *cursor);
 
