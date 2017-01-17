@@ -426,11 +426,10 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
 
   if (node != NULL)
     {
-      g_object_ref (node);
+      self->node = g_object_ref (node);
       g_signal_connect_object (node, "computed", G_CALLBACK (photos_image_view_computed), self, G_CONNECT_SWAPPED);
     }
 
-  self->node = node;
   photos_image_view_update (self);
   gtk_widget_queue_draw (GTK_WIDGET (self));
 }
