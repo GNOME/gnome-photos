@@ -1159,6 +1159,21 @@ photos_base_item_pipeline_is_edited_load (GObject *source_object, GAsyncResult *
 
 
 static gboolean
+photos_base_item_process_complete_idle (gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+
+  if (g_task_return_error_if_cancelled (task))
+    goto out;
+
+  g_task_return_boolean (task, TRUE);
+
+ out:
+  return G_SOURCE_REMOVE;
+}
+
+
+static gboolean
 photos_base_item_process_idle (gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
@@ -1172,7 +1187,10 @@ photos_base_item_process_idle (gpointer user_data)
   if (gegl_processor_work (processor, NULL))
     return G_SOURCE_CONTINUE;
 
-  g_task_return_boolean (task, TRUE);
+  g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+                   photos_base_item_process_complete_idle,
+                   g_object_ref (task),
+                   g_object_unref);
 
  done:
   return G_SOURCE_REMOVE;
