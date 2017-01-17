@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2016 Red Hat, Inc.
+ * Copyright © 2015 – 2017 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -116,8 +116,16 @@ photos_image_view_update (PhotosImageView *self)
 
 
 static void
-photos_image_view_computed (PhotosImageView *self)
+photos_image_view_computed (PhotosImageView *self, GeglRectangle *rect)
 {
+  photos_debug (PHOTOS_DEBUG_GEGL,
+                "PhotosImageView: Node (%p) Computed: %d, %d, %d×%d",
+                self->node,
+                rect->x,
+                rect->y,
+                rect->width,
+                rect->height);
+
   photos_image_view_update (self);
 }
 
