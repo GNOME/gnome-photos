@@ -286,7 +286,7 @@ photos_utils_convert_path_to_uri (const gchar *path)
 
 
 GeglBuffer *
-photos_utils_create_buffer_from_node (GeglNode *node)
+photos_utils_create_buffer_from_node (GeglNode *node, const Babl *format)
 {
   GeglBuffer *buffer = NULL;
   GeglNode *buffer_sink;
@@ -296,6 +296,7 @@ photos_utils_create_buffer_from_node (GeglNode *node)
   buffer_sink = gegl_node_new_child (graph,
                                      "operation", "gegl:buffer-sink",
                                      "buffer", &buffer,
+                                     "format", format,
                                      NULL);
   gegl_node_link (node, buffer_sink);
   gegl_node_process (buffer_sink);

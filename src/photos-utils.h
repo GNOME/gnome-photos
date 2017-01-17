@@ -28,6 +28,7 @@
 #ifndef PHOTOS_UTILS_H
 #define PHOTOS_UTILS_H
 
+#include <babl/babl.h>
 #include <cairo.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gegl.h>
@@ -81,7 +82,7 @@ GdkPixbuf       *photos_utils_center_pixbuf               (GdkPixbuf *pixbuf, gi
 
 gchar           *photos_utils_convert_path_to_uri         (const gchar *path);
 
-GeglBuffer      *photos_utils_create_buffer_from_node     (GeglNode *node);
+GeglBuffer      *photos_utils_create_buffer_from_node     (GeglNode *node, const Babl *format);
 
 GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
 
