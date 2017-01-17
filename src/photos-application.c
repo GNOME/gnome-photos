@@ -833,7 +833,6 @@ photos_application_edit_revert_revert (GObject *source_object, GAsyncResult *res
   photos_base_item_pipeline_save_async (item, NULL, photos_application_edit_revert_pipeline_save, self);
 
  out:
-  g_action_activate (G_ACTION (self->draw_action), NULL);
   g_application_release (G_APPLICATION (self));
 }
 
@@ -984,7 +983,6 @@ photos_application_properties_revert_to_original (GObject *source_object, GAsync
   photos_base_item_pipeline_save_async (item, NULL, photos_application_properties_pipeline_save, self);
 
  out:
-  g_action_activate (G_ACTION (self->draw_action), NULL);
   g_application_release (G_APPLICATION (self));
 }
 
