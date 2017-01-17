@@ -271,7 +271,6 @@ photos_preview_view_get_view_from_view_container (GtkWidget *view_container)
 static void
 photos_preview_view_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosPreviewView *self;
   GError *error = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
@@ -289,10 +288,6 @@ photos_preview_view_process (GObject *source_object, GAsyncResult *res, gpointer
           g_error_free (error);
         }
     }
-
-  self = PHOTOS_PREVIEW_VIEW (user_data);
-
-  g_action_activate (self->draw, NULL);
 }
 
 
