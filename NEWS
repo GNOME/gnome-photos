@@ -1,3 +1,20 @@
+Overview of changes in 3.23.4
+=============================
+
+* Bugs fixed:
+ 690623 Port to GtkFlowBox
+ 747123 Show GPS information in properties
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 775700 Remove PhotosSettings
+ 776133 GdMainView: The DnD selection counter is broken on HiDpi
+ 776565 Crashed right after creating a new album
+ 776670 application: Add F1 accelerator to show help
+
+* Updated translations:
+ Catalan
+ Icelandic
+
+
 Overview of changes in 3.23.3
 =============================
 
