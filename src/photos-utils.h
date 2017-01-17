@@ -28,6 +28,7 @@
 #ifndef PHOTOS_UTILS_H
 #define PHOTOS_UTILS_H
 
+#include <babl/babl.h>
 #include <cairo.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gegl.h>
@@ -116,6 +117,8 @@ void             photos_utils_draw_rectangle_thirds       (cairo_t *cr,
                                                            gdouble y,
                                                            gdouble width,
                                                            gdouble height);
+
+GeglBuffer      *photos_utils_dup_buffer_from_node        (GeglNode *node, const Babl *format);
 
 void             photos_utils_ensure_builtins             (void);
 

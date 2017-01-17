@@ -843,6 +843,30 @@ photos_utils_draw_rectangle_thirds (cairo_t *cr, gdouble x, gdouble y, gdouble w
 }
 
 
+GeglBuffer *
+photos_utils_dup_buffer_from_node (GeglNode *node, const Babl *format)
+{
+  GeglBuffer *buffer;
+  GeglRectangle bbox;
+  gint64 end;
+  gint64 start;
+
+  g_return_val_if_fail (GEGL_IS_NODE (node), NULL);
+
+  bbox = gegl_node_get_bounding_box (node);
+  buffer = gegl_buffer_new (&bbox, format);
+
+  start = g_get_monotonic_time ();
+
+  gegl_node_blit_buffer (node, buffer, &bbox, 0, GEGL_ABYSS_NONE);
+
+  end = g_get_monotonic_time ();
+  photos_debug (PHOTOS_DEBUG_GEGL, "Utils: Dup Buffer from Node: %" G_GINT64_FORMAT, end - start);
+
+  return buffer;
+}
+
+
 void
 photos_utils_ensure_builtins (void)
 {
