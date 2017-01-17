@@ -1110,7 +1110,7 @@ photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *re
       goto out;
     }
 
-  buffer = photos_utils_create_buffer_from_node (graph);
+  buffer = photos_utils_get_buffer_from_node (graph);
   data = photos_base_item_save_data_new (NULL, buffer, priv->mime_type, 0.0);
   g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
 
@@ -2052,7 +2052,7 @@ photos_base_item_save_to_stream_load (GObject *source_object, GAsyncResult *res,
       goto out;
     }
 
-  buffer = photos_utils_create_buffer_from_node (graph);
+  buffer = photos_utils_get_buffer_from_node (graph);
   photos_utils_buffer_zoom_async (buffer,
                                   data->zoom,
                                   cancellable,
@@ -3665,7 +3665,7 @@ photos_base_item_save_load (GObject *source_object, GAsyncResult *res, gpointer 
       goto out;
     }
 
-  buffer = photos_utils_create_buffer_from_node (graph);
+  buffer = photos_utils_get_buffer_from_node (graph);
   photos_utils_buffer_zoom_async (buffer,
                                   data->zoom,
                                   cancellable,
