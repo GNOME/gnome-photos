@@ -754,7 +754,7 @@ photos_application_edit_cancel_process (GObject *source_object, GAsyncResult *re
   GError *error = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
-  if (!photos_base_item_operations_revert_finish (item, res, &error))
+  if (!photos_base_item_pipeline_revert_finish (item, res, &error))
     {
       g_warning ("Unable to process item: %s", error->message);
       g_error_free (error);
@@ -779,7 +779,7 @@ photos_application_edit_cancel (PhotosApplication *self)
   g_return_if_fail (item != NULL);
 
   g_application_hold (G_APPLICATION (self));
-  photos_base_item_operations_revert_async (item, NULL, photos_application_edit_cancel_process, self);
+  photos_base_item_pipeline_revert_async (item, NULL, photos_application_edit_cancel_process, self);
 }
 
 
@@ -822,7 +822,7 @@ photos_application_edit_revert_revert (GObject *source_object, GAsyncResult *res
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
   error = NULL;
-  if (!photos_base_item_operations_revert_finish (item, res, &error))
+  if (!photos_base_item_pipeline_revert_finish (item, res, &error))
     {
       g_warning ("Unable to process item: %s", error->message);
       g_error_free (error);
@@ -850,7 +850,7 @@ photos_application_edit_revert (PhotosApplication *self, GVariant *parameter)
   g_return_if_fail (item != NULL);
 
   g_application_hold (G_APPLICATION (self));
-  photos_base_item_operations_revert_async (item, NULL, photos_application_edit_revert_revert, self);
+  photos_base_item_pipeline_revert_async (item, NULL, photos_application_edit_revert_revert, self);
 }
 
 
