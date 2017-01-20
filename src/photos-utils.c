@@ -1445,6 +1445,27 @@ photos_utils_make_directory_with_parents (GFile *file, GCancellable *cancellable
 }
 
 
+GParameter *
+photos_utils_parameter_new (GParamSpec *pspec, const gchar *name)
+{
+  GParameter *parameter;
+
+  parameter = g_slice_new0 (GParameter);
+  parameter->name = name; /* Should be a string literal. */
+  g_value_init (&parameter->value, G_PARAM_SPEC_VALUE_TYPE (pspec));
+
+  return parameter;
+}
+
+
+void
+photos_utils_parameter_free (GParameter *parameter)
+{
+  g_value_unset (&parameter->value);
+  g_slice_free (GParameter, parameter);
+}
+
+
 void
 photos_utils_object_list_free_full (GList *objects)
 {

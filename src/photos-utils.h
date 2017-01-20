@@ -181,6 +181,10 @@ gboolean         photos_utils_make_directory_with_parents (GFile *file, GCancell
 
 void             photos_utils_object_list_free_full       (GList *objects);
 
+GParameter      *photos_utils_parameter_new               (GParamSpec *pspec, const gchar *name);
+
+void             photos_utils_parameter_free              (GParameter *parameter);
+
 GQuark           photos_utils_orientation_bottom_quark    (void);
 
 GQuark           photos_utils_orientation_left_quark      (void);
