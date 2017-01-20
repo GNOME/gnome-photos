@@ -57,6 +57,10 @@ void                   photos_pipeline_add_valist        (PhotosPipeline *self,
                                                           const gchar *first_property_name,
                                                           va_list ap);
 
+void                   photos_pipeline_addl              (PhotosPipeline *self,
+                                                          const gchar *operation,
+                                                          GList *parameters);
+
 gboolean               photos_pipeline_get_valist        (PhotosPipeline *self,
                                                           const gchar *operation,
                                                           const gchar *first_property_name,

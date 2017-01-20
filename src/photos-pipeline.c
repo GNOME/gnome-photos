@@ -455,6 +455,19 @@ photos_pipeline_add_valist (PhotosPipeline *self,
                             const gchar *first_property_name,
                             va_list ap)
 {
+  GList *parameters = NULL;
+
+  parameters = photos_utils_create_operation_parameters_from_valist (operation, first_property_name, ap);
+  photos_pipeline_addl (self, operation, parameters);
+  g_list_free_full (parameters, (GDestroyNotify) photos_utils_parameter_free);
+}
+
+
+void
+photos_pipeline_addl (PhotosPipeline *self, const gchar *operation, GList *parameters)
+{
+  GList *l;
+  GeglOperation *op;
   GeglNode *input;
   GeglNode *last;
   GeglNode *node;
@@ -481,7 +494,16 @@ photos_pipeline_add_valist (PhotosPipeline *self,
       gegl_node_set_passthrough (node, FALSE);
     }
 
-  gegl_node_set_valist (node, first_property_name, ap);
+  op = gegl_node_get_gegl_operation (node);
+  g_object_freeze_notify (G_OBJECT (op));
+
+  for (l = parameters; l != NULL; l = l->next)
+    {
+      GParameter *parameter = (GParameter *) l->data;
+      gegl_node_set_property (node, parameter->name, &parameter->value);
+    }
+
+  g_object_thaw_notify (G_OBJECT (op));
 
   xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
