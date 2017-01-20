@@ -451,7 +451,10 @@ photos_pipeline_new_finish (GAsyncResult *res, GError **error)
 
 
 void
-photos_pipeline_add (PhotosPipeline *self, const gchar *operation, const gchar *first_property_name, va_list ap)
+photos_pipeline_add_valist (PhotosPipeline *self,
+                            const gchar *operation,
+                            const gchar *first_property_name,
+                            va_list ap)
 {
   GeglNode *input;
   GeglNode *last;
@@ -489,7 +492,10 @@ photos_pipeline_add (PhotosPipeline *self, const gchar *operation, const gchar *
 
 
 gboolean
-photos_pipeline_get (PhotosPipeline *self, const gchar *operation, const gchar *first_property_name, va_list ap)
+photos_pipeline_get_valist (PhotosPipeline *self,
+                            const gchar *operation,
+                            const gchar *first_property_name,
+                            va_list ap)
 {
   GeglNode *node;
   gboolean ret_val = FALSE;

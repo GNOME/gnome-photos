@@ -52,12 +52,12 @@ void                   photos_pipeline_new_async         (GeglNode *parent,
 PhotosPipeline        *photos_pipeline_new_finish        (GAsyncResult *res,
                                                           GError **error);
 
-void                   photos_pipeline_add               (PhotosPipeline *self,
+void                   photos_pipeline_add_valist        (PhotosPipeline *self,
                                                           const gchar *operation,
                                                           const gchar *first_property_name,
                                                           va_list ap);
 
-gboolean               photos_pipeline_get               (PhotosPipeline *self,
+gboolean               photos_pipeline_get_valist        (PhotosPipeline *self,
                                                           const gchar *operation,
                                                           const gchar *first_property_name,
                                                           va_list ap) G_GNUC_WARN_UNUSED_RESULT;

@@ -3418,7 +3418,7 @@ photos_base_item_operation_add_async (PhotosBaseItem *self,
   g_return_if_fail (!priv->collection);
 
   va_start (ap, first_property_name);
-  photos_pipeline_add (priv->pipeline, operation, first_property_name, ap);
+  photos_pipeline_add_valist (priv->pipeline, operation, first_property_name, ap);
   va_end (ap);
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -3457,7 +3457,7 @@ photos_base_item_operation_get (PhotosBaseItem *self, const gchar *operation, co
   g_return_val_if_fail (!priv->collection, FALSE);
 
   va_start (ap, first_property_name);
-  ret_val = photos_pipeline_get (priv->pipeline, operation, first_property_name, ap);
+  ret_val = photos_pipeline_get_valist (priv->pipeline, operation, first_property_name, ap);
   va_end (ap);
 
   return ret_val;
