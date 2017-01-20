@@ -111,14 +111,6 @@ struct _PhotosToolCropConstraint
   guint basis_width;
 };
 
-enum
-{
-  CONSTRAINT_COLUMN_ASPECT_RATIO = 0,
-  CONSTRAINT_COLUMN_NAME = 1,
-  CONSTRAINT_COLUMN_BASIS_HEIGHT = 2,
-  CONSTRAINT_COLUMN_BASIS_WIDTH = 3
-};
-
 /* "Free" is excluded from the GtkListBox and represented by the
  *  GtkCheckButton. Adjust accordingly.
  */
