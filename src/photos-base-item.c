@@ -76,6 +76,7 @@ struct _PhotosBaseItemPrivate
   GQuark equipment;
   GQuark flash;
   GQuark orientation;
+  GQueue *operation_queue;
   PhotosCollectionIconWatcher *watcher;
   PhotosPipeline *pipeline;
   PhotosSelectionController *sel_cntrlr;
@@ -83,6 +84,7 @@ struct _PhotosBaseItemPrivate
   gboolean collection;
   gboolean failed_thumbnailing;
   gboolean favorite;
+  gboolean operation_running;
   gchar *author;
   gchar *default_app_name;
   gchar *filename;
@@ -142,7 +144,14 @@ G_DEFINE_ABSTRACT_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJEC
 EGG_DEFINE_COUNTER (instances, "PhotosBaseItem", "Instances", "Number of PhotosBaseItem instances")
 
 
+typedef enum
+{
+  PHOTOS_BASE_ITEM_OPERATION_ADD,
+  PHOTOS_BASE_ITEM_OPERATION_REMOVE
+} PhotosBaseItemOperationType;
+
 typedef struct _PhotosBaseItemMetadataAddSharedData PhotosBaseItemMetadataAddSharedData;
+typedef struct _PhotosBaseItemOperationData PhotosBaseItemOperationData;
 typedef struct _PhotosBaseItemSaveData PhotosBaseItemSaveData;
 typedef struct _PhotosBaseItemSaveBufferData PhotosBaseItemSaveBufferData;
 typedef struct _PhotosBaseItemSaveToStreamData PhotosBaseItemSaveToStreamData;
@@ -152,6 +161,13 @@ struct _PhotosBaseItemMetadataAddSharedData
   gchar *account_identity;
   gchar *provider_type;
   gchar *shared_id;
+};
+
+struct _PhotosBaseItemOperationData
+{
+  GList *parameters;
+  PhotosBaseItemOperationType type;
+  gchar *name;
 };
 
 struct _PhotosBaseItemSaveData
@@ -183,6 +199,7 @@ static GThreadPool *create_thumbnail_pool;
 static const gint PIXEL_SIZES[] = {2048, 1024};
 
 
+static void photos_base_item_operation_queue_check (PhotosBaseItem *self);
 static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor);
 
 
@@ -209,6 +226,28 @@ photos_base_item_metadata_add_shared_data_free (PhotosBaseItemMetadataAddSharedD
   g_free (data->provider_type);
   g_free (data->shared_id);
   g_slice_free (PhotosBaseItemMetadataAddSharedData, data);
+}
+
+
+static PhotosBaseItemOperationData *
+photos_base_item_operation_data_new (PhotosBaseItemOperationType type, const gchar *name)
+{
+  PhotosBaseItemOperationData *data;
+
+  data = g_slice_new0 (PhotosBaseItemOperationData);
+  data->type = type;
+  data->name = g_strdup (name);
+
+  return data;
+}
+
+
+static void
+photos_base_item_operation_data_free (PhotosBaseItemOperationData *data)
+{
+  g_free (data->name);
+  g_list_free_full (data->parameters, (GDestroyNotify) photos_utils_parameter_free);
+  g_slice_free (PhotosBaseItemOperationData, data);
 }
 
 
@@ -1556,6 +1595,105 @@ photos_base_item_metadata_add_shared_in_thread_func (GTask *task,
 
 
 static void
+photos_base_item_operation_queue_collector (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  PhotosBaseItemPrivate *priv;
+  GList *l;
+  GList *tasks = NULL;
+  GTask *batched_task = G_TASK (user_data);
+  GError *error;
+
+  priv = photos_base_item_get_instance_private (self);
+  tasks = (GList *) g_task_get_task_data (batched_task);
+
+  error = NULL;
+  photos_base_item_process_finish (self, res, &error);
+  for (l = tasks; l != NULL; l = l->next)
+    {
+      GTask *task = G_TASK (l->data);
+
+      if (error != NULL)
+        g_task_return_error (task, g_error_copy (error));
+      else
+        g_task_return_boolean (task, TRUE);
+    }
+
+  g_clear_error (&error);
+
+  priv->operation_running = FALSE;
+  photos_base_item_operation_queue_check (self);
+
+  g_object_unref (batched_task);
+}
+
+
+static void
+photos_base_item_operation_queue_check (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv;
+  GList *l;
+  GList *tasks = NULL;
+  GTask *batched_task = NULL;
+
+  priv = photos_base_item_get_instance_private (self);
+
+  if (priv->operation_running)
+    goto out;
+
+  if (priv->operation_queue->length == 0)
+    goto out;
+
+  priv->operation_running = TRUE;
+
+  for (l = priv->operation_queue->head; l != NULL; l = l->next)
+    {
+      GTask *task = G_TASK (l->data);
+      PhotosBaseItemOperationData *data;
+
+      data = (PhotosBaseItemOperationData *) g_task_get_task_data (task);
+
+      if (data->type == PHOTOS_BASE_ITEM_OPERATION_ADD)
+        {
+          photos_pipeline_addl (priv->pipeline, data->name, data->parameters);
+        }
+      else if (data->type == PHOTOS_BASE_ITEM_OPERATION_REMOVE)
+        {
+          g_assert_null (data->parameters);
+
+          if (!photos_pipeline_remove (priv->pipeline, data->name))
+            {
+              g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to find a GeglNode for %s", data->name);
+              continue;
+            }
+        }
+      else
+        {
+          g_assert_not_reached ();
+        }
+
+      tasks = g_list_prepend (tasks, g_object_ref (task));
+    }
+
+  batched_task = g_task_new (self, NULL, NULL, NULL);
+  g_task_set_task_data (batched_task, tasks, (GDestroyNotify) photos_utils_object_list_free_full);
+  tasks = NULL;
+
+  photos_base_item_process_async (self,
+                                  NULL,
+                                  photos_base_item_operation_queue_collector,
+                                  g_object_ref (batched_task));
+
+  g_queue_foreach (priv->operation_queue, (GFunc) g_object_unref, NULL);
+  g_queue_clear (priv->operation_queue);
+
+ out:
+  g_list_free_full (tasks, g_object_unref);
+  g_clear_object (&batched_task);
+}
+
+
+static void
 photos_base_item_pipeline_save_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
@@ -2464,6 +2602,8 @@ photos_base_item_finalize (GObject *object)
   g_mutex_clear (&priv->mutex_download);
   g_mutex_clear (&priv->mutex_save_metadata);
 
+  g_queue_free_full (priv->operation_queue, g_object_unref);
+
   G_OBJECT_CLASS (photos_base_item_parent_class)->finalize (object);
 
   EGG_COUNTER_DEC (instances);
@@ -2553,6 +2693,8 @@ photos_base_item_init (PhotosBaseItem *self)
 
   g_mutex_init (&priv->mutex_download);
   g_mutex_init (&priv->mutex_save_metadata);
+
+  priv->operation_queue = g_queue_new ();
 
   priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
 }
@@ -3408,6 +3550,7 @@ photos_base_item_operation_add_async (PhotosBaseItem *self,
 {
   PhotosBaseItemPrivate *priv;
   GTask *task;
+  PhotosBaseItemOperationData *data;
   va_list ap;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
@@ -3415,14 +3558,18 @@ photos_base_item_operation_add_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
 
+  data = photos_base_item_operation_data_new (PHOTOS_BASE_ITEM_OPERATION_ADD, operation);
+
   va_start (ap, first_property_name);
-  photos_pipeline_add_valist (priv->pipeline, operation, first_property_name, ap);
+  data->parameters = photos_utils_create_operation_parameters_from_valist (operation, first_property_name, ap);
   va_end (ap);
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_operation_add_async);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_operation_data_free);
 
-  photos_base_item_process_async (self, cancellable, photos_base_item_common_process, g_object_ref (task));
+  g_queue_push_tail (priv->operation_queue, g_object_ref (task));
+  photos_base_item_operation_queue_check (self);
 
   g_object_unref (task);
 }
@@ -3471,24 +3618,22 @@ photos_base_item_operation_remove_async (PhotosBaseItem *self,
 {
   PhotosBaseItemPrivate *priv;
   GTask *task;
+  PhotosBaseItemOperationData *data;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
 
+  data = photos_base_item_operation_data_new (PHOTOS_BASE_ITEM_OPERATION_REMOVE, operation);
+
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_operation_remove_async);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_operation_data_free);
 
-  if (!photos_pipeline_remove (priv->pipeline, operation))
-    {
-      g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to find a GeglNode for %s", operation);
-      goto out;
-    }
+  g_queue_push_tail (priv->operation_queue, g_object_ref (task));
+  photos_base_item_operation_queue_check (self);
 
-  photos_base_item_process_async (self, cancellable, photos_base_item_common_process, g_object_ref (task));
-
- out:
   g_object_unref (task);
 }
 
