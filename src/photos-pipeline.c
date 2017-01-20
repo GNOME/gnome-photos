@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2016 Red Hat, Inc.
+ * Copyright © 2015 – 2017 Red Hat, Inc.
  * Copyright © 2016 Umang Jain
  *
  * This program is free software; you can redistribute it and/or
@@ -450,7 +450,10 @@ photos_pipeline_new_finish (GAsyncResult *res, GError **error)
 
 
 void
-photos_pipeline_add (PhotosPipeline *self, const gchar *operation, const gchar *first_property_name, va_list ap)
+photos_pipeline_add_valist (PhotosPipeline *self,
+                            const gchar *operation,
+                            const gchar *first_property_name,
+                            va_list ap)
 {
   GeglNode *input;
   GeglNode *last;
@@ -488,7 +491,10 @@ photos_pipeline_add (PhotosPipeline *self, const gchar *operation, const gchar *
 
 
 gboolean
-photos_pipeline_get (PhotosPipeline *self, const gchar *operation, const gchar *first_property_name, va_list ap)
+photos_pipeline_get_valist (PhotosPipeline *self,
+                            const gchar *operation,
+                            const gchar *first_property_name,
+                            va_list ap)
 {
   GeglNode *node;
   gboolean ret_val = FALSE;
