@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include <glib.h>
+#include <gobject/gvaluecollector.h>
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 #include <tracker-sparql.h>
 #include <libgd/gd.h>
@@ -384,6 +385,41 @@ photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
   g_object_unref (context);
 
   return ret_val;
+}
+
+
+GList *
+photos_utils_create_operation_parameters_from_valist (const gchar *operation,
+                                                      const gchar *first_property_name,
+                                                      va_list ap)
+{
+  GList *parameters = NULL;
+  const gchar *property_name;
+
+  for (property_name = first_property_name; property_name != NULL; property_name = va_arg (ap, gchar *))
+    {
+      GParamSpec *pspec;
+      GParameter *parameter;
+      gchar *error;
+
+      pspec = gegl_operation_find_property (operation, property_name);
+      parameter = photos_utils_parameter_new (pspec, property_name);
+
+      error = NULL;
+      G_VALUE_COLLECT (&parameter->value, ap, 0, &error);
+      if (error != NULL)
+        {
+          g_warning ("Unable to set GValue: %s", error);
+          g_free (error);
+          photos_utils_parameter_free (parameter);
+          continue;
+        }
+
+      parameters = g_list_prepend (parameters, parameter);
+    }
+
+  parameters = g_list_reverse (parameters);
+  return parameters;
 }
 
 

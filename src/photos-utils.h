@@ -84,6 +84,10 @@ gchar           *photos_utils_convert_path_to_uri         (const gchar *path);
 
 GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
 
+GList           *photos_utils_create_operation_parameters_from_valist (const gchar *operation,
+                                                                       const gchar *first_property_name,
+                                                                       va_list ap);
+
 GeglNode        *photos_utils_create_orientation_node     (GeglNode *parent, GQuark orientation);
 
 GdkPixbuf       *photos_utils_create_pixbuf_from_node     (GeglNode *node);
