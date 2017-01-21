@@ -230,6 +230,8 @@ gnome_photos_SOURCES = \
 	photos-source.h \
 	photos-source-manager.c \
 	photos-source-manager.h \
+	photos-source-notification.c \
+	photos-source-notification.h \
 	photos-spinner-box.c \
 	photos-spinner-box.h \
 	photos-thumbnail-factory.c \

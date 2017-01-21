@@ -39,6 +39,7 @@ src/photos-selection-toolbar.c
 src/photos-share-point-email.c
 src/photos-share-point-google.c
 src/photos-source-manager.c
+src/photos-source-notification.c
 src/photos-spinner-box.c
 src/photos-thumbnailer.c
 src/photos-tool-colors.c
