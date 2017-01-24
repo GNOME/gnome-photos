@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2016 Red Hat, Inc.
+ * Copyright © 2015 – 2017 Red Hat, Inc.
  * Copyright © 2015 – 2016 Umang Jain
  * Copyright © 2011 – 2015 Yorba Foundation
  *
@@ -904,6 +904,7 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
   photos_tool_crop_set_active (self, (gint) active);
 
   photos_tool_crop_surface_draw (self);
+  gtk_widget_queue_draw (self->view);
 
   self->size_allocate_id = g_signal_connect_object (self->view,
                                                     "size-allocate",
@@ -973,6 +974,7 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageVi
     {
       photos_tool_crop_surface_create (self);
       photos_tool_crop_init_crop (self);
+      gtk_widget_queue_draw (self->view);
 
       self->size_allocate_id = g_signal_connect_object (self->view,
                                                         "size-allocate",
