@@ -44,7 +44,6 @@
 struct _PhotosPreviewView
 {
   GtkBin parent_instance;
-  GAction *draw;
   GCancellable *cancellable;
   GeglNode *node;
   GtkWidget *overlay;
@@ -397,18 +396,6 @@ photos_preview_view_denoise (PhotosPreviewView *self, GVariant *parameter)
 
 
 static void
-photos_preview_view_draw (PhotosPreviewView *self)
-{
-  GtkWidget *view;
-  GtkWidget *view_container;
-
-  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
-  view = photos_preview_view_get_view_from_view_container (view_container);
-  gtk_widget_queue_draw (view);
-}
-
-
-static void
 photos_preview_view_insta (PhotosPreviewView *self, GVariant *parameter)
 {
   PhotosBaseItem *item;
@@ -480,8 +467,6 @@ photos_preview_view_tool_activated (PhotosTool *tool, gpointer user_data)
 
   self->current_tool = tool;
   g_object_add_weak_pointer (G_OBJECT (self->current_tool), (gpointer *) &self->current_tool);
-
-  g_action_activate (self->draw, NULL);
 }
 
 
@@ -502,7 +487,6 @@ photos_preview_view_tool_changed (PhotosPreviewView *self, PhotosTool *tool)
   if (tool == NULL)
     {
       self->current_tool = NULL;
-      g_action_activate (self->draw, NULL);
     }
   else
     {
@@ -738,9 +722,6 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "denoise-current");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_denoise), self, G_CONNECT_SWAPPED);
-
-  self->draw = g_action_map_lookup_action (G_ACTION_MAP (app), "draw-current");
-  g_signal_connect_object (self->draw, "activate", G_CALLBACK (photos_preview_view_draw), self, G_CONNECT_SWAPPED);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "edit-done");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_edit_done), self, G_CONNECT_SWAPPED);
