@@ -923,6 +923,7 @@ photos_tool_crop_reset_clicked (PhotosToolCrop *self)
 {
   self->reset = TRUE;
   photos_tool_crop_set_active (self, -1);
+  gtk_widget_queue_draw (self->view);
   g_signal_emit_by_name (self, "hide-requested");
 }
 
