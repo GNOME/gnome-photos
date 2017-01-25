@@ -2470,6 +2470,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   const Babl *format;
   GeglBuffer *buffer_cropped = NULL;
   GeglBuffer *buffer_orig = NULL;
+  GeglBuffer *buffer_scaled = NULL;
   GeglBuffer *buffer = NULL;
   GeglNode *buffer_source;
   GeglNode *graph = NULL;
@@ -2481,6 +2482,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   static const cairo_user_data_key_t key;
   const gchar *name;
   gdouble zoom;
+  gint bpp;
   gint min_dimension;
   gint size_scaled;
   gint stride;
@@ -2522,8 +2524,28 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   bbox.y = y;
   buffer_cropped = gegl_buffer_create_sub_buffer (buffer, &bbox);
 
+  roi.height = size_scaled;
+  roi.width = size_scaled;
+  roi.x = (gint) ((gdouble) x * zoom + 0.5);
+  roi.y = (gint) ((gdouble) y * zoom + 0.5);
+
+  format = gegl_buffer_get_format (buffer_cropped);
+  bpp = babl_format_get_bytes_per_pixel (format);
+  buf = g_malloc0_n (roi.height * roi.width, bpp);
+
+  start = g_get_monotonic_time ();
+
+  gegl_buffer_get (buffer_cropped, &roi, zoom, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+
+  end = g_get_monotonic_time ();
+  photos_debug (PHOTOS_DEBUG_GEGL, "Create Preview: Downscale: %" G_GINT64_FORMAT, end - start);
+
+  roi.x = 0;
+  roi.y = 0;
+  buffer_scaled = gegl_buffer_linear_new_from_data (buf, format, &roi, GEGL_AUTO_ROWSTRIDE, g_free, NULL);
+
   graph = gegl_node_new ();
-  buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer_cropped, NULL);
+  buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer_scaled, NULL);
 
   operation_node = gegl_node_new_child (graph, "operation", operation, NULL);
 
@@ -2540,18 +2562,13 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL, "Create Preview: Process: %" G_GINT64_FORMAT, end - start);
 
-  roi.height = size_scaled;
-  roi.width = size_scaled;
-  roi.x = (gint) ((gdouble) x * zoom + 0.5);
-  roi.y = (gint) ((gdouble) y * zoom + 0.5);
-
   stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32, roi.width);
   buf = g_malloc0 (stride * roi.height);
   format = babl_format ("cairo-ARGB32");
 
   start = g_get_monotonic_time ();
 
-  gegl_node_blit (operation_node, zoom, &roi, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_BLIT_DEFAULT);
+  gegl_node_blit (operation_node, 1.0, &roi, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_BLIT_DEFAULT);
 
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL, "Create Preview: Node Blit: %" G_GINT64_FORMAT, end - start);
@@ -2563,6 +2580,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   g_object_unref (buffer);
   g_object_unref (buffer_cropped);
   g_object_unref (buffer_orig);
+  g_object_unref (buffer_scaled);
   g_object_unref (graph);
 
   return surface;
