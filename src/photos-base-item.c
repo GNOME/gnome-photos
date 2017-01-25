@@ -2468,10 +2468,10 @@ photos_base_item_create_preview (PhotosBaseItem *self,
 {
   PhotosBaseItemPrivate *priv;
   const Babl *format;
+  GeglBuffer *buffer_cropped = NULL;
   GeglBuffer *buffer_orig = NULL;
   GeglBuffer *buffer = NULL;
   GeglNode *buffer_source;
-  GeglNode *crop;
   GeglNode *graph = NULL;
   GeglNode *operation_node;
   GeglOperation *op;
@@ -2481,12 +2481,12 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   cairo_surface_t *surface = NULL;
   static const cairo_user_data_key_t key;
   const gchar *name;
-  gdouble x;
-  gdouble y;
   gdouble zoom;
   gint min_dimension;
   gint size_scaled;
   gint stride;
+  gint x;
+  gint y;
   gint64 end;
   gint64 start;
   guchar *buf = NULL;
@@ -2512,20 +2512,19 @@ photos_base_item_create_preview (PhotosBaseItem *self,
 
   bbox = *gegl_buffer_get_extent (buffer);
   min_dimension = MIN (bbox.height, bbox.width);
-  x = (gdouble) (bbox.width - min_dimension) / 2.0;
-  y = (gdouble) (bbox.height - min_dimension) / 2.0;
+  x = (gint) ((gdouble) (bbox.width - min_dimension) / 2.0 + 0.5);
+  y = (gint) ((gdouble) (bbox.height - min_dimension) / 2.0 + 0.5);
   size_scaled = size * scale;
   zoom = (gdouble) size_scaled / (gdouble) min_dimension;
 
+  bbox.height = min_dimension;
+  bbox.width = min_dimension;
+  bbox.x = x;
+  bbox.y = y;
+  buffer_cropped = gegl_buffer_create_sub_buffer (buffer, &bbox);
+
   graph = gegl_node_new ();
-  buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer, NULL);
-  crop = gegl_node_new_child (graph,
-                              "operation", "gegl:crop",
-                              "height", (gdouble) min_dimension,
-                              "width", (gdouble) min_dimension,
-                              "x", x,
-                              "y", y,
-                              NULL);
+  buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer_cropped, NULL);
 
   operation_node = gegl_node_new_child (graph, "operation", operation, NULL);
 
@@ -2533,7 +2532,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   gegl_node_set_valist (operation_node, first_property_name, ap);
   va_end (ap);
 
-  gegl_node_link_many (buffer_source, crop, operation_node, NULL);
+  gegl_node_link_many (buffer_source, operation_node, NULL);
   processor = gegl_node_new_processor (operation_node, NULL);
 
   start = g_get_monotonic_time ();
@@ -2545,8 +2544,8 @@ photos_base_item_create_preview (PhotosBaseItem *self,
 
   roi.height = size_scaled;
   roi.width = size_scaled;
-  roi.x = (gint) (x * zoom + 0.5);
-  roi.y = (gint) (y * zoom + 0.5);
+  roi.x = (gint) ((gdouble) x * zoom + 0.5);
+  roi.y = (gint) ((gdouble) y * zoom + 0.5);
 
   stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32, roi.width);
   buf = g_malloc0 (stride * roi.height);
@@ -2564,6 +2563,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   cairo_surface_set_user_data (surface, &key, buf, (cairo_destroy_func_t) g_free);
 
   g_object_unref (buffer);
+  g_object_unref (buffer_cropped);
   g_object_unref (buffer_orig);
   g_object_unref (graph);
   g_object_unref (processor);
