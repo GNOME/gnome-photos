@@ -2569,7 +2569,6 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   GeglNode *graph = NULL;
   GeglNode *operation_node;
   GeglOperation *op;
-  GeglProcessor *processor = NULL;
   GeglRectangle bbox;
   GeglRectangle roi;
   cairo_surface_t *surface = NULL;
@@ -2627,11 +2626,10 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   va_end (ap);
 
   gegl_node_link_many (buffer_source, operation_node, NULL);
-  processor = gegl_node_new_processor (operation_node, NULL);
 
   start = g_get_monotonic_time ();
 
-  while (gegl_processor_work (processor, NULL));
+  gegl_node_process (operation_node);
 
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL, "Create Preview: Process: %" G_GINT64_FORMAT, end - start);
@@ -2660,7 +2658,6 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   g_object_unref (buffer_cropped);
   g_object_unref (buffer_orig);
   g_object_unref (graph);
-  g_object_unref (processor);
 
   return surface;
 }
