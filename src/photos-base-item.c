@@ -64,6 +64,7 @@ struct _PhotosBaseItemPrivate
   GAppInfo *default_app;
   GCancellable *cancellable;
   GdkPixbuf *original_icon;
+  GeglBuffer *preview_source_buffer;
   GeglNode *buffer_sink;
   GeglNode *buffer_source;
   GeglNode *edit_graph;
@@ -1028,6 +1029,108 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
 
  out:
   g_clear_object (&info);
+}
+
+
+static GeglBuffer *
+photos_base_item_get_preview_source_buffer (PhotosBaseItem *self, gint size, gint scale)
+{
+  PhotosBaseItemPrivate *priv;
+  const Babl *format;
+  GeglBuffer *buffer_cropped = NULL;
+  GeglBuffer *buffer_orig = NULL;
+  GeglBuffer *buffer = NULL;
+  GeglBuffer *ret_val = NULL;
+  GeglOperation *op;
+  GeglRectangle bbox;
+  GeglRectangle roi;
+  const gchar *name;
+  gdouble zoom;
+  gint bpp;
+  gint min_dimension;
+  gint size_scaled;
+  gint x;
+  gint y;
+  gint64 end;
+  gint64 start;
+  guchar *buf = NULL;
+
+  priv = photos_base_item_get_instance_private (self);
+
+  g_return_val_if_fail (!priv->collection, NULL);
+  g_return_val_if_fail (priv->buffer_source != NULL, NULL);
+  g_return_val_if_fail (priv->edit_graph != NULL, NULL);
+  g_return_val_if_fail (priv->load_graph != NULL, NULL);
+
+  op = gegl_node_get_gegl_operation (priv->buffer_source);
+  g_return_val_if_fail (op != NULL, NULL);
+
+  name = gegl_operation_get_name (op);
+  g_return_val_if_fail (g_strcmp0 (name, "gegl:buffer-source") == 0, NULL);
+
+  size_scaled = size * scale;
+
+  if (priv->preview_source_buffer != NULL)
+    {
+      bbox = *gegl_buffer_get_extent (priv->preview_source_buffer);
+      if (bbox.height == size_scaled && bbox.width == size_scaled)
+        {
+          ret_val = priv->preview_source_buffer;
+          goto out;
+        }
+      else
+        {
+          g_clear_object (&priv->preview_source_buffer);
+        }
+    }
+
+  gegl_node_get (priv->buffer_source, "buffer", &buffer_orig, NULL);
+  buffer = gegl_buffer_dup (buffer_orig);
+
+  bbox = *gegl_buffer_get_extent (buffer);
+  min_dimension = MIN (bbox.height, bbox.width);
+  x = (gint) ((gdouble) (bbox.width - min_dimension) / 2.0 + 0.5);
+  y = (gint) ((gdouble) (bbox.height - min_dimension) / 2.0 + 0.5);
+  zoom = (gdouble) size_scaled / (gdouble) min_dimension;
+
+  bbox.height = min_dimension;
+  bbox.width = min_dimension;
+  bbox.x = x;
+  bbox.y = y;
+  buffer_cropped = gegl_buffer_create_sub_buffer (buffer, &bbox);
+
+  roi.height = size_scaled;
+  roi.width = size_scaled;
+  roi.x = (gint) ((gdouble) x * zoom + 0.5);
+  roi.y = (gint) ((gdouble) y * zoom + 0.5);
+
+  format = gegl_buffer_get_format (buffer_cropped);
+  bpp = babl_format_get_bytes_per_pixel (format);
+  buf = g_malloc0_n (roi.height * roi.width, bpp);
+
+  start = g_get_monotonic_time ();
+
+  gegl_buffer_get (buffer_cropped, &roi, zoom, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+
+  end = g_get_monotonic_time ();
+  photos_debug (PHOTOS_DEBUG_GEGL, "Get Preview Buffer: Downscale: %" G_GINT64_FORMAT, end - start);
+
+  roi.x = 0;
+  roi.y = 0;
+  priv->preview_source_buffer = gegl_buffer_linear_new_from_data (buf,
+                                                                  format,
+                                                                  &roi,
+                                                                  GEGL_AUTO_ROWSTRIDE,
+                                                                  g_free,
+                                                                  NULL);
+
+  ret_val = priv->preview_source_buffer;
+
+ out:
+  g_clear_object (&buffer);
+  g_clear_object (&buffer_cropped);
+  g_clear_object (&buffer_orig);
+  return ret_val;
 }
 
 
@@ -2321,6 +2424,7 @@ photos_base_item_dispose (GObject *object)
 
   g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
   g_clear_object (&priv->default_app);
+  g_clear_object (&priv->preview_source_buffer);
   g_clear_object (&priv->edit_graph);
   g_clear_object (&priv->load_graph);
   g_clear_object (&priv->processor);
@@ -2562,26 +2666,16 @@ photos_base_item_create_preview (PhotosBaseItem *self,
 {
   PhotosBaseItemPrivate *priv;
   const Babl *format;
-  GeglBuffer *buffer_cropped = NULL;
-  GeglBuffer *buffer_orig = NULL;
-  GeglBuffer *buffer_scaled = NULL;
-  GeglBuffer *buffer = NULL;
+  GeglBuffer *preview_source_buffer;
   GeglNode *buffer_source;
   GeglNode *graph = NULL;
   GeglNode *operation_node;
   GeglOperation *op;
   GeglRectangle bbox;
-  GeglRectangle roi;
   cairo_surface_t *surface = NULL;
   static const cairo_user_data_key_t key;
   const gchar *name;
-  gdouble zoom;
-  gint bpp;
-  gint min_dimension;
-  gint size_scaled;
   gint stride;
-  gint x;
-  gint y;
   gint64 end;
   gint64 start;
   guchar *buf = NULL;
@@ -2602,44 +2696,14 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   name = gegl_operation_get_name (op);
   g_return_val_if_fail (g_strcmp0 (name, "gegl:buffer-source") == 0, NULL);
 
-  gegl_node_get (priv->buffer_source, "buffer", &buffer_orig, NULL);
-  buffer = gegl_buffer_dup (buffer_orig);
-
-  bbox = *gegl_buffer_get_extent (buffer);
-  min_dimension = MIN (bbox.height, bbox.width);
-  x = (gint) ((gdouble) (bbox.width - min_dimension) / 2.0 + 0.5);
-  y = (gint) ((gdouble) (bbox.height - min_dimension) / 2.0 + 0.5);
-  size_scaled = size * scale;
-  zoom = (gdouble) size_scaled / (gdouble) min_dimension;
-
-  bbox.height = min_dimension;
-  bbox.width = min_dimension;
-  bbox.x = x;
-  bbox.y = y;
-  buffer_cropped = gegl_buffer_create_sub_buffer (buffer, &bbox);
-
-  roi.height = size_scaled;
-  roi.width = size_scaled;
-  roi.x = (gint) ((gdouble) x * zoom + 0.5);
-  roi.y = (gint) ((gdouble) y * zoom + 0.5);
-
-  format = gegl_buffer_get_format (buffer_cropped);
-  bpp = babl_format_get_bytes_per_pixel (format);
-  buf = g_malloc0_n (roi.height * roi.width, bpp);
-
-  start = g_get_monotonic_time ();
-
-  gegl_buffer_get (buffer_cropped, &roi, zoom, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
-
-  end = g_get_monotonic_time ();
-  photos_debug (PHOTOS_DEBUG_GEGL, "Create Preview: Downscale: %" G_GINT64_FORMAT, end - start);
-
-  roi.x = 0;
-  roi.y = 0;
-  buffer_scaled = gegl_buffer_linear_new_from_data (buf, format, &roi, GEGL_AUTO_ROWSTRIDE, g_free, NULL);
+  preview_source_buffer = photos_base_item_get_preview_source_buffer (self, size, scale);
+  g_return_val_if_fail (GEGL_IS_BUFFER (preview_source_buffer), NULL);
 
   graph = gegl_node_new ();
-  buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer_scaled, NULL);
+  buffer_source = gegl_node_new_child (graph,
+                                       "operation", "gegl:buffer-source",
+                                       "buffer", preview_source_buffer,
+                                       NULL);
 
   operation_node = gegl_node_new_child (graph, "operation", operation, NULL);
 
@@ -2656,25 +2720,22 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL, "Create Preview: Process: %" G_GINT64_FORMAT, end - start);
 
-  stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32, roi.width);
-  buf = g_malloc0 (stride * roi.height);
+  bbox = gegl_node_get_bounding_box (operation_node);
+  stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32, bbox.width);
+  buf = g_malloc0 (stride * bbox.height);
   format = babl_format ("cairo-ARGB32");
 
   start = g_get_monotonic_time ();
 
-  gegl_node_blit (operation_node, 1.0, &roi, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_BLIT_DEFAULT);
+  gegl_node_blit (operation_node, 1.0, &bbox, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_BLIT_DEFAULT);
 
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL, "Create Preview: Node Blit: %" G_GINT64_FORMAT, end - start);
 
-  surface = cairo_image_surface_create_for_data (buf, CAIRO_FORMAT_ARGB32, roi.width, roi.height, stride);
+  surface = cairo_image_surface_create_for_data (buf, CAIRO_FORMAT_ARGB32, bbox.width, bbox.height, stride);
   cairo_surface_set_device_scale (surface, (gdouble) scale, (gdouble) scale);
   cairo_surface_set_user_data (surface, &key, buf, (cairo_destroy_func_t) g_free);
 
-  g_object_unref (buffer);
-  g_object_unref (buffer_cropped);
-  g_object_unref (buffer_orig);
-  g_object_unref (buffer_scaled);
   g_object_unref (graph);
 
   return surface;
