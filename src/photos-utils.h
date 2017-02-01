@@ -28,10 +28,8 @@
 #ifndef PHOTOS_UTILS_H
 #define PHOTOS_UTILS_H
 
-#include <babl/babl.h>
 #include <cairo.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gegl.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -70,23 +68,11 @@ gboolean         photos_utils_app_info_launch_uri         (GAppInfo *appinfo,
 
 void             photos_utils_border_pixbuf               (GdkPixbuf *pixbuf);
 
-void             photos_utils_buffer_zoom_async           (GeglBuffer *buffer,
-                                                           gdouble zoom,
-                                                           GCancellable *cancellable,
-                                                           GAsyncReadyCallback callback,
-                                                           gpointer user_data);
-
-GeglBuffer      *photos_utils_buffer_zoom_finish          (GeglBuffer *buffer, GAsyncResult *res, GError **error);
-
 GdkPixbuf       *photos_utils_center_pixbuf               (GdkPixbuf *pixbuf, gint size);
 
 gchar           *photos_utils_convert_path_to_uri         (const gchar *path);
 
 GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
-
-GeglNode        *photos_utils_create_orientation_node     (GeglNode *parent, GQuark orientation);
-
-GdkPixbuf       *photos_utils_create_pixbuf_from_node     (GeglNode *node);
 
 GdkPixbuf       *photos_utils_create_placeholder_icon_for_scale (const gchar *name, gint size, gint scale);
 
@@ -97,8 +83,6 @@ gboolean         photos_utils_create_thumbnail            (GFile *file,
                                                            gint64 mtime,
                                                            GCancellable *cancellable,
                                                            GError **error);
-
-GeglBuffer      *photos_utils_get_buffer_from_node        (GeglNode *node, const Babl *format);
 
 GIcon           *photos_utils_get_icon_from_cursor        (TrackerSparqlCursor *cursor);
 
@@ -117,8 +101,6 @@ void             photos_utils_draw_rectangle_thirds       (cairo_t *cr,
                                                            gdouble y,
                                                            gdouble width,
                                                            gdouble height);
-
-GeglBuffer      *photos_utils_dup_buffer_from_node        (GeglNode *node, const Babl *format);
 
 void             photos_utils_ensure_builtins             (void);
 
@@ -188,8 +170,6 @@ GQuark           photos_utils_orientation_left_quark      (void);
 GQuark           photos_utils_orientation_right_quark     (void);
 
 GQuark           photos_utils_orientation_top_quark       (void);
-
-void             photos_utils_remove_children_from_node   (GeglNode *node);
 
 void             photos_utils_set_edited_name             (const gchar *urn, const gchar *title);
 

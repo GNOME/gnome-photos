@@ -46,6 +46,7 @@
 #include "photos-debug.h"
 #include "photos-delete-item-job.h"
 #include "photos-filterable.h"
+#include "photos-gegl.h"
 #include "photos-icons.h"
 #include "photos-local-item.h"
 #include "photos-pipeline.h"
@@ -1213,7 +1214,7 @@ photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *re
       goto out;
     }
 
-  buffer = photos_utils_get_buffer_from_node (graph, NULL);
+  buffer = photos_gegl_get_buffer_from_node (graph, NULL);
   data = photos_base_item_save_data_new (NULL, buffer, priv->mime_type, 0.0);
   g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
 
@@ -1401,7 +1402,7 @@ photos_base_item_load_buffer_async (PhotosBaseItem *self,
 
       priv->load_graph = gegl_node_new ();
       priv->load = gegl_node_new_child (priv->load_graph, "operation", "gegl:load", NULL);
-      orientation = photos_utils_create_orientation_node (priv->load_graph, priv->orientation);
+      orientation = photos_gegl_create_orientation_node (priv->load_graph, priv->orientation);
       priv->buffer_sink = gegl_node_new_child (priv->load_graph, "operation", "gegl:buffer-sink", NULL);
       gegl_node_link_many (priv->load, orientation, priv->buffer_sink, NULL);
     }
@@ -1771,7 +1772,7 @@ photos_base_item_save_buffer_async (PhotosBaseItem *self,
 
   graph = gegl_node_new ();
   buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer, NULL);
-  pixbuf = photos_utils_create_pixbuf_from_node (buffer_source);
+  pixbuf = photos_gegl_create_pixbuf_from_node (buffer_source);
   if (pixbuf == NULL)
     {
       g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to create a GdkPixbuf from the GeglBuffer");
@@ -1911,7 +1912,7 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
   data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
   error = NULL;
-  buffer_zoomed = photos_utils_buffer_zoom_finish (buffer, res, &error);
+  buffer_zoomed = photos_gegl_buffer_zoom_finish (buffer, res, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
@@ -2095,7 +2096,7 @@ photos_base_item_save_to_stream_buffer_zoom (GObject *source_object, GAsyncResul
   data = (PhotosBaseItemSaveToStreamData *) g_task_get_task_data (task);
 
   error = NULL;
-  buffer_zoomed = photos_utils_buffer_zoom_finish (buffer, res, &error);
+  buffer_zoomed = photos_gegl_buffer_zoom_finish (buffer, res, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
@@ -2155,12 +2156,12 @@ photos_base_item_save_to_stream_load (GObject *source_object, GAsyncResult *res,
       goto out;
     }
 
-  buffer = photos_utils_get_buffer_from_node (graph, NULL);
-  photos_utils_buffer_zoom_async (buffer,
-                                  data->zoom,
-                                  cancellable,
-                                  photos_base_item_save_to_stream_buffer_zoom,
-                                  g_object_ref (task));
+  buffer = photos_gegl_get_buffer_from_node (graph, NULL);
+  photos_gegl_buffer_zoom_async (buffer,
+                                 data->zoom,
+                                 cancellable,
+                                 photos_base_item_save_to_stream_buffer_zoom,
+                                 g_object_ref (task));
 
  out:
   g_clear_object (&buffer);
@@ -3741,12 +3742,12 @@ photos_base_item_save_load (GObject *source_object, GAsyncResult *res, gpointer 
       goto out;
     }
 
-  buffer = photos_utils_get_buffer_from_node (graph, NULL);
-  photos_utils_buffer_zoom_async (buffer,
-                                  data->zoom,
-                                  cancellable,
-                                  photos_base_item_save_buffer_zoom,
-                                  g_object_ref (task));
+  buffer = photos_gegl_get_buffer_from_node (graph, NULL);
+  photos_gegl_buffer_zoom_async (buffer,
+                                 data->zoom,
+                                 cancellable,
+                                 photos_base_item_save_buffer_zoom,
+                                 g_object_ref (task));
 
  out:
   g_clear_object (&buffer);

@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2006 – 2007 The Free Software Foundation
- * Copyright © 2013 – 2016 Red Hat, Inc.
+ * Copyright © 2013 – 2017 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,9 +33,9 @@
 #include <glib/gprintf.h>
 #include <gtk/gtkunixprint.h>
 
+#include "photos-gegl.h"
 #include "photos-print-setup.h"
 #include "photos-print-preview.h"
-#include "photos-utils.h"
 
 
 struct _PhotosPrintSetupPrivate
@@ -867,7 +867,7 @@ photos_print_setup_set_property (GObject *object, guint prop_id, const GValue *v
         GdkPixbuf *pixbuf;
 
         priv->node = GEGL_NODE (g_value_dup_object (value));
-        pixbuf = photos_utils_create_pixbuf_from_node (priv->node);
+        pixbuf = photos_gegl_create_pixbuf_from_node (priv->node);
         if (pixbuf != NULL)
           {
             g_object_set (priv->preview, "pixbuf", pixbuf, NULL);

@@ -26,9 +26,9 @@
 #include <glib.h>
 
 #include "photos-debug.h"
+#include "photos-gegl.h"
 #include "photos-image-view.h"
 #include "photos-marshalers.h"
-#include "photos-utils.h"
 
 
 struct _PhotosImageView
@@ -80,7 +80,7 @@ photos_image_view_update_buffer (PhotosImageView *self)
   g_signal_handlers_block_by_func (self->node, photos_image_view_computed, self);
 
   format = babl_format ("cairo-ARGB32");
-  buffer = photos_utils_dup_buffer_from_node (self->node, format);
+  buffer = photos_gegl_dup_buffer_from_node (self->node, format);
   g_set_object (&self->buffer, buffer);
 
   g_signal_handlers_unblock_by_func (self->node, photos_image_view_computed, self);

@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2016 Red Hat, Inc.
+ * Copyright © 2015 – 2017 Red Hat, Inc.
  * Copyright © 2016 Umang Jain
  *
  * This program is free software; you can redistribute it and/or
@@ -28,9 +28,9 @@
 
 #include "egg-counter.h"
 #include "photos-debug.h"
+#include "photos-gegl.h"
 #include "photos-operation-insta-common.h"
 #include "photos-pipeline.h"
-#include "photos-utils.h"
 
 
 struct _PhotosPipeline
@@ -150,7 +150,7 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, const gchar *conten
     goto out;
 
   g_hash_table_remove_all (self->hash);
-  photos_utils_remove_children_from_node (self->graph);
+  photos_gegl_remove_children_from_node (self->graph);
 
   input = gegl_node_get_input_proxy (self->graph, "input");
   output = gegl_node_get_output_proxy (self->graph, "output");

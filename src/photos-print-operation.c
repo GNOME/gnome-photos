@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 – 2016 Red Hat, Inc.
+ * Copyright © 2013 – 2017 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,9 +30,9 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-gegl.h"
 #include "photos-print-operation.h"
 #include "photos-print-setup.h"
-#include "photos-utils.h"
 
 
 struct _PhotosPrintOperation
@@ -145,7 +145,7 @@ photos_print_operation_draw_page (GtkPrintOperation *operation, GtkPrintContext 
   cairo_clip (cr);
   cairo_scale (cr, scale_factor_n, scale_factor_n);
 
-  pixbuf = photos_utils_create_pixbuf_from_node (self->node);
+  pixbuf = photos_gegl_create_pixbuf_from_node (self->node);
   if (pixbuf == NULL)
     goto out;
 
