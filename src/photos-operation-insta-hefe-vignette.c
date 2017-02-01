@@ -86,7 +86,7 @@ photos_operation_insta_hefe_vignette_get_rgb (PhotosOperationInstaHefeVignette *
 
   /* We don't want optional out parameters because they will
    * introduce if branches in this hot path.
-  */
+   */
   *out_r = (guint8) pixel[0];
   *out_g = (guint8) pixel[1];
   *out_b = (guint8) pixel[2];
