@@ -619,6 +619,7 @@ photos_application_create_window (PhotosApplication *self)
 {
   gboolean gexiv2_initialized;
   gboolean gexiv2_registered_namespace;
+  gboolean sanity_checked_gegl;
 
   if (self->main_window != NULL)
     return TRUE;
@@ -629,7 +630,8 @@ photos_application_create_window (PhotosApplication *self)
   gexiv2_registered_namespace = gexiv2_metadata_register_xmp_namespace ("http://www.gnome.org/xmp", "gnome");
   g_return_val_if_fail (gexiv2_registered_namespace, FALSE);
 
-  g_return_val_if_fail (photos_application_sanity_check_gegl (self), FALSE);
+  sanity_checked_gegl = photos_application_sanity_check_gegl (self);
+  g_return_val_if_fail (sanity_checked_gegl, FALSE);
 
   self->main_window = photos_main_window_new (GTK_APPLICATION (self));
   g_signal_connect_object (self->main_window,
