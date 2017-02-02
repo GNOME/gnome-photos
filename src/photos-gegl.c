@@ -34,6 +34,17 @@
 #include "photos-quarks.h"
 
 
+static const struct
+{
+  const gchar *input_format;
+  const gchar *output_format;
+} REQUIRED_BABL_FISHES[] =
+{
+  { "R'G'B' u8", "cairo-ARGB32" },
+  { "R'G'B' u8", "YA float" }
+};
+
+
 static GeglBuffer *
 photos_gegl_buffer_zoom (GeglBuffer *buffer, gdouble zoom, GCancellable *cancellable, GError **error)
 {
@@ -250,6 +261,30 @@ photos_gegl_get_buffer_from_node (GeglNode *node, const Babl *format)
   g_object_unref (buffer_sink);
 
   return buffer;
+}
+
+
+void
+photos_gegl_init_fishes (void)
+{
+  gint64 end;
+  gint64 start;
+  guint i;
+
+  start = g_get_monotonic_time ();
+
+  for (i = 0; i < G_N_ELEMENTS (REQUIRED_BABL_FISHES); i++)
+    {
+      const Babl *input_format;
+      const Babl *output_format;
+
+      input_format = babl_format (REQUIRED_BABL_FISHES[i].input_format);
+      output_format = babl_format (REQUIRED_BABL_FISHES[i].output_format);
+      babl_fish (input_format, output_format);
+    }
+
+  end = g_get_monotonic_time ();
+  photos_debug (PHOTOS_DEBUG_GEGL, "GEGL: Init Fishes: %" G_GINT64_FORMAT, end - start);
 }
 
 

@@ -47,6 +47,8 @@ void             photos_gegl_ensure_builtins              (void);
 
 GeglBuffer      *photos_gegl_get_buffer_from_node         (GeglNode *node, const Babl *format);
 
+void             photos_gegl_init_fishes                  (void);
+
 void             photos_gegl_processor_process_async      (GeglProcessor *processor,
                                                            GCancellable *cancellable,
                                                            GAsyncReadyCallback callback,
