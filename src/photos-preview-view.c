@@ -291,6 +291,43 @@ photos_preview_view_process (GObject *source_object, GAsyncResult *res, gpointer
 
 
 static void
+photos_preview_view_blacks_exposure (PhotosPreviewView *self, GVariant *parameter)
+{
+  GVariantIter iter;
+  PhotosBaseItem *item;
+  const gchar *key;
+  gdouble blacks = -G_MAXDOUBLE;
+  gdouble exposure = -G_MAXDOUBLE;
+  gdouble value;
+
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+  if (item == NULL)
+    return;
+
+  g_variant_iter_init (&iter, parameter);
+  while (g_variant_iter_next (&iter, "{&sd}", &key, &value))
+    {
+      if (g_strcmp0 (key, "blacks") == 0)
+        blacks = value;
+      else if (g_strcmp0 (key, "exposure") == 0)
+        exposure = value;
+    }
+
+  g_return_if_fail (blacks > -G_MAXDOUBLE);
+  g_return_if_fail (exposure > -G_MAXDOUBLE);
+
+  photos_base_item_operation_add_async (item,
+                                        self->cancellable,
+                                        photos_preview_view_process,
+                                        self,
+                                        "gegl:exposure",
+                                        "black", blacks,
+                                        "exposure", exposure,
+                                        NULL);
+}
+
+
+static void
 photos_preview_view_brightness_contrast (PhotosPreviewView *self, GVariant *parameter)
 {
   GVariantIter iter;
@@ -714,6 +751,13 @@ photos_preview_view_init (PhotosPreviewView *self)
   self->palette = photos_edit_palette_new ();
   gtk_container_add (GTK_CONTAINER (sw), self->palette);
   g_signal_connect_swapped (self->palette, "tool-changed", G_CALLBACK (photos_preview_view_tool_changed), self);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "blacks-exposure-current");
+  g_signal_connect_object (action,
+                           "activate",
+                           G_CALLBACK (photos_preview_view_blacks_exposure),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "brightness-contrast-current");
   g_signal_connect_object (action,

@@ -74,6 +74,7 @@ struct _PhotosApplication
   GResource *resource;
   GSettings *bg_settings;
   GSettings *ss_settings;
+  GSimpleAction *blacks_exposure_action;
   GSimpleAction *brightness_contrast_action;
   GSimpleAction *crop_action;
   GSimpleAction *delete_action;
@@ -323,6 +324,7 @@ photos_application_actions_update (PhotosApplication *self)
   selection_mode = photos_selection_controller_get_selection_mode (self->sel_cntrlr);
 
   enable = (mode == PHOTOS_WINDOW_MODE_EDIT);
+  g_simple_action_set_enabled (self->blacks_exposure_action, enable);
   g_simple_action_set_enabled (self->brightness_contrast_action, enable);
   g_simple_action_set_enabled (self->crop_action, enable);
   g_simple_action_set_enabled (self->denoise_action, enable);
@@ -1692,6 +1694,11 @@ photos_application_startup (GApplication *application)
   g_object_unref (action);
 
   parameter_type = g_variant_type_new ("a{sd}");
+  self->blacks_exposure_action = g_simple_action_new ("blacks-exposure-current", parameter_type);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->blacks_exposure_action));
+  g_variant_type_free (parameter_type);
+
+  parameter_type = g_variant_type_new ("a{sd}");
   self->brightness_contrast_action = g_simple_action_new ("brightness-contrast-current", parameter_type);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->brightness_contrast_action));
   g_variant_type_free (parameter_type);
@@ -1885,6 +1892,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->create_window_cancellable);
   g_clear_object (&self->bg_settings);
   g_clear_object (&self->ss_settings);
+  g_clear_object (&self->blacks_exposure_action);
   g_clear_object (&self->brightness_contrast_action);
   g_clear_object (&self->crop_action);
   g_clear_object (&self->delete_action);
