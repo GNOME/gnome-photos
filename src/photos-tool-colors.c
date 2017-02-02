@@ -90,6 +90,7 @@ photos_tool_colors_brightness_contrast_value_changed_timeout (gpointer user_data
   g_variant_builder_add (&parameter, "{sd}", "contrast", contrast_real);
   g_action_activate (self->brightness_contrast, g_variant_builder_end (&parameter));
 
+  g_variant_type_free (parameter_type);
   self->brightness_contrast_value_changed_id = 0;
   return G_SOURCE_REMOVE;
 }
