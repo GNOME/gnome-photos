@@ -1,7 +1,7 @@
 # Swedish translation for gnome-photos.
-# Copyright © 2014-2016 gnome-photos's COPYRIGHT HOLDER
+# Copyright © 2014-2017 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014, 2015, 2016.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014, 2015, 2016, 2017.
 # Sebastian Rasmussen <sebras@gmail.com>, 2015, 2016.
 #
 msgid ""
@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-22 09:06+0000\n"
-"PO-Revision-Date: 2016-09-09 15:52+0200\n"
+"POT-Creation-Date: 2017-01-16 10:58+0000\n"
+"PO-Revision-Date: 2017-02-02 22:11+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:666
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:619
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Foton"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:497
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:496
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Titta på, organisera och dela dina foton i GNOME"
 
@@ -108,31 +108,31 @@ msgstr "Fönster maximerat"
 msgid "Window maximized state"
 msgstr "Maximerat tillstånd för fönster"
 
-#: ../src/photos-application.c:153
+#: ../src/photos-application.c:144
 msgid "Show the application's version"
 msgstr "Visa programmets version"
 
-#: ../src/photos-base-item.c:544
+#: ../src/photos-base-item.c:601
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2067
+#: ../src/photos-base-item.c:2221
 msgid "Screenshots"
 msgstr "Skärmbilder"
 
-#: ../src/photos-delete-notification.c:145
+#: ../src/photos-delete-notification.c:139
 #, c-format
 msgid "“%s” deleted"
 msgstr "”%s” har tagits bort"
 
-#: ../src/photos-delete-notification.c:148
+#: ../src/photos-delete-notification.c:142
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d objekt har tagits bort"
 msgstr[1] "%d objekt har tagits bort"
 
-#: ../src/photos-delete-notification.c:156
+#: ../src/photos-delete-notification.c:150
 #: ../src/photos-done-notification.c:125
 msgid "Undo"
 msgstr "Ångra"
@@ -146,26 +146,26 @@ msgstr "DLNA-renderingsenheter"
 msgid "“%s” edited"
 msgstr "”%s” har redigerats"
 
-#: ../src/photos-embed.c:673 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:623 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:680 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:627 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Favoriter"
 
-#: ../src/photos-embed.c:687 ../src/photos-main-toolbar.c:299
+#: ../src/photos-embed.c:631 ../src/photos-main-toolbar.c:334
 msgid "Search"
 msgstr "Sök"
 
-#: ../src/photos-empty-results-box.c:119
+#: ../src/photos-empty-results-box.c:114
 msgid "Name your first album"
 msgstr "Namnge ditt första album"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:139
+#: ../src/photos-empty-results-box.c:134
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -173,20 +173,20 @@ msgstr "Inställningar"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:145
+#: ../src/photos-empty-results-box.c:140
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "Du kan lägga till dina nätkonton i %s"
 
-#: ../src/photos-empty-results-box.c:186
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Inga album hittades"
 
-#: ../src/photos-empty-results-box.c:191
+#: ../src/photos-empty-results-box.c:186
 msgid "Starred photos will appear here"
 msgstr "Favoritfoton kommer att visas här"
 
-#: ../src/photos-empty-results-box.c:197
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Inga foton hittades"
 
@@ -222,7 +222,7 @@ msgstr "_Exportera"
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: ../src/photos-export-dialog.c:73
+#: ../src/photos-export-dialog.c:67
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
@@ -230,44 +230,44 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. *  will be exported.
 #.
-#: ../src/photos-export-dialog.c:207
+#: ../src/photos-export-dialog.c:201
 msgid "%e %B %Y"
 msgstr "%e %B %Y"
 
-#: ../src/photos-export-dialog.c:265
+#: ../src/photos-export-dialog.c:259
 msgid "Calculating export size…"
 msgstr "Beräknar exportstorlek…"
 
-#: ../src/photos-export-notification.c:241
+#: ../src/photos-export-notification.c:236
 msgid "Failed to export: not enough space"
 msgstr "Misslyckades med att exportera: inte tillräckligt med utrymme"
 
-#: ../src/photos-export-notification.c:243
+#: ../src/photos-export-notification.c:238
 msgid "Failed to export"
 msgstr "Misslyckades med att exportera"
 
-#: ../src/photos-export-notification.c:250
+#: ../src/photos-export-notification.c:245
 #, c-format
 msgid "“%s” exported"
 msgstr "”%s” har exporterats"
 
-#: ../src/photos-export-notification.c:254
+#: ../src/photos-export-notification.c:249
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d objekt har exporterats"
 msgstr[1] "%d objekt har exporterats"
 
-#: ../src/photos-export-notification.c:272
+#: ../src/photos-export-notification.c:267
 msgid "Analyze"
 msgstr "Analysera"
 
-#: ../src/photos-export-notification.c:277
+#: ../src/photos-export-notification.c:272
 msgid "Empty Trash"
 msgstr "Töm papperskorgen"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:294 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-export-notification.c:289 ../src/photos-preview-menu.ui.h:1
 #: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Öppna"
@@ -275,20 +275,20 @@ msgstr "Öppna"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:304
+#: ../src/photos-export-notification.c:299
 msgid "Export Folder"
 msgstr "Exportmapp"
 
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:105 ../src/photos-flickr-item.c:110
-#: ../src/photos-google-item.c:107
+#: ../src/photos-facebook-item.c:100 ../src/photos-flickr-item.c:105
+#: ../src/photos-google-item.c:102
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:182
+#: ../src/photos-fetch-metas-job.c:177
 msgid "Untitled Photo"
 msgstr "Namnlöst foto"
 
@@ -417,7 +417,7 @@ msgstr "Dina foton indexeras"
 msgid "Some photos might not be available during this process"
 msgstr "Några foton kanske inte är tillgängliga under denna process"
 
-#: ../src/photos-local-item.c:140 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:136 ../src/photos-source-manager.c:179
 msgid "Local"
 msgstr "Lokalt"
 
@@ -436,34 +436,34 @@ msgstr[1] "%d markerade"
 msgid "Back"
 msgstr "Tillbaka"
 
-#: ../src/photos-main-toolbar.c:314
+#: ../src/photos-main-toolbar.c:349
 msgid "Select Items"
 msgstr "Markera objekt"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:408 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:443 ../src/photos-selection-toolbar.c:234
 #, c-format
 msgid "Open with %s"
 msgstr "Öppna med %s"
 
-#: ../src/photos-main-toolbar.c:448 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:245
 msgid "Remove from favorites"
 msgstr "Ta bort från favoriter"
 
-#: ../src/photos-main-toolbar.c:453 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:488 ../src/photos-selection-toolbar.c:250
 msgid "Add to favorites"
 msgstr "Lägg till i favoriter"
 
-#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:628
+#: ../src/photos-main-toolbar.c:525 ../src/photos-main-toolbar.c:663
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ../src/photos-main-toolbar.c:494
+#: ../src/photos-main-toolbar.c:529
 msgid "Done"
 msgstr "Klar"
 
-#: ../src/photos-main-window.c:498
+#: ../src/photos-main-window.c:497
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -474,7 +474,7 @@ msgstr ""
 "Copyright © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:508
+#: ../src/photos-main-window.c:507
 msgid "translator-credits"
 msgstr ""
 "Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
@@ -541,7 +541,7 @@ msgstr "Använd som bakgrund"
 msgid "Set as Lock Screen"
 msgstr "Använd som låsskärm"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:732
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:902
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Egenskaper"
@@ -623,18 +623,18 @@ msgstr "Tum"
 msgid "Preview"
 msgstr "Förhandsgranskning"
 
-#: ../src/photos-properties-dialog.c:128
+#: ../src/photos-properties-dialog.c:254
 msgid "Edited in Photos"
 msgstr "Redigerad i Foton"
 
-#: ../src/photos-properties-dialog.c:141
+#: ../src/photos-properties-dialog.c:267
 msgid "Untouched"
 msgstr "Orörd"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:310
+#: ../src/photos-properties-dialog.c:452
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Titel"
@@ -642,88 +642,92 @@ msgstr "Titel"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:322
+#: ../src/photos-properties-dialog.c:464
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Upphovsman"
 
-#: ../src/photos-properties-dialog.c:329
+#: ../src/photos-properties-dialog.c:471
 msgid "Source"
 msgstr "Källa"
 
-#: ../src/photos-properties-dialog.c:335
+#: ../src/photos-properties-dialog.c:477
 msgid "Date Modified"
 msgstr "Ändrad"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:485
 msgid "Date Created"
 msgstr "Skapad"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:353
+#: ../src/photos-properties-dialog.c:495
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/photos-properties-dialog.c:363
+#: ../src/photos-properties-dialog.c:505
 msgid "Dimensions"
 msgstr "Dimensioner"
 
-#: ../src/photos-properties-dialog.c:378
+#: ../src/photos-properties-dialog.c:517
+msgid "Location"
+msgstr "Plats"
+
+#: ../src/photos-properties-dialog.c:537
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:388
+#: ../src/photos-properties-dialog.c:547
 msgid "Exposure"
 msgstr "Exponering"
 
-#: ../src/photos-properties-dialog.c:398
+#: ../src/photos-properties-dialog.c:557
 msgid "Aperture"
 msgstr "Bländare"
 
-#: ../src/photos-properties-dialog.c:408
+#: ../src/photos-properties-dialog.c:567
 msgid "Focal Length"
 msgstr "Brännvidd"
 
-#: ../src/photos-properties-dialog.c:418
+#: ../src/photos-properties-dialog.c:577
 msgid "ISO Speed"
 msgstr "ISO-hastighet"
 
-#: ../src/photos-properties-dialog.c:428
+#: ../src/photos-properties-dialog.c:587
 msgid "Flash"
 msgstr "Blixt"
 
-#: ../src/photos-properties-dialog.c:435
+#: ../src/photos-properties-dialog.c:596
 msgid "Modifications"
 msgstr "Ändringar"
 
-#: ../src/photos-properties-dialog.c:566
+#: ../src/photos-properties-dialog.c:737
 msgid "Off, did not fire"
 msgstr "Av, utlöstes inte"
 
-#: ../src/photos-properties-dialog.c:568
+#: ../src/photos-properties-dialog.c:739
 msgid "On, fired"
 msgstr "På, utlöstes"
 
-#: ../src/photos-properties-dialog.c:602
+#: ../src/photos-properties-dialog.c:777
 msgid "Discard all Edits"
 msgstr "Förkasta alla redigeringar"
 
-#: ../src/photos-search-match-manager.c:158
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
+#: ../src/photos-search-match-manager.c:162
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:175
 msgid "All"
 msgstr "Alla"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:165
+#: ../src/photos-search-match-manager.c:169
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Titel"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:172
+#: ../src/photos-search-match-manager.c:176
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Upphovsman"
@@ -731,7 +735,7 @@ msgstr "Upphovsman"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:210
+#: ../src/photos-search-match-manager.c:214
 msgid "Match"
 msgstr "Matcha"
 
@@ -768,126 +772,126 @@ msgstr "Dela"
 msgid "E-Mail"
 msgstr "E-post"
 
-#: ../src/photos-share-point-google.c:86
+#: ../src/photos-share-point-google.c:97
 msgid "Failed to upload photo: Service not authorized"
 msgstr "Misslyckades med att skicka upp foto: Tjänsten är inte autentiserad"
 
-#: ../src/photos-share-point-google.c:88
+#: ../src/photos-share-point-google.c:99
 msgid "Failed to upload photo"
 msgstr "Misslyckades med skicka upp foto"
 
-#: ../src/photos-source-manager.c:203
+#: ../src/photos-source-manager.c:204
 msgid "Sources"
 msgstr "Källor"
 
-#: ../src/photos-tool-colors.c:251
+#: ../src/photos-tool-colors.c:246
 msgid "Brightness"
 msgstr "Ljusstyrka"
 
-#: ../src/photos-tool-colors.c:272
+#: ../src/photos-tool-colors.c:267
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:292
+#: ../src/photos-tool-colors.c:287
 msgid "Saturation"
 msgstr "Mättnad"
 
-#: ../src/photos-tool-colors.c:319
+#: ../src/photos-tool-colors.c:314
 msgid "Colors"
 msgstr "Färger"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:127
 msgid "Free"
 msgstr "Godtycklig"
 
-#: ../src/photos-tool-crop.c:133
+#: ../src/photos-tool-crop.c:128
 msgid "Original"
 msgstr "Originalstorlek"
 
-#: ../src/photos-tool-crop.c:134
+#: ../src/photos-tool-crop.c:129
 msgid "1×1 (Square)"
 msgstr "1×1 (Kvadratisk)"
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=762942#c18
-#: ../src/photos-tool-crop.c:135
+#: ../src/photos-tool-crop.c:130
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:136
+#: ../src/photos-tool-crop.c:131
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:137
+#: ../src/photos-tool-crop.c:132
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:138
+#: ../src/photos-tool-crop.c:133
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:139
+#: ../src/photos-tool-crop.c:134
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:140
+#: ../src/photos-tool-crop.c:135
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1181
+#: ../src/photos-tool-crop.c:1176
 msgid "Lock aspect ratio"
 msgstr "Lås bildförhållande"
 
-#: ../src/photos-tool-crop.c:1229
+#: ../src/photos-tool-crop.c:1224
 msgid "Reset"
 msgstr "Återställ"
 
-#: ../src/photos-tool-crop.c:1246
+#: ../src/photos-tool-crop.c:1241
 msgid "Crop"
 msgstr "Beskär"
 
-#: ../src/photos-tool-enhance.c:207
+#: ../src/photos-tool-enhance.c:202
 msgid "Sharpen"
 msgstr "Skärp"
 
-#: ../src/photos-tool-enhance.c:227
+#: ../src/photos-tool-enhance.c:222
 msgid "Denoise"
 msgstr "Brusreducera"
 
-#: ../src/photos-tool-enhance.c:253
+#: ../src/photos-tool-enhance.c:248
 msgid "Enhance"
 msgstr "Förbättra"
 
 #. Translators: "None" refers to the nop magic filter when editing.
-#: ../src/photos-tool-filters.c:190
+#: ../src/photos-tool-filters.c:185
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "Inget"
 
-#: ../src/photos-tool-filters.c:197
+#: ../src/photos-tool-filters.c:192
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:204
+#: ../src/photos-tool-filters.c:199
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:210
+#: ../src/photos-tool-filters.c:205
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:217
+#: ../src/photos-tool-filters.c:212
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:223
+#: ../src/photos-tool-filters.c:218
 msgid "Hometown"
 msgstr "Hemstad"
 
-#: ../src/photos-tool-filters.c:241
+#: ../src/photos-tool-filters.c:236
 msgid "Filters"
 msgstr "Filter"
 
-#: ../src/photos-tracker-controller.c:103
+#: ../src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Kunde inte hämta fotolistan"
 
