@@ -45,6 +45,7 @@
 #include "photos-export-dialog.h"
 #include "photos-export-notification.h"
 #include "photos-filterable.h"
+#include "photos-gegl.h"
 #include "photos-glib.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
@@ -117,6 +118,7 @@ struct _PhotosApplication
   TrackerExtractPriority *extract_priority;
   gboolean main_window_deleted;
   guint create_miners_count;
+  guint init_fishes_id;
   guint use_count;
   guint32 activation_timestamp;
   gulong source_added_id;
@@ -554,6 +556,17 @@ photos_application_create_miners (PhotosApplication *self)
 
 
 static gboolean
+photos_application_gegl_init_fishes_idle (gpointer user_data)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+
+  self->init_fishes_id = 0;
+  photos_gegl_init_fishes ();
+  return G_SOURCE_REMOVE;
+}
+
+
+static gboolean
 photos_application_sanity_check_gegl (PhotosApplication *self)
 {
   gboolean ret_val = TRUE;
@@ -652,6 +665,9 @@ photos_application_create_window (PhotosApplication *self)
 
   self->main_window_deleted = FALSE;
   self->factory = photos_thumbnail_factory_dup_singleton (NULL, NULL);
+
+  if (self->init_fishes_id == 0)
+    self->init_fishes_id = g_idle_add (photos_application_gegl_init_fishes_idle, self);
 
   g_application_hold (G_APPLICATION (self));
   tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
@@ -1608,6 +1624,12 @@ photos_application_shutdown (GApplication *application)
 
   refresh_miner_ids_size = g_hash_table_size (self->refresh_miner_ids);
   g_assert (refresh_miner_ids_size == 0);
+
+  if (self->init_fishes_id != 0)
+    {
+      g_source_remove (self->init_fishes_id);
+      self->init_fishes_id = 0;
+    }
 
   g_clear_pointer (&self->refresh_miner_ids, (GDestroyNotify) g_hash_table_unref);
 
