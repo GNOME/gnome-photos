@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Álvaro Peña
- * Copyright © 2014 – 2016 Red Hat, Inc.
+ * Copyright © 2014 – 2017 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
