@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-20 22:38+0100\n"
-"PO-Revision-Date: 2017-01-20 22:39+0100\n"
+"POT-Creation-Date: 2017-02-05 16:17+0100\n"
+"PO-Revision-Date: 2017-02-05 16:18+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -106,15 +106,15 @@ msgstr "Maksymalizacja okna"
 msgid "Window maximized state"
 msgstr "Stan maksymalizacji okna"
 
-#: ../src/photos-application.c:144
+#: ../src/photos-application.c:143
 msgid "Show the application's version"
 msgstr "Wyświetla wersję programu"
 
-#: ../src/photos-base-item.c:601
+#: ../src/photos-base-item.c:603
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2209
+#: ../src/photos-base-item.c:2313
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
@@ -468,11 +468,11 @@ msgstr "Gotowe"
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2016 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc."
 msgstr ""
 "Copyright © 2013 Intel Corporation. Wszelkie prawa zastrzeżone.\n"
 "Copyright © 2014-2015 Pranav Kant\n"
-"Copyright © 2012-2016 Red Hat, Inc."
+"Copyright © 2012-2017 Red Hat, Inc."
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:507
@@ -783,19 +783,19 @@ msgstr "Wysłanie zdjęcia się nie powiodło"
 msgid "Sources"
 msgstr "Źródła"
 
-#: ../src/photos-tool-colors.c:246
+#: ../src/photos-tool-colors.c:247
 msgid "Brightness"
 msgstr "Jasność"
 
-#: ../src/photos-tool-colors.c:267
+#: ../src/photos-tool-colors.c:268
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:287
+#: ../src/photos-tool-colors.c:288
 msgid "Saturation"
 msgstr "Nasycenie"
 
-#: ../src/photos-tool-colors.c:314
+#: ../src/photos-tool-colors.c:315
 msgid "Colors"
 msgstr "Kolory"
 
@@ -835,15 +835,15 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1168
+#: ../src/photos-tool-crop.c:1171
 msgid "Lock aspect ratio"
 msgstr "Zablokowanie proporcji"
 
-#: ../src/photos-tool-crop.c:1216
+#: ../src/photos-tool-crop.c:1219
 msgid "Reset"
 msgstr "Przywróć"
 
-#: ../src/photos-tool-crop.c:1233
+#: ../src/photos-tool-crop.c:1236
 msgid "Crop"
 msgstr "Kadrowanie"
 
