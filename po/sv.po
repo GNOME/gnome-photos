@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-01-16 10:58+0000\n"
-"PO-Revision-Date: 2017-02-02 22:11+0100\n"
+"POT-Creation-Date: 2017-02-03 18:54+0000\n"
+"PO-Revision-Date: 2017-02-05 19:45+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -108,15 +108,15 @@ msgstr "Fönster maximerat"
 msgid "Window maximized state"
 msgstr "Maximerat tillstånd för fönster"
 
-#: ../src/photos-application.c:144
+#: ../src/photos-application.c:143
 msgid "Show the application's version"
 msgstr "Visa programmets version"
 
-#: ../src/photos-base-item.c:601
+#: ../src/photos-base-item.c:603
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2221
+#: ../src/photos-base-item.c:2313
 msgid "Screenshots"
 msgstr "Skärmbilder"
 
@@ -467,11 +467,11 @@ msgstr "Klar"
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2016 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc."
 msgstr ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014, 2015 Pranav Kant\n"
-"Copyright © 2012 – 2016 Red Hat, Inc."
+"Copyright © 2014 – 2015 Pranav Kant\n"
+"Copyright © 2012 – 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:507
@@ -784,68 +784,68 @@ msgstr "Misslyckades med skicka upp foto"
 msgid "Sources"
 msgstr "Källor"
 
-#: ../src/photos-tool-colors.c:246
+#: ../src/photos-tool-colors.c:247
 msgid "Brightness"
 msgstr "Ljusstyrka"
 
-#: ../src/photos-tool-colors.c:267
+#: ../src/photos-tool-colors.c:268
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:287
+#: ../src/photos-tool-colors.c:288
 msgid "Saturation"
 msgstr "Mättnad"
 
-#: ../src/photos-tool-colors.c:314
+#: ../src/photos-tool-colors.c:315
 msgid "Colors"
 msgstr "Färger"
 
-#: ../src/photos-tool-crop.c:127
+#: ../src/photos-tool-crop.c:119
 msgid "Free"
 msgstr "Godtycklig"
 
-#: ../src/photos-tool-crop.c:128
+#: ../src/photos-tool-crop.c:120
 msgid "Original"
 msgstr "Originalstorlek"
 
-#: ../src/photos-tool-crop.c:129
+#: ../src/photos-tool-crop.c:121
 msgid "1×1 (Square)"
 msgstr "1×1 (Kvadratisk)"
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=762942#c18
-#: ../src/photos-tool-crop.c:130
+#: ../src/photos-tool-crop.c:122
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:131
+#: ../src/photos-tool-crop.c:123
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:124
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:133
+#: ../src/photos-tool-crop.c:125
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:134
+#: ../src/photos-tool-crop.c:126
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:135
+#: ../src/photos-tool-crop.c:127
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1176
+#: ../src/photos-tool-crop.c:1171
 msgid "Lock aspect ratio"
 msgstr "Lås bildförhållande"
 
-#: ../src/photos-tool-crop.c:1224
+#: ../src/photos-tool-crop.c:1219
 msgid "Reset"
 msgstr "Återställ"
 
-#: ../src/photos-tool-crop.c:1241
+#: ../src/photos-tool-crop.c:1236
 msgid "Crop"
 msgstr "Beskär"
 
