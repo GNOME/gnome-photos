@@ -34,7 +34,8 @@
 struct _PhotosImageView
 {
   GtkDrawingArea parent_instance;
-  GeglBuffer *buffer;
+  GeglNode *buffer_source;
+  GeglNode *graph;
   GeglNode *node;
   cairo_region_t *bbox_region;
   cairo_region_t *region;
@@ -72,16 +73,31 @@ static void photos_image_view_computed (PhotosImageView *self, GeglRectangle *re
 
 
 static void
-photos_image_view_update_buffer (PhotosImageView *self)
+photos_image_view_update_graph (PhotosImageView *self)
 {
   const Babl *format;
-  GeglBuffer *buffer;
+  GeglBuffer *buffer = NULL;
+  gint64 end;
+  gint64 start;
 
+  g_clear_object (&self->graph);
   g_signal_handlers_block_by_func (self->node, photos_image_view_computed, self);
 
   format = babl_format ("cairo-ARGB32");
   buffer = photos_gegl_dup_buffer_from_node (self->node, format);
-  g_set_object (&self->buffer, buffer);
+
+  self->graph = gegl_node_new ();
+  self->buffer_source = gegl_node_new_child (self->graph,
+                                             "operation", "gegl:buffer-source",
+                                             "buffer", buffer,
+                                             NULL);
+
+  start = g_get_monotonic_time ();
+
+  gegl_node_process (self->buffer_source);
+
+  end = g_get_monotonic_time ();
+  photos_debug (PHOTOS_DEBUG_GEGL, "PhotosImageView: Process Buffer: %" G_GINT64_FORMAT, end - start);
 
   g_signal_handlers_unblock_by_func (self->node, photos_image_view_computed, self);
   g_object_unref (buffer);
@@ -123,14 +139,14 @@ photos_image_view_update (PhotosImageView *self)
   if (self->node == NULL)
     return;
 
-  g_return_if_fail (GEGL_IS_BUFFER (self->buffer));
+  g_return_if_fail (GEGL_IS_NODE (self->buffer_source));
 
   gtk_widget_get_allocation (GTK_WIDGET (self), &viewport);
 
   if (viewport.width < 0 || viewport.height < 0)
     return;
 
-  bbox = *gegl_buffer_get_extent (self->buffer);
+  bbox = gegl_node_get_bounding_box (self->buffer_source);
   if (bbox.width < 0 || bbox.height < 0)
     return;
 
@@ -170,7 +186,8 @@ photos_image_view_computed (PhotosImageView *self, GeglRectangle *rect)
   cairo_status_t status;
 
   g_return_if_fail (PHOTOS_IS_IMAGE_VIEW (self));
-  g_return_if_fail (GEGL_IS_BUFFER (self->buffer));
+  g_return_if_fail (GEGL_IS_NODE (self->buffer_source));
+  g_return_if_fail (GEGL_IS_NODE (self->graph));
   g_return_if_fail (GEGL_IS_NODE (self->node));
   g_return_if_fail (self->bbox_region != NULL);
   g_return_if_fail (self->region != NULL);
@@ -191,7 +208,7 @@ photos_image_view_computed (PhotosImageView *self, GeglRectangle *rect)
 
   photos_debug (PHOTOS_DEBUG_GEGL, "PhotosImageView: Node (%p) Computing Completed", self->node);
 
-  photos_image_view_update_buffer (self);
+  photos_image_view_update_graph (self);
   photos_image_view_update (self);
   gtk_widget_queue_draw (GTK_WIDGET (self));
 }
@@ -215,13 +232,12 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
   GeglRectangle roi;
   cairo_surface_t *surface = NULL;
   guchar *buf = NULL;
-  gint bpp;
   gint scale_factor;
   gint stride;
   gint64 end;
   gint64 start;
 
-  g_return_if_fail (GEGL_IS_BUFFER (self->buffer));
+  g_return_if_fail (GEGL_IS_NODE (self->buffer_source));
 
   scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
 
@@ -236,15 +252,13 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
 
   start = g_get_monotonic_time ();
 
-  bpp = babl_format_get_bytes_per_pixel (format);
-  stride = bpp * roi.width;
-  gegl_buffer_get (self->buffer,
-                   &roi,
-                   (gdouble) self->zoom_scaled,
-                   format,
-                   buf,
-                   stride,
-                   GEGL_ABYSS_NONE);
+  gegl_node_blit (self->buffer_source,
+                  (gdouble) self->zoom_scaled,
+                  &roi,
+                  format,
+                  buf,
+                  GEGL_AUTO_ROWSTRIDE,
+                  GEGL_BLIT_CACHE | GEGL_BLIT_DIRTY);
 
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL, "PhotosImageView: Node Blit: %" G_GINT64_FORMAT, end - start);
@@ -304,7 +318,7 @@ photos_image_view_dispose (GObject *object)
 {
   PhotosImageView *self = PHOTOS_IMAGE_VIEW (object);
 
-  g_clear_object (&self->buffer);
+  g_clear_object (&self->graph);
   g_clear_object (&self->node);
 
   G_OBJECT_CLASS (photos_image_view_parent_class)->dispose (object);
@@ -530,7 +544,8 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
       g_signal_handlers_disconnect_by_func (self->node, photos_image_view_invalidated, self);
     }
 
-  g_clear_object (&self->buffer);
+  self->buffer_source = NULL;
+  g_clear_object (&self->graph);
   g_clear_object (&self->node);
   g_clear_pointer (&self->bbox_region, (GDestroyNotify) cairo_region_destroy);
   g_clear_pointer (&self->region, (GDestroyNotify) cairo_region_destroy);
@@ -540,7 +555,7 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
       self->node = g_object_ref (node);
 
       photos_image_view_update_region (self);
-      photos_image_view_update_buffer (self);
+      photos_image_view_update_graph (self);
 
       g_signal_connect_object (node, "computed", G_CALLBACK (photos_image_view_computed), self, G_CONNECT_SWAPPED);
       g_signal_connect_object (node,
