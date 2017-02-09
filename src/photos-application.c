@@ -63,6 +63,7 @@
 #include "photos-share-dialog.h"
 #include "photos-share-notification.h"
 #include "photos-share-point-manager.h"
+#include "photos-thumbnail-factory.h"
 #include "photos-tracker-extract-priority.h"
 #include "photos-utils.h"
 
@@ -112,6 +113,7 @@ struct _PhotosApplication
   PhotosSearchContextState *state;
   PhotosSearchProvider *search_provider;
   PhotosSelectionController *sel_cntrlr;
+  PhotosThumbnailFactory *factory;
   TrackerExtractPriority *extract_priority;
   gboolean main_window_deleted;
   guint create_miners_count;
@@ -649,6 +651,7 @@ photos_application_create_window (PhotosApplication *self)
   g_signal_connect_swapped (self->main_window, "destroy", G_CALLBACK (photos_application_destroy), self);
 
   self->main_window_deleted = FALSE;
+  self->factory = photos_thumbnail_factory_dup_singleton (NULL, NULL);
 
   g_application_hold (G_APPLICATION (self));
   tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
@@ -1928,6 +1931,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->shr_pnt_mngr);
   g_clear_object (&self->camera_cache);
   g_clear_object (&self->sel_cntrlr);
+  g_clear_object (&self->factory);
   g_clear_object (&self->extract_priority);
 
   if (self->state != NULL)
