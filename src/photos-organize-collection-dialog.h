@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_ORGANIZE_COLLECTION_DIALOG (photos_organize_collection_dialog_get_type ())
-
-#define PHOTOS_ORGANIZE_COLLECTION_DIALOG(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_DIALOG, PhotosOrganizeCollectionDialog))
-
-#define PHOTOS_IS_ORGANIZE_COLLECTION_DIALOG(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_DIALOG))
-
-typedef struct _PhotosOrganizeCollectionDialog      PhotosOrganizeCollectionDialog;
-typedef struct _PhotosOrganizeCollectionDialogClass PhotosOrganizeCollectionDialogClass;
-
-GType               photos_organize_collection_dialog_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOrganizeCollectionDialog,
+                      photos_organize_collection_dialog,
+                      PHOTOS,
+                      ORGANIZE_COLLECTION_DIALOG,
+                      GtkDialog);
 
 GtkWidget          *photos_organize_collection_dialog_new                (GtkWindow *parent);
 

@@ -37,11 +37,6 @@ struct _PhotosOrganizeCollectionDialog
   GtkWidget *coll_view;
 };
 
-struct _PhotosOrganizeCollectionDialogClass
-{
-  GtkDialogClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosOrganizeCollectionDialog, photos_organize_collection_dialog, GTK_TYPE_DIALOG);
 
