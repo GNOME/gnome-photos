@@ -28,6 +28,7 @@
 
 #include "photos-application.h"
 #include "photos-base-item.h"
+#include "photos-error.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-search-context.h"

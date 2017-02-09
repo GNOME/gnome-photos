@@ -30,6 +30,7 @@
 #include <tracker-sparql.h>
 
 #include "photos-create-collection-job.h"
+#include "photos-error.h"
 #include "photos-query.h"
 #include "photos-query-builder.h"
 #include "photos-search-context.h"

@@ -45,6 +45,7 @@
 #include "photos-collection-icon-watcher.h"
 #include "photos-debug.h"
 #include "photos-delete-item-job.h"
+#include "photos-error.h"
 #include "photos-filterable.h"
 #include "photos-gegl.h"
 #include "photos-icons.h"

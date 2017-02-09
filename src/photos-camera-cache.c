@@ -24,6 +24,7 @@
 #include <tracker-sparql.h>
 
 #include "photos-camera-cache.h"
+#include "photos-error.h"
 #include "photos-query-builder.h"
 #include "photos-search-context.h"
 #include "photos-tracker-queue.h"

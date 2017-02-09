@@ -36,6 +36,7 @@
 
 #include "photos-base-manager.h"
 #include "photos-debug.h"
+#include "photos-error.h"
 #include "photos-facebook-item.h"
 #include "photos-search-context.h"
 #include "photos-source.h"

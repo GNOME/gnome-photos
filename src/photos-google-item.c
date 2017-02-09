@@ -34,6 +34,7 @@
 
 #include "photos-base-manager.h"
 #include "photos-debug.h"
+#include "photos-error.h"
 #include "photos-google-item.h"
 #include "photos-search-context.h"
 #include "photos-source.h"

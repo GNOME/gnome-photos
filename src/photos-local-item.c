@@ -31,6 +31,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "photos-error.h"
 #include "photos-local-item.h"
 #include "photos-utils.h"
 

@@ -37,6 +37,7 @@
 #include <libgd/gd.h>
 
 #include "photos-application.h"
+#include "photos-error.h"
 #include "photos-facebook-item.h"
 #include "photos-flickr-item.h"
 #include "photos-google-item.h"
@@ -745,13 +746,6 @@ photos_utils_equal_double (gdouble a, gdouble b)
 {
   const gdouble diff = a - b;
   return diff > -EPSILON && diff < EPSILON;
-}
-
-
-GQuark
-photos_utils_error_quark (void)
-{
-  return g_quark_from_static_string ("gnome-photos-error-quark");
 }
 
 

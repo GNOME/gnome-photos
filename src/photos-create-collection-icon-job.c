@@ -25,6 +25,7 @@
 
 #include "config.h"
 
+#include "photos-error.h"
 #include "photos-query.h"
 #include "photos-query-builder.h"
 #include "photos-create-collection-icon-job.h"

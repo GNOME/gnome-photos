@@ -66,6 +66,8 @@ gnome_photos_SOURCES = \
 	photos-done-notification.h \
 	photos-dropdown.c \
 	photos-dropdown.h \
+	photos-error.c \
+	photos-error.h \
 	photos-export-dialog.c \
 	photos-export-dialog.h \
 	photos-export-notification.c \

@@ -43,7 +43,6 @@
 
 G_BEGIN_DECLS
 
-#define PHOTOS_ERROR (photos_utils_error_quark ())
 #define PHOTOS_FLASH_OFF (photos_utils_flash_off_quark ())
 #define PHOTOS_FLASH_ON (photos_utils_flash_on_quark ())
 #define PHOTOS_ORIENTATION_BOTTOM (photos_utils_orientation_bottom_quark ())
@@ -107,8 +106,6 @@ void             photos_utils_ensure_builtins             (void);
 void             photos_utils_ensure_extension_points     (void);
 
 gboolean         photos_utils_equal_double                (gdouble a, gdouble b);
-
-GQuark           photos_utils_error_quark                 (void);
 
 gdouble          photos_utils_eval_radial_line            (gdouble crop_center_x,
                                                            gdouble crop_center_y,

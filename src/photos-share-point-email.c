@@ -26,6 +26,7 @@
 #include <glib/gi18n.h>
 
 #include "photos-base-item.h"
+#include "photos-error.h"
 #include "photos-filterable.h"
 #include "photos-share-point-email.h"
 #include "photos-utils.h"
