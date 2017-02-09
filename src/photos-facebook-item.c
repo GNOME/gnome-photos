@@ -32,7 +32,6 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <goa/goa.h>
-#include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
 #include "photos-base-manager.h"
 #include "photos-debug.h"
@@ -159,7 +158,7 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
   remote_file = g_file_new_for_uri (thumbnail_image->source);
 
   uri = photos_base_item_get_uri (item);
-  local_path = gnome_desktop_thumbnail_path_for_uri (uri, GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
+  local_path = photos_utils_get_thumbnail_path_for_uri (uri);
   local_file = g_file_new_for_path (local_path);
 
   local_dir = g_path_get_dirname (local_path);

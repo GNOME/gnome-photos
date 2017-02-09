@@ -82,16 +82,31 @@ static gboolean
 photos_media_server_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
   GFile *file;
+  GQuark orientation;
   gboolean ret_val;
   const gchar *mime_type;
   const gchar *uri;
+  gint64 height;
   gint64 mtime;
+  gint64 width;
 
   uri = photos_base_item_get_uri (item);
   file = g_file_new_for_uri (uri);
   mime_type = photos_base_item_get_mime_type (item);
   mtime = photos_base_item_get_mtime (item);
-  ret_val = photos_utils_create_thumbnail (file, mime_type, mtime, cancellable, error);
+  orientation = photos_base_item_get_orientation (item);
+  height = photos_base_item_get_height (item);
+  width = photos_base_item_get_width (item);
+
+  ret_val = photos_utils_create_thumbnail (file,
+                                           mime_type,
+                                           mtime,
+                                           orientation,
+                                           height,
+                                           width,
+                                           "",
+                                           cancellable,
+                                           error);
 
   g_object_unref (file);
   return ret_val;

@@ -110,24 +110,46 @@ photos_local_item_create_pipeline_path (PhotosBaseItem *item)
 static gboolean
 photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
+  PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (item);
   GFile *file = NULL;
+  GQuark orientation;
   gboolean ret_val = FALSE;
   const gchar *mime_type;
   const gchar *uri;
+  gchar *pipeline_path = NULL;
+  gchar *pipeline_uri = NULL;
+  gint64 height;
   gint64 mtime;
+  gint64 width;
 
-  uri = photos_base_item_get_uri (item);
+  uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (self));
   file = g_file_new_for_uri (uri);
-  mime_type = photos_base_item_get_mime_type (item);
-  mtime = photos_base_item_get_mtime (item);
+  mime_type = photos_base_item_get_mime_type (PHOTOS_BASE_ITEM (self));
+  mtime = photos_base_item_get_mtime (PHOTOS_BASE_ITEM (self));
+  orientation = photos_base_item_get_orientation (PHOTOS_BASE_ITEM (self));
+  height = photos_base_item_get_height (PHOTOS_BASE_ITEM (self));
+  width = photos_base_item_get_width (PHOTOS_BASE_ITEM (self));
 
-  if (!photos_utils_create_thumbnail (file, mime_type, mtime, cancellable, error))
+  pipeline_path = photos_local_item_get_pipeline_path (self);
+  pipeline_uri = photos_utils_convert_path_to_uri (pipeline_path);
+
+  if (!photos_utils_create_thumbnail (file,
+                                      mime_type,
+                                      mtime,
+                                      orientation,
+                                      height,
+                                      width,
+                                      pipeline_uri,
+                                      cancellable,
+                                      error))
     goto out;
 
   ret_val = TRUE;
 
  out:
   g_clear_object (&file);
+  g_free (pipeline_path);
+  g_free (pipeline_uri);
   return ret_val;
 }
 

@@ -32,7 +32,6 @@
 #include <string.h>
 
 #include <glib.h>
-#include <libgnome-desktop/gnome-desktop-thumbnail.h>
 #include <tracker-sparql.h>
 #include <libgd/gd.h>
 
@@ -54,6 +53,7 @@
 #include "photos-share-point-google.h"
 #include "photos-share-point-online.h"
 #include "photos-source.h"
+#include "photos-thumbnail-factory.h"
 #include "photos-tool.h"
 #include "photos-tool-colors.h"
 #include "photos-tool-crop.h"
@@ -399,34 +399,32 @@ gboolean
 photos_utils_create_thumbnail (GFile *file,
                                const gchar *mime_type,
                                gint64 mtime,
+                               GQuark orientation,
+                               gint64 original_height,
+                               gint64 original_width,
+                               const gchar *pipeline_uri,
                                GCancellable *cancellable,
                                GError **error)
 {
-  GnomeDesktopThumbnailFactory *factory = NULL;
+  PhotosThumbnailFactory *factory = NULL;
   gboolean ret_val = FALSE;
-  gchar *uri = NULL;
-  GdkPixbuf *pixbuf = NULL;
 
-  uri = g_file_get_uri (file);
-  factory = gnome_desktop_thumbnail_factory_new (GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE);
-  pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (factory, uri, mime_type);
-  if (pixbuf == NULL)
-    {
-      /* FIXME: use proper #defines and enumerated types */
-      g_set_error (error,
-                   g_quark_from_static_string ("gnome-desktop-error"),
-                   0,
-                   "GnomeDesktopThumbnailFactory failed");
-      goto out;
-    }
+  factory = photos_thumbnail_factory_dup_singleton (NULL, NULL);
+  if (!photos_thumbnail_factory_generate_thumbnail (factory,
+                                                    file,
+                                                    mime_type,
+                                                    orientation,
+                                                    original_height,
+                                                    original_width,
+                                                    pipeline_uri,
+                                                    cancellable,
+                                                    error))
+    goto out;
 
-  gnome_desktop_thumbnail_factory_save_thumbnail (factory, pixbuf, uri, (time_t) mtime);
   ret_val = TRUE;
 
  out:
-  g_clear_object (&pixbuf);
   g_clear_object (&factory);
-  g_free (uri);
   return ret_val;
 }
 
@@ -444,7 +442,11 @@ photos_utils_get_thumbnail_icon (const gchar *uri)
   file = g_file_new_for_uri (uri);
 
   error = NULL;
-  info = g_file_query_info (file, G_FILE_ATTRIBUTE_THUMBNAIL_PATH, G_FILE_QUERY_INFO_NONE, NULL, &error);
+  info = photos_utils_file_query_info (file,
+                                       G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
+                                       G_FILE_QUERY_INFO_NONE,
+                                       NULL,
+                                       &error);
   if (error != NULL)
     {
       g_warning ("Unable to fetch thumbnail path for %s: %s", uri, error->message);

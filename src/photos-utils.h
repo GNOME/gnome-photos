@@ -68,6 +68,10 @@ GIcon           *photos_utils_create_symbolic_icon_for_scale (const gchar *name,
 gboolean         photos_utils_create_thumbnail            (GFile *file,
                                                            const gchar *mime_type,
                                                            gint64 mtime,
+                                                           GQuark orientation,
+                                                           gint64 original_height,
+                                                           gint64 original_width,
+                                                           const gchar *pipeline_uri,
                                                            GCancellable *cancellable,
                                                            GError **error);
 

@@ -898,7 +898,7 @@ photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res,
   GFile *file = G_FILE (source_object);
   GFileInfo *info = NULL;
 
-  info = g_file_query_info_finish (file, res, &error);
+  info = photos_utils_file_query_info_finish (file, res, &error);
   if (error != NULL)
     {
       if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
@@ -966,13 +966,13 @@ photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res,
       goto out;
     }
 
-  g_file_query_info_async (file,
-                           G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
-                           G_FILE_QUERY_INFO_NONE,
-                           G_PRIORITY_DEFAULT,
-                           priv->cancellable,
-                           photos_base_item_thumbnail_path_info,
-                           self);
+  photos_utils_file_query_info_async (file,
+                                      G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
+                                      G_FILE_QUERY_INFO_NONE,
+                                      G_PRIORITY_DEFAULT,
+                                      priv->cancellable,
+                                      photos_base_item_thumbnail_path_info,
+                                      self);
 
  out:
   g_object_unref (file);
@@ -988,7 +988,7 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
   GFile *file = G_FILE (source_object);
   GFileInfo *info = NULL;
 
-  info = g_file_query_info_finish (file, res, &error);
+  info = photos_utils_file_query_info_finish (file, res, &error);
   if (error != NULL)
     {
       if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
@@ -2211,13 +2211,13 @@ photos_base_item_refresh_icon (PhotosBaseItem *self)
     return;
 
   file = g_file_new_for_uri (priv->uri);
-  g_file_query_info_async (file,
-                           G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
-                           G_FILE_QUERY_INFO_NONE,
-                           G_PRIORITY_DEFAULT,
-                           priv->cancellable,
-                           photos_base_item_file_query_info,
-                           self);
+  photos_utils_file_query_info_async (file,
+                                      G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
+                                      G_FILE_QUERY_INFO_NONE,
+                                      G_PRIORITY_DEFAULT,
+                                      priv->cancellable,
+                                      photos_base_item_file_query_info,
+                                      self);
   g_object_unref (file);
 }
 
