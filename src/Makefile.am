@@ -1,5 +1,7 @@
 bin_PROGRAMS = gnome-photos
 
+libexec_PROGRAMS = gnome-photos-thumbnailer
+
 gnome_photos_built_sources = \
 	photos-about-data.c \
 	photos-about-data.h \
@@ -267,8 +269,63 @@ gnome_photos_SOURCES = \
 	photos-main.c \
 	$(NULL)
 
+gnome_photos_thumbnailer_built_sources = \
+	photos-thumbnailer-dbus.c \
+	photos-thumbnailer-dbus.h \
+	photos-enums.c \
+	photos-enums.h \
+	$(NULL)
+
+nodist_gnome_photos_thumbnailer_SOURCES = \
+	$(gnome_photos_thumbnailer_built_sources) \
+	$(NULL)
+
+gnome_photos_thumbnailer_SOURCES = \
+	egg-counter.c \
+	egg-counter.h \
+	photos-debug.c \
+	photos-debug.h \
+	photos-error.c \
+	photos-error.h \
+	photos-gegl.c \
+	photos-gegl.h \
+	photos-glib.c \
+	photos-glib.h \
+	photos-jpeg-count.c \
+	photos-jpeg-count.h \
+	photos-operation-insta-common.h \
+	photos-operation-insta-curve.c \
+	photos-operation-insta-curve.h \
+	photos-operation-insta-filter.c \
+	photos-operation-insta-filter.h \
+	photos-operation-insta-hefe.c \
+	photos-operation-insta-hefe.h \
+	photos-operation-insta-hefe-curve.c \
+	photos-operation-insta-hefe-curve.h \
+	photos-operation-insta-hefe-vignette.c \
+	photos-operation-insta-hefe-vignette.h \
+	photos-operation-jpg-guess-sizes.c \
+	photos-operation-jpg-guess-sizes.h \
+	photos-operation-png-guess-sizes.c \
+	photos-operation-png-guess-sizes.h \
+	photos-operation-saturation.c \
+	photos-operation-saturation.h \
+	photos-pipeline.c \
+	photos-pipeline.h \
+	photos-pixbuf.c \
+	photos-pixbuf.h \
+	photos-png-count.c \
+	photos-png-count.h \
+	photos-quarks.c \
+	photos-quarks.h \
+	photos-thumbnailer.c \
+	photos-thumbnailer.h \
+	photos-thumbnailer-main.c \
+	$(NULL)
+
 BUILT_SOURCES = \
 	$(gnome_photos_built_sources) \
+	$(gnome_photos_thumbnailer_built_sources) \
 	$(NULL)
 
 EXTRA_DIST = \
@@ -287,6 +344,7 @@ EXTRA_DIST = \
 	photos-selection-toolbar.ui \
 	photos-share-dialog.ui \
 	photos-gom-miner.xml \
+	photos-thumbnailer-dbus.xml \
 	photos-tracker-extract-priority.xml \
 	photos-tracker-resources.xml \
 	photos-dleyna-renderer-device.xml \
@@ -347,6 +405,22 @@ gnome_photos_LDADD = \
 	$(LIBM) \
 	$(LIBRT) \
 	$(top_builddir)/libgd/libgd.la \
+	$(NULL)
+
+gnome_photos_thumbnailer_LDFLAGS = \
+	$(WARN_LDFLAGS) \
+	$(NULL)
+
+gnome_photos_thumbnailer_LDADD = \
+	$(BABL_LIBS) \
+	$(GEGL_LIBS) \
+	$(GDK_PIXBUF_LIBS) \
+	$(GIO_LIBS) \
+	$(GLIB_LIBS) \
+	$(JPEG_LIBS) \
+	$(PNG_LIBS) \
+	$(LIBM) \
+	$(LIBRT) \
 	$(NULL)
 
 CLEANFILES = \
@@ -493,6 +567,14 @@ photos-shell-search-provider2.h photos-shell-search-provider2.c: org.gnome.Shell
 		--c-namespace Shell \
 		--generate-c-code photos-shell-search-provider2 \
 		--interface-prefix org.gnome.Shell. \
+		$<
+
+photos-thumbnailer-dbus.h photos-thumbnailer-dbus.c: photos-thumbnailer-dbus.xml
+	$(AM_V_GEN)gdbus-codegen \
+		--c-namespace Photos \
+		--generate-c-code photos-thumbnailer-dbus \
+		--interface-prefix org.gnome.Photos. \
+		--annotate "org.gnome.Photos.Thumbnailer" org.gtk.GDBus.C.Name ThumbnailerDBus \
 		$<
 
 photos-tracker-extract-priority.h photos-tracker-extract-priority.c: photos-tracker-extract-priority.xml

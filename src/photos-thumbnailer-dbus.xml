@@ -1,0 +1,38 @@
+<!DOCTYPE node PUBLIC
+"-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<!--
+ Photos - access, organize and share your photos on GNOME
+ Copyright © 2017 Red Hat, Inc.
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ 02110-1301, USA.
+-->
+
+<node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
+  <interface name="org.gnome.Photos.Thumbnailer">
+    <method name="GenerateThumbnail">
+      <arg name="uri" type="s" direction="in" />
+      <arg name="mime_type" type="s" direction="in" />
+      <arg name="orientation" type="s" direction="in" />
+      <arg name="original_height" type="x" direction="in" />
+      <arg name="original_width" type="x" direction="in" />
+      <arg name="pipeline_uri" type="s" direction="in" />
+      <arg name="thumbnail_path" type="s" direction="in" />
+      <arg name="thumbnail_size" type="i" direction="in" />
+    </method>
+  </interface>
+</node>
