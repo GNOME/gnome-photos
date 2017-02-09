@@ -66,6 +66,7 @@ EGG_DEFINE_COUNTER (instances, "PhotosPipeline", "Instances", "Number of PhotosP
 static const gchar *OPERATIONS[] =
 {
   "gegl:crop",
+  "gegl:noise-reduction",
   "photos:insta-filter"
 };
 
