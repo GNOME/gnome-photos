@@ -50,11 +50,6 @@ struct _PhotosIndexingNotification
   guint timeout_id;
 };
 
-struct _PhotosIndexingNotificationClass
-{
-  GtkGridClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosIndexingNotification, photos_indexing_notification, GTK_TYPE_GRID);
 

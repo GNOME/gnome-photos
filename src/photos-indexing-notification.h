@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_INDEXING_NOTIFICATION (photos_indexing_notification_get_type ())
-
-#define PHOTOS_INDEXING_NOTIFICATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_INDEXING_NOTIFICATION, PhotosIndexingNotification))
-
-#define PHOTOS_IS_INDEXING_NOTIFICATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_INDEXING_NOTIFICATION))
-
-typedef struct _PhotosIndexingNotification      PhotosIndexingNotification;
-typedef struct _PhotosIndexingNotificationClass PhotosIndexingNotificationClass;
-
-GType               photos_indexing_notification_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosIndexingNotification,
+                      photos_indexing_notification,
+                      PHOTOS,
+                      INDEXING_NOTIFICATION,
+                      GtkGrid);
 
 GtkWidget          *photos_indexing_notification_new                (void);
 
