@@ -149,6 +149,7 @@ static const gchar *REQUIRED_GEGL_OPS[] =
   "gegl:buffer-sink",
   "gegl:buffer-source",
   "gegl:crop",
+  "gegl:exposure",
   "gegl:gray",
   "gegl:load",
   "gegl:nop",
