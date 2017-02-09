@@ -23,6 +23,8 @@ gnome_photos_built_sources = \
 	photos-resources.h \
 	photos-shell-search-provider2.c \
 	photos-shell-search-provider2.h \
+	photos-thumbnailer-dbus.c \
+	photos-thumbnailer-dbus.h \
 	photos-tracker-extract-priority.c \
 	photos-tracker-extract-priority.h \
 	photos-tracker-resources.c \
@@ -230,6 +232,8 @@ gnome_photos_SOURCES = \
 	photos-source-manager.h \
 	photos-spinner-box.c \
 	photos-spinner-box.h \
+	photos-thumbnail-factory.c \
+	photos-thumbnail-factory.h \
 	photos-tool.c \
 	photos-tool.h \
 	photos-tool-colors.c \
@@ -354,6 +358,7 @@ EXTRA_DIST = \
 	$(NULL)
 
 AM_CPPFLAGS = \
+	-DPACKAGE_LIBEXEC_DIR=\""${libexecdir}"\" \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
 	$(BABL_CFLAGS) \
 	$(CAIRO_CFLAGS) \
