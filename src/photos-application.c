@@ -27,6 +27,8 @@
 
 #include "config.h"
 
+#include <stdlib.h>
+
 #include <gegl.h>
 #include <gexiv2/gexiv2.h>
 #include <gio/gio.h>
@@ -1586,7 +1588,7 @@ photos_application_handle_local_options (GApplication *application, GVariantDict
   if (g_variant_dict_contains (options, "version"))
     {
       g_print ("%s %s\n", PACKAGE_TARNAME, PACKAGE_VERSION);
-      ret_val = 0;
+      ret_val = EXIT_SUCCESS;
     }
 
   return ret_val;
