@@ -142,6 +142,8 @@ const gchar        *photos_base_item_get_name                (PhotosBaseItem *se
 
 const gchar        *photos_base_item_get_name_with_fallback  (PhotosBaseItem *self);
 
+GQuark              photos_base_item_get_orientation         (PhotosBaseItem *self);
+
 GdkPixbuf          *photos_base_item_get_original_icon       (PhotosBaseItem *self);
 
 const gchar        *photos_base_item_get_resource_urn        (PhotosBaseItem *self);

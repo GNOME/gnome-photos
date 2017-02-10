@@ -3065,6 +3065,18 @@ photos_base_item_get_name_with_fallback (PhotosBaseItem *self)
 }
 
 
+GQuark
+photos_base_item_get_orientation (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
+  priv = photos_base_item_get_instance_private (self);
+
+  return priv->orientation;
+}
+
+
 GdkPixbuf *
 photos_base_item_get_original_icon (PhotosBaseItem *self)
 {
