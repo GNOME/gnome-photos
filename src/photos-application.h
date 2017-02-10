@@ -36,7 +36,8 @@ G_DECLARE_FINAL_TYPE (PhotosApplication, photos_application, PHOTOS, APPLICATION
 
 GApplication          *photos_application_new                    (void);
 
-GomMiner              *photos_application_get_miner              (PhotosApplication *self, const gchar *provider_type);
+GomMiner              *photos_application_get_miner              (PhotosApplication *self,
+                                                                  const gchar *provider_type);
 
 GList                 *photos_application_get_miners_running     (PhotosApplication *self);
 
