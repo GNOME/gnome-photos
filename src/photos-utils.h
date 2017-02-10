@@ -43,13 +43,6 @@
 
 G_BEGIN_DECLS
 
-#define PHOTOS_FLASH_OFF (photos_utils_flash_off_quark ())
-#define PHOTOS_FLASH_ON (photos_utils_flash_on_quark ())
-#define PHOTOS_ORIENTATION_BOTTOM (photos_utils_orientation_bottom_quark ())
-#define PHOTOS_ORIENTATION_LEFT (photos_utils_orientation_left_quark ())
-#define PHOTOS_ORIENTATION_RIGHT (photos_utils_orientation_right_quark ())
-#define PHOTOS_ORIENTATION_TOP (photos_utils_orientation_top_quark ())
-
 #define PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME "photos-base-item"
 #define PHOTOS_SHARE_POINT_EXTENSION_POINT_NAME "photos-share-point"
 #define PHOTOS_SHARE_POINT_ONLINE_EXTENSION_POINT_NAME "photos-share-point-online"
@@ -108,10 +101,6 @@ gdouble          photos_utils_eval_radial_line            (gdouble crop_center_x
                                                            gdouble corner_y,
                                                            gdouble event_x);
 
-GQuark           photos_utils_flash_off_quark             (void);
-
-GQuark           photos_utils_flash_on_quark              (void);
-
 void             photos_utils_get_controller              (PhotosWindowMode mode,
                                                            PhotosOffsetController **out_offset_cntrlr,
                                                            PhotosTrackerController **out_trk_cntrlr);
@@ -138,14 +127,6 @@ void             photos_utils_list_box_header_func        (GtkListBoxRow *row,
                                                            gpointer user_data);
 
 void             photos_utils_object_list_free_full       (GList *objects);
-
-GQuark           photos_utils_orientation_bottom_quark    (void);
-
-GQuark           photos_utils_orientation_left_quark      (void);
-
-GQuark           photos_utils_orientation_right_quark     (void);
-
-GQuark           photos_utils_orientation_top_quark       (void);
 
 void             photos_utils_set_edited_name             (const gchar *urn, const gchar *title);
 

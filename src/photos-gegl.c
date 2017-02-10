@@ -23,7 +23,7 @@
 
 #include "photos-debug.h"
 #include "photos-gegl.h"
-#include "photos-utils.h"
+#include "photos-quarks.h"
 
 
 static GeglBuffer *

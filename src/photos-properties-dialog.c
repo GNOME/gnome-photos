@@ -35,6 +35,7 @@
 #include "photos-camera-cache.h"
 #include "photos-local-item.h"
 #include "photos-properties-dialog.h"
+#include "photos-quarks.h"
 #include "photos-query-builder.h"
 #include "photos-search-context.h"
 #include "photos-tracker-queue.h"

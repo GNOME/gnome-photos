@@ -788,20 +788,6 @@ photos_utils_get_controller (PhotosWindowMode mode,
 }
 
 
-GQuark
-photos_utils_flash_off_quark (void)
-{
-  return g_quark_from_static_string ("http://www.tracker-project.org/temp/nmm#flash-off");
-}
-
-
-GQuark
-photos_utils_flash_on_quark (void)
-{
-  return g_quark_from_static_string ("http://www.tracker-project.org/temp/nmm#flash-on");
-}
-
-
 gchar *
 photos_utils_get_extension_from_mime_type (const gchar *mime_type)
 {
@@ -979,34 +965,6 @@ void
 photos_utils_object_list_free_full (GList *objects)
 {
   g_list_free_full (objects, (GDestroyNotify) g_object_unref);
-}
-
-
-GQuark
-photos_utils_orientation_bottom_quark (void)
-{
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-bottom");
-}
-
-
-GQuark
-photos_utils_orientation_left_quark (void)
-{
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-left");
-}
-
-
-GQuark
-photos_utils_orientation_right_quark (void)
-{
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-right");
-}
-
-
-GQuark
-photos_utils_orientation_top_quark (void)
-{
-  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-top");
 }
 
 
