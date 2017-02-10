@@ -41,6 +41,7 @@ photos_debug_init (void)
       { "gegl", PHOTOS_DEBUG_GEGL },
       { "memory", PHOTOS_DEBUG_MEMORY },
       { "network", PHOTOS_DEBUG_NETWORK },
+      { "thumbnailer", PHOTOS_DEBUG_THUMBNAILER },
       { "tracker", PHOTOS_DEBUG_TRACKER }
     };
   const gchar *debug_string;
