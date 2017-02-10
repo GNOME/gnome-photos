@@ -34,7 +34,7 @@ G_BEGIN_DECLS
 #define PHOTOS_TYPE_APPLICATION (photos_application_get_type ())
 G_DECLARE_FINAL_TYPE (PhotosApplication, photos_application, PHOTOS, APPLICATION, GtkApplication);
 
-GtkApplication        *photos_application_new                    (void);
+GApplication          *photos_application_new                    (void);
 
 GomMiner              *photos_application_get_miner              (PhotosApplication *self, const gchar *provider_type);
 

@@ -50,7 +50,7 @@ gint
 main (gint argc, gchar *argv[])
 {
   EggCounterArena *counter_arena;
-  GtkApplication *app;
+  GApplication *app;
   PhotosRemoteDisplayManager *remote_display_mngr;
   gint exit_status;
 
@@ -66,10 +66,10 @@ main (gint argc, gchar *argv[])
 
   app = photos_application_new ();
   if (g_getenv ("GNOME_PHOTOS_PERSIST") != NULL)
-    g_application_hold (G_APPLICATION (app));
+    g_application_hold (app);
 
   remote_display_mngr = photos_remote_display_manager_dup_singleton ();
-  exit_status = g_application_run (G_APPLICATION (app), argc, argv);
+  exit_status = g_application_run (app, argc, argv);
   g_object_unref (remote_display_mngr);
   g_object_unref (app);
 

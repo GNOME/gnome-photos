@@ -2007,7 +2007,7 @@ photos_application_search_context_iface_init (PhotosSearchContextInterface *ifac
 }
 
 
-GtkApplication *
+GApplication *
 photos_application_new (void)
 {
   return g_object_new (PHOTOS_TYPE_APPLICATION,
