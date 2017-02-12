@@ -57,6 +57,11 @@ void                   photos_pipeline_add_valist        (PhotosPipeline *self,
                                                           const gchar *first_property_name,
                                                           va_list ap);
 
+gboolean               photos_pipeline_get               (PhotosPipeline *self,
+                                                          const gchar *operation,
+                                                          const gchar *first_property_name,
+                                                          ...) G_GNUC_NULL_TERMINATED G_GNUC_WARN_UNUSED_RESULT;
+
 gboolean               photos_pipeline_get_valist        (PhotosPipeline *self,
                                                           const gchar *operation,
                                                           const gchar *first_property_name,

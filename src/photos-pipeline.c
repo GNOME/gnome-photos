@@ -492,6 +492,22 @@ photos_pipeline_add_valist (PhotosPipeline *self,
 
 
 gboolean
+photos_pipeline_get (PhotosPipeline *self, const gchar *operation, const gchar *first_property_name, ...)
+{
+  gboolean ret_val;
+  va_list ap;
+
+  g_return_val_if_fail (PHOTOS_IS_PIPELINE (self), FALSE);
+
+  va_start (ap, first_property_name);
+  ret_val = photos_pipeline_get_valist (self, operation, first_property_name, ap);
+  va_end (ap);
+
+  return ret_val;
+}
+
+
+gboolean
 photos_pipeline_get_valist (PhotosPipeline *self,
                             const gchar *operation,
                             const gchar *first_property_name,
