@@ -99,8 +99,8 @@ photos_local_item_create_pipeline_path (PhotosBaseItem *item)
 static gboolean
 photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GFile *file;
-  gboolean ret_val;
+  GFile *file = NULL;
+  gboolean ret_val = FALSE;
   const gchar *mime_type;
   const gchar *uri;
   gint64 mtime;
@@ -109,9 +109,14 @@ photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancella
   file = g_file_new_for_uri (uri);
   mime_type = photos_base_item_get_mime_type (item);
   mtime = photos_base_item_get_mtime (item);
-  ret_val = photos_utils_create_thumbnail (file, mime_type, mtime, cancellable, error);
 
-  g_object_unref (file);
+  if (!photos_utils_create_thumbnail (file, mime_type, mtime, cancellable, error))
+    goto out;
+
+  ret_val = TRUE;
+
+ out:
+  g_clear_object (&file);
   return ret_val;
 }
 
