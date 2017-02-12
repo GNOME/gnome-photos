@@ -45,6 +45,15 @@ GeglBuffer      *photos_gegl_dup_buffer_from_node         (GeglNode *node, const
 
 GeglBuffer      *photos_gegl_get_buffer_from_node         (GeglNode *node, const Babl *format);
 
+void             photos_gegl_processor_process_async      (GeglProcessor *processor,
+                                                           GCancellable *cancellable,
+                                                           GAsyncReadyCallback callback,
+                                                           gpointer user_data);
+
+gboolean         photos_gegl_processor_process_finish     (GeglProcessor *processor,
+                                                           GAsyncResult *res,
+                                                           GError **error);
+
 void             photos_gegl_remove_children_from_node    (GeglNode *node);
 
 G_END_DECLS

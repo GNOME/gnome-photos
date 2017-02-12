@@ -224,6 +224,64 @@ photos_gegl_get_buffer_from_node (GeglNode *node, const Babl *format)
 }
 
 
+static gboolean
+photos_gegl_processor_process_idle (gpointer user_data)
+{
+  GTask *task = G_TASK (user_data);
+  GeglProcessor *processor;
+
+  processor = GEGL_PROCESSOR (g_task_get_source_object (task));
+
+  if (g_task_return_error_if_cancelled (task))
+    goto done;
+
+  if (gegl_processor_work (processor, NULL))
+    return G_SOURCE_CONTINUE;
+
+  g_task_return_boolean (task, TRUE);
+
+ done:
+  return G_SOURCE_REMOVE;
+}
+
+
+void
+photos_gegl_processor_process_async (GeglProcessor *processor,
+                                     GCancellable *cancellable,
+                                     GAsyncReadyCallback callback,
+                                     gpointer user_data)
+{
+  GTask *task;
+
+  g_return_if_fail (GEGL_IS_PROCESSOR (processor));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
+  task = g_task_new (processor, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_gegl_processor_process_async);
+
+  g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+                   photos_gegl_processor_process_idle,
+                   g_object_ref (task),
+                   g_object_unref);
+
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_gegl_processor_process_finish (GeglProcessor *processor, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (GEGL_IS_PROCESSOR (processor), FALSE);
+  g_return_val_if_fail (g_task_is_valid (res, processor), FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_gegl_processor_process_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
+}
+
+
 void
 photos_gegl_remove_children_from_node (GeglNode *node)
 {
