@@ -101,6 +101,16 @@ gdouble          photos_utils_eval_radial_line            (gdouble crop_center_x
                                                            gdouble corner_y,
                                                            gdouble event_x);
 
+void             photos_utils_file_query_info_async       (GFile *file,
+                                                           const gchar *attributes,
+                                                           GFileQueryInfoFlags flags,
+                                                           gint io_priority,
+                                                           GCancellable *cancellable,
+                                                           GAsyncReadyCallback callback,
+                                                           gpointer user_data);
+
+GFileInfo       *photos_utils_file_query_info_finish      (GFile *file, GAsyncResult *res, GError **error);
+
 void             photos_utils_get_controller              (PhotosWindowMode mode,
                                                            PhotosOffsetController **out_offset_cntrlr,
                                                            PhotosTrackerController **out_trk_cntrlr);
@@ -117,6 +127,10 @@ char*            photos_utils_get_pixbuf_common_suffix    (GdkPixbufFormat *form
 const gchar     *photos_utils_get_provider_name           (PhotosBaseManager *src_mngr, PhotosBaseItem *item);
 
 GtkBorder       *photos_utils_get_thumbnail_frame_border  (void);
+
+gchar           *photos_utils_get_thumbnail_path_for_file (GFile *file);
+
+gchar           *photos_utils_get_thumbnail_path_for_uri  (const gchar *uri);
 
 GList           *photos_utils_get_urns_from_items         (GList *items);
 

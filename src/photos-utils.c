@@ -74,7 +74,20 @@
 #include "photos-utils.h"
 
 
+typedef struct _PhotosUtilsFileQueryInfoData PhotosUtilsFileQueryInfoData;
+
+struct _PhotosUtilsFileQueryInfoData
+{
+  GFileQueryInfoFlags flags;
+  gchar *attributes;
+};
+
 static const gdouble EPSILON = 1e-5;
+
+enum
+{
+  THUMBNAIL_GENERATION = 0
+};
 
 
 static void
@@ -735,6 +748,122 @@ photos_utils_eval_radial_line (gdouble crop_center_x,
 }
 
 
+static void
+photos_utils_file_query_info_data_free (PhotosUtilsFileQueryInfoData *data)
+{
+  g_free (data->attributes);
+  g_slice_free (PhotosUtilsFileQueryInfoData, data);
+}
+
+
+static PhotosUtilsFileQueryInfoData *
+photos_utils_file_query_info_data_new (const gchar *attributes, GFileQueryInfoFlags flags)
+{
+  PhotosUtilsFileQueryInfoData *data;
+
+  data = g_slice_new0 (PhotosUtilsFileQueryInfoData);
+  data->flags = flags;
+  data->attributes = g_strdup (attributes);
+
+  return data;
+}
+
+
+static void
+photos_utils_file_query_info_in_thread_func (GTask *task,
+                                             gpointer source_object,
+                                             gpointer task_data,
+                                             GCancellable *cancellable)
+{
+  GError *error;
+  GFile *file = G_FILE (source_object);
+  GFileAttributeMatcher *matcher = NULL;
+  GFileInfo *info = NULL;
+  PhotosUtilsFileQueryInfoData *data = (PhotosUtilsFileQueryInfoData *) task_data;
+
+  error = NULL;
+  info = g_file_query_info (file, data->attributes, data->flags, cancellable, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  matcher = g_file_attribute_matcher_new (data->attributes);
+  if (g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID)
+      || g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAIL_PATH)
+      || g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED))
+    {
+      gchar *path = NULL;
+
+      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID);
+      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
+      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED);
+
+      path = photos_utils_get_thumbnail_path_for_file (file);
+      if (g_file_test (path, G_FILE_TEST_IS_REGULAR))
+        {
+          g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID, TRUE);
+          g_file_info_set_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH, path);
+          g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED, FALSE);
+        }
+
+      g_free (path);
+    }
+
+  g_task_return_pointer (task, g_object_ref (info), g_object_unref);
+
+ out:
+  g_clear_object (&info);
+  g_clear_pointer (&matcher, (GDestroyNotify) g_file_attribute_matcher_unref);
+}
+
+
+void
+photos_utils_file_query_info_async (GFile *file,
+                                    const gchar *attributes,
+                                    GFileQueryInfoFlags flags,
+                                    gint io_priority,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
+{
+  GTask *task;
+  PhotosUtilsFileQueryInfoData *data;
+  const gchar *wildcard;
+
+  g_return_if_fail (G_IS_FILE (file));
+  g_return_if_fail (attributes != NULL && attributes[0] != '\0');
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
+  wildcard = strstr (attributes, "*");
+  g_return_if_fail (wildcard == NULL);
+
+  data = photos_utils_file_query_info_data_new (attributes, flags);
+
+  task = g_task_new (file, cancellable, callback, user_data);
+  g_task_set_priority (task, io_priority);
+  g_task_set_source_tag (task, photos_utils_file_query_info_async);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_utils_file_query_info_data_free);
+
+  g_task_run_in_thread (task, photos_utils_file_query_info_in_thread_func);
+  g_object_unref (task);
+}
+
+
+GFileInfo *
+photos_utils_file_query_info_finish (GFile *file, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_is_valid (res, file), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_utils_file_query_info_async, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  return g_task_propagate_pointer (task, error);
+}
+
+
 void
 photos_utils_get_controller (PhotosWindowMode mode,
                              PhotosOffsetController **out_offset_cntrlr,
@@ -904,6 +1033,51 @@ photos_utils_get_thumbnail_frame_border (void)
   slice->left = 4;
 
   return slice;
+}
+
+
+gchar *
+photos_utils_get_thumbnail_path_for_file (GFile *file)
+{
+  gchar *path;
+  gchar *uri = NULL;
+
+  uri = g_file_get_uri (file);
+  path = photos_utils_get_thumbnail_path_for_uri (uri);
+
+  g_free (uri);
+  return path;
+}
+
+
+gchar *
+photos_utils_get_thumbnail_path_for_uri (const gchar *uri)
+{
+  const gchar *cache_dir;
+  gchar *filename = NULL;
+  gchar *md5 = NULL;
+  gchar *path;
+  gchar *thumbnails_subdir = NULL;
+  gint size;
+
+  md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
+  filename = g_strconcat (md5, ".png", NULL);
+
+  cache_dir = g_get_user_cache_dir ();
+  size = photos_utils_get_icon_size ();
+  thumbnails_subdir = g_strdup_printf ("%d-%d", size, THUMBNAIL_GENERATION);
+
+  path = g_build_filename (cache_dir,
+                           PACKAGE_TARNAME,
+                           "thumbnails",
+                           thumbnails_subdir,
+                           filename,
+                           NULL);
+
+  g_free (filename);
+  g_free (md5);
+  g_free (thumbnails_subdir);
+  return path;
 }
 
 
