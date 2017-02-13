@@ -321,7 +321,7 @@ photos_preview_view_blacks_exposure (PhotosPreviewView *self, GVariant *paramete
                                         photos_preview_view_process,
                                         self,
                                         "gegl:exposure",
-                                        "black", blacks,
+                                        "black-level", blacks,
                                         "exposure", exposure,
                                         NULL);
 }

@@ -210,7 +210,7 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImage
       contrast = CONTRAST_DEFAULT;
     }
 
-  if (!photos_base_item_operation_get (item, "gegl:exposure", "black", &blacks, "exposure", &exposure, NULL))
+  if (!photos_base_item_operation_get (item, "gegl:exposure", "black-level", &blacks, "exposure", &exposure, NULL))
     {
       blacks = BLACKS_DEFAULT;
       exposure = EXPOSURE_DEFAULT;
