@@ -157,6 +157,7 @@ static const gchar *REQUIRED_GEGL_OPS[] =
   "gegl:gray",
   "gegl:load",
   "gegl:nop",
+  "gegl:pixbuf",
   "gegl:rotate-on-center",
   "gegl:save-pixbuf",
   "gegl:scale-ratio",
