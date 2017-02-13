@@ -60,11 +60,6 @@ G_BEGIN_DECLS
   "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#image-category-screenshot"
 #define PHOTOS_EXPORT_SUBPATH "Exports"
 
-gboolean         photos_utils_app_info_launch_uri         (GAppInfo *appinfo,
-                                                           const gchar *uri,
-                                                           GAppLaunchContext *launch_context,
-                                                           GError **error);
-
 void             photos_utils_border_pixbuf               (GdkPixbuf *pixbuf);
 
 GdkPixbuf       *photos_utils_center_pixbuf               (GdkPixbuf *pixbuf, gint size);
@@ -113,20 +108,6 @@ gdouble          photos_utils_eval_radial_line            (gdouble crop_center_x
                                                            gdouble corner_y,
                                                            gdouble event_x);
 
-void             photos_utils_file_create_async           (GFile *file,
-                                                           GFileCreateFlags flags,
-                                                           gint io_priority,
-                                                           GCancellable *cancellable,
-                                                           GAsyncReadyCallback callback,
-                                                           gpointer user_data);
-
-GFileOutputStream *photos_utils_file_create_finish        (GFile *file,
-                                                           GAsyncResult *res,
-                                                           GFile **out_unique_file,
-                                                           GError **error);
-
-gchar           *photos_utils_filename_strip_extension    (const gchar *filename_with_extension);
-
 GQuark           photos_utils_flash_off_quark             (void);
 
 GQuark           photos_utils_flash_on_quark              (void);
@@ -155,8 +136,6 @@ GIcon           *photos_utils_icon_from_rdf_type          (const gchar *type);
 void             photos_utils_list_box_header_func        (GtkListBoxRow *row,
                                                            GtkListBoxRow *before,
                                                            gpointer user_data);
-
-gboolean         photos_utils_make_directory_with_parents (GFile *file, GCancellable *cancellable, GError **error);
 
 void             photos_utils_object_list_free_full       (GList *objects);
 

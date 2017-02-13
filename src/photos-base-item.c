@@ -48,6 +48,7 @@
 #include "photos-error.h"
 #include "photos-filterable.h"
 #include "photos-gegl.h"
+#include "photos-glib.h"
 #include "photos-icons.h"
 #include "photos-local-item.h"
 #include "photos-pipeline.h"
@@ -572,7 +573,7 @@ photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 
   if (priv->default_app != NULL)
     {
       error = NULL;
-      photos_utils_app_info_launch_uri (priv->default_app, priv->uri, NULL, &error);
+      photos_glib_app_info_launch_uri (priv->default_app, priv->uri, NULL, &error);
       if (error != NULL)
         {
           g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
@@ -1864,7 +1865,7 @@ photos_base_item_save_file_create (GObject *source_object, GAsyncResult *res, gp
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
-  stream = photos_utils_file_create_finish (file, res, &unique_file, &error);
+  stream = photos_glib_file_create_finish (file, res, &unique_file, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
@@ -1923,17 +1924,17 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
   g_assert_null (data->buffer);
   data->buffer = g_object_ref (buffer_zoomed);
 
-  basename = photos_utils_filename_strip_extension (priv->filename);
+  basename = photos_glib_filename_strip_extension (priv->filename);
   extension = g_strcmp0 (priv->mime_type, "image/png") == 0 ? ".png" : ".jpg";
   filename = g_strconcat (basename, extension, NULL);
 
   file = g_file_get_child (data->dir, filename);
-  photos_utils_file_create_async (file,
-                                  G_FILE_CREATE_NONE,
-                                  G_PRIORITY_DEFAULT,
-                                  cancellable,
-                                  photos_base_item_save_file_create,
-                                  g_object_ref (task));
+  photos_glib_file_create_async (file,
+                                 G_FILE_CREATE_NONE,
+                                 G_PRIORITY_DEFAULT,
+                                 cancellable,
+                                 photos_base_item_save_file_create,
+                                 g_object_ref (task));
 
  out:
   g_free (basename);

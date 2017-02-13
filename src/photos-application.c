@@ -45,6 +45,7 @@
 #include "photos-export-dialog.h"
 #include "photos-export-notification.h"
 #include "photos-filterable.h"
+#include "photos-glib.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
 #include "photos-properties-dialog.h"
@@ -1232,7 +1233,7 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
   export = g_file_new_for_path (export_path);
 
   error = NULL;
-  if (!photos_utils_make_directory_with_parents (export, NULL, &error))
+  if (!photos_glib_make_directory_with_parents (export, NULL, &error))
     {
       g_warning ("Unable to create %s: %s", export_path, error->message);
       photos_export_notification_new_with_error (error);
@@ -1256,7 +1257,7 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
   export = tmp;
 
   error = NULL;
-  if (!photos_utils_make_directory_with_parents (export, NULL, &error))
+  if (!photos_glib_make_directory_with_parents (export, NULL, &error))
     {
       g_warning ("Unable to create %s: %s", export_path, error->message);
       photos_export_notification_new_with_error (error);

@@ -98,6 +98,8 @@ gnome_photos_SOURCES = \
 	photos-flickr-item.h \
 	photos-gegl.c \
 	photos-gegl.h \
+	photos-glib.c \
+	photos-glib.h \
 	photos-google-item.c \
 	photos-google-item.h \
 	photos-header-bar.c \

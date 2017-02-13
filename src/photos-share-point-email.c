@@ -28,6 +28,7 @@
 #include "photos-base-item.h"
 #include "photos-error.h"
 #include "photos-filterable.h"
+#include "photos-glib.h"
 #include "photos-share-point-email.h"
 #include "photos-utils.h"
 
@@ -107,7 +108,7 @@ photos_share_point_email_share_save (GObject *source_object, GAsyncResult *res, 
   uri = g_strconcat ("mailto:?attach=", escaped_path, NULL);
 
   error = NULL;
-  if (!photos_utils_app_info_launch_uri (self->default_app, uri, NULL, &error))
+  if (!photos_glib_app_info_launch_uri (self->default_app, uri, NULL, &error))
     {
       g_task_return_error (task, error);
       goto out;

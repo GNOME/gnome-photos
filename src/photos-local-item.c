@@ -32,6 +32,7 @@
 #include <glib/gi18n.h>
 
 #include "photos-error.h"
+#include "photos-glib.h"
 #include "photos-local-item.h"
 #include "photos-utils.h"
 
@@ -66,7 +67,7 @@ photos_local_item_create_name_fallback (PhotosBaseItem *item)
   gchar *ret_val;
 
   filename = photos_base_item_get_filename (item);
-  ret_val = photos_utils_filename_strip_extension (filename);
+  ret_val = photos_glib_filename_strip_extension (filename);
   return ret_val;
 }
 
