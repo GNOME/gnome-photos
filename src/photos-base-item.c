@@ -1258,24 +1258,24 @@ photos_base_item_pipeline_is_edited_load (GObject *source_object, GAsyncResult *
 }
 
 
-static gboolean
-photos_base_item_process_idle (gpointer user_data)
+static void
+photos_base_item_process_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  GError *error;
   GTask *task = G_TASK (user_data);
-  GeglProcessor *processor;
+  GeglProcessor *processor = GEGL_PROCESSOR (source_object);
 
-  processor = GEGL_PROCESSOR (g_task_get_task_data (task));
-
-  if (g_task_return_error_if_cancelled (task))
-    goto done;
-
-  if (gegl_processor_work (processor, NULL))
-    return G_SOURCE_CONTINUE;
+  error = NULL;
+  if (!photos_gegl_processor_process_finish (processor, res, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
 
   g_task_return_boolean (task, TRUE);
 
- done:
-  return G_SOURCE_REMOVE;
+ out:
+  g_object_unref (task);
 }
 
 
@@ -1298,9 +1298,12 @@ photos_base_item_process_async (PhotosBaseItem *self,
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_process_async);
-  g_task_set_task_data (task, g_object_ref (priv->processor), g_object_unref);
 
-  g_idle_add_full (G_PRIORITY_DEFAULT_IDLE, photos_base_item_process_idle, g_object_ref (task), g_object_unref);
+  photos_gegl_processor_process_async (priv->processor,
+                                       cancellable,
+                                       photos_base_item_process_process,
+                                       g_object_ref (task));
+
   g_object_unref (task);
 }
 
