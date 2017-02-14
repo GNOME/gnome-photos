@@ -139,14 +139,17 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
   GFBGraphPhoto *photo = NULL;
   const GFBGraphPhotoImage *thumbnail_image;
   gboolean ret_val = FALSE;
+  const gchar *uri;
   gchar *local_dir = NULL;
   gchar *local_path = NULL;
+  guint size;
 
   photo = photos_facebook_get_gfbgraph_photo (item, cancellable, error);
   if (photo == NULL)
     goto out;
 
-  thumbnail_image = gfbgraph_photo_get_image_near_width (photo, photos_utils_get_icon_size ());
+  size = (guint) photos_utils_get_icon_size ();
+  thumbnail_image = gfbgraph_photo_get_image_near_width (photo, size);
   if (thumbnail_image == NULL)
     {
       g_set_error (error, PHOTOS_ERROR, 0, "Failed to find an image for the thumbnail");
@@ -155,9 +158,10 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
 
   remote_file = g_file_new_for_uri (thumbnail_image->source);
 
-  local_path = gnome_desktop_thumbnail_path_for_uri (photos_base_item_get_uri (item),
-                                                     GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
+  uri = photos_base_item_get_uri (item);
+  local_path = gnome_desktop_thumbnail_path_for_uri (uri, GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
   local_file = g_file_new_for_path (local_path);
+
   local_dir = g_path_get_dirname (local_path);
   g_mkdir_with_parents (local_dir, 0700);
 
