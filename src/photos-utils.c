@@ -733,6 +733,75 @@ photos_utils_eval_radial_line (gdouble crop_center_x,
 }
 
 
+gboolean
+photos_utils_file_copy_as_thumbnail (GFile *source,
+                                     GFile *destination,
+                                     const gchar *original_uri,
+                                     gint64 original_height,
+                                     gint64 original_width,
+                                     GCancellable *cancellable,
+                                     GError **error)
+{
+  GFileInputStream *istream = NULL;
+  GFileOutputStream *ostream = NULL;
+  GdkPixbuf *pixbuf = NULL;
+  gboolean ret_val = FALSE;
+  const gchar *prgname;
+  gchar *original_height_str = NULL;
+  gchar *original_width_str = NULL;
+
+  g_return_val_if_fail (G_IS_FILE (source), FALSE);
+  g_return_val_if_fail (G_IS_FILE (destination), FALSE);
+  g_return_val_if_fail (original_uri != NULL && original_uri[0] != '\0', FALSE);
+  g_return_val_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable), FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  istream = g_file_read (source, cancellable, error);
+  if (istream == NULL)
+    goto out;
+
+  pixbuf = gdk_pixbuf_new_from_stream (G_INPUT_STREAM (istream), cancellable, error);
+  if (pixbuf == NULL)
+    goto out;
+
+  ostream = g_file_replace (destination,
+                            NULL,
+                            FALSE,
+                            G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION,
+                            cancellable,
+                            error);
+  if (ostream == NULL)
+    goto out;
+
+  original_height_str = g_strdup_printf ("%" G_GINT64_FORMAT, original_height);
+  original_width_str = g_strdup_printf ("%" G_GINT64_FORMAT, original_width);
+  prgname = g_get_prgname ();
+  if (!gdk_pixbuf_save_to_stream (pixbuf,
+                                  G_OUTPUT_STREAM (ostream),
+                                  "png",
+                                  cancellable,
+                                  error,
+                                  "tEXt::Software", prgname,
+                                  "tEXt::Thumb::URI", original_uri,
+                                  "tEXt::Thumb::Image::Height", original_height_str,
+                                  "tEXt::Thumb::Image::Width", original_width_str,
+                                  NULL))
+    {
+      goto out;
+    }
+
+  ret_val = TRUE;
+
+ out:
+  g_free (original_height_str);
+  g_free (original_width_str);
+  g_clear_object (&istream);
+  g_clear_object (&ostream);
+  g_clear_object (&pixbuf);
+  return ret_val;
+}
+
+
 static void
 photos_utils_file_query_info_data_free (PhotosUtilsFileQueryInfoData *data)
 {

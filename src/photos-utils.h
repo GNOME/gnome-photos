@@ -101,6 +101,14 @@ gdouble          photos_utils_eval_radial_line            (gdouble crop_center_x
                                                            gdouble corner_y,
                                                            gdouble event_x);
 
+gboolean         photos_utils_file_copy_as_thumbnail      (GFile *source,
+                                                           GFile *destination,
+                                                           const gchar *original_uri,
+                                                           gint64 original_height,
+                                                           gint64 original_width,
+                                                           GCancellable *cancellable,
+                                                           GError **error);
+
 void             photos_utils_file_query_info_async       (GFile *file,
                                                            const gchar *attributes,
                                                            GFileQueryInfoFlags flags,
