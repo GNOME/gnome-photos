@@ -802,6 +802,57 @@ photos_utils_file_copy_as_thumbnail (GFile *source,
 }
 
 
+GFileInfo *
+photos_utils_file_query_info (GFile *file,
+                              const gchar *attributes,
+                              GFileQueryInfoFlags flags,
+                              GCancellable *cancellable,
+                              GError **error)
+{
+  GFileAttributeMatcher *matcher = NULL;
+  GFileInfo *info = NULL;
+  GFileInfo *ret_val = NULL;
+
+  g_return_val_if_fail (G_IS_FILE (file), NULL);
+  g_return_val_if_fail (attributes != NULL && attributes[0] != '\0', NULL);
+  g_return_val_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable), NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  info = g_file_query_info (file, attributes, flags, cancellable, error);
+  if (info == NULL)
+    goto out;
+
+  matcher = g_file_attribute_matcher_new (attributes);
+  if (g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID)
+      || g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAIL_PATH)
+      || g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED))
+    {
+      gchar *path = NULL;
+
+      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID);
+      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
+      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED);
+
+      path = photos_utils_get_thumbnail_path_for_file (file);
+      if (g_file_test (path, G_FILE_TEST_IS_REGULAR))
+        {
+          g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID, TRUE);
+          g_file_info_set_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH, path);
+          g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED, FALSE);
+        }
+
+      g_free (path);
+    }
+
+  ret_val = g_object_ref (info);
+
+ out:
+  g_clear_object (&info);
+  g_clear_pointer (&matcher, (GDestroyNotify) g_file_attribute_matcher_unref);
+  return ret_val;
+}
+
+
 static void
 photos_utils_file_query_info_data_free (PhotosUtilsFileQueryInfoData *data)
 {
@@ -831,45 +882,21 @@ photos_utils_file_query_info_in_thread_func (GTask *task,
 {
   GError *error;
   GFile *file = G_FILE (source_object);
-  GFileAttributeMatcher *matcher = NULL;
   GFileInfo *info = NULL;
   PhotosUtilsFileQueryInfoData *data = (PhotosUtilsFileQueryInfoData *) task_data;
 
   error = NULL;
-  info = g_file_query_info (file, data->attributes, data->flags, cancellable, &error);
+  info = photos_utils_file_query_info (file, data->attributes, data->flags, cancellable, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
       goto out;
     }
 
-  matcher = g_file_attribute_matcher_new (data->attributes);
-  if (g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID)
-      || g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAIL_PATH)
-      || g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED))
-    {
-      gchar *path = NULL;
-
-      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID);
-      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
-      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED);
-
-      path = photos_utils_get_thumbnail_path_for_file (file);
-      if (g_file_test (path, G_FILE_TEST_IS_REGULAR))
-        {
-          g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID, TRUE);
-          g_file_info_set_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH, path);
-          g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED, FALSE);
-        }
-
-      g_free (path);
-    }
-
   g_task_return_pointer (task, g_object_ref (info), g_object_unref);
 
  out:
   g_clear_object (&info);
-  g_clear_pointer (&matcher, (GDestroyNotify) g_file_attribute_matcher_unref);
 }
 
 

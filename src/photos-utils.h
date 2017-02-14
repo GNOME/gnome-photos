@@ -109,6 +109,12 @@ gboolean         photos_utils_file_copy_as_thumbnail      (GFile *source,
                                                            GCancellable *cancellable,
                                                            GError **error);
 
+GFileInfo       *photos_utils_file_query_info             (GFile *file,
+                                                           const gchar *attributes,
+                                                           GFileQueryInfoFlags flags,
+                                                           GCancellable *cancellable,
+                                                           GError **error);
+
 void             photos_utils_file_query_info_async       (GFile *file,
                                                            const gchar *attributes,
                                                            GFileQueryInfoFlags flags,
