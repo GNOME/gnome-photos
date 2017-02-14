@@ -40,6 +40,7 @@ src/photos-share-point-email.c
 src/photos-share-point-google.c
 src/photos-source-manager.c
 src/photos-spinner-box.c
+src/photos-thumbnailer.c
 src/photos-tool-colors.c
 src/photos-tool-crop.c
 src/photos-tool-enhance.c
