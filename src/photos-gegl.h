@@ -43,6 +43,8 @@ GdkPixbuf       *photos_gegl_create_pixbuf_from_node      (GeglNode *node);
 
 GeglBuffer      *photos_gegl_dup_buffer_from_node         (GeglNode *node, const Babl *format);
 
+void             photos_gegl_ensure_builtins              (void);
+
 GeglBuffer      *photos_gegl_get_buffer_from_node         (GeglNode *node, const Babl *format);
 
 void             photos_gegl_processor_process_async      (GeglProcessor *processor,

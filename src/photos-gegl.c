@@ -23,6 +23,14 @@
 
 #include "photos-debug.h"
 #include "photos-gegl.h"
+#include "photos-operation-insta-curve.h"
+#include "photos-operation-insta-filter.h"
+#include "photos-operation-insta-hefe.h"
+#include "photos-operation-insta-hefe-curve.h"
+#include "photos-operation-insta-hefe-vignette.h"
+#include "photos-operation-jpg-guess-sizes.h"
+#include "photos-operation-png-guess-sizes.h"
+#include "photos-operation-saturation.h"
 #include "photos-quarks.h"
 
 
@@ -191,6 +199,27 @@ photos_gegl_dup_buffer_from_node (GeglNode *node, const Babl *format)
   photos_debug (PHOTOS_DEBUG_GEGL, "GEGL: Dup Buffer from Node: %" G_GINT64_FORMAT, end - start);
 
   return buffer;
+}
+
+
+void
+photos_gegl_ensure_builtins (void)
+{
+  static gsize once_init_value = 0;
+
+  if (g_once_init_enter (&once_init_value))
+    {
+      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE_CURVE);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE_VIGNETTE);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_JPG_GUESS_SIZES);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_SATURATION);
+
+      g_once_init_leave (&once_init_value, 1);
+    }
 }
 
 

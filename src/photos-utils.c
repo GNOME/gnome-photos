@@ -40,6 +40,7 @@
 #include "photos-error.h"
 #include "photos-facebook-item.h"
 #include "photos-flickr-item.h"
+#include "photos-gegl.h"
 #include "photos-google-item.h"
 #include "photos-local-item.h"
 #include "photos-media-server-item.h"
@@ -656,6 +657,7 @@ photos_utils_ensure_builtins (void)
   static gsize once_init_value = 0;
 
   photos_utils_ensure_extension_points ();
+  photos_gegl_ensure_builtins ();
 
   if (g_once_init_enter (&once_init_value))
     {
@@ -664,15 +666,6 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_GOOGLE_ITEM);
       g_type_ensure (PHOTOS_TYPE_LOCAL_ITEM);
       g_type_ensure (PHOTOS_TYPE_MEDIA_SERVER_ITEM);
-
-      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
-      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
-      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE);
-      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE_CURVE);
-      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE_VIGNETTE);
-      g_type_ensure (PHOTOS_TYPE_OPERATION_JPG_GUESS_SIZES);
-      g_type_ensure (PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES);
-      g_type_ensure (PHOTOS_TYPE_OPERATION_SATURATION);
 
       g_type_ensure (PHOTOS_TYPE_SHARE_POINT_EMAIL);
       g_type_ensure (PHOTOS_TYPE_SHARE_POINT_GOOGLE);
