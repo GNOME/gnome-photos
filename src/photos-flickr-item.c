@@ -168,6 +168,8 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   gchar *grilo_id = NULL;
   gchar *local_dir = NULL;
   gchar *local_path = NULL;
+  gint64 height;
+  gint64 width;
   gsize prefix_len;
 
   data.error = error;
@@ -239,14 +241,17 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   local_dir = g_path_get_dirname (local_path);
   g_mkdir_with_parents (local_dir, 0700);
 
+  height = photos_base_item_get_height (item);
+  width = photos_base_item_get_width (item);
+
   photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Flickr to %s", thumbnail_uri, local_path);
-  if (!g_file_copy (remote_file,
-                    local_file,
-                    G_FILE_COPY_ALL_METADATA | G_FILE_COPY_OVERWRITE,
-                    cancellable,
-                    NULL,
-                    NULL,
-                    error))
+  if (!photos_utils_file_copy_as_thumbnail (remote_file,
+                                            local_file,
+                                            uri,
+                                            height,
+                                            width,
+                                            cancellable,
+                                            error))
     goto out;
 
   ret_val = TRUE;
