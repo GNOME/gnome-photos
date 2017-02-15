@@ -34,7 +34,6 @@ EXTRA_DIST = \
 	sidebar-radio-prelight.svg \
 	sidebar-radio-selected.svg \
 	sidebar-radio-selected-prelight.svg \
-	thumbnail-frame.png \
 	vignette.png \
 	$(NULL)
 

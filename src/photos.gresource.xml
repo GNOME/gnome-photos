@@ -13,7 +13,6 @@
     <file alias="sidebar-radio-prelight.svg" preprocess="to-pixdata">../data/sidebar-radio-prelight.svg</file>
     <file alias="sidebar-radio-selected.svg" preprocess="to-pixdata">../data/sidebar-radio-selected.svg</file>
     <file alias="sidebar-radio-selected-prelight.svg" preprocess="to-pixdata">../data/sidebar-radio-selected-prelight.svg</file>
-    <file alias="thumbnail-frame.png" preprocess="to-pixdata">../data/thumbnail-frame.png</file>
     <file alias="vignette.png" preprocess="to-pixdata">../data/vignette.png</file>
   </gresource>
 

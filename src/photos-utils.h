@@ -144,8 +144,6 @@ char*            photos_utils_get_pixbuf_common_suffix    (GdkPixbufFormat *form
 
 const gchar     *photos_utils_get_provider_name           (PhotosBaseManager *src_mngr, PhotosBaseItem *item);
 
-GtkBorder       *photos_utils_get_thumbnail_frame_border  (void);
-
 gchar           *photos_utils_get_thumbnail_path_for_file (GFile *file);
 
 gchar           *photos_utils_get_thumbnail_path_for_uri  (const gchar *uri);

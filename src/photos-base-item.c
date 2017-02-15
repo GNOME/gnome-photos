@@ -331,7 +331,6 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   GList *emblem_icons = NULL;
   GList *windows;
   GdkPixbuf *emblemed_pixbuf = NULL;
-  GdkPixbuf *thumbnailed_pixbuf = NULL;
   GdkWindow *window = NULL;
   gint scale;
 
@@ -406,31 +405,16 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
   g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
 
-  if (priv->thumb_path != NULL)
-    {
-      GtkBorder *slice;
-
-      slice = photos_utils_get_thumbnail_frame_border ();
-      thumbnailed_pixbuf = gd_embed_image_in_frame (emblemed_pixbuf,
-                                                    "resource:///org/gnome/Photos/thumbnail-frame.png",
-                                                    slice,
-                                                    slice);
-      gtk_border_free (slice);
-    }
-  else
-    thumbnailed_pixbuf = g_object_ref (emblemed_pixbuf);
-
   windows = gtk_application_get_windows (GTK_APPLICATION (app));
   if (windows != NULL)
     window = gtk_widget_get_window (GTK_WIDGET (windows->data));
 
-  priv->surface = gdk_cairo_surface_create_from_pixbuf (thumbnailed_pixbuf, scale, window);
+  priv->surface = gdk_cairo_surface_create_from_pixbuf (emblemed_pixbuf, scale, window);
 
   g_object_notify (G_OBJECT (self), "icon");
   g_signal_emit (self, signals[INFO_UPDATED], 0);
 
  out:
-  g_clear_object (&thumbnailed_pixbuf);
   g_clear_object (&emblemed_pixbuf);
   g_list_free_full (emblem_icons, g_object_unref);
 }

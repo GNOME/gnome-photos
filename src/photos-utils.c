@@ -1104,21 +1104,6 @@ photos_utils_get_provider_name (PhotosBaseManager *src_mngr, PhotosBaseItem *ite
 }
 
 
-GtkBorder *
-photos_utils_get_thumbnail_frame_border (void)
-{
-  GtkBorder *slice;
-
-  slice = gtk_border_new ();
-  slice->top = 3;
-  slice->right = 3;
-  slice->bottom = 6;
-  slice->left = 4;
-
-  return slice;
-}
-
-
 gchar *
 photos_utils_get_thumbnail_path_for_file (GFile *file)
 {
