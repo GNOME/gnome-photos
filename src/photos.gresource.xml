@@ -26,6 +26,7 @@
     <file alias="dropdown.ui" preprocess="xml-stripblanks" compressed="true">photos-dropdown.ui</file>
     <file alias="embed.ui" preprocess="xml-stripblanks" compressed="true">photos-embed.ui</file>
     <file alias="export-dialog.ui" preprocess="xml-stripblanks" compressed="true">photos-export-dialog.ui</file>
+    <file alias="main-toolbar.ui" preprocess="xml-stripblanks" compressed="true">photos-main-toolbar.ui</file>
     <file alias="main-window.ui" preprocess="xml-stripblanks" compressed="true">photos-main-window.ui</file>
     <file alias="preview-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-preview-menu.ui</file>
     <file alias="selection-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-selection-menu.ui</file>
