@@ -99,7 +99,6 @@ static void
 photos_dropdown_init (PhotosDropdown *self)
 {
   GApplication *app;
-  GtkStyleContext *context;
   PhotosSearchContextState *state;
 
   app = g_application_get_default ();
@@ -109,18 +108,12 @@ photos_dropdown_init (PhotosDropdown *self)
   self->srch_typ_mngr = g_object_ref (state->srch_typ_mngr);
   self->src_mngr = g_object_ref (state->src_mngr);
 
-  self->grid = gtk_grid_new ();
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self->grid), GTK_ORIENTATION_HORIZONTAL);
-  gtk_grid_set_row_homogeneous (GTK_GRID (self->grid), TRUE);
-  gtk_container_add (GTK_CONTAINER (self), self->grid);
+  gtk_widget_init_template (GTK_WIDGET (self));
 
   photos_dropdown_add_manager (self, self->src_mngr);
   photos_dropdown_add_manager (self, self->srch_typ_mngr);
   photos_dropdown_add_manager (self, self->srch_mtch_mngr);
 
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_add_class (context, "photos-dropdown");
-  gtk_widget_hide (GTK_WIDGET(self));
   gtk_widget_show_all (GTK_WIDGET (self->grid));
 }
 
@@ -129,13 +122,18 @@ static void
 photos_dropdown_class_init (PhotosDropdownClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
+  GtkWidgetClass *widget_class;
 
   object_class->dispose = photos_dropdown_dispose;
+
+  widget_class = GTK_WIDGET_CLASS (class);
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/dropdown.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhotosDropdown, grid);
 }
 
 
 GtkWidget *
 photos_dropdown_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_DROPDOWN, "position", GTK_POS_BOTTOM, NULL);
+  return g_object_new (PHOTOS_TYPE_DROPDOWN, NULL);
 }
