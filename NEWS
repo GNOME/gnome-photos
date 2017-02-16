@@ -1,3 +1,15 @@
+Overview of changes in 3.22.4
+=============================
+
+* Bugs fixed:
+ 776565 Crashed right after creating a new album
+ 776670 application: Add F1 accelerator to show help
+ 777053 tests: Wait for the UI to be drawn completely
+
+* Updated translations:
+ Icelandic
+
+
 Overview of changes in 3.22.3
 =============================
 
