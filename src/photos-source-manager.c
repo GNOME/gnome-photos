@@ -40,6 +40,7 @@ struct _PhotosSourceManager
 {
   PhotosBaseManager parent_instance;
   GCancellable *cancellable;
+  GHashTable *sources_notified;
   GoaClient *client;
 };
 
@@ -47,6 +48,15 @@ struct _PhotosSourceManagerClass
 {
   PhotosBaseManagerClass parent_class;
 };
+
+enum
+{
+  NOTIFICATION_HIDE,
+  NOTIFICATION_SHOW,
+  LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE (PhotosSourceManager, photos_source_manager, PHOTOS_TYPE_BASE_MANAGER);
@@ -75,11 +85,33 @@ photos_source_manager_get_filter (PhotosBaseManager *mngr, gint flags)
 
 
 static void
+photos_source_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *id)
+{
+  PhotosSourceManager *self = PHOTOS_SOURCE_MANAGER (mngr);
+  PhotosSource *source;
+
+  source = PHOTOS_SOURCE (g_hash_table_lookup (self->sources_notified, id));
+  if (source != NULL)
+    {
+      gboolean removed;
+
+      g_signal_emit (self, signals[NOTIFICATION_HIDE], 0, source);
+      removed = g_hash_table_remove (self->sources_notified, id);
+      g_assert_true (removed);
+    }
+
+  PHOTOS_BASE_MANAGER_CLASS (photos_source_manager_parent_class)->remove_object_by_id (mngr, id);
+}
+
+
+static void
 photos_source_manager_refresh_accounts (PhotosSourceManager *self)
 {
   GHashTable *new_sources;
   GList *accounts;
   GList *l;
+  guint i;
+  guint n_items;
 
   accounts = goa_client_get_accounts (self->client);
   new_sources = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
@@ -108,6 +140,50 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
     }
 
   photos_base_manager_process_new_objects (PHOTOS_BASE_MANAGER (self), new_sources);
+
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (self));
+  for (i = 0; i < n_items; i++)
+    {
+      GoaAccount *account;
+      GoaObject *object;
+      PhotosSource *source = NULL;
+      gboolean attention_needed;
+      gboolean source_notified;
+      const gchar *id;
+
+      source = PHOTOS_SOURCE (g_list_model_get_object (G_LIST_MODEL (self), i));
+      object = photos_source_get_goa_object (source);
+      if (object == NULL)
+        goto cleanup_and_continue;
+
+      account = goa_object_peek_account (object);
+      if (account == NULL)
+        goto cleanup_and_continue;
+
+      attention_needed = goa_account_get_attention_needed (account);
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
+      source_notified = g_hash_table_contains (self->sources_notified, id);
+
+      if (!attention_needed && source_notified)
+        {
+          gboolean removed;
+
+          g_signal_emit (self, signals[NOTIFICATION_HIDE], 0, source);
+          removed = g_hash_table_remove (self->sources_notified, id);
+          g_assert_true (removed);
+        }
+      else if (attention_needed && !source_notified)
+        {
+          gboolean inserted;
+
+          g_signal_emit (self, signals[NOTIFICATION_SHOW], 0, source);
+          inserted = g_hash_table_insert (self->sources_notified, g_strdup (id), g_object_ref (source));
+          g_assert_true (inserted);
+        }
+
+    cleanup_and_continue:
+      g_clear_object (&source);
+    }
 
   g_hash_table_unref (new_sources);
   g_list_free_full (accounts, g_object_unref);
@@ -162,6 +238,7 @@ photos_source_manager_dispose (GObject *object)
 
   g_clear_object (&self->cancellable);
   g_clear_object (&self->client);
+  g_clear_pointer (&self->sources_notified, (GDestroyNotify) g_hash_table_unref);
 
   G_OBJECT_CLASS (photos_source_manager_parent_class)->dispose (object);
 }
@@ -181,6 +258,7 @@ photos_source_manager_init (PhotosSourceManager *self)
   g_object_unref (source);
 
   self->cancellable = g_cancellable_new ();
+  self->sources_notified = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
   goa_client_new (self->cancellable, photos_source_manager_goa_client, self);
 
   photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SOURCE_STOCK_ALL);
@@ -195,6 +273,29 @@ photos_source_manager_class_init (PhotosSourceManagerClass *class)
 
   object_class->dispose = photos_source_manager_dispose;
   base_manager_class->get_filter = photos_source_manager_get_filter;
+  base_manager_class->remove_object_by_id = photos_source_manager_remove_object_by_id;
+
+  signals[NOTIFICATION_HIDE] = g_signal_new ("notification-hide",
+                                             G_TYPE_FROM_CLASS (class),
+                                             G_SIGNAL_RUN_LAST,
+                                             0,
+                                             NULL, /* accumulator */
+                                             NULL, /* accu_data */
+                                             g_cclosure_marshal_VOID__OBJECT,
+                                             G_TYPE_NONE,
+                                             1,
+                                             PHOTOS_TYPE_SOURCE);
+
+  signals[NOTIFICATION_SHOW] = g_signal_new ("notification-show",
+                                             G_TYPE_FROM_CLASS (class),
+                                             G_SIGNAL_RUN_LAST,
+                                             0,
+                                             NULL, /* accumulator */
+                                             NULL, /* accu_data */
+                                             g_cclosure_marshal_VOID__OBJECT,
+                                             G_TYPE_NONE,
+                                             1,
+                                             PHOTOS_TYPE_SOURCE);
 }
 
 
