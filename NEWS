@@ -1,3 +1,28 @@
+Overview of changes in 3.23.90
+==============================
+
+* Bugs fixed:
+ 690255  Try to avoid low resolution thumbnails
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 777053 tests: Wait for the UI to be drawn completely
+ 777492 Notify when an online account needs attention
+ 778620 Appdata uses screenshots of older version
+
+* Updated translations:
+ Catalan
+ Czech
+ Danish
+ Finnish
+ Friulian
+ German
+ Indonesian
+ Kazakh
+ Polish
+ Slovak
+ Swedish
+ Ukrainian
+
+
 Overview of changes in 3.23.4
 =============================
 
