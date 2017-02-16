@@ -286,7 +286,7 @@ photos_google_item_get_source_widget (PhotosBaseItem *item)
   const gchar *name;
 
   name = photos_utils_get_provider_name (self->src_mngr, item);
-  source_widget = gtk_link_button_new_with_label ("https://picasaweb.google.com/", name);
+  source_widget = gtk_link_button_new_with_label ("https://photos.google.com/", name);
   gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
 
   return source_widget;
