@@ -45,6 +45,7 @@
 #include "photos-search-type-manager.h"
 #include "photos-source.h"
 #include "photos-source-manager.h"
+#include "photos-source-notification.h"
 #include "photos-tracker-controller.h"
 #include "photos-tracker-overview-controller.h"
 #include "photos-utils.h"
@@ -65,6 +66,7 @@ struct _PhotosEmbed
 {
   GtkBox parent_instance;
   GAction *search_action;
+  GHashTable *notifications;
   GIOExtensionPoint *extension_point;
   GtkWidget *collections;
   GtkWidget *favorites;
@@ -509,6 +511,71 @@ photos_embed_search_changed (PhotosEmbed *self)
 
 
 static void
+photos_embed_source_manager_notification_hide (PhotosEmbed *self, PhotosSource *source)
+{
+  GtkWidget *ntfctn;
+  gboolean removed;
+  const gchar *id;
+
+  g_return_if_fail (PHOTOS_IS_EMBED (self));
+  g_return_if_fail (PHOTOS_IS_SOURCE (source));
+
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
+  ntfctn = GTK_WIDGET (g_hash_table_lookup (self->notifications, id));
+  if (ntfctn == NULL)
+    return;
+
+  gtk_widget_destroy (ntfctn);
+
+  removed = g_hash_table_remove (self->notifications, id);
+  g_return_if_fail (removed);
+}
+
+
+static void
+photos_embed_source_notification_closed (PhotosSourceNotification *ntfctn, gpointer user_data)
+{
+  PhotosEmbed *self = PHOTOS_EMBED (user_data);
+  PhotosSource *source;
+  gboolean removed;
+  const gchar *id;
+
+  g_return_if_fail (PHOTOS_IS_SOURCE_NOTIFICATION (ntfctn));
+
+  source = photos_source_notification_get_source (ntfctn);
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
+  g_return_if_fail (g_hash_table_contains (self->notifications, id));
+
+  gtk_widget_destroy (GTK_WIDGET (ntfctn));
+
+  removed = g_hash_table_remove (self->notifications, id);
+  g_return_if_fail (removed);
+}
+
+
+static void
+photos_embed_source_manager_notification_show (PhotosEmbed *self, PhotosSource *source)
+{
+  GtkWidget *ntfctn;
+  gboolean inserted;
+  const gchar *id;
+
+  g_return_if_fail (PHOTOS_IS_EMBED (self));
+  g_return_if_fail (PHOTOS_IS_SOURCE (source));
+
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
+  g_return_if_fail (!g_hash_table_contains (self->notifications, id));
+
+  ntfctn = photos_source_notification_new (source);
+  photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr), ntfctn);
+  g_signal_connect (ntfctn, "closed", G_CALLBACK (photos_embed_source_notification_closed), self);
+
+  inserted = g_hash_table_insert (self->notifications, g_strdup (id), g_object_ref_sink (ntfctn));
+  g_return_if_fail (inserted);
+}
+
+
+static void
 photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
                                   PhotosWindowMode mode,
                                   PhotosWindowMode old_mode,
@@ -568,6 +635,7 @@ photos_embed_dispose (GObject *object)
   g_clear_object (&self->mode_cntrlr);
   g_clear_object (&self->srch_cntrlr);
   g_clear_object (&self->trk_ovrvw_cntrlr);
+  g_clear_pointer (&self->notifications, (GDestroyNotify) g_hash_table_unref);
 
   G_OBJECT_CLASS (photos_embed_parent_class)->dispose (object);
 }
@@ -587,6 +655,7 @@ photos_embed_init (PhotosEmbed *self)
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   self->search_action = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
+  self->notifications = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   gtk_widget_show (GTK_WIDGET (self));
@@ -686,6 +755,16 @@ photos_embed_init (PhotosEmbed *self)
   g_signal_connect_object (self->src_mngr,
                            "active-changed",
                            G_CALLBACK (photos_embed_search_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (self->src_mngr,
+                           "notification-hide",
+                           G_CALLBACK (photos_embed_source_manager_notification_hide),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (self->src_mngr,
+                           "notification-show",
+                           G_CALLBACK (photos_embed_source_manager_notification_show),
                            self,
                            G_CONNECT_SWAPPED);
 
