@@ -49,12 +49,12 @@ struct _PhotosMainToolbar
   GSimpleAction *gear_menu;
   GtkWidget *coll_back_button;
   GtkWidget *favorite_button;
+  GtkWidget *header_bar;
   GtkWidget *overlay;
   GtkWidget *remote_display_button;
   GtkWidget *searchbar;
   GtkWidget *selection_button;
   GtkWidget *selection_menu;
-  GtkWidget *toolbar;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosRemoteDisplayManager *remote_mngr;
@@ -145,7 +145,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
         }
     }
   else
-    gtk_header_bar_set_title (GTK_HEADER_BAR (self->toolbar), primary);
+    gtk_header_bar_set_title (GTK_HEADER_BAR (self->header_bar), primary);
 
   g_free (primary);
 }
@@ -158,7 +158,7 @@ photos_main_toolbar_add_back_button (PhotosMainToolbar *self)
 
   back_button = gtk_button_new_from_icon_name (PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
   gtk_widget_set_tooltip_text (back_button, _("Back"));
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->toolbar), back_button);
+  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), back_button);
 
   return back_button;
 }
@@ -190,7 +190,7 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
   gtk_label_set_ellipsize (label, PANGO_ELLIPSIZE_MIDDLE);
   gtk_label_set_use_markup (label, TRUE);
   gtk_widget_set_margin_end (self->remote_display_button, 12);
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->toolbar), self->remote_display_button);
+  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), self->remote_display_button);
   gtk_widget_show_all (self->remote_display_button);
 
   g_signal_connect_swapped (self->remote_display_button,
@@ -250,7 +250,7 @@ photos_main_toolbar_col_active_changed (PhotosMainToolbar *self, PhotosBaseItem 
       g_clear_pointer (&self->coll_back_button, (GDestroyNotify) gtk_widget_destroy);
     }
 
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->toolbar), mode);
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), mode);
   photos_main_toolbar_update_remote_display_button (self);
   photos_main_toolbar_set_toolbar_title (self);
 }
@@ -329,7 +329,7 @@ photos_main_toolbar_add_search_button (PhotosMainToolbar *self)
   gtk_widget_set_tooltip_text (search_button, _("Search"));
   gtk_button_set_image (GTK_BUTTON (search_button), image);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (search_button), "app.search");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->toolbar), search_button);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), search_button);
 
   return search_button;
 }
@@ -342,7 +342,7 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
 
   selection_button = gtk_button_new_from_icon_name (PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
   gtk_widget_set_tooltip_text (selection_button, _("Select Items"));
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->toolbar), selection_button);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), selection_button);
   g_signal_connect_swapped (selection_button,
                             "clicked",
                             G_CALLBACK (photos_main_toolbar_select_button_clicked),
@@ -398,8 +398,8 @@ static void
 photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
 {
   photos_main_toolbar_clear_state_data (self);
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->toolbar), FALSE);
-  photos_header_bar_clear (PHOTOS_HEADER_BAR (self->toolbar));
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), FALSE);
+  photos_header_bar_clear (PHOTOS_HEADER_BAR (self->header_bar));
   g_simple_action_set_enabled (self->gear_menu, FALSE);
 }
 
@@ -495,8 +495,8 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
 {
   PhotosBaseItem *collection;
 
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->toolbar), TRUE);
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
@@ -515,15 +515,15 @@ photos_main_toolbar_populate_for_edit (PhotosMainToolbar *self)
   GtkWidget *cancel_button;
   GtkWidget *done_button;
 
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->toolbar), PHOTOS_HEADER_BAR_MODE_STANDALONE);
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_STANDALONE);
 
   cancel_button = gtk_button_new_with_label (_("Cancel"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (cancel_button), "app.edit-cancel");
-  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->toolbar), cancel_button);
+  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), cancel_button);
 
   done_button = gtk_button_new_with_label (_("Done"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (done_button), "app.edit-done");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->toolbar), done_button);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), done_button);
   context = gtk_widget_get_style_context (done_button);
   gtk_style_context_add_class (context, "suggested-action");
 }
@@ -534,8 +534,8 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
 {
   PhotosBaseItem *collection;
 
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->toolbar), TRUE);
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
@@ -552,8 +552,8 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 {
   PhotosBaseItem *collection;
 
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->toolbar), TRUE);
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
@@ -580,8 +580,8 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   gboolean remote_display_available;
   GAction *remote_display_action;
 
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->toolbar), TRUE);
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->toolbar), PHOTOS_HEADER_BAR_MODE_STANDALONE);
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_STANDALONE);
 
   back_button = photos_main_toolbar_add_back_button (self);
   g_signal_connect_swapped (back_button, "clicked", G_CALLBACK (photos_main_toolbar_back_button_clicked), self);
@@ -592,20 +592,20 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_button), "app.gear-menu");
   gtk_button_set_image (GTK_BUTTON (menu_button), image);
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), G_MENU_MODEL (preview_menu));
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->toolbar), menu_button);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), menu_button);
 
   g_simple_action_set_enabled (self->gear_menu, TRUE);
 
   share_button = gtk_button_new_from_icon_name (PHOTOS_ICON_IMAGE_SHARE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (share_button), "app.share-current");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->toolbar), share_button);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), share_button);
 
   edit_button = gtk_button_new_from_icon_name (PHOTOS_ICON_IMAGE_EDIT_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (edit_button), "app.edit-current");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->toolbar), edit_button);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), edit_button);
 
   self->favorite_button = gtk_button_new ();
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->toolbar), self->favorite_button);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), self->favorite_button);
   g_signal_connect_swapped (self->favorite_button,
                             "clicked",
                             G_CALLBACK (photos_main_toolbar_favorite_button_clicked),
@@ -635,8 +635,8 @@ photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
 {
   PhotosBaseItem *collection;
 
-  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->toolbar), TRUE);
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->toolbar), PHOTOS_HEADER_BAR_MODE_NORMAL);
+  gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
@@ -653,10 +653,10 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
 {
   GtkWidget *selection_button;
 
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->toolbar), PHOTOS_HEADER_BAR_MODE_SELECTION);
+  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_SELECTION);
 
   selection_button = gtk_button_new_with_label (_("Cancel"));
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->toolbar), selection_button);
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), selection_button);
   g_signal_connect_swapped (selection_button,
                             "clicked",
                             G_CALLBACK (photos_main_toolbar_done_button_clicked),
@@ -761,9 +761,9 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   gtk_widget_show (GTK_WIDGET (self));
 
-  self->toolbar = photos_header_bar_new ();
-  gtk_container_add (GTK_CONTAINER (self), self->toolbar);
-  gtk_widget_show (self->toolbar);
+  self->header_bar = photos_header_bar_new ();
+  gtk_container_add (GTK_CONTAINER (self), self->header_bar);
+  gtk_widget_show (self->header_bar);
 
   self->gear_menu = G_SIMPLE_ACTION (g_action_map_lookup_action (G_ACTION_MAP (app), "gear-menu"));
   self->search = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
@@ -775,7 +775,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (self->selection_menu), G_MENU_MODEL (selection_menu));
   g_object_unref (builder);
 
-  photos_header_bar_set_selection_menu (PHOTOS_HEADER_BAR (self->toolbar), GTK_BUTTON (self->selection_menu));
+  photos_header_bar_set_selection_menu (PHOTOS_HEADER_BAR (self->header_bar), GTK_BUTTON (self->selection_menu));
 
   self->item_mngr = g_object_ref (state->item_mngr);
   g_signal_connect_object (self->item_mngr,
@@ -891,12 +891,12 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
   photos_main_toolbar_update_remote_display_button (self);
 
   photos_main_toolbar_set_toolbar_title (self);
-  gtk_widget_show_all (self->toolbar);
+  gtk_widget_show_all (self->header_bar);
 }
 
 
 void
 photos_main_toolbar_set_stack (PhotosMainToolbar *self, GtkStack *stack)
 {
-  photos_header_bar_set_stack (PHOTOS_HEADER_BAR (self->toolbar), stack);
+  photos_header_bar_set_stack (PHOTOS_HEADER_BAR (self->header_bar), stack);
 }
