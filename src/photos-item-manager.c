@@ -68,14 +68,6 @@ struct _PhotosItemManager
 struct _PhotosItemManagerClass
 {
   PhotosBaseManagerClass parent_class;
-
-  /* signals */
-  void (*active_collection_changed) (PhotosItemManager *self, PhotosBaseItem *collection);
-  void (*can_fullscreen_changed)    (PhotosItemManager *self);
-  void (*fullscreen_changed)        (PhotosItemManager *self, gboolean fullscreen);
-  void (*load_finished)             (PhotosItemManager *self, PhotosBaseItem *item, GeglNode *node);
-  void (*load_started)              (PhotosItemManager *self, PhotosBaseItem *item, GCancellable *cancellable);
-  void (*window_mode_changed)       (PhotosItemManager *self, PhotosWindowMode mode, PhotosWindowMode old_mode);
 };
 
 enum
@@ -905,8 +897,7 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   signals[ACTIVE_COLLECTION_CHANGED] = g_signal_new ("active-collection-changed",
                                                      G_TYPE_FROM_CLASS (class),
                                                      G_SIGNAL_RUN_LAST,
-                                                     G_STRUCT_OFFSET (PhotosItemManagerClass,
-                                                                      active_collection_changed),
+                                                     0,
                                                      NULL, /*accumulator */
                                                      NULL, /*accu_data */
                                                      g_cclosure_marshal_VOID__OBJECT,
@@ -917,8 +908,7 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   signals[CAN_FULLSCREEN_CHANGED] = g_signal_new ("can-fullscreen-changed",
                                                   G_TYPE_FROM_CLASS (class),
                                                   G_SIGNAL_RUN_LAST,
-                                                  G_STRUCT_OFFSET (PhotosItemManagerClass,
-                                                                   can_fullscreen_changed),
+                                                  0,
                                                   NULL, /*accumulator */
                                                   NULL, /*accu_data */
                                                   g_cclosure_marshal_VOID__VOID,
@@ -928,8 +918,7 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   signals[FULLSCREEN_CHANGED] = g_signal_new ("fullscreen-changed",
                                               G_TYPE_FROM_CLASS (class),
                                               G_SIGNAL_RUN_LAST,
-                                              G_STRUCT_OFFSET (PhotosItemManagerClass,
-                                                               fullscreen_changed),
+                                              0,
                                               NULL, /*accumulator */
                                               NULL, /* accu_data */
                                               g_cclosure_marshal_VOID__BOOLEAN,
@@ -940,8 +929,7 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   signals[LOAD_FINISHED] = g_signal_new ("load-finished",
                                          G_TYPE_FROM_CLASS (class),
                                          G_SIGNAL_RUN_LAST,
-                                         G_STRUCT_OFFSET (PhotosItemManagerClass,
-                                                          load_finished),
+                                         0,
                                          NULL, /*accumulator */
                                          NULL, /*accu_data */
                                          g_cclosure_marshal_generic,
@@ -953,8 +941,7 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   signals[LOAD_STARTED] = g_signal_new ("load-started",
                                         G_TYPE_FROM_CLASS (class),
                                         G_SIGNAL_RUN_LAST,
-                                        G_STRUCT_OFFSET (PhotosItemManagerClass,
-                                                         load_started),
+                                        0,
                                         NULL, /*accumulator */
                                         NULL, /*accu_data */
                                         g_cclosure_marshal_VOID__OBJECT,
@@ -965,8 +952,7 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
   signals[WINDOW_MODE_CHANGED] = g_signal_new ("window-mode-changed",
                                                G_TYPE_FROM_CLASS (class),
                                                G_SIGNAL_RUN_LAST,
-                                               G_STRUCT_OFFSET (PhotosItemManagerClass,
-                                                                window_mode_changed),
+                                               0,
                                                NULL, /*accumulator */
                                                NULL, /*accu_data */
                                                _photos_marshal_VOID__ENUM_ENUM,
