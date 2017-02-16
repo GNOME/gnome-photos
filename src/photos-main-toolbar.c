@@ -756,15 +756,10 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
-  gtk_widget_show (GTK_WIDGET (self));
-
-  self->header_bar = photos_header_bar_new ();
-  gtk_container_add (GTK_CONTAINER (self), self->header_bar);
-  gtk_widget_show (self->header_bar);
-
   self->gear_menu = G_SIMPLE_ACTION (g_action_map_lookup_action (G_ACTION_MAP (app), "gear-menu"));
   self->search = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
+
+  gtk_widget_init_template (GTK_WIDGET (self));
 
   builder = gtk_builder_new_from_resource ("/org/gnome/Photos/selection-menu.ui");
 
@@ -814,10 +809,14 @@ static void
 photos_main_toolbar_class_init (PhotosMainToolbarClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
+  GtkWidgetClass *widget_class;
 
   object_class->constructed = photos_main_toolbar_constructed;
   object_class->dispose = photos_main_toolbar_dispose;
   object_class->set_property = photos_main_toolbar_set_property;
+
+  widget_class = GTK_WIDGET_CLASS (class);
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/main-toolbar.ui");
 
   g_object_class_install_property (object_class,
                                    PROP_OVERLAY,
@@ -826,6 +825,9 @@ photos_main_toolbar_class_init (PhotosMainToolbarClass *class)
                                                         "The stack overlay widget",
                                                         GTK_TYPE_OVERLAY,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+
+  gtk_widget_class_bind_template_child (widget_class, PhotosMainToolbar, header_bar);
 }
 
 
