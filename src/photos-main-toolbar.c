@@ -409,13 +409,6 @@ photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
 }
 
 
-static GtkWidget *
-photos_main_toolbar_create_overview_searchbar (PhotosMainToolbar *self)
-{
-  return photos_overview_searchbar_new ();
-}
-
-
 static GMenu *
 photos_main_toolbar_create_preview_menu (PhotosMainToolbar *self)
 {
@@ -687,7 +680,7 @@ photos_main_toolbar_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_main_toolbar_parent_class)->constructed (object);
 
-  self->searchbar = photos_main_toolbar_create_overview_searchbar (self);
+  self->searchbar = photos_overview_searchbar_new ();
   g_object_ref (self->searchbar);
 
   photos_main_toolbar_reset_toolbar_mode (self);
