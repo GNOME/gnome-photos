@@ -219,8 +219,8 @@ photos_done_notification_class_init (PhotosDoneNotificationClass *class)
   g_object_class_install_property (object_class,
                                    PROP_ITEM,
                                    g_param_spec_pointer ("item",
-                                                         "PhotosBaseItem",
-                                                         "the edited PhotosBaseItem",
+                                                         "PhotosBaseItem instance",
+                                                         "The edited PhotosBaseItem",
                                                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 }
 
