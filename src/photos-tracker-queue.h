@@ -30,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_TRACKER_QUEUE (photos_tracker_queue_get_type ())
-
-#define PHOTOS_TRACKER_QUEUE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_TRACKER_QUEUE, PhotosTrackerQueue))
-
-#define PHOTOS_IS_TRACKER_QUEUE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_TRACKER_QUEUE))
-
-typedef struct _PhotosTrackerQueue      PhotosTrackerQueue;
-typedef struct _PhotosTrackerQueueClass PhotosTrackerQueueClass;
-
-GType                  photos_tracker_queue_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosTrackerQueue, photos_tracker_queue, PHOTOS, TRACKER_QUEUE, GObject);
 
 PhotosTrackerQueue    *photos_tracker_queue_dup_singleton          (GCancellable *cancellable, GError **error);
 

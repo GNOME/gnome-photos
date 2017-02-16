@@ -40,11 +40,6 @@ struct _PhotosTrackerQueue
   gboolean running;
 };
 
-struct _PhotosTrackerQueueClass
-{
-  GObjectClass parent_class;
-};
-
 static void photos_tracker_queue_initable_iface_init (GInitableIface *iface);
 
 
