@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 Alessandro Bono
+ * Copyright © 2015 – 2017 Alessandro Bono
  * Copyright © 2014 – 2017 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -101,6 +101,8 @@ photos_dropdown_init (PhotosDropdown *self)
   GApplication *app;
   PhotosSearchContextState *state;
 
+  gtk_widget_init_template (GTK_WIDGET (self));
+
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
@@ -108,16 +110,9 @@ photos_dropdown_init (PhotosDropdown *self)
   self->srch_typ_mngr = g_object_ref (state->srch_typ_mngr);
   self->src_mngr = g_object_ref (state->src_mngr);
 
-  self->grid = gtk_grid_new ();
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self->grid), GTK_ORIENTATION_HORIZONTAL);
-  gtk_grid_set_row_homogeneous (GTK_GRID (self->grid), TRUE);
-  gtk_container_add (GTK_CONTAINER (self), self->grid);
-
   photos_dropdown_add_manager (self, self->src_mngr);
   photos_dropdown_add_manager (self, self->srch_typ_mngr);
   photos_dropdown_add_manager (self, self->srch_mtch_mngr);
-
-  gtk_widget_show_all (GTK_WIDGET (self->grid));
 }
 
 
@@ -125,13 +120,17 @@ static void
 photos_dropdown_class_init (PhotosDropdownClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
 
   object_class->dispose = photos_dropdown_dispose;
+
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/dropdown.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhotosDropdown, grid);
 }
 
 
 GtkWidget *
 photos_dropdown_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_DROPDOWN, "position", GTK_POS_BOTTOM, NULL);
+  return g_object_new (PHOTOS_TYPE_DROPDOWN, NULL);
 }
