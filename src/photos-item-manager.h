@@ -35,14 +35,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_ITEM_MANAGER (photos_item_manager_get_type ())
-
-#define PHOTOS_ITEM_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_ITEM_MANAGER, PhotosItemManager))
-
-#define PHOTOS_IS_ITEM_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_ITEM_MANAGER))
+G_DECLARE_FINAL_TYPE (PhotosItemManager, photos_item_manager, PHOTOS, ITEM_MANAGER, PhotosBaseManager);
 
 #define PHOTOS_TYPE_MODE_CONTROLLER (photos_item_manager_get_type ())
 
@@ -73,13 +66,8 @@ typedef enum
   PHOTOS_WINDOW_MODE_SEARCH
 } PhotosWindowMode;
 
-typedef struct _PhotosItemManager      PhotosItemManager;
-typedef struct _PhotosItemManagerClass PhotosItemManagerClass;
-
 typedef struct _PhotosItemManager      PhotosModeController;
 typedef struct _PhotosItemManagerClass PhotosModeControllerClass;
-
-GType                     photos_item_manager_get_type                     (void) G_GNUC_CONST;
 
 PhotosBaseManager        *photos_item_manager_new                          (void);
 

@@ -65,11 +65,6 @@ struct _PhotosItemManager
   gboolean *constrain_additions;
 };
 
-struct _PhotosItemManagerClass
-{
-  PhotosBaseManagerClass parent_class;
-};
-
 enum
 {
   ACTIVE_COLLECTION_CHANGED,
