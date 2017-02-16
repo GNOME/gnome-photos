@@ -49,11 +49,6 @@ struct _PhotosTrackerSearchController
   PhotosSearchController *srch_cntrlr;
 };
 
-struct _PhotosTrackerSearchControllerClass
-{
-  PhotosTrackerControllerClass parent_class;
-};
-
 
 G_DEFINE_TYPE_WITH_CODE (PhotosTrackerSearchController,
                          photos_tracker_search_controller,
