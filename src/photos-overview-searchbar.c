@@ -208,7 +208,7 @@ photos_overview_searchbar_create_search_widgets (PhotosSearchbar *searchbar)
                            G_CONNECT_SWAPPED);
 
   self->dropdown_button = gtk_menu_button_new ();
-  dropdown = photos_dropdown_new ();
+  dropdown = photos_search_popover_new ();
   gtk_menu_button_set_popover (GTK_MENU_BUTTON (self->dropdown_button), dropdown);
 
   self->search_container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);

@@ -22,18 +22,18 @@
  *   + Documents
  */
 
-#ifndef PHOTOS_DROPDOWN_H
-#define PHOTOS_DROPDOWN_H
+#ifndef PHOTOS_SEARCH_POPOVER_H
+#define PHOTOS_SEARCH_POPOVER_H
 
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
-#define PHOTOS_TYPE_DROPDOWN (photos_dropdown_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosDropdown, photos_dropdown, PHOTOS, DROPDOWN, GtkPopover);
+#define PHOTOS_TYPE_SEARCH_POPOVER (photos_search_popover_get_type ())
+G_DECLARE_FINAL_TYPE (PhotosSearchPopover, photos_search_popover, PHOTOS, SEARCH_POPOVER, GtkPopover);
 
-GtkWidget                *photos_dropdown_new                  (void);
+GtkWidget                *photos_search_popover_new                  (void);
 
 G_END_DECLS
 
-#endif /* PHOTOS_DROPDOWN_H */
+#endif /* PHOTOS_SEARCH_POPOVER_H */

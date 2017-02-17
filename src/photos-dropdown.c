@@ -35,7 +35,7 @@
 #include "photos-search-context.h"
 
 
-struct _PhotosDropdown
+struct _PhotosSearchPopover
 {
   GtkPopover parent_instance;
   GList *models;
@@ -49,11 +49,11 @@ struct _PhotosDropdown
 };
 
 
-G_DEFINE_TYPE (PhotosDropdown, photos_dropdown, GTK_TYPE_POPOVER);
+G_DEFINE_TYPE (PhotosSearchPopover, photos_search_popover, GTK_TYPE_POPOVER);
 
 
 static void
-photos_dropdown_add_manager (PhotosDropdown *self, PhotosBaseManager *mngr)
+photos_search_popover_add_manager (PhotosSearchPopover *self, PhotosBaseManager *mngr)
 {
   GMenu *menu;
   GtkWidget *popover;
@@ -80,9 +80,9 @@ photos_dropdown_add_manager (PhotosDropdown *self, PhotosBaseManager *mngr)
 
 
 static void
-photos_dropdown_dispose (GObject *object)
+photos_search_popover_dispose (GObject *object)
 {
-  PhotosDropdown *self = PHOTOS_DROPDOWN (object);
+  PhotosSearchPopover *self = PHOTOS_SEARCH_POPOVER (object);
 
   g_clear_object (&self->srch_mtch_mngr);
   g_clear_object (&self->srch_typ_mngr);
@@ -91,12 +91,12 @@ photos_dropdown_dispose (GObject *object)
   g_list_free_full (self->models, g_object_unref);
   self->models = NULL;
 
-  G_OBJECT_CLASS (photos_dropdown_parent_class)->dispose (object);
+  G_OBJECT_CLASS (photos_search_popover_parent_class)->dispose (object);
 }
 
 
 static void
-photos_dropdown_init (PhotosDropdown *self)
+photos_search_popover_init (PhotosSearchPopover *self)
 {
   GApplication *app;
   PhotosSearchContextState *state;
@@ -110,30 +110,30 @@ photos_dropdown_init (PhotosDropdown *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  photos_dropdown_add_manager (self, self->src_mngr);
-  photos_dropdown_add_manager (self, self->srch_typ_mngr);
-  photos_dropdown_add_manager (self, self->srch_mtch_mngr);
+  photos_search_popover_add_manager (self, self->src_mngr);
+  photos_search_popover_add_manager (self, self->srch_typ_mngr);
+  photos_search_popover_add_manager (self, self->srch_mtch_mngr);
 
   gtk_widget_show_all (GTK_WIDGET (self->grid));
 }
 
 
 static void
-photos_dropdown_class_init (PhotosDropdownClass *class)
+photos_search_popover_class_init (PhotosSearchPopoverClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   GtkWidgetClass *widget_class;
 
-  object_class->dispose = photos_dropdown_dispose;
+  object_class->dispose = photos_search_popover_dispose;
 
   widget_class = GTK_WIDGET_CLASS (class);
-  gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/dropdown.ui");
-  gtk_widget_class_bind_template_child (widget_class, PhotosDropdown, grid);
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/search-popover.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhotosSearchPopover, grid);
 }
 
 
 GtkWidget *
-photos_dropdown_new (void)
+photos_search_popover_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_DROPDOWN, NULL);
+  return g_object_new (PHOTOS_TYPE_SEARCH_POPOVER, NULL);
 }
