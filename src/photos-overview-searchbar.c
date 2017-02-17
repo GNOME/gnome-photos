@@ -47,7 +47,7 @@ struct _PhotosOverviewSearchbar
   GdTaggedEntryTag *src_tag;
   GdTaggedEntryTag *srch_mtch_tag;
   GdTaggedEntryTag *srch_typ_tag;
-  GtkWidget *dropdown_button;
+  GtkWidget *popover_button;
   GtkWidget *search_container;
   PhotosBaseManager *src_mngr;
   PhotosBaseManager *srch_mtch_mngr;
@@ -99,7 +99,7 @@ photos_overview_searchbar_hide (PhotosSearchbar *searchbar)
 {
   PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (searchbar);
 
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->dropdown_button), FALSE);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->popover_button), FALSE);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->select_all), TRUE);
 
   photos_base_manager_set_active_object_by_id (self->srch_typ_mngr, "all");
@@ -169,7 +169,7 @@ photos_overview_searchbar_tag_button_clicked (PhotosOverviewSearchbar *self, GdT
 static void
 photos_overview_searchbar_tag_clicked (PhotosOverviewSearchbar *self)
 {
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->dropdown_button), TRUE);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->popover_button), TRUE);
 }
 
 
@@ -178,7 +178,7 @@ photos_overview_searchbar_create_search_widgets (PhotosSearchbar *searchbar)
 {
   PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (searchbar);
   GtkStyleContext *context;
-  GtkWidget *dropdown;
+  GtkWidget *popover;
 
   self->search_entry = gd_tagged_entry_new ();
   gtk_widget_set_size_request (GTK_WIDGET (self->search_entry), 500, -1);
@@ -207,16 +207,16 @@ photos_overview_searchbar_create_search_widgets (PhotosSearchbar *searchbar)
                            self,
                            G_CONNECT_SWAPPED);
 
-  self->dropdown_button = gtk_menu_button_new ();
-  dropdown = photos_search_popover_new ();
-  gtk_menu_button_set_popover (GTK_MENU_BUTTON (self->dropdown_button), dropdown);
+  self->popover_button = gtk_menu_button_new ();
+  popover = photos_search_popover_new ();
+  gtk_menu_button_set_popover (GTK_MENU_BUTTON (self->popover_button), popover);
 
   self->search_container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_set_halign (self->search_container, GTK_ALIGN_CENTER);
   context = gtk_widget_get_style_context (self->search_container);
   gtk_style_context_add_class (context, "linked");
   gtk_container_add (GTK_CONTAINER (self->search_container), GTK_WIDGET (self->search_entry));
-  gtk_container_add (GTK_CONTAINER (self->search_container), self->dropdown_button);
+  gtk_container_add (GTK_CONTAINER (self->search_container), self->popover_button);
   gtk_widget_show_all (self->search_container);
   photos_searchbar_set_search_container (PHOTOS_SEARCHBAR (self), self->search_container);
 }
