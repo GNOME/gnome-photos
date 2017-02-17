@@ -5,7 +5,12 @@
     <property name="visible">1</property>
     <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
     <child>
-      <object class="PhotosHeaderBar" id="header_bar"></object>
+      <object class="GtkHeaderBar" id="header_bar">
+        <property name="visible">1</property>
+         <style>
+           <class name="titlebar"/>
+        </style>
+      </object>
     </child>
   </template>
 </interface>

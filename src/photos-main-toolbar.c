@@ -32,7 +32,6 @@
 
 #include "photos-dlna-renderers-manager.h"
 #include "photos-dropdown.h"
-#include "photos-header-bar.h"
 #include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
@@ -55,6 +54,7 @@ struct _PhotosMainToolbar
   GtkWidget *selection_button;
   GtkWidget *selection_menu;
   GtkWidget *header_bar;
+  GtkWidget *views_switcher;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosRemoteDisplayManager *remote_mngr;
@@ -233,11 +233,14 @@ photos_main_toolbar_coll_back_button_clicked (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_col_active_changed (PhotosMainToolbar *self, PhotosBaseItem *collection)
 {
-  PhotosHeaderBarMode mode;
+  GtkStyleContext *context;
+
+  context = gtk_widget_get_style_context (GTK_WIDGET (self->header_bar));
+  gtk_style_context_remove_class (context, "selection-mode");
 
   if (collection != NULL)
     {
-      mode = PHOTOS_HEADER_BAR_MODE_STANDALONE;
+      gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), NULL);
       if (self->coll_back_button == NULL)
         {
           self->coll_back_button = photos_main_toolbar_add_back_button (self);
@@ -251,11 +254,10 @@ photos_main_toolbar_col_active_changed (PhotosMainToolbar *self, PhotosBaseItem 
     }
   else
     {
-      mode = PHOTOS_HEADER_BAR_MODE_NORMAL;
+      gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->views_switcher);
       g_clear_pointer (&self->coll_back_button, (GDestroyNotify) gtk_widget_destroy);
     }
 
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), mode);
   photos_main_toolbar_update_remote_display_button (self);
   photos_main_toolbar_set_toolbar_title (self);
 }
@@ -402,10 +404,19 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
 {
+  GList *children;
+  GList *l;
+
   photos_main_toolbar_clear_state_data (self);
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), FALSE);
-  photos_header_bar_clear (PHOTOS_HEADER_BAR (self->header_bar));
+  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), NULL);
+  children = gtk_container_get_children (GTK_CONTAINER (self->header_bar));
+  for (l = children; l != NULL; l = l->next)
+    gtk_widget_destroy (GTK_WIDGET (l->data));
+
   g_simple_action_set_enabled (self->gear_menu, FALSE);
+
+  g_list_free (children);
 }
 
 
@@ -491,10 +502,14 @@ photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self, gboolean fa
 static void
 photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
 {
+  GtkStyleContext *context;
   PhotosBaseItem *collection;
 
+  context = gtk_widget_get_style_context (GTK_WIDGET (self->header_bar));
+
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
+  gtk_style_context_remove_class (context, "selection-mode");
+  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->views_switcher);
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
@@ -513,7 +528,9 @@ photos_main_toolbar_populate_for_edit (PhotosMainToolbar *self)
   GtkWidget *cancel_button;
   GtkWidget *done_button;
 
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_STANDALONE);
+  context = gtk_widget_get_style_context (GTK_WIDGET (self->header_bar));
+  gtk_style_context_remove_class (context, "selection-mode");
+  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), NULL);
 
   cancel_button = gtk_button_new_with_label (_("Cancel"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (cancel_button), "app.edit-cancel");
@@ -530,10 +547,13 @@ photos_main_toolbar_populate_for_edit (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
 {
+  GtkStyleContext *context;
   PhotosBaseItem *collection;
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
+  context = gtk_widget_get_style_context (GTK_WIDGET (self->header_bar));
+  gtk_style_context_remove_class (context, "selection-mode");
+  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->views_switcher);
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
@@ -548,10 +568,13 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 {
+  GtkStyleContext *context;
   PhotosBaseItem *collection;
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
+  context = gtk_widget_get_style_context (GTK_WIDGET (self->header_bar));
+  gtk_style_context_remove_class (context, "selection-mode");
+  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->views_switcher);
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
@@ -567,6 +590,7 @@ static void
 photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 {
   GMenu *preview_menu;
+  GtkStyleContext *context;
   GtkWidget *back_button;
   GtkWidget *edit_button;
   GtkWidget *image;
@@ -579,7 +603,9 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   GAction *remote_display_action;
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_STANDALONE);
+  context = gtk_widget_get_style_context (GTK_WIDGET (self->header_bar));
+  gtk_style_context_remove_class (context, "selection-mode");
+  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), NULL);
 
   back_button = photos_main_toolbar_add_back_button (self);
   g_signal_connect_swapped (back_button, "clicked", G_CALLBACK (photos_main_toolbar_back_button_clicked), self);
@@ -631,10 +657,13 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
 {
+  GtkStyleContext *context;
   PhotosBaseItem *collection;
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
+  context = gtk_widget_get_style_context (GTK_WIDGET (self->header_bar));
+  gtk_style_context_remove_class (context, "selection-mode");
+  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->views_switcher);
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
@@ -649,9 +678,12 @@ photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
 {
+  GtkStyleContext *context;
   GtkWidget *selection_button;
 
-  photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_SELECTION);
+  context = gtk_widget_get_style_context (GTK_WIDGET (self->header_bar));
+  gtk_style_context_add_class (context, "selection-mode");
+  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->selection_menu);
 
   selection_button = gtk_button_new_with_label (_("Cancel"));
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), selection_button);
@@ -699,6 +731,8 @@ photos_main_toolbar_dispose (GObject *object)
   g_clear_object (&self->mode_cntrlr);
   g_clear_object (&self->remote_mngr);
   g_clear_object (&self->sel_cntrlr);
+  g_clear_object (&self->selection_menu);
+  g_clear_object (&self->views_switcher);
 
   G_OBJECT_CLASS (photos_main_toolbar_parent_class)->dispose (object);
 }
@@ -751,6 +785,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   GMenu *selection_menu;
   GApplication *app;
   GtkBuilder *builder;
+  GtkStyleContext *context;
   PhotosSearchContextState *state;
 
   app = g_application_get_default ();
@@ -761,14 +796,19 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
+  self->views_switcher = g_object_ref_sink (gtk_stack_switcher_new ());
+  gtk_widget_set_no_show_all (GTK_WIDGET (self->views_switcher), TRUE);
+  gtk_widget_show (GTK_WIDGET (self->views_switcher));
+
   builder = gtk_builder_new_from_resource ("/org/gnome/Photos/selection-menu.ui");
 
   selection_menu = G_MENU (gtk_builder_get_object (builder, "selection-menu"));
-  self->selection_menu = gtk_menu_button_new ();
+  self->selection_menu = g_object_ref_sink (gtk_menu_button_new ());
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (self->selection_menu), G_MENU_MODEL (selection_menu));
   g_object_unref (builder);
 
-  photos_header_bar_set_selection_menu (PHOTOS_HEADER_BAR (self->header_bar), GTK_BUTTON (self->selection_menu));
+  context = gtk_widget_get_style_context (self->selection_menu);
+  gtk_style_context_add_class (context, "selection-menu");
 
   self->item_mngr = g_object_ref (state->item_mngr);
   g_signal_connect_object (self->item_mngr,
@@ -898,5 +938,5 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
 void
 photos_main_toolbar_set_stack (PhotosMainToolbar *self, GtkStack *stack)
 {
-  photos_header_bar_set_stack (PHOTOS_HEADER_BAR (self->header_bar), stack);
+  gtk_stack_switcher_set_stack (GTK_STACK_SWITCHER (self->views_switcher), stack);
 }
