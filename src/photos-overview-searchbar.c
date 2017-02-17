@@ -30,12 +30,12 @@
 
 #include "photos-base-item.h"
 #include "photos-base-manager.h"
-#include "photos-dropdown.h"
 #include "photos-filterable.h"
 #include "photos-icons.h"
 #include "photos-overview-searchbar.h"
 #include "photos-search-context.h"
 #include "photos-search-controller.h"
+#include "photos-search-popover.h"
 #include "photos-search-type.h"
 
 

@@ -68,8 +68,6 @@ gnome_photos_SOURCES = \
 	photos-dlna-renderers-manager.h \
 	photos-done-notification.c \
 	photos-done-notification.h \
-	photos-dropdown.c \
-	photos-dropdown.h \
 	photos-error.c \
 	photos-error.h \
 	photos-export-dialog.c \
@@ -194,6 +192,8 @@ gnome_photos_SOURCES = \
 	photos-search-match.h \
 	photos-search-match-manager.c \
 	photos-search-match-manager.h \
+	photos-search-popover.c \
+	photos-search-popover.h \
 	photos-search-provider.c \
 	photos-search-provider.h \
 	photos-search-type.c \

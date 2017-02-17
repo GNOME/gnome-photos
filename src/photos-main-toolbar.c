@@ -31,7 +31,6 @@
 #include <glib/gi18n.h>
 
 #include "photos-dlna-renderers-manager.h"
-#include "photos-dropdown.h"
 #include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"

@@ -31,8 +31,8 @@
 
 #include "photos-base-manager.h"
 #include "photos-base-model.h"
-#include "photos-dropdown.h"
 #include "photos-search-context.h"
+#include "photos-search-popover.h"
 
 
 struct _PhotosSearchPopover

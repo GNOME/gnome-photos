@@ -25,8 +25,8 @@
 #ifndef PHOTOS_OVERVIEW_SEARCHBAR_H
 #define PHOTOS_OVERVIEW_SEARCHBAR_H
 
-#include "photos-dropdown.h"
 #include "photos-searchbar.h"
+#include "photos-search-popover.h"
 
 G_BEGIN_DECLS
 
