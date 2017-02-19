@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-12 16:15+0100\n"
-"PO-Revision-Date: 2017-02-12 16:16+0100\n"
+"POT-Creation-Date: 2017-02-19 21:59+0100\n"
+"PO-Revision-Date: 2017-02-19 22:00+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:619
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Zdjęcia"
@@ -106,15 +106,15 @@ msgstr "Maksymalizacja okna"
 msgid "Window maximized state"
 msgstr "Stan maksymalizacji okna"
 
-#: ../src/photos-application.c:144
+#: ../src/photos-application.c:149
 msgid "Show the application's version"
 msgstr "Wyświetla wersję programu"
 
-#: ../src/photos-base-item.c:604
+#: ../src/photos-base-item.c:589
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2314
+#: ../src/photos-base-item.c:2302
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
@@ -145,15 +145,15 @@ msgstr "Urządzenia mechanizmu wyświetlającego DLNA"
 msgid "“%s” edited"
 msgstr "Zmodyfikowano „%s”"
 
-#: ../src/photos-embed.c:623 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../src/photos-embed.c:627 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Ulubione"
 
-#: ../src/photos-embed.c:631 ../src/photos-main-toolbar.c:334
+#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
 msgid "Search"
 msgstr "Wyszukaj"
 
@@ -165,6 +165,7 @@ msgstr "Nazwa pierwszego albumu"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:134
+#: ../src/photos-source-notification.c:143
 msgid "Settings"
 msgstr "Ustawieniach"
 
@@ -282,8 +283,8 @@ msgstr "Wyeksportuj katalog"
 #. Translators: this is the fallback title in the form
 #. *  "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:101 ../src/photos-flickr-item.c:106
-#: ../src/photos-google-item.c:103
+#: ../src/photos-facebook-item.c:100 ../src/photos-flickr-item.c:105
+#: ../src/photos-google-item.c:102
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -417,7 +418,7 @@ msgstr "Zdjęcia są indeksowane"
 msgid "Some photos might not be available during this process"
 msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
 
-#: ../src/photos-local-item.c:137 ../src/photos-source-manager.c:179
+#: ../src/photos-local-item.c:176 ../src/photos-source-manager.c:256
 msgid "Local"
 msgstr "Lokalne"
 
@@ -540,7 +541,7 @@ msgstr "Ustaw jako tło"
 msgid "Set as Lock Screen"
 msgstr "Ustaw jako tło ekranu blokady"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:902
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:903
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Właściwości"
@@ -622,18 +623,18 @@ msgstr "Cale"
 msgid "Preview"
 msgstr "Podgląd"
 
-#: ../src/photos-properties-dialog.c:254
+#: ../src/photos-properties-dialog.c:255
 msgid "Edited in Photos"
 msgstr "Zmodyfikowano w Menedżerze zdjęć"
 
-#: ../src/photos-properties-dialog.c:267
+#: ../src/photos-properties-dialog.c:268
 msgid "Untouched"
 msgstr "Bez zmian"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:452
+#: ../src/photos-properties-dialog.c:453
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Tytuł"
@@ -641,81 +642,81 @@ msgstr "Tytuł"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:464
+#: ../src/photos-properties-dialog.c:465
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-properties-dialog.c:471
+#: ../src/photos-properties-dialog.c:472
 msgid "Source"
 msgstr "Źródło"
 
-#: ../src/photos-properties-dialog.c:477
+#: ../src/photos-properties-dialog.c:478
 msgid "Date Modified"
 msgstr "Data modyfikacji"
 
-#: ../src/photos-properties-dialog.c:485
+#: ../src/photos-properties-dialog.c:486
 msgid "Date Created"
 msgstr "Data utworzenia"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:495
+#: ../src/photos-properties-dialog.c:496
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/photos-properties-dialog.c:505
+#: ../src/photos-properties-dialog.c:506
 msgid "Dimensions"
 msgstr "Wymiary"
 
-#: ../src/photos-properties-dialog.c:517
+#: ../src/photos-properties-dialog.c:518
 msgid "Location"
 msgstr "Położenie"
 
-#: ../src/photos-properties-dialog.c:537
+#: ../src/photos-properties-dialog.c:538
 msgid "Camera"
 msgstr "Aparat"
 
-#: ../src/photos-properties-dialog.c:547 ../src/photos-tool-colors.c:336
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
 msgid "Exposure"
 msgstr "Ekspozycja"
 
-#: ../src/photos-properties-dialog.c:557
+#: ../src/photos-properties-dialog.c:558
 msgid "Aperture"
 msgstr "Przesłona"
 
-#: ../src/photos-properties-dialog.c:567
+#: ../src/photos-properties-dialog.c:568
 msgid "Focal Length"
 msgstr "Ogniskowa"
 
-#: ../src/photos-properties-dialog.c:577
+#: ../src/photos-properties-dialog.c:578
 msgid "ISO Speed"
 msgstr "Wartość ISO"
 
-#: ../src/photos-properties-dialog.c:587
+#: ../src/photos-properties-dialog.c:588
 msgid "Flash"
 msgstr "Lampa błyskowa"
 
-#: ../src/photos-properties-dialog.c:596
+#: ../src/photos-properties-dialog.c:597
 msgid "Modifications"
 msgstr "Modyfikacje"
 
-#: ../src/photos-properties-dialog.c:737
+#: ../src/photos-properties-dialog.c:738
 msgid "Off, did not fire"
 msgstr "Wyłączona"
 
-#: ../src/photos-properties-dialog.c:739
+#: ../src/photos-properties-dialog.c:740
 msgid "On, fired"
 msgstr "Włączona"
 
-#: ../src/photos-properties-dialog.c:777
+#: ../src/photos-properties-dialog.c:778
 msgid "Discard all Edits"
 msgstr "Odrzuć wszystkie modyfikacje"
 
 #: ../src/photos-search-match-manager.c:162
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:175
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:252
 msgid "All"
 msgstr "Wszystkie"
 
@@ -767,7 +768,7 @@ msgctxt "dialog title"
 msgid "Share"
 msgstr "Udostępnianie"
 
-#: ../src/photos-share-point-email.c:79
+#: ../src/photos-share-point-email.c:80
 msgid "E-Mail"
 msgstr "E-mail"
 
@@ -779,9 +780,18 @@ msgstr "Wysłanie zdjęcia się nie powiodło: serwis jest nieupoważniony"
 msgid "Failed to upload photo"
 msgstr "Wysłanie zdjęcia się nie powiodło"
 
-#: ../src/photos-source-manager.c:204
+#: ../src/photos-source-manager.c:305
 msgid "Sources"
 msgstr "Źródła"
+
+#: ../src/photos-source-notification.c:135
+#, c-format
+msgid "Your %s crendentials have expired"
+msgstr "Dane uwierzytelniania „%s” wygasły"
+
+#: ../src/photos-thumbnailer.c:73
+msgid "D-Bus address to use"
+msgstr "Używany adres D-Bus"
 
 #: ../src/photos-tool-colors.c:315
 msgid "Brightness"
