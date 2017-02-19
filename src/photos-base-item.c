@@ -1605,6 +1605,7 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
       goto out;
     }
 
+  gexiv2_metadata_set_orientation (metadata, GEXIV2_ORIENTATION_NORMAL);
   export_path = g_file_get_path (file);
 
   error = NULL;
