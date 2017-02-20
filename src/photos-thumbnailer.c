@@ -280,13 +280,13 @@ photos_thumbnailer_generate_thumbnail_process (GObject *source_object, GAsyncRes
   pixbuf_height = gdk_pixbuf_get_height (data->pixbuf_thumbnail);
   pixbuf_width = gdk_pixbuf_get_width (data->pixbuf_thumbnail);
 
-  if (pixbuf_height > pixbuf_width && pixbuf_height != data->thumbnail_size)
+  if (pixbuf_height > pixbuf_width && pixbuf_height > data->thumbnail_size)
     {
       zoom = (gdouble) data->thumbnail_size / (gdouble) pixbuf_height;
       pixbuf_zoomed_height = data->thumbnail_size;
       pixbuf_zoomed_width = (gint) (zoom * (gdouble) pixbuf_width + 0.5);
     }
-  else if (pixbuf_height <= pixbuf_width && pixbuf_width != data->thumbnail_size)
+  else if (pixbuf_height <= pixbuf_width && pixbuf_width > data->thumbnail_size)
     {
       zoom = (gdouble) data->thumbnail_size / (gdouble) pixbuf_width;
       pixbuf_zoomed_height = (gint) (zoom * (gdouble) pixbuf_height + 0.5);
@@ -386,6 +386,7 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
   GTask *task = G_TASK (user_data);
   PhotosPipeline *pipeline = NULL;
   PhotosThumbnailerGenerateData *data;
+  gboolean has_crop;
   gchar *path = NULL;
   gdouble height;
   gdouble width;
@@ -408,7 +409,14 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
   g_assert_null (data->pipeline);
   data->pipeline = g_object_ref (pipeline);
 
-  if (photos_pipeline_get (pipeline, "gegl:crop", "height", &height, "width", &width, "x", &x, "y", &y, NULL))
+  has_crop = photos_pipeline_get (pipeline,
+                                  "gegl:crop",
+                                  "height", &height,
+                                  "width", &width,
+                                  "x", &x,
+                                  "y", &y,
+                                  NULL);
+  if (has_crop)
     {
       if (height < 0.0 || width < 0.0 || x < 0.0 || y < 0.0)
         {
@@ -418,16 +426,20 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
           g_warning ("Unable to crop the thumbnail for %s: Invalid parameters", uri);
 
           photos_pipeline_remove (pipeline, "gegl:crop");
-          load_height = data->thumbnail_size;
-          load_width = data->thumbnail_size;
+          has_crop = FALSE;
 
           g_free (uri);
         }
-      else
-        {
-          load_height = (gint) data->original_height;
-          load_width = (gint) data->original_width;
-        }
+    }
+
+  if (has_crop
+      || (0 < data->original_height
+          && data->original_height < data->thumbnail_size
+          && 0 < data->original_width
+          && data->original_width < data->thumbnail_size))
+    {
+      load_height = (gint) data->original_height;
+      load_width = (gint) data->original_width;
     }
   else
     {
