@@ -388,6 +388,7 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
   PhotosThumbnailerGenerateData *data;
   gboolean has_crop;
   gchar *path = NULL;
+  gchar *uri = NULL;
   gdouble height;
   gdouble width;
   gdouble x;
@@ -409,6 +410,8 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
   g_assert_null (data->pipeline);
   data->pipeline = g_object_ref (pipeline);
 
+  uri = g_file_get_uri (data->file);
+
   has_crop = photos_pipeline_get (pipeline,
                                   "gegl:crop",
                                   "height", &height,
@@ -420,15 +423,10 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
     {
       if (height < 0.0 || width < 0.0 || x < 0.0 || y < 0.0)
         {
-          gchar *uri = NULL;
-
-          uri = g_file_get_uri (data->file);
           g_warning ("Unable to crop the thumbnail for %s: Invalid parameters", uri);
 
           photos_pipeline_remove (pipeline, "gegl:crop");
           has_crop = FALSE;
-
-          g_free (uri);
         }
     }
 
@@ -449,14 +447,9 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
 
   path = g_file_get_path (data->file);
   if (!g_file_is_native (data->file))
-    {
-      gchar *uri = NULL;
+    photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s (%s)", uri, path);
 
-      uri = g_file_get_uri (data->file);
-      photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s (%s)", uri, path);
-      g_free (uri);
-    }
-
+  photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Loading %s at %d×%d", uri, load_width, load_height);
   photos_pixbuf_new_from_file_at_size_async (path,
                                              load_width,
                                              load_height,
@@ -466,6 +459,7 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
 
  out:
   g_free (path);
+  g_free (uri);
   g_clear_object (&pipeline);
   g_object_unref (task);
 }
