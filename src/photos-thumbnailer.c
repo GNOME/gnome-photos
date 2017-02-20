@@ -425,8 +425,8 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
         }
       else
         {
-          load_height = (gint64) data->original_height;
-          load_width = (gint64) data->original_width;
+          load_height = (gint) data->original_height;
+          load_width = (gint) data->original_width;
         }
     }
   else
