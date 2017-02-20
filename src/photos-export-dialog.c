@@ -196,7 +196,7 @@ photos_export_dialog_constructed (GObject *object)
       now = g_date_time_new_now_local ();
 
       /* Translators: this is the default sub-directory where photos
-       *  will be exported.
+       * will be exported.
        */
       now_str = g_date_time_format (now, _("%e %B %Y"));
 

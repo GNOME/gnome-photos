@@ -97,7 +97,7 @@ photos_google_item_create_name_fallback (PhotosBaseItem *item)
   date_modified_str = g_date_time_format (date_modified, "%x");
 
   /* Translators: this is the fallback title in the form
-   *  "Facebook — 2nd January 2013".
+   * "Facebook — 2nd January 2013".
    */
   ret_val = g_strdup_printf (_("%s — %s"), provider_name, date_modified_str);
 

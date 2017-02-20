@@ -162,7 +162,7 @@ photos_indexing_notification_timeout (gpointer user_data)
   if (display_name != NULL)
     {
       /* Translators: %s refers to an online account provider, e.g.,
-       * "Facebook" or "Flickr.
+       * "Facebook" or "Flickr".
        */
       primary = g_strdup_printf (_("Fetching photos from %s"), display_name);
     }
