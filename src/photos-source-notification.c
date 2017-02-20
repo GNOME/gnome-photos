@@ -132,6 +132,9 @@ photos_source_notification_constructed (GObject *object)
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 
   name = photos_source_get_name (self->source);
+  /* Translators: %s refers to an online account provider, e.g.,
+   * "Facebook" or "Flickr".
+   */
   msg = g_strdup_printf (_("Your %s credentials have expired"), name);
 
   label = gtk_label_new (msg);
