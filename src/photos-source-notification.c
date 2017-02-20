@@ -132,7 +132,7 @@ photos_source_notification_constructed (GObject *object)
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 
   name = photos_source_get_name (self->source);
-  msg = g_strdup_printf (_("Your %s crendentials have expired"), name);
+  msg = g_strdup_printf (_("Your %s credentials have expired"), name);
 
   label = gtk_label_new (msg);
   gtk_widget_set_halign (label, GTK_ALIGN_START);

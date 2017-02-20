@@ -789,7 +789,7 @@ msgstr "Iturburuak"
 
 #: ../src/photos-source-notification.c:135
 #, c-format
-msgid "Your %s crendentials have expired"
+msgid "Your %s credentials have expired"
 msgstr "Zure %s kredentzialak iraungi dira"
 
 #: ../src/photos-thumbnailer.c:73
