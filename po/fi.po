@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-14 17:59+0000\n"
-"PO-Revision-Date: 2017-02-15 20:42+0200\n"
+"POT-Creation-Date: 2017-02-20 21:13+0000\n"
+"PO-Revision-Date: 2017-02-21 14:16+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:619
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Kuvat"
@@ -108,11 +108,11 @@ msgstr "Suurennetun ikkunan tila"
 msgid "Show the application's version"
 msgstr "Näytä sovelluksen versio"
 
-#: ../src/photos-base-item.c:605
+#: ../src/photos-base-item.c:589
 msgid "Album"
 msgstr "Albumi"
 
-#: ../src/photos-base-item.c:2318
+#: ../src/photos-base-item.c:2303
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
@@ -142,15 +142,15 @@ msgstr "DLNA Renderer -laitteet"
 msgid "“%s” edited"
 msgstr "“%s” muokattu"
 
-#: ../src/photos-embed.c:623 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albumit"
 
-#: ../src/photos-embed.c:627 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Suosikit"
 
-#: ../src/photos-embed.c:631 ../src/photos-main-toolbar.c:334
+#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
 msgid "Search"
 msgstr "Etsi"
 
@@ -162,6 +162,7 @@ msgstr "Anna nimi ensimmäiselle albumillesi"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:134
+#: ../src/photos-source-notification.c:143
 msgid "Settings"
 msgstr "järjestelmän asetuksissa"
 
@@ -414,7 +415,7 @@ msgid "Some photos might not be available during this process"
 msgstr ""
 "Jotkin kuvat eivät välttämättä ole käytettävissä tämän toimenpiteen aikana"
 
-#: ../src/photos-local-item.c:176 ../src/photos-source-manager.c:179
+#: ../src/photos-local-item.c:176 ../src/photos-source-manager.c:256
 msgid "Local"
 msgstr "Paikallinen"
 
@@ -708,7 +709,7 @@ msgid "Discard all Edits"
 msgstr "Hylkää kaikki muokkaukset"
 
 #: ../src/photos-search-match-manager.c:162
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:175
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:252
 msgid "All"
 msgstr "Kaikki"
 
@@ -772,9 +773,14 @@ msgstr "Kuvan lähetys epäonnistui: palvelu ei sallittu"
 msgid "Failed to upload photo"
 msgstr "Kuvan lähetys epäonnistui"
 
-#: ../src/photos-source-manager.c:204
+#: ../src/photos-source-manager.c:305
 msgid "Sources"
 msgstr "Lähteet"
+
+#: ../src/photos-source-notification.c:135
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr "%s-tilitietosi ovat vanhentuneet"
 
 #: ../src/photos-thumbnailer.c:73
 msgid "D-Bus address to use"
