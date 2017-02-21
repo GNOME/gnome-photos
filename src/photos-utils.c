@@ -542,7 +542,15 @@ photos_utils_downscale_pixbuf_for_scale (GdkPixbuf *pixbuf, gint size, gint scal
   scaled_size = size * scale;
 
   /* On Hi-Dpi displays, a pixbuf should never appear smaller than on
-   * Lo-Dpi. Therefore, if a pixbuf lies between (size, size * scale)
+   * Lo-Dpi.
+   *
+   * Sometimes, a pixbuf can be slightly smaller than size. eg.,
+   * server-generated thumbnails for remote tems. Scaling them up
+   * won't cause any discernible loss of quality and will make our
+   * letterboxed grid look nicer. 75% of 'scale' has been chosen as
+   * the arbitrary definition of 'slightly smaller'.
+   *
+   * Therefore, if a pixbuf lies between (3 * size / 4, size * scale)
    * we scale it up to size * scale, so that it doesn't look smaller.
    * Similarly, if a pixbuf is smaller than size, then we increase its
    * dimensions by the scale factor.
@@ -552,7 +560,7 @@ photos_utils_downscale_pixbuf_for_scale (GdkPixbuf *pixbuf, gint size, gint scal
     {
       ret_val = g_object_ref (pixbuf);
     }
-  else if (pixbuf_size > size)
+  else if (pixbuf_size > 3 * size / 4)
     {
       if (height == width)
         {
