@@ -132,15 +132,24 @@ photos_utils_center_pixbuf (GdkPixbuf *pixbuf, gint size)
 {
   GdkPixbuf *ret_val;
   gint height;
+  gint pixbuf_size;
   gint width;
-
-  ret_val = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, size, size);
-  gdk_pixbuf_fill (ret_val, 0x00000000);
 
   height = gdk_pixbuf_get_height (pixbuf);
   width = gdk_pixbuf_get_width (pixbuf);
+
+  pixbuf_size = MAX (height, width);
+  if (pixbuf_size >= size)
+    {
+      ret_val = g_object_ref (pixbuf);
+      goto out;
+    }
+
+  ret_val = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, size, size);
+  gdk_pixbuf_fill (ret_val, 0x00000000);
   gdk_pixbuf_copy_area (pixbuf, 0, 0, width, height, ret_val, (size - width) / 2, (size - height) / 2);
 
+ out:
   return ret_val;
 }
 
