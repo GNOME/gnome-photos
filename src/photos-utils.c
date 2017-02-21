@@ -23,7 +23,6 @@
  *   + Documents
  *   + Eye of GNOME
  *   + Shotwell
- *   + Totem
  */
 
 
@@ -81,50 +80,6 @@ enum
 {
   THUMBNAIL_GENERATION = 0
 };
-
-
-static void
-photos_utils_put_pixel (guchar *p)
-{
-  p[0] = 46;
-  p[1] = 52;
-  p[2] = 54;
-  p[3] = 0xff;
-}
-
-
-void
-photos_utils_border_pixbuf (GdkPixbuf *pixbuf)
-{
-  gint height;
-  gint width;
-  gint rowstride;
-  gint x;
-  gint y;
-  guchar *pixels;
-
-  height = gdk_pixbuf_get_height (pixbuf);
-  width = gdk_pixbuf_get_width (pixbuf);
-
-  pixels = gdk_pixbuf_get_pixels (pixbuf);
-  rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-
-  /* top */
-  for (x = 0; x < width; x++)
-    photos_utils_put_pixel (pixels + x * 4);
-
-  /* bottom */
-  for (x = 0; x < width; x++)
-    photos_utils_put_pixel (pixels + (height - 1) * rowstride + x * 4);
-
-  /* left */
-  for (y = 1; y < height - 1; y++)
-    photos_utils_put_pixel (pixels + y * rowstride);
-
-  /* right */
-  for (y = 1; y < height - 1; y++)
-    photos_utils_put_pixel (pixels + y * rowstride + (width - 1) * 4);
-}
 
 
 GdkPixbuf *
@@ -315,7 +270,6 @@ photos_utils_create_placeholder_icon_for_scale (const gchar *name, gint size, gi
 
   size_scaled = size * scale;
   centered_pixbuf = photos_utils_center_pixbuf (pixbuf, size_scaled);
-  photos_utils_border_pixbuf (centered_pixbuf);
 
   ret_val = centered_pixbuf;
   centered_pixbuf = NULL;
