@@ -779,6 +779,7 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
   PhotosBaseItem *self;
   PhotosBaseItemPrivate *priv;
   GApplication *app;
+  GdkPixbuf *centered_pixbuf = NULL;
   GdkPixbuf *pixbuf = NULL;
   GdkPixbuf *scaled_pixbuf = NULL;
   GError *error = NULL;
@@ -823,10 +824,14 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
   scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
   icon_size = photos_utils_get_icon_size_unscaled ();
   scaled_pixbuf = photos_utils_downscale_pixbuf_for_scale (pixbuf, icon_size, scale);
-  photos_base_item_set_original_icon (self, scaled_pixbuf);
+
+  icon_size = photos_utils_get_icon_size ();
+  centered_pixbuf = photos_utils_center_pixbuf (scaled_pixbuf, icon_size);
+  photos_base_item_set_original_icon (self, centered_pixbuf);
 
  out:
   g_input_stream_close_async (stream, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+  g_clear_object (&centered_pixbuf);
   g_clear_object (&scaled_pixbuf);
   g_clear_object (&pixbuf);
 }
