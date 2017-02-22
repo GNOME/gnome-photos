@@ -297,6 +297,11 @@ photos_thumbnailer_generate_thumbnail_process (GObject *source_object, GAsyncRes
     {
       GdkPixbuf *pixbuf_scaled = NULL;
 
+      photos_debug (PHOTOS_DEBUG_THUMBNAILER,
+                    "Scaling thumbnail to %d×%d",
+                    pixbuf_zoomed_width,
+                    pixbuf_zoomed_height);
+
       pixbuf_scaled = gdk_pixbuf_scale_simple (data->pixbuf_thumbnail,
                                                pixbuf_zoomed_width,
                                                pixbuf_zoomed_height,
