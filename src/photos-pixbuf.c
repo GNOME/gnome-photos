@@ -95,7 +95,7 @@ photos_pixbuf_new_from_file_at_size_async (const gchar *filename,
   g_return_if_fail (filename != NULL && filename[0] != '\0');
   g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
-  data = photos_pixbuf_new_from_file_data_new (filename, width, height);
+  data = photos_pixbuf_new_from_file_data_new (filename, height, width);
 
   task = g_task_new (NULL, cancellable, callback, user_data);
   g_task_set_return_on_cancel (task, TRUE);
