@@ -24,6 +24,9 @@
 
 <node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
   <interface name="org.gnome.Photos.Thumbnailer">
+    <method name="Cancel">
+      <arg name="serial" type="u" direction="in" />
+    </method>
     <method name="GenerateThumbnail">
       <arg name="uri" type="s" direction="in" />
       <arg name="mime_type" type="s" direction="in" />
