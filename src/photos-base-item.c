@@ -1573,15 +1573,60 @@ photos_base_item_metadata_add_shared_in_thread_func (GTask *task,
 
 
 static void
+photos_base_item_pipeline_save_delete (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
+  GError *error;
+  GFile *thumbnail_file = G_FILE (source_object);
+  GTask *task = G_TASK (user_data);
+
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  priv = photos_base_item_get_instance_private (self);
+
+  error = NULL;
+  if (!g_file_delete_finish (thumbnail_file, res, &error))
+    {
+      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+        {
+          gchar *uri = NULL;
+
+          uri = g_file_get_uri (thumbnail_file);
+          g_warning ("Unable to delete thumbnail %s: %s", uri, error->message);
+          g_free (uri);
+        }
+
+      g_error_free (error);
+    }
+
+  /* Mark the task as a success, no matter what. The pipeline has
+   * already been saved, so it doesn't make sense to fail the task
+   * just because we failed to delete the old thumbnail.
+   */
+
+  g_clear_pointer (&priv->thumb_path, g_free);
+  photos_base_item_refresh (self);
+  g_task_return_boolean (task, TRUE);
+
+  g_object_unref (task);
+}
+
+
+static void
 photos_base_item_pipeline_save_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   PhotosBaseItem *self;
   PhotosBaseItemPrivate *priv;
+  GCancellable *cancellable;
   GError *error;
+  GFile *thumbnail_file = NULL;
+  gchar *thumbnail_path = NULL;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
   priv = photos_base_item_get_instance_private (self);
+
+  cancellable = g_task_get_cancellable (task);
 
   error = NULL;
   if (!photos_pipeline_save_finish (priv->pipeline, res, &error))
@@ -1590,9 +1635,21 @@ photos_base_item_pipeline_save_save (GObject *source_object, GAsyncResult *res, 
       goto out;
     }
 
-  g_task_return_boolean (task, TRUE);
+  g_cancellable_cancel (priv->cancellable);
+  g_clear_object (&priv->cancellable);
+  priv->cancellable = g_cancellable_new ();
+
+  thumbnail_path = photos_utils_get_thumbnail_path_for_uri (priv->uri);
+  thumbnail_file = g_file_new_for_path (thumbnail_path);
+  g_file_delete_async (thumbnail_file,
+                       G_PRIORITY_DEFAULT,
+                       cancellable,
+                       photos_base_item_pipeline_save_delete,
+                       g_object_ref (task));
 
  out:
+  g_free (thumbnail_path);
+  g_clear_object (&thumbnail_file);
   g_object_unref (task);
 }
 
