@@ -28,6 +28,7 @@
 #include <glib/gi18n.h>
 
 #include "photos-debug.h"
+#include "photos-error.h"
 #include "photos-gegl.h"
 #include "photos-pipeline.h"
 #include "photos-pixbuf.h"
@@ -538,6 +539,52 @@ photos_thumbnailer_generate_thumbnail_finish (PhotosThumbnailer *self, GAsyncRes
 }
 
 
+static gboolean
+photos_thumbnailer_handle_cancel (PhotosThumbnailer *self,
+                                  GDBusMethodInvocation *invocation,
+                                  guint serial)
+{
+  GCancellable *cancellable;
+  GDBusConnection *connection;
+  GDBusMethodInvocation *invocation_ongoing;
+  GHashTableIter iter;
+
+  g_return_val_if_fail (PHOTOS_IS_THUMBNAILER (self), FALSE);
+  g_return_val_if_fail (G_IS_DBUS_METHOD_INVOCATION (invocation), FALSE);
+
+  photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Handling Cancel for %u", serial);
+  g_application_hold (G_APPLICATION (self));
+
+  connection = g_dbus_method_invocation_get_connection (invocation);
+
+  g_hash_table_iter_init (&iter, self->cancellables);
+  while (g_hash_table_iter_next (&iter, (gpointer *) &invocation_ongoing, (gpointer *) &cancellable))
+    {
+      GDBusConnection *connection_ongoing;
+      GDBusMessage *message_ongoing;
+      guint32 serial_ongoing;
+
+      connection_ongoing = g_dbus_method_invocation_get_connection (invocation_ongoing);
+      message_ongoing = g_dbus_method_invocation_get_message (invocation_ongoing);
+      serial_ongoing = g_dbus_message_get_serial (message_ongoing);
+
+      if (connection == connection_ongoing && (guint32) serial == serial_ongoing)
+        {
+          g_cancellable_cancel (cancellable);
+          photos_thumbnailer_dbus_complete_generate_thumbnail (self->skeleton, invocation);
+          goto out;
+        }
+    }
+
+  g_dbus_method_invocation_return_error_literal (invocation, PHOTOS_ERROR, 0, "Invalid serial");
+
+ out:
+  photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Completed Cancel");
+  g_application_release (G_APPLICATION (self));
+  return TRUE;
+}
+
+
 static void
 photos_thumbnailer_handle_generate_thumbnail_generate_thumbnail (GObject *source_object,
                                                                  GAsyncResult *res,
@@ -745,6 +792,10 @@ photos_thumbnailer_init (PhotosThumbnailer *self)
   self->cancellables = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, g_object_unref);
 
   self->skeleton = photos_thumbnailer_dbus_skeleton_new ();
+  g_signal_connect_swapped (self->skeleton,
+                            "handle-cancel",
+                            G_CALLBACK (photos_thumbnailer_handle_cancel),
+                            self);
   g_signal_connect_swapped (self->skeleton,
                             "handle-generate-thumbnail",
                             G_CALLBACK (photos_thumbnailer_handle_generate_thumbnail),
