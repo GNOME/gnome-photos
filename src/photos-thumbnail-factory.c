@@ -474,17 +474,36 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
       thumbnail_path = photos_utils_get_thumbnail_path_for_file (file);
 
       photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Calling GenerateThumbnail for %s", uri);
-      ret_val = photos_thumbnailer_dbus_call_generate_thumbnail_sync (self->thumbnailer,
-                                                                      uri,
-                                                                      mime_type,
-                                                                      orientation_str,
-                                                                      original_height,
-                                                                      original_width,
-                                                                      pipeline_uri,
-                                                                      thumbnail_path,
-                                                                      thumbnail_size,
-                                                                      cancellable,
-                                                                      &local_error);
+      if (!photos_thumbnailer_dbus_call_generate_thumbnail_sync (self->thumbnailer,
+                                                                 uri,
+                                                                 mime_type,
+                                                                 orientation_str,
+                                                                 original_height,
+                                                                 original_width,
+                                                                 pipeline_uri,
+                                                                 thumbnail_path,
+                                                                 thumbnail_size,
+                                                                 cancellable,
+                                                                 &local_error))
+        {
+          if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+            {
+              guint32 serial;
+
+              if (mutex_connection_unlocked)
+                g_mutex_lock (&self->mutex_connection);
+
+              serial = g_dbus_connection_get_last_serial (self->connection);
+              photos_thumbnailer_dbus_call_cancel_sync (self->thumbnailer, (guint) serial, NULL, NULL);
+
+              if (mutex_connection_unlocked)
+                g_mutex_unlock (&self->mutex_connection);
+            }
+        }
+      else
+        {
+          ret_val = TRUE;
+        }
 
       g_free (thumbnail_path);
       g_free (uri);
