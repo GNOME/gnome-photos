@@ -407,93 +407,90 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
       goto out;
     }
 
-  if (pixbuf == NULL)
+  if (self->connection == NULL)
     {
-      if (self->connection == NULL)
-        {
-          GSubprocess *subprocess;
-          const gchar *address;
-          gchar *thumbnailer_path;
-
-          g_mutex_lock (&self->mutex_thumbnailer);
-
-          g_clear_error (&self->thumbnailer_error);
-          g_clear_object (&self->thumbnailer);
-
-          g_mutex_unlock (&self->mutex_thumbnailer);
-
-          address = g_dbus_server_get_client_address (self->dbus_server);
-          thumbnailer_path = g_strconcat (PACKAGE_LIBEXEC_DIR,
-                                          G_DIR_SEPARATOR_S,
-                                          PACKAGE_TARNAME,
-                                          "-thumbnailer",
-                                          NULL);
-
-          photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Spawning “%s --address %s”", thumbnailer_path, address);
-
-          local_error = NULL;
-          subprocess = g_subprocess_new (G_SUBPROCESS_FLAGS_NONE,
-                                         &local_error,
-                                         thumbnailer_path,
-                                         "--address",
-                                         address,
-                                         NULL);
-          if (local_error != NULL)
-            goto out;
-
-          g_mutex_unlock (&self->mutex_connection);
-          mutex_connection_unlocked = TRUE;
-
-          g_free (thumbnailer_path);
-          g_object_unref (subprocess);
-        }
-
-      photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Waiting for org.gnome.Photos.Thumbnailer proxy");
+      GSubprocess *subprocess;
+      const gchar *address;
+      gchar *thumbnailer_path;
 
       g_mutex_lock (&self->mutex_thumbnailer);
-      while (self->thumbnailer == NULL && self->thumbnailer_error == NULL)
-        g_cond_wait (&self->cond_thumbnailer, &self->mutex_thumbnailer);
 
-      if (self->thumbnailer_error != NULL)
-        {
-          g_assert_null (self->thumbnailer);
-
-          photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Error creating org.gnome.Photos.Thumbnailer proxy");
-
-          local_error = self->thumbnailer_error;
-          self->thumbnailer_error = NULL;
-        }
-      else
-        {
-          const gchar *orientation_str;
-          gchar *thumbnail_path = NULL;
-          gchar *uri = NULL;
-
-          g_assert_true (PHOTOS_IS_THUMBNAILER_DBUS (self->thumbnailer));
-
-          uri = g_file_get_uri (file);
-          orientation_str = g_quark_to_string (orientation);
-          thumbnail_path = photos_utils_get_thumbnail_path_for_file (file);
-
-          photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Calling GenerateThumbnail for %s", uri);
-          ret_val = photos_thumbnailer_dbus_call_generate_thumbnail_sync (self->thumbnailer,
-                                                                          uri,
-                                                                          mime_type,
-                                                                          orientation_str,
-                                                                          original_height,
-                                                                          original_width,
-                                                                          pipeline_uri,
-                                                                          thumbnail_path,
-                                                                          thumbnail_size,
-                                                                          cancellable,
-                                                                          &local_error);
-
-          g_free (thumbnail_path);
-          g_free (uri);
-        }
+      g_clear_error (&self->thumbnailer_error);
+      g_clear_object (&self->thumbnailer);
 
       g_mutex_unlock (&self->mutex_thumbnailer);
+
+      address = g_dbus_server_get_client_address (self->dbus_server);
+      thumbnailer_path = g_strconcat (PACKAGE_LIBEXEC_DIR,
+                                      G_DIR_SEPARATOR_S,
+                                      PACKAGE_TARNAME,
+                                      "-thumbnailer",
+                                      NULL);
+
+      photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Spawning “%s --address %s”", thumbnailer_path, address);
+
+      local_error = NULL;
+      subprocess = g_subprocess_new (G_SUBPROCESS_FLAGS_NONE,
+                                     &local_error,
+                                     thumbnailer_path,
+                                     "--address",
+                                     address,
+                                     NULL);
+      if (local_error != NULL)
+        goto out;
+
+      g_mutex_unlock (&self->mutex_connection);
+      mutex_connection_unlocked = TRUE;
+
+      g_free (thumbnailer_path);
+      g_object_unref (subprocess);
     }
+
+  photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Waiting for org.gnome.Photos.Thumbnailer proxy");
+
+  g_mutex_lock (&self->mutex_thumbnailer);
+  while (self->thumbnailer == NULL && self->thumbnailer_error == NULL)
+    g_cond_wait (&self->cond_thumbnailer, &self->mutex_thumbnailer);
+
+  if (self->thumbnailer_error != NULL)
+    {
+      g_assert_null (self->thumbnailer);
+
+      photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Error creating org.gnome.Photos.Thumbnailer proxy");
+
+      local_error = self->thumbnailer_error;
+      self->thumbnailer_error = NULL;
+    }
+  else
+    {
+      const gchar *orientation_str;
+      gchar *thumbnail_path = NULL;
+      gchar *uri = NULL;
+
+      g_assert_true (PHOTOS_IS_THUMBNAILER_DBUS (self->thumbnailer));
+
+      uri = g_file_get_uri (file);
+      orientation_str = g_quark_to_string (orientation);
+      thumbnail_path = photos_utils_get_thumbnail_path_for_file (file);
+
+      photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Calling GenerateThumbnail for %s", uri);
+      ret_val = photos_thumbnailer_dbus_call_generate_thumbnail_sync (self->thumbnailer,
+                                                                      uri,
+                                                                      mime_type,
+                                                                      orientation_str,
+                                                                      original_height,
+                                                                      original_width,
+                                                                      pipeline_uri,
+                                                                      thumbnail_path,
+                                                                      thumbnail_size,
+                                                                      cancellable,
+                                                                      &local_error);
+
+      g_free (thumbnail_path);
+      g_free (uri);
+    }
+
+  g_mutex_unlock (&self->mutex_thumbnailer);
 
  out:
   if (!mutex_connection_unlocked)
