@@ -439,15 +439,31 @@ photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_d
 {
   GTask *task = G_TASK (data);
   PhotosBaseItem *self;
+  PhotosBaseItemPrivate *priv;
   GCancellable *cancellable;
   GError *error;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  priv = photos_base_item_get_instance_private (self);
+
   cancellable = g_task_get_cancellable (task);
 
   error = NULL;
   if (!PHOTOS_BASE_ITEM_GET_CLASS (self)->create_thumbnail (self, cancellable, &error))
     {
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          GFile *file;
+          gchar *path = NULL;
+
+          path = photos_utils_get_thumbnail_path_for_uri (priv->uri);
+          file = g_file_new_for_path (path);
+          g_file_delete (file, NULL, NULL);
+
+          g_free (path);
+          g_object_unref (file);
+        }
+
       g_task_return_error (task, error);
       goto out;
     }
