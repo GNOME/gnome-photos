@@ -934,17 +934,30 @@ photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res,
   PhotosBaseItemPrivate *priv;
   GError *error;
   GFile *file = G_FILE (user_data);
+  gboolean success;
+
+  error = NULL;
+  success = photos_base_item_create_thumbnail_finish (self, res, &error);
+  if (error != NULL)
+    {
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          g_error_free (error);
+          goto out;
+        }
+      else
+        {
+          g_warning ("Unable to create thumbnail: %s", error->message);
+          g_error_free (error);
+        }
+    }
 
   priv = photos_base_item_get_instance_private (self);
 
-  error = NULL;
-  photos_base_item_create_thumbnail_finish (self, res, &error);
-  if (error != NULL)
+  if (!success)
     {
       priv->failed_thumbnailing = TRUE;
-      g_warning ("Unable to create thumbnail: %s", error->message);
       photos_base_item_set_failed_icon (self);
-      g_error_free (error);
       goto out;
     }
 
@@ -1007,7 +1020,7 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
   else
     {
       photos_base_item_create_thumbnail_async (self,
-                                               NULL,
+                                               priv->cancellable,
                                                photos_base_item_create_thumbnail_cb,
                                                g_object_ref (file));
     }
