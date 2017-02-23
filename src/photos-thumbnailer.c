@@ -39,6 +39,7 @@ struct _PhotosThumbnailer
 {
   GApplication parent_instance;
   GDBusConnection *connection;
+  GHashTable *cancellables;
   PhotosThumbnailerDBus *skeleton;
   gchar *address;
 };
@@ -558,6 +559,7 @@ photos_thumbnailer_handle_generate_thumbnail_generate_thumbnail (GObject *source
  out:
   photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Completed GenerateThumbnail");
   g_application_release (G_APPLICATION (self));
+  g_hash_table_remove (self->cancellables, invocation);
   g_object_unref (invocation);
 }
 
@@ -590,6 +592,7 @@ photos_thumbnailer_handle_generate_thumbnail (PhotosThumbnailer *self,
     pipeline_uri = NULL;
 
   cancellable = g_cancellable_new ();
+  g_hash_table_insert (self->cancellables, g_object_ref (invocation), g_object_ref (cancellable));
 
   g_application_hold (G_APPLICATION (self));
   photos_thumbnailer_generate_thumbnail_async (self,
@@ -714,6 +717,7 @@ photos_thumbnailer_dispose (GObject *object)
 
   g_clear_object (&self->connection);
   g_clear_object (&self->skeleton);
+  g_clear_pointer (&self->cancellables, (GDestroyNotify) g_hash_table_unref);
 
   G_OBJECT_CLASS (photos_thumbnailer_parent_class)->dispose (object);
 }
@@ -737,6 +741,8 @@ static void
 photos_thumbnailer_init (PhotosThumbnailer *self)
 {
   photos_gegl_ensure_builtins ();
+
+  self->cancellables = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, g_object_unref);
 
   self->skeleton = photos_thumbnailer_dbus_skeleton_new ();
   g_signal_connect_swapped (self->skeleton,
