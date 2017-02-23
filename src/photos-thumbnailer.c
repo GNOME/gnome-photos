@@ -574,6 +574,8 @@ photos_thumbnailer_handle_generate_thumbnail (PhotosThumbnailer *self,
                                               const gchar *thumbnail_path,
                                               gint thumbnail_size)
 {
+  GCancellable *cancellable = NULL;
+
   g_return_val_if_fail (PHOTOS_IS_THUMBNAILER (self), FALSE);
   g_return_val_if_fail (G_IS_DBUS_METHOD_INVOCATION (invocation), FALSE);
   g_return_val_if_fail (uri != NULL && uri[0] != '\0', FALSE);
@@ -587,6 +589,8 @@ photos_thumbnailer_handle_generate_thumbnail (PhotosThumbnailer *self,
   if (pipeline_uri[0] == '\0')
     pipeline_uri = NULL;
 
+  cancellable = g_cancellable_new ();
+
   g_application_hold (G_APPLICATION (self));
   photos_thumbnailer_generate_thumbnail_async (self,
                                                uri,
@@ -597,10 +601,11 @@ photos_thumbnailer_handle_generate_thumbnail (PhotosThumbnailer *self,
                                                pipeline_uri,
                                                thumbnail_path,
                                                thumbnail_size,
-                                               NULL,
+                                               cancellable,
                                                photos_thumbnailer_handle_generate_thumbnail_generate_thumbnail,
                                                g_object_ref (invocation));
 
+  g_object_unref (cancellable);
   return TRUE;
 }
 
