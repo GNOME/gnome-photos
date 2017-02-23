@@ -232,7 +232,7 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
 
   format = babl_format ("cairo-ARGB32");
   stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32, roi.width);
-  buf = g_malloc0 (stride * roi.height);
+  buf = g_malloc0_n (stride, roi.height);
 
   start = g_get_monotonic_time ();
 
