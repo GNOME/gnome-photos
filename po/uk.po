@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-14 17:03+0200\n"
-"PO-Revision-Date: 2017-02-14 17:08+0300\n"
+"POT-Creation-Date: 2017-02-25 16:06+0200\n"
+"PO-Revision-Date: 2017-02-25 16:07+0300\n"
 "Last-Translator: Daniel Korostil <ted.korostiled@gmail.com>\n"
 "Language-Team: linux.org.ua\n"
 "Language: uk\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:619
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Світлини"
@@ -105,15 +105,15 @@ msgstr "Вікно розгорнуто"
 msgid "Window maximized state"
 msgstr "Стан розгорнутого вікна"
 
-#: ../src/photos-application.c:147
+#: ../src/photos-application.c:151
 msgid "Show the application's version"
 msgstr "Показати версію програми"
 
-#: ../src/photos-base-item.c:605
+#: ../src/photos-base-item.c:603
 msgid "Album"
 msgstr "Альбом"
 
-#: ../src/photos-base-item.c:2318
+#: ../src/photos-base-item.c:2387
 msgid "Screenshots"
 msgstr "Знімки екрана"
 
@@ -144,15 +144,15 @@ msgstr "Пристрої DLNA"
 msgid "“%s” edited"
 msgstr "«%s» редаговано"
 
-#: ../src/photos-embed.c:623 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Альбоми"
 
-#: ../src/photos-embed.c:627 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Улюблене"
 
-#: ../src/photos-embed.c:631 ../src/photos-main-toolbar.c:334
+#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
 msgid "Search"
 msgstr "Пошук"
 
@@ -164,6 +164,7 @@ msgstr "Назвіть ваш перший альбом"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:134
+#: ../src/photos-source-notification.c:146
 msgid "Settings"
 msgstr "Параметри"
 
@@ -226,7 +227,7 @@ msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
 #. Translators: this is the default sub-directory where photos
-#. *  will be exported.
+#. * will be exported.
 #.
 #: ../src/photos-export-dialog.c:201
 msgid "%e %B %Y"
@@ -279,10 +280,10 @@ msgid "Export Folder"
 msgstr "Експортувати теку"
 
 #. Translators: this is the fallback title in the form
-#. *  "Facebook — 2nd January 2013".
+#. * "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:101 ../src/photos-flickr-item.c:106
-#: ../src/photos-google-item.c:103
+#: ../src/photos-facebook-item.c:100 ../src/photos-flickr-item.c:105
+#: ../src/photos-google-item.c:102
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -397,7 +398,7 @@ msgid "Cancel"
 msgstr "Скасувати"
 
 #. Translators: %s refers to an online account provider, e.g.,
-#. * "Facebook" or "Flickr.
+#. * "Facebook" or "Flickr".
 #.
 #: ../src/photos-indexing-notification.c:167
 #, c-format
@@ -416,7 +417,7 @@ msgstr "Ваші фотографії індексуються"
 msgid "Some photos might not be available during this process"
 msgstr "Деякі фотографії можуть бути недоступними протягом цього процесу"
 
-#: ../src/photos-local-item.c:154 ../src/photos-source-manager.c:179
+#: ../src/photos-local-item.c:176 ../src/photos-source-manager.c:256
 msgid "Local"
 msgstr "Локальне"
 
@@ -711,7 +712,7 @@ msgid "Discard all Edits"
 msgstr "Відкинути всі зміни"
 
 #: ../src/photos-search-match-manager.c:162
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:175
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:252
 msgid "All"
 msgstr "Все"
 
@@ -775,9 +776,21 @@ msgstr "Не вдалося вивантажити світлину: служб�
 msgid "Failed to upload photo"
 msgstr "Не вдалося вивантажити світлину"
 
-#: ../src/photos-source-manager.c:204
+#: ../src/photos-source-manager.c:305
 msgid "Sources"
 msgstr "Джерела"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: ../src/photos-source-notification.c:138
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr "Ваші реєстраційні дані %s застаріли"
+
+#: ../src/photos-thumbnailer.c:75
+msgid "D-Bus address to use"
+msgstr "Адреса D-Bus"
 
 #: ../src/photos-tool-colors.c:315
 msgid "Brightness"
