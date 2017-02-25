@@ -65,11 +65,8 @@ struct _PhotosBaseItemPrivate
   GCancellable *cancellable;
   GdkPixbuf *original_icon;
   GeglBuffer *preview_source_buffer;
-  GeglNode *buffer_sink;
   GeglNode *buffer_source;
   GeglNode *edit_graph;
-  GeglNode *load_graph;
-  GeglNode *load;
   GeglProcessor *processor;
   GMutex mutex_download;
   GMutex mutex;
@@ -1003,7 +1000,6 @@ photos_base_item_get_preview_source_buffer (PhotosBaseItem *self, gint size, gin
   g_return_val_if_fail (!priv->collection, NULL);
   g_return_val_if_fail (priv->buffer_source != NULL, NULL);
   g_return_val_if_fail (priv->edit_graph != NULL, NULL);
-  g_return_val_if_fail (priv->load_graph != NULL, NULL);
 
   op = gegl_node_get_gegl_operation (priv->buffer_source);
   g_return_val_if_fail (op != NULL, NULL);
@@ -1284,6 +1280,10 @@ photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, G
 {
   PhotosBaseItemPrivate *priv;
   GeglBuffer *ret_val = NULL;
+  GeglNode *buffer_sink;
+  GeglNode *graph = NULL;
+  GeglNode *load;
+  GeglNode *orientation;
   gchar *path = NULL;
 
   priv = photos_base_item_get_instance_private (self);
@@ -1292,11 +1292,16 @@ photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, G
   if (path == NULL)
     goto out;
 
-  gegl_node_set (priv->load, "path", path, NULL);
-  gegl_node_set (priv->buffer_sink, "buffer", &ret_val, NULL);
-  gegl_node_process (priv->buffer_sink);
+  graph = gegl_node_new ();
+  load = gegl_node_new_child (graph, "operation", "gegl:load", "path", path, NULL);
+  orientation = photos_utils_create_orientation_node (graph, priv->orientation);
+  buffer_sink = gegl_node_new_child (graph, "operation", "gegl:buffer-sink", "buffer", &ret_val, NULL);
+
+  gegl_node_link_many (load, orientation, buffer_sink, NULL);
+  gegl_node_process (buffer_sink);
 
  out:
+  g_clear_object (&graph);
   g_free (path);
   return ret_val;
 }
@@ -1338,22 +1343,9 @@ photos_base_item_load_buffer_async (PhotosBaseItem *self,
                                     GAsyncReadyCallback callback,
                                     gpointer user_data)
 {
-  PhotosBaseItemPrivate *priv;
   GTask *task;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  priv = photos_base_item_get_instance_private (self);
-
-  if (priv->load_graph == NULL)
-    {
-      GeglNode *orientation;
-
-      priv->load_graph = gegl_node_new ();
-      priv->load = gegl_node_new_child (priv->load_graph, "operation", "gegl:load", NULL);
-      orientation = photos_utils_create_orientation_node (priv->load_graph, priv->orientation);
-      priv->buffer_sink = gegl_node_new_child (priv->load_graph, "operation", "gegl:buffer-sink", NULL);
-      gegl_node_link_many (priv->load, orientation, priv->buffer_sink, NULL);
-    }
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_load_buffer_async);
@@ -2367,7 +2359,6 @@ photos_base_item_dispose (GObject *object)
   g_clear_object (&priv->default_app);
   g_clear_object (&priv->preview_source_buffer);
   g_clear_object (&priv->edit_graph);
-  g_clear_object (&priv->load_graph);
   g_clear_object (&priv->processor);
   g_clear_object (&priv->original_icon);
   g_clear_object (&priv->watcher);
@@ -2595,7 +2586,6 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   g_return_val_if_fail (operation != NULL && operation[0] != '\0', NULL);
   g_return_val_if_fail (priv->buffer_source != NULL, NULL);
   g_return_val_if_fail (priv->edit_graph != NULL, NULL);
-  g_return_val_if_fail (priv->load_graph != NULL, NULL);
 
   op = gegl_node_get_gegl_operation (priv->buffer_source);
   g_return_val_if_fail (op != NULL, NULL);
@@ -2726,7 +2716,6 @@ photos_base_item_get_bbox_edited (PhotosBaseItem *self, GeglRectangle *out_bbox)
 
   g_return_val_if_fail (!priv->collection, FALSE);
   g_return_val_if_fail (priv->edit_graph != NULL, FALSE);
-  g_return_val_if_fail (priv->load_graph != NULL, FALSE);
   g_return_val_if_fail (priv->pipeline != NULL, FALSE);
   g_return_val_if_fail (priv->processor != NULL, FALSE);
   g_return_val_if_fail (!gegl_processor_work (priv->processor, NULL), FALSE);
@@ -3523,7 +3512,6 @@ photos_base_item_pipeline_save_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
   g_return_if_fail (priv->edit_graph != NULL);
-  g_return_if_fail (priv->load_graph != NULL);
   g_return_if_fail (priv->pipeline != NULL);
 
   task = g_task_new (self, cancellable, callback, user_data);
