@@ -1348,6 +1348,7 @@ photos_base_item_load_buffer_async (PhotosBaseItem *self,
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
 
   task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_return_on_cancel (task, TRUE);
   g_task_set_source_tag (task, photos_base_item_load_buffer_async);
 
   g_task_run_in_thread (task, photos_base_item_load_buffer_in_thread_func);
