@@ -212,7 +212,6 @@ photos_pipeline_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_pipeline_parent_class)->constructed (object);
 
-  self->graph = gegl_node_new ();
   gegl_node_add_child (self->parent, self->graph);
   input = gegl_node_get_input_proxy (self->graph, "input");
   output = gegl_node_get_output_proxy (self->graph, "output");
@@ -285,6 +284,7 @@ photos_pipeline_init (PhotosPipeline *self)
   EGG_COUNTER_INC (instances);
 
   self->hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+  self->graph = gegl_node_new ();
 }
 
 
