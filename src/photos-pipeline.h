@@ -76,6 +76,8 @@ void                   photos_pipeline_revert            (PhotosPipeline *self);
 
 void                   photos_pipeline_revert_to_original(PhotosPipeline *self);
 
+void                   photos_pipeline_set_parent        (PhotosPipeline *self, GeglNode *parent);
+
 void                   photos_pipeline_snapshot          (PhotosPipeline *self);
 
 G_END_DECLS

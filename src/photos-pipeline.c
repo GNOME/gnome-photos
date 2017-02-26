@@ -36,7 +36,6 @@
 struct _PhotosPipeline
 {
   GObject parent_instance;
-  GeglNode *parent;
   GHashTable *hash;
   GeglNode *graph;
   gchar *snapshot;
@@ -212,12 +211,9 @@ photos_pipeline_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_pipeline_parent_class)->constructed (object);
 
-  gegl_node_add_child (self->parent, self->graph);
   input = gegl_node_get_input_proxy (self->graph, "input");
   output = gegl_node_get_output_proxy (self->graph, "output");
   gegl_node_link (input, output);
-
-  g_clear_object (&self->parent); /* We will not need it any more */
 }
 
 
@@ -236,7 +232,6 @@ photos_pipeline_dispose (GObject *object)
   g_clear_pointer (&self->hash, (GDestroyNotify) g_hash_table_unref);
 
   g_clear_object (&self->graph);
-  g_clear_object (&self->parent);
 
   G_OBJECT_CLASS (photos_pipeline_parent_class)->dispose (object);
 }
@@ -264,8 +259,13 @@ photos_pipeline_set_property (GObject *object, guint prop_id, const GValue *valu
   switch (prop_id)
     {
     case PROP_PARENT:
-      self->parent = GEGL_NODE (g_value_dup_object (value));
-      break;
+      {
+        GeglNode *parent;
+
+        parent = GEGL_NODE (g_value_get_object (value));
+        photos_pipeline_set_parent (self, parent);
+        break;
+      }
 
     case PROP_URI:
       self->uri = g_value_dup_string (value);
@@ -304,7 +304,7 @@ photos_pipeline_class_init (PhotosPipelineClass *class)
                                                         "GeglNode object",
                                                         "A GeglNode representing the parent graph",
                                                         GEGL_TYPE_NODE,
-                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+                                                        G_PARAM_CONSTRUCT | G_PARAM_WRITABLE));
 
   g_object_class_install_property (object_class,
                                    PROP_URI,
@@ -709,6 +709,26 @@ photos_pipeline_revert_to_original (PhotosPipeline *self)
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
 
   g_free (xml);
+}
+
+
+void
+photos_pipeline_set_parent (PhotosPipeline *self, GeglNode *parent)
+{
+  GeglNode *old_parent;
+
+  g_return_if_fail (PHOTOS_IS_PIPELINE (self));
+  g_return_if_fail (parent == NULL || GEGL_IS_NODE (parent));
+
+  old_parent = gegl_node_get_parent (self->graph);
+  if (parent == old_parent)
+    return;
+
+  if (old_parent != NULL)
+    gegl_node_remove_child (old_parent, self->graph);
+
+  if (parent != NULL)
+    gegl_node_add_child (parent, self->graph);
 }
 
 
