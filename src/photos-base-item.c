@@ -418,6 +418,22 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
 
 static void
+photos_base_item_clear_pixels (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
+
+  priv->buffer_source = NULL;
+
+  g_clear_object (&priv->edit_graph);
+  g_clear_object (&priv->pipeline);
+  g_clear_object (&priv->preview_source_buffer);
+  g_clear_object (&priv->processor);
+}
+
+
+static void
 photos_base_item_set_original_icon (PhotosBaseItem *self, GdkPixbuf *icon)
 {
   PhotosBaseItemPrivate *priv;
@@ -1453,6 +1469,7 @@ photos_base_item_load_process (GObject *source_object, GAsyncResult *res, gpoint
   photos_base_item_process_finish (self, res, &error);
   if (error != NULL)
     {
+      photos_base_item_clear_pixels (self);
       g_task_return_error (task, error);
       goto out;
     }
@@ -1486,6 +1503,7 @@ photos_base_item_load_load_buffer (GObject *source_object, GAsyncResult *res, gp
   buffer = photos_base_item_load_buffer_finish (self, res, &error);
   if (error != NULL)
     {
+      photos_base_item_clear_pixels (self);
       g_task_return_error (task, error);
       goto out;
     }
@@ -1523,6 +1541,7 @@ photos_base_item_load_pipeline (GObject *source_object, GAsyncResult *res, gpoin
   priv->pipeline = photos_pipeline_new_finish (res, &error);
   if (error != NULL)
     {
+      photos_base_item_clear_pixels (self);
       g_task_return_error (task, error);
       goto out;
     }
@@ -2490,14 +2509,12 @@ photos_base_item_dispose (GObject *object)
        g_clear_object (&priv->cancellable);
     }
 
+  photos_base_item_clear_pixels (self);
+
   g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
   g_clear_object (&priv->default_app);
-  g_clear_object (&priv->preview_source_buffer);
-  g_clear_object (&priv->edit_graph);
-  g_clear_object (&priv->processor);
   g_clear_object (&priv->original_icon);
   g_clear_object (&priv->watcher);
-  g_clear_object (&priv->pipeline);
   g_clear_object (&priv->sel_cntrlr);
   g_clear_object (&priv->cursor);
 
