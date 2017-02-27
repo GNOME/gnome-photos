@@ -32,6 +32,7 @@
 #include "photos-gegl.h"
 #include "photos-pipeline.h"
 #include "photos-pixbuf.h"
+#include "photos-resources-gegl.h"
 #include "photos-thumbnailer.h"
 #include "photos-thumbnailer-dbus.h"
 
@@ -41,6 +42,7 @@ struct _PhotosThumbnailer
   GApplication parent_instance;
   GDBusConnection *connection;
   GHashTable *cancellables;
+  GResource *resource_gegl;
   PhotosThumbnailerDBus *skeleton;
   gchar *address;
 };
@@ -750,9 +752,15 @@ photos_thumbnailer_shutdown (GApplication *application)
 static void
 photos_thumbnailer_startup (GApplication *application)
 {
+  PhotosThumbnailer *self = PHOTOS_THUMBNAILER (application);
+
   G_APPLICATION_CLASS (photos_thumbnailer_parent_class)->startup (application);
 
   gegl_init (NULL, NULL);
+
+  self->resource_gegl = photos_gegl_get_resource ();
+  g_resources_register (self->resource_gegl);
+
   photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Thumbnailer ready");
 }
 
@@ -765,6 +773,7 @@ photos_thumbnailer_dispose (GObject *object)
   g_clear_object (&self->connection);
   g_clear_object (&self->skeleton);
   g_clear_pointer (&self->cancellables, (GDestroyNotify) g_hash_table_unref);
+  g_clear_pointer (&self->resource_gegl, (GDestroyNotify) g_resources_unregister);
 
   G_OBJECT_CLASS (photos_thumbnailer_parent_class)->dispose (object);
 }

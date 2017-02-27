@@ -278,6 +278,8 @@ gnome_photos_SOURCES = \
 	$(NULL)
 
 gnome_photos_thumbnailer_built_sources = \
+	photos-resources-gegl.c \
+	photos-resources-gegl.h \
 	photos-thumbnailer-dbus.c \
 	photos-thumbnailer-dbus.h \
 	photos-enums.c \
