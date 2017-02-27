@@ -1657,7 +1657,7 @@ photos_base_item_load_load_buffer (GObject *source_object, GAsyncResult *res, gp
 
 
 static void
-photos_base_item_load_pipeline (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_load_load_pipeline (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   PhotosBaseItem *self;
@@ -3560,7 +3560,7 @@ photos_base_item_load_async (PhotosBaseItem *self,
       photos_pipeline_new_async (priv->edit_graph,
                                  uri,
                                  cancellable,
-                                 photos_base_item_load_pipeline,
+                                 photos_base_item_load_load_pipeline,
                                  g_object_ref (task));
       g_free (uri);
     }
