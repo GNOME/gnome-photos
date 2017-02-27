@@ -215,7 +215,7 @@ photos_operation_insta_hefe_vignette_init (PhotosOperationInstaHefeVignette *sel
       GError *error;
 
       error = NULL;
-      vignette = gdk_pixbuf_new_from_resource ("/org/gnome/Photos/vignette.png", &error);
+      vignette = gdk_pixbuf_new_from_resource ("/org/gnome/Photos/gegl/vignette.png", &error);
       g_assert_no_error (error);
 
       vignette_channels = gdk_pixbuf_get_n_channels (vignette);

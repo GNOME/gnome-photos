@@ -52,6 +52,7 @@
 #include "photos-properties-dialog.h"
 #include "photos-query.h"
 #include "photos-resources.h"
+#include "photos-resources-gegl.h"
 #include "photos-search-context.h"
 #include "photos-search-controller.h"
 #include "photos-search-match.h"
@@ -77,6 +78,7 @@ struct _PhotosApplication
   GList *miners;
   GList *miners_running;
   GResource *resource;
+  GResource *resource_gegl;
   GSettings *bg_settings;
   GSettings *ss_settings;
   GSimpleAction *blacks_exposure_action;
@@ -1691,6 +1693,9 @@ photos_application_startup (GApplication *application)
   self->resource = photos_get_resource ();
   g_resources_register (self->resource);
 
+  self->resource_gegl = photos_gegl_get_resource ();
+  g_resources_register (self->resource_gegl);
+
   icon_theme = gtk_icon_theme_get_default ();
   gtk_icon_theme_add_resource_path (icon_theme, "/org/gnome/Photos/icons");
 
@@ -1916,6 +1921,12 @@ photos_application_dispose (GObject *object)
     {
       g_resources_unregister (self->resource);
       self->resource = NULL;
+    }
+
+  if (self->resource_gegl != NULL)
+    {
+      g_resources_unregister (self->resource_gegl);
+      self->resource_gegl = NULL;
     }
 
   g_clear_object (&self->create_window_cancellable);

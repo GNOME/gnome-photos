@@ -21,6 +21,8 @@ gnome_photos_built_sources = \
 	photos-mpris-player.h \
 	photos-resources.c \
 	photos-resources.h \
+	photos-resources-gegl.c \
+	photos-resources-gegl.h \
 	photos-shell-search-provider2.c \
 	photos-shell-search-provider2.h \
 	photos-thumbnailer-dbus.c \
@@ -340,6 +342,7 @@ EXTRA_DIST = \
 	photos-enums.h.template \
 	photos-generate-about \
 	photos.gresource.xml \
+	photos-gegl.gresource.xml \
 	photos-dlna-renderers-dialog.ui \
 	photos-export-dialog.ui \
 	photos-help-overlay.ui \
@@ -529,6 +532,20 @@ photos-resources.c: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sou
 photos-resources.h: photos.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir) --generate-dependencies $(srcdir)/photos.gresource.xml)
 	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ \
 		--c-name photos \
+		--sourcedir=$(srcdir) \
+		--generate-header \
+		$<
+
+photos-resources-gegl.c: photos-gegl.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir) --generate-dependencies $(srcdir)/photos-gegl.gresource.xml)
+	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ \
+		--c-name photos_gegl \
+		--sourcedir=$(srcdir) \
+		--generate-source \
+		$<
+
+photos-resources-gegl.h: photos-gegl.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir) --generate-dependencies $(srcdir)/photos-gegl.gresource.xml)
+	$(AM_V_GEN)$(GLIB_COMPILE_RESOURCES) --target=$@ \
+		--c-name photos_gegl \
 		--sourcedir=$(srcdir) \
 		--generate-header \
 		$<
