@@ -40,6 +40,7 @@
 #include <tracker-sparql.h>
 
 #include "egg-counter.h"
+#include "egg-task-cache.h"
 #include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-collection-icon-watcher.h"
@@ -177,6 +178,7 @@ struct _PhotosBaseItemSaveToStreamData
   gdouble zoom;
 };
 
+static EggTaskCache *pipeline_cache;
 static GdkPixbuf *failed_icon;
 static GdkPixbuf *thumbnailing_icon;
 static GThreadPool *create_thumbnail_pool;
@@ -425,6 +427,7 @@ photos_base_item_clear_pixels (PhotosBaseItem *self)
   priv = photos_base_item_get_instance_private (self);
 
   priv->buffer_source = NULL;
+  egg_task_cache_evict (pipeline_cache, self);
 
   g_clear_object (&priv->edit_graph);
   g_clear_object (&priv->pipeline);
@@ -1455,6 +1458,64 @@ photos_base_item_load_buffer_finish (PhotosBaseItem *self, GAsyncResult *res, GE
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
   return g_task_propagate_pointer (task, error);
+}
+
+
+static void
+photos_base_item_load_pipeline_task_cache_populate_new (GObject *source_object,
+                                                        GAsyncResult *res,
+                                                        gpointer user_data)
+{
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  PhotosPipeline *pipeline = NULL;
+
+  error = NULL;
+  pipeline = photos_pipeline_new_finish (res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_pointer (task, g_object_ref (pipeline), g_object_unref);
+
+ out:
+  g_clear_object (&pipeline);
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_load_pipeline_task_cache_populate (EggTaskCache *cache,
+                                                    gconstpointer key,
+                                                    GTask *task,
+                                                    gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM ((gpointer) key);
+  PhotosBaseItemClass *class;
+  GCancellable *cancellable;
+  gchar *uri = NULL;
+
+  cancellable = g_task_get_cancellable (task);
+
+  class = PHOTOS_BASE_ITEM_GET_CLASS (self);
+  if (class->create_pipeline_path != NULL)
+    {
+      gchar *path;
+
+      path = class->create_pipeline_path (self);
+      uri = photos_utils_convert_path_to_uri (path);
+      g_free (path);
+    }
+
+  photos_pipeline_new_async (NULL,
+                             uri,
+                             cancellable,
+                             photos_base_item_load_pipeline_task_cache_populate_new,
+                             g_object_ref (task));
+
+  g_free (uri);
 }
 
 
@@ -2695,6 +2756,18 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
   g_object_class_override_property (object_class, PROP_PULSE, "pulse");
   g_object_class_override_property (object_class, PROP_SECONDARY_TEXT, "secondary-text");
   g_object_class_override_property (object_class, PROP_URI, "uri");
+
+  pipeline_cache = egg_task_cache_new (g_direct_hash,
+                                       g_direct_equal,
+                                       NULL,
+                                       NULL,
+                                       g_object_ref,
+                                       g_object_unref,
+                                       0,
+                                       photos_base_item_load_pipeline_task_cache_populate,
+                                       NULL,
+                                       NULL);
+  egg_task_cache_set_name (pipeline_cache, "PhotosPipeline cache");
 
   create_thumbnail_pool = g_thread_pool_new (photos_base_item_create_thumbnail_in_thread_func,
                                              NULL,
