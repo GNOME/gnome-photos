@@ -1520,6 +1520,74 @@ photos_base_item_load_pipeline_task_cache_populate (EggTaskCache *cache,
 
 
 static void
+photos_base_item_load_pipeline_task_cache_get (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  EggTaskCache *cache = EGG_TASK_CACHE (source_object);
+  PhotosPipeline *pipeline = NULL;
+
+  g_assert_true (cache == pipeline_cache);
+
+  error = NULL;
+  pipeline = egg_task_cache_get_finish (cache, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_pointer (task, g_object_ref (pipeline), g_object_unref);
+
+ out:
+  g_clear_object (&pipeline);
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_load_pipeline_async (PhotosBaseItem *self,
+                                      GCancellable *cancellable,
+                                      GAsyncReadyCallback callback,
+                                      gpointer user_data)
+{
+  PhotosBaseItemPrivate *priv;
+  GTask *task;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = photos_base_item_get_instance_private (self);
+
+  g_return_if_fail (!priv->collection);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_load_pipeline_async);
+
+  egg_task_cache_get_async (pipeline_cache,
+                            self,
+                            FALSE,
+                            cancellable,
+                            photos_base_item_load_pipeline_task_cache_get,
+                            g_object_ref (task));
+
+  g_object_unref (task);
+}
+
+
+static PhotosPipeline *
+photos_base_item_load_pipeline_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task = G_TASK (res);
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_load_pipeline_async, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  return g_task_propagate_pointer (task, error);
+}
+
+
+static void
 photos_base_item_load_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
