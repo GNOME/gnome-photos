@@ -1672,7 +1672,7 @@ photos_base_item_load_load_pipeline (GObject *source_object, GAsyncResult *res, 
   cancellable = g_task_get_cancellable (task);
 
   error = NULL;
-  priv->pipeline = photos_pipeline_new_finish (res, &error);
+  priv->pipeline = photos_base_item_load_pipeline_finish (self, res, &error);
   if (error != NULL)
     {
       photos_base_item_clear_pixels (self);
@@ -1680,6 +1680,12 @@ photos_base_item_load_load_pipeline (GObject *source_object, GAsyncResult *res, 
       goto out;
     }
 
+  if (priv->edit_graph == NULL)
+    priv->edit_graph = gegl_node_new ();
+
+  photos_pipeline_set_parent (priv->pipeline, priv->edit_graph);
+
+  priv->buffer_source = gegl_node_new_child (priv->edit_graph, "operation", "gegl:buffer-source", NULL);
   graph = photos_pipeline_get_graph (priv->pipeline);
   gegl_node_link (priv->buffer_source, graph);
 
@@ -3522,7 +3528,7 @@ photos_base_item_load_async (PhotosBaseItem *self,
                              gpointer user_data)
 {
   PhotosBaseItemPrivate *priv;
-  GTask *task;
+  GTask *task = NULL;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
   priv = photos_base_item_get_instance_private (self);
@@ -3539,33 +3545,16 @@ photos_base_item_load_async (PhotosBaseItem *self,
 
       graph = photos_pipeline_get_graph (priv->pipeline);
       g_task_return_pointer (task, g_object_ref (graph), g_object_unref);
-    }
-  else
-    {
-      PhotosBaseItemClass *class;
-      gchar *uri = NULL;
-
-      class = PHOTOS_BASE_ITEM_GET_CLASS (self);
-      if (class->create_pipeline_path != NULL)
-        {
-          gchar *path;
-
-          path = class->create_pipeline_path (self);
-          uri = photos_utils_convert_path_to_uri (path);
-          g_free (path);
-        }
-
-      priv->edit_graph = gegl_node_new ();
-      priv->buffer_source = gegl_node_new_child (priv->edit_graph, "operation", "gegl:buffer-source", NULL);
-      photos_pipeline_new_async (priv->edit_graph,
-                                 uri,
-                                 cancellable,
-                                 photos_base_item_load_load_pipeline,
-                                 g_object_ref (task));
-      g_free (uri);
+      goto out;
     }
 
-  g_object_unref (task);
+  photos_base_item_load_pipeline_async (self,
+                                        cancellable,
+                                        photos_base_item_load_load_pipeline,
+                                        g_object_ref (task));
+
+ out:
+  g_clear_object (&task);
 }
 
 
