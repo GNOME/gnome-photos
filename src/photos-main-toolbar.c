@@ -61,11 +61,6 @@ struct _PhotosMainToolbar
   PhotosSelectionController *sel_cntrlr;
 };
 
-struct _PhotosMainToolbarClass
-{
-  GtkBoxClass parent_class;
-};
-
 enum
 {
   PROP_0,

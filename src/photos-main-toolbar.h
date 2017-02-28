@@ -32,19 +32,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_MAIN_TOOLBAR (photos_main_toolbar_get_type ())
-
-#define PHOTOS_MAIN_TOOLBAR(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_MAIN_TOOLBAR, PhotosMainToolbar))
-
-#define PHOTOS_IS_MAIN_TOOLBAR(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_MAIN_TOOLBAR))
-
-typedef struct _PhotosMainToolbar      PhotosMainToolbar;
-typedef struct _PhotosMainToolbarClass PhotosMainToolbarClass;
-
-GType                  photos_main_toolbar_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosMainToolbar, photos_main_toolbar, PHOTOS, MAIN_TOOLBAR, GtkBox);
 
 GtkWidget             *photos_main_toolbar_new                    (GtkOverlay *overlay);
 
