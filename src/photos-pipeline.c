@@ -421,6 +421,9 @@ photos_pipeline_new_async (GeglNode *parent,
                            GAsyncReadyCallback callback,
                            gpointer user_data)
 {
+  g_return_if_fail (parent == NULL || GEGL_IS_NODE (parent));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
   g_async_initable_new_async (PHOTOS_TYPE_PIPELINE,
                               G_PRIORITY_DEFAULT,
                               cancellable,
@@ -437,6 +440,8 @@ photos_pipeline_new_finish (GAsyncResult *res, GError **error)
 {
   GObject *ret_val;
   GObject *source_object;
+
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
   source_object = g_async_result_get_source_object (res);
   ret_val = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
@@ -456,6 +461,9 @@ photos_pipeline_add_valist (PhotosPipeline *self,
   GeglNode *node;
   GeglNode *output;
   gchar *xml = NULL;
+
+  g_return_if_fail (PHOTOS_IS_PIPELINE (self));
+  g_return_if_fail (operation != NULL && operation[0] != '\0');
 
   input = gegl_node_get_input_proxy (self->graph, "input");
   output = gegl_node_get_output_proxy (self->graph, "output");
@@ -493,6 +501,7 @@ photos_pipeline_get (PhotosPipeline *self, const gchar *operation, const gchar *
   va_list ap;
 
   g_return_val_if_fail (PHOTOS_IS_PIPELINE (self), FALSE);
+  g_return_val_if_fail (operation != NULL && operation[0] != '\0', FALSE);
 
   va_start (ap, first_property_name);
   ret_val = photos_pipeline_get_valist (self, operation, first_property_name, ap);
@@ -510,6 +519,9 @@ photos_pipeline_get_valist (PhotosPipeline *self,
 {
   GeglNode *node;
   gboolean ret_val = FALSE;
+
+  g_return_val_if_fail (PHOTOS_IS_PIPELINE (self), FALSE);
+  g_return_val_if_fail (operation != NULL && operation[0] != '\0', FALSE);
 
   node = GEGL_NODE (g_hash_table_lookup (self->hash, operation));
   if (node == NULL)
@@ -529,6 +541,7 @@ photos_pipeline_get_valist (PhotosPipeline *self,
 GeglNode *
 photos_pipeline_get_graph (PhotosPipeline *self)
 {
+  g_return_val_if_fail (PHOTOS_IS_PIPELINE (self), NULL);
   return self->graph;
 }
 
@@ -537,6 +550,8 @@ GeglNode *
 photos_pipeline_get_output (PhotosPipeline *self)
 {
   GeglNode *output;
+
+  g_return_val_if_fail (PHOTOS_IS_PIPELINE (self), NULL);
 
   output = gegl_node_get_output_proxy (self->graph, "output");
   return output;
@@ -549,6 +564,8 @@ photos_pipeline_is_edited (PhotosPipeline *self)
   GSList *children = NULL;
   GSList *l;
   guint n_operations = 0;
+
+  g_return_val_if_fail (PHOTOS_IS_PIPELINE (self), FALSE);
 
   children = gegl_node_get_children (self->graph);
   if (children == NULL)
@@ -591,6 +608,8 @@ photos_pipeline_new_processor (PhotosPipeline *self)
 {
   GeglProcessor *processor;
 
+  g_return_val_if_fail (PHOTOS_IS_PIPELINE (self), NULL);
+
   processor = gegl_node_new_processor (self->graph, NULL);
   return processor;
 }
@@ -606,6 +625,9 @@ photos_pipeline_save_async (PhotosPipeline *self,
   GTask *task;
   gchar *xml = NULL;
   gsize len;
+
+  g_return_if_fail (PHOTOS_IS_PIPELINE (self));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   g_return_if_fail (xml != NULL);
@@ -655,6 +677,9 @@ photos_pipeline_remove (PhotosPipeline *self, const gchar *operation)
   gboolean ret_val = FALSE;
   gchar *xml = NULL;
 
+  g_return_val_if_fail (PHOTOS_IS_PIPELINE (self), FALSE);
+  g_return_val_if_fail (operation != NULL && operation[0] != '\0', FALSE);
+
   node = GEGL_NODE (g_hash_table_lookup (self->hash, operation));
   if (node == NULL)
     goto out;
@@ -680,6 +705,7 @@ photos_pipeline_revert (PhotosPipeline *self)
 {
   gchar *xml;
 
+  g_return_if_fail (PHOTOS_IS_PIPELINE (self));
   g_return_if_fail (self->snapshot != NULL);
 
   if (!photos_pipeline_create_graph_from_xml (self, self->snapshot))
@@ -699,6 +725,8 @@ photos_pipeline_revert_to_original (PhotosPipeline *self)
 {
   const gchar *empty_xml = "<?xml version='1.0' encoding='UTF-8'?><gegl></gegl>";
   gchar *xml;
+
+  g_return_if_fail (PHOTOS_IS_PIPELINE (self));
 
   if (!photos_pipeline_create_graph_from_xml (self, empty_xml))
     g_warning ("Unable to revert to original");
@@ -735,6 +763,8 @@ photos_pipeline_set_parent (PhotosPipeline *self, GeglNode *parent)
 void
 photos_pipeline_snapshot (PhotosPipeline *self)
 {
+  g_return_if_fail (PHOTOS_IS_PIPELINE (self));
+
   g_free (self->snapshot);
   self->snapshot = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Snapshot: %s", self->snapshot);
