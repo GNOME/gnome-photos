@@ -1,8 +1,38 @@
+Overview of changes in 3.23.91
+==============================
+
+* Bugs fixed:
+ 690255 Fix distorted and wrongly scaled thumbnails
+ 763329 Thumbnails don't reflect edited state
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 777867 Closing the properties before determining the edited state of an item
+        shouldn't affect subsequent attempts to load the same item
+ 778620 appdata: Add screenshot of sharing feature
+ 778925 Exported and shared items have their orientation applied twice
+ 778967 po, source-notification: Fix typo
+
+* Updated translations:
+ Basque
+ Finnish
+ French
+ Friulian
+ German
+ Hungarian
+ Indonesian
+ Kazakh
+ Norwegian bokmål
+ Polish
+ Portuguese (Brazilian)
+ Serbian
+ Spanish
+ Ukrainian
+
+
 Overview of changes in 3.23.90
 ==============================
 
 * Bugs fixed:
- 690255  Try to avoid low resolution thumbnails
+ 690255 Try to avoid low resolution thumbnails
  763712 Use G_DECLARE_FINAL_TYPE
  777053 tests: Wait for the UI to be drawn completely
  777492 Notify when an online account needs attention
