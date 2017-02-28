@@ -43,11 +43,6 @@ struct _PhotosPipeline
   gchar *uri;
 };
 
-struct _PhotosPipelineClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,

@@ -29,19 +29,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_PIPELINE (photos_pipeline_get_type ())
-
-#define PHOTOS_PIPELINE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_PIPELINE, PhotosPipeline))
-
-#define PHOTOS_IS_PIPELINE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_PIPELINE))
-
-typedef struct _PhotosPipeline      PhotosPipeline;
-typedef struct _PhotosPipelineClass PhotosPipelineClass;
-
-GType                  photos_pipeline_get_type          (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosPipeline, photos_pipeline, PHOTOS, PIPELINE, GObject);
 
 void                   photos_pipeline_new_async         (GeglNode *parent,
                                                           const gchar *uri,
