@@ -30,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_MAIN_WINDOW (photos_main_window_get_type ())
-
-#define PHOTOS_MAIN_WINDOW(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_MAIN_WINDOW, PhotosMainWindow))
-
-#define PHOTOS_IS_MAIN_WINDOW(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_MAIN_WINDOW))
-
-typedef struct _PhotosMainWindow      PhotosMainWindow;
-typedef struct _PhotosMainWindowClass PhotosMainWindowClass;
-
-GType                  photos_main_window_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosMainWindow, photos_main_window, PHOTOS, MAIN_WINDOW, GtkApplicationWindow);
 
 GtkWidget             *photos_main_window_new                    (GtkApplication *application);
 

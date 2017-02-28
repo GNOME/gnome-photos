@@ -52,11 +52,6 @@ struct _PhotosMainWindow
   guint configure_id;
 };
 
-struct _PhotosMainWindowClass
-{
-  GtkApplicationWindowClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosMainWindow, photos_main_window, GTK_TYPE_APPLICATION_WINDOW);
 
