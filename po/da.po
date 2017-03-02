@@ -1,17 +1,18 @@
 # Danish translation for gnome-photos.
-# Copyright (C) 2013-16 gnome-photos's COPYRIGHT HOLDER
+# Copyright (C) 2013-17 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Kris Thomsen <lakristho@gmail.com>, 2013.
 # Kenneth Nielsen <k.nielsen81@gmail.com>, 2014.
 # scootergrisen, 2016.
 # Ask Hjorth Larsen <asklarsen@gmail.com>, 2014-16.
+# Joe Hansen <joedalton2@yahoo.dk>, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: "
-"http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-03 18:54+0000\n"
-"PO-Revision-Date: 2016-09-08 02:55+0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-02-22 19:28+0000\n"
+"PO-Revision-Date: 2017-02-25 02:55+0200\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -23,7 +24,7 @@ msgstr ""
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:619
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Billeder"
@@ -110,15 +111,15 @@ msgstr "Vindue maksimeret"
 msgid "Window maximized state"
 msgstr "Vindue maksimeret-tilstand"
 
-#: ../src/photos-application.c:143
+#: ../src/photos-application.c:151
 msgid "Show the application's version"
 msgstr "Vis programversion"
 
-#: ../src/photos-base-item.c:603
+#: ../src/photos-base-item.c:589
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2313
+#: ../src/photos-base-item.c:2303
 msgid "Screenshots"
 msgstr "Skærmbilleder"
 
@@ -148,15 +149,15 @@ msgstr "DLNA-renderingsenheder"
 msgid "“%s” edited"
 msgstr "“%s” redigeret"
 
-#: ../src/photos-embed.c:623 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:627 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: ../src/photos-embed.c:631 ../src/photos-main-toolbar.c:334
+#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
 msgid "Search"
 msgstr "Søg"
 
@@ -168,6 +169,7 @@ msgstr "Navngiv dit første album"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:134
+#: ../src/photos-source-notification.c:146
 msgid "Settings"
 msgstr "Indstillinger"
 
@@ -230,7 +232,7 @@ msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
 #. Translators: this is the default sub-directory where photos
-#. *  will be exported.
+#. * will be exported.
 #.
 #: ../src/photos-export-dialog.c:201
 msgid "%e %B %Y"
@@ -282,7 +284,7 @@ msgid "Export Folder"
 msgstr "Mappe til eksport"
 
 #. Translators: this is the fallback title in the form
-#. *  "Facebook — 2nd January 2013".
+#. * "Facebook — 2nd January 2013".
 #.
 #: ../src/photos-facebook-item.c:100 ../src/photos-flickr-item.c:105
 #: ../src/photos-google-item.c:102
@@ -401,26 +403,26 @@ msgid "Cancel"
 msgstr "Annullér"
 
 #. Translators: %s refers to an online account provider, e.g.,
-#. * "Facebook" or "Flickr.
+#. * "Facebook" or "Flickr".
 #.
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:167
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Henter billeder fra %s"
 
-#: ../src/photos-indexing-notification.c:175
+#: ../src/photos-indexing-notification.c:170
 msgid "Fetching photos from online accounts"
 msgstr "Henter billeder fra onlinekonti"
 
-#: ../src/photos-indexing-notification.c:211
+#: ../src/photos-indexing-notification.c:206
 msgid "Your photos are being indexed"
 msgstr "Dine billeder er ved at blive indekseret"
 
-#: ../src/photos-indexing-notification.c:212
+#: ../src/photos-indexing-notification.c:207
 msgid "Some photos might not be available during this process"
 msgstr "Nogen billeder er muligvis ikke tilgængelige under denne proces"
 
-#: ../src/photos-local-item.c:136 ../src/photos-source-manager.c:179
+#: ../src/photos-local-item.c:176 ../src/photos-source-manager.c:256
 msgid "Local"
 msgstr "Lokal"
 
@@ -467,11 +469,6 @@ msgid "Done"
 msgstr "Færdig"
 
 #: ../src/photos-main-window.c:497
-#, fuzzy
-#| msgid ""
-#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#| "Copyright © 2014 – 2015 Pranav Kant\n"
-#| "Copyright © 2012 – 2016 Red Hat, Inc."
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -479,7 +476,7 @@ msgid ""
 msgstr ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2016 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
 #: ../src/photos-main-window.c:507
@@ -489,6 +486,7 @@ msgstr ""
 "Kenneth Nielsen\n"
 "Ask Hjorth Larsen\n"
 "scootergrisen\n"
+"Joe Hansen\n"
 "\n"
 "Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
 "Mere info: http://www.dansk-gruppen.dk"
@@ -513,16 +511,16 @@ msgstr "Om"
 msgid "Quit"
 msgstr "Afslut"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-organize-collection-dialog.c:71
 msgid "_Add"
 msgstr "_Tilføj"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:72
 msgid "_OK"
 msgstr "_OK"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:123
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organisér"
@@ -551,7 +549,7 @@ msgstr "Sæt som baggrund"
 msgid "Set as Lock Screen"
 msgstr "Sæt som låst skærm"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:902
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:903
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Egenskaber"
@@ -633,18 +631,18 @@ msgstr "Tommer"
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
-#: ../src/photos-properties-dialog.c:254
+#: ../src/photos-properties-dialog.c:255
 msgid "Edited in Photos"
 msgstr "Redigeret i Billeder"
 
-#: ../src/photos-properties-dialog.c:267
+#: ../src/photos-properties-dialog.c:268
 msgid "Untouched"
 msgstr "Uberørt"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:452
+#: ../src/photos-properties-dialog.c:453
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Titel"
@@ -652,83 +650,81 @@ msgstr "Titel"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:464
+#: ../src/photos-properties-dialog.c:465
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Forfatter"
 
-#: ../src/photos-properties-dialog.c:471
+#: ../src/photos-properties-dialog.c:472
 msgid "Source"
 msgstr "Kilde"
 
-#: ../src/photos-properties-dialog.c:477
+#: ../src/photos-properties-dialog.c:478
 msgid "Date Modified"
 msgstr "Redigeringsdato"
 
-#: ../src/photos-properties-dialog.c:485
+#: ../src/photos-properties-dialog.c:486
 msgid "Date Created"
 msgstr "Oprettelsesdato"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:495
+#: ../src/photos-properties-dialog.c:496
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Type"
 
-#: ../src/photos-properties-dialog.c:505
+#: ../src/photos-properties-dialog.c:506
 msgid "Dimensions"
 msgstr "Mål"
 
-#: ../src/photos-properties-dialog.c:517
-#, fuzzy
-#| msgid "Modifications"
+#: ../src/photos-properties-dialog.c:518
 msgid "Location"
-msgstr "Ændringer"
+msgstr "Sted"
 
-#: ../src/photos-properties-dialog.c:537
+#: ../src/photos-properties-dialog.c:538
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:547
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
 msgid "Exposure"
 msgstr "Eksponering"
 
-#: ../src/photos-properties-dialog.c:557
+#: ../src/photos-properties-dialog.c:558
 msgid "Aperture"
 msgstr "Blænde"
 
-#: ../src/photos-properties-dialog.c:567
+#: ../src/photos-properties-dialog.c:568
 msgid "Focal Length"
 msgstr "Brændvidde"
 
-#: ../src/photos-properties-dialog.c:577
+#: ../src/photos-properties-dialog.c:578
 msgid "ISO Speed"
 msgstr "ISO-hastighed"
 
-#: ../src/photos-properties-dialog.c:587
+#: ../src/photos-properties-dialog.c:588
 msgid "Flash"
 msgstr "Blitz"
 
-#: ../src/photos-properties-dialog.c:596
+#: ../src/photos-properties-dialog.c:597
 msgid "Modifications"
 msgstr "Ændringer"
 
-#: ../src/photos-properties-dialog.c:737
+#: ../src/photos-properties-dialog.c:738
 msgid "Off, did not fire"
 msgstr "Slukket, blev ikke affyret"
 
-#: ../src/photos-properties-dialog.c:739
+#: ../src/photos-properties-dialog.c:740
 msgid "On, fired"
 msgstr "Tændt, blev affyret"
 
-#: ../src/photos-properties-dialog.c:777
+#: ../src/photos-properties-dialog.c:778
 msgid "Discard all Edits"
 msgstr "Forkast alle ændringer"
 
 #: ../src/photos-search-match-manager.c:162
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:175
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:252
 msgid "All"
 msgstr "Alle"
 
@@ -780,35 +776,51 @@ msgctxt "dialog title"
 msgid "Share"
 msgstr "Del"
 
-#: ../src/photos-share-point-email.c:78
+#: ../src/photos-share-point-email.c:80
 msgid "E-Mail"
 msgstr "E-mail"
 
-#: ../src/photos-share-point-google.c:97
+#: ../src/photos-share-point-google.c:98
 msgid "Failed to upload photo: Service not authorized"
 msgstr "Kunne ikke uploade billede: Tjenesten ikke godkendt"
 
-#: ../src/photos-share-point-google.c:99
+#: ../src/photos-share-point-google.c:100
 msgid "Failed to upload photo"
 msgstr "Kunne ikke uploade billede"
 
-#: ../src/photos-source-manager.c:204
+#: ../src/photos-source-manager.c:305
 msgid "Sources"
 msgstr "Kilder"
 
-#: ../src/photos-tool-colors.c:247
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: ../src/photos-source-notification.c:138
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr "Dine %s-akkreditiver er udløbet"
+
+#: ../src/photos-thumbnailer.c:73
+msgid "D-Bus address to use"
+msgstr "D-Bus-adresse at anvende"
+
+#: ../src/photos-tool-colors.c:315
 msgid "Brightness"
 msgstr "Lysstyrke"
 
-#: ../src/photos-tool-colors.c:268
+#: ../src/photos-tool-colors.c:356
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:288
+#: ../src/photos-tool-colors.c:376
+msgid "Blacks"
+msgstr "Sorte"
+
+#: ../src/photos-tool-colors.c:396
 msgid "Saturation"
 msgstr "Mætning"
 
-#: ../src/photos-tool-colors.c:315
+#: ../src/photos-tool-colors.c:423
 msgid "Colors"
 msgstr "Farver"
 
@@ -969,11 +981,11 @@ msgstr "Kunne ikke hente liste over billeder"
 #~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
 #~ "opening full featured editor for more advanced changes</li>"
 #~ msgstr ""
-#~ "<li>Se nylige lokale og online billeder</li> <li>Tilgå dit "
-#~ "Flickr-indhold</li> <li>Sende billeder til fjerne "
-#~ "DLNA-renderingsenheder</li> <li>Sætte som baggrund</li> <li>Udskrive "
-#~ "billeder</li> <li>Vælge favoritter</li> <li>Åbne et fuldt funktionsdygtigt "
-#~ "redigeringsprogram for mere avancerede ændringer</li>"
+#~ "<li>Se nylige lokale og online billeder</li> <li>Tilgå dit Flickr-"
+#~ "indhold</li> <li>Sende billeder til fjerne DLNA-renderingsenheder</li> "
+#~ "<li>Sætte som baggrund</li> <li>Udskrive billeder</li> <li>Vælge "
+#~ "favoritter</li> <li>Åbne et fuldt funktionsdygtigt redigeringsprogram for "
+#~ "mere avancerede ændringer</li>"
 
 #~ msgid "Facebook"
 #~ msgstr "Facebook"
@@ -983,4 +995,3 @@ msgstr "Kunne ikke hente liste over billeder"
 
 #~ msgid "About Photos"
 #~ msgstr "Om Billeder"
-
