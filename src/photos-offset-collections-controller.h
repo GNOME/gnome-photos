@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OFFSET_COLLECTIONS_CONTROLLER (photos_offset_collections_controller_get_type ())
-
-#define PHOTOS_OFFSET_COLLECTIONS_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OFFSET_COLLECTIONS_CONTROLLER, PhotosOffsetCollectionsController))
-
-#define PHOTOS_IS_OFFSET_COLLECTIONS_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OFFSET_COLLECTIONS_CONTROLLER))
-
-typedef struct _PhotosOffsetCollectionsController      PhotosOffsetCollectionsController;
-typedef struct _PhotosOffsetCollectionsControllerClass PhotosOffsetCollectionsControllerClass;
-
-GType                    photos_offset_collections_controller_get_type          (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOffsetCollectionsController,
+                      photos_offset_collections_controller,
+                      PHOTOS,
+                      OFFSET_COLLECTIONS_CONTROLLER,
+                      PhotosOffsetController);
 
 PhotosOffsetController  *photos_offset_collections_controller_dup_singleton     (void);
 

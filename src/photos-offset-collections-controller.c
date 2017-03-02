@@ -39,11 +39,6 @@ struct _PhotosOffsetCollectionsController
   PhotosBaseManager *item_mngr;
 };
 
-struct _PhotosOffsetCollectionsControllerClass
-{
-  PhotosOffsetControllerClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosOffsetCollectionsController,
                photos_offset_collections_controller,
