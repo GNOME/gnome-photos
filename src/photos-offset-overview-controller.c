@@ -61,8 +61,8 @@ photos_offset_overview_controller_get_query (PhotosOffsetController *offset_cntr
 
 static GObject *
 photos_offset_overview_controller_constructor (GType type,
-                                                guint n_construct_params,
-                                                GObjectConstructParam *construct_params)
+                                               guint n_construct_params,
+                                               GObjectConstructParam *construct_params)
 {
   static GObject *self = NULL;
 
