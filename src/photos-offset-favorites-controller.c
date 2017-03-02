@@ -39,11 +39,6 @@ struct _PhotosOffsetFavoritesController
   PhotosBaseManager *item_mngr;
 };
 
-struct _PhotosOffsetFavoritesControllerClass
-{
-  PhotosOffsetControllerClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosOffsetFavoritesController, photos_offset_favorites_controller, PHOTOS_TYPE_OFFSET_CONTROLLER);
 

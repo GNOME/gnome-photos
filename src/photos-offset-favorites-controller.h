@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OFFSET_FAVORITES_CONTROLLER (photos_offset_favorites_controller_get_type ())
-
-#define PHOTOS_OFFSET_FAVORITES_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OFFSET_FAVORITES_CONTROLLER, PhotosOffsetFavoritesController))
-
-#define PHOTOS_IS_OFFSET_FAVORITES_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OFFSET_FAVORITES_CONTROLLER))
-
-typedef struct _PhotosOffsetFavoritesController      PhotosOffsetFavoritesController;
-typedef struct _PhotosOffsetFavoritesControllerClass PhotosOffsetFavoritesControllerClass;
-
-GType                    photos_offset_favorites_controller_get_type          (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOffsetFavoritesController,
+                      photos_offset_favorites_controller,
+                      PHOTOS,
+                      OFFSET_FAVORITES_CONTROLLER,
+                      PhotosOffsetController);
 
 PhotosOffsetController  *photos_offset_favorites_controller_dup_singleton     (void);
 
