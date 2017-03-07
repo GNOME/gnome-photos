@@ -1,3 +1,13 @@
+Overview of changes in 3.22.5
+=============================
+
+* Bugs fixed:
+ 777867 Closing the properties before determining the edited state of an item
+        shouldn't affect subsequent attempts to load the same item
+ 778620 appdata: Add screenshot of sharing feature
+ 778925 Exported and shared items have their orientation applied twice
+
+
 Overview of changes in 3.22.4
 =============================
 
