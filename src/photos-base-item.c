@@ -1259,34 +1259,6 @@ photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *re
 
 
 static void
-photos_base_item_pipeline_is_edited_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
-  GTask *task = G_TASK (user_data);
-  GeglNode *graph = NULL;
-  PhotosPipeline *pipeline;
-  gboolean is_edited;
-
-  error = NULL;
-  graph = photos_base_item_load_finish (self, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
-
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
-  is_edited = photos_pipeline_is_edited (pipeline);
-  g_task_return_boolean (task, is_edited);
-
- out:
-  g_clear_object (&graph);
-  g_object_unref (task);
-}
-
-
-static void
 photos_base_item_process_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GError *error;
@@ -1723,6 +1695,34 @@ photos_base_item_metadata_add_shared_in_thread_func (GTask *task,
     }
 
   g_task_return_boolean (task, result);
+}
+
+
+static void
+photos_base_item_pipeline_is_edited_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  GeglNode *graph = NULL;
+  PhotosPipeline *pipeline;
+  gboolean is_edited;
+
+  error = NULL;
+  graph = photos_base_item_load_finish (self, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  is_edited = photos_pipeline_is_edited (pipeline);
+  g_task_return_boolean (task, is_edited);
+
+ out:
+  g_clear_object (&graph);
+  g_object_unref (task);
 }
 
 
