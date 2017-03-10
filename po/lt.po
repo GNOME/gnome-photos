@@ -6,11 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-22 09:06+0000\n"
-"PO-Revision-Date: 2016-09-05 18:14+0300\n"
-"Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
+"POT-Creation-Date: 2017-03-10 11:53+0000\n"
+"PO-Revision-Date: 2017-03-07 01:09+0200\n"
+"Last-Translator: Moo\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
 "%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:666
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Nuotraukos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:497
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Pasiekite, tvarkykite ir dalinkitės savo nuotraukomis GNOME aplinkoje"
 
@@ -111,20 +111,20 @@ msgstr "Lango išdidinimo būsena"
 msgid "Show the application's version"
 msgstr "Rodyti programos versiją"
 
-#: ../src/photos-base-item.c:544
+#: ../src/photos-base-item.c:617
 msgid "Album"
 msgstr "Albumas"
 
-#: ../src/photos-base-item.c:2067
+#: ../src/photos-base-item.c:2540
 msgid "Screenshots"
 msgstr "Ekranvaizdžiai"
 
-#: ../src/photos-delete-notification.c:145
+#: ../src/photos-delete-notification.c:139
 #, c-format
 msgid "“%s” deleted"
 msgstr "„%s“ ištrinta"
 
-#: ../src/photos-delete-notification.c:148
+#: ../src/photos-delete-notification.c:142
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
@@ -132,7 +132,7 @@ msgstr[0] "%d elementas ištrintas"
 msgstr[1] "%d elementai ištrinti"
 msgstr[2] "%d elementų ištrinta"
 
-#: ../src/photos-delete-notification.c:156
+#: ../src/photos-delete-notification.c:150
 #: ../src/photos-done-notification.c:125
 msgid "Undo"
 msgstr "Atšaukti"
@@ -146,26 +146,27 @@ msgstr "DLNA piešimo įrenginiai"
 msgid "“%s” edited"
 msgstr "„%s“ pakeista"
 
-#: ../src/photos-embed.c:673 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albumai"
 
-#: ../src/photos-embed.c:680 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Mėgiamiausios"
 
-#: ../src/photos-embed.c:687 ../src/photos-main-toolbar.c:299
+#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:329
 msgid "Search"
 msgstr "Ieškoti"
 
-#: ../src/photos-empty-results-box.c:119
+#: ../src/photos-empty-results-box.c:114
 msgid "Name your first album"
 msgstr "Pavadinkite savo pirmąjį albumą"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: ../src/photos-empty-results-box.c:139
+#: ../src/photos-empty-results-box.c:134
+#: ../src/photos-source-notification.c:146
 msgid "Settings"
 msgstr "Nustatymai"
 
@@ -173,20 +174,20 @@ msgstr "Nustatymai"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: ../src/photos-empty-results-box.c:145
+#: ../src/photos-empty-results-box.c:140
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "%s galite pridėti internetines paskyras"
 
-#: ../src/photos-empty-results-box.c:186
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Nerasta albumų"
 
-#: ../src/photos-empty-results-box.c:191
+#: ../src/photos-empty-results-box.c:186
 msgid "Starred photos will appear here"
 msgstr "Žvaigždute pažymėtos nuotraukos bus matomos čia"
 
-#: ../src/photos-empty-results-box.c:197
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Nerasta nuotraukų"
 
@@ -222,36 +223,36 @@ msgstr "_Eksportuoti"
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: ../src/photos-export-dialog.c:73
+#: ../src/photos-export-dialog.c:67
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
 #. Translators: this is the default sub-directory where photos
-#. *  will be exported.
+#. * will be exported.
 #.
-#: ../src/photos-export-dialog.c:207
+#: ../src/photos-export-dialog.c:201
 msgid "%e %B %Y"
 msgstr "%Y %B %e"
 
-#: ../src/photos-export-dialog.c:265
+#: ../src/photos-export-dialog.c:259
 msgid "Calculating export size…"
 msgstr "Skaičiuojamas eksportavimo dydis..."
 
-#: ../src/photos-export-notification.c:241
+#: ../src/photos-export-notification.c:236
 msgid "Failed to export: not enough space"
 msgstr "Nepavyko eksportuoti: nepakanka disko vietos"
 
-#: ../src/photos-export-notification.c:243
+#: ../src/photos-export-notification.c:238
 msgid "Failed to export"
 msgstr "Nepavyko eksportuoti"
 
-#: ../src/photos-export-notification.c:250
+#: ../src/photos-export-notification.c:245
 #, c-format
 msgid "“%s” exported"
 msgstr "„%s“ eksportuotas"
 
-#: ../src/photos-export-notification.c:254
+#: ../src/photos-export-notification.c:249
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -259,16 +260,16 @@ msgstr[0] "%d elementas eksportuotas"
 msgstr[1] "%d elementai eksportuoti"
 msgstr[2] "%d elementų eksportuota"
 
-#: ../src/photos-export-notification.c:272
+#: ../src/photos-export-notification.c:267
 msgid "Analyze"
 msgstr "Analizuoti"
 
-#: ../src/photos-export-notification.c:277
+#: ../src/photos-export-notification.c:272
 msgid "Empty Trash"
 msgstr "Išvalyti šiukšlinę"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:294 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-export-notification.c:289 ../src/photos-preview-menu.ui.h:1
 #: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Atverti"
@@ -276,20 +277,20 @@ msgstr "Atverti"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:304
+#: ../src/photos-export-notification.c:299
 msgid "Export Folder"
 msgstr "Eksportuoti aplanką"
 
 #. Translators: this is the fallback title in the form
-#. *  "Facebook — 2nd January 2013".
+#. * "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:105 ../src/photos-flickr-item.c:110
-#: ../src/photos-google-item.c:107
+#: ../src/photos-facebook-item.c:100 ../src/photos-flickr-item.c:105
+#: ../src/photos-google-item.c:102
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:182
+#: ../src/photos-fetch-metas-job.c:177
 msgid "Untitled Photo"
 msgstr "Nepavadinta nuotrauka"
 
@@ -399,34 +400,34 @@ msgid "Cancel"
 msgstr "Atsisakyti"
 
 #. Translators: %s refers to an online account provider, e.g.,
-#. * "Facebook" or "Flickr.
+#. * "Facebook" or "Flickr".
 #.
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:167
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Gaunamos nuotraukos iš %s"
 
-#: ../src/photos-indexing-notification.c:175
+#: ../src/photos-indexing-notification.c:170
 msgid "Fetching photos from online accounts"
 msgstr "Gaunamos nuotraukos iš internetinių paskyrų"
 
-#: ../src/photos-indexing-notification.c:211
+#: ../src/photos-indexing-notification.c:206
 msgid "Your photos are being indexed"
 msgstr "Jūsų nuotraukos indeksuojamos"
 
-#: ../src/photos-indexing-notification.c:212
+#: ../src/photos-indexing-notification.c:207
 msgid "Some photos might not be available during this process"
 msgstr "Kai kurios nuotraukos gali būti nepasiekiamos šio proceso metu"
 
-#: ../src/photos-local-item.c:140 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:176 ../src/photos-source-manager.c:256
 msgid "Local"
 msgstr "Vietinės"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Spauskite ant elementų jiems pažymėti"
 
-#: ../src/photos-main-toolbar.c:115
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -434,49 +435,49 @@ msgstr[0] "Pasirinktas %d"
 msgstr[1] "Pasirinkti %d"
 msgstr[2] "Pasirinkta %d"
 
-#: ../src/photos-main-toolbar.c:165
+#: ../src/photos-main-toolbar.c:160
 msgid "Back"
 msgstr "Atgal"
 
-#: ../src/photos-main-toolbar.c:314
+#: ../src/photos-main-toolbar.c:344
 msgid "Select Items"
 msgstr "Pasirinkite elementus"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:408 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:438 ../src/photos-selection-toolbar.c:234
 #, c-format
 msgid "Open with %s"
 msgstr "Atverti su %s"
 
-#: ../src/photos-main-toolbar.c:448 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:245
 msgid "Remove from favorites"
 msgstr "Pašalinti iš mėgiamiausių"
 
-#: ../src/photos-main-toolbar.c:453 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:250
 msgid "Add to favorites"
 msgstr "Pridėti prie mėgiamiausių"
 
-#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:628
+#: ../src/photos-main-toolbar.c:520 ../src/photos-main-toolbar.c:658
 msgid "Cancel"
 msgstr "Atsisakyti"
 
-#: ../src/photos-main-toolbar.c:494
+#: ../src/photos-main-toolbar.c:524
 msgid "Done"
 msgstr "Atlikta"
 
-#: ../src/photos-main-window.c:498
+#: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2016 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc."
 msgstr ""
 "Autorių Teisės © 2013 Intel Corporation. Visos teisės saugomos.\n"
 "Autorių Teisės © 2014 – 2015 Pranav Kant\n"
-"Autorių Teisės © 2012 – 2016 Red Hat, Inc."
+"Autorių Teisės © 2012 – 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:508
+#: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr ""
 "Išvertė:\n"
@@ -502,16 +503,16 @@ msgstr "Apie"
 msgid "Quit"
 msgstr "Išeiti"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-organize-collection-dialog.c:71
 msgid "_Add"
 msgstr "_Pridėti"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:72
 msgid "_OK"
 msgstr "_Gerai"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:123
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Tvarkyti"
@@ -540,7 +541,7 @@ msgstr "Nustatyti kaip foną"
 msgid "Set as Lock Screen"
 msgstr "Nustatyti kaip ekrano užraktą"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:732
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:903
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Savybės"
@@ -622,19 +623,18 @@ msgstr "Coliai"
 msgid "Preview"
 msgstr "Peržiūra"
 
-#: ../src/photos-properties-dialog.c:128
-#| msgid "Untitled Photo"
+#: ../src/photos-properties-dialog.c:255
 msgid "Edited in Photos"
 msgstr "Redaguota Nuotraukose"
 
-#: ../src/photos-properties-dialog.c:141
+#: ../src/photos-properties-dialog.c:268
 msgid "Untouched"
 msgstr "Nepaliesta"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:310
+#: ../src/photos-properties-dialog.c:453
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Pavadinimas"
@@ -642,88 +642,92 @@ msgstr "Pavadinimas"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:322
+#: ../src/photos-properties-dialog.c:465
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autorius"
 
-#: ../src/photos-properties-dialog.c:329
+#: ../src/photos-properties-dialog.c:472
 msgid "Source"
 msgstr "Šaltinis"
 
-#: ../src/photos-properties-dialog.c:335
+#: ../src/photos-properties-dialog.c:478
 msgid "Date Modified"
 msgstr "Keitimo data"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:486
 msgid "Date Created"
 msgstr "Sukūrimo data"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:353
+#: ../src/photos-properties-dialog.c:496
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tipas"
 
-#: ../src/photos-properties-dialog.c:363
+#: ../src/photos-properties-dialog.c:506
 msgid "Dimensions"
 msgstr "Išmatavimai"
 
-#: ../src/photos-properties-dialog.c:378
+#: ../src/photos-properties-dialog.c:518
+msgid "Location"
+msgstr "Vieta"
+
+#: ../src/photos-properties-dialog.c:538
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:388
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
 msgid "Exposure"
 msgstr "Išlaikymas"
 
-#: ../src/photos-properties-dialog.c:398
+#: ../src/photos-properties-dialog.c:558
 msgid "Aperture"
 msgstr "Diafragma"
 
-#: ../src/photos-properties-dialog.c:408
+#: ../src/photos-properties-dialog.c:568
 msgid "Focal Length"
 msgstr "Židinio nuotolis"
 
-#: ../src/photos-properties-dialog.c:418
+#: ../src/photos-properties-dialog.c:578
 msgid "ISO Speed"
 msgstr "ISO greitis"
 
-#: ../src/photos-properties-dialog.c:428
+#: ../src/photos-properties-dialog.c:588
 msgid "Flash"
 msgstr "Blykstė"
 
-#: ../src/photos-properties-dialog.c:435
+#: ../src/photos-properties-dialog.c:597
 msgid "Modifications"
 msgstr "Pakeitimai"
 
-#: ../src/photos-properties-dialog.c:566
+#: ../src/photos-properties-dialog.c:738
 msgid "Off, did not fire"
 msgstr "Išjungta, neblykstelėjo"
 
-#: ../src/photos-properties-dialog.c:568
+#: ../src/photos-properties-dialog.c:740
 msgid "On, fired"
 msgstr "Įjungta, blykstelėjo"
 
-#: ../src/photos-properties-dialog.c:602
+#: ../src/photos-properties-dialog.c:778
 msgid "Discard all Edits"
 msgstr "Atmesti visus redagavimus"
 
-#: ../src/photos-search-match-manager.c:158
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
+#: ../src/photos-search-match-manager.c:162
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:252
 msgid "All"
 msgstr "Visi"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:165
+#: ../src/photos-search-match-manager.c:169
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Pavadinimas"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:172
+#: ../src/photos-search-match-manager.c:176
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autorius"
@@ -731,7 +735,7 @@ msgstr "Autorius"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:210
+#: ../src/photos-search-match-manager.c:214
 msgid "Match"
 msgstr "Atitikmuo"
 
@@ -760,135 +764,149 @@ msgid "Add to Album"
 msgstr "Pridėti į albumą"
 
 #: ../src/photos-share-dialog.ui.h:1
-#| msgid "Sharpen"
 msgctxt "dialog title"
 msgid "Share"
 msgstr "Dalintis"
 
-#: ../src/photos-share-point-email.c:78
+#: ../src/photos-share-point-email.c:80
 msgid "E-Mail"
 msgstr "El. paštas"
 
-#: ../src/photos-share-point-google.c:86
+#: ../src/photos-share-point-google.c:98
 msgid "Failed to upload photo: Service not authorized"
 msgstr "Nepavyko nusiųsti nuotraukos: tarnyba neleidžiama"
 
-#: ../src/photos-share-point-google.c:88
-#| msgid "Failed to export"
+#: ../src/photos-share-point-google.c:100
 msgid "Failed to upload photo"
 msgstr "Nepavyko nusiųsti nuotraukos"
 
-#: ../src/photos-source-manager.c:203
+#: ../src/photos-source-manager.c:305
 msgid "Sources"
 msgstr "Šaltiniai"
 
-#: ../src/photos-tool-colors.c:251
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: ../src/photos-source-notification.c:138
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr "Pasibaigė Jūsų %s įgaliojimų laikas"
+
+#: ../src/photos-thumbnailer.c:77
+msgid "D-Bus address to use"
+msgstr "D-Bus adresas, kurį naudoti"
+
+#: ../src/photos-tool-colors.c:315
 msgid "Brightness"
 msgstr "Ryškumas"
 
-#: ../src/photos-tool-colors.c:272
+#: ../src/photos-tool-colors.c:356
 msgid "Contrast"
 msgstr "Kontrastas"
 
-#: ../src/photos-tool-colors.c:292
+#: ../src/photos-tool-colors.c:376
+msgid "Blacks"
+msgstr "Juodinimai"
+
+#: ../src/photos-tool-colors.c:396
 msgid "Saturation"
 msgstr "Sodrumas"
 
-#: ../src/photos-tool-colors.c:319
+#: ../src/photos-tool-colors.c:423
 msgid "Colors"
 msgstr "Spalvos"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:119
 msgid "Free"
 msgstr "Laisvas"
 
-#: ../src/photos-tool-crop.c:133
+#: ../src/photos-tool-crop.c:120
 msgid "Original"
 msgstr "Pradinis dydis"
 
-#: ../src/photos-tool-crop.c:134
+#: ../src/photos-tool-crop.c:121
 msgid "1×1 (Square)"
 msgstr "1×1 (kvadratas)"
 
-#: ../src/photos-tool-crop.c:135
+#: ../src/photos-tool-crop.c:122
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:136
+#: ../src/photos-tool-crop.c:123
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:137
+#: ../src/photos-tool-crop.c:124
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:138
+#: ../src/photos-tool-crop.c:125
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:139
+#: ../src/photos-tool-crop.c:126
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:140
+#: ../src/photos-tool-crop.c:127
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1181
+#: ../src/photos-tool-crop.c:1171
 msgid "Lock aspect ratio"
 msgstr "Išlaikyti proporcijas"
 
-#: ../src/photos-tool-crop.c:1229
+#: ../src/photos-tool-crop.c:1219
 msgid "Reset"
 msgstr "Atstatyti"
 
-#: ../src/photos-tool-crop.c:1246
+#: ../src/photos-tool-crop.c:1236
 msgid "Crop"
 msgstr "Apkirpti"
 
-#: ../src/photos-tool-enhance.c:207
+#: ../src/photos-tool-enhance.c:202
 msgid "Sharpen"
 msgstr "Paaštrinti"
 
-#: ../src/photos-tool-enhance.c:227
+#: ../src/photos-tool-enhance.c:222
 msgid "Denoise"
 msgstr "Išvalyti"
 
-#: ../src/photos-tool-enhance.c:253
+#: ../src/photos-tool-enhance.c:248
 msgid "Enhance"
 msgstr "Pagerinti"
 
 #. Translators: "None" refers to the nop magic filter when editing.
-#: ../src/photos-tool-filters.c:190
+#: ../src/photos-tool-filters.c:185
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "Nėra"
 
-#: ../src/photos-tool-filters.c:197
+#: ../src/photos-tool-filters.c:192
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:204
+#: ../src/photos-tool-filters.c:199
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:210
+#: ../src/photos-tool-filters.c:205
 msgid "Mogadishu"
 msgstr "Mogadišas"
 
-#: ../src/photos-tool-filters.c:217
+#: ../src/photos-tool-filters.c:212
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:223
+#: ../src/photos-tool-filters.c:218
 msgid "Hometown"
 msgstr "Gimtasis miestas"
 
-#: ../src/photos-tool-filters.c:241
+#: ../src/photos-tool-filters.c:236
 msgid "Filters"
 msgstr "Filtrai"
 
-#: ../src/photos-tracker-controller.c:103
+#: ../src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Nepavyksta gauti nuotraukų sąrašo"
 
