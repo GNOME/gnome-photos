@@ -151,6 +151,7 @@
         {
             "name": "gegl",
             "cleanup": [ "/bin" ],
+            "config-opts": [ "--disable-docs" ],
             "sources": [
                 {
                     "type": "git",
