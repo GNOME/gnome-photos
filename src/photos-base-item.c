@@ -3549,7 +3549,7 @@ photos_base_item_load_async (PhotosBaseItem *self,
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_load_async);
 
-  if (pipeline != NULL)
+  if (priv->edit_graph != NULL)
     {
       GeglNode *graph;
 
