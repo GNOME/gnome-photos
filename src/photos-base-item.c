@@ -1699,29 +1699,27 @@ photos_base_item_metadata_add_shared_in_thread_func (GTask *task,
 
 
 static void
-photos_base_item_pipeline_is_edited_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_pipeline_is_edited_load_pipeline (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GError *error;
   GTask *task = G_TASK (user_data);
-  GeglNode *graph = NULL;
-  PhotosPipeline *pipeline;
+  PhotosPipeline *pipeline = NULL;
   gboolean is_edited;
 
   error = NULL;
-  graph = photos_base_item_load_finish (self, res, &error);
+  pipeline = photos_base_item_load_pipeline_finish (self, res, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
       goto out;
     }
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
   is_edited = photos_pipeline_is_edited (pipeline);
   g_task_return_boolean (task, is_edited);
 
  out:
-  g_clear_object (&graph);
+  g_clear_object (&pipeline);
   g_object_unref (task);
 }
 
@@ -3771,7 +3769,10 @@ photos_base_item_pipeline_is_edited_async (PhotosBaseItem *self,
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_pipeline_is_edited_async);
 
-  photos_base_item_load_async (self, cancellable, photos_base_item_pipeline_is_edited_load, g_object_ref (task));
+  photos_base_item_load_pipeline_async (self,
+                                        cancellable,
+                                        photos_base_item_pipeline_is_edited_load_pipeline,
+                                        g_object_ref (task));
 
   g_object_unref (task);
 }
