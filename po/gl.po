@@ -2,30 +2,32 @@
 # Copyright (C) 2012 THE gnome-photos'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Fran Diéguez <frandieguez@gnome.org>, 2012.
-# Fran Dieguez <frandieguez@gnome.org>, 2012, 2013, 2014, 2015, 2016.
+# Fran Dieguez <frandieguez@gnome.org>, 2012, 2013, 2014, 2015, 2016, 2017.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-04 23:57+0200\n"
-"PO-Revision-Date: 2016-09-04 23:58+0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"photos&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-02-22 19:28+0000\n"
+"PO-Revision-Date: 2017-03-11 03:18+0100\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
-"Language-Team: Galician\n"
+"Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Gtranslator 2.91.7\n"
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:666
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Fotos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:497
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:496
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice e comparta as súas fotos en GNOME"
 
@@ -105,31 +107,31 @@ msgstr "Xanela maximizada"
 msgid "Window maximized state"
 msgstr "Estado da xanela maximizada"
 
-#: ../src/photos-application.c:153
+#: ../src/photos-application.c:151
 msgid "Show the application's version"
 msgstr "Mostrar a versión do aplicativo"
 
-#: ../src/photos-base-item.c:544
+#: ../src/photos-base-item.c:589
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:2067
+#: ../src/photos-base-item.c:2303
 msgid "Screenshots"
 msgstr "Capturas de pantallas"
 
-#: ../src/photos-delete-notification.c:145
+#: ../src/photos-delete-notification.c:139
 #, c-format
 msgid "“%s” deleted"
 msgstr "“%s” eliminado"
 
-#: ../src/photos-delete-notification.c:148
+#: ../src/photos-delete-notification.c:142
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d elemento eliminado"
 msgstr[1] "%d elementos eliminados"
 
-#: ../src/photos-delete-notification.c:156
+#: ../src/photos-delete-notification.c:150
 #: ../src/photos-done-notification.c:125
 msgid "Undo"
 msgstr "Desfacer"
@@ -143,15 +145,15 @@ msgstr "Dispositivos renderizadores de DLNA"
 msgid "“%s” edited"
 msgstr "«%s» editado"
 
-#: ../src/photos-embed.c:673 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:680 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Favoritas"
 
-#: ../src/photos-embed.c:687 ../src/photos-main-toolbar.c:299
+#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
 msgid "Search"
 msgstr "Buscar"
 
@@ -163,6 +165,7 @@ msgstr "Nome do seu primeiro álbum"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:134
+#: ../src/photos-source-notification.c:146
 msgid "Settings"
 msgstr "Preferencias"
 
@@ -219,52 +222,52 @@ msgstr "_Exportar"
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: ../src/photos-export-dialog.c:73
+#: ../src/photos-export-dialog.c:67
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
 #. Translators: this is the default sub-directory where photos
-#. *  will be exported.
+#. * will be exported.
 #.
-#: ../src/photos-export-dialog.c:207
+#: ../src/photos-export-dialog.c:201
 msgid "%e %B %Y"
 msgstr "%e de %B de %Y"
 
-#: ../src/photos-export-dialog.c:265
+#: ../src/photos-export-dialog.c:259
 msgid "Calculating export size…"
 msgstr "Calculando o tamaño da exportación…"
 
-#: ../src/photos-export-notification.c:241
+#: ../src/photos-export-notification.c:236
 msgid "Failed to export: not enough space"
 msgstr "Produciuse un fallo ao exportar: non hai espacio dabondo"
 
-#: ../src/photos-export-notification.c:243
+#: ../src/photos-export-notification.c:238
 msgid "Failed to export"
 msgstr "Produciuse un fallo ao exportar"
 
-#: ../src/photos-export-notification.c:250
+#: ../src/photos-export-notification.c:245
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” exportado"
 
-#: ../src/photos-export-notification.c:254
+#: ../src/photos-export-notification.c:249
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d elemento exportado"
 msgstr[1] "%d elementos exportados"
 
-#: ../src/photos-export-notification.c:272
+#: ../src/photos-export-notification.c:267
 msgid "Analyze"
 msgstr "Analizar"
 
-#: ../src/photos-export-notification.c:277
+#: ../src/photos-export-notification.c:272
 msgid "Empty Trash"
 msgstr "Baleirar lixo"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:294 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-export-notification.c:289 ../src/photos-preview-menu.ui.h:1
 #: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Abrir"
@@ -272,20 +275,20 @@ msgstr "Abrir"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:304
+#: ../src/photos-export-notification.c:299
 msgid "Export Folder"
 msgstr "Exportar cartafol"
 
 #. Translators: this is the fallback title in the form
-#. *  "Facebook — 2nd January 2013".
+#. * "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:105 ../src/photos-flickr-item.c:110
-#: ../src/photos-google-item.c:107
+#: ../src/photos-facebook-item.c:100 ../src/photos-flickr-item.c:105
+#: ../src/photos-google-item.c:102
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:182
+#: ../src/photos-fetch-metas-job.c:177
 msgid "Untitled Photo"
 msgstr "Foto sen título"
 
@@ -395,26 +398,26 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. Translators: %s refers to an online account provider, e.g.,
-#. * "Facebook" or "Flickr.
+#. * "Facebook" or "Flickr".
 #.
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:167
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Obtendo fotos desde %s"
 
-#: ../src/photos-indexing-notification.c:175
+#: ../src/photos-indexing-notification.c:170
 msgid "Fetching photos from online accounts"
 msgstr "Obtendo fotos de contas en liña"
 
-#: ../src/photos-indexing-notification.c:211
+#: ../src/photos-indexing-notification.c:206
 msgid "Your photos are being indexed"
 msgstr "Estanse indexando as súas fotografías"
 
-#: ../src/photos-indexing-notification.c:212
+#: ../src/photos-indexing-notification.c:207
 msgid "Some photos might not be available during this process"
 msgstr "Algunhas fotos poderían non estar dispoñíbeis durante este proceso"
 
-#: ../src/photos-local-item.c:140 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:176 ../src/photos-source-manager.c:256
 msgid "Local"
 msgstr "Local"
 
@@ -433,45 +436,49 @@ msgstr[1] "%d seleccionadas"
 msgid "Back"
 msgstr "Atrás"
 
-#: ../src/photos-main-toolbar.c:314
+#: ../src/photos-main-toolbar.c:349
 msgid "Select Items"
 msgstr "Elementos seleccionados"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:408 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:443 ../src/photos-selection-toolbar.c:234
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: ../src/photos-main-toolbar.c:448 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:245
 msgid "Remove from favorites"
 msgstr "Quitar dos marcadores"
 
-#: ../src/photos-main-toolbar.c:453 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:488 ../src/photos-selection-toolbar.c:250
 msgid "Add to favorites"
 msgstr "Engadir aos marcadores"
 
-#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:628
+#: ../src/photos-main-toolbar.c:525 ../src/photos-main-toolbar.c:663
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/photos-main-toolbar.c:494
+#: ../src/photos-main-toolbar.c:529
 msgid "Done"
 msgstr "Feito"
 
-#: ../src/photos-main-window.c:498
+#: ../src/photos-main-window.c:497
+#| msgid ""
+#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#| "Copyright © 2014 – 2015 Pranav Kant\n"
+#| "Copyright © 2012 – 2016 Red Hat, Inc."
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2016 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc."
 msgstr ""
 "Copyright © 2013 Intel Corporation. Todos os dereitos reservados.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2016 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:508
+#: ../src/photos-main-window.c:507
 msgid "translator-credits"
 msgstr "Fran Dieguez <frandieguez@gnome.org>, 2012-2016."
 
@@ -495,16 +502,16 @@ msgstr "Sobre"
 msgid "Quit"
 msgstr "Saír"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-organize-collection-dialog.c:71
 msgid "_Add"
 msgstr "_Engadir"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:72
 msgid "_OK"
 msgstr "_Aceptar"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:123
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organizar"
@@ -533,7 +540,7 @@ msgstr "Estabelecer como fondo de pantalla"
 msgid "Set as Lock Screen"
 msgstr "Estabelecer como pantalla de bloqueo"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:732
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:903
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Propiedades"
@@ -615,18 +622,18 @@ msgstr "Polgadas"
 msgid "Preview"
 msgstr "Previsualizar"
 
-#: ../src/photos-properties-dialog.c:128
+#: ../src/photos-properties-dialog.c:255
 msgid "Edited in Photos"
 msgstr "Editado en Fotos"
 
-#: ../src/photos-properties-dialog.c:141
+#: ../src/photos-properties-dialog.c:268
 msgid "Untouched"
 msgstr "Sen tocar"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:310
+#: ../src/photos-properties-dialog.c:453
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Título"
@@ -634,88 +641,93 @@ msgstr "Título"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:322
+#: ../src/photos-properties-dialog.c:465
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-properties-dialog.c:329
+#: ../src/photos-properties-dialog.c:472
 msgid "Source"
 msgstr "Orixe"
 
-#: ../src/photos-properties-dialog.c:335
+#: ../src/photos-properties-dialog.c:478
 msgid "Date Modified"
 msgstr "Data de modificación"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:486
 msgid "Date Created"
 msgstr "Data de creación"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:353
+#: ../src/photos-properties-dialog.c:496
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/photos-properties-dialog.c:363
+#: ../src/photos-properties-dialog.c:506
 msgid "Dimensions"
 msgstr "Dimensións"
 
-#: ../src/photos-properties-dialog.c:378
+#: ../src/photos-properties-dialog.c:518
+#| msgid "Modifications"
+msgid "Location"
+msgstr "Localización"
+
+#: ../src/photos-properties-dialog.c:538
 msgid "Camera"
 msgstr "Cámara"
 
-#: ../src/photos-properties-dialog.c:388
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
 msgid "Exposure"
 msgstr "Exposición"
 
-#: ../src/photos-properties-dialog.c:398
+#: ../src/photos-properties-dialog.c:558
 msgid "Aperture"
 msgstr "Apertura"
 
-#: ../src/photos-properties-dialog.c:408
+#: ../src/photos-properties-dialog.c:568
 msgid "Focal Length"
 msgstr "Lonxitude focal"
 
-#: ../src/photos-properties-dialog.c:418
+#: ../src/photos-properties-dialog.c:578
 msgid "ISO Speed"
 msgstr "Velocidade ISO"
 
-#: ../src/photos-properties-dialog.c:428
+#: ../src/photos-properties-dialog.c:588
 msgid "Flash"
 msgstr "Flash"
 
-#: ../src/photos-properties-dialog.c:435
+#: ../src/photos-properties-dialog.c:597
 msgid "Modifications"
 msgstr "Modificacións"
 
-#: ../src/photos-properties-dialog.c:566
+#: ../src/photos-properties-dialog.c:738
 msgid "Off, did not fire"
 msgstr "Desactivado, non disparado"
 
-#: ../src/photos-properties-dialog.c:568
+#: ../src/photos-properties-dialog.c:740
 msgid "On, fired"
 msgstr "Activado, disparado"
 
-#: ../src/photos-properties-dialog.c:602
+#: ../src/photos-properties-dialog.c:778
 msgid "Discard all Edits"
 msgstr "Rexeitar todas as edicións"
 
-#: ../src/photos-search-match-manager.c:158
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
+#: ../src/photos-search-match-manager.c:162
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:252
 msgid "All"
 msgstr "Todas"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:165
+#: ../src/photos-search-match-manager.c:169
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Título"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:172
+#: ../src/photos-search-match-manager.c:176
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Autor"
@@ -723,7 +735,7 @@ msgstr "Autor"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:210
+#: ../src/photos-search-match-manager.c:214
 msgid "Match"
 msgstr "Coincidir"
 
@@ -756,129 +768,145 @@ msgctxt "dialog title"
 msgid "Share"
 msgstr "Compartir"
 
-#: ../src/photos-share-point-email.c:78
+#: ../src/photos-share-point-email.c:80
 msgid "E-Mail"
 msgstr "Correo electrónico"
 
-#: ../src/photos-share-point-google.c:86
+#: ../src/photos-share-point-google.c:98
 msgid "Failed to upload photo: Service not authorized"
 msgstr "Produciuse un fallo ao subir a foto: servizo non autorizado"
 
-#: ../src/photos-share-point-google.c:88
+#: ../src/photos-share-point-google.c:100
 msgid "Failed to upload photo"
 msgstr "Produciuse un fallo ao subir a foto"
 
-#: ../src/photos-source-manager.c:203
+#: ../src/photos-source-manager.c:305
 msgid "Sources"
 msgstr "Orixes"
 
-#: ../src/photos-tool-colors.c:251
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: ../src/photos-source-notification.c:138
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr "As súas credenciais de %s expiraron"
+
+#: ../src/photos-thumbnailer.c:73
+msgid "D-Bus address to use"
+msgstr "Enderezo de D-Bus a usar"
+
+#: ../src/photos-tool-colors.c:315
 msgid "Brightness"
 msgstr "Brillo"
 
-#: ../src/photos-tool-colors.c:272
+#: ../src/photos-tool-colors.c:356
 msgid "Contrast"
 msgstr "Contraste"
 
-#: ../src/photos-tool-colors.c:292
+#: ../src/photos-tool-colors.c:376
+msgid "Blacks"
+msgstr "Negras"
+
+#: ../src/photos-tool-colors.c:396
 msgid "Saturation"
 msgstr "Saturación"
 
-#: ../src/photos-tool-colors.c:319
+#: ../src/photos-tool-colors.c:423
 msgid "Colors"
 msgstr "Cores"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:119
 msgid "Free"
 msgstr "Libre"
 
-#: ../src/photos-tool-crop.c:133
+#: ../src/photos-tool-crop.c:120
 msgid "Original"
 msgstr "Orixinal"
 
-#: ../src/photos-tool-crop.c:134
+#: ../src/photos-tool-crop.c:121
 msgid "1×1 (Square)"
 msgstr "1×1 (Cadrado)"
 
-#: ../src/photos-tool-crop.c:135
+#: ../src/photos-tool-crop.c:122
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:136
+#: ../src/photos-tool-crop.c:123
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:137
+#: ../src/photos-tool-crop.c:124
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:138
+#: ../src/photos-tool-crop.c:125
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:139
+#: ../src/photos-tool-crop.c:126
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:140
+#: ../src/photos-tool-crop.c:127
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1181
+#: ../src/photos-tool-crop.c:1171
 msgid "Lock aspect ratio"
 msgstr "Bloquear a proporción de aspecto"
 
-#: ../src/photos-tool-crop.c:1229
+#: ../src/photos-tool-crop.c:1219
 msgid "Reset"
 msgstr "Restabelecer"
 
-#: ../src/photos-tool-crop.c:1246
+#: ../src/photos-tool-crop.c:1236
 msgid "Crop"
 msgstr "Recortar"
 
-#: ../src/photos-tool-enhance.c:207
+#: ../src/photos-tool-enhance.c:202
 msgid "Sharpen"
 msgstr "Acentuar"
 
-#: ../src/photos-tool-enhance.c:227
+#: ../src/photos-tool-enhance.c:222
 msgid "Denoise"
 msgstr "Quitar ruído"
 
-#: ../src/photos-tool-enhance.c:253
+#: ../src/photos-tool-enhance.c:248
 msgid "Enhance"
 msgstr "Mellorar"
 
 #. Translators: "None" refers to the nop magic filter when editing.
-#: ../src/photos-tool-filters.c:190
+#: ../src/photos-tool-filters.c:185
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "Ningún"
 
-#: ../src/photos-tool-filters.c:197
+#: ../src/photos-tool-filters.c:192
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:204
+#: ../src/photos-tool-filters.c:199
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:210
+#: ../src/photos-tool-filters.c:205
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:217
+#: ../src/photos-tool-filters.c:212
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:223
+#: ../src/photos-tool-filters.c:218
 msgid "Hometown"
 msgstr "Hometown"
 
-#: ../src/photos-tool-filters.c:241
+#: ../src/photos-tool-filters.c:236
 msgid "Filters"
 msgstr "Filtros"
 
-#: ../src/photos-tracker-controller.c:103
+#: ../src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Non foi posíbel obter a lista de fotografías"
 
