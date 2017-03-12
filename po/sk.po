@@ -5,10 +5,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-09 22:48+0000\n"
-"PO-Revision-Date: 2017-02-12 14:39+0100\n"
+"POT-Creation-Date: 2017-03-10 13:25+0000\n"
+"PO-Revision-Date: 2017-03-12 10:55+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -16,15 +16,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.12\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:619
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Fotografie"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:496
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
 msgid "Access, organize and share your photos on GNOME"
 msgstr ""
 "Pristupujte k vašim fotografiám, organizujte a sprístupňujte ich v prostredí "
@@ -107,15 +107,15 @@ msgid "Window maximized state"
 msgstr "Maximalizovaný stav okna"
 
 # cmd line desc
-#: ../src/photos-application.c:144
+#: ../src/photos-application.c:153
 msgid "Show the application's version"
 msgstr "Zobrazí verziu aplikácie"
 
-#: ../src/photos-base-item.c:603
+#: ../src/photos-base-item.c:617
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2313
+#: ../src/photos-base-item.c:2540
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -146,15 +146,15 @@ msgstr "Vykresľovacie zariadenia DLNA"
 msgid "“%s” edited"
 msgstr "Súbor „%s“ upravený"
 
-#: ../src/photos-embed.c:623 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../src/photos-embed.c:627 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Obľúbené"
 
-#: ../src/photos-embed.c:631 ../src/photos-main-toolbar.c:334
+#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:329
 msgid "Search"
 msgstr "Hľadať"
 
@@ -166,6 +166,7 @@ msgstr "Pomenujte svoj prvý album"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:134
+#: ../src/photos-source-notification.c:146
 msgid "Settings"
 msgstr "Nastaveniach"
 
@@ -229,7 +230,7 @@ msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
 #. Translators: this is the default sub-directory where photos
-#. *  will be exported.
+#. * will be exported.
 #.
 #: ../src/photos-export-dialog.c:201
 msgid "%e %B %Y"
@@ -282,7 +283,7 @@ msgid "Export Folder"
 msgstr "Exportovať priečinok"
 
 #. Translators: this is the fallback title in the form
-#. *  "Facebook — 2nd January 2013".
+#. * "Facebook — 2nd January 2013".
 #.
 #: ../src/photos-facebook-item.c:100 ../src/photos-flickr-item.c:105
 #: ../src/photos-google-item.c:102
@@ -401,7 +402,7 @@ msgid "Cancel"
 msgstr "Zrušenie"
 
 #. Translators: %s refers to an online account provider, e.g.,
-#. * "Facebook" or "Flickr.
+#. * "Facebook" or "Flickr".
 #.
 #: ../src/photos-indexing-notification.c:167
 #, c-format
@@ -420,15 +421,15 @@ msgstr "Prebieha indexovanie vašich fotografií"
 msgid "Some photos might not be available during this process"
 msgstr "Niektoré fotografie nemusia byť počas tohoto procesu dostupné"
 
-#: ../src/photos-local-item.c:136 ../src/photos-source-manager.c:179
+#: ../src/photos-local-item.c:176 ../src/photos-source-manager.c:256
 msgid "Local"
 msgstr "Miestne"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Kliknutím na položku ju vyberiete"
 
-#: ../src/photos-main-toolbar.c:115
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -436,39 +437,39 @@ msgstr[0] "%d vybratých"
 msgstr[1] "%d vybratá"
 msgstr[2] "%d vybraté"
 
-#: ../src/photos-main-toolbar.c:165
+#: ../src/photos-main-toolbar.c:160
 msgid "Back"
 msgstr "Späť"
 
 # tooltip
-#: ../src/photos-main-toolbar.c:349
+#: ../src/photos-main-toolbar.c:344
 msgid "Select Items"
 msgstr "Vyberie položky"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:443 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:438 ../src/photos-selection-toolbar.c:234
 #, c-format
 msgid "Open with %s"
 msgstr "Otvoriť pomocou programu %s"
 
-#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:245
 msgid "Remove from favorites"
 msgstr "Odstrániť z obľúbených"
 
-#: ../src/photos-main-toolbar.c:488 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:250
 msgid "Add to favorites"
 msgstr "Pridá medzi obľúbené"
 
-#: ../src/photos-main-toolbar.c:525 ../src/photos-main-toolbar.c:663
+#: ../src/photos-main-toolbar.c:520 ../src/photos-main-toolbar.c:658
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: ../src/photos-main-toolbar.c:529
+#: ../src/photos-main-toolbar.c:524
 msgid "Done"
 msgstr "Dokončiť"
 
-#: ../src/photos-main-window.c:497
+#: ../src/photos-main-window.c:492
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -479,7 +480,7 @@ msgstr ""
 "Autorské práva © 2012 - 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:507
+#: ../src/photos-main-window.c:502
 msgid "translator-credits"
 msgstr "Dušan Kazik <prescott66@gmail.com>"
 
@@ -541,7 +542,7 @@ msgstr "Nastaviť ako pozadie plochy"
 msgid "Set as Lock Screen"
 msgstr "Nastaviť ako uzamknutú obrazovku"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:902
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:903
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -641,18 +642,18 @@ msgstr "Palce"
 msgid "Preview"
 msgstr "Náhľad"
 
-#: ../src/photos-properties-dialog.c:254
+#: ../src/photos-properties-dialog.c:255
 msgid "Edited in Photos"
 msgstr "Upravená aplikáciou Fotografie"
 
-#: ../src/photos-properties-dialog.c:267
+#: ../src/photos-properties-dialog.c:268
 msgid "Untouched"
 msgstr "Neupravená"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:452
+#: ../src/photos-properties-dialog.c:453
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Názov"
@@ -660,85 +661,85 @@ msgstr "Názov"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:464
+#: ../src/photos-properties-dialog.c:465
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autor"
 
-#: ../src/photos-properties-dialog.c:471
+#: ../src/photos-properties-dialog.c:472
 msgid "Source"
 msgstr "Zdroj"
 
-#: ../src/photos-properties-dialog.c:477
+#: ../src/photos-properties-dialog.c:478
 msgid "Date Modified"
 msgstr "Dátum zmeny"
 
-#: ../src/photos-properties-dialog.c:485
+#: ../src/photos-properties-dialog.c:486
 msgid "Date Created"
 msgstr "Dátum vytvorenia"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:495
+#: ../src/photos-properties-dialog.c:496
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/photos-properties-dialog.c:505
+#: ../src/photos-properties-dialog.c:506
 msgid "Dimensions"
 msgstr "Rozmery"
 
-#: ../src/photos-properties-dialog.c:517
+#: ../src/photos-properties-dialog.c:518
 msgid "Location"
 msgstr "Umiestnenie"
 
-#: ../src/photos-properties-dialog.c:537
+#: ../src/photos-properties-dialog.c:538
 msgid "Camera"
 msgstr "Fotoaparát"
 
-#: ../src/photos-properties-dialog.c:547 ../src/photos-tool-colors.c:336
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
 msgid "Exposure"
 msgstr "Expozícia"
 
-#: ../src/photos-properties-dialog.c:557
+#: ../src/photos-properties-dialog.c:558
 msgid "Aperture"
 msgstr "Clona"
 
-#: ../src/photos-properties-dialog.c:567
+#: ../src/photos-properties-dialog.c:568
 msgid "Focal Length"
 msgstr "Ohnisková vzdialenosť"
 
-#: ../src/photos-properties-dialog.c:577
+#: ../src/photos-properties-dialog.c:578
 msgid "ISO Speed"
 msgstr "Citlivosť ISO"
 
-#: ../src/photos-properties-dialog.c:587
+#: ../src/photos-properties-dialog.c:588
 msgid "Flash"
 msgstr "Blesk"
 
-#: ../src/photos-properties-dialog.c:596
+#: ../src/photos-properties-dialog.c:597
 msgid "Modifications"
 msgstr "Úpravy"
 
 # DK: blesk
 # DK: https://bugzilla.gnome.org/show_bug.cgi?id=706824
-#: ../src/photos-properties-dialog.c:737
+#: ../src/photos-properties-dialog.c:738
 msgid "Off, did not fire"
 msgstr "Vypnutý, nepoužitý"
 
 # DK: blesk
 # DK: https://bugzilla.gnome.org/show_bug.cgi?id=706824
-#: ../src/photos-properties-dialog.c:739
+#: ../src/photos-properties-dialog.c:740
 msgid "On, fired"
 msgstr "Zapnutý, použitý"
 
-#: ../src/photos-properties-dialog.c:777
+#: ../src/photos-properties-dialog.c:778
 msgid "Discard all Edits"
 msgstr "Zahodiť všetky úpravy"
 
 #: ../src/photos-search-match-manager.c:162
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:175
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:252
 msgid "All"
 msgstr "Všetko"
 
@@ -790,21 +791,33 @@ msgctxt "dialog title"
 msgid "Share"
 msgstr "Sprístupnenie"
 
-#: ../src/photos-share-point-email.c:78
+#: ../src/photos-share-point-email.c:80
 msgid "E-Mail"
 msgstr "E-mail"
 
-#: ../src/photos-share-point-google.c:97
+#: ../src/photos-share-point-google.c:98
 msgid "Failed to upload photo: Service not authorized"
 msgstr "Zlyhalo odovzdanie fotografie: Totožnosť služby nebola overená"
 
-#: ../src/photos-share-point-google.c:99
+#: ../src/photos-share-point-google.c:100
 msgid "Failed to upload photo"
 msgstr "Zlyhalo odovzdanie fotografie"
 
-#: ../src/photos-source-manager.c:204
+#: ../src/photos-source-manager.c:305
 msgid "Sources"
 msgstr "Zdroje"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: ../src/photos-source-notification.c:138
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr "Vaše poverenia účtu služby %s vypršali"
+
+#: ../src/photos-thumbnailer.c:77
+msgid "D-Bus address to use"
+msgstr "Adresa zbernice D-Bus, ktorá sa má použiť"
 
 #: ../src/photos-tool-colors.c:315
 msgid "Brightness"
