@@ -1139,6 +1139,21 @@ photos_utils_get_urns_from_items (GList *items)
 }
 
 
+const gchar *
+photos_utils_get_version (void)
+{
+  const gchar *ret_val = NULL;
+
+#ifdef PACKAGE_COMMIT_ID
+  ret_val = PACKAGE_COMMIT_ID;
+#else
+  ret_val = PACKAGE_VERSION;
+#endif
+
+  return ret_val;
+}
+
+
 GIcon *
 photos_utils_icon_from_rdf_type (const gchar *type)
 {

@@ -1610,7 +1610,10 @@ photos_application_handle_local_options (GApplication *application, GVariantDict
 
   if (g_variant_dict_contains (options, "version"))
     {
-      g_print ("%s %s\n", PACKAGE_TARNAME, PACKAGE_VERSION);
+      const gchar *version;
+
+      version = photos_utils_get_version ();
+      g_print ("%s %s\n", PACKAGE_TARNAME, version);
       ret_val = EXIT_SUCCESS;
     }
 

@@ -20,6 +20,12 @@ AX_IS_RELEASE([git-directory])
 AX_CHECK_ENABLE_DEBUG([yes],,, [$ax_is_release])
 AX_COMPILER_FLAGS([WARN_CFLAGS], [WARN_LDFLAGS], [$ax_is_release])
 
+AS_IF([test "x$ax_is_release" != "xyes"], [PACKAGE_COMMIT_ID=$(git describe)])
+AS_IF([test -n "$PACKAGE_COMMIT_ID"],
+      [AC_DEFINE_UNQUOTED([PACKAGE_COMMIT_ID],
+                          ["$PACKAGE_COMMIT_ID"],
+                          [Define to the description of this package's latest commit.])])
+
 AC_CANONICAL_HOST
 AC_PROG_CC
 AC_PROG_CC_C_O

@@ -147,6 +147,8 @@ gchar           *photos_utils_get_thumbnail_path_for_uri  (const gchar *uri);
 
 GList           *photos_utils_get_urns_from_items         (GList *items);
 
+const gchar     *photos_utils_get_version                 (void);
+
 GIcon           *photos_utils_icon_from_rdf_type          (const gchar *type);
 
 void             photos_utils_list_box_header_func        (GtkListBoxRow *row,

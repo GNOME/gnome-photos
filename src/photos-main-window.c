@@ -36,6 +36,7 @@
 #include "photos-preview-view.h"
 #include "photos-search-context.h"
 #include "photos-selection-controller.h"
+#include "photos-utils.h"
 
 
 struct _PhotosMainWindow
@@ -481,9 +482,12 @@ photos_main_window_show_about (PhotosMainWindow *self)
 {
   GApplication *app;
   const gchar *app_id;
+  const gchar *version;
 
   app = g_application_get_default ();
   app_id = g_application_get_application_id (app);
+
+  version = photos_utils_get_version ();
 
   gtk_show_about_dialog (GTK_WINDOW (self),
                          "artists", PHOTOS_ARTISTS,
@@ -495,7 +499,7 @@ photos_main_window_show_about (PhotosMainWindow *self)
                          "license-type", GTK_LICENSE_GPL_2_0,
                          "logo-icon-name", app_id,
                          "program-name", _(PACKAGE_NAME),
-                         "version", PACKAGE_VERSION,
+                         "version", version,
                          "website", PACKAGE_URL,
                          "wrap-license", TRUE,
                          /* Translators: Put your names here */
