@@ -495,7 +495,7 @@ photos_main_window_show_about (PhotosMainWindow *self)
                          "license-type", GTK_LICENSE_GPL_2_0,
                          "logo-icon-name", app_id,
                          "program-name", _(PACKAGE_NAME),
-                         "version", _(PACKAGE_VERSION),
+                         "version", PACKAGE_VERSION,
                          "website", PACKAGE_URL,
                          "wrap-license", TRUE,
                          /* Translators: Put your names here */
