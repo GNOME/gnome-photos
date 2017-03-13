@@ -1,3 +1,26 @@
+Overview of changes in 3.23.92
+==============================
+
+* Bugs fixed:
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 777869 Letterbox photo thumbnails
+ 779380 Add a flatpak manifest
+ 779589 Emit GdMainBox::selection-changed only after updating the selection
+
+* Updated translations:
+ Traditional Chinese (Taiwan)
+ Czech
+ Danish
+ Galician
+ Italian
+ Korean
+ Lithuanian
+ Serbian
+ Slovak
+ Swedish
+ Vietnamese
+
+
 Overview of changes in 3.23.91
 ==============================
 
