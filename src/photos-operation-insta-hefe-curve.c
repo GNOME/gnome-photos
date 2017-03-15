@@ -23,7 +23,6 @@
 
 #include <babl/babl.h>
 #include <gegl.h>
-#include <gegl-plugin.h>
 
 #include "photos-operation-insta-hefe-curve.h"
 
@@ -31,11 +30,6 @@
 struct _PhotosOperationInstaHefeCurve
 {
   GeglOperationPointFilter parent_instance;
-};
-
-struct _PhotosOperationInstaHefeCurveClass
-{
-  GeglOperationPointFilterClass parent_class;
 };
 
 
