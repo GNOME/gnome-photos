@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OFFSET_SEARCH_CONTROLLER (photos_offset_search_controller_get_type ())
-
-#define PHOTOS_OFFSET_SEARCH_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OFFSET_SEARCH_CONTROLLER, PhotosOffsetSearchController))
-
-#define PHOTOS_IS_OFFSET_SEARCH_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OFFSET_SEARCH_CONTROLLER))
-
-typedef struct _PhotosOffsetSearchController        PhotosOffsetSearchController;
-typedef struct _PhotosOffsetSearchControllerClass   PhotosOffsetSearchControllerClass;
-
-GType                    photos_offset_search_controller_get_type          (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOffsetSearchController,
+                      photos_offset_search_controller,
+                      PHOTOS,
+                      OFFSET_SEARCH_CONTROLLER,
+                      PhotosOffsetController);
 
 PhotosOffsetController  *photos_offset_search_controller_dup_singleton     (void);
 
