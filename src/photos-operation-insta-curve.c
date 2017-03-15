@@ -25,7 +25,6 @@
 
 #include <babl/babl.h>
 #include <gegl.h>
-#include <gegl-plugin.h>
 
 #include "photos-enums.h"
 #include "photos-operation-insta-common.h"
@@ -39,11 +38,6 @@ struct _PhotosOperationInstaCurve
   GeglOperationPointFilter parent_instance;
   PhotosOperationInstaPreset preset;
   PhotosOperationProcessFunc process;
-};
-
-struct _PhotosOperationInstaCurveClass
-{
-  GeglOperationPointFilterClass parent_class;
 };
 
 enum

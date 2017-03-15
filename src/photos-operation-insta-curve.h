@@ -21,24 +21,18 @@
 #ifndef PHOTOS_OPERATION_INSTA_CURVE_H
 #define PHOTOS_OPERATION_INSTA_CURVE_H
 
-#include <glib-object.h>
+#include <gegl-plugin.h>
+
+#include "photos-gegl.h"
 
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_INSTA_CURVE (photos_operation_insta_curve_get_type ())
-
-#define PHOTOS_OPERATION_INSTA_CURVE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OPERATION_INSTA_CURVE, PhotosOperationInstaCurve))
-
-#define PHOTOS_IS_OPERATION_INSTA_CURVE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OPERATION_INSTA_CURVE))
-
-typedef struct _PhotosOperationInstaCurve      PhotosOperationInstaCurve;
-typedef struct _PhotosOperationInstaCurveClass PhotosOperationInstaCurveClass;
-
-GType            photos_operation_insta_curve_get_type       (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOperationInstaCurve,
+                      photos_operation_insta_curve,
+                      PHOTOS,
+                      OPERATION_INSTA_CURVE,
+                      GeglOperationPointFilter);
 
 G_END_DECLS
 
