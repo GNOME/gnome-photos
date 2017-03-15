@@ -32,6 +32,17 @@
 #include "photos-search-context.h"
 
 
+struct _PhotosOffsetSearchController
+{
+  PhotosOffsetController parent_instance;
+};
+
+struct _PhotosOffsetSearchControllerClass
+{
+  PhotosOffsetControllerClass parent_class;
+};
+
+
 G_DEFINE_TYPE (PhotosOffsetSearchController, photos_offset_search_controller, PHOTOS_TYPE_OFFSET_CONTROLLER);
 
 

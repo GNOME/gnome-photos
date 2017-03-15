@@ -35,34 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_OFFSET_SEARCH_CONTROLLER, PhotosOffsetSearchController))
 
-#define PHOTOS_OFFSET_SEARCH_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_OFFSET_SEARCH_CONTROLLER, PhotosOffsetSearchControllerClass))
-
 #define PHOTOS_IS_OFFSET_SEARCH_CONTROLLER(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_OFFSET_SEARCH_CONTROLLER))
 
-#define PHOTOS_IS_OFFSET_SEARCH_CONTROLLER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_OFFSET_SEARCH_CONTROLLER))
-
-#define PHOTOS_OFFSET_SEARCH_CONTROLLER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_OFFSET_SEARCH_CONTROLLER, PhotosOffsetSearchControllerClass))
-
 typedef struct _PhotosOffsetSearchController        PhotosOffsetSearchController;
 typedef struct _PhotosOffsetSearchControllerClass   PhotosOffsetSearchControllerClass;
-
-struct _PhotosOffsetSearchController
-{
-  PhotosOffsetController parent_instance;
-};
-
-struct _PhotosOffsetSearchControllerClass
-{
-  PhotosOffsetControllerClass parent_class;
-};
 
 GType                    photos_offset_search_controller_get_type          (void) G_GNUC_CONST;
 
