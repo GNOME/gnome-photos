@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OFFSET_OVERVIEW_CONTROLLER (photos_offset_overview_controller_get_type ())
-
-#define PHOTOS_OFFSET_OVERVIEW_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OFFSET_OVERVIEW_CONTROLLER, PhotosOffsetOverviewController))
-
-#define PHOTOS_IS_OFFSET_OVERVIEW_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OFFSET_OVERVIEW_CONTROLLER))
-
-typedef struct _PhotosOffsetOverviewController        PhotosOffsetOverviewController;
-typedef struct _PhotosOffsetOverviewControllerClass   PhotosOffsetOverviewControllerClass;
-
-GType                    photos_offset_overview_controller_get_type          (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOffsetOverviewController,
+                      photos_offset_overview_controller,
+                      PHOTOS,
+                      OFFSET_OVERVIEW_COTROLLER,
+                      PhotosOffsetController);
 
 PhotosOffsetController  *photos_offset_overview_controller_dup_singleton     (void);
 

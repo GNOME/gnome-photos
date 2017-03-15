@@ -37,11 +37,6 @@ struct _PhotosOffsetOverviewController
   PhotosOffsetController parent_instance;
 };
 
-struct _PhotosOffsetOverviewControllerClass
-{
-  PhotosOffsetControllerClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosOffsetOverviewController, photos_offset_overview_controller, PHOTOS_TYPE_OFFSET_CONTROLLER);
 
