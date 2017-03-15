@@ -21,24 +21,18 @@
 #ifndef PHOTOS_OPERATION_INSTA_FILTER_H
 #define PHOTOS_OPERATION_INSTA_FILTER_H
 
-#include <glib-object.h>
+#include <gegl-plugin.h>
+
+#include "photos-gegl.h"
 
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_INSTA_FILTER (photos_operation_insta_filter_get_type ())
-
-#define PHOTOS_OPERATION_INSTA_FILTER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OPERATION_INSTA_FILTER, PhotosOperationInstaFilter))
-
-#define PHOTOS_IS_OPERATION_INSTA_FILTER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OPERATION_INSTA_FILTER))
-
-typedef struct _PhotosOperationInstaFilter      PhotosOperationInstaFilter;
-typedef struct _PhotosOperationInstaFilterClass PhotosOperationInstaFilterClass;
-
-GType            photos_operation_insta_filter_get_type       (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOperationInstaFilter,
+                      photos_operation_insta_filter,
+                      PHOTOS,
+                      OPERATION_INSTA_FILTER,
+                      GeglOperationMeta);
 
 G_END_DECLS
 
