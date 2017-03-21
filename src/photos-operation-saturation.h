@@ -21,24 +21,18 @@
 #ifndef PHOTOS_OPERATION_SATURATION_H
 #define PHOTOS_OPERATION_SATURATION_H
 
-#include <glib-object.h>
+#include <gegl-plugin.h>
+
+#include "photos-gegl.h"
 
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_SATURATION (photos_operation_saturation_get_type ())
-
-#define PHOTOS_OPERATION_SATURATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OPERATION_SATURATION, PhotosOperationSaturation))
-
-#define PHOTOS_IS_OPERATION_SATURATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OPERATION_SATURATION))
-
-typedef struct _PhotosOperationSaturation      PhotosOperationSaturation;
-typedef struct _PhotosOperationSaturationClass PhotosOperationSaturationClass;
-
-GType            photos_operation_saturation_get_type       (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOperationSaturation,
+                      photos_operation_saturation,
+                      PHOTOS,
+                      OPERATION_SATURATION,
+                      GeglOperationPointFilter);
 
 G_END_DECLS
 

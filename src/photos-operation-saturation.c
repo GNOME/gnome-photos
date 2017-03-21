@@ -23,7 +23,6 @@
 
 #include <babl/babl.h>
 #include <gegl.h>
-#include <gegl-plugin.h>
 
 #include "photos-operation-saturation.h"
 
@@ -35,11 +34,6 @@ struct _PhotosOperationSaturation
   GeglOperationPointFilter parent_instance;
   PhotosOperationProcessFunc process;
   gfloat scale;
-};
-
-struct _PhotosOperationSaturationClass
-{
-  GeglOperationPointFilterClass parent_class;
 };
 
 enum
