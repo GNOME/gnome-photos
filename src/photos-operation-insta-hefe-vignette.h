@@ -21,24 +21,18 @@
 #ifndef PHOTOS_OPERATION_INSTA_HEFE_VIGNETTE_H
 #define PHOTOS_OPERATION_INSTA_HEFE_VIGNETTE_H
 
-#include <glib-object.h>
+#include <gegl-plugin.h>
+
+#include "photos-gegl.h"
 
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_INSTA_HEFE_VIGNETTE (photos_operation_insta_hefe_vignette_get_type ())
-
-#define PHOTOS_OPERATION_INSTA_HEFE_VIGNETTE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OPERATION_INSTA_HEFE_VIGNETTE, PhotosOperationInstaHefeVignette))
-
-#define PHOTOS_IS_OPERATION_INSTA_HEFE_VIGNETTE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OPERATION_INSTA_HEFE_VIGNETTE))
-
-typedef struct _PhotosOperationInstaHefeVignette      PhotosOperationInstaHefeVignette;
-typedef struct _PhotosOperationInstaHefeVignetteClass PhotosOperationInstaHefeVignetteClass;
-
-GType            photos_operation_insta_hefe_vignette_get_type       (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOperationInstaHefeVignette,
+                      photos_operation_insta_hefe_vignette,
+                      PHOTOS,
+                      OPERATION_INSTA_HEFE_VIGNETTE,
+                      GeglOperationPointRender);
 
 G_END_DECLS
 

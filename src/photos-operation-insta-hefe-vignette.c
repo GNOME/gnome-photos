@@ -24,7 +24,6 @@
 #include <babl/babl.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gegl.h>
-#include <gegl-plugin.h>
 
 #include "photos-operation-insta-hefe-vignette.h"
 
@@ -38,11 +37,6 @@ struct _PhotosOperationInstaHefeVignette
   gdouble width_ratio;
   gdouble x;
   gdouble y;
-};
-
-struct _PhotosOperationInstaHefeVignetteClass
-{
-  GeglOperationPointRenderClass parent_class;
 };
 
 enum
