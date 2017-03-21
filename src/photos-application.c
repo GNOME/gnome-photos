@@ -259,8 +259,7 @@ photos_application_help (PhotosApplication *self, GVariant *parameter)
   GtkWindow *parent;
 
   parent = gtk_application_get_active_window (GTK_APPLICATION (self));
-  gtk_show_uri (gtk_window_get_screen (parent), "help:gnome-photos",
-                GDK_CURRENT_TIME, NULL);
+  gtk_show_uri_on_window (parent, "help:gnome-photos", GDK_CURRENT_TIME, NULL);
 }
 
 
@@ -927,11 +926,9 @@ photos_application_load_changed (PhotosApplication *self)
 static void
 photos_application_open_current (PhotosApplication *self)
 {
-  GdkScreen *screen;
   PhotosBaseItem *item;
   guint32 time;
 
-  screen = gtk_window_get_screen (GTK_WINDOW (self->main_window));
   time = gtk_get_current_event_time ();
 
   if (photos_selection_controller_get_selection_mode (self->sel_cntrlr))
@@ -945,7 +942,7 @@ photos_application_open_current (PhotosApplication *self)
           const gchar *urn = (gchar *) l->data;
 
           item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->state->item_mngr, urn));
-          photos_base_item_open (item, screen, time);
+          photos_base_item_open (item, GTK_WINDOW (self->main_window), time);
         }
     }
   else
@@ -953,7 +950,7 @@ photos_application_open_current (PhotosApplication *self)
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->state->item_mngr));
       g_return_if_fail (item != NULL);
 
-      photos_base_item_open (item, screen, time);
+      photos_base_item_open (item, GTK_WINDOW (self->main_window), time);
     }
 
   photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);

@@ -271,7 +271,7 @@ photos_facebook_item_get_source_widget (PhotosBaseItem *item)
 
 /* TODO */
 static void
-photos_facebook_item_open (PhotosBaseItem *item, GdkScreen *screen, guint32 timestamp)
+photos_facebook_item_open (PhotosBaseItem *item, GtkWindow *parent, guint32 timestamp)
 {
   GError *error;
   const gchar *facebook_uri;
@@ -279,7 +279,7 @@ photos_facebook_item_open (PhotosBaseItem *item, GdkScreen *screen, guint32 time
   facebook_uri = photos_base_item_get_uri (item);
 
   error = NULL;
-  gtk_show_uri (screen, facebook_uri, timestamp, &error);
+  gtk_show_uri_on_window (parent, facebook_uri, timestamp, &error);
   if (error != NULL)
     {
       g_warning ("Unable to show URI %s: %s", facebook_uri, error->message);

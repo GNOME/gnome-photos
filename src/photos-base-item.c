@@ -568,7 +568,7 @@ photos_base_item_default_metadata_add_shared (PhotosBaseItem  *self,
 
 
 static void
-photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp)
+photos_base_item_default_open (PhotosBaseItem *self, GtkWindow *parent, guint32 timestamp)
 {
   PhotosBaseItemPrivate *priv;
   GError *error;
@@ -595,7 +595,7 @@ photos_base_item_default_open (PhotosBaseItem *self, GdkScreen *screen, guint32 
   else
     {
       error = NULL;
-      gtk_show_uri (screen, priv->uri, timestamp, &error);
+      gtk_show_uri_on_window (parent, priv->uri, timestamp, &error);
       if (error != NULL)
         {
           g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
@@ -3627,10 +3627,10 @@ photos_base_item_metadata_add_shared_finish (PhotosBaseItem *self, GAsyncResult 
 
 
 void
-photos_base_item_open (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp)
+photos_base_item_open (PhotosBaseItem *self, GtkWindow *parent, guint32 timestamp)
 {
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
-  PHOTOS_BASE_ITEM_GET_CLASS (self)->open (self, screen, timestamp);
+  PHOTOS_BASE_ITEM_GET_CLASS (self)->open (self, parent, timestamp);
 }
 
 

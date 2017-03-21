@@ -69,7 +69,7 @@ struct _PhotosBaseItemClass
                                              const gchar     *shared_id,
                                              GCancellable    *cancellable,
                                              GError         **error);
-  void        (*open)                       (PhotosBaseItem *self, GdkScreen *screen, guint32 timestamp);
+  void        (*open)                       (PhotosBaseItem *self, GtkWindow *parent, guint32 timestamp);
   void        (*set_favorite)               (PhotosBaseItem *self, gboolean favorite);
   void        (*trash)                      (PhotosBaseItem *self);
   void        (*update_type_description)    (PhotosBaseItem *self);
@@ -197,7 +197,7 @@ gboolean            photos_base_item_metadata_add_shared_finish (PhotosBaseItem 
                                                                  GError **error);
 
 void                photos_base_item_open                    (PhotosBaseItem *self,
-                                                              GdkScreen *screen,
+                                                              GtkWindow *parent,
                                                               guint32 timestamp);
 
 void                photos_base_item_operation_add_async     (PhotosBaseItem *self,
