@@ -21,24 +21,18 @@
 #ifndef PHOTOS_OPERATION_PNG_GUESS_SIZES_H
 #define PHOTOS_OPERATION_PNG_GUESS_SIZES_H
 
-#include <glib-object.h>
+#include <gegl-plugin.h>
+
+#include "photos-gegl.h"
 
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES (photos_operation_png_guess_sizes_get_type ())
-
-#define PHOTOS_OPERATION_PNG_GUESS_SIZES(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES, PhotosOperationPngGuessSizes))
-
-#define PHOTOS_IS_OPERATION_PNG_GUESS_SIZES(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES))
-
-typedef struct _PhotosOperationPngGuessSizes      PhotosOperationPngGuessSizes;
-typedef struct _PhotosOperationPngGuessSizesClass PhotosOperationPngGuessSizesClass;
-
-GType           photos_operation_png_guess_sizes_get_type       (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOperationPngGuessSizes,
+                      photos_operation_png_guess_sizes,
+                      PHOTOS,
+                      OPERATION_PNG_GUESS_SIZES,
+                      GeglOperationSink);
 
 G_END_DECLS
 

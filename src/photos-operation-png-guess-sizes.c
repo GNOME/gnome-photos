@@ -25,7 +25,6 @@
 
 #include <babl/babl.h>
 #include <gegl.h>
-#include <gegl-plugin.h>
 #include <png.h>
 
 #include "photos-png-count.h"
@@ -39,11 +38,6 @@ struct _PhotosOperationPngGuessSizes
   gint bitdepth;
   gint compression;
   gsize sizes[2];
-};
-
-struct _PhotosOperationPngGuessSizesClass
-{
-  GeglOperationSinkClass parent_class;
 };
 
 enum
