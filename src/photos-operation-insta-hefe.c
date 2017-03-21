@@ -23,7 +23,6 @@
 
 #include <babl/babl.h>
 #include <gegl.h>
-#include <gegl-plugin.h>
 
 #include "photos-operation-insta-hefe.h"
 
@@ -35,11 +34,6 @@ struct _PhotosOperationInstaHefe
   GeglNode *input;
   GeglNode *output;
   GeglRectangle bbox;
-};
-
-struct _PhotosOperationInstaHefeClass
-{
-  GeglOperationMetaClass parent_class;
 };
 
 

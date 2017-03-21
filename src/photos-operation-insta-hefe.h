@@ -21,24 +21,18 @@
 #ifndef PHOTOS_OPERATION_INSTA_HEFE_H
 #define PHOTOS_OPERATION_INSTA_HEFE_H
 
-#include <glib-object.h>
+#include <gegl-plugin.h>
+
+#include "photos-gegl.h"
 
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_INSTA_HEFE (photos_operation_insta_hefe_get_type ())
-
-#define PHOTOS_OPERATION_INSTA_HEFE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OPERATION_INSTA_HEFE, PhotosOperationInstaHefe))
-
-#define PHOTOS_IS_OPERATION_INSTA_HEFE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OPERATION_INSTA_HEFE))
-
-typedef struct _PhotosOperationInstaHefe      PhotosOperationInstaHefe;
-typedef struct _PhotosOperationInstaHefeClass PhotosOperationInstaHefeClass;
-
-GType            photos_operation_insta_hefe_get_type       (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOperationInstaHefe,
+                      photos_operation_insta_hefe,
+                      PHOTOS,
+                      OPERATION_INSTA_HEFE,
+                      GeglOperationMeta);
 
 G_END_DECLS
 
