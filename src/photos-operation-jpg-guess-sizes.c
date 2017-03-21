@@ -25,7 +25,6 @@
 
 #include <babl/babl.h>
 #include <gegl.h>
-#include <gegl-plugin.h>
 #include <jpeglib.h>
 
 #include "photos-jpeg-count.h"
@@ -40,11 +39,6 @@ struct _PhotosOperationJpgGuessSizes
   gboolean sampling;
   gint quality;
   gsize sizes[2];
-};
-
-struct _PhotosOperationJpgGuessSizesClass
-{
-  GeglOperationSinkClass parent_class;
 };
 
 enum
