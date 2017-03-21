@@ -634,7 +634,7 @@ msgstr ""
 
 #: ../src/photos-properties-dialog.c:264
 msgid "Date Created"
-msgstr ""
+msgstr "બનાવેલ તારીખ"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
@@ -706,7 +706,7 @@ msgstr "લેખક"
 #.
 #: ../src/photos-search-match-manager.c:210
 msgid "Match"
-msgstr ""
+msgstr "સરખાવો"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
@@ -726,7 +726,7 @@ msgstr "કોઇપણ પસંદ ના કરો"
 
 #: ../src/photos-selection-toolbar.ui.h:1
 msgid "Export"
-msgstr ""
+msgstr "નિકાસ"
 
 #: ../src/photos-selection-toolbar.ui.h:4
 msgid "Add to Album"
@@ -734,7 +734,7 @@ msgstr "આલ્બમ મા ઉમેરો"
 
 #: ../src/photos-source-manager.c:203
 msgid "Sources"
-msgstr "સ્રોતો"
+msgstr "સ્ત્રોતો"
 
 #: ../src/photos-tool-colors.c:251
 msgid "Brightness"
@@ -794,11 +794,11 @@ msgstr ""
 
 #: ../src/photos-tool-crop.c:1226
 msgid "Reset"
-msgstr ""
+msgstr "રીસેટ"
 
 #: ../src/photos-tool-crop.c:1243
 msgid "Crop"
-msgstr ""
+msgstr "છેડેથી કાપો"
 
 #: ../src/photos-tool-enhance.c:207
 msgid "Sharpen"
