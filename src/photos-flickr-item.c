@@ -340,7 +340,7 @@ photos_flickr_item_get_source_widget (PhotosBaseItem *item)
 
 
 static void
-photos_flickr_item_open (PhotosBaseItem *item, GdkScreen *screen, guint32 timestamp)
+photos_flickr_item_open (PhotosBaseItem *item, GtkWindow *parent, guint32 timestamp)
 {
   PhotosFlickrItem *self = PHOTOS_FLICKR_ITEM (item);
   GError *error;
@@ -363,7 +363,7 @@ photos_flickr_item_open (PhotosBaseItem *item, GdkScreen *screen, guint32 timest
   flickr_uri = g_strdup_printf ("https://www.flickr.com/photos/%s/%s", identity, identifier);
 
   error = NULL;
-  gtk_show_uri (screen, flickr_uri, timestamp, &error);
+  gtk_show_uri_on_window (parent, flickr_uri, timestamp, &error);
   if (error != NULL)
     {
       g_warning ("Unable to show URI %s: %s", flickr_uri, error->message);

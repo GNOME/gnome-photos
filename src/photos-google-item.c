@@ -297,7 +297,7 @@ photos_google_item_get_source_widget (PhotosBaseItem *item)
  * 'Sorry, that page was not found.' if the user is not logged in with the respective account
  */
 static void
-photos_google_item_open (PhotosBaseItem *item, GdkScreen *screen, guint32 timestamp)
+photos_google_item_open (PhotosBaseItem *item, GtkWindow *parent, guint32 timestamp)
 {
   GError *error;
   const gchar *google_uri;
@@ -305,7 +305,7 @@ photos_google_item_open (PhotosBaseItem *item, GdkScreen *screen, guint32 timest
   google_uri = photos_base_item_get_uri (item);
 
   error = NULL;
-  gtk_show_uri (screen, google_uri, timestamp, &error);
+  gtk_show_uri_on_window (parent, google_uri, timestamp, &error);
   if (error != NULL)
     {
       g_warning ("Unable to show URI %s: %s", google_uri, error->message);
