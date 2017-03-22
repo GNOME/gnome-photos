@@ -149,12 +149,19 @@ photos_export_notification_empty_trash (PhotosExportNotification *self)
 static void
 photos_export_notification_export_folder (PhotosExportNotification *self)
 {
+  GApplication *app;
   GError *error;
   GFile *directory;
+  GtkWindow *parent;
   gchar *uri;
+  guint32 time;
 
   g_return_if_fail (self->file != NULL);
   g_return_if_fail (self->items != NULL);
+
+  app = g_application_get_default ();
+  parent = gtk_application_get_active_window (GTK_APPLICATION (app));
+  time = gtk_get_current_event_time ();
 
   if (self->items->next == NULL) /* length == 1 */
     directory = g_file_get_parent (self->file);
@@ -164,7 +171,7 @@ photos_export_notification_export_folder (PhotosExportNotification *self)
   uri = g_file_get_uri (directory);
 
   error = NULL;
-  if (!g_app_info_launch_default_for_uri (uri, NULL, &error))
+  if (!gtk_show_uri_on_window (parent, uri, time, &error))
     {
       g_warning ("Failed to open uri: %s", error->message);
       g_error_free (error);
@@ -179,17 +186,24 @@ photos_export_notification_export_folder (PhotosExportNotification *self)
 static void
 photos_export_notification_open (PhotosExportNotification *self)
 {
+  GApplication *app;
   GError *error;
+  GtkWindow *parent;
   gchar *uri;
+  guint32 time;
 
   g_return_if_fail (self->file != NULL);
   g_return_if_fail (self->items != NULL);
   g_return_if_fail (self->items->next == NULL);
 
+  app = g_application_get_default ();
+  parent = gtk_application_get_active_window (GTK_APPLICATION (app));
+  time = gtk_get_current_event_time ();
+
   uri = g_file_get_uri (self->file);
 
   error = NULL;
-  if (!g_app_info_launch_default_for_uri (uri, NULL, &error))
+  if (!gtk_show_uri_on_window (parent, uri, time, &error))
     {
       g_warning ("Failed to open uri: %s", error->message);
       g_error_free (error);
