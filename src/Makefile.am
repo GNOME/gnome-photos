@@ -351,6 +351,7 @@ EXTRA_DIST = \
 	photos-gegl.gresource.xml \
 	photos-dlna-renderers-dialog.ui \
 	photos-dropdown.ui \
+	photos-embed.ui \
 	photos-export-dialog.ui \
 	photos-help-overlay.ui \
 	photos-marshalers.list \

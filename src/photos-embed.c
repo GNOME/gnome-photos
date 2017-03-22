@@ -75,7 +75,6 @@ struct _PhotosEmbed
   GtkWidget *overview;
   GtkWidget *preview;
   GtkWidget *search;
-  GtkWidget *selection_toolbar;
   GtkWidget *spinner_box;
   GtkWidget *stack;
   GtkWidget *stack_overlay;
@@ -651,29 +650,15 @@ photos_embed_init (PhotosEmbed *self)
   gboolean querying;
   const gchar *name;
 
+  gtk_widget_init_template (GTK_WIDGET (self));
+
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   self->search_action = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
   self->notifications = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
-  gtk_widget_show (GTK_WIDGET (self));
-
   self->extension_point = g_io_extension_point_lookup (PHOTOS_TRACKER_CONTROLLER_EXTENSION_POINT_NAME);
-
-  self->selection_toolbar = photos_selection_toolbar_new ();
-  gtk_box_pack_end (GTK_BOX (self), self->selection_toolbar, FALSE, FALSE, 0);
-
-  self->stack_overlay = gtk_overlay_new ();
-  gtk_widget_show (self->stack_overlay);
-  gtk_box_pack_end (GTK_BOX (self), self->stack_overlay, TRUE, TRUE, 0);
-
-  self->stack = gtk_stack_new ();
-  gtk_stack_set_homogeneous (GTK_STACK (self->stack), TRUE);
-  gtk_stack_set_transition_type (GTK_STACK (self->stack), GTK_STACK_TRANSITION_TYPE_CROSSFADE);
-  gtk_widget_show (self->stack);
-  gtk_container_add (GTK_CONTAINER (self->stack_overlay), self->stack);
 
   self->toolbar = photos_main_toolbar_new (GTK_OVERLAY (self->stack_overlay));
   photos_main_toolbar_set_stack (PHOTOS_MAIN_TOOLBAR (self->toolbar), GTK_STACK (self->stack));
@@ -702,9 +687,6 @@ photos_embed_init (PhotosEmbed *self)
 
   self->preview = photos_preview_view_new (GTK_OVERLAY (self->stack_overlay));
   gtk_stack_add_named (GTK_STACK (self->stack), self->preview, "preview");
-
-  self->spinner_box = photos_spinner_box_new ();
-  gtk_overlay_add_overlay (GTK_OVERLAY (self->stack_overlay), self->spinner_box);
 
   /* TODO: SearchBar.Dropdown, …
    */
@@ -784,8 +766,6 @@ photos_embed_init (PhotosEmbed *self)
                            G_CALLBACK (photos_embed_search_changed),
                            self,
                            G_CONNECT_SWAPPED);
-
-  gtk_widget_show (GTK_WIDGET (self));
 }
 
 
@@ -793,8 +773,14 @@ static void
 photos_embed_class_init (PhotosEmbedClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
 
   object_class->dispose = photos_embed_dispose;
+
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/embed.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhotosEmbed, spinner_box);
+  gtk_widget_class_bind_template_child (widget_class, PhotosEmbed, stack);
+  gtk_widget_class_bind_template_child (widget_class, PhotosEmbed, stack_overlay);
 }
 
 
