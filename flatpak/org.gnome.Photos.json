@@ -151,7 +151,7 @@
         {
             "name": "gegl",
             "cleanup": [ "/bin" ],
-            "config-opts": [ "--disable-docs" ],
+            "config-opts": [ "--disable-docs", "--disable-introspection" ],
             "sources": [
                 {
                     "type": "git",
