@@ -377,8 +377,7 @@ photos_main_window_constructed (GObject *object)
   self->load_next = g_action_map_lookup_action (G_ACTION_MAP (app), "load-next");
   self->load_previous = g_action_map_lookup_action (G_ACTION_MAP (app), "load-previous");
 
-  self->embed = photos_embed_new ();
-  gtk_container_add (GTK_CONTAINER (self), self->embed);
+  gtk_widget_init_template (GTK_WIDGET (self));
 }
 
 
@@ -458,6 +457,9 @@ photos_main_window_class_init (PhotosMainWindowClass *class)
   widget_class->delete_event = photos_main_window_delete_event;
   widget_class->key_press_event = photos_main_window_key_press_event;
   widget_class->window_state_event = photos_main_window_window_state_event;
+
+  gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/main-window.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhotosMainWindow, embed);
 }
 
 
@@ -471,8 +473,6 @@ photos_main_window_new (GtkApplication *application)
                        "height_request", WINDOW_MIN_HEIGHT,
                        "application", application,
                        "title", _(PACKAGE_NAME),
-                       "window-position", GTK_WIN_POS_CENTER,
-                       "show-menubar", FALSE,
                        NULL);
 }
 

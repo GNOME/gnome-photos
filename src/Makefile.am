@@ -354,6 +354,7 @@ EXTRA_DIST = \
 	photos-embed.ui \
 	photos-export-dialog.ui \
 	photos-help-overlay.ui \
+	photos-main-window.ui \
 	photos-marshalers.list \
 	photos-menus.ui \
 	photos-preview-menu.ui \
