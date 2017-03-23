@@ -30,34 +30,8 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SEARCH_CONTEXT (photos_search_context_get_type ())
+G_DECLARE_DERIVABLE_TYPE (PhotosSearchContext, photos_search_context, PHOTOS, SEARCH_CONTEXT, gpointer);
 
-#define PHOTOS_SEARCH_CONTEXT(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SEARCH_CONTEXT, PhotosSearchContext))
-
-#define PHOTOS_IS_SEARCH_CONTEXT(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SEARCH_CONTEXT))
-
-#define PHOTOS_SEARCH_CONTEXT_GET_INTERFACE(inst) \
-  (G_TYPE_INSTANCE_GET_INTERFACE ((inst), \
-   PHOTOS_TYPE_SEARCH_CONTEXT, PhotosSearchContextInterface))
-
-typedef struct _PhotosSearchContextState PhotosSearchContextState;
-
-typedef struct _PhotosSearchContext          PhotosSearchContext;
-typedef struct _PhotosSearchContextInterface PhotosSearchContextInterface;
-
-struct _PhotosSearchContextState
-{
-  gpointer item_mngr;
-  gpointer mode_cntrlr;
-  gpointer src_mngr;
-  gpointer srch_mtch_mngr;
-  gpointer srch_typ_mngr;
-  gpointer offset_cntrlr;
-  gpointer srch_cntrlr;
-};
 
 PhotosSearchContextState      *photos_search_context_state_new      (PhotosSearchContext *self);
 
@@ -71,7 +45,6 @@ struct _PhotosSearchContextInterface
   PhotosSearchContextState *(*get_state) (PhotosSearchContext *self);
 };
 
-GType                        photos_search_context_get_type           (void) G_GNUC_CONST;
 
 PhotosSearchContextState    *photos_search_context_get_state          (PhotosSearchContext *self);
 
