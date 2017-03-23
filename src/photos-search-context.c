@@ -35,7 +35,7 @@
 #include "photos-source-manager.h"
 
 
-G_DEFINE_INTERFACE (PhotosSearchContext, photos_search_context, G_TYPE_INVALID);
+G_DEFINE_INTERFACE (PhotosSearchContext, photos_search_context, G_TYPE_OBJECT);
 
 
 static void
