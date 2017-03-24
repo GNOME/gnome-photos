@@ -257,9 +257,11 @@ static void
 photos_application_help (PhotosApplication *self, GVariant *parameter)
 {
   GtkWindow *parent;
+  guint32 time;
 
   parent = gtk_application_get_active_window (GTK_APPLICATION (self));
-  gtk_show_uri_on_window (parent, "help:gnome-photos", GDK_CURRENT_TIME, NULL);
+  time = gtk_get_current_event_time ();
+  gtk_show_uri_on_window (parent, "help:gnome-photos", time, NULL);
 }
 
 
