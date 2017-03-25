@@ -64,45 +64,6 @@ GdMainIconView.content-view.cell:active {
   -gtk-icon-shadow: 0 1px #000000;
 }
 
-.photos-dropdown,
-.photos-dropdown .view {
-    background-color: shade (@theme_bg_color, 1.02);
-}
-
-.photos-dropdown.frame {
-    padding: 6px;
-    border-width: 0 1px 1px 1px;
-    border-style: solid;
-    border-radius: 0 0 5px 5px;
-}
-
-.photos-dropdown .view.radio,
-.photos-dropdown .view.radio:focus,
-.photos-dropdown .view.radio:selected {
-    background-image: none;
-    background-color: alpha(@theme_base_color, 0.0);
-}
-
-.photos-dropdown .view.radio:active,
-.photos-dropdown .view.radio:active:focus,
-.photos-dropdown .view.radio:active:hover {
-    background-image: url("sidebar-radio-checked.svg");
-}
-
-.photos-dropdown .view.radio:hover {
-    background-image: url("sidebar-radio-prelight.svg");
-}
-
-.photos-dropdown .view.radio:active:selected,
-.photos-dropdown .view.radio:active:selected:focus {
-    background-image: url("sidebar-radio-selected.svg");
-}
-
-.photos-dropdown .view.radio:selected:hover,
-.photos-dropdown .view.radio:selected:focus {
-    background-image: url("sidebar-radio-selected-prelight.svg");
-}
-
 .photos-fade-in {
     opacity: 1.0;
     transition: opacity 0.2s ease-out;

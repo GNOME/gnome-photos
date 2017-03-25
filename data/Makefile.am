@@ -30,10 +30,6 @@ EXTRA_DIST = \
 	$(service_in_files) \
 	Adwaita.css \
 	dnd-counter.svg \
-	sidebar-radio-checked.svg \
-	sidebar-radio-prelight.svg \
-	sidebar-radio-selected.svg \
-	sidebar-radio-selected-prelight.svg \
 	vignette.png \
 	$(NULL)
 

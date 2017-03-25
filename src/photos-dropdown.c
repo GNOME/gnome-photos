@@ -99,7 +99,6 @@ static void
 photos_dropdown_init (PhotosDropdown *self)
 {
   GApplication *app;
-  GtkStyleContext *context;
   PhotosSearchContextState *state;
 
   app = g_application_get_default ();
@@ -118,8 +117,6 @@ photos_dropdown_init (PhotosDropdown *self)
   photos_dropdown_add_manager (self, self->srch_typ_mngr);
   photos_dropdown_add_manager (self, self->srch_mtch_mngr);
 
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  gtk_style_context_add_class (context, "photos-dropdown");
   gtk_widget_show_all (GTK_WIDGET (self->grid));
 }
 
