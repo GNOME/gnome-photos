@@ -120,7 +120,6 @@ photos_dropdown_init (PhotosDropdown *self)
 
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
   gtk_style_context_add_class (context, "photos-dropdown");
-  gtk_widget_hide (GTK_WIDGET(self));
   gtk_widget_show_all (GTK_WIDGET (self->grid));
 }
 
