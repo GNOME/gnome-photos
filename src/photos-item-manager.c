@@ -441,12 +441,12 @@ photos_item_manager_changes_pending_foreach (gpointer key, gpointer value, gpoin
           photos_base_item_refresh (PHOTOS_BASE_ITEM (object));
 
           if (!photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
-	    {
+            {
               const gchar *uri;
 
               uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (object));
               photos_item_manager_check_wait_for_changes (self, change_urn, uri);
-	    }
+            }
         }
     }
   else if (change_type == PHOTOS_TRACKER_CHANGE_EVENT_CREATED)

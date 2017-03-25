@@ -195,11 +195,11 @@ photos_glib_file_create_create (GObject *source_object, GAsyncResult *res, gpoin
 
 void
 photos_glib_file_create_async (GFile *file,
-                                GFileCreateFlags flags,
-                                gint io_priority,
-                                GCancellable *cancellable,
-                                GAsyncReadyCallback callback,
-                                gpointer user_data)
+                               GFileCreateFlags flags,
+                               gint io_priority,
+                               GCancellable *cancellable,
+                               GAsyncReadyCallback callback,
+                               gpointer user_data)
 {
   GTask *task;
   PhotosGLibFileCreateData *data;
