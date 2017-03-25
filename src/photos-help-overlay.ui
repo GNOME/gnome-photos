@@ -22,10 +22,8 @@
  Based on code from:
    + Documents
 -->
-
-
 <interface>
-<object class="GtkShortcutsWindow" id="help_overlay">
+  <object class="GtkShortcutsWindow" id="help_overlay">
     <property name="modal">1</property>
     <child>
       <object class="GtkShortcutsSection">
@@ -183,5 +181,5 @@
         </child>
       </object>
     </child>
-</object>
+  </object>
 </interface>
