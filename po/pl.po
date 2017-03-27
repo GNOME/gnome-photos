@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-19 21:59+0100\n"
-"PO-Revision-Date: 2017-02-19 22:00+0100\n"
+"POT-Creation-Date: 2017-03-27 22:03+0200\n"
+"PO-Revision-Date: 2017-03-27 22:04+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Zdjęcia"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:496
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:495
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Dostęp, organizowanie i udostępnianie zdjęć w środowisku GNOME"
 
@@ -106,15 +106,15 @@ msgstr "Maksymalizacja okna"
 msgid "Window maximized state"
 msgstr "Stan maksymalizacji okna"
 
-#: ../src/photos-application.c:149
+#: ../src/photos-application.c:153
 msgid "Show the application's version"
 msgstr "Wyświetla wersję programu"
 
-#: ../src/photos-base-item.c:589
+#: ../src/photos-base-item.c:617
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2302
+#: ../src/photos-base-item.c:2540
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
@@ -153,7 +153,7 @@ msgstr "Albumy"
 msgid "Favorites"
 msgstr "Ulubione"
 
-#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
+#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:329
 msgid "Search"
 msgstr "Wyszukaj"
 
@@ -165,7 +165,7 @@ msgstr "Nazwa pierwszego albumu"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:134
-#: ../src/photos-source-notification.c:143
+#: ../src/photos-source-notification.c:146
 msgid "Settings"
 msgstr "Ustawieniach"
 
@@ -228,30 +228,30 @@ msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
 #. Translators: this is the default sub-directory where photos
-#. *  will be exported.
+#. * will be exported.
 #.
 #: ../src/photos-export-dialog.c:201
 msgid "%e %B %Y"
-msgstr "%e %B %Y"
+msgstr "%-d %B %Y"
 
 #: ../src/photos-export-dialog.c:259
 msgid "Calculating export size…"
 msgstr "Obliczanie rozmiaru eksportu…"
 
-#: ../src/photos-export-notification.c:236
+#: ../src/photos-export-notification.c:250
 msgid "Failed to export: not enough space"
 msgstr "Wyeksportowanie się nie powiodło: za mało miejsca"
 
-#: ../src/photos-export-notification.c:238
+#: ../src/photos-export-notification.c:252
 msgid "Failed to export"
 msgstr "Wyeksportowanie się nie powiodło"
 
-#: ../src/photos-export-notification.c:245
+#: ../src/photos-export-notification.c:259
 #, c-format
 msgid "“%s” exported"
 msgstr "Wyeksportowano „%s”"
 
-#: ../src/photos-export-notification.c:249
+#: ../src/photos-export-notification.c:263
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -259,16 +259,16 @@ msgstr[0] "Wyeksportowano %d element"
 msgstr[1] "Wyeksportowano %d elementy"
 msgstr[2] "Wyeksportowano %d elementów"
 
-#: ../src/photos-export-notification.c:267
+#: ../src/photos-export-notification.c:281
 msgid "Analyze"
 msgstr "Analizuj"
 
-#: ../src/photos-export-notification.c:272
+#: ../src/photos-export-notification.c:286
 msgid "Empty Trash"
 msgstr "Opróżnij kosz"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:289 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-export-notification.c:303 ../src/photos-preview-menu.ui.h:1
 #: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Otwórz"
@@ -276,12 +276,12 @@ msgstr "Otwórz"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:299
+#: ../src/photos-export-notification.c:313
 msgid "Export Folder"
 msgstr "Wyeksportuj katalog"
 
 #. Translators: this is the fallback title in the form
-#. *  "Facebook — 2nd January 2013".
+#. * "Facebook — 2nd January 2013".
 #.
 #: ../src/photos-facebook-item.c:100 ../src/photos-flickr-item.c:105
 #: ../src/photos-google-item.c:102
@@ -399,7 +399,7 @@ msgid "Cancel"
 msgstr "Anulowanie"
 
 #. Translators: %s refers to an online account provider, e.g.,
-#. * "Facebook" or "Flickr.
+#. * "Facebook" or "Flickr".
 #.
 #: ../src/photos-indexing-notification.c:167
 #, c-format
@@ -422,11 +422,11 @@ msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
 msgid "Local"
 msgstr "Lokalne"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Naciśnięcie na elementach zaznacza je"
 
-#: ../src/photos-main-toolbar.c:115
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -434,38 +434,38 @@ msgstr[0] "Zaznaczono: %d"
 msgstr[1] "Zaznaczono: %d"
 msgstr[2] "Zaznaczono: %d"
 
-#: ../src/photos-main-toolbar.c:165
+#: ../src/photos-main-toolbar.c:160
 msgid "Back"
 msgstr "Wstecz"
 
-#: ../src/photos-main-toolbar.c:349
+#: ../src/photos-main-toolbar.c:344
 msgid "Select Items"
 msgstr "Wybór elementów"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:443 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:438 ../src/photos-selection-toolbar.c:234
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą „%s”"
 
-#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:245
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../src/photos-main-toolbar.c:488 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:250
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
 
-#: ../src/photos-main-toolbar.c:525 ../src/photos-main-toolbar.c:663
+#: ../src/photos-main-toolbar.c:520 ../src/photos-main-toolbar.c:658
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: ../src/photos-main-toolbar.c:529
+#: ../src/photos-main-toolbar.c:524
 msgid "Done"
 msgstr "Gotowe"
 
-#: ../src/photos-main-window.c:497
+#: ../src/photos-main-window.c:496
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -476,7 +476,7 @@ msgstr ""
 "Copyright © 2012-2017 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:507
+#: ../src/photos-main-window.c:506
 msgid "translator-credits"
 msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2012-2017\n"
@@ -784,12 +784,15 @@ msgstr "Wysłanie zdjęcia się nie powiodło"
 msgid "Sources"
 msgstr "Źródła"
 
-#: ../src/photos-source-notification.c:135
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: ../src/photos-source-notification.c:138
 #, c-format
 msgid "Your %s credentials have expired"
-msgstr "Dane uwierzytelniania „%s” wygasły"
+msgstr "Dane uwierzytelniania serwisu %s wygasły"
 
-#: ../src/photos-thumbnailer.c:73
+#: ../src/photos-thumbnailer.c:77
 msgid "D-Bus address to use"
 msgstr "Używany adres D-Bus"
 
