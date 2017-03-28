@@ -63,6 +63,8 @@ photos_spinner_box_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_spinner_box_parent_class)->constructed (object);
 
+  gtk_revealer_set_transition_type (GTK_REVEALER (self), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
+
   self->spinner = gtk_spinner_new ();
   gtk_widget_set_size_request (self->spinner, 128, 128);
   gtk_widget_set_halign (self->spinner, GTK_ALIGN_CENTER);
@@ -74,6 +76,8 @@ photos_spinner_box_constructed (GObject *object)
 static void
 photos_spinner_box_init (PhotosSpinnerBox *self)
 {
+  gtk_widget_set_halign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
+  gtk_widget_set_valign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
 }
 
 
@@ -89,11 +93,7 @@ photos_spinner_box_class_init (PhotosSpinnerBoxClass *class)
 GtkWidget *
 photos_spinner_box_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_SPINNER_BOX,
-                       "halign", GTK_ALIGN_CENTER,
-                       "transition-type", GTK_REVEALER_TRANSITION_TYPE_CROSSFADE,
-                       "valign", GTK_ALIGN_CENTER,
-                       NULL);
+  return g_object_new (PHOTOS_TYPE_SPINNER_BOX, NULL);
 }
 
 
