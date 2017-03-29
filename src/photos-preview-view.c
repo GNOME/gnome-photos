@@ -25,6 +25,8 @@
 
 #include "config.h"
 
+#include <math.h>
+
 #include <glib.h>
 #include <gio/gio.h>
 #include <glib/gi18n.h>
@@ -46,6 +48,7 @@ struct _PhotosPreviewView
 {
   GtkBin parent_instance;
   GAction *zoom_best_fit_action;
+  GAction *zoom_in_action;
   GAction *zoom_out_action;
   GCancellable *cancellable;
   GeglNode *node;
@@ -57,6 +60,9 @@ struct _PhotosPreviewView
   PhotosModeController *mode_cntrlr;
   PhotosPreviewNavButtons *nav_buttons;
   PhotosTool *current_tool;
+  gboolean grabbed;
+  gdouble event_x_last;
+  gdouble event_y_last;
   gdouble zoom_best_fit;
 };
 
@@ -113,16 +119,49 @@ photos_preview_view_button_press_event (GtkWidget *widget, GdkEvent *event, gpoi
   g_return_val_if_fail (widget == current_view, GDK_EVENT_PROPAGATE);
 
   if (self->current_tool == NULL)
-    goto out;
-
-  switch (event->button.button)
     {
-    case 1:
-      ret_val = photos_tool_left_click_event (self->current_tool, &(event->button));
-      break;
+      switch (event->button.button)
+        {
+        case 1:
+          {
+            if (photos_utils_scrolled_window_can_scroll (GTK_SCROLLED_WINDOW (current_view_container)))
+              {
+                GdkCursor *cursor = NULL;
+                GdkDisplay *display;
+                GdkWindow *window;
 
-    default:
-      break;
+                window = gtk_widget_get_window (widget);
+                display = gdk_window_get_display (window);
+                cursor = gdk_cursor_new_for_display (display, GDK_FLEUR);
+                gdk_window_set_cursor (window, cursor);
+
+                self->grabbed = TRUE;
+                self->event_x_last = event->button.x;
+                self->event_y_last = event->button.y;
+
+                ret_val = GDK_EVENT_STOP;
+
+                g_object_unref (cursor);
+              }
+
+            break;
+          }
+
+        default:
+          break;
+        }
+    }
+  else
+    {
+      switch (event->button.button)
+        {
+        case 1:
+          ret_val = photos_tool_left_click_event (self->current_tool, &(event->button));
+          break;
+
+        default:
+          break;
+        }
     }
 
  out:
@@ -143,16 +182,39 @@ photos_preview_view_button_release_event (GtkWidget *widget, GdkEvent *event, gp
   g_return_val_if_fail (widget == current_view, GDK_EVENT_PROPAGATE);
 
   if (self->current_tool == NULL)
-    goto out;
-
-  switch (event->button.button)
     {
-    case 1:
-      ret_val = photos_tool_left_unclick_event (self->current_tool, &(event->button));
-      break;
+      if (!self->grabbed)
+        goto out;
 
-    default:
-      break;
+      switch (event->button.button)
+        {
+        case 1:
+          {
+            GdkWindow *window;
+
+            window = gtk_widget_get_window (widget);
+            gdk_window_set_cursor (window, NULL);
+            self->grabbed = FALSE;
+            self->event_x_last = -1.0;
+            self->event_y_last = -1.0;
+            break;
+          }
+
+        default:
+          break;
+        }
+    }
+  else
+    {
+      switch (event->button.button)
+        {
+        case 1:
+          ret_val = photos_tool_left_unclick_event (self->current_tool, &(event->button));
+          break;
+
+        default:
+          break;
+        }
     }
 
  out:
@@ -229,9 +291,28 @@ photos_preview_view_motion_notify_event (GtkWidget *widget, GdkEvent *event, gpo
   g_return_val_if_fail (widget == current_view, GDK_EVENT_PROPAGATE);
 
   if (self->current_tool == NULL)
-    goto out;
+    {
+      if (self->grabbed)
+        {
+          gdouble delta_x;
+          gdouble delta_y;
 
-  ret_val = photos_tool_motion_event (self->current_tool, &(event->motion));
+          /* We are moving the content, not the view. Hence the
+           * deltas are inverted.
+           */
+          delta_x = self->event_x_last - event->motion.x;
+          delta_y = self->event_y_last - event->motion.y;
+
+          self->event_x_last = event->motion.x;
+          self->event_y_last = event->motion.y;
+
+          photos_utils_scrolled_window_scroll (GTK_SCROLLED_WINDOW (current_view_container), delta_x, delta_y);
+        }
+    }
+  else
+    {
+      ret_val = photos_tool_motion_event (self->current_tool, &(event->motion));
+    }
 
  out:
   return ret_val;
@@ -317,6 +398,50 @@ photos_preview_view_navigate_previous (PhotosPreviewView *self)
 }
 
 
+static gboolean
+photos_preview_view_scroll_event (GtkWidget *widget, GdkEvent *event, gpointer user_data)
+{
+  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
+  GVariant *parameter = NULL;
+  GtkWidget *current_view;
+  GtkWidget *current_view_container;
+  gboolean ret_val = GDK_EVENT_PROPAGATE;
+  gdouble delta_abs;
+
+  current_view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  current_view = photos_preview_view_get_view_from_view_container (current_view_container);
+  g_return_val_if_fail (widget == current_view, GDK_EVENT_PROPAGATE);
+
+  if ((event->scroll.state & GDK_SHIFT_MASK) != 0 || (event->scroll.state & GDK_CONTROL_MASK) != 0)
+    goto out;
+
+  delta_abs = fabs (event->scroll.delta_y);
+  parameter = g_variant_new_double (delta_abs);
+  parameter = g_variant_ref_sink (parameter);
+
+  if (event->scroll.delta_y < 0.0)
+    {
+      if (g_action_get_enabled (self->zoom_in_action))
+        {
+          g_action_activate (self->zoom_in_action, parameter);
+          ret_val = GDK_EVENT_STOP;
+        }
+    }
+  else
+    {
+      if (g_action_get_enabled (self->zoom_out_action))
+        {
+          g_action_activate (self->zoom_out_action, parameter);
+          ret_val = GDK_EVENT_STOP;
+        }
+    }
+
+ out:
+  g_clear_pointer (&parameter, (GDestroyNotify) g_variant_unref);
+  return ret_val;
+}
+
+
 static GtkWidget *
 photos_preview_view_create_view_with_container (PhotosPreviewView *self)
 {
@@ -338,6 +463,7 @@ photos_preview_view_create_view_with_container (PhotosPreviewView *self)
   g_signal_connect (view, "motion-notify-event", G_CALLBACK (photos_preview_view_motion_notify_event), self);
   g_signal_connect (view, "notify::best-fit", G_CALLBACK (photos_preview_view_notify_best_fit), self);
   g_signal_connect (view, "notify::zoom", G_CALLBACK (photos_preview_view_notify_zoom), self);
+  g_signal_connect (view, "scroll-event", G_CALLBACK (photos_preview_view_scroll_event), self);
 
   /* It has to be visible to become the visible child of self->stack. */
   gtk_widget_show_all (sw);
@@ -971,8 +1097,12 @@ photos_preview_view_init (PhotosPreviewView *self)
                            self,
                            G_CONNECT_SWAPPED);
 
-  action = g_action_map_lookup_action (G_ACTION_MAP (app), "zoom-in");
-  g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_zoom_in), self, G_CONNECT_SWAPPED);
+  self->zoom_in_action = g_action_map_lookup_action (G_ACTION_MAP (app), "zoom-in");
+  g_signal_connect_object (self->zoom_in_action,
+                           "activate",
+                           G_CALLBACK (photos_preview_view_zoom_in),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   self->zoom_out_action = g_action_map_lookup_action (G_ACTION_MAP (app), "zoom-out");
   g_signal_connect_object (self->zoom_out_action,
@@ -980,6 +1110,9 @@ photos_preview_view_init (PhotosPreviewView *self)
                            G_CALLBACK (photos_preview_view_zoom_out),
                            self,
                            G_CONNECT_SWAPPED);
+
+  self->event_x_last = -1.0;
+  self->event_y_last = -1.0;
 }
 
 
