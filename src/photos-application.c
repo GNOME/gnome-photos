@@ -111,6 +111,9 @@ struct _PhotosApplication
   GSimpleAction *set_ss_action;
   GSimpleAction *share_action;
   GSimpleAction *sharpen_action;
+  GSimpleAction *zoom_best_fit_action;
+  GSimpleAction *zoom_in_action;
+  GSimpleAction *zoom_out_action;
   GtkWidget *main_window;
   PhotosBaseManager *shr_pnt_mngr;
   PhotosCameraCache *camera_cache;
@@ -337,6 +340,9 @@ photos_application_actions_update (PhotosApplication *self)
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   selection_mode = photos_utils_get_selection_mode ();
 
+  g_simple_action_set_enabled (self->zoom_best_fit_action, FALSE);
+  g_simple_action_set_enabled (self->zoom_out_action, FALSE);
+
   enable = (mode == PHOTOS_WINDOW_MODE_EDIT);
   g_simple_action_set_enabled (self->blacks_exposure_action, enable);
   g_simple_action_set_enabled (self->brightness_contrast_action, enable);
@@ -367,6 +373,7 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->gear_action, enable);
   g_simple_action_set_enabled (self->set_bg_action, enable);
   g_simple_action_set_enabled (self->set_ss_action, enable);
+  g_simple_action_set_enabled (self->zoom_in_action, enable);
 
   enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
             || (selection_mode && item != NULL));
@@ -816,6 +823,8 @@ photos_application_edit_current (PhotosApplication *self)
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->state->item_mngr));
   g_return_if_fail (item != NULL);
+
+  g_action_activate (G_ACTION (self->zoom_best_fit_action), NULL);
 
   photos_base_item_pipeline_snapshot (item);
   photos_mode_controller_set_window_mode (self->state->mode_cntrlr, PHOTOS_WINDOW_MODE_EDIT);
@@ -1689,6 +1698,9 @@ photos_application_startup (GApplication *application)
   const gchar *save_accels[2] = {"<Primary>x", NULL};
   const gchar *search_accels[2] = {"<Primary>f", NULL};
   const gchar *select_all_accels[2] = {"<Primary>a", NULL};
+  const gchar *zoom_best_fit_accels[3] = {"<Primary>0", NULL};
+  const gchar *zoom_in_accels[3] = {"<Primary>plus", "<Primary>equal", NULL};
+  const gchar *zoom_out_accels[2] = {"<Primary>minus", NULL};
 
   G_APPLICATION_CLASS (photos_application_parent_class)->startup (application);
 
@@ -1901,6 +1913,15 @@ photos_application_startup (GApplication *application)
   self->sharpen_action = g_simple_action_new ("sharpen-current", G_VARIANT_TYPE_DOUBLE);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->sharpen_action));
 
+  self->zoom_best_fit_action = g_simple_action_new ("zoom-best-fit", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_best_fit_action));
+
+  self->zoom_in_action = g_simple_action_new ("zoom-in", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_in_action));
+
+  self->zoom_out_action = g_simple_action_new ("zoom-out", NULL);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_out_action));
+
   g_signal_connect_swapped (self->state->mode_cntrlr,
                             "window-mode-changed",
                             G_CALLBACK (photos_application_window_mode_changed),
@@ -1921,6 +1942,9 @@ photos_application_startup (GApplication *application)
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.save-current", save_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.search", search_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.select-all", select_all_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-best-fit", zoom_best_fit_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-in", zoom_in_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-out", zoom_out_accels);
 
   g_signal_connect_swapped (self->state->item_mngr,
                             "load-finished",
@@ -1995,6 +2019,9 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->set_ss_action);
   g_clear_object (&self->share_action);
   g_clear_object (&self->sharpen_action);
+  g_clear_object (&self->zoom_best_fit_action);
+  g_clear_object (&self->zoom_in_action);
+  g_clear_object (&self->zoom_out_action);
   g_clear_object (&self->shr_pnt_mngr);
   g_clear_object (&self->camera_cache);
   g_clear_object (&self->sel_cntrlr);

@@ -146,6 +146,27 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
+                <property name="title" translatable="yes" context="shortcut window">Zoom in</property>
+                <property name="accelerator">&lt;Primary&gt;plus</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="title" translatable="yes" context="shortcut window">Zoom out</property>
+                <property name="accelerator">&lt;Primary&gt;minus</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="title" translatable="yes" context="shortcut window">Best fit</property>
+                <property name="accelerator">&lt;Primary&gt;0</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
                 <property name="title" translatable="yes" context="shortcut window">Delete</property>
                 <property name="accelerator">Delete</property>
               </object>

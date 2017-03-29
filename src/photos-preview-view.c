@@ -39,11 +39,14 @@
 #include "photos-preview-view.h"
 #include "photos-search-context.h"
 #include "photos-tool.h"
+#include "photos-utils.h"
 
 
 struct _PhotosPreviewView
 {
   GtkBin parent_instance;
+  GAction *zoom_best_fit_action;
+  GAction *zoom_out_action;
   GCancellable *cancellable;
   GeglNode *node;
   GtkWidget *overlay;
@@ -54,6 +57,7 @@ struct _PhotosPreviewView
   PhotosModeController *mode_cntrlr;
   PhotosPreviewNavButtons *nav_buttons;
   PhotosTool *current_tool;
+  gdouble zoom_best_fit;
 };
 
 struct _PhotosPreviewViewClass
@@ -69,6 +73,10 @@ enum
 
 
 G_DEFINE_TYPE (PhotosPreviewView, photos_preview_view, GTK_TYPE_BIN);
+
+
+static const gdouble ZOOM_FACTOR_1 = 2.8561;
+static const gdouble ZOOM_FACTOR_2 = 1.69;
 
 
 static GtkWidget *photos_preview_view_create_view_with_container (PhotosPreviewView *self);
@@ -230,6 +238,45 @@ photos_preview_view_motion_notify_event (GtkWidget *widget, GdkEvent *event, gpo
 
 
 static void
+photos_preview_view_update_zoom_best_fit (PhotosPreviewView *self, PhotosImageView *view)
+{
+  GtkWidget *current_view;
+  GtkWidget *current_view_container;
+  gdouble zoom;
+
+  current_view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  current_view = photos_preview_view_get_view_from_view_container (current_view_container);
+  g_return_if_fail (view == PHOTOS_IMAGE_VIEW (current_view));
+
+  zoom = photos_image_view_get_zoom (view);
+  if (!photos_image_view_get_best_fit (view) || zoom == 0.0)
+    return;
+
+  self->zoom_best_fit = zoom;
+}
+
+
+static void
+photos_preview_view_notify_best_fit (GObject *object, GParamSpec *pspec, gpointer user_data)
+{
+  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
+  PhotosImageView *view = PHOTOS_IMAGE_VIEW (object);
+
+  photos_preview_view_update_zoom_best_fit (self, view);
+}
+
+
+static void
+photos_preview_view_notify_zoom (GObject *object, GParamSpec *pspec, gpointer user_data)
+{
+  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
+  PhotosImageView *view = PHOTOS_IMAGE_VIEW (object);
+
+  photos_preview_view_update_zoom_best_fit (self, view);
+}
+
+
+static void
 photos_preview_view_navigate (PhotosPreviewView *self, gint position)
 {
   GeglNode *node;
@@ -288,6 +335,8 @@ photos_preview_view_create_view_with_container (PhotosPreviewView *self)
   g_signal_connect_swapped (view, "draw-background", G_CALLBACK (photos_preview_view_draw_background), self);
   g_signal_connect_swapped (view, "draw-overlay", G_CALLBACK (photos_preview_view_draw_overlay), self);
   g_signal_connect (view, "motion-notify-event", G_CALLBACK (photos_preview_view_motion_notify_event), self);
+  g_signal_connect (view, "notify::best-fit", G_CALLBACK (photos_preview_view_notify_best_fit), self);
+  g_signal_connect (view, "notify::zoom", G_CALLBACK (photos_preview_view_notify_zoom), self);
 
   /* It has to be visible to become the visible child of self->stack. */
   gtk_widget_show_all (sw);
@@ -663,6 +712,75 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
 
 
 static void
+photos_preview_view_zoom_best_fit (PhotosPreviewView *self)
+{
+  GtkWidget *view;
+  GtkWidget *view_container;
+
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  view = photos_preview_view_get_view_from_view_container (view_container);
+  photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), FALSE);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), FALSE);
+}
+
+
+static void
+photos_preview_view_zoom_in (PhotosPreviewView *self)
+{
+  GtkWidget *view;
+  GtkWidget *view_container;
+  gboolean best_fit;
+  gdouble zoom;
+  gdouble zoom_factor;
+
+  g_return_if_fail (self->zoom_best_fit > 0.0);
+
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  view = photos_preview_view_get_view_from_view_container (view_container);
+
+  best_fit = photos_image_view_get_best_fit (PHOTOS_IMAGE_VIEW (view));
+  zoom_factor = best_fit ? ZOOM_FACTOR_1 : ZOOM_FACTOR_2;
+
+  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
+  zoom *= zoom_factor;
+
+  photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom);
+
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), TRUE);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), TRUE);
+}
+
+
+static void
+photos_preview_view_zoom_out (PhotosPreviewView *self)
+{
+  GtkWidget *view;
+  GtkWidget *view_container;
+  gdouble zoom;
+
+  g_return_if_fail (self->zoom_best_fit > 0.0);
+
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  view = photos_preview_view_get_view_from_view_container (view_container);
+
+  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
+  zoom /= ZOOM_FACTOR_2;
+
+  if (zoom < self->zoom_best_fit || photos_utils_equal_double (self->zoom_best_fit, zoom))
+    {
+      photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE);
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), FALSE);
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), FALSE);
+    }
+  else
+    {
+      photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom);
+    }
+}
+
+
+static void
 photos_preview_view_dispose (GObject *object)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
@@ -816,6 +934,23 @@ photos_preview_view_init (PhotosPreviewView *self)
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "sharpen-current");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_sharpen), self, G_CONNECT_SWAPPED);
+
+  self->zoom_best_fit_action = g_action_map_lookup_action (G_ACTION_MAP (app), "zoom-best-fit");
+  g_signal_connect_object (self->zoom_best_fit_action,
+                           "activate",
+                           G_CALLBACK (photos_preview_view_zoom_best_fit),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "zoom-in");
+  g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_zoom_in), self, G_CONNECT_SWAPPED);
+
+  self->zoom_out_action = g_action_map_lookup_action (G_ACTION_MAP (app), "zoom-out");
+  g_signal_connect_object (self->zoom_out_action,
+                           "activate",
+                           G_CALLBACK (photos_preview_view_zoom_out),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 
@@ -868,6 +1003,7 @@ photos_preview_view_set_node (PhotosPreviewView *self, GeglNode *node)
     return;
 
   view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  self->zoom_best_fit = 0.0;
   g_clear_object (&self->node);
 
   if (node == NULL)
