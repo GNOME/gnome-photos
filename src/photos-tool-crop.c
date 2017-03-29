@@ -274,8 +274,28 @@ photos_tool_crop_change_constraint (PhotosToolCrop *self)
 
   self->crop_height = sqrt (old_area / self->crop_aspect_ratio);
   self->crop_width = sqrt (old_area * self->crop_aspect_ratio);
+
+  if (self->crop_height > self->bbox_zoomed.height)
+    {
+      self->crop_height = self->bbox_zoomed.height;
+      self->crop_width = self->crop_height * self->crop_aspect_ratio;
+    }
+
+  if (self->crop_width > self->bbox_zoomed.width)
+    {
+      self->crop_width = self->bbox_zoomed.width;
+      self->crop_height = self->crop_width / self->crop_aspect_ratio;
+    }
+
   self->crop_x = crop_center_x - self->crop_width / 2.0;
+  self->crop_x = CLAMP (self->crop_x,
+                        0.0,
+                        self->bbox_zoomed.width - self->crop_width);
+
   self->crop_y = crop_center_y - self->crop_height / 2.0;
+  self->crop_y = CLAMP (self->crop_y,
+                        0.0,
+                        self->bbox_zoomed.height - self->crop_height);
 
   photos_tool_crop_surface_draw (self);
   photos_tool_crop_redraw_damaged_area (self);
