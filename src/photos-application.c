@@ -352,10 +352,6 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->search_match_action, enable);
   g_simple_action_set_enabled (self->search_source_action, enable);
   g_simple_action_set_enabled (self->search_type_action, enable);
-
-  enable = (mode == PHOTOS_WINDOW_MODE_OVERVIEW
-            || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-            || mode == PHOTOS_WINDOW_MODE_FAVORITES);
   g_simple_action_set_enabled (self->sel_all_action, enable);
   g_simple_action_set_enabled (self->sel_none_action, enable);
 
