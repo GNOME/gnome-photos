@@ -33,6 +33,8 @@ GtkWidget          *photos_image_view_new                (void);
 
 GtkWidget          *photos_image_view_new_from_node      (GeglNode *node);
 
+gboolean            photos_image_view_get_best_fit       (PhotosImageView *self);
+
 GeglNode           *photos_image_view_get_node           (PhotosImageView *self);
 
 gdouble             photos_image_view_get_x              (PhotosImageView *self);
@@ -41,7 +43,11 @@ gdouble             photos_image_view_get_y              (PhotosImageView *self)
 
 gdouble             photos_image_view_get_zoom           (PhotosImageView *self);
 
+void                photos_image_view_set_best_fit       (PhotosImageView *self, gboolean best_fit);
+
 void                photos_image_view_set_node           (PhotosImageView *self, GeglNode *node);
+
+void                photos_image_view_set_zoom           (PhotosImageView *self, gdouble zoom);
 
 G_END_DECLS
 
