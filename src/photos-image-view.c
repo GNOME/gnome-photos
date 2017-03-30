@@ -38,12 +38,12 @@ struct _PhotosImageView
   GeglNode *node;
   cairo_region_t *bbox_region;
   cairo_region_t *region;
-  gfloat x;
-  gfloat x_scaled;
-  gfloat y;
-  gfloat y_scaled;
-  gfloat zoom;
-  gfloat zoom_scaled;
+  gdouble x;
+  gdouble x_scaled;
+  gdouble y;
+  gdouble y_scaled;
+  gdouble zoom;
+  gdouble zoom_scaled;
 };
 
 enum
@@ -115,7 +115,7 @@ photos_image_view_update (PhotosImageView *self)
 {
   GdkRectangle viewport;
   GeglRectangle bbox;
-  float zoom_scaled = 1.0;
+  gdouble zoom_scaled = 1.0;
   gint scale_factor;
   gint viewport_height_real;
   gint viewport_width_real;
@@ -140,9 +140,9 @@ photos_image_view_update (PhotosImageView *self)
 
   if (bbox.height > viewport_height_real || bbox.width > viewport_width_real)
     {
-      gfloat height_ratio = bbox.height / (gfloat) viewport_height_real;
-      gfloat width_ratio = bbox.width / (gfloat) viewport_width_real;
-      gfloat max_ratio =  MAX (height_ratio, width_ratio);
+      gdouble height_ratio = bbox.height / (gdouble) viewport_height_real;
+      gdouble width_ratio = bbox.width / (gdouble) viewport_width_real;
+      gdouble max_ratio =  MAX (height_ratio, width_ratio);
 
       zoom_scaled = 1.0 / max_ratio;
 
@@ -153,14 +153,14 @@ photos_image_view_update (PhotosImageView *self)
     }
 
   self->zoom_scaled = zoom_scaled;
-  self->zoom = self->zoom_scaled / (gfloat) scale_factor;
+  self->zoom = self->zoom_scaled / (gdouble) scale_factor;
 
   /* At this point, viewport is definitely bigger than bbox. */
   self->x_scaled = (bbox.width - viewport_width_real) / 2.0 + bbox.x;
   self->y_scaled = (bbox.height - viewport_height_real) / 2.0 + bbox.y;
 
-  self->x = self->x_scaled / (gfloat) scale_factor;
-  self->y = self->y_scaled / (gfloat) scale_factor;
+  self->x = self->x_scaled / (gdouble) scale_factor;
+  self->y = self->y_scaled / (gdouble) scale_factor;
 }
 
 
@@ -240,7 +240,7 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
   stride = bpp * roi.width;
   gegl_buffer_get (self->buffer,
                    &roi,
-                   (gdouble) self->zoom_scaled,
+                   self->zoom_scaled,
                    format,
                    buf,
                    stride,
@@ -335,15 +335,15 @@ photos_image_view_get_property (GObject *object, guint prop_id, GValue *value, G
       break;
 
     case PROP_X:
-      g_value_set_float (value, self->x);
+      g_value_set_float (value, (gfloat) self->x);
       break;
 
     case PROP_Y:
-      g_value_set_float (value, self->y);
+      g_value_set_float (value, (gfloat) self->y);
       break;
 
     case PROP_ZOOM:
-      g_value_set_float (value, self->zoom);
+      g_value_set_float (value, (gfloat) self->zoom);
       break;
 
     default:
@@ -496,7 +496,7 @@ gfloat
 photos_image_view_get_x (PhotosImageView *self)
 {
   g_return_val_if_fail (PHOTOS_IS_IMAGE_VIEW (self), 0.0);
-  return self->x;
+  return (gfloat) self->x;
 }
 
 
@@ -504,7 +504,7 @@ gfloat
 photos_image_view_get_y (PhotosImageView *self)
 {
   g_return_val_if_fail (PHOTOS_IS_IMAGE_VIEW (self), 0.0);
-  return self->y;
+  return (gfloat) self->y;
 }
 
 
@@ -512,7 +512,7 @@ gfloat
 photos_image_view_get_zoom (PhotosImageView *self)
 {
   g_return_val_if_fail (PHOTOS_IS_IMAGE_VIEW (self), 0.0);
-  return self->zoom;
+  return (gfloat) self->zoom;
 }
 
 
