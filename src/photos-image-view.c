@@ -335,15 +335,15 @@ photos_image_view_get_property (GObject *object, guint prop_id, GValue *value, G
       break;
 
     case PROP_X:
-      g_value_set_float (value, (gfloat) self->x);
+      g_value_set_double (value, self->x);
       break;
 
     case PROP_Y:
-      g_value_set_float (value, (gfloat) self->y);
+      g_value_set_double (value, self->y);
       break;
 
     case PROP_ZOOM:
-      g_value_set_float (value, (gfloat) self->zoom);
+      g_value_set_double (value, self->zoom);
       break;
 
     default:
@@ -415,33 +415,33 @@ photos_image_view_class_init (PhotosImageViewClass *class)
 
   g_object_class_install_property (object_class,
                                    PROP_X,
-                                   g_param_spec_float ("x",
-                                                       "X",
-                                                       "X origin",
-                                                       -G_MAXFLOAT,
-                                                       G_MAXFLOAT,
-                                                       0.0,
-                                                       G_PARAM_READABLE));
+                                   g_param_spec_double ("x",
+                                                        "X",
+                                                        "X origin",
+                                                        -G_MAXDOUBLE,
+                                                        G_MAXDOUBLE,
+                                                        0.0,
+                                                        G_PARAM_READABLE));
 
   g_object_class_install_property (object_class,
                                    PROP_Y,
-                                   g_param_spec_float ("y",
-                                                       "Y",
-                                                       "Y origin",
-                                                       -G_MAXFLOAT,
-                                                       G_MAXFLOAT,
-                                                       0.0,
-                                                       G_PARAM_READABLE));
+                                   g_param_spec_double ("y",
+                                                        "Y",
+                                                        "Y origin",
+                                                        -G_MAXDOUBLE,
+                                                        G_MAXDOUBLE,
+                                                        0.0,
+                                                        G_PARAM_READABLE));
 
   g_object_class_install_property (object_class,
                                    PROP_ZOOM,
-                                   g_param_spec_float ("zoom",
-                                                       "Zoom",
-                                                       "Zoom factor",
-                                                       0.0f,
-                                                       100.0f,
-                                                       1.0f,
-                                                       G_PARAM_READABLE));
+                                   g_param_spec_double ("zoom",
+                                                        "Zoom",
+                                                        "Zoom factor",
+                                                        0.0,
+                                                        100.0,
+                                                        1.0,
+                                                        G_PARAM_READABLE));
 
   signals[DRAW_BACKGROUND] = g_signal_new ("draw-background",
                                            G_TYPE_FROM_CLASS (class),
@@ -492,27 +492,27 @@ photos_image_view_get_node (PhotosImageView *self)
 }
 
 
-gfloat
+gdouble
 photos_image_view_get_x (PhotosImageView *self)
 {
   g_return_val_if_fail (PHOTOS_IS_IMAGE_VIEW (self), 0.0);
-  return (gfloat) self->x;
+  return self->x;
 }
 
 
-gfloat
+gdouble
 photos_image_view_get_y (PhotosImageView *self)
 {
   g_return_val_if_fail (PHOTOS_IS_IMAGE_VIEW (self), 0.0);
-  return (gfloat) self->y;
+  return self->y;
 }
 
 
-gfloat
+gdouble
 photos_image_view_get_zoom (PhotosImageView *self)
 {
   g_return_val_if_fail (PHOTOS_IS_IMAGE_VIEW (self), 0.0);
-  return (gfloat) self->zoom;
+  return self->zoom;
 }
 
 

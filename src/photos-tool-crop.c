@@ -190,10 +190,10 @@ photos_tool_crop_redraw_damaged_area (PhotosToolCrop *self)
   gdouble x;
   gdouble y;
 
-  x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
+  x = photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
   x = -x + self->crop_x - damage_offset;
 
-  y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
+  y = photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
   y = -y + self->crop_y - damage_offset;
 
   area.height = (gint) (self->crop_height + 2 * damage_offset + 0.5) + 2;
@@ -211,7 +211,7 @@ static void
 photos_tool_crop_surface_create (PhotosToolCrop *self)
 {
   GdkWindow *window;
-  gfloat zoom;
+  gdouble zoom;
 
   g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
 
@@ -897,7 +897,7 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
   PhotosToolCrop *self;
   GError *error = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-  gfloat zoom;
+  gdouble zoom;
   guint active;
 
   photos_base_item_operation_remove_finish (item, res, &error);
@@ -1021,7 +1021,7 @@ photos_tool_crop_deactivate (PhotosTool *tool)
     {
       GVariantBuilder parameter;
       GVariantType *parameter_type;
-      gfloat zoom;
+      gdouble zoom;
 
       zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
 
@@ -1063,10 +1063,10 @@ photos_tool_crop_draw (PhotosTool *tool, cairo_t *cr, GdkRectangle *rect)
   g_return_if_fail (self->activated);
   g_return_if_fail (self->view != NULL);
 
-  x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
+  x = photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
   x = -x;
 
-  y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
+  y = photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
   y = -y;
 
   cairo_save (cr);
@@ -1096,8 +1096,8 @@ photos_tool_crop_left_click_event (PhotosTool *tool, GdkEventButton *event)
 
   self->grabbed = TRUE;
 
-  x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
-  y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
+  x = photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
+  y = photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
   self->event_x_last = event->x + x;
   self->event_y_last = event->y + y;
 
@@ -1133,8 +1133,8 @@ photos_tool_crop_motion_event (PhotosTool *tool, GdkEventMotion *event)
   g_return_val_if_fail (self->activated, GDK_EVENT_PROPAGATE);
   g_return_val_if_fail (self->view != NULL, GDK_EVENT_PROPAGATE);
 
-  x = (gdouble) photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
-  y = (gdouble) photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
+  x = photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
+  y = photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
   event_x = event->x + x;
   event_y = event->y + y;
 
