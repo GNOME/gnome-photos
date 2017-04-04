@@ -36,6 +36,7 @@ src/photos-selection-menu.ui
 src/photos-selection-toolbar.c
 src/photos-selection-toolbar.ui
 src/photos-share-dialog.ui
+src/photos-share-notification.c
 src/photos-share-point-email.c
 src/photos-share-point-google.c
 src/photos-source-manager.c

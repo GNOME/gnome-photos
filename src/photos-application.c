@@ -1500,10 +1500,13 @@ photos_application_set_screensaver (PhotosApplication *self)
 static void
 photos_application_share_share (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  PhotosApplication *self;
   PhotosSharePoint *share_point = PHOTOS_SHARE_POINT (source_object);
   GError *error = NULL;
+  PhotosBaseItem *item = PHOTOS_BASE_ITEM (user_data);
   gchar *uri = NULL;
+
+  self = PHOTOS_APPLICATION (g_application_get_default ());
 
   photos_share_point_share_finish (share_point, res, &uri, &error);
   if (error != NULL)
@@ -1514,10 +1517,14 @@ photos_application_share_share (GObject *source_object, GAsyncResult *res, gpoin
       goto out;
     }
 
+  if (photos_share_point_needs_notification (share_point))
+    photos_share_notification_new (share_point, item, uri);
+
  out:
   g_application_unmark_busy (G_APPLICATION (self));
   g_application_release (G_APPLICATION (self));
   g_free (uri);
+  g_object_unref (item);
 }
 
 
@@ -1543,7 +1550,7 @@ photos_application_share_response (GtkDialog *dialog, gint response_id, gpointer
 
   g_application_hold (G_APPLICATION (self));
   g_application_mark_busy (G_APPLICATION (self));
-  photos_share_point_share_async (share_point, item, NULL, photos_application_share_share, self);
+  photos_share_point_share_async (share_point, item, NULL, photos_application_share_share, g_object_ref (item));
 
  out:
   gtk_widget_destroy (GTK_WIDGET (dialog));
