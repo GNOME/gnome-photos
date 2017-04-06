@@ -222,6 +222,8 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
   gint64 start;
 
   g_return_if_fail (GEGL_IS_BUFFER (self->buffer));
+  g_return_if_fail (self->zoom > 0.0);
+  g_return_if_fail (self->zoom_scaled > 0.0);
 
   scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
 
@@ -520,6 +522,7 @@ void
 photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
 {
   g_return_if_fail (PHOTOS_IS_IMAGE_VIEW (self));
+  g_return_if_fail (node == NULL || GEGL_IS_NODE (node));
 
   if (self->node == node)
     return;
