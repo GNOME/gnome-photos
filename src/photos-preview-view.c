@@ -258,11 +258,16 @@ photos_preview_view_create_view_with_container (PhotosPreviewView *self)
 static GtkWidget *
 photos_preview_view_get_view_from_view_container (GtkWidget *view_container)
 {
+  GtkWidget *child;
   GtkWidget *view;
-  GtkWidget *viewport;
 
-  viewport = gtk_bin_get_child (GTK_BIN (view_container));
-  view = gtk_bin_get_child (GTK_BIN (viewport));
+  child = gtk_bin_get_child (GTK_BIN (view_container));
+
+  if (GTK_IS_VIEWPORT (child))
+    view = gtk_bin_get_child (GTK_BIN (child));
+  else
+    view = child;
+
   return view;
 }
 
