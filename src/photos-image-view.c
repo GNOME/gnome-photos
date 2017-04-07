@@ -249,7 +249,13 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
                    GEGL_ABYSS_NONE);
 
   end = g_get_monotonic_time ();
-  photos_debug (PHOTOS_DEBUG_GEGL, "PhotosImageView: Node Blit: %" G_GINT64_FORMAT, end - start);
+  photos_debug (PHOTOS_DEBUG_GEGL,
+                "PhotosImageView: Node Blit: %d, %d, %d×%d, %" G_GINT64_FORMAT,
+                rect->x,
+                rect->y,
+                rect->width,
+                rect->height,
+                end - start);
 
   surface = cairo_image_surface_create_for_data (buf, CAIRO_FORMAT_ARGB32, roi.width, roi.height, stride);
   cairo_surface_set_device_scale (surface, (gdouble) scale_factor, (gdouble) scale_factor);
