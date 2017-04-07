@@ -30,13 +30,13 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SEARCHBAR (photos_searchbar_get_type ())
-G_DECLARE_DERIVABLE_TYPE (PhotosSearchbar, photos_searchbar, PHOTOS, SEARCHBAR, GtkRevealer);
+G_DECLARE_DERIVABLE_TYPE (PhotosSearchbar, photos_searchbar, PHOTOS, SEARCHBAR, GtkSearchBar);
 
 typedef struct _PhotosSearchbarPrivate PhotosSearchbarPrivate;
 
 struct _PhotosSearchbarClass
 {
-  GtkRevealerClass parent_class;
+  GtkSearchBarClass parent_class;
 
   /* virtual methods */
   void (*create_search_widgets) (PhotosSearchbar *self);
