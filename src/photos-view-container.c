@@ -101,6 +101,41 @@ photos_view_container_disconnect_view (PhotosViewContainer *self)
 }
 
 
+static gboolean
+photos_view_container_get_show_primary_text (PhotosViewContainer *self)
+{
+  gboolean ret_val;
+
+  switch (self->mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      ret_val = TRUE;
+      break;
+
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      ret_val = FALSE;
+      break;
+
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      ret_val = FALSE;
+      break;
+
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      ret_val = TRUE;
+      break;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  return ret_val;
+}
+
+
 static void
 photos_view_container_item_activated (PhotosViewContainer *self, GdMainBoxItem *box_item)
 {
@@ -242,6 +277,7 @@ photos_view_container_constructed (GObject *object)
   GtkWidget *grid;
   PhotosSearchContextState *state;
   gboolean selection_mode;
+  gboolean show_primary_text;
   gboolean status;
 
   G_OBJECT_CLASS (photos_view_container_parent_class)->constructed (object);
@@ -273,6 +309,8 @@ photos_view_container_constructed (GObject *object)
   gtk_container_add (GTK_CONTAINER (grid), self->sw);
 
   self->view = gd_main_box_new (GD_MAIN_BOX_ICON);
+  show_primary_text = photos_view_container_get_show_primary_text (self);
+  gd_main_box_set_show_primary_text (GD_MAIN_BOX (self->view), show_primary_text);
   gtk_container_add (GTK_CONTAINER (self->sw), self->view);
 
   gtk_widget_show_all (GTK_WIDGET (self));
