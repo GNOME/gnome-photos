@@ -691,10 +691,18 @@ photos_base_item_main_box_item_get_id (GdMainBoxItem *box_item)
 static const gchar *
 photos_base_item_main_box_item_get_primary_text (GdMainBoxItem *box_item)
 {
-  const gchar *name;
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (box_item);
+  PhotosBaseItemPrivate *priv;
+  const gchar *primary_text;
 
-  name = photos_base_item_get_name (PHOTOS_BASE_ITEM (box_item));
-  return name;
+  priv = photos_base_item_get_instance_private (self);
+
+  if (priv->collection)
+    primary_text = photos_base_item_get_name (self);
+  else
+    primary_text = NULL;
+
+  return primary_text;
 }
 
 
@@ -2719,8 +2727,13 @@ photos_base_item_get_property (GObject *object, guint prop_id, GValue *value, GP
       break;
 
     case PROP_PRIMARY_TEXT:
-      g_value_set_string (value, priv->name);
-      break;
+      {
+        const gchar *primary_text;
+
+        primary_text = photos_base_item_main_box_item_get_primary_text (GD_MAIN_BOX_ITEM (self));
+        g_value_set_string (value, primary_text);
+        break;
+      }
 
     case PROP_PULSE:
       g_value_set_boolean (value, FALSE);
