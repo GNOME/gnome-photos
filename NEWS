@@ -1,3 +1,16 @@
+Overview of changes in 3.24.1
+=============================
+
+* Bugs fixed:
+ 765136 Changing the aspect ratio of the crop can make the selection larger
+        than the image
+
+* Updated translations:
+ Croatian
+ Greek
+ Polish
+
+
 Overview of changes in 3.24.0
 =============================
 
