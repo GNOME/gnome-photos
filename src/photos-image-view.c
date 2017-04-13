@@ -113,8 +113,8 @@ photos_image_view_update_region (PhotosImageView *self)
 static void
 photos_image_view_update (PhotosImageView *self)
 {
-  GdkRectangle allocation;
   GeglRectangle bbox;
+  GtkAllocation allocation;
   gdouble zoom_scaled = 1.0;
   gint scale_factor;
   gint viewport_height_real;
