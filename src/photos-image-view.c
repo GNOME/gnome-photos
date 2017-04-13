@@ -114,6 +114,7 @@ static void
 photos_image_view_update (PhotosImageView *self)
 {
   GeglRectangle bbox;
+  GeglRectangle bbox_zoomed;
   GtkAllocation allocation;
   gdouble zoom_scaled = 1.0;
   gint scale_factor;
@@ -145,19 +146,19 @@ photos_image_view_update (PhotosImageView *self)
       gdouble max_ratio =  MAX (height_ratio, width_ratio);
 
       zoom_scaled = 1.0 / max_ratio;
-
-      bbox.width = (gint) (zoom_scaled * bbox.width + 0.5);
-      bbox.height = (gint) (zoom_scaled * bbox.height + 0.5);
-      bbox.x = (gint) (zoom_scaled * bbox.x + 0.5);
-      bbox.y = (gint) (zoom_scaled * bbox.y + 0.5);
     }
+
+  bbox_zoomed.width = (gint) (zoom_scaled * bbox.width + 0.5);
+  bbox_zoomed.height = (gint) (zoom_scaled * bbox.height + 0.5);
+  bbox_zoomed.x = (gint) (zoom_scaled * bbox.x + 0.5);
+  bbox_zoomed.y = (gint) (zoom_scaled * bbox.y + 0.5);
 
   self->zoom_scaled = zoom_scaled;
   self->zoom = self->zoom_scaled / (gdouble) scale_factor;
 
-  /* At this point, viewport is definitely bigger than bbox. */
-  self->x_scaled = (bbox.width - viewport_width_real) / 2.0 + bbox.x;
-  self->y_scaled = (bbox.height - viewport_height_real) / 2.0 + bbox.y;
+  /* At this point, viewport is definitely bigger than bbox_zoomed. */
+  self->x_scaled = (bbox_zoomed.width - viewport_width_real) / 2.0 + bbox_zoomed.x;
+  self->y_scaled = (bbox_zoomed.height - viewport_height_real) / 2.0 + bbox_zoomed.y;
 
   self->x = self->x_scaled / (gdouble) scale_factor;
   self->y = self->y_scaled / (gdouble) scale_factor;
