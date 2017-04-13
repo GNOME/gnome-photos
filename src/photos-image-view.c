@@ -113,7 +113,7 @@ photos_image_view_update_region (PhotosImageView *self)
 static void
 photos_image_view_update (PhotosImageView *self)
 {
-  GdkRectangle viewport;
+  GdkRectangle allocation;
   GeglRectangle bbox;
   gdouble zoom_scaled = 1.0;
   gint scale_factor;
@@ -125,9 +125,9 @@ photos_image_view_update (PhotosImageView *self)
 
   g_return_if_fail (GEGL_IS_BUFFER (self->buffer));
 
-  gtk_widget_get_allocation (GTK_WIDGET (self), &viewport);
+  gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
 
-  if (viewport.width < 0 || viewport.height < 0)
+  if (allocation.width < 0 || allocation.height < 0)
     return;
 
   bbox = *gegl_buffer_get_extent (self->buffer);
@@ -135,8 +135,8 @@ photos_image_view_update (PhotosImageView *self)
     return;
 
   scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
-  viewport_height_real = viewport.height * scale_factor;
-  viewport_width_real = viewport.width * scale_factor;
+  viewport_height_real = allocation.height * scale_factor;
+  viewport_width_real = allocation.width * scale_factor;
 
   if (bbox.height > viewport_height_real || bbox.width > viewport_width_real)
     {
