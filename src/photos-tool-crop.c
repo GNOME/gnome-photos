@@ -67,7 +67,7 @@ struct _PhotosToolCrop
   GtkWidget *list_box;
   GtkWidget *lock_button;
   GtkWidget *reset_button;
-  GtkWidget *revealer;
+  GtkWidget *ratio_revealer;
   GtkWidget *view;
   PhotosToolCropLocation location;
   cairo_surface_t *surface;
@@ -1192,14 +1192,14 @@ photos_tool_crop_init (PhotosToolCrop *self)
   gtk_container_add (GTK_CONTAINER (self->box), self->lock_button);
   g_signal_connect_swapped (self->lock_button, "toggled", G_CALLBACK (photos_tool_crop_active_changed), self);
 
-  self->revealer = gtk_revealer_new ();
-  gtk_container_add (GTK_CONTAINER (self->box), self->revealer);
-  gtk_revealer_set_transition_type (GTK_REVEALER (self->revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN);
-  g_object_bind_property (self->lock_button, "active", self->revealer, "reveal-child", G_BINDING_DEFAULT);
+  self->ratio_revealer = gtk_revealer_new ();
+  gtk_container_add (GTK_CONTAINER (self->box), self->ratio_revealer);
+  gtk_revealer_set_transition_type (GTK_REVEALER (self->ratio_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN);
+  g_object_bind_property (self->lock_button, "active", self->ratio_revealer, "reveal-child", G_BINDING_DEFAULT);
 
   self->list_box = gtk_list_box_new ();
   gtk_list_box_set_selection_mode (GTK_LIST_BOX (self->list_box), GTK_SELECTION_NONE);
-  gtk_container_add (GTK_CONTAINER (self->revealer), self->list_box);
+  gtk_container_add (GTK_CONTAINER (self->ratio_revealer), self->list_box);
   g_signal_connect_swapped (self->list_box,
                             "row-activated",
                             G_CALLBACK (photos_tool_crop_list_box_row_activated),
