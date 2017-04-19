@@ -106,6 +106,7 @@ typedef struct _PhotosToolCropConstraint PhotosToolCropConstraint;
 struct _PhotosToolCropConstraint
 {
   PhotosToolCropAspectRatioType aspect_ratio_type;
+  gboolean orientable;
   const gchar *name;
   guint basis_height;
   guint basis_width;
@@ -116,15 +117,15 @@ struct _PhotosToolCropConstraint
  */
 static PhotosToolCropConstraint CONSTRAINTS[] =
 {
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_ANY, N_("Free"), 0, 0 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_ORIGINAL, N_("Original"), 0, 0 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("1×1 (Square)"), 1, 1 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("10×8 / 5×4"), 4, 5 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("4×3 / 8×6 (1024×768)"), 3, 4 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("7×5"), 5, 7 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("3×2 / 6×4"), 2, 3 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("16×10 (1280×800)"), 10, 16 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, N_("16×9 (1920×1080)"), 9, 16 }
+  { PHOTOS_TOOL_CROP_ASPECT_RATIO_ANY, FALSE, N_("Free"), 0, 0 },
+  { PHOTOS_TOOL_CROP_ASPECT_RATIO_ORIGINAL, TRUE, N_("Original"), 0, 0 },
+  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, FALSE, N_("1×1 (Square)"), 1, 1 },
+  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("10×8 / 5×4"), 4, 5 },
+  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("4×3 / 8×6 (1024×768)"), 3, 4 },
+  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("7×5"), 5, 7 },
+  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("3×2 / 6×4"), 2, 3 },
+  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("16×10 (1280×800)"), 10, 16 },
+  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("16×9 (1920×1080)"), 9, 16 }
 };
 
 static const gdouble CROP_MIN_SIZE = 16.0;
