@@ -64,8 +64,11 @@ struct _PhotosToolCrop
   GeglRectangle bbox_zoomed;
   GeglRectangle bbox_source;
   GtkWidget *box;
+  GtkWidget *landscape_button;
   GtkWidget *list_box;
   GtkWidget *lock_button;
+  GtkWidget *orientation_revealer;
+  GtkWidget *portrait_button;
   GtkWidget *reset_button;
   GtkWidget *ratio_revealer;
   GtkWidget *view;
@@ -162,6 +165,24 @@ photos_tool_crop_calculate_aspect_ratio (PhotosToolCrop *self, guint constraint)
 }
 
 
+static gdouble
+photos_tool_crop_calculate_aspect_ratio_with_orientation (PhotosToolCrop *self, guint constraint)
+{
+  gdouble aspect_ratio;
+
+  aspect_ratio = photos_tool_crop_calculate_aspect_ratio (self, constraint);
+
+  if (CONSTRAINTS[constraint].orientable)
+    {
+      if ((aspect_ratio < 1.0 && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->landscape_button)))
+          || (aspect_ratio > 1.0 && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->portrait_button))))
+        aspect_ratio = 1.0 / aspect_ratio;
+    }
+
+  return aspect_ratio;
+}
+
+
 static guint
 photos_tool_crop_find_constraint (PhotosToolCrop *self, gdouble aspect_ratio)
 {
@@ -173,6 +194,13 @@ photos_tool_crop_find_constraint (PhotosToolCrop *self, gdouble aspect_ratio)
       gdouble constraint_aspect_ratio;
 
       constraint_aspect_ratio = photos_tool_crop_calculate_aspect_ratio (self, i);
+      if (photos_utils_equal_double (aspect_ratio, constraint_aspect_ratio))
+        {
+          ret_val = i;
+          break;
+        }
+
+      constraint_aspect_ratio = 1.0 / constraint_aspect_ratio;
       if (photos_utils_equal_double (aspect_ratio, constraint_aspect_ratio))
         {
           ret_val = i;
@@ -331,7 +359,7 @@ photos_tool_crop_init_crop (PhotosToolCrop *self)
   active = photos_tool_crop_get_active (self);
   g_return_if_fail (active >= 0);
 
-  self->crop_aspect_ratio = photos_tool_crop_calculate_aspect_ratio (self, (guint) active);
+  self->crop_aspect_ratio = photos_tool_crop_calculate_aspect_ratio_with_orientation (self, (guint) active);
   if (self->crop_aspect_ratio < 0.0)
     goto out;
 
@@ -801,7 +829,9 @@ photos_tool_crop_active_changed (PhotosToolCrop *self)
   active = photos_tool_crop_get_active (self);
   g_return_if_fail (active >= 0);
 
-  self->crop_aspect_ratio = photos_tool_crop_calculate_aspect_ratio (self, (guint) active);
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->orientation_revealer), CONSTRAINTS[active].orientable);
+
+  self->crop_aspect_ratio = photos_tool_crop_calculate_aspect_ratio_with_orientation (self, (guint) active);
   if (self->crop_aspect_ratio < 0.0)
     return;
 
@@ -836,17 +866,31 @@ photos_tool_crop_list_box_row_activated (PhotosToolCrop *self, GtkListBoxRow *ro
 
 
 static void
-photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
+photos_tool_crop_orientation_toggled (PhotosToolCrop *self)
+{
+  photos_tool_crop_active_changed (self);
+}
+
+
+static void
+photos_tool_crop_set_active (PhotosToolCrop *self, gint active, GtkToggleButton *orientation_button)
 {
   GtkListBoxRow *row;
 
+  g_return_if_fail (active == -1 && orientation_button == NULL
+                    || active != -1 && GTK_IS_TOGGLE_BUTTON (orientation_button));
+
+  g_signal_handlers_block_by_func (self->landscape_button, photos_tool_crop_orientation_toggled, self);
   g_signal_handlers_block_by_func (self->list_box, photos_tool_crop_list_box_row_activated, self);
   g_signal_handlers_block_by_func (self->lock_button, photos_tool_crop_active_changed, self);
+  g_signal_handlers_block_by_func (self->portrait_button, photos_tool_crop_orientation_toggled, self);
 
   if (active == -1) /* reset */
     {
       self->list_box_active = 0;
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->lock_button), TRUE);
+      active = 1;
+      orientation_button = GTK_TOGGLE_BUTTON (self->landscape_button);
     }
   else if (active == 0)
     {
@@ -865,8 +909,13 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active)
   row = gtk_list_box_get_row_at_index (GTK_LIST_BOX (self->list_box), self->list_box_active);
   photos_tool_crop_list_box_update (self, row);
 
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->orientation_revealer), CONSTRAINTS[active].orientable);
+  gtk_toggle_button_set_active (orientation_button, TRUE);
+
+  g_signal_handlers_unblock_by_func (self->landscape_button, photos_tool_crop_orientation_toggled, self);
   g_signal_handlers_unblock_by_func (self->list_box, photos_tool_crop_list_box_row_activated, self);
   g_signal_handlers_unblock_by_func (self->lock_button, photos_tool_crop_active_changed, self);
+  g_signal_handlers_unblock_by_func (self->portrait_button, photos_tool_crop_orientation_toggled, self);
 }
 
 
@@ -899,6 +948,7 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
 {
   PhotosToolCrop *self;
   GError *error = NULL;
+  GtkWidget *orientation_button;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   gdouble zoom;
   guint active;
@@ -924,7 +974,8 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
 
   self->crop_aspect_ratio = self->crop_width / self->crop_height;
   active = photos_tool_crop_find_constraint (self, self->crop_aspect_ratio);
-  photos_tool_crop_set_active (self, (gint) active);
+  orientation_button = self->crop_aspect_ratio > 1.0 ? self->landscape_button : self->portrait_button;
+  photos_tool_crop_set_active (self, (gint) active, GTK_TOGGLE_BUTTON (orientation_button));
 
   photos_tool_crop_surface_draw (self);
   gtk_widget_queue_draw (self->view);
@@ -944,7 +995,7 @@ static void
 photos_tool_crop_reset_clicked (PhotosToolCrop *self)
 {
   self->reset = TRUE;
-  photos_tool_crop_set_active (self, -1);
+  photos_tool_crop_set_active (self, -1, NULL);
   gtk_widget_queue_draw (self->view);
   g_signal_emit_by_name (self, "hide-requested");
 }
@@ -996,8 +1047,16 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageVi
     }
   else
     {
+      GtkWidget *orientation_button;
+      gdouble aspect_ratio;
+
       photos_tool_crop_surface_create (self);
       photos_tool_crop_init_crop (self);
+
+      aspect_ratio = (gdouble) self->bbox_source.width / (gdouble) self->bbox_source.height;
+      orientation_button = aspect_ratio > 1.0 ? self->landscape_button : self->portrait_button;
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (orientation_button), TRUE);
+
       gtk_widget_queue_draw (self->view);
 
       self->size_allocate_id = g_signal_connect_object (self->view,
@@ -1177,6 +1236,10 @@ static void
 photos_tool_crop_init (PhotosToolCrop *self)
 {
   GApplication *app;
+  GtkSizeGroup *orientation_size_group = NULL;
+  GtkStyleContext *context;
+  GtkWidget *orientation_box;
+  GtkWidget *ratio_grid;
   guint i;
 
   app = g_application_get_default ();
@@ -1199,9 +1262,14 @@ photos_tool_crop_init (PhotosToolCrop *self)
   gtk_revealer_set_transition_type (GTK_REVEALER (self->ratio_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN);
   g_object_bind_property (self->lock_button, "active", self->ratio_revealer, "reveal-child", G_BINDING_DEFAULT);
 
+  ratio_grid = gtk_grid_new ();
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (ratio_grid), GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing (GTK_GRID (ratio_grid), 12);
+  gtk_container_add (GTK_CONTAINER (self->ratio_revealer), ratio_grid);
+
   self->list_box = gtk_list_box_new ();
   gtk_list_box_set_selection_mode (GTK_LIST_BOX (self->list_box), GTK_SELECTION_NONE);
-  gtk_container_add (GTK_CONTAINER (self->ratio_revealer), self->list_box);
+  gtk_container_add (GTK_CONTAINER (ratio_grid), self->list_box);
   g_signal_connect_swapped (self->list_box,
                             "row-activated",
                             G_CALLBACK (photos_tool_crop_list_box_row_activated),
@@ -1236,7 +1304,43 @@ photos_tool_crop_init (PhotosToolCrop *self)
       g_object_set_data (G_OBJECT (row), "image", image);
     }
 
-  photos_tool_crop_set_active (self, -1);
+  self->orientation_revealer = gtk_revealer_new ();
+  gtk_container_add (GTK_CONTAINER (ratio_grid), self->orientation_revealer);
+  gtk_revealer_set_transition_type (GTK_REVEALER (self->orientation_revealer),
+                                    GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN);
+
+  orientation_box = gtk_grid_new ();
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (orientation_box), GTK_ORIENTATION_HORIZONTAL);
+  gtk_container_add (GTK_CONTAINER (self->orientation_revealer), orientation_box);
+  gtk_widget_set_hexpand (orientation_box, TRUE);
+  context = gtk_widget_get_style_context (orientation_box);
+  gtk_style_context_add_class (context, "linked");
+
+  orientation_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+
+  self->landscape_button = gtk_radio_button_new (NULL);
+  gtk_widget_set_hexpand (self->landscape_button, TRUE);
+  gtk_button_set_label (GTK_BUTTON (self->landscape_button), _("Landscape"));
+  gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (self->landscape_button), FALSE);
+  gtk_container_add (GTK_CONTAINER (orientation_box), self->landscape_button);
+  gtk_size_group_add_widget (orientation_size_group, self->landscape_button);
+  g_signal_connect_swapped (self->landscape_button,
+                            "toggled",
+                            G_CALLBACK (photos_tool_crop_orientation_toggled),
+                            self);
+
+  self->portrait_button = gtk_radio_button_new_from_widget (GTK_RADIO_BUTTON (self->landscape_button));
+  gtk_widget_set_hexpand (self->portrait_button, TRUE);
+  gtk_button_set_label (GTK_BUTTON (self->portrait_button), _("Portrait"));
+  gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (self->portrait_button), FALSE);
+  gtk_container_add (GTK_CONTAINER (orientation_box), self->portrait_button);
+  gtk_size_group_add_widget (orientation_size_group, self->portrait_button);
+  g_signal_connect_swapped (self->portrait_button,
+                            "toggled",
+                            G_CALLBACK (photos_tool_crop_orientation_toggled),
+                            self);
+
+  photos_tool_crop_set_active (self, -1, NULL);
 
   self->reset_button = gtk_button_new_with_label (_("Reset"));
   gtk_widget_set_halign (self->reset_button, GTK_ALIGN_END);
@@ -1245,6 +1349,8 @@ photos_tool_crop_init (PhotosToolCrop *self)
 
   self->event_x_last = -1.0;
   self->event_y_last = -1.0;
+
+  g_object_unref (orientation_size_group);
 }
 
 
