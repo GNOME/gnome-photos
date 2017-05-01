@@ -60,20 +60,6 @@ gboolean         photos_gegl_processor_process_finish     (GeglProcessor *proces
 
 void             photos_gegl_remove_children_from_node    (GeglNode *node);
 
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (GeglOperation, g_object_unref);
-
-typedef struct _GeglOperationMeta GeglOperationMeta;
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (GeglOperationMeta, g_object_unref);
-
-typedef struct _GeglOperationPointFilter GeglOperationPointFilter;
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (GeglOperationPointFilter, g_object_unref);
-
-typedef struct _GeglOperationPointRender GeglOperationPointRender;
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (GeglOperationPointRender, g_object_unref);
-
-typedef struct _GeglOperationSink GeglOperationSink;
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (GeglOperationSink, g_object_unref);
-
 G_END_DECLS
 
 #endif /* PHOTOS_GEGL_H */
