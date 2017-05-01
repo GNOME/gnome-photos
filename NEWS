@@ -1,6 +1,21 @@
 Overview of changes in 3.25.1
 =============================
 
+* Bugs fixed:
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 765136 Changing the aspect ratio of the crop can make the selection larger
+        than the image
+ 780424 Port widgets to templates
+
+* Updated translations:
+ Croatian
+ Greek
+ Gujarati
+ Latvian
+ Occitan
+ Polish
+ Russian
+
 
 Overview of changes in 3.23.92
 ==============================
