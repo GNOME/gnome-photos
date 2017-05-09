@@ -30,24 +30,12 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SEARCH_TYPE (photos_search_type_get_type ())
-
-#define PHOTOS_SEARCH_TYPE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SEARCH_TYPE, PhotosSearchType))
-
-#define PHOTOS_IS_SEARCH_TYPE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SEARCH_TYPE))
+G_DECLARE_FINAL_TYPE (PhotosSearchType, photos_search_type, PHOTOS, SEARCH_TYPE, GObject);
 
 #define PHOTOS_SEARCH_TYPE_STOCK_ALL "all"
 #define PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS "collections"
 #define PHOTOS_SEARCH_TYPE_STOCK_FAVORITES "favorites"
 #define PHOTOS_SEARCH_TYPE_STOCK_PHOTOS "photos"
-
-typedef struct _PhotosSearchType      PhotosSearchType;
-typedef struct _PhotosSearchTypeClass PhotosSearchTypeClass;
-
-GType                photos_search_type_get_type           (void) G_GNUC_CONST;
 
 PhotosSearchType    *photos_search_type_new                (const gchar *id, const gchar *name);
 
