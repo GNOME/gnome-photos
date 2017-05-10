@@ -78,5 +78,5 @@ PhotosSearchContextState *
 photos_search_context_get_state (PhotosSearchContext *self)
 {
   g_return_val_if_fail (PHOTOS_IS_SEARCH_CONTEXT (self), NULL);
-  return PHOTOS_SEARCH_CONTEXT_GET_INTERFACE (self)->get_state (self);
+  return PHOTOS_SEARCH_CONTEXT_GET_IFACE (self)->get_state (self);
 }
