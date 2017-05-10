@@ -322,6 +322,61 @@ photos_operation_insta_curve_interpolate (gfloat input, const guint8 *curve1, co
 
 
 static void
+photos_operation_insta_curve_1977_process_alpha_float (GeglOperation *operation,
+                                                       void *in_buf,
+                                                       void *out_buf,
+                                                       glong n_pixels,
+                                                       const GeglRectangle *roi,
+                                                       gint level)
+{
+  gfloat *in = in_buf;
+  gfloat *out = out_buf;
+  glong i;
+
+  for (i = 0; i < n_pixels; i++)
+    {
+      out[0] = photos_operation_insta_curve_interpolate (in[0], NINE_R, NINE_A);
+      out[1] = photos_operation_insta_curve_interpolate (in[1], NINE_G, NINE_A);
+      out[2] = photos_operation_insta_curve_interpolate (in[2], NINE_B, NINE_A);
+      out[3] = in[3];
+
+      in += 4;
+      out += 4;
+    }
+}
+
+
+static void
+photos_operation_insta_curve_1977_process_alpha_u8 (GeglOperation *operation,
+                                                    void *in_buf,
+                                                    void *out_buf,
+                                                    glong n_pixels,
+                                                    const GeglRectangle *roi,
+                                                    gint level)
+{
+  guint8 *in = in_buf;
+  guint8 *out = out_buf;
+  glong i;
+
+  for (i = 0; i < n_pixels; i++)
+    {
+      out[0] = NINE_R[in[0]];
+      out[1] = NINE_G[in[1]];
+      out[2] = NINE_B[in[2]];
+
+      out[0] = NINE_A[out[0]];
+      out[1] = NINE_A[out[1]];
+      out[2] = NINE_A[out[2]];
+
+      out[3] = in[3];
+
+      in += 4;
+      out += 4;
+    }
+}
+
+
+static void
 photos_operation_insta_curve_1977_process_float (GeglOperation *operation,
                                                  void *in_buf,
                                                  void *out_buf,
@@ -369,6 +424,92 @@ photos_operation_insta_curve_1977_process_u8 (GeglOperation *operation,
 
       in += 3;
       out += 3;
+    }
+}
+
+
+static void
+photos_operation_insta_curve_brannan_process_alpha_float (GeglOperation *operation,
+                                                          void *in_buf,
+                                                          void *out_buf,
+                                                          glong n_pixels,
+                                                          const GeglRectangle *roi,
+                                                          gint level)
+{
+  gfloat *in = in_buf;
+  gfloat *out = out_buf;
+  glong i;
+
+  for (i = 0; i < n_pixels; i++)
+    {
+      const gfloat saturation = 0.1;
+      guint max;
+
+      out[0] = photos_operation_insta_curve_interpolate (in[0], BRANNAN_R, BRANNAN_A);
+      out[1] = photos_operation_insta_curve_interpolate (in[1], BRANNAN_G, BRANNAN_A);
+      out[2] = photos_operation_insta_curve_interpolate (in[2], BRANNAN_B, BRANNAN_A);
+
+      max = (out[0] > out[1]) ? 0 : 1;
+      max = (out[max] > out[2]) ? max : 2;
+
+      if (max != 0)
+        out[0] += (guint8) ((out[max] - out[0]) * saturation + 0.5);
+
+      if (max != 1)
+        out[1] += (guint8) ((out[max] - out[1]) * saturation + 0.5);
+
+      if (max != 2)
+        out[2] += (guint8) ((out[max] - out[2]) * saturation + 0.5);
+
+      out[3] = in[3];
+
+      in += 4;
+      out += 4;
+    }
+}
+
+
+static void
+photos_operation_insta_curve_brannan_process_alpha_u8 (GeglOperation *operation,
+                                                       void *in_buf,
+                                                       void *out_buf,
+                                                       glong n_pixels,
+                                                       const GeglRectangle *roi,
+                                                       gint level)
+{
+  guint8 *in = in_buf;
+  guint8 *out = out_buf;
+  glong i;
+
+  for (i = 0; i < n_pixels; i++)
+    {
+      const gfloat saturation = 0.1;
+      guint max;
+
+      out[0] = BRANNAN_R[in[0]];
+      out[1] = BRANNAN_G[in[1]];
+      out[2] = BRANNAN_B[in[2]];
+
+      out[0] = BRANNAN_A[out[0]];
+      out[1] = BRANNAN_A[out[1]];
+      out[2] = BRANNAN_A[out[2]];
+
+      max = (out[0] > out[1]) ? 0 : 1;
+      max = (out[max] > out[2]) ? max : 2;
+
+      if (max != 0)
+        out[0] += (guint8) ((out[max] - out[0]) * saturation + 0.5);
+
+      if (max != 1)
+        out[1] += (guint8) ((out[max] - out[1]) * saturation + 0.5);
+
+      if (max != 2)
+        out[2] += (guint8) ((out[max] - out[2]) * saturation + 0.5);
+
+      out[3] = in[3];
+
+      in += 4;
+      out += 4;
     }
 }
 
@@ -456,6 +597,61 @@ photos_operation_insta_curve_brannan_process_u8 (GeglOperation *operation,
 
 
 static void
+photos_operation_insta_curve_gotham_process_alpha_float (GeglOperation *operation,
+                                                         void *in_buf,
+                                                         void *out_buf,
+                                                         glong n_pixels,
+                                                         const GeglRectangle *roi,
+                                                         gint level)
+{
+  gfloat *in = in_buf;
+  gfloat *out = out_buf;
+  glong i;
+
+  for (i = 0; i < n_pixels; i++)
+    {
+      out[0] = photos_operation_insta_curve_interpolate (in[0], GOTHAM_R, GOTHAM_A);
+      out[1] = photos_operation_insta_curve_interpolate (in[1], GOTHAM_G, GOTHAM_A);
+      out[2] = photos_operation_insta_curve_interpolate (in[2], GOTHAM_B, GOTHAM_A);
+      out[3] = in[3];
+
+      in += 4;
+      out += 4;
+    }
+}
+
+
+static void
+photos_operation_insta_curve_gotham_process_alpha_u8 (GeglOperation *operation,
+                                                      void *in_buf,
+                                                      void *out_buf,
+                                                      glong n_pixels,
+                                                      const GeglRectangle *roi,
+                                                      gint level)
+{
+  guint8 *in = in_buf;
+  guint8 *out = out_buf;
+  glong i;
+
+  for (i = 0; i < n_pixels; i++)
+    {
+      out[0] = GOTHAM_R[in[0]];
+      out[1] = GOTHAM_G[in[1]];
+      out[2] = GOTHAM_B[in[2]];
+
+      out[0] = GOTHAM_A[out[0]];
+      out[1] = GOTHAM_A[out[1]];
+      out[2] = GOTHAM_A[out[2]];
+
+      out[3] = in[3];
+
+      in += 4;
+      out += 4;
+    }
+}
+
+
+static void
 photos_operation_insta_curve_gotham_process_float (GeglOperation *operation,
                                                    void *in_buf,
                                                    void *out_buf,
@@ -503,6 +699,88 @@ photos_operation_insta_curve_gotham_process_u8 (GeglOperation *operation,
 
       in += 3;
       out += 3;
+    }
+}
+
+
+static void
+photos_operation_insta_curve_nashville_process_alpha_float (GeglOperation *operation,
+                                                            void *in_buf,
+                                                            void *out_buf,
+                                                            glong n_pixels,
+                                                            const GeglRectangle *roi,
+                                                            gint level)
+{
+  gfloat *in = in_buf;
+  gfloat *out = out_buf;
+  glong i;
+
+  for (i = 0; i < n_pixels; i++)
+    {
+      const gfloat brightness = -0.05;
+      const gfloat contrast = 1.1;
+
+      out[0] = (in[0] - 0.5f) * contrast + brightness + 0.5;
+      out[1] = (in[1] - 0.5f) * contrast + brightness + 0.5;
+      out[2] = (in[2] - 0.5f) * contrast + brightness + 0.5;
+
+      out[0] = photos_operation_insta_curve_interpolate (out[0], NASHVILLE_R, NASHVILLE_A);
+      out[1] = photos_operation_insta_curve_interpolate (out[1], NASHVILLE_G, NASHVILLE_A);
+      out[2] = photos_operation_insta_curve_interpolate (out[2], NASHVILLE_B, NASHVILLE_A);
+
+      out[3] = in[3];
+
+      in += 4;
+      out += 4;
+    }
+}
+
+
+static void
+photos_operation_insta_curve_nashville_process_alpha_u8 (GeglOperation *operation,
+                                                         void *in_buf,
+                                                         void *out_buf,
+                                                         glong n_pixels,
+                                                         const GeglRectangle *roi,
+                                                         gint level)
+{
+  guint8 *in = in_buf;
+  guint8 *out = out_buf;
+  glong i;
+
+  for (i = 0; i < n_pixels; i++)
+    {
+      const gfloat brightness = -0.05;
+      const gfloat contrast = 1.1;
+      gfloat channel;
+
+      channel = in[0] / 255.0;
+      channel = (channel - 0.5f) * contrast + brightness + 0.5;
+      channel = CLAMP (channel, 0.0, 1.0);
+      out[0] = (guint8) (channel * 255.0);
+
+      channel = in[1] / 255.0;
+      out[1] = (channel - 0.5f) * contrast + brightness + 0.5;
+      channel = CLAMP (channel, 0.0, 1.0);
+      out[1] = (guint8) (channel * 255.0);
+
+      channel = in[2] / 255.0;
+      out[2] = (channel - 0.5f) * contrast + brightness + 0.5;
+      channel = CLAMP (channel, 0.0, 1.0);
+      out[2] = (guint8) (channel * 255.0);
+
+      out[0] = NASHVILLE_R[out[0]];
+      out[1] = NASHVILLE_G[out[1]];
+      out[2] = NASHVILLE_B[out[2]];
+
+      out[0] = NASHVILLE_A[out[0]];
+      out[1] = NASHVILLE_A[out[1]];
+      out[2] = NASHVILLE_A[out[2]];
+
+      out[3] = in[3];
+
+      in += 4;
+      out += 4;
     }
 }
 
@@ -590,18 +868,24 @@ photos_operation_insta_curve_prepare (GeglOperation *operation)
 {
   PhotosOperationInstaCurve *self = PHOTOS_OPERATION_INSTA_CURVE (operation);
   const Babl *format;
+  const Babl *format_alpha_float;
+  const Babl *format_alpha_u8;
   const Babl *format_float;
   const Babl *format_u8;
   const Babl *input_format;
   const Babl *type;
   const Babl *type_u8;
+  gboolean has_alpha;
 
   input_format = gegl_operation_get_source_format (operation, "input");
   if (input_format == NULL)
     return;
 
+  has_alpha = babl_format_has_alpha (input_format);
   type = babl_format_get_type (input_format, 0);
 
+  format_alpha_float = babl_format ("R'G'B'A float");
+  format_alpha_u8 = babl_format ("R'G'B'A u8");
   format_float = babl_format ("R'G'B' float");
   format_u8 = babl_format ("R'G'B' u8");
   type_u8 = babl_type ("u8");
@@ -609,54 +893,118 @@ photos_operation_insta_curve_prepare (GeglOperation *operation)
   switch (self->preset)
     {
     case PHOTOS_OPERATION_INSTA_PRESET_1977:
-      if (type == type_u8)
+      if (has_alpha)
         {
-          format = format_u8;
-          self->process = photos_operation_insta_curve_1977_process_u8;
+          if (type == type_u8)
+            {
+              format = format_alpha_u8;
+              self->process = photos_operation_insta_curve_1977_process_alpha_u8;
+            }
+          else
+            {
+              format = format_alpha_float;
+              self->process = photos_operation_insta_curve_1977_process_alpha_float;
+            }
         }
       else
         {
-          format = format_float;
-          self->process = photos_operation_insta_curve_1977_process_float;
+          if (type == type_u8)
+            {
+              format = format_u8;
+              self->process = photos_operation_insta_curve_1977_process_u8;
+            }
+          else
+            {
+              format = format_float;
+              self->process = photos_operation_insta_curve_1977_process_float;
+            }
         }
       break;
 
     case PHOTOS_OPERATION_INSTA_PRESET_BRANNAN:
-      if (type == type_u8)
+      if (has_alpha)
         {
-          format = format_u8;
-          self->process = photos_operation_insta_curve_brannan_process_u8;
+          if (type == type_u8)
+            {
+              format = format_alpha_u8;
+              self->process = photos_operation_insta_curve_brannan_process_alpha_u8;
+            }
+          else
+            {
+              format = format_alpha_float;
+              self->process = photos_operation_insta_curve_brannan_process_alpha_float;
+            }
         }
       else
         {
-          format = format_float;
-          self->process = photos_operation_insta_curve_brannan_process_float;
+          if (type == type_u8)
+            {
+              format = format_u8;
+              self->process = photos_operation_insta_curve_brannan_process_u8;
+            }
+          else
+            {
+              format = format_float;
+              self->process = photos_operation_insta_curve_brannan_process_float;
+            }
         }
       break;
 
     case PHOTOS_OPERATION_INSTA_PRESET_GOTHAM:
-      if (type == type_u8)
+      if (has_alpha)
         {
-          format = format_u8;
-          self->process = photos_operation_insta_curve_gotham_process_u8;
+          if (type == type_u8)
+            {
+              format = format_alpha_u8;
+              self->process = photos_operation_insta_curve_gotham_process_alpha_u8;
+            }
+          else
+            {
+              format = format_alpha_float;
+              self->process = photos_operation_insta_curve_gotham_process_alpha_float;
+            }
         }
       else
         {
-          format = format_float;
-          self->process = photos_operation_insta_curve_gotham_process_float;
+          if (type == type_u8)
+            {
+              format = format_u8;
+              self->process = photos_operation_insta_curve_gotham_process_u8;
+            }
+          else
+            {
+              format = format_float;
+              self->process = photos_operation_insta_curve_gotham_process_float;
+            }
         }
       break;
 
     case PHOTOS_OPERATION_INSTA_PRESET_NASHVILLE:
-      if (type == type_u8)
+      if (has_alpha)
         {
-          format = format_u8;
-          self->process = photos_operation_insta_curve_nashville_process_u8;
+          if (type == type_u8)
+            {
+              format = format_alpha_u8;
+              self->process = photos_operation_insta_curve_nashville_process_alpha_u8;
+            }
+          else
+            {
+              format = format_alpha_float;
+              self->process = photos_operation_insta_curve_nashville_process_alpha_float;
+            }
         }
       else
         {
-          format = format_float;
-          self->process = photos_operation_insta_curve_nashville_process_float;
+          if (type == type_u8)
+            {
+              format = format_u8;
+              self->process = photos_operation_insta_curve_nashville_process_u8;
+            }
+          else
+            {
+              format = format_float;
+              self->process = photos_operation_insta_curve_nashville_process_float;
+            }
         }
       break;
 
