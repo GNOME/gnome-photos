@@ -1,3 +1,13 @@
+Overview of changes in 3.24.2
+=============================
+
+* Bugs fixed:
+ 778354 photos:insta-curve should support buffers with alpha channel
+
+* Updated translations:
+ Gujarati
+
+
 Overview of changes in 3.24.1
 =============================
 
