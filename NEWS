@@ -1,3 +1,12 @@
+Overview of changes in 3.22.6
+=============================
+
+* Bugs fixed:
+ 765136 Changing the aspect ratio of the crop can make the selection larger
+        than the image
+ 778354 photos:insta-curve should support buffers with alpha channel
+
+
 Overview of changes in 3.22.5
 =============================
 
