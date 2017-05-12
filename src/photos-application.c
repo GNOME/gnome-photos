@@ -277,12 +277,15 @@ photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gp
 {
   GVariant *state;
   GVariant *new_state;
+  gboolean state_value;
 
   state = g_action_get_state (G_ACTION (simple));
   g_return_if_fail (state != NULL);
 
-  new_state = g_variant_new ("b", !g_variant_get_boolean (state));
+  state_value = g_variant_get_boolean (state);
+  new_state = g_variant_new ("b", !state_value);
   g_action_change_state (G_ACTION (simple), new_state);
+
   g_variant_unref (state);
 }
 
