@@ -41,7 +41,6 @@ struct _PhotosSelectionController
   GList *selection;
   PhotosBaseManager *item_mngr;
   gboolean is_frozen;
-  gboolean selection_mode;
 };
 
 struct _PhotosSelectionControllerClass
@@ -49,13 +48,11 @@ struct _PhotosSelectionControllerClass
   GObjectClass parent_class;
 
   void (*selection_changed)      (PhotosSelectionController *self);
-  void (*selection_mode_changed) (PhotosSelectionController *self);
 };
 
 enum
 {
   SELECTION_CHANGED,
-  SELECTION_MODE_CHANGED,
   LAST_SIGNAL
 };
 
@@ -168,18 +165,6 @@ photos_selection_controller_class_init (PhotosSelectionControllerClass *class)
                                              g_cclosure_marshal_VOID__VOID,
                                              G_TYPE_NONE,
                                              0);
-
-  signals[SELECTION_MODE_CHANGED] = g_signal_new ("selection-mode-changed",
-                                                  G_TYPE_FROM_CLASS (class),
-                                                  G_SIGNAL_RUN_LAST,
-                                                  G_STRUCT_OFFSET (PhotosSelectionControllerClass,
-                                                                   selection_mode_changed),
-                                                  NULL, /*accumulator */
-                                                  NULL, /*accu_data */
-                                                  g_cclosure_marshal_VOID__BOOLEAN,
-                                                  G_TYPE_NONE,
-                                                  1,
-                                                  G_TYPE_BOOLEAN);
 }
 
 
@@ -204,13 +189,6 @@ photos_selection_controller_get_selection (PhotosSelectionController *self)
 }
 
 
-gboolean
-photos_selection_controller_get_selection_mode (PhotosSelectionController *self)
-{
-  return self->selection_mode;
-}
-
-
 void
 photos_selection_controller_set_selection (PhotosSelectionController *self, GList *selection)
 {
@@ -225,15 +203,4 @@ photos_selection_controller_set_selection (PhotosSelectionController *self, GLis
 
   self->selection = g_list_copy_deep (selection, (GCopyFunc) g_strdup, NULL);
   g_signal_emit (self, signals[SELECTION_CHANGED], 0);
-}
-
-
-void
-photos_selection_controller_set_selection_mode (PhotosSelectionController *self, gboolean mode)
-{
-  if (self->selection_mode == mode)
-    return;
-
-  self->selection_mode = mode;
-  g_signal_emit (self, signals[SELECTION_MODE_CHANGED], 0, self->selection_mode);
 }

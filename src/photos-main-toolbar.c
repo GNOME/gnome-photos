@@ -40,6 +40,7 @@
 #include "photos-remote-display-manager.h"
 #include "photos-search-context.h"
 #include "photos-selection-controller.h"
+#include "photos-utils.h"
 
 
 struct _PhotosMainToolbar
@@ -83,7 +84,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
   gchar *primary = NULL;
 
   active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
-  selection_mode = photos_selection_controller_get_selection_mode (self->sel_cntrlr);
+  selection_mode = photos_utils_get_selection_mode ();
   window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
 
   if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW
@@ -207,7 +208,7 @@ photos_main_toolbar_update_remote_display_button (PhotosMainToolbar *self)
   PhotosWindowMode window_mode;
   gboolean selection_mode, active;
 
-  selection_mode = photos_selection_controller_get_selection_mode (self->sel_cntrlr);
+  selection_mode = photos_utils_get_selection_mode ();
   window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
   active = photos_remote_display_manager_is_active (self->remote_mngr);
 
@@ -311,13 +312,6 @@ photos_main_toolbar_items_changed (PhotosMainToolbar *self)
 }
 
 
-static void
-photos_main_toolbar_select_button_clicked (PhotosMainToolbar *self)
-{
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, TRUE);
-}
-
-
 static GtkWidget *
 photos_main_toolbar_add_search_button (PhotosMainToolbar *self)
 {
@@ -342,11 +336,8 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
 
   selection_button = gtk_button_new_from_icon_name (PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
   gtk_widget_set_tooltip_text (selection_button, _("Select Items"));
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (selection_button), "app.selection-mode");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), selection_button);
-  g_signal_connect_swapped (selection_button,
-                            "clicked",
-                            G_CALLBACK (photos_main_toolbar_select_button_clicked),
-                            self);
 
   g_signal_connect_object (self->item_mngr,
                            "active-collection-changed",
@@ -436,13 +427,6 @@ photos_main_toolbar_create_preview_menu (PhotosMainToolbar *self)
 
   g_object_unref (builder);
   return menu;
-}
-
-
-static void
-photos_main_toolbar_done_button_clicked (PhotosMainToolbar *self)
-{
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
 }
 
 
@@ -649,11 +633,8 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_SELECTION);
 
   selection_button = gtk_button_new_with_label (_("Cancel"));
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (selection_button), "app.selection-mode");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), selection_button);
-  g_signal_connect_swapped (selection_button,
-                            "clicked",
-                            G_CALLBACK (photos_main_toolbar_done_button_clicked),
-                            self);
 
   g_signal_connect_object (self->sel_cntrlr,
                            "selection-changed",
@@ -744,6 +725,7 @@ static void
 photos_main_toolbar_init (PhotosMainToolbar *self)
 {
   GMenu *selection_menu;
+  GAction *action;
   GApplication *app;
   GtkBuilder *builder;
   PhotosSearchContextState *state;
@@ -755,6 +737,13 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
 
   self->gear_menu = G_SIMPLE_ACTION (g_action_map_lookup_action (G_ACTION_MAP (app), "gear-menu"));
   self->search = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
+
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "selection-mode");
+  g_signal_connect_object (action,
+                           "notify::state",
+                           G_CALLBACK (photos_main_toolbar_reset_toolbar_mode),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   builder = gtk_builder_new_from_resource ("/org/gnome/Photos/selection-menu.ui");
 
@@ -773,13 +762,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
                            G_CONNECT_SWAPPED);
 
   self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
-
   self->sel_cntrlr = photos_selection_controller_dup_singleton ();
-  g_signal_connect_object (self->sel_cntrlr,
-                           "selection-mode-changed",
-                           G_CALLBACK (photos_main_toolbar_reset_toolbar_mode),
-                           self,
-                           G_CONNECT_SWAPPED);
 
   self->remote_mngr = photos_remote_display_manager_dup_singleton ();
   g_signal_connect_object (self->remote_mngr,
@@ -861,7 +844,7 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
   gboolean selection_mode;
 
   photos_main_toolbar_clear_toolbar (self);
-  selection_mode = photos_selection_controller_get_selection_mode (self->sel_cntrlr);
+  selection_mode = photos_utils_get_selection_mode ();
   window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
 
   if (selection_mode)

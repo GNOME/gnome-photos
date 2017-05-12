@@ -1075,6 +1075,27 @@ photos_utils_get_provider_name (PhotosBaseManager *src_mngr, PhotosBaseItem *ite
 }
 
 
+gboolean
+photos_utils_get_selection_mode (void)
+{
+  GAction *action;
+  GApplication *app;
+  GVariant *state;
+  gboolean selection_mode;
+
+  app = g_application_get_default ();
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "selection-mode");
+
+  state = g_action_get_state (action);
+  g_return_val_if_fail (state != NULL, FALSE);
+
+  selection_mode = g_variant_get_boolean (state);
+
+  g_variant_unref (state);
+  return selection_mode;
+}
+
+
 gchar *
 photos_utils_get_thumbnail_path_for_file (GFile *file)
 {

@@ -44,6 +44,7 @@
 struct _PhotosSelectionToolbar
 {
   GtkActionBar parent_instance;
+  GAction *selection_mode_action;
   GHashTable *item_listeners;
   GtkWidget *toolbar_collection;
   GtkWidget *toolbar_favorite;
@@ -72,12 +73,15 @@ static void
 photos_selection_toolbar_dialog_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (user_data);
+  GVariant *new_state;
 
   if (response_id != GTK_RESPONSE_CLOSE)
     return;
 
   gtk_widget_destroy (GTK_WIDGET (dialog));
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
+
+  new_state = g_variant_new ("b", FALSE);
+  g_action_change_state (self->selection_mode_action, new_state);
 }
 
 
@@ -104,8 +108,9 @@ photos_selection_toolbar_delete (PhotosSelectionToolbar *self)
   GList *items = NULL;
   GList *selection;
   GList *l;
+  GVariant *new_state;
 
-  if (!photos_selection_controller_get_selection_mode (self->sel_cntrlr))
+  if (!photos_utils_get_selection_mode ())
     return;
 
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
@@ -128,7 +133,9 @@ photos_selection_toolbar_delete (PhotosSelectionToolbar *self)
     }
 
   photos_delete_notification_new (items);
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
+
+  new_state = g_variant_new ("b", FALSE);
+  g_action_change_state (self->selection_mode_action, new_state);
 
   g_list_free_full (items, g_object_unref);
 }
@@ -149,6 +156,7 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
   GList *items = NULL;
   GList *selection;
   GList *l;
+  GVariant *new_state;
 
   if (self->inside_refresh)
     return;
@@ -177,7 +185,9 @@ photos_selection_toolbar_favorite_clicked (GtkButton *button, gpointer user_data
       photos_base_item_set_favorite (item, !favorite);
     }
 
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
+  new_state = g_variant_new ("b", FALSE);
+  g_action_change_state (G_ACTION (self->selection_mode_action), new_state);
+
   g_list_free_full (items, g_object_unref);
 }
 
@@ -291,7 +301,7 @@ photos_selection_toolbar_selection_changed (PhotosSelectionToolbar *self)
 {
   GList *selection;
 
-  if (!photos_selection_controller_get_selection_mode (self->sel_cntrlr))
+  if (!photos_utils_get_selection_mode ())
     return;
 
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
@@ -303,9 +313,9 @@ photos_selection_toolbar_selection_changed (PhotosSelectionToolbar *self)
 
 
 static void
-photos_selection_toolbar_selection_mode_changed (PhotosSelectionToolbar *self, gboolean mode)
+photos_selection_toolbar_selection_mode_notify_state (PhotosSelectionToolbar *self)
 {
-  if (mode)
+  if (photos_utils_get_selection_mode ())
     photos_selection_toolbar_selection_changed (self);
   else
     gtk_widget_hide (GTK_WIDGET (self));
@@ -335,6 +345,13 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
+  self->selection_mode_action = g_action_map_lookup_action (G_ACTION_MAP (app), "selection-mode");
+  g_signal_connect_object (self->selection_mode_action,
+                           "notify::state",
+                           G_CALLBACK (photos_selection_toolbar_selection_mode_notify_state),
+                           self,
+                           G_CONNECT_SWAPPED);
+
   self->item_listeners = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
 
   gtk_widget_init_template (GTK_WIDGET (self));
@@ -345,11 +362,6 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   g_signal_connect_object (self->sel_cntrlr,
                            "selection-changed",
                            G_CALLBACK (photos_selection_toolbar_selection_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-  g_signal_connect_object (self->sel_cntrlr,
-                           "selection-mode-changed",
-                           G_CALLBACK (photos_selection_toolbar_selection_mode_changed),
                            self,
                            G_CONNECT_SWAPPED);
 

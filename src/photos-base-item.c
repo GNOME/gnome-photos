@@ -57,7 +57,6 @@
 #include "photos-print-operation.h"
 #include "photos-query.h"
 #include "photos-search-context.h"
-#include "photos-selection-controller.h"
 #include "photos-single-item-job.h"
 #include "photos-utils.h"
 
@@ -78,7 +77,6 @@ struct _PhotosBaseItemPrivate
   GQuark flash;
   GQuark orientation;
   PhotosCollectionIconWatcher *watcher;
-  PhotosSelectionController *sel_cntrlr;
   TrackerSparqlCursor *cursor;
   gboolean collection;
   gboolean failed_thumbnailing;
@@ -2579,14 +2577,11 @@ static void
 photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  PhotosBaseItemPrivate *priv;
   GError *error;
   GtkWindow *toplevel = GTK_WINDOW (user_data);
   GeglNode *node;
   GtkPrintOperation *print_op = NULL;
   GtkPrintOperationResult print_res;
-
-  priv = photos_base_item_get_instance_private (self);
 
   error = NULL;
   node = photos_base_item_load_finish (self, res, &error);
@@ -2606,7 +2601,14 @@ photos_base_item_print_load (GObject *source_object, GAsyncResult *res, gpointer
   print_res = gtk_print_operation_run (print_op, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, toplevel, &error);
   if (print_res == GTK_PRINT_OPERATION_RESULT_APPLY)
     {
-      photos_selection_controller_set_selection_mode (priv->sel_cntrlr, FALSE);
+      GAction *action;
+      GApplication *app;
+      GVariant *new_state;
+
+      app = g_application_get_default ();
+      action = g_action_map_lookup_action (G_ACTION_MAP (app), "selection-mode");
+      new_state = g_variant_new ("b", FALSE);
+      g_action_change_state (action, new_state);
     }
   else if (print_res == GTK_PRINT_OPERATION_RESULT_ERROR)
     {
@@ -2656,7 +2658,6 @@ photos_base_item_dispose (GObject *object)
   g_clear_object (&priv->default_app);
   g_clear_object (&priv->original_icon);
   g_clear_object (&priv->watcher);
-  g_clear_object (&priv->sel_cntrlr);
   g_clear_object (&priv->cursor);
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->dispose (object);
@@ -2778,8 +2779,6 @@ photos_base_item_init (PhotosBaseItem *self)
 
   g_mutex_init (&priv->mutex_download);
   g_mutex_init (&priv->mutex_save_metadata);
-
-  priv->sel_cntrlr = photos_selection_controller_dup_singleton ();
 }
 
 

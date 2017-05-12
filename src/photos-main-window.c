@@ -226,21 +226,6 @@ photos_main_window_handle_key_edit (PhotosMainWindow *self, GdkEventKey *event)
 
 
 static gboolean
-photos_main_window_handle_key_overview (PhotosMainWindow *self, GdkEventKey *event)
-{
-  gboolean handled = FALSE;
-
-  if (photos_selection_controller_get_selection_mode (self->sel_cntrlr) && event->keyval == GDK_KEY_Escape)
-    {
-      photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
-      handled = TRUE;
-    }
-
-  return handled;
-}
-
-
-static gboolean
 photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *event)
 {
   gboolean fullscreen;
@@ -295,6 +280,10 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
       handled = GDK_EVENT_PROPAGATE;
       break;
 
@@ -304,13 +293,6 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
       handled = photos_main_window_handle_key_preview (self, event);
-      break;
-
-    case PHOTOS_WINDOW_MODE_COLLECTIONS:
-    case PHOTOS_WINDOW_MODE_FAVORITES:
-    case PHOTOS_WINDOW_MODE_OVERVIEW:
-    case PHOTOS_WINDOW_MODE_SEARCH:
-      handled = photos_main_window_handle_key_overview (self, event);
       break;
 
     default:

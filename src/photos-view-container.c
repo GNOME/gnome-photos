@@ -43,6 +43,7 @@
 struct _PhotosViewContainer
 {
   GtkStack parent_instance;
+  GAction *selection_mode_action;
   GtkWidget *error_box;
   GtkWidget *no_results;
   GtkWidget *sw;
@@ -158,12 +159,15 @@ static void
 photos_view_container_select_all (PhotosViewContainer *self)
 {
   PhotosWindowMode mode;
+  GVariant *new_state;
 
   mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
   if (self->mode != mode)
     return;
 
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, TRUE);
+  new_state = g_variant_new ("b", TRUE);
+  g_action_change_state (self->selection_mode_action, new_state);
+
   gd_main_box_select_all (GD_MAIN_BOX (self->view));
 }
 
@@ -184,7 +188,10 @@ photos_view_container_select_none (PhotosViewContainer *self)
 static void
 photos_view_container_selection_mode_request (PhotosViewContainer *self)
 {
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, TRUE);
+  GVariant *new_state;
+
+  new_state = g_variant_new ("b", TRUE);
+  g_action_change_state (self->selection_mode_action, new_state);
 }
 
 
@@ -213,6 +220,16 @@ photos_view_container_set_selection_mode (PhotosViewContainer *self, gboolean se
     return;
 
   gd_main_box_set_selection_mode (GD_MAIN_BOX (self->view), selection_mode);
+}
+
+
+static void
+photos_view_container_selection_mode_notify_state (PhotosViewContainer *self)
+{
+  gboolean selection_mode;
+
+  selection_mode = photos_utils_get_selection_mode ();
+  photos_view_container_set_selection_mode (self, selection_mode);
 }
 
 
@@ -248,6 +265,13 @@ photos_view_container_constructed (GObject *object)
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  self->selection_mode_action = g_action_map_lookup_action (G_ACTION_MAP (app), "selection-mode");
+  g_signal_connect_object (self->selection_mode_action,
+                           "notify::state",
+                           G_CALLBACK (photos_view_container_selection_mode_notify_state),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   accessible = gtk_widget_get_accessible (GTK_WIDGET (self));
   if (accessible != NULL)
@@ -290,13 +314,7 @@ photos_view_container_constructed (GObject *object)
                             self);
 
   self->item_mngr = g_object_ref (state->item_mngr);
-
   self->sel_cntrlr = photos_selection_controller_dup_singleton ();
-  g_signal_connect_object (self->sel_cntrlr,
-                           "selection-mode-changed",
-                           G_CALLBACK (photos_view_container_set_selection_mode),
-                           self,
-                           G_CONNECT_SWAPPED);
 
   self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
   g_signal_connect_object (self->mode_cntrlr,
@@ -339,7 +357,7 @@ photos_view_container_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
 
-  selection_mode = photos_selection_controller_get_selection_mode (self->sel_cntrlr);
+  selection_mode = photos_utils_get_selection_mode ();
   photos_view_container_set_selection_mode (self, selection_mode);
 
   photos_tracker_controller_start (self->trk_cntrlr);

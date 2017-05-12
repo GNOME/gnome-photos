@@ -51,13 +51,8 @@ void                        photos_selection_controller_freeze_selection   (Phot
 
 GList                      *photos_selection_controller_get_selection      (PhotosSelectionController *self);
 
-gboolean                    photos_selection_controller_get_selection_mode (PhotosSelectionController *self);
-
 void                        photos_selection_controller_set_selection      (PhotosSelectionController *self,
                                                                             GList                     *selection);
-
-void                        photos_selection_controller_set_selection_mode (PhotosSelectionController *self,
-                                                                            gboolean mode);
 
 G_END_DECLS
 

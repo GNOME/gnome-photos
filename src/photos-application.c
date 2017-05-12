@@ -106,6 +106,7 @@ struct _PhotosApplication
   GSimpleAction *search_type_action;
   GSimpleAction *sel_all_action;
   GSimpleAction *sel_none_action;
+  GSimpleAction *selection_mode_action;
   GSimpleAction *set_bg_action;
   GSimpleAction *set_ss_action;
   GSimpleAction *share_action;
@@ -295,7 +296,7 @@ photos_application_get_selection_or_active_item (PhotosApplication *self)
 {
   PhotosBaseItem *item = NULL;
 
-  if (photos_selection_controller_get_selection_mode (self->sel_cntrlr))
+  if (photos_utils_get_selection_mode ())
     {
       GList *selection;
       const gchar *urn;
@@ -334,7 +335,7 @@ photos_application_actions_update (PhotosApplication *self)
   load_state = photos_item_manager_get_load_state (self->state->item_mngr);
   mode = photos_mode_controller_get_window_mode (self->state->mode_cntrlr);
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
-  selection_mode = photos_selection_controller_get_selection_mode (self->sel_cntrlr);
+  selection_mode = photos_utils_get_selection_mode ();
 
   enable = (mode == PHOTOS_WINDOW_MODE_EDIT);
   g_simple_action_set_enabled (self->blacks_exposure_action, enable);
@@ -356,6 +357,7 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->search_type_action, enable);
   g_simple_action_set_enabled (self->sel_all_action, enable);
   g_simple_action_set_enabled (self->sel_none_action, enable);
+  g_simple_action_set_enabled (self->selection_mode_action, enable);
 
   enable = (mode == PHOTOS_WINDOW_MODE_PREVIEW);
   g_simple_action_set_enabled (self->load_next_action, enable);
@@ -927,11 +929,12 @@ static void
 photos_application_open_current (PhotosApplication *self)
 {
   PhotosBaseItem *item;
+  GVariant *new_state;
   guint32 time;
 
   time = gtk_get_current_event_time ();
 
-  if (photos_selection_controller_get_selection_mode (self->sel_cntrlr))
+  if (photos_utils_get_selection_mode ())
     {
       GList *l;
       GList *selection;
@@ -953,7 +956,8 @@ photos_application_open_current (PhotosApplication *self)
       photos_base_item_open (item, GTK_WINDOW (self->main_window), time);
     }
 
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
+  new_state = g_variant_new ("b", FALSE);
+  g_action_change_state (G_ACTION (self->selection_mode_action), new_state);
 }
 
 
@@ -1029,9 +1033,12 @@ static void
 photos_application_properties_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GVariant *new_state;
 
   gtk_widget_destroy (GTK_WIDGET (dialog));
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
+
+  new_state = g_variant_new ("b", FALSE);
+  g_action_change_state (G_ACTION (self->selection_mode_action), new_state);
 }
 
 
@@ -1233,6 +1240,7 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
   GError *error;
   GFile *export = NULL;
   GFile *tmp;
+  GVariant *new_state;
   PhotosBaseItem *item;
   const gchar *export_dir_name;
   const gchar *pictures_path;
@@ -1245,7 +1253,8 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
   item = photos_application_get_selection_or_active_item (self);
   g_return_if_fail (item != NULL);
 
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
+  new_state = g_variant_new ("b", FALSE);
+  g_action_change_state (G_ACTION (self->selection_mode_action), new_state);
 
   pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
   export_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
@@ -1385,6 +1394,7 @@ static void
 photos_application_share_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
+  GVariant *new_state;
   PhotosBaseItem *item;
   PhotosSharePoint *share_point;
 
@@ -1397,7 +1407,8 @@ photos_application_share_response (GtkDialog *dialog, gint response_id, gpointer
   item = photos_application_get_selection_or_active_item (self);
   g_return_if_fail (item != NULL);
 
-  photos_selection_controller_set_selection_mode (self->sel_cntrlr, FALSE);
+  new_state = g_variant_new ("b", FALSE);
+  g_action_change_state (G_ACTION (self->selection_mode_action), new_state);
 
   g_application_hold (G_APPLICATION (self));
   g_application_mark_busy (G_APPLICATION (self));
@@ -1526,6 +1537,24 @@ photos_application_window_mode_changed (PhotosApplication *self)
 static void
 photos_application_selection_changed (PhotosApplication *self)
 {
+  photos_application_actions_update (self);
+}
+
+
+static void
+photos_application_selection_mode_notify_state (PhotosApplication *self)
+{
+  if (photos_utils_get_selection_mode ())
+    {
+      const gchar *selection_mode_accels[2] = {"Escape", NULL};
+      gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", selection_mode_accels);
+    }
+  else
+    {
+      const gchar *selection_mode_accels[1] = {NULL};
+      gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", selection_mode_accels);
+    }
+
   photos_application_actions_update (self);
 }
 
@@ -1717,11 +1746,6 @@ photos_application_startup (GApplication *application)
                             G_CALLBACK (photos_application_selection_changed),
                             self);
 
-  g_signal_connect_swapped (self->sel_cntrlr,
-                            "selection-mode-changed",
-                            G_CALLBACK (photos_application_selection_changed),
-                            self);
-
   action = g_simple_action_new ("about", NULL);
   g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_about), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
@@ -1845,6 +1869,15 @@ photos_application_startup (GApplication *application)
   self->sel_none_action = g_simple_action_new ("select-none", NULL);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->sel_none_action));
 
+  state = g_variant_new ("b", FALSE);
+  self->selection_mode_action = g_simple_action_new_stateful ("selection-mode", NULL, state);
+  g_signal_connect (self->selection_mode_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
+  g_signal_connect_swapped (self->selection_mode_action,
+                            "notify::state",
+                            G_CALLBACK (photos_application_selection_mode_notify_state),
+                            self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->selection_mode_action));
+
   self->set_bg_action = g_simple_action_new ("set-background", NULL);
   g_object_set_data_full (G_OBJECT (self->set_bg_action),
                           "settings",
@@ -1957,6 +1990,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->search_type_action);
   g_clear_object (&self->sel_all_action);
   g_clear_object (&self->sel_none_action);
+  g_clear_object (&self->selection_mode_action);
   g_clear_object (&self->set_bg_action);
   g_clear_object (&self->set_ss_action);
   g_clear_object (&self->share_action);

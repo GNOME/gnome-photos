@@ -141,6 +141,8 @@ char*            photos_utils_get_pixbuf_common_suffix    (GdkPixbufFormat *form
 
 const gchar     *photos_utils_get_provider_name           (PhotosBaseManager *src_mngr, PhotosBaseItem *item);
 
+gboolean         photos_utils_get_selection_mode          (void);
+
 gchar           *photos_utils_get_thumbnail_path_for_file (GFile *file);
 
 gchar           *photos_utils_get_thumbnail_path_for_uri  (const gchar *uri);
