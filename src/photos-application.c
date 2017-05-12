@@ -279,8 +279,7 @@ photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gp
   GVariant *new_state;
 
   state = g_action_get_state (G_ACTION (simple));
-  if (state == NULL)
-    return;
+  g_return_if_fail (state != NULL);
 
   new_state = g_variant_new ("b", !g_variant_get_boolean (state));
   g_action_change_state (G_ACTION (simple), new_state);
