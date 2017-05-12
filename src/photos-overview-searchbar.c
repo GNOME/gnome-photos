@@ -69,7 +69,6 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
                                           PhotosBaseManager *mngr,
                                           GdTaggedEntryTag *tag)
 {
-  GdkDevice *event_device;
   GObject *object;
   const gchar *id;
   gchar *name;
@@ -86,10 +85,7 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
       gd_tagged_entry_add_tag (self->search_entry, tag);
     }
 
-  event_device = gtk_get_current_event_device ();
-  if (event_device != NULL)
-    gd_entry_focus_hack (GTK_WIDGET (self->search_entry), event_device);
-
+  gtk_entry_grab_focus_without_selecting (GTK_ENTRY (self->search_entry));
   g_free (name);
 }
 
