@@ -211,14 +211,20 @@ photos_preview_view_motion_notify_event (PhotosPreviewView *self, GdkEvent *even
 static void
 photos_preview_view_navigate (PhotosPreviewView *self, gint position)
 {
+  GeglNode *node;
   GtkWidget *current_view_container;
   GtkWidget *new_view_container;
+  GtkWidget *next_view;
   GtkWidget *next_view_container;
+
+  next_view_container = photos_preview_view_get_invisible_child (self);
+  next_view = photos_preview_view_get_view_from_view_container (next_view_container);
+  node = photos_image_view_get_node (PHOTOS_IMAGE_VIEW (next_view));
+  g_return_if_fail (node == NULL);
 
   current_view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   gtk_container_child_set (GTK_CONTAINER (self->stack), current_view_container, "position", position, NULL);
 
-  next_view_container = photos_preview_view_get_invisible_child (self);
   gtk_stack_set_visible_child (GTK_STACK (self->stack), next_view_container);
 
   gtk_container_remove (GTK_CONTAINER (self->stack), current_view_container);
