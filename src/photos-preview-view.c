@@ -176,6 +176,23 @@ photos_preview_view_get_invisible_child (PhotosPreviewView *self)
 }
 
 
+static GtkWidget *
+photos_preview_view_get_view_from_view_container (GtkWidget *view_container)
+{
+  GtkWidget *child;
+  GtkWidget *view;
+
+  child = gtk_bin_get_child (GTK_BIN (view_container));
+
+  if (GTK_IS_VIEWPORT (child))
+    view = gtk_bin_get_child (GTK_BIN (child));
+  else
+    view = child;
+
+  return view;
+}
+
+
 static gboolean
 photos_preview_view_motion_notify_event (PhotosPreviewView *self, GdkEvent *event)
 {
@@ -252,23 +269,6 @@ photos_preview_view_create_view_with_container (PhotosPreviewView *self)
   gtk_widget_show_all (sw);
 
   return sw;
-}
-
-
-static GtkWidget *
-photos_preview_view_get_view_from_view_container (GtkWidget *view_container)
-{
-  GtkWidget *child;
-  GtkWidget *view;
-
-  child = gtk_bin_get_child (GTK_BIN (view_container));
-
-  if (GTK_IS_VIEWPORT (child))
-    view = gtk_bin_get_child (GTK_BIN (child));
-  else
-    view = child;
-
-  return view;
 }
 
 
