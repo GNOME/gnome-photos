@@ -236,6 +236,9 @@ photos_searchbar_handle_event (PhotosSearchbar *self, GdkEventKey *event)
 
   priv = photos_searchbar_get_instance_private (self);
 
+  if (gtk_widget_get_parent (GTK_WIDGET (self)) == NULL)
+    goto out;
+
   search_mode_enabled = gtk_search_bar_get_search_mode (GTK_SEARCH_BAR (self));
 
   /* Skip if the search bar is shown and the focus is elsewhere */
