@@ -74,6 +74,23 @@ G_DEFINE_TYPE (PhotosPreviewView, photos_preview_view, GTK_TYPE_BIN);
 static GtkWidget *photos_preview_view_create_view_with_container (PhotosPreviewView *self);
 
 
+static GtkWidget *
+photos_preview_view_get_view_from_view_container (GtkWidget *view_container)
+{
+  GtkWidget *child;
+  GtkWidget *view;
+
+  child = gtk_bin_get_child (GTK_BIN (view_container));
+
+  if (GTK_IS_VIEWPORT (child))
+    view = gtk_bin_get_child (GTK_BIN (child));
+  else
+    view = child;
+
+  return view;
+}
+
+
 static gboolean
 photos_preview_view_button_press_event (PhotosPreviewView *self, GdkEvent *event)
 {
@@ -173,23 +190,6 @@ photos_preview_view_get_invisible_child (PhotosPreviewView *self)
 
   g_list_free (children);
   return next_view_container;
-}
-
-
-static GtkWidget *
-photos_preview_view_get_view_from_view_container (GtkWidget *view_container)
-{
-  GtkWidget *child;
-  GtkWidget *view;
-
-  child = gtk_bin_get_child (GTK_BIN (view_container));
-
-  if (GTK_IS_VIEWPORT (child))
-    view = gtk_bin_get_child (GTK_BIN (child));
-  else
-    view = child;
-
-  return view;
 }
 
 
