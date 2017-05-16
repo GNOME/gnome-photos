@@ -1217,6 +1217,75 @@ photos_utils_object_list_free_full (GList *objects)
 }
 
 
+static gboolean
+photos_utils_adjustment_can_scroll (GtkAdjustment *adjustment)
+{
+  gdouble lower;
+  gdouble page_size;
+  gdouble upper;
+
+  g_return_val_if_fail (GTK_IS_ADJUSTMENT (adjustment), FALSE);
+
+  lower = gtk_adjustment_get_lower (adjustment);
+  page_size = gtk_adjustment_get_page_size (adjustment);
+  upper = gtk_adjustment_get_upper (adjustment);
+
+  return upper - lower > page_size;
+}
+
+
+gboolean
+photos_utils_scrolled_window_can_scroll (GtkScrolledWindow *scrolled_window)
+{
+  GtkAdjustment *adjustment;
+  gboolean ret_val = TRUE;
+
+  g_return_val_if_fail (GTK_IS_SCROLLED_WINDOW (scrolled_window), FALSE);
+
+  adjustment = gtk_scrolled_window_get_hadjustment (scrolled_window);
+  if (photos_utils_adjustment_can_scroll (adjustment))
+    goto out;
+
+  adjustment = gtk_scrolled_window_get_vadjustment (scrolled_window);
+  if (photos_utils_adjustment_can_scroll (adjustment))
+    goto out;
+
+  ret_val = FALSE;
+
+ out:
+  return ret_val;
+}
+
+
+static void
+photos_utils_adjustment_scroll (GtkAdjustment *adjustment, gdouble delta)
+{
+  gdouble value;
+
+  g_return_if_fail (GTK_IS_ADJUSTMENT (adjustment));
+
+  value = gtk_adjustment_get_value (adjustment);
+  value += delta;
+  gtk_adjustment_set_value (adjustment, value);
+}
+
+
+void
+photos_utils_scrolled_window_scroll (GtkScrolledWindow *scrolled_window, gdouble delta_x, gdouble delta_y)
+{
+  GtkAdjustment *adjustment;
+
+  g_return_if_fail (GTK_IS_SCROLLED_WINDOW (scrolled_window));
+  g_return_if_fail (photos_utils_scrolled_window_can_scroll (scrolled_window));
+
+  adjustment = gtk_scrolled_window_get_hadjustment (scrolled_window);
+  photos_utils_adjustment_scroll (adjustment, delta_x);
+
+  adjustment = gtk_scrolled_window_get_vadjustment (scrolled_window);
+  photos_utils_adjustment_scroll (adjustment, delta_y);
+}
+
+
 static void
 photos_utils_update_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {

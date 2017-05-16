@@ -159,6 +159,12 @@ void             photos_utils_list_box_header_func        (GtkListBoxRow *row,
 
 void             photos_utils_object_list_free_full       (GList *objects);
 
+gboolean         photos_utils_scrolled_window_can_scroll  (GtkScrolledWindow *scrolled_window);
+
+void             photos_utils_scrolled_window_scroll      (GtkScrolledWindow *scrolled_window,
+                                                           gdouble delta_x,
+                                                           gdouble delta_y);
+
 void             photos_utils_set_edited_name             (const gchar *urn, const gchar *title);
 
 void             photos_utils_set_favorite                (const gchar *urn, gboolean is_favorite);
