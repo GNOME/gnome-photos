@@ -92,9 +92,16 @@ photos_preview_view_get_view_from_view_container (GtkWidget *view_container)
 
 
 static gboolean
-photos_preview_view_button_press_event (PhotosPreviewView *self, GdkEvent *event)
+photos_preview_view_button_press_event (GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
+  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
+  GtkWidget *current_view;
+  GtkWidget *current_view_container;
   gboolean ret_val = GDK_EVENT_PROPAGATE;
+
+  current_view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  current_view = photos_preview_view_get_view_from_view_container (current_view_container);
+  g_return_val_if_fail (widget == current_view, GDK_EVENT_PROPAGATE);
 
   if (self->current_tool == NULL)
     goto out;
@@ -115,9 +122,16 @@ photos_preview_view_button_press_event (PhotosPreviewView *self, GdkEvent *event
 
 
 static gboolean
-photos_preview_view_button_release_event (PhotosPreviewView *self, GdkEvent *event)
+photos_preview_view_button_release_event (GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
+  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
+  GtkWidget *current_view;
+  GtkWidget *current_view_container;
   gboolean ret_val = GDK_EVENT_PROPAGATE;
+
+  current_view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  current_view = photos_preview_view_get_view_from_view_container (current_view_container);
+  g_return_val_if_fail (widget == current_view, GDK_EVENT_PROPAGATE);
 
   if (self->current_tool == NULL)
     goto out;
@@ -194,9 +208,16 @@ photos_preview_view_get_invisible_child (PhotosPreviewView *self)
 
 
 static gboolean
-photos_preview_view_motion_notify_event (PhotosPreviewView *self, GdkEvent *event)
+photos_preview_view_motion_notify_event (GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
+  PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (user_data);
+  GtkWidget *current_view;
+  GtkWidget *current_view_container;
   gboolean ret_val = GDK_EVENT_PROPAGATE;
+
+  current_view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  current_view = photos_preview_view_get_view_from_view_container (current_view_container);
+  g_return_val_if_fail (widget == current_view, GDK_EVENT_PROPAGATE);
 
   if (self->current_tool == NULL)
     goto out;
@@ -262,14 +283,11 @@ photos_preview_view_create_view_with_container (PhotosPreviewView *self)
 
   view = photos_image_view_new ();
   gtk_container_add (GTK_CONTAINER (sw), view);
-  g_signal_connect_swapped (view, "button-press-event", G_CALLBACK (photos_preview_view_button_press_event), self);
-  g_signal_connect_swapped (view,
-                            "button-release-event",
-                            G_CALLBACK (photos_preview_view_button_release_event),
-                            self);
-  g_signal_connect_swapped (view, "motion-notify-event", G_CALLBACK (photos_preview_view_motion_notify_event), self);
+  g_signal_connect (view, "button-press-event", G_CALLBACK (photos_preview_view_button_press_event), self);
+  g_signal_connect (view, "button-release-event", G_CALLBACK (photos_preview_view_button_release_event), self);
   g_signal_connect_swapped (view, "draw-background", G_CALLBACK (photos_preview_view_draw_background), self);
   g_signal_connect_swapped (view, "draw-overlay", G_CALLBACK (photos_preview_view_draw_overlay), self);
+  g_signal_connect (view, "motion-notify-event", G_CALLBACK (photos_preview_view_motion_notify_event), self);
 
   /* It has to be visible to become the visible child of self->stack. */
   gtk_widget_show_all (sw);
