@@ -1,0 +1,313 @@
+# Polish translation for gnome-photos help.
+# Copyright © 2017 the gnome-photos authors.
+# This file is distributed under the same license as the gnome-photos package.
+# Piotr Drąg <piotrdrag@gmail.com>, 2017.
+# Aviary.pl <community-poland@mozilla.org>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos-help\n"
+"POT-Creation-Date: 2017-05-16 15:34+0000\n"
+"PO-Revision-Date: 2017-05-23 00:42+0200\n"
+"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+"Language-Team: Polish <community-poland@mozilla.org>\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr ""
+"Piotr Drąg <piotrdrag@gmail.com>, 2017\n"
+"Aviary.pl <community-poland@mozilla.org>, 2017"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
+#: C/view-favorites.page:11 C/view.page:11
+msgid "Venkatesh Tahiliani"
+msgstr "Venkatesh Tahiliani"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:15 C/favorites-set.page:16 C/view-album.page:15
+#: C/view-favorites.page:15 C/view.page:15
+msgid "Aruna Sankaranarayanan"
+msgstr "Aruna Sankaranarayanan"
+
+#. (itstool) path: info/desc
+#: C/favorites.page:21
+msgid "Tag a special image or album as a favorite."
+msgstr "Oznaczanie obrazów i albumów jako ulubione."
+
+#. (itstool) path: page/title
+#: C/favorites.page:25
+msgid "Favorite photos"
+msgstr "Ulubione zdjęcia"
+
+#. (itstool) path: page/p
+#: C/favorites.page:26
+msgid ""
+"You can label photos or images that you particularly like as favorites to "
+"store them for easy access in the <gui>Favorites</gui> tab."
+msgstr ""
+"Można oznaczać szczególnie lubiane zdjęcia i obrazy jako ulubione, aby mieć "
+"do nich łatwy dostęp w karcie <gui>Ulubione</gui>."
+
+#. (itstool) path: info/desc
+#: C/favorites-set.page:22
+msgid "Pick favorites from <app>Photos</app>."
+msgstr "Wybieranie ulubionych w <app>Menedżerze zdjęć</app>."
+
+#. (itstool) path: page/title
+#: C/favorites-set.page:25
+msgid "Tag your favorites"
+msgstr "Oznaczanie ulubionych"
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:27
+msgid ""
+"Photos or albums can be marked as favorites from the <gui style=\"tab"
+"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+msgstr ""
+"Zdjęcia i albumy mogą być oznaczane jako ulubione w kartach <gui style=\"tab"
+"\">Ostatnie</gui> i <gui style=\"tab\">Albumy</gui>."
+
+#. (itstool) path: steps/title
+#: C/favorites-set.page:31
+msgid "To label favorite items:"
+msgstr "Aby oznaczyć ulubione elementy:"
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:33
+msgid ""
+"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"whether you want to mark an album or a photo as a favorite."
+msgstr ""
+"Wybierz kartę <gui>Albumy</gui> lub <gui>Ostatnie</gui>, w zależności od "
+"tego, czy chcesz oznaczyć album, czy zdjęcie."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:37
+msgid "Switch on the selection mode."
+msgstr "Włącz tryb zaznaczania."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:40
+msgid "Select all the items you want to favorite."
+msgstr "Zaznacz wszystkie elementy, które chcesz oznaczyć jako ulubione."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:43
+msgid ""
+"To finish, select the button with the picture of a star from the toolbar at "
+"the bottom."
+msgstr ""
+"Aby ukończyć, kliknij przycisk z gwiazdką na dolnym pasku narzędziowym."
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:48
+msgid "Your favorite items can now be found in the <gui>Favorites</gui> tab."
+msgstr "Ulubione elementy pojawią się teraz w karcie <gui>Ulubione</gui>."
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Photos"
+msgstr "Zdjęcia"
+
+#. (itstool) path: info/desc
+#: C/index.page:12
+msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
+msgstr "<app>Zdjęcia</app> to osobisty menedżer zdjęć środowiska GNOME."
+
+#. (itstool) path: page/title
+#: C/index.page:16
+msgid "<_:media-1/> Photos"
+msgstr "<_:media-1/> Zdjęcia"
+
+#. (itstool) path: page/p
+#: C/index.page:21
+msgid ""
+"<app>Photos</app> can be used to organise and manage your images in an "
+"engaging and personalized manner. In addition to creating albums out of "
+"images on your computer, you can integrate your Facebook and Flickr albums "
+"with <app>Photos</app>. You can also set photos you like as your desktop "
+"wallpaper, or easily bookmark them as favorites."
+msgstr ""
+"<app>Menedżer zdjęć</app> może być używany do organizowania i zarządzania obrazami w interesujący i osobisty sposób. Można tworzyć albumy ze zdjęć na "
+"komputerze oraz zintegrować albumy serwisów Facebook i Flickra, a także "
+"ustawiać zdjęcia jako tapety pulpitu i łatwo oznaczać je jako ulubione."
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported"
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "Na warunkach licencji <_:link-1/>."
+
+#. (itstool) path: info/desc
+#: C/view-album.page:21
+msgid "Open a photo from your albums."
+msgstr "Otwieranie zdjęcia z albumów."
+
+#. (itstool) path: page/title
+#: C/view-album.page:24
+msgid "View photos from an album"
+msgstr "Wyświetlanie zdjęć z albumu"
+
+#. (itstool) path: page/p
+#: C/view-album.page:25
+msgid "To open a photo located in a specific album:"
+msgstr "Aby otworzyć zdjęcie z konkretnego albumu:"
+
+#. (itstool) path: item/p
+#: C/view-album.page:29
+msgid "Select the <gui style=\"tab\">Albums</gui> tab."
+msgstr "Wybierz kartę <gui style=\"tab\">Albumy</gui>."
+
+#. (itstool) path: item/p
+#: C/view-album.page:32
+msgid "Select the album which contains the photo."
+msgstr "Kliknij album zawierający zdjęcie."
+
+#. (itstool) path: item/p
+#: C/view-album.page:35
+msgid ""
+"You will see a grid of photos from the album you selected. Select a photo "
+"from the grid to open it."
+msgstr ""
+"Zostanie wyświetlona siatka zdjęć z wybranego albumu. Wybierz z niej "
+"zdjęcie, aby je otworzyć."
+
+#. (itstool) path: info/desc
+#: C/view-favorites.page:21
+msgid "Open your favorite photos."
+msgstr "Otwieranie ulubionych zdjęć."
+
+#. (itstool) path: page/title
+#: C/view-favorites.page:24
+msgid "View photos marked as favorites."
+msgstr "Wyświetlanie zdjęć oznaczonych jako ulubione."
+
+#. (itstool) path: page/p
+#: C/view-favorites.page:26
+msgid ""
+"Your <link xref=\"favorites\">favorite</link> photos are located in the "
+"<gui>Favorites</gui> tab."
+msgstr ""
+"<link xref=\"favorites\">Ulubione</link> zdjęcia znajdują się w karcie "
+"<gui>Ulubione</gui>."
+
+#. (itstool) path: steps/title
+#: C/view-favorites.page:30
+msgid "To open a photo tagged as a favorite:"
+msgstr "Aby otworzyć zdjęcie oznaczone jako ulubione:"
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:32
+msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
+msgstr "Wybierz kartę <gui style=\"tab\">Ulubione</gui>."
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:35
+msgid ""
+"Select photo you want to open, or use the arrow keys to navigate to the "
+"photo and press <key>Enter</key>."
+msgstr ""
+"Kliknij zdjęcie, które chcesz otworzyć, lub użyj klawiszy strzałek, aby do "
+"niego przejść i naciśnij klawisz <key>Enter</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "Otwieranie ostatnio wyświetlanych zdjęć."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Wyświetlanie ostatnio otwieranych zdjęć"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"Karta <gui style=\"tab\">Ostatnie</gui> wyświetla zdjęcia z miejsc "
+"w lokalnym systemie plików, takich jak <file>~/Pobrane</file> "
+"i <file>~/Obrazy</file>, oraz z kolekcji w Internecie. Można także dodać "
+"inne miejsca, nawet w serwisach Flickr i Facebook, przez <app>konta online "
+"GNOME</app>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "Aby dodać inne miejsca w lokalnym systemie plików:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr ""
+"Przejdź do <guiseq><gui>Ustawienia</gui><gui>Wyszukiwanie</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Kliknij przycisk z kołem zębatym w dolnym prawym rogu. Tutaj można wybrać "
+"miejsca widoczne w karcie <gui style=\"tab\">Ostatnie</gui>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Aby wyświetlić ostatnio otwierane zdjęcia:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Wybierz kartę <gui style=\"tab\">Ostatnie</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr ""
+"Zostanie wyświetlona siatka zdjęć. Wybierz z niej zdjęcie, aby je otworzyć."
+
+#. (itstool) path: info/desc
+#: C/view.page:21
+msgid "Open a photo for viewing."
+msgstr "Otwieranie zdjęcia do wyświetlenia."
+
+#. (itstool) path: page/title
+#: C/view.page:24
+msgid "View images"
+msgstr "Wyświetlanie obrazów"
+
+#. (itstool) path: page/p
+#: C/view.page:26
+msgid ""
+"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
+"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
+"a favourite can be found in the <gui>Favorites</gui> tab."
+msgstr ""
+"Po otwarciu <app>Menedżera zdjęć</app> widoczna będzie karta <gui>Ostatnie</"
+"gui>. Zawiera ona obrazy z komputera, karta <gui>Albumy</gui> zawiera albumy "
+"ze zdjęciami, a każdy obraz oznaczony jako ulubiony można znaleźć w karcie "
+"<gui>Ulubione</gui>."
