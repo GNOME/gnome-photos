@@ -607,6 +607,8 @@ photos_preview_nav_buttons_new (PhotosPreviewView *preview_view, GtkOverlay *ove
 void
 photos_preview_nav_buttons_hide (PhotosPreviewNavButtons *self)
 {
+  g_return_if_fail (PHOTOS_IS_PREVIEW_NAV_BUTTONS (self));
+
   self->visible = FALSE;
   self->visible_internal = FALSE;
   photos_preview_nav_buttons_update_visibility (self);
@@ -627,6 +629,8 @@ photos_preview_nav_buttons_set_mode (PhotosPreviewNavButtons *self, PhotosWindow
 void
 photos_preview_nav_buttons_show (PhotosPreviewNavButtons *self)
 {
+  g_return_if_fail (PHOTOS_IS_PREVIEW_NAV_BUTTONS (self));
+
   self->visible = TRUE;
   self->visible_internal = TRUE;
   photos_preview_nav_buttons_update_visibility (self);
