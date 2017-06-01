@@ -33,6 +33,7 @@
 #include "photos-icons.h"
 #include "photos-preview-nav-buttons.h"
 #include "photos-search-context.h"
+#include "photos-zoom-controls.h"
 
 
 struct _PhotosPreviewNavButtons
@@ -46,6 +47,8 @@ struct _PhotosPreviewNavButtons
   GtkWidget *overlay;
   GtkWidget *prev_widget;
   GtkWidget *preview_view;
+  GtkWidget *zoom_revealer;
+  GtkWidget *zoom_widget;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosWindowMode old_mode;
@@ -192,24 +195,30 @@ static void
 photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
 {
   PhotosBaseItem *item;
-  PhotosBaseItem *next_item;
-  PhotosBaseItem *previous_item;
+  gboolean enable_zoom = TRUE;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
+
   if (self->old_mode == PHOTOS_WINDOW_MODE_NONE || item == NULL || !self->visible)
     {
       self->enable_prev = FALSE;
       self->enable_next = FALSE;
-      goto out;
+    }
+  else
+    {
+      PhotosBaseItem *next_item;
+      PhotosBaseItem *previous_item;
+
+      previous_item = photos_preview_nav_buttons_get_previous_item (self);
+      self->enable_prev = previous_item != NULL;
+
+      next_item = photos_preview_nav_buttons_get_next_item (self);
+      self->enable_next = next_item != NULL;
     }
 
-  previous_item = photos_preview_nav_buttons_get_previous_item (self);
-  self->enable_prev = previous_item != NULL;
+  if (item == NULL || !self->visible)
+    enable_zoom = FALSE;
 
-  next_item = photos_preview_nav_buttons_get_next_item (self);
-  self->enable_next = next_item != NULL;
-
- out:
   if (self->visible_internal && self->enable_next)
     photos_preview_nav_buttons_fade_in_button (self, self->next_widget);
   else
@@ -219,6 +228,11 @@ photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
     photos_preview_nav_buttons_fade_in_button (self, self->prev_widget);
   else
     photos_preview_nav_buttons_fade_out_button (self, self->prev_widget);
+
+  if (self->visible_internal && enable_zoom)
+    photos_preview_nav_buttons_fade_in_button (self, self->zoom_revealer);
+  else
+    photos_preview_nav_buttons_fade_out_button (self, self->zoom_revealer);
 
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->load_next), self->enable_next);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->load_previous), self->enable_prev);
@@ -283,7 +297,10 @@ photos_preview_nav_buttons_motion_notify_timeout (PhotosPreviewNavButtons *self)
   self->motion_id = 0;
   self->visible_internal = TRUE;
   photos_preview_nav_buttons_update_visibility (self);
-  photos_preview_nav_buttons_queue_auto_hide (self);
+
+  if (!photos_zoom_controls_get_hover (PHOTOS_ZOOM_CONTROLS (self->zoom_widget)))
+    photos_preview_nav_buttons_queue_auto_hide (self);
+
   return G_SOURCE_REMOVE;
 }
 
@@ -378,6 +395,16 @@ photos_preview_nav_buttons_previous (PhotosPreviewNavButtons *self)
 
 
 static void
+photos_preview_nav_buttons_zoom_notify_hover (PhotosPreviewNavButtons *self)
+{
+  if (photos_zoom_controls_get_hover (PHOTOS_ZOOM_CONTROLS (self->zoom_widget)))
+    photos_preview_nav_buttons_unqueue_auto_hide (self);
+  else
+    photos_preview_nav_buttons_leave_notify (self);
+}
+
+
+static void
 photos_preview_nav_buttons_dispose (GObject *object)
 {
   PhotosPreviewNavButtons *self = PHOTOS_PREVIEW_NAV_BUTTONS (object);
@@ -388,6 +415,8 @@ photos_preview_nav_buttons_dispose (GObject *object)
   g_clear_object (&self->tap_gesture);
   g_clear_object (&self->next_widget);
   g_clear_object (&self->prev_widget);
+  g_clear_object (&self->zoom_revealer);
+  g_clear_object (&self->zoom_widget);
   g_clear_object (&self->item_mngr);
   g_clear_object (&self->mode_cntrlr);
 
@@ -404,6 +433,25 @@ photos_preview_nav_buttons_constructed (GObject *object)
   GtkWidget *image;
 
   G_OBJECT_CLASS (photos_preview_nav_buttons_parent_class)->constructed (object);
+
+  self->zoom_revealer = g_object_ref_sink (gtk_revealer_new ());
+  gtk_widget_set_halign (self->zoom_revealer, GTK_ALIGN_END);
+  gtk_widget_set_margin_bottom (self->zoom_revealer, 30);
+  gtk_widget_set_margin_end (self->zoom_revealer, 30);
+  gtk_widget_set_margin_start (self->zoom_revealer, 30);
+  gtk_widget_set_margin_top (self->zoom_revealer, 30);
+  gtk_widget_set_valign (self->zoom_revealer, GTK_ALIGN_END);
+  gtk_revealer_set_transition_type (GTK_REVEALER (self->zoom_revealer), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
+  gtk_overlay_add_overlay (GTK_OVERLAY (self->overlay), self->zoom_revealer);
+
+  self->zoom_widget = g_object_ref_sink (photos_zoom_controls_new ());
+  context = gtk_widget_get_style_context (self->zoom_widget);
+  gtk_style_context_add_class (context, "osd");
+  gtk_container_add (GTK_CONTAINER (self->zoom_revealer), self->zoom_widget);
+  g_signal_connect_swapped (self->zoom_widget,
+                            "notify::hover",
+                            G_CALLBACK (photos_preview_nav_buttons_zoom_notify_hover),
+                            self);
 
   self->prev_widget = g_object_ref_sink (gtk_revealer_new ());
   gtk_widget_set_halign (self->prev_widget, GTK_ALIGN_START);
