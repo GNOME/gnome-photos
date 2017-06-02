@@ -117,6 +117,8 @@ gnome_photos_SOURCES = \
 	photos-icons.h \
 	photos-image-view.c \
 	photos-image-view.h \
+	photos-image-view-helper.c \
+	photos-image-view-helper.h \
 	photos-indexing-notification.c \
 	photos-indexing-notification.h \
 	photos-item-manager.c \
