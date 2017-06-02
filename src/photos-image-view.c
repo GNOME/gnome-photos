@@ -25,9 +25,11 @@
 #include <cairo-gobject.h>
 #include <glib.h>
 
+#include "egg-animation.h"
 #include "photos-debug.h"
 #include "photos-gegl.h"
 #include "photos-image-view.h"
+#include "photos-image-view-helper.h"
 #include "photos-marshalers.h"
 #include "photos-utils.h"
 
@@ -35,6 +37,7 @@
 struct _PhotosImageView
 {
   GtkDrawingArea parent_instance;
+  EggAnimation *zoom_animation;
   GeglBuffer *buffer;
   GeglNode *node;
   GeglRectangle bbox_zoomed_old;
@@ -46,6 +49,7 @@ struct _PhotosImageView
   cairo_region_t *bbox_region;
   cairo_region_t *region;
   gboolean best_fit;
+  gboolean queued_best_fit_animation;
   gdouble height;
   gdouble width;
   gdouble x;
@@ -53,7 +57,8 @@ struct _PhotosImageView
   gdouble y;
   gdouble y_scaled;
   gdouble zoom;
-  gdouble zoom_scaled;
+  gdouble zoom_visible;
+  gdouble zoom_visible_scaled;
 };
 
 enum
@@ -84,7 +89,29 @@ G_DEFINE_TYPE_WITH_CODE (PhotosImageView, photos_image_view, GTK_TYPE_DRAWING_AR
                          G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL));
 
 
+static const EggAnimationMode ZOOM_ANIMATION_MODE = EGG_ANIMATION_EASE_OUT_CUBIC;
+static const guint ZOOM_ANIMATION_DURATION = 250; /* ms */
+
+
 static void photos_image_view_computed (PhotosImageView *self, GeglRectangle *rect);
+
+
+static void
+photos_image_view_notify_zoom (GObject *object, GParamSpec *pspec, gpointer user_data)
+{
+  PhotosImageView *self = PHOTOS_IMAGE_VIEW (user_data);
+  PhotosImageViewHelper *helper = PHOTOS_IMAGE_VIEW_HELPER (object);
+  gint scale_factor;
+
+  g_return_if_fail (EGG_IS_ANIMATION (self->zoom_animation));
+
+  self->zoom_visible = photos_image_view_helper_get_zoom (helper);
+
+  scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
+  self->zoom_visible_scaled = self->zoom_visible * scale_factor;
+
+  gtk_widget_queue_resize (GTK_WIDGET (self));
+}
 
 
 static void
@@ -256,7 +283,7 @@ photos_image_view_update (PhotosImageView *self)
   viewport_height_real = allocation.height * scale_factor;
   viewport_width_real = allocation.width * scale_factor;
 
-  if (self->best_fit)
+  if (self->best_fit && self->zoom_animation == NULL)
     {
       gdouble zoom_scaled = 1.0;
 
@@ -274,22 +301,51 @@ photos_image_view_update (PhotosImageView *self)
       bbox_zoomed.x = (gint) (zoom_scaled * bbox.x + 0.5);
       bbox_zoomed.y = (gint) (zoom_scaled * bbox.y + 0.5);
 
-      self->zoom_scaled = zoom_scaled;
-      self->zoom = self->zoom_scaled / (gdouble) scale_factor;
+      self->zoom = zoom_scaled / (gdouble) scale_factor;
+      g_object_notify (G_OBJECT (self), "zoom");
+
+      if (self->zoom_visible > 0.0 && self->queued_best_fit_animation)
+        {
+          GdkFrameClock *frame_clock;
+          PhotosImageViewHelper *helper;
+
+          helper = photos_image_view_helper_new ();
+          photos_image_view_helper_set_zoom (helper, self->zoom_visible);
+          g_signal_connect (helper, "notify::zoom", G_CALLBACK (photos_image_view_notify_zoom), self);
+
+          frame_clock = gtk_widget_get_frame_clock (GTK_WIDGET (self));
+
+          self->zoom_animation = egg_object_animate_full (g_object_ref (helper),
+                                                          ZOOM_ANIMATION_MODE,
+                                                          ZOOM_ANIMATION_DURATION,
+                                                          frame_clock,
+                                                          g_object_unref,
+                                                          helper,
+                                                          "zoom",
+                                                          self->zoom,
+                                                          NULL);
+          g_object_add_weak_pointer (G_OBJECT (self->zoom_animation), (gpointer *) &self->zoom_animation);
+
+          g_object_unref (helper);
+          goto out;
+        }
+      else
+        {
+          self->zoom_visible = self->zoom;
+          self->zoom_visible_scaled = zoom_scaled;
+        }
 
       self->x_scaled = (bbox_zoomed.width - viewport_width_real) / 2.0;
       self->y_scaled = (bbox_zoomed.height - viewport_height_real) / 2.0;
-
-      g_object_notify (G_OBJECT (self), "zoom");
     }
   else
     {
       gdouble ratio_old;
 
-      bbox_zoomed.width = (gint) (self->zoom_scaled * bbox.width + 0.5);
-      bbox_zoomed.height = (gint) (self->zoom_scaled * bbox.height + 0.5);
-      bbox_zoomed.x = (gint) (self->zoom_scaled * bbox.x + 0.5);
-      bbox_zoomed.y = (gint) (self->zoom_scaled * bbox.y + 0.5);
+      bbox_zoomed.width = (gint) (self->zoom_visible_scaled * bbox.width + 0.5);
+      bbox_zoomed.height = (gint) (self->zoom_visible_scaled * bbox.height + 0.5);
+      bbox_zoomed.x = (gint) (self->zoom_visible_scaled * bbox.x + 0.5);
+      bbox_zoomed.y = (gint) (self->zoom_visible_scaled * bbox.y + 0.5);
 
       if (bbox_zoomed.width > viewport_width_real)
         {
@@ -403,8 +459,8 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
   gint64 start;
 
   g_return_if_fail (GEGL_IS_BUFFER (self->buffer));
-  g_return_if_fail (self->zoom > 0.0);
-  g_return_if_fail (self->zoom_scaled > 0.0);
+  g_return_if_fail (self->zoom_visible > 0.0);
+  g_return_if_fail (self->zoom_visible_scaled > 0.0);
 
   scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
 
@@ -423,7 +479,7 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
   stride = bpp * roi.width;
   gegl_buffer_get (self->buffer,
                    &roi,
-                   self->zoom_scaled,
+                   self->zoom_visible_scaled,
                    format,
                    buf,
                    stride,
@@ -490,6 +546,8 @@ photos_image_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
   scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
   self->allocation_scaled_old.height = allocation->height * scale_factor;
   self->allocation_scaled_old.width = allocation->width * scale_factor;
+
+  self->queued_best_fit_animation = FALSE;
 }
 
 
@@ -575,6 +633,12 @@ static void
 photos_image_view_dispose (GObject *object)
 {
   PhotosImageView *self = PHOTOS_IMAGE_VIEW (object);
+
+  if (self->zoom_animation != NULL)
+    {
+      egg_animation_stop (self->zoom_animation);
+      g_assert_null (self->zoom_animation);
+    }
 
   g_clear_object (&self->buffer);
   g_clear_object (&self->node);
@@ -905,8 +969,11 @@ photos_image_view_set_best_fit (PhotosImageView *self, gboolean best_fit)
 
   if (self->best_fit)
     {
+      if (self->zoom_animation != NULL)
+        egg_animation_stop (self->zoom_animation);
+
       self->zoom = 0.0;
-      self->zoom_scaled = 0.0;
+      self->queued_best_fit_animation = TRUE;
       gtk_widget_queue_resize (GTK_WIDGET (self));
       g_object_notify (G_OBJECT (self), "zoom");
     }
@@ -940,7 +1007,8 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
   self->y = 0.0;
   self->y_scaled = 0.0;
   self->zoom = 0.0;
-  self->zoom_scaled = 0.0;
+  self->zoom_visible = 0.0;
+  self->zoom_visible_scaled = 0.0;
   g_clear_object (&self->buffer);
   g_clear_object (&self->node);
   g_clear_pointer (&self->bbox_region, (GDestroyNotify) cairo_region_destroy);
@@ -972,20 +1040,52 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
 void
 photos_image_view_set_zoom (PhotosImageView *self, gdouble zoom)
 {
-  gint scale_factor;
-
   g_return_if_fail (PHOTOS_IS_IMAGE_VIEW (self));
 
   if (photos_utils_equal_double (self->zoom, zoom))
     return;
 
+  if (self->zoom_animation != NULL)
+    egg_animation_stop (self->zoom_animation);
+
   self->best_fit = FALSE;
   self->zoom = zoom;
 
-  scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
-  self->zoom_scaled = self->zoom * scale_factor;
+  if (self->zoom_visible > 0.0)
+    {
+      GdkFrameClock *frame_clock;
+      PhotosImageViewHelper *helper;
 
-  gtk_widget_queue_resize (GTK_WIDGET (self));
+      helper = photos_image_view_helper_new ();
+      photos_image_view_helper_set_zoom (helper, self->zoom_visible);
+      g_signal_connect (helper, "notify::zoom", G_CALLBACK (photos_image_view_notify_zoom), self);
+
+      frame_clock = gtk_widget_get_frame_clock (GTK_WIDGET (self));
+
+      self->zoom_animation = egg_object_animate_full (g_object_ref (helper),
+                                                      ZOOM_ANIMATION_MODE,
+                                                      ZOOM_ANIMATION_DURATION,
+                                                      frame_clock,
+                                                      g_object_unref,
+                                                      helper,
+                                                      "zoom",
+                                                      self->zoom,
+                                                      NULL);
+      g_object_add_weak_pointer (G_OBJECT (self->zoom_animation), (gpointer *) &self->zoom_animation);
+
+      g_object_unref (helper);
+    }
+  else
+    {
+      gint scale_factor;
+
+      self->zoom_visible = self->zoom;
+
+      scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
+      self->zoom_visible_scaled = self->zoom_visible * scale_factor;
+
+      gtk_widget_queue_resize (GTK_WIDGET (self));
+    }
 
   g_object_notify (G_OBJECT (self), "best-fit");
   g_object_notify (G_OBJECT (self), "zoom");
