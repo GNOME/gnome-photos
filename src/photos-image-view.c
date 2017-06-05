@@ -447,8 +447,8 @@ photos_image_view_class_init (PhotosImageViewClass *class)
                                    g_param_spec_double ("zoom",
                                                         "Zoom",
                                                         "Zoom factor",
-                                                        0.0,
-                                                        100.0,
+                                                        G_MINDOUBLE,
+                                                        G_MAXDOUBLE,
                                                         1.0,
                                                         G_PARAM_READABLE));
 
