@@ -77,6 +77,7 @@ G_DEFINE_TYPE (PhotosPreviewView, photos_preview_view, GTK_TYPE_BIN);
 
 static const gdouble ZOOM_FACTOR_1 = 2.8561;
 static const gdouble ZOOM_FACTOR_2 = 1.69;
+static const gdouble ZOOM_FACTOR_3 = 1.3;
 
 
 static GtkWidget *photos_preview_view_create_view_with_container (PhotosPreviewView *self);
@@ -726,24 +727,37 @@ photos_preview_view_zoom_best_fit (PhotosPreviewView *self)
 
 
 static void
-photos_preview_view_zoom_in (PhotosPreviewView *self)
+photos_preview_view_zoom_in (PhotosPreviewView *self, GVariant *parameter)
 {
   GtkWidget *view;
   GtkWidget *view_container;
   gboolean best_fit;
+  gdouble delta;
+  gdouble delta_abs;
   gdouble zoom;
   gdouble zoom_factor;
+  gdouble zoom_factor_for_delta;
 
   g_return_if_fail (self->zoom_best_fit > 0.0);
+
+  delta = g_variant_get_double (parameter);
+  g_return_if_fail (photos_utils_equal_double (delta, -1.0) || delta >= 0.0);
 
   view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   view = photos_preview_view_get_view_from_view_container (view_container);
 
   best_fit = photos_image_view_get_best_fit (PHOTOS_IMAGE_VIEW (view));
-  zoom_factor = best_fit ? ZOOM_FACTOR_1 : ZOOM_FACTOR_2;
+
+  if (delta >= 0.0)
+    zoom_factor = best_fit ? ZOOM_FACTOR_2 : ZOOM_FACTOR_3;
+  else
+    zoom_factor = best_fit ? ZOOM_FACTOR_1 : ZOOM_FACTOR_2;
+
+  delta_abs = fabs (delta);
+  zoom_factor_for_delta = pow (zoom_factor, delta_abs);
 
   zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
-  zoom *= zoom_factor;
+  zoom *= zoom_factor_for_delta;
 
   photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom);
 
@@ -753,19 +767,34 @@ photos_preview_view_zoom_in (PhotosPreviewView *self)
 
 
 static void
-photos_preview_view_zoom_out (PhotosPreviewView *self)
+photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
 {
   GtkWidget *view;
   GtkWidget *view_container;
+  gdouble delta;
+  gdouble delta_abs;
   gdouble zoom;
+  gdouble zoom_factor;
+  gdouble zoom_factor_for_delta;
 
   g_return_if_fail (self->zoom_best_fit > 0.0);
+
+  delta = g_variant_get_double (parameter);
+  g_return_if_fail (photos_utils_equal_double (delta, -1.0) || delta >= 0.0);
 
   view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   view = photos_preview_view_get_view_from_view_container (view_container);
 
+  if (delta >= 0.0)
+    zoom_factor = ZOOM_FACTOR_3;
+  else
+    zoom_factor = ZOOM_FACTOR_2;
+
+  delta_abs = fabs (delta);
+  zoom_factor_for_delta = pow (zoom_factor, delta_abs);
+
   zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
-  zoom /= ZOOM_FACTOR_2;
+  zoom /= zoom_factor_for_delta;
 
   if (zoom < self->zoom_best_fit || photos_utils_equal_double (self->zoom_best_fit, zoom))
     {

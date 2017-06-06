@@ -1918,10 +1918,10 @@ photos_application_startup (GApplication *application)
   self->zoom_best_fit_action = g_simple_action_new ("zoom-best-fit", NULL);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_best_fit_action));
 
-  self->zoom_in_action = g_simple_action_new ("zoom-in", NULL);
+  self->zoom_in_action = g_simple_action_new ("zoom-in", G_VARIANT_TYPE_DOUBLE);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_in_action));
 
-  self->zoom_out_action = g_simple_action_new ("zoom-out", NULL);
+  self->zoom_out_action = g_simple_action_new ("zoom-out", G_VARIANT_TYPE_DOUBLE);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_out_action));
 
   g_signal_connect_swapped (self->state->mode_cntrlr,
@@ -1945,8 +1945,8 @@ photos_application_startup (GApplication *application)
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.search", search_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.select-all", select_all_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-best-fit", zoom_best_fit_accels);
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-in", zoom_in_accels);
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-out", zoom_out_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-in(-1.0)", zoom_in_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-out(-1.0)", zoom_out_accels);
 
   g_signal_connect_swapped (self->state->item_mngr,
                             "load-finished",
