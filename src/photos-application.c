@@ -258,7 +258,7 @@ photos_application_refresh_data_free (PhotosApplicationRefreshData *data)
 
 
 static void
-photos_application_help (PhotosApplication *self, GVariant *parameter)
+photos_application_help (PhotosApplication *self)
 {
   GtkWindow *parent;
   guint32 time;
@@ -270,7 +270,7 @@ photos_application_help (PhotosApplication *self, GVariant *parameter)
 
 
 static void
-photos_application_about (PhotosApplication *self, GVariant *parameter)
+photos_application_about (PhotosApplication *self)
 {
   photos_main_window_show_about (PHOTOS_MAIN_WINDOW (self->main_window));
 }
@@ -890,7 +890,7 @@ photos_application_edit_revert (PhotosApplication *self, GVariant *parameter)
 
 
 static void
-photos_application_fullscreen (PhotosApplication *self, GVariant *parameter)
+photos_application_fullscreen (PhotosApplication *self)
 {
   photos_mode_controller_toggle_fullscreen (self->state->mode_cntrlr);
 }
@@ -1208,7 +1208,7 @@ photos_application_remote_display_current (PhotosApplication *self)
 
 
 static void
-photos_application_quit (PhotosApplication *self, GVariant *parameter)
+photos_application_quit (PhotosApplication *self)
 {
   gtk_window_close (GTK_WINDOW (self->main_window));
 }
