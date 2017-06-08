@@ -672,6 +672,8 @@ photos_thumbnailer_dbus_register (GApplication *application,
   GDBusAuthObserver *observer = NULL;
   gboolean ret_val = FALSE;
 
+  g_return_val_if_fail (self->skeleton == NULL, FALSE);
+
   if (!G_APPLICATION_CLASS (photos_thumbnailer_parent_class)->dbus_register (application,
                                                                              connection,
                                                                              object_path,
@@ -780,8 +782,9 @@ photos_thumbnailer_dispose (GObject *object)
 {
   PhotosThumbnailer *self = PHOTOS_THUMBNAILER (object);
 
+  g_assert_null (self->skeleton);
+
   g_clear_object (&self->connection);
-  g_clear_object (&self->skeleton);
   g_clear_pointer (&self->cancellables, (GDestroyNotify) g_hash_table_unref);
   g_clear_pointer (&self->resource_gegl, (GDestroyNotify) g_resources_unregister);
 
