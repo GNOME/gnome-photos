@@ -1,10 +1,10 @@
-# ============================================================================
-#  https://www.gnu.org/software/autoconf-archive/ax_append_compile_flags.html
-# ============================================================================
+# ===========================================================================
+#  http://www.gnu.org/software/autoconf-archive/ax_append_compile_flags.html
+# ===========================================================================
 #
 # SYNOPSIS
 #
-#   AX_APPEND_COMPILE_FLAGS([FLAG1 FLAG2 ...], [FLAGS-VARIABLE], [EXTRA-FLAGS], [INPUT])
+#   AX_APPEND_COMPILE_FLAGS([FLAG1 FLAG2 ...], [FLAGS-VARIABLE], [EXTRA-FLAGS])
 #
 # DESCRIPTION
 #
@@ -19,8 +19,6 @@
 #   flags (e.g. CFLAGS) when the check is done.  The check is thus made with
 #   the flags: "CFLAGS EXTRA-FLAGS FLAG".  This can for example be used to
 #   force the compiler to issue an error when a bad flag is given.
-#
-#   INPUT gives an alternative input source to AC_COMPILE_IFELSE.
 #
 #   NOTE: This macro depends on the AX_APPEND_FLAG and
 #   AX_CHECK_COMPILE_FLAG. Please keep this macro in sync with
@@ -41,7 +39,7 @@
 #   Public License for more details.
 #
 #   You should have received a copy of the GNU General Public License along
-#   with this program. If not, see <https://www.gnu.org/licenses/>.
+#   with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 #   As a special exception, the respective Autoconf Macro's copyright owner
 #   gives unlimited permission to copy, distribute and modify the configure
@@ -56,12 +54,12 @@
 #   modified version of the Autoconf Macro, you may extend this special
 #   exception to the GPL to apply to your modified version as well.
 
-#serial 6
+#serial 4
 
 AC_DEFUN([AX_APPEND_COMPILE_FLAGS],
 [AX_REQUIRE_DEFINED([AX_CHECK_COMPILE_FLAG])
 AX_REQUIRE_DEFINED([AX_APPEND_FLAG])
 for flag in $1; do
-  AX_CHECK_COMPILE_FLAG([$flag], [AX_APPEND_FLAG([$flag], [$2])], [], [$3], [$4])
+  AX_CHECK_COMPILE_FLAG([$flag], [AX_APPEND_FLAG([$flag], [$2])], [], [$3])
 done
 ])dnl AX_APPEND_COMPILE_FLAGS
