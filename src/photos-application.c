@@ -750,6 +750,8 @@ photos_application_activate_result (PhotosApplication *self,
 {
   GObject *item;
 
+  photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::activate_result");
+
   self->activation_timestamp = timestamp;
 
   item = photos_base_manager_get_object_by_id (self->state->item_mngr, identifier);
@@ -911,6 +913,8 @@ photos_application_launch_search (PhotosApplication *self, const gchar* const *t
 {
   GVariant *state;
   gchar *str;
+
+  photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::launch_search");
 
   if (!photos_application_create_window (self))
     return;
@@ -1575,6 +1579,8 @@ photos_application_activate (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
 
+  photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::activate");
+
   if (self->main_window == NULL)
     {
       if (!photos_application_create_window (self))
@@ -1597,6 +1603,11 @@ photos_application_dbus_register (GApplication *application,
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   gboolean ret_val = FALSE;
   gchar *search_provider_path = NULL;
+
+  photos_debug (PHOTOS_DEBUG_APPLICATION,
+                "PhotosApplication::dbus_register: object_path: %s, search_provider: %p",
+                object_path,
+                self->search_provider);
 
   g_return_val_if_fail (self->search_provider == NULL, FALSE);
 
@@ -1626,6 +1637,10 @@ photos_application_dbus_register (GApplication *application,
   ret_val = TRUE;
 
  out:
+  photos_debug (PHOTOS_DEBUG_APPLICATION,
+                "PhotosApplication::dbus_register: Done: %d, search_provider: %p",
+                ret_val,
+                self->search_provider);
   g_free (search_provider_path);
   return ret_val;
 }
@@ -1638,6 +1653,11 @@ photos_application_dbus_unregister (GApplication *application,
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
 
+  photos_debug (PHOTOS_DEBUG_APPLICATION,
+                "PhotosApplication::dbus_unregister: object_path: %s, search_provider: %p",
+                object_path,
+                self->search_provider);
+
   if (self->search_provider != NULL)
     {
       gchar *search_provider_path = NULL;
@@ -1649,6 +1669,10 @@ photos_application_dbus_unregister (GApplication *application,
     }
 
   G_APPLICATION_CLASS (photos_application_parent_class)->dbus_unregister (application, connection, object_path);
+
+  photos_debug (PHOTOS_DEBUG_APPLICATION,
+                "PhotosApplication::dbus_unregister: Done: search_provider: %p",
+                self->search_provider);
 }
 
 
@@ -1656,6 +1680,8 @@ static gint
 photos_application_handle_local_options (GApplication *application, GVariantDict *options)
 {
   gint ret_val = -1;
+
+  photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::handle_local_options");
 
   if (g_variant_dict_contains (options, "version"))
     {
@@ -1675,6 +1701,8 @@ photos_application_shutdown (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   guint refresh_miner_ids_size;
+
+  photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::shutdown");
 
   refresh_miner_ids_size = g_hash_table_size (self->refresh_miner_ids);
   g_assert (refresh_miner_ids_size == 0);
@@ -1715,6 +1743,8 @@ photos_application_startup (GApplication *application)
   const gchar *zoom_best_fit_accels[3] = {"<Primary>0", NULL};
   const gchar *zoom_in_accels[3] = {"<Primary>plus", "<Primary>equal", NULL};
   const gchar *zoom_out_accels[2] = {"<Primary>minus", NULL};
+
+  photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::startup");
 
   G_APPLICATION_CLASS (photos_application_parent_class)->startup (application);
 
