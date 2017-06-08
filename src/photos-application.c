@@ -1604,6 +1604,16 @@ photos_application_dbus_register (GApplication *application,
                                                                              error))
     goto out;
 
+  self->search_provider = photos_search_provider_new ();
+  g_signal_connect_swapped (self->search_provider,
+                            "activate-result",
+                            G_CALLBACK (photos_application_activate_result),
+                            self);
+  g_signal_connect_swapped (self->search_provider,
+                            "launch-search",
+                            G_CALLBACK (photos_application_launch_search),
+                            self);
+
   search_provider_path = g_strconcat (object_path, PHOTOS_SEARCH_PROVIDER_PATH_SUFFIX, NULL);
   if (!photos_search_provider_dbus_export (self->search_provider, connection, search_provider_path, error))
     {
@@ -2058,16 +2068,6 @@ static void
 photos_application_init (PhotosApplication *self)
 {
   photos_utils_ensure_builtins ();
-
-  self->search_provider = photos_search_provider_new ();
-  g_signal_connect_swapped (self->search_provider,
-                            "activate-result",
-                            G_CALLBACK (photos_application_activate_result),
-                            self);
-  g_signal_connect_swapped (self->search_provider,
-                            "launch-search",
-                            G_CALLBACK (photos_application_launch_search),
-                            self);
 
   self->state = photos_search_context_state_new (PHOTOS_SEARCH_CONTEXT (self));
   self->activation_timestamp = GDK_CURRENT_TIME;
