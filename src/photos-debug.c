@@ -37,6 +37,7 @@ photos_debug_init (void)
 {
   const GDebugKey keys[] =
     {
+      { "application", PHOTOS_DEBUG_APPLICATION },
       { "dlna", PHOTOS_DEBUG_DLNA },
       { "gegl", PHOTOS_DEBUG_GEGL },
       { "memory", PHOTOS_DEBUG_MEMORY },

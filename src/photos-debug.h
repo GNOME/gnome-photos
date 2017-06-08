@@ -28,12 +28,13 @@ G_BEGIN_DECLS
 
 typedef enum
 {
-  PHOTOS_DEBUG_DLNA       = 1 << 0,
-  PHOTOS_DEBUG_GEGL       = 1 << 1,
-  PHOTOS_DEBUG_MEMORY     = 1 << 2,
-  PHOTOS_DEBUG_NETWORK    = 1 << 3,
-  PHOTOS_DEBUG_THUMBNAILER = 1 << 4,
-  PHOTOS_DEBUG_TRACKER    = 1 << 5
+  PHOTOS_DEBUG_APPLICATION = 1 << 0,
+  PHOTOS_DEBUG_DLNA       = 1 << 1,
+  PHOTOS_DEBUG_GEGL       = 1 << 2,
+  PHOTOS_DEBUG_MEMORY     = 1 << 3,
+  PHOTOS_DEBUG_NETWORK    = 1 << 4,
+  PHOTOS_DEBUG_THUMBNAILER = 1 << 5,
+  PHOTOS_DEBUG_TRACKER    = 1 << 6
 } PhotosDebugFlags;
 
 void        photos_debug_init          (void);
