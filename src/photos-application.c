@@ -1598,6 +1598,8 @@ photos_application_dbus_register (GApplication *application,
   gboolean ret_val = FALSE;
   gchar *search_provider_path = NULL;
 
+  g_return_val_if_fail (self->search_provider == NULL, FALSE);
+
   if (!G_APPLICATION_CLASS (photos_application_parent_class)->dbus_register (application,
                                                                              connection,
                                                                              object_path,
@@ -1973,6 +1975,8 @@ static void
 photos_application_dispose (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
+
+  g_assert_null (self->search_provider);
 
   if (self->miners_running != NULL)
     {
