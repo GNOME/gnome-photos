@@ -692,6 +692,16 @@ photos_thumbnailer_dbus_register (GApplication *application,
   if (self->connection == NULL)
     goto out;
 
+  self->skeleton = photos_thumbnailer_dbus_skeleton_new ();
+  g_signal_connect_swapped (self->skeleton,
+                            "handle-cancel",
+                            G_CALLBACK (photos_thumbnailer_handle_cancel),
+                            self);
+  g_signal_connect_swapped (self->skeleton,
+                            "handle-generate-thumbnail",
+                            G_CALLBACK (photos_thumbnailer_handle_generate_thumbnail),
+                            self);
+
   if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self->skeleton),
                                          self->connection,
                                          THUMBNAILER_PATH,
@@ -799,17 +809,6 @@ photos_thumbnailer_init (PhotosThumbnailer *self)
   photos_gegl_ensure_builtins ();
 
   self->cancellables = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, g_object_unref);
-
-  self->skeleton = photos_thumbnailer_dbus_skeleton_new ();
-  g_signal_connect_swapped (self->skeleton,
-                            "handle-cancel",
-                            G_CALLBACK (photos_thumbnailer_handle_cancel),
-                            self);
-  g_signal_connect_swapped (self->skeleton,
-                            "handle-generate-thumbnail",
-                            G_CALLBACK (photos_thumbnailer_handle_generate_thumbnail),
-                            self);
-
   g_application_add_main_option_entries (G_APPLICATION (self), COMMAND_LINE_OPTIONS);
 }
 
