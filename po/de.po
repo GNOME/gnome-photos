@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-22 19:28+0000\n"
-"PO-Revision-Date: 2017-02-25 20:14+0100\n"
+"POT-Creation-Date: 2017-06-06 09:54+0000\n"
+"PO-Revision-Date: 2017-06-09 21:02+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -21,15 +21,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.2\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:673
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Fotos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:496
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:477
 msgid "Access, organize and share your photos on GNOME"
 msgstr "In GNOME auf Ihre Fotos zugreifen, diese verwalten und freigeben"
 
@@ -112,15 +112,15 @@ msgstr "Fenster maximiert"
 msgid "Window maximized state"
 msgstr "Fenstermaximierungsstatus"
 
-#: ../src/photos-application.c:151
+#: ../src/photos-application.c:157
 msgid "Show the application's version"
 msgstr "Die Versionsnummer der Anwendung zeigen"
 
-#: ../src/photos-base-item.c:589
+#: ../src/photos-base-item.c:615
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2303
+#: ../src/photos-base-item.c:2538
 msgid "Screenshots"
 msgstr "Bildschirmfotos"
 
@@ -150,15 +150,15 @@ msgstr "DLNA-Darstellungsgerät"
 msgid "“%s” edited"
 msgstr "»%s« wurde bearbeitet"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:677 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Alben"
 
-#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:681 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Favoriten"
 
-#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
+#: ../src/photos-embed.c:685 ../src/photos-main-toolbar.c:323
 msgid "Search"
 msgstr "Suchen"
 
@@ -243,44 +243,44 @@ msgstr "%e. %B %Y"
 msgid "Calculating export size…"
 msgstr "Exportgröße wird berechnet …"
 
-#: ../src/photos-export-notification.c:236
+#: ../src/photos-export-notification.c:250
 msgid "Failed to export: not enough space"
 msgstr "Export ist fehlgeschlagen: nicht genug Platz vorhanden"
 
-#: ../src/photos-export-notification.c:238
+#: ../src/photos-export-notification.c:252
 msgid "Failed to export"
 msgstr "Export ist fehlgeschlagen"
 
-#: ../src/photos-export-notification.c:245
+#: ../src/photos-export-notification.c:259
 #, c-format
 msgid "“%s” exported"
 msgstr "»%s« wurde exportiert"
 
-#: ../src/photos-export-notification.c:249
+#: ../src/photos-export-notification.c:263
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d Objekt wurde exportiert"
 msgstr[1] "%d Objekte wurden exportiert"
 
-#: ../src/photos-export-notification.c:267
+#: ../src/photos-export-notification.c:281
 msgid "Analyze"
 msgstr "Analysieren"
 
-#: ../src/photos-export-notification.c:272
+#: ../src/photos-export-notification.c:286
 msgid "Empty Trash"
 msgstr "Papierkorb leeren"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:289 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-export-notification.c:303 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:247 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Öffnen"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:299
+#: ../src/photos-export-notification.c:313
 msgid "Export Folder"
 msgstr "Export-Ordner"
 
@@ -379,25 +379,40 @@ msgstr "Drucken"
 
 #: ../src/photos-help-overlay.ui.h:17
 msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Vergrößern"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Verkleinern"
+
+#: ../src/photos-help-overlay.ui.h:19
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "Einpassen"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Löschen"
 
-#: ../src/photos-help-overlay.ui.h:18
+#: ../src/photos-help-overlay.ui.h:21
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Aktions-Menü"
 
-#: ../src/photos-help-overlay.ui.h:19
+#: ../src/photos-help-overlay.ui.h:22
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Vollbild"
 
-#: ../src/photos-help-overlay.ui.h:20
+#: ../src/photos-help-overlay.ui.h:23
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Bearbeitungsansicht"
 
-#: ../src/photos-help-overlay.ui.h:21
+#: ../src/photos-help-overlay.ui.h:24
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -426,49 +441,49 @@ msgstr "Einige Fotos könnten während dieses Vorgangs nicht verfügbar sein"
 msgid "Local"
 msgstr "Lokal"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:109
 msgid "Click on items to select them"
 msgstr "Klicken Sie auf Objekte, um diese auszuwählen"
 
-#: ../src/photos-main-toolbar.c:115
+#: ../src/photos-main-toolbar.c:111
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d gewählt"
 msgstr[1] "%d gewählt"
 
-#: ../src/photos-main-toolbar.c:165
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Zurück"
 
-#: ../src/photos-main-toolbar.c:349
+#: ../src/photos-main-toolbar.c:338
 msgid "Select Items"
 msgstr "Objekte auswählen"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:443 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:422 ../src/photos-selection-toolbar.c:244
 #, c-format
 msgid "Open with %s"
 msgstr "Öffnen mit %s"
 
-#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:455 ../src/photos-selection-toolbar.c:255
 msgid "Remove from favorites"
 msgstr "Aus Favoriten entfernen"
 
-#: ../src/photos-main-toolbar.c:488 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:460 ../src/photos-selection-toolbar.c:260
 msgid "Add to favorites"
 msgstr "Zu Favoriten hinzufügen"
 
-#: ../src/photos-main-toolbar.c:525 ../src/photos-main-toolbar.c:663
+#: ../src/photos-main-toolbar.c:497 ../src/photos-main-toolbar.c:635
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: ../src/photos-main-toolbar.c:529
+#: ../src/photos-main-toolbar.c:501
 msgid "Done"
 msgstr "Fertig"
 
-#: ../src/photos-main-window.c:497
+#: ../src/photos-main-window.c:478
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -479,7 +494,7 @@ msgstr ""
 "Copyright © 2012 – 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:507
+#: ../src/photos-main-window.c:488
 msgid "translator-credits"
 msgstr ""
 "Mario Blättermann <mario.blaettermann@gmail.com>\n"
@@ -798,7 +813,7 @@ msgstr "Quellen"
 msgid "Your %s credentials have expired"
 msgstr "Ihre %s-Anmeldeinformationen sind abgelaufen"
 
-#: ../src/photos-thumbnailer.c:73
+#: ../src/photos-thumbnailer.c:77
 msgid "D-Bus address to use"
 msgstr "Zu verwendende D-Bus-Adresse"
 
@@ -858,15 +873,15 @@ msgstr "16:10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16:9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1171
+#: ../src/photos-tool-crop.c:1191
 msgid "Lock aspect ratio"
 msgstr "Seitenverhältnis beibehalten"
 
-#: ../src/photos-tool-crop.c:1219
+#: ../src/photos-tool-crop.c:1239
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: ../src/photos-tool-crop.c:1236
+#: ../src/photos-tool-crop.c:1256
 msgid "Crop"
 msgstr "Zuschneiden"
 
@@ -915,145 +930,3 @@ msgstr "Filter"
 #: ../src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Die Liste der Fotos kann nicht abgeholt werden"
-
-#~ msgid "Width"
-#~ msgstr "Breite"
-
-#~ msgid "Height"
-#~ msgstr "Höhe"
-
-#~ msgid "Screen"
-#~ msgstr "Bildschirm"
-
-#~ msgid "Golden ratio"
-#~ msgstr "Goldener Schnitt"
-
-#~ msgid "A paper sizes"
-#~ msgstr "A-Papiergrößen"
-
-#~ msgid "%.2f"
-#~ msgstr "%.2f"
-
-#~ msgid "A3 (297 × 420 mm)"
-#~ msgstr "A3 (297 × 420 mm)"
-
-#~ msgid "A4 (210 × 297 mm)"
-#~ msgstr "A4 (210 × 297 mm)"
-
-#~ msgctxt "shortcut window"
-#~ msgid "Print the current photo"
-#~ msgstr "Das aktuelle Foto drucken"
-
-#~ msgctxt "shortcut window"
-#~ msgid "Preview"
-#~ msgstr "Vorschau"
-
-#~ msgctxt "shortcut window"
-#~ msgid "Edit the current photo"
-#~ msgstr "Das aktuelle Foto bearbeiten"
-
-#~ msgctxt "shortcut window"
-#~ msgid "Export the current photo"
-#~ msgstr "Das aktuelle Foto exportieren"
-
-#~ msgid "1977"
-#~ msgstr "1977"
-
-#~ msgid "Brannan"
-#~ msgstr "Brannan"
-
-#~ msgid "Gotham"
-#~ msgstr "Gotham"
-
-#~ msgid "Hefe"
-#~ msgstr "Hefe"
-
-#~ msgid "Nashville"
-#~ msgstr "Nashville"
-
-#~ msgid "Gray"
-#~ msgstr "Grau"
-
-#~ msgid "%a, %d %B %Y  %X"
-#~ msgstr "%a, %B.%d %Y  %X"
-
-#~ msgid "%.1f (lens)"
-#~ msgstr "%.1f (Objektiv)"
-
-#~ msgid "%.1f (35mm film)"
-#~ msgstr "%.1f (35mm-Film)"
-
-#~ msgid "Transformation on unloaded image."
-#~ msgstr "Umwandlung eines nicht geladenen Bildes."
-
-#~ msgid "Transformation failed."
-#~ msgstr "Umwandlung gescheitert."
-
-#~ msgid "EXIF not supported for this file format."
-#~ msgstr "EXIF wird von diesem Dateiformat nicht unterstützt."
-
-#~ msgid "Image loading failed."
-#~ msgstr "Laden des Bildes ist fehlgeschlagen."
-
-#~ msgid "No image loaded."
-#~ msgstr "Kein Bild geladen."
-
-#~ msgid "You do not have the permissions necessary to save the file."
-#~ msgstr "Sie haben nicht die notwendigen Rechte zum Speichern der Datei."
-
-#~ msgid "Temporary file creation failed."
-#~ msgstr "Erstellen der temporären Datei ist gescheitert."
-
-#~ msgid "At least two file names are equal."
-#~ msgstr "Mindestens zwei Dateinamen sind gleich."
-
-#~ msgid "Could not display help for Image Viewer"
-#~ msgstr "Die Hilfe für den Bildbetrachter konnte nicht angezeigt werden"
-
-#~ msgid " (invalid Unicode)"
-#~ msgstr " (Unicode ungültig)"
-
-#~ msgid "Recent"
-#~ msgstr "Zuletzt verwendet"
-
-#~ msgid "No Favorites Found"
-#~ msgstr "Keine Favoriten gefunden"
-
-#~ msgid "Load More"
-#~ msgstr "Weitere laden"
-
-#~ msgid "Loading…"
-#~ msgstr "Ladevorgang …"
-
-#~ msgid ""
-#~ "<li>View recent local and online photos</li> <li>Access your Flickr "
-#~ "content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as "
-#~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
-#~ "opening full featured editor for more advanced changes</li>"
-#~ msgstr ""
-#~ "<li>Lokale und Online-Fotos zu betrachten</li> <li>Auf Ihr Flickr-Konto "
-#~ "zuzugreifen</li> <li>Fotos zu entfernten DLNA-Darstellern zu senden</li> "
-#~ "<li>Fotos als Hintergrund einzustellen</li> <li>Fotos auszudrucken</li> "
-#~ "<li>Favouriten auszuwählen</li><li>Ein vollwertiges Bearbeitungsprogramm "
-#~ "für komplexere Änderungen in Fotos zu öffnen</li>"
-
-#~ msgid "Facebook"
-#~ msgstr "Facebook"
-
-#~ msgid "Flickr"
-#~ msgstr "Flickr"
-
-#~ msgid "About Photos"
-#~ msgstr "Info zu Fotos"
-
-#~ msgid "Image"
-#~ msgstr "Bild"
-
-#~ msgid "The image whose printing properties will be set up"
-#~ msgstr "Das Bild, dessen Druckeigenschaften eingerichtet werden sollen"
-
-#~ msgid "Page Setup"
-#~ msgstr "Seiteneinrichtung"
-
-#~ msgid "The information for the page where the image will be printed"
-#~ msgstr "Die Informationen für die Seite, auf die das Bild gedruckt wird"
