@@ -160,10 +160,12 @@ static const gchar *REQUIRED_GEGL_OPS[] =
   "gegl:crop",
   "gegl:gray",
   "gegl:load",
+  "gegl:noise-reduction",
   "gegl:nop",
   "gegl:rotate-on-center",
   "gegl:save-pixbuf",
   "gegl:scale-ratio",
+  "gegl:unsharp-mask",
 
   /* Used by gegl:load */
   "gegl:jpg-load",
