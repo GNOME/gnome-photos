@@ -54,6 +54,7 @@ struct _PhotosPreviewNavButtons
   PhotosWindowMode old_mode;
   gboolean enable_next;
   gboolean enable_prev;
+  gboolean show_navigation;
   gboolean visible;
   gboolean visible_internal;
   guint auto_hide_id;
@@ -219,12 +220,12 @@ photos_preview_nav_buttons_update_visibility (PhotosPreviewNavButtons *self)
   if (item == NULL || !self->visible)
     enable_zoom = FALSE;
 
-  if (self->visible_internal && self->enable_next)
+  if (self->visible_internal && self->show_navigation && self->enable_next)
     photos_preview_nav_buttons_fade_in_button (self, self->next_widget);
   else
     photos_preview_nav_buttons_fade_out_button (self, self->next_widget);
 
-  if (self->visible_internal && self->enable_prev)
+  if (self->visible_internal && self->show_navigation && self->enable_prev)
     photos_preview_nav_buttons_fade_in_button (self, self->prev_widget);
   else
     photos_preview_nav_buttons_fade_out_button (self, self->prev_widget);
@@ -673,6 +674,19 @@ photos_preview_nav_buttons_set_mode (PhotosPreviewNavButtons *self, PhotosWindow
   g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
 
   self->old_mode = old_mode;
+}
+
+
+void
+photos_preview_nav_buttons_set_show_navigation (PhotosPreviewNavButtons *self, gboolean show_navigation)
+{
+  g_return_if_fail (PHOTOS_IS_PREVIEW_NAV_BUTTONS (self));
+
+  if (self->show_navigation == show_navigation)
+    return;
+
+  self->show_navigation = show_navigation;
+  photos_preview_nav_buttons_update_visibility (self);
 }
 
 

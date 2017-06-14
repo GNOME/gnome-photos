@@ -44,6 +44,9 @@ void                        photos_preview_nav_buttons_hide               (Photo
 void                        photos_preview_nav_buttons_set_mode           (PhotosPreviewNavButtons *self,
                                                                            PhotosWindowMode old_mode);
 
+void                        photos_preview_nav_buttons_set_show_navigation (PhotosPreviewNavButtons *self,
+                                                                            gboolean show_navigation);
+
 void                        photos_preview_nav_buttons_show               (PhotosPreviewNavButtons *self);
 
 G_END_DECLS
