@@ -849,6 +849,7 @@ photos_preview_view_zoom_best_fit (PhotosPreviewView *self)
   photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), FALSE);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), FALSE);
+  photos_preview_nav_buttons_set_show_navigation (self->nav_buttons, TRUE);
 }
 
 
@@ -889,6 +890,7 @@ photos_preview_view_zoom_in (PhotosPreviewView *self, GVariant *parameter)
 
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), TRUE);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), TRUE);
+  photos_preview_nav_buttons_set_show_navigation (self->nav_buttons, FALSE);
 }
 
 
@@ -927,6 +929,7 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
       photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE);
       g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), FALSE);
       g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), FALSE);
+      photos_preview_nav_buttons_set_show_navigation (self->nav_buttons, TRUE);
     }
   else
     {
