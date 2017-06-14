@@ -43,11 +43,6 @@ struct _PhotosOrganizeCollectionModel
   PhotosBaseManager *manager;
 };
 
-struct _PhotosOrganizeCollectionModelClass
-{
-  GtkListStoreClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosOrganizeCollectionModel, photos_organize_collection_model, GTK_TYPE_LIST_STORE);
 

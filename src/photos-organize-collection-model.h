@@ -30,14 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_ORGANIZE_COLLECTION_MODEL (photos_organize_collection_model_get_type ())
-
-#define PHOTOS_ORGANIZE_COLLECTION_MODEL(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_MODEL, PhotosOrganizeCollectionModel))
-
-#define PHOTOS_IS_ORGANIZE_COLLECTION_MODEL(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_MODEL))
+G_DECLARE_FINAL_TYPE (PhotosOrganizeCollectionModel,
+                      photos_organize_collection_model,
+                      PHOTOS,
+                      ORGANIZE_COLLECTION_MODEL,
+                      GtkListStore);
 
 #define PHOTOS_COLLECTION_PLACEHOLDER_ID "collection-placeholder"
 
@@ -47,11 +44,6 @@ typedef enum
   PHOTOS_ORGANIZE_MODEL_NAME,
   PHOTOS_ORGANIZE_MODEL_STATE
 } PhotosOrganizeModelColumns;
-
-typedef struct _PhotosOrganizeCollectionModel      PhotosOrganizeCollectionModel;
-typedef struct _PhotosOrganizeCollectionModelClass PhotosOrganizeCollectionModelClass;
-
-GType             photos_organize_collection_model_get_type               (void) G_GNUC_CONST;
 
 GtkListStore     *photos_organize_collection_model_new                    (void);
 
