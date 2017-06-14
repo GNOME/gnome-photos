@@ -164,7 +164,6 @@ photos_preview_view_button_press_event (GtkWidget *widget, GdkEvent *event, gpoi
         }
     }
 
- out:
   return ret_val;
 }
 
@@ -314,7 +313,6 @@ photos_preview_view_motion_notify_event (GtkWidget *widget, GdkEvent *event, gpo
       ret_val = photos_tool_motion_event (self->current_tool, &(event->motion));
     }
 
- out:
   return ret_val;
 }
 
