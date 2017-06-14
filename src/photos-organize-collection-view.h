@@ -35,36 +35,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_ORGANIZE_COLLECTION_VIEW, PhotosOrganizeCollectionView))
 
-#define PHOTOS_ORGANIZE_COLLECTION_VIEW_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_VIEW, PhotosOrganizeCollectionViewClass))
-
 #define PHOTOS_IS_ORGANIZE_COLLECTION_VIEW(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_ORGANIZE_COLLECTION_VIEW))
 
-#define PHOTOS_IS_ORGANIZE_COLLECTION_VIEW_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_VIEW))
-
-#define PHOTOS_ORGANIZE_COLLECTION_VIEW_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_VIEW, PhotosOrganizeCollectionViewClass))
-
-typedef struct _PhotosOrganizeCollectionView        PhotosOrganizeCollectionView;
-typedef struct _PhotosOrganizeCollectionViewClass   PhotosOrganizeCollectionViewClass;
-typedef struct _PhotosOrganizeCollectionViewPrivate PhotosOrganizeCollectionViewPrivate;
-
-struct _PhotosOrganizeCollectionView
-{
-  GtkTreeView parent_instance;
-  PhotosOrganizeCollectionViewPrivate *priv;
-};
-
-struct _PhotosOrganizeCollectionViewClass
-{
-  GtkTreeViewClass parent_class;
-};
+typedef struct _PhotosOrganizeCollectionView      PhotosOrganizeCollectionView;
+typedef struct _PhotosOrganizeCollectionViewClass PhotosOrganizeCollectionViewClass;
 
 GType             photos_organize_collection_view_get_type               (void) G_GNUC_CONST;
 
