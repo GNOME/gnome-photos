@@ -463,6 +463,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
                             self);
 
   self->long_press_gesture = gtk_gesture_long_press_new (self->preview_view);
+  gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (self->long_press_gesture), GTK_PHASE_CAPTURE);
   gtk_gesture_single_set_touch_only (GTK_GESTURE_SINGLE (self->long_press_gesture), TRUE);
   g_signal_connect_swapped (self->long_press_gesture,
                             "pressed",
@@ -470,6 +471,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
                             self);
 
   self->tap_gesture = gtk_gesture_multi_press_new (self->preview_view);
+  gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (self->tap_gesture), GTK_PHASE_CAPTURE);
   gtk_gesture_single_set_touch_only (GTK_GESTURE_SINGLE (self->tap_gesture), TRUE);
   gtk_gesture_group (self->long_press_gesture, self->tap_gesture);
   g_signal_connect_swapped (self->tap_gesture,
