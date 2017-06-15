@@ -306,6 +306,7 @@ photos_preview_view_motion_notify_event (GtkWidget *widget, GdkEvent *event, gpo
           self->event_y_last = event->motion.y;
 
           photos_utils_scrolled_window_scroll (GTK_SCROLLED_WINDOW (current_view_container), delta_x, delta_y);
+          ret_val = GDK_EVENT_STOP;
         }
     }
   else
