@@ -826,6 +826,7 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
     case PHOTOS_WINDOW_MODE_PREVIEW:
       gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer), FALSE);
       photos_edit_palette_hide_details (PHOTOS_EDIT_PALETTE (self->palette));
+      photos_preview_nav_buttons_set_auto_hide (self->nav_buttons, TRUE);
       photos_preview_nav_buttons_set_show_navigation (self->nav_buttons, TRUE);
       photos_preview_nav_buttons_show (self->nav_buttons);
       break;
@@ -1154,6 +1155,7 @@ photos_preview_view_set_mode (PhotosPreviewView *self, PhotosWindowMode old_mode
   g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_EDIT);
   g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
 
+  photos_preview_nav_buttons_set_auto_hide (self->nav_buttons, TRUE);
   photos_preview_nav_buttons_set_mode (self->nav_buttons, old_mode);
   photos_preview_nav_buttons_set_show_navigation (self->nav_buttons, TRUE);
   photos_preview_nav_buttons_show (self->nav_buttons);

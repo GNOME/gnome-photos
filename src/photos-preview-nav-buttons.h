@@ -41,6 +41,9 @@ PhotosPreviewNavButtons    *photos_preview_nav_buttons_new                (Photo
 
 void                        photos_preview_nav_buttons_hide               (PhotosPreviewNavButtons *self);
 
+void                        photos_preview_nav_buttons_set_auto_hide      (PhotosPreviewNavButtons *self,
+                                                                           gboolean auto_hide);
+
 void                        photos_preview_nav_buttons_set_mode           (PhotosPreviewNavButtons *self,
                                                                            PhotosWindowMode old_mode);
 

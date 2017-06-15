@@ -52,6 +52,7 @@ struct _PhotosPreviewNavButtons
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosWindowMode old_mode;
+  gboolean auto_hide;
   gboolean enable_next;
   gboolean enable_prev;
   gboolean show_navigation;
@@ -280,7 +281,9 @@ static void
 photos_preview_nav_buttons_queue_auto_hide (PhotosPreviewNavButtons *self)
 {
   photos_preview_nav_buttons_unqueue_auto_hide (self);
-  self->auto_hide_id = g_timeout_add_seconds (2, (GSourceFunc) photos_preview_nav_buttons_auto_hide, self);
+
+  if (self->auto_hide)
+    self->auto_hide_id = g_timeout_add_seconds (2, (GSourceFunc) photos_preview_nav_buttons_auto_hide, self);
 }
 
 
@@ -315,6 +318,9 @@ photos_preview_nav_buttons_motion_notify (PhotosPreviewNavButtons *self, GdkEven
   if (self->motion_id != 0)
     return FALSE;
 
+  if (!self->auto_hide)
+    return FALSE;
+
   device = gdk_event_get_source_device ((GdkEvent *) event);
   input_source = gdk_device_get_source (device);
   if (input_source == GDK_SOURCE_TOUCHSCREEN)
@@ -345,9 +351,13 @@ photos_preview_nav_buttons_multi_press_end (PhotosPreviewNavButtons *self, GdkEv
     return;
 
   gtk_gesture_set_state (GTK_GESTURE (self->tap_gesture), GTK_EVENT_SEQUENCE_CLAIMED);
-  self->visible_internal = !self->visible_internal;
-  photos_preview_nav_buttons_unqueue_auto_hide (self);
-  photos_preview_nav_buttons_update_visibility (self);
+
+  if (self->auto_hide)
+    {
+      self->visible_internal = !self->visible_internal;
+      photos_preview_nav_buttons_unqueue_auto_hide (self);
+      photos_preview_nav_buttons_update_visibility (self);
+    }
 }
 
 
@@ -663,6 +673,25 @@ photos_preview_nav_buttons_hide (PhotosPreviewNavButtons *self)
   self->visible = FALSE;
   self->visible_internal = FALSE;
   photos_preview_nav_buttons_update_visibility (self);
+}
+
+
+void
+photos_preview_nav_buttons_set_auto_hide (PhotosPreviewNavButtons *self, gboolean auto_hide)
+{
+  g_return_if_fail (PHOTOS_IS_PREVIEW_NAV_BUTTONS (self));
+
+  if (self->auto_hide == auto_hide)
+    return;
+
+  self->auto_hide = auto_hide;
+  self->visible_internal = self->visible;
+  photos_preview_nav_buttons_update_visibility (self);
+
+  if (self->auto_hide)
+    photos_preview_nav_buttons_queue_auto_hide (self);
+  else
+    photos_preview_nav_buttons_unqueue_auto_hide (self);
 }
 
 
