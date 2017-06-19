@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-22 19:28+0000\n"
-"PO-Revision-Date: 2017-02-27 10:03+0100\n"
+"POT-Creation-Date: 2017-06-18 12:37+0000\n"
+"PO-Revision-Date: 2017-06-19 10:24+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -22,12 +22,12 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:673
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Fotos"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:496
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:477
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice y comparta sus fotos en GNOME"
 
@@ -108,15 +108,35 @@ msgstr "Ventana maximizada"
 msgid "Window maximized state"
 msgstr "Estado maximizado de la ventana"
 
-#: ../src/photos-application.c:151
+#: ../src/egg-animation.c:730
+#, c-format
+msgid "Cannot locate property %s in class %s"
+msgstr "No se puede encontrar la propiedad %s en la clase %s"
+
+#: ../src/egg-animation.c:1077 ../src/egg-animation.c:1083
+#, c-format
+msgid "Failed to find property %s in %s"
+msgstr "Falló al buscar la propiedad %s en %s"
+
+#: ../src/egg-animation.c:1091
+#, c-format
+msgid "Failed to find property %s in %s or parent %s"
+msgstr "Falló al buscar la propiedad %s en %s o en el padre %s"
+
+#: ../src/egg-animation.c:1101
+#, c-format
+msgid "Failed to retrieve va_list value: %s"
+msgstr "Falló al obtener el valor de va_list: %s"
+
+#: ../src/photos-application.c:157
 msgid "Show the application's version"
 msgstr "Mostrar la versión de la aplicación"
 
-#: ../src/photos-base-item.c:589
+#: ../src/photos-base-item.c:615
 msgid "Album"
 msgstr "Álbum"
 
-#: ../src/photos-base-item.c:2303
+#: ../src/photos-base-item.c:2538
 msgid "Screenshots"
 msgstr "Capturas de pantalla"
 
@@ -146,15 +166,15 @@ msgstr "Dispositivos de renderizado DLNA"
 msgid "“%s” edited"
 msgstr "«%s» editado"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:677 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:681 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
+#: ../src/photos-embed.c:685 ../src/photos-main-toolbar.c:323
 msgid "Search"
 msgstr "Buscar"
 
@@ -239,37 +259,37 @@ msgstr "%e %B %Y"
 msgid "Calculating export size…"
 msgstr "Calculando el tamaño de la exportación…"
 
-#: ../src/photos-export-notification.c:236
+#: ../src/photos-export-notification.c:250
 msgid "Failed to export: not enough space"
 msgstr "Falló al exportar: no hay espacio suficiente"
 
-#: ../src/photos-export-notification.c:238
+#: ../src/photos-export-notification.c:252
 msgid "Failed to export"
 msgstr "Falló al exportar"
 
-#: ../src/photos-export-notification.c:245
+#: ../src/photos-export-notification.c:259
 #, c-format
 msgid "“%s” exported"
 msgstr "«%s» exportado"
 
-#: ../src/photos-export-notification.c:249
+#: ../src/photos-export-notification.c:263
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d elemento exportado"
 msgstr[1] "%d elementos exportados"
 
-#: ../src/photos-export-notification.c:267
+#: ../src/photos-export-notification.c:281
 msgid "Analyze"
 msgstr "Analizar"
 
-#: ../src/photos-export-notification.c:272
+#: ../src/photos-export-notification.c:286
 msgid "Empty Trash"
 msgstr "Vaciar la papelera"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:289 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:237
+#: ../src/photos-export-notification.c:303 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:247
 #: ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Abrir"
@@ -277,7 +297,7 @@ msgstr "Abrir"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:299
+#: ../src/photos-export-notification.c:313
 msgid "Export Folder"
 msgstr "Exportar carpeta"
 
@@ -376,25 +396,40 @@ msgstr "Imprimir"
 
 #: ../src/photos-help-overlay.ui.h:17
 msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Ampliar"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Reducir"
+
+#: ../src/photos-help-overlay.ui.h:19
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "Ajuste óptimo"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../src/photos-help-overlay.ui.h:18
+#: ../src/photos-help-overlay.ui.h:21
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Menú de acción"
 
-#: ../src/photos-help-overlay.ui.h:19
+#: ../src/photos-help-overlay.ui.h:22
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: ../src/photos-help-overlay.ui.h:20
+#: ../src/photos-help-overlay.ui.h:23
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Vista de edición"
 
-#: ../src/photos-help-overlay.ui.h:21
+#: ../src/photos-help-overlay.ui.h:24
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Cancelar"
@@ -423,54 +458,50 @@ msgstr "Algunas fotos pueden no estar disponibles durante este proceso"
 msgid "Local"
 msgstr "Local"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:109
 msgid "Click on items to select them"
 msgstr "Pulse sobre los elementos para seleccionarlos"
 
-#: ../src/photos-main-toolbar.c:115
+#: ../src/photos-main-toolbar.c:111
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d seleccionada"
 msgstr[1] "%d seleccionadas"
 
-#: ../src/photos-main-toolbar.c:165
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Atrás"
 
-#: ../src/photos-main-toolbar.c:349
+#: ../src/photos-main-toolbar.c:338
 msgid "Select Items"
 msgstr "Seleccionar elementos"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:443 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:422 ../src/photos-selection-toolbar.c:244
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:455 ../src/photos-selection-toolbar.c:255
 msgid "Remove from favorites"
 msgstr "Quita de favoritos"
 
-#: ../src/photos-main-toolbar.c:488 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:460 ../src/photos-selection-toolbar.c:260
 msgid "Add to favorites"
 msgstr "Agregar a favoritos"
 
-#: ../src/photos-main-toolbar.c:525 ../src/photos-main-toolbar.c:663
+#: ../src/photos-main-toolbar.c:497 ../src/photos-main-toolbar.c:635
 msgid "Cancel"
 msgstr "Cancelar"
 
 #  o Terminado
-#: ../src/photos-main-toolbar.c:529
+#: ../src/photos-main-toolbar.c:501
 msgid "Done"
 msgstr "Hecho"
 
-#: ../src/photos-main-window.c:497
-#| msgid ""
-#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#| "Copyright © 2014 – 2015 Pranav Kant\n"
-#| "Copyright © 2012 – 2016 Red Hat, Inc."
+#: ../src/photos-main-window.c:478
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -481,7 +512,7 @@ msgstr ""
 "Copyright © 2012 – 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:507
+#: ../src/photos-main-window.c:488
 msgid "translator-credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2015, 2016\n"
@@ -677,7 +708,6 @@ msgid "Dimensions"
 msgstr "Dimensiones"
 
 #: ../src/photos-properties-dialog.c:518
-#| msgid "Modifications"
 msgid "Location"
 msgstr "Ubicación"
 
@@ -798,7 +828,7 @@ msgstr "Fuentes"
 msgid "Your %s credentials have expired"
 msgstr "Sus credenciales de %s han caducado"
 
-#: ../src/photos-thumbnailer.c:73
+#: ../src/photos-thumbnailer.c:77
 msgid "D-Bus address to use"
 msgstr "Dirección de D-Bus que usar"
 
@@ -858,15 +888,15 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1171
+#: ../src/photos-tool-crop.c:1191
 msgid "Lock aspect ratio"
 msgstr "Bloquear relación de aspecto"
 
-#: ../src/photos-tool-crop.c:1219
+#: ../src/photos-tool-crop.c:1239
 msgid "Reset"
 msgstr "Reiniciar"
 
-#: ../src/photos-tool-crop.c:1236
+#: ../src/photos-tool-crop.c:1256
 msgid "Crop"
 msgstr "Recortar"
 
