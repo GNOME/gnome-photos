@@ -1,3 +1,25 @@
+Overview of changes in 3.25.3
+=============================
+
+* Support zooming (742662)
+
+* Bugs fixed:
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 764423 Use G_DECLARE_INTERFACE
+ 776082 Port PhotosSearchbar to GtkSearchBar
+ 778354 photos:insta-curve should support buffers with alpha channel
+ 780424 Port widgets to templates
+ 782012 Remove the g_auto* macros for GEGL
+
+* Updated translations:
+ Friulian
+ German
+ Indonesian
+ Kazakh
+ Polish
+ Spanish
+
+
 Overview of changes in 3.25.1
 =============================
 
