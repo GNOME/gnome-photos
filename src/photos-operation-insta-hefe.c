@@ -69,7 +69,7 @@ photos_operation_insta_hefe_attach (GeglOperation *operation)
   self->output = gegl_node_get_output_proxy (operation->node, "output");
 
   curve = gegl_node_new_child (operation->node, "operation", "photos:insta-hefe-curve", NULL);
-  multiply = gegl_node_new_child (operation->node, "operation", "svg:multiply", "srgb", TRUE, NULL);
+  multiply = gegl_node_new_child (operation->node, "operation", "photos:svg-multiply", "srgb", TRUE, NULL);
   self->vignette = gegl_node_new_child (operation->node, "operation", "photos:insta-hefe-vignette", NULL);
 
   gegl_node_connect_to (self->vignette, "output", multiply, "aux");

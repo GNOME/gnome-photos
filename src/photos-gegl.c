@@ -31,6 +31,7 @@
 #include "photos-operation-jpg-guess-sizes.h"
 #include "photos-operation-png-guess-sizes.h"
 #include "photos-operation-saturation.h"
+#include "photos-operation-svg-multiply.h"
 #include "photos-quarks.h"
 
 
@@ -228,6 +229,7 @@ photos_gegl_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_OPERATION_JPG_GUESS_SIZES);
       g_type_ensure (PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES);
       g_type_ensure (PHOTOS_TYPE_OPERATION_SATURATION);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_SVG_MULTIPLY);
 
       g_once_init_leave (&once_init_value, 1);
     }
