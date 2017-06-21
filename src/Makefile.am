@@ -144,6 +144,8 @@ gnome_photos_SOURCES = \
 	photos-operation-png-guess-sizes.h \
 	photos-operation-saturation.c \
 	photos-operation-saturation.h \
+	photos-operation-svg-multiply.c \
+	photos-operation-svg-multiply.h \
 	photos-organize-collection-dialog.c \
 	photos-organize-collection-dialog.h \
 	photos-organize-collection-model.c \

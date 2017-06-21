@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2016 Red Hat, Inc.
+ * Copyright © 2012 – 2017 Red Hat, Inc.
  * Copyright © 2009 Yorba Foundation
  *
  * This program is free software; you can redistribute it and/or
@@ -50,6 +50,7 @@
 #include "photos-operation-jpg-guess-sizes.h"
 #include "photos-operation-png-guess-sizes.h"
 #include "photos-operation-saturation.h"
+#include "photos-operation-svg-multiply.h"
 #include "photos-query.h"
 #include "photos-share-point.h"
 #include "photos-share-point-email.h"
@@ -850,6 +851,7 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_OPERATION_JPG_GUESS_SIZES);
       g_type_ensure (PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES);
       g_type_ensure (PHOTOS_TYPE_OPERATION_SATURATION);
+      g_type_ensure (PHOTOS_TYPE_OPERATION_SVG_MULTIPLY);
 
       g_type_ensure (PHOTOS_TYPE_SHARE_POINT_EMAIL);
       g_type_ensure (PHOTOS_TYPE_SHARE_POINT_GOOGLE);
