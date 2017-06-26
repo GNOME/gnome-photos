@@ -573,7 +573,7 @@ photos_thumbnailer_handle_cancel (PhotosThumbnailer *self,
       if (connection == connection_ongoing && (guint32) serial == serial_ongoing)
         {
           g_cancellable_cancel (cancellable);
-          photos_thumbnailer_dbus_complete_generate_thumbnail (self->skeleton, invocation);
+          photos_thumbnailer_dbus_complete_cancel (self->skeleton, invocation);
           goto out;
         }
     }
