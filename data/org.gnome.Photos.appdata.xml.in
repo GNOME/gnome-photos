@@ -42,7 +42,10 @@
       <image type="source">https://git.gnome.org/browse/gnome-photos/plain/data/screenshots/gnome-photos-3.png</image>
     </screenshot>
   </screenshots>
+  <url type="bugtracker">https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos</url>
+  <url type="donation">http://www.gnome.org/friends</url>
   <url type="homepage">https://wiki.gnome.org/Apps/Photos</url>
+  <url type="translate">https://wiki.gnome.org/TranslationProject</url>
   <updatecontact>debarshir_at_gnome.org</updatecontact>
   <project_group>GNOME</project_group>
   <translation type="gettext">gnome-photos</translation>
