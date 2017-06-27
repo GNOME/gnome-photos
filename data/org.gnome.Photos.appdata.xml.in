@@ -33,13 +33,13 @@
   </kudos>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://git.gnome.org/browse/gnome-photos/plain/data/screenshots/gnome-photos-1.png</image>
+      <image type="source">https://static.gnome.org/appdata/gnome-photos/gnome-photos-1.png</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://git.gnome.org/browse/gnome-photos/plain/data/screenshots/gnome-photos-2.png</image>
+      <image type="source">https://static.gnome.org/appdata/gnome-photos/gnome-photos-2.png</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://git.gnome.org/browse/gnome-photos/plain/data/screenshots/gnome-photos-3.png</image>
+      <image type="source">https://static.gnome.org/appdata/gnome-photos/gnome-photos-3.png</image>
     </screenshot>
   </screenshots>
   <url type="bugtracker">https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos</url>
