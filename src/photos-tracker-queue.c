@@ -35,8 +35,10 @@
 struct _PhotosTrackerQueue
 {
   GObject parent_instance;
+  GError *initialization_error;
   GQueue *queue;
   TrackerSparqlConnection *connection;
+  gboolean is_initialized;
   gboolean running;
 };
 
@@ -65,6 +67,9 @@ struct _PhotosTrackerQueueData
   gchar *sparql;
   gpointer user_data;
 };
+
+
+G_LOCK_DEFINE_STATIC (init_lock);
 
 
 static void photos_tracker_queue_check (PhotosTrackerQueue *self);
@@ -207,6 +212,7 @@ photos_tracker_queue_finalize (GObject *object)
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (object);
 
+  g_clear_error (&self->initialization_error);
   g_queue_free (self->queue);
 
   G_OBJECT_CLASS (photos_tracker_queue_parent_class)->finalize (object);
@@ -235,16 +241,37 @@ static gboolean
 photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellable, GError **error)
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (initable);
-  gboolean ret_val = TRUE;
+  gboolean ret_val = FALSE;
 
-  if (G_LIKELY (self->connection != NULL))
+  G_LOCK (init_lock);
+
+  if (self->is_initialized)
+    {
+      if (self->connection != NULL)
+        ret_val = TRUE;
+      else
+        g_assert_nonnull (self->initialization_error);
+
+      goto out;
+    }
+
+  g_assert_no_error (self->initialization_error);
+
+  self->connection = tracker_sparql_connection_get (cancellable, &self->initialization_error);
+  if (G_UNLIKELY (self->initialization_error != NULL))
     goto out;
 
-  self->connection = tracker_sparql_connection_get (cancellable, error);
-  if (G_UNLIKELY (self->connection == NULL))
-    ret_val = FALSE;
+  ret_val = TRUE;
 
  out:
+  self->is_initialized = TRUE;
+  if (!ret_val)
+    {
+      g_assert_nonnull (self->initialization_error);
+      g_propagate_error (error, g_error_copy (self->initialization_error));
+    }
+
+  G_UNLOCK (init_lock);
   return ret_val;
 }
 
