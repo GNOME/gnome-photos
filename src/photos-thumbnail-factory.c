@@ -296,6 +296,7 @@ photos_thumbnail_factory_initable_init (GInitable *initable, GCancellable *cance
         ret_val = TRUE;
       else
         g_assert_nonnull (self->initialization_error);
+
       goto out;
     }
 
