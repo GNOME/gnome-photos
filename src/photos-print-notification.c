@@ -43,11 +43,6 @@ struct _PhotosPrintNotification
   GtkWidget *stop_button;
 };
 
-struct _PhotosPrintNotificationClass
-{
-  GtkGridClass parent_class;
-};
-
 enum
 {
   PROP_0,
