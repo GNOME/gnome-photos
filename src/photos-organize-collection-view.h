@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_ORGANIZE_COLLECTION_VIEW (photos_organize_collection_view_get_type ())
-
-#define PHOTOS_ORGANIZE_COLLECTION_VIEW(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_VIEW, PhotosOrganizeCollectionView))
-
-#define PHOTOS_IS_ORGANIZE_COLLECTION_VIEW(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_ORGANIZE_COLLECTION_VIEW))
-
-typedef struct _PhotosOrganizeCollectionView      PhotosOrganizeCollectionView;
-typedef struct _PhotosOrganizeCollectionViewClass PhotosOrganizeCollectionViewClass;
-
-GType             photos_organize_collection_view_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOrganizeCollectionView,
+                      photos_organize_collection_view,
+                      PHOTOS,
+                      ORGANIZE_COLLECTION_VIEW,
+                      GtkTreeView);
 
 GtkWidget        *photos_organize_collection_view_new                    (void);
 

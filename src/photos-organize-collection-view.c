@@ -55,11 +55,6 @@ struct _PhotosOrganizeCollectionView
   gboolean choice_confirmed;
 };
 
-struct _PhotosOrganizeCollectionViewClass
-{
-  GtkTreeViewClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosOrganizeCollectionView, photos_organize_collection_view, GTK_TYPE_TREE_VIEW);
 
