@@ -286,6 +286,9 @@ photos_tracker_queue_initable_iface_init (GInitableIface *iface)
 PhotosTrackerQueue *
 photos_tracker_queue_dup_singleton (GCancellable *cancellable, GError **error)
 {
+  g_return_val_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable), NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
   return g_initable_new (PHOTOS_TYPE_TRACKER_QUEUE, cancellable, error, NULL);
 }
 
