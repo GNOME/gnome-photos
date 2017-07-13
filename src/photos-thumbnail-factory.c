@@ -357,6 +357,9 @@ photos_thumbnail_factory_initable_iface_init (GInitableIface *iface)
 PhotosThumbnailFactory *
 photos_thumbnail_factory_dup_singleton (GCancellable *cancellable, GError **error)
 {
+  g_return_val_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable), NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
   return g_initable_new (PHOTOS_TYPE_THUMBNAIL_FACTORY, cancellable, error, NULL);
 }
 
