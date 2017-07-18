@@ -37,8 +37,8 @@ struct _PhotosToolEnhance
   PhotosTool parent_instance;
   GAction *denoise;
   GAction *sharpen;
-  GtkWidget *box;
   GtkWidget *denoise_scale;
+  GtkWidget *grid;
   GtkWidget *sharpen_scale;
   guint denoise_value_changed_id;
   guint sharpen_value_changed_id;
@@ -148,7 +148,7 @@ static GtkWidget *
 photos_tool_enhance_get_widget (PhotosTool *tool)
 {
   PhotosToolEnhance *self = PHOTOS_TOOL_ENHANCE (tool);
-  return self->box;
+  return self->grid;
 }
 
 
@@ -157,7 +157,7 @@ photos_tool_enhance_dispose (GObject *object)
 {
   PhotosToolEnhance *self = PHOTOS_TOOL_ENHANCE (object);
 
-  g_clear_object (&self->box);
+  g_clear_object (&self->grid);
 
   G_OBJECT_CLASS (photos_tool_enhance_parent_class)->dispose (object);
 }
@@ -190,14 +190,12 @@ photos_tool_enhance_init (PhotosToolEnhance *self)
   self->denoise = g_action_map_lookup_action (G_ACTION_MAP (app), "denoise-current");
   self->sharpen = g_action_map_lookup_action (G_ACTION_MAP (app), "sharpen-current");
 
-  /* We really need a GtkBox here. A GtkGrid won't work because it
-   * doesn't expand the children to fill the full width of the
-   * palette.
-   */
-  self->box = g_object_ref_sink (gtk_box_new (GTK_ORIENTATION_VERTICAL, 12));
+  self->grid = g_object_ref_sink (gtk_grid_new ());
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (self->grid), GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing (GTK_GRID (self->grid), 12);
 
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
-  gtk_container_add (GTK_CONTAINER (self->box), box);
+  gtk_container_add (GTK_CONTAINER (self->grid), box);
 
   label = gtk_label_new (_("Sharpen"));
   gtk_widget_set_halign (label, GTK_ALIGN_START);
@@ -209,6 +207,7 @@ photos_tool_enhance_init (PhotosToolEnhance *self)
                                                   SHARPEN_SCALE_MINIMUM,
                                                   SHARPEN_SCALE_MAXIMUM,
                                                   SHARPEN_SCALE_STEP);
+  gtk_widget_set_hexpand (self->sharpen_scale, TRUE);
   gtk_scale_set_draw_value (GTK_SCALE (self->sharpen_scale), FALSE);
   gtk_container_add (GTK_CONTAINER (box), self->sharpen_scale);
   g_signal_connect_swapped (self->sharpen_scale,
@@ -217,7 +216,7 @@ photos_tool_enhance_init (PhotosToolEnhance *self)
                             self);
 
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
-  gtk_container_add (GTK_CONTAINER (self->box), box);
+  gtk_container_add (GTK_CONTAINER (self->grid), box);
 
   label = gtk_label_new (_("Denoise"));
   gtk_widget_set_halign (label, GTK_ALIGN_START);
@@ -229,6 +228,7 @@ photos_tool_enhance_init (PhotosToolEnhance *self)
                                                   DENOISE_ITERATIONS_MINIMUM,
                                                   DENOISE_ITERATIONS_MAXIMUM,
                                                   DENOISE_ITERATIONS_STEP);
+  gtk_widget_set_hexpand (self->denoise_scale, TRUE);
   gtk_scale_set_draw_value (GTK_SCALE (self->denoise_scale), FALSE);
   gtk_container_add (GTK_CONTAINER (box), self->denoise_scale);
   g_signal_connect_swapped (self->denoise_scale,
