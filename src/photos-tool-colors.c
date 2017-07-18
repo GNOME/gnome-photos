@@ -41,10 +41,10 @@ struct _PhotosToolColors
   GAction *brightness_contrast;
   GAction *saturation;
   GtkWidget *blacks_scale;
-  GtkWidget *box;
   GtkWidget *brightness_scale;
   GtkWidget *contrast_scale;
   GtkWidget *exposure_scale;
+  GtkWidget *grid;
   GtkWidget *saturation_scale;
   guint blacks_exposure_value_changed_id;
   guint brightness_contrast_value_changed_id;
@@ -257,7 +257,7 @@ static GtkWidget *
 photos_tool_colors_get_widget (PhotosTool *tool)
 {
   PhotosToolColors *self = PHOTOS_TOOL_COLORS (tool);
-  return self->box;
+  return self->grid;
 }
 
 
@@ -266,7 +266,7 @@ photos_tool_colors_dispose (GObject *object)
 {
   PhotosToolColors *self = PHOTOS_TOOL_COLORS (object);
 
-  g_clear_object (&self->box);
+  g_clear_object (&self->grid);
 
   G_OBJECT_CLASS (photos_tool_colors_parent_class)->dispose (object);
 }
@@ -303,14 +303,12 @@ photos_tool_colors_init (PhotosToolColors *self)
   self->brightness_contrast = g_action_map_lookup_action (G_ACTION_MAP (app), "brightness-contrast-current");
   self->saturation = g_action_map_lookup_action (G_ACTION_MAP (app), "saturation-current");
 
-  /* We really need a GtkBox here. A GtkGrid won't work because it
-   * doesn't expand the children to fill the full width of the
-   * palette.
-   */
-  self->box = g_object_ref_sink (gtk_box_new (GTK_ORIENTATION_VERTICAL, 12));
+  self->grid = g_object_ref_sink (gtk_grid_new ());
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (self->grid), GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing (GTK_GRID (self->grid), 12);
 
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
-  gtk_container_add (GTK_CONTAINER (self->box), box);
+  gtk_container_add (GTK_CONTAINER (self->grid), box);
 
   label = gtk_label_new (_("Brightness"));
   gtk_widget_set_halign (label, GTK_ALIGN_START);
@@ -322,6 +320,7 @@ photos_tool_colors_init (PhotosToolColors *self)
                                                      BRIGHTNESS_MINIMUM,
                                                      BRIGHTNESS_MAXIMUM,
                                                      BRIGHTNESS_STEP);
+  gtk_widget_set_hexpand (self->brightness_scale, TRUE);
   gtk_scale_add_mark (GTK_SCALE (self->brightness_scale), BRIGHTNESS_DEFAULT, GTK_POS_BOTTOM, NULL);
   gtk_scale_set_draw_value (GTK_SCALE (self->brightness_scale), FALSE);
   gtk_container_add (GTK_CONTAINER (box), self->brightness_scale);
@@ -331,7 +330,7 @@ photos_tool_colors_init (PhotosToolColors *self)
                             self);
 
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
-  gtk_container_add (GTK_CONTAINER (self->box), box);
+  gtk_container_add (GTK_CONTAINER (self->grid), box);
 
   label = gtk_label_new (_("Exposure"));
   gtk_widget_set_halign (label, GTK_ALIGN_START);
@@ -343,6 +342,7 @@ photos_tool_colors_init (PhotosToolColors *self)
                                                    EXPOSURE_MINIMUM,
                                                    EXPOSURE_MAXIMUM,
                                                    EXPOSURE_STEP);
+  gtk_widget_set_hexpand (self->exposure_scale, TRUE);
   gtk_scale_add_mark (GTK_SCALE (self->exposure_scale), EXPOSURE_DEFAULT, GTK_POS_BOTTOM, NULL);
   gtk_scale_set_draw_value (GTK_SCALE (self->exposure_scale), FALSE);
   gtk_container_add (GTK_CONTAINER (box), self->exposure_scale);
@@ -351,7 +351,7 @@ photos_tool_colors_init (PhotosToolColors *self)
                             G_CALLBACK (photos_tool_colors_blacks_exposure_value_changed),
                             self);
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
-  gtk_container_add (GTK_CONTAINER (self->box), box);
+  gtk_container_add (GTK_CONTAINER (self->grid), box);
 
   label = gtk_label_new (_("Contrast"));
   gtk_widget_set_halign (label, GTK_ALIGN_START);
@@ -363,6 +363,7 @@ photos_tool_colors_init (PhotosToolColors *self)
                                                    CONTRAST_MINIMUM,
                                                    CONTRAST_MAXIMUM,
                                                    CONTRAST_STEP);
+  gtk_widget_set_hexpand (self->contrast_scale, TRUE);
   gtk_scale_add_mark (GTK_SCALE (self->contrast_scale), CONTRAST_DEFAULT, GTK_POS_BOTTOM, NULL);
   gtk_scale_set_draw_value (GTK_SCALE (self->contrast_scale), FALSE);
   gtk_container_add (GTK_CONTAINER (box), self->contrast_scale);
@@ -371,7 +372,7 @@ photos_tool_colors_init (PhotosToolColors *self)
                             G_CALLBACK (photos_tool_colors_brightness_contrast_value_changed),
                             self);
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
-  gtk_container_add (GTK_CONTAINER (self->box), box);
+  gtk_container_add (GTK_CONTAINER (self->grid), box);
 
   label = gtk_label_new (_("Blacks"));
   gtk_widget_set_halign (label, GTK_ALIGN_START);
@@ -383,6 +384,7 @@ photos_tool_colors_init (PhotosToolColors *self)
                                                  BLACKS_MINIMUM,
                                                  BLACKS_MAXIMUM,
                                                  BLACKS_STEP);
+  gtk_widget_set_hexpand (self->blacks_scale, TRUE);
   gtk_scale_add_mark (GTK_SCALE (self->blacks_scale), CONTRAST_DEFAULT, GTK_POS_BOTTOM, NULL);
   gtk_scale_set_draw_value (GTK_SCALE (self->blacks_scale), FALSE);
   gtk_container_add (GTK_CONTAINER (box), self->blacks_scale);
@@ -391,7 +393,7 @@ photos_tool_colors_init (PhotosToolColors *self)
                             G_CALLBACK (photos_tool_colors_blacks_exposure_value_changed),
                             self);
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
-  gtk_container_add (GTK_CONTAINER (self->box), box);
+  gtk_container_add (GTK_CONTAINER (self->grid), box);
 
   label = gtk_label_new (_("Saturation"));
   gtk_widget_set_halign (label, GTK_ALIGN_START);
@@ -403,6 +405,7 @@ photos_tool_colors_init (PhotosToolColors *self)
                                                      SATURATION_MINIMUM,
                                                      SATURATION_MAXIMUM,
                                                      SATURATION_STEP);
+  gtk_widget_set_hexpand (self->saturation_scale, TRUE);
   gtk_scale_add_mark (GTK_SCALE (self->saturation_scale), SATURATION_DEFAULT, GTK_POS_BOTTOM, NULL);
   gtk_scale_set_draw_value (GTK_SCALE (self->saturation_scale), FALSE);
   gtk_container_add (GTK_CONTAINER (box), self->saturation_scale);
