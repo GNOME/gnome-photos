@@ -150,6 +150,8 @@ photos_tool_crop_calculate_aspect_ratio (PhotosToolCrop *self, guint constraint)
 
     case PHOTOS_TOOL_CROP_ASPECT_RATIO_ORIGINAL:
       ret_val = (gdouble) self->bbox_source.width / self->bbox_source.height;
+      if (ret_val < 1.0)
+        ret_val = 1.0 / ret_val;
       break;
 
     default:
