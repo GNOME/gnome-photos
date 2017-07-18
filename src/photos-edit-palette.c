@@ -107,7 +107,6 @@ photos_edit_palette_dispose (GObject *object)
 static void
 photos_edit_palette_init (PhotosEditPalette *self)
 {
-  gtk_widget_set_vexpand (GTK_WIDGET (self), TRUE);
   gtk_list_box_set_selection_mode (GTK_LIST_BOX (self), GTK_SELECTION_NONE);
   gtk_list_box_set_header_func (GTK_LIST_BOX (self), photos_utils_list_box_header_func, NULL, NULL);
 
