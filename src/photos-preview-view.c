@@ -1058,6 +1058,7 @@ photos_preview_view_init (PhotosPreviewView *self)
   gtk_container_add (GTK_CONTAINER (self->revealer), sw);
 
   self->palette = photos_edit_palette_new ();
+  gtk_widget_set_hexpand (self->palette, FALSE);
   gtk_container_add (GTK_CONTAINER (sw), self->palette);
   g_signal_connect_swapped (self->palette, "tool-changed", G_CALLBACK (photos_preview_view_tool_changed), self);
 
