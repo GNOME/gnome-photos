@@ -63,7 +63,7 @@ struct _PhotosToolCrop
   GCancellable *cancellable;
   GeglRectangle bbox_zoomed;
   GeglRectangle bbox_source;
-  GtkWidget *box;
+  GtkWidget *grid;
   GtkWidget *landscape_button;
   GtkWidget *list_box;
   GtkWidget *lock_button;
@@ -1141,7 +1141,7 @@ static GtkWidget *
 photos_tool_crop_get_widget (PhotosTool *tool)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (tool);
-  return self->box;
+  return self->grid;
 }
 
 
@@ -1225,7 +1225,7 @@ photos_tool_crop_dispose (GObject *object)
       g_clear_object (&self->cancellable);
     }
 
-  g_clear_object (&self->box);
+  g_clear_object (&self->grid);
   g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
 
   G_OBJECT_CLASS (photos_tool_crop_parent_class)->dispose (object);
@@ -1247,18 +1247,16 @@ photos_tool_crop_init (PhotosToolCrop *self)
 
   self->cancellable = g_cancellable_new ();
 
-  /* We really need a GtkBox here. A GtkGrid won't work because it
-   * doesn't expand the children to fill the full width of the
-   * palette.
-   */
-  self->box = g_object_ref_sink (gtk_box_new (GTK_ORIENTATION_VERTICAL, 12));
+  self->grid = g_object_ref_sink (gtk_grid_new ());
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (self->grid), GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing (GTK_GRID (self->grid), 12);
 
   self->lock_button = gtk_check_button_new_with_label (_("Lock aspect ratio"));
-  gtk_container_add (GTK_CONTAINER (self->box), self->lock_button);
+  gtk_container_add (GTK_CONTAINER (self->grid), self->lock_button);
   g_signal_connect_swapped (self->lock_button, "toggled", G_CALLBACK (photos_tool_crop_active_changed), self);
 
   self->ratio_revealer = gtk_revealer_new ();
-  gtk_container_add (GTK_CONTAINER (self->box), self->ratio_revealer);
+  gtk_container_add (GTK_CONTAINER (self->grid), self->ratio_revealer);
   gtk_revealer_set_transition_type (GTK_REVEALER (self->ratio_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN);
   g_object_bind_property (self->lock_button, "active", self->ratio_revealer, "reveal-child", G_BINDING_DEFAULT);
 
@@ -1268,6 +1266,7 @@ photos_tool_crop_init (PhotosToolCrop *self)
   gtk_container_add (GTK_CONTAINER (self->ratio_revealer), ratio_grid);
 
   self->list_box = gtk_list_box_new ();
+  gtk_widget_set_hexpand (self->list_box, TRUE);
   gtk_list_box_set_selection_mode (GTK_LIST_BOX (self->list_box), GTK_SELECTION_NONE);
   gtk_container_add (GTK_CONTAINER (ratio_grid), self->list_box);
   g_signal_connect_swapped (self->list_box,
@@ -1344,7 +1343,8 @@ photos_tool_crop_init (PhotosToolCrop *self)
 
   self->reset_button = gtk_button_new_with_label (_("Reset"));
   gtk_widget_set_halign (self->reset_button, GTK_ALIGN_END);
-  gtk_container_add (GTK_CONTAINER (self->box), self->reset_button);
+  gtk_widget_set_hexpand (self->reset_button, TRUE);
+  gtk_container_add (GTK_CONTAINER (self->grid), self->reset_button);
   g_signal_connect_swapped (self->reset_button, "clicked", G_CALLBACK (photos_tool_crop_reset_clicked), self);
 
   self->event_x_last = -1.0;
