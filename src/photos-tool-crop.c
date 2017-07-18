@@ -936,7 +936,6 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
                                                     G_CONNECT_SWAPPED);
 
   self->activated = TRUE;
-  self->reset = FALSE;
   g_signal_emit_by_name (self, "activated");
 }
 
@@ -964,6 +963,7 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageVi
   got_bbox_source = photos_base_item_get_bbox_source (item, &self->bbox_source);
   g_return_if_fail (got_bbox_source);
 
+  self->reset = FALSE;
   self->view = GTK_WIDGET (view);
 
   if (photos_base_item_operation_get (item,
@@ -1007,7 +1007,6 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageVi
                                                         G_CONNECT_SWAPPED);
 
       self->activated = TRUE;
-      self->reset = FALSE;
       g_signal_emit_by_name (self, "activated");
     }
 }
