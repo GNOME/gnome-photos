@@ -877,8 +877,8 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active, GtkToggleButton 
 {
   GtkListBoxRow *row;
 
-  g_return_if_fail (active == -1 && orientation_button == NULL
-                    || active != -1 && GTK_IS_TOGGLE_BUTTON (orientation_button));
+  g_return_if_fail ((active == -1 && orientation_button == NULL)
+                    || (active != -1 && GTK_IS_TOGGLE_BUTTON (orientation_button)));
 
   g_signal_handlers_block_by_func (self->landscape_button, photos_tool_crop_orientation_toggled, self);
   g_signal_handlers_block_by_func (self->list_box, photos_tool_crop_list_box_row_activated, self);
