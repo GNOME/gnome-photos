@@ -18,6 +18,10 @@
  * 02110-1301, USA.
  */
 
+/* Based on code from:
+ *   + GEGL
+ */
+
 #ifndef PHOTOS_OPERATION_SVG_MULTIPLY_H
 #define PHOTOS_OPERATION_SVG_MULTIPLY_H
 

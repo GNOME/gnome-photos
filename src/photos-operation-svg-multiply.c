@@ -18,6 +18,10 @@
  * 02110-1301, USA.
  */
 
+/* Based on code from:
+ *   + GEGL
+ */
+
 
 #include "config.h"
 
