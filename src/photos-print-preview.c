@@ -23,6 +23,7 @@
  *   + Eye of GNOME
  */
 
+
 #include <gtk/gtk.h>
 #include <cairo.h>
 #include <gdk/gdkkeysyms.h>
