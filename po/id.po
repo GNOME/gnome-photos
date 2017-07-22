@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-06-18 12:37+0000\n"
-"PO-Revision-Date: 2017-06-19 22:44+0700\n"
+"POT-Creation-Date: 2017-07-19 10:15+0000\n"
+"PO-Revision-Date: 2017-07-20 14:50+0700\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.2\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:673
@@ -575,7 +575,7 @@ msgstr "Jadikan sebagai Layar Kunci"
 msgid "Properties"
 msgstr "Properti"
 
-#: ../src/photos-print-notification.c:79
+#: ../src/photos-print-notification.c:74
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Mencetak “%s”: %s"
@@ -845,51 +845,59 @@ msgstr "Saturasi"
 msgid "Colors"
 msgstr "Warna"
 
-#: ../src/photos-tool-crop.c:119
+#: ../src/photos-tool-crop.c:123
 msgid "Free"
 msgstr "Bebas"
 
-#: ../src/photos-tool-crop.c:120
+#: ../src/photos-tool-crop.c:124
 msgid "Original"
 msgstr "Asli"
 
-#: ../src/photos-tool-crop.c:121
+#: ../src/photos-tool-crop.c:125
 msgid "1×1 (Square)"
 msgstr "1×1 (Bujur sangkar)"
 
-#: ../src/photos-tool-crop.c:122
+#: ../src/photos-tool-crop.c:126
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:123
+#: ../src/photos-tool-crop.c:127
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:124
+#: ../src/photos-tool-crop.c:128
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:125
+#: ../src/photos-tool-crop.c:129
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:126
+#: ../src/photos-tool-crop.c:130
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:127
+#: ../src/photos-tool-crop.c:131
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1191
+#: ../src/photos-tool-crop.c:1256
 msgid "Lock aspect ratio"
 msgstr "Kunci rasio aspek"
 
-#: ../src/photos-tool-crop.c:1239
+#: ../src/photos-tool-crop.c:1323
+msgid "Landscape"
+msgstr "Lanskap"
+
+#: ../src/photos-tool-crop.c:1334
+msgid "Portrait"
+msgstr "Potret"
+
+#: ../src/photos-tool-crop.c:1345
 msgid "Reset"
 msgstr "Reset"
 
-#: ../src/photos-tool-crop.c:1256
+#: ../src/photos-tool-crop.c:1364
 msgid "Crop"
 msgstr "Potong"
 
