@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-06-18 12:37+0000\n"
-"PO-Revision-Date: 2017-06-19 10:24+0200\n"
+"POT-Creation-Date: 2017-07-21 15:54+0000\n"
+"PO-Revision-Date: 2017-07-24 15:36+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -581,7 +581,7 @@ msgstr "Establecer como fondo de la pantalla de bloqueo"
 msgid "Properties"
 msgstr "Propiedades"
 
-#: ../src/photos-print-notification.c:79
+#: ../src/photos-print-notification.c:74
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Imprimiendo «%s»: %s"
@@ -715,7 +715,7 @@ msgstr "Ubicación"
 msgid "Camera"
 msgstr "Cámara"
 
-#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:335
 msgid "Exposure"
 msgstr "Exposición"
 
@@ -832,7 +832,7 @@ msgstr "Sus credenciales de %s han caducado"
 msgid "D-Bus address to use"
 msgstr "Dirección de D-Bus que usar"
 
-#: ../src/photos-tool-colors.c:315
+#: ../src/photos-tool-colors.c:313
 msgid "Brightness"
 msgstr "Brillo"
 
@@ -840,71 +840,79 @@ msgstr "Brillo"
 msgid "Contrast"
 msgstr "Contraste"
 
-#: ../src/photos-tool-colors.c:376
+#: ../src/photos-tool-colors.c:377
 msgid "Blacks"
 msgstr "Negros"
 
-#: ../src/photos-tool-colors.c:396
+#: ../src/photos-tool-colors.c:398
 msgid "Saturation"
 msgstr "Saturación"
 
-#: ../src/photos-tool-colors.c:423
+#: ../src/photos-tool-colors.c:426
 msgid "Colors"
 msgstr "Colores"
 
-#: ../src/photos-tool-crop.c:119
+#: ../src/photos-tool-crop.c:123
 msgid "Free"
 msgstr "Libre"
 
-#: ../src/photos-tool-crop.c:120
+#: ../src/photos-tool-crop.c:124
 msgid "Original"
 msgstr "Original"
 
-#: ../src/photos-tool-crop.c:121
+#: ../src/photos-tool-crop.c:125
 msgid "1×1 (Square)"
 msgstr "1×1 (Cuadrado)"
 
-#: ../src/photos-tool-crop.c:122
+#: ../src/photos-tool-crop.c:126
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:123
+#: ../src/photos-tool-crop.c:127
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:124
+#: ../src/photos-tool-crop.c:128
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:125
+#: ../src/photos-tool-crop.c:129
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:126
+#: ../src/photos-tool-crop.c:130
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:127
+#: ../src/photos-tool-crop.c:131
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1191
+#: ../src/photos-tool-crop.c:1254
 msgid "Lock aspect ratio"
 msgstr "Bloquear relación de aspecto"
 
-#: ../src/photos-tool-crop.c:1239
+#: ../src/photos-tool-crop.c:1322
+msgid "Landscape"
+msgstr "Apaisado"
+
+#: ../src/photos-tool-crop.c:1333
+msgid "Portrait"
+msgstr "Retrato"
+
+#: ../src/photos-tool-crop.c:1344
 msgid "Reset"
 msgstr "Reiniciar"
 
-#: ../src/photos-tool-crop.c:1256
+#: ../src/photos-tool-crop.c:1364
 msgid "Crop"
 msgstr "Recortar"
 
-#: ../src/photos-tool-enhance.c:202
+#: ../src/photos-tool-enhance.c:200
 msgid "Sharpen"
 msgstr "Enfocar"
 
-#: ../src/photos-tool-enhance.c:222
+#: ../src/photos-tool-enhance.c:221
 msgid "Denoise"
 msgstr "Eliminar ruido"
 
