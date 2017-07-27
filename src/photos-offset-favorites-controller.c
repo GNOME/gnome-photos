@@ -27,7 +27,6 @@
 
 #include <gio/gio.h>
 
-#include "photos-item-manager.h"
 #include "photos-query-builder.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-search-context.h"
@@ -36,7 +35,6 @@
 struct _PhotosOffsetFavoritesController
 {
   PhotosOffsetController parent_instance;
-  PhotosBaseManager *item_mngr;
 };
 
 
@@ -46,24 +44,13 @@ G_DEFINE_TYPE (PhotosOffsetFavoritesController, photos_offset_favorites_controll
 static PhotosQuery *
 photos_offset_favorites_controller_get_query (PhotosOffsetController *offset_cntrlr)
 {
-  PhotosOffsetFavoritesController *self = PHOTOS_OFFSET_FAVORITES_CONTROLLER (offset_cntrlr);
   GApplication *app;
-  PhotosBaseItem *collection;
   PhotosSearchContextState *state;
-  gint flags;
-
-  g_return_val_if_fail (self->item_mngr != NULL, NULL);
-
-  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
-  if (collection != NULL)
-    flags = PHOTOS_QUERY_FLAGS_NONE;
-  else
-    flags = PHOTOS_QUERY_FLAGS_FAVORITES;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  return photos_query_builder_count_query (state, flags);
+  return photos_query_builder_count_query (state, PHOTOS_QUERY_FLAGS_FAVORITES);
 }
 
 
@@ -88,28 +75,8 @@ photos_offset_favorites_controller_constructor (GType type,
 
 
 static void
-photos_offset_favorites_controller_finalize (GObject *object)
-{
-  PhotosOffsetFavoritesController *self = PHOTOS_OFFSET_FAVORITES_CONTROLLER (object);
-
-  if (self->item_mngr != NULL)
-    g_object_remove_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
-
-  G_OBJECT_CLASS (photos_offset_favorites_controller_parent_class)->finalize (object);
-}
-
-
-static void
 photos_offset_favorites_controller_init (PhotosOffsetFavoritesController *self)
 {
-  GApplication *app;
-  PhotosSearchContextState *state;
-
-  app = g_application_get_default ();
-  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
-
-  self->item_mngr = state->item_mngr;
-  g_object_add_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
 }
 
 
@@ -120,7 +87,6 @@ photos_offset_favorites_controller_class_init (PhotosOffsetFavoritesControllerCl
   PhotosOffsetControllerClass *offset_controller_class = PHOTOS_OFFSET_CONTROLLER_CLASS (class);
 
   object_class->constructor = photos_offset_favorites_controller_constructor;
-  object_class->finalize = photos_offset_favorites_controller_finalize;
   offset_controller_class->get_query = photos_offset_favorites_controller_get_query;
 }
 
