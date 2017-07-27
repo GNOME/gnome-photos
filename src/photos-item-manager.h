@@ -58,6 +58,7 @@ typedef enum
 typedef enum
 {
   PHOTOS_WINDOW_MODE_NONE,
+  PHOTOS_WINDOW_MODE_COLLECTION_VIEW,
   PHOTOS_WINDOW_MODE_COLLECTIONS,
   PHOTOS_WINDOW_MODE_EDIT,
   PHOTOS_WINDOW_MODE_FAVORITES,
@@ -70,8 +71,6 @@ typedef struct _PhotosItemManager      PhotosModeController;
 typedef struct _PhotosItemManagerClass PhotosModeControllerClass;
 
 PhotosBaseManager        *photos_item_manager_new                          (void);
-
-void                      photos_item_manager_activate_previous_collection (PhotosItemManager *self);
 
 void                      photos_item_manager_add_item                     (PhotosItemManager *self,
                                                                             TrackerSparqlCursor *cursor,

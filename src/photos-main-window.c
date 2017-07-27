@@ -152,29 +152,24 @@ photos_main_window_fullscreen_changed (PhotosMainWindow *self, gboolean fullscre
 static gboolean
 photos_main_window_go_back (PhotosMainWindow *self)
 {
-  PhotosBaseItem *active_collection;
   PhotosWindowMode mode;
   gboolean handled = TRUE;
 
   mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
-  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
 
   switch (mode)
     {
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_PREVIEW:
       photos_mode_controller_go_back (self->mode_cntrlr);
       break;
 
-    case PHOTOS_WINDOW_MODE_COLLECTIONS:
-    case PHOTOS_WINDOW_MODE_FAVORITES:
-    case PHOTOS_WINDOW_MODE_SEARCH:
-      if (active_collection != NULL)
-        photos_item_manager_activate_previous_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
-      break;
-
     case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
     default:
       handled = FALSE;
       break;
@@ -280,6 +275,7 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:

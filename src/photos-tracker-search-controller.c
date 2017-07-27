@@ -40,11 +40,9 @@
 struct _PhotosTrackerSearchController
 {
   PhotosTrackerController parent_instance;
-  PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosBaseManager *srch_mtch_mngr;
   PhotosBaseManager *srch_typ_mngr;
-  PhotosModeController *mode_cntrlr;
   PhotosOffsetController *offset_cntrlr;
   PhotosSearchController *srch_cntrlr;
 };
@@ -58,21 +56,6 @@ G_DEFINE_TYPE_WITH_CODE (PhotosTrackerSearchController,
                                                          g_define_type_id,
                                                          "search",
                                                          0));
-
-
-static void
-photos_tracker_search_controller_col_active_changed (PhotosTrackerSearchController *self)
-{
-  PhotosWindowMode mode;
-
-  g_return_if_fail (self->mode_cntrlr != NULL);
-
-  mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
-  if (mode != PHOTOS_WINDOW_MODE_SEARCH)
-    return;
-
-  photos_tracker_controller_refresh_for_object (PHOTOS_TRACKER_CONTROLLER (self));
-}
 
 
 static PhotosOffsetController *
@@ -146,21 +129,6 @@ photos_tracker_search_controller_dispose (GObject *object)
 
 
 static void
-photos_tracker_search_controller_finalize (GObject *object)
-{
-  PhotosTrackerSearchController *self = PHOTOS_TRACKER_SEARCH_CONTROLLER (object);
-
-  if (self->item_mngr != NULL)
-    g_object_remove_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
-
-  if (self->mode_cntrlr != NULL)
-    g_object_remove_weak_pointer (G_OBJECT (self->mode_cntrlr), (gpointer *) &self->mode_cntrlr);
-
-  G_OBJECT_CLASS (photos_tracker_search_controller_parent_class)->finalize (object);
-}
-
-
-static void
 photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
 {
   GApplication *app;
@@ -168,13 +136,6 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
-
-  self->item_mngr = state->item_mngr;
-  g_object_add_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
-  g_signal_connect_swapped (self->item_mngr,
-                            "active-collection-changed",
-                            G_CALLBACK (photos_tracker_search_controller_col_active_changed),
-                            self);
 
   self->src_mngr = g_object_ref (state->src_mngr);
   g_signal_connect_swapped (self->src_mngr,
@@ -194,9 +155,6 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
                             G_CALLBACK (photos_tracker_controller_refresh_for_object),
                             self);
 
-  self->mode_cntrlr = state->mode_cntrlr;
-  g_object_add_weak_pointer (G_OBJECT (self->mode_cntrlr), (gpointer *) &self->mode_cntrlr);
-
   self->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
 
   self->srch_cntrlr = g_object_ref (state->srch_cntrlr);
@@ -215,7 +173,6 @@ photos_tracker_search_controller_class_init (PhotosTrackerSearchControllerClass 
 
   object_class->constructor = photos_tracker_search_controller_constructor;
   object_class->dispose = photos_tracker_search_controller_dispose;
-  object_class->finalize = photos_tracker_search_controller_finalize;
   tracker_controller_class->get_offset_controller = photos_tracker_search_controller_get_offset_controller;
   tracker_controller_class->get_query = photos_tracker_search_controller_get_query;
 }

@@ -245,8 +245,7 @@ photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
 
   if (is_collection)
     {
-      if (self->active_collection == NULL)
-        photos_item_manager_try_to_add_item_for_mode (self, item, PHOTOS_WINDOW_MODE_COLLECTIONS);
+      photos_item_manager_try_to_add_item_for_mode (self, item, PHOTOS_WINDOW_MODE_COLLECTIONS);
     }
   else
     {
@@ -258,13 +257,14 @@ photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
 
   if (is_collection)
     {
+      photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_COLLECTION_VIEW],
+                                         G_OBJECT (item));
       photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_FAVORITES], G_OBJECT (item));
       photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_OVERVIEW], G_OBJECT (item));
     }
   else
     {
-      if (self->active_collection == NULL)
-        photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_COLLECTIONS], G_OBJECT (item));
+      photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_COLLECTIONS], G_OBJECT (item));
 
       if (!is_favorite)
         photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_FAVORITES], G_OBJECT (item));
@@ -292,8 +292,7 @@ photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
   is_collection = photos_item_manager_cursor_is_collection (cursor);
   g_return_if_fail ((is_collection
                      && (mode == PHOTOS_WINDOW_MODE_COLLECTIONS || mode == PHOTOS_WINDOW_MODE_SEARCH))
-                    || (!is_collection
-                        && (mode != PHOTOS_WINDOW_MODE_COLLECTIONS || self->active_collection != NULL)));
+                    || (!is_collection && mode != PHOTOS_WINDOW_MODE_COLLECTIONS));
 
   if (!force && !photos_item_manager_can_add_cursor_for_mode (self, cursor, mode))
     goto out;
@@ -686,6 +685,11 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
 
   if (is_collection)
     {
+      window_mode_changed = photos_item_manager_set_window_mode_internal (self,
+                                                                          PHOTOS_WINDOW_MODE_COLLECTION_VIEW,
+                                                                          &old_mode);
+      g_assert_true (window_mode_changed);
+
       g_assert_null (self->active_collection);
       self->active_collection = g_object_ref (PHOTOS_BASE_ITEM (object));
       self->load_state = PHOTOS_LOAD_STATE_NONE;
@@ -729,11 +733,11 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
 
       g_signal_emit (self, signals[LOAD_STARTED], 0, PHOTOS_BASE_ITEM (object));
 
-      if (window_mode_changed)
-        g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, PHOTOS_WINDOW_MODE_PREVIEW, old_mode);
-
       g_assert (self->active_object != (GObject *) self->active_collection);
     }
+
+  if (window_mode_changed)
+    g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, self->mode, old_mode);
 
  out:
   return ret_val;
@@ -955,22 +959,6 @@ photos_item_manager_new (void)
 
 
 void
-photos_item_manager_activate_previous_collection (PhotosItemManager *self)
-{
-  g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
-  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self->active_collection));
-
-  photos_item_manager_clear_active_item_load (self);
-
-  g_clear_object (&self->active_collection);
-  g_clear_object (&self->active_object);
-
-  g_signal_emit_by_name (self, "active-changed", self->active_object);
-  g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
-}
-
-
-void
 photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *cursor, gboolean force)
 {
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
@@ -979,7 +967,7 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
   if (photos_item_manager_cursor_is_collection (cursor))
     {
       if (self->active_collection != NULL && force)
-        photos_item_manager_activate_previous_collection (self);
+        photos_mode_controller_go_back (self);
 
       if (self->active_collection == NULL)
         photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_COLLECTIONS, force);
@@ -1328,6 +1316,13 @@ photos_mode_controller_go_back (PhotosModeController *self)
       g_return_if_fail (old_mode == PHOTOS_WINDOW_MODE_PREVIEW);
       break;
 
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+      g_return_if_fail (self->load_state == PHOTOS_LOAD_STATE_NONE);
+      g_return_if_fail (PHOTOS_IS_BASE_ITEM (self->active_collection));
+      g_return_if_fail (self->active_object == (GObject *) self->active_collection);
+      g_return_if_fail (old_mode == PHOTOS_WINDOW_MODE_COLLECTIONS || old_mode == PHOTOS_WINDOW_MODE_SEARCH);
+      break;
+
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
@@ -1339,6 +1334,8 @@ photos_mode_controller_go_back (PhotosModeController *self)
       g_return_if_fail (PHOTOS_IS_BASE_ITEM (self->active_object));
       g_return_if_fail (self->active_object != (GObject *) self->active_collection);
       g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
+      g_return_if_fail ((old_mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW && PHOTOS_IS_BASE_ITEM (self->active_collection))
+                        || (old_mode != PHOTOS_WINDOW_MODE_COLLECTION_VIEW && self->active_collection == NULL));
       break;
 
     case PHOTOS_WINDOW_MODE_NONE:
@@ -1359,6 +1356,13 @@ photos_mode_controller_go_back (PhotosModeController *self)
 
   switch (old_mode)
     {
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+      g_clear_object (&self->active_collection);
+      g_clear_object (&self->active_object);
+      active_changed = TRUE;
+      active_collection_changed = TRUE;
+      break;
+
     case PHOTOS_WINDOW_MODE_EDIT:
       break;
 
@@ -1429,6 +1433,7 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
 
   g_return_if_fail (PHOTOS_IS_MODE_CONTROLLER (self));
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_COLLECTION_VIEW);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
 
   if (mode == PHOTOS_WINDOW_MODE_EDIT)

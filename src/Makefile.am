@@ -139,6 +139,8 @@ gnome_photos_SOURCES = \
 	photos-media-server-item.h \
 	photos-notification-manager.c \
 	photos-notification-manager.h \
+	photos-offset-collection-view-controller.c \
+	photos-offset-collection-view-controller.h \
 	photos-offset-collections-controller.c \
 	photos-offset-collections-controller.h \
 	photos-offset-controller.c \
@@ -266,6 +268,8 @@ gnome_photos_SOURCES = \
 	photos-tracker-change-event.h \
 	photos-tracker-change-monitor.c \
 	photos-tracker-change-monitor.h \
+	photos-tracker-collection-view-controller.c \
+	photos-tracker-collection-view-controller.h \
 	photos-tracker-collections-controller.c \
 	photos-tracker-collections-controller.h \
 	photos-tracker-controller.c \

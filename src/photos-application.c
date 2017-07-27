@@ -357,7 +357,8 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->sharpen_action, enable);
 
   enable = FALSE;
-  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+  if (mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW
+      || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
       || mode == PHOTOS_WINDOW_MODE_FAVORITES
       || mode == PHOTOS_WINDOW_MODE_OVERVIEW
       || mode == PHOTOS_WINDOW_MODE_SEARCH)

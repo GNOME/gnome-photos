@@ -68,6 +68,7 @@ struct _PhotosEmbed
   GAction *search_action;
   GHashTable *notifications;
   GIOExtensionPoint *extension_point;
+  GtkWidget *collection_view;
   GtkWidget *collections;
   GtkWidget *favorites;
   GtkWidget *no_results;
@@ -142,6 +143,10 @@ photos_embed_get_view_container_from_mode (PhotosEmbed *self, PhotosWindowMode m
 
   switch (mode)
     {
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+      view_container = self->collection_view;
+      break;
+
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
       view_container = self->collections;
       break;
@@ -256,7 +261,6 @@ photos_embed_tracker_controllers_set_frozen (PhotosEmbed *self, gboolean frozen)
 static void
 photos_embed_prepare_for_preview (PhotosEmbed *self, PhotosWindowMode old_mode)
 {
-  PhotosBaseItem *active_collection;
   PhotosBaseItem *item;
 
   /* TODO: SearchController,
@@ -269,16 +273,12 @@ photos_embed_prepare_for_preview (PhotosEmbed *self, PhotosWindowMode old_mode)
   /* We want to freeze before saving the search state and to thaw
    * after restoring it. We could thaw it earlier too, but that would
    * lead to a bunch of needless queries from the TrackerControllers.
-   *
-   * Note that we don't want to freeze when showing a collection.
    */
   photos_embed_tracker_controllers_set_frozen (self, TRUE);
 
-  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
   if (old_mode == PHOTOS_WINDOW_MODE_SEARCH)
     {
-      if (active_collection == NULL)
-        photos_embed_save_search (self);
+      photos_embed_save_search (self);
     }
   else
     {
@@ -340,23 +340,6 @@ photos_embed_load_started (PhotosEmbed *self, PhotosBaseItem *item)
 
 
 static void
-photos_embed_active_collection_changed (PhotosBaseManager *manager, PhotosBaseItem *collection, gpointer user_data)
-{
-  PhotosEmbed *self = PHOTOS_EMBED (user_data);
-  PhotosWindowMode mode;
-
-  mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
-  if (mode != PHOTOS_WINDOW_MODE_SEARCH)
-    return;
-
-  if (collection == NULL)
-    photos_embed_restore_search (self);
-  else
-    photos_embed_save_search (self);
-}
-
-
-static void
 photos_embed_fullscreen_changed (PhotosModeController *mode_cntrlr, gboolean fullscreen, gpointer user_data)
 {
 }
@@ -391,6 +374,48 @@ photos_embed_notify_visible_child (PhotosEmbed *self)
 
  out:
   g_clear_pointer (&event, (GDestroyNotify) gdk_event_free);
+}
+
+
+static void
+photos_embed_prepare_for_collection_view (PhotosEmbed *self, PhotosWindowMode old_mode)
+{
+  switch (old_mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      {
+        GVariant *state;
+
+        /* Hide any empty search bars that might have been floating
+         * around.
+         */
+        state = g_variant_new ("b", FALSE);
+        g_action_change_state (self->search_action, state);
+        break;
+      }
+
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      photos_embed_tracker_controllers_set_frozen (self, FALSE);
+      break;
+
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      photos_embed_save_search (self);
+      break;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+      break;
+
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (self->spinner_box));
+  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "collection-view");
 }
 
 
@@ -430,16 +455,10 @@ photos_embed_prepare_for_overview (PhotosEmbed *self, PhotosWindowMode old_mode)
 static void
 photos_embed_prepare_for_search (PhotosEmbed *self, PhotosWindowMode old_mode)
 {
+  photos_embed_restore_search (self);
+
   if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    {
-      PhotosBaseItem *active_collection;
-
-      active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
-      if (active_collection == NULL)
-        photos_embed_restore_search (self);
-
-      photos_embed_tracker_controllers_set_frozen (self, FALSE);
-    }
+    photos_embed_tracker_controllers_set_frozen (self, FALSE);
 
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (self->spinner_box));
   gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "search");
@@ -464,10 +483,18 @@ photos_embed_search_changed (PhotosEmbed *self)
   const gchar *source_id;
   const gchar *str;
 
-  /* Whenever a search constraint is specified we want to switch to
-   * the search mode, and when all constraints have been lifted we
-   * want to go back to the previous mode which can be either
-   * collections, favorites or overview.
+  /* Whenever a search constraint is specified, we switch to the
+   * search mode. Search is always global. If we are in
+   * collection-view, we go back to the previous top-level mode and
+   * then enter the search mode.
+   *
+   * When all constraints have been lifted we want to go back to the
+   * previous top-level mode which can be either collections,
+   * favorites or overview.
+   *
+   * The constraints are saved when entering collection-view or
+   * preview from the search mode. They are restored when going back.
+   * Saving and restoring doesn't cause any further mode changes.
    */
 
   self->search_changed = TRUE;
@@ -483,9 +510,19 @@ photos_embed_search_changed (PhotosEmbed *self)
   if (g_strcmp0 (search_type_id, PHOTOS_SEARCH_TYPE_STOCK_ALL) == 0
       && g_strcmp0 (source_id, PHOTOS_SOURCE_STOCK_ALL) == 0
       && (str == NULL || str [0] == '\0'))
-    photos_mode_controller_go_back (self->mode_cntrlr);
+    {
+      photos_mode_controller_go_back (self->mode_cntrlr);
+    }
   else
-    photos_mode_controller_set_window_mode (self->mode_cntrlr, PHOTOS_WINDOW_MODE_SEARCH);
+    {
+      PhotosWindowMode mode;
+
+      mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
+      if (mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW)
+        photos_mode_controller_go_back (self->mode_cntrlr);
+
+      photos_mode_controller_set_window_mode (self->mode_cntrlr, PHOTOS_WINDOW_MODE_SEARCH);
+    }
 
   self->search_changed = FALSE;
 }
@@ -580,6 +617,7 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
         }
       break;
 
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_PREVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
@@ -596,6 +634,10 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
   switch (mode)
     {
     case PHOTOS_WINDOW_MODE_EDIT:
+      break;
+
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+      photos_embed_prepare_for_collection_view (self, old_mode);
       break;
 
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
@@ -683,6 +725,9 @@ photos_embed_init (PhotosEmbed *self)
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->overview));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->overview, "overview", name);
 
+  self->collection_view = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTION_VIEW, _("Collection View"));
+  gtk_stack_add_named (GTK_STACK (self->stack), self->collection_view, "collection-view");
+
   self->collections = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTIONS, _("Albums"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->collections));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->collections, "collections", name);
@@ -726,11 +771,6 @@ photos_embed_init (PhotosEmbed *self)
                            G_CONNECT_SWAPPED);
 
   self->item_mngr = g_object_ref (state->item_mngr);
-  g_signal_connect_object (self->item_mngr,
-                           "active-collection-changed",
-                           G_CALLBACK (photos_embed_active_collection_changed),
-                           self,
-                           0);
   g_signal_connect_object (self->item_mngr,
                            "load-finished",
                            G_CALLBACK (photos_embed_load_finished),

@@ -27,7 +27,6 @@
 
 #include <gio/gio.h>
 
-#include "photos-item-manager.h"
 #include "photos-query-builder.h"
 #include "photos-offset-collections-controller.h"
 #include "photos-search-context.h"
@@ -36,7 +35,6 @@
 struct _PhotosOffsetCollectionsController
 {
   PhotosOffsetController parent_instance;
-  PhotosBaseManager *item_mngr;
 };
 
 
@@ -48,24 +46,13 @@ G_DEFINE_TYPE (PhotosOffsetCollectionsController,
 static PhotosQuery *
 photos_offset_collections_controller_get_query (PhotosOffsetController *offset_cntrlr)
 {
-  PhotosOffsetCollectionsController *self = PHOTOS_OFFSET_COLLECTIONS_CONTROLLER (offset_cntrlr);
   GApplication *app;
-  PhotosBaseItem *collection;
   PhotosSearchContextState *state;
-  gint flags;
-
-  g_return_val_if_fail (self->item_mngr != NULL, NULL);
-
-  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
-  if (collection != NULL)
-    flags = PHOTOS_QUERY_FLAGS_NONE;
-  else
-    flags = PHOTOS_QUERY_FLAGS_COLLECTIONS;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  return photos_query_builder_count_query (state, flags);
+  return photos_query_builder_count_query (state, PHOTOS_QUERY_FLAGS_COLLECTIONS);
 }
 
 
@@ -90,28 +77,8 @@ photos_offset_collections_controller_constructor (GType type,
 
 
 static void
-photos_offset_collections_controller_finalize (GObject *object)
-{
-  PhotosOffsetCollectionsController *self = PHOTOS_OFFSET_COLLECTIONS_CONTROLLER (object);
-
-  if (self->item_mngr != NULL)
-    g_object_remove_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
-
-  G_OBJECT_CLASS (photos_offset_collections_controller_parent_class)->finalize (object);
-}
-
-
-static void
 photos_offset_collections_controller_init (PhotosOffsetCollectionsController *self)
 {
-  GApplication *app;
-  PhotosSearchContextState *state;
-
-  app = g_application_get_default ();
-  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
-
-  self->item_mngr = state->item_mngr;
-  g_object_add_weak_pointer (G_OBJECT (self->item_mngr), (gpointer *) &self->item_mngr);
 }
 
 
@@ -122,7 +89,6 @@ photos_offset_collections_controller_class_init (PhotosOffsetCollectionsControll
   PhotosOffsetControllerClass *offset_controller_class = PHOTOS_OFFSET_CONTROLLER_CLASS (class);
 
   object_class->constructor = photos_offset_collections_controller_constructor;
-  object_class->finalize = photos_offset_collections_controller_finalize;
   offset_controller_class->get_query = photos_offset_collections_controller_get_query;
 }
 

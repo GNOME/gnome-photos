@@ -42,6 +42,7 @@
 #include "photos-google-item.h"
 #include "photos-local-item.h"
 #include "photos-media-server-item.h"
+#include "photos-offset-collection-view-controller.h"
 #include "photos-offset-collections-controller.h"
 #include "photos-offset-favorites-controller.h"
 #include "photos-offset-overview-controller.h"
@@ -58,6 +59,7 @@
 #include "photos-tool-crop.h"
 #include "photos-tool-enhance.h"
 #include "photos-tool-filters.h"
+#include "photos-tracker-collection-view-controller.h"
 #include "photos-tracker-collections-controller.h"
 #include "photos-tracker-favorites-controller.h"
 #include "photos-tracker-overview-controller.h"
@@ -640,6 +642,7 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_TOOL_ENHANCE);
       g_type_ensure (PHOTOS_TYPE_TOOL_FILTERS);
 
+      g_type_ensure (PHOTOS_TYPE_TRACKER_COLLECTION_VIEW_CONTROLLER);
       g_type_ensure (PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER);
       g_type_ensure (PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER);
       g_type_ensure (PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER);
@@ -932,6 +935,11 @@ photos_utils_get_controller (PhotosWindowMode mode,
 
   switch (mode)
     {
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+      offset_cntrlr = photos_offset_collection_view_controller_dup_singleton ();
+      trk_cntrlr = photos_tracker_collection_view_controller_dup_singleton ();
+      break;
+
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
       offset_cntrlr = photos_offset_collections_controller_dup_singleton ();
       trk_cntrlr = photos_tracker_collections_controller_dup_singleton ();

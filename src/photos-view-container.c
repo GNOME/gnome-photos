@@ -109,6 +109,10 @@ photos_view_container_get_show_primary_text (PhotosViewContainer *self)
 
   switch (self->mode)
     {
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+      ret_val = FALSE;
+      break;
+
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
       ret_val = TRUE;
       break;

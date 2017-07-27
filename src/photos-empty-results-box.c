@@ -186,6 +186,10 @@ photos_empty_results_box_constructed (GObject *object)
       label = g_strconcat ("<b><span size=\"large\">", _("Starred photos will appear here"), "</span></b>", NULL);
       break;
 
+    /* TODO: Don't show a collection if there are no screenshots in
+     * the relevant locations.
+     */
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       image = gtk_image_new_from_icon_name (PHOTOS_ICON_PHOTOS_SYMBOLIC, GTK_ICON_SIZE_INVALID);
@@ -222,6 +226,10 @@ photos_empty_results_box_constructed (GObject *object)
       photos_empty_results_box_add_collections_label (self);
       break;
 
+    /* TODO: Don't show a collection if there are no screenshots in
+     * the relevant locations.
+     */
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_SEARCH:
       gtk_widget_set_valign (title_label, GTK_ALIGN_CENTER);
