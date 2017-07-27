@@ -3963,7 +3963,7 @@ photos_base_item_refresh (PhotosBaseItem *self)
   job = photos_single_item_job_new (priv->id);
   photos_single_item_job_run (job,
                               state,
-                              PHOTOS_QUERY_FLAGS_NONE,
+                              PHOTOS_QUERY_FLAGS_UNFILTERED,
                               NULL,
                               photos_base_item_refresh_executed,
                               g_object_ref (self));
