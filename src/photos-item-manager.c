@@ -54,7 +54,6 @@ struct _PhotosItemManager
   GHashTable *hidden_items;
   GHashTable *wait_for_changes_table;
   GIOExtensionPoint *extension_point;
-  GQueue *collection_path;
   GQueue *history;
   PhotosBaseItem *active_collection;
   PhotosBaseManager **item_mngr_chldrn;
@@ -486,21 +485,6 @@ photos_item_manager_clear_active_item_load (PhotosItemManager *self)
 }
 
 
-static void
-photos_item_manager_collection_path_free_foreach (gpointer data, gpointer user_data)
-{
-  g_clear_object (&data);
-}
-
-
-static void
-photos_item_manager_collection_path_free (PhotosItemManager *self)
-{
-  g_queue_foreach (self->collection_path, photos_item_manager_collection_path_free_foreach, NULL);
-  g_queue_free (self->collection_path);
-}
-
-
 static gboolean
 photos_item_manager_cursor_is_favorite (TrackerSparqlCursor *cursor)
 {
@@ -683,6 +667,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (manager);
   PhotosWindowMode old_mode;
   gboolean active_collection_changed = FALSE;
+  gboolean is_collection = FALSE;
   gboolean ret_val = FALSE;
   gboolean start_loading = FALSE;
   gboolean window_mode_changed = FALSE;
@@ -690,17 +675,19 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
   g_return_val_if_fail (object != NULL, FALSE);
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object), FALSE);
 
+  is_collection = photos_base_item_is_collection (PHOTOS_BASE_ITEM (object));
+  if (is_collection)
+    g_return_val_if_fail (self->active_collection == NULL, FALSE);
+
   if (object == self->active_object)
     goto out;
 
   photos_item_manager_clear_active_item_load (self);
 
-  if (photos_base_item_is_collection (PHOTOS_BASE_ITEM (object)))
+  if (is_collection)
     {
-      g_queue_push_head (self->collection_path,
-                         (self->active_collection != NULL) ? g_object_ref (self->active_collection) : NULL);
-
-      g_set_object (&self->active_collection, PHOTOS_BASE_ITEM (object));
+      g_assert_null (self->active_collection);
+      self->active_collection = g_object_ref (PHOTOS_BASE_ITEM (object));
       self->load_state = PHOTOS_LOAD_STATE_NONE;
       active_collection_changed = TRUE;
     }
@@ -781,12 +768,6 @@ photos_item_manager_dispose (GObject *object)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (object);
 
-  if (self->collection_path != NULL)
-    {
-      photos_item_manager_collection_path_free (self);
-      self->collection_path = NULL;
-    }
-
   if (self->item_mngr_chldrn != NULL)
     {
       guint i;
@@ -842,7 +823,6 @@ photos_item_manager_init (PhotosItemManager *self)
                                                         g_free,
                                                         (GDestroyNotify) photos_utils_object_list_free_full);
   self->extension_point = g_io_extension_point_lookup (PHOTOS_BASE_ITEM_EXTENSION_POINT_NAME);
-  self->collection_path = g_queue_new ();
   self->history = g_queue_new ();
 
   window_mode_class = G_ENUM_CLASS (g_type_class_ref (PHOTOS_TYPE_WINDOW_MODE));
@@ -977,25 +957,16 @@ photos_item_manager_new (void)
 void
 photos_item_manager_activate_previous_collection (PhotosItemManager *self)
 {
-  gpointer *collection;
-
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self->active_collection));
 
   photos_item_manager_clear_active_item_load (self);
 
-  collection = g_queue_pop_head (self->collection_path);
-  g_assert (collection == NULL || PHOTOS_IS_BASE_ITEM (collection));
-
-  g_set_object (&self->active_collection, PHOTOS_BASE_ITEM (collection));
-  g_set_object (&self->active_object, G_OBJECT (collection));
+  g_clear_object (&self->active_collection);
+  g_clear_object (&self->active_object);
 
   g_signal_emit_by_name (self, "active-changed", self->active_object);
   g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
-
-  g_clear_object (&collection);
-
-  g_return_if_fail (self->active_collection == NULL);
-  g_return_if_fail (self->active_object == NULL);
 }
 
 
@@ -1376,9 +1347,6 @@ photos_mode_controller_go_back (PhotosModeController *self)
     }
   else if (old_mode != PHOTOS_WINDOW_MODE_EDIT)
     {
-      photos_item_manager_collection_path_free (self);
-      self->collection_path = g_queue_new ();
-
       g_clear_object (&self->active_collection);
       g_clear_object (&self->active_object);
       self->load_state = PHOTOS_LOAD_STATE_NONE;
@@ -1441,8 +1409,6 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
   if (mode != PHOTOS_WINDOW_MODE_EDIT)
     {
       self->load_state = PHOTOS_LOAD_STATE_NONE;
-      photos_item_manager_collection_path_free (self);
-      self->collection_path = g_queue_new ();
 
       if (self->active_collection != NULL)
         {
