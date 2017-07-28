@@ -113,10 +113,21 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
   gboolean selection_mode;
   gchar *primary = NULL;
 
-  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
   selection_mode = photos_utils_get_selection_mode ();
   window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
 
+  if (selection_mode)
+    {
+      g_return_if_fail (window_mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+                        || window_mode == PHOTOS_WINDOW_MODE_FAVORITES
+                        || window_mode == PHOTOS_WINDOW_MODE_OVERVIEW
+                        || window_mode == PHOTOS_WINDOW_MODE_SEARCH);
+    }
+
+  if (window_mode == PHOTOS_WINDOW_MODE_EDIT || window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    g_return_if_fail (!selection_mode);
+
+  active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
   if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW
       || window_mode == PHOTOS_WINDOW_MODE_COLLECTIONS
       || window_mode == PHOTOS_WINDOW_MODE_FAVORITES
