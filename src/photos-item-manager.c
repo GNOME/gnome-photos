@@ -1304,6 +1304,8 @@ photos_mode_controller_go_back (PhotosModeController *self)
 {
   PhotosWindowMode old_mode;
   PhotosWindowMode tmp;
+  gboolean active_changed = FALSE;
+  gboolean active_collection_changed = FALSE;
 
   g_return_if_fail (PHOTOS_IS_MODE_CONTROLLER (self));
   g_return_if_fail (!g_queue_is_empty (self->history));
@@ -1363,38 +1365,36 @@ photos_mode_controller_go_back (PhotosModeController *self)
     case PHOTOS_WINDOW_MODE_PREVIEW:
       self->load_state = PHOTOS_LOAD_STATE_NONE;
       g_set_object (&self->active_object, G_OBJECT (self->active_collection));
-      g_signal_emit_by_name (self, "active-changed", self->active_object);
+      active_changed = TRUE;
       break;
 
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
-      {
-        gboolean active_collection_changed = FALSE;
+      if (self->active_collection != NULL)
+        {
+          g_clear_object (&self->active_collection);
+          active_collection_changed = TRUE;
+        }
 
-        if (self->active_collection != NULL)
-          {
-            g_clear_object (&self->active_collection);
-            active_collection_changed = TRUE;
-          }
+      g_clear_object (&self->active_object);
+      active_changed = TRUE;
 
-        g_clear_object (&self->active_object);
-        self->load_state = PHOTOS_LOAD_STATE_NONE;
-
-        g_signal_emit_by_name (self, "active-changed", self->active_object);
-
-        if (active_collection_changed)
-          g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
-
-        break;
-      }
+      self->load_state = PHOTOS_LOAD_STATE_NONE;
+      break;
 
     case PHOTOS_WINDOW_MODE_NONE:
     default:
       g_assert_not_reached ();
       break;
     }
+
+  if (active_changed)
+    g_signal_emit_by_name (self, "active-changed", self->active_object);
+
+  if (active_collection_changed)
+    g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
 
   g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, self->mode, old_mode);
 }
