@@ -1326,14 +1326,17 @@ photos_mode_controller_go_back (PhotosModeController *self)
       g_return_if_fail (old_mode == PHOTOS_WINDOW_MODE_PREVIEW);
       break;
 
-    case PHOTOS_WINDOW_MODE_NONE:
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_PREVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
-    default:
       g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
+      break;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    default:
+      g_assert_not_reached ();
       break;
     }
 
@@ -1358,12 +1361,10 @@ photos_mode_controller_go_back (PhotosModeController *self)
       g_signal_emit_by_name (self, "active-changed", self->active_object);
       break;
 
-    case PHOTOS_WINDOW_MODE_NONE:
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
-    default:
       {
         gboolean active_collection_changed = FALSE;
 
@@ -1383,6 +1384,11 @@ photos_mode_controller_go_back (PhotosModeController *self)
 
         break;
       }
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    default:
+      g_assert_not_reached ();
+      break;
     }
 
   g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, self->mode, old_mode);
