@@ -159,6 +159,7 @@ photos_tool_crop_calculate_aspect_ratio (PhotosToolCrop *self, guint constraint)
 
     default:
       g_assert_not_reached ();
+      break;
     }
 
   return ret_val;

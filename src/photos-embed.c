@@ -163,6 +163,7 @@ photos_embed_get_view_container_from_mode (PhotosEmbed *self, PhotosWindowMode m
     case PHOTOS_WINDOW_MODE_PREVIEW:
     default:
       g_assert_not_reached ();
+      break;
     }
 
   return view_container;
