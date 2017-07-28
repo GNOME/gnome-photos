@@ -1347,12 +1347,21 @@ photos_mode_controller_go_back (PhotosModeController *self)
     }
   else if (old_mode != PHOTOS_WINDOW_MODE_EDIT)
     {
-      g_clear_object (&self->active_collection);
+      gboolean active_collection_changed = FALSE;
+
+      if (self->active_collection != NULL)
+        {
+          g_clear_object (&self->active_collection);
+          active_collection_changed = TRUE;
+        }
+
       g_clear_object (&self->active_object);
       self->load_state = PHOTOS_LOAD_STATE_NONE;
 
       g_signal_emit_by_name (self, "active-changed", self->active_object);
-      g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
+
+      if (active_collection_changed)
+        g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
     }
 
   g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, self->mode, old_mode);
