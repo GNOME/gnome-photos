@@ -1319,14 +1319,22 @@ photos_mode_controller_go_back (PhotosModeController *self)
 
   g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_NONE);
 
-  if (self->mode == PHOTOS_WINDOW_MODE_EDIT)
+  switch (self->mode)
     {
+    case PHOTOS_WINDOW_MODE_EDIT:
       g_return_if_fail (self->load_state == PHOTOS_LOAD_STATE_FINISHED);
       g_return_if_fail (old_mode == PHOTOS_WINDOW_MODE_PREVIEW);
-    }
-  else
-    {
+      break;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+    default:
       g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
+      break;
     }
 
   g_queue_pop_head (self->history);
@@ -1339,29 +1347,42 @@ photos_mode_controller_go_back (PhotosModeController *self)
   photos_item_manager_update_fullscreen (self);
   photos_item_manager_clear_active_item_load (self);
 
-  if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
+  switch (old_mode)
     {
+    case PHOTOS_WINDOW_MODE_EDIT:
+      break;
+
+    case PHOTOS_WINDOW_MODE_PREVIEW:
       self->load_state = PHOTOS_LOAD_STATE_NONE;
       g_set_object (&self->active_object, G_OBJECT (self->active_collection));
       g_signal_emit_by_name (self, "active-changed", self->active_object);
-    }
-  else if (old_mode != PHOTOS_WINDOW_MODE_EDIT)
-    {
-      gboolean active_collection_changed = FALSE;
+      break;
 
-      if (self->active_collection != NULL)
-        {
-          g_clear_object (&self->active_collection);
-          active_collection_changed = TRUE;
-        }
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+    default:
+      {
+        gboolean active_collection_changed = FALSE;
 
-      g_clear_object (&self->active_object);
-      self->load_state = PHOTOS_LOAD_STATE_NONE;
+        if (self->active_collection != NULL)
+          {
+            g_clear_object (&self->active_collection);
+            active_collection_changed = TRUE;
+          }
 
-      g_signal_emit_by_name (self, "active-changed", self->active_object);
+        g_clear_object (&self->active_object);
+        self->load_state = PHOTOS_LOAD_STATE_NONE;
 
-      if (active_collection_changed)
-        g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
+        g_signal_emit_by_name (self, "active-changed", self->active_object);
+
+        if (active_collection_changed)
+          g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
+
+        break;
+      }
     }
 
   g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, self->mode, old_mode);
