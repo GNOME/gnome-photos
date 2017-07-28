@@ -1329,8 +1329,13 @@ photos_mode_controller_go_back (PhotosModeController *self)
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
-    case PHOTOS_WINDOW_MODE_PREVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
+      g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
+      break;
+
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      g_return_if_fail (PHOTOS_IS_BASE_ITEM (self->active_object));
+      g_return_if_fail (self->active_object != (GObject *) self->active_collection);
       g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
       break;
 
