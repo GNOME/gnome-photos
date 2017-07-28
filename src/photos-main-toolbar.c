@@ -840,27 +840,50 @@ photos_main_toolbar_is_focus (PhotosMainToolbar *self)
 void
 photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
 {
-  PhotosWindowMode window_mode;
   gboolean selection_mode;
 
   photos_main_toolbar_clear_toolbar (self);
   selection_mode = photos_utils_get_selection_mode ();
-  window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
 
   if (selection_mode)
     photos_main_toolbar_populate_for_selection_mode (self);
-  else if (window_mode == PHOTOS_WINDOW_MODE_COLLECTIONS)
-    photos_main_toolbar_populate_for_collections (self);
-  else if (window_mode == PHOTOS_WINDOW_MODE_EDIT)
-    photos_main_toolbar_populate_for_edit (self);
-  else if (window_mode == PHOTOS_WINDOW_MODE_FAVORITES)
-    photos_main_toolbar_populate_for_favorites (self);
-  else if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW)
-    photos_main_toolbar_populate_for_overview (self);
-  else if (window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    photos_main_toolbar_populate_for_preview (self);
-  else if (window_mode == PHOTOS_WINDOW_MODE_SEARCH)
-    photos_main_toolbar_populate_for_search (self);
+  else
+    {
+      PhotosWindowMode window_mode;
+
+      window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
+
+      switch (window_mode)
+        {
+        case PHOTOS_WINDOW_MODE_COLLECTIONS:
+          photos_main_toolbar_populate_for_collections (self);
+          break;
+
+        case PHOTOS_WINDOW_MODE_EDIT:
+          photos_main_toolbar_populate_for_edit (self);
+          break;
+
+        case PHOTOS_WINDOW_MODE_FAVORITES:
+          photos_main_toolbar_populate_for_favorites (self);
+          break;
+
+        case PHOTOS_WINDOW_MODE_OVERVIEW:
+          photos_main_toolbar_populate_for_overview (self);
+          break;
+
+        case PHOTOS_WINDOW_MODE_PREVIEW:
+          photos_main_toolbar_populate_for_preview (self);
+          break;
+
+        case PHOTOS_WINDOW_MODE_SEARCH:
+          photos_main_toolbar_populate_for_search (self);
+          break;
+
+        case PHOTOS_WINDOW_MODE_NONE:
+        default:
+          break;
+        }
+    }
 
   photos_main_toolbar_items_changed (self);
   photos_main_toolbar_update_remote_display_button (self);
