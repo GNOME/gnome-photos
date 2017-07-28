@@ -75,6 +75,36 @@ G_DEFINE_TYPE (PhotosMainToolbar, photos_main_toolbar, GTK_TYPE_BOX);
 static void photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self, gboolean favorite);
 
 
+static gchar *
+photos_main_toolbar_create_selection_mode_label (PhotosMainToolbar *self, PhotosBaseItem *active_collection)
+{
+  GList *selection;
+  gchar *label = NULL;
+  gchar *ret_val = NULL;
+  guint length;
+
+  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
+  length = g_list_length (selection);
+  if (length == 0)
+    label = g_strdup(_("Click on items to select them"));
+  else
+    label = g_strdup_printf (ngettext ("%d selected", "%d selected", length), length);
+
+  if (active_collection != NULL)
+    {
+      ret_val = g_markup_printf_escaped ("<b>%s</b> (%s)", photos_base_item_get_name (active_collection), label);
+    }
+  else
+    {
+      ret_val = label;
+      label = NULL;
+    }
+
+  g_free (label);
+  return ret_val;
+}
+
+
 static void
 photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 {
@@ -99,30 +129,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
         }
       else
         {
-          GList *selection;
-          gchar *label;
-          guint length;
-
-          selection = photos_selection_controller_get_selection (self->sel_cntrlr);
-          length = g_list_length (selection);
-          if (length == 0)
-            label = g_strdup(_("Click on items to select them"));
-          else
-            label = g_strdup_printf (ngettext ("%d selected", "%d selected", length), length);
-
-          if (active_collection != NULL)
-            {
-              primary =  g_markup_printf_escaped ("<b>%s</b> (%s)",
-                                                  photos_base_item_get_name (active_collection),
-                                                  label);
-            }
-          else
-            {
-              primary = label;
-              label = NULL;
-            }
-
-          g_free (label);
+          primary = photos_main_toolbar_create_selection_mode_label (self, active_collection);
         }
     }
   else if (window_mode == PHOTOS_WINDOW_MODE_EDIT || window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
