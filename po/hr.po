@@ -8,8 +8,9 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-24\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-04-06 09:16+0000\n"
-"PO-Revision-Date: 2017-04-09 02:03+0200\n"
+"POT-Creation-Date: 2017-07-21 15:54+0000\n"
+"PO-Revision-Date: 2017-07-29 19:01+0200\n"
+"Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
@@ -17,16 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"Last-Translator: gogo <trebelnik2@gmail.com>\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.3\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:673
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Fotografije"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:495
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:477
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Pristupite, organizirajte i dijelite svoje fotografije na GNOMU"
 
@@ -107,15 +107,35 @@ msgstr "Prozor uvećan"
 msgid "Window maximized state"
 msgstr "Stanje uvećanog prozora"
 
-#: ../src/photos-application.c:153
+#: ../src/egg-animation.c:730
+#, c-format
+msgid "Cannot locate property %s in class %s"
+msgstr "Nemoguće lociranje svojstva %s u klasi %s"
+
+#: ../src/egg-animation.c:1077 ../src/egg-animation.c:1083
+#, c-format
+msgid "Failed to find property %s in %s"
+msgstr "Neuspješni pronalazak svojstva %s u %s"
+
+#: ../src/egg-animation.c:1091
+#, c-format
+msgid "Failed to find property %s in %s or parent %s"
+msgstr "Neuspješni pronalazak svojstva %s u %s ili sadržajni %s"
+
+#: ../src/egg-animation.c:1101
+#, c-format
+msgid "Failed to retrieve va_list value: %s"
+msgstr "Nemoguće primanje va_list vrijednosti: %s"
+
+#: ../src/photos-application.c:157
 msgid "Show the application's version"
 msgstr "Prikaži inačicu aplikacije"
 
-#: ../src/photos-base-item.c:617
+#: ../src/photos-base-item.c:615
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2540
+#: ../src/photos-base-item.c:2538
 msgid "Screenshots"
 msgstr "Slike zaslona"
 
@@ -146,15 +166,15 @@ msgstr "DLNA uređaj prikaza"
 msgid "“%s” edited"
 msgstr "“%s” uređen"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:677 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:681 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Omiljeni"
 
-#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:329
+#: ../src/photos-embed.c:685 ../src/photos-main-toolbar.c:323
 msgid "Search"
 msgstr "Pretraga"
 
@@ -237,7 +257,7 @@ msgstr "%e %B %Y"
 
 #: ../src/photos-export-dialog.c:259
 msgid "Calculating export size…"
-msgstr "Izračunavanje veličine izvoza..."
+msgstr "Izračunavanje veličine izvoza…"
 
 #: ../src/photos-export-notification.c:250
 msgid "Failed to export: not enough space"
@@ -270,7 +290,7 @@ msgstr "Isprazni smeće"
 
 #. Translators: this is the Open action in a context menu
 #: ../src/photos-export-notification.c:303 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-selection-toolbar.c:247 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Otvori"
 
@@ -376,25 +396,40 @@ msgstr "Ispiši"
 
 #: ../src/photos-help-overlay.ui.h:17
 msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Uvećaj"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Umanji"
+
+#: ../src/photos-help-overlay.ui.h:19
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "Najbolje pristajanje"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Obriši"
 
-#: ../src/photos-help-overlay.ui.h:18
+#: ../src/photos-help-overlay.ui.h:21
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Izbornik radnji"
 
-#: ../src/photos-help-overlay.ui.h:19
+#: ../src/photos-help-overlay.ui.h:22
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Cijeli zaslon"
 
-#: ../src/photos-help-overlay.ui.h:20
+#: ../src/photos-help-overlay.ui.h:23
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Uredi prikaz"
 
-#: ../src/photos-help-overlay.ui.h:21
+#: ../src/photos-help-overlay.ui.h:24
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Odustani"
@@ -423,11 +458,11 @@ msgstr "Neko fotografije možda neće biti dostupne tijekom ovog procesa"
 msgid "Local"
 msgstr "Lokalno"
 
-#: ../src/photos-main-toolbar.c:108
+#: ../src/photos-main-toolbar.c:109
 msgid "Click on items to select them"
 msgstr "Kliknite na stavku za odabir"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:111
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -435,38 +470,38 @@ msgstr[0] "%d odabrana"
 msgstr[1] "%d odabrane"
 msgstr[2] "%d odabrano"
 
-#: ../src/photos-main-toolbar.c:160
+#: ../src/photos-main-toolbar.c:161
 msgid "Back"
 msgstr "Natrag"
 
-#: ../src/photos-main-toolbar.c:344
+#: ../src/photos-main-toolbar.c:338
 msgid "Select Items"
 msgstr "Odaberi stavke"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:438 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:422 ../src/photos-selection-toolbar.c:244
 #, c-format
 msgid "Open with %s"
 msgstr "Otvori s %s"
 
-#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:455 ../src/photos-selection-toolbar.c:255
 msgid "Remove from favorites"
 msgstr "Ukloni iz omiljenih"
 
-#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:460 ../src/photos-selection-toolbar.c:260
 msgid "Add to favorites"
 msgstr "Dodaj u omiljeno"
 
-#: ../src/photos-main-toolbar.c:520 ../src/photos-main-toolbar.c:658
+#: ../src/photos-main-toolbar.c:497 ../src/photos-main-toolbar.c:635
 msgid "Cancel"
 msgstr "Odustani"
 
-#: ../src/photos-main-toolbar.c:524
+#: ../src/photos-main-toolbar.c:501
 msgid "Done"
 msgstr "Gotovo"
 
-#: ../src/photos-main-window.c:496
+#: ../src/photos-main-window.c:478
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -477,7 +512,7 @@ msgstr ""
 "Autorsko pravo  © 2012 – 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:506
+#: ../src/photos-main-window.c:488
 msgid "translator-credits"
 msgstr "gogo https://launchpad.net/~trebelnik-stefina"
 
@@ -517,11 +552,11 @@ msgstr "Organiziraj"
 
 #: ../src/photos-preview-menu.ui.h:2
 msgid "Export…"
-msgstr "Izvoz..."
+msgstr "Izvoz…"
 
 #: ../src/photos-preview-menu.ui.h:3
 msgid "Print…"
-msgstr "Ispis..."
+msgstr "Ispis…"
 
 #: ../src/photos-preview-menu.ui.h:4
 msgid "Delete"
@@ -529,7 +564,7 @@ msgstr "Obriši"
 
 #: ../src/photos-preview-menu.ui.h:5
 msgid "Display on…"
-msgstr "Prikaži na..."
+msgstr "Prikaži na…"
 
 #: ../src/photos-preview-menu.ui.h:6
 msgid "Set as Background"
@@ -544,7 +579,7 @@ msgstr "Postavi na zaključani zaslon"
 msgid "Properties"
 msgstr "Svojstva"
 
-#: ../src/photos-print-notification.c:79
+#: ../src/photos-print-notification.c:74
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Ispisivanje “%s”: %s"
@@ -677,7 +712,7 @@ msgstr "Lokacija"
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:335
 msgid "Exposure"
 msgstr "Ekspozicija"
 
@@ -794,7 +829,7 @@ msgstr "Vaše %s vjerodajnica je istekla"
 msgid "D-Bus address to use"
 msgstr "D-Bus adresa za korištenje"
 
-#: ../src/photos-tool-colors.c:315
+#: ../src/photos-tool-colors.c:313
 msgid "Brightness"
 msgstr "Svjetlina"
 
@@ -802,71 +837,79 @@ msgstr "Svjetlina"
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../src/photos-tool-colors.c:376
+#: ../src/photos-tool-colors.c:377
 msgid "Blacks"
 msgstr "Crno"
 
-#: ../src/photos-tool-colors.c:396
+#: ../src/photos-tool-colors.c:398
 msgid "Saturation"
 msgstr "Zasićenje"
 
-#: ../src/photos-tool-colors.c:423
+#: ../src/photos-tool-colors.c:426
 msgid "Colors"
 msgstr "Boje"
 
-#: ../src/photos-tool-crop.c:119
+#: ../src/photos-tool-crop.c:123
 msgid "Free"
 msgstr "Slobodno"
 
-#: ../src/photos-tool-crop.c:120
+#: ../src/photos-tool-crop.c:124
 msgid "Original"
 msgstr "Izvorno"
 
-#: ../src/photos-tool-crop.c:121
+#: ../src/photos-tool-crop.c:125
 msgid "1×1 (Square)"
 msgstr "1×1 (kvadrat)"
 
-#: ../src/photos-tool-crop.c:122
+#: ../src/photos-tool-crop.c:126
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:123
+#: ../src/photos-tool-crop.c:127
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:124
+#: ../src/photos-tool-crop.c:128
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:125
+#: ../src/photos-tool-crop.c:129
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:126
+#: ../src/photos-tool-crop.c:130
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:127
+#: ../src/photos-tool-crop.c:131
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1191
+#: ../src/photos-tool-crop.c:1254
 msgid "Lock aspect ratio"
 msgstr "Zaključaj omjer slike"
 
-#: ../src/photos-tool-crop.c:1239
+#: ../src/photos-tool-crop.c:1322
+msgid "Landscape"
+msgstr "Položeno"
+
+#: ../src/photos-tool-crop.c:1333
+msgid "Portrait"
+msgstr "Uspravno"
+
+#: ../src/photos-tool-crop.c:1344
 msgid "Reset"
 msgstr "Vrati izvorno"
 
-#: ../src/photos-tool-crop.c:1256
+#: ../src/photos-tool-crop.c:1364
 msgid "Crop"
 msgstr "Obreži"
 
-#: ../src/photos-tool-enhance.c:202
+#: ../src/photos-tool-enhance.c:200
 msgid "Sharpen"
 msgstr "Izoštri"
 
-#: ../src/photos-tool-enhance.c:222
+#: ../src/photos-tool-enhance.c:221
 msgid "Denoise"
 msgstr "Smanji smetnje"
 
