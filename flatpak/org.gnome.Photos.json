@@ -33,11 +33,11 @@
             "V": "1"
         }
     },
-    "cleanup": ["/include", "/lib/pkgconfig",
-                "/share/pkgconfig", "/share/aclocal",
-                "/man", "/share/man", "/share/gtk-doc",
-                "/share/vala",
-                "*.la", "*.a"
+    "cleanup": [ "/include", "/lib/pkgconfig",
+                 "/share/pkgconfig", "/share/aclocal",
+                 "/man", "/share/man", "/share/gtk-doc",
+                 "/share/vala",
+                 "*.la", "*.a"
                ],
     "modules": [
            {
@@ -89,7 +89,7 @@
         {
             /* required by libgfbgraph */
             "name": "gnome-online-accounts",
-            "config-opts": ["--disable-telepathy", "--disable-documentation", "--disable-backend"],
+            "config-opts": [ "--disable-telepathy", "--disable-documentation", "--disable-backend" ],
             "sources": [
                 {
                     "type": "archive",
@@ -122,7 +122,7 @@
         },
         {
             "name": "libgdata",
-            "config-opts": ["--disable-always-build-tests", "--disable-Werror", "--disable-static" ],
+            "config-opts": [ "--disable-always-build-tests", "--disable-Werror", "--disable-static" ],
             "sources": [
                 {
                     "type": "archive",
@@ -191,7 +191,7 @@
         },
         {
             "name": "gnome-desktop",
-            "config-opts": ["--disable-debug-tools", "--disable-udev"],
+            "config-opts": [ "--disable-debug-tools", "--disable-udev" ],
             "sources": [
                 {
                     "type": "archive",
