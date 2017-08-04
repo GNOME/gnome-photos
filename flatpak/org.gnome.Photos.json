@@ -25,11 +25,11 @@
             "V": "1"
         }
     },
-    "cleanup": ["/include", "/lib/pkgconfig",
-                "/share/pkgconfig", "/share/aclocal",
-                "/man", "/share/man", "/share/gtk-doc",
-                "/share/vala",
-                "*.la", "*.a"
+    "cleanup": [ "/include", "/lib/pkgconfig",
+                 "/share/pkgconfig", "/share/aclocal",
+                 "/man", "/share/man", "/share/gtk-doc",
+                 "/share/vala",
+                 "*.la", "*.a"
                ],
     "modules": [
            {
@@ -76,7 +76,7 @@
         },
         {
             "name": "gnome-online-accounts",
-            "config-opts": ["--disable-telepathy", "--disable-documentation", "--disable-backend"],
+            "config-opts": [ "--disable-telepathy", "--disable-documentation", "--disable-backend" ],
             "sources": [
                 {
                     "type": "git",
@@ -106,7 +106,7 @@
         },
         {
             "name": "libgdata",
-            "config-opts": ["--disable-always-build-tests", "--disable-Werror", "--disable-static" ],
+            "config-opts": [ "--disable-always-build-tests", "--disable-Werror", "--disable-static" ],
             "sources": [
                 {
                     "type": "git",
@@ -182,7 +182,7 @@
         },
         {
             "name": "gnome-desktop",
-            "config-opts": ["--disable-debug-tools", "--disable-udev"],
+            "config-opts": [ "--disable-debug-tools", "--disable-udev" ],
             "sources": [
                 {
                     "type": "git",
