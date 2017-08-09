@@ -238,8 +238,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.gnome.org/sources/gnome-photos/3.22/gnome-photos-3.22.5.tar.xz",
-                    "sha256": "99a64bc95690c67d24d6db64c0ba1cdc2c2e1acbb3f2fa783fddaafd4a015b64"
+                    "url": "https://download.gnome.org/sources/gnome-photos/3.22/gnome-photos-3.22.6.tar.xz",
+                    "sha256": "476a901e4ed3eb9759a5e379937ff91e985f2f796de8d76289580b8b2f7fd86e"
                 }
             ]
         }
