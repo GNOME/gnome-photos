@@ -181,16 +181,6 @@
             ]
         },
         {
-            "name": "gnome-desktop",
-            "config-opts": [ "--disable-debug-tools", "--disable-udev" ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "git://git.gnome.org/gnome-desktop"
-                }
-            ]
-        },
-        {
             "name": "grilo",
             "cleanup": [ "/bin" ],
             "sources": [
