@@ -29,13 +29,13 @@
 
 #include <stdlib.h>
 
+#include <gdesktop-enums.h>
 #include <gegl.h>
 #include <gexiv2/gexiv2.h>
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <grilo.h>
-#include <libgnome-desktop/gnome-bg.h>
 
 #include "photos-application.h"
 #include "photos-base-item.h"
