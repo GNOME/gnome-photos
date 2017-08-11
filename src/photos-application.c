@@ -581,8 +581,14 @@ photos_application_gegl_init_fishes_idle (gpointer user_data)
 static gboolean
 photos_application_sanity_check_gegl (PhotosApplication *self)
 {
+  GeglConfig *config;
   gboolean ret_val = TRUE;
+  gboolean use_opencl;
   guint i;
+
+  config = gegl_config ();
+  g_object_get (config, "use-opencl", &use_opencl, NULL);
+  photos_debug (PHOTOS_DEBUG_GEGL, "Using OpenCL: %s", use_opencl ? "yes" : "no");
 
   for (i = 0; i < G_N_ELEMENTS (REQUIRED_GEGL_OPS); i++)
     {
