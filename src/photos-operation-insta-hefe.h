@@ -23,8 +23,6 @@
 
 #include <gegl-plugin.h>
 
-#include "photos-gegl.h"
-
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_INSTA_HEFE (photos_operation_insta_hefe_get_type ())

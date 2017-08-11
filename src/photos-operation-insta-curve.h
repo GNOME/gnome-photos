@@ -23,8 +23,6 @@
 
 #include <gegl-plugin.h>
 
-#include "photos-gegl.h"
-
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_INSTA_CURVE (photos_operation_insta_curve_get_type ())

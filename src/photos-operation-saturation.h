@@ -23,8 +23,6 @@
 
 #include <gegl-plugin.h>
 
-#include "photos-gegl.h"
-
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_SATURATION (photos_operation_saturation_get_type ())

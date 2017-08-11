@@ -23,8 +23,6 @@
 
 #include <gegl-plugin.h>
 
-#include "photos-gegl.h"
-
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_INSTA_FILTER (photos_operation_insta_filter_get_type ())
