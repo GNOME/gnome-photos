@@ -1,1 +1,4 @@
+# List of source files that should *not* be translated.
+# Please keep this list sorted alphabetically.
 data/org.gnome.Photos.desktop.in
+src/egg-animation.c

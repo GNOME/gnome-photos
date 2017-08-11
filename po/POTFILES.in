@@ -3,7 +3,6 @@
 data/org.gnome.Photos.appdata.xml.in
 data/org.gnome.Photos.desktop.in.in
 data/org.gnome.photos.gschema.xml
-src/egg-animation.c
 src/photos-application.c
 src/photos-base-item.c
 src/photos-delete-notification.c
