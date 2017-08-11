@@ -23,8 +23,6 @@
 
 #include <glib-object.h>
 
-#include "photos-gegl.h"
-
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_SVG_MULTIPLY (photos_operation_svg_multiply_get_type ())
