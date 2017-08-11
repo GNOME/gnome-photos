@@ -21,18 +21,26 @@
 #ifndef PHOTOS_OPERATION_SVG_MULTIPLY_H
 #define PHOTOS_OPERATION_SVG_MULTIPLY_H
 
-#include <gegl-plugin.h>
+#include <glib-object.h>
 
 #include "photos-gegl.h"
 
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OPERATION_SVG_MULTIPLY (photos_operation_svg_multiply_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosOperationSvgMultiply,
-                      photos_operation_svg_multiply,
-                      PHOTOS,
-                      OPERATION_SVG_MULTIPLY,
-                      GeglOperationPointComposer);
+
+#define PHOTOS_OPERATION_SVG_MULTIPLY(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
+   PHOTOS_TYPE_OPERATION_SVG_MULTIPLY, PhotosOperationSvgMultiply))
+
+#define PHOTOS_IS_OPERATION_SVG_MULTIPLY(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
+   PHOTOS_TYPE_OPERATION_SVG_MULTIPLY))
+
+typedef struct _PhotosOperationSvgMultiply      PhotosOperationSvgMultiply;
+typedef struct _PhotosOperationSvgMultiplyClass PhotosOperationSvgMultiplyClass;
+
+GType            photos_operation_svg_multiply_get_type       (void) G_GNUC_CONST;
 
 G_END_DECLS
 

@@ -23,6 +23,7 @@
 
 #include <babl/babl.h>
 #include <gegl.h>
+#include <gegl-plugin.h>
 
 #include "photos-operation-svg-multiply.h"
 
@@ -31,6 +32,11 @@ struct _PhotosOperationSvgMultiply
 {
   GeglOperationPointComposer parent_instance;
   gboolean srgb;
+};
+
+struct _PhotosOperationSvgMultiplyClass
+{
+  GeglOperationPointComposerClass parent_class;
 };
 
 enum
