@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-03-10 13:25+0000\n"
-"PO-Revision-Date: 2017-03-12 07:42+0200\n"
+"POT-Creation-Date: 2017-08-11 02:03+0000\n"
+"PO-Revision-Date: 2017-08-14 21:08+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -22,12 +22,12 @@ msgstr ""
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:674
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Фотографије"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:477
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Приступите, разврстајте и делите ваше фотографије на Гному"
 
@@ -107,15 +107,15 @@ msgstr "Увећан прозор"
 msgid "Window maximized state"
 msgstr "Стање увећања прозора"
 
-#: ../src/photos-application.c:153
+#: ../src/photos-application.c:157
 msgid "Show the application's version"
 msgstr "Приказује издање програма"
 
-#: ../src/photos-base-item.c:617
+#: ../src/photos-base-item.c:615
 msgid "Album"
 msgstr "Албум"
 
-#: ../src/photos-base-item.c:2540
+#: ../src/photos-base-item.c:2538
 msgid "Screenshots"
 msgstr "Снимци екрана"
 
@@ -147,15 +147,15 @@ msgstr "Уређаји ДЛНА исцртавача"
 msgid "“%s” edited"
 msgstr "Ставка „%s“ је уређена"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:678 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Албуми"
 
-#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:682 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Омиљене"
 
-#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:329
+#: ../src/photos-embed.c:686 ../src/photos-main-toolbar.c:341
 msgid "Search"
 msgstr "Потражи"
 
@@ -240,20 +240,20 @@ msgstr "%e. %B %Y."
 msgid "Calculating export size…"
 msgstr "Прорачунавам величину извоза…"
 
-#: ../src/photos-export-notification.c:236
+#: ../src/photos-export-notification.c:250
 msgid "Failed to export: not enough space"
 msgstr "Нисам успео да извезем: нема довољно простора"
 
-#: ../src/photos-export-notification.c:238
+#: ../src/photos-export-notification.c:252
 msgid "Failed to export"
 msgstr "Нисам успео да извезем"
 
-#: ../src/photos-export-notification.c:245
+#: ../src/photos-export-notification.c:259
 #, c-format
 msgid "“%s” exported"
 msgstr "Ставка „%s“ је извезена"
 
-#: ../src/photos-export-notification.c:249
+#: ../src/photos-export-notification.c:263
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -262,24 +262,24 @@ msgstr[1] "%d ставке су извезене"
 msgstr[2] "%d ставки је извезено"
 msgstr[3] "Једна ставка је извезена"
 
-#: ../src/photos-export-notification.c:267
+#: ../src/photos-export-notification.c:281
 msgid "Analyze"
 msgstr "Анализирај"
 
-#: ../src/photos-export-notification.c:272
+#: ../src/photos-export-notification.c:286
 msgid "Empty Trash"
 msgstr "Испразни смеће"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:289 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-export-notification.c:303 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:247 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Отвори"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:299
+#: ../src/photos-export-notification.c:313
 msgid "Export Folder"
 msgstr "Извези фасциклу"
 
@@ -378,25 +378,40 @@ msgstr "Штампа"
 
 #: ../src/photos-help-overlay.ui.h:17
 msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Увећава приказ"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Умањује приказ"
+
+#: ../src/photos-help-overlay.ui.h:19
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "Најбоље уклапање"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Брисање"
 
-#: ../src/photos-help-overlay.ui.h:18
+#: ../src/photos-help-overlay.ui.h:21
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Изборник радњи"
 
-#: ../src/photos-help-overlay.ui.h:19
+#: ../src/photos-help-overlay.ui.h:22
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Преко целог екрана"
 
-#: ../src/photos-help-overlay.ui.h:20
+#: ../src/photos-help-overlay.ui.h:23
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Преглед уређивања"
 
-#: ../src/photos-help-overlay.ui.h:21
+#: ../src/photos-help-overlay.ui.h:24
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Отказивање"
@@ -425,11 +440,11 @@ msgstr "Неке фотографије неће бити доступне за 
 msgid "Local"
 msgstr "Месно"
 
-#: ../src/photos-main-toolbar.c:108
+#: ../src/photos-main-toolbar.c:89
 msgid "Click on items to select them"
 msgstr "Кликните на ставке да их изаберете"
 
-#: ../src/photos-main-toolbar.c:110
+#: ../src/photos-main-toolbar.c:91
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -438,38 +453,38 @@ msgstr[1] "%d изабранe"
 msgstr[2] "%d изабраних"
 msgstr[3] "једна изабрана"
 
-#: ../src/photos-main-toolbar.c:160
+#: ../src/photos-main-toolbar.c:179
 msgid "Back"
 msgstr "Назад"
 
-#: ../src/photos-main-toolbar.c:344
+#: ../src/photos-main-toolbar.c:356
 msgid "Select Items"
 msgstr "Изабери ставке"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:438 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:440 ../src/photos-selection-toolbar.c:244
 #, c-format
 msgid "Open with %s"
 msgstr "Отвори програмом „%s“"
 
-#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:473 ../src/photos-selection-toolbar.c:255
 msgid "Remove from favorites"
 msgstr "Уклоните из омиљених"
 
-#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:260
 msgid "Add to favorites"
 msgstr "Додајте у омиљене"
 
-#: ../src/photos-main-toolbar.c:520 ../src/photos-main-toolbar.c:658
+#: ../src/photos-main-toolbar.c:515 ../src/photos-main-toolbar.c:653
 msgid "Cancel"
 msgstr "Откажи"
 
-#: ../src/photos-main-toolbar.c:524
+#: ../src/photos-main-toolbar.c:519
 msgid "Done"
 msgstr "Урађено"
 
-#: ../src/photos-main-window.c:492
+#: ../src/photos-main-window.c:478
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -480,7 +495,7 @@ msgstr ""
 "Ауторска права © 2012–2017 Ред Хет, Инк."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:502
+#: ../src/photos-main-window.c:488
 msgid "translator-credits"
 msgstr ""
 "Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
@@ -551,7 +566,7 @@ msgstr "Постави за екран закључавања"
 msgid "Properties"
 msgstr "Својства"
 
-#: ../src/photos-print-notification.c:79
+#: ../src/photos-print-notification.c:74
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Штампам „%s“: %s"
@@ -684,7 +699,7 @@ msgstr "Места"
 msgid "Camera"
 msgstr "Фото-апарат"
 
-#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:335
 msgid "Exposure"
 msgstr "Изложеност"
 
@@ -794,7 +809,6 @@ msgstr "Извори"
 #.
 #: ../src/photos-source-notification.c:138
 #, c-format
-#| msgid "Your %s crendentials have expired"
 msgid "Your %s credentials have expired"
 msgstr "Ваше „%s“ уверење је истекло"
 
@@ -802,7 +816,7 @@ msgstr "Ваше „%s“ уверење је истекло"
 msgid "D-Bus address to use"
 msgstr "Адреса Д-сабирнице за коришћење"
 
-#: ../src/photos-tool-colors.c:315
+#: ../src/photos-tool-colors.c:313
 msgid "Brightness"
 msgstr "Осветљеност"
 
@@ -810,71 +824,79 @@ msgstr "Осветљеност"
 msgid "Contrast"
 msgstr "Контраст"
 
-#: ../src/photos-tool-colors.c:376
+#: ../src/photos-tool-colors.c:377
 msgid "Blacks"
 msgstr "Црнило"
 
-#: ../src/photos-tool-colors.c:396
+#: ../src/photos-tool-colors.c:398
 msgid "Saturation"
 msgstr "Засићење"
 
-#: ../src/photos-tool-colors.c:423
+#: ../src/photos-tool-colors.c:426
 msgid "Colors"
 msgstr "Боје"
 
-#: ../src/photos-tool-crop.c:119
+#: ../src/photos-tool-crop.c:123
 msgid "Free"
 msgstr "Слободно"
 
-#: ../src/photos-tool-crop.c:120
+#: ../src/photos-tool-crop.c:124
 msgid "Original"
 msgstr "Изворно"
 
-#: ../src/photos-tool-crop.c:121
+#: ../src/photos-tool-crop.c:125
 msgid "1×1 (Square)"
 msgstr "1×1 (Квадрат)"
 
-#: ../src/photos-tool-crop.c:122
+#: ../src/photos-tool-crop.c:126
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:123
+#: ../src/photos-tool-crop.c:127
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:124
+#: ../src/photos-tool-crop.c:128
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:125
+#: ../src/photos-tool-crop.c:129
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:126
+#: ../src/photos-tool-crop.c:130
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:127
+#: ../src/photos-tool-crop.c:131
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1171
+#: ../src/photos-tool-crop.c:1255
 msgid "Lock aspect ratio"
 msgstr "Закључај однос размере"
 
-#: ../src/photos-tool-crop.c:1219
+#: ../src/photos-tool-crop.c:1323
+msgid "Landscape"
+msgstr "Положено"
+
+#: ../src/photos-tool-crop.c:1334
+msgid "Portrait"
+msgstr "Усправно"
+
+#: ../src/photos-tool-crop.c:1345
 msgid "Reset"
 msgstr "Поново постави"
 
-#: ../src/photos-tool-crop.c:1236
+#: ../src/photos-tool-crop.c:1365
 msgid "Crop"
 msgstr "Одрежи"
 
-#: ../src/photos-tool-enhance.c:202
+#: ../src/photos-tool-enhance.c:200
 msgid "Sharpen"
 msgstr "Изоштри"
 
-#: ../src/photos-tool-enhance.c:222
+#: ../src/photos-tool-enhance.c:221
 msgid "Denoise"
 msgstr "Смањи буку"
 
