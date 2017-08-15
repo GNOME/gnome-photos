@@ -239,7 +239,7 @@
         },
         {
             "name": "tracker",
-            "cleanup": [ "/bin", "/etc", "/libexec" ],
+            "cleanup": [ "/bin", "/etc", "/libexec", "/share/dbus-1/services" ],
             "config-opts": [ "--disable-miner-apps",
                              "--disable-miner-evolution",
                              "--disable-miner-firefox",
