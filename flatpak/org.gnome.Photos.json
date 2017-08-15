@@ -7,24 +7,20 @@
     "command": "gnome-photos",
     "tags": [],
     "finish-args": [
-        /* X11 + XShm access */
-        "--share=ipc", "--socket=x11",
-        /* Wayland access */
-        "--socket=wayland",
-        /* Access to users pictures */
-        "--filesystem=xdg-pictures", "--filesystem=xdg-download",
-        /* Needs to talk to the network: */
+        "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+        "--filesystem=~/.config/dconf:ro",
+        "--filesystem=xdg-download",
+        "--filesystem=xdg-pictures",
+        "--filesystem=xdg-run/dconf",
+        "--share=ipc",
         "--share=network",
-        /* Tracker access */
+        "--socket=wayland",
+        "--socket=x11",
+        "--talk-name=ca.desrt.dconf",
         "--talk-name=org.freedesktop.Tracker1",
         "--talk-name=org.freedesktop.Tracker1.Miner.Extract",
-        /* dleyna-renderer access */
         "--talk-name=com.intel.dleyna-renderer",
-        /* SettingsDaemon for org.gnome.SettingsDaemon.Housekeeping:EmptyTrash method */
-        "--talk-name=org.gnome.SettingsDaemon",
-        /* Needed for dconf to work */
-        "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
-        "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
+        "--talk-name=org.gnome.SettingsDaemon"
     ],
     "build-options" : {
         "cflags": "-O2 -g",
@@ -75,7 +71,6 @@
             ]
         },
         {
-            /* required by libgfbgraph */
             "name": "librest",
             "sources": [
                 {
@@ -86,7 +81,6 @@
             ]
         },
         {
-            /* required by libgfbgraph */
             "name": "gnome-online-accounts",
             "config-opts": [ "--disable-telepathy", "--disable-documentation", "--disable-backend" ],
             "sources": [
@@ -109,7 +103,6 @@
             ]
         },
         {
-            /* required by libgdata */
             "name": "liboauth",
             "sources": [
                 {
@@ -177,7 +170,6 @@
             ]
         },
         {
-            /* moved before gegl because it adds features */
             "name": "gexiv2",
             "config-opts": [ "--disable-introspection" ],
             "sources": [
