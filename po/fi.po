@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-20 21:13+0000\n"
-"PO-Revision-Date: 2017-02-21 14:16+0200\n"
+"POT-Creation-Date: 2017-08-11 02:03+0000\n"
+"PO-Revision-Date: 2017-08-15 20:29+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:674
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Kuvat"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:496
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:477
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Hallitse ja jaa kuviasi"
 
@@ -104,15 +104,15 @@ msgstr "Suurennettu ikkuna"
 msgid "Window maximized state"
 msgstr "Suurennetun ikkunan tila"
 
-#: ../src/photos-application.c:149
+#: ../src/photos-application.c:157
 msgid "Show the application's version"
 msgstr "Näytä sovelluksen versio"
 
-#: ../src/photos-base-item.c:589
+#: ../src/photos-base-item.c:615
 msgid "Album"
 msgstr "Albumi"
 
-#: ../src/photos-base-item.c:2303
+#: ../src/photos-base-item.c:2538
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
@@ -142,15 +142,15 @@ msgstr "DLNA Renderer -laitteet"
 msgid "“%s” edited"
 msgstr "“%s” muokattu"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:678 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albumit"
 
-#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:682 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Suosikit"
 
-#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
+#: ../src/photos-embed.c:686 ../src/photos-main-toolbar.c:341
 msgid "Search"
 msgstr "Etsi"
 
@@ -162,7 +162,7 @@ msgstr "Anna nimi ensimmäiselle albumillesi"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:134
-#: ../src/photos-source-notification.c:143
+#: ../src/photos-source-notification.c:146
 msgid "Settings"
 msgstr "järjestelmän asetuksissa"
 
@@ -225,7 +225,7 @@ msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
 #. Translators: this is the default sub-directory where photos
-#. *  will be exported.
+#. * will be exported.
 #.
 #: ../src/photos-export-dialog.c:201
 msgid "%e %B %Y"
@@ -235,49 +235,49 @@ msgstr "%e. %Bta %Y"
 msgid "Calculating export size…"
 msgstr "Lasketaan viennin kokoa…"
 
-#: ../src/photos-export-notification.c:236
+#: ../src/photos-export-notification.c:250
 msgid "Failed to export: not enough space"
 msgstr "Vienti epäonnistui: levytilaa ei ole riittävästi"
 
-#: ../src/photos-export-notification.c:238
+#: ../src/photos-export-notification.c:252
 msgid "Failed to export"
 msgstr "Vienti epäonnistui"
 
-#: ../src/photos-export-notification.c:245
+#: ../src/photos-export-notification.c:259
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” viety"
 
-#: ../src/photos-export-notification.c:249
+#: ../src/photos-export-notification.c:263
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d kohde viety"
 msgstr[1] "%d kohdetta viety"
 
-#: ../src/photos-export-notification.c:267
+#: ../src/photos-export-notification.c:281
 msgid "Analyze"
 msgstr "Analysoi"
 
-#: ../src/photos-export-notification.c:272
+#: ../src/photos-export-notification.c:286
 msgid "Empty Trash"
 msgstr "Tyhjennä roskakori"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:289 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-export-notification.c:303 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:247 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Avaa"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:299
+#: ../src/photos-export-notification.c:313
 msgid "Export Folder"
 msgstr "Vientikansio"
 
 #. Translators: this is the fallback title in the form
-#. *  "Facebook — 2nd January 2013".
+#. * "Facebook — 2nd January 2013".
 #.
 #: ../src/photos-facebook-item.c:100 ../src/photos-flickr-item.c:105
 #: ../src/photos-google-item.c:102
@@ -371,31 +371,46 @@ msgstr "Tulosta"
 
 #: ../src/photos-help-overlay.ui.h:17
 msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Lähennä"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Loitonna"
+
+#: ../src/photos-help-overlay.ui.h:19
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "Paras sovitus"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Poista"
 
-#: ../src/photos-help-overlay.ui.h:18
+#: ../src/photos-help-overlay.ui.h:21
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Toimintovalikko"
 
-#: ../src/photos-help-overlay.ui.h:19
+#: ../src/photos-help-overlay.ui.h:22
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Koko näyttö"
 
-#: ../src/photos-help-overlay.ui.h:20
+#: ../src/photos-help-overlay.ui.h:23
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Muokkausnäkymä"
 
-#: ../src/photos-help-overlay.ui.h:21
+#: ../src/photos-help-overlay.ui.h:24
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Peru"
 
 #. Translators: %s refers to an online account provider, e.g.,
-#. * "Facebook" or "Flickr.
+#. * "Facebook" or "Flickr".
 #.
 #: ../src/photos-indexing-notification.c:167
 #, c-format
@@ -419,49 +434,49 @@ msgstr ""
 msgid "Local"
 msgstr "Paikallinen"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:89
 msgid "Click on items to select them"
 msgstr "Napsauta kohteita valitaksesi ne"
 
-#: ../src/photos-main-toolbar.c:115
+#: ../src/photos-main-toolbar.c:91
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valittu"
 msgstr[1] "%d valittu"
 
-#: ../src/photos-main-toolbar.c:165
+#: ../src/photos-main-toolbar.c:179
 msgid "Back"
 msgstr "Takaisin"
 
-#: ../src/photos-main-toolbar.c:349
+#: ../src/photos-main-toolbar.c:356
 msgid "Select Items"
 msgstr "Valitse kohteet"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:443 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:440 ../src/photos-selection-toolbar.c:244
 #, c-format
 msgid "Open with %s"
 msgstr "Avaa sovelluksella %s"
 
-#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:473 ../src/photos-selection-toolbar.c:255
 msgid "Remove from favorites"
 msgstr "Poista suosikeista"
 
-#: ../src/photos-main-toolbar.c:488 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:260
 msgid "Add to favorites"
 msgstr "Lisää suosikkeihin"
 
-#: ../src/photos-main-toolbar.c:525 ../src/photos-main-toolbar.c:663
+#: ../src/photos-main-toolbar.c:515 ../src/photos-main-toolbar.c:653
 msgid "Cancel"
 msgstr "Peru"
 
-#: ../src/photos-main-toolbar.c:529
+#: ../src/photos-main-toolbar.c:519
 msgid "Done"
 msgstr "Valmis"
 
-#: ../src/photos-main-window.c:497
+#: ../src/photos-main-window.c:478
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -472,7 +487,7 @@ msgstr ""
 "Tekijänoikeus © 2012 - 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:507
+#: ../src/photos-main-window.c:488
 msgid "translator-credits"
 msgstr "Jiri Grönroos"
 
@@ -539,7 +554,7 @@ msgstr "Aseta lukitusnäytön taustaksi"
 msgid "Properties"
 msgstr "Ominaisuudet"
 
-#: ../src/photos-print-notification.c:79
+#: ../src/photos-print-notification.c:74
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Tulostetaan “%s”: %s"
@@ -672,7 +687,7 @@ msgstr "Sijainti"
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:335
 msgid "Exposure"
 msgstr "Valotus"
 
@@ -777,16 +792,19 @@ msgstr "Kuvan lähetys epäonnistui"
 msgid "Sources"
 msgstr "Lähteet"
 
-#: ../src/photos-source-notification.c:135
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: ../src/photos-source-notification.c:138
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "%s-tilitietosi ovat vanhentuneet"
 
-#: ../src/photos-thumbnailer.c:73
+#: ../src/photos-thumbnailer.c:77
 msgid "D-Bus address to use"
 msgstr "Käytettävä D-Bus-osoite"
 
-#: ../src/photos-tool-colors.c:315
+#: ../src/photos-tool-colors.c:313
 msgid "Brightness"
 msgstr "Valoisuus"
 
@@ -794,71 +812,79 @@ msgstr "Valoisuus"
 msgid "Contrast"
 msgstr "Kontrasti"
 
-#: ../src/photos-tool-colors.c:376
+#: ../src/photos-tool-colors.c:377
 msgid "Blacks"
 msgstr "Mustat"
 
-#: ../src/photos-tool-colors.c:396
+#: ../src/photos-tool-colors.c:398
 msgid "Saturation"
 msgstr "Kylläisyys"
 
-#: ../src/photos-tool-colors.c:423
+#: ../src/photos-tool-colors.c:426
 msgid "Colors"
 msgstr "Värit"
 
-#: ../src/photos-tool-crop.c:119
+#: ../src/photos-tool-crop.c:123
 msgid "Free"
 msgstr "Vapaa"
 
-#: ../src/photos-tool-crop.c:120
+#: ../src/photos-tool-crop.c:124
 msgid "Original"
 msgstr "Alkuperäinen"
 
-#: ../src/photos-tool-crop.c:121
+#: ../src/photos-tool-crop.c:125
 msgid "1×1 (Square)"
 msgstr "1×1 (neliö)"
 
-#: ../src/photos-tool-crop.c:122
+#: ../src/photos-tool-crop.c:126
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:123
+#: ../src/photos-tool-crop.c:127
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:124
+#: ../src/photos-tool-crop.c:128
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:125
+#: ../src/photos-tool-crop.c:129
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:126
+#: ../src/photos-tool-crop.c:130
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:127
+#: ../src/photos-tool-crop.c:131
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1171
+#: ../src/photos-tool-crop.c:1255
 msgid "Lock aspect ratio"
 msgstr "Lukitse kuvasuhde"
 
-#: ../src/photos-tool-crop.c:1219
+#: ../src/photos-tool-crop.c:1323
+msgid "Landscape"
+msgstr "Vaakakuva"
+
+#: ../src/photos-tool-crop.c:1334
+msgid "Portrait"
+msgstr "Pystykuva"
+
+#: ../src/photos-tool-crop.c:1345
 msgid "Reset"
 msgstr "Palauta"
 
-#: ../src/photos-tool-crop.c:1236
+#: ../src/photos-tool-crop.c:1365
 msgid "Crop"
 msgstr "Rajaa"
 
-#: ../src/photos-tool-enhance.c:202
+#: ../src/photos-tool-enhance.c:200
 msgid "Sharpen"
 msgstr "Terävöitä"
 
-#: ../src/photos-tool-enhance.c:222
+#: ../src/photos-tool-enhance.c:221
 msgid "Denoise"
 msgstr "Vähennä kohinaa"
 
