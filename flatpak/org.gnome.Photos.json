@@ -243,7 +243,6 @@
             "config-opts": [ "--disable-miner-apps",
                              "--disable-miner-evolution",
                              "--disable-miner-firefox",
-                             "--disable-miner-fs",
                              "--disable-miner-rss",
                              "--disable-miner-thunderbird",
                              "--disable-miner-user-guides",
@@ -253,6 +252,7 @@
                              "--disable-tracker-needle",
                              "--disable-tracker-preferences",
                              "--disable-tracker-writeback",
+                             "--enable-miner-fs",
                              "--enable-minimal",
                              "--with-bash-completion-dir=no" ],
             "sources": [
