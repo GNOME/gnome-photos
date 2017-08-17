@@ -24,14 +24,6 @@ fi
 
 git submodule update --init --recursive
 
-# if the AC_CONFIG_MACRO_DIR() macro is used, create that directory
-# This is a automake bug fixed in automake 1.13.2
-# See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=13514
-m4dir=`autoconf --trace 'AC_CONFIG_MACRO_DIR:$1'`
-if [ -n "$m4dir" ]; then
-    mkdir -p $m4dir
-fi
-
 set -x
 
 intltoolize --force --copy --automake || exit 1
