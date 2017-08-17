@@ -115,7 +115,6 @@ PKG_CHECK_MODULES(GTK_UNIX_PRINT, [gtk+-unix-print-3.0])
 PKG_CHECK_MODULES(PNG, [libpng16])
 PKG_CHECK_MODULES(TRACKER, [tracker-control-2.0 tracker-sparql-2.0])
 
-AX_REQUIRE_DEFINED([LIBGD_INIT])
 LIBGD_INIT([
   gtk-hacks
   main-box
@@ -130,7 +129,6 @@ AC_ARG_ENABLE(dogtail,
               enable_dogtail=yes)
 AM_CONDITIONAL(ENABLE_DOGTAIL, test "$enable_dogtail" != no)
 
-AX_REQUIRE_DEFINED([GLIB_TESTS])
 GLIB_TESTS
 
 GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable glib_compile_resources gio-2.0`
