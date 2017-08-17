@@ -253,7 +253,6 @@
                              "--disable-tracker-preferences",
                              "--disable-tracker-writeback",
                              "--enable-miner-fs",
-                             "--enable-minimal",
                              "--with-bash-completion-dir=no" ],
             "sources": [
                 {
