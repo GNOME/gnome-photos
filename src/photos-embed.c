@@ -190,11 +190,13 @@ photos_embed_restore_search (PhotosEmbed *self)
   if (!self->search_state.saved)
     return;
 
+  photos_embed_block_search_changed (self);
   photos_base_manager_set_active_object (self->src_mngr, self->search_state.source);
   photos_base_manager_set_active_object (self->srch_mngr, self->search_state.search_type);
   photos_search_controller_set_string (self->srch_cntrlr, self->search_state.str);
-  self->search_state.saved = FALSE;
+  photos_embed_unblock_search_changed (self);
 
+  self->search_state.saved = FALSE;
   photos_embed_clear_search (self);
 
   state = g_variant_new ("b", TRUE);
@@ -217,8 +219,10 @@ photos_embed_save_search (PhotosEmbed *self)
   self->search_state.str = g_strdup (photos_search_controller_get_string (self->srch_cntrlr));
   self->search_state.saved = TRUE;
 
+  photos_embed_block_search_changed (self);
   state = g_variant_new ("b", FALSE);
   g_action_change_state (self->search_action, state);
+  photos_embed_unblock_search_changed (self);
 }
 
 
@@ -453,7 +457,6 @@ static void
 photos_embed_search_changed (PhotosEmbed *self)
 {
   GObject *object;
-  PhotosWindowMode mode;
   const gchar *search_type_id;
   const gchar *source_id;
   const gchar *str;
@@ -462,18 +465,7 @@ photos_embed_search_changed (PhotosEmbed *self)
    * the search mode, and when all constraints have been lifted we
    * want to go back to the previous mode which can be either
    * collections, favorites or overview.
-   *
-   * However there are some exceptions, which are taken care of
-   * elsewhere:
-   *  - when moving from search to preview or collection view
-   *  - when in preview
    */
-  object = photos_base_manager_get_active_object (self->item_mngr);
-  mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
-  if (mode == PHOTOS_WINDOW_MODE_SEARCH && object != NULL)
-    return;
-  if (mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    return;
 
   object = photos_base_manager_get_active_object (self->src_mngr);
   source_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
