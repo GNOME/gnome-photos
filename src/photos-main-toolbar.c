@@ -674,9 +674,7 @@ photos_main_toolbar_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_main_toolbar_parent_class)->constructed (object);
 
-  self->searchbar = photos_overview_searchbar_new ();
-  g_object_ref (self->searchbar);
-
+  self->searchbar = g_object_ref_sink (photos_overview_searchbar_new ());
   photos_main_toolbar_reset_toolbar_mode (self);
 }
 
