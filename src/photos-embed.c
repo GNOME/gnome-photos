@@ -350,21 +350,13 @@ photos_embed_active_collection_changed (PhotosBaseManager *manager, PhotosBaseIt
     }
   else
     {
-      PhotosSearchType *search_type;
       const gchar *str;
-      const gchar *id;
 
       photos_embed_save_search (self);
 
-      search_type = PHOTOS_SEARCH_TYPE (photos_base_manager_get_active_object (self->srch_mngr));
       str = photos_search_controller_get_string (self->srch_cntrlr);
-      id = photos_filterable_get_id (PHOTOS_FILTERABLE (search_type));
-
-      if (g_strcmp0 (str, "") != 0 || g_strcmp0 (id, "all") != 0)
-        {
-          photos_base_manager_set_active_object_by_id (self->srch_mngr, "all");
-          photos_search_controller_set_string (self->srch_cntrlr, "");
-        }
+      if (g_strcmp0 (str, "") != 0)
+        photos_search_controller_set_string (self->srch_cntrlr, "");
     }
 }
 
