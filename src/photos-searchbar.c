@@ -53,22 +53,6 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhotosSearchbar, photos_searchbar, GTK_TYPE_SEARCH_B
 
 
 static void
-photos_searchbar_change_state (PhotosSearchbar *self, GVariant *value)
-{
-  PhotosSearchbarPrivate *priv;
-
-  priv = photos_searchbar_get_instance_private (self);
-
-  g_simple_action_set_state (G_SIMPLE_ACTION (priv->search), value);
-
-  if (g_variant_get_boolean (value))
-    photos_searchbar_show (self);
-  else
-    photos_searchbar_hide (self);
-}
-
-
-static void
 photos_searchbar_default_hide (PhotosSearchbar *self)
 {
   PhotosSearchbarPrivate *priv;
@@ -127,12 +111,38 @@ photos_searchbar_search_changed (PhotosSearchbar *self)
 
 
 static void
+photos_searchbar_update_visibility (PhotosSearchbar *self)
+{
+  PhotosSearchbarPrivate *priv;
+  GVariant *state = NULL;
+
+  priv = photos_searchbar_get_instance_private (self);
+
+  state = g_action_get_state (priv->search);
+  g_return_if_fail (state != NULL);
+
+  if (g_variant_get_boolean (state))
+    photos_searchbar_show (self);
+  else
+    photos_searchbar_hide (self);
+
+  g_variant_unref (state);
+}
+
+
+static void
+photos_searchbar_search_notify_state (PhotosSearchbar *self)
+{
+  photos_searchbar_update_visibility (self);
+}
+
+
+static void
 photos_searchbar_constructed (GObject *object)
 {
   PhotosSearchbar *self = PHOTOS_SEARCHBAR (object);
   PhotosSearchbarPrivate *priv;
   GApplication *app;
-  GVariant *state;
 
   priv = photos_searchbar_get_instance_private (self);
 
@@ -161,12 +171,10 @@ photos_searchbar_constructed (GObject *object)
    * dispose.
    */
   priv->search_state_id = g_signal_connect_swapped (priv->search,
-                                                    "change-state",
-                                                    G_CALLBACK (photos_searchbar_change_state),
+                                                    "notify::state",
+                                                    G_CALLBACK (photos_searchbar_search_notify_state),
                                                     self);
-  state = g_action_get_state (priv->search);
-  photos_searchbar_change_state (self, state);
-  g_variant_unref (state);
+  photos_searchbar_update_visibility (self);
 
   gtk_widget_show_all (GTK_WIDGET (self));
 }
