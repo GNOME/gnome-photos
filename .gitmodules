@@ -1,3 +1,4 @@
 [submodule "libgd"]
 	path = libgd
 	url = git://git.gnome.org/libgd
+	branch = gnome-photos-3-24
