@@ -102,6 +102,8 @@ photos_overview_searchbar_hide (PhotosSearchbar *searchbar)
   photos_base_manager_set_active_object_by_id (self->srch_mtch_mngr, "all");
   photos_base_manager_set_active_object_by_id (self->src_mngr, "all");
 
+  photos_search_controller_set_string (self->srch_cntrlr, "");
+
   PHOTOS_SEARCHBAR_CLASS (photos_overview_searchbar_parent_class)->hide (searchbar);
 }
 

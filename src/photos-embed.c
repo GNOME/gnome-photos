@@ -345,19 +345,9 @@ photos_embed_active_collection_changed (PhotosBaseManager *manager, PhotosBaseIt
     return;
 
   if (collection == NULL)
-    {
-      photos_embed_restore_search (self);
-    }
+    photos_embed_restore_search (self);
   else
-    {
-      const gchar *str;
-
-      photos_embed_save_search (self);
-
-      str = photos_search_controller_get_string (self->srch_cntrlr);
-      if (g_strcmp0 (str, "") != 0)
-        photos_search_controller_set_string (self->srch_cntrlr, "");
-    }
+    photos_embed_save_search (self);
 }
 
 
