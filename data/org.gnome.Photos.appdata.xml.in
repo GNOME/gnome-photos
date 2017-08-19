@@ -46,7 +46,7 @@
   <url type="donation">http://www.gnome.org/friends</url>
   <url type="homepage">https://wiki.gnome.org/Apps/Photos</url>
   <url type="translate">https://wiki.gnome.org/TranslationProject</url>
-  <developer_name>The GNOME Project</developer_name>
+  <_developer_name>The GNOME Project</_developer_name>
   <project_group>GNOME</project_group>
   <update_contact>debarshir_at_gnome.org</update_contact>
   <translation type="gettext">gnome-photos</translation>
