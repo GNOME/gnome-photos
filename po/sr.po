@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-08-11 02:03+0000\n"
-"PO-Revision-Date: 2017-08-14 21:08+0200\n"
+"POT-Creation-Date: 2017-08-19 15:18+0000\n"
+"PO-Revision-Date: 2017-08-19 18:29+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -75,6 +75,10 @@ msgstr "Изабери омиљене"
 msgid "Allow opening full featured editor for more advanced changes"
 msgstr "Омогућава отварање потпунијег уређивача за напредније измене"
 
+#: ../data/org.gnome.Photos.appdata.xml.in.h:12
+msgid "The GNOME Project"
+msgstr "Гномов пројекат"
+
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Приступите, разврстајте и делите фотографије"
@@ -115,7 +119,7 @@ msgstr "Приказује издање програма"
 msgid "Album"
 msgstr "Албум"
 
-#: ../src/photos-base-item.c:2538
+#: ../src/photos-base-item.c:2546
 msgid "Screenshots"
 msgstr "Снимци екрана"
 
