@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-12\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-07-21 15:54+0000\n"
-"PO-Revision-Date: 2017-07-27 17:32+0500\n"
+"POT-Creation-Date: 2017-08-19 15:18+0000\n"
+"PO-Revision-Date: 2017-08-20 22:05+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk@li.org>\n"
 "Language: kk\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Poedit 1.8.12\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:673
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:674
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Фотолар"
@@ -76,6 +76,10 @@ msgstr ""
 "Кеңейтілген өзгерістерді жасау үшін мүмкіндіктері көбірек түзеткішті ашуды "
 "рұқсат ету"
 
+#: ../data/org.gnome.Photos.appdata.xml.in.h:12
+msgid "The GNOME Project"
+msgstr "GNOME жобасы"
+
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Фотоларға қатынау, реттеу және олармен бөлісу"
@@ -108,26 +112,6 @@ msgstr "Терезе максималды етілген"
 msgid "Window maximized state"
 msgstr "Терезе максималды күйі"
 
-#: ../src/egg-animation.c:730
-#, c-format
-msgid "Cannot locate property %s in class %s"
-msgstr "%s қасиетін %s класы ішінен табу мүмкін емес"
-
-#: ../src/egg-animation.c:1077 ../src/egg-animation.c:1083
-#, c-format
-msgid "Failed to find property %s in %s"
-msgstr "%s қасиетін %s ішінен табу сәтсіз аяқталды"
-
-#: ../src/egg-animation.c:1091
-#, c-format
-msgid "Failed to find property %s in %s or parent %s"
-msgstr "%s қасиетін %s немесе аталық %s ішінен табу сәтсіз аяқталды"
-
-#: ../src/egg-animation.c:1101
-#, c-format
-msgid "Failed to retrieve va_list value: %s"
-msgstr "va_list мәнін алу сәтсіз аяқталды: %s"
-
 #: ../src/photos-application.c:157
 msgid "Show the application's version"
 msgstr "Қолданба нұсқасын көрсету"
@@ -136,7 +120,7 @@ msgstr "Қолданба нұсқасын көрсету"
 msgid "Album"
 msgstr "Альбом"
 
-#: ../src/photos-base-item.c:2538
+#: ../src/photos-base-item.c:2546
 msgid "Screenshots"
 msgstr "Скриншоттар"
 
@@ -165,15 +149,15 @@ msgstr "DLNA өңдеу құрылғылары"
 msgid "“%s” edited"
 msgstr "\"%s\" түзетілді"
 
-#: ../src/photos-embed.c:677 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:678 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Альбомдар"
 
-#: ../src/photos-embed.c:681 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:682 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Таңдамалы"
 
-#: ../src/photos-embed.c:685 ../src/photos-main-toolbar.c:323
+#: ../src/photos-embed.c:686 ../src/photos-main-toolbar.c:341
 msgid "Search"
 msgstr "Іздеу"
 
@@ -455,44 +439,44 @@ msgstr "Бұл үрдіс кезінде кейбір фотолар қолже�
 msgid "Local"
 msgstr "Жергілікті"
 
-#: ../src/photos-main-toolbar.c:109
+#: ../src/photos-main-toolbar.c:89
 msgid "Click on items to select them"
 msgstr "Бірнәрсені таңдау үшін оның үстіне шертіңіз"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:91
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d таңдалды"
 
-#: ../src/photos-main-toolbar.c:161
+#: ../src/photos-main-toolbar.c:179
 msgid "Back"
 msgstr "Кері"
 
-#: ../src/photos-main-toolbar.c:338
+#: ../src/photos-main-toolbar.c:356
 msgid "Select Items"
 msgstr "Нәрселерді таңдау"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:422 ../src/photos-selection-toolbar.c:244
+#: ../src/photos-main-toolbar.c:440 ../src/photos-selection-toolbar.c:244
 #, c-format
 msgid "Open with %s"
 msgstr "%s көмегімен ашу"
 
-#: ../src/photos-main-toolbar.c:455 ../src/photos-selection-toolbar.c:255
+#: ../src/photos-main-toolbar.c:473 ../src/photos-selection-toolbar.c:255
 msgid "Remove from favorites"
 msgstr "Таңдамалылардан өшіру"
 
-#: ../src/photos-main-toolbar.c:460 ../src/photos-selection-toolbar.c:260
+#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:260
 msgid "Add to favorites"
 msgstr "Таңдамалыларға қосу"
 
-#: ../src/photos-main-toolbar.c:497 ../src/photos-main-toolbar.c:635
+#: ../src/photos-main-toolbar.c:515 ../src/photos-main-toolbar.c:653
 msgid "Cancel"
 msgstr "Бас тарту"
 
-#: ../src/photos-main-toolbar.c:501
+#: ../src/photos-main-toolbar.c:519
 msgid "Done"
 msgstr "Дайын"
 
@@ -880,23 +864,23 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1254
+#: ../src/photos-tool-crop.c:1255
 msgid "Lock aspect ratio"
 msgstr "Жақтар арақатынасын бекіту"
 
-#: ../src/photos-tool-crop.c:1322
+#: ../src/photos-tool-crop.c:1323
 msgid "Landscape"
 msgstr "Жатық"
 
-#: ../src/photos-tool-crop.c:1333
+#: ../src/photos-tool-crop.c:1334
 msgid "Portrait"
 msgstr "Тік"
 
-#: ../src/photos-tool-crop.c:1344
+#: ../src/photos-tool-crop.c:1345
 msgid "Reset"
 msgstr "Тастау"
 
-#: ../src/photos-tool-crop.c:1364
+#: ../src/photos-tool-crop.c:1365
 msgid "Crop"
 msgstr "Қиып жіберу"
 
@@ -945,6 +929,18 @@ msgstr "Сүзгілер"
 #: ../src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Фотолар тізімін алу мүмкін емес"
+
+#~ msgid "Cannot locate property %s in class %s"
+#~ msgstr "%s қасиетін %s класы ішінен табу мүмкін емес"
+
+#~ msgid "Failed to find property %s in %s"
+#~ msgstr "%s қасиетін %s ішінен табу сәтсіз аяқталды"
+
+#~ msgid "Failed to find property %s in %s or parent %s"
+#~ msgstr "%s қасиетін %s немесе аталық %s ішінен табу сәтсіз аяқталды"
+
+#~ msgid "Failed to retrieve va_list value: %s"
+#~ msgstr "va_list мәнін алу сәтсіз аяқталды: %s"
 
 #~ msgid "Width"
 #~ msgstr "Ені"
