@@ -5,10 +5,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-09-16 19:16+0000\n"
-"PO-Revision-Date: 2017-01-09 17:14+0000\n"
+"POT-Creation-Date: 2017-07-21 15:54+0000\n"
+"PO-Revision-Date: 2017-08-23 10:31+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "Language: is\n"
@@ -19,12 +19,12 @@ msgstr ""
 "X-Generator: Lokalize 1.5\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:666
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Ljósmyndir"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:497
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:495
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Skipuleggðu, njóttu og deildu myndunum þínum"
 
@@ -104,31 +104,31 @@ msgstr "Gluggi hámarkaður"
 msgid "Window maximized state"
 msgstr "Hvort glugginn er hámarkaður"
 
-#: ../src/photos-application.c:152
+#: ../src/photos-application.c:153
 msgid "Show the application's version"
 msgstr "Birta útgáfuupplýsingar forrits"
 
-#: ../src/photos-base-item.c:590
+#: ../src/photos-base-item.c:617
 msgid "Album"
 msgstr "Albúm"
 
-#: ../src/photos-base-item.c:2141
+#: ../src/photos-base-item.c:2540
 msgid "Screenshots"
 msgstr "Skjámyndir"
 
-#: ../src/photos-delete-notification.c:145
+#: ../src/photos-delete-notification.c:139
 #, c-format
 msgid "“%s” deleted"
 msgstr "“%s” eytt"
 
-#: ../src/photos-delete-notification.c:148
+#: ../src/photos-delete-notification.c:142
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d hlut eytt"
 msgstr[1] "%d hlutum eytt"
 
-#: ../src/photos-delete-notification.c:156
+#: ../src/photos-delete-notification.c:150
 #: ../src/photos-done-notification.c:125
 msgid "Undo"
 msgstr "Afturkalla"
@@ -142,15 +142,15 @@ msgstr "DLNA myndgerðartæki"
 msgid "“%s” edited"
 msgstr "“%s” breytt"
 
-#: ../src/photos-embed.c:673 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albúm"
 
-#: ../src/photos-embed.c:680 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Eftirlæti"
 
-#: ../src/photos-embed.c:687 ../src/photos-main-toolbar.c:299
+#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:329
 msgid "Search"
 msgstr "Leita"
 
@@ -162,6 +162,7 @@ msgstr "Settu inn heiti á fyrsta albúminu þínu"
 #. * can add your online accounts in Settings" sentence below
 #.
 #: ../src/photos-empty-results-box.c:134
+#: ../src/photos-source-notification.c:146
 msgid "Settings"
 msgstr "Stillingar"
 
@@ -218,52 +219,52 @@ msgstr "_Flytja út"
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: ../src/photos-export-dialog.c:73
+#: ../src/photos-export-dialog.c:67
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
 #. Translators: this is the default sub-directory where photos
-#. *  will be exported.
+#. * will be exported.
 #.
-#: ../src/photos-export-dialog.c:207
+#: ../src/photos-export-dialog.c:201
 msgid "%e %B %Y"
 msgstr "%e %B %Y"
 
-#: ../src/photos-export-dialog.c:265
+#: ../src/photos-export-dialog.c:259
 msgid "Calculating export size…"
 msgstr "Reikna skráarstærð útflutnings…"
 
-#: ../src/photos-export-notification.c:241
+#: ../src/photos-export-notification.c:250
 msgid "Failed to export: not enough space"
 msgstr "Mistókst að flytja út: ekki nægilegt pláss"
 
-#: ../src/photos-export-notification.c:243
+#: ../src/photos-export-notification.c:252
 msgid "Failed to export"
 msgstr "Mistókst að flytja út"
 
-#: ../src/photos-export-notification.c:250
+#: ../src/photos-export-notification.c:259
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” flutt út"
 
-#: ../src/photos-export-notification.c:254
+#: ../src/photos-export-notification.c:263
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d atriði flutt út"
 msgstr[1] "%d atriði flutt út"
 
-#: ../src/photos-export-notification.c:272
+#: ../src/photos-export-notification.c:281
 msgid "Analyze"
 msgstr "Greina"
 
-#: ../src/photos-export-notification.c:277
+#: ../src/photos-export-notification.c:286
 msgid "Empty Trash"
 msgstr "Tæma rusl"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:294 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-export-notification.c:303 ../src/photos-preview-menu.ui.h:1
 #: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Opna"
@@ -271,20 +272,20 @@ msgstr "Opna"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:304
+#: ../src/photos-export-notification.c:313
 msgid "Export Folder"
 msgstr "Flytja möppu út"
 
 #. Translators: this is the fallback title in the form
-#. *  "Facebook — 2nd January 2013".
+#. * "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:105 ../src/photos-flickr-item.c:110
-#: ../src/photos-google-item.c:107
+#: ../src/photos-facebook-item.c:100 ../src/photos-flickr-item.c:105
+#: ../src/photos-google-item.c:102
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:182
+#: ../src/photos-fetch-metas-job.c:177
 msgid "Untitled Photo"
 msgstr "Ónefnd mynd"
 
@@ -394,83 +395,87 @@ msgid "Cancel"
 msgstr "Hætta við"
 
 #. Translators: %s refers to an online account provider, e.g.,
-#. * "Facebook" or "Flickr.
+#. * "Facebook" or "Flickr".
 #.
-#: ../src/photos-indexing-notification.c:172
+#: ../src/photos-indexing-notification.c:167
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Sæki myndir frá %s"
 
-#: ../src/photos-indexing-notification.c:175
+#: ../src/photos-indexing-notification.c:170
 msgid "Fetching photos from online accounts"
 msgstr "Sæki myndir frá aðgöngum á netinu"
 
-#: ../src/photos-indexing-notification.c:211
+#: ../src/photos-indexing-notification.c:206
 msgid "Your photos are being indexed"
 msgstr "Verið er að yfirfara myndirnar þínar"
 
-#: ../src/photos-indexing-notification.c:212
+#: ../src/photos-indexing-notification.c:207
 msgid "Some photos might not be available during this process"
 msgstr "Einhverjar myndir gætu verið ekki tiltækar á meðan á ferlinu stendur"
 
-#: ../src/photos-local-item.c:141 ../src/photos-source-manager.c:178
+#: ../src/photos-local-item.c:176 ../src/photos-source-manager.c:256
 msgid "Local"
 msgstr "Staðvært"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:108
 msgid "Click on items to select them"
 msgstr "Smelltu á hluti til að velja þá"
 
-#: ../src/photos-main-toolbar.c:115
+#: ../src/photos-main-toolbar.c:110
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valið"
 msgstr[1] "%d valið"
 
-#: ../src/photos-main-toolbar.c:165
+#: ../src/photos-main-toolbar.c:160
 msgid "Back"
 msgstr "Til baka"
 
-#: ../src/photos-main-toolbar.c:314
+#: ../src/photos-main-toolbar.c:344
 msgid "Select Items"
 msgstr "Veldu atriði"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:408 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:438 ../src/photos-selection-toolbar.c:234
 #, c-format
 msgid "Open with %s"
 msgstr "Opna með %s"
 
-#: ../src/photos-main-toolbar.c:448 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:245
 msgid "Remove from favorites"
 msgstr "Fjarlægja úr Eftirlæti"
 
-#: ../src/photos-main-toolbar.c:453 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:250
 msgid "Add to favorites"
 msgstr "Bæta við Eftirlæti"
 
-#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:628
+#: ../src/photos-main-toolbar.c:520 ../src/photos-main-toolbar.c:658
 msgid "Cancel"
 msgstr "Hætta við"
 
-#: ../src/photos-main-toolbar.c:494
+#: ../src/photos-main-toolbar.c:524
 msgid "Done"
 msgstr "Lokið"
 
-#: ../src/photos-main-window.c:498
+#: ../src/photos-main-window.c:496
+#| msgid ""
+#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#| "Copyright © 2014 – 2015 Pranav Kant\n"
+#| "Copyright © 2012 – 2016 Red Hat, Inc."
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2016 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc."
 msgstr ""
 "Höfundarréttur © 2013 Intel Corporation. Allur réttur áskilinn.\n"
-"Höfundarréttur © 2014, 2015 Pranav Kant\n"
-"Höfundarréttur © 2012 - 2016 Red Hat, Inc."
+"Höfundarréttur © 2014 - 2015 Pranav Kant\n"
+"Höfundarréttur © 2012 - 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:508
+#: ../src/photos-main-window.c:506
 msgid "translator-credits"
 msgstr "Sveinn í Felli, sv1@fellsnet.is"
 
@@ -494,16 +499,16 @@ msgstr "Um hugbúnaðinn"
 msgid "Quit"
 msgstr "Hætta"
 
-#: ../src/photos-organize-collection-dialog.c:76
+#: ../src/photos-organize-collection-dialog.c:71
 msgid "_Add"
 msgstr "_Bæta við"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: ../src/photos-organize-collection-dialog.c:72
 msgid "_OK"
 msgstr "Í _lagi"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: ../src/photos-organize-collection-dialog.c:123
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Skipuleggja"
@@ -532,7 +537,7 @@ msgstr "Setja sem bakgrunnsmynd"
 msgid "Set as Lock Screen"
 msgstr "Setja sem skjálæsingu"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:732
+#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:903
 #: ../src/photos-selection-toolbar.ui.h:3
 msgid "Properties"
 msgstr "Eiginleikar"
@@ -614,19 +619,18 @@ msgstr "Tommur"
 msgid "Preview"
 msgstr "Forskoðun"
 
-#: ../src/photos-properties-dialog.c:128
-#| msgid "Untitled Photo"
+#: ../src/photos-properties-dialog.c:255
 msgid "Edited in Photos"
 msgstr "Breytt í myndaforriti"
 
-#: ../src/photos-properties-dialog.c:141
+#: ../src/photos-properties-dialog.c:268
 msgid "Untouched"
 msgstr "Ósnert"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:310
+#: ../src/photos-properties-dialog.c:453
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Titill"
@@ -634,88 +638,93 @@ msgstr "Titill"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:322
+#: ../src/photos-properties-dialog.c:465
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Höfundur"
 
-#: ../src/photos-properties-dialog.c:329
+#: ../src/photos-properties-dialog.c:472
 msgid "Source"
 msgstr "Uppruni"
 
-#: ../src/photos-properties-dialog.c:335
+#: ../src/photos-properties-dialog.c:478
 msgid "Date Modified"
 msgstr "Breytt þann"
 
-#: ../src/photos-properties-dialog.c:343
+#: ../src/photos-properties-dialog.c:486
 msgid "Date Created"
 msgstr "Búið til þann"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:353
+#: ../src/photos-properties-dialog.c:496
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tegund"
 
-#: ../src/photos-properties-dialog.c:363
+#: ../src/photos-properties-dialog.c:506
 msgid "Dimensions"
 msgstr "Stærðir"
 
-#: ../src/photos-properties-dialog.c:378
+#: ../src/photos-properties-dialog.c:518
+#| msgid "Modifications"
+msgid "Location"
+msgstr "Staðsetning"
+
+#: ../src/photos-properties-dialog.c:538
 msgid "Camera"
 msgstr "Myndavél"
 
-#: ../src/photos-properties-dialog.c:388
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
 msgid "Exposure"
 msgstr "Lýsingartími"
 
-#: ../src/photos-properties-dialog.c:398
+#: ../src/photos-properties-dialog.c:558
 msgid "Aperture"
 msgstr "Ljósop"
 
-#: ../src/photos-properties-dialog.c:408
+#: ../src/photos-properties-dialog.c:568
 msgid "Focal Length"
 msgstr "Brennivídd"
 
-#: ../src/photos-properties-dialog.c:418
+#: ../src/photos-properties-dialog.c:578
 msgid "ISO Speed"
 msgstr "ISO hraði"
 
-#: ../src/photos-properties-dialog.c:428
+#: ../src/photos-properties-dialog.c:588
 msgid "Flash"
 msgstr "Leifturljós"
 
-#: ../src/photos-properties-dialog.c:435
+#: ../src/photos-properties-dialog.c:597
 msgid "Modifications"
 msgstr "Breytingar"
 
-#: ../src/photos-properties-dialog.c:566
+#: ../src/photos-properties-dialog.c:738
 msgid "Off, did not fire"
 msgstr "Slökkt, hleypti ekki af"
 
-#: ../src/photos-properties-dialog.c:568
+#: ../src/photos-properties-dialog.c:740
 msgid "On, fired"
 msgstr "Kveikt, hleypti af"
 
-#: ../src/photos-properties-dialog.c:602
+#: ../src/photos-properties-dialog.c:778
 msgid "Discard all Edits"
 msgstr "Henda öllum breytingum"
 
-#: ../src/photos-search-match-manager.c:158
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
+#: ../src/photos-search-match-manager.c:162
+#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:252
 msgid "All"
 msgstr "Allt"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:165
+#: ../src/photos-search-match-manager.c:169
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Titill"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:172
+#: ../src/photos-search-match-manager.c:176
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Höfundur"
@@ -723,7 +732,7 @@ msgstr "Höfundur"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:210
+#: ../src/photos-search-match-manager.c:214
 msgid "Match"
 msgstr "Samsvarar"
 
@@ -752,135 +761,149 @@ msgid "Add to Album"
 msgstr "Bæta í albúm"
 
 #: ../src/photos-share-dialog.ui.h:1
-#| msgid "Sharpen"
 msgctxt "dialog title"
 msgid "Share"
 msgstr "Deila"
 
-#: ../src/photos-share-point-email.c:78
+#: ../src/photos-share-point-email.c:80
 msgid "E-Mail"
 msgstr "Tölvupóstur"
 
-#: ../src/photos-share-point-google.c:97
+#: ../src/photos-share-point-google.c:98
 msgid "Failed to upload photo: Service not authorized"
 msgstr "Mistókst að senda ljósmynd:; þjónusta ekki heimiluð"
 
-#: ../src/photos-share-point-google.c:99
-#| msgid "Failed to export"
+#: ../src/photos-share-point-google.c:100
 msgid "Failed to upload photo"
 msgstr "Mistókst að senda inn ljósmynd"
 
-#: ../src/photos-source-manager.c:203
+#: ../src/photos-source-manager.c:305
 msgid "Sources"
 msgstr "Uppruni"
 
-#: ../src/photos-tool-colors.c:251
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: ../src/photos-source-notification.c:138
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr "%s auðkennin þín eru útrunnin"
+
+#: ../src/photos-thumbnailer.c:77
+msgid "D-Bus address to use"
+msgstr "D-Bus vistfang sem á að nota"
+
+#: ../src/photos-tool-colors.c:315
 msgid "Brightness"
 msgstr "Birtustig"
 
-#: ../src/photos-tool-colors.c:272
+#: ../src/photos-tool-colors.c:356
 msgid "Contrast"
 msgstr "Birtuskil"
 
-#: ../src/photos-tool-colors.c:292
+#: ../src/photos-tool-colors.c:376
+msgid "Blacks"
+msgstr "Svartir"
+
+#: ../src/photos-tool-colors.c:396
 msgid "Saturation"
 msgstr "Litmettun"
 
-#: ../src/photos-tool-colors.c:319
+#: ../src/photos-tool-colors.c:423
 msgid "Colors"
 msgstr "Litir"
 
-#: ../src/photos-tool-crop.c:132
+#: ../src/photos-tool-crop.c:119
 msgid "Free"
 msgstr "Frjálst"
 
-#: ../src/photos-tool-crop.c:133
+#: ../src/photos-tool-crop.c:120
 msgid "Original"
 msgstr "Upprunalegt"
 
-#: ../src/photos-tool-crop.c:134
+#: ../src/photos-tool-crop.c:121
 msgid "1×1 (Square)"
 msgstr "1×1 (ferningur)"
 
-#: ../src/photos-tool-crop.c:135
+#: ../src/photos-tool-crop.c:122
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:136
+#: ../src/photos-tool-crop.c:123
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:137
+#: ../src/photos-tool-crop.c:124
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:138
+#: ../src/photos-tool-crop.c:125
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:139
+#: ../src/photos-tool-crop.c:126
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:140
+#: ../src/photos-tool-crop.c:127
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1181
+#: ../src/photos-tool-crop.c:1191
 msgid "Lock aspect ratio"
 msgstr "Læsa stærðarhlutföllum"
 
-#: ../src/photos-tool-crop.c:1229
+#: ../src/photos-tool-crop.c:1239
 msgid "Reset"
 msgstr "Frumstilla"
 
-#: ../src/photos-tool-crop.c:1246
+#: ../src/photos-tool-crop.c:1256
 msgid "Crop"
 msgstr "Utansníða"
 
-#: ../src/photos-tool-enhance.c:207
+#: ../src/photos-tool-enhance.c:202
 msgid "Sharpen"
 msgstr "Skerpa"
 
-#: ../src/photos-tool-enhance.c:227
+#: ../src/photos-tool-enhance.c:222
 msgid "Denoise"
 msgstr "Suðhreinsun"
 
-#: ../src/photos-tool-enhance.c:253
+#: ../src/photos-tool-enhance.c:248
 msgid "Enhance"
 msgstr "Bæta"
 
 #. Translators: "None" refers to the nop magic filter when editing.
-#: ../src/photos-tool-filters.c:190
+#: ../src/photos-tool-filters.c:185
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "Ekkert"
 
-#: ../src/photos-tool-filters.c:197
+#: ../src/photos-tool-filters.c:192
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:204
+#: ../src/photos-tool-filters.c:199
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: ../src/photos-tool-filters.c:210
+#: ../src/photos-tool-filters.c:205
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: ../src/photos-tool-filters.c:217
+#: ../src/photos-tool-filters.c:212
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:223
+#: ../src/photos-tool-filters.c:218
 msgid "Hometown"
 msgstr "Heimabær"
 
-#: ../src/photos-tool-filters.c:241
+#: ../src/photos-tool-filters.c:236
 msgid "Filters"
 msgstr "Síur"
 
-#: ../src/photos-tracker-controller.c:103
+#: ../src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Tókst ekki að nálgast lista yfir myndir"
 
