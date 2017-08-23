@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-07-19 10:15+0000\n"
-"PO-Revision-Date: 2017-07-19 17:47+0200\n"
+"POT-Creation-Date: 2017-08-23 11:47+0000\n"
+"PO-Revision-Date: 2017-08-23 17:03+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -17,10 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.0.3\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:673
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:674
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Fotos"
@@ -75,6 +75,10 @@ msgstr ""
 "Al permet di vierzi un editor cun plenis funzions par modifichis plui "
 "avanzadis"
 
+#: ../data/org.gnome.Photos.appdata.xml.in.h:12
+msgid "The GNOME Project"
+msgstr "Il progjet GNOME"
+
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Dopre, ministre e condivît fotos"
@@ -107,26 +111,6 @@ msgstr "Barcon slargjât"
 msgid "Window maximized state"
 msgstr "Stât barcon slargjât"
 
-#: ../src/egg-animation.c:730
-#, c-format
-msgid "Cannot locate property %s in class %s"
-msgstr "Impussibil localizâ la proprietât %s inte classe %s"
-
-#: ../src/egg-animation.c:1077 ../src/egg-animation.c:1083
-#, c-format
-msgid "Failed to find property %s in %s"
-msgstr "No si è rivâts a cjatâ la proprietât %s in %s"
-
-#: ../src/egg-animation.c:1091
-#, c-format
-msgid "Failed to find property %s in %s or parent %s"
-msgstr "No si è rivâts a cjatâ la proprietât %s in %s o tal gjenitôr %s"
-
-#: ../src/egg-animation.c:1101
-#, c-format
-msgid "Failed to retrieve va_list value: %s"
-msgstr "No si è rivâts a recuperâ il valôr di va_list: %s"
-
 #: ../src/photos-application.c:157
 msgid "Show the application's version"
 msgstr "Mostre la version de aplicazion"
@@ -135,7 +119,7 @@ msgstr "Mostre la version de aplicazion"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2538
+#: ../src/photos-base-item.c:2546
 msgid "Screenshots"
 msgstr "Videadis"
 
@@ -165,15 +149,15 @@ msgstr "Dispositîfs visôrs DLNA"
 msgid "“%s” edited"
 msgstr "“%s” modificât"
 
-#: ../src/photos-embed.c:677 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:678 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Album"
 
-#: ../src/photos-embed.c:681 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:682 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Preferîts"
 
-#: ../src/photos-embed.c:685 ../src/photos-main-toolbar.c:323
+#: ../src/photos-embed.c:686 ../src/photos-main-toolbar.c:341
 msgid "Search"
 msgstr "Cîr"
 
@@ -456,45 +440,45 @@ msgstr "Cualchi foto e podarès no jessi disponibil dilunc chest procès"
 msgid "Local"
 msgstr "Locâl"
 
-#: ../src/photos-main-toolbar.c:109
+#: ../src/photos-main-toolbar.c:89
 msgid "Click on items to select them"
 msgstr "Cliche sui elements par selezionâju"
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:91
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d selezionât"
 msgstr[1] "%d selezionâts"
 
-#: ../src/photos-main-toolbar.c:161
+#: ../src/photos-main-toolbar.c:179
 msgid "Back"
 msgstr "Indaûr"
 
-#: ../src/photos-main-toolbar.c:338
+#: ../src/photos-main-toolbar.c:356
 msgid "Select Items"
 msgstr "Selezione elements"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:422 ../src/photos-selection-toolbar.c:244
+#: ../src/photos-main-toolbar.c:440 ../src/photos-selection-toolbar.c:244
 #, c-format
 msgid "Open with %s"
 msgstr "Vierç cun %s"
 
-#: ../src/photos-main-toolbar.c:455 ../src/photos-selection-toolbar.c:255
+#: ../src/photos-main-toolbar.c:473 ../src/photos-selection-toolbar.c:255
 msgid "Remove from favorites"
 msgstr "Gjave dai preferîts"
 
-#: ../src/photos-main-toolbar.c:460 ../src/photos-selection-toolbar.c:260
+#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:260
 msgid "Add to favorites"
 msgstr "Zonte tai preferîts"
 
-#: ../src/photos-main-toolbar.c:497 ../src/photos-main-toolbar.c:635
+#: ../src/photos-main-toolbar.c:515 ../src/photos-main-toolbar.c:653
 msgid "Cancel"
 msgstr "Anule"
 
-#: ../src/photos-main-toolbar.c:501
+#: ../src/photos-main-toolbar.c:519
 msgid "Done"
 msgstr "Fat"
 
@@ -709,7 +693,7 @@ msgstr "Lûc"
 msgid "Camera"
 msgstr "Cjamare"
 
-#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:335
 msgid "Exposure"
 msgstr "Esposizion"
 
@@ -826,7 +810,7 @@ msgstr "Lis tôs credenziâls di %s a son scjadudis"
 msgid "D-Bus address to use"
 msgstr "Direzion D-Bus di doprâ"
 
-#: ../src/photos-tool-colors.c:315
+#: ../src/photos-tool-colors.c:313
 msgid "Brightness"
 msgstr "Luminositât"
 
@@ -834,15 +818,15 @@ msgstr "Luminositât"
 msgid "Contrast"
 msgstr "Contrast"
 
-#: ../src/photos-tool-colors.c:376
+#: ../src/photos-tool-colors.c:377
 msgid "Blacks"
 msgstr "Neris"
 
-#: ../src/photos-tool-colors.c:396
+#: ../src/photos-tool-colors.c:398
 msgid "Saturation"
 msgstr "Saturazion"
 
-#: ../src/photos-tool-colors.c:423
+#: ../src/photos-tool-colors.c:426
 msgid "Colors"
 msgstr "Colôrs"
 
@@ -882,7 +866,7 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1256
+#: ../src/photos-tool-crop.c:1255
 msgid "Lock aspect ratio"
 msgstr "Bloche rapuart di aspiet"
 
@@ -898,15 +882,15 @@ msgstr "Verticâl"
 msgid "Reset"
 msgstr "Torne tache"
 
-#: ../src/photos-tool-crop.c:1364
+#: ../src/photos-tool-crop.c:1365
 msgid "Crop"
 msgstr "Sponte"
 
-#: ../src/photos-tool-enhance.c:202
+#: ../src/photos-tool-enhance.c:200
 msgid "Sharpen"
 msgstr "Uçâ"
 
-#: ../src/photos-tool-enhance.c:222
+#: ../src/photos-tool-enhance.c:221
 msgid "Denoise"
 msgstr "Gjave rumôr"
 
@@ -947,6 +931,18 @@ msgstr "Filtris"
 #: ../src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Impussibil vê la liste das fotos"
+
+#~ msgid "Cannot locate property %s in class %s"
+#~ msgstr "Impussibil localizâ la proprietât %s inte classe %s"
+
+#~ msgid "Failed to find property %s in %s"
+#~ msgstr "No si è rivâts a cjatâ la proprietât %s in %s"
+
+#~ msgid "Failed to find property %s in %s or parent %s"
+#~ msgstr "No si è rivâts a cjatâ la proprietât %s in %s o tal gjenitôr %s"
+
+#~ msgid "Failed to retrieve va_list value: %s"
+#~ msgstr "No si è rivâts a recuperâ il valôr di va_list: %s"
 
 #~ msgid "Width"
 #~ msgstr "Largjece"
