@@ -54,7 +54,6 @@ struct _PhotosMainToolbar
   GtkWidget *overlay;
   GtkWidget *remote_display_button;
   GtkWidget *searchbar;
-  GtkWidget *selection_button;
   GtkWidget *selection_menu;
   PhotosBaseManager *item_mngr;
   PhotosModeController *mode_cntrlr;
@@ -295,41 +294,6 @@ photos_main_toolbar_item_active_changed (PhotosMainToolbar *self, GObject *objec
 }
 
 
-static void
-photos_main_toolbar_items_changed (PhotosMainToolbar *self)
-{
-  PhotosBaseManager *item_mngr_chld;
-  PhotosWindowMode window_mode;
-  gboolean is_empty;
-  guint n_items;
-
-  window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
-  switch (window_mode)
-    {
-    case PHOTOS_WINDOW_MODE_NONE:
-    case PHOTOS_WINDOW_MODE_EDIT:
-    case PHOTOS_WINDOW_MODE_PREVIEW:
-      return;
-      break;
-
-    case PHOTOS_WINDOW_MODE_COLLECTIONS:
-    case PHOTOS_WINDOW_MODE_FAVORITES:
-    case PHOTOS_WINDOW_MODE_OVERVIEW:
-    case PHOTOS_WINDOW_MODE_SEARCH:
-    default:
-      break;
-    }
-
-  item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->item_mngr), window_mode);
-  n_items = g_list_model_get_n_items (G_LIST_MODEL (item_mngr_chld));
-
-  is_empty = n_items == 0;
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->search), !is_empty);
-  if (self->selection_button != NULL)
-    gtk_widget_set_sensitive (self->selection_button, !is_empty);
-}
-
-
 static GtkWidget *
 photos_main_toolbar_add_search_button (PhotosMainToolbar *self)
 {
@@ -379,7 +343,6 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
 {
   g_clear_pointer (&self->coll_back_button, (GDestroyNotify) gtk_widget_destroy);
   g_clear_pointer (&self->remote_display_button, (GDestroyNotify) gtk_widget_destroy);
-  g_clear_pointer (&self->selection_button, (GDestroyNotify) gtk_widget_destroy);
 
   if (self->item_mngr != NULL)
     {
@@ -481,7 +444,7 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
-  self->selection_button = photos_main_toolbar_add_selection_button (self);
+  photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
@@ -517,7 +480,7 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
-  self->selection_button = photos_main_toolbar_add_selection_button (self);
+  photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
@@ -532,7 +495,7 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
-  self->selection_button = photos_main_toolbar_add_selection_button (self);
+  photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
@@ -612,7 +575,7 @@ photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
-  self->selection_button = photos_main_toolbar_add_selection_button (self);
+  photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
@@ -743,12 +706,6 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   photos_header_bar_set_selection_menu (PHOTOS_HEADER_BAR (self->header_bar), GTK_BUTTON (self->selection_menu));
 
   self->item_mngr = g_object_ref (state->item_mngr);
-  g_signal_connect_object (self->item_mngr,
-                           "items-changed",
-                           G_CALLBACK (photos_main_toolbar_items_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-
   self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
   self->sel_cntrlr = photos_selection_controller_dup_singleton ();
 
@@ -879,9 +836,7 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
         }
     }
 
-  photos_main_toolbar_items_changed (self);
   photos_main_toolbar_update_remote_display_button (self);
-
   photos_main_toolbar_set_toolbar_title (self);
   gtk_widget_show_all (self->header_bar);
 }

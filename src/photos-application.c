@@ -356,10 +356,20 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->saturation_action, enable);
   g_simple_action_set_enabled (self->sharpen_action, enable);
 
-  enable = (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-            || mode == PHOTOS_WINDOW_MODE_FAVORITES
-            || mode == PHOTOS_WINDOW_MODE_OVERVIEW
-            || mode == PHOTOS_WINDOW_MODE_SEARCH);
+  enable = FALSE;
+  if (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+      || mode == PHOTOS_WINDOW_MODE_FAVORITES
+      || mode == PHOTOS_WINDOW_MODE_OVERVIEW
+      || mode == PHOTOS_WINDOW_MODE_SEARCH)
+    {
+      PhotosBaseManager *item_mngr_chld;
+      guint n_items;
+
+      item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->state->item_mngr), mode);
+      n_items = g_list_model_get_n_items (G_LIST_MODEL (item_mngr_chld));
+      enable = n_items > 0;
+    }
+
   g_simple_action_set_enabled (self->search_action, enable);
   g_simple_action_set_enabled (self->search_match_action, enable);
   g_simple_action_set_enabled (self->search_source_action, enable);
@@ -399,7 +409,13 @@ photos_application_actions_update (PhotosApplication *self)
       PhotosBaseItem *selected_item;
       const gchar *urn = (gchar *) l->data;
 
+      /* When PhotosItemManager::items-changed is emitted, a selected
+       * item can potentially be removed from the item manager.
+       */
       selected_item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->state->item_mngr, urn));
+      if (selected_item == NULL)
+        continue;
+
       can_trash = can_trash && photos_base_item_can_trash (selected_item);
 
       if (photos_base_item_get_default_app_name (selected_item) != NULL)
@@ -912,6 +928,13 @@ photos_application_get_state (PhotosSearchContext *context)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (context);
   return self->state;
+}
+
+
+static void
+photos_application_items_changed (PhotosApplication *self)
+{
+  photos_application_actions_update (self);
 }
 
 
@@ -1997,6 +2020,10 @@ photos_application_startup (GApplication *application)
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-in(-1.0)", zoom_in_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-out(-1.0)", zoom_out_accels);
 
+  g_signal_connect_swapped (self->state->item_mngr,
+                            "items-changed",
+                            G_CALLBACK (photos_application_items_changed),
+                            self);
   g_signal_connect_swapped (self->state->item_mngr,
                             "load-finished",
                             G_CALLBACK (photos_application_load_changed),
