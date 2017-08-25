@@ -360,6 +360,7 @@ photos_application_actions_update (PhotosApplication *self)
             || mode == PHOTOS_WINDOW_MODE_FAVORITES
             || mode == PHOTOS_WINDOW_MODE_OVERVIEW
             || mode == PHOTOS_WINDOW_MODE_SEARCH);
+  g_simple_action_set_enabled (self->search_action, enable);
   g_simple_action_set_enabled (self->search_match_action, enable);
   g_simple_action_set_enabled (self->search_source_action, enable);
   g_simple_action_set_enabled (self->search_type_action, enable);

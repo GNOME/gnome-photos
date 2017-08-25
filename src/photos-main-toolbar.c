@@ -36,9 +36,9 @@
 #include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
-#include "photos-overview-searchbar.h"
 #include "photos-remote-display-manager.h"
 #include "photos-search-context.h"
+#include "photos-searchbar.h"
 #include "photos-selection-controller.h"
 #include "photos-utils.h"
 
@@ -381,17 +381,6 @@ photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
   g_clear_pointer (&self->remote_display_button, (GDestroyNotify) gtk_widget_destroy);
   g_clear_pointer (&self->selection_button, (GDestroyNotify) gtk_widget_destroy);
 
-  if (self->searchbar != NULL && gtk_widget_get_parent (self->searchbar) == GTK_WIDGET (self))
-    {
-      GVariant *state;
-
-      state = g_action_get_state (self->search);
-      if (!g_variant_get_boolean (state))
-        gtk_container_remove (GTK_CONTAINER (self), self->searchbar);
-
-      g_variant_unref (state);
-    }
-
   if (self->item_mngr != NULL)
     {
       g_signal_handlers_disconnect_by_func (self->item_mngr, photos_main_toolbar_col_active_changed, self);
@@ -495,9 +484,6 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
-  if (gtk_widget_get_parent (self->searchbar) == NULL)
-    gtk_container_add (GTK_CONTAINER (self), self->searchbar);
-
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
   photos_main_toolbar_col_active_changed (self, collection);
 }
@@ -534,9 +520,6 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
-  if (gtk_widget_get_parent (self->searchbar) == NULL)
-    gtk_container_add (GTK_CONTAINER (self), self->searchbar);
-
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
   photos_main_toolbar_col_active_changed (self, collection);
 }
@@ -551,9 +534,6 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
-
-  if (gtk_widget_get_parent (self->searchbar) == NULL)
-    gtk_container_add (GTK_CONTAINER (self), self->searchbar);
 
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
   photos_main_toolbar_col_active_changed (self, collection);
@@ -635,9 +615,6 @@ photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
   self->selection_button = photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 
-  if (gtk_widget_get_parent (self->searchbar) == NULL)
-    gtk_container_add (GTK_CONTAINER (self), self->searchbar);
-
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
   photos_main_toolbar_col_active_changed (self, collection);
 }
@@ -661,9 +638,6 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
                            G_CONNECT_SWAPPED);
 
   photos_main_toolbar_add_search_button (self);
-
-  if (gtk_widget_get_parent (self->searchbar) == NULL)
-    gtk_container_add (GTK_CONTAINER (self), self->searchbar);
 }
 
 
@@ -674,7 +648,6 @@ photos_main_toolbar_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_main_toolbar_parent_class)->constructed (object);
 
-  self->searchbar = g_object_ref_sink (photos_overview_searchbar_new ());
   photos_main_toolbar_reset_toolbar_mode (self);
 }
 
@@ -686,7 +659,6 @@ photos_main_toolbar_dispose (GObject *object)
 
   photos_main_toolbar_clear_state_data (self);
 
-  g_clear_object (&self->searchbar);
   g_clear_object (&self->item_mngr);
   g_clear_object (&self->mode_cntrlr);
   g_clear_object (&self->remote_mngr);
@@ -819,6 +791,7 @@ photos_main_toolbar_class_init (PhotosMainToolbarClass *class)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/main-toolbar.ui");
   gtk_widget_class_bind_template_child (widget_class, PhotosMainToolbar, header_bar);
+  gtk_widget_class_bind_template_child (widget_class, PhotosMainToolbar, searchbar);
 }
 
 
@@ -841,7 +814,12 @@ photos_main_toolbar_handle_event (PhotosMainToolbar *self, GdkEventKey *event)
 {
   gboolean ret_val = FALSE;
 
+  if (!g_action_get_enabled (self->search))
+      goto out;
+
   ret_val = photos_searchbar_handle_event (PHOTOS_SEARCHBAR (self->searchbar), event);
+
+ out:
   return ret_val;
 }
 
