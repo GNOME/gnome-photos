@@ -364,9 +364,16 @@ photos_embed_fullscreen_changed (PhotosModeController *mode_cntrlr, gboolean ful
 static void
 photos_embed_notify_visible_child (PhotosEmbed *self)
 {
+  GdkEvent *event = NULL;
   GtkWidget *visible_child;
-  GVariant *state;
   PhotosWindowMode mode = PHOTOS_WINDOW_MODE_NONE;
+
+  event = gtk_get_current_event ();
+  if (event == NULL)
+    goto out;
+
+  if (event->type != GDK_BUTTON_RELEASE && event->type != GDK_TOUCH_END)
+    goto out;
 
   visible_child = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   if (visible_child == self->overview)
@@ -377,17 +384,12 @@ photos_embed_notify_visible_child (PhotosEmbed *self)
     mode = PHOTOS_WINDOW_MODE_FAVORITES;
 
   if (mode == PHOTOS_WINDOW_MODE_NONE)
-    return;
-
-  if (!photos_main_toolbar_is_focus (PHOTOS_MAIN_TOOLBAR (self->toolbar)))
-    {
-      photos_embed_block_search_changed (self);
-      state = g_variant_new ("b", FALSE);
-      g_action_change_state (self->search_action, state);
-      photos_embed_unblock_search_changed (self);
-    }
+    goto out;
 
   photos_mode_controller_set_window_mode (self->mode_cntrlr, mode);
+
+ out:
+  g_clear_pointer (&event, (GDestroyNotify) gdk_event_free);
 }
 
 
@@ -556,6 +558,33 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
                                   gpointer user_data)
 {
   PhotosEmbed *self = PHOTOS_EMBED (user_data);
+
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      if (!photos_main_toolbar_is_focus (PHOTOS_MAIN_TOOLBAR (self->toolbar)))
+        {
+          GVariant *state;
+
+          photos_embed_block_search_changed (self);
+          state = g_variant_new ("b", FALSE);
+          g_action_change_state (self->search_action, state);
+          photos_embed_unblock_search_changed (self);
+        }
+      break;
+
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      break;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
 
   photos_main_toolbar_reset_toolbar_mode (PHOTOS_MAIN_TOOLBAR (self->toolbar));
 
