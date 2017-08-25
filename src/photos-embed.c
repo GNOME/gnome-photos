@@ -86,6 +86,7 @@ struct _PhotosEmbed
   PhotosModeController *mode_cntrlr;
   PhotosSearchController *srch_cntrlr;
   PhotosTrackerController *trk_ovrvw_cntrlr;
+  gboolean search_changed;
   guint load_show_id;
 };
 
@@ -469,6 +470,8 @@ photos_embed_search_changed (PhotosEmbed *self)
    * collections, favorites or overview.
    */
 
+  self->search_changed = TRUE;
+
   object = photos_base_manager_get_active_object (self->src_mngr);
   source_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
 
@@ -483,6 +486,8 @@ photos_embed_search_changed (PhotosEmbed *self)
     photos_mode_controller_go_back (self->mode_cntrlr);
   else
     photos_mode_controller_set_window_mode (self->mode_cntrlr, PHOTOS_WINDOW_MODE_SEARCH);
+
+  self->search_changed = FALSE;
 }
 
 
@@ -564,7 +569,7 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
-      if (!photos_main_toolbar_is_focus (PHOTOS_MAIN_TOOLBAR (self->toolbar)))
+      if (!self->search_changed)
         {
           GVariant *state;
 
