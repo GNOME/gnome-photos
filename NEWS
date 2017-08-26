@@ -1,3 +1,17 @@
+Overview of changes in 3.24.3
+=============================
+
+* Support GEGL >= 0.3.16
+
+* Bugs fixed:
+ 763329 thumbnailer: Fix typo and complete the right D-Bus call
+ 780692 Titles are no longer displayed in the album grid
+
+* Updated translations:
+ Icelandic
+ Slovenian
+
+
 Overview of changes in 3.24.2
 =============================
 
