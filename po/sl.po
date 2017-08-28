@@ -2,15 +2,15 @@
 # Copyright (C) 2012 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2012-2016.
+# Matej Urbančič <mateju@svn.gnome.org>, 2012–2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-07-21 17:50+0200\n"
-"PO-Revision-Date: 2017-07-21 17:52+0200\n"
+"POT-Creation-Date: 2017-08-28 19:27+0200\n"
+"PO-Revision-Date: 2017-08-28 19:27+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Generator: Poedit 2.0.1\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:673
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:674
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Fotografije"
@@ -76,6 +76,10 @@ msgstr "Izberi priljubljeno"
 msgid "Allow opening full featured editor for more advanced changes"
 msgstr "Dovoli uporabo urejevalnikov za zahtevnejše spremembe"
 
+#: ../data/org.gnome.Photos.appdata.xml.in.h:12
+msgid "The GNOME Project"
+msgstr "Projekt GNOME"
+
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Urejanje in izmenjava fotografij."
@@ -108,26 +112,6 @@ msgstr "Razpeto okno"
 msgid "Window maximized state"
 msgstr "Razpeto glavno okno"
 
-#: ../src/egg-animation.c:730
-#, c-format
-msgid "Cannot locate property %s in class %s"
-msgstr "Ni mogoče najti lastnosti %s v razredu %s."
-
-#: ../src/egg-animation.c:1077 ../src/egg-animation.c:1083
-#, c-format
-msgid "Failed to find property %s in %s"
-msgstr "Iskanje lastnosti %s v %s je spodletelo."
-
-#: ../src/egg-animation.c:1091
-#, c-format
-msgid "Failed to find property %s in %s or parent %s"
-msgstr "Iskanje lastnosti %s v %s oziroma nadrejeni %s je spodletelo."
-
-#: ../src/egg-animation.c:1101
-#, c-format
-msgid "Failed to retrieve va_list value: %s"
-msgstr "Pridobivanje vrednosti va_list je spodletelo: %s"
-
 #: ../src/photos-application.c:157
 msgid "Show the application's version"
 msgstr "Pokaži različico programa"
@@ -136,7 +120,7 @@ msgstr "Pokaži različico programa"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:2538
+#: ../src/photos-base-item.c:2546
 msgid "Screenshots"
 msgstr "Zajete slike"
 
@@ -168,15 +152,15 @@ msgstr "Naprave izrisovalnika DLNA"
 msgid "“%s” edited"
 msgstr "Slika »%s« je urejena."
 
-#: ../src/photos-embed.c:677 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:678 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../src/photos-embed.c:681 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:682 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Priljubljeno"
 
-#: ../src/photos-embed.c:685 ../src/photos-main-toolbar.c:323
+#: ../src/photos-embed.c:686 ../src/photos-main-toolbar.c:341
 msgid "Search"
 msgstr "Iskanje"
 
@@ -461,11 +445,11 @@ msgstr "Nekatere fotografije med opravilom lahko niso na voljo"
 msgid "Local"
 msgstr "Krajevno"
 
-#: ../src/photos-main-toolbar.c:109
+#: ../src/photos-main-toolbar.c:89
 msgid "Click on items to select them"
 msgstr "S klikom se predmeti izberejo."
 
-#: ../src/photos-main-toolbar.c:111
+#: ../src/photos-main-toolbar.c:91
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -474,34 +458,34 @@ msgstr[1] "%d izbrana"
 msgstr[2] "%d izbrani"
 msgstr[3] "%d izbrane"
 
-#: ../src/photos-main-toolbar.c:161
+#: ../src/photos-main-toolbar.c:179
 msgid "Back"
 msgstr "Nazaj"
 
-#: ../src/photos-main-toolbar.c:338
+#: ../src/photos-main-toolbar.c:356
 msgid "Select Items"
 msgstr "Izbor predmetov"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:422 ../src/photos-selection-toolbar.c:244
+#: ../src/photos-main-toolbar.c:440 ../src/photos-selection-toolbar.c:244
 #, c-format
 msgid "Open with %s"
 msgstr "Odpri s programom %s"
 
-#: ../src/photos-main-toolbar.c:455 ../src/photos-selection-toolbar.c:255
+#: ../src/photos-main-toolbar.c:473 ../src/photos-selection-toolbar.c:255
 msgid "Remove from favorites"
 msgstr "Odstrani iz priljubljenih"
 
-#: ../src/photos-main-toolbar.c:460 ../src/photos-selection-toolbar.c:260
+#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:260
 msgid "Add to favorites"
 msgstr "Dodaj med priljubljene"
 
-#: ../src/photos-main-toolbar.c:497 ../src/photos-main-toolbar.c:635
+#: ../src/photos-main-toolbar.c:515 ../src/photos-main-toolbar.c:653
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: ../src/photos-main-toolbar.c:501
+#: ../src/photos-main-toolbar.c:519
 msgid "Done"
 msgstr "Končano"
 
@@ -889,23 +873,23 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1254
+#: ../src/photos-tool-crop.c:1255
 msgid "Lock aspect ratio"
 msgstr "Zakleni razmerje velikosti"
 
-#: ../src/photos-tool-crop.c:1322
+#: ../src/photos-tool-crop.c:1323
 msgid "Landscape"
 msgstr "Ležeče"
 
-#: ../src/photos-tool-crop.c:1333
+#: ../src/photos-tool-crop.c:1334
 msgid "Portrait"
 msgstr "Pokončno"
 
-#: ../src/photos-tool-crop.c:1344
+#: ../src/photos-tool-crop.c:1345
 msgid "Reset"
 msgstr "Ponastavi"
 
-#: ../src/photos-tool-crop.c:1364
+#: ../src/photos-tool-crop.c:1365
 msgid "Crop"
 msgstr "Obreži"
 
@@ -954,6 +938,18 @@ msgstr "Filtri"
 #: ../src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Seznama fotografij ni mogoče pridobiti"
+
+#~ msgid "Cannot locate property %s in class %s"
+#~ msgstr "Ni mogoče najti lastnosti %s v razredu %s."
+
+#~ msgid "Failed to find property %s in %s"
+#~ msgstr "Iskanje lastnosti %s v %s je spodletelo."
+
+#~ msgid "Failed to find property %s in %s or parent %s"
+#~ msgstr "Iskanje lastnosti %s v %s oziroma nadrejeni %s je spodletelo."
+
+#~ msgid "Failed to retrieve va_list value: %s"
+#~ msgstr "Pridobivanje vrednosti va_list je spodletelo: %s"
 
 #~ msgid "Width"
 #~ msgstr "Širina"
