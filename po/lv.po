@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-p"
 "hotos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-22 19:28+0000\n"
-"PO-Revision-Date: 2017-03-18 14:45+0200\n"
+"POT-Creation-Date: 2017-08-19 15:18+0000\n"
+"PO-Revision-Date: 2017-08-28 09:59+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -20,12 +20,12 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:674
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "Fotogrāfijas"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:496
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:477
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Piekļūstiet, organizējiet, dalieties ar fotogrāfijām GNOME vidē"
 
@@ -73,6 +73,10 @@ msgstr "Izvēlēties izlasi"
 msgid "Allow opening full featured editor for more advanced changes"
 msgstr "Ļauj atvērt redaktoru plašākām rediģēšanas iespējām"
 
+#: ../data/org.gnome.Photos.appdata.xml.in.h:12
+msgid "The GNOME Project"
+msgstr "GNOME projekts"
+
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Piekļūstiet, organizējiet, dalieties ar fotogrāfijām"
@@ -105,15 +109,15 @@ msgstr "Logs maksimizēts"
 msgid "Window maximized state"
 msgstr "Loga stāvoklis — maksimizēts"
 
-#: ../src/photos-application.c:151
+#: ../src/photos-application.c:157
 msgid "Show the application's version"
 msgstr "Rādīt lietotnes versiju"
 
-#: ../src/photos-base-item.c:589
+#: ../src/photos-base-item.c:615
 msgid "Album"
 msgstr "Albums"
 
-#: ../src/photos-base-item.c:2303
+#: ../src/photos-base-item.c:2546
 msgid "Screenshots"
 msgstr "Ekrānattēli"
 
@@ -144,15 +148,15 @@ msgstr "DLNA attēlošanas ierīces"
 msgid "“%s” edited"
 msgstr "“%s” rediģēts"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:678 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:682 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "Izlase"
 
-#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
+#: ../src/photos-embed.c:686 ../src/photos-main-toolbar.c:341
 msgid "Search"
 msgstr "Meklēt"
 
@@ -237,20 +241,20 @@ msgstr "%Y. gada %e. %B"
 msgid "Calculating export size…"
 msgstr "Rēķina eksporta izmēru…"
 
-#: ../src/photos-export-notification.c:236
+#: ../src/photos-export-notification.c:250
 msgid "Failed to export: not enough space"
 msgstr "Neizdevās eksportēt — nepietiek vietas"
 
-#: ../src/photos-export-notification.c:238
+#: ../src/photos-export-notification.c:252
 msgid "Failed to export"
 msgstr "Neizdevās eksportēt"
 
-#: ../src/photos-export-notification.c:245
+#: ../src/photos-export-notification.c:259
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” ir eksportēts"
 
-#: ../src/photos-export-notification.c:249
+#: ../src/photos-export-notification.c:263
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -258,24 +262,24 @@ msgstr[0] "Eksportēts %d vienums"
 msgstr[1] "Eksportēti %d vienumi"
 msgstr[2] "Eksportēti %d vienumi"
 
-#: ../src/photos-export-notification.c:267
+#: ../src/photos-export-notification.c:281
 msgid "Analyze"
 msgstr "Analizēt"
 
-#: ../src/photos-export-notification.c:272
+#: ../src/photos-export-notification.c:286
 msgid "Empty Trash"
 msgstr "Iztukšot miskasti"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:289 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-export-notification.c:303 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:247 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "Atvērt"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:299
+#: ../src/photos-export-notification.c:313
 msgid "Export Folder"
 msgstr "Eksportēt mapi"
 
@@ -374,25 +378,40 @@ msgstr "Drukāt"
 
 #: ../src/photos-help-overlay.ui.h:17
 msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Tuvināt"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Tālināt"
+
+#: ../src/photos-help-overlay.ui.h:19
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "Labākā saderība"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Dzēst"
 
-#: ../src/photos-help-overlay.ui.h:18
+#: ../src/photos-help-overlay.ui.h:21
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Darbības izvēlne"
 
-#: ../src/photos-help-overlay.ui.h:19
+#: ../src/photos-help-overlay.ui.h:22
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Pilnekrāns"
 
-#: ../src/photos-help-overlay.ui.h:20
+#: ../src/photos-help-overlay.ui.h:23
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Rediģēt skatu"
 
-#: ../src/photos-help-overlay.ui.h:21
+#: ../src/photos-help-overlay.ui.h:24
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Atcelt"
@@ -421,11 +440,11 @@ msgstr "Šajā laikā dažas fotogrāfijas varētu nebūt pieejamas"
 msgid "Local"
 msgstr "Lokāls"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:89
 msgid "Click on items to select them"
 msgstr "Spiediet uz vienumiem, lai tos izvēlētos"
 
-#: ../src/photos-main-toolbar.c:115
+#: ../src/photos-main-toolbar.c:91
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -433,42 +452,38 @@ msgstr[0] "%d izvēlēts"
 msgstr[1] "%d izvēlēti"
 msgstr[2] "%d izvēlētu"
 
-#: ../src/photos-main-toolbar.c:165
+#: ../src/photos-main-toolbar.c:179
 msgid "Back"
 msgstr "Atpakaļ"
 
-#: ../src/photos-main-toolbar.c:349
+#: ../src/photos-main-toolbar.c:356
 msgid "Select Items"
 msgstr "Izvēlēties vienumus"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:443 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:440 ../src/photos-selection-toolbar.c:244
 #, c-format
 msgid "Open with %s"
 msgstr "Atvērt ar %s"
 
-#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:473 ../src/photos-selection-toolbar.c:255
 msgid "Remove from favorites"
 msgstr "Izņemt no izlases"
 
-#: ../src/photos-main-toolbar.c:488 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:260
 msgid "Add to favorites"
 msgstr "Pievienot izlasei"
 
-#: ../src/photos-main-toolbar.c:525 ../src/photos-main-toolbar.c:663
+#: ../src/photos-main-toolbar.c:515 ../src/photos-main-toolbar.c:653
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: ../src/photos-main-toolbar.c:529
+#: ../src/photos-main-toolbar.c:519
 msgid "Done"
 msgstr "Pabeigts"
 
-#: ../src/photos-main-window.c:497
-#| msgid ""
-#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#| "Copyright © 2014 – 2015 Pranav Kant\n"
-#| "Copyright © 2012 – 2016 Red Hat, Inc."
+#: ../src/photos-main-window.c:478
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -479,7 +494,7 @@ msgstr ""
 "Autortiesības © 2012 – 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:507
+#: ../src/photos-main-window.c:488
 msgid "translator-credits"
 msgstr "Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>"
 
@@ -546,7 +561,7 @@ msgstr "Iestatīt kā ekrāna bloķētāju"
 msgid "Properties"
 msgstr "Īpašības"
 
-#: ../src/photos-print-notification.c:79
+#: ../src/photos-print-notification.c:74
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Drukā “%s”: %s"
@@ -672,7 +687,6 @@ msgid "Dimensions"
 msgstr "Dimensijas"
 
 #: ../src/photos-properties-dialog.c:518
-#| msgid "Modifications"
 msgid "Location"
 msgstr "Vieta"
 
@@ -680,7 +694,7 @@ msgstr "Vieta"
 msgid "Camera"
 msgstr "Fotoaparāts"
 
-#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:335
 msgid "Exposure"
 msgstr "Ekspozīcija"
 
@@ -793,11 +807,11 @@ msgstr "Avoti"
 msgid "Your %s credentials have expired"
 msgstr "Jūsu %s akreditācijas datu derīguma termiņš ir beidzies"
 
-#: ../src/photos-thumbnailer.c:73
+#: ../src/photos-thumbnailer.c:77
 msgid "D-Bus address to use"
 msgstr "D-Bus adrese, ko izmantot"
 
-#: ../src/photos-tool-colors.c:315
+#: ../src/photos-tool-colors.c:313
 msgid "Brightness"
 msgstr "Gaišums"
 
@@ -805,71 +819,79 @@ msgstr "Gaišums"
 msgid "Contrast"
 msgstr "Kontrasts"
 
-#: ../src/photos-tool-colors.c:376
+#: ../src/photos-tool-colors.c:377
 msgid "Blacks"
 msgstr "Melnie laukumi"
 
-#: ../src/photos-tool-colors.c:396
+#: ../src/photos-tool-colors.c:398
 msgid "Saturation"
 msgstr "Piesātinājums"
 
-#: ../src/photos-tool-colors.c:423
+#: ../src/photos-tool-colors.c:426
 msgid "Colors"
 msgstr "Krāsas"
 
-#: ../src/photos-tool-crop.c:119
+#: ../src/photos-tool-crop.c:123
 msgid "Free"
 msgstr "Brīvs"
 
-#: ../src/photos-tool-crop.c:120
+#: ../src/photos-tool-crop.c:124
 msgid "Original"
 msgstr "Oriģināls"
 
-#: ../src/photos-tool-crop.c:121
+#: ../src/photos-tool-crop.c:125
 msgid "1×1 (Square)"
 msgstr "1×1 (Kvadrāts)"
 
-#: ../src/photos-tool-crop.c:122
+#: ../src/photos-tool-crop.c:126
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:123
+#: ../src/photos-tool-crop.c:127
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:124
+#: ../src/photos-tool-crop.c:128
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:125
+#: ../src/photos-tool-crop.c:129
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:126
+#: ../src/photos-tool-crop.c:130
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:127
+#: ../src/photos-tool-crop.c:131
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1171
+#: ../src/photos-tool-crop.c:1255
 msgid "Lock aspect ratio"
 msgstr "Fiksēt izmēru attiecību"
 
-#: ../src/photos-tool-crop.c:1219
+#: ../src/photos-tool-crop.c:1323
+msgid "Landscape"
+msgstr "Ainava"
+
+#: ../src/photos-tool-crop.c:1334
+msgid "Portrait"
+msgstr "Portrets"
+
+#: ../src/photos-tool-crop.c:1345
 msgid "Reset"
 msgstr "Atstatīt"
 
-#: ../src/photos-tool-crop.c:1236
+#: ../src/photos-tool-crop.c:1365
 msgid "Crop"
 msgstr "Kadrēt"
 
-#: ../src/photos-tool-enhance.c:202
+#: ../src/photos-tool-enhance.c:200
 msgid "Sharpen"
 msgstr "Asināt"
 
-#: ../src/photos-tool-enhance.c:222
+#: ../src/photos-tool-enhance.c:221
 msgid "Denoise"
 msgstr "Noņemt troksni"
 
