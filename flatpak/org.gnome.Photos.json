@@ -142,8 +142,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://ftp.acc.umu.se/pub/gimp/gegl/0.3/gegl-0.3.14.tar.bz2",
-                    "sha256": "09f5e2e6899697641d4660e3e274aed696f5bacc96ba389ac77674ee1156590a"
+                    "url": "http://ftp.acc.umu.se/pub/gimp/gegl/0.3/gegl-0.3.16.tar.bz2",
+                    "sha256": "11174f20d01f25d4b5425ff77457ee00fbde7bc26ea4b1ff0765fc1ba6028006"
                 }
             ]
         },
