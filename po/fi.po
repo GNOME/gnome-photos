@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-08-11 02:03+0000\n"
-"PO-Revision-Date: 2017-08-15 20:29+0300\n"
+"POT-Creation-Date: 2017-08-26 23:55+0000\n"
+"PO-Revision-Date: 2017-08-29 12:23+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
 #: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:674
@@ -72,6 +72,10 @@ msgstr "Valita suosikkeja"
 msgid "Allow opening full featured editor for more advanced changes"
 msgstr "Avata erillisen kuvankäsittelysovelluksen suuria muutoksia varten"
 
+#: ../data/org.gnome.Photos.appdata.xml.in.h:12
+msgid "The GNOME Project"
+msgstr "Gnome-projekti"
+
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "Hallitse, järjestä ja jaa kuviasi"
@@ -112,7 +116,7 @@ msgstr "Näytä sovelluksen versio"
 msgid "Album"
 msgstr "Albumi"
 
-#: ../src/photos-base-item.c:2538
+#: ../src/photos-base-item.c:2546
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
