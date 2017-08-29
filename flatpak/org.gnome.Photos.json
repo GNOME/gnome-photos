@@ -181,17 +181,6 @@
             ]
         },
         {
-            "name": "gnome-desktop",
-            "config-opts": [ "--disable-debug-tools", "--disable-udev" ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://download.gnome.org/sources/gnome-desktop/3.24/gnome-desktop-3.24.2.tar.xz",
-                    "sha256": "8fa1de66a6a75963bffc79b01a60434c71237d44c51beca09c0f714a032d785e"
-                }
-            ]
-        },
-        {
             "name": "grilo",
             "cleanup": [ "/bin" ],
             "sources": [
