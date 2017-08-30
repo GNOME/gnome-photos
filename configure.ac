@@ -123,7 +123,7 @@ LIBGD_INIT([
   main-icon-view
   static
   tagged-entry
-])
+][subprojects/libgd])
 
 AC_ARG_ENABLE(dogtail,
               [AS_HELP_STRING([--enable-dogtail],
@@ -155,7 +155,7 @@ data/Makefile
 data/org.gnome.Photos.desktop.in
 data/icons/Makefile
 help/Makefile
-libgd/Makefile
+subprojects/libgd/Makefile
 src/Makefile
 tests/Makefile
 po/Makefile.in

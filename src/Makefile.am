@@ -409,7 +409,7 @@ AM_CPPFLAGS = \
 	$(GTK_UNIX_PRINT_CFLAGS) \
 	$(PNG_CFLAGS) \
 	$(TRACKER_CFLAGS) \
-	-I$(top_srcdir)/libgd \
+	-I$(top_srcdir)/subprojects/libgd \
 	$(NULL)
 
 AM_CFLAGS = \
@@ -440,7 +440,7 @@ gnome_photos_LDADD = \
 	$(TRACKER_LIBS) \
 	$(LIBM) \
 	$(LIBRT) \
-	$(top_builddir)/libgd/libgd.la \
+	$(top_builddir)/subprojects/libgd/libgd.la \
 	$(NULL)
 
 gnome_photos_thumbnailer_LDFLAGS = \
