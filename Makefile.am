@@ -1,6 +1,6 @@
-ACLOCAL_AMFLAGS = -I m4 -I libgd ${ACLOCAL_FLAGS}
+ACLOCAL_AMFLAGS = -I m4 -I subprojects/libgd ${ACLOCAL_FLAGS}
 
-SUBDIRS = . data libgd src po tests help
+SUBDIRS = . data subprojects/libgd src po tests help
 
 photosdocdir = $(docdir)
 photosdoc_DATA = \
