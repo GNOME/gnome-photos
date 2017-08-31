@@ -1,0 +1,3 @@
+option('enable-rdtscp', type: 'boolean', value: false, description: 'turn on rdtscp optimizations')
+option('enable-dogtail', type: 'boolean', value: true, description: 'test using dogtail')
+option('enable-installed-tests', type: 'boolean', value: false, description: 'Enable installation of some test cases')

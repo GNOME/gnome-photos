@@ -387,6 +387,7 @@ EXTRA_DIST = \
 	photos-dleyna-renderer-manager.xml \
 	photos-dleyna-renderer-push-host.xml \
 	photos-mpris-player.xml \
+	meson.build \
 	$(NULL)
 
 AM_CPPFLAGS = \
