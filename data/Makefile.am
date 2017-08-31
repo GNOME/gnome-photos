@@ -29,6 +29,7 @@ EXTRA_DIST = \
 	Adwaita.css \
 	dnd-counter.svg \
 	vignette.png \
+	meson.build \
 	$(NULL)
 
 CLEANFILES = \

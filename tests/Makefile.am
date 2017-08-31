@@ -26,4 +26,9 @@ EXTRA_DIST += \
 	$(NULL)
 endif
 
+EXTRA_DIST += \
+	meson.build \
+	template.test.in \
+	$(NULL)
+
 -include $(top_srcdir)/git.mk
