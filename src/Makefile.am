@@ -489,10 +489,9 @@ stamp-photos-about-data.h: $(top_srcdir)/ARTISTS $(top_builddir)/AUTHORS
 
 photos-about-data.c: $(top_srcdir)/ARTISTS $(top_builddir)/AUTHORS
 	$(AM_V_GEN) ( \
-		echo "#include \"photos-about-data.h\"" > xgen-ac \
-		&& ( $(srcdir)/photos-generate-about \
+		( $(srcdir)/photos-generate-about \
 			--body $(top_builddir) $(top_srcdir) \
-                   ) >> xgen-ac \
+                ) >> xgen-ac \
 		&& ( cmp -s xgen-ac photos-about-data.c || cp xgen-ac photos-about-data.c ) \
 		&& rm -f xgen-ac \
 	)
