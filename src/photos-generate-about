@@ -29,6 +29,7 @@
     echo "#endif" &&
     exit
 
+echo "#include \"photos-about-data.h\""
 echo "const gchar *PHOTOS_ARTISTS[] = {"
 while read line; do
     [ "$(echo "$line" | cut -c1)" = "#" ] &&
