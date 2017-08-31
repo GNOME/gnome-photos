@@ -16,6 +16,11 @@ photosdoc_DATA = \
 EXTRA_DIST = \
 	$(photosdoc_DATA) \
 	AUTHORS \
+	meson.build \
+	meson_options.txt \
+	meson_post_install.py \
+	generate-authors.sh \
+	po/meson.build \
 	$(NULL)
 
 # We don't want to clean the AUTHORS in tarball builds
