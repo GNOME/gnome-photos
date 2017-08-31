@@ -26,6 +26,7 @@ noinst_DATA = \
 EXTRA_DIST = \
 	$(public_icons) \
 	$(noinst_DATA) \
+	meson.build \
 	$(NULL)
 
 gtk_update_icon_cache = gtk-update-icon-cache -f -t

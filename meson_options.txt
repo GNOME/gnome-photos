@@ -1,0 +1,2 @@
+option('dogtail', type: 'boolean', value: true, description: 'test using dogtail')
+option('installed_tests', type: 'boolean', value: false, description: 'Enable installation of some test cases')
