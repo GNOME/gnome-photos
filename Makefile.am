@@ -36,16 +36,6 @@ GITIGNOREFILES = \
 	$(NULL)
 
 update-authors:
-	@if test -d "$(srcdir)/.git"; \
-	then \
-		echo Updating AUTHORS && \
-		( cd "$(top_srcdir)" && \
-		  echo '# Generated — do not edit.'; echo; \
-		  git log --no-merges --pretty=format:"%an" src \
-		  | sort | uniq ) > AUTHORS.tmp \
-		&& mv -f AUTHORS.tmp AUTHORS \
-		|| ( rm -f AUTHORS.tmp ; \
-		     echo Failed to generate AUTHORS >&2 ); \
-	fi
+	$(top_srcdir)/update-authors.sh $(top_srcdir)
 
 -include $(top_srcdir)/git.mk
