@@ -52,6 +52,9 @@ AUTHORS:
 		     echo Failed to generate $@ >&2 ); \
 	fi
 
+update-authors:
+	$(top_srcdir)/update-authors.sh $(top_srcdir) AUTHORS
+
 .PHONY: AUTHORS
 
 -include $(top_srcdir)/git.mk
