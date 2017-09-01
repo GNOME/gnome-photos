@@ -4,24 +4,24 @@
   <id>org.gnome.Photos.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
-  <_name>Photos</_name>
-  <_summary>Access, organize and share your photos on GNOME</_summary>
+  <name>Photos</name>
+  <summary>Access, organize and share your photos on GNOME</summary>
   <description>
-    <_p>
+    <p>
       A simple application to access, organize and share your photos on
       GNOME. It is meant to be a simple and elegant replacement for using a
       file manager to deal with photos. Seamless cloud integration is offered
       through GNOME Online Accounts.
-    </_p>
-    <_p>It lets you:</_p>
+    </p>
+    <p>It lets you:</p>
     <ul>
-      <_li>View recent local and online photos</_li>
-      <_li>Access your Facebook or Flickr content</_li>
-      <_li>Send photos to remote DLNA renderers</_li>
-      <_li>Set as background</_li>
-      <_li>Print photos</_li>
-      <_li>Select favorites</_li>
-      <_li>Allow opening full featured editor for more advanced changes</_li>
+      <li>View recent local and online photos</li>
+      <li>Access your Facebook or Flickr content</li>
+      <li>Send photos to remote DLNA renderers</li>
+      <li>Set as background</li>
+      <li>Print photos</li>
+      <li>Select favorites</li>
+      <li>Allow opening full featured editor for more advanced changes</li>
     </ul>
   </description>
   <kudos>
@@ -46,7 +46,7 @@
   <url type="donation">http://www.gnome.org/friends</url>
   <url type="homepage">https://wiki.gnome.org/Apps/Photos</url>
   <url type="translate">https://wiki.gnome.org/TranslationProject</url>
-  <_developer_name>The GNOME Project</_developer_name>
+  <developer_name>The GNOME Project</developer_name>
   <project_group>GNOME</project_group>
   <update_contact>debarshir_at_gnome.org</update_contact>
   <translation type="gettext">gnome-photos</translation>

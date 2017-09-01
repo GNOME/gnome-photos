@@ -6,25 +6,25 @@ data/org.gnome.photos.gschema.xml
 src/photos-application.c
 src/photos-base-item.c
 src/photos-delete-notification.c
-[type: gettext/glade]src/photos-dlna-renderers-dialog.ui
+src/photos-dlna-renderers-dialog.ui
 src/photos-done-notification.c
 src/photos-embed.c
 src/photos-empty-results-box.c
-[type: gettext/glade]src/photos-export-dialog.ui
+src/photos-export-dialog.ui
 src/photos-export-dialog.c
 src/photos-export-notification.c
 src/photos-facebook-item.c
 src/photos-fetch-metas-job.c
 src/photos-flickr-item.c
 src/photos-google-item.c
-[type: gettext/glade]src/photos-help-overlay.ui
+src/photos-help-overlay.ui
 src/photos-indexing-notification.c
 src/photos-local-item.c
 src/photos-main-toolbar.c
 src/photos-main-window.c
-[type: gettext/glade]src/photos-menus.ui
+src/photos-menus.ui
 src/photos-organize-collection-dialog.c
-[type: gettext/glade]src/photos-preview-menu.ui
+src/photos-preview-menu.ui
 src/photos-preview-nav-buttons.c
 src/photos-print-notification.c
 src/photos-print-operation.c
@@ -32,10 +32,10 @@ src/photos-print-setup.c
 src/photos-properties-dialog.c
 src/photos-search-match-manager.c
 src/photos-search-type-manager.c
-[type: gettext/glade]src/photos-selection-menu.ui
+src/photos-selection-menu.ui
 src/photos-selection-toolbar.c
-[type: gettext/glade]src/photos-selection-toolbar.ui
-[type: gettext/glade]src/photos-share-dialog.ui
+src/photos-selection-toolbar.ui
+src/photos-share-dialog.ui
 src/photos-share-point-email.c
 src/photos-share-point-google.c
 src/photos-source-manager.c

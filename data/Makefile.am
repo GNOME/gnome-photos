@@ -8,12 +8,10 @@ desktopdir = $(datadir)/applications
 desktop_in_in_files = org.gnome.Photos.desktop.in.in
 desktop_in_files = org.gnome.Photos.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
-@INTLTOOL_DESKTOP_RULE@
 
 gsettings_SCHEMAS = org.gnome.photos.gschema.xml
 .PRECIOUS: $(gsettings_SCHEMAS)
 
-@INTLTOOL_XML_RULE@
 @GSETTINGS_RULES@
 
 searchproviderdir = $(datadir)/gnome-shell/search-providers
@@ -56,5 +54,11 @@ org.gnome.Photos.service: org.gnome.Photos.service.in
 	$(AM_V_GEN)	\
 		[ -d $(@D) ] || $(mkdir_p) $(@D) ; \
 		sed -e "s|\@bindir\@|$(bindir)|" $< > $@.tmp && mv $@.tmp $@
+
+org.gnome.Photos.appdata.xml: org.gnome.Photos.appdata.xml.in
+	$(AM_V_GEN)$(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
+
+org.gnome.Photos.desktop: org.gnome.Photos.desktop.in
+	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 -include $(top_srcdir)/git.mk

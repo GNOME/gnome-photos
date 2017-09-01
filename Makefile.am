@@ -2,12 +2,6 @@ ACLOCAL_AMFLAGS = -I m4 -I libgd ${ACLOCAL_FLAGS}
 
 SUBDIRS = . data libgd src po tests help
 
-INTLTOOL_FILES = \
-	intltool-extract.in \
-	intltool-merge.in \
-	intltool-update.in \
-	$(NULL)
-
 photosdocdir = $(docdir)
 photosdoc_DATA = \
 	ARTISTS \
@@ -20,7 +14,6 @@ photosdoc_DATA = \
 
 # There is no way to generate the AUTHORS in tarball builds
 EXTRA_DIST = \
-	$(INTLTOOL_FILES) \
 	$(photosdoc_DATA) \
 	AUTHORS \
 	$(NULL)
@@ -30,10 +23,6 @@ CLEANFILES = \
 	$(NULL)
 
 DISTCLEANFILES = \
-	intltool-extract \
-	intltool-merge \
-	intltool-update \
-	po/.intltool-merge-cache \
 	$(NULL)
 
 MAINTAINERCLEANFILES = \
@@ -59,7 +48,6 @@ MAINTAINERCLEANFILES = \
 
 GITIGNOREFILES = \
 	config \
-	m4/intltool.m4 \
 	m4/libtool.m4 \
 	m4/lt* \
 	$(NULL)

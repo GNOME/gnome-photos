@@ -1,6 +1,6 @@
 [Desktop Entry]
-_Name=Photos
-_Comment=Access, organize and share photos
+Name=Photos
+Comment=Access, organize and share photos
 Exec=@PACKAGE_TARNAME@
 Icon=org.gnome.Photos
 DBusActivatable=true
@@ -9,4 +9,4 @@ Terminal=false
 Type=Application
 OnlyShowIn=GNOME;
 Categories=GNOME;GTK;Core;Graphics;Photography;
-_Keywords=Photos;Pictures;
+Keywords=Photos;Pictures;
