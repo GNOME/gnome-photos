@@ -711,7 +711,7 @@ photos_embed_init (PhotosEmbed *self)
 
   self->extension_point = g_io_extension_point_lookup (PHOTOS_TRACKER_CONTROLLER_EXTENSION_POINT_NAME);
 
-  self->toolbar = photos_main_toolbar_new (GTK_OVERLAY (self->stack_overlay));
+  self->toolbar = photos_main_toolbar_new ();
   photos_main_toolbar_set_stack (PHOTOS_MAIN_TOOLBAR (self->toolbar), GTK_STACK (self->stack));
   windows = gtk_application_get_windows (GTK_APPLICATION (app));
   gtk_window_set_titlebar (GTK_WINDOW (windows->data), self->toolbar);

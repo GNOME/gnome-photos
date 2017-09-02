@@ -34,7 +34,7 @@ G_BEGIN_DECLS
 #define PHOTOS_TYPE_MAIN_TOOLBAR (photos_main_toolbar_get_type ())
 G_DECLARE_FINAL_TYPE (PhotosMainToolbar, photos_main_toolbar, PHOTOS, MAIN_TOOLBAR, GtkBox);
 
-GtkWidget             *photos_main_toolbar_new                    (GtkOverlay *overlay);
+GtkWidget             *photos_main_toolbar_new                    (void);
 
 PhotosSearchbar *      photos_main_toolbar_get_searchbar          (PhotosMainToolbar *self);
 

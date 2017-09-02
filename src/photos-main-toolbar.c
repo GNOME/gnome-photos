@@ -50,7 +50,6 @@ struct _PhotosMainToolbar
   GSimpleAction *gear_menu;
   GtkWidget *favorite_button;
   GtkWidget *header_bar;
-  GtkWidget *overlay;
   GtkWidget *remote_display_button;
   GtkWidget *searchbar;
   GtkWidget *selection_menu;
@@ -58,12 +57,6 @@ struct _PhotosMainToolbar
   PhotosModeController *mode_cntrlr;
   PhotosRemoteDisplayManager *remote_mngr;
   PhotosSelectionController *sel_cntrlr;
-};
-
-enum
-{
-  PROP_0,
-  PROP_OVERLAY
 };
 
 
@@ -575,24 +568,6 @@ photos_main_toolbar_dispose (GObject *object)
 
 
 static void
-photos_main_toolbar_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
-{
-  PhotosMainToolbar *self = PHOTOS_MAIN_TOOLBAR (object);
-
-  switch (prop_id)
-    {
-    case PROP_OVERLAY:
-      self->overlay = GTK_WIDGET (g_value_dup_object (value));
-      break;
-
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-      break;
-    }
-}
-
-
-static void
 photos_main_toolbar_share_changed_cb (PhotosMainToolbar          *self,
                                       PhotosDlnaRenderer         *renderer,
                                       PhotosBaseItem             *item,
@@ -679,15 +654,6 @@ photos_main_toolbar_class_init (PhotosMainToolbarClass *class)
 
   object_class->constructed = photos_main_toolbar_constructed;
   object_class->dispose = photos_main_toolbar_dispose;
-  object_class->set_property = photos_main_toolbar_set_property;
-
-  g_object_class_install_property (object_class,
-                                   PROP_OVERLAY,
-                                   g_param_spec_object ("overlay",
-                                                        "GtkOverlay object",
-                                                        "The stack overlay widget",
-                                                        GTK_TYPE_OVERLAY,
-                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/main-toolbar.ui");
   gtk_widget_class_bind_template_child (widget_class, PhotosMainToolbar, header_bar);
@@ -696,9 +662,9 @@ photos_main_toolbar_class_init (PhotosMainToolbarClass *class)
 
 
 GtkWidget *
-photos_main_toolbar_new (GtkOverlay *overlay)
+photos_main_toolbar_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_MAIN_TOOLBAR, "overlay", overlay, NULL);
+  return g_object_new (PHOTOS_TYPE_MAIN_TOOLBAR, NULL);
 }
 
 
