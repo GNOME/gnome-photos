@@ -23,6 +23,9 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 
+#include "photos-base-manager.h"
+#include "photos-filterable.h"
+#include "photos-search-context.h"
 #include "photos-source-notification.h"
 #include "photos-utils.h"
 
@@ -30,6 +33,7 @@
 struct _PhotosSourceNotification
 {
   GtkGrid parent_instance;
+  PhotosBaseManager *src_mngr;
   PhotosSource *source;
 };
 
@@ -55,6 +59,24 @@ static void
 photos_source_notification_close (PhotosSourceNotification *self)
 {
   g_signal_emit (self, signals[CLOSED], 0);
+}
+
+
+static void
+photos_source_notification_import_notify_sensitive (GObject *object)
+{
+  GtkStyleContext *context;
+  gboolean sensitive;
+  const gchar *class_name;
+  const gchar *invert_class_name;
+
+  sensitive = gtk_widget_get_sensitive (GTK_WIDGET (object));
+  class_name = sensitive ? "photos-fade-in" : "photos-fade-out";
+  invert_class_name = !sensitive ? "photos-fade-in" : "photos-fade-out";
+
+  context = gtk_widget_get_style_context (GTK_WIDGET (object));
+  gtk_style_context_remove_class (context, invert_class_name);
+  gtk_style_context_add_class (context, class_name);
 }
 
 
@@ -108,33 +130,86 @@ static void
 photos_source_notification_constructed (GObject *object)
 {
   PhotosSourceNotification *self = PHOTOS_SOURCE_NOTIFICATION (object);
+  GMount *mount;
+  GoaObject *goa_object;
   GtkWidget *close;
   GtkWidget *image;
-  GtkWidget *label;
-  GtkWidget *settings;
-  const gchar *name;
-  g_autofree gchar *msg = NULL;
 
   G_OBJECT_CLASS (photos_source_notification_parent_class)->constructed (object);
 
   gtk_grid_set_column_spacing (GTK_GRID (self), 12);
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 
-  name = photos_source_get_name (self->source);
-  /* Translators: %s refers to an online account provider, e.g.,
-   * "Facebook" or "Flickr".
-   */
-  msg = g_strdup_printf (_("Your %s credentials have expired"), name);
+  mount = photos_source_get_mount (self->source);
+  goa_object = photos_source_get_goa_object (self->source);
 
-  label = gtk_label_new (msg);
-  gtk_widget_set_halign (label, GTK_ALIGN_START);
-  gtk_widget_set_hexpand (label, TRUE);
-  gtk_container_add (GTK_CONTAINER (self), label);
+  if (mount != NULL)
+    {
+      GtkStyleContext *context;
+      GtkWidget *import;
+      GtkWidget *labels;
+      GtkWidget *primary_label;
+      GtkWidget *secondary_label;
+      const gchar *action_id;
+      const gchar *action_namespace = "app";
+      const gchar *id;
+      g_autofree gchar *action_name = NULL;
+      g_autofree gchar *name = NULL;
 
-  settings = gtk_button_new_with_label (_("Settings"));
-  gtk_widget_set_valign (settings, GTK_ALIGN_CENTER);
-  gtk_container_add (GTK_CONTAINER (self), settings);
-  g_signal_connect_swapped (settings, "clicked", G_CALLBACK (photos_source_notification_settings_clicked), self);
+      labels = gtk_grid_new ();
+      gtk_orientable_set_orientation (GTK_ORIENTABLE (labels), GTK_ORIENTATION_VERTICAL);
+      gtk_grid_set_row_spacing (GTK_GRID (labels), 3);
+      gtk_container_add (GTK_CONTAINER (self), labels);
+
+      primary_label = gtk_label_new (_("New device discovered"));
+      gtk_widget_set_halign (primary_label, GTK_ALIGN_START);
+      gtk_widget_set_hexpand (primary_label, TRUE);
+      gtk_container_add (GTK_CONTAINER (labels), primary_label);
+
+      name = g_mount_get_name (mount);
+      secondary_label = gtk_label_new (name);
+      gtk_widget_set_halign (secondary_label, GTK_ALIGN_START);
+      gtk_widget_set_hexpand (secondary_label, TRUE);
+      context = gtk_widget_get_style_context (secondary_label);
+      gtk_style_context_add_class (context, "dim-label");
+      gtk_container_add (GTK_CONTAINER (labels), secondary_label);
+
+      import = gtk_button_new_with_label (_("Import"));
+      gtk_widget_set_valign (import, GTK_ALIGN_CENTER);
+      action_id = photos_base_manager_get_action_id (self->src_mngr);
+      action_name = g_strconcat (action_namespace, ".", action_id, NULL);
+      gtk_actionable_set_action_name (GTK_ACTIONABLE (import), action_name);
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (self->source));
+      gtk_actionable_set_action_target (GTK_ACTIONABLE (import), "s", id);
+      gtk_container_add (GTK_CONTAINER (self), import);
+      g_signal_connect (import,
+                        "notify::sensitive",
+                        G_CALLBACK (photos_source_notification_import_notify_sensitive),
+                        NULL);
+    }
+  else if (goa_object != NULL)
+    {
+      GtkWidget *label;
+      GtkWidget *settings;
+      const gchar *name;
+      g_autofree gchar *msg = NULL;
+
+      name = photos_source_get_name (self->source);
+      /* Translators: %s refers to an online account provider, e.g.,
+       * "Facebook" or "Flickr".
+       */
+      msg = g_strdup_printf (_("Your %s credentials have expired"), name);
+
+      label = gtk_label_new (msg);
+      gtk_widget_set_halign (label, GTK_ALIGN_START);
+      gtk_widget_set_hexpand (label, TRUE);
+      gtk_container_add (GTK_CONTAINER (self), label);
+
+      settings = gtk_button_new_with_label (_("Settings"));
+      gtk_widget_set_valign (settings, GTK_ALIGN_CENTER);
+      gtk_container_add (GTK_CONTAINER (self), settings);
+      g_signal_connect_swapped (settings, "clicked", G_CALLBACK (photos_source_notification_settings_clicked), self);
+    }
 
   image = gtk_image_new_from_icon_name ("window-close-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_widget_set_margin_bottom (image, 2);
@@ -156,6 +231,7 @@ photos_source_notification_dispose (GObject *object)
 {
   PhotosSourceNotification *self = PHOTOS_SOURCE_NOTIFICATION (object);
 
+  g_clear_object (&self->src_mngr);
   g_clear_object (&self->source);
 
   G_OBJECT_CLASS (photos_source_notification_parent_class)->dispose (object);
@@ -201,6 +277,13 @@ photos_source_notification_set_property (GObject *object, guint prop_id, const G
 static void
 photos_source_notification_init (PhotosSourceNotification *self)
 {
+  GApplication *app;
+  PhotosSearchContextState *state;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  self->src_mngr = g_object_ref (state->src_mngr);
 }
 
 
@@ -237,20 +320,26 @@ photos_source_notification_class_init (PhotosSourceNotificationClass *class)
 GtkWidget *
 photos_source_notification_new (PhotosSource *source)
 {
-  GoaAccount *account;
+  GMount *mount;
   GoaObject *object;
-  gboolean attention_needed;
 
   g_return_val_if_fail (PHOTOS_IS_SOURCE (source), NULL);
 
+  mount = photos_source_get_mount (source);
   object = photos_source_get_goa_object (source);
-  g_return_val_if_fail (GOA_IS_OBJECT (object), NULL);
+  g_return_val_if_fail (G_IS_MOUNT (mount) || GOA_IS_OBJECT (object), NULL);
 
-  account = goa_object_peek_account (object);
-  g_return_val_if_fail (GOA_IS_ACCOUNT (account), NULL);
+  if (object != NULL)
+    {
+      GoaAccount *account;
+      gboolean attention_needed;
 
-  attention_needed = goa_account_get_attention_needed (account);
-  g_return_val_if_fail (attention_needed, NULL);
+      account = goa_object_peek_account (object);
+      g_return_val_if_fail (GOA_IS_ACCOUNT (account), NULL);
+
+      attention_needed = goa_account_get_attention_needed (account);
+      g_return_val_if_fail (attention_needed, NULL);
+    }
 
   return g_object_new (PHOTOS_TYPE_SOURCE_NOTIFICATION, "source", source, NULL);
 }
