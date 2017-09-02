@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-02-22 19:28+0000\n"
-"PO-Revision-Date: 2017-03-04 12:48+0900\n"
+"POT-Creation-Date: 2017-08-19 15:18+0000\n"
+"PO-Revision-Date: 2017-08-27 13:21+0900\n"
 "Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
 "Language-Team: GNOME Korea <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -20,12 +20,12 @@ msgstr ""
 "X-Generator: Poedit 1.8.7\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
+#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:674
 #: ../src/photos-search-type-manager.c:135
 msgid "Photos"
 msgstr "사진"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:496
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:477
 msgid "Access, organize and share your photos on GNOME"
 msgstr "그놈에서 사진에 접근하고, 정리하고, 공유합니다"
 
@@ -72,6 +72,10 @@ msgstr "즐겨찾기 항목 선택"
 msgid "Allow opening full featured editor for more advanced changes"
 msgstr "완전한 기능을 갖춘 고급 편집기 열기 허용"
 
+#: ../data/org.gnome.Photos.appdata.xml.in.h:12
+msgid "The GNOME Project"
+msgstr "그놈 프로젝트"
+
 #: ../data/org.gnome.Photos.desktop.in.in.h:2
 msgid "Access, organize and share photos"
 msgstr "사진을 접근하고, 정리하고 공유하세요"
@@ -104,15 +108,15 @@ msgstr "창 최대화"
 msgid "Window maximized state"
 msgstr "창 최대화 상태"
 
-#: ../src/photos-application.c:151
+#: ../src/photos-application.c:157
 msgid "Show the application's version"
 msgstr "프로그램 버전 표시"
 
-#: ../src/photos-base-item.c:589
+#: ../src/photos-base-item.c:615
 msgid "Album"
 msgstr "앨범"
 
-#: ../src/photos-base-item.c:2303
+#: ../src/photos-base-item.c:2546
 msgid "Screenshots"
 msgstr "스크린샷"
 
@@ -141,15 +145,15 @@ msgstr "DLNA 렌더러 장치"
 msgid "“%s” edited"
 msgstr "“%s” 항목을 편집했습니다"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
+#: ../src/photos-embed.c:678 ../src/photos-search-type-manager.c:120
 msgid "Albums"
 msgstr "앨범"
 
-#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
+#: ../src/photos-embed.c:682 ../src/photos-search-type-manager.c:128
 msgid "Favorites"
 msgstr "즐겨찾기"
 
-#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
+#: ../src/photos-embed.c:686 ../src/photos-main-toolbar.c:341
 msgid "Search"
 msgstr "검색"
 
@@ -234,43 +238,43 @@ msgstr "%Y년 %B %e일"
 msgid "Calculating export size…"
 msgstr "내보내기 크기 계산중…"
 
-#: ../src/photos-export-notification.c:236
+#: ../src/photos-export-notification.c:250
 msgid "Failed to export: not enough space"
 msgstr "내보내기에 실패했습니다: 용량 부족"
 
-#: ../src/photos-export-notification.c:238
+#: ../src/photos-export-notification.c:252
 msgid "Failed to export"
 msgstr "내보내기 실패"
 
-#: ../src/photos-export-notification.c:245
+#: ../src/photos-export-notification.c:259
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” 항목을 내보냈습니다"
 
-#: ../src/photos-export-notification.c:249
+#: ../src/photos-export-notification.c:263
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "항목 %d개를 내보냈습니다"
 
-#: ../src/photos-export-notification.c:267
+#: ../src/photos-export-notification.c:281
 msgid "Analyze"
 msgstr "분석"
 
-#: ../src/photos-export-notification.c:272
+#: ../src/photos-export-notification.c:286
 msgid "Empty Trash"
 msgstr "휴지통 비우기"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:289 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
+#: ../src/photos-export-notification.c:303 ../src/photos-preview-menu.ui.h:1
+#: ../src/photos-selection-toolbar.c:247 ../src/photos-selection-toolbar.ui.h:2
 msgid "Open"
 msgstr "열기"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:299
+#: ../src/photos-export-notification.c:313
 msgid "Export Folder"
 msgstr "폴더 내보내기"
 
@@ -369,25 +373,41 @@ msgstr "인쇄"
 
 #: ../src/photos-help-overlay.ui.h:17
 msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "확대"
+
+#: ../src/photos-help-overlay.ui.h:18
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "축소"
+
+# # eog 번역에 따름 2017.08.27
+#: ../src/photos-help-overlay.ui.h:19
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "창에 맞게"
+
+#: ../src/photos-help-overlay.ui.h:20
+msgctxt "shortcut window"
 msgid "Delete"
 msgstr "삭제"
 
-#: ../src/photos-help-overlay.ui.h:18
+#: ../src/photos-help-overlay.ui.h:21
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "동작 메뉴"
 
-#: ../src/photos-help-overlay.ui.h:19
+#: ../src/photos-help-overlay.ui.h:22
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "최대 화면"
 
-#: ../src/photos-help-overlay.ui.h:20
+#: ../src/photos-help-overlay.ui.h:23
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "편집 보기"
 
-#: ../src/photos-help-overlay.ui.h:21
+#: ../src/photos-help-overlay.ui.h:24
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "취소"
@@ -416,52 +436,48 @@ msgstr "이 처리 과정 중 일부 사진은 사용할 수 없습니다"
 msgid "Local"
 msgstr "로컬"
 
-#: ../src/photos-main-toolbar.c:113
+#: ../src/photos-main-toolbar.c:89
 msgid "Click on items to select them"
 msgstr "선택하려는 항목을 누르십시오"
 
-#: ../src/photos-main-toolbar.c:115
+#: ../src/photos-main-toolbar.c:91
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "선택한 사진 %d개"
 
-#: ../src/photos-main-toolbar.c:165
+#: ../src/photos-main-toolbar.c:179
 msgid "Back"
 msgstr "뒤로"
 
-#: ../src/photos-main-toolbar.c:349
+#: ../src/photos-main-toolbar.c:356
 msgid "Select Items"
 msgstr "항목 선택"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:443 ../src/photos-selection-toolbar.c:234
+#: ../src/photos-main-toolbar.c:440 ../src/photos-selection-toolbar.c:244
 #, c-format
 msgid "Open with %s"
 msgstr "%s(으)로 열기"
 
-#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:245
+#: ../src/photos-main-toolbar.c:473 ../src/photos-selection-toolbar.c:255
 msgid "Remove from favorites"
 msgstr "즐겨찾기에서 제거"
 
-#: ../src/photos-main-toolbar.c:488 ../src/photos-selection-toolbar.c:250
+#: ../src/photos-main-toolbar.c:478 ../src/photos-selection-toolbar.c:260
 msgid "Add to favorites"
 msgstr "즐겨찾기에 추가"
 
-#: ../src/photos-main-toolbar.c:525 ../src/photos-main-toolbar.c:663
+#: ../src/photos-main-toolbar.c:515 ../src/photos-main-toolbar.c:653
 msgid "Cancel"
 msgstr "취소"
 
-#: ../src/photos-main-toolbar.c:529
+#: ../src/photos-main-toolbar.c:519
 msgid "Done"
 msgstr "완료"
 
-#: ../src/photos-main-window.c:497
-#| msgid ""
-#| "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#| "Copyright © 2014 – 2015 Pranav Kant\n"
-#| "Copyright © 2012 – 2016 Red Hat, Inc."
+#: ../src/photos-main-window.c:478
 msgid ""
 "Copyright © 2013 Intel Corporation. All rights reserved.\n"
 "Copyright © 2014 – 2015 Pranav Kant\n"
@@ -472,7 +488,7 @@ msgstr ""
 "Copyright © 2012 – 2017 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:507
+#: ../src/photos-main-window.c:488
 msgid "translator-credits"
 msgstr "조성호 <shcho@gnome.org>"
 
@@ -539,7 +555,7 @@ msgstr "잠금 화면으로 설정"
 msgid "Properties"
 msgstr "속성"
 
-#: ../src/photos-print-notification.c:79
+#: ../src/photos-print-notification.c:74
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "“%s” 인쇄 중: %s"
@@ -598,7 +614,7 @@ msgstr "높이(_H):"
 
 #: ../src/photos-print-setup.c:948
 msgid "_Scaling:"
-msgstr "크기조절(_S):"
+msgstr "크기 조절(_S):"
 
 #: ../src/photos-print-setup.c:957
 msgid "_Unit:"
@@ -672,7 +688,7 @@ msgstr "위치"
 msgid "Camera"
 msgstr "카메라"
 
-#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
+#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:335
 msgid "Exposure"
 msgstr "노출"
 
@@ -706,7 +722,7 @@ msgstr "켬, 터뜨림"
 
 #: ../src/photos-properties-dialog.c:778
 msgid "Discard all Edits"
-msgstr "모든 편집 폐기"
+msgstr "모든 편집 취소"
 
 #: ../src/photos-search-match-manager.c:162
 #: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:252
@@ -785,11 +801,11 @@ msgstr "원본"
 msgid "Your %s credentials have expired"
 msgstr "%s 인증 정보 기한이 끝났습니다"
 
-#: ../src/photos-thumbnailer.c:73
+#: ../src/photos-thumbnailer.c:77
 msgid "D-Bus address to use"
 msgstr "사용할 D-Bus 주소"
 
-#: ../src/photos-tool-colors.c:315
+#: ../src/photos-tool-colors.c:313
 msgid "Brightness"
 msgstr "밝기"
 
@@ -797,71 +813,81 @@ msgstr "밝기"
 msgid "Contrast"
 msgstr "대비"
 
-#: ../src/photos-tool-colors.c:376
+#: ../src/photos-tool-colors.c:377
 msgid "Blacks"
 msgstr "블랙"
 
-#: ../src/photos-tool-colors.c:396
+#: ../src/photos-tool-colors.c:398
 msgid "Saturation"
 msgstr "채도"
 
-#: ../src/photos-tool-colors.c:423
+#: ../src/photos-tool-colors.c:426
 msgid "Colors"
 msgstr "색상"
 
-#: ../src/photos-tool-crop.c:119
+#: ../src/photos-tool-crop.c:123
 msgid "Free"
 msgstr "자유 방식"
 
-#: ../src/photos-tool-crop.c:120
+#: ../src/photos-tool-crop.c:124
 msgid "Original"
 msgstr "원본"
 
-#: ../src/photos-tool-crop.c:121
+#: ../src/photos-tool-crop.c:125
 msgid "1×1 (Square)"
-msgstr "1×1 (Square)"
+msgstr "1×1 (정방형)"
 
-#: ../src/photos-tool-crop.c:122
+#: ../src/photos-tool-crop.c:126
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:123
+#: ../src/photos-tool-crop.c:127
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:124
+#: ../src/photos-tool-crop.c:128
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:125
+#: ../src/photos-tool-crop.c:129
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:126
+#: ../src/photos-tool-crop.c:130
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:127
+#: ../src/photos-tool-crop.c:131
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1171
+#: ../src/photos-tool-crop.c:1255
 msgid "Lock aspect ratio"
 msgstr "비율 잠금"
 
-#: ../src/photos-tool-crop.c:1219
+# # eog 프로그램 설명 참조. 2017.08.27
+#: ../src/photos-tool-crop.c:1323
+msgid "Landscape"
+msgstr "가로 모드"
+
+# # eog 프로그램 설명 참조. 2017.08.27
+#: ../src/photos-tool-crop.c:1334
+msgid "Portrait"
+msgstr "세로 모드"
+
+#: ../src/photos-tool-crop.c:1345
 msgid "Reset"
 msgstr "초기화"
 
-#: ../src/photos-tool-crop.c:1236
+#: ../src/photos-tool-crop.c:1365
 msgid "Crop"
 msgstr "자르기"
 
-#: ../src/photos-tool-enhance.c:202
+#: ../src/photos-tool-enhance.c:200
 msgid "Sharpen"
 msgstr "거칠게"
 
-#: ../src/photos-tool-enhance.c:222
+#: ../src/photos-tool-enhance.c:221
 msgid "Denoise"
 msgstr "잡티 감소"
 
@@ -873,7 +899,7 @@ msgstr "개선"
 #: ../src/photos-tool-filters.c:185
 msgctxt "Edit Filter"
 msgid "None"
-msgstr "없음"
+msgstr "적용 안함"
 
 #: ../src/photos-tool-filters.c:192
 msgid "1947"
