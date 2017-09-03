@@ -23,7 +23,7 @@
 #ifndef PHOTOS_SOURCE_H
 #define PHOTOS_SOURCE_H
 
-#include <glib-object.h>
+#include <gio/gio.h>
 #include <goa/goa.h>
 
 G_BEGIN_DECLS
@@ -38,11 +38,15 @@ PhotosSource       *photos_source_new                    (const gchar *id, const
 
 PhotosSource       *photos_source_new_from_goa_object    (GoaObject *object);
 
+PhotosSource       *photos_source_new_from_mount         (GMount *mount);
+
 const gchar        *photos_source_get_name               (PhotosSource *self);
 
 GoaObject          *photos_source_get_goa_object         (PhotosSource *self);
 
 GIcon              *photos_source_get_icon               (PhotosSource *self);
+
+GMount             *photos_source_get_mount              (PhotosSource *self);
 
 GIcon              *photos_source_get_symbolic_icon      (PhotosSource *self);
 

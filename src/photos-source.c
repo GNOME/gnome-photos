@@ -23,8 +23,6 @@
 
 #include "config.h"
 
-#include <gio/gio.h>
-
 #include "egg-counter.h"
 #include "photos-filterable.h"
 #include "photos-query.h"
@@ -37,6 +35,7 @@ struct _PhotosSource
   GObject parent_instance;
   GIcon *icon;
   GIcon *symbolic_icon;
+  GMount *mount;
   GoaObject *object;
   gboolean builtin;
   gchar *id;
@@ -48,6 +47,7 @@ enum
   PROP_0,
   PROP_BUILTIN,
   PROP_ID,
+  PROP_MOUNT,
   PROP_NAME,
   PROP_OBJECT
 };
@@ -135,9 +135,22 @@ photos_source_build_filter_resource (PhotosSource *self)
   g_return_val_if_fail (!self->builtin, NULL);
 
   if (self->object != NULL)
-    filter = g_strdup_printf ("(nie:dataSource (?urn) = '%s')", self->id);
+    {
+      filter = g_strdup_printf ("(nie:dataSource (?urn) = '%s')", self->id);
+    }
+  else if (self->mount != NULL)
+    {
+      g_autoptr (GFile) root = NULL;
+      g_autofree gchar *uri = NULL;
+
+      root = g_mount_get_root (self->mount);
+      uri = g_file_get_uri (root);
+      filter = g_strdup_printf ("(fn:starts-with (nie:url (?urn), '%s'))", uri);
+    }
   else
-    g_return_val_if_reached (NULL);
+    {
+      g_return_val_if_reached (NULL);
+    }
 
   ret_val = g_steal_pointer (&filter);
   return ret_val;
@@ -177,7 +190,11 @@ photos_source_get_id (PhotosFilterable *filterable)
 static gboolean
 photos_source_is_search_criterion (PhotosFilterable *filterable)
 {
-  return TRUE;
+  PhotosSource *self = PHOTOS_SOURCE (filterable);
+  gboolean ret_val;
+
+  ret_val = self->mount == NULL;
+  return ret_val;
 }
 
 
@@ -187,6 +204,7 @@ photos_source_dispose (GObject *object)
   PhotosSource *self = PHOTOS_SOURCE (object);
 
   g_clear_object (&self->icon);
+  g_clear_object (&self->mount);
   g_clear_object (&self->object);
   g_clear_object (&self->symbolic_icon);
 
@@ -221,6 +239,10 @@ photos_source_get_property (GObject *object, guint prop_id, GValue *value, GPara
 
     case PROP_ID:
       g_value_set_string (value, self->id);
+      break;
+
+    case PROP_MOUNT:
+      g_value_set_object (value, self->mount);
       break;
 
     case PROP_NAME:
@@ -259,6 +281,27 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
         if (self->id == NULL && id != NULL)
           self->id = g_strdup (id);
 
+        break;
+      }
+
+    case PROP_MOUNT:
+      {
+        g_autoptr (GFile) root = NULL;
+        const gchar *type_name;
+        g_autofree gchar *uri = NULL;
+
+        self->mount = G_MOUNT (g_value_dup_object (value));
+        if (self->mount == NULL)
+          break;
+
+        type_name = G_OBJECT_TYPE_NAME (self->mount);
+        root = g_mount_get_root (self->mount);
+        uri = g_file_get_uri (root);
+        self->id = g_strdup_printf ("gd:g-mount:%s:%s", type_name, uri);
+
+        self->icon = g_mount_get_icon (self->mount);
+        self->symbolic_icon = g_mount_get_symbolic_icon (self->mount);
+        self->name = g_mount_get_name (self->mount);
         break;
       }
 
@@ -340,6 +383,14 @@ photos_source_class_init (PhotosSourceClass *class)
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 
   g_object_class_install_property (object_class,
+                                   PROP_MOUNT,
+                                   g_param_spec_object ("mount",
+                                                        "GMount instance",
+                                                        "A mount point representing a removable device (eg., camera)",
+                                                        G_TYPE_MOUNT,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+
+  g_object_class_install_property (object_class,
                                    PROP_NAME,
                                    g_param_spec_string ("name",
                                                         "",
@@ -382,6 +433,14 @@ photos_source_new_from_goa_object (GoaObject *object)
 }
 
 
+PhotosSource *
+photos_source_new_from_mount (GMount *mount)
+{
+  g_return_val_if_fail (G_IS_MOUNT (mount), NULL);
+  return g_object_new (PHOTOS_TYPE_SOURCE, "mount", mount, NULL);
+}
+
+
 const gchar *
 photos_source_get_name (PhotosSource *self)
 {
@@ -400,6 +459,13 @@ GIcon *
 photos_source_get_icon (PhotosSource *self)
 {
   return self->icon;
+}
+
+
+GMount *
+photos_source_get_mount (PhotosSource *self)
+{
+  return self->mount;
 }
 
 
