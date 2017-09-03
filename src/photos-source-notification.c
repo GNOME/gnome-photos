@@ -249,7 +249,21 @@ photos_source_notification_class_init (PhotosSourceNotificationClass *class)
 GtkWidget *
 photos_source_notification_new (PhotosSource *source)
 {
+  GoaAccount *account;
+  GoaObject *object;
+  gboolean attention_needed;
+
   g_return_val_if_fail (PHOTOS_IS_SOURCE (source), NULL);
+
+  object = photos_source_get_goa_object (source);
+  g_return_val_if_fail (GOA_IS_OBJECT (object), NULL);
+
+  account = goa_object_peek_account (object);
+  g_return_val_if_fail (GOA_IS_ACCOUNT (account), NULL);
+
+  attention_needed = goa_account_get_attention_needed (account);
+  g_return_val_if_fail (attention_needed, NULL);
+
   return g_object_new (PHOTOS_TYPE_SOURCE_NOTIFICATION, "source", source, NULL);
 }
 
