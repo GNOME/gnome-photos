@@ -50,11 +50,6 @@ struct _PhotosSetCollectionJob
   gpointer user_data;
 };
 
-struct _PhotosSetCollectionJobClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,

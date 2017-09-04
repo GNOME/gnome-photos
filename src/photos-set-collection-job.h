@@ -30,21 +30,9 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SET_COLLECTION_JOB (photos_set_collection_job_get_type ())
-
-#define PHOTOS_SET_COLLECTION_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SET_COLLECTION_JOB, PhotosSetCollectionJob))
-
-#define PHOTOS_IS_SET_COLLECTION_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SET_COLLECTION_JOB))
+G_DECLARE_FINAL_TYPE (PhotosSetCollectionJob, photos_set_collection_job, PHOTOS, SET_COLLECTION_JOB, GObject);
 
 typedef void (*PhotosSetCollectionJobCallback) (gpointer);
-
-typedef struct _PhotosSetCollectionJob      PhotosSetCollectionJob;
-typedef struct _PhotosSetCollectionJobClass PhotosSetCollectionJobClass;
-
-GType                     photos_set_collection_job_get_type    (void) G_GNUC_CONST;
 
 PhotosSetCollectionJob   *photos_set_collection_job_new         (const gchar *collection_urn, gboolean setting);
 
