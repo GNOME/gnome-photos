@@ -29,19 +29,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_REMOTE_DISPLAY_MANAGER (photos_remote_display_manager_get_type ())
-
-#define PHOTOS_REMOTE_DISPLAY_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_REMOTE_DISPLAY_MANAGER, PhotosRemoteDisplayManager))
-
-#define PHOTOS_IS_REMOTE_DISPLAY_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_REMOTE_DISPLAY_MANAGER))
-
-typedef struct _PhotosRemoteDisplayManager      PhotosRemoteDisplayManager;
-typedef struct _PhotosRemoteDisplayManagerClass PhotosRemoteDisplayManagerClass;
-
-GType                       photos_remote_display_manager_get_type        (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosRemoteDisplayManager,
+                      photos_remote_display_manager,
+                      PHOTOS,
+                      REMOTE_DISPLAY_MANAGER,
+                      GObject);
 
 PhotosRemoteDisplayManager *photos_remote_display_manager_dup_singleton   (void);
 

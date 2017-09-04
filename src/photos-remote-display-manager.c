@@ -35,11 +35,6 @@ struct _PhotosRemoteDisplayManager
   PhotosDlnaRenderer *renderer;
 };
 
-struct _PhotosRemoteDisplayManagerClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   SHARE_BEGAN,
