@@ -36,11 +36,6 @@ struct _PhotosShareDialog
   PhotosBaseItem *item;
 };
 
-struct _PhotosShareDialogClass
-{
-  GtkDialogClass parent_class;
-};
-
 enum
 {
   PROP_0,
