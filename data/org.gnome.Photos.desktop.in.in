@@ -2,6 +2,7 @@
 Name=Photos
 Comment=Access, organize and share photos
 Exec=@PACKAGE_TARNAME@
+# Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 Icon=org.gnome.Photos
 DBusActivatable=true
 StartupNotify=true
@@ -9,4 +10,5 @@ Terminal=false
 Type=Application
 OnlyShowIn=GNOME;
 Categories=GNOME;GTK;Core;Graphics;Photography;
+# Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 Keywords=Photos;Pictures;
