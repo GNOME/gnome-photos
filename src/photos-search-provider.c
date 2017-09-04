@@ -43,11 +43,6 @@ struct _PhotosSearchProvider
   ShellSearchProvider2 *skeleton;
 };
 
-struct _PhotosSearchProviderClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   ACTIVATE_RESULT,

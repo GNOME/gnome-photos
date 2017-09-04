@@ -30,21 +30,9 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SEARCH_PROVIDER (photos_search_provider_get_type ())
-
-#define PHOTOS_SEARCH_PROVIDER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SEARCH_PROVIDER, PhotosSearchProvider))
-
-#define PHOTOS_IS_SEARCH_PROVIDER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SEARCH_PROVIDER))
+G_DECLARE_FINAL_TYPE (PhotosSearchProvider, photos_search_provider, PHOTOS, SEARCH_PROVIDER, GObject);
 
 #define PHOTOS_SEARCH_PROVIDER_PATH_SUFFIX "/SearchProvider"
-
-typedef struct _PhotosSearchProvider      PhotosSearchProvider;
-typedef struct _PhotosSearchProviderClass PhotosSearchProviderClass;
-
-GType                        photos_search_provider_get_type          (void) G_GNUC_CONST;
 
 PhotosSearchProvider        *photos_search_provider_new               (void);
 
