@@ -78,9 +78,12 @@ struct _PhotosQuery
 {
   PhotosSource *source;
   gchar *sparql;
+  gchar *tag;
 };
 
 PhotosQuery    *photos_query_new     (PhotosSearchContextState *state, gchar *sparql);
+
+void            photos_query_set_tag (PhotosQuery *query, const gchar *tag);
 
 void            photos_query_free    (PhotosQuery *query);
 

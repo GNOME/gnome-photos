@@ -27,6 +27,7 @@
 
 #include "photos-base-manager.h"
 #include "photos-query.h"
+#include "photos-utils.h"
 
 
 const gchar *PHOTOS_QUERY_COLLECTIONS_IDENTIFIER = "photos:collection:";
@@ -52,9 +53,17 @@ photos_query_new (PhotosSearchContextState *state, gchar *sparql)
 
 
 void
+photos_query_set_tag (PhotosQuery *query, const gchar *tag)
+{
+  photos_utils_set_string (&query->tag, tag);
+}
+
+
+void
 photos_query_free (PhotosQuery *query)
 {
   g_clear_object (&query->source);
   g_free (query->sparql);
+  g_free (query->tag);
   g_slice_free (PhotosQuery, query);
 }
