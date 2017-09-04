@@ -37,14 +37,18 @@ const gchar *PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER = "photos:collection:loca
 PhotosQuery *
 photos_query_new (PhotosSearchContextState *state, gchar *sparql)
 {
-  GObject *active_object;
   PhotosQuery *query;
 
   query = g_slice_new0 (PhotosQuery);
 
-  active_object = photos_base_manager_get_active_object (state->src_mngr);
-  if (active_object != NULL)
-    query->source = PHOTOS_SOURCE (g_object_ref (active_object));
+  if (state != NULL)
+    {
+      GObject *active_object;
+
+      active_object = photos_base_manager_get_active_object (state->src_mngr);
+      if (active_object != NULL)
+        query->source = PHOTOS_SOURCE (g_object_ref (active_object));
+    }
 
   query->sparql = sparql;
 
