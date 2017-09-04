@@ -26,19 +26,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_TOOL_FILTER_BUTTON (photos_tool_filter_button_get_type ())
-
-#define PHOTOS_TOOL_FILTER_BUTTON(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_TOOL_FILTER_BUTTON, PhotosToolFilterButton))
-
-#define PHOTOS_IS_TOOL_FILTER_BUTTON(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_TOOL_FILTER_BUTTON))
-
-typedef struct _PhotosToolFilterButton      PhotosToolFilterButton;
-typedef struct _PhotosToolFilterButtonClass PhotosToolFilterButtonClass;
-
-GType                  photos_tool_filter_button_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosToolFilterButton, photos_tool_filter_button, PHOTOS, TOOL_FILTER_BUTTON, GtkBin);
 
 GtkWidget             *photos_tool_filter_button_new                    (GtkWidget *group_member,
                                                                          const gchar *label);

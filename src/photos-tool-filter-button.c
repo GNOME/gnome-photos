@@ -41,11 +41,6 @@ struct _PhotosToolFilterButton
   gchar *label;
 };
 
-struct _PhotosToolFilterButtonClass
-{
-  GtkBinClass parent_class;
-};
-
 enum
 {
   PROP_0,
