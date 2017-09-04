@@ -44,11 +44,6 @@ struct _PhotosSourceManager
   GoaClient *client;
 };
 
-struct _PhotosSourceManagerClass
-{
-  PhotosBaseManagerClass parent_class;
-};
-
 enum
 {
   NOTIFICATION_HIDE,
