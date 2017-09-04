@@ -30,23 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SEARCH_MATCH (photos_search_match_get_type ())
-
-#define PHOTOS_SEARCH_MATCH(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SEARCH_MATCH, PhotosSearchMatch))
-
-#define PHOTOS_IS_SEARCH_MATCH(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SEARCH_MATCH))
+G_DECLARE_FINAL_TYPE (PhotosSearchMatch, photos_search_match, PHOTOS, SEARCH_MATCH, GObject);
 
 #define PHOTOS_SEARCH_MATCH_STOCK_ALL "all"
 #define PHOTOS_SEARCH_MATCH_STOCK_AUTHOR "author"
 #define PHOTOS_SEARCH_MATCH_STOCK_TITLE "title"
-
-typedef struct _PhotosSearchMatch      PhotosSearchMatch;
-typedef struct _PhotosSearchMatchClass PhotosSearchMatchClass;
-
-GType                 photos_search_match_get_type           (void) G_GNUC_CONST;
 
 PhotosSearchMatch    *photos_search_match_new                (const gchar *id,
                                                               const gchar *name,

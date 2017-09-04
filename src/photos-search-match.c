@@ -38,11 +38,6 @@ struct _PhotosSearchMatch
   gchar *term;
 };
 
-struct _PhotosSearchMatchClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,
