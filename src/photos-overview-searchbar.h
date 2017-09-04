@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_OVERVIEW_SEARCHBAR (photos_overview_searchbar_get_type ())
-
-#define PHOTOS_OVERVIEW_SEARCHBAR(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_OVERVIEW_SEARCHBAR, PhotosOverviewSearchbar))
-
-#define PHOTOS_IS_OVERVIEW_SEARCHBAR(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_OVERVIEW_SEARCHBAR))
-
-typedef struct _PhotosOverviewSearchbar      PhotosOverviewSearchbar;
-typedef struct _PhotosOverviewSearchbarClass PhotosOverviewSearchbarClass;
-
-GType                photos_overview_searchbar_get_type                      (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosOverviewSearchbar,
+                      photos_overview_searchbar,
+                      PHOTOS,
+                      OVERVIEW_SEARCHBAR,
+                      PhotosSearchbar);
 
 GtkWidget           *photos_overview_searchbar_new                           (void);
 

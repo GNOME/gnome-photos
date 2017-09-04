@@ -55,11 +55,6 @@ struct _PhotosOverviewSearchbar
   PhotosSearchController *srch_cntrlr;
 };
 
-struct _PhotosOverviewSearchbarClass
-{
-  PhotosSearchbarClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosOverviewSearchbar, photos_overview_searchbar, PHOTOS_TYPE_SEARCHBAR);
 
