@@ -29,6 +29,8 @@
 #include <tracker-sparql.h>
 
 #include "photos-debug.h"
+#include "photos-filterable.h"
+#include "photos-source.h"
 #include "photos-tracker-queue.h"
 
 
@@ -63,8 +65,10 @@ struct _PhotosTrackerQueueData
   GAsyncReadyCallback callback;
   GCancellable *cancellable;
   GDestroyNotify destroy_data;
+  PhotosSource *source;
   PhotosTrackerQueryType query_type;
   gchar *sparql;
+  gchar *tag;
   gpointer user_data;
 };
 
@@ -79,7 +83,9 @@ static void
 photos_tracker_queue_data_free (PhotosTrackerQueueData *data)
 {
   g_clear_object (&data->cancellable);
+  g_clear_object (&data->source);
   g_free (data->sparql);
+  g_free (data->tag);
 
   if (data->destroy_data != NULL)
     (*data->destroy_data) (data->user_data);
@@ -89,7 +95,9 @@ photos_tracker_queue_data_free (PhotosTrackerQueueData *data)
 
 
 static PhotosTrackerQueueData *
-photos_tracker_queue_data_new (const gchar *sparql,
+photos_tracker_queue_data_new (PhotosSource *source,
+                               const gchar *sparql,
+                               const gchar *tag,
                                PhotosTrackerQueryType query_type,
                                GCancellable *cancellable,
                                GAsyncReadyCallback callback,
@@ -99,7 +107,12 @@ photos_tracker_queue_data_new (const gchar *sparql,
   PhotosTrackerQueueData *data;
 
   data = g_slice_new0 (PhotosTrackerQueueData);
+
+  if (source != NULL)
+    data->source = g_object_ref (source);
+
   data->sparql = g_strdup (sparql);
+  data->tag = g_strdup (tag);
   data->query_type = query_type;
   data->cancellable = cancellable;
   data->callback = callback;
@@ -107,6 +120,26 @@ photos_tracker_queue_data_new (const gchar *sparql,
   data->destroy_data = destroy_data;
 
   return data;
+}
+
+
+static void
+photos_tracker_queue_log_query (PhotosTrackerQueueData *data)
+{
+  if (data->tag != NULL && data->tag[0] != '\0')
+    photos_debug (PHOTOS_DEBUG_TRACKER, "%s", data->tag);
+
+  if (data->source != NULL)
+    {
+      const gchar *id;
+      const gchar *name;
+
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (data->source));
+      name = photos_source_get_name (data->source);
+      photos_debug (PHOTOS_DEBUG_TRACKER, "Source (%s): %s", id, name);
+    }
+
+  photos_debug (PHOTOS_DEBUG_TRACKER, "%s", data->sparql);
 }
 
 
@@ -141,7 +174,7 @@ photos_tracker_queue_check (PhotosTrackerQueue *self)
   data = g_queue_peek_head (self->queue);
   self->running = TRUE;
 
-  photos_debug (PHOTOS_DEBUG_TRACKER, "%s", data->sparql);
+  photos_tracker_queue_log_query (data);
 
   switch (data->query_type)
     {
@@ -306,7 +339,9 @@ photos_tracker_queue_select (PhotosTrackerQueue *self,
   if (cancellable != NULL)
     g_object_ref (cancellable);
 
-  data = photos_tracker_queue_data_new (query->sparql,
+  data = photos_tracker_queue_data_new (query->source,
+                                        query->sparql,
+                                        query->tag,
                                         PHOTOS_TRACKER_QUERY_SELECT,
                                         cancellable,
                                         callback,
@@ -331,7 +366,9 @@ photos_tracker_queue_update (PhotosTrackerQueue *self,
   if (cancellable != NULL)
     g_object_ref (cancellable);
 
-  data = photos_tracker_queue_data_new (query->sparql,
+  data = photos_tracker_queue_data_new (query->source,
+                                        query->sparql,
+                                        query->tag,
                                         PHOTOS_TRACKER_QUERY_UPDATE,
                                         cancellable,
                                         callback,
@@ -356,7 +393,9 @@ photos_tracker_queue_update_blank (PhotosTrackerQueue *self,
   if (cancellable != NULL)
     g_object_ref (cancellable);
 
-  data = photos_tracker_queue_data_new (query->sparql,
+  data = photos_tracker_queue_data_new (query->source,
+                                        query->sparql,
+                                        query->tag,
                                         PHOTOS_TRACKER_QUERY_UPDATE_BLANK,
                                         cancellable,
                                         callback,
