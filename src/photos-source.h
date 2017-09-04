@@ -31,22 +31,10 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SOURCE (photos_source_get_type ())
-
-#define PHOTOS_SOURCE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SOURCE, PhotosSource))
-
-#define PHOTOS_IS_SOURCE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SOURCE))
+G_DECLARE_FINAL_TYPE (PhotosSource, photos_source, PHOTOS, SOURCE, GObject);
 
 #define PHOTOS_SOURCE_STOCK_ALL   "all"
 #define PHOTOS_SOURCE_STOCK_LOCAL "local"
-
-typedef struct _PhotosSource      PhotosSource;
-typedef struct _PhotosSourceClass PhotosSourceClass;
-
-GType               photos_source_get_type               (void) G_GNUC_CONST;
 
 PhotosSource       *photos_source_new                    (const gchar *id, const gchar *name, gboolean builtin);
 

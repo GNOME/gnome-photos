@@ -43,11 +43,6 @@ struct _PhotosSource
   gchar *name;
 };
 
-struct _PhotosSourceClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,
