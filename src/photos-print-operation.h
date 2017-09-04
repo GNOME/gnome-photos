@@ -33,19 +33,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_PRINT_OPERATION (photos_print_operation_get_type ())
-
-#define PHOTOS_PRINT_OPERATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_PRINT_OPERATION, PhotosPrintOperation))
-
-#define PHOTOS_IS_PRINT_OPERATION(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_PRINT_OPERATION))
-
-typedef struct _PhotosPrintOperation      PhotosPrintOperation;
-typedef struct _PhotosPrintOperationClass PhotosPrintOperationClass;
-
-GType               photos_print_operation_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosPrintOperation, photos_print_operation, PHOTOS, PRINT_OPERATION, GtkPrintOperation);
 
 GtkPrintOperation  *photos_print_operation_new                (PhotosBaseItem *item, GeglNode *node);
 

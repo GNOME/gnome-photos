@@ -46,11 +46,6 @@ struct _PhotosPrintOperation
   gdouble scale_factor;
 };
 
-struct _PhotosPrintOperationClass
-{
-  GtkPrintOperationClass parent_class;
-};
-
 
 enum
 {
