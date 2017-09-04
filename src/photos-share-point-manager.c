@@ -45,11 +45,6 @@ struct _PhotosSharePointManager
   PhotosBaseManager *src_mngr;
 };
 
-struct _PhotosSharePointManagerClass
-{
-  PhotosBaseManagerClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosSharePointManager, photos_share_point_manager, PHOTOS_TYPE_BASE_MANAGER);
 

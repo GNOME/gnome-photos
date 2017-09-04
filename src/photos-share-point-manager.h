@@ -31,19 +31,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SHARE_POINT_MANAGER (photos_share_point_manager_get_type ())
-
-#define PHOTOS_SHARE_POINT_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SHARE_POINT_MANAGER, PhotosSharePointManager))
-
-#define PHOTOS_IS_SHARE_POINT_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SHARE_POINT_MANAGER))
-
-typedef struct _PhotosSharePointManager      PhotosSharePointManager;
-typedef struct _PhotosSharePointManagerClass PhotosSharePointManagerClass;
-
-GType                     photos_share_point_manager_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosSharePointManager, photos_share_point_manager, PHOTOS, SHARE_POINT_MANAGER, PhotosBaseManager);
 
 PhotosBaseManager        *photos_share_point_manager_dup_singleton      (void);
 
