@@ -41,11 +41,6 @@ struct _PhotosSearchMatchManager
   PhotosSearchController *srch_cntrlr;
 };
 
-struct _PhotosSearchMatchManagerClass
-{
-  PhotosBaseManagerClass parent_class;
-};
-
 enum
 {
   PROP_0,

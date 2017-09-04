@@ -31,19 +31,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SEARCH_MATCH_MANAGER (photos_search_match_manager_get_type ())
-
-#define PHOTOS_SEARCH_MATCH_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SEARCH_MATCH_MANAGER, PhotosSearchMatchManager))
-
-#define PHOTOS_IS_SEARCH_MATCH_MANAGER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SEARCH_MATCH_MANAGER))
-
-typedef struct _PhotosSearchMatchManager      PhotosSearchMatchManager;
-typedef struct _PhotosSearchMatchManagerClass PhotosSearchMatchManagerClass;
-
-GType                     photos_search_match_manager_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosSearchMatchManager,
+                      photos_search_match_manager,
+                      PHOTOS,
+                      SEARCH_MATCH_MANAGER,
+                      PhotosBaseManager);
 
 PhotosBaseManager        *photos_search_match_manager_new                (PhotosSearchController *srch_cntrlr);
 
