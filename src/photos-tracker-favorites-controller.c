@@ -37,11 +37,6 @@ struct _PhotosTrackerFavoritesController
   PhotosOffsetController *offset_cntrlr;
 };
 
-struct _PhotosTrackerFavoritesControllerClass
-{
-  PhotosTrackerControllerClass parent_class;
-};
-
 
 G_DEFINE_TYPE_WITH_CODE (PhotosTrackerFavoritesController,
                          photos_tracker_favorites_controller,

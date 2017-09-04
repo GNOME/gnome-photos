@@ -26,19 +26,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER (photos_tracker_favorites_controller_get_type ())
-
-#define PHOTOS_TRACKER_FAVORITES_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER, PhotosTrackerFavoritesController))
-
-#define PHOTOS_IS_TRACKER_FAVORITES_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER))
-
-typedef struct _PhotosTrackerFavoritesController      PhotosTrackerFavoritesController;
-typedef struct _PhotosTrackerFavoritesControllerClass PhotosTrackerFavoritesControllerClass;
-
-GType                     photos_tracker_favorites_controller_get_type          (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosTrackerFavoritesController,
+                      photos_tracker_favorites_controller,
+                      PHOTOS,
+                      TRACKER_FAVORITES_CONTROLLER,
+                      PhotosTrackerController);
 
 PhotosTrackerController  *photos_tracker_favorites_controller_dup_singleton     (void);
 
