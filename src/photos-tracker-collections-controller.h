@@ -26,19 +26,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER (photos_tracker_collections_controller_get_type ())
-
-#define PHOTOS_TRACKER_COLLECTIONS_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER, PhotosTrackerCollectionsController))
-
-#define PHOTOS_IS_TRACKER_COLLECTIONS_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER))
-
-typedef struct _PhotosTrackerCollectionsController      PhotosTrackerCollectionsController;
-typedef struct _PhotosTrackerCollectionsControllerClass PhotosTrackerCollectionsControllerClass;
-
-GType                     photos_tracker_collections_controller_get_type          (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosTrackerCollectionsController,
+                      photos_tracker_collections_controller,
+                      PHOTOS,
+                      TRACKER_COLLECTIONS_CONTROLLER,
+                      PhotosTrackerController);
 
 PhotosTrackerController  *photos_tracker_collections_controller_dup_singleton     (void);
 

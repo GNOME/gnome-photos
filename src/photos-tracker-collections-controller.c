@@ -39,11 +39,6 @@ struct _PhotosTrackerCollectionsController
   PhotosOffsetController *offset_cntrlr;
 };
 
-struct _PhotosTrackerCollectionsControllerClass
-{
-  PhotosTrackerControllerClass parent_class;
-};
-
 
 G_DEFINE_TYPE_WITH_CODE (PhotosTrackerCollectionsController,
                          photos_tracker_collections_controller,
