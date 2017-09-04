@@ -54,11 +54,6 @@ struct _PhotosSelectionToolbar
   gboolean inside_refresh;
 };
 
-struct _PhotosSelectionToolbarClass
-{
-  GtkActionBarClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosSelectionToolbar, photos_selection_toolbar, GTK_TYPE_ACTION_BAR);
 

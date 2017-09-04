@@ -30,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SELECTION_TOOLBAR (photos_selection_toolbar_get_type ())
-
-#define PHOTOS_SELECTION_TOOLBAR(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SELECTION_TOOLBAR, PhotosSelectionToolbar))
-
-#define PHOTOS_IS_SELECTION_TOOLBAR(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SELECTION_TOOLBAR))
-
-typedef struct _PhotosSelectionToolbar      PhotosSelectionToolbar;
-typedef struct _PhotosSelectionToolbarClass PhotosSelectionToolbarClass;
-
-GType                     photos_selection_toolbar_get_type             (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosSelectionToolbar, photos_selection_toolbar, PHOTOS, SELECTION_TOOLBAR, GtkActionBar);
 
 GtkWidget                *photos_selection_toolbar_new                  (void);
 
