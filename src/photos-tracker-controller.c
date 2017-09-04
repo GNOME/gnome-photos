@@ -276,6 +276,8 @@ static void
 photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
 {
   PhotosTrackerControllerPrivate *priv;
+  const gchar *type_name;
+  gchar *tag = NULL;
 
   priv = photos_tracker_controller_get_instance_private (self);
 
@@ -285,13 +287,17 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
   priv->current_query = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_query (self);
   g_return_if_fail (priv->current_query != NULL);
 
+  type_name = G_OBJECT_TYPE_NAME (self);
+  tag = g_strdup_printf ("%s: %s", type_name, G_STRFUNC);
+  photos_query_set_tag (priv->current_query, tag);
+
   g_object_unref (priv->cancellable);
   priv->cancellable = g_cancellable_new ();
 
   if (G_UNLIKELY (priv->queue == NULL))
     {
       photos_tracker_controller_query_error (self, priv->queue_error);
-      return;
+      goto out;
     }
 
   photos_tracker_queue_select (priv->queue,
@@ -300,6 +306,9 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
                                photos_tracker_controller_query_executed,
                                g_object_ref (self),
                                g_object_unref);
+
+ out:
+  g_free (tag);
 }
 
 
