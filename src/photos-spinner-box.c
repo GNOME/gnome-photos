@@ -37,11 +37,6 @@ struct _PhotosSpinnerBox
   GtkWidget *spinner;
 };
 
-struct _PhotosSpinnerBoxClass
-{
-  GtkRevealerClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosSpinnerBox, photos_spinner_box, GTK_TYPE_REVEALER);
 

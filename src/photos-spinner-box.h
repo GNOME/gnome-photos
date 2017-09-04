@@ -30,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SPINNER_BOX (photos_spinner_box_get_type ())
-
-#define PHOTOS_SPINNER_BOX(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SPINNER_BOX, PhotosSpinnerBox))
-
-#define PHOTOS_IS_SPINNER_BOX(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SPINNER_BOX))
-
-typedef struct _PhotosSpinnerBox      PhotosSpinnerBox;
-typedef struct _PhotosSpinnerBoxClass PhotosSpinnerBoxClass;
-
-GType                  photos_spinner_box_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosSpinnerBox, photos_spinner_box, PHOTOS, SPINNER_BOX, GtkRevealer);
 
 GtkWidget             *photos_spinner_box_new                    (void);
 
