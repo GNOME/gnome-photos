@@ -39,6 +39,7 @@ photos_debug_init (void)
       { "dlna", PHOTOS_DEBUG_DLNA },
       { "gegl", PHOTOS_DEBUG_GEGL },
       { "import", PHOTOS_DEBUG_IMPORT },
+      { "manager", PHOTOS_DEBUG_MANAGER },
       { "memory", PHOTOS_DEBUG_MEMORY },
       { "network", PHOTOS_DEBUG_NETWORK },
       { "thumbnailer", PHOTOS_DEBUG_THUMBNAILER },
