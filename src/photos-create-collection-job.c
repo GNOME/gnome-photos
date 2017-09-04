@@ -219,7 +219,7 @@ photos_create_collection_job_run (PhotosCreateCollectionJob *self,
 
   query = photos_query_builder_create_collection_query (state, self->name);
   photos_tracker_queue_update_blank (self->queue,
-                                     query->sparql,
+                                     query,
                                      cancellable,
                                      photos_create_collection_job_query_executed,
                                      g_object_ref (task),

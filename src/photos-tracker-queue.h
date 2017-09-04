@@ -27,6 +27,8 @@
 
 #include <gio/gio.h>
 
+#include "photos-query.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_TRACKER_QUEUE (photos_tracker_queue_get_type ())
@@ -35,21 +37,21 @@ G_DECLARE_FINAL_TYPE (PhotosTrackerQueue, photos_tracker_queue, PHOTOS, TRACKER_
 PhotosTrackerQueue    *photos_tracker_queue_dup_singleton          (GCancellable *cancellable, GError **error);
 
 void                   photos_tracker_queue_select                 (PhotosTrackerQueue *self,
-                                                                    const gchar *sparql,
+                                                                    PhotosQuery *query,
                                                                     GCancellable *cancellable,
                                                                     GAsyncReadyCallback callback,
                                                                     gpointer user_data,
                                                                     GDestroyNotify destroy_data);
 
 void                   photos_tracker_queue_update                 (PhotosTrackerQueue *self,
-                                                                    const gchar *sparql,
+                                                                    PhotosQuery *query,
                                                                     GCancellable *cancellable,
                                                                     GAsyncReadyCallback callback,
                                                                     gpointer user_data,
                                                                     GDestroyNotify destroy_data);
 
 void                   photos_tracker_queue_update_blank           (PhotosTrackerQueue *self,
-                                                                    const gchar *sparql,
+                                                                    PhotosQuery *query,
                                                                     GCancellable *cancellable,
                                                                     GAsyncReadyCallback callback,
                                                                     gpointer user_data,

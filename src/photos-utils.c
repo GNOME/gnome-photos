@@ -1315,10 +1315,13 @@ void
 photos_utils_set_edited_name (const gchar *urn, const gchar *title)
 {
   GError *error;
+  PhotosQuery *query = NULL;
   PhotosTrackerQueue *queue = NULL;
   gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:title \"%s\" }", urn, title);
+  query = photos_query_new (NULL, sparql);
+  sparql = NULL;
 
   error = NULL;
   queue = photos_tracker_queue_dup_singleton (NULL, &error);
@@ -1329,10 +1332,11 @@ photos_utils_set_edited_name (const gchar *urn, const gchar *title)
       goto out;
     }
 
-  photos_tracker_queue_update (queue, sparql, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
+  photos_tracker_queue_update (queue, query, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
 
  out:
   g_clear_object (&queue);
+  g_clear_pointer (&query, (GDestroyNotify) photos_query_free);
   g_free (sparql);
 }
 
@@ -1341,12 +1345,15 @@ void
 photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
 {
   GError *error;
+  PhotosQuery *query = NULL;
   PhotosTrackerQueue *queue = NULL;
   gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("%s { <%s> nao:hasTag nao:predefined-tag-favorite }",
                             (is_favorite) ? "INSERT OR REPLACE" : "DELETE",
                             urn);
+  query = photos_query_new (NULL, sparql);
+  sparql = NULL;
 
   error = NULL;
   queue = photos_tracker_queue_dup_singleton (NULL, &error);
@@ -1357,11 +1364,12 @@ photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
       goto out;
     }
 
-  photos_tracker_queue_update (queue, sparql, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
+  photos_tracker_queue_update (queue, query, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
 
  out:
   g_free (sparql);
   g_clear_object (&queue);
+  g_clear_pointer (&query, (GDestroyNotify) photos_query_free);
 }
 
 

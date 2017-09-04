@@ -295,7 +295,7 @@ photos_tracker_queue_dup_singleton (GCancellable *cancellable, GError **error)
 
 void
 photos_tracker_queue_select (PhotosTrackerQueue *self,
-                             const gchar *sparql,
+                             PhotosQuery *query,
                              GCancellable *cancellable,
                              GAsyncReadyCallback callback,
                              gpointer user_data,
@@ -306,7 +306,7 @@ photos_tracker_queue_select (PhotosTrackerQueue *self,
   if (cancellable != NULL)
     g_object_ref (cancellable);
 
-  data = photos_tracker_queue_data_new (sparql,
+  data = photos_tracker_queue_data_new (query->sparql,
                                         PHOTOS_TRACKER_QUERY_SELECT,
                                         cancellable,
                                         callback,
@@ -320,7 +320,7 @@ photos_tracker_queue_select (PhotosTrackerQueue *self,
 
 void
 photos_tracker_queue_update (PhotosTrackerQueue *self,
-                             const gchar *sparql,
+                             PhotosQuery *query,
                              GCancellable *cancellable,
                              GAsyncReadyCallback callback,
                              gpointer user_data,
@@ -331,7 +331,7 @@ photos_tracker_queue_update (PhotosTrackerQueue *self,
   if (cancellable != NULL)
     g_object_ref (cancellable);
 
-  data = photos_tracker_queue_data_new (sparql,
+  data = photos_tracker_queue_data_new (query->sparql,
                                         PHOTOS_TRACKER_QUERY_UPDATE,
                                         cancellable,
                                         callback,
@@ -345,7 +345,7 @@ photos_tracker_queue_update (PhotosTrackerQueue *self,
 
 void
 photos_tracker_queue_update_blank (PhotosTrackerQueue *self,
-                                   const gchar *sparql,
+                                   PhotosQuery *query,
                                    GCancellable *cancellable,
                                    GAsyncReadyCallback callback,
                                    gpointer user_data,
@@ -356,7 +356,7 @@ photos_tracker_queue_update_blank (PhotosTrackerQueue *self,
   if (cancellable != NULL)
     g_object_ref (cancellable);
 
-  data = photos_tracker_queue_data_new (sparql,
+  data = photos_tracker_queue_data_new (query->sparql,
                                         PHOTOS_TRACKER_QUERY_UPDATE_BLANK,
                                         cancellable,
                                         callback,

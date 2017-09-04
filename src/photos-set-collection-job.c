@@ -243,7 +243,7 @@ photos_set_collection_job_run (PhotosSetCollectionJob *self,
       self->running_jobs++;
       query = photos_query_builder_set_collection_query (state, urn, self->collection_urn, self->setting);
       photos_tracker_queue_update (self->queue,
-                                   query->sparql,
+                                   query,
                                    NULL,
                                    photos_set_collection_job_query_executed,
                                    g_object_ref (self),

@@ -523,7 +523,7 @@ photos_properties_dialog_constructed (GObject *object)
 
       query = photos_query_builder_location_query (state, location);
       photos_tracker_queue_select (self->queue,
-                                   query->sparql,
+                                   query,
                                    NULL,
                                    photos_properties_dialog_location_query_executed,
                                    g_object_ref (self),

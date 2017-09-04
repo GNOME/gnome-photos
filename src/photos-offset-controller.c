@@ -281,7 +281,7 @@ photos_offset_controller_reset_count (PhotosOffsetController *self)
   g_return_if_fail (query != NULL);
 
   photos_tracker_queue_select (priv->queue,
-                               query->sparql,
+                               query,
                                NULL,
                                photos_offset_controller_reset_count_query_executed,
                                g_object_ref (self),

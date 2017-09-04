@@ -185,7 +185,7 @@ photos_delete_item_job_run (PhotosDeleteItemJob *self,
 
   query = photos_query_builder_delete_resource_query (state, self->urn);
   photos_tracker_queue_update (self->queue,
-                               query->sparql,
+                               query,
                                NULL,
                                photos_delete_item_job_query_executed,
                                g_object_ref (task),

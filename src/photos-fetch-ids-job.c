@@ -242,7 +242,7 @@ photos_fetch_ids_job_run (PhotosFetchIdsJob *self,
 
   query = photos_query_builder_global_query (state, PHOTOS_QUERY_FLAGS_SEARCH, NULL);
   photos_tracker_queue_select (self->queue,
-                               query->sparql,
+                               query,
                                cancellable,
                                photos_fetch_ids_job_query_executed,
                                g_object_ref (task),

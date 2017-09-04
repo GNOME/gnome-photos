@@ -228,7 +228,7 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
 
   query = photos_query_builder_equipment_query (state, id);
   photos_tracker_queue_select (self->queue,
-                               query->sparql,
+                               query,
                                cancellable,
                                photos_camera_cache_equipment_query_executed,
                                g_object_ref (task),

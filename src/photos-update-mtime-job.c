@@ -185,7 +185,7 @@ photos_update_mtime_job_run (PhotosUpdateMtimeJob *self,
 
   query = photos_query_builder_update_mtime_query (state, self->urn);
   photos_tracker_queue_update (self->queue,
-                               query->sparql,
+                               query,
                                cancellable,
                                photos_update_mtime_job_query_executed,
                                g_object_ref (task),

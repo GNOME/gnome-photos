@@ -254,7 +254,7 @@ photos_fetch_collections_job_run (PhotosFetchCollectionsJob *self,
 
   query = photos_query_builder_fetch_collections_query (state, self->urn);
   photos_tracker_queue_select (self->queue,
-                               query->sparql,
+                               query,
                                cancellable,
                                photos_fetch_collections_job_query_executed,
                                g_object_ref (task),

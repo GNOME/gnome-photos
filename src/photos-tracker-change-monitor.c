@@ -32,6 +32,7 @@
 #include "photos-tracker-change-monitor.h"
 #include "photos-tracker-queue.h"
 #include "photos-tracker-resources.h"
+#include "photos-query.h"
 
 
 struct _PhotosTrackerChangeMonitor
@@ -258,6 +259,7 @@ photos_tracker_change_monitor_process_events (PhotosTrackerChangeMonitor *self)
   GQueue *events;
   GString *sparql;
   PhotosTrackerChangeMonitorQueryData *data;
+  PhotosQuery *query = NULL;
   gpointer id;
 
   events = self->pending_events;
@@ -276,15 +278,18 @@ photos_tracker_change_monitor_process_events (PhotosTrackerChangeMonitor *self)
 
   g_string_append (sparql, " {}");
 
+  query = photos_query_new (NULL, g_strdup (sparql->str));
+
   data = photos_tracker_change_monitor_query_data_new (self, id_table, events);
   photos_tracker_queue_select (self->queue,
-                               sparql->str,
+                               query,
                                NULL,
                                photos_tracker_change_monitor_query_executed,
                                data,
                                NULL);
 
   g_string_free (sparql, TRUE);
+  photos_query_free (query);
   return G_SOURCE_REMOVE;
 }
 

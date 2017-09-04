@@ -218,7 +218,7 @@ photos_single_item_job_run (PhotosSingleItemJob *self,
 
   query = photos_query_builder_single_query (state, flags, self->urn);
   photos_tracker_queue_select (self->queue,
-                               query->sparql,
+                               query,
                                cancellable,
                                photos_single_item_job_query_executed,
                                g_object_ref (task),

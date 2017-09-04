@@ -345,7 +345,7 @@ photos_collection_icon_watcher_start (PhotosCollectionIconWatcher *self)
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (self->collection));
   query = photos_query_builder_collection_icon_query (state, id);
   photos_tracker_queue_select (self->queue,
-                               query->sparql,
+                               query,
                                NULL,
                                photos_collection_icon_watcher_query_executed,
                                g_object_ref (self),

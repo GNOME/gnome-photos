@@ -295,7 +295,7 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
     }
 
   photos_tracker_queue_select (priv->queue,
-                               priv->current_query->sparql,
+                               priv->current_query,
                                priv->cancellable,
                                photos_tracker_controller_query_executed,
                                g_object_ref (self),
