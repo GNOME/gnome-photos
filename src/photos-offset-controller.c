@@ -271,14 +271,20 @@ photos_offset_controller_reset_count (PhotosOffsetController *self)
 {
   PhotosOffsetControllerPrivate *priv;
   PhotosQuery *query;
+  const gchar *type_name;
+  gchar *tag = NULL;
 
   priv = photos_offset_controller_get_instance_private (self);
 
   if (G_UNLIKELY (priv->queue == NULL))
-    return;
+    goto out;
 
   query = PHOTOS_OFFSET_CONTROLLER_GET_CLASS (self)->get_query (self);
   g_return_if_fail (query != NULL);
+
+  type_name = G_OBJECT_TYPE_NAME (self);
+  tag = g_strdup_printf ("%s: %s", type_name, G_STRFUNC);
+  photos_query_set_tag (query, tag);
 
   photos_tracker_queue_select (priv->queue,
                                query,
@@ -287,6 +293,9 @@ photos_offset_controller_reset_count (PhotosOffsetController *self)
                                g_object_ref (self),
                                g_object_unref);
   photos_query_free (query);
+
+ out:
+  g_free (tag);
 }
 
 
