@@ -28,6 +28,7 @@
 #include <glib.h>
 
 #include "photos-base-manager.h"
+#include "photos-debug.h"
 #include "photos-filterable.h"
 
 
@@ -126,6 +127,7 @@ photos_base_manager_default_add_object (PhotosBaseManager *self, GObject *object
   GSequenceIter *iter;
   PhotosBaseManagerObjectData *object_data;
   const gchar *id;
+  const gchar *type_name;
   guint position;
 
   priv = photos_base_manager_get_instance_private (self);
@@ -133,7 +135,7 @@ photos_base_manager_default_add_object (PhotosBaseManager *self, GObject *object
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
   old_object = photos_base_manager_get_object_by_id (self, id);
   if (old_object != NULL)
-    return;
+    goto out;
 
   if (priv->sort_func == NULL)
     {
@@ -151,6 +153,29 @@ photos_base_manager_default_add_object (PhotosBaseManager *self, GObject *object
 
   photos_base_manager_objects_changed (self, position, 0, 1);
   g_signal_emit (self, signals[OBJECT_ADDED], 0, object);
+
+ out:
+  type_name = G_OBJECT_TYPE_NAME (self);
+  if (old_object == NULL)
+    {
+      photos_debug (PHOTOS_DEBUG_MANAGER,
+                    "%s (%p), %s: object (%p) added for %s",
+                    type_name,
+                    self,
+                    G_STRFUNC,
+                    object,
+                    id);
+    }
+  else
+    {
+      photos_debug (PHOTOS_DEBUG_MANAGER,
+                    "%s (%p), %s: object (%p) already exists for %s",
+                    type_name,
+                    self,
+                    G_STRFUNC,
+                    old_object,
+                    id);
+    }
 }
 
 
@@ -254,15 +279,16 @@ static void
 photos_base_manager_default_remove_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
   PhotosBaseManagerPrivate *priv;
-  GObject *object;
+  GObject *object = NULL;
   PhotosBaseManagerObjectData *object_data;
+  const gchar *type_name;
   guint position;
 
   priv = photos_base_manager_get_instance_private (self);
 
   object_data = g_hash_table_lookup (priv->objects, id);
   if (object_data == NULL)
-    return;
+    goto out;
 
   position = g_sequence_iter_get_position (object_data->iter);
   g_sequence_remove (object_data->iter);
@@ -273,7 +299,24 @@ photos_base_manager_default_remove_object_by_id (PhotosBaseManager *self, const 
   photos_base_manager_objects_changed (self, position, 1, 0);
   g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
 
-  g_object_unref (object);
+ out:
+  type_name = G_OBJECT_TYPE_NAME (self);
+  if (object_data == NULL)
+    {
+      photos_debug (PHOTOS_DEBUG_MANAGER, "%s (%p), %s: object not found for %s", type_name, self, G_STRFUNC, id);
+    }
+  else
+    {
+      photos_debug (PHOTOS_DEBUG_MANAGER,
+                    "%s (%p), %s: object (%p) removed for %s",
+                    type_name,
+                    self,
+                    G_STRFUNC,
+                    object,
+                    id);
+    }
+
+  g_clear_object (&object);
 }
 
 
@@ -550,6 +593,7 @@ photos_base_manager_clear (PhotosBaseManager *self)
   PhotosBaseManagerPrivate *priv;
   GSequenceIter *begin_iter;
   GSequenceIter *end_iter;
+  const gchar *type_name;
   guint count;
 
   g_return_if_fail (PHOTOS_IS_BASE_MANAGER (self));
@@ -567,6 +611,9 @@ photos_base_manager_clear (PhotosBaseManager *self)
 
   photos_base_manager_objects_changed (self, 0, count, 0);
   g_signal_emit (self, signals[CLEAR], 0);
+
+  type_name = G_OBJECT_TYPE_NAME (self);
+  photos_debug (PHOTOS_DEBUG_MANAGER, "%s (%p), %s: cleared", type_name, self, G_STRFUNC);
 }
 
 

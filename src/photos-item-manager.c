@@ -833,13 +833,14 @@ photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *i
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
   g_autoptr (PhotosBaseItem) item = NULL;
+  const gchar *type_name;
   guint i;
 
   g_hash_table_remove (self->collections, id);
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
   if (item == NULL)
-    return;
+    goto out;
 
   g_signal_handlers_disconnect_by_func (item, photos_item_manager_info_updated, self);
   g_object_ref (item);
@@ -848,6 +849,23 @@ photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *i
     photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[i], id);
 
   g_signal_emit_by_name (self, "object-removed", G_OBJECT (item));
+
+ out:
+  type_name = G_OBJECT_TYPE_NAME (self);
+  if (item == NULL)
+    {
+      photos_debug (PHOTOS_DEBUG_MANAGER, "%s (%p), %s: object not found for %s", type_name, self, G_STRFUNC, id);
+    }
+  else
+    {
+      photos_debug (PHOTOS_DEBUG_MANAGER,
+                    "%s (%p), %s: object (%p) removed for %s",
+                    type_name,
+                    self,
+                    G_STRFUNC,
+                    item,
+                    id);
+    }
 }
 
 
@@ -1284,6 +1302,7 @@ void
 photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
 {
   PhotosBaseManager *item_mngr_chld;
+  const gchar *type_name;
   guint i;
   guint n_items;
 
@@ -1291,6 +1310,9 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
+
+  type_name = G_OBJECT_TYPE_NAME (self);
+  photos_debug (PHOTOS_DEBUG_MANAGER, "%s (%p), %s: clearing mode %d", type_name, self, G_STRFUNC, mode);
 
   item_mngr_chld = self->item_mngr_chldrn[mode];
   n_items = g_list_model_get_n_items (G_LIST_MODEL (item_mngr_chld));
@@ -1311,7 +1333,10 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
 
           item1 = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr_chldrn[j], id));
           if (item1 != NULL)
-            break;
+            {
+              photos_debug (PHOTOS_DEBUG_MANAGER, "Object (%p, %s) also exists in mode %d", item, id, j);
+              break;
+            }
         }
 
       if (item1 == NULL)
@@ -1321,10 +1346,12 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
 
           g_signal_handlers_disconnect_by_func (item, photos_item_manager_info_updated, self);
           photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[0], id);
+          photos_debug (PHOTOS_DEBUG_MANAGER, "Object (%p, %s) removed from mode 0", item, id);
         }
     }
 
   photos_base_manager_clear (item_mngr_chld);
+  photos_debug (PHOTOS_DEBUG_MANAGER, "%s (%p), %s: clearing mode %d: done", type_name, self, G_STRFUNC, mode);
 }
 
 
