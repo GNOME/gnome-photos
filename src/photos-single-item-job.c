@@ -41,11 +41,6 @@ struct _PhotosSingleItemJob
   gchar *urn;
 };
 
-struct _PhotosSingleItemJobClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   PROP_0,

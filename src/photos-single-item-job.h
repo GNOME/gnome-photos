@@ -33,21 +33,9 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SINGLE_ITEM_JOB (photos_single_item_job_get_type ())
-
-#define PHOTOS_SINGLE_ITEM_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SINGLE_ITEM_JOB, PhotosSingleItemJob))
-
-#define PHOTOS_IS_SINGLE_ITEM_JOB(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SINGLE_ITEM_JOB))
+G_DECLARE_FINAL_TYPE (PhotosSingleItemJob, photos_single_item_job, PHOTOS, SINGLE_ITEM_JOB, GObject);
 
 typedef void (*PhotosSingleItemJobCallback) (TrackerSparqlCursor *, gpointer);
-
-typedef struct _PhotosSingleItemJob      PhotosSingleItemJob;
-typedef struct _PhotosSingleItemJobClass PhotosSingleItemJobClass;
-
-GType                  photos_single_item_job_get_type             (void) G_GNUC_CONST;
 
 PhotosSingleItemJob   *photos_single_item_job_new                  (const gchar *urn);
 
