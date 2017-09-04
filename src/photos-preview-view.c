@@ -66,11 +66,6 @@ struct _PhotosPreviewView
   gdouble zoom_best_fit;
 };
 
-struct _PhotosPreviewViewClass
-{
-  GtkBinClass parent_class;
-};
-
 enum
 {
   PROP_0,

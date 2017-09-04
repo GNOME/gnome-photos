@@ -33,19 +33,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_PREVIEW_VIEW (photos_preview_view_get_type ())
-
-#define PHOTOS_PREVIEW_VIEW(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_PREVIEW_VIEW, PhotosPreviewView))
-
-#define PHOTOS_IS_PREVIEW_VIEW(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_PREVIEW_VIEW))
-
-typedef struct _PhotosPreviewView      PhotosPreviewView;
-typedef struct _PhotosPreviewViewClass PhotosPreviewViewClass;
-
-GType                  photos_preview_view_get_type               (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosPreviewView, photos_preview_view, PHOTOS, PREVIEW_VIEW, GtkBin);
 
 GtkWidget             *photos_preview_view_new                    (GtkOverlay *overlay);
 
