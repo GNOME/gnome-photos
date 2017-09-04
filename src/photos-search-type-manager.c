@@ -39,11 +39,6 @@ struct _PhotosSearchTypeManager
   PhotosBaseManager parent_instance;
 };
 
-struct _PhotosSearchTypeManagerClass
-{
-  PhotosBaseManagerClass parent_class;
-};
-
 
 G_DEFINE_TYPE (PhotosSearchTypeManager, photos_search_type_manager, PHOTOS_TYPE_BASE_MANAGER);
 
