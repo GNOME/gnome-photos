@@ -246,8 +246,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.gnome.org/sources/tracker/1.12/tracker-1.12.1.tar.xz",
-                    "sha256": "b912cb06944abc676b4644219db777896455fb33aa5589f0b46e417bc9b82a4b"
+                    "url": "https://download.gnome.org/sources/tracker/1.12/tracker-1.12.3.tar.xz",
+                    "sha256": "23ce943878c1165c3f52fe97150c71708ebfbb5da3020e9a7247ad4f5120f8d6"
                 }
             ]
         },
