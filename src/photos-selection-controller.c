@@ -43,11 +43,6 @@ struct _PhotosSelectionController
   gboolean is_frozen;
 };
 
-struct _PhotosSelectionControllerClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   SELECTION_CHANGED,

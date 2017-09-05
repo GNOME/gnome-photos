@@ -30,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SELECTION_CONTROLLER (photos_selection_controller_get_type ())
-
-#define PHOTOS_SELECTION_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_SELECTION_CONTROLLER, PhotosSelectionController))
-
-#define PHOTOS_IS_SELECTION_CONTROLLER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_SELECTION_CONTROLLER))
-
-typedef struct _PhotosSelectionController      PhotosSelectionController;
-typedef struct _PhotosSelectionControllerClass PhotosSelectionControllerClass;
-
-GType                       photos_selection_controller_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosSelectionController, photos_selection_controller, PHOTOS, SELECTION_CONTROLLER, GObject);
 
 PhotosSelectionController  *photos_selection_controller_dup_singleton      (void);
 
