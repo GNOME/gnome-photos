@@ -30,19 +30,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_PROPERTIES_DIALOG (photos_properties_dialog_get_type ())
-
-#define PHOTOS_PROPERTIES_DIALOG(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_PROPERTIES_DIALOG, PhotosPropertiesDialog))
-
-#define PHOTOS_IS_PROPERTIES_DIALOG(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_PROPERTIES_DIALOG))
-
-typedef struct _PhotosPropertiesDialog      PhotosPropertiesDialog;
-typedef struct _PhotosPropertiesDialogClass PhotosPropertiesDialogClass;
-
-GType               photos_properties_dialog_get_type           (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosPropertiesDialog, photos_properties_dialog, PHOTOS, PROPERTIES_DIALOG, GtkDialog)
 
 GtkWidget          *photos_properties_dialog_new                (GtkWindow *parent, const gchar *urn);
 

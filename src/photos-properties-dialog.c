@@ -59,11 +59,6 @@ struct _PhotosPropertiesDialog
   guint title_entry_timeout;
 };
 
-struct _PhotosPropertiesDialogClass
-{
-  GtkDialogClass parent_class;
-};
-
 enum
 {
   PROP_0,
