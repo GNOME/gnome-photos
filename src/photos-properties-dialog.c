@@ -62,9 +62,6 @@ struct _PhotosPropertiesDialog
 struct _PhotosPropertiesDialogClass
 {
   GtkDialogClass parent_class;
-
-  /* signals */
-  void (*discard_all_edits) (PhotosPropertiesDialog *self);
 };
 
 enum
@@ -880,7 +877,7 @@ photos_properties_dialog_class_init (PhotosPropertiesDialogClass *class)
   signals[DISCARD_ALL_EDITS] = g_signal_new ("discard-all-edits",
                                              G_TYPE_FROM_CLASS (class),
                                              G_SIGNAL_RUN_LAST,
-                                             G_STRUCT_OFFSET (PhotosPropertiesDialogClass, discard_all_edits),
+                                             0,
                                              NULL, /* accumulator */
                                              NULL, /* accu_data */
                                              g_cclosure_marshal_VOID__VOID,
