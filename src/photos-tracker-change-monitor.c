@@ -50,9 +50,6 @@ struct _PhotosTrackerChangeMonitor
 struct _PhotosTrackerChangeMonitorClass
 {
   GObjectClass parent_class;
-
-  /* signals */
-  void (*changes_pending) (PhotosTrackerChangeMonitor *self, GHashTable *changes);
 };
 
 enum
@@ -418,7 +415,7 @@ photos_tracker_change_monitor_class_init (PhotosTrackerChangeMonitorClass *class
   signals[CHANGES_PENDING] = g_signal_new ("changes-pending",
                                            G_TYPE_FROM_CLASS (class),
                                            G_SIGNAL_RUN_LAST,
-                                           G_STRUCT_OFFSET (PhotosTrackerChangeMonitorClass, changes_pending),
+                                           0,
                                            NULL, /*accumulator */
                                            NULL, /*accu_data */
                                            g_cclosure_marshal_VOID__BOXED,
