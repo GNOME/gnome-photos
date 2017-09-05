@@ -2,7 +2,6 @@
 
 import glob
 import os
-import re
 import subprocess
 import sys
 
@@ -14,12 +13,6 @@ else:
     datadir = sys.argv[1]
 
 icondir = os.path.join(datadir, 'icons', 'hicolor')
-
-name_pattern = re.compile('hicolor_(?:apps)_(?:\d+x\d+|scalable)_(.*)')
-search_pattern = '/**/hicolor_*'
-
-for file in glob.glob(icondir + search_pattern, recursive=True):
-    os.rename(file, os.path.join(os.path.dirname(file), name_pattern.search(file).group(1)))
 
 if not destdir:
     print('Updating icon cache...')
