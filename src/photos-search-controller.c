@@ -37,11 +37,6 @@ struct _PhotosSearchController
   gchar *str;
 };
 
-struct _PhotosSearchControllerClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   SEARCH_STRING_CHANGED,
