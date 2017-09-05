@@ -40,9 +40,6 @@ struct _PhotosSearchController
 struct _PhotosSearchControllerClass
 {
   GObjectClass parent_class;
-
-  /* signals */
-  void (*search_string_changed) (PhotosSearchController *self, const gchar *str);
 };
 
 enum
@@ -85,8 +82,7 @@ photos_search_controller_class_init (PhotosSearchControllerClass *class)
   signals[SEARCH_STRING_CHANGED] = g_signal_new ("search-string-changed",
                                                   G_TYPE_FROM_CLASS (class),
                                                   G_SIGNAL_RUN_LAST,
-                                                  G_STRUCT_OFFSET (PhotosSearchControllerClass,
-                                                                   search_string_changed),
+                                                  0,
                                                   NULL, /*accumulator */
                                                   NULL, /*accu_data */
                                                   g_cclosure_marshal_VOID__STRING,
