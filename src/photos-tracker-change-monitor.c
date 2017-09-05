@@ -47,11 +47,6 @@ struct _PhotosTrackerChangeMonitor
   guint pending_events_id;
 };
 
-struct _PhotosTrackerChangeMonitorClass
-{
-  GObjectClass parent_class;
-};
-
 enum
 {
   CHANGES_PENDING,

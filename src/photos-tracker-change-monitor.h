@@ -30,19 +30,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_TRACKER_CHANGE_MONITOR (photos_tracker_change_monitor_get_type ())
-
-#define PHOTOS_TRACKER_CHANGE_MONITOR(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_TRACKER_CHANGE_MONITOR, PhotosTrackerChangeMonitor))
-
-#define PHOTOS_IS_TRACKER_CHANGE_MONITOR(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_TRACKER_CHANGE_MONITOR))
-
-typedef struct _PhotosTrackerChangeMonitor      PhotosTrackerChangeMonitor;
-typedef struct _PhotosTrackerChangeMonitorClass PhotosTrackerChangeMonitorClass;
-
-GType                        photos_tracker_change_monitor_get_type         (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosTrackerChangeMonitor,
+                      photos_tracker_change_monitor,
+                      PHOTOS,
+                      TRACKER_CHANGE_MONITOR,
+                      GObject);
 
 PhotosTrackerChangeMonitor  *photos_tracker_change_monitor_dup_singleton    (GCancellable *cancellable,
                                                                              GError **error);
