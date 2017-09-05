@@ -46,8 +46,6 @@ struct _PhotosSelectionController
 struct _PhotosSelectionControllerClass
 {
   GObjectClass parent_class;
-
-  void (*selection_changed)      (PhotosSelectionController *self);
 };
 
 enum
@@ -158,8 +156,7 @@ photos_selection_controller_class_init (PhotosSelectionControllerClass *class)
   signals[SELECTION_CHANGED] = g_signal_new ("selection-changed",
                                              G_TYPE_FROM_CLASS (class),
                                              G_SIGNAL_RUN_LAST,
-                                             G_STRUCT_OFFSET (PhotosSelectionControllerClass,
-                                                              selection_changed),
+                                             0,
                                              NULL, /*accumulator */
                                              NULL, /*accu_data */
                                              g_cclosure_marshal_VOID__VOID,
