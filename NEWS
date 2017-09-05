@@ -1,3 +1,26 @@
+Overview of changes in 3.25.92
+==============================
+
+* Bugs fixed:
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 786936 Various clean-ups and fixes to the searchbar handling code
+ 787105 Migrate from Intltool to Gettext
+
+* Updated translations:
+ Traditional Chinese (Taiwan)
+ Finnish
+ Friulian
+ Hungarian
+ Korean
+ Latvian
+ Lithuanian
+ Slovak
+ Slovenian
+ Swedish
+ Turkish
+ Vietnamese
+
+
 Overview of changes in 3.25.91
 ==============================
 
