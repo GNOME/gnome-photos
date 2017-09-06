@@ -22,6 +22,7 @@
  *   + Eye of GNOME
  */
 
+
 #include "config.h"
 
 #include <stdio.h>
@@ -45,7 +46,6 @@ struct _PhotosPrintOperation
   gdouble top_margin;
   gdouble scale_factor;
 };
-
 
 enum
 {
