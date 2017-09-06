@@ -40,7 +40,9 @@ struct _PhotosSourceManager
   PhotosBaseManager parent_instance;
   GCancellable *cancellable;
   GHashTable *sources_notified;
+  GVolumeMonitor *volume_monitor;
   GoaClient *client;
+  guint refresh_mounts_timeout_id;
 };
 
 enum
@@ -54,6 +56,12 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE (PhotosSourceManager, photos_source_manager, PHOTOS_TYPE_BASE_MANAGER);
+
+
+enum
+{
+  REFRESH_MOUNTS_TIMEOUT = 1 /* s */
+};
 
 
 static gchar *
@@ -158,6 +166,7 @@ photos_source_manager_notify_sources (PhotosSourceManager *self)
   n_items = g_list_model_get_n_items (G_LIST_MODEL (self));
   for (i = 0; i < n_items; i++)
     {
+      GMount *mount;
       GoaObject *object;
       g_autoptr (PhotosSource) source = NULL;
       gboolean needs_notification;
@@ -165,10 +174,13 @@ photos_source_manager_notify_sources (PhotosSourceManager *self)
       const gchar *id;
 
       source = PHOTOS_SOURCE (g_list_model_get_object (G_LIST_MODEL (self), i));
+      mount = photos_source_get_mount (source);
       object = photos_source_get_goa_object (source);
 
       if (object != NULL)
         needs_notification = photos_source_manager_online_source_needs_notification (source);
+      else if (mount != NULL)
+        needs_notification = TRUE;
       else
         needs_notification = FALSE;
 
@@ -196,12 +208,12 @@ photos_source_manager_notify_sources (PhotosSourceManager *self)
 
 
 static void
-photos_source_manager_refresh_accounts (PhotosSourceManager *self)
+photos_source_manager_refresh_sources (PhotosSourceManager *self)
 {
   GApplication *app;
   g_autoptr (GHashTable) new_sources = NULL;
-  GList *accounts = NULL;
   GList *l;
+  GList *mounts = NULL;
   PhotosSource *active_source;
   const gchar *active_id;
 
@@ -209,29 +221,58 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
   if (photos_application_get_empty_results (PHOTOS_APPLICATION (app)))
     goto out;
 
-  accounts = goa_client_get_accounts (self->client);
   new_sources = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
-  for (l = accounts; l != NULL; l = l->next)
+  mounts = g_volume_monitor_get_mounts (self->volume_monitor);
+
+  for (l = mounts; l != NULL; l = l->next)
     {
-      GoaAccount *account;
-      GoaObject *object = GOA_OBJECT (l->data);
+      g_autoptr (GFile) root = NULL;
+      GMount *mount = G_MOUNT (l->data);
       g_autoptr (PhotosSource) source = NULL;
       const gchar *id;
 
-      account = goa_object_peek_account (object);
-      if (account == NULL)
+      if (g_mount_is_shadowed (mount))
         continue;
 
-      if (goa_account_get_photos_disabled (account))
+      root = g_mount_get_root (mount);
+      if (!g_file_has_uri_scheme (root, "file") && !g_file_has_uri_scheme (root, "gphoto2"))
         continue;
 
-      if (goa_object_peek_photos (object) == NULL)
-        continue;
-
-      source = photos_source_new_from_goa_object (GOA_OBJECT (l->data));
+      source = photos_source_new_from_mount (mount);
       id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
       g_hash_table_insert (new_sources, g_strdup (id), g_object_ref (source));
+    }
+
+  if (self->client != NULL)
+    {
+      GList *accounts = NULL;
+
+      accounts = goa_client_get_accounts (self->client);
+
+      for (l = accounts; l != NULL; l = l->next)
+        {
+          GoaAccount *account;
+          GoaObject *object = GOA_OBJECT (l->data);
+          g_autoptr (PhotosSource) source = NULL;
+          const gchar *id;
+
+          account = goa_object_peek_account (object);
+          if (account == NULL)
+            continue;
+
+          if (goa_account_get_photos_disabled (account))
+            continue;
+
+          if (goa_object_peek_photos (object) == NULL)
+            continue;
+
+          source = photos_source_new_from_goa_object (GOA_OBJECT (l->data));
+          id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
+          g_hash_table_insert (new_sources, g_strdup (id), g_object_ref (source));
+        }
+
+      g_list_free_full (accounts, g_object_unref);
     }
 
   active_source = PHOTOS_SOURCE (photos_base_manager_get_active_object (PHOTOS_BASE_MANAGER (self)));
@@ -246,7 +287,39 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
   photos_source_manager_notify_sources (self);
 
  out:
-  g_list_free_full (accounts, g_object_unref);
+  return;
+}
+
+
+static gboolean
+photos_source_manager_refresh_mounts_timeout (gpointer user_data)
+{
+  PhotosSourceManager *self = PHOTOS_SOURCE_MANAGER (user_data);
+
+  self->refresh_mounts_timeout_id = 0;
+  photos_source_manager_refresh_sources (self);
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
+photos_source_manager_remove_refresh_mounts_timeout (PhotosSourceManager *self)
+{
+  if (self->refresh_mounts_timeout_id != 0)
+    {
+      g_source_remove (self->refresh_mounts_timeout_id);
+      self->refresh_mounts_timeout_id = 0;
+    }
+}
+
+
+static void
+photos_source_manager_queue_refresh_mounts (PhotosSourceManager *self)
+{
+  photos_source_manager_remove_refresh_mounts_timeout (self);
+  self->refresh_mounts_timeout_id = g_timeout_add_seconds (REFRESH_MOUNTS_TIMEOUT,
+                                                           photos_source_manager_refresh_mounts_timeout,
+                                                           self);
 }
 
 
@@ -276,19 +349,19 @@ photos_source_manager_goa_client (GObject *source_object, GAsyncResult *res, gpo
       self->client = g_object_ref (client);
       g_signal_connect_swapped (self->client,
                                 "account-added",
-                                G_CALLBACK (photos_source_manager_refresh_accounts),
+                                G_CALLBACK (photos_source_manager_refresh_sources),
                                 self);
       g_signal_connect_swapped (self->client,
                                 "account-changed",
-                                G_CALLBACK (photos_source_manager_refresh_accounts),
+                                G_CALLBACK (photos_source_manager_refresh_sources),
                                 self);
       g_signal_connect_swapped (self->client,
                                 "account-removed",
-                                G_CALLBACK (photos_source_manager_refresh_accounts),
+                                G_CALLBACK (photos_source_manager_refresh_sources),
                                 self);
-
-      photos_source_manager_refresh_accounts (self);
     }
+
+  photos_source_manager_refresh_sources (self);
 
  out:
   return;
@@ -300,11 +373,14 @@ photos_source_manager_dispose (GObject *object)
 {
   PhotosSourceManager *self = PHOTOS_SOURCE_MANAGER (object);
 
+  photos_source_manager_remove_refresh_mounts_timeout (self);
+
   if (self->cancellable != NULL)
     g_cancellable_cancel (self->cancellable);
 
   g_clear_object (&self->cancellable);
   g_clear_object (&self->client);
+  g_clear_object (&self->volume_monitor);
   g_clear_pointer (&self->sources_notified, (GDestroyNotify) g_hash_table_unref);
 
   G_OBJECT_CLASS (photos_source_manager_parent_class)->dispose (object);
@@ -325,6 +401,24 @@ photos_source_manager_init (PhotosSourceManager *self)
 
   self->cancellable = g_cancellable_new ();
   self->sources_notified = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+
+  self->volume_monitor = g_volume_monitor_get ();
+  g_signal_connect_object (self->volume_monitor,
+                           "mount-added",
+                           G_CALLBACK (photos_source_manager_queue_refresh_mounts),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (self->volume_monitor,
+                           "mount-changed",
+                           G_CALLBACK (photos_source_manager_queue_refresh_mounts),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (self->volume_monitor,
+                           "mount-removed",
+                           G_CALLBACK (photos_source_manager_queue_refresh_mounts),
+                           self,
+                           G_CONNECT_SWAPPED);
+
   goa_client_new (self->cancellable, photos_source_manager_goa_client, self);
 
   photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SOURCE_STOCK_ALL);
