@@ -31,74 +31,76 @@
 #include "photos-print-preview.h"
 
 
-struct _PhotosPrintPreviewPrivate {
-	GtkWidget *area;
-	GdkPixbuf *pixbuf;
-	GdkPixbuf *pixbuf_scaled;
+struct _PhotosPrintPreviewPrivate
+{
+  GtkWidget *area;
+  GdkPixbuf *pixbuf;
+  GdkPixbuf *pixbuf_scaled;
 
-	/* The surface to set to the cairo context, created from the image */
-	cairo_surface_t *surface;
+  /* The surface to set to the cairo context, created from the image */
+  cairo_surface_t *surface;
 
-        /* Flag whether we have to create surface */
-	gboolean flag_create_surface;
+  /* Flag whether we have to create surface */
+  gboolean flag_create_surface;
 
-	/* the alignment of the pixbuf in the page */
-	gfloat pixbuf_x_align, pixbuf_y_align;
+  /* the alignment of the pixbuf in the page */
+  gfloat pixbuf_x_align, pixbuf_y_align;
 
-	/* real paper size, in inches */
-	gfloat p_width, p_height;
+  /* real paper size, in inches */
+  gfloat p_width, p_height;
 
-	/* page margins, in inches */
-	gfloat l_margin, r_margin, t_margin, b_margin;
+  /* page margins, in inches */
+  gfloat l_margin, r_margin, t_margin, b_margin;
 
-	/* page margins, relatives to the widget size */
-	gint l_rmargin, r_rmargin, t_rmargin, b_rmargin;
+  /* page margins, relatives to the widget size */
+  gint l_rmargin, r_rmargin, t_rmargin, b_rmargin;
 
-	/* pixbuf width, relative to the widget size */
-	gint r_width, r_height;
+  /* pixbuf width, relative to the widget size */
+  gint r_width, r_height;
 
-	/* scale of the pixbuf, as defined by the user */
-	gfloat i_scale;
+  /* scale of the pixbuf, as defined by the user */
+  gfloat i_scale;
 
-	/* scale of the page, relative to the widget size */
-	gfloat p_scale;
+  /* scale of the page, relative to the widget size */
+  gfloat p_scale;
 
-	/* whether we are currently grabbing the pixbuf */
-	gboolean grabbed;
+  /* whether we are currently grabbing the pixbuf */
+  gboolean grabbed;
 
-	/* the last cursor position */
-	gdouble cursorx, cursory;
+  /* the last cursor position */
+  gdouble cursorx, cursory;
 
-	/* if we reject to move the pixbuf,
-	   store the delta here */
-	gdouble r_dx, r_dy;
+  /* if we reject to move the pixbuf, store the delta here */
+  gdouble r_dx, r_dy;
 };
+
+enum
+{
+  PROP_0,
+  PROP_PIXBUF,
+  PROP_PIXBUF_X_ALIGN,
+  PROP_PIXBUF_Y_ALIGN,
+  PROP_PIXBUF_SCALE,
+  PROP_PAPER_WIDTH,
+  PROP_PAPER_HEIGHT,
+  PROP_PAGE_LEFT_MARGIN,
+  PROP_PAGE_RIGHT_MARGIN,
+  PROP_PAGE_TOP_MARGIN,
+  PROP_PAGE_BOTTOM_MARGIN
+};
+
+enum
+{
+  SIGNAL_PIXBUF_MOVED,
+  SIGNAL_PIXBUF_SCALED,
+  SIGNAL_LAST
+};
+
+static gint preview_signals [SIGNAL_LAST];
 
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhotosPrintPreview, photos_print_preview, GTK_TYPE_ASPECT_FRAME);
 
-
-/* Signal IDs */
-enum {
-	SIGNAL_PIXBUF_MOVED,
-	SIGNAL_PIXBUF_SCALED,
-	SIGNAL_LAST
-};
-static gint preview_signals [SIGNAL_LAST];
-
-enum {
-	PROP_0,
-	PROP_PIXBUF,
-	PROP_PIXBUF_X_ALIGN,
-	PROP_PIXBUF_Y_ALIGN,
-	PROP_PIXBUF_SCALE,
-	PROP_PAPER_WIDTH,
-	PROP_PAPER_HEIGHT,
-	PROP_PAGE_LEFT_MARGIN,
-	PROP_PAGE_RIGHT_MARGIN,
-	PROP_PAGE_TOP_MARGIN,
-	PROP_PAGE_BOTTOM_MARGIN
-};
 
 static void photos_print_preview_draw (PhotosPrintPreview *preview, cairo_t *cr);
 static void photos_print_preview_finalize (GObject *object);
@@ -106,6 +108,7 @@ static void update_relative_sizes (PhotosPrintPreview *preview);
 static void create_surface (PhotosPrintPreview *preview);
 static void create_image_scaled (PhotosPrintPreview *preview);
 static gboolean create_surface_when_idle (PhotosPrintPreview *preview);
+
 
 static void
 photos_print_preview_get_property (GObject    *object,
@@ -150,6 +153,7 @@ photos_print_preview_get_property (GObject    *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 	}
 }
+
 
 static void
 photos_print_preview_set_property (GObject      *object,
@@ -217,6 +221,7 @@ photos_print_preview_set_property (GObject      *object,
 	update_relative_sizes (PHOTOS_PRINT_PREVIEW (object));
 	gtk_widget_queue_draw (priv->area);
 }
+
 
 static void
 photos_print_preview_class_init (PhotosPrintPreviewClass *klass)
@@ -408,6 +413,7 @@ photos_print_preview_class_init (PhotosPrintPreviewClass *klass)
 			      0, NULL);
 }
 
+
 static void
 photos_print_preview_finalize (GObject *object)
 {
@@ -432,6 +438,7 @@ photos_print_preview_finalize (GObject *object)
 
 	G_OBJECT_CLASS (photos_print_preview_parent_class)->finalize (object);
 }
+
 
 static void
 photos_print_preview_init (PhotosPrintPreview *preview)
@@ -477,6 +484,7 @@ photos_print_preview_init (PhotosPrintPreview *preview)
 	priv->r_dy    = 0;
 }
 
+
 static gboolean button_press_event_cb   (GtkWidget *widget, GdkEventButton *bev, gpointer user_data);
 static gboolean button_release_event_cb (GtkWidget *widget, GdkEventButton *bev, gpointer user_data);
 static gboolean motion_notify_event_cb  (GtkWidget *widget, GdkEventMotion *mev, gpointer user_data);
@@ -484,6 +492,7 @@ static gboolean key_press_event_cb      (GtkWidget *widget, GdkEventKey *event, 
 
 static gboolean draw_cb (GtkDrawingArea *drawing_area, cairo_t *cr, gpointer  user_data);
 static void size_allocate_cb (GtkWidget *widget, GtkAllocation *allocation, gpointer user_data);
+
 
 /**
  * photos_print_preview_new_with_pixbuf:
@@ -509,6 +518,7 @@ photos_print_preview_new_with_pixbuf (GdkPixbuf *pixbuf)
 
 	return GTK_WIDGET (preview);
 }
+
 
 /**
  * photos_print_preview_new:
@@ -563,6 +573,7 @@ photos_print_preview_new (void)
 
 	return GTK_WIDGET (preview);
 }
+
 
 static gboolean
 draw_cb (GtkDrawingArea *drawing_area,
@@ -1035,6 +1046,7 @@ update_relative_sizes (PhotosPrintPreview *preview)
 	priv->b_rmargin = (gint) (72. * priv->b_margin * priv->p_scale);
 }
 
+
 /**
  * photos_print_preview_set_page_margins:
  * @preview: a #PhotosPrintPreview
@@ -1062,6 +1074,7 @@ photos_print_preview_set_page_margins (PhotosPrintPreview *preview,
 		      NULL);
 }
 
+
 /**
  * photos_print_preview_set_from_page_setup:
  * @preview: a #PhotosPrintPreview
@@ -1087,6 +1100,7 @@ photos_print_preview_set_from_page_setup (PhotosPrintPreview *preview,
 		      NULL);
 
 }
+
 
 /**
  * photos_print_preview_get_image_position:
@@ -1118,6 +1132,7 @@ photos_print_preview_get_image_position (PhotosPrintPreview *preview,
 		*y = priv->pixbuf_y_align * (priv->p_height - priv->t_margin - priv->b_margin - height);
 	}
 }
+
 
 /**
  * photos_print_preview_set_image_position:
@@ -1154,6 +1169,7 @@ photos_print_preview_set_image_position (PhotosPrintPreview *preview,
 	}
 }
 
+
 /**
  * photos_print_preview_set_scale:
  * @preview: a #PhotosPrintPreview
@@ -1175,6 +1191,7 @@ photos_print_preview_set_scale (PhotosPrintPreview *preview, gfloat scale)
 		       [SIGNAL_PIXBUF_SCALED], 0);
 
 }
+
 
 /**
  * photos_print_preview_get_scale:
