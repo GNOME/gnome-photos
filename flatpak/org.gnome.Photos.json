@@ -256,6 +256,22 @@
             ]
         },
         {
+            "name": "tracker-miners",
+            "cleanup": [ "/bin", "/etc", "/lib/systemd", "/libexec", "/share/dbus-1/services" ],
+            "config-opts": [ "--disable-miner-apps",
+                             "--disable-miner-rss",
+                             "--disable-static",
+                             "--disable-tracker-extract",
+                             "--disable-tracker-writeback",
+                             "--enable-miner-fs" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/tracker-miners"
+                }
+            ]
+        },
+        {
             "name": "gnome-photos",
             "config-opts": [ "--disable-documentation", "--disable-Werror" ],
             "sources": [
