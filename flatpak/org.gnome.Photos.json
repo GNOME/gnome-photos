@@ -62,6 +62,7 @@
         },
         {
             "name": "geocode-glib",
+            "config-opts": [ "--disable-introspection" ],
             "sources": [
                 {
                     "type": "archive",
@@ -72,6 +73,7 @@
         },
         {
             "name": "librest",
+            "config-opts": [ "--disable-introspection" ],
             "sources": [
                 {
                     "type": "archive",
@@ -82,7 +84,10 @@
         },
         {
             "name": "gnome-online-accounts",
-            "config-opts": [ "--disable-telepathy", "--disable-documentation", "--disable-backend" ],
+            "config-opts": [ "--disable-introspection",
+                             "--disable-telepathy",
+                             "--disable-documentation",
+                             "--disable-backend" ],
             "sources": [
                 {
                     "type": "archive",
@@ -94,6 +99,7 @@
         {
             "name": "libgfbgraph",
             "cleanup": [ "/doc" ],
+            "config-opts": [ "--disable-introspection" ],
             "sources": [
                 {
                     "type": "archive",
@@ -114,7 +120,7 @@
         },
         {
             "name": "libgdata",
-            "config-opts": [ "--disable-always-build-tests", "--disable-static" ],
+            "config-opts": [ "--disable-always-build-tests", "--disable-introspection", "--disable-static" ],
             "sources": [
                 {
                     "type": "archive",
@@ -191,6 +197,7 @@
         {
             "name": "grilo",
             "cleanup": [ "/bin" ],
+            "config-opts": [ "--disable-introspection" ],
             "sources": [
                 {
                     "type": "archive",
@@ -237,7 +244,8 @@
         {
             "name": "tracker",
             "cleanup": [ "/bin", "/etc", "/lib/systemd", "/libexec", "/share/dbus-1/services" ],
-            "config-opts": [ "--disable-miner-apps",
+            "config-opts": [ "--disable-introspection",
+                             "--disable-miner-apps",
                              "--disable-miner-evolution",
                              "--disable-miner-firefox",
                              "--disable-miner-rss",
