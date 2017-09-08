@@ -136,6 +136,10 @@
                 {
                     "type": "patch",
                     "path": "libraw-pkgconfig.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "libraw-CVE-2017-13735-radc_divbyzero.patch"
                 }
             ]
         },
