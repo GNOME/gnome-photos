@@ -257,7 +257,7 @@
         },
         {
             "name": "tracker-miners",
-            "cleanup": [ "/bin", "/etc", "/lib/systemd", "/libexec", "/share/dbus-1/services" ],
+            "cleanup": [ "/bin", "/etc", "/lib/systemd", "/libexec" ],
             "config-opts": [ "--disable-miner-apps",
                              "--disable-miner-rss",
                              "--disable-static",
