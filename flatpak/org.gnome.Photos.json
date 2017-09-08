@@ -132,6 +132,10 @@
                     "type": "archive",
                     "url": "http://www.libraw.org/data/LibRaw-0.18.2.tar.gz",
                     "sha256": "ce366bb38c1144130737eb16e919038937b4dc1ab165179a225d5e847af2abc6"
+                },
+                {
+                    "type": "patch",
+                    "path": "libraw-pkgconfig.patch"
                 }
             ]
         },
