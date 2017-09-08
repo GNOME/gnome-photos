@@ -243,7 +243,11 @@
         },
         {
             "name": "tracker",
-            "cleanup": [ "/bin", "/etc", "/lib/systemd", "/libexec", "/share/dbus-1/services" ],
+            "cleanup": [ "/bin",
+                         "/etc",
+                         "/lib/systemd",
+                         "/libexec",
+                         "/share/dbus-1/services/org.freedesktop.Tracker1.service" ],
             "config-opts": [ "--disable-introspection",
                              "--disable-miner-apps",
                              "--disable-miner-evolution",
