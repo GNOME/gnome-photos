@@ -12,16 +12,16 @@ msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-11-16 08:13+0000\n"
-"PO-Revision-Date: 2014-11-16 17:01+0100\n"
-"Last-Translator: Hannie Dumoleyn <hannie@ubuntu-nl.org>\n"
+"POT-Creation-Date: 2015-10-30 10:47+0000\n"
+"PO-Revision-Date: 2015-04-02 23:04+0100\n"
+"Last-Translator: Nathan Follens <nthn@unseen.is>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Photos.appdata.xml.in.h:1
@@ -30,7 +30,7 @@ msgstr ""
 msgid "Photos"
 msgstr "Foto's"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:469
+#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:479
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Uw foto's  benaderen, beheren en delen op Gnome"
 
@@ -199,21 +199,27 @@ msgstr "Info"
 msgid "Quit"
 msgstr "Afsluiten"
 
-#: ../src/photos-base-item.c:347
+#: ../src/photos-base-item.c:441
 msgid "Album"
 msgstr "Album"
 
-#: ../src/photos-base-item.c:810
+#: ../src/photos-base-item.c:893
 msgid "Screenshots"
 msgstr "Schermafdrukken"
 
-#: ../src/photos-delete-notification.c:135
-msgid "Selected item has been deleted"
-msgid_plural "Selected items have been deleted"
-msgstr[0] "Het geselecteerde item is gewist"
-msgstr[1] "De geselecteerde items zijn gewist"
-
 #: ../src/photos-delete-notification.c:141
+#, c-format
+msgid "“%s” deleted"
+msgstr "“%s” verwijderd"
+
+#: ../src/photos-delete-notification.c:144
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d item is gewist"
+msgstr[1] "%d items zijn gewist"
+
+#: ../src/photos-delete-notification.c:151
 msgid "Undo"
 msgstr "Ongedaan maken"
 
@@ -221,19 +227,19 @@ msgstr "Ongedaan maken"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA Renderer-apparaten"
 
-#: ../src/photos-embed.c:619
+#: ../src/photos-embed.c:664
 msgid "Recent"
 msgstr "Recent"
 
-#: ../src/photos-embed.c:626 ../src/photos-search-type-manager.c:109
+#: ../src/photos-embed.c:671 ../src/photos-search-type-manager.c:109
 msgid "Albums"
 msgstr "Albums"
 
-#: ../src/photos-embed.c:633 ../src/photos-search-type-manager.c:117
+#: ../src/photos-embed.c:678 ../src/photos-search-type-manager.c:117
 msgid "Favorites"
 msgstr "Favorieten"
 
-#: ../src/photos-embed.c:640 ../src/photos-main-toolbar.c:288
+#: ../src/photos-embed.c:685 ../src/photos-main-toolbar.c:289
 msgid "Search"
 msgstr "Zoeken"
 
@@ -257,19 +263,28 @@ msgstr "Instellingen"
 msgid "You can add your online accounts in %s"
 msgstr "U kunt uw online-accounts toevoegen in %s"
 
-#: ../src/photos-empty-results-box.c:189
+#: ../src/photos-empty-results-box.c:181
 msgid "No Albums Found"
 msgstr "Geen albums gevonden"
 
-#: ../src/photos-empty-results-box.c:193
-msgid "No Favorites Found"
-msgstr "Geen favorieten gevonden"
+#: ../src/photos-empty-results-box.c:186
+msgid "Starred photos will appear here"
+msgstr "Foto's met ster zullen hier verschijnen"
 
-#: ../src/photos-empty-results-box.c:198
+#: ../src/photos-empty-results-box.c:192
 msgid "No Photos Found"
 msgstr "Geen foto's gevonden"
 
-#: ../src/photos-fetch-metas-job.c:163
+#. Translators: this is the fallback title in the form
+#. *  "Facebook — 2nd January 2013".
+#.
+#: ../src/photos-facebook-item.c:79 ../src/photos-flickr-item.c:89
+#: ../src/photos-google-item.c:77
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
+
+#: ../src/photos-fetch-metas-job.c:161
 msgid "Untitled Photo"
 msgstr "Foto zonder titel"
 
@@ -294,15 +309,7 @@ msgid "Some photos might not be available during this process"
 msgstr ""
 "Het kan zijn dat sommige foto's tijdens deze bewerking niet beschikbaar zijn"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:191
-msgid "Load More"
-msgstr "Meer laden"
-
-#: ../src/photos-load-more-button.c:85
-msgid "Loading…"
-msgstr "Laden…"
-
-#: ../src/photos-local-item.c:102 ../src/photos-source-manager.c:134
+#: ../src/photos-local-item.c:92 ../src/photos-source-manager.c:134
 msgid "Local"
 msgstr "Lokaal"
 
@@ -317,34 +324,44 @@ msgid_plural "%d selected"
 msgstr[0] "%d geselecteerd"
 msgstr[1] "%d geselecteerd"
 
-#: ../src/photos-main-toolbar.c:162
+#: ../src/photos-main-toolbar.c:163
 msgid "Back"
 msgstr "Terug"
 
-#: ../src/photos-main-toolbar.c:304
+#: ../src/photos-main-toolbar.c:305
 msgid "Select Items"
 msgstr "Items selecteren"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:430 ../src/photos-selection-toolbar.c:280
+#: ../src/photos-main-toolbar.c:431 ../src/photos-selection-toolbar.c:294
 #, c-format
 msgid "Open with %s"
 msgstr "Openen met %s"
 
-#: ../src/photos-main-toolbar.c:476 ../src/photos-selection-toolbar.c:292
+#: ../src/photos-main-toolbar.c:477 ../src/photos-selection-toolbar.c:306
 msgid "Remove from favorites"
 msgstr "Uit favorieten verwijderen"
 
-#: ../src/photos-main-toolbar.c:481 ../src/photos-selection-toolbar.c:298
+#: ../src/photos-main-toolbar.c:482 ../src/photos-selection-toolbar.c:312
 msgid "Add to favorites"
 msgstr "Aan favorieten toevoegen"
 
-#: ../src/photos-main-toolbar.c:651
+#: ../src/photos-main-toolbar.c:652
 msgid "Cancel"
 msgstr "Annuleren"
 
+#: ../src/photos-main-window.c:480
+msgid ""
+"Copyright © 2013 Intel Corporation. All rights reserved.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+msgstr ""
+"Copyright © 2013 Intel Corporation. Alle rechten voorbehouden.\n"
+"Copyright © 2014, 2015 Pranav Kant\n"
+"Copyright © 2012, 2013, 2014 Red Hat, Inc."
+
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:481
+#: ../src/photos-main-window.c:490
 msgid "translator-credits"
 msgstr ""
 "Erwin Poeze <donnut@outlook.com>\n"
@@ -366,8 +383,8 @@ msgid "Organize"
 msgstr "Beheren"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:283
-#: ../src/photos-selection-toolbar.c:457
+#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:297
+#: ../src/photos-selection-toolbar.c:466
 msgid "Open"
 msgstr "Openen"
 
@@ -383,8 +400,12 @@ msgstr "Tonen op…"
 msgid "Set as Background"
 msgstr "Als achtergrond instellen"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:603
-#: ../src/photos-selection-toolbar.c:478
+#: ../src/photos-preview-menu.ui.h:5
+msgid "Set as Lock Screen"
+msgstr "Als vergrendelingsscherm instellen"
+
+#: ../src/photos-preview-menu.ui.h:6 ../src/photos-properties-dialog.c:608
+#: ../src/photos-selection-toolbar.c:487
 msgid "Properties"
 msgstr "Eigenschappen"
 
@@ -393,79 +414,79 @@ msgstr "Eigenschappen"
 msgid "Printing “%s”: %s"
 msgstr "Afdrukken van ‘%s’: %s"
 
-#: ../src/photos-print-operation.c:272
+#: ../src/photos-print-operation.c:274
 msgid "Image Settings"
 msgstr "Afbeeldingsinstellingen"
 
-#: ../src/photos-print-setup.c:895
+#: ../src/photos-print-setup.c:906
 msgid "Position"
 msgstr "Positie"
 
-#: ../src/photos-print-setup.c:898
+#: ../src/photos-print-setup.c:909
 msgid "_Left:"
 msgstr "_Links:"
 
-#: ../src/photos-print-setup.c:899
+#: ../src/photos-print-setup.c:910
 msgid "_Right:"
 msgstr "_Rechts:"
 
-#: ../src/photos-print-setup.c:900
+#: ../src/photos-print-setup.c:911
 msgid "_Top:"
 msgstr "_Boven:"
 
-#: ../src/photos-print-setup.c:901
+#: ../src/photos-print-setup.c:912
 msgid "_Bottom:"
 msgstr "_Onder:"
 
-#: ../src/photos-print-setup.c:903
+#: ../src/photos-print-setup.c:914
 msgid "C_enter:"
 msgstr "_Midden:"
 
-#: ../src/photos-print-setup.c:907
+#: ../src/photos-print-setup.c:918
 msgid "None"
 msgstr "Geen"
 
-#: ../src/photos-print-setup.c:908
+#: ../src/photos-print-setup.c:919
 msgid "Horizontal"
 msgstr "Horizontaal"
 
-#: ../src/photos-print-setup.c:909
+#: ../src/photos-print-setup.c:920
 msgid "Vertical"
 msgstr "Verticaal"
 
-#: ../src/photos-print-setup.c:910
+#: ../src/photos-print-setup.c:921
 msgid "Both"
 msgstr "Beide"
 
-#: ../src/photos-print-setup.c:923
+#: ../src/photos-print-setup.c:934
 msgid "Size"
 msgstr "Grootte"
 
-#: ../src/photos-print-setup.c:926
+#: ../src/photos-print-setup.c:937
 msgid "_Width:"
 msgstr "_Breedte:"
 
-#: ../src/photos-print-setup.c:927
+#: ../src/photos-print-setup.c:938
 msgid "_Height:"
 msgstr "_Hoogte:"
 
-#: ../src/photos-print-setup.c:929
+#: ../src/photos-print-setup.c:940
 msgid "_Scaling:"
 msgstr "_Schaalfactor:"
 
-#: ../src/photos-print-setup.c:938
+#: ../src/photos-print-setup.c:949
 msgid "_Unit:"
 msgstr "_Eenheid:"
 
-#: ../src/photos-print-setup.c:942
+#: ../src/photos-print-setup.c:953
 msgid "Millimeters"
 msgstr "Millimeters"
 
-#: ../src/photos-print-setup.c:943
+#: ../src/photos-print-setup.c:954
 msgid "Inches"
 msgstr "Inches"
 
-#: ../src/photos-print-setup.c:971
+#: ../src/photos-print-setup.c:982
 msgid "Preview"
 msgstr "Voorbeeld"
 
@@ -582,15 +603,15 @@ msgstr "Alles selecteren"
 msgid "Select None"
 msgstr "Niets selecteren"
 
-#: ../src/photos-selection-toolbar.c:464
+#: ../src/photos-selection-toolbar.c:473
 msgid "Print"
 msgstr "Afdrukken"
 
-#: ../src/photos-selection-toolbar.c:471
+#: ../src/photos-selection-toolbar.c:480
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: ../src/photos-selection-toolbar.c:485
+#: ../src/photos-selection-toolbar.c:494
 msgid "Add to Album"
 msgstr "Aan album toevoegen"
 
@@ -598,9 +619,18 @@ msgstr "Aan album toevoegen"
 msgid "Sources"
 msgstr "Bronnen"
 
-#: ../src/photos-tracker-controller.c:96
+#: ../src/photos-tracker-controller.c:99
 msgid "Unable to fetch the list of photos"
 msgstr "Ophalen van lijst met foto's is mislukt"
+
+#~ msgid "No Favorites Found"
+#~ msgstr "Geen favorieten gevonden"
+
+#~ msgid "Load More"
+#~ msgstr "Meer laden"
+
+#~ msgid "Loading…"
+#~ msgstr "Laden…"
 
 #~ msgid ""
 #~ "<li>View recent local and online photos</li> <li>Access your Flickr "
