@@ -191,9 +191,8 @@
             "config-opts": [ "--disable-introspection" ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://download.gnome.org/sources/gexiv2/0.10/gexiv2-0.10.6.tar.xz",
-                    "sha256": "132788919667254b42c026ab39ab3c3a5be59be8575c05fa4b371ca8aed55825"
+                    "type": "git",
+                    "url": "git://git.gnome.org/gexiv2"
                 }
             ]
         },
