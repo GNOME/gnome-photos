@@ -434,8 +434,6 @@ photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self, gboolean fa
 static void
 photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
 {
-  PhotosBaseItem *collection;
-
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
@@ -446,9 +444,6 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
                            G_CALLBACK (photos_main_toolbar_col_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
-
-  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
-  photos_main_toolbar_col_active_changed (self, collection);
 }
 
 
@@ -476,30 +471,20 @@ photos_main_toolbar_populate_for_edit (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
 {
-  PhotosBaseItem *collection;
-
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
-
-  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
-  photos_main_toolbar_col_active_changed (self, collection);
 }
 
 
 static void
 photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 {
-  PhotosBaseItem *collection;
-
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
-
-  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
-  photos_main_toolbar_col_active_changed (self, collection);
 }
 
 
@@ -571,8 +556,6 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
 {
-  PhotosBaseItem *collection;
-
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
@@ -583,9 +566,6 @@ photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
                            G_CALLBACK (photos_main_toolbar_col_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
-
-  collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
-  photos_main_toolbar_col_active_changed (self, collection);
 }
 
 
