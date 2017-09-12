@@ -321,12 +321,6 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
   gtk_actionable_set_action_name (GTK_ACTIONABLE (selection_button), "app.selection-mode");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), selection_button);
 
-  g_signal_connect_object (self->item_mngr,
-                           "active-collection-changed",
-                           G_CALLBACK (photos_main_toolbar_col_active_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-
   return selection_button;
 }
 
@@ -446,6 +440,12 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
+
+  g_signal_connect_object (self->item_mngr,
+                           "active-collection-changed",
+                           G_CALLBACK (photos_main_toolbar_col_active_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
   photos_main_toolbar_col_active_changed (self, collection);
@@ -577,6 +577,12 @@ photos_main_toolbar_populate_for_search (PhotosMainToolbar *self)
   photos_header_bar_set_mode (PHOTOS_HEADER_BAR (self->header_bar), PHOTOS_HEADER_BAR_MODE_NORMAL);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
+
+  g_signal_connect_object (self->item_mngr,
+                           "active-collection-changed",
+                           G_CALLBACK (photos_main_toolbar_col_active_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
   photos_main_toolbar_col_active_changed (self, collection);
