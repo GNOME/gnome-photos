@@ -25,12 +25,15 @@
 #ifndef PHOTOS_QUERY_H
 #define PHOTOS_QUERY_H
 
-#include <glib.h>
+#include <glib-object.h>
 
 #include "photos-search-context.h"
 #include "photos-source.h"
 
 G_BEGIN_DECLS
+
+#define PHOTOS_TYPE_QUERY (photos_query_get_type ())
+G_DECLARE_FINAL_TYPE (PhotosQuery, photos_query, PHOTOS, QUERY, GObject);
 
 typedef enum
 {
@@ -72,20 +75,15 @@ typedef enum
 extern const gchar *PHOTOS_QUERY_COLLECTIONS_IDENTIFIER;
 extern const gchar *PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER;
 
-typedef struct _PhotosQuery PhotosQuery;
+PhotosQuery     *photos_query_new           (PhotosSearchContextState *state, const gchar *sparql);
 
-struct _PhotosQuery
-{
-  PhotosSource *source;
-  gchar *sparql;
-  gchar *tag;
-};
+const gchar     *photos_query_get_sparql    (PhotosQuery *self);
 
-PhotosQuery    *photos_query_new     (PhotosSearchContextState *state, const gchar *sparql);
+PhotosSource    *photos_query_get_source    (PhotosQuery *self);
 
-void            photos_query_set_tag (PhotosQuery *query, const gchar *tag);
+const gchar     *photos_query_get_tag       (PhotosQuery *self);
 
-void            photos_query_free    (PhotosQuery *query);
+void             photos_query_set_tag       (PhotosQuery *self, const gchar *tag);
 
 G_END_DECLS
 

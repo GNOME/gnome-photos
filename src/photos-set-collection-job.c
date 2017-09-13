@@ -234,7 +234,7 @@ photos_set_collection_job_run (PhotosSetCollectionJob *self,
   urns = photos_selection_controller_get_selection (self->sel_cntrlr);
   for (l = urns; l != NULL; l = l->next)
     {
-      PhotosQuery *query;
+      PhotosQuery *query = NULL;
       const gchar *urn = (gchar *) l->data;
 
       if (g_strcmp0 (self->collection_urn, urn) == 0)
@@ -248,6 +248,6 @@ photos_set_collection_job_run (PhotosSetCollectionJob *self,
                                    photos_set_collection_job_query_executed,
                                    g_object_ref (self),
                                    g_object_unref);
-      photos_query_free (query);
+      g_object_unref (query);
     }
 }

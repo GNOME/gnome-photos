@@ -289,7 +289,7 @@ photos_tracker_change_monitor_process_events (PhotosTrackerChangeMonitor *self)
                                NULL);
 
   g_string_free (sparql, TRUE);
-  photos_query_free (query);
+  g_object_unref (query);
   return G_SOURCE_REMOVE;
 }
 

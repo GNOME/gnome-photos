@@ -30,44 +30,183 @@
 #include "photos-utils.h"
 
 
+struct _PhotosQuery
+{
+  GObject parent_instance;
+  PhotosSearchContextState *state;
+  PhotosSource *source;
+  gchar *sparql;
+  gchar *tag;
+};
+
+enum
+{
+  PROP_0,
+  PROP_SPARQL,
+  PROP_STATE
+};
+
+
+G_DEFINE_TYPE (PhotosQuery, photos_query, G_TYPE_OBJECT);
+
+
 const gchar *PHOTOS_QUERY_COLLECTIONS_IDENTIFIER = "photos:collection:";
 const gchar *PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER = "photos:collection:local:";
+
+
+static void
+photos_query_constructed (GObject *object)
+{
+  PhotosQuery *self = PHOTOS_QUERY (object);
+
+  G_OBJECT_CLASS (photos_query_parent_class)->constructed (object);
+
+  if (self->state != NULL)
+    {
+      PhotosSource *source;
+
+      source = PHOTOS_SOURCE (photos_base_manager_get_active_object (self->state->src_mngr));
+      g_set_object (&self->source, source);
+    }
+
+  self->state = NULL; /* We will not need it any more */
+}
+
+
+static void
+photos_query_dispose (GObject *object)
+{
+  PhotosQuery *self = PHOTOS_QUERY (object);
+
+  g_clear_object (&self->source);
+
+  G_OBJECT_CLASS (photos_query_parent_class)->dispose (object);
+}
+
+
+static void
+photos_query_finalize (GObject *object)
+{
+  PhotosQuery *self = PHOTOS_QUERY (object);
+
+  g_free (self->sparql);
+  g_free (self->tag);
+
+  G_OBJECT_CLASS (photos_query_parent_class)->finalize (object);
+}
+
+
+static void
+photos_query_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+{
+  PhotosQuery *self = PHOTOS_QUERY (object);
+
+  switch (prop_id)
+    {
+    case PROP_SPARQL:
+      g_value_set_string (value, self->sparql);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+
+static void
+photos_query_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+  PhotosQuery *self = PHOTOS_QUERY (object);
+
+  switch (prop_id)
+    {
+    case PROP_SPARQL:
+      self->sparql = g_value_dup_string (value);
+      break;
+
+    case PROP_STATE:
+      self->state = (PhotosSearchContextState *) g_value_get_pointer (value);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+      break;
+    }
+}
+
+
+static void
+photos_query_init (PhotosQuery *self)
+{
+}
+
+
+static void
+photos_query_class_init (PhotosQueryClass *class)
+{
+  GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+  object_class->constructed = photos_query_constructed;
+  object_class->dispose = photos_query_dispose;
+  object_class->finalize = photos_query_finalize;
+  object_class->get_property = photos_query_get_property;
+  object_class->set_property = photos_query_set_property;
+
+  g_object_class_install_property (object_class,
+                                   PROP_SPARQL,
+                                   g_param_spec_string ("sparql",
+                                                        "SPARQL",
+                                                        "A SPARQL query that's meant to be sent to Tracker",
+                                                        NULL,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+
+  g_object_class_install_property (object_class,
+                                   PROP_STATE,
+                                   g_param_spec_pointer ("state",
+                                                         "State",
+                                                         "The PhotosSearchContextState for this query",
+                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+}
 
 
 PhotosQuery *
 photos_query_new (PhotosSearchContextState *state, const gchar *sparql)
 {
-  PhotosQuery *query;
+  g_return_val_if_fail (sparql != NULL && sparql[0] != '\0', NULL);
+  return g_object_new (PHOTOS_TYPE_QUERY, "state", state, "sparql", sparql, NULL);
+}
 
-  query = g_slice_new0 (PhotosQuery);
 
-  if (state != NULL)
-    {
-      GObject *active_object;
+const gchar *
+photos_query_get_sparql (PhotosQuery *self)
+{
+  g_return_val_if_fail (PHOTOS_IS_QUERY (self), NULL);
+  return self->sparql;
+}
 
-      active_object = photos_base_manager_get_active_object (state->src_mngr);
-      if (active_object != NULL)
-        query->source = PHOTOS_SOURCE (g_object_ref (active_object));
-    }
 
-  query->sparql = g_strdup (sparql);
+PhotosSource *
+photos_query_get_source (PhotosQuery *self)
+{
+  g_return_val_if_fail (PHOTOS_IS_QUERY (self), NULL);
+  return self->source;
+}
 
-  return query;
+
+const gchar *
+photos_query_get_tag (PhotosQuery *self)
+{
+  g_return_val_if_fail (PHOTOS_IS_QUERY (self), NULL);
+  return self->tag;
 }
 
 
 void
-photos_query_set_tag (PhotosQuery *query, const gchar *tag)
+photos_query_set_tag (PhotosQuery *self, const gchar *tag)
 {
-  photos_utils_set_string (&query->tag, tag);
-}
+  g_return_if_fail (PHOTOS_IS_QUERY (self));
+  g_return_if_fail (tag != NULL && tag[0] != '\0');
 
-
-void
-photos_query_free (PhotosQuery *query)
-{
-  g_clear_object (&query->source);
-  g_free (query->sparql);
-  g_free (query->tag);
-  g_slice_free (PhotosQuery, query);
+  photos_utils_set_string (&self->tag, tag);
 }

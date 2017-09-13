@@ -270,7 +270,7 @@ void
 photos_offset_controller_reset_count (PhotosOffsetController *self)
 {
   PhotosOffsetControllerPrivate *priv;
-  PhotosQuery *query;
+  PhotosQuery *query = NULL;
   const gchar *type_name;
   gchar *tag = NULL;
 
@@ -292,9 +292,9 @@ photos_offset_controller_reset_count (PhotosOffsetController *self)
                                photos_offset_controller_reset_count_query_executed,
                                g_object_ref (self),
                                g_object_unref);
-  photos_query_free (query);
 
  out:
+  g_clear_object (&query);
   g_free (tag);
 }
 

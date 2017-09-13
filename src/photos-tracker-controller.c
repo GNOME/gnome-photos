@@ -281,9 +281,7 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
 
   priv = photos_tracker_controller_get_instance_private (self);
 
-  if (priv->current_query != NULL)
-    photos_query_free (priv->current_query);
-
+  g_clear_object (&priv->current_query);
   priv->current_query = PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->get_query (self);
   g_return_if_fail (priv->current_query != NULL);
 
@@ -384,14 +382,16 @@ static void
 photos_tracker_controller_refresh_for_source (PhotosTrackerController *self)
 {
   PhotosTrackerControllerPrivate *priv;
+  PhotosSource *source;
 
   priv = photos_tracker_controller_get_instance_private (self);
 
-  if (priv->current_query->source != NULL)
+  source = photos_query_get_source (priv->current_query);
+  if (source != NULL)
     {
       const gchar *id;
 
-      id = photos_filterable_get_id (PHOTOS_FILTERABLE (priv->current_query->source));
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
       if (g_strcmp0 (id, PHOTOS_SOURCE_STOCK_ALL) == 0)
         photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_NONE);
     }
@@ -479,6 +479,7 @@ photos_tracker_controller_dispose (GObject *object)
 
   g_clear_object (&priv->src_mngr);
   g_clear_object (&priv->offset_cntrlr);
+  g_clear_object (&priv->current_query);
   g_clear_object (&priv->queue);
 
   G_OBJECT_CLASS (photos_tracker_controller_parent_class)->dispose (object);
@@ -500,9 +501,6 @@ photos_tracker_controller_finalize (GObject *object)
     g_object_remove_weak_pointer (G_OBJECT (priv->mode_cntrlr), (gpointer *) &priv->mode_cntrlr);
 
   g_clear_error (&priv->queue_error);
-
-  if (priv->current_query != NULL)
-    photos_query_free (priv->current_query);
 
   G_OBJECT_CLASS (photos_tracker_controller_parent_class)->finalize (object);
 

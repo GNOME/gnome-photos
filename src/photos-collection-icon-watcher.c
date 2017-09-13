@@ -350,7 +350,7 @@ photos_collection_icon_watcher_start (PhotosCollectionIconWatcher *self)
                                photos_collection_icon_watcher_query_executed,
                                g_object_ref (self),
                                g_object_unref);
-  photos_query_free (query);
+  g_object_unref (query);
 }
 
 

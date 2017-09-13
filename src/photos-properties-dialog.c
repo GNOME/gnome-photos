@@ -513,7 +513,7 @@ photos_properties_dialog_constructed (GObject *object)
   location = photos_base_item_get_location (item);
   if (location != NULL && location[0] != '\0' && G_LIKELY (self->queue != NULL))
     {
-      PhotosQuery *query;
+      PhotosQuery *query = NULL;
 
       self->location_w = gtk_label_new (_("Location"));
       gtk_widget_set_halign (self->location_w, GTK_ALIGN_END);
@@ -529,7 +529,7 @@ photos_properties_dialog_constructed (GObject *object)
                                    g_object_ref (self),
                                    g_object_unref);
 
-      photos_query_free (query);
+      g_object_unref (query);
     }
 
   equipment = photos_base_item_get_equipment (item);

@@ -202,7 +202,7 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
 {
   GApplication *app;
   GTask *task;
-  PhotosQuery *query;
+  PhotosQuery *query = NULL;
   PhotosSearchContextState *state;
   const gchar *camera;
 
@@ -233,9 +233,9 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
                                photos_camera_cache_equipment_query_executed,
                                g_object_ref (task),
                                g_object_unref);
-  photos_query_free (query);
 
  out:
+  g_clear_object (&query);
   g_object_unref (task);
 }
 

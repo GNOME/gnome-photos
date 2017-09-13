@@ -223,7 +223,7 @@ photos_fetch_ids_job_run (PhotosFetchIdsJob *self,
                           GAsyncReadyCallback callback,
                           gpointer user_data)
 {
-  PhotosQuery *query;
+  PhotosQuery *query = NULL;
   gchar *str;
   GTask *task;
 
@@ -247,8 +247,8 @@ photos_fetch_ids_job_run (PhotosFetchIdsJob *self,
                                photos_fetch_ids_job_query_executed,
                                g_object_ref (task),
                                g_object_unref);
-  photos_query_free (query);
 
  out:
+  g_clear_object (&query);
   g_object_unref (task);
 }

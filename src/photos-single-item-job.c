@@ -205,7 +205,7 @@ photos_single_item_job_run (PhotosSingleItemJob *self,
                             gpointer user_data)
 {
   GTask *task;
-  PhotosQuery *query;
+  PhotosQuery *query = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_single_item_job_run);
@@ -223,8 +223,8 @@ photos_single_item_job_run (PhotosSingleItemJob *self,
                                photos_single_item_job_query_executed,
                                g_object_ref (task),
                                g_object_unref);
-  photos_query_free (query);
 
  out:
+  g_clear_object (&query);
   g_object_unref (task);
 }

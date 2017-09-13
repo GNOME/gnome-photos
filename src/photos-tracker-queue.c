@@ -334,14 +334,21 @@ photos_tracker_queue_select (PhotosTrackerQueue *self,
                              gpointer user_data,
                              GDestroyNotify destroy_data)
 {
+  PhotosSource *source;
   PhotosTrackerQueueData *data;
+  const gchar *sparql;
+  const gchar *tag;
 
   if (cancellable != NULL)
     g_object_ref (cancellable);
 
-  data = photos_tracker_queue_data_new (query->source,
-                                        query->sparql,
-                                        query->tag,
+  source = photos_query_get_source (query);
+  sparql = photos_query_get_sparql (query);
+  tag = photos_query_get_tag (query);
+
+  data = photos_tracker_queue_data_new (source,
+                                        sparql,
+                                        tag,
                                         PHOTOS_TRACKER_QUERY_SELECT,
                                         cancellable,
                                         callback,
@@ -361,14 +368,21 @@ photos_tracker_queue_update (PhotosTrackerQueue *self,
                              gpointer user_data,
                              GDestroyNotify destroy_data)
 {
+  PhotosSource *source;
   PhotosTrackerQueueData *data;
+  const gchar *sparql;
+  const gchar *tag;
 
   if (cancellable != NULL)
     g_object_ref (cancellable);
 
-  data = photos_tracker_queue_data_new (query->source,
-                                        query->sparql,
-                                        query->tag,
+  source = photos_query_get_source (query);
+  sparql = photos_query_get_sparql (query);
+  tag = photos_query_get_tag (query);
+
+  data = photos_tracker_queue_data_new (source,
+                                        sparql,
+                                        tag,
                                         PHOTOS_TRACKER_QUERY_UPDATE,
                                         cancellable,
                                         callback,
@@ -388,14 +402,21 @@ photos_tracker_queue_update_blank (PhotosTrackerQueue *self,
                                    gpointer user_data,
                                    GDestroyNotify destroy_data)
 {
+  PhotosSource *source;
   PhotosTrackerQueueData *data;
+  const gchar *sparql;
+  const gchar *tag;
 
   if (cancellable != NULL)
     g_object_ref (cancellable);
 
-  data = photos_tracker_queue_data_new (query->source,
-                                        query->sparql,
-                                        query->tag,
+  source = photos_query_get_source (query);
+  sparql = photos_query_get_sparql (query);
+  tag = photos_query_get_tag (query);
+
+  data = photos_tracker_queue_data_new (source,
+                                        sparql,
+                                        tag,
                                         PHOTOS_TRACKER_QUERY_UPDATE_BLANK,
                                         cancellable,
                                         callback,

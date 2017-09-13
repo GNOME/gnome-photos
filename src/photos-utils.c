@@ -1334,8 +1334,8 @@ photos_utils_set_edited_name (const gchar *urn, const gchar *title)
   photos_tracker_queue_update (queue, query, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
 
  out:
+  g_clear_object (&query);
   g_clear_object (&queue);
-  g_clear_pointer (&query, (GDestroyNotify) photos_query_free);
   g_free (sparql);
 }
 
@@ -1366,8 +1366,8 @@ photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
 
  out:
   g_free (sparql);
+  g_clear_object (&query);
   g_clear_object (&queue);
-  g_clear_pointer (&query, (GDestroyNotify) photos_query_free);
 }
 
 
