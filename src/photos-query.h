@@ -27,7 +27,6 @@
 
 #include <glib.h>
 
-#include "photos-query.h"
 #include "photos-search-context.h"
 #include "photos-source.h"
 
