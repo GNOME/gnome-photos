@@ -35,7 +35,7 @@ const gchar *PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER = "photos:collection:loca
 
 
 PhotosQuery *
-photos_query_new (PhotosSearchContextState *state, gchar *sparql)
+photos_query_new (PhotosSearchContextState *state, const gchar *sparql)
 {
   PhotosQuery *query;
 
@@ -50,7 +50,7 @@ photos_query_new (PhotosSearchContextState *state, gchar *sparql)
         query->source = PHOTOS_SOURCE (g_object_ref (active_object));
     }
 
-  query->sparql = sparql;
+  query->sparql = g_strdup (sparql);
 
   return query;
 }

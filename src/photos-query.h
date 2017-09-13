@@ -81,7 +81,7 @@ struct _PhotosQuery
   gchar *tag;
 };
 
-PhotosQuery    *photos_query_new     (PhotosSearchContextState *state, gchar *sparql);
+PhotosQuery    *photos_query_new     (PhotosSearchContextState *state, const gchar *sparql);
 
 void            photos_query_set_tag (PhotosQuery *query, const gchar *tag);
 

@@ -204,7 +204,8 @@ PhotosQuery *
 photos_query_builder_create_collection_query (PhotosSearchContextState *state, const gchar *name)
 {
   GTimeVal tv;
-  gchar *sparql;
+  PhotosQuery *query;
+  gchar *sparql = NULL;
   gchar *time;
   gint64 timestamp;
 
@@ -221,69 +222,92 @@ photos_query_builder_create_collection_query (PhotosSearchContextState *state, c
                             name,
                             PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER,
                             name);
-  g_free (time);
 
-  return photos_query_new (state, sparql);
+  query = photos_query_new (state, sparql);
+
+  g_free (sparql);
+  g_free (time);
+  return query;
 }
 
 
 PhotosQuery *
 photos_query_builder_collection_icon_query (PhotosSearchContextState *state, const gchar *resource)
 {
-  gchar *sparql;
+  PhotosQuery *query;
+  gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("SELECT ?urn "
                             "tracker:coalesce(nfo:fileLastModified(?urn), nie:contentLastModified(?urn)) AS ?mtime "
                             "WHERE { ?urn nie:isPartOf <%s> } "
                             "ORDER BY DESC (?mtime) LIMIT 4",
                             resource);
-  return photos_query_new (state, sparql);
+
+  query = photos_query_new (state, sparql);
+
+  g_free (sparql);
+  return query;
 }
 
 
 PhotosQuery *
 photos_query_builder_count_query (PhotosSearchContextState *state, gint flags)
 {
-  gchar *sparql;
+  PhotosQuery *query;
+  gchar *sparql = NULL;
   gchar *where_sparql;
 
   where_sparql = photos_query_builder_where (state, TRUE, flags);
   sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) ", where_sparql, NULL);
-  g_free (where_sparql);
+  query = photos_query_new (state, sparql);
 
-  return photos_query_new (state, sparql);
+  g_free (sparql);
+  g_free (where_sparql);
+  return query;
 }
 
 
 PhotosQuery *
 photos_query_builder_delete_resource_query (PhotosSearchContextState *state, const gchar *resource)
 {
-  gchar *sparql;
+  PhotosQuery *query;
+  gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("DELETE { <%s> a rdfs:Resource }", resource);
-  return photos_query_new (state, sparql);
+  query = photos_query_new (state, sparql);
+
+  g_free (sparql);
+  return query;
 }
 
 
 PhotosQuery *
 photos_query_builder_equipment_query (PhotosSearchContextState *state, GQuark equipment)
 {
+  PhotosQuery *query;
   const gchar *resource;
-  gchar *sparql;
+  gchar *sparql = NULL;
 
   resource = g_quark_to_string (equipment);
   sparql = g_strdup_printf ("SELECT nfo:manufacturer (<%s>) nfo:model (<%s>) WHERE {}", resource, resource);
-  return photos_query_new (state, sparql);
+  query = photos_query_new (state, sparql);
+
+  g_free (sparql);
+  return query;
 }
 
 
 PhotosQuery *
 photos_query_builder_fetch_collections_query (PhotosSearchContextState *state, const gchar *resource)
 {
-  gchar *sparql;
+  PhotosQuery *query;
+  gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("SELECT ?urn WHERE { ?urn a nfo:DataContainer . <%s> nie:isPartOf ?urn }", resource);
-  return photos_query_new (state, sparql);
+  query = photos_query_new (state, sparql);
+
+  g_free (sparql);
+  return query;
 }
 
 
@@ -292,20 +316,28 @@ photos_query_builder_global_query (PhotosSearchContextState *state,
                                    gint flags,
                                    PhotosOffsetController *offset_cntrlr)
 {
-  gchar *sparql;
+  PhotosQuery *query;
+  gchar *sparql = NULL;
 
   sparql = photos_query_builder_query (state, TRUE, flags, offset_cntrlr);
-  return photos_query_new (state, sparql);
+  query = photos_query_new (state, sparql);
+
+  g_free (sparql);
+  return query;
 }
 
 
 PhotosQuery *
 photos_query_builder_location_query (PhotosSearchContextState *state, const gchar *location_urn)
 {
-  gchar *sparql;
+  PhotosQuery *query;
+  gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("SELECT slo:latitude (<%s>) slo:longitude (<%s>) WHERE {}", location_urn, location_urn);
-  return photos_query_new (state, sparql);
+  query = photos_query_new (state, sparql);
+
+  g_free (sparql);
+  return query;
 }
 
 
@@ -315,13 +347,17 @@ photos_query_builder_set_collection_query (PhotosSearchContextState *state,
                                            const gchar *collection_urn,
                                            gboolean setting)
 {
-  gchar *sparql;
+  PhotosQuery *query;
+  gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("%s { <%s> nie:isPartOf <%s> }",
                             setting ? "INSERT" : "DELETE",
                             item_urn,
                             collection_urn);
-  return photos_query_new (state, sparql);
+  query = photos_query_new (state, sparql);
+
+  g_free (sparql);
+  return query;
 }
 
 
@@ -329,8 +365,9 @@ PhotosQuery *
 photos_query_builder_single_query (PhotosSearchContextState *state, gint flags, const gchar *resource)
 {
   GRegex *regex;
+  PhotosQuery *query;
   gchar *replacement;
-  gchar *sparql;
+  gchar *sparql = NULL;
   gchar *tmp;
 
   tmp = photos_query_builder_query (state, FALSE, flags, NULL);
@@ -338,11 +375,13 @@ photos_query_builder_single_query (PhotosSearchContextState *state, gint flags, 
   regex = g_regex_new ("\\?urn", 0, 0, NULL);
   replacement = g_strconcat ("<", resource, ">", NULL);
   sparql = g_regex_replace (regex, tmp, -1, 0, replacement, 0, NULL);
+  query = photos_query_new (state, sparql);
+
+  g_free (sparql);
   g_free (replacement);
   g_free (tmp);
   g_regex_unref (regex);
-
-  return photos_query_new (state, sparql);
+  return query;
 }
 
 
@@ -350,7 +389,8 @@ PhotosQuery *
 photos_query_builder_update_mtime_query (PhotosSearchContextState *state, const gchar *resource)
 {
   GTimeVal tv;
-  gchar *sparql;
+  PhotosQuery *query;
+  gchar *sparql = NULL;
   gchar *time;
   gint64 timestamp;
 
@@ -360,9 +400,11 @@ photos_query_builder_update_mtime_query (PhotosSearchContextState *state, const 
   time = g_time_val_to_iso8601 (&tv);
 
   sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:contentLastModified '%s' }", resource, time);
-  g_free (time);
+  query = photos_query_new (state, sparql);
 
-  return photos_query_new (state, sparql);
+  g_free (sparql);
+  g_free (time);
+  return query;
 }
 
 

@@ -278,7 +278,7 @@ photos_tracker_change_monitor_process_events (PhotosTrackerChangeMonitor *self)
 
   g_string_append (sparql, " {}");
 
-  query = photos_query_new (NULL, g_strdup (sparql->str));
+  query = photos_query_new (NULL, sparql->str);
 
   data = photos_tracker_change_monitor_query_data_new (self, id_table, events);
   photos_tracker_queue_select (self->queue,
