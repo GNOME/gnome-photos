@@ -44,6 +44,14 @@
 
 typedef enum
 {
+  PHOTOS_TOOL_CROP_ASPECT_RATIO_NONE,
+  PHOTOS_TOOL_CROP_ASPECT_RATIO_ANY,
+  PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS,
+  PHOTOS_TOOL_CROP_ASPECT_RATIO_ORIGINAL
+} PhotosToolCropAspectRatioType;
+
+typedef enum
+{
   PHOTOS_TOOL_CROP_LOCATION_NONE,
   PHOTOS_TOOL_CROP_LOCATION_BOTTOM_LEFT,
   PHOTOS_TOOL_CROP_LOCATION_BOTTOM_RIGHT,
@@ -55,6 +63,17 @@ typedef enum
   PHOTOS_TOOL_CROP_LOCATION_TOP_RIGHT,
   PHOTOS_TOOL_CROP_LOCATION_TOP_SIDE
 } PhotosToolCropLocation;
+
+typedef struct _PhotosToolCropConstraint PhotosToolCropConstraint;
+
+struct _PhotosToolCropConstraint
+{
+  PhotosToolCropAspectRatioType aspect_ratio_type;
+  gboolean orientable;
+  const gchar *name;
+  guint basis_height;
+  guint basis_width;
+};
 
 struct _PhotosToolCrop
 {
@@ -72,6 +91,7 @@ struct _PhotosToolCrop
   GtkWidget *reset_button;
   GtkWidget *ratio_revealer;
   GtkWidget *view;
+  PhotosToolCropConstraint *constraints;
   PhotosToolCropLocation location;
   cairo_surface_t *surface;
   gboolean activated;
@@ -97,40 +117,6 @@ G_DEFINE_TYPE_WITH_CODE (PhotosToolCrop, photos_tool_crop, PHOTOS_TYPE_TOOL,
                                                          100));
 
 
-typedef enum
-{
-  PHOTOS_TOOL_CROP_ASPECT_RATIO_ANY,
-  PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS,
-  PHOTOS_TOOL_CROP_ASPECT_RATIO_ORIGINAL
-} PhotosToolCropAspectRatioType;
-
-typedef struct _PhotosToolCropConstraint PhotosToolCropConstraint;
-
-struct _PhotosToolCropConstraint
-{
-  PhotosToolCropAspectRatioType aspect_ratio_type;
-  gboolean orientable;
-  const gchar *name;
-  guint basis_height;
-  guint basis_width;
-};
-
-/* "Free" is excluded from the GtkListBox and represented by the
- *  GtkCheckButton. Adjust accordingly.
- */
-static PhotosToolCropConstraint CONSTRAINTS[] =
-{
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_ANY, FALSE, N_("Free"), 0, 0 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_ORIGINAL, TRUE, N_("Original"), 0, 0 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, FALSE, N_("1×1 (Square)"), 1, 1 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("10×8 / 5×4"), 4, 5 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("4×3 / 8×6 (1024×768)"), 3, 4 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("7×5"), 5, 7 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("3×2 / 6×4"), 2, 3 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("16×10 (1280×800)"), 10, 16 },
-  { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("16×9 (1920×1080)"), 9, 16 }
-};
-
 static const gdouble CROP_MIN_SIZE = 16.0;
 static const gdouble HANDLE_OFFSET = 3.0;
 static const gdouble HANDLE_RADIUS = 8.0;
@@ -141,14 +127,14 @@ photos_tool_crop_calculate_aspect_ratio (PhotosToolCrop *self, guint constraint)
 {
   gdouble ret_val = 1.0;
 
-  switch (CONSTRAINTS[constraint].aspect_ratio_type)
+  switch (self->constraints[constraint].aspect_ratio_type)
     {
     case PHOTOS_TOOL_CROP_ASPECT_RATIO_ANY:
       ret_val = -1.0;
       break;
 
     case PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS:
-      ret_val = (gdouble) CONSTRAINTS[constraint].basis_width / CONSTRAINTS[constraint].basis_height;
+      ret_val = (gdouble) self->constraints[constraint].basis_width / self->constraints[constraint].basis_height;
       break;
 
     case PHOTOS_TOOL_CROP_ASPECT_RATIO_ORIGINAL:
@@ -157,6 +143,7 @@ photos_tool_crop_calculate_aspect_ratio (PhotosToolCrop *self, guint constraint)
         ret_val = 1.0 / ret_val;
       break;
 
+    case PHOTOS_TOOL_CROP_ASPECT_RATIO_NONE:
     default:
       g_assert_not_reached ();
       break;
@@ -173,7 +160,7 @@ photos_tool_crop_calculate_aspect_ratio_with_orientation (PhotosToolCrop *self, 
 
   aspect_ratio = photos_tool_crop_calculate_aspect_ratio (self, constraint);
 
-  if (CONSTRAINTS[constraint].orientable)
+  if (self->constraints[constraint].orientable)
     {
       if ((aspect_ratio < 1.0 && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->landscape_button)))
           || (aspect_ratio > 1.0 && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->portrait_button))))
@@ -184,13 +171,41 @@ photos_tool_crop_calculate_aspect_ratio_with_orientation (PhotosToolCrop *self, 
 }
 
 
+static void
+photos_tool_crop_create_constraints (PhotosToolCrop *self)
+{
+  /* "Free" is excluded from the GtkListBox and represented by the
+   *  GtkCheckButton. Adjust accordingly.
+   */
+  PhotosToolCropConstraint constraints[] =
+    {
+      { PHOTOS_TOOL_CROP_ASPECT_RATIO_ANY, FALSE, N_("Free"), 0, 0 },
+      { PHOTOS_TOOL_CROP_ASPECT_RATIO_ORIGINAL, TRUE, N_("Original"), 0, 0 },
+      { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, FALSE, N_("1×1 (Square)"), 1, 1 },
+      { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("10×8 / 5×4"), 4, 5 },
+      { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("4×3 / 8×6 (1024×768)"), 3, 4 },
+      { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("7×5"), 5, 7 },
+      { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("3×2 / 6×4"), 2, 3 },
+      { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("16×10 (1280×800)"), 10, 16 },
+      { PHOTOS_TOOL_CROP_ASPECT_RATIO_BASIS, TRUE, N_("16×9 (1920×1080)"), 9, 16 },
+      { PHOTOS_TOOL_CROP_ASPECT_RATIO_NONE, FALSE, NULL, 0, 0 }
+    };
+  guint i;
+
+  self->constraints = g_malloc0_n (G_N_ELEMENTS (constraints), sizeof (PhotosToolCropConstraint));
+
+  for (i = 0; i < G_N_ELEMENTS (constraints); i++)
+    self->constraints[i] = constraints[i];
+}
+
+
 static guint
 photos_tool_crop_find_constraint (PhotosToolCrop *self, gdouble aspect_ratio)
 {
   guint i;
   guint ret_val = 0; /* ANY */
 
-  for (i = 0; i < G_N_ELEMENTS (CONSTRAINTS); i++)
+  for (i = 0; self->constraints[i].aspect_ratio_type != PHOTOS_TOOL_CROP_ASPECT_RATIO_NONE; i++)
     {
       gdouble constraint_aspect_ratio;
 
@@ -830,7 +845,7 @@ photos_tool_crop_active_changed (PhotosToolCrop *self)
   active = photos_tool_crop_get_active (self);
   g_return_if_fail (active >= 0);
 
-  gtk_revealer_set_reveal_child (GTK_REVEALER (self->orientation_revealer), CONSTRAINTS[active].orientable);
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->orientation_revealer), self->constraints[active].orientable);
 
   self->crop_aspect_ratio = photos_tool_crop_calculate_aspect_ratio_with_orientation (self, (guint) active);
   if (self->crop_aspect_ratio < 0.0)
@@ -910,7 +925,7 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active, GtkToggleButton 
   row = gtk_list_box_get_row_at_index (GTK_LIST_BOX (self->list_box), self->list_box_active);
   photos_tool_crop_list_box_update (self, row);
 
-  gtk_revealer_set_reveal_child (GTK_REVEALER (self->orientation_revealer), CONSTRAINTS[active].orientable);
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->orientation_revealer), self->constraints[active].orientable);
   gtk_toggle_button_set_active (orientation_button, TRUE);
 
   g_signal_handlers_unblock_by_func (self->landscape_button, photos_tool_crop_orientation_toggled, self);
@@ -1216,6 +1231,17 @@ photos_tool_crop_motion_event (PhotosTool *tool, GdkEventMotion *event)
 
 
 static void
+photos_tool_crop_finalize (GObject *object)
+{
+  PhotosToolCrop *self = PHOTOS_TOOL_CROP (object);
+
+  g_free (self->constraints);
+
+  G_OBJECT_CLASS (photos_tool_crop_parent_class)->finalize (object);
+}
+
+
+static void
 photos_tool_crop_dispose (GObject *object)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (object);
@@ -1275,7 +1301,9 @@ photos_tool_crop_init (PhotosToolCrop *self)
                             G_CALLBACK (photos_tool_crop_list_box_row_activated),
                             self);
 
-  for (i = 1; i < G_N_ELEMENTS (CONSTRAINTS); i++)
+  photos_tool_crop_create_constraints (self);
+
+  for (i = 1; self->constraints[i].aspect_ratio_type != PHOTOS_TOOL_CROP_ASPECT_RATIO_NONE; i++)
     {
       GtkWidget *grid;
       GtkWidget *image;
@@ -1293,7 +1321,7 @@ photos_tool_crop_init (PhotosToolCrop *self)
       gtk_grid_set_column_spacing (GTK_GRID (grid), 6);
       gtk_container_add (GTK_CONTAINER (row), grid);
 
-      label = gtk_label_new (_(CONSTRAINTS[i].name));
+      label = gtk_label_new (_(self->constraints[i].name));
       gtk_container_add (GTK_CONTAINER (grid), label);
 
       image = gtk_image_new_from_icon_name (PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC, GTK_ICON_SIZE_INVALID);
@@ -1365,6 +1393,7 @@ photos_tool_crop_class_init (PhotosToolCropClass *class)
   tool_class->name = _("Crop");
 
   object_class->dispose = photos_tool_crop_dispose;
+  object_class->finalize = photos_tool_crop_finalize;
   tool_class->activate = photos_tool_crop_activate;
   tool_class->deactivate = photos_tool_crop_deactivate;
   tool_class->draw = photos_tool_crop_draw;
