@@ -1018,6 +1018,19 @@ photos_tool_crop_reset_clicked (PhotosToolCrop *self)
 
 
 static void
+photos_tool_crop_update_original_orientable (PhotosToolCrop *self)
+{
+  guint i;
+
+  for (i = 0; self->constraints[i].aspect_ratio_type != 0; i++)
+    {
+      if (self->constraints[i].aspect_ratio_type == PHOTOS_TOOL_CROP_ASPECT_RATIO_ORIGINAL)
+        self->constraints[i].orientable = self->bbox_source.height != self->bbox_source.width;
+    }
+}
+
+
+static void
 photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageView *view)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (tool);
@@ -1032,6 +1045,7 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageVi
 
   self->reset = FALSE;
   self->view = GTK_WIDGET (view);
+  photos_tool_crop_update_original_orientable (self);
 
   if (photos_base_item_operation_get (item,
                                       "gegl:crop",
