@@ -37,36 +37,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_PRINT_SETUP, PhotosPrintSetup))
 
-#define PHOTOS_PRINT_SETUP_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_PRINT_SETUP, PhotosPrintSetupClass))
-
 #define PHOTOS_IS_PRINT_SETUP(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_PRINT_SETUP))
 
-#define PHOTOS_IS_PRINT_SETUP_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_PRINT_SETUP))
-
-#define PHOTOS_PRINT_SETUP_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_PRINT_SETUP, PhotosPrintSetupClass))
-
-typedef struct _PhotosPrintSetup         PhotosPrintSetup;
-typedef struct _PhotosPrintSetupClass    PhotosPrintSetupClass;
-typedef struct _PhotosPrintSetupPrivate  PhotosPrintSetupPrivate;
-
-struct _PhotosPrintSetup
-{
-  GtkGrid parent_instance;
-  PhotosPrintSetupPrivate *priv;
-};
-
-struct _PhotosPrintSetupClass
-{
-  GtkGridClass parent_class;
-};
+typedef struct _PhotosPrintSetup      PhotosPrintSetup;
+typedef struct _PhotosPrintSetupClass PhotosPrintSetupClass;
 
 GType		  photos_print_setup_get_type    (void) G_GNUC_CONST;
 
