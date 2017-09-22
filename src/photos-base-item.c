@@ -1335,6 +1335,7 @@ photos_base_item_process_async (PhotosBaseItem *self,
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
 
   g_clear_object (&priv->processor);
   priv->processor = photos_pipeline_new_processor (pipeline);
@@ -1620,6 +1621,8 @@ photos_base_item_load_process (GObject *source_object, GAsyncResult *res, gpoint
     }
 
   pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  g_assert_true (PHOTOS_IS_PIPELINE (pipeline));
+
   graph = photos_pipeline_get_graph (pipeline);
   g_task_return_pointer (task, g_object_ref (graph), g_object_unref);
 
@@ -3867,6 +3870,7 @@ photos_base_item_operation_add_async (PhotosBaseItem *self,
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
 
   va_start (ap, first_property_name);
   photos_pipeline_add_valist (pipeline, operation, first_property_name, ap);
@@ -3909,6 +3913,7 @@ photos_base_item_operation_get (PhotosBaseItem *self, const gchar *operation, co
   g_return_val_if_fail (!priv->collection, FALSE);
 
   pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  g_return_val_if_fail (PHOTOS_IS_PIPELINE (pipeline), FALSE);
 
   va_start (ap, first_property_name);
   ret_val = photos_pipeline_get_valist (pipeline, operation, first_property_name, ap);
@@ -3934,10 +3939,12 @@ photos_base_item_operation_remove_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
 
+  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
+
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_operation_remove_async);
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
   if (!photos_pipeline_remove (pipeline, operation))
     {
       g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to find a GeglNode for %s", operation);
@@ -4021,6 +4028,8 @@ photos_base_item_pipeline_revert_async (PhotosBaseItem *self,
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
+
   photos_pipeline_revert (pipeline);
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -4063,6 +4072,8 @@ photos_base_item_pipeline_revert_to_original_async (PhotosBaseItem *self,
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
+
   photos_pipeline_revert_to_original (pipeline);
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -4142,6 +4153,8 @@ photos_base_item_pipeline_snapshot (PhotosBaseItem *self)
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
+
   photos_pipeline_snapshot (pipeline);
 }
 
