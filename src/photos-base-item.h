@@ -280,6 +280,18 @@ GFile              *photos_base_item_save_to_dir_finish      (PhotosBaseItem *se
                                                               GAsyncResult *res,
                                                               GError **error) G_GNUC_WARN_UNUSED_RESULT;
 
+void                photos_base_item_save_to_file_async      (PhotosBaseItem *self,
+                                                              GFile *file,
+                                                              GFileCreateFlags flags,
+                                                              gdouble zoom,
+                                                              GCancellable *cancellable,
+                                                              GAsyncReadyCallback callback,
+                                                              gpointer user_data);
+
+gboolean            photos_base_item_save_to_file_finish     (PhotosBaseItem *self,
+                                                              GAsyncResult *res,
+                                                              GError **error);
+
 void                photos_base_item_save_to_stream_async    (PhotosBaseItem *self,
                                                               GOutputStream *stream,
                                                               gdouble zoom,
