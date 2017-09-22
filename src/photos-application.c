@@ -208,6 +208,7 @@ struct _PhotosApplicationRefreshData
 
 struct _PhotosApplicationSetBackgroundData
 {
+  PhotosApplication *application;
   GFile *file;
   GSettings *settings;
 };
@@ -267,11 +268,13 @@ photos_application_refresh_data_free (PhotosApplicationRefreshData *data)
 
 
 static PhotosApplicationSetBackgroundData *
-photos_application_set_background_data_new (GFile *file, GSettings *settings)
+photos_application_set_background_data_new (PhotosApplication *application, GFile *file, GSettings *settings)
 {
   PhotosApplicationSetBackgroundData *data;
 
   data = g_slice_new0 (PhotosApplicationSetBackgroundData);
+  g_application_hold (G_APPLICATION (application));
+  data->application = application;
   data->file = g_object_ref (file);
   data->settings = g_object_ref (settings);
   return data;
@@ -281,6 +284,7 @@ photos_application_set_background_data_new (GFile *file, GSettings *settings)
 static void
 photos_application_set_background_data_free (PhotosApplicationSetBackgroundData *data)
 {
+  g_application_release (G_APPLICATION (data->application));
   g_object_unref (data->file);
   g_object_unref (data->settings);
   g_slice_free (PhotosApplicationSetBackgroundData, data);
@@ -1458,7 +1462,7 @@ photos_application_set_bg_common (PhotosApplication *self, GSettings *settings)
   backgrounds_path = g_build_filename (backgrounds_dir, backgrounds_filename, NULL);
   backgrounds_file = g_file_new_for_path (backgrounds_path);
 
-  data = photos_application_set_background_data_new (backgrounds_file, settings);
+  data = photos_application_set_background_data_new (self, backgrounds_file, settings);
   photos_base_item_save_to_file_async (item,
                                        backgrounds_file,
                                        G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION,
