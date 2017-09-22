@@ -4126,7 +4126,6 @@ photos_base_item_pipeline_save_async (PhotosBaseItem *self,
   priv = photos_base_item_get_instance_private (self);
 
   g_return_if_fail (!priv->collection);
-  g_return_if_fail (priv->edit_graph != NULL);
 
   pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
   g_return_if_fail (pipeline != NULL);
