@@ -2179,6 +2179,42 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
 
 
 static void
+photos_base_item_save_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GCancellable *cancellable;
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  GeglBuffer *buffer = NULL;
+  GeglNode *graph = NULL;
+  PhotosBaseItemSaveData *data;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
+
+  error = NULL;
+  graph = photos_base_item_load_finish (self, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  buffer = photos_gegl_get_buffer_from_node (graph, NULL);
+  photos_gegl_buffer_zoom_async (buffer,
+                                 data->zoom,
+                                 cancellable,
+                                 photos_base_item_save_buffer_zoom,
+                                 g_object_ref (task));
+
+ out:
+  g_clear_object (&buffer);
+  g_clear_object (&graph);
+  g_object_unref (task);
+}
+
+
+static void
 photos_base_item_save_to_stream_file_delete (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GError *error;
@@ -3982,42 +4018,6 @@ photos_base_item_refresh (PhotosBaseItem *self)
                               photos_base_item_refresh_executed,
                               g_object_ref (self));
   g_object_unref (job);
-}
-
-
-static void
-photos_base_item_save_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  GCancellable *cancellable;
-  GError *error;
-  GTask *task = G_TASK (user_data);
-  GeglBuffer *buffer = NULL;
-  GeglNode *graph = NULL;
-  PhotosBaseItemSaveData *data;
-
-  cancellable = g_task_get_cancellable (task);
-  data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
-
-  error = NULL;
-  graph = photos_base_item_load_finish (self, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
-
-  buffer = photos_gegl_get_buffer_from_node (graph, NULL);
-  photos_gegl_buffer_zoom_async (buffer,
-                                 data->zoom,
-                                 cancellable,
-                                 photos_base_item_save_buffer_zoom,
-                                 g_object_ref (task));
-
- out:
-  g_clear_object (&buffer);
-  g_clear_object (&graph);
-  g_object_unref (task);
 }
 
 
