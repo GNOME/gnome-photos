@@ -1426,11 +1426,9 @@ photos_application_set_bg_common_save_to_file (GObject *source_object, GAsyncRes
 
 
 static void
-photos_application_set_bg_common (PhotosApplication *self, GVariant *parameter, gpointer user_data)
+photos_application_set_bg_common (PhotosApplication *self, GSettings *settings)
 {
   GFile *backgrounds_file = NULL;
-  GSimpleAction *action = G_SIMPLE_ACTION (user_data);
-  GSettings *settings;
   PhotosApplicationSetBackgroundData *data;
   PhotosBaseItem *item;
   const gchar *config_dir;
@@ -1460,8 +1458,6 @@ photos_application_set_bg_common (PhotosApplication *self, GVariant *parameter, 
   backgrounds_path = g_build_filename (backgrounds_dir, backgrounds_filename, NULL);
   backgrounds_file = g_file_new_for_path (backgrounds_path);
 
-  settings = G_SETTINGS (g_object_get_data (G_OBJECT (action), "settings"));
-
   data = photos_application_set_background_data_new (backgrounds_file, settings);
   photos_base_item_save_to_file_async (item,
                                        backgrounds_file,
@@ -1476,6 +1472,20 @@ photos_application_set_bg_common (PhotosApplication *self, GVariant *parameter, 
   g_free (backgrounds_filename);
   g_free (backgrounds_path);
   g_free (basename);
+}
+
+
+static void
+photos_application_set_background (PhotosApplication *self)
+{
+  photos_application_set_bg_common (self, self->bg_settings);
+}
+
+
+static void
+photos_application_set_screensaver (PhotosApplication *self)
+{
+  photos_application_set_bg_common (self, self->ss_settings);
 }
 
 
@@ -2031,19 +2041,11 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->selection_mode_action));
 
   self->set_bg_action = g_simple_action_new ("set-background", NULL);
-  g_object_set_data_full (G_OBJECT (self->set_bg_action),
-                          "settings",
-                          g_object_ref (self->bg_settings),
-                          g_object_unref);
-  g_signal_connect_swapped (self->set_bg_action, "activate", G_CALLBACK (photos_application_set_bg_common), self);
+  g_signal_connect_swapped (self->set_bg_action, "activate", G_CALLBACK (photos_application_set_background), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->set_bg_action));
 
   self->set_ss_action = g_simple_action_new ("set-screensaver", NULL);
-  g_object_set_data_full (G_OBJECT (self->set_ss_action),
-                          "settings",
-                          g_object_ref (self->ss_settings),
-                          g_object_unref);
-  g_signal_connect_swapped (self->set_ss_action, "activate", G_CALLBACK (photos_application_set_bg_common), self);
+  g_signal_connect_swapped (self->set_ss_action, "activate", G_CALLBACK (photos_application_set_screensaver), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->set_ss_action));
 
   self->share_action = g_simple_action_new ("share-current", NULL);
