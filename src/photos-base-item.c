@@ -4019,7 +4019,7 @@ photos_base_item_pipeline_revert_async (PhotosBaseItem *self,
                                         gpointer user_data)
 {
   PhotosBaseItemPrivate *priv;
-  GTask *task;
+  GTask *task = NULL;
   PhotosPipeline *pipeline;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
@@ -4035,9 +4035,16 @@ photos_base_item_pipeline_revert_async (PhotosBaseItem *self,
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_pipeline_revert_async);
 
+  if (priv->edit_graph == NULL)
+    {
+      g_task_return_boolean (task, TRUE);
+      goto out;
+    }
+
   photos_base_item_process_async (self, cancellable, photos_base_item_common_process, g_object_ref (task));
 
-  g_object_unref (task);
+ out:
+  g_clear_object (&task);
 }
 
 
@@ -4063,7 +4070,7 @@ photos_base_item_pipeline_revert_to_original_async (PhotosBaseItem *self,
 
 {
   PhotosBaseItemPrivate *priv;
-  GTask *task;
+  GTask *task = NULL;
   PhotosPipeline *pipeline;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
@@ -4079,9 +4086,16 @@ photos_base_item_pipeline_revert_to_original_async (PhotosBaseItem *self,
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_pipeline_revert_to_original_async);
 
+  if (priv->edit_graph == NULL)
+    {
+      g_task_return_boolean (task, TRUE);
+      goto out;
+    }
+
   photos_base_item_process_async (self, cancellable, photos_base_item_common_process, g_object_ref (task));
 
-  g_object_unref (task);
+ out:
+  g_clear_object (&task);
 }
 
 
