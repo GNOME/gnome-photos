@@ -187,6 +187,7 @@ static const gchar *DESKTOP_KEY_SECONDARY_COLOR = "secondary-color";
 
 typedef struct _PhotosApplicationCreateData PhotosApplicationCreateData;
 typedef struct _PhotosApplicationRefreshData PhotosApplicationRefreshData;
+typedef struct _PhotosApplicationSetBackgroundData PhotosApplicationSetBackgroundData;
 
 struct _PhotosApplicationCreateData
 {
@@ -199,6 +200,12 @@ struct _PhotosApplicationRefreshData
 {
   PhotosApplication *application;
   GomMiner *miner;
+};
+
+struct _PhotosApplicationSetBackgroundData
+{
+  GFile *file;
+  GSettings *settings;
 };
 
 static void photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner);
@@ -252,6 +259,27 @@ photos_application_refresh_data_free (PhotosApplicationRefreshData *data)
   g_application_release (G_APPLICATION (data->application));
   g_object_unref (data->miner);
   g_slice_free (PhotosApplicationRefreshData, data);
+}
+
+
+static PhotosApplicationSetBackgroundData *
+photos_application_set_background_data_new (GFile *file, GSettings *settings)
+{
+  PhotosApplicationSetBackgroundData *data;
+
+  data = g_slice_new0 (PhotosApplicationSetBackgroundData);
+  data->file = g_object_ref (file);
+  data->settings = g_object_ref (settings);
+  return data;
+}
+
+
+static void
+photos_application_set_background_data_free (PhotosApplicationSetBackgroundData *data)
+{
+  g_object_unref (data->file);
+  g_object_unref (data->settings);
+  g_slice_free (PhotosApplicationSetBackgroundData, data);
 }
 
 
@@ -1323,49 +1351,86 @@ photos_application_save (PhotosApplication *self)
 
 
 static void
-photos_application_set_bg_common_download (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_application_set_bg_common_save_to_file (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   GError *error;
-  GSettings *settings = G_SETTINGS (user_data);
-  gchar *filename = NULL;
+  PhotosApplicationSetBackgroundData *data = (PhotosApplicationSetBackgroundData *) user_data;
+  gchar *path = NULL;
 
   error = NULL;
-  filename = photos_base_item_download_finish (item, res, &error);
-  if (error != NULL)
+  if (!photos_base_item_save_to_file_finish (item, res, &error))
     {
-      const gchar *uri;
-
-      uri = photos_base_item_get_uri (item);
-      g_warning ("Unable to extract the local filename for %s", uri);
+      g_warning ("Unable to set background: %s", error->message);
       g_error_free (error);
       goto out;
     }
 
-  g_settings_set_string (settings, DESKTOP_KEY_PICTURE_URI, filename);
-  g_settings_set_enum (settings, DESKTOP_KEY_PICTURE_OPTIONS, G_DESKTOP_BACKGROUND_STYLE_ZOOM);
-  g_settings_set_enum (settings, DESKTOP_KEY_COLOR_SHADING_TYPE, G_DESKTOP_BACKGROUND_SHADING_SOLID);
-  g_settings_set_string (settings, DESKTOP_KEY_PRIMARY_COLOR, "#000000000000");
-  g_settings_set_string (settings, DESKTOP_KEY_SECONDARY_COLOR, "#000000000000");
+  path = g_file_get_path (data->file);
+
+  g_settings_set_string (data->settings, DESKTOP_KEY_PICTURE_URI, path);
+  g_settings_set_enum (data->settings, DESKTOP_KEY_PICTURE_OPTIONS, G_DESKTOP_BACKGROUND_STYLE_ZOOM);
+  g_settings_set_enum (data->settings, DESKTOP_KEY_COLOR_SHADING_TYPE, G_DESKTOP_BACKGROUND_SHADING_SOLID);
+  g_settings_set_string (data->settings, DESKTOP_KEY_PRIMARY_COLOR, "#000000000000");
+  g_settings_set_string (data->settings, DESKTOP_KEY_SECONDARY_COLOR, "#000000000000");
 
  out:
-  g_free (filename);
-  g_object_unref (settings);
+  g_free (path);
+  photos_application_set_background_data_free (data);
 }
 
 
 static void
 photos_application_set_bg_common (PhotosApplication *self, GVariant *parameter, gpointer user_data)
 {
+  GFile *backgrounds_file = NULL;
   GSimpleAction *action = G_SIMPLE_ACTION (user_data);
   GSettings *settings;
+  PhotosApplicationSetBackgroundData *data;
   PhotosBaseItem *item;
+  const gchar *config_dir;
+  const gchar *extension;
+  const gchar *filename;
+  const gchar *mime_type;
+  gchar *backgrounds_dir = NULL;
+  gchar *backgrounds_filename = NULL;
+  gchar *backgrounds_path = NULL;
+  gchar *basename = NULL;
+  gint64 now;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->state->item_mngr));
   g_return_if_fail (item != NULL);
 
+  config_dir = g_get_user_config_dir ();
+  backgrounds_dir = g_build_filename (config_dir, PACKAGE_TARNAME, "backgrounds", NULL);
+  g_mkdir_with_parents (backgrounds_dir, 0700);
+
+  now = g_get_monotonic_time ();
+  filename = photos_base_item_get_filename (item);
+  basename = photos_glib_filename_strip_extension (filename);
+  mime_type = photos_base_item_get_mime_type (item);
+  extension = g_strcmp0 (mime_type, "image/png") == 0 ? ".png" : ".jpg";
+
+  backgrounds_filename = g_strdup_printf ("%" G_GINT64_FORMAT "-%s%s", now, basename, extension);
+  backgrounds_path = g_build_filename (backgrounds_dir, backgrounds_filename, NULL);
+  backgrounds_file = g_file_new_for_path (backgrounds_path);
+
   settings = G_SETTINGS (g_object_get_data (G_OBJECT (action), "settings"));
-  photos_base_item_download_async (item, NULL, photos_application_set_bg_common_download, g_object_ref (settings));
+
+  data = photos_application_set_background_data_new (backgrounds_file, settings);
+  photos_base_item_save_to_file_async (item,
+                                       backgrounds_file,
+                                       G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION,
+                                       1.0,
+                                       NULL,
+                                       photos_application_set_bg_common_save_to_file,
+                                       data);
+
+  g_object_unref (backgrounds_file);
+  g_free (backgrounds_dir);
+  g_free (backgrounds_filename);
+  g_free (backgrounds_path);
+  g_free (basename);
 }
 
 
