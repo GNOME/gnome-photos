@@ -182,8 +182,8 @@ photos_local_item_get_source_widget (PhotosBaseItem *item)
       GFile *source_link;
       GtkWidget *label;
       const gchar *uri;
-      gchar *source_path;
-      gchar *source_uri;
+      gchar *source_path = NULL;
+      gchar *source_uri = NULL;
 
       uri = photos_base_item_get_uri (item);
       file = g_file_new_for_uri (uri);
@@ -198,6 +198,8 @@ photos_local_item_get_source_widget (PhotosBaseItem *item)
       gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
       gtk_label_set_max_width_chars (GTK_LABEL (label), 40);
 
+      g_free (source_path);
+      g_free (source_uri);
       g_object_unref (source_link);
       g_object_unref (file);
     }
