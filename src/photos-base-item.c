@@ -143,6 +143,7 @@ EGG_DEFINE_COUNTER (instances, "PhotosBaseItem", "Instances", "Number of PhotosB
 typedef struct _PhotosBaseItemMetadataAddSharedData PhotosBaseItemMetadataAddSharedData;
 typedef struct _PhotosBaseItemSaveData PhotosBaseItemSaveData;
 typedef struct _PhotosBaseItemSaveBufferData PhotosBaseItemSaveBufferData;
+typedef struct _PhotosBaseItemSaveToFileData PhotosBaseItemSaveToFileData;
 typedef struct _PhotosBaseItemSaveToStreamData PhotosBaseItemSaveToStreamData;
 
 struct _PhotosBaseItemMetadataAddSharedData
@@ -165,6 +166,14 @@ struct _PhotosBaseItemSaveBufferData
 {
   GFile *file;
   GFileOutputStream *stream;
+};
+
+struct _PhotosBaseItemSaveToFileData
+{
+  GFile *file;
+  GFileCreateFlags flags;
+  GeglBuffer *buffer;
+  gdouble zoom;
 };
 
 struct _PhotosBaseItemSaveToStreamData
@@ -261,6 +270,29 @@ photos_base_item_save_buffer_data_free (PhotosBaseItemSaveBufferData *data)
   g_clear_object (&data->file);
   g_clear_object (&data->stream);
   g_slice_free (PhotosBaseItemSaveBufferData, data);
+}
+
+
+static PhotosBaseItemSaveToFileData *
+photos_base_item_save_to_file_data_new (GFile *file, GFileCreateFlags flags, gdouble zoom)
+{
+  PhotosBaseItemSaveToFileData *data;
+
+  data = g_slice_new0 (PhotosBaseItemSaveToFileData);
+  data->file = g_object_ref (file);
+  data->flags = flags;
+  data->zoom = zoom;
+
+  return data;
+}
+
+
+static void
+photos_base_item_save_to_file_data_free (PhotosBaseItemSaveToFileData *data)
+{
+  g_clear_object (&data->file);
+  g_clear_object (&data->buffer);
+  g_slice_free (PhotosBaseItemSaveToFileData, data);
 }
 
 
@@ -2213,6 +2245,138 @@ photos_base_item_save_to_dir_load (GObject *source_object, GAsyncResult *res, gp
 
 
 static void
+photos_base_item_save_to_file_save_buffer (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GError *error;
+  GTask *task = G_TASK (user_data);
+
+  error = NULL;
+  if (!photos_base_item_save_buffer_finish (self, res, &error))
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_boolean (task, TRUE);
+
+ out:
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_to_file_file_replace (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self;
+  GCancellable *cancellable;
+  GError *error = NULL;
+  GFile *file = G_FILE (source_object);
+  GFileOutputStream *stream = NULL;
+  GTask *task = G_TASK (user_data);
+  PhotosBaseItemSaveToFileData *data;
+
+  self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveToFileData *) g_task_get_task_data (task);
+
+  stream = g_file_replace_finish (file, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  photos_base_item_save_buffer_async (self,
+                                      data->buffer,
+                                      file,
+                                      stream,
+                                      cancellable,
+                                      photos_base_item_save_to_file_save_buffer,
+                                      g_object_ref (task));
+
+ out:
+  g_clear_object (&stream);
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_to_file_buffer_zoom (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GCancellable *cancellable;
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  GeglBuffer *buffer = GEGL_BUFFER (source_object);
+  GeglBuffer *buffer_zoomed = NULL;
+  PhotosBaseItemSaveToFileData *data;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveToFileData *) g_task_get_task_data (task);
+
+  error = NULL;
+  buffer_zoomed = photos_gegl_buffer_zoom_finish (buffer, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_assert_null (data->buffer);
+  data->buffer = g_object_ref (buffer_zoomed);
+
+  g_file_replace_async (data->file,
+                        NULL,
+                        FALSE,
+                        data->flags,
+                        G_PRIORITY_DEFAULT,
+                        cancellable,
+                        photos_base_item_save_to_file_file_replace,
+                        g_object_ref (task));
+
+ out:
+  g_clear_object (&buffer_zoomed);
+  g_object_unref (task);
+}
+
+
+static void
+photos_base_item_save_to_file_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GCancellable *cancellable;
+  GError *error;
+  GTask *task = G_TASK (user_data);
+  GeglBuffer *buffer = NULL;
+  GeglNode *graph = NULL;
+  PhotosBaseItemSaveToFileData *data;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosBaseItemSaveToFileData *) g_task_get_task_data (task);
+
+  error = NULL;
+  graph = photos_base_item_load_finish (self, res, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  buffer = photos_gegl_get_buffer_from_node (graph, NULL);
+  photos_gegl_buffer_zoom_async (buffer,
+                                 data->zoom,
+                                 cancellable,
+                                 photos_base_item_save_to_file_buffer_zoom,
+                                 g_object_ref (task));
+
+ out:
+  g_clear_object (&buffer);
+  g_clear_object (&graph);
+  g_object_unref (task);
+}
+
+
+static void
 photos_base_item_save_to_stream_file_delete (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GError *error;
@@ -4062,6 +4226,54 @@ photos_base_item_save_to_dir_finish (PhotosBaseItem *self, GAsyncResult *res, GE
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   return g_task_propagate_pointer (task, error);
+}
+
+
+void
+photos_base_item_save_to_file_async (PhotosBaseItem *self,
+                                     GFile *file,
+                                     GFileCreateFlags flags,
+                                     gdouble zoom,
+                                     GCancellable *cancellable,
+                                     GAsyncReadyCallback callback,
+                                     gpointer user_data)
+{
+  PhotosBaseItemPrivate *priv;
+  GTask *task;
+  PhotosBaseItemSaveToFileData *data;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = photos_base_item_get_instance_private (self);
+
+  g_return_if_fail (!priv->collection);
+  g_return_if_fail (G_IS_FILE (file));
+
+  data = photos_base_item_save_to_file_data_new (file, flags, zoom);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_base_item_save_to_file_async);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_to_file_data_free);
+
+  photos_base_item_load_async (self, cancellable, photos_base_item_save_to_file_load, g_object_ref (task));
+
+  g_object_unref (task);
+}
+
+
+gboolean
+photos_base_item_save_to_file_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_to_file_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
 }
 
 
