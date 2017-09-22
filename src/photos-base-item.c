@@ -2059,7 +2059,7 @@ photos_base_item_save_buffer_finish (PhotosBaseItem *self, GAsyncResult *res, GE
 
 
 static void
-photos_base_item_save_save_buffer (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_save_to_dir_save_buffer (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GError *error;
@@ -2083,7 +2083,7 @@ photos_base_item_save_save_buffer (GObject *source_object, GAsyncResult *res, gp
 
 
 static void
-photos_base_item_save_file_create (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_save_to_dir_file_create (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self;
   GTask *task = G_TASK (user_data);
@@ -2114,7 +2114,7 @@ photos_base_item_save_file_create (GObject *source_object, GAsyncResult *res, gp
                                       unique_file,
                                       stream,
                                       cancellable,
-                                      photos_base_item_save_save_buffer,
+                                      photos_base_item_save_to_dir_save_buffer,
                                       g_object_ref (task));
 
  out:
@@ -2125,7 +2125,7 @@ photos_base_item_save_file_create (GObject *source_object, GAsyncResult *res, gp
 
 
 static void
-photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_save_to_dir_buffer_zoom (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   PhotosBaseItem *self;
@@ -2166,7 +2166,7 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
                                  G_FILE_CREATE_NONE,
                                  G_PRIORITY_DEFAULT,
                                  cancellable,
-                                 photos_base_item_save_file_create,
+                                 photos_base_item_save_to_dir_file_create,
                                  g_object_ref (task));
 
  out:
@@ -2179,7 +2179,7 @@ photos_base_item_save_buffer_zoom (GObject *source_object, GAsyncResult *res, gp
 
 
 static void
-photos_base_item_save_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_base_item_save_to_dir_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GCancellable *cancellable;
@@ -2204,7 +2204,7 @@ photos_base_item_save_load (GObject *source_object, GAsyncResult *res, gpointer 
   photos_gegl_buffer_zoom_async (buffer,
                                  data->zoom,
                                  cancellable,
-                                 photos_base_item_save_buffer_zoom,
+                                 photos_base_item_save_to_dir_buffer_zoom,
                                  g_object_ref (task));
 
  out:
@@ -4022,12 +4022,12 @@ photos_base_item_refresh (PhotosBaseItem *self)
 
 
 void
-photos_base_item_save_async (PhotosBaseItem *self,
-                             GFile *dir,
-                             gdouble zoom,
-                             GCancellable *cancellable,
-                             GAsyncReadyCallback callback,
-                             gpointer user_data)
+photos_base_item_save_to_dir_async (PhotosBaseItem *self,
+                                    GFile *dir,
+                                    gdouble zoom,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
 {
   PhotosBaseItemPrivate *priv;
   GTask *task;
@@ -4043,23 +4043,23 @@ photos_base_item_save_async (PhotosBaseItem *self,
   data = photos_base_item_save_data_new (dir, NULL, NULL, zoom);
 
   task = g_task_new (self, cancellable, callback, user_data);
-  g_task_set_source_tag (task, photos_base_item_save_async);
+  g_task_set_source_tag (task, photos_base_item_save_to_dir_async);
   g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_save_data_free);
 
-  photos_base_item_load_async (self, cancellable, photos_base_item_save_load, g_object_ref (task));
+  photos_base_item_load_async (self, cancellable, photos_base_item_save_to_dir_load, g_object_ref (task));
 
   g_object_unref (task);
 }
 
 
 GFile *
-photos_base_item_save_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+photos_base_item_save_to_dir_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
   GTask *task = G_TASK (res);
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
-  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_async, FALSE);
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_to_dir_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   return g_task_propagate_pointer (task, error);

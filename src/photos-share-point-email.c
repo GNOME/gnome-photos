@@ -82,7 +82,7 @@ photos_share_point_email_get_name (PhotosSharePoint *share_point)
 
 
 static void
-photos_share_point_email_share_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_share_point_email_share_save_to_dir (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSharePointEmail *self;
   GError *error;
@@ -96,7 +96,7 @@ photos_share_point_email_share_save (GObject *source_object, GAsyncResult *res, 
   self = PHOTOS_SHARE_POINT_EMAIL (g_task_get_source_object (task));
 
   error = NULL;
-  file = photos_base_item_save_finish (item, res, &error);
+  file = photos_base_item_save_to_dir_finish (item, res, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
@@ -148,12 +148,12 @@ photos_share_point_email_share_async (PhotosSharePoint *share_point,
   g_mkdtemp (export_dir);
 
   export = g_file_new_for_path (export_dir);
-  photos_base_item_save_async (item,
-                               export,
-                               1.0,
-                               cancellable,
-                               photos_share_point_email_share_save,
-                               g_object_ref (task));
+  photos_base_item_save_to_dir_async (item,
+                                      export,
+                                      1.0,
+                                      cancellable,
+                                      photos_share_point_email_share_save_to_dir,
+                                      g_object_ref (task));
 
   g_free (export_dir);
   g_free (template);
