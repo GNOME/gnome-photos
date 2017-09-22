@@ -1251,7 +1251,7 @@ photos_application_quit (PhotosApplication *self)
 
 
 static void
-photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_application_save_save_to_dir (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
@@ -1259,7 +1259,7 @@ photos_application_save_save (GObject *source_object, GAsyncResult *res, gpointe
   GFile *file = NULL;
   GList *items = NULL;
 
-  file = photos_base_item_save_finish (item, res, &error);
+  file = photos_base_item_save_to_dir_finish (item, res, &error);
   if (error != NULL)
     {
       g_warning ("Unable to save: %s", error->message);
@@ -1341,7 +1341,7 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
   zoom = photos_export_dialog_get_zoom (PHOTOS_EXPORT_DIALOG (dialog));
 
   g_application_hold (G_APPLICATION (self));
-  photos_base_item_save_async (item, export, zoom, NULL, photos_application_save_save, self);
+  photos_base_item_save_to_dir_async (item, export, zoom, NULL, photos_application_save_save_to_dir, self);
 
  out:
   g_free (export_path);

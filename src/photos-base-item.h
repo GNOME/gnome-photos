@@ -269,14 +269,14 @@ void                photos_base_item_print                   (PhotosBaseItem *se
 
 void                photos_base_item_refresh                 (PhotosBaseItem *self);
 
-void                photos_base_item_save_async              (PhotosBaseItem *self,
+void                photos_base_item_save_to_dir_async       (PhotosBaseItem *self,
                                                               GFile *dir,
                                                               gdouble zoom,
                                                               GCancellable *cancellable,
                                                               GAsyncReadyCallback callback,
                                                               gpointer user_data);
 
-GFile              *photos_base_item_save_finish             (PhotosBaseItem *self,
+GFile              *photos_base_item_save_to_dir_finish      (PhotosBaseItem *self,
                                                               GAsyncResult *res,
                                                               GError **error) G_GNUC_WARN_UNUSED_RESULT;
 
