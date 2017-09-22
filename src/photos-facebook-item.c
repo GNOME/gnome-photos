@@ -60,12 +60,15 @@ G_DEFINE_TYPE_WITH_CODE (PhotosFacebookItem, photos_facebook_item, PHOTOS_TYPE_B
 static gchar *
 photos_facebook_item_create_filename_fallback (PhotosBaseItem *item)
 {
+  const gchar *const facebook_prefix = "facebook:";
   const gchar *identifier;
   const gchar *mime_type;
   gchar *extension = NULL;
   gchar *ret_val;
+  gsize prefix_len;
 
-  identifier = photos_base_item_get_identifier (item) + strlen ("facebook:");
+  prefix_len = strlen (facebook_prefix);
+  identifier = photos_base_item_get_identifier (item) + prefix_len;
   mime_type = photos_base_item_get_mime_type (item);
   extension = photos_utils_get_extension_from_mime_type (mime_type);
   if (extension == NULL)
@@ -111,18 +114,23 @@ photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancella
   PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (item);
   GFBGraphGoaAuthorizer *authorizer;
   GFBGraphPhoto *photo = NULL;
+  GoaObject *object;
   PhotosSource *source;
+  const gchar *const facebook_prefix = "facebook:";
   const gchar *identifier;
   const gchar *resource_urn;
+  gsize prefix_len;
 
   resource_urn = photos_base_item_get_resource_urn (item);
   source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (self->src_mngr, resource_urn));
-  authorizer = gfbgraph_goa_authorizer_new (photos_source_get_goa_object (source));
-  identifier = photos_base_item_get_identifier (item) + strlen ("facebook:");
+  object = photos_source_get_goa_object (source);
+  authorizer = gfbgraph_goa_authorizer_new (object);
 
   if (!gfbgraph_authorizer_refresh_authorization (GFBGRAPH_AUTHORIZER (authorizer), cancellable, error))
     goto out;
 
+  prefix_len = strlen (facebook_prefix);
+  identifier = photos_base_item_get_identifier (item) + prefix_len;
   photo = gfbgraph_photo_new_from_id (GFBGRAPH_AUTHORIZER (authorizer), identifier, error);
 
  out:
