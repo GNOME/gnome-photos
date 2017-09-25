@@ -2116,12 +2116,12 @@ static void
 photos_base_item_save_to_dir_file_create (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self;
-  GTask *task = G_TASK (user_data);
   GCancellable *cancellable;
   GError *error = NULL;
   GFile *file = G_FILE (source_object);
   GFile *unique_file = NULL;
   GFileOutputStream *stream = NULL;
+  GTask *task = G_TASK (user_data);
   PhotosBaseItemSaveData *data;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
@@ -2157,12 +2157,12 @@ photos_base_item_save_to_dir_file_create (GObject *source_object, GAsyncResult *
 static void
 photos_base_item_save_to_dir_buffer_zoom (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  GTask *task = G_TASK (user_data);
   PhotosBaseItem *self;
   PhotosBaseItemPrivate *priv;
   GCancellable *cancellable;
   GError *error;
   GFile *file = NULL;
+  GTask *task = G_TASK (user_data);
   GeglBuffer *buffer = GEGL_BUFFER (source_object);
   GeglBuffer *buffer_zoomed = NULL;
   PhotosBaseItemSaveData *data;
