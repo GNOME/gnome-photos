@@ -76,11 +76,6 @@ struct _PhotosPrintPreview
   gdouble r_dx, r_dy;
 };
 
-struct _PhotosPrintPreviewClass
-{
-  GtkAspectFrameClass parent_class;
-};
-
 enum
 {
   PROP_0,

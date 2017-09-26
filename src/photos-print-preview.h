@@ -29,19 +29,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_PRINT_PREVIEW (photos_print_preview_get_type ())
-
-#define PHOTOS_PRINT_PREVIEW(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_PRINT_PREVIEW, PhotosPrintPreview))
-
-#define PHOTOS_IS_PRINT_PREVIEW(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_PRINT_PREVIEW))
-
-typedef struct _PhotosPrintPreview      PhotosPrintPreview;
-typedef struct _PhotosPrintPreviewClass PhotosPrintPreviewClass;
-
-GType        photos_print_preview_get_type              (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosPrintPreview, photos_print_preview, PHOTOS, PRINT_PREVIEW, GtkAspectFrame);
 
 GtkWidget   *photos_print_preview_new                   (void);
 
