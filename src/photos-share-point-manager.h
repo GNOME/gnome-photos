@@ -31,7 +31,11 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SHARE_POINT_MANAGER (photos_share_point_manager_get_type ())
-G_DECLARE_FINAL_TYPE (PhotosSharePointManager, photos_share_point_manager, PHOTOS, SHARE_POINT_MANAGER, PhotosBaseManager);
+G_DECLARE_FINAL_TYPE (PhotosSharePointManager,
+                      photos_share_point_manager,
+                      PHOTOS,
+                      SHARE_POINT_MANAGER,
+                      PhotosBaseManager);
 
 PhotosBaseManager        *photos_share_point_manager_dup_singleton      (void);
 
