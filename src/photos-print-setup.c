@@ -57,11 +57,6 @@ struct _PhotosPrintSetup
   GtkUnit current_unit;
 };
 
-struct _PhotosPrintSetupClass
-{
-  GtkGridClass parent_class;
-};
-
 enum
 {
   PROP_0,

@@ -32,19 +32,7 @@
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_PRINT_SETUP (photos_print_setup_get_type ())
-
-#define PHOTOS_PRINT_SETUP(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-   PHOTOS_TYPE_PRINT_SETUP, PhotosPrintSetup))
-
-#define PHOTOS_IS_PRINT_SETUP(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-   PHOTOS_TYPE_PRINT_SETUP))
-
-typedef struct _PhotosPrintSetup      PhotosPrintSetup;
-typedef struct _PhotosPrintSetupClass PhotosPrintSetupClass;
-
-GType		  photos_print_setup_get_type    (void) G_GNUC_CONST;
+G_DECLARE_FINAL_TYPE (PhotosPrintSetup, photos_print_setup, PHOTOS, PRINT_SETUP, GtkGrid);
 
 GtkWidget        *photos_print_setup_new         (GeglNode *node, GtkPageSetup *page_setup);
 
