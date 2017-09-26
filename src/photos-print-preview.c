@@ -31,8 +31,10 @@
 #include "photos-print-preview.h"
 
 
-struct _PhotosPrintPreviewPrivate
+struct _PhotosPrintPreview
 {
+  GtkAspectFrame parent_instance;
+
   GtkWidget *area;
   GdkPixbuf *pixbuf;
   GdkPixbuf *pixbuf_scaled;
@@ -74,6 +76,11 @@ struct _PhotosPrintPreviewPrivate
   gdouble r_dx, r_dy;
 };
 
+struct _PhotosPrintPreviewClass
+{
+  GtkAspectFrameClass parent_class;
+};
+
 enum
 {
   PROP_0,
@@ -99,7 +106,7 @@ enum
 static gint preview_signals [SIGNAL_LAST];
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhotosPrintPreview, photos_print_preview, GTK_TYPE_ASPECT_FRAME);
+G_DEFINE_TYPE (PhotosPrintPreview, photos_print_preview, GTK_TYPE_ASPECT_FRAME);
 
 
 static void photos_print_preview_draw (PhotosPrintPreview *preview, cairo_t *cr);
@@ -116,38 +123,38 @@ photos_print_preview_get_property (GObject    *object,
 				GValue     *value,
 				GParamSpec *pspec)
 {
-	PhotosPrintPreviewPrivate *priv = PHOTOS_PRINT_PREVIEW (object)->priv;
+	PhotosPrintPreview *self = PHOTOS_PRINT_PREVIEW (object);
 
 	switch (prop_id) {
 	case PROP_PIXBUF:
-		g_value_set_object (value, priv->pixbuf);
+		g_value_set_object (value, self->pixbuf);
 		break;
 	case PROP_PIXBUF_X_ALIGN:
-		g_value_set_float (value, priv->pixbuf_x_align);
+		g_value_set_float (value, self->pixbuf_x_align);
 		break;
 	case PROP_PIXBUF_Y_ALIGN:
-		g_value_set_float (value, priv->pixbuf_y_align);
+		g_value_set_float (value, self->pixbuf_y_align);
 		break;
 	case PROP_PIXBUF_SCALE:
-		g_value_set_float (value, priv->i_scale);
+		g_value_set_float (value, self->i_scale);
 		break;
 	case PROP_PAPER_WIDTH:
-		g_value_set_float (value, priv->p_width);
+		g_value_set_float (value, self->p_width);
 		break;
 	case PROP_PAPER_HEIGHT:
-		g_value_set_float (value, priv->p_height);
+		g_value_set_float (value, self->p_height);
 		break;
 	case PROP_PAGE_LEFT_MARGIN:
-		g_value_set_float (value, priv->l_margin);
+		g_value_set_float (value, self->l_margin);
 		break;
 	case PROP_PAGE_RIGHT_MARGIN:
-		g_value_set_float (value, priv->r_margin);
+		g_value_set_float (value, self->r_margin);
 		break;
 	case PROP_PAGE_TOP_MARGIN:
-		g_value_set_float (value, priv->t_margin);
+		g_value_set_float (value, self->t_margin);
 		break;
 	case PROP_PAGE_BOTTOM_MARGIN:
-		g_value_set_float (value, priv->b_margin);
+		g_value_set_float (value, self->b_margin);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -161,52 +168,52 @@ photos_print_preview_set_property (GObject      *object,
 				const GValue *value,
 				GParamSpec   *pspec)
 {
-	PhotosPrintPreviewPrivate *priv = PHOTOS_PRINT_PREVIEW (object)->priv;
+	PhotosPrintPreview *self = PHOTOS_PRINT_PREVIEW (object);
 	gboolean paper_size_changed = FALSE;
 
 	switch (prop_id) {
 	case PROP_PIXBUF:
-		if (priv->pixbuf) {
-			g_object_unref (priv->pixbuf);
+		if (self->pixbuf) {
+			g_object_unref (self->pixbuf);
 		}
-		priv->pixbuf = GDK_PIXBUF (g_value_dup_object (value));
+		self->pixbuf = GDK_PIXBUF (g_value_dup_object (value));
 
-		if (priv->pixbuf_scaled) {
-			g_object_unref (priv->pixbuf_scaled);
-			priv->pixbuf_scaled = NULL;
+		if (self->pixbuf_scaled) {
+			g_object_unref (self->pixbuf_scaled);
+			self->pixbuf_scaled = NULL;
 		}
 
-		priv->flag_create_surface = TRUE;
+		self->flag_create_surface = TRUE;
 		break;
 	case PROP_PIXBUF_X_ALIGN:
-		priv->pixbuf_x_align = g_value_get_float (value);
+		self->pixbuf_x_align = g_value_get_float (value);
 		break;
 	case PROP_PIXBUF_Y_ALIGN:
-		priv->pixbuf_y_align = g_value_get_float (value);
+		self->pixbuf_y_align = g_value_get_float (value);
 		break;
 	case PROP_PIXBUF_SCALE:
-		priv->i_scale = g_value_get_float (value);
-		priv->flag_create_surface = TRUE;
+		self->i_scale = g_value_get_float (value);
+		self->flag_create_surface = TRUE;
 		break;
 	case PROP_PAPER_WIDTH:
-		priv->p_width = g_value_get_float (value);
+		self->p_width = g_value_get_float (value);
 		paper_size_changed = TRUE;
 		break;
 	case PROP_PAPER_HEIGHT:
-		priv->p_height = g_value_get_float (value);
+		self->p_height = g_value_get_float (value);
 		paper_size_changed = TRUE;
 		break;
 	case PROP_PAGE_LEFT_MARGIN:
-		priv->l_margin = g_value_get_float (value);
+		self->l_margin = g_value_get_float (value);
 		break;
 	case PROP_PAGE_RIGHT_MARGIN:
-		priv->r_margin = g_value_get_float (value);
+		self->r_margin = g_value_get_float (value);
 		break;
 	case PROP_PAGE_TOP_MARGIN:
-		priv->t_margin = g_value_get_float (value);
+		self->t_margin = g_value_get_float (value);
 		break;
 	case PROP_PAGE_BOTTOM_MARGIN:
-		priv->b_margin = g_value_get_float (value);
+		self->b_margin = g_value_get_float (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -214,12 +221,12 @@ photos_print_preview_set_property (GObject      *object,
 
 	if (paper_size_changed) {
 		g_object_set (object,
-			      "ratio", priv->p_width/priv->p_height,
+			      "ratio", self->p_width/self->p_height,
 			      NULL);
 	}
 
 	update_relative_sizes (PHOTOS_PRINT_PREVIEW (object));
-	gtk_widget_queue_draw (priv->area);
+	gtk_widget_queue_draw (self->area);
 }
 
 
@@ -417,23 +424,21 @@ photos_print_preview_class_init (PhotosPrintPreviewClass *klass)
 static void
 photos_print_preview_finalize (GObject *object)
 {
-	PhotosPrintPreviewPrivate *priv;
+	PhotosPrintPreview *self = PHOTOS_PRINT_PREVIEW (object);
 
-	priv = PHOTOS_PRINT_PREVIEW (object)->priv;
-
-	if (priv->pixbuf) {
-		g_object_unref (priv->pixbuf);
-		priv->pixbuf = NULL;
+	if (self->pixbuf) {
+		g_object_unref (self->pixbuf);
+		self->pixbuf = NULL;
 	}
 
-	if (priv->pixbuf_scaled) {
-		g_object_unref (priv->pixbuf_scaled);
-		priv->pixbuf_scaled = NULL;
+	if (self->pixbuf_scaled) {
+		g_object_unref (self->pixbuf_scaled);
+		self->pixbuf_scaled = NULL;
 	}
 
-	if (priv->surface) {
-		cairo_surface_destroy (priv->surface);
-		priv->surface = NULL;
+	if (self->surface) {
+		cairo_surface_destroy (self->surface);
+		self->surface = NULL;
 	}
 
 	G_OBJECT_CLASS (photos_print_preview_parent_class)->finalize (object);
@@ -443,45 +448,41 @@ photos_print_preview_finalize (GObject *object)
 static void
 photos_print_preview_init (PhotosPrintPreview *preview)
 {
-	PhotosPrintPreviewPrivate *priv;
 	gfloat ratio;
 
-	preview->priv = photos_print_preview_get_instance_private (preview);
-	priv = preview->priv;
+	preview->area = GTK_WIDGET (gtk_drawing_area_new ());
 
-	priv->area = GTK_WIDGET (gtk_drawing_area_new ());
+	gtk_container_add (GTK_CONTAINER (preview), preview->area);
 
-	gtk_container_add (GTK_CONTAINER (preview), priv->area);
+	preview->p_width  =  8.5;
+	preview->p_height = 11.0;
 
-	priv->p_width  =  8.5;
-	priv->p_height = 11.0;
-
-	ratio = priv->p_width/priv->p_height;
+	ratio = preview->p_width/preview->p_height;
 
 	gtk_aspect_frame_set (GTK_ASPECT_FRAME (preview),
 			      0.5, 0.5, ratio, FALSE);
 
-	priv->pixbuf = NULL;
-	priv->pixbuf_scaled = NULL;
-	priv->pixbuf_x_align = 0.5;
-	priv->pixbuf_y_align = 0.5;
-	priv->i_scale = 1;
+	preview->pixbuf = NULL;
+	preview->pixbuf_scaled = NULL;
+	preview->pixbuf_x_align = 0.5;
+	preview->pixbuf_y_align = 0.5;
+	preview->i_scale = 1;
 
-	priv->surface = NULL;
-	priv->flag_create_surface = TRUE;
+	preview->surface = NULL;
+	preview->flag_create_surface = TRUE;
 
-	priv->p_scale = 0;
+	preview->p_scale = 0;
 
-	priv->l_margin = 0.25;
-	priv->r_margin = 0.25;
-	priv->t_margin = 0.25;
-	priv->b_margin = 0.56;
+	preview->l_margin = 0.25;
+	preview->r_margin = 0.25;
+	preview->t_margin = 0.25;
+	preview->b_margin = 0.56;
 
-	priv->grabbed = FALSE;
-	priv->cursorx = 0;
-	priv->cursory = 0;
-	priv->r_dx    = 0;
-	priv->r_dy    = 0;
+	preview->grabbed = FALSE;
+	preview->cursorx = 0;
+	preview->cursory = 0;
+	preview->r_dx    = 0;
+	preview->r_dy    = 0;
 }
 
 
@@ -512,7 +513,7 @@ photos_print_preview_new_with_pixbuf (GdkPixbuf *pixbuf)
 
 	preview = PHOTOS_PRINT_PREVIEW (photos_print_preview_new ());
 
-	preview->priv->pixbuf = g_object_ref (pixbuf);
+	preview->pixbuf = g_object_ref (pixbuf);
 
 	update_relative_sizes (preview);
 
@@ -537,7 +538,7 @@ photos_print_preview_new (void)
 
 	preview = g_object_new (PHOTOS_TYPE_PRINT_PREVIEW, NULL);
 
-	area = preview->priv->area;
+	area = preview->area;
 
 	gtk_widget_set_events (area,
 			       GDK_EXPOSURE_MASK            |
@@ -605,14 +606,12 @@ draw_cb (GtkDrawingArea *drawing_area,
 static void
 get_current_image_coordinates (PhotosPrintPreview *preview, gint *x0, gint *y0)
 {
-  PhotosPrintPreviewPrivate *priv;
   GtkAllocation allocation;
 
-  priv = preview->priv;
-  gtk_widget_get_allocation (GTK_WIDGET (priv->area), &allocation);
+  gtk_widget_get_allocation (GTK_WIDGET (preview->area), &allocation);
 
-  *x0 = (gint) ((1 - priv->pixbuf_x_align) * priv->l_rmargin +  priv->pixbuf_x_align * (allocation.width - priv->r_rmargin - priv->r_width));
-  *y0 = (gint) ((1 - priv->pixbuf_y_align) * priv->t_rmargin +  priv->pixbuf_y_align * (allocation.height - priv->b_rmargin - priv->r_height));
+  *x0 = (gint) ((1 - preview->pixbuf_x_align) * preview->l_rmargin +  preview->pixbuf_x_align * (allocation.width - preview->r_rmargin - preview->r_width));
+  *y0 = (gint) ((1 - preview->pixbuf_y_align) * preview->t_rmargin +  preview->pixbuf_y_align * (allocation.height - preview->b_rmargin - preview->r_height));
 }
 
 
@@ -630,16 +629,14 @@ get_current_image_coordinates (PhotosPrintPreview *preview, gint *x0, gint *y0)
 static gboolean
 press_inside_image_area (PhotosPrintPreview *preview, guint x, guint y)
 {
-  PhotosPrintPreviewPrivate *priv;
   const gint xs = (gint) x;
   const gint ys = (gint) y;
   gint x0;
   gint y0;
 
-  priv = preview->priv;
   get_current_image_coordinates (preview, &x0, &y0);
 
-  if (xs >= x0 &&  ys >= y0 && xs <= x0 + priv->r_width && ys <= y0 + priv->r_height)
+  if (xs >= x0 &&  ys >= y0 && xs <= x0 + preview->r_width && ys <= y0 + preview->r_height)
     return TRUE;
 
   return FALSE;
@@ -658,32 +655,30 @@ photos_print_preview_point_in_image_area (PhotosPrintPreview *preview, guint x, 
 static void
 create_image_scaled (PhotosPrintPreview *preview)
 {
-  PhotosPrintPreviewPrivate *priv = preview->priv;
-
-  if (priv->pixbuf_scaled == NULL)
+  if (preview->pixbuf_scaled == NULL)
     {
       gint i_height;
       gint i_width;
       GtkAllocation allocation;
 
-      gtk_widget_get_allocation (priv->area, &allocation);
-      i_width = gdk_pixbuf_get_width (priv->pixbuf);
-      i_height = gdk_pixbuf_get_height (priv->pixbuf);
+      gtk_widget_get_allocation (preview->area, &allocation);
+      i_width = gdk_pixbuf_get_width (preview->pixbuf);
+      i_height = gdk_pixbuf_get_height (preview->pixbuf);
 
       if ((i_width > allocation.width) || (i_height > allocation.height))
         {
           gdouble scale;
 
           scale = MIN ((gdouble) allocation.width/i_width, (gdouble) allocation.height/i_height);
-          priv->pixbuf_scaled = gdk_pixbuf_scale_simple (priv->pixbuf,
-                                                         i_width * scale,
-                                                         i_height * scale,
-                                                         GDK_INTERP_TILES);
+          preview->pixbuf_scaled = gdk_pixbuf_scale_simple (preview->pixbuf,
+                                                            i_width * scale,
+                                                            i_height * scale,
+                                                            GDK_INTERP_TILES);
         }
       else
         {
-          priv->pixbuf_scaled = priv->pixbuf;
-          g_object_ref (priv->pixbuf_scaled);
+          preview->pixbuf_scaled = preview->pixbuf;
+          g_object_ref (preview->pixbuf_scaled);
         }
     }
 }
@@ -695,17 +690,17 @@ create_preview_buffer (PhotosPrintPreview *preview)
 	gint width, height;
 	GdkInterpType type = GDK_INTERP_TILES;
 
-	if (preview->priv->pixbuf == NULL) {
+	if (preview->pixbuf == NULL) {
 		return NULL;
 	}
 
 	create_image_scaled (preview);
 
-	width  = gdk_pixbuf_get_width (preview->priv->pixbuf);
-	height = gdk_pixbuf_get_height (preview->priv->pixbuf);
+	width  = gdk_pixbuf_get_width (preview->pixbuf);
+	height = gdk_pixbuf_get_height (preview->pixbuf);
 
-	width   *= preview->priv->i_scale * preview->priv->p_scale;
-	height  *= preview->priv->i_scale * preview->priv->p_scale;
+	width   *= preview->i_scale * preview->p_scale;
+	height  *= preview->i_scale * preview->p_scale;
 
 	if (width < 1 || height < 1)
 		return NULL;
@@ -714,11 +709,11 @@ create_preview_buffer (PhotosPrintPreview *preview)
 	if (width < 25 || height < 25)
 		type = GDK_INTERP_NEAREST;
 
-	if (preview->priv->pixbuf_scaled) {
-		pixbuf = gdk_pixbuf_scale_simple (preview->priv->pixbuf_scaled,
+	if (preview->pixbuf_scaled) {
+		pixbuf = gdk_pixbuf_scale_simple (preview->pixbuf_scaled,
 						  width, height, type);
 	} else {
-		pixbuf = gdk_pixbuf_scale_simple (preview->priv->pixbuf,
+		pixbuf = gdk_pixbuf_scale_simple (preview->pixbuf,
 						  width, height, type);
 	}
 
@@ -729,24 +724,23 @@ create_preview_buffer (PhotosPrintPreview *preview)
 static void
 create_surface (PhotosPrintPreview *preview)
 {
-  PhotosPrintPreviewPrivate *priv = preview->priv;
   GdkPixbuf *pixbuf;
 
-  if (priv->surface != NULL)
+  if (preview->surface != NULL)
     {
-      cairo_surface_destroy (priv->surface);
-      priv->surface = NULL;
+      cairo_surface_destroy (preview->surface);
+      preview->surface = NULL;
     }
 
   pixbuf = create_preview_buffer (preview);
   if (pixbuf != NULL)
     {
-      priv->surface = gdk_cairo_surface_create_from_pixbuf (pixbuf, 0,
-                                                            gtk_widget_get_window (GTK_WIDGET (preview)));
+      preview->surface = gdk_cairo_surface_create_from_pixbuf (pixbuf, 0,
+                                                               gtk_widget_get_window (GTK_WIDGET (preview)));
       g_object_unref (pixbuf);
     }
 
-  priv->flag_create_surface = FALSE;
+  preview->flag_create_surface = FALSE;
 }
 
 
@@ -764,25 +758,25 @@ button_press_event_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_d
 {
   PhotosPrintPreview *preview = PHOTOS_PRINT_PREVIEW (user_data);
 
-  preview->priv->cursorx = event->x;
-  preview->priv->cursory = event->y;
+  preview->cursorx = event->x;
+  preview->cursory = event->y;
 
   switch (event->button)
     {
     case 1:
-      preview->priv->grabbed = press_inside_image_area (preview, event->x, event->y);
+      preview->grabbed = press_inside_image_area (preview, event->x, event->y);
       break;
 
     default:
       break;
     }
 
-  if (preview->priv->grabbed)
+  if (preview->grabbed)
     {
       gtk_widget_queue_draw (GTK_WIDGET (preview));
     }
 
-  gtk_widget_grab_focus (preview->priv->area);
+  gtk_widget_grab_focus (preview->area);
 
   return FALSE;
 }
@@ -796,9 +790,9 @@ button_release_event_cb (GtkWidget *widget, GdkEventButton *event, gpointer user
   switch (event->button)
     {
     case 1:
-      preview->priv->grabbed = FALSE;
-      preview->priv->r_dx = 0;
-      preview->priv->r_dy = 0;
+      preview->grabbed = FALSE;
+      preview->r_dx = 0;
+      preview->r_dy = 0;
       gtk_widget_queue_draw (GTK_WIDGET (preview));
       break;
 
@@ -864,45 +858,45 @@ key_press_event_cb (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 static gboolean
 motion_notify_event_cb (GtkWidget *widget, GdkEventMotion *event, gpointer user_data)
 {
-  PhotosPrintPreviewPrivate *priv = PHOTOS_PRINT_PREVIEW (user_data)->priv;
+  PhotosPrintPreview *self = PHOTOS_PRINT_PREVIEW (user_data);
   GtkAllocation allocation;
   gdouble dx, dy;
 
-  if (priv->grabbed)
+  if (self->grabbed)
     {
-      dx = event->x - priv->cursorx;
-      dy = event->y - priv->cursory;
+      dx = event->x - self->cursorx;
+      dy = event->y - self->cursory;
 
       gtk_widget_get_allocation (widget, &allocation);
 
       /* Make sure the image stays inside the margins */
 
-      priv->pixbuf_x_align += (dx + priv->r_dx) / (allocation.width  - priv->r_width - priv->l_rmargin - priv->r_rmargin);
-      if (priv->pixbuf_x_align < 0. || priv->pixbuf_x_align > 1.)
+      self->pixbuf_x_align += (dx + self->r_dx) / (allocation.width  - self->r_width - self->l_rmargin - self->r_rmargin);
+      if (self->pixbuf_x_align < 0. || self->pixbuf_x_align > 1.)
         {
-          priv->pixbuf_x_align = CLAMP (priv->pixbuf_x_align, 0., 1.);
-          priv->r_dx += dx;
+          self->pixbuf_x_align = CLAMP (self->pixbuf_x_align, 0., 1.);
+          self->r_dx += dx;
         }
       else
-        priv->r_dx = 0;
+        self->r_dx = 0;
 
-      priv->pixbuf_y_align += (dy + priv->r_dy) / (allocation.height - priv->r_height - priv->t_rmargin - priv->b_rmargin);
-      if (priv->pixbuf_y_align < 0. || priv->pixbuf_y_align > 1.)
+      self->pixbuf_y_align += (dy + self->r_dy) / (allocation.height - self->r_height - self->t_rmargin - self->b_rmargin);
+      if (self->pixbuf_y_align < 0. || self->pixbuf_y_align > 1.)
         {
-          priv->pixbuf_y_align = CLAMP (priv->pixbuf_y_align, 0., 1.);
-          priv->r_dy += dy;
+          self->pixbuf_y_align = CLAMP (self->pixbuf_y_align, 0., 1.);
+          self->r_dy += dy;
         }
       else
-        priv->r_dy = 0;
+        self->r_dy = 0;
 
       /* we do this to correctly change the property values */
       g_object_set (PHOTOS_PRINT_PREVIEW (user_data),
-                    "pixbuf-x-align", priv->pixbuf_x_align,
-                    "pixbuf-y-align", priv->pixbuf_y_align,
+                    "pixbuf-x-align", self->pixbuf_x_align,
+                    "pixbuf-y-align", self->pixbuf_y_align,
                     NULL);
 
-      priv->cursorx = event->x;
-      priv->cursory = event->y;
+      self->cursorx = event->x;
+      self->cursory = event->y;
 
       g_signal_emit (G_OBJECT (user_data), preview_signals[SIGNAL_PIXBUF_MOVED], 0);
     }
@@ -933,12 +927,12 @@ size_allocate_cb (GtkWidget *widget, GtkAllocation *allocation, gpointer user_da
   preview = PHOTOS_PRINT_PREVIEW (user_data);
   update_relative_sizes (preview);
 
-  preview->priv->flag_create_surface = TRUE;
+  preview->flag_create_surface = TRUE;
 
-  if (preview->priv->pixbuf_scaled != NULL)
+  if (preview->pixbuf_scaled != NULL)
     {
-      g_object_unref (preview->priv->pixbuf_scaled);
-      preview->priv->pixbuf_scaled = NULL;
+      g_object_unref (preview->pixbuf_scaled);
+      preview->pixbuf_scaled = NULL;
     }
 
   g_idle_add ((GSourceFunc) create_surface_when_idle, preview);
@@ -948,14 +942,12 @@ size_allocate_cb (GtkWidget *widget, GtkAllocation *allocation, gpointer user_da
 static void
 photos_print_preview_draw (PhotosPrintPreview *preview, cairo_t *cr)
 {
-	PhotosPrintPreviewPrivate *priv;
 	GtkWidget *area;
 	GtkAllocation allocation;
 	gint x0, y0;
 	gboolean has_focus;
 
-	priv = preview->priv;
-	area = priv->area;
+	area = preview->area;
 
 	has_focus = gtk_widget_has_focus (area);
 
@@ -970,41 +962,41 @@ photos_print_preview_draw (PhotosPrintPreview *preview, cairo_t *cr)
 	cairo_set_source_rgb (cr, 0., 0., 0.);
 	cairo_set_line_width (cr, 0.1);
 	cairo_rectangle (cr,
-			 priv->l_rmargin, priv->t_rmargin,
-			 allocation.width - priv->l_rmargin - priv->r_rmargin,
-			 allocation.height - priv->t_rmargin - priv->b_rmargin);
+			 preview->l_rmargin, preview->t_rmargin,
+			 allocation.width - preview->l_rmargin - preview->r_rmargin,
+			 allocation.height - preview->t_rmargin - preview->b_rmargin);
 	cairo_stroke (cr);
 
 	get_current_image_coordinates (preview, &x0, &y0);
 
-	if (priv->flag_create_surface) {
+	if (preview->flag_create_surface) {
 		create_surface (preview);
 	}
 
-	if (priv->surface) {
-		cairo_set_source_surface (cr, priv->surface, x0, y0);
+	if (preview->surface) {
+		cairo_set_source_surface (cr, preview->surface, x0, y0);
 		cairo_paint (cr);
-	} else if (priv->pixbuf_scaled) {
+	} else if (preview->pixbuf_scaled) {
 		/* just in the remote case we don't have the surface */
 
 		/* adjust (x0, y0) to the new scale */
-		gdouble scale = priv->i_scale * priv->p_scale *
-			gdk_pixbuf_get_width (priv->pixbuf) / gdk_pixbuf_get_width (priv->pixbuf_scaled);
+		gdouble scale = preview->i_scale * preview->p_scale *
+			gdk_pixbuf_get_width (preview->pixbuf) / gdk_pixbuf_get_width (preview->pixbuf_scaled);
 		x0 /= scale;
 		y0 /= scale;
 
 		cairo_scale (cr, scale, scale);
-		gdk_cairo_set_source_pixbuf (cr, priv->pixbuf_scaled, x0, y0);
+		gdk_cairo_set_source_pixbuf (cr, preview->pixbuf_scaled, x0, y0);
 		cairo_paint (cr);
-	} else if (priv->pixbuf) {
+	} else if (preview->pixbuf) {
 		/* just in the remote case we don't have the surface */
 
 		/* adjust (x0, y0) to the new scale */
-		x0 /=  priv->i_scale * priv->p_scale;
-		y0 /=  priv->i_scale * priv->p_scale;
+		x0 /=  preview->i_scale * preview->p_scale;
+		y0 /=  preview->i_scale * preview->p_scale;
 
-		cairo_scale (cr, priv->i_scale*priv->p_scale, priv->i_scale*priv->p_scale);
-		gdk_cairo_set_source_pixbuf (cr, priv->pixbuf, x0, y0);
+		cairo_scale (cr, preview->i_scale*preview->p_scale, preview->i_scale*preview->p_scale);
+		gdk_cairo_set_source_pixbuf (cr, preview->pixbuf, x0, y0);
 		cairo_paint (cr);
 	}
 
@@ -1013,37 +1005,34 @@ photos_print_preview_draw (PhotosPrintPreview *preview, cairo_t *cr)
 
 		ctx = gtk_widget_get_style_context (area);
 		gtk_render_focus (ctx, cr, x0, y0,
-				  priv->r_width, priv->r_height);
+				  preview->r_width, preview->r_height);
 	}
 }
 
 static void
 update_relative_sizes (PhotosPrintPreview *preview)
 {
-	PhotosPrintPreviewPrivate *priv;
 	GtkAllocation allocation;
 	gint i_width, i_height;
 
-	priv = preview->priv;
-
-	if (priv->pixbuf != NULL) {
-		i_width = gdk_pixbuf_get_width (priv->pixbuf);
-		i_height = gdk_pixbuf_get_height (priv->pixbuf);
+	if (preview->pixbuf != NULL) {
+		i_width = gdk_pixbuf_get_width (preview->pixbuf);
+		i_height = gdk_pixbuf_get_height (preview->pixbuf);
 	} else {
 		i_width = i_height = 0;
 	}
 
-	gtk_widget_get_allocation (priv->area, &allocation);
+	gtk_widget_get_allocation (preview->area, &allocation);
 
-	priv->p_scale = (gfloat) allocation.width / (priv->p_width * 72.0);
+	preview->p_scale = (gfloat) allocation.width / (preview->p_width * 72.0);
 
-	priv->r_width  = (gint) i_width  * priv->i_scale * priv->p_scale;
-	priv->r_height = (gint) i_height * priv->i_scale * priv->p_scale;
+	preview->r_width  = (gint) i_width  * preview->i_scale * preview->p_scale;
+	preview->r_height = (gint) i_height * preview->i_scale * preview->p_scale;
 
-	priv->l_rmargin = (gint) (72. * priv->l_margin * priv->p_scale);
-	priv->r_rmargin = (gint) (72. * priv->r_margin * priv->p_scale);
-	priv->t_rmargin = (gint) (72. * priv->t_margin * priv->p_scale);
-	priv->b_rmargin = (gint) (72. * priv->b_margin * priv->p_scale);
+	preview->l_rmargin = (gint) (72. * preview->l_margin * preview->p_scale);
+	preview->r_rmargin = (gint) (72. * preview->r_margin * preview->p_scale);
+	preview->t_rmargin = (gint) (72. * preview->t_margin * preview->p_scale);
+	preview->b_rmargin = (gint) (72. * preview->b_margin * preview->p_scale);
 }
 
 
@@ -1116,20 +1105,17 @@ photos_print_preview_get_image_position (PhotosPrintPreview *preview,
 				      gdouble *x,
 				      gdouble *y)
 {
-	PhotosPrintPreviewPrivate *priv;
 	gdouble width, height;
 
 	g_return_if_fail (PHOTOS_IS_PRINT_PREVIEW (preview));
 
-	priv = preview->priv;
-
 	if (x != NULL) {
-		width  = gdk_pixbuf_get_width (priv->pixbuf)  * priv->i_scale / 72.;
-		*x = priv->pixbuf_x_align * (priv->p_width  - priv->l_margin - priv->r_margin - width);
+		width  = gdk_pixbuf_get_width (preview->pixbuf)  * preview->i_scale / 72.;
+		*x = preview->pixbuf_x_align * (preview->p_width  - preview->l_margin - preview->r_margin - width);
 	}
 	if (y != NULL) {
-		height = gdk_pixbuf_get_height (priv->pixbuf) * priv->i_scale / 72.;
-		*y = priv->pixbuf_y_align * (priv->p_height - priv->t_margin - priv->b_margin - height);
+		height = gdk_pixbuf_get_height (preview->pixbuf) * preview->i_scale / 72.;
+		*y = preview->pixbuf_y_align * (preview->p_height - preview->t_margin - preview->b_margin - height);
 	}
 }
 
@@ -1148,23 +1134,20 @@ photos_print_preview_set_image_position (PhotosPrintPreview *preview,
 				      gdouble x,
 				      gdouble y)
 {
-	PhotosPrintPreviewPrivate *priv;
 	gfloat x_align, y_align;
 	gdouble width, height;
 
 	g_return_if_fail (PHOTOS_IS_PRINT_PREVIEW (preview));
 
-	priv = preview->priv;
-
 	if (x != -1) {
-		width  = gdk_pixbuf_get_width (priv->pixbuf) * priv->i_scale / 72.;
-		x_align = CLAMP (x/(priv->p_width - priv->l_margin - priv->r_margin - width), 0, 1);
+		width  = gdk_pixbuf_get_width (preview->pixbuf) * preview->i_scale / 72.;
+		x_align = CLAMP (x/(preview->p_width - preview->l_margin - preview->r_margin - width), 0, 1);
 		g_object_set (preview, "pixbuf-x-align", x_align, NULL);
 	}
 
 	if (y != -1) {
-		height  = gdk_pixbuf_get_height (priv->pixbuf) * priv->i_scale / 72.;
-		y_align = CLAMP (y/(priv->p_height - priv->t_margin - priv->b_margin - height), 0, 1);
+		height  = gdk_pixbuf_get_height (preview->pixbuf) * preview->i_scale / 72.;
+		y_align = CLAMP (y/(preview->p_height - preview->t_margin - preview->b_margin - height), 0, 1);
 		g_object_set (preview, "pixbuf-y-align", y_align, NULL);
 	}
 }

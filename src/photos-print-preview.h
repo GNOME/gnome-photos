@@ -34,36 +34,12 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
    PHOTOS_TYPE_PRINT_PREVIEW, PhotosPrintPreview))
 
-#define PHOTOS_PRINT_PREVIEW_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-   PHOTOS_TYPE_PRINT_PREVIEW, PhotosPrintPreviewClass))
-
 #define PHOTOS_IS_PRINT_PREVIEW(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
    PHOTOS_TYPE_PRINT_PREVIEW))
 
-#define PHOTOS_IS_PRINT_PREVIEW_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-   PHOTOS_TYPE_PRINT_PREVIEW))
-
-#define PHOTOS_PRINT_PREVIEW_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-   PHOTOS_TYPE_PRINT_PREVIEW, PhotosPrintPreviewClass))
-
-typedef struct _PhotosPrintPreview        PhotosPrintPreview;
-typedef struct _PhotosPrintPreviewClass   PhotosPrintPreviewClass;
-typedef struct _PhotosPrintPreviewPrivate PhotosPrintPreviewPrivate;
-
-struct _PhotosPrintPreview
-{
-  GtkAspectFrame parent_instance;
-  PhotosPrintPreviewPrivate *priv;
-};
-
-struct _PhotosPrintPreviewClass
-{
-  GtkAspectFrameClass parent_class;
-};
+typedef struct _PhotosPrintPreview      PhotosPrintPreview;
+typedef struct _PhotosPrintPreviewClass PhotosPrintPreviewClass;
 
 GType        photos_print_preview_get_type              (void) G_GNUC_CONST;
 
