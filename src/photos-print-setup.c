@@ -23,6 +23,7 @@
  *   + Eye of GNOME
  */
 
+
 #include "config.h"
 
 #ifdef HAVE__NL_MEASUREMENT_MEASUREMENT
@@ -197,7 +198,7 @@ photos_print_setup_center (gdouble page_width, gdouble width, GtkSpinButton *s_l
 
 
 static void
-on_center_changed (GtkComboBox *combobox, gpointer user_data)
+photos_print_setup_center_changed (GtkComboBox *combobox, gpointer user_data)
 {
   PhotosPrintSetup *self = PHOTOS_PRINT_SETUP (user_data);
   gint active;
@@ -910,7 +911,7 @@ photos_print_setup_init (PhotosPrintSetup *self)
   gtk_grid_attach_next_to (GTK_GRID (grid), label, combobox, GTK_POS_LEFT, 1, 1);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label), combobox);
   self->center = combobox;
-  g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (on_center_changed), self);
+  g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (photos_print_setup_center_changed), self);
 
   grid = gtk_grid_new ();
   gtk_grid_set_row_spacing (GTK_GRID (grid), 6);
