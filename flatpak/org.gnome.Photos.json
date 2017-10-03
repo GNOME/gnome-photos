@@ -136,16 +136,12 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://www.libraw.org/data/LibRaw-0.18.2.tar.gz",
-                    "sha256": "ce366bb38c1144130737eb16e919038937b4dc1ab165179a225d5e847af2abc6"
+                    "url": "http://www.libraw.org/data/LibRaw-0.18.5.tar.gz",
+                    "sha256": "fa2a7d14d9dfaf6b368f958a76d79266b3f58c2bc367bebab56e11baa94da178"
                 },
                 {
                     "type": "patch",
                     "path": "libraw-pkgconfig.patch"
-                },
-                {
-                    "type": "patch",
-                    "path": "libraw-CVE-2017-13735-radc_divbyzero.patch"
                 }
             ]
         },
