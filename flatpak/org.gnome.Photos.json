@@ -1,11 +1,11 @@
 {
     "app-id": "org.gnome.Photos",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "master",
+    "runtime-version": "3.26",
+    "branch": "stable",
     "sdk": "org.gnome.Sdk",
     "command": "gnome-photos",
-    "tags": [ "nightly" ],
-    "desktop-file-name-prefix": "(Nightly) ",
+    "tags": [],
     "finish-args": [
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--filesystem=~/.config/dconf:ro",
@@ -54,8 +54,9 @@
             },
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.gnome.org/babl"
+                    "type": "archive",
+                    "url": "http://ftp.gnome.org/pub/gimp/babl/0.1/babl-0.1.30.tar.bz2",
+                    "sha256": "45c12c7b06d965123756821fc70c968137d16d44151a6eb55075f904e11d53cc"
                 }
             ]
         },
@@ -64,8 +65,9 @@
             "config-opts": [ "--disable-introspection" ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.gnome.org/geocode-glib"
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/geocode-glib/3.24/geocode-glib-3.24.0.tar.xz",
+                    "sha256": "19c1fef4fd89eb4bfe6decca45ac45a2eca9bb7933be560ce6c172194840c35e"
                 }
             ]
         },
@@ -88,8 +90,9 @@
                              "--disable-backend" ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.gnome.org/gnome-online-accounts"
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/gnome-online-accounts/3.26/gnome-online-accounts-3.26.0.tar.xz",
+                    "sha256": "5cab736751c19efca762c0459e3358255d6662a6f4f27728cd02ea7b024e52ac"
                 }
             ]
         },
@@ -99,8 +102,9 @@
             "config-opts": [ "--disable-introspection" ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.gnome.org/libgfbgraph"
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/gfbgraph/0.2/gfbgraph-0.2.3.tar.xz",
+                    "sha256": "da1179083cde2b649d7491c745250a00d292e390fd620b7dd2dd95a122dae0b6"
                 }
             ]
         },
@@ -116,14 +120,12 @@
         },
         {
             "name": "libgdata",
-            "config-opts": [ "--disable-always-build-tests",
-                             "--disable-introspection",
-                             "--disable-Werror",
-                             "--disable-static" ],
+            "config-opts": [ "--disable-always-build-tests", "--disable-introspection", "--disable-static" ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.gnome.org/libgdata"
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/libgdata/0.17/libgdata-0.17.9.tar.xz",
+                    "sha256": "85c4f7674c0098ffaf060ae01b6b832cb277b3673d54ace3bdedaad6b127453a"
                 }
             ]
         },
@@ -133,23 +135,13 @@
             "cleanup": [ "/share/doc" ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://github.com/LibRaw/LibRaw.git"
-                },
-                {
-                    "type": "shell",
-                    "commands": [
-                        "make -f Makefile.devel regenerate",
-                        "autoreconf --force --install"
-                    ]
+                    "type": "archive",
+                    "url": "http://www.libraw.org/data/LibRaw-0.18.5.tar.gz",
+                    "sha256": "fa2a7d14d9dfaf6b368f958a76d79266b3f58c2bc367bebab56e11baa94da178"
                 },
                 {
                     "type": "patch",
                     "path": "libraw-pkgconfig.patch"
-                },
-                {
-                    "type": "patch",
-                    "path": "libraw-CVE-2017-13735-radc_divbyzero.patch"
                 }
             ]
         },
@@ -159,8 +151,9 @@
             "config-opts": [ "--disable-docs", "--disable-introspection" ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.gnome.org/gegl"
+                    "type": "archive",
+                    "url": "http://ftp.acc.umu.se/pub/gimp/gegl/0.3/gegl-0.3.20.tar.bz2",
+                    "sha256": "821568d17dc92a46f6105644c4f4d497daea2be794006140a016ed34e05eb084"
                 }
             ]
         },
@@ -203,8 +196,9 @@
             "config-opts": [ "--disable-introspection" ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.gnome.org/grilo"
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/grilo/0.3/grilo-0.3.4.tar.xz",
+                    "sha256": "7c6964053b42574c2f14715d2392a02ea5cbace955eb73e067c77aa3e43b066e"
                 }
             ]
         },
@@ -237,8 +231,9 @@
                              "--enable-goa" ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.gnome.org/grilo-plugins"
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/grilo-plugins/0.3/grilo-plugins-0.3.5.tar.xz",
+                    "sha256": "2977827b8ecb3e15535236180e57dc35e85058d111349bdb6a1597e62a5068fb"
                 }
             ]
         },
@@ -250,8 +245,9 @@
                              "--with-bash-completion-dir=no" ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.gnome.org/tracker"
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/tracker/2.0/tracker-2.0.0.tar.xz",
+                    "sha256": "efc3af5b44461ec938af0622fe8eacbf0c7abbadce32ae55df28c9d4b4b1ff6c"
                 }
             ]
         },
@@ -266,18 +262,20 @@
                              "--enable-miner-fs" ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.gnome.org/tracker-miners"
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/tracker-miners/2.0/tracker-miners-2.0.0.tar.xz",
+                    "sha256": "1f9dba209a80792cef15eaaa4efbd9aeda1ee6df76a3ba7b3769aef843cc807b"
                 }
             ]
         },
         {
             "name": "gnome-photos",
-            "config-opts": [ "--disable-documentation", "--disable-Werror" ],
+            "config-opts": [ "--disable-documentation" ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.gnome.org/gnome-photos"
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/gnome-photos/3.26/gnome-photos-3.26.0.tar.xz",
+                    "sha256": "d664f1cca5aca7b2288ebba83d341c70170ca37165981142e8ca7ceb5c348055"
                 }
             ]
         }
