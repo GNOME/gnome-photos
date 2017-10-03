@@ -1,3 +1,21 @@
+Overview of changes in 3.26.1
+=============================
+
+* Bugs fixed:
+ 785115 tool-crop: Don't show the orientation controls if it doesn't make
+        sense for the "original" aspect ratio
+ 788042 Edits are not applied when setting a background
+
+* Updated translations:
+ Catalan
+ Traditional Chinese (Taiwan)
+ Friulian
+ Greek
+ Icelandic
+ Persian
+ Slovenian
+
+
 Overview of changes in 3.26.0
 =============================
 
