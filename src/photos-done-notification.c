@@ -106,7 +106,7 @@ photos_done_notification_constructed (GObject *object)
   GtkWidget *undo;
   const gchar *id;
   const gchar *name;
-  gchar *msg;
+  g_autofree gchar *msg = NULL;
 
   G_OBJECT_CLASS (photos_done_notification_parent_class)->constructed (object);
 
@@ -120,7 +120,6 @@ photos_done_notification_constructed (GObject *object)
   gtk_widget_set_halign (label, GTK_ALIGN_START);
   gtk_widget_set_hexpand (label, TRUE);
   gtk_container_add (GTK_CONTAINER (self), label);
-  g_free (msg);
 
   undo = gtk_button_new_with_label (_("Undo"));
   gtk_widget_set_valign (undo, GTK_ALIGN_CENTER);
