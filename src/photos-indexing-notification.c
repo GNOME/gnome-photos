@@ -147,7 +147,7 @@ photos_indexing_notification_timeout (gpointer user_data)
   GList *miners_running;
   GomMiner *miner = NULL;
   const gchar *display_name = NULL;
-  gchar *primary = NULL;
+  g_autofree gchar *primary = NULL;
 
   self->timeout_id = 0;
 
@@ -170,7 +170,6 @@ photos_indexing_notification_timeout (gpointer user_data)
     primary = g_strdup (_("Fetching photos from online accounts"));
 
   photos_indexing_notification_display (self, primary, NULL);
-  g_free (primary);
 
   return G_SOURCE_REMOVE;
 }
@@ -237,7 +236,6 @@ static void
 photos_indexing_notification_init (PhotosIndexingNotification *self)
 {
   GApplication *app;
-  GError *error;
   GtkStyleContext *context;
   GtkWidget *close;
   GtkWidget *image;
@@ -245,15 +243,17 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
 
   app = g_application_get_default ();
 
-  error = NULL;
-  self->manager = tracker_miner_manager_new_full (FALSE, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to create a TrackerMinerManager, indexing progress notification won't work: %s",
-                 error->message);
-      g_error_free (error);
-      return;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    self->manager = tracker_miner_manager_new_full (FALSE, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to create a TrackerMinerManager, indexing progress notification won't work: %s",
+                   error->message);
+        return;
+      }
+  }
 
   self->ntfctn_mngr = photos_notification_manager_dup_singleton ();
 
