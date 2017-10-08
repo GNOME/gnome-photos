@@ -70,7 +70,7 @@ static gchar *
 photos_main_toolbar_create_selection_mode_label (PhotosMainToolbar *self, PhotosBaseItem *active_collection)
 {
   GList *selection;
-  gchar *label = NULL;
+  g_autofree gchar *label = NULL;
   gchar *ret_val = NULL;
   guint length;
 
@@ -82,16 +82,10 @@ photos_main_toolbar_create_selection_mode_label (PhotosMainToolbar *self, Photos
     label = g_strdup_printf (ngettext ("%d selected", "%d selected", length), length);
 
   if (active_collection != NULL)
-    {
-      ret_val = g_markup_printf_escaped ("<b>%s</b> (%s)", photos_base_item_get_name (active_collection), label);
-    }
+    ret_val = g_markup_printf_escaped ("<b>%s</b> (%s)", photos_base_item_get_name (active_collection), label);
   else
-    {
-      ret_val = label;
-      label = NULL;
-    }
+    ret_val = g_steal_pointer (&label);
 
-  g_free (label);
   return ret_val;
 }
 
@@ -102,7 +96,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
   PhotosBaseItem *active_collection;
   PhotosWindowMode window_mode;
   gboolean selection_mode;
-  gchar *primary = NULL;
+  g_autofree gchar *primary = NULL;
 
   selection_mode = photos_utils_get_selection_mode ();
   window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
@@ -158,8 +152,6 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
     }
   else
     gtk_header_bar_set_title (GTK_HEADER_BAR (self->header_bar), primary);
-
-  g_free (primary);
 }
 
 
@@ -196,7 +188,7 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
 {
   PhotosDlnaRenderer *renderer;
   GtkLabel *label;
-  gchar *text;
+  g_autofree gchar *text = NULL;
   const gchar *name;
 
   g_clear_pointer (&self->remote_display_button, (GDestroyNotify) gtk_widget_destroy);
@@ -217,7 +209,6 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
                             "clicked",
                             G_CALLBACK (photos_main_toolbar_remote_display_button_clicked),
                             self);
-  g_free (text);
 }
 
 
@@ -316,7 +307,7 @@ static GMenu *
 photos_main_toolbar_create_preview_menu (PhotosMainToolbar *self)
 {
   GMenu *menu;
-  GtkBuilder *builder;
+  g_autoptr (GtkBuilder) builder = NULL;
   PhotosBaseItem *item;
 
   builder = gtk_builder_new_from_resource ("/org/gnome/Photos/preview-menu.ui");
@@ -331,18 +322,16 @@ photos_main_toolbar_create_preview_menu (PhotosMainToolbar *self)
       if (default_app_name != NULL)
         {
           GMenu *section;
-          gchar *label;
+          g_autofree gchar *label = NULL;
 
           section = G_MENU (gtk_builder_get_object (builder, "open-section"));
           g_menu_remove (section, 0);
 
           label = g_strdup_printf (_("Open with %s"), default_app_name);
           g_menu_prepend (section, label, "app.open-current");
-          g_free (label);
         }
     }
 
-  g_object_unref (builder);
   return menu;
 }
 
@@ -365,7 +354,7 @@ static void
 photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self, gboolean favorite)
 {
   GtkWidget *image;
-  gchar *favorite_label;
+  g_autofree gchar *favorite_label = NULL;
 
   if (favorite)
     {
@@ -380,7 +369,6 @@ photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self, gboolean fa
 
   gtk_button_set_image (GTK_BUTTON (self->favorite_button), image);
   gtk_widget_set_tooltip_text (self->favorite_button, favorite_label);
-  g_free (favorite_label);
 }
 
 
@@ -449,7 +437,7 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 {
-  GMenu *preview_menu = NULL;
+  g_autoptr (GMenu) preview_menu = NULL;
   GtkWidget *edit_button;
   GtkWidget *image;
   GtkWidget *menu_button;
@@ -506,8 +494,6 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
                            G_CALLBACK (photos_main_toolbar_item_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
-
-  g_object_unref (preview_menu);
 }
 
 
@@ -598,7 +584,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   GMenu *selection_menu;
   GAction *action;
   GApplication *app;
-  GtkBuilder *builder;
+  g_autoptr (GtkBuilder) builder = NULL;
   PhotosSearchContextState *state;
 
   gtk_widget_init_template (GTK_WIDGET (self));
@@ -621,7 +607,6 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   selection_menu = G_MENU (gtk_builder_get_object (builder, "selection-menu"));
   self->selection_menu = gtk_menu_button_new ();
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (self->selection_menu), G_MENU_MODEL (selection_menu));
-  g_object_unref (builder);
 
   photos_header_bar_set_selection_menu (PHOTOS_HEADER_BAR (self->header_bar), GTK_BUTTON (self->selection_menu));
 
