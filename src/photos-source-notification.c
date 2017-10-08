@@ -63,15 +63,14 @@ photos_source_notification_close (PhotosSourceNotification *self)
 static void
 photos_source_notification_settings_clicked (PhotosSourceNotification *self)
 {
-  GAppInfo *app = NULL;
-  GError *error;
-  GdkAppLaunchContext *ctx = NULL;
+  g_autoptr (GAppInfo) app = NULL;
+  g_autoptr (GdkAppLaunchContext) ctx = NULL;
   GdkDisplay *display;
   GdkScreen *screen;
   GoaAccount *account;
   GoaObject *object;
   const gchar *id;
-  gchar *command_line = NULL;
+  g_autofree gchar *command_line = NULL;
 
   object = photos_source_get_goa_object (self->source);
   g_return_if_fail (GOA_IS_OBJECT (object));
@@ -80,14 +79,16 @@ photos_source_notification_settings_clicked (PhotosSourceNotification *self)
   id = goa_account_get_id (account);
   command_line = g_strconcat ("gnome-control-center online-accounts ", id, NULL);
 
-  error = NULL;
-  app = g_app_info_create_from_commandline (command_line, NULL, G_APP_INFO_CREATE_NONE, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to launch gnome-control-center: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    app = g_app_info_create_from_commandline (command_line, NULL, G_APP_INFO_CREATE_NONE, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to launch gnome-control-center: %s", error->message);
+        goto out;
+      }
+  }
 
   screen = gtk_widget_get_screen (GTK_WIDGET (self));
   if (screen != NULL)
@@ -99,19 +100,19 @@ photos_source_notification_settings_clicked (PhotosSourceNotification *self)
   if (screen != NULL)
     gdk_app_launch_context_set_screen (ctx, screen);
 
-  error = NULL;
-  g_app_info_launch (app, NULL, G_APP_LAUNCH_CONTEXT (ctx), &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to launch gnome-control-center: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    g_app_info_launch (app, NULL, G_APP_LAUNCH_CONTEXT (ctx), &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to launch gnome-control-center: %s", error->message);
+        goto out;
+      }
+  }
 
  out:
-  g_free (command_line);
-  g_clear_object (&ctx);
-  g_clear_object (&app);
+  return;
 }
 
 
@@ -124,7 +125,7 @@ photos_source_notification_constructed (GObject *object)
   GtkWidget *label;
   GtkWidget *settings;
   const gchar *name;
-  gchar *msg;
+  g_autofree gchar *msg = NULL;
 
   G_OBJECT_CLASS (photos_source_notification_parent_class)->constructed (object);
 
@@ -141,7 +142,6 @@ photos_source_notification_constructed (GObject *object)
   gtk_widget_set_halign (label, GTK_ALIGN_START);
   gtk_widget_set_hexpand (label, TRUE);
   gtk_container_add (GTK_CONTAINER (self), label);
-  g_free (msg);
 
   settings = gtk_button_new_with_label (_("Settings"));
   gtk_widget_set_valign (settings, GTK_ALIGN_CENTER);
