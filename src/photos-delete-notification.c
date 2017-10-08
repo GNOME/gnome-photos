@@ -121,11 +121,11 @@ static void
 photos_delete_notification_constructed (GObject *object)
 {
   PhotosDeleteNotification *self = PHOTOS_DELETE_NOTIFICATION (object);
-  gchar *msg;
   GtkWidget *close;
   GtkWidget *image;
   GtkWidget *label;
   GtkWidget *undo;
+  g_autofree gchar *msg = NULL;
   guint length;
 
   G_OBJECT_CLASS (photos_delete_notification_parent_class)->constructed (object);
@@ -145,7 +145,6 @@ photos_delete_notification_constructed (GObject *object)
   gtk_widget_set_halign (label, GTK_ALIGN_START);
   gtk_widget_set_hexpand (label, TRUE);
   gtk_container_add (GTK_CONTAINER (self), label);
-  g_free (msg);
 
   undo = gtk_button_new_with_label (_("Undo"));
   gtk_widget_set_valign (undo, GTK_ALIGN_CENTER);
