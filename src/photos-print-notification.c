@@ -66,8 +66,8 @@ static void
 photos_print_notification_status_changed (PhotosPrintNotification *self)
 {
   const gchar *status_str;
-  gchar *job_name = NULL;
-  gchar *status = NULL;
+  g_autofree gchar *job_name = NULL;
+  g_autofree gchar *status = NULL;
 
   status_str = gtk_print_operation_get_status_string (self->print_op);
   g_object_get (self->print_op, "job-name", &job_name, NULL);
@@ -76,9 +76,6 @@ photos_print_notification_status_changed (PhotosPrintNotification *self)
 
   if (gtk_print_operation_is_finished (self->print_op))
     gtk_widget_destroy (GTK_WIDGET (self));
-
-  g_free (job_name);
-  g_free (status);
 }
 
 
