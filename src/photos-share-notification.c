@@ -90,7 +90,6 @@ static void
 photos_share_notification_open (PhotosShareNotification *self)
 {
   GApplication *app;
-  GError *error;
   GtkWindow *parent;
   guint32 time;
 
@@ -103,12 +102,12 @@ photos_share_notification_open (PhotosShareNotification *self)
   parent = gtk_application_get_active_window (GTK_APPLICATION (app));
   time = gtk_get_current_event_time ();
 
-  error = NULL;
-  if (!gtk_show_uri_on_window (parent, self->uri, time, &error))
-    {
+  {
+    g_autoptr(GError) error = NULL;
+
+    if (!gtk_show_uri_on_window (parent, self->uri, time, &error))
       g_warning ("Failed to open uri: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   photos_share_notification_destroy (self);
 }
@@ -131,7 +130,7 @@ photos_share_notification_constructed (GObject *object)
   GtkWidget *close;
   GtkWidget *image;
   GtkWidget *label;
-  gchar *msg;
+  g_autofree gchar *msg = NULL;
 
   G_OBJECT_CLASS (photos_share_notification_parent_class)->constructed (object);
 
@@ -161,7 +160,7 @@ photos_share_notification_constructed (GObject *object)
     {
       GtkWidget *open;
       const gchar *name;
-      gchar *app_label;
+      g_autofree gchar *app_label = NULL;
 
       g_assert_true (photos_share_point_needs_notification (self->share_point));
 
@@ -173,7 +172,6 @@ photos_share_notification_constructed (GObject *object)
       gtk_widget_set_halign (open, GTK_ALIGN_CENTER);
       gtk_container_add (GTK_CONTAINER (self), open);
       g_signal_connect_swapped (open, "clicked", G_CALLBACK (photos_share_notification_open), self);
-      g_free (app_label);
     }
 
   image = gtk_image_new_from_icon_name (PHOTOS_ICON_WINDOW_CLOSE_SYMBOLIC, GTK_ICON_SIZE_INVALID);
@@ -192,8 +190,6 @@ photos_share_notification_constructed (GObject *object)
   photos_notification_manager_add_notification (PHOTOS_NOTIFICATION_MANAGER (self->ntfctn_mngr), GTK_WIDGET (self));
 
   self->timeout_id = g_timeout_add_seconds (SHARE_TIMEOUT, photos_share_notification_timeout, self);
-
-  g_free (msg);
 }
 
 
