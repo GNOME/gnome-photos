@@ -410,7 +410,7 @@ photos_preview_view_scroll_event (GtkWidget *widget, GdkEvent *event, gpointer u
     goto out;
 
   delta_abs = fabs (event->scroll.delta_y);
-  parameter = g_variant_new_double (delta_abs);
+  parameter = photos_utils_create_zoom_target_value (delta_abs, PHOTOS_ZOOM_EVENT_SCROLL);
   parameter = g_variant_ref_sink (parameter);
 
   if (event->scroll.delta_y < 0.0)
@@ -856,30 +856,46 @@ photos_preview_view_zoom_in (PhotosPreviewView *self, GVariant *parameter)
 {
   GtkWidget *view;
   GtkWidget *view_container;
+  PhotosZoomEvent event;
   gboolean best_fit;
   gdouble delta;
-  gdouble delta_abs;
   gdouble zoom;
   gdouble zoom_factor;
   gdouble zoom_factor_for_delta;
 
   g_return_if_fail (self->zoom_best_fit > 0.0);
 
-  delta = g_variant_get_double (parameter);
-  g_return_if_fail (photos_utils_equal_double (delta, -1.0) || delta >= 0.0);
+  event = photos_utils_get_zoom_event (parameter);
+  g_return_if_fail (event != PHOTOS_ZOOM_EVENT_NONE);
+
+  delta = photos_utils_get_zoom_delta (parameter);
+  g_return_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR && photos_utils_equal_double (delta, 1.0))
+                    || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && photos_utils_equal_double (delta, 1.0))
+                    || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0));
 
   view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   view = photos_preview_view_get_view_from_view_container (view_container);
 
   best_fit = photos_image_view_get_best_fit (PHOTOS_IMAGE_VIEW (view));
 
-  if (delta >= 0.0)
-    zoom_factor = best_fit ? ZOOM_FACTOR_2 : ZOOM_FACTOR_3;
-  else
-    zoom_factor = best_fit ? ZOOM_FACTOR_1 : ZOOM_FACTOR_2;
+  switch (event)
+    {
+    case PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR:
+    case PHOTOS_ZOOM_EVENT_MOUSE_CLICK:
+      zoom_factor = best_fit ? ZOOM_FACTOR_1 : ZOOM_FACTOR_2;
+      break;
 
-  delta_abs = fabs (delta);
-  zoom_factor_for_delta = pow (zoom_factor, delta_abs);
+    case PHOTOS_ZOOM_EVENT_SCROLL:
+      zoom_factor = best_fit ? ZOOM_FACTOR_2 : ZOOM_FACTOR_3;
+      break;
+
+    case PHOTOS_ZOOM_EVENT_NONE:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  zoom_factor_for_delta = pow (zoom_factor, delta);
 
   zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
   zoom *= zoom_factor_for_delta;
@@ -898,27 +914,43 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
 {
   GtkWidget *view;
   GtkWidget *view_container;
+  PhotosZoomEvent event;
   gdouble delta;
-  gdouble delta_abs;
   gdouble zoom;
   gdouble zoom_factor;
   gdouble zoom_factor_for_delta;
 
   g_return_if_fail (self->zoom_best_fit > 0.0);
 
-  delta = g_variant_get_double (parameter);
-  g_return_if_fail (photos_utils_equal_double (delta, -1.0) || delta >= 0.0);
+  event = photos_utils_get_zoom_event (parameter);
+  g_return_if_fail (event != PHOTOS_ZOOM_EVENT_NONE);
+
+  delta = photos_utils_get_zoom_delta (parameter);
+  g_return_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR && photos_utils_equal_double (delta, 1.0))
+                    || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && photos_utils_equal_double (delta, 1.0))
+                    || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0));
 
   view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   view = photos_preview_view_get_view_from_view_container (view_container);
 
-  if (delta >= 0.0)
-    zoom_factor = ZOOM_FACTOR_3;
-  else
-    zoom_factor = ZOOM_FACTOR_2;
+  switch (event)
+    {
+    case PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR:
+    case PHOTOS_ZOOM_EVENT_MOUSE_CLICK:
+      zoom_factor = ZOOM_FACTOR_2;
+      break;
 
-  delta_abs = fabs (delta);
-  zoom_factor_for_delta = pow (zoom_factor, delta_abs);
+    case PHOTOS_ZOOM_EVENT_SCROLL:
+      zoom_factor = ZOOM_FACTOR_3;
+      break;
+
+    case PHOTOS_ZOOM_EVENT_NONE:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  zoom_factor_for_delta = pow (zoom_factor, delta);
 
   zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
   zoom /= zoom_factor_for_delta;

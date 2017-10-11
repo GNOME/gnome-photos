@@ -39,7 +39,7 @@
                 <child>
                   <object class="GtkButton" id="zoom_in_button">
                     <property name="action_name">app.zoom-in</property>
-                    <property name="action_target">-1.0</property>
+                    <property name="action_target">{ 'delta': &lt;1.0&gt;, 'event': &lt;'mouse-click'&gt; }</property>
                     <style>
                       <class name="image-button"/>
                       <class name="osd"/>
@@ -54,7 +54,7 @@
                 <child>
                   <object class="GtkButton" id="zoom_out_button">
                     <property name="action_name">app.zoom-out</property>
-                    <property name="action_target">-1.0</property>
+                    <property name="action_target">{ 'delta': &lt;1.0&gt;, 'event': &lt;'mouse-click'&gt; }</property>
                     <style>
                       <class name="image-button"/>
                       <class name="osd"/>

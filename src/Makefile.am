@@ -506,6 +506,7 @@ stamp-photos-enums.h: photos-enums.h.template
 			--template $(srcdir)/photos-enums.h.template \
                         $(srcdir)/photos-item-manager.h \
                         $(srcdir)/photos-operation-insta-common.h \
+                        $(srcdir)/photos-utils.h \
                 ) >> xgen-etbh \
 		&& ( cmp -s xgen-etbh photos-enums.h || cp xgen-etbh photos-enums.h ) \
 		&& rm -f xgen-etbh \
@@ -518,6 +519,7 @@ photos-enums.c: photos-enums.c.template
 			--template $(srcdir)/photos-enums.c.template \
                         $(srcdir)/photos-item-manager.h \
                         $(srcdir)/photos-operation-insta-common.h \
+                        $(srcdir)/photos-utils.h \
                 ) >> xgen-etbc \
 		&& ( cmp -s xgen-etbc photos-enums.c || cp xgen-etbc photos-enums.c ) \
 		&& rm -f xgen-etbc \

@@ -1853,6 +1853,7 @@ photos_application_startup (GApplication *application)
   const gchar *zoom_best_fit_accels[3] = {"<Primary>0", NULL};
   const gchar *zoom_in_accels[3] = {"<Primary>plus", "<Primary>equal", NULL};
   const gchar *zoom_out_accels[2] = {"<Primary>minus", NULL};
+  gchar *detailed_action_name = NULL;
 
   photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::startup");
 
@@ -2062,10 +2063,10 @@ photos_application_startup (GApplication *application)
   self->zoom_best_fit_action = g_simple_action_new ("zoom-best-fit", NULL);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_best_fit_action));
 
-  self->zoom_in_action = g_simple_action_new ("zoom-in", G_VARIANT_TYPE_DOUBLE);
+  self->zoom_in_action = g_simple_action_new ("zoom-in", G_VARIANT_TYPE_VARDICT);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_in_action));
 
-  self->zoom_out_action = g_simple_action_new ("zoom-out", G_VARIANT_TYPE_DOUBLE);
+  self->zoom_out_action = g_simple_action_new ("zoom-out", G_VARIANT_TYPE_VARDICT);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_out_action));
 
   g_signal_connect_swapped (self->state->mode_cntrlr,
@@ -2089,8 +2090,18 @@ photos_application_startup (GApplication *application)
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.search", search_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.select-all", select_all_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-best-fit", zoom_best_fit_accels);
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-in(-1.0)", zoom_in_accels);
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-out(-1.0)", zoom_out_accels);
+
+  detailed_action_name = photos_utils_print_zoom_action_detailed_name ("app.zoom-in",
+                                                                       1.0,
+                                                                       PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), detailed_action_name, zoom_in_accels);
+  g_free (detailed_action_name);
+
+  detailed_action_name = photos_utils_print_zoom_action_detailed_name ("app.zoom-out",
+                                                                       1.0,
+                                                                       PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), detailed_action_name, zoom_out_accels);
+  g_free (detailed_action_name);
 
   g_signal_connect_swapped (self->state->item_mngr,
                             "items-changed",

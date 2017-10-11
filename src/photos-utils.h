@@ -52,6 +52,14 @@ G_BEGIN_DECLS
   "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#image-category-screenshot"
 #define PHOTOS_EXPORT_SUBPATH "Exports"
 
+typedef enum
+{
+  PHOTOS_ZOOM_EVENT_NONE,
+  PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR,
+  PHOTOS_ZOOM_EVENT_MOUSE_CLICK,
+  PHOTOS_ZOOM_EVENT_SCROLL
+} PhotosZoomEvent;
+
 GdkPixbuf       *photos_utils_center_pixbuf               (GdkPixbuf *pixbuf, gint size);
 
 gchar           *photos_utils_convert_path_to_uri         (const gchar *path);
@@ -72,7 +80,13 @@ gboolean         photos_utils_create_thumbnail            (GFile *file,
                                                            GCancellable *cancellable,
                                                            GError **error);
 
+GVariant        *photos_utils_create_zoom_target_value    (gdouble delta, PhotosZoomEvent event);
+
 GIcon           *photos_utils_get_icon_from_cursor        (TrackerSparqlCursor *cursor);
+
+gdouble          photos_utils_get_zoom_delta              (GVariant *dictionary);
+
+PhotosZoomEvent  photos_utils_get_zoom_event              (GVariant *dictionary);
 
 GdkPixbuf       *photos_utils_downscale_pixbuf_for_scale  (GdkPixbuf *pixbuf, gint size, gint scale);
 
@@ -158,6 +172,10 @@ void             photos_utils_list_box_header_func        (GtkListBoxRow *row,
                                                            gpointer user_data);
 
 void             photos_utils_object_list_free_full       (GList *objects);
+
+gchar           *photos_utils_print_zoom_action_detailed_name (const gchar *action_name,
+                                                               gdouble delta,
+                                                               PhotosZoomEvent event);
 
 gboolean         photos_utils_scrolled_window_can_scroll  (GtkScrolledWindow *scrolled_window);
 

@@ -35,6 +35,7 @@
 #include <libgd/gd.h>
 
 #include "photos-application.h"
+#include "photos-enums.h"
 #include "photos-error.h"
 #include "photos-facebook-item.h"
 #include "photos-flickr-item.h"
@@ -394,6 +395,41 @@ photos_utils_create_thumbnail (GFile *file,
 }
 
 
+GVariant *
+photos_utils_create_zoom_target_value (gdouble delta, PhotosZoomEvent event)
+{
+  GEnumClass *zoom_event_class = NULL;
+  GEnumValue *event_value;
+  GVariant *delta_value;
+  GVariant *event_nick_value;
+  GVariant *ret_val = NULL;
+  GVariantBuilder builder;
+  const gchar *event_nick = "none";
+
+  g_return_val_if_fail (delta >= 0.0, NULL);
+  g_return_val_if_fail (event != PHOTOS_ZOOM_EVENT_NONE, NULL);
+
+  g_variant_builder_init (&builder, G_VARIANT_TYPE_VARDICT);
+
+  delta_value = g_variant_new_double (delta);
+  g_variant_builder_add (&builder, "{sv}", "delta", delta_value);
+
+  zoom_event_class = G_ENUM_CLASS (g_type_class_ref (PHOTOS_TYPE_ZOOM_EVENT));
+
+  event_value = g_enum_get_value (zoom_event_class, (gint) event);
+  if (event_value != NULL)
+    event_nick = event_value->value_nick;
+
+  event_nick_value = g_variant_new_string (event_nick);
+  g_variant_builder_add (&builder, "{sv}", "event", event_nick_value);
+
+  ret_val = g_variant_builder_end (&builder);
+
+  g_type_class_unref (zoom_event_class);
+  return ret_val;
+}
+
+
 static GIcon *
 photos_utils_get_thumbnail_icon (const gchar *uri)
 {
@@ -479,6 +515,57 @@ photos_utils_get_icon_from_cursor (TrackerSparqlCursor *cursor)
 
  out:
   return icon;
+}
+
+
+gdouble
+photos_utils_get_zoom_delta (GVariant *dictionary)
+{
+  gdouble delta;
+  gdouble ret_val = -1.0;
+
+  g_return_val_if_fail (dictionary != NULL, -1.0);
+  g_return_val_if_fail (g_variant_is_of_type (dictionary, G_VARIANT_TYPE_VARDICT), -1.0);
+
+  if (!g_variant_lookup (dictionary, "delta", "d", &delta))
+    goto out;
+
+  ret_val = delta;
+
+ out:
+  g_return_val_if_fail (ret_val >= 0.0, -1.0);
+  return ret_val;
+}
+
+
+PhotosZoomEvent
+photos_utils_get_zoom_event (GVariant *dictionary)
+{
+  GEnumClass *zoom_event_class = NULL;
+  GEnumValue *event_value;
+  PhotosZoomEvent ret_val = PHOTOS_ZOOM_EVENT_NONE;
+  const gchar *event_str;
+
+  g_return_val_if_fail (dictionary != NULL, PHOTOS_ZOOM_EVENT_NONE);
+  g_return_val_if_fail (g_variant_is_of_type (dictionary, G_VARIANT_TYPE_VARDICT), PHOTOS_ZOOM_EVENT_NONE);
+
+  if (!g_variant_lookup (dictionary, "event", "&s", &event_str))
+    goto out;
+
+  zoom_event_class = G_ENUM_CLASS (g_type_class_ref (PHOTOS_TYPE_ZOOM_EVENT));
+
+  event_value = g_enum_get_value_by_nick (zoom_event_class, event_str);
+  if (event_value == NULL)
+    event_value = g_enum_get_value_by_name (zoom_event_class, event_str);
+  if (event_value == NULL)
+    goto out;
+
+  ret_val = (PhotosZoomEvent) event_value->value;
+
+ out:
+  g_clear_pointer (&zoom_event_class, g_type_class_unref);
+  g_return_val_if_fail (ret_val != PHOTOS_ZOOM_EVENT_NONE, PHOTOS_ZOOM_EVENT_NONE);
+  return ret_val;
 }
 
 
@@ -1222,6 +1309,26 @@ void
 photos_utils_object_list_free_full (GList *objects)
 {
   g_list_free_full (objects, (GDestroyNotify) g_object_unref);
+}
+
+
+gchar *
+photos_utils_print_zoom_action_detailed_name (const gchar *action_name, gdouble delta, PhotosZoomEvent event)
+{
+  GVariant *target_value;
+  gchar *ret_val = NULL;
+
+  g_return_val_if_fail (action_name != NULL && action_name[0] != '\0', NULL);
+  g_return_val_if_fail (delta >= 0.0, NULL);
+  g_return_val_if_fail (event != PHOTOS_ZOOM_EVENT_NONE, NULL);
+
+  target_value = photos_utils_create_zoom_target_value (delta, event);
+  target_value = g_variant_ref_sink (target_value);
+
+  ret_val = g_action_print_detailed_name (action_name, target_value);
+
+  g_variant_unref (target_value);
+  return ret_val;
 }
 
 
