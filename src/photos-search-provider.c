@@ -129,7 +129,7 @@ photos_search_provider_return_metas_from_cache (PhotosSearchProvider *self,
       if (meta == NULL)
         continue;
 
-      g_variant_builder_open (&builder, G_VARIANT_TYPE ("a{sv}"));
+      g_variant_builder_open (&builder, G_VARIANT_TYPE_VARDICT);
       g_variant_builder_add (&builder, "{sv}", "id", g_variant_new_string (meta->id));
       g_variant_builder_add (&builder, "{sv}", "name", g_variant_new_string (meta->title));
       if (meta->icon != NULL)
