@@ -3757,7 +3757,7 @@ photos_base_item_load_async (PhotosBaseItem *self,
   g_return_if_fail (!priv->collection);
 
   pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
-  g_return_if_fail (priv->edit_graph == NULL || GEGL_IS_NODE (priv->edit_graph) && PHOTOS_IS_PIPELINE (pipeline));
+  g_return_if_fail (priv->edit_graph == NULL || (GEGL_IS_NODE (priv->edit_graph) && PHOTOS_IS_PIPELINE (pipeline)));
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_load_async);
