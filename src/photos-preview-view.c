@@ -47,7 +47,9 @@
 struct _PhotosPreviewView
 {
   GtkBin parent_instance;
+  GAction *zoom_begin_action;
   GAction *zoom_best_fit_action;
+  GAction *zoom_end_action;
   GAction *zoom_in_action;
   GAction *zoom_out_action;
   GCancellable *cancellable;
@@ -63,6 +65,7 @@ struct _PhotosPreviewView
   gboolean grabbed;
   gdouble event_x_last;
   gdouble event_y_last;
+  gdouble zoom_begin;
   gdouble zoom_best_fit;
 };
 
@@ -76,6 +79,7 @@ enum
 G_DEFINE_TYPE (PhotosPreviewView, photos_preview_view, GTK_TYPE_BIN);
 
 
+static const gdouble ZOOM_BEST_FIT_FACTOR_TOUCH = 0.6;
 static const gdouble ZOOM_FACTOR_1 = 2.8561;
 static const gdouble ZOOM_FACTOR_2 = 1.69;
 static const gdouble ZOOM_FACTOR_3 = 1.3;
@@ -836,6 +840,29 @@ photos_preview_view_window_mode_changed (PhotosPreviewView *self, PhotosWindowMo
 
 
 static void
+photos_preview_view_zoom_begin (PhotosPreviewView *self, GVariant *parameter)
+{
+  GtkWidget *view;
+  GtkWidget *view_container;
+  PhotosZoomEvent event;
+
+  event = photos_utils_get_zoom_event (parameter);
+  g_return_if_fail (event == PHOTOS_ZOOM_EVENT_TOUCH);
+
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  view = photos_preview_view_get_view_from_view_container (view_container);
+  self->zoom_begin = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
+
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_begin_action), FALSE);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), TRUE);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_end_action), TRUE);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), TRUE);
+  photos_preview_nav_buttons_set_auto_hide (self->nav_buttons, FALSE);
+  photos_preview_nav_buttons_set_show_navigation (self->nav_buttons, FALSE);
+}
+
+
+static void
 photos_preview_view_zoom_best_fit (PhotosPreviewView *self)
 {
   GtkWidget *view;
@@ -846,6 +873,37 @@ photos_preview_view_zoom_best_fit (PhotosPreviewView *self)
   photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE, TRUE);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), FALSE);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), FALSE);
+  photos_preview_nav_buttons_set_auto_hide (self->nav_buttons, TRUE);
+  photos_preview_nav_buttons_set_show_navigation (self->nav_buttons, TRUE);
+}
+
+
+static void
+photos_preview_view_zoom_end (PhotosPreviewView *self, GVariant *parameter)
+{
+  GtkWidget *view;
+  GtkWidget *view_container;
+  PhotosZoomEvent event;
+  gdouble zoom;
+
+  event = photos_utils_get_zoom_event (parameter);
+  g_return_if_fail (event == PHOTOS_ZOOM_EVENT_TOUCH);
+
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  view = photos_preview_view_get_view_from_view_container (view_container);
+  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
+
+  if (zoom < self->zoom_best_fit || photos_utils_equal_double (self->zoom_best_fit, zoom))
+    {
+      photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE, TRUE);
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), FALSE);
+      g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), FALSE);
+    }
+
+  self->zoom_begin = 0.0;
+
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_begin_action), TRUE);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_end_action), FALSE);
   photos_preview_nav_buttons_set_auto_hide (self->nav_buttons, TRUE);
   photos_preview_nav_buttons_set_show_navigation (self->nav_buttons, TRUE);
 }
@@ -865,6 +923,7 @@ photos_preview_view_calculate_zoom_for_non_touch (PhotosPreviewView *self,
   gdouble zoom_factor_for_delta;
 
   g_return_val_if_fail (event != PHOTOS_ZOOM_EVENT_NONE, 0.0);
+  g_return_val_if_fail (event != PHOTOS_ZOOM_EVENT_TOUCH, 0.0);
   g_return_val_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR && photos_utils_equal_double (delta, 1.0))
                         || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && photos_utils_equal_double (delta, 1.0))
                         || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0),
@@ -887,6 +946,7 @@ photos_preview_view_calculate_zoom_for_non_touch (PhotosPreviewView *self,
       break;
 
     case PHOTOS_ZOOM_EVENT_NONE:
+    case PHOTOS_ZOOM_EVENT_TOUCH:
     default:
       g_assert_not_reached ();
       break;
@@ -910,6 +970,7 @@ photos_preview_view_zoom_in (PhotosPreviewView *self, GVariant *parameter)
   GtkWidget *view;
   GtkWidget *view_container;
   PhotosZoomEvent event;
+  gboolean enable_animation;
   gdouble delta;
   gdouble zoom;
 
@@ -921,14 +982,21 @@ photos_preview_view_zoom_in (PhotosPreviewView *self, GVariant *parameter)
   delta = photos_utils_get_zoom_delta (parameter);
   g_return_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR && photos_utils_equal_double (delta, 1.0))
                     || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && photos_utils_equal_double (delta, 1.0))
-                    || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0));
+                    || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0)
+                    || (event == PHOTOS_ZOOM_EVENT_TOUCH && delta >= 0.0 && self->zoom_begin > 0.0));
 
   switch (event)
     {
     case PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR:
     case PHOTOS_ZOOM_EVENT_MOUSE_CLICK:
     case PHOTOS_ZOOM_EVENT_SCROLL:
+      enable_animation = TRUE;
       zoom = photos_preview_view_calculate_zoom_for_non_touch (self, delta, event, TRUE);
+      break;
+
+    case PHOTOS_ZOOM_EVENT_TOUCH:
+      enable_animation = FALSE;
+      zoom = self->zoom_begin * delta;
       break;
 
     case PHOTOS_ZOOM_EVENT_NONE:
@@ -939,7 +1007,7 @@ photos_preview_view_zoom_in (PhotosPreviewView *self, GVariant *parameter)
 
   view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   view = photos_preview_view_get_view_from_view_container (view_container);
-  photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom, TRUE);
+  photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom, enable_animation);
 
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), TRUE);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), TRUE);
@@ -954,8 +1022,11 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
   GtkWidget *view;
   GtkWidget *view_container;
   PhotosZoomEvent event;
+  gboolean enable_animation;
   gdouble delta;
   gdouble zoom;
+  gdouble zoom_best_fit;
+  gdouble zoom_best_fit_factor;
 
   g_return_if_fail (self->zoom_best_fit > 0.0);
 
@@ -965,14 +1036,23 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
   delta = photos_utils_get_zoom_delta (parameter);
   g_return_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR && photos_utils_equal_double (delta, 1.0))
                     || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && photos_utils_equal_double (delta, 1.0))
-                    || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0));
+                    || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0)
+                    || (event == PHOTOS_ZOOM_EVENT_TOUCH && delta >= 0.0 && self->zoom_begin > 0.0));
 
   switch (event)
     {
     case PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR:
     case PHOTOS_ZOOM_EVENT_MOUSE_CLICK:
     case PHOTOS_ZOOM_EVENT_SCROLL:
+      enable_animation = TRUE;
       zoom = photos_preview_view_calculate_zoom_for_non_touch (self, delta, event, FALSE);
+      zoom_best_fit_factor = 1.0;
+      break;
+
+    case PHOTOS_ZOOM_EVENT_TOUCH:
+      enable_animation = FALSE;
+      zoom = self->zoom_begin * delta;
+      zoom_best_fit_factor = ZOOM_BEST_FIT_FACTOR_TOUCH;
       break;
 
     case PHOTOS_ZOOM_EVENT_NONE:
@@ -984,7 +1064,8 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
   view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   view = photos_preview_view_get_view_from_view_container (view_container);
 
-  if (zoom < self->zoom_best_fit || photos_utils_equal_double (self->zoom_best_fit, zoom))
+  zoom_best_fit = self->zoom_best_fit * zoom_best_fit_factor;
+  if (zoom < zoom_best_fit || photos_utils_equal_double (zoom_best_fit, zoom))
     {
       photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE, TRUE);
       g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), FALSE);
@@ -994,7 +1075,7 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
     }
   else
     {
-      photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom, TRUE);
+      photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom, enable_animation);
     }
 }
 
@@ -1156,10 +1237,24 @@ photos_preview_view_init (PhotosPreviewView *self)
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "sharpen-current");
   g_signal_connect_object (action, "activate", G_CALLBACK (photos_preview_view_sharpen), self, G_CONNECT_SWAPPED);
 
+  self->zoom_begin_action = g_action_map_lookup_action (G_ACTION_MAP (app), "zoom-begin");
+  g_signal_connect_object (self->zoom_begin_action,
+                           "activate",
+                           G_CALLBACK (photos_preview_view_zoom_begin),
+                           self,
+                           G_CONNECT_SWAPPED);
+
   self->zoom_best_fit_action = g_action_map_lookup_action (G_ACTION_MAP (app), "zoom-best-fit");
   g_signal_connect_object (self->zoom_best_fit_action,
                            "activate",
                            G_CALLBACK (photos_preview_view_zoom_best_fit),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  self->zoom_end_action = g_action_map_lookup_action (G_ACTION_MAP (app), "zoom-end");
+  g_signal_connect_object (self->zoom_end_action,
+                           "activate",
+                           G_CALLBACK (photos_preview_view_zoom_end),
                            self,
                            G_CONNECT_SWAPPED);
 

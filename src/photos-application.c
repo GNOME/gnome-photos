@@ -111,7 +111,9 @@ struct _PhotosApplication
   GSimpleAction *set_ss_action;
   GSimpleAction *share_action;
   GSimpleAction *sharpen_action;
+  GSimpleAction *zoom_begin_action;
   GSimpleAction *zoom_best_fit_action;
+  GSimpleAction *zoom_end_action;
   GSimpleAction *zoom_in_action;
   GSimpleAction *zoom_out_action;
   GtkWidget *main_window;
@@ -375,6 +377,7 @@ photos_application_actions_update (PhotosApplication *self)
   selection_mode = photos_utils_get_selection_mode ();
 
   g_simple_action_set_enabled (self->zoom_best_fit_action, FALSE);
+  g_simple_action_set_enabled (self->zoom_end_action, FALSE);
   g_simple_action_set_enabled (self->zoom_out_action, FALSE);
 
   enable = (mode == PHOTOS_WINDOW_MODE_EDIT);
@@ -419,6 +422,7 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->gear_action, enable);
   g_simple_action_set_enabled (self->set_bg_action, enable);
   g_simple_action_set_enabled (self->set_ss_action, enable);
+  g_simple_action_set_enabled (self->zoom_begin_action, enable);
   g_simple_action_set_enabled (self->zoom_in_action, enable);
 
   enable = ((load_state == PHOTOS_LOAD_STATE_FINISHED && mode == PHOTOS_WINDOW_MODE_PREVIEW)
@@ -2060,8 +2064,14 @@ photos_application_startup (GApplication *application)
   self->sharpen_action = g_simple_action_new ("sharpen-current", G_VARIANT_TYPE_DOUBLE);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->sharpen_action));
 
+  self->zoom_begin_action = g_simple_action_new ("zoom-begin", G_VARIANT_TYPE_VARDICT);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_begin_action));
+
   self->zoom_best_fit_action = g_simple_action_new ("zoom-best-fit", NULL);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_best_fit_action));
+
+  self->zoom_end_action = g_simple_action_new ("zoom-end", G_VARIANT_TYPE_VARDICT);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_end_action));
 
   self->zoom_in_action = g_simple_action_new ("zoom-in", G_VARIANT_TYPE_VARDICT);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->zoom_in_action));
@@ -2182,7 +2192,9 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->set_ss_action);
   g_clear_object (&self->share_action);
   g_clear_object (&self->sharpen_action);
+  g_clear_object (&self->zoom_begin_action);
   g_clear_object (&self->zoom_best_fit_action);
+  g_clear_object (&self->zoom_end_action);
   g_clear_object (&self->zoom_in_action);
   g_clear_object (&self->zoom_out_action);
   g_clear_object (&self->shr_pnt_mngr);

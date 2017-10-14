@@ -57,7 +57,8 @@ typedef enum
   PHOTOS_ZOOM_EVENT_NONE,
   PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR,
   PHOTOS_ZOOM_EVENT_MOUSE_CLICK,
-  PHOTOS_ZOOM_EVENT_SCROLL
+  PHOTOS_ZOOM_EVENT_SCROLL,
+  PHOTOS_ZOOM_EVENT_TOUCH
 } PhotosZoomEvent;
 
 GdkPixbuf       *photos_utils_center_pixbuf               (GdkPixbuf *pixbuf, gint size);
