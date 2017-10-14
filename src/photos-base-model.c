@@ -78,7 +78,7 @@ photos_base_model_active_changed (PhotosBaseModel *self, GObject *active_object)
 static void
 photos_base_model_refresh (PhotosBaseModel *self)
 {
-  GMenu *section;
+  g_autoptr (GMenu) section = NULL;
   const gchar *action_id;
   const gchar *title;
   guint i;
@@ -95,11 +95,11 @@ photos_base_model_refresh (PhotosBaseModel *self)
   n_items = g_list_model_get_n_items (G_LIST_MODEL (self->mngr));
   for (i = 0; i < n_items; i++)
     {
-      GMenuItem *menu_item;
-      GObject *object;
+      g_autoptr (GMenuItem) menu_item = NULL;
+      g_autoptr (GObject) object = NULL;
       GVariant *target_value;
       const gchar *id;
-      gchar *name;
+      g_autofree gchar *name = NULL;
 
       object = g_list_model_get_object (G_LIST_MODEL (self->mngr), i);
       id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
@@ -109,13 +109,7 @@ photos_base_model_refresh (PhotosBaseModel *self)
       target_value = g_variant_new ("s", id);
       g_menu_item_set_action_and_target_value (menu_item, action_id, target_value);
       g_menu_append_item (section, menu_item);
-
-      g_free (name);
-      g_object_unref (menu_item);
-      g_object_unref (object);
     }
-
-  g_object_unref (section);
 }
 
 
@@ -125,7 +119,7 @@ photos_base_model_constructed (GObject *object)
   PhotosBaseModel *self = PHOTOS_BASE_MODEL (object);
   GApplication *app;
   const gchar *action_id;
-  gchar *detailed_signal;
+  g_autofree gchar *detailed_signal = NULL;
 
   G_OBJECT_CLASS (photos_base_model_parent_class)->constructed (object);
 
@@ -150,7 +144,6 @@ photos_base_model_constructed (GObject *object)
                            G_CALLBACK (photos_base_model_action_state_changed),
                            self,
                            G_CONNECT_SWAPPED);
-  g_free (detailed_signal);
 
   g_signal_connect_object (self->mngr,
                            "active-changed",
