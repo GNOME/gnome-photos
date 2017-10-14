@@ -851,17 +851,67 @@ photos_preview_view_zoom_best_fit (PhotosPreviewView *self)
 }
 
 
+static gdouble
+photos_preview_view_calculate_zoom_for_non_touch (PhotosPreviewView *self,
+                                                  gdouble delta,
+                                                  PhotosZoomEvent event,
+                                                  gboolean zoom_in)
+{
+  GtkWidget *view;
+  GtkWidget *view_container;
+  gboolean best_fit;
+  gdouble zoom = 0.0;
+  gdouble zoom_factor;
+  gdouble zoom_factor_for_delta;
+
+  g_return_val_if_fail (event != PHOTOS_ZOOM_EVENT_NONE, 0.0);
+  g_return_val_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR && photos_utils_equal_double (delta, 1.0))
+                        || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && photos_utils_equal_double (delta, 1.0))
+                        || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0),
+                        0.0);
+
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  view = photos_preview_view_get_view_from_view_container (view_container);
+
+  best_fit = photos_image_view_get_best_fit (PHOTOS_IMAGE_VIEW (view));
+
+  switch (event)
+    {
+    case PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR:
+    case PHOTOS_ZOOM_EVENT_MOUSE_CLICK:
+      zoom_factor = best_fit && zoom_in ? ZOOM_FACTOR_1 : ZOOM_FACTOR_2;
+      break;
+
+    case PHOTOS_ZOOM_EVENT_SCROLL:
+      zoom_factor = best_fit && zoom_in ? ZOOM_FACTOR_2 : ZOOM_FACTOR_3;
+      break;
+
+    case PHOTOS_ZOOM_EVENT_NONE:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  zoom_factor_for_delta = pow (zoom_factor, delta);
+  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
+
+  if (zoom_in)
+    zoom *= zoom_factor_for_delta;
+  else
+    zoom /= zoom_factor_for_delta;
+
+  return zoom;
+}
+
+
 static void
 photos_preview_view_zoom_in (PhotosPreviewView *self, GVariant *parameter)
 {
   GtkWidget *view;
   GtkWidget *view_container;
   PhotosZoomEvent event;
-  gboolean best_fit;
   gdouble delta;
   gdouble zoom;
-  gdouble zoom_factor;
-  gdouble zoom_factor_for_delta;
 
   g_return_if_fail (self->zoom_best_fit > 0.0);
 
@@ -873,20 +923,12 @@ photos_preview_view_zoom_in (PhotosPreviewView *self, GVariant *parameter)
                     || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && photos_utils_equal_double (delta, 1.0))
                     || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0));
 
-  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
-  view = photos_preview_view_get_view_from_view_container (view_container);
-
-  best_fit = photos_image_view_get_best_fit (PHOTOS_IMAGE_VIEW (view));
-
   switch (event)
     {
     case PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR:
     case PHOTOS_ZOOM_EVENT_MOUSE_CLICK:
-      zoom_factor = best_fit ? ZOOM_FACTOR_1 : ZOOM_FACTOR_2;
-      break;
-
     case PHOTOS_ZOOM_EVENT_SCROLL:
-      zoom_factor = best_fit ? ZOOM_FACTOR_2 : ZOOM_FACTOR_3;
+      zoom = photos_preview_view_calculate_zoom_for_non_touch (self, delta, event, TRUE);
       break;
 
     case PHOTOS_ZOOM_EVENT_NONE:
@@ -895,11 +937,8 @@ photos_preview_view_zoom_in (PhotosPreviewView *self, GVariant *parameter)
       break;
     }
 
-  zoom_factor_for_delta = pow (zoom_factor, delta);
-
-  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
-  zoom *= zoom_factor_for_delta;
-
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  view = photos_preview_view_get_view_from_view_container (view_container);
   photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom, TRUE);
 
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), TRUE);
@@ -917,8 +956,6 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
   PhotosZoomEvent event;
   gdouble delta;
   gdouble zoom;
-  gdouble zoom_factor;
-  gdouble zoom_factor_for_delta;
 
   g_return_if_fail (self->zoom_best_fit > 0.0);
 
@@ -930,18 +967,12 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
                     || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && photos_utils_equal_double (delta, 1.0))
                     || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0));
 
-  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
-  view = photos_preview_view_get_view_from_view_container (view_container);
-
   switch (event)
     {
     case PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR:
     case PHOTOS_ZOOM_EVENT_MOUSE_CLICK:
-      zoom_factor = ZOOM_FACTOR_2;
-      break;
-
     case PHOTOS_ZOOM_EVENT_SCROLL:
-      zoom_factor = ZOOM_FACTOR_3;
+      zoom = photos_preview_view_calculate_zoom_for_non_touch (self, delta, event, FALSE);
       break;
 
     case PHOTOS_ZOOM_EVENT_NONE:
@@ -950,10 +981,8 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
       break;
     }
 
-  zoom_factor_for_delta = pow (zoom_factor, delta);
-
-  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
-  zoom /= zoom_factor_for_delta;
+  view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  view = photos_preview_view_get_view_from_view_container (view_container);
 
   if (zoom < self->zoom_best_fit || photos_utils_equal_double (self->zoom_best_fit, zoom))
     {
