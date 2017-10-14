@@ -34,6 +34,7 @@
 #include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-done-notification.h"
+#include "photos-gesture-zoom.h"
 #include "photos-image-view.h"
 #include "photos-edit-palette.h"
 #include "photos-operation-insta-common.h"
@@ -59,6 +60,7 @@ struct _PhotosPreviewView
   GtkWidget *revealer;
   GtkWidget *stack;
   PhotosBaseManager *item_mngr;
+  PhotosGestureZoom *gesture_zoom;
   PhotosModeController *mode_cntrlr;
   PhotosPreviewNavButtons *nav_buttons;
   PhotosTool *current_tool;
@@ -247,6 +249,79 @@ photos_preview_view_draw_overlay (PhotosPreviewView *self, cairo_t *cr, GdkRecta
     return;
 
   photos_tool_draw (self->current_tool, cr, rect);
+}
+
+
+static void
+photos_preview_view_gesture_zoom_begin (PhotosPreviewView *self)
+{
+  GVariant *parameter;
+  GtkGesture *gesture_zoom;
+
+  gesture_zoom = photos_gesture_zoom_get_gesture (self->gesture_zoom);
+  gtk_gesture_set_state (gesture_zoom, GTK_EVENT_SEQUENCE_CLAIMED);
+
+  parameter = photos_utils_create_zoom_target_value (0.0, PHOTOS_ZOOM_EVENT_TOUCH);
+  g_assert_true (g_variant_is_floating (parameter));
+
+  g_action_activate (self->zoom_begin_action, parameter);
+}
+
+
+static void
+photos_preview_view_gesture_zoom_direction_changed (PhotosPreviewView *self)
+{
+  GVariant *parameter;
+
+  parameter = photos_utils_create_zoom_target_value (0.0, PHOTOS_ZOOM_EVENT_TOUCH);
+  g_assert_true (g_variant_is_floating (parameter));
+
+  g_action_activate (self->zoom_end_action, parameter);
+
+  parameter = photos_utils_create_zoom_target_value (0.0, PHOTOS_ZOOM_EVENT_TOUCH);
+  g_assert_true (g_variant_is_floating (parameter));
+
+  g_action_activate (self->zoom_begin_action, parameter);
+}
+
+
+static void
+photos_preview_view_gesture_zoom_end (PhotosPreviewView *self)
+{
+  GVariant *parameter;
+
+  parameter = photos_utils_create_zoom_target_value (0.0, PHOTOS_ZOOM_EVENT_TOUCH);
+  g_assert_true (g_variant_is_floating (parameter));
+
+  g_action_activate (self->zoom_end_action, parameter);
+}
+
+
+static void
+photos_preview_view_gesture_zoom_scale_changed (PhotosPreviewView *self,
+                                                gdouble scale,
+                                                PhotosGestureZoomDirection direction)
+{
+  GVariant *parameter;
+
+  parameter = photos_utils_create_zoom_target_value (scale, PHOTOS_ZOOM_EVENT_TOUCH);
+  g_assert_true (g_variant_is_floating (parameter));
+
+  switch (direction)
+    {
+    case PHOTOS_GESTURE_ZOOM_DIRECTION_DECREASING:
+      g_action_activate (self->zoom_out_action, parameter);
+      break;
+
+    case PHOTOS_GESTURE_ZOOM_DIRECTION_INCREASING:
+      g_action_activate (self->zoom_in_action, parameter);
+      break;
+
+    case PHOTOS_GESTURE_ZOOM_DIRECTION_NONE:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
 }
 
 
@@ -1093,6 +1168,7 @@ photos_preview_view_dispose (GObject *object)
 
   g_clear_object (&self->node);
   g_clear_object (&self->item_mngr);
+  g_clear_object (&self->gesture_zoom);
   g_clear_object (&self->mode_cntrlr);
   g_clear_object (&self->nav_buttons);
 
@@ -1116,14 +1192,38 @@ static void
 photos_preview_view_constructed (GObject *object)
 {
   PhotosPreviewView *self = PHOTOS_PREVIEW_VIEW (object);
+  GtkGesture *gesture_zoom;
 
   G_OBJECT_CLASS (photos_preview_view_parent_class)->constructed (object);
+
+  gesture_zoom = gtk_gesture_zoom_new (GTK_WIDGET (self));
+  gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (gesture_zoom), GTK_PHASE_CAPTURE);
+  g_signal_connect_swapped (gesture_zoom,
+                            "begin",
+                            G_CALLBACK (photos_preview_view_gesture_zoom_begin),
+                            self);
+  g_signal_connect_swapped (gesture_zoom,
+                            "end",
+                            G_CALLBACK (photos_preview_view_gesture_zoom_end),
+                            self);
+
+  self->gesture_zoom = photos_gesture_zoom_new (gesture_zoom);
+  g_signal_connect_swapped (self->gesture_zoom,
+                            "direction-changed",
+                            G_CALLBACK (photos_preview_view_gesture_zoom_direction_changed),
+                            self);
+  g_signal_connect_swapped (self->gesture_zoom,
+                            "scale-changed",
+                            G_CALLBACK (photos_preview_view_gesture_zoom_scale_changed),
+                            self);
 
   self->nav_buttons = photos_preview_nav_buttons_new (self, GTK_OVERLAY (self->overlay));
   g_signal_connect_swapped (self->nav_buttons, "load-next", G_CALLBACK (photos_preview_view_navigate_next), self);
   g_signal_connect_swapped (self->nav_buttons, "load-previous", G_CALLBACK (photos_preview_view_navigate_previous), self);
 
   gtk_widget_show_all (GTK_WIDGET (self));
+
+  g_object_unref (gesture_zoom);
 }
 
 
