@@ -337,7 +337,7 @@ photos_preview_nav_buttons_motion_notify (PhotosPreviewNavButtons *self, GdkEven
 static void
 photos_preview_nav_buttons_long_press_pressed (PhotosPreviewNavButtons *self)
 {
-  gtk_gesture_set_state (GTK_GESTURE (self->long_press_gesture), GTK_EVENT_SEQUENCE_DENIED);
+  gtk_gesture_set_state (self->long_press_gesture, GTK_EVENT_SEQUENCE_DENIED);
 }
 
 
@@ -350,7 +350,7 @@ photos_preview_nav_buttons_multi_press_end (PhotosPreviewNavButtons *self, GdkEv
   if (state == GTK_EVENT_SEQUENCE_DENIED)
     return;
 
-  gtk_gesture_set_state (GTK_GESTURE (self->tap_gesture), GTK_EVENT_SEQUENCE_CLAIMED);
+  gtk_gesture_set_state (self->tap_gesture, GTK_EVENT_SEQUENCE_CLAIMED);
 
   if (self->auto_hide)
     {
