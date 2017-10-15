@@ -115,6 +115,37 @@ photos_image_view_notify_zoom (GObject *object, GParamSpec *pspec, gpointer user
 
 
 static void
+photos_image_view_start_zoom_animation (PhotosImageView *self)
+{
+  GdkFrameClock *frame_clock;
+  PhotosImageViewHelper *helper;
+
+  g_return_if_fail (self->zoom > 0.0);
+  g_return_if_fail (self->zoom_animation == NULL);
+  g_return_if_fail (self->zoom_visible > 0.0);
+
+  helper = photos_image_view_helper_new ();
+  photos_image_view_helper_set_zoom (helper, self->zoom_visible);
+  g_signal_connect (helper, "notify::zoom", G_CALLBACK (photos_image_view_notify_zoom), self);
+
+  frame_clock = gtk_widget_get_frame_clock (GTK_WIDGET (self));
+
+  self->zoom_animation = egg_object_animate_full (g_object_ref (helper),
+                                                  ZOOM_ANIMATION_MODE,
+                                                  ZOOM_ANIMATION_DURATION,
+                                                  frame_clock,
+                                                  g_object_unref,
+                                                  helper,
+                                                  "zoom",
+                                                  self->zoom,
+                                                  NULL);
+  g_object_add_weak_pointer (G_OBJECT (self->zoom_animation), (gpointer *) &self->zoom_animation);
+
+  g_object_unref (helper);
+}
+
+
+static void
 photos_image_view_update_buffer (PhotosImageView *self)
 {
   const Babl *format;
@@ -301,27 +332,7 @@ photos_image_view_update (PhotosImageView *self)
 
       if (self->zoom_visible > 0.0 && self->queued_best_fit_animation)
         {
-          GdkFrameClock *frame_clock;
-          PhotosImageViewHelper *helper;
-
-          helper = photos_image_view_helper_new ();
-          photos_image_view_helper_set_zoom (helper, self->zoom_visible);
-          g_signal_connect (helper, "notify::zoom", G_CALLBACK (photos_image_view_notify_zoom), self);
-
-          frame_clock = gtk_widget_get_frame_clock (GTK_WIDGET (self));
-
-          self->zoom_animation = egg_object_animate_full (g_object_ref (helper),
-                                                          ZOOM_ANIMATION_MODE,
-                                                          ZOOM_ANIMATION_DURATION,
-                                                          frame_clock,
-                                                          g_object_unref,
-                                                          helper,
-                                                          "zoom",
-                                                          self->zoom,
-                                                          NULL);
-          g_object_add_weak_pointer (G_OBJECT (self->zoom_animation), (gpointer *) &self->zoom_animation);
-
-          g_object_unref (helper);
+          photos_image_view_start_zoom_animation (self);
           goto out;
         }
 
@@ -1051,27 +1062,7 @@ photos_image_view_set_zoom (PhotosImageView *self, gdouble zoom)
 
   if (self->zoom_visible > 0.0)
     {
-      GdkFrameClock *frame_clock;
-      PhotosImageViewHelper *helper;
-
-      helper = photos_image_view_helper_new ();
-      photos_image_view_helper_set_zoom (helper, self->zoom_visible);
-      g_signal_connect (helper, "notify::zoom", G_CALLBACK (photos_image_view_notify_zoom), self);
-
-      frame_clock = gtk_widget_get_frame_clock (GTK_WIDGET (self));
-
-      self->zoom_animation = egg_object_animate_full (g_object_ref (helper),
-                                                      ZOOM_ANIMATION_MODE,
-                                                      ZOOM_ANIMATION_DURATION,
-                                                      frame_clock,
-                                                      g_object_unref,
-                                                      helper,
-                                                      "zoom",
-                                                      self->zoom,
-                                                      NULL);
-      g_object_add_weak_pointer (G_OBJECT (self->zoom_animation), (gpointer *) &self->zoom_animation);
-
-      g_object_unref (helper);
+      photos_image_view_start_zoom_animation (self);
     }
   else
     {
