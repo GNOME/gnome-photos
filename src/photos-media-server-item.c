@@ -57,7 +57,7 @@ G_DEFINE_TYPE_WITH_CODE (PhotosMediaServerItem, photos_media_server_item, PHOTOS
 static gchar *
 photos_media_server_item_create_filename_fallback (PhotosBaseItem *item)
 {
-  GFile *file = NULL;
+  g_autoptr (GFile) file = NULL;
   const gchar *uri;
   gchar *ret_val;
 
@@ -65,7 +65,6 @@ photos_media_server_item_create_filename_fallback (PhotosBaseItem *item)
   file = g_file_new_for_uri (uri);
   ret_val = g_file_get_basename (file);
 
-  g_object_unref (file);
   return ret_val;
 }
 
@@ -81,7 +80,7 @@ photos_media_server_item_create_name_fallback (PhotosBaseItem *item)
 static gboolean
 photos_media_server_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GFile *file;
+  g_autoptr (GFile) file = NULL;
   GQuark orientation;
   gboolean ret_val;
   const gchar *mime_type;
@@ -108,7 +107,6 @@ photos_media_server_item_create_thumbnail (PhotosBaseItem *item, GCancellable *c
                                            cancellable,
                                            error);
 
-  g_object_unref (file);
   return ret_val;
 }
 
@@ -116,13 +114,13 @@ photos_media_server_item_create_thumbnail (PhotosBaseItem *item, GCancellable *c
 static gchar *
 photos_media_server_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GFile *local_file = NULL;
-  GFile *remote_file = NULL;
+  g_autoptr (GFile) local_file = NULL;
+  g_autoptr (GFile) remote_file = NULL;
   const gchar *cache_dir;
   const gchar *uri;
-  gchar *local_dir = NULL;
-  gchar *local_filename = NULL;
-  gchar *local_path = NULL;
+  g_autofree gchar *local_dir = NULL;
+  g_autofree gchar *local_filename = NULL;
+  g_autofree gchar *local_path = NULL;
   gchar *ret_val = NULL;
 
   uri = photos_base_item_get_uri (item);
@@ -152,15 +150,9 @@ photos_media_server_item_download (PhotosBaseItem *item, GCancellable *cancellab
         }
     }
 
-  ret_val = local_path;
-  local_path = NULL;
+  ret_val = g_steal_pointer (&local_path);
 
  out:
-  g_free (local_path);
-  g_free (local_filename);
-  g_free (local_dir);
-  g_object_unref (local_file);
-  g_object_unref (remote_file);
   return ret_val;
 }
 
