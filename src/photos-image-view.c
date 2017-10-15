@@ -296,11 +296,6 @@ photos_image_view_update (PhotosImageView *self)
           zoom_scaled = 1.0 / max_ratio;
         }
 
-      bbox_zoomed.width = (gint) (zoom_scaled * bbox.width + 0.5);
-      bbox_zoomed.height = (gint) (zoom_scaled * bbox.height + 0.5);
-      bbox_zoomed.x = (gint) (zoom_scaled * bbox.x + 0.5);
-      bbox_zoomed.y = (gint) (zoom_scaled * bbox.y + 0.5);
-
       self->zoom = zoom_scaled / (gdouble) scale_factor;
       g_object_notify (G_OBJECT (self), "zoom");
 
@@ -329,11 +324,14 @@ photos_image_view_update (PhotosImageView *self)
           g_object_unref (helper);
           goto out;
         }
-      else
-        {
-          self->zoom_visible = self->zoom;
-          self->zoom_visible_scaled = zoom_scaled;
-        }
+
+      bbox_zoomed.width = (gint) (zoom_scaled * bbox.width + 0.5);
+      bbox_zoomed.height = (gint) (zoom_scaled * bbox.height + 0.5);
+      bbox_zoomed.x = (gint) (zoom_scaled * bbox.x + 0.5);
+      bbox_zoomed.y = (gint) (zoom_scaled * bbox.y + 0.5);
+
+      self->zoom_visible = self->zoom;
+      self->zoom_visible_scaled = zoom_scaled;
 
       self->x_scaled = (bbox_zoomed.width - viewport_width_real) / 2.0;
       self->y_scaled = (bbox_zoomed.height - viewport_height_real) / 2.0;
