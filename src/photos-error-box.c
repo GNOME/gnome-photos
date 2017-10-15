@@ -104,19 +104,19 @@ photos_error_box_new (void)
 void
 photos_error_box_update (PhotosErrorBox *self, const gchar *primary, const gchar *secondary)
 {
-  gchar *markup;
-
   if (primary != NULL)
     {
+      g_autofree gchar *markup = NULL;
+
       markup = g_markup_printf_escaped ("<big><b>%s</b></big>", primary);
       gtk_label_set_markup (GTK_LABEL (self->primary_label), markup);
-      g_free (markup);
     }
 
   if (secondary != NULL)
     {
+      g_autofree gchar *markup = NULL;
+
       markup = g_markup_escape_text (secondary, -1);
       gtk_label_set_markup (GTK_LABEL (self->secondary_label), markup);
-      g_free (markup);
     }
 }
