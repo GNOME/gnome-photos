@@ -96,6 +96,31 @@ static const guint ZOOM_ANIMATION_DURATION = 250; /* ms */
 static void photos_image_view_computed (PhotosImageView *self, GeglRectangle *rect);
 
 
+static gboolean
+photos_image_view_has_allocation_and_extent (PhotosImageView *self)
+{
+  GeglRectangle bbox;
+  GtkAllocation allocation;
+  gboolean ret_val = FALSE;
+
+  if (self->buffer == NULL)
+    goto out;
+
+  gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
+  if (allocation.width <= 0 || allocation.height <= 0)
+    goto out;
+
+  bbox = *gegl_buffer_get_extent (self->buffer);
+  if (bbox.width < 0 || bbox.height < 0)
+    goto out;
+
+  ret_val = TRUE;
+
+ out:
+  return ret_val;
+}
+
+
 static void
 photos_image_view_notify_zoom (GObject *object, GParamSpec *pspec, gpointer user_data)
 {
@@ -299,18 +324,13 @@ photos_image_view_update (PhotosImageView *self)
   if (self->node == NULL)
     goto out;
 
-  g_assert_true (GEGL_IS_BUFFER (self->buffer));
+  if (!photos_image_view_has_allocation_and_extent (self))
+    goto out;
 
   gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
-
-  if (allocation.width <= 0 || allocation.height <= 0)
-    goto out;
-
   bbox = *gegl_buffer_get_extent (self->buffer);
-  if (bbox.width < 0 || bbox.height < 0)
-    goto out;
-
   scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
+
   viewport_height_real = allocation.height * scale_factor;
   viewport_width_real = allocation.width * scale_factor;
 
