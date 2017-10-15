@@ -1000,6 +1000,9 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
   if (self->node == node)
     return;
 
+  if (self->zoom_animation != NULL)
+    egg_animation_stop (self->zoom_animation);
+
   if (self->node != NULL)
     {
       g_signal_handlers_disconnect_by_func (self->node, photos_image_view_computed, self);
