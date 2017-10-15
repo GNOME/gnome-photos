@@ -1050,6 +1050,7 @@ void
 photos_image_view_set_zoom (PhotosImageView *self, gdouble zoom)
 {
   g_return_if_fail (PHOTOS_IS_IMAGE_VIEW (self));
+  g_return_if_fail (zoom > 0.0);
 
   if (photos_utils_equal_double (self->zoom, zoom))
     return;
