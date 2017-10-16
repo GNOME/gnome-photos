@@ -325,7 +325,7 @@ photos_preview_view_update_zoom_best_fit (PhotosPreviewView *self, PhotosImageVi
   g_return_if_fail (view == PHOTOS_IMAGE_VIEW (current_view));
 
   zoom = photos_image_view_get_zoom (view);
-  if (!photos_image_view_get_best_fit (view) || zoom == 0.0)
+  if (!photos_image_view_get_best_fit (view))
     return;
 
   self->zoom_best_fit = zoom;

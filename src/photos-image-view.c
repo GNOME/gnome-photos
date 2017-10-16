@@ -49,7 +49,6 @@ struct _PhotosImageView
   cairo_region_t *bbox_region;
   cairo_region_t *region;
   gboolean best_fit;
-  gboolean queued_best_fit_animation;
   gdouble height;
   gdouble width;
   gdouble x;
@@ -122,6 +121,62 @@ photos_image_view_has_allocation_and_extent (PhotosImageView *self)
 
 
 static void
+photos_image_view_calculate_best_fit_zoom (PhotosImageView *self, gdouble *out_zoom, gdouble *out_zoom_scaled)
+{
+  GeglRectangle bbox;
+  GtkAllocation allocation;
+  gdouble zoom;
+  gdouble zoom_scaled = 1.0;
+  gint scale_factor;
+  gint viewport_height_real;
+  gint viewport_width_real;
+
+  if (!photos_image_view_has_allocation_and_extent (self))
+    goto out;
+
+  gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
+  bbox = *gegl_buffer_get_extent (self->buffer);
+
+  scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
+  viewport_height_real = allocation.height * scale_factor;
+  viewport_width_real = allocation.width * scale_factor;
+
+  if (bbox.height > viewport_height_real || bbox.width > viewport_width_real)
+    {
+      gdouble height_ratio = bbox.height / (gdouble) viewport_height_real;
+      gdouble width_ratio = bbox.width / (gdouble) viewport_width_real;
+      gdouble max_ratio =  MAX (height_ratio, width_ratio);
+
+      zoom_scaled = 1.0 / max_ratio;
+    }
+
+ out:
+  zoom = zoom_scaled / (gdouble) scale_factor;
+
+  if (out_zoom != NULL)
+    *out_zoom = zoom;
+
+  if (out_zoom_scaled != NULL)
+    *out_zoom_scaled = zoom_scaled;
+}
+
+
+static gboolean
+photos_image_view_needs_zoom_animation (PhotosImageView *self)
+{
+  gboolean ret_val = FALSE;
+
+  if (!photos_image_view_has_allocation_and_extent (self))
+    goto out;
+
+  ret_val = TRUE;
+
+ out:
+  return ret_val;
+}
+
+
+static void
 photos_image_view_notify_zoom (GObject *object, GParamSpec *pspec, gpointer user_data)
 {
   PhotosImageView *self = PHOTOS_IMAGE_VIEW (user_data);
@@ -145,6 +200,7 @@ photos_image_view_start_zoom_animation (PhotosImageView *self)
   GdkFrameClock *frame_clock;
   PhotosImageViewHelper *helper;
 
+  g_return_if_fail (photos_image_view_needs_zoom_animation (self));
   g_return_if_fail (self->zoom > 0.0);
   g_return_if_fail (self->zoom_animation == NULL);
   g_return_if_fail (self->zoom_visible > 0.0);
@@ -327,6 +383,30 @@ photos_image_view_update (PhotosImageView *self)
   if (!photos_image_view_has_allocation_and_extent (self))
     goto out;
 
+  if (self->best_fit)
+    {
+      gdouble zoom;
+      gdouble zoom_scaled;
+
+      photos_image_view_calculate_best_fit_zoom (self, &zoom, &zoom_scaled);
+
+      if (!photos_utils_equal_double (self->zoom, zoom))
+        {
+          self->zoom = zoom;
+          g_object_notify (G_OBJECT (self), "zoom");
+
+          if (self->zoom_animation != NULL)
+            {
+              egg_animation_stop (self->zoom_animation);
+              photos_image_view_start_zoom_animation (self);
+              goto out;
+            }
+
+          self->zoom_visible = self->zoom;
+          self->zoom_visible_scaled = zoom_scaled;
+        }
+    }
+
   gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
   bbox = *gegl_buffer_get_extent (self->buffer);
   scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
@@ -336,33 +416,10 @@ photos_image_view_update (PhotosImageView *self)
 
   if (self->best_fit && self->zoom_animation == NULL)
     {
-      gdouble zoom_scaled = 1.0;
-
-      if (bbox.height > viewport_height_real || bbox.width > viewport_width_real)
-        {
-          gdouble height_ratio = bbox.height / (gdouble) viewport_height_real;
-          gdouble width_ratio = bbox.width / (gdouble) viewport_width_real;
-          gdouble max_ratio =  MAX (height_ratio, width_ratio);
-
-          zoom_scaled = 1.0 / max_ratio;
-        }
-
-      self->zoom = zoom_scaled / (gdouble) scale_factor;
-      g_object_notify (G_OBJECT (self), "zoom");
-
-      if (self->zoom_visible > 0.0 && self->queued_best_fit_animation)
-        {
-          photos_image_view_start_zoom_animation (self);
-          goto out;
-        }
-
-      bbox_zoomed.width = (gint) (zoom_scaled * bbox.width + 0.5);
-      bbox_zoomed.height = (gint) (zoom_scaled * bbox.height + 0.5);
-      bbox_zoomed.x = (gint) (zoom_scaled * bbox.x + 0.5);
-      bbox_zoomed.y = (gint) (zoom_scaled * bbox.y + 0.5);
-
-      self->zoom_visible = self->zoom;
-      self->zoom_visible_scaled = zoom_scaled;
+      bbox_zoomed.width = (gint) (self->zoom_visible_scaled * bbox.width + 0.5);
+      bbox_zoomed.height = (gint) (self->zoom_visible_scaled * bbox.height + 0.5);
+      bbox_zoomed.x = (gint) (self->zoom_visible_scaled * bbox.x + 0.5);
+      bbox_zoomed.y = (gint) (self->zoom_visible_scaled * bbox.y + 0.5);
 
       self->x_scaled = (bbox_zoomed.width - viewport_width_real) / 2.0;
       self->y_scaled = (bbox_zoomed.height - viewport_height_real) / 2.0;
@@ -575,8 +632,6 @@ photos_image_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
   scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
   self->allocation_scaled_old.height = allocation->height * scale_factor;
   self->allocation_scaled_old.width = allocation->width * scale_factor;
-
-  self->queued_best_fit_animation = FALSE;
 }
 
 
@@ -834,6 +889,9 @@ photos_image_view_init (PhotosImageView *self)
   gtk_style_context_add_class (context, "content-view");
 
   self->best_fit = TRUE;
+  self->zoom = 1.0;
+  self->zoom_visible = 1.0;
+  self->zoom_visible_scaled = 1.0;
 }
 
 
@@ -998,12 +1056,24 @@ photos_image_view_set_best_fit (PhotosImageView *self, gboolean best_fit)
 
   if (self->best_fit)
     {
+      gdouble zoom_scaled;
+
       if (self->zoom_animation != NULL)
         egg_animation_stop (self->zoom_animation);
 
-      self->zoom = 0.0;
-      self->queued_best_fit_animation = TRUE;
-      gtk_widget_queue_resize (GTK_WIDGET (self));
+      photos_image_view_calculate_best_fit_zoom (self, &self->zoom, &zoom_scaled);
+
+      if (photos_image_view_needs_zoom_animation (self))
+        {
+          photos_image_view_start_zoom_animation (self);
+        }
+      else
+        {
+          self->zoom_visible = self->zoom;
+          self->zoom_visible_scaled = zoom_scaled;
+          gtk_widget_queue_resize (GTK_WIDGET (self));
+        }
+
       g_object_notify (G_OBJECT (self), "zoom");
     }
 
@@ -1014,6 +1084,8 @@ photos_image_view_set_best_fit (PhotosImageView *self, gboolean best_fit)
 void
 photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
 {
+  gdouble zoom_scaled;
+
   g_return_if_fail (PHOTOS_IS_IMAGE_VIEW (self));
   g_return_if_fail (node == NULL || GEGL_IS_NODE (node));
 
@@ -1038,9 +1110,9 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
   self->x_scaled = 0.0;
   self->y = 0.0;
   self->y_scaled = 0.0;
-  self->zoom = 0.0;
-  self->zoom_visible = 0.0;
-  self->zoom_visible_scaled = 0.0;
+  self->zoom = 1.0;
+  self->zoom_visible = 1.0;
+  self->zoom_visible_scaled = 1.0;
   g_clear_object (&self->buffer);
   g_clear_object (&self->node);
   g_clear_pointer (&self->bbox_region, (GDestroyNotify) cairo_region_destroy);
@@ -1060,6 +1132,10 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
                                self,
                                G_CONNECT_SWAPPED);
     }
+
+  photos_image_view_calculate_best_fit_zoom (self, &self->zoom, &zoom_scaled);
+  self->zoom_visible = self->zoom;
+  self->zoom_visible_scaled = zoom_scaled;
 
   gtk_widget_queue_resize (GTK_WIDGET (self));
 
@@ -1084,7 +1160,7 @@ photos_image_view_set_zoom (PhotosImageView *self, gdouble zoom)
   self->best_fit = FALSE;
   self->zoom = zoom;
 
-  if (self->zoom_visible > 0.0)
+  if (photos_image_view_needs_zoom_animation (self))
     {
       photos_image_view_start_zoom_animation (self);
     }
