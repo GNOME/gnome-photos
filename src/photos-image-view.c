@@ -807,7 +807,7 @@ photos_image_view_set_property (GObject *object, guint prop_id, const GValue *va
         gboolean best_fit;
 
         best_fit = g_value_get_boolean (value);
-        photos_image_view_set_best_fit (self, best_fit);
+        photos_image_view_set_best_fit (self, best_fit, TRUE);
         break;
       }
 
@@ -861,7 +861,7 @@ photos_image_view_set_property (GObject *object, guint prop_id, const GValue *va
         gdouble zoom;
 
         zoom = g_value_get_double (value);
-        photos_image_view_set_zoom (self, zoom);
+        photos_image_view_set_zoom (self, zoom, TRUE);
         break;
       }
 
@@ -1045,7 +1045,7 @@ photos_image_view_get_zoom (PhotosImageView *self)
 
 
 void
-photos_image_view_set_best_fit (PhotosImageView *self, gboolean best_fit)
+photos_image_view_set_best_fit (PhotosImageView *self, gboolean best_fit, gboolean enable_animation)
 {
   g_return_if_fail (PHOTOS_IS_IMAGE_VIEW (self));
 
@@ -1063,7 +1063,7 @@ photos_image_view_set_best_fit (PhotosImageView *self, gboolean best_fit)
 
       photos_image_view_calculate_best_fit_zoom (self, &self->zoom, &zoom_scaled);
 
-      if (photos_image_view_needs_zoom_animation (self))
+      if (enable_animation && photos_image_view_needs_zoom_animation (self))
         {
           photos_image_view_start_zoom_animation (self);
         }
@@ -1146,7 +1146,7 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
 
 
 void
-photos_image_view_set_zoom (PhotosImageView *self, gdouble zoom)
+photos_image_view_set_zoom (PhotosImageView *self, gdouble zoom, gboolean enable_animation)
 {
   g_return_if_fail (PHOTOS_IS_IMAGE_VIEW (self));
   g_return_if_fail (zoom > 0.0);
@@ -1160,7 +1160,7 @@ photos_image_view_set_zoom (PhotosImageView *self, gdouble zoom)
   self->best_fit = FALSE;
   self->zoom = zoom;
 
-  if (photos_image_view_needs_zoom_animation (self))
+  if (enable_animation && photos_image_view_needs_zoom_animation (self))
     {
       photos_image_view_start_zoom_animation (self);
     }

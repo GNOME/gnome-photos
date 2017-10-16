@@ -43,11 +43,15 @@ gdouble             photos_image_view_get_y              (PhotosImageView *self)
 
 gdouble             photos_image_view_get_zoom           (PhotosImageView *self);
 
-void                photos_image_view_set_best_fit       (PhotosImageView *self, gboolean best_fit);
+void                photos_image_view_set_best_fit       (PhotosImageView *self,
+                                                          gboolean best_fit,
+                                                          gboolean enable_animation);
 
 void                photos_image_view_set_node           (PhotosImageView *self, GeglNode *node);
 
-void                photos_image_view_set_zoom           (PhotosImageView *self, gdouble zoom);
+void                photos_image_view_set_zoom           (PhotosImageView *self,
+                                                          gdouble zoom,
+                                                          gboolean enable_animation);
 
 G_END_DECLS
 

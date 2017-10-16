@@ -843,7 +843,7 @@ photos_preview_view_zoom_best_fit (PhotosPreviewView *self)
 
   view_container = gtk_stack_get_visible_child (GTK_STACK (self->stack));
   view = photos_preview_view_get_view_from_view_container (view_container);
-  photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE);
+  photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE, TRUE);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), FALSE);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), FALSE);
   photos_preview_nav_buttons_set_auto_hide (self->nav_buttons, TRUE);
@@ -884,7 +884,7 @@ photos_preview_view_zoom_in (PhotosPreviewView *self, GVariant *parameter)
   zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
   zoom *= zoom_factor_for_delta;
 
-  photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom);
+  photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom, TRUE);
 
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), TRUE);
   g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), TRUE);
@@ -925,7 +925,7 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
 
   if (zoom < self->zoom_best_fit || photos_utils_equal_double (self->zoom_best_fit, zoom))
     {
-      photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE);
+      photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE, TRUE);
       g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), FALSE);
       g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_out_action), FALSE);
       photos_preview_nav_buttons_set_auto_hide (self->nav_buttons, TRUE);
@@ -933,7 +933,7 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
     }
   else
     {
-      photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom);
+      photos_image_view_set_zoom (PHOTOS_IMAGE_VIEW (view), zoom, TRUE);
     }
 }
 
