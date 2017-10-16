@@ -55,7 +55,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/babl"
+                    "url": "https://git.gnome.org/browse/babl"
                 }
             ]
         },
@@ -65,7 +65,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/geocode-glib"
+                    "url": "https://git.gnome.org/browse/geocode-glib"
                 }
             ]
         },
@@ -89,7 +89,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/gnome-online-accounts"
+                    "url": "https://git.gnome.org/browse/gnome-online-accounts"
                 }
             ]
         },
@@ -100,7 +100,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/libgfbgraph"
+                    "url": "https://git.gnome.org/browse/libgfbgraph"
                 }
             ]
         },
@@ -123,7 +123,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/libgdata"
+                    "url": "https://git.gnome.org/browse/libgdata"
                 }
             ]
         },
@@ -160,7 +160,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/gegl"
+                    "url": "https://git.gnome.org/browse/gegl"
                 }
             ]
         },
@@ -192,7 +192,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/gexiv2"
+                    "url": "https://git.gnome.org/browse/gexiv2"
                 }
             ]
         },
@@ -203,7 +203,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/grilo"
+                    "url": "https://git.gnome.org/browse/grilo"
                 }
             ]
         },
@@ -237,7 +237,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/grilo-plugins"
+                    "url": "https://git.gnome.org/browse/grilo-plugins"
                 }
             ]
         },
@@ -250,7 +250,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/tracker"
+                    "url": "https://git.gnome.org/browse/tracker"
                 }
             ]
         },
@@ -266,7 +266,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/tracker-miners"
+                    "url": "https://git.gnome.org/browse/tracker-miners"
                 }
             ]
         },
@@ -276,7 +276,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/gnome-photos"
+                    "url": "https://git.gnome.org/browse/gnome-photos"
                 }
             ]
         }
