@@ -112,6 +112,8 @@ gnome_photos_SOURCES = \
 	photos-flickr-item.h \
 	photos-gegl.c \
 	photos-gegl.h \
+	photos-gesture-zoom.c \
+	photos-gesture-zoom.h \
 	photos-glib.c \
 	photos-glib.h \
 	photos-google-item.c \
@@ -504,6 +506,7 @@ stamp-photos-enums.h: photos-enums.h.template
 	$(AM_V_GEN) ( \
 		( glib-mkenums \
 			--template $(srcdir)/photos-enums.h.template \
+                        $(srcdir)/photos-gesture-zoom.h \
                         $(srcdir)/photos-item-manager.h \
                         $(srcdir)/photos-operation-insta-common.h \
                         $(srcdir)/photos-utils.h \
@@ -517,6 +520,7 @@ photos-enums.c: photos-enums.c.template
 	$(AM_V_GEN) ( \
 		( glib-mkenums \
 			--template $(srcdir)/photos-enums.c.template \
+                        $(srcdir)/photos-gesture-zoom.h \
                         $(srcdir)/photos-item-manager.h \
                         $(srcdir)/photos-operation-insta-common.h \
                         $(srcdir)/photos-utils.h \
