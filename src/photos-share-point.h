@@ -42,15 +42,15 @@ struct _PhotosSharePointClass
   GObjectClass parent_class;
 
   /* virtual methods */
-  GIcon          *(*get_icon)       (PhotosSharePoint *self);
-  const gchar    *(*get_name)       (PhotosSharePoint *self);
-  gchar          *(*parse_error)    (PhotosSharePoint *self, GError *error);
-  void            (*share_async)    (PhotosSharePoint *self,
-                                     PhotosBaseItem *item,
-                                     GCancellable *cancellable,
-                                     GAsyncReadyCallback callback,
-                                     gpointer user_data);
-  gboolean        (*share_finish)   (PhotosSharePoint *self, GAsyncResult *res, GError **error);
+  GIcon          *(*get_icon)            (PhotosSharePoint *self);
+  const gchar    *(*get_name)            (PhotosSharePoint *self);
+  gchar          *(*parse_error)         (PhotosSharePoint *self, GError *error);
+  void            (*share_async)         (PhotosSharePoint *self,
+                                          PhotosBaseItem *item,
+                                          GCancellable *cancellable,
+                                          GAsyncReadyCallback callback,
+                                          gpointer user_data);
+  gboolean        (*share_finish)        (PhotosSharePoint *self, GAsyncResult *res, GError **error);
 };
 
 GIcon                  *photos_share_point_get_icon               (PhotosSharePoint *self);
