@@ -91,8 +91,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.gnome.org/sources/gnome-online-accounts/3.26/gnome-online-accounts-3.26.0.tar.xz",
-                    "sha256": "5cab736751c19efca762c0459e3358255d6662a6f4f27728cd02ea7b024e52ac"
+                    "url": "https://download.gnome.org/sources/gnome-online-accounts/3.26/gnome-online-accounts-3.26.1.tar.xz",
+                    "sha256": "603c110405cb89a01497a69967f10e3f3f36add3dc175b062ec4c5ed4485621b"
                 }
             ]
         },
