@@ -53,6 +53,7 @@ enum
   SHARE_TIMEOUT = 10 /* s */
 };
 
+
 static void
 photos_share_notification_remove_timeout (PhotosShareNotification *self)
 {

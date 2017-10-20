@@ -59,6 +59,7 @@ enum
   EXPORT_TIMEOUT = 10 /* s */
 };
 
+
 static void
 photos_export_notification_remove_timeout (PhotosExportNotification *self)
 {
