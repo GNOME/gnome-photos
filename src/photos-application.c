@@ -1503,8 +1503,9 @@ photos_application_share_share (GObject *source_object, GAsyncResult *res, gpoin
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   PhotosSharePoint *share_point = PHOTOS_SHARE_POINT (source_object);
   GError *error = NULL;
+  gchar *uri = NULL;
 
-  photos_share_point_share_finish (share_point, res, &error);
+  photos_share_point_share_finish (share_point, res, &uri, &error);
   if (error != NULL)
     {
       g_warning ("Unable to share the image: %s", error->message);
@@ -1516,6 +1517,7 @@ photos_application_share_share (GObject *source_object, GAsyncResult *res, gpoin
  out:
   g_application_unmark_busy (G_APPLICATION (self));
   g_application_release (G_APPLICATION (self));
+  g_free (uri);
 }
 
 

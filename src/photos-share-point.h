@@ -44,18 +44,21 @@ struct _PhotosSharePointClass
   /* virtual methods */
   GIcon          *(*get_icon)            (PhotosSharePoint *self);
   const gchar    *(*get_name)            (PhotosSharePoint *self);
+  gboolean        (*needs_notification)  (PhotosSharePoint *self);
   gchar          *(*parse_error)         (PhotosSharePoint *self, GError *error);
   void            (*share_async)         (PhotosSharePoint *self,
                                           PhotosBaseItem *item,
                                           GCancellable *cancellable,
                                           GAsyncReadyCallback callback,
                                           gpointer user_data);
-  gboolean        (*share_finish)        (PhotosSharePoint *self, GAsyncResult *res, GError **error);
+  gboolean        (*share_finish)        (PhotosSharePoint *self, GAsyncResult *res, gchar **out_uri, GError **error);
 };
 
 GIcon                  *photos_share_point_get_icon               (PhotosSharePoint *self);
 
 const gchar            *photos_share_point_get_name               (PhotosSharePoint *self);
+
+gboolean                photos_share_point_needs_notification     (PhotosSharePoint *self);
 
 gchar                  *photos_share_point_parse_error            (PhotosSharePoint *self, GError *error);
 
@@ -67,6 +70,7 @@ void                    photos_share_point_share_async            (PhotosSharePo
 
 gboolean                photos_share_point_share_finish           (PhotosSharePoint *self,
                                                                    GAsyncResult *res,
+                                                                   gchar **out_uri,
                                                                    GError **error);
 
 G_END_DECLS

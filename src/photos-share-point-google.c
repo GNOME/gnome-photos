@@ -89,6 +89,13 @@ photos_share_point_google_share_data_free (PhotosSharePointGoogleShareData *data
 }
 
 
+static gboolean
+photos_share_point_google_needs_notification (PhotosSharePoint *share_point)
+{
+  return TRUE;
+}
+
+
 static gchar *
 photos_share_point_google_parse_error (PhotosSharePoint *self, GError *error)
 {
@@ -427,10 +434,14 @@ photos_share_point_google_share_async (PhotosSharePoint *share_point,
 
 
 static gboolean
-photos_share_point_google_share_finish (PhotosSharePoint *share_point, GAsyncResult *res, GError **error)
+photos_share_point_google_share_finish (PhotosSharePoint *share_point,
+                                        GAsyncResult *res,
+                                        gchar **out_uri,
+                                        GError **error)
 {
   PhotosSharePointGoogle *self = PHOTOS_SHARE_POINT_GOOGLE (share_point);
   GTask *task;
+  gboolean ret_val = FALSE;
 
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
   task = G_TASK (res);
@@ -438,7 +449,16 @@ photos_share_point_google_share_finish (PhotosSharePoint *share_point, GAsyncRes
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_share_point_google_share_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-  return g_task_propagate_boolean (task, error);
+  if (!g_task_propagate_boolean (task, error))
+    goto out;
+
+  ret_val = TRUE;
+
+  if (out_uri != NULL)
+    *out_uri = g_strdup ("https://photos.google.com/");
+
+ out:
+  return ret_val;
 }
 
 
@@ -505,6 +525,7 @@ photos_share_point_google_class_init (PhotosSharePointGoogleClass *class)
   object_class->constructed = photos_share_point_google_constructed;
   object_class->dispose = photos_share_point_google_dispose;
   object_class->finalize = photos_share_point_google_finalize;
+  share_point_class->needs_notification = photos_share_point_google_needs_notification;
   share_point_class->parse_error = photos_share_point_google_parse_error;
   share_point_class->share_async = photos_share_point_google_share_async;
   share_point_class->share_finish = photos_share_point_google_share_finish;

@@ -62,6 +62,14 @@ photos_share_point_get_name (PhotosSharePoint *self)
 }
 
 
+gboolean
+photos_share_point_needs_notification (PhotosSharePoint *self)
+{
+  g_return_val_if_fail (PHOTOS_IS_SHARE_POINT (self), FALSE);
+  return PHOTOS_SHARE_POINT_GET_CLASS (self)->needs_notification (self);
+}
+
+
 gchar *
 photos_share_point_parse_error (PhotosSharePoint *self, GError *error)
 {
@@ -87,11 +95,12 @@ photos_share_point_share_async (PhotosSharePoint *self,
 
 
 gboolean
-photos_share_point_share_finish (PhotosSharePoint *self, GAsyncResult *res, GError **error)
+photos_share_point_share_finish (PhotosSharePoint *self, GAsyncResult *res, gchar **out_uri, GError **error)
 {
   g_return_val_if_fail (PHOTOS_IS_SHARE_POINT (self), FALSE);
   g_return_val_if_fail (G_IS_ASYNC_RESULT (res), FALSE);
+  g_return_val_if_fail (out_uri == NULL || *out_uri == NULL, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-  return PHOTOS_SHARE_POINT_GET_CLASS (self)->share_finish (self, res, error);
+  return PHOTOS_SHARE_POINT_GET_CLASS (self)->share_finish (self, res, out_uri, error);
 }

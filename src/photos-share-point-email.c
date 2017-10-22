@@ -81,6 +81,13 @@ photos_share_point_email_get_name (PhotosSharePoint *share_point)
 }
 
 
+static gboolean
+photos_share_point_email_needs_notification (PhotosSharePoint *share_point)
+{
+  return FALSE;
+}
+
+
 static void
 photos_share_point_email_share_save_to_dir (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
@@ -163,7 +170,7 @@ photos_share_point_email_share_async (PhotosSharePoint *share_point,
 
 
 static gboolean
-photos_share_point_email_share_finish (PhotosSharePoint *share_point, GAsyncResult *res, GError **error)
+photos_share_point_email_share_finish (PhotosSharePoint *share_point, GAsyncResult *res, gchar **out_uri, GError **error)
 {
   PhotosSharePointEmail *self = PHOTOS_SHARE_POINT_EMAIL (share_point);
   GTask *task;
@@ -216,6 +223,7 @@ photos_share_point_email_class_init (PhotosSharePointEmailClass *class)
   object_class->finalize = photos_share_point_email_finalize;
   share_point_class->get_icon = photos_share_point_email_get_icon;
   share_point_class->get_name = photos_share_point_email_get_name;
+  share_point_class->needs_notification = photos_share_point_email_needs_notification;
   share_point_class->share_async = photos_share_point_email_share_async;
   share_point_class->share_finish = photos_share_point_email_share_finish;
 }
