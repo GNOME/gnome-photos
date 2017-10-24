@@ -474,7 +474,7 @@ photos_main_window_show_about (PhotosMainWindow *self)
                          "copyright", _("Copyright © 2013 Intel Corporation. All rights reserved.\n"
                                         "Copyright © 2014 – 2015 Pranav Kant\n"
                                         "Copyright © 2012 – 2017 Red Hat, Inc."),
-                         "license-type", GTK_LICENSE_GPL_2_0,
+                         "license-type", GTK_LICENSE_GPL_3_0,
                          "logo-icon-name", app_id,
                          "program-name", _(PACKAGE_NAME),
                          "version", version,
