@@ -1,6 +1,52 @@
 Overview of changes in 3.27.1
 =============================
 
+* Clarify that the final binaries are under GPLv3+
+
+* Bugs fixed:
+ 763712 Use G_DECLARE_FINAL_TYPE
+ 777505 Show a notification when an item has been successfully shared
+ 783922 Support GtkGestureZoom for zooming
+ 785115 tool-crop: Don't show the orientation controls if it doesn't make
+        sense for the "original" aspect ratio
+ 786936 Various clean-ups and fixes to the searchbar handling code
+ 787833 Provide more context when logging the SPARQL queries
+ 788042 Edits are not applied when setting a background
+ 788715 Can't discard all edits directly from the overview without previewing
+        the BaseItem
+ 789002 Make the Git repositories and submodules work with Web proxies
+
+* Updated translations:
+ Basque
+ Catalan
+ Catalan (Valencian)
+ Traditional Chinese (Taiwan)
+ Croatian
+ Czech
+ Danish
+ Dutch
+ Finnish
+ French
+ Friulian
+ Galician
+ German
+ Greek
+ Hungarian
+ Icelandic
+ Italian
+ Korean
+ Lithuanian
+ Persian
+ Polish
+ Portuguese (Brazilian)
+ Serbian
+ Serbian Latin
+ Slovak
+ Slovenian
+ Spanish
+ Swedish
+ Turkish
+
 
 Overview of changes in 3.25.92
 ==============================
