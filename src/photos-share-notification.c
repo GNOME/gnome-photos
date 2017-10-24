@@ -23,10 +23,8 @@
 #include "config.h"
 
 #include <gio/gio.h>
-#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "photos-base-item.h"
 #include "photos-icons.h"
 #include "photos-notification-manager.h"
 #include "photos-share-notification.h"

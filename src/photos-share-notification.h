@@ -23,8 +23,9 @@
 #ifndef PHOTOS_SHARE_NOTIFICATION_H
 #define PHOTOS_SHARE_NOTIFICATION_H
 
-#include <glib.h>
+#include <gtk/gtk.h>
 
+#include "photos-base-item.h"
 #include "photos-share-point.h"
 
 G_BEGIN_DECLS

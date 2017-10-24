@@ -23,9 +23,7 @@
 #include "config.h"
 
 #include <glib/gi18n.h>
-#include <gtk/gtk.h>
 
-#include "photos-base-item.h"
 #include "photos-done-notification.h"
 #include "photos-filterable.h"
 #include "photos-icons.h"

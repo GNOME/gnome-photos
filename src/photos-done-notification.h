@@ -21,8 +21,9 @@
 #ifndef PHOTOS_DONE_NOTIFICATION_H
 #define PHOTOS_DONE_NOTIFICATION_H
 
-#include <glib.h>
-#include <glib-object.h>
+#include <gtk/gtk.h>
+
+#include "photos-base-item.h"
 
 G_BEGIN_DECLS
 
