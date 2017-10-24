@@ -181,11 +181,8 @@ photos_done_notification_set_property (GObject *object, guint prop_id, const GVa
   switch (prop_id)
     {
       case PROP_ITEM:
-        {
-          PhotosBaseItem *item = (PhotosBaseItem *) g_value_get_pointer (value);
-          self->item = g_object_ref (item);
-          break;
-        }
+        self->item = PHOTOS_BASE_ITEM (g_value_dup_object (value));
+        break;
 
       default:
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -217,10 +214,11 @@ photos_done_notification_class_init (PhotosDoneNotificationClass *class)
 
   g_object_class_install_property (object_class,
                                    PROP_ITEM,
-                                   g_param_spec_pointer ("item",
-                                                         "PhotosBaseItem instance",
-                                                         "The edited PhotosBaseItem",
-                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+                                   g_param_spec_object ("item",
+                                                        "PhotosBaseItem instance",
+                                                        "The edited PhotosBaseItem",
+                                                        PHOTOS_TYPE_BASE_ITEM,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 }
 
 
