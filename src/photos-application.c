@@ -110,6 +110,7 @@ struct _PhotosApplication
   GSimpleAction *selection_mode_action;
   GSimpleAction *set_bg_action;
   GSimpleAction *set_ss_action;
+  GSimpleAction *shadows_highlights_action;
   GSimpleAction *share_action;
   GSimpleAction *sharpen_action;
   GSimpleAction *zoom_begin_action;
@@ -369,6 +370,7 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->edit_done_action, enable);
   g_simple_action_set_enabled (self->insta_action, enable);
   g_simple_action_set_enabled (self->saturation_action, enable);
+  g_simple_action_set_enabled (self->shadows_highlights_action, enable);
   g_simple_action_set_enabled (self->sharpen_action, enable);
 
   enable = FALSE;
@@ -2041,6 +2043,9 @@ photos_application_startup (GApplication *application)
   g_signal_connect_swapped (self->set_ss_action, "activate", G_CALLBACK (photos_application_set_screensaver), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->set_ss_action));
 
+  self->shadows_highlights_action = g_simple_action_new ("shadows-highlights-current", G_VARIANT_TYPE ("a{sd}"));
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->shadows_highlights_action));
+
   self->share_action = g_simple_action_new ("share-current", NULL);
   g_signal_connect_swapped (self->share_action, "activate", G_CALLBACK (photos_application_share_current), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->share_action));
@@ -2174,6 +2179,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->selection_mode_action);
   g_clear_object (&self->set_bg_action);
   g_clear_object (&self->set_ss_action);
+  g_clear_object (&self->shadows_highlights_action);
   g_clear_object (&self->share_action);
   g_clear_object (&self->sharpen_action);
   g_clear_object (&self->zoom_begin_action);
