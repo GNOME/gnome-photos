@@ -1308,7 +1308,7 @@ photos_utils_list_box_header_func (GtkListBoxRow *row, GtkListBoxRow *before, gp
 void
 photos_utils_object_list_free_full (GList *objects)
 {
-  g_list_free_full (objects, (GDestroyNotify) g_object_unref);
+  g_list_free_full (objects, g_object_unref);
 }
 
 
