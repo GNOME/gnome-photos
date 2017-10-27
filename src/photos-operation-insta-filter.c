@@ -63,10 +63,6 @@ photos_operation_insta_filter_setup (PhotosOperationInstaFilter *self)
   switch (self->preset)
     {
     case PHOTOS_OPERATION_INSTA_PRESET_NONE:
-      node = gegl_node_new_child (operation->node,
-                                  "operation", "gegl:nop",
-                                  NULL);
-      self->nodes = g_list_prepend (self->nodes, node);
       break;
 
     case PHOTOS_OPERATION_INSTA_PRESET_1977:
@@ -117,21 +113,28 @@ photos_operation_insta_filter_setup (PhotosOperationInstaFilter *self)
       break;
     }
 
-  node = GEGL_NODE (self->nodes->data);
-  gegl_node_link (self->input, node);
-
-  for (l = self->nodes; l != NULL && l->next != NULL; l = l->next)
+  if (self->nodes == NULL)
     {
-      GeglNode *sink = GEGL_NODE (l->next->data);
-      GeglNode *source = GEGL_NODE (l->data);
-
-      gegl_node_link (source, sink);
-      gegl_operation_meta_watch_node (operation, source);
+      gegl_node_link (self->input, self->output);
     }
+  else
+    {
+      node = GEGL_NODE (self->nodes->data);
+      gegl_node_link (self->input, node);
 
-  node = GEGL_NODE (l->data);
-  gegl_node_link (node, self->output);
-  gegl_operation_meta_watch_node (operation, node);
+      for (l = self->nodes; l != NULL && l->next != NULL; l = l->next)
+        {
+          GeglNode *sink = GEGL_NODE (l->next->data);
+          GeglNode *source = GEGL_NODE (l->data);
+
+          gegl_node_link (source, sink);
+          gegl_operation_meta_watch_node (operation, source);
+        }
+
+      node = GEGL_NODE (l->data);
+      gegl_node_link (node, self->output);
+      gegl_operation_meta_watch_node (operation, node);
+    }
 }
 
 
