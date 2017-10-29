@@ -292,7 +292,25 @@ photos_gegl_get_buffer_from_node (GeglNode *node, const Babl *format)
 void
 photos_gegl_init (void)
 {
+  GeglConfig *config;
+  gint threads;
+  guint num_processors;
+
   gegl_init (NULL, NULL);
+
+  num_processors = g_get_num_processors ();
+  g_return_if_fail (num_processors > 0);
+
+  /* The number of threads should match the number of physical CPU
+   * cores, not the number of virtual hyper-threading cores. In the
+   * absence of an API to get the number of physical CPU cores, we
+   * assume that a number higher than one is indicative of
+   * hyper-threading, and hence divide by two.
+   */
+  threads = (gint) (num_processors > 1 ? num_processors / 2 : num_processors);
+
+  config = gegl_config ();
+  g_object_set (config, "threads", threads, NULL);
 }
 
 
@@ -412,10 +430,12 @@ photos_gegl_sanity_check (void)
   GeglConfig *config;
   gboolean ret_val = TRUE;
   gboolean use_opencl;
+  gint threads;
   guint i;
 
   config = gegl_config ();
-  g_object_get (config, "use-opencl", &use_opencl, NULL);
+  g_object_get (config, "threads", &threads, "use-opencl", &use_opencl, NULL);
+  photos_debug (PHOTOS_DEBUG_GEGL, "GEGL: Threads: %d", threads);
   photos_debug (PHOTOS_DEBUG_GEGL, "GEGL: Using OpenCL: %s", use_opencl ? "yes" : "no");
 
   for (i = 0; i < G_N_ELEMENTS (REQUIRED_GEGL_OPS); i++)
