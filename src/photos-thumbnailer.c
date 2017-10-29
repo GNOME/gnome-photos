@@ -756,7 +756,7 @@ photos_thumbnailer_startup (GApplication *application)
 
   G_APPLICATION_CLASS (photos_thumbnailer_parent_class)->startup (application);
 
-  gegl_init (NULL, NULL);
+  photos_gegl_init ();
 
   self->resource_gegl = photos_gegl_get_resource ();
   g_resources_register (self->resource_gegl);

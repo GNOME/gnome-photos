@@ -1738,7 +1738,7 @@ photos_application_startup (GApplication *application)
 
   G_APPLICATION_CLASS (photos_application_parent_class)->startup (application);
 
-  gegl_init (NULL, NULL);
+  photos_gegl_init ();
 
   grl_init (NULL, NULL);
   registry = grl_registry_get_default ();
