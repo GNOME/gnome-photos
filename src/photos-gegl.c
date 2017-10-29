@@ -267,6 +267,13 @@ photos_gegl_get_buffer_from_node (GeglNode *node, const Babl *format)
 
 
 void
+photos_gegl_init (void)
+{
+  gegl_init (NULL, NULL);
+}
+
+
+void
 photos_gegl_init_fishes (void)
 {
   gint64 end;
