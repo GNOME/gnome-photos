@@ -85,7 +85,8 @@
             "config-opts": [ "--disable-introspection",
                              "--disable-telepathy",
                              "--disable-documentation",
-                             "--disable-backend" ],
+                             "--disable-backend",
+                             "--disable-Werror" ],
             "sources": [
                 {
                     "type": "git",
