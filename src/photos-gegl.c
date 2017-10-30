@@ -45,6 +45,29 @@ static const struct
   { "R'G'B' u8", "YA float" }
 };
 
+static const gchar *REQUIRED_GEGL_OPS[] =
+{
+  "gegl:buffer-sink",
+  "gegl:buffer-source",
+  "gegl:crop",
+  "gegl:exposure",
+  "gegl:gray",
+  "gegl:load",
+  "gegl:noise-reduction",
+  "gegl:nop",
+  "gegl:pixbuf",
+  "gegl:rotate-on-center",
+  "gegl:save-pixbuf",
+  "gegl:scale-ratio",
+  "gegl:unsharp-mask",
+
+  /* Used by gegl:load */
+  "gegl:jpg-load",
+  "gegl:png-load",
+  "gegl:raw-load",
+  "gegl:text"
+};
+
 
 static GeglBuffer *
 photos_gegl_buffer_zoom (GeglBuffer *buffer, gdouble zoom, GCancellable *cancellable, GError **error)
@@ -380,4 +403,30 @@ photos_gegl_remove_children_from_node (GeglNode *node)
     }
 
   gegl_node_link (input, output);
+}
+
+
+gboolean
+photos_gegl_sanity_check (void)
+{
+  GeglConfig *config;
+  gboolean ret_val = TRUE;
+  gboolean use_opencl;
+  guint i;
+
+  config = gegl_config ();
+  g_object_get (config, "use-opencl", &use_opencl, NULL);
+  photos_debug (PHOTOS_DEBUG_GEGL, "GEGL: Using OpenCL: %s", use_opencl ? "yes" : "no");
+
+  for (i = 0; i < G_N_ELEMENTS (REQUIRED_GEGL_OPS); i++)
+    {
+      if (!gegl_has_operation (REQUIRED_GEGL_OPS[i]))
+        {
+          g_warning ("Unable to find GEGL operation %s: Check your GEGL install", REQUIRED_GEGL_OPS[i]);
+          ret_val = FALSE;
+          break;
+        }
+    }
+
+  return ret_val;
 }

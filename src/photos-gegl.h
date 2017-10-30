@@ -62,6 +62,8 @@ gboolean         photos_gegl_processor_process_finish     (GeglProcessor *proces
 
 void             photos_gegl_remove_children_from_node    (GeglNode *node);
 
+gboolean         photos_gegl_sanity_check                 (void);
+
 G_END_DECLS
 
 #endif /* PHOTOS_GEGL_H */
