@@ -158,29 +158,6 @@ static const GOptionEntry COMMAND_LINE_OPTIONS[] =
   { NULL }
 };
 
-static const gchar *REQUIRED_GEGL_OPS[] =
-{
-  "gegl:buffer-sink",
-  "gegl:buffer-source",
-  "gegl:crop",
-  "gegl:exposure",
-  "gegl:gray",
-  "gegl:load",
-  "gegl:noise-reduction",
-  "gegl:nop",
-  "gegl:pixbuf",
-  "gegl:rotate-on-center",
-  "gegl:save-pixbuf",
-  "gegl:scale-ratio",
-  "gegl:unsharp-mask",
-
-  /* Used by gegl:load */
-  "gegl:jpg-load",
-  "gegl:png-load",
-  "gegl:raw-load",
-  "gegl:text"
-};
-
 static const gchar *DESKTOP_BACKGROUND_SCHEMA = "org.gnome.desktop.background";
 static const gchar *DESKTOP_SCREENSAVER_SCHEMA = "org.gnome.desktop.screensaver";
 static const gchar *DESKTOP_KEY_PICTURE_URI = "picture-uri";
@@ -623,32 +600,6 @@ photos_application_gegl_init_fishes_idle (gpointer user_data)
 }
 
 
-static gboolean
-photos_application_sanity_check_gegl (PhotosApplication *self)
-{
-  GeglConfig *config;
-  gboolean ret_val = TRUE;
-  gboolean use_opencl;
-  guint i;
-
-  config = gegl_config ();
-  g_object_get (config, "use-opencl", &use_opencl, NULL);
-  photos_debug (PHOTOS_DEBUG_GEGL, "Using OpenCL: %s", use_opencl ? "yes" : "no");
-
-  for (i = 0; i < G_N_ELEMENTS (REQUIRED_GEGL_OPS); i++)
-    {
-      if (!gegl_has_operation (REQUIRED_GEGL_OPS[i]))
-        {
-          g_warning ("Unable to find GEGL operation %s: Check your GEGL install", REQUIRED_GEGL_OPS[i]);
-          ret_val = FALSE;
-          break;
-        }
-    }
-
-  return ret_val;
-}
-
-
 static void
 photos_application_tracker_set_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
@@ -702,21 +653,21 @@ photos_application_tracker_extract_priority (GObject *source_object, GAsyncResul
 static gboolean
 photos_application_create_window (PhotosApplication *self)
 {
+  gboolean gegl_sanity_checked;
   gboolean gexiv2_initialized;
   gboolean gexiv2_registered_namespace;
-  gboolean sanity_checked_gegl;
 
   if (self->main_window != NULL)
     return TRUE;
+
+  gegl_sanity_checked = photos_gegl_sanity_check ();
+  g_return_val_if_fail (gegl_sanity_checked, FALSE);
 
   gexiv2_initialized = gexiv2_initialize ();
   g_return_val_if_fail (gexiv2_initialized, FALSE);
 
   gexiv2_registered_namespace = gexiv2_metadata_register_xmp_namespace ("http://www.gnome.org/xmp", "gnome");
   g_return_val_if_fail (gexiv2_registered_namespace, FALSE);
-
-  sanity_checked_gegl = photos_application_sanity_check_gegl (self);
-  g_return_val_if_fail (sanity_checked_gegl, FALSE);
 
   self->main_window = photos_main_window_new (GTK_APPLICATION (self));
   g_signal_connect_object (self->main_window,
