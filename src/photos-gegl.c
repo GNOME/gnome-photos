@@ -626,6 +626,7 @@ photos_gegl_init (void)
   threads = (gint) (num_processors > 1 ? num_processors / 2 : num_processors);
 
   config = gegl_config ();
+  g_object_set (config, "application-license", "GPL3", NULL);
   g_object_set (config, "threads", threads, NULL);
   g_object_set (config, "use-opencl", FALSE, NULL);
 }
