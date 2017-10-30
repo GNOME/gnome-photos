@@ -159,7 +159,11 @@ photos_operation_saturation_prepare (GeglOperation *operation)
 
   input_format = gegl_operation_get_source_format (operation, "input");
   if (input_format == NULL)
-    return;
+    {
+      format = babl_format ("CIE Lab alpha float");
+      self->process = photos_operation_saturation_process_lab_alpha;
+      goto out;
+    }
 
   model_input = babl_format_get_model (input_format);
 
@@ -192,6 +196,7 @@ photos_operation_saturation_prepare (GeglOperation *operation)
         }
     }
 
+ out:
   gegl_operation_set_format (operation, "input", format);
   gegl_operation_set_format (operation, "output", format);
 }

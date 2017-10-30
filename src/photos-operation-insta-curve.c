@@ -879,10 +879,15 @@ photos_operation_insta_curve_prepare (GeglOperation *operation)
 
   input_format = gegl_operation_get_source_format (operation, "input");
   if (input_format == NULL)
-    return;
-
-  has_alpha = babl_format_has_alpha (input_format);
-  type = babl_format_get_type (input_format, 0);
+    {
+      has_alpha = TRUE;
+      type = babl_type ("float");
+    }
+  else
+    {
+      has_alpha = babl_format_has_alpha (input_format);
+      type = babl_format_get_type (input_format, 0);
+    }
 
   format_alpha_float = babl_format ("R'G'B'A float");
   format_alpha_u8 = babl_format ("R'G'B'A u8");
