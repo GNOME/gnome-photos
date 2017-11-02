@@ -311,6 +311,7 @@ photos_gegl_init (void)
 
   config = gegl_config ();
   g_object_set (config, "threads", threads, NULL);
+  g_object_set (config, "use-opencl", FALSE, NULL);
 }
 
 
