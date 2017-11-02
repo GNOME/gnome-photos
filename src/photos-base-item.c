@@ -3670,7 +3670,7 @@ photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   sizes = g_task_propagate_pointer (task, error);
-  if (g_task_had_error (task))
+  if (sizes == NULL)
     goto out;
 
   if (!photos_base_item_get_bbox_edited (self, &bbox))
