@@ -31,6 +31,7 @@ struct _PhotosPropertiesSidebar
   GtkScrolledWindow parent_instance;
   GtkWidget *albums_list_box;
   GtkWidget *description_text_view;
+  GtkWidget *source_grid;
   GtkWidget *title_entry;
   PhotosBaseItem *item;
 };
@@ -76,6 +77,7 @@ photos_properties_sidebar_class_init (PhotosPropertiesSidebarClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/properties-sidebar.ui");
   gtk_widget_class_bind_template_child (widget_class, PhotosPropertiesSidebar, albums_list_box);
   gtk_widget_class_bind_template_child (widget_class, PhotosPropertiesSidebar, description_text_view);
+  gtk_widget_class_bind_template_child (widget_class, PhotosPropertiesSidebar, source_grid);
   gtk_widget_class_bind_template_child (widget_class, PhotosPropertiesSidebar, title_entry);
 }
 
@@ -103,6 +105,10 @@ photos_properties_sidebar_clear (PhotosPropertiesSidebar *self)
   children = gtk_container_get_children (GTK_CONTAINER (self->albums_list_box));
   for(l = children; l != NULL; l = g_list_next(l))
     gtk_container_remove (GTK_CONTAINER (self->albums_list_box), GTK_WIDGET (l->data));
+
+  children = gtk_container_get_children (GTK_CONTAINER (self->source_grid));
+  for(l = children; l != NULL; l = g_list_next(l))
+    gtk_container_remove (GTK_CONTAINER (self->source_grid), GTK_WIDGET (l->data));
 }
 
 
@@ -156,6 +162,7 @@ photos_properties_sidebar_on_collection_fetched (GObject *source_object,
 void
 photos_properties_sidebar_set_item (PhotosPropertiesSidebar *self, PhotosBaseItem *item)
 {
+  GtkWidget *source_widget;
   PhotosFetchCollectionsJob *collection_fetcher;
   const gchar *item_id;
 
@@ -176,4 +183,8 @@ photos_properties_sidebar_set_item (PhotosPropertiesSidebar *self, PhotosBaseIte
                                     photos_properties_sidebar_on_collection_fetched,
                                     g_object_ref (self));
   g_object_unref (collection_fetcher);
+
+  source_widget = photos_base_item_get_source_widget (item);
+  gtk_widget_show (GTK_WIDGET (source_widget));
+  gtk_container_add (GTK_CONTAINER(self->source_grid), source_widget);
 }
