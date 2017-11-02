@@ -26,6 +26,7 @@
 struct _PhotosPropertiesSidebar
 {
   GtkScrolledWindow parent_instance;
+  GtkWidget *description_text_view;
   GtkWidget *title_entry;
   PhotosBaseItem *item;
 };
@@ -69,6 +70,7 @@ photos_properties_sidebar_class_init (PhotosPropertiesSidebarClass *klass)
   object_class->finalize = photos_properties_sidebar_finalize;
 
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/properties-sidebar.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhotosPropertiesSidebar, description_text_view);
   gtk_widget_class_bind_template_child (widget_class, PhotosPropertiesSidebar, title_entry);
 }
 
