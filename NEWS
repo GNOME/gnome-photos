@@ -1,3 +1,14 @@
+Overview of changes in 3.26.2
+=============================
+
+* Bugs fixed:
+ 788715 Can't discard all edits directly from the overview without previewing
+        the BaseItem
+
+* Updated translations:
+ Catalan (Valencian)
+
+
 Overview of changes in 3.26.1
 =============================
 
