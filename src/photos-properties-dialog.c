@@ -87,18 +87,19 @@ static void
 photos_properties_dialog_get_camera (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosPropertiesDialog *self;
-  GError *error;
-  gchar *camera;
+  g_autofree gchar *camera = NULL;
 
-  error = NULL;
-  camera = photos_camera_cache_get_camera_finish (PHOTOS_CAMERA_CACHE (source_object), res, &error);
-  if (error != NULL)
-    {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to get camera: %s", error->message);
-      g_error_free (error);
-      return;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    camera = photos_camera_cache_get_camera_finish (PHOTOS_CAMERA_CACHE (source_object), res, &error);
+    if (error != NULL)
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to get camera: %s", error->message);
+        return;
+      }
+  }
 
   /* Now we know that self has not been destroyed. */
   self = PHOTOS_PROPERTIES_DIALOG (user_data);
@@ -112,8 +113,6 @@ photos_properties_dialog_get_camera (GObject *source_object, GAsyncResult *res, 
       gtk_grid_attach_next_to (GTK_GRID (self->grid), camera_data, self->camera_w, GTK_POS_RIGHT, 2, 1);
       gtk_widget_show (camera_data);
     }
-
-  g_free (camera);
 }
 
 
@@ -121,24 +120,25 @@ static void
 photos_properties_dialog_location_reverse_resolve (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosPropertiesDialog *self;
-  GError *error;
-  GeocodePlace *place = NULL;
+  g_autoptr (GeocodePlace) place = NULL;
   GeocodeReverse *reverse = GEOCODE_REVERSE (source_object);
   GtkWidget *location_data;
   const gchar *location_area;
   const gchar *location_country;
   const gchar *location_town;
-  gchar *location_str = NULL;
+  g_autofree gchar *location_str = NULL;
 
-  error = NULL;
-  place = geocode_reverse_resolve_finish (reverse, res, &error);
-  if (error != NULL)
-    {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to resolve latitude and longitude: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    place = geocode_reverse_resolve_finish (reverse, res, &error);
+    if (error != NULL)
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to resolve latitude and longitude: %s", error->message);
+        goto out;
+      }
+  }
 
   self = PHOTOS_PROPERTIES_DIALOG (user_data);
 
@@ -153,8 +153,7 @@ photos_properties_dialog_location_reverse_resolve (GObject *source_object, GAsyn
   gtk_widget_show (location_data);
 
  out:
-  g_clear_object (&place);
-  g_free (location_str);
+  return;
 }
 
 
@@ -162,26 +161,27 @@ static void
 photos_properties_dialog_location_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosPropertiesDialog *self;
-  GError *error;
-  GeocodeLocation *location = NULL;
-  GeocodeReverse *reverse = NULL;
+  g_autoptr (GeocodeLocation) location = NULL;
+  g_autoptr (GeocodeReverse) reverse = NULL;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   gboolean success;
   gdouble latitude;
   gdouble longitude;
 
-  error = NULL;
-  /* Note that tracker_sparql_cursor_next_finish can return FALSE even
-   * without an error.
-   */
-  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
-  if (error != NULL)
-    {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to read latitude and longitude: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    /* Note that tracker_sparql_cursor_next_finish can return FALSE even
+     * without an error.
+     */
+    success = tracker_sparql_cursor_next_finish (cursor, res, &error);
+    if (error != NULL)
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to read latitude and longitude: %s", error->message);
+        goto out;
+      }
+  }
 
   self = PHOTOS_PROPERTIES_DIALOG (user_data);
 
@@ -206,8 +206,7 @@ photos_properties_dialog_location_cursor_next (GObject *source_object, GAsyncRes
                                  self);
 
  out:
-  g_clear_object (&location);
-  g_clear_object (&reverse);
+  return;
 }
 
 
@@ -216,17 +215,18 @@ photos_properties_dialog_location_query_executed (GObject *source_object, GAsync
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
-  TrackerSparqlCursor *cursor = NULL;
-  GError *error;
+  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
 
-  error = NULL;
-  cursor = tracker_sparql_connection_query_finish (connection, res, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to query latitude and longitude: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = tracker_sparql_connection_query_finish (connection, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to query latitude and longitude: %s", error->message);
+        goto out;
+      }
+  }
 
   tracker_sparql_cursor_next_async (cursor,
                                     self->cancellable,
@@ -285,19 +285,20 @@ static void
 photos_properties_dialog_pipeline_is_edited (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosPropertiesDialog *self;
-  GError *error;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   gboolean is_edited;
 
-  error = NULL;
-  is_edited = photos_base_item_pipeline_is_edited_finish (item, res, &error);
-  if (error != NULL)
-    {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to check if item has been edited or not: %s", error->message);
-      g_error_free (error);
-      return;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    is_edited = photos_base_item_pipeline_is_edited_finish (item, res, &error);
+    if (error != NULL)
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to check if item has been edited or not: %s", error->message);
+        return;
+      }
+  }
 
   self = PHOTOS_PROPERTIES_DIALOG (user_data);
 
@@ -354,8 +355,7 @@ photos_properties_dialog_constructed (GObject *object)
 {
   PhotosPropertiesDialog *self = PHOTOS_PROPERTIES_DIALOG (object);
   GApplication *app;
-  GDateTime *date_modified;
-  GError *error;
+  g_autoptr (GDateTime) date_modified = NULL;
   GtkStyleContext *context;
   GtkWidget *author_w = NULL;
   GtkWidget *content_area;
@@ -382,8 +382,8 @@ photos_properties_dialog_constructed (GObject *object)
   const gchar *location;
   const gchar *name;
   const gchar *type_description;
-  gchar *date_created_str = NULL;
-  gchar *date_modified_str;
+  g_autofree gchar *date_created_str = NULL;
+  g_autofree gchar *date_modified_str = NULL;
   gdouble exposure_time;
   gdouble fnumber;
   gdouble focal_length;
@@ -400,29 +400,27 @@ photos_properties_dialog_constructed (GObject *object)
 
   self->item_mngr = g_object_ref (state->item_mngr);
 
-  error = NULL;
-  self->queue = photos_tracker_queue_dup_singleton (NULL, &error);
-  if (G_UNLIKELY (error != NULL))
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    self->queue = photos_tracker_queue_dup_singleton (NULL, &error);
+    if (G_UNLIKELY (error != NULL))
       g_warning ("Unable to create PhotosTrackerQueue: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, self->urn));
 
   mtime = photos_base_item_get_mtime (item);
   date_modified = g_date_time_new_from_unix_local (mtime);
   date_modified_str = g_date_time_format (date_modified, "%c");
-  g_date_time_unref (date_modified);
 
   ctime = photos_base_item_get_date_created (item);
   if (ctime != -1)
     {
-      GDateTime *date_created;
+      g_autoptr (GDateTime) date_created = NULL;
 
       date_created = g_date_time_new_from_unix_local (ctime);
       date_created_str = g_date_time_format (date_created, "%c");
-      g_date_time_unref (date_created);
     }
 
   self->grid = gtk_grid_new ();
@@ -506,7 +504,7 @@ photos_properties_dialog_constructed (GObject *object)
   location = photos_base_item_get_location (item);
   if (location != NULL && location[0] != '\0' && G_LIKELY (self->queue != NULL))
     {
-      PhotosQuery *query = NULL;
+      g_autoptr (PhotosQuery) query = NULL;
 
       self->location_w = gtk_label_new (_("Location"));
       gtk_widget_set_halign (self->location_w, GTK_ALIGN_END);
@@ -521,8 +519,6 @@ photos_properties_dialog_constructed (GObject *object)
                                    photos_properties_dialog_location_query_executed,
                                    g_object_ref (self),
                                    g_object_unref);
-
-      g_object_unref (query);
     }
 
   equipment = photos_base_item_get_equipment (item);
@@ -656,13 +652,12 @@ photos_properties_dialog_constructed (GObject *object)
   if (dimensions_w != NULL)
     {
       GtkWidget *dims_data;
-      gchar *dims_str;
+      g_autofree gchar *dims_str = NULL;
 
       dims_str = g_strdup_printf ("%" G_GINT64_FORMAT " × %" G_GINT64_FORMAT " pixels", width, height);
       dims_data = gtk_label_new (dims_str);
       gtk_widget_set_halign (dims_data, GTK_ALIGN_START);
       gtk_grid_attach_next_to (GTK_GRID (self->grid), dims_data, dimensions_w, GTK_POS_RIGHT, 2, 1);
-      g_free (dims_str);
     }
 
   if (self->camera_w != NULL)
@@ -677,55 +672,51 @@ photos_properties_dialog_constructed (GObject *object)
   if (exposure_time_w != NULL)
     {
       GtkWidget *exposure_time_data;
-      gchar *exposure_time_str;
+      g_autofree gchar *exposure_time_str = NULL;
 
       exposure_time_str = g_strdup_printf ("%.3lf sec", exposure_time);
       exposure_time_data = gtk_label_new (exposure_time_str);
       gtk_widget_set_halign (exposure_time_data, GTK_ALIGN_START);
       gtk_grid_attach_next_to (GTK_GRID (self->grid), exposure_time_data, exposure_time_w, GTK_POS_RIGHT, 2, 1);
-      g_free (exposure_time_str);
     }
 
   if (fnumber_w != NULL)
     {
       GtkWidget *fnumber_data;
-      gchar *fnumber_str;
+      g_autofree gchar *fnumber_str = NULL;
 
       fnumber_str = g_strdup_printf ("f/%.1lf", fnumber);
       fnumber_data = gtk_label_new (fnumber_str);
       gtk_widget_set_halign (fnumber_data, GTK_ALIGN_START);
       gtk_grid_attach_next_to (GTK_GRID (self->grid), fnumber_data, fnumber_w, GTK_POS_RIGHT, 2, 1);
-      g_free (fnumber_str);
     }
 
   if (focal_length_w != NULL)
     {
       GtkWidget *focal_length_data;
-      gchar *focal_length_str;
+      g_autofree gchar *focal_length_str = NULL;
 
       focal_length_str = g_strdup_printf ("%.0lf mm", focal_length);
       focal_length_data = gtk_label_new (focal_length_str);
       gtk_widget_set_halign (focal_length_data, GTK_ALIGN_START);
       gtk_grid_attach_next_to (GTK_GRID (self->grid), focal_length_data, focal_length_w, GTK_POS_RIGHT, 2, 1);
-      g_free (focal_length_str);
     }
 
   if (iso_speed_w != NULL)
     {
       GtkWidget *iso_speed_data;
-      gchar *iso_speed_str;
+      g_autofree gchar *iso_speed_str = NULL;
 
       iso_speed_str = g_strdup_printf ("%.0lf", iso_speed);
       iso_speed_data = gtk_label_new (iso_speed_str);
       gtk_widget_set_halign (iso_speed_data, GTK_ALIGN_START);
       gtk_grid_attach_next_to (GTK_GRID (self->grid), iso_speed_data, iso_speed_w, GTK_POS_RIGHT, 2, 1);
-      g_free (iso_speed_str);
     }
 
   if (flash_w != NULL)
     {
       GtkWidget *flash_data;
-      gchar *flash_str = NULL;
+      g_autofree gchar *flash_str = NULL;
 
       if (flash == PHOTOS_FLASH_OFF)
         flash_str = g_strdup (_("Off, did not fire"));
@@ -742,7 +733,6 @@ photos_properties_dialog_constructed (GObject *object)
       flash_data = gtk_label_new (flash_str);
       gtk_widget_set_halign (flash_data, GTK_ALIGN_START);
       gtk_grid_attach_next_to (GTK_GRID (self->grid), flash_data, flash_w, GTK_POS_RIGHT, 2, 1);
-      g_free (flash_str);
     }
 
   if (modified_w != NULL)
@@ -785,8 +775,6 @@ photos_properties_dialog_constructed (GObject *object)
       gtk_grid_attach_next_to (GTK_GRID (self->grid), modified_grid, modified_w, GTK_POS_RIGHT, 2, 1);
     }
 
-  g_free (date_created_str);
-  g_free (date_modified_str);
 }
 
 
