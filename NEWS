@@ -1,3 +1,12 @@
+Overview of changes in 3.24.4
+=============================
+
+* Bugs fixed:
+ 788042 Edits are not applied when setting a background
+ 788715 Can't discard all edits directly from the overview without previewing
+        the BaseItem
+
+
 Overview of changes in 3.24.3
 =============================
 
