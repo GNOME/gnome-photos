@@ -232,6 +232,7 @@ photos_properties_dialog_location_query_executed (GObject *source_object, GAsync
   if (error != NULL)
     {
       g_warning ("Unable to query latitude and longitude: %s", error->message);
+      g_error_free (error);
       goto out;
     }
 
