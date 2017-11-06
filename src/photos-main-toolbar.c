@@ -506,7 +506,7 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 {
-  GMenu *preview_menu;
+  GMenu *preview_menu = NULL;
   GtkWidget *back_button;
   GtkWidget *edit_button;
   GtkWidget *image;
@@ -565,6 +565,8 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
                            G_CALLBACK (photos_main_toolbar_item_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
+
+  g_object_unref (preview_menu);
 }
 
 
