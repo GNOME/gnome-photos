@@ -18,6 +18,7 @@
  * 02110-1301, USA.
  */
 
+
 #include "config.h"
 
 #include <glib.h>
@@ -125,17 +126,16 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemSize full;
   PhotosBaseItemSize reduced;
-  gboolean success = TRUE;
+  gboolean success;
 
   {
     g_autoptr (GError) error = NULL;
 
-    if (!photos_base_item_guess_save_sizes_finish (item, res, &full, &reduced, &error))
+    success = photos_base_item_guess_save_sizes_finish (item, res, &full, &reduced, &error);
+    if (error != NULL)
       {
-        success = FALSE;
-
         if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-          return;
+          goto out;
 
         g_warning ("Unable to guess sizes: %s", error->message);
       }
@@ -167,6 +167,9 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
     }
 
   photos_export_dialog_show_size_options (self, self->reduced_zoom > 0.0, FALSE);
+
+ out:
+  return;
 }
 
 
