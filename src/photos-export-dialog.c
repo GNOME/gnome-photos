@@ -56,8 +56,8 @@ G_DEFINE_TYPE (PhotosExportDialog, photos_export_dialog, GTK_TYPE_DIALOG);
 static gchar *
 photos_export_dialog_create_size_str (gint height, gint width, guint64 size)
 {
+  g_autofree gchar *size_str = NULL;
   gchar *ret_val;
-  gchar *size_str;
 
   size_str = g_format_size (size);
 
@@ -66,7 +66,6 @@ photos_export_dialog_create_size_str (gint height, gint width, guint64 size)
    */
   ret_val = g_strdup_printf (_("%d×%d (%s)"), width, height, size_str);
 
-  g_free (size_str);
   return ret_val;
 }
 
@@ -124,49 +123,46 @@ photos_export_dialog_guess_sizes (GObject *source_object, GAsyncResult *res, gpo
 {
   PhotosExportDialog *self;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
   PhotosBaseItemSize full;
   PhotosBaseItemSize reduced;
   gboolean success = TRUE;
 
-  error = NULL;
-  if (!photos_base_item_guess_save_sizes_finish (item, res, &full, &reduced, &error))
-    {
-      success = FALSE;
+  {
+    g_autoptr (GError) error = NULL;
 
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        {
-          g_error_free (error);
+    if (!photos_base_item_guess_save_sizes_finish (item, res, &full, &reduced, &error))
+      {
+        success = FALSE;
+
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
           return;
-        }
-      else
-        {
-          g_warning ("Unable to guess sizes: %s", error->message);
-          g_error_free (error);
-        }
-    }
+
+        g_warning ("Unable to guess sizes: %s", error->message);
+      }
+  }
 
   self = PHOTOS_EXPORT_DIALOG (user_data);
 
   if (success)
     {
-      gchar *size_str;
-      gchar *size_str_markup;
+      {
+        g_autofree gchar *size_str = NULL;
+        g_autofree gchar *size_str_markup = NULL;
 
-      size_str = photos_export_dialog_create_size_str (full.height, full.width, (guint64) full.bytes);
-      size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
-      gtk_label_set_markup (GTK_LABEL (self->full_label), size_str_markup);
-      g_free (size_str);
-      g_free (size_str_markup);
+        size_str = photos_export_dialog_create_size_str (full.height, full.width, (guint64) full.bytes);
+        size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
+        gtk_label_set_markup (GTK_LABEL (self->full_label), size_str_markup);
+      }
 
       self->reduced_zoom = reduced.zoom;
       if (self->reduced_zoom > 0.0)
         {
+          g_autofree gchar *size_str = NULL;
+          g_autofree gchar *size_str_markup = NULL;
+
           size_str = photos_export_dialog_create_size_str (reduced.height, reduced.width, (guint64) reduced.bytes);
           size_str_markup = g_strdup_printf ("<small>%s</small>", size_str);
           gtk_label_set_markup (GTK_LABEL (self->reduced_label), size_str_markup);
-          g_free (size_str);
-          g_free (size_str_markup);
         }
     }
 
@@ -190,8 +186,8 @@ photos_export_dialog_constructed (GObject *object)
     }
   else
     {
-      GDateTime *now;
-      gchar *now_str;
+      g_autoptr (GDateTime) now = NULL;
+      g_autofree gchar *now_str = NULL;
 
       now = g_date_time_new_now_local ();
 
@@ -207,9 +203,6 @@ photos_export_dialog_constructed (GObject *object)
                                                self->cancellable,
                                                photos_export_dialog_guess_sizes,
                                                self);
-
-      g_date_time_unref (now);
-      g_free (now_str);
     }
 }
 
@@ -250,7 +243,7 @@ photos_export_dialog_set_property (GObject *object, guint prop_id, const GValue 
 static void
 photos_export_dialog_init (PhotosExportDialog *self)
 {
-  gchar *progress_str_markup;
+  g_autofree gchar *progress_str_markup = NULL;
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
@@ -258,7 +251,6 @@ photos_export_dialog_init (PhotosExportDialog *self)
 
   progress_str_markup = g_strdup_printf ("<small>%s</small>", _("Calculating export size…"));
   gtk_label_set_markup (GTK_LABEL (self->progress_label), progress_str_markup);
-  g_free (progress_str_markup);
 
   self->reduced_zoom = -1.0;
 }
