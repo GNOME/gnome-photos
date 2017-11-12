@@ -56,9 +56,8 @@ G_DEFINE_TYPE (PhotosEmptyResultsBox, photos_empty_results_box, GTK_TYPE_GRID);
 static gboolean
 photos_empty_results_box_activate_link (PhotosEmptyResultsBox *self, const gchar *uri)
 {
-  GAppInfo *app = NULL;
-  GError *error;
-  GdkAppLaunchContext *ctx = NULL;
+  g_autoptr (GAppInfo) app = NULL;
+  g_autoptr (GdkAppLaunchContext) ctx = NULL;
   GdkDisplay *display;
   GdkScreen *screen;
   gboolean ret_val = FALSE;
@@ -66,17 +65,19 @@ photos_empty_results_box_activate_link (PhotosEmptyResultsBox *self, const gchar
   if (g_strcmp0 (uri, "system-settings") != 0)
     goto out;
 
-  error = NULL;
-  app = g_app_info_create_from_commandline ("gnome-control-center online-accounts",
-                                            NULL,
-                                            G_APP_INFO_CREATE_NONE,
-                                            &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to launch gnome-control-center: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    app = g_app_info_create_from_commandline ("gnome-control-center online-accounts",
+                                              NULL,
+                                              G_APP_INFO_CREATE_NONE,
+                                              &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to launch gnome-control-center: %s", error->message);
+        goto out;
+      }
+  }
 
   screen = gtk_widget_get_screen (GTK_WIDGET (self));
   if (screen != NULL)
@@ -88,20 +89,20 @@ photos_empty_results_box_activate_link (PhotosEmptyResultsBox *self, const gchar
   if (screen != NULL)
     gdk_app_launch_context_set_screen (ctx, screen);
 
-  error = NULL;
-  g_app_info_launch (app, NULL, G_APP_LAUNCH_CONTEXT (ctx), &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to launch gnome-control-center: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    g_app_info_launch (app, NULL, G_APP_LAUNCH_CONTEXT (ctx), &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to launch gnome-control-center: %s", error->message);
+        goto out;
+      }
+  }
 
   ret_val = TRUE;
 
  out:
-  g_clear_object (&ctx);
-  g_clear_object (&app);
   return ret_val;
 }
 
@@ -125,8 +126,8 @@ static void
 photos_empty_results_box_add_system_settings_label (PhotosEmptyResultsBox *self)
 {
   GtkWidget *details;
-  gchar *details_str;
-  gchar *system_settings_href;
+  g_autofree gchar *details_str = NULL;
+  g_autofree gchar *system_settings_href = NULL;
 
   /* Translators: this should be translated in the context of the "You
    * can add your online accounts in Settings" sentence below
@@ -149,8 +150,6 @@ photos_empty_results_box_add_system_settings_label (PhotosEmptyResultsBox *self)
 
   g_signal_connect_swapped (details, "activate-link", G_CALLBACK (photos_empty_results_box_activate_link), self);
 
-  g_free (details_str);
-  g_free (system_settings_href);
 }
 
 
@@ -161,7 +160,7 @@ photos_empty_results_box_constructed (GObject *object)
   GtkStyleContext *context;
   GtkWidget *image;
   GtkWidget *title_label;
-  gchar *label;
+  g_autofree gchar *label = NULL;
 
   G_OBJECT_CLASS (photos_empty_results_box_parent_class)->constructed (object);
 
@@ -217,7 +216,6 @@ photos_empty_results_box_constructed (GObject *object)
   gtk_widget_set_vexpand (title_label, TRUE);
   gtk_label_set_use_markup (GTK_LABEL (title_label), TRUE);
   gtk_container_add (GTK_CONTAINER (self->labels_grid), title_label);
-  g_free (label);
 
   switch (self->mode)
     {
