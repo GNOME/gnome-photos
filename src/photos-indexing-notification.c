@@ -180,7 +180,7 @@ photos_indexing_notification_check_notification (PhotosIndexingNotification *sel
 {
   GApplication *app;
   GList *miners_running;
-  GSList *running;
+  GSList *running = NULL;
   gboolean is_indexing_local = FALSE;
   gboolean is_indexing_remote = FALSE;
 
@@ -213,8 +213,7 @@ photos_indexing_notification_check_notification (PhotosIndexingNotification *sel
   else
     photos_indexing_notification_destroy (self, FALSE);
 
-  if (running != NULL)
-    g_slist_free_full (running, g_free);
+  g_slist_free_full (running, g_free);
 }
 
 
