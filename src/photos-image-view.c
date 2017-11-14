@@ -198,7 +198,7 @@ static void
 photos_image_view_start_zoom_animation (PhotosImageView *self)
 {
   GdkFrameClock *frame_clock;
-  PhotosImageViewHelper *helper;
+  g_autoptr (PhotosImageViewHelper) helper = NULL;
 
   g_return_if_fail (photos_image_view_needs_zoom_animation (self));
   g_return_if_fail (self->zoom > 0.0);
@@ -221,8 +221,6 @@ photos_image_view_start_zoom_animation (PhotosImageView *self)
                                                   self->zoom,
                                                   NULL);
   g_object_add_weak_pointer (G_OBJECT (self->zoom_animation), (gpointer *) &self->zoom_animation);
-
-  g_object_unref (helper);
 }
 
 
@@ -230,7 +228,7 @@ static void
 photos_image_view_update_buffer (PhotosImageView *self)
 {
   const Babl *format;
-  GeglBuffer *buffer;
+  g_autoptr (GeglBuffer) buffer = NULL;
 
   g_signal_handlers_block_by_func (self->node, photos_image_view_computed, self);
 
@@ -239,7 +237,6 @@ photos_image_view_update_buffer (PhotosImageView *self)
   g_set_object (&self->buffer, buffer);
 
   g_signal_handlers_unblock_by_func (self->node, photos_image_view_computed, self);
-  g_object_unref (buffer);
 }
 
 
@@ -537,7 +534,7 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
   const Babl *format;
   GeglRectangle roi;
   cairo_surface_t *surface = NULL;
-  guchar *buf = NULL;
+  g_autofree guchar *buf = NULL;
   gint bpp;
   gint scale_factor;
   gint stride;
@@ -586,7 +583,6 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
   cairo_paint (cr);
 
   cairo_surface_destroy (surface);
-  g_free (buf);
 }
 
 
