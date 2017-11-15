@@ -151,8 +151,8 @@ static void
 photos_zoom_controls_realize (GtkWidget *widget)
 {
   GdkVisual *visual;
+  g_autoptr (GdkWindow) window = NULL;
   GdkWindow *parent_window;
-  GdkWindow *window;
   GdkWindowAttr attributes;
   GtkAllocation allocation;
   gint attributes_mask;
@@ -184,8 +184,6 @@ photos_zoom_controls_realize (GtkWidget *widget)
   window = gdk_window_new (parent_window, &attributes, attributes_mask);
   gtk_widget_set_window (widget, g_object_ref (window));
   gtk_widget_register_window (widget, window);
-
-  g_object_unref (window);
 }
 
 
