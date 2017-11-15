@@ -63,7 +63,7 @@ photos_facebook_item_create_filename_fallback (PhotosBaseItem *item)
   const gchar *const facebook_prefix = "facebook:";
   const gchar *identifier;
   const gchar *mime_type;
-  gchar *extension = NULL;
+  g_autofree gchar *extension = NULL;
   gchar *ret_val;
   gsize prefix_len;
 
@@ -76,7 +76,6 @@ photos_facebook_item_create_filename_fallback (PhotosBaseItem *item)
 
   ret_val = g_strdup_printf ("%s.%s", identifier, extension);
 
-  g_free (extension);
   return ret_val;
 }
 
@@ -85,9 +84,9 @@ static gchar *
 photos_facebook_item_create_name_fallback (PhotosBaseItem *item)
 {
   PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (item);
-  GDateTime *date_modified;
+  g_autoptr (GDateTime) date_modified = NULL;
   const gchar *provider_name;
-  gchar *date_modified_str;
+  g_autofree gchar *date_modified_str = NULL;
   gchar *ret_val;
   gint64 mtime;
 
@@ -102,8 +101,6 @@ photos_facebook_item_create_name_fallback (PhotosBaseItem *item)
    */
   ret_val = g_strdup_printf (_("%s — %s"), provider_name, date_modified_str);
 
-  g_free (date_modified_str);
-  g_date_time_unref (date_modified);
   return ret_val;
 }
 
@@ -141,14 +138,14 @@ photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancella
 static gboolean
 photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GFile *local_file = NULL;
-  GFile *remote_file = NULL;
-  GFBGraphPhoto *photo = NULL;
+  g_autoptr (GFile) local_file = NULL;
+  g_autoptr (GFile) remote_file = NULL;
+  GFBGraphPhoto *photo = NULL; /* TODO: use g_autoptr */
   const GFBGraphPhotoImage *thumbnail_image;
   gboolean ret_val = FALSE;
   const gchar *uri;
-  gchar *local_dir = NULL;
-  gchar *local_path = NULL;
+  g_autofree gchar *local_dir = NULL;
+  g_autofree gchar *local_path = NULL;
   gint64 height;
   gint64 width;
   guint size;
@@ -190,10 +187,6 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
   ret_val = TRUE;
 
  out:
-  g_free (local_dir);
-  g_free (local_path);
-  g_clear_object (&local_file);
-  g_clear_object (&remote_file);
   g_clear_object (&photo);
   return ret_val;
 }
@@ -202,14 +195,14 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
 static gchar *
 photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GFile *local_file = NULL;
-  GFile *remote_file = NULL;
-  GFBGraphPhoto *photo = NULL;
+  g_autoptr (GFile) local_file = NULL;
+  g_autoptr (GFile) remote_file = NULL;
+  GFBGraphPhoto *photo = NULL; /* TODO: use g_autoptr */
   const GFBGraphPhotoImage *higher_image;
   const gchar *cache_dir;
   const gchar *local_filename;
-  gchar *local_dir = NULL;
-  gchar *local_path = NULL;
+  g_autofree gchar *local_dir = NULL;
+  g_autofree gchar *local_path = NULL;
   gchar *ret_val = NULL;
 
   cache_dir = g_get_user_cache_dir ();
@@ -249,14 +242,9 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
     }
 
  end:
-  ret_val = local_path;
-  local_path = NULL;
+  ret_val = g_steal_pointer (&local_path);
 
  out:
-  g_free (local_dir);
-  g_free (local_path);
-  g_clear_object (&local_file);
-  g_clear_object (&remote_file);
   g_clear_object (&photo);
   return ret_val;
 }
@@ -281,18 +269,17 @@ photos_facebook_item_get_source_widget (PhotosBaseItem *item)
 static void
 photos_facebook_item_open (PhotosBaseItem *item, GtkWindow *parent, guint32 timestamp)
 {
-  GError *error;
   const gchar *facebook_uri;
 
   facebook_uri = photos_base_item_get_uri (item);
 
-  error = NULL;
-  gtk_show_uri_on_window (parent, facebook_uri, timestamp, &error);
-  if (error != NULL)
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    gtk_show_uri_on_window (parent, facebook_uri, timestamp, &error);
+    if (error != NULL)
       g_warning ("Unable to show URI %s: %s", facebook_uri, error->message);
-      g_error_free (error);
-    }
+  }
 }
 
 
