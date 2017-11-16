@@ -55,7 +55,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://ftp.gnome.org/pub/gimp/babl/0.1/babl-0.1.36.tar.bz2",
+                    "url": "https://ftp.gnome.org/pub/gimp/babl/0.1/babl-0.1.36.tar.bz2",
                     "sha256": "97f0eb01eb6760cb20a4deca0096aceaa77c6d7a88a375c2b872ca1ef3ae29ef"
                 }
             ]
@@ -113,7 +113,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://netix.dl.sourceforge.net/project/liboauth/liboauth-1.0.3.tar.gz",
+                    "url": "https://netix.dl.sourceforge.net/project/liboauth/liboauth-1.0.3.tar.gz",
                     "sha256": "0df60157b052f0e774ade8a8bac59d6e8d4b464058cc55f9208d72e41156811f"
                 }
             ]
@@ -136,7 +136,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://www.libraw.org/data/LibRaw-0.18.5.tar.gz",
+                    "url": "https://www.libraw.org/data/LibRaw-0.18.5.tar.gz",
                     "sha256": "fa2a7d14d9dfaf6b368f958a76d79266b3f58c2bc367bebab56e11baa94da178"
                 },
                 {
@@ -152,7 +152,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://ftp.acc.umu.se/pub/gimp/gegl/0.3/gegl-0.3.20.tar.bz2",
+                    "url": "https://ftp.acc.umu.se/pub/gimp/gegl/0.3/gegl-0.3.20.tar.bz2",
                     "sha256": "821568d17dc92a46f6105644c4f4d497daea2be794006140a016ed34e05eb084"
                 }
             ]
