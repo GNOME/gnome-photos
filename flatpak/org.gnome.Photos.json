@@ -55,8 +55,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://ftp.gnome.org/pub/gimp/babl/0.1/babl-0.1.30.tar.bz2",
-                    "sha256": "45c12c7b06d965123756821fc70c968137d16d44151a6eb55075f904e11d53cc"
+                    "url": "http://ftp.gnome.org/pub/gimp/babl/0.1/babl-0.1.36.tar.bz2",
+                    "sha256": "97f0eb01eb6760cb20a4deca0096aceaa77c6d7a88a375c2b872ca1ef3ae29ef"
                 }
             ]
         },
