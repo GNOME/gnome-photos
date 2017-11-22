@@ -28,9 +28,13 @@ G_BEGIN_DECLS
 #define PHOTOS_FLASH_OFF (photos_quarks_flash_off_quark ())
 #define PHOTOS_FLASH_ON (photos_quarks_flash_on_quark ())
 #define PHOTOS_ORIENTATION_BOTTOM (photos_quarks_orientation_bottom_quark ())
+#define PHOTOS_ORIENTATION_BOTTOM_MIRROR (photos_quarks_orientation_bottom_mirror_quark ())
 #define PHOTOS_ORIENTATION_LEFT (photos_quarks_orientation_left_quark ())
+#define PHOTOS_ORIENTATION_LEFT_MIRROR (photos_quarks_orientation_left_mirror_quark ())
 #define PHOTOS_ORIENTATION_RIGHT (photos_quarks_orientation_right_quark ())
+#define PHOTOS_ORIENTATION_RIGHT_MIRROR (photos_quarks_orientation_right_mirror_quark ())
 #define PHOTOS_ORIENTATION_TOP (photos_quarks_orientation_top_quark ())
+#define PHOTOS_ORIENTATION_TOP_MIRROR (photos_quarks_orientation_top_mirror_quark ())
 
 GQuark           photos_quarks_flash_off_quark             (void);
 
@@ -38,11 +42,19 @@ GQuark           photos_quarks_flash_on_quark              (void);
 
 GQuark           photos_quarks_orientation_bottom_quark    (void);
 
+GQuark           photos_quarks_orientation_bottom_mirror_quark (void);
+
 GQuark           photos_quarks_orientation_left_quark      (void);
+
+GQuark           photos_quarks_orientation_left_mirror_quark (void);
 
 GQuark           photos_quarks_orientation_right_quark     (void);
 
+GQuark           photos_quarks_orientation_right_mirror_quark (void);
+
 GQuark           photos_quarks_orientation_top_quark       (void);
+
+GQuark           photos_quarks_orientation_top_mirror_quark (void);
 
 G_END_DECLS
 

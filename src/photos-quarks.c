@@ -46,9 +46,23 @@ photos_quarks_orientation_bottom_quark (void)
 
 
 GQuark
+photos_quarks_orientation_bottom_mirror_quark (void)
+{
+  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-bottom-mirror");
+}
+
+
+GQuark
 photos_quarks_orientation_left_quark (void)
 {
   return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-left");
+}
+
+
+GQuark
+photos_quarks_orientation_left_mirror_quark (void)
+{
+  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-left-mirror");
 }
 
 
@@ -60,7 +74,21 @@ photos_quarks_orientation_right_quark (void)
 
 
 GQuark
+photos_quarks_orientation_right_mirror_quark (void)
+{
+  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-right-mirror");
+}
+
+
+GQuark
 photos_quarks_orientation_top_quark (void)
 {
   return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-top");
+}
+
+
+GQuark
+photos_quarks_orientation_top_mirror_quark (void)
+{
+  return g_quark_from_static_string ("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#orientation-top-mirror");
 }
