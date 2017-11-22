@@ -559,9 +559,11 @@ photos_base_item_create_thumbnail_async (PhotosBaseItem *self,
 static gboolean
 photos_base_item_create_thumbnail_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_create_thumbnail_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -1353,10 +1355,13 @@ photos_base_item_process_async (PhotosBaseItem *self,
 static gboolean
 photos_base_item_process_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_process_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -1462,9 +1467,11 @@ photos_base_item_load_buffer_async (PhotosBaseItem *self,
 static GeglBuffer *
 photos_base_item_load_buffer_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_load_buffer_async, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
@@ -1587,10 +1594,13 @@ photos_base_item_load_pipeline_async (PhotosBaseItem *self,
 static PhotosPipeline *
 photos_base_item_load_pipeline_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+
   g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_load_pipeline_async, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
@@ -1924,9 +1934,11 @@ photos_base_item_save_metadata_async (PhotosBaseItem *self,
 static gboolean
 photos_base_item_save_metadata_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_metadata_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -3244,10 +3256,13 @@ photos_base_item_download_async (PhotosBaseItem *self,
 gchar *
 photos_base_item_download_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+
   g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_download_async, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
@@ -3656,7 +3671,7 @@ photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
                                           PhotosBaseItemSize *out_reduced_size,
                                           GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
   GeglRectangle bbox;
   gboolean ret_val = FALSE;
   gint max_dimension;
@@ -3665,7 +3680,10 @@ photos_base_item_guess_save_sizes_finish (PhotosBaseItem *self,
   gsize *sizes;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_guess_save_sizes_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -3784,10 +3802,13 @@ photos_base_item_load_async (PhotosBaseItem *self,
 GeglNode *
 photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+
   g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_load_async, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
@@ -3830,10 +3851,13 @@ photos_base_item_metadata_add_shared_async (PhotosBaseItem *self,
 gboolean
 photos_base_item_metadata_add_shared_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_metadata_add_shared_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -3887,10 +3911,13 @@ photos_base_item_operation_add_async (PhotosBaseItem *self,
 gboolean
 photos_base_item_operation_add_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_operation_add_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -3960,10 +3987,13 @@ photos_base_item_operation_remove_async (PhotosBaseItem *self,
 gboolean
 photos_base_item_operation_remove_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_operation_remove_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -4000,10 +4030,13 @@ photos_base_item_pipeline_is_edited_async (PhotosBaseItem *self,
 gboolean
 photos_base_item_pipeline_is_edited_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_pipeline_is_edited_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -4050,10 +4083,13 @@ photos_base_item_pipeline_revert_async (PhotosBaseItem *self,
 gboolean
 photos_base_item_pipeline_revert_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_pipeline_revert_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -4101,10 +4137,13 @@ photos_base_item_pipeline_revert_to_original_async (PhotosBaseItem *self,
 gboolean
 photos_base_item_pipeline_revert_to_original_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_pipeline_revert_to_original_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -4142,10 +4181,13 @@ photos_base_item_pipeline_save_async (PhotosBaseItem *self,
 gboolean
 photos_base_item_pipeline_save_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_pipeline_save_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -4244,10 +4286,13 @@ photos_base_item_save_to_dir_async (PhotosBaseItem *self,
 GFile *
 photos_base_item_save_to_dir_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
+
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_save_to_dir_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
