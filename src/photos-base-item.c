@@ -1394,11 +1394,11 @@ static GeglBuffer *
 photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
   PhotosBaseItemPrivate *priv;
+  GeglBuffer *buffer = NULL;
   GeglBuffer *ret_val = NULL;
   GeglNode *buffer_sink;
   GeglNode *graph = NULL;
   GeglNode *load;
-  GeglNode *orientation;
   gchar *path = NULL;
   gint64 end;
   gint64 start;
@@ -1411,19 +1411,20 @@ photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, G
 
   graph = gegl_node_new ();
   load = gegl_node_new_child (graph, "operation", "gegl:load", "path", path, NULL);
-  orientation = photos_gegl_create_orientation_node (graph, priv->orientation);
-  buffer_sink = gegl_node_new_child (graph, "operation", "gegl:buffer-sink", "buffer", &ret_val, NULL);
+  buffer_sink = gegl_node_new_child (graph, "operation", "gegl:buffer-sink", "buffer", &buffer, NULL);
 
-  gegl_node_link_many (load, orientation, buffer_sink, NULL);
+  gegl_node_link (load, buffer_sink);
 
   start = g_get_monotonic_time ();
 
   gegl_node_process (buffer_sink);
+  ret_val = photos_gegl_buffer_apply_orientation (buffer, priv->orientation);
 
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL, "Buffer Load: From Local: %" G_GINT64_FORMAT, end - start);
 
  out:
+  g_clear_object (&buffer);
   g_clear_object (&graph);
   g_free (path);
   return ret_val;

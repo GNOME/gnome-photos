@@ -345,8 +345,8 @@ photos_thumbnailer_generate_thumbnail_pixbuf (GObject *source_object, GAsyncResu
   GTask *task = G_TASK (user_data);
   GdkPixbuf *pixbuf = NULL;
   GeglBuffer *buffer = NULL;
+  GeglBuffer *buffer_oriented = NULL;
   GeglNode *buffer_source;
-  GeglNode *orientation;
   GeglNode *pipeline_node;
   GeglNode *save_pixbuf;
   GeglProcessor *processor = NULL;
@@ -366,16 +366,16 @@ photos_thumbnailer_generate_thumbnail_pixbuf (GObject *source_object, GAsyncResu
   g_assert_null (data->pixbuf_thumbnail);
 
   buffer = photos_gegl_buffer_new_from_pixbuf (pixbuf);
+  buffer_oriented = photos_gegl_buffer_apply_orientation (buffer, data->orientation);
 
-  buffer_source = gegl_node_new_child (data->graph, "operation", "gegl:buffer-source", "buffer", buffer, NULL);
-  orientation = photos_gegl_create_orientation_node (data->graph, data->orientation);
+  buffer_source = gegl_node_new_child (data->graph, "operation", "gegl:buffer-source", "buffer", buffer_oriented, NULL);
   pipeline_node = photos_pipeline_get_graph (data->pipeline);
   save_pixbuf = gegl_node_new_child (data->graph,
                                      "operation", "gegl:save-pixbuf",
                                      "pixbuf", &data->pixbuf_thumbnail,
                                      NULL);
 
-  gegl_node_link_many (buffer_source, orientation, pipeline_node, save_pixbuf, NULL);
+  gegl_node_link_many (buffer_source, pipeline_node, save_pixbuf, NULL);
 
   processor = gegl_node_new_processor (save_pixbuf, NULL);
   photos_gegl_processor_process_async (processor,
@@ -385,6 +385,7 @@ photos_thumbnailer_generate_thumbnail_pixbuf (GObject *source_object, GAsyncResu
 
  out:
   g_clear_object (&buffer);
+  g_clear_object (&buffer_oriented);
   g_clear_object (&pixbuf);
   g_clear_object (&processor);
   g_object_unref (task);
