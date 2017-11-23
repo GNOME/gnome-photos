@@ -1648,6 +1648,7 @@ photos_base_item_load_load_buffer (GObject *source_object, GAsyncResult *res, gp
   const Babl *format;
   GCancellable *cancellable;
   GeglBuffer *buffer = NULL;
+  GeglRectangle bbox;
   GError *error;
   const gchar *format_name;
 
@@ -1665,9 +1666,15 @@ photos_base_item_load_load_buffer (GObject *source_object, GAsyncResult *res, gp
       goto out;
     }
 
+  bbox = *gegl_buffer_get_extent (buffer);
   format = gegl_buffer_get_format (buffer);
   format_name = babl_get_name (format);
-  photos_debug (PHOTOS_DEBUG_GEGL, "Buffer loaded: %s", format_name);
+  photos_debug (PHOTOS_DEBUG_GEGL, "Buffer loaded: %d, %d, %d×%d, %s",
+                bbox.x,
+                bbox.y,
+                bbox.width,
+                bbox.height,
+                format_name);
 
   gegl_node_set (priv->buffer_source, "buffer", buffer, NULL);
 
