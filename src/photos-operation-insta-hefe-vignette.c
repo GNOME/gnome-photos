@@ -93,7 +93,7 @@ photos_operation_insta_hefe_vignette_get_bounding_box (GeglOperation *operation)
   PhotosOperationInstaHefeVignette *self = PHOTOS_OPERATION_INSTA_HEFE_VIGNETTE (operation);
   GeglRectangle bbox;
 
-  gegl_rectangle_set (&bbox, (gint) self->x, (gint) self->y, (gint) self->width, (gint) self->height);
+  gegl_rectangle_set (&bbox, (gint) self->x, (gint) self->y, (guint) self->width, (guint) self->height);
   return bbox;
 }
 
