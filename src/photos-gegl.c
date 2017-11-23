@@ -69,6 +69,36 @@ static const gchar *REQUIRED_GEGL_OPS[] =
 };
 
 
+GeglBuffer *
+photos_gegl_buffer_new_from_pixbuf (GdkPixbuf *pixbuf)
+{
+  const Babl *format;
+  GeglBuffer *buffer = NULL;
+  GeglRectangle bbox;
+  gint height;
+  gint stride;
+  gint width;
+  const guint8 *pixels;
+
+  height = gdk_pixbuf_get_height (pixbuf);
+  width = gdk_pixbuf_get_width (pixbuf);
+  gegl_rectangle_set (&bbox, 0, 0, (guint) width, (guint) height);
+
+  if (gdk_pixbuf_get_has_alpha (pixbuf))
+    format = babl_format ("R'G'B'A u8");
+  else
+    format = babl_format ("R'G'B' u8");
+
+  buffer = gegl_buffer_new (&bbox, format);
+
+  pixels = gdk_pixbuf_read_pixels (pixbuf);
+  stride = gdk_pixbuf_get_rowstride (pixbuf);
+  gegl_buffer_set (buffer, &bbox, 0, format, pixels, stride);
+
+  return buffer;
+}
+
+
 static GeglBuffer *
 photos_gegl_buffer_zoom (GeglBuffer *buffer, gdouble zoom, GCancellable *cancellable, GError **error)
 {
