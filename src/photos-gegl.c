@@ -55,7 +55,6 @@ static const gchar *REQUIRED_GEGL_OPS[] =
   "gegl:load",
   "gegl:noise-reduction",
   "gegl:nop",
-  "gegl:pixbuf",
   "gegl:rotate-on-center",
   "gegl:save-pixbuf",
   "gegl:scale-ratio",
