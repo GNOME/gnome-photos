@@ -29,6 +29,8 @@
 
 G_BEGIN_DECLS
 
+GeglBuffer      *photos_gegl_buffer_apply_orientation     (GeglBuffer *buffer_original, GQuark orientation);
+
 GeglBuffer      *photos_gegl_buffer_new_from_pixbuf       (GdkPixbuf *pixbuf);
 
 void             photos_gegl_buffer_zoom_async            (GeglBuffer *buffer,
