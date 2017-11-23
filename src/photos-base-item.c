@@ -1399,6 +1399,8 @@ photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, G
   GeglNode *load;
   GeglNode *orientation;
   gchar *path = NULL;
+  gint64 end;
+  gint64 start;
 
   priv = photos_base_item_get_instance_private (self);
 
@@ -1412,7 +1414,13 @@ photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, G
   buffer_sink = gegl_node_new_child (graph, "operation", "gegl:buffer-sink", "buffer", &ret_val, NULL);
 
   gegl_node_link_many (load, orientation, buffer_sink, NULL);
+
+  start = g_get_monotonic_time ();
+
   gegl_node_process (buffer_sink);
+
+  end = g_get_monotonic_time ();
+  photos_debug (PHOTOS_DEBUG_GEGL, "Buffer Load: From Local: %" G_GINT64_FORMAT, end - start);
 
  out:
   g_clear_object (&graph);
