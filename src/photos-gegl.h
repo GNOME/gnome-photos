@@ -41,8 +41,6 @@ void             photos_gegl_buffer_zoom_async            (GeglBuffer *buffer,
 
 GeglBuffer      *photos_gegl_buffer_zoom_finish           (GeglBuffer *buffer, GAsyncResult *res, GError **error);
 
-GeglNode        *photos_gegl_create_orientation_node      (GeglNode *parent, GQuark orientation);
-
 GdkPixbuf       *photos_gegl_create_pixbuf_from_node      (GeglNode *node);
 
 GeglBuffer      *photos_gegl_dup_buffer_from_node         (GeglNode *node, const Babl *format);

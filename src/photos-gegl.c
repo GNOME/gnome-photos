@@ -374,33 +374,6 @@ photos_gegl_buffer_zoom_finish (GeglBuffer *buffer, GAsyncResult *res, GError **
 }
 
 
-GeglNode *
-photos_gegl_create_orientation_node (GeglNode *parent, GQuark orientation)
-{
-  GeglNode *ret_val = NULL;
-  double degrees = 1.0;
-
-  if (orientation == PHOTOS_ORIENTATION_TOP)
-    goto out;
-
-  if (orientation == PHOTOS_ORIENTATION_BOTTOM)
-    degrees = -180.0;
-  else if (orientation == PHOTOS_ORIENTATION_LEFT)
-    degrees = -270.0;
-  else if (orientation == PHOTOS_ORIENTATION_RIGHT)
-    degrees = -90.0;
-
-  if (degrees < 0.0)
-    ret_val = gegl_node_new_child (parent, "operation", "gegl:rotate-on-center", "degrees", degrees, NULL);
-
- out:
-  if (ret_val == NULL)
-    ret_val = gegl_node_new_child (parent, "operation", "gegl:nop", NULL);
-
-  return ret_val;
-}
-
-
 GdkPixbuf *
 photos_gegl_create_pixbuf_from_node (GeglNode *node)
 {
