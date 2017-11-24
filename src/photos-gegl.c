@@ -626,14 +626,29 @@ photos_gegl_processor_process_idle (gpointer user_data)
 {
   GTask *task = G_TASK (user_data);
   GeglProcessor *processor;
+  gboolean more_work;
+  gint64 end;
+  gint64 start;
+  gsize processing_time;
 
   processor = GEGL_PROCESSOR (g_task_get_source_object (task));
+  processing_time = GPOINTER_TO_SIZE (g_task_get_task_data (task));
 
   if (g_task_return_error_if_cancelled (task))
     goto done;
 
-  if (gegl_processor_work (processor, NULL))
+  start = g_get_monotonic_time ();
+
+  more_work = gegl_processor_work (processor, NULL);
+
+  end = g_get_monotonic_time ();
+  processing_time += (gsize) (end - start);
+  g_task_set_task_data (task, GSIZE_TO_POINTER (processing_time), NULL);
+
+  if (more_work)
     return G_SOURCE_CONTINUE;
+
+  photos_debug (PHOTOS_DEBUG_GEGL, "GEGL: Processor: %" G_GSIZE_FORMAT, processing_time);
 
   g_task_return_boolean (task, TRUE);
 
@@ -655,6 +670,7 @@ photos_gegl_processor_process_async (GeglProcessor *processor,
 
   task = g_task_new (processor, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_gegl_processor_process_async);
+  g_task_set_task_data (task, GSIZE_TO_POINTER (0), NULL);
 
   g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
                    photos_gegl_processor_process_idle,
