@@ -55,6 +55,7 @@
 #include "photos-pipeline.h"
 #include "photos-print-notification.h"
 #include "photos-print-operation.h"
+#include "photos-quarks.h"
 #include "photos-query.h"
 #include "photos-search-context.h"
 #include "photos-single-item-job.h"
@@ -2795,6 +2796,13 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 
   orientation = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_ORIENTATION, NULL);
   priv->orientation = g_quark_from_string (orientation);
+  if (priv->orientation != PHOTOS_ORIENTATION_BOTTOM
+      && priv->orientation != PHOTOS_ORIENTATION_LEFT
+      && priv->orientation != PHOTOS_ORIENTATION_RIGHT
+      && priv->orientation != PHOTOS_ORIENTATION_TOP)
+    {
+      priv->orientation = PHOTOS_ORIENTATION_TOP;
+    }
 
   priv->exposure_time = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_EXPOSURE_TIME);
   priv->fnumber = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_FNUMBER);
