@@ -2798,10 +2798,16 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   orientation = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_ORIENTATION, NULL);
   priv->orientation = g_quark_from_string (orientation);
   if (priv->orientation != PHOTOS_ORIENTATION_BOTTOM
+      && priv->orientation != PHOTOS_ORIENTATION_BOTTOM_MIRROR
       && priv->orientation != PHOTOS_ORIENTATION_LEFT
+      && priv->orientation != PHOTOS_ORIENTATION_LEFT_MIRROR
       && priv->orientation != PHOTOS_ORIENTATION_RIGHT
-      && priv->orientation != PHOTOS_ORIENTATION_TOP)
+      && priv->orientation != PHOTOS_ORIENTATION_RIGHT_MIRROR
+      && priv->orientation != PHOTOS_ORIENTATION_TOP
+      && priv->orientation != PHOTOS_ORIENTATION_TOP_MIRROR)
     {
+      if (orientation != NULL)
+        g_warning ("Unknown value for nfo:orientation: %s", orientation);
       priv->orientation = PHOTOS_ORIENTATION_TOP;
     }
 
