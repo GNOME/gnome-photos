@@ -72,6 +72,28 @@ static const gchar *REQUIRED_GEGL_OPS[] =
 };
 
 
+static void
+photos_gegl_buffer_apply_orientation_flip_in_place (guchar *buf, gint bpp, gint n_pixels)
+{
+  gint i;
+
+  for (i = 0; i < n_pixels / 2; i++)
+    {
+      gint j;
+      guchar *pixel_left = buf + i * bpp;
+      guchar *pixel_right = buf + (n_pixels - 1 - i) * bpp;
+
+      for (j = 0; j < bpp; j++)
+        {
+          guchar tmp = pixel_left[j];
+
+          pixel_left[j] = pixel_right[j];
+          pixel_right[j] = tmp;
+        }
+    }
+}
+
+
 GeglBuffer *
 photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orientation)
 {
@@ -152,25 +174,8 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
 
       for (i = 0; i < bbox_original.height; i++)
         {
-          gint j;
-
           gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
-
-          for (j = 0; j < bbox_original.width / 2; j++)
-            {
-              gint k;
-              guchar *pixel_left = buf + j * bpp;
-              guchar *pixel_right = buf + (bbox_original.width - 1 - j) * bpp;
-
-              for (k = 0; k < bpp; k++)
-                {
-                  guchar tmp = pixel_left[k];
-
-                  pixel_left[k] = pixel_right[k];
-                  pixel_right[k] = tmp;
-                }
-            }
-
+          photos_gegl_buffer_apply_orientation_flip_in_place (buf, bpp, bbox_original.width);
           gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
 
           bbox_destination.y++;
