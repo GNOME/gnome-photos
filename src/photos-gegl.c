@@ -105,9 +105,13 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
   gint bpp;
 
   g_return_val_if_fail (orientation == PHOTOS_ORIENTATION_BOTTOM
+                        || orientation == PHOTOS_ORIENTATION_BOTTOM_MIRROR
                         || orientation == PHOTOS_ORIENTATION_LEFT
+                        || orientation == PHOTOS_ORIENTATION_LEFT_MIRROR
                         || orientation == PHOTOS_ORIENTATION_RIGHT
-                        || orientation == PHOTOS_ORIENTATION_TOP,
+                        || orientation == PHOTOS_ORIENTATION_RIGHT_MIRROR
+                        || orientation == PHOTOS_ORIENTATION_TOP
+                        || orientation == PHOTOS_ORIENTATION_TOP_MIRROR,
                         NULL);
 
   if (orientation == PHOTOS_ORIENTATION_TOP)
@@ -118,27 +122,38 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
 
   bbox_original = *gegl_buffer_get_extent (buffer_original);
 
-  if (orientation == PHOTOS_ORIENTATION_BOTTOM)
+  if (orientation == PHOTOS_ORIENTATION_BOTTOM || orientation == PHOTOS_ORIENTATION_BOTTOM_MIRROR)
     {
       /* angle = 180 degrees */
+      /* angle = 180 degrees, axis = vertical; or, axis = horizontal */
       bbox_oriented.height = bbox_original.height;
       bbox_oriented.width = bbox_original.width;
       bbox_oriented.x = bbox_original.x;
       bbox_oriented.y = bbox_original.y;
     }
-  else if (orientation == PHOTOS_ORIENTATION_LEFT)
+  else if (orientation == PHOTOS_ORIENTATION_LEFT || orientation == PHOTOS_ORIENTATION_LEFT_MIRROR)
     {
       /* angle = -270 or 90 degrees counterclockwise */
+      /* angle = -270 or 90 degrees counterclockwise, axis = horizontal */
       bbox_oriented.height = bbox_original.width;
       bbox_oriented.width = bbox_original.height;
       bbox_oriented.x = bbox_original.x;
       bbox_oriented.y = bbox_original.y;
     }
-  else if (orientation == PHOTOS_ORIENTATION_RIGHT)
+  else if (orientation == PHOTOS_ORIENTATION_RIGHT || orientation == PHOTOS_ORIENTATION_RIGHT_MIRROR)
     {
       /* angle = -90 or 270 degrees counterclockwise */
+      /* angle = -90 or 270 degrees counterclockwise, axis = horizontal */
       bbox_oriented.height = bbox_original.width;
       bbox_oriented.width = bbox_original.height;
+      bbox_oriented.x = bbox_original.x;
+      bbox_oriented.y = bbox_original.y;
+    }
+  else if (orientation == PHOTOS_ORIENTATION_TOP_MIRROR)
+    {
+      /* axis = vertical */
+      bbox_oriented.height = bbox_original.height;
+      bbox_oriented.width = bbox_original.width;
       bbox_oriented.x = bbox_original.x;
       bbox_oriented.y = bbox_original.y;
     }
@@ -151,14 +166,13 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
   bpp = babl_format_get_bytes_per_pixel (format);
   buffer_oriented = gegl_buffer_new (&bbox_oriented, format);
 
-  if (orientation == PHOTOS_ORIENTATION_BOTTOM)
+  if (orientation == PHOTOS_ORIENTATION_BOTTOM || orientation == PHOTOS_ORIENTATION_BOTTOM_MIRROR)
     {
       GeglRectangle bbox_destination;
       GeglRectangle bbox_source;
-      gint i;
-      g_autofree guchar *buf = NULL;
 
       /* angle = 180 degrees */
+      /* angle = 180 degrees, axis = vertical; or, axis = horizontal */
 
       g_return_val_if_fail (bbox_oriented.height == bbox_original.height, NULL);
       g_return_val_if_fail (bbox_oriented.width == bbox_original.width, NULL);
@@ -170,31 +184,45 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
       bbox_source.height = 1;
       bbox_source.width = bbox_original.width;
 
-      buf = g_malloc0_n (bbox_oriented.width, bpp);
-
-      for (i = 0; i < bbox_original.height; i++)
+      if (orientation == PHOTOS_ORIENTATION_BOTTOM)
         {
-          gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
-          photos_gegl_buffer_apply_orientation_flip_in_place (buf, bpp, bbox_original.width);
-          gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
+          gint i;
+          g_autofree guchar *buf = NULL;
 
-          bbox_destination.y++;
-          bbox_source.y--;
+          buf = g_malloc0_n (bbox_oriented.width, bpp);
+
+          for (i = 0; i < bbox_original.height; i++)
+            {
+              gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+              photos_gegl_buffer_apply_orientation_flip_in_place (buf, bpp, bbox_original.width);
+              gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
+
+              bbox_destination.y++;
+              bbox_source.y--;
+            }
+        }
+      else
+        {
+          gint i;
+
+          for (i = 0; i < bbox_original.height; i++)
+            {
+              gegl_buffer_copy (buffer_original, &bbox_source, GEGL_ABYSS_NONE, buffer_oriented, &bbox_destination);
+              bbox_destination.y++;
+              bbox_source.y--;
+            }
         }
     }
-  else if (orientation == PHOTOS_ORIENTATION_LEFT)
+  else if (orientation == PHOTOS_ORIENTATION_LEFT || orientation == PHOTOS_ORIENTATION_LEFT_MIRROR)
     {
-      GeglRectangle bbox_destination;
       GeglRectangle bbox_source;
-      gint i;
       g_autofree guchar *buf = NULL;
 
       /* angle = -270 or 90 degrees counterclockwise */
+      /* angle = -270 or 90 degrees counterclockwise, axis = horizontal */
 
       g_return_val_if_fail (bbox_oriented.height == bbox_original.width, NULL);
       g_return_val_if_fail (bbox_oriented.width == bbox_original.height, NULL);
-
-      gegl_rectangle_set (&bbox_destination, bbox_oriented.x, bbox_oriented.y, (guint) bbox_oriented.width, 1);
 
       bbox_source.x = bbox_original.x + bbox_original.width - 1;
       bbox_source.y = bbox_original.y;
@@ -203,22 +231,48 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
 
       buf = g_malloc0_n (bbox_oriented.width, bpp);
 
-      for (i = 0; i < bbox_original.width; i++)
+      if (orientation == PHOTOS_ORIENTATION_LEFT)
         {
-          gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
-          gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
-          bbox_destination.y++;
-          bbox_source.x--;
+          GeglRectangle bbox_destination;
+          gint i;
+
+          gegl_rectangle_set (&bbox_destination, bbox_oriented.x, bbox_oriented.y, (guint) bbox_oriented.width, 1);
+
+          for (i = 0; i < bbox_original.width; i++)
+            {
+              gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+              gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
+              bbox_destination.y++;
+              bbox_source.x--;
+            }
+        }
+      else
+        {
+          GeglRectangle bbox_destination;
+          gint i;
+
+          bbox_destination.x = bbox_oriented.x;
+          bbox_destination.y = bbox_oriented.y + bbox_oriented.height - 1;
+          bbox_destination.height = 1;
+          bbox_destination.width = bbox_oriented.width;
+
+          for (i = 0; i < bbox_original.width; i++)
+            {
+              gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+              gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
+              bbox_destination.y--;
+              bbox_source.x--;
+            }
         }
     }
-  else if (orientation == PHOTOS_ORIENTATION_RIGHT)
+  else if (orientation == PHOTOS_ORIENTATION_RIGHT || orientation == PHOTOS_ORIENTATION_RIGHT_MIRROR)
     {
       GeglRectangle bbox_destination;
       GeglRectangle bbox_source;
-      gint i;
       g_autofree guchar *buf = NULL;
 
       /* angle = -90 or 270 degrees counterclockwise */
+      /* angle = -90 or 270 degrees counterclockwise, axis = horizontal */
 
       g_return_val_if_fail (bbox_oriented.height == bbox_original.width, NULL);
       g_return_val_if_fail (bbox_oriented.width == bbox_original.height, NULL);
@@ -232,12 +286,55 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
 
       buf = g_malloc0_n (bbox_oriented.height, bpp);
 
-      for (i = 0; i < bbox_original.height; i++)
+      if (orientation == PHOTOS_ORIENTATION_RIGHT)
         {
-          gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
-          gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
-          bbox_destination.x++;
-          bbox_source.y--;
+          gint i;
+
+          for (i = 0; i < bbox_original.height; i++)
+            {
+              gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+              gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
+              bbox_destination.x++;
+              bbox_source.y--;
+            }
+        }
+      else
+        {
+          gint i;
+
+          for (i = 0; i < bbox_original.height; i++)
+            {
+              gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+              photos_gegl_buffer_apply_orientation_flip_in_place (buf, bpp, bbox_original.width);
+              gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
+              bbox_destination.x++;
+              bbox_source.y--;
+            }
+        }
+    }
+  else if (orientation == PHOTOS_ORIENTATION_TOP_MIRROR)
+    {
+      GeglRectangle bbox_destination;
+      GeglRectangle bbox_source;
+      gint i;
+
+      /* axis = vertical */
+
+      g_return_val_if_fail (bbox_oriented.height == bbox_original.height, NULL);
+      g_return_val_if_fail (bbox_oriented.width == bbox_original.width, NULL);
+
+      bbox_destination.x = bbox_oriented.x + bbox_oriented.width - 1;
+      bbox_destination.y = bbox_oriented.y;
+      bbox_destination.height = bbox_oriented.height;
+      bbox_destination.width = 1;
+
+      gegl_rectangle_set (&bbox_source, bbox_original.x, bbox_original.y, 1, (guint) bbox_original.height);
+
+      for (i = 0; i < bbox_original.width; i++)
+        {
+          gegl_buffer_copy (buffer_original, &bbox_source, GEGL_ABYSS_NONE, buffer_oriented, &bbox_destination);
+          bbox_destination.x--;
+          bbox_source.x++;
         }
     }
   else
