@@ -66,7 +66,7 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
 {
   GObject *object;
   const gchar *id;
-  gchar *name;
+  g_autofree gchar *name = NULL;
 
   object = photos_base_manager_get_active_object (mngr);
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
@@ -81,7 +81,6 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
     }
 
   gtk_entry_grab_focus_without_selecting (GTK_ENTRY (self->search_entry));
-  g_free (name);
 }
 
 
