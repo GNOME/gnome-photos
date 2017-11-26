@@ -46,9 +46,9 @@ static gchar *
 photos_query_builder_filter (PhotosSearchContextState *state, gint flags)
 {
   gchar *sparql;
-  gchar *src_mngr_filter;
-  gchar *srch_mtch_mngr_filter;
-  gchar *srch_typ_mngr_filter;
+  g_autofree gchar *src_mngr_filter = NULL;
+  g_autofree gchar *srch_mtch_mngr_filter = NULL;
+  g_autofree gchar *srch_typ_mngr_filter = NULL;
 
   src_mngr_filter = photos_base_manager_get_filter (state->src_mngr, flags);
   srch_mtch_mngr_filter = photos_base_manager_get_filter (state->srch_mtch_mngr, flags);
@@ -58,10 +58,6 @@ photos_query_builder_filter (PhotosSearchContextState *state, gint flags)
                             src_mngr_filter,
                             srch_mtch_mngr_filter,
                             srch_typ_mngr_filter);
-
-  g_free (srch_typ_mngr_filter);
-  g_free (srch_mtch_mngr_filter);
-  g_free (src_mngr_filter);
 
   return sparql;
 }
@@ -78,9 +74,9 @@ photos_query_builder_optional (void)
 static gchar *
 photos_query_builder_inner_where (PhotosSearchContextState *state, gboolean global, gint flags)
 {
-  gchar *item_mngr_where = NULL;
+  g_autofree gchar *item_mngr_where = NULL;
   gchar *sparql;
-  gchar *srch_typ_mngr_where = NULL;
+  g_autofree gchar *srch_typ_mngr_where = NULL;
 
   srch_typ_mngr_where = photos_base_manager_get_where (state->srch_typ_mngr, flags);
 
@@ -98,9 +94,6 @@ photos_query_builder_inner_where (PhotosSearchContextState *state, gboolean glob
                             srch_typ_mngr_where,
                             (item_mngr_where != NULL) ? item_mngr_where : "");
 
-  g_free (item_mngr_where);
-  g_free (srch_typ_mngr_where);
-
   return sparql;
 }
 
@@ -110,10 +103,10 @@ photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gi
 {
   const gchar *count_items = "COUNT (?item) AS ?count";
   gboolean item_defined;
-  gchar *filter = NULL;
-  gchar *optional;
+  g_autofree gchar *filter = NULL;
+  g_autofree gchar *optional = NULL;
   gchar *sparql;
-  gchar *where_sparql;
+  g_autofree gchar *where_sparql = NULL;
 
   where_sparql = photos_query_builder_inner_where (state, global, flags);
   item_defined = strstr (where_sparql, "?item") != NULL;
@@ -133,10 +126,6 @@ photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gi
                             optional,
                             (filter != NULL) ? filter : "");
 
-  g_free (filter);
-  g_free (optional);
-  g_free (where_sparql);
-
   return sparql;
 }
 
@@ -148,8 +137,8 @@ photos_query_builder_query (PhotosSearchContextState *state,
                             PhotosOffsetController *offset_cntrlr)
 {
   gchar *sparql;
-  gchar *tail_sparql = NULL;
-  gchar *where_sparql;
+  g_autofree gchar *tail_sparql = NULL;
+  g_autofree gchar *where_sparql = NULL;
 
   where_sparql = photos_query_builder_where (state, global, flags);
 
@@ -193,8 +182,6 @@ photos_query_builder_query (PhotosSearchContextState *state,
                         where_sparql,
                         tail_sparql,
                         NULL);
-  g_free (where_sparql);
-  g_free (tail_sparql);
 
   return sparql;
 }
@@ -205,8 +192,8 @@ photos_query_builder_create_collection_query (PhotosSearchContextState *state, c
 {
   GTimeVal tv;
   PhotosQuery *query;
-  gchar *sparql = NULL;
-  gchar *time;
+  g_autofree gchar *sparql = NULL;
+  g_autofree gchar *time = NULL;
   gint64 timestamp;
 
   timestamp = g_get_real_time () / G_USEC_PER_SEC;
@@ -225,8 +212,6 @@ photos_query_builder_create_collection_query (PhotosSearchContextState *state, c
 
   query = photos_query_new (state, sparql);
 
-  g_free (sparql);
-  g_free (time);
   return query;
 }
 
@@ -235,7 +220,7 @@ PhotosQuery *
 photos_query_builder_collection_icon_query (PhotosSearchContextState *state, const gchar *resource)
 {
   PhotosQuery *query;
-  gchar *sparql = NULL;
+  g_autofree gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("SELECT ?urn "
                             "tracker:coalesce(nfo:fileLastModified(?urn), nie:contentLastModified(?urn)) AS ?mtime "
@@ -245,7 +230,6 @@ photos_query_builder_collection_icon_query (PhotosSearchContextState *state, con
 
   query = photos_query_new (state, sparql);
 
-  g_free (sparql);
   return query;
 }
 
@@ -254,15 +238,13 @@ PhotosQuery *
 photos_query_builder_count_query (PhotosSearchContextState *state, gint flags)
 {
   PhotosQuery *query;
-  gchar *sparql = NULL;
-  gchar *where_sparql;
+  g_autofree gchar *sparql = NULL;
+  g_autofree gchar *where_sparql = NULL;
 
   where_sparql = photos_query_builder_where (state, TRUE, flags);
   sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) ", where_sparql, NULL);
   query = photos_query_new (state, sparql);
 
-  g_free (sparql);
-  g_free (where_sparql);
   return query;
 }
 
@@ -271,12 +253,11 @@ PhotosQuery *
 photos_query_builder_delete_resource_query (PhotosSearchContextState *state, const gchar *resource)
 {
   PhotosQuery *query;
-  gchar *sparql = NULL;
+  g_autofree gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("DELETE { <%s> a rdfs:Resource }", resource);
   query = photos_query_new (state, sparql);
 
-  g_free (sparql);
   return query;
 }
 
@@ -286,13 +267,12 @@ photos_query_builder_equipment_query (PhotosSearchContextState *state, GQuark eq
 {
   PhotosQuery *query;
   const gchar *resource;
-  gchar *sparql = NULL;
+  g_autofree gchar *sparql = NULL;
 
   resource = g_quark_to_string (equipment);
   sparql = g_strdup_printf ("SELECT nfo:manufacturer (<%s>) nfo:model (<%s>) WHERE {}", resource, resource);
   query = photos_query_new (state, sparql);
 
-  g_free (sparql);
   return query;
 }
 
@@ -301,12 +281,11 @@ PhotosQuery *
 photos_query_builder_fetch_collections_query (PhotosSearchContextState *state, const gchar *resource)
 {
   PhotosQuery *query;
-  gchar *sparql = NULL;
+  g_autofree gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("SELECT ?urn WHERE { ?urn a nfo:DataContainer . <%s> nie:isPartOf ?urn }", resource);
   query = photos_query_new (state, sparql);
 
-  g_free (sparql);
   return query;
 }
 
@@ -317,12 +296,11 @@ photos_query_builder_global_query (PhotosSearchContextState *state,
                                    PhotosOffsetController *offset_cntrlr)
 {
   PhotosQuery *query;
-  gchar *sparql = NULL;
+  g_autofree gchar *sparql = NULL;
 
   sparql = photos_query_builder_query (state, TRUE, flags, offset_cntrlr);
   query = photos_query_new (state, sparql);
 
-  g_free (sparql);
   return query;
 }
 
@@ -331,12 +309,11 @@ PhotosQuery *
 photos_query_builder_location_query (PhotosSearchContextState *state, const gchar *location_urn)
 {
   PhotosQuery *query;
-  gchar *sparql = NULL;
+  g_autofree gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("SELECT slo:latitude (<%s>) slo:longitude (<%s>) WHERE {}", location_urn, location_urn);
   query = photos_query_new (state, sparql);
 
-  g_free (sparql);
   return query;
 }
 
@@ -348,7 +325,7 @@ photos_query_builder_set_collection_query (PhotosSearchContextState *state,
                                            gboolean setting)
 {
   PhotosQuery *query;
-  gchar *sparql = NULL;
+  g_autofree gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("%s { <%s> nie:isPartOf <%s> }",
                             setting ? "INSERT" : "DELETE",
@@ -356,7 +333,6 @@ photos_query_builder_set_collection_query (PhotosSearchContextState *state,
                             collection_urn);
   query = photos_query_new (state, sparql);
 
-  g_free (sparql);
   return query;
 }
 
@@ -364,11 +340,11 @@ photos_query_builder_set_collection_query (PhotosSearchContextState *state,
 PhotosQuery *
 photos_query_builder_single_query (PhotosSearchContextState *state, gint flags, const gchar *resource)
 {
-  GRegex *regex;
+  g_autoptr (GRegex) regex = NULL;
   PhotosQuery *query;
-  gchar *replacement;
-  gchar *sparql = NULL;
-  gchar *tmp;
+  g_autofree gchar *replacement = NULL;
+  g_autofree gchar *sparql = NULL;
+  g_autofree gchar *tmp = NULL;
 
   tmp = photos_query_builder_query (state, FALSE, flags, NULL);
 
@@ -377,10 +353,6 @@ photos_query_builder_single_query (PhotosSearchContextState *state, gint flags, 
   sparql = g_regex_replace (regex, tmp, -1, 0, replacement, 0, NULL);
   query = photos_query_new (state, sparql);
 
-  g_free (sparql);
-  g_free (replacement);
-  g_free (tmp);
-  g_regex_unref (regex);
   return query;
 }
 
@@ -390,8 +362,8 @@ photos_query_builder_update_mtime_query (PhotosSearchContextState *state, const 
 {
   GTimeVal tv;
   PhotosQuery *query;
-  gchar *sparql = NULL;
-  gchar *time;
+  g_autofree gchar *sparql = NULL;
+  g_autofree gchar *time = NULL;
   gint64 timestamp;
 
   timestamp = g_get_real_time () / G_USEC_PER_SEC;
@@ -402,8 +374,6 @@ photos_query_builder_update_mtime_query (PhotosSearchContextState *state, const 
   sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:contentLastModified '%s' }", resource, time);
   query = photos_query_new (state, sparql);
 
-  g_free (sparql);
-  g_free (time);
   return query;
 }
 
@@ -411,16 +381,16 @@ photos_query_builder_update_mtime_query (PhotosSearchContextState *state, const 
 gchar *
 photos_query_builder_filter_local (void)
 {
-  GSettings *settings;
-  GString *tracker_filter;
-  gchar *desktop_uri;
-  gchar *download_uri;
-  gchar *export_path;
-  gchar *export_uri;
+  g_autoptr (GSettings) settings = NULL;
+  g_autoptr (GString) tracker_filter = NULL;
+  g_auto (GStrv) tracker_dirs = NULL;
+  g_autofree gchar *desktop_uri = NULL;
+  g_autofree gchar *download_uri = NULL;
+  g_autofree gchar *export_path = NULL;
+  g_autofree gchar *export_uri = NULL;
   gchar *filter;
   const gchar *path;
-  gchar *pictures_uri;
-  gchar **tracker_dirs;
+  g_autofree gchar *pictures_uri = NULL;
   guint i;
 
   settings = g_settings_new (TRACKER_SCHEMA);
@@ -429,7 +399,7 @@ photos_query_builder_filter_local (void)
 
   for (i = 0; tracker_dirs[i] != NULL; i++)
     {
-      gchar *tracker_uri;
+      g_autofree gchar *tracker_uri = NULL;
 
       /* ignore special XDG placeholders, since we handle those internally */
       if (tracker_dirs[i][0] == '&' || tracker_dirs[i][0] == '$')
@@ -437,7 +407,6 @@ photos_query_builder_filter_local (void)
 
       tracker_uri = photos_utils_convert_path_to_uri (tracker_dirs[i]);
       g_string_append_printf (tracker_filter, " || fn:contains (nie:url (?urn), '%s')", tracker_uri);
-      g_free (tracker_uri);
     }
 
   path = g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP);
@@ -465,14 +434,6 @@ photos_query_builder_filter_local (void)
                             tracker_filter->str,
                             export_uri,
                             PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER);
-  g_free (desktop_uri);
-  g_free (download_uri);
-  g_free (export_path);
-  g_free (export_uri);
-  g_free (pictures_uri);
-  g_strfreev (tracker_dirs);
-  g_string_free (tracker_filter, TRUE);
-  g_object_unref(settings);
 
   return filter;
 }
