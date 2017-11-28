@@ -2718,6 +2718,8 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   const gchar *uri;
   gchar *filename;
   gchar *name_fallback;
+  gint64 height;
+  gint64 width;
 
   priv = photos_base_item_get_instance_private (self);
 
@@ -2789,9 +2791,6 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
     filename = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_filename_fallback (self);
   photos_utils_take_string (&priv->filename, filename);
 
-  priv->width = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_WIDTH);
-  priv->height = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_HEIGHT);
-
   equipment = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_EQUIPMENT, NULL);
   priv->equipment = g_quark_from_string (equipment);
 
@@ -2809,6 +2808,22 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
       if (orientation != NULL)
         g_warning ("Unknown value for nfo:orientation: %s", orientation);
       priv->orientation = PHOTOS_ORIENTATION_TOP;
+    }
+
+  height = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_HEIGHT);
+  width = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_WIDTH);
+  if (priv->orientation == PHOTOS_ORIENTATION_BOTTOM
+      || priv->orientation == PHOTOS_ORIENTATION_BOTTOM_MIRROR
+      || priv->orientation == PHOTOS_ORIENTATION_TOP
+      || priv->orientation == PHOTOS_ORIENTATION_TOP_MIRROR)
+    {
+      priv->height = height;
+      priv->width = width;
+    }
+  else
+    {
+      priv->height = width;
+      priv->width = height;
     }
 
   priv->exposure_time = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_EXPOSURE_TIME);
