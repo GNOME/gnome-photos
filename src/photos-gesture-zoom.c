@@ -60,7 +60,7 @@ G_DEFINE_TYPE (PhotosGestureZoom, photos_gesture_zoom, G_TYPE_OBJECT);
 static gdouble
 photos_gesture_zoom_calculate_distance (PhotosGestureZoom *self, GdkTouchpadGesturePhase touchpad_phase)
 {
-  GList *sequences = NULL;
+  g_autoptr (GList) sequences = NULL;
   const GdkEvent *last_event;
   gdouble ret_val = -1.0;
 
@@ -92,7 +92,6 @@ photos_gesture_zoom_calculate_distance (PhotosGestureZoom *self, GdkTouchpadGest
       ret_val = sqrt (distance2);
     }
 
-  g_list_free (sequences);
   return ret_val;
 }
 
