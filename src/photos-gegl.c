@@ -384,7 +384,7 @@ photos_gegl_buffer_zoom (GeglBuffer *buffer, gdouble zoom, GCancellable *cancell
   GeglBuffer *ret_val = NULL;
   GeglNode *buffer_sink;
   GeglNode *buffer_source;
-  GeglNode *graph;
+  g_autoptr (GeglNode) graph = NULL;
   GeglNode *scale;
 
   graph = gegl_node_new ();
@@ -394,7 +394,6 @@ photos_gegl_buffer_zoom (GeglBuffer *buffer, gdouble zoom, GCancellable *cancell
   gegl_node_link_many (buffer_source, scale, buffer_sink, NULL);
   gegl_node_process (buffer_sink);
 
-  g_object_unref (graph);
   return ret_val;
 }
 
@@ -406,7 +405,7 @@ photos_gegl_buffer_zoom_in_thread_func (GTask *task,
                                         GCancellable *cancellable)
 {
   GeglBuffer *buffer = GEGL_BUFFER (source_object);
-  GeglBuffer *result = NULL;
+  g_autoptr (GeglBuffer) result = NULL;
   GError *error;
   const gchar *zoom_str = (const gchar *) task_data;
   gchar *endptr;
@@ -426,7 +425,7 @@ photos_gegl_buffer_zoom_in_thread_func (GTask *task,
   g_task_return_pointer (task, g_object_ref (result), g_object_unref);
 
  out:
-  g_clear_object (&result);
+  return;
 }
 
 
@@ -437,7 +436,7 @@ photos_gegl_buffer_zoom_async (GeglBuffer *buffer,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
   gchar zoom_str[G_ASCII_DTOSTR_BUF_SIZE];
 
   g_return_if_fail (GEGL_IS_BUFFER (buffer));
@@ -458,7 +457,7 @@ photos_gegl_buffer_zoom_async (GeglBuffer *buffer,
   g_task_run_in_thread (task, photos_gegl_buffer_zoom_in_thread_func);
 
  out:
-  g_object_unref (task);
+  return;
 }
 
 
@@ -480,7 +479,7 @@ photos_gegl_create_pixbuf_from_node (GeglNode *node)
 {
   GdkPixbuf *pixbuf = NULL;
   GeglNode *graph;
-  GeglNode *save_pixbuf;
+  g_autoptr (GeglNode) save_pixbuf = NULL;
 
   graph = gegl_node_get_parent (node);
   save_pixbuf = gegl_node_new_child (graph,
@@ -489,7 +488,6 @@ photos_gegl_create_pixbuf_from_node (GeglNode *node)
                                      NULL);
   gegl_node_link_many (node, save_pixbuf, NULL);
   gegl_node_process (save_pixbuf);
-  g_object_unref (save_pixbuf);
 
   return pixbuf;
 }
@@ -545,7 +543,7 @@ GeglBuffer *
 photos_gegl_get_buffer_from_node (GeglNode *node, const Babl *format)
 {
   GeglBuffer *buffer = NULL;
-  GeglNode *buffer_sink;
+  g_autoptr (GeglNode) buffer_sink = NULL;
   GeglNode *graph;
   gint64 end;
   gint64 start;
@@ -564,8 +562,6 @@ photos_gegl_get_buffer_from_node (GeglNode *node, const Babl *format)
 
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL, "GEGL: Get Buffer from Node: %" G_GINT64_FORMAT, end - start);
-
-  g_object_unref (buffer_sink);
 
   return buffer;
 }
@@ -663,7 +659,7 @@ photos_gegl_processor_process_async (GeglProcessor *processor,
                                      GAsyncReadyCallback callback,
                                      gpointer user_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
 
   g_return_if_fail (GEGL_IS_PROCESSOR (processor));
   g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
@@ -676,8 +672,6 @@ photos_gegl_processor_process_async (GeglProcessor *processor,
                    photos_gegl_processor_process_idle,
                    g_object_ref (task),
                    g_object_unref);
-
-  g_object_unref (task);
 }
 
 
