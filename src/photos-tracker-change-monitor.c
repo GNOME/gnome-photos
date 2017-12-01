@@ -85,7 +85,7 @@ struct _TrackerResourcesEvent
   gint32 subject;
   gint32 predicate;
   gint32 object;
-} __attribute__ ((packed));
+};
 
 
 static void
