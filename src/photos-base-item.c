@@ -359,7 +359,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   GIcon *pix;
   GList *emblem_icons = NULL;
   GList *windows;
-  GdkPixbuf *emblemed_pixbuf = NULL;
+  g_autoptr (GdkPixbuf) emblemed_pixbuf = NULL;
   GdkWindow *window = NULL;
   gint scale;
 
@@ -381,9 +381,9 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
   if (emblem_icons != NULL)
     {
-      GIcon *emblemed_icon;
+      g_autoptr (GIcon) emblemed_icon = NULL;
       GList *l;
-      GtkIconInfo *icon_info;
+      g_autoptr (GtkIconInfo) icon_info = NULL;
       GtkIconTheme *theme;
       gint height;
       gint size;
@@ -393,12 +393,11 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
       emblemed_icon = g_emblemed_icon_new (G_ICON (priv->original_icon), NULL);
       for (l = emblem_icons; l != NULL; l = g_list_next (l))
         {
-          GEmblem *emblem;
+          g_autoptr (GEmblem) emblem = NULL;
           GIcon *emblem_icon = G_ICON (l->data);
 
           emblem = g_emblem_new (emblem_icon);
           g_emblemed_icon_add_emblem (G_EMBLEMED_ICON (emblemed_icon), emblem);
-          g_object_unref (emblem);
         }
 
       theme = gtk_icon_theme_get_default ();
@@ -411,25 +410,20 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
       if (icon_info != NULL)
         {
-          GError *error = NULL;
+          g_autoptr (GError) error = NULL;
           GdkPixbuf *tmp;
 
           tmp = gtk_icon_info_load_icon (icon_info, &error);
           if (error != NULL)
             {
               g_warning ("Unable to render the emblem: %s", error->message);
-              g_error_free (error);
             }
           else
             {
               g_object_unref (emblemed_pixbuf);
               emblemed_pixbuf = tmp;
             }
-
-          g_object_unref (icon_info);
         }
-
-      g_object_unref (emblemed_icon);
     }
 
   g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
@@ -444,7 +438,6 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
   g_signal_emit (self, signals[INFO_UPDATED], 0);
 
  out:
-  g_clear_object (&emblemed_pixbuf);
   g_list_free_full (emblem_icons, g_object_unref);
 }
 
@@ -482,7 +475,7 @@ photos_base_item_set_original_icon (PhotosBaseItem *self, GdkPixbuf *icon)
 static void
 photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_data)
 {
-  GTask *task = G_TASK (data);
+  g_autoptr (GTask) task = G_TASK (data);
   PhotosBaseItem *self;
   PhotosBaseItemPrivate *priv;
   GCancellable *cancellable;
@@ -498,15 +491,12 @@ photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_d
     {
       if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
         {
-          GFile *file;
-          gchar *path = NULL;
+          g_autoptr (GFile) file = NULL;
+          g_autofree gchar *path = NULL;
 
           path = photos_utils_get_thumbnail_path_for_uri (priv->uri);
           file = g_file_new_for_path (path);
           g_file_delete (file, NULL, NULL);
-
-          g_free (path);
-          g_object_unref (file);
         }
 
       g_task_return_error (task, error);
@@ -516,7 +506,7 @@ photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_d
   g_task_return_boolean (task, TRUE);
 
  out:
-  g_object_unref (task);
+  return;
 }
 
 
@@ -547,13 +537,12 @@ photos_base_item_create_thumbnail_async (PhotosBaseItem *self,
                                          GAsyncReadyCallback callback,
                                          gpointer user_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_create_thumbnail_async);
 
   g_thread_pool_push (create_thumbnail_pool, g_object_ref (task), NULL);
-  g_object_unref (task);
 }
 
 
@@ -604,7 +593,6 @@ static void
 photos_base_item_default_open (PhotosBaseItem *self, GtkWindow *parent, guint32 timestamp)
 {
   PhotosBaseItemPrivate *priv;
-  GError *error;
 
   priv = photos_base_item_get_instance_private (self);
 
@@ -617,23 +605,19 @@ photos_base_item_default_open (PhotosBaseItem *self, GtkWindow *parent, guint32 
 
   if (priv->default_app != NULL)
     {
-      error = NULL;
+      g_autoptr (GError) error = NULL;
+
       photos_glib_app_info_launch_uri (priv->default_app, priv->uri, NULL, &error);
       if (error != NULL)
-        {
-          g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
-          g_error_free (error);
-        }
+        g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
     }
   else
     {
-      error = NULL;
+      g_autoptr (GError) error = NULL;
+
       gtk_show_uri_on_window (parent, priv->uri, timestamp, &error);
       if (error != NULL)
-        {
-          g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
-          g_error_free (error);
-        }
+        g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
     }
 }
 
@@ -663,7 +647,7 @@ photos_base_item_download_in_thread_func (GTask *task,
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GError *error;
-  gchar *path = NULL;
+  g_autofree gchar *path = NULL;
 
   error = NULL;
   path = photos_base_item_download (self, cancellable, &error);
@@ -676,7 +660,7 @@ photos_base_item_download_in_thread_func (GTask *task,
   g_task_return_pointer (task, g_strdup (path), g_free);
 
  out:
-  g_free (path);
+  return;
 }
 
 
@@ -781,18 +765,20 @@ photos_base_item_refresh_collection_icon (PhotosBaseItem *self)
 static void
 photos_base_item_refresh_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (user_data);
-  GError *error = NULL;
+  g_autoptr (PhotosBaseItem) self = PHOTOS_BASE_ITEM (user_data);
   PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
-  TrackerSparqlCursor *cursor = NULL;
+  TrackerSparqlCursor *cursor = NULL; /* TODO: Use g_autoptr */
 
-  cursor = photos_single_item_job_finish (job, res, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to query single item: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = photos_single_item_job_finish (job, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to query single item: %s", error->message);
+        goto out;
+      }
+  }
 
   if (cursor == NULL)
     goto out;
@@ -801,7 +787,6 @@ photos_base_item_refresh_executed (GObject *source_object, GAsyncResult *res, gp
 
  out:
   g_clear_object (&cursor);
-  g_object_unref (self);
 }
 
 
@@ -821,35 +806,31 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
   PhotosBaseItem *self;
   PhotosBaseItemPrivate *priv;
   GApplication *app;
-  GdkPixbuf *centered_pixbuf = NULL;
-  GdkPixbuf *pixbuf = NULL;
-  GdkPixbuf *scaled_pixbuf = NULL;
-  GError *error = NULL;
+  g_autoptr (GdkPixbuf) centered_pixbuf = NULL;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
+  g_autoptr (GdkPixbuf) scaled_pixbuf = NULL;
   GInputStream *stream = G_INPUT_STREAM (source_object);
   gint icon_size;
   gint scale;
 
-  pixbuf = gdk_pixbuf_new_from_stream_finish (res, &error);
-  if (error != NULL)
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        {
-          g_error_free (error);
-          goto out;
-        }
-      else
-        {
-          GFile *file;
-          gchar *uri;
+  {
+    g_autoptr (GError) error = NULL;
 
-          file = G_FILE (g_object_get_data (G_OBJECT (stream), "file"));
-          uri = g_file_get_uri (file);
-          g_warning ("Unable to create pixbuf from %s: %s", uri, error->message);
-          g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
-          g_free (uri);
-          g_error_free (error);
-        }
-    }
+    pixbuf = gdk_pixbuf_new_from_stream_finish (res, &error);
+    if (error != NULL)
+      {
+        GFile *file;
+        g_autofree gchar *uri = NULL;
+
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          goto out;
+
+        file = G_FILE (g_object_get_data (G_OBJECT (stream), "file"));
+        uri = g_file_get_uri (file);
+        g_warning ("Unable to create pixbuf from %s: %s", uri, error->message);
+        g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+      }
+  }
 
   self = PHOTOS_BASE_ITEM (user_data);
   priv = photos_base_item_get_instance_private (self);
@@ -873,9 +854,6 @@ photos_base_item_refresh_thumb_path_pixbuf (GObject *source_object, GAsyncResult
 
  out:
   g_input_stream_close_async (stream, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
-  g_clear_object (&centered_pixbuf);
-  g_clear_object (&scaled_pixbuf);
-  g_clear_object (&pixbuf);
 }
 
 
@@ -884,29 +862,25 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
 {
   PhotosBaseItem *self;
   PhotosBaseItemPrivate *priv;
-  GError *error = NULL;
   GFile *file = G_FILE (source_object);
-  GFileInputStream *stream = NULL;
+  g_autoptr (GFileInputStream) stream = NULL;
 
-  stream = g_file_read_finish (file, res, &error);
-  if (error != NULL)
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-	{
-	  g_error_free (error);
-	  goto out;
-	}
-      else
-	{
-	  gchar *uri;
+  {
+    g_autoptr (GError) error = NULL;
 
-	  uri = g_file_get_uri (file);
-	  g_warning ("Unable to read file at %s: %s", uri, error->message);
-	  g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
-	  g_free (uri);
-	  g_error_free (error);
-	}
-    }
+    stream = g_file_read_finish (file, res, &error);
+    if (error != NULL)
+      {
+        g_autofree gchar *uri = NULL;
+
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          goto out;
+
+        uri = g_file_get_uri (file);
+        g_warning ("Unable to read file at %s: %s", uri, error->message);
+        g_file_delete_async (file, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+      }
+  }
 
   self = PHOTOS_BASE_ITEM (user_data);
   priv = photos_base_item_get_instance_private (self);
@@ -925,7 +899,7 @@ photos_base_item_refresh_thumb_path_read (GObject *source_object, GAsyncResult *
                                     photos_base_item_refresh_thumb_path_pixbuf,
                                     self);
  out:
-  g_clear_object (&stream);
+  return;
 }
 
 
@@ -933,7 +907,7 @@ static void
 photos_base_item_refresh_thumb_path (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
-  GFile *thumb_file;
+  g_autoptr (GFile) thumb_file = NULL;
 
   priv = photos_base_item_get_instance_private (self);
 
@@ -943,7 +917,6 @@ photos_base_item_refresh_thumb_path (PhotosBaseItem *self)
                      priv->cancellable,
                      photos_base_item_refresh_thumb_path_read,
                      self);
-  g_object_unref (thumb_file);
 }
 
 
@@ -952,28 +925,24 @@ photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res,
 {
   PhotosBaseItem *self;
   PhotosBaseItemPrivate *priv;
-  GError *error = NULL;
   GFile *file = G_FILE (source_object);
-  GFileInfo *info = NULL;
+  g_autoptr (GFileInfo) info = NULL;
 
-  info = photos_utils_file_query_info_finish (file, res, &error);
-  if (error != NULL)
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        {
-          g_error_free (error);
+  {
+    g_autoptr (GError) error = NULL;
+
+    info = photos_utils_file_query_info_finish (file, res, &error);
+    if (error != NULL)
+      {
+        g_autofree gchar *uri = NULL;
+
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
           goto out;
-        }
-      else
-        {
-          gchar *uri;
 
-          uri = g_file_get_uri (file);
-          g_warning ("Unable to query info for file at %s: %s", uri, error->message);
-          g_free (uri);
-          g_error_free (error);
-        }
-    }
+        uri = g_file_get_uri (file);
+        g_warning ("Unable to query info for file at %s: %s", uri, error->message);
+      }
+  }
 
   self = PHOTOS_BASE_ITEM (user_data);
   priv = photos_base_item_get_instance_private (self);
@@ -999,7 +968,7 @@ photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res,
     }
 
  out:
-  g_clear_object (&info);
+  return;
 }
 
 
@@ -1008,25 +977,21 @@ photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res,
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv;
-  GError *error;
-  GFile *file = G_FILE (user_data);
+  g_autoptr (GFile) file = G_FILE (user_data);
   gboolean success;
 
-  error = NULL;
-  success = photos_base_item_create_thumbnail_finish (self, res, &error);
-  if (error != NULL)
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        {
-          g_error_free (error);
+  {
+    g_autoptr (GError) error = NULL;
+
+    success = photos_base_item_create_thumbnail_finish (self, res, &error);
+    if (error != NULL)
+      {
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
           goto out;
-        }
-      else
-        {
-          g_warning ("Unable to create thumbnail: %s", error->message);
-          g_error_free (error);
-        }
-    }
+
+        g_warning ("Unable to create thumbnail: %s", error->message);
+      }
+  }
 
   priv = photos_base_item_get_instance_private (self);
 
@@ -1046,7 +1011,7 @@ photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res,
                                       self);
 
  out:
-  g_object_unref (file);
+  return;
 }
 
 
@@ -1055,28 +1020,24 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
 {
   PhotosBaseItem *self;
   PhotosBaseItemPrivate *priv;
-  GError *error = NULL;
   GFile *file = G_FILE (source_object);
-  GFileInfo *info = NULL;
+  g_autoptr (GFileInfo) info = NULL;
 
-  info = photos_utils_file_query_info_finish (file, res, &error);
-  if (error != NULL)
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-	{
-	  g_error_free (error);
-	  goto out;
-	}
-      else
-	{
-	  gchar *uri;
+  {
+    g_autoptr (GError) error = NULL;
 
-	  uri = g_file_get_uri (file);
-	  g_warning ("Unable to query info for file at %s: %s", uri, error->message);
-	  g_free (uri);
-	  g_error_free (error);
-	}
-    }
+    info = photos_utils_file_query_info_finish (file, res, &error);
+    if (error != NULL)
+      {
+        g_autofree gchar *uri = NULL;
+
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          goto out;
+
+        uri = g_file_get_uri (file);
+        g_warning ("Unable to query info for file at %s: %s", uri, error->message);
+      }
+  }
 
   self = PHOTOS_BASE_ITEM (user_data);
   priv = photos_base_item_get_instance_private (self);
@@ -1102,7 +1063,7 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
     }
 
  out:
-  g_clear_object (&info);
+  return;
 }
 
 
@@ -1111,9 +1072,9 @@ photos_base_item_get_preview_source_buffer (PhotosBaseItem *self, gint size, gin
 {
   PhotosBaseItemPrivate *priv;
   const Babl *format;
-  GeglBuffer *buffer_cropped = NULL;
-  GeglBuffer *buffer_orig = NULL;
-  GeglBuffer *buffer = NULL;
+  g_autoptr (GeglBuffer) buffer_cropped = NULL;
+  g_autoptr (GeglBuffer) buffer_orig = NULL;
+  g_autoptr (GeglBuffer) buffer = NULL;
   GeglBuffer *ret_val = NULL;
   GeglOperation *op;
   GeglRectangle bbox;
@@ -1200,9 +1161,6 @@ photos_base_item_get_preview_source_buffer (PhotosBaseItem *self, gint size, gin
   ret_val = priv->preview_source_buffer;
 
  out:
-  g_clear_object (&buffer);
-  g_clear_object (&buffer_cropped);
-  g_clear_object (&buffer_orig);
   return ret_val;
 }
 
@@ -1215,7 +1173,7 @@ photos_base_item_guess_save_sizes_from_buffer (GeglBuffer *buffer,
                                                GCancellable *cancellable)
 {
   GeglNode *buffer_source;
-  GeglNode *graph;
+  g_autoptr (GeglNode) graph = NULL;
   GeglNode *guess_sizes;
   guint64 sizes[2];
 
@@ -1245,8 +1203,6 @@ photos_base_item_guess_save_sizes_from_buffer (GeglBuffer *buffer,
     *out_full_size = (gsize) sizes[0];
   if (out_reduced_size != NULL)
     *out_reduced_size = (gsize) sizes[1];
-
-  g_object_unref (graph);
 }
 
 
@@ -1271,9 +1227,9 @@ photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *re
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv;
   GError *error;
-  GTask *task = G_TASK (user_data);
-  GeglBuffer *buffer = NULL;
-  GeglNode *graph = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
+  g_autoptr (GeglBuffer) buffer = NULL;
+  g_autoptr (GeglNode) graph = NULL;
   PhotosBaseItemSaveData *data;
 
   priv = photos_base_item_get_instance_private (self);
@@ -1293,9 +1249,7 @@ photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *re
   g_task_run_in_thread (task, photos_base_item_guess_save_sizes_in_thread_func);
 
  out:
-  g_clear_object (&buffer);
-  g_clear_object (&graph);
-  g_object_unref (task);
+  return;
 }
 
 
@@ -1303,7 +1257,7 @@ static void
 photos_base_item_process_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GError *error;
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   GeglProcessor *processor = GEGL_PROCESSOR (source_object);
 
   error = NULL;
@@ -1316,7 +1270,7 @@ photos_base_item_process_process (GObject *source_object, GAsyncResult *res, gpo
   g_task_return_boolean (task, TRUE);
 
  out:
-  g_object_unref (task);
+  return;
 }
 
 
@@ -1327,7 +1281,7 @@ photos_base_item_process_async (PhotosBaseItem *self,
                                 gpointer user_data)
 {
   PhotosBaseItemPrivate *priv;
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
   PhotosPipeline *pipeline;
 
   g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
@@ -1348,8 +1302,6 @@ photos_base_item_process_async (PhotosBaseItem *self,
                                        cancellable,
                                        photos_base_item_process_process,
                                        g_object_ref (task));
-
-  g_object_unref (task);
 }
 
 
@@ -1374,7 +1326,7 @@ static void
 photos_base_item_common_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   GError *error = NULL;
 
   if (!photos_base_item_process_finish (self, res, &error))
@@ -1386,7 +1338,7 @@ photos_base_item_common_process (GObject *source_object, GAsyncResult *res, gpoi
   g_task_return_boolean (task, TRUE);
 
  out:
-  g_object_unref (task);
+  return;
 }
 
 
@@ -1394,12 +1346,12 @@ static GeglBuffer *
 photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
   PhotosBaseItemPrivate *priv;
-  GeglBuffer *buffer = NULL;
+  g_autoptr (GeglBuffer) buffer = NULL;
   GeglBuffer *ret_val = NULL;
   GeglNode *buffer_sink;
-  GeglNode *graph = NULL;
+  g_autoptr (GeglNode) graph = NULL;
   GeglNode *load;
-  gchar *path = NULL;
+  g_autofree gchar *path = NULL;
   gint64 end;
   gint64 start;
 
@@ -1424,9 +1376,6 @@ photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, G
   photos_debug (PHOTOS_DEBUG_GEGL, "Buffer Load: From Local: %" G_GINT64_FORMAT, end - start);
 
  out:
-  g_clear_object (&buffer);
-  g_clear_object (&graph);
-  g_free (path);
   return ret_val;
 }
 
@@ -1438,7 +1387,7 @@ photos_base_item_load_buffer_in_thread_func (GTask *task,
                                              GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  GeglBuffer *buffer = NULL;
+  g_autoptr (GeglBuffer) buffer = NULL;
   GError *error = NULL;
 
   buffer = photos_base_item_load_buffer (self, cancellable, &error);
@@ -1451,7 +1400,7 @@ photos_base_item_load_buffer_in_thread_func (GTask *task,
   g_task_return_pointer (task, g_object_ref (buffer), g_object_unref);
 
  out:
-  g_clear_object (&buffer);
+  return;
 }
 
 
