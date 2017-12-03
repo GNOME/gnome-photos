@@ -108,10 +108,10 @@ photos_tool_filter_button_constructed (GObject *object)
 {
   PhotosToolFilterButton *self = PHOTOS_TOOL_FILTER_BUTTON (object);
   GApplication *app;
-  GdkPixbuf *preview_icon = NULL;
+  g_autoptr (GdkPixbuf) preview_icon = NULL;
   GtkWidget *image;
   PhotosWidgetShader *shader;
-  cairo_surface_t *preview_icon_surface = NULL;
+  cairo_surface_t *preview_icon_surface = NULL; /* TODO: use g_autoptr */
   gint scale;
 
   G_OBJECT_CLASS (photos_tool_filter_button_parent_class)->constructed (object);
@@ -138,7 +138,6 @@ photos_tool_filter_button_constructed (GObject *object)
   g_signal_connect_swapped (self->button, "toggled", G_CALLBACK (photos_tool_filter_button_toggled), self);
   photos_tool_filter_button_toggled (self);
 
-  g_clear_object (&preview_icon);
   g_clear_pointer (&preview_icon_surface, (GDestroyNotify) cairo_surface_destroy);
   self->group = NULL; /* We will not need it any more */
 }
