@@ -274,7 +274,10 @@ photos_local_item_metadata_add_shared (PhotosBaseItem  *item,
 
       old_shared_variant = g_variant_parse (array_type, shared_string, NULL, NULL, error);
       if (old_shared_variant == NULL)
-        goto out;
+        {
+          g_variant_builder_clear (&builder);
+          goto out;
+        }
 
       g_variant_iter_init (&iter, old_shared_variant);
       child = g_variant_iter_next_value (&iter);
