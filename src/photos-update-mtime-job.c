@@ -167,8 +167,8 @@ photos_update_mtime_job_run (PhotosUpdateMtimeJob *self,
                              gpointer user_data)
 {
   GApplication *app;
-  GTask *task;
-  PhotosQuery *query = NULL;
+  g_autoptr (GTask) task = NULL;
+  g_autoptr (PhotosQuery) query = NULL;
   PhotosSearchContextState *state;
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -192,6 +192,5 @@ photos_update_mtime_job_run (PhotosUpdateMtimeJob *self,
                                g_object_unref);
 
  out:
-  g_clear_object (&query);
-  g_object_unref (task);
+  return;
 }
