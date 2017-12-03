@@ -161,9 +161,9 @@ photos_edit_palette_hide_details (PhotosEditPalette *self)
 void
 photos_edit_palette_show (PhotosEditPalette *self)
 {
-  GList *extensions;
+  g_autoptr (GList) extensions = NULL;
   GList *l;
-  GtkSizeGroup *size_group;
+  g_autoptr (GtkSizeGroup) size_group = NULL;
 
   gtk_container_foreach (GTK_CONTAINER (self), (GtkCallback) gtk_widget_destroy, NULL);
   g_list_free_full (self->tools, g_object_unref);
@@ -180,7 +180,7 @@ photos_edit_palette_show (PhotosEditPalette *self)
       GIOExtension *extension = (GIOExtension *) l->data;
       GType type;
       GtkWidget *row;
-      PhotosTool *tool;
+      g_autoptr (PhotosTool) tool = NULL;
 
       type = g_io_extension_get_type (extension);
       tool = PHOTOS_TOOL (g_object_new (type, NULL));
@@ -191,11 +191,7 @@ photos_edit_palette_show (PhotosEditPalette *self)
       photos_edit_palette_row_show (PHOTOS_EDIT_PALETTE_ROW (row));
 
       g_signal_connect_swapped (tool, "hide-requested", G_CALLBACK (photos_edit_palette_hide_requested), self);
-
-      g_object_unref (tool);
     }
 
   gtk_widget_show_all (GTK_WIDGET (self));
-  g_object_unref (size_group);
-  g_list_free (extensions);
 }
