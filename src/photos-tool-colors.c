@@ -87,20 +87,17 @@ photos_tool_colors_blacks_exposure_value_changed_timeout (gpointer user_data)
 {
   PhotosToolColors *self = PHOTOS_TOOL_COLORS (user_data);
   GVariantBuilder parameter;
-  GVariantType *parameter_type;
   gdouble blacks;
   gdouble exposure;
 
   blacks = gtk_range_get_value (GTK_RANGE (self->blacks_scale));
   exposure = gtk_range_get_value (GTK_RANGE (self->exposure_scale));
 
-  parameter_type = g_variant_type_new ("a{sd}");
-  g_variant_builder_init (&parameter, parameter_type);
+  g_variant_builder_init (&parameter, G_VARIANT_TYPE ("a{sd}"));
   g_variant_builder_add (&parameter, "{sd}", "blacks", blacks);
   g_variant_builder_add (&parameter, "{sd}", "exposure", exposure);
   g_action_activate (self->blacks_exposure, g_variant_builder_end (&parameter));
 
-  g_variant_type_free (parameter_type);
   self->blacks_exposure_value_changed_id = 0;
   return G_SOURCE_REMOVE;
 }
@@ -111,7 +108,6 @@ photos_tool_colors_brightness_contrast_value_changed_timeout (gpointer user_data
 {
   PhotosToolColors *self = PHOTOS_TOOL_COLORS (user_data);
   GVariantBuilder parameter;
-  GVariantType *parameter_type;
   gdouble brightness;
   gdouble contrast;
   gdouble contrast_real;
@@ -120,13 +116,11 @@ photos_tool_colors_brightness_contrast_value_changed_timeout (gpointer user_data
   contrast = gtk_range_get_value (GTK_RANGE (self->contrast_scale));
 
   contrast_real = pow (2.0, contrast);
-  parameter_type = g_variant_type_new ("a{sd}");
-  g_variant_builder_init (&parameter, parameter_type);
+  g_variant_builder_init (&parameter, G_VARIANT_TYPE ("a{sd}"));
   g_variant_builder_add (&parameter, "{sd}", "brightness", brightness);
   g_variant_builder_add (&parameter, "{sd}", "contrast", contrast_real);
   g_action_activate (self->brightness_contrast, g_variant_builder_end (&parameter));
 
-  g_variant_type_free (parameter_type);
   self->brightness_contrast_value_changed_id = 0;
   return G_SOURCE_REMOVE;
 }

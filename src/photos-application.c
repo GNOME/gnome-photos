@@ -1804,7 +1804,6 @@ photos_application_startup (GApplication *application)
   GtkIconTheme *icon_theme;
   GtkSettings *settings;
   GVariant *state;
-  GVariantType *parameter_type;
   const gchar *delete_accels[3] = {"Delete", "KP_Delete", NULL};
   const gchar *edit_accels[2] = {"<Primary>e", NULL};
   const gchar *fullscreen_accels[2] = {"F11", NULL};
@@ -1883,20 +1882,14 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
   g_object_unref (action);
 
-  parameter_type = g_variant_type_new ("a{sd}");
-  self->blacks_exposure_action = g_simple_action_new ("blacks-exposure-current", parameter_type);
+  self->blacks_exposure_action = g_simple_action_new ("blacks-exposure-current", G_VARIANT_TYPE ("a{sd}"));
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->blacks_exposure_action));
-  g_variant_type_free (parameter_type);
 
-  parameter_type = g_variant_type_new ("a{sd}");
-  self->brightness_contrast_action = g_simple_action_new ("brightness-contrast-current", parameter_type);
+  self->brightness_contrast_action = g_simple_action_new ("brightness-contrast-current", G_VARIANT_TYPE ("a{sd}"));
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->brightness_contrast_action));
-  g_variant_type_free (parameter_type);
 
-  parameter_type = g_variant_type_new ("a{sd}");
-  self->crop_action = g_simple_action_new ("crop-current", parameter_type);
+  self->crop_action = g_simple_action_new ("crop-current", G_VARIANT_TYPE ("a{sd}"));
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->crop_action));
-  g_variant_type_free (parameter_type);
 
   self->delete_action = g_simple_action_new ("delete", NULL);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->delete_action));

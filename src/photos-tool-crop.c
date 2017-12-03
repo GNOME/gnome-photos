@@ -1111,7 +1111,6 @@ photos_tool_crop_deactivate (PhotosTool *tool)
   if (!self->reset)
     {
       GVariantBuilder parameter;
-      GVariantType *parameter_type;
       gdouble zoom;
 
       zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
@@ -1122,15 +1121,12 @@ photos_tool_crop_deactivate (PhotosTool *tool)
        * factor will cancel itself in the numerator and denominator,
        * so, in practice, the conversion is unnecessary.
        */
-      parameter_type = g_variant_type_new ("a{sd}");
-      g_variant_builder_init (&parameter, parameter_type);
+      g_variant_builder_init (&parameter, G_VARIANT_TYPE ("a{sd}"));
       g_variant_builder_add (&parameter, "{sd}", "height", self->crop_height / zoom);
       g_variant_builder_add (&parameter, "{sd}", "width", self->crop_width / zoom);
       g_variant_builder_add (&parameter, "{sd}", "x", self->crop_x / zoom);
       g_variant_builder_add (&parameter, "{sd}", "y", self->crop_y / zoom);
       g_action_activate (self->crop, g_variant_builder_end (&parameter));
-
-      g_variant_type_free (parameter_type);
     }
 
   if (self->size_allocate_id != 0)
