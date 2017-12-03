@@ -171,23 +171,23 @@ static void
 photos_remote_display_manager_share_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   Share *share = user_data;
+  g_autoptr (PhotosBaseItem) item = NULL;
   PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (source_object);
-  PhotosBaseItem *item;
-  GError *error = NULL;
 
-  item = photos_dlna_renderer_share_finish (renderer, res, &error);
+  {
+    g_autoptr (GError) error = NULL;
 
-  if (error != NULL)
-    {
-      g_warning ("Unable to remotely display item '%s': %s",
-                 share->item != NULL ? photos_filterable_get_id (PHOTOS_FILTERABLE (share->item)) : "(none)",
-                 error->message);
-      g_signal_emit (share->manager, signals[SHARE_ERROR], 0, share->renderer, share->item, error);
-      g_error_free (error);
-      goto out;
-    }
+    item = photos_dlna_renderer_share_finish (renderer, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to remotely display item '%s': %s",
+                   share->item != NULL ? photos_filterable_get_id (PHOTOS_FILTERABLE (share->item)) : "(none)",
+                   error->message);
+        g_signal_emit (share->manager, signals[SHARE_ERROR], 0, share->renderer, share->item, error);
+        goto out;
+     }
+  }
 
-  g_object_unref (item); /* We already hold a ref to the item to be shared */
   g_signal_emit (share->manager, signals[SHARE_BEGAN], 0, share->renderer, share->item);
 
 out:
@@ -200,15 +200,14 @@ photos_remote_display_manager_unshare_all_cb (GObject *source_object, GAsyncResu
 {
   PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (source_object);
   PhotosRemoteDisplayManager *self = PHOTOS_REMOTE_DISPLAY_MANAGER (user_data);
-  GError *error = NULL;
 
-  photos_dlna_renderer_unshare_all_finish (renderer, res, &error);
+  {
+    g_autoptr (GError) error = NULL;
 
-  if (error != NULL)
-    {
+    photos_dlna_renderer_unshare_all_finish (renderer, res, &error);
+    if (error != NULL)
       g_warning ("Error while unsharing: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   /* Avoid firing ::share-ended if any other item has been shared between the
    * _unshare_all() call and this callback */
