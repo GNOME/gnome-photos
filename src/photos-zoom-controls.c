@@ -78,8 +78,6 @@ photos_zoom_controls_update_buttons (PhotosZoomControls *self)
       GVariant *target_value = NULL;
 
       target_value = photos_utils_create_zoom_target_value (1.0, PHOTOS_ZOOM_EVENT_MOUSE_CLICK);
-      g_assert_true (g_variant_is_floating (target_value));
-
       gtk_actionable_set_action_target_value (GTK_ACTIONABLE (self->zoom_toggle_button), target_value);
       gtk_actionable_set_action_name (GTK_ACTIONABLE (self->zoom_toggle_button), "app.zoom-in");
     }

@@ -426,6 +426,7 @@ photos_utils_create_zoom_target_value (gdouble delta, PhotosZoomEvent event)
   ret_val = g_variant_builder_end (&builder);
 
   g_type_class_unref (zoom_event_class);
+  g_return_val_if_fail (g_variant_is_floating (ret_val), ret_val);
   return ret_val;
 }
 

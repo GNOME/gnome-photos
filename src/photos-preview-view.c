@@ -262,8 +262,6 @@ photos_preview_view_gesture_zoom_begin (PhotosPreviewView *self)
   gtk_gesture_set_state (gesture_zoom, GTK_EVENT_SEQUENCE_CLAIMED);
 
   parameter = photos_utils_create_zoom_target_value (0.0, PHOTOS_ZOOM_EVENT_TOUCH);
-  g_assert_true (g_variant_is_floating (parameter));
-
   g_action_activate (self->zoom_begin_action, parameter);
 }
 
@@ -274,13 +272,9 @@ photos_preview_view_gesture_zoom_direction_changed (PhotosPreviewView *self)
   GVariant *parameter;
 
   parameter = photos_utils_create_zoom_target_value (0.0, PHOTOS_ZOOM_EVENT_TOUCH);
-  g_assert_true (g_variant_is_floating (parameter));
-
   g_action_activate (self->zoom_end_action, parameter);
 
   parameter = photos_utils_create_zoom_target_value (0.0, PHOTOS_ZOOM_EVENT_TOUCH);
-  g_assert_true (g_variant_is_floating (parameter));
-
   g_action_activate (self->zoom_begin_action, parameter);
 }
 
@@ -291,8 +285,6 @@ photos_preview_view_gesture_zoom_end (PhotosPreviewView *self)
   GVariant *parameter;
 
   parameter = photos_utils_create_zoom_target_value (0.0, PHOTOS_ZOOM_EVENT_TOUCH);
-  g_assert_true (g_variant_is_floating (parameter));
-
   g_action_activate (self->zoom_end_action, parameter);
 }
 
@@ -305,7 +297,6 @@ photos_preview_view_gesture_zoom_scale_changed (PhotosPreviewView *self,
   GVariant *parameter;
 
   parameter = photos_utils_create_zoom_target_value (scale, PHOTOS_ZOOM_EVENT_TOUCH);
-  g_assert_true (g_variant_is_floating (parameter));
 
   switch (direction)
     {
