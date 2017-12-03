@@ -89,7 +89,7 @@ photos_print_operation_draw_page (GtkPrintOperation *operation, GtkPrintContext 
 {
   PhotosPrintOperation *self = PHOTOS_PRINT_OPERATION (operation);
   GeglRectangle bbox;
-  GdkPixbuf *pixbuf = NULL;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
   GtkPageSetup *page_setup;
   cairo_t *cr;
   gdouble dpi_x;
@@ -148,7 +148,7 @@ photos_print_operation_draw_page (GtkPrintOperation *operation, GtkPrintContext 
   cairo_paint (cr);
 
  out:
-  g_clear_object (&pixbuf);
+  return;
 }
 
 
@@ -167,8 +167,8 @@ photos_print_operation_constructed (GObject *object)
 {
   PhotosPrintOperation *self = PHOTOS_PRINT_OPERATION (object);
   GeglRectangle bbox;
-  GtkPageSetup *page_setup;
-  gchar *name;
+  g_autoptr (GtkPageSetup) page_setup = NULL;
+  g_autofree gchar *name = NULL;
 
   G_OBJECT_CLASS (photos_print_operation_parent_class)->constructed (object);
 
@@ -181,14 +181,12 @@ photos_print_operation_constructed (GObject *object)
   else
     gtk_page_setup_set_orientation (page_setup, GTK_PAGE_ORIENTATION_LANDSCAPE);
 
-  g_object_unref (page_setup);
-
   name = g_strdup (photos_base_item_get_name (self->item));
   if (name == NULL || name[0] == '\0')
     {
-      GFile *file;
+      g_autoptr (GFile) file = NULL;
       const gchar *uri;
-      gchar *basename;
+      g_autofree gchar *basename = NULL;
 
       uri = photos_base_item_get_uri (self->item);
       file = g_file_new_for_uri (uri);
@@ -198,13 +196,9 @@ photos_print_operation_constructed (GObject *object)
         name = g_strdup (basename);
       else
         name = g_filename_to_utf8 (basename, -1, NULL, NULL, NULL);
-
-      g_free (basename);
-      g_object_unref (file);
     }
 
   gtk_print_operation_set_job_name (GTK_PRINT_OPERATION (self), name);
-  g_free (name);
 }
 
 
@@ -252,7 +246,7 @@ photos_print_operation_set_property (GObject *object, guint prop_id, const GValu
 static void
 photos_print_operation_init (PhotosPrintOperation *self)
 {
-  GtkPrintSettings *settings;
+  g_autoptr (GtkPrintSettings) settings = NULL;
 
   self->unit = GTK_UNIT_INCH;
   self->left_margin = 0.0;
@@ -261,7 +255,6 @@ photos_print_operation_init (PhotosPrintOperation *self)
 
   settings = gtk_print_settings_new ();
   gtk_print_operation_set_print_settings (GTK_PRINT_OPERATION (self), settings);
-  g_object_unref (settings);
 
   gtk_print_operation_set_custom_tab_label (GTK_PRINT_OPERATION (self), _("Image Settings"));
   gtk_print_operation_set_embed_page_setup (GTK_PRINT_OPERATION (self), TRUE);
