@@ -436,7 +436,6 @@ photos_gegl_buffer_zoom_in_thread_func (GTask *task,
 {
   GeglBuffer *buffer = GEGL_BUFFER (source_object);
   g_autoptr (GeglBuffer) result = NULL;
-  GError *error;
   const gchar *zoom_str = (const gchar *) task_data;
   gchar *endptr;
   gdouble zoom;
@@ -444,13 +443,16 @@ photos_gegl_buffer_zoom_in_thread_func (GTask *task,
   zoom = g_ascii_strtod (zoom_str, &endptr);
   g_assert (*endptr == '\0');
 
-  error = NULL;
-  result = photos_gegl_buffer_zoom (buffer, zoom, cancellable, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    result = photos_gegl_buffer_zoom (buffer, zoom, cancellable, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_pointer (task, g_object_ref (result), g_object_unref);
 
