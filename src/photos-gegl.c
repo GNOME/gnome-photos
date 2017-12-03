@@ -192,7 +192,13 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
 
           for (i = 0; i < bbox_original.height; i++)
             {
-              gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+              gegl_buffer_get (buffer_original,
+                               &bbox_source,
+                               1.0,
+                               format,
+                               buf,
+                               GEGL_AUTO_ROWSTRIDE,
+                               GEGL_ABYSS_NONE);
               photos_gegl_buffer_apply_orientation_flip_in_place (buf, bpp, bbox_original.width);
               gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
 
@@ -239,7 +245,13 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
 
           for (i = 0; i < bbox_original.width; i++)
             {
-              gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+              gegl_buffer_get (buffer_original,
+                               &bbox_source,
+                               1.0,
+                               format,
+                               buf,
+                               GEGL_AUTO_ROWSTRIDE,
+                               GEGL_ABYSS_NONE);
               gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
               bbox_destination.y++;
               bbox_source.x--;
@@ -257,7 +269,13 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
 
           for (i = 0; i < bbox_original.width; i++)
             {
-              gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+              gegl_buffer_get (buffer_original,
+                               &bbox_source,
+                               1.0,
+                               format,
+                               buf,
+                               GEGL_AUTO_ROWSTRIDE,
+                               GEGL_ABYSS_NONE);
               gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
               bbox_destination.y--;
               bbox_source.x--;
@@ -291,7 +309,13 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
 
           for (i = 0; i < bbox_original.height; i++)
             {
-              gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+              gegl_buffer_get (buffer_original,
+                               &bbox_source,
+                               1.0,
+                               format,
+                               buf,
+                               GEGL_AUTO_ROWSTRIDE,
+                               GEGL_ABYSS_NONE);
               gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
               bbox_destination.x++;
               bbox_source.y--;
@@ -303,7 +327,13 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
 
           for (i = 0; i < bbox_original.height; i++)
             {
-              gegl_buffer_get (buffer_original, &bbox_source, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_ABYSS_NONE);
+              gegl_buffer_get (buffer_original,
+                               &bbox_source,
+                               1.0,
+                               format,
+                               buf,
+                               GEGL_AUTO_ROWSTRIDE,
+                               GEGL_ABYSS_NONE);
               photos_gegl_buffer_apply_orientation_flip_in_place (buf, bpp, bbox_original.width);
               gegl_buffer_set (buffer_oriented, &bbox_destination, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
               bbox_destination.x++;
