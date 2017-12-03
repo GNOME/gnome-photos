@@ -115,7 +115,7 @@ photos_utils_center_pixbuf (GdkPixbuf *pixbuf, gint size)
 gchar *
 photos_utils_convert_path_to_uri (const gchar *path)
 {
-  GFile *file;
+  g_autoptr (GFile) file = NULL;
   gchar *uri;
 
   if (path == NULL)
@@ -123,7 +123,6 @@ photos_utils_convert_path_to_uri (const gchar *path)
 
   file = g_file_new_for_path (path);
   uri = g_file_get_uri (file);
-  g_object_unref (file);
 
   return uri;
 }
@@ -132,13 +131,13 @@ photos_utils_convert_path_to_uri (const gchar *path)
 GIcon *
 photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
 {
-  cairo_surface_t *surface;
-  cairo_t *cr;
+  cairo_surface_t *surface; /* TODO: use g_autoptr */
+  cairo_t *cr; /* TODO: use g_autoptr */
   GdkPixbuf *pix;
   GIcon *ret_val;
   GList *l;
-  GtkStyleContext *context;
-  GtkWidgetPath *path;
+  g_autoptr (GtkStyleContext) context = NULL;
+  g_autoptr (GtkWidgetPath) path = NULL;
   gint cur_x;
   gint cur_y;
   gint padding;
@@ -172,7 +171,6 @@ photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
   path = gtk_widget_path_new ();
   gtk_widget_path_append_type (path, GTK_TYPE_ICON_VIEW);
   gtk_style_context_set_path (context, path);
-  gtk_widget_path_unref (path);
 
   surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, base_size, base_size);
   cr = cairo_create (surface);
@@ -224,7 +222,6 @@ photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
 
   cairo_surface_destroy (surface);
   cairo_destroy (cr);
-  g_object_unref (context);
 
   return ret_val;
 }
@@ -234,13 +231,12 @@ GdkPixbuf *
 photos_utils_create_placeholder_icon_for_scale (const gchar *name, gint size, gint scale)
 {
   GApplication *app;
-  GdkPixbuf *centered_pixbuf = NULL;
-  GdkPixbuf *pixbuf = NULL;
+  g_autoptr (GdkPixbuf) centered_pixbuf = NULL;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
   GdkPixbuf *ret_val = NULL;
-  GError *error;
-  GIcon *icon = NULL;
+  g_autoptr (GIcon) icon = NULL;
   GList *windows;
-  GtkIconInfo *info = NULL;
+  g_autoptr (GtkIconInfo) info = NULL;
   GtkIconTheme *theme;
   GtkStyleContext *context;
   gint size_scaled;
@@ -262,14 +258,16 @@ photos_utils_create_placeholder_icon_for_scale (const gchar *name, gint size, gi
 
   context = gtk_widget_get_style_context (GTK_WIDGET (windows->data));
 
-  error = NULL;
-  pixbuf = gtk_icon_info_load_symbolic_for_context (info, context, NULL, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to load icon '%s': %s", name, error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    pixbuf = gtk_icon_info_load_symbolic_for_context (info, context, NULL, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to load icon '%s': %s", name, error->message);
+        goto out;
+      }
+  }
 
   size_scaled = size * scale;
   centered_pixbuf = photos_utils_center_pixbuf (pixbuf, size_scaled);
@@ -278,10 +276,6 @@ photos_utils_create_placeholder_icon_for_scale (const gchar *name, gint size, gi
   centered_pixbuf = NULL;
 
  out:
-  g_clear_object (&centered_pixbuf);
-  g_clear_object (&pixbuf);
-  g_clear_object (&info);
-  g_clear_object (&icon);
   return ret_val;
 }
 
@@ -289,17 +283,17 @@ photos_utils_create_placeholder_icon_for_scale (const gchar *name, gint size, gi
 GIcon *
 photos_utils_create_symbolic_icon_for_scale (const gchar *name, gint base_size, gint scale)
 {
-  GIcon *icon;
+  g_autoptr (GIcon) icon = NULL;
   GIcon *ret_val = NULL;
-  GdkPixbuf *pixbuf;
-  GtkIconInfo *info;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
+  g_autoptr (GtkIconInfo) info = NULL;
   GtkIconTheme *theme;
-  GtkStyleContext *style;
-  GtkWidgetPath *path;
-  cairo_surface_t *icon_surface = NULL;
-  cairo_surface_t *surface;
-  cairo_t *cr;
-  gchar *symbolic_name;
+  g_autoptr (GtkStyleContext) style = NULL;
+  g_autoptr (GtkWidgetPath) path = NULL;
+  cairo_surface_t *icon_surface = NULL; /* TODO: use g_autoptr */
+  cairo_surface_t *surface; /* TODO: use g_autoptr */
+  cairo_t *cr; /* TODO: use g_autoptr */
+  g_autofree gchar *symbolic_name = NULL;
   const gint bg_size = 24;
   const gint emblem_margin = 4;
   gint emblem_pos;
@@ -320,7 +314,6 @@ photos_utils_create_symbolic_icon_for_scale (const gchar *name, gint base_size, 
   path = gtk_widget_path_new ();
   gtk_widget_path_append_type (path, GTK_TYPE_ICON_VIEW);
   gtk_style_context_set_path (style, path);
-  gtk_widget_path_unref (path);
 
   gtk_style_context_add_class (style, "photos-icon-bg");
 
@@ -328,23 +321,17 @@ photos_utils_create_symbolic_icon_for_scale (const gchar *name, gint base_size, 
 
   symbolic_name = g_strconcat (name, "-symbolic", NULL);
   icon = g_themed_icon_new_with_default_fallbacks (symbolic_name);
-  g_free (symbolic_name);
 
   theme = gtk_icon_theme_get_default();
   info = gtk_icon_theme_lookup_by_gicon_for_scale (theme, icon, emblem_size, scale, GTK_ICON_LOOKUP_FORCE_SIZE);
-  g_object_unref (icon);
-
   if (info == NULL)
     goto out;
 
   pixbuf = gtk_icon_info_load_symbolic_for_context (info, style, NULL, NULL);
-  g_object_unref (info);
-
   if (pixbuf == NULL)
     goto out;
 
   icon_surface = gdk_cairo_surface_create_from_pixbuf (pixbuf, scale, NULL);
-  g_object_unref (pixbuf);
 
   emblem_pos = total_size - emblem_size - emblem_margin;
   gtk_render_icon_surface (style, cr, icon_surface, emblem_pos, emblem_pos);
@@ -352,7 +339,6 @@ photos_utils_create_symbolic_icon_for_scale (const gchar *name, gint base_size, 
   ret_val = G_ICON (gdk_pixbuf_get_from_surface (surface, 0, 0, total_size_scaled, total_size_scaled));
 
  out:
-  g_object_unref (style);
   cairo_surface_destroy (icon_surface);
   cairo_surface_destroy (surface);
   cairo_destroy (cr);
@@ -372,7 +358,7 @@ photos_utils_create_thumbnail (GFile *file,
                                GCancellable *cancellable,
                                GError **error)
 {
-  PhotosThumbnailFactory *factory = NULL;
+  g_autoptr (PhotosThumbnailFactory) factory = NULL;
   gboolean ret_val = FALSE;
 
   factory = photos_thumbnail_factory_dup_singleton (NULL, NULL);
@@ -390,7 +376,6 @@ photos_utils_create_thumbnail (GFile *file,
   ret_val = TRUE;
 
  out:
-  g_clear_object (&factory);
   return ret_val;
 }
 
@@ -398,7 +383,7 @@ photos_utils_create_thumbnail (GFile *file,
 GVariant *
 photos_utils_create_zoom_target_value (gdouble delta, PhotosZoomEvent event)
 {
-  GEnumClass *zoom_event_class = NULL;
+  GEnumClass *zoom_event_class = NULL; /* TODO: use g_autoptr */
   GEnumValue *event_value;
   GVariant *delta_value;
   GVariant *event_nick_value;
@@ -434,27 +419,28 @@ photos_utils_create_zoom_target_value (gdouble delta, PhotosZoomEvent event)
 static GIcon *
 photos_utils_get_thumbnail_icon (const gchar *uri)
 {
-  GError *error;
-  GFile *file = NULL;
-  GFile *thumb_file = NULL;
-  GFileInfo *info = NULL;
+  g_autoptr (GFile) file = NULL;
+  g_autoptr (GFile) thumb_file = NULL;
+  g_autoptr (GFileInfo) info = NULL;
   GIcon *icon = NULL;
   const gchar *thumb_path;
 
   file = g_file_new_for_uri (uri);
 
-  error = NULL;
-  info = photos_utils_file_query_info (file,
-                                       G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
-                                       G_FILE_QUERY_INFO_NONE,
-                                       NULL,
-                                       &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to fetch thumbnail path for %s: %s", uri, error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    info = photos_utils_file_query_info (file,
+                                         G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
+                                         G_FILE_QUERY_INFO_NONE,
+                                         NULL,
+                                         &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to fetch thumbnail path for %s: %s", uri, error->message);
+        goto out;
+      }
+  }
 
   thumb_path = g_file_info_get_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
   if (thumb_path == NULL)
@@ -464,9 +450,6 @@ photos_utils_get_thumbnail_icon (const gchar *uri)
   icon = g_file_icon_new (thumb_file);
 
  out:
-  g_clear_object (&thumb_file);
-  g_clear_object (&info);
-  g_clear_object (&file);
   return icon;
 }
 
@@ -809,13 +792,13 @@ photos_utils_file_copy_as_thumbnail (GFile *source,
                                      GCancellable *cancellable,
                                      GError **error)
 {
-  GFileInputStream *istream = NULL;
-  GFileOutputStream *ostream = NULL;
-  GdkPixbuf *pixbuf = NULL;
+  g_autoptr (GFileInputStream) istream = NULL;
+  g_autoptr (GFileOutputStream) ostream = NULL;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
   gboolean ret_val = FALSE;
   const gchar *prgname;
-  gchar *original_height_str = NULL;
-  gchar *original_width_str = NULL;
+  g_autofree gchar *original_height_str = NULL;
+  g_autofree gchar *original_width_str = NULL;
 
   g_return_val_if_fail (G_IS_FILE (source), FALSE);
   g_return_val_if_fail (G_IS_FILE (destination), FALSE);
@@ -860,11 +843,6 @@ photos_utils_file_copy_as_thumbnail (GFile *source,
   ret_val = TRUE;
 
  out:
-  g_free (original_height_str);
-  g_free (original_width_str);
-  g_clear_object (&istream);
-  g_clear_object (&ostream);
-  g_clear_object (&pixbuf);
   return ret_val;
 }
 
@@ -876,8 +854,8 @@ photos_utils_file_query_info (GFile *file,
                               GCancellable *cancellable,
                               GError **error)
 {
-  GFileAttributeMatcher *matcher = NULL;
-  GFileInfo *info = NULL;
+  GFileAttributeMatcher *matcher = NULL; /* TODO: use g_autoptr */
+  g_autoptr (GFileInfo) info = NULL;
   GFileInfo *ret_val = NULL;
 
   g_return_val_if_fail (G_IS_FILE (file), NULL);
@@ -894,7 +872,7 @@ photos_utils_file_query_info (GFile *file,
       || g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAIL_PATH)
       || g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED))
     {
-      gchar *path = NULL;
+      g_autofree gchar *path = NULL;
 
       g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID);
       g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
@@ -907,14 +885,11 @@ photos_utils_file_query_info (GFile *file,
           g_file_info_set_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH, path);
           g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED, FALSE);
         }
-
-      g_free (path);
     }
 
   ret_val = g_object_ref (info);
 
  out:
-  g_clear_object (&info);
   g_clear_pointer (&matcher, (GDestroyNotify) g_file_attribute_matcher_unref);
   return ret_val;
 }
@@ -949,7 +924,7 @@ photos_utils_file_query_info_in_thread_func (GTask *task,
 {
   GError *error;
   GFile *file = G_FILE (source_object);
-  GFileInfo *info = NULL;
+  g_autoptr (GFileInfo) info = NULL;
   PhotosUtilsFileQueryInfoData *data = (PhotosUtilsFileQueryInfoData *) task_data;
 
   error = NULL;
@@ -963,7 +938,7 @@ photos_utils_file_query_info_in_thread_func (GTask *task,
   g_task_return_pointer (task, g_object_ref (info), g_object_unref);
 
  out:
-  g_clear_object (&info);
+  return;
 }
 
 
@@ -976,7 +951,7 @@ photos_utils_file_query_info_async (GFile *file,
                                     GAsyncReadyCallback callback,
                                     gpointer user_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
   PhotosUtilsFileQueryInfoData *data;
   const gchar *wildcard;
 
@@ -995,7 +970,6 @@ photos_utils_file_query_info_async (GFile *file,
   g_task_set_task_data (task, data, (GDestroyNotify) photos_utils_file_query_info_data_free);
 
   g_task_run_in_thread (task, photos_utils_file_query_info_in_thread_func);
-  g_object_unref (task);
 }
 
 
