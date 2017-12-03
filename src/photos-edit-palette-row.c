@@ -56,7 +56,7 @@ photos_edit_palette_row_constructed (GObject *object)
   GtkWidget *tool_widget;
   const gchar *icon_name;
   const gchar *name;
-  gchar *name_markup;
+  g_autofree gchar *name_markup = NULL;
 
   G_OBJECT_CLASS (photos_edit_palette_row_parent_class)->constructed (object);
 
@@ -102,7 +102,6 @@ photos_edit_palette_row_constructed (GObject *object)
 
   gtk_widget_show_all (GTK_WIDGET (self));
 
-  g_free (name_markup);
   g_clear_object (&self->size_group); /* We will not need it any more */
 }
 
