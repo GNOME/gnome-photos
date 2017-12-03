@@ -103,7 +103,7 @@ photos_share_notification_open (PhotosShareNotification *self)
   time = gtk_get_current_event_time ();
 
   {
-    g_autoptr(GError) error = NULL;
+    g_autoptr (GError) error = NULL;
 
     if (!gtk_show_uri_on_window (parent, self->uri, time, &error))
       g_warning ("Failed to open uri: %s", error->message);
