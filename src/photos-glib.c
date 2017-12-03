@@ -120,7 +120,7 @@ static PhotosGLibFileCreateData *
 photos_glib_file_create_data_new (GFile *file, GFileCreateFlags flags, gint io_priority)
 {
   PhotosGLibFileCreateData *data;
-  gchar *filename;
+  g_autofree gchar *filename = NULL;
 
   data = g_slice_new0 (PhotosGLibFileCreateData);
 
@@ -132,8 +132,6 @@ photos_glib_file_create_data_new (GFile *file, GFileCreateFlags flags, gint io_p
   data->flags = flags;
   data->io_priority = io_priority;
 
-  g_free (filename);
-
   return data;
 }
 
@@ -144,11 +142,11 @@ photos_glib_file_create_create (GObject *source_object, GAsyncResult *res, gpoin
   GCancellable *cancellable;
   GError *error = NULL;
   GFile *file = G_FILE (source_object);
-  GFile *unique_file = NULL;
-  GFileOutputStream *stream = NULL;
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GFile) unique_file = NULL;
+  g_autoptr (GFileOutputStream) stream = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosGLibFileCreateData *data;
-  gchar *filename = NULL;
+  g_autofree gchar *filename = NULL;
 
   cancellable = g_task_get_cancellable (task);
   data = (PhotosGLibFileCreateData *) g_task_get_task_data (task);
@@ -186,10 +184,7 @@ photos_glib_file_create_create (GObject *source_object, GAsyncResult *res, gpoin
   g_task_return_pointer (task, g_object_ref (stream), g_object_unref);
 
  out:
-  g_free (filename);
-  g_clear_object (&stream);
-  g_clear_object (&unique_file);
-  g_object_unref (task);
+  return;
 }
 
 
@@ -201,7 +196,7 @@ photos_glib_file_create_async (GFile *file,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
   PhotosGLibFileCreateData *data;
 
   task = g_task_new (file, cancellable, callback, user_data);
@@ -216,8 +211,6 @@ photos_glib_file_create_async (GFile *file,
                        cancellable,
                        photos_glib_file_create_create,
                        g_object_ref (task));
-
-  g_object_unref (task);
 }
 
 
@@ -242,12 +235,11 @@ photos_glib_file_create_finish (GFile *file, GAsyncResult *res, GFile **out_uniq
   if (out_unique_file != NULL)
     {
       GFile *unique_file;
-      gchar *filename = NULL;
+      g_autofree gchar *filename = NULL;
 
       filename = photos_glib_file_create_data_get_filename (data);
       unique_file = g_file_get_child (data->dir, filename);
       *out_unique_file = unique_file;
-      g_free (filename);
     }
 
  out:
