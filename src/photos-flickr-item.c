@@ -70,7 +70,7 @@ struct _PhotosFlickrItemSyncData
 static gchar *
 photos_flickr_item_create_filename_fallback (PhotosBaseItem *item)
 {
-  GFile *file = NULL;
+  g_autoptr (GFile) file = NULL;
   const gchar *uri;
   gchar *ret_val;
 
@@ -78,7 +78,6 @@ photos_flickr_item_create_filename_fallback (PhotosBaseItem *item)
   file = g_file_new_for_uri (uri);
   ret_val = g_file_get_basename (file);
 
-  g_object_unref (file);
   return ret_val;
 }
 
@@ -87,10 +86,10 @@ static gchar *
 photos_flickr_item_create_name_fallback (PhotosBaseItem *item)
 {
   PhotosFlickrItem *self = PHOTOS_FLICKR_ITEM (item);
-  GDateTime *date_modified;
+  g_autoptr (GDateTime) date_modified = NULL;
   const gchar *provider_name;
+  g_autofree gchar *date_modified_str = NULL;
   gchar *ret_val;
-  gchar *date_modified_str;
   gint64 mtime;
 
   provider_name = photos_utils_get_provider_name (self->src_mngr, item);
@@ -104,8 +103,6 @@ photos_flickr_item_create_name_fallback (PhotosBaseItem *item)
    */
   ret_val = g_strdup_printf (_("%s — %s"), provider_name, date_modified_str);
 
-  g_free (date_modified_str);
-  g_date_time_unref (date_modified);
   return ret_val;
 }
 
@@ -148,12 +145,12 @@ static gboolean
 photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
   PhotosFlickrItemSyncData data;
-  GFile *local_file = NULL;
-  GFile *remote_file = NULL;
-  GList *keys = NULL;
-  GMainContext *context = NULL;
-  GrlMedia *media = NULL;
-  GrlOperationOptions *options = NULL;
+  g_autoptr (GFile) local_file = NULL;
+  g_autoptr (GFile) remote_file = NULL;
+  g_autoptr (GList) keys = NULL;
+  g_autoptr (GMainContext) context = NULL;
+  GrlMedia *media = NULL; /* TODO: use g_autoptr */
+  GrlOperationOptions *options = NULL; /* TODO: use g_autoptr */
   GrlRegistry *registry;
   GrlSource *source;
   gboolean ret_val = FALSE;
@@ -165,9 +162,9 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   const gchar *resource_urn;
   const gchar *thumbnail_uri;
   const gchar *uri;
-  gchar *grilo_id = NULL;
-  gchar *local_dir = NULL;
-  gchar *local_path = NULL;
+  g_autofree gchar *grilo_id = NULL;
+  g_autofree gchar *local_dir = NULL;
+  g_autofree gchar *local_path = NULL;
   gint64 height;
   gint64 width;
   gsize prefix_len;
@@ -257,16 +254,8 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   ret_val = TRUE;
 
  out:
-  g_free (grilo_id);
-  g_free (local_dir);
-  g_free (local_path);
-  g_list_free (keys);
-  g_clear_object (&local_file);
-  g_clear_object (&remote_file);
   g_clear_object (&options);
   g_clear_object (&media);
-  if (context != NULL)
-    g_main_context_unref (context);
   if (data.loop != NULL)
     g_main_loop_unref (data.loop);
   return ret_val;
@@ -276,13 +265,13 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
 static gchar *
 photos_flickr_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GFile *local_file = NULL;
-  GFile *remote_file = NULL;
+  g_autoptr (GFile) local_file = NULL;
+  g_autoptr (GFile) remote_file = NULL;
   const gchar *cache_dir;
   const gchar *local_filename;
   const gchar *uri;
-  gchar *local_dir = NULL;
-  gchar *local_path = NULL;
+  g_autofree gchar *local_dir = NULL;
+  g_autofree gchar *local_path = NULL;
   gchar *ret_val = NULL;
 
   uri = photos_base_item_get_uri (item);
@@ -312,14 +301,9 @@ photos_flickr_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
         }
     }
 
-  ret_val = local_path;
-  local_path = NULL;
+  ret_val = g_steal_pointer (&local_path);
 
  out:
-  g_free (local_path);
-  g_free (local_dir);
-  g_object_unref (local_file);
-  g_object_unref (remote_file);
   return ret_val;
 }
 
@@ -343,14 +327,13 @@ static void
 photos_flickr_item_open (PhotosBaseItem *item, GtkWindow *parent, guint32 timestamp)
 {
   PhotosFlickrItem *self = PHOTOS_FLICKR_ITEM (item);
-  GError *error;
   GoaAccount *account;
   GoaObject *object;
   PhotosSource *source;
   const gchar *identifier;
   const gchar *identity;
   const gchar *resource_urn;
-  gchar *flickr_uri;
+  g_autofree gchar *flickr_uri = NULL;
 
   identifier = photos_base_item_get_identifier (item) + strlen ("flickr:");
 
@@ -362,15 +345,13 @@ photos_flickr_item_open (PhotosBaseItem *item, GtkWindow *parent, guint32 timest
 
   flickr_uri = g_strdup_printf ("https://www.flickr.com/photos/%s/%s", identity, identifier);
 
-  error = NULL;
-  gtk_show_uri_on_window (parent, flickr_uri, timestamp, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to show URI %s: %s", flickr_uri, error->message);
-      g_error_free (error);
-    }
+  {
+    g_autoptr (GError) error = NULL;
 
-  g_free (flickr_uri);
+    gtk_show_uri_on_window (parent, flickr_uri, timestamp, &error);
+    if (error != NULL)
+      g_warning ("Unable to show URI %s: %s", flickr_uri, error->message);
+  }
 }
 
 
