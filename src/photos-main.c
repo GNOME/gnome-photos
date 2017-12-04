@@ -50,28 +50,29 @@ gint
 main (gint argc, gchar *argv[])
 {
   EggCounterArena *counter_arena;
-  GApplication *app;
-  PhotosRemoteDisplayManager *remote_display_mngr;
   gint exit_status;
 
-  setlocale (LC_ALL, "");
+  {
+    g_autoptr (GApplication) app = NULL;
+    g_autoptr (PhotosRemoteDisplayManager) remote_display_mngr = NULL;
 
-  photos_debug_init ();
+    setlocale (LC_ALL, "");
 
-  bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
-  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-  textdomain (GETTEXT_PACKAGE);
+    photos_debug_init ();
 
-  g_set_prgname (PACKAGE_TARNAME);
+    bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+    textdomain (GETTEXT_PACKAGE);
 
-  app = photos_application_new ();
-  if (g_getenv ("GNOME_PHOTOS_PERSIST") != NULL)
-    g_application_hold (app);
+    g_set_prgname (PACKAGE_TARNAME);
 
-  remote_display_mngr = photos_remote_display_manager_dup_singleton ();
-  exit_status = g_application_run (app, argc, argv);
-  g_object_unref (remote_display_mngr);
-  g_object_unref (app);
+    app = photos_application_new ();
+    if (g_getenv ("GNOME_PHOTOS_PERSIST") != NULL)
+      g_application_hold (app);
+
+    remote_display_mngr = photos_remote_display_manager_dup_singleton ();
+    exit_status = g_application_run (app, argc, argv);
+  }
 
   counter_arena = egg_counter_arena_get_default ();
   egg_counter_arena_foreach (counter_arena, photos_main_counter_arena_foreach, NULL);
