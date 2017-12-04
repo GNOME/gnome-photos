@@ -63,7 +63,7 @@ photos_pixbuf_new_from_file_at_size_in_thread_func (GTask *task,
                                                     GCancellable *cancellable)
 {
   GError *error;
-  GdkPixbuf *result = NULL;
+  g_autoptr (GdkPixbuf) result = NULL;
   PhotosPixbufNewFromFileData *data = (PhotosPixbufNewFromFileData *) task_data;
 
   error = NULL;
@@ -77,7 +77,7 @@ photos_pixbuf_new_from_file_at_size_in_thread_func (GTask *task,
   g_task_return_pointer (task, g_object_ref (result), g_object_unref);
 
  out:
-  g_clear_object (&result);
+  return;
 }
 
 
@@ -89,7 +89,7 @@ photos_pixbuf_new_from_file_at_size_async (const gchar *filename,
                                            GAsyncReadyCallback callback,
                                            gpointer user_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
   PhotosPixbufNewFromFileData *data;
 
   g_return_if_fail (filename != NULL && filename[0] != '\0');
@@ -103,7 +103,6 @@ photos_pixbuf_new_from_file_at_size_async (const gchar *filename,
   g_task_set_task_data (task, data, (GDestroyNotify) photos_pixbuf_new_from_file_data_free);
 
   g_task_run_in_thread (task, photos_pixbuf_new_from_file_at_size_in_thread_func);
-  g_object_unref (task);
 }
 
 
