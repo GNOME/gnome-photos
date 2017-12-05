@@ -60,10 +60,9 @@ photos_thumbnail_factory_authorize_authenticated_peer (PhotosThumbnailFactory *s
                                                        GIOStream *iostream,
                                                        GCredentials *credentials)
 {
-  GCredentials *own_credentials = NULL;
-  GError *error;
+  g_autoptr (GCredentials) own_credentials = NULL;
   gboolean ret_val = FALSE;
-  gchar *str = NULL;
+  g_autofree gchar *str = NULL;
 
   g_mutex_lock (&self->mutex_connection);
 
@@ -84,20 +83,20 @@ photos_thumbnail_factory_authorize_authenticated_peer (PhotosThumbnailFactory *s
 
   own_credentials = g_credentials_new ();
 
-  error = NULL;
-  if (!g_credentials_is_same_user (credentials, own_credentials, &error))
-    {
-      g_warning ("Unable to authorize peer: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!g_credentials_is_same_user (credentials, own_credentials, &error))
+      {
+        g_warning ("Unable to authorize peer: %s", error->message);
+        goto out;
+      }
+  }
 
   ret_val = TRUE;
 
  out:
   g_mutex_unlock (&self->mutex_connection);
-  g_clear_object (&own_credentials);
-  g_free (str);
   return ret_val;
 }
 
@@ -128,10 +127,10 @@ photos_thumbnail_factory_get_preview (PhotosThumbnailFactory *self,
                                       GCancellable *cancellable,
                                       GError **error)
 {
-  GFileInfo *info = NULL;
+  g_autoptr (GFileInfo) info = NULL;
   GIcon *icon;
-  GInputStream *stream = NULL;
-  GdkPixbuf *pixbuf = NULL;
+  g_autoptr (GInputStream) stream = NULL;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
   GdkPixbuf *ret_val = NULL;
 
   info = g_file_query_info (file, G_FILE_ATTRIBUTE_PREVIEW_ICON, G_FILE_QUERY_INFO_NONE, cancellable, error);
@@ -156,9 +155,6 @@ photos_thumbnail_factory_get_preview (PhotosThumbnailFactory *self,
   ret_val = g_object_ref (pixbuf);
 
  out:
-  g_clear_object (&info);
-  g_clear_object (&pixbuf);
-  g_clear_object (&stream);
   return ret_val;
 }
 
@@ -166,8 +162,6 @@ photos_thumbnail_factory_get_preview (PhotosThumbnailFactory *self,
 static gboolean
 photos_thumbnail_factory_new_connection (PhotosThumbnailFactory *self, GDBusConnection *connection)
 {
-  GError *error;
-
   g_mutex_lock (&self->mutex_connection);
   g_mutex_lock (&self->mutex_thumbnailer);
 
@@ -184,19 +178,19 @@ photos_thumbnail_factory_new_connection (PhotosThumbnailFactory *self, GDBusConn
                             G_CALLBACK (photos_thumbnail_factory_connection_closed),
                             self);
 
-  error = NULL;
-  self->thumbnailer = photos_thumbnailer_dbus_proxy_new_sync (self->connection,
-                                                              G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
-                                                              | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
-                                                              NULL,
-                                                              THUMBNAILER_PATH,
-                                                              NULL,
-                                                              &error);
-  if (error != NULL)
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    self->thumbnailer = photos_thumbnailer_dbus_proxy_new_sync (self->connection,
+                                                                G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
+                                                                | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+                                                                NULL,
+                                                                THUMBNAILER_PATH,
+                                                                NULL,
+                                                                &error);
+    if (error != NULL)
       self->thumbnailer_error = g_error_copy (error);
-      g_error_free (error);
-    }
+  }
 
   g_mutex_unlock (&self->mutex_connection);
 
@@ -282,11 +276,11 @@ static gboolean
 photos_thumbnail_factory_initable_init (GInitable *initable, GCancellable *cancellable, GError **error)
 {
   PhotosThumbnailFactory *self = PHOTOS_THUMBNAIL_FACTORY (initable);
-  GDBusAuthObserver *observer = NULL;
+  g_autoptr (GDBusAuthObserver) observer = NULL;
   gboolean ret_val = FALSE;
   const gchar *tmp_dir;
-  gchar *address = NULL;
-  gchar *guid = NULL;
+  g_autofree gchar *address = NULL;
+  g_autofree gchar *guid = NULL;
 
   G_LOCK (init_lock);
 
@@ -339,10 +333,6 @@ photos_thumbnail_factory_initable_init (GInitable *initable, GCancellable *cance
 
   G_UNLOCK (init_lock);
 
-  g_clear_object (&observer);
-  g_free (address);
-  g_free (guid);
-
   return ret_val;
 }
 
@@ -375,8 +365,8 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
                                              GCancellable *cancellable,
                                              GError **error)
 {
-  GError *local_error;
-  GdkPixbuf *pixbuf = NULL;
+  GError *local_error = NULL;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
   gboolean mutex_connection_unlocked = FALSE;
   gboolean ret_val = FALSE;
   gint thumbnail_size;
@@ -395,15 +385,19 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
 
   thumbnail_size = photos_utils_get_icon_size ();
 
-  local_error = NULL;
-  pixbuf = photos_thumbnail_factory_get_preview (self, file, thumbnail_size, cancellable, &local_error);
-  if (local_error != NULL)
-    {
-      if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        goto out;
-      else
-        g_clear_error (&local_error);
-    }
+  {
+    g_autoptr (GError) preview_error = NULL;
+
+    pixbuf = photos_thumbnail_factory_get_preview (self, file, thumbnail_size, cancellable, &preview_error);
+    if (preview_error != NULL)
+      {
+        if (g_error_matches (preview_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          {
+            local_error = g_steal_pointer (&preview_error);
+            goto out;
+          }
+      }
+  }
 
   if (pixbuf != NULL)
     {
@@ -413,9 +407,9 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
 
   if (self->connection == NULL)
     {
-      GSubprocess *subprocess;
+      g_autoptr (GSubprocess) subprocess = NULL;
       const gchar *address;
-      gchar *thumbnailer_path;
+      g_autofree gchar *thumbnailer_path = NULL;
 
       g_mutex_lock (&self->mutex_thumbnailer);
 
@@ -433,23 +427,24 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
 
       photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Spawning “%s --address %s”", thumbnailer_path, address);
 
-      local_error = NULL;
-      subprocess = g_subprocess_new (G_SUBPROCESS_FLAGS_NONE,
-                                     &local_error,
-                                     thumbnailer_path,
-                                     "--address",
-                                     address,
-                                     NULL);
+      {
+        g_autoptr (GError) subprocess_error = NULL;
 
-      g_free (thumbnailer_path);
-
-      if (local_error != NULL)
-        goto out;
+        subprocess = g_subprocess_new (G_SUBPROCESS_FLAGS_NONE,
+                                       &subprocess_error,
+                                       thumbnailer_path,
+                                       "--address",
+                                       address,
+                                       NULL);
+        if (subprocess_error != NULL)
+          {
+            local_error = g_steal_pointer (&subprocess_error);
+            goto out;
+          }
+      }
 
       g_mutex_unlock (&self->mutex_connection);
       mutex_connection_unlocked = TRUE;
-
-      g_object_unref (subprocess);
     }
 
   photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Waiting for org.gnome.Photos.Thumbnailer proxy");
@@ -463,15 +458,13 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
       g_assert_null (self->thumbnailer);
 
       photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Error creating org.gnome.Photos.Thumbnailer proxy");
-
-      local_error = self->thumbnailer_error;
-      self->thumbnailer_error = NULL;
+      local_error = g_steal_pointer (&self->thumbnailer_error);
     }
   else
     {
       const gchar *orientation_str;
-      gchar *thumbnail_path = NULL;
-      gchar *uri = NULL;
+      g_autofree gchar *thumbnail_path = NULL;
+      g_autofree gchar *uri = NULL;
 
       g_assert_true (PHOTOS_IS_THUMBNAILER_DBUS (self->thumbnailer));
 
@@ -510,9 +503,6 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
         {
           ret_val = TRUE;
         }
-
-      g_free (thumbnail_path);
-      g_free (uri);
     }
 
   g_mutex_unlock (&self->mutex_thumbnailer);
@@ -527,6 +517,5 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
       g_propagate_error (error, local_error);
     }
 
-  g_clear_object (&pixbuf);
   return ret_val;
 }
