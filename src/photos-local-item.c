@@ -208,9 +208,12 @@ photos_local_item_metadata_add_shared (PhotosBaseItem  *item,
                                        GError         **error)
 {
   g_autoptr (GVariant) shared_variant = NULL;
-  const GVariantType *tuple_items[] = {G_VARIANT_TYPE_STRING,   /* provider-type */
-                                       G_VARIANT_TYPE_STRING,   /* account-identity */
-                                       G_VARIANT_TYPE_STRING};  /* shared-id */
+  const GVariantType *tuple_items[] =
+    {
+      G_VARIANT_TYPE_STRING, /* provider-type */
+      G_VARIANT_TYPE_STRING, /* account-identity */
+      G_VARIANT_TYPE_STRING  /* shared-id */
+    };
   g_autoptr (GVariantType) array_type = NULL;
   g_autoptr (GVariantType) tuple_type = NULL;
   GExiv2Metadata *metadata = NULL; /* TODO: Use g_autoptr */
