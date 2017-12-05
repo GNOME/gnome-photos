@@ -418,6 +418,9 @@ photos_utils_get_thumbnail_icon (const gchar *uri)
     }
 
   thumb_path = g_file_info_get_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
+  if (thumb_path == NULL)
+    goto out;
+
   thumb_file = g_file_new_for_path (thumb_path);
   icon = g_file_icon_new (thumb_file);
 
