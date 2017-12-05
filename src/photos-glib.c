@@ -143,7 +143,6 @@ static void
 photos_glib_file_create_create (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GCancellable *cancellable;
-  GError *error = NULL;
   GFile *file = G_FILE (source_object);
   g_autoptr (GFileOutputStream) stream = NULL;
   g_autoptr (GTask) task = G_TASK (user_data);
@@ -152,38 +151,42 @@ photos_glib_file_create_create (GObject *source_object, GAsyncResult *res, gpoin
   cancellable = g_task_get_cancellable (task);
   data = (PhotosGLibFileCreateData *) g_task_get_task_data (task);
 
-  stream = g_file_create_finish (file, res, &error);
-  if (error != NULL)
-    {
-      g_autoptr (GFile) unique_file = NULL;
-      g_autofree gchar *filename = NULL;
+  {
+    g_autoptr (GError) error = NULL;
 
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
-        {
-          g_task_return_error (task, error);
-          goto out;
-        }
+    stream = g_file_create_finish (file, res, &error);
+    if (error != NULL)
+      {
+        g_autoptr (GFile) unique_file = NULL;
+        g_autofree gchar *filename = NULL;
 
-      if (data->count == G_MAXUINT)
-        {
-          g_task_return_new_error (task, PHOTOS_ERROR, 0, "Exceeded number of copies of a file");
-          goto out;
-        }
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+          {
+            g_task_return_error (task, g_steal_pointer (&error));
+            goto out;
+          }
 
-      data->count++;
+        if (data->count == G_MAXUINT)
+          {
+            g_task_return_new_error (task, PHOTOS_ERROR, 0, "Exceeded number of copies of a file");
+            goto out;
+          }
 
-      filename = photos_glib_file_create_data_get_filename (data);
-      unique_file = g_file_get_child (data->dir, filename);
+        data->count++;
 
-      g_file_create_async (unique_file,
-                           data->flags,
-                           data->io_priority,
-                           cancellable,
-                           photos_glib_file_create_create,
-                           g_object_ref (task));
+        filename = photos_glib_file_create_data_get_filename (data);
+        unique_file = g_file_get_child (data->dir, filename);
 
-      goto out;
-    }
+        g_file_create_async (unique_file,
+                             data->flags,
+                             data->io_priority,
+                             cancellable,
+                             photos_glib_file_create_create,
+                             g_object_ref (task));
+
+        goto out;
+      }
+  }
 
   g_task_return_pointer (task, g_object_ref (stream), g_object_unref);
 
