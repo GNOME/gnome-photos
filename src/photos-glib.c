@@ -145,11 +145,9 @@ photos_glib_file_create_create (GObject *source_object, GAsyncResult *res, gpoin
   GCancellable *cancellable;
   GError *error = NULL;
   GFile *file = G_FILE (source_object);
-  g_autoptr (GFile) unique_file = NULL;
   g_autoptr (GFileOutputStream) stream = NULL;
   g_autoptr (GTask) task = G_TASK (user_data);
   PhotosGLibFileCreateData *data;
-  g_autofree gchar *filename = NULL;
 
   cancellable = g_task_get_cancellable (task);
   data = (PhotosGLibFileCreateData *) g_task_get_task_data (task);
@@ -157,6 +155,9 @@ photos_glib_file_create_create (GObject *source_object, GAsyncResult *res, gpoin
   stream = g_file_create_finish (file, res, &error);
   if (error != NULL)
     {
+      g_autoptr (GFile) unique_file = NULL;
+      g_autofree gchar *filename = NULL;
+
       if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
         {
           g_task_return_error (task, error);
