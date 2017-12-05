@@ -114,7 +114,7 @@ static void
 photos_searchbar_update_visibility (PhotosSearchbar *self)
 {
   PhotosSearchbarPrivate *priv;
-  GVariant *state = NULL;
+  g_autoptr (GVariant) state = NULL;
 
   priv = photos_searchbar_get_instance_private (self);
 
@@ -125,8 +125,6 @@ photos_searchbar_update_visibility (PhotosSearchbar *self)
     photos_searchbar_show (self);
   else
     photos_searchbar_hide (self);
-
-  g_variant_unref (state);
 }
 
 
