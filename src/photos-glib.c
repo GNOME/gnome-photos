@@ -102,6 +102,9 @@ photos_glib_file_create_data_free (PhotosGLibFileCreateData *data)
 }
 
 
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (PhotosGLibFileCreateData, photos_glib_file_create_data_free);
+
+
 static gchar *
 photos_glib_file_create_data_get_filename (PhotosGLibFileCreateData *data)
 {
@@ -197,20 +200,15 @@ photos_glib_file_create_async (GFile *file,
                                gpointer user_data)
 {
   g_autoptr (GTask) task = NULL;
-  PhotosGLibFileCreateData *data;
+  g_autoptr (PhotosGLibFileCreateData) data = NULL;
 
   task = g_task_new (file, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_glib_file_create_async);
 
   data = photos_glib_file_create_data_new (file, flags, io_priority);
-  g_task_set_task_data (task, data, (GDestroyNotify) photos_glib_file_create_data_free);
+  g_task_set_task_data (task, g_steal_pointer (&data), (GDestroyNotify) photos_glib_file_create_data_free);
 
-  g_file_create_async (file,
-                       data->flags,
-                       data->io_priority,
-                       cancellable,
-                       photos_glib_file_create_create,
-                       g_object_ref (task));
+  g_file_create_async (file, flags, io_priority, cancellable, photos_glib_file_create_create, g_object_ref (task));
 }
 
 
