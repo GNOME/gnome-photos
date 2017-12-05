@@ -19,6 +19,7 @@
  * 02110-1301, USA.
  */
 
+
 #include "config.h"
 
 #include <gio/gio.h>
@@ -190,7 +191,7 @@ photos_remote_display_manager_share_cb (GObject *source_object, GAsyncResult *re
 
   g_signal_emit (share->manager, signals[SHARE_BEGAN], 0, share->renderer, share->item);
 
-out:
+ out:
   photos_remote_display_manager_share_destroy (share);
 }
 
