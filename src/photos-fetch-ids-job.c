@@ -59,7 +59,7 @@ photos_fetch_ids_job_cursor_next (GObject *source_object, GAsyncResult *res, gpo
 {
   PhotosFetchIdsJob *self;
   GCancellable *cancellable;
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GError *error;
   gboolean success;
@@ -89,7 +89,6 @@ photos_fetch_ids_job_cursor_next (GObject *source_object, GAsyncResult *res, gpo
                                         cancellable,
                                         photos_fetch_ids_job_cursor_next,
                                         g_object_ref (task));
-      g_object_unref (task);
       return;
     }
 
@@ -97,7 +96,7 @@ photos_fetch_ids_job_cursor_next (GObject *source_object, GAsyncResult *res, gpo
   g_task_return_pointer (task, self->ids->pdata, NULL);
 
  end:
-  g_object_unref (task);
+  return;
 }
 
 
@@ -107,7 +106,7 @@ photos_fetch_ids_job_query_executed (GObject *source_object, GAsyncResult *res, 
   GCancellable *cancellable;
   GTask *task = G_TASK (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
-  TrackerSparqlCursor *cursor;
+  TrackerSparqlCursor *cursor; /* TODO: Use g_autoptr */
   GError *error;
 
   cancellable = g_task_get_cancellable (task);
@@ -223,9 +222,9 @@ photos_fetch_ids_job_run (PhotosFetchIdsJob *self,
                           GAsyncReadyCallback callback,
                           gpointer user_data)
 {
-  PhotosQuery *query = NULL;
-  gchar *str;
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
+  g_autoptr (PhotosQuery) query = NULL;
+  g_autofree gchar *str = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_fetch_ids_job_run);
@@ -238,7 +237,6 @@ photos_fetch_ids_job_run (PhotosFetchIdsJob *self,
 
   str = g_strjoinv (" ", (gchar **) self->terms);
   photos_search_controller_set_string (state->srch_cntrlr, str);
-  g_free (str);
 
   query = photos_query_builder_global_query (state, PHOTOS_QUERY_FLAGS_SEARCH, NULL);
   photos_tracker_queue_select (self->queue,
@@ -249,6 +247,5 @@ photos_fetch_ids_job_run (PhotosFetchIdsJob *self,
                                g_object_unref);
 
  out:
-  g_clear_object (&query);
-  g_object_unref (task);
+  return;
 }
