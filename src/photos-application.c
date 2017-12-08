@@ -125,6 +125,7 @@ struct _PhotosApplication
   PhotosSelectionController *sel_cntrlr;
   PhotosThumbnailFactory *factory;
   TrackerExtractPriority *extract_priority;
+  gboolean empty_results;
   gboolean main_window_deleted;
   guint create_miners_count;
   guint init_fishes_id;
@@ -157,6 +158,7 @@ enum
 
 static const GOptionEntry COMMAND_LINE_OPTIONS[] =
 {
+  { "empty-results", 0, G_OPTION_FLAG_NONE, G_OPTION_ARG_NONE, NULL, N_("Show the empty state"), NULL },
   { "version", 0, G_OPTION_FLAG_NONE, G_OPTION_ARG_NONE, NULL, N_("Show the application's version"), NULL},
   { NULL }
 };
@@ -1669,6 +1671,34 @@ photos_application_activate (GApplication *application)
 }
 
 
+static gint
+photos_application_command_line (GApplication *application, GApplicationCommandLine *command_line)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (application);
+  GVariantDict *options;
+  gint ret_val = -1;
+
+  photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::command_line");
+
+  options = g_application_command_line_get_options_dict (command_line);
+  if (g_variant_dict_contains (options, "empty-results"))
+    {
+      if (g_application_command_line_get_is_remote (command_line))
+        {
+          ret_val = EXIT_FAILURE;
+          goto out;
+        }
+
+      self->empty_results = TRUE;
+    }
+
+  g_application_activate (application);
+
+ out:
+  return ret_val;
+}
+
+
 static gboolean
 photos_application_dbus_register (GApplication *application,
                                   GDBusConnection *connection,
@@ -2190,6 +2220,7 @@ photos_application_init (PhotosApplication *self)
   self->activation_timestamp = GDK_CURRENT_TIME;
 
   g_application_add_main_option_entries (G_APPLICATION (self), COMMAND_LINE_OPTIONS);
+  g_application_set_flags (G_APPLICATION (self), G_APPLICATION_HANDLES_COMMAND_LINE);
 }
 
 
@@ -2202,6 +2233,7 @@ photos_application_class_init (PhotosApplicationClass *class)
   object_class->dispose = photos_application_dispose;
   object_class->finalize = photos_application_finalize;
   application_class->activate = photos_application_activate;
+  application_class->command_line = photos_application_command_line;
   application_class->dbus_register = photos_application_dbus_register;
   application_class->dbus_unregister = photos_application_dbus_unregister;
   application_class->handle_local_options = photos_application_handle_local_options;
@@ -2234,6 +2266,14 @@ photos_application_new (void)
   return g_object_new (PHOTOS_TYPE_APPLICATION,
                        "application-id", "org.gnome." PACKAGE_NAME,
                        NULL);
+}
+
+
+gboolean
+photos_application_get_empty_results (PhotosApplication *self)
+{
+  g_return_val_if_fail (PHOTOS_IS_APPLICATION (self), FALSE);
+  return self->empty_results;
 }
 
 
