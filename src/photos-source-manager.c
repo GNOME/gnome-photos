@@ -30,7 +30,6 @@
 #include <glib/gi18n.h>
 #include <goa/goa.h>
 
-#include "photos-application.h"
 #include "photos-filterable.h"
 #include "photos-query.h"
 #include "photos-source.h"
@@ -66,17 +65,9 @@ G_DEFINE_TYPE (PhotosSourceManager, photos_source_manager, PHOTOS_TYPE_BASE_MANA
 static gchar *
 photos_source_manager_get_filter (PhotosBaseManager *mngr, gint flags)
 {
-  GApplication *app;
   GObject *source;
   const gchar *id;
   gchar *filter;
-
-  app = g_application_get_default ();
-  if (photos_application_get_empty_results (PHOTOS_APPLICATION (app)))
-    {
-      filter = g_strdup ("(false)");
-      goto out;
-    }
 
   if (flags & PHOTOS_QUERY_FLAGS_SEARCH)
     source = photos_base_manager_get_active_object (mngr);
@@ -89,7 +80,6 @@ photos_source_manager_get_filter (PhotosBaseManager *mngr, gint flags)
   else
     filter = photos_filterable_get_filter (PHOTOS_FILTERABLE (source));
 
- out:
   return filter;
 }
 
@@ -117,16 +107,11 @@ photos_source_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar 
 static void
 photos_source_manager_refresh_accounts (PhotosSourceManager *self)
 {
-  GApplication *app;
-  GHashTable *new_sources = NULL;
-  GList *accounts = NULL;
+  GHashTable *new_sources;
+  GList *accounts;
   GList *l;
   guint i;
   guint n_items;
-
-  app = g_application_get_default ();
-  if (photos_application_get_empty_results (PHOTOS_APPLICATION (app)))
-    goto out;
 
   accounts = goa_client_get_accounts (self->client);
   new_sources = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
@@ -200,8 +185,7 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
       g_clear_object (&source);
     }
 
- out:
-  g_clear_pointer (&new_sources, (GDestroyNotify) g_hash_table_unref);
+  g_hash_table_unref (new_sources);
   g_list_free_full (accounts, g_object_unref);
 }
 
