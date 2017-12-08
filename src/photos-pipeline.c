@@ -61,6 +61,8 @@ static const gchar *OPERATIONS[] =
 {
   "gegl:crop",
   "gegl:noise-reduction",
+  "photos:shadows-highlights",
+  "photos:saturation",
   "photos:insta-filter"
 };
 
