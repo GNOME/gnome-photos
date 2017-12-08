@@ -140,11 +140,11 @@ photos_preview_nav_buttons_notify_child_revealed (PhotosPreviewNavButtons *self,
 static void
 photos_preview_nav_buttons_fade_out_button (PhotosPreviewNavButtons *self, GtkWidget *widget)
 {
-  gtk_revealer_set_reveal_child (GTK_REVEALER (widget), FALSE);
   g_signal_connect_swapped (widget,
                             "notify::child-revealed",
                             G_CALLBACK (photos_preview_nav_buttons_notify_child_revealed),
                             self);
+  gtk_revealer_set_reveal_child (GTK_REVEALER (widget), FALSE);
 }
 
 
