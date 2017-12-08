@@ -185,17 +185,16 @@ photos_tracker_change_monitor_cursor_next (GObject *source_object, GAsyncResult 
   PhotosTrackerChangeMonitorQueryData *data = (PhotosTrackerChangeMonitorQueryData *) user_data;
   PhotosTrackerChangeMonitor *self = data->self;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
-  GError *error;
   GHashTableIter iter;
   gboolean valid;
 
-  error = NULL;
-  valid = tracker_sparql_cursor_next_finish (cursor, res, &error);
-  if (error != NULL)
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    valid = tracker_sparql_cursor_next_finish (cursor, res, &error);
+    if (error != NULL)
       g_warning ("Unable to resolve item URNs for graph changes: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   if (valid)
     {
@@ -225,18 +224,19 @@ photos_tracker_change_monitor_query_executed (GObject *source_object, GAsyncResu
 {
   PhotosTrackerChangeMonitorQueryData *data = (PhotosTrackerChangeMonitorQueryData *) user_data;
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
-  GError *error;
-  TrackerSparqlCursor *cursor;
+  TrackerSparqlCursor *cursor; /* TODO: Use g_autoptr */
 
-  error = NULL;
-  cursor = tracker_sparql_connection_query_finish (connection, res, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to resolve item URNs for graph changes: %s", error->message);
-      g_error_free (error);
-      photos_tracker_change_monitor_query_data_free (data);
-      return;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = tracker_sparql_connection_query_finish (connection, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to resolve item URNs for graph changes: %s", error->message);
+        photos_tracker_change_monitor_query_data_free (data);
+        return;
+      }
+  }
 
   tracker_sparql_cursor_next_async (cursor, NULL, photos_tracker_change_monitor_cursor_next, data);
   g_object_unref (cursor);
@@ -249,9 +249,9 @@ photos_tracker_change_monitor_process_events (PhotosTrackerChangeMonitor *self)
   GHashTable *id_table;
   GHashTableIter iter;
   GQueue *events;
-  GString *sparql;
+  g_autoptr (GString) sparql = NULL;
   PhotosTrackerChangeMonitorQueryData *data;
-  PhotosQuery *query = NULL;
+  g_autoptr (PhotosQuery) query = NULL;
   gpointer id;
 
   events = self->pending_events;
@@ -280,8 +280,6 @@ photos_tracker_change_monitor_process_events (PhotosTrackerChangeMonitor *self)
                                data,
                                NULL);
 
-  g_string_free (sparql, TRUE);
-  g_object_unref (query);
   return G_SOURCE_REMOVE;
 }
 
