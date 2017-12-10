@@ -150,7 +150,7 @@ photos_operation_insta_filter_set_preset (PhotosOperationInstaFilter *self, Phot
     return;
 
   self->preset = preset;
-  if (self->input != NULL)
+  if (GEGL_OPERATION (self)->node != NULL)
     photos_operation_insta_filter_setup (self);
 }
 
