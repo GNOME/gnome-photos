@@ -77,9 +77,9 @@ photos_operation_insta_hefe_curve_process (GeglOperation *operation,
       const float r2 = r * r;
       const float r3 = r2 * r;
 
-      out[0] = -13.47f * r3 * r3 + 41.23f * r3 * r2 - 45.04f * r2 * r2 + 19.17 * r3 - 1.492f * r2 + 0.5954f * r;
-      out[1] = -12.28f * g3 * g3 + 41.09f * g3 * g2 - 50.52f * g2 * g2 + 26.03 * g3 - 3.916f * g2 + 0.58f * g;
-      out[2] = -1.066f * b3 * b3 + 9.679f * b3 * b2 - 19.09f * b2 * b2 + 12.92 * b3 - 1.835f * b2 + 0.3487f * b;
+      out[0] = -13.47f * r3 * r3 + 41.23f * r3 * r2 - 45.04f * r2 * r2 + 19.17f * r3 - 1.492f * r2 + 0.5954f * r;
+      out[1] = -12.28f * g3 * g3 + 41.09f * g3 * g2 - 50.52f * g2 * g2 + 26.03f * g3 - 3.916f * g2 + 0.58f * g;
+      out[2] = -1.066f * b3 * b3 + 9.679f * b3 * b2 - 19.09f * b2 * b2 + 12.92f * b3 - 1.835f * b2 + 0.3487f * b;
       out[3] = in[3];
 
       in += 4;
