@@ -56,6 +56,10 @@ photos_operation_insta_filter_setup (PhotosOperationInstaFilter *self)
   GeglOperation *operation = GEGL_OPERATION (self);
   GeglNode *node;
 
+  g_return_if_fail (GEGL_IS_NODE (operation->node));
+  g_return_if_fail (GEGL_IS_NODE (self->input));
+  g_return_if_fail (GEGL_IS_NODE (self->output));
+
   g_list_free_full (self->nodes, g_object_unref);
   self->nodes = NULL;
 
