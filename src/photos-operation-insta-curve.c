@@ -760,12 +760,12 @@ photos_operation_insta_curve_nashville_process_alpha_u8 (GeglOperation *operatio
       out[0] = (guint8) (channel * 255.0f);
 
       channel = in[1] / 255.0f;
-      out[1] = (channel - 0.5f) * contrast + brightness + 0.5f;
+      channel = (channel - 0.5f) * contrast + brightness + 0.5f;
       channel = CLAMP (channel, 0.0f, 1.0f);
       out[1] = (guint8) (channel * 255.0f);
 
       channel = in[2] / 255.0f;
-      out[2] = (channel - 0.5f) * contrast + brightness + 0.5f;
+      channel = (channel - 0.5f) * contrast + brightness + 0.5f;
       channel = CLAMP (channel, 0.0f, 1.0f);
       out[2] = (guint8) (channel * 255.0f);
 
@@ -840,12 +840,12 @@ photos_operation_insta_curve_nashville_process_u8 (GeglOperation *operation,
       out[0] = (guint8) (channel * 255.0f);
 
       channel = in[1] / 255.0f;
-      out[1] = (channel - 0.5f) * contrast + brightness + 0.5f;
+      channel = (channel - 0.5f) * contrast + brightness + 0.5f;
       channel = CLAMP (channel, 0.0f, 1.0f);
       out[1] = (guint8) (channel * 255.0f);
 
       channel = in[2] / 255.0f;
-      out[2] = (channel - 0.5f) * contrast + brightness + 0.5f;
+      channel = (channel - 0.5f) * contrast + brightness + 0.5f;
       channel = CLAMP (channel, 0.0f, 1.0f);
       out[2] = (guint8) (channel * 255.0f);
 
