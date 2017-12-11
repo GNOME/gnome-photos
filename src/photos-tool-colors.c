@@ -39,11 +39,10 @@ struct _PhotosToolColors
 {
   PhotosTool parent_instance;
   GAction *blacks_exposure;
-  GAction *brightness_contrast;
+  GAction *contrast;
   GAction *saturation;
   GAction *shadows_highlights;
   GtkWidget *blacks_scale;
-  GtkWidget *brightness_scale;
   GtkWidget *contrast_scale;
   GtkWidget *exposure_scale;
   GtkWidget *grid;
@@ -51,7 +50,7 @@ struct _PhotosToolColors
   GtkWidget *saturation_scale;
   GtkWidget *shadows_scale;
   guint blacks_exposure_value_changed_id;
-  guint brightness_contrast_value_changed_id;
+  guint contrast_value_changed_id;
   guint saturation_value_changed_id;
   guint shadows_highlights_value_changed_id;
 };
@@ -69,10 +68,6 @@ static const gdouble BLACKS_DEFAULT = 0.0;
 static const gdouble BLACKS_MAXIMUM = 0.1;
 static const gdouble BLACKS_MINIMUM = -0.1;
 static const gdouble BLACKS_STEP = 0.01;
-static const gdouble BRIGHTNESS_DEFAULT = 0.0;
-static const gdouble BRIGHTNESS_MAXIMUM = 0.5;
-static const gdouble BRIGHTNESS_MINIMUM = -0.5;
-static const gdouble BRIGHTNESS_STEP = 0.05;
 static const gdouble CONTRAST_DEFAULT = 0.0;
 static const gdouble CONTRAST_MAXIMUM = 1.0;
 static const gdouble CONTRAST_MINIMUM = -1.0;
@@ -117,24 +112,19 @@ photos_tool_colors_blacks_exposure_value_changed_timeout (gpointer user_data)
 
 
 static gboolean
-photos_tool_colors_brightness_contrast_value_changed_timeout (gpointer user_data)
+photos_tool_colors_contrast_value_changed_timeout (gpointer user_data)
 {
   PhotosToolColors *self = PHOTOS_TOOL_COLORS (user_data);
-  GVariantBuilder parameter;
-  gdouble brightness;
+  GVariant *parameter;
   gdouble contrast;
   gdouble contrast_real;
 
-  brightness = gtk_range_get_value (GTK_RANGE (self->brightness_scale));
   contrast = gtk_range_get_value (GTK_RANGE (self->contrast_scale));
-
   contrast_real = pow (2.0, contrast);
-  g_variant_builder_init (&parameter, G_VARIANT_TYPE ("a{sd}"));
-  g_variant_builder_add (&parameter, "{sd}", "brightness", brightness);
-  g_variant_builder_add (&parameter, "{sd}", "contrast", contrast_real);
-  g_action_activate (self->brightness_contrast, g_variant_builder_end (&parameter));
+  parameter = g_variant_new_double (contrast_real);
+  g_action_activate (self->contrast, parameter);
 
-  self->brightness_contrast_value_changed_id = 0;
+  self->contrast_value_changed_id = 0;
   return G_SOURCE_REMOVE;
 }
 
@@ -196,15 +186,12 @@ photos_tool_colors_blacks_exposure_value_changed (PhotosToolColors *self)
 
 
 static void
-photos_tool_colors_brightness_contrast_value_changed (PhotosToolColors *self)
+photos_tool_colors_contrast_value_changed (PhotosToolColors *self)
 {
-  if (self->brightness_contrast_value_changed_id != 0)
-    g_source_remove (self->brightness_contrast_value_changed_id);
+  if (self->contrast_value_changed_id != 0)
+    g_source_remove (self->contrast_value_changed_id);
 
-  self->brightness_contrast_value_changed_id
-    = g_timeout_add (150,
-                     photos_tool_colors_brightness_contrast_value_changed_timeout,
-                     self);
+  self->contrast_value_changed_id = g_timeout_add (150, photos_tool_colors_contrast_value_changed_timeout, self);
 }
 
 
@@ -238,7 +225,6 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImage
 {
   PhotosToolColors *self = PHOTOS_TOOL_COLORS (tool);
   gdouble blacks;
-  gdouble brightness;
   gdouble contrast;
   gdouble contrast_real;
   gdouble exposure;
@@ -250,7 +236,6 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImage
 
   if (photos_base_item_operation_get (item,
                                       "gegl:brightness-contrast",
-                                      "brightness", &brightness,
                                       "contrast", &contrast_real,
                                       NULL))
     {
@@ -258,7 +243,6 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImage
     }
   else
     {
-      brightness = BRIGHTNESS_DEFAULT;
       contrast = CONTRAST_DEFAULT;
     }
 
@@ -287,7 +271,6 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImage
     }
 
   blacks = CLAMP (blacks, BLACKS_MINIMUM, BLACKS_MAXIMUM);
-  brightness = CLAMP (brightness, BRIGHTNESS_MINIMUM, BRIGHTNESS_MAXIMUM);
   contrast = CLAMP (contrast, CONTRAST_MINIMUM, CONTRAST_MAXIMUM);
   exposure = CLAMP (exposure, EXPOSURE_MINIMUM, EXPOSURE_MAXIMUM);
   highlights = CLAMP (highlights, HIGHLIGHTS_MINIMUM, HIGHLIGHTS_MAXIMUM);
@@ -295,29 +278,22 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImage
   shadows = CLAMP (shadows, SHADOWS_MINIMUM, SHADOWS_MAXIMUM);
 
   g_signal_handlers_block_by_func (self->blacks_scale, photos_tool_colors_blacks_exposure_value_changed, self);
-  g_signal_handlers_block_by_func (self->brightness_scale,
-                                   photos_tool_colors_brightness_contrast_value_changed,
-                                   self);
   g_signal_handlers_block_by_func (self->contrast_scale,
-                                   photos_tool_colors_brightness_contrast_value_changed,
+                                   photos_tool_colors_contrast_value_changed,
                                    self);
   g_signal_handlers_block_by_func (self->exposure_scale, photos_tool_colors_blacks_exposure_value_changed, self);
   g_signal_handlers_block_by_func (self->highlights_scale, photos_tool_colors_shadows_highlights_value_changed, self);
   g_signal_handlers_block_by_func (self->saturation_scale, photos_tool_colors_saturation_value_changed, self);
   g_signal_handlers_block_by_func (self->shadows_scale, photos_tool_colors_shadows_highlights_value_changed, self);
   gtk_range_set_value (GTK_RANGE (self->blacks_scale), blacks);
-  gtk_range_set_value (GTK_RANGE (self->brightness_scale), brightness);
   gtk_range_set_value (GTK_RANGE (self->contrast_scale), contrast);
   gtk_range_set_value (GTK_RANGE (self->exposure_scale), exposure);
   gtk_range_set_value (GTK_RANGE (self->highlights_scale), highlights);
   gtk_range_set_value (GTK_RANGE (self->saturation_scale), saturation);
   gtk_range_set_value (GTK_RANGE (self->shadows_scale), shadows);
   g_signal_handlers_unblock_by_func (self->blacks_scale, photos_tool_colors_blacks_exposure_value_changed, self);
-  g_signal_handlers_unblock_by_func (self->brightness_scale,
-                                     photos_tool_colors_brightness_contrast_value_changed,
-                                     self);
   g_signal_handlers_unblock_by_func (self->contrast_scale,
-                                     photos_tool_colors_brightness_contrast_value_changed,
+                                     photos_tool_colors_contrast_value_changed,
                                      self);
   g_signal_handlers_unblock_by_func (self->exposure_scale, photos_tool_colors_blacks_exposure_value_changed, self);
   g_signal_handlers_unblock_by_func (self->highlights_scale, photos_tool_colors_shadows_highlights_value_changed, self);
@@ -355,8 +331,8 @@ photos_tool_colors_finalize (GObject *object)
   if (self->blacks_exposure_value_changed_id != 0)
     g_source_remove (self->blacks_exposure_value_changed_id);
 
-  if (self->brightness_contrast_value_changed_id != 0)
-    g_source_remove (self->brightness_contrast_value_changed_id);
+  if (self->contrast_value_changed_id != 0)
+    g_source_remove (self->contrast_value_changed_id);
 
   if (self->saturation_value_changed_id != 0)
     g_source_remove (self->saturation_value_changed_id);
@@ -378,35 +354,13 @@ photos_tool_colors_init (PhotosToolColors *self)
 
   app = g_application_get_default ();
   self->blacks_exposure = g_action_map_lookup_action (G_ACTION_MAP (app), "blacks-exposure-current");
-  self->brightness_contrast = g_action_map_lookup_action (G_ACTION_MAP (app), "brightness-contrast-current");
+  self->contrast = g_action_map_lookup_action (G_ACTION_MAP (app), "contrast-current");
   self->saturation = g_action_map_lookup_action (G_ACTION_MAP (app), "saturation-current");
   self->shadows_highlights = g_action_map_lookup_action (G_ACTION_MAP (app), "shadows-highlights-current");
 
   self->grid = g_object_ref_sink (gtk_grid_new ());
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self->grid), GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing (GTK_GRID (self->grid), 12);
-
-  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
-  gtk_container_add (GTK_CONTAINER (self->grid), box);
-
-  label = gtk_label_new (_("Brightness"));
-  gtk_widget_set_halign (label, GTK_ALIGN_START);
-  context = gtk_widget_get_style_context (label);
-  gtk_style_context_add_class (context, "dim-label");
-  gtk_container_add (GTK_CONTAINER (box), label);
-
-  self->brightness_scale = gtk_scale_new_with_range (GTK_ORIENTATION_HORIZONTAL,
-                                                     BRIGHTNESS_MINIMUM,
-                                                     BRIGHTNESS_MAXIMUM,
-                                                     BRIGHTNESS_STEP);
-  gtk_widget_set_hexpand (self->brightness_scale, TRUE);
-  gtk_scale_add_mark (GTK_SCALE (self->brightness_scale), BRIGHTNESS_DEFAULT, GTK_POS_BOTTOM, NULL);
-  gtk_scale_set_draw_value (GTK_SCALE (self->brightness_scale), FALSE);
-  gtk_container_add (GTK_CONTAINER (box), self->brightness_scale);
-  g_signal_connect_swapped (self->brightness_scale,
-                            "value-changed",
-                            G_CALLBACK (photos_tool_colors_brightness_contrast_value_changed),
-                            self);
 
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
   gtk_container_add (GTK_CONTAINER (self->grid), box);
@@ -448,7 +402,7 @@ photos_tool_colors_init (PhotosToolColors *self)
   gtk_container_add (GTK_CONTAINER (box), self->contrast_scale);
   g_signal_connect_swapped (self->contrast_scale,
                             "value-changed",
-                            G_CALLBACK (photos_tool_colors_brightness_contrast_value_changed),
+                            G_CALLBACK (photos_tool_colors_contrast_value_changed),
                             self);
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
   gtk_container_add (GTK_CONTAINER (self->grid), box);

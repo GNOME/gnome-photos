@@ -83,7 +83,7 @@ struct _PhotosApplication
   GSettings *bg_settings;
   GSettings *ss_settings;
   GSimpleAction *blacks_exposure_action;
-  GSimpleAction *brightness_contrast_action;
+  GSimpleAction *contrast_action;
   GSimpleAction *crop_action;
   GSimpleAction *delete_action;
   GSimpleAction *denoise_action;
@@ -363,7 +363,7 @@ photos_application_actions_update (PhotosApplication *self)
 
   enable = (mode == PHOTOS_WINDOW_MODE_EDIT);
   g_simple_action_set_enabled (self->blacks_exposure_action, enable);
-  g_simple_action_set_enabled (self->brightness_contrast_action, enable);
+  g_simple_action_set_enabled (self->contrast_action, enable);
   g_simple_action_set_enabled (self->crop_action, enable);
   g_simple_action_set_enabled (self->denoise_action, enable);
   g_simple_action_set_enabled (self->edit_cancel_action, enable);
@@ -1917,8 +1917,8 @@ photos_application_startup (GApplication *application)
   self->blacks_exposure_action = g_simple_action_new ("blacks-exposure-current", G_VARIANT_TYPE ("a{sd}"));
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->blacks_exposure_action));
 
-  self->brightness_contrast_action = g_simple_action_new ("brightness-contrast-current", G_VARIANT_TYPE ("a{sd}"));
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->brightness_contrast_action));
+  self->contrast_action = g_simple_action_new ("contrast-current", G_VARIANT_TYPE_DOUBLE);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->contrast_action));
 
   self->crop_action = g_simple_action_new ("crop-current", G_VARIANT_TYPE ("a{sd}"));
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->crop_action));
@@ -2152,7 +2152,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->bg_settings);
   g_clear_object (&self->ss_settings);
   g_clear_object (&self->blacks_exposure_action);
-  g_clear_object (&self->brightness_contrast_action);
+  g_clear_object (&self->contrast_action);
   g_clear_object (&self->crop_action);
   g_clear_object (&self->delete_action);
   g_clear_object (&self->denoise_action);

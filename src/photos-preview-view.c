@@ -597,37 +597,21 @@ photos_preview_view_blacks_exposure (PhotosPreviewView *self, GVariant *paramete
 
 
 static void
-photos_preview_view_brightness_contrast (PhotosPreviewView *self, GVariant *parameter)
+photos_preview_view_contrast (PhotosPreviewView *self, GVariant *parameter)
 {
-  GVariantIter iter;
   PhotosBaseItem *item;
-  const gchar *key;
-  gdouble brightness = -G_MAXDOUBLE;
-  gdouble contrast = -G_MAXDOUBLE;
-  gdouble value;
+  gdouble contrast;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   if (item == NULL)
     return;
 
-  g_variant_iter_init (&iter, parameter);
-  while (g_variant_iter_next (&iter, "{&sd}", &key, &value))
-    {
-      if (g_strcmp0 (key, "brightness") == 0)
-        brightness = value;
-      else if (g_strcmp0 (key, "contrast") == 0)
-        contrast = value;
-    }
-
-  g_return_if_fail (brightness > -G_MAXDOUBLE);
-  g_return_if_fail (contrast > -G_MAXDOUBLE);
-
+  contrast = g_variant_get_double (parameter);
   photos_base_item_operation_add_async (item,
                                         self->cancellable,
                                         photos_preview_view_process,
                                         self,
                                         "gegl:brightness-contrast",
-                                        "brightness", brightness,
                                         "contrast", contrast,
                                         NULL);
 }
@@ -1336,10 +1320,10 @@ photos_preview_view_init (PhotosPreviewView *self)
                            self,
                            G_CONNECT_SWAPPED);
 
-  action = g_action_map_lookup_action (G_ACTION_MAP (app), "brightness-contrast-current");
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "contrast-current");
   g_signal_connect_object (action,
                            "activate",
-                           G_CALLBACK (photos_preview_view_brightness_contrast),
+                           G_CALLBACK (photos_preview_view_contrast),
                            self,
                            G_CONNECT_SWAPPED);
 
