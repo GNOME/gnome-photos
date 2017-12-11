@@ -442,7 +442,7 @@ photos_operation_insta_curve_brannan_process_alpha_float (GeglOperation *operati
 
   for (i = 0; i < n_pixels; i++)
     {
-      const gfloat saturation = 0.1;
+      const gfloat saturation = 0.1f;
       guint max;
 
       out[0] = photos_operation_insta_curve_interpolate (in[0], BRANNAN_R, BRANNAN_A);
@@ -453,13 +453,13 @@ photos_operation_insta_curve_brannan_process_alpha_float (GeglOperation *operati
       max = (out[max] > out[2]) ? max : 2;
 
       if (max != 0)
-        out[0] += (guint8) ((out[max] - out[0]) * saturation + 0.5);
+        out[0] += (guint8) ((out[max] - out[0]) * saturation + 0.5f);
 
       if (max != 1)
-        out[1] += (guint8) ((out[max] - out[1]) * saturation + 0.5);
+        out[1] += (guint8) ((out[max] - out[1]) * saturation + 0.5f);
 
       if (max != 2)
-        out[2] += (guint8) ((out[max] - out[2]) * saturation + 0.5);
+        out[2] += (guint8) ((out[max] - out[2]) * saturation + 0.5f);
 
       out[3] = in[3];
 
@@ -483,7 +483,7 @@ photos_operation_insta_curve_brannan_process_alpha_u8 (GeglOperation *operation,
 
   for (i = 0; i < n_pixels; i++)
     {
-      const gfloat saturation = 0.1;
+      const gfloat saturation = 0.1f;
       guint max;
 
       out[0] = BRANNAN_R[in[0]];
@@ -498,13 +498,13 @@ photos_operation_insta_curve_brannan_process_alpha_u8 (GeglOperation *operation,
       max = (out[max] > out[2]) ? max : 2;
 
       if (max != 0)
-        out[0] += (guint8) ((out[max] - out[0]) * saturation + 0.5);
+        out[0] += (guint8) ((out[max] - out[0]) * saturation + 0.5f);
 
       if (max != 1)
-        out[1] += (guint8) ((out[max] - out[1]) * saturation + 0.5);
+        out[1] += (guint8) ((out[max] - out[1]) * saturation + 0.5f);
 
       if (max != 2)
-        out[2] += (guint8) ((out[max] - out[2]) * saturation + 0.5);
+        out[2] += (guint8) ((out[max] - out[2]) * saturation + 0.5f);
 
       out[3] = in[3];
 
@@ -528,7 +528,7 @@ photos_operation_insta_curve_brannan_process_float (GeglOperation *operation,
 
   for (i = 0; i < n_pixels; i++)
     {
-      const gfloat saturation = 0.1;
+      const gfloat saturation = 0.1f;
       guint max;
 
       out[0] = photos_operation_insta_curve_interpolate (in[0], BRANNAN_R, BRANNAN_A);
@@ -539,13 +539,13 @@ photos_operation_insta_curve_brannan_process_float (GeglOperation *operation,
       max = (out[max] > out[2]) ? max : 2;
 
       if (max != 0)
-        out[0] += (guint8) ((out[max] - out[0]) * saturation + 0.5);
+        out[0] += (guint8) ((out[max] - out[0]) * saturation + 0.5f);
 
       if (max != 1)
-        out[1] += (guint8) ((out[max] - out[1]) * saturation + 0.5);
+        out[1] += (guint8) ((out[max] - out[1]) * saturation + 0.5f);
 
       if (max != 2)
-        out[2] += (guint8) ((out[max] - out[2]) * saturation + 0.5);
+        out[2] += (guint8) ((out[max] - out[2]) * saturation + 0.5f);
 
       in += 3;
       out += 3;
@@ -567,7 +567,7 @@ photos_operation_insta_curve_brannan_process_u8 (GeglOperation *operation,
 
   for (i = 0; i < n_pixels; i++)
     {
-      const gfloat saturation = 0.1;
+      const gfloat saturation = 0.1f;
       guint max;
 
       out[0] = BRANNAN_R[in[0]];
@@ -582,13 +582,13 @@ photos_operation_insta_curve_brannan_process_u8 (GeglOperation *operation,
       max = (out[max] > out[2]) ? max : 2;
 
       if (max != 0)
-        out[0] += (guint8) ((out[max] - out[0]) * saturation + 0.5);
+        out[0] += (guint8) ((out[max] - out[0]) * saturation + 0.5f);
 
       if (max != 1)
-        out[1] += (guint8) ((out[max] - out[1]) * saturation + 0.5);
+        out[1] += (guint8) ((out[max] - out[1]) * saturation + 0.5f);
 
       if (max != 2)
-        out[2] += (guint8) ((out[max] - out[2]) * saturation + 0.5);
+        out[2] += (guint8) ((out[max] - out[2]) * saturation + 0.5f);
 
       in += 3;
       out += 3;
@@ -717,12 +717,12 @@ photos_operation_insta_curve_nashville_process_alpha_float (GeglOperation *opera
 
   for (i = 0; i < n_pixels; i++)
     {
-      const gfloat brightness = -0.05;
-      const gfloat contrast = 1.1;
+      const gfloat brightness = -0.05f;
+      const gfloat contrast = 1.1f;
 
-      out[0] = (in[0] - 0.5f) * contrast + brightness + 0.5;
-      out[1] = (in[1] - 0.5f) * contrast + brightness + 0.5;
-      out[2] = (in[2] - 0.5f) * contrast + brightness + 0.5;
+      out[0] = (in[0] - 0.5f) * contrast + brightness + 0.5f;
+      out[1] = (in[1] - 0.5f) * contrast + brightness + 0.5f;
+      out[2] = (in[2] - 0.5f) * contrast + brightness + 0.5f;
 
       out[0] = photos_operation_insta_curve_interpolate (out[0], NASHVILLE_R, NASHVILLE_A);
       out[1] = photos_operation_insta_curve_interpolate (out[1], NASHVILLE_G, NASHVILLE_A);
@@ -750,24 +750,24 @@ photos_operation_insta_curve_nashville_process_alpha_u8 (GeglOperation *operatio
 
   for (i = 0; i < n_pixels; i++)
     {
-      const gfloat brightness = -0.05;
-      const gfloat contrast = 1.1;
+      const gfloat brightness = -0.05f;
+      const gfloat contrast = 1.1f;
       gfloat channel;
 
-      channel = in[0] / 255.0;
-      channel = (channel - 0.5f) * contrast + brightness + 0.5;
-      channel = CLAMP (channel, 0.0, 1.0);
-      out[0] = (guint8) (channel * 255.0);
+      channel = in[0] / 255.0f;
+      channel = (channel - 0.5f) * contrast + brightness + 0.5f;
+      channel = CLAMP (channel, 0.0f, 1.0f);
+      out[0] = (guint8) (channel * 255.0f);
 
-      channel = in[1] / 255.0;
-      out[1] = (channel - 0.5f) * contrast + brightness + 0.5;
-      channel = CLAMP (channel, 0.0, 1.0);
-      out[1] = (guint8) (channel * 255.0);
+      channel = in[1] / 255.0f;
+      out[1] = (channel - 0.5f) * contrast + brightness + 0.5f;
+      channel = CLAMP (channel, 0.0f, 1.0f);
+      out[1] = (guint8) (channel * 255.0f);
 
-      channel = in[2] / 255.0;
-      out[2] = (channel - 0.5f) * contrast + brightness + 0.5;
-      channel = CLAMP (channel, 0.0, 1.0);
-      out[2] = (guint8) (channel * 255.0);
+      channel = in[2] / 255.0f;
+      out[2] = (channel - 0.5f) * contrast + brightness + 0.5f;
+      channel = CLAMP (channel, 0.0f, 1.0f);
+      out[2] = (guint8) (channel * 255.0f);
 
       out[0] = NASHVILLE_R[out[0]];
       out[1] = NASHVILLE_G[out[1]];
@@ -799,12 +799,12 @@ photos_operation_insta_curve_nashville_process_float (GeglOperation *operation,
 
   for (i = 0; i < n_pixels; i++)
     {
-      const gfloat brightness = -0.05;
-      const gfloat contrast = 1.1;
+      const gfloat brightness = -0.05f;
+      const gfloat contrast = 1.1f;
 
-      out[0] = (in[0] - 0.5f) * contrast + brightness + 0.5;
-      out[1] = (in[1] - 0.5f) * contrast + brightness + 0.5;
-      out[2] = (in[2] - 0.5f) * contrast + brightness + 0.5;
+      out[0] = (in[0] - 0.5f) * contrast + brightness + 0.5f;
+      out[1] = (in[1] - 0.5f) * contrast + brightness + 0.5f;
+      out[2] = (in[2] - 0.5f) * contrast + brightness + 0.5f;
 
       out[0] = photos_operation_insta_curve_interpolate (out[0], NASHVILLE_R, NASHVILLE_A);
       out[1] = photos_operation_insta_curve_interpolate (out[1], NASHVILLE_G, NASHVILLE_A);
@@ -830,24 +830,24 @@ photos_operation_insta_curve_nashville_process_u8 (GeglOperation *operation,
 
   for (i = 0; i < n_pixels; i++)
     {
-      const gfloat brightness = -0.05;
-      const gfloat contrast = 1.1;
+      const gfloat brightness = -0.05f;
+      const gfloat contrast = 1.1f;
       gfloat channel;
 
-      channel = in[0] / 255.0;
-      channel = (channel - 0.5f) * contrast + brightness + 0.5;
-      channel = CLAMP (channel, 0.0, 1.0);
-      out[0] = (guint8) (channel * 255.0);
+      channel = in[0] / 255.0f;
+      channel = (channel - 0.5f) * contrast + brightness + 0.5f;
+      channel = CLAMP (channel, 0.0f, 1.0f);
+      out[0] = (guint8) (channel * 255.0f);
 
-      channel = in[1] / 255.0;
-      out[1] = (channel - 0.5f) * contrast + brightness + 0.5;
-      channel = CLAMP (channel, 0.0, 1.0);
-      out[1] = (guint8) (channel * 255.0);
+      channel = in[1] / 255.0f;
+      out[1] = (channel - 0.5f) * contrast + brightness + 0.5f;
+      channel = CLAMP (channel, 0.0f, 1.0f);
+      out[1] = (guint8) (channel * 255.0f);
 
-      channel = in[2] / 255.0;
-      out[2] = (channel - 0.5f) * contrast + brightness + 0.5;
-      channel = CLAMP (channel, 0.0, 1.0);
-      out[2] = (guint8) (channel * 255.0);
+      channel = in[2] / 255.0f;
+      out[2] = (channel - 0.5f) * contrast + brightness + 0.5f;
+      channel = CLAMP (channel, 0.0f, 1.0f);
+      out[2] = (guint8) (channel * 255.0f);
 
       out[0] = NASHVILLE_R[out[0]];
       out[1] = NASHVILLE_G[out[1]];
