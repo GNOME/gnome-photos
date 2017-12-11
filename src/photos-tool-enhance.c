@@ -53,10 +53,10 @@ G_DEFINE_TYPE_WITH_CODE (PhotosToolEnhance, photos_tool_enhance, PHOTOS_TYPE_TOO
                                                          300));
 
 
-static const gdouble DENOISE_ITERATIONS_DEFAULT = 0.0;
-static const gdouble DENOISE_ITERATIONS_MAXIMUM = 16.0;
-static const gdouble DENOISE_ITERATIONS_MINIMUM = 0.0;
-static const gdouble DENOISE_ITERATIONS_STEP = 1.0;
+static const gint DENOISE_ITERATIONS_DEFAULT = 0;
+static const gint DENOISE_ITERATIONS_MAXIMUM = 16;
+static const gint DENOISE_ITERATIONS_MINIMUM = 0;
+static const gint DENOISE_ITERATIONS_STEP = 1;
 static const gdouble SHARPEN_SCALE_DEFAULT = 0.0;
 static const gdouble SHARPEN_SCALE_MAXIMUM = 10.0;
 static const gdouble SHARPEN_SCALE_MINIMUM = 0.0;
