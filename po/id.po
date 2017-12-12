@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-11-28 07:02+0000\n"
-"PO-Revision-Date: 2017-11-28 16:26+0700\n"
-"Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
+"POT-Creation-Date: 2017-12-11 17:13+0000\n"
+"PO-Revision-Date: 2017-12-12 18:49+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.5\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-embed.c:724 src/photos-search-type-manager.c:130
@@ -116,15 +116,19 @@ msgstr "Jendela dimaksimalkan"
 msgid "Window maximized state"
 msgstr "Keadaan termaksimalkan jendela"
 
-#: src/photos-application.c:160
+#: src/photos-application.c:162
+msgid "Show the empty state"
+msgstr "Tampilkan keadaan kosong"
+
+#: src/photos-application.c:163
 msgid "Show the application's version"
 msgstr "Tampilkan versi aplikasi"
 
-#: src/photos-base-item.c:650
+#: src/photos-base-item.c:634
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2778
+#: src/photos-base-item.c:2688
 msgid "Screenshots"
 msgstr "Cuplikan Layar"
 
@@ -441,7 +445,7 @@ msgstr "Foto-foto Anda sedang diindeks"
 msgid "Some photos might not be available during this process"
 msgstr "Beberapa foto mungkin tak tersedia selama proses ini"
 
-#: src/photos-local-item.c:177 src/photos-source-manager.c:251
+#: src/photos-local-item.c:172 src/photos-source-manager.c:267
 msgid "Local"
 msgstr "Lokal"
 
@@ -570,7 +574,7 @@ msgstr "Properti"
 msgid "Printing “%s”: %s"
 msgstr "Mencetak “%s”: %s"
 
-#: src/photos-print-operation.c:266
+#: src/photos-print-operation.c:259
 msgid "Image Settings"
 msgstr "Tatanan Gambar"
 
@@ -698,7 +702,7 @@ msgstr "Lokasi"
 msgid "Camera"
 msgstr "Kamera"
 
-#: src/photos-properties-dialog.c:537 src/photos-tool-colors.c:335
+#: src/photos-properties-dialog.c:537 src/photos-tool-colors.c:368
 msgid "Exposure"
 msgstr "Eksposur"
 
@@ -735,7 +739,7 @@ msgid "Discard all Edits"
 msgstr "Buang semua Suntingan"
 
 #: src/photos-search-match-manager.c:157 src/photos-search-type-manager.c:107
-#: src/photos-source-manager.c:247
+#: src/photos-source-manager.c:263
 msgid "All"
 msgstr "Semua"
 
@@ -804,7 +808,7 @@ msgstr "Gagal mengunggah foto: Layanan tidak diotorisasi"
 msgid "Failed to upload photo"
 msgstr "Gagal mengunggah foto"
 
-#: src/photos-source-manager.c:300
+#: src/photos-source-manager.c:316
 msgid "Sources"
 msgstr "Sumber"
 
@@ -820,23 +824,27 @@ msgstr "Kredensial Anda %s telah kedaluwarsa"
 msgid "D-Bus address to use"
 msgstr "Alamat D-Bus untuk digunakan"
 
-#: src/photos-tool-colors.c:313
-msgid "Brightness"
-msgstr "Kecerahan"
-
-#: src/photos-tool-colors.c:356
+#: src/photos-tool-colors.c:389
 msgid "Contrast"
 msgstr "Kontras"
 
-#: src/photos-tool-colors.c:377
+#: src/photos-tool-colors.c:410
 msgid "Blacks"
 msgstr "Kegelapan"
 
-#: src/photos-tool-colors.c:398
+#: src/photos-tool-colors.c:431
 msgid "Saturation"
 msgstr "Saturasi"
 
-#: src/photos-tool-colors.c:426
+#: src/photos-tool-colors.c:450
+msgid "Shadows"
+msgstr "Bayangan"
+
+#: src/photos-tool-colors.c:469
+msgid "Highlights"
+msgstr "Sorotan"
+
+#: src/photos-tool-colors.c:498
 msgid "Colors"
 msgstr "Warna"
 
@@ -876,23 +884,23 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: src/photos-tool-crop.c:1295
+#: src/photos-tool-crop.c:1291
 msgid "Lock aspect ratio"
 msgstr "Kunci rasio aspek"
 
-#: src/photos-tool-crop.c:1365
+#: src/photos-tool-crop.c:1361
 msgid "Landscape"
 msgstr "Lanskap"
 
-#: src/photos-tool-crop.c:1376
+#: src/photos-tool-crop.c:1372
 msgid "Portrait"
 msgstr "Potret"
 
-#: src/photos-tool-crop.c:1387
+#: src/photos-tool-crop.c:1383
 msgid "Reset"
 msgstr "Reset"
 
-#: src/photos-tool-crop.c:1407
+#: src/photos-tool-crop.c:1403
 msgid "Crop"
 msgstr "Potong"
 
@@ -941,24 +949,3 @@ msgstr "Penyaring"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Tak bisa menambil daftar foto"
-
-#~ msgid ""
-#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#~ "Copyright © 2014 – 2015 Pranav Kant\n"
-#~ "Copyright © 2012 – 2017 Red Hat, Inc."
-#~ msgstr ""
-#~ "Hak Cipta © 2013 Intel Corporation. Semua hak dilindungi.\n"
-#~ "Hak Cipta © 2014 - 2015 Pranav Kant\n"
-#~ "Hak Cipta © 2012 - 2017 Red Hat, Inc."
-
-#~ msgid "Cannot locate property %s in class %s"
-#~ msgstr "Tidak dapat menemukan properti %s di kelas %s"
-
-#~ msgid "Failed to find property %s in %s"
-#~ msgstr "Gagal menemukan properti %s di %s"
-
-#~ msgid "Failed to find property %s in %s or parent %s"
-#~ msgstr "Gagal menemukan properti %s di %s atau induk %s"
-
-#~ msgid "Failed to retrieve va_list value: %s"
-#~ msgstr "Gagal mengambil nilai va_list: %s"
