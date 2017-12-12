@@ -1,3 +1,25 @@
+Overview of changes in 3.27.3
+=============================
+
+* Support shadows and highlights adjustment (788201)
+
+* Bugs fixed:
+ 781736 Items with embedded orientation are slow to load
+ 785376 The link "Settings" in the "No Photos Found" screen does not work
+ 788174 Use g_auto*
+ 789196 Complete support for EXIF orientation values when rendering
+ 789977 Log the total processing time for the GeglProcessor
+ 791082 Drop unnecessary packed attribute
+
+* Updated translations:
+ Croatian
+ Czech
+ Friulian
+ German
+ Indonesian
+ Norwegian bokmål
+
+
 Overview of changes in 3.27.1
 =============================
 
