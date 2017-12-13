@@ -116,14 +116,19 @@ gchar *
 photos_utils_convert_path_to_uri (const gchar *path)
 {
   g_autoptr (GFile) file = NULL;
-  gchar *uri;
+  gchar *uri = NULL;
 
   if (path == NULL)
-    return g_strdup ("");
+    {
+      uri = g_strdup ("");
+      goto out;
+    }
 
   file = g_file_new_for_path (path);
   uri = g_file_get_uri (file);
 
+ out:
+  g_return_val_if_fail (uri != NULL, NULL);
   return uri;
 }
 
