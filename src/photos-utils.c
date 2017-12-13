@@ -393,13 +393,11 @@ photos_utils_create_zoom_target_value (gdouble delta, PhotosZoomEvent event)
   GVariant *delta_value;
   GVariant *event_nick_value;
   GVariant *ret_val = NULL;
-  GVariantBuilder builder;
+  g_auto (GVariantBuilder) builder = G_VARIANT_BUILDER_INIT (G_VARIANT_TYPE_VARDICT);
   const gchar *event_nick = "none";
 
   g_return_val_if_fail (delta >= 0.0, NULL);
   g_return_val_if_fail (event != PHOTOS_ZOOM_EVENT_NONE, NULL);
-
-  g_variant_builder_init (&builder, G_VARIANT_TYPE_VARDICT);
 
   delta_value = g_variant_new_double (delta);
   g_variant_builder_add (&builder, "{sv}", "delta", delta_value);
