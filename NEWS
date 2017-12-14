@@ -1,3 +1,13 @@
+Overview of changes in 3.26.3
+=============================
+
+* Bugs fixed:
+ 785376 The link "Settings" in the "No Photos Found" screen does not work
+
+* Updated translations:
+ Norwegian bokmål
+
+
 Overview of changes in 3.26.2
 =============================
 
