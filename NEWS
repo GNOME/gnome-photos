@@ -1,3 +1,10 @@
+Overview of changes in 3.24.5
+=============================
+
+* Bugs fixed:
+ 785376 The link "Settings" in the "No Photos Found" screen does not work
+
+
 Overview of changes in 3.24.4
 =============================
 
