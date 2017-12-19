@@ -994,8 +994,8 @@ photos_utils_get_controller (PhotosWindowMode mode,
                              PhotosOffsetController **out_offset_cntrlr,
                              PhotosTrackerController **out_trk_cntrlr)
 {
-  PhotosOffsetController *offset_cntrlr = NULL;
-  PhotosTrackerController *trk_cntrlr = NULL;
+  g_autoptr (PhotosOffsetController) offset_cntrlr = NULL;
+  g_autoptr (PhotosTrackerController) trk_cntrlr = NULL;
 
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT);
@@ -1041,16 +1041,13 @@ photos_utils_get_controller (PhotosWindowMode mode,
 
   if (out_trk_cntrlr != NULL)
     g_set_object (out_trk_cntrlr, trk_cntrlr);
-
-  g_clear_object (&offset_cntrlr);
-  g_clear_object (&trk_cntrlr);
 }
 
 
 gchar *
 photos_utils_get_extension_from_mime_type (const gchar *mime_type)
 {
-  GSList *formats;
+  g_autoptr (GSList) formats = NULL;
   GSList *l;
   gchar *ret_val = NULL;
 
@@ -1059,7 +1056,7 @@ photos_utils_get_extension_from_mime_type (const gchar *mime_type)
   for (l = formats; l != NULL; l = l->next)
     {
       GdkPixbufFormat *format = (GdkPixbufFormat*) l->data;
-      gchar **supported_mime_types;
+      g_auto (GStrv) supported_mime_types = NULL;
       guint i;
 
       supported_mime_types = gdk_pixbuf_format_get_mime_types (format);
@@ -1072,12 +1069,10 @@ photos_utils_get_extension_from_mime_type (const gchar *mime_type)
             }
         }
 
-      g_strfreev (supported_mime_types);
       if (ret_val != NULL)
         break;
     }
 
-  g_slist_free (formats);
   return ret_val;
 }
 
@@ -1106,7 +1101,7 @@ photos_utils_get_icon_size_unscaled (void)
 gchar *
 photos_utils_get_pixbuf_common_suffix (GdkPixbufFormat *format)
 {
-  gchar **extensions;
+  g_auto (GStrv) extensions = NULL;
   gchar *result = NULL;
   gint i;
 
@@ -1131,8 +1126,6 @@ photos_utils_get_pixbuf_common_suffix (GdkPixbufFormat *format)
   if (result == NULL)
     result = g_ascii_strdown (extensions[0], -1);
 
-  g_strfreev (extensions);
-
   return result;
 }
 
@@ -1156,7 +1149,7 @@ photos_utils_get_selection_mode (void)
 {
   GAction *action;
   GApplication *app;
-  GVariant *state;
+  g_autoptr (GVariant) state = NULL;
   gboolean selection_mode;
 
   app = g_application_get_default ();
@@ -1167,7 +1160,6 @@ photos_utils_get_selection_mode (void)
 
   selection_mode = g_variant_get_boolean (state);
 
-  g_variant_unref (state);
   return selection_mode;
 }
 
@@ -1176,12 +1168,11 @@ gchar *
 photos_utils_get_thumbnail_path_for_file (GFile *file)
 {
   gchar *path;
-  gchar *uri = NULL;
+  g_autofree gchar *uri = NULL;
 
   uri = g_file_get_uri (file);
   path = photos_utils_get_thumbnail_path_for_uri (uri);
 
-  g_free (uri);
   return path;
 }
 
@@ -1190,10 +1181,10 @@ gchar *
 photos_utils_get_thumbnail_path_for_uri (const gchar *uri)
 {
   const gchar *cache_dir;
-  gchar *filename = NULL;
-  gchar *md5 = NULL;
+  g_autofree gchar *filename = NULL;
+  g_autofree gchar *md5 = NULL;
   gchar *path;
-  gchar *thumbnails_subdir = NULL;
+  g_autofree gchar *thumbnails_subdir = NULL;
   gint size;
 
   md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
@@ -1210,9 +1201,6 @@ photos_utils_get_thumbnail_path_for_uri (const gchar *uri)
                            filename,
                            NULL);
 
-  g_free (filename);
-  g_free (md5);
-  g_free (thumbnails_subdir);
   return path;
 }
 
@@ -1296,7 +1284,7 @@ photos_utils_object_list_free_full (GList *objects)
 gchar *
 photos_utils_print_zoom_action_detailed_name (const gchar *action_name, gdouble delta, PhotosZoomEvent event)
 {
-  GVariant *target_value;
+  g_autoptr (GVariant) target_value = NULL;
   gchar *ret_val = NULL;
 
   g_return_val_if_fail (action_name != NULL && action_name[0] != '\0', NULL);
@@ -1308,7 +1296,6 @@ photos_utils_print_zoom_action_detailed_name (const gchar *action_name, gdouble 
 
   ret_val = g_action_print_detailed_name (action_name, target_value);
 
-  g_variant_unref (target_value);
   return ret_val;
 }
 
@@ -1387,75 +1374,72 @@ photos_utils_update_executed (GObject *source_object, GAsyncResult *res, gpointe
 {
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   const gchar *urn = (gchar *) user_data;
-  GError *error;
 
-  error = NULL;
-  tracker_sparql_connection_update_finish (connection, res, &error);
-  if (error != NULL)
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    tracker_sparql_connection_update_finish (connection, res, &error);
+    if (error != NULL)
       g_warning ("Unable to update %s: %s", urn, error->message);
-      g_error_free (error);
-    }
+  }
 }
 
 
 void
 photos_utils_set_edited_name (const gchar *urn, const gchar *title)
 {
-  GError *error;
-  PhotosQuery *query = NULL;
-  PhotosTrackerQueue *queue = NULL;
-  gchar *sparql = NULL;
+  g_autoptr (PhotosQuery) query = NULL;
+  g_autoptr (PhotosTrackerQueue) queue = NULL;
+  g_autofree gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:title \"%s\" }", urn, title);
   query = photos_query_new (NULL, sparql);
 
-  error = NULL;
-  queue = photos_tracker_queue_dup_singleton (NULL, &error);
-  if (G_UNLIKELY (error != NULL))
-    {
-      g_warning ("Unable to set edited name %s: %s", urn, error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    queue = photos_tracker_queue_dup_singleton (NULL, &error);
+    if (G_UNLIKELY (error != NULL))
+      {
+        g_warning ("Unable to set edited name %s: %s", urn, error->message);
+        goto out;
+      }
+  }
 
   photos_tracker_queue_update (queue, query, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
 
  out:
-  g_clear_object (&query);
-  g_clear_object (&queue);
-  g_free (sparql);
+  return;
 }
 
 
 void
 photos_utils_set_favorite (const gchar *urn, gboolean is_favorite)
 {
-  GError *error;
-  PhotosQuery *query = NULL;
-  PhotosTrackerQueue *queue = NULL;
-  gchar *sparql = NULL;
+  g_autoptr (PhotosQuery) query = NULL;
+  g_autoptr (PhotosTrackerQueue) queue = NULL;
+  g_autofree gchar *sparql = NULL;
 
   sparql = g_strdup_printf ("%s { <%s> nao:hasTag nao:predefined-tag-favorite }",
                             (is_favorite) ? "INSERT OR REPLACE" : "DELETE",
                             urn);
   query = photos_query_new (NULL, sparql);
 
-  error = NULL;
-  queue = photos_tracker_queue_dup_singleton (NULL, &error);
-  if (G_UNLIKELY (error != NULL))
-    {
-      g_warning ("Unable to set favorite %s: %s", urn, error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    queue = photos_tracker_queue_dup_singleton (NULL, &error);
+    if (G_UNLIKELY (error != NULL))
+      {
+        g_warning ("Unable to set favorite %s: %s", urn, error->message);
+        goto out;
+      }
+  }
 
   photos_tracker_queue_update (queue, query, NULL, photos_utils_update_executed, g_strdup (urn), g_free);
 
  out:
-  g_free (sparql);
-  g_clear_object (&query);
-  g_clear_object (&queue);
+  return;
 }
 
 
