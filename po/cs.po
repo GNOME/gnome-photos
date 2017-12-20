@@ -6,10 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-10-22 15:43+0000\n"
-"PO-Revision-Date: 2017-10-29 18:40+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
+"POT-Creation-Date: 2017-12-15 06:06+0000\n"
+"PO-Revision-Date: 2017-12-20 22:50+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -114,15 +113,19 @@ msgstr "Okno maximalizováno"
 msgid "Window maximized state"
 msgstr "Stav maximalizace okna"
 
-#: src/photos-application.c:159
+#: src/photos-application.c:162
+msgid "Show the empty state"
+msgstr "Zobrazovat prázdný stav"
+
+#: src/photos-application.c:163
 msgid "Show the application's version"
 msgstr "Zobrazit verzi aplikace"
 
-#: src/photos-base-item.c:647
+#: src/photos-base-item.c:634
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2749
+#: src/photos-base-item.c:2688
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -139,7 +142,7 @@ msgstr[0] "Smazána %d položka"
 msgstr[1] "Smazány %d položky"
 msgstr[2] "Smazáno %d položek"
 
-#: src/photos-delete-notification.c:150 src/photos-done-notification.c:125
+#: src/photos-delete-notification.c:149 src/photos-done-notification.c:122
 msgid "Undo"
 msgstr "Zpět"
 
@@ -147,7 +150,7 @@ msgstr "Zpět"
 msgid "DLNA Renderer Devices"
 msgstr "Vykreslovací zařízení DLNA"
 
-#: src/photos-done-notification.c:117
+#: src/photos-done-notification.c:115
 #, c-format
 msgid "“%s” edited"
 msgstr "Upravena položka „%s“"
@@ -164,18 +167,18 @@ msgstr "Alba"
 msgid "Favorites"
 msgstr "Oblíbené"
 
-#: src/photos-embed.c:739 src/photos-main-toolbar.c:269
+#: src/photos-embed.c:739 src/photos-main-toolbar.c:260
 msgid "Search"
 msgstr "Hledat"
 
-#: src/photos-empty-results-box.c:114
+#: src/photos-empty-results-box.c:115
 msgid "Name your first album"
 msgstr "Pojmenujte své první album"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: src/photos-empty-results-box.c:134 src/photos-source-notification.c:146
+#: src/photos-empty-results-box.c:135 src/photos-source-notification.c:146
 msgid "Settings"
 msgstr "nastaveních"
 
@@ -183,20 +186,20 @@ msgstr "nastaveních"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: src/photos-empty-results-box.c:140
+#: src/photos-empty-results-box.c:141
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "Své účty on-line můžete přidat v %s"
 
-#: src/photos-empty-results-box.c:181
+#: src/photos-empty-results-box.c:180
 msgid "No Albums Found"
 msgstr "Nenalezena žádná alba"
 
-#: src/photos-empty-results-box.c:186
+#: src/photos-empty-results-box.c:185
 msgid "Starred photos will appear here"
 msgstr "Fotografie s hvězdičkami se objeví zde"
 
-#: src/photos-empty-results-box.c:196
+#: src/photos-empty-results-box.c:195
 msgid "No Photos Found"
 msgstr "Nenalezeny žádné fotografie"
 
@@ -232,7 +235,7 @@ msgstr "_Exportovat"
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: src/photos-export-dialog.c:67
+#: src/photos-export-dialog.c:68
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d × %d (%s)"
@@ -240,11 +243,11 @@ msgstr "%d × %d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. * will be exported.
 #.
-#: src/photos-export-dialog.c:201
+#: src/photos-export-dialog.c:200
 msgid "%e %B %Y"
 msgstr "%e. %B %Y"
 
-#: src/photos-export-dialog.c:259
+#: src/photos-export-dialog.c:255
 msgid "Calculating export size…"
 msgstr "Vypočítává se velikost pro export…"
 
@@ -293,7 +296,7 @@ msgstr "Složka pro export"
 #. Translators: this is the fallback title in the form
 #. * "Facebook — 2nd January 2013".
 #.
-#: src/photos-facebook-item.c:103 src/photos-flickr-item.c:105
+#: src/photos-facebook-item.c:102 src/photos-flickr-item.c:105
 #: src/photos-google-item.c:102
 #, c-format
 msgid "%s — %s"
@@ -435,15 +438,15 @@ msgstr "Získávají se fotografie z účtu %s"
 msgid "Fetching photos from online accounts"
 msgstr "Získávají se fotografie z účtů on-line"
 
-#: src/photos-indexing-notification.c:206
+#: src/photos-indexing-notification.c:205
 msgid "Your photos are being indexed"
 msgstr "Vaše fotografie budou indexovány"
 
-#: src/photos-indexing-notification.c:207
+#: src/photos-indexing-notification.c:206
 msgid "Some photos might not be available during this process"
 msgstr "Během tohoto procesu nemusí být některé fotografie přístupné"
 
-#: src/photos-local-item.c:176 src/photos-source-manager.c:251
+#: src/photos-local-item.c:172 src/photos-source-manager.c:267
 msgid "Local"
 msgstr "Místní"
 
@@ -459,50 +462,48 @@ msgstr[0] "%d vybraná"
 msgstr[1] "%d vybrané"
 msgstr[2] "%d vybraných"
 
-#: src/photos-main-toolbar.c:179
+#: src/photos-main-toolbar.c:171
 msgid "Back"
 msgstr "Zpět"
 
-#: src/photos-main-toolbar.c:284
+#: src/photos-main-toolbar.c:275
 msgid "Select Items"
 msgstr "Vybrat položky"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:339 src/photos-selection-toolbar.c:239
-#: src/photos-share-notification.c:171
+#: src/photos-main-toolbar.c:330 src/photos-selection-toolbar.c:239
+#: src/photos-share-notification.c:168
 #, c-format
 msgid "Open with %s"
 msgstr "Otevřít pomocí %s"
 
-#: src/photos-main-toolbar.c:372 src/photos-selection-toolbar.c:250
+#: src/photos-main-toolbar.c:361 src/photos-selection-toolbar.c:250
 msgid "Remove from favorites"
 msgstr "Odebrat z oblíbených"
 
-#: src/photos-main-toolbar.c:377 src/photos-selection-toolbar.c:255
+#: src/photos-main-toolbar.c:366 src/photos-selection-toolbar.c:255
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
 
-#: src/photos-main-toolbar.c:417 src/photos-main-toolbar.c:529
+#: src/photos-main-toolbar.c:405 src/photos-main-toolbar.c:517
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: src/photos-main-toolbar.c:421
+#: src/photos-main-toolbar.c:409
 msgid "Done"
 msgstr "Hotovo"
 
 #: src/photos-main-window.c:474
 msgid ""
-"Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2017 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc.\n"
+"Copyright © 2015 – 2017 Umang Jain"
 msgstr ""
-"Copyright © 2013 Intel Corporation. Všechna práva vyhrazena.\n"
-"Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2017 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc.\n"
+"Copyright © 2015 – 2017 Umang Jain"
 
 #. Translators: Put your names here
-#: src/photos-main-window.c:484
+#: src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr "Marek Černocký, <marek@manet.cz>"
 
@@ -564,7 +565,7 @@ msgstr "Nastavit jako pozadí"
 msgid "Set as Lock Screen"
 msgstr "Nastavit jako zamykací obrazovku"
 
-#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:895
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:884
 #: src/photos-selection-toolbar.ui:102
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -574,7 +575,7 @@ msgstr "Vlastnosti"
 msgid "Printing “%s”: %s"
 msgstr "Tiskne se „%s“: %s"
 
-#: src/photos-print-operation.c:266
+#: src/photos-print-operation.c:259
 msgid "Image Settings"
 msgstr "Nastavení obrázku"
 
@@ -646,18 +647,18 @@ msgstr "palce"
 msgid "Preview"
 msgstr "Náhled"
 
-#: src/photos-properties-dialog.c:247
+#: src/photos-properties-dialog.c:248
 msgid "Edited in Photos"
 msgstr "Upravit v aplikaci Fotky"
 
-#: src/photos-properties-dialog.c:260
+#: src/photos-properties-dialog.c:261
 msgid "Untouched"
 msgstr "Bez zásahů"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: src/photos-properties-dialog.c:445
+#: src/photos-properties-dialog.c:444
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Název"
@@ -665,81 +666,81 @@ msgstr "Název"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: src/photos-properties-dialog.c:457
+#: src/photos-properties-dialog.c:456
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Autor"
 
-#: src/photos-properties-dialog.c:464
+#: src/photos-properties-dialog.c:463
 msgid "Source"
 msgstr "Zdroj"
 
-#: src/photos-properties-dialog.c:470
+#: src/photos-properties-dialog.c:469
 msgid "Date Modified"
 msgstr "Datum změny"
 
-#: src/photos-properties-dialog.c:478
+#: src/photos-properties-dialog.c:477
 msgid "Date Created"
 msgstr "Datum vytvoření"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: src/photos-properties-dialog.c:488
+#: src/photos-properties-dialog.c:487
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Typ"
 
-#: src/photos-properties-dialog.c:498
+#: src/photos-properties-dialog.c:497
 msgid "Dimensions"
 msgstr "Rozměry"
 
-#: src/photos-properties-dialog.c:510
+#: src/photos-properties-dialog.c:509
 msgid "Location"
 msgstr "Místo"
 
-#: src/photos-properties-dialog.c:530
+#: src/photos-properties-dialog.c:527
 msgid "Camera"
 msgstr "Fotoaparát"
 
-#: src/photos-properties-dialog.c:540 src/photos-tool-colors.c:335
+#: src/photos-properties-dialog.c:537 src/photos-tool-colors.c:368
 msgid "Exposure"
 msgstr "Expozice"
 
-#: src/photos-properties-dialog.c:550
+#: src/photos-properties-dialog.c:547
 msgid "Aperture"
 msgstr "Clona"
 
-#: src/photos-properties-dialog.c:560
+#: src/photos-properties-dialog.c:557
 msgid "Focal Length"
 msgstr "Ohnisková vzdálenost"
 
-#: src/photos-properties-dialog.c:570
+#: src/photos-properties-dialog.c:567
 msgid "ISO Speed"
 msgstr "Citlivost ISO"
 
-#: src/photos-properties-dialog.c:580
+#: src/photos-properties-dialog.c:577
 msgid "Flash"
 msgstr "Blesk"
 
-#: src/photos-properties-dialog.c:589
+#: src/photos-properties-dialog.c:586
 msgid "Modifications"
 msgstr "Změny"
 
-#: src/photos-properties-dialog.c:730
+#: src/photos-properties-dialog.c:722
 msgid "Off, did not fire"
 msgstr "Vypnut, nebyl spuštěn"
 
-#: src/photos-properties-dialog.c:732
+#: src/photos-properties-dialog.c:724
 msgid "On, fired"
 msgstr "Zapnut, byl spuštěn"
 
-#: src/photos-properties-dialog.c:770
+#: src/photos-properties-dialog.c:761
 msgid "Discard all Edits"
 msgstr "Zahodit všechny úpravy"
 
 #: src/photos-search-match-manager.c:157 src/photos-search-type-manager.c:107
-#: src/photos-source-manager.c:247
+#: src/photos-source-manager.c:263
 msgid "All"
 msgstr "Vše"
 
@@ -791,7 +792,7 @@ msgctxt "dialog title"
 msgid "Share"
 msgstr "Sdílet"
 
-#: src/photos-share-notification.c:154
+#: src/photos-share-notification.c:151
 #, c-format
 msgid "“%s” shared"
 msgstr "Nasdílena položka „%s“"
@@ -808,14 +809,14 @@ msgstr "Selhalo nahrání fotografie: služba není ověřená"
 msgid "Failed to upload photo"
 msgstr "Selhalo nahrání fotografie"
 
-#: src/photos-source-manager.c:300
+#: src/photos-source-manager.c:316
 msgid "Sources"
 msgstr "Zdroje"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:138
+#: src/photos-source-notification.c:139
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Vaše pověření pro %s vypršela"
@@ -824,23 +825,27 @@ msgstr "Vaše pověření pro %s vypršela"
 msgid "D-Bus address to use"
 msgstr "Adresa D-Bus, která se má použít"
 
-#: src/photos-tool-colors.c:313
-msgid "Brightness"
-msgstr "Jas"
-
-#: src/photos-tool-colors.c:356
+#: src/photos-tool-colors.c:389
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: src/photos-tool-colors.c:377
+#: src/photos-tool-colors.c:410
 msgid "Blacks"
 msgstr "Černá"
 
-#: src/photos-tool-colors.c:398
+#: src/photos-tool-colors.c:431
 msgid "Saturation"
 msgstr "Sytost"
 
-#: src/photos-tool-colors.c:426
+#: src/photos-tool-colors.c:450
+msgid "Shadows"
+msgstr "Stíny"
+
+#: src/photos-tool-colors.c:469
+msgid "Highlights"
+msgstr "Světla"
+
+#: src/photos-tool-colors.c:498
 msgid "Colors"
 msgstr "Barvy"
 
@@ -880,23 +885,23 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: src/photos-tool-crop.c:1295
+#: src/photos-tool-crop.c:1291
 msgid "Lock aspect ratio"
 msgstr "Uzamknout poměr stran"
 
-#: src/photos-tool-crop.c:1365
+#: src/photos-tool-crop.c:1361
 msgid "Landscape"
 msgstr "Na šířku"
 
-#: src/photos-tool-crop.c:1376
+#: src/photos-tool-crop.c:1372
 msgid "Portrait"
 msgstr "Na výšku"
 
-#: src/photos-tool-crop.c:1387
+#: src/photos-tool-crop.c:1383
 msgid "Reset"
 msgstr "Původní"
 
-#: src/photos-tool-crop.c:1407
+#: src/photos-tool-crop.c:1403
 msgid "Crop"
 msgstr "Oříznout"
 
@@ -945,6 +950,18 @@ msgstr "Filtry"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Nelze získat seznam fotografií."
+
+#~ msgid ""
+#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#~ "Copyright © 2014 – 2015 Pranav Kant\n"
+#~ "Copyright © 2012 – 2017 Red Hat, Inc."
+#~ msgstr ""
+#~ "Copyright © 2013 Intel Corporation. Všechna práva vyhrazena.\n"
+#~ "Copyright © 2014 – 2015 Pranav Kant\n"
+#~ "Copyright © 2012 – 2017 Red Hat, Inc."
+
+#~ msgid "Brightness"
+#~ msgstr "Jas"
 
 #~ msgid "Cannot locate property %s in class %s"
 #~ msgstr "Nelze najít vlastnost %s v třídě %s"
