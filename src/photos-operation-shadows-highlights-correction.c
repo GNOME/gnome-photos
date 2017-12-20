@@ -201,7 +201,7 @@ photos_operation_shadows_highlights_correction_process (GeglOperation *operation
           lref = copysignf (la_abs > low_approximation ? 1.0f / la_abs : 1.0f / low_approximation, la);
 
           la_inverted = 1.0f - la;
-          la_inverted_abs = fabsf (1.0f - la);
+          la_inverted_abs = fabsf (la_inverted);
           href = copysignf (la_inverted_abs > low_approximation ? 1.0f / la_inverted_abs : 1.0f / low_approximation,
                             la_inverted);
 
@@ -247,7 +247,7 @@ photos_operation_shadows_highlights_correction_process (GeglOperation *operation
           lref = copysignf (la_abs > low_approximation ? 1.0f / la_abs : 1.0f / low_approximation, la);
 
           la_inverted = 1.0f - la;
-          la_inverted_abs = fabsf (1.0f - la);
+          la_inverted_abs = fabsf (la_inverted);
           href = copysignf (la_inverted_abs > low_approximation ? 1.0f / la_inverted_abs : 1.0f / low_approximation,
                             la_inverted);
 
