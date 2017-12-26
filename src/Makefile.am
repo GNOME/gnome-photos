@@ -264,6 +264,8 @@ gnome_photos_SOURCES = \
 	photos-tool-colors.h \
 	photos-tool-crop.c \
 	photos-tool-crop.h \
+	photos-tool-crop-helper.c \
+	photos-tool-crop-helper.h \
 	photos-tool-enhance.c \
 	photos-tool-enhance.h \
 	photos-tool-filter-button.c \
