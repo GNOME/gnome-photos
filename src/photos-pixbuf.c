@@ -62,17 +62,19 @@ photos_pixbuf_new_from_file_at_size_in_thread_func (GTask *task,
                                                     gpointer task_data,
                                                     GCancellable *cancellable)
 {
-  GError *error;
   g_autoptr (GdkPixbuf) result = NULL;
   PhotosPixbufNewFromFileData *data = (PhotosPixbufNewFromFileData *) task_data;
 
-  error = NULL;
-  result = gdk_pixbuf_new_from_file_at_size (data->filename, data->width, data->height, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    result = gdk_pixbuf_new_from_file_at_size (data->filename, data->width, data->height, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_pointer (task, g_object_ref (result), g_object_unref);
 
