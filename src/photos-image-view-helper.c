@@ -18,6 +18,7 @@
  * 02110-1301, USA.
  */
 
+
 #include "config.h"
 
 #include "photos-image-view-helper.h"
