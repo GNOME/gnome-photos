@@ -440,13 +440,15 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
                                      "--address",
                                      address,
                                      NULL);
+
+      g_free (thumbnailer_path);
+
       if (local_error != NULL)
         goto out;
 
       g_mutex_unlock (&self->mutex_connection);
       mutex_connection_unlocked = TRUE;
 
-      g_free (thumbnailer_path);
       g_object_unref (subprocess);
     }
 
