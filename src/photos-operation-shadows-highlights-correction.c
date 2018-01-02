@@ -112,15 +112,12 @@ photos_operation_shadows_highlights_correction_process (GeglOperation *operation
   gfloat compress;
   gfloat compress_100 = (gfloat) self->compress / 100.0f;
   gfloat compress_inverted;
-  gfloat doublemax;
-  gfloat halfmax;
   gfloat highlights;
   gfloat highlights_100 = (gfloat) self->highlights / 100.0f;
   gfloat highlights_color_correct;
   gfloat highlights_color_correct_100 = (gfloat) self->highlights_color_correct / 100.0f;
   gfloat highlights_color_correct_inverted;
   gfloat highlights_sign_negated;
-  gfloat lmax = 1.0f;
   gfloat low_approximation = 0.01f;
   gfloat shadows;
   gfloat shadows_100 = (gfloat) self->shadows / 100.0f;
@@ -130,9 +127,6 @@ photos_operation_shadows_highlights_correction_process (GeglOperation *operation
   gfloat shadows_sign;
   gfloat whitepoint = 1.0f - (gfloat) self->whitepoint / 100.0f;
   glong i;
-
-  doublemax = lmax * 2.0f;
-  halfmax = lmax / 2.0f;
 
   compress = fminf (compress_100, 0.99f);
   g_return_val_if_fail (compress >= 0.0f, FALSE);
@@ -160,7 +154,7 @@ photos_operation_shadows_highlights_correction_process (GeglOperation *operation
   for (i = 0; i < n_pixels; i++)
     {
       gfloat ta[3];
-      gfloat tb[3];
+      gfloat tb0;
       gfloat highlights_xform;
       gfloat highlights2 = highlights * highlights;
       gfloat shadows_xform;
@@ -170,37 +164,33 @@ photos_operation_shadows_highlights_correction_process (GeglOperation *operation
       ta[1] = in[1] / 128.0f;
       ta[2] = in[2] / 128.0f;
 
-      tb[0] = (100.0f - aux[0]) / 100.0f;
-      tb[1] = 0.0f;
-      tb[2] = 0.0f;
+      tb0 = (100.0f - aux[0]) / 100.0f;
 
       ta[0] = ta[0] > 0.0f ? ta[0] / whitepoint : ta[0];
-      tb[0] = tb[0] > 0.0f ? tb[0] / whitepoint : tb[0];
+      tb0 = tb0 > 0.0f ? tb0 / whitepoint : tb0;
 
-      highlights_xform = CLAMP (1.0f - tb[0] / compress_inverted, 0.0f, 1.0f);
+      highlights_xform = CLAMP (1.0f - tb0 / compress_inverted, 0.0f, 1.0f);
 
       while (highlights2 > 0.0f)
         {
           gfloat chunk;
           gfloat href;
-          gfloat la;
+          gfloat la = ta[0];
           gfloat la_abs;
-          gfloat la_inverted;
+          gfloat la_inverted = 1.0f - la;
           gfloat la_inverted_abs;
+          gfloat la_inverted_sign;
           gfloat lb;
-          gfloat lmax_la_sign;
           gfloat lref;
           gfloat optrans;
           gfloat optrans_inverted;
 
-          la = ta[0];
-          lmax_la_sign = lmax - la < 0.0f ? -1.0f : 1.0f;
-          lb = (tb[0] - halfmax) * highlights_sign_negated * lmax_la_sign + halfmax;
+          la_inverted_sign = la_inverted < 0.0f ? -1.0f : 1.0f;
+          lb = (tb0 - 0.5f) * highlights_sign_negated * la_inverted_sign + 0.5f;
 
           la_abs = fabsf (la);
           lref = copysignf (la_abs > low_approximation ? 1.0f / la_abs : 1.0f / low_approximation, la);
 
-          la_inverted = 1.0f - la;
           la_inverted_abs = fabsf (la_inverted);
           href = copysignf (la_inverted_abs > low_approximation ? 1.0f / la_inverted_abs : 1.0f / low_approximation,
                             la_inverted);
@@ -212,41 +202,39 @@ photos_operation_shadows_highlights_correction_process (GeglOperation *operation
           highlights2 -= 1.0f;
 
           ta[0] = la * optrans_inverted
-            + (la > halfmax ? lmax - (lmax - doublemax * (la - halfmax)) * (lmax - lb) : doublemax * la * lb) * optrans;
+            + (la > 0.5f ? 1.0f - (1.0f - 2.0f * (la - 0.5f)) * (1.0f - lb) : 2.0f * la * lb) * optrans;
 
           ta[1] = ta[1] * optrans_inverted
-            + (ta[1] + tb[1]) * (ta[0] * lref * highlights_color_correct_inverted
-                                 + (1.0f - ta[0]) * href * highlights_color_correct) * optrans;
+            + ta[1] * (ta[0] * lref * highlights_color_correct_inverted
+                       + (1.0f - ta[0]) * href * highlights_color_correct) * optrans;
 
           ta[2] = ta[2] * optrans_inverted
-            + (ta[2] + tb[2]) * (ta[0] * lref * highlights_color_correct_inverted
-                                 + (1.0f - ta[0]) * href * highlights_color_correct) * optrans;
+            + ta[2] * (ta[0] * lref * highlights_color_correct_inverted
+                       + (1.0f - ta[0]) * href * highlights_color_correct) * optrans;
         }
 
-      shadows_xform = CLAMP (tb[0] / compress_inverted - compress / compress_inverted, 0.0f, 1.0f);
+      shadows_xform = CLAMP (tb0 / compress_inverted - compress / compress_inverted, 0.0f, 1.0f);
 
       while (shadows2 > 0.0f)
         {
           gfloat chunk;
           gfloat href;
-          gfloat la;
+          gfloat la = ta[0];
           gfloat la_abs;
-          gfloat la_inverted;
+          gfloat la_inverted = 1.0f - la;
           gfloat la_inverted_abs;
+          gfloat la_inverted_sign;
           gfloat lb;
-          gfloat lmax_la_sign;
           gfloat lref;
           gfloat optrans;
           gfloat optrans_inverted;
 
-          la = ta[0];
-          lmax_la_sign = lmax - la < 0.0f ? -1.0f : 1.0f;
-          lb = (tb[0] - halfmax) * shadows_sign * lmax_la_sign + halfmax;
+          la_inverted_sign = la_inverted < 0.0f ? -1.0f : 1.0f;
+          lb = (tb0 - 0.5f) * shadows_sign * la_inverted_sign + 0.5f;
 
           la_abs = fabsf (la);
           lref = copysignf (la_abs > low_approximation ? 1.0f / la_abs : 1.0f / low_approximation, la);
 
-          la_inverted = 1.0f - la;
           la_inverted_abs = fabsf (la_inverted);
           href = copysignf (la_inverted_abs > low_approximation ? 1.0f / la_inverted_abs : 1.0f / low_approximation,
                             la_inverted);
@@ -258,15 +246,15 @@ photos_operation_shadows_highlights_correction_process (GeglOperation *operation
           shadows2 -= 1.0f;
 
           ta[0] = la * optrans_inverted
-            + (la > halfmax ? lmax - (lmax - doublemax * (la - halfmax)) * (lmax - lb) : doublemax * la * lb) * optrans;
+            + (la > 0.5f ? 1.0f - (1.0f - 2.0f * (la - 0.5f)) * (1.0f - lb) : 2.0f * la * lb) * optrans;
 
           ta[1] = ta[1] * optrans_inverted
-            + (ta[1] + tb[1]) * (ta[0] * lref * shadows_color_correct
-                                 + (1.0f - ta[0]) * href * shadows_color_correct_inverted) * optrans;
+            + ta[1] * (ta[0] * lref * shadows_color_correct
+                       + (1.0f - ta[0]) * href * shadows_color_correct_inverted) * optrans;
 
           ta[2] = ta[2] * optrans_inverted
-            + (ta[2] + tb[2]) * (ta[0] * lref * shadows_color_correct
-                                 + (1.0f - ta[0]) * href * shadows_color_correct_inverted) * optrans;
+            + ta[2] * (ta[0] * lref * shadows_color_correct
+                       + (1.0f - ta[0]) * href * shadows_color_correct_inverted) * optrans;
         }
 
       out[0] = ta[0] * 100.0f;
