@@ -348,8 +348,7 @@ photos_flickr_item_open (PhotosBaseItem *item, GtkWindow *parent, guint32 timest
   {
     g_autoptr (GError) error = NULL;
 
-    gtk_show_uri_on_window (parent, flickr_uri, timestamp, &error);
-    if (error != NULL)
+    if (!gtk_show_uri_on_window (parent, flickr_uri, timestamp, &error))
       g_warning ("Unable to show URI %s: %s", flickr_uri, error->message);
   }
 }
