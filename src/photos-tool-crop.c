@@ -882,9 +882,28 @@ photos_tool_crop_list_box_row_activated (PhotosToolCrop *self, GtkListBoxRow *ro
 
 
 static void
-photos_tool_crop_orientation_toggled (PhotosToolCrop *self)
+photos_tool_crop_landscape_button_toggled (PhotosToolCrop *self)
 {
+  if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->landscape_button)))
+    goto out;
+
   photos_tool_crop_active_changed (self);
+
+ out:
+  return;
+}
+
+
+static void
+photos_tool_crop_portrait_button_toggled (PhotosToolCrop *self)
+{
+  if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->portrait_button)))
+    goto out;
+
+  photos_tool_crop_active_changed (self);
+
+ out:
+  return;
 }
 
 
@@ -896,10 +915,10 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active, GtkToggleButton 
   g_return_if_fail ((active == -1 && orientation_button == NULL)
                     || (active != -1 && GTK_IS_TOGGLE_BUTTON (orientation_button)));
 
-  g_signal_handlers_block_by_func (self->landscape_button, photos_tool_crop_orientation_toggled, self);
+  g_signal_handlers_block_by_func (self->landscape_button, photos_tool_crop_landscape_button_toggled, self);
   g_signal_handlers_block_by_func (self->list_box, photos_tool_crop_list_box_row_activated, self);
   g_signal_handlers_block_by_func (self->lock_button, photos_tool_crop_active_changed, self);
-  g_signal_handlers_block_by_func (self->portrait_button, photos_tool_crop_orientation_toggled, self);
+  g_signal_handlers_block_by_func (self->portrait_button, photos_tool_crop_portrait_button_toggled, self);
 
   if (active == -1) /* reset */
     {
@@ -928,10 +947,10 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active, GtkToggleButton 
   gtk_revealer_set_reveal_child (GTK_REVEALER (self->orientation_revealer), self->constraints[active].orientable);
   gtk_toggle_button_set_active (orientation_button, TRUE);
 
-  g_signal_handlers_unblock_by_func (self->landscape_button, photos_tool_crop_orientation_toggled, self);
+  g_signal_handlers_unblock_by_func (self->landscape_button, photos_tool_crop_landscape_button_toggled, self);
   g_signal_handlers_unblock_by_func (self->list_box, photos_tool_crop_list_box_row_activated, self);
   g_signal_handlers_unblock_by_func (self->lock_button, photos_tool_crop_active_changed, self);
-  g_signal_handlers_unblock_by_func (self->portrait_button, photos_tool_crop_orientation_toggled, self);
+  g_signal_handlers_unblock_by_func (self->portrait_button, photos_tool_crop_portrait_button_toggled, self);
 }
 
 
@@ -1364,7 +1383,7 @@ photos_tool_crop_init (PhotosToolCrop *self)
   gtk_size_group_add_widget (orientation_size_group, self->landscape_button);
   g_signal_connect_swapped (self->landscape_button,
                             "toggled",
-                            G_CALLBACK (photos_tool_crop_orientation_toggled),
+                            G_CALLBACK (photos_tool_crop_landscape_button_toggled),
                             self);
 
   self->portrait_button = gtk_radio_button_new_from_widget (GTK_RADIO_BUTTON (self->landscape_button));
@@ -1375,7 +1394,7 @@ photos_tool_crop_init (PhotosToolCrop *self)
   gtk_size_group_add_widget (orientation_size_group, self->portrait_button);
   g_signal_connect_swapped (self->portrait_button,
                             "toggled",
-                            G_CALLBACK (photos_tool_crop_orientation_toggled),
+                            G_CALLBACK (photos_tool_crop_portrait_button_toggled),
                             self);
 
   photos_tool_crop_set_active (self, -1, NULL);
