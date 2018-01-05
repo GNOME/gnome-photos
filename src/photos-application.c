@@ -2119,6 +2119,19 @@ photos_application_startup (GApplication *application)
 
 
 static void
+photos_application_constructed (GObject *object)
+{
+  PhotosApplication *self = PHOTOS_APPLICATION (object);
+  const gchar *app_id;
+
+  G_OBJECT_CLASS (photos_application_parent_class)->constructed (object);
+
+  app_id = g_application_get_application_id (G_APPLICATION (self));
+  g_set_prgname (app_id);
+}
+
+
+static void
 photos_application_dispose (GObject *object)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (object);
@@ -2245,6 +2258,7 @@ photos_application_class_init (PhotosApplicationClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   GApplicationClass *application_class = G_APPLICATION_CLASS (class);
 
+  object_class->constructed = photos_application_constructed;
   object_class->dispose = photos_application_dispose;
   object_class->finalize = photos_application_finalize;
   application_class->activate = photos_application_activate;
