@@ -25,10 +25,7 @@
 
 #include "config.h"
 
-#include <locale.h>
-
 #include <glib.h>
-#include <glib/gi18n.h>
 
 #include "egg-counter.h"
 #include "photos-application.h"
@@ -56,13 +53,7 @@ main (gint argc, gchar *argv[])
     g_autoptr (GApplication) app = NULL;
     g_autoptr (PhotosRemoteDisplayManager) remote_display_mngr = NULL;
 
-    setlocale (LC_ALL, "");
-
     photos_debug_init ();
-
-    bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
-    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-    textdomain (GETTEXT_PACKAGE);
 
     g_set_prgname (PACKAGE_TARNAME);
 

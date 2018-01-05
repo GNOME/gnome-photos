@@ -28,6 +28,7 @@
 
 #include "config.h"
 
+#include <locale.h>
 #include <stdlib.h>
 
 #include <gdesktop-enums.h>
@@ -2220,6 +2221,12 @@ photos_application_finalize (GObject *object)
 static void
 photos_application_init (PhotosApplication *self)
 {
+  setlocale (LC_ALL, "");
+
+  bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+  textdomain (GETTEXT_PACKAGE);
+
   g_set_application_name (_("Photos"));
 
   photos_utils_ensure_builtins ();
