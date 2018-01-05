@@ -2220,6 +2220,8 @@ photos_application_finalize (GObject *object)
 static void
 photos_application_init (PhotosApplication *self)
 {
+  g_set_application_name (_("Photos"));
+
   photos_utils_ensure_builtins ();
 
   self->state = photos_search_context_state_new (PHOTOS_SEARCH_CONTEXT (self));
