@@ -21,10 +21,7 @@
 
 #include "config.h"
 
-#include <locale.h>
-
 #include <glib.h>
-#include <glib/gi18n.h>
 
 #include "egg-counter.h"
 #include "photos-debug.h"
@@ -48,13 +45,7 @@ main (gint argc, gchar *argv[])
   GApplication *app;
   gint exit_status = 0;
 
-  setlocale (LC_ALL, "");
-
   photos_debug_init ();
-
-  bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
-  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-  textdomain (GETTEXT_PACKAGE);
 
   g_set_prgname (PACKAGE_TARNAME "-thumbnailer");
 

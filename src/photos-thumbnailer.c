@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <locale.h>
 #include <stdlib.h>
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
@@ -814,6 +815,12 @@ photos_thumbnailer_finalize (GObject *object)
 static void
 photos_thumbnailer_init (PhotosThumbnailer *self)
 {
+  setlocale (LC_ALL, "");
+
+  bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+  textdomain (GETTEXT_PACKAGE);
+
   photos_gegl_ensure_builtins ();
 
   self->cancellables = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, g_object_unref);
