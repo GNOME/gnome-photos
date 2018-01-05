@@ -55,7 +55,7 @@ main (gint argc, gchar *argv[])
 
     photos_debug_init ();
 
-    g_set_prgname (PACKAGE_TARNAME);
+    g_set_prgname ("org.gnome.Photos");
 
     app = photos_application_new ();
     if (g_getenv ("GNOME_PHOTOS_PERSIST") != NULL)
