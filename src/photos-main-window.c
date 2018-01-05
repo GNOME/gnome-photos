@@ -475,7 +475,7 @@ photos_main_window_show_about (PhotosMainWindow *self)
                                         "Copyright © 2015 – 2017 Umang Jain"),
                          "license-type", GTK_LICENSE_GPL_3_0,
                          "logo-icon-name", app_id,
-                         "program-name", _(PACKAGE_NAME),
+                         "program-name", _("Photos"),
                          "version", version,
                          "website", PACKAGE_URL,
                          "wrap-license", TRUE,
