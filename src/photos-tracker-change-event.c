@@ -125,6 +125,9 @@ photos_tracker_change_event_set_resolved_values (PhotosTrackerChangeEvent *self,
                                                  const gchar *urn,
                                                  const gchar *predicate)
 {
+  g_return_if_fail (self->predicate == NULL);
+  g_return_if_fail (self->urn == NULL);
+
   self->urn = g_strdup (urn);
   self->predicate = g_strdup (predicate);
 
