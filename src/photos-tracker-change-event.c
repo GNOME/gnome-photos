@@ -115,6 +115,8 @@ photos_tracker_change_event_get_urn_id (PhotosTrackerChangeEvent *self)
 void
 photos_tracker_change_event_merge (PhotosTrackerChangeEvent *self, PhotosTrackerChangeEvent *event)
 {
+  g_return_if_fail (g_strcmp0 (self->urn, event->urn) == 0);
+
   if (event->type == PHOTOS_TRACKER_CHANGE_EVENT_DELETED || event->type == PHOTOS_TRACKER_CHANGE_EVENT_CREATED)
     self->type = event->type;
 }
