@@ -6,10 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-09-05 19:50+0000\n"
-"PO-Revision-Date: 2017-09-06 00:06+0300\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
+"POT-Creation-Date: 2017-12-20 21:54+0000\n"
+"PO-Revision-Date: 2018-01-09 20:14+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -20,11 +19,11 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-embed.c:682 src/photos-search-type-manager.c:135
+#: src/photos-embed.c:724 src/photos-search-type-manager.c:130
 msgid "Photos"
 msgstr "Kuvat"
 
-#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:477
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:473
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Hallitse ja jaa kuviasi"
 
@@ -113,15 +112,19 @@ msgstr "Suurennettu ikkuna"
 msgid "Window maximized state"
 msgstr "Suurennetun ikkunan tila"
 
-#: src/photos-application.c:157
+#: src/photos-application.c:162
+msgid "Show the empty state"
+msgstr "Näytä tyhjä tila"
+
+#: src/photos-application.c:163
 msgid "Show the application's version"
 msgstr "Näytä sovelluksen versio"
 
-#: src/photos-base-item.c:615
+#: src/photos-base-item.c:634
 msgid "Album"
 msgstr "Albumi"
 
-#: src/photos-base-item.c:2546
+#: src/photos-base-item.c:2688
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
@@ -137,7 +140,7 @@ msgid_plural "%d items deleted"
 msgstr[0] "%d kohde poistettu"
 msgstr[1] "%d kohdetta poistettu"
 
-#: src/photos-delete-notification.c:150 src/photos-done-notification.c:125
+#: src/photos-delete-notification.c:149 src/photos-done-notification.c:122
 msgid "Undo"
 msgstr "Kumoa"
 
@@ -145,31 +148,35 @@ msgstr "Kumoa"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA Renderer -laitteet"
 
-#: src/photos-done-notification.c:117
+#: src/photos-done-notification.c:115
 #, c-format
 msgid "“%s” edited"
 msgstr "“%s” muokattu"
 
-#: src/photos-embed.c:686 src/photos-search-type-manager.c:120
+#: src/photos-embed.c:728
+msgid "Collection View"
+msgstr "Kokoelmanäkymä"
+
+#: src/photos-embed.c:731 src/photos-search-type-manager.c:115
 msgid "Albums"
 msgstr "Albumit"
 
-#: src/photos-embed.c:690 src/photos-search-type-manager.c:128
+#: src/photos-embed.c:735 src/photos-search-type-manager.c:123
 msgid "Favorites"
 msgstr "Suosikit"
 
-#: src/photos-embed.c:694 src/photos-main-toolbar.c:305
+#: src/photos-embed.c:739 src/photos-main-toolbar.c:260
 msgid "Search"
 msgstr "Etsi"
 
-#: src/photos-empty-results-box.c:114
+#: src/photos-empty-results-box.c:115
 msgid "Name your first album"
 msgstr "Anna nimi ensimmäiselle albumillesi"
 
 #. Translators: this should be translated in the context of the "You
 #. * can add your online accounts in Settings" sentence below
 #.
-#: src/photos-empty-results-box.c:134 src/photos-source-notification.c:146
+#: src/photos-empty-results-box.c:135 src/photos-source-notification.c:146
 msgid "Settings"
 msgstr "järjestelmän asetuksissa"
 
@@ -177,20 +184,20 @@ msgstr "järjestelmän asetuksissa"
 #. * due to markup, and should be translated only in the context of
 #. * this sentence.
 #.
-#: src/photos-empty-results-box.c:140
+#: src/photos-empty-results-box.c:141
 #, c-format
 msgid "You can add your online accounts in %s"
 msgstr "Voit lisätä verkkotilejä %s"
 
-#: src/photos-empty-results-box.c:181
+#: src/photos-empty-results-box.c:180
 msgid "No Albums Found"
 msgstr "Albumeita ei löytynyt"
 
-#: src/photos-empty-results-box.c:186
+#: src/photos-empty-results-box.c:185
 msgid "Starred photos will appear here"
 msgstr "Tähdellä merkityt kuvat näkyvät täällä"
 
-#: src/photos-empty-results-box.c:192
+#: src/photos-empty-results-box.c:195
 msgid "No Photos Found"
 msgstr "Kuvia ei löytynyt"
 
@@ -203,7 +210,7 @@ msgstr "Vie"
 msgid "_Folder Name"
 msgstr "_Kansion nimi"
 
-#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:942
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:914
 msgid "Size"
 msgstr "Koko"
 
@@ -226,7 +233,7 @@ msgstr "_Vie"
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: src/photos-export-dialog.c:67
+#: src/photos-export-dialog.c:68
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
@@ -234,59 +241,59 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. * will be exported.
 #.
-#: src/photos-export-dialog.c:201
+#: src/photos-export-dialog.c:200
 msgid "%e %B %Y"
 msgstr "%e. %Bta %Y"
 
-#: src/photos-export-dialog.c:259
+#: src/photos-export-dialog.c:255
 msgid "Calculating export size…"
 msgstr "Lasketaan viennin kokoa…"
 
-#: src/photos-export-notification.c:250
+#: src/photos-export-notification.c:251
 msgid "Failed to export: not enough space"
 msgstr "Vienti epäonnistui: levytilaa ei ole riittävästi"
 
-#: src/photos-export-notification.c:252
+#: src/photos-export-notification.c:253
 msgid "Failed to export"
 msgstr "Vienti epäonnistui"
 
-#: src/photos-export-notification.c:259
+#: src/photos-export-notification.c:260
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” viety"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:264
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d kohde viety"
 msgstr[1] "%d kohdetta viety"
 
-#: src/photos-export-notification.c:281
+#: src/photos-export-notification.c:282
 msgid "Analyze"
 msgstr "Analysoi"
 
-#: src/photos-export-notification.c:286
+#: src/photos-export-notification.c:287
 msgid "Empty Trash"
 msgstr "Tyhjennä roskakori"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:303 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:247 src/photos-selection-toolbar.ui:29
+#: src/photos-export-notification.c:304 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:242 src/photos-selection-toolbar.ui:29
 msgid "Open"
 msgstr "Avaa"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:313
+#: src/photos-export-notification.c:314
 msgid "Export Folder"
 msgstr "Vientikansio"
 
 #. Translators: this is the fallback title in the form
 #. * "Facebook — 2nd January 2013".
 #.
-#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:105
+#: src/photos-facebook-item.c:102 src/photos-flickr-item.c:105
 #: src/photos-google-item.c:102
 #, c-format
 msgid "%s — %s"
@@ -428,73 +435,72 @@ msgstr "Noudetaan valokuvia %s-palvelusta"
 msgid "Fetching photos from online accounts"
 msgstr "Noudetaan valokuvia verkkotileiltä"
 
-#: src/photos-indexing-notification.c:206
+#: src/photos-indexing-notification.c:205
 msgid "Your photos are being indexed"
 msgstr "Kuviasi indeksoidaan"
 
-#: src/photos-indexing-notification.c:207
+#: src/photos-indexing-notification.c:206
 msgid "Some photos might not be available during this process"
 msgstr ""
 "Jotkin kuvat eivät välttämättä ole käytettävissä tämän toimenpiteen aikana"
 
-#: src/photos-local-item.c:176 src/photos-source-manager.c:256
+#: src/photos-local-item.c:172 src/photos-source-manager.c:267
 msgid "Local"
 msgstr "Paikallinen"
 
-#: src/photos-main-toolbar.c:88
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "Napsauta kohteita valitaksesi ne"
 
-#: src/photos-main-toolbar.c:90
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valittu"
 msgstr[1] "%d valittu"
 
-#: src/photos-main-toolbar.c:178
+#: src/photos-main-toolbar.c:171
 msgid "Back"
 msgstr "Takaisin"
 
-#: src/photos-main-toolbar.c:320
+#: src/photos-main-toolbar.c:275
 msgid "Select Items"
 msgstr "Valitse kohteet"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:392 src/photos-selection-toolbar.c:244
+#: src/photos-main-toolbar.c:330 src/photos-selection-toolbar.c:239
+#: src/photos-share-notification.c:168
 #, c-format
 msgid "Open with %s"
 msgstr "Avaa sovelluksella %s"
 
-#: src/photos-main-toolbar.c:425 src/photos-selection-toolbar.c:255
+#: src/photos-main-toolbar.c:361 src/photos-selection-toolbar.c:250
 msgid "Remove from favorites"
 msgstr "Poista suosikeista"
 
-#: src/photos-main-toolbar.c:430 src/photos-selection-toolbar.c:260
+#: src/photos-main-toolbar.c:366 src/photos-selection-toolbar.c:255
 msgid "Add to favorites"
 msgstr "Lisää suosikkeihin"
 
-#: src/photos-main-toolbar.c:464 src/photos-main-toolbar.c:593
+#: src/photos-main-toolbar.c:405 src/photos-main-toolbar.c:517
 msgid "Cancel"
 msgstr "Peru"
 
-#: src/photos-main-toolbar.c:468
+#: src/photos-main-toolbar.c:409
 msgid "Done"
 msgstr "Valmis"
 
-#: src/photos-main-window.c:478
+#: src/photos-main-window.c:474
 msgid ""
-"Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2017 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc.\n"
+"Copyright © 2015 – 2017 Umang Jain"
 msgstr ""
-"Tekijänoikeus © 2013 Intel Corporation. All rights reserved.\n"
-"Tekijänoikeus © 2014 - 2015 Pranav Kant\n"
-"Tekijänoikeus © 2012 - 2017 Red Hat, Inc."
+"Tekijänoikeus © 2012 – 2017 Red Hat, Inc.\n"
+"Tekijänoikeus © 2015 – 2017 Umang Jain"
 
 #. Translators: Put your names here
-#: src/photos-main-window.c:488
+#: src/photos-main-window.c:483
 msgid "translator-credits"
 msgstr "Jiri Grönroos"
 
@@ -556,7 +562,7 @@ msgstr "Aseta taustakuvaksi"
 msgid "Set as Lock Screen"
 msgstr "Aseta lukitusnäytön taustaksi"
 
-#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:903
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:884
 #: src/photos-selection-toolbar.ui:102
 msgid "Properties"
 msgstr "Ominaisuudet"
@@ -566,90 +572,90 @@ msgstr "Ominaisuudet"
 msgid "Printing “%s”: %s"
 msgstr "Tulostetaan “%s”: %s"
 
-#: src/photos-print-operation.c:271
+#: src/photos-print-operation.c:259
 msgid "Image Settings"
 msgstr "Kuvan asetukset"
 
-#: src/photos-print-setup.c:914
+#: src/photos-print-setup.c:886
 msgid "Position"
 msgstr "Sijainti"
 
-#: src/photos-print-setup.c:917
+#: src/photos-print-setup.c:889
 msgid "_Left:"
 msgstr "_Vasen:"
 
-#: src/photos-print-setup.c:918
+#: src/photos-print-setup.c:890
 msgid "_Right:"
 msgstr "_Oikea:"
 
-#: src/photos-print-setup.c:919
+#: src/photos-print-setup.c:891
 msgid "_Top:"
 msgstr "_Ylä:"
 
-#: src/photos-print-setup.c:920
+#: src/photos-print-setup.c:892
 msgid "_Bottom:"
 msgstr "_Ala:"
 
-#: src/photos-print-setup.c:922
+#: src/photos-print-setup.c:894
 msgid "C_enter:"
 msgstr "_Keski:"
 
-#: src/photos-print-setup.c:926
+#: src/photos-print-setup.c:898
 msgid "None"
 msgstr "Ei mitään"
 
-#: src/photos-print-setup.c:927
+#: src/photos-print-setup.c:899
 msgid "Horizontal"
 msgstr "Vaakataso"
 
-#: src/photos-print-setup.c:928
+#: src/photos-print-setup.c:900
 msgid "Vertical"
 msgstr "Pystytaso"
 
-#: src/photos-print-setup.c:929
+#: src/photos-print-setup.c:901
 msgid "Both"
 msgstr "Molemmat"
 
-#: src/photos-print-setup.c:945
+#: src/photos-print-setup.c:917
 msgid "_Width:"
 msgstr "_Leveys:"
 
-#: src/photos-print-setup.c:946
+#: src/photos-print-setup.c:918
 msgid "_Height:"
 msgstr "_Korkeus:"
 
-#: src/photos-print-setup.c:948
+#: src/photos-print-setup.c:920
 msgid "_Scaling:"
 msgstr "_Skaalaus:"
 
-#: src/photos-print-setup.c:957
+#: src/photos-print-setup.c:929
 msgid "_Unit:"
 msgstr "_Yksikkö:"
 
-#: src/photos-print-setup.c:961
+#: src/photos-print-setup.c:933
 msgid "Millimeters"
 msgstr "Millimetrit"
 
-#: src/photos-print-setup.c:962
+#: src/photos-print-setup.c:934
 msgid "Inches"
 msgstr "Tuumat"
 
-#: src/photos-print-setup.c:990
+#: src/photos-print-setup.c:962
 msgid "Preview"
 msgstr "Katselu"
 
-#: src/photos-properties-dialog.c:255
+#: src/photos-properties-dialog.c:248
 msgid "Edited in Photos"
 msgstr "Muokattu kuvasovelluksessa"
 
-#: src/photos-properties-dialog.c:268
+#: src/photos-properties-dialog.c:261
 msgid "Untouched"
 msgstr "Koskematon"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: src/photos-properties-dialog.c:453
+#: src/photos-properties-dialog.c:444
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Nimi"
@@ -657,92 +663,92 @@ msgstr "Nimi"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: src/photos-properties-dialog.c:465
+#: src/photos-properties-dialog.c:456
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Tekijä"
 
-#: src/photos-properties-dialog.c:472
+#: src/photos-properties-dialog.c:463
 msgid "Source"
 msgstr "Lähde"
 
-#: src/photos-properties-dialog.c:478
+#: src/photos-properties-dialog.c:469
 msgid "Date Modified"
 msgstr "Muokkauspäivä"
 
-#: src/photos-properties-dialog.c:486
+#: src/photos-properties-dialog.c:477
 msgid "Date Created"
 msgstr "Luontipäivä"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: src/photos-properties-dialog.c:496
+#: src/photos-properties-dialog.c:487
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Tyyppi"
 
-#: src/photos-properties-dialog.c:506
+#: src/photos-properties-dialog.c:497
 msgid "Dimensions"
 msgstr "Mittasuhteet"
 
-#: src/photos-properties-dialog.c:518
+#: src/photos-properties-dialog.c:509
 msgid "Location"
 msgstr "Sijainti"
 
-#: src/photos-properties-dialog.c:538
+#: src/photos-properties-dialog.c:527
 msgid "Camera"
 msgstr "Kamera"
 
-#: src/photos-properties-dialog.c:548 src/photos-tool-colors.c:335
+#: src/photos-properties-dialog.c:537 src/photos-tool-colors.c:368
 msgid "Exposure"
 msgstr "Valotus"
 
-#: src/photos-properties-dialog.c:558
+#: src/photos-properties-dialog.c:547
 msgid "Aperture"
 msgstr "Aukko"
 
-#: src/photos-properties-dialog.c:568
+#: src/photos-properties-dialog.c:557
 msgid "Focal Length"
 msgstr "Polttoväli"
 
-#: src/photos-properties-dialog.c:578
+#: src/photos-properties-dialog.c:567
 msgid "ISO Speed"
 msgstr "ISO-nopeus"
 
-#: src/photos-properties-dialog.c:588
+#: src/photos-properties-dialog.c:577
 msgid "Flash"
 msgstr "Salama"
 
-#: src/photos-properties-dialog.c:597
+#: src/photos-properties-dialog.c:586
 msgid "Modifications"
 msgstr "Muokkaukset"
 
-#: src/photos-properties-dialog.c:738
+#: src/photos-properties-dialog.c:722
 msgid "Off, did not fire"
 msgstr "Pois, ei käytetty"
 
-#: src/photos-properties-dialog.c:740
+#: src/photos-properties-dialog.c:724
 msgid "On, fired"
 msgstr "Päällä, käytetty"
 
-#: src/photos-properties-dialog.c:778
+#: src/photos-properties-dialog.c:761
 msgid "Discard all Edits"
 msgstr "Hylkää kaikki muokkaukset"
 
-#: src/photos-search-match-manager.c:162 src/photos-search-type-manager.c:112
-#: src/photos-source-manager.c:252
+#: src/photos-search-match-manager.c:157 src/photos-search-type-manager.c:107
+#: src/photos-source-manager.c:263
 msgid "All"
 msgstr "Kaikki"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: src/photos-search-match-manager.c:169
+#: src/photos-search-match-manager.c:164
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Otsikko"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: src/photos-search-match-manager.c:176
+#: src/photos-search-match-manager.c:171
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Tekijä"
@@ -750,14 +756,14 @@ msgstr "Tekijä"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: src/photos-search-match-manager.c:214
+#: src/photos-search-match-manager.c:209
 msgid "Match"
 msgstr "Vastaavuus"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: src/photos-search-type-manager.c:168
+#: src/photos-search-type-manager.c:163
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Tyyppi"
@@ -783,26 +789,32 @@ msgctxt "dialog title"
 msgid "Share"
 msgstr "Jaa"
 
+#: src/photos-share-notification.c:151
+#, c-format
+#| msgid "“%s” exported"
+msgid "“%s” shared"
+msgstr "“%s” jaettu"
+
 #: src/photos-share-point-email.c:80
 msgid "E-Mail"
 msgstr "Sähköposti"
 
-#: src/photos-share-point-google.c:98
+#: src/photos-share-point-google.c:105
 msgid "Failed to upload photo: Service not authorized"
 msgstr "Kuvan lähetys epäonnistui: palvelu ei sallittu"
 
-#: src/photos-share-point-google.c:100
+#: src/photos-share-point-google.c:107
 msgid "Failed to upload photo"
 msgstr "Kuvan lähetys epäonnistui"
 
-#: src/photos-source-manager.c:305
+#: src/photos-source-manager.c:316
 msgid "Sources"
 msgstr "Lähteet"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:138
+#: src/photos-source-notification.c:139
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "%s-tilitietosi ovat vanhentuneet"
@@ -811,79 +823,83 @@ msgstr "%s-tilitietosi ovat vanhentuneet"
 msgid "D-Bus address to use"
 msgstr "Käytettävä D-Bus-osoite"
 
-#: src/photos-tool-colors.c:313
-msgid "Brightness"
-msgstr "Valoisuus"
-
-#: src/photos-tool-colors.c:356
+#: src/photos-tool-colors.c:389
 msgid "Contrast"
 msgstr "Kontrasti"
 
-#: src/photos-tool-colors.c:377
+#: src/photos-tool-colors.c:410
 msgid "Blacks"
 msgstr "Mustat"
 
-#: src/photos-tool-colors.c:398
+#: src/photos-tool-colors.c:431
 msgid "Saturation"
 msgstr "Kylläisyys"
 
-#: src/photos-tool-colors.c:426
+#: src/photos-tool-colors.c:450
+msgid "Shadows"
+msgstr "Varjot"
+
+#: src/photos-tool-colors.c:469
+msgid "Highlights"
+msgstr "Korostukset"
+
+#: src/photos-tool-colors.c:498
 msgid "Colors"
 msgstr "Värit"
 
-#: src/photos-tool-crop.c:123
+#: src/photos-tool-crop.c:182
 msgid "Free"
 msgstr "Vapaa"
 
-#: src/photos-tool-crop.c:124
+#: src/photos-tool-crop.c:183
 msgid "Original"
 msgstr "Alkuperäinen"
 
-#: src/photos-tool-crop.c:125
+#: src/photos-tool-crop.c:184
 msgid "1×1 (Square)"
 msgstr "1×1 (neliö)"
 
-#: src/photos-tool-crop.c:126
+#: src/photos-tool-crop.c:185
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: src/photos-tool-crop.c:127
+#: src/photos-tool-crop.c:186
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: src/photos-tool-crop.c:128
+#: src/photos-tool-crop.c:187
 msgid "7×5"
 msgstr "7×5"
 
-#: src/photos-tool-crop.c:129
+#: src/photos-tool-crop.c:188
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: src/photos-tool-crop.c:130
+#: src/photos-tool-crop.c:189
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: src/photos-tool-crop.c:131
+#: src/photos-tool-crop.c:190
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: src/photos-tool-crop.c:1255
+#: src/photos-tool-crop.c:1291
 msgid "Lock aspect ratio"
 msgstr "Lukitse kuvasuhde"
 
-#: src/photos-tool-crop.c:1323
+#: src/photos-tool-crop.c:1361
 msgid "Landscape"
 msgstr "Vaakakuva"
 
-#: src/photos-tool-crop.c:1334
+#: src/photos-tool-crop.c:1372
 msgid "Portrait"
 msgstr "Pystykuva"
 
-#: src/photos-tool-crop.c:1345
+#: src/photos-tool-crop.c:1383
 msgid "Reset"
 msgstr "Palauta"
 
-#: src/photos-tool-crop.c:1365
+#: src/photos-tool-crop.c:1403
 msgid "Crop"
 msgstr "Rajaa"
 
@@ -933,11 +949,20 @@ msgstr "Suodattimet"
 msgid "Unable to fetch the list of photos"
 msgstr "Kuvaluettelon hakeminen ei onnistunut"
 
+#~ msgid ""
+#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#~ "Copyright © 2014 – 2015 Pranav Kant\n"
+#~ "Copyright © 2012 – 2017 Red Hat, Inc."
+#~ msgstr ""
+#~ "Tekijänoikeus © 2013 Intel Corporation. All rights reserved.\n"
+#~ "Tekijänoikeus © 2014 - 2015 Pranav Kant\n"
+#~ "Tekijänoikeus © 2012 - 2017 Red Hat, Inc."
+
+#~ msgid "Brightness"
+#~ msgstr "Valoisuus"
+
 #~ msgid "Width"
 #~ msgstr "Leveys"
-
-#~ msgid "Height"
-#~ msgstr "Korkeus"
 
 #~ msgid "Print the current photo"
 #~ msgstr "Tulosta nykyinen kuva"
