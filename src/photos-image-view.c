@@ -218,8 +218,7 @@ photos_image_view_start_zoom_animation (PhotosImageView *self)
                                                   frame_clock,
                                                   g_object_unref,
                                                   helper,
-                                                  "zoom",
-                                                  self->zoom,
+                                                  "zoom", self->zoom,
                                                   NULL);
   g_object_add_weak_pointer (G_OBJECT (self->zoom_animation), (gpointer *) &self->zoom_animation);
 }
