@@ -35,10 +35,12 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
+#include "egg-animation.h"
 #include "photos-icons.h"
 #include "photos-image-view.h"
 #include "photos-tool.h"
 #include "photos-tool-crop.h"
+#include "photos-tool-crop-helper.h"
 #include "photos-utils.h"
 
 
@@ -78,6 +80,7 @@ struct _PhotosToolCropConstraint
 struct _PhotosToolCrop
 {
   PhotosTool parent_instance;
+  EggAnimation *constraint_animation;
   GAction *crop;
   GCancellable *cancellable;
   GeglRectangle bbox_zoomed;
@@ -99,9 +102,13 @@ struct _PhotosToolCrop
   gboolean reset;
   gdouble crop_aspect_ratio;
   gdouble crop_height;
+  gdouble crop_height_visible;
   gdouble crop_width;
+  gdouble crop_width_visible;
   gdouble crop_x;
+  gdouble crop_x_visible;
   gdouble crop_y;
+  gdouble crop_y_visible;
   gdouble event_x_last;
   gdouble event_y_last;
   gint list_box_active;
@@ -117,6 +124,12 @@ G_DEFINE_TYPE_WITH_CODE (PhotosToolCrop, photos_tool_crop, PHOTOS_TYPE_TOOL,
                                                          100));
 
 
+enum
+{
+  CONSTRAINT_ANIMATION_DURATION = 250 /* ms */
+};
+
+static const EggAnimationMode CONSTRAINT_ANIMATION_MODE = EGG_ANIMATION_EASE_OUT_CUBIC;
 static const gdouble CROP_MIN_SIZE = 16.0;
 static const gdouble HANDLE_OFFSET = 3.0;
 static const gdouble HANDLE_RADIUS = 8.0;
@@ -238,13 +251,13 @@ photos_tool_crop_redraw_damaged_area (PhotosToolCrop *self)
   gdouble y;
 
   x = photos_image_view_get_x (PHOTOS_IMAGE_VIEW (self->view));
-  x = -x + self->crop_x - damage_offset;
+  x = -x + self->crop_x_visible - damage_offset;
 
   y = photos_image_view_get_y (PHOTOS_IMAGE_VIEW (self->view));
-  y = -y + self->crop_y - damage_offset;
+  y = -y + self->crop_y_visible - damage_offset;
 
-  area.height = (gint) (self->crop_height + 2 * damage_offset + 0.5) + 2;
-  area.width = (gint) (self->crop_width + 2 * damage_offset + 0.5) + 2;
+  area.height = (gint) (self->crop_height_visible + 2 * damage_offset + 0.5) + 2;
+  area.width = (gint) (self->crop_width_visible + 2 * damage_offset + 0.5) + 2;
   area.x = (gint) (x + 0.5) - 1;
   area.y = (gint) (y + 0.5) - 1;
 
@@ -280,23 +293,31 @@ photos_tool_crop_surface_draw (PhotosToolCrop *self)
   cairo_paint (cr);
 
   cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.0);
-  cairo_rectangle (cr, self->crop_x, self->crop_y, self->crop_width, self->crop_height);
+  cairo_rectangle (cr,
+                   self->crop_x_visible,
+                   self->crop_y_visible,
+                   self->crop_width_visible,
+                   self->crop_height_visible);
   cairo_fill (cr);
 
   cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
   cairo_set_source_rgba (cr, 0.25, 0.507, 0.828, 1.0);
   photos_utils_draw_rectangle_handles (cr,
-                                       self->crop_x,
-                                       self->crop_y,
-                                       self->crop_width,
-                                       self->crop_height,
+                                       self->crop_x_visible,
+                                       self->crop_y_visible,
+                                       self->crop_width_visible,
+                                       self->crop_height_visible,
                                        HANDLE_OFFSET,
                                        HANDLE_RADIUS);
 
   cairo_set_source_rgba (cr, 0.8, 0.8, 0.8, 1.0);
   cairo_set_line_width (cr, 0.5);
-  photos_utils_draw_rectangle_thirds (cr, self->crop_x, self->crop_y, self->crop_width, self->crop_height);
+  photos_utils_draw_rectangle_thirds (cr,
+                                      self->crop_x_visible,
+                                      self->crop_y_visible,
+                                      self->crop_width_visible,
+                                      self->crop_height_visible);
 
   cairo_destroy (cr);
 }
@@ -347,6 +368,11 @@ photos_tool_crop_init_crop (PhotosToolCrop *self)
 
   self->crop_x = ((gdouble) self->bbox_zoomed.width - self->crop_width) / 2.0;
   self->crop_y = ((gdouble) self->bbox_zoomed.height - self->crop_height) / 2.0;
+
+  self->crop_height_visible = self->crop_height;
+  self->crop_width_visible = self->crop_width;
+  self->crop_x_visible = self->crop_x;
+  self->crop_y_visible = self->crop_y;
 
  out:
   photos_tool_crop_surface_draw (self);
@@ -682,6 +708,14 @@ photos_tool_crop_set_crop (PhotosToolCrop *self, gdouble event_x, gdouble event_
  out:
   if (changed)
     {
+      if (self->constraint_animation != NULL)
+        egg_animation_stop (self->constraint_animation);
+
+      self->crop_height_visible = self->crop_height;
+      self->crop_width_visible = self->crop_width;
+      self->crop_x_visible = self->crop_x;
+      self->crop_y_visible = self->crop_y;
+
       photos_tool_crop_surface_draw (self);
       photos_tool_crop_redraw_damaged_area (self);
     }
@@ -842,12 +876,7 @@ photos_tool_crop_active_changed (PhotosToolCrop *self)
   if (self->crop_aspect_ratio < 0.0)
     return;
 
-  photos_tool_crop_redraw_damaged_area (self);
-
   photos_tool_crop_update_crop_after_constraint_changed (self);
-
-  photos_tool_crop_surface_draw (self);
-  photos_tool_crop_redraw_damaged_area (self);
 }
 
 
@@ -868,12 +897,77 @@ photos_tool_crop_list_box_update (PhotosToolCrop *self, GtkListBoxRow *active_ro
 
 
 static void
+photos_tool_crop_notify_crop (GObject *object, GParamSpec *pspec, gpointer user_data)
+{
+  PhotosToolCrop *self = PHOTOS_TOOL_CROP (user_data);
+  PhotosToolCropHelper *helper = PHOTOS_TOOL_CROP_HELPER (object);
+
+  photos_tool_crop_redraw_damaged_area (self);
+
+  self->crop_height_visible = photos_tool_crop_helper_get_height (helper);
+  self->crop_width_visible = photos_tool_crop_helper_get_width (helper);
+  self->crop_x_visible = photos_tool_crop_helper_get_x (helper);
+  self->crop_y_visible = photos_tool_crop_helper_get_y (helper);
+
+  photos_tool_crop_surface_draw (self);
+  photos_tool_crop_redraw_damaged_area (self);
+}
+
+
+static void
+photos_tool_crop_start_constraint_animation (PhotosToolCrop *self)
+{
+  GdkFrameClock *frame_clock;
+  PhotosToolCropHelper *helper;
+
+  g_return_if_fail (self->constraint_animation == NULL);
+  g_return_if_fail (self->crop_height >= 0.0);
+  g_return_if_fail (self->crop_height_visible >= 0.0);
+  g_return_if_fail (self->crop_width >= 0.0);
+  g_return_if_fail (self->crop_width_visible >= 0.0);
+  g_return_if_fail (self->crop_x >= 0.0);
+  g_return_if_fail (self->crop_x_visible >= 0.0);
+  g_return_if_fail (self->crop_y >= 0.0);
+  g_return_if_fail (self->crop_y_visible >= 0.0);
+
+  helper = photos_tool_crop_helper_new ();
+  photos_tool_crop_helper_set_height (helper, self->crop_height_visible);
+  photos_tool_crop_helper_set_width (helper, self->crop_width_visible);
+  photos_tool_crop_helper_set_x (helper, self->crop_x_visible);
+  photos_tool_crop_helper_set_y (helper, self->crop_y_visible);
+  g_signal_connect (helper, "notify", G_CALLBACK (photos_tool_crop_notify_crop), self);
+
+  frame_clock = gtk_widget_get_frame_clock (GTK_WIDGET (self->view));
+
+  self->constraint_animation = egg_object_animate_full (g_object_ref (helper),
+                                                        CONSTRAINT_ANIMATION_MODE,
+                                                        CONSTRAINT_ANIMATION_DURATION,
+                                                        frame_clock,
+                                                        g_object_unref,
+                                                        helper,
+                                                        "height", self->crop_height,
+                                                        "width", self->crop_width,
+                                                        "x", self->crop_x,
+                                                        "y", self->crop_y,
+                                                        NULL);
+  g_object_add_weak_pointer (G_OBJECT (self->constraint_animation), (gpointer *) &self->constraint_animation);
+
+  g_object_unref (helper);
+}
+
+
+static void
 photos_tool_crop_list_box_row_activated (PhotosToolCrop *self, GtkListBoxRow *row)
 {
   photos_tool_crop_list_box_update (self, row);
 
   self->list_box_active = gtk_list_box_row_get_index (GTK_LIST_BOX_ROW (row));
+
+  if (self->constraint_animation != NULL)
+    egg_animation_stop (self->constraint_animation);
+
   photos_tool_crop_active_changed (self);
+  photos_tool_crop_start_constraint_animation (self);
 }
 
 
@@ -883,7 +977,11 @@ photos_tool_crop_landscape_button_toggled (PhotosToolCrop *self)
   if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->landscape_button)))
     goto out;
 
+  if (self->constraint_animation != NULL)
+    egg_animation_stop (self->constraint_animation);
+
   photos_tool_crop_active_changed (self);
+  photos_tool_crop_start_constraint_animation (self);
 
  out:
   return;
@@ -896,7 +994,11 @@ photos_tool_crop_portrait_button_toggled (PhotosToolCrop *self)
   if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->portrait_button)))
     goto out;
 
+  if (self->constraint_animation != NULL)
+    egg_animation_stop (self->constraint_animation);
+
   photos_tool_crop_active_changed (self);
+  photos_tool_crop_start_constraint_animation (self);
 
  out:
   return;
@@ -978,12 +1080,21 @@ photos_tool_crop_size_allocate (PhotosToolCrop *self, GdkRectangle *allocation)
   GeglRectangle bbox_zoomed_old = self->bbox_zoomed;
   gdouble zoom;
 
+  if (self->constraint_animation != NULL)
+    egg_animation_stop (self->constraint_animation);
+
   zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
   self->bbox_zoomed.height = (gint) (zoom * self->bbox_source.height + 0.5);
   self->bbox_zoomed.width = (gint) (zoom * self->bbox_source.width + 0.5);
 
   photos_tool_crop_surface_create (self);
+
   photos_tool_crop_update_crop_after_size_allocate (self, &self->bbox_zoomed, &bbox_zoomed_old);
+  self->crop_height_visible = self->crop_height;
+  self->crop_width_visible = self->crop_width;
+  self->crop_x_visible = self->crop_x;
+  self->crop_y_visible = self->crop_y;
+
   photos_tool_crop_surface_draw (self);
 }
 
@@ -1016,11 +1127,19 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
   photos_tool_crop_surface_create (self);
 
   self->crop_height *= zoom;
+  self->crop_height_visible = self->crop_height;
+
   self->crop_width *= zoom;
+  self->crop_width_visible = self->crop_width;
+
   self->crop_x *= zoom;
+  self->crop_x_visible = self->crop_x;
+
   self->crop_y *= zoom;
+  self->crop_y_visible = self->crop_y;
 
   self->crop_aspect_ratio = self->crop_width / self->crop_height;
+
   active = photos_tool_crop_find_constraint (self, self->crop_aspect_ratio);
   orientation_button = self->crop_aspect_ratio > 1.0 ? self->landscape_button : self->portrait_button;
   photos_tool_crop_set_active (self, (gint) active, GTK_TOGGLE_BUTTON (orientation_button));
@@ -1096,10 +1215,18 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageVi
        * view's zoom, which we won't know until we have finished
        * processing with the reset gegl:crop values.
        */
+
       self->crop_height = height;
+      self->crop_height_visible = self->crop_height;
+
       self->crop_width = width;
+      self->crop_width_visible = self->crop_width;
+
       self->crop_x = x;
+      self->crop_x_visible = self->crop_x;
+
       self->crop_y = y;
+      self->crop_y_visible = self->crop_y;
 
       photos_base_item_operation_remove_async (item,
                                                "gegl:crop",
@@ -1144,6 +1271,9 @@ photos_tool_crop_deactivate (PhotosTool *tool)
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (tool);
 
   g_return_if_fail (self->activated);
+
+  if (self->constraint_animation != NULL)
+    egg_animation_stop (self->constraint_animation);
 
   if (!self->reset)
     {
@@ -1292,6 +1422,12 @@ static void
 photos_tool_crop_dispose (GObject *object)
 {
   PhotosToolCrop *self = PHOTOS_TOOL_CROP (object);
+
+  if (self->constraint_animation != NULL)
+    {
+      egg_animation_stop (self->constraint_animation);
+      g_assert_null (self->constraint_animation);
+    }
 
   if (self->cancellable != NULL)
     {
