@@ -127,6 +127,7 @@ void
 photos_image_view_helper_set_zoom (PhotosImageViewHelper *self, gdouble zoom)
 {
   g_return_if_fail (PHOTOS_IS_IMAGE_VIEW_HELPER (self));
+  g_return_if_fail (zoom > 0.0);
 
   if (photos_utils_equal_double (self->zoom, zoom))
     return;
