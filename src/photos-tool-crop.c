@@ -302,49 +302,6 @@ photos_tool_crop_surface_draw (PhotosToolCrop *self)
 }
 
 
-static void
-photos_tool_crop_change_constraint (PhotosToolCrop *self)
-{
-  gdouble crop_center_x;
-  gdouble crop_center_y;
-  gdouble old_area;
-
-  photos_tool_crop_redraw_damaged_area (self);
-
-  crop_center_x = self->crop_x + self->crop_width / 2.0;
-  crop_center_y = self->crop_y + self->crop_height / 2.0;
-  old_area = self->crop_height * self->crop_width;
-
-  self->crop_height = sqrt (old_area / self->crop_aspect_ratio);
-  self->crop_width = sqrt (old_area * self->crop_aspect_ratio);
-
-  if (self->crop_height > self->bbox_zoomed.height)
-    {
-      self->crop_height = self->bbox_zoomed.height;
-      self->crop_width = self->crop_height * self->crop_aspect_ratio;
-    }
-
-  if (self->crop_width > self->bbox_zoomed.width)
-    {
-      self->crop_width = self->bbox_zoomed.width;
-      self->crop_height = self->crop_width / self->crop_aspect_ratio;
-    }
-
-  self->crop_x = crop_center_x - self->crop_width / 2.0;
-  self->crop_x = CLAMP (self->crop_x,
-                        0.0,
-                        self->bbox_zoomed.width - self->crop_width);
-
-  self->crop_y = crop_center_y - self->crop_height / 2.0;
-  self->crop_y = CLAMP (self->crop_y,
-                        0.0,
-                        self->bbox_zoomed.height - self->crop_height);
-
-  photos_tool_crop_surface_draw (self);
-  photos_tool_crop_redraw_damaged_area (self);
-}
-
-
 static gint
 photos_tool_crop_get_active (PhotosToolCrop *self)
 {
@@ -832,6 +789,44 @@ photos_tool_crop_set_location (PhotosToolCrop *self, gdouble event_x, gdouble ev
 
 
 static void
+photos_tool_crop_update_crop_after_constraint_changed (PhotosToolCrop *self)
+{
+  gdouble crop_center_x;
+  gdouble crop_center_y;
+  gdouble old_area;
+
+  crop_center_x = self->crop_x + self->crop_width / 2.0;
+  crop_center_y = self->crop_y + self->crop_height / 2.0;
+  old_area = self->crop_height * self->crop_width;
+
+  self->crop_height = sqrt (old_area / self->crop_aspect_ratio);
+  self->crop_width = sqrt (old_area * self->crop_aspect_ratio);
+
+  if (self->crop_height > self->bbox_zoomed.height)
+    {
+      self->crop_height = self->bbox_zoomed.height;
+      self->crop_width = self->crop_height * self->crop_aspect_ratio;
+    }
+
+  if (self->crop_width > self->bbox_zoomed.width)
+    {
+      self->crop_width = self->bbox_zoomed.width;
+      self->crop_height = self->crop_width / self->crop_aspect_ratio;
+    }
+
+  self->crop_x = crop_center_x - self->crop_width / 2.0;
+  self->crop_x = CLAMP (self->crop_x,
+                        0.0,
+                        self->bbox_zoomed.width - self->crop_width);
+
+  self->crop_y = crop_center_y - self->crop_height / 2.0;
+  self->crop_y = CLAMP (self->crop_y,
+                        0.0,
+                        self->bbox_zoomed.height - self->crop_height);
+}
+
+
+static void
 photos_tool_crop_active_changed (PhotosToolCrop *self)
 {
   gint active;
@@ -847,7 +842,12 @@ photos_tool_crop_active_changed (PhotosToolCrop *self)
   if (self->crop_aspect_ratio < 0.0)
     return;
 
-  photos_tool_crop_change_constraint (self);
+  photos_tool_crop_redraw_damaged_area (self);
+
+  photos_tool_crop_update_crop_after_constraint_changed (self);
+
+  photos_tool_crop_surface_draw (self);
+  photos_tool_crop_redraw_damaged_area (self);
 }
 
 
@@ -951,30 +951,39 @@ photos_tool_crop_set_active (PhotosToolCrop *self, gint active, GtkToggleButton 
 
 
 static void
-photos_tool_crop_size_allocate (PhotosToolCrop *self, GdkRectangle *allocation)
+photos_tool_crop_update_crop_after_size_allocate (PhotosToolCrop *self,
+                                                  GeglRectangle *bbox_zoomed_new,
+                                                  GeglRectangle *bbox_zoomed_old)
 {
   gdouble crop_height_ratio;
   gdouble crop_width_ratio;
   gdouble crop_x_ratio;
   gdouble crop_y_ratio;
-  gdouble zoom;
 
-  crop_height_ratio = self->crop_height / (gdouble) self->bbox_zoomed.height;
-  crop_width_ratio = self->crop_width / (gdouble) self->bbox_zoomed.width;
-  crop_x_ratio = self->crop_x / (gdouble) self->bbox_zoomed.width;
-  crop_y_ratio = self->crop_y / (gdouble) self->bbox_zoomed.height;
+  crop_height_ratio = self->crop_height / (gdouble) bbox_zoomed_old->height;
+  crop_width_ratio = self->crop_width / (gdouble) bbox_zoomed_old->width;
+  crop_x_ratio = self->crop_x / (gdouble) bbox_zoomed_old->width;
+  crop_y_ratio = self->crop_y / (gdouble) bbox_zoomed_old->height;
+
+  self->crop_height = crop_height_ratio * (gdouble) bbox_zoomed_new->height;
+  self->crop_width = crop_width_ratio * (gdouble) bbox_zoomed_new->width;
+  self->crop_x = crop_x_ratio * (gdouble) bbox_zoomed_new->width;
+  self->crop_y = crop_y_ratio * (gdouble) bbox_zoomed_new->height;
+}
+
+
+static void
+photos_tool_crop_size_allocate (PhotosToolCrop *self, GdkRectangle *allocation)
+{
+  GeglRectangle bbox_zoomed_old = self->bbox_zoomed;
+  gdouble zoom;
 
   zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
   self->bbox_zoomed.height = (gint) (zoom * self->bbox_source.height + 0.5);
   self->bbox_zoomed.width = (gint) (zoom * self->bbox_source.width + 0.5);
 
   photos_tool_crop_surface_create (self);
-
-  self->crop_height = crop_height_ratio * (gdouble) self->bbox_zoomed.height;
-  self->crop_width = crop_width_ratio * (gdouble) self->bbox_zoomed.width;
-  self->crop_x = crop_x_ratio * (gdouble) self->bbox_zoomed.width;
-  self->crop_y = crop_y_ratio * (gdouble) self->bbox_zoomed.height;
-
+  photos_tool_crop_update_crop_after_size_allocate (self, &self->bbox_zoomed, &bbox_zoomed_old);
   photos_tool_crop_surface_draw (self);
 }
 
