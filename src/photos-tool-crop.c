@@ -258,14 +258,10 @@ static void
 photos_tool_crop_surface_create (PhotosToolCrop *self)
 {
   GdkWindow *window;
-  gdouble zoom;
 
   g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
 
   window = gtk_widget_get_window (self->view);
-  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
-  self->bbox_zoomed.height = (gint) (zoom * self->bbox_source.height + 0.5);
-  self->bbox_zoomed.width = (gint) (zoom * self->bbox_source.width + 0.5);
   self->surface = gdk_window_create_similar_surface (window,
                                                      CAIRO_CONTENT_COLOR_ALPHA,
                                                      self->bbox_zoomed.width,
@@ -961,11 +957,16 @@ photos_tool_crop_size_allocate (PhotosToolCrop *self, GdkRectangle *allocation)
   gdouble crop_width_ratio;
   gdouble crop_x_ratio;
   gdouble crop_y_ratio;
+  gdouble zoom;
 
   crop_height_ratio = self->crop_height / (gdouble) self->bbox_zoomed.height;
   crop_width_ratio = self->crop_width / (gdouble) self->bbox_zoomed.width;
   crop_x_ratio = self->crop_x / (gdouble) self->bbox_zoomed.width;
   crop_y_ratio = self->crop_y / (gdouble) self->bbox_zoomed.height;
+
+  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
+  self->bbox_zoomed.height = (gint) (zoom * self->bbox_source.height + 0.5);
+  self->bbox_zoomed.width = (gint) (zoom * self->bbox_source.width + 0.5);
 
   photos_tool_crop_surface_create (self);
 
@@ -999,9 +1000,12 @@ photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer us
 
   self = PHOTOS_TOOL_CROP (user_data);
 
+  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
+
+  self->bbox_zoomed.height = (gint) (zoom * self->bbox_source.height + 0.5);
+  self->bbox_zoomed.width = (gint) (zoom * self->bbox_source.width + 0.5);
   photos_tool_crop_surface_create (self);
 
-  zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
   self->crop_height *= zoom;
   self->crop_width *= zoom;
   self->crop_x *= zoom;
@@ -1098,8 +1102,13 @@ photos_tool_crop_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImageVi
     {
       GtkWidget *orientation_button;
       gdouble aspect_ratio;
+      gdouble zoom;
 
+      zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
+      self->bbox_zoomed.height = (gint) (zoom * self->bbox_source.height + 0.5);
+      self->bbox_zoomed.width = (gint) (zoom * self->bbox_source.width + 0.5);
       photos_tool_crop_surface_create (self);
+
       photos_tool_crop_init_crop (self);
 
       aspect_ratio = (gdouble) self->bbox_source.width / (gdouble) self->bbox_source.height;
