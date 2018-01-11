@@ -43,12 +43,13 @@ enum
   PROP_SOURCE,
 };
 
-static void photos_filterable_interface_init (PhotosFilterableInterface *iface);
+static void photos_share_point_online_filterable_iface_init (PhotosFilterableInterface *iface);
 
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (PhotosSharePointOnline, photos_share_point_online, PHOTOS_TYPE_SHARE_POINT,
                                   G_ADD_PRIVATE (PhotosSharePointOnline)
-                                  G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE, photos_filterable_interface_init));
+                                  G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
+                                                         photos_share_point_online_filterable_iface_init));
 
 
 static GIcon *
@@ -203,7 +204,7 @@ photos_share_point_online_class_init (PhotosSharePointOnlineClass *class)
 
 
 static void
-photos_filterable_interface_init (PhotosFilterableInterface *iface)
+photos_share_point_online_filterable_iface_init (PhotosFilterableInterface *iface)
 {
   iface->get_id = photos_share_point_online_get_id;
 }
