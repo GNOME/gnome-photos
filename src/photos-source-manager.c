@@ -113,7 +113,7 @@ static void
 photos_source_manager_refresh_accounts (PhotosSourceManager *self)
 {
   GApplication *app;
-  GHashTable *new_sources = NULL;
+  g_autoptr (GHashTable) new_sources = NULL;
   GList *accounts = NULL;
   GList *l;
   guint i;
@@ -130,7 +130,7 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
     {
       GoaAccount *account;
       GoaObject *object = GOA_OBJECT (l->data);
-      PhotosSource *source;
+      g_autoptr (PhotosSource) source = NULL;
       const gchar *id;
 
       account = goa_object_peek_account (object);
@@ -146,7 +146,6 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
       source = photos_source_new_from_goa_object (GOA_OBJECT (l->data));
       id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
       g_hash_table_insert (new_sources, g_strdup (id), g_object_ref (source));
-      g_object_unref (source);
     }
 
   photos_base_manager_process_new_objects (PHOTOS_BASE_MANAGER (self), new_sources);
@@ -156,7 +155,7 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
     {
       GoaAccount *account;
       GoaObject *object;
-      PhotosSource *source = NULL;
+      g_autoptr (PhotosSource) source = NULL;
       gboolean attention_needed;
       gboolean source_notified;
       const gchar *id;
@@ -164,11 +163,11 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
       source = PHOTOS_SOURCE (g_list_model_get_object (G_LIST_MODEL (self), i));
       object = photos_source_get_goa_object (source);
       if (object == NULL)
-        goto cleanup_and_continue;
+        continue;
 
       account = goa_object_peek_account (object);
       if (account == NULL)
-        goto cleanup_and_continue;
+        continue;
 
       attention_needed = goa_account_get_attention_needed (account);
       id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
@@ -190,13 +189,9 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
           inserted = g_hash_table_insert (self->sources_notified, g_strdup (id), g_object_ref (source));
           g_assert_true (inserted);
         }
-
-    cleanup_and_continue:
-      g_clear_object (&source);
     }
 
  out:
-  g_clear_pointer (&new_sources, (GDestroyNotify) g_hash_table_unref);
   g_list_free_full (accounts, g_object_unref);
 }
 
@@ -205,19 +200,20 @@ static void
 photos_source_manager_goa_client (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSourceManager *self;
-  GError *error;
   GoaClient *client;
 
-  error = NULL;
-  client = goa_client_new_finish (res, &error);
-  if (error != NULL)
-    {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to create GoaClient: %s", error->message);
+  {
+    g_autoptr (GError) error = NULL;
 
-      g_error_free (error);
-      return;
-    }
+    client = goa_client_new_finish (res, &error);
+    if (error != NULL)
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to create GoaClient: %s", error->message);
+
+        return;
+      }
+  }
 
   self = PHOTOS_SOURCE_MANAGER (user_data);
 
@@ -258,15 +254,14 @@ photos_source_manager_dispose (GObject *object)
 static void
 photos_source_manager_init (PhotosSourceManager *self)
 {
-  PhotosSource *source;
+  g_autoptr (PhotosSource) source_all = NULL;
+  g_autoptr (PhotosSource) source_local = NULL;
 
-  source = photos_source_new (PHOTOS_SOURCE_STOCK_ALL, _("All"), TRUE);
-  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source));
-  g_object_unref (source);
+  source_all = photos_source_new (PHOTOS_SOURCE_STOCK_ALL, _("All"), TRUE);
+  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source_all));
 
-  source = photos_source_new (PHOTOS_SOURCE_STOCK_LOCAL, _("Local"), TRUE);
-  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source));
-  g_object_unref (source);
+  source_local = photos_source_new (PHOTOS_SOURCE_STOCK_LOCAL, _("Local"), TRUE);
+  photos_base_manager_add_object (PHOTOS_BASE_MANAGER (self), G_OBJECT (source_local));
 
   self->cancellable = g_cancellable_new ();
   self->sources_notified = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
@@ -328,7 +323,7 @@ photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gc
   for (i = 0; i < n_items; i++)
     {
       GoaObject *object;
-      PhotosSource *source;
+      g_autoptr (PhotosSource) source = NULL;
 
       source = PHOTOS_SOURCE (g_list_model_get_object (G_LIST_MODEL (self), i));
       object = photos_source_get_goa_object (source);
@@ -340,8 +335,6 @@ photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gc
           if (g_strcmp0 (goa_account_get_provider_type (account), provider_type) == 0)
             items = g_list_prepend (items, g_object_ref (source));
         }
-
-      g_object_unref (source);
     }
 
   return items;
@@ -351,7 +344,6 @@ photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gc
 gboolean
 photos_source_manager_has_online_sources (PhotosSourceManager *self)
 {
-  PhotosSource *source = NULL;
   gboolean ret_val = FALSE;
   guint i;
   guint n_items;
@@ -360,6 +352,7 @@ photos_source_manager_has_online_sources (PhotosSourceManager *self)
   for (i = 0; i < n_items; i++)
     {
       GoaObject *object;
+      g_autoptr (PhotosSource) source = NULL;
 
       source = PHOTOS_SOURCE (g_list_model_get_object (G_LIST_MODEL (self), i));
       object = photos_source_get_goa_object (source);
@@ -368,11 +361,8 @@ photos_source_manager_has_online_sources (PhotosSourceManager *self)
           ret_val = TRUE;
           break;
         }
-
-      g_clear_object (&source);
     }
 
-  g_clear_object (&source);
   return ret_val;
 }
 
