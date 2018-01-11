@@ -52,12 +52,12 @@ enum
   PROP_OBJECT
 };
 
-static void photos_filterable_interface_init (PhotosFilterableInterface *iface);
+static void photos_source_filterable_iface_init (PhotosFilterableInterface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (PhotosSource, photos_source, G_TYPE_OBJECT,
                          G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
-                                                photos_filterable_interface_init));
+                                                photos_source_filterable_iface_init));
 EGG_DEFINE_COUNTER (instances, "PhotosSource", "Instances", "Number of PhotosSource instances")
 
 
@@ -263,7 +263,7 @@ photos_source_class_init (PhotosSourceClass *class)
 
 
 static void
-photos_filterable_interface_init (PhotosFilterableInterface *iface)
+photos_source_filterable_iface_init (PhotosFilterableInterface *iface)
 {
   iface->get_builtin = photos_source_get_builtin;
   iface->get_filter = photos_source_get_filter;
