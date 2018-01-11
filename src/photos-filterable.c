@@ -56,10 +56,10 @@ photos_filterable_get_builtin (PhotosFilterable *self)
 
 
 gchar *
-photos_filterable_get_filter (PhotosFilterable *iface)
+photos_filterable_get_filter (PhotosFilterable *self)
 {
-  g_return_val_if_fail (PHOTOS_IS_FILTERABLE (iface), NULL);
-  return PHOTOS_FILTERABLE_GET_IFACE (iface)->get_filter (iface);
+  g_return_val_if_fail (PHOTOS_IS_FILTERABLE (self), NULL);
+  return PHOTOS_FILTERABLE_GET_IFACE (self)->get_filter (self);
 }
 
 
@@ -72,8 +72,8 @@ photos_filterable_get_id (PhotosFilterable *self)
 
 
 gchar *
-photos_filterable_get_where (PhotosFilterable *iface)
+photos_filterable_get_where (PhotosFilterable *self)
 {
-  g_return_val_if_fail (PHOTOS_IS_FILTERABLE (iface), NULL);
-  return PHOTOS_FILTERABLE_GET_IFACE (iface)->get_where (iface);
+  g_return_val_if_fail (PHOTOS_IS_FILTERABLE (self), NULL);
+  return PHOTOS_FILTERABLE_GET_IFACE (self)->get_where (self);
 }
