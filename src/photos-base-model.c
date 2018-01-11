@@ -99,6 +99,9 @@ photos_base_model_refresh (PhotosBaseModel *self)
       g_autofree gchar *name = NULL;
 
       object = g_list_model_get_object (G_LIST_MODEL (self->mngr), i);
+      if (!photos_filterable_is_search_criterion (PHOTOS_FILTERABLE (object)))
+        continue;
+
       id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
       g_object_get (object, "name", &name, NULL);
 
