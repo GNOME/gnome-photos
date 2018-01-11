@@ -77,6 +77,13 @@ photos_search_match_get_id (PhotosFilterable *filterable)
 }
 
 
+static gboolean
+photos_search_match_is_search_criterion (PhotosFilterable *filterable)
+{
+  return TRUE;
+}
+
+
 static void
 photos_search_match_finalize (GObject *object)
 {
@@ -186,6 +193,7 @@ photos_search_match_filterable_iface_init (PhotosFilterableInterface *iface)
 {
   iface->get_filter = photos_search_match_get_filter;
   iface->get_id = photos_search_match_get_id;
+  iface->is_search_criterion = photos_search_match_is_search_criterion;
 }
 
 

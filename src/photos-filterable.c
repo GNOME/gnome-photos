@@ -75,3 +75,11 @@ photos_filterable_get_where (PhotosFilterable *self)
   g_return_val_if_fail (PHOTOS_IS_FILTERABLE (self), NULL);
   return PHOTOS_FILTERABLE_GET_IFACE (self)->get_where (self);
 }
+
+
+gboolean
+photos_filterable_is_search_criterion (PhotosFilterable *self)
+{
+  g_return_val_if_fail (PHOTOS_IS_FILTERABLE (self), FALSE);
+  return PHOTOS_FILTERABLE_GET_IFACE (self)->is_search_criterion (self);
+}

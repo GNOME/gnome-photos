@@ -80,6 +80,13 @@ photos_share_point_email_get_name (PhotosSharePoint *share_point)
 
 
 static gboolean
+photos_share_point_email_is_search_criterion (PhotosFilterable *filterable)
+{
+  return FALSE;
+}
+
+
+static gboolean
 photos_share_point_email_needs_notification (PhotosSharePoint *share_point)
 {
   return FALSE;
@@ -273,6 +280,7 @@ static void
 photos_share_point_email_filterable_iface_init (PhotosFilterableInterface *iface)
 {
   iface->get_id = photos_share_point_email_get_id;
+  iface->is_search_criterion = photos_share_point_email_is_search_criterion;
 }
 
 

@@ -77,6 +77,13 @@ photos_search_type_get_where (PhotosFilterable *iface)
 }
 
 
+static gboolean
+photos_search_type_is_search_criterion (PhotosFilterable *iface)
+{
+  return TRUE;
+}
+
+
 static void
 photos_search_type_finalize (GObject *object)
 {
@@ -198,6 +205,7 @@ photos_search_type_filterable_iface_init (PhotosFilterableInterface *iface)
   iface->get_filter = photos_search_type_get_filter;
   iface->get_id = photos_search_type_get_id;
   iface->get_where = photos_search_type_get_where;
+  iface->is_search_criterion = photos_search_type_is_search_criterion;
 }
 
 

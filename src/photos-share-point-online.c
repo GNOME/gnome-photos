@@ -83,6 +83,13 @@ photos_share_point_online_get_name (PhotosSharePoint *share_point)
 }
 
 
+static gboolean
+photos_share_point_online_is_search_criterion (PhotosFilterable *filterable)
+{
+  return FALSE;
+}
+
+
 static void
 photos_share_point_online_dispose (GObject *object)
 {
@@ -205,6 +212,7 @@ static void
 photos_share_point_online_filterable_iface_init (PhotosFilterableInterface *iface)
 {
   iface->get_id = photos_share_point_online_get_id;
+  iface->is_search_criterion = photos_share_point_online_is_search_criterion;
 }
 
 

@@ -992,6 +992,13 @@ photos_base_item_filterable_get_id (PhotosFilterable *filterable)
 }
 
 
+static gboolean
+photos_base_item_filterable_is_search_criterion (PhotosFilterable *filterable)
+{
+  return FALSE;
+}
+
+
 static cairo_surface_t *
 photos_base_item_main_box_item_get_icon (GdMainBoxItem *box_item)
 {
@@ -3046,6 +3053,7 @@ static void
 photos_base_item_filterable_iface_init (PhotosFilterableInterface *iface)
 {
   iface->get_id = photos_base_item_filterable_get_id;
+  iface->is_search_criterion = photos_base_item_filterable_is_search_criterion;
 }
 
 

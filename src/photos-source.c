@@ -173,6 +173,13 @@ photos_source_get_id (PhotosFilterable *filterable)
 }
 
 
+static gboolean
+photos_source_is_search_criterion (PhotosFilterable *filterable)
+{
+  return TRUE;
+}
+
+
 static void
 photos_source_dispose (GObject *object)
 {
@@ -354,6 +361,7 @@ photos_source_filterable_iface_init (PhotosFilterableInterface *iface)
   iface->get_builtin = photos_source_get_builtin;
   iface->get_filter = photos_source_get_filter;
   iface->get_id = photos_source_get_id;
+  iface->is_search_criterion = photos_source_is_search_criterion;
 }
 
 
