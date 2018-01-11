@@ -241,12 +241,30 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
       break;
 
     case PROP_ID:
-      self->id = g_value_dup_string (value);
-      break;
+      {
+        const gchar *id;
+
+        id = g_value_get_string (value);
+        g_return_if_fail (self->id == NULL || id == NULL);
+
+        if (self->id == NULL && id != NULL)
+          self->id = g_strdup (id);
+
+        break;
+      }
 
     case PROP_NAME:
-      self->name = g_value_dup_string (value);
-      break;
+      {
+        const gchar *name;
+
+        name = g_value_get_string (value);
+        g_return_if_fail (self->name == NULL || name == NULL);
+
+        if (self->name == NULL && name != NULL)
+          self->name = g_strdup (name);
+
+        break;
+      }
 
     case PROP_OBJECT:
       {
