@@ -1,3 +1,21 @@
+Overview of changes in 3.27.4
+=============================
+
+* Bugs fixed:
+ 788174 Use g_auto*
+ 790191 Avoid Encapsulated PostScript (EPS) files
+ 791274 Animate updates to the crop rectangle due to preset changes
+
+* Updated translations:
+ Czech
+ Finnish
+ Friulian
+ German
+ Serbian
+ Spanish
+ Turkish
+
+
 Overview of changes in 3.27.3
 =============================
 
