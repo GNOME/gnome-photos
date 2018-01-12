@@ -33,6 +33,7 @@
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
 #include "photos-remote-display-manager.h"
+#include "photos-removable-devices-button.h"
 #include "photos-search-context.h"
 #include "photos-searchbar.h"
 #include "photos-selection-controller.h"
@@ -180,6 +181,16 @@ photos_main_toolbar_add_back_button (PhotosMainToolbar *self)
   g_signal_connect_swapped (back_button, "clicked", G_CALLBACK (photos_main_toolbar_back_button_clicked), self);
 
   return back_button;
+}
+
+
+static void
+photos_main_toolbar_add_devices_button (PhotosMainToolbar *self)
+{
+  GtkWidget *devices_button;
+
+  devices_button = photos_removable_devices_button_new ();
+  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), devices_button);
 }
 
 
@@ -403,6 +414,7 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
   gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->stack_switcher);
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
 
+  photos_main_toolbar_add_devices_button (self);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 }
@@ -433,6 +445,7 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
   gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->stack_switcher);
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
 
+  photos_main_toolbar_add_devices_button (self);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 }
@@ -444,6 +457,7 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->stack_switcher);
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
 
+  photos_main_toolbar_add_devices_button (self);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
 }
