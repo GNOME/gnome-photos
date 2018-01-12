@@ -36,6 +36,7 @@ struct _PhotosSource
 {
   GObject parent_instance;
   GIcon *icon;
+  GIcon *symbolic_icon;
   GoaObject *object;
   gboolean builtin;
   gchar *id;
@@ -187,6 +188,7 @@ photos_source_dispose (GObject *object)
 
   g_clear_object (&self->icon);
   g_clear_object (&self->object);
+  g_clear_object (&self->symbolic_icon);
 
   G_OBJECT_CLASS (photos_source_parent_class)->dispose (object);
 }
@@ -398,4 +400,11 @@ GIcon *
 photos_source_get_icon (PhotosSource *self)
 {
   return self->icon;
+}
+
+
+GIcon *
+photos_source_get_symbolic_icon (PhotosSource *self)
+{
+  return self->symbolic_icon;
 }
