@@ -207,6 +207,8 @@ gnome_photos_SOURCES = \
 	photos-remote-display-manager.h \
 	photos-removable-device-widget.c \
 	photos-removable-device-widget.h \
+	photos-removable-devices-button.c \
+	photos-removable-devices-button.h \
 	photos-search-context.c \
 	photos-search-context.h \
 	photos-search-controller.c \
@@ -381,6 +383,7 @@ EXTRA_DIST = \
 	photos-menus.ui \
 	photos-preview-menu.ui \
 	photos-removable-device-widget.ui \
+	photos-removable-devices-button.ui \
 	photos-selection-menu.ui \
 	photos-selection-toolbar.ui \
 	photos-share-dialog.ui \

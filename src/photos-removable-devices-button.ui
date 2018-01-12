@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Photos - access, organize and share your photos on GNOME
+ Copyright © 2018 Red Hat, Inc.
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ 02110-1301, USA.
+-->
+<interface>
+  <template class="PhotosRemovableDevicesButton" parent="GtkBin">
+    <child>
+      <object class="GtkStack" id="stack">
+        <property name="no-show-all">1</property>
+        <property name="transition-type">GTK_STACK_TRANSITION_TYPE_CROSSFADE</property>
+        <child>
+          <object class="GtkButton" id="device_button">
+            <property name="visible">1</property>
+            <child>
+              <object class="PhotosRemovableDeviceWidget" id="device_widget">
+                <property name="visible">1</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkMenuButton" id="devices_button">
+            <property name="popover">devices_popover</property>
+            <property name="visible">1</property>
+            <child>
+              <object class="GtkGrid">
+                <property name="column-spacing">12</property>
+                <property name="visible">1</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Devices</property>
+                    <property name="valign">GTK_ALIGN_CENTER</property>
+                    <property name="vexpand">1</property>
+                    <property name="visible">1</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon-name">pan-down-symbolic</property>
+                    <property name="pixel-size">16</property>
+                    <property name="valign">GTK_ALIGN_CENTER</property>
+                    <property name="vexpand">1</property>
+                    <property name="visible">1</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+  <object class="GtkPopoverMenu" id="devices_popover">
+    <child>
+      <object class="GtkGrid" id="devices_popover_grid">
+        <property name="margin">10</property>
+        <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+        <property name="visible">1</property>
+      </object>
+    </child>
+  </object>
+</interface>
