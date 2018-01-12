@@ -790,6 +790,8 @@ static void
 photos_embed_init (PhotosEmbed *self)
 {
   GApplication *app;
+  GList *l;
+  GList *sources_notified = NULL;
   GList *windows;
   PhotosSearchbar *searchbar;
   PhotosSearchContextState *state;
@@ -897,6 +899,13 @@ photos_embed_init (PhotosEmbed *self)
                            self,
                            G_CONNECT_SWAPPED);
 
+  sources_notified = photos_source_manager_get_notified (PHOTOS_SOURCE_MANAGER (self->src_mngr));
+  for (l = sources_notified; l != NULL; l = l->next)
+    {
+      PhotosSource *source = PHOTOS_SOURCE (l->data);
+      photos_embed_source_manager_notification_show (self, source);
+    }
+
   self->srch_mtch_mngr = g_object_ref (state->srch_mtch_mngr);
 
   self->srch_typ_mngr = g_object_ref (state->srch_typ_mngr);
@@ -915,6 +924,8 @@ photos_embed_init (PhotosEmbed *self)
                            G_CALLBACK (photos_embed_search_changed),
                            self,
                            G_CONNECT_SWAPPED);
+
+  g_list_free_full (sources_notified, g_object_unref);
 }
 
 
