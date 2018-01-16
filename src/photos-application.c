@@ -1810,6 +1810,27 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
 
 
 static void
+photos_application_search_notify_state (GSimpleAction *simple, GParamSpec *pspec, gpointer user_data)
+{
+  PhotosBaseManager *mngr = PHOTOS_BASE_MANAGER (user_data);
+  g_autoptr (GVariant) state = NULL;
+  const gchar *action_id;
+  const gchar *id;
+  const gchar *name;
+
+  action_id = photos_base_manager_get_action_id (mngr);
+  name = g_action_get_name (G_ACTION (simple));
+  g_return_if_fail (g_strcmp0 (action_id, name) == 0);
+
+  state = g_action_get_state (G_ACTION (simple));
+  g_return_if_fail (state != NULL);
+
+  id = g_variant_get_string (state, NULL);
+  photos_base_manager_set_active_object_by_id (mngr, id);
+}
+
+
+static void
 photos_application_selection_changed (PhotosApplication *self)
 {
   photos_application_actions_update (self);
@@ -2186,14 +2207,26 @@ photos_application_startup (GApplication *application)
 
   state = g_variant_new ("s", PHOTOS_SEARCH_MATCH_STOCK_ALL);
   self->search_match_action = g_simple_action_new_stateful ("search-match", G_VARIANT_TYPE_STRING, state);
+  g_signal_connect (self->search_match_action,
+                    "notify::state",
+                    G_CALLBACK (photos_application_search_notify_state),
+                    self->state->srch_mtch_mngr);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_match_action));
 
   state = g_variant_new ("s", PHOTOS_SOURCE_STOCK_ALL);
   self->search_source_action = g_simple_action_new_stateful ("search-source", G_VARIANT_TYPE_STRING, state);
+  g_signal_connect (self->search_source_action,
+                    "notify::state",
+                    G_CALLBACK (photos_application_search_notify_state),
+                    self->state->src_mngr);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_source_action));
 
   state = g_variant_new ("s", PHOTOS_SEARCH_TYPE_STOCK_ALL);
   self->search_type_action = g_simple_action_new_stateful ("search-type", G_VARIANT_TYPE_STRING, state);
+  g_signal_connect (self->search_type_action,
+                    "notify::state",
+                    G_CALLBACK (photos_application_search_notify_state),
+                    self->state->srch_typ_mngr);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_type_action));
 
   self->sel_all_action = g_simple_action_new ("select-all", NULL);
