@@ -97,7 +97,6 @@ photos_base_model_refresh (PhotosBaseModel *self)
     {
       g_autoptr (GMenuItem) menu_item = NULL;
       g_autoptr (GObject) object = NULL;
-      GVariant *target_value;
       const gchar *id;
       g_autofree gchar *name = NULL;
 
@@ -106,8 +105,7 @@ photos_base_model_refresh (PhotosBaseModel *self)
       g_object_get (object, "name", &name, NULL);
 
       menu_item = g_menu_item_new (name, NULL);
-      target_value = g_variant_new ("s", id);
-      g_menu_item_set_action_and_target_value (menu_item, action_id, target_value);
+      g_menu_item_set_action_and_target (menu_item, action_id, "s", id);
       g_menu_append_item (section, menu_item);
     }
 }
