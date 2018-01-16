@@ -115,28 +115,38 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 
   active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
 
-  if (window_mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW)
+  switch (window_mode)
     {
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
       if (selection_mode)
         primary = photos_main_toolbar_create_selection_mode_label (self, active_collection);
       else
         primary = g_strdup (photos_base_item_get_name (active_collection));
-    }
-  else if (window_mode == PHOTOS_WINDOW_MODE_OVERVIEW
-           || window_mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-           || window_mode == PHOTOS_WINDOW_MODE_FAVORITES
-           || window_mode == PHOTOS_WINDOW_MODE_SEARCH)
-    {
+      break;
+
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
       if (selection_mode)
         primary = photos_main_toolbar_create_selection_mode_label (self, NULL);
-    }
-  else if (window_mode == PHOTOS_WINDOW_MODE_EDIT || window_mode == PHOTOS_WINDOW_MODE_PREVIEW)
-    {
-      GObject *item;
+      break;
 
-      item = photos_base_manager_get_active_object (self->item_mngr);
-      if (item != NULL)
-        primary = g_strdup (photos_base_item_get_name_with_fallback (PHOTOS_BASE_ITEM (item)));
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      {
+        GObject *item;
+
+        item = photos_base_manager_get_active_object (self->item_mngr);
+        if (item != NULL)
+          primary = g_strdup (photos_base_item_get_name_with_fallback (PHOTOS_BASE_ITEM (item)));
+
+        break;
+      }
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    default:
+      break;
     }
 
   if (selection_mode)
