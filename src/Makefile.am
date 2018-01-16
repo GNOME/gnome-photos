@@ -594,6 +594,7 @@ photos-resources-gegl.h: photos-gegl.gresource.xml $(shell $(GLIB_COMPILE_RESOUR
 
 photos-dleyna-renderer-device.h photos-dleyna-renderer-device.c: photos-dleyna-renderer-device.xml
 	$(AM_V_GEN)gdbus-codegen \
+		--c-generate-autocleanup all \
 		--c-namespace Dleyna \
 		--generate-c-code photos-dleyna-renderer-device \
 		--interface-prefix com.intel.dLeynaRenderer. \
@@ -602,6 +603,7 @@ photos-dleyna-renderer-device.h photos-dleyna-renderer-device.c: photos-dleyna-r
 
 photos-dleyna-renderer-manager.h photos-dleyna-renderer-manager.c: photos-dleyna-renderer-manager.xml
 	$(AM_V_GEN)gdbus-codegen \
+		--c-generate-autocleanup all \
 		--c-namespace DleynaRenderer \
 		--generate-c-code photos-dleyna-renderer-manager \
 		--interface-prefix com.intel.dLeynaRenderer. \
@@ -609,6 +611,7 @@ photos-dleyna-renderer-manager.h photos-dleyna-renderer-manager.c: photos-dleyna
 
 photos-dleyna-renderer-push-host.h photos-dleyna-renderer-push-host.c: photos-dleyna-renderer-push-host.xml
 	$(AM_V_GEN)gdbus-codegen \
+		--c-generate-autocleanup all \
 		--c-namespace DleynaRenderer \
 		--generate-c-code photos-dleyna-renderer-push-host \
 		--interface-prefix com.intel.dLeynaRenderer. \
@@ -616,6 +619,7 @@ photos-dleyna-renderer-push-host.h photos-dleyna-renderer-push-host.c: photos-dl
 
 photos-gom-miner.h photos-gom-miner.c: photos-gom-miner.xml
 	$(AM_V_GEN)gdbus-codegen \
+		--c-generate-autocleanup all \
 		--c-namespace Gom \
 		--generate-c-code photos-gom-miner \
 		--interface-prefix org.gnome.OnlineMiners. \
@@ -623,6 +627,7 @@ photos-gom-miner.h photos-gom-miner.c: photos-gom-miner.xml
 
 photos-mpris-player.h photos-mpris-player.c: photos-mpris-player.xml
 	$(AM_V_GEN)gdbus-codegen \
+		--c-generate-autocleanup all \
 		--c-namespace Mpris \
 		--generate-c-code photos-mpris-player \
 		--interface-prefix org.mpris.MediaPlayer2. \
@@ -630,6 +635,7 @@ photos-mpris-player.h photos-mpris-player.c: photos-mpris-player.xml
 
 photos-shell-search-provider2.h photos-shell-search-provider2.c: org.gnome.ShellSearchProvider2.xml Makefile
 	$(AM_V_GEN)gdbus-codegen \
+		--c-generate-autocleanup all \
 		--c-namespace Shell \
 		--generate-c-code photos-shell-search-provider2 \
 		--interface-prefix org.gnome.Shell. \
@@ -637,6 +643,7 @@ photos-shell-search-provider2.h photos-shell-search-provider2.c: org.gnome.Shell
 
 photos-thumbnailer-dbus.h photos-thumbnailer-dbus.c: photos-thumbnailer-dbus.xml
 	$(AM_V_GEN)gdbus-codegen \
+		--c-generate-autocleanup all \
 		--c-namespace Photos \
 		--generate-c-code photos-thumbnailer-dbus \
 		--interface-prefix org.gnome.Photos. \
@@ -645,6 +652,7 @@ photos-thumbnailer-dbus.h photos-thumbnailer-dbus.c: photos-thumbnailer-dbus.xml
 
 photos-tracker-extract-priority.h photos-tracker-extract-priority.c: photos-tracker-extract-priority.xml
 	$(AM_V_GEN)gdbus-codegen \
+		--c-generate-autocleanup all \
 		--c-namespace Tracker \
 		--generate-c-code photos-tracker-extract-priority \
 		--interface-prefix org.freedesktop.Tracker1. \
@@ -652,6 +660,7 @@ photos-tracker-extract-priority.h photos-tracker-extract-priority.c: photos-trac
 
 photos-tracker-resources.h photos-tracker-resources.c: photos-tracker-resources.xml
 	$(AM_V_GEN)gdbus-codegen \
+		--c-generate-autocleanup all \
 		--c-namespace Tracker \
 		--generate-c-code photos-tracker-resources \
 		--interface-prefix org.freedesktop.Tracker1. \
