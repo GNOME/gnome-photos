@@ -1623,9 +1623,25 @@ photos_application_theme_changed (GtkSettings *settings)
 
 
 static void
-photos_application_window_mode_changed (PhotosApplication *self)
+photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMode mode, PhotosWindowMode old_mode)
 {
+  PhotosBaseManager *item_mngr_chld;
+
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
+
+  if (old_mode != PHOTOS_WINDOW_MODE_NONE)
+    {
+      item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->state->item_mngr), old_mode);
+      g_signal_handlers_disconnect_by_func (item_mngr_chld, photos_application_items_changed, self);
+    }
+
   photos_application_actions_update (self);
+
+  item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->state->item_mngr), mode);
+  g_signal_connect_swapped (item_mngr_chld,
+                            "items-changed",
+                            G_CALLBACK (photos_application_items_changed),
+                            self);
 }
 
 
@@ -2103,10 +2119,6 @@ photos_application_startup (GApplication *application)
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), detailed_action_name, zoom_out_accels);
   g_free (detailed_action_name);
 
-  g_signal_connect_swapped (self->state->item_mngr,
-                            "items-changed",
-                            G_CALLBACK (photos_application_items_changed),
-                            self);
   g_signal_connect_swapped (self->state->item_mngr,
                             "load-finished",
                             G_CALLBACK (photos_application_load_changed),
