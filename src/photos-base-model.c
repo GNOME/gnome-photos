@@ -48,16 +48,6 @@ G_DEFINE_TYPE (PhotosBaseModel, photos_base_model, G_TYPE_OBJECT);
 
 
 static void
-photos_base_model_action_state_changed (PhotosBaseModel *self, const gchar *action_name, GVariant *value)
-{
-  const gchar *id;
-
-  id = g_variant_get_string (value, NULL);
-  photos_base_manager_set_active_object_by_id (self->mngr, id);
-}
-
-
-static void
 photos_base_model_active_changed (PhotosBaseModel *self, GObject *active_object)
 {
   GApplication *app;
@@ -116,9 +106,6 @@ static void
 photos_base_model_constructed (GObject *object)
 {
   PhotosBaseModel *self = PHOTOS_BASE_MODEL (object);
-  GApplication *app;
-  const gchar *action_id;
-  g_autofree gchar *detailed_signal = NULL;
 
   G_OBJECT_CLASS (photos_base_model_parent_class)->constructed (object);
 
@@ -134,16 +121,6 @@ photos_base_model_constructed (GObject *object)
                            G_CALLBACK (photos_base_model_refresh),
                            self,
                            G_CONNECT_SWAPPED);
-
-  app = g_application_get_default ();
-  action_id = photos_base_manager_get_action_id (self->mngr);
-  detailed_signal = g_strconcat ("action-state-changed::", action_id, NULL);
-  g_signal_connect_object (app,
-                           detailed_signal,
-                           G_CALLBACK (photos_base_model_action_state_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-
   g_signal_connect_object (self->mngr,
                            "active-changed",
                            G_CALLBACK (photos_base_model_active_changed),
