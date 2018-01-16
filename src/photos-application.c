@@ -297,7 +297,7 @@ photos_application_about (PhotosApplication *self)
 static void
 photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
 {
-  GVariant *state;
+  g_autoptr (GVariant) state = NULL;
   GVariant *new_state;
   gboolean state_value;
 
@@ -307,8 +307,6 @@ photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gp
   state_value = g_variant_get_boolean (state);
   new_state = g_variant_new ("b", !state_value);
   g_action_change_state (G_ACTION (simple), new_state);
-
-  g_variant_unref (state);
 }
 
 
@@ -533,25 +531,25 @@ photos_application_gom_miner (GObject *source_object, GAsyncResult *res, gpointe
 {
   PhotosApplicationCreateData *data = (PhotosApplicationCreateData *) user_data;
   PhotosApplication *self = data->application;
-  GError *error;
-  GomMiner *miner = NULL;
+  g_autoptr (GomMiner) miner = NULL;
 
-  error = NULL;
-  miner = gom_miner_proxy_new_for_bus_finish (res, &error);
-  if (error != NULL)
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        {
-          g_error_free (error);
-          goto out;
-        }
-      else
-        {
-          g_warning ("Unable to create GomMiner proxy for %s: %s", data->miner_name, error->message);
-          g_error_free (error);
-          goto maybe_continue;
-        }
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    miner = gom_miner_proxy_new_for_bus_finish (res, &error);
+    if (error != NULL)
+      {
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          {
+            goto out;
+          }
+        else
+          {
+            g_warning ("Unable to create GomMiner proxy for %s: %s", data->miner_name, error->message);
+            goto maybe_continue;
+          }
+      }
+  }
 
   g_object_set_data_full (G_OBJECT (miner), "provider-type", g_strdup (data->extension_name), g_free);
   self->miners = g_list_prepend (self->miners, g_object_ref (miner));
@@ -562,7 +560,6 @@ photos_application_gom_miner (GObject *source_object, GAsyncResult *res, gpointe
 
  out:
   self->create_miners_count--;
-  g_clear_object (&miner);
   photos_application_create_data_free (data);
 }
 
@@ -580,7 +577,7 @@ photos_application_create_miners (PhotosApplication *self)
     {
       GIOExtension *extension = (GIOExtension *) l->data;
       PhotosApplicationCreateData *data;
-      PhotosBaseItemClass *base_item_class;
+      PhotosBaseItemClass *base_item_class; /* TODO: use g_autoptr */
 
       base_item_class = PHOTOS_BASE_ITEM_CLASS (g_io_extension_ref_class (extension));
       if (base_item_class->miner_name != NULL && base_item_class->miner_object_path != NULL)
@@ -732,7 +729,7 @@ photos_application_activate_query_executed (GObject *source_object, GAsyncResult
   GError *error = NULL;
   GObject *item;
   PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
-  TrackerSparqlCursor *cursor = NULL;
+  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
   const gchar *identifier;
 
   cursor = photos_single_item_job_finish (job, res, &error);
@@ -776,7 +773,7 @@ photos_application_activate_result (PhotosApplication *self,
     photos_application_activate_item (self, item);
   else
     {
-      PhotosSingleItemJob *job;
+      g_autoptr (PhotosSingleItemJob) job = NULL;
 
       job = photos_single_item_job_new (identifier);
       g_application_hold (G_APPLICATION (self));
@@ -786,7 +783,6 @@ photos_application_activate_result (PhotosApplication *self,
                                   NULL,
                                   photos_application_activate_query_executed,
                                   self);
-      g_object_unref (job);
     }
 }
 
@@ -936,7 +932,7 @@ static void
 photos_application_launch_search (PhotosApplication *self, const gchar* const *terms, guint timestamp)
 {
   GVariant *state;
-  gchar *str;
+  g_autofree gchar *str = NULL;
 
   photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::launch_search");
 
@@ -947,7 +943,6 @@ photos_application_launch_search (PhotosApplication *self, const gchar* const *t
 
   str = g_strjoinv (" ", (gchar **) terms);
   photos_search_controller_set_string (self->state->srch_cntrlr, str);
-  g_free (str);
 
   state = g_variant_new ("b", TRUE);
   g_action_change_state (G_ACTION (self->search_action), state);
@@ -1120,7 +1115,7 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   GError *error;
   GList *miner_link;
-  GomMiner *miner = GOM_MINER (source_object);
+  g_autoptr (GomMiner) miner = GOM_MINER (source_object);
   PhotosApplicationRefreshData *data;
   const gchar *name;
   gpointer refresh_miner_id_data;
@@ -1159,7 +1154,6 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
 
  out:
   g_application_release (G_APPLICATION (self));
-  g_object_unref (miner);
 }
 
 
@@ -1249,25 +1243,26 @@ photos_application_save_save_to_dir (GObject *source_object, GAsyncResult *res, 
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-  GError *error = NULL;
-  GFile *file = NULL;
+  g_autoptr (GFile) file = NULL;
   GList *items = NULL;
 
-  file = photos_base_item_save_to_dir_finish (item, res, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to save: %s", error->message);
-      photos_export_notification_new_with_error (error);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    file = photos_base_item_save_to_dir_finish (item, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to save: %s", error->message);
+        photos_export_notification_new_with_error (error);
+        goto out;
+      }
+  }
 
   items = g_list_prepend (items, g_object_ref (item));
   photos_export_notification_new (items, file);
 
  out:
   g_application_release (G_APPLICATION (self));
-  g_clear_object (&file);
   g_list_free_full (items, g_object_unref);
 }
 
@@ -1276,14 +1271,13 @@ static void
 photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error;
-  GFile *export = NULL;
-  GFile *tmp;
+  g_autoptr (GFile) export_dir = NULL;
+  g_autoptr (GFile) export_sub_dir = NULL;
   GVariant *new_state;
   PhotosBaseItem *item;
   const gchar *export_dir_name;
   const gchar *pictures_path;
-  gchar *export_path = NULL;
+  g_autofree gchar *export_path = NULL;
   gdouble zoom;
 
   if (response_id != GTK_RESPONSE_OK)
@@ -1297,49 +1291,50 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
 
   pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
   export_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
-  export = g_file_new_for_path (export_path);
+  export_dir = g_file_new_for_path (export_path);
 
-  error = NULL;
-  if (!photos_glib_make_directory_with_parents (export, NULL, &error))
-    {
-      g_warning ("Unable to create %s: %s", export_path, error->message);
-      photos_export_notification_new_with_error (error);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_glib_make_directory_with_parents (export_dir, NULL, &error))
+      {
+        g_warning ("Unable to create %s: %s", export_path, error->message);
+        photos_export_notification_new_with_error (error);
+        goto out;
+      }
+  }
 
   export_dir_name = photos_export_dialog_get_dir_name (PHOTOS_EXPORT_DIALOG (dialog));
 
-  error = NULL;
-  tmp = g_file_get_child_for_display_name (export, export_dir_name, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to get a child for %s: %s", export_dir_name, error->message);
-      photos_export_notification_new_with_error (error);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
 
-  g_object_unref (export);
-  export = tmp;
+    export_sub_dir = g_file_get_child_for_display_name (export_dir, export_dir_name, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to get a child for %s: %s", export_dir_name, error->message);
+        photos_export_notification_new_with_error (error);
+        goto out;
+      }
+  }
 
-  error = NULL;
-  if (!photos_glib_make_directory_with_parents (export, NULL, &error))
-    {
-      g_warning ("Unable to create %s: %s", export_path, error->message);
-      photos_export_notification_new_with_error (error);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_glib_make_directory_with_parents (export_sub_dir, NULL, &error))
+      {
+        g_warning ("Unable to create %s: %s", export_path, error->message);
+        photos_export_notification_new_with_error (error);
+        goto out;
+      }
+  }
 
   zoom = photos_export_dialog_get_zoom (PHOTOS_EXPORT_DIALOG (dialog));
 
   g_application_hold (G_APPLICATION (self));
-  photos_base_item_save_to_dir_async (item, export, zoom, NULL, photos_application_save_save_to_dir, self);
+  photos_base_item_save_to_dir_async (item, export_sub_dir, zoom, NULL, photos_application_save_save_to_dir, self);
 
  out:
-  g_free (export_path);
-  g_clear_object (&export);
   gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
@@ -1364,17 +1359,18 @@ static void
 photos_application_set_bg_common_save_to_file (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
   PhotosApplicationSetBackgroundData *data = (PhotosApplicationSetBackgroundData *) user_data;
-  gchar *path = NULL;
+  g_autofree gchar *path = NULL;
 
-  error = NULL;
-  if (!photos_base_item_save_to_file_finish (item, res, &error))
-    {
-      g_warning ("Unable to set background: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_save_to_file_finish (item, res, &error))
+      {
+        g_warning ("Unable to set background: %s", error->message);
+        goto out;
+      }
+  }
 
   path = g_file_get_path (data->file);
 
@@ -1385,7 +1381,6 @@ photos_application_set_bg_common_save_to_file (GObject *source_object, GAsyncRes
   g_settings_set_string (data->settings, DESKTOP_KEY_SECONDARY_COLOR, "#000000000000");
 
  out:
-  g_free (path);
   photos_application_set_background_data_free (data);
 }
 
@@ -1393,17 +1388,17 @@ photos_application_set_bg_common_save_to_file (GObject *source_object, GAsyncRes
 static void
 photos_application_set_bg_common (PhotosApplication *self, GSettings *settings)
 {
-  GFile *backgrounds_file = NULL;
+  g_autoptr (GFile) backgrounds_file = NULL;
   PhotosApplicationSetBackgroundData *data;
   PhotosBaseItem *item;
   const gchar *config_dir;
   const gchar *extension;
   const gchar *filename;
   const gchar *mime_type;
-  gchar *backgrounds_dir = NULL;
-  gchar *backgrounds_filename = NULL;
-  gchar *backgrounds_path = NULL;
-  gchar *basename = NULL;
+  g_autofree gchar *backgrounds_dir = NULL;
+  g_autofree gchar *backgrounds_filename = NULL;
+  g_autofree gchar *backgrounds_path = NULL;
+  g_autofree gchar *basename = NULL;
   gint64 now;
 
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->state->item_mngr));
@@ -1431,12 +1426,6 @@ photos_application_set_bg_common (PhotosApplication *self, GSettings *settings)
                                        NULL,
                                        photos_application_set_bg_common_save_to_file,
                                        data);
-
-  g_object_unref (backgrounds_file);
-  g_free (backgrounds_dir);
-  g_free (backgrounds_filename);
-  g_free (backgrounds_path);
-  g_free (basename);
 }
 
 
@@ -1459,20 +1448,22 @@ photos_application_share_share (GObject *source_object, GAsyncResult *res, gpoin
 {
   PhotosApplication *self;
   PhotosSharePoint *share_point = PHOTOS_SHARE_POINT (source_object);
-  GError *error = NULL;
-  PhotosBaseItem *item = PHOTOS_BASE_ITEM (user_data);
-  gchar *uri = NULL;
+  g_autoptr (PhotosBaseItem) item = PHOTOS_BASE_ITEM (user_data);
+  g_autofree gchar *uri = NULL;
 
   self = PHOTOS_APPLICATION (g_application_get_default ());
 
-  photos_share_point_share_finish (share_point, res, &uri, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to share the image: %s", error->message);
-      photos_share_notification_new_with_error (share_point, error);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    photos_share_point_share_finish (share_point, res, &uri, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to share the image: %s", error->message);
+        photos_share_notification_new_with_error (share_point, error);
+        goto out;
+      }
+  }
 
   if (photos_share_point_needs_notification (share_point))
     photos_share_notification_new (share_point, item, uri);
@@ -1480,8 +1471,6 @@ photos_application_share_share (GObject *source_object, GAsyncResult *res, gpoin
  out:
   g_application_unmark_busy (G_APPLICATION (self));
   g_application_release (G_APPLICATION (self));
-  g_free (uri);
-  g_object_unref (item);
 }
 
 
@@ -1591,7 +1580,7 @@ photos_application_theme_changed (GtkSettings *settings)
 {
   static GtkCssProvider *provider;
   GdkScreen *screen;
-  gchar *theme;
+  g_autofree gchar *theme = NULL;
 
   g_object_get (settings, "gtk-theme-name", &theme, NULL);
   screen = gdk_screen_get_default ();
@@ -1600,12 +1589,11 @@ photos_application_theme_changed (GtkSettings *settings)
     {
       if (provider == NULL)
         {
-          GFile *file;
+          g_autoptr (GFile) file = NULL;
 
           provider = gtk_css_provider_new ();
           file = g_file_new_for_uri ("resource:///org/gnome/Photos/Adwaita.css");
           gtk_css_provider_load_from_file (provider, file, NULL);
-          g_object_unref (file);
         }
 
       gtk_style_context_add_provider_for_screen (screen,
@@ -1617,8 +1605,6 @@ photos_application_theme_changed (GtkSettings *settings)
       gtk_style_context_remove_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider));
       g_clear_object (&provider);
     }
-
-  g_free (theme);
 }
 
 
@@ -1759,7 +1745,7 @@ photos_application_dbus_register (GApplication *application,
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   gboolean ret_val = FALSE;
-  gchar *search_provider_path = NULL;
+  g_autofree gchar *search_provider_path = NULL;
 
   photos_debug (PHOTOS_DEBUG_APPLICATION,
                 "PhotosApplication::dbus_register: object_path: %s, search_provider: %p",
@@ -1798,7 +1784,7 @@ photos_application_dbus_register (GApplication *application,
                 "PhotosApplication::dbus_register: Done: %d, search_provider: %p",
                 ret_val,
                 self->search_provider);
-  g_free (search_provider_path);
+
   return ret_val;
 }
 
@@ -1817,12 +1803,11 @@ photos_application_dbus_unregister (GApplication *application,
 
   if (self->search_provider != NULL)
     {
-      gchar *search_provider_path = NULL;
+      g_autofree gchar *search_provider_path = NULL;
 
       search_provider_path = g_strconcat (object_path, PHOTOS_SEARCH_PROVIDER_PATH_SUFFIX, NULL);
       photos_search_provider_dbus_unexport (self->search_provider, connection, search_provider_path);
       g_clear_object (&self->search_provider);
-      g_free (search_provider_path);
     }
 
   G_APPLICATION_CLASS (photos_application_parent_class)->dbus_unregister (application, connection, object_path);
@@ -1881,7 +1866,6 @@ photos_application_startup (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
   GError *error;
-  GSimpleAction *action;
   GrlRegistry *registry;
   GtkIconTheme *icon_theme;
   GtkSettings *settings;
@@ -1899,7 +1883,6 @@ photos_application_startup (GApplication *application)
   const gchar *zoom_best_fit_accels[3] = {"<Primary>0", NULL};
   const gchar *zoom_in_accels[3] = {"<Primary>plus", "<Primary>equal", NULL};
   const gchar *zoom_out_accels[2] = {"<Primary>minus", NULL};
-  gchar *detailed_action_name = NULL;
 
   photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::startup");
 
@@ -1959,10 +1942,13 @@ photos_application_startup (GApplication *application)
                             G_CALLBACK (photos_application_selection_changed),
                             self);
 
-  action = g_simple_action_new ("about", NULL);
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_about), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  g_object_unref (action);
+  {
+    g_autoptr (GSimpleAction) action = NULL;
+
+    action = g_simple_action_new ("about", NULL);
+    g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_about), self);
+    g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
+  }
 
   self->blacks_exposure_action = g_simple_action_new ("blacks-exposure-current", G_VARIANT_TYPE ("a{sd}"));
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->blacks_exposure_action));
@@ -2036,15 +2022,21 @@ photos_application_startup (GApplication *application)
   g_signal_connect_swapped (self->properties_action, "activate", G_CALLBACK (photos_application_properties), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->properties_action));
 
-  action = g_simple_action_new ("quit", NULL);
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_quit), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  g_object_unref (action);
+  {
+    g_autoptr (GSimpleAction) action = NULL;
 
-  action = g_simple_action_new ("remote-display-current", NULL);
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_remote_display_current), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  g_object_unref (action);
+    action = g_simple_action_new ("quit", NULL);
+    g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_quit), self);
+    g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
+  }
+
+  {
+    g_autoptr (GSimpleAction) action = NULL;
+
+    action = g_simple_action_new ("remote-display-current", NULL);
+    g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_remote_display_current), self);
+    g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
+  }
 
   self->saturation_action = g_simple_action_new ("saturation-current", G_VARIANT_TYPE_DOUBLE);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->saturation_action));
@@ -2123,10 +2115,13 @@ photos_application_startup (GApplication *application)
                             G_CALLBACK (photos_application_window_mode_changed),
                             self);
 
-  action = g_simple_action_new ("help", NULL);
-  g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_help), self);
-  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  g_object_unref (action);
+  {
+    g_autoptr (GSimpleAction) action = NULL;
+
+    action = g_simple_action_new ("help", NULL);
+    g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_help), self);
+    g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
+  }
 
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.quit", quit_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.delete", delete_accels);
@@ -2140,17 +2135,23 @@ photos_application_startup (GApplication *application)
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.select-all", select_all_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.zoom-best-fit", zoom_best_fit_accels);
 
-  detailed_action_name = photos_utils_print_zoom_action_detailed_name ("app.zoom-in",
-                                                                       1.0,
-                                                                       PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR);
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self), detailed_action_name, zoom_in_accels);
-  g_free (detailed_action_name);
+  {
+    g_autofree gchar *detailed_action_name = NULL;
 
-  detailed_action_name = photos_utils_print_zoom_action_detailed_name ("app.zoom-out",
-                                                                       1.0,
-                                                                       PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR);
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self), detailed_action_name, zoom_out_accels);
-  g_free (detailed_action_name);
+    detailed_action_name = photos_utils_print_zoom_action_detailed_name ("app.zoom-in",
+                                                                         1.0,
+                                                                         PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR);
+    gtk_application_set_accels_for_action (GTK_APPLICATION (self), detailed_action_name, zoom_in_accels);
+  }
+
+  {
+    g_autofree gchar *detailed_action_name = NULL;
+
+    detailed_action_name = photos_utils_print_zoom_action_detailed_name ("app.zoom-out",
+                                                                         1.0,
+                                                                         PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR);
+    gtk_application_set_accels_for_action (GTK_APPLICATION (self), detailed_action_name, zoom_out_accels);
+  }
 
   g_signal_connect_swapped (self->state->item_mngr,
                             "load-finished",
