@@ -54,6 +54,7 @@ typedef struct _PhotosEmbedSearchState PhotosEmbedSearchState;
 
 struct _PhotosEmbedSearchState
 {
+  GObject *search_match;
   GObject *search_type;
   GObject *source;
   gboolean saved;
@@ -80,6 +81,7 @@ struct _PhotosEmbed
   GtkWidget *toolbar;
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
+  PhotosBaseManager *srch_mtch_mngr;
   PhotosBaseManager *srch_typ_mngr;
   PhotosEmbedSearchState search_state;
   PhotosModeController *mode_cntrlr;
@@ -196,6 +198,7 @@ photos_embed_restore_search (PhotosEmbed *self)
 
   photos_embed_block_search_changed (self);
   photos_base_manager_set_active_object (self->src_mngr, self->search_state.source);
+  photos_base_manager_set_active_object (self->srch_mtch_mngr, self->search_state.search_match);
   photos_base_manager_set_active_object (self->srch_typ_mngr, self->search_state.search_type);
   photos_search_controller_set_string (self->srch_cntrlr, self->search_state.str);
   photos_embed_unblock_search_changed (self);
@@ -219,6 +222,7 @@ photos_embed_save_search (PhotosEmbed *self)
   photos_embed_clear_search (self);
 
   self->search_state.source = g_object_ref (photos_base_manager_get_active_object (self->src_mngr));
+  self->search_state.search_match = g_object_ref (photos_base_manager_get_active_object (self->srch_mtch_mngr));
   self->search_state.search_type = g_object_ref (photos_base_manager_get_active_object (self->srch_typ_mngr));
   self->search_state.str = g_strdup (photos_search_controller_get_string (self->srch_cntrlr));
   self->search_state.saved = TRUE;
@@ -679,6 +683,7 @@ photos_embed_dispose (GObject *object)
   g_clear_object (&self->ntfctn_mngr);
   g_clear_object (&self->item_mngr);
   g_clear_object (&self->src_mngr);
+  g_clear_object (&self->srch_mtch_mngr);
   g_clear_object (&self->srch_typ_mngr);
   g_clear_object (&self->mode_cntrlr);
   g_clear_object (&self->srch_cntrlr);
@@ -796,6 +801,8 @@ photos_embed_init (PhotosEmbed *self)
                            G_CALLBACK (photos_embed_source_manager_notification_show),
                            self,
                            G_CONNECT_SWAPPED);
+
+  self->srch_mtch_mngr = g_object_ref (state->srch_mtch_mngr);
 
   self->srch_typ_mngr = g_object_ref (state->srch_typ_mngr);
   g_signal_connect_object (self->srch_typ_mngr,
