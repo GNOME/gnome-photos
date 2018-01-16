@@ -292,22 +292,6 @@ photos_application_about (PhotosApplication *self)
 }
 
 
-static void
-photos_application_action_toggle (GSimpleAction *simple, GVariant *parameter, gpointer user_data)
-{
-  g_autoptr (GVariant) state = NULL;
-  GVariant *new_state;
-  gboolean state_value;
-
-  state = g_action_get_state (G_ACTION (simple));
-  g_return_if_fail (state != NULL);
-
-  state_value = g_variant_get_boolean (state);
-  new_state = g_variant_new ("b", !state_value);
-  g_action_change_state (G_ACTION (simple), new_state);
-}
-
-
 static PhotosBaseItem *
 photos_application_get_selection_or_active_item (PhotosApplication *self)
 {
@@ -1996,7 +1980,6 @@ photos_application_startup (GApplication *application)
 
   state = g_variant_new ("b", FALSE);
   self->gear_action = g_simple_action_new_stateful ("gear-menu", NULL, state);
-  g_signal_connect (self->gear_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->gear_action));
 
   self->insta_action = g_simple_action_new ("insta-current", G_VARIANT_TYPE_INT16);
@@ -2045,7 +2028,6 @@ photos_application_startup (GApplication *application)
 
   state = g_variant_new ("b", FALSE);
   self->search_action = g_simple_action_new_stateful ("search", NULL, state);
-  g_signal_connect (self->search_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->search_action));
 
   state = g_variant_new ("s", PHOTOS_SEARCH_MATCH_STOCK_ALL);
@@ -2068,7 +2050,6 @@ photos_application_startup (GApplication *application)
 
   state = g_variant_new ("b", FALSE);
   self->selection_mode_action = g_simple_action_new_stateful ("selection-mode", NULL, state);
-  g_signal_connect (self->selection_mode_action, "activate", G_CALLBACK (photos_application_action_toggle), self);
   g_signal_connect_swapped (self->selection_mode_action,
                             "notify::state",
                             G_CALLBACK (photos_application_selection_mode_notify_state),
