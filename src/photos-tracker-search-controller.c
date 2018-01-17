@@ -179,5 +179,8 @@ photos_tracker_search_controller_class_init (PhotosTrackerSearchControllerClass 
 PhotosTrackerController *
 photos_tracker_search_controller_dup_singleton (void)
 {
-  return g_object_new (PHOTOS_TYPE_TRACKER_SEARCH_CONTROLLER, "mode", PHOTOS_WINDOW_MODE_SEARCH, NULL);
+  return g_object_new (PHOTOS_TYPE_TRACKER_SEARCH_CONTROLLER,
+                       "delay-start", TRUE,
+                       "mode", PHOTOS_WINDOW_MODE_SEARCH,
+                       NULL);
 }

@@ -52,6 +52,7 @@ struct _PhotosTrackerControllerPrivate
   PhotosQuery *current_query;
   PhotosTrackerQueue *queue;
   PhotosWindowMode mode;
+  gboolean delay_start;
   gboolean is_frozen;
   gboolean is_started;
   gboolean query_queued;
@@ -65,6 +66,7 @@ struct _PhotosTrackerControllerPrivate
 enum
 {
   PROP_0,
+  PROP_DELAY_START,
   PROP_MODE
 };
 
@@ -516,6 +518,10 @@ photos_tracker_controller_set_property (GObject *object, guint prop_id, const GV
 
   switch (prop_id)
     {
+    case PROP_DELAY_START:
+      priv->delay_start = g_value_get_boolean (value);
+      break;
+
     case PROP_MODE:
       priv->mode = (PhotosWindowMode) g_value_get_enum (value);
       break;
@@ -578,6 +584,14 @@ photos_tracker_controller_class_init (PhotosTrackerControllerClass *class)
   object_class->finalize = photos_tracker_controller_finalize;
 
   g_object_class_install_property (object_class,
+                                   PROP_DELAY_START,
+                                   g_param_spec_boolean ("delay-start",
+                                                         "Delay start",
+                                                         "Don't start issuing queries immediately on startup",
+                                                         FALSE,
+                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  g_object_class_install_property (object_class,
                                    PROP_MODE,
                                    g_param_spec_enum ("mode",
                                                       "PhotosWindowMode enum",
@@ -636,6 +650,9 @@ photos_tracker_controller_start (PhotosTrackerController *self)
   PhotosTrackerControllerPrivate *priv;
 
   priv = photos_tracker_controller_get_instance_private (self);
+
+  if (priv->delay_start)
+    return;
 
   if (priv->is_started)
     return;
