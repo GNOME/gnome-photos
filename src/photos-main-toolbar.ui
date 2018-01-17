@@ -24,8 +24,11 @@
     <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
     <property name="visible">1</property>
     <child>
-      <object class="PhotosHeaderBar" id="header_bar">
+      <object class="GtkHeaderBar" id="header_bar">
         <property name="visible">1</property>
+        <style>
+          <class name="titlebar"/>
+        </style>
       </object>
     </child>
     <child>
