@@ -1287,14 +1287,10 @@ photos_utils_new_app_launch_context_from_widget (GtkWidget *widget)
     goto out;
 
   screen = gtk_widget_get_screen (widget);
-  if (screen != NULL)
-    display = gdk_screen_get_display (screen);
-  else
-    display = gdk_display_get_default ();
+  display = gdk_screen_get_display (screen);
 
   ctx = gdk_display_get_app_launch_context (display);
-  if (screen != NULL)
-    gdk_app_launch_context_set_screen (ctx, screen);
+  gdk_app_launch_context_set_screen (ctx, screen);
 
   ret_val = G_APP_LAUNCH_CONTEXT (g_steal_pointer (&ctx));
 
