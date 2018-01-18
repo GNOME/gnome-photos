@@ -1629,19 +1629,52 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
 
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
 
-  if (old_mode != PHOTOS_WINDOW_MODE_NONE)
+  switch (old_mode)
     {
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      break;
+
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
       item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->state->item_mngr), old_mode);
       g_signal_handlers_disconnect_by_func (item_mngr_chld, photos_application_items_changed, self);
+      break;
+
+    default:
+      g_assert_not_reached ();
+      break;
     }
 
   photos_application_actions_update (self);
 
-  item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->state->item_mngr), mode);
-  g_signal_connect_swapped (item_mngr_chld,
-                            "items-changed",
-                            G_CALLBACK (photos_application_items_changed),
-                            self);
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->state->item_mngr), mode);
+      g_signal_connect_swapped (item_mngr_chld,
+                                "items-changed",
+                                G_CALLBACK (photos_application_items_changed),
+                                self);
+      break;
+
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      break;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
 }
 
 
