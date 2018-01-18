@@ -92,6 +92,7 @@ static void
 photos_share_point_email_share_save_to_dir (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSharePointEmail *self;
+  GAppLaunchContext *ctx = NULL;
   GError *error;
   GFile *file = NULL;
   GTask *task = G_TASK (user_data);
@@ -114,8 +115,10 @@ photos_share_point_email_share_save_to_dir (GObject *source_object, GAsyncResult
   escaped_path = g_uri_escape_string (path, G_URI_RESERVED_CHARS_ALLOWED_IN_PATH, FALSE);
   uri = g_strconcat ("mailto:?attach=", escaped_path, NULL);
 
+  ctx = photos_utils_new_app_launch_context_from_widget (NULL);
+
   error = NULL;
-  if (!photos_glib_app_info_launch_uri (self->default_app, uri, NULL, &error))
+  if (!photos_glib_app_info_launch_uri (self->default_app, uri, ctx, &error))
     {
       g_task_return_error (task, error);
       goto out;
@@ -127,6 +130,7 @@ photos_share_point_email_share_save_to_dir (GObject *source_object, GAsyncResult
   g_free (escaped_path);
   g_free (path);
   g_free (uri);
+  g_clear_object (&ctx);
   g_clear_object (&file);
   g_object_unref (task);
 }

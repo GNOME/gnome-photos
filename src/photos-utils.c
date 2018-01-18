@@ -1280,21 +1280,23 @@ photos_utils_new_app_launch_context_from_widget (GtkWidget *widget)
 {
   GAppLaunchContext *ret_val = NULL;
   g_autoptr (GdkAppLaunchContext) ctx = NULL;
-  GdkDisplay *display;
-  GdkScreen *screen;
+  GdkDisplay *display = NULL;
+  GdkScreen *screen = NULL;
 
-  if (widget == NULL)
-    goto out;
+  if (widget != NULL)
+    {
+      screen = gtk_widget_get_screen (widget);
+      display = gdk_screen_get_display (screen);
+    }
 
-  screen = gtk_widget_get_screen (widget);
-  display = gdk_screen_get_display (screen);
+  if (display == NULL)
+    display = gdk_display_get_default ();
 
   ctx = gdk_display_get_app_launch_context (display);
-  gdk_app_launch_context_set_screen (ctx, screen);
+  if (screen != NULL)
+    gdk_app_launch_context_set_screen (ctx, screen);
 
   ret_val = G_APP_LAUNCH_CONTEXT (g_steal_pointer (&ctx));
-
- out:
   return ret_val;
 }
 
