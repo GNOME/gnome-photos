@@ -33,6 +33,7 @@
 #include "photos-icons.h"
 #include "photos-search-context.h"
 #include "photos-source-manager.h"
+#include "photos-utils.h"
 
 
 struct _PhotosEmptyResultsBox
@@ -57,9 +58,7 @@ static gboolean
 photos_empty_results_box_activate_link (PhotosEmptyResultsBox *self, const gchar *uri)
 {
   g_autoptr (GAppInfo) app = NULL;
-  g_autoptr (GdkAppLaunchContext) ctx = NULL;
-  GdkDisplay *display;
-  GdkScreen *screen;
+  g_autoptr (GAppLaunchContext) ctx = NULL;
   gboolean ret_val = FALSE;
 
   if (g_strcmp0 (uri, "system-settings") != 0)
@@ -79,20 +78,12 @@ photos_empty_results_box_activate_link (PhotosEmptyResultsBox *self, const gchar
       }
   }
 
-  screen = gtk_widget_get_screen (GTK_WIDGET (self));
-  if (screen != NULL)
-    display = gdk_screen_get_display (screen);
-  else
-    display = gdk_display_get_default ();
-
-  ctx = gdk_display_get_app_launch_context (display);
-  if (screen != NULL)
-    gdk_app_launch_context_set_screen (ctx, screen);
+  ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (self));
 
   {
     g_autoptr (GError) error = NULL;
 
-    g_app_info_launch (app, NULL, G_APP_LAUNCH_CONTEXT (ctx), &error);
+    g_app_info_launch (app, NULL, ctx, &error);
     if (error != NULL)
       {
         g_warning ("Unable to launch gnome-control-center: %s", error->message);

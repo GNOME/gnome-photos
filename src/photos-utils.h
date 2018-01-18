@@ -172,6 +172,8 @@ void             photos_utils_list_box_header_func        (GtkListBoxRow *row,
                                                            GtkListBoxRow *before,
                                                            gpointer user_data);
 
+GAppLaunchContext *photos_utils_new_app_launch_context_from_widget (GtkWidget *widget);
+
 void             photos_utils_object_list_free_full       (GList *objects);
 
 gchar           *photos_utils_print_zoom_action_detailed_name (const gchar *action_name,

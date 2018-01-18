@@ -27,6 +27,7 @@
 
 #include "photos-source-notification.h"
 #include "photos-icons.h"
+#include "photos-utils.h"
 
 
 struct _PhotosSourceNotification
@@ -64,9 +65,7 @@ static void
 photos_source_notification_settings_clicked (PhotosSourceNotification *self)
 {
   g_autoptr (GAppInfo) app = NULL;
-  g_autoptr (GdkAppLaunchContext) ctx = NULL;
-  GdkDisplay *display;
-  GdkScreen *screen;
+  g_autoptr (GAppLaunchContext) ctx = NULL;
   GoaAccount *account;
   GoaObject *object;
   const gchar *id;
@@ -90,20 +89,12 @@ photos_source_notification_settings_clicked (PhotosSourceNotification *self)
       }
   }
 
-  screen = gtk_widget_get_screen (GTK_WIDGET (self));
-  if (screen != NULL)
-    display = gdk_screen_get_display (screen);
-  else
-    display = gdk_display_get_default ();
-
-  ctx = gdk_display_get_app_launch_context (display);
-  if (screen != NULL)
-    gdk_app_launch_context_set_screen (ctx, screen);
+  ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (self));
 
   {
     g_autoptr (GError) error = NULL;
 
-    g_app_info_launch (app, NULL, G_APP_LAUNCH_CONTEXT (ctx), &error);
+    g_app_info_launch (app, NULL, ctx, &error);
     if (error != NULL)
       {
         g_warning ("Unable to launch gnome-control-center: %s", error->message);

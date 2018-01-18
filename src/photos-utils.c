@@ -30,6 +30,7 @@
 
 #include <string.h>
 
+#include <gdk/gdk.h>
 #include <glib.h>
 #include <tracker-sparql.h>
 #include <libgd/gd.h>
@@ -1271,6 +1272,34 @@ photos_utils_list_box_header_func (GtkListBoxRow *row, GtkListBoxRow *before, gp
       gtk_widget_show (header);
       gtk_list_box_row_set_header (row, header);
     }
+}
+
+
+GAppLaunchContext *
+photos_utils_new_app_launch_context_from_widget (GtkWidget *widget)
+{
+  GAppLaunchContext *ret_val = NULL;
+  g_autoptr (GdkAppLaunchContext) ctx = NULL;
+  GdkDisplay *display;
+  GdkScreen *screen;
+
+  if (widget == NULL)
+    goto out;
+
+  screen = gtk_widget_get_screen (widget);
+  if (screen != NULL)
+    display = gdk_screen_get_display (screen);
+  else
+    display = gdk_display_get_default ();
+
+  ctx = gdk_display_get_app_launch_context (display);
+  if (screen != NULL)
+    gdk_app_launch_context_set_screen (ctx, screen);
+
+  ret_val = G_APP_LAUNCH_CONTEXT (g_steal_pointer (&ctx));
+
+ out:
+  return ret_val;
 }
 
 
