@@ -118,7 +118,6 @@ gnome_photos_SOURCES = \
 	photos-glib.h \
 	photos-google-item.c \
 	photos-google-item.h \
-	photos-icons.h \
 	photos-image-view.c \
 	photos-image-view.h \
 	photos-image-view-helper.c \

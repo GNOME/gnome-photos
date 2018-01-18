@@ -26,7 +26,6 @@
 #include <gtk/gtk.h>
 
 #include "photos-application.h"
-#include "photos-icons.h"
 #include "photos-operation-insta-common.h"
 #include "photos-tool.h"
 #include "photos-tool-filter-button.h"
@@ -232,7 +231,7 @@ photos_tool_filters_class_init (PhotosToolFiltersClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosToolClass *tool_class = PHOTOS_TOOL_CLASS (class);
 
-  tool_class->icon_name = PHOTOS_ICON_IMAGE_FILTER_SYMBOLIC;
+  tool_class->icon_name = "image-filter-symbolic";
   tool_class->name = _("Filters");
 
   object_class->dispose = photos_tool_filters_dispose;

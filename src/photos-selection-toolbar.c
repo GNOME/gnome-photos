@@ -32,7 +32,6 @@
 
 #include "photos-base-item.h"
 #include "photos-delete-notification.h"
-#include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-organize-collection-dialog.h"
 #include "photos-search-context.h"
@@ -248,12 +247,12 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   if (show_favorite && fav_count == sel_length)
     {
       favorite_label = g_strdup (_("Remove from favorites"));
-      image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+      image = gtk_image_new_from_icon_name ("starred-symbolic", GTK_ICON_SIZE_BUTTON);
     }
   else
     {
       favorite_label = g_strdup (_("Add to favorites"));
-      image = gtk_image_new_from_icon_name (PHOTOS_ICON_NOT_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+      image = gtk_image_new_from_icon_name ("non-starred-symbolic", GTK_ICON_SIZE_BUTTON);
     }
 
   gtk_button_set_image (GTK_BUTTON (self->toolbar_favorite), image);

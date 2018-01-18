@@ -36,7 +36,6 @@
 #include <gtk/gtk.h>
 
 #include "egg-animation.h"
-#include "photos-icons.h"
 #include "photos-image-view.h"
 #include "photos-tool.h"
 #include "photos-tool-crop.h"
@@ -1507,7 +1506,7 @@ photos_tool_crop_init (PhotosToolCrop *self)
       label = gtk_label_new (_(self->constraints[i].name));
       gtk_container_add (GTK_CONTAINER (grid), label);
 
-      image = gtk_image_new_from_icon_name (PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+      image = gtk_image_new_from_icon_name ("object-select-symbolic", GTK_ICON_SIZE_INVALID);
       gtk_widget_set_no_show_all (image, TRUE);
       gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
       gtk_container_add (GTK_CONTAINER (grid), image);
@@ -1572,7 +1571,7 @@ photos_tool_crop_class_init (PhotosToolCropClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosToolClass *tool_class = PHOTOS_TOOL_CLASS (class);
 
-  tool_class->icon_name = PHOTOS_ICON_IMAGE_CROP_SYMBOLIC;
+  tool_class->icon_name = "image-crop-symbolic";
   tool_class->name = _("Crop");
 
   object_class->dispose = photos_tool_crop_dispose;

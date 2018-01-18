@@ -26,7 +26,6 @@
 #include <glib/gi18n.h>
 
 #include "photos-source-notification.h"
-#include "photos-icons.h"
 #include "photos-utils.h"
 
 
@@ -139,7 +138,7 @@ photos_source_notification_constructed (GObject *object)
   gtk_container_add (GTK_CONTAINER (self), settings);
   g_signal_connect_swapped (settings, "clicked", G_CALLBACK (photos_source_notification_settings_clicked), self);
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_WINDOW_CLOSE_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+  image = gtk_image_new_from_icon_name ("window-close-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_widget_set_margin_bottom (image, 2);
   gtk_widget_set_margin_top (image, 2);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);

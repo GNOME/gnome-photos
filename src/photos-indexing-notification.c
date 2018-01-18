@@ -32,7 +32,6 @@
 
 #include "photos-application.h"
 #include "photos-gom-miner.h"
-#include "photos-icons.h"
 #include "photos-indexing-notification.h"
 #include "photos-notification-manager.h"
 
@@ -277,7 +276,7 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   gtk_style_context_add_class (context, "dim-label");
   gtk_container_add (GTK_CONTAINER (labels), self->secondary_label);
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_WINDOW_CLOSE_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+  image = gtk_image_new_from_icon_name ("window-close-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_widget_set_margin_bottom (image, 2);
   gtk_widget_set_margin_top (image, 2);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);

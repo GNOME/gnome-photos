@@ -26,7 +26,6 @@
 #include <gio/gio.h>
 
 #include "photos-application.h"
-#include "photos-icons.h"
 #include "photos-tool-filter-button.h"
 #include "photos-utils.h"
 #include "photos-widget-shader.h"
@@ -118,7 +117,7 @@ photos_tool_filter_button_constructed (GObject *object)
 
   app = g_application_get_default ();
   scale = photos_application_get_scale_factor (PHOTOS_APPLICATION (app));
-  preview_icon = photos_utils_create_placeholder_icon_for_scale (PHOTOS_ICON_CONTENT_LOADING_SYMBOLIC, 96, scale);
+  preview_icon = photos_utils_create_placeholder_icon_for_scale ("content-loading-symbolic", 96, scale);
   if (preview_icon != NULL)
     preview_icon_surface = gdk_cairo_surface_create_from_pixbuf (preview_icon, scale, NULL);
 
@@ -231,7 +230,7 @@ photos_tool_filter_button_init (PhotosToolFilterButton *self)
 {
   self->overlay = gtk_overlay_new ();
 
-  self->selected_image = gtk_image_new_from_icon_name (PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+  self->selected_image = gtk_image_new_from_icon_name ("object-select-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_widget_set_halign (self->selected_image, GTK_ALIGN_CENTER);
   gtk_widget_set_valign (self->selected_image, GTK_ALIGN_CENTER);
   gtk_widget_set_no_show_all (self->selected_image, TRUE);

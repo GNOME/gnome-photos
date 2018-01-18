@@ -30,7 +30,6 @@
 
 #include "photos-empty-results-box.h"
 #include "photos-enums.h"
-#include "photos-icons.h"
 #include "photos-search-context.h"
 #include "photos-source-manager.h"
 #include "photos-utils.h"
@@ -167,12 +166,12 @@ photos_empty_results_box_constructed (GObject *object)
   switch (self->mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
-      image = gtk_image_new_from_icon_name (PHOTOS_ICON_PHOTOS_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+      image = gtk_image_new_from_icon_name ("emblem-photos-symbolic", GTK_ICON_SIZE_INVALID);
       label = g_strconcat ("<b><span size=\"large\">", _("No Albums Found"), "</span></b>", NULL);
       break;
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
-      image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+      image = gtk_image_new_from_icon_name ("starred-symbolic", GTK_ICON_SIZE_INVALID);
       label = g_strconcat ("<b><span size=\"large\">", _("Starred photos will appear here"), "</span></b>", NULL);
       break;
 
@@ -182,7 +181,7 @@ photos_empty_results_box_constructed (GObject *object)
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
-      image = gtk_image_new_from_icon_name (PHOTOS_ICON_PHOTOS_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+      image = gtk_image_new_from_icon_name ("emblem-photos-symbolic", GTK_ICON_SIZE_INVALID);
       label = g_strconcat ("<b><span size=\"large\">", _("No Photos Found"), "</span></b>", NULL);
       break;
 

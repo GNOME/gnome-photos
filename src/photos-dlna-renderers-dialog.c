@@ -33,7 +33,6 @@
 #include "photos-dleyna-renderer-push-host.h"
 #include "photos-dlna-renderer.h"
 #include "photos-dlna-renderers-manager.h"
-#include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-local-item.h"
 #include "photos-remote-display-manager.h"
@@ -177,7 +176,7 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self, Phot
 
   name = photos_dlna_renderer_get_friendly_name (renderer);
 
-  icon = g_themed_icon_new_with_default_fallbacks (PHOTOS_ICON_VIDEO_DISPLAY_SYMBOLIC);
+  icon = g_themed_icon_new_with_default_fallbacks ("video-display-symbolic");
   image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
 
   g_object_ref (image); /* keep a ref for the following async call and release it in the callback */

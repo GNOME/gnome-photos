@@ -28,7 +28,6 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
-#include "photos-icons.h"
 #include "photos-print-notification.h"
 #include "photos-notification-manager.h"
 
@@ -153,7 +152,7 @@ photos_print_notification_init (PhotosPrintNotification *self)
   gtk_widget_set_hexpand (self->status_label, TRUE);
   gtk_container_add (GTK_CONTAINER (self), self->status_label);
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_PROCESS_STOP_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+  image = gtk_image_new_from_icon_name ("process-stop-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_widget_set_margin_bottom (image, 2);
   gtk_widget_set_margin_top (image, 2);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);

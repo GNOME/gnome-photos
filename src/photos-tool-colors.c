@@ -29,7 +29,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "photos-icons.h"
 #include "photos-tool.h"
 #include "photos-tool-colors.h"
 #include "photos-utils.h"
@@ -494,7 +493,7 @@ photos_tool_colors_class_init (PhotosToolColorsClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosToolClass *tool_class = PHOTOS_TOOL_CLASS (class);
 
-  tool_class->icon_name = PHOTOS_ICON_IMAGE_ADJUST_COLOR_SYMBOLIC;
+  tool_class->icon_name = "image-adjust-color-symbolic";
   tool_class->name = _("Colors");
 
   object_class->dispose = photos_tool_colors_dispose;

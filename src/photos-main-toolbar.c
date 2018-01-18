@@ -32,7 +32,6 @@
 
 #include "photos-dlna-renderers-manager.h"
 #include "photos-dropdown.h"
-#include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
 #include "photos-remote-display-manager.h"
@@ -177,7 +176,7 @@ photos_main_toolbar_add_back_button (PhotosMainToolbar *self)
 {
   GtkWidget *back_button;
 
-  back_button = gtk_button_new_from_icon_name (PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  back_button = gtk_button_new_from_icon_name ("go-previous-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_widget_set_tooltip_text (back_button, _("Back"));
   gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), back_button);
   g_signal_connect_swapped (back_button, "clicked", G_CALLBACK (photos_main_toolbar_back_button_clicked), self);
@@ -265,7 +264,7 @@ photos_main_toolbar_add_search_button (PhotosMainToolbar *self)
   GtkWidget *image;
   GtkWidget *search_button;
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_EDIT_FIND_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  image = gtk_image_new_from_icon_name ("edit-find-symbolic", GTK_ICON_SIZE_BUTTON);
   search_button = gtk_toggle_button_new ();
   gtk_widget_set_tooltip_text (search_button, _("Search"));
   gtk_button_set_image (GTK_BUTTON (search_button), image);
@@ -281,7 +280,7 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
 {
   GtkWidget *selection_button;
 
-  selection_button = gtk_button_new_from_icon_name (PHOTOS_ICON_OBJECT_SELECT_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  selection_button = gtk_button_new_from_icon_name ("object-select-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_widget_set_tooltip_text (selection_button, _("Select Items"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (selection_button), "app.selection-mode");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), selection_button);
@@ -376,12 +375,12 @@ photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self, gboolean fa
   if (favorite)
     {
       favorite_label = g_strdup (_("Remove from favorites"));
-      image = gtk_image_new_from_icon_name (PHOTOS_ICON_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+      image = gtk_image_new_from_icon_name ("starred-symbolic", GTK_ICON_SIZE_BUTTON);
     }
   else
     {
       favorite_label = g_strdup (_("Add to favorites"));
-      image = gtk_image_new_from_icon_name (PHOTOS_ICON_NOT_FAVORITE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+      image = gtk_image_new_from_icon_name ("non-starred-symbolic", GTK_ICON_SIZE_BUTTON);
     }
 
   gtk_button_set_image (GTK_BUTTON (self->favorite_button), image);
@@ -471,7 +470,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   photos_main_toolbar_add_back_button (self);
 
   preview_menu = photos_main_toolbar_create_preview_menu (self);
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_SYSTEM_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  image = gtk_image_new_from_icon_name ("open-menu-symbolic", GTK_ICON_SIZE_BUTTON);
   menu_button = gtk_menu_button_new ();
   gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_button), "app.gear-menu");
   gtk_button_set_image (GTK_BUTTON (menu_button), image);
@@ -480,11 +479,11 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
 
   g_simple_action_set_enabled (self->gear_menu, TRUE);
 
-  share_button = gtk_button_new_from_icon_name (PHOTOS_ICON_IMAGE_SHARE_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  share_button = gtk_button_new_from_icon_name ("emblem-shared-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (share_button), "app.share-current");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), share_button);
 
-  edit_button = gtk_button_new_from_icon_name (PHOTOS_ICON_IMAGE_EDIT_SYMBOLIC, GTK_ICON_SIZE_BUTTON);
+  edit_button = gtk_button_new_from_icon_name ("image-edit-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (edit_button), "app.edit-current");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), edit_button);
 

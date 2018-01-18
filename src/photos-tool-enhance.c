@@ -26,7 +26,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include "photos-icons.h"
 #include "photos-tool.h"
 #include "photos-tool-enhance.h"
 #include "photos-utils.h"
@@ -244,7 +243,7 @@ photos_tool_enhance_class_init (PhotosToolEnhanceClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   PhotosToolClass *tool_class = PHOTOS_TOOL_CLASS (class);
 
-  tool_class->icon_name = PHOTOS_ICON_IMAGE_AUTO_ADJUST_SYMBOLIC;
+  tool_class->icon_name = "image-auto-adjust-symbolic";
   tool_class->name = _("Enhance");
 
   object_class->dispose = photos_tool_enhance_dispose;

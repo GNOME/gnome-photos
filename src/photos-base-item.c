@@ -50,7 +50,6 @@
 #include "photos-filterable.h"
 #include "photos-gegl.h"
 #include "photos-glib.h"
-#include "photos-icons.h"
 #include "photos-local-item.h"
 #include "photos-pipeline.h"
 #include "photos-print-notification.h"
@@ -375,7 +374,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
 
   if (priv->favorite)
     {
-      pix = photos_base_item_create_symbolic_emblem (PHOTOS_ICON_FAVORITE, scale);
+      pix = photos_base_item_create_symbolic_emblem ("starred", scale);
       emblem_icons = g_list_prepend (emblem_icons, pix);
     }
 
@@ -800,7 +799,7 @@ static void
 photos_base_item_set_failed_icon (PhotosBaseItem *self)
 {
   if (failed_icon == NULL)
-    failed_icon = photos_base_item_create_placeholder_icon (PHOTOS_ICON_IMAGE_X_GENERIC_SYMBOLIC);
+    failed_icon = photos_base_item_create_placeholder_icon ("image-x-generic-symbolic");
 
   photos_base_item_set_original_icon (self, failed_icon);
 }
@@ -2554,7 +2553,7 @@ static void
 photos_base_item_set_thumbnailing_icon (PhotosBaseItem *self)
 {
   if (thumbnailing_icon == NULL)
-    thumbnailing_icon = photos_base_item_create_placeholder_icon (PHOTOS_ICON_CONTENT_LOADING_SYMBOLIC);
+    thumbnailing_icon = photos_base_item_create_placeholder_icon ("content-loading-symbolic");
 
   photos_base_item_set_original_icon (self, thumbnailing_icon);
 }

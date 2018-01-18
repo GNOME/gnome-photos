@@ -26,7 +26,6 @@
 
 #include "photos-base-item.h"
 #include "photos-delete-notification.h"
-#include "photos-icons.h"
 #include "photos-item-manager.h"
 #include "photos-notification-manager.h"
 #include "photos-search-context.h"
@@ -151,7 +150,7 @@ photos_delete_notification_constructed (GObject *object)
   gtk_container_add (GTK_CONTAINER (self), undo);
   g_signal_connect_swapped (undo, "clicked", G_CALLBACK (photos_delete_notification_undo_clicked), self);
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_WINDOW_CLOSE_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+  image = gtk_image_new_from_icon_name ("window-close-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_widget_set_margin_bottom (image, 2);
   gtk_widget_set_margin_top (image, 2);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);

@@ -25,7 +25,6 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 
-#include "photos-icons.h"
 #include "photos-notification-manager.h"
 #include "photos-share-notification.h"
 
@@ -174,7 +173,7 @@ photos_share_notification_constructed (GObject *object)
       g_signal_connect_swapped (open, "clicked", G_CALLBACK (photos_share_notification_open), self);
     }
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_WINDOW_CLOSE_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+  image = gtk_image_new_from_icon_name ("window-close-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_widget_set_margin_bottom (image, 2);
   gtk_widget_set_margin_top (image, 2);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);

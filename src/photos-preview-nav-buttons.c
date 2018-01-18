@@ -30,7 +30,6 @@
 
 #include "photos-base-manager.h"
 #include "photos-delete-notification.h"
-#include "photos-icons.h"
 #include "photos-preview-nav-buttons.h"
 #include "photos-search-context.h"
 #include "photos-zoom-controls.h"
@@ -472,7 +471,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
   gtk_revealer_set_transition_type (GTK_REVEALER (self->prev_widget), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
   gtk_overlay_add_overlay (GTK_OVERLAY (self->overlay), self->prev_widget);
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_GO_PREVIOUS_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+  image = gtk_image_new_from_icon_name ("go-previous-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
 
   button = gtk_button_new ();
@@ -498,7 +497,7 @@ photos_preview_nav_buttons_constructed (GObject *object)
   gtk_revealer_set_transition_type (GTK_REVEALER (self->next_widget), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
   gtk_overlay_add_overlay (GTK_OVERLAY (self->overlay), self->next_widget);
 
-  image = gtk_image_new_from_icon_name (PHOTOS_ICON_GO_NEXT_SYMBOLIC, GTK_ICON_SIZE_INVALID);
+  image = gtk_image_new_from_icon_name ("go-next-symbolic", GTK_ICON_SIZE_INVALID);
   gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
 
   button = gtk_button_new ();
