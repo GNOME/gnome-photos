@@ -30,6 +30,7 @@
 #include "photos-export-notification.h"
 #include "photos-icons.h"
 #include "photos-notification-manager.h"
+#include "photos-utils.h"
 
 
 struct _PhotosExportNotification
@@ -82,18 +83,21 @@ photos_export_notification_destroy (PhotosExportNotification *self)
 static void
 photos_export_notification_analyze (PhotosExportNotification *self)
 {
+  GAppLaunchContext *ctx = NULL;
   GDesktopAppInfo *analyzer;
   GError *error = NULL;
 
   analyzer = g_desktop_app_info_new ("org.gnome.baobab.desktop");
+  ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (self));
 
-  if (!g_app_info_launch (G_APP_INFO (analyzer), NULL, NULL, &error))
+  if (!g_app_info_launch (G_APP_INFO (analyzer), NULL, ctx, &error))
     {
       g_warning ("Unable to launch disk usage analyzer: %s", error->message);
       g_error_free (error);
     }
 
   photos_export_notification_destroy (self);
+  g_clear_object (&ctx);
   g_object_unref (analyzer);
 }
 

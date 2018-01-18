@@ -605,11 +605,17 @@ photos_base_item_default_open (PhotosBaseItem *self, GtkWindow *parent, guint32 
 
   if (priv->default_app != NULL)
     {
-      g_autoptr (GError) error = NULL;
+      g_autoptr (GAppLaunchContext) ctx = NULL;
 
-      photos_glib_app_info_launch_uri (priv->default_app, priv->uri, NULL, &error);
-      if (error != NULL)
-        g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
+      ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (parent));
+
+      {
+        g_autoptr (GError) error = NULL;
+
+        photos_glib_app_info_launch_uri (priv->default_app, priv->uri, ctx, &error);
+        if (error != NULL)
+          g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
+      }
     }
   else
     {
