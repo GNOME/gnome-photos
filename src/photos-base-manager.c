@@ -615,18 +615,18 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
   g_hash_table_iter_init (&iter, priv->objects);
   while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &object_data))
     {
-      if (g_strcmp0 (id, "all") != 0)
-        {
-          gchar *str;
+      gchar *str;
 
-          str = photos_filterable_get_filter (PHOTOS_FILTERABLE (object_data->object));
-          if (g_strcmp0 (str, blank) == 0)
-            g_free (str);
-          else
-            {
-              strv[i] = str;
-              i++;
-            }
+      if (g_strcmp0 (id, "all") == 0)
+        continue;
+
+      str = photos_filterable_get_filter (PHOTOS_FILTERABLE (object_data->object));
+      if (g_strcmp0 (str, blank) == 0)
+        g_free (str);
+      else
+        {
+          strv[i] = str;
+          i++;
         }
     }
 
