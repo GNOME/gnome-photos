@@ -395,11 +395,11 @@ static void
 photos_item_manager_item_created (PhotosItemManager *self, const gchar *urn)
 {
   GApplication *app;
-  PhotosBaseItem *old_hidden_item;
+  PhotosItemManagerHiddenItem *old_hidden_item;
   PhotosSearchContextState *state;
   PhotosSingleItemJob *job;
 
-  old_hidden_item = PHOTOS_BASE_ITEM (g_hash_table_lookup (self->hidden_items, urn));
+  old_hidden_item = (PhotosItemManagerHiddenItem *) g_hash_table_lookup (self->hidden_items, urn);
   g_return_if_fail (old_hidden_item == NULL);
 
   app = g_application_get_default ();
