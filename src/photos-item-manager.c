@@ -1026,6 +1026,7 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
           item1 = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr_chldrn[0], id));
           g_assert_true (item == item1);
 
+          g_signal_handlers_disconnect_by_func (item, photos_item_manager_info_updated, self);
           photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[0], id);
         }
 
