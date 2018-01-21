@@ -705,8 +705,63 @@ photos_application_create_window (PhotosApplication *self)
 static void
 photos_application_activate_item (PhotosApplication *self, GObject *item)
 {
+  PhotosWindowMode mode;
+  gboolean can_activate;
+
+  mode = photos_mode_controller_get_window_mode (self->state->mode_cntrlr);
+
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      can_activate = TRUE;
+      break;
+
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      can_activate = FALSE;
+      break;
+
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  if (!can_activate)
+    {
+      g_return_if_fail (PHOTOS_IS_MAIN_WINDOW (self->main_window));
+      return;
+    }
+
   if (!photos_application_create_window (self))
     return;
+
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_NONE:
+      photos_mode_controller_set_window_mode (self->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+      break;
+
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+      photos_mode_controller_go_back (self->state->mode_cntrlr);
+      break;
+
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      break;
+
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
 
   photos_base_manager_set_active_object (self->state->item_mngr, item);
   g_application_activate (G_APPLICATION (self));
@@ -925,14 +980,63 @@ static void
 photos_application_launch_search (PhotosApplication *self, const gchar* const *terms, guint timestamp)
 {
   GVariant *state;
+  PhotosWindowMode mode;
+  gboolean can_launch;
   g_autofree gchar *str = NULL;
 
   photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::launch_search");
 
+  mode = photos_mode_controller_get_window_mode (self->state->mode_cntrlr);
+
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      can_launch = TRUE;
+      break;
+
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+      can_launch = FALSE;
+      break;
+
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  if (!can_launch)
+    {
+      g_return_if_fail (PHOTOS_IS_MAIN_WINDOW (self->main_window));
+      return;
+    }
+
   if (!photos_application_create_window (self))
     return;
 
-  photos_mode_controller_set_window_mode (self->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_NONE:
+      photos_mode_controller_set_window_mode (self->state->mode_cntrlr, PHOTOS_WINDOW_MODE_OVERVIEW);
+      break;
+
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      break;
+
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
 
   str = g_strjoinv (" ", (gchar **) terms);
   photos_search_controller_set_string (self->state->srch_cntrlr, str);

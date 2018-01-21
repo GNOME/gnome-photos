@@ -668,6 +668,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
 
   g_return_val_if_fail (object != NULL, FALSE);
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object), FALSE);
+  g_return_val_if_fail (self->mode != PHOTOS_WINDOW_MODE_EDIT, FALSE);
 
   is_collection = photos_base_item_is_collection (PHOTOS_BASE_ITEM (object));
   if (is_collection)
@@ -961,11 +962,7 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
 
   if (photos_item_manager_cursor_is_collection (cursor))
     {
-      if (self->active_collection != NULL && force)
-        photos_mode_controller_go_back (self);
-
-      if (self->active_collection == NULL)
-        photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_COLLECTIONS, force);
+      photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_COLLECTIONS, force);
     }
   else
     {
@@ -1295,14 +1292,6 @@ photos_mode_controller_go_back (PhotosModeController *self)
   g_return_if_fail (!g_queue_is_empty (self->history));
 
   old_mode = (PhotosWindowMode) GPOINTER_TO_INT (g_queue_peek_head (self->history));
-
-  /* Always go back to the overview when activated from the search
-   * provider. It is easier to special case it here instead of all
-   * over the code.
-   */
-  if (self->mode == PHOTOS_WINDOW_MODE_PREVIEW && old_mode == PHOTOS_WINDOW_MODE_NONE)
-    old_mode = PHOTOS_WINDOW_MODE_OVERVIEW;
-
   g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_NONE);
 
   switch (self->mode)
@@ -1439,6 +1428,7 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
     }
   else
     {
+      g_return_if_fail (self->mode != PHOTOS_WINDOW_MODE_EDIT);
       g_return_if_fail (self->mode != PHOTOS_WINDOW_MODE_PREVIEW);
     }
 
