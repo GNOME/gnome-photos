@@ -233,9 +233,6 @@ photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
 
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   updated_item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
-  if (updated_item == NULL)
-    return;
-
   g_return_if_fail (updated_item == item);
 
   is_collection = photos_base_item_is_collection (item);
