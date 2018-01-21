@@ -62,14 +62,18 @@ EGG_DEFINE_COUNTER (instances, "PhotosSource", "Instances", "Number of PhotosSou
 static gchar *
 photos_source_build_filter_resource (PhotosSource *self)
 {
-  gchar *filter;
+  g_autofree gchar *filter = NULL;
+  gchar *ret_val = NULL;
 
-  if (!self->builtin)
+  g_return_val_if_fail (!self->builtin, NULL);
+
+  if (self->object != NULL)
     filter = g_strdup_printf ("(nie:dataSource (?urn) = '%s')", self->id);
   else
-    filter = g_strdup ("(false)");
+    g_return_val_if_reached (NULL);
 
-  return filter;
+  ret_val = g_steal_pointer (&filter);
+  return ret_val;
 }
 
 
