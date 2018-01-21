@@ -39,7 +39,7 @@
 struct _PhotosOverviewSearchbar
 {
   PhotosSearchbar parent_instance;
-  GAction *select_all;
+  GAction *select_all_action;
   GdTaggedEntry *search_entry;
   GdTaggedEntryTag *src_tag;
   GdTaggedEntryTag *srch_mtch_tag;
@@ -87,7 +87,7 @@ photos_overview_searchbar_hide (PhotosSearchbar *searchbar)
   PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (searchbar);
 
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->dropdown_button), FALSE);
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->select_all), TRUE);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->select_all_action), TRUE);
 
   photos_base_manager_set_active_object_by_id (self->srch_typ_mngr, "all");
   photos_base_manager_set_active_object_by_id (self->srch_mtch_mngr, "all");
@@ -125,7 +125,7 @@ photos_overview_searchbar_show (PhotosSearchbar *searchbar)
 {
   PhotosOverviewSearchbar *self = PHOTOS_OVERVIEW_SEARCHBAR (searchbar);
 
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->select_all), FALSE);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (self->select_all_action), FALSE);
 
   PHOTOS_SEARCHBAR_CLASS (photos_overview_searchbar_parent_class)->show (searchbar);
 }
@@ -259,7 +259,7 @@ photos_overview_searchbar_init (PhotosOverviewSearchbar *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  self->select_all = g_action_map_lookup_action (G_ACTION_MAP (app), "select-all");
+  self->select_all_action = g_action_map_lookup_action (G_ACTION_MAP (app), "select-all");
 
   self->src_mngr = g_object_ref (state->src_mngr);
   g_signal_connect_object (self->src_mngr,
