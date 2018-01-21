@@ -957,8 +957,18 @@ photos_item_manager_new (void)
 void
 photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *cursor, gboolean force)
 {
+  PhotosItemManagerHiddenItem *old_hidden_item;
+  const gchar *id;
+
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
   g_return_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor));
+
+  id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+  g_return_if_fail (id != NULL && id[0] != '\0');
+
+  old_hidden_item = (PhotosItemManagerHiddenItem *) g_hash_table_lookup (self->hidden_items, id);
+  if (old_hidden_item != NULL)
+    goto out;
 
   if (photos_item_manager_cursor_is_collection (cursor))
     {
@@ -971,13 +981,29 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
 
       photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_OVERVIEW, force);
     }
+
+ out:
+  return;
 }
 
 
 void
 photos_item_manager_add_item_for_mode (PhotosItemManager *self, PhotosWindowMode mode, TrackerSparqlCursor *cursor)
 {
+  PhotosItemManagerHiddenItem *old_hidden_item;
+  const gchar *id;
+
+  id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+  g_return_if_fail (id != NULL && id[0] != '\0');
+
+  old_hidden_item = (PhotosItemManagerHiddenItem *) g_hash_table_lookup (self->hidden_items, id);
+  if (old_hidden_item != NULL)
+    goto out;
+
   photos_item_manager_add_cursor_for_mode (self, cursor, mode, FALSE);
+
+ out:
+  return;
 }
 
 
