@@ -28,16 +28,12 @@
 
 #include "photos-empty-results-box.h"
 #include "photos-enums.h"
-#include "photos-search-context.h"
-#include "photos-source-manager.h"
 #include "photos-utils.h"
 
 
 struct _PhotosEmptyResultsBox
 {
   GtkGrid parent_instance;
-  GtkWidget *labels_grid;
-  PhotosBaseManager *src_mngr;
   PhotosWindowMode mode;
 };
 
@@ -96,48 +92,170 @@ photos_empty_results_box_activate_link (PhotosEmptyResultsBox *self, const gchar
 
 
 static void
-photos_empty_results_box_add_collections_label (PhotosEmptyResultsBox *self)
+photos_empty_results_box_add_image (PhotosEmptyResultsBox *self)
 {
-  GtkWidget *details;
+  GtkWidget *image;
+  const gchar *icon_name = NULL;
 
-  details = gtk_label_new (_("Name your first album"));
-  gtk_widget_set_halign (details, GTK_ALIGN_START);
-  gtk_label_set_line_wrap (GTK_LABEL (details), TRUE);
-  gtk_label_set_max_width_chars (GTK_LABEL (details), 24);
-  gtk_label_set_use_markup (GTK_LABEL (details), TRUE);
-  gtk_label_set_xalign (GTK_LABEL (details), 0.0);
-  gtk_container_add (GTK_CONTAINER (self->labels_grid), details);
+  switch (self->mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      icon_name = "emblem-photos-symbolic";
+      break;
+
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      icon_name = "starred-symbolic";
+      break;
+
+    /* TODO: Don't show a collection if there are no screenshots in
+     * the relevant locations.
+     */
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      icon_name = "camera-photo-symbolic";
+      break;
+
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      icon_name = "system-search-symbolic";
+      break;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_INVALID);
+  gtk_widget_set_margin_bottom (GTK_WIDGET (image), 9);
+  gtk_image_set_pixel_size (GTK_IMAGE (image), 128);
+  gtk_container_add (GTK_CONTAINER (self), image);
 }
 
 
 static void
-photos_empty_results_box_add_system_settings_label (PhotosEmptyResultsBox *self)
+photos_empty_results_box_add_primary_label (PhotosEmptyResultsBox *self)
 {
-  GtkWidget *details;
-  g_autofree gchar *details_str = NULL;
-  g_autofree gchar *system_settings_href = NULL;
+  GtkWidget *primary_label;
+  const gchar *text = NULL;
+  g_autofree gchar *label = NULL;
 
-  /* Translators: this should be translated in the context of the "You
-   * can add your online accounts in Settings" sentence below
-   */
-  system_settings_href = g_strconcat ("<a href=\"system-settings\">", _("Settings"), "</a>", NULL);
+  switch (self->mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      text = _("No albums found");
+      break;
 
-  /* Translators: %s here is "Settings", which is in a separate string
-   * due to markup, and should be translated only in the context of
-   * this sentence.
-   */
-  details_str = g_strdup_printf (_("You can add your online accounts in %s"), system_settings_href);
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      text = _("Starred photos will appear here");
+      break;
 
-  details = gtk_label_new (details_str);
-  gtk_widget_set_halign (details, GTK_ALIGN_START);
-  gtk_label_set_line_wrap (GTK_LABEL (details), TRUE);
-  gtk_label_set_max_width_chars (GTK_LABEL (details), 24);
-  gtk_label_set_use_markup (GTK_LABEL (details), TRUE);
-  gtk_label_set_xalign (GTK_LABEL (details), 0.0);
-  gtk_container_add (GTK_CONTAINER (self->labels_grid), details);
+    /* TODO: Don't show a collection if there are no screenshots in
+     * the relevant locations.
+     */
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      text = _("No photos found");
+      break;
 
-  g_signal_connect_swapped (details, "activate-link", G_CALLBACK (photos_empty_results_box_activate_link), self);
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
 
+  label = g_strconcat ("<b><span size=\"large\">", text, "</span></b>", NULL);
+  primary_label = gtk_label_new (label);
+  gtk_widget_set_margin_top (GTK_WIDGET (primary_label), 9);
+  gtk_label_set_use_markup (GTK_LABEL (primary_label), TRUE);
+  gtk_container_add (GTK_CONTAINER (self), primary_label);
+}
+
+
+static void
+photos_empty_results_box_add_secondary_label (PhotosEmptyResultsBox *self)
+{
+  gboolean handle_activate_link = FALSE;
+  gboolean use_markup = FALSE;
+  g_autofree gchar *label = NULL;
+
+  switch (self->mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+      label = g_strdup (_("You can create albums from the Photos view"));
+      break;
+
+    /* TODO: Don't show a collection if there are no screenshots in
+     * the relevant locations.
+     */
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+      break;
+
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+      {
+        const gchar *pictures_path;
+        g_autofree gchar *pictures_path_href = NULL;
+        g_autofree gchar *system_settings_href = NULL;
+
+        /* Translators: this should be translated in the context of
+         * the "Photos from your Online Accounts and Pictures folder
+         * will appear here." sentence below.
+         */
+        system_settings_href = g_strdup_printf ("<a href=\"system-settings\">%s</a>", _("Online Accounts"));
+
+        /* Translators: this should be translated in the context of
+         * the "Photos from your Online Accounts and Pictures folder
+         * will appear here." sentence below.
+         */
+        pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
+        pictures_path_href = g_strdup_printf ("<a href=\"file://%s\">%s</a>", pictures_path, _("Pictures folder"));
+
+        /* Translators: the first %s here is "Online Accounts" and the
+         * second %s is "Pictures folder", which are in separate
+         * strings due to markup, and should be translated only in the
+         * context of this sentence.
+         */
+        label = g_strdup_printf (_("Photos from your %s and %s will appear here."),
+                                 system_settings_href,
+                                 pictures_path_href);
+
+        handle_activate_link = TRUE;
+        use_markup = TRUE;
+        break;
+      }
+
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      label = g_strdup (_("Try a different search"));
+      break;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  if (label != NULL)
+    {
+      GtkWidget *secondary_label;
+
+      secondary_label = gtk_label_new (label);
+      gtk_label_set_use_markup (GTK_LABEL (secondary_label), use_markup);
+      gtk_container_add (GTK_CONTAINER (self), secondary_label);
+      if (handle_activate_link)
+        {
+          g_signal_connect_swapped (secondary_label,
+                                    "activate-link",
+                                    G_CALLBACK (photos_empty_results_box_activate_link),
+                                    self);
+        }
+    }
 }
 
 
@@ -146,8 +264,6 @@ photos_empty_results_box_constructed (GObject *object)
 {
   PhotosEmptyResultsBox *self = PHOTOS_EMPTY_RESULTS_BOX (object);
   GtkStyleContext *context;
-  GtkWidget *image;
-  GtkWidget *title_label;
   g_autofree gchar *label = NULL;
 
   G_OBJECT_CLASS (photos_empty_results_box_parent_class)->constructed (object);
@@ -156,101 +272,16 @@ photos_empty_results_box_constructed (GObject *object)
   gtk_widget_set_hexpand (GTK_WIDGET (self), TRUE);
   gtk_widget_set_valign (GTK_WIDGET (self), GTK_ALIGN_CENTER);
   gtk_widget_set_vexpand (GTK_WIDGET (self), TRUE);
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
-  gtk_grid_set_column_spacing (GTK_GRID (self), 12);
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
+  gtk_grid_set_row_spacing (GTK_GRID (self), 12);
   context = gtk_widget_get_style_context (GTK_WIDGET (self));
   gtk_style_context_add_class (context, "dim-label");
 
-  switch (self->mode)
-    {
-    case PHOTOS_WINDOW_MODE_COLLECTIONS:
-      image = gtk_image_new_from_icon_name ("emblem-photos-symbolic", GTK_ICON_SIZE_INVALID);
-      label = g_strconcat ("<b><span size=\"large\">", _("No Albums Found"), "</span></b>", NULL);
-      break;
-
-    case PHOTOS_WINDOW_MODE_FAVORITES:
-      image = gtk_image_new_from_icon_name ("starred-symbolic", GTK_ICON_SIZE_INVALID);
-      label = g_strconcat ("<b><span size=\"large\">", _("Starred photos will appear here"), "</span></b>", NULL);
-      break;
-
-    /* TODO: Don't show a collection if there are no screenshots in
-     * the relevant locations.
-     */
-    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
-    case PHOTOS_WINDOW_MODE_OVERVIEW:
-    case PHOTOS_WINDOW_MODE_SEARCH:
-      image = gtk_image_new_from_icon_name ("emblem-photos-symbolic", GTK_ICON_SIZE_INVALID);
-      label = g_strconcat ("<b><span size=\"large\">", _("No Photos Found"), "</span></b>", NULL);
-      break;
-
-    case PHOTOS_WINDOW_MODE_NONE:
-    case PHOTOS_WINDOW_MODE_EDIT:
-    case PHOTOS_WINDOW_MODE_PREVIEW:
-    default:
-      g_assert_not_reached ();
-      break;
-    }
-
-  gtk_image_set_pixel_size (GTK_IMAGE (image), 64);
-  gtk_container_add (GTK_CONTAINER (self), image);
-
-  self->labels_grid = gtk_grid_new ();
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self->labels_grid), GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing (GTK_GRID (self->labels_grid), 12);
-  gtk_container_add (GTK_CONTAINER (self), self->labels_grid);
-
-  title_label = gtk_label_new (label);
-  gtk_widget_set_halign (title_label, GTK_ALIGN_START);
-  gtk_widget_set_vexpand (title_label, TRUE);
-  gtk_label_set_use_markup (GTK_LABEL (title_label), TRUE);
-  gtk_container_add (GTK_CONTAINER (self->labels_grid), title_label);
-
-  switch (self->mode)
-    {
-    case PHOTOS_WINDOW_MODE_COLLECTIONS:
-      gtk_widget_set_valign (title_label, GTK_ALIGN_START);
-      photos_empty_results_box_add_collections_label (self);
-      break;
-
-    /* TODO: Don't show a collection if there are no screenshots in
-     * the relevant locations.
-     */
-    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
-    case PHOTOS_WINDOW_MODE_FAVORITES:
-    case PHOTOS_WINDOW_MODE_SEARCH:
-      gtk_widget_set_valign (title_label, GTK_ALIGN_CENTER);
-      break;
-
-    case PHOTOS_WINDOW_MODE_OVERVIEW:
-      if (photos_source_manager_has_online_sources (PHOTOS_SOURCE_MANAGER (self->src_mngr)))
-        gtk_widget_set_valign (title_label, GTK_ALIGN_CENTER);
-      else
-        {
-          gtk_widget_set_valign (title_label, GTK_ALIGN_START);
-          photos_empty_results_box_add_system_settings_label (self);
-        }
-      break;
-
-    case PHOTOS_WINDOW_MODE_NONE:
-    case PHOTOS_WINDOW_MODE_EDIT:
-    case PHOTOS_WINDOW_MODE_PREVIEW:
-    default:
-      g_assert_not_reached ();
-      break;
-    }
+  photos_empty_results_box_add_image (self);
+  photos_empty_results_box_add_primary_label (self);
+  photos_empty_results_box_add_secondary_label (self);
 
   gtk_widget_show_all (GTK_WIDGET (self));
-}
-
-
-static void
-photos_empty_results_box_dispose (GObject *object)
-{
-  PhotosEmptyResultsBox *self = PHOTOS_EMPTY_RESULTS_BOX (object);
-
-  g_clear_object (&self->src_mngr);
-
-  G_OBJECT_CLASS (photos_empty_results_box_parent_class)->dispose (object);
 }
 
 
@@ -275,13 +306,6 @@ photos_empty_results_box_set_property (GObject *object, guint prop_id, const GVa
 static void
 photos_empty_results_box_init (PhotosEmptyResultsBox *self)
 {
-  GApplication *app;
-  PhotosSearchContextState *state;
-
-  app = g_application_get_default ();
-  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
-
-  self->src_mngr = g_object_ref (state->src_mngr);
 }
 
 
@@ -291,7 +315,6 @@ photos_empty_results_box_class_init (PhotosEmptyResultsBoxClass *class)
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
   object_class->constructed = photos_empty_results_box_constructed;
-  object_class->dispose = photos_empty_results_box_dispose;
   object_class->set_property = photos_empty_results_box_set_property;
 
   g_object_class_install_property (object_class,
