@@ -208,11 +208,11 @@ photos_empty_results_box_add_secondary_label (PhotosEmptyResultsBox *self)
          */
         system_settings_href = g_strdup_printf ("<a href=\"system-settings\">%s</a>", _("Online Accounts"));
 
+        pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
         /* Translators: this should be translated in the context of
          * the "Photos from your Online Accounts and Pictures folder
          * will appear here." sentence below.
          */
-        pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
         pictures_path_href = g_strdup_printf ("<a href=\"file://%s\">%s</a>", pictures_path, _("Pictures folder"));
 
         /* Translators: the first %s here is "Online Accounts" and the
