@@ -195,7 +195,7 @@ photos_export_dialog_constructed (GObject *object)
       /* Translators: this is the default sub-directory where photos
        * will be exported.
        */
-      now_str = g_date_time_format (now, _("%e %B %Y"));
+      now_str = g_date_time_format (now, _("%-d %B %Y"));
 
       gtk_entry_set_text (GTK_ENTRY (self->dir_entry), now_str);
 
