@@ -31,6 +31,7 @@
 
 #include "egg-counter.h"
 #include "photos-debug.h"
+#include "photos-device-item.h"
 #include "photos-enums.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
@@ -241,6 +242,7 @@ static void
 photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
+  GType base_item_type;
   PhotosBaseItem *updated_item;
   gboolean is_collection;
   gboolean is_favorite;
@@ -251,6 +253,10 @@ photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
   updated_item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
   g_return_if_fail (updated_item == item);
+
+  base_item_type = G_OBJECT_TYPE (item);
+  if (base_item_type == PHOTOS_TYPE_DEVICE_ITEM)
+    goto out;
 
   is_collection = photos_base_item_is_collection (item);
   is_favorite = photos_base_item_is_favorite (item);
@@ -281,6 +287,9 @@ photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
       if (!is_favorite)
         photos_base_manager_remove_object (self->item_mngr_chldrn[PHOTOS_WINDOW_MODE_FAVORITES], G_OBJECT (item));
     }
+
+ out:
+  return;
 }
 
 
@@ -375,6 +384,34 @@ photos_item_manager_check_wait_for_changes (PhotosItemManager *self, const gchar
 
 
 static void
+photos_item_manager_item_created_executed_import (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  g_autoptr (PhotosItemManager) self = PHOTOS_ITEM_MANAGER (user_data);
+  PhotosSingleItemJob *job_import = PHOTOS_SINGLE_ITEM_JOB (source_object);
+  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = photos_single_item_job_finish (job_import, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to query single item: %s", error->message);
+        goto out;
+      }
+  }
+
+  if (cursor == NULL)
+    goto out;
+
+  photos_item_manager_add_item_for_mode (self, PHOTOS_TYPE_DEVICE_ITEM, PHOTOS_WINDOW_MODE_IMPORT, cursor);
+
+ out:
+  g_clear_object (&cursor);
+}
+
+
+static void
 photos_item_manager_item_created_executed_overview (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   g_autoptr (PhotosItemManager) self = PHOTOS_ITEM_MANAGER (user_data);
@@ -447,6 +484,7 @@ photos_item_manager_item_created (PhotosItemManager *self, const gchar *urn)
   GApplication *app;
   PhotosItemManagerHiddenItem *old_hidden_item;
   PhotosSearchContextState *state;
+  g_autoptr (PhotosSingleItemJob) job_import = NULL;
   g_autoptr (PhotosSingleItemJob) job_overview = NULL;
   guint wait_for_changes_size;
 
@@ -455,6 +493,14 @@ photos_item_manager_item_created (PhotosItemManager *self, const gchar *urn)
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
+  job_import = photos_single_item_job_new (urn);
+  photos_single_item_job_run (job_import,
+                              state,
+                              PHOTOS_QUERY_FLAGS_IMPORT,
+                              NULL,
+                              photos_item_manager_item_created_executed_import,
+                              g_object_ref (self));
 
   job_overview = photos_single_item_job_new (urn);
   photos_single_item_job_run (job_overview,
@@ -857,6 +903,7 @@ photos_item_manager_set_active_object (PhotosBaseManager *manager, GObject *obje
   g_return_val_if_fail (object != NULL, FALSE);
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (object), FALSE);
   g_return_val_if_fail (self->mode != PHOTOS_WINDOW_MODE_EDIT, FALSE);
+  g_return_val_if_fail (self->mode != PHOTOS_WINDOW_MODE_IMPORT, FALSE);
 
   is_collection = photos_base_item_is_collection (PHOTOS_BASE_ITEM (object));
   if (is_collection)
@@ -1620,13 +1667,19 @@ photos_mode_controller_get_window_mode (PhotosModeController *self)
 void
 photos_mode_controller_go_back (PhotosModeController *self)
 {
+  GAction *selection_mode_action;
+  GApplication *app;
   PhotosWindowMode old_mode;
   PhotosWindowMode tmp;
   gboolean active_changed = FALSE;
   gboolean active_collection_changed = FALSE;
+  gboolean unset_selection_mode = FALSE;
 
   g_return_if_fail (PHOTOS_IS_MODE_CONTROLLER (self));
   g_return_if_fail (!g_queue_is_empty (self->history));
+
+  app = g_application_get_default ();
+  selection_mode_action = g_action_map_lookup_action (G_ACTION_MAP (app), "selection-mode");
 
   old_mode = (PhotosWindowMode) GPOINTER_TO_INT (g_queue_peek_head (self->history));
   g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_NONE);
@@ -1651,6 +1704,20 @@ photos_mode_controller_go_back (PhotosModeController *self)
     case PHOTOS_WINDOW_MODE_SEARCH:
       g_return_if_fail (old_mode != PHOTOS_WINDOW_MODE_PREVIEW);
       break;
+
+    case PHOTOS_WINDOW_MODE_IMPORT:
+      {
+        g_autoptr (GVariant) state = NULL;
+
+        g_return_if_fail (old_mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+                          || old_mode == PHOTOS_WINDOW_MODE_FAVORITES
+                          || old_mode == PHOTOS_WINDOW_MODE_OVERVIEW);
+
+        state = g_action_get_state (selection_mode_action);
+        g_return_if_fail (state != NULL);
+        g_return_if_fail (g_variant_get_boolean (state));
+        break;
+      }
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
       g_return_if_fail (PHOTOS_IS_BASE_ITEM (self->active_object));
@@ -1688,6 +1755,10 @@ photos_mode_controller_go_back (PhotosModeController *self)
     case PHOTOS_WINDOW_MODE_EDIT:
       break;
 
+    case PHOTOS_WINDOW_MODE_IMPORT:
+      unset_selection_mode = TRUE;
+      break;
+
     case PHOTOS_WINDOW_MODE_PREVIEW:
       self->load_state = PHOTOS_LOAD_STATE_NONE;
       g_set_object (&self->active_object, G_OBJECT (self->active_collection));
@@ -1714,6 +1785,14 @@ photos_mode_controller_go_back (PhotosModeController *self)
     default:
       g_assert_not_reached ();
       break;
+    }
+
+  if (unset_selection_mode)
+    {
+      GVariant *state;
+
+      state = g_variant_new_boolean (FALSE);
+      g_action_change_state (selection_mode_action, state);
     }
 
   if (active_changed)
@@ -1750,18 +1829,37 @@ photos_mode_controller_set_fullscreen (PhotosModeController *self, gboolean full
 void
 photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindowMode mode)
 {
+  GAction *selection_mode_action;
+  GApplication *app;
   PhotosWindowMode old_mode;
+  gboolean active_changed = FALSE;
   gboolean active_collection_changed = FALSE;
+  gboolean set_selection_mode = FALSE;
 
   g_return_if_fail (PHOTOS_IS_MODE_CONTROLLER (self));
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_COLLECTION_VIEW);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
 
+  app = g_application_get_default ();
+  selection_mode_action = g_action_map_lookup_action (G_ACTION_MAP (app), "selection-mode");
+
   if (mode == PHOTOS_WINDOW_MODE_EDIT)
     {
       g_return_if_fail (self->load_state == PHOTOS_LOAD_STATE_FINISHED);
       g_return_if_fail (self->mode == PHOTOS_WINDOW_MODE_PREVIEW);
+    }
+  else if (mode == PHOTOS_WINDOW_MODE_IMPORT)
+    {
+      g_autoptr (GVariant) state = NULL;
+
+      g_return_if_fail (self->mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+                        || self->mode == PHOTOS_WINDOW_MODE_FAVORITES
+                        || self->mode == PHOTOS_WINDOW_MODE_OVERVIEW);
+
+      state = g_action_get_state (selection_mode_action);
+      g_return_if_fail (state != NULL);
+      g_return_if_fail (!g_variant_get_boolean (state));
     }
   else
     {
@@ -1786,11 +1884,25 @@ photos_mode_controller_set_window_mode (PhotosModeController *self, PhotosWindow
         }
 
       g_clear_object (&self->active_object);
-      g_signal_emit_by_name (self, "active-changed", self->active_object);
-
-      if (active_collection_changed)
-        g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
+      active_changed = TRUE;
     }
+
+  if (mode == PHOTOS_WINDOW_MODE_IMPORT)
+    set_selection_mode = TRUE;
+
+  if (set_selection_mode)
+    {
+      GVariant *state;
+
+      state = g_variant_new_boolean (TRUE);
+      g_action_change_state (selection_mode_action, state);
+    }
+
+  if (active_changed)
+    g_signal_emit_by_name (self, "active-changed", self->active_object);
+
+  if (active_collection_changed)
+    g_signal_emit (self, signals[ACTIVE_COLLECTION_CHANGED], 0, self->active_collection);
 
   g_signal_emit (self, signals[WINDOW_MODE_CHANGED], 0, mode, old_mode);
 }

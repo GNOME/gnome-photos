@@ -61,22 +61,44 @@ photos_source_manager_get_filter (PhotosBaseManager *mngr, gint flags)
 {
   GApplication *app;
   GObject *source;
+  const gchar *empty_filter = "(false)";
   const gchar *id;
   gchar *filter;
 
   app = g_application_get_default ();
   if (photos_application_get_empty_results (PHOTOS_APPLICATION (app)))
     {
-      filter = g_strdup ("(false)");
+      filter = g_strdup (empty_filter);
       goto out;
     }
 
-  if (flags & PHOTOS_QUERY_FLAGS_LOCAL)
-    source = photos_base_manager_get_object_by_id (mngr, PHOTOS_SOURCE_STOCK_LOCAL);
+  if (flags & PHOTOS_QUERY_FLAGS_IMPORT)
+    {
+      GMount *mount;
+
+      source = photos_base_manager_get_active_object (mngr);
+      mount = photos_source_get_mount (PHOTOS_SOURCE (source));
+      if (mount == NULL)
+        source = NULL;
+    }
+  else if (flags & PHOTOS_QUERY_FLAGS_LOCAL)
+    {
+      source = photos_base_manager_get_object_by_id (mngr, PHOTOS_SOURCE_STOCK_LOCAL);
+    }
   else if (flags & PHOTOS_QUERY_FLAGS_SEARCH)
-    source = photos_base_manager_get_active_object (mngr);
+    {
+      source = photos_base_manager_get_active_object (mngr);
+    }
   else
-    source = photos_base_manager_get_object_by_id (mngr, PHOTOS_SOURCE_STOCK_ALL);
+    {
+      source = photos_base_manager_get_object_by_id (mngr, PHOTOS_SOURCE_STOCK_ALL);
+    }
+
+  if (source == NULL)
+    {
+      filter = g_strdup (empty_filter);
+      goto out;
+    }
 
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
   if (g_strcmp0 (id, PHOTOS_SOURCE_STOCK_ALL) == 0)

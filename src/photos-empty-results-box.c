@@ -111,6 +111,7 @@ photos_empty_results_box_add_image (PhotosEmptyResultsBox *self)
      * the relevant locations.
      */
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
       icon_name = "camera-photo-symbolic";
       break;
@@ -155,6 +156,7 @@ photos_empty_results_box_add_primary_label (PhotosEmptyResultsBox *self)
      * the relevant locations.
      */
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       text = _("No photos found");
@@ -194,6 +196,7 @@ photos_empty_results_box_add_secondary_label (PhotosEmptyResultsBox *self)
      */
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_IMPORT:
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:

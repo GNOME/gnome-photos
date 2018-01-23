@@ -44,6 +44,7 @@
 #include "photos-offset-collection-view-controller.h"
 #include "photos-offset-collections-controller.h"
 #include "photos-offset-favorites-controller.h"
+#include "photos-offset-import-controller.h"
 #include "photos-offset-overview-controller.h"
 #include "photos-offset-search-controller.h"
 #include "photos-query.h"
@@ -61,6 +62,7 @@
 #include "photos-tracker-collection-view-controller.h"
 #include "photos-tracker-collections-controller.h"
 #include "photos-tracker-favorites-controller.h"
+#include "photos-tracker-import-controller.h"
 #include "photos-tracker-overview-controller.h"
 #include "photos-tracker-queue.h"
 #include "photos-tracker-search-controller.h"
@@ -709,6 +711,7 @@ photos_utils_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_TRACKER_COLLECTION_VIEW_CONTROLLER);
       g_type_ensure (PHOTOS_TYPE_TRACKER_COLLECTIONS_CONTROLLER);
       g_type_ensure (PHOTOS_TYPE_TRACKER_FAVORITES_CONTROLLER);
+      g_type_ensure (PHOTOS_TYPE_TRACKER_IMPORT_CONTROLLER);
       g_type_ensure (PHOTOS_TYPE_TRACKER_OVERVIEW_CONTROLLER);
       g_type_ensure (PHOTOS_TYPE_TRACKER_SEARCH_CONTROLLER);
 
@@ -864,6 +867,11 @@ photos_utils_get_controller (PhotosWindowMode mode,
     case PHOTOS_WINDOW_MODE_FAVORITES:
       offset_cntrlr = photos_offset_favorites_controller_dup_singleton ();
       trk_cntrlr = photos_tracker_favorites_controller_dup_singleton ();
+      break;
+
+    case PHOTOS_WINDOW_MODE_IMPORT:
+      offset_cntrlr = photos_offset_import_controller_dup_singleton ();
+      trk_cntrlr = photos_tracker_import_controller_dup_singleton ();
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:

@@ -152,6 +152,8 @@ gnome_photos_SOURCES = \
 	photos-offset-controller.h \
 	photos-offset-favorites-controller.c \
 	photos-offset-favorites-controller.h \
+	photos-offset-import-controller.c \
+	photos-offset-import-controller.h \
 	photos-offset-overview-controller.c \
 	photos-offset-overview-controller.h \
 	photos-offset-search-controller.c \
@@ -287,6 +289,8 @@ gnome_photos_SOURCES = \
 	photos-tracker-controller.h \
 	photos-tracker-favorites-controller.c \
 	photos-tracker-favorites-controller.h \
+	photos-tracker-import-controller.c \
+	photos-tracker-import-controller.h \
 	photos-tracker-overview-controller.c \
 	photos-tracker-overview-controller.h \
 	photos-tracker-search-controller.c \

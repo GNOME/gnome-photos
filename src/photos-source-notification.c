@@ -25,6 +25,7 @@
 
 #include "photos-base-manager.h"
 #include "photos-filterable.h"
+#include "photos-item-manager.h"
 #include "photos-search-context.h"
 #include "photos-source-notification.h"
 #include "photos-utils.h"
@@ -34,6 +35,7 @@ struct _PhotosSourceNotification
 {
   GtkGrid parent_instance;
   PhotosBaseManager *src_mngr;
+  PhotosModeController *mode_cntrlr;
   PhotosSource *source;
 };
 
@@ -127,6 +129,41 @@ photos_source_notification_settings_clicked (PhotosSourceNotification *self)
 
 
 static void
+photos_source_notification_window_mode_changed (PhotosSourceNotification *self,
+                                                PhotosWindowMode mode,
+                                                PhotosWindowMode old_mode)
+{
+  GMount *mount;
+
+  g_return_if_fail (PHOTOS_IS_SOURCE_NOTIFICATION (self));
+
+  mount = photos_source_get_mount (self->source);
+  g_return_if_fail (G_IS_MOUNT (mount));
+
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      break;
+
+    case PHOTOS_WINDOW_MODE_IMPORT:
+      photos_source_notification_close (self);
+      break;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+}
+
+
+static void
 photos_source_notification_constructed (GObject *object)
 {
   PhotosSourceNotification *self = PHOTOS_SOURCE_NOTIFICATION (object);
@@ -186,6 +223,12 @@ photos_source_notification_constructed (GObject *object)
                         "notify::sensitive",
                         G_CALLBACK (photos_source_notification_import_notify_sensitive),
                         NULL);
+
+      g_signal_connect_object (self->mode_cntrlr,
+                               "window-mode-changed",
+                               G_CALLBACK (photos_source_notification_window_mode_changed),
+                               self,
+                               G_CONNECT_SWAPPED);
     }
   else if (goa_object != NULL)
     {
@@ -232,6 +275,7 @@ photos_source_notification_dispose (GObject *object)
   PhotosSourceNotification *self = PHOTOS_SOURCE_NOTIFICATION (object);
 
   g_clear_object (&self->src_mngr);
+  g_clear_object (&self->mode_cntrlr);
   g_clear_object (&self->source);
 
   G_OBJECT_CLASS (photos_source_notification_parent_class)->dispose (object);
@@ -284,6 +328,7 @@ photos_source_notification_init (PhotosSourceNotification *self)
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   self->src_mngr = g_object_ref (state->src_mngr);
+  self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
 }
 
 

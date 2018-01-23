@@ -96,6 +96,7 @@ struct _PhotosApplication
   GSimpleAction *edit_revert_action;
   GSimpleAction *fs_action;
   GSimpleAction *gear_action;
+  GSimpleAction *import_action;
   GSimpleAction *import_cancel_action;
   GSimpleAction *insta_action;
   GSimpleAction *load_next_action;
@@ -414,7 +415,13 @@ photos_application_actions_update (PhotosApplication *self)
         case PHOTOS_WINDOW_MODE_FAVORITES:
         case PHOTOS_WINDOW_MODE_OVERVIEW:
         case PHOTOS_WINDOW_MODE_SEARCH:
+          gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.import-cancel", null_accels);
           gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", cancel_accels);
+          break;
+
+        case PHOTOS_WINDOW_MODE_IMPORT:
+          gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.import-cancel", cancel_accels);
+          gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", null_accels);
           break;
 
         case PHOTOS_WINDOW_MODE_NONE:
@@ -427,6 +434,7 @@ photos_application_actions_update (PhotosApplication *self)
     }
   else
     {
+      gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.import-cancel", null_accels);
       gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", null_accels);
 
       switch (mode)
@@ -434,6 +442,7 @@ photos_application_actions_update (PhotosApplication *self)
         case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
         case PHOTOS_WINDOW_MODE_COLLECTIONS:
         case PHOTOS_WINDOW_MODE_FAVORITES:
+        case PHOTOS_WINDOW_MODE_IMPORT:
         case PHOTOS_WINDOW_MODE_OVERVIEW:
         case PHOTOS_WINDOW_MODE_PREVIEW:
         case PHOTOS_WINDOW_MODE_SEARCH:
@@ -454,6 +463,7 @@ photos_application_actions_update (PhotosApplication *self)
   if (mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW
       || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
       || mode == PHOTOS_WINDOW_MODE_FAVORITES
+      || mode == PHOTOS_WINDOW_MODE_IMPORT
       || mode == PHOTOS_WINDOW_MODE_OVERVIEW
       || mode == PHOTOS_WINDOW_MODE_SEARCH)
     {
@@ -493,12 +503,19 @@ photos_application_actions_update (PhotosApplication *self)
   enable = ((mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW
              || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
              || mode == PHOTOS_WINDOW_MODE_FAVORITES
+             || mode == PHOTOS_WINDOW_MODE_IMPORT
              || mode == PHOTOS_WINDOW_MODE_OVERVIEW
              || mode == PHOTOS_WINDOW_MODE_SEARCH)
             && n_items > 0);
   g_simple_action_set_enabled (self->sel_all_action, enable);
   g_simple_action_set_enabled (self->sel_none_action, enable);
   g_simple_action_set_enabled (self->selection_mode_action, enable);
+
+  enable = (mode == PHOTOS_WINDOW_MODE_IMPORT);
+  g_simple_action_set_enabled (self->import_cancel_action, enable);
+
+  enable = (mode == PHOTOS_WINDOW_MODE_IMPORT && selection != NULL);
+  g_simple_action_set_enabled (self->import_action, enable);
 
   enable = (mode == PHOTOS_WINDOW_MODE_PREVIEW);
   g_simple_action_set_enabled (self->load_next_action, enable);
@@ -833,6 +850,7 @@ photos_application_activate_item (PhotosApplication *self, GObject *item)
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       can_activate = TRUE;
@@ -864,6 +882,7 @@ photos_application_activate_item (PhotosApplication *self, GObject *item)
       break;
 
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_IMPORT:
       photos_mode_controller_go_back (self->state->mode_cntrlr);
       break;
 
@@ -1568,6 +1587,7 @@ photos_application_import_cancel (PhotosApplication *self)
   photos_base_manager_set_active_object_by_id (self->state->src_mngr, PHOTOS_SOURCE_STOCK_ALL);
 
   mode = photos_mode_controller_get_window_mode (self->state->mode_cntrlr);
+  g_return_if_fail (mode != PHOTOS_WINDOW_MODE_IMPORT);
   g_return_if_fail (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
                     || mode == PHOTOS_WINDOW_MODE_FAVORITES
                     || mode == PHOTOS_WINDOW_MODE_OVERVIEW);
@@ -1599,6 +1619,7 @@ photos_application_launch_search (PhotosApplication *self, const gchar* const *t
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       can_launch = TRUE;
@@ -1634,6 +1655,10 @@ photos_application_launch_search (PhotosApplication *self, const gchar* const *t
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
+      break;
+
+    case PHOTOS_WINDOW_MODE_IMPORT:
+      photos_mode_controller_go_back (self->state->mode_cntrlr);
       break;
 
     case PHOTOS_WINDOW_MODE_EDIT:
@@ -2318,6 +2343,7 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->state->item_mngr), old_mode);
@@ -2336,6 +2362,7 @@ photos_application_window_mode_changed (PhotosApplication *self, PhotosWindowMod
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->state->item_mngr), mode);
@@ -2705,13 +2732,9 @@ photos_application_startup (GApplication *application)
   self->gear_action = g_simple_action_new_stateful ("gear-menu", NULL, state);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->gear_action));
 
-  {
-    g_autoptr (GSimpleAction) action = NULL;
-
-    action = g_simple_action_new ("import-current", NULL);
-    g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_import), self);
-    g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
-  }
+  self->import_action = g_simple_action_new ("import-current", NULL);
+  g_signal_connect_swapped (self->import_action, "activate", G_CALLBACK (photos_application_import), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->import_action));
 
   self->import_cancel_action = g_simple_action_new ("import-cancel", NULL);
   g_signal_connect_swapped (self->import_cancel_action,
@@ -2951,6 +2974,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->edit_revert_action);
   g_clear_object (&self->fs_action);
   g_clear_object (&self->gear_action);
+  g_clear_object (&self->import_action);
   g_clear_object (&self->import_cancel_action);
   g_clear_object (&self->insta_action);
   g_clear_object (&self->load_next_action);

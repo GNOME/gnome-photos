@@ -41,6 +41,7 @@ struct _PhotosMainWindow
 {
   GtkApplicationWindow parent_instance;
   GAction *edit_cancel;
+  GAction *import_cancel;
   GAction *load_next;
   GAction *load_previous;
   GtkWidget *embed;
@@ -166,6 +167,7 @@ photos_main_window_go_back (PhotosMainWindow *self)
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
     default:
@@ -262,6 +264,7 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       handled = GDK_EVENT_PROPAGATE;
@@ -332,6 +335,7 @@ photos_main_window_constructed (GObject *object)
   gtk_application_add_window (GTK_APPLICATION (app), GTK_WINDOW (self));
 
   self->edit_cancel = g_action_map_lookup_action (G_ACTION_MAP (app), "edit-cancel");
+  self->import_cancel = g_action_map_lookup_action (G_ACTION_MAP (app), "import-cancel");
   self->load_next = g_action_map_lookup_action (G_ACTION_MAP (app), "load-next");
   self->load_previous = g_action_map_lookup_action (G_ACTION_MAP (app), "load-previous");
 

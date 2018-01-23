@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include "photos-base-manager.h"
 #include "photos-dlna-renderers-manager.h"
 #include "photos-dropdown.h"
 #include "photos-item-manager.h"
@@ -52,6 +53,7 @@ struct _PhotosMainToolbar
   GtkWidget *selection_menu;
   GtkWidget *stack_switcher;
   PhotosBaseManager *item_mngr;
+  PhotosBaseManager *src_mngr;
   PhotosModeController *mode_cntrlr;
   PhotosRemoteDisplayManager *remote_mngr;
   PhotosSelectionController *sel_cntrlr;
@@ -65,7 +67,9 @@ static void photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self,
 
 
 static gchar *
-photos_main_toolbar_create_selection_mode_label (PhotosMainToolbar *self, PhotosBaseItem *active_collection)
+photos_main_toolbar_create_selection_mode_label (PhotosMainToolbar *self,
+                                                 PhotosBaseItem *active_collection,
+                                                 PhotosSource *source)
 {
   GList *selection;
   g_autofree gchar *label = NULL;
@@ -80,9 +84,20 @@ photos_main_toolbar_create_selection_mode_label (PhotosMainToolbar *self, Photos
     label = g_strdup_printf (ngettext ("%d selected", "%d selected", length), length);
 
   if (active_collection != NULL)
-    ret_val = g_markup_printf_escaped ("<b>%s</b> (%s)", photos_base_item_get_name (active_collection), label);
+    {
+      ret_val = g_markup_printf_escaped ("<b>%s</b> (%s)", photos_base_item_get_name (active_collection), label);
+    }
+  else if (source != NULL)
+    {
+      const gchar *name;
+
+      name = photos_source_get_name (source);
+      ret_val = g_markup_printf_escaped ("<b>%s</b> (%s)", name, label);
+    }
   else
-    ret_val = g_steal_pointer (&label);
+    {
+      ret_val = g_steal_pointer (&label);
+    }
 
   return ret_val;
 }
@@ -92,6 +107,7 @@ static void
 photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 {
   PhotosBaseItem *active_collection;
+  PhotosSource *source;
   PhotosWindowMode window_mode;
   gboolean selection_mode;
   g_autofree gchar *primary = NULL;
@@ -104,6 +120,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
       g_return_if_fail (window_mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW
                         || window_mode == PHOTOS_WINDOW_MODE_COLLECTIONS
                         || window_mode == PHOTOS_WINDOW_MODE_FAVORITES
+                        || window_mode == PHOTOS_WINDOW_MODE_IMPORT
                         || window_mode == PHOTOS_WINDOW_MODE_OVERVIEW
                         || window_mode == PHOTOS_WINDOW_MODE_SEARCH);
     }
@@ -112,12 +129,24 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
     g_return_if_fail (!selection_mode);
 
   active_collection = photos_item_manager_get_active_collection (PHOTOS_ITEM_MANAGER (self->item_mngr));
+  source = PHOTOS_SOURCE (photos_base_manager_get_active_object (self->src_mngr));
+
+  if (window_mode == PHOTOS_WINDOW_MODE_IMPORT)
+    {
+      GMount *mount;
+
+      g_return_if_fail (active_collection == NULL);
+      g_return_if_fail (PHOTOS_IS_SOURCE (source));
+
+      mount = photos_source_get_mount (source);
+      g_return_if_fail (G_IS_MOUNT (mount));
+    }
 
   switch (window_mode)
     {
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
       if (selection_mode)
-        primary = photos_main_toolbar_create_selection_mode_label (self, active_collection);
+        primary = photos_main_toolbar_create_selection_mode_label (self, active_collection, NULL);
       else
         primary = g_strdup (photos_base_item_get_name (active_collection));
       break;
@@ -127,7 +156,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       if (selection_mode)
-        primary = photos_main_toolbar_create_selection_mode_label (self, NULL);
+        primary = photos_main_toolbar_create_selection_mode_label (self, NULL, NULL);
       break;
 
     case PHOTOS_WINDOW_MODE_EDIT:
@@ -141,6 +170,10 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
 
         break;
       }
+
+    case PHOTOS_WINDOW_MODE_IMPORT:
+      primary = photos_main_toolbar_create_selection_mode_label (self, NULL, source);
+      break;
 
     case PHOTOS_WINDOW_MODE_NONE:
     default:
@@ -452,6 +485,28 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
 
 
 static void
+photos_main_toolbar_populate_for_import (PhotosMainToolbar *self)
+{
+  GtkStyleContext *context;
+  GtkWidget *cancel_button;
+
+  gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->selection_menu);
+  context = gtk_widget_get_style_context (self->header_bar);
+  gtk_style_context_add_class (context, "selection-mode");
+
+  cancel_button = gtk_button_new_with_label (_("Cancel"));
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (cancel_button), "app.import-cancel");
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), cancel_button);
+
+  g_signal_connect_object (self->sel_cntrlr,
+                           "selection-changed",
+                           G_CALLBACK (photos_main_toolbar_set_toolbar_title),
+                           self,
+                           G_CONNECT_SWAPPED);
+}
+
+
+static void
 photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
 {
   gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->stack_switcher);
@@ -583,6 +638,7 @@ photos_main_toolbar_dispose (GObject *object)
   g_clear_object (&self->remote_mngr);
   g_clear_object (&self->sel_cntrlr);
   g_clear_object (&self->selection_menu);
+  g_clear_object (&self->src_mngr);
   g_clear_object (&self->stack_switcher);
 
   G_OBJECT_CLASS (photos_main_toolbar_parent_class)->dispose (object);
@@ -653,6 +709,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   self->item_mngr = g_object_ref (state->item_mngr);
   self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
   self->sel_cntrlr = photos_selection_controller_dup_singleton ();
+  self->src_mngr = g_object_ref (state->src_mngr);
 
   self->remote_mngr = photos_remote_display_manager_dup_singleton ();
   g_signal_connect_object (self->remote_mngr,
@@ -727,21 +784,44 @@ photos_main_toolbar_is_focus (PhotosMainToolbar *self)
 void
 photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
 {
+  PhotosWindowMode window_mode;
   gboolean selection_mode;
 
   photos_main_toolbar_clear_toolbar (self);
+  window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
   selection_mode = photos_utils_get_selection_mode ();
 
   if (selection_mode)
-    photos_main_toolbar_populate_for_selection_mode (self);
-  else
     {
-      PhotosWindowMode window_mode;
-
-      window_mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
-
       switch (window_mode)
         {
+        case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+        case PHOTOS_WINDOW_MODE_COLLECTIONS:
+        case PHOTOS_WINDOW_MODE_FAVORITES:
+        case PHOTOS_WINDOW_MODE_OVERVIEW:
+        case PHOTOS_WINDOW_MODE_SEARCH:
+          photos_main_toolbar_populate_for_selection_mode (self);
+          break;
+
+        case PHOTOS_WINDOW_MODE_IMPORT:
+          photos_main_toolbar_populate_for_import (self);
+          break;
+
+        case PHOTOS_WINDOW_MODE_NONE:
+        case PHOTOS_WINDOW_MODE_EDIT:
+        case PHOTOS_WINDOW_MODE_PREVIEW:
+        default:
+          g_assert_not_reached ();
+          break;
+        }
+    }
+  else
+    {
+      switch (window_mode)
+        {
+        case PHOTOS_WINDOW_MODE_NONE:
+          break;
+
         case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
           photos_main_toolbar_populate_for_collection_view (self);
           break;
@@ -770,8 +850,9 @@ photos_main_toolbar_reset_toolbar_mode (PhotosMainToolbar *self)
           photos_main_toolbar_populate_for_search (self);
           break;
 
-        case PHOTOS_WINDOW_MODE_NONE:
+        case PHOTOS_WINDOW_MODE_IMPORT:
         default:
+          g_assert_not_reached ();
           break;
         }
     }

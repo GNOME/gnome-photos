@@ -39,6 +39,7 @@
 #include "photos-selection-toolbar.h"
 #include "photos-spinner-box.h"
 #include "photos-search-context.h"
+#include "photos-search-match.h"
 #include "photos-search-type.h"
 #include "photos-search-type-manager.h"
 #include "photos-source.h"
@@ -70,6 +71,7 @@ struct _PhotosEmbed
   GtkWidget *collection_view;
   GtkWidget *collections;
   GtkWidget *favorites;
+  GtkWidget *import;
   GtkWidget *no_results;
   GtkWidget *ntfctn_mngr;
   GtkWidget *overview;
@@ -153,6 +155,10 @@ photos_embed_get_view_container_from_mode (PhotosEmbed *self, PhotosWindowMode m
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
       view_container = self->favorites;
+      break;
+
+    case PHOTOS_WINDOW_MODE_IMPORT:
+      view_container = self->import;
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
@@ -442,6 +448,7 @@ photos_embed_prepare_for_collection_view (PhotosEmbed *self, PhotosWindowMode ol
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     default:
       g_assert_not_reached ();
@@ -472,6 +479,17 @@ photos_embed_prepare_for_favorites (PhotosEmbed *self, PhotosWindowMode old_mode
 
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (self->spinner_box));
   gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "favorites");
+}
+
+
+static void
+photos_embed_prepare_for_import (PhotosEmbed *self, PhotosWindowMode old_mode)
+{
+  if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
+    photos_embed_tracker_controllers_set_frozen (self, FALSE);
+
+  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (self->spinner_box));
+  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "import");
 }
 
 
@@ -519,38 +537,83 @@ photos_embed_query_status_changed (PhotosEmbed *self, gboolean querying)
 static void
 photos_embed_search_changed (PhotosEmbed *self)
 {
-  /* Whenever a search constraint is specified, we switch to the
-   * search mode. Search is always global. If we are in
-   * collection-view, we go back to the previous top-level mode and
-   * then enter the search mode.
-   *
-   * When all constraints have been lifted we want to go back to the
-   * previous top-level mode which can be either collections,
-   * favorites or overview.
-   *
-   * The constraints are saved when entering collection-view or
-   * preview from the search mode. They are restored when going back.
-   * Saving and restoring doesn't cause any further mode changes.
-   */
+  GMount *mount;
+  PhotosSource *source;
 
-  self->search_changed = TRUE;
+  source = PHOTOS_SOURCE (photos_base_manager_get_active_object (self->src_mngr));
 
-  if (photos_embed_is_search_constraint_present (self))
+  mount = photos_source_get_mount (source);
+  if (mount != NULL)
     {
+      GObject *object;
       PhotosWindowMode mode;
+      const gchar *search_match_id;
+      const gchar *search_type_id;
 
       mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
+      g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
+      g_return_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT);
+      g_return_if_fail (mode != PHOTOS_WINDOW_MODE_IMPORT);
+      g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
+
+      photos_embed_block_search_changed (self);
+
       if (mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW)
         photos_mode_controller_go_back (self->mode_cntrlr);
 
-      photos_mode_controller_set_window_mode (self->mode_cntrlr, PHOTOS_WINDOW_MODE_SEARCH);
+      mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
+      if (mode == PHOTOS_WINDOW_MODE_SEARCH)
+        photos_mode_controller_go_back (self->mode_cntrlr);
+
+      photos_base_manager_set_active_object (self->src_mngr, G_OBJECT (source));
+
+      object = photos_base_manager_get_active_object (self->srch_mtch_mngr);
+      search_match_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
+      g_assert_cmpstr (search_match_id, ==, PHOTOS_SEARCH_MATCH_STOCK_ALL);
+
+      object = photos_base_manager_get_active_object (self->srch_typ_mngr);
+      search_type_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
+      g_assert_cmpstr (search_type_id, ==, PHOTOS_SEARCH_TYPE_STOCK_ALL);
+
+      photos_mode_controller_set_window_mode (self->mode_cntrlr, PHOTOS_WINDOW_MODE_IMPORT);
+
+      photos_embed_unblock_search_changed (self);
     }
   else
     {
-      photos_mode_controller_go_back (self->mode_cntrlr);
-    }
+      /* Whenever a search constraint is specified, we switch to the
+       * search mode. Search is always global. If we are in
+       * collection-view, we go back to the previous top-level mode and
+       * then enter the search mode.
+       *
+       * When all constraints have been lifted we want to go back to the
+       * previous top-level mode which can be either collections,
+       * favorites or overview.
+       *
+       * The constraints are saved when entering collection-view or
+       * preview from the search mode. They are restored when going back.
+       * Saving and restoring doesn't cause any further mode changes.
+       */
 
-  self->search_changed = FALSE;
+      self->search_changed = TRUE;
+
+      if (photos_embed_is_search_constraint_present (self))
+        {
+          PhotosWindowMode mode;
+
+          mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
+          if (mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW)
+            photos_mode_controller_go_back (self->mode_cntrlr);
+
+          photos_mode_controller_set_window_mode (self->mode_cntrlr, PHOTOS_WINDOW_MODE_SEARCH);
+        }
+      else
+        {
+          photos_mode_controller_go_back (self->mode_cntrlr);
+        }
+
+      self->search_changed = FALSE;
+    }
 }
 
 
@@ -645,6 +708,7 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
 
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_PREVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       break;
@@ -672,6 +736,10 @@ photos_embed_window_mode_changed (PhotosModeController *mode_cntrlr,
 
     case PHOTOS_WINDOW_MODE_FAVORITES:
       photos_embed_prepare_for_favorites (self, old_mode);
+      break;
+
+    case PHOTOS_WINDOW_MODE_IMPORT:
+      photos_embed_prepare_for_import (self, old_mode);
       break;
 
     case PHOTOS_WINDOW_MODE_OVERVIEW:
@@ -762,6 +830,9 @@ photos_embed_init (PhotosEmbed *self)
   self->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES, _("Favorites"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->favorites));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->favorites, "favorites", name);
+
+  self->import = photos_view_container_new (PHOTOS_WINDOW_MODE_IMPORT, _("Import"));
+  gtk_stack_add_named (GTK_STACK (self->stack), self->import, "import");
 
   self->search = photos_view_container_new (PHOTOS_WINDOW_MODE_SEARCH, _("Search"));
   gtk_stack_add_named (GTK_STACK (self->stack), self->search, "search");

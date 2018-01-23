@@ -240,6 +240,19 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
       show_trash = TRUE;
       break;
 
+    case PHOTOS_WINDOW_MODE_IMPORT:
+      show_collection = FALSE;
+      show_export = FALSE;
+      show_favorite = FALSE;
+      show_import = TRUE;
+      show_open = FALSE;
+      show_print = FALSE;
+      show_properties = FALSE;
+      show_separator = FALSE;
+      show_share = FALSE;
+      show_trash = FALSE;
+      break;
+
     case PHOTOS_WINDOW_MODE_NONE:
     case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_PREVIEW:

@@ -58,7 +58,7 @@ photos_search_type_manager_get_filter (PhotosBaseManager *mngr, gint flags)
     search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS);
   else if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
     search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_FAVORITES);
-  else if (flags & PHOTOS_QUERY_FLAGS_OVERVIEW)
+  else if (flags & PHOTOS_QUERY_FLAGS_IMPORT || flags & PHOTOS_QUERY_FLAGS_OVERVIEW)
     search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_PHOTOS);
   else if (flags & PHOTOS_QUERY_FLAGS_SEARCH)
     search_type = photos_base_manager_get_active_object (mngr);
@@ -79,7 +79,7 @@ photos_search_type_manager_get_where (PhotosBaseManager *mngr, gint flags)
     search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_COLLECTIONS);
   else if (flags & PHOTOS_QUERY_FLAGS_FAVORITES)
     search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_FAVORITES);
-  else if (flags & PHOTOS_QUERY_FLAGS_OVERVIEW)
+  else if (flags & PHOTOS_QUERY_FLAGS_IMPORT || flags & PHOTOS_QUERY_FLAGS_OVERVIEW)
     search_type = photos_base_manager_get_object_by_id (mngr, PHOTOS_SEARCH_TYPE_STOCK_PHOTOS);
   else if (flags & PHOTOS_QUERY_FLAGS_SEARCH)
     search_type = photos_base_manager_get_active_object (mngr);

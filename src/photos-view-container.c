@@ -120,6 +120,10 @@ photos_view_container_get_show_primary_text (PhotosViewContainer *self)
       ret_val = FALSE;
       break;
 
+    case PHOTOS_WINDOW_MODE_IMPORT:
+      ret_val = FALSE;
+      break;
+
     case PHOTOS_WINDOW_MODE_OVERVIEW:
       ret_val = FALSE;
       break;
@@ -287,6 +291,7 @@ photos_view_container_window_mode_changed (PhotosViewContainer *self,
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_IMPORT:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       photos_view_container_connect_view (self);
