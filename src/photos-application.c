@@ -331,12 +331,25 @@ photos_application_actions_update (PhotosApplication *self)
   gboolean can_trash;
   gboolean enable;
   gboolean selection_mode;
+  guint n_items = 0;
 
   item = photos_application_get_selection_or_active_item (self);
   load_state = photos_item_manager_get_load_state (self->state->item_mngr);
   mode = photos_mode_controller_get_window_mode (self->state->mode_cntrlr);
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   selection_mode = photos_utils_get_selection_mode ();
+
+  if (mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW
+      || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+      || mode == PHOTOS_WINDOW_MODE_FAVORITES
+      || mode == PHOTOS_WINDOW_MODE_OVERVIEW
+      || mode == PHOTOS_WINDOW_MODE_SEARCH)
+    {
+      PhotosBaseManager *item_mngr_chld;
+
+      item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->state->item_mngr), mode);
+      n_items = g_list_model_get_n_items (G_LIST_MODEL (item_mngr_chld));
+    }
 
   g_simple_action_set_enabled (self->zoom_best_fit_action, FALSE);
   g_simple_action_set_enabled (self->zoom_end_action, FALSE);
@@ -354,25 +367,23 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->shadows_highlights_action, enable);
   g_simple_action_set_enabled (self->sharpen_action, enable);
 
-  enable = FALSE;
-  if (mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW
-      || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
-      || mode == PHOTOS_WINDOW_MODE_FAVORITES
-      || mode == PHOTOS_WINDOW_MODE_OVERVIEW
-      || mode == PHOTOS_WINDOW_MODE_SEARCH)
-    {
-      PhotosBaseManager *item_mngr_chld;
-      guint n_items;
-
-      item_mngr_chld = photos_item_manager_get_for_mode (PHOTOS_ITEM_MANAGER (self->state->item_mngr), mode);
-      n_items = g_list_model_get_n_items (G_LIST_MODEL (item_mngr_chld));
-      enable = n_items > 0;
-    }
-
+  enable = (((mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW
+              || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+              || mode == PHOTOS_WINDOW_MODE_FAVORITES
+              || mode == PHOTOS_WINDOW_MODE_OVERVIEW)
+             && n_items > 0)
+            || mode == PHOTOS_WINDOW_MODE_SEARCH);
   g_simple_action_set_enabled (self->search_action, enable);
   g_simple_action_set_enabled (self->search_match_action, enable);
   g_simple_action_set_enabled (self->search_source_action, enable);
   g_simple_action_set_enabled (self->search_type_action, enable);
+
+  enable = ((mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW
+             || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+             || mode == PHOTOS_WINDOW_MODE_FAVORITES
+             || mode == PHOTOS_WINDOW_MODE_OVERVIEW
+             || mode == PHOTOS_WINDOW_MODE_SEARCH)
+            && n_items > 0);
   g_simple_action_set_enabled (self->sel_all_action, enable);
   g_simple_action_set_enabled (self->sel_none_action, enable);
   g_simple_action_set_enabled (self->selection_mode_action, enable);
