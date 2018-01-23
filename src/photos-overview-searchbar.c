@@ -66,6 +66,9 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
   g_autofree gchar *name = NULL;
 
   object = photos_base_manager_get_active_object (mngr);
+  if (!photos_filterable_is_search_criterion (PHOTOS_FILTERABLE (object)))
+    goto out;
+
   id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
   g_object_get (object, "name", &name, NULL);
 
@@ -78,6 +81,9 @@ photos_overview_searchbar_active_changed (PhotosOverviewSearchbar *self,
     }
 
   gtk_entry_grab_focus_without_selecting (GTK_ENTRY (self->search_entry));
+
+ out:
+  return;
 }
 
 
