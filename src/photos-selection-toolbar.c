@@ -44,9 +44,16 @@ struct _PhotosSelectionToolbar
   GAction *selection_mode_action;
   GHashTable *item_listeners;
   GtkWidget *toolbar_collection;
+  GtkWidget *toolbar_export;
   GtkWidget *toolbar_favorite;
   GtkWidget *toolbar_open;
+  GtkWidget *toolbar_print;
+  GtkWidget *toolbar_properties;
+  GtkWidget *toolbar_separator;
+  GtkWidget *toolbar_share;
+  GtkWidget *toolbar_trash;
   PhotosBaseManager *item_mngr;
+  PhotosModeController *mode_cntrlr;
   PhotosSelectionController *sel_cntrlr;
   gboolean inside_refresh;
 };
@@ -191,15 +198,52 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   GList *l;
   GList *selection;
   GtkWidget *image;
+  PhotosWindowMode mode;
   gboolean has_selection;
   gboolean enable_collection;
   gboolean enable_favorite;
+  gboolean show_collection;
+  gboolean show_export;
+  gboolean show_favorite;
+  gboolean show_open;
+  gboolean show_print;
+  gboolean show_properties;
+  gboolean show_separator;
+  gboolean show_share;
+  gboolean show_trash;
   gchar *favorite_label;
   gchar *open_label;
   guint fav_count = 0;
   guint sel_length = 0;
 
   self->inside_refresh = TRUE;
+
+  mode = photos_mode_controller_get_window_mode (self->mode_cntrlr);
+  switch (mode)
+    {
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+    case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_FAVORITES:
+    case PHOTOS_WINDOW_MODE_OVERVIEW:
+    case PHOTOS_WINDOW_MODE_SEARCH:
+      show_collection = TRUE;
+      show_export = TRUE;
+      show_favorite = TRUE;
+      show_open = TRUE;
+      show_print = TRUE;
+      show_properties = TRUE;
+      show_separator = TRUE;
+      show_share = TRUE;
+      show_trash = TRUE;
+      break;
+
+    case PHOTOS_WINDOW_MODE_NONE:
+    case PHOTOS_WINDOW_MODE_EDIT:
+    case PHOTOS_WINDOW_MODE_PREVIEW:
+    default:
+      g_assert_not_reached ();
+      break;
+    }
 
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   has_selection = selection != NULL;
@@ -259,6 +303,16 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 
   gtk_widget_set_sensitive (self->toolbar_collection, enable_collection);
   gtk_widget_set_sensitive (self->toolbar_favorite, enable_favorite);
+
+  gtk_widget_set_visible (self->toolbar_collection, show_collection);
+  gtk_widget_set_visible (self->toolbar_export, show_export);
+  gtk_widget_set_visible (self->toolbar_favorite, show_favorite);
+  gtk_widget_set_visible (self->toolbar_open, show_open);
+  gtk_widget_set_visible (self->toolbar_print, show_print);
+  gtk_widget_set_visible (self->toolbar_properties, show_properties);
+  gtk_widget_set_visible (self->toolbar_separator, show_separator);
+  gtk_widget_set_visible (self->toolbar_share, show_share);
+  gtk_widget_set_visible (self->toolbar_trash, show_trash);
 
   self->inside_refresh = FALSE;
 }
@@ -321,6 +375,7 @@ photos_selection_toolbar_dispose (GObject *object)
 
   g_clear_pointer (&self->item_listeners, (GDestroyNotify) g_hash_table_unref);
   g_clear_object (&self->item_mngr);
+  g_clear_object (&self->mode_cntrlr);
   g_clear_object (&self->sel_cntrlr);
 
   G_OBJECT_CLASS (photos_selection_toolbar_parent_class)->dispose (object);
@@ -349,6 +404,7 @@ photos_selection_toolbar_init (PhotosSelectionToolbar *self)
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->item_mngr = g_object_ref (state->item_mngr);
+  self->mode_cntrlr = g_object_ref (state->mode_cntrlr);
 
   self->sel_cntrlr = photos_selection_controller_dup_singleton ();
   g_signal_connect_object (self->sel_cntrlr,
@@ -375,8 +431,14 @@ photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
   object_class->dispose = photos_selection_toolbar_dispose;
 
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/selection-toolbar.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_export);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_favorite);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_open);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_print);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_properties);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_separator);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_share);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_trash);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_collection);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_favorite_clicked);
   gtk_widget_class_bind_template_callback (widget_class, photos_selection_toolbar_collection_clicked);
