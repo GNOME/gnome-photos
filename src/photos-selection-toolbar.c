@@ -192,8 +192,8 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   GList *selection;
   GtkWidget *image;
   gboolean has_selection;
-  gboolean show_collection;
-  gboolean show_favorite;
+  gboolean enable_collection;
+  gboolean enable_favorite;
   gchar *favorite_label;
   gchar *open_label;
   guint fav_count = 0;
@@ -204,8 +204,8 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   has_selection = selection != NULL;
 
-  show_collection = has_selection;
-  show_favorite = has_selection;
+  enable_collection = has_selection;
+  enable_favorite = has_selection;
 
   for (l = selection; l != NULL; l = g_list_next (l))
     {
@@ -215,8 +215,8 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
 
       item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->item_mngr, urn));
 
-      show_collection = show_collection && !photos_base_item_is_collection (item);
-      show_favorite = show_favorite && !photos_base_item_is_collection (item);
+      enable_collection = enable_collection && !photos_base_item_is_collection (item);
+      enable_favorite = enable_favorite && !photos_base_item_is_collection (item);
 
       if (photos_base_item_is_favorite (item))
         fav_count++;
@@ -229,7 +229,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
       sel_length++;
     }
 
-  show_favorite = show_favorite && ((fav_count == 0) || (fav_count == sel_length));
+  enable_favorite = enable_favorite && ((fav_count == 0) || (fav_count == sel_length));
 
   if (apps != NULL && apps->next == NULL) /* length == 1 */
     /* Translators: this is the Open action in a context menu */
@@ -242,7 +242,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   g_free (open_label);
   g_list_free_full (apps, g_free);
 
-  if (show_favorite && fav_count == sel_length)
+  if (enable_favorite && fav_count == sel_length)
     {
       favorite_label = g_strdup (_("Remove from favorites"));
       image = gtk_image_new_from_icon_name ("starred-symbolic", GTK_ICON_SIZE_BUTTON);
@@ -257,8 +257,8 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gtk_widget_set_tooltip_text (self->toolbar_favorite, favorite_label);
   g_free (favorite_label);
 
-  gtk_widget_set_sensitive (self->toolbar_collection, show_collection);
-  gtk_widget_set_sensitive (self->toolbar_favorite, show_favorite);
+  gtk_widget_set_sensitive (self->toolbar_collection, enable_collection);
+  gtk_widget_set_sensitive (self->toolbar_favorite, enable_favorite);
 
   self->inside_refresh = FALSE;
 }
