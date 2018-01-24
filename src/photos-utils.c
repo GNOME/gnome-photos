@@ -494,7 +494,7 @@ photos_utils_get_icon_from_cursor (TrackerSparqlCursor *cursor)
     goto out;
 
   rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
-  if (mime_type != NULL)
+  if (rdf_type != NULL)
     icon = photos_utils_icon_from_rdf_type (rdf_type);
 
   if (icon != NULL)
