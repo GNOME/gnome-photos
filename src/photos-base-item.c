@@ -2596,14 +2596,14 @@ photos_base_item_refresh_icon (PhotosBaseItem *self)
 
   photos_base_item_set_thumbnailing_icon (self);
 
+  if (priv->failed_thumbnailing)
+    return;
+
   if (priv->collection)
     {
       photos_base_item_refresh_collection_icon (self);
       return;
     }
-
-  if (priv->failed_thumbnailing)
-    return;
 
   file = g_file_new_for_uri (priv->uri);
   photos_utils_file_query_info_async (file,
