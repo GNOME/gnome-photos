@@ -333,7 +333,7 @@ photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
         }
       else
         {
-          item = photos_item_manager_create_item (self, base_item_type, cursor);
+          item = photos_item_manager_create_item (self, base_item_type, cursor, TRUE);
           if (photos_base_item_is_collection (item))
             g_hash_table_insert (self->collections, g_strdup (id), g_object_ref (item));
 
@@ -1282,7 +1282,10 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
 
 
 PhotosBaseItem *
-photos_item_manager_create_item (PhotosItemManager *self, GType base_item_type, TrackerSparqlCursor *cursor)
+photos_item_manager_create_item (PhotosItemManager *self,
+                                 GType base_item_type,
+                                 TrackerSparqlCursor *cursor,
+                                 gboolean create_thumbnails)
 {
   GType type;
   PhotosBaseItem *ret_val = NULL;
@@ -1337,7 +1340,7 @@ photos_item_manager_create_item (PhotosItemManager *self, GType base_item_type, 
 
   ret_val = PHOTOS_BASE_ITEM (g_object_new (type,
                                             "cursor", cursor,
-                                            "failed-thumbnailing", FALSE,
+                                            "failed-thumbnailing", !create_thumbnails,
                                             NULL));
 
  out:

@@ -177,7 +177,7 @@ photos_collection_icon_watcher_to_query_executed (GObject *source_object, GAsync
     {
       PhotosBaseItem *item;
 
-      item = photos_item_manager_create_item (PHOTOS_ITEM_MANAGER (self->item_mngr), G_TYPE_NONE, cursor);
+      item = photos_item_manager_create_item (PHOTOS_ITEM_MANAGER (self->item_mngr), G_TYPE_NONE, cursor, TRUE);
       self->items = g_list_prepend (self->items, item);
     }
 

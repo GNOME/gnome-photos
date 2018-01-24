@@ -85,7 +85,8 @@ void                      photos_item_manager_clear                        (Phot
 
 PhotosBaseItem           *photos_item_manager_create_item                  (PhotosItemManager *self,
                                                                             GType base_item_type,
-                                                                            TrackerSparqlCursor *cursor);
+                                                                            TrackerSparqlCursor *cursor,
+                                                                            gboolean create_thumbnails);
 
 PhotosBaseItem           *photos_item_manager_get_active_collection        (PhotosItemManager *self);
 
