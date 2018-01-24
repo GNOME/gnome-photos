@@ -71,10 +71,12 @@ typedef struct _PhotosItemManagerClass PhotosModeControllerClass;
 PhotosBaseManager        *photos_item_manager_new                          (void);
 
 void                      photos_item_manager_add_item                     (PhotosItemManager *self,
+                                                                            GType base_item_type,
                                                                             TrackerSparqlCursor *cursor,
                                                                             gboolean force);
 
 void                      photos_item_manager_add_item_for_mode            (PhotosItemManager *self,
+                                                                            GType base_item_type,
                                                                             PhotosWindowMode mode,
                                                                             TrackerSparqlCursor *cursor);
 
@@ -82,6 +84,7 @@ void                      photos_item_manager_clear                        (Phot
                                                                             PhotosWindowMode mode);
 
 PhotosBaseItem           *photos_item_manager_create_item                  (PhotosItemManager *self,
+                                                                            GType base_item_type,
                                                                             TrackerSparqlCursor *cursor);
 
 PhotosBaseItem           *photos_item_manager_get_active_collection        (PhotosItemManager *self);

@@ -233,7 +233,11 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
   now = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_TRACKER, "Query Cursor: %" G_GINT64_FORMAT, (now - priv->last_query_time) / 1000000);
 
-  photos_item_manager_add_item_for_mode (PHOTOS_ITEM_MANAGER (priv->item_mngr), priv->mode, cursor);
+  photos_item_manager_add_item_for_mode (PHOTOS_ITEM_MANAGER (priv->item_mngr),
+                                         PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->base_item_type,
+                                         priv->mode,
+                                         cursor);
+
   tracker_sparql_cursor_next_async (cursor,
                                     priv->cancellable,
                                     photos_tracker_controller_cursor_next,
@@ -587,6 +591,8 @@ static void
 photos_tracker_controller_class_init (PhotosTrackerControllerClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+  class->base_item_type = G_TYPE_NONE;
 
   object_class->constructed = photos_tracker_controller_constructed;
   object_class->dispose = photos_tracker_controller_dispose;

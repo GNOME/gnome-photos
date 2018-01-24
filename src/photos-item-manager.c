@@ -286,6 +286,7 @@ photos_item_manager_info_updated (PhotosBaseItem *item, gpointer user_data)
 
 static void
 photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
+                                         GType base_item_type,
                                          TrackerSparqlCursor *cursor,
                                          PhotosWindowMode mode,
                                          gboolean force)
@@ -296,6 +297,9 @@ photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
   const gchar *id;
 
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+  g_return_if_fail (base_item_type == G_TYPE_NONE
+                    || (base_item_type != PHOTOS_TYPE_BASE_ITEM
+                        && g_type_is_a (base_item_type, PHOTOS_TYPE_BASE_ITEM)));
   g_return_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor));
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT);
@@ -329,7 +333,7 @@ photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
         }
       else
         {
-          item = photos_item_manager_create_item (self, cursor);
+          item = photos_item_manager_create_item (self, base_item_type, cursor);
           if (photos_base_item_is_collection (item))
             g_hash_table_insert (self->collections, g_strdup (id), g_object_ref (item));
 
@@ -391,7 +395,7 @@ photos_item_manager_item_created_executed_overview (GObject *source_object, GAsy
   if (cursor == NULL)
     goto out;
 
-  photos_item_manager_add_item (self, cursor, FALSE);
+  photos_item_manager_add_item (self, G_TYPE_NONE, cursor, FALSE);
 
  out:
   g_clear_object (&cursor);
@@ -1150,12 +1154,18 @@ photos_item_manager_new (void)
 
 
 void
-photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *cursor, gboolean force)
+photos_item_manager_add_item (PhotosItemManager *self,
+                              GType base_item_type,
+                              TrackerSparqlCursor *cursor,
+                              gboolean force)
 {
   PhotosItemManagerHiddenItem *old_hidden_item;
   const gchar *id;
 
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+  g_return_if_fail (base_item_type == G_TYPE_NONE
+                    || (base_item_type != PHOTOS_TYPE_BASE_ITEM
+                        && g_type_is_a (base_item_type, PHOTOS_TYPE_BASE_ITEM)));
   g_return_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor));
 
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
@@ -1167,14 +1177,28 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
 
   if (photos_item_manager_cursor_is_collection (cursor))
     {
-      photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_COLLECTIONS, force);
+      photos_item_manager_add_cursor_for_mode (self,
+                                               base_item_type,
+                                               cursor,
+                                               PHOTOS_WINDOW_MODE_COLLECTIONS,
+                                               force);
     }
   else
     {
       if (photos_item_manager_cursor_is_favorite (cursor))
-        photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_FAVORITES, force);
+        {
+          photos_item_manager_add_cursor_for_mode (self,
+                                                   base_item_type,
+                                                   cursor,
+                                                   PHOTOS_WINDOW_MODE_FAVORITES,
+                                                   force);
+        }
 
-      photos_item_manager_add_cursor_for_mode (self, cursor, PHOTOS_WINDOW_MODE_OVERVIEW, force);
+      photos_item_manager_add_cursor_for_mode (self,
+                                               base_item_type,
+                                               cursor,
+                                               PHOTOS_WINDOW_MODE_OVERVIEW,
+                                               force);
     }
 
  out:
@@ -1183,10 +1207,17 @@ photos_item_manager_add_item (PhotosItemManager *self, TrackerSparqlCursor *curs
 
 
 void
-photos_item_manager_add_item_for_mode (PhotosItemManager *self, PhotosWindowMode mode, TrackerSparqlCursor *cursor)
+photos_item_manager_add_item_for_mode (PhotosItemManager *self,
+                                       GType base_item_type,
+                                       PhotosWindowMode mode,
+                                       TrackerSparqlCursor *cursor)
 {
   PhotosItemManagerHiddenItem *old_hidden_item;
   const gchar *id;
+
+  g_return_if_fail (base_item_type == G_TYPE_NONE
+                    || (base_item_type != PHOTOS_TYPE_BASE_ITEM
+                        && g_type_is_a (base_item_type, PHOTOS_TYPE_BASE_ITEM)));
 
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
   g_return_if_fail (id != NULL && id[0] != '\0');
@@ -1195,7 +1226,7 @@ photos_item_manager_add_item_for_mode (PhotosItemManager *self, PhotosWindowMode
   if (old_hidden_item != NULL)
     goto out;
 
-  photos_item_manager_add_cursor_for_mode (self, cursor, mode, FALSE);
+  photos_item_manager_add_cursor_for_mode (self, base_item_type, cursor, mode, FALSE);
 
  out:
   return;
@@ -1251,44 +1282,59 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
 
 
 PhotosBaseItem *
-photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
+photos_item_manager_create_item (PhotosItemManager *self, GType base_item_type, TrackerSparqlCursor *cursor)
 {
-  GIOExtension *extension;
-  g_auto (GStrv) split_identifier = NULL;
   GType type;
   PhotosBaseItem *ret_val = NULL;
-  const gchar *extension_name = "local";
-  g_autofree gchar *identifier = NULL;
 
   g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), NULL);
+  g_return_val_if_fail (base_item_type == G_TYPE_NONE
+                        || (base_item_type != PHOTOS_TYPE_BASE_ITEM
+                            && g_type_is_a (base_item_type, PHOTOS_TYPE_BASE_ITEM)), NULL);
   g_return_val_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor), NULL);
 
-  identifier = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL));
-  if (identifier != NULL)
+  if (base_item_type == G_TYPE_NONE)
     {
-      split_identifier = g_strsplit (identifier, ":", 4);
+      GIOExtension *extension;
+      g_auto (GStrv) split_identifier = NULL;
+      const gchar *extension_name = "local";
+      g_autofree gchar *identifier = NULL;
 
-      if (photos_item_manager_cursor_is_collection (cursor))
+      identifier = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL));
+      if (identifier != NULL)
         {
-          /* Its a collection. */
-          extension_name = split_identifier[2];
+          split_identifier = g_strsplit (identifier, ":", 4);
+
+          if (photos_item_manager_cursor_is_collection (cursor))
+            {
+              /* Its a collection. */
+              extension_name = split_identifier[2];
+            }
+          else
+            {
+              /* Its a normal photo item. */
+              if (g_strv_length (split_identifier) > 1)
+                extension_name = split_identifier[0];
+            }
         }
-      else
+
+      extension = g_io_extension_point_get_extension_by_name (self->extension_point, extension_name);
+      if (G_UNLIKELY (extension == NULL))
         {
-          /* Its a normal photo item. */
-          if (g_strv_length (split_identifier) > 1)
-            extension_name = split_identifier[0];
+          g_warning ("Unable to find extension %s for identifier: %s", extension_name, identifier);
+          goto out;
         }
+
+      type = g_io_extension_get_type (extension);
+    }
+  else
+    {
+      type = base_item_type;
     }
 
-  extension = g_io_extension_point_get_extension_by_name (self->extension_point, extension_name);
-  if (G_UNLIKELY (extension == NULL))
-    {
-      g_warning ("Unable to find extension %s for identifier: %s", extension_name, identifier);
-      goto out;
-    }
+  g_return_val_if_fail (type != G_TYPE_NONE, NULL);
+  g_return_val_if_fail (type != PHOTOS_TYPE_BASE_ITEM && g_type_is_a (type, PHOTOS_TYPE_BASE_ITEM), NULL);
 
-  type = g_io_extension_get_type (extension);
   ret_val = PHOTOS_BASE_ITEM (g_object_new (type,
                                             "cursor", cursor,
                                             "failed-thumbnailing", FALSE,

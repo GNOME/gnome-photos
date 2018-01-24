@@ -39,6 +39,8 @@ struct _PhotosTrackerControllerClass
 {
   GObjectClass parent_class;
 
+  GType base_item_type;
+
   /* virtual methods */
   PhotosOffsetController *(*get_offset_controller) (PhotosTrackerController *self);
   PhotosQuery *(*get_query) (PhotosTrackerController *self);
