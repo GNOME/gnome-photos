@@ -30,7 +30,6 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <gtk/gtk.h>
-#include <tracker-sparql.h>
 
 #include "photos-base-item.h"
 #include "photos-base-manager.h"
@@ -82,7 +81,7 @@ gboolean         photos_utils_create_thumbnail            (GFile *file,
 
 GVariant        *photos_utils_create_zoom_target_value    (gdouble delta, PhotosZoomEvent event);
 
-GIcon           *photos_utils_get_icon_from_cursor        (TrackerSparqlCursor *cursor);
+GIcon           *photos_utils_get_icon_from_item          (PhotosBaseItem *item);
 
 gdouble          photos_utils_get_zoom_delta              (GVariant *dictionary);
 
@@ -164,8 +163,6 @@ gchar           *photos_utils_get_thumbnail_path_for_uri  (const gchar *uri);
 GList           *photos_utils_get_urns_from_items         (GList *items);
 
 const gchar     *photos_utils_get_version                 (void);
-
-GIcon           *photos_utils_icon_from_rdf_type          (const gchar *type);
 
 void             photos_utils_list_box_header_func        (GtkListBoxRow *row,
                                                            GtkListBoxRow *before,

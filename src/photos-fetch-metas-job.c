@@ -23,15 +23,15 @@
 
 #include "config.h"
 
-#include <string.h>
-
 #include <glib.h>
-#include <glib/gi18n.h>
 #include <gio/gio.h>
 #include <tracker-sparql.h>
 
 #include "photos-create-collection-icon-job.h"
+#include "photos-base-item.h"
 #include "photos-fetch-metas-job.h"
+#include "photos-filterable.h"
+#include "photos-item-manager.h"
 #include "photos-query.h"
 #include "photos-single-item-job.h"
 #include "photos-utils.h"
@@ -41,6 +41,7 @@ struct _PhotosFetchMetasJob
 {
   GObject parent_instance;
   GList *metas;
+  PhotosBaseManager *item_mngr;
   PhotosFetchMetasJobCallback callback;
   gchar **ids;
   gpointer user_data;
@@ -146,12 +147,12 @@ photos_fetch_metas_job_executed (GObject *source_object, GAsyncResult *res, gpoi
   PhotosFetchMetasJob *self = PHOTOS_FETCH_METAS_JOB (user_data);
   GError *error = NULL;
   GIcon *icon = NULL;
+  PhotosBaseItem *item = NULL;
   PhotosFetchMeta *meta;
   PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
   TrackerSparqlCursor *cursor = NULL;
   gboolean is_collection;
   const gchar *id;
-  const gchar *rdf_type;
   const gchar *title;
 
   cursor = photos_single_item_job_finish (job, res, &error);
@@ -162,17 +163,13 @@ photos_fetch_metas_job_executed (GObject *source_object, GAsyncResult *res, gpoi
       goto out;
     }
 
-  id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
-  title = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_TITLE, NULL);
-  rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
-
-  is_collection = (strstr (rdf_type, "nfo#DataContainer") != NULL);
+  item = photos_item_manager_create_item (PHOTOS_ITEM_MANAGER (self->item_mngr), G_TYPE_NONE, cursor, FALSE);
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (item));
+  title = photos_base_item_get_name_with_fallback (item);
+  is_collection = photos_base_item_is_collection (item);
 
   if (!is_collection)
-    icon = photos_utils_get_icon_from_cursor (cursor);
-
-  if (title == NULL || title[0] == '\0')
-    title = _("Untitled Photo");
+    icon = photos_utils_get_icon_from_item (item);
 
   meta = photos_fetch_meta_new (icon, id, title);
 
@@ -187,7 +184,19 @@ photos_fetch_metas_job_executed (GObject *source_object, GAsyncResult *res, gpoi
  out:
   g_clear_object (&cursor);
   g_clear_object (&icon);
+  g_clear_object (&item);
   g_object_unref (self);
+}
+
+
+static void
+photos_fetch_metas_job_dispose (GObject *object)
+{
+  PhotosFetchMetasJob *self = PHOTOS_FETCH_METAS_JOB (object);
+
+  g_clear_object (&self->item_mngr);
+
+  G_OBJECT_CLASS (photos_fetch_metas_job_parent_class)->dispose (object);
 }
 
 
@@ -232,6 +241,7 @@ photos_fetch_metas_job_class_init (PhotosFetchMetasJobClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->dispose = photos_fetch_metas_job_dispose;
   object_class->finalize = photos_fetch_metas_job_finalize;
   object_class->set_property = photos_fetch_metas_job_set_property;
 
@@ -289,6 +299,8 @@ photos_fetch_metas_job_run (PhotosFetchMetasJob *self,
   self->callback = callback;
   self->user_data = user_data;
   self->active_jobs = g_strv_length (self->ids);
+
+  g_set_object (&self->item_mngr, state->item_mngr);
 
   for (i = 0; self->ids[i] != NULL; i++)
     {
