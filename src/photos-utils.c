@@ -421,13 +421,18 @@ photos_utils_create_zoom_target_value (gdouble delta, PhotosZoomEvent event)
 
 
 static GIcon *
-photos_utils_get_thumbnail_icon (const gchar *uri)
+photos_utils_get_thumbnail_icon (PhotosBaseItem *item)
 {
   g_autoptr (GFile) file = NULL;
   g_autoptr (GFile) thumb_file = NULL;
   g_autoptr (GFileInfo) info = NULL;
   GIcon *icon = NULL;
   const gchar *thumb_path;
+  const gchar *uri;
+
+  uri = photos_base_item_get_uri (item);
+  if (uri == NULL || uri[0] == '\0')
+    goto out;
 
   file = g_file_new_for_uri (uri);
 
@@ -476,13 +481,7 @@ photos_utils_get_icon_from_item (PhotosBaseItem *item)
     }
 
   if (!is_remote)
-    {
-      const gchar *uri;
-
-      uri = photos_base_item_get_uri (item);
-      if (uri != NULL && uri[0] != '\0')
-        icon = photos_utils_get_thumbnail_icon (uri);
-    }
+    icon = photos_utils_get_thumbnail_icon (item);
 
   if (icon != NULL)
     goto out;
