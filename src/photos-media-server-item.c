@@ -81,6 +81,7 @@ photos_media_server_item_create_thumbnail (PhotosBaseItem *item, GCancellable *c
   g_autoptr (GFile) file = NULL;
   GQuark orientation;
   gboolean ret_val;
+  g_autofree gchar *thumbnail_path = NULL;
   const gchar *mime_type;
   const gchar *uri;
   gint64 height;
@@ -94,6 +95,7 @@ photos_media_server_item_create_thumbnail (PhotosBaseItem *item, GCancellable *c
   orientation = photos_base_item_get_orientation (item);
   height = photos_base_item_get_height (item);
   width = photos_base_item_get_width (item);
+  thumbnail_path = photos_utils_get_thumbnail_path_for_uri (uri);
 
   ret_val = photos_utils_create_thumbnail (file,
                                            mime_type,
@@ -102,6 +104,7 @@ photos_media_server_item_create_thumbnail (PhotosBaseItem *item, GCancellable *c
                                            height,
                                            width,
                                            "",
+                                           thumbnail_path,
                                            cancellable,
                                            error);
 

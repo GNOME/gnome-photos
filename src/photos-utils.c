@@ -359,6 +359,7 @@ photos_utils_create_thumbnail (GFile *file,
                                gint64 original_height,
                                gint64 original_width,
                                const gchar *pipeline_uri,
+                               const gchar *thumbnail_path,
                                GCancellable *cancellable,
                                GError **error)
 {
@@ -373,6 +374,7 @@ photos_utils_create_thumbnail (GFile *file,
                                                     original_height,
                                                     original_width,
                                                     pipeline_uri,
+                                                    thumbnail_path,
                                                     cancellable,
                                                     error))
     goto out;

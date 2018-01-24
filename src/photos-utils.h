@@ -76,6 +76,7 @@ gboolean         photos_utils_create_thumbnail            (GFile *file,
                                                            gint64 original_height,
                                                            gint64 original_width,
                                                            const gchar *pipeline_uri,
+                                                           const gchar *thumbnail_path,
                                                            GCancellable *cancellable,
                                                            GError **error);
 

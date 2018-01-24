@@ -36,6 +36,7 @@ gboolean                 photos_thumbnail_factory_generate_thumbnail     (Photos
                                                                           gint64 original_height,
                                                                           gint64 original_width,
                                                                           const gchar *pipeline_uri,
+                                                                          const gchar *thumbnail_path,
                                                                           GCancellable *cancellable,
                                                                           GError **error);
 

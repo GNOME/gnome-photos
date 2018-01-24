@@ -321,6 +321,7 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
                                              gint64 original_height,
                                              gint64 original_width,
                                              const gchar *pipeline_uri,
+                                             const gchar *thumbnail_path,
                                              GCancellable *cancellable,
                                              GError **error)
 {
@@ -397,7 +398,6 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
   else
     {
       const gchar *orientation_str;
-      g_autofree gchar *thumbnail_path = NULL;
       g_autofree gchar *uri = NULL;
       gint thumbnail_size;
 
@@ -405,7 +405,6 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
 
       uri = g_file_get_uri (file);
       orientation_str = g_quark_to_string (orientation);
-      thumbnail_path = photos_utils_get_thumbnail_path_for_file (file);
       thumbnail_size = photos_utils_get_icon_size ();
 
       photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Calling GenerateThumbnail for %s", uri);
