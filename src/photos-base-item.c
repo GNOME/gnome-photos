@@ -140,6 +140,7 @@ EGG_DEFINE_COUNTER (instances, "PhotosBaseItem", "Instances", "Number of PhotosB
 
 
 typedef struct _PhotosBaseItemMetadataAddSharedData PhotosBaseItemMetadataAddSharedData;
+typedef struct _PhotosBaseItemQueryInfoData PhotosBaseItemQueryInfoData;
 typedef struct _PhotosBaseItemSaveData PhotosBaseItemSaveData;
 typedef struct _PhotosBaseItemSaveBufferData PhotosBaseItemSaveBufferData;
 typedef struct _PhotosBaseItemSaveToFileData PhotosBaseItemSaveToFileData;
@@ -150,6 +151,12 @@ struct _PhotosBaseItemMetadataAddSharedData
   gchar *account_identity;
   gchar *provider_type;
   gchar *shared_id;
+};
+
+struct _PhotosBaseItemQueryInfoData
+{
+  GFileQueryInfoFlags flags;
+  gchar *attributes;
 };
 
 struct _PhotosBaseItemSaveData
@@ -216,6 +223,27 @@ photos_base_item_metadata_add_shared_data_free (PhotosBaseItemMetadataAddSharedD
   g_free (data->provider_type);
   g_free (data->shared_id);
   g_slice_free (PhotosBaseItemMetadataAddSharedData, data);
+}
+
+
+static PhotosBaseItemQueryInfoData *
+photos_base_item_query_info_data_new (const gchar *attributes, GFileQueryInfoFlags flags)
+{
+  PhotosBaseItemQueryInfoData *data;
+
+  data = g_slice_new0 (PhotosBaseItemQueryInfoData);
+  data->flags = flags;
+  data->attributes = g_strdup (attributes);
+
+  return data;
+}
+
+
+static void
+photos_base_item_query_info_data_free (PhotosBaseItemQueryInfoData *data)
+{
+  g_free (data->attributes);
+  g_slice_free (PhotosBaseItemQueryInfoData, data);
 }
 
 
@@ -726,29 +754,24 @@ photos_base_item_refresh_thumb_path (PhotosBaseItem *self)
 static void
 photos_base_item_thumbnail_path_info (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosBaseItem *self;
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv;
-  GFile *file = G_FILE (source_object);
   g_autoptr (GFileInfo) info = NULL;
+
+  priv = photos_base_item_get_instance_private (self);
 
   {
     g_autoptr (GError) error = NULL;
 
-    info = photos_utils_file_query_info_finish (file, res, &error);
+    info = photos_base_item_query_info_finish (self, res, &error);
     if (error != NULL)
       {
-        g_autofree gchar *uri = NULL;
-
         if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
           goto out;
 
-        uri = g_file_get_uri (file);
-        g_warning ("Unable to query info for file at %s: %s", uri, error->message);
+        g_warning ("Unable to query info for item at %s: %s", priv->uri, error->message);
       }
   }
-
-  self = PHOTOS_BASE_ITEM (user_data);
-  priv = photos_base_item_get_instance_private (self);
 
   g_clear_pointer (&priv->thumb_path, g_free);
 
@@ -780,7 +803,6 @@ photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res,
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv;
-  g_autoptr (GFile) file = G_FILE (user_data);
   gboolean success;
 
   {
@@ -805,13 +827,13 @@ photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res,
       goto out;
     }
 
-  photos_utils_file_query_info_async (file,
-                                      G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
-                                      G_FILE_QUERY_INFO_NONE,
-                                      G_PRIORITY_DEFAULT,
-                                      priv->cancellable,
-                                      photos_base_item_thumbnail_path_info,
-                                      self);
+  photos_base_item_query_info_async (self,
+                                     G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
+                                     G_FILE_QUERY_INFO_NONE,
+                                     G_PRIORITY_DEFAULT,
+                                     priv->cancellable,
+                                     photos_base_item_thumbnail_path_info,
+                                     NULL);
 
  out:
   return;
@@ -821,29 +843,24 @@ photos_base_item_create_thumbnail_cb (GObject *source_object, GAsyncResult *res,
 static void
 photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosBaseItem *self;
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv;
-  GFile *file = G_FILE (source_object);
   g_autoptr (GFileInfo) info = NULL;
+
+  priv = photos_base_item_get_instance_private (self);
 
   {
     g_autoptr (GError) error = NULL;
 
-    info = photos_utils_file_query_info_finish (file, res, &error);
+    info = photos_base_item_query_info_finish (self, res, &error);
     if (error != NULL)
       {
-        g_autofree gchar *uri = NULL;
-
         if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
           goto out;
 
-        uri = g_file_get_uri (file);
-        g_warning ("Unable to query info for file at %s: %s", uri, error->message);
+        g_warning ("Unable to query info for item at %s: %s", priv->uri, error->message);
       }
   }
-
-  self = PHOTOS_BASE_ITEM (user_data);
-  priv = photos_base_item_get_instance_private (self);
 
   g_clear_pointer (&priv->thumb_path, g_free);
 
@@ -862,7 +879,7 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
       photos_base_item_create_thumbnail_async (self,
                                                priv->cancellable,
                                                photos_base_item_create_thumbnail_cb,
-                                               g_object_ref (file));
+                                               NULL);
     }
 
  out:
@@ -2584,7 +2601,6 @@ static void
 photos_base_item_refresh_icon (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
-  g_autoptr (GFile) file = NULL;
 
   priv = photos_base_item_get_instance_private (self);
 
@@ -2605,14 +2621,13 @@ photos_base_item_refresh_icon (PhotosBaseItem *self)
       return;
     }
 
-  file = g_file_new_for_uri (priv->uri);
-  photos_utils_file_query_info_async (file,
-                                      G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
-                                      G_FILE_QUERY_INFO_NONE,
-                                      G_PRIORITY_DEFAULT,
-                                      priv->cancellable,
-                                      photos_base_item_file_query_info,
-                                      self);
+  photos_base_item_query_info_async (self,
+                                     G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
+                                     G_FILE_QUERY_INFO_NONE,
+                                     G_PRIORITY_DEFAULT,
+                                     priv->cancellable,
+                                     photos_base_item_file_query_info,
+                                     NULL);
 }
 
 
@@ -4224,6 +4239,133 @@ photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
   g_return_if_fail (!priv->collection);
 
   photos_base_item_load_async (self, NULL, photos_base_item_print_load, g_object_ref (toplevel));
+}
+
+
+GFileInfo *
+photos_base_item_query_info (PhotosBaseItem *self,
+                             const gchar *attributes,
+                             GFileQueryInfoFlags flags,
+                             GCancellable *cancellable,
+                             GError **error)
+{
+  PhotosBaseItemPrivate *priv;
+  GFileAttributeMatcher *matcher = NULL; /* TODO: use g_autoptr */
+  g_autoptr (GFile) file = NULL;
+  g_autoptr (GFileInfo) info = NULL;
+  GFileInfo *ret_val = NULL;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+  priv = photos_base_item_get_instance_private (self);
+
+  g_return_val_if_fail (attributes != NULL && attributes[0] != '\0', NULL);
+  g_return_val_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable), NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  file = g_file_new_for_uri (priv->uri);
+  info = g_file_query_info (file, attributes, flags, cancellable, error);
+  if (info == NULL)
+    goto out;
+
+  matcher = g_file_attribute_matcher_new (attributes);
+  if (g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID)
+      || g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAIL_PATH)
+      || g_file_attribute_matcher_matches (matcher, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED))
+    {
+      g_autofree gchar *path = NULL;
+
+      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID);
+      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
+      g_file_info_remove_attribute (info, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED);
+
+      path = photos_base_item_create_thumbnail_path (self);
+      if (g_file_test (path, G_FILE_TEST_IS_REGULAR))
+        {
+          g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_THUMBNAIL_IS_VALID, TRUE);
+          g_file_info_set_attribute_byte_string (info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH, path);
+          g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED, FALSE);
+        }
+    }
+
+  ret_val = g_object_ref (info);
+
+ out:
+  g_clear_pointer (&matcher, (GDestroyNotify) g_file_attribute_matcher_unref);
+  return ret_val;
+}
+
+
+static void
+photos_base_item_query_info_in_thread_func (GTask *task,
+                                            gpointer source_object,
+                                            gpointer task_data,
+                                            GCancellable *cancellable)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  g_autoptr (GFileInfo) info = NULL;
+  PhotosBaseItemQueryInfoData *data = (PhotosBaseItemQueryInfoData *) task_data;
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    info = photos_base_item_query_info (self, data->attributes, data->flags, cancellable, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
+
+  g_task_return_pointer (task, g_object_ref (info), g_object_unref);
+
+ out:
+  return;
+}
+
+
+void
+photos_base_item_query_info_async (PhotosBaseItem *self,
+                                   const gchar *attributes,
+                                   GFileQueryInfoFlags flags,
+                                   gint io_priority,
+                                   GCancellable *cancellable,
+                                   GAsyncReadyCallback callback,
+                                   gpointer user_data)
+{
+  g_autoptr (GTask) task = NULL;
+  PhotosBaseItemQueryInfoData *data;
+  const gchar *wildcard;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  g_return_if_fail (attributes != NULL && attributes[0] != '\0');
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
+  wildcard = strstr (attributes, "*");
+  g_return_if_fail (wildcard == NULL);
+
+  data = photos_base_item_query_info_data_new (attributes, flags);
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_priority (task, io_priority);
+  g_task_set_source_tag (task, photos_base_item_query_info_async);
+  g_task_set_task_data (task, data, (GDestroyNotify) photos_base_item_query_info_data_free);
+
+  g_task_run_in_thread (task, photos_base_item_query_info_in_thread_func);
+}
+
+
+GFileInfo *
+photos_base_item_query_info_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
+{
+  GTask *task;
+
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_base_item_query_info_async, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  return g_task_propagate_pointer (task, error);
 }
 
 

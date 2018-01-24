@@ -123,22 +123,6 @@ gboolean         photos_utils_file_copy_as_thumbnail      (GFile *source,
                                                            GCancellable *cancellable,
                                                            GError **error);
 
-GFileInfo       *photos_utils_file_query_info             (GFile *file,
-                                                           const gchar *attributes,
-                                                           GFileQueryInfoFlags flags,
-                                                           GCancellable *cancellable,
-                                                           GError **error);
-
-void             photos_utils_file_query_info_async       (GFile *file,
-                                                           const gchar *attributes,
-                                                           GFileQueryInfoFlags flags,
-                                                           gint io_priority,
-                                                           GCancellable *cancellable,
-                                                           GAsyncReadyCallback callback,
-                                                           gpointer user_data);
-
-GFileInfo       *photos_utils_file_query_info_finish      (GFile *file, GAsyncResult *res, GError **error);
-
 void             photos_utils_get_controller              (PhotosWindowMode mode,
                                                            PhotosOffsetController **out_offset_cntrlr,
                                                            PhotosTrackerController **out_trk_cntrlr);
@@ -155,8 +139,6 @@ char*            photos_utils_get_pixbuf_common_suffix    (GdkPixbufFormat *form
 const gchar     *photos_utils_get_provider_name           (PhotosBaseManager *src_mngr, PhotosBaseItem *item);
 
 gboolean         photos_utils_get_selection_mode          (void);
-
-gchar           *photos_utils_get_thumbnail_path_for_file (GFile *file);
 
 gchar           *photos_utils_get_thumbnail_path_for_uri  (const gchar *uri);
 

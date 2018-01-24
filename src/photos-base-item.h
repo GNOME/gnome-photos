@@ -270,6 +270,24 @@ void                photos_base_item_pipeline_snapshot       (PhotosBaseItem *se
 
 void                photos_base_item_print                   (PhotosBaseItem *self, GtkWidget *toplevel);
 
+GFileInfo          *photos_base_item_query_info              (PhotosBaseItem *self,
+                                                              const gchar *attributes,
+                                                              GFileQueryInfoFlags flags,
+                                                              GCancellable *cancellable,
+                                                              GError **error);
+
+void                photos_base_item_query_info_async        (PhotosBaseItem *self,
+                                                              const gchar *attributes,
+                                                              GFileQueryInfoFlags flags,
+                                                              gint io_priority,
+                                                              GCancellable *cancellable,
+                                                              GAsyncReadyCallback callback,
+                                                              gpointer user_data);
+
+GFileInfo          *photos_base_item_query_info_finish       (PhotosBaseItem *self,
+                                                              GAsyncResult *res,
+                                                              GError **error);
+
 void                photos_base_item_refresh                 (PhotosBaseItem *self);
 
 void                photos_base_item_save_to_dir_async       (PhotosBaseItem *self,
