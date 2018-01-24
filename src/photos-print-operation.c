@@ -166,7 +166,7 @@ photos_print_operation_constructed (GObject *object)
   PhotosPrintOperation *self = PHOTOS_PRINT_OPERATION (object);
   GeglRectangle bbox;
   g_autoptr (GtkPageSetup) page_setup = NULL;
-  g_autofree gchar *name = NULL;
+  const gchar *name;
 
   G_OBJECT_CLASS (photos_print_operation_parent_class)->constructed (object);
 
@@ -179,23 +179,7 @@ photos_print_operation_constructed (GObject *object)
   else
     gtk_page_setup_set_orientation (page_setup, GTK_PAGE_ORIENTATION_LANDSCAPE);
 
-  name = g_strdup (photos_base_item_get_name (self->item));
-  if (name == NULL || name[0] == '\0')
-    {
-      g_autoptr (GFile) file = NULL;
-      const gchar *uri;
-      g_autofree gchar *basename = NULL;
-
-      uri = photos_base_item_get_uri (self->item);
-      file = g_file_new_for_uri (uri);
-      basename = g_file_get_basename (file);
-
-      if (g_utf8_validate (basename, -1, NULL))
-        name = g_strdup (basename);
-      else
-        name = g_filename_to_utf8 (basename, -1, NULL, NULL, NULL);
-    }
-
+  name = photos_base_item_get_name_with_fallback (self->item);
   gtk_print_operation_set_job_name (GTK_PRINT_OPERATION (self), name);
 }
 
