@@ -14,7 +14,6 @@ src/photos-export-dialog.ui
 src/photos-export-dialog.c
 src/photos-export-notification.c
 src/photos-facebook-item.c
-src/photos-fetch-metas-job.c
 src/photos-flickr-item.c
 src/photos-google-item.c
 src/photos-help-overlay.ui

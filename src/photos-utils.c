@@ -459,15 +459,14 @@ photos_utils_get_thumbnail_icon (const gchar *uri)
 
 
 GIcon *
-photos_utils_get_icon_from_cursor (TrackerSparqlCursor *cursor)
+photos_utils_get_icon_from_item (PhotosBaseItem *item)
 {
   GIcon *icon = NULL;
   gboolean is_remote = FALSE;
   const gchar *identifier;
   const gchar *mime_type;
-  const gchar *rdf_type;
 
-  identifier = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL);
+  identifier = photos_base_item_get_identifier (item);
   if (identifier != NULL)
     {
       if (g_str_has_prefix (identifier, "facebook:") ||
@@ -480,24 +479,28 @@ photos_utils_get_icon_from_cursor (TrackerSparqlCursor *cursor)
     {
       const gchar *uri;
 
-      uri = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URI, NULL);
-      if (uri != NULL)
+      uri = photos_base_item_get_uri (item);
+      if (uri != NULL && uri[0] != '\0')
         icon = photos_utils_get_thumbnail_icon (uri);
     }
 
   if (icon != NULL)
     goto out;
 
-  mime_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL);
+  mime_type = photos_base_item_get_mime_type (item);
   if (mime_type != NULL)
     icon = g_content_type_get_icon (mime_type);
 
   if (icon != NULL)
     goto out;
 
-  rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
-  if (rdf_type != NULL)
-    icon = photos_utils_icon_from_rdf_type (rdf_type);
+  if (photos_base_item_is_collection (item))
+    {
+      gint size;
+
+      size = photos_utils_get_icon_size ();
+      icon = photos_utils_create_collection_icon (size, NULL);
+    }
 
   if (icon != NULL)
     goto out;
@@ -1235,20 +1238,6 @@ photos_utils_get_version (void)
 #else
   ret_val = PACKAGE_VERSION;
 #endif
-
-  return ret_val;
-}
-
-
-GIcon *
-photos_utils_icon_from_rdf_type (const gchar *type)
-{
-  GIcon *ret_val = NULL;
-  gint size;
-
-  size = photos_utils_get_icon_size ();
-  if (strstr (type, "nfo#DataContainer") != NULL)
-    ret_val = photos_utils_create_collection_icon (size, NULL);
 
   return ret_val;
 }
