@@ -1065,24 +1065,23 @@ photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *c
   g_return_val_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor), NULL);
 
   identifier = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL));
-  if (identifier == NULL)
-    goto final;
-
-  split_identifier = g_strsplit (identifier, ":", 4);
-
-  if (photos_item_manager_cursor_is_collection (cursor))
+  if (identifier != NULL)
     {
-      /* Its a collection. */
-      extension_name = split_identifier[2];
-    }
-  else
-    {
-      /* Its a normal photo item. */
-      if (g_strv_length (split_identifier) > 1)
-        extension_name = split_identifier[0];
+      split_identifier = g_strsplit (identifier, ":", 4);
+
+      if (photos_item_manager_cursor_is_collection (cursor))
+        {
+          /* Its a collection. */
+          extension_name = split_identifier[2];
+        }
+      else
+        {
+          /* Its a normal photo item. */
+          if (g_strv_length (split_identifier) > 1)
+            extension_name = split_identifier[0];
+        }
     }
 
- final:
   extension = g_io_extension_point_get_extension_by_name (self->extension_point, extension_name);
   if (G_UNLIKELY (extension == NULL))
     {
