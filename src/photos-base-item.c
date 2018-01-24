@@ -1728,6 +1728,9 @@ photos_base_item_pipeline_is_edited_load_pipeline (GObject *source_object, GAsyn
   is_edited = photos_pipeline_is_edited (pipeline);
   g_task_return_boolean (task, is_edited);
 
+  if (!photos_base_item_can_edit (self))
+    g_return_if_fail (!is_edited);
+
  out:
   return;
 }
