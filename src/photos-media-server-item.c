@@ -95,7 +95,7 @@ photos_media_server_item_create_thumbnail (PhotosBaseItem *item, GCancellable *c
   orientation = photos_base_item_get_orientation (item);
   height = photos_base_item_get_height (item);
   width = photos_base_item_get_width (item);
-  thumbnail_path = photos_utils_get_thumbnail_path_for_uri (uri);
+  thumbnail_path = photos_base_item_create_thumbnail_path (item);
 
   ret_val = photos_utils_create_thumbnail (file,
                                            mime_type,

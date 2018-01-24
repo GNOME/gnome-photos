@@ -229,12 +229,12 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   thumbnail_uri = grl_media_get_thumbnail (media);
   remote_file = g_file_new_for_uri (thumbnail_uri);
 
-  uri = photos_base_item_get_uri (item);
-  local_path = photos_utils_get_thumbnail_path_for_uri (uri);
+  local_path = photos_base_item_create_thumbnail_path (item);
   local_file = g_file_new_for_path (local_path);
-
   local_dir = g_path_get_dirname (local_path);
   g_mkdir_with_parents (local_dir, 0700);
+
+  uri = photos_base_item_get_uri (item);
 
   height = photos_base_item_get_height (item);
   width = photos_base_item_get_width (item);

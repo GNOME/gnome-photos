@@ -461,13 +461,10 @@ photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_d
 {
   g_autoptr (GTask) task = G_TASK (data);
   PhotosBaseItem *self;
-  PhotosBaseItemPrivate *priv;
   GCancellable *cancellable;
   GError *error;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
-  priv = photos_base_item_get_instance_private (self);
-
   cancellable = g_task_get_cancellable (task);
 
   error = NULL;
@@ -478,7 +475,7 @@ photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_d
           g_autoptr (GFile) file = NULL;
           g_autofree gchar *path = NULL;
 
-          path = photos_utils_get_thumbnail_path_for_uri (priv->uri);
+          path = photos_base_item_create_thumbnail_path (self);
           file = g_file_new_for_path (path);
           g_file_delete (file, NULL, NULL);
         }
@@ -1832,7 +1829,7 @@ photos_base_item_pipeline_save_save (GObject *source_object, GAsyncResult *res, 
   g_clear_object (&priv->cancellable);
   priv->cancellable = g_cancellable_new ();
 
-  thumbnail_path = photos_utils_get_thumbnail_path_for_uri (priv->uri);
+  thumbnail_path = photos_base_item_create_thumbnail_path (self);
   thumbnail_file = g_file_new_for_path (thumbnail_path);
   g_file_delete_async (thumbnail_file,
                        G_PRIORITY_DEFAULT,

@@ -161,7 +161,7 @@ photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancella
   orientation = photos_base_item_get_orientation (PHOTOS_BASE_ITEM (self));
   height = photos_base_item_get_height (PHOTOS_BASE_ITEM (self));
   width = photos_base_item_get_width (PHOTOS_BASE_ITEM (self));
-  thumbnail_path = photos_utils_get_thumbnail_path_for_uri (uri);
+  thumbnail_path = photos_base_item_create_thumbnail_path (PHOTOS_BASE_ITEM (self));
 
   pipeline_path = photos_local_item_get_pipeline_path (self);
   pipeline_uri = photos_utils_convert_path_to_uri (pipeline_path);
