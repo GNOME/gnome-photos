@@ -873,6 +873,19 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
 }
 
 
+static gchar *
+photos_base_item_default_create_thumbnail_path (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv;
+  gchar *path;
+
+  priv = photos_base_item_get_instance_private (self);
+
+  path = photos_utils_get_thumbnail_path_for_uri (priv->uri);
+  return path;
+}
+
+
 static void
 photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
 {
@@ -2994,6 +3007,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
   object_class->finalize = photos_base_item_finalize;
   object_class->get_property = photos_base_item_get_property;
   object_class->set_property = photos_base_item_set_property;
+  class->create_thumbnail_path = photos_base_item_default_create_thumbnail_path;
   class->metadata_add_shared = photos_base_item_default_metadata_add_shared;
   class->open = photos_base_item_default_open;
   class->set_favorite = photos_base_item_default_set_favorite;
@@ -3175,6 +3189,18 @@ photos_base_item_create_preview (PhotosBaseItem *self,
   cairo_surface_set_user_data (surface, &key, buf, (cairo_destroy_func_t) g_free);
 
   return surface;
+}
+
+
+gchar *
+photos_base_item_create_thumbnail_path (PhotosBaseItem *self)
+{
+  gchar *path;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+
+  path = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_thumbnail_path (self);
+  return path;
 }
 
 

@@ -59,6 +59,7 @@ struct _PhotosBaseItemClass
   gchar      *(*create_name_fallback)       (PhotosBaseItem *self);
   gchar      *(*create_pipeline_path)       (PhotosBaseItem *self);
   gboolean    (*create_thumbnail)           (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
+  gchar      *(*create_thumbnail_path)      (PhotosBaseItem *self);
   gchar      *(*download)                   (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   GtkWidget  *(*get_source_widget)          (PhotosBaseItem *self);
   gboolean    (*metadata_add_shared)        (PhotosBaseItem  *self,
@@ -86,6 +87,8 @@ cairo_surface_t    *photos_base_item_create_preview          (PhotosBaseItem *se
                                                               const gchar *operation,
                                                               const gchar *first_property_name,
                                                               ...) G_GNUC_NULL_TERMINATED G_GNUC_WARN_UNUSED_RESULT;
+
+gchar              *photos_base_item_create_thumbnail_path   (PhotosBaseItem *self) G_GNUC_WARN_UNUSED_RESULT;
 
 void                photos_base_item_destroy                 (PhotosBaseItem *self);
 
