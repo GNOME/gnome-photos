@@ -96,7 +96,7 @@ struct _PhotosItemManagerHiddenItem
 static PhotosItemManagerHiddenItem *
 photos_item_manager_hidden_item_new (PhotosBaseItem *item)
 {
-  GEnumClass *window_mode_class;
+  GEnumClass *window_mode_class; /* TODO: use g_autoptr */
   PhotosItemManagerHiddenItem *hidden_item;
 
   hidden_item = g_slice_new0 (PhotosItemManagerHiddenItem);
@@ -130,7 +130,7 @@ photos_item_manager_add_object (PhotosBaseManager *mngr, GObject *object)
 static gboolean
 photos_item_manager_can_add_mtime_for_mode (PhotosItemManager *self, gint64 mtime, PhotosWindowMode mode)
 {
-  PhotosBaseItem *oldest_item = NULL;
+  g_autoptr (PhotosBaseItem) oldest_item = NULL;
   PhotosBaseManager *item_mngr_chld;
   gboolean ret_val = TRUE;
   gint64 oldest_mtime;
@@ -153,7 +153,6 @@ photos_item_manager_can_add_mtime_for_mode (PhotosItemManager *self, gint64 mtim
   ret_val = FALSE;
 
  out:
-  g_clear_object (&oldest_item);
   return ret_val;
 }
 
@@ -273,7 +272,7 @@ photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
                                          PhotosWindowMode mode,
                                          gboolean force)
 {
-  PhotosBaseItem *item = NULL;
+  g_autoptr (PhotosBaseItem) item = NULL;
   PhotosBaseManager *item_mngr_chld;
   gboolean is_collection;
   const gchar *id;
@@ -327,7 +326,7 @@ photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
     }
 
  out:
-  g_clear_object (&item);
+  return;
 }
 
 
@@ -354,18 +353,20 @@ photos_item_manager_check_wait_for_changes (PhotosItemManager *self, const gchar
 static void
 photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
-  GError *error = NULL;
+  g_autoptr (PhotosItemManager) self = PHOTOS_ITEM_MANAGER (user_data);
   PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
-  TrackerSparqlCursor *cursor = NULL;
+  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
 
-  cursor = photos_single_item_job_finish (job, res, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to query single item: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = photos_single_item_job_finish (job, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to query single item: %s", error->message);
+        goto out;
+      }
+  }
 
   if (cursor == NULL)
     goto out;
@@ -384,7 +385,6 @@ photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult 
 
  out:
   g_clear_object (&cursor);
-  g_object_unref (self);
 }
 
 
@@ -394,7 +394,7 @@ photos_item_manager_item_created (PhotosItemManager *self, const gchar *urn)
   GApplication *app;
   PhotosItemManagerHiddenItem *old_hidden_item;
   PhotosSearchContextState *state;
-  PhotosSingleItemJob *job;
+  g_autoptr (PhotosSingleItemJob) job = NULL;
 
   old_hidden_item = (PhotosItemManagerHiddenItem *) g_hash_table_lookup (self->hidden_items, urn);
   g_return_if_fail (old_hidden_item == NULL);
@@ -409,7 +409,6 @@ photos_item_manager_item_created (PhotosItemManager *self, const gchar *urn)
                               NULL,
                               photos_item_manager_item_created_executed,
                               g_object_ref (self));
-  g_object_unref (job);
 }
 
 
@@ -557,32 +556,30 @@ photos_item_manager_get_where (PhotosBaseManager *mngr, gint flags)
 static void
 photos_item_manager_item_load (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
-  GError *error;
-  GeglNode *node = NULL;
+  g_autoptr (PhotosItemManager) self = PHOTOS_ITEM_MANAGER (user_data);
+  g_autoptr (GeglNode) node = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
   g_clear_object (&self->loader_cancellable);
 
-  error = NULL;
-  node = photos_base_item_load_finish (item, res, &error);
-  if (error != NULL)
-    {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to load the item: %s", error->message);
+  {
+    g_autoptr (GError) error = NULL;
 
-      self->load_state = PHOTOS_LOAD_STATE_ERROR;
-      g_error_free (error);
-    }
-  else
-    {
-      self->load_state = PHOTOS_LOAD_STATE_FINISHED;
-    }
+    node = photos_base_item_load_finish (item, res, &error);
+    if (error != NULL)
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to load the item: %s", error->message);
+
+        self->load_state = PHOTOS_LOAD_STATE_ERROR;
+      }
+    else
+      {
+        self->load_state = PHOTOS_LOAD_STATE_FINISHED;
+      }
+  }
 
   g_signal_emit (self, signals[LOAD_FINISHED], 0, item, node);
-
-  g_clear_object (&node);
-  g_object_unref (self);
 }
 
 
@@ -597,7 +594,7 @@ static void
 photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *id)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
-  PhotosBaseItem *item;
+  g_autoptr (PhotosBaseItem) item = NULL;
   guint i;
 
   g_hash_table_remove (self->collections, id);
@@ -613,7 +610,6 @@ photos_item_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar *i
     photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[i], id);
 
   g_signal_emit_by_name (self, "object-removed", G_OBJECT (item));
-  g_object_unref (item);
 }
 
 
@@ -808,7 +804,7 @@ photos_item_manager_finalize (GObject *object)
 static void
 photos_item_manager_init (PhotosItemManager *self)
 {
-  GEnumClass *window_mode_class;
+  GEnumClass *window_mode_class; /* TODO: use g_autoptr */
   guint i;
 
   EGG_COUNTER_INC (instances);
@@ -1023,7 +1019,7 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
   n_items = g_list_model_get_n_items (G_LIST_MODEL (item_mngr_chld));
   for (i = 0; i < n_items; i++)
     {
-      PhotosBaseItem *item;
+      g_autoptr (PhotosBaseItem) item = NULL;
       PhotosBaseItem *item1 = NULL;
       const gchar *id;
       guint j;
@@ -1049,8 +1045,6 @@ photos_item_manager_clear (PhotosItemManager *self, PhotosWindowMode mode)
           g_signal_handlers_disconnect_by_func (item, photos_item_manager_info_updated, self);
           photos_base_manager_remove_object_by_id (self->item_mngr_chldrn[0], id);
         }
-
-      g_object_unref (item);
     }
 
   photos_base_manager_clear (item_mngr_chld);
@@ -1061,11 +1055,11 @@ PhotosBaseItem *
 photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *cursor)
 {
   GIOExtension *extension;
+  g_auto (GStrv) split_identifier = NULL;
   GType type;
   PhotosBaseItem *ret_val = NULL;
   const gchar *extension_name = "local";
-  gchar *identifier = NULL;
-  gchar **split_identifier = NULL;
+  g_autofree gchar *identifier = NULL;
 
   g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), NULL);
   g_return_val_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor), NULL);
@@ -1103,8 +1097,6 @@ photos_item_manager_create_item (PhotosItemManager *self, TrackerSparqlCursor *c
                                             NULL));
 
  out:
-  g_strfreev (split_identifier);
-  g_free (identifier);
   return ret_val;
 }
 
@@ -1238,7 +1230,7 @@ photos_item_manager_wait_for_changes_async (PhotosItemManager *self,
                                             gpointer user_data)
 {
   GList *tasks;
-  GTask *task = NULL;
+  g_autoptr (GTask) task = NULL;
   const gchar *uri;
 
   g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
@@ -1264,7 +1256,7 @@ photos_item_manager_wait_for_changes_async (PhotosItemManager *self,
   g_hash_table_insert (self->wait_for_changes_table, g_strdup (uri), tasks);
 
  out:
-  g_clear_object (&task);
+  return;
 }
 
 
