@@ -20,7 +20,13 @@
         "--talk-name=org.freedesktop.Tracker1",
         "--talk-name=org.freedesktop.Tracker1.Miner.Extract",
         "--talk-name=com.intel.dleyna-renderer",
-        "--talk-name=org.gnome.SettingsDaemon"
+        "--talk-name=org.gnome.SettingsDaemon",
+        "--talk-name=org.gnome.OnlineAccounts",
+        "--talk-name=org.gnome.OnlineAccounts.*",
+        "--talk-name=org.gnome.OnlineMiners",
+        "--talk-name=org.gnome.OnlineMiners.*",
+        "--talk-name=org.gtk.vfs",
+        "--talk-name=org.gtk.vfs.*"
     ],
     "build-options" : {
         "cflags": "-O2 -g",
