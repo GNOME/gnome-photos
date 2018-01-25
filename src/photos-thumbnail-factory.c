@@ -371,7 +371,6 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
 
   g_return_val_if_fail (PHOTOS_IS_THUMBNAIL_FACTORY (self), FALSE);
   g_return_val_if_fail (G_IS_FILE (file), FALSE);
-  g_return_val_if_fail (g_file_is_native (file), FALSE);
   g_return_val_if_fail (mime_type != NULL && mime_type[0] != '\0', FALSE);
   g_return_val_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable), FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
