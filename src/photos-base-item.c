@@ -456,20 +456,6 @@ photos_base_item_clear_pixels (PhotosBaseItem *self)
 
 
 static void
-photos_base_item_set_original_icon (PhotosBaseItem *self, GdkPixbuf *icon)
-{
-  PhotosBaseItemPrivate *priv;
-
-  priv = photos_base_item_get_instance_private (self);
-
-  if (icon != NULL)
-    g_set_object (&priv->original_icon, icon);
-
-  photos_base_item_check_effects_and_update_info (self);
-}
-
-
-static void
 photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_data)
 {
   g_autoptr (GTask) task = G_TASK (data);
@@ -559,122 +545,36 @@ photos_base_item_create_thumbnail_finish (PhotosBaseItem *self, GAsyncResult *re
 
 
 static void
-photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
+photos_base_item_set_original_icon (PhotosBaseItem *self, GdkPixbuf *icon)
 {
   PhotosBaseItemPrivate *priv;
 
   priv = photos_base_item_get_instance_private (self);
 
-  if (favorite == priv->favorite)
-    return;
+  if (icon != NULL)
+    g_set_object (&priv->original_icon, icon);
 
-  priv->favorite = favorite;
   photos_base_item_check_effects_and_update_info (self);
-  photos_utils_set_favorite (priv->id, favorite);
-}
-
-
-static gboolean
-photos_base_item_default_metadata_add_shared (PhotosBaseItem  *self,
-                                              const gchar     *provider_type,
-                                              const gchar     *account_identity,
-                                              const gchar     *shared_id,
-                                              GCancellable    *cancellable,
-                                              GError         **error)
-{
-  return TRUE;
 }
 
 
 static void
-photos_base_item_default_open (PhotosBaseItem *self, GtkWindow *parent, guint32 timestamp)
+photos_base_item_set_failed_icon (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv;
+  if (failed_icon == NULL)
+    failed_icon = photos_base_item_create_placeholder_icon ("image-x-generic-symbolic");
 
-  priv = photos_base_item_get_instance_private (self);
-
-  if (priv->default_app_name == NULL)
-    return;
-
-  /* Without a default_app, launch in the web browser, otherwise use
-   * that system application.
-   */
-
-  if (priv->default_app != NULL)
-    {
-      g_autoptr (GAppLaunchContext) ctx = NULL;
-
-      ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (parent));
-
-      {
-        g_autoptr (GError) error = NULL;
-
-        photos_glib_app_info_launch_uri (priv->default_app, priv->uri, ctx, &error);
-        if (error != NULL)
-          g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
-      }
-    }
-  else
-    {
-      g_autoptr (GError) error = NULL;
-
-      gtk_show_uri_on_window (parent, priv->uri, timestamp, &error);
-      if (error != NULL)
-        g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
-    }
+  photos_base_item_set_original_icon (self, failed_icon);
 }
 
 
 static void
-photos_base_item_default_update_type_description (PhotosBaseItem *self)
+photos_base_item_set_thumbnailing_icon (PhotosBaseItem *self)
 {
-  PhotosBaseItemPrivate *priv;
-  gchar *description = NULL;
+  if (thumbnailing_icon == NULL)
+    thumbnailing_icon = photos_base_item_create_placeholder_icon ("content-loading-symbolic");
 
-  priv = photos_base_item_get_instance_private (self);
-
-  if (priv->collection)
-    description = g_strdup (_("Album"));
-  else if (priv->mime_type != NULL)
-    description = g_content_type_get_description (priv->mime_type);
-
-  photos_utils_take_string (&priv->type_description, description);
-}
-
-
-static void
-photos_base_item_download_in_thread_func (GTask *task,
-                                          gpointer source_object,
-                                          gpointer task_data,
-                                          GCancellable *cancellable)
-{
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
-  g_autofree gchar *path = NULL;
-
-  error = NULL;
-  path = photos_base_item_download (self, cancellable, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
-
-  g_task_return_pointer (task, g_strdup (path), g_free);
-
- out:
-  return;
-}
-
-
-static const gchar *
-photos_base_item_filterable_get_id (PhotosFilterable *filterable)
-{
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (filterable);
-  PhotosBaseItemPrivate *priv;
-
-  priv = photos_base_item_get_instance_private (self);
-  return priv->id;
+  photos_base_item_set_original_icon (self, thumbnailing_icon);
 }
 
 
@@ -685,66 +585,6 @@ photos_base_item_icon_updated (PhotosBaseItem *self, GIcon *icon)
     return;
 
   photos_base_item_set_original_icon (self, GDK_PIXBUF (icon));
-}
-
-
-static cairo_surface_t *
-photos_base_item_main_box_item_get_icon (GdMainBoxItem *box_item)
-{
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (box_item);
-  PhotosBaseItemPrivate *priv;
-
-  priv = photos_base_item_get_instance_private (self);
-  return priv->surface;
-}
-
-
-static const gchar *
-photos_base_item_main_box_item_get_id (GdMainBoxItem *box_item)
-{
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (box_item);
-  PhotosBaseItemPrivate *priv;
-
-  priv = photos_base_item_get_instance_private (self);
-  return priv->id;
-}
-
-
-static const gchar *
-photos_base_item_main_box_item_get_primary_text (GdMainBoxItem *box_item)
-{
-  PhotosBaseItem *self = PHOTOS_BASE_ITEM (box_item);
-  PhotosBaseItemPrivate *priv;
-  const gchar *primary_text;
-
-  priv = photos_base_item_get_instance_private (self);
-
-  if (priv->collection)
-    primary_text = photos_base_item_get_name (self);
-  else
-    primary_text = NULL;
-
-  return primary_text;
-}
-
-
-static const gchar *
-photos_base_item_main_box_item_get_secondary_text (GdMainBoxItem *box_item)
-{
-  const gchar *author;
-
-  author = photos_base_item_get_author (PHOTOS_BASE_ITEM (box_item));
-  return author;
-}
-
-
-static const gchar *
-photos_base_item_main_box_item_get_uri (GdMainBoxItem *box_item)
-{
-  const gchar *uri;
-
-  uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (box_item));
-  return uri;
 }
 
 
@@ -762,44 +602,6 @@ photos_base_item_refresh_collection_icon (PhotosBaseItem *self)
     }
   else
     photos_collection_icon_watcher_refresh (priv->watcher);
-}
-
-
-static void
-photos_base_item_refresh_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-  g_autoptr (PhotosBaseItem) self = PHOTOS_BASE_ITEM (user_data);
-  PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
-  TrackerSparqlCursor *cursor = NULL; /* TODO: Use g_autoptr */
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    cursor = photos_single_item_job_finish (job, res, &error);
-    if (error != NULL)
-      {
-        g_warning ("Unable to query single item: %s", error->message);
-        goto out;
-      }
-  }
-
-  if (cursor == NULL)
-    goto out;
-
-  photos_base_item_populate_from_cursor (self, cursor);
-
- out:
-  g_clear_object (&cursor);
-}
-
-
-static void
-photos_base_item_set_failed_icon (PhotosBaseItem *self)
-{
-  if (failed_icon == NULL)
-    failed_icon = photos_base_item_create_placeholder_icon ("image-x-generic-symbolic");
-
-  photos_base_item_set_original_icon (self, failed_icon);
 }
 
 
@@ -1067,6 +869,214 @@ photos_base_item_file_query_info (GObject *source_object, GAsyncResult *res, gpo
 
  out:
   return;
+}
+
+
+static void
+photos_base_item_default_set_favorite (PhotosBaseItem *self, gboolean favorite)
+{
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
+
+  if (favorite == priv->favorite)
+    return;
+
+  priv->favorite = favorite;
+  photos_base_item_check_effects_and_update_info (self);
+  photos_utils_set_favorite (priv->id, favorite);
+}
+
+
+static gboolean
+photos_base_item_default_metadata_add_shared (PhotosBaseItem  *self,
+                                              const gchar     *provider_type,
+                                              const gchar     *account_identity,
+                                              const gchar     *shared_id,
+                                              GCancellable    *cancellable,
+                                              GError         **error)
+{
+  return TRUE;
+}
+
+
+static void
+photos_base_item_default_open (PhotosBaseItem *self, GtkWindow *parent, guint32 timestamp)
+{
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
+
+  if (priv->default_app_name == NULL)
+    return;
+
+  /* Without a default_app, launch in the web browser, otherwise use
+   * that system application.
+   */
+
+  if (priv->default_app != NULL)
+    {
+      g_autoptr (GAppLaunchContext) ctx = NULL;
+
+      ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (parent));
+
+      {
+        g_autoptr (GError) error = NULL;
+
+        photos_glib_app_info_launch_uri (priv->default_app, priv->uri, ctx, &error);
+        if (error != NULL)
+          g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
+      }
+    }
+  else
+    {
+      g_autoptr (GError) error = NULL;
+
+      gtk_show_uri_on_window (parent, priv->uri, timestamp, &error);
+      if (error != NULL)
+        g_warning ("Unable to show URI %s: %s", priv->uri, error->message);
+    }
+}
+
+
+static void
+photos_base_item_default_update_type_description (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv;
+  gchar *description = NULL;
+
+  priv = photos_base_item_get_instance_private (self);
+
+  if (priv->collection)
+    description = g_strdup (_("Album"));
+  else if (priv->mime_type != NULL)
+    description = g_content_type_get_description (priv->mime_type);
+
+  photos_utils_take_string (&priv->type_description, description);
+}
+
+
+static void
+photos_base_item_download_in_thread_func (GTask *task,
+                                          gpointer source_object,
+                                          gpointer task_data,
+                                          GCancellable *cancellable)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
+  GError *error;
+  g_autofree gchar *path = NULL;
+
+  error = NULL;
+  path = photos_base_item_download (self, cancellable, &error);
+  if (error != NULL)
+    {
+      g_task_return_error (task, error);
+      goto out;
+    }
+
+  g_task_return_pointer (task, g_strdup (path), g_free);
+
+ out:
+  return;
+}
+
+
+static const gchar *
+photos_base_item_filterable_get_id (PhotosFilterable *filterable)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (filterable);
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
+  return priv->id;
+}
+
+
+static cairo_surface_t *
+photos_base_item_main_box_item_get_icon (GdMainBoxItem *box_item)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (box_item);
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
+  return priv->surface;
+}
+
+
+static const gchar *
+photos_base_item_main_box_item_get_id (GdMainBoxItem *box_item)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (box_item);
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
+  return priv->id;
+}
+
+
+static const gchar *
+photos_base_item_main_box_item_get_primary_text (GdMainBoxItem *box_item)
+{
+  PhotosBaseItem *self = PHOTOS_BASE_ITEM (box_item);
+  PhotosBaseItemPrivate *priv;
+  const gchar *primary_text;
+
+  priv = photos_base_item_get_instance_private (self);
+
+  if (priv->collection)
+    primary_text = photos_base_item_get_name (self);
+  else
+    primary_text = NULL;
+
+  return primary_text;
+}
+
+
+static const gchar *
+photos_base_item_main_box_item_get_secondary_text (GdMainBoxItem *box_item)
+{
+  const gchar *author;
+
+  author = photos_base_item_get_author (PHOTOS_BASE_ITEM (box_item));
+  return author;
+}
+
+
+static const gchar *
+photos_base_item_main_box_item_get_uri (GdMainBoxItem *box_item)
+{
+  const gchar *uri;
+
+  uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (box_item));
+  return uri;
+}
+
+
+static void
+photos_base_item_refresh_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  g_autoptr (PhotosBaseItem) self = PHOTOS_BASE_ITEM (user_data);
+  PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
+  TrackerSparqlCursor *cursor = NULL; /* TODO: Use g_autoptr */
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = photos_single_item_job_finish (job, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to query single item: %s", error->message);
+        goto out;
+      }
+  }
+
+  if (cursor == NULL)
+    goto out;
+
+  photos_base_item_populate_from_cursor (self, cursor);
+
+ out:
+  g_clear_object (&cursor);
 }
 
 
@@ -2549,16 +2559,6 @@ photos_base_item_save_to_stream_load (GObject *source_object, GAsyncResult *res,
 
  out:
   return;
-}
-
-
-static void
-photos_base_item_set_thumbnailing_icon (PhotosBaseItem *self)
-{
-  if (thumbnailing_icon == NULL)
-    thumbnailing_icon = photos_base_item_create_placeholder_icon ("content-loading-symbolic");
-
-  photos_base_item_set_original_icon (self, thumbnailing_icon);
 }
 
 
