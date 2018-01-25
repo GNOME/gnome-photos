@@ -991,6 +991,40 @@ photos_base_item_default_open (PhotosBaseItem *self, GtkWindow *parent, guint32 
 
 
 static void
+photos_base_item_default_refresh_icon (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv;
+
+  priv = photos_base_item_get_instance_private (self);
+
+  if (priv->thumb_path != NULL)
+    {
+      photos_base_item_refresh_thumb_path (self);
+      return;
+    }
+
+  photos_base_item_set_thumbnailing_icon (self);
+
+  if (priv->failed_thumbnailing)
+    return;
+
+  if (priv->collection)
+    {
+      photos_base_item_refresh_collection_icon (self);
+      return;
+    }
+
+  photos_base_item_query_info_async (self,
+                                     G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
+                                     G_FILE_QUERY_INFO_NONE,
+                                     G_PRIORITY_DEFAULT,
+                                     priv->cancellable,
+                                     photos_base_item_file_query_info,
+                                     NULL);
+}
+
+
+static void
 photos_base_item_default_update_type_description (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
@@ -2621,40 +2655,6 @@ photos_base_item_save_to_stream_load (GObject *source_object, GAsyncResult *res,
 
 
 static void
-photos_base_item_refresh_icon (PhotosBaseItem *self)
-{
-  PhotosBaseItemPrivate *priv;
-
-  priv = photos_base_item_get_instance_private (self);
-
-  if (priv->thumb_path != NULL)
-    {
-      photos_base_item_refresh_thumb_path (self);
-      return;
-    }
-
-  photos_base_item_set_thumbnailing_icon (self);
-
-  if (priv->failed_thumbnailing)
-    return;
-
-  if (priv->collection)
-    {
-      photos_base_item_refresh_collection_icon (self);
-      return;
-    }
-
-  photos_base_item_query_info_async (self,
-                                     G_FILE_ATTRIBUTE_THUMBNAIL_PATH,
-                                     G_FILE_QUERY_INFO_NONE,
-                                     G_PRIORITY_DEFAULT,
-                                     priv->cancellable,
-                                     photos_base_item_file_query_info,
-                                     NULL);
-}
-
-
-static void
 photos_base_item_update_info_from_type (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
@@ -2809,7 +2809,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   name_fallback = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_name_fallback (self);
   photos_utils_take_string (&priv->name_fallback, name_fallback);
 
-  photos_base_item_refresh_icon (self);
+  PHOTOS_BASE_ITEM_GET_CLASS (self)->refresh_icon (self);
 }
 
 
@@ -3045,6 +3045,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
   class->create_thumbnail_path = photos_base_item_default_create_thumbnail_path;
   class->metadata_add_shared = photos_base_item_default_metadata_add_shared;
   class->open = photos_base_item_default_open;
+  class->refresh_icon = photos_base_item_default_refresh_icon;
   class->set_favorite = photos_base_item_default_set_favorite;
   class->update_type_description = photos_base_item_default_update_type_description;
 

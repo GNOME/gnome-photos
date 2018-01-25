@@ -69,6 +69,7 @@ struct _PhotosBaseItemClass
                                              GCancellable    *cancellable,
                                              GError         **error);
   void        (*open)                       (PhotosBaseItem *self, GtkWindow *parent, guint32 timestamp);
+  void        (*refresh_icon)               (PhotosBaseItem *self);
   void        (*set_favorite)               (PhotosBaseItem *self, gboolean favorite);
   void        (*trash)                      (PhotosBaseItem *self);
   void        (*update_type_description)    (PhotosBaseItem *self);
