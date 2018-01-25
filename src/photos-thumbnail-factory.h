@@ -19,7 +19,6 @@
 #ifndef PHOTOS_THUMBNAIL_FACTORY_H
 #define PHOTOS_THUMBNAIL_FACTORY_H
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
 
 G_BEGIN_DECLS

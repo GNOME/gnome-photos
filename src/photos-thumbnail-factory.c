@@ -118,45 +118,6 @@ photos_thumbnail_factory_connection_closed (PhotosThumbnailFactory *self,
 }
 
 
-static GdkPixbuf *
-photos_thumbnail_factory_get_preview (PhotosThumbnailFactory *self,
-                                      GFile *file,
-                                      gint size,
-                                      GCancellable *cancellable,
-                                      GError **error)
-{
-  g_autoptr (GFileInfo) info = NULL;
-  GIcon *icon;
-  g_autoptr (GInputStream) stream = NULL;
-  g_autoptr (GdkPixbuf) pixbuf = NULL;
-  GdkPixbuf *ret_val = NULL;
-
-  info = g_file_query_info (file, G_FILE_ATTRIBUTE_PREVIEW_ICON, G_FILE_QUERY_INFO_NONE, cancellable, error);
-  if (info == NULL)
-    goto out;
-
-  icon = G_ICON (g_file_info_get_attribute_object (info, G_FILE_ATTRIBUTE_PREVIEW_ICON));
-  if (!G_IS_LOADABLE_ICON (icon))
-    {
-      g_set_error (error, PHOTOS_ERROR, 0, "Preview icon is not loadable");
-      goto out;
-    }
-
-  stream = g_loadable_icon_load (G_LOADABLE_ICON (icon), 0, NULL, cancellable, error);
-  if (stream == NULL)
-    goto out;
-
-  pixbuf = gdk_pixbuf_new_from_stream_at_scale (stream, size, size, TRUE, cancellable, error);
-  if (pixbuf == NULL)
-    goto out;
-
-  ret_val = g_object_ref (pixbuf);
-
- out:
-  return ret_val;
-}
-
-
 static gboolean
 photos_thumbnail_factory_new_connection (PhotosThumbnailFactory *self, GDBusConnection *connection)
 {
@@ -364,10 +325,8 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
                                              GError **error)
 {
   GError *local_error = NULL;
-  g_autoptr (GdkPixbuf) pixbuf = NULL;
   gboolean mutex_connection_unlocked = FALSE;
   gboolean ret_val = FALSE;
-  gint thumbnail_size;
 
   g_return_val_if_fail (PHOTOS_IS_THUMBNAIL_FACTORY (self), FALSE);
   g_return_val_if_fail (G_IS_FILE (file), FALSE);
@@ -379,28 +338,6 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
 
   if (orientation == 0)
     orientation = PHOTOS_ORIENTATION_TOP;
-
-  thumbnail_size = photos_utils_get_icon_size ();
-
-  {
-    g_autoptr (GError) preview_error = NULL;
-
-    pixbuf = photos_thumbnail_factory_get_preview (self, file, thumbnail_size, cancellable, &preview_error);
-    if (preview_error != NULL)
-      {
-        if (g_error_matches (preview_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-          {
-            local_error = g_steal_pointer (&preview_error);
-            goto out;
-          }
-      }
-  }
-
-  if (pixbuf != NULL)
-    {
-      ret_val = TRUE;
-      goto out;
-    }
 
   if (self->connection == NULL)
     {
@@ -462,12 +399,14 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
       const gchar *orientation_str;
       g_autofree gchar *thumbnail_path = NULL;
       g_autofree gchar *uri = NULL;
+      gint thumbnail_size;
 
       g_assert_true (PHOTOS_IS_THUMBNAILER_DBUS (self->thumbnailer));
 
       uri = g_file_get_uri (file);
       orientation_str = g_quark_to_string (orientation);
       thumbnail_path = photos_utils_get_thumbnail_path_for_file (file);
+      thumbnail_size = photos_utils_get_icon_size ();
 
       photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Calling GenerateThumbnail for %s", uri);
       if (!photos_thumbnailer_dbus_call_generate_thumbnail_sync (self->thumbnailer,
