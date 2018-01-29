@@ -242,7 +242,7 @@ static void
 photos_tool_crop_redraw_damaged_area (PhotosToolCrop *self)
 {
   cairo_rectangle_int_t area;
-  cairo_region_t *region;
+  cairo_region_t *region; /* TODO: use g_autoptr */
   gdouble damage_offset = HANDLE_OFFSET + HANDLE_RADIUS;
   gdouble x;
   gdouble y;
@@ -282,7 +282,7 @@ photos_tool_crop_surface_create (PhotosToolCrop *self)
 static void
 photos_tool_crop_surface_draw (PhotosToolCrop *self)
 {
-  cairo_t *cr;
+  cairo_t *cr; /* TODO: use g_autoptr */
 
   cr = cairo_create (self->surface);
   cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
@@ -722,7 +722,7 @@ photos_tool_crop_set_crop (PhotosToolCrop *self, gdouble event_x, gdouble event_
 static void
 photos_tool_crop_set_cursor (PhotosToolCrop *self)
 {
-  GdkCursor *cursor = NULL;
+  g_autoptr (GdkCursor) cursor = NULL;
   GdkCursorType cursor_type;
   GdkDisplay *display;
   GdkWindow *window;
@@ -780,7 +780,6 @@ photos_tool_crop_set_cursor (PhotosToolCrop *self)
 
  set_cursor:
   gdk_window_set_cursor (window, cursor);
-  g_clear_object (&cursor);
 }
 
 
@@ -915,7 +914,7 @@ static void
 photos_tool_crop_start_constraint_animation (PhotosToolCrop *self)
 {
   GdkFrameClock *frame_clock;
-  PhotosToolCropHelper *helper;
+  g_autoptr (PhotosToolCropHelper) helper = NULL;
 
   g_return_if_fail (self->constraint_animation == NULL);
   g_return_if_fail (self->crop_height >= 0.0);
@@ -948,8 +947,6 @@ photos_tool_crop_start_constraint_animation (PhotosToolCrop *self)
                                                         "y", self->crop_y,
                                                         NULL);
   g_object_add_weak_pointer (G_OBJECT (self->constraint_animation), (gpointer *) &self->constraint_animation);
-
-  g_object_unref (helper);
 }
 
 
@@ -1100,20 +1097,21 @@ static void
 photos_tool_crop_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosToolCrop *self;
-  GError *error = NULL;
   GtkWidget *orientation_button;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   gdouble zoom;
   guint active;
 
-  photos_base_item_operation_remove_finish (item, res, &error);
-  if (error != NULL)
-    {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to process item: %s", error->message);
-      g_error_free (error);
-      return;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_operation_remove_finish (item, res, &error))
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to process item: %s", error->message);
+        return;
+      }
+  }
 
   self = PHOTOS_TOOL_CROP (user_data);
 
@@ -1443,7 +1441,7 @@ static void
 photos_tool_crop_init (PhotosToolCrop *self)
 {
   GApplication *app;
-  GtkSizeGroup *orientation_size_group = NULL;
+  g_autoptr (GtkSizeGroup) orientation_size_group = NULL;
   GtkStyleContext *context;
   GtkWidget *orientation_box;
   GtkWidget *ratio_grid;
@@ -1558,8 +1556,6 @@ photos_tool_crop_init (PhotosToolCrop *self)
 
   self->event_x_last = -1.0;
   self->event_y_last = -1.0;
-
-  g_object_unref (orientation_size_group);
 }
 
 
