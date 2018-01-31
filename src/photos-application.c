@@ -339,6 +339,17 @@ photos_application_actions_update (PhotosApplication *self)
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   selection_mode = photos_utils_get_selection_mode ();
 
+  if (selection_mode)
+    {
+      const gchar *selection_mode_accels[] = { "Escape", NULL };
+      gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", selection_mode_accels);
+    }
+  else
+    {
+      const gchar *selection_mode_accels[] = { NULL };
+      gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", selection_mode_accels);
+    }
+
   if (mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW
       || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
       || mode == PHOTOS_WINDOW_MODE_FAVORITES
@@ -1771,17 +1782,6 @@ photos_application_selection_changed (PhotosApplication *self)
 static void
 photos_application_selection_mode_notify_state (PhotosApplication *self)
 {
-  if (photos_utils_get_selection_mode ())
-    {
-      const gchar *selection_mode_accels[] = {"Escape", NULL};
-      gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", selection_mode_accels);
-    }
-  else
-    {
-      const gchar *selection_mode_accels[] = {NULL};
-      gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", selection_mode_accels);
-    }
-
   photos_application_actions_update (self);
 }
 
