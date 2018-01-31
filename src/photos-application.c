@@ -331,6 +331,8 @@ photos_application_actions_update (PhotosApplication *self)
   gboolean can_trash;
   gboolean enable;
   gboolean selection_mode;
+  const gchar *cancel_accels[] = { "Escape", NULL };
+  const gchar *null_accels[] = { NULL };
   guint n_items = 0;
 
   item = photos_application_get_selection_or_active_item (self);
@@ -341,13 +343,50 @@ photos_application_actions_update (PhotosApplication *self)
 
   if (selection_mode)
     {
-      const gchar *selection_mode_accels[] = { "Escape", NULL };
-      gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", selection_mode_accels);
+      gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.edit-cancel", null_accels);
+
+      switch (mode)
+        {
+        case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+        case PHOTOS_WINDOW_MODE_COLLECTIONS:
+        case PHOTOS_WINDOW_MODE_FAVORITES:
+        case PHOTOS_WINDOW_MODE_OVERVIEW:
+        case PHOTOS_WINDOW_MODE_SEARCH:
+          gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", cancel_accels);
+          break;
+
+        case PHOTOS_WINDOW_MODE_NONE:
+        case PHOTOS_WINDOW_MODE_EDIT:
+        case PHOTOS_WINDOW_MODE_PREVIEW:
+        default:
+          g_assert_not_reached ();
+          break;
+        }
     }
   else
     {
-      const gchar *selection_mode_accels[] = { NULL };
-      gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", selection_mode_accels);
+      gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", null_accels);
+
+      switch (mode)
+        {
+        case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
+        case PHOTOS_WINDOW_MODE_COLLECTIONS:
+        case PHOTOS_WINDOW_MODE_FAVORITES:
+        case PHOTOS_WINDOW_MODE_OVERVIEW:
+        case PHOTOS_WINDOW_MODE_PREVIEW:
+        case PHOTOS_WINDOW_MODE_SEARCH:
+          gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.edit-cancel", null_accels);
+          break;
+
+        case PHOTOS_WINDOW_MODE_EDIT:
+          gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.edit-cancel", cancel_accels);
+          break;
+
+        case PHOTOS_WINDOW_MODE_NONE:
+        default:
+          g_assert_not_reached ();
+          break;
+        }
     }
 
   if (mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW

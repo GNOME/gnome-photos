@@ -204,21 +204,6 @@ photos_main_window_handle_back_key (PhotosMainWindow *self, GdkEventKey *event)
 
 
 static gboolean
-photos_main_window_handle_key_edit (PhotosMainWindow *self, GdkEventKey *event)
-{
-  gboolean handled = FALSE;
-
-  if (event->keyval == GDK_KEY_Escape)
-    {
-      g_action_activate (self->edit_cancel, NULL);
-      handled = TRUE;
-    }
-
-  return handled;
-}
-
-
-static gboolean
 photos_main_window_handle_key_preview (PhotosMainWindow *self, GdkEventKey *event)
 {
   gboolean fullscreen;
@@ -275,14 +260,11 @@ photos_main_window_key_press_event (GtkWidget *widget, GdkEventKey *event)
     case PHOTOS_WINDOW_MODE_NONE:
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
+    case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       handled = GDK_EVENT_PROPAGATE;
-      break;
-
-    case PHOTOS_WINDOW_MODE_EDIT:
-      handled = photos_main_window_handle_key_edit (self, event);
       break;
 
     case PHOTOS_WINDOW_MODE_PREVIEW:
