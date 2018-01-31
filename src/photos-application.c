@@ -1773,12 +1773,12 @@ photos_application_selection_mode_notify_state (PhotosApplication *self)
 {
   if (photos_utils_get_selection_mode ())
     {
-      const gchar *selection_mode_accels[2] = {"Escape", NULL};
+      const gchar *selection_mode_accels[] = {"Escape", NULL};
       gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", selection_mode_accels);
     }
   else
     {
-      const gchar *selection_mode_accels[1] = {NULL};
+      const gchar *selection_mode_accels[] = {NULL};
       gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.selection-mode", selection_mode_accels);
     }
 
