@@ -114,6 +114,8 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
   g_autoptr (GHashTable) new_sources = NULL;
   GList *accounts = NULL;
   GList *l;
+  PhotosSource *active_source;
+  const gchar *active_id;
   guint i;
   guint n_items;
 
@@ -144,6 +146,14 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
       source = photos_source_new_from_goa_object (GOA_OBJECT (l->data));
       id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
       g_hash_table_insert (new_sources, g_strdup (id), g_object_ref (source));
+    }
+
+  active_source = PHOTOS_SOURCE (photos_base_manager_get_active_object (PHOTOS_BASE_MANAGER (self)));
+  active_id = photos_filterable_get_id (PHOTOS_FILTERABLE (active_source));
+  if (!photos_filterable_get_builtin (PHOTOS_FILTERABLE (active_source))
+      && !g_hash_table_contains (new_sources, active_id))
+    {
+      photos_base_manager_set_active_object_by_id (PHOTOS_BASE_MANAGER (self), PHOTOS_SOURCE_STOCK_ALL);
     }
 
   photos_base_manager_process_new_objects (PHOTOS_BASE_MANAGER (self), new_sources);
