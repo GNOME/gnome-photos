@@ -382,18 +382,22 @@ static void
 photos_tracker_controller_refresh_for_source (PhotosTrackerController *self)
 {
   PhotosTrackerControllerPrivate *priv;
-  PhotosSource *source;
 
   priv = photos_tracker_controller_get_instance_private (self);
 
-  source = photos_query_get_source (priv->current_query);
-  if (source != NULL)
+  if (priv->current_query != NULL)
     {
-      const gchar *id;
+      PhotosSource *source;
 
-      id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
-      if (g_strcmp0 (id, PHOTOS_SOURCE_STOCK_ALL) == 0)
-        photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_NONE);
+      source = photos_query_get_source (priv->current_query);
+      if (source != NULL)
+        {
+          const gchar *id;
+
+          id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
+          if (g_strcmp0 (id, PHOTOS_SOURCE_STOCK_ALL) == 0)
+            photos_tracker_controller_refresh_internal (self, PHOTOS_TRACKER_REFRESH_FLAGS_NONE);
+        }
     }
 
   priv->refresh_pending = FALSE;
