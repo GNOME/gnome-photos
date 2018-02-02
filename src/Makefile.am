@@ -395,6 +395,7 @@ AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
 	$(BABL_CFLAGS) \
 	$(CAIRO_CFLAGS) \
+	$(DAZZLE_CFLAGS) \
 	$(GDATA_CFLAGS) \
 	$(GDK_PIXBUF_CFLAGS) \
 	$(GEOCODE_CFLAGS) \
@@ -424,6 +425,7 @@ gnome_photos_LDFLAGS = \
 gnome_photos_LDADD = \
 	$(BABL_LIBS) \
 	$(CAIRO_LIBS) \
+	$(DAZZLE_LIBS) \
 	$(GDATA_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
 	$(GEOCODE_LIBS) \
