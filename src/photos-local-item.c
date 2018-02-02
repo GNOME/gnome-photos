@@ -26,6 +26,7 @@
 
 #include "config.h"
 
+#include <dazzle.h>
 #include <gexiv2/gexiv2.h>
 #include <gio/gio.h>
 #include <glib.h>
@@ -55,80 +56,45 @@ G_DEFINE_TYPE_WITH_CODE (PhotosLocalItem, photos_local_item, PHOTOS_TYPE_BASE_IT
 static gboolean
 photos_local_item_source_widget_activate_link (GtkLinkButton *button, gpointer user_data)
 {
-  g_autoptr (GAppInfo) default_app = NULL;
-  g_autoptr (GAppInfo) nautilus_app = NULL;
-  g_autoptr (GAppLaunchContext) ctx = NULL;
+  GApplication *app;
+  g_autoptr (GFile) file  = NULL;
+  GtkWindow *parent;
   PhotosLocalItem *self;
   gboolean ret_val = GDK_EVENT_PROPAGATE;
-  const gchar *commandline = "nautilus --select";
-  const gchar *default_app_id;
+  guint32 time;
   const gchar *source_uri;
   const gchar *uri;
-  g_autofree gchar *command_line = NULL;
-  g_autofree gchar *source_uri_scheme = NULL;
 
   g_return_val_if_fail (GTK_IS_LINK_BUTTON (button), GDK_EVENT_PROPAGATE);
   g_return_val_if_fail (PHOTOS_IS_LOCAL_ITEM (user_data), GDK_EVENT_PROPAGATE);
 
   self = PHOTOS_LOCAL_ITEM (user_data);
-
-  source_uri = gtk_link_button_get_uri (button);
-
-  /* Even though g_file_query_default_handler calls
-   * g_app_info_get_default_for_uri_scheme, we have to do it here in
-   * case GFile can't parse source_uri correctly.
-   *
-   * See glib/gio/gappinfo.c
-   */
-
-  source_uri_scheme = g_uri_parse_scheme (source_uri);
-  if (source_uri_scheme != NULL && source_uri_scheme[0] != '\0')
-    default_app = g_app_info_get_default_for_uri_scheme (source_uri_scheme);
-
-  if (default_app == NULL)
-    {
-      g_autoptr (GFile) source_link = NULL;
-
-      source_link = g_file_new_for_uri (source_uri);
-
-      {
-        g_autoptr (GError) error = NULL;
-
-        default_app = g_file_query_default_handler (source_link, NULL, &error);
-        if (error != NULL)
-          {
-            g_warning ("Unable to query default handler for %s: %s", source_uri, error->message);
-            goto out;
-          }
-      }
-    }
-
-  g_return_val_if_fail (G_IS_APP_INFO (default_app), GDK_EVENT_PROPAGATE);
-
-  default_app_id = g_app_info_get_id (default_app);
-  if (g_strcmp0 (default_app_id, "org.gnome.Nautilus.desktop") != 0)
-    goto out;
+  uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (self));
+  file = g_file_new_for_uri (uri);
 
   {
     g_autoptr (GError) error = NULL;
 
-    nautilus_app = g_app_info_create_from_commandline (commandline, NULL, G_APP_INFO_CREATE_NONE, &error);
-    if (error != NULL)
+    if (!dzl_file_manager_show (file, &error))
+      g_warning ("Failed to query org.freedesktop.FileManager1 D-Bus: %s", error->message);
+    else
       {
-        g_warning ("Unable to create GAppInfo from '%s': %s", commandline, error->message);
+        ret_val = TRUE;
         goto out;
       }
   }
 
-  uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (self));
-  ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (button));
+  app = g_application_get_default ();
+  parent = gtk_application_get_active_window (GTK_APPLICATION (app));
+  time = gtk_get_current_event_time ();
+  source_uri = gtk_link_button_get_uri (button);
 
   {
     g_autoptr (GError) error = NULL;
 
-    if (!photos_glib_app_info_launch_uri (nautilus_app, uri, ctx, &error))
+    if (!gtk_show_uri_on_window (parent, source_uri, time, &error))
       {
-        g_warning ("Unable to launch '%s': %s", commandline, error->message);
+        g_warning ("Fallback: Failed to open uri: %s", error->message);
         goto out;
       }
   }

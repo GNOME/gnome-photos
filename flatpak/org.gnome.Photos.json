@@ -17,6 +17,7 @@
         "--socket=wayland",
         "--socket=x11",
         "--talk-name=ca.desrt.dconf",
+        "--talk-name=org.freedesktop.FileManager1",
         "--talk-name=org.freedesktop.Tracker1",
         "--talk-name=org.freedesktop.Tracker1.Miner.Extract",
         "--talk-name=com.intel.dleyna-renderer",
@@ -66,6 +67,16 @@
                 {
                     "type": "git",
                     "url": "https://git.gnome.org/browse/geocode-glib"
+                }
+            ]
+        },
+        {
+            "name": "libdazzle",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/libdazzle.git"
                 }
             ]
         },
