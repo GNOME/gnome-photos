@@ -214,15 +214,25 @@ static void
 photos_embed_restore_search (PhotosEmbed *self)
 {
   GVariant *state;
+  PhotosSource *source;
+  const gchar *id;
 
   if (!self->search_state.saved)
     return;
 
   photos_embed_block_search_changed (self);
-  photos_base_manager_set_active_object (self->src_mngr, self->search_state.source);
+
+  id = photos_filterable_get_id (PHOTOS_FILTERABLE (self->search_state.source));
+  source = PHOTOS_SOURCE (photos_base_manager_get_object_by_id (self->src_mngr, id));
+  if (source == NULL)
+    id = PHOTOS_SOURCE_STOCK_ALL;
+
+  photos_base_manager_set_active_object_by_id (self->src_mngr, id);
+
   photos_base_manager_set_active_object (self->srch_mtch_mngr, self->search_state.search_match);
   photos_base_manager_set_active_object (self->srch_typ_mngr, self->search_state.search_type);
   photos_search_controller_set_string (self->srch_cntrlr, self->search_state.str);
+
   photos_embed_unblock_search_changed (self);
 
   self->search_state.saved = FALSE;
@@ -484,8 +494,15 @@ photos_embed_prepare_for_search (PhotosEmbed *self, PhotosWindowMode old_mode)
   if (old_mode == PHOTOS_WINDOW_MODE_PREVIEW)
     photos_embed_tracker_controllers_set_frozen (self, FALSE);
 
-  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (self->spinner_box));
-  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "search");
+  if (photos_embed_is_search_constraint_present (self))
+    {
+      photos_spinner_box_stop (PHOTOS_SPINNER_BOX (self->spinner_box));
+      gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "search");
+    }
+  else
+    {
+      photos_mode_controller_go_back (self->mode_cntrlr);
+    }
 }
 
 
