@@ -188,6 +188,28 @@ photos_embed_activate_result (PhotosEmbed *self)
 }
 
 
+static gboolean
+photos_embed_is_search_constraint_present (PhotosEmbed *self)
+{
+  GObject *object;
+  const gchar *search_type_id;
+  const gchar *source_id;
+  const gchar *str;
+
+  object = photos_base_manager_get_active_object (self->src_mngr);
+  source_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
+
+  object = photos_base_manager_get_active_object (self->srch_typ_mngr);
+  search_type_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
+
+  str = photos_search_controller_get_string (self->srch_cntrlr);
+
+  return g_strcmp0 (search_type_id, PHOTOS_SEARCH_TYPE_STOCK_ALL) != 0
+    || g_strcmp0 (source_id, PHOTOS_SOURCE_STOCK_ALL) != 0
+    || (str != NULL && str [0] != '\0');
+}
+
+
 static void
 photos_embed_restore_search (PhotosEmbed *self)
 {
@@ -480,11 +502,6 @@ photos_embed_query_status_changed (PhotosEmbed *self, gboolean querying)
 static void
 photos_embed_search_changed (PhotosEmbed *self)
 {
-  GObject *object;
-  const gchar *search_type_id;
-  const gchar *source_id;
-  const gchar *str;
-
   /* Whenever a search constraint is specified, we switch to the
    * search mode. Search is always global. If we are in
    * collection-view, we go back to the previous top-level mode and
@@ -501,21 +518,7 @@ photos_embed_search_changed (PhotosEmbed *self)
 
   self->search_changed = TRUE;
 
-  object = photos_base_manager_get_active_object (self->src_mngr);
-  source_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
-
-  object = photos_base_manager_get_active_object (self->srch_typ_mngr);
-  search_type_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
-
-  str = photos_search_controller_get_string (self->srch_cntrlr);
-
-  if (g_strcmp0 (search_type_id, PHOTOS_SEARCH_TYPE_STOCK_ALL) == 0
-      && g_strcmp0 (source_id, PHOTOS_SOURCE_STOCK_ALL) == 0
-      && (str == NULL || str [0] == '\0'))
-    {
-      photos_mode_controller_go_back (self->mode_cntrlr);
-    }
-  else
+  if (photos_embed_is_search_constraint_present (self))
     {
       PhotosWindowMode mode;
 
@@ -524,6 +527,10 @@ photos_embed_search_changed (PhotosEmbed *self)
         photos_mode_controller_go_back (self->mode_cntrlr);
 
       photos_mode_controller_set_window_mode (self->mode_cntrlr, PHOTOS_WINDOW_MODE_SEARCH);
+    }
+  else
+    {
+      photos_mode_controller_go_back (self->mode_cntrlr);
     }
 
   self->search_changed = FALSE;
