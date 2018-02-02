@@ -33,8 +33,6 @@
 #include "photos-operation-jpg-guess-sizes.h"
 #include "photos-operation-png-guess-sizes.h"
 #include "photos-operation-saturation.h"
-#include "photos-operation-shadows-highlights.h"
-#include "photos-operation-shadows-highlights-correction.h"
 #include "photos-operation-svg-multiply.h"
 #include "photos-quarks.h"
 
@@ -53,16 +51,15 @@ static const gchar *REQUIRED_GEGL_OPS[] =
 {
   "gegl:buffer-sink",
   "gegl:buffer-source",
-  "gegl:convert-format",
   "gegl:crop",
   "gegl:exposure",
-  "gegl:gaussian-blur",
   "gegl:gray",
   "gegl:load",
   "gegl:noise-reduction",
   "gegl:nop",
   "gegl:save-pixbuf",
   "gegl:scale-ratio",
+  "gegl:shadows-highlights",
   "gegl:unsharp-mask",
 
   /* Used by gegl:load */
@@ -566,8 +563,6 @@ photos_gegl_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_OPERATION_JPG_GUESS_SIZES);
       g_type_ensure (PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES);
       g_type_ensure (PHOTOS_TYPE_OPERATION_SATURATION);
-      g_type_ensure (PHOTOS_TYPE_OPERATION_SHADOWS_HIGHLIGHTS);
-      g_type_ensure (PHOTOS_TYPE_OPERATION_SHADOWS_HIGHLIGHTS_CORRECTION);
       g_type_ensure (PHOTOS_TYPE_OPERATION_SVG_MULTIPLY);
 
       g_once_init_leave (&once_init_value, 1);

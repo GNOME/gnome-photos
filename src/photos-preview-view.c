@@ -645,7 +645,7 @@ photos_preview_view_shadows_highlights (PhotosPreviewView *self, GVariant *param
                                         self->cancellable,
                                         photos_preview_view_process,
                                         self,
-                                        "photos:shadows-highlights",
+                                        "gegl:shadows-highlights",
                                         "shadows", shadows,
                                         "highlights", highlights,
                                         NULL);

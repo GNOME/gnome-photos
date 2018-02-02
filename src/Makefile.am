@@ -167,10 +167,6 @@ gnome_photos_SOURCES = \
 	photos-operation-png-guess-sizes.h \
 	photos-operation-saturation.c \
 	photos-operation-saturation.h \
-	photos-operation-shadows-highlights.c \
-	photos-operation-shadows-highlights.h \
-	photos-operation-shadows-highlights-correction.c \
-	photos-operation-shadows-highlights-correction.h \
 	photos-operation-svg-multiply.c \
 	photos-operation-svg-multiply.h \
 	photos-organize-collection-dialog.c \
@@ -343,10 +339,6 @@ gnome_photos_thumbnailer_SOURCES = \
 	photos-operation-png-guess-sizes.h \
 	photos-operation-saturation.c \
 	photos-operation-saturation.h \
-	photos-operation-shadows-highlights.c \
-	photos-operation-shadows-highlights.h \
-	photos-operation-shadows-highlights-correction.c \
-	photos-operation-shadows-highlights-correction.h \
 	photos-operation-svg-multiply.c \
 	photos-operation-svg-multiply.h \
 	photos-pipeline.c \

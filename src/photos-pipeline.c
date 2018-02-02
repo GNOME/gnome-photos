@@ -59,7 +59,7 @@ static const gchar *OPERATIONS[] =
 {
   "gegl:crop",
   "gegl:noise-reduction",
-  "photos:shadows-highlights",
+  "gegl:shadows-highlights",
   "photos:saturation",
   "photos:insta-filter"
 };
