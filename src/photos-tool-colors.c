@@ -253,7 +253,7 @@ photos_tool_colors_activate (PhotosTool *tool, PhotosBaseItem *item, PhotosImage
     saturation = SATURATION_DEFAULT;
 
   if (photos_base_item_operation_get (item,
-                                      "photos:shadows-highlights",
+                                      "gegl:shadows-highlights",
                                       "highlights", &highlights_real,
                                       "shadows", &shadows_real,
                                       NULL))
