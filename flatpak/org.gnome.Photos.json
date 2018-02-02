@@ -277,7 +277,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/gnome-photos"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-photos.git"
                 }
             ]
         }
