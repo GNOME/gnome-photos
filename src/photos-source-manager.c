@@ -208,7 +208,7 @@ static void
 photos_source_manager_goa_client (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSourceManager *self;
-  GoaClient *client;
+  g_autoptr (GoaClient) client = NULL;
 
   {
     g_autoptr (GError) error = NULL;
@@ -216,30 +216,36 @@ photos_source_manager_goa_client (GObject *source_object, GAsyncResult *res, gpo
     client = goa_client_new_finish (res, &error);
     if (error != NULL)
       {
-        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-          g_warning ("Unable to create GoaClient: %s", error->message);
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          goto out;
 
-        return;
+        g_warning ("Unable to create GoaClient: %s", error->message);
       }
   }
 
   self = PHOTOS_SOURCE_MANAGER (user_data);
 
-  self->client = client;
-  g_signal_connect_swapped (self->client,
-                            "account-added",
-                            G_CALLBACK (photos_source_manager_refresh_accounts),
-                            self);
-  g_signal_connect_swapped (self->client,
-                            "account-changed",
-                            G_CALLBACK (photos_source_manager_refresh_accounts),
-                            self);
-  g_signal_connect_swapped (self->client,
-                            "account-removed",
-                            G_CALLBACK (photos_source_manager_refresh_accounts),
-                            self);
+  if (client != NULL)
+    {
+      self->client = g_object_ref (client);
+      g_signal_connect_swapped (self->client,
+                                "account-added",
+                                G_CALLBACK (photos_source_manager_refresh_accounts),
+                                self);
+      g_signal_connect_swapped (self->client,
+                                "account-changed",
+                                G_CALLBACK (photos_source_manager_refresh_accounts),
+                                self);
+      g_signal_connect_swapped (self->client,
+                                "account-removed",
+                                G_CALLBACK (photos_source_manager_refresh_accounts),
+                                self);
 
-  photos_source_manager_refresh_accounts (self);
+      photos_source_manager_refresh_accounts (self);
+    }
+
+ out:
+  return;
 }
 
 
