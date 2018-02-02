@@ -405,7 +405,7 @@ photos_tracker_controller_refresh_for_source (PhotosTrackerController *self)
 
 
 static void
-photos_tracker_controller_source_object_added_removed (PhotosTrackerController *self)
+photos_tracker_controller_source_object_added_removed (PhotosTrackerController *self, GObject *source)
 {
   PhotosTrackerControllerPrivate *priv;
   PhotosWindowMode mode;
@@ -414,11 +414,17 @@ photos_tracker_controller_source_object_added_removed (PhotosTrackerController *
 
   g_return_if_fail (priv->mode_cntrlr != NULL);
 
+  if (!photos_filterable_is_search_criterion (PHOTOS_FILTERABLE (source)))
+    goto out;
+
   mode = photos_mode_controller_get_window_mode (priv->mode_cntrlr);
   if (mode == priv->mode)
     photos_tracker_controller_refresh_for_source (self);
   else
     priv->refresh_pending = TRUE;
+
+ out:
+  return;
 }
 
 
