@@ -26,6 +26,7 @@
 
 #include "config.h"
 
+#include <dazzle.h>
 #include <gexiv2/gexiv2.h>
 #include <gio/gio.h>
 #include <glib.h>
@@ -71,6 +72,20 @@ photos_local_item_source_widget_activate_link (GtkLinkButton *button, gpointer u
   g_return_val_if_fail (PHOTOS_IS_LOCAL_ITEM (user_data), GDK_EVENT_PROPAGATE);
 
   self = PHOTOS_LOCAL_ITEM (user_data);
+  uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (self));
+
+  {
+    g_autoptr (GError) error = NULL;
+    g_autoptr (GFile) file  = NULL;
+
+    file = g_file_new_for_uri (uri);
+    ret_val = dzl_file_manager_show (file, &error);
+
+    if (error)
+      g_warning ("Failed to query org.freedesktop.FileManager1 D-Bus: %s", error->message);
+    else
+      goto out;
+  }
 
   source_uri = gtk_link_button_get_uri (button);
 
@@ -120,7 +135,6 @@ photos_local_item_source_widget_activate_link (GtkLinkButton *button, gpointer u
       }
   }
 
-  uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (self));
   ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (button));
 
   {
