@@ -546,7 +546,7 @@ photos_item_manager_get_where (PhotosBaseManager *mngr, gint flags)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (mngr);
 
-  if (self->active_collection == NULL)
+  if (self->active_collection == NULL || (flags & PHOTOS_QUERY_FLAGS_SEARCH) != 0)
     return g_strdup ("");
 
   return photos_base_item_get_where (self->active_collection);
