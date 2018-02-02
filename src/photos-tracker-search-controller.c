@@ -136,30 +136,34 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   self->src_mngr = g_object_ref (state->src_mngr);
-  g_signal_connect_swapped (self->src_mngr,
-                            "active-changed",
-                            G_CALLBACK (photos_tracker_controller_refresh_for_object),
-                            self);
+  g_signal_connect_object (self->src_mngr,
+                           "active-changed",
+                           G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   self->srch_mtch_mngr = g_object_ref (state->srch_mtch_mngr);
-  g_signal_connect_swapped (self->srch_mtch_mngr,
-                            "active-changed",
-                            G_CALLBACK (photos_tracker_search_controller_search_match_active_changed),
-                            self);
+  g_signal_connect_object (self->srch_mtch_mngr,
+                           "active-changed",
+                           G_CALLBACK (photos_tracker_search_controller_search_match_active_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   self->srch_typ_mngr = g_object_ref (state->srch_typ_mngr);
-  g_signal_connect_swapped (self->srch_typ_mngr,
-                            "active-changed",
-                            G_CALLBACK (photos_tracker_controller_refresh_for_object),
-                            self);
+  g_signal_connect_object (self->srch_typ_mngr,
+                           "active-changed",
+                           G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   self->offset_cntrlr = photos_offset_search_controller_dup_singleton ();
 
   self->srch_cntrlr = g_object_ref (state->srch_cntrlr);
-  g_signal_connect_swapped (self->srch_cntrlr,
-                            "search-string-changed",
-                            G_CALLBACK (photos_tracker_controller_refresh_for_object),
-                            self);
+  g_signal_connect_object (self->srch_cntrlr,
+                           "search-string-changed",
+                           G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 
