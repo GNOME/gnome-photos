@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <dazzle.h>
 #include <gio/gdesktopappinfo.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
@@ -164,9 +165,24 @@ photos_export_notification_export_folder (PhotosExportNotification *self)
   time = gtk_get_current_event_time ();
 
   if (self->items->next == NULL) /* length == 1 */
-    directory = g_file_get_parent (self->file);
+    {
+      {
+        g_autoptr (GError) error = NULL;
+        g_autofree gchar *file_uri = NULL;
+
+        if (dzl_file_manager_show (self->file, &error))
+          goto out;
+
+        file_uri = g_file_get_uri (self->file);
+        g_warning ("Unable to use org.freedesktop.FileManager1 for %s: %s", file_uri, error->message);
+      }
+
+      directory = g_file_get_parent (self->file);
+    }
   else
-    directory = g_object_ref (self->file);
+    {
+      directory = g_object_ref (self->file);
+    }
 
   directory_uri = g_file_get_uri (directory);
 
@@ -177,6 +193,7 @@ photos_export_notification_export_folder (PhotosExportNotification *self)
       g_warning ("Failed to open uri: %s", error->message);
   }
 
+ out:
   photos_export_notification_destroy (self);
 }
 
