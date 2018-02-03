@@ -1439,18 +1439,6 @@ photos_application_save_response (GtkDialog *dialog, gint response_id, gpointer 
   pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
   export_path = g_build_filename (pictures_path, PHOTOS_EXPORT_SUBPATH, NULL);
   export_dir = g_file_new_for_path (export_path);
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    if (!photos_glib_make_directory_with_parents (export_dir, NULL, &error))
-      {
-        g_warning ("Unable to create %s: %s", export_path, error->message);
-        photos_export_notification_new_with_error (error);
-        goto out;
-      }
-  }
-
   export_dir_name = photos_export_dialog_get_dir_name (PHOTOS_EXPORT_DIALOG (dialog));
 
   {
