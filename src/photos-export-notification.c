@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <dazzle.h>
 #include <gio/gdesktopappinfo.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
@@ -166,9 +167,24 @@ photos_export_notification_export_folder (PhotosExportNotification *self)
   time = gtk_get_current_event_time ();
 
   if (self->items->next == NULL) /* length == 1 */
-    directory = g_file_get_parent (self->file);
+    {
+      error = NULL;
+      if (!dzl_file_manager_show (self->file, &error))
+        {
+          g_warning ("Failed to query org.freedesktop.FileManager1 D-Bus: %s", error->message);
+          g_error_free (error);
+        }
+      else
+        {
+          goto out;
+        }
+
+      directory = g_file_get_parent (self->file);
+    }
   else
-    directory = g_object_ref (self->file);
+    {
+      directory = g_object_ref (self->file);
+    }
 
   uri = g_file_get_uri (directory);
 
@@ -179,9 +195,11 @@ photos_export_notification_export_folder (PhotosExportNotification *self)
       g_error_free (error);
     }
 
-  photos_export_notification_destroy (self);
   g_object_unref (directory);
   g_free (uri);
+
+out:
+  photos_export_notification_destroy (self);
 }
 
 
