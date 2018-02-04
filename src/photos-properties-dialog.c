@@ -413,7 +413,7 @@ photos_properties_dialog_constructed (GObject *object)
   date_modified_str = g_date_time_format (date_modified, "%c");
 
   ctime = photos_base_item_get_date_created (item);
-  if (ctime != -1)
+  if (ctime >= 0)
     {
       g_autoptr (GDateTime) date_created = NULL;
 
