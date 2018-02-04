@@ -504,16 +504,17 @@ static void
 photos_application_tracker_clear_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error;
   TrackerExtractPriority *extract_priority = TRACKER_EXTRACT_PRIORITY (source_object);
 
-  error = NULL;
-  if (!tracker_extract_priority_call_clear_rdf_types_finish (extract_priority, res, &error))
-    {
-      g_warning ("Unable to call ClearRdfTypes: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!tracker_extract_priority_call_clear_rdf_types_finish (extract_priority, res, &error))
+      {
+        g_warning ("Unable to call ClearRdfTypes: %s", error->message);
+        goto out;
+      }
+  }
 
  out:
   g_application_release (G_APPLICATION (self));
@@ -659,17 +660,19 @@ static void
 photos_application_tracker_set_rdf_types (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error;
   TrackerExtractPriority *extract_priority = TRACKER_EXTRACT_PRIORITY (source_object);
 
-  error = NULL;
-  if (!tracker_extract_priority_call_set_rdf_types_finish (extract_priority, res, &error))
-    {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to call SetRdfTypes: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!tracker_extract_priority_call_set_rdf_types_finish (extract_priority, res, &error))
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to call SetRdfTypes: %s", error->message);
+
+        goto out;
+      }
+  }
 
  out:
   g_application_release (G_APPLICATION (self));
@@ -680,18 +683,20 @@ static void
 photos_application_tracker_extract_priority (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error;
   const gchar *const rdf_types[] = {"nfo:Image", NULL};
 
-  error = NULL;
-  self->extract_priority = tracker_extract_priority_proxy_new_for_bus_finish (res, &error);
-  if (error != NULL)
-    {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to create TrackerExtractPriority proxy: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    self->extract_priority = tracker_extract_priority_proxy_new_for_bus_finish (res, &error);
+    if (error != NULL)
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to create TrackerExtractPriority proxy: %s", error->message);
+
+        goto out;
+      }
+  }
 
   g_application_hold (G_APPLICATION (self));
   tracker_extract_priority_call_set_rdf_types (self->extract_priority,
@@ -824,19 +829,21 @@ static void
 photos_application_activate_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error = NULL;
   GObject *item;
   PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
   TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
   const gchar *identifier;
 
-  cursor = photos_single_item_job_finish (job, res, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to query single item: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = photos_single_item_job_finish (job, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to query single item: %s", error->message);
+        goto out;
+      }
+  }
 
   if (cursor == NULL)
     goto out;
@@ -899,14 +906,14 @@ static void
 photos_application_edit_cancel_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
-  if (!photos_base_item_pipeline_revert_finish (item, res, &error))
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_pipeline_revert_finish (item, res, &error))
       g_warning ("Unable to process item: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   /* Go back, no matter what. The revert can only fail in very
    * exceptional circumstances (currently I don't know of any). So,
@@ -950,15 +957,14 @@ static void
 photos_application_edit_revert_pipeline_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
-  error = NULL;
-  if (!photos_base_item_pipeline_save_finish (item, res, &error))
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_pipeline_save_finish (item, res, &error))
       g_warning ("Unable to save pipeline: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   g_application_release (G_APPLICATION (self));
 }
@@ -968,16 +974,17 @@ static void
 photos_application_edit_revert_revert (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
-  error = NULL;
-  if (!photos_base_item_pipeline_revert_finish (item, res, &error))
-    {
-      g_warning ("Unable to process item: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_pipeline_revert_finish (item, res, &error))
+      {
+        g_warning ("Unable to process item: %s", error->message);
+        goto out;
+      }
+  }
 
   g_application_hold (G_APPLICATION (self));
   photos_base_item_pipeline_save_async (item, NULL, photos_application_edit_revert_pipeline_save, self);
@@ -1158,15 +1165,14 @@ static void
 photos_application_properties_pipeline_save (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
-  error = NULL;
-  if (!photos_base_item_pipeline_save_finish (item, res, &error))
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_pipeline_save_finish (item, res, &error))
       g_warning ("Unable to save pipeline: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   g_application_release (G_APPLICATION (self));
 }
@@ -1176,15 +1182,17 @@ static void
 photos_application_properties_revert_to_original (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error = NULL;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
 
-  if (!photos_base_item_pipeline_revert_to_original_finish (item, res, &error))
-    {
-      g_warning ("Unable to revert to original: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_pipeline_revert_to_original_finish (item, res, &error))
+      {
+        g_warning ("Unable to revert to original: %s", error->message);
+        goto out;
+      }
+  }
 
   g_application_hold (G_APPLICATION (self));
   photos_base_item_pipeline_save_async (item, NULL, photos_application_properties_pipeline_save, self);
@@ -1260,7 +1268,6 @@ static void
 photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (user_data);
-  GError *error;
   GList *miner_link;
   g_autoptr (GomMiner) miner = GOM_MINER (source_object);
   PhotosApplicationRefreshData *data;
@@ -1280,14 +1287,17 @@ photos_application_refresh_db (GObject *source_object, GAsyncResult *res, gpoint
   self->miners_running = g_list_remove_link (self->miners_running, miner_link);
   g_signal_emit (self, signals[MINERS_CHANGED], 0, self->miners_running);
 
-  error = NULL;
-  if (!gom_miner_call_refresh_db_finish (miner, res, &error))
-    {
-      if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        g_warning ("Unable to update the cache: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!gom_miner_call_refresh_db_finish (miner, res, &error))
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          g_warning ("Unable to update the cache: %s", error->message);
+
+        goto out;
+      }
+  }
 
   data = photos_application_refresh_data_new (self, miner);
   refresh_miner_id = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
@@ -1989,11 +1999,11 @@ static void
 photos_application_startup (GApplication *application)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (application);
-  GError *error;
   GrlRegistry *registry;
   GtkIconTheme *icon_theme;
   GtkSettings *settings;
   GVariant *state;
+  gboolean grl_plugins_loaded;
   const gchar *delete_accels[3] = {"Delete", "KP_Delete", NULL};
   const gchar *edit_accels[2] = {"<Primary>e", NULL};
   const gchar *fullscreen_accels[2] = {"F11", NULL};
@@ -2017,20 +2027,22 @@ photos_application_startup (GApplication *application)
   grl_init (NULL, NULL);
   registry = grl_registry_get_default ();
 
-  error = NULL;
-  if (!grl_registry_load_all_plugins (registry, FALSE, &error))
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    grl_plugins_loaded = grl_registry_load_all_plugins (registry, FALSE, &error);
+    if (error != NULL)
       g_warning ("Unable to load Grilo plugins: %s", error->message);
-      g_error_free (error);
-    }
-  else
+  }
+
+  if (grl_plugins_loaded)
     {
-      error = NULL;
-      if (!grl_registry_activate_plugin_by_id (registry, "grl-flickr", &error))
-        {
+      {
+        g_autoptr (GError) error = NULL;
+
+        if (!grl_registry_activate_plugin_by_id (registry, "grl-flickr", &error))
           g_warning ("Unable to activate Grilo's Flickr plugin: %s", error->message);
-          g_error_free (error);
-        }
+      }
     }
 
   self->create_window_cancellable = g_cancellable_new ();
