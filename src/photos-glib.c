@@ -29,7 +29,15 @@
 #include "photos-glib.h"
 
 
+typedef struct _PhotosGLibFileCopyData PhotosGLibFileCopyData;
 typedef struct _PhotosGLibFileCreateData PhotosGLibFileCreateData;
+
+struct _PhotosGLibFileCopyData
+{
+  GFile *unique_file;
+  GFileOutputStream *ostream;
+  gint io_priority;
+};
 
 struct _PhotosGLibFileCreateData
 {
@@ -60,6 +68,188 @@ photos_glib_app_info_launch_uri (GAppInfo *appinfo,
   ret_val = g_app_info_launch_uris (appinfo, uris, launch_context, error);
   g_list_free_full (uris, g_free);
   return ret_val;
+}
+
+
+static void
+photos_glib_file_copy_data_free (PhotosGLibFileCopyData *data)
+{
+  g_clear_object (&data->unique_file);
+  g_clear_object (&data->ostream);
+  g_slice_free (PhotosGLibFileCopyData, data);
+}
+
+
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (PhotosGLibFileCopyData, photos_glib_file_copy_data_free);
+
+
+static PhotosGLibFileCopyData *
+photos_glib_file_copy_data_new (gint io_priority)
+{
+  PhotosGLibFileCopyData *data;
+
+  data = g_slice_new0 (PhotosGLibFileCopyData);
+  data->io_priority = io_priority;
+  return data;
+}
+
+
+static void
+photos_glib_file_copy_splice (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GOutputStream *ostream = G_OUTPUT_STREAM (source_object);
+  g_autoptr (GTask) task = G_TASK (user_data);
+  PhotosGLibFileCopyData *data;
+
+  data = (PhotosGLibFileCopyData *) g_task_get_task_data (task);
+
+  g_assert_true (G_IS_FILE_OUTPUT_STREAM (ostream));
+  g_assert_true (G_FILE_OUTPUT_STREAM (ostream) == data->ostream);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    g_output_stream_splice_finish (ostream, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
+
+  g_task_return_pointer (task, g_object_ref (data->unique_file), g_object_unref);
+
+ out:
+  return;
+}
+
+
+static void
+photos_glib_file_copy_read (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GCancellable *cancellable;
+  GFile *source = G_FILE (source_object);
+  g_autoptr (GFileInputStream) istream = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
+  PhotosGLibFileCopyData *data;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosGLibFileCopyData *) g_task_get_task_data (task);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    istream = g_file_read_finish (source, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
+
+  g_output_stream_splice_async (G_OUTPUT_STREAM (data->ostream),
+                                G_INPUT_STREAM (istream),
+                                G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE | G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET,
+                                data->io_priority,
+                                cancellable,
+                                photos_glib_file_copy_splice,
+                                g_object_ref (task));
+
+ out:
+  return;
+}
+
+
+static void
+photos_glib_file_copy_create (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GCancellable *cancellable;
+  g_autoptr (GFile) unique_file = NULL;
+  GFile *destination = G_FILE (source_object);
+  GFile *source;
+  g_autoptr (GFileOutputStream) ostream = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
+  PhotosGLibFileCopyData *data;
+
+  cancellable = g_task_get_cancellable (task);
+  data = (PhotosGLibFileCopyData *) g_task_get_task_data (task);
+  source = G_FILE (g_task_get_source_object (task));
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    ostream = photos_glib_file_create_finish (destination, res, &unique_file, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
+
+  g_assert_null (data->ostream);
+  g_assert_true (G_IS_FILE_OUTPUT_STREAM (ostream));
+  data->ostream = g_object_ref (ostream);
+
+  g_assert_null (data->unique_file);
+  g_assert_true (G_IS_FILE (unique_file));
+  data->unique_file = g_object_ref (unique_file);
+
+  g_file_read_async (source, data->io_priority, cancellable, photos_glib_file_copy_read, g_object_ref (task));
+
+ out:
+  return;
+}
+
+
+void
+photos_glib_file_copy_async (GFile *source,
+                             GFile *destination,
+                             GFileCopyFlags flags,
+                             gint io_priority,
+                             GCancellable *cancellable,
+                             GAsyncReadyCallback callback,
+                             gpointer user_data)
+{
+  GFileCreateFlags create_flags = G_FILE_CREATE_NONE;
+  g_autoptr (GTask) task = NULL;
+  g_autoptr (PhotosGLibFileCopyData) data = NULL;
+
+  g_return_if_fail (G_IS_FILE (source));
+  g_return_if_fail (G_IS_FILE (destination));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
+  task = g_task_new (source, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_glib_file_copy_async);
+
+  data = photos_glib_file_copy_data_new (io_priority);
+  g_task_set_task_data (task, g_steal_pointer (&data), (GDestroyNotify) photos_glib_file_copy_data_free);
+
+  if ((flags & G_FILE_COPY_OVERWRITE) != 0)
+    create_flags |= G_FILE_CREATE_REPLACE_DESTINATION;
+
+  photos_glib_file_create_async (destination,
+                                 create_flags,
+                                 io_priority,
+                                 cancellable,
+                                 photos_glib_file_copy_create,
+                                 g_object_ref (task));
+}
+
+
+GFile *
+photos_glib_file_copy_finish (GFile *source, GAsyncResult *res, GError **error)
+{
+  GTask *task;
+
+  g_return_val_if_fail (G_IS_FILE (source), FALSE);
+
+  g_return_val_if_fail (g_task_is_valid (res, source), FALSE);
+  task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_glib_file_copy_async, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_pointer (task, error);
 }
 
 

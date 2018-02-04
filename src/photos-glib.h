@@ -32,6 +32,16 @@ gboolean              photos_glib_app_info_launch_uri            (GAppInfo *appi
                                                                   GAppLaunchContext *launch_context,
                                                                   GError **error);
 
+void                  photos_glib_file_copy_async                (GFile *source,
+                                                                  GFile *destination,
+                                                                  GFileCopyFlags flags,
+                                                                  gint io_priority,
+                                                                  GCancellable *cancellable,
+                                                                  GAsyncReadyCallback callback,
+                                                                  gpointer user_data);
+
+GFile                *photos_glib_file_copy_finish               (GFile *source, GAsyncResult *res, GError **error);
+
 void                  photos_glib_file_create_async              (GFile *file,
                                                                   GFileCreateFlags flags,
                                                                   gint io_priority,
