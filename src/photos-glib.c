@@ -204,6 +204,9 @@ photos_glib_file_create_async (GFile *file,
   g_autoptr (GTask) task = NULL;
   g_autoptr (PhotosGLibFileCreateData) data = NULL;
 
+  g_return_if_fail (G_IS_FILE (file));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
   task = g_task_new (file, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_glib_file_create_async);
 
@@ -221,6 +224,7 @@ photos_glib_file_create_finish (GFile *file, GAsyncResult *res, GFile **out_uniq
   GFileOutputStream *ret_val = NULL;
   PhotosGLibFileCreateData *data;
 
+  g_return_val_if_fail (G_IS_FILE (file), NULL);
   g_return_val_if_fail (g_task_is_valid (res, file), NULL);
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_glib_file_create_async, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
@@ -271,6 +275,10 @@ photos_glib_make_directory_with_parents (GFile *file, GCancellable *cancellable,
 {
   GError *local_error = NULL;
   gboolean ret_val;
+
+  g_return_val_if_fail (G_IS_FILE (file), FALSE);
+  g_return_val_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable), FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
   ret_val = g_file_make_directory_with_parents (file, cancellable, &local_error);
   if (local_error != NULL)
