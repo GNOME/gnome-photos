@@ -153,7 +153,7 @@ photos_export_notification_export_folder (PhotosExportNotification *self)
   GApplication *app;
   g_autoptr (GFile) directory = NULL;
   GtkWindow *parent;
-  g_autofree gchar *uri = NULL;
+  g_autofree gchar *directory_uri = NULL;
   guint32 time;
 
   g_return_if_fail (self->file != NULL);
@@ -168,12 +168,12 @@ photos_export_notification_export_folder (PhotosExportNotification *self)
   else
     directory = g_object_ref (self->file);
 
-  uri = g_file_get_uri (directory);
+  directory_uri = g_file_get_uri (directory);
 
   {
     g_autoptr (GError) error = NULL;
 
-    if (!gtk_show_uri_on_window (parent, uri, time, &error))
+    if (!gtk_show_uri_on_window (parent, directory_uri, time, &error))
       g_warning ("Failed to open uri: %s", error->message);
   }
 
