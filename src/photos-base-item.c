@@ -2101,6 +2101,8 @@ photos_base_item_save_to_dir_file_create (GObject *source_object, GAsyncResult *
       goto out;
     }
 
+  g_assert_true (G_IS_FILE_OUTPUT_STREAM (stream));
+
   g_assert_null (data->unique_file);
   g_assert_true (G_IS_FILE (unique_file));
   data->unique_file = g_object_ref (unique_file);
