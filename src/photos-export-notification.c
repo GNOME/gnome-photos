@@ -80,22 +80,20 @@ photos_export_notification_destroy (PhotosExportNotification *self)
 static void
 photos_export_notification_analyze (PhotosExportNotification *self)
 {
-  GAppLaunchContext *ctx = NULL;
-  GDesktopAppInfo *analyzer;
-  GError *error = NULL;
+  g_autoptr (GAppLaunchContext) ctx = NULL;
+  g_autoptr (GDesktopAppInfo) analyzer = NULL;
 
   analyzer = g_desktop_app_info_new ("org.gnome.baobab.desktop");
   ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (self));
 
-  if (!g_app_info_launch (G_APP_INFO (analyzer), NULL, ctx, &error))
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!g_app_info_launch (G_APP_INFO (analyzer), NULL, ctx, &error))
       g_warning ("Unable to launch disk usage analyzer: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   photos_export_notification_destroy (self);
-  g_clear_object (&ctx);
-  g_object_unref (analyzer);
 }
 
 
@@ -109,17 +107,19 @@ photos_export_notification_close (PhotosExportNotification *self)
 static void
 photos_export_notification_empty_trash_bus_get (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-  PhotosExportNotification *self = PHOTOS_EXPORT_NOTIFICATION (user_data);
-  GDBusConnection *connection = NULL;
-  GError *error = NULL;
+  g_autoptr (PhotosExportNotification) self = PHOTOS_EXPORT_NOTIFICATION (user_data);
+  g_autoptr (GDBusConnection) connection = NULL;
 
-  connection = g_bus_get_finish (result, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to connect to session bus: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    connection = g_bus_get_finish (result, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to connect to session bus: %s", error->message);
+        goto out;
+      }
+  }
 
   g_dbus_connection_call (connection,
                           "org.gnome.SettingsDaemon",
@@ -135,8 +135,7 @@ photos_export_notification_empty_trash_bus_get (GObject *source_object, GAsyncRe
                           NULL);
 
  out:
-  g_clear_object (&connection);
-  g_object_unref (self);
+  return;
 }
 
 
@@ -152,10 +151,9 @@ static void
 photos_export_notification_export_folder (PhotosExportNotification *self)
 {
   GApplication *app;
-  GError *error;
-  GFile *directory;
+  g_autoptr (GFile) directory = NULL;
   GtkWindow *parent;
-  gchar *uri;
+  g_autofree gchar *uri = NULL;
   guint32 time;
 
   g_return_if_fail (self->file != NULL);
@@ -172,16 +170,14 @@ photos_export_notification_export_folder (PhotosExportNotification *self)
 
   uri = g_file_get_uri (directory);
 
-  error = NULL;
-  if (!gtk_show_uri_on_window (parent, uri, time, &error))
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!gtk_show_uri_on_window (parent, uri, time, &error))
       g_warning ("Failed to open uri: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   photos_export_notification_destroy (self);
-  g_object_unref (directory);
-  g_free (uri);
 }
 
 
@@ -189,9 +185,8 @@ static void
 photos_export_notification_open (PhotosExportNotification *self)
 {
   GApplication *app;
-  GError *error;
   GtkWindow *parent;
-  gchar *uri;
+  g_autofree gchar *uri = NULL;
   guint32 time;
 
   g_return_if_fail (self->file != NULL);
@@ -204,15 +199,14 @@ photos_export_notification_open (PhotosExportNotification *self)
 
   uri = g_file_get_uri (self->file);
 
-  error = NULL;
-  if (!gtk_show_uri_on_window (parent, uri, time, &error))
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!gtk_show_uri_on_window (parent, uri, time, &error))
       g_warning ("Failed to open uri: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   photos_export_notification_destroy (self);
-  g_free (uri);
 }
 
 
@@ -234,7 +228,7 @@ photos_export_notification_constructed (GObject *object)
   GtkWidget *close;
   GtkWidget *image;
   GtkWidget *label;
-  gchar *msg;
+  g_autofree gchar *msg = NULL;
   guint length;
 
   G_OBJECT_CLASS (photos_export_notification_parent_class)->constructed (object);
@@ -269,7 +263,6 @@ photos_export_notification_constructed (GObject *object)
   gtk_widget_set_halign (label, GTK_ALIGN_START);
   gtk_widget_set_hexpand (label, TRUE);
   gtk_container_add (GTK_CONTAINER (self), label);
-  g_free (msg);
 
   if (length == 0)
     {
