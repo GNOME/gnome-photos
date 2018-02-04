@@ -1,7 +1,7 @@
 # German translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2013, 2015-2017.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2013, 2015-2018.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2013.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2013-2016.
 # Tobias Endrigkeit <tobiasendrigkeit@outlook.com>, 2013.
@@ -12,19 +12,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-01-22 15:33+0000\n"
-"PO-Revision-Date: 2018-01-24 15:56+0100\n"
-"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
+"POT-Creation-Date: 2018-01-30 18:23+0000\n"
+"PO-Revision-Date: 2018-02-04 14:40+0100\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:2268 src/photos-embed.c:722
+#: src/photos-application.c:2383 src/photos-embed.c:727
 #: src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotos"
@@ -164,19 +164,19 @@ msgstr "DLNA-Darstellungsgerät"
 msgid "“%s” edited"
 msgstr "»%s« wurde bearbeitet"
 
-#: src/photos-embed.c:726
+#: src/photos-embed.c:731
 msgid "Collection View"
 msgstr "Sammlungsansicht"
 
-#: src/photos-embed.c:729 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:734 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Alben"
 
-#: src/photos-embed.c:733 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:738 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Favoriten"
 
-#: src/photos-embed.c:737 src/photos-main-toolbar.c:267
+#: src/photos-embed.c:742 src/photos-main-toolbar.c:267
 msgid "Search"
 msgstr "Suchen"
 
@@ -205,6 +205,10 @@ msgid "Online Accounts"
 msgstr "Online-Konten"
 
 # CHECK Hier ist vermutlich der Standardordner im home-Verzeichnis gemeint. Wäre eine besondere Kennzeichnung angebracht?
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
 #: src/photos-empty-results-box.c:216
 msgid "Pictures folder"
 msgstr "Bilder-Ordner"
@@ -217,7 +221,7 @@ msgstr "Bilder-Ordner"
 #: src/photos-empty-results-box.c:223
 #, c-format
 msgid "Photos from your %s and %s will appear here."
-msgstr "Fotos aus Ihren %s und Ihrem %s werden hier angezeigt"
+msgstr "Fotos aus Ihren %s und Ihrem %s werden hier angezeigt."
 
 #: src/photos-empty-results-box.c:233
 msgid "Try a different search"
@@ -264,8 +268,8 @@ msgstr "%d×%d (%s)"
 #. * will be exported.
 #.
 #: src/photos-export-dialog.c:198
-msgid "%e %B %Y"
-msgstr "%e. %B %Y"
+msgid "%-d %B %Y"
+msgstr "%d. %B %Y"
 
 #: src/photos-export-dialog.c:253
 msgid "Calculating export size…"
@@ -600,7 +604,7 @@ msgstr "Eigenschaften"
 msgid "Printing “%s”: %s"
 msgstr "»%s« wird gedruckt: %s"
 
-#: src/photos-print-operation.c:257
+#: src/photos-print-operation.c:241
 msgid "Image Settings"
 msgstr "Bildeinstellungen"
 
@@ -742,7 +746,7 @@ msgstr "Brennweite"
 
 #: src/photos-properties-dialog.c:565
 msgid "ISO Speed"
-msgstr "ISO-Geschwindigkeit"
+msgstr "ISO-Empfindlichkeit"
 
 #: src/photos-properties-dialog.c:575
 msgid "Flash"
@@ -976,12 +980,6 @@ msgstr "Hometown"
 msgid "Filters"
 msgstr "Filter"
 
-#: src/photos-tracker-controller.c:166
+#: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Die Liste der Fotos kann nicht abgeholt werden"
-
-#~ msgid "Name your first album"
-#~ msgstr "Benennen Sie Ihr erstes Album"
-
-#~ msgid "You can add your online accounts in %s"
-#~ msgstr "Sie können Ihre Online-Konten in %s hinzufügen"
