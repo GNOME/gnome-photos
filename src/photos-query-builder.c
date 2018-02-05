@@ -282,6 +282,25 @@ photos_query_builder_fetch_collections_for_urn_query (PhotosSearchContextState *
 
 
 PhotosQuery *
+photos_query_builder_fetch_collections_local (PhotosSearchContextState *state)
+{
+  PhotosQuery *query;
+  g_autofree gchar *sparql = NULL;
+
+  sparql = photos_query_builder_query (state,
+                                       TRUE,
+                                       PHOTOS_QUERY_FLAGS_COLLECTIONS
+                                       | PHOTOS_QUERY_FLAGS_LOCAL
+                                       | PHOTOS_QUERY_FLAGS_UNLIMITED,
+                                       NULL);
+
+  query = photos_query_new (NULL, sparql);
+
+  return query;
+}
+
+
+PhotosQuery *
 photos_query_builder_global_query (PhotosSearchContextState *state,
                                    gint flags,
                                    PhotosOffsetController *offset_cntrlr)

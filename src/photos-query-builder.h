@@ -44,6 +44,8 @@ PhotosQuery  *photos_query_builder_equipment_query (PhotosSearchContextState *st
 PhotosQuery  *photos_query_builder_fetch_collections_for_urn_query (PhotosSearchContextState *state,
                                                                     const gchar *resource);
 
+PhotosQuery  *photos_query_builder_fetch_collections_local (PhotosSearchContextState *state);
+
 PhotosQuery  *photos_query_builder_global_query        (PhotosSearchContextState *state,
                                                         gint flags,
                                                         PhotosOffsetController *offset_cntrlr);
