@@ -17,6 +17,8 @@ src/photos-facebook-item.c
 src/photos-flickr-item.c
 src/photos-google-item.c
 src/photos-help-overlay.ui
+src/photos-import-dialog.c
+src/photos-import-dialog.ui
 src/photos-indexing-notification.c
 src/photos-local-item.c
 src/photos-main-toolbar.c

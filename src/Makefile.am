@@ -124,6 +124,8 @@ gnome_photos_SOURCES = \
 	photos-image-view.h \
 	photos-image-view-helper.c \
 	photos-image-view-helper.h \
+	photos-import-dialog.c \
+	photos-import-dialog.h \
 	photos-indexing-notification.c \
 	photos-indexing-notification.h \
 	photos-item-manager.c \
@@ -379,6 +381,7 @@ EXTRA_DIST = \
 	photos-embed.ui \
 	photos-export-dialog.ui \
 	photos-help-overlay.ui \
+	photos-import-dialog.ui \
 	photos-main-toolbar.ui \
 	photos-main-window.ui \
 	photos-marshalers.list \
