@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Photos - access, organize and share your photos on GNOME
+ Copyright © 2018 Red Hat, Inc.
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<interface domain="gnome-photos">
+  <template class="PhotosImportDialog" parent="GtkDialog">
+    <property name="border_width">18</property>
+    <property name="title" translatable="yes" context="dialog title">Name Album</property>
+    <property name="resizable">0</property>
+    <property name="modal">1</property>
+    <property name="type_hint">dialog</property>
+    <property name="skip_taskbar_hint">1</property>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkGrid">
+            <property name="column_spacing">12</property>
+            <property name="margin">12</property>
+            <property name="row_spacing">6</property>
+            <child>
+              <object class="GtkRadioButton" id="create_new_button">
+                <property name="active">1</property>
+                <property name="halign">start</property>
+                <property name="no_show_all">1</property>
+                <property name="sensitive">0</property>
+                <signal name="toggled"
+                        handler="photos_import_dialog_create_new_button_toggled"
+                        object="PhotosImportDialog"
+                        swapped="yes"/>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="create_new_label">
+                <property name="halign">end</property>
+                <property name="label" translatable="yes">Create _New</property>
+                <property name="mnemonic_widget">create_new_entry</property>
+                <property name="sensitive">0</property>
+                <property name="use_underline">1</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="create_new_entry">
+                <property name="activates_default">1</property>
+                <property name="sensitive">0</property>
+                <property name="width_chars">30</property>
+                <signal name="changed"
+                        handler="photos_import_dialog_create_new_entry_changed"
+                        object="PhotosImportDialog"
+                        swapped="yes"/>
+                <signal name="focus-in-event"
+                        handler="photos_import_dialog_create_new_entry_focus_in_event"
+                        object="PhotosImportDialog"
+                        swapped="yes"/>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="top_attach">0</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRevealer" id="create_new_error_revealer">
+                <child>
+                  <object class="GtkLabel" id="create_new_error_label">
+                    <property name="halign">start</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="add_existing_button">
+                <property name="halign">start</property>
+                <property name="group">create_new_button</property>
+                <property name="margin_top">12</property>
+                <property name="no_show_all">1</property>
+                <property name="sensitive">0</property>
+                <signal name="toggled"
+                        handler="photos_import_dialog_add_existing_button_toggled"
+                        object="PhotosImportDialog"
+                        swapped="yes"/>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="add_existing_label">
+                <property name="halign">end</property>
+                <property name="label" translatable="yes">Add to _Existing</property>
+                <property name="margin_top">12</property>
+                <property name="mnemonic_widget">add_existing_button</property>
+                <property name="no_show_all">1</property>
+                <property name="sensitive">0</property>
+                <property name="use_underline">1</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkMenuButton" id="add_existing_collection_name_button">
+                <property name="margin_top">12</property>
+                <property name="no_show_all">1</property>
+                <property name="popover">collections_popover</property>
+                <property name="sensitive">0</property>
+                <signal name="focus-in-event"
+                        handler="photos_import_dialog_add_existing_collection_name_focus_in_event"
+                        object="PhotosImportDialog"
+                        swapped="yes"/>
+                <signal name="toggled"
+                        handler="photos_import_dialog_add_existing_collection_name_toggled"
+                        object="PhotosImportDialog"
+                        swapped="yes"/>
+                <child>
+                  <object class="GtkGrid">
+                    <property name="column-spacing">12</property>
+                    <property name="visible">1</property>
+                    <child>
+                      <object class="GtkLabel" id="add_existing_collection_name_label">
+                        <property name="ellipsize">PANGO_ELLIPSIZE_MIDDLE</property>
+                        <property name="halign">GTK_ALIGN_START</property>
+                        <property name="hexpand">1</property>
+                        <property name="valign">GTK_ALIGN_CENTER</property>
+                        <property name="vexpand">1</property>
+                        <property name="visible">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="icon-name">pan-down-symbolic</property>
+                        <property name="pixel-size">16</property>
+                        <property name="valign">GTK_ALIGN_CENTER</property>
+                        <property name="vexpand">1</property>
+                        <property name="visible">1</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="top_attach">2</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <child type="action">
+      <object class="GtkButton" id="cancel_button">
+        <property name="label" translatable="yes">_Cancel</property>
+        <property name="use_underline">1</property>
+      </object>
+    </child>
+    <child type="action">
+      <object class="GtkButton" id="ok_button">
+        <property name="can_default">1</property>
+        <property name="label" translatable="yes">_Add</property>
+        <property name="use_underline">1</property>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="cancel">cancel_button</action-widget>
+      <action-widget response="ok" default="true">ok_button</action-widget>
+    </action-widgets>
+  </template>
+  <object class="GtkPopoverMenu" id="collections_popover">
+    <property name="constrain-to">GTK_POPOVER_CONSTRAINT_NONE</property>
+    <child>
+      <object class="GtkGrid">
+        <property name="margin">10</property>
+        <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+        <property name="row_spacing">12</property>
+        <property name="visible">1</property>
+        <child>
+          <object class="GtkSearchEntry" id="collections_popover_search_entry">
+            <property name="visible">1</property>
+            <property name="width_chars">30</property>
+            <signal name="search-changed"
+                    handler="photos_import_dialog_collections_popover_search_changed"
+                    object="PhotosImportDialog"
+                    swapped="yes"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkGrid" id="collections_popover_grid">
+            <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+            <property name="visible">1</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
