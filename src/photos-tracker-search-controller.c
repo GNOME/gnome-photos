@@ -26,11 +26,14 @@
 #include <gio/gio.h>
 
 #include "photos-base-manager.h"
+#include "photos-filterable.h"
 #include "photos-item-manager.h"
 #include "photos-offset-search-controller.h"
 #include "photos-query-builder.h"
 #include "photos-search-context.h"
 #include "photos-search-controller.h"
+#include "photos-search-type.h"
+#include "photos-source.h"
 #include "photos-tracker-search-controller.h"
 #include "photos-utils.h"
 
@@ -79,6 +82,38 @@ photos_tracker_search_controller_get_query (PhotosTrackerController *trk_cntrlr)
 
 
 static void
+photos_tracker_search_controller_search_changed (PhotosTrackerSearchController *self)
+{
+  GObject *object;
+  const gchar *search_type_id;
+  const gchar *source_id;
+  const gchar *str;
+
+  object = photos_base_manager_get_active_object (self->src_mngr);
+  source_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
+
+  object = photos_base_manager_get_active_object (self->srch_typ_mngr);
+  search_type_id = photos_filterable_get_id (PHOTOS_FILTERABLE (object));
+
+  str = photos_search_controller_get_string (self->srch_cntrlr);
+
+  if (g_strcmp0 (search_type_id, PHOTOS_SEARCH_TYPE_STOCK_ALL) != 0
+      || g_strcmp0 (source_id, PHOTOS_SOURCE_STOCK_ALL) != 0
+      || (str != NULL && str [0] != '\0'))
+    {
+      photos_tracker_controller_refresh_for_object (PHOTOS_TRACKER_CONTROLLER (self));
+    }
+}
+
+
+static void
+photos_tracker_search_controller_source_active_changed (PhotosTrackerSearchController *self)
+{
+  photos_tracker_search_controller_search_changed (self);
+}
+
+
+static void
 photos_tracker_search_controller_search_match_active_changed (PhotosTrackerSearchController *self)
 {
   const gchar *str;
@@ -88,6 +123,20 @@ photos_tracker_search_controller_search_match_active_changed (PhotosTrackerSearc
     return;
 
   photos_tracker_controller_refresh_for_object (PHOTOS_TRACKER_CONTROLLER (self));
+}
+
+
+static void
+photos_tracker_search_controller_search_string_changed (PhotosTrackerSearchController *self)
+{
+  photos_tracker_search_controller_search_changed (self);
+}
+
+
+static void
+photos_tracker_search_controller_search_type_active_changed (PhotosTrackerSearchController *self)
+{
+  photos_tracker_search_controller_search_changed (self);
 }
 
 
@@ -138,7 +187,7 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
   self->src_mngr = g_object_ref (state->src_mngr);
   g_signal_connect_object (self->src_mngr,
                            "active-changed",
-                           G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                           G_CALLBACK (photos_tracker_search_controller_source_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
 
@@ -152,7 +201,7 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
   self->srch_typ_mngr = g_object_ref (state->srch_typ_mngr);
   g_signal_connect_object (self->srch_typ_mngr,
                            "active-changed",
-                           G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                           G_CALLBACK (photos_tracker_search_controller_search_type_active_changed),
                            self,
                            G_CONNECT_SWAPPED);
 
@@ -161,7 +210,7 @@ photos_tracker_search_controller_init (PhotosTrackerSearchController *self)
   self->srch_cntrlr = g_object_ref (state->srch_cntrlr);
   g_signal_connect_object (self->srch_cntrlr,
                            "search-string-changed",
-                           G_CALLBACK (photos_tracker_controller_refresh_for_object),
+                           G_CALLBACK (photos_tracker_search_controller_search_string_changed),
                            self,
                            G_CONNECT_SWAPPED);
 }
