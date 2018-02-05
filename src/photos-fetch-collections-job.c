@@ -250,7 +250,7 @@ photos_fetch_collections_job_run (PhotosFetchCollectionsJob *self,
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  query = photos_query_builder_fetch_collections_query (state, self->urn);
+  query = photos_query_builder_fetch_collections_for_urn_query (state, self->urn);
   photos_tracker_queue_select (self->queue,
                                query,
                                cancellable,

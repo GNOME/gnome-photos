@@ -41,7 +41,8 @@ PhotosQuery  *photos_query_builder_delete_resource_query (PhotosSearchContextSta
 
 PhotosQuery  *photos_query_builder_equipment_query (PhotosSearchContextState *state, GQuark equipment);
 
-PhotosQuery  *photos_query_builder_fetch_collections_query (PhotosSearchContextState *state, const gchar *resource);
+PhotosQuery  *photos_query_builder_fetch_collections_for_urn_query (PhotosSearchContextState *state,
+                                                                    const gchar *resource);
 
 PhotosQuery  *photos_query_builder_global_query        (PhotosSearchContextState *state,
                                                         gint flags,
