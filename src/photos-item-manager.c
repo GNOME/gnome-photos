@@ -1287,8 +1287,9 @@ photos_item_manager_create_item (PhotosItemManager *self,
                                  TrackerSparqlCursor *cursor,
                                  gboolean create_thumbnails)
 {
-  GType type;
+  PhotosBaseItem *item;
   PhotosBaseItem *ret_val = NULL;
+  const gchar *id;
 
   g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), NULL);
   g_return_val_if_fail (base_item_type == G_TYPE_NONE
@@ -1296,52 +1297,65 @@ photos_item_manager_create_item (PhotosItemManager *self,
                             && g_type_is_a (base_item_type, PHOTOS_TYPE_BASE_ITEM)), NULL);
   g_return_val_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor), NULL);
 
-  if (base_item_type == G_TYPE_NONE)
+  id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
+  item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
+  if (item != NULL)
     {
-      GIOExtension *extension;
-      g_auto (GStrv) split_identifier = NULL;
-      const gchar *extension_name = "local";
-      g_autofree gchar *identifier = NULL;
-
-      identifier = g_strdup (tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_IDENTIFIER, NULL));
-      if (identifier != NULL)
-        {
-          split_identifier = g_strsplit (identifier, ":", 4);
-
-          if (photos_item_manager_cursor_is_collection (cursor))
-            {
-              /* Its a collection. */
-              extension_name = split_identifier[2];
-            }
-          else
-            {
-              /* Its a normal photo item. */
-              if (g_strv_length (split_identifier) > 1)
-                extension_name = split_identifier[0];
-            }
-        }
-
-      extension = g_io_extension_point_get_extension_by_name (self->extension_point, extension_name);
-      if (G_UNLIKELY (extension == NULL))
-        {
-          g_warning ("Unable to find extension %s for identifier: %s", extension_name, identifier);
-          goto out;
-        }
-
-      type = g_io_extension_get_type (extension);
+      ret_val = g_object_ref (item);
     }
   else
     {
-      type = base_item_type;
+      GType type;
+
+      if (base_item_type == G_TYPE_NONE)
+        {
+          GIOExtension *extension;
+          g_auto (GStrv) split_identifier = NULL;
+          const gchar *extension_name = "local";
+          g_autofree gchar *identifier = NULL;
+
+          identifier = g_strdup (tracker_sparql_cursor_get_string (cursor,
+                                                                   PHOTOS_QUERY_COLUMNS_IDENTIFIER,
+                                                                   NULL));
+          if (identifier != NULL)
+            {
+              split_identifier = g_strsplit (identifier, ":", 4);
+
+              if (photos_item_manager_cursor_is_collection (cursor))
+                {
+                  /* Its a collection. */
+                  extension_name = split_identifier[2];
+                }
+              else
+                {
+                  /* Its a normal photo item. */
+                  if (g_strv_length (split_identifier) > 1)
+                    extension_name = split_identifier[0];
+                }
+            }
+
+          extension = g_io_extension_point_get_extension_by_name (self->extension_point, extension_name);
+          if (G_UNLIKELY (extension == NULL))
+            {
+              g_warning ("Unable to find extension %s for identifier: %s", extension_name, identifier);
+              goto out;
+            }
+
+          type = g_io_extension_get_type (extension);
+        }
+      else
+        {
+          type = base_item_type;
+        }
+
+      g_return_val_if_fail (type != G_TYPE_NONE, NULL);
+      g_return_val_if_fail (type != PHOTOS_TYPE_BASE_ITEM && g_type_is_a (type, PHOTOS_TYPE_BASE_ITEM), NULL);
+
+      ret_val = PHOTOS_BASE_ITEM (g_object_new (type,
+                                                "cursor", cursor,
+                                                "failed-thumbnailing", !create_thumbnails,
+                                                NULL));
     }
-
-  g_return_val_if_fail (type != G_TYPE_NONE, NULL);
-  g_return_val_if_fail (type != PHOTOS_TYPE_BASE_ITEM && g_type_is_a (type, PHOTOS_TYPE_BASE_ITEM), NULL);
-
-  ret_val = PHOTOS_BASE_ITEM (g_object_new (type,
-                                            "cursor", cursor,
-                                            "failed-thumbnailing", !create_thumbnails,
-                                            NULL));
 
  out:
   return ret_val;
