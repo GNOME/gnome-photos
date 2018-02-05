@@ -71,7 +71,9 @@ photos_source_manager_get_filter (PhotosBaseManager *mngr, gint flags)
       goto out;
     }
 
-  if (flags & PHOTOS_QUERY_FLAGS_SEARCH)
+  if (flags & PHOTOS_QUERY_FLAGS_LOCAL)
+    source = photos_base_manager_get_object_by_id (mngr, PHOTOS_SOURCE_STOCK_LOCAL);
+  else if (flags & PHOTOS_QUERY_FLAGS_SEARCH)
     source = photos_base_manager_get_active_object (mngr);
   else
     source = photos_base_manager_get_object_by_id (mngr, PHOTOS_SOURCE_STOCK_ALL);
