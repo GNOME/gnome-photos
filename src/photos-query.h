@@ -68,7 +68,8 @@ typedef enum
   PHOTOS_QUERY_FLAGS_FAVORITES      = 1 << 2,
   PHOTOS_QUERY_FLAGS_LOCAL          = 1 << 3,
   PHOTOS_QUERY_FLAGS_OVERVIEW       = 1 << 4,
-  PHOTOS_QUERY_FLAGS_SEARCH         = 1 << 5
+  PHOTOS_QUERY_FLAGS_SEARCH         = 1 << 5,
+  PHOTOS_QUERY_FLAGS_UNLIMITED      = 1 << 6
 } PhotosQueryFlags;
 
 extern const gchar *PHOTOS_QUERY_COLLECTIONS_IDENTIFIER;

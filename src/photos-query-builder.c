@@ -133,7 +133,7 @@ photos_query_builder_query (PhotosSearchContextState *state,
 
   where_sparql = photos_query_builder_where (state, global, flags);
 
-  if (global)
+  if (global && (flags & PHOTOS_QUERY_FLAGS_UNLIMITED) == 0)
     {
       gint offset = 0;
       gint step = 60;
