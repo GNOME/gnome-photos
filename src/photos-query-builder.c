@@ -25,19 +25,12 @@
 
 #include <string.h>
 
-#include <gio/gio.h>
-
 #include "photos-base-manager.h"
 #include "photos-query-builder.h"
 #include "photos-search-type.h"
 #include "photos-source-manager.h"
 #include "photos-search-match-manager.h"
 #include "photos-search-type-manager.h"
-#include "photos-utils.h"
-
-
-static const gchar *TRACKER_SCHEMA = "org.freedesktop.Tracker.Miner.Files";
-static const gchar *TRACKER_KEY_RECURSIVE_DIRECTORIES = "index-recursive-directories";
 
 
 static gchar *
@@ -373,65 +366,4 @@ photos_query_builder_update_mtime_query (PhotosSearchContextState *state, const 
   query = photos_query_new (state, sparql);
 
   return query;
-}
-
-
-gchar *
-photos_query_builder_filter_local (void)
-{
-  g_autoptr (GSettings) settings = NULL;
-  g_autoptr (GString) tracker_filter = NULL;
-  g_auto (GStrv) tracker_dirs = NULL;
-  g_autofree gchar *desktop_uri = NULL;
-  g_autofree gchar *download_uri = NULL;
-  g_autofree gchar *export_path = NULL;
-  g_autofree gchar *export_uri = NULL;
-  gchar *filter;
-  const gchar *path;
-  g_autofree gchar *pictures_uri = NULL;
-  guint i;
-
-  settings = g_settings_new (TRACKER_SCHEMA);
-  tracker_dirs = g_settings_get_strv (settings, TRACKER_KEY_RECURSIVE_DIRECTORIES);
-  tracker_filter = g_string_new ("");
-
-  for (i = 0; tracker_dirs[i] != NULL; i++)
-    {
-      g_autofree gchar *tracker_uri = NULL;
-
-      /* ignore special XDG placeholders, since we handle those internally */
-      if (tracker_dirs[i][0] == '&' || tracker_dirs[i][0] == '$')
-        continue;
-
-      tracker_uri = photos_utils_convert_path_to_uri (tracker_dirs[i]);
-      g_string_append_printf (tracker_filter, " || fn:contains (nie:url (?urn), '%s')", tracker_uri);
-    }
-
-  path = g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP);
-  desktop_uri = photos_utils_convert_path_to_uri (path);
-
-  path = g_get_user_special_dir (G_USER_DIRECTORY_DOWNLOAD);
-  download_uri = photos_utils_convert_path_to_uri (path);
-
-  path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
-  pictures_uri = photos_utils_convert_path_to_uri (path);
-
-  export_path = g_build_filename (path, PHOTOS_EXPORT_SUBPATH, NULL);
-  export_uri = photos_utils_convert_path_to_uri (export_path);
-
-  filter = g_strdup_printf ("(((fn:contains (nie:url (?urn), '%s')"
-                            "   || fn:contains (nie:url (?urn), '%s')"
-                            "   || fn:contains (nie:url (?urn), '%s')"
-                            "   %s)"
-                            "  && !fn:contains (nie:url (?urn), '%s'))"
-                            " || fn:starts-with (nao:identifier (?urn), '%s')"
-                            " || (?urn = nfo:image-category-screenshot))",
-                            desktop_uri,
-                            download_uri,
-                            pictures_uri,
-                            tracker_filter->str,
-                            export_uri,
-                            PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER);
-
-  return filter;
 }
