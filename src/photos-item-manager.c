@@ -186,11 +186,16 @@ photos_item_manager_can_add_item_for_mode (PhotosItemManager *self, PhotosBaseIt
 static gboolean
 photos_item_manager_cursor_is_collection (TrackerSparqlCursor *cursor)
 {
-  gboolean ret_val;
+  gboolean ret_val = FALSE;
   const gchar *rdf_type;
 
   rdf_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_RDF_TYPE, NULL);
+  if (rdf_type == NULL)
+    goto out;
+
   ret_val = strstr (rdf_type, "nfo#DataContainer") != NULL;
+
+ out:
   return ret_val;
 }
 
