@@ -205,6 +205,8 @@ photos_export_dialog_constructed (GObject *object)
                                                photos_export_dialog_guess_sizes,
                                                self);
     }
+
+  gtk_widget_grab_focus (self->dir_entry);
 }
 
 
