@@ -36,6 +36,7 @@
               <object class="GtkLabel" id="folder_name_label">
                 <property name="halign">end</property>
                 <property name="label" translatable="yes">_Folder Name</property>
+                <property name="margin_bottom">6</property>
                 <property name="mnemonic_widget">dir_entry</property>
                 <property name="use_underline">1</property>
                 <style>
@@ -50,6 +51,7 @@
             <child>
               <object class="GtkEntry" id="dir_entry">
                 <property name="activates_default">1</property>
+                <property name="margin_bottom">6</property>
                 <property name="width_chars">30</property>
               </object>
               <packing>

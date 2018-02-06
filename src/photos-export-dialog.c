@@ -76,9 +76,6 @@ photos_export_dialog_show_size_options (PhotosExportDialog *self, gboolean size_
   const gchar *class_name;
   const gchar *invert_class_name;
 
-  gtk_widget_set_margin_bottom (self->dir_entry, 6);
-  gtk_widget_set_margin_bottom (self->folder_name_label, 6);
-
   class_name = progress ? "photos-fade-in" : "photos-fade-out";
   invert_class_name = !progress ? "photos-fade-in" : "photos-fade-out";
 
