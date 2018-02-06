@@ -354,13 +354,8 @@ photos_base_manager_dispose (GObject *object)
 
   priv = photos_base_manager_get_instance_private (self);
 
-  if (priv->objects != NULL)
-    {
-      g_hash_table_unref (priv->objects);
-      priv->objects = NULL;
-    }
-
   g_clear_object (&priv->active_object);
+  g_clear_pointer (&priv->objects, (GDestroyNotify) g_hash_table_unref);
   g_clear_pointer (&priv->sequence, (GDestroyNotify) g_sequence_free);
 
   G_OBJECT_CLASS (photos_base_manager_parent_class)->dispose (object);
