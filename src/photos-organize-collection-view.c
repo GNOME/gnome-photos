@@ -121,7 +121,7 @@ photos_organize_collection_view_create_collection_executed (GObject *source_obje
   GError *error;
   GtkTreeIter iter;
   GtkTreePath *path = NULL;
-  const gchar *created_urn;
+  gchar *created_urn = NULL;
 
   error = NULL;
   created_urn = photos_create_collection_job_finish (col_job, res, &error);
@@ -159,6 +159,7 @@ photos_organize_collection_view_create_collection_executed (GObject *source_obje
 
  out:
   g_clear_object (&set_job);
+  g_free (created_urn);
   gtk_tree_path_free (path);
 }
 
