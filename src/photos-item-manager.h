@@ -100,6 +100,16 @@ void                      photos_item_manager_set_constraints_for_mode     (Phot
                                                                             gboolean constrain,
                                                                             PhotosWindowMode mode);
 
+void                      photos_item_manager_wait_for_file_async          (PhotosItemManager *self,
+                                                                            GFile *file,
+                                                                            GCancellable *cancellable,
+                                                                            GAsyncReadyCallback callback,
+                                                                            gpointer user_data);
+
+gchar                    *photos_item_manager_wait_for_file_finish         (PhotosItemManager *self,
+                                                                            GAsyncResult *res,
+                                                                            GError **error);
+
 void                      photos_item_manager_wait_for_changes_async       (PhotosItemManager *self,
                                                                             PhotosBaseItem *item,
                                                                             GCancellable *cancellable,

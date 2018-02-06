@@ -1421,6 +1421,57 @@ photos_item_manager_unhide_item (PhotosItemManager *self, PhotosBaseItem *item)
 
 
 void
+photos_item_manager_wait_for_file_async (PhotosItemManager *self,
+                                         GFile *file,
+                                         GCancellable *cancellable,
+                                         GAsyncReadyCallback callback,
+                                         gpointer user_data)
+{
+  GList *tasks;
+  g_autoptr (GTask) task = NULL;
+  g_autofree gchar *uri = NULL;
+
+  g_return_if_fail (PHOTOS_IS_ITEM_MANAGER (self));
+  g_return_if_fail (G_IS_FILE (file));
+  g_return_if_fail (g_file_is_native (file));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_item_manager_wait_for_file_async);
+
+  uri = g_file_get_uri (file);
+  tasks = (GList *) g_hash_table_lookup (self->wait_for_changes_table, uri);
+  tasks = g_list_copy_deep (tasks, (GCopyFunc) g_object_ref, NULL);
+  tasks = g_list_prepend (tasks, g_object_ref (task));
+  g_hash_table_insert (self->wait_for_changes_table, g_strdup (uri), tasks);
+
+  photos_item_manager_remove_timeout (self);
+  self->wait_for_changes_id = g_timeout_add_seconds (WAIT_FOR_CHANGES_TIMEOUT,
+                                                     photos_item_manager_wait_for_changes_timeout,
+                                                     self);
+
+  photos_debug (PHOTOS_DEBUG_TRACKER, "Waiting for %s", uri);
+}
+
+
+gchar *
+photos_item_manager_wait_for_file_finish (PhotosItemManager *self, GAsyncResult *res, GError **error)
+{
+  GTask *task;
+
+  g_return_val_if_fail (PHOTOS_IS_ITEM_MANAGER (self), NULL);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), NULL);
+  task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_item_manager_wait_for_file_async, NULL);
+  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+  return g_task_propagate_pointer (task, error);
+}
+
+
+void
 photos_item_manager_wait_for_changes_async (PhotosItemManager *self,
                                             PhotosBaseItem *item,
                                             GCancellable *cancellable,
