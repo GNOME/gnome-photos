@@ -371,16 +371,16 @@ photos_item_manager_check_wait_for_changes (PhotosItemManager *self, const gchar
 
 
 static void
-photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_item_manager_item_created_executed_overview (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   g_autoptr (PhotosItemManager) self = PHOTOS_ITEM_MANAGER (user_data);
-  PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
+  PhotosSingleItemJob *job_overview = PHOTOS_SINGLE_ITEM_JOB (source_object);
   TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
 
   {
     g_autoptr (GError) error = NULL;
 
-    cursor = photos_single_item_job_finish (job, res, &error);
+    cursor = photos_single_item_job_finish (job_overview, res, &error);
     if (error != NULL)
       {
         g_warning ("Unable to query single item: %s", error->message);
@@ -393,6 +393,34 @@ photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult 
 
   photos_item_manager_add_item (self, cursor, FALSE);
 
+ out:
+  g_clear_object (&cursor);
+}
+
+
+static void
+photos_item_manager_item_created_executed_wait_for_changes (GObject *source_object,
+                                                            GAsyncResult *res,
+                                                            gpointer user_data)
+{
+  g_autoptr (PhotosItemManager) self = PHOTOS_ITEM_MANAGER (user_data);
+  PhotosSingleItemJob *job_wait_for_changes = PHOTOS_SINGLE_ITEM_JOB (source_object);
+  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = photos_single_item_job_finish (job_wait_for_changes, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to query single item: %s", error->message);
+        goto out;
+      }
+  }
+
+  if (cursor == NULL)
+    goto out;
+
   if (!photos_item_manager_cursor_is_collection (cursor))
     {
       const gchar *id;
@@ -400,7 +428,8 @@ photos_item_manager_item_created_executed (GObject *source_object, GAsyncResult 
 
       id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
       uri = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URI, NULL);
-      photos_item_manager_check_wait_for_changes (self, id, uri);
+      if (id != NULL && id[0] != '\0' && uri != NULL && uri[0] != '\0')
+        photos_item_manager_check_wait_for_changes (self, id, uri);
     }
 
  out:
@@ -414,7 +443,8 @@ photos_item_manager_item_created (PhotosItemManager *self, const gchar *urn)
   GApplication *app;
   PhotosItemManagerHiddenItem *old_hidden_item;
   PhotosSearchContextState *state;
-  g_autoptr (PhotosSingleItemJob) job = NULL;
+  g_autoptr (PhotosSingleItemJob) job_overview = NULL;
+  guint wait_for_changes_size;
 
   old_hidden_item = (PhotosItemManagerHiddenItem *) g_hash_table_lookup (self->hidden_items, urn);
   g_return_if_fail (old_hidden_item == NULL);
@@ -422,13 +452,27 @@ photos_item_manager_item_created (PhotosItemManager *self, const gchar *urn)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  job = photos_single_item_job_new (urn);
-  photos_single_item_job_run (job,
+  job_overview = photos_single_item_job_new (urn);
+  photos_single_item_job_run (job_overview,
                               state,
                               PHOTOS_QUERY_FLAGS_NONE,
                               NULL,
-                              photos_item_manager_item_created_executed,
+                              photos_item_manager_item_created_executed_overview,
                               g_object_ref (self));
+
+  wait_for_changes_size = g_hash_table_size (self->wait_for_changes_table);
+  if (wait_for_changes_size > 0)
+    {
+      g_autoptr (PhotosSingleItemJob) job_wait_for_changes = NULL;
+
+      job_wait_for_changes = photos_single_item_job_new (urn);
+      photos_single_item_job_run (job_wait_for_changes,
+                                  state,
+                                  PHOTOS_QUERY_FLAGS_UNFILTERED,
+                                  NULL,
+                                  photos_item_manager_item_created_executed_wait_for_changes,
+                                  g_object_ref (self));
+    }
 }
 
 
