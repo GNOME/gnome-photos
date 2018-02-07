@@ -23,19 +23,22 @@
 #ifndef PHOTOS_SET_COLLECTION_JOB_H
 #define PHOTOS_SET_COLLECTION_JOB_H
 
-#include <glib-object.h>
+#include <gio/gio.h>
 
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SET_COLLECTION_JOB (photos_set_collection_job_get_type ())
 G_DECLARE_FINAL_TYPE (PhotosSetCollectionJob, photos_set_collection_job, PHOTOS, SET_COLLECTION_JOB, GObject);
 
-typedef void (*PhotosSetCollectionJobCallback) (gpointer);
-
 PhotosSetCollectionJob   *photos_set_collection_job_new         (const gchar *collection_urn, gboolean setting);
 
+gboolean                  photos_set_collection_job_finish      (PhotosSetCollectionJob *self,
+                                                                 GAsyncResult *res,
+                                                                 GError **error);
+
 void                      photos_set_collection_job_run         (PhotosSetCollectionJob *self,
-                                                                 PhotosSetCollectionJobCallback callback,
+                                                                 GCancellable *cancellable,
+                                                                 GAsyncReadyCallback callback,
                                                                  gpointer user_data);
 
 G_END_DECLS

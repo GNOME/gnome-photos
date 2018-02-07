@@ -79,9 +79,18 @@ photos_organize_collection_view_check_cell (GtkTreeViewColumn *tree_column,
 
 
 static void
-photos_organize_collection_view_set_collection_executed (gpointer user_data)
+photos_organize_collection_view_set_collection_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
+  GError *error;
+  PhotosSetCollectionJob *job = PHOTOS_SET_COLLECTION_JOB (source_object);
+
+  error = NULL;
+  if (!photos_set_collection_job_finish (job, res, &error))
+    {
+      g_warning ("Unable to set collection: %s", error->message);
+      g_error_free (error);
+    }
 
   photos_organize_collection_model_refresh_collection_state (PHOTOS_ORGANIZE_COLLECTION_MODEL (self->model));
   g_object_unref (self);
@@ -103,7 +112,10 @@ photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *sel
   state = gtk_cell_renderer_toggle_get_active (GTK_CELL_RENDERER_TOGGLE (self->renderer_check));
 
   job = photos_set_collection_job_new (coll_urn, !state);
-  photos_set_collection_job_run (job, photos_organize_collection_view_set_collection_executed, g_object_ref (self));
+  photos_set_collection_job_run (job,
+                                 NULL,
+                                 photos_organize_collection_view_set_collection_executed,
+                                 g_object_ref (self));
   g_object_unref (job);
 
   g_free (coll_urn);
@@ -153,7 +165,7 @@ photos_organize_collection_view_create_collection_executed (GObject *source_obje
   gtk_list_store_set (self->model, &iter, PHOTOS_ORGANIZE_MODEL_ID, created_urn, -1);
 
   set_job = photos_set_collection_job_new (created_urn, TRUE);
-  photos_set_collection_job_run (set_job, NULL, NULL);
+  photos_set_collection_job_run (set_job, NULL, NULL, NULL);
 
  out:
   g_clear_object (&set_job);

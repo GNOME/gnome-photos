@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-#include <gio/gio.h>
 #include <glib.h>
 #include <tracker-sparql.h>
 
@@ -39,13 +38,12 @@
 struct _PhotosSetCollectionJob
 {
   GObject parent_instance;
+  GError *queue_error;
   PhotosSelectionController *sel_cntrlr;
-  PhotosSetCollectionJobCallback callback;
   PhotosTrackerQueue *queue;
   gboolean setting;
   gchar *collection_urn;
   gint running_jobs;
-  gpointer user_data;
 };
 
 enum
@@ -62,34 +60,38 @@ G_DEFINE_TYPE (PhotosSetCollectionJob, photos_set_collection_job, G_TYPE_OBJECT)
 static void
 photos_set_collection_job_update_mtime (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  GTask *task = G_TASK (user_data);
   PhotosUpdateMtimeJob *job = PHOTOS_UPDATE_MTIME_JOB (source_object);
-  PhotosSetCollectionJob *self = PHOTOS_SET_COLLECTION_JOB (user_data);
   GError *error = NULL;
 
   photos_update_mtime_job_finish (job, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to update mtime: %s", error->message);
-      g_error_free (error);
+      g_task_return_error (task, error);
+      goto out;
     }
 
-  if (self->callback != NULL)
-    (*self->callback) (self->user_data);
+  g_task_return_boolean (task, TRUE);
 
-  g_object_unref (self);
+ out:
+  g_object_unref (task);
 }
 
 
 static void
-photos_set_collection_job_job_collector (PhotosSetCollectionJob *self)
+photos_set_collection_job_job_collector (PhotosSetCollectionJob *self, GTask *task)
 {
+  GCancellable *cancellable;
+
+  cancellable = g_task_get_cancellable (task);
+
   self->running_jobs--;
   if (self->running_jobs == 0)
     {
       PhotosUpdateMtimeJob *job;
 
       job = photos_update_mtime_job_new (self->collection_urn);
-      photos_update_mtime_job_run (job, NULL, photos_set_collection_job_update_mtime, g_object_ref (self));
+      photos_update_mtime_job_run (job, cancellable, photos_set_collection_job_update_mtime, g_object_ref (task));
       g_object_unref (job);
     }
 }
@@ -98,20 +100,22 @@ photos_set_collection_job_job_collector (PhotosSetCollectionJob *self)
 static void
 photos_set_collection_job_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosSetCollectionJob *self = PHOTOS_SET_COLLECTION_JOB (user_data);
+  PhotosSetCollectionJob *self;
+  GTask *task = G_TASK (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   GError *error;
+
+  self = PHOTOS_SET_COLLECTION_JOB (g_task_get_source_object (task));
 
   error = NULL;
   tracker_sparql_connection_update_finish (connection, res, &error);
   if (error != NULL)
     {
-      g_warning ("Unable to add item to collection: %s", error->message);
-      g_error_free (error);
+      g_task_return_error (task, error);
       return;
     }
 
-  photos_set_collection_job_job_collector (self);
+  photos_set_collection_job_job_collector (self, task);
 }
 
 
@@ -132,6 +136,7 @@ photos_set_collection_job_finalize (GObject *object)
 {
   PhotosSetCollectionJob *self = PHOTOS_SET_COLLECTION_JOB (object);
 
+  g_clear_error (&self->queue_error);
   g_free (self->collection_urn);
 
   G_OBJECT_CLASS (photos_set_collection_job_parent_class)->finalize (object);
@@ -164,7 +169,7 @@ static void
 photos_set_collection_job_init (PhotosSetCollectionJob *self)
 {
   self->sel_cntrlr = photos_selection_controller_dup_singleton ();
-  self->queue = photos_tracker_queue_dup_singleton (NULL, NULL);
+  self->queue = photos_tracker_queue_dup_singleton (NULL, &self->queue_error);
 }
 
 
@@ -206,25 +211,43 @@ photos_set_collection_job_new (const gchar *collection_urn, gboolean setting)
 }
 
 
+gboolean
+photos_set_collection_job_finish (PhotosSetCollectionJob *self, GAsyncResult *res, GError **error)
+{
+  GTask *task;
+
+  g_return_val_if_fail (PHOTOS_IS_SET_COLLECTION_JOB (self), FALSE);
+
+  g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
+  g_return_val_if_fail (g_task_get_source_tag (task) == photos_set_collection_job_run, FALSE);
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  return g_task_propagate_boolean (task, error);
+}
+
+
 void
 photos_set_collection_job_run (PhotosSetCollectionJob *self,
-                               PhotosSetCollectionJobCallback callback,
+                               GCancellable *cancellable,
+                               GAsyncReadyCallback callback,
                                gpointer user_data)
 {
   GApplication *app;
   GList *l;
   GList *urns;
+  GTask *task = NULL;
   PhotosSearchContextState *state;
+
+  task = g_task_new (self, cancellable, callback, user_data);
+  g_task_set_source_tag (task, photos_set_collection_job_run);
 
   if (G_UNLIKELY (self->queue == NULL))
     {
-      if (callback != NULL)
-        (*callback) (user_data);
-      return;
+      g_task_return_error (task, g_error_copy (self->queue_error));
+      goto out;
     }
-
-  self->callback = callback;
-  self->user_data = user_data;
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
@@ -242,10 +265,13 @@ photos_set_collection_job_run (PhotosSetCollectionJob *self,
       query = photos_query_builder_set_collection_query (state, urn, self->collection_urn, self->setting);
       photos_tracker_queue_update (self->queue,
                                    query,
-                                   NULL,
+                                   cancellable,
                                    photos_set_collection_job_query_executed,
-                                   g_object_ref (self),
+                                   g_object_ref (task),
                                    g_object_unref);
       g_object_unref (query);
     }
+
+ out:
+  g_clear_object (&task);
 }
