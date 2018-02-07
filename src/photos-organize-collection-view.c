@@ -81,19 +81,31 @@ photos_organize_collection_view_check_cell (GtkTreeViewColumn *tree_column,
 static void
 photos_organize_collection_view_set_collection_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosOrganizeCollectionView *self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
+  PhotosOrganizeCollectionView *self;
   GError *error;
   PhotosSetCollectionJob *job = PHOTOS_SET_COLLECTION_JOB (source_object);
 
   error = NULL;
   if (!photos_set_collection_job_finish (job, res, &error))
     {
-      g_warning ("Unable to set collection: %s", error->message);
-      g_error_free (error);
+      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        {
+          g_error_free (error);
+          goto out;
+        }
+      else
+        {
+          g_warning ("Unable to set collection: %s", error->message);
+          g_error_free (error);
+        }
     }
 
+  self = PHOTOS_ORGANIZE_COLLECTION_VIEW (user_data);
+
   photos_organize_collection_model_refresh_collection_state (PHOTOS_ORGANIZE_COLLECTION_MODEL (self->model));
-  g_object_unref (self);
+
+ out:
+  return;
 }
 
 
@@ -113,9 +125,9 @@ photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *sel
 
   job = photos_set_collection_job_new (coll_urn, !state);
   photos_set_collection_job_run (job,
-                                 NULL,
+                                 self->cancellable,
                                  photos_organize_collection_view_set_collection_executed,
-                                 g_object_ref (self));
+                                 self);
   g_object_unref (job);
 
   g_free (coll_urn);
