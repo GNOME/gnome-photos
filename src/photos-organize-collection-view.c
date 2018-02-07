@@ -115,15 +115,15 @@ photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *sel
   GtkTreeIter iter;
   GtkTreePath *tree_path;
   PhotosSetCollectionJob *job;
-  gboolean state;
+  gboolean active;
   gchar *coll_urn;
 
   tree_path = gtk_tree_path_new_from_string (path);
   gtk_tree_model_get_iter (GTK_TREE_MODEL (self->model), &iter, tree_path);
   gtk_tree_model_get (GTK_TREE_MODEL (self->model), &iter, PHOTOS_ORGANIZE_MODEL_ID, &coll_urn, -1);
-  state = gtk_cell_renderer_toggle_get_active (GTK_CELL_RENDERER_TOGGLE (self->renderer_check));
+  active = gtk_cell_renderer_toggle_get_active (GTK_CELL_RENDERER_TOGGLE (self->renderer_check));
 
-  job = photos_set_collection_job_new (coll_urn, !state);
+  job = photos_set_collection_job_new (coll_urn, !active);
   photos_set_collection_job_run (job,
                                  self->cancellable,
                                  photos_organize_collection_view_set_collection_executed,
