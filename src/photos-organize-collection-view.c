@@ -35,6 +35,7 @@
 #include "photos-organize-collection-view.h"
 #include "photos-query.h"
 #include "photos-search-context.h"
+#include "photos-selection-controller.h"
 #include "photos-set-collection-job.h"
 #include "photos-utils.h"
 
@@ -50,6 +51,7 @@ struct _PhotosOrganizeCollectionView
   GtkTreeViewColumn *view_col;
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
+  PhotosSelectionController *sel_cntrlr;
   gboolean choice_confirmed;
 };
 
@@ -112,11 +114,17 @@ photos_organize_collection_view_set_collection_executed (GObject *source_object,
 static void
 photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *self, gchar *path)
 {
+  GApplication *app;
+  GList *urns;
   GtkTreeIter iter;
   GtkTreePath *tree_path;
+  PhotosSearchContextState *state;
   PhotosSetCollectionJob *job;
   gboolean active;
   gchar *coll_urn;
+
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
   tree_path = gtk_tree_path_new_from_string (path);
   gtk_tree_model_get_iter (GTK_TREE_MODEL (self->model), &iter, tree_path);
@@ -124,7 +132,10 @@ photos_organize_collection_view_check_toggled (PhotosOrganizeCollectionView *sel
   active = gtk_cell_renderer_toggle_get_active (GTK_CELL_RENDERER_TOGGLE (self->renderer_check));
 
   job = photos_set_collection_job_new (coll_urn, !active);
+  urns = photos_selection_controller_get_selection (self->sel_cntrlr);
   photos_set_collection_job_run (job,
+                                 state,
+                                 urns,
                                  self->cancellable,
                                  photos_organize_collection_view_set_collection_executed,
                                  self);
@@ -140,9 +151,12 @@ photos_organize_collection_view_create_collection_executed (GObject *source_obje
   PhotosOrganizeCollectionView *self;
   PhotosCreateCollectionJob *col_job = PHOTOS_CREATE_COLLECTION_JOB (source_object);
   PhotosSetCollectionJob *set_job = NULL;
+  GApplication *app;
   GError *error;
+  GList *urns;
   GtkTreeIter iter;
   GtkTreePath *path = NULL;
+  PhotosSearchContextState *state;
   gchar *created_urn = NULL;
 
   error = NULL;
@@ -173,11 +187,15 @@ photos_organize_collection_view_create_collection_executed (GObject *source_obje
   if (path == NULL)
     goto out;
 
+  app = g_application_get_default ();
+  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
+
   gtk_tree_model_get_iter (GTK_TREE_MODEL (self->model), &iter, path);
   gtk_list_store_set (self->model, &iter, PHOTOS_ORGANIZE_MODEL_ID, created_urn, -1);
 
   set_job = photos_set_collection_job_new (created_urn, TRUE);
-  photos_set_collection_job_run (set_job, NULL, NULL, NULL);
+  urns = photos_selection_controller_get_selection (self->sel_cntrlr);
+  photos_set_collection_job_run (set_job, state, urns, NULL, NULL, NULL);
 
  out:
   g_clear_object (&set_job);
@@ -320,6 +338,7 @@ photos_organize_collection_view_dispose (GObject *object)
   g_clear_object (&self->model);
   g_clear_object (&self->item_mngr);
   g_clear_object (&self->src_mngr);
+  g_clear_object (&self->sel_cntrlr);
 
   G_OBJECT_CLASS (photos_organize_collection_view_parent_class)->dispose (object);
 }
@@ -378,6 +397,7 @@ photos_organize_collection_view_init (PhotosOrganizeCollectionView *self)
 
   self->item_mngr = g_object_ref (state->item_mngr);
   self->src_mngr = g_object_ref (state->src_mngr);
+  self->sel_cntrlr = photos_selection_controller_dup_singleton ();
 
   gtk_widget_show (GTK_WIDGET (self));
 }

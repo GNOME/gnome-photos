@@ -28,8 +28,6 @@
 
 #include "photos-query.h"
 #include "photos-query-builder.h"
-#include "photos-search-context.h"
-#include "photos-selection-controller.h"
 #include "photos-set-collection-job.h"
 #include "photos-tracker-queue.h"
 #include "photos-update-mtime-job.h"
@@ -39,7 +37,6 @@ struct _PhotosSetCollectionJob
 {
   GObject parent_instance;
   GError *queue_error;
-  PhotosSelectionController *sel_cntrlr;
   PhotosTrackerQueue *queue;
   gboolean setting;
   gchar *collection_urn;
@@ -124,7 +121,6 @@ photos_set_collection_job_dispose (GObject *object)
 {
   PhotosSetCollectionJob *self = PHOTOS_SET_COLLECTION_JOB (object);
 
-  g_clear_object (&self->sel_cntrlr);
   g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_set_collection_job_parent_class)->dispose (object);
@@ -168,7 +164,6 @@ photos_set_collection_job_set_property (GObject *object, guint prop_id, const GV
 static void
 photos_set_collection_job_init (PhotosSetCollectionJob *self)
 {
-  self->sel_cntrlr = photos_selection_controller_dup_singleton ();
   self->queue = photos_tracker_queue_dup_singleton (NULL, &self->queue_error);
 }
 
@@ -230,15 +225,14 @@ photos_set_collection_job_finish (PhotosSetCollectionJob *self, GAsyncResult *re
 
 void
 photos_set_collection_job_run (PhotosSetCollectionJob *self,
+                               PhotosSearchContextState *state,
+                               GList *urns,
                                GCancellable *cancellable,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
 {
-  GApplication *app;
   GList *l;
-  GList *urns;
   GTask *task = NULL;
-  PhotosSearchContextState *state;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_set_collection_job_run);
@@ -249,10 +243,6 @@ photos_set_collection_job_run (PhotosSetCollectionJob *self,
       goto out;
     }
 
-  app = g_application_get_default ();
-  state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
-
-  urns = photos_selection_controller_get_selection (self->sel_cntrlr);
   for (l = urns; l != NULL; l = l->next)
     {
       PhotosQuery *query = NULL;

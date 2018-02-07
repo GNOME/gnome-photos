@@ -25,6 +25,8 @@
 
 #include <gio/gio.h>
 
+#include "photos-search-context.h"
+
 G_BEGIN_DECLS
 
 #define PHOTOS_TYPE_SET_COLLECTION_JOB (photos_set_collection_job_get_type ())
@@ -37,6 +39,8 @@ gboolean                  photos_set_collection_job_finish      (PhotosSetCollec
                                                                  GError **error);
 
 void                      photos_set_collection_job_run         (PhotosSetCollectionJob *self,
+                                                                 PhotosSearchContextState *state,
+                                                                 GList *urns,
                                                                  GCancellable *cancellable,
                                                                  GAsyncReadyCallback callback,
                                                                  gpointer user_data);
