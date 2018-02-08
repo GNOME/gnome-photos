@@ -401,6 +401,7 @@ photos_application_actions_update (PhotosApplication *self)
       n_items = g_list_model_get_n_items (G_LIST_MODEL (item_mngr_chld));
     }
 
+  g_simple_action_set_enabled (self->edit_done_action, FALSE);
   g_simple_action_set_enabled (self->zoom_best_fit_action, FALSE);
   g_simple_action_set_enabled (self->zoom_end_action, FALSE);
   g_simple_action_set_enabled (self->zoom_out_action, FALSE);
@@ -411,7 +412,6 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->crop_action, enable);
   g_simple_action_set_enabled (self->denoise_action, enable);
   g_simple_action_set_enabled (self->edit_cancel_action, enable);
-  g_simple_action_set_enabled (self->edit_done_action, enable);
   g_simple_action_set_enabled (self->insta_action, enable);
   g_simple_action_set_enabled (self->saturation_action, enable);
   g_simple_action_set_enabled (self->shadows_highlights_action, enable);

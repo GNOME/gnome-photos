@@ -36,6 +36,7 @@ struct _PhotosPipeline
   GObject parent_instance;
   GHashTable *hash;
   GeglNode *graph;
+  gboolean pipeline_changed;
   gchar *snapshot;
   gchar *uri;
 };
@@ -46,6 +47,14 @@ enum
   PROP_PARENT,
   PROP_URI
 };
+
+enum
+{
+  CHANGED,
+  LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 static void photos_pipeline_async_initable_iface_init (GAsyncInitableIface *iface);
 
@@ -285,6 +294,7 @@ photos_pipeline_init (PhotosPipeline *self)
 
   self->hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
   self->graph = gegl_node_new ();
+  self->pipeline_changed = FALSE;
 }
 
 
@@ -313,6 +323,17 @@ photos_pipeline_class_init (PhotosPipelineClass *class)
                                                         "The location to save this pipeline",
                                                         NULL,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  signals[CHANGED] = g_signal_new ("changed",
+                                    G_TYPE_FROM_CLASS (class),
+                                    G_SIGNAL_RUN_LAST,
+                                    0,
+                                    NULL, /* accumulator */
+                                    NULL, /* accu_data */
+                                    NULL,
+                                    G_TYPE_NONE,
+                                    1,
+                                    G_TYPE_BOOLEAN);
 }
 
 
@@ -451,6 +472,19 @@ photos_pipeline_new_finish (GAsyncResult *res, GError **error)
 
 
 void
+photos_pipeline_changed (PhotosPipeline *self, gboolean changed)
+{
+  g_return_if_fail (PHOTOS_PIPELINE (self));
+
+  if (self->pipeline_changed == changed)
+    return;
+
+  self->pipeline_changed = changed;
+  g_signal_emit (self, signals[CHANGED], 0, self->pipeline_changed);
+}
+
+
+void
 photos_pipeline_add_valist (PhotosPipeline *self,
                             const gchar *operation,
                             const gchar *first_property_name,
@@ -489,6 +523,8 @@ photos_pipeline_add_valist (PhotosPipeline *self,
 
   xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
+
+  photos_pipeline_changed (self, TRUE);
 
   g_free (xml);
 }
@@ -768,4 +804,6 @@ photos_pipeline_snapshot (PhotosPipeline *self)
   g_free (self->snapshot);
   self->snapshot = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Snapshot: %s", self->snapshot);
+
+  self->pipeline_changed = FALSE;
 }
