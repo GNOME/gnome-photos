@@ -101,6 +101,7 @@ struct _PhotosBaseItemPrivate
   gint64 height;
   gint64 mtime;
   gint64 width;
+  guint busy_count;
 };
 
 enum
@@ -2920,8 +2921,12 @@ photos_base_item_get_property (GObject *object, guint prop_id, GValue *value, GP
       }
 
     case PROP_PULSE:
-      g_value_set_boolean (value, FALSE);
-      break;
+      {
+        gboolean pulse = priv->busy_count > 0;
+
+        g_value_set_boolean (value, pulse);
+        break;
+      }
 
     case PROP_SECONDARY_TEXT:
       g_value_set_string (value, priv->author);
@@ -3782,6 +3787,20 @@ photos_base_item_load_finish (PhotosBaseItem *self, GAsyncResult *res, GError **
 
 
 void
+photos_base_item_mark_busy (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = photos_base_item_get_instance_private (self);
+
+  priv->busy_count++;
+  if (priv->busy_count == 1)
+    g_object_notify (G_OBJECT (self), "pulse");
+}
+
+
+void
 photos_base_item_metadata_add_shared_async (PhotosBaseItem *self,
                                             const gchar *provider_type,
                                             const gchar *account_identity,
@@ -4414,4 +4433,20 @@ photos_base_item_trash (PhotosBaseItem *self)
 
   job = photos_delete_item_job_new (priv->id);
   photos_delete_item_job_run (job, NULL, NULL, NULL);
+}
+
+
+void
+photos_base_item_unmark_busy (PhotosBaseItem *self)
+{
+  PhotosBaseItemPrivate *priv;
+
+  g_return_if_fail (PHOTOS_IS_BASE_ITEM (self));
+  priv = photos_base_item_get_instance_private (self);
+
+  g_return_if_fail (priv->busy_count > 0);
+
+  priv->busy_count--;
+  if (priv->busy_count == 0)
+    g_object_notify (G_OBJECT (self), "pulse");
 }

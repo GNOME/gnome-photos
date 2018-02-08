@@ -182,6 +182,8 @@ GeglNode           *photos_base_item_load_finish             (PhotosBaseItem *se
                                                               GAsyncResult *res,
                                                               GError **error);
 
+void                photos_base_item_mark_busy               (PhotosBaseItem *self);
+
 void                photos_base_item_metadata_add_shared_async  (PhotosBaseItem *self,
                                                                  const gchar *provider_type,
                                                                  const gchar *account_identity,
@@ -308,6 +310,8 @@ void                photos_base_item_set_default_app_name    (PhotosBaseItem *se
 void                photos_base_item_set_favorite            (PhotosBaseItem *self, gboolean favorite);
 
 void                photos_base_item_trash                   (PhotosBaseItem *self);
+
+void                photos_base_item_unmark_busy             (PhotosBaseItem *self);
 
 G_END_DECLS
 
