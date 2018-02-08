@@ -411,7 +411,6 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->crop_action, enable);
   g_simple_action_set_enabled (self->denoise_action, enable);
   g_simple_action_set_enabled (self->edit_cancel_action, enable);
-  g_simple_action_set_enabled (self->edit_done_action, enable);
   g_simple_action_set_enabled (self->insta_action, enable);
   g_simple_action_set_enabled (self->saturation_action, enable);
   g_simple_action_set_enabled (self->shadows_highlights_action, enable);
@@ -2113,6 +2112,7 @@ photos_application_startup (GApplication *application)
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->edit_action));
 
   self->edit_done_action = g_simple_action_new ("edit-done", NULL);
+  g_simple_action_set_enabled (self->edit_done_action, FALSE);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->edit_done_action));
 
   self->edit_revert_action = g_simple_action_new ("edit-revert", G_VARIANT_TYPE_STRING);
