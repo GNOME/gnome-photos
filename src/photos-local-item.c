@@ -108,17 +108,26 @@ photos_local_item_create_name_fallback (PhotosBaseItem *item)
 static gchar *
 photos_local_item_get_pipeline_path (PhotosLocalItem *self)
 {
-  const gchar *data_dir;
   const gchar *uri;
-  g_autofree gchar *md5 = NULL;
-  gchar *path;
+  g_autofree gchar *item_path = NULL;
+  gchar *path = NULL;
 
   uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (self));
-  md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
-  data_dir = g_get_user_data_dir ();
 
-  path = g_build_filename (data_dir, PACKAGE_TARNAME, "local", md5, NULL);
+  {
+    g_autoptr (GError) error = NULL;
 
+    item_path = g_filename_from_uri (uri, NULL, &error);
+    if (!item_path)
+      {
+        g_warning ("Unable to create filename for pipeline: %s", error->message);
+        goto out;
+      }
+  }
+
+  path = g_strconcat (item_path, ".gnome-photos", NULL);
+
+ out:
   return path;
 }
 
