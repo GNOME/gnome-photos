@@ -59,7 +59,7 @@ EGG_DEFINE_COUNTER (instances,
 
 enum
 {
-  OFFSET_STEP = 50
+  OFFSET_STEP = 60
 };
 
 

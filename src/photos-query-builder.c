@@ -136,7 +136,7 @@ photos_query_builder_query (PhotosSearchContextState *state,
   if (global)
     {
       gint offset = 0;
-      gint step = 50;
+      gint step = 60;
 
       if (offset_cntrlr != NULL)
         {
