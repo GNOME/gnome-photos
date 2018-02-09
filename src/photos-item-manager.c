@@ -41,6 +41,7 @@
 #include "photos-single-item-job.h"
 #include "photos-tracker-change-event.h"
 #include "photos-tracker-change-monitor.h"
+#include "photos-tracker-queue.h"
 #include "photos-utils.h"
 
 
@@ -58,9 +59,11 @@ struct _PhotosItemManager
   PhotosBaseManager **item_mngr_chldrn;
   PhotosLoadState load_state;
   PhotosTrackerChangeMonitor *monitor;
+  PhotosTrackerQueue *queue;
   PhotosWindowMode mode;
   gboolean fullscreen;
   gboolean *constrain_additions;
+  guint wait_for_changes_id;
 };
 
 enum
@@ -92,6 +95,15 @@ struct _PhotosItemManagerHiddenItem
   gboolean *modes;
   guint n_modes;
 };
+
+
+enum
+{
+  WAIT_FOR_CHANGES_TIMEOUT = 1 /* s */
+};
+
+
+static gboolean photos_item_manager_wait_for_changes_timeout (gpointer user_data);
 
 
 static PhotosItemManagerHiddenItem *
@@ -501,6 +513,130 @@ photos_item_manager_cursor_is_favorite (TrackerSparqlCursor *cursor)
 }
 
 
+static void
+photos_item_manager_remove_timeout (PhotosItemManager *self)
+{
+  if (self->wait_for_changes_id != 0)
+    {
+      g_source_remove (self->wait_for_changes_id);
+      self->wait_for_changes_id = 0;
+    }
+}
+
+
+static void
+photos_item_manager_wait_for_changes_timeout_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
+  TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
+  gboolean success;
+  const gchar *id;
+  const gchar *uri;
+  guint wait_for_changes_size;
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    /* Note that tracker_sparql_cursor_next_finish can return FALSE even
+     * without an error.
+     */
+    success = tracker_sparql_cursor_next_finish (cursor, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to fetch URN for URI: %s", error->message);
+        goto out;
+      }
+  }
+
+  if (!success)
+    goto out;
+
+  id = tracker_sparql_cursor_get_string (cursor, 0, NULL);
+  uri = tracker_sparql_cursor_get_string (cursor, 1, NULL);
+  if (id != NULL && id[0] != '\0' && uri != NULL && uri[0] != '\0')
+    photos_item_manager_check_wait_for_changes (self, id, uri);
+
+  photos_item_manager_remove_timeout (self);
+
+  wait_for_changes_size = g_hash_table_size (self->wait_for_changes_table);
+  if (wait_for_changes_size > 0)
+    {
+      self->wait_for_changes_id = g_timeout_add_seconds (WAIT_FOR_CHANGES_TIMEOUT,
+                                                         photos_item_manager_wait_for_changes_timeout,
+                                                         self);
+    }
+
+ out:
+  g_object_unref (self);
+}
+
+
+static void
+photos_item_manager_wait_for_changes_timeout_query_executed (GObject *source_object,
+                                                             GAsyncResult *res,
+                                                             gpointer user_data)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
+  TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
+  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = tracker_sparql_connection_query_finish (connection, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to fetch URN for URI: %s", error->message);
+        goto out;
+      }
+  }
+
+  if (cursor == NULL)
+    goto out;
+
+  tracker_sparql_cursor_next_async (cursor,
+                                    NULL,
+                                    photos_item_manager_wait_for_changes_timeout_cursor_next,
+                                    g_object_ref (self));
+
+ out:
+  g_clear_object (&cursor);
+}
+
+
+static gboolean
+photos_item_manager_wait_for_changes_timeout (gpointer user_data)
+{
+  PhotosItemManager *self = PHOTOS_ITEM_MANAGER (user_data);
+  GHashTableIter iter;
+  GList *tasks;
+  const gchar *uri;
+
+  if (G_UNLIKELY (self->queue == NULL))
+    goto out;
+
+  g_hash_table_iter_init (&iter, self->wait_for_changes_table);
+  while (g_hash_table_iter_next (&iter, (gpointer *) &uri, (gpointer *) &tasks))
+    {
+      g_autoptr (PhotosQuery) query = NULL;
+      g_autofree gchar *sparql = NULL;
+
+      sparql = g_strdup_printf ("SELECT ?urn nie:url (?urn) WHERE { ?urn nie:url '%s' }", uri);
+      query = photos_query_new (NULL, sparql);
+      photos_tracker_queue_select (self->queue,
+                                   query,
+                                   NULL,
+                                   photos_item_manager_wait_for_changes_timeout_query_executed,
+                                   g_object_ref (self),
+                                   g_object_unref);
+    }
+
+ out:
+  self->wait_for_changes_id = 0;
+  return G_SOURCE_REMOVE;
+}
+
+
 static GObject *
 photos_item_manager_get_active_object (PhotosBaseManager *mngr)
 {
@@ -772,6 +908,8 @@ photos_item_manager_dispose (GObject *object)
 {
   PhotosItemManager *self = PHOTOS_ITEM_MANAGER (object);
 
+  photos_item_manager_remove_timeout (self);
+
   if (self->item_mngr_chldrn != NULL)
     {
       guint i;
@@ -790,6 +928,7 @@ photos_item_manager_dispose (GObject *object)
   g_clear_object (&self->loader_cancellable);
   g_clear_object (&self->active_collection);
   g_clear_object (&self->monitor);
+  g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_item_manager_parent_class)->dispose (object);
 }
@@ -850,6 +989,14 @@ photos_item_manager_init (PhotosItemManager *self)
                              G_CALLBACK (photos_item_manager_changes_pending),
                              self,
                              G_CONNECT_SWAPPED);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    self->queue = photos_tracker_queue_dup_singleton (NULL, &error);
+    if (G_UNLIKELY (error != NULL))
+      g_warning ("Unable to create PhotosTrackerQueue: %s", error->message);
+  }
 
   self->fullscreen = FALSE;
   self->constrain_additions = (gboolean *) g_malloc0_n (window_mode_class->n_values, sizeof (gboolean));
@@ -1261,6 +1408,11 @@ photos_item_manager_wait_for_changes_async (PhotosItemManager *self,
   tasks = g_list_copy_deep (tasks, (GCopyFunc) g_object_ref, NULL);
   tasks = g_list_prepend (tasks, g_object_ref (task));
   g_hash_table_insert (self->wait_for_changes_table, g_strdup (uri), tasks);
+
+  photos_item_manager_remove_timeout (self);
+  self->wait_for_changes_id = g_timeout_add_seconds (WAIT_FOR_CHANGES_TIMEOUT,
+                                                     photos_item_manager_wait_for_changes_timeout,
+                                                     self);
 
   photos_debug (PHOTOS_DEBUG_TRACKER, "Waiting for %s", uri);
 
