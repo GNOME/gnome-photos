@@ -30,6 +30,7 @@
 #include <tracker-sparql.h>
 
 #include "egg-counter.h"
+#include "photos-debug.h"
 #include "photos-enums.h"
 #include "photos-filterable.h"
 #include "photos-item-manager.h"
@@ -343,6 +344,8 @@ photos_item_manager_check_wait_for_changes (PhotosItemManager *self, const gchar
 
   g_return_if_fail (id != NULL && id[0] != '\0');
   g_return_if_fail (uri != NULL && uri[0] != '\0');
+
+  photos_debug (PHOTOS_DEBUG_TRACKER, "Detected changes to %s", uri);
 
   tasks = (GList *) g_hash_table_lookup (self->wait_for_changes_table, uri);
   for (l = tasks; l != NULL; l = l->next)
@@ -1258,6 +1261,8 @@ photos_item_manager_wait_for_changes_async (PhotosItemManager *self,
   tasks = g_list_copy_deep (tasks, (GCopyFunc) g_object_ref, NULL);
   tasks = g_list_prepend (tasks, g_object_ref (task));
   g_hash_table_insert (self->wait_for_changes_table, g_strdup (uri), tasks);
+
+  photos_debug (PHOTOS_DEBUG_TRACKER, "Waiting for %s", uri);
 
  out:
   return;
