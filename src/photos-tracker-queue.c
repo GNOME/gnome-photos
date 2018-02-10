@@ -144,6 +144,8 @@ photos_tracker_queue_collector (GObject *source_object, GAsyncResult *res, gpoin
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (user_data);
   PhotosTrackerQueueData *data;
 
+  photos_debug (PHOTOS_DEBUG_TRACKER, "Query processed");
+
   data = g_queue_pop_head (self->queue);
   if (data->callback != NULL)
     (*data->callback) (source_object, res, data->user_data);
