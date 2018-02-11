@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-01-24 23:09+0000\n"
-"PO-Revision-Date: 2018-02-04 16:49+0100\n"
+"POT-Creation-Date: 2018-02-04 15:51+0000\n"
+"PO-Revision-Date: 2018-02-11 09:37+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -19,12 +19,12 @@ msgstr ""
 "X-Generator: Poedit 2.0.3\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:2383 src/photos-embed.c:722
+#: src/photos-application.c:2422 src/photos-embed.c:751
 #: src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotos"
 
-#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:471
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:453
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Dopre, organize e condivît lis tôs fotos su GNOME"
 
@@ -128,7 +128,7 @@ msgstr "Mostre la version de aplicazion"
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2691
+#: src/photos-base-item.c:2696
 msgid "Screenshots"
 msgstr "Videadis"
 
@@ -157,19 +157,19 @@ msgstr "Dispositîfs visôrs DLNA"
 msgid "“%s” edited"
 msgstr "“%s” modificât"
 
-#: src/photos-embed.c:726
+#: src/photos-embed.c:755
 msgid "Collection View"
 msgstr "Viodude colezion"
 
-#: src/photos-embed.c:729 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:758 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Album"
 
-#: src/photos-embed.c:733 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:762 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Preferîts"
 
-#: src/photos-embed.c:737 src/photos-main-toolbar.c:267
+#: src/photos-embed.c:766 src/photos-main-toolbar.c:267
 msgid "Search"
 msgstr "Cîr"
 
@@ -179,7 +179,7 @@ msgstr "Nissun album cjatât"
 
 #: src/photos-empty-results-box.c:151
 msgid "Starred photos will appear here"
-msgstr "Lis fotos segnadis cuntune stele a vegnaran fûr chi"
+msgstr "Lis fotos preferidis a vignaran fûr chi"
 
 #: src/photos-empty-results-box.c:160
 msgid "No photos found"
@@ -260,7 +260,6 @@ msgstr "%d×%d (%s)"
 #. * will be exported.
 #.
 #: src/photos-export-dialog.c:198
-#| msgid "%e %B %Y"
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
@@ -268,36 +267,36 @@ msgstr "%-d %B %Y"
 msgid "Calculating export size…"
 msgstr "Daûr a calcolâ la dimension de esportazion…"
 
-#: src/photos-export-notification.c:252
+#: src/photos-export-notification.c:263
 msgid "Failed to export: not enough space"
 msgstr "Impussibil espuartâ: nol è vonde spazi"
 
-#: src/photos-export-notification.c:254
+#: src/photos-export-notification.c:265
 msgid "Failed to export"
 msgstr "Impussibil espuartâ"
 
-#: src/photos-export-notification.c:261
+#: src/photos-export-notification.c:272
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” espuartade"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:276
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d element espuartât"
 msgstr[1] "%d elements espuartâts"
 
-#: src/photos-export-notification.c:283
+#: src/photos-export-notification.c:293
 msgid "Analyze"
 msgstr "Analize"
 
-#: src/photos-export-notification.c:288
+#: src/photos-export-notification.c:298
 msgid "Empty Trash"
 msgstr "Disvuede scovacere"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:305 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:239 src/photos-selection-toolbar.ui:29
 msgid "Open"
 msgstr "Vierç"
@@ -305,7 +304,7 @@ msgstr "Vierç"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:315
+#: src/photos-export-notification.c:325
 msgid "Export Folder"
 msgstr "Cartele dulà espuartâ"
 
@@ -462,7 +461,7 @@ msgstr "Lis tôs fotos a son stadis metudis in indiç"
 msgid "Some photos might not be available during this process"
 msgstr "Cualchi foto e podarès no jessi disponibil dilunc chest procès"
 
-#: src/photos-local-item.c:259 src/photos-source-manager.c:261
+#: src/photos-local-item.c:204 src/photos-source-manager.c:271
 msgid "Local"
 msgstr "Locâl"
 
@@ -509,7 +508,7 @@ msgstr "Anule"
 msgid "Done"
 msgstr "Fat"
 
-#: src/photos-main-window.c:472
+#: src/photos-main-window.c:454
 msgid ""
 "Copyright © 2012 – 2017 Red Hat, Inc.\n"
 "Copyright © 2015 – 2017 Umang Jain"
@@ -518,7 +517,7 @@ msgstr ""
 "Copyright © 2015 – 2017 Umang Jain"
 
 #. Translators: Put your names here
-#: src/photos-main-window.c:480
+#: src/photos-main-window.c:462
 msgid "translator-credits"
 msgstr "Fabio Tomat <f.t.public@gmail.com>"
 
@@ -590,7 +589,7 @@ msgstr "Proprietâts"
 msgid "Printing “%s”: %s"
 msgstr "Stampe “%s”: %s"
 
-#: src/photos-print-operation.c:257
+#: src/photos-print-operation.c:241
 msgid "Image Settings"
 msgstr "Impostazions figure"
 
@@ -755,7 +754,7 @@ msgid "Discard all Edits"
 msgstr "Scarte dutis lis modifichis"
 
 #: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
-#: src/photos-source-manager.c:258
+#: src/photos-source-manager.c:268
 msgid "All"
 msgstr "Dutis"
 
@@ -824,7 +823,7 @@ msgstr "No si è rivâts a cjariâ in rêt la foto: Servizi no autorizât"
 msgid "Failed to upload photo"
 msgstr "No si è rivâts a cjariâ in rêt la foto"
 
-#: src/photos-source-manager.c:309
+#: src/photos-source-manager.c:319
 msgid "Sources"
 msgstr "Sorzints"
 
@@ -904,23 +903,23 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: src/photos-tool-crop.c:1461
+#: src/photos-tool-crop.c:1459
 msgid "Lock aspect ratio"
 msgstr "Bloche rapuart di aspiet"
 
-#: src/photos-tool-crop.c:1531
+#: src/photos-tool-crop.c:1529
 msgid "Landscape"
 msgstr "Orizontâl"
 
-#: src/photos-tool-crop.c:1542
+#: src/photos-tool-crop.c:1540
 msgid "Portrait"
 msgstr "Verticâl"
 
-#: src/photos-tool-crop.c:1553
+#: src/photos-tool-crop.c:1551
 msgid "Reset"
 msgstr "Torne tache"
 
-#: src/photos-tool-crop.c:1573
+#: src/photos-tool-crop.c:1569
 msgid "Crop"
 msgstr "Sponte"
 
