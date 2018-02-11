@@ -126,10 +126,10 @@ photos_pipeline_reset (PhotosPipeline *self)
 static gboolean
 photos_pipeline_create_graph_from_xml (PhotosPipeline *self, const gchar *contents)
 {
-  GeglNode *graph = NULL;
+  g_autoptr (GeglNode) graph = NULL;
   GeglNode *input;
   GeglNode *output;
-  GSList *children = NULL;
+  g_autoptr (GSList) children = NULL;
   GSList *l;
   gboolean ret_val = FALSE;
 
@@ -175,8 +175,6 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, const gchar *conten
   ret_val = TRUE;
 
  out:
-  g_slist_free (children);
-  g_clear_object (&graph);
   return ret_val;
 }
 
@@ -184,21 +182,23 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, const gchar *conten
 static void
 photos_pipeline_save_replace_contents (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  GTask *task = G_TASK (user_data);
-  GError *error;
+  g_autoptr (GTask) task = G_TASK (user_data);
   GFile *file = G_FILE (source_object);
 
-  error = NULL;
-  if (!g_file_replace_contents_finish (file, res, NULL, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!g_file_replace_contents_finish (file, res, NULL, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_boolean (task, TRUE);
 
  out:
-  g_object_unref (task);
+  return;
 }
 
 
@@ -319,44 +319,43 @@ photos_pipeline_class_init (PhotosPipelineClass *class)
 static void
 photos_pipeline_async_initable_init_load_contents (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosPipeline *self;
-  GError *error;
   GFile *file = G_FILE (source_object);
-  gchar *contents = NULL;
+  g_autofree gchar *contents = NULL;
 
   self = PHOTOS_PIPELINE (g_task_get_source_object (task));
 
-  error = NULL;
-  if (!g_file_load_contents_finish (file, res, &contents, NULL, NULL, &error))
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
-        {
-          g_error_free (error);
-          goto carry_on;
-        }
-      else
-        {
-          g_task_return_error (task, error);
-          goto out;
-        }
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!g_file_load_contents_finish (file, res, &contents, NULL, NULL, &error))
+      {
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+          {
+            goto carry_on;
+          }
+        else
+          {
+            g_task_return_error (task, g_steal_pointer (&error));
+            goto out;
+          }
+      }
+  }
 
   if (!(photos_pipeline_create_graph_from_xml (self, contents)))
     {
-      gchar *uri;
+      g_autofree gchar *uri = NULL;
 
       uri = g_file_get_uri (file);
       g_warning ("Unable to deserialize from %s", uri);
-      g_free (uri);
     }
 
  carry_on:
   g_task_return_boolean (task, TRUE);
 
  out:
-  g_free (contents);
-  g_object_unref (task);
+  return;
 }
 
 
@@ -368,8 +367,8 @@ photos_pipeline_async_initable_init_async (GAsyncInitable *initable,
                                            gpointer user_data)
 {
   PhotosPipeline *self = PHOTOS_PIPELINE (initable);
-  GFile *file = NULL;
-  GTask *task = NULL;
+  g_autoptr (GFile) file = NULL;
+  g_autoptr (GTask) task = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_pipeline_async_initable_init_async);
@@ -387,8 +386,7 @@ photos_pipeline_async_initable_init_async (GAsyncInitable *initable,
                               g_object_ref (task));
 
  out:
-  g_clear_object (&file);
-  g_object_unref (task);
+  return;
 }
 
 
@@ -439,13 +437,12 @@ PhotosPipeline *
 photos_pipeline_new_finish (GAsyncResult *res, GError **error)
 {
   GObject *ret_val;
-  GObject *source_object;
+  g_autoptr (GObject) source_object = NULL;
 
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
   source_object = g_async_result_get_source_object (res);
   ret_val = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
-  g_object_unref (source_object);
   return PHOTOS_PIPELINE (ret_val);
 }
 
@@ -460,7 +457,7 @@ photos_pipeline_add_valist (PhotosPipeline *self,
   GeglNode *last;
   GeglNode *node;
   GeglNode *output;
-  gchar *xml = NULL;
+  g_autofree gchar *xml = NULL;
 
   g_return_if_fail (PHOTOS_IS_PIPELINE (self));
   g_return_if_fail (operation != NULL && operation[0] != '\0');
@@ -489,8 +486,6 @@ photos_pipeline_add_valist (PhotosPipeline *self,
 
   xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
-
-  g_free (xml);
 }
 
 
@@ -561,7 +556,7 @@ photos_pipeline_get_output (PhotosPipeline *self)
 gboolean
 photos_pipeline_is_edited (PhotosPipeline *self)
 {
-  GSList *children = NULL;
+  g_autoptr (GSList) children = NULL;
   GSList *l;
   guint n_operations = 0;
 
@@ -598,7 +593,6 @@ photos_pipeline_is_edited (PhotosPipeline *self)
     }
 
  out:
-  g_slist_free (children);
   return n_operations > 0;
 }
 
@@ -621,8 +615,8 @@ photos_pipeline_save_async (PhotosPipeline *self,
                             GAsyncReadyCallback callback,
                             gpointer user_data)
 {
-  GFile *file;
-  GTask *task;
+  g_autoptr (GFile) file = NULL;
+  g_autoptr (GTask) task = NULL;
   gchar *xml = NULL;
   gsize len;
 
@@ -651,9 +645,6 @@ photos_pipeline_save_async (PhotosPipeline *self,
                                  cancellable,
                                  photos_pipeline_save_replace_contents,
                                  g_object_ref (task));
-
-  g_object_unref (file);
-  g_object_unref (task);
 }
 
 
@@ -675,7 +666,7 @@ photos_pipeline_remove (PhotosPipeline *self, const gchar *operation)
 {
   GeglNode *node;
   gboolean ret_val = FALSE;
-  gchar *xml = NULL;
+  g_autofree gchar *xml = NULL;
 
   g_return_val_if_fail (PHOTOS_IS_PIPELINE (self), FALSE);
   g_return_val_if_fail (operation != NULL && operation[0] != '\0', FALSE);
@@ -695,7 +686,6 @@ photos_pipeline_remove (PhotosPipeline *self, const gchar *operation)
   ret_val = TRUE;
 
  out:
-  g_free (xml);
   return ret_val;
 }
 
@@ -703,7 +693,7 @@ photos_pipeline_remove (PhotosPipeline *self, const gchar *operation)
 void
 photos_pipeline_revert (PhotosPipeline *self)
 {
-  gchar *xml;
+  g_autofree gchar *xml = NULL;
 
   g_return_if_fail (PHOTOS_IS_PIPELINE (self));
   g_return_if_fail (self->snapshot != NULL);
@@ -715,8 +705,6 @@ photos_pipeline_revert (PhotosPipeline *self)
 
   xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
-
-  g_free (xml);
 }
 
 
@@ -724,7 +712,7 @@ void
 photos_pipeline_revert_to_original (PhotosPipeline *self)
 {
   const gchar *empty_xml = "<?xml version='1.0' encoding='UTF-8'?><gegl></gegl>";
-  gchar *xml;
+  g_autofree gchar *xml = NULL;
 
   g_return_if_fail (PHOTOS_IS_PIPELINE (self));
 
@@ -735,8 +723,6 @@ photos_pipeline_revert_to_original (PhotosPipeline *self)
 
   xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Pipeline: %s", xml);
-
-  g_free (xml);
 }
 
 
