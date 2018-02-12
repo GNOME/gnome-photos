@@ -620,6 +620,9 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
       if (g_strcmp0 (id, "all") == 0)
         continue;
 
+      if (!photos_filterable_is_search_criterion (PHOTOS_FILTERABLE (object_data->object)))
+        continue;
+
       str = photos_filterable_get_filter (PHOTOS_FILTERABLE (object_data->object));
       if (g_strcmp0 (str, blank) == 0)
         g_free (str);
