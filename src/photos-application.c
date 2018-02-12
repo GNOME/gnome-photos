@@ -36,10 +36,12 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <grilo.h>
+#include <libtracker-control/tracker-control.h>
 
 #include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-camera-cache.h"
+#include "photos-create-collection-job.h"
 #include "photos-debug.h"
 #include "photos-dlna-renderers-dialog.h"
 #include "photos-export-dialog.h"
@@ -47,6 +49,7 @@
 #include "photos-filterable.h"
 #include "photos-gegl.h"
 #include "photos-glib.h"
+#include "photos-import-dialog.h"
 #include "photos-item-manager.h"
 #include "photos-main-window.h"
 #include "photos-properties-dialog.h"
@@ -59,6 +62,7 @@
 #include "photos-search-type.h"
 #include "photos-search-provider.h"
 #include "photos-selection-controller.h"
+#include "photos-set-collection-job.h"
 #include "photos-single-item-job.h"
 #include "photos-source.h"
 #include "photos-source-manager.h"
@@ -92,6 +96,7 @@ struct _PhotosApplication
   GSimpleAction *edit_revert_action;
   GSimpleAction *fs_action;
   GSimpleAction *gear_action;
+  GSimpleAction *import_cancel_action;
   GSimpleAction *insta_action;
   GSimpleAction *load_next_action;
   GSimpleAction *load_previous_action;
@@ -172,6 +177,9 @@ static const gchar *DESKTOP_KEY_PRIMARY_COLOR = "primary-color";
 static const gchar *DESKTOP_KEY_SECONDARY_COLOR = "secondary-color";
 
 typedef struct _PhotosApplicationCreateData PhotosApplicationCreateData;
+typedef struct _PhotosApplicationImportData PhotosApplicationImportData;
+typedef struct _PhotosApplicationImportCopiedData PhotosApplicationImportCopiedData;
+typedef struct _PhotosApplicationImportWaitForFileData PhotosApplicationImportWaitForFileData;
 typedef struct _PhotosApplicationRefreshData PhotosApplicationRefreshData;
 typedef struct _PhotosApplicationSetBackgroundData PhotosApplicationSetBackgroundData;
 
@@ -180,6 +188,18 @@ struct _PhotosApplicationCreateData
   PhotosApplication *application;
   gchar *extension_name;
   gchar *miner_name;
+};
+
+struct _PhotosApplicationImportData
+{
+  PhotosApplication *application;
+  GFile *destination;
+  GFile *import_sub_dir;
+  GList *files;
+  PhotosBaseItem *collection;
+  TrackerMinerManager *manager;
+  gchar *collection_urn;
+  gint64 ctime_latest;
 };
 
 struct _PhotosApplicationRefreshData
@@ -195,6 +215,7 @@ struct _PhotosApplicationSetBackgroundData
   GSettings *settings;
 };
 
+static void photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, gpointer user_data);
 static void photos_application_refresh_miner_now (PhotosApplication *self, GomMiner *miner);
 static void photos_application_start_miners (PhotosApplication *self);
 static void photos_application_start_miners_second (PhotosApplication *self);
@@ -225,6 +246,47 @@ photos_application_create_data_free (PhotosApplicationCreateData *data)
   g_free (data->miner_name);
   g_slice_free (PhotosApplicationCreateData, data);
 }
+
+
+static PhotosApplicationImportData *
+photos_application_import_data_new (PhotosApplication *application,
+                                    TrackerMinerManager *manager,
+                                    GList *files,
+                                    gint64 ctime_latest)
+{
+  PhotosApplicationImportData *data;
+
+  data = g_slice_new0 (PhotosApplicationImportData);
+  g_application_hold (G_APPLICATION (application));
+  data->application = application;
+  data->manager = g_object_ref (manager);
+  data->files = g_list_copy_deep (files, (GCopyFunc) g_object_ref, NULL);
+  data->ctime_latest = ctime_latest;
+  return data;
+}
+
+
+static void
+photos_application_import_data_free (PhotosApplicationImportData *data)
+{
+  g_application_release (G_APPLICATION (data->application));
+
+  if (data->collection != NULL)
+    {
+      photos_base_item_unmark_busy (data->collection);
+      g_object_unref (data->collection);
+    }
+
+  g_clear_object (&data->destination);
+  g_clear_object (&data->import_sub_dir);
+  g_list_free_full (data->files, g_object_unref);
+  g_clear_object (&data->manager);
+  g_free (data->collection_urn);
+  g_slice_free (PhotosApplicationImportData, data);
+}
+
+
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (PhotosApplicationImportData, photos_application_import_data_free);
 
 
 static PhotosApplicationRefreshData *
@@ -1023,6 +1085,492 @@ photos_application_get_state (PhotosSearchContext *context)
 {
   PhotosApplication *self = PHOTOS_APPLICATION (context);
   return self->state;
+}
+
+
+static void
+photos_application_import_index_file (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhotosApplication *self;
+  g_autoptr (GFile) file = G_FILE (user_data);
+  TrackerMinerManager *manager = TRACKER_MINER_MANAGER (source_object);
+
+  self = PHOTOS_APPLICATION (g_application_get_default ());
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!tracker_miner_manager_index_file_for_process_finish (manager, res, &error))
+      {
+        g_autofree gchar *uri = NULL;
+
+        uri = g_file_get_uri (file);
+        g_warning ("Unable to index %s: %s", uri, error->message);
+      }
+  }
+
+  g_application_unmark_busy (G_APPLICATION (self));
+  g_application_release (G_APPLICATION (self));
+}
+
+
+static void
+photos_application_import_copy_next_file (PhotosApplication *self, gpointer user_data)
+{
+  g_autoptr (PhotosApplicationImportData) data = (PhotosApplicationImportData *) user_data;
+  g_autoptr (GFile) destination = NULL;
+  GFile *source;
+  g_autofree gchar *destination_uri = NULL;
+  g_autofree gchar *filename = NULL;
+  g_autofree gchar *source_uri = NULL;
+
+  g_assert_nonnull (data->files);
+  data->files = g_list_remove_link (data->files, data->files);
+
+  if (data->files == NULL)
+    {
+      photos_debug (PHOTOS_DEBUG_IMPORT, "Finished importing");
+      goto out;
+    }
+
+  source = G_FILE (data->files->data);
+  filename = g_file_get_basename (source);
+  destination = g_file_get_child (data->import_sub_dir, filename);
+
+  destination_uri = g_file_get_uri (destination);
+  source_uri = g_file_get_uri (source);
+  photos_debug (PHOTOS_DEBUG_IMPORT, "Importing %s to %s", source_uri, destination_uri);
+
+  g_application_mark_busy (G_APPLICATION (self));
+  photos_glib_file_copy_async (source,
+                               destination,
+                               G_FILE_COPY_TARGET_DEFAULT_PERMS,
+                               G_PRIORITY_DEFAULT,
+                               NULL,
+                               photos_application_import_file_copy,
+                               g_steal_pointer (&data));
+
+ out:
+  return;
+}
+
+
+static void
+photos_application_import_single_item (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  g_autoptr (PhotosApplicationImportData) data = (PhotosApplicationImportData *) user_data;
+  PhotosApplication *self = data->application;
+  PhotosBaseItem *collection;
+  PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
+  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = photos_single_item_job_finish (job, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to query single item: %s", error->message);
+        goto out;
+      }
+  }
+
+  if (cursor == NULL)
+    goto out;
+
+  photos_item_manager_add_item_for_mode (PHOTOS_ITEM_MANAGER (self->state->item_mngr),
+                                         G_TYPE_NONE,
+                                         PHOTOS_WINDOW_MODE_COLLECTIONS,
+                                         cursor);
+
+  collection = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->state->item_mngr, data->collection_urn));
+  if (collection != NULL && data->collection == NULL)
+    {
+      photos_base_item_mark_busy (collection);
+      data->collection = g_object_ref (collection);
+    }
+
+  photos_application_import_copy_next_file (self, g_steal_pointer (&data));
+
+ out:
+  g_application_unmark_busy (G_APPLICATION (self));
+}
+
+
+static void
+photos_application_import_set_collection (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  g_autoptr (PhotosApplicationImportData) data = (PhotosApplicationImportData *) user_data;
+  PhotosApplication *self = data->application;
+  PhotosBaseItem *collection;
+  PhotosSetCollectionJob *set_collection_job = PHOTOS_SET_COLLECTION_JOB (source_object);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_set_collection_job_finish (set_collection_job, res, &error))
+      {
+        g_autofree gchar *uri = NULL;
+
+        uri = g_file_get_uri (data->destination);
+        g_warning ("Unable to set collection for %s: %s", uri, error->message);
+        goto out;
+      }
+  }
+
+  collection = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->state->item_mngr, data->collection_urn));
+  if (collection == NULL)
+    {
+      g_autoptr (PhotosSingleItemJob) single_item_job = NULL;
+
+      single_item_job = photos_single_item_job_new (data->collection_urn);
+
+      g_application_mark_busy (G_APPLICATION (self));
+      photos_single_item_job_run (single_item_job,
+                                  self->state,
+                                  PHOTOS_QUERY_FLAGS_COLLECTIONS,
+                                  NULL,
+                                  photos_application_import_single_item,
+                                  g_steal_pointer (&data));
+    }
+  else
+    {
+      if (data->collection == NULL)
+        {
+          photos_base_item_mark_busy (collection);
+          data->collection = g_object_ref (collection);
+        }
+
+      photos_base_item_refresh (collection);
+      photos_application_import_copy_next_file (self, g_steal_pointer (&data));
+    }
+
+ out:
+  g_application_unmark_busy (G_APPLICATION (self));
+}
+
+
+static void
+photos_application_import_wait_for_file (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  g_autoptr (PhotosApplicationImportData) data = (PhotosApplicationImportData *) user_data;
+  PhotosApplication *self = data->application;
+  g_autoptr (GList) urns = NULL;
+  PhotosItemManager *item_mngr = PHOTOS_ITEM_MANAGER (source_object);
+  g_autoptr (PhotosSetCollectionJob) job = NULL;
+  g_autofree gchar *id = NULL;
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    id = photos_item_manager_wait_for_file_finish (item_mngr, res, &error);
+    if (error != NULL)
+      {
+        g_autofree gchar *uri = NULL;
+
+        uri = g_file_get_uri (data->destination);
+        g_warning ("Unable to detect %s: %s", uri, error->message);
+        goto out;
+      }
+  }
+
+  photos_debug (PHOTOS_DEBUG_IMPORT, "Adding item %s to collection %s", id, data->collection_urn);
+
+  job = photos_set_collection_job_new (data->collection_urn, TRUE);
+  urns = g_list_prepend (urns, id);
+
+  g_application_mark_busy (G_APPLICATION (self));
+  photos_set_collection_job_run (job,
+                                 self->state,
+                                 urns,
+                                 NULL,
+                                 photos_application_import_set_collection,
+                                 g_steal_pointer (&data));
+
+ out:
+  g_application_unmark_busy (G_APPLICATION (self));
+}
+
+
+static void
+photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  g_autoptr (PhotosApplicationImportData) data = (PhotosApplicationImportData *) user_data;
+  PhotosApplication *self = data->application;
+  g_autoptr (GFile) destination = NULL;
+  GFile *source = G_FILE (source_object);
+  TrackerMinerManager *manager = data->manager;
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    destination = photos_glib_file_copy_finish (source, res, &error);
+    if (error != NULL)
+      {
+        g_autofree gchar *uri = NULL;
+
+        uri = g_file_get_uri (source);
+        g_warning ("Unable to copy %s: %s", uri, error->message);
+
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NO_SPACE))
+          goto out;
+      }
+  }
+
+  if (destination == NULL)
+    {
+      photos_application_import_copy_next_file (self, g_steal_pointer (&data));
+    }
+  else
+    {
+      g_autofree gchar *destination_uri = NULL;
+
+      g_assert_true (G_IS_FILE (destination));
+      g_set_object (&data->destination, destination);
+
+      destination_uri = g_file_get_uri (destination);
+      photos_debug (PHOTOS_DEBUG_IMPORT, "Indexing after import %s", destination_uri);
+
+      g_application_mark_busy (G_APPLICATION (self));
+      photos_item_manager_wait_for_file_async (PHOTOS_ITEM_MANAGER (self->state->item_mngr),
+                                               destination,
+                                               NULL,
+                                               photos_application_import_wait_for_file,
+                                               g_steal_pointer (&data));
+
+      g_application_hold (G_APPLICATION (self));
+      g_application_mark_busy (G_APPLICATION (self));
+      tracker_miner_manager_index_file_for_process_async (manager,
+                                                          destination,
+                                                          NULL,
+                                                          photos_application_import_index_file,
+                                                          g_object_ref (destination));
+    }
+
+ out:
+  g_application_unmark_busy (G_APPLICATION (self));
+}
+
+
+static void
+photos_application_import_add_to_collection (PhotosApplication *self, gpointer user_data)
+{
+  g_autoptr (PhotosApplicationImportData) data = (PhotosApplicationImportData *) user_data;
+  g_autoptr (GDateTime) date_created_latest = NULL;
+  g_autoptr (GFile) destination = NULL;
+  GFile *source;
+  const gchar *pictures_path;
+  g_autofree gchar *date_created_latest_str = NULL;
+  g_autofree gchar *destination_uri = NULL;
+  g_autofree gchar *filename = NULL;
+  g_autofree gchar *import_sub_path = NULL;
+  g_autofree gchar *source_uri = NULL;
+
+  date_created_latest = g_date_time_new_from_unix_local (data->ctime_latest);
+
+  /* Translators: this is the default sub-directory where photos will
+   * be imported.
+   */
+  date_created_latest_str = g_date_time_format (date_created_latest, _("%-d %B %Y"));
+
+  pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
+  import_sub_path = g_build_filename (pictures_path, PHOTOS_IMPORT_SUBPATH, date_created_latest_str, NULL);
+  g_mkdir_with_parents (import_sub_path, 0777);
+
+  g_clear_object (&data->import_sub_dir);
+  data->import_sub_dir = g_file_new_for_path (import_sub_path);
+
+  source = G_FILE (data->files->data);
+  filename = g_file_get_basename (source);
+  destination = g_file_get_child (data->import_sub_dir, filename);
+
+  destination_uri = g_file_get_uri (destination);
+  source_uri = g_file_get_uri (source);
+  photos_debug (PHOTOS_DEBUG_IMPORT, "Importing %s to %s", source_uri, destination_uri);
+
+  g_application_mark_busy (G_APPLICATION (self));
+  photos_glib_file_copy_async (source,
+                               destination,
+                               G_FILE_COPY_TARGET_DEFAULT_PERMS,
+                               G_PRIORITY_DEFAULT,
+                               NULL,
+                               photos_application_import_file_copy,
+                               g_steal_pointer (&data));
+}
+
+
+static void
+photos_application_import_create_collection_executed (GObject *source_object,
+                                                      GAsyncResult *res,
+                                                      gpointer user_data)
+{
+  g_autoptr (PhotosApplicationImportData) data = (PhotosApplicationImportData *) user_data;
+  PhotosApplication *self = data->application;
+  PhotosCreateCollectionJob *col_job = PHOTOS_CREATE_COLLECTION_JOB (source_object);
+  g_autofree gchar *created_urn = NULL;
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    created_urn = photos_create_collection_job_finish (col_job, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to create collection: %s", error->message);
+        goto out;
+      }
+  }
+
+  g_assert_null (data->collection_urn);
+  data->collection_urn = g_steal_pointer (&created_urn);
+
+  photos_application_import_add_to_collection (self, g_steal_pointer (&data));
+
+ out:
+  g_application_unmark_busy (G_APPLICATION (self));
+  return;
+}
+
+
+static void
+photos_application_import_response (GtkDialog *dialog, gint response_id, gpointer user_data)
+{
+  g_autoptr (PhotosApplicationImportData) data = (PhotosApplicationImportData *) user_data;
+  PhotosApplication *self = data->application;
+  PhotosBaseItem *collection;
+  const gchar *name;
+  g_autofree gchar *identifier_tag = NULL;
+
+  g_assert_true (PHOTOS_IS_IMPORT_DIALOG (dialog));
+
+  if (response_id != GTK_RESPONSE_OK)
+    goto out;
+
+  collection = photos_import_dialog_get_collection (PHOTOS_IMPORT_DIALOG (dialog));
+  name = photos_import_dialog_get_name (PHOTOS_IMPORT_DIALOG (dialog), &identifier_tag);
+  g_assert_true ((PHOTOS_IS_BASE_ITEM (collection) && name == NULL) || (collection == NULL && name != NULL));
+
+  if (name != NULL)
+    {
+      g_autoptr (PhotosCreateCollectionJob) col_job = NULL;
+
+      col_job = photos_create_collection_job_new (name, identifier_tag);
+
+      g_application_mark_busy (G_APPLICATION (self));
+      photos_create_collection_job_run (col_job,
+                                        NULL,
+                                        photos_application_import_create_collection_executed,
+                                        g_steal_pointer (&data));
+    }
+  else if (collection != NULL)
+    {
+      const gchar *id;
+
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (collection));
+
+      g_assert_null (data->collection_urn);
+      data->collection_urn = g_strdup (id);
+
+      photos_application_import_add_to_collection (self, g_steal_pointer (&data));
+    }
+  else
+    {
+      g_assert_not_reached ();
+    }
+
+  g_action_activate (G_ACTION (self->import_cancel_action), NULL);
+  photos_mode_controller_set_window_mode (self->state->mode_cntrlr, PHOTOS_WINDOW_MODE_COLLECTIONS);
+
+ out:
+  gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+
+static void
+photos_application_import (PhotosApplication *self)
+{
+  GList *files = NULL;
+  GList *l;
+  GList *selection;
+  GMount *mount;
+  GtkWidget *dialog;
+  g_autoptr (PhotosApplicationImportData) data = NULL;
+  PhotosSource *source;
+  TrackerMinerManager *manager = NULL; /* TODO: use g_autoptr */
+  gint64 ctime_latest = -1;
+
+  source = PHOTOS_SOURCE (photos_base_manager_get_active_object (self->state->src_mngr));
+  g_return_if_fail (PHOTOS_IS_SOURCE (source));
+
+  mount = photos_source_get_mount (source);
+  g_return_if_fail (G_IS_MOUNT (mount));
+
+  g_return_if_fail (photos_utils_get_selection_mode ());
+
+  selection = photos_selection_controller_get_selection (self->sel_cntrlr);
+  g_return_if_fail (selection != NULL);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    manager = tracker_miner_manager_new_full (FALSE, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to create a TrackerMinerManager, importing from attached devices won't work: %s",
+                   error->message);
+        goto out;
+      }
+  }
+
+  for (l = selection; l != NULL; l = l->next)
+    {
+      g_autoptr (GFile) file = NULL;
+      PhotosBaseItem *item;
+      const gchar *uri;
+      const gchar *urn = (gchar *) l->data;
+      gint64 ctime;
+
+      item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (self->state->item_mngr, urn));
+
+      ctime = photos_base_item_get_date_created (item);
+      if (ctime < 0)
+        ctime = photos_base_item_get_mtime (item);
+
+      if (ctime > ctime_latest)
+        ctime_latest = ctime;
+
+      uri = photos_base_item_get_uri (item);
+      file = g_file_new_for_uri (uri);
+      files = g_list_prepend (files, g_object_ref (file));
+    }
+
+  g_assert_cmpint (ctime_latest, >=, 0);
+
+  dialog = photos_import_dialog_new (GTK_WINDOW (self->main_window), ctime_latest);
+  gtk_widget_show_all (dialog);
+
+  data = photos_application_import_data_new (self, manager, files, ctime_latest);
+  g_signal_connect (dialog,
+                    "response",
+                    G_CALLBACK (photos_application_import_response),
+                    g_steal_pointer (&data));
+
+ out:
+  g_clear_object (&manager);
+  g_list_free_full (files, g_object_unref);
+}
+
+
+static void
+photos_application_import_cancel (PhotosApplication *self)
+{
+  PhotosWindowMode mode;
+
+  photos_base_manager_set_active_object_by_id (self->state->src_mngr, PHOTOS_SOURCE_STOCK_ALL);
+
+  mode = photos_mode_controller_get_window_mode (self->state->mode_cntrlr);
+  g_return_if_fail (mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+                    || mode == PHOTOS_WINDOW_MODE_FAVORITES
+                    || mode == PHOTOS_WINDOW_MODE_OVERVIEW);
 }
 
 
@@ -2157,6 +2705,21 @@ photos_application_startup (GApplication *application)
   self->gear_action = g_simple_action_new_stateful ("gear-menu", NULL, state);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->gear_action));
 
+  {
+    g_autoptr (GSimpleAction) action = NULL;
+
+    action = g_simple_action_new ("import-current", NULL);
+    g_signal_connect_swapped (action, "activate", G_CALLBACK (photos_application_import), self);
+    g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
+  }
+
+  self->import_cancel_action = g_simple_action_new ("import-cancel", NULL);
+  g_signal_connect_swapped (self->import_cancel_action,
+                            "activate",
+                            G_CALLBACK (photos_application_import_cancel),
+                            self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->import_cancel_action));
+
   self->insta_action = g_simple_action_new ("insta-current", G_VARIANT_TYPE_INT16);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->insta_action));
 
@@ -2388,6 +2951,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->edit_revert_action);
   g_clear_object (&self->fs_action);
   g_clear_object (&self->gear_action);
+  g_clear_object (&self->import_cancel_action);
   g_clear_object (&self->insta_action);
   g_clear_object (&self->load_next_action);
   g_clear_object (&self->load_previous_action);
