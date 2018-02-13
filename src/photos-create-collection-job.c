@@ -175,6 +175,8 @@ photos_create_collection_job_class_init (PhotosCreateCollectionJobClass *class)
 PhotosCreateCollectionJob *
 photos_create_collection_job_new (const gchar *name)
 {
+  g_return_val_if_fail (name != NULL && name[0] != '\0', NULL);
+
   return g_object_new (PHOTOS_TYPE_CREATE_COLLECTION_JOB, "name", name, NULL);
 }
 
@@ -184,6 +186,7 @@ photos_create_collection_job_finish (PhotosCreateCollectionJob *self, GAsyncResu
 {
   GTask *task = G_TASK (res);
 
+  g_return_val_if_fail (PHOTOS_IS_CREATE_COLLECTION_JOB (self), NULL);
   g_return_val_if_fail (g_task_is_valid (res, self), NULL);
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_create_collection_job_run, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
@@ -202,6 +205,9 @@ photos_create_collection_job_run (PhotosCreateCollectionJob *self,
   GTask *task;
   PhotosQuery *query = NULL;
   PhotosSearchContextState *state;
+
+  g_return_if_fail (PHOTOS_IS_CREATE_COLLECTION_JOB (self));
+  g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_create_collection_job_run);
