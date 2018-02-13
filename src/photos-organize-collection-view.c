@@ -265,7 +265,7 @@ photos_organize_collection_view_text_edited_real (PhotosOrganizeCollectionView *
   gtk_tree_model_get_iter (GTK_TREE_MODEL (self->model), &iter, path);
   gtk_list_store_set (self->model, &iter, PHOTOS_ORGANIZE_MODEL_NAME, new_text, -1);
 
-  job = photos_create_collection_job_new (new_text);
+  job = photos_create_collection_job_new (new_text, NULL);
   photos_create_collection_job_run (job,
                                     self->cancellable,
                                     photos_organize_collection_view_create_collection_executed,

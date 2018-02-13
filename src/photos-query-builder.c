@@ -179,13 +179,20 @@ photos_query_builder_query (PhotosSearchContextState *state,
 
 
 PhotosQuery *
-photos_query_builder_create_collection_query (PhotosSearchContextState *state, const gchar *name)
+photos_query_builder_create_collection_query (PhotosSearchContextState *state,
+                                              const gchar *name,
+                                              const gchar *identifier_tag)
 {
   GTimeVal tv;
   PhotosQuery *query;
+  g_autofree gchar *identifier = NULL;
   g_autofree gchar *sparql = NULL;
   g_autofree gchar *time = NULL;
   gint64 timestamp;
+
+  identifier = g_strdup_printf ("%s%s",
+                                PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER,
+                                identifier_tag == NULL ? name : identifier_tag);
 
   timestamp = g_get_real_time () / G_USEC_PER_SEC;
   tv.tv_sec = timestamp;
@@ -195,11 +202,10 @@ photos_query_builder_create_collection_query (PhotosSearchContextState *state, c
   sparql = g_strdup_printf ("INSERT { _:res a nfo:DataContainer ; a nie:DataObject ; "
                             "nie:contentLastModified '%s' ; "
                             "nie:title '%s' ; "
-                            "nao:identifier '%s%s' }",
+                            "nao:identifier '%s' }",
                             time,
                             name,
-                            PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER,
-                            name);
+                            identifier);
 
   query = photos_query_new (state, sparql);
 

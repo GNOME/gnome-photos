@@ -41,12 +41,14 @@ struct _PhotosCreateCollectionJob
   GObject parent_instance;
   GError *queue_error;
   PhotosTrackerQueue *queue;
+  gchar *identifier_tag;
   gchar *name;
 };
 
 enum
 {
   PROP_0,
+  PROP_IDENTIFIER_TAG,
   PROP_NAME
 };
 
@@ -122,6 +124,7 @@ photos_create_collection_job_finalize (GObject *object)
   PhotosCreateCollectionJob *self = PHOTOS_CREATE_COLLECTION_JOB (object);
 
   g_clear_error (&self->queue_error);
+  g_free (self->identifier_tag);
   g_free (self->name);
 
   G_OBJECT_CLASS (photos_create_collection_job_parent_class)->finalize (object);
@@ -135,6 +138,10 @@ photos_create_collection_job_set_property (GObject *object, guint prop_id, const
 
   switch (prop_id)
     {
+    case PROP_IDENTIFIER_TAG:
+      self->identifier_tag = g_value_dup_string (value);
+      break;
+
     case PROP_NAME:
       self->name = g_value_dup_string (value);
       break;
@@ -163,6 +170,14 @@ photos_create_collection_job_class_init (PhotosCreateCollectionJobClass *class)
   object_class->set_property = photos_create_collection_job_set_property;
 
   g_object_class_install_property (object_class,
+                                   PROP_IDENTIFIER_TAG,
+                                   g_param_spec_string ("identifier-tag",
+                                                        "Identfier tag",
+                                                        "An optional ID that will be added to the nao:identifier",
+                                                        NULL,
+                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+
+  g_object_class_install_property (object_class,
                                    PROP_NAME,
                                    g_param_spec_string ("name",
                                                         "Name",
@@ -173,11 +188,12 @@ photos_create_collection_job_class_init (PhotosCreateCollectionJobClass *class)
 
 
 PhotosCreateCollectionJob *
-photos_create_collection_job_new (const gchar *name)
+photos_create_collection_job_new (const gchar *name, const gchar *identifier_tag)
 {
   g_return_val_if_fail (name != NULL && name[0] != '\0', NULL);
+  g_return_val_if_fail (identifier_tag == NULL || identifier_tag[0] != '\0', NULL);
 
-  return g_object_new (PHOTOS_TYPE_CREATE_COLLECTION_JOB, "name", name, NULL);
+  return g_object_new (PHOTOS_TYPE_CREATE_COLLECTION_JOB, "identifier-tag", identifier_tag, "name", name, NULL);
 }
 
 
@@ -221,7 +237,7 @@ photos_create_collection_job_run (PhotosCreateCollectionJob *self,
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  query = photos_query_builder_create_collection_query (state, self->name);
+  query = photos_query_builder_create_collection_query (state, self->name, self->identifier_tag);
   photos_tracker_queue_update_blank (self->queue,
                                      query,
                                      cancellable,
