@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-01-24 23:09+0000\n"
-"PO-Revision-Date: 2018-02-08 02:50+0100\n"
+"POT-Creation-Date: 2018-02-13 07:01+0000\n"
+"PO-Revision-Date: 2018-02-13 18:32+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -21,12 +21,12 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:2383 src/photos-embed.c:722
+#: src/photos-application.c:2455 src/photos-embed.c:751
 #: src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Zdjęcia"
 
-#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:471
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:453
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Dostęp, organizowanie i udostępnianie zdjęć w środowisku GNOME"
 
@@ -124,11 +124,11 @@ msgstr "Wyświetla pusty stan"
 msgid "Show the application's version"
 msgstr "Wyświetla wersję programu"
 
-#: src/photos-base-item.c:637
+#: src/photos-base-item.c:952
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2691
+#: src/photos-base-item.c:2704
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
@@ -158,19 +158,19 @@ msgstr "Urządzenia mechanizmu wyświetlającego DLNA"
 msgid "“%s” edited"
 msgstr "Zmodyfikowano „%s”"
 
-#: src/photos-embed.c:726
+#: src/photos-embed.c:755
 msgid "Collection View"
 msgstr "Widok kolekcji"
 
-#: src/photos-embed.c:729 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:758 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Albumy"
 
-#: src/photos-embed.c:733 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:762 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Ulubione"
 
-#: src/photos-embed.c:737 src/photos-main-toolbar.c:267
+#: src/photos-embed.c:766 src/photos-main-toolbar.c:267
 msgid "Search"
 msgstr "Wyszukaj"
 
@@ -229,23 +229,23 @@ msgstr "Eksport"
 msgid "_Folder Name"
 msgstr "Nazwa _katalogu"
 
-#: src/photos-export-dialog.ui:64 src/photos-print-setup.c:912
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
 msgid "Size"
 msgstr "Rozmiar"
 
-#: src/photos-export-dialog.ui:81
+#: src/photos-export-dialog.ui:83
 msgid "F_ull"
 msgstr "_Pełny"
 
-#: src/photos-export-dialog.ui:111
+#: src/photos-export-dialog.ui:113
 msgid "_Reduced"
 msgstr "_Zmniejszony"
 
-#: src/photos-export-dialog.ui:158
+#: src/photos-export-dialog.ui:160
 msgid "_Cancel"
 msgstr "_Anuluj"
 
-#: src/photos-export-dialog.ui:165
+#: src/photos-export-dialog.ui:167
 msgid "_Export"
 msgstr "Wy_eksportuj"
 
@@ -260,28 +260,28 @@ msgstr "%d×%d (%s)"
 #. Translators: this is the default sub-directory where photos
 #. * will be exported.
 #.
-#: src/photos-export-dialog.c:198
+#: src/photos-export-dialog.c:195
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-export-dialog.c:253
+#: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
 msgstr "Obliczanie rozmiaru eksportu…"
 
-#: src/photos-export-notification.c:252
+#: src/photos-export-notification.c:263
 msgid "Failed to export: not enough space"
 msgstr "Wyeksportowanie się nie powiodło: za mało miejsca"
 
-#: src/photos-export-notification.c:254
+#: src/photos-export-notification.c:265
 msgid "Failed to export"
 msgstr "Wyeksportowanie się nie powiodło"
 
-#: src/photos-export-notification.c:261
+#: src/photos-export-notification.c:272
 #, c-format
 msgid "“%s” exported"
 msgstr "Wyeksportowano „%s”"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:276
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -289,24 +289,24 @@ msgstr[0] "Wyeksportowano %d element"
 msgstr[1] "Wyeksportowano %d elementy"
 msgstr[2] "Wyeksportowano %d elementów"
 
-#: src/photos-export-notification.c:283
+#: src/photos-export-notification.c:293
 msgid "Analyze"
 msgstr "Analizuj"
 
-#: src/photos-export-notification.c:288
+#: src/photos-export-notification.c:298
 msgid "Empty Trash"
 msgstr "Opróżnij kosz"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:305 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:239 src/photos-selection-toolbar.ui:29
+#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:283 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Otwórz"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:315
+#: src/photos-export-notification.c:325
 msgid "Export Folder"
 msgstr "Wyeksportuj katalog"
 
@@ -463,7 +463,7 @@ msgstr "Zdjęcia są indeksowane"
 msgid "Some photos might not be available during this process"
 msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
 
-#: src/photos-local-item.c:259 src/photos-source-manager.c:261
+#: src/photos-local-item.c:204 src/photos-source-manager.c:279
 msgid "Local"
 msgstr "Lokalne"
 
@@ -489,17 +489,17 @@ msgstr "Wybór elementów"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:344 src/photos-selection-toolbar.c:236
+#: src/photos-main-toolbar.c:344 src/photos-selection-toolbar.c:280
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą „%s”"
 
-#: src/photos-main-toolbar.c:375 src/photos-selection-toolbar.c:247
+#: src/photos-main-toolbar.c:375 src/photos-selection-toolbar.c:291
 msgid "Remove from favorites"
 msgstr "Usuń z ulubionych"
 
-#: src/photos-main-toolbar.c:380 src/photos-selection-toolbar.c:252
+#: src/photos-main-toolbar.c:380 src/photos-selection-toolbar.c:296
 msgid "Add to favorites"
 msgstr "Dodaj do ulubionych"
 
@@ -511,7 +511,7 @@ msgstr "Anuluj"
 msgid "Done"
 msgstr "Gotowe"
 
-#: src/photos-main-window.c:472
+#: src/photos-main-window.c:454
 msgid ""
 "Copyright © 2012 – 2017 Red Hat, Inc.\n"
 "Copyright © 2015 – 2017 Umang Jain"
@@ -520,7 +520,7 @@ msgstr ""
 "Copyright © 2015-2017 Umang Jain"
 
 #. Translators: Put your names here
-#: src/photos-main-window.c:480
+#: src/photos-main-window.c:462
 msgid "translator-credits"
 msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2012-2018\n"
@@ -586,7 +586,7 @@ msgid "Set as Lock Screen"
 msgstr "Ustaw jako tło ekranu blokady"
 
 #: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:882
-#: src/photos-selection-toolbar.ui:102
+#: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Właściwości"
 
@@ -595,7 +595,7 @@ msgstr "Właściwości"
 msgid "Printing “%s”: %s"
 msgstr "Drukowanie zdjęcia „%s”: %s"
 
-#: src/photos-print-operation.c:257
+#: src/photos-print-operation.c:241
 msgid "Image Settings"
 msgstr "Ustawienia obrazu"
 
@@ -759,8 +759,12 @@ msgstr "Włączona"
 msgid "Discard all Edits"
 msgstr "Odrzuć wszystkie modyfikacje"
 
+#: src/photos-removable-devices-button.ui:47
+msgid "Devices"
+msgstr "Urządzenia"
+
 #: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
-#: src/photos-source-manager.c:258
+#: src/photos-source-manager.c:276
 msgid "All"
 msgstr "Wszystkie"
 
@@ -799,11 +803,11 @@ msgstr "Zaznacz wszystko"
 msgid "Select None"
 msgstr "Odznacz wszystko"
 
-#: src/photos-selection-toolbar.ui:20
+#: src/photos-selection-toolbar.ui:19
 msgid "Export"
 msgstr "Wyeksportuj"
 
-#: src/photos-selection-toolbar.ui:112
+#: src/photos-selection-toolbar.ui:111
 msgid "Add to Album"
 msgstr "Dodaj do albumu"
 
@@ -829,19 +833,27 @@ msgstr "Wysłanie zdjęcia się nie powiodło: serwis jest nieupoważniony"
 msgid "Failed to upload photo"
 msgstr "Wysłanie zdjęcia się nie powiodło"
 
-#: src/photos-source-manager.c:309
+#: src/photos-source-manager.c:327
 msgid "Sources"
 msgstr "Źródła"
+
+#: src/photos-source-notification.c:164
+msgid "New device discovered"
+msgstr "Wykryto nowe urządzenie"
+
+#: src/photos-source-notification.c:177
+msgid "Import"
+msgstr "Zaimportuj"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:127
+#: src/photos-source-notification.c:201
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Dane uwierzytelniania serwisu %s wygasły"
 
-#: src/photos-source-notification.c:134
+#: src/photos-source-notification.c:208
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -909,23 +921,23 @@ msgstr "16×10 (1280×800)"
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: src/photos-tool-crop.c:1461
+#: src/photos-tool-crop.c:1459
 msgid "Lock aspect ratio"
 msgstr "Zablokowanie proporcji"
 
-#: src/photos-tool-crop.c:1531
+#: src/photos-tool-crop.c:1529
 msgid "Landscape"
 msgstr "Poziomo"
 
-#: src/photos-tool-crop.c:1542
+#: src/photos-tool-crop.c:1540
 msgid "Portrait"
 msgstr "Pionowo"
 
-#: src/photos-tool-crop.c:1553
+#: src/photos-tool-crop.c:1551
 msgid "Reset"
 msgstr "Przywróć"
 
-#: src/photos-tool-crop.c:1573
+#: src/photos-tool-crop.c:1569
 msgid "Crop"
 msgstr "Kadrowanie"
 
