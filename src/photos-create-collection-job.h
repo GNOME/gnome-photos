@@ -34,7 +34,8 @@ G_DECLARE_FINAL_TYPE (PhotosCreateCollectionJob,
                       CREATE_COLLECTION_JOB,
                       GObject);
 
-PhotosCreateCollectionJob  *photos_create_collection_job_new         (const gchar *name);
+PhotosCreateCollectionJob  *photos_create_collection_job_new         (const gchar *name,
+                                                                      const gchar *identifier_tag);
 
 void                        photos_create_collection_job_run         (PhotosCreateCollectionJob *self,
                                                                       GCancellable *cancellable,

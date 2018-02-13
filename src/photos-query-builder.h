@@ -31,7 +31,9 @@
 
 G_BEGIN_DECLS
 
-PhotosQuery  *photos_query_builder_create_collection_query (PhotosSearchContextState *state, const gchar *name);
+PhotosQuery  *photos_query_builder_create_collection_query (PhotosSearchContextState *state,
+                                                            const gchar *name,
+                                                            const gchar *identifier_tag);
 
 PhotosQuery  *photos_query_builder_collection_icon_query (PhotosSearchContextState *state, const gchar *resource);
 
