@@ -284,6 +284,7 @@ photos_view_container_window_mode_changed (PhotosViewContainer *self,
       g_assert_not_reached ();
       break;
 
+    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_COLLECTIONS:
     case PHOTOS_WINDOW_MODE_FAVORITES:
     case PHOTOS_WINDOW_MODE_OVERVIEW:
@@ -291,7 +292,6 @@ photos_view_container_window_mode_changed (PhotosViewContainer *self,
       photos_view_container_connect_view (self);
       break;
 
-    case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
     case PHOTOS_WINDOW_MODE_EDIT:
     case PHOTOS_WINDOW_MODE_PREVIEW:
     default:
