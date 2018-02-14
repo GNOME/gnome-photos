@@ -495,23 +495,6 @@ photos_source_manager_get_for_provider_type (PhotosSourceManager *self, const gc
 }
 
 
-GList *
-photos_source_manager_get_notified (PhotosSourceManager *self)
-{
-  GHashTableIter iter;
-  GList *sources = NULL;
-  PhotosSource *source;
-
-  g_return_val_if_fail (PHOTOS_IS_SOURCE_MANAGER (self), NULL);
-
-  g_hash_table_iter_init (&iter, self->sources_notified);
-  while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &source))
-    sources = g_list_prepend (sources, g_object_ref (source));
-
-  return sources;
-}
-
-
 gboolean
 photos_source_manager_has_online_sources (PhotosSourceManager *self)
 {
