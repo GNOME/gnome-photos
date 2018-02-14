@@ -140,8 +140,6 @@ const gchar     *photos_utils_get_provider_name           (PhotosBaseManager *sr
 
 gboolean         photos_utils_get_selection_mode          (void);
 
-gchar           *photos_utils_get_thumbnail_path_for_uri  (const gchar *uri);
-
 GList           *photos_utils_get_urns_from_items         (GList *items);
 
 const gchar     *photos_utils_get_version                 (void);

@@ -68,11 +68,6 @@
 
 static const gdouble EPSILON = 1e-5;
 
-enum
-{
-  THUMBNAIL_GENERATION = 0
-};
-
 
 GdkPixbuf *
 photos_utils_center_pixbuf (GdkPixbuf *pixbuf, gint size)
@@ -1012,34 +1007,6 @@ photos_utils_get_selection_mode (void)
   selection_mode = g_variant_get_boolean (state);
 
   return selection_mode;
-}
-
-
-gchar *
-photos_utils_get_thumbnail_path_for_uri (const gchar *uri)
-{
-  const gchar *cache_dir;
-  g_autofree gchar *filename = NULL;
-  g_autofree gchar *md5 = NULL;
-  gchar *path;
-  g_autofree gchar *thumbnails_subdir = NULL;
-  gint size;
-
-  md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
-  filename = g_strconcat (md5, ".png", NULL);
-
-  cache_dir = g_get_user_cache_dir ();
-  size = photos_utils_get_icon_size ();
-  thumbnails_subdir = g_strdup_printf ("%d-%d", size, THUMBNAIL_GENERATION);
-
-  path = g_build_filename (cache_dir,
-                           PACKAGE_TARNAME,
-                           "thumbnails",
-                           thumbnails_subdir,
-                           filename,
-                           NULL);
-
-  return path;
 }
 
 

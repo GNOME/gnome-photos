@@ -196,6 +196,11 @@ static GdkPixbuf *thumbnailing_icon;
 static GThreadPool *create_thumbnail_pool;
 static const gint PIXEL_SIZES[] = {2048, 1024};
 
+enum
+{
+  THUMBNAIL_GENERATION = 0
+};
+
 
 static void photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor);
 
@@ -891,11 +896,29 @@ static gchar *
 photos_base_item_default_create_thumbnail_path (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
+  const gchar *cache_dir;
+  g_autofree gchar *filename = NULL;
+  g_autofree gchar *md5 = NULL;
   gchar *path;
+  g_autofree gchar *thumbnails_subdir = NULL;
+  gint size;
 
   priv = photos_base_item_get_instance_private (self);
 
-  path = photos_utils_get_thumbnail_path_for_uri (priv->uri);
+  md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, priv->uri, -1);
+  filename = g_strconcat (md5, ".png", NULL);
+
+  cache_dir = g_get_user_cache_dir ();
+  size = photos_utils_get_icon_size ();
+  thumbnails_subdir = g_strdup_printf ("%d-%d", size, THUMBNAIL_GENERATION);
+
+  path = g_build_filename (cache_dir,
+                           PACKAGE_TARNAME,
+                           "thumbnails",
+                           thumbnails_subdir,
+                           filename,
+                           NULL);
+
   return path;
 }
 
