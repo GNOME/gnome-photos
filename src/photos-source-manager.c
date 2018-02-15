@@ -109,6 +109,24 @@ photos_source_manager_remove_object_by_id (PhotosBaseManager *mngr, const gchar 
 }
 
 
+static gboolean
+photos_source_manager_online_source_needs_notification (PhotosSource *source)
+{
+  GoaAccount *account;
+  GoaObject *object;
+  gboolean attention_needed;
+
+  object = photos_source_get_goa_object (source);
+  g_return_val_if_fail (GOA_IS_OBJECT (object), FALSE);
+
+  account = goa_object_peek_account (object);
+  g_return_val_if_fail (GOA_IS_ACCOUNT (account), FALSE);
+
+  attention_needed = goa_account_get_attention_needed (account);
+  return attention_needed;
+}
+
+
 static void
 photos_source_manager_refresh_accounts (PhotosSourceManager *self)
 {
@@ -163,10 +181,9 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
   n_items = g_list_model_get_n_items (G_LIST_MODEL (self));
   for (i = 0; i < n_items; i++)
     {
-      GoaAccount *account;
       GoaObject *object;
       g_autoptr (PhotosSource) source = NULL;
-      gboolean attention_needed;
+      gboolean needs_notification;
       gboolean source_notified;
       const gchar *id;
 
@@ -175,15 +192,11 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
       if (object == NULL)
         continue;
 
-      account = goa_object_peek_account (object);
-      if (account == NULL)
-        continue;
-
-      attention_needed = goa_account_get_attention_needed (account);
+      needs_notification = photos_source_manager_online_source_needs_notification (source);
       id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
       source_notified = g_hash_table_contains (self->sources_notified, id);
 
-      if (!attention_needed && source_notified)
+      if (!needs_notification && source_notified)
         {
           gboolean removed;
 
@@ -191,7 +204,7 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
           removed = g_hash_table_remove (self->sources_notified, id);
           g_assert_true (removed);
         }
-      else if (attention_needed && !source_notified)
+      else if (needs_notification && !source_notified)
         {
           gboolean inserted;
 
