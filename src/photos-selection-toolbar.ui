@@ -107,6 +107,19 @@
         </packing>
       </child>
       <child>
+        <object class="GtkButton" id="toolbar_import">
+          <property name="label" translatable="yes">Add to Photos</property>
+          <property name="no-show-all">1</property>
+          <property name="action_name">app.import-current</property>
+          <style>
+            <class name="suggested-action"/>
+          </style>
+        </object>
+        <packing>
+          <property name="pack_type">end</property>
+        </packing>
+      </child>
+      <child>
         <object class="GtkButton" id="toolbar_collection">
           <property name="label" translatable="yes">Add to Album</property>
           <property name="no-show-all">1</property>

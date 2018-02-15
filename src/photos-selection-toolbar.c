@@ -46,6 +46,7 @@ struct _PhotosSelectionToolbar
   GtkWidget *toolbar_collection;
   GtkWidget *toolbar_export;
   GtkWidget *toolbar_favorite;
+  GtkWidget *toolbar_import;
   GtkWidget *toolbar_open;
   GtkWidget *toolbar_print;
   GtkWidget *toolbar_properties;
@@ -205,6 +206,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gboolean show_collection;
   gboolean show_export;
   gboolean show_favorite;
+  gboolean show_import;
   gboolean show_open;
   gboolean show_print;
   gboolean show_properties;
@@ -229,6 +231,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
       show_collection = TRUE;
       show_export = TRUE;
       show_favorite = TRUE;
+      show_import = FALSE;
       show_open = TRUE;
       show_print = TRUE;
       show_properties = TRUE;
@@ -307,6 +310,7 @@ photos_selection_toolbar_set_item_visibility (PhotosSelectionToolbar *self)
   gtk_widget_set_visible (self->toolbar_collection, show_collection);
   gtk_widget_set_visible (self->toolbar_export, show_export);
   gtk_widget_set_visible (self->toolbar_favorite, show_favorite);
+  gtk_widget_set_visible (self->toolbar_import, show_import);
   gtk_widget_set_visible (self->toolbar_open, show_open);
   gtk_widget_set_visible (self->toolbar_print, show_print);
   gtk_widget_set_visible (self->toolbar_properties, show_properties);
@@ -433,6 +437,7 @@ photos_selection_toolbar_class_init (PhotosSelectionToolbarClass *class)
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/Photos/selection-toolbar.ui");
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_export);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_favorite);
+  gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_import);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_open);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_print);
   gtk_widget_class_bind_template_child (widget_class, PhotosSelectionToolbar, toolbar_properties);
