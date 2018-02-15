@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-13 07:01+0000\n"
-"PO-Revision-Date: 2018-02-13 18:32+0100\n"
+"POT-Creation-Date: 2018-02-15 11:30+0000\n"
+"PO-Revision-Date: 2018-02-15 17:20+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -21,12 +21,12 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:2455 src/photos-embed.c:751
+#: src/photos-application.c:3043 src/photos-embed.c:819
 #: src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Zdjęcia"
 
-#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:453
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Dostęp, organizowanie i udostępnianie zdjęć w środowisku GNOME"
 
@@ -116,19 +116,33 @@ msgstr "Maksymalizacja okna"
 msgid "Window maximized state"
 msgstr "Stan maksymalizacji okna"
 
-#: src/photos-application.c:161
+#: src/photos-application.c:167
 msgid "Show the empty state"
 msgstr "Wyświetla pusty stan"
 
-#: src/photos-application.c:162
+#: src/photos-application.c:168
 msgid "Show the application's version"
 msgstr "Wyświetla wersję programu"
 
-#: src/photos-base-item.c:952
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-import-dialog.c:134
+msgid "%-d %B %Y"
+msgstr "%-d %B %Y"
+
+#: src/photos-base-item.c:1036
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2704
+#: src/photos-base-item.c:2752
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
@@ -158,35 +172,39 @@ msgstr "Urządzenia mechanizmu wyświetlającego DLNA"
 msgid "“%s” edited"
 msgstr "Zmodyfikowano „%s”"
 
-#: src/photos-embed.c:755
+#: src/photos-embed.c:823
 msgid "Collection View"
 msgstr "Widok kolekcji"
 
-#: src/photos-embed.c:758 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Albumy"
 
-#: src/photos-embed.c:762 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Ulubione"
 
-#: src/photos-embed.c:766 src/photos-main-toolbar.c:267
-msgid "Search"
-msgstr "Wyszukaj"
+#: src/photos-embed.c:834 src/photos-source-notification.c:214
+msgid "Import"
+msgstr "Zaimportuj"
 
-#: src/photos-empty-results-box.c:147
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
+msgid "Search"
+msgstr "Wyszukuje"
+
+#: src/photos-empty-results-box.c:148
 msgid "No albums found"
 msgstr "Nie odnaleziono albumów"
 
-#: src/photos-empty-results-box.c:151
+#: src/photos-empty-results-box.c:152
 msgid "Starred photos will appear here"
 msgstr "W tym miejscu będą znajdować się zdjęcia oznaczone gwiazdką"
 
-#: src/photos-empty-results-box.c:160
+#: src/photos-empty-results-box.c:162
 msgid "No photos found"
 msgstr "Nie odnaleziono zdjęć"
 
-#: src/photos-empty-results-box.c:189
+#: src/photos-empty-results-box.c:191
 msgid "You can create albums from the Photos view"
 msgstr "Można tworzyć albumy w widoku zdjęć"
 
@@ -194,7 +212,7 @@ msgstr "Można tworzyć albumy w widoku zdjęć"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:209
+#: src/photos-empty-results-box.c:212
 msgid "Online Accounts"
 msgstr "kont online"
 
@@ -202,7 +220,7 @@ msgstr "kont online"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:216
+#: src/photos-empty-results-box.c:219
 msgid "Pictures folder"
 msgstr "katalogu Obrazy"
 
@@ -211,12 +229,12 @@ msgstr "katalogu Obrazy"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:223
+#: src/photos-empty-results-box.c:226
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "W tym miejscu będą znajdować się zdjęcia z %s i %s."
 
-#: src/photos-empty-results-box.c:233
+#: src/photos-empty-results-box.c:236
 msgid "Try a different search"
 msgstr "Proszę spróbować innych słów"
 
@@ -241,7 +259,7 @@ msgstr "_Pełny"
 msgid "_Reduced"
 msgstr "_Zmniejszony"
 
-#: src/photos-export-dialog.ui:160
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
 msgid "_Cancel"
 msgstr "_Anuluj"
 
@@ -256,13 +274,6 @@ msgstr "Wy_eksportuj"
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
-
-#. Translators: this is the default sub-directory where photos
-#. * will be exported.
-#.
-#: src/photos-export-dialog.c:195
-msgid "%-d %B %Y"
-msgstr "%-d %B %Y"
 
 #: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
@@ -299,7 +310,7 @@ msgstr "Opróżnij kosz"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:283 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Otwórz"
 
@@ -318,10 +329,6 @@ msgstr "Wyeksportuj katalog"
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
-
-#: src/photos-fetch-metas-job.c:175
-msgid "Untitled Photo"
-msgstr "Zdjęcie bez nazwy"
 
 #: src/photos-help-overlay.ui:32
 msgctxt "shortcut window"
@@ -443,6 +450,31 @@ msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Anulowanie"
 
+#: src/photos-import-dialog.c:194
+msgid "An album with that name already exists"
+msgstr "Album o tej nazwie już istnieje"
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr "Album dla tej daty już istnieje"
+
+#: src/photos-import-dialog.ui:22
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "Nazwa albumu"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr "Utworzenie _nowego"
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr "Dodanie do i_stniejącego"
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "_Dodaj"
+
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
@@ -463,15 +495,15 @@ msgstr "Zdjęcia są indeksowane"
 msgid "Some photos might not be available during this process"
 msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
 
-#: src/photos-local-item.c:204 src/photos-source-manager.c:279
+#: src/photos-local-item.c:207 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Lokalne"
 
-#: src/photos-main-toolbar.c:77
+#: src/photos-main-toolbar.c:82
 msgid "Click on items to select them"
-msgstr "Naciśnięcie na elementach zaznacza je"
+msgstr "Kliknięcie elementów zaznacza je"
 
-#: src/photos-main-toolbar.c:79
+#: src/photos-main-toolbar.c:84
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -479,39 +511,40 @@ msgstr[0] "Zaznaczono: %d"
 msgstr[1] "Zaznaczono: %d"
 msgstr[2] "Zaznaczono: %d"
 
-#: src/photos-main-toolbar.c:178
+#: src/photos-main-toolbar.c:212
 msgid "Back"
 msgstr "Wstecz"
 
-#: src/photos-main-toolbar.c:282
+#: src/photos-main-toolbar.c:326
 msgid "Select Items"
 msgstr "Wybór elementów"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:344 src/photos-selection-toolbar.c:280
+#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą „%s”"
 
-#: src/photos-main-toolbar.c:375 src/photos-selection-toolbar.c:291
+#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
 msgid "Remove from favorites"
-msgstr "Usuń z ulubionych"
+msgstr "Usuwa z ulubionych"
 
-#: src/photos-main-toolbar.c:380 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
 msgid "Add to favorites"
-msgstr "Dodaj do ulubionych"
+msgstr "Dodaje do ulubionych"
 
-#: src/photos-main-toolbar.c:418 src/photos-main-toolbar.c:535
+#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
+#: src/photos-main-toolbar.c:604
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: src/photos-main-toolbar.c:422
+#: src/photos-main-toolbar.c:467
 msgid "Done"
 msgstr "Gotowe"
 
-#: src/photos-main-window.c:454
+#: src/photos-main-window.c:458
 msgid ""
 "Copyright © 2012 – 2017 Red Hat, Inc.\n"
 "Copyright © 2015 – 2017 Umang Jain"
@@ -520,7 +553,7 @@ msgstr ""
 "Copyright © 2015-2017 Umang Jain"
 
 #. Translators: Put your names here
-#: src/photos-main-window.c:462
+#: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2012-2018\n"
@@ -546,10 +579,6 @@ msgstr "O programie"
 #: src/photos-menus.ui:24
 msgid "Quit"
 msgstr "Zakończ"
-
-#: src/photos-organize-collection-dialog.c:69
-msgid "_Add"
-msgstr "_Dodaj"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -764,7 +793,7 @@ msgid "Devices"
 msgstr "Urządzenia"
 
 #: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
-#: src/photos-source-manager.c:276
+#: src/photos-source-manager.c:396
 msgid "All"
 msgstr "Wszystkie"
 
@@ -808,6 +837,10 @@ msgid "Export"
 msgstr "Wyeksportuj"
 
 #: src/photos-selection-toolbar.ui:111
+msgid "Add to Photos"
+msgstr "Dodaj do Menedżera zdjęć"
+
+#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
 msgstr "Dodaj do albumu"
 
@@ -833,27 +866,23 @@ msgstr "Wysłanie zdjęcia się nie powiodło: serwis jest nieupoważniony"
 msgid "Failed to upload photo"
 msgstr "Wysłanie zdjęcia się nie powiodło"
 
-#: src/photos-source-manager.c:327
+#: src/photos-source-manager.c:465
 msgid "Sources"
 msgstr "Źródła"
 
-#: src/photos-source-notification.c:164
+#: src/photos-source-notification.c:201
 msgid "New device discovered"
 msgstr "Wykryto nowe urządzenie"
-
-#: src/photos-source-notification.c:177
-msgid "Import"
-msgstr "Zaimportuj"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:244
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Dane uwierzytelniania serwisu %s wygasły"
 
-#: src/photos-source-notification.c:208
+#: src/photos-source-notification.c:251
 msgid "Settings"
 msgstr "Ustawienia"
 
