@@ -128,6 +128,52 @@ photos_source_manager_online_source_needs_notification (PhotosSource *source)
 
 
 static void
+photos_source_manager_notify_sources (PhotosSourceManager *self)
+{
+  guint i;
+  guint n_items;
+
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (self));
+  for (i = 0; i < n_items; i++)
+    {
+      GoaObject *object;
+      g_autoptr (PhotosSource) source = NULL;
+      gboolean needs_notification;
+      gboolean source_notified;
+      const gchar *id;
+
+      source = PHOTOS_SOURCE (g_list_model_get_object (G_LIST_MODEL (self), i));
+      object = photos_source_get_goa_object (source);
+
+      if (object != NULL)
+        needs_notification = photos_source_manager_online_source_needs_notification (source);
+      else
+        needs_notification = FALSE;
+
+      id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
+      source_notified = g_hash_table_contains (self->sources_notified, id);
+
+      if (!needs_notification && source_notified)
+        {
+          gboolean removed;
+
+          g_signal_emit (self, signals[NOTIFICATION_HIDE], 0, source);
+          removed = g_hash_table_remove (self->sources_notified, id);
+          g_assert_true (removed);
+        }
+      else if (needs_notification && !source_notified)
+        {
+          gboolean inserted;
+
+          g_signal_emit (self, signals[NOTIFICATION_SHOW], 0, source);
+          inserted = g_hash_table_insert (self->sources_notified, g_strdup (id), g_object_ref (source));
+          g_assert_true (inserted);
+        }
+    }
+}
+
+
+static void
 photos_source_manager_refresh_accounts (PhotosSourceManager *self)
 {
   GApplication *app;
@@ -136,8 +182,6 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
   GList *l;
   PhotosSource *active_source;
   const gchar *active_id;
-  guint i;
-  guint n_items;
 
   app = g_application_get_default ();
   if (photos_application_get_empty_results (PHOTOS_APPLICATION (app)))
@@ -177,42 +221,7 @@ photos_source_manager_refresh_accounts (PhotosSourceManager *self)
     }
 
   photos_base_manager_process_new_objects (PHOTOS_BASE_MANAGER (self), new_sources);
-
-  n_items = g_list_model_get_n_items (G_LIST_MODEL (self));
-  for (i = 0; i < n_items; i++)
-    {
-      GoaObject *object;
-      g_autoptr (PhotosSource) source = NULL;
-      gboolean needs_notification;
-      gboolean source_notified;
-      const gchar *id;
-
-      source = PHOTOS_SOURCE (g_list_model_get_object (G_LIST_MODEL (self), i));
-      object = photos_source_get_goa_object (source);
-      if (object == NULL)
-        continue;
-
-      needs_notification = photos_source_manager_online_source_needs_notification (source);
-      id = photos_filterable_get_id (PHOTOS_FILTERABLE (source));
-      source_notified = g_hash_table_contains (self->sources_notified, id);
-
-      if (!needs_notification && source_notified)
-        {
-          gboolean removed;
-
-          g_signal_emit (self, signals[NOTIFICATION_HIDE], 0, source);
-          removed = g_hash_table_remove (self->sources_notified, id);
-          g_assert_true (removed);
-        }
-      else if (needs_notification && !source_notified)
-        {
-          gboolean inserted;
-
-          g_signal_emit (self, signals[NOTIFICATION_SHOW], 0, source);
-          inserted = g_hash_table_insert (self->sources_notified, g_strdup (id), g_object_ref (source));
-          g_assert_true (inserted);
-        }
-    }
+  photos_source_manager_notify_sources (self);
 
  out:
   g_list_free_full (accounts, g_object_unref);
