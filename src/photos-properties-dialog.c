@@ -652,7 +652,11 @@ photos_properties_dialog_constructed (GObject *object)
       GtkWidget *dims_data;
       g_autofree gchar *dims_str = NULL;
 
-      dims_str = g_strdup_printf ("%" G_GINT64_FORMAT " × %" G_GINT64_FORMAT " pixels", width, height);
+      dims_str = g_strdup_printf (ngettext ("%" G_GINT64_FORMAT " × %" G_GINT64_FORMAT " pixel",
+                                            "%" G_GINT64_FORMAT " × %" G_GINT64_FORMAT " pixels",
+                                            height),
+                                  width,
+                                  height);
       dims_data = gtk_label_new (dims_str);
       gtk_widget_set_halign (dims_data, GTK_ALIGN_START);
       gtk_grid_attach_next_to (GTK_GRID (self->grid), dims_data, dimensions_w, GTK_POS_RIGHT, 2, 1);
