@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-13 07:01+0000\n"
-"PO-Revision-Date: 2018-02-14 20:20+0100\n"
+"POT-Creation-Date: 2018-02-15 20:22+0000\n"
+"PO-Revision-Date: 2018-02-16 17:28+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -19,12 +19,12 @@ msgstr ""
 "X-Generator: Poedit 2.0.3\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:2455 src/photos-embed.c:751
+#: src/photos-application.c:3043 src/photos-embed.c:819
 #: src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotos"
 
-#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:453
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Dopre, organize e condivît lis tôs fotos su GNOME"
 
@@ -116,19 +116,33 @@ msgstr "Barcon slargjât"
 msgid "Window maximized state"
 msgstr "Stât barcon slargjât"
 
-#: src/photos-application.c:161
+#: src/photos-application.c:167
 msgid "Show the empty state"
 msgstr "Mostre il stât vueit"
 
-#: src/photos-application.c:162
+#: src/photos-application.c:168
 msgid "Show the application's version"
 msgstr "Mostre la version de aplicazion"
 
-#: src/photos-base-item.c:952
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-import-dialog.c:134
+msgid "%-d %B %Y"
+msgstr "%-d %B %Y"
+
+#: src/photos-base-item.c:1036
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2704
+#: src/photos-base-item.c:2752
 msgid "Screenshots"
 msgstr "Videadis"
 
@@ -157,35 +171,39 @@ msgstr "Dispositîfs visôrs DLNA"
 msgid "“%s” edited"
 msgstr "“%s” modificât"
 
-#: src/photos-embed.c:755
+#: src/photos-embed.c:823
 msgid "Collection View"
 msgstr "Viodude colezion"
 
-#: src/photos-embed.c:758 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Album"
 
-#: src/photos-embed.c:762 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Preferîts"
 
-#: src/photos-embed.c:766 src/photos-main-toolbar.c:267
+#: src/photos-embed.c:834 src/photos-source-notification.c:214
+msgid "Import"
+msgstr "Impuarte"
+
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
 msgid "Search"
 msgstr "Cîr"
 
-#: src/photos-empty-results-box.c:147
+#: src/photos-empty-results-box.c:148
 msgid "No albums found"
 msgstr "Nissun album cjatât"
 
-#: src/photos-empty-results-box.c:151
+#: src/photos-empty-results-box.c:152
 msgid "Starred photos will appear here"
 msgstr "Lis fotos preferidis a vignaran fûr chi"
 
-#: src/photos-empty-results-box.c:160
+#: src/photos-empty-results-box.c:162
 msgid "No photos found"
 msgstr "Nissune foto cjatade"
 
-#: src/photos-empty-results-box.c:189
+#: src/photos-empty-results-box.c:191
 msgid "You can create albums from the Photos view"
 msgstr "Tu puedis creâ album de viodude Fotos"
 
@@ -193,7 +211,7 @@ msgstr "Tu puedis creâ album de viodude Fotos"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:209
+#: src/photos-empty-results-box.c:212
 msgid "Online Accounts"
 msgstr "Account online"
 
@@ -201,7 +219,7 @@ msgstr "Account online"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:216
+#: src/photos-empty-results-box.c:219
 msgid "Pictures folder"
 msgstr "Cartele imagjins"
 
@@ -210,12 +228,12 @@ msgstr "Cartele imagjins"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:223
+#: src/photos-empty-results-box.c:226
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Lis fotos dai tiei %s e de %s a vignaran fûr achì."
 
-#: src/photos-empty-results-box.c:233
+#: src/photos-empty-results-box.c:236
 msgid "Try a different search"
 msgstr "Prove une ricercje diferente"
 
@@ -240,7 +258,7 @@ msgstr "D_ut"
 msgid "_Reduced"
 msgstr "_Ridusût"
 
-#: src/photos-export-dialog.ui:160
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
 msgid "_Cancel"
 msgstr "_Anule"
 
@@ -255,13 +273,6 @@ msgstr "_Espuarte"
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
-
-#. Translators: this is the default sub-directory where photos
-#. * will be exported.
-#.
-#: src/photos-export-dialog.c:195
-msgid "%-d %B %Y"
-msgstr "%-d %B %Y"
 
 #: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
@@ -297,7 +308,7 @@ msgstr "Disvuede scovacere"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:283 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Vierç"
 
@@ -316,10 +327,6 @@ msgstr "Cartele dulà espuartâ"
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
-
-#: src/photos-fetch-metas-job.c:175
-msgid "Untitled Photo"
-msgstr "Foto cence non"
 
 #: src/photos-help-overlay.ui:32
 msgctxt "shortcut window"
@@ -441,6 +448,31 @@ msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Anule"
 
+#: src/photos-import-dialog.c:194
+msgid "An album with that name already exists"
+msgstr "Un album cun chel non al esist za"
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr "Un album cun chê date al esist za"
+
+#: src/photos-import-dialog.ui:22
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "Non album"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr "Cree _gnûf"
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr "Zonte a _esistent"
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "_Zonte"
+
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
@@ -461,54 +493,55 @@ msgstr "Lis tôs fotos a son stadis metudis in indiç"
 msgid "Some photos might not be available during this process"
 msgstr "Cualchi foto e podarès no jessi disponibil dilunc chest procès"
 
-#: src/photos-local-item.c:204 src/photos-source-manager.c:279
+#: src/photos-local-item.c:207 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Locâl"
 
-#: src/photos-main-toolbar.c:77
+#: src/photos-main-toolbar.c:82
 msgid "Click on items to select them"
 msgstr "Cliche sui elements par selezionâju"
 
-#: src/photos-main-toolbar.c:79
+#: src/photos-main-toolbar.c:84
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d selezionât"
 msgstr[1] "%d selezionâts"
 
-#: src/photos-main-toolbar.c:178
+#: src/photos-main-toolbar.c:212
 msgid "Back"
 msgstr "Indaûr"
 
-#: src/photos-main-toolbar.c:282
+#: src/photos-main-toolbar.c:326
 msgid "Select Items"
 msgstr "Selezione elements"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:344 src/photos-selection-toolbar.c:280
+#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Vierç cun %s"
 
-#: src/photos-main-toolbar.c:375 src/photos-selection-toolbar.c:291
+#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
 msgid "Remove from favorites"
 msgstr "Gjave dai preferîts"
 
-#: src/photos-main-toolbar.c:380 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
 msgid "Add to favorites"
 msgstr "Zonte tai preferîts"
 
-#: src/photos-main-toolbar.c:418 src/photos-main-toolbar.c:535
+#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
+#: src/photos-main-toolbar.c:604
 msgid "Cancel"
 msgstr "Anule"
 
-#: src/photos-main-toolbar.c:422
+#: src/photos-main-toolbar.c:467
 msgid "Done"
 msgstr "Fat"
 
-#: src/photos-main-window.c:454
+#: src/photos-main-window.c:458
 msgid ""
 "Copyright © 2012 – 2017 Red Hat, Inc.\n"
 "Copyright © 2015 – 2017 Umang Jain"
@@ -517,7 +550,7 @@ msgstr ""
 "Copyright © 2015 – 2017 Umang Jain"
 
 #. Translators: Put your names here
-#: src/photos-main-window.c:462
+#: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr "Fabio Tomat <f.t.public@gmail.com>"
 
@@ -540,10 +573,6 @@ msgstr "Informazions"
 #: src/photos-menus.ui:24
 msgid "Quit"
 msgstr "Jes"
-
-#: src/photos-organize-collection-dialog.c:69
-msgid "_Add"
-msgstr "_Zonte"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -579,7 +608,7 @@ msgstr "Dopre come sfont"
 msgid "Set as Lock Screen"
 msgstr "Dopre come bloc visôr"
 
-#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:882
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:886
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Proprietâts"
@@ -741,15 +770,21 @@ msgstr "Flash"
 msgid "Modifications"
 msgstr "Modifichis"
 
-#: src/photos-properties-dialog.c:720
+#: src/photos-properties-dialog.c:655
+msgid "%"
+msgid_plural "%"
+msgstr[0] "%"
+msgstr[1] "%"
+
+#: src/photos-properties-dialog.c:724
 msgid "Off, did not fire"
 msgstr "Studât, nol à iluminât"
 
-#: src/photos-properties-dialog.c:722
+#: src/photos-properties-dialog.c:726
 msgid "On, fired"
 msgstr "Piât, al à iluminât"
 
-#: src/photos-properties-dialog.c:759
+#: src/photos-properties-dialog.c:763
 msgid "Discard all Edits"
 msgstr "Scarte dutis lis modifichis"
 
@@ -758,7 +793,7 @@ msgid "Devices"
 msgstr "Dispositîfs"
 
 #: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
-#: src/photos-source-manager.c:276
+#: src/photos-source-manager.c:396
 msgid "All"
 msgstr "Dutis"
 
@@ -802,6 +837,10 @@ msgid "Export"
 msgstr "Espuarte"
 
 #: src/photos-selection-toolbar.ui:111
+msgid "Add to Photos"
+msgstr "Zonte a Fotos"
+
+#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
 msgstr "Zonte tal album"
 
@@ -827,27 +866,23 @@ msgstr "No si è rivâts a cjariâ in rêt la foto: Servizi no autorizât"
 msgid "Failed to upload photo"
 msgstr "No si è rivâts a cjariâ in rêt la foto"
 
-#: src/photos-source-manager.c:327
+#: src/photos-source-manager.c:465
 msgid "Sources"
 msgstr "Sorzints"
 
-#: src/photos-source-notification.c:164
+#: src/photos-source-notification.c:201
 msgid "New device discovered"
 msgstr "Cjatât un gnûf dispositîf"
-
-#: src/photos-source-notification.c:177
-msgid "Import"
-msgstr "Impuarte"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:244
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Lis tôs credenziâls di %s a son scjadudis"
 
-#: src/photos-source-notification.c:208
+#: src/photos-source-notification.c:251
 msgid "Settings"
 msgstr "Impostazions"
 
@@ -980,6 +1015,9 @@ msgstr "Filtris"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Impussibil vê la liste das fotos"
+
+#~ msgid "Untitled Photo"
+#~ msgstr "Foto cence non"
 
 #~ msgid "Name your first album"
 #~ msgstr "Da un non al tô prin album"
