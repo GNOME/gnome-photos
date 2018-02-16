@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-15 20:22+0000\n"
-"PO-Revision-Date: 2018-02-16 17:28+0100\n"
+"POT-Creation-Date: 2018-02-16 18:43+0000\n"
+"PO-Revision-Date: 2018-02-16 21:43+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -608,7 +608,7 @@ msgstr "Dopre come sfont"
 msgid "Set as Lock Screen"
 msgstr "Dopre come bloc visôr"
 
-#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:886
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Proprietâts"
@@ -770,21 +770,22 @@ msgstr "Flash"
 msgid "Modifications"
 msgstr "Modifichis"
 
-#: src/photos-properties-dialog.c:655
-msgid "%"
-msgid_plural "%"
-msgstr[0] "%"
-msgstr[1] "%"
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%ld × %ld pixel"
+msgstr[1] "%ld × %ld pixel"
 
-#: src/photos-properties-dialog.c:724
+#: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
 msgstr "Studât, nol à iluminât"
 
-#: src/photos-properties-dialog.c:726
+#: src/photos-properties-dialog.c:723
 msgid "On, fired"
 msgstr "Piât, al à iluminât"
 
-#: src/photos-properties-dialog.c:763
+#: src/photos-properties-dialog.c:760
 msgid "Discard all Edits"
 msgstr "Scarte dutis lis modifichis"
 
@@ -1015,6 +1016,11 @@ msgstr "Filtris"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Impussibil vê la liste das fotos"
+
+#~ msgid "%"
+#~ msgid_plural "%"
+#~ msgstr[0] "%"
+#~ msgstr[1] "%"
 
 #~ msgid "Untitled Photo"
 #~ msgstr "Foto cence non"
