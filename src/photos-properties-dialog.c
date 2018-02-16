@@ -387,9 +387,9 @@ photos_properties_dialog_constructed (GObject *object)
   gdouble focal_length;
   gdouble iso_speed;
   gint64 ctime;
-  gint64 height;
   gint64 mtime;
-  gint64 width;
+  glong height;
+  glong width;
 
   G_OBJECT_CLASS (photos_properties_dialog_parent_class)->constructed (object);
 
@@ -488,8 +488,8 @@ photos_properties_dialog_constructed (GObject *object)
   gtk_style_context_add_class (context, "dim-label");
   gtk_container_add (GTK_CONTAINER (self->grid), item_type);
 
-  height = photos_base_item_get_height (item);
-  width = photos_base_item_get_width (item);
+  height = (glong) photos_base_item_get_height (item);
+  width = (glong) photos_base_item_get_width (item);
   if (height > 0 && width > 0)
     {
       dimensions_w = gtk_label_new (_("Dimensions"));
@@ -652,11 +652,7 @@ photos_properties_dialog_constructed (GObject *object)
       GtkWidget *dims_data;
       g_autofree gchar *dims_str = NULL;
 
-      dims_str = g_strdup_printf (ngettext ("%" G_GINT64_FORMAT " × %" G_GINT64_FORMAT " pixel",
-                                            "%" G_GINT64_FORMAT " × %" G_GINT64_FORMAT " pixels",
-                                            height),
-                                  width,
-                                  height);
+      dims_str = g_strdup_printf (ngettext ("%ld × %ld pixel", "%ld × %ld pixels", height), width, height);
       dims_data = gtk_label_new (dims_str);
       gtk_widget_set_halign (dims_data, GTK_ALIGN_START);
       gtk_grid_attach_next_to (GTK_GRID (self->grid), dims_data, dimensions_w, GTK_POS_RIGHT, 2, 1);
