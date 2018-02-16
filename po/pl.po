@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-15 11:30+0000\n"
-"PO-Revision-Date: 2018-02-15 17:20+0100\n"
+"POT-Creation-Date: 2018-02-16 18:43+0000\n"
+"PO-Revision-Date: 2018-02-16 19:49+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -614,7 +614,7 @@ msgstr "Ustaw jako tło"
 msgid "Set as Lock Screen"
 msgstr "Ustaw jako tło ekranu blokady"
 
-#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:882
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Właściwości"
@@ -776,15 +776,23 @@ msgstr "Lampa błyskowa"
 msgid "Modifications"
 msgstr "Modyfikacje"
 
-#: src/photos-properties-dialog.c:720
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%ld×%ld piksel"
+msgstr[1] "%ld×%ld piksele"
+msgstr[2] "%ld×%ld pikseli"
+
+#: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
 msgstr "Wyłączona"
 
-#: src/photos-properties-dialog.c:722
+#: src/photos-properties-dialog.c:723
 msgid "On, fired"
 msgstr "Włączona"
 
-#: src/photos-properties-dialog.c:759
+#: src/photos-properties-dialog.c:760
 msgid "Discard all Edits"
 msgstr "Odrzuć wszystkie modyfikacje"
 
