@@ -1,18 +1,18 @@
 # Brazilian Portuguese translation for gnome-photos.
-# Copyright (C) 2017 gnome-photos's COPYRIGHT HOLDER
+# Copyright (C) 2018 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Antonio Fernandes C. Neto <fernandesn@gnome.org>, 2013.
 # Avelino <adelino.avelino@academico.ifrn.edu.br>, 2013.
 # Artur de Aquino Morais <artur.morais93@outlook.com>, 2016.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2012-2014, 2016-2018.
 # Gustavo Marques <gutodisse@gmail.com>, 2015, 2016.
 # Enrico Nicoletto <liverig@gmail.com>, 2013-2016.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2012-2018.
 # Fábio Nogueira <fnogueira@gnome.org>, 2014-2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-15 20:22+0000\n"
+"POT-Creation-Date: 2018-02-16 18:43+0000\n"
 "PO-Revision-Date: 2018-02-10 17:21-0300\n"
 "Last-Translator: Fábio Nogueira <fnogueira@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
@@ -617,7 +617,7 @@ msgstr "Definir como plano de fundo"
 msgid "Set as Lock Screen"
 msgstr "Definir como tela de bloqueio"
 
-#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:886
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Propriedades"
@@ -779,21 +779,22 @@ msgstr "Flash"
 msgid "Modifications"
 msgstr "Modificações"
 
-#: src/photos-properties-dialog.c:655
-msgid "%"
-msgid_plural "%"
-msgstr[0] "%"
-msgstr[1] "%"
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%ld × %ld pixel"
+msgstr[1] "%ld × %ld pixels"
 
-#: src/photos-properties-dialog.c:724
+#: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
 msgstr "Desligado, não irá disparar"
 
-#: src/photos-properties-dialog.c:726
+#: src/photos-properties-dialog.c:723
 msgid "On, fired"
 msgstr "Ligado, irá disparar"
 
-#: src/photos-properties-dialog.c:763
+#: src/photos-properties-dialog.c:760
 msgid "Discard all Edits"
 msgstr "Descartar todas as edições"
 
@@ -1025,6 +1026,11 @@ msgstr "Filtros"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Não foi possível obter a lista de fotos"
+
+#~ msgid "%"
+#~ msgid_plural "%"
+#~ msgstr[0] "%"
+#~ msgstr[1] "%"
 
 #~ msgid "Untitled Photo"
 #~ msgstr "Foto sem nome"
