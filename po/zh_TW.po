@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-13 07:01+0000\n"
-"PO-Revision-Date: 2018-02-13 21:05+0800\n"
+"POT-Creation-Date: 2018-02-16 18:43+0000\n"
+"PO-Revision-Date: 2018-02-20 23:33+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
@@ -19,12 +19,12 @@ msgstr ""
 "X-Generator: Poedit 2.0.3\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:2455 src/photos-embed.c:751
+#: src/photos-application.c:3043 src/photos-embed.c:819
 #: src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "相片"
 
-#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:453
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
 msgstr "存取、管理與分享您在 GNOME 中的相片"
 
@@ -112,19 +112,33 @@ msgstr "視窗已最大化"
 msgid "Window maximized state"
 msgstr "視窗為最大化狀態"
 
-#: src/photos-application.c:161
+#: src/photos-application.c:167
 msgid "Show the empty state"
 msgstr "顯示空白狀態"
 
-#: src/photos-application.c:162
+#: src/photos-application.c:168
 msgid "Show the application's version"
 msgstr "顯示應用程式版本"
 
-#: src/photos-base-item.c:952
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-import-dialog.c:134
+msgid "%-d %B %Y"
+msgstr "%Y-%m-%d"
+
+#: src/photos-base-item.c:1036
 msgid "Album"
 msgstr "相簿"
 
-#: src/photos-base-item.c:2704
+#: src/photos-base-item.c:2752
 msgid "Screenshots"
 msgstr "螢幕擷圖"
 
@@ -152,35 +166,39 @@ msgstr "DLNA 繪製裝置"
 msgid "“%s” edited"
 msgstr "已編輯「%s」"
 
-#: src/photos-embed.c:755
+#: src/photos-embed.c:823
 msgid "Collection View"
 msgstr "收藏集檢視"
 
-#: src/photos-embed.c:758 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "相簿"
 
-#: src/photos-embed.c:762 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "喜好"
 
-#: src/photos-embed.c:766 src/photos-main-toolbar.c:267
+#: src/photos-embed.c:834 src/photos-source-notification.c:214
+msgid "Import"
+msgstr "匯入"
+
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
 msgid "Search"
 msgstr "搜尋"
 
-#: src/photos-empty-results-box.c:147
+#: src/photos-empty-results-box.c:148
 msgid "No albums found"
 msgstr "找不到相簿"
 
-#: src/photos-empty-results-box.c:151
+#: src/photos-empty-results-box.c:152
 msgid "Starred photos will appear here"
 msgstr "加上星號的相片會出現在這裡"
 
-#: src/photos-empty-results-box.c:160
+#: src/photos-empty-results-box.c:162
 msgid "No photos found"
 msgstr "找不到相片"
 
-#: src/photos-empty-results-box.c:189
+#: src/photos-empty-results-box.c:191
 msgid "You can create albums from the Photos view"
 msgstr "您可以從相片檢視製作相簿"
 
@@ -188,7 +206,7 @@ msgstr "您可以從相片檢視製作相簿"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:209
+#: src/photos-empty-results-box.c:212
 msgid "Online Accounts"
 msgstr "線上帳號"
 
@@ -196,7 +214,7 @@ msgstr "線上帳號"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:216
+#: src/photos-empty-results-box.c:219
 msgid "Pictures folder"
 msgstr "圖片資料夾"
 
@@ -205,12 +223,12 @@ msgstr "圖片資料夾"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:223
+#: src/photos-empty-results-box.c:226
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "您的%s和%s相片會出現在這裡"
 
-#: src/photos-empty-results-box.c:233
+#: src/photos-empty-results-box.c:236
 msgid "Try a different search"
 msgstr "嘗試不同的搜尋"
 
@@ -235,7 +253,7 @@ msgstr "完整(_U)"
 msgid "_Reduced"
 msgstr "縮減(_R)"
 
-#: src/photos-export-dialog.ui:160
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -250,13 +268,6 @@ msgstr "匯出(_E)"
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
-
-#. Translators: this is the default sub-directory where photos
-#. * will be exported.
-#.
-#: src/photos-export-dialog.c:195
-msgid "%-d %B %Y"
-msgstr "%Y-%m-%d"
 
 #: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
@@ -291,7 +302,7 @@ msgstr "清空回收筒"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:283 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "開啟"
 
@@ -310,10 +321,6 @@ msgstr "匯出資料夾"
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
-
-#: src/photos-fetch-metas-job.c:175
-msgid "Untitled Photo"
-msgstr "無標題相片"
 
 #: src/photos-help-overlay.ui:32
 msgctxt "shortcut window"
@@ -435,6 +442,31 @@ msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "取消"
 
+#: src/photos-import-dialog.c:194
+msgid "An album with that name already exists"
+msgstr "已經有該名稱的相簿"
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr "已經有該日期的相簿"
+
+#: src/photos-import-dialog.ui:22
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "命名相簿"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr "新建(_N)"
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr "加入到既有(_E)"
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "加入(_A)"
+
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
@@ -455,53 +487,54 @@ msgstr "您的相片已被索引"
 msgid "Some photos might not be available during this process"
 msgstr "部分相片在這個程序中可能無法使用"
 
-#: src/photos-local-item.c:204 src/photos-source-manager.c:279
+#: src/photos-local-item.c:207 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "本地端"
 
-#: src/photos-main-toolbar.c:77
+#: src/photos-main-toolbar.c:82
 msgid "Click on items to select them"
 msgstr "點擊項目來選取它們"
 
-#: src/photos-main-toolbar.c:79
+#: src/photos-main-toolbar.c:84
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "已選擇 %d 個"
 
-#: src/photos-main-toolbar.c:178
+#: src/photos-main-toolbar.c:212
 msgid "Back"
 msgstr "返回"
 
-#: src/photos-main-toolbar.c:282
+#: src/photos-main-toolbar.c:326
 msgid "Select Items"
 msgstr "選擇項目"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:344 src/photos-selection-toolbar.c:280
+#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "以 %s 開啟"
 
-#: src/photos-main-toolbar.c:375 src/photos-selection-toolbar.c:291
+#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
 msgid "Remove from favorites"
 msgstr "自喜好移除"
 
-#: src/photos-main-toolbar.c:380 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
 msgid "Add to favorites"
 msgstr "加入喜好中"
 
-#: src/photos-main-toolbar.c:418 src/photos-main-toolbar.c:535
+#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
+#: src/photos-main-toolbar.c:604
 msgid "Cancel"
 msgstr "取消"
 
-#: src/photos-main-toolbar.c:422
+#: src/photos-main-toolbar.c:467
 msgid "Done"
 msgstr "完成"
 
-#: src/photos-main-window.c:454
+#: src/photos-main-window.c:458
 msgid ""
 "Copyright © 2012 – 2017 Red Hat, Inc.\n"
 "Copyright © 2015 – 2017 Umang Jain"
@@ -510,9 +543,9 @@ msgstr ""
 "Copyright © 2015 – 2017 Umang Jain"
 
 #. Translators: Put your names here
-#: src/photos-main-window.c:462
+#: src/photos-main-window.c:466
 msgid "translator-credits"
-msgstr "Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>, 2013"
+msgstr "Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>, 2013"
 
 #: src/photos-menus.ui:6
 msgid "Fullscreen"
@@ -533,10 +566,6 @@ msgstr "關於"
 #: src/photos-menus.ui:24
 msgid "Quit"
 msgstr "結束"
-
-#: src/photos-organize-collection-dialog.c:69
-msgid "_Add"
-msgstr "加入(_A)"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -572,7 +601,7 @@ msgstr "設為背景"
 msgid "Set as Lock Screen"
 msgstr "設定為鎖定螢幕"
 
-#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:882
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "屬性"
@@ -734,15 +763,21 @@ msgstr "閃光燈"
 msgid "Modifications"
 msgstr "修改"
 
-#: src/photos-properties-dialog.c:720
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%ld × %ld 像素"
+
+#: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
 msgstr "關，沒打閃光"
 
-#: src/photos-properties-dialog.c:722
+#: src/photos-properties-dialog.c:723
 msgid "On, fired"
 msgstr "開，有打閃光"
 
-#: src/photos-properties-dialog.c:759
+#: src/photos-properties-dialog.c:760
 msgid "Discard all Edits"
 msgstr "放棄所有編輯"
 
@@ -751,7 +786,7 @@ msgid "Devices"
 msgstr "裝置"
 
 #: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
-#: src/photos-source-manager.c:276
+#: src/photos-source-manager.c:396
 msgid "All"
 msgstr "全部"
 
@@ -795,8 +830,12 @@ msgid "Export"
 msgstr "匯出"
 
 #: src/photos-selection-toolbar.ui:111
+msgid "Add to Photos"
+msgstr "關於《相片》"
+
+#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
-msgstr "加入至相簿"
+msgstr "加入到相簿"
 
 #: src/photos-share-dialog.ui:25
 msgctxt "dialog title"
@@ -820,27 +859,23 @@ msgstr "上傳相片失敗：服務未獲授權"
 msgid "Failed to upload photo"
 msgstr "無法上傳相片"
 
-#: src/photos-source-manager.c:327
+#: src/photos-source-manager.c:465
 msgid "Sources"
 msgstr "來源"
 
-#: src/photos-source-notification.c:164
+#: src/photos-source-notification.c:201
 msgid "New device discovered"
 msgstr "探查到新裝置"
-
-#: src/photos-source-notification.c:177
-msgid "Import"
-msgstr "匯入"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:244
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "您的 %s 憑證已過期"
 
-#: src/photos-source-notification.c:208
+#: src/photos-source-notification.c:251
 msgid "Settings"
 msgstr "設定值"
 
@@ -974,6 +1009,9 @@ msgstr "濾鏡"
 msgid "Unable to fetch the list of photos"
 msgstr "無法擷取相片清單"
 
+#~ msgid "Untitled Photo"
+#~ msgstr "無標題相片"
+
 #~ msgid "Name your first album"
 #~ msgstr "為您的第一本相簿命名"
 
@@ -1098,6 +1136,3 @@ msgstr "無法擷取相片清單"
 
 #~ msgid "System Settings"
 #~ msgstr "系統設定"
-
-#~ msgid "About Photos"
-#~ msgstr "關於 Photos"
