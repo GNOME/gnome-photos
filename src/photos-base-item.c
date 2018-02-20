@@ -4253,6 +4253,18 @@ photos_base_item_pipeline_snapshot (PhotosBaseItem *self)
 
 
 void
+photos_base_item_pipeline_file_delete (PhotosBaseItem *self)
+{
+  PhotosPipeline *pipeline;
+
+  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  g_return_if_fail (pipeline != NULL);
+
+  photos_pipeline_file_delete_async (pipeline);
+}
+
+
+void
 photos_base_item_print (PhotosBaseItem *self, GtkWidget *toplevel)
 {
   PhotosBaseItemPrivate *priv;

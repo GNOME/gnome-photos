@@ -1747,6 +1747,8 @@ photos_application_properties_pipeline_save (GObject *source_object, GAsyncResul
       g_warning ("Unable to save pipeline: %s", error->message);
   }
 
+  photos_base_item_pipeline_file_delete (item);
+
   g_application_release (G_APPLICATION (self));
 }
 

@@ -269,6 +269,8 @@ gboolean            photos_base_item_pipeline_save_finish    (PhotosBaseItem *se
 
 void                photos_base_item_pipeline_snapshot       (PhotosBaseItem *self);
 
+void                photos_base_item_pipeline_file_delete    (PhotosBaseItem *self);
+
 void                photos_base_item_print                   (PhotosBaseItem *self, GtkWidget *toplevel);
 
 GFileInfo          *photos_base_item_query_info              (PhotosBaseItem *self,
