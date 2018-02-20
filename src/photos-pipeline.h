@@ -53,6 +53,8 @@ gboolean               photos_pipeline_get_valist        (PhotosPipeline *self,
                                                           const gchar *first_property_name,
                                                           va_list ap) G_GNUC_WARN_UNUSED_RESULT;
 
+void                   photos_pipeline_file_delete_async (PhotosPipeline *self);
+
 GeglNode              *photos_pipeline_get_graph         (PhotosPipeline *self);
 
 GeglNode              *photos_pipeline_get_output        (PhotosPipeline *self);

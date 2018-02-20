@@ -756,3 +756,15 @@ photos_pipeline_snapshot (PhotosPipeline *self)
   self->snapshot = gegl_node_to_xml_full (self->graph, self->graph, "/");
   photos_debug (PHOTOS_DEBUG_GEGL, "Snapshot: %s", self->snapshot);
 }
+
+
+void
+photos_pipeline_file_delete_async (PhotosPipeline *self)
+{
+  g_autoptr (GFile) file = NULL;
+
+  g_return_if_fail (PHOTOS_IS_PIPELINE (self));
+
+  file = g_file_new_for_uri (self->uri);
+  g_file_delete_async (file, G_PRIORITY_DEFAULT,  NULL, NULL, NULL);
+}
