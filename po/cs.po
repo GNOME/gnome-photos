@@ -133,10 +133,8 @@ msgstr "Zobrazit verzi aplikace"
 #.
 #: src/photos-application.c:1393 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
-#, fuzzy
-#| msgid "%e %B %Y"
 msgid "%-d %B %Y"
-msgstr "%e. %B %Y"
+msgstr "%-d. %B %Y"
 
 #: src/photos-base-item.c:1036
 msgid "Album"
@@ -459,7 +457,6 @@ msgid "An album for that date already exists"
 msgstr "Již existuje nějaké album pro toto datum"
 
 #: src/photos-import-dialog.ui:22
-#| msgid "Album"
 msgctxt "dialog title"
 msgid "Name Album"
 msgstr "Název alba"
@@ -843,10 +840,8 @@ msgid "Export"
 msgstr "Export"
 
 #: src/photos-selection-toolbar.ui:111
-#, fuzzy
-#| msgid "Add to favorites"
 msgid "Add to Photos"
-msgstr "Přidat do oblíbených"
+msgstr "Přidat do Fotek"
 
 #: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
