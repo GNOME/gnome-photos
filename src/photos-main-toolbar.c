@@ -31,6 +31,7 @@
 #include "photos-base-manager.h"
 #include "photos-dlna-renderers-manager.h"
 #include "photos-dropdown.h"
+#include "photos-glib.h"
 #include "photos-item-manager.h"
 #include "photos-main-toolbar.h"
 #include "photos-remote-display-manager.h"
@@ -67,9 +68,7 @@ static void photos_main_toolbar_favorite_button_update (PhotosMainToolbar *self,
 
 
 static gchar *
-photos_main_toolbar_create_selection_mode_label (PhotosMainToolbar *self,
-                                                 PhotosBaseItem *active_collection,
-                                                 PhotosSource *source)
+photos_main_toolbar_create_selection_mode_label (PhotosMainToolbar *self, PhotosBaseItem *active_collection)
 {
   GList *selection;
   g_autofree gchar *label = NULL;
@@ -84,20 +83,9 @@ photos_main_toolbar_create_selection_mode_label (PhotosMainToolbar *self,
     label = g_strdup_printf (ngettext ("%d selected", "%d selected", length), length);
 
   if (active_collection != NULL)
-    {
-      ret_val = g_markup_printf_escaped ("<b>%s</b> (%s)", photos_base_item_get_name (active_collection), label);
-    }
-  else if (source != NULL)
-    {
-      const gchar *name;
-
-      name = photos_source_get_name (source);
-      ret_val = g_markup_printf_escaped ("<b>%s</b> (%s)", name, label);
-    }
+    ret_val = g_markup_printf_escaped ("<b>%s</b> (%s)", photos_base_item_get_name (active_collection), label);
   else
-    {
-      ret_val = g_steal_pointer (&label);
-    }
+    ret_val = g_steal_pointer (&label);
 
   return ret_val;
 }
@@ -146,7 +134,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
     {
     case PHOTOS_WINDOW_MODE_COLLECTION_VIEW:
       if (selection_mode)
-        primary = photos_main_toolbar_create_selection_mode_label (self, active_collection, NULL);
+        primary = photos_main_toolbar_create_selection_mode_label (self, active_collection);
       else
         primary = g_strdup (photos_base_item_get_name (active_collection));
       break;
@@ -156,7 +144,7 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
     case PHOTOS_WINDOW_MODE_OVERVIEW:
     case PHOTOS_WINDOW_MODE_SEARCH:
       if (selection_mode)
-        primary = photos_main_toolbar_create_selection_mode_label (self, NULL, NULL);
+        primary = photos_main_toolbar_create_selection_mode_label (self, NULL);
       break;
 
     case PHOTOS_WINDOW_MODE_EDIT:
@@ -172,8 +160,37 @@ photos_main_toolbar_set_toolbar_title (PhotosMainToolbar *self)
       }
 
     case PHOTOS_WINDOW_MODE_IMPORT:
-      primary = photos_main_toolbar_create_selection_mode_label (self, NULL, source);
-      break;
+      {
+        GList *selection;
+        guint length;
+
+        selection = photos_selection_controller_get_selection (self->sel_cntrlr);
+        length = g_list_length (selection);
+        if (length == 0)
+          {
+            primary = g_strdup (_("Select items for import"));
+          }
+        else
+          {
+            g_autofree gchar *selected_str = NULL;
+
+            /* Translators: this should be translated in the context
+             * of the "Select items for import (%d selected)" sentence
+             * below.
+             */
+            selected_str = g_strdup_printf (PHOTOS_PC_("select import", "%u selected", "%u selected", length),
+                                            length);
+
+            /* Translators: the %s here is "(%d selected), which is in
+             * a separate string due to the need to select an
+             * appropriate plural form, and should be translated only
+             * in the context of this sentence.
+             */
+            primary = g_strdup_printf (_("Select items for import (%s)"), selected_str);
+          }
+
+        break;
+      }
 
     case PHOTOS_WINDOW_MODE_NONE:
     default:
