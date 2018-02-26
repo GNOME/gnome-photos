@@ -460,7 +460,7 @@ photos_main_toolbar_populate_for_edit (PhotosMainToolbar *self)
   GtkWidget *cancel_button;
   GtkWidget *done_button;
 
-  cancel_button = gtk_button_new_with_label (_("Cancel"));
+  cancel_button = gtk_button_new_with_mnemonic (_("_Cancel"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (cancel_button), "app.edit-cancel");
   gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), cancel_button);
 
@@ -494,7 +494,7 @@ photos_main_toolbar_populate_for_import (PhotosMainToolbar *self)
   context = gtk_widget_get_style_context (self->header_bar);
   gtk_style_context_add_class (context, "selection-mode");
 
-  cancel_button = gtk_button_new_with_label (_("Cancel"));
+  cancel_button = gtk_button_new_with_mnemonic (_("_Cancel"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (cancel_button), "app.import-cancel");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), cancel_button);
 
@@ -601,7 +601,7 @@ photos_main_toolbar_populate_for_selection_mode (PhotosMainToolbar *self)
   context = gtk_widget_get_style_context (self->header_bar);
   gtk_style_context_add_class (context, "selection-mode");
 
-  selection_button = gtk_button_new_with_label (_("Cancel"));
+  selection_button = gtk_button_new_with_mnemonic (_("_Cancel"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (selection_button), "app.selection-mode");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), selection_button);
 
