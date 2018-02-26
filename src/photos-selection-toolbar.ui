@@ -108,7 +108,7 @@
       </child>
       <child>
         <object class="GtkButton" id="toolbar_import">
-          <property name="label" translatable="yes">Add to Photos</property>
+          <property name="label" translatable="yes">Select</property>
           <property name="no-show-all">1</property>
           <property name="action_name">app.import-current</property>
           <style>
