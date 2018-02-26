@@ -60,20 +60,6 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
-                <property name="title" translatable="yes" context="shortcut window">Next photo</property>
-                <property name="accelerator">Right</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="visible">1</property>
-                <property name="title" translatable="yes" context="shortcut window">Previous photo</property>
-                <property name="accelerator">Left</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="visible">1</property>
                 <property name="title" translatable="yes" context="shortcut window">Go back</property>
                 <property name="accelerator">&lt;Alt&gt;Left</property>
                 <property name="direction">ltr</property>
@@ -174,6 +160,20 @@
                 <property name="visible">1</property>
                 <property name="title" translatable="yes" context="shortcut window">Best fit</property>
                 <property name="accelerator">&lt;Primary&gt;0</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="title" translatable="yes" context="shortcut window">Next photo</property>
+                <property name="accelerator">Right</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="title" translatable="yes" context="shortcut window">Previous photo</property>
+                <property name="accelerator">Left</property>
               </object>
             </child>
             <child>
