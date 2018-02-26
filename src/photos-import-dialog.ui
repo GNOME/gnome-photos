@@ -189,7 +189,7 @@
     <child type="action">
       <object class="GtkButton" id="ok_button">
         <property name="can_default">1</property>
-        <property name="label" translatable="yes">_Add</property>
+        <property name="label" translatable="yes">_Import</property>
         <property name="use_underline">1</property>
       </object>
     </child>
