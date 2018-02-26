@@ -211,7 +211,7 @@ photos_source_notification_constructed (GObject *object)
       gtk_style_context_add_class (context, "dim-label");
       gtk_container_add (GTK_CONTAINER (labels), secondary_label);
 
-      import = gtk_button_new_with_label (_("Import"));
+      import = gtk_button_new_with_label (_("Import…"));
       gtk_widget_set_valign (import, GTK_ALIGN_CENTER);
       action_id = photos_base_manager_get_action_id (self->src_mngr);
       action_name = g_strconcat (action_namespace, ".", action_id, NULL);
