@@ -53,6 +53,13 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
+                <property name="title" translatable="yes" context="shortcut window">Cancel</property>
+                <property name="accelerator">Escape</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
                 <property name="title" translatable="yes" context="shortcut window">Next photo</property>
                 <property name="accelerator">Right</property>
               </object>
@@ -191,19 +198,6 @@
               </object>
             </child>
           </object>
-        </child>
-        <child>
-          <object class="GtkShortcutsGroup">
-            <property name="visible">1</property>
-            <property name="title" translatable="yes" context="shortcut window">Edit view</property>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="visible">1</property>
-                <property name="title" translatable="yes" context="shortcut window">Cancel</property>
-                <property name="accelerator">Escape</property>
-              </object>
-            </child>
-	  </object>
         </child>
       </object>
     </child>
