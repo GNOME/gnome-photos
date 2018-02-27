@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-16 18:43+0000\n"
-"PO-Revision-Date: 2018-02-16 19:49+0100\n"
+"POT-Creation-Date: 2018-02-27 19:20+0000\n"
+"PO-Revision-Date: 2018-02-27 20:22+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -184,7 +184,7 @@ msgstr "Albumy"
 msgid "Favorites"
 msgstr "Ulubione"
 
-#: src/photos-embed.c:834 src/photos-source-notification.c:214
+#: src/photos-embed.c:834
 msgid "Import"
 msgstr "Zaimportuj"
 
@@ -260,6 +260,8 @@ msgid "_Reduced"
 msgstr "_Zmniejszony"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:498
+#: src/photos-main-toolbar.c:609
 msgid "_Cancel"
 msgstr "_Anuluj"
 
@@ -310,7 +312,7 @@ msgstr "Opróżnij kosz"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Otwórz"
 
@@ -521,28 +523,27 @@ msgstr "Wybór elementów"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą „%s”"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
+#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Usuwa z ulubionych"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Dodaje do ulubionych"
-
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
-#: src/photos-main-toolbar.c:604
-msgid "Cancel"
-msgstr "Anuluj"
 
 #: src/photos-main-toolbar.c:467
 msgid "Done"
 msgstr "Gotowe"
+
+#: src/photos-main-toolbar.c:502
+msgid "_Select"
+msgstr "_Wybierz"
 
 #: src/photos-main-window.c:458
 msgid ""
@@ -845,10 +846,6 @@ msgid "Export"
 msgstr "Wyeksportuj"
 
 #: src/photos-selection-toolbar.ui:111
-msgid "Add to Photos"
-msgstr "Dodaj do Menedżera zdjęć"
-
-#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
 msgstr "Dodaj do albumu"
 
@@ -881,6 +878,10 @@ msgstr "Źródła"
 #: src/photos-source-notification.c:201
 msgid "New device discovered"
 msgstr "Wykryto nowe urządzenie"
+
+#: src/photos-source-notification.c:214
+msgid "Import…"
+msgstr "Zaimportuj…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
