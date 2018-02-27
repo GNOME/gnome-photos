@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-16 18:43+0000\n"
-"PO-Revision-Date: 2018-02-19 16:43+0100\n"
-"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
+"POT-Creation-Date: 2018-02-27 19:20+0000\n"
+"PO-Revision-Date: 2018-02-27 21:04+0100\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -190,7 +190,7 @@ msgstr "Alben"
 msgid "Favorites"
 msgstr "Favoriten"
 
-#: src/photos-embed.c:834 src/photos-source-notification.c:214
+#: src/photos-embed.c:834
 msgid "Import"
 msgstr "Importieren"
 
@@ -266,6 +266,8 @@ msgid "_Reduced"
 msgstr "_Reduziert"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:498
+#: src/photos-main-toolbar.c:609
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
@@ -315,7 +317,7 @@ msgstr "Papierkorb leeren"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Öffnen"
 
@@ -525,28 +527,27 @@ msgstr "Objekte auswählen"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Öffnen mit %s"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
+#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Aus Favoriten entfernen"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Zu Favoriten hinzufügen"
-
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
-#: src/photos-main-toolbar.c:604
-msgid "Cancel"
-msgstr "Abbrechen"
 
 #: src/photos-main-toolbar.c:467
 msgid "Done"
 msgstr "Fertig"
+
+#: src/photos-main-toolbar.c:502
+msgid "_Select"
+msgstr "Au_swählen"
 
 #: src/photos-main-window.c:458
 msgid ""
@@ -852,10 +853,6 @@ msgid "Export"
 msgstr "Exportieren"
 
 #: src/photos-selection-toolbar.ui:111
-msgid "Add to Photos"
-msgstr "Zu Bilder hinzufügen"
-
-#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
 msgstr "Zu Album hinzufügen"
 
@@ -888,6 +885,10 @@ msgstr "Quellen"
 #: src/photos-source-notification.c:201
 msgid "New device discovered"
 msgstr "Neues Gerät entdeckt"
+
+#: src/photos-source-notification.c:214
+msgid "Import…"
+msgstr "Importieren …"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
@@ -1030,6 +1031,3 @@ msgstr "Filter"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Die Liste der Fotos kann nicht abgeholt werden"
-
-#~ msgid "Untitled Photo"
-#~ msgstr "Unbenanntes Foto"
