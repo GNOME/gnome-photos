@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-16 18:43+0000\n"
-"PO-Revision-Date: 2018-02-22 11:07+0100\n"
+"POT-Creation-Date: 2018-02-27 19:20+0000\n"
+"PO-Revision-Date: 2018-02-27 20:59+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -182,7 +182,7 @@ msgstr "Alba"
 msgid "Favorites"
 msgstr "Oblíbené"
 
-#: src/photos-embed.c:834 src/photos-source-notification.c:214
+#: src/photos-embed.c:834
 msgid "Import"
 msgstr "Import"
 
@@ -258,6 +258,8 @@ msgid "_Reduced"
 msgstr "Z_menšená"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:498
+#: src/photos-main-toolbar.c:609
 msgid "_Cancel"
 msgstr "_Zrušit"
 
@@ -308,7 +310,7 @@ msgstr "Vyprázdnit koš"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Otevřít"
 
@@ -519,28 +521,27 @@ msgstr "Vybrat položky"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Otevřít pomocí %s"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
+#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Odebrat z oblíbených"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
-
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
-#: src/photos-main-toolbar.c:604
-msgid "Cancel"
-msgstr "Zrušit"
 
 #: src/photos-main-toolbar.c:467
 msgid "Done"
 msgstr "Hotovo"
+
+#: src/photos-main-toolbar.c:502
+msgid "_Select"
+msgstr "_Vybrat"
 
 #: src/photos-main-window.c:458
 msgid ""
@@ -840,10 +841,6 @@ msgid "Export"
 msgstr "Export"
 
 #: src/photos-selection-toolbar.ui:111
-msgid "Add to Photos"
-msgstr "Přidat do Fotek"
-
-#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
 msgstr "Přidat do alba"
 
@@ -876,6 +873,10 @@ msgstr "Zdroje"
 #: src/photos-source-notification.c:201
 msgid "New device discovered"
 msgstr "Objeveno nové zařízení"
+
+#: src/photos-source-notification.c:214
+msgid "Import…"
+msgstr "Import…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
