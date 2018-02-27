@@ -1144,6 +1144,8 @@ photos_application_import_copy_next_file (PhotosApplication *self, gpointer user
   g_autofree gchar *source_uri = NULL;
 
   g_assert_nonnull (data->files);
+  g_assert_nonnull (data->files->data);
+  g_object_unref (data->files->data);
   data->files = g_list_remove_link (data->files, data->files);
 
   if (data->files == NULL)
