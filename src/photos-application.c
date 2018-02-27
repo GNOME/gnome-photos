@@ -1374,7 +1374,7 @@ photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, 
 
 
 static void
-photos_application_import_add_to_collection (PhotosApplication *self, gpointer user_data)
+photos_application_import_copy_first_file (PhotosApplication *self, gpointer user_data)
 {
   g_autoptr (PhotosApplicationImportData) data = (PhotosApplicationImportData *) user_data;
   g_autoptr (GDateTime) date_created_latest = NULL;
@@ -1444,7 +1444,7 @@ photos_application_import_create_collection_executed (GObject *source_object,
   g_assert_null (data->collection_urn);
   data->collection_urn = g_steal_pointer (&created_urn);
 
-  photos_application_import_add_to_collection (self, g_steal_pointer (&data));
+  photos_application_import_copy_first_file (self, g_steal_pointer (&data));
 
  out:
   g_application_unmark_busy (G_APPLICATION (self));
@@ -1491,7 +1491,7 @@ photos_application_import_response (GtkDialog *dialog, gint response_id, gpointe
       g_assert_null (data->collection_urn);
       data->collection_urn = g_strdup (id);
 
-      photos_application_import_add_to_collection (self, g_steal_pointer (&data));
+      photos_application_import_copy_first_file (self, g_steal_pointer (&data));
     }
   else
     {
