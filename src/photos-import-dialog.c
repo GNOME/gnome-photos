@@ -160,6 +160,27 @@ photos_import_dialog_index_contains (PhotosImportDialog *self, const gchar *key)
 
 
 static void
+photos_import_dialog_initialize_create_new_entry (PhotosImportDialog *self)
+{
+  g_autofree gchar *default_collection_name = NULL;
+
+  g_return_if_fail (self->index != NULL);
+
+  if (self->default_collection != NULL)
+    goto out;
+
+  default_collection_name = photos_import_dialog_create_default_collection_name (self);
+  if (photos_import_dialog_index_contains (self, default_collection_name))
+    goto out;
+
+  gtk_entry_set_text (GTK_ENTRY (self->create_new_entry), default_collection_name);
+
+ out:
+  return;
+}
+
+
+static void
 photos_import_dialog_update_response_sensitivity (PhotosImportDialog *self)
 {
   gboolean sensitive = TRUE;
@@ -332,27 +353,6 @@ photos_import_dialog_collections_popover_search_changed (PhotosImportDialog *sel
 
       g_return_if_fail (matches->len <= MAX_MATCHES);
     }
-}
-
-
-static void
-photos_import_dialog_initialize_create_new_entry (PhotosImportDialog *self)
-{
-  g_autofree gchar *default_collection_name = NULL;
-
-  g_return_if_fail (self->index != NULL);
-
-  if (self->default_collection != NULL)
-    goto out;
-
-  default_collection_name = photos_import_dialog_create_default_collection_name (self);
-  if (photos_import_dialog_index_contains (self, default_collection_name))
-    goto out;
-
-  gtk_entry_set_text (GTK_ENTRY (self->create_new_entry), default_collection_name);
-
- out:
-  return;
 }
 
 
