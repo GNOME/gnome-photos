@@ -50,6 +50,7 @@ struct _PhotosImportDialog
   GtkWidget *add_existing_collection_name_button;
   GtkWidget *add_existing_collection_name_label;
   GtkWidget *add_existing_label;
+  GtkWidget *add_to_album_switch;
   GtkWidget *collections_popover;
   GtkWidget *collections_popover_grid;
   GtkWidget *collections_popover_search_entry;
@@ -61,6 +62,8 @@ struct _PhotosImportDialog
   PhotosBaseItem *default_collection;
   PhotosBaseManager *item_mngr;
   PhotosTrackerQueue *queue;
+  gboolean enable_create_new;
+  gboolean show_add_existing;
   gint64 time;
 };
 
@@ -181,6 +184,75 @@ photos_import_dialog_initialize_create_new_entry (PhotosImportDialog *self)
 
 
 static void
+photos_import_dialog_enable_create_new_internal (PhotosImportDialog *self)
+{
+  gboolean add_to_album_active;
+  gboolean create_new_active;
+  gboolean enable;
+
+  add_to_album_active = gtk_switch_get_active (GTK_SWITCH (self->add_to_album_switch));
+  enable = add_to_album_active && self->enable_create_new;
+
+  gtk_widget_set_sensitive (self->create_new_label, enable);
+  gtk_widget_set_sensitive (self->create_new_entry, enable);
+
+  create_new_active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->create_new_button));
+  if (self->enable_create_new && create_new_active)
+    {
+      guint16 text_length;
+
+      text_length = gtk_entry_get_text_length (GTK_ENTRY (self->create_new_entry));
+      if (text_length == 0)
+        photos_import_dialog_initialize_create_new_entry (self);
+
+      if (enable)
+        gtk_widget_grab_focus (self->create_new_entry);
+    }
+}
+
+
+static void
+photos_import_dialog_show_add_existing_internal (PhotosImportDialog *self)
+{
+  GtkStyleContext *context;
+  gboolean add_to_album_active;
+  gboolean enable;
+  const gchar *class_name;
+  const gchar *invert_class_name;
+
+  add_to_album_active = gtk_switch_get_active (GTK_SWITCH (self->add_to_album_switch));
+  enable = add_to_album_active && self->show_add_existing;
+
+  class_name = self->show_add_existing ? "photos-fade-in" : "photos-fade-out";
+  invert_class_name = !self->show_add_existing ? "photos-fade-in" : "photos-fade-out";
+
+  gtk_widget_set_sensitive (self->create_new_button, enable);
+  gtk_widget_show (self->create_new_button);
+  context = gtk_widget_get_style_context (self->create_new_button);
+  gtk_style_context_remove_class (context, invert_class_name);
+  gtk_style_context_add_class (context, class_name);
+
+  gtk_widget_set_sensitive (self->add_existing_button, enable);
+  gtk_widget_show (self->add_existing_button);
+  context = gtk_widget_get_style_context (self->add_existing_button);
+  gtk_style_context_remove_class (context, invert_class_name);
+  gtk_style_context_add_class (context, class_name);
+
+  gtk_widget_set_sensitive (self->add_existing_label, enable);
+  gtk_widget_show (self->add_existing_label);
+  context = gtk_widget_get_style_context (self->add_existing_label);
+  gtk_style_context_remove_class (context, invert_class_name);
+  gtk_style_context_add_class (context, class_name);
+
+  gtk_widget_set_sensitive (self->add_existing_collection_name_button, enable);
+  gtk_widget_show (self->add_existing_collection_name_button);
+  context = gtk_widget_get_style_context (self->add_existing_collection_name_button);
+  gtk_style_context_remove_class (context, invert_class_name);
+  gtk_style_context_add_class (context, class_name);
+}
+
+
+static void
 photos_import_dialog_update_response_sensitivity (PhotosImportDialog *self)
 {
   gboolean sensitive = TRUE;
@@ -280,6 +352,14 @@ photos_import_dialog_add_existing_collection_name_toggled (PhotosImportDialog *s
 
  out:
   return;
+}
+
+
+static void
+photos_import_dialog_add_to_album_switch_notify_active (PhotosImportDialog *self)
+{
+  photos_import_dialog_enable_create_new_internal (self);
+  photos_import_dialog_show_add_existing_internal (self);
 }
 
 
@@ -400,55 +480,16 @@ photos_import_dialog_create_new_entry_focus_in_event (PhotosImportDialog *self)
 static void
 photos_import_dialog_enable_create_new (PhotosImportDialog *self, gboolean enable)
 {
-  gtk_widget_set_sensitive (self->create_new_label, enable);
-  gtk_widget_set_sensitive (self->create_new_entry, enable);
-
-  if (enable && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->create_new_button)))
-    {
-      guint16 text_length;
-
-      text_length = gtk_entry_get_text_length (GTK_ENTRY (self->create_new_entry));
-      if (text_length == 0)
-        photos_import_dialog_initialize_create_new_entry (self);
-
-      gtk_widget_grab_focus (self->create_new_entry);
-    }
+  self->enable_create_new = enable;
+  photos_import_dialog_enable_create_new_internal (self);
 }
 
 
 static void
 photos_import_dialog_show_add_existing (PhotosImportDialog *self, gboolean show)
 {
-  GtkStyleContext *context;
-  const gchar *class_name;
-  const gchar *invert_class_name;
-
-  class_name = show ? "photos-fade-in" : "photos-fade-out";
-  invert_class_name = !show ? "photos-fade-in" : "photos-fade-out";
-
-  gtk_widget_set_sensitive (self->create_new_button, show);
-  gtk_widget_show (self->create_new_button);
-  context = gtk_widget_get_style_context (self->create_new_button);
-  gtk_style_context_remove_class (context, invert_class_name);
-  gtk_style_context_add_class (context, class_name);
-
-  gtk_widget_set_sensitive (self->add_existing_button, show);
-  gtk_widget_show (self->add_existing_button);
-  context = gtk_widget_get_style_context (self->add_existing_button);
-  gtk_style_context_remove_class (context, invert_class_name);
-  gtk_style_context_add_class (context, class_name);
-
-  gtk_widget_set_sensitive (self->add_existing_label, show);
-  gtk_widget_show (self->add_existing_label);
-  context = gtk_widget_get_style_context (self->add_existing_label);
-  gtk_style_context_remove_class (context, invert_class_name);
-  gtk_style_context_add_class (context, class_name);
-
-  gtk_widget_set_sensitive (self->add_existing_collection_name_button, show);
-  gtk_widget_show (self->add_existing_collection_name_button);
-  context = gtk_widget_get_style_context (self->add_existing_collection_name_button);
-  gtk_style_context_remove_class (context, invert_class_name);
-  gtk_style_context_add_class (context, class_name);
+  self->show_add_existing = show;
+  photos_import_dialog_show_add_existing_internal (self);
 }
 
 
@@ -781,6 +822,7 @@ photos_import_dialog_class_init (PhotosImportDialogClass *class)
   gtk_widget_class_bind_template_callback (widget_class,
                                            photos_import_dialog_add_existing_collection_name_focus_in_event);
   gtk_widget_class_bind_template_callback (widget_class, photos_import_dialog_add_existing_collection_name_toggled);
+  gtk_widget_class_bind_template_callback (widget_class, photos_import_dialog_add_to_album_switch_notify_active);
   gtk_widget_class_bind_template_callback (widget_class, photos_import_dialog_collections_popover_search_changed);
   gtk_widget_class_bind_template_callback (widget_class, photos_import_dialog_create_new_button_toggled);
   gtk_widget_class_bind_template_callback (widget_class, photos_import_dialog_create_new_entry_changed);
@@ -789,6 +831,7 @@ photos_import_dialog_class_init (PhotosImportDialogClass *class)
   gtk_widget_class_bind_template_child (widget_class, PhotosImportDialog, add_existing_collection_name_button);
   gtk_widget_class_bind_template_child (widget_class, PhotosImportDialog, add_existing_collection_name_label);
   gtk_widget_class_bind_template_child (widget_class, PhotosImportDialog, add_existing_label);
+  gtk_widget_class_bind_template_child (widget_class, PhotosImportDialog, add_to_album_switch);
   gtk_widget_class_bind_template_child (widget_class, PhotosImportDialog, collections_popover);
   gtk_widget_class_bind_template_child (widget_class, PhotosImportDialog, collections_popover_grid);
   gtk_widget_class_bind_template_child (widget_class, PhotosImportDialog, collections_popover_search_entry);
@@ -818,10 +861,15 @@ PhotosBaseItem *
 photos_import_dialog_get_collection (PhotosImportDialog *self)
 {
   PhotosBaseItem *ret_val = NULL;
+  gboolean add_existing_active;
+  gboolean add_to_album_active;
 
   g_return_val_if_fail (PHOTOS_IS_IMPORT_DIALOG (self), NULL);
 
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->add_existing_button)))
+  add_existing_active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->add_existing_button));
+  add_to_album_active = gtk_switch_get_active (GTK_SWITCH (self->add_to_album_switch));
+
+  if (add_existing_active && add_to_album_active)
     {
       g_autoptr (GVariant) state = NULL;
       PhotosBaseItem *collection;
@@ -844,12 +892,17 @@ photos_import_dialog_get_collection (PhotosImportDialog *self)
 const gchar *
 photos_import_dialog_get_name (PhotosImportDialog *self, gchar **out_identifier_tag)
 {
+  gboolean add_to_album_active;
+  gboolean create_new_active;
   const gchar *collection_name = NULL;
   g_autofree gchar *identifier_tag = NULL;
 
   g_return_val_if_fail (PHOTOS_IS_IMPORT_DIALOG (self), NULL);
 
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->create_new_button)))
+  add_to_album_active = gtk_switch_get_active (GTK_SWITCH (self->add_to_album_switch));
+  create_new_active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->create_new_button));
+
+  if (add_to_album_active && create_new_active)
     {
       g_autofree gchar *default_collection_name = NULL;
 
