@@ -1320,7 +1320,7 @@ photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, 
   PhotosApplication *self = data->application;
   g_autoptr (GFile) destination = NULL;
   GFile *source = G_FILE (source_object);
-  TrackerMinerManager *manager = data->manager;
+  TrackerMinerManager *manager = NULL; /* TODO: use g_autoptr */
 
   {
     g_autoptr (GError) error = NULL;
@@ -1338,26 +1338,36 @@ photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, 
       }
   }
 
+  manager = g_object_ref (data->manager);
+
   if (destination == NULL)
     {
       photos_application_import_copy_next_file (self, g_steal_pointer (&data));
     }
   else
     {
-      g_autofree gchar *destination_uri = NULL;
-
       g_assert_true (G_IS_FILE (destination));
-      g_set_object (&data->destination, destination);
 
-      destination_uri = g_file_get_uri (destination);
-      photos_debug (PHOTOS_DEBUG_IMPORT, "Indexing after import %s", destination_uri);
+      if (data->collection_urn == NULL)
+        {
+          photos_application_import_copy_next_file (self, g_steal_pointer (&data));
+        }
+      else
+        {
+          g_autofree gchar *destination_uri = NULL;
 
-      g_application_mark_busy (G_APPLICATION (self));
-      photos_item_manager_wait_for_file_async (PHOTOS_ITEM_MANAGER (self->state->item_mngr),
-                                               destination,
-                                               NULL,
-                                               photos_application_import_wait_for_file,
-                                               g_steal_pointer (&data));
+          g_set_object (&data->destination, destination);
+
+          destination_uri = g_file_get_uri (destination);
+          photos_debug (PHOTOS_DEBUG_IMPORT, "Indexing after import %s", destination_uri);
+
+          g_application_mark_busy (G_APPLICATION (self));
+          photos_item_manager_wait_for_file_async (PHOTOS_ITEM_MANAGER (self->state->item_mngr),
+                                                   destination,
+                                                   NULL,
+                                                   photos_application_import_wait_for_file,
+                                                   g_steal_pointer (&data));
+        }
 
       g_application_hold (G_APPLICATION (self));
       g_application_mark_busy (G_APPLICATION (self));
@@ -1370,6 +1380,7 @@ photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, 
 
  out:
   g_application_unmark_busy (G_APPLICATION (self));
+  g_clear_object (&manager);
 }
 
 
@@ -1458,6 +1469,7 @@ photos_application_import_response (GtkDialog *dialog, gint response_id, gpointe
   g_autoptr (PhotosApplicationImportData) data = (PhotosApplicationImportData *) user_data;
   PhotosApplication *self = data->application;
   PhotosBaseItem *collection;
+  PhotosWindowMode mode;
   const gchar *name;
   g_autofree gchar *identifier_tag = NULL;
 
@@ -1468,7 +1480,9 @@ photos_application_import_response (GtkDialog *dialog, gint response_id, gpointe
 
   collection = photos_import_dialog_get_collection (PHOTOS_IMPORT_DIALOG (dialog));
   name = photos_import_dialog_get_name (PHOTOS_IMPORT_DIALOG (dialog), &identifier_tag);
-  g_assert_true ((PHOTOS_IS_BASE_ITEM (collection) && name == NULL) || (collection == NULL && name != NULL));
+  g_assert_true ((collection == NULL && name == NULL)
+                 || (PHOTOS_IS_BASE_ITEM (collection) && name == NULL)
+                 || (collection == NULL && name != NULL));
 
   if (name != NULL)
     {
@@ -1481,6 +1495,8 @@ photos_application_import_response (GtkDialog *dialog, gint response_id, gpointe
                                         NULL,
                                         photos_application_import_create_collection_executed,
                                         g_steal_pointer (&data));
+
+      mode = PHOTOS_WINDOW_MODE_COLLECTIONS;
     }
   else if (collection != NULL)
     {
@@ -1492,14 +1508,16 @@ photos_application_import_response (GtkDialog *dialog, gint response_id, gpointe
       data->collection_urn = g_strdup (id);
 
       photos_application_import_copy_first_file (self, g_steal_pointer (&data));
+      mode = PHOTOS_WINDOW_MODE_COLLECTIONS;
     }
   else
     {
-      g_assert_not_reached ();
+      photos_application_import_copy_first_file (self, g_steal_pointer (&data));
+      mode = PHOTOS_WINDOW_MODE_OVERVIEW;
     }
 
   g_action_activate (G_ACTION (self->import_cancel_action), NULL);
-  photos_mode_controller_set_window_mode (self->state->mode_cntrlr, PHOTOS_WINDOW_MODE_COLLECTIONS);
+  photos_mode_controller_set_window_mode (self->state->mode_cntrlr, mode);
 
  out:
   gtk_widget_destroy (GTK_WIDGET (dialog));
