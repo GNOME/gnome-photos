@@ -5,7 +5,7 @@
     <property name="visible">0</property>
       <child>
         <object class="GtkButton" id="toolbar_favorite">
-          <property name="no-show-all">1</property>
+          <property name="visible">1</property>
           <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
                   handler="photos_selection_toolbar_favorite_clicked" />
         </object>
@@ -14,10 +14,10 @@
         </packing>
       </child>
       <child>
-        <object class="GtkButton" id="toolbar_export">
+        <object class="GtkButton">
           <property name="action_name">app.save-current</property>
           <property name="label" translatable="yes">Export</property>
-          <property name="no-show-all">1</property>
+          <property name="visible">1</property>
         </object>
         <packing>
           <property name="pack_type">start</property>
@@ -26,7 +26,7 @@
       <child>
         <object class="GtkButton" id="toolbar_open">
           <property name="label" translatable="yes">Open</property>
-          <property name="no-show-all">1</property>
+          <property name="visible">1</property>
           <property name="action_name">app.open-current</property>
         </object>
         <packing>
@@ -34,18 +34,18 @@
         </packing>
       </child>
       <child>
-        <object class="GtkSeparator" id="toolbar_separator">
-          <property name="no-show-all">1</property>
+        <object class="GtkSeparator">
           <property name="orientation">vertical</property>
+          <property name="visible">1</property>
         </object>
         <packing>
           <property name="pack_type">start</property>
         </packing>
       </child>
       <child>
-        <object class="GtkButton" id="toolbar_share">
+        <object class="GtkButton">
           <property name="action_name">app.share-current</property>
-          <property name="no-show-all">1</property>
+          <property name="visible">1</property>
           <style>
             <class name="image-button"/>
           </style>
@@ -61,9 +61,9 @@
         </packing>
       </child>
       <child>
-        <object class="GtkButton" id="toolbar_print">
+        <object class="GtkButton">
           <property name="action_name">app.print-current</property>
-          <property name="no-show-all">1</property>
+          <property name="visible">1</property>
           <style>
             <class name="image-button"/>
           </style>
@@ -79,9 +79,9 @@
         </packing>
       </child>
       <child>
-        <object class="GtkButton" id="toolbar_trash">
+        <object class="GtkButton">
           <property name="action_name">app.delete</property>
-          <property name="no-show-all">1</property>
+          <property name="visible">1</property>
           <style>
             <class name="image-button"/>
           </style>
@@ -97,24 +97,10 @@
         </packing>
       </child>
       <child>
-        <object class="GtkButton" id="toolbar_properties">
+        <object class="GtkButton">
           <property name="label" translatable="yes">Properties</property>
-          <property name="no-show-all">1</property>
+          <property name="visible">1</property>
           <property name="action_name">app.properties</property>
-        </object>
-        <packing>
-          <property name="pack_type">end</property>
-        </packing>
-      </child>
-      <child>
-        <object class="GtkButton" id="toolbar_import">
-          <property name="label" translatable="yes">_Select</property>
-          <property name="no-show-all">1</property>
-          <property name="use_underline">1</property>
-          <property name="action_name">app.import-current</property>
-          <style>
-            <class name="suggested-action"/>
-          </style>
         </object>
         <packing>
           <property name="pack_type">end</property>
@@ -123,7 +109,7 @@
       <child>
         <object class="GtkButton" id="toolbar_collection">
           <property name="label" translatable="yes">Add to Album</property>
-          <property name="no-show-all">1</property>
+          <property name="visible">1</property>
           <signal name="clicked" object="PhotosSelectionToolbar" swapped="no"
                   handler="photos_selection_toolbar_collection_clicked" />
         </object>

@@ -489,6 +489,7 @@ photos_main_toolbar_populate_for_import (PhotosMainToolbar *self)
 {
   GtkStyleContext *context;
   GtkWidget *cancel_button;
+  GtkWidget *select_button;
 
   gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->selection_menu);
   context = gtk_widget_get_style_context (self->header_bar);
@@ -496,7 +497,11 @@ photos_main_toolbar_populate_for_import (PhotosMainToolbar *self)
 
   cancel_button = gtk_button_new_with_mnemonic (_("_Cancel"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (cancel_button), "app.import-cancel");
-  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), cancel_button);
+  gtk_header_bar_pack_start (GTK_HEADER_BAR (self->header_bar), cancel_button);
+
+  select_button = gtk_button_new_with_mnemonic (_("_Select"));
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (select_button), "app.import-current");
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), select_button);
 
   g_signal_connect_object (self->sel_cntrlr,
                            "selection-changed",
