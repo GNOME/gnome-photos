@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-16 18:43+0000\n"
-"PO-Revision-Date: 2018-02-20 23:33+0800\n"
+"POT-Creation-Date: 2018-02-28 01:02+0000\n"
+"PO-Revision-Date: 2018-02-28 23:49+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
@@ -64,7 +64,7 @@ msgstr "列印相片"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
 msgid "Select favorites"
-msgstr "選擇喜好"
+msgstr "選取喜愛"
 
 #: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Allow opening full featured editor for more advanced changes"
@@ -176,9 +176,9 @@ msgstr "相簿"
 
 #: src/photos-embed.c:830 src/photos-search-type-manager.c:137
 msgid "Favorites"
-msgstr "喜好"
+msgstr "喜愛"
 
-#: src/photos-embed.c:834 src/photos-source-notification.c:214
+#: src/photos-embed.c:834
 msgid "Import"
 msgstr "匯入"
 
@@ -254,6 +254,8 @@ msgid "_Reduced"
 msgstr "縮減(_R)"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:498
+#: src/photos-main-toolbar.c:609
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -302,7 +304,7 @@ msgstr "清空回收筒"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "開啟"
 
@@ -499,7 +501,7 @@ msgstr "點擊項目來選取它們"
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
-msgstr[0] "已選擇 %d 個"
+msgstr[0] "已選取 %d 個"
 
 #: src/photos-main-toolbar.c:212
 msgid "Back"
@@ -507,32 +509,31 @@ msgstr "返回"
 
 #: src/photos-main-toolbar.c:326
 msgid "Select Items"
-msgstr "選擇項目"
+msgstr "選取項目"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "以 %s 開啟"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
+#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
-msgstr "自喜好移除"
+msgstr "自喜愛移除"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
-msgstr "加入喜好中"
-
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
-#: src/photos-main-toolbar.c:604
-msgid "Cancel"
-msgstr "取消"
+msgstr "加入喜愛中"
 
 #: src/photos-main-toolbar.c:467
 msgid "Done"
 msgstr "完成"
+
+#: src/photos-main-toolbar.c:502
+msgid "_Select"
+msgstr "選取(_S)"
 
 #: src/photos-main-window.c:458
 msgid ""
@@ -830,10 +831,6 @@ msgid "Export"
 msgstr "匯出"
 
 #: src/photos-selection-toolbar.ui:111
-msgid "Add to Photos"
-msgstr "關於《相片》"
-
-#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
 msgstr "加入到相簿"
 
@@ -866,6 +863,10 @@ msgstr "來源"
 #: src/photos-source-notification.c:201
 msgid "New device discovered"
 msgstr "探查到新裝置"
+
+#: src/photos-source-notification.c:214
+msgid "Import…"
+msgstr "匯入…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
@@ -1008,6 +1009,12 @@ msgstr "濾鏡"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "無法擷取相片清單"
+
+#~ msgid "Cancel"
+#~ msgstr "取消"
+
+#~ msgid "Add to Photos"
+#~ msgstr "關於《相片》"
 
 #~ msgid "Untitled Photo"
 #~ msgstr "無標題相片"
