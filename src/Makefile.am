@@ -48,6 +48,7 @@ gnome_photos_SOURCES = \
 	egg-heap.h \
 	egg-task-cache.c \
 	egg-task-cache.h \
+	gettext.h \
 	photos-application.c \
 	photos-application.h \
 	photos-base-manager.c \
