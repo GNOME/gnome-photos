@@ -122,8 +122,7 @@ photos_thumbnailer_authorize_authenticated_peer (PhotosThumbnailer *self,
                                                  GIOStream *iostream,
                                                  GCredentials *credentials)
 {
-  GCredentials *own_credentials = NULL;
-  GError *error;
+  g_autoptr (GCredentials) own_credentials = NULL;
   gboolean ret_val = FALSE;
 
   if (credentials == NULL)
@@ -131,18 +130,19 @@ photos_thumbnailer_authorize_authenticated_peer (PhotosThumbnailer *self,
 
   own_credentials = g_credentials_new ();
 
-  error = NULL;
-  if (!g_credentials_is_same_user (credentials, own_credentials, &error))
-    {
-      g_warning ("Unable to authorize peer: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!g_credentials_is_same_user (credentials, own_credentials, &error))
+      {
+        g_warning ("Unable to authorize peer: %s", error->message);
+        goto out;
+      }
+  }
 
   ret_val = TRUE;
 
  out:
-  g_clear_object (&own_credentials);
   return ret_val;
 }
 
@@ -152,21 +152,23 @@ photos_thumbnailer_generate_thumbnail_stream_close (GObject *source_object,
                                                     GAsyncResult *res,
                                                     gpointer user_data)
 {
-  GError *error;
   GOutputStream *stream = G_OUTPUT_STREAM (source_object);
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
 
-  error = NULL;
-  if (!g_output_stream_close_finish (stream, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!g_output_stream_close_finish (stream, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_boolean (task, TRUE);
 
  out:
-  g_object_unref (task);
+  return;
 }
 
 
@@ -176,19 +178,21 @@ photos_thumbnailer_generate_thumbnail_save_to_stream (GObject *source_object,
                                                       gpointer user_data)
 {
   GCancellable *cancellable;
-  GError *error;
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosThumbnailerGenerateData *data;
 
   cancellable = g_task_get_cancellable (task);
   data = g_task_get_task_data (task);
 
-  error = NULL;
-  if (!gdk_pixbuf_save_to_stream_finish (res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!gdk_pixbuf_save_to_stream_finish (res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_output_stream_close_async (G_OUTPUT_STREAM (data->stream),
                                G_PRIORITY_DEFAULT,
@@ -197,7 +201,7 @@ photos_thumbnailer_generate_thumbnail_save_to_stream (GObject *source_object,
                                g_object_ref (task));
 
  out:
-  g_object_unref (task);
+  return;
 }
 
 
@@ -205,26 +209,28 @@ static void
 photos_thumbnailer_generate_thumbnail_replace (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GCancellable *cancellable;
-  GError *error;
   GFile *thumbnail_file = G_FILE (source_object);
-  GFileOutputStream *stream = NULL;
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GFileOutputStream) stream = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosThumbnailerGenerateData *data;
   const gchar *prgname;
-  gchar *original_height_str = NULL;
-  gchar *original_width_str = NULL;
-  gchar *uri = NULL;
+  g_autofree gchar *original_height_str = NULL;
+  g_autofree gchar *original_width_str = NULL;
+  g_autofree gchar *uri = NULL;
 
   cancellable = g_task_get_cancellable (task);
   data = g_task_get_task_data (task);
 
-  error = NULL;
-  stream = g_file_replace_finish (thumbnail_file, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    stream = g_file_replace_finish (thumbnail_file, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_assert_null (data->stream);
   data->stream = g_object_ref (stream);
@@ -246,11 +252,7 @@ photos_thumbnailer_generate_thumbnail_replace (GObject *source_object, GAsyncRes
                                    NULL);
 
  out:
-  g_free (original_height_str);
-  g_free (original_width_str);
-  g_free (uri);
-  g_clear_object (&stream);
-  g_object_unref (task);
+  return;
 }
 
 
@@ -258,12 +260,11 @@ static void
 photos_thumbnailer_generate_thumbnail_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GCancellable *cancellable;
-  GError *error;
-  GFile *thumbnail_file = NULL;
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GFile) thumbnail_file = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
   GeglProcessor *processor = GEGL_PROCESSOR (source_object);
   PhotosThumbnailerGenerateData *data;
-  gchar *thumbnail_dir = NULL;
+  g_autofree gchar *thumbnail_dir = NULL;
   gdouble zoom = 0.0;
   gint pixbuf_height;
   gint pixbuf_width;
@@ -273,12 +274,15 @@ photos_thumbnailer_generate_thumbnail_process (GObject *source_object, GAsyncRes
   cancellable = g_task_get_cancellable (task);
   data = g_task_get_task_data (task);
 
-  error = NULL;
-  if (!photos_gegl_processor_process_finish (processor, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_gegl_processor_process_finish (processor, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   pixbuf_height = gdk_pixbuf_get_height (data->pixbuf_thumbnail);
   pixbuf_width = gdk_pixbuf_get_width (data->pixbuf_thumbnail);
@@ -298,7 +302,7 @@ photos_thumbnailer_generate_thumbnail_process (GObject *source_object, GAsyncRes
 
   if (zoom > 0.0)
     {
-      GdkPixbuf *pixbuf_scaled = NULL;
+      g_autoptr (GdkPixbuf) pixbuf_scaled = NULL;
 
       photos_debug (PHOTOS_DEBUG_THUMBNAILER,
                     "Scaling thumbnail to %d×%d",
@@ -311,7 +315,6 @@ photos_thumbnailer_generate_thumbnail_process (GObject *source_object, GAsyncRes
                                                GDK_INTERP_BILINEAR);
 
       g_set_object (&data->pixbuf_thumbnail, pixbuf_scaled);
-      g_object_unref (pixbuf_scaled);
     }
 
   thumbnail_dir = g_path_get_dirname (data->thumbnail_path);
@@ -330,9 +333,7 @@ photos_thumbnailer_generate_thumbnail_process (GObject *source_object, GAsyncRes
                         g_object_ref (task));
 
  out:
-  g_free (thumbnail_dir);
-  g_clear_object (&thumbnail_file);
-  g_object_unref (task);
+  return;
 }
 
 
@@ -340,27 +341,29 @@ static void
 photos_thumbnailer_generate_thumbnail_pixbuf (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GCancellable *cancellable;
-  GError *error;
-  GTask *task = G_TASK (user_data);
-  GdkPixbuf *pixbuf = NULL;
-  GeglBuffer *buffer = NULL;
-  GeglBuffer *buffer_oriented = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
+  g_autoptr (GeglBuffer) buffer = NULL;
+  g_autoptr (GeglBuffer) buffer_oriented = NULL;
   GeglNode *buffer_source;
   GeglNode *pipeline_node;
   GeglNode *save_pixbuf;
-  GeglProcessor *processor = NULL;
+  g_autoptr (GeglProcessor) processor = NULL;
   PhotosThumbnailerGenerateData *data;
 
   cancellable = g_task_get_cancellable (task);
   data = g_task_get_task_data (task);
 
-  error = NULL;
-  pixbuf = photos_pixbuf_new_from_file_at_size_finish (res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    pixbuf = photos_pixbuf_new_from_file_at_size_finish (res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_assert_null (data->pixbuf_thumbnail);
 
@@ -383,11 +386,7 @@ photos_thumbnailer_generate_thumbnail_pixbuf (GObject *source_object, GAsyncResu
                                        g_object_ref (task));
 
  out:
-  g_clear_object (&buffer);
-  g_clear_object (&buffer_oriented);
-  g_clear_object (&pixbuf);
-  g_clear_object (&processor);
-  g_object_unref (task);
+  return;
 }
 
 
@@ -395,13 +394,12 @@ static void
 photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GCancellable *cancellable;
-  GError *error;
-  GTask *task = G_TASK (user_data);
-  PhotosPipeline *pipeline = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
+  g_autoptr (PhotosPipeline) pipeline = NULL;
   PhotosThumbnailerGenerateData *data;
   gboolean has_crop;
-  gchar *path = NULL;
-  gchar *uri = NULL;
+  g_autofree gchar *path = NULL;
+  g_autofree gchar *uri = NULL;
   gdouble height;
   gdouble width;
   gdouble x;
@@ -412,13 +410,16 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
   cancellable = g_task_get_cancellable (task);
   data = g_task_get_task_data (task);
 
-  error = NULL;
-  pipeline = photos_pipeline_new_finish (res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    pipeline = photos_pipeline_new_finish (res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_assert_null (data->pipeline);
   data->pipeline = g_object_ref (pipeline);
@@ -471,10 +472,7 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
                                              g_object_ref (task));
 
  out:
-  g_free (path);
-  g_free (uri);
-  g_clear_object (&pipeline);
-  g_object_unref (task);
+  return;
 }
 
 
@@ -492,10 +490,10 @@ photos_thumbnailer_generate_thumbnail_async (PhotosThumbnailer *self,
                                              GAsyncReadyCallback callback,
                                              gpointer user_data)
 {
-  GFile *file = NULL;
-  GTask *task = NULL;
+  g_autoptr (GFile) file = NULL;
+  g_autoptr (GTask) task = NULL;
   GQuark orientation_quark;
-  GeglNode *graph;
+  g_autoptr (GeglNode) graph = NULL;
   PhotosThumbnailerGenerateData *data;
 
   g_return_if_fail (PHOTOS_IS_THUMBNAILER (self));
@@ -525,10 +523,6 @@ photos_thumbnailer_generate_thumbnail_async (PhotosThumbnailer *self,
                              cancellable,
                              photos_thumbnailer_generate_thumbnail_pipeline,
                              g_object_ref (task));
-
-  g_object_unref (file);
-  g_object_unref (graph);
-  g_object_unref (task);
 }
 
 
@@ -597,15 +591,17 @@ photos_thumbnailer_handle_generate_thumbnail_generate_thumbnail (GObject *source
                                                                  gpointer user_data)
 {
   PhotosThumbnailer *self = PHOTOS_THUMBNAILER (source_object);
-  GDBusMethodInvocation *invocation = G_DBUS_METHOD_INVOCATION (user_data);
-  GError *error;
+  g_autoptr (GDBusMethodInvocation) invocation = G_DBUS_METHOD_INVOCATION (user_data);
 
-  error = NULL;
-  if (!photos_thumbnailer_generate_thumbnail_finish (self, res, &error))
-    {
-      g_dbus_method_invocation_take_error (invocation, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_thumbnailer_generate_thumbnail_finish (self, res, &error))
+      {
+        g_dbus_method_invocation_take_error (invocation, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   photos_thumbnailer_dbus_complete_generate_thumbnail (self->skeleton, invocation);
 
@@ -613,7 +609,6 @@ photos_thumbnailer_handle_generate_thumbnail_generate_thumbnail (GObject *source
   photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Completed GenerateThumbnail");
   g_application_release (G_APPLICATION (self));
   g_hash_table_remove (self->cancellables, invocation);
-  g_object_unref (invocation);
 }
 
 
@@ -629,7 +624,7 @@ photos_thumbnailer_handle_generate_thumbnail (PhotosThumbnailer *self,
                                               const gchar *thumbnail_path,
                                               gint thumbnail_size)
 {
-  GCancellable *cancellable = NULL;
+  g_autoptr (GCancellable) cancellable = NULL;
 
   g_return_val_if_fail (PHOTOS_IS_THUMBNAILER (self), FALSE);
   g_return_val_if_fail (G_IS_DBUS_METHOD_INVOCATION (invocation), FALSE);
@@ -661,7 +656,6 @@ photos_thumbnailer_handle_generate_thumbnail (PhotosThumbnailer *self,
                                                photos_thumbnailer_handle_generate_thumbnail_generate_thumbnail,
                                                g_object_ref (invocation));
 
-  g_object_unref (cancellable);
   return TRUE;
 }
 
@@ -673,7 +667,7 @@ photos_thumbnailer_dbus_register (GApplication *application,
                                   GError **error)
 {
   PhotosThumbnailer *self = PHOTOS_THUMBNAILER (application);
-  GDBusAuthObserver *observer = NULL;
+  g_autoptr (GDBusAuthObserver) observer = NULL;
   gboolean ret_val = FALSE;
 
   g_return_val_if_fail (self->skeleton == NULL, FALSE);
@@ -720,7 +714,6 @@ photos_thumbnailer_dbus_register (GApplication *application,
   ret_val = TRUE;
 
  out:
-  g_clear_object (&observer);
   return ret_val;
 }
 
