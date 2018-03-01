@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-16 18:43+0000\n"
-"PO-Revision-Date: 2018-02-17 01:36+0200\n"
+"POT-Creation-Date: 2018-02-27 19:20+0000\n"
+"PO-Revision-Date: 2018-03-01 14:48+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician\n"
 "Language: gl\n"
@@ -182,7 +182,7 @@ msgstr "Álbumes"
 msgid "Favorites"
 msgstr "Favoritas"
 
-#: src/photos-embed.c:834 src/photos-source-notification.c:214
+#: src/photos-embed.c:834
 msgid "Import"
 msgstr "Importar"
 
@@ -258,6 +258,8 @@ msgid "_Reduced"
 msgstr "_Reducido"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:498
+#: src/photos-main-toolbar.c:609
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -307,7 +309,7 @@ msgstr "Baleirar lixo"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Abrir"
 
@@ -456,7 +458,6 @@ msgid "An album for that date already exists"
 msgstr "Xa existe un álbum para a data"
 
 #: src/photos-import-dialog.ui:22
-#| msgid "Album"
 msgctxt "dialog title"
 msgid "Name Album"
 msgstr "Nome do álbum"
@@ -518,28 +519,28 @@ msgstr "Elementos seleccionados"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
+#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Quitar dos marcadores"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Engadir aos marcadores"
-
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
-#: src/photos-main-toolbar.c:604
-msgid "Cancel"
-msgstr "Cancelar"
 
 #: src/photos-main-toolbar.c:467
 msgid "Done"
 msgstr "Feito"
+
+#: src/photos-main-toolbar.c:502
+#| msgid "Select All"
+msgid "_Select"
+msgstr "_Seleccionar"
 
 #: src/photos-main-window.c:458
 msgid ""
@@ -838,11 +839,6 @@ msgid "Export"
 msgstr "Exportar"
 
 #: src/photos-selection-toolbar.ui:111
-#| msgid "About Photos"
-msgid "Add to Photos"
-msgstr "Engadir a Fotos"
-
-#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
 msgstr "Engadir ao álbum"
 
@@ -875,6 +871,11 @@ msgstr "Orixes"
 #: src/photos-source-notification.c:201
 msgid "New device discovered"
 msgstr "Novo dispositivo descuberto"
+
+#: src/photos-source-notification.c:214
+#| msgid "Import"
+msgid "Import…"
+msgstr "Importar…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
@@ -1017,6 +1018,13 @@ msgstr "Filtros"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Non foi posíbel obter a lista de fotografías"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~| msgid "About Photos"
+#~ msgid "Add to Photos"
+#~ msgstr "Engadir a Fotos"
 
 #~ msgid "Name your first album"
 #~ msgstr "Nome do seu primeiro álbum"
