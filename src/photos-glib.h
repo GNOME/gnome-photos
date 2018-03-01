@@ -18,19 +18,32 @@
 
 /* Based on code from:
  *   + Documents
+ *   + GNU gettext
  */
 
 #ifndef PHOTOS_GLIB_H
 #define PHOTOS_GLIB_H
 
+#include <string.h>
+
 #include <gio/gio.h>
 
 G_BEGIN_DECLS
+
+#define PHOTOS_PC_(Context, String, String_Plural, N) \
+  photos_glib_dnpgettext (NULL, Context "\004" String, String_Plural, (N), strlen (Context) + 1)
 
 gboolean              photos_glib_app_info_launch_uri            (GAppInfo *appinfo,
                                                                   const gchar *uri,
                                                                   GAppLaunchContext *launch_context,
                                                                   GError **error);
+
+const gchar          *photos_glib_dnpgettext                     (const gchar *domain,
+                                                                  const gchar *msgctxtid,
+                                                                  const gchar *msgid_plural,
+                                                                  gulong n,
+                                                                  gsize msgidoffset)
+  G_GNUC_FORMAT (2) G_GNUC_FORMAT (3);
 
 void                  photos_glib_file_copy_async                (GFile *source,
                                                                   GFile *destination,

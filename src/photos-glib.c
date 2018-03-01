@@ -18,12 +18,11 @@
 
 /* Based on code from:
  *   + Documents
+ *   + GNU gettext
  */
 
 
 #include "config.h"
-
-#include <string.h>
 
 #include "photos-error.h"
 #include "photos-glib.h"
@@ -67,6 +66,32 @@ photos_glib_app_info_launch_uri (GAppInfo *appinfo,
   uris = g_list_prepend (uris, g_strdup (uri));
   ret_val = g_app_info_launch_uris (appinfo, uris, launch_context, error);
   g_list_free_full (uris, g_free);
+  return ret_val;
+}
+
+
+const gchar *
+photos_glib_dnpgettext (const gchar *domain,
+                        const gchar *msgctxtid,
+                        const gchar *msgid_plural,
+                        gulong n,
+                        gsize msgidoffset)
+{
+  const gchar *ret_val;
+  const gchar *translation;
+
+  g_return_val_if_fail (msgidoffset > 0, NULL);
+
+  translation = g_dngettext (domain, msgctxtid, msgid_plural, n);
+  if (translation == msgctxtid || translation == msgid_plural)
+    {
+      ret_val = n == 1 ? msgctxtid + msgidoffset : msgid_plural;
+      goto out;
+    }
+
+  ret_val = translation;
+
+ out:
   return ret_val;
 }
 
