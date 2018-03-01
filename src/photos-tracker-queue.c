@@ -88,6 +88,9 @@ photos_tracker_queue_data_free (PhotosTrackerQueueData *data)
 }
 
 
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (PhotosTrackerQueueData, photos_tracker_queue_data_free);
+
+
 static PhotosTrackerQueueData *
 photos_tracker_queue_data_new (PhotosQuery *query,
                                PhotosTrackerQueryType query_type,
@@ -141,8 +144,8 @@ photos_tracker_queue_log_query (PhotosQuery *query)
 static void
 photos_tracker_queue_collector (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (user_data);
-  PhotosTrackerQueueData *data;
+  g_autoptr (PhotosTrackerQueue) self = PHOTOS_TRACKER_QUEUE (user_data);
+  g_autoptr (PhotosTrackerQueueData) data = NULL;
 
   photos_debug (PHOTOS_DEBUG_TRACKER, "Query processed");
 
@@ -150,10 +153,8 @@ photos_tracker_queue_collector (GObject *source_object, GAsyncResult *res, gpoin
   if (data->callback != NULL)
     (*data->callback) (source_object, res, data->user_data);
   self->running = FALSE;
-  photos_tracker_queue_data_free (data);
 
   photos_tracker_queue_check (self);
-  g_object_unref (self);
 }
 
 
