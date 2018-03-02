@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-16 18:43+0000\n"
-"PO-Revision-Date: 2018-02-19 09:37+0200\n"
+"POT-Creation-Date: 2018-02-27 19:20+0000\n"
+"PO-Revision-Date: 2018-03-02 11:40+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
@@ -180,7 +180,7 @@ msgstr "Albumit"
 msgid "Favorites"
 msgstr "Suosikit"
 
-#: src/photos-embed.c:834 src/photos-source-notification.c:214
+#: src/photos-embed.c:834
 msgid "Import"
 msgstr "Tuo"
 
@@ -256,6 +256,8 @@ msgid "_Reduced"
 msgstr "_Vähennetty"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:498
+#: src/photos-main-toolbar.c:609
 msgid "_Cancel"
 msgstr "_Peru"
 
@@ -305,7 +307,7 @@ msgstr "Tyhjennä roskakori"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Avaa"
 
@@ -516,28 +518,27 @@ msgstr "Valitse kohteet"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Avaa sovelluksella %s"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
+#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Poista suosikeista"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Lisää suosikkeihin"
-
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
-#: src/photos-main-toolbar.c:604
-msgid "Cancel"
-msgstr "Peru"
 
 #: src/photos-main-toolbar.c:467
 msgid "Done"
 msgstr "Valmis"
+
+#: src/photos-main-toolbar.c:502
+msgid "_Select"
+msgstr "_Valitse"
 
 #: src/photos-main-window.c:458
 msgid ""
@@ -836,10 +837,6 @@ msgid "Export"
 msgstr "Vie"
 
 #: src/photos-selection-toolbar.ui:111
-msgid "Add to Photos"
-msgstr "Lisää kuviin"
-
-#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
 msgstr "Lisää albumiin"
 
@@ -872,6 +869,10 @@ msgstr "Lähteet"
 #: src/photos-source-notification.c:201
 msgid "New device discovered"
 msgstr "Uusi laite havaittu"
+
+#: src/photos-source-notification.c:214
+msgid "Import…"
+msgstr "Tuo…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
@@ -1014,6 +1015,12 @@ msgstr "Suodattimet"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Kuvaluettelon hakeminen ei onnistunut"
+
+#~ msgid "Cancel"
+#~ msgstr "Peru"
+
+#~ msgid "Add to Photos"
+#~ msgstr "Lisää kuviin"
 
 #~ msgid "Untitled Photo"
 #~ msgstr "Nimetön kuva"
