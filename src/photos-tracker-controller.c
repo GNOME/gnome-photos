@@ -199,10 +199,9 @@ photos_tracker_controller_query_finished (PhotosTrackerController *self, GError 
 static void
 photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
+  g_autoptr (PhotosTrackerController) self = PHOTOS_TRACKER_CONTROLLER (user_data);
   PhotosTrackerControllerPrivate *priv;
-  GError *error;
-  TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
+  TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object); /* TODO: Use g_autoptr */
   gboolean success;
   gint64 now;
 
@@ -211,17 +210,19 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
   if (priv->item_mngr == NULL)
     goto out;
 
-  error = NULL;
-  /* Note that tracker_sparql_cursor_next_finish can return FALSE even
-   * without an error.
-   */
-  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
-  if (error != NULL)
-    {
-      photos_tracker_controller_query_finished (self, error);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    /* Note that tracker_sparql_cursor_next_finish can return FALSE even
+     * without an error.
+     */
+    success = tracker_sparql_cursor_next_finish (cursor, res, &error);
+    if (error != NULL)
+      {
+        photos_tracker_controller_query_finished (self, error);
+        goto out;
+      }
+  }
 
   if (!success)
     {
@@ -244,7 +245,7 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
                                     g_object_ref (self));
 
  out:
-  g_object_unref (self);
+  return;
 }
 
 
@@ -253,20 +254,21 @@ photos_tracker_controller_query_executed (GObject *source_object, GAsyncResult *
 {
   PhotosTrackerController *self = PHOTOS_TRACKER_CONTROLLER (user_data);
   PhotosTrackerControllerPrivate *priv;
-  TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
-  GError *error;
-  TrackerSparqlCursor *cursor;
+  TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object); /* Use g_autoptr */
+  TrackerSparqlCursor *cursor; /* Use g_autoptr */
 
   priv = photos_tracker_controller_get_instance_private (self);
 
-  error = NULL;
-  cursor = tracker_sparql_connection_query_finish (connection, res, &error);
-  if (error != NULL)
-    {
-      photos_tracker_controller_query_finished (self, error);
-      g_error_free (error);
-      return;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = tracker_sparql_connection_query_finish (connection, res, &error);
+    if (error != NULL)
+      {
+        photos_tracker_controller_query_finished (self, error);
+        return;
+      }
+  }
 
   tracker_sparql_cursor_next_async (cursor,
                                     priv->cancellable,
@@ -281,7 +283,7 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
 {
   PhotosTrackerControllerPrivate *priv;
   const gchar *type_name;
-  gchar *tag = NULL;
+  g_autofree gchar *tag = NULL;
 
   priv = photos_tracker_controller_get_instance_private (self);
 
@@ -310,7 +312,7 @@ photos_tracker_controller_perform_current_query (PhotosTrackerController *self)
                                g_object_unref);
 
  out:
-  g_free (tag);
+  return;
 }
 
 
