@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-27 19:20+0000\n"
-"PO-Revision-Date: 2018-02-27 20:22+0100\n"
+"POT-Creation-Date: 2018-03-02 11:45+0000\n"
+"PO-Revision-Date: 2018-03-02 18:30+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -188,7 +188,7 @@ msgstr "Ulubione"
 msgid "Import"
 msgstr "Zaimportuj"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "Wyszukuje"
 
@@ -260,8 +260,8 @@ msgid "_Reduced"
 msgstr "_Zmniejszony"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:498
-#: src/photos-main-toolbar.c:609
+#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
+#: src/photos-main-toolbar.c:614
 msgid "_Cancel"
 msgstr "_Anuluj"
 
@@ -501,11 +501,11 @@ msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
 msgid "Local"
 msgstr "Lokalne"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "Kliknięcie elementów zaznacza je"
 
-#: src/photos-main-toolbar.c:84
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -513,35 +513,47 @@ msgstr[0] "Zaznaczono: %d"
 msgstr[1] "Zaznaczono: %d"
 msgstr[2] "Zaznaczono: %d"
 
-#: src/photos-main-toolbar.c:212
+#: src/photos-main-toolbar.c:170
+msgid "Select items for import"
+msgstr "Wybór elementów do zaimportowania"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "Wybór elementów do zaimportowania (%u wybrany)"
+msgstr[1] "Wybór elementów do zaimportowania (%u wybrane)"
+msgstr[2] "Wybór elementów do zaimportowania (%u wybranych)"
+
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "Wstecz"
 
-#: src/photos-main-toolbar.c:326
+#: src/photos-main-toolbar.c:331
 msgid "Select Items"
 msgstr "Wybór elementów"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Otwórz za pomocą „%s”"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Usuwa z ulubionych"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Dodaje do ulubionych"
 
-#: src/photos-main-toolbar.c:467
+#: src/photos-main-toolbar.c:472
 msgid "Done"
 msgstr "Gotowe"
 
-#: src/photos-main-toolbar.c:502
+#: src/photos-main-toolbar.c:507
 msgid "_Select"
 msgstr "_Wybierz"
 
