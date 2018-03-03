@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-27 20:06+0000\n"
-"PO-Revision-Date: 2018-02-28 08:00+0700\n"
+"POT-Creation-Date: 2018-03-02 17:31+0000\n"
+"PO-Revision-Date: 2018-03-03 14:01+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <gnome-vi-list@gnome.org>\n"
 "Language: vi\n"
@@ -185,7 +185,7 @@ msgstr "Yêu thích"
 msgid "Import"
 msgstr "Nhập vào"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "Tìm kiếm"
 
@@ -257,8 +257,8 @@ msgid "_Reduced"
 msgstr "_Giảm bớt"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:498
-#: src/photos-main-toolbar.c:609
+#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
+#: src/photos-main-toolbar.c:614
 msgid "_Cancel"
 msgstr "Thô_i"
 
@@ -496,45 +496,55 @@ msgstr "Một số ảnh có lẽ sẽ không sẵn sàng trong suốt quá trì
 msgid "Local"
 msgstr "Nội bộ"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "Bấm vào từng mục để chọn chúng"
 
-#: src/photos-main-toolbar.c:84
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d đã chọn"
 
-#: src/photos-main-toolbar.c:212
+#: src/photos-main-toolbar.c:170
+msgid "Select items for import"
+msgstr "Chọn các mục để nhập"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "Chọn các mục để nhập (đã chọn %u)"
+
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "Kế trước"
 
-#: src/photos-main-toolbar.c:326
+#: src/photos-main-toolbar.c:331
 msgid "Select Items"
 msgstr "Chọn mục"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Mở bằng %s"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Bỏ khỏi danh sách ưa thích"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Thêm vào yêu thích"
 
-#: src/photos-main-toolbar.c:467
+#: src/photos-main-toolbar.c:472
 msgid "Done"
 msgstr "Xong"
 
-#: src/photos-main-toolbar.c:502
+#: src/photos-main-toolbar.c:507
 msgid "_Select"
 msgstr "C_họn"
 
