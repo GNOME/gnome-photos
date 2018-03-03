@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-27 19:20+0000\n"
-"PO-Revision-Date: 2018-03-01 14:48+0200\n"
+"POT-Creation-Date: 2018-03-02 11:45+0000\n"
+"PO-Revision-Date: 2018-03-03 12:43+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician\n"
 "Language: gl\n"
@@ -186,7 +186,7 @@ msgstr "Favoritas"
 msgid "Import"
 msgstr "Importar"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "Buscar"
 
@@ -258,8 +258,8 @@ msgid "_Reduced"
 msgstr "_Reducido"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:498
-#: src/photos-main-toolbar.c:609
+#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
+#: src/photos-main-toolbar.c:614
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -498,47 +498,58 @@ msgstr "Algunhas fotos poderían non estar dispoñíbeis durante este proceso"
 msgid "Local"
 msgstr "Local"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "Prema nos elementos para seleccionalos"
 
-#: src/photos-main-toolbar.c:84
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d seleccionada"
 msgstr[1] "%d seleccionadas"
 
-#: src/photos-main-toolbar.c:212
+#: src/photos-main-toolbar.c:170
+#| msgid "Select Items"
+msgid "Select items for import"
+msgstr "Seleccione os elementos a importar"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "Seleccione os elementos a importar (%u seleccionado)"
+msgstr[1] "Seleccione os elementos a importar (%u seleccionados)"
+
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "Atrás"
 
-#: src/photos-main-toolbar.c:326
+#: src/photos-main-toolbar.c:331
 msgid "Select Items"
 msgstr "Elementos seleccionados"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Quitar dos marcadores"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Engadir aos marcadores"
 
-#: src/photos-main-toolbar.c:467
+#: src/photos-main-toolbar.c:472
 msgid "Done"
 msgstr "Feito"
 
-#: src/photos-main-toolbar.c:502
-#| msgid "Select All"
+#: src/photos-main-toolbar.c:507
 msgid "_Select"
 msgstr "_Seleccionar"
 
@@ -873,7 +884,6 @@ msgid "New device discovered"
 msgstr "Novo dispositivo descuberto"
 
 #: src/photos-source-notification.c:214
-#| msgid "Import"
 msgid "Import…"
 msgstr "Importar…"
 
