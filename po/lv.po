@@ -199,7 +199,7 @@ msgstr "Nav atrastu albumu"
 
 #: src/photos-empty-results-box.c:152
 msgid "Starred photos will appear here"
-msgstr "Ar zvaigzni atzīmētās parādīsies šeit"
+msgstr "Ar zvaigzni atzīmētās fotogrāfijas parādīsies šeit"
 
 #: src/photos-empty-results-box.c:162
 #| msgid "No Photos Found"
