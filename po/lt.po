@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-02 11:45+0000\n"
-"PO-Revision-Date: 2018-03-03 14:30+0200\n"
+"POT-Creation-Date: 2018-03-03 12:32+0000\n"
+"PO-Revision-Date: 2018-03-05 22:20+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -514,18 +514,17 @@ msgstr[1] "Pasirinkti %d"
 msgstr[2] "Pasirinkta %d"
 
 #: src/photos-main-toolbar.c:170
-#, fuzzy
 #| msgid "Select Items"
 msgid "Select items for import"
-msgstr "Pasirinkite elementus"
+msgstr "Pasirinkite importuojamus elementus"
 
 #: src/photos-main-toolbar.c:174
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Pasirinkite importuojamus elementus (pasirinktas %u)"
+msgstr[1] "Pasirinkite importuojamus elementus (pasirinkti %u)"
+msgstr[2] "Pasirinkite importuojamus elementus (pasirinkta %u)"
 
 #: src/photos-main-toolbar.c:217
 msgid "Back"
