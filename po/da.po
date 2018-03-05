@@ -1,19 +1,18 @@
 # Danish translation for gnome-photos.
-# Copyright (C) 2013-17 gnome-photos's COPYRIGHT HOLDER
+# Copyright (C) 2013-18 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Kris Thomsen <lakristho@gmail.com>, 2013.
 # Kenneth Nielsen <k.nielsen81@gmail.com>, 2014.
 # scootergrisen, 2016.
 # Ask Hjorth Larsen <asklarsen@gmail.com>, 2014-16.
 # Joe Hansen <joedalton2@yahoo.dk>, 2017.
-# Alan Mortensen <alanmortensen.am@gmail.com>, 2017.
+# Alan Mortensen <alanmortensen.am@gmail.com>, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-09-05 19:50+0000\n"
-"PO-Revision-Date: 2017-09-09 17:11+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
+"POT-Creation-Date: 2018-02-27 17:42+0000\n"
+"PO-Revision-Date: 2018-02-27 19:36+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -25,11 +24,12 @@ msgstr ""
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-embed.c:682 src/photos-search-type-manager.c:135
+#: src/photos-application.c:3043 src/photos-embed.c:819
+#: src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Billeder"
 
-#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:477
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Tilgå, organisér og del dine billeder i GNOME"
 
@@ -121,31 +121,49 @@ msgstr "Vindue maksimeret"
 msgid "Window maximized state"
 msgstr "Vindue maksimeret-tilstand"
 
-#: src/photos-application.c:157
+#: src/photos-application.c:167
+msgid "Show the empty state"
+msgstr "Vis den tomme tilstand"
+
+#: src/photos-application.c:168
 msgid "Show the application's version"
 msgstr "Vis programversion"
 
-#: src/photos-base-item.c:615
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-import-dialog.c:134
+msgid "%-d %B %Y"
+msgstr "%-d. %B %Y"
+
+#: src/photos-base-item.c:1036
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2546
+#: src/photos-base-item.c:2752
 msgid "Screenshots"
 msgstr "Skærmbilleder"
 
-#: src/photos-delete-notification.c:139
+#: src/photos-delete-notification.c:136
 #, c-format
 msgid "“%s” deleted"
 msgstr "“%s” slettet"
 
-#: src/photos-delete-notification.c:142
+#: src/photos-delete-notification.c:139
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d element slettet"
 msgstr[1] "%d elementer slettet"
 
-#: src/photos-delete-notification.c:150 src/photos-done-notification.c:125
+#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "Fortryd"
 
@@ -153,65 +171,87 @@ msgstr "Fortryd"
 msgid "DLNA Renderer Devices"
 msgstr "DLNA-renderingsenheder"
 
-#: src/photos-done-notification.c:117
+#: src/photos-done-notification.c:112
 #, c-format
 msgid "“%s” edited"
 msgstr "“%s” redigeret"
 
-#: src/photos-embed.c:686 src/photos-search-type-manager.c:120
+#: src/photos-embed.c:823
+msgid "Collection View"
+msgstr "Visning af samling"
+
+#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Album"
 
-#: src/photos-embed.c:690 src/photos-search-type-manager.c:128
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: src/photos-embed.c:694 src/photos-main-toolbar.c:305
+#: src/photos-embed.c:834
+msgid "Import"
+msgstr "Importér"
+
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
 msgid "Search"
 msgstr "Søg"
 
-#: src/photos-empty-results-box.c:114
-msgid "Name your first album"
-msgstr "Navngiv dit første album"
-
-#. Translators: this should be translated in the context of the "You
-#. * can add your online accounts in Settings" sentence below
-#.
-#: src/photos-empty-results-box.c:134 src/photos-source-notification.c:146
-msgid "Settings"
-msgstr "Indstillinger"
-
-#. Translators: %s here is "Settings", which is in a separate string
-#. * due to markup, and should be translated only in the context of
-#. * this sentence.
-#.
-#: src/photos-empty-results-box.c:140
-#, c-format
-msgid "You can add your online accounts in %s"
-msgstr "Du kan tilføje dine onlinekonti i %s"
-
-#: src/photos-empty-results-box.c:181
-msgid "No Albums Found"
+#: src/photos-empty-results-box.c:148
+msgid "No albums found"
 msgstr "Ingen albummer fundet"
 
-#: src/photos-empty-results-box.c:186
+#: src/photos-empty-results-box.c:152
 msgid "Starred photos will appear here"
 msgstr "Billeder med stjerner vil blive vist her"
 
-#: src/photos-empty-results-box.c:192
-msgid "No Photos Found"
+#: src/photos-empty-results-box.c:162
+msgid "No photos found"
 msgstr "Ingen billeder fundet"
 
-#: src/photos-export-dialog.ui:24
+#: src/photos-empty-results-box.c:191
+msgid "You can create albums from the Photos view"
+msgstr "Du kan oprette albummer i billedvisningen"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:212
+msgid "Online Accounts"
+msgstr "onlinekonti"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:219
+msgid "Pictures folder"
+msgstr "billedmappe"
+
+#. Translators: the first %s here is "Online Accounts" and the
+#. * second %s is "Pictures folder", which are in separate
+#. * strings due to markup, and should be translated only in the
+#. * context of this sentence.
+#.
+#: src/photos-empty-results-box.c:226
+#, c-format
+msgid "Photos from your %s and %s will appear here."
+msgstr "Billeder fra dine %s og %s vil blive vist her."
+
+#: src/photos-empty-results-box.c:236
+msgid "Try a different search"
+msgstr "Prøv en anden søgning"
+
+#: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
 msgid "Export"
 msgstr "Eksportér"
 
-#: src/photos-export-dialog.ui:40
+#: src/photos-export-dialog.ui:38
 msgid "_Folder Name"
 msgstr "_Mappenavn"
 
-#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:942
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
 msgid "Size"
 msgstr "Størrelse"
 
@@ -223,7 +263,9 @@ msgstr "F_uld"
 msgid "_Reduced"
 msgstr "_Reduceret"
 
-#: src/photos-export-dialog.ui:160
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
+#: src/photos-main-toolbar.c:604
 msgid "_Cancel"
 msgstr "_Annullér"
 
@@ -234,275 +276,284 @@ msgstr "_Eksport"
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: src/photos-export-dialog.c:67
+#: src/photos-export-dialog.c:66
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
-#. Translators: this is the default sub-directory where photos
-#. * will be exported.
-#.
-#: src/photos-export-dialog.c:201
-msgid "%e %B %Y"
-msgstr "%e. %B %Y"
-
-#: src/photos-export-dialog.c:259
+#: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
 msgstr "Udregner eksportstørrelse …"
 
-#: src/photos-export-notification.c:250
+#: src/photos-export-notification.c:263
 msgid "Failed to export: not enough space"
 msgstr "Kunne ikke eksportere: ikke nok plads"
 
-#: src/photos-export-notification.c:252
+#: src/photos-export-notification.c:265
 msgid "Failed to export"
 msgstr "Kunne ikke eksportere"
 
-#: src/photos-export-notification.c:259
+#: src/photos-export-notification.c:272
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” eksporteret"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:276
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d element eksporteret"
 msgstr[1] "%d elementer eksporteret"
 
-#: src/photos-export-notification.c:281
+#: src/photos-export-notification.c:293
 msgid "Analyze"
 msgstr "Analysér"
 
-#: src/photos-export-notification.c:286
+#: src/photos-export-notification.c:298
 msgid "Empty Trash"
 msgstr "Tøm papirkurv"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:303 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:247 src/photos-selection-toolbar.ui:29
+#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Åbn"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:313
+#: src/photos-export-notification.c:325
 msgid "Export Folder"
 msgstr "Mappe til eksport"
 
 #. Translators: this is the fallback title in the form
 #. * "Facebook — 2nd January 2013".
 #.
-#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:105
-#: src/photos-google-item.c:102
+#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
+#: src/photos-google-item.c:100
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: src/photos-fetch-metas-job.c:177
-msgid "Untitled Photo"
-msgstr "Unavngivet billede"
-
-#: src/photos-help-overlay.ui:34
+#: src/photos-help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Generelt"
 
-#: src/photos-help-overlay.ui:38
+#: src/photos-help-overlay.ui:36
 msgctxt "shortcut window"
 msgid "Show help"
 msgstr "Vis hjælp"
 
-#: src/photos-help-overlay.ui:45
+#: src/photos-help-overlay.ui:43
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Afslut"
 
-#: src/photos-help-overlay.ui:54
+#: src/photos-help-overlay.ui:52
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigation"
 
-#: src/photos-help-overlay.ui:58
+#: src/photos-help-overlay.ui:56
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Næste billede"
 
-#: src/photos-help-overlay.ui:65
+#: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Forrige billede"
 
-#: src/photos-help-overlay.ui:72 src/photos-help-overlay.ui:80
+#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Gå tilbage"
 
-#: src/photos-help-overlay.ui:90
+#: src/photos-help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Oversigt"
 
-#: src/photos-help-overlay.ui:94
+#: src/photos-help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Søg"
 
-#: src/photos-help-overlay.ui:101
+#: src/photos-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Vælg alle"
 
-#: src/photos-help-overlay.ui:108
+#: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Udskriv valgte billeder"
 
-#: src/photos-help-overlay.ui:115
+#: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Slet valgte billeder"
 
-#: src/photos-help-overlay.ui:124
+#: src/photos-help-overlay.ui:122
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Billedvisning"
 
-#: src/photos-help-overlay.ui:128
+#: src/photos-help-overlay.ui:126
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Redigér"
 
-#: src/photos-help-overlay.ui:135
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Eksportér"
 
-#: src/photos-help-overlay.ui:142
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Udskriv"
 
-#: src/photos-help-overlay.ui:149
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Zoom ind"
 
-#: src/photos-help-overlay.ui:156
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Zoom ud"
 
-#: src/photos-help-overlay.ui:163
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Bedste tilpasning"
 
-#: src/photos-help-overlay.ui:170
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Slet"
 
-#: src/photos-help-overlay.ui:177
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Handlingsmenu"
 
-#: src/photos-help-overlay.ui:184
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Fuldskærm"
 
 # Navnet på en genvejstastgruppe, så nok ikke imperativ her
-#: src/photos-help-overlay.ui:193
+#: src/photos-help-overlay.ui:191
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Redigeringsvisning"
 
-#: src/photos-help-overlay.ui:197
+#: src/photos-help-overlay.ui:195
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Annullér"
 
+#: src/photos-import-dialog.c:194
+msgid "An album with that name already exists"
+msgstr "Der findes allerede et album med det navn"
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr "Der findes allerede et album for den dato"
+
+#: src/photos-import-dialog.ui:22
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "Navngiv album"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr "Opret _nyt"
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr "Tilføj til _eksisterende"
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "_Tilføj"
+
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-indexing-notification.c:167
+#: src/photos-indexing-notification.c:164
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Henter billeder fra %s"
 
-#: src/photos-indexing-notification.c:170
+#: src/photos-indexing-notification.c:167
 msgid "Fetching photos from online accounts"
 msgstr "Henter billeder fra onlinekonti"
 
-#: src/photos-indexing-notification.c:206
+#: src/photos-indexing-notification.c:202
 msgid "Your photos are being indexed"
 msgstr "Dine billeder er ved at blive indekseret"
 
-#: src/photos-indexing-notification.c:207
+#: src/photos-indexing-notification.c:203
 msgid "Some photos might not be available during this process"
 msgstr "Nogen billeder er muligvis ikke tilgængelige under denne proces"
 
-#: src/photos-local-item.c:176 src/photos-source-manager.c:256
+#: src/photos-local-item.c:207 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Lokal"
 
-#: src/photos-main-toolbar.c:88
+#: src/photos-main-toolbar.c:82
 msgid "Click on items to select them"
 msgstr "Tryk på elementer for at vælge dem"
 
-#: src/photos-main-toolbar.c:90
+#: src/photos-main-toolbar.c:84
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valgt"
 msgstr[1] "%d valgte"
 
-#: src/photos-main-toolbar.c:178
+#: src/photos-main-toolbar.c:212
 msgid "Back"
 msgstr "Tilbage"
 
-#: src/photos-main-toolbar.c:320
+#: src/photos-main-toolbar.c:326
 msgid "Select Items"
 msgstr "Vælg elementer"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:392 src/photos-selection-toolbar.c:244
+#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
+#: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Åbn med %s"
 
-#: src/photos-main-toolbar.c:425 src/photos-selection-toolbar.c:255
+#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
 
-#: src/photos-main-toolbar.c:430 src/photos-selection-toolbar.c:260
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
 msgid "Add to favorites"
 msgstr "Føj til favoritter"
 
-#: src/photos-main-toolbar.c:464 src/photos-main-toolbar.c:593
-msgid "Cancel"
-msgstr "Annullér"
-
-#: src/photos-main-toolbar.c:468
+#: src/photos-main-toolbar.c:467
 msgid "Done"
 msgstr "Færdig"
 
-#: src/photos-main-window.c:478
+#: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2017 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc.\n"
+"Copyright © 2015 – 2017 Umang Jain"
 msgstr ""
-"Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2017 Red Hat, Inc."
+"Ophavsret © 2012 – 2017 Red Hat, Inc.\n"
+"Ophavsret © 2015 – 2017 Umang Jain"
 
 #. Translators: Put your names here
-#: src/photos-main-window.c:488
+#: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr ""
 "Kris Thomsen\n"
@@ -535,16 +586,12 @@ msgstr "Om"
 msgid "Quit"
 msgstr "Afslut"
 
-#: src/photos-organize-collection-dialog.c:71
-msgid "_Add"
-msgstr "_Tilføj"
-
-#: src/photos-organize-collection-dialog.c:72
+#: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
 msgstr "_OK"
 
 #. Translators: "Organize" refers to photos in this context
-#: src/photos-organize-collection-dialog.c:123
+#: src/photos-organize-collection-dialog.c:121
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Organisér"
@@ -573,100 +620,100 @@ msgstr "Sæt som baggrund"
 msgid "Set as Lock Screen"
 msgstr "Sæt som låst skærm"
 
-#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:903
-#: src/photos-selection-toolbar.ui:102
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
+#: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Egenskaber"
 
-#: src/photos-print-notification.c:74
+#: src/photos-print-notification.c:71
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Udskriver “%s”: %s"
 
-#: src/photos-print-operation.c:271
+#: src/photos-print-operation.c:241
 msgid "Image Settings"
 msgstr "Indstillinger for billede"
 
-#: src/photos-print-setup.c:914
+#: src/photos-print-setup.c:884
 msgid "Position"
 msgstr "Placering"
 
-#: src/photos-print-setup.c:917
+#: src/photos-print-setup.c:887
 msgid "_Left:"
 msgstr "_Venstre:"
 
-#: src/photos-print-setup.c:918
+#: src/photos-print-setup.c:888
 msgid "_Right:"
 msgstr "_Højre:"
 
-#: src/photos-print-setup.c:919
+#: src/photos-print-setup.c:889
 msgid "_Top:"
 msgstr "_Top:"
 
-#: src/photos-print-setup.c:920
+#: src/photos-print-setup.c:890
 msgid "_Bottom:"
 msgstr "_Bund:"
 
-#: src/photos-print-setup.c:922
+#: src/photos-print-setup.c:892
 msgid "C_enter:"
 msgstr "C_entrér:"
 
-#: src/photos-print-setup.c:926
+#: src/photos-print-setup.c:896
 msgid "None"
 msgstr "Ingen"
 
-#: src/photos-print-setup.c:927
+#: src/photos-print-setup.c:897
 msgid "Horizontal"
 msgstr "Horisontal"
 
-#: src/photos-print-setup.c:928
+#: src/photos-print-setup.c:898
 msgid "Vertical"
 msgstr "Vertikal"
 
-#: src/photos-print-setup.c:929
+#: src/photos-print-setup.c:899
 msgid "Both"
 msgstr "Begge"
 
-#: src/photos-print-setup.c:945
+#: src/photos-print-setup.c:915
 msgid "_Width:"
 msgstr "_Bredde:"
 
-#: src/photos-print-setup.c:946
+#: src/photos-print-setup.c:916
 msgid "_Height:"
 msgstr "_Højde:"
 
-#: src/photos-print-setup.c:948
+#: src/photos-print-setup.c:918
 msgid "_Scaling:"
 msgstr "_Skalering:"
 
-#: src/photos-print-setup.c:957
+#: src/photos-print-setup.c:927
 msgid "_Unit:"
 msgstr "_Enhed:"
 
-#: src/photos-print-setup.c:961
+#: src/photos-print-setup.c:931
 msgid "Millimeters"
 msgstr "Milimeter"
 
-#: src/photos-print-setup.c:962
+#: src/photos-print-setup.c:932
 msgid "Inches"
 msgstr "Tommer"
 
-#: src/photos-print-setup.c:990
+#: src/photos-print-setup.c:960
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
-#: src/photos-properties-dialog.c:255
+#: src/photos-properties-dialog.c:246
 msgid "Edited in Photos"
 msgstr "Redigeret i Billeder"
 
-#: src/photos-properties-dialog.c:268
+#: src/photos-properties-dialog.c:259
 msgid "Untouched"
 msgstr "Uberørt"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: src/photos-properties-dialog.c:453
+#: src/photos-properties-dialog.c:442
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Titel"
@@ -674,92 +721,103 @@ msgstr "Titel"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: src/photos-properties-dialog.c:465
+#: src/photos-properties-dialog.c:454
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Forfatter"
 
-#: src/photos-properties-dialog.c:472
+#: src/photos-properties-dialog.c:461
 msgid "Source"
 msgstr "Kilde"
 
-#: src/photos-properties-dialog.c:478
+#: src/photos-properties-dialog.c:467
 msgid "Date Modified"
 msgstr "Redigeringsdato"
 
-#: src/photos-properties-dialog.c:486
+#: src/photos-properties-dialog.c:475
 msgid "Date Created"
 msgstr "Oprettelsesdato"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: src/photos-properties-dialog.c:496
+#: src/photos-properties-dialog.c:485
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Type"
 
-#: src/photos-properties-dialog.c:506
+#: src/photos-properties-dialog.c:495
 msgid "Dimensions"
 msgstr "Mål"
 
-#: src/photos-properties-dialog.c:518
+#: src/photos-properties-dialog.c:507
 msgid "Location"
 msgstr "Sted"
 
-#: src/photos-properties-dialog.c:538
+#: src/photos-properties-dialog.c:525
 msgid "Camera"
 msgstr "Kamera"
 
-#: src/photos-properties-dialog.c:548 src/photos-tool-colors.c:335
+#: src/photos-properties-dialog.c:535 src/photos-tool-colors.c:365
 msgid "Exposure"
 msgstr "Eksponering"
 
-#: src/photos-properties-dialog.c:558
+#: src/photos-properties-dialog.c:545
 msgid "Aperture"
 msgstr "Blænde"
 
-#: src/photos-properties-dialog.c:568
+#: src/photos-properties-dialog.c:555
 msgid "Focal Length"
 msgstr "Brændvidde"
 
-#: src/photos-properties-dialog.c:578
+#: src/photos-properties-dialog.c:565
 msgid "ISO Speed"
 msgstr "ISO-hastighed"
 
-#: src/photos-properties-dialog.c:588
+#: src/photos-properties-dialog.c:575
 msgid "Flash"
 msgstr "Blitz"
 
-#: src/photos-properties-dialog.c:597
+#: src/photos-properties-dialog.c:584
 msgid "Modifications"
 msgstr "Ændringer"
 
-#: src/photos-properties-dialog.c:738
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%ld × %ld pixel"
+msgstr[1] "%ld × %ld pixels"
+
+#: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
 msgstr "Slukket, blev ikke affyret"
 
-#: src/photos-properties-dialog.c:740
+#: src/photos-properties-dialog.c:723
 msgid "On, fired"
 msgstr "Tændt, blev affyret"
 
-#: src/photos-properties-dialog.c:778
+#: src/photos-properties-dialog.c:760
 msgid "Discard all Edits"
 msgstr "Forkast alle ændringer"
 
-#: src/photos-search-match-manager.c:162 src/photos-search-type-manager.c:112
-#: src/photos-source-manager.c:252
+#: src/photos-removable-devices-button.ui:47
+msgid "Devices"
+msgstr "Enheder"
+
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-source-manager.c:396
 msgid "All"
 msgstr "Alle"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: src/photos-search-match-manager.c:169
+#: src/photos-search-match-manager.c:162
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Titel"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: src/photos-search-match-manager.c:176
+#: src/photos-search-match-manager.c:169
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Forfatter"
@@ -767,14 +825,14 @@ msgstr "Forfatter"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: src/photos-search-match-manager.c:214
+#: src/photos-search-match-manager.c:207
 msgid "Match"
 msgstr "Match"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: src/photos-search-type-manager.c:168
+#: src/photos-search-type-manager.c:178
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Type"
@@ -787,162 +845,188 @@ msgstr "Vælg alle"
 msgid "Select None"
 msgstr "Vælg ingen"
 
-#: src/photos-selection-toolbar.ui:20
+#: src/photos-selection-toolbar.ui:19
 msgid "Export"
 msgstr "Eksportér"
 
-#: src/photos-selection-toolbar.ui:112
+#: src/photos-selection-toolbar.ui:111
+msgid "_Select"
+msgstr "_Vælg"
+
+#: src/photos-selection-toolbar.ui:125
 msgid "Add to Album"
 msgstr "Føj til album"
 
-#: src/photos-share-dialog.ui:27
+#: src/photos-share-dialog.ui:25
 msgctxt "dialog title"
 msgid "Share"
 msgstr "Del"
 
-#: src/photos-share-point-email.c:80
+#: src/photos-share-notification.c:148
+#, c-format
+msgid "“%s” shared"
+msgstr "“%s” delt"
+
+#: src/photos-share-point-email.c:78
 msgid "E-Mail"
 msgstr "E-mail"
 
-#: src/photos-share-point-google.c:98
+#: src/photos-share-point-google.c:103
 msgid "Failed to upload photo: Service not authorized"
 msgstr "Kunne ikke uploade billede: Tjenesten ikke godkendt"
 
-#: src/photos-share-point-google.c:100
+#: src/photos-share-point-google.c:105
 msgid "Failed to upload photo"
 msgstr "Kunne ikke uploade billede"
 
-#: src/photos-source-manager.c:305
+#: src/photos-source-manager.c:465
 msgid "Sources"
 msgstr "Kilder"
+
+#: src/photos-source-notification.c:201
+msgid "New device discovered"
+msgstr "Ny enhed fundet"
+
+#: src/photos-source-notification.c:214
+msgid "Import…"
+msgstr "Importér …"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:138
+#: src/photos-source-notification.c:244
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Dine %s-akkreditiver er udløbet"
 
-#: src/photos-thumbnailer.c:77
+#: src/photos-source-notification.c:251
+msgid "Settings"
+msgstr "Indstillinger"
+
+#: src/photos-thumbnailer.c:76
 msgid "D-Bus address to use"
 msgstr "D-Bus-adresse at anvende"
 
-#: src/photos-tool-colors.c:313
-msgid "Brightness"
-msgstr "Lysstyrke"
-
-#: src/photos-tool-colors.c:356
+#: src/photos-tool-colors.c:386
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: src/photos-tool-colors.c:377
+#: src/photos-tool-colors.c:407
 msgid "Blacks"
 msgstr "Sorte"
 
-#: src/photos-tool-colors.c:398
+#: src/photos-tool-colors.c:428
 msgid "Saturation"
 msgstr "Mætning"
 
-#: src/photos-tool-colors.c:426
+# Ental - modsvarer højlys
+#: src/photos-tool-colors.c:447
+msgid "Shadows"
+msgstr "Skygge"
+
+#: src/photos-tool-colors.c:466
+msgid "Highlights"
+msgstr "Højlys"
+
+#: src/photos-tool-colors.c:495
 msgid "Colors"
 msgstr "Farver"
 
-#: src/photos-tool-crop.c:123
+#: src/photos-tool-crop.c:192
 msgid "Free"
 msgstr "Frihånd"
 
-#: src/photos-tool-crop.c:124
+#: src/photos-tool-crop.c:193
 msgid "Original"
 msgstr "Original"
 
-#: src/photos-tool-crop.c:125
+#: src/photos-tool-crop.c:194
 msgid "1×1 (Square)"
 msgstr "1×1 (kvadrat)"
 
-#: src/photos-tool-crop.c:126
+#: src/photos-tool-crop.c:195
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: src/photos-tool-crop.c:127
+#: src/photos-tool-crop.c:196
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: src/photos-tool-crop.c:128
+#: src/photos-tool-crop.c:197
 msgid "7×5"
 msgstr "7×5"
 
-#: src/photos-tool-crop.c:129
+#: src/photos-tool-crop.c:198
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: src/photos-tool-crop.c:130
+#: src/photos-tool-crop.c:199
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: src/photos-tool-crop.c:131
+#: src/photos-tool-crop.c:200
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: src/photos-tool-crop.c:1255
+#: src/photos-tool-crop.c:1459
 msgid "Lock aspect ratio"
 msgstr "Lås højde-/breddeforhold"
 
-#: src/photos-tool-crop.c:1323
+#: src/photos-tool-crop.c:1529
 msgid "Landscape"
 msgstr "Landskab"
 
-#: src/photos-tool-crop.c:1334
+#: src/photos-tool-crop.c:1540
 msgid "Portrait"
 msgstr "Portræt"
 
-#: src/photos-tool-crop.c:1345
+#: src/photos-tool-crop.c:1551
 msgid "Reset"
 msgstr "Nulstil"
 
-#: src/photos-tool-crop.c:1365
+#: src/photos-tool-crop.c:1569
 msgid "Crop"
 msgstr "Beskær"
 
-#: src/photos-tool-enhance.c:200
+#: src/photos-tool-enhance.c:197
 msgid "Sharpen"
 msgstr "Skærp"
 
-#: src/photos-tool-enhance.c:221
+#: src/photos-tool-enhance.c:218
 msgid "Denoise"
 msgstr "Fjern støj"
 
-#: src/photos-tool-enhance.c:248
+#: src/photos-tool-enhance.c:245
 msgid "Enhance"
 msgstr "Forbedr"
 
 #. Translators: "None" refers to the nop magic filter when editing.
-#: src/photos-tool-filters.c:185
+#: src/photos-tool-filters.c:182
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "Intet"
 
-#: src/photos-tool-filters.c:192
+#: src/photos-tool-filters.c:189
 msgid "1947"
 msgstr "1947"
 
-#: src/photos-tool-filters.c:199
+#: src/photos-tool-filters.c:196
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: src/photos-tool-filters.c:205
+#: src/photos-tool-filters.c:202
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: src/photos-tool-filters.c:212
+#: src/photos-tool-filters.c:209
 msgid "Caap"
 msgstr "Caap"
 
-#: src/photos-tool-filters.c:218
+#: src/photos-tool-filters.c:215
 msgid "Hometown"
 msgstr "Hjemby"
 
-#: src/photos-tool-filters.c:236
+#: src/photos-tool-filters.c:233
 msgid "Filters"
 msgstr "Filtre"
 
@@ -950,11 +1034,32 @@ msgstr "Filtre"
 msgid "Unable to fetch the list of photos"
 msgstr "Kunne ikke hente liste over billeder"
 
+#~ msgid "Name your first album"
+#~ msgstr "Navngiv dit første album"
+
+#~ msgid "You can add your online accounts in %s"
+#~ msgstr "Du kan tilføje dine onlinekonti i %s"
+
+#~ msgid "Untitled Photo"
+#~ msgstr "Unavngivet billede"
+
+#~ msgid "Cancel"
+#~ msgstr "Annullér"
+
+#~ msgid ""
+#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#~ "Copyright © 2014 – 2015 Pranav Kant\n"
+#~ "Copyright © 2012 – 2017 Red Hat, Inc."
+#~ msgstr ""
+#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#~ "Copyright © 2014 – 2015 Pranav Kant\n"
+#~ "Copyright © 2012 – 2017 Red Hat, Inc."
+
+#~ msgid "Brightness"
+#~ msgstr "Lysstyrke"
+
 #~ msgid "Width"
 #~ msgstr "Bredde"
-
-#~ msgid "Height"
-#~ msgstr "Højde"
 
 #~ msgid "%a, %d %B %Y  %X"
 #~ msgstr "%a, %d. %B %Y  %X"
