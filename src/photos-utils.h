@@ -63,6 +63,8 @@ GdkPixbuf       *photos_utils_center_pixbuf               (GdkPixbuf *pixbuf, gi
 
 gchar           *photos_utils_convert_path_to_uri         (const gchar *path);
 
+GStrv            photos_utils_convert_paths_to_uris       (const gchar *const *paths);
+
 GIcon           *photos_utils_create_collection_icon      (gint base_size, GList *pixbufs);
 
 GdkPixbuf       *photos_utils_create_placeholder_icon_for_scale (const gchar *name, gint size, gint scale);

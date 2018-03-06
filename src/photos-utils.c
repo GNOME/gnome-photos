@@ -120,6 +120,32 @@ photos_utils_convert_path_to_uri (const gchar *path)
 }
 
 
+GStrv
+photos_utils_convert_paths_to_uris (const gchar *const *paths)
+{
+  GStrv uris = NULL;
+  guint i;
+  guint n_paths;
+
+  if (paths == NULL)
+    goto out;
+
+  n_paths = g_strv_length ((GStrv) paths);
+  uris = (GStrv) g_malloc0_n (n_paths + 1, sizeof (gchar *));
+
+  for (i = 0; paths[i] != NULL; i++)
+    {
+      g_autofree gchar *uri = NULL;
+
+      uri = photos_utils_convert_path_to_uri (paths[i]);
+      uris[i] = g_steal_pointer (&uri);
+    }
+
+ out:
+  return uris;
+}
+
+
 GIcon *
 photos_utils_create_collection_icon (gint base_size, GList *pixbufs)
 {
