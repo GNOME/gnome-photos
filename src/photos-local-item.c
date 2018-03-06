@@ -108,6 +108,33 @@ photos_local_item_create_name_fallback (PhotosBaseItem *item)
 static gchar *
 photos_local_item_get_pipeline_path (PhotosLocalItem *self)
 {
+  const gchar *uri;
+  g_autofree gchar *item_path = NULL;
+  gchar *path = NULL;
+
+  uri = photos_base_item_get_uri (PHOTOS_BASE_ITEM (self));
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    item_path = g_filename_from_uri (uri, NULL, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to get filename from URI %s: %s", uri, error->message);
+        goto out;
+      }
+  }
+
+  path = g_strconcat (item_path, ".gnome-photos", NULL);
+
+ out:
+  return path;
+}
+
+
+static gchar *
+photos_local_item_get_pipeline_path_legacy (PhotosLocalItem *self)
+{
   const gchar *data_dir;
   const gchar *uri;
   g_autofree gchar *md5 = NULL;
@@ -128,15 +155,15 @@ photos_local_item_create_pipeline_paths (PhotosBaseItem *item)
 {
   PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (item);
   GStrv paths = NULL;
-  g_autofree gchar *path = NULL;
-  g_autofree gchar *pipeline_dir = NULL;
+  guint i = 0;
 
-  path = photos_local_item_get_pipeline_path (self);
-  pipeline_dir = g_path_get_dirname (path);
-  g_mkdir_with_parents (pipeline_dir, 0700);
+  paths = (GStrv) g_malloc0_n (3, sizeof (gchar *));
 
-  paths = (GStrv) g_malloc0_n (2, sizeof (gchar *));
-  paths[0] = g_steal_pointer (&path);
+  paths[i] = photos_local_item_get_pipeline_path (self);
+  if (paths[i] != NULL)
+    i++;
+
+  paths[i] = photos_local_item_get_pipeline_path_legacy (self);
 
   return paths;
 }
