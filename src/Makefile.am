@@ -606,7 +606,8 @@ photos-dleyna-renderer-device.h photos-dleyna-renderer-device.c: photos-dleyna-r
 		--c-namespace Dleyna \
 		--generate-c-code photos-dleyna-renderer-device \
 		--interface-prefix com.intel.dLeynaRenderer. \
-		--annotate 'com.intel.dLeynaRenderer.RendererDevice.GetIcon()[Bytes]' org.gtk.GDBus.C.ForceGVariant true \
+		--annotate 'com.intel.dLeynaRenderer.RendererDevice.GetIcon()[Bytes]' \
+			org.gtk.GDBus.C.ForceGVariant true \
 		$<
 
 photos-dleyna-renderer-manager.h photos-dleyna-renderer-manager.c: photos-dleyna-renderer-manager.xml
