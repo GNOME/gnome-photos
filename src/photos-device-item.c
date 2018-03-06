@@ -251,7 +251,7 @@ photos_device_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
                                       orientation,
                                       height,
                                       width,
-                                      "",
+                                      NULL,
                                       thumbnail_path,
                                       cancellable,
                                       error))

@@ -123,18 +123,22 @@ photos_local_item_get_pipeline_path (PhotosLocalItem *self)
 }
 
 
-static gchar *
-photos_local_item_create_pipeline_path (PhotosBaseItem *item)
+static GStrv
+photos_local_item_create_pipeline_paths (PhotosBaseItem *item)
 {
   PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (item);
-  gchar *path;
+  GStrv paths = NULL;
+  g_autofree gchar *path = NULL;
   g_autofree gchar *pipeline_dir = NULL;
 
   path = photos_local_item_get_pipeline_path (self);
   pipeline_dir = g_path_get_dirname (path);
   g_mkdir_with_parents (pipeline_dir, 0700);
 
-  return path;
+  paths = (GStrv) g_malloc0_n (2, sizeof (gchar *));
+  paths[0] = g_steal_pointer (&path);
+
+  return paths;
 }
 
 
@@ -144,10 +148,11 @@ photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancella
   PhotosLocalItem *self = PHOTOS_LOCAL_ITEM (item);
   g_autoptr (GFile) file = NULL;
   GQuark orientation;
+  g_auto (GStrv) pipeline_paths = NULL;
+  g_auto (GStrv) pipeline_uris = NULL;
   gboolean ret_val = FALSE;
   const gchar *mime_type;
   const gchar *uri;
-  g_autofree gchar *pipeline_path = NULL;
   g_autofree gchar *pipeline_uri = NULL;
   g_autofree gchar *thumbnail_path = NULL;
   gint64 height;
@@ -163,8 +168,8 @@ photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancella
   width = photos_base_item_get_width (PHOTOS_BASE_ITEM (self));
   thumbnail_path = photos_base_item_create_thumbnail_path (PHOTOS_BASE_ITEM (self));
 
-  pipeline_path = photos_local_item_get_pipeline_path (self);
-  pipeline_uri = photos_utils_convert_path_to_uri (pipeline_path);
+  pipeline_paths = photos_base_item_create_pipeline_paths (PHOTOS_BASE_ITEM (self));
+  pipeline_uris = photos_utils_convert_paths_to_uris ((const gchar *const *) pipeline_paths);
 
   if (!photos_utils_create_thumbnail (file,
                                       mime_type,
@@ -172,7 +177,7 @@ photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancella
                                       orientation,
                                       height,
                                       width,
-                                      pipeline_uri,
+                                      (const gchar *const *) pipeline_uris,
                                       thumbnail_path,
                                       cancellable,
                                       error))
@@ -437,7 +442,7 @@ photos_local_item_class_init (PhotosLocalItemClass *class)
   object_class->dispose = photos_local_item_dispose;
   base_item_class->create_filename_fallback = photos_local_item_create_filename_fallback;
   base_item_class->create_name_fallback = photos_local_item_create_name_fallback;
-  base_item_class->create_pipeline_path = photos_local_item_create_pipeline_path;
+  base_item_class->create_pipeline_paths = photos_local_item_create_pipeline_paths;
   base_item_class->create_thumbnail = photos_local_item_create_thumbnail;
   base_item_class->download = photos_local_item_download;
   base_item_class->get_source_widget = photos_local_item_get_source_widget;

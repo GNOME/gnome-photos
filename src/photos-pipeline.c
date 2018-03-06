@@ -35,16 +35,16 @@ struct _PhotosPipeline
 {
   GObject parent_instance;
   GHashTable *hash;
+  GStrv uris;
   GeglNode *graph;
   gchar *snapshot;
-  gchar *uri;
 };
 
 enum
 {
   PROP_0,
   PROP_PARENT,
-  PROP_URI
+  PROP_URIS
 };
 
 static void photos_pipeline_async_initable_iface_init (GAsyncInitableIface *iface);
@@ -242,8 +242,8 @@ photos_pipeline_finalize (GObject *object)
 {
   PhotosPipeline *self = PHOTOS_PIPELINE (object);
 
+  g_strfreev (self->uris);
   g_free (self->snapshot);
-  g_free (self->uri);
 
   G_OBJECT_CLASS (photos_pipeline_parent_class)->finalize (object);
 
@@ -267,8 +267,8 @@ photos_pipeline_set_property (GObject *object, guint prop_id, const GValue *valu
         break;
       }
 
-    case PROP_URI:
-      self->uri = g_value_dup_string (value);
+    case PROP_URIS:
+      self->uris = (GStrv) g_value_dup_boxed (value);
       break;
 
     default:
@@ -307,12 +307,13 @@ photos_pipeline_class_init (PhotosPipelineClass *class)
                                                         G_PARAM_CONSTRUCT | G_PARAM_WRITABLE));
 
   g_object_class_install_property (object_class,
-                                   PROP_URI,
-                                   g_param_spec_string ("uri",
-                                                        "An URI",
-                                                        "The location to save this pipeline",
-                                                        NULL,
-                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+                                   PROP_URIS,
+                                   g_param_spec_boxed ("uris",
+                                                       "URIs",
+                                                       "Possible locations from which to load this pipeline, and"
+                                                       "afterwards it will be saved to the first non-NULL URI.",
+                                                       G_TYPE_STRV,
+                                                       G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 }
 
 
@@ -321,10 +322,14 @@ photos_pipeline_async_initable_init_load_contents (GObject *source_object, GAsyn
 {
   g_autoptr (GTask) task = G_TASK (user_data);
   PhotosPipeline *self;
+  GCancellable *cancellable;
   GFile *file = G_FILE (source_object);
   g_autofree gchar *contents = NULL;
+  const gchar *uri;
 
   self = PHOTOS_PIPELINE (g_task_get_source_object (task));
+  cancellable = g_task_get_cancellable (task);
+  uri = (const gchar *) g_task_get_task_data (task);
 
   {
     g_autoptr (GError) error = NULL;
@@ -333,7 +338,30 @@ photos_pipeline_async_initable_init_load_contents (GObject *source_object, GAsyn
       {
         if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
           {
-            goto carry_on;
+            g_autoptr (GFile) file_next = NULL;
+            guint i;
+
+            for (i = 0; self->uris[i] != NULL; i++)
+              {
+                if (g_strcmp0 (self->uris[i], uri) == 0)
+                  break;
+              }
+
+            g_assert_nonnull (self->uris[i]);
+
+            i++;
+            if (self->uris[i] == NULL)
+              goto carry_on;
+
+            g_task_set_task_data (task, g_strdup (self->uris[i]), g_free);
+
+            file_next = g_file_new_for_uri (self->uris[i]);
+            g_file_load_contents_async (file_next,
+                                        cancellable,
+                                        photos_pipeline_async_initable_init_load_contents,
+                                        g_object_ref (task));
+
+            goto out;
           }
         else
           {
@@ -344,12 +372,7 @@ photos_pipeline_async_initable_init_load_contents (GObject *source_object, GAsyn
   }
 
   if (!(photos_pipeline_create_graph_from_xml (self, contents)))
-    {
-      g_autofree gchar *uri = NULL;
-
-      uri = g_file_get_uri (file);
-      g_warning ("Unable to deserialize from %s", uri);
-    }
+    g_warning ("Unable to deserialize from %s", uri);
 
  carry_on:
   g_task_return_boolean (task, TRUE);
@@ -373,13 +396,15 @@ photos_pipeline_async_initable_init_async (GAsyncInitable *initable,
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_pipeline_async_initable_init_async);
 
-  if (self->uri == NULL)
+  if (self->uris == NULL || self->uris[0] == NULL || self->uris[0][0] == '\0')
     {
       g_task_return_boolean (task, TRUE);
       goto out;
     }
 
-  file = g_file_new_for_uri (self->uri);
+  g_task_set_task_data (task, g_strdup (self->uris[0]), g_free);
+
+  file = g_file_new_for_uri (self->uris[0]);
   g_file_load_contents_async (file,
                               cancellable,
                               photos_pipeline_async_initable_init_load_contents,
@@ -414,7 +439,7 @@ photos_pipeline_async_initable_iface_init (GAsyncInitableIface *iface)
 
 void
 photos_pipeline_new_async (GeglNode *parent,
-                           const gchar *uri,
+                           const gchar *const *uris,
                            GCancellable *cancellable,
                            GAsyncReadyCallback callback,
                            gpointer user_data)
@@ -428,7 +453,7 @@ photos_pipeline_new_async (GeglNode *parent,
                               callback,
                               user_data,
                               "parent", parent,
-                              "uri", uri,
+                              "uris", uris,
                               NULL);
 }
 
@@ -634,7 +659,7 @@ photos_pipeline_save_async (PhotosPipeline *self,
    */
   g_task_set_task_data (task, xml, g_free);
 
-  file = g_file_new_for_uri (self->uri);
+  file = g_file_new_for_uri (self->uris[0]);
   len = strlen (xml);
   g_file_replace_contents_async (file,
                                  xml,

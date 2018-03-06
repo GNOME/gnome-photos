@@ -57,7 +57,7 @@ struct _PhotosBaseItemClass
   /* virtual methods */
   gchar      *(*create_filename_fallback)   (PhotosBaseItem *self);
   gchar      *(*create_name_fallback)       (PhotosBaseItem *self);
-  gchar      *(*create_pipeline_path)       (PhotosBaseItem *self);
+  GStrv       (*create_pipeline_paths)      (PhotosBaseItem *self);
   gboolean    (*create_thumbnail)           (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   gchar      *(*create_thumbnail_path)      (PhotosBaseItem *self);
   gchar      *(*download)                   (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
@@ -81,6 +81,8 @@ struct _PhotosBaseItemClass
 gboolean            photos_base_item_can_edit                (PhotosBaseItem *self);
 
 gboolean            photos_base_item_can_trash               (PhotosBaseItem *self);
+
+GStrv               photos_base_item_create_pipeline_paths   (PhotosBaseItem *self) G_GNUC_WARN_UNUSED_RESULT;
 
 cairo_surface_t    *photos_base_item_create_preview          (PhotosBaseItem *self,
                                                               gint size,

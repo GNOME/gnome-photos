@@ -320,7 +320,7 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
                                              GQuark orientation,
                                              gint64 original_height,
                                              gint64 original_width,
-                                             const gchar *pipeline_uri,
+                                             const gchar *const *pipeline_uris,
                                              const gchar *thumbnail_path,
                                              GCancellable *cancellable,
                                              GError **error)
@@ -397,14 +397,20 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
     }
   else
     {
+      GVariant *pipeline_uris_variant;
       const gchar *orientation_str;
       g_autofree gchar *uri = NULL;
       gint thumbnail_size;
+      gssize n_pipeline_uris;
 
       g_assert_true (PHOTOS_IS_THUMBNAILER_DBUS (self->thumbnailer));
 
       uri = g_file_get_uri (file);
       orientation_str = g_quark_to_string (orientation);
+
+      n_pipeline_uris = pipeline_uris == NULL ? 0 : -1;
+      pipeline_uris_variant = g_variant_new_strv (pipeline_uris, n_pipeline_uris);
+
       thumbnail_size = photos_utils_get_icon_size ();
 
       photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Calling GenerateThumbnail for %s", uri);
@@ -414,7 +420,7 @@ photos_thumbnail_factory_generate_thumbnail (PhotosThumbnailFactory *self,
                                                                  orientation_str,
                                                                  original_height,
                                                                  original_width,
-                                                                 pipeline_uri,
+                                                                 pipeline_uris_variant,
                                                                  thumbnail_path,
                                                                  thumbnail_size,
                                                                  cancellable,

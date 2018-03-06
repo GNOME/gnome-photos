@@ -483,7 +483,7 @@ photos_thumbnailer_generate_thumbnail_async (PhotosThumbnailer *self,
                                              const gchar *orientation,
                                              gint64 original_height,
                                              gint64 original_width,
-                                             const gchar *pipeline_uri,
+                                             const gchar *const *pipeline_uris,
                                              const gchar *thumbnail_path,
                                              gint thumbnail_size,
                                              GCancellable *cancellable,
@@ -519,7 +519,7 @@ photos_thumbnailer_generate_thumbnail_async (PhotosThumbnailer *self,
   g_task_set_task_data (task, data, (GDestroyNotify) photos_thumbnailer_generate_data_free);
 
   photos_pipeline_new_async (graph,
-                             pipeline_uri,
+                             pipeline_uris,
                              cancellable,
                              photos_thumbnailer_generate_thumbnail_pipeline,
                              g_object_ref (task));
@@ -620,24 +620,24 @@ photos_thumbnailer_handle_generate_thumbnail (PhotosThumbnailer *self,
                                               const gchar *orientation,
                                               gint64 original_height,
                                               gint64 original_width,
-                                              const gchar *pipeline_uri,
+                                              GVariant *pipeline_uris_variant,
                                               const gchar *thumbnail_path,
                                               gint thumbnail_size)
 {
   g_autoptr (GCancellable) cancellable = NULL;
+  g_auto (GStrv) pipeline_uris = NULL;
 
   g_return_val_if_fail (PHOTOS_IS_THUMBNAILER (self), FALSE);
   g_return_val_if_fail (G_IS_DBUS_METHOD_INVOCATION (invocation), FALSE);
   g_return_val_if_fail (uri != NULL && uri[0] != '\0', FALSE);
   g_return_val_if_fail (mime_type != NULL && mime_type[0] != '\0', FALSE);
   g_return_val_if_fail (orientation != NULL && orientation[0] != '\0', FALSE);
-  g_return_val_if_fail (pipeline_uri != NULL, FALSE);
+  g_return_val_if_fail (g_variant_is_of_type (pipeline_uris_variant, G_VARIANT_TYPE ("as")), FALSE);
   g_return_val_if_fail (thumbnail_path != NULL && thumbnail_path[0] != '\0', FALSE);
 
   photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Handling GenerateThumbnail for %s", uri);
 
-  if (pipeline_uri[0] == '\0')
-    pipeline_uri = NULL;
+  pipeline_uris = g_variant_dup_strv (pipeline_uris_variant, NULL);
 
   cancellable = g_cancellable_new ();
   g_hash_table_insert (self->cancellables, g_object_ref (invocation), g_object_ref (cancellable));
@@ -649,7 +649,7 @@ photos_thumbnailer_handle_generate_thumbnail (PhotosThumbnailer *self,
                                                orientation,
                                                original_height,
                                                original_width,
-                                               pipeline_uri,
+                                               (const gchar *const *) pipeline_uris,
                                                thumbnail_path,
                                                thumbnail_size,
                                                cancellable,

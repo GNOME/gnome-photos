@@ -30,7 +30,7 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhotosPipeline, photos_pipeline, PHOTOS, PIPELINE, GObject);
 
 void                   photos_pipeline_new_async         (GeglNode *parent,
-                                                          const gchar *uri,
+                                                          const gchar *const *uris,
                                                           GCancellable *cancellable,
                                                           GAsyncReadyCallback callback,
                                                           gpointer user_data);

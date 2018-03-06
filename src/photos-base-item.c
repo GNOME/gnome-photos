@@ -1575,21 +1575,21 @@ photos_base_item_load_pipeline_task_cache_populate (EggTaskCache *cache,
   PhotosBaseItem *self = PHOTOS_BASE_ITEM ((gpointer) key);
   PhotosBaseItemClass *class;
   GCancellable *cancellable;
-  g_autofree gchar *uri = NULL;
+  g_auto (GStrv) uris = NULL;
 
   cancellable = g_task_get_cancellable (task);
 
   class = PHOTOS_BASE_ITEM_GET_CLASS (self);
-  if (class->create_pipeline_path != NULL)
+  if (class->create_pipeline_paths != NULL)
     {
-      g_autofree gchar *path = NULL;
+      g_auto (GStrv) paths = NULL;
 
-      path = class->create_pipeline_path (self);
-      uri = photos_utils_convert_path_to_uri (path);
+      paths = photos_base_item_create_pipeline_paths (self);
+      uris = photos_utils_convert_paths_to_uris ((const gchar *const *) paths);
     }
 
   photos_pipeline_new_async (NULL,
-                             uri,
+                             (const gchar *const *) uris,
                              cancellable,
                              photos_base_item_load_pipeline_task_cache_populate_new,
                              g_object_ref (task));
@@ -3133,7 +3133,7 @@ photos_base_item_can_edit (PhotosBaseItem *self)
 
   g_return_val_if_fail (!priv->collection, FALSE);
 
-  return PHOTOS_BASE_ITEM_GET_CLASS (self)->create_pipeline_path != NULL;
+  return PHOTOS_BASE_ITEM_GET_CLASS (self)->create_pipeline_paths != NULL;
 }
 
 
@@ -3142,6 +3142,18 @@ photos_base_item_can_trash (PhotosBaseItem *self)
 {
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), FALSE);
   return PHOTOS_BASE_ITEM_GET_CLASS (self)->trash != NULL;
+}
+
+
+GStrv
+photos_base_item_create_pipeline_paths (PhotosBaseItem *self)
+{
+  GStrv paths;
+
+  g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
+
+  paths = PHOTOS_BASE_ITEM_GET_CLASS (self)->create_pipeline_paths (self);
+  return paths;
 }
 
 

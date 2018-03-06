@@ -31,7 +31,7 @@
       <arg name="orientation" type="s" direction="in" />
       <arg name="original_height" type="x" direction="in" />
       <arg name="original_width" type="x" direction="in" />
-      <arg name="pipeline_uri" type="s" direction="in" />
+      <arg name="pipeline_uris" type="as" direction="in" />
       <arg name="thumbnail_path" type="s" direction="in" />
       <arg name="thumbnail_size" type="i" direction="in" />
     </method>

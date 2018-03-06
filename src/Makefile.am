@@ -657,6 +657,8 @@ photos-thumbnailer-dbus.h photos-thumbnailer-dbus.c: photos-thumbnailer-dbus.xml
 		--generate-c-code photos-thumbnailer-dbus \
 		--interface-prefix org.gnome.Photos. \
 		--annotate "org.gnome.Photos.Thumbnailer" org.gtk.GDBus.C.Name ThumbnailerDBus \
+		--annotate "org.gnome.Photos.Thumbnailer.GenerateThumbnail()[pipeline_uris]" \
+			org.gtk.GDBus.C.ForceGVariant true \
 		$<
 
 photos-tracker-extract-priority.h photos-tracker-extract-priority.c: photos-tracker-extract-priority.xml

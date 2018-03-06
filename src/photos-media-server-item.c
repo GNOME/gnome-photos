@@ -103,7 +103,7 @@ photos_media_server_item_create_thumbnail (PhotosBaseItem *item, GCancellable *c
                                            orientation,
                                            height,
                                            width,
-                                           "",
+                                           NULL,
                                            thumbnail_path,
                                            cancellable,
                                            error);
