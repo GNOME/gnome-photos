@@ -1,3 +1,43 @@
+Overview of changes in 3.27.92
+==============================
+
+* Bugs fixed:
+ !23 Install appstream metadata to non-deprecated location
+ #77 Use g_auto*
+ #87 Store edits in side-car files
+ #88 properties-dialog: Use ngettext for plural forms
+ #89 Various improvements to user-visible strings and controls used for
+     importing from devices
+ #94 flatpak: Fix detection of attached devices
+
+* Updated translations:
+ Catalan
+ Traditional Chinese (Taiwan)
+ Croatian
+ Czech
+ Danish
+ Dutch
+ Finnish
+ Friulian
+ Galician
+ Gaelic (Scottish)
+ German
+ Hungarian
+ Indonesian
+ Italian
+ Kazakh
+ Korean
+ Latvian
+ Lithuanian
+ Polish
+ Portuguese (Brazilian)
+ Serbian
+ Serbian Latin
+ Slovak
+ Spanish
+ Vietnamese
+
+
 Overview of changes in 3.27.90
 ==============================
 
