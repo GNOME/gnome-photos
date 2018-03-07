@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-24\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-02 11:45+0000\n"
-"PO-Revision-Date: 2018-03-04 21:59+0100\n"
+"POT-Creation-Date: 2018-03-04 21:00+0000\n"
+"PO-Revision-Date: 2018-03-07 15:20+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -340,7 +340,7 @@ msgstr "Općenito"
 #: src/photos-help-overlay.ui:36
 msgctxt "shortcut window"
 msgid "Show help"
-msgstr "Prikaži pomoć"
+msgstr "Prikaži priručnik"
 
 #: src/photos-help-overlay.ui:43
 msgctxt "shortcut window"
@@ -580,7 +580,7 @@ msgstr "Prečaci tipkovnice"
 
 #: src/photos-menus.ui:16
 msgid "_Help"
-msgstr "_Pomoć"
+msgstr "_Priručnik"
 
 #: src/photos-menus.ui:20
 msgid "About"
