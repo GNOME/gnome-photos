@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-27 17:42+0000\n"
-"PO-Revision-Date: 2018-02-27 19:36+0100\n"
+"POT-Creation-Date: 2018-03-05 20:21+0000\n"
+"PO-Revision-Date: 2018-03-06 20:30+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -192,7 +192,7 @@ msgstr "Favoritter"
 msgid "Import"
 msgstr "Importér"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "Søg"
 
@@ -264,8 +264,8 @@ msgid "_Reduced"
 msgstr "_Reduceret"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
-#: src/photos-main-toolbar.c:604
+#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
+#: src/photos-main-toolbar.c:614
 msgid "_Cancel"
 msgstr "_Annullér"
 
@@ -315,7 +315,7 @@ msgstr "Tøm papirkurv"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Åbn"
 
@@ -505,44 +505,59 @@ msgstr "Nogen billeder er muligvis ikke tilgængelige under denne proces"
 msgid "Local"
 msgstr "Lokal"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "Tryk på elementer for at vælge dem"
 
-#: src/photos-main-toolbar.c:84
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valgt"
 msgstr[1] "%d valgte"
 
-#: src/photos-main-toolbar.c:212
+#: src/photos-main-toolbar.c:170
+msgid "Select items for import"
+msgstr "Vælg elementer der skal importeres"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "Vælg elementer der skal importeres (%u valgt)"
+msgstr[1] "Vælg elementer der skal importeres (%u valgt)"
+
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "Tilbage"
 
-#: src/photos-main-toolbar.c:326
+#: src/photos-main-toolbar.c:331
 msgid "Select Items"
 msgstr "Vælg elementer"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Åbn med %s"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
+#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Føj til favoritter"
 
-#: src/photos-main-toolbar.c:467
+#: src/photos-main-toolbar.c:472
 msgid "Done"
 msgstr "Færdig"
+
+#: src/photos-main-toolbar.c:507
+msgid "_Select"
+msgstr "_Vælg"
 
 #: src/photos-main-window.c:458
 msgid ""
@@ -850,10 +865,6 @@ msgid "Export"
 msgstr "Eksportér"
 
 #: src/photos-selection-toolbar.ui:111
-msgid "_Select"
-msgstr "_Vælg"
-
-#: src/photos-selection-toolbar.ui:125
 msgid "Add to Album"
 msgstr "Føj til album"
 
