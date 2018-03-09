@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-16 18:43+0000\n"
-"PO-Revision-Date: 2018-02-16 21:43+0100\n"
+"POT-Creation-Date: 2018-03-02 11:45+0000\n"
+"PO-Revision-Date: 2018-03-09 21:58+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
@@ -183,11 +183,11 @@ msgstr "Album"
 msgid "Favorites"
 msgstr "Preferîts"
 
-#: src/photos-embed.c:834 src/photos-source-notification.c:214
+#: src/photos-embed.c:834
 msgid "Import"
 msgstr "Impuarte"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "Cîr"
 
@@ -259,6 +259,8 @@ msgid "_Reduced"
 msgstr "_Ridusût"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
+#: src/photos-main-toolbar.c:614
 msgid "_Cancel"
 msgstr "_Anule"
 
@@ -308,7 +310,7 @@ msgstr "Disvuede scovacere"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Vierç"
 
@@ -497,49 +499,59 @@ msgstr "Cualchi foto e podarès no jessi disponibil dilunc chest procès"
 msgid "Local"
 msgstr "Locâl"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "Cliche sui elements par selezionâju"
 
-#: src/photos-main-toolbar.c:84
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d selezionât"
 msgstr[1] "%d selezionâts"
 
-#: src/photos-main-toolbar.c:212
+#: src/photos-main-toolbar.c:170
+msgid "Select items for import"
+msgstr "Selezione i elements par impuartâju"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "Selezione i elements di impuartâ (%u selezionât)"
+msgstr[1] "Selezione i elements di impuartâ (%u selezionâts)"
+
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "Indaûr"
 
-#: src/photos-main-toolbar.c:326
+#: src/photos-main-toolbar.c:331
 msgid "Select Items"
 msgstr "Selezione elements"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Vierç cun %s"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Gjave dai preferîts"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
+#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Zonte tai preferîts"
 
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
-#: src/photos-main-toolbar.c:604
-msgid "Cancel"
-msgstr "Anule"
-
-#: src/photos-main-toolbar.c:467
+#: src/photos-main-toolbar.c:472
 msgid "Done"
 msgstr "Fat"
+
+#: src/photos-main-toolbar.c:507
+msgid "_Select"
+msgstr "_Selezione"
 
 #: src/photos-main-window.c:458
 msgid ""
@@ -838,10 +850,6 @@ msgid "Export"
 msgstr "Espuarte"
 
 #: src/photos-selection-toolbar.ui:111
-msgid "Add to Photos"
-msgstr "Zonte a Fotos"
-
-#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
 msgstr "Zonte tal album"
 
@@ -874,6 +882,10 @@ msgstr "Sorzints"
 #: src/photos-source-notification.c:201
 msgid "New device discovered"
 msgstr "Cjatât un gnûf dispositîf"
+
+#: src/photos-source-notification.c:214
+msgid "Import…"
+msgstr "Impuarte…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
@@ -1016,6 +1028,12 @@ msgstr "Filtris"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Impussibil vê la liste das fotos"
+
+#~ msgid "Cancel"
+#~ msgstr "Anule"
+
+#~ msgid "Add to Photos"
+#~ msgstr "Zonte a Fotos"
 
 #~ msgid "%"
 #~ msgid_plural "%"
