@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-28 01:02+0000\n"
-"PO-Revision-Date: 2018-02-28 23:49+0800\n"
+"POT-Creation-Date: 2018-03-03 07:05+0000\n"
+"PO-Revision-Date: 2018-03-03 15:17+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
@@ -182,7 +182,7 @@ msgstr "喜愛"
 msgid "Import"
 msgstr "匯入"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "搜尋"
 
@@ -254,8 +254,8 @@ msgid "_Reduced"
 msgstr "縮減(_R)"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:498
-#: src/photos-main-toolbar.c:609
+#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
+#: src/photos-main-toolbar.c:614
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -493,45 +493,55 @@ msgstr "部分相片在這個程序中可能無法使用"
 msgid "Local"
 msgstr "本地端"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "點擊項目來選取它們"
 
-#: src/photos-main-toolbar.c:84
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "已選取 %d 個"
 
-#: src/photos-main-toolbar.c:212
+#: src/photos-main-toolbar.c:170
+msgid "Select items for import"
+msgstr "選擇要匯入的項目"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "選擇要匯入的項目（%u 已選取）"
+
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "返回"
 
-#: src/photos-main-toolbar.c:326
+#: src/photos-main-toolbar.c:331
 msgid "Select Items"
 msgstr "選取項目"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "以 %s 開啟"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "自喜愛移除"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "加入喜愛中"
 
-#: src/photos-main-toolbar.c:467
+#: src/photos-main-toolbar.c:472
 msgid "Done"
 msgstr "完成"
 
-#: src/photos-main-toolbar.c:502
+#: src/photos-main-toolbar.c:507
 msgid "_Select"
 msgstr "選取(_S)"
 
