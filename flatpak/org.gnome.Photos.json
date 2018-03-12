@@ -136,8 +136,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.libraw.org/data/LibRaw-0.18.6.tar.gz",
-                    "sha256": "e5b8acca558aa457bc9214802004320c5610d1434c2adb1f3ea367f026afa53b"
+                    "url": "https://www.libraw.org/data/LibRaw-0.18.8.tar.gz",
+                    "sha256": "56aca4fd97038923d57d2d17d90aa11d827f1f3d3f1d97e9f5a0d52ff87420e2"
                 },
                 {
                     "type": "patch",
