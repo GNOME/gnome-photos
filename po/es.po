@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the gnome-photos package.
 # Zed  <angelrmm0@gmail.com>, 2012.
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012-2018.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012-2018, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-16 18:43+0000\n"
-"PO-Revision-Date: 2018-02-21 11:55+0100\n"
+"POT-Creation-Date: 2018-03-02 11:45+0000\n"
+"PO-Revision-Date: 2018-03-12 13:10+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -184,12 +184,11 @@ msgstr "Álbumes"
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: src/photos-embed.c:834 src/photos-source-notification.c:214
-#| msgid "Export"
+#: src/photos-embed.c:834
 msgid "Import"
 msgstr "Importar"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "Buscar"
 
@@ -261,6 +260,8 @@ msgid "_Reduced"
 msgstr "_Reducido"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
+#: src/photos-main-toolbar.c:614
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -310,7 +311,7 @@ msgstr "Vaciar la papelera"
 
 #. Translators: this is the Open action in a context menu
 #: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Abrir"
 
@@ -459,7 +460,6 @@ msgid "An album for that date already exists"
 msgstr "Ya existe un álbum para esa fecha"
 
 #: src/photos-import-dialog.ui:22
-#| msgid "Album"
 msgctxt "dialog title"
 msgid "Name Album"
 msgstr "Nombre del álbum"
@@ -500,50 +500,62 @@ msgstr "Algunas fotos pueden no estar disponibles durante este proceso"
 msgid "Local"
 msgstr "Local"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "Pulse sobre los elementos para seleccionarlos"
 
-#: src/photos-main-toolbar.c:84
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d seleccionada"
 msgstr[1] "%d seleccionadas"
 
-#: src/photos-main-toolbar.c:212
+#: src/photos-main-toolbar.c:170
+#| msgid "Select Items"
+msgid "Select items for import"
+msgstr "Seleccionar elementos que importar"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "Seleccionar elementos que importar (%u seleccionado)"
+msgstr[1] "Seleccionar elementos que importar (%u seleccionados)"
+
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "Atrás"
 
-#: src/photos-main-toolbar.c:326
+#: src/photos-main-toolbar.c:331
 msgid "Select Items"
 msgstr "Seleccionar elementos"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Quita de favoritos"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
+#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Agregar a favoritos"
 
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
-#: src/photos-main-toolbar.c:604
-msgid "Cancel"
-msgstr "Cancelar"
-
 #  o Terminado
-#: src/photos-main-toolbar.c:467
+#: src/photos-main-toolbar.c:472
 msgid "Done"
 msgstr "Hecho"
+
+#: src/photos-main-toolbar.c:507
+#| msgid "Select All"
+msgid "_Select"
+msgstr "_Seleccionar"
 
 #: src/photos-main-window.c:458
 msgid ""
@@ -845,11 +857,6 @@ msgid "Export"
 msgstr "Exportar"
 
 #: src/photos-selection-toolbar.ui:111
-#| msgid "About Photos"
-msgid "Add to Photos"
-msgstr "Añadir a Fotos"
-
-#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
 msgstr "Añadir al álbum"
 
@@ -882,6 +889,11 @@ msgstr "Fuentes"
 #: src/photos-source-notification.c:201
 msgid "New device discovered"
 msgstr "Nuevo dispositivo descubierto"
+
+#: src/photos-source-notification.c:214
+#| msgid "Import"
+msgid "Import…"
+msgstr "Importar…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
@@ -1024,6 +1036,13 @@ msgstr "Filtros"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "No se pudo obtener la lista de fotos"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~| msgid "About Photos"
+#~ msgid "Add to Photos"
+#~ msgstr "Añadir a Fotos"
 
 #~ msgid "Untitled Photo"
 #~ msgstr "Foto sin título"
