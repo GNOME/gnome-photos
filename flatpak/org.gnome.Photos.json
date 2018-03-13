@@ -263,8 +263,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.gnome.org/sources/tracker-miners/2.0/tracker-miners-2.0.3.tar.xz",
-                    "sha256": "12413a9f8dfa705a48a2697dcbb3eef12ee91bb98f392a23ba4bda7813e41d1b"
+                    "url": "https://download.gnome.org/sources/tracker-miners/2.0/tracker-miners-2.0.4.tar.xz",
+                    "sha256": "4626646167e405be5f8b3f831c82cfcdf86ba20d3598fca41ea8c4a8b8a8e956"
                 }
             ]
         },
