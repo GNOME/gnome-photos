@@ -5,16 +5,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2014-09-12 07:20+0000\n"
-"PO-Revision-Date: 2014-09-12 10:37+0200\n"
-"Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
+"POT-Creation-Date: 2018-02-27 19:20+0000\n"
+"PO-Revision-Date: 2018-03-09 15:03+0100\n"
+"Last-Translator: marcos <marcoslansgarza@gmail.com>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "X-Project-Style: gnome\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -42,7 +42,7 @@ msgstr "Etiqueta unha imaxe especial como favorita."
 #. (itstool) path: page/title
 #: C/favorites.page:25
 msgid "Favorite photos"
-msgstr "Fotos favoritas"
+msgstr "Fotografías favoritas"
 
 #. (itstool) path: page/p
 #: C/favorites.page:26
@@ -57,7 +57,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/favorites-set.page:22
 msgid "Pick favorites from <app>Photos</app>."
-msgstr "Escolla as fotos favoritas desde <app>Fotos</app>."
+msgstr "Escolla as fotos favoritas desde <app>Fotografías</app>."
 
 #. (itstool) path: page/title
 #: C/favorites-set.page:25
@@ -70,8 +70,8 @@ msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
 "\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
-"Fotos e álbums poden marcarse como favoritas des a lapela <gui style=\"tab\""
-">Recentess</gui> ou a lapela <gui style=\"tab\">Álbums</gui>."
+"Fotos e álbums poden marcarse como favoritas desde a lapela <gui style=\"tab"
+"\">Recente</gui> ou a lapela <gui style=\"tab\">Álbums</gui>."
 
 #. (itstool) path: steps/title
 #: C/favorites-set.page:31
@@ -84,7 +84,7 @@ msgid ""
 "Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
-"Seleccione a lapela <gui>Álbums</gui> ou <gui>Recentes</gui> dependendo se "
+"Seleccione a lapela <gui>Álbums</gui> ou <gui>Recente</gui> dependendo se "
 "quere marcar un álbum ou unha foto como favorito."
 
 #. (itstool) path: item/p
@@ -116,17 +116,17 @@ msgstr ""
 #: C/index.page:7
 msgctxt "text"
 msgid "Photos"
-msgstr "Fotos"
+msgstr "Fotografías"
 
 #. (itstool) path: info/desc
 #: C/index.page:12
 msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
-msgstr "<app>Fotos</app> é un xestor de fotos personalizado de GNOME."
+msgstr "<app>Fotografías</app> é un xestor de fotos personalizado de GNOME."
 
 #. (itstool) path: page/title
 #: C/index.page:16
 msgid "<_:media-1/> Photos"
-msgstr "<_:media-1/> Fotos"
+msgstr "<_:media-1/> Fotografías"
 
 #. (itstool) path: page/p
 #: C/index.page:21
@@ -137,6 +137,11 @@ msgid ""
 "with <app>Photos</app>. You can also set photos you like as your desktop "
 "wallpaper, or easily bookmark them as favorites."
 msgstr ""
+"<app>Fotografías</app> pode usarse para organizar e xestionar as súas imaxes "
+"dun xeito atractivo e personalizado. Ademais de crear albums coas imaxes do "
+"computador, pode integrar os albums do Facebook e do Flickr co "
+"<app>Fotografías</app>. Tamén pode estabelecer as fotos que desexe como "
+"fondo de pantalla ou marcalas como favoritas de xeito doado."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
@@ -220,6 +225,70 @@ msgstr ""
 "Seleccione a foto que quere abrir, ou use as frechas do teclado pra navegar "
 "á foto e prema <key>Intro</key>."
 
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "Abrir as súas fotos recentes."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Ver fotos recentes"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"A lapela <gui style=\"tab\">Recente</gui> mostra fotos localizadas no "
+"sistema de ficheiros local tales como <file>~/Descargas</file>, <file>~/"
+"Imaxes</file> e de coleccións en liña. Tamén pode engadir localizacións "
+"incluso coleccións almacenadas na nube como fotos do Flickr ou do Facebook "
+"por medio das <app>Contas en liña de GNOME</app>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "Para engadir outras localizacións do sistema de ficheiros local:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr "Ir a <guiseq><gui>Preferencias</gui><gui>Buscar</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Prema no botón coa engranaxe na parte inferior dereita. Pode seleccionar as "
+"localizacións que desexa ver na lapela <gui style=\"tab\">Recente</gui>"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Para ver fotos recentes:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Seleccione a lapela <gui style=\"tab\">Recente</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr "Verá unha grella de fotos. Seleccione unha foto da grella para abrila."
+
 #. (itstool) path: info/desc
 #: C/view.page:21
 msgid "Open a photo for viewing."
@@ -238,7 +307,7 @@ msgid ""
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
 msgstr ""
-"Cando <app>Fotos</app> está aberto verá a lapela <gui>Recentes</gui> "
-"abertas. A lapela <gui>Recentes</gui> contén imaxes do seu computador, "
+"Cando <app>Fotografías</app> está aberto verá a lapela <gui>Recente</gui> "
+"abertas. A lapela <gui>Recente</gui> contén imaxes do seu computador, "
 "<gui>Álbums</gui> contén álbums de fotos e calquera imaxe marcada como "
 "favorita estará na la pela <gui>Favoritas</gui>."
