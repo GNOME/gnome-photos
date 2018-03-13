@@ -248,9 +248,7 @@
         {
             "name": "tracker",
             "cleanup": [ "/bin", "/etc", "/lib/systemd", "/libexec", "/share/dbus-1/services" ],
-            "config-opts": [ "--disable-introspection",
-                             "--disable-static",
-                             "--with-bash-completion-dir=no" ],
+            "config-opts": [ "--disable-introspection", "--disable-static", "--with-bash-completion-dir=no" ],
             "sources": [
                 {
                     "type": "git",
