@@ -1393,7 +1393,7 @@ photos_application_import_add_to_collection (PhotosApplication *self, gpointer u
   date_created_latest_str = g_date_time_format (date_created_latest, _("%-d %B %Y"));
 
   pictures_path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
-  import_sub_path = g_build_filename (pictures_path, PHOTOS_IMPORT_SUBPATH, date_created_latest_str, NULL);
+  import_sub_path = g_build_filename (pictures_path, date_created_latest_str, NULL);
   g_mkdir_with_parents (import_sub_path, 0777);
 
   g_clear_object (&data->import_sub_dir);

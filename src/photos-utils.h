@@ -48,7 +48,6 @@ G_BEGIN_DECLS
 #define PHOTOS_COLLECTION_SCREENSHOT \
   "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#image-category-screenshot"
 #define PHOTOS_EXPORT_SUBPATH "Exports"
-#define PHOTOS_IMPORT_SUBPATH "Imports"
 
 typedef enum
 {
