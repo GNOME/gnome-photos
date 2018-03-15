@@ -1,3 +1,28 @@
+Overview of changes in 3.28.0
+=============================
+
+* Bugs fixed:
+ #89 Don't use an intermediate Imports sub-directory for imported content
+
+* Updated translations:
+ Traditional Chinese (Taiwan)
+ Croatian
+ Danish
+ Dutch
+ English (British)
+ French
+ Friulian
+ Galician
+ Greek
+ Indonesian
+ Serbian
+ Serbian Latin
+ Slovak
+ Spanish
+ Swedish
+ Turkish
+
+
 Overview of changes in 3.27.92
 ==============================
 
