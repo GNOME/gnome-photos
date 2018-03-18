@@ -23,8 +23,8 @@
 #include <cairo.h>
 #include <cairo-gobject.h>
 #include <glib.h>
+#include <dazzle.h>
 
-#include "egg-animation.h"
 #include "photos-debug.h"
 #include "photos-gegl.h"
 #include "photos-image-view.h"
@@ -36,7 +36,7 @@
 struct _PhotosImageView
 {
   GtkDrawingArea parent_instance;
-  EggAnimation *zoom_animation;
+  DzlAnimation *zoom_animation;
   GeglBuffer *buffer;
   GeglNode *node;
   GeglRectangle bbox_zoomed_old;
@@ -87,7 +87,7 @@ G_DEFINE_TYPE_WITH_CODE (PhotosImageView, photos_image_view, GTK_TYPE_DRAWING_AR
                          G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL));
 
 
-static const EggAnimationMode ZOOM_ANIMATION_MODE = EGG_ANIMATION_EASE_OUT_CUBIC;
+static const DzlAnimationMode ZOOM_ANIMATION_MODE = DZL_ANIMATION_EASE_OUT_CUBIC;
 static const guint ZOOM_ANIMATION_DURATION = 250; /* ms */
 
 
@@ -182,7 +182,7 @@ photos_image_view_notify_zoom (GObject *object, GParamSpec *pspec, gpointer user
   PhotosImageViewHelper *helper = PHOTOS_IMAGE_VIEW_HELPER (object);
   gint scale_factor;
 
-  g_return_if_fail (EGG_IS_ANIMATION (self->zoom_animation));
+  g_return_if_fail (DZL_IS_ANIMATION (self->zoom_animation));
 
   self->zoom_visible = photos_image_view_helper_get_zoom (helper);
 
@@ -210,7 +210,7 @@ photos_image_view_start_zoom_animation (PhotosImageView *self)
 
   frame_clock = gtk_widget_get_frame_clock (GTK_WIDGET (self));
 
-  self->zoom_animation = egg_object_animate_full (g_object_ref (helper),
+  self->zoom_animation = dzl_object_animate_full (g_object_ref (helper),
                                                   ZOOM_ANIMATION_MODE,
                                                   ZOOM_ANIMATION_DURATION,
                                                   frame_clock,
@@ -392,7 +392,7 @@ photos_image_view_update (PhotosImageView *self)
 
           if (self->zoom_animation != NULL)
             {
-              egg_animation_stop (self->zoom_animation);
+              dzl_animation_stop (self->zoom_animation);
               photos_image_view_start_zoom_animation (self);
               goto out;
             }
@@ -714,7 +714,7 @@ photos_image_view_dispose (GObject *object)
 
   if (self->zoom_animation != NULL)
     {
-      egg_animation_stop (self->zoom_animation);
+      dzl_animation_stop (self->zoom_animation);
       g_assert_null (self->zoom_animation);
     }
 
@@ -1053,7 +1053,7 @@ photos_image_view_set_best_fit (PhotosImageView *self, gboolean best_fit, gboole
       gdouble zoom_scaled;
 
       if (self->zoom_animation != NULL)
-        egg_animation_stop (self->zoom_animation);
+        dzl_animation_stop (self->zoom_animation);
 
       photos_image_view_calculate_best_fit_zoom (self, &self->zoom, &zoom_scaled);
 
@@ -1087,7 +1087,7 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
     return;
 
   if (self->zoom_animation != NULL)
-    egg_animation_stop (self->zoom_animation);
+    dzl_animation_stop (self->zoom_animation);
 
   if (self->node != NULL)
     {
@@ -1149,7 +1149,7 @@ photos_image_view_set_zoom (PhotosImageView *self, gdouble zoom, gboolean enable
     return;
 
   if (self->zoom_animation != NULL)
-    egg_animation_stop (self->zoom_animation);
+    dzl_animation_stop (self->zoom_animation);
 
   self->best_fit = FALSE;
   self->zoom = zoom;

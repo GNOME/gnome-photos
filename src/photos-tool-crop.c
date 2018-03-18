@@ -32,8 +32,8 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <dazzle.h>
 
-#include "egg-animation.h"
 #include "photos-image-view.h"
 #include "photos-tool.h"
 #include "photos-tool-crop.h"
@@ -77,7 +77,7 @@ struct _PhotosToolCropConstraint
 struct _PhotosToolCrop
 {
   PhotosTool parent_instance;
-  EggAnimation *constraint_animation;
+  DzlAnimation *constraint_animation;
   GAction *crop;
   GCancellable *cancellable;
   GeglRectangle bbox_zoomed;
@@ -126,7 +126,7 @@ enum
   CONSTRAINT_ANIMATION_DURATION = 250 /* ms */
 };
 
-static const EggAnimationMode CONSTRAINT_ANIMATION_MODE = EGG_ANIMATION_EASE_OUT_CUBIC;
+static const DzlAnimationMode CONSTRAINT_ANIMATION_MODE = DZL_ANIMATION_EASE_OUT_CUBIC;
 static const gdouble CROP_MIN_SIZE = 16.0;
 static const gdouble HANDLE_OFFSET = 3.0;
 static const gdouble HANDLE_RADIUS = 8.0;
@@ -706,7 +706,7 @@ photos_tool_crop_set_crop (PhotosToolCrop *self, gdouble event_x, gdouble event_
   if (changed)
     {
       if (self->constraint_animation != NULL)
-        egg_animation_stop (self->constraint_animation);
+        dzl_animation_stop (self->constraint_animation);
 
       self->crop_height_visible = self->crop_height;
       self->crop_width_visible = self->crop_width;
@@ -935,7 +935,7 @@ photos_tool_crop_start_constraint_animation (PhotosToolCrop *self)
 
   frame_clock = gtk_widget_get_frame_clock (GTK_WIDGET (self->view));
 
-  self->constraint_animation = egg_object_animate_full (g_object_ref (helper),
+  self->constraint_animation = dzl_object_animate_full (g_object_ref (helper),
                                                         CONSTRAINT_ANIMATION_MODE,
                                                         CONSTRAINT_ANIMATION_DURATION,
                                                         frame_clock,
@@ -958,7 +958,7 @@ photos_tool_crop_list_box_row_activated (PhotosToolCrop *self, GtkListBoxRow *ro
   self->list_box_active = gtk_list_box_row_get_index (GTK_LIST_BOX_ROW (row));
 
   if (self->constraint_animation != NULL)
-    egg_animation_stop (self->constraint_animation);
+    dzl_animation_stop (self->constraint_animation);
 
   photos_tool_crop_active_changed (self);
   photos_tool_crop_start_constraint_animation (self);
@@ -972,7 +972,7 @@ photos_tool_crop_landscape_button_toggled (PhotosToolCrop *self)
     goto out;
 
   if (self->constraint_animation != NULL)
-    egg_animation_stop (self->constraint_animation);
+    dzl_animation_stop (self->constraint_animation);
 
   photos_tool_crop_active_changed (self);
   photos_tool_crop_start_constraint_animation (self);
@@ -989,7 +989,7 @@ photos_tool_crop_portrait_button_toggled (PhotosToolCrop *self)
     goto out;
 
   if (self->constraint_animation != NULL)
-    egg_animation_stop (self->constraint_animation);
+    dzl_animation_stop (self->constraint_animation);
 
   photos_tool_crop_active_changed (self);
   photos_tool_crop_start_constraint_animation (self);
@@ -1075,7 +1075,7 @@ photos_tool_crop_size_allocate (PhotosToolCrop *self, GdkRectangle *allocation)
   gdouble zoom;
 
   if (self->constraint_animation != NULL)
-    egg_animation_stop (self->constraint_animation);
+    dzl_animation_stop (self->constraint_animation);
 
   zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (self->view));
   self->bbox_zoomed.height = (gint) (zoom * self->bbox_source.height + 0.5);
@@ -1268,7 +1268,7 @@ photos_tool_crop_deactivate (PhotosTool *tool)
   g_return_if_fail (self->activated);
 
   if (self->constraint_animation != NULL)
-    egg_animation_stop (self->constraint_animation);
+    dzl_animation_stop (self->constraint_animation);
 
   if (!self->reset)
     {
@@ -1420,7 +1420,7 @@ photos_tool_crop_dispose (GObject *object)
 
   if (self->constraint_animation != NULL)
     {
-      egg_animation_stop (self->constraint_animation);
+      dzl_animation_stop (self->constraint_animation);
       g_assert_null (self->constraint_animation);
     }
 

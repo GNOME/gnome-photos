@@ -25,8 +25,8 @@
 
 #include <gio/gio.h>
 #include <glib.h>
+#include <dazzle.h>
 
-#include "egg-counter.h"
 #include "photos-base-manager.h"
 #include "photos-filterable.h"
 #include "photos-search-context.h"
@@ -51,7 +51,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_TYPE (PhotosSelectionController, photos_selection_controller, G_TYPE_OBJECT);
-EGG_DEFINE_COUNTER (instances,
+DZL_DEFINE_COUNTER (instances,
                     "PhotosSelectionController",
                     "Instances",
                     "Number of PhotosSelectionController instances")
@@ -113,7 +113,7 @@ photos_selection_controller_finalize (GObject *object)
 
   G_OBJECT_CLASS (photos_selection_controller_parent_class)->finalize (object);
 
-  EGG_COUNTER_DEC (instances);
+  DZL_COUNTER_DEC (instances);
 }
 
 
@@ -123,7 +123,7 @@ photos_selection_controller_init (PhotosSelectionController *self)
   GApplication *app;
   PhotosSearchContextState *state;
 
-  EGG_COUNTER_INC (instances);
+  DZL_COUNTER_INC (instances);
 
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));

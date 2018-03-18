@@ -23,7 +23,8 @@
 
 #include "config.h"
 
-#include "egg-counter.h"
+#include <dazzle.h>
+
 #include "photos-filterable.h"
 #include "photos-query.h"
 #include "photos-source.h"
@@ -58,7 +59,7 @@ static void photos_source_filterable_iface_init (PhotosFilterableInterface *ifac
 G_DEFINE_TYPE_WITH_CODE (PhotosSource, photos_source, G_TYPE_OBJECT,
                          G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                 photos_source_filterable_iface_init));
-EGG_DEFINE_COUNTER (instances, "PhotosSource", "Instances", "Number of PhotosSource instances")
+DZL_DEFINE_COUNTER (instances, "PhotosSource", "Instances", "Number of PhotosSource instances")
 
 
 static const gchar *TRACKER_SCHEMA = "org.freedesktop.Tracker.Miner.Files";
@@ -222,7 +223,7 @@ photos_source_finalize (GObject *object)
 
   G_OBJECT_CLASS (photos_source_parent_class)->finalize (object);
 
-  EGG_COUNTER_DEC (instances);
+  DZL_COUNTER_DEC (instances);
 }
 
 
@@ -352,7 +353,7 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
 static void
 photos_source_init (PhotosSource *self)
 {
-  EGG_COUNTER_INC (instances);
+  DZL_COUNTER_INC (instances);
 }
 
 

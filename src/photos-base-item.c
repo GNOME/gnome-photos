@@ -36,9 +36,8 @@
 #include <glib/gi18n.h>
 #include <libgd/gd.h>
 #include <tracker-sparql.h>
+#include <dazzle.h>
 
-#include "egg-counter.h"
-#include "egg-task-cache.h"
 #include "photos-application.h"
 #include "photos-base-item.h"
 #include "photos-collection-icon-watcher.h"
@@ -136,7 +135,7 @@ G_DEFINE_ABSTRACT_TYPE_WITH_CODE (PhotosBaseItem, photos_base_item, G_TYPE_OBJEC
                                                          photos_base_item_main_box_item_iface_init)
                                   G_IMPLEMENT_INTERFACE (PHOTOS_TYPE_FILTERABLE,
                                                          photos_base_item_filterable_iface_init));
-EGG_DEFINE_COUNTER (instances, "PhotosBaseItem", "Instances", "Number of PhotosBaseItem instances")
+DZL_DEFINE_COUNTER (instances, "PhotosBaseItem", "Instances", "Number of PhotosBaseItem instances")
 
 
 typedef struct _PhotosBaseItemMetadataAddSharedData PhotosBaseItemMetadataAddSharedData;
@@ -190,7 +189,7 @@ struct _PhotosBaseItemSaveToStreamData
   gdouble zoom;
 };
 
-static EggTaskCache *pipeline_cache;
+static DzlTaskCache *pipeline_cache;
 static GdkPixbuf *failed_icon;
 static GdkPixbuf *thumbnailing_icon;
 static GThreadPool *create_thumbnail_pool;
@@ -481,7 +480,7 @@ photos_base_item_clear_pixels (PhotosBaseItem *self)
   priv = photos_base_item_get_instance_private (self);
 
   priv->buffer_source = NULL;
-  egg_task_cache_evict (pipeline_cache, self);
+  dzl_task_cache_evict (pipeline_cache, self);
 
   g_clear_object (&priv->edit_graph);
   g_clear_object (&priv->preview_source_buffer);
@@ -1394,7 +1393,7 @@ photos_base_item_process_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
 
   g_clear_object (&priv->processor);
@@ -1567,7 +1566,7 @@ photos_base_item_load_pipeline_task_cache_populate_new (GObject *source_object,
 
 
 static void
-photos_base_item_load_pipeline_task_cache_populate (EggTaskCache *cache,
+photos_base_item_load_pipeline_task_cache_populate (DzlTaskCache *cache,
                                                     gconstpointer key,
                                                     GTask *task,
                                                     gpointer user_data)
@@ -1601,13 +1600,13 @@ photos_base_item_load_pipeline_task_cache_get (GObject *source_object, GAsyncRes
 {
   GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
-  EggTaskCache *cache = EGG_TASK_CACHE (source_object);
+  DzlTaskCache *cache = DZL_TASK_CACHE (source_object);
   g_autoptr (PhotosPipeline) pipeline = NULL;
 
   g_assert_true (cache == pipeline_cache);
 
   error = NULL;
-  pipeline = egg_task_cache_get_finish (cache, res, &error);
+  pipeline = dzl_task_cache_get_finish (cache, res, &error);
   if (error != NULL)
     {
       g_task_return_error (task, error);
@@ -1638,7 +1637,7 @@ photos_base_item_load_pipeline_async (PhotosBaseItem *self,
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_base_item_load_pipeline_async);
 
-  egg_task_cache_get_async (pipeline_cache,
+  dzl_task_cache_get_async (pipeline_cache,
                             self,
                             FALSE,
                             cancellable,
@@ -1684,7 +1683,7 @@ photos_base_item_load_process (GObject *source_object, GAsyncResult *res, gpoint
       goto out;
     }
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_assert_true (PHOTOS_IS_PIPELINE (pipeline));
 
   graph = photos_pipeline_get_graph (pipeline);
@@ -2933,7 +2932,7 @@ photos_base_item_finalize (GObject *object)
 
   G_OBJECT_CLASS (photos_base_item_parent_class)->finalize (object);
 
-  EGG_COUNTER_DEC (instances);
+  DZL_COUNTER_DEC (instances);
 }
 
 
@@ -3021,7 +3020,7 @@ photos_base_item_init (PhotosBaseItem *self)
 {
   PhotosBaseItemPrivate *priv;
 
-  EGG_COUNTER_INC (instances);
+  DZL_COUNTER_INC (instances);
 
   priv = photos_base_item_get_instance_private (self);
 
@@ -3083,7 +3082,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
   g_object_class_override_property (object_class, PROP_SECONDARY_TEXT, "secondary-text");
   g_object_class_override_property (object_class, PROP_URI, "uri");
 
-  pipeline_cache = egg_task_cache_new (g_direct_hash,
+  pipeline_cache = dzl_task_cache_new (g_direct_hash,
                                        g_direct_equal,
                                        NULL,
                                        NULL,
@@ -3093,7 +3092,7 @@ photos_base_item_class_init (PhotosBaseItemClass *class)
                                        photos_base_item_load_pipeline_task_cache_populate,
                                        NULL,
                                        NULL);
-  egg_task_cache_set_name (pipeline_cache, "PhotosPipeline cache");
+  dzl_task_cache_set_name (pipeline_cache, "PhotosPipeline cache");
 
   create_thumbnail_pool = g_thread_pool_new (photos_base_item_create_thumbnail_in_thread_func,
                                              NULL,
@@ -3342,7 +3341,7 @@ photos_base_item_get_bbox_edited (PhotosBaseItem *self, GeglRectangle *out_bbox)
   g_return_val_if_fail (!priv->collection, FALSE);
   g_return_val_if_fail (priv->edit_graph != NULL, FALSE);
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_return_val_if_fail (pipeline != NULL, FALSE);
 
   g_return_val_if_fail (priv->processor != NULL, FALSE);
@@ -3818,7 +3817,7 @@ photos_base_item_load_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_return_if_fail (priv->edit_graph == NULL || (GEGL_IS_NODE (priv->edit_graph) && PHOTOS_IS_PIPELINE (pipeline)));
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -3949,7 +3948,7 @@ photos_base_item_operation_add_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
 
   va_start (ap, first_property_name);
@@ -3993,7 +3992,7 @@ photos_base_item_operation_get (PhotosBaseItem *self, const gchar *operation, co
 
   g_return_val_if_fail (!priv->collection, FALSE);
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_return_val_if_fail (PHOTOS_IS_PIPELINE (pipeline), FALSE);
 
   va_start (ap, first_property_name);
@@ -4020,7 +4019,7 @@ photos_base_item_operation_remove_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -4112,7 +4111,7 @@ photos_base_item_pipeline_revert_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
 
   photos_pipeline_revert (pipeline);
@@ -4166,7 +4165,7 @@ photos_base_item_pipeline_revert_to_original_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
 
   photos_pipeline_revert_to_original (pipeline);
@@ -4219,7 +4218,7 @@ photos_base_item_pipeline_save_async (PhotosBaseItem *self,
 
   g_return_if_fail (!priv->collection);
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_return_if_fail (pipeline != NULL);
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -4257,7 +4256,7 @@ photos_base_item_pipeline_snapshot (PhotosBaseItem *self)
 
   g_return_if_fail (!priv->collection);
 
-  pipeline = PHOTOS_PIPELINE (egg_task_cache_peek (pipeline_cache, self));
+  pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_return_if_fail (PHOTOS_IS_PIPELINE (pipeline));
 
   photos_pipeline_snapshot (pipeline);
