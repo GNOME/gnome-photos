@@ -28,8 +28,8 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <tracker-sparql.h>
+#include <util/dzl-counter.h>
 
-#include "egg-counter.h"
 #include "photos-debug.h"
 #include "photos-device-item.h"
 #include "photos-enums.h"
@@ -85,7 +85,7 @@ static void photos_item_manager_list_model_iface_init (GListModelInterface *ifac
 
 G_DEFINE_TYPE_WITH_CODE (PhotosItemManager, photos_item_manager, PHOTOS_TYPE_BASE_MANAGER,
                          G_IMPLEMENT_INTERFACE (G_TYPE_LIST_MODEL, photos_item_manager_list_model_iface_init));
-EGG_DEFINE_COUNTER (instances, "PhotosItemManager", "Instances", "Number of PhotosItemManager instances")
+DZL_DEFINE_COUNTER (instances, "PhotosItemManager", "Instances", "Number of PhotosItemManager instances")
 
 
 typedef struct _PhotosItemManagerHiddenItem PhotosItemManagerHiddenItem;
@@ -1039,7 +1039,7 @@ photos_item_manager_finalize (GObject *object)
 
   G_OBJECT_CLASS (photos_item_manager_parent_class)->finalize (object);
 
-  EGG_COUNTER_DEC (instances);
+  DZL_COUNTER_DEC (instances);
 }
 
 
@@ -1049,7 +1049,7 @@ photos_item_manager_init (PhotosItemManager *self)
   GEnumClass *window_mode_class; /* TODO: use g_autoptr */
   guint i;
 
-  EGG_COUNTER_INC (instances);
+  DZL_COUNTER_INC (instances);
 
   self->collections = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
   self->hidden_items = g_hash_table_new_full (g_str_hash,

@@ -25,8 +25,8 @@
 
 #include <glib.h>
 #include <tracker-sparql.h>
+#include <util/dzl-counter.h>
 
-#include "egg-counter.h"
 #include "photos-debug.h"
 #include "photos-offset-controller.h"
 #include "photos-query-builder.h"
@@ -52,7 +52,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhotosOffsetController, photos_offset_controller, G_TYPE_OBJECT);
-EGG_DEFINE_COUNTER (instances,
+DZL_DEFINE_COUNTER (instances,
                     "PhotosOffsetController",
                     "Instances",
                     "Number of PhotosOffsetController instances")
@@ -158,7 +158,7 @@ photos_offset_controller_finalize (GObject *object)
 {
   G_OBJECT_CLASS (photos_offset_controller_parent_class)->finalize (object);
 
-  EGG_COUNTER_DEC (instances);
+  DZL_COUNTER_DEC (instances);
 }
 
 
@@ -167,7 +167,7 @@ photos_offset_controller_init (PhotosOffsetController *self)
 {
   PhotosOffsetControllerPrivate *priv;
 
-  EGG_COUNTER_INC (instances);
+  DZL_COUNTER_INC (instances);
 
   priv = photos_offset_controller_get_instance_private (self);
 

@@ -38,16 +38,6 @@ nodist_gnome_photos_SOURCES = \
 	$(NULL)
 
 gnome_photos_SOURCES = \
-	egg-animation.c \
-	egg-animation.h \
-	egg-counter.c \
-	egg-counter.h \
-	egg-frame-source.c \
-	egg-frame-source.h \
-	egg-heap.c \
-	egg-heap.h \
-	egg-task-cache.c \
-	egg-task-cache.h \
 	photos-application.c \
 	photos-application.h \
 	photos-base-manager.c \
@@ -324,8 +314,6 @@ nodist_gnome_photos_thumbnailer_SOURCES = \
 	$(NULL)
 
 gnome_photos_thumbnailer_SOURCES = \
-	egg-counter.c \
-	egg-counter.h \
 	photos-debug.c \
 	photos-debug.h \
 	photos-error.c \
@@ -470,6 +458,7 @@ gnome_photos_thumbnailer_LDFLAGS = \
 gnome_photos_thumbnailer_LDADD = \
 	$(BABL_LIBS) \
 	$(GEGL_LIBS) \
+	$(DAZZLE_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
