@@ -106,6 +106,77 @@ photos_export_notification_close (PhotosExportNotification *self)
 
 
 static void
+photos_export_notification_empty_trash_call_empty_trash (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GDBusConnection *connection = G_DBUS_CONNECTION (source_object);
+  g_autoptr (GVariant) variant = NULL;
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    variant = g_dbus_connection_call_finish (connection, res, &error);
+    if (error != NULL)
+      {
+        if (g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_SERVICE_UNKNOWN)
+            || g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_INTERFACE)
+            || g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_METHOD)
+            || g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_OBJECT))
+          {
+            g_warning ("Unable to call org.gnome.SettingsDaemon.Housekeeping:EmptyTrash: "
+                       "unknown interface/method/object/service");
+          }
+        else
+          {
+            g_warning ("Unable to call org.gnome.SettingsDaemon.Housekeeping:EmptyTrash: %s", error->message);
+          }
+      }
+  }
+}
+
+
+static void
+photos_export_notification_empty_trash_call_empty_trash_pre_3_26 (GObject *source_object,
+                                                                  GAsyncResult *res,
+                                                                  gpointer user_data)
+{
+  GDBusConnection *connection = G_DBUS_CONNECTION (source_object);
+  g_autoptr (GVariant) variant = NULL;
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    variant = g_dbus_connection_call_finish (connection, res, &error);
+    if (error != NULL)
+      {
+        if (g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_SERVICE_UNKNOWN)
+            || g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_INTERFACE)
+            || g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_METHOD)
+            || g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_OBJECT))
+          {
+            g_dbus_connection_call (connection,
+                                    "org.gnome.SettingsDaemon.Housekeeping",
+                                    "/org/gnome/SettingsDaemon/Housekeeping",
+                                    "org.gnome.SettingsDaemon.Housekeeping",
+                                    "EmptyTrash",
+                                    NULL,
+                                    NULL,
+                                    G_DBUS_CALL_FLAGS_NONE,
+                                    -1,
+                                    NULL,
+                                    photos_export_notification_empty_trash_call_empty_trash,
+                                    NULL);
+          }
+        else
+          {
+            g_warning ("Unable to call org.gnome.SettingsDaemon.Housekeeping:EmptyTrash (GNOME < 3.26): %s",
+                       error->message);
+          }
+      }
+  }
+}
+
+
+static void
 photos_export_notification_empty_trash_bus_get (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
   g_autoptr (PhotosExportNotification) self = PHOTOS_EXPORT_NOTIFICATION (user_data);
@@ -132,7 +203,7 @@ photos_export_notification_empty_trash_bus_get (GObject *source_object, GAsyncRe
                           G_DBUS_CALL_FLAGS_NONE,
                           -1,
                           NULL,
-                          NULL,
+                          photos_export_notification_empty_trash_call_empty_trash_pre_3_26,
                           NULL);
 
  out:
