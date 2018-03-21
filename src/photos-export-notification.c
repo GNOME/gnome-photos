@@ -135,7 +135,7 @@ photos_export_notification_empty_trash_call_empty_trash (GObject *source_object,
 
 
 static void
-photos_export_notification_empty_trash_call_empty_trash_pre_3_26 (GObject *source_object,
+photos_export_notification_empty_trash_call_empty_trash_pre_3_24 (GObject *source_object,
                                                                   GAsyncResult *res,
                                                                   gpointer user_data)
 {
@@ -166,7 +166,7 @@ photos_export_notification_empty_trash_call_empty_trash_pre_3_26 (GObject *sourc
         }
       else
         {
-          g_warning ("Unable to call org.gnome.SettingsDaemon.Housekeeping:EmptyTrash (GNOME < 3.26): %s",
+          g_warning ("Unable to call org.gnome.SettingsDaemon.Housekeeping:EmptyTrash (GNOME < 3.24): %s",
                      error->message);
         }
 
@@ -202,7 +202,7 @@ photos_export_notification_empty_trash_bus_get (GObject *source_object, GAsyncRe
                           G_DBUS_CALL_FLAGS_NONE,
                           -1,
                           NULL,
-                          photos_export_notification_empty_trash_call_empty_trash_pre_3_26,
+                          photos_export_notification_empty_trash_call_empty_trash_pre_3_24,
                           NULL);
 
  out:
