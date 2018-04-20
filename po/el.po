@@ -10,21 +10,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-06 16:32+0000\n"
-"PO-Revision-Date: 2018-03-07 00:56+0200\n"
-"Last-Translator: Tom Tryfonidis <tomtryf@gnome.org>\n"
+"POT-Creation-Date: 2018-04-06 18:13+0000\n"
+"PO-Revision-Date: 2018-04-21 01:28+0200\n"
+"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
 "Language-Team: Ελληνικά <>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Project-Style: gnome\n"
 
-#: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: data/org.gnome.Photos.appdata.xml.in:7
+#: data/org.gnome.Photos.desktop.in.in:3 src/photos-application.c:3043
+#: src/photos-embed.c:819 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Φωτογραφίες"
 
@@ -284,36 +284,36 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Υπολογισμός μεγέθους εξαγωγής…"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:334
 msgid "Failed to export: not enough space"
 msgstr "Αποτυχία εξαγωγής: ανεπαρκής χώρος"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:336
 msgid "Failed to export"
 msgstr "Αποτυχία εξαγωγής"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:343
 #, c-format
 msgid "“%s” exported"
 msgstr "Εξήχθει το «%s»"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:347
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d αντικείμενο εξήχθει"
 msgstr[1] "%d αντικείμενα εξήχθησαν"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:364
 msgid "Analyze"
 msgstr "Ανάλυση"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:369
 msgid "Empty Trash"
 msgstr "Άδειασμα απορριμμάτων"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Άνοιγμα"
@@ -321,7 +321,7 @@ msgstr "Άνοιγμα"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:396
 msgid "Export Folder"
 msgstr "Φακέλος εξαγωγής"
 
@@ -560,12 +560,15 @@ msgid "_Select"
 msgstr "_Επιλογή"
 
 #: src/photos-main-window.c:458
+#| msgid ""
+#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
+#| "Copyright © 2015 – 2017 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Πνευματικά δικαιώματα © 2012 – 2017 Red Hat, Inc.\n"
-"Πνευματικά δικαιώματα © 2015 – 2017 Umang Jain"
+"Πνευματικά δικαιώματα © 2012 – 2018 Red Hat, Inc.\n"
+"Πνευματικά δικαιώματα © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
