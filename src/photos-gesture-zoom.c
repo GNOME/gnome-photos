@@ -155,8 +155,16 @@ photos_gesture_zoom_constructed (GObject *object)
 
   G_OBJECT_CLASS (photos_gesture_zoom_parent_class)->constructed (object);
 
-  g_signal_connect_object (self->gesture, "begin", G_CALLBACK (photos_gesture_zoom_begin), self, G_CONNECT_SWAPPED);
-  g_signal_connect_object (self->gesture, "update", G_CALLBACK (photos_gesture_zoom_update), self, G_CONNECT_SWAPPED);
+  g_signal_connect_object (self->gesture,
+                           "begin",
+                           G_CALLBACK (photos_gesture_zoom_begin),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (self->gesture,
+                           "update",
+                           G_CALLBACK (photos_gesture_zoom_update),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 
