@@ -58,11 +58,20 @@ libgnome_photos_dep = declare_dependency(
 
 common_sources = files(
   'photos-gegl.c',
+  'photos-gegl-buffer-codec.c',
   'photos-jpeg-count.c',
   'photos-operation-jpg-guess-sizes.c',
   'photos-operation-png-guess-sizes.c',
   'photos-pipeline.c',
   'photos-png-count.c',
+)
+
+marshal = 'photos-marshalers'
+
+common_sources += gnome.genmarshal(
+  marshal,
+  sources: marshal + '.list',
+  prefix: '_photos_marshal',
 )
 
 thumbnailer_dbus = 'photos-thumbnailer-dbus'
@@ -244,14 +253,6 @@ sources += gnome.mkenums(
   sources: enum_headers,
   c_template: enum + '.c.template',
   h_template: enum + '.h.template',
-)
-
-marshal = 'photos-marshalers'
-
-sources += gnome.genmarshal(
-  marshal,
-  sources: marshal + '.list',
-  prefix: '_photos_marshal',
 )
 
 resource_data = files(

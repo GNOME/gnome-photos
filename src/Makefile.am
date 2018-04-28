@@ -156,6 +156,8 @@ gnome_photos_SOURCES = \
 	photos-flickr-item.h \
 	photos-gegl.c \
 	photos-gegl.h \
+	photos-gegl-buffer-codec.c \
+	photos-gegl-buffer-codec.h \
 	photos-gesture-zoom.c \
 	photos-gesture-zoom.h \
 	photos-glib.c \
@@ -390,6 +392,8 @@ gnome_photos_LDADD = \
 	$(NULL)
 
 gnome_photos_thumbnailer_built_sources = \
+	photos-marshalers.c \
+	photos-marshalers.h \
 	photos-thumbnailer-dbus.c \
 	photos-thumbnailer-dbus.h \
 	$(NULL)
@@ -401,6 +405,8 @@ nodist_gnome_photos_thumbnailer_SOURCES = \
 gnome_photos_thumbnailer_SOURCES = \
 	photos-gegl.c \
 	photos-gegl.h \
+	photos-gegl-buffer-codec.c \
+	photos-gegl-buffer-codec.h \
 	photos-jpeg-count.c \
 	photos-jpeg-count.h \
 	photos-operation-jpg-guess-sizes.c \
