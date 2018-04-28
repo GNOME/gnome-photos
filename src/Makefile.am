@@ -169,6 +169,8 @@ gnome_photos_SOURCES = \
 	photos-flickr-item.h \
 	photos-gegl.c \
 	photos-gegl.h \
+	photos-gegl-buffer-codec-jpeg.c \
+	photos-gegl-buffer-codec-jpeg.h \
 	photos-gegl-buffer-loader.c \
 	photos-gegl-buffer-loader.h \
 	photos-gegl-buffer-loader-builder.c \
@@ -410,6 +412,8 @@ nodist_gnome_photos_thumbnailer_SOURCES = \
 gnome_photos_thumbnailer_SOURCES = \
 	photos-gegl.c \
 	photos-gegl.h \
+	photos-gegl-buffer-codec-jpeg.c \
+	photos-gegl-buffer-codec-jpeg.h \
 	photos-gegl-buffer-loader.c \
 	photos-gegl-buffer-loader.h \
 	photos-gegl-buffer-loader-builder.c \
