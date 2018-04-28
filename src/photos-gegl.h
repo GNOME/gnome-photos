@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 – 2017 Red Hat, Inc.
+ * Copyright © 2013 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,6 +44,8 @@ GdkPixbuf       *photos_gegl_create_pixbuf_from_node      (GeglNode *node);
 GeglBuffer      *photos_gegl_dup_buffer_from_node         (GeglNode *node, const Babl *format);
 
 void             photos_gegl_ensure_builtins              (void);
+
+void             photos_gegl_ensure_extension_points      (void);
 
 GeglBuffer      *photos_gegl_get_buffer_from_node         (GeglNode *node, const Babl *format);
 
