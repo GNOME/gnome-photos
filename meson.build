@@ -152,7 +152,7 @@ libgd = subproject(
 )
 libgd_dep = libgd.get_variable('libgd_dep')
 
-babl_dep = dependency('babl')
+babl_dep = dependency('babl', version: '>= 0.1.54')
 cairo_dep = dependency('cairo', version: '>= 1.14.0')
 gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0', version: '>= 2.36.8')
 gegl_dep = dependency('gegl-0.4', version: '>= 0.4.10')
@@ -174,7 +174,7 @@ libdazzle_dep = dependency('libdazzle-1.0', version: '>= 3.26.0')
 libgdata_dep = dependency('libgdata', version: '>= 0.17.13')
 libgfgraph_dep = dependency('libgfbgraph-0.2', version: '>= 0.2.1')
 libhandy_dep = dependency ('libhandy-1', version: '>= 1.1.90')
-libjpeg_dep = dependency('libjpeg')
+libjpeg_dep = dependency('libjpeg', version: '>= 2.0.0')
 libpng_dep = dependency('libpng16')
 tracker_sparql_dep = dependency('tracker-sparql-3.0')
 
