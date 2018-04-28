@@ -134,6 +134,8 @@ gnome_photos_SOURCES = \
 	photos-flickr-item.h \
 	photos-gegl.c \
 	photos-gegl.h \
+	photos-gegl-buffer-codec.c \
+	photos-gegl-buffer-codec.h \
 	photos-gesture-zoom.c \
 	photos-gesture-zoom.h \
 	photos-glib.c \
@@ -383,6 +385,8 @@ gnome_photos_LDADD = \
 gnome_photos_thumbnailer_built_sources = \
 	photos-enums-gegl.c \
 	photos-enums-gegl.h \
+	photos-marshalers.c \
+	photos-marshalers.h \
 	photos-resources-gegl.c \
 	photos-resources-gegl.h \
 	photos-thumbnailer-dbus.c \
@@ -396,6 +400,8 @@ nodist_gnome_photos_thumbnailer_SOURCES = \
 gnome_photos_thumbnailer_SOURCES = \
 	photos-gegl.c \
 	photos-gegl.h \
+	photos-gegl-buffer-codec.c \
+	photos-gegl-buffer-codec.h \
 	photos-jpeg-count.c \
 	photos-jpeg-count.h \
 	photos-operation-insta-common.h \
