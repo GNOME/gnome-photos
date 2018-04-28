@@ -26,6 +26,7 @@
 #include "photos-debug.h"
 #include "photos-gegl.h"
 #include "photos-gegl-buffer-codec.h"
+#include "photos-gegl-buffer-codec-jpeg.h"
 #include "photos-operation-insta-curve.h"
 #include "photos-operation-insta-filter.h"
 #include "photos-operation-insta-hefe.h"
@@ -559,6 +560,8 @@ photos_gegl_ensure_builtins (void)
 
   if (g_once_init_enter (&once_init_value))
     {
+      g_type_ensure (PHOTOS_TYPE_GEGL_BUFFER_CODEC_JPEG);
+
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE);
