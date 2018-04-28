@@ -23,6 +23,7 @@ libgnome_photos_dep = declare_dependency(
 common_sources = files(
   'photos-error.c',
   'photos-gegl.c',
+  'photos-gegl-buffer-codec.c',
   'photos-glib.c',
   'photos-jpeg-count.c',
   'photos-operation-insta-curve.c',
@@ -49,6 +50,14 @@ common_sources += gnome.mkenums(
   sources: enum_headers,
   c_template: enum + '.c.template',
   h_template: enum + '.h.template',
+)
+
+marshal = 'photos-marshalers'
+
+common_sources += gnome.genmarshal(
+  marshal,
+  sources: marshal + '.list',
+  prefix: '_photos_marshal',
 )
 
 resource_data = files('../data/vignette.png')
@@ -241,14 +250,6 @@ sources += gnome.mkenums(
   sources: enum_headers,
   c_template: enum + '.c.template',
   h_template: enum + '.h.template',
-)
-
-marshal = 'photos-marshalers'
-
-sources += gnome.genmarshal(
-  marshal,
-  sources: marshal + '.list',
-  prefix: '_photos_marshal',
 )
 
 resource_data = files(
