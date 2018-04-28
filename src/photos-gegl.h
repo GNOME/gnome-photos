@@ -47,6 +47,8 @@ GeglBuffer      *photos_gegl_dup_buffer_from_node         (GeglNode *node, const
 
 void             photos_gegl_ensure_builtins              (void);
 
+void             photos_gegl_ensure_extension_points      (void);
+
 GeglBuffer      *photos_gegl_get_buffer_from_node         (GeglNode *node, const Babl *format);
 
 void             photos_gegl_init                         (void);
