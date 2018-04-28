@@ -54,8 +54,8 @@ def start():
     else:
         _do_bus_call("Activate", GLib.Variant('(a{sv})', ([],)))
 
-    app = tree.root.application('gnome-photos')
-    focus.application('gnome-photos')
+    app = tree.root.application('org.gnome.Photos')
+    focus.application('org.gnome.Photos')
 
     return app
 
