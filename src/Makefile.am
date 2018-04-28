@@ -7,6 +7,8 @@ libexec_PROGRAMS = gnome-photos-thumbnailer
 libgnome_photos_la_built_sources = \
 	photos-enums-gegl.c \
 	photos-enums-gegl.h \
+	photos-marshalers.c \
+	photos-marshalers.h \
 	photos-resources-gegl.c \
 	photos-resources-gegl.h \
 	$(NULL)
@@ -20,6 +22,8 @@ libgnome_photos_la_SOURCES = \
 	photos-debug.h \
 	photos-error.c \
 	photos-error.h \
+	photos-gegl-buffer-codec.c \
+	photos-gegl-buffer-codec.h \
 	photos-jpeg-count.c \
 	photos-jpeg-count.h \
 	photos-operation-insta-common.h \
@@ -84,8 +88,6 @@ gnome_photos_built_sources = \
 	photos-dleyna-renderer-push-host.h \
 	photos-gom-miner.c \
 	photos-gom-miner.h \
-	photos-marshalers.c \
-	photos-marshalers.h \
 	photos-mpris-player.c \
 	photos-mpris-player.h \
 	photos-resources.c \
