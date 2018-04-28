@@ -104,6 +104,8 @@ gnome_photos_SOURCES = \
 	photos-flickr-item.h \
 	photos-gegl.c \
 	photos-gegl.h \
+	photos-gegl-buffer-codec.c \
+	photos-gegl-buffer-codec.h \
 	photos-gesture-zoom.c \
 	photos-gesture-zoom.h \
 	photos-glib.c \
@@ -301,6 +303,8 @@ gnome_photos_SOURCES = \
 	$(NULL)
 
 gnome_photos_thumbnailer_built_sources = \
+	photos-marshalers.c \
+	photos-marshalers.h \
 	photos-resources-gegl.c \
 	photos-resources-gegl.h \
 	photos-thumbnailer-dbus.c \
@@ -320,6 +324,8 @@ gnome_photos_thumbnailer_SOURCES = \
 	photos-error.h \
 	photos-gegl.c \
 	photos-gegl.h \
+	photos-gegl-buffer-codec.c \
+	photos-gegl-buffer-codec.h \
 	photos-glib.c \
 	photos-glib.h \
 	photos-jpeg-count.c \
