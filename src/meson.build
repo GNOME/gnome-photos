@@ -5,6 +5,7 @@ sources = files(
   'photos-error.c',
   'photos-gegl.c',
   'photos-gegl-buffer-codec.c',
+  'photos-gegl-buffer-loader.c',
   'photos-jpeg-count.c',
   'photos-operation-insta-curve.c',
   'photos-operation-insta-filter.c',
