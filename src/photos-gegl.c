@@ -25,6 +25,7 @@
 
 #include "photos-debug.h"
 #include "photos-gegl.h"
+#include "photos-gegl-buffer-codec.h"
 #include "photos-operation-insta-curve.h"
 #include "photos-operation-insta-filter.h"
 #include "photos-operation-insta-hefe.h"
@@ -598,6 +599,8 @@ photos_gegl_ensure_builtins (void)
 {
   static gsize once_init_value = 0;
 
+  photos_gegl_ensure_extension_points ();
+
   if (g_once_init_enter (&once_init_value))
     {
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
@@ -609,6 +612,23 @@ photos_gegl_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES);
       g_type_ensure (PHOTOS_TYPE_OPERATION_SATURATION);
       g_type_ensure (PHOTOS_TYPE_OPERATION_SVG_MULTIPLY);
+
+      g_once_init_leave (&once_init_value, 1);
+    }
+}
+
+
+void
+photos_gegl_ensure_extension_points (void)
+{
+  static gsize once_init_value = 0;
+
+  if (g_once_init_enter (&once_init_value))
+    {
+      GIOExtensionPoint *extension_point;
+
+      extension_point = g_io_extension_point_register (PHOTOS_GEGL_BUFFER_CODEC_EXTENSION_POINT_NAME);
+      g_io_extension_point_set_required_type (extension_point, PHOTOS_TYPE_GEGL_BUFFER_CODEC);
 
       g_once_init_leave (&once_init_value, 1);
     }

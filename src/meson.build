@@ -4,6 +4,7 @@ sources = files(
   'photos-debug.c',
   'photos-error.c',
   'photos-gegl.c',
+  'photos-gegl-buffer-codec.c',
   'photos-jpeg-count.c',
   'photos-operation-insta-curve.c',
   'photos-operation-insta-filter.c',
@@ -51,6 +52,17 @@ libgnome_photos_built_sources_enums = gnome.mkenums(
 
 libgnome_photos_built_headers += libgnome_photos_built_sources_enums[1]
 sources += libgnome_photos_built_sources_enums
+
+marshal = 'photos-marshalers'
+
+libgnome_photos_built_sources_marshalers = gnome.genmarshal(
+  marshal,
+  sources: marshal + '.list',
+  prefix: '_photos_marshal',
+)
+
+libgnome_photos_built_headers += libgnome_photos_built_sources_marshalers[1]
+sources += libgnome_photos_built_sources_marshalers
 
 resource_data = files('../data/vignette.png')
 
@@ -257,14 +269,6 @@ sources += gnome.mkenums(
   sources: enum_headers,
   c_template: enum + '.c.template',
   h_template: enum + '.h.template',
-)
-
-marshal = 'photos-marshalers'
-
-sources += gnome.genmarshal(
-  marshal,
-  sources: marshal + '.list',
-  prefix: '_photos_marshal',
 )
 
 resource_data = files(
