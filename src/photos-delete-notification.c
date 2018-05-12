@@ -83,6 +83,8 @@ photos_delete_notification_delete_items (PhotosDeleteNotification *self)
       PhotosBaseItem *item = PHOTOS_BASE_ITEM (l->data);
       photos_base_item_trash (item);
     }
+  g_list_free_full (self->items, g_object_unref);
+  self->items = NULL;
 
   photos_delete_notification_destroy (self);
 }
@@ -172,6 +174,11 @@ static void
 photos_delete_notification_dispose (GObject *object)
 {
   PhotosDeleteNotification *self = PHOTOS_DELETE_NOTIFICATION (object);
+
+  if(self->items != NULL && g_list_length(self->items) > 0)
+    {
+      photos_delete_notification_delete_items (self);
+    }
 
   photos_delete_notification_remove_timeout (self);
 
