@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-19 16:00+0000\n"
-"PO-Revision-Date: 2018-03-19 22:17+0100\n"
+"POT-Creation-Date: 2018-05-12 18:24+0000\n"
+"PO-Revision-Date: 2018-05-15 22:16+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Enostaven program za urejanje in izmenjavo fotografij na namizju GNOME. "
 "Ustvarjen je z namenom, da zamenja običajni upravljalnik datotek pri "
 "urejanju fotografij. Program podpira tudi objavljanje fotografij v oblak "
-"preko spletnih računov GNOME."
+"prek spletnih računov GNOME."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
 msgid "It lets you:"
@@ -91,7 +91,7 @@ msgstr "org.gnome.Photos"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
-msgstr "Fotografije; Slike;"
+msgstr "Fotografije; Slike;Photo;"
 
 #: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
@@ -119,7 +119,7 @@ msgstr "Razpeto glavno okno"
 
 #: src/photos-application.c:167
 msgid "Show the empty state"
-msgstr ""
+msgstr "Pokaži prazno stanje"
 
 #: src/photos-application.c:168
 msgid "Show the application's version"
@@ -136,7 +136,6 @@ msgstr "Pokaži različico programa"
 #.
 #: src/photos-application.c:1393 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
-#| msgid "%e %B %Y"
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
@@ -177,7 +176,7 @@ msgstr "Slika »%s« je urejena."
 
 #: src/photos-embed.c:823
 msgid "Collection View"
-msgstr ""
+msgstr "Pogled zbirke"
 
 #: src/photos-embed.c:826 src/photos-search-type-manager.c:129
 msgid "Albums"
@@ -209,7 +208,7 @@ msgstr "Ni najdenih fotografij"
 
 #: src/photos-empty-results-box.c:191
 msgid "You can create albums from the Photos view"
-msgstr ""
+msgstr "Albume je mogoče ustvariti v pogledu slik"
 
 #. Translators: this should be translated in the context of
 #. * the "Photos from your Online Accounts and Pictures folder
@@ -217,7 +216,7 @@ msgstr ""
 #.
 #: src/photos-empty-results-box.c:212
 msgid "Online Accounts"
-msgstr ""
+msgstr "Spletni računi"
 
 #. Translators: this should be translated in the context of
 #. * the "Photos from your Online Accounts and Pictures folder
@@ -225,7 +224,7 @@ msgstr ""
 #.
 #: src/photos-empty-results-box.c:219
 msgid "Pictures folder"
-msgstr ""
+msgstr "Mapa s slikami"
 
 #. Translators: the first %s here is "Online Accounts" and the
 #. * second %s is "Pictures folder", which are in separate
@@ -239,7 +238,7 @@ msgstr "Slike iz %s in %s bodo prikazane na tem mestu."
 
 #: src/photos-empty-results-box.c:236
 msgid "Try a different search"
-msgstr ""
+msgstr "Poskusite z drugačnim iskalnim nizom"
 
 #: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
@@ -284,20 +283,20 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Preračunavanje velikosti izvoza ..."
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:334
 msgid "Failed to export: not enough space"
 msgstr "Izvoz je spodletel: ni dovolj prostora"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:336
 msgid "Failed to export"
 msgstr "Izvoz je spodletel"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:343
 #, c-format
 msgid "“%s” exported"
 msgstr "Slika »%s« je izvožena."
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:347
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -306,16 +305,16 @@ msgstr[1] "%d predmet je izvožen "
 msgstr[2] "%d predmeta sta izvožena "
 msgstr[3] "%d predmeti je izvoženi "
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:364
 msgid "Analyze"
 msgstr "Preuči"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:369
 msgid "Empty Trash"
 msgstr "Izprazni smeti"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Odpri"
@@ -323,7 +322,7 @@ msgstr "Odpri"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:396
 msgid "Export Folder"
 msgstr "Izvozna mapa"
 
@@ -458,11 +457,11 @@ msgstr "Prekliči"
 
 #: src/photos-import-dialog.c:194
 msgid "An album with that name already exists"
-msgstr ""
+msgstr "Album s tem imenom že obstaja"
 
 #: src/photos-import-dialog.c:211
 msgid "An album for that date already exists"
-msgstr ""
+msgstr "Album za ta datum že obstaja"
 
 #: src/photos-import-dialog.ui:22
 msgctxt "dialog title"
@@ -471,11 +470,11 @@ msgstr "Ime albuma"
 
 #: src/photos-import-dialog.ui:54
 msgid "Create _New"
-msgstr ""
+msgstr "Ustvari _novo"
 
 #: src/photos-import-dialog.ui:118
 msgid "Add to _Existing"
-msgstr ""
+msgstr "Dodaj k _obstoječim"
 
 #: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
 msgid "_Add"
@@ -487,7 +486,7 @@ msgstr "_Dodaj"
 #: src/photos-indexing-notification.c:164
 #, c-format
 msgid "Fetching photos from %s"
-msgstr "Pridobivanje fotografij preko spletne storitve %s"
+msgstr "Pridobivanje fotografij prek spletne storitve %s"
 
 #: src/photos-indexing-notification.c:167
 msgid "Fetching photos from online accounts"
@@ -526,10 +525,10 @@ msgstr "Izbor predmetov za uvoz"
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Izbor predmetov za uvoz (%u izbranih)"
+msgstr[1] "Izbor predmetov za uvoz (%u izbran)"
+msgstr[2] "Izbor predmetov za uvoz (%u izbrana)"
+msgstr[3] "Izbor predmetov za uvoz (%u izbrani)"
 
 #: src/photos-main-toolbar.c:217
 msgid "Back"
@@ -565,9 +564,11 @@ msgstr "_Izberi"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
+"Avtorske pravice © 2012 – 2017 Red Hat, Inc.\n"
+"Avtorske pravice © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
@@ -794,10 +795,10 @@ msgstr "Spremembe"
 #, c-format
 msgid "%ld × %ld pixel"
 msgid_plural "%ld × %ld pixels"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%ld × %ld točk"
+msgstr[1] "%ld × %ld točka"
+msgstr[2] "%ld × %ld točki"
+msgstr[3] "%ld × %ld točke"
 
 #: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
@@ -813,7 +814,7 @@ msgstr "Zavrzi vsa urejanja"
 
 #: src/photos-removable-devices-button.ui:47
 msgid "Devices"
-msgstr ""
+msgstr "Naprave"
 
 #: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
 #: src/photos-source-manager.c:396
