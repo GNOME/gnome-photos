@@ -1,41 +1,39 @@
 # Chinese (China) translation for gnome-photos.
-# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# Copyright (C) 2013-2018 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-#
 # tuhaihe <1132321739qq@gmail.com>, 2013.
 # 甘露(Lu Gan) <rhythm.gan@gmail.com>, 2013.
 # Tong Hui <tonghuix@gamil.com>, 2013.
 # Sphinx Jiang <yishanj13@gmail.com>, 2014.
-# Jeff Bai <jeffbai@aosc.xyz>, 2015.
-# Dingzhong Chen <wsxy162@gmail.com>, 2016.
+# Mingcong Bai <jeffbai@aosc.xyz>, 2015, 2018
+# Dingzhong Chen <wsxy162@@gmail.com>, 2016, 2018.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-photos 3.22\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-10-29 16:17+0000\n"
-"PO-Revision-Date: 2016-10-30 22:04+0800\n"
-"Last-Translator: Tong Hui <tonghuix@gmail.com>\n"
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
+"POT-Creation-Date: 2018-03-06 16:32+0000\n"
+"PO-Revision-Date: 2018-03-21 01:47-0500\n"
+"Last-Translator: Mingcong Bai <jeffbai@aosc.xyz>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.6\n"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:666
-#: ../src/photos-search-type-manager.c:135
+#: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
+#: src/photos-application.c:3043 src/photos-embed.c:819
+#: src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "照片"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:497
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
 msgstr "在 GNOME 下访问、管理和分享您的照片"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:3
+#: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
 "A simple application to access, organize and share your photos on GNOME. It "
 "is meant to be a simple and elegant replacement for using a file manager to "
@@ -45,434 +43,523 @@ msgstr ""
 "一款 GNOME 下简单的照片访问、组织和分享应用。简洁优雅，可替代文件管理器来处理"
 "照片。与 GNOME 在线账户无缝整合。"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:4
+#: data/org.gnome.Photos.appdata.xml.in:16
 msgid "It lets you:"
 msgstr "它允许您："
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+#: data/org.gnome.Photos.appdata.xml.in:18
 msgid "View recent local and online photos"
 msgstr "查看最近的本地或在线照片"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:6
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "Access your Facebook or Flickr content"
 msgstr "获取你的 Facebook 或 Flickr 上的内容"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:7
+#: data/org.gnome.Photos.appdata.xml.in:20
 msgid "Send photos to remote DLNA renderers"
 msgstr "发送照片到远程的 DLNA 渲染器"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:8
+#: data/org.gnome.Photos.appdata.xml.in:21
 msgid "Set as background"
 msgstr "设为背景"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+#: data/org.gnome.Photos.appdata.xml.in:22
 msgid "Print photos"
 msgstr "打印照片"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+#: data/org.gnome.Photos.appdata.xml.in:23
 msgid "Select favorites"
 msgstr "选择最喜爱的"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:11
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Allow opening full featured editor for more advanced changes"
 msgstr "可以打开全功能的编辑器进行更高级的修改"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:2
+#: data/org.gnome.Photos.appdata.xml.in:49
+msgid "The GNOME Project"
+msgstr "GNOME 项目"
+
+#: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
 msgstr "访问、管理并分享您的照片"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:3
+#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
+#: data/org.gnome.Photos.desktop.in.in:7
+msgid "org.gnome.Photos"
+msgstr "org.gnome.Photos"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
 msgstr "Photos;Pictures;照片;相片;图片;"
 
-#: ../data/org.gnome.photos.gschema.xml.h:1
+#: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
 msgstr "窗口大小"
 
-#: ../data/org.gnome.photos.gschema.xml.h:2
+#: data/org.gnome.photos.gschema.xml:6
 msgid "Window size (width and height)."
 msgstr "窗口大小（宽度和高度）。"
 
-#: ../data/org.gnome.photos.gschema.xml.h:3
+#: data/org.gnome.photos.gschema.xml:10
 msgid "Window position"
 msgstr "窗口位置"
 
-#: ../data/org.gnome.photos.gschema.xml.h:4
+#: data/org.gnome.photos.gschema.xml:11
 msgid "Window position (x and y)."
 msgstr "窗口位置（水平和竖直）。"
 
-#: ../data/org.gnome.photos.gschema.xml.h:5
+#: data/org.gnome.photos.gschema.xml:15
 msgid "Window maximized"
 msgstr "窗口最大化"
 
-#: ../data/org.gnome.photos.gschema.xml.h:6
+#: data/org.gnome.photos.gschema.xml:16
 msgid "Window maximized state"
 msgstr "窗口最大化状态"
 
-#: ../src/photos-application.c:152
+#: src/photos-application.c:167
+msgid "Show the empty state"
+msgstr "显示空状态"
+
+#: src/photos-application.c:168
 msgid "Show the application's version"
 msgstr "显示应用程序版本"
 
-#: ../src/photos-base-item.c:590
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-import-dialog.c:134
+msgid "%-d %B %Y"
+msgstr "%Y 年 %-m 月 %-d 日"
+
+#: src/photos-base-item.c:1036
 msgid "Album"
 msgstr "相册"
 
-#: ../src/photos-base-item.c:2150
+#: src/photos-base-item.c:2752
 msgid "Screenshots"
 msgstr "截图"
 
-#: ../src/photos-delete-notification.c:145
+#: src/photos-delete-notification.c:136
 #, c-format
 msgid "“%s” deleted"
 msgstr "已删除 %s"
 
-#: ../src/photos-delete-notification.c:148
+#: src/photos-delete-notification.c:139
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d 项已经删除"
 
-#: ../src/photos-delete-notification.c:156
-#: ../src/photos-done-notification.c:125
+#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "撤销"
 
-#: ../src/photos-dlna-renderers-dialog.ui.h:1
+#: src/photos-dlna-renderers-dialog.ui:7
 msgid "DLNA Renderer Devices"
 msgstr "DLNA 渲染设备"
 
-#: ../src/photos-done-notification.c:117
+#: src/photos-done-notification.c:112
 #, c-format
 msgid "“%s” edited"
 msgstr "%s 已被编辑"
 
-#: ../src/photos-embed.c:673 ../src/photos-search-type-manager.c:120
+#: src/photos-embed.c:823
+msgid "Collection View"
+msgstr "集锦视图"
+
+#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "相册"
 
-#: ../src/photos-embed.c:680 ../src/photos-search-type-manager.c:128
+#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "收藏"
 
-#: ../src/photos-embed.c:687 ../src/photos-main-toolbar.c:299
+#: src/photos-embed.c:834
+msgid "Import"
+msgstr "导入"
+
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "搜索"
 
-#: ../src/photos-empty-results-box.c:114
-msgid "Name your first album"
-msgstr "命名您的第一个相册"
-
-#. Translators: this should be translated in the context of the "You
-#. * can add your online accounts in Settings" sentence below
-#.
-#: ../src/photos-empty-results-box.c:134
-msgid "Settings"
-msgstr "设置"
-
-#. Translators: %s here is "Settings", which is in a separate string
-#. * due to markup, and should be translated only in the context of
-#. * this sentence.
-#.
-#: ../src/photos-empty-results-box.c:140
-#, c-format
-msgid "You can add your online accounts in %s"
-msgstr "您可以在“%s”中添加在线账户"
-
-#: ../src/photos-empty-results-box.c:181
-msgid "No Albums Found"
+#: src/photos-empty-results-box.c:148
+msgid "No albums found"
 msgstr "未找到相册"
 
-#: ../src/photos-empty-results-box.c:186
+#: src/photos-empty-results-box.c:152
 msgid "Starred photos will appear here"
 msgstr "有星标的照片将显示在此处"
 
-#: ../src/photos-empty-results-box.c:192
-msgid "No Photos Found"
+#: src/photos-empty-results-box.c:162
+msgid "No photos found"
 msgstr "未找到照片"
 
-#: ../src/photos-export-dialog.ui.h:1
+#: src/photos-empty-results-box.c:191
+msgid "You can create albums from the Photos view"
+msgstr "您可以从照片视图创建相册"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:212
+msgid "Online Accounts"
+msgstr "在线帐号"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:219
+msgid "Pictures folder"
+msgstr "图片文件夹"
+
+#. Translators: the first %s here is "Online Accounts" and the
+#. * second %s is "Pictures folder", which are in separate
+#. * strings due to markup, and should be translated only in the
+#. * context of this sentence.
+#.
+#: src/photos-empty-results-box.c:226
+#, c-format
+msgid "Photos from your %s and %s will appear here."
+msgstr "您在 %s 和 %s 中的照片将在此处显示。"
+
+#: src/photos-empty-results-box.c:236
+msgid "Try a different search"
+msgstr "尝试不同的搜索关键字"
+
+#: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
 msgid "Export"
 msgstr "导出"
 
-#: ../src/photos-export-dialog.ui.h:2
+#: src/photos-export-dialog.ui:38
 msgid "_Folder Name"
 msgstr "文件夹名称(_N)"
 
-#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:942
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
 msgid "Size"
 msgstr "尺寸"
 
-#: ../src/photos-export-dialog.ui.h:4
+#: src/photos-export-dialog.ui:83
 msgid "F_ull"
 msgstr "完整(_U)"
 
-#: ../src/photos-export-dialog.ui.h:5
+#: src/photos-export-dialog.ui:113
 msgid "_Reduced"
 msgstr "缩减(_R)"
 
-#: ../src/photos-export-dialog.ui.h:6
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
+#: src/photos-main-toolbar.c:614
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: ../src/photos-export-dialog.ui.h:7
+#: src/photos-export-dialog.ui:167
 msgid "_Export"
 msgstr "导出(_E)"
 
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: ../src/photos-export-dialog.c:73
+#: src/photos-export-dialog.c:66
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
-#. Translators: this is the default sub-directory where photos
-#. *  will be exported.
-#.
-#: ../src/photos-export-dialog.c:207
-msgid "%e %B %Y"
-msgstr "%Y年%m月%d日"
-
-#: ../src/photos-export-dialog.c:265
+#: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
 msgstr "正在计算导出大小…"
 
-#: ../src/photos-export-notification.c:241
+#: src/photos-export-notification.c:263
 msgid "Failed to export: not enough space"
 msgstr "导出失败：没有足够的空间"
 
-#: ../src/photos-export-notification.c:243
+#: src/photos-export-notification.c:265
 msgid "Failed to export"
 msgstr "导出失败"
 
-#: ../src/photos-export-notification.c:250
+#: src/photos-export-notification.c:272
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s”已导出"
 
-#: ../src/photos-export-notification.c:254
+#: src/photos-export-notification.c:276
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d 项已导出"
 
-#: ../src/photos-export-notification.c:272
+#: src/photos-export-notification.c:293
 msgid "Analyze"
 msgstr "分析"
 
-#: ../src/photos-export-notification.c:277
+#: src/photos-export-notification.c:298
 msgid "Empty Trash"
 msgstr "清空回收站"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:294 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
+#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "打开"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:304
+#: src/photos-export-notification.c:325
 msgid "Export Folder"
 msgstr "导出文件夹"
 
 #. Translators: this is the fallback title in the form
-#. *  "Facebook — 2nd January 2013".
+#. * "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:105 ../src/photos-flickr-item.c:110
-#: ../src/photos-google-item.c:107
+#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
+#: src/photos-google-item.c:100
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:182
-msgid "Untitled Photo"
-msgstr "无标题照片"
-
-#: ../src/photos-help-overlay.ui.h:1
+#: src/photos-help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "General"
 msgstr "常规"
 
-#: ../src/photos-help-overlay.ui.h:2
+#: src/photos-help-overlay.ui:36
 msgctxt "shortcut window"
 msgid "Show help"
 msgstr "显示帮助"
 
-#: ../src/photos-help-overlay.ui.h:3
+#: src/photos-help-overlay.ui:43
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "退出"
 
-#: ../src/photos-help-overlay.ui.h:4
+#: src/photos-help-overlay.ui:52
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "导航"
 
-#: ../src/photos-help-overlay.ui.h:5
+#: src/photos-help-overlay.ui:56
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "下一张照片"
 
-#: ../src/photos-help-overlay.ui.h:6
+#: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "上一张照片"
 
-#: ../src/photos-help-overlay.ui.h:7
+#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "后退"
 
-#: ../src/photos-help-overlay.ui.h:8
+#: src/photos-help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "概览"
 
-#: ../src/photos-help-overlay.ui.h:9
+#: src/photos-help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "搜索"
 
-#: ../src/photos-help-overlay.ui.h:10
+#: src/photos-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "全选"
 
-#: ../src/photos-help-overlay.ui.h:11
+#: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "打印所选照片"
 
-#: ../src/photos-help-overlay.ui.h:12
+#: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "删除所选照片"
 
-#: ../src/photos-help-overlay.ui.h:13
+#: src/photos-help-overlay.ui:122
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "照片视图"
 
-#: ../src/photos-help-overlay.ui.h:14
+#: src/photos-help-overlay.ui:126
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "编辑"
 
-#: ../src/photos-help-overlay.ui.h:15
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "导出"
 
-#: ../src/photos-help-overlay.ui.h:16
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "打印"
 
-#: ../src/photos-help-overlay.ui.h:17
+#: src/photos-help-overlay.ui:147
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "放大"
+
+#: src/photos-help-overlay.ui:154
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "缩小"
+
+#: src/photos-help-overlay.ui:161
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "最适合"
+
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "删除"
 
-#: ../src/photos-help-overlay.ui.h:18
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "操作菜单"
 
-#: ../src/photos-help-overlay.ui.h:19
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "全屏"
 
-#: ../src/photos-help-overlay.ui.h:20
+#: src/photos-help-overlay.ui:191
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "编辑视图"
 
-#: ../src/photos-help-overlay.ui.h:21
+#: src/photos-help-overlay.ui:195
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "取消"
 
+#: src/photos-import-dialog.c:194
+msgid "An album with that name already exists"
+msgstr "已存在同名的相册"
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr "已存在此日期的相册"
+
+#: src/photos-import-dialog.ui:22
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "命名相册"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr "新建(_N)"
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr "添加到现有相册(_E)"
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "添加(_A)"
+
 #. Translators: %s refers to an online account provider, e.g.,
-#. * "Facebook" or "Flickr.
+#. * "Facebook" or "Flickr".
 #.
-#: ../src/photos-indexing-notification.c:172
+#: src/photos-indexing-notification.c:164
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "从 %s 获取在线照片"
 
-#: ../src/photos-indexing-notification.c:175
+#: src/photos-indexing-notification.c:167
 msgid "Fetching photos from online accounts"
 msgstr "从在线账户获取照片"
 
-#: ../src/photos-indexing-notification.c:211
+#: src/photos-indexing-notification.c:202
 msgid "Your photos are being indexed"
 msgstr "正在索引您的照片"
 
-#: ../src/photos-indexing-notification.c:212
+#: src/photos-indexing-notification.c:203
 msgid "Some photos might not be available during this process"
 msgstr "此过程中部分照片可能无法查看"
 
-#: ../src/photos-local-item.c:141 ../src/photos-source-manager.c:178
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "本地"
 
-#: ../src/photos-main-toolbar.c:113
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "点击条目以选中它们"
 
-#: ../src/photos-main-toolbar.c:115
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "已选中 %d 张"
 
-#: ../src/photos-main-toolbar.c:165
+#: src/photos-main-toolbar.c:170
+msgid "Select items for import"
+msgstr "选择要导入的项目"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "选择要导入的项目（已选中 %u 项）"
+
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "返回"
 
-#: ../src/photos-main-toolbar.c:314
+#: src/photos-main-toolbar.c:331
 msgid "Select Items"
 msgstr "选择项目"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:408 ../src/photos-selection-toolbar.c:234
+#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "用 %s 打开"
 
-#: ../src/photos-main-toolbar.c:448 ../src/photos-selection-toolbar.c:245
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "从收藏移除"
 
-#: ../src/photos-main-toolbar.c:453 ../src/photos-selection-toolbar.c:250
+#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "添加到收藏"
 
-#: ../src/photos-main-toolbar.c:490 ../src/photos-main-toolbar.c:628
-msgid "Cancel"
-msgstr "取消"
-
-#: ../src/photos-main-toolbar.c:494
+#: src/photos-main-toolbar.c:472
 msgid "Done"
 msgstr "完成"
 
-#: ../src/photos-main-window.c:498
+#: src/photos-main-toolbar.c:507
+msgid "_Select"
+msgstr "选择(_S)"
+
+#: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2016 Red Hat, Inc."
+"Copyright © 2012 – 2017 Red Hat, Inc.\n"
+"Copyright © 2015 – 2017 Umang Jain"
 msgstr ""
-"版权所有 © 2013 年，英特尔公司。保留所有权利。 \n"
-"版权所有 © 2014 - 2015 年，Pranav Kant\n"
-"版权所有 © 2012 - 2016 年，红帽公司"
+"Copyright © 2012 – 2017 Red Hat, Inc.\n"
+"Copyright © 2015 – 2017 Umang Jain"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:508
+#: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr ""
 "tuhaihe <1132321739qq@gmail.com>, 2012, 2013\n"
@@ -480,158 +567,154 @@ msgstr ""
 "Tong Hui <tonghuix@gmail.com>, 2013\n"
 "Dingzhong Chen <wsxy162@gmail.com>, 2016"
 
-#: ../src/photos-menus.ui.h:1
+#: src/photos-menus.ui:6
 msgid "Fullscreen"
 msgstr "全屏"
 
-#: ../src/photos-menus.ui.h:2
+#: src/photos-menus.ui:12
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#: ../src/photos-menus.ui.h:3
+#: src/photos-menus.ui:16
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: ../src/photos-menus.ui.h:4
+#: src/photos-menus.ui:20
 msgid "About"
 msgstr "关于"
 
-#: ../src/photos-menus.ui.h:5
+#: src/photos-menus.ui:24
 msgid "Quit"
 msgstr "退出"
 
-#: ../src/photos-organize-collection-dialog.c:76
-msgid "_Add"
-msgstr "添加(_A)"
-
-#: ../src/photos-organize-collection-dialog.c:77
+#: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
 msgstr "确认(_O)"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: src/photos-organize-collection-dialog.c:121
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "管理"
 
-#: ../src/photos-preview-menu.ui.h:2
+#: src/photos-preview-menu.ui:10
 msgid "Export…"
 msgstr "导出…"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: src/photos-preview-menu.ui:14
 msgid "Print…"
 msgstr "打印…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: src/photos-preview-menu.ui:19
 msgid "Delete"
 msgstr "删除"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: src/photos-preview-menu.ui:23
 msgid "Display on…"
 msgstr "显示在…"
 
-#: ../src/photos-preview-menu.ui.h:6
+#: src/photos-preview-menu.ui:27
 msgid "Set as Background"
 msgstr "设为背景"
 
-#: ../src/photos-preview-menu.ui.h:7
+#: src/photos-preview-menu.ui:31
 msgid "Set as Lock Screen"
 msgstr "设置为锁定屏幕"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:739
-#: ../src/photos-selection-toolbar.ui.h:3
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
+#: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "属性"
 
-#: ../src/photos-print-notification.c:79
+#: src/photos-print-notification.c:71
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "正在打印 \"%s\": %s"
 
-#: ../src/photos-print-operation.c:271
+#: src/photos-print-operation.c:241
 msgid "Image Settings"
 msgstr "图像设置"
 
-#: ../src/photos-print-setup.c:914
+#: src/photos-print-setup.c:884
 msgid "Position"
 msgstr "位置"
 
-#: ../src/photos-print-setup.c:917
+#: src/photos-print-setup.c:887
 msgid "_Left:"
 msgstr "左(_L)："
 
-#: ../src/photos-print-setup.c:918
+#: src/photos-print-setup.c:888
 msgid "_Right:"
 msgstr "右(_R)："
 
-#: ../src/photos-print-setup.c:919
+#: src/photos-print-setup.c:889
 msgid "_Top:"
 msgstr "上(_T)："
 
-#: ../src/photos-print-setup.c:920
+#: src/photos-print-setup.c:890
 msgid "_Bottom:"
 msgstr "下(_B)："
 
-#: ../src/photos-print-setup.c:922
+#: src/photos-print-setup.c:892
 msgid "C_enter:"
 msgstr "中(_E)："
 
-#: ../src/photos-print-setup.c:926
+#: src/photos-print-setup.c:896
 msgid "None"
 msgstr "无"
 
-#: ../src/photos-print-setup.c:927
+#: src/photos-print-setup.c:897
 msgid "Horizontal"
 msgstr "水平"
 
-#: ../src/photos-print-setup.c:928
+#: src/photos-print-setup.c:898
 msgid "Vertical"
 msgstr "垂直"
 
-#: ../src/photos-print-setup.c:929
+#: src/photos-print-setup.c:899
 msgid "Both"
 msgstr "全部"
 
-#: ../src/photos-print-setup.c:945
+#: src/photos-print-setup.c:915
 msgid "_Width:"
 msgstr "宽度(_W)："
 
-#: ../src/photos-print-setup.c:946
+#: src/photos-print-setup.c:916
 msgid "_Height:"
 msgstr "高度(_H)："
 
-#: ../src/photos-print-setup.c:948
+#: src/photos-print-setup.c:918
 msgid "_Scaling:"
 msgstr "缩放(_S)："
 
-#: ../src/photos-print-setup.c:957
+#: src/photos-print-setup.c:927
 msgid "_Unit:"
 msgstr "单位(_U)："
 
-#: ../src/photos-print-setup.c:961
+#: src/photos-print-setup.c:931
 msgid "Millimeters"
 msgstr "毫米"
 
-#: ../src/photos-print-setup.c:962
+#: src/photos-print-setup.c:932
 msgid "Inches"
 msgstr "英寸"
 
-#: ../src/photos-print-setup.c:990
+#: src/photos-print-setup.c:960
 msgid "Preview"
 msgstr "预览"
 
-#: ../src/photos-properties-dialog.c:128
+#: src/photos-properties-dialog.c:246
 msgid "Edited in Photos"
 msgstr "在“照片”程序中编辑过"
 
-#: ../src/photos-properties-dialog.c:141
+#: src/photos-properties-dialog.c:259
 msgid "Untouched"
 msgstr "未改动过"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:309
+#: src/photos-properties-dialog.c:442
 msgctxt "Document Title"
 msgid "Title"
 msgstr "标题"
@@ -639,88 +722,102 @@ msgstr "标题"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:321
+#: src/photos-properties-dialog.c:454
 msgctxt "Document Author"
 msgid "Author"
 msgstr "作者"
 
-#: ../src/photos-properties-dialog.c:328
+#: src/photos-properties-dialog.c:461
 msgid "Source"
 msgstr "来源"
 
-#: ../src/photos-properties-dialog.c:334
+#: src/photos-properties-dialog.c:467
 msgid "Date Modified"
 msgstr "修改日期"
 
-#: ../src/photos-properties-dialog.c:342
+#: src/photos-properties-dialog.c:475
 msgid "Date Created"
 msgstr "创建日期"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:352
+#: src/photos-properties-dialog.c:485
 msgctxt "Document Type"
 msgid "Type"
 msgstr "类型"
 
-#: ../src/photos-properties-dialog.c:362
+#: src/photos-properties-dialog.c:495
 msgid "Dimensions"
 msgstr "尺寸"
 
-#: ../src/photos-properties-dialog.c:377
+#: src/photos-properties-dialog.c:507
+msgid "Location"
+msgstr "位置"
+
+#: src/photos-properties-dialog.c:525
 msgid "Camera"
 msgstr "相机"
 
-#: ../src/photos-properties-dialog.c:387
+#: src/photos-properties-dialog.c:535 src/photos-tool-colors.c:365
 msgid "Exposure"
 msgstr "曝光"
 
-#: ../src/photos-properties-dialog.c:397
+#: src/photos-properties-dialog.c:545
 msgid "Aperture"
 msgstr "光圈"
 
-#: ../src/photos-properties-dialog.c:407
+#: src/photos-properties-dialog.c:555
 msgid "Focal Length"
 msgstr "焦距"
 
-#: ../src/photos-properties-dialog.c:417
+#: src/photos-properties-dialog.c:565
 msgid "ISO Speed"
 msgstr "ISO 感光度"
 
-#: ../src/photos-properties-dialog.c:427
+#: src/photos-properties-dialog.c:575
 msgid "Flash"
 msgstr "闪光"
 
-#: ../src/photos-properties-dialog.c:436
+#: src/photos-properties-dialog.c:584
 msgid "Modifications"
 msgstr "修改"
 
-#: ../src/photos-properties-dialog.c:568
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%ld × %ld 像素"
+
+#: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
 msgstr "关，不闪光"
 
-#: ../src/photos-properties-dialog.c:570
+#: src/photos-properties-dialog.c:723
 msgid "On, fired"
 msgstr "开，闪光"
 
-#: ../src/photos-properties-dialog.c:608
+#: src/photos-properties-dialog.c:760
 msgid "Discard all Edits"
 msgstr "放弃所有编辑"
 
-#: ../src/photos-search-match-manager.c:158
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
+#: src/photos-removable-devices-button.ui:47
+msgid "Devices"
+msgstr "设备"
+
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-source-manager.c:396
 msgid "All"
 msgstr "全部"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:165
+#: src/photos-search-match-manager.c:162
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "标题"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:172
+#: src/photos-search-match-manager.c:169
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "作者"
@@ -728,170 +825,236 @@ msgstr "作者"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:210
+#: src/photos-search-match-manager.c:207
 msgid "Match"
 msgstr "匹配"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:168
+#: src/photos-search-type-manager.c:178
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "类型"
 
-#: ../src/photos-selection-menu.ui.h:1
+#: src/photos-selection-menu.ui:6
 msgid "Select All"
 msgstr "全选"
 
-#: ../src/photos-selection-menu.ui.h:2
+#: src/photos-selection-menu.ui:11
 msgid "Select None"
 msgstr "全不选"
 
-#: ../src/photos-selection-toolbar.ui.h:1
+#: src/photos-selection-toolbar.ui:19
 msgid "Export"
 msgstr "导出"
 
-#: ../src/photos-selection-toolbar.ui.h:4
+#: src/photos-selection-toolbar.ui:111
 msgid "Add to Album"
 msgstr "添加到相册"
 
-#: ../src/photos-share-dialog.ui.h:1
+#: src/photos-share-dialog.ui:25
 msgctxt "dialog title"
 msgid "Share"
 msgstr "分享"
 
-#: ../src/photos-share-point-email.c:78
+#: src/photos-share-notification.c:148
+#, c-format
+msgid "“%s” shared"
+msgstr "已共享“%s”"
+
+#: src/photos-share-point-email.c:78
 msgid "E-Mail"
 msgstr "电子邮箱"
 
-#: ../src/photos-share-point-google.c:97
+#: src/photos-share-point-google.c:103
 msgid "Failed to upload photo: Service not authorized"
 msgstr "上传照片失败：服务未认证"
 
-#: ../src/photos-share-point-google.c:99
+#: src/photos-share-point-google.c:105
 msgid "Failed to upload photo"
 msgstr "上传照片失败"
 
-#: ../src/photos-source-manager.c:203
+#: src/photos-source-manager.c:465
 msgid "Sources"
 msgstr "来源"
 
-#: ../src/photos-tool-colors.c:251
-msgid "Brightness"
-msgstr "亮度"
+#: src/photos-source-notification.c:201
+msgid "New device discovered"
+msgstr "发现了新的设备"
 
-#: ../src/photos-tool-colors.c:272
+#: src/photos-source-notification.c:214
+msgid "Import…"
+msgstr "导入…"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: src/photos-source-notification.c:244
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr "您的 %s 凭据已过期"
+
+#: src/photos-source-notification.c:251
+msgid "Settings"
+msgstr "设置"
+
+#: src/photos-thumbnailer.c:76
+msgid "D-Bus address to use"
+msgstr "要使用的 D-Bus 地址"
+
+#: src/photos-tool-colors.c:386
 msgid "Contrast"
 msgstr "对比度"
 
-#: ../src/photos-tool-colors.c:292
+#: src/photos-tool-colors.c:407
+msgid "Blacks"
+msgstr "涂黑"
+
+#: src/photos-tool-colors.c:428
 msgid "Saturation"
 msgstr "饱和度"
 
-#: ../src/photos-tool-colors.c:319
+#: src/photos-tool-colors.c:447
+msgid "Shadows"
+msgstr "阴影"
+
+#: src/photos-tool-colors.c:466
+msgid "Highlights"
+msgstr "高光"
+
+#: src/photos-tool-colors.c:495
 msgid "Colors"
 msgstr "颜色"
 
-#: ../src/photos-tool-crop.c:132
+#: src/photos-tool-crop.c:192
 msgid "Free"
 msgstr "自由"
 
-#: ../src/photos-tool-crop.c:133
+#: src/photos-tool-crop.c:193
 msgid "Original"
 msgstr "原始"
 
-#: ../src/photos-tool-crop.c:134
+#: src/photos-tool-crop.c:194
 msgid "1×1 (Square)"
-msgstr "1×1 （方形）"
+msgstr "1×1（方形）"
 
-#: ../src/photos-tool-crop.c:135
+#: src/photos-tool-crop.c:195
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:136
+#: src/photos-tool-crop.c:196
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:137
+#: src/photos-tool-crop.c:197
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:138
+#: src/photos-tool-crop.c:198
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:139
+#: src/photos-tool-crop.c:199
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:140
+#: src/photos-tool-crop.c:200
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1181
+#: src/photos-tool-crop.c:1459
 msgid "Lock aspect ratio"
 msgstr "锁定长宽比"
 
-#: ../src/photos-tool-crop.c:1229
+#: src/photos-tool-crop.c:1529
+msgid "Landscape"
+msgstr "横向"
+
+#: src/photos-tool-crop.c:1540
+msgid "Portrait"
+msgstr "纵向"
+
+#: src/photos-tool-crop.c:1551
 msgid "Reset"
 msgstr "重置"
 
-#: ../src/photos-tool-crop.c:1246
+#: src/photos-tool-crop.c:1569
 msgid "Crop"
 msgstr "裁剪"
 
-#: ../src/photos-tool-enhance.c:207
+#: src/photos-tool-enhance.c:197
 msgid "Sharpen"
 msgstr "锐利"
 
-#: ../src/photos-tool-enhance.c:227
+#: src/photos-tool-enhance.c:218
 msgid "Denoise"
 msgstr "降噪"
 
-#: ../src/photos-tool-enhance.c:253
+#: src/photos-tool-enhance.c:245
 msgid "Enhance"
 msgstr "增强"
 
 #. Translators: "None" refers to the nop magic filter when editing.
-#: ../src/photos-tool-filters.c:190
+#: src/photos-tool-filters.c:182
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "无"
 
-#: ../src/photos-tool-filters.c:197
+#: src/photos-tool-filters.c:189
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:204
+#: src/photos-tool-filters.c:196
 msgid "Calistoga"
 msgstr "卡利斯托加"
 
-#: ../src/photos-tool-filters.c:210
+#: src/photos-tool-filters.c:202
 msgid "Mogadishu"
 msgstr "摩加迪沙"
 
-#: ../src/photos-tool-filters.c:217
+#: src/photos-tool-filters.c:209
 msgid "Caap"
 msgstr "卡普"
 
-#: ../src/photos-tool-filters.c:223
+#: src/photos-tool-filters.c:215
 msgid "Hometown"
 msgstr "故乡"
 
-#: ../src/photos-tool-filters.c:241
+#: src/photos-tool-filters.c:233
 msgid "Filters"
 msgstr "滤镜"
 
-#: ../src/photos-tracker-controller.c:103
+#: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "无法获取照片列表"
 
+#~ msgid "Name your first album"
+#~ msgstr "命名您的第一个相册"
+
+#~ msgid "You can add your online accounts in %s"
+#~ msgstr "您可以在“%s”中添加在线账户"
+
+#~ msgid "Untitled Photo"
+#~ msgstr "无标题照片"
+
+#~ msgid "Cancel"
+#~ msgstr "取消"
+
+#~ msgid ""
+#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#~ "Copyright © 2014 – 2015 Pranav Kant\n"
+#~ "Copyright © 2012 – 2016 Red Hat, Inc."
+#~ msgstr ""
+#~ "版权所有 © 2013 年，英特尔公司。保留所有权利。 \n"
+#~ "版权所有 © 2014 - 2015 年，Pranav Kant\n"
+#~ "版权所有 © 2012 - 2016 年，红帽公司"
+
+#~ msgid "Brightness"
+#~ msgstr "亮度"
+
 #~ msgid "Width"
 #~ msgstr "宽度"
-
-#~ msgid "Height"
-#~ msgstr "高度"
 
 #~ msgid "Golden ratio"
 #~ msgstr "黄金比例"
