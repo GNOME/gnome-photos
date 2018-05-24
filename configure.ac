@@ -26,7 +26,6 @@ AS_IF([test -n "$PACKAGE_COMMIT_ID"],
                           ["$PACKAGE_COMMIT_ID"],
                           [Define to the description of this package's latest commit.])])
 
-AC_CANONICAL_HOST
 AC_PROG_CC
 AC_PROG_CC_C_O
 AC_HEADER_STDC
@@ -90,13 +89,6 @@ if test "$have_langinfo_measurement" = "yes"; then
   AC_DEFINE([HAVE__NL_MEASUREMENT_MEASUREMENT], [1],
             [Define if _NL_MEASUREMENT_MEASUREMENT is available])
 fi
-
-GB_ENABLE_RDTSCP
-AS_IF([test "x$enable_rdtscp" = "xyes"], [CFLAGS="$CFLAGS -DEGG_HAVE_RDTSCP"])
-AC_CHECK_FUNCS([sched_getcpu])
-
-AC_CHECK_FUNCS([shm_open], [LIBRT=], [AC_CHECK_LIB([rt], [shm_open], [LIBRT=-lrt], [LIBRT=])])
-AC_SUBST(LIBRT)
 
 PKG_CHECK_MODULES(BABL, [babl])
 PKG_CHECK_MODULES(CAIRO, [cairo >= $CAIRO_MIN_VERSION cairo-gobject])

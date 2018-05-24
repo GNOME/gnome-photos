@@ -23,12 +23,12 @@
 
 #include "config.h"
 
+#include <dazzle.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 
 #include <gio/gio.h>
 
-#include "egg-counter.h"
 #include "photos-base-manager.h"
 #include "photos-debug.h"
 #include "photos-enums.h"
@@ -81,7 +81,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhotosTrackerController, photos_tracker_controller, G_TYPE_OBJECT);
-EGG_DEFINE_COUNTER (instances,
+DZL_DEFINE_COUNTER (instances,
                     "PhotosTrackerController",
                     "Instances",
                     "Number of PhotosTrackerController instances")
@@ -518,7 +518,7 @@ photos_tracker_controller_finalize (GObject *object)
 
   G_OBJECT_CLASS (photos_tracker_controller_parent_class)->finalize (object);
 
-  EGG_COUNTER_DEC (instances);
+  DZL_COUNTER_DEC (instances);
 }
 
 
@@ -554,7 +554,7 @@ photos_tracker_controller_init (PhotosTrackerController *self)
   GApplication *app;
   PhotosSearchContextState *state;
 
-  EGG_COUNTER_INC (instances);
+  DZL_COUNTER_INC (instances);
 
   priv = photos_tracker_controller_get_instance_private (self);
 
