@@ -58,7 +58,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/babl"
+                    "url": "https://gitlab.gnome.org/GNOME/babl.git"
                 }
             ]
         },
@@ -68,7 +68,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/geocode-glib"
+                    "url": "https://gitlab.gnome.org/GNOME/geocode-glib.git"
                 }
             ]
         },
@@ -103,7 +103,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/gnome-online-accounts"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git"
                 }
             ]
         },
@@ -114,7 +114,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/libgfbgraph"
+                    "url": "https://gitlab.gnome.org/GNOME/libgfbgraph.git"
                 }
             ]
         },
@@ -137,7 +137,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/libgdata"
+                    "url": "https://gitlab.gnome.org/GNOME/libgdata.git"
                 }
             ]
         },
@@ -164,7 +164,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/gegl"
+                    "url": "https://gitlab.gnome.org/GNOME/gegl.git"
                 }
             ]
         },
@@ -196,7 +196,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/gexiv2"
+                    "url": "https://gitlab.gnome.org/GNOME/gexiv2.git"
                 }
             ]
         },
@@ -252,7 +252,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/tracker"
+                    "url": "https://gitlab.gnome.org/GNOME/tracker.git"
                 }
             ]
         },
@@ -268,7 +268,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/tracker-miners"
+                    "url": "https://gitlab.gnome.org/GNOME/tracker-miners.git"
                 }
             ]
         },
