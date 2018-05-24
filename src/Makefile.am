@@ -40,10 +40,6 @@ nodist_gnome_photos_SOURCES = \
 gnome_photos_SOURCES = \
 	egg-counter.c \
 	egg-counter.h \
-	egg-heap.c \
-	egg-heap.h \
-	egg-task-cache.c \
-	egg-task-cache.h \
 	photos-application.c \
 	photos-application.h \
 	photos-base-manager.c \
