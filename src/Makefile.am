@@ -38,12 +38,8 @@ nodist_gnome_photos_SOURCES = \
 	$(NULL)
 
 gnome_photos_SOURCES = \
-	egg-animation.c \
-	egg-animation.h \
 	egg-counter.c \
 	egg-counter.h \
-	egg-frame-source.c \
-	egg-frame-source.h \
 	egg-heap.c \
 	egg-heap.h \
 	egg-task-cache.c \
