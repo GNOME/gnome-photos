@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
- * Copyright © 2014 – 2017 Red Hat, Inc.
+ * Copyright © 2014 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <dazzle.h>
 #include <glib/gi18n.h>
 
 #include "photos-base-item.h"
@@ -46,6 +47,10 @@ enum
 
 
 G_DEFINE_TYPE (PhotosDeleteNotification, photos_delete_notification, GTK_TYPE_GRID);
+DZL_DEFINE_COUNTER (instances,
+                    "PhotosDeleteNotification",
+                    "Instances",
+                    "Number of PhotosDeleteNotification instances")
 
 
 enum
@@ -186,6 +191,14 @@ photos_delete_notification_dispose (GObject *object)
 
 
 static void
+photos_delete_notification_finalize (GObject *object)
+{
+  G_OBJECT_CLASS (photos_delete_notification_parent_class)->finalize (object);
+  DZL_COUNTER_DEC (instances);
+}
+
+
+static void
 photos_delete_notification_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
   PhotosDeleteNotification *self = PHOTOS_DELETE_NOTIFICATION (object);
@@ -214,6 +227,8 @@ photos_delete_notification_init (PhotosDeleteNotification *self)
   GApplication *app;
   PhotosSearchContextState *state;
 
+  DZL_COUNTER_INC (instances);
+
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
@@ -229,6 +244,7 @@ photos_delete_notification_class_init (PhotosDeleteNotificationClass *class)
 
   object_class->constructed = photos_delete_notification_constructed;
   object_class->dispose = photos_delete_notification_dispose;
+  object_class->finalize = photos_delete_notification_finalize;
   object_class->set_property = photos_delete_notification_set_property;
 
   g_object_class_install_property (object_class,
