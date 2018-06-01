@@ -494,27 +494,29 @@ photos_base_item_create_thumbnail_in_thread_func (gpointer data, gpointer user_d
   g_autoptr (GTask) task = G_TASK (data);
   PhotosBaseItem *self;
   GCancellable *cancellable;
-  GError *error;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
   cancellable = g_task_get_cancellable (task);
 
-  error = NULL;
-  if (!PHOTOS_BASE_ITEM_GET_CLASS (self)->create_thumbnail (self, cancellable, &error))
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        {
-          g_autoptr (GFile) file = NULL;
-          g_autofree gchar *path = NULL;
+  {
+    g_autoptr (GError) error = NULL;
 
-          path = photos_base_item_create_thumbnail_path (self);
-          file = g_file_new_for_path (path);
-          g_file_delete (file, NULL, NULL);
-        }
+    if (!PHOTOS_BASE_ITEM_GET_CLASS (self)->create_thumbnail (self, cancellable, &error))
+      {
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          {
+            g_autoptr (GFile) file = NULL;
+            g_autofree gchar *path = NULL;
 
-      g_task_return_error (task, error);
-      goto out;
-    }
+            path = photos_base_item_create_thumbnail_path (self);
+            file = g_file_new_for_path (path);
+            g_file_delete (file, NULL, NULL);
+          }
+
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_boolean (task, TRUE);
 
@@ -1047,16 +1049,18 @@ photos_base_item_download_in_thread_func (GTask *task,
                                           GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
   g_autofree gchar *path = NULL;
 
-  error = NULL;
-  path = photos_base_item_download (self, cancellable, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    path = photos_base_item_download (self, cancellable, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_pointer (task, g_strdup (path), g_free);
 
@@ -1330,7 +1334,6 @@ photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *re
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv;
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   g_autoptr (GeglBuffer) buffer = NULL;
   g_autoptr (GeglNode) graph = NULL;
@@ -1338,13 +1341,16 @@ photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *re
 
   priv = photos_base_item_get_instance_private (self);
 
-  error = NULL;
-  graph = photos_base_item_load_finish (self, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    graph = photos_base_item_load_finish (self, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   buffer = photos_gegl_get_buffer_from_node (graph, NULL);
   data = photos_base_item_save_data_new (NULL, buffer, priv->mime_type, 0.0);
@@ -1360,16 +1366,18 @@ photos_base_item_guess_save_sizes_load (GObject *source_object, GAsyncResult *re
 static void
 photos_base_item_process_process (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   GeglProcessor *processor = GEGL_PROCESSOR (source_object);
 
-  error = NULL;
-  if (!photos_gegl_processor_process_finish (processor, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_gegl_processor_process_finish (processor, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_boolean (task, TRUE);
 
@@ -1431,13 +1439,16 @@ photos_base_item_common_process (GObject *source_object, GAsyncResult *res, gpoi
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   g_autoptr (GTask) task = G_TASK (user_data);
-  GError *error = NULL;
 
-  if (!photos_base_item_process_finish (self, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_process_finish (self, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_boolean (task, TRUE);
 
@@ -1492,14 +1503,17 @@ photos_base_item_load_buffer_in_thread_func (GTask *task,
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   g_autoptr (GeglBuffer) buffer = NULL;
-  GError *error = NULL;
 
-  buffer = photos_base_item_load_buffer (self, cancellable, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    buffer = photos_base_item_load_buffer (self, cancellable, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_pointer (task, g_object_ref (buffer), g_object_unref);
 
@@ -1546,17 +1560,19 @@ photos_base_item_load_pipeline_task_cache_populate_new (GObject *source_object,
                                                         GAsyncResult *res,
                                                         gpointer user_data)
 {
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   g_autoptr (PhotosPipeline) pipeline = NULL;
 
-  error = NULL;
-  pipeline = photos_pipeline_new_finish (res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    pipeline = photos_pipeline_new_finish (res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_pointer (task, g_object_ref (pipeline), g_object_unref);
 
@@ -1598,20 +1614,22 @@ photos_base_item_load_pipeline_task_cache_populate (DzlTaskCache *cache,
 static void
 photos_base_item_load_pipeline_task_cache_get (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   DzlTaskCache *cache = DZL_TASK_CACHE (source_object);
   g_autoptr (PhotosPipeline) pipeline = NULL;
 
   g_assert_true (cache == pipeline_cache);
 
-  error = NULL;
-  pipeline = dzl_task_cache_get_finish (cache, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    pipeline = dzl_task_cache_get_finish (cache, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_pointer (task, g_object_ref (pipeline), g_object_unref);
 
@@ -1669,19 +1687,21 @@ photos_base_item_load_process (GObject *source_object, GAsyncResult *res, gpoint
   g_autoptr (GTask) task = G_TASK (user_data);
   PhotosBaseItem *self;
   GeglNode *graph;
-  GError *error;
   PhotosPipeline *pipeline;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
 
-  error = NULL;
-  photos_base_item_process_finish (self, res, &error);
-  if (error != NULL)
-    {
-      photos_base_item_clear_pixels (self);
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    photos_base_item_process_finish (self, res, &error);
+    if (error != NULL)
+      {
+        photos_base_item_clear_pixels (self);
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   pipeline = PHOTOS_PIPELINE (dzl_task_cache_peek (pipeline_cache, self));
   g_assert_true (PHOTOS_IS_PIPELINE (pipeline));
@@ -1704,7 +1724,6 @@ photos_base_item_load_load_buffer (GObject *source_object, GAsyncResult *res, gp
   GCancellable *cancellable;
   g_autoptr (GeglBuffer) buffer = NULL;
   GeglRectangle bbox;
-  GError *error;
   const gchar *format_name;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
@@ -1712,14 +1731,17 @@ photos_base_item_load_load_buffer (GObject *source_object, GAsyncResult *res, gp
 
   cancellable = g_task_get_cancellable (task);
 
-  error = NULL;
-  buffer = photos_base_item_load_buffer_finish (self, res, &error);
-  if (error != NULL)
-    {
-      photos_base_item_clear_pixels (self);
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    buffer = photos_base_item_load_buffer_finish (self, res, &error);
+    if (error != NULL)
+      {
+        photos_base_item_clear_pixels (self);
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   bbox = *gegl_buffer_get_extent (buffer);
   format = gegl_buffer_get_format (buffer);
@@ -1748,7 +1770,6 @@ photos_base_item_load_load_pipeline (GObject *source_object, GAsyncResult *res, 
   PhotosBaseItemPrivate *priv;
   GeglNode *graph;
   GCancellable *cancellable;
-  GError *error;
   g_autoptr (PhotosPipeline) pipeline = NULL;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
@@ -1756,14 +1777,17 @@ photos_base_item_load_load_pipeline (GObject *source_object, GAsyncResult *res, 
 
   cancellable = g_task_get_cancellable (task);
 
-  error = NULL;
-  pipeline = photos_base_item_load_pipeline_finish (self, res, &error);
-  if (error != NULL)
-    {
-      photos_base_item_clear_pixels (self);
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    pipeline = photos_base_item_load_pipeline_finish (self, res, &error);
+    if (error != NULL)
+      {
+        photos_base_item_clear_pixels (self);
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   if (priv->edit_graph == NULL)
     priv->edit_graph = gegl_node_new ();
@@ -1788,22 +1812,24 @@ photos_base_item_metadata_add_shared_in_thread_func (GTask *task,
                                                      GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
   PhotosBaseItemMetadataAddSharedData *data = (PhotosBaseItemMetadataAddSharedData *) task_data;
   gboolean result;
 
-  error = NULL;
-  result = PHOTOS_BASE_ITEM_GET_CLASS (self)->metadata_add_shared (self,
-                                                                   data->provider_type,
-                                                                   data->account_identity,
-                                                                   data->shared_id,
-                                                                   cancellable,
-                                                                   &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      return;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    result = PHOTOS_BASE_ITEM_GET_CLASS (self)->metadata_add_shared (self,
+                                                                     data->provider_type,
+                                                                     data->account_identity,
+                                                                     data->shared_id,
+                                                                     cancellable,
+                                                                     &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        return;
+      }
+  }
 
   g_task_return_boolean (task, result);
 }
@@ -1813,18 +1839,20 @@ static void
 photos_base_item_pipeline_is_edited_load_pipeline (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   g_autoptr (PhotosPipeline) pipeline = NULL;
   gboolean is_edited;
 
-  error = NULL;
-  pipeline = photos_base_item_load_pipeline_finish (self, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    pipeline = photos_base_item_load_pipeline_finish (self, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   is_edited = photos_pipeline_is_edited (pipeline);
   g_task_return_boolean (task, is_edited);
@@ -1881,7 +1909,6 @@ photos_base_item_pipeline_save_save (GObject *source_object, GAsyncResult *res, 
   PhotosBaseItem *self;
   PhotosBaseItemPrivate *priv;
   GCancellable *cancellable;
-  GError *error;
   g_autoptr (GFile) thumbnail_file = NULL;
   PhotosPipeline *pipeline = PHOTOS_PIPELINE (source_object);
   g_autofree gchar *thumbnail_path = NULL;
@@ -1891,12 +1918,15 @@ photos_base_item_pipeline_save_save (GObject *source_object, GAsyncResult *res, 
 
   cancellable = g_task_get_cancellable (task);
 
-  error = NULL;
-  if (!photos_pipeline_save_finish (pipeline, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_pipeline_save_finish (pipeline, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_cancellable_cancel (priv->cancellable);
   g_clear_object (&priv->cancellable);
@@ -1923,7 +1953,6 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv;
-  GError *error;
   GFile *file = G_FILE (task_data);
   GExiv2Metadata *metadata = NULL; /* TODO: Use g_autoptr */
   g_autofree gchar *export_path = NULL;
@@ -1933,32 +1962,41 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
 
   g_mutex_lock (&priv->mutex_save_metadata);
 
-  error = NULL;
-  source_path = photos_base_item_download (self, cancellable, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    source_path = photos_base_item_download (self, cancellable, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   metadata = gexiv2_metadata_new ();
 
-  error = NULL;
-  if (!gexiv2_metadata_open_path (metadata, source_path, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!gexiv2_metadata_open_path (metadata, source_path, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   gexiv2_metadata_set_orientation (metadata, GEXIV2_ORIENTATION_NORMAL);
   export_path = g_file_get_path (file);
 
-  error = NULL;
-  if (!gexiv2_metadata_save_file (metadata, export_path, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!gexiv2_metadata_save_file (metadata, export_path, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_boolean (task, TRUE);
 
@@ -2004,15 +2042,17 @@ static void
 photos_base_item_save_buffer_save_metadata (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
 
-  error = NULL;
-  if (!photos_base_item_save_metadata_finish (self, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_save_metadata_finish (self, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_boolean (task, TRUE);
 
@@ -2029,17 +2069,20 @@ photos_base_item_save_buffer_stream_close (GObject *source_object, GAsyncResult 
   PhotosBaseItemSaveBufferData *data;
   GCancellable *cancellable;
   GOutputStream *stream = G_OUTPUT_STREAM (source_object);
-  GError *error = NULL;
 
   self = PHOTOS_BASE_ITEM (g_task_get_source_object (task));
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveBufferData *) g_task_get_task_data (task);
 
-  if (!g_output_stream_close_finish (stream, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!g_output_stream_close_finish (stream, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   photos_base_item_save_metadata_async (self,
                                         data->file,
@@ -2058,16 +2101,19 @@ photos_base_item_save_buffer_save_to_stream (GObject *source_object, GAsyncResul
   g_autoptr (GTask) task = G_TASK (user_data);
   PhotosBaseItemSaveBufferData *data;
   GCancellable *cancellable;
-  GError *error = NULL;
 
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveBufferData *) g_task_get_task_data (task);
 
-  if (!gdk_pixbuf_save_to_stream_finish (res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!gdk_pixbuf_save_to_stream_finish (res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_output_stream_close_async (G_OUTPUT_STREAM (data->stream),
                                G_PRIORITY_DEFAULT,
@@ -2159,18 +2205,20 @@ static void
 photos_base_item_save_to_dir_save_buffer (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   PhotosBaseItemSaveData *data;
 
   data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
-  error = NULL;
-  if (!photos_base_item_save_buffer_finish (self, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_save_buffer_finish (self, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_pointer (task, g_object_ref (data->unique_file), g_object_unref);
 
@@ -2184,7 +2232,6 @@ photos_base_item_save_to_dir_file_create (GObject *source_object, GAsyncResult *
 {
   PhotosBaseItem *self;
   GCancellable *cancellable;
-  GError *error = NULL;
   GFile *file = G_FILE (source_object);
   g_autoptr (GFile) unique_file = NULL;
   g_autoptr (GFileOutputStream) stream = NULL;
@@ -2195,12 +2242,16 @@ photos_base_item_save_to_dir_file_create (GObject *source_object, GAsyncResult *
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
-  stream = photos_glib_file_create_finish (file, res, &unique_file, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    stream = photos_glib_file_create_finish (file, res, &unique_file, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_assert_true (G_IS_FILE_OUTPUT_STREAM (stream));
 
@@ -2227,7 +2278,6 @@ photos_base_item_save_to_dir_buffer_zoom (GObject *source_object, GAsyncResult *
   PhotosBaseItem *self;
   PhotosBaseItemPrivate *priv;
   GCancellable *cancellable;
-  GError *error;
   g_autoptr (GFile) file = NULL;
   g_autoptr (GTask) task = G_TASK (user_data);
   GeglBuffer *buffer = GEGL_BUFFER (source_object);
@@ -2243,13 +2293,16 @@ photos_base_item_save_to_dir_buffer_zoom (GObject *source_object, GAsyncResult *
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
-  error = NULL;
-  buffer_zoomed = photos_gegl_buffer_zoom_finish (buffer, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    buffer_zoomed = photos_gegl_buffer_zoom_finish (buffer, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_assert_null (data->buffer);
   data->buffer = g_object_ref (buffer_zoomed);
@@ -2276,7 +2329,6 @@ photos_base_item_save_to_dir_load (GObject *source_object, GAsyncResult *res, gp
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GCancellable *cancellable;
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   g_autoptr (GeglBuffer) buffer = NULL;
   g_autoptr (GeglNode) graph = NULL;
@@ -2285,13 +2337,16 @@ photos_base_item_save_to_dir_load (GObject *source_object, GAsyncResult *res, gp
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveData *) g_task_get_task_data (task);
 
-  error = NULL;
-  graph = photos_base_item_load_finish (self, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    graph = photos_base_item_load_finish (self, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   buffer = photos_gegl_get_buffer_from_node (graph, NULL);
   photos_gegl_buffer_zoom_async (buffer,
@@ -2309,15 +2364,17 @@ static void
 photos_base_item_save_to_file_save_buffer (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
 
-  error = NULL;
-  if (!photos_base_item_save_buffer_finish (self, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_save_buffer_finish (self, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_task_return_boolean (task, TRUE);
 
@@ -2331,7 +2388,6 @@ photos_base_item_save_to_file_file_replace (GObject *source_object, GAsyncResult
 {
   PhotosBaseItem *self;
   GCancellable *cancellable;
-  GError *error = NULL;
   GFile *file = G_FILE (source_object);
   g_autoptr (GFileOutputStream) stream = NULL;
   g_autoptr (GTask) task = G_TASK (user_data);
@@ -2341,12 +2397,16 @@ photos_base_item_save_to_file_file_replace (GObject *source_object, GAsyncResult
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveToFileData *) g_task_get_task_data (task);
 
-  stream = g_file_replace_finish (file, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    stream = g_file_replace_finish (file, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   photos_base_item_save_buffer_async (self,
                                       data->buffer,
@@ -2365,7 +2425,6 @@ static void
 photos_base_item_save_to_file_buffer_zoom (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GCancellable *cancellable;
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   GeglBuffer *buffer = GEGL_BUFFER (source_object);
   g_autoptr (GeglBuffer) buffer_zoomed = NULL;
@@ -2374,13 +2433,16 @@ photos_base_item_save_to_file_buffer_zoom (GObject *source_object, GAsyncResult 
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveToFileData *) g_task_get_task_data (task);
 
-  error = NULL;
-  buffer_zoomed = photos_gegl_buffer_zoom_finish (buffer, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    buffer_zoomed = photos_gegl_buffer_zoom_finish (buffer, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_assert_null (data->buffer);
   data->buffer = g_object_ref (buffer_zoomed);
@@ -2404,7 +2466,6 @@ photos_base_item_save_to_file_load (GObject *source_object, GAsyncResult *res, g
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GCancellable *cancellable;
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   g_autoptr (GeglBuffer) buffer = NULL;
   g_autoptr (GeglNode) graph = NULL;
@@ -2413,13 +2474,16 @@ photos_base_item_save_to_file_load (GObject *source_object, GAsyncResult *res, g
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveToFileData *) g_task_get_task_data (task);
 
-  error = NULL;
-  graph = photos_base_item_load_finish (self, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    graph = photos_base_item_load_finish (self, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   buffer = photos_gegl_get_buffer_from_node (graph, NULL);
   photos_gegl_buffer_zoom_async (buffer,
@@ -2464,7 +2528,6 @@ static void
 photos_base_item_save_to_stream_stream_close (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GCancellable *cancellable;
-  GError *error;
   GIOStream *iostream = G_IO_STREAM (source_object);
   g_autoptr (GTask) task = G_TASK (user_data);
   PhotosBaseItemSaveToStreamData *data;
@@ -2472,13 +2535,16 @@ photos_base_item_save_to_stream_stream_close (GObject *source_object, GAsyncResu
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveToStreamData *) g_task_get_task_data (task);
 
-  error = NULL;
-  g_io_stream_close_finish (iostream, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    g_io_stream_close_finish (iostream, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_file_delete_async (data->file,
                        G_PRIORITY_DEFAULT,
@@ -2495,7 +2561,6 @@ static void
 photos_base_item_save_to_stream_stream_splice (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GCancellable *cancellable;
-  GError *error;
   GOutputStream *ostream = G_OUTPUT_STREAM (source_object);
   g_autoptr (GTask) task = G_TASK (user_data);
   PhotosBaseItemSaveToStreamData *data;
@@ -2503,13 +2568,16 @@ photos_base_item_save_to_stream_stream_splice (GObject *source_object, GAsyncRes
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveToStreamData *) g_task_get_task_data (task);
 
-  error = NULL;
-  g_output_stream_splice_finish (ostream, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    g_output_stream_splice_finish (ostream, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_io_stream_close_async (G_IO_STREAM (data->iostream),
                            G_PRIORITY_DEFAULT,
@@ -2527,7 +2595,6 @@ photos_base_item_save_to_stream_save_buffer (GObject *source_object, GAsyncResul
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GCancellable *cancellable;
-  GError *error;
   GInputStream *istream;
   g_autoptr (GTask) task = G_TASK (user_data);
   PhotosBaseItemSaveToStreamData *data;
@@ -2535,22 +2602,28 @@ photos_base_item_save_to_stream_save_buffer (GObject *source_object, GAsyncResul
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveToStreamData *) g_task_get_task_data (task);
 
-  error = NULL;
-  if (!photos_base_item_save_buffer_finish (self, res, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!photos_base_item_save_buffer_finish (self, res, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   istream = g_io_stream_get_input_stream (G_IO_STREAM (data->iostream));
   g_assert_true (g_seekable_can_seek (G_SEEKABLE (istream)));
 
-  error = NULL;
-  if (!g_seekable_seek (G_SEEKABLE (istream), 0, G_SEEK_SET, cancellable, &error))
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!g_seekable_seek (G_SEEKABLE (istream), 0, G_SEEK_SET, cancellable, &error))
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_output_stream_splice_async (data->ostream,
                                 istream,
@@ -2571,7 +2644,6 @@ photos_base_item_save_to_stream_buffer_zoom (GObject *source_object, GAsyncResul
   g_autoptr (GTask) task = G_TASK (user_data);
   PhotosBaseItem *self;
   GCancellable *cancellable;
-  GError *error;
   g_autoptr (GFile) file = NULL;
   g_autoptr (GFileIOStream) iostream = NULL;
   GOutputStream *ostream;
@@ -2583,21 +2655,27 @@ photos_base_item_save_to_stream_buffer_zoom (GObject *source_object, GAsyncResul
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveToStreamData *) g_task_get_task_data (task);
 
-  error = NULL;
-  buffer_zoomed = photos_gegl_buffer_zoom_finish (buffer, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
 
-  error = NULL;
-  file = g_file_new_tmp (PACKAGE_TARNAME "-XXXXXX", &iostream, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+    buffer_zoomed = photos_gegl_buffer_zoom_finish (buffer, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    file = g_file_new_tmp (PACKAGE_TARNAME "-XXXXXX", &iostream, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   g_assert_null (data->file);
   data->file = g_object_ref (file);
@@ -2624,7 +2702,6 @@ photos_base_item_save_to_stream_load (GObject *source_object, GAsyncResult *res,
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   GCancellable *cancellable;
-  GError *error;
   g_autoptr (GTask) task = G_TASK (user_data);
   g_autoptr (GeglBuffer) buffer = NULL;
   g_autoptr (GeglNode) graph = NULL;
@@ -2633,13 +2710,16 @@ photos_base_item_save_to_stream_load (GObject *source_object, GAsyncResult *res,
   cancellable = g_task_get_cancellable (task);
   data = (PhotosBaseItemSaveToStreamData *) g_task_get_task_data (task);
 
-  error = NULL;
-  graph = photos_base_item_load_finish (self, res, &error);
-  if (error != NULL)
-    {
-      g_task_return_error (task, error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    graph = photos_base_item_load_finish (self, res, &error);
+    if (error != NULL)
+      {
+        g_task_return_error (task, g_steal_pointer (&error));
+        goto out;
+      }
+  }
 
   buffer = photos_gegl_get_buffer_from_node (graph, NULL);
   photos_gegl_buffer_zoom_async (buffer,
