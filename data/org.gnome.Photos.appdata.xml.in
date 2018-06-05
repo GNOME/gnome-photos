@@ -3,25 +3,26 @@
 <component type="desktop">
   <id>org.gnome.Photos.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-3.0+</project_license>
+  <project_license>GPL-3.0-or-later</project_license>
   <name>Photos</name>
   <summary>Access, organize and share your photos on GNOME</summary>
   <description>
     <p>
-      A simple application to access, organize and share your photos on
-      GNOME. It is meant to be a simple and elegant replacement for using a
-      file manager to deal with photos. Seamless cloud integration is offered
+      Access, organize and share your photos on
+      GNOME. A simple and elegant replacement for using a
+      file manager to deal with photos. Enhance, crop and edit in a snap. Seamless cloud integration is offered
       through GNOME Online Accounts.
     </p>
-    <p>It lets you:</p>
+    <p>You can:</p>
     <ul>
+      <li>Automatically finds all your pictures</li>
       <li>View recent local and online photos</li>
-      <li>Access your Facebook or Flickr content</li>
-      <li>Send photos to remote DLNA renderers</li>
-      <li>Set as background</li>
+      <li>Access your Facebook or Flickr pictures</li>
+      <li>Send photos with DLNA on your local network</li>
+      <li>Set as pictures as your desktop background</li>
       <li>Print photos</li>
       <li>Select favorites</li>
-      <li>Allow opening full featured editor for more advanced changes</li>
+      <li>Easily edit your pictures in the app, or send to a full featured editor for more advanced changes</li>
     </ul>
   </description>
   <kudos>
@@ -42,7 +43,7 @@
       <image type="source">https://static.gnome.org/appdata/gnome-photos/gnome-photos-3.png</image>
     </screenshot>
   </screenshots>
-  <url type="bugtracker">https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos</url>
+  <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-photos/issues</url>
   <url type="donation">http://www.gnome.org/friends</url>
   <url type="homepage">https://wiki.gnome.org/Apps/Photos</url>
   <url type="translate">https://wiki.gnome.org/TranslationProject</url>
@@ -50,4 +51,33 @@
   <project_group>GNOME</project_group>
   <update_contact>debarshir_at_gnome.org</update_contact>
   <translation type="gettext">gnome-photos</translation>
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-cartoon">none</content_attribute>
+    <content_attribute id="violence-fantasy">none</content_attribute>
+    <content_attribute id="violence-realistic">none</content_attribute>
+    <content_attribute id="violence-bloodshed">none</content_attribute>
+    <content_attribute id="violence-sexual">none</content_attribute>
+    <content_attribute id="violence-desecration">none</content_attribute>
+    <content_attribute id="violence-slavery">none</content_attribute>
+    <content_attribute id="violence-worship">none</content_attribute>
+    <content_attribute id="drugs-alcohol">none</content_attribute>
+    <content_attribute id="drugs-narcotics">none</content_attribute>
+    <content_attribute id="drugs-tobacco">none</content_attribute>
+    <content_attribute id="sex-nudity">none</content_attribute>
+    <content_attribute id="sex-themes">none</content_attribute>
+    <content_attribute id="sex-homosexuality">none</content_attribute>
+    <content_attribute id="sex-prostitution">none</content_attribute>
+    <content_attribute id="sex-adultery">none</content_attribute>
+    <content_attribute id="sex-appearance">none</content_attribute>
+    <content_attribute id="language-profanity">none</content_attribute>
+    <content_attribute id="language-humor">none</content_attribute>
+    <content_attribute id="language-discrimination">none</content_attribute>
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-info">none</content_attribute>
+    <content_attribute id="social-audio">none</content_attribute>
+    <content_attribute id="social-location">none</content_attribute>
+    <content_attribute id="social-contacts">none</content_attribute>
+    <content_attribute id="money-purchasing">none</content_attribute>
+    <content_attribute id="money-gambling">none</content_attribute>
+  </content_rating>
 </component>
