@@ -1542,6 +1542,19 @@ photos_base_item_load_buffer_finish (PhotosBaseItem *self, GAsyncResult *res, GE
 
 
 static void
+photos_base_item_pipeline_changed (PhotosPipeline *pipeline, gboolean result)
+{
+
+  GAction *action;
+  GApplication *app;
+
+  app = g_application_get_default ();
+  action = g_action_map_lookup_action (G_ACTION_MAP (app), "edit-done");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), result);
+}
+
+
+static void
 photos_base_item_load_pipeline_task_cache_populate_new (GObject *source_object,
                                                         GAsyncResult *res,
                                                         gpointer user_data)
@@ -1558,6 +1571,7 @@ photos_base_item_load_pipeline_task_cache_populate_new (GObject *source_object,
       goto out;
     }
 
+  g_signal_connect (pipeline, "changed", G_CALLBACK (photos_base_item_pipeline_changed), NULL);
   g_task_return_pointer (task, g_object_ref (pipeline), g_object_unref);
 
  out:
