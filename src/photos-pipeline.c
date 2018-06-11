@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2017 Red Hat, Inc.
+ * Copyright © 2015 – 2018 Red Hat, Inc.
  * Copyright © 2016 Umang Jain
  *
  * This program is free software: you can redistribute it and/or modify
@@ -176,6 +176,54 @@ photos_pipeline_create_graph_from_xml (PhotosPipeline *self, const gchar *conten
 
  out:
   return ret_val;
+}
+
+
+static void
+photos_pipeline_save_delete (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  g_autoptr (GTask) task = G_TASK (user_data);
+  PhotosPipeline *self;
+  GCancellable *cancellable;
+  GFile *file = G_FILE (source_object);
+  g_autoptr (GFile) file_next = NULL;
+  guint i;
+
+  self = PHOTOS_PIPELINE (g_task_get_source_object (task));
+  cancellable = g_task_get_cancellable (task);
+  i = GPOINTER_TO_UINT (g_task_get_task_data (task));
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    if (!g_file_delete_finish (file, res, &error))
+      {
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+          {
+            g_task_return_error (task, g_steal_pointer (&error));
+            goto out;
+          }
+      }
+  }
+
+  i++;
+  if (self->uris[i] == NULL)
+    {
+      g_task_return_boolean (task, TRUE);
+      goto out;
+    }
+
+  g_task_set_task_data (task, GUINT_TO_POINTER (i), NULL);
+
+  file_next = g_file_new_for_uri (self->uris[i]);
+  g_file_delete_async (file_next,
+                       G_PRIORITY_DEFAULT,
+                       cancellable,
+                       photos_pipeline_save_delete,
+                       g_object_ref (task));
+
+ out:
+  return;
 }
 
 
@@ -642,34 +690,48 @@ photos_pipeline_save_async (PhotosPipeline *self,
 {
   g_autoptr (GFile) file = NULL;
   g_autoptr (GTask) task = NULL;
-  gchar *xml = NULL;
-  gsize len;
 
   g_return_if_fail (PHOTOS_IS_PIPELINE (self));
   g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
-  xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
-  g_return_if_fail (xml != NULL);
-
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_pipeline_save_async);
 
-  /* We need to keep 'xml' alive until g_file_replace_contents_async
-   * returns.
-   */
-  g_task_set_task_data (task, xml, g_free);
-
   file = g_file_new_for_uri (self->uris[0]);
-  len = strlen (xml);
-  g_file_replace_contents_async (file,
-                                 xml,
-                                 len,
-                                 NULL,
-                                 FALSE,
-                                 G_FILE_CREATE_REPLACE_DESTINATION,
-                                 cancellable,
-                                 photos_pipeline_save_replace_contents,
-                                 g_object_ref (task));
+
+  if (photos_pipeline_is_edited (self))
+    {
+      gchar *xml = NULL;
+      gsize len;
+
+      xml = gegl_node_to_xml_full (self->graph, self->graph, "/");
+      g_return_if_fail (xml != NULL);
+
+      /* We need to keep 'xml' alive until g_file_replace_contents_async
+       * returns.
+       */
+      g_task_set_task_data (task, xml, g_free);
+
+      len = strlen (xml);
+      g_file_replace_contents_async (file,
+                                     xml,
+                                     len,
+                                     NULL,
+                                     FALSE,
+                                     G_FILE_CREATE_REPLACE_DESTINATION,
+                                     cancellable,
+                                     photos_pipeline_save_replace_contents,
+                                     g_object_ref (task));
+    }
+  else
+    {
+      g_task_set_task_data (task, GUINT_TO_POINTER (0), NULL);
+      g_file_delete_async (file,
+                           G_PRIORITY_DEFAULT,
+                           cancellable,
+                           photos_pipeline_save_delete,
+                           g_object_ref (task));
+    }
 }
 
 
