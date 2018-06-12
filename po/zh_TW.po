@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-03 07:05+0000\n"
-"PO-Revision-Date: 2018-03-03 15:17+0800\n"
+"POT-Creation-Date: 2018-05-25 08:58+0000\n"
+"PO-Revision-Date: 2018-06-09 13:21+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.0.8\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
@@ -134,11 +134,11 @@ msgstr "顯示應用程式版本"
 msgid "%-d %B %Y"
 msgstr "%Y-%m-%d"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1035
 msgid "Album"
 msgstr "相簿"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2751
 msgid "Screenshots"
 msgstr "螢幕擷圖"
 
@@ -275,35 +275,35 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "正在計算匯出大小…"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:334
 msgid "Failed to export: not enough space"
 msgstr "無法匯出：空間不足"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:336
 msgid "Failed to export"
 msgstr "無法匯出"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:343
 #, c-format
 msgid "“%s” exported"
 msgstr "「%s」已匯出"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:347
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "已匯出 %d 個項目"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:364
 msgid "Analyze"
 msgstr "分析"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:369
 msgid "Empty Trash"
 msgstr "清空回收筒"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "開啟"
@@ -311,7 +311,7 @@ msgstr "開啟"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:396
 msgid "Export Folder"
 msgstr "匯出資料夾"
 
@@ -489,7 +489,7 @@ msgstr "您的相片已被索引"
 msgid "Some photos might not be available during this process"
 msgstr "部分相片在這個程序中可能無法使用"
 
-#: src/photos-local-item.c:207 src/photos-source-manager.c:399
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "本地端"
 
@@ -547,11 +547,11 @@ msgstr "選取(_S)"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"版權 © 2012 – 2018 Red Hat, Inc.\n"
+"版權 © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
