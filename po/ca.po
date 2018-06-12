@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-02 11:45+0000\n"
+"POT-Creation-Date: 2018-05-25 08:58+0000\n"
 "PO-Revision-Date: 2018-03-04 20:47+0100\n"
 "Last-Translator: Jordi Mas <jmas@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -138,11 +138,11 @@ msgstr "Mostra la versió de l'aplicació"
 msgid "%-d %B %Y"
 msgstr "%-d %B del %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1035
 msgid "Album"
 msgstr "Àlbum"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2751
 msgid "Screenshots"
 msgstr "Captures de pantalla"
 
@@ -205,7 +205,7 @@ msgstr "No s'ha trobat cap fotografia"
 
 #: src/photos-empty-results-box.c:191
 msgid "You can create albums from the Photos view"
-msgstr ""
+msgstr "Podeu crear àlbums des de la vista de fotografies"
 
 #. Translators: this should be translated in the context of
 #. * the "Photos from your Online Accounts and Pictures folder
@@ -229,10 +229,9 @@ msgstr "Carpeta d'imatges"
 #. * context of this sentence.
 #.
 #: src/photos-empty-results-box.c:226
-#, fuzzy, c-format
-#| msgid "Starred photos will appear here"
+#, c-format
 msgid "Photos from your %s and %s will appear here."
-msgstr "Les fotografies destacades apareixeran aquí"
+msgstr "Les fotografies dels %s i de la %s apareixeran aquí."
 
 #: src/photos-empty-results-box.c:236
 msgid "Try a different search"
@@ -281,36 +280,36 @@ msgstr "%d×%d px (%s GB)"
 msgid "Calculating export size…"
 msgstr "S'està calculant la mida d'exportació..."
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:334
 msgid "Failed to export: not enough space"
 msgstr "S'ha produït un error en exportar: no hi ha prou espai en disc"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:336
 msgid "Failed to export"
 msgstr "S'ha produït un error en exportar"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:343
 #, c-format
 msgid "“%s” exported"
 msgstr "«%s» exportat"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:347
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d element exportat"
 msgstr[1] "%d elements exportats"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:364
 msgid "Analyze"
 msgstr "Analitza"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:369
 msgid "Empty Trash"
 msgstr "Buida la paperera"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Obre"
@@ -318,7 +317,7 @@ msgstr "Obre"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:396
 msgid "Export Folder"
 msgstr "Carpeta d'exportació"
 
@@ -453,7 +452,7 @@ msgstr "Cancel·la"
 
 #: src/photos-import-dialog.c:194
 msgid "An album with that name already exists"
-msgstr ""
+msgstr "Ja existeix un àlbum amb aquest nom"
 
 #: src/photos-import-dialog.c:211
 msgid "An album for that date already exists"
@@ -496,7 +495,7 @@ msgstr "S'estan indexant les fotografies"
 msgid "Some photos might not be available during this process"
 msgstr "Mentre duri el procés, algunes fotografies no estaran disponibles"
 
-#: src/photos-local-item.c:207 src/photos-source-manager.c:399
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Local"
 
@@ -519,8 +518,8 @@ msgstr "Selecciona els elements a importar"
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Selecciona els elements a importar (%u seleccionat)"
+msgstr[1] "Selecciona els elements a importar (%u seleccionats)"
 
 #: src/photos-main-toolbar.c:217
 msgid "Back"
@@ -556,11 +555,11 @@ msgstr "_Selecciona"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 
 #
 #. Translators: Put your names here
@@ -790,8 +789,8 @@ msgstr "Modificacions"
 #, c-format
 msgid "%ld × %ld pixel"
 msgid_plural "%ld × %ld pixels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%ld × %ld píxel"
+msgstr[1] "%ld × %ld píxels"
 
 #: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
@@ -924,10 +923,8 @@ msgid "Shadows"
 msgstr "Ombres"
 
 #: src/photos-tool-colors.c:466
-#, fuzzy
-#| msgid "Height"
 msgid "Highlights"
-msgstr "Alçada:"
+msgstr "Ressaltats"
 
 #: src/photos-tool-colors.c:495
 msgid "Colors"
