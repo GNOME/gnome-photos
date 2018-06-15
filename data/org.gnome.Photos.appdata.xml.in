@@ -44,7 +44,7 @@
       <image type="source">https://static.gnome.org/appdata/gnome-photos/gnome-photos-3.png</image>
     </screenshot>
   </screenshots>
-  <url type="bugtracker">https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos</url>
+  <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-photos/issues</url>
   <url type="donation">http://www.gnome.org/friends</url>
   <url type="homepage">https://wiki.gnome.org/Apps/Photos</url>
   <url type="translate">https://wiki.gnome.org/TranslationProject</url>

@@ -20,15 +20,15 @@
   <homepage rdf:resource="https://wiki.gnome.org/Apps/Photos" />
   <license rdf:resource="http://usefulinc.com/doap/licenses/gpl" />
   <download-page rdf:resource="http://download.gnome.org/sources/gnome-photos" />
-  <bug-database rdf:resource="https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos" />
+  <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/gnome-photos/issues" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#apps" />
   <programming-language>C</programming-language>
 
   <repository>
     <GitRepository>
-      <location rdf:resource="git://git.gnome.org/gnome-photos" />
-      <browse rdf:resource="https://git.gnome.org/browse/gnome-photos/" />
+      <location rdf:resource="https://gitlab.gnome.org/GNOME/gnome-photos.git" />
+      <browse rdf:resource="https://gitlab.gnome.org/GNOME/gnome-photos" />
     </GitRepository>
   </repository>
 

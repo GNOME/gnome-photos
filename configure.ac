@@ -1,6 +1,6 @@
 AC_INIT([Photos],
         [3.29.1],
-        [https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-photos],
+        [https://gitlab.gnome.org/GNOME/gnome-photos/issues],
         [gnome-photos],
         [https://wiki.gnome.org/Apps/Photos])
 AC_PREREQ(2.63)
