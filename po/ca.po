@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-05-25 08:58+0000\n"
-"PO-Revision-Date: 2018-03-04 20:47+0100\n"
+"POT-Creation-Date: 2018-06-15 10:15+0000\n"
+"PO-Revision-Date: 2018-06-17 09:07+0200\n"
 "Last-Translator: Jordi Mas <jmas@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Project-Style: gnome\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
@@ -32,49 +32,57 @@ msgstr "Accediu, organitzeu i compartiu les vostres fotografies amb el GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Un programa simple per accedir, organitzar i compartir les vostres "
-"fotografies amb el GNOME. Està pensat per a ser un substitut simple i "
-"elegant del gestor de fitxers en la gestió d'imatges. S'integra "
+"Accediu, organitzeu i compartiu les vostres fotografies amb el GNOME. "
+"Un substitut simple i elegant del gestor de fitxers "
+"en la gestió d'imatges. Millora, retalla i edita instantàniament. S'integra "
 "transparentment amb el núvol mitjançant els comptes en línia del GNOME."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Us permet:"
+msgid "You can:"
+msgstr "Podeu:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Trobar automàticament totes les fotografies"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Visualitzar les fotos locals i en línia recents"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Accedir al contingut de Facebook o Flickr"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Enviar fotos a renderitzadors DLNA externs"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Accedir a les fotografies de Facebook o Flickr"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Establir com a fons"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Visualitzar fotografies en televisors, portàtils o altres visualitzadors DNLA de la vostra xarxa"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "Establir imatges com a fons de l'escriptori"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Imprimir fotos"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Seleccionar les preferides"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Permet l'obertura d'un editor més potent per fer canvis més avançats"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr "Editar fàcilment les fotografies en l'aplicació o obrir-les en un editor més potent per fer canvis més avançats"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "El projecte GNOME"
 
@@ -138,11 +146,11 @@ msgstr "Mostra la versió de l'aplicació"
 msgid "%-d %B %Y"
 msgstr "%-d %B del %Y"
 
-#: src/photos-base-item.c:1035
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Àlbum"
 
-#: src/photos-base-item.c:2751
+#: src/photos-base-item.c:2831
 msgid "Screenshots"
 msgstr "Captures de pantalla"
 
@@ -1032,129 +1040,3 @@ msgstr "Filtres"
 msgid "Unable to fetch the list of photos"
 msgstr "No es pot obtenir el llistat de fotografies"
 
-#~ msgid "Name your first album"
-#~ msgstr "Poseu un nom al vostre primer àlbum"
-
-#~ msgid "You can add your online accounts in %s"
-#~ msgstr "Podeu afegir comptes en línia a %s"
-
-#~ msgid "Untitled Photo"
-#~ msgstr "Foto sense títol"
-
-#~ msgid "Cancel"
-#~ msgstr "Cancel·la"
-
-#~ msgid ""
-#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#~ "Copyright © 2014 – 2015 Pranav Kant\n"
-#~ "Copyright © 2012 – 2017 Red Hat, Inc."
-#~ msgstr ""
-#~ "Copyright © 2013 Intel Corporation. Tots els drets reservats.\n"
-#~ "Copyright © 2014, 2015 Pranav Kant\n"
-#~ "Copyright © 2012 – 2017 Red Hat, Inc."
-
-#~ msgid "Brightness"
-#~ msgstr "Brillantor"
-
-#~ msgid "Cannot locate property %s in class %s"
-#~ msgstr "No s'ha pogut trobat la propietat %s a la classe %s"
-
-#~ msgid "Failed to find property %s in %s"
-#~ msgstr "No s'ha pogut trobat la propietat %s a %s"
-
-#~ msgid "Failed to find property %s in %s or parent %s"
-#~ msgstr "No s'ha pogut trobat la propietat %s a %s o el seu pare %s"
-
-#~ msgid "Failed to retrieve va_list value: %s"
-#~ msgstr "No s'ha pogut obtenir el valor va_list: %s"
-
-#~ msgid "Width"
-#~ msgstr "Amplada"
-
-#~ msgid "Screen"
-#~ msgstr "Captura de pantalla"
-
-#~ msgid "Golden ratio"
-#~ msgstr "Ràtio d'or"
-
-#~ msgid "A paper sizes"
-#~ msgstr "Una mida de paper"
-
-#~ msgid "%.2f"
-#~ msgstr "%.2f"
-
-#~ msgid "Print the current photo"
-#~ msgstr "Imprimeix la foto actual"
-
-#~ msgid "A3 (297 × 420 mm)"
-#~ msgstr "A3 (297 × 420 mm)"
-
-#~ msgid "A4 (210 × 297 mm)"
-#~ msgstr "A4 (210 × 297 mm)"
-
-#~ msgid "1977"
-#~ msgstr "1977"
-
-#~ msgid "Brannan"
-#~ msgstr "Brannan"
-
-#~ msgid "Gotham"
-#~ msgstr "Gotham"
-
-#~ msgid "Gray"
-#~ msgstr "Gris"
-
-#~ msgid "Nashville"
-#~ msgstr "Nashville"
-
-#~ msgid "%a, %d %B %Y  %X"
-#~ msgstr "%a, %d %B %Y  %X"
-
-#~ msgid "%.1f (lens)"
-#~ msgstr "%.1f (lent)"
-
-#~ msgid "%.1f (35mm film)"
-#~ msgstr "%.1f (film de 35mm)"
-
-#~ msgid "Transformation on unloaded image."
-#~ msgstr "Transformació en una imatge descarregada."
-
-#~ msgid "Transformation failed."
-#~ msgstr "No s'ha pogut transformar la imatge."
-
-#~ msgid "EXIF not supported for this file format."
-#~ msgstr "Aquest format de fitxer no pot fer servir EXIF."
-
-#~ msgid "Image loading failed."
-#~ msgstr "No s'ha pogut carregar la imatge."
-
-# FIXME: O... "no s'ha carregat cap imatge"? (josep)
-#~ msgid "No image loaded."
-#~ msgstr "No hi ha cap imatge carregada."
-
-#~ msgid "You do not have the permissions necessary to save the file."
-#~ msgstr "No teniu els permisos necessaris per desar el fitxer."
-
-#~ msgid "Temporary file creation failed."
-#~ msgstr "Ha fallat la creació del fitxer temporal."
-
-#~ msgid "At least two file names are equal."
-#~ msgstr "Hi ha dos noms de fitxer iguals com a mínim."
-
-#~ msgid "Could not display help for Image Viewer"
-#~ msgstr "No s'ha pogut mostrar l'ajuda del visualitzador d'imatges"
-
-#~ msgid " (invalid Unicode)"
-#~ msgstr " (caràcter no vàlid)"
-
-#~ msgid "Recent"
-#~ msgstr "Recent"
-
-#~ msgid "No Favorites Found"
-#~ msgstr "No s'ha trobat cap preferit"
-
-#~ msgid "Load More"
-#~ msgstr "Carrega'n més"
-
-#~ msgid "Loading…"
-#~ msgstr "S'està carregant..."
