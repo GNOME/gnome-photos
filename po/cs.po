@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-04-06 18:13+0000\n"
-"PO-Revision-Date: 2018-04-22 07:18+0200\n"
+"POT-Creation-Date: 2018-06-15 10:15+0000\n"
+"PO-Revision-Date: 2018-06-18 10:57+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -29,50 +29,69 @@ msgid "Access, organize and share your photos on GNOME"
 msgstr "Prohlížejte si, roztříďte a sdílejte své fotografie v GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
+#| msgid ""
+#| "A simple application to access, organize and share your photos on GNOME. "
+#| "It is meant to be a simple and elegant replacement for using a file "
+#| "manager to deal with photos. Seamless cloud integration is offered "
+#| "through GNOME Online Accounts."
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Jednoduchá aplikace, kterou můžete používat pro přístup, uspořádávání a "
-"sdílení svých fotografií v GNOME. Je zamýšlena jako snadná a elegantní "
-"náhrada místo používání správce souborů k práci s fotkami. Díky účtům on-"
-"line v GNOME umí bez problémů fungovat i s cloudem."
+"Mějte přístup ke svých fotografií v GNOME, udělejte si v nich pořádek a "
+"sdílejte je s ostatními. Jedná se o jednoduchou a elegantní náhradu za "
+"používání správce souborů k práci s fotkami. Díky účtům on-line v GNOME se "
+"úplně stejně snadno dostanete i ke svým fotkám v cloudu."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Můžete v ní dělat následující věci:"
+msgid "You can:"
+msgstr "Můžete:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Automaticky vyhledávat všechny své obrázky"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Prohlížet si nejnovější fotky uložené v počítači i on-line"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Přistupovat ke svému obsahu na Facebooku a Flickru"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Posílat fotky do vzdálených zařízení DLNA"
+#| msgid "Access your Facebook or Flickr content"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Přistupovat ke svým obrázkům na Facebooku a Flickru"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Nastavit fotku jako pozadí"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Zobrazovat si fotografie na televizi, notebooku a dalších zařízeních v síti "
+"podporujících DLNA"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+#| msgid "Set as background"
+msgid "Set pictures as your desktop background"
+msgstr "Nastavit si obrázek jako pozadí pracovní plochy"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Vytisknout fotky"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
-msgstr "Vybírat oblíbené fotky"
+msgstr "Vybírat si oblíbené fotky"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Otevírat fotky v plnohodnotném editoru kvůli složitějším úpravám"
+#: data/org.gnome.Photos.appdata.xml.in:26
+#| msgid "Allow opening full featured editor for more advanced changes"
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"Provádět jednoduché úpravy obrázků přímo v aplikaci nebo je otevřít v "
+"plnohodnotném editoru pro složitějším úpravy"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "Projekt GNOME"
 
@@ -136,11 +155,11 @@ msgstr "Zobrazit verzi aplikace"
 msgid "%-d %B %Y"
 msgstr "%-d. %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2831
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -1031,3 +1050,9 @@ msgstr "Filtry"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Nelze získat seznam fotografií."
+
+#~ msgid "It lets you:"
+#~ msgstr "Můžete v ní dělat následující věci:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Posílat fotky do vzdálených zařízení DLNA"
