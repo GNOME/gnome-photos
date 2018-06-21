@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-04-06 18:13+0000\n"
-"PO-Revision-Date: 2018-04-25 12:51+0200\n"
+"POT-Creation-Date: 2018-06-15 10:15+0000\n"
+"PO-Revision-Date: 2018-06-21 09:58+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -31,50 +31,69 @@ msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice y comparta sus fotos en GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
+#| msgid ""
+#| "A simple application to access, organize and share your photos on GNOME. "
+#| "It is meant to be a simple and elegant replacement for using a file "
+#| "manager to deal with photos. Seamless cloud integration is offered "
+#| "through GNOME Online Accounts."
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Una sencilla aplicación para acceder, organizar y compartir sus fotos en "
-"GNOME. Está pensada para ser un reemplazo sencillo elegante del uso de un "
-"gestor de archivos para gestionar sus fotos. Se integra perfectamente con la "
-"nube mediante las cuentas en línea de GNOME."
+"Acceder, organizar y compartir sus fotos en GNOME. Está pensada para ser un "
+"reemplazo sencillo y elegante del uso de un gestor de archivos para "
+"gestionar sus fotos. Mejore, recorte y edite en un momento. Se integra "
+"perfectamente con la nube mediante las cuentas en línea de GNOME."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Le permite:"
+msgid "You can:"
+msgstr "Puede:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Buscar automáticamente todas sus fotos"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Ver fotos locales y en línea recientes"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Acceder a su contenido de Facebook o Flickr"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Enviar fotos a renderizadores DLNA remotos"
+#| msgid "Access your Facebook or Flickr content"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Acceder a sus fotos de Facebook o Flickr"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Establecer como fondo"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Ver fotos en la televisión, portátiles u otros dispositivos DLNA en su red "
+"local."
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+#| msgid "Set as background"
+msgid "Set pictures as your desktop background"
+msgstr "Establecer imágenes como fondo de escritorio"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Imprimir fotos"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Seleccionar favoritos"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Abrir un editor completo para cambios más avanzados"
+#: data/org.gnome.Photos.appdata.xml.in:26
+#| msgid "Allow opening full featured editor for more advanced changes"
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"Edite sus fotos fácilmente en la aplicación o envíelas a un editor completo "
+"para cambios más avanzados"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "El Proyecto GNOME"
 
@@ -139,11 +158,11 @@ msgstr "Mostrar la versión de la aplicación"
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Álbum"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2831
 msgid "Screenshots"
 msgstr "Capturas de pantalla"
 
@@ -556,9 +575,6 @@ msgid "_Select"
 msgstr "_Seleccionar"
 
 #: src/photos-main-window.c:458
-#| msgid ""
-#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
-#| "Copyright © 2015 – 2017 Umang Jain"
 msgid ""
 "Copyright © 2012 – 2018 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
@@ -1036,6 +1052,12 @@ msgstr "Filtros"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "No se pudo obtener la lista de fotos"
+
+#~ msgid "It lets you:"
+#~ msgstr "Le permite:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Enviar fotos a renderizadores DLNA remotos"
 
 #~ msgid "Cancel"
 #~ msgstr "Cancelar"
