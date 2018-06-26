@@ -533,7 +533,6 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
   GeglRectangle roi;
   cairo_surface_t *surface = NULL;
   g_autofree guchar *buf = NULL;
-  gint bpp;
   gint scale_factor;
   gint stride;
   gint64 end;
@@ -556,8 +555,6 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
 
   start = g_get_monotonic_time ();
 
-  bpp = babl_format_get_bytes_per_pixel (format);
-  stride = bpp * roi.width;
   gegl_buffer_get (self->buffer,
                    &roi,
                    self->zoom_visible_scaled,
