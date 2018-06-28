@@ -48,8 +48,8 @@ struct _PhotosImageView
   cairo_region_t *bbox_region;
   cairo_region_t *region;
   gboolean best_fit;
-  gdouble height;
-  gdouble width;
+  gdouble bbox_zoomed_height;
+  gdouble bbox_zoomed_width;
   gdouble x;
   gdouble x_scaled;
   gdouble y;
@@ -314,7 +314,7 @@ photos_image_view_set_hadjustment_values (PhotosImageView *self)
   page_increment = page_size * 0.9;
   step_increment = page_size * 0.1;
 
-  upper = MAX ((gdouble) allocation.width, self->width);
+  upper = MAX ((gdouble) allocation.width, self->bbox_zoomed_width);
   g_return_if_fail (upper - page_size >= 0.0);
 
   value = self->x;
@@ -345,7 +345,7 @@ photos_image_view_set_vadjustment_values (PhotosImageView *self)
   page_increment = page_size * 0.9;
   step_increment = page_size * 0.1;
 
-  upper = MAX ((gdouble) allocation.height, self->height);
+  upper = MAX ((gdouble) allocation.height, self->bbox_zoomed_height);
   g_return_if_fail (upper - page_size >= 0.0);
 
   value = self->y;
@@ -463,8 +463,8 @@ photos_image_view_update (PhotosImageView *self)
   self->x = self->x_scaled / (gdouble) scale_factor;
   self->y = self->y_scaled / (gdouble) scale_factor;
 
-  self->height = (gdouble) bbox_zoomed.height / (gdouble) scale_factor;
-  self->width = (gdouble) bbox_zoomed.width / (gdouble) scale_factor;
+  self->bbox_zoomed_height = (gdouble) bbox_zoomed.height / (gdouble) scale_factor;
+  self->bbox_zoomed_width = (gdouble) bbox_zoomed.width / (gdouble) scale_factor;
 
   g_signal_handlers_block_by_func (self->hadjustment, photos_image_view_adjustment_value_changed, self);
   g_signal_handlers_block_by_func (self->vadjustment, photos_image_view_adjustment_value_changed, self);
@@ -1095,8 +1095,8 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
   self->allocation_scaled_old.height = 0;
   self->allocation_scaled_old.width = 0;
   self->best_fit = TRUE;
-  self->height = 0.0;
-  self->width = 0.0;
+  self->bbox_zoomed_height = 0.0;
+  self->bbox_zoomed_width = 0.0;
   self->x = 0.0;
   self->x_scaled = 0.0;
   self->y = 0.0;
