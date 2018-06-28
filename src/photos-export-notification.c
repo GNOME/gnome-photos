@@ -177,21 +177,13 @@ photos_export_notification_empty_trash_call_empty_trash_pre_3_24 (GObject *sourc
 
 
 static void
-photos_export_notification_empty_trash_bus_get (GObject *source_object, GAsyncResult *result, gpointer user_data)
+photos_export_notification_empty_trash (PhotosExportNotification *self)
 {
-  g_autoptr (PhotosExportNotification) self = PHOTOS_EXPORT_NOTIFICATION (user_data);
-  g_autoptr (GDBusConnection) connection = NULL;
+  GApplication *app;
+  GDBusConnection *connection;
 
-  {
-    g_autoptr (GError) error = NULL;
-
-    connection = g_bus_get_finish (result, &error);
-    if (error != NULL)
-      {
-        g_warning ("Unable to connect to session bus: %s", error->message);
-        goto out;
-      }
-  }
+  app = g_application_get_default ();
+  connection = g_application_get_dbus_connection (app);
 
   g_dbus_connection_call (connection,
                           "org.gnome.SettingsDaemon",
@@ -206,15 +198,6 @@ photos_export_notification_empty_trash_bus_get (GObject *source_object, GAsyncRe
                           photos_export_notification_empty_trash_call_empty_trash_pre_3_24,
                           NULL);
 
- out:
-  return;
-}
-
-
-static void
-photos_export_notification_empty_trash (PhotosExportNotification *self)
-{
-  g_bus_get (G_BUS_TYPE_SESSION, NULL, photos_export_notification_empty_trash_bus_get, g_object_ref (self));
   photos_export_notification_destroy (self);
 }
 
