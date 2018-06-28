@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 – 2015 Pranav Kant
- * Copyright © 2012 – 2017 Red Hat, Inc.
+ * Copyright © 2012 – 2018 Red Hat, Inc.
  * Copyright © 2016 Umang Jain
  *
  * This program is free software: you can redistribute it and/or modify
@@ -3306,7 +3306,7 @@ photos_base_item_create_preview (PhotosBaseItem *self,
 
   start = g_get_monotonic_time ();
 
-  gegl_node_blit (operation_node, 1.0, &bbox, format, buf, GEGL_AUTO_ROWSTRIDE, GEGL_BLIT_DEFAULT);
+  gegl_node_blit (operation_node, 1.0, &bbox, format, buf, stride, GEGL_BLIT_DEFAULT);
 
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL, "Create Preview: Node Blit: %" G_GINT64_FORMAT, end - start);
