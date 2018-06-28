@@ -9,17 +9,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-04-16 13:02+0000\n"
-"PO-Revision-Date: 2018-04-22 18:33+0200\n"
-"Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
+"POT-Creation-Date: 2018-06-15 10:15+0000\n"
+"PO-Revision-Date: 2018-06-17 21:30+0300\n"
+"Last-Translator: Florentina Mușat <florentina.musat.28 [at] gmail [dot] "
+"com>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2);;\n"
-"X-Generator: Virtaal 0.7.1\n"
+"20)) ? 1 : 2);\n"
+"X-Generator: Poedit 2.0.8\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
@@ -34,50 +35,60 @@ msgstr "Accesați, organizați și partajați fotografii în GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"O aplicație simplă ce vă permite să accesați, organizați și să partajați "
-"fotografiile în GNOME. Se dorește a fi o alternativă simplă și elegantă a "
-"unui administrator de fișiere pentru manipularea fotografiilor. Oferă "
-"integrare cloud perfectă prin intermediul aplicației conturi online GNOME."
+"Accesați, organizați și partajați fotografiile în GNOME. O alternativă "
+"simplă și elegantă a unui administrator de fișiere pentru manipularea "
+"fotografiilor. Îmbunătățire, decupare și editare într-o clipă. Oferă "
+"integrare cloud perfectă prin intermediul aplicației Conturi Online GNOME."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Vă permite să:"
+msgid "You can:"
+msgstr "Aveți posibilitatea:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Căutați automat toate fotografiile"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Vizualizați fotografiile locale recente și cele online"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Accesați conținutul Facebook sau Flickr"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Expediați fotografii către dispozitive de randare DLNA"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Accesați fotografiile de pe Facebook sau Flickr"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Stabiliți ca fundal"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Vizualizați fotografii pe televizoare, laptop-uri sau alte randoare DLNA pe "
+"rețeaua locală"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "Stabiliți fotografii ca fundalul ecranului"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Tipăriți fotografii"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Selectați elemente favorite"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
 msgstr ""
-"Permiteți deschiderea editorului complet pentru modificări mai avansate"
+"Editați ușor fotografiile în aplicație, sau trimiteți-le la un editor "
+"complet pentru modificări mai avansate"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "Proiectul GNOME"
 
@@ -141,11 +152,11 @@ msgstr "Arată versiunea aplicației"
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2831
 msgid "Screenshots"
 msgstr "Capturi de ecran"
 
@@ -573,7 +584,7 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 "Bogdan Mințoi <mintoi.bogdan [at] gmail [dot] com>\n"
-"Florentina Mușat <florentina.musat.28@gmail.com>, 2018"
+"Florentina Mușat <florentina.musat.28 [at] gmail [dot] com>, 2018"
 
 #: src/photos-menus.ui:6
 msgid "Fullscreen"
@@ -1038,6 +1049,12 @@ msgstr "Filtre"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Nu se poate prelua lista de fotografii"
+
+#~ msgid "It lets you:"
+#~ msgstr "Vă permite să:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Expediați fotografii către dispozitive de randare DLNA"
 
 #~ msgid "%a, %d %B %Y  %X"
 #~ msgstr "%a, %d %B %Y  %X"
