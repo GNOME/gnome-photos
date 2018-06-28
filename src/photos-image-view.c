@@ -57,6 +57,8 @@ struct _PhotosImageView
   gdouble zoom;
   gdouble zoom_visible;
   gdouble zoom_visible_scaled;
+  gsize surface_memory_size;
+  guchar *surface_memory;
 };
 
 enum
@@ -532,11 +534,11 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
   const Babl *format;
   GeglRectangle roi;
   cairo_surface_t *surface = NULL;
-  g_autofree guchar *buf = NULL;
   gint scale_factor;
   gint stride;
   gint64 end;
   gint64 start;
+  gsize surface_memory_size;
 
   g_return_if_fail (GEGL_IS_BUFFER (self->buffer));
   g_return_if_fail (self->zoom_visible > 0.0);
@@ -549,9 +551,16 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
   roi.width  = rect->width * scale_factor;
   roi.height = rect->height * scale_factor;
 
-  format = babl_format ("cairo-ARGB32");
   stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32, roi.width);
-  buf = g_malloc0_n (stride, roi.height);
+
+  /* It's assumed that this multiplication won't overflow, because, if
+   * it did then there would be a lot more problems. eg., attempts to
+   * allocate memory for the entire top-level GtkWindow would blow up.
+   */
+  surface_memory_size = (gsize) roi.height * (gsize) stride;
+  g_return_if_fail (self->surface_memory_size >= surface_memory_size);
+
+  format = babl_format ("cairo-ARGB32");
 
   start = g_get_monotonic_time ();
 
@@ -559,7 +568,7 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
                    &roi,
                    self->zoom_visible_scaled,
                    format,
-                   buf,
+                   self->surface_memory,
                    stride,
                    GEGL_ABYSS_NONE);
 
@@ -572,7 +581,11 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
                 rect->height,
                 end - start);
 
-  surface = cairo_image_surface_create_for_data (buf, CAIRO_FORMAT_ARGB32, roi.width, roi.height, stride);
+  surface = cairo_image_surface_create_for_data (self->surface_memory,
+                                                 CAIRO_FORMAT_ARGB32,
+                                                 roi.width,
+                                                 roi.height,
+                                                 stride);
   cairo_surface_set_device_scale (surface, (gdouble) scale_factor, (gdouble) scale_factor);
   cairo_set_source_surface (cr, surface, rect->x, rect->y);
   cairo_paint (cr);
@@ -614,15 +627,38 @@ static void
 photos_image_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
   PhotosImageView *self = PHOTOS_IMAGE_VIEW (widget);
+  gint allocation_height_scaled;
+  gint allocation_width_scaled;
   gint scale_factor;
+  gint stride;
+  gsize surface_memory_size;
 
   GTK_WIDGET_CLASS (photos_image_view_parent_class)->size_allocate (widget, allocation);
 
   photos_image_view_update (self);
 
   scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
-  self->allocation_scaled_old.height = allocation->height * scale_factor;
-  self->allocation_scaled_old.width = allocation->width * scale_factor;
+  allocation_height_scaled = allocation->height * scale_factor;
+  allocation_width_scaled = allocation->width * scale_factor;
+
+  stride = cairo_format_stride_for_width (CAIRO_FORMAT_ARGB32, allocation_width_scaled);
+
+  /* It's assumed that this multiplication won't overflow, because, if
+   * it did then there would be a lot more problems. eg., attempts to
+   * allocate memory for the entire top-level GtkWindow would blow up.
+   */
+  surface_memory_size = (gsize) allocation_height_scaled * (gsize) stride;
+
+  if (self->surface_memory_size < surface_memory_size)
+    {
+      g_clear_pointer (&self->surface_memory, g_free);
+
+      self->surface_memory = (guchar *) g_malloc0 (surface_memory_size);
+      self->surface_memory_size = surface_memory_size;
+    }
+
+  self->allocation_scaled_old.height = allocation_height_scaled;
+  self->allocation_scaled_old.width = allocation_width_scaled;
 }
 
 
@@ -731,6 +767,7 @@ photos_image_view_finalize (GObject *object)
 
   g_clear_pointer (&self->bbox_region, (GDestroyNotify) cairo_region_destroy);
   g_clear_pointer (&self->region, (GDestroyNotify) cairo_region_destroy);
+  g_clear_pointer (&self->surface_memory, g_free);
 
   G_OBJECT_CLASS (photos_image_view_parent_class)->finalize (object);
 }
