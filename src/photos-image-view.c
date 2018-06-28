@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2017 Red Hat, Inc.
+ * Copyright © 2015 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -126,9 +126,9 @@ photos_image_view_calculate_best_fit_zoom (PhotosImageView *self, gdouble *out_z
   GtkAllocation allocation;
   gdouble zoom;
   gdouble zoom_scaled = 1.0;
+  gint allocation_height_scaled;
+  gint allocation_width_scaled;
   gint scale_factor;
-  gint viewport_height_real;
-  gint viewport_width_real;
 
   if (!photos_image_view_has_allocation_and_extent (self))
     goto out;
@@ -137,13 +137,13 @@ photos_image_view_calculate_best_fit_zoom (PhotosImageView *self, gdouble *out_z
   bbox = *gegl_buffer_get_extent (self->buffer);
 
   scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
-  viewport_height_real = allocation.height * scale_factor;
-  viewport_width_real = allocation.width * scale_factor;
+  allocation_height_scaled = allocation.height * scale_factor;
+  allocation_width_scaled = allocation.width * scale_factor;
 
-  if (bbox.height > viewport_height_real || bbox.width > viewport_width_real)
+  if (bbox.height > allocation_height_scaled || bbox.width > allocation_width_scaled)
     {
-      gdouble height_ratio = bbox.height / (gdouble) viewport_height_real;
-      gdouble width_ratio = bbox.width / (gdouble) viewport_width_real;
+      gdouble height_ratio = bbox.height / (gdouble) allocation_height_scaled;
+      gdouble width_ratio = bbox.width / (gdouble) allocation_width_scaled;
       gdouble max_ratio =  MAX (height_ratio, width_ratio);
 
       zoom_scaled = 1.0 / max_ratio;
@@ -366,9 +366,9 @@ photos_image_view_update (PhotosImageView *self)
   GeglRectangle bbox;
   GeglRectangle bbox_zoomed;
   GtkAllocation allocation;
+  gint allocation_height_scaled;
+  gint allocation_width_scaled;
   gint scale_factor;
-  gint viewport_height_real;
-  gint viewport_width_real;
 
   g_object_freeze_notify (G_OBJECT (self));
 
@@ -406,8 +406,8 @@ photos_image_view_update (PhotosImageView *self)
   bbox = *gegl_buffer_get_extent (self->buffer);
   scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
 
-  viewport_height_real = allocation.height * scale_factor;
-  viewport_width_real = allocation.width * scale_factor;
+  allocation_height_scaled = allocation.height * scale_factor;
+  allocation_width_scaled = allocation.width * scale_factor;
 
   if (self->best_fit && self->zoom_animation == NULL)
     {
@@ -416,8 +416,8 @@ photos_image_view_update (PhotosImageView *self)
       bbox_zoomed.x = (gint) (self->zoom_visible_scaled * bbox.x + 0.5);
       bbox_zoomed.y = (gint) (self->zoom_visible_scaled * bbox.y + 0.5);
 
-      self->x_scaled = (bbox_zoomed.width - viewport_width_real) / 2.0;
-      self->y_scaled = (bbox_zoomed.height - viewport_height_real) / 2.0;
+      self->x_scaled = (bbox_zoomed.width - allocation_width_scaled) / 2.0;
+      self->y_scaled = (bbox_zoomed.height - allocation_height_scaled) / 2.0;
     }
   else
     {
@@ -428,32 +428,32 @@ photos_image_view_update (PhotosImageView *self)
       bbox_zoomed.x = (gint) (self->zoom_visible_scaled * bbox.x + 0.5);
       bbox_zoomed.y = (gint) (self->zoom_visible_scaled * bbox.y + 0.5);
 
-      if (bbox_zoomed.width > viewport_width_real)
+      if (bbox_zoomed.width > allocation_width_scaled)
         {
           ratio_old = (self->x_scaled
                        + self->allocation_scaled_old.width / 2.0
                        - (gdouble) self->bbox_zoomed_old.x)
                       / (gdouble) self->bbox_zoomed_old.width;
-          self->x_scaled = ratio_old * (gdouble) bbox_zoomed.width - (viewport_width_real / 2.0);
-          self->x_scaled = CLAMP (self->x_scaled, 0.0, (gdouble) bbox_zoomed.width - viewport_width_real);
+          self->x_scaled = ratio_old * (gdouble) bbox_zoomed.width - (allocation_width_scaled / 2.0);
+          self->x_scaled = CLAMP (self->x_scaled, 0.0, (gdouble) bbox_zoomed.width - allocation_width_scaled);
         }
       else
         {
-          self->x_scaled = (bbox_zoomed.width - viewport_width_real) / 2.0;
+          self->x_scaled = (bbox_zoomed.width - allocation_width_scaled) / 2.0;
         }
 
-      if (bbox_zoomed.height > viewport_height_real)
+      if (bbox_zoomed.height > allocation_height_scaled)
         {
           ratio_old = (self->y_scaled
                        + self->allocation_scaled_old.height / 2.0
                        - (gdouble) self->bbox_zoomed_old.y)
                       / (gdouble) self->bbox_zoomed_old.height;
-          self->y_scaled = ratio_old * (gdouble) bbox_zoomed.height - (viewport_height_real / 2.0);
-          self->y_scaled = CLAMP (self->y_scaled, 0.0, (gdouble) bbox_zoomed.height - viewport_height_real);
+          self->y_scaled = ratio_old * (gdouble) bbox_zoomed.height - (allocation_height_scaled / 2.0);
+          self->y_scaled = CLAMP (self->y_scaled, 0.0, (gdouble) bbox_zoomed.height - allocation_height_scaled);
         }
       else
         {
-          self->y_scaled = (bbox_zoomed.height - viewport_height_real) / 2.0;
+          self->y_scaled = (bbox_zoomed.height - allocation_height_scaled) / 2.0;
         }
     }
 
