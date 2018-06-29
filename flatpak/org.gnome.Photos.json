@@ -193,7 +193,7 @@
         },
         {
             "name": "gexiv2",
-            "config-opts": [ "--disable-introspection" ],
+            "config-opts": [ "--disable-introspection", "--disable-Werror" ],
             "sources": [
                 {
                     "type": "git",
