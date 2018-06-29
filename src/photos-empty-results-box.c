@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2017 Red Hat, Inc.
+ * Copyright © 2012 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,8 +50,6 @@ G_DEFINE_TYPE (PhotosEmptyResultsBox, photos_empty_results_box, GTK_TYPE_GRID);
 static gboolean
 photos_empty_results_box_activate_link (PhotosEmptyResultsBox *self, const gchar *uri)
 {
-  g_autoptr (GAppInfo) app = NULL;
-  g_autoptr (GAppLaunchContext) ctx = NULL;
   gboolean ret_val = FALSE;
 
   if (g_strcmp0 (uri, "system-settings") != 0)
@@ -60,26 +58,9 @@ photos_empty_results_box_activate_link (PhotosEmptyResultsBox *self, const gchar
   {
     g_autoptr (GError) error = NULL;
 
-    app = g_app_info_create_from_commandline ("gnome-control-center online-accounts",
-                                              NULL,
-                                              G_APP_INFO_CREATE_NONE,
-                                              &error);
-    if (error != NULL)
+    if (!photos_utils_launch_online_accounts (NULL, &error))
       {
-        g_warning ("Unable to launch gnome-control-center: %s", error->message);
-        goto out;
-      }
-  }
-
-  ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (self));
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    g_app_info_launch (app, NULL, ctx, &error);
-    if (error != NULL)
-      {
-        g_warning ("Unable to launch gnome-control-center: %s", error->message);
+        g_warning ("Unable to open Online Accounts panel: %s", error->message);
         goto out;
       }
   }
