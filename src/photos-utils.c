@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2017 Red Hat, Inc.
+ * Copyright © 2012 – 2018 Red Hat, Inc.
  * Copyright © 2009 Yorba Foundation
  *
  * This program is free software: you can redistribute it and/or modify
@@ -1076,6 +1076,39 @@ photos_utils_get_version (void)
   ret_val = PACKAGE_VERSION;
 #endif
 
+  return ret_val;
+}
+
+
+gboolean
+photos_utils_launch_online_accounts (const gchar *account_id, GError **error)
+{
+  GVariant *parameters;
+  g_autoptr (GApplication) control_center = NULL;
+  g_auto (GVariantBuilder) panel_parameters = G_VARIANT_BUILDER_INIT (G_VARIANT_TYPE ("av"));
+  gboolean ret_val = FALSE;
+  const gchar *control_center_id = "org.gnome.ControlCenter";
+
+  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+  control_center = g_application_new (control_center_id, G_APPLICATION_IS_LAUNCHER);
+  if (!g_application_register (control_center, NULL, error))
+    goto out;
+
+  if (account_id != NULL && account_id[0] != '\0')
+    {
+      GVariant *account_id_variant;
+
+      account_id_variant = g_variant_new_string (account_id);
+      g_variant_builder_add (&panel_parameters, "v", account_id_variant);
+    }
+
+  parameters = g_variant_new ("(s@av)", "online-accounts", g_variant_builder_end (&panel_parameters));
+  g_action_group_activate_action (G_ACTION_GROUP (control_center), "launch-panel", parameters);
+
+  ret_val = TRUE;
+
+ out:
   return ret_val;
 }
 
