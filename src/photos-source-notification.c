@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2017 Red Hat, Inc.
+ * Copyright © 2018 Red Hat, Inc.
  * Copyright © 2017 Umang Jain
  *
  * This program is free software: you can redistribute it and/or modify
@@ -85,40 +85,22 @@ photos_source_notification_import_notify_sensitive (GObject *object)
 static void
 photos_source_notification_settings_clicked (PhotosSourceNotification *self)
 {
-  g_autoptr (GAppInfo) app = NULL;
-  g_autoptr (GAppLaunchContext) ctx = NULL;
   GoaAccount *account;
   GoaObject *object;
   const gchar *id;
-  g_autofree gchar *command_line = NULL;
 
   object = photos_source_get_goa_object (self->source);
   g_return_if_fail (GOA_IS_OBJECT (object));
 
   account = goa_object_peek_account (object);
   id = goa_account_get_id (account);
-  command_line = g_strconcat ("gnome-control-center online-accounts ", id, NULL);
 
   {
     g_autoptr (GError) error = NULL;
 
-    app = g_app_info_create_from_commandline (command_line, NULL, G_APP_INFO_CREATE_NONE, &error);
-    if (error != NULL)
+    if (!photos_utils_launch_online_accounts (id, &error))
       {
-        g_warning ("Unable to launch gnome-control-center: %s", error->message);
-        goto out;
-      }
-  }
-
-  ctx = photos_utils_new_app_launch_context_from_widget (GTK_WIDGET (self));
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    g_app_info_launch (app, NULL, ctx, &error);
-    if (error != NULL)
-      {
-        g_warning ("Unable to launch gnome-control-center: %s", error->message);
+        g_warning ("Unable to open Online Accounts panel: %s", error->message);
         goto out;
       }
   }
