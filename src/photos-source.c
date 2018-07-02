@@ -336,7 +336,17 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
         self->id = g_strdup_printf ("gd:goa-account:%s", goa_account_get_id (account));
 
         provider_icon = goa_account_get_provider_icon (account);
-        self->icon = g_icon_new_for_string (provider_icon, NULL); /* TODO: use a GError */
+        {
+          g_autoptr (GError) error = NULL;
+
+          /* Note that g_icon_new_for_string can return NULL without an error.
+           */
+          self->icon = g_icon_new_for_string (provider_icon, &error);
+          if (error != NULL)
+            {
+              g_warning ("Unable to generate a GIcon instance: %s", error->message);
+            }
+        }
 
         provider_name = goa_account_get_provider_name (account);
         self->name = g_strdup (provider_name);
