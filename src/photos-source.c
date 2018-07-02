@@ -324,6 +324,7 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
         GoaAccount *account;
         const gchar *provider_icon;
         const gchar *provider_name;
+        const gchar *id;
 
         self->object = GOA_OBJECT (g_value_dup_object (value));
         if (self->object == NULL)
@@ -333,10 +334,19 @@ photos_source_set_property (GObject *object, guint prop_id, const GValue *value,
         g_return_if_fail (self->name == NULL);
 
         account = goa_object_peek_account (self->object);
-        self->id = g_strdup_printf ("gd:goa-account:%s", goa_account_get_id (account));
+
+        id = goa_account_get_id (account);
+        self->id = g_strdup_printf ("gd:goa-account:%s", id);
 
         provider_icon = goa_account_get_provider_icon (account);
-        self->icon = g_icon_new_for_string (provider_icon, NULL); /* TODO: use a GError */
+
+          {
+            g_autoptr (GError) error = NULL;
+
+            self->icon = g_icon_new_for_string (provider_icon, &error);
+            if (error != NULL)
+              g_critical ("Unable to generate a GIcon for %s: %s", id, error->message);
+          }
 
         provider_name = goa_account_get_provider_name (account);
         self->name = g_strdup (provider_name);
