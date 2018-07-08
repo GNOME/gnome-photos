@@ -532,6 +532,7 @@ static void
 photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *rect)
 {
   const Babl *format;
+  GeglAbyssPolicy buffer_flags;
   GeglRectangle roi;
   cairo_surface_t *surface = NULL;
   gint scale_factor;
@@ -562,6 +563,11 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
 
   format = babl_format ("cairo-ARGB32");
 
+  if (self->zoom_animation == NULL)
+    buffer_flags = GEGL_ABYSS_NONE | GEGL_BUFFER_FILTER_AUTO;
+  else
+    buffer_flags = GEGL_ABYSS_NONE | GEGL_BUFFER_FILTER_NEAREST;
+
   start = g_get_monotonic_time ();
 
   gegl_buffer_get (self->buffer,
@@ -570,15 +576,16 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
                    format,
                    self->surface_memory,
                    stride,
-                   GEGL_ABYSS_NONE);
+                   buffer_flags);
 
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL,
-                "PhotosImageView: Node Blit: %d, %d, %d×%d, %" G_GINT64_FORMAT,
+                "PhotosImageView: Node Blit: %d, %d, %d×%d, %d, %" G_GINT64_FORMAT,
                 rect->x,
                 rect->y,
                 rect->width,
                 rect->height,
+                buffer_flags,
                 end - start);
 
   surface = cairo_image_surface_create_for_data (self->surface_memory,
