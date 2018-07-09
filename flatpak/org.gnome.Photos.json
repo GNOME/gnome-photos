@@ -208,7 +208,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/grilo"
+                    "url": "https://gitlab.gnome.org/GNOME/grilo.git"
                 }
             ]
         },
@@ -242,7 +242,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/grilo-plugins"
+                    "url": "https://gitlab.gnome.org/GNOME/grilo-plugins.git"
                 }
             ]
         },
