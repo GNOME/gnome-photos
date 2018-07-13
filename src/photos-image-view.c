@@ -580,11 +580,12 @@ photos_image_view_draw_node (PhotosImageView *self, cairo_t *cr, GdkRectangle *r
 
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL,
-                "PhotosImageView: Node Blit: %d, %d, %d×%d, %d, %" G_GINT64_FORMAT,
+                "PhotosImageView: Node Blit: %d, %d, %d×%d, %.4f, %d, %" G_GINT64_FORMAT,
                 rect->x,
                 rect->y,
                 rect->width,
                 rect->height,
+                self->zoom_visible_scaled,
                 buffer_flags,
                 end - start);
 
