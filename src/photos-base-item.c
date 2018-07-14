@@ -1954,7 +1954,7 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv;
   GFile *file = G_FILE (task_data);
-  GExiv2Metadata *metadata = NULL; /* TODO: Use g_autoptr */
+  g_autoptr (GExiv2Metadata) metadata = NULL;
   g_autofree gchar *export_path = NULL;
   g_autofree gchar *source_path = NULL;
 
@@ -2002,7 +2002,6 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
 
  out:
   g_mutex_unlock (&priv->mutex_save_metadata);
-  g_clear_object (&metadata);
 }
 
 
