@@ -147,8 +147,8 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   g_autoptr (GFile) remote_file = NULL;
   g_autoptr (GList) keys = NULL;
   g_autoptr (GMainContext) context = NULL;
-  GrlMedia *media = NULL; /* TODO: use g_autoptr */
-  GrlOperationOptions *options = NULL; /* TODO: use g_autoptr */
+  g_autoptr (GrlMedia) media = NULL;
+  g_autoptr (GrlOperationOptions) options = NULL;
   GrlRegistry *registry;
   GrlSource *source;
   gboolean ret_val = FALSE;
@@ -252,8 +252,6 @@ photos_flickr_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   ret_val = TRUE;
 
  out:
-  g_clear_object (&options);
-  g_clear_object (&media);
   if (data.loop != NULL)
     g_main_loop_unref (data.loop);
   return ret_val;
