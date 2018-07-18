@@ -96,11 +96,7 @@
         },
         {
             "name": "gnome-online-accounts",
-            "config-opts": [ "--disable-introspection",
-                             "--disable-telepathy",
-                             "--disable-documentation",
-                             "--disable-backend",
-                             "--disable-Werror" ],
+            "config-opts": [ "--disable-backend", "--disable-introspection", "--disable-Werror" ],
             "sources": [
                 {
                     "type": "git",
