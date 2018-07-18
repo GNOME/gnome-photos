@@ -1,3 +1,18 @@
+Overview of changes in 3.29.4
+=============================
+
+* Bugs fixed:
+  !41 source: Add an error handler for GIcon instance
+  #77 Use g_auto*
+ #108 flatpak: Disable -Werror for gexiv2
+
+* Updated translations:
+ Friulian
+ Portuguese (Brazilian)
+ Romanian
+ Spanish
+
+
 Overview of changes in 3.29.3
 =============================
 
