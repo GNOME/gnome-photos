@@ -35,8 +35,7 @@ void                   photos_pipeline_new_async         (GeglNode *parent,
                                                           GAsyncReadyCallback callback,
                                                           gpointer user_data);
 
-PhotosPipeline        *photos_pipeline_new_finish        (GAsyncResult *res,
-                                                          GError **error);
+PhotosPipeline        *photos_pipeline_new_finish        (GAsyncResult *res, GError **error);
 
 void                   photos_pipeline_add_valist        (PhotosPipeline *self,
                                                           const gchar *operation,
