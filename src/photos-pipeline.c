@@ -467,9 +467,11 @@ static gboolean
 photos_pipeline_async_initable_init_finish (GAsyncInitable *initable, GAsyncResult *res, GError **error)
 {
   PhotosPipeline *self = PHOTOS_PIPELINE (initable);
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_pipeline_async_initable_init_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -738,9 +740,11 @@ photos_pipeline_save_async (PhotosPipeline *self,
 gboolean
 photos_pipeline_save_finish (PhotosPipeline *self, GAsyncResult *res, GError **error)
 {
-  GTask *task = G_TASK (res);
+  GTask *task;
 
   g_return_val_if_fail (g_task_is_valid (res, self), FALSE);
+  task = G_TASK (res);
+
   g_return_val_if_fail (g_task_get_source_tag (task) == photos_pipeline_save_async, FALSE);
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
