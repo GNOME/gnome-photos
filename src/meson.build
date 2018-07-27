@@ -61,6 +61,7 @@ common_sources = files(
   'photos-gegl-buffer-codec.c',
   'photos-gegl-buffer-codec-jpeg.c',
   'photos-gegl-buffer-codec-png.c',
+  'photos-gegl-buffer-io.c',
   'photos-gegl-buffer-loader.c',
   'photos-gegl-buffer-loader-builder.c',
   'photos-jpeg-count.c',
