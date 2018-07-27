@@ -173,6 +173,8 @@ gnome_photos_SOURCES = \
 	photos-gegl-buffer-codec-jpeg.h \
 	photos-gegl-buffer-codec-png.c \
 	photos-gegl-buffer-codec-png.h \
+	photos-gegl-buffer-io.c \
+	photos-gegl-buffer-io.h \
 	photos-gegl-buffer-loader.c \
 	photos-gegl-buffer-loader.h \
 	photos-gegl-buffer-loader-builder.c \
@@ -418,6 +420,8 @@ gnome_photos_thumbnailer_SOURCES = \
 	photos-gegl-buffer-codec-jpeg.h \
 	photos-gegl-buffer-codec-png.c \
 	photos-gegl-buffer-codec-png.h \
+	photos-gegl-buffer-io.c \
+	photos-gegl-buffer-io.h \
 	photos-gegl-buffer-loader.c \
 	photos-gegl-buffer-loader.h \
 	photos-gegl-buffer-loader-builder.c \
