@@ -12,16 +12,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-02 11:45+0000\n"
-"PO-Revision-Date: 2018-03-03 10:18+0100\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"POT-Creation-Date: 2018-06-15 10:15+0000\n"
+"PO-Revision-Date: 2018-07-28 13:55+0200\n"
+"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.0.9\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
@@ -35,58 +35,66 @@ msgstr "In GNOME auf Ihre Fotos zugreifen, diese verwalten und freigeben"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Eine einfache Anwendung, um Ihre Fotos in GNOME zu betrachten, zu "
-"organisieren und zu teilen. Mit dieser Anwendung soll ein einfacher und "
-"eleganter Ersatz für einen Dateimanager bereitgestellt werden, um mit Fotos "
-"zu arbeiten. Eine direkte Cloud-Integration wird durch die GNOME-Online-"
+"In GNOME auf Ihre Fotos zugreifen, diese verwalten und freigeben. Eine "
+"einfache und elegante Alternative zur Organisation von Fotos durch einen "
+"Dateimanager. Eine direkte Cloud-Integration wird durch die GNOME-Online-"
 "Konten angeboten."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Es erlaubt Ihnen:"
+msgid "You can:"
+msgstr "Sie können:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Automatisch all Ihre Bilder finden"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Zuletzt verwendete lokale und Online-Fotos ansehen"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Auf Ihre Inhalte in Facebook oder Flickr zugreifen"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Fotos an entfernte DLNA-Geräte senden"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Auf Ihre Bilder in Facebook oder Flickr zugreifen"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Als Hintergrund festlegen"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Fotos auf Fernsehern, Laptops oder anderen DLNA-Geräten in Ihrem "
+"Heimnetzwerk ansehen"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "Bilder als Ihren Bildschirmhintergrund festlegen"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Fotos drucken"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Favoriten auswählen"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
 msgstr ""
-"Es ermöglichen, den voll ausgestatteten Editor für fortgeschrittene "
-"Änderungen öffnen zu können"
+"Ihre Bilder einfach in der Anwendung bearbeiten, oder einen voll "
+"ausgestatteten Editor für fortgeschrittene Änderungen öffnen"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "Das GNOME-Projekt"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
-msgstr "Auf Ihre Fotos zugreifen, diese verwalten und freigeben"
+msgstr "Auf Fotos zugreifen, diese verwalten und freigeben"
 
 #. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 #: data/org.gnome.Photos.desktop.in.in:7
@@ -145,11 +153,11 @@ msgstr "Die Versionsnummer der Anwendung zeigen"
 msgid "%-d %B %Y"
 msgstr "%d. %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2831
 msgid "Screenshots"
 msgstr "Bildschirmfotos"
 
@@ -287,36 +295,36 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Exportgröße wird berechnet …"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:334
 msgid "Failed to export: not enough space"
 msgstr "Export ist fehlgeschlagen: nicht genug Platz vorhanden"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:336
 msgid "Failed to export"
 msgstr "Export ist fehlgeschlagen"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:343
 #, c-format
 msgid "“%s” exported"
 msgstr "»%s« wurde exportiert"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:347
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d Objekt wurde exportiert"
 msgstr[1] "%d Objekte wurden exportiert"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:364
 msgid "Analyze"
 msgstr "Analysieren"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:369
 msgid "Empty Trash"
 msgstr "Papierkorb leeren"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Öffnen"
@@ -324,7 +332,7 @@ msgstr "Öffnen"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:396
 msgid "Export Folder"
 msgstr "Export-Ordner"
 
@@ -502,7 +510,7 @@ msgstr "Ihre Fotos werden indiziert"
 msgid "Some photos might not be available during this process"
 msgstr "Einige Fotos könnten während dieses Vorgangs nicht verfügbar sein"
 
-#: src/photos-local-item.c:207 src/photos-source-manager.c:399
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Lokal"
 
@@ -562,11 +570,11 @@ msgstr "Au_swählen"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
@@ -1042,3 +1050,9 @@ msgstr "Filter"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Die Liste der Fotos kann nicht abgeholt werden"
+
+#~ msgid "It lets you:"
+#~ msgstr "Es erlaubt Ihnen:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Fotos an entfernte DLNA-Geräte senden"
