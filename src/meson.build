@@ -43,6 +43,7 @@ common_sources = files(
   'photos-gegl.c',
   'photos-gegl-buffer-codec.c',
   'photos-gegl-buffer-loader.c',
+  'photos-gegl-buffer-loader-builder.c',
   'photos-jpeg-count.c',
   'photos-operation-insta-filter.c',
   'photos-operation-insta-hefe.c',
