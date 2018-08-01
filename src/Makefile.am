@@ -171,6 +171,8 @@ gnome_photos_SOURCES = \
 	photos-gegl.h \
 	photos-gegl-buffer-loader.c \
 	photos-gegl-buffer-loader.h \
+	photos-gegl-buffer-loader-builder.c \
+	photos-gegl-buffer-loader-builder.h \
 	photos-gesture-zoom.c \
 	photos-gesture-zoom.h \
 	photos-glib.c \
@@ -410,6 +412,8 @@ gnome_photos_thumbnailer_SOURCES = \
 	photos-gegl.h \
 	photos-gegl-buffer-loader.c \
 	photos-gegl-buffer-loader.h \
+	photos-gegl-buffer-loader-builder.c \
+	photos-gegl-buffer-loader-builder.h \
 	photos-pipeline.c \
 	photos-pipeline.h \
 	photos-pixbuf.c \
