@@ -15,6 +15,9 @@ tests = {
   'photos-test-gegl': {
     'dependencies': [gdk_pixbuf_dep, gegl_dep, gio_dep, gio_unix_dep, glib_dep, libgnome_photos_dep]
   },
+  'photos-test-gegl-buffer': {
+    'dependencies': [gdk_pixbuf_dep, gegl_dep, gio_dep, gio_unix_dep, glib_dep, libgnome_photos_dep]
+  },
   'photos-test-pipeline': {
     'dependencies': [gdk_pixbuf_dep, gegl_dep, gio_dep, gio_unix_dep, glib_dep, libgnome_photos_dep]
   },
