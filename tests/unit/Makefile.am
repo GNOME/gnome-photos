@@ -11,6 +11,7 @@ dist_test_data = \
 
 test_programs = \
 	photos-test-gegl \
+	photos-test-gegl-buffer \
 	photos-test-pipeline \
 	$(NULL)
 
@@ -26,6 +27,23 @@ photos_test_gegl_CPPFLAGS = \
 
 photos_test_gegl_LDADD = \
 	$(BABL_LIBS) \
+	$(GDK_PIXBUF_LIBS) \
+	$(GEGL_LIBS) \
+	$(GIO_LIBS) \
+	$(GLIB_LIBS) \
+	$(top_builddir)/src/libgnome-photos.la \
+	$(NULL)
+
+photos_test_gegl_buffer_CPPFLAGS = \
+	$(GDK_PIXBUF_CFLAGS) \
+	$(GEGL_CFLAGS) \
+	$(GIO_CFLAGS) \
+	$(GLIB_CFLAGS) \
+	-I$(top_builddir)/src \
+	-I$(top_srcdir)/src \
+	$(NULL)
+
+photos_test_gegl_buffer_LDADD = \
 	$(GDK_PIXBUF_LIBS) \
 	$(GEGL_LIBS) \
 	$(GIO_LIBS) \
