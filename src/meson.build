@@ -107,7 +107,9 @@ libgnome_photos_dep = declare_dependency(
   sources: libgnome_photos_built_headers,
 )
 
-common_sources = []
+common_sources = files(
+  'photos-gegl-buffer-loader-builder.c',
+)
 
 common_deps = [
   gdk_pixbuf_dep,
