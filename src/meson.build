@@ -108,6 +108,7 @@ libgnome_photos_dep = declare_dependency(
 
 common_sources = files(
   'photos-gegl-buffer-loader.c',
+  'photos-gegl-buffer-loader-builder.c',
 )
 
 common_deps = [
