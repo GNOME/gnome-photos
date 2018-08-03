@@ -95,6 +95,13 @@ photos_operation_insta_filter_setup (PhotosOperationInstaFilter *self)
       self->nodes = g_list_prepend (self->nodes, node);
       break;
 
+    case PHOTOS_OPERATION_INSTA_PRESET_GRAY:
+      node = gegl_node_new_child (operation->node,
+                                  "operation", "gegl:gray",
+                                  NULL);
+      self->nodes = g_list_prepend (self->nodes, node);
+      break;
+
     case PHOTOS_OPERATION_INSTA_PRESET_HEFE:
       node = gegl_node_new_child (operation->node,
                                   "operation", "photos:insta-hefe",

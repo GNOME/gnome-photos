@@ -219,6 +219,12 @@ photos_tool_filters_init (PhotosToolFilters *self)
   self->buttons = g_list_prepend (self->buttons, button);
   row++;
 
+  button = photos_tool_filter_button_new (group, _("Gray"));
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
+  gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_GRAY);
+  gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
+  self->buttons = g_list_prepend (self->buttons, button);
+
   self->buttons = g_list_reverse (self->buttons);
 }
 
