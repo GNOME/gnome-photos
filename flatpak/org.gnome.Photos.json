@@ -207,7 +207,7 @@
                              "-Denable-grl-pls=false",
                              "-Denable-gtk-doc=false",
                              "-Denable-test-ui=false",
-                             "-Denable-vala=false" ]
+                             "-Denable-vala=false" ],
             "sources": [
                 {
                     "type": "git",
@@ -241,7 +241,7 @@
                              "-Denable-tmdb=no",
                              "-Denable-tracker=no",
                              "-Denable-vimeo=no",
-                             "-Denable-youtube=no" ]
+                             "-Denable-youtube=no" ],
             "sources": [
                 {
                     "type": "git",
