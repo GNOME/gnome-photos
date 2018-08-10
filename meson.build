@@ -25,6 +25,9 @@ gnome = import('gnome')
 i18n = import('i18n')
 
 source_root = meson.current_source_dir()
+build_root = meson.current_build_dir()
+
+data_dir = join_paths(source_root, 'data')
 po_dir = join_paths(source_root, 'po')
 
 top_inc = include_directories('.')
