@@ -1,0 +1,13 @@
+<!DOCTYPE busconfig PUBLIC
+ "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+<busconfig>
+  <listen>tcp:host=localhost</listen>
+  <servicedir>@servicedir@</servicedir>
+  <policy context="default">
+    <allow send_interface="org.freedesktop.Application" send_type="method_call"/>
+    <allow receive_type="error"/>
+    <allow receive_type="method_return"/>
+    <allow receive_type="signal"/>
+  </policy>
+</busconfig>
