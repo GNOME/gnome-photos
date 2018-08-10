@@ -20,14 +20,39 @@ if get_option('installed_tests')
 endif
 
 if get_option('dogtail')
+  service_conf = configuration_data()
+  service_conf.set('bindir', src_build_dir)
+
+  service = photos_namespace + '.service'
+
+  configure_file(
+    input: service_in,
+    output: service,
+    configuration: service_conf
+  )
+
+  test_session_conf = configuration_data()
+  test_session_conf.set('servicedir', meson.current_build_dir())
+
+  test_session = 'test-session.conf'
+
+  session_conf = configure_file(
+    input: test_session + '.in',
+    output: test_session,
+    configuration: test_session_conf
+  )
+
   test_env = [
     'LC_ALL=C',
     'GSETTINGS_BACKEND=memory'
   ]
 
+  dbus_run_session = find_program('dbus-run-session')
+
   test(
     test_name,
-    files(test_name),
+    dbus_run_session,
+    args: ['--config-file', session_conf, files(test_name)],
     env: test_env
   )
 endif

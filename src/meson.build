@@ -1,3 +1,5 @@
+src_build_dir = meson.current_build_dir()
+
 common_sources = files(
   'photos-debug.c',
   'photos-error.c',
