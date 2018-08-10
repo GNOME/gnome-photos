@@ -37,8 +37,10 @@ service_conf.set('bindir', photos_bindir)
 
 service = photos_namespace + '.service'
 
+service_in = files(service + '.in')
+
 configure_file(
-  input: service + '.in',
+  input: service_in,
   output: service,
   configuration: service_conf,
   install: true,
