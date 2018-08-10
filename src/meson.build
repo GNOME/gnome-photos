@@ -1,5 +1,7 @@
 libgnome_photos_built_headers = []
 
+src_build_dir = meson.current_build_dir()
+
 sources = files(
   'photos-debug.c',
   'photos-error.c',
