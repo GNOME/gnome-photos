@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-03 12:32+0000\n"
-"PO-Revision-Date: 2018-03-05 22:20+0200\n"
+"POT-Creation-Date: 2018-06-15 10:15+0000\n"
+"PO-Revision-Date: 2018-08-11 21:46+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -30,51 +30,69 @@ msgid "Access, organize and share your photos on GNOME"
 msgstr "Pasiekite, tvarkykite ir dalinkitės savo nuotraukomis GNOME aplinkoje"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
+#| msgid ""
+#| "A simple application to access, organize and share your photos on GNOME. "
+#| "It is meant to be a simple and elegant replacement for using a file "
+#| "manager to deal with photos. Seamless cloud integration is offered "
+#| "through GNOME Online Accounts."
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Paprasta programa GNOME aplinkai nuotraukų pasiekimui, tvarkymui ir "
-"dalijimuisi jomis. Ji siekia būti paprastu ir elegantišku pakaitalu failų "
-"tvarkytuvės naudojimui nuotraukoms. Integracija su debesų technologija "
-"siūloma per GNOME internetines paskyras."
+"Paprasta programa GNOME aplinkai nuotraukų tvarkymui ir dalijimuisi jomis. "
+"Ji siekia būti paprastu ir elegantišku pakaitalu failų tvarkytuvės "
+"naudojimui nuotraukoms. Integracija su debesų technologija siūloma per GNOME "
+"internetines paskyras."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Ji jums leidžia:"
+msgid "You can:"
+msgstr "Jūs galite:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Automatiškai rasti visas visas jūsų nutraukas"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Rodyti nesenas vietines ir internetines nuotraukas"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Pasiekite savo Facebook ar Flickr turinį"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Siųsti nuotraukas į nutolusius DLNA piešėjus"
+#| msgid "Access your Facebook or Flickr content"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Pasiekite savo Facebook ar Flickr nuotraukas"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Nustatyti kaip foną"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Rodyti nuotraukas televizoriuose, kompiuteriuose bei kituose DLNA piešimo "
+"įrenginiuose vietiniame tinkle"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+#| msgid "Set as background"
+msgid "Set pictures as your desktop background"
+msgstr "Nustatyti nuotraukas kaip darbalaukio foną"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Spausdinti nuotraukas"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Pasirinkite mėgiamiausias"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
+#: data/org.gnome.Photos.appdata.xml.in:26
+#| msgid "Allow opening full featured editor for more advanced changes"
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
 msgstr ""
-"Leisti atverti pilno funkcionalumo redaktorių sudėtingesniems pakeitimams"
+"Lengvai redaguokite savo nuotraukas programoje arba siųskite į pilno "
+"funkcionalumo redaktorių sudėtingesniems pakeitimams"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "GNOME projektas"
 
@@ -138,11 +156,11 @@ msgstr "Rodyti programos versiją"
 msgid "%-d %B %Y"
 msgstr "%Y %B %-d"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Albumas"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2831
 msgid "Screenshots"
 msgstr "Ekranvaizdžiai"
 
@@ -281,20 +299,20 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Skaičiuojamas eksportavimo dydis…"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:334
 msgid "Failed to export: not enough space"
 msgstr "Nepavyko eksportuoti: nepakanka disko vietos"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:336
 msgid "Failed to export"
 msgstr "Nepavyko eksportuoti"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:343
 #, c-format
 msgid "“%s” exported"
 msgstr "„%s“ eksportuotas"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:347
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -302,16 +320,16 @@ msgstr[0] "%d elementas eksportuotas"
 msgstr[1] "%d elementai eksportuoti"
 msgstr[2] "%d elementų eksportuota"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:364
 msgid "Analyze"
 msgstr "Analizuoti"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:369
 msgid "Empty Trash"
 msgstr "Išvalyti šiukšlinę"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Atverti"
@@ -319,7 +337,7 @@ msgstr "Atverti"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:396
 msgid "Export Folder"
 msgstr "Eksportuoti aplanką"
 
@@ -497,7 +515,7 @@ msgstr "Jūsų nuotraukos indeksuojamos"
 msgid "Some photos might not be available during this process"
 msgstr "Kai kurios nuotraukos gali būti nepasiekiamos šio proceso metu"
 
-#: src/photos-local-item.c:207 src/photos-source-manager.c:399
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Vietinės"
 
@@ -514,7 +532,6 @@ msgstr[1] "Pasirinkti %d"
 msgstr[2] "Pasirinkta %d"
 
 #: src/photos-main-toolbar.c:170
-#| msgid "Select Items"
 msgid "Select items for import"
 msgstr "Pasirinkite importuojamus elementus"
 
@@ -559,12 +576,15 @@ msgid "_Select"
 msgstr "_Pasirinkti"
 
 #: src/photos-main-window.c:458
+#| msgid ""
+#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
+#| "Copyright © 2015 – 2017 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Autorių teisės priklauso © 2012 – 2017 Red Hat, Inc.\n"
-"Autorių teisės priklauso © 2015 – 2017 Umang Jain"
+"Autorių teisės priklauso © 2012 – 2018 Red Hat, Inc.\n"
+"Autorių teisės priklauso © 2015 – 2018Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
@@ -1036,6 +1056,12 @@ msgstr "Filtrai"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Nepavyksta gauti nuotraukų sąrašo"
+
+#~ msgid "It lets you:"
+#~ msgstr "Ji jums leidžia:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Siųsti nuotraukas į nutolusius DLNA piešėjus"
 
 #~ msgid "Name your first album"
 #~ msgstr "Pavadinkite savo pirmąjį albumą"
