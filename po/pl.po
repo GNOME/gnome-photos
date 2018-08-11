@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-02 11:45+0000\n"
-"PO-Revision-Date: 2018-03-02 18:30+0100\n"
+"POT-Creation-Date: 2018-06-15 10:15+0000\n"
+"PO-Revision-Date: 2018-08-12 00:20+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -32,49 +32,60 @@ msgstr "Dostęp, organizowanie i udostępnianie zdjęć w środowisku GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Prosty program umożliwiający oglądanie, organizowanie i udostępnianie zdjęć "
-"w środowisku GNOME. Został on zaprojektowany jako prosty i elegancki "
-"interfejs do zarządzania zdjęciami, zastępujący w tym celu menedżer plików. "
-"Dzięki usłudze Kont online GNOME oferuje on integrację z chmurą."
+"Dostęp, organizowanie i udostępnianie zdjęć w środowisku GNOME. Prosty "
+"i elegancki program zastępujący menedżer plików jako sposób na zarządzanie "
+"zdjęciami. Błyskawiczne uwydatnianie, kadrowanie i retuszowanie. Integracja "
+"z chmurą przez usługę Konta online GNOME."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Program umożliwia:"
+msgid "You can:"
+msgstr "Funkcje:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Automatyczne wyszukiwanie wszystkich zdjęć"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Przeglądanie zdjęć lokalnych i w sieci"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Dostęp do treści w serwisach Facebook i Flickr"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Wysyłanie zdjęć do zdalnych urządzeń DLNA"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Dostęp do zdjęć w serwisach Facebook i Flickr"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Ustawienie zdjęcia jako tła pulpitu"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Wyświetlanie zdjęć na telewizorze, laptopie lub innym urządzeniu zgodnym "
+"z DLNA w sieci lokalnej"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "Ustawianie zdjęć jako tło pulpitu"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Drukowanie zdjęć"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Wybieranie ulubionych"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Otwieranie rozbudowanego edytora w celu dokonania poważniejszych zmian"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"Łatwe retuszowanie zdjęć w programie lub wysyłanie ich do rozbudowanego "
+"edytora w celu dokonania poważniejszych zmian"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "Projekt GNOME"
 
@@ -90,7 +101,9 @@ msgstr "org.gnome.Photos"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
-msgstr "Zdjęcia;Zdjęcie;Obrazy;Obraz;Obrazki;Obrazek;"
+msgstr ""
+"Zdjęcia;Zdjęcie;Fotografia;Fotografie;Obrazy;Obraz;Obrazki;Obrazek;"
+"Retuszowanie;"
 
 #: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
@@ -138,11 +151,11 @@ msgstr "Wyświetla wersję programu"
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2831
 msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
@@ -281,20 +294,20 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Obliczanie rozmiaru eksportu…"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:334
 msgid "Failed to export: not enough space"
 msgstr "Wyeksportowanie się nie powiodło: za mało miejsca"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:336
 msgid "Failed to export"
 msgstr "Wyeksportowanie się nie powiodło"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:343
 #, c-format
 msgid "“%s” exported"
 msgstr "Wyeksportowano „%s”"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:347
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -302,16 +315,16 @@ msgstr[0] "Wyeksportowano %d element"
 msgstr[1] "Wyeksportowano %d elementy"
 msgstr[2] "Wyeksportowano %d elementów"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:364
 msgid "Analyze"
 msgstr "Analizuj"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:369
 msgid "Empty Trash"
 msgstr "Opróżnij kosz"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Otwórz"
@@ -319,7 +332,7 @@ msgstr "Otwórz"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:396
 msgid "Export Folder"
 msgstr "Wyeksportuj katalog"
 
@@ -497,7 +510,7 @@ msgstr "Zdjęcia są indeksowane"
 msgid "Some photos might not be available during this process"
 msgstr "Niektóre zdjęcia mogą być niedostępne podczas tego procesu"
 
-#: src/photos-local-item.c:207 src/photos-source-manager.c:399
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Lokalne"
 
@@ -559,11 +572,11 @@ msgstr "_Wybierz"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012-2017 Red Hat, Inc.\n"
-"Copyright © 2015-2017 Umang Jain"
+"Copyright © 2012-2018 Red Hat, Inc.\n"
+"Copyright © 2015-2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
