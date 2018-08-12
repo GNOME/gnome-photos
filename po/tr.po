@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-06 16:32+0000\n"
-"PO-Revision-Date: 2018-03-10 10:44+0300\n"
+"POT-Creation-Date: 2018-06-15 10:15+0000\n"
+"PO-Revision-Date: 2018-08-08 10:28+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -33,51 +33,68 @@ msgid "Access, organize and share your photos on GNOME"
 msgstr "GNOME üzerinde fotoğraflarınıza erişin, yönetin ve paylaşın"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
+#| msgid ""
+#| "A simple application to access, organize and share your photos on GNOME. "
+#| "It is meant to be a simple and elegant replacement for using a file "
+#| "manager to deal with photos. Seamless cloud integration is offered "
+#| "through GNOME Online Accounts."
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"GNOME’da fotoğraflarınıza erişmek, düzenlemek ve paylaşmak için basit bir "
-"uygulama. Bir dosya yöneticisinin yerine, fotoğraflarla uğraşmak için basit "
-"ve zarif bir seçenek olarak düşünüldü. GNOME Çevrim İçi Hesaplar ile "
-"kusursuz bulut tümleşmesi sunulmaktadır."
+"GNOME’da fotoğraflarınıza erişin, düzenleyin ve paylaşın. Dosya yöneticisi "
+"kullanmak yerine, fotoğraflarla uğraşmak için basit ve zarif bir seçenek. "
+"GNOME Çevrim İçi Hesaplar ile kusursuz bulut tümleşmesi sunulmaktadır."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
+msgid "You can:"
 msgstr "Şunları yapabilirsiniz:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Tüm fotoğraflarınızı kendiliğiden bulun"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Son yerel ve çevrim içi fotoğrafları görüntüleyin"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Facebook veya Flickr içeriğinize ulaşın"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Uzak DLNA oluşturuculara fotoğraf gönderin"
+#| msgid "Access your Facebook or Flickr content"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Facebook veya Flickr fotoğraflarınıza ulaşın"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Arka plan olarak ayarla"
-
-#: data/org.gnome.Photos.appdata.xml.in:22
-msgid "Print photos"
-msgstr "Fotoğrafları yazdır"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Fotoğraflarınızı yerel ağınızdaki TVʼlerde, dizüstülerde veya diğer DLNA "
+"işleyicilerde görüntüleyin"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
-msgid "Select favorites"
-msgstr "Gözdeleri seç"
+#| msgid "Set as background"
+msgid "Set pictures as your desktop background"
+msgstr "Fotoğrafları masaüstü arka planınız olarak ayarlayın"
 
 #: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr ""
-"Daha gelişmiş değişiklikler için tam özellikli düzenleyici açmaya izin ver"
+msgid "Print photos"
+msgstr "Fotoğrafları yazdırın"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:25
+msgid "Select favorites"
+msgstr "Gözdeleri seçin"
+
+#: data/org.gnome.Photos.appdata.xml.in:26
+#| msgid "Allow opening full featured editor for more advanced changes"
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"Fotoğraflarınızı uygulamada kolayca düzenleyin veya daha gelişmiş "
+"değişiklikler için tam özellikli düzenleyiciye gönderin"
+
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "GNOME Projesi"
 
@@ -93,7 +110,7 @@ msgstr "org.gnome.Photos"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
-msgstr "Fotoğraflar;Resimler;"
+msgstr "Fotoğraflar;Resimler;Fotolar;"
 
 #: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
@@ -138,15 +155,14 @@ msgstr "Uygulamanın sürümünü göster"
 #.
 #: src/photos-application.c:1393 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
-#| msgid "%e %B %Y"
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Albüm"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2831
 msgid "Screenshots"
 msgstr "Ekran görüntüleri"
 
@@ -283,35 +299,35 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Dışa aktarım boyutu hesaplanıyor…"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:334
 msgid "Failed to export: not enough space"
 msgstr "Dışa aktarma başarısız oldu: yeterli boş alan yok"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:336
 msgid "Failed to export"
 msgstr "Dışa aktarma başarısız oldu"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:343
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” dışa aktarıldı"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:347
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d öge dışa aktarıldı"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:364
 msgid "Analyze"
 msgstr "İncele"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:369
 msgid "Empty Trash"
 msgstr "Çöpü Boşalt"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Aç"
@@ -319,7 +335,7 @@ msgstr "Aç"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:396
 msgid "Export Folder"
 msgstr "Dışa Aktarım Klasörü"
 
@@ -512,7 +528,6 @@ msgid_plural "%d selected"
 msgstr[0] "%d adet seçildi"
 
 #: src/photos-main-toolbar.c:170
-#| msgid "Select Items"
 msgid "Select items for import"
 msgstr "İçe aktarılacak öge seçin"
 
@@ -551,24 +566,27 @@ msgid "Done"
 msgstr "Bitti"
 
 #: src/photos-main-toolbar.c:507
-#| msgid "Select All"
 msgid "_Select"
 msgstr "_Seç"
 
 #: src/photos-main-window.c:458
+#| msgid ""
+#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
+#| "Copyright © 2015 – 2017 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Telif Hakkı © 2012 – 2017 Red Hat, Inc.\n"
-"Telif Hakkı © 2015 – 2017 Umang Jain"
+"Telif Hakkı © 2012 – 2018 Red Hat, Inc.\n"
+"Telif Hakkı © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr ""
 "Gökhan Gurbetoğlu <ggurbet@gmail.com>\n"
-"Muhammet Kara <muhammetk@gmail.com>"
+"Muhammet Kara <muhammetk@gmail.com>\n"
+"Emin Tufan Çetin <etcetin@gmail.com>"
 
 #: src/photos-menus.ui:6
 msgid "Fullscreen"
@@ -887,7 +905,6 @@ msgid "New device discovered"
 msgstr "Yeni aygıt bulundu"
 
 #: src/photos-source-notification.c:214
-#| msgid "Import"
 msgid "Import…"
 msgstr "İçe Aktar…"
 
@@ -1032,6 +1049,12 @@ msgstr "Süzgeçler"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Fotoğrafların listesi alınamıyor"
+
+#~ msgid "It lets you:"
+#~ msgstr "Şunları yapabilirsiniz:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Uzak DLNA oluşturuculara fotoğraf gönderin"
 
 #~ msgid "Cancel"
 #~ msgstr "Vazgeç"
