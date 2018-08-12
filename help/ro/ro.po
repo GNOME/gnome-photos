@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2014-08-02 07:16+0000\n"
-"PO-Revision-Date: 2014-08-02 21:10+0300\n"
-"Last-Translator: Bogdan Mințoi <mintoi.bogdan@gmail.com>\n"
+"POT-Creation-Date: 2018-03-26 22:34+0000\n"
+"PO-Revision-Date: 2018-08-05 11:18+0200\n"
+"Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Română <>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -16,12 +16,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 2.1.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Bogdan Mințoi <mintoi.bogdan@gmail.com> 2014"
+msgstr ""
+"Bogdan Mințoi <mintoi.bogdan@gmail.com>, 2014\n"
+"Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2018"
 
 #. (itstool) path: credit/name
 #: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
@@ -101,10 +103,10 @@ msgstr "Selectați toate elementele pe care le doriți ca favorite."
 #. (itstool) path: item/p
 #: C/favorites-set.page:43
 msgid ""
-"To finish, select the button with the picture of a heart from the toolbar at "
+"To finish, select the button with the picture of a star from the toolbar at "
 "the bottom."
 msgstr ""
-"Pentru a încheia, selectați butonul ce afișează o inimioară aflat în bara de "
+"Pentru a încheia, selectați butonul ce afișează o steluță aflat în bara de "
 "unelte din partea de jos."
 
 #. (itstool) path: page/p
@@ -229,6 +231,72 @@ msgstr ""
 "Alegeți o fotografie pe care doriți s-o deschideți, sau utilizați tastele "
 "săgeți pentru a naviga până la fotografia dorită și apăsați tasta "
 "<key>Enter</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "Deschide fotografiile recente."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Vizualizarea fotografiilor recente"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"Tabul <gui style=\"tab\">Recente</gui> afișează fotografii din locații de pe "
+"sistemul local cum ar fi <file>~/Descărcări</file>, <file>~/Poze</file> și "
+"din colecții online. Puteți de asemenea adăuga alte locații, chiar și "
+"colecții stocate în nor (cloud) cum ar fi fotografii de pe Flickr sau "
+"Facebook, prin intermediul <app>Conturi online GNOME</app>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "Pentru a adăuga alte locații de sistem locale:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr "Navigați la <guiseq><gui>Configurări</gui><gui>Căutare</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Clic pe butonul „roată dințată” din dreapta jos. Puteți selecta locații de "
+"afișat în tabul <gui style=\"tab\">Recent</gui>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Pentru a vizualiza fotografii recente:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Selectați tabul <gui style=\"tab\">Recente</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr ""
+"Va fi afișată o grilă cu fotografii. Selectați o fotografie din grilă pentru "
+"a o deschide."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
