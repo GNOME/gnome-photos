@@ -132,13 +132,14 @@ photos_image_view_calculate_best_fit_zoom (PhotosImageView *self, gdouble *out_z
   gint allocation_width_scaled;
   gint scale_factor;
 
+  scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
+
   if (!photos_image_view_has_allocation_and_extent (self))
     goto out;
 
   gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
   bbox = *gegl_buffer_get_extent (self->buffer);
 
-  scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self));
   allocation_height_scaled = allocation.height * scale_factor;
   allocation_width_scaled = allocation.width * scale_factor;
 

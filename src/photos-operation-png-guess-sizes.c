@@ -117,7 +117,10 @@ photos_operation_png_guess_sizes_count (GeglBuffer *buffer,
     goto out;
 
   if (setjmp (png_jmpbuf (png_ptr)))
-    goto out;
+    {
+      ret_val = 0;
+      goto out;
+    }
 
   if (compression >= 0)
     png_set_compression_level (png_ptr, compression);
