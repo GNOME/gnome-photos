@@ -1,3 +1,22 @@
+Overview of changes in 3.29.91
+==============================
+
+* Bugs fixed:
+ !44 build: Update the Git submodule URL after GitLab migration
+ !45 flatpak: Switch Grilo to Meson
+ !49 flatpak: Fix the exiv2 build
+
+* Updated translations:
+ French
+ German
+ Greek
+ Lithuanian
+ Polish
+ Romanian
+ Slovenian
+ Turkish
+
+
 Overview of changes in 3.29.4
 =============================
 
