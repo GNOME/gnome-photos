@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-04-06 18:13+0000\n"
-"PO-Revision-Date: 2018-05-21 00:11+0200\n"
+"POT-Creation-Date: 2018-06-29 14:25+0000\n"
+"PO-Revision-Date: 2018-08-15 22:40+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.1.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
@@ -31,51 +31,60 @@ msgstr "Titta på, organisera och dela dina foton i GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Ett enkelt program för att visa, organisera och dela dina foton i GNOME. Det "
-"är tänkt som ett enkelt och elegant alternativ till att använda en "
-"filhanterare för att hantera foton. Integration med molntjänster erbjuds "
-"genom GNOME Nätkonton."
+"Titta på, organisera och dela dina foton i GNOME. Ett enkelt och elegant "
+"alternativ till att använda en filhanterare för att hantera foton. "
+"Förbättra, beskär och redigera i ett nafs. Integration med molntjänster "
+"erbjuds genom GNOME Nätkonton."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Det låter dig:"
+msgid "You can:"
+msgstr "Du kan:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Automatiskt hitta alla dina bilder"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Visa nya lokala foton och foton från nätkonton"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Komma åt ditt innehåll på Facebook eller Flickr"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Skicka foton till extern DLNA-mediavisare"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Komma åt dina bilder på Facebook eller Flickr"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Använd som bakgrund"
-
-#: data/org.gnome.Photos.appdata.xml.in:22
-msgid "Print photos"
-msgstr "Skriv ut foton"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Visa foton på TV-apparater, bärbara datorer eller andra DLNA-renderare på "
+"ditt lokala nätverk"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
-msgid "Select favorites"
-msgstr "Välj favoriter"
+msgid "Set pictures as your desktop background"
+msgstr "Använda bilder som din skrivbordsbakgrund"
 
 #: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr ""
-"Tillåt att en funktionellt komplett redigerare öppnas för mer avancerade "
-"förändringar"
+msgid "Print photos"
+msgstr "Skriva ut foton"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:25
+msgid "Select favorites"
+msgstr "Välja favoriter"
+
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"Enkelt redigera dina bilder i programmet, eller skicka till en funktionellt "
+"komplett redigerare för mer avancerade förändringar"
+
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "GNOME-projektet"
 
@@ -139,11 +148,11 @@ msgstr "Visa programmets version"
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2831
 msgid "Screenshots"
 msgstr "Skärmbilder"
 
@@ -192,19 +201,19 @@ msgstr "Import"
 msgid "Search"
 msgstr "Sök"
 
-#: src/photos-empty-results-box.c:148
+#: src/photos-empty-results-box.c:129
 msgid "No albums found"
 msgstr "Inga album hittades"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:133
 msgid "Starred photos will appear here"
 msgstr "Favoritfoton kommer att visas här"
 
-#: src/photos-empty-results-box.c:162
+#: src/photos-empty-results-box.c:143
 msgid "No photos found"
 msgstr "Inga foton hittades"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:172
 msgid "You can create albums from the Photos view"
 msgstr "Du kan skapa album från vyn Foton"
 
@@ -212,7 +221,7 @@ msgstr "Du kan skapa album från vyn Foton"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:193
 msgid "Online Accounts"
 msgstr "Nät­kont­on"
 
@@ -220,7 +229,7 @@ msgstr "Nät­kont­on"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:200
 msgid "Pictures folder"
 msgstr "Bildmapp"
 
@@ -229,12 +238,12 @@ msgstr "Bildmapp"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:207
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Foton från dina %s och din %s kommer att visas här."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:217
 msgid "Try a different search"
 msgstr "Försök med en annan sökning"
 
@@ -281,36 +290,36 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Beräknar exportstorlek…"
 
-#: src/photos-export-notification.c:334
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "Misslyckades med att exportera: inte tillräckligt med utrymme"
 
-#: src/photos-export-notification.c:336
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "Misslyckades med att exportera"
 
-#: src/photos-export-notification.c:343
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "”%s” har exporterats"
 
-#: src/photos-export-notification.c:347
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d objekt har exporterats"
 msgstr[1] "%d objekt har exporterats"
 
-#: src/photos-export-notification.c:364
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "Analysera"
 
-#: src/photos-export-notification.c:369
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Töm papperskorgen"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Öppna"
@@ -318,7 +327,7 @@ msgstr "Öppna"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:396
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Exportmapp"
 
@@ -885,23 +894,23 @@ msgstr "Misslyckades med skicka upp foto"
 msgid "Sources"
 msgstr "Källor"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:183
 msgid "New device discovered"
 msgstr "Ny enhet upptäckt"
 
-#: src/photos-source-notification.c:214
+#: src/photos-source-notification.c:196
 msgid "Import…"
 msgstr "Importera…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:226
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Dina %s-autentiseringsuppgifter har förfallit"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:233
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -1035,6 +1044,12 @@ msgstr "Filter"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Kunde inte hämta fotolistan"
+
+#~ msgid "It lets you:"
+#~ msgstr "Det låter dig:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Skicka foton till extern DLNA-mediavisare"
 
 #~ msgid "Cancel"
 #~ msgstr "Avbryt"
