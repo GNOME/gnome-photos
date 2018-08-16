@@ -69,9 +69,6 @@
 #include "photos-utils.h"
 
 
-static const gdouble EPSILON = 1e-5;
-
-
 GdkPixbuf *
 photos_utils_center_pixbuf (GdkPixbuf *pixbuf, gint size)
 {
@@ -779,7 +776,7 @@ gboolean
 photos_utils_equal_double (gdouble a, gdouble b)
 {
   const gdouble diff = a - b;
-  return diff > -EPSILON && diff < EPSILON;
+  return diff > -PHOTOS_EPSILON && diff < PHOTOS_EPSILON;
 }
 
 

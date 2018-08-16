@@ -64,6 +64,8 @@ AM_GNU_GETTEXT_VERSION([0.19.8])
 AX_REQUIRE_DEFINED([AM_GNU_GETTEXT])
 AM_GNU_GETTEXT([external])
 
+AC_DEFINE([PHOTOS_EPSILON], [1e-5], [Tolerance when comparing single or double precision floating point values])
+
 LT_INIT
 
 AC_CHECK_LIB([jpeg], [jpeg_destroy_decompress], , AC_MSG_ERROR([JPEG library not found]))
