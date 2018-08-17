@@ -434,7 +434,7 @@ photos_main_window_new (GtkApplication *application)
                        "width_request", WINDOW_MIN_WIDTH,
                        "height_request", WINDOW_MIN_HEIGHT,
                        "application", application,
-                       "title", _(PACKAGE_NAME),
+                       "title", _("Photos"),
                        NULL);
 }
 
