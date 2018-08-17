@@ -21,7 +21,6 @@
 #include "config.h"
 
 #include "photos-tool-crop-helper.h"
-#include "photos-utils.h"
 
 
 struct _PhotosToolCropHelper
@@ -228,7 +227,7 @@ photos_tool_crop_helper_set_height (PhotosToolCropHelper *self, gdouble height)
   g_return_if_fail (PHOTOS_IS_TOOL_CROP_HELPER (self));
   g_return_if_fail (height >= 0.0);
 
-  if (photos_utils_equal_double (self->height, height))
+  if (G_APPROX_VALUE (self->height, height, PHOTOS_EPSILON))
     goto out;
 
   self->height = height;
@@ -245,7 +244,7 @@ photos_tool_crop_helper_set_width (PhotosToolCropHelper *self, gdouble width)
   g_return_if_fail (PHOTOS_IS_TOOL_CROP_HELPER (self));
   g_return_if_fail (width >= 0.0);
 
-  if (photos_utils_equal_double (self->width, width))
+  if (G_APPROX_VALUE (self->width, width, PHOTOS_EPSILON))
     goto out;
 
   self->width = width;
@@ -262,7 +261,7 @@ photos_tool_crop_helper_set_x (PhotosToolCropHelper *self, gdouble x)
   g_return_if_fail (PHOTOS_IS_TOOL_CROP_HELPER (self));
   g_return_if_fail (x >= 0.0);
 
-  if (photos_utils_equal_double (self->x, x))
+  if (G_APPROX_VALUE (self->x, x, PHOTOS_EPSILON))
     goto out;
 
   self->x = x;
@@ -279,7 +278,7 @@ photos_tool_crop_helper_set_y (PhotosToolCropHelper *self, gdouble y)
   g_return_if_fail (PHOTOS_IS_TOOL_CROP_HELPER (self));
   g_return_if_fail (y >= 0.0);
 
-  if (photos_utils_equal_double (self->y, y))
+  if (G_APPROX_VALUE (self->y, y, PHOTOS_EPSILON))
     goto out;
 
   self->y = y;
