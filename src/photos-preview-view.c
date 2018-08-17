@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 – 2017 Red Hat, Inc.
+ * Copyright © 2013 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -960,7 +960,7 @@ photos_preview_view_zoom_end (PhotosPreviewView *self, GVariant *parameter)
   view = photos_preview_view_get_view_from_view_container (view_container);
   zoom = photos_image_view_get_zoom (PHOTOS_IMAGE_VIEW (view));
 
-  if (zoom < self->zoom_best_fit || photos_utils_equal_double (self->zoom_best_fit, zoom))
+  if (zoom < self->zoom_best_fit || G_APPROX_VALUE (self->zoom_best_fit, zoom, PHOTOS_EPSILON))
     {
       photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE, TRUE);
       g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), FALSE);
@@ -991,8 +991,10 @@ photos_preview_view_calculate_zoom_for_non_touch (PhotosPreviewView *self,
 
   g_return_val_if_fail (event != PHOTOS_ZOOM_EVENT_NONE, 0.0);
   g_return_val_if_fail (event != PHOTOS_ZOOM_EVENT_TOUCH, 0.0);
-  g_return_val_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR && photos_utils_equal_double (delta, 1.0))
-                        || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && photos_utils_equal_double (delta, 1.0))
+  g_return_val_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR
+                         && G_APPROX_VALUE (delta, 1.0, PHOTOS_EPSILON))
+                        || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK
+                            && G_APPROX_VALUE (delta, 1.0, PHOTOS_EPSILON))
                         || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0),
                         0.0);
 
@@ -1047,8 +1049,9 @@ photos_preview_view_zoom_in (PhotosPreviewView *self, GVariant *parameter)
   g_return_if_fail (event != PHOTOS_ZOOM_EVENT_NONE);
 
   delta = photos_utils_get_zoom_delta (parameter);
-  g_return_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR && photos_utils_equal_double (delta, 1.0))
-                    || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && photos_utils_equal_double (delta, 1.0))
+  g_return_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR
+                     && G_APPROX_VALUE (delta, 1.0, PHOTOS_EPSILON))
+                    || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && G_APPROX_VALUE (delta, 1.0, PHOTOS_EPSILON))
                     || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0)
                     || (event == PHOTOS_ZOOM_EVENT_TOUCH && delta >= 0.0 && self->zoom_begin > 0.0));
 
@@ -1101,8 +1104,9 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
   g_return_if_fail (event != PHOTOS_ZOOM_EVENT_NONE);
 
   delta = photos_utils_get_zoom_delta (parameter);
-  g_return_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR && photos_utils_equal_double (delta, 1.0))
-                    || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && photos_utils_equal_double (delta, 1.0))
+  g_return_if_fail ((event == PHOTOS_ZOOM_EVENT_KEYBOARD_ACCELERATOR
+                     && G_APPROX_VALUE (delta, 1.0, PHOTOS_EPSILON))
+                    || (event == PHOTOS_ZOOM_EVENT_MOUSE_CLICK && G_APPROX_VALUE (delta, 1.0, PHOTOS_EPSILON))
                     || (event == PHOTOS_ZOOM_EVENT_SCROLL && delta >= 0.0)
                     || (event == PHOTOS_ZOOM_EVENT_TOUCH && delta >= 0.0 && self->zoom_begin > 0.0));
 
@@ -1132,7 +1136,7 @@ photos_preview_view_zoom_out (PhotosPreviewView *self, GVariant *parameter)
   view = photos_preview_view_get_view_from_view_container (view_container);
 
   zoom_best_fit = self->zoom_best_fit * zoom_best_fit_factor;
-  if (zoom < zoom_best_fit || photos_utils_equal_double (zoom_best_fit, zoom))
+  if (zoom < zoom_best_fit || G_APPROX_VALUE (zoom_best_fit, zoom, PHOTOS_EPSILON))
     {
       photos_image_view_set_best_fit (PHOTOS_IMAGE_VIEW (view), TRUE, TRUE);
       g_simple_action_set_enabled (G_SIMPLE_ACTION (self->zoom_best_fit_action), FALSE);
