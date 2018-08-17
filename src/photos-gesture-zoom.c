@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2017 Red Hat, Inc.
+ * Copyright © 2017 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@
 #include "photos-enums.h"
 #include "photos-gesture-zoom.h"
 #include "photos-marshalers.h"
-#include "photos-utils.h"
 
 
 struct _PhotosGestureZoom
@@ -117,14 +116,14 @@ photos_gesture_zoom_update (PhotosGestureZoom *self)
 
   g_return_if_fail (PHOTOS_IS_GESTURE_ZOOM (self));
   g_return_if_fail ((self->previous_direction == PHOTOS_GESTURE_ZOOM_DIRECTION_NONE
-                     && photos_utils_equal_double (self->initial_distance, self->previous_distance))
+                     && G_APPROX_VALUE (self->initial_distance, self->previous_distance, PHOTOS_EPSILON))
                     || (self->previous_direction != PHOTOS_GESTURE_ZOOM_DIRECTION_NONE
-                        && !photos_utils_equal_double (self->initial_distance, self->previous_distance)));
+                        && !G_APPROX_VALUE (self->initial_distance, self->previous_distance, PHOTOS_EPSILON)));
 
   distance = photos_gesture_zoom_calculate_distance (self, GDK_TOUCHPAD_GESTURE_PHASE_UPDATE);
   g_return_if_fail (distance >= 0.0);
 
-  if (photos_utils_equal_double (distance, self->previous_distance))
+  if (G_APPROX_VALUE (distance, self->previous_distance, PHOTOS_EPSILON))
     goto out;
 
   if (self->previous_distance > distance)
