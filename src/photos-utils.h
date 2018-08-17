@@ -109,8 +109,6 @@ void             photos_utils_ensure_builtins             (void);
 
 void             photos_utils_ensure_extension_points     (void);
 
-gboolean         photos_utils_equal_double                (gdouble a, gdouble b);
-
 gdouble          photos_utils_eval_radial_line            (gdouble crop_center_x,
                                                            gdouble crop_center_y,
                                                            gdouble corner_x,
