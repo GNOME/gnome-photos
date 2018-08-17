@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2017 Red Hat, Inc.
+ * Copyright © 2015 – 2018 Red Hat, Inc.
  * Copyright © 2015 – 2017 Umang Jain
  * Copyright © 2011 – 2015 Yorba Foundation
  *
@@ -220,14 +220,14 @@ photos_tool_crop_find_constraint (PhotosToolCrop *self, gdouble aspect_ratio)
       gdouble constraint_aspect_ratio;
 
       constraint_aspect_ratio = photos_tool_crop_calculate_aspect_ratio (self, i);
-      if (photos_utils_equal_double (aspect_ratio, constraint_aspect_ratio))
+      if (G_APPROX_VALUE (aspect_ratio, constraint_aspect_ratio, PHOTOS_EPSILON))
         {
           ret_val = i;
           break;
         }
 
       constraint_aspect_ratio = 1.0 / constraint_aspect_ratio;
-      if (photos_utils_equal_double (aspect_ratio, constraint_aspect_ratio))
+      if (G_APPROX_VALUE (aspect_ratio, constraint_aspect_ratio, PHOTOS_EPSILON))
         {
           ret_val = i;
           break;
