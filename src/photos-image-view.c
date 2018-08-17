@@ -30,7 +30,6 @@
 #include "photos-image-view.h"
 #include "photos-image-view-helper.h"
 #include "photos-marshalers.h"
-#include "photos-utils.h"
 
 
 struct _PhotosImageView
@@ -387,7 +386,7 @@ photos_image_view_update (PhotosImageView *self)
 
       photos_image_view_calculate_best_fit_zoom (self, &zoom, &zoom_scaled);
 
-      if (!photos_utils_equal_double (self->zoom, zoom))
+      if (!G_APPROX_VALUE (self->zoom, zoom, PHOTOS_EPSILON))
         {
           self->zoom = zoom;
           g_object_notify (G_OBJECT (self), "zoom");
@@ -1184,7 +1183,7 @@ photos_image_view_set_zoom (PhotosImageView *self, gdouble zoom, gboolean enable
   g_return_if_fail (PHOTOS_IS_IMAGE_VIEW (self));
   g_return_if_fail (zoom > 0.0);
 
-  if (photos_utils_equal_double (self->zoom, zoom))
+  if (G_APPROX_VALUE (self->zoom, zoom, PHOTOS_EPSILON))
     return;
 
   if (self->zoom_animation != NULL)
