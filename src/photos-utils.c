@@ -772,14 +772,6 @@ photos_utils_ensure_extension_points (void)
 }
 
 
-gboolean
-photos_utils_equal_double (gdouble a, gdouble b)
-{
-  const gdouble diff = a - b;
-  return diff > -PHOTOS_EPSILON && diff < PHOTOS_EPSILON;
-}
-
-
 gdouble
 photos_utils_eval_radial_line (gdouble crop_center_x,
                                gdouble crop_center_y,
