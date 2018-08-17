@@ -80,7 +80,7 @@ photos_organize_collection_model_find_collection_iter (PhotosOrganizeCollectionM
       GtkTreeIter iter;
 
       gtk_tree_model_get_iter (GTK_TREE_MODEL (self), &iter, self->coll_path);
-      g_clear_pointer (&self->coll_path, (GDestroyNotify) gtk_tree_path_free);
+      g_clear_pointer (&self->coll_path, gtk_tree_path_free);
       return gtk_tree_iter_copy (&iter);
     }
 

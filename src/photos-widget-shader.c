@@ -66,7 +66,7 @@ photos_widget_shader_surface_create (PhotosWidgetShader *self)
   GdkWindow *window;
   cairo_t *cr = NULL;
 
-  g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
+  g_clear_pointer (&self->surface, cairo_surface_destroy);
 
   if (self->widget == NULL)
     goto out;
@@ -87,7 +87,7 @@ photos_widget_shader_surface_create (PhotosWidgetShader *self)
   cairo_paint (cr);
 
  out:
-  g_clear_pointer (&cr, (GDestroyNotify) cairo_destroy);
+  g_clear_pointer (&cr, cairo_destroy);
 }
 
 
@@ -128,7 +128,7 @@ photos_widget_shader_finalize (GObject *object)
   PhotosWidgetShader *self = PHOTOS_WIDGET_SHADER (object);
 
   g_assert_null (self->widget);
-  g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
+  g_clear_pointer (&self->surface, cairo_surface_destroy);
 
   G_OBJECT_CLASS (photos_widget_shader_parent_class)->finalize (object);
 }

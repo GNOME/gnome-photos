@@ -500,8 +500,8 @@ photos_import_dialog_initialize_index_and_popover (PhotosImportDialog *self)
   PhotosBaseItem *collection;
   guint n_buttons = 0;
 
-  g_clear_pointer (&self->index, (GDestroyNotify) dzl_fuzzy_mutable_index_unref);
-  g_clear_pointer (&self->recent_collections, (GDestroyNotify) photos_utils_object_list_free_full);
+  g_clear_pointer (&self->index, dzl_fuzzy_mutable_index_unref);
+  g_clear_pointer (&self->recent_collections, photos_utils_object_list_free_full);
   gtk_container_foreach (GTK_CONTAINER (self->collections_popover_grid), (GtkCallback) gtk_widget_destroy, NULL);
   gtk_dialog_set_response_sensitive (GTK_DIALOG (self), GTK_RESPONSE_OK, FALSE);
   photos_import_dialog_enable_create_new (self, FALSE);
@@ -677,9 +677,9 @@ photos_import_dialog_dispose (GObject *object)
   g_clear_object (&self->default_collection);
   g_clear_object (&self->item_mngr);
   g_clear_object (&self->queue);
-  g_clear_pointer (&self->index, (GDestroyNotify) dzl_fuzzy_mutable_index_unref);
-  g_clear_pointer (&self->collections, (GDestroyNotify) g_hash_table_unref);
-  g_clear_pointer (&self->recent_collections, (GDestroyNotify) photos_utils_object_list_free_full);
+  g_clear_pointer (&self->index, dzl_fuzzy_mutable_index_unref);
+  g_clear_pointer (&self->collections, g_hash_table_unref);
+  g_clear_pointer (&self->recent_collections, photos_utils_object_list_free_full);
 
   G_OBJECT_CLASS (photos_import_dialog_parent_class)->dispose (object);
 }

@@ -329,7 +329,7 @@ photos_selection_toolbar_dispose (GObject *object)
 {
   PhotosSelectionToolbar *self = PHOTOS_SELECTION_TOOLBAR (object);
 
-  g_clear_pointer (&self->item_listeners, (GDestroyNotify) g_hash_table_unref);
+  g_clear_pointer (&self->item_listeners, g_hash_table_unref);
   g_clear_object (&self->item_mngr);
   g_clear_object (&self->mode_cntrlr);
   g_clear_object (&self->sel_cntrlr);

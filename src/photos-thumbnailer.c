@@ -782,8 +782,8 @@ photos_thumbnailer_dispose (GObject *object)
   g_assert_null (self->skeleton);
 
   g_clear_object (&self->connection);
-  g_clear_pointer (&self->cancellables, (GDestroyNotify) g_hash_table_unref);
-  g_clear_pointer (&self->resource_gegl, (GDestroyNotify) g_resources_unregister);
+  g_clear_pointer (&self->cancellables, g_hash_table_unref);
+  g_clear_pointer (&self->resource_gegl, g_resources_unregister);
 
   G_OBJECT_CLASS (photos_thumbnailer_parent_class)->dispose (object);
 }

@@ -130,7 +130,7 @@ photos_fetch_ids_job_dispose (GObject *object)
 {
   PhotosFetchIdsJob *self = PHOTOS_FETCH_IDS_JOB (object);
 
-  g_clear_pointer (&self->ids, (GDestroyNotify) g_ptr_array_unref);
+  g_clear_pointer (&self->ids, g_ptr_array_unref);
   g_clear_object (&self->queue);
 
   G_OBJECT_CLASS (photos_fetch_ids_job_parent_class)->dispose (object);

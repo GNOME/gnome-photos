@@ -499,7 +499,7 @@ photos_preview_view_scroll_event (GtkWidget *widget, GdkEvent *event, gpointer u
     }
 
  out:
-  g_clear_pointer (&parameter, (GDestroyNotify) g_variant_unref);
+  g_clear_pointer (&parameter, g_variant_unref);
   return ret_val;
 }
 

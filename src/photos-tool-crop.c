@@ -269,7 +269,7 @@ photos_tool_crop_surface_create (PhotosToolCrop *self)
 {
   GdkWindow *window;
 
-  g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
+  g_clear_pointer (&self->surface, cairo_surface_destroy);
 
   window = gtk_widget_get_window (self->view);
   self->surface = gdk_window_create_similar_surface (window,
@@ -1431,7 +1431,7 @@ photos_tool_crop_dispose (GObject *object)
     }
 
   g_clear_object (&self->grid);
-  g_clear_pointer (&self->surface, (GDestroyNotify) cairo_surface_destroy);
+  g_clear_pointer (&self->surface, cairo_surface_destroy);
 
   G_OBJECT_CLASS (photos_tool_crop_parent_class)->dispose (object);
 }

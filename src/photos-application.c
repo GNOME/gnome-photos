@@ -2585,7 +2585,7 @@ photos_application_shutdown (GApplication *application)
       self->init_fishes_id = 0;
     }
 
-  g_clear_pointer (&self->refresh_miner_ids, (GDestroyNotify) g_hash_table_unref);
+  g_clear_pointer (&self->refresh_miner_ids, g_hash_table_unref);
 
   G_APPLICATION_CLASS (photos_application_parent_class)->shutdown (application);
 }

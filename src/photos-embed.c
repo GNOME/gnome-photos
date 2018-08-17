@@ -413,7 +413,7 @@ photos_embed_notify_visible_child (PhotosEmbed *self)
   photos_mode_controller_set_window_mode (self->mode_cntrlr, mode);
 
  out:
-  g_clear_pointer (&event, (GDestroyNotify) gdk_event_free);
+  g_clear_pointer (&event, gdk_event_free);
 }
 
 
@@ -780,7 +780,7 @@ photos_embed_dispose (GObject *object)
   g_clear_object (&self->mode_cntrlr);
   g_clear_object (&self->srch_cntrlr);
   g_clear_object (&self->trk_ovrvw_cntrlr);
-  g_clear_pointer (&self->notifications, (GDestroyNotify) g_hash_table_unref);
+  g_clear_pointer (&self->notifications, g_hash_table_unref);
 
   G_OBJECT_CLASS (photos_embed_parent_class)->dispose (object);
 }

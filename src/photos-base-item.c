@@ -456,7 +456,7 @@ photos_base_item_check_effects_and_update_info (PhotosBaseItem *self)
         }
     }
 
-  g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
+  g_clear_pointer (&priv->surface, cairo_surface_destroy);
 
   windows = gtk_application_get_windows (GTK_APPLICATION (app));
   if (windows != NULL)
@@ -2973,7 +2973,7 @@ photos_base_item_dispose (GObject *object)
 
   photos_base_item_clear_pixels (self);
 
-  g_clear_pointer (&priv->surface, (GDestroyNotify) cairo_surface_destroy);
+  g_clear_pointer (&priv->surface, cairo_surface_destroy);
   g_clear_object (&priv->default_app);
   g_clear_object (&priv->original_icon);
   g_clear_object (&priv->watcher);
@@ -4404,7 +4404,7 @@ photos_base_item_query_info (PhotosBaseItem *self,
   ret_val = g_object_ref (info);
 
  out:
-  g_clear_pointer (&matcher, (GDestroyNotify) g_file_attribute_matcher_unref);
+  g_clear_pointer (&matcher, g_file_attribute_matcher_unref);
   return ret_val;
 }
 

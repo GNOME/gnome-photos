@@ -79,7 +79,7 @@ photos_dlna_renderer_dispose (GObject *object)
   g_clear_object (&self->device);
   g_clear_object (&self->push_host);
   g_clear_object (&self->player);
-  g_clear_pointer (&self->urls_to_item, (GDestroyNotify) g_hash_table_unref);
+  g_clear_pointer (&self->urls_to_item, g_hash_table_unref);
 
   G_OBJECT_CLASS (photos_dlna_renderer_parent_class)->dispose (object);
 }

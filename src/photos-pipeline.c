@@ -277,7 +277,7 @@ photos_pipeline_dispose (GObject *object)
    *
    * See: https://bugzilla.gnome.org/show_bug.cgi?id=759995
    */
-  g_clear_pointer (&self->hash, (GDestroyNotify) g_hash_table_unref);
+  g_clear_pointer (&self->hash, g_hash_table_unref);
 
   g_clear_object (&self->graph);
 

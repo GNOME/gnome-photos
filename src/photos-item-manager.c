@@ -1016,9 +1016,9 @@ photos_item_manager_dispose (GObject *object)
       self->item_mngr_chldrn = NULL;
     }
 
-  g_clear_pointer (&self->collections, (GDestroyNotify) g_hash_table_unref);
-  g_clear_pointer (&self->hidden_items, (GDestroyNotify) g_hash_table_unref);
-  g_clear_pointer (&self->wait_for_changes_table, (GDestroyNotify) g_hash_table_unref);
+  g_clear_pointer (&self->collections, g_hash_table_unref);
+  g_clear_pointer (&self->hidden_items, g_hash_table_unref);
+  g_clear_pointer (&self->wait_for_changes_table, g_hash_table_unref);
   g_clear_object (&self->active_object);
   g_clear_object (&self->loader_cancellable);
   g_clear_object (&self->active_collection);

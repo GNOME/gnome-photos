@@ -246,8 +246,8 @@ photos_image_view_update_region (PhotosImageView *self)
 {
   GeglRectangle bbox;
 
-  g_clear_pointer (&self->bbox_region, (GDestroyNotify) cairo_region_destroy);
-  g_clear_pointer (&self->region, (GDestroyNotify) cairo_region_destroy);
+  g_clear_pointer (&self->bbox_region, cairo_region_destroy);
+  g_clear_pointer (&self->region, cairo_region_destroy);
 
   bbox = gegl_node_get_bounding_box (self->node);
   self->bbox_region = cairo_region_create_rectangle ((cairo_rectangle_int_t *) &bbox);
@@ -774,8 +774,8 @@ photos_image_view_finalize (GObject *object)
 {
   PhotosImageView *self = PHOTOS_IMAGE_VIEW (object);
 
-  g_clear_pointer (&self->bbox_region, (GDestroyNotify) cairo_region_destroy);
-  g_clear_pointer (&self->region, (GDestroyNotify) cairo_region_destroy);
+  g_clear_pointer (&self->bbox_region, cairo_region_destroy);
+  g_clear_pointer (&self->region, cairo_region_destroy);
   g_clear_pointer (&self->surface_memory, g_free);
 
   G_OBJECT_CLASS (photos_image_view_parent_class)->finalize (object);
@@ -1152,8 +1152,8 @@ photos_image_view_set_node (PhotosImageView *self, GeglNode *node)
   self->zoom_visible_scaled = 1.0;
   g_clear_object (&self->buffer);
   g_clear_object (&self->node);
-  g_clear_pointer (&self->bbox_region, (GDestroyNotify) cairo_region_destroy);
-  g_clear_pointer (&self->region, (GDestroyNotify) cairo_region_destroy);
+  g_clear_pointer (&self->bbox_region, cairo_region_destroy);
+  g_clear_pointer (&self->region, cairo_region_destroy);
 
   if (node != NULL)
     {

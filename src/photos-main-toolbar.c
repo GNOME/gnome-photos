@@ -247,7 +247,7 @@ photos_main_toolbar_add_remote_display_button (PhotosMainToolbar *self)
   g_autofree gchar *text = NULL;
   const gchar *name;
 
-  g_clear_pointer (&self->remote_display_button, (GDestroyNotify) gtk_widget_destroy);
+  g_clear_pointer (&self->remote_display_button, gtk_widget_destroy);
 
   renderer = photos_remote_display_manager_get_renderer (self->remote_mngr);
   name = photos_dlna_renderer_get_friendly_name (renderer);
@@ -281,7 +281,7 @@ photos_main_toolbar_update_remote_display_button (PhotosMainToolbar *self)
   if (active && !selection_mode && window_mode != PHOTOS_WINDOW_MODE_PREVIEW)
     photos_main_toolbar_add_remote_display_button (self);
   else
-    g_clear_pointer (&self->remote_display_button, (GDestroyNotify) gtk_widget_destroy);
+    g_clear_pointer (&self->remote_display_button, gtk_widget_destroy);
 }
 
 
@@ -339,7 +339,7 @@ photos_main_toolbar_add_selection_button (PhotosMainToolbar *self)
 static void
 photos_main_toolbar_clear_state_data (PhotosMainToolbar *self)
 {
-  g_clear_pointer (&self->remote_display_button, (GDestroyNotify) gtk_widget_destroy);
+  g_clear_pointer (&self->remote_display_button, gtk_widget_destroy);
 
   if (self->item_mngr != NULL)
     g_signal_handlers_disconnect_by_func (self->item_mngr, photos_main_toolbar_item_active_changed, self);

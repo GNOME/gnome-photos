@@ -135,7 +135,7 @@ photos_tool_filter_button_constructed (GObject *object)
   g_signal_connect_swapped (self->button, "toggled", G_CALLBACK (photos_tool_filter_button_toggled), self);
   photos_tool_filter_button_toggled (self);
 
-  g_clear_pointer (&preview_icon_surface, (GDestroyNotify) cairo_surface_destroy);
+  g_clear_pointer (&preview_icon_surface, cairo_surface_destroy);
   self->group = NULL; /* We will not need it any more */
 }
 

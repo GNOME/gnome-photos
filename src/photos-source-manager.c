@@ -381,7 +381,7 @@ photos_source_manager_dispose (GObject *object)
   g_clear_object (&self->cancellable);
   g_clear_object (&self->client);
   g_clear_object (&self->volume_monitor);
-  g_clear_pointer (&self->sources_notified, (GDestroyNotify) g_hash_table_unref);
+  g_clear_pointer (&self->sources_notified, g_hash_table_unref);
 
   G_OBJECT_CLASS (photos_source_manager_parent_class)->dispose (object);
 }
