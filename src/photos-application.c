@@ -2,7 +2,7 @@
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2015 Alessandro Bono
  * Copyright © 2014 – 2015 Pranav Kant
- * Copyright © 2012 – 2017 Red Hat, Inc.
+ * Copyright © 2012 – 2018 Red Hat, Inc.
  * Copyright © 2016 Umang Jain
  *
  * This program is free software: you can redistribute it and/or modify
@@ -3092,9 +3092,7 @@ photos_application_search_context_iface_init (PhotosSearchContextInterface *ifac
 GApplication *
 photos_application_new (void)
 {
-  return g_object_new (PHOTOS_TYPE_APPLICATION,
-                       "application-id", "org.gnome." PACKAGE_NAME,
-                       NULL);
+  return g_object_new (PHOTOS_TYPE_APPLICATION, "application-id", "org.gnome.Photos", NULL);
 }
 
 
