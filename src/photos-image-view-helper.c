@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2017 Red Hat, Inc.
+ * Copyright © 2015 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
 #include "config.h"
 
 #include "photos-image-view-helper.h"
-#include "photos-utils.h"
 
 
 struct _PhotosImageViewHelper
@@ -127,7 +126,7 @@ photos_image_view_helper_set_zoom (PhotosImageViewHelper *self, gdouble zoom)
   g_return_if_fail (PHOTOS_IS_IMAGE_VIEW_HELPER (self));
   g_return_if_fail (zoom > 0.0);
 
-  if (photos_utils_equal_double (self->zoom, zoom))
+  if (G_APPROX_VALUE (self->zoom, zoom, PHOTOS_EPSILON))
     return;
 
   self->zoom = zoom;
