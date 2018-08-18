@@ -38,7 +38,7 @@ while read line; do
     [ ${#line} -eq 0 ] &&
         continue
     echo "  \"$line\","
-done < $3/ARTISTS
+done < $3
 echo "  NULL"
 echo "};"
 
@@ -49,6 +49,6 @@ while read line; do
     [ ${#line} -eq 0 ] &&
         continue
     echo "  \"$line\","
-done < $2/AUTHORS
+done < $2
 echo "  NULL"
 echo "};"
