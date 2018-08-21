@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-06-15 10:15+0000\n"
-"PO-Revision-Date: 2018-06-18 11:05+0800\n"
+"POT-Creation-Date: 2018-08-17 17:00+0000\n"
+"PO-Revision-Date: 2018-08-22 00:01+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.8\n"
+"X-Generator: Poedit 2.1.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
@@ -147,7 +147,7 @@ msgstr "%Y-%m-%d"
 msgid "Album"
 msgstr "相簿"
 
-#: src/photos-base-item.c:2831
+#: src/photos-base-item.c:2830
 msgid "Screenshots"
 msgstr "螢幕擷圖"
 
@@ -195,19 +195,19 @@ msgstr "匯入"
 msgid "Search"
 msgstr "搜尋"
 
-#: src/photos-empty-results-box.c:148
+#: src/photos-empty-results-box.c:129
 msgid "No albums found"
 msgstr "找不到相簿"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:133
 msgid "Starred photos will appear here"
 msgstr "加上星號的相片會出現在這裡"
 
-#: src/photos-empty-results-box.c:162
+#: src/photos-empty-results-box.c:143
 msgid "No photos found"
 msgstr "找不到相片"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:172
 msgid "You can create albums from the Photos view"
 msgstr "您可以從相片檢視製作相簿"
 
@@ -215,7 +215,7 @@ msgstr "您可以從相片檢視製作相簿"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:193
 msgid "Online Accounts"
 msgstr "線上帳號"
 
@@ -223,7 +223,7 @@ msgstr "線上帳號"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:200
 msgid "Pictures folder"
 msgstr "圖片資料夾"
 
@@ -232,12 +232,12 @@ msgstr "圖片資料夾"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:207
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "您的%s和%s相片會出現在這裡"
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:217
 msgid "Try a different search"
 msgstr "嘗試不同的搜尋"
 
@@ -284,35 +284,35 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "正在計算匯出大小…"
 
-#: src/photos-export-notification.c:334
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "無法匯出：空間不足"
 
-#: src/photos-export-notification.c:336
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "無法匯出"
 
-#: src/photos-export-notification.c:343
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "「%s」已匯出"
 
-#: src/photos-export-notification.c:347
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "已匯出 %d 個項目"
 
-#: src/photos-export-notification.c:364
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "分析"
 
-#: src/photos-export-notification.c:369
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
-msgstr "清空回收筒"
+msgstr "清空垃圾桶"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "開啟"
@@ -320,7 +320,7 @@ msgstr "開啟"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:396
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "匯出資料夾"
 
@@ -879,23 +879,23 @@ msgstr "無法上傳相片"
 msgid "Sources"
 msgstr "來源"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:183
 msgid "New device discovered"
 msgstr "探查到新裝置"
 
-#: src/photos-source-notification.c:214
+#: src/photos-source-notification.c:196
 msgid "Import…"
 msgstr "匯入…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:226
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "您的 %s 憑證已過期"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:233
 msgid "Settings"
 msgstr "設定值"
 
