@@ -7,7 +7,6 @@ photosdoc_DATA = \
 	ARTISTS \
 	AUTHORS \
 	COPYING \
-	ChangeLog \
 	NEWS \
 	README \
 	$(NULL)
@@ -30,7 +29,6 @@ MAINTAINERCLEANFILES = \
 	$(GITIGNORE_MAINTAINERCLEANFILES_M4_LIBTOOL) \
 	$(GITIGNORE_MAINTAINERCLEANFILES_TOPLEVEL) \
 	$(srcdir)/AUTHORS \
-	$(srcdir)/INSTALL \
 	$(srcdir)/config.h.in \
 	$(srcdir)/omf.make \
 	$(srcdir)/xmldocs.make \
@@ -52,20 +50,6 @@ AUTHORS:
 		&& mv -f $@.tmp $@ \
 		|| ( rm -f $@.tmp ; \
 		     echo Failed to generate $@ >&2 ); \
-	fi
-
-dist-hook:
-	@if test -d "$(srcdir)/.git"; \
-	then \
-		echo Creating ChangeLog && \
-		( cd "$(top_srcdir)" && \
-		  echo '# Generated — do not edit.'; echo; \
-		  $(top_srcdir)/missing --run git log --stat ) > ChangeLog.tmp \
-		&& mv -f ChangeLog.tmp $(top_distdir)/ChangeLog \
-		|| ( rm -f ChangeLog.tmp ; \
-		     echo Failed to generate ChangeLog >&2 ); \
-	else \
-		echo A git clone is required to generate a ChangeLog >&2; \
 	fi
 
 .PHONY: AUTHORS
