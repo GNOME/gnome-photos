@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-02 11:45+0000\n"
-"PO-Revision-Date: 2018-03-03 18:14+0200\n"
+"POT-Creation-Date: 2018-08-17 17:00+0000\n"
+"PO-Revision-Date: 2018-08-23 11:50+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.1.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
@@ -30,48 +30,60 @@ msgstr "Hallitse ja jaa kuviasi"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Yksinkertainen Gnome-sovellus kuvien käyttöä, organisointia ja jakamista "
-"varten. Sen on tarkoitus korvata tiedostonhallinta kuviin liittyvässä "
-"työskentelyssä. Saumattoman pilvi-integraation tarjoaa Gnomen verkkotilit."
+"Sovellus Gnome-työpöydälle kuvien käyttöä, organisointia ja jakamista "
+"varten. Korvaa tiedostonhallinta tällä sovelluksella, kun työskentelet "
+"kuvien parissa. Paranna, rajaa ja muokkaa kuvia nopeasti. Saumattoman pilvi-"
+"integraation tarjoaa Gnomen verkkotilit."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Sen avulla voit:"
+msgid "You can:"
+msgstr "Voit:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Löytää kaikki kuvasi automaattisesti"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Katsella paikallisia ja verkossa olevia valokuvia"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
+#: data/org.gnome.Photos.appdata.xml.in:20
+msgid "Access your Facebook or Flickr pictures"
 msgstr "Käyttää Facebook- ja Flickr-sisältöä"
 
-#: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Lähettää valokuvia DLNA-esittäjille"
-
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Asettaa taustakuvia"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Katsella kuvia TV:stä, kannettavalta tietokoneelta ja muilla DLNA-laitteilla "
+"verkossasi"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "Asettaa kuvia työpöydän taustakuvaksi"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Tulostaa valokuvia"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Valita suosikkeja"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Avata erillisen kuvankäsittelysovelluksen suuria muutoksia varten"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"Tehdä pieniä muokkauksia kuviin sovelluksen sisäisesti, tai avata erillisen "
+"kuvankäsittelysovelluksen suuria muutoksia varten"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "Gnome-projekti"
 
@@ -135,11 +147,11 @@ msgstr "Näytä sovelluksen versio"
 msgid "%-d %B %Y"
 msgstr "%-d. %Bta %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Albumi"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2830
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
@@ -188,19 +200,19 @@ msgstr "Tuo"
 msgid "Search"
 msgstr "Etsi"
 
-#: src/photos-empty-results-box.c:148
+#: src/photos-empty-results-box.c:129
 msgid "No albums found"
 msgstr "Albumeita ei löytynyt"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:133
 msgid "Starred photos will appear here"
 msgstr "Tähdellä merkityt kuvat näkyvät täällä"
 
-#: src/photos-empty-results-box.c:162
+#: src/photos-empty-results-box.c:143
 msgid "No photos found"
 msgstr "Kuvia ei löytynyt"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:172
 msgid "You can create albums from the Photos view"
 msgstr "Voit luoda albumeita Kuvat-näkymästä"
 
@@ -208,7 +220,7 @@ msgstr "Voit luoda albumeita Kuvat-näkymästä"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:193
 msgid "Online Accounts"
 msgstr "verkkotileiltäsi"
 
@@ -216,7 +228,7 @@ msgstr "verkkotileiltäsi"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:200
 msgid "Pictures folder"
 msgstr "Kuvat-kansiosta"
 
@@ -225,12 +237,12 @@ msgstr "Kuvat-kansiosta"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:207
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Kuvat %s ja %s ilmestyvät tänne."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:217
 msgid "Try a different search"
 msgstr "Yritä eri hakuehtoja"
 
@@ -277,36 +289,36 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Lasketaan viennin kokoa…"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "Vienti epäonnistui: levytilaa ei ole riittävästi"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "Vienti epäonnistui"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” viety"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d kohde viety"
 msgstr[1] "%d kohdetta viety"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "Analysoi"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Tyhjennä roskakori"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Avaa"
@@ -314,7 +326,7 @@ msgstr "Avaa"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Vientikansio"
 
@@ -493,7 +505,7 @@ msgid "Some photos might not be available during this process"
 msgstr ""
 "Jotkin kuvat eivät välttämättä ole käytettävissä tämän toimenpiteen aikana"
 
-#: src/photos-local-item.c:207 src/photos-source-manager.c:399
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Paikallinen"
 
@@ -552,12 +564,15 @@ msgid "_Select"
 msgstr "_Valitse"
 
 #: src/photos-main-window.c:458
+#| msgid ""
+#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
+#| "Copyright © 2015 – 2017 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Tekijänoikeus © 2012 – 2017 Red Hat, Inc.\n"
-"Tekijänoikeus © 2015 – 2017 Umang Jain"
+"Tekijänoikeus © 2012 – 2018 Red Hat, Inc.\n"
+"Tekijänoikeus © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
@@ -877,23 +892,23 @@ msgstr "Kuvan lähetys epäonnistui"
 msgid "Sources"
 msgstr "Lähteet"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:183
 msgid "New device discovered"
 msgstr "Uusi laite havaittu"
 
-#: src/photos-source-notification.c:214
+#: src/photos-source-notification.c:196
 msgid "Import…"
 msgstr "Tuo…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:226
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "%s-tilitietosi ovat vanhentuneet"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:233
 msgid "Settings"
 msgstr "järjestelmän asetuksissa"
 
@@ -1026,6 +1041,12 @@ msgstr "Suodattimet"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Kuvaluettelon hakeminen ei onnistunut"
+
+#~ msgid "It lets you:"
+#~ msgstr "Sen avulla voit:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Lähettää valokuvia DLNA-esittäjille"
 
 #~ msgid "Cancel"
 #~ msgstr "Peru"
