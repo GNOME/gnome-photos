@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-02-16 18:43+0000\n"
-"PO-Revision-Date: 2018-02-24 15:09+0900\n"
+"POT-Creation-Date: 2018-08-17 17:00+0000\n"
+"PO-Revision-Date: 2018-08-22 21:27+0900\n"
 "Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
 "Language-Team: GNOME Korea <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.1.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
@@ -30,48 +30,58 @@ msgstr "그놈에서 사진에 접근하고, 정리하고, 공유합니다"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
 "그놈에서 사진에 접근하고 정리하며 공유하는 간단한 프로그램입니다. 파일 관리자"
-"에서 사진을 다룰 때보다 더 간단하고 세련된 기능이 있습니다. 그놈 온라인 계정"
-"에서 제공하는 감쪽같은 클라우드 통합 기능도 있습니다."
+"에서 사진을 다룰 때보다 더 간단하고 세련된 기능이 있습니다. 사진을 자르고 편"
+"집하는 기능을 개선했습니다. 그놈 온라인 계정에서 제공하는 감쪽같은 클라우드 "
+"통합 기능도 있습니다."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "이 프로그램에는 다음 기능이 있습니다:"
+msgid "You can:"
+msgstr "다음을 할 수 있습니다:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "모든 사진을 자동으로 찾습니다"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "최근 로컬 및 온라인 사진을 봅니다"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "페이스북 또는 플리커 내용에 접근합니다"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "원격 DLNA 렌러더에 사진 보내기"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "페이스북 또는 플리커 사진에 접근합니다"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "배경 화면으로 설정"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr "로컬 네트워크의 TV, 랩톱, 기타 DLNA 렌터링 장비의 사진을 봅니다"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "사진을 데스크톱 배경 화면으로 설정"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "사진 인쇄"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "즐겨찾기 항목 선택"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr "완전한 기능을 갖춘 고급 편집기 열기 허용"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"앱에서 사진을 간편하게 편집하거나 좀 더 고급스런 수준의 편집을 위해 완벽한 기"
+"능을 갖춘 편집기로 내보냅니다"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "그놈 프로젝트"
 
@@ -135,11 +145,11 @@ msgstr "프로그램 버전 표시"
 msgid "%-d %B %Y"
 msgstr "%Y년 %B %-d일"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "앨범"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2830
 msgid "Screenshots"
 msgstr "스크린샷"
 
@@ -160,7 +170,7 @@ msgstr "실행 취소"
 
 #: src/photos-dlna-renderers-dialog.ui:7
 msgid "DLNA Renderer Devices"
-msgstr "DLNA 렌더러 장치"
+msgstr "DLNA 렌더링 장치"
 
 #: src/photos-done-notification.c:112
 #, c-format
@@ -179,27 +189,27 @@ msgstr "앨범"
 msgid "Favorites"
 msgstr "즐겨찾기"
 
-#: src/photos-embed.c:834 src/photos-source-notification.c:214
+#: src/photos-embed.c:834
 msgid "Import"
 msgstr "가져오기"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:311
+#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "검색"
 
-#: src/photos-empty-results-box.c:148
+#: src/photos-empty-results-box.c:129
 msgid "No albums found"
 msgstr "앨범이 없습니다"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:133
 msgid "Starred photos will appear here"
 msgstr "중요 표시한 사진은 여기에 나타납니다"
 
-#: src/photos-empty-results-box.c:162
+#: src/photos-empty-results-box.c:143
 msgid "No photos found"
 msgstr "사진이 없습니다"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:172
 msgid "You can create albums from the Photos view"
 msgstr "사진 보기에서 앨범을 만들 수 있습니다"
 
@@ -207,7 +217,7 @@ msgstr "사진 보기에서 앨범을 만들 수 있습니다"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:193
 msgid "Online Accounts"
 msgstr "온라인 계정"
 
@@ -215,7 +225,7 @@ msgstr "온라인 계정"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:200
 msgid "Pictures folder"
 msgstr "사진 폴더"
 
@@ -224,12 +234,12 @@ msgstr "사진 폴더"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:207
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "%s와(과) %s의 사진을 여기에 나타냅니다."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:217
 msgid "Try a different search"
 msgstr "다른 검색 시도"
 
@@ -255,6 +265,8 @@ msgid "_Reduced"
 msgstr "감소(_R)"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
+#: src/photos-main-toolbar.c:614
 msgid "_Cancel"
 msgstr "취소(_C)"
 
@@ -274,43 +286,43 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "내보내기 크기 계산중…"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "내보내기에 실패했습니다: 용량 부족"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "내보내기 실패"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” 항목을 내보냈습니다"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "항목 %d개를 내보냈습니다"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "분석"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "휴지통 비우기"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:299 src/photos-selection-toolbar.ui:28
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "열기"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "폴더 내보내기"
 
@@ -489,60 +501,72 @@ msgstr "사진을 인덱싱하는 중입니다"
 msgid "Some photos might not be available during this process"
 msgstr "이 처리 과정 중 일부 사진은 사용할 수 없습니다"
 
-#: src/photos-local-item.c:207 src/photos-source-manager.c:399
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "로컬"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "선택하려는 항목을 누르십시오"
 
-#: src/photos-main-toolbar.c:84
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "선택한 사진 %d개"
 
-#: src/photos-main-toolbar.c:212
+#: src/photos-main-toolbar.c:170
+msgid "Select items for import"
+msgstr "가져올 항목을 선택하십시오"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "가져올 항목 선택(선택 항목 %u개)"
+
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "뒤로"
 
-#: src/photos-main-toolbar.c:326
+#: src/photos-main-toolbar.c:331
 msgid "Select Items"
 msgstr "항목 선택"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:388 src/photos-selection-toolbar.c:296
+#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "%s(으)로 열기"
 
-#: src/photos-main-toolbar.c:419 src/photos-selection-toolbar.c:307
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "즐겨찾기에서 제거"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:312
+#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "즐겨찾기에 추가"
 
-#: src/photos-main-toolbar.c:463 src/photos-main-toolbar.c:497
-#: src/photos-main-toolbar.c:604
-msgid "Cancel"
-msgstr "취소"
-
-#: src/photos-main-toolbar.c:467
+#: src/photos-main-toolbar.c:472
 msgid "Done"
 msgstr "완료"
 
+#: src/photos-main-toolbar.c:507
+msgid "_Select"
+msgstr "선택(_S)"
+
 #: src/photos-main-window.c:458
+#| msgid ""
+#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
+#| "Copyright © 2015 – 2017 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
@@ -832,10 +856,6 @@ msgid "Export"
 msgstr "내보내기"
 
 #: src/photos-selection-toolbar.ui:111
-msgid "Add to Photos"
-msgstr "사진 모음에 추가"
-
-#: src/photos-selection-toolbar.ui:124
 msgid "Add to Album"
 msgstr "앨범에 추가"
 
@@ -865,19 +885,23 @@ msgstr "사진 업로드 실패"
 msgid "Sources"
 msgstr "원본"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:183
 msgid "New device discovered"
 msgstr "새 장치를 발견함"
+
+#: src/photos-source-notification.c:196
+msgid "Import…"
+msgstr "가져오기…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:226
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "%s 인증 정보 기한이 끝났습니다"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:233
 msgid "Settings"
 msgstr "설정"
 
@@ -1012,6 +1036,18 @@ msgstr "필터"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "사진 목록을 가져올 수 없습니다"
+
+#~ msgid "It lets you:"
+#~ msgstr "이 프로그램에는 다음 기능이 있습니다:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "원격 DLNA 렌러더에 사진 보내기"
+
+#~ msgid "Cancel"
+#~ msgstr "취소"
+
+#~ msgid "Add to Photos"
+#~ msgstr "사진 모음에 추가"
 
 #~ msgid "Name your first album"
 #~ msgstr "첫번째 앨범에 이름을 지어주세요"
