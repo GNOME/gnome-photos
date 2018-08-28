@@ -55,16 +55,7 @@ photos_empty_results_box_activate_link (PhotosEmptyResultsBox *self, const gchar
   if (g_strcmp0 (uri, "system-settings") != 0)
     goto out;
 
-  {
-    g_autoptr (GError) error = NULL;
-
-    if (!photos_utils_launch_online_accounts (NULL, &error))
-      {
-        g_warning ("Unable to open Online Accounts panel: %s", error->message);
-        goto out;
-      }
-  }
-
+  photos_utils_launch_online_accounts (NULL);
   ret_val = TRUE;
 
  out:

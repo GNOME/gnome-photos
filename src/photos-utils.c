@@ -1077,19 +1077,18 @@ photos_utils_get_version (void)
 }
 
 
-gboolean
-photos_utils_launch_online_accounts (const gchar *account_id, GError **error)
+void
+photos_utils_launch_online_accounts (const gchar *account_id)
 {
-  g_autoptr (GApplication) control_center = NULL;
+  GApplication *app;
+  g_autoptr (GDBusActionGroup) control_center = NULL;
+  GDBusConnection *connection;
   GVariant *parameters;
   g_auto (GVariantBuilder) panel_parameters = G_VARIANT_BUILDER_INIT (G_VARIANT_TYPE ("av"));
-  gboolean ret_val = FALSE;
 
-  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
-
-  control_center = g_application_new ("org.gnome.ControlCenter", G_APPLICATION_IS_LAUNCHER);
-  if (!g_application_register (control_center, NULL, error))
-    goto out;
+  app = g_application_get_default ();
+  connection = g_application_get_dbus_connection (app);
+  control_center = g_dbus_action_group_get (connection, "org.gnome.ControlCenter", "/org/gnome/ControlCenter");
 
   if (account_id != NULL && account_id[0] != '\0')
     {
@@ -1101,11 +1100,6 @@ photos_utils_launch_online_accounts (const gchar *account_id, GError **error)
 
   parameters = g_variant_new ("(s@av)", "online-accounts", g_variant_builder_end (&panel_parameters));
   g_action_group_activate_action (G_ACTION_GROUP (control_center), "launch-panel", parameters);
-
-  ret_val = TRUE;
-
- out:
-  return ret_val;
 }
 
 
