@@ -94,19 +94,7 @@ photos_source_notification_settings_clicked (PhotosSourceNotification *self)
 
   account = goa_object_peek_account (object);
   id = goa_account_get_id (account);
-
-  {
-    g_autoptr (GError) error = NULL;
-
-    if (!photos_utils_launch_online_accounts (id, &error))
-      {
-        g_warning ("Unable to open Online Accounts panel: %s", error->message);
-        goto out;
-      }
-  }
-
- out:
-  return;
+  photos_utils_launch_online_accounts (id);
 }
 
 
