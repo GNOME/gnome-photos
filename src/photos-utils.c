@@ -1083,15 +1083,14 @@ photos_utils_get_version (void)
 gboolean
 photos_utils_launch_online_accounts (const gchar *account_id, GError **error)
 {
-  GVariant *parameters;
   g_autoptr (GApplication) control_center = NULL;
+  GVariant *parameters;
   g_auto (GVariantBuilder) panel_parameters = G_VARIANT_BUILDER_INIT (G_VARIANT_TYPE ("av"));
   gboolean ret_val = FALSE;
-  const gchar *control_center_id = "org.gnome.ControlCenter";
 
   g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-  control_center = g_application_new (control_center_id, G_APPLICATION_IS_LAUNCHER);
+  control_center = g_application_new ("org.gnome.ControlCenter", G_APPLICATION_IS_LAUNCHER);
   if (!g_application_register (control_center, NULL, error))
     goto out;
 
