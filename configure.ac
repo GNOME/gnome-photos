@@ -68,20 +68,6 @@ AC_DEFINE([PHOTOS_EPSILON], [1e-5], [Tolerance when comparing single or double p
 
 LT_INIT
 
-AC_CHECK_LIB([jpeg], [jpeg_destroy_decompress], , AC_MSG_ERROR([JPEG library not found]))
-AC_MSG_CHECKING([for jpeglib.h])
-AC_PREPROC_IFELSE([AC_LANG_SOURCE([[
-#include <stdio.h>
-#undef HAVE_STDDEF_H
-#undef HAVE_STDLIB_H
-#undef PACKAGE
-#undef VERSION
-#include <jpeglib.h>]])],
-                  AC_MSG_RESULT([yes]),
-                  AC_MSG_ERROR([JPEG header file not found]))
-AC_CHECK_LIB([jpeg], [jpeg_save_markers], JPEG_LIBS='-ljpeg', AC_MSG_ERROR([JPEG library is too old]))
-AC_SUBST(JPEG_LIBS)
-
 # ****************************************************************
 # Support for nl_langinfo (_NL_MEASUREMENT_MEASUREMENT) (optional)
 # ****************************************************************
@@ -115,6 +101,7 @@ PKG_CHECK_MODULES(GRILO, [grilo-0.3 >= $GRILO_MIN_VERSION])
 PKG_CHECK_MODULES(GSETTINGS_DESKTOP_SCHEMAS, [gsettings-desktop-schemas])
 PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= $GTK_MIN_VERSION])
 PKG_CHECK_MODULES(GTK_UNIX_PRINT, [gtk+-unix-print-3.0])
+PKG_CHECK_MODULES(JPEG, [libjpeg])
 PKG_CHECK_MODULES(PNG, [libpng16])
 PKG_CHECK_MODULES(TRACKER, [tracker-control-2.0 tracker-sparql-2.0])
 
