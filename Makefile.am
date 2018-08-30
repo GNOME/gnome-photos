@@ -11,13 +11,10 @@ photosdoc_DATA = \
 	README \
 	$(NULL)
 
-# There is no way to generate the AUTHORS in tarball builds
 EXTRA_DIST = \
 	$(photosdoc_DATA) \
-	AUTHORS \
 	$(NULL)
 
-# We don't want to clean the AUTHORS in tarball builds
 CLEANFILES = \
 	$(NULL)
 
@@ -28,7 +25,6 @@ MAINTAINERCLEANFILES = \
 	$(GITIGNORE_MAINTAINERCLEANFILES_M4_GETTEXT) \
 	$(GITIGNORE_MAINTAINERCLEANFILES_M4_LIBTOOL) \
 	$(GITIGNORE_MAINTAINERCLEANFILES_TOPLEVEL) \
-	$(srcdir)/AUTHORS \
 	$(srcdir)/config.h.in \
 	$(srcdir)/omf.make \
 	$(srcdir)/xmldocs.make \
@@ -39,19 +35,17 @@ GITIGNOREFILES = \
 	config \
 	$(NULL)
 
-AUTHORS:
+update-authors:
 	@if test -d "$(srcdir)/.git"; \
 	then \
-		echo Creating $@ && \
+		echo Updating AUTHORS && \
 		( cd "$(top_srcdir)" && \
 		  echo '# Generated — do not edit.'; echo; \
 		  git log --no-merges --pretty=format:"%an" src \
-		  | sort | uniq ) > $@.tmp \
-		&& mv -f $@.tmp $@ \
-		|| ( rm -f $@.tmp ; \
-		     echo Failed to generate $@ >&2 ); \
+		  | sort | uniq ) > AUTHORS.tmp \
+		&& mv -f AUTHORS.tmp AUTHORS \
+		|| ( rm -f AUTHORS.tmp ; \
+		     echo Failed to generate AUTHORS >&2 ); \
 	fi
-
-.PHONY: AUTHORS
 
 -include $(top_srcdir)/git.mk

@@ -38,7 +38,7 @@ while read line; do
     [ ${#line} -eq 0 ] &&
         continue
     echo "  \"$line\","
-done < $3/ARTISTS
+done < $2/ARTISTS
 echo "  NULL"
 echo "};"
 

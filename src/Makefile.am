@@ -486,20 +486,20 @@ CLEANFILES = \
 photos-about-data.h: stamp-photos-about-data.h
 	@true
 
-stamp-photos-about-data.h: $(top_srcdir)/ARTISTS $(top_builddir)/AUTHORS
+stamp-photos-about-data.h: $(top_srcdir)/ARTISTS $(top_srcdir)/AUTHORS
 	$(AM_V_GEN) ( \
 		( $(srcdir)/photos-generate-about \
-			--header $(top_builddir) $(top_srcdir) \
+			--header $(top_srcdir) \
 		) >> xgen-ah \
 		&& ( cmp -s xgen-ah photos-about-data.h || cp xgen-ah photos-about-data.h ) \
 		&& rm -f xgen-ah \
 		&& echo timestamp > $(@F) \
 	)
 
-photos-about-data.c: $(top_srcdir)/ARTISTS $(top_builddir)/AUTHORS
+photos-about-data.c: $(top_srcdir)/ARTISTS $(top_srcdir)/AUTHORS
 	$(AM_V_GEN) ( \
 		( $(srcdir)/photos-generate-about \
-			--body $(top_builddir) $(top_srcdir) \
+			--body $(top_srcdir) \
 		) >> xgen-ac \
 		&& ( cmp -s xgen-ac photos-about-data.c || cp xgen-ac photos-about-data.c ) \
 		&& rm -f xgen-ac \
