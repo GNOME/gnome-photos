@@ -447,7 +447,6 @@ gnome_photos_LDADD = \
 	$(PNG_LIBS) \
 	$(TRACKER_LIBS) \
 	$(LIBM) \
-	$(LIBRT) \
 	$(top_builddir)/subprojects/libgd/libgd.la \
 	$(NULL)
 
@@ -465,7 +464,6 @@ gnome_photos_thumbnailer_LDADD = \
 	$(JPEG_LIBS) \
 	$(PNG_LIBS) \
 	$(LIBM) \
-	$(LIBRT) \
 	$(NULL)
 
 CLEANFILES = \
