@@ -190,7 +190,8 @@
         },
         {
             "name": "gexiv2",
-            "config-opts": [ "--disable-introspection", "--disable-Werror" ],
+            "buildsystem": "meson",
+            "config-opts": [ "-Ddisable-introspection=true" ],
             "sources": [
                 {
                     "type": "git",
