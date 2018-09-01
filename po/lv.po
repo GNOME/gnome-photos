@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-02 11:45+0000\n"
-"PO-Revision-Date: 2018-03-04 16:09+0200\n"
+"POT-Creation-Date: 2018-08-17 17:00+0000\n"
+"PO-Revision-Date: 2018-09-01 11:02+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -29,50 +29,69 @@ msgid "Access, organize and share your photos on GNOME"
 msgstr "Piekļūstiet, organizējiet, dalieties ar fotogrāfijām GNOME vidē"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
+#| msgid ""
+#| "A simple application to access, organize and share your photos on GNOME. "
+#| "It is meant to be a simple and elegant replacement for using a file "
+#| "manager to deal with photos. Seamless cloud integration is offered "
+#| "through GNOME Online Accounts."
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Vienkārša lietotne, kas noder fotogrāfiju piekļūšanai, organizēšanai un "
-"koplietošanai GNOME vidē Tā ir paredzēta kā datņu pārvaldnieka aizvietotājs "
-"darbam ar fotogrāfijām. Integrāciju ar mākoņpakalpojumiem nodrošina caur "
+"Piekļūstiet, organizējiet un dalieties ar fotogrāfijām GNOME vidē. Tā ir "
+" datņu pārvaldnieka aizvietotāja darbam ar fotogrāfijām. Ātri uzlabojiet"
+" kadrējiet un rediģējiet. Integrāciju ar mākoņpakalpojumiem nodrošina caur "
 "GNOME tiešsaistes kontiem."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Tā jums ļauj:"
+msgid "You can:"
+msgstr "Jūs varat:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Automātiski atrodiet visas savas bildes"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Skatiet nesenās lokālās un tiešsaistes fotogrāfijas"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Piekļūstiet savam Facebook vai Flickr saturam"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Sūtiet fotogrāfijas uz attālinātiem DLNA attēlotājiem"
+#| msgid "Access your Facebook or Flickr content"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Piekļūstiet savām Facebook vai Flickr bildēm"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Iestatīt kā fonu"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Skatiet fotogrāfijas televizorā , klēpjdatorā un citos DLNA attēlotājos jūsu"
+" lokālajā tīklā"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+#| msgid "Set as background"
+msgid "Set pictures as your desktop background"
+msgstr "Iestatiet attēlus kā jūsu darbvirsmas fonu"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Drukāt fotogrāfijas"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Izvēlēties izlasi"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Ļauj atvērt redaktoru plašākām rediģēšanas iespējām"
+#: data/org.gnome.Photos.appdata.xml.in:26
+#| msgid "Allow opening full featured editor for more advanced changes"
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"Viegli rediģējiet savas fotogrāfijas lietotnē, vai sūtiet tās uz redaktoru ar"
+" plašākām rediģēšanas iespējām"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "GNOME projekts"
 
@@ -133,15 +152,14 @@ msgstr "Rādīt lietotnes versiju"
 #.
 #: src/photos-application.c:1393 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
-#| msgid "%e %B %Y"
 msgid "%-d %B %Y"
 msgstr "%Y. gada %d. %B"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Albums"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2830
 msgid "Screenshots"
 msgstr "Ekrānattēli"
 
@@ -184,7 +202,6 @@ msgid "Favorites"
 msgstr "Izlase"
 
 #: src/photos-embed.c:834
-#| msgid "Export"
 msgid "Import"
 msgstr "Importēt"
 
@@ -192,21 +209,19 @@ msgstr "Importēt"
 msgid "Search"
 msgstr "Meklēt"
 
-#: src/photos-empty-results-box.c:148
-#| msgid "No Albums Found"
+#: src/photos-empty-results-box.c:129
 msgid "No albums found"
 msgstr "Nav atrastu albumu"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:133
 msgid "Starred photos will appear here"
 msgstr "Ar zvaigzni atzīmētās fotogrāfijas parādīsies šeit"
 
-#: src/photos-empty-results-box.c:162
-#| msgid "No Photos Found"
+#: src/photos-empty-results-box.c:143
 msgid "No photos found"
 msgstr "Fotogrāfijas nav atrastas"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:172
 msgid "You can create albums from the Photos view"
 msgstr "Varat izveidot albumus no fotogrāfiju skata"
 
@@ -214,7 +229,7 @@ msgstr "Varat izveidot albumus no fotogrāfiju skata"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:193
 msgid "Online Accounts"
 msgstr "Tiešsaistes konti"
 
@@ -222,7 +237,7 @@ msgstr "Tiešsaistes konti"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:200
 msgid "Pictures folder"
 msgstr "Bilžu mape"
 
@@ -231,13 +246,12 @@ msgstr "Bilžu mape"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:207
 #, c-format
-#| msgid "Starred photos will appear here"
 msgid "Photos from your %s and %s will appear here."
 msgstr "Fotogrāfijas no “%s” un “%s” parādīsies šeit."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:217
 msgid "Try a different search"
 msgstr "Mēģiniet citus atslēgvārdus"
 
@@ -284,20 +298,20 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Rēķina eksporta izmēru…"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "Neizdevās eksportēt — nepietiek vietas"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "Neizdevās eksportēt"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” ir eksportēts"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -305,16 +319,16 @@ msgstr[0] "Eksportēts %d vienums"
 msgstr[1] "Eksportēti %d vienumi"
 msgstr[2] "Eksportēti %d vienumi"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "Analizēt"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Iztukšot miskasti"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Atvērt"
@@ -322,7 +336,7 @@ msgstr "Atvērt"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Eksportēt mapi"
 
@@ -464,7 +478,6 @@ msgid "An album for that date already exists"
 msgstr "Albums ar tādu datumu jau pastāv"
 
 #: src/photos-import-dialog.ui:22
-#| msgid "Album"
 msgctxt "dialog title"
 msgid "Name Album"
 msgstr "Nodēvēt albumu"
@@ -501,7 +514,7 @@ msgstr "Fotogrāfijas tiek indeksētas"
 msgid "Some photos might not be available during this process"
 msgstr "Šajā laikā dažas fotogrāfijas varētu nebūt pieejamas"
 
-#: src/photos-local-item.c:207 src/photos-source-manager.c:399
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Lokāls"
 
@@ -518,7 +531,6 @@ msgstr[1] "%d izvēlēti"
 msgstr[2] "%d izvēlētu"
 
 #: src/photos-main-toolbar.c:170
-#| msgid "Select Items"
 msgid "Select items for import"
 msgstr "Izvēlieties vienumus, kurus importēt"
 
@@ -559,17 +571,19 @@ msgid "Done"
 msgstr "Pabeigts"
 
 #: src/photos-main-toolbar.c:507
-#| msgid "Select All"
 msgid "_Select"
 msgstr "Izvēlētie_s"
 
 #: src/photos-main-window.c:458
+#| msgid ""
+#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
+#| "Copyright © 2015 – 2017 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Autortiesības © 2012 – 2017 . gads Red Hat, Inc.\n"
-"Autortiesības© 2015 – 2017. gads Umang Jain"
+"Autortiesības © 2012 – 2018 . gads Red Hat, Inc.\n"
+"Autortiesības© 2015 – 2018. gads Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
@@ -871,7 +885,6 @@ msgstr "Dalīties"
 
 #: src/photos-share-notification.c:148
 #, c-format
-#| msgid "“%s” exported"
 msgid "“%s” shared"
 msgstr "“%s” ir koplietots"
 
@@ -891,24 +904,23 @@ msgstr "Neizdevās augšupielādēt fotogrāfiju"
 msgid "Sources"
 msgstr "Avoti"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:183
 msgid "New device discovered"
 msgstr "Atrasta jauna ierīce"
 
-#: src/photos-source-notification.c:214
-#| msgid "Export…"
+#: src/photos-source-notification.c:196
 msgid "Import…"
 msgstr "Importēt…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:226
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Jūsu %s akreditācijas datu derīguma termiņš ir beidzies"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:233
 msgid "Settings"
 msgstr "Iestatījumi"
 
@@ -933,7 +945,6 @@ msgid "Shadows"
 msgstr "Ēnas"
 
 #: src/photos-tool-colors.c:466
-#| msgid "Height"
 msgid "Highlights"
 msgstr "Gaišās vietas"
 
@@ -1042,3 +1053,9 @@ msgstr "Filtri"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Neizdevās saņemt fotogrāfiju sarakstu"
+
+#~ msgid "It lets you:"
+#~ msgstr "Tā jums ļauj:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Sūtiet fotogrāfijas uz attālinātiem DLNA attēlotājiem"
