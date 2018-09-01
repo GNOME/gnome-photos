@@ -1,3 +1,22 @@
+Overview of changes in 3.29.92
+==============================
+
+* Bugs fixed:
+ !48 Port to Meson build system
+
+* Updated translations:
+ Traditional Chinese (Taiwan)
+ English (British)
+ Finnish
+ Galician
+ Hungarian
+ Icelanding
+ Indonesian
+ Kazakh
+ Korean
+ Swedish
+
+
 Overview of changes in 3.29.91
 ==============================
 
