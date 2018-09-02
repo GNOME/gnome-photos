@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-24\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-04-06 18:13+0000\n"
-"PO-Revision-Date: 2018-04-16 15:01+0200\n"
+"POT-Creation-Date: 2018-08-29 23:33+0000\n"
+"PO-Revision-Date: 2018-09-02 20:24+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.1.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotografije"
 
@@ -31,50 +31,60 @@ msgstr "Pristupite, organizirajte i dijelite svoje fotografije na GNOMU"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Jednostavna aplikacija za pristup, organizaciju i dijeljenje vaših "
-"fotografija na GNOMU. Namjena aplikacije je da bude jednostavna i elegantna "
-"zamjena za rukovanje fotografija u upravitelju datoteka. Besprijekorna "
-"integracija sa oblakom je omogućena putem GNOME mrežnih računa."
+"Pristupite, organizirajte i dijelite svoje fotografije na GNOMU. Jednostavna "
+"i elegantna zamjena za rukovanje fotografijama u upravitelju datoteka. "
+"Poboljšajte, obrežite i uredite u trenu. Besprijekorna integracija sa "
+"oblakom je omogućena putem GNOME mrežnih računa."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Omogućuje vam:"
+msgid "You can:"
+msgstr "Možete:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
-msgid "View recent local and online photos"
-msgstr "Pregled nedavnih lokalnih ili mrežnih fotografija"
+msgid "Automatically find all your pictures"
+msgstr "Automatski pronaći sve svoje slike"
 
 #: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Pristup vašem Facebook ili Flickr sadržaju"
+msgid "View recent local and online photos"
+msgstr "Pogledati nedavne lokalne ili mrežne fotografije"
 
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Slanje fotografija na udaljeni DLNA uređaj prikazivanja"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Pristupiti vašim Facebook ili Flickr slikama"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Postavi kao pozadinu"
-
-#: data/org.gnome.Photos.appdata.xml.in:22
-msgid "Print photos"
-msgstr "Ispiši fotografiju"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Pogledati fotografije na TV-u, prijenosnicima ili drugim DLNA uređajima na "
+"vašoj lokalnoj mreži"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
-msgid "Select favorites"
-msgstr "Odaberi omiljene"
+msgid "Set pictures as your desktop background"
+msgstr "Postaviti slike kao pozadinu vaše radne površine"
 
 #: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr ""
-"Dopušta otvaranje potpunijeg uređivača fotografija za naprednije promjene"
+msgid "Print photos"
+msgstr "Ispisivati fotografije"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:25
+msgid "Select favorites"
+msgstr "Odabrati omiljene"
+
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"S lakoćom uređivati svoje slike u aplikaciji ili slanje u naprednijeg "
+"uređivača fotografija za naprednije promjene"
+
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "GNOME projekt"
 
@@ -138,11 +148,11 @@ msgstr "Prikaži inačicu aplikacije"
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2830
 msgid "Screenshots"
 msgstr "Slike zaslona"
 
@@ -192,19 +202,19 @@ msgstr "Uvoz"
 msgid "Search"
 msgstr "Pretraga"
 
-#: src/photos-empty-results-box.c:148
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "Nema pronađenih albuma"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Ocijenjene fotografije će se pojaviti ovdje"
 
-#: src/photos-empty-results-box.c:162
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "Nema pronađenih fotografija"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "Možete stvoriti albume iz prikaza fotografija"
 
@@ -212,7 +222,7 @@ msgstr "Možete stvoriti albume iz prikaza fotografija"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "Mrežni računi"
 
@@ -220,7 +230,7 @@ msgstr "Mrežni računi"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "Mapa slika"
 
@@ -229,12 +239,12 @@ msgstr "Mapa slika"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Fotografije s vašeg %s i %s će se pojaviti ovdje."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Pokušaj drugačiju pretragu"
 
@@ -281,20 +291,20 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Izračunavanje veličine izvoza…"
 
-#: src/photos-export-notification.c:334
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "Neuspješni izvoz: nema dovoljno slobodnog prostora"
 
-#: src/photos-export-notification.c:336
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "Neuspješni izvoz"
 
-#: src/photos-export-notification.c:343
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” izvezen"
 
-#: src/photos-export-notification.c:347
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -302,16 +312,16 @@ msgstr[0] "“%d” stavka izvezena"
 msgstr[1] "“%d” stavke izvezene"
 msgstr[2] "“%d” stavki izvezeno"
 
-#: src/photos-export-notification.c:364
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "Analiziraj"
 
-#: src/photos-export-notification.c:369
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Isprazni smeće"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Otvori"
@@ -319,7 +329,7 @@ msgstr "Otvori"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:396
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Mapa izvoza"
 
@@ -884,23 +894,23 @@ msgstr "Neuspješno salanje fotografije"
 msgid "Sources"
 msgstr "Izvori"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "Novi uređaj otkriven"
 
-#: src/photos-source-notification.c:214
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Uvoz…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Vaše %s vjerodajnica je istekla"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Postavke"
 
@@ -1033,6 +1043,12 @@ msgstr "Filtri"
 #: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
 msgstr "Nemoguće preuzimanje popisa fotografija"
+
+#~ msgid "It lets you:"
+#~ msgstr "Omogućuje vam:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Slanje fotografija na udaljeni DLNA uređaj prikazivanja"
 
 #~ msgid "Cancel"
 #~ msgstr "Odustani"
