@@ -24,6 +24,7 @@
         "--talk-name=com.intel.dleyna-renderer",
         "--talk-name=org.gnome.ControlCenter",
         "--talk-name=org.gnome.SettingsDaemon",
+        "--talk-name=org.gnome.SettingsDaemon.Housekeeping",
         "--talk-name=org.gtk.vfs",
         "--talk-name=org.gtk.vfs.*"
     ],
