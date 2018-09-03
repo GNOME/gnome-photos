@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-02 11:45+0000\n"
-"PO-Revision-Date: 2018-03-05 12:47+0100\n"
+"POT-Creation-Date: 2018-08-30 09:46+0000\n"
+"PO-Revision-Date: 2018-09-03 12:59+0200\n"
 "Last-Translator: Gianvito Cavasoli <gianvito@gmx.it>\n"
 "Language-Team: Italiano <gnome-it-list@gnome.org>\n"
 "Language: it\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Foto"
 
@@ -31,51 +31,60 @@ msgstr "Accede, organizza e condivide le foto su GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Una semplice applicazione per accedere, organizzare e condividere le foto su "
-"GNOME. È pensata per essere una semplice ed elegante alternativa per l'uso "
-"di un gestore di file per trattare con le foto. La buona integrazione del "
-"cloud è offerta tramite gli account online di GNOME."
+"Accede, organizza e condivide le proprie foto su GNOME. Un semplice ed "
+"elegante sostituto per l'uso di un gestore di file per trattare con le foto. "
+"L'integrazione senza interruzioni del cloud è offerta tramite gli account "
+"online di GNOME."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Consente di:"
+msgid "You can:"
+msgstr "È possibile:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Trovare automaticamente tutte le foto"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Visualizzare le foto recenti locali e in rete"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Accedere ai contenuti di Facebook e Flickr"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Inviare le foto a renderer remoti DLNA"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Accedere alle proprie foto di Facebook o Flickr"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Impostare uno sfondo"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Visualizzare le foto sulle TV, portatili o su altri visualizzatori DLNA "
+"della propria rete locale"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "Impostare le foto come sfondo della scrivania"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Stampare le foto"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Selezionare le preferite"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
 msgstr ""
-"Consente di aprire un editor con piene funzionlità per le modifiche più "
-"avanzate"
+"Modificare facilmente nell'applicazione le proprie foto, oppure inviarle a "
+"un editor più completo per modifiche più avanzate"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "Il progetto GNOME"
 
@@ -136,15 +145,14 @@ msgstr "Mostra la versione dell'applicazione"
 #.
 #: src/photos-application.c:1393 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
-#| msgid "%e %B %Y"
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2830
 msgid "Screenshots"
 msgstr "Schermate"
 
@@ -166,7 +174,7 @@ msgstr "Annulla"
 
 #: src/photos-dlna-renderers-dialog.ui:7
 msgid "DLNA Renderer Devices"
-msgstr "Dispositivi renderer DLNA"
+msgstr "Dispositivi di visualizzazione DLNA"
 
 #: src/photos-done-notification.c:112
 #, c-format
@@ -186,7 +194,6 @@ msgid "Favorites"
 msgstr "Preferite"
 
 #: src/photos-embed.c:834
-#| msgid "Export"
 msgid "Import"
 msgstr "Importa"
 
@@ -194,21 +201,19 @@ msgstr "Importa"
 msgid "Search"
 msgstr "Cerca"
 
-#: src/photos-empty-results-box.c:148
-#| msgid "No Albums Found"
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "Nessun album trovato"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Le foto marcate con la stella appariranno qui"
 
-#: src/photos-empty-results-box.c:162
-#| msgid "No Photos Found"
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "Nessuna foto trovata"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "È possibile creare gli album dalla vista Foto"
 
@@ -216,7 +221,7 @@ msgstr "È possibile creare gli album dalla vista Foto"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "Account online"
 
@@ -224,7 +229,7 @@ msgstr "Account online"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "Cartella immagini"
 
@@ -233,13 +238,12 @@ msgstr "Cartella immagini"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:198
 #, c-format
-#| msgid "Starred photos will appear here"
 msgid "Photos from your %s and %s will appear here."
 msgstr "Le foto di %s e da %s appariranno qui."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Provare con una differente ricerca"
 
@@ -286,36 +290,36 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Calcolo dimensione esportazione…"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "Esportazione non riuscita: non c'è abbastanza spazio"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "Esportazione non riuscita"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "«%s» esportata"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d oggetto esportato"
 msgstr[1] "%d oggetti esportati"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "Elaborazione"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Svuota cestino"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Apri"
@@ -323,7 +327,7 @@ msgstr "Apri"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Cartella di esportazione"
 
@@ -465,7 +469,6 @@ msgid "An album for that date already exists"
 msgstr "Esiste già un album con questa data"
 
 #: src/photos-import-dialog.ui:22
-#| msgid "Album"
 msgctxt "dialog title"
 msgid "Name Album"
 msgstr "Nome album"
@@ -502,7 +505,7 @@ msgstr "Indicizzazione delle foto in corso"
 msgid "Some photos might not be available during this process"
 msgstr "Alcune foto potrebbero non essere disponibili durante questo processo"
 
-#: src/photos-local-item.c:207 src/photos-source-manager.c:399
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Locale"
 
@@ -518,7 +521,6 @@ msgstr[0] "%d selezionato"
 msgstr[1] "%d selezionati"
 
 #: src/photos-main-toolbar.c:170
-#| msgid "Select Items"
 msgid "Select items for import"
 msgstr "Seleziona oggetti per l'importazione"
 
@@ -558,17 +560,16 @@ msgid "Done"
 msgstr "Fatto"
 
 #: src/photos-main-toolbar.c:507
-#| msgid "Select All"
 msgid "_Select"
 msgstr "_Seleziona"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
@@ -872,7 +873,6 @@ msgstr "Condivisione"
 
 #: src/photos-share-notification.c:148
 #, c-format
-#| msgid "“%s” exported"
 msgid "“%s” shared"
 msgstr "«%s» condivisa"
 
@@ -892,24 +892,23 @@ msgstr "Caricamento foto non riuscito"
 msgid "Sources"
 msgstr "Fonti"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "Rilevato nuovo dispositivo"
 
-#: src/photos-source-notification.c:214
-#| msgid "Export…"
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Importa…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Le credenziali %s sono scadute"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Impostazioni"
 
