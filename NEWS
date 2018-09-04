@@ -1,3 +1,16 @@
+Overview of changes in 3.28.1
+=============================
+
+* Bugs fixed:
+ #100 tests: Update for renamed application ID
+
+* Updated translations:
+ Simplified Chinese
+ Icelandic
+ Russian
+ Slovenian
+
+
 Overview of changes in 3.28.0
 =============================
 
