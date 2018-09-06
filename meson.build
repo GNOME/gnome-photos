@@ -1,6 +1,6 @@
 project(
   'gnome-photos', 'c',
-  version: '3.29.92',
+  version: '3.30.0',
   license: 'GPL3+',
   default_options: 'buildtype=debugoptimized',
   meson_version: '>= 0.47.0',
