@@ -29,8 +29,8 @@
 #include "photos-debug.h"
 #include "photos-error.h"
 #include "photos-gegl.h"
+#include "photos-gegl-buffer-io.h"
 #include "photos-pipeline.h"
-#include "photos-pixbuf.h"
 #include "photos-thumbnailer.h"
 #include "photos-thumbnailer-dbus.h"
 
@@ -341,11 +341,10 @@ photos_thumbnailer_generate_thumbnail_process (GObject *source_object, GAsyncRes
 
 
 static void
-photos_thumbnailer_generate_thumbnail_pixbuf (GObject *source_object, GAsyncResult *res, gpointer user_data)
+photos_thumbnailer_generate_thumbnail_buffer (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GCancellable *cancellable;
   g_autoptr (GTask) task = G_TASK (user_data);
-  g_autoptr (GdkPixbuf) pixbuf = NULL;
   g_autoptr (GeglBuffer) buffer = NULL;
   g_autoptr (GeglBuffer) buffer_oriented = NULL;
   GeglNode *buffer_source;
@@ -359,7 +358,7 @@ photos_thumbnailer_generate_thumbnail_pixbuf (GObject *source_object, GAsyncResu
   {
     g_autoptr (GError) error = NULL;
 
-    pixbuf = photos_pixbuf_new_from_file_at_size_finish (res, &error);
+    buffer = photos_gegl_buffer_new_from_file_finish (res, &error);
     if (error != NULL)
       {
         g_task_return_error (task, g_steal_pointer (&error));
@@ -367,7 +366,6 @@ photos_thumbnailer_generate_thumbnail_pixbuf (GObject *source_object, GAsyncResu
       }
   }
 
-  buffer = photos_gegl_buffer_new_from_pixbuf (pixbuf);
   buffer_oriented = photos_gegl_buffer_apply_orientation (buffer, data->orientation);
 
   buffer_source = gegl_node_new_child (data->graph, "operation", "gegl:buffer-source", "buffer", buffer_oriented, NULL);
@@ -459,12 +457,14 @@ photos_thumbnailer_generate_thumbnail_pipeline (GObject *source_object, GAsyncRe
     photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s (%s)", uri, path);
 
   photos_debug (PHOTOS_DEBUG_THUMBNAILER, "Loading %s at %d×%d", uri, load_width, load_height);
-  photos_pixbuf_new_from_file_at_size_async (path,
-                                             load_width,
-                                             load_height,
-                                             cancellable,
-                                             photos_thumbnailer_generate_thumbnail_pixbuf,
-                                             g_object_ref (task));
+  photos_gegl_buffer_new_from_file_at_scale_async (data->file,
+                                                   load_width,
+                                                   load_height,
+                                                   FALSE,
+                                                   G_PRIORITY_DEFAULT,
+                                                   cancellable,
+                                                   photos_thumbnailer_generate_thumbnail_buffer,
+                                                   g_object_ref (task));
 
  out:
   return;

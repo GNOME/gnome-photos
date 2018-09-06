@@ -433,7 +433,6 @@ executable(
 )
 
 sources = common_sources + files(
-  'photos-pixbuf.c',
   'photos-thumbnailer.c',
   'photos-thumbnailer-main.c',
 )
