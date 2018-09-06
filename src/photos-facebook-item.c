@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Álvaro Peña
- * Copyright © 2014 – 2017 Red Hat, Inc.
+ * Copyright © 2014 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -190,9 +190,10 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
 }
 
 
-static gchar *
+static GFile *
 photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
+  GFile *ret_val = NULL;
   g_autoptr (GFile) local_file = NULL;
   g_autoptr (GFile) remote_file = NULL;
   GFBGraphPhoto *photo = NULL; /* TODO: use g_autoptr */
@@ -201,7 +202,6 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
   const gchar *local_filename;
   g_autofree gchar *local_dir = NULL;
   g_autofree gchar *local_path = NULL;
-  gchar *ret_val = NULL;
 
   cache_dir = g_get_user_cache_dir ();
   local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "facebook", NULL);
@@ -209,6 +209,7 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
 
   local_filename = photos_base_item_get_filename (item);
   local_path = g_build_filename (local_dir, local_filename, NULL);
+  local_file = g_file_new_for_path (local_path);
   if (g_file_test (local_path, G_FILE_TEST_EXISTS))
     goto end;
 
@@ -224,7 +225,6 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
     }
 
   remote_file = g_file_new_for_uri (higher_image->source);
-  local_file = g_file_new_for_path (local_path);
 
   photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Facebook to %s", higher_image->source, local_path);
   if (!g_file_copy (remote_file,
@@ -240,7 +240,7 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
     }
 
  end:
-  ret_val = g_steal_pointer (&local_path);
+  ret_val = g_object_ref (local_file);
 
  out:
   g_clear_object (&photo);

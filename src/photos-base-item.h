@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
- * Copyright © 2012 – 2017 Red Hat, Inc.
+ * Copyright © 2012 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ struct _PhotosBaseItemClass
   GStrv       (*create_pipeline_paths)      (PhotosBaseItem *self);
   gboolean    (*create_thumbnail)           (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   gchar      *(*create_thumbnail_path)      (PhotosBaseItem *self);
-  gchar      *(*download)                   (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
+  GFile      *(*download)                   (PhotosBaseItem *self, GCancellable *cancellable, GError **error);
   GtkWidget  *(*get_source_widget)          (PhotosBaseItem *self);
   gboolean    (*metadata_add_shared)        (PhotosBaseItem  *self,
                                              const gchar     *provider_type,
@@ -95,7 +95,7 @@ gchar              *photos_base_item_create_thumbnail_path   (PhotosBaseItem *se
 
 void                photos_base_item_destroy                 (PhotosBaseItem *self);
 
-gchar              *photos_base_item_download                (PhotosBaseItem *self,
+GFile              *photos_base_item_download                (PhotosBaseItem *self,
                                                               GCancellable *cancellable,
                                                               GError **error);
 
@@ -104,7 +104,7 @@ void                photos_base_item_download_async          (PhotosBaseItem *se
                                                               GAsyncReadyCallback callback,
                                                               gpointer user_data);
 
-gchar              *photos_base_item_download_finish         (PhotosBaseItem *self,
+GFile              *photos_base_item_download_finish         (PhotosBaseItem *self,
                                                               GAsyncResult *res,
                                                               GError **error);
 

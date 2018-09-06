@@ -1049,12 +1049,12 @@ photos_base_item_download_in_thread_func (GTask *task,
                                           GCancellable *cancellable)
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
-  g_autofree gchar *path = NULL;
+  g_autoptr (GFile) file = NULL;
 
   {
     g_autoptr (GError) error = NULL;
 
-    path = photos_base_item_download (self, cancellable, &error);
+    file = photos_base_item_download (self, cancellable, &error);
     if (error != NULL)
       {
         g_task_return_error (task, g_steal_pointer (&error));
@@ -1062,7 +1062,7 @@ photos_base_item_download_in_thread_func (GTask *task,
       }
   }
 
-  g_task_return_pointer (task, g_strdup (path), g_free);
+  g_task_return_pointer (task, g_object_ref (file), g_object_unref);
 
  out:
   return;
@@ -1461,6 +1461,7 @@ static GeglBuffer *
 photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
   PhotosBaseItemPrivate *priv;
+  g_autoptr (GFile) file = NULL;
   g_autoptr (GeglBuffer) buffer = NULL;
   GeglBuffer *ret_val = NULL;
   GeglNode *buffer_sink;
@@ -1472,10 +1473,11 @@ photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, G
 
   priv = photos_base_item_get_instance_private (self);
 
-  path = photos_base_item_download (self, cancellable, error);
-  if (path == NULL)
+  file = photos_base_item_download (self, cancellable, error);
+  if (file == NULL)
     goto out;
 
+  path = g_file_get_path (file);
   if (!g_utf8_validate (path, -1, NULL))
     {
       g_set_error (error, PHOTOS_ERROR, 0, "Path is not UTF-8 encoded");
@@ -1960,6 +1962,7 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv;
   GFile *export_file = G_FILE (task_data);
+  g_autoptr (GFile) source_file = NULL;
   g_autoptr (GExiv2Metadata) metadata = NULL;
   g_autofree gchar *export_path = NULL;
   g_autofree gchar *source_path = NULL;
@@ -1971,7 +1974,7 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
   {
     g_autoptr (GError) error = NULL;
 
-    source_path = photos_base_item_download (self, cancellable, &error);
+    source_file = photos_base_item_download (self, cancellable, &error);
     if (error != NULL)
       {
         g_task_return_error (task, g_steal_pointer (&error));
@@ -1980,6 +1983,7 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
   }
 
   metadata = gexiv2_metadata_new ();
+  source_path = g_file_get_path (source_file);
 
   {
     g_autoptr (GError) error = NULL;
@@ -3349,19 +3353,27 @@ photos_base_item_destroy (PhotosBaseItem *self)
 }
 
 
-gchar *
+GFile *
 photos_base_item_download (PhotosBaseItem *self, GCancellable *cancellable, GError **error)
 {
   PhotosBaseItemPrivate *priv;
-  gchar *ret_val;
+  g_autoptr (GFile) file = NULL;
+  GFile *ret_val = NULL;
 
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), NULL);
   priv = photos_base_item_get_instance_private (self);
 
   g_mutex_lock (&priv->mutex_download);
-  ret_val = PHOTOS_BASE_ITEM_GET_CLASS (self)->download (self, cancellable, error);
+  file = PHOTOS_BASE_ITEM_GET_CLASS (self)->download (self, cancellable, error);
   g_mutex_unlock (&priv->mutex_download);
 
+  if (file == NULL)
+    goto out;
+
+  g_return_val_if_fail (g_file_is_native (file), NULL);
+  ret_val = g_object_ref (file);
+
+ out:
   return ret_val;
 }
 
@@ -3383,7 +3395,7 @@ photos_base_item_download_async (PhotosBaseItem *self,
 }
 
 
-gchar *
+GFile *
 photos_base_item_download_finish (PhotosBaseItem *self, GAsyncResult *res, GError **error)
 {
   GTask *task;

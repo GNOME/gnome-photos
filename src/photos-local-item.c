@@ -217,15 +217,15 @@ photos_local_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancella
 }
 
 
-static gchar *
+static GFile *
 photos_local_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
+  GFile *file;
   const gchar *uri;
-  gchar *path;
 
   uri = photos_base_item_get_uri (item);
-  path = g_filename_from_uri (uri, NULL, error);
-  return path;
+  file = g_file_new_for_uri (uri);
+  return file;
 }
 
 
@@ -281,6 +281,7 @@ photos_local_item_metadata_add_shared (PhotosBaseItem  *item,
                                        GCancellable    *cancellable,
                                        GError         **error)
 {
+  g_autoptr (GFile) file = NULL;
   g_autoptr (GVariant) shared_variant = NULL;
   const GVariantType *tuple_items[] =
     {
@@ -307,11 +308,12 @@ photos_local_item_metadata_add_shared (PhotosBaseItem  *item,
       goto out;
     }
 
-  path = photos_base_item_download (item, cancellable, error);
-  if (path == NULL)
+  file = photos_base_item_download (item, cancellable, error);
+  if (file == NULL)
     goto out;
 
   metadata = gexiv2_metadata_new ();
+  path = g_file_get_path (file);
 
   if (!gexiv2_metadata_open_path (metadata, path, error))
     goto out;

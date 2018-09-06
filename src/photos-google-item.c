@@ -219,18 +219,18 @@ photos_google_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
 }
 
 
-static gchar *
+static GFile *
 photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
   GDataEntry *entry = NULL;
   GFile *local_file = NULL;
   GFile *remote_file = NULL;
+  GFile *ret_val = NULL;
   const gchar *cache_dir;
   const gchar *local_filename;
   const gchar *uri;
   gchar *local_dir = NULL;
   gchar *local_path = NULL;
-  gchar *ret_val = NULL;
 
   cache_dir = g_get_user_cache_dir ();
   local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "google", NULL);
@@ -238,6 +238,7 @@ photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
 
   local_filename = photos_base_item_get_filename (item);
   local_path = g_build_filename (local_dir, local_filename, NULL);
+  local_file = g_file_new_for_path (local_path);
   if (g_file_test (local_path, G_FILE_TEST_EXISTS))
     goto end;
 
@@ -247,7 +248,6 @@ photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
 
   uri = gdata_entry_get_content_uri (entry);
   remote_file = g_file_new_for_uri (uri);
-  local_file = g_file_new_for_path (local_path);
 
   photos_debug (PHOTOS_DEBUG_NETWORK, "Downloading %s from Google to %s", uri, local_path);
   if (!g_file_copy (remote_file,
@@ -263,8 +263,7 @@ photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
     }
 
  end:
-  ret_val = local_path;
-  local_path = NULL;
+  ret_val = g_object_ref (local_file);
 
  out:
   g_free (local_path);

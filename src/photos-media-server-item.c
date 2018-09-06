@@ -112,9 +112,10 @@ photos_media_server_item_create_thumbnail (PhotosBaseItem *item, GCancellable *c
 }
 
 
-static gchar *
+static GFile *
 photos_media_server_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
+  GFile *ret_val = NULL;
   g_autoptr (GFile) local_file = NULL;
   g_autoptr (GFile) remote_file = NULL;
   const gchar *cache_dir;
@@ -122,7 +123,6 @@ photos_media_server_item_download (PhotosBaseItem *item, GCancellable *cancellab
   g_autofree gchar *local_dir = NULL;
   g_autofree gchar *local_filename = NULL;
   g_autofree gchar *local_path = NULL;
-  gchar *ret_val = NULL;
 
   uri = photos_base_item_get_uri (item);
   remote_file = g_file_new_for_uri (uri);
@@ -151,7 +151,7 @@ photos_media_server_item_download (PhotosBaseItem *item, GCancellable *cancellab
         }
     }
 
-  ret_val = g_steal_pointer (&local_path);
+  ret_val = g_object_ref (local_file);
 
  out:
   return ret_val;

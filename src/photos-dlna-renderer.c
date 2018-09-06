@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2013 Intel Corporation. All rights reserved.
- * Copyright © 2013 – 2017 Red Hat, Inc.
+ * Copyright © 2013 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -431,13 +431,14 @@ photos_dlna_renderer_share_download_cb (GObject *source_object,
 {
   PhotosDlnaRenderer *self;
   GError *error;
+  GFile *file = NULL;
   GTask *task = G_TASK (user_data);
   gchar *filename;
 
   self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
 
   error = NULL;
-  filename = photos_base_item_download_finish (PHOTOS_BASE_ITEM (source_object), res, &error);
+  file = photos_base_item_download_finish (PHOTOS_BASE_ITEM (source_object), res, &error);
   RETURN_ON_ERROR (task, error, "Unable to extract the local filename for the shared item");
 
   /* This will call a sequence of DBus methods to send the item to the DMR:
@@ -451,12 +452,14 @@ photos_dlna_renderer_share_download_cb (GObject *source_object,
    */
 
   /* 1) DleynaRenderer.PushHost.HostFile() */
+  filename = g_file_get_path (file);
   dleyna_renderer_push_host_call_host_file (self->push_host,
                                             filename,
                                             g_task_get_cancellable (task),
                                             photos_dlna_renderer_share_host_file_cb,
                                             task);
   g_free (filename);
+  g_object_unref (file);
 }
 
 
@@ -539,21 +542,24 @@ photos_dlna_renderer_unshare_download_cb (GObject *source_object,
 {
   PhotosDlnaRenderer *self;
   GError *error;
+  GFile *file = NULL;
   GTask *task = G_TASK (user_data);
   gchar *filename;
 
   self = PHOTOS_DLNA_RENDERER (g_task_get_source_object (task));
 
   error = NULL;
-  filename = photos_base_item_download_finish (PHOTOS_BASE_ITEM (source_object), res, &error);
+  file = photos_base_item_download_finish (PHOTOS_BASE_ITEM (source_object), res, &error);
   RETURN_ON_ERROR (task, error, "Unable to extract the local filename for the shared item");
 
+  filename = g_file_get_path (file);
   dleyna_renderer_push_host_call_remove_file (self->push_host,
                                               filename,
                                               g_task_get_cancellable (task),
                                               photos_dlna_renderer_unshare_remove_file_cb,
                                               task);
   g_free (filename);
+  g_object_unref (file);
 }
 
 

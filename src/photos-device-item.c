@@ -302,7 +302,7 @@ photos_device_item_create_thumbnail_path (PhotosBaseItem *item)
 }
 
 
-static gchar *
+static GFile *
 photos_device_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
   g_assert_not_reached ();
