@@ -1959,7 +1959,7 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
 {
   PhotosBaseItem *self = PHOTOS_BASE_ITEM (source_object);
   PhotosBaseItemPrivate *priv;
-  GFile *file = G_FILE (task_data);
+  GFile *export_file = G_FILE (task_data);
   g_autoptr (GExiv2Metadata) metadata = NULL;
   g_autofree gchar *export_path = NULL;
   g_autofree gchar *source_path = NULL;
@@ -1992,7 +1992,7 @@ photos_base_item_save_metadata_in_thread_func (GTask *task,
   }
 
   gexiv2_metadata_set_orientation (metadata, GEXIV2_ORIENTATION_NORMAL);
-  export_path = g_file_get_path (file);
+  export_path = g_file_get_path (export_file);
 
   {
     g_autoptr (GError) error = NULL;
