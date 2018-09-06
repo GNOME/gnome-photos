@@ -46,6 +46,7 @@
 #include "photos-error.h"
 #include "photos-filterable.h"
 #include "photos-gegl.h"
+#include "photos-gegl-buffer-io.h"
 #include "photos-glib.h"
 #include "photos-local-item.h"
 #include "photos-pipeline.h"
@@ -1464,10 +1465,6 @@ photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, G
   g_autoptr (GFile) file = NULL;
   g_autoptr (GeglBuffer) buffer = NULL;
   GeglBuffer *ret_val = NULL;
-  GeglNode *buffer_sink;
-  g_autoptr (GeglNode) graph = NULL;
-  GeglNode *load;
-  g_autofree gchar *path = NULL;
   gint64 end;
   gint64 start;
 
@@ -1477,22 +1474,12 @@ photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, G
   if (file == NULL)
     goto out;
 
-  path = g_file_get_path (file);
-  if (!g_utf8_validate (path, -1, NULL))
-    {
-      g_set_error (error, PHOTOS_ERROR, 0, "Path is not UTF-8 encoded");
-      goto out;
-    }
-
-  graph = gegl_node_new ();
-  load = gegl_node_new_child (graph, "operation", "gegl:load", "path", path, NULL);
-  buffer_sink = gegl_node_new_child (graph, "operation", "gegl:buffer-sink", "buffer", &buffer, NULL);
-
-  gegl_node_link (load, buffer_sink);
-
   start = g_get_monotonic_time ();
 
-  gegl_node_process (buffer_sink);
+  buffer = photos_gegl_buffer_new_from_file (file, cancellable, error);
+  if (buffer == NULL)
+    goto out;
+
   ret_val = photos_gegl_buffer_apply_orientation (buffer, priv->orientation);
 
   end = g_get_monotonic_time ();
