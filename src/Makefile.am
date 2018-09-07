@@ -182,6 +182,8 @@ gnome_photos_SOURCES = \
 	photos-flickr-item.h \
 	photos-gegl-buffer-codec-jpeg.c \
 	photos-gegl-buffer-codec-jpeg.h \
+	photos-gegl-buffer-codec-png.c \
+	photos-gegl-buffer-codec-png.h \
 	photos-gesture-zoom.c \
 	photos-gesture-zoom.h \
 	photos-glib.c \
@@ -412,6 +414,8 @@ nodist_gnome_photos_thumbnailer_SOURCES = \
 gnome_photos_thumbnailer_SOURCES = \
 	photos-gegl-buffer-codec-jpeg.c \
 	photos-gegl-buffer-codec-jpeg.h \
+	photos-gegl-buffer-codec-png.c \
+	photos-gegl-buffer-codec-png.h \
 	photos-pixbuf.c \
 	photos-pixbuf.h \
 	photos-thumbnailer.c \
