@@ -1476,7 +1476,7 @@ photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, G
 
   start = g_get_monotonic_time ();
 
-  buffer = photos_gegl_buffer_new_from_file (file, cancellable, error);
+  buffer = photos_gegl_buffer_new_from_file_at_scale (file, 640, 640, TRUE, cancellable, error);
   if (buffer == NULL)
     goto out;
 
