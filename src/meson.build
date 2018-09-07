@@ -25,6 +25,7 @@ common_sources = files(
   'photos-gegl.c',
   'photos-gegl-buffer-codec.c',
   'photos-gegl-buffer-codec-jpeg.c',
+  'photos-gegl-buffer-codec-png.c',
   'photos-gegl-buffer-loader.c',
   'photos-gegl-buffer-loader-builder.c',
   'photos-glib.c',
