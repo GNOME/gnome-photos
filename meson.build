@@ -160,7 +160,7 @@ libdazzle_dep = dependency('libdazzle-1.0', version: '>= 3.26.0')
 libgdata_dep = dependency('libgdata', version: '>= 0.15.2')
 libgfgraph_dep = dependency('libgfbgraph-0.2', version: '>= 0.2.1')
 libjpeg_dep = dependency('libjpeg', version: '>= 2.0.0')
-libpng_dep = dependency('libpng16')
+libpng_dep = dependency('libpng16', version: '>= 1.6.11')
 tracker_control_dep = dependency('tracker-control-2.0')
 tracker_sparql_dep = dependency('tracker-sparql-2.0')
 
