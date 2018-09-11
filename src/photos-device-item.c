@@ -319,6 +319,7 @@ photos_device_item_get_source_widget (PhotosBaseItem *item)
   GtkWidget *source_widget;
   const gchar *uri;
   g_autofree gchar *source_path = NULL;
+  g_autofree gchar *source_path_display_name = NULL;
   g_autofree gchar *source_uri = NULL;
 
   g_return_val_if_fail (!photos_base_item_is_collection (item), NULL);
@@ -327,9 +328,10 @@ photos_device_item_get_source_widget (PhotosBaseItem *item)
   file = g_file_new_for_uri (uri);
   source_link = g_file_get_parent (file);
   source_path = g_file_get_path (source_link);
+  source_path_display_name = g_filename_display_name (source_path);
   source_uri = g_file_get_uri (source_link);
 
-  source_widget = gtk_link_button_new_with_label (source_uri, source_path);
+  source_widget = gtk_link_button_new_with_label (source_uri, source_path_display_name);
   gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
   g_signal_connect_object (source_widget,
                            "activate-link",

@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 Pranav Kant
- * Copyright © 2012 – 2017 Red Hat, Inc.
+ * Copyright © 2012 – 2018 Red Hat, Inc.
  * Copyright © 2016 Umang Jain
  *
  * This program is free software: you can redistribute it and/or modify
@@ -246,15 +246,17 @@ photos_local_item_get_source_widget (PhotosBaseItem *item)
       GtkWidget *label;
       const gchar *uri;
       g_autofree gchar *source_path = NULL;
+      g_autofree gchar *source_path_display_name = NULL;
       g_autofree gchar *source_uri = NULL;
 
       uri = photos_base_item_get_uri (item);
       file = g_file_new_for_uri (uri);
       source_link = g_file_get_parent (file);
       source_path = g_file_get_path (source_link);
+      source_path_display_name = g_filename_display_name (source_path);
       source_uri = g_file_get_uri (source_link);
 
-      source_widget = gtk_link_button_new_with_label (source_uri, source_path);
+      source_widget = gtk_link_button_new_with_label (source_uri, source_path_display_name);
       gtk_widget_set_halign (source_widget, GTK_ALIGN_START);
       g_signal_connect_object (source_widget,
                                "activate-link",
