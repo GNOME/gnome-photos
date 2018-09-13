@@ -3,17 +3,11 @@ public_icon_themes = \
 	$(NULL)
 
 public_icons = \
-	hicolor_apps_16x16_org.gnome.Photos.png \
-	hicolor_apps_22x22_org.gnome.Photos.png \
-	hicolor_apps_24x24_org.gnome.Photos.png \
-	hicolor_apps_32x32_org.gnome.Photos.png \
-	hicolor_apps_48x48_org.gnome.Photos.png \
-	hicolor_apps_256x256_org.gnome.Photos.png \
+	hicolor_apps_scalable_org.gnome.Photos.svg \
 	hicolor_apps_symbolic_org.gnome.Photos-symbolic.svg \
 	$(NULL)
 
 noinst_DATA = \
-	hicolor_org.gnome.Photos.svg \
 	image-adjust-color-symbolic.svg \
 	image-auto-adjust-symbolic.svg \
 	image-crop-symbolic.svg \
