@@ -255,8 +255,13 @@
         },
         {
             "name": "tracker",
-            "cleanup": [ "/bin", "/etc", "/lib/systemd", "/libexec", "/share/dbus-1/services" ],
-            "config-opts": [ "--disable-introspection", "--disable-static", "--with-bash-completion-dir=no" ],
+            "cleanup": [ "/bin",
+                         "/etc",
+                         "/lib/girepository-1.0",
+                         "/libexec",
+                         "/share/dbus-1/services",
+                         "/share/gir-1.0" ],
+            "config-opts": [ "-Dbash_completion=no", "-Ddocs=false", "-Dsystemd_user_services=no" ],
             "sources": [
                 {
                     "type": "git",
