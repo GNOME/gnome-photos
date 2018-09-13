@@ -79,6 +79,7 @@
         {
             "name": "libdazzle",
             "buildsystem": "meson",
+            "config-opts": [ "-Dwith_introspection=false" ],
             "sources": [
                 {
                     "type": "git",
