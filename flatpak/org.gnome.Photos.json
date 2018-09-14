@@ -222,7 +222,7 @@
         {
             "name": "grilo-plugins",
             "buildsystem": "meson",
-            "cleanup": [ "/include" ],
+            "cleanup": [ "/include", "/share/help" ],
             "config-opts": [ "-Denable-bookmarks=no",
                              "-Denable-chromaprint=no",
                              "-Denable-dleyna=no",
