@@ -9,7 +9,7 @@ public_icons = \
 	hicolor_apps_32x32_org.gnome.Photos.png \
 	hicolor_apps_48x48_org.gnome.Photos.png \
 	hicolor_apps_256x256_org.gnome.Photos.png \
-	hicolor_apps_scalable_org.gnome.Photos-symbolic.svg \
+	hicolor_apps_symbolic_org.gnome.Photos-symbolic.svg \
 	$(NULL)
 
 noinst_DATA = \

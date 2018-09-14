@@ -15,7 +15,7 @@ else:
 
 icondir = os.path.join(datadir, 'icons', 'hicolor')
 
-name_pattern = re.compile('hicolor_(?:apps)_(?:\d+x\d+|scalable)_(.*)')
+name_pattern = re.compile('hicolor_(?:apps)_(?:\d+x\d+|symbolic)_(.*)')
 search_pattern = '/**/hicolor_*'
 
 for file in glob.glob(icondir + search_pattern, recursive=True):
