@@ -1476,6 +1476,12 @@ photos_base_item_load_buffer (PhotosBaseItem *self, GCancellable *cancellable, G
   if (path == NULL)
     goto out;
 
+  if (!g_utf8_validate (path, -1, NULL))
+    {
+      g_set_error (error, PHOTOS_ERROR, 0, "Path is not UTF-8 encoded");
+      goto out;
+    }
+
   graph = gegl_node_new ();
   load = gegl_node_new_child (graph, "operation", "gegl:load", "path", path, NULL);
   buffer_sink = gegl_node_new_child (graph, "operation", "gegl:buffer-sink", "buffer", &buffer, NULL);
