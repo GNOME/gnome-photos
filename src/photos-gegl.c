@@ -603,12 +603,12 @@ photos_gegl_init (void)
 {
   GeglConfig *config;
   gint threads;
-  guint num_processors;
+  guint n_processors;
 
   gegl_init (NULL, NULL);
 
-  num_processors = g_get_num_processors ();
-  g_return_if_fail (num_processors > 0);
+  n_processors = g_get_num_processors ();
+  g_return_if_fail (n_processors > 0);
 
   /* The number of threads should match the number of physical CPU
    * cores, not the number of virtual hyper-threading cores. In the
@@ -616,7 +616,7 @@ photos_gegl_init (void)
    * assume that a number higher than one is indicative of
    * hyper-threading, and hence divide by two.
    */
-  threads = (gint) (num_processors > 1 ? num_processors / 2 : num_processors);
+  threads = (gint) (n_processors > 1 ? n_processors / 2 : n_processors);
 
   config = gegl_config ();
   g_object_set (config, "application-license", "GPL3", NULL);
