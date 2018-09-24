@@ -694,6 +694,26 @@ photos_gegl_init_fishes (void)
 }
 
 
+void
+photos_gegl_inverse_jacobian_zoom (GeglBufferMatrix2 *inverse_jacobian, gdouble zoom_x, gdouble zoom_y)
+{
+  GeglMatrix3 tmp;
+
+  g_return_if_fail (inverse_jacobian != NULL);
+
+  gegl_matrix3_identity (&tmp);
+  tmp.coeff[0][0] = zoom_x;
+  tmp.coeff[1][1] = zoom_y;
+
+  gegl_matrix3_invert (&tmp);
+
+  inverse_jacobian->coeff[0][0] = tmp.coeff[0][0];
+  inverse_jacobian->coeff[0][1] = tmp.coeff[0][1];
+  inverse_jacobian->coeff[1][0] = tmp.coeff[1][0];
+  inverse_jacobian->coeff[1][1] = tmp.coeff[1][1];
+}
+
+
 GdkPixbuf *
 photos_gegl_pixbuf_new_from_buffer (GeglBuffer *buffer)
 {
