@@ -51,6 +51,10 @@ void             photos_gegl_init                         (void);
 
 void             photos_gegl_init_fishes                  (void);
 
+void             photos_gegl_inverse_jacobian_zoom        (GeglMatrix2 *out_inverse_jacobian,
+                                                           gdouble zoom_x,
+                                                           gdouble zoom_y);
+
 void             photos_gegl_processor_process_async      (GeglProcessor *processor,
                                                            GCancellable *cancellable,
                                                            GAsyncReadyCallback callback,
