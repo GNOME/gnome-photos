@@ -439,6 +439,19 @@ photos_test_gegl_buffer_check_zoom (PhotosTestGeglFixture *fixture, double zoom,
 
 
 static void
+photos_test_gegl_check_inverse_jacobian (gdouble zoom_x, gdouble zoom_y, GeglBufferMatrix2 *reference)
+{
+  GeglBufferMatrix2 inverse_jacobian;
+
+  photos_gegl_inverse_jacobian_zoom (&inverse_jacobian, zoom_y, zoom_y);
+  g_assert_cmpfloat_with_epsilon (inverse_jacobian.coeff[0][0], reference->coeff[0][0], PHOTOS_EPSILON);
+  g_assert_cmpfloat_with_epsilon (inverse_jacobian.coeff[0][1], reference->coeff[0][1], PHOTOS_EPSILON);
+  g_assert_cmpfloat_with_epsilon (inverse_jacobian.coeff[1][0], reference->coeff[1][0], PHOTOS_EPSILON);
+  g_assert_cmpfloat_with_epsilon (inverse_jacobian.coeff[1][1], reference->coeff[1][1], PHOTOS_EPSILON);
+}
+
+
+static void
 photos_test_gegl_buffer_apply_orientation_bottom_0 (PhotosTestGeglFixture *fixture, gconstpointer user_data)
 {
   photos_test_gegl_buffer_check_orientation (fixture,
@@ -772,6 +785,71 @@ photos_test_gegl_buffer_zoom_out_1 (PhotosTestGeglFixture *fixture, gconstpointe
 
 
 static void
+photos_test_gegl_inverse_jacobian_zoom_0 (void)
+{
+  GeglBufferMatrix2 inverse_jacobian;
+
+  inverse_jacobian.coeff[0][0] = 0.714285714;
+  inverse_jacobian.coeff[0][1] = 0.0;
+  inverse_jacobian.coeff[1][0] = 0.0;
+  inverse_jacobian.coeff[1][1] = 0.714285714;
+  photos_test_gegl_check_inverse_jacobian (1.4, 1.4, &inverse_jacobian);
+}
+
+
+static void
+photos_test_gegl_inverse_jacobian_zoom_1 (void)
+{
+  GeglBufferMatrix2 inverse_jacobian;
+
+  inverse_jacobian.coeff[0][0] = 0.25;
+  inverse_jacobian.coeff[0][1] = 0.0;
+  inverse_jacobian.coeff[1][0] = 0.0;
+  inverse_jacobian.coeff[1][1] = 0.25;
+  photos_test_gegl_check_inverse_jacobian (4.0, 4.0, &inverse_jacobian);
+}
+
+
+static void
+photos_test_gegl_inverse_jacobian_zoom_2 (void)
+{
+  GeglBufferMatrix2 inverse_jacobian;
+
+  inverse_jacobian.coeff[0][0] = 1.0;
+  inverse_jacobian.coeff[0][1] = 0.0;
+  inverse_jacobian.coeff[1][0] = 0.0;
+  inverse_jacobian.coeff[1][1] = 1.0;
+  photos_test_gegl_check_inverse_jacobian (1.0, 1.0, &inverse_jacobian);
+}
+
+
+static void
+photos_test_gegl_inverse_jacobian_zoom_3 (void)
+{
+  GeglBufferMatrix2 inverse_jacobian;
+
+  inverse_jacobian.coeff[0][0] = 1.66666667;
+  inverse_jacobian.coeff[0][1] = 0.0;
+  inverse_jacobian.coeff[1][0] = 0.0;
+  inverse_jacobian.coeff[1][1] = 1.66666667;
+  photos_test_gegl_check_inverse_jacobian (0.6, 0.6, &inverse_jacobian);
+}
+
+
+static void
+photos_test_gegl_inverse_jacobian_zoom_4 (void)
+{
+  GeglBufferMatrix2 inverse_jacobian;
+
+  inverse_jacobian.coeff[0][0] = 4.0;
+  inverse_jacobian.coeff[0][1] = 0.0;
+  inverse_jacobian.coeff[1][0] = 0.0;
+  inverse_jacobian.coeff[1][1] = 4.0;
+  photos_test_gegl_check_inverse_jacobian (0.25, 0.25, &inverse_jacobian);
+}
+
+
+static void
 photos_test_gegl_legacy_convert_between_buffer_pixbuf_0 (PhotosTestGeglFixture *fixture, gconstpointer user_data)
 {
   photos_test_gegl_buffer_check_conversion (fixture,
@@ -1099,6 +1177,12 @@ main (gint argc, gchar *argv[])
               photos_test_gegl_setup_with_alpha_even_dimensions,
               photos_test_gegl_buffer_zoom_out_1,
               photos_test_gegl_teardown);
+
+  g_test_add_func ("/gegl/inverse-jacobian-zoom-0", photos_test_gegl_inverse_jacobian_zoom_0);
+  g_test_add_func ("/gegl/inverse-jacobian-zoom-1", photos_test_gegl_inverse_jacobian_zoom_1);
+  g_test_add_func ("/gegl/inverse-jacobian-zoom-2", photos_test_gegl_inverse_jacobian_zoom_2);
+  g_test_add_func ("/gegl/inverse-jacobian-zoom-3", photos_test_gegl_inverse_jacobian_zoom_3);
+  g_test_add_func ("/gegl/inverse-jacobian-zoom-4", photos_test_gegl_inverse_jacobian_zoom_4);
 
   g_test_add ("/gegl/legacy/convert-between-buffer-pixbuf-0",
               PhotosTestGeglFixture,
