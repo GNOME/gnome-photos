@@ -38,11 +38,9 @@ config_h.set_quoted('PACKAGE_URL', 'https://wiki.gnome.org/Apps/Photos')
 config_h.set_quoted('PACKAGE_VERSION', meson.project_version())
 
 git = find_program('git')
-if git.found()
-  res = run_command(git, '-C', source_root, 'describe')
-  if res.returncode() == 0
-    config_h.set_quoted('PACKAGE_COMMIT_ID', res.stdout().strip())
-  endif
+res = run_command(git, '-C', source_root, 'describe')
+if res.returncode() == 0
+  config_h.set_quoted('PACKAGE_COMMIT_ID', res.stdout().strip())
 endif
 
 config_h.set_quoted('G_LOG_DOMAIN', meson.project_name())
