@@ -5,6 +5,8 @@ bin_PROGRAMS = gnome-photos
 libexec_PROGRAMS = gnome-photos-thumbnailer
 
 libgnome_photos_la_SOURCES = \
+	photos-debug.c \
+	photos-debug.h \
 	photos-quarks.c \
 	photos-quarks.h \
 	$(NULL)
@@ -76,8 +78,6 @@ gnome_photos_SOURCES = \
 	photos-create-collection-icon-job.h \
 	photos-create-collection-job.c \
 	photos-create-collection-job.h \
-	photos-debug.c \
-	photos-debug.h \
 	photos-delete-item-job.c \
 	photos-delete-item-job.h \
 	photos-delete-notification.c \
@@ -386,8 +386,6 @@ nodist_gnome_photos_thumbnailer_SOURCES = \
 	$(NULL)
 
 gnome_photos_thumbnailer_SOURCES = \
-	photos-debug.c \
-	photos-debug.h \
 	photos-error.c \
 	photos-error.h \
 	photos-gegl.c \
