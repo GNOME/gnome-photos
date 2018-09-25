@@ -13,6 +13,7 @@ photos_libexecdir = join_paths(photos_prefix, get_option('libexecdir'))
 photos_localedir = join_paths(photos_prefix, get_option('localedir'))
 
 photos_docdir = join_paths(photos_datadir, 'doc', meson.project_name())
+photos_libdir = join_paths(photos_prefix, get_option('libdir'), meson.project_name())
 
 photos_installed_test_metadir = join_paths(photos_datadir, 'installed-tests', meson.project_name())
 photos_installed_test_execdir = join_paths(photos_libexecdir, 'installed-tests', meson.project_name())
