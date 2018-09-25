@@ -1,5 +1,26 @@
-common_sources = files(
+sources = files(
   'photos-debug.c',
+  'photos-quarks.c',
+)
+
+deps = [
+  glib_dep,
+]
+
+libgnome_photos = shared_library(
+  meson.project_name(),
+  sources,
+  dependencies: deps,
+  include_directories: top_inc,
+  install: true,
+  install_dir: photos_libdir,
+)
+
+libgnome_photos_dep = declare_dependency(
+  link_with: libgnome_photos,
+)
+
+common_sources = files(
   'photos-error.c',
   'photos-gegl.c',
   'photos-glib.c',
@@ -15,7 +36,6 @@ common_sources = files(
   'photos-operation-svg-multiply.c',
   'photos-pipeline.c',
   'photos-png-count.c',
-  'photos-quarks.c',
 )
 
 enum_headers = files(
@@ -68,6 +88,7 @@ common_deps = [
   glib_dep,
   goa_dep,
   libdazzle_dep,
+  libgnome_photos_dep,
   libjpeg_dep,
   libpng_dep,
   m_dep,
@@ -363,6 +384,7 @@ executable(
   c_args: cflags,
   install: true,
   install_dir: photos_bindir,
+  install_rpath: photos_libdir,
 )
 
 sources = common_sources + files(
@@ -379,4 +401,5 @@ executable(
   c_args: cflags,
   install: true,
   install_dir: photos_libexecdir,
+  install_rpath: photos_libdir,
 )
