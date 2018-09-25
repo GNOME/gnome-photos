@@ -121,6 +121,7 @@
         },
         {
             "name": "liboauth",
+            "config-opts": [ "--enable-nss" ],
             "sources": [
                 {
                     "type": "archive",
