@@ -44,7 +44,8 @@ flatpak:
         expire_in: 2 days
     cache:
         paths:
-            - .flatpak-builder/cache
+            - .flatpak-builder/downloads
+            - .flatpak-builder/git
 
 review:
     stage: review
