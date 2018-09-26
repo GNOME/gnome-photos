@@ -3,8 +3,7 @@ stages:
 - review
 
 variables:
-    # Replace with your preferred file name of the resulting Flatpak bundle
-    BUNDLE: "gnome-photos.flatpak"
+    BUNDLE: "org.gnome.Photos.Devel.flatpak"
     GIT_SUBMODULE_STRATEGY: normal
 
 flatpak:
