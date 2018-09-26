@@ -64,6 +64,7 @@ review:
     except:
         - master@GNOME/gnome-photos
         - tags
+        - gnome-3-.*
 
 stop_review:
     stage: review
@@ -76,3 +77,4 @@ stop_review:
     except:
         - master@GNOME/gnome-photos
         - tags
+        - gnome-3-.*
