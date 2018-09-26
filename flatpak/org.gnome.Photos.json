@@ -295,7 +295,7 @@
         },
         {
             "name": "gnome-photos",
-            "config-opts": [ "--disable-documentation", "--disable-Werror" ],
+            "config-opts": [ "--disable-Werror" ],
             "sources": [
                 {
                     "type": "git",
