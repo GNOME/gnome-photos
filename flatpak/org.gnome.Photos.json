@@ -295,7 +295,8 @@
         },
         {
             "name": "gnome-photos",
-            "config-opts": [ "--disable-Werror" ],
+            "buildsystem": "meson",
+            "config-opts": [ "-Ddogtail=false" ],
             "sources": [
                 {
                     "type": "git",
