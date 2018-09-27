@@ -1,3 +1,14 @@
+Overview of changes in 3.30.1
+=============================
+
+* Bugs fixed:
+ #114 device-item, local-item: Convert to UTF-8 before displaying the path
+ #115 base-item: Don't attempt to load non-UTF-8 paths
+
+* Updated translations:
+ Russian
+
+
 Overview of changes in 3.30.0
 =============================
 
