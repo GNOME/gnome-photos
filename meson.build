@@ -31,6 +31,7 @@ top_inc = include_directories('.')
 
 git = find_program('git')
 if not photos_buildtype.contains('plain')
+  run_command(git, '-C', source_root, 'submodule', 'sync', '--recursive')
   run_command(git, '-C', source_root, 'submodule', 'update', '--init', '--recursive')
 endif
 
