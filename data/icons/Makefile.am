@@ -1,11 +1,8 @@
-public_icon_themes = \
-	hicolor	\
-	$(NULL)
+public_icons_scalabledir = $(datadir)/icons/hicolor/scalable/apps
+public_icons_scalable_DATA = hicolor/scalable/apps/org.gnome.Photos.svg
 
-public_icons = \
-	hicolor_apps_scalable_org.gnome.Photos.svg \
-	hicolor_apps_symbolic_org.gnome.Photos-symbolic.svg \
-	$(NULL)
+public_icons_symbolicdir = $(datadir)/icons/hicolor/symbolic/apps
+public_icons_symbolic_DATA = hicolor/symbolic/apps/org.gnome.Photos-symbolic.svg
 
 noinst_DATA = \
 	image-adjust-color-symbolic.svg \
@@ -18,46 +15,24 @@ noinst_DATA = \
 	$(NULL)
 
 EXTRA_DIST = \
-	$(public_icons) \
+	$(public_icons_scalable_DATA) \
+	$(public_icons_symbolic_DATA) \
 	$(noinst_DATA) \
 	$(NULL)
 
-gtk_update_icon_cache = gtk-update-icon-cache -f -t
+gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 
 update-icon-cache:
 	@-if test -z "$(DESTDIR)"; then \
 		echo "Updating Gtk icon cache."; \
-		for theme in $(public_icon_themes); do \
-			$(gtk_update_icon_cache) $(datadir)/icons/$$theme; \
-		done; \
+                $(gtk_update_icon_cache); \
 	else \
 		echo "*** Icon cache not updated.  After (un)install, run this:"; \
-		for theme in $(public_icon_themes); do \
-			echo "***   $(gtk_update_icon_cache) $(datadir)/icons/$$theme"; \
-		done; \
+                echo "***   $(gtk_update_icon_cache)"; \
 	fi
 
-install-icons:
-	for icon in $(public_icons); do \
-		THEME=`echo $$icon | cut -d_ -f1`; \
-		CONTEXT=`echo $$icon | cut -d_ -f2`; \
-		SIZE=`echo $$icon | cut -d_ -f3`; \
-		ICONFILE=`echo $$icon | cut -d_ -f4`; \
-		mkdir -p $(DESTDIR)$(datadir)/icons/$$THEME/$$SIZE/$$CONTEXT; \
-		$(INSTALL_DATA) $(srcdir)/$$icon $(DESTDIR)$(datadir)/icons/$$THEME/$$SIZE/$$CONTEXT/$$ICONFILE; \
-	done
+install-data-hook: update-icon-cache
 
-uninstall-icons:
-	-for icon in $(public_icons); do \
-		THEME=`echo $$icon | cut -d_ -f1`; \
-		CONTEXT=`echo $$icon | cut -d_ -f2`; \
-		SIZE=`echo $$icon | cut -d_ -f3`; \
-		ICONFILE=`echo $$icon | cut -d_ -f4`; \
-		rm -f $(DESTDIR)$(datadir)/icons/$$THEME/$$SIZE/$$CONTEXT/$$ICONFILE; \
-	done
-
-install-data-local: install-icons update-icon-cache
-
-uninstall-local: uninstall-icons update-icon-cache
+uninstall-hook: update-icon-cache
 
 -include $(top_srcdir)/git.mk
