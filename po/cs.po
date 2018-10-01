@@ -270,7 +270,7 @@ msgstr "Velikost"
 
 #: src/photos-export-dialog.ui:83
 msgid "F_ull"
-msgstr "Ú_plná"
+msgstr "_Plná"
 
 #: src/photos-export-dialog.ui:113
 msgid "_Reduced"
@@ -729,7 +729,7 @@ msgstr "Upravit v aplikaci Fotky"
 
 #: src/photos-properties-dialog.c:259
 msgid "Untouched"
-msgstr "Bez zásahů"
+msgstr "bez zásahů"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
@@ -878,7 +878,7 @@ msgstr "Přidat do alba"
 #: src/photos-share-dialog.ui:25
 msgctxt "dialog title"
 msgid "Share"
-msgstr "Sdílet"
+msgstr "Sdílení"
 
 #: src/photos-share-notification.c:148
 #, c-format
