@@ -414,6 +414,7 @@ AM_CPPFLAGS = \
 	$(GIO_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GOA_CFLAGS) \
+	$(GOBJECT_CFLAGS) \
 	$(GRILO_CFLAGS) \
 	$(GSETTINGS_DESKTOP_SCHEMAS_CFLAGS) \
 	$(GTK_CFLAGS) \
@@ -444,6 +445,7 @@ gnome_photos_LDADD = \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
 	$(GOA_LIBS) \
+	$(GOBJECT_LIBS) \
 	$(GRILO_LIBS) \
 	$(GTK_LIBS) \
 	$(GTK_UNIX_PRINT_LIBS) \
@@ -465,6 +467,7 @@ gnome_photos_thumbnailer_LDADD = \
 	$(GDK_PIXBUF_LIBS) \
 	$(GIO_LIBS) \
 	$(GLIB_LIBS) \
+	$(GOBJECT_LIBS) \
 	$(JPEG_LIBS) \
 	$(PNG_LIBS) \
 	$(LIBM) \

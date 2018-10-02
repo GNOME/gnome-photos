@@ -150,6 +150,7 @@ glib_dep = dependency('glib-2.0', version: '>= 2.44.0')
 goa_dep = dependency('goa-1.0', version: '>= 3.8.0')
 config_h.set('GOA_API_IS_SUBJECT_TO_CHANGE', true)
 
+gobject_dep = dependency('gobject-2.0')
 grilo_dep = dependency('grilo-0.3', version: '>= 0.3.5')
 gsettings_desktop_schemas_dep = dependency('gsettings-desktop-schemas')
 gtk_dep = dependency('gtk+-3.0', version: '>= 3.22.16')

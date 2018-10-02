@@ -63,6 +63,7 @@ common_deps = [
   gio_dep,
   gio_unix_dep,
   glib_dep,
+  gobject_dep,
   libdazzle_dep,
   libjpeg_dep,
   libpng_dep,
