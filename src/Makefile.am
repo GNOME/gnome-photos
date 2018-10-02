@@ -7,6 +7,8 @@ gnome_photos_built_sources = \
 	photos-about-data.h \
 	photos-enums.c \
 	photos-enums.h \
+	photos-enums-gegl.c \
+	photos-enums-gegl.h \
 	photos-dleyna-renderer-device.c \
 	photos-dleyna-renderer-device.h \
 	photos-dleyna-renderer-manager.c \
@@ -301,12 +303,12 @@ gnome_photos_SOURCES = \
 	$(NULL)
 
 gnome_photos_thumbnailer_built_sources = \
+	photos-enums-gegl.c \
+	photos-enums-gegl.h \
 	photos-resources-gegl.c \
 	photos-resources-gegl.h \
 	photos-thumbnailer-dbus.c \
 	photos-thumbnailer-dbus.h \
-	photos-enums.c \
-	photos-enums.h \
 	$(NULL)
 
 nodist_gnome_photos_thumbnailer_SOURCES = \
@@ -365,6 +367,8 @@ EXTRA_DIST = \
 	org.gnome.ShellSearchProvider2.xml \
 	photos-enums.c.template \
 	photos-enums.h.template \
+	photos-enums-gegl.c.template \
+	photos-enums-gegl.h.template \
 	photos-generate-about \
 	photos.gresource.xml \
 	photos-gegl.gresource.xml \
@@ -470,6 +474,7 @@ CLEANFILES = \
 	$(BUILT_SOURCES) \
 	stamp-photos-about-data.h \
 	stamp-photos-enums.h \
+	stamp-photos-enums-gegl.h \
 	stamp-photos-marshalers.h \
 	xgen-ac \
 	xgen-ah \
@@ -477,6 +482,8 @@ CLEANFILES = \
 	xgen-etbh \
 	xgen-gmc \
 	xgen-gmh \
+	xgen-pegc \
+	xgen-pegh \
 	xgen-tmc \
 	xgen-tmh \
 	$(NULL)
@@ -512,7 +519,6 @@ stamp-photos-enums.h: photos-enums.h.template
 			--template $(srcdir)/photos-enums.h.template \
                         $(srcdir)/photos-gesture-zoom.h \
                         $(srcdir)/photos-item-manager.h \
-                        $(srcdir)/photos-operation-insta-common.h \
                         $(srcdir)/photos-utils.h \
                 ) >> xgen-etbh \
 		&& ( cmp -s xgen-etbh photos-enums.h || cp xgen-etbh photos-enums.h ) \
@@ -526,11 +532,34 @@ photos-enums.c: photos-enums.c.template
 			--template $(srcdir)/photos-enums.c.template \
                         $(srcdir)/photos-gesture-zoom.h \
                         $(srcdir)/photos-item-manager.h \
-                        $(srcdir)/photos-operation-insta-common.h \
                         $(srcdir)/photos-utils.h \
                 ) >> xgen-etbc \
 		&& ( cmp -s xgen-etbc photos-enums.c || cp xgen-etbc photos-enums.c ) \
 		&& rm -f xgen-etbc \
+	)
+
+photos-enums-gegl.h: stamp-photos-enums-gegl.h
+	@true
+
+stamp-photos-enums-gegl.h: photos-enums-gegl.h.template
+	$(AM_V_GEN) ( \
+		( glib-mkenums \
+			--template $(srcdir)/photos-enums-gegl.h.template \
+                        $(srcdir)/photos-operation-insta-common.h \
+                ) >> xgen-pegh \
+		&& ( cmp -s xgen-pegh photos-enums-gegl.h || cp xgen-pegh photos-enums-gegl.h ) \
+		&& rm -f xgen-pegh \
+		&& echo timestamp > $(@F) \
+	)
+
+photos-enums-gegl.c: photos-enums-gegl.c.template
+	$(AM_V_GEN) ( \
+		( glib-mkenums \
+			--template $(srcdir)/photos-enums-gegl.c.template \
+                        $(srcdir)/photos-operation-insta-common.h \
+                ) >> xgen-pegc \
+		&& ( cmp -s xgen-pegc photos-enums-gegl.c || cp xgen-pegc photos-enums-gegl.c ) \
+		&& rm -f xgen-pegc \
 	)
 
 photos-marshalers.h: stamp-photos-marshalers.h
