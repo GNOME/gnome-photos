@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 – 2017 Red Hat, Inc.
+ * Copyright © 2014 – 2018 Red Hat, Inc.
  * Copyright © 2014 Saurav Agarwalla
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,9 +58,9 @@ photos_google_item_create_filename_fallback (PhotosBaseItem *item)
 {
   const gchar *identifier;
   const gchar *mime_type;
-  gchar *extension = NULL;
-  gchar *identifier_hash = NULL;
   gchar *ret_val;
+  g_autofree gchar *extension = NULL;
+  g_autofree gchar *identifier_hash = NULL;
 
   identifier = photos_base_item_get_identifier (item);
   identifier_hash = g_compute_checksum_for_string (G_CHECKSUM_SHA1, identifier, -1);
@@ -72,8 +72,6 @@ photos_google_item_create_filename_fallback (PhotosBaseItem *item)
 
   ret_val = g_strdup_printf ("%s.%s", identifier_hash, extension);
 
-  g_free (extension);
-  g_free (identifier_hash);
   return ret_val;
 }
 
@@ -82,10 +80,10 @@ static gchar *
 photos_google_item_create_name_fallback (PhotosBaseItem *item)
 {
   PhotosGoogleItem *self = PHOTOS_GOOGLE_ITEM (item);
-  GDateTime *date_modified;
+  g_autoptr (GDateTime) date_modified = NULL;
   const gchar *provider_name;
   gchar *ret_val;
-  gchar *date_modified_str;
+  g_autofree gchar *date_modified_str = NULL;
   gint64 mtime;
 
   provider_name = photos_utils_get_provider_name (self->src_mngr, item);
@@ -99,8 +97,6 @@ photos_google_item_create_name_fallback (PhotosBaseItem *item)
    */
   ret_val = g_strdup_printf (_("%s — %s"), provider_name, date_modified_str);
 
-  g_free (date_modified_str);
-  g_date_time_unref (date_modified);
   return ret_val;
 }
 
@@ -113,8 +109,8 @@ photos_google_get_picasaweb_file (PhotosBaseItem *item, GCancellable *cancellabl
   GDataAuthorizationDomain *authorization_domain;
   GDataEntry *entry;
   GDataGoaAuthorizer *authorizer;
-  GDataPicasaWebQuery *query;
-  GDataPicasaWebService *service;
+  g_autoptr (GDataPicasaWebQuery) query = NULL;
+  g_autoptr (GDataPicasaWebService) service = NULL;
   const gchar *identifier;
   const gchar *resource_urn;
 
@@ -136,10 +132,7 @@ photos_google_get_picasaweb_file (PhotosBaseItem *item, GCancellable *cancellabl
                                             cancellable,
                                             error);
 
-  g_object_unref (service);
   g_object_unref (authorizer);
-  g_object_unref (query);
-
   return entry;
 }
 
@@ -147,17 +140,17 @@ photos_google_get_picasaweb_file (PhotosBaseItem *item, GCancellable *cancellabl
 static gboolean
 photos_google_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GDataEntry *entry = NULL;
+  g_autoptr (GFile) local_file = NULL;
+  g_autoptr (GFile) remote_file = NULL;
   GList *l;
   GList *thumbnails;
+  g_autoptr (GDataEntry) entry = NULL;
   GDataMediaThumbnail *thumbnail = NULL;
-  gchar *local_path = NULL;
-  gchar *local_dir = NULL;
-  GFile *local_file = NULL;
-  GFile *remote_file = NULL;
   gboolean ret_val = FALSE;
   const gchar *thumbnail_uri;
   const gchar *uri;
+  g_autofree gchar *local_dir = NULL;
+  g_autofree gchar *local_path = NULL;
   gint64 height;
   gint64 width;
   guint max_width = 0;
@@ -210,11 +203,6 @@ photos_google_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
   ret_val = TRUE;
 
  out:
-  g_free (local_path);
-  g_free (local_dir);
-  g_clear_object (&local_file);
-  g_clear_object (&remote_file);
-  g_clear_object (&entry);
   return ret_val;
 }
 
@@ -222,15 +210,15 @@ photos_google_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cancell
 static GFile *
 photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
-  GDataEntry *entry = NULL;
-  GFile *local_file = NULL;
-  GFile *remote_file = NULL;
   GFile *ret_val = NULL;
+  g_autoptr (GFile) local_file = NULL;
+  g_autoptr (GFile) remote_file = NULL;
+  g_autoptr (GDataEntry) entry = NULL;
   const gchar *cache_dir;
   const gchar *local_filename;
   const gchar *uri;
-  gchar *local_dir = NULL;
-  gchar *local_path = NULL;
+  g_autofree gchar *local_dir = NULL;
+  g_autofree gchar *local_path = NULL;
 
   cache_dir = g_get_user_cache_dir ();
   local_dir = g_build_filename (cache_dir, PACKAGE_TARNAME, "google", NULL);
@@ -266,11 +254,6 @@ photos_google_item_download (PhotosBaseItem *item, GCancellable *cancellable, GE
   ret_val = g_object_ref (local_file);
 
  out:
-  g_free (local_path);
-  g_free (local_dir);
-  g_clear_object (&local_file);
-  g_clear_object (&remote_file);
-  g_clear_object (&entry);
   return ret_val;
 }
 
@@ -296,18 +279,17 @@ photos_google_item_get_source_widget (PhotosBaseItem *item)
 static void
 photos_google_item_open (PhotosBaseItem *item, GtkWindow *parent, guint32 timestamp)
 {
-  GError *error;
   const gchar *google_uri;
 
   google_uri = photos_base_item_get_uri (item);
 
-  error = NULL;
-  gtk_show_uri_on_window (parent, google_uri, timestamp, &error);
-  if (error != NULL)
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    gtk_show_uri_on_window (parent, google_uri, timestamp, &error);
+    if (error != NULL)
       g_warning ("Unable to show URI %s: %s", google_uri, error->message);
-      g_error_free (error);
-    }
+  }
 }
 
 
