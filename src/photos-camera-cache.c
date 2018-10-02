@@ -44,7 +44,7 @@ G_DEFINE_TYPE (PhotosCameraCache, photos_camera_cache, G_TYPE_OBJECT);
 static void
 photos_camera_cache_cursor_next (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosCameraCache *self;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
   GError *error;
@@ -97,7 +97,6 @@ photos_camera_cache_cursor_next (GObject *source_object, GAsyncResult *res, gpoi
 
  out:
   tracker_sparql_cursor_close (cursor);
-  g_object_unref (task);
 }
 
 
@@ -106,7 +105,7 @@ photos_camera_cache_equipment_query_executed (GObject *source_object, GAsyncResu
 {
   GTask *task = G_TASK (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
-  TrackerSparqlCursor *cursor = NULL;
+  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
   GError *error;
 
   error = NULL;
@@ -199,8 +198,8 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
                                       gpointer user_data)
 {
   GApplication *app;
-  GTask *task;
-  PhotosQuery *query = NULL;
+  g_autoptr (GTask) task = NULL;
+  g_autoptr (PhotosQuery) query = NULL;
   PhotosSearchContextState *state;
   const gchar *camera;
 
@@ -233,8 +232,7 @@ photos_camera_cache_get_camera_async (PhotosCameraCache *self,
                                g_object_unref);
 
  out:
-  g_clear_object (&query);
-  g_object_unref (task);
+  return;
 }
 
 
