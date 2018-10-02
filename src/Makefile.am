@@ -1,6 +1,26 @@
+pkglib_LTLIBRARIES = libgnome-photos.la
+
 bin_PROGRAMS = gnome-photos
 
 libexec_PROGRAMS = gnome-photos-thumbnailer
+
+libgnome_photos_la_SOURCES = \
+	photos-quarks.c \
+	photos-quarks.h \
+	$(NULL)
+
+libgnome_photos_la_CPPFLAGS = \
+	$(GLIB_CFLAGS) \
+	$(NULL)
+
+libgnome_photos_la_LDFLAGS = \
+	$(WARN_LDFLAGS) \
+	-avoid-version \
+	$(NULL)
+
+libgnome_photos_la_LIBADD = \
+	$(GLIB_LIBS) \
+	$(NULL)
 
 gnome_photos_built_sources = \
 	photos-about-data.c \
@@ -195,8 +215,6 @@ gnome_photos_SOURCES = \
 	photos-print-setup.h \
 	photos-properties-dialog.c \
 	photos-properties-dialog.h \
-	photos-quarks.c \
-	photos-quarks.h \
 	photos-query.c \
 	photos-query.h \
 	photos-query-builder.h \
@@ -302,6 +320,59 @@ gnome_photos_SOURCES = \
 	photos-main.c \
 	$(NULL)
 
+gnome_photos_CPPFLAGS = \
+	-DPACKAGE_LIBEXEC_DIR=\""${libexecdir}"\" \
+	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
+	$(BABL_CFLAGS) \
+	$(CAIRO_CFLAGS) \
+	$(DAZZLE_CFLAGS) \
+	$(GDATA_CFLAGS) \
+	$(GDK_PIXBUF_CFLAGS) \
+	$(GEOCODE_CFLAGS) \
+	$(GFBGRAPH_CFLAGS) \
+	$(GEGL_CFLAGS) \
+	$(GEXIV2_CFLAGS) \
+	$(GIO_CFLAGS) \
+	$(GLIB_CFLAGS) \
+	$(GOA_CFLAGS) \
+	$(GOBJECT_CFLAGS) \
+	$(GRILO_CFLAGS) \
+	$(GSETTINGS_DESKTOP_SCHEMAS_CFLAGS) \
+	$(GTK_CFLAGS) \
+	$(GTK_UNIX_PRINT_CFLAGS) \
+	$(PNG_CFLAGS) \
+	$(TRACKER_CFLAGS) \
+	-I$(top_srcdir)/subprojects/libgd \
+	$(NULL)
+
+gnome_photos_LDFLAGS = \
+	$(WARN_LDFLAGS) \
+	$(NULL)
+
+gnome_photos_LDADD = \
+	$(BABL_LIBS) \
+	$(CAIRO_LIBS) \
+	$(DAZZLE_LIBS) \
+	$(GDATA_LIBS) \
+	$(GDK_PIXBUF_LIBS) \
+	$(GEOCODE_LIBS) \
+	$(GFBGRAPH_LIBS) \
+	$(GEGL_LIBS) \
+	$(GEXIV2_LIBS) \
+	$(GIO_LIBS) \
+	$(GLIB_LIBS) \
+	$(GOA_LIBS) \
+	$(GRILO_LIBS) \
+	$(GTK_LIBS) \
+	$(GTK_UNIX_PRINT_LIBS) \
+	$(JPEG_LIBS) \
+	$(PNG_LIBS) \
+	$(TRACKER_LIBS) \
+	$(LIBM) \
+	$(top_builddir)/subprojects/libgd/libgd.la \
+	libgnome-photos.la \
+	$(NULL)
+
 gnome_photos_thumbnailer_built_sources = \
 	photos-enums-gegl.c \
 	photos-enums-gegl.h \
@@ -351,11 +422,38 @@ gnome_photos_thumbnailer_SOURCES = \
 	photos-pixbuf.h \
 	photos-png-count.c \
 	photos-png-count.h \
-	photos-quarks.c \
-	photos-quarks.h \
 	photos-thumbnailer.c \
 	photos-thumbnailer.h \
 	photos-thumbnailer-main.c \
+	$(NULL)
+
+gnome_photos_thumbnailer_CPPFLAGS = \
+	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
+	$(BABL_CFLAGS) \
+	$(DAZZLE_CFLAGS) \
+	$(GDK_PIXBUF_CFLAGS) \
+	$(GEGL_CFLAGS) \
+	$(GIO_CFLAGS) \
+	$(GLIB_CFLAGS) \
+	$(GOBJECT_CFLAGS) \
+	$(PNG_CFLAGS) \
+	$(NULL)
+
+gnome_photos_thumbnailer_LDFLAGS = \
+	$(WARN_LDFLAGS) \
+	$(NULL)
+
+gnome_photos_thumbnailer_LDADD = \
+	$(BABL_LIBS) \
+	$(DAZZLE_LIBS) \
+	$(GEGL_LIBS) \
+	$(GDK_PIXBUF_LIBS) \
+	$(GIO_LIBS) \
+	$(GLIB_LIBS) \
+	$(JPEG_LIBS) \
+	$(PNG_LIBS) \
+	$(LIBM) \
+	libgnome-photos.la \
 	$(NULL)
 
 BUILT_SOURCES = \
@@ -399,75 +497,8 @@ EXTRA_DIST = \
 	photos-mpris-player.xml \
 	$(NULL)
 
-AM_CPPFLAGS = \
-	-DPACKAGE_LIBEXEC_DIR=\""${libexecdir}"\" \
-	-DPACKAGE_LOCALE_DIR=\""${datadir}/locale"\" \
-	$(BABL_CFLAGS) \
-	$(CAIRO_CFLAGS) \
-	$(DAZZLE_CFLAGS) \
-	$(GDATA_CFLAGS) \
-	$(GDK_PIXBUF_CFLAGS) \
-	$(GEOCODE_CFLAGS) \
-	$(GFBGRAPH_CFLAGS) \
-	$(GEGL_CFLAGS) \
-	$(GEXIV2_CFLAGS) \
-	$(GIO_CFLAGS) \
-	$(GLIB_CFLAGS) \
-	$(GOA_CFLAGS) \
-	$(GRILO_CFLAGS) \
-	$(GSETTINGS_DESKTOP_SCHEMAS_CFLAGS) \
-	$(GTK_CFLAGS) \
-	$(GTK_UNIX_PRINT_CFLAGS) \
-	$(PNG_CFLAGS) \
-	$(TRACKER_CFLAGS) \
-	-I$(top_srcdir)/subprojects/libgd \
-	$(NULL)
-
 AM_CFLAGS = \
 	$(WARN_CFLAGS) \
-	$(NULL)
-
-gnome_photos_LDFLAGS = \
-	$(WARN_LDFLAGS) \
-	$(NULL)
-
-gnome_photos_LDADD = \
-	$(BABL_LIBS) \
-	$(CAIRO_LIBS) \
-	$(DAZZLE_LIBS) \
-	$(GDATA_LIBS) \
-	$(GDK_PIXBUF_LIBS) \
-	$(GEOCODE_LIBS) \
-	$(GFBGRAPH_LIBS) \
-	$(GEGL_LIBS) \
-	$(GEXIV2_LIBS) \
-	$(GIO_LIBS) \
-	$(GLIB_LIBS) \
-	$(GOA_LIBS) \
-	$(GRILO_LIBS) \
-	$(GTK_LIBS) \
-	$(GTK_UNIX_PRINT_LIBS) \
-	$(JPEG_LIBS) \
-	$(PNG_LIBS) \
-	$(TRACKER_LIBS) \
-	$(LIBM) \
-	$(top_builddir)/subprojects/libgd/libgd.la \
-	$(NULL)
-
-gnome_photos_thumbnailer_LDFLAGS = \
-	$(WARN_LDFLAGS) \
-	$(NULL)
-
-gnome_photos_thumbnailer_LDADD = \
-	$(BABL_LIBS) \
-	$(DAZZLE_LIBS) \
-	$(GEGL_LIBS) \
-	$(GDK_PIXBUF_LIBS) \
-	$(GIO_LIBS) \
-	$(GLIB_LIBS) \
-	$(JPEG_LIBS) \
-	$(PNG_LIBS) \
-	$(LIBM) \
 	$(NULL)
 
 CLEANFILES = \
