@@ -63,12 +63,10 @@ common_deps = [
   gio_dep,
   gio_unix_dep,
   glib_dep,
-  goa_dep,
   libdazzle_dep,
   libjpeg_dep,
   libpng_dep,
   m_dep,
-  tracker_sparql_dep,
 ]
 
 sources = common_sources + files(
@@ -352,6 +350,7 @@ deps = common_deps + [
   cairo_dep,
   geocode_glib_dep,
   gexiv_dep,
+  goa_dep,
   grilo_dep,
   gsettings_desktop_schemas_dep,
   gtk_dep,
@@ -360,6 +359,7 @@ deps = common_deps + [
   libgdata_dep,
   libgfgraph_dep,
   tracker_control_dep,
+  tracker_sparql_dep,
 ]
 
 cflags = [
