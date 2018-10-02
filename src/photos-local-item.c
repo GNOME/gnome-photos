@@ -291,7 +291,7 @@ photos_local_item_metadata_add_shared (PhotosBaseItem  *item,
     };
   g_autoptr (GVariantType) array_type = NULL;
   g_autoptr (GVariantType) tuple_type = NULL;
-  GExiv2Metadata *metadata = NULL; /* TODO: Use g_autoptr */
+  g_autoptr (GExiv2Metadata) metadata = NULL;
   gboolean ret_val = FALSE;
   const gchar *mime_type;
   const gchar *shared_tag = "Xmp.gnome.photos-shared";
@@ -376,7 +376,6 @@ photos_local_item_metadata_add_shared (PhotosBaseItem  *item,
   ret_val = TRUE;
 
  out:
-  g_clear_object (&metadata);
   return ret_val;
 }
 
