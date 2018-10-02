@@ -107,7 +107,7 @@ static GFBGraphPhoto *
 photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
   PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (item);
-  GFBGraphGoaAuthorizer *authorizer;
+  GFBGraphGoaAuthorizer *authorizer = NULL; /* TODO: use g_autoptr */
   GFBGraphPhoto *photo = NULL;
   GoaObject *object;
   PhotosSource *source;
@@ -129,6 +129,7 @@ photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancella
   photo = gfbgraph_photo_new_from_id (GFBGRAPH_AUTHORIZER (authorizer), identifier, error);
 
  out:
+  g_clear_object (&authorizer);
   return photo;
 }
 
