@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2017 Red Hat, Inc.
+ * Copyright © 2015 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include <babl/babl.h>
 #include <gegl.h>
 
-#include "photos-enums.h"
+#include "photos-enums-gegl.h"
 #include "photos-operation-insta-common.h"
 #include "photos-operation-insta-curve.h"
 

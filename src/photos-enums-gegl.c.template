@@ -2,10 +2,8 @@
 
 #include "config.h"
 
-#include "photos-enums.h"
-#include "photos-gesture-zoom.h"
-#include "photos-item-manager.h"
-#include "photos-utils.h"
+#include "photos-enums-gegl.h"
+#include "photos-operation-insta-common.h"
 
 /*** END file-header ***/
 
