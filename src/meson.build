@@ -19,13 +19,10 @@ common_sources = files(
 )
 
 enum_headers = files(
-  'photos-gesture-zoom.h',
-  'photos-item-manager.h',
   'photos-operation-insta-common.h',
-  'photos-utils.h',
 )
 
-enum = 'photos-enums'
+enum = 'photos-enums-gegl'
 
 common_sources += gnome.mkenums(
   enum,
@@ -208,6 +205,21 @@ sources += custom_target(
   output: about_source,
   capture: true,
   command: [photos_generate_about, '--body', artists, authors],
+)
+
+enum_headers = files(
+  'photos-gesture-zoom.h',
+  'photos-item-manager.h',
+  'photos-utils.h',
+)
+
+enum = 'photos-enums'
+
+sources += gnome.mkenums(
+  enum,
+  sources: enum_headers,
+  c_template: enum + '.c.template',
+  h_template: enum + '.h.template',
 )
 
 marshal = 'photos-marshalers'
