@@ -1,4 +1,4 @@
-common_sources = files(
+sources = files(
   'photos-debug.c',
   'photos-error.c',
   'photos-gegl.c',
@@ -23,7 +23,7 @@ enum_headers = files(
 
 enum = 'photos-enums-gegl'
 
-common_sources += gnome.mkenums(
+sources += gnome.mkenums(
   enum,
   sources: enum_headers,
   c_template: enum + '.c.template',
@@ -32,7 +32,7 @@ common_sources += gnome.mkenums(
 
 resource_data = files('../data/vignette.png')
 
-common_sources += gnome.compile_resources(
+sources += gnome.compile_resources(
   'photos-resources-gegl',
   'photos-gegl.gresource.xml',
   source_dir: '.',
@@ -40,6 +40,35 @@ common_sources += gnome.compile_resources(
   dependencies: resource_data,
   export: true,
 )
+
+deps = [
+  babl_dep,
+  gegl_dep,
+  gdk_pixbuf_dep,
+  gio_dep,
+  gio_unix_dep,
+  glib_dep,
+  gobject_dep,
+  libdazzle_dep,
+  libjpeg_dep,
+  libpng_dep,
+  m_dep,
+]
+
+libgnome_photos = shared_library(
+  meson.project_name(),
+  sources,
+  dependencies: deps,
+  include_directories: top_inc,
+  install: true,
+  install_dir: photos_libdir,
+)
+
+libgnome_photos_dep = declare_dependency(
+  link_with: libgnome_photos,
+)
+
+common_sources = []
 
 thumbnailer_dbus = 'photos-thumbnailer-dbus'
 
@@ -56,7 +85,6 @@ common_sources += gnome.gdbus_codegen(
 )
 
 common_deps = [
-  babl_dep,
   gdk_pixbuf_dep,
   gegl_dep,
   gio_dep,
@@ -64,9 +92,7 @@ common_deps = [
   glib_dep,
   gobject_dep,
   libdazzle_dep,
-  libjpeg_dep,
-  libpng_dep,
-  m_dep,
+  libgnome_photos_dep,
 ]
 
 sources = common_sources + files(
@@ -348,6 +374,7 @@ sources += gnome.gdbus_codegen(
 )
 
 deps = common_deps + [
+  babl_dep,
   cairo_dep,
   geocode_glib_dep,
   gexiv_dep,
@@ -359,6 +386,7 @@ deps = common_deps + [
   libgd_dep,
   libgdata_dep,
   libgfgraph_dep,
+  m_dep,
   tracker_control_dep,
   tracker_sparql_dep,
 ]
@@ -376,6 +404,7 @@ executable(
   c_args: cflags,
   install: true,
   install_dir: photos_bindir,
+  install_rpath: photos_libdir,
 )
 
 sources = common_sources + files(
@@ -392,4 +421,5 @@ executable(
   c_args: cflags,
   install: true,
   install_dir: photos_libexecdir,
+  install_rpath: photos_libdir,
 )
