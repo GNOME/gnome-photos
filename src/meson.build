@@ -1,6 +1,44 @@
-common_sources = files(
+sources = files(
   'photos-debug.c',
   'photos-error.c',
+  'photos-operation-svg-multiply.c',
+  'photos-quarks.c',
+)
+
+enum_headers = files(
+  'photos-operation-insta-common.h',
+)
+
+enum = 'photos-enums-gegl'
+
+sources += gnome.mkenums(
+  enum,
+  sources: enum_headers,
+  c_template: enum + '.c.template',
+  h_template: enum + '.h.template',
+)
+
+deps = [
+  babl_dep,
+  gegl_dep,
+  glib_dep,
+  gobject_dep,
+]
+
+libgnome_photos = shared_library(
+  meson.project_name(),
+  sources,
+  dependencies: deps,
+  include_directories: top_inc,
+  install: true,
+  install_dir: photos_libdir,
+)
+
+libgnome_photos_dep = declare_dependency(
+  link_with: libgnome_photos,
+)
+
+common_sources = files(
   'photos-gegl.c',
   'photos-jpeg-count.c',
   'photos-operation-insta-curve.c',
@@ -11,23 +49,8 @@ common_sources = files(
   'photos-operation-jpg-guess-sizes.c',
   'photos-operation-png-guess-sizes.c',
   'photos-operation-saturation.c',
-  'photos-operation-svg-multiply.c',
   'photos-pipeline.c',
   'photos-png-count.c',
-  'photos-quarks.c',
-)
-
-enum_headers = files(
-  'photos-operation-insta-common.h',
-)
-
-enum = 'photos-enums-gegl'
-
-common_sources += gnome.mkenums(
-  enum,
-  sources: enum_headers,
-  c_template: enum + '.c.template',
-  h_template: enum + '.h.template',
 )
 
 resource_data = files('../data/vignette.png')
@@ -64,6 +87,7 @@ common_deps = [
   glib_dep,
   gobject_dep,
   libdazzle_dep,
+  libgnome_photos_dep,
   libjpeg_dep,
   libpng_dep,
   m_dep,
@@ -376,6 +400,7 @@ executable(
   c_args: cflags,
   install: true,
   install_dir: photos_bindir,
+  install_rpath: photos_libdir,
 )
 
 sources = common_sources + files(
@@ -392,4 +417,5 @@ executable(
   c_args: cflags,
   install: true,
   install_dir: photos_libexecdir,
+  install_rpath: photos_libdir,
 )
