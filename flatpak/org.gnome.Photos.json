@@ -285,6 +285,7 @@
                              "-Dminer_apps=false",
                              "-Dminer_fs=true",
                              "-Dminer_rss=false",
+                             "-Dgeneric_media_extractor=none",
                              "-Dsystemd_user_services=no",
                              "-Dwriteback=false" ],
             "sources": [
