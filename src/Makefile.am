@@ -322,8 +322,6 @@ gnome_photos_thumbnailer_SOURCES = \
 	photos-error.h \
 	photos-gegl.c \
 	photos-gegl.h \
-	photos-glib.c \
-	photos-glib.h \
 	photos-jpeg-count.c \
 	photos-jpeg-count.h \
 	photos-operation-insta-common.h \
