@@ -1,7 +1,6 @@
-common_sources = files(
+sources = files(
   'photos-debug.c',
   'photos-error.c',
-  'photos-gegl.c',
   'photos-jpeg-count.c',
   'photos-operation-insta-curve.c',
   'photos-operation-insta-filter.c',
@@ -12,7 +11,6 @@ common_sources = files(
   'photos-operation-png-guess-sizes.c',
   'photos-operation-saturation.c',
   'photos-operation-svg-multiply.c',
-  'photos-pipeline.c',
   'photos-png-count.c',
   'photos-quarks.c',
 )
@@ -23,7 +21,7 @@ enum_headers = files(
 
 enum = 'photos-enums-gegl'
 
-common_sources += gnome.mkenums(
+sources += gnome.mkenums(
   enum,
   sources: enum_headers,
   c_template: enum + '.c.template',
@@ -32,13 +30,41 @@ common_sources += gnome.mkenums(
 
 resource_data = files('../data/vignette.png')
 
-common_sources += gnome.compile_resources(
+sources += gnome.compile_resources(
   'photos-resources-gegl',
   'photos-gegl.gresource.xml',
   source_dir: '.',
   c_name: 'photos_gegl',
   dependencies: resource_data,
   export: true,
+)
+
+deps = [
+  babl_dep,
+  gegl_dep,
+  gdk_pixbuf_dep,
+  glib_dep,
+  gobject_dep,
+  libjpeg_dep,
+  libpng_dep,
+]
+
+libgnome_photos = shared_library(
+  meson.project_name(),
+  sources,
+  dependencies: deps,
+  include_directories: top_inc,
+  install: true,
+  install_dir: photos_libdir,
+)
+
+libgnome_photos_dep = declare_dependency(
+  link_with: libgnome_photos,
+)
+
+common_sources = files(
+  'photos-gegl.c',
+  'photos-pipeline.c',
 )
 
 thumbnailer_dbus = 'photos-thumbnailer-dbus'
@@ -64,6 +90,7 @@ common_deps = [
   glib_dep,
   gobject_dep,
   libdazzle_dep,
+  libgnome_photos_dep,
   libjpeg_dep,
   libpng_dep,
   m_dep,
@@ -376,6 +403,7 @@ executable(
   c_args: cflags,
   install: true,
   install_dir: photos_bindir,
+  install_rpath: photos_libdir,
 )
 
 sources = common_sources + files(
@@ -392,4 +420,5 @@ executable(
   c_args: cflags,
   install: true,
   install_dir: photos_libexecdir,
+  install_rpath: photos_libdir,
 )
