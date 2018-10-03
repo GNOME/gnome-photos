@@ -1,14 +1,70 @@
+pkglib_LTLIBRARIES = libgnome-photos.la
+
 bin_PROGRAMS = gnome-photos
 
 libexec_PROGRAMS = gnome-photos-thumbnailer
+
+libgnome_photos_la_built_sources = \
+	photos-enums-gegl.c \
+	photos-enums-gegl.h \
+	photos-resources-gegl.c \
+	photos-resources-gegl.h \
+	$(NULL)
+
+nodist_libgnome_photos_la_SOURCES = \
+	$(libgnome_photos_la_built_sources) \
+	$(NULL)
+
+libgnome_photos_la_SOURCES = \
+	photos-debug.c \
+	photos-debug.h \
+	photos-error.c \
+	photos-error.h \
+	photos-operation-insta-common.h \
+	photos-operation-insta-curve.c \
+	photos-operation-insta-curve.h \
+	photos-operation-insta-filter.c \
+	photos-operation-insta-filter.h \
+	photos-operation-insta-hefe.c \
+	photos-operation-insta-hefe.h \
+	photos-operation-insta-hefe-curve.c \
+	photos-operation-insta-hefe-curve.h \
+	photos-operation-insta-hefe-vignette.c \
+	photos-operation-insta-hefe-vignette.h \
+	photos-operation-saturation.c \
+	photos-operation-saturation.h \
+	photos-operation-svg-multiply.c \
+	photos-operation-svg-multiply.h \
+	photos-quarks.c \
+	photos-quarks.h \
+	$(NULL)
+
+libgnome_photos_la_CPPFLAGS = \
+	$(BABL_CFLAGS) \
+	$(GDK_PIXBUF_CFLAGS) \
+	$(GEGL_CFLAGS) \
+	$(GLIB_CFLAGS) \
+	$(GOBJECT_CFLAGS) \
+	$(NULL)
+
+libgnome_photos_la_LDFLAGS = \
+	$(WARN_LDFLAGS) \
+	-avoid-version \
+	$(NULL)
+
+libgnome_photos_la_LIBADD = \
+	$(BABL_LIBS) \
+	$(GEGL_LIBS) \
+	$(GDK_PIXBUF_LIBS) \
+	$(GLIB_LIBS) \
+	$(GOBJECT_LIBS) \
+	$(NULL)
 
 gnome_photos_built_sources = \
 	photos-about-data.c \
 	photos-about-data.h \
 	photos-enums.c \
 	photos-enums.h \
-	photos-enums-gegl.c \
-	photos-enums-gegl.h \
 	photos-dleyna-renderer-device.c \
 	photos-dleyna-renderer-device.h \
 	photos-dleyna-renderer-manager.c \
@@ -23,8 +79,6 @@ gnome_photos_built_sources = \
 	photos-mpris-player.h \
 	photos-resources.c \
 	photos-resources.h \
-	photos-resources-gegl.c \
-	photos-resources-gegl.h \
 	photos-shell-search-provider2.c \
 	photos-shell-search-provider2.h \
 	photos-thumbnailer-dbus.c \
@@ -56,8 +110,6 @@ gnome_photos_SOURCES = \
 	photos-create-collection-icon-job.h \
 	photos-create-collection-job.c \
 	photos-create-collection-job.h \
-	photos-debug.c \
-	photos-debug.h \
 	photos-delete-item-job.c \
 	photos-delete-item-job.h \
 	photos-delete-notification.c \
@@ -74,8 +126,6 @@ gnome_photos_SOURCES = \
 	photos-done-notification.h \
 	photos-dropdown.c \
 	photos-dropdown.h \
-	photos-error.c \
-	photos-error.h \
 	photos-export-dialog.c \
 	photos-export-dialog.h \
 	photos-export-notification.c \
@@ -150,25 +200,10 @@ gnome_photos_SOURCES = \
 	photos-offset-overview-controller.h \
 	photos-offset-search-controller.c \
 	photos-offset-search-controller.h \
-	photos-operation-insta-common.h \
-	photos-operation-insta-curve.c \
-	photos-operation-insta-curve.h \
-	photos-operation-insta-filter.c \
-	photos-operation-insta-filter.h \
-	photos-operation-insta-hefe.c \
-	photos-operation-insta-hefe.h \
-	photos-operation-insta-hefe-curve.c \
-	photos-operation-insta-hefe-curve.h \
-	photos-operation-insta-hefe-vignette.c \
-	photos-operation-insta-hefe-vignette.h \
 	photos-operation-jpg-guess-sizes.c \
 	photos-operation-jpg-guess-sizes.h \
 	photos-operation-png-guess-sizes.c \
 	photos-operation-png-guess-sizes.h \
-	photos-operation-saturation.c \
-	photos-operation-saturation.h \
-	photos-operation-svg-multiply.c \
-	photos-operation-svg-multiply.h \
 	photos-organize-collection-dialog.c \
 	photos-organize-collection-dialog.h \
 	photos-organize-collection-model.c \
@@ -195,8 +230,6 @@ gnome_photos_SOURCES = \
 	photos-print-setup.h \
 	photos-properties-dialog.c \
 	photos-properties-dialog.h \
-	photos-quarks.c \
-	photos-quarks.h \
 	photos-query.c \
 	photos-query.h \
 	photos-query-builder.h \
@@ -353,13 +386,10 @@ gnome_photos_LDADD = \
 	$(TRACKER_LIBS) \
 	$(LIBM) \
 	$(top_builddir)/subprojects/libgd/libgd.la \
+	libgnome-photos.la \
 	$(NULL)
 
 gnome_photos_thumbnailer_built_sources = \
-	photos-enums-gegl.c \
-	photos-enums-gegl.h \
-	photos-resources-gegl.c \
-	photos-resources-gegl.h \
 	photos-thumbnailer-dbus.c \
 	photos-thumbnailer-dbus.h \
 	$(NULL)
@@ -369,41 +399,20 @@ nodist_gnome_photos_thumbnailer_SOURCES = \
 	$(NULL)
 
 gnome_photos_thumbnailer_SOURCES = \
-	photos-debug.c \
-	photos-debug.h \
-	photos-error.c \
-	photos-error.h \
 	photos-gegl.c \
 	photos-gegl.h \
 	photos-jpeg-count.c \
 	photos-jpeg-count.h \
-	photos-operation-insta-common.h \
-	photos-operation-insta-curve.c \
-	photos-operation-insta-curve.h \
-	photos-operation-insta-filter.c \
-	photos-operation-insta-filter.h \
-	photos-operation-insta-hefe.c \
-	photos-operation-insta-hefe.h \
-	photos-operation-insta-hefe-curve.c \
-	photos-operation-insta-hefe-curve.h \
-	photos-operation-insta-hefe-vignette.c \
-	photos-operation-insta-hefe-vignette.h \
 	photos-operation-jpg-guess-sizes.c \
 	photos-operation-jpg-guess-sizes.h \
 	photos-operation-png-guess-sizes.c \
 	photos-operation-png-guess-sizes.h \
-	photos-operation-saturation.c \
-	photos-operation-saturation.h \
-	photos-operation-svg-multiply.c \
-	photos-operation-svg-multiply.h \
 	photos-pipeline.c \
 	photos-pipeline.h \
 	photos-pixbuf.c \
 	photos-pixbuf.h \
 	photos-png-count.c \
 	photos-png-count.h \
-	photos-quarks.c \
-	photos-quarks.h \
 	photos-thumbnailer.c \
 	photos-thumbnailer.h \
 	photos-thumbnailer-main.c \
@@ -436,11 +445,13 @@ gnome_photos_thumbnailer_LDADD = \
 	$(JPEG_LIBS) \
 	$(PNG_LIBS) \
 	$(LIBM) \
+	libgnome-photos.la \
 	$(NULL)
 
 BUILT_SOURCES = \
 	$(gnome_photos_built_sources) \
 	$(gnome_photos_thumbnailer_built_sources) \
+	$(libgnome_photos_la_built_sources) \
 	$(NULL)
 
 EXTRA_DIST = \
