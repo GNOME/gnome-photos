@@ -282,6 +282,7 @@
                          "/share/glib-2.0/schemas/org.freedesktop.Tracker.Extract.gschema.xml",
                          "/share/glib-2.0/schemas/org.freedesktop.Tracker.Writeback.gschema.xml" ],
             "config-opts": [ "-Dextract=false",
+                             "-Dgeneric_media_extractor=none",
                              "-Dminer_apps=false",
                              "-Dminer_fs=true",
                              "-Dminer_rss=false",
