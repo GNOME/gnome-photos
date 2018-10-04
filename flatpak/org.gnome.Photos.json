@@ -9,10 +9,13 @@
     "finish-args": [
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--env=TRACKER_SPARQL_BACKEND=bus",
+        "--env=TRACKER_VERBOSITY=3",
         "--filesystem=~/.config/dconf:ro",
         "--filesystem=xdg-download",
         "--filesystem=xdg-pictures",
         "--filesystem=xdg-run/dconf",
+        "--filesystem=~/.cache",
+        "--filesystem=~/.local/share",
         "--share=ipc",
         "--share=network",
         "--socket=fallback-x11",
