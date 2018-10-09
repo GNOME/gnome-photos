@@ -20,6 +20,7 @@ src/photos-help-overlay.ui
 src/photos-import-dialog.c
 src/photos-import-dialog.ui
 src/photos-indexing-notification.c
+src/photos-item-manager.c
 src/photos-local-item.c
 src/photos-main-toolbar.c
 src/photos-main-window.c
