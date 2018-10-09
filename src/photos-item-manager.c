@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2017 Red Hat, Inc.
+ * Copyright © 2012 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #include <dazzle.h>
 #include <gio/gio.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <tracker-sparql.h>
 
 #include "photos-debug.h"
@@ -72,6 +73,7 @@ enum
   ACTIVE_COLLECTION_CHANGED,
   CAN_FULLSCREEN_CHANGED,
   FULLSCREEN_CHANGED,
+  LOAD_ERROR,
   LOAD_FINISHED,
   LOAD_STARTED,
   WINDOW_MODE_CHANGED,
@@ -806,18 +808,32 @@ photos_item_manager_item_load (GObject *source_object, GAsyncResult *res, gpoint
     node = photos_base_item_load_finish (item, res, &error);
     if (error != NULL)
       {
-        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-          g_warning ("Unable to load the item: %s", error->message);
+        g_autofree gchar *primary = NULL;
 
         self->load_state = PHOTOS_LOAD_STATE_ERROR;
-      }
-    else
-      {
-        self->load_state = PHOTOS_LOAD_STATE_FINISHED;
+
+        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+          {
+            const gchar *domain_str;
+            const gchar *name;
+
+            domain_str = g_quark_to_string (error->domain);
+            g_warning ("Unable to load the item: (%s, %d) %s", domain_str, error->code, error->message);
+
+            name = photos_base_item_get_name_with_fallback (item);
+            primary = g_strdup_printf (_("Oops! Unable to load “%s”"), name);
+          }
+
+        g_signal_emit (self, signals[LOAD_ERROR], 0, primary, error);
+        goto out;
       }
   }
 
+  self->load_state = PHOTOS_LOAD_STATE_FINISHED;
   g_signal_emit (self, signals[LOAD_FINISHED], 0, item, node);
+
+ out:
+  return;
 }
 
 
@@ -1146,6 +1162,18 @@ photos_item_manager_class_init (PhotosItemManagerClass *class)
                                               G_TYPE_NONE,
                                               1,
                                               G_TYPE_BOOLEAN);
+
+  signals[LOAD_ERROR] = g_signal_new ("load-error",
+                                      G_TYPE_FROM_CLASS (class),
+                                      G_SIGNAL_RUN_LAST,
+                                      0,
+                                      NULL, /*accumulator */
+                                      NULL, /*accu_data */
+                                      _photos_marshal_VOID__STRING_ENUM,
+                                      G_TYPE_NONE,
+                                      2,
+                                      G_TYPE_STRING,
+                                      G_TYPE_ERROR);
 
   signals[LOAD_FINISHED] = g_signal_new ("load-finished",
                                          G_TYPE_FROM_CLASS (class),

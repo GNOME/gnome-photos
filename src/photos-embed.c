@@ -346,13 +346,19 @@ photos_embed_prepare_for_preview (PhotosEmbed *self, PhotosWindowMode old_mode)
 
 
 static void
+photos_embed_load_error (PhotosEmbed *self, const gchar *primary, GError *error)
+{
+  photos_embed_clear_load_timer (self);
+  photos_spinner_box_stop (PHOTOS_SPINNER_BOX (self->spinner_box));
+}
+
+
+static void
 photos_embed_load_finished (PhotosEmbed *self, PhotosBaseItem *item, GeglNode *node)
 {
   photos_embed_clear_load_timer (self);
   photos_spinner_box_stop (PHOTOS_SPINNER_BOX (self->spinner_box));
-
-  if (node == NULL)
-    return;
+  g_return_if_fail (GEGL_IS_NODE (node));
 
   photos_preview_view_set_node (PHOTOS_PREVIEW_VIEW (self->preview), node);
 
@@ -869,6 +875,11 @@ photos_embed_init (PhotosEmbed *self)
                            G_CONNECT_SWAPPED);
 
   self->item_mngr = g_object_ref (state->item_mngr);
+  g_signal_connect_object (self->item_mngr,
+                           "load-error",
+                           G_CALLBACK (photos_embed_load_error),
+                           self,
+                           G_CONNECT_SWAPPED);
   g_signal_connect_object (self->item_mngr,
                            "load-finished",
                            G_CALLBACK (photos_embed_load_finished),

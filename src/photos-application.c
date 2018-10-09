@@ -2906,6 +2906,10 @@ photos_application_startup (GApplication *application)
   }
 
   g_signal_connect_swapped (self->state->item_mngr,
+                            "load-error",
+                            G_CALLBACK (photos_application_load_changed),
+                            self);
+  g_signal_connect_swapped (self->state->item_mngr,
                             "load-finished",
                             G_CALLBACK (photos_application_load_changed),
                             self);
