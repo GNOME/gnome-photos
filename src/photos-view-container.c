@@ -339,12 +339,6 @@ photos_view_container_constructed (GObject *object)
   gtk_orientable_set_orientation (GTK_ORIENTABLE (grid), GTK_ORIENTATION_VERTICAL);
   gtk_stack_add_named (GTK_STACK (self), grid, "view");
 
-  self->no_results = photos_empty_results_box_new (self->mode);
-  gtk_stack_add_named (GTK_STACK (self), self->no_results, "no-results");
-
-  self->error_box = photos_error_box_new ();
-  gtk_stack_add_named (GTK_STACK (self), self->error_box, "error");
-
   self->sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_set_hexpand (self->sw, TRUE);
   gtk_widget_set_vexpand (self->sw, TRUE);
@@ -358,6 +352,12 @@ photos_view_container_constructed (GObject *object)
   show_primary_text = photos_view_container_get_show_primary_text (self);
   gd_main_box_set_show_primary_text (GD_MAIN_BOX (self->view), show_primary_text);
   gtk_container_add (GTK_CONTAINER (self->sw), self->view);
+
+  self->no_results = photos_empty_results_box_new (self->mode);
+  gtk_stack_add_named (GTK_STACK (self), self->no_results, "no-results");
+
+  self->error_box = photos_error_box_new ();
+  gtk_stack_add_named (GTK_STACK (self), self->error_box, "error");
 
   gtk_widget_show_all (GTK_WIDGET (self));
 
