@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2017 Red Hat, Inc.
+ * Copyright © 2012 – 2018 Red Hat, Inc.
  * Copyright © 2017 Umang Jain
  *
  * This program is free software: you can redistribute it and/or modify
@@ -313,7 +313,6 @@ photos_view_container_constructed (GObject *object)
   GAction *action;
   GApplication *app;
   GtkStyleContext *context;
-  GtkWidget *grid;
   PhotosSearchContextState *state;
   gboolean selection_mode;
   gboolean show_primary_text;
@@ -335,10 +334,6 @@ photos_view_container_constructed (GObject *object)
   if (accessible != NULL)
     atk_object_set_name (accessible, self->name);
 
-  grid = gtk_grid_new ();
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (grid), GTK_ORIENTATION_VERTICAL);
-  gtk_stack_add_named (GTK_STACK (self), grid, "view");
-
   self->sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_set_hexpand (self->sw, TRUE);
   gtk_widget_set_vexpand (self->sw, TRUE);
@@ -346,7 +341,7 @@ photos_view_container_constructed (GObject *object)
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (self->sw), GTK_SHADOW_IN);
   context = gtk_widget_get_style_context (GTK_WIDGET (self->sw));
   gtk_style_context_add_class (context, "documents-scrolledwin");
-  gtk_container_add (GTK_CONTAINER (grid), self->sw);
+  gtk_stack_add_named (GTK_STACK (self), self->sw, "view");
 
   self->view = gd_main_box_new (GD_MAIN_BOX_ICON);
   show_primary_text = photos_view_container_get_show_primary_text (self);
