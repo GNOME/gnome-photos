@@ -1,6 +1,30 @@
 Overview of changes in 3.31.1
 =============================
 
+* Bugs fixed:
+  !46 Add Flatpak CI, and deliver bundles with each commit
+  !55 Update the application icon for the GNOME 3.32 redesign
+  !58 build: Remove redundant if branch
+  !59 build: Ensure that the Git submodules are kept updated
+  !63 facebook-item: Don't leak the GFBGraphGoaAuthorizer
+  !65 Remove unused GTypes for enums, and declarations from the thumbnailer
+  !66 flatpak: Tell Tracker not to use a media extractor and switch
+      geocode-glib to Meson
+  #63 Split some code into a private shared library and return a GFile after
+      downloading it
+  #77 Use g_auto*
+ #114 device-item, local-item: Convert to UTF-8 before displaying the path
+ #115 base-item: Don't attempt to load non-UTF-8 paths
+
+* Updated translations:
+ Croatian
+ Czech
+ Danish
+ Italian
+ Latvian
+ Russian
+ Serbian
+
 
 Overview of changes in 3.29.92
 ==============================
