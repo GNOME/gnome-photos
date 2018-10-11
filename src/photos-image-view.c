@@ -77,7 +77,6 @@ enum
 
 enum
 {
-  DRAW_BACKGROUND,
   DRAW_OVERLAY,
   LAST_SIGNAL
 };
@@ -608,6 +607,10 @@ photos_image_view_draw (GtkWidget *widget, cairo_t *cr)
 {
   PhotosImageView *self = PHOTOS_IMAGE_VIEW (widget);
   GdkRectangle rect;
+  GtkStateFlags flags;
+  GtkStyleContext *context;
+  gint height;
+  gint width;
 
   if (self->node == NULL)
     goto out;
@@ -615,9 +618,14 @@ photos_image_view_draw (GtkWidget *widget, cairo_t *cr)
   if (!gdk_cairo_get_clip_rectangle (cr, &rect))
     goto out;
 
-  cairo_save (cr);
-  g_signal_emit (self, signals[DRAW_BACKGROUND], 0, cr, &rect);
-  cairo_restore(cr);
+  context = gtk_widget_get_style_context (widget);
+  flags = gtk_widget_get_state_flags (widget);
+  gtk_style_context_save (context);
+  gtk_style_context_set_state (context, flags);
+  height = gtk_widget_get_allocated_height (widget);
+  width = gtk_widget_get_allocated_width (widget);
+  gtk_render_background (context, cr, 0, 0, width, height);
+  gtk_style_context_restore (context);
 
   cairo_save (cr);
   photos_image_view_draw_node (self, cr, &rect);
@@ -994,18 +1002,6 @@ photos_image_view_class_init (PhotosImageViewClass *class)
                                                         G_MAXDOUBLE,
                                                         1.0,
                                                         G_PARAM_EXPLICIT_NOTIFY | G_PARAM_READWRITE));
-
-  signals[DRAW_BACKGROUND] = g_signal_new ("draw-background",
-                                           G_TYPE_FROM_CLASS (class),
-                                           G_SIGNAL_RUN_LAST,
-                                           0,
-                                           NULL, /* accumulator */
-                                           NULL, /* accu_data */
-                                           _photos_marshal_VOID__BOXED_BOXED,
-                                           G_TYPE_NONE,
-                                           2,
-                                           CAIRO_GOBJECT_TYPE_CONTEXT,
-                                           GDK_TYPE_RECTANGLE);
 
   signals[DRAW_OVERLAY] = g_signal_new ("draw-overlay",
                                         G_TYPE_FROM_CLASS (class),

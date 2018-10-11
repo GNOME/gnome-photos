@@ -221,26 +221,6 @@ photos_preview_view_button_release_event (GtkWidget *widget, GdkEvent *event, gp
 
 
 static void
-photos_preview_view_draw_background (PhotosPreviewView *self, cairo_t *cr, GdkRectangle *rect, gpointer user_data)
-{
-  GtkStyleContext *context;
-  GtkStateFlags flags;
-  GtkWidget *view = GTK_WIDGET (user_data);
-  gint height;
-  gint width;
-
-  context = gtk_widget_get_style_context (view);
-  flags = gtk_widget_get_state_flags (view);
-  gtk_style_context_save (context);
-  gtk_style_context_set_state (context, flags);
-  height = gtk_widget_get_allocated_height (view);
-  width = gtk_widget_get_allocated_width (view);
-  gtk_render_background (context, cr, 0, 0, width, height);
-  gtk_style_context_restore (context);
-}
-
-
-static void
 photos_preview_view_draw_overlay (PhotosPreviewView *self, cairo_t *cr, GdkRectangle *rect, gpointer user_data)
 {
   if (self->current_tool == NULL)
@@ -520,7 +500,6 @@ photos_preview_view_create_view_with_container (PhotosPreviewView *self)
   gtk_container_add (GTK_CONTAINER (sw), view);
   g_signal_connect (view, "button-press-event", G_CALLBACK (photos_preview_view_button_press_event), self);
   g_signal_connect (view, "button-release-event", G_CALLBACK (photos_preview_view_button_release_event), self);
-  g_signal_connect_swapped (view, "draw-background", G_CALLBACK (photos_preview_view_draw_background), self);
   g_signal_connect_swapped (view, "draw-overlay", G_CALLBACK (photos_preview_view_draw_overlay), self);
   g_signal_connect (view, "motion-notify-event", G_CALLBACK (photos_preview_view_motion_notify_event), self);
   g_signal_connect (view, "notify::best-fit", G_CALLBACK (photos_preview_view_notify_best_fit), self);
