@@ -1,3 +1,5 @@
+libgnome_photos_built_headers = []
+
 sources = files(
   'photos-debug.c',
   'photos-error.c',
@@ -19,7 +21,7 @@ sources = files(
 
 thumbnailer_dbus = 'photos-thumbnailer-dbus'
 
-sources += gnome.gdbus_codegen(
+libgnome_photos_built_sources_gdbus = gnome.gdbus_codegen(
   thumbnailer_dbus,
   thumbnailer_dbus + '.xml',
   interface_prefix: photos_namespace + '.',
@@ -31,22 +33,28 @@ sources += gnome.gdbus_codegen(
   autocleanup: 'all',
 )
 
+libgnome_photos_built_headers += libgnome_photos_built_sources_gdbus[1]
+sources += libgnome_photos_built_sources_gdbus
+
 enum_headers = files(
   'photos-operation-insta-common.h',
 )
 
 enum = 'photos-enums-gegl'
 
-sources += gnome.mkenums(
+libgnome_photos_built_sources_enums = gnome.mkenums(
   enum,
   sources: enum_headers,
   c_template: enum + '.c.template',
   h_template: enum + '.h.template',
 )
 
+libgnome_photos_built_headers += libgnome_photos_built_sources_enums[1]
+sources += libgnome_photos_built_sources_enums
+
 resource_data = files('../data/vignette.png')
 
-sources += gnome.compile_resources(
+libgnome_photos_built_sources_resources = gnome.compile_resources(
   'photos-resources-gegl',
   'photos-gegl.gresource.xml',
   source_dir: '.',
@@ -54,6 +62,9 @@ sources += gnome.compile_resources(
   dependencies: resource_data,
   export: true,
 )
+
+libgnome_photos_built_headers += libgnome_photos_built_sources_resources[1]
+sources += libgnome_photos_built_sources_resources
 
 deps = [
   babl_dep,
@@ -80,6 +91,7 @@ libgnome_photos = shared_library(
 
 libgnome_photos_dep = declare_dependency(
   link_with: libgnome_photos,
+  sources: libgnome_photos_built_headers,
 )
 
 common_sources = []
