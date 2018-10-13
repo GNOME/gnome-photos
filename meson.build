@@ -30,10 +30,17 @@ po_dir = join_paths(source_root, 'po')
 
 top_inc = include_directories('.')
 
-git = find_program('git')
+photos_commit_id = ''
 if not photos_buildtype.contains('plain')
+  git = find_program('git')
+
   run_command(git, '-C', source_root, 'submodule', 'sync', '--recursive')
   run_command(git, '-C', source_root, 'submodule', 'update', '--init', '--recursive')
+
+  res = run_command(git, '-C', source_root, 'describe')
+  if res.returncode() == 0
+    photos_commit_id = res.stdout().strip()
+  endif
 endif
 
 cc = meson.get_compiler('c')
@@ -44,9 +51,8 @@ config_h.set_quoted('PACKAGE_TARNAME', meson.project_name())
 config_h.set_quoted('PACKAGE_URL', 'https://wiki.gnome.org/Apps/Photos')
 config_h.set_quoted('PACKAGE_VERSION', meson.project_version())
 
-res = run_command(git, '-C', source_root, 'describe')
-if res.returncode() == 0
-  config_h.set_quoted('PACKAGE_COMMIT_ID', res.stdout().strip())
+if photos_commit_id != ''
+  config_h.set_quoted('PACKAGE_COMMIT_ID', photos_commit_id)
 endif
 
 config_h.set_quoted('G_LOG_DOMAIN', meson.project_name())
