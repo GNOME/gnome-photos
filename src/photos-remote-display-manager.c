@@ -30,7 +30,6 @@
 struct _PhotosRemoteDisplayManager
 {
   GObject parent_instance;
-  PhotosDlnaRenderersManager *renderers_mngr;
   PhotosDlnaRenderer *renderer;
 };
 
@@ -90,7 +89,6 @@ photos_remote_display_manager_dispose (GObject *object)
 {
   PhotosRemoteDisplayManager *self = PHOTOS_REMOTE_DISPLAY_MANAGER (object);
 
-  g_clear_object (&self->renderers_mngr);
   g_clear_object (&self->renderer);
 
   G_OBJECT_CLASS (photos_remote_display_manager_parent_class)->dispose (object);
@@ -116,25 +114,8 @@ photos_remote_display_manager_constructor (GType type,
 
 
 static void
-photos_remote_display_manager_renderer_lost_cb (PhotosRemoteDisplayManager *self,
-                                                PhotosDlnaRenderer *renderer,
-                                                gpointer user_data)
-{
-  if (renderer == self->renderer)
-    photos_remote_display_manager_stop (self);
-}
-
-
-static void
 photos_remote_display_manager_init (PhotosRemoteDisplayManager *self)
 {
-  /* Keep a connection to the renderers manager alive to keep the list of
-   * renderers up-to-date */
-  self->renderers_mngr = photos_dlna_renderers_manager_dup_singleton ();
-
-  g_signal_connect_object (self->renderers_mngr, "renderer-lost",
-                           G_CALLBACK (photos_remote_display_manager_renderer_lost_cb), self,
-                           G_CONNECT_SWAPPED);
 }
 
 

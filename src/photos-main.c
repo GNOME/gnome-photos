@@ -49,7 +49,6 @@ main (gint argc, gchar *argv[])
 
   {
     g_autoptr (GApplication) app = NULL;
-    g_autoptr (PhotosRemoteDisplayManager) remote_display_mngr = NULL;
 
     photos_debug_init ();
 
@@ -57,7 +56,6 @@ main (gint argc, gchar *argv[])
     if (g_getenv ("GNOME_PHOTOS_PERSIST") != NULL)
       g_application_hold (app);
 
-    remote_display_mngr = photos_remote_display_manager_dup_singleton ();
     exit_status = g_application_run (app, argc, argv);
   }
 

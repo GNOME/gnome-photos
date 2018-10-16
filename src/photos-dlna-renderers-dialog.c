@@ -191,6 +191,28 @@ photos_dlna_renderers_dialog_add_renderer (PhotosDlnaRenderersDialog *self, Phot
   label = gtk_label_new (NULL);
   gtk_label_set_text (GTK_LABEL (label), name);
   gtk_container_add (GTK_CONTAINER (row_grid), label);
+  gtk_widget_show_all (row);
+}
+
+
+static void
+photos_dlna_renderers_dialog_renderer_found (PhotosDlnaRenderersManager *manager,
+                                              GParamSpec *pspec,
+                                              gpointer user_data)
+{
+  GList *renderers;
+  PhotosDlnaRenderersDialog *self = PHOTOS_DLNA_RENDERERS_DIALOG (user_data);
+
+  renderers = photos_dlna_renderers_manager_dup_renderers (manager);
+
+  while (renderers != NULL)
+    {
+      PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (renderers->data);
+
+      photos_dlna_renderers_dialog_add_renderer (self, renderer);
+      renderers = g_list_delete_link (renderers, renderers);
+      g_object_unref (renderer);
+    }
 }
 
 
@@ -198,7 +220,6 @@ static void
 photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
 {
   GApplication *app;
-  GList *renderers;
   PhotosSearchContextState *state;
 
   app = g_application_get_default ();
@@ -213,18 +234,9 @@ photos_dlna_renderers_dialog_init (PhotosDlnaRenderersDialog *self)
 
   gtk_list_box_set_header_func (self->listbox, photos_utils_list_box_header_func, NULL, NULL);
 
-  renderers = photos_dlna_renderers_manager_dup_renderers (self->renderers_mngr);
-
-  while (renderers != NULL)
-    {
-      PhotosDlnaRenderer *renderer = PHOTOS_DLNA_RENDERER (renderers->data);
-
-      photos_dlna_renderers_dialog_add_renderer (self, renderer);
-      renderers = g_list_delete_link (renderers, renderers);
-      g_object_unref (renderer);
-    }
-
   g_signal_connect (self, "response", G_CALLBACK (gtk_widget_destroy), NULL);
+  g_signal_connect (self->renderers_mngr, "renderer-found",
+                    G_CALLBACK (photos_dlna_renderers_dialog_renderer_found), self);
 }
 
 

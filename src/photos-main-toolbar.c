@@ -539,8 +539,6 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   GApplication *app;
   PhotosBaseItem *item;
   gboolean favorite;
-  gboolean remote_display_available;
-  GAction *remote_display_action;
 
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
 
@@ -574,13 +572,6 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_active_object (self->item_mngr));
   favorite = photos_base_item_is_favorite (item);
   photos_main_toolbar_favorite_button_update (self, favorite);
-
-  /* Disable the remote-display-current action if the dLeyna services are not
-   * available */
-  app = g_application_get_default ();
-  remote_display_action = g_action_map_lookup_action (G_ACTION_MAP (app), "remote-display-current");
-  remote_display_available = photos_dlna_renderers_manager_is_available ();
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (remote_display_action), remote_display_available);
 
   g_signal_connect_object (self->item_mngr,
                            "active-changed",
