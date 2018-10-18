@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2014 – 2017 Red Hat, Inc.
+ * Copyright © 2014 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -147,7 +147,7 @@ photos_create_collection_icon_job_run (PhotosCreateCollectionIconJob *self,
                                        GAsyncReadyCallback callback,
                                        gpointer user_data)
 {
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
 
   task = g_task_new (self, cancellable, callback, user_data);
   g_task_set_source_tag (task, photos_create_collection_icon_job_run);
@@ -160,6 +160,4 @@ photos_create_collection_icon_job_run (PhotosCreateCollectionIconJob *self,
 
   /* TODO: build collection icon query */
   g_task_return_new_error (task, PHOTOS_ERROR, 0, "Unable to create collection icon");
-
-  g_object_unref (task);
 }
