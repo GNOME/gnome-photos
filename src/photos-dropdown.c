@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2015 – 2017 Alessandro Bono
- * Copyright © 2014 – 2017 Red Hat, Inc.
+ * Copyright © 2014 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,8 +55,8 @@ photos_dropdown_add_manager (PhotosDropdown *self, PhotosBaseManager *mngr)
 {
   GMenu *menu;
   GtkWidget *popover;
-  GtkWidget *w;
-  PhotosBaseModel *model;
+  g_autoptr (GtkWidget) w = NULL;
+  g_autoptr (PhotosBaseModel) model = NULL;
 
   model = photos_base_model_new (mngr);
   self->models = g_list_prepend (self->models, g_object_ref (model));
@@ -68,12 +68,9 @@ photos_dropdown_add_manager (PhotosDropdown *self, PhotosBaseManager *mngr)
   w = g_object_ref (gtk_bin_get_child (GTK_BIN (popover)));
   gtk_container_remove (GTK_CONTAINER (popover), w);
   gtk_container_add (GTK_CONTAINER (self->grid), w);
-  g_object_unref (w);
   gtk_widget_set_valign (w, GTK_ALIGN_START);
   gtk_widget_set_vexpand (w, TRUE);
   gtk_widget_destroy (popover);
-
-  g_object_unref (model);
 }
 
 
