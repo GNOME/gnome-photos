@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 – 2017 Red Hat, Inc.
+ * Copyright © 2013 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -165,8 +165,8 @@ photos_delete_item_job_run (PhotosDeleteItemJob *self,
                             gpointer user_data)
 {
   GApplication *app;
-  GTask *task;
-  PhotosQuery *query = NULL;
+  g_autoptr (GTask) task = NULL;
+  g_autoptr (PhotosQuery) query = NULL;
   PhotosSearchContextState *state;
 
   task = g_task_new (self, cancellable, callback, user_data);
@@ -190,6 +190,5 @@ photos_delete_item_job_run (PhotosDeleteItemJob *self,
                                g_object_unref);
 
  out:
-  g_clear_object (&query);
-  g_object_unref (task);
+  return;
 }
