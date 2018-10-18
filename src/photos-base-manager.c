@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2017 Red Hat, Inc.
+ * Copyright © 2012 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -254,7 +254,7 @@ static void
 photos_base_manager_default_remove_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
   PhotosBaseManagerPrivate *priv;
-  GObject *object;
+  g_autoptr (GObject) object = NULL;
   PhotosBaseManagerObjectData *object_data;
   guint position;
 
@@ -272,8 +272,6 @@ photos_base_manager_default_remove_object_by_id (PhotosBaseManager *self, const 
 
   photos_base_manager_objects_changed (self, position, 1, 0);
   g_signal_emit (self, signals[OBJECT_REMOVED], 0, object);
-
-  g_object_unref (object);
 }
 
 
@@ -595,12 +593,12 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
 {
   PhotosBaseManagerPrivate *priv;
   GHashTableIter iter;
+  g_auto (GStrv) strv = NULL;
   PhotosBaseManagerObjectData *object_data;
   const gchar *blank = "(true)";
   const gchar *id;
   gchar *filter;
-  gchar **strv;
-  gchar *tmp;
+  g_autofree gchar *tmp = NULL;
   guint i;
   guint length;
 
@@ -615,7 +613,7 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
   g_hash_table_iter_init (&iter, priv->objects);
   while (g_hash_table_iter_next (&iter, (gpointer *) &id, (gpointer *) &object_data))
     {
-      gchar *str;
+      g_autofree gchar *str = NULL;
 
       if (g_strcmp0 (id, "all") == 0)
         continue;
@@ -625,12 +623,10 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
 
       str = photos_filterable_get_filter (PHOTOS_FILTERABLE (object_data->object));
       if (g_strcmp0 (str, blank) == 0)
-        g_free (str);
-      else
-        {
-          strv[i] = str;
-          i++;
-        }
+        continue;
+
+      strv[i] = g_steal_pointer (&str);
+      i++;
     }
 
   length = g_strv_length (strv);
@@ -638,11 +634,9 @@ photos_base_manager_get_all_filter (PhotosBaseManager *self)
     strv[0] = g_strdup (blank);
 
   filter = g_strjoinv (" || ", strv);
-  g_strfreev (strv);
 
   tmp = filter;
   filter = g_strconcat ("(", filter, ")", NULL);
-  g_free (tmp);
 
   return filter;
 }
