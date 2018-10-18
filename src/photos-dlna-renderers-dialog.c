@@ -27,8 +27,6 @@
 #include <glib/gi18n.h>
 
 #include "photos-base-manager.h"
-#include "photos-dleyna-renderer-device.h"
-#include "photos-dleyna-renderer-push-host.h"
 #include "photos-dlna-renderer.h"
 #include "photos-dlna-renderers-manager.h"
 #include "photos-item-manager.h"
