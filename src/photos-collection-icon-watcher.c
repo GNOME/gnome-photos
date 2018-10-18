@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 – 2017 Red Hat, Inc.
+ * Copyright © 2013 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,7 +72,7 @@ G_DEFINE_TYPE (PhotosCollectionIconWatcher, photos_collection_icon_watcher, G_TY
 static void
 photos_collection_icon_watcher_create_collection_icon (PhotosCollectionIconWatcher *self)
 {
-  GIcon *icon;
+  g_autoptr (GIcon) icon = NULL;
   GList *icons = NULL;
   GList *l;
   gint size;
@@ -95,7 +95,6 @@ photos_collection_icon_watcher_create_collection_icon (PhotosCollectionIconWatch
     g_signal_emit (self, signals[ICON_UPDATED], 0, icon);
 
   g_list_free_full (icons, g_object_unref);
-  g_clear_object (&icon);
 }
 
 
@@ -161,17 +160,17 @@ photos_collection_icon_watcher_to_query_collector (PhotosCollectionIconWatcher *
 static void
 photos_collection_icon_watcher_to_query_executed (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosCollectionIconWatcher *self = PHOTOS_COLLECTION_ICON_WATCHER (user_data);
-  GError *error = NULL;
+  g_autoptr (PhotosCollectionIconWatcher) self = PHOTOS_COLLECTION_ICON_WATCHER (user_data);
   PhotosSingleItemJob *job = PHOTOS_SINGLE_ITEM_JOB (source_object);
-  TrackerSparqlCursor *cursor = NULL;
+  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
 
-  cursor = photos_single_item_job_finish (job, res, &error);
-  if (error != NULL)
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = photos_single_item_job_finish (job, res, &error);
+    if (error != NULL)
       g_warning ("Unable to query single item: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   if (cursor != NULL && self->item_mngr != NULL)
     {
@@ -183,7 +182,6 @@ photos_collection_icon_watcher_to_query_executed (GObject *source_object, GAsync
 
   photos_collection_icon_watcher_to_query_collector (self);
   g_clear_object (&cursor);
-  g_object_unref (self);
 }
 
 
@@ -228,7 +226,7 @@ photos_collection_icon_watcher_finished (PhotosCollectionIconWatcher *self)
 
   for (l = to_query; l != NULL; l = l->next)
     {
-      PhotosSingleItemJob *job;
+      g_autoptr (PhotosSingleItemJob) job = NULL;
       const gchar *urn = (gchar *) l->data;
 
       job = photos_single_item_job_new (urn);
@@ -238,7 +236,6 @@ photos_collection_icon_watcher_finished (PhotosCollectionIconWatcher *self)
                                   NULL,
                                   photos_collection_icon_watcher_to_query_executed,
                                   g_object_ref (self));
-      g_object_unref (job);
     }
 
   g_list_free_full (to_query, g_free);
@@ -250,28 +247,24 @@ photos_collection_icon_watcher_cursor_next (GObject *source_object, GAsyncResult
 {
   PhotosCollectionIconWatcher *self;
   TrackerSparqlCursor *cursor = TRACKER_SPARQL_CURSOR (source_object);
-  GError *error;
   gboolean success;
   gchar *urn;
 
-  error = NULL;
-  /* Note that tracker_sparql_cursor_next_finish can return FALSE even
-   * without an error.
-   */
-  success = tracker_sparql_cursor_next_finish (cursor, res, &error);
-  if (error != NULL)
-    {
-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        {
-          g_error_free (error);
+  {
+    g_autoptr (GError) error = NULL;
+
+    /* Note that tracker_sparql_cursor_next_finish can return FALSE even
+     * without an error.
+     */
+    success = tracker_sparql_cursor_next_finish (cursor, res, &error);
+    if (error != NULL)
+      {
+        if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
           return;
-        }
-      else
-        {
+        else
           g_warning ("Unable to query collection items: %s", error->message);
-          g_error_free (error);
-        }
-    }
+      }
+  }
 
   self = PHOTOS_COLLECTION_ICON_WATCHER (user_data);
 
@@ -299,17 +292,18 @@ photos_collection_icon_watcher_query_executed (GObject *source_object, GAsyncRes
 {
   PhotosCollectionIconWatcher *self = PHOTOS_COLLECTION_ICON_WATCHER (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
-  TrackerSparqlCursor *cursor = NULL;
-  GError *error;
+  TrackerSparqlCursor *cursor = NULL; /* TODO: use g_autoptr */
 
-  error = NULL;
-  cursor = tracker_sparql_connection_query_finish (connection, res, &error);
-  if (error != NULL)
-    {
-      g_warning ("Unable to query collection items: %s", error->message);
-      g_error_free (error);
-      goto out;
-    }
+  {
+    g_autoptr (GError) error = NULL;
+
+    cursor = tracker_sparql_connection_query_finish (connection, res, &error);
+    if (error != NULL)
+      {
+        g_warning ("Unable to query collection items: %s", error->message);
+        goto out;
+      }
+  }
 
   tracker_sparql_cursor_next_async (cursor,
                                     self->cancellable,
@@ -325,7 +319,7 @@ static void
 photos_collection_icon_watcher_start (PhotosCollectionIconWatcher *self)
 {
   GApplication *app;
-  PhotosQuery *query;
+  g_autoptr (PhotosQuery) query = NULL;
   PhotosSearchContextState *state;
   const gchar *id;
 
@@ -348,7 +342,6 @@ photos_collection_icon_watcher_start (PhotosCollectionIconWatcher *self)
                                photos_collection_icon_watcher_query_executed,
                                g_object_ref (self),
                                g_object_unref);
-  g_object_unref (query);
 }
 
 
