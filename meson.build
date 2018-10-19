@@ -185,7 +185,6 @@ artists = files('ARTISTS')
 authors = files('AUTHORS')
 
 doc_data = artists + authors + files(
-  'COPYING',
   'NEWS',
   'README',
 )

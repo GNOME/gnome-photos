@@ -6,12 +6,12 @@ photosdocdir = $(docdir)
 photosdoc_DATA = \
 	ARTISTS \
 	AUTHORS \
-	COPYING \
 	NEWS \
 	README \
 	$(NULL)
 
 EXTRA_DIST = \
+	COPYING \
 	$(photosdoc_DATA) \
 	$(NULL)
 
