@@ -62,11 +62,11 @@ photos_create_collection_job_query_executed (GObject *source_object, GAsyncResul
   GTask *task = G_TASK (user_data);
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   GError *error;
-  GVariant *variant;
-  GVariant *key_variant = NULL;
-  GVariant *val_variant = NULL;
-  gchar *key = NULL;
-  gchar *val = NULL;
+  g_autoptr (GVariant) key_variant = NULL;
+  g_autoptr (GVariant) val_variant = NULL;
+  g_autoptr (GVariant) variant = NULL;
+  g_autofree gchar *key = NULL;
+  g_autofree gchar *val = NULL;
 
   error = NULL;
   variant = tracker_sparql_connection_update_blank_finish (connection, res, &error);
@@ -77,24 +77,24 @@ photos_create_collection_job_query_executed (GObject *source_object, GAsyncResul
     }
 
   {
-    GVariant *parent = variant;
+    g_autoptr (GVariant) parent = NULL;
 
+    parent = g_steal_pointer (&variant);
     variant = g_variant_get_child_value (parent, 0); /* variant is now aa{ss} */
-    g_variant_unref (parent);
   }
 
   {
-    GVariant *parent = variant;
+    g_autoptr (GVariant) parent = NULL;
 
+    parent = g_steal_pointer (&variant);
     variant = g_variant_get_child_value (parent, 0); /* variant is now a{ss} */
-    g_variant_unref (parent);
   }
 
   {
-    GVariant *parent = variant;
+    g_autoptr (GVariant) parent = NULL;
 
+    parent = g_steal_pointer (&variant);
     variant = g_variant_get_child_value (parent, 0); /* variant is now {ss} */
-    g_variant_unref (parent);
   }
 
   key_variant = g_variant_get_child_value (variant, 0);
@@ -107,12 +107,6 @@ photos_create_collection_job_query_executed (GObject *source_object, GAsyncResul
     g_task_return_pointer (task, g_strdup (val), g_free);
   else
     g_task_return_new_error (task, PHOTOS_ERROR, 0, "Failed to parse GVariant");
-
-  g_free (val);
-  g_free (key);
-  g_variant_unref (key_variant);
-  g_variant_unref (val_variant);
-  g_variant_unref (variant);
 }
 
 
@@ -227,8 +221,8 @@ photos_create_collection_job_run (PhotosCreateCollectionJob *self,
                                   gpointer user_data)
 {
   GApplication *app;
-  GTask *task;
-  PhotosQuery *query = NULL;
+  g_autoptr (GTask) task = NULL;
+  g_autoptr (PhotosQuery) query = NULL;
   PhotosSearchContextState *state;
 
   g_return_if_fail (PHOTOS_IS_CREATE_COLLECTION_JOB (self));
@@ -255,6 +249,5 @@ photos_create_collection_job_run (PhotosCreateCollectionJob *self,
                                      g_object_unref);
 
  out:
-  g_clear_object (&query);
-  g_object_unref (task);
+  return;
 }
