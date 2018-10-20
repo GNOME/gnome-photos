@@ -79,7 +79,7 @@ photos_create_collection_job_query_executed (GObject *source_object, GAsyncResul
   g_variant_unref (variant);
   variant = child;
 
-  child = g_variant_get_child_value (variant, 0); /* variant is now s{ss} */
+  child = g_variant_get_child_value (variant, 0); /* variant is now a{ss} */
   g_variant_unref (variant);
   variant = child;
 
