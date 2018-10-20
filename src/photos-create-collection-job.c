@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 – 2017 Red Hat, Inc.
+ * Copyright © 2013 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,7 +63,8 @@ photos_create_collection_job_query_executed (GObject *source_object, GAsyncResul
   TrackerSparqlConnection *connection = TRACKER_SPARQL_CONNECTION (source_object);
   GError *error;
   GVariant *variant;
-  GVariant *child;
+  GVariant *key_variant = NULL;
+  GVariant *val_variant = NULL;
   gchar *key = NULL;
   gchar *val = NULL;
 
@@ -75,27 +76,32 @@ photos_create_collection_job_query_executed (GObject *source_object, GAsyncResul
       return;
     }
 
-  child = g_variant_get_child_value (variant, 0);
-  g_variant_unref (variant);
-  variant = child; /* variant is now aa{ss} */
+  {
+    GVariant *parent = variant;
 
-  child = g_variant_get_child_value (variant, 0);
-  g_variant_unref (variant);
-  variant = child; /* variant is now a{ss} */
+    variant = g_variant_get_child_value (parent, 0); /* variant is now aa{ss} */
+    g_variant_unref (parent);
+  }
 
-  child = g_variant_get_child_value (variant, 0);
-  g_variant_unref (variant);
-  variant = child; /* variant is now {ss} */
+  {
+    GVariant *parent = variant;
 
-  child = g_variant_get_child_value (variant, 0);
-  key = g_variant_dup_string (child, NULL);
-  g_variant_unref (child);
+    variant = g_variant_get_child_value (parent, 0); /* variant is now a{ss} */
+    g_variant_unref (parent);
+  }
 
-  child = g_variant_get_child_value (variant, 1);
-  val = g_variant_dup_string (child, NULL);
-  g_variant_unref (child);
+  {
+    GVariant *parent = variant;
 
-  g_variant_unref (variant);
+    variant = g_variant_get_child_value (parent, 0); /* variant is now {ss} */
+    g_variant_unref (parent);
+  }
+
+  key_variant = g_variant_get_child_value (variant, 0);
+  key = g_variant_dup_string (key_variant, NULL);
+
+  val_variant = g_variant_get_child_value (variant, 1);
+  val = g_variant_dup_string (val_variant, NULL);
 
   if (g_strcmp0 (key, "res") == 0)
     g_task_return_pointer (task, g_strdup (val), g_free);
@@ -104,6 +110,9 @@ photos_create_collection_job_query_executed (GObject *source_object, GAsyncResul
 
   g_free (val);
   g_free (key);
+  g_variant_unref (key_variant);
+  g_variant_unref (val_variant);
+  g_variant_unref (variant);
 }
 
 
