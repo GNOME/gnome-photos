@@ -430,10 +430,13 @@ photos_organize_collection_view_add_collection (PhotosOrganizeCollectionView *se
 
   path = photos_organize_collection_model_add_placeholder (PHOTOS_ORGANIZE_COLLECTION_MODEL (self->model));
   if (path == NULL)
-    return;
+    goto out;
 
   g_object_set (self->renderer_text, "editable", TRUE, NULL);
   gtk_tree_view_set_cursor_on_cell (GTK_TREE_VIEW (self), path, self->view_col, self->renderer_text, TRUE);
+
+ out:
+  gtk_tree_path_free (path);
 }
 
 
