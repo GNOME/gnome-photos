@@ -77,6 +77,8 @@ photos_organize_collection_view_check_cell (GtkTreeViewColumn *tree_column,
                 "inconsistent", (state & PHOTOS_COLLECTION_STATE_INCONSISTENT) != 0,
                 NULL);
   gtk_cell_renderer_set_visible (cell_renderer, g_strcmp0 (id, PHOTOS_COLLECTION_PLACEHOLDER_ID));
+
+  g_free (id);
 }
 
 
