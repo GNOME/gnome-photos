@@ -75,17 +75,17 @@ photos_create_collection_job_query_executed (GObject *source_object, GAsyncResul
       return;
     }
 
-  child = g_variant_get_child_value (variant, 0); /* variant is now aa{ss} */
+  child = g_variant_get_child_value (variant, 0);
   g_variant_unref (variant);
-  variant = child;
+  variant = child; /* variant is now aa{ss} */
 
-  child = g_variant_get_child_value (variant, 0); /* variant is now a{ss} */
+  child = g_variant_get_child_value (variant, 0);
   g_variant_unref (variant);
-  variant = child;
+  variant = child; /* variant is now a{ss} */
 
-  child = g_variant_get_child_value (variant, 0); /* variant is now {ss} */
+  child = g_variant_get_child_value (variant, 0);
   g_variant_unref (variant);
-  variant = child;
+  variant = child; /* variant is now {ss} */
 
   child = g_variant_get_child_value (variant, 0);
   key = g_variant_dup_string (child, NULL);
