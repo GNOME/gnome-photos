@@ -54,8 +54,6 @@
 #include "photos-main-window.h"
 #include "photos-properties-dialog.h"
 #include "photos-query.h"
-#include "photos-resources.h"
-#include "photos-resources-gegl.h"
 #include "photos-search-context.h"
 #include "photos-search-controller.h"
 #include "photos-search-match.h"
@@ -81,8 +79,6 @@ struct _PhotosApplication
   GHashTable *refresh_miner_ids;
   GList *miners;
   GList *miners_running;
-  GResource *resource;
-  GResource *resource_gegl;
   GSettings *bg_settings;
   GSettings *ss_settings;
   GSimpleAction *blacks_exposure_action;
@@ -2647,12 +2643,6 @@ photos_application_startup (GApplication *application)
   self->bg_settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
   self->ss_settings = g_settings_new (DESKTOP_SCREENSAVER_SCHEMA);
 
-  self->resource = photos_get_resource ();
-  g_resources_register (self->resource);
-
-  self->resource_gegl = photos_gegl_get_resource ();
-  g_resources_register (self->resource_gegl);
-
   icon_theme = gtk_icon_theme_get_default ();
   gtk_icon_theme_add_resource_path (icon_theme, "/org/gnome/Photos/icons");
 
@@ -2950,18 +2940,6 @@ photos_application_dispose (GObject *object)
     {
       g_list_free_full (self->miners, g_object_unref);
       self->miners = NULL;
-    }
-
-  if (self->resource != NULL)
-    {
-      g_resources_unregister (self->resource);
-      self->resource = NULL;
-    }
-
-  if (self->resource_gegl != NULL)
-    {
-      g_resources_unregister (self->resource_gegl);
-      self->resource_gegl = NULL;
     }
 
   g_clear_object (&self->create_window_cancellable);
