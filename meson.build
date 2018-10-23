@@ -23,12 +23,15 @@ photos_namespace = 'org.gnome.Photos'
 photos_buildtype = get_option('buildtype')
 photos_installed_tests_enabled = get_option('installed_tests')
 
+photos_installed_tests_template_tap = files('template-tap.test.in')
+
 gnome = import('gnome')
 i18n = import('i18n')
 
 source_root = meson.current_source_dir()
 po_dir = join_paths(source_root, 'po')
 
+src_inc = include_directories('src')
 top_inc = include_directories('.')
 
 photos_commit_id = ''
