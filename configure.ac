@@ -147,6 +147,7 @@ help/Makefile
 subprojects/libgd/Makefile
 src/Makefile
 tests/Makefile
+tests/unit/Makefile
 po/Makefile.in
 ])
 AC_OUTPUT
