@@ -1,5 +1,7 @@
 include $(top_srcdir)/glib-tap.mk
 
+SUBDIRS = unit
+
 dogtail_tests = \
 	basic.py \
 	$(NULL)
