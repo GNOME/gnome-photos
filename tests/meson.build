@@ -1,3 +1,5 @@
+subdir('unit')
+
 test_name = 'basic.py'
 
 if photos_installed_tests_enabled
