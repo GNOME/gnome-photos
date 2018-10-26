@@ -54,6 +54,8 @@ G_DEFINE_TYPE_WITH_CODE (PhotosFacebookItem, photos_facebook_item, PHOTOS_TYPE_B
                                                          "facebook",
                                                          0));
 
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (GFBGraphGoaAuthorizer, g_object_unref);
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (GFBGraphPhoto, g_object_unref);
 
 static gchar *
 photos_facebook_item_create_filename_fallback (PhotosBaseItem *item)
@@ -107,7 +109,7 @@ static GFBGraphPhoto *
 photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancellable, GError **error)
 {
   PhotosFacebookItem *self = PHOTOS_FACEBOOK_ITEM (item);
-  GFBGraphGoaAuthorizer *authorizer = NULL; /* TODO: use g_autoptr */
+  g_autoptr (GFBGraphGoaAuthorizer) authorizer = NULL;
   GFBGraphPhoto *photo = NULL;
   GoaObject *object;
   PhotosSource *source;
@@ -129,7 +131,6 @@ photos_facebook_get_gfbgraph_photo (PhotosBaseItem *item, GCancellable *cancella
   photo = gfbgraph_photo_new_from_id (GFBGRAPH_AUTHORIZER (authorizer), identifier, error);
 
  out:
-  g_clear_object (&authorizer);
   return photo;
 }
 
@@ -139,7 +140,7 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
 {
   g_autoptr (GFile) local_file = NULL;
   g_autoptr (GFile) remote_file = NULL;
-  GFBGraphPhoto *photo = NULL; /* TODO: use g_autoptr */
+  g_autoptr (GFBGraphPhoto) photo = NULL;
   const GFBGraphPhotoImage *thumbnail_image;
   gboolean ret_val = FALSE;
   const gchar *uri;
@@ -186,7 +187,6 @@ photos_facebook_item_create_thumbnail (PhotosBaseItem *item, GCancellable *cance
   ret_val = TRUE;
 
  out:
-  g_clear_object (&photo);
   return ret_val;
 }
 
@@ -197,7 +197,7 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
   GFile *ret_val = NULL;
   g_autoptr (GFile) local_file = NULL;
   g_autoptr (GFile) remote_file = NULL;
-  GFBGraphPhoto *photo = NULL; /* TODO: use g_autoptr */
+  g_autoptr (GFBGraphPhoto) photo = NULL;
   const GFBGraphPhotoImage *higher_image;
   const gchar *cache_dir;
   const gchar *local_filename;
@@ -244,7 +244,6 @@ photos_facebook_item_download (PhotosBaseItem *item, GCancellable *cancellable, 
   ret_val = g_object_ref (local_file);
 
  out:
-  g_clear_object (&photo);
   return ret_val;
 }
 
