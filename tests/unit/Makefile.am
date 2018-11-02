@@ -5,6 +5,23 @@ AM_TESTS_ENVIRONMENT += \
 	$(NULL)
 
 test_programs = \
+	photos-test-pipeline
+	$(NULL)
+
+photos_test_pipeline_CPPFLAGS = \
+	-DPACKAGE_TEST_DIR=\""${abs_srcdir}"\" \
+	$(GDK_PIXBUF_CFLAGS) \
+	$(GEGL_CFLAGS) \
+	$(GLIB_CFLAGS) \
+	-I$(top_builddir)/src \
+	-I$(top_srcdir)/src \
+	$(NULL)
+
+photos_test_pipeline_LDADD = \
+	$(GDK_PIXBUF_LIBS) \
+	$(GEGL_LIBS) \
+	$(GLIB_LIBS) \
+	$(top_builddir)/src/libgnome-photos.la \
 	$(NULL)
 
 AM_CFLAGS = \
