@@ -12,6 +12,7 @@ test_env.set('MALLOC_CHECK_', '2')
 test_env.set('MALLOC_PERTURB_', '@0@'.format(random_number % 256))
 
 tests = {
+  'photos-test-pipeline': {'dependencies': [gdk_pixbuf_dep, gegl_dep, glib_dep, libgnome_photos_dep]},
 }
 
 foreach test_name, extra_args: tests
