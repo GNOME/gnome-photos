@@ -12,10 +12,12 @@ test_env.set('MALLOC_CHECK_', '2')
 test_env.set('MALLOC_PERTURB_', '@0@'.format(random_number % 256))
 
 test_deps = [
+  glib_dep,
   libgnome_photos_dep,
 ]
 
 tests = {
+  'photos-test-pipeline': {},
 }
 
 foreach test_name, extra_args: tests

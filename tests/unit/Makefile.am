@@ -5,10 +5,22 @@ AM_TESTS_ENVIRONMENT += \
 	$(NULL)
 
 test_programs = \
+	photos-test-pipeline
 	$(NULL)
 
 AM_CFLAGS = \
 	$(WARN_CFLAGS) \
+	$(NULL)
+
+AM_CPPFLAGS = \
+	$(GLIB_CFLAGS) \
+	-I$(top_builddir)/src \
+	-I$(top_srcdir)/src \
+	$(NULL)
+
+LDADD = \
+	$(GLIB_LIBS) \
+	$(top_builddir)/src/libgnome-photos.la \
 	$(NULL)
 
 AM_LDFLAGS = \
