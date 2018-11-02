@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<gegl>
+  <node operation='gegl:brightness-contrast'>
+      <params>
+        <param name='contrast'>2</param>
+        <param name='brightness'>0</param>
+      </params>
+  </node>
+  <node operation='gegl:exposure'>
+      <params>
+        <param name='black-level'>0.1</param>
+        <param name='exposure'>3</param>
+      </params>
+  </node>
+  <node operation='gegl:unsharp-mask'>
+      <params>
+        <param name='std-dev'>3</param>
+        <param name='scale'>10</param>
+        <param name='threshold'>0</param>
+      </params>
+  </node>
+  <node operation='photos:magic-filter'>
+      <params>
+        <param name='preset'>1947</param>
+      </params>
+  </node>
+  <node operation='photos:saturation'>
+      <params>
+        <param name='scale'>2</param>
+      </params>
+  </node>
+  <node operation='gegl:shadows-highlights'>
+      <params>
+        <param name='shadows'>100</param>
+        <param name='highlights'>-100</param>
+        <param name='whitepoint'>0</param>
+        <param name='radius'>100</param>
+        <param name='compress'>50</param>
+        <param name='shadows-ccorrect'>100</param>
+        <param name='highlights-ccorrect'>50</param>
+      </params>
+  </node>
+  <node operation='gegl:noise-reduction'>
+      <params>
+        <param name='iterations'>16</param>
+      </params>
+  </node>
+  <node operation='gegl:crop'>
+      <params>
+        <param name='x'>120.52800000000001</param>
+        <param name='y'>185.77600000000004</param>
+        <param name='width'>199.584</param>
+        <param name='height'>308.44799999999998</param>
+        <param name='reset-origin'>false</param>
+      </params>
+  </node>
+</gegl>
