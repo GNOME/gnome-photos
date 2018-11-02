@@ -1,6 +1,6 @@
 test_name = 'basic.py'
 
-if get_option('installed_tests')
+if photos_installed_tests_enabled
   test_conf = configuration_data()
   test_conf.set('installed_testdir', photos_installed_test_execdir)
   test_conf.set('program', test_name)
