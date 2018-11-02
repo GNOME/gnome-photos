@@ -21,6 +21,7 @@ photos_installed_test_execdir = join_paths(photos_libexecdir, 'installed-tests',
 photos_namespace = 'org.gnome.Photos'
 
 photos_buildtype = get_option('buildtype')
+photos_installed_tests_enabled = get_option('installed_tests')
 
 gnome = import('gnome')
 i18n = import('i18n')
