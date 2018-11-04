@@ -6,10 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-31 17:22+0000\n"
-"PO-Revision-Date: 2013-11-01 01:40+0530\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
+"POT-Creation-Date: 2018-10-31 16:07+0000\n"
+"PO-Revision-Date: 2018-11-04 23:48+0800\n"
 "Last-Translator: Anish Sheela <aneesh.nl@gmail.com>\n"
 "Language-Team: Malayalam <l10n@lists.smc.org.in>\n"
 "Language: ml\n"
@@ -17,366 +16,709 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.6\n"
 
-#: ../data/gnome-photos.appdata.xml.in.h:1
-msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
-"Accounts."
-msgstr ""
-
-#: ../data/gnome-photos.appdata.xml.in.h:2
-msgid "It lets you:"
-msgstr ""
-
-#: ../data/gnome-photos.appdata.xml.in.h:3
-msgid ""
-"<li>View recent local and online photos</li> <li>Access your Flickr content</"
-"li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
-"<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
-"featured editor for more advanced changes</li>"
-msgstr ""
-
-#: ../data/gnome-photos.desktop.in.in.h:1 ../src/photos-embed.c:505
-#: ../src/photos-search-type-manager.c:89
+#: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
+#: src/photos-application.c:3025 src/photos-embed.c:825 src/photos-main-window.c:437
+#: src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "ചിത്രങ്ങള്‍"
 
-#: ../data/gnome-photos.desktop.in.in.h:2
-msgid "Access, organize and share photos"
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
+msgid "Access, organize and share your photos on GNOME"
+msgstr "ഗ്നോമിൽ നിങ്ങളുടെ ചിത്രങ്ങൾ അക്സസ്സ് ചെയ്യുക,ചിട്ടപ്പെടുത്തുക,പങ്കിടുക"
+
+#: data/org.gnome.Photos.appdata.xml.in:10
+msgid ""
+"Access, organize and share your photos on GNOME. A simple and elegant replacement for using a "
+"file manager to deal with photos. Enhance, crop and edit in a snap. Seamless cloud integration "
+"is offered through GNOME Online Accounts."
 msgstr ""
+"ഗ്നോമിൽ നിങ്ങളുടെ ചിത്രങ്ങൾ അക്സസ്സ് ചെയ്യുക,ചിട്ടപ്പെടുത്തുക,പങ്കിടുക.ഫോട്ടോകൾ കൈകാര്യം ചെയ്യാൻ ഒരു ഫയൽ മാനേജർ "
+"ഉപയോഗിക്കുന്നതിനുള്ള ലളിതവും ഗംഭീരവുമായ ഒരു മാർഗം.ഞൊടിയിടയിൽ ചിത്രങ്ങൾ മുറിക്കാം,മെച്ചപ്പെടുത്താം,തിരുത്താം.ഗ്നോം "
+"അക്കൗണ്ട് മുഖേന സുഗമമായുള്ള ക്‌ളൗഡ്‌ സംയോജനവും ലഭിക്കുന്നതാണ്."
 
-#: ../data/gnome-photos.desktop.in.in.h:3
+#: data/org.gnome.Photos.appdata.xml.in:16
+msgid "You can:"
+msgstr "നിങ്ങൾക്ക് കഴിയുന്നത്:"
+
+#: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "നിങ്ങളുടെ എല്ലാ ചിത്രങ്ങളും യാന്ത്രികമായി കണ്ടെത്തുക"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
+msgid "View recent local and online photos"
+msgstr "സമീപകാല ലോക്കൽ, ഓൺലൈൻ ഫോട്ടോകൾ കാണുക"
+
+#: data/org.gnome.Photos.appdata.xml.in:20
+msgid "Access your Facebook or Flickr pictures"
+msgstr "നിങ്ങളുടെ ഫേസ്ബുക്ക് അല്ലെങ്കിൽ ഫ്ലിക്കർ ചിത്രങ്ങൾ ആക്സസ് ചെയ്യുക"
+
+#: data/org.gnome.Photos.appdata.xml.in:21
+msgid "View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr "നിങ്ങളുടെ പ്രാദേശിക നെറ്റ്വർക്കിലെ ടിവികൾ, ലാപ്ടോപ്പുകൾ അല്ലെങ്കിൽ മറ്റ് DLNA റെൻഡററുകളിലെ ഫോട്ടോകൾ കാണുക"
+
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "നിങ്ങളുടെ ഡെസ്ക്ടോപ്പ് പശ്ചാത്തലമായി ചിത്രങ്ങൾ സജ്ജമാക്കുക"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
+msgid "Print photos"
+msgstr "ചിത്രങ്ങള്‍ അച്ചടിക്കുക"
+
+#: data/org.gnome.Photos.appdata.xml.in:25
+msgid "Select favorites"
+msgstr "പ്രിയപ്പെട്ടവ തിരഞ്ഞെടുക്കുക"
+
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for more advanced changes"
+msgstr ""
+"ആപ്പിൽ നിങ്ങളുടെ ചിത്രങ്ങൾ എളുപ്പത്തിൽ എഡിറ്റുചെയ്യുക, അല്ലെങ്കിൽ കൂടുതൽ വിപുലമായ മാറ്റങ്ങൾക്കായി ഒരു പൂർണ്ണ ഫീച്ചർ "
+"എഡിറ്ററിലേക്ക് അയയ്ക്കുക"
+
+#: data/org.gnome.Photos.appdata.xml.in:51
+msgid "The GNOME Project"
+msgstr "ഗ്നോം പ്രോജക്ട്"
+
+#: data/org.gnome.Photos.desktop.in.in:4
+msgid "Access, organize and share photos"
+msgstr "ചിത്രങ്ങൾ അക്സസ്സ് ചെയ്യുക,ചിട്ടപ്പെടുത്തുക,പങ്കിടുക"
+
+#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
+#: data/org.gnome.Photos.desktop.in.in:7
+msgid "org.gnome.Photos"
+msgstr "org.gnome.Photos"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
-msgstr "ഫോട്ടോകള്‍;ചിത്രങ്ങള്‍;"
+msgstr "Photos;Pictures;"
 
-#: ../data/org.gnome.photos.gschema.xml.h:1
+#: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
 msgstr "ജാലകത്തിന്റെ വലിപ്പം"
 
-#: ../data/org.gnome.photos.gschema.xml.h:2
+#: data/org.gnome.photos.gschema.xml:6
 msgid "Window size (width and height)."
 msgstr "ജാലകത്തിന്റെ വലിപ്പം (വീതിയും ഉയരവും)."
 
-#: ../data/org.gnome.photos.gschema.xml.h:3
+#: data/org.gnome.photos.gschema.xml:10
 msgid "Window position"
 msgstr "ജാലകത്തിന്റെ സ്ഥാനം"
 
-#: ../data/org.gnome.photos.gschema.xml.h:4
+#: data/org.gnome.photos.gschema.xml:11
 msgid "Window position (x and y)."
 msgstr "ജാലകത്തിന്റെ സ്ഥാനം (എക്സും വൈയും)"
 
-#: ../data/org.gnome.photos.gschema.xml.h:5
+#: data/org.gnome.photos.gschema.xml:15
 msgid "Window maximized"
 msgstr "ജാലകം വലുതാക്കി"
 
-#: ../data/org.gnome.photos.gschema.xml.h:6
+#: data/org.gnome.photos.gschema.xml:16
 msgid "Window maximized state"
 msgstr "ജാലകം വലുതാക്കിയിരിയ്ക്കുന്ന അവസ്ഥ"
 
-#. A strftime-formatted string, to display the date the image was taken.
-#: ../src/eog-exif-util.c:120 ../src/eog-exif-util.c:160
-msgid "%a, %d %B %Y  %X"
-msgstr "%a, %d %B %Y  %X"
+#: src/photos-application.c:163
+msgid "Show the empty state"
+msgstr "ശൂന്യമായ അവസ്ഥ കാണിക്കുക"
 
-#. A strftime-formatted string, to display the date the image was taken, for the case we don't have the time.
-#: ../src/eog-exif-util.c:154
-msgid "%a, %d %B %Y"
-msgstr "%a, %d %B %Y"
+#: src/photos-application.c:164
+msgid "Show the application's version"
+msgstr "പ്രയോഗത്തിന്റെ പതിപ്പ് കാണിക്കുക"
 
-#. TRANSLATORS: This is the actual focal length used when
-#. the image was taken.
-#: ../src/eog-exif-util.c:251
-#, c-format
-msgid "%.1f (lens)"
-msgstr "%.1f ലെന്‍സ്"
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1389 src/photos-export-dialog.c:195 src/photos-import-dialog.c:134
+msgid "%-d %B %Y"
+msgstr "%-d %B %Y"
 
-#. Print as float to get a similar look as above.
-#. TRANSLATORS: This is the equivalent focal length assuming
-#. a 35mm film camera.
-#: ../src/eog-exif-util.c:262
-#, c-format
-msgid "%.1f (35mm film)"
-msgstr "%.1f  (35എം.എം ഫിലിം)"
-
-#: ../src/eog-image.c:595
-#, c-format
-msgid "Transformation on unloaded image."
-msgstr "ലോഡ് ചെയ്യാത്ത ചിത്രത്തില്‍  പരിവര്‍ത്തനം ചെയ്യുക."
-
-#: ../src/eog-image.c:623
-#, c-format
-msgid "Transformation failed."
-msgstr "പരിവര്‍ത്തനം പരാജയപ്പെട്ടു."
-
-#: ../src/eog-image.c:1047
-#, c-format
-msgid "EXIF not supported for this file format."
-msgstr "ഈ ഫയല്‍ രീതിയ്ക് EXIF-ന്റെ പിന്തുണയില്ല."
-
-#: ../src/eog-image.c:1196
-#, c-format
-msgid "Image loading failed."
-msgstr "ചിത്രം ലോഡ് ചെയ്യുവാന്‍ സാധ്യമായില്ല."
-
-#: ../src/eog-image.c:1727 ../src/eog-image.c:1847
-#, c-format
-msgid "No image loaded."
-msgstr "ചിത്രം ഒന്നും ലോഡ് ചെയ്തിട്ടില്ല."
-
-#: ../src/eog-image.c:1735 ../src/eog-image.c:1856
-#, c-format
-msgid "You do not have the permissions necessary to save the file."
-msgstr "ഫയല്‍ സൂക്ഷിയ്ക്കുന്നതിനു് ആവശ്യമുളള അനുവാദങ്ങള്‍ നിങ്ങള്‍ക്കില്ല."
-
-#: ../src/eog-image.c:1745 ../src/eog-image.c:1867
-#, c-format
-msgid "Temporary file creation failed."
-msgstr "താല്‍ക്കാലിക ഫയല്‍ നിര്‍മ്മാണം പരാജയപ്പെട്ടു."
-
-#: ../src/eog-uri-converter.c:984
-#, c-format
-msgid "At least two file names are equal."
-msgstr "രണ്ടു ഫയലിന്റെ പേരുകള്‍ എങ്കിലും സാമ്യമുളളതാണ്."
-
-#: ../src/eog-util.c:68
-msgid "Could not display help for Image Viewer"
-msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം കാണിയ്ക്കാന്‍ കഴിഞ്ഞില്ല"
-
-#: ../src/eog-util.c:116
-msgid " (invalid Unicode)"
-msgstr " (അസാധുവായ Unicode)"
-
-#: ../src/photos-app-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "സ്ക്രീന്‍ പരമാവധി വലിപ്പത്തില്‍"
-
-#: ../src/photos-app-menu.ui.h:2
-msgid "_Help"
-msgstr "_സഹായം"
-
-#: ../src/photos-app-menu.ui.h:3
-msgid "About Photos"
-msgstr "ഫോട്ടോകളെ കുറിച്ച്"
-
-#: ../src/photos-app-menu.ui.h:4
-msgid "Quit"
-msgstr "പുറത്ത് കടക്കുക"
-
-#: ../src/photos-base-item.c:303
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "ആല്‍ബം"
 
-#: ../src/photos-base-item.c:727
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "തിരചിത്രങ്ങള്‍"
 
-#: ../src/photos-dlna-renderers-dialog.ui.h:1
-msgid "DLNA Renderer Devices"
-msgstr ""
+#: src/photos-delete-notification.c:136
+#, c-format
+msgid "“%s” deleted"
+msgstr "\"%s\" ഇല്ലാതാക്കി"
 
-#: ../src/photos-embed.c:502 ../src/photos-search-type-manager.c:75
+#: src/photos-delete-notification.c:139
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "% d ഇനം നീക്കംചെയ്തു"
+msgstr[1] "% d ഇനങ്ങൾ നീക്കംചെയ്തു"
+
+#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
+msgid "Undo"
+msgstr "പഴയപടിയാക്കുക"
+
+#: src/photos-dlna-renderers-dialog.ui:7
+msgid "DLNA Renderer Devices"
+msgstr "ഡിഎൽഎൻഎ റെൻഡറർ ഉപകരണങ്ങൾ"
+
+#: src/photos-done-notification.c:112
+#, c-format
+msgid "“%s” edited"
+msgstr "“%s”തിരുത്തി"
+
+#: src/photos-embed.c:829
+msgid "Collection View"
+msgstr "ശേഖര കാഴ്ച"
+
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "ആല്‍ബങ്ങള്‍"
 
-#: ../src/photos-embed.c:508 ../src/photos-search-type-manager.c:82
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "ഇഷ്ടമുളളവ"
 
-#: ../src/photos-empty-results-box.c:66
-msgid "No Photos Found"
+#: src/photos-embed.c:840
+msgid "Import"
+msgstr "ഇറക്കുമതി ചെയ്യുക"
+
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:316
+msgid "Search"
+msgstr "തിരയുക"
+
+#: src/photos-empty-results-box.c:120
+msgid "No albums found"
+msgstr "ആൽബങ്ങൾ ഒന്നും കണ്ടില്ല"
+
+#: src/photos-empty-results-box.c:124
+msgid "Starred photos will appear here"
+msgstr "നക്ഷത്രചിഹ്നിത ചിത്രങ്ങൾ ഇവിടെ ദൃശ്യമാകും"
+
+#: src/photos-empty-results-box.c:134
+msgid "No photos found"
 msgstr "ചിത്രങ്ങള്‍ ഒന്നും കണ്ടില്ല"
 
-#: ../src/photos-flickr-item.c:275 ../src/photos-flickr-item.c:322
-msgid "Flickr"
-msgstr "ഫ്ലിക്കര്‍"
+#: src/photos-empty-results-box.c:163
+msgid "You can create albums from the Photos view"
+msgstr "ചിത്രങ്ങളുടെ കാഴ്ചയിൽ നിന്ന് നിങ്ങൾക്ക് ആൽബങ്ങൾ സൃഷ്ടിക്കാൻ കഴിയും"
 
-#: ../src/photos-indexing-notification.c:168
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:184
+msgid "Online Accounts"
+msgstr "ഓൺലൈൻ അക്കൗണ്ടുകൾ"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:191
+msgid "Pictures folder"
+msgstr "ചിത്രങ്ങളുടെ ഫോൾഡറിൽ"
+
+#. Translators: the first %s here is "Online Accounts" and the
+#. * second %s is "Pictures folder", which are in separate
+#. * strings due to markup, and should be translated only in the
+#. * context of this sentence.
+#.
+#: src/photos-empty-results-box.c:198
+#, c-format
+msgid "Photos from your %s and %s will appear here."
+msgstr "നിങ്ങളുടെ \"%s\",\"%s\" എന്നിവയിൽ നിന്നുള്ള ചിത്രങ്ങൾ ഇവിടെ ദൃശ്യമാകും."
+
+#: src/photos-empty-results-box.c:208
+msgid "Try a different search"
+msgstr "മറ്റൊരു തിരയൽ പരീക്ഷിക്കുക"
+
+#: src/photos-export-dialog.ui:22
+msgctxt "dialog title"
+msgid "Export"
+msgstr "കയറ്റുമതി ചെയ്യുക"
+
+#: src/photos-export-dialog.ui:38
+msgid "_Folder Name"
+msgstr "(_F)ഫോൾഡർ നാമം"
+
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
+msgid "Size"
+msgstr "വലിപ്പം"
+
+#: src/photos-export-dialog.ui:83
+msgid "F_ull"
+msgstr "_പൂർണ്ണമായ"
+
+#: src/photos-export-dialog.ui:113
+msgid "_Reduced"
+msgstr "_കുറച്ചു"
+
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185 src/photos-main-toolbar.c:468
+#: src/photos-main-toolbar.c:503 src/photos-main-toolbar.c:614
+msgid "_Cancel"
+msgstr "റദ്ദാക്കുക(_c)"
+
+#: src/photos-export-dialog.ui:167
+msgid "_Export"
+msgstr "(_E)കയറ്റുമതി ചെയ്യുക"
+
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: src/photos-export-dialog.c:66
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
+
+#: src/photos-export-dialog.c:252
+msgid "Calculating export size…"
+msgstr "കയറ്റുമതി വലുപ്പം കണക്കുകൂട്ടുന്നു…"
+
+#: src/photos-export-notification.c:317
+msgid "Failed to export: not enough space"
+msgstr "കയറ്റുമതി ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: മതിയായ ഇടമില്ല"
+
+#: src/photos-export-notification.c:319
+msgid "Failed to export"
+msgstr "കയറ്റുമതി ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു"
+
+#: src/photos-export-notification.c:326
+#, c-format
+msgid "“%s” exported"
+msgstr "“%s”കയറ്റുമതി ചെയ്തു"
+
+#: src/photos-export-notification.c:330
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d ഇനം കയറ്റുമതി ചെയ്തു"
+msgstr[1] "%d ഇനങ്ങൾ കയറ്റുമതി ചെയ്തു"
+
+#: src/photos-export-notification.c:347
+msgid "Analyze"
+msgstr "വിശകലനം ചെയ്യുക"
+
+#: src/photos-export-notification.c:352
+msgid "Empty Trash"
+msgstr "ചവറ്റുകൊട്ട ശൂന്യമാക്കുക"
+
+#. Translators: this is the Open action in a context menu
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
+msgid "Open"
+msgstr "തുറക്കു"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: src/photos-export-notification.c:379
+msgid "Export Folder"
+msgstr "ഫോൾഡർ കയറ്റുമതി ചെയ്യുക"
+
+#. Translators: this is the fallback title in the form
+#. * "Facebook — 2nd January 2013".
+#.
+#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102 src/photos-google-item.c:98
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
+
+#: src/photos-help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "General"
+msgstr "പൊതുവായ"
+
+#: src/photos-help-overlay.ui:36
+msgctxt "shortcut window"
+msgid "Show help"
+msgstr "സഹായം കാണിക്കുക"
+
+#: src/photos-help-overlay.ui:43
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "പുറത്ത് കടക്കുക"
+
+#: src/photos-help-overlay.ui:52
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "നാവിഗേഷൻ"
+
+#: src/photos-help-overlay.ui:56
+msgctxt "shortcut window"
+msgid "Next photo"
+msgstr "അടുത്ത ചിത്രം"
+
+#: src/photos-help-overlay.ui:63
+msgctxt "shortcut window"
+msgid "Previous photo"
+msgstr "മുമ്പത്തെ ചിത്രം"
+
+#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "മടങ്ങിപ്പോവുക"
+
+#: src/photos-help-overlay.ui:88
+msgctxt "shortcut window"
+msgid "Overview"
+msgstr "അവലോകനം"
+
+#: src/photos-help-overlay.ui:92
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "തിരയൽ"
+
+#: src/photos-help-overlay.ui:99
+msgctxt "shortcut window"
+msgid "Select all"
+msgstr "എല്ലാം തെരഞ്ഞെടുക്കുക"
+
+#: src/photos-help-overlay.ui:106
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr "തിരഞ്ഞെടുത്ത ചിത്രങ്ങൾ അച്ചടിക്കുക"
+
+#: src/photos-help-overlay.ui:113
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "തിരഞ്ഞെടുത്ത ചിത്രങ്ങൾ നീക്കംചെയ്യുക"
+
+#: src/photos-help-overlay.ui:122
+msgctxt "shortcut window"
+msgid "Photo view"
+msgstr "ചിത്ര കാഴ്ച"
+
+#: src/photos-help-overlay.ui:126
+msgctxt "shortcut window"
+msgid "Edit"
+msgstr "തിരുത്തുക"
+
+#: src/photos-help-overlay.ui:133
+msgctxt "shortcut window"
+msgid "Export"
+msgstr "കയറ്റുമതി ചെയ്യുക"
+
+#: src/photos-help-overlay.ui:140
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "അച്ചടിക്കുക"
+
+#: src/photos-help-overlay.ui:147
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "വലുപ്പം കൂട്ടുക"
+
+#: src/photos-help-overlay.ui:154
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "വലുപ്പം കുറക്കുക"
+
+#: src/photos-help-overlay.ui:161
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "അനുയോജ്യമായ വലുപ്പം"
+
+#: src/photos-help-overlay.ui:168
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "നീക്കം ചെയ്യുക"
+
+#: src/photos-help-overlay.ui:175
+msgctxt "shortcut window"
+msgid "Action menu"
+msgstr "പ്രവർത്തന വിഭവങ്ങൾ"
+
+#: src/photos-help-overlay.ui:182
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "സ്ക്രീന്‍ പരമാവധി വലിപ്പത്തി"
+
+#: src/photos-help-overlay.ui:191
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "തിരുത്തൽ കാഴ്ച"
+
+#: src/photos-help-overlay.ui:195
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "റദ്ദാക്കുക"
+
+#: src/photos-import-dialog.c:194
+msgid "An album with that name already exists"
+msgstr "ആ പേരിലുള്ള ഒരു ആൽബം ഇതിനകം നിലവിലുണ്ട്"
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr "ആ തീയതിയിൽ ഇതിനകം തന്നെ ഒരു ആൽബം നിലവിലുണ്ട്"
+
+#: src/photos-import-dialog.ui:22
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "ആൽബത്തിന് പേര് നൽകുക"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr "പുതിയത് സൃഷ്ടിക്കുക(_N)"
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr "നിലവിലുള്ളതിലേക്ക് ചേർക്കുക(_E)"
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "ചേര്‍ക്കുക (_A)"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: src/photos-indexing-notification.c:164
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "%s എന്നതിൽ നിന്ന് ചിത്രങ്ങൾ ലഭ്യമാക്കുന്നു"
+
+#: src/photos-indexing-notification.c:167
+msgid "Fetching photos from online accounts"
+msgstr "ഓൺലൈൻ അക്കൗണ്ടുകളിൽ നിന്ന് ചിത്രങ്ങൾ ലഭ്യമാക്കുന്നു"
+
+#: src/photos-indexing-notification.c:202
 msgid "Your photos are being indexed"
 msgstr "നിങ്ങളുടെ ചിത്രങ്ങള്‍ക്കു് സൂചിക നല്‍കുന്നു"
 
-#: ../src/photos-indexing-notification.c:172
+#: src/photos-indexing-notification.c:203
 msgid "Some photos might not be available during this process"
 msgstr "ഈ പ്രക്രിയില്‍ ചില ചിത്രങ്ങള്‍ ഒരു പക്ഷേ ലഭ്യമാവില്ല"
 
-#: ../src/photos-load-more-button.c:72 ../src/photos-load-more-button.c:189
-msgid "Load More"
-msgstr "കൂടുതല്‍ എടുക്കു"
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "ക്ഷമിക്കണം! “%s” ലോഡ് ചെയ്യാന്‍ പറ്റിയില്ല"
 
-#: ../src/photos-load-more-button.c:85 ../src/photos-spinner-box.c:69
-msgid "Loading…"
-msgstr "ലഭ്യമാക്കുന്നു..."
-
-#: ../src/photos-local-item.c:70 ../src/photos-source-manager.c:155
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "പ്രാദേശികം"
 
-#: ../src/photos-main-toolbar.c:99
+#: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
 msgstr "ഇനം തിരഞ്ഞെടുക്കുവാനായി അതാത് ഇനത്തില്‍ ക്ലിക്ക് ചെയ്യുക"
 
-#: ../src/photos-main-toolbar.c:101
+#: src/photos-main-toolbar.c:82
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d തിരഞ്ഞെടുത്തിരിക്കുന്നു"
 msgstr[1] "%d തിരഞ്ഞെടുത്തിരിക്കുന്നു"
 
-#: ../src/photos-main-toolbar.c:146
+#: src/photos-main-toolbar.c:170
+msgid "Select items for import"
+msgstr "ഇറക്കുമതിചെയ്യാനുള്ള ഇനങ്ങൾ തിരഞ്ഞെടുക്കുക"
+
+#: src/photos-main-toolbar.c:174
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "ഇറക്കുമതിചെയ്യാനുള്ള ഇനങ്ങൾ തിരഞ്ഞെടുക്കുക(%u തിരഞ്ഞെടുത്തു)"
+msgstr[1] "ഇറക്കുമതിചെയ്യാനുള്ള ഇനങ്ങൾ തിരഞ്ഞെടുക്കുക(%u തിരഞ്ഞെടുത്തു)"
+
+#: src/photos-main-toolbar.c:217
 msgid "Back"
 msgstr "പുറകോട്ട്"
 
-#: ../src/photos-main-toolbar.c:273
+#: src/photos-main-toolbar.c:331
 msgid "Select Items"
 msgstr "വസ്തുക്കള്‍ തെരഞ്ഞെടുക്കുക"
 
+#. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:362 ../src/photos-selection-toolbar.c:279
+#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "%s ഉപയോഗിച്ചു് തുറക്കുക"
 
-#: ../src/photos-main-toolbar.c:490
-msgid "Cancel"
-msgstr "റദ്ദാക്കുക"
+#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+msgid "Remove from favorites"
+msgstr "ഇഷ്ടപ്പെട്ടവയില്‍ നിന്നും നീക്കം ചെയ്യുക"
 
-#: ../src/photos-main-window.c:329
-msgid "Access, organize and share your photos on GNOME"
+#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+msgid "Add to favorites"
+msgstr "ഇഷ്ടപ്പെട്ടവയിലേക്ക് ചേര്‍ക്കുക"
+
+#: src/photos-main-toolbar.c:472
+msgid "Done"
+msgstr "തീര്‍ന്നു"
+
+#: src/photos-main-toolbar.c:507
+msgid "_Select"
+msgstr "(_S)തെരഞ്ഞെടുക്കുക"
+
+#: src/photos-main-window.c:458
+msgid ""
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
+"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:339
+#: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr "അനീഷ് ഷീല <aneesh.nl@gmail.com>"
 
-#: ../src/photos-organize-collection-dialog.c:76
-msgid "_Add"
-msgstr "ചേര്‍ക്കുക (_A)"
+#: src/photos-menus.ui:6
+msgid "Fullscreen"
+msgstr "സ്ക്രീന്‍ പരമാവധി വലിപ്പത്തില്‍"
 
-#: ../src/photos-organize-collection-dialog.c:77
+#: src/photos-menus.ui:12
+msgid "Keyboard Shortcuts"
+msgstr "കീബോർഡ് കുറുക്കുവഴികൾ"
+
+#: src/photos-menus.ui:16
+msgid "_Help"
+msgstr "(_H)സഹായം"
+
+#: src/photos-menus.ui:20
+msgid "About"
+msgstr "സംബന്ധിച്ച്"
+
+#: src/photos-menus.ui:24
+msgid "Quit"
+msgstr "പുറത്ത് കടക്കുക"
+
+#: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
 msgstr "ശരി (_O)"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:128
+#: src/photos-organize-collection-dialog.c:121
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "ക്രമീകരിക്കുക"
 
-#. Translators: this is the Open action in a context menu
-#: ../src/photos-preview-menu.ui.h:1 ../src/photos-selection-toolbar.c:282
-#: ../src/photos-selection-toolbar.c:437
-msgid "Open"
-msgstr "തുറക്കു"
+#: src/photos-preview-menu.ui:10
+msgid "Export…"
+msgstr "കയറ്റുമതി ചെയ്യുക…"
 
-#: ../src/photos-preview-menu.ui.h:2
+#: src/photos-preview-menu.ui:14
 msgid "Print…"
-msgstr "അച്ചടിയ്ക്കു..."
+msgstr "അച്ചടിയ്ക്കു…"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: src/photos-preview-menu.ui:19
+msgid "Delete"
+msgstr "നീക്കം ചെയ്യുക"
+
+#: src/photos-preview-menu.ui:23
 msgid "Display on…"
-msgstr ""
+msgstr "ഇതില്‍ പ്രദർശിപ്പിക്കുക…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: src/photos-preview-menu.ui:27
 msgid "Set as Background"
 msgstr "ഇതിനെ പശ്ചാത്തലമാക്കുക"
 
-#: ../src/photos-preview-menu.ui.h:5 ../src/photos-properties-dialog.c:644
-#: ../src/photos-selection-toolbar.c:469
+#: src/photos-preview-menu.ui:31
+msgid "Set as Lock Screen"
+msgstr "ലോക്ക് സ്ക്രീൻ ആയി സജ്ജമാക്കുക"
+
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
+#: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "ഗുണഗണങ്ങള്‍"
 
-#: ../src/photos-preview-nav-buttons.c:208
-#: ../src/photos-selection-toolbar.c:291
-msgid "Remove from favorites"
-msgstr "ഇഷ്ടപ്പെട്ടവയില്‍ നിന്നും നീക്കം ചെയ്യുക"
+#: src/photos-print-notification.c:71
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "“%s”: %s അച്ചടിക്കുന്നു"
 
-#: ../src/photos-preview-nav-buttons.c:213
-#: ../src/photos-selection-toolbar.c:297
-msgid "Add to favorites"
-msgstr "ഇഷ്ടപ്പെട്ടവയിലേക്ക് ചേര്‍ക്കുക"
-
-#: ../src/photos-print-operation.c:270
+#: src/photos-print-operation.c:241
 msgid "Image Settings"
 msgstr "ചിത്രങ്ങളുടെ ക്രമീകരണം"
 
-#: ../src/photos-print-setup.c:895
+#: src/photos-print-setup.c:884
 msgid "Position"
 msgstr "സ്ഥാനം"
 
-#: ../src/photos-print-setup.c:898
+#: src/photos-print-setup.c:887
 msgid "_Left:"
 msgstr "ഇടത് (_L):"
 
-#: ../src/photos-print-setup.c:899
+#: src/photos-print-setup.c:888
 msgid "_Right:"
 msgstr "വലത് (_R):"
 
-#: ../src/photos-print-setup.c:900
+#: src/photos-print-setup.c:889
 msgid "_Top:"
 msgstr "മുകളില്‍ (_T):"
 
-#: ../src/photos-print-setup.c:901
+#: src/photos-print-setup.c:890
 msgid "_Bottom:"
 msgstr "താഴെ (_B):"
 
-#: ../src/photos-print-setup.c:903
+#: src/photos-print-setup.c:892
 msgid "C_enter:"
 msgstr "മദ്ധ്യ ഭാഗം (_E):"
 
-#: ../src/photos-print-setup.c:907
+#: src/photos-print-setup.c:896
 msgid "None"
 msgstr "ഒന്നുമില്ല"
 
-#: ../src/photos-print-setup.c:908
+#: src/photos-print-setup.c:897
 msgid "Horizontal"
 msgstr "തിരശ്ചീനമായത്"
 
-#: ../src/photos-print-setup.c:909
+#: src/photos-print-setup.c:898
 msgid "Vertical"
 msgstr "ലംബമായത്"
 
-#: ../src/photos-print-setup.c:910
+#: src/photos-print-setup.c:899
 msgid "Both"
 msgstr "രണ്ടും"
 
-#: ../src/photos-print-setup.c:923
-msgid "Size"
-msgstr "വലിപ്പം"
-
-#: ../src/photos-print-setup.c:926
+#: src/photos-print-setup.c:915
 msgid "_Width:"
 msgstr "വീതി (_W):"
 
-#: ../src/photos-print-setup.c:927
+#: src/photos-print-setup.c:916
 msgid "_Height:"
 msgstr "ഉയരം (_H):"
 
-#: ../src/photos-print-setup.c:929
+#: src/photos-print-setup.c:918
 msgid "_Scaling:"
 msgstr "തോതനുസരിച്ചാക്കല്‍ (_S):"
 
-#: ../src/photos-print-setup.c:938
+#: src/photos-print-setup.c:927
 msgid "_Unit:"
 msgstr "അളവ് (_U):"
 
-#: ../src/photos-print-setup.c:942
+#: src/photos-print-setup.c:931
 msgid "Millimeters"
 msgstr "മില്ലിമീറ്റര്‍"
 
-#: ../src/photos-print-setup.c:943
+#: src/photos-print-setup.c:932
 msgid "Inches"
 msgstr "ഇഞ്ചുകള്‍"
 
-#: ../src/photos-print-setup.c:971
+#: src/photos-print-setup.c:960
 msgid "Preview"
 msgstr "തിരനോട്ടം"
+
+#: src/photos-properties-dialog.c:246
+msgid "Edited in Photos"
+msgstr "ചിത്രത്തിൽ തിരുത്തപ്പെട്ടു"
+
+#: src/photos-properties-dialog.c:259
+msgid "Untouched"
+msgstr "തൊട്ടിട്ടില്ല"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
+#: src/photos-properties-dialog.c:442
 msgctxt "Document Title"
 msgid "Title"
 msgstr "തലക്കെട്ട്"
@@ -384,99 +726,364 @@ msgstr "തലക്കെട്ട്"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
+#: src/photos-properties-dialog.c:454
 msgctxt "Document Author"
 msgid "Author"
 msgstr "രചയിതാവ്"
 
-#: ../src/photos-properties-dialog.c:236
+#: src/photos-properties-dialog.c:461
 msgid "Source"
 msgstr "ഉറവിടം"
 
-#: ../src/photos-properties-dialog.c:242
+#: src/photos-properties-dialog.c:467
 msgid "Date Modified"
 msgstr "മാറ്റം വരുത്തിയ തീയതി"
 
-#: ../src/photos-properties-dialog.c:250
+#: src/photos-properties-dialog.c:475
 msgid "Date Created"
 msgstr "തയ്യാറാക്കിയതു്"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
+#: src/photos-properties-dialog.c:485
 msgctxt "Document Type"
 msgid "Type"
 msgstr "തരം"
 
-#: ../src/photos-properties-dialog.c:269
-msgid "Width"
-msgstr "വീതി"
+#: src/photos-properties-dialog.c:495
+msgid "Dimensions"
+msgstr "അളവുകൾ"
 
-#: ../src/photos-properties-dialog.c:279
-msgid "Height"
-msgstr "ഉയരം"
+#: src/photos-properties-dialog.c:507
+msgid "Location"
+msgstr "സ്ഥാനം"
 
-#: ../src/photos-properties-dialog.c:294
+#: src/photos-properties-dialog.c:525
 msgid "Camera"
 msgstr "ക്യാമറ"
 
-#: ../src/photos-properties-dialog.c:304
+#: src/photos-properties-dialog.c:535 src/photos-tool-colors.c:365
 msgid "Exposure"
 msgstr "എക്സ്പോഷര്‍"
 
-#: ../src/photos-properties-dialog.c:314
+#: src/photos-properties-dialog.c:545
 msgid "Aperture"
 msgstr "അപ്പെര്‍ച്ചര്‍"
 
-#: ../src/photos-properties-dialog.c:324
+#: src/photos-properties-dialog.c:555
 msgid "Focal Length"
 msgstr "ഫോക്കസ് ദുരം"
 
-#: ../src/photos-properties-dialog.c:334
+#: src/photos-properties-dialog.c:565
 msgid "ISO Speed"
-msgstr "ISO വേഗത:"
+msgstr "ISO വേഗത"
 
-#: ../src/photos-properties-dialog.c:344
+#: src/photos-properties-dialog.c:575
 msgid "Flash"
 msgstr "ഫ്ലാഷ്"
 
-#: ../src/photos-properties-dialog.c:527
+#: src/photos-properties-dialog.c:584
+msgid "Modifications"
+msgstr "മാറ്റങ്ങൾ"
+
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%ld × %ld പിക്സൽ"
+msgstr[1] "%ld × %ld പിക്സലുകൾ"
+
+#: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
 msgstr "ഫ്ലാഷ് ചെയ്തില്ല"
 
-#: ../src/photos-properties-dialog.c:529
+#: src/photos-properties-dialog.c:723
 msgid "On, fired"
 msgstr "ഫ്ളാഷ് ചെയ്തു"
 
-#: ../src/photos-properties-dialog.c:608
-msgid "Done"
-msgstr "തീര്‍ന്നു"
+#: src/photos-properties-dialog.c:760
+msgid "Discard all Edits"
+msgstr "എല്ലാ തിരുത്തലുകളും നിരസിക്കുക"
 
-#: ../src/photos-selection-menu.ui.h:1
-msgid "Select All"
-msgstr "എല്ലാം തെരഞ്ഞെടുക്കുക"
+#: src/photos-removable-devices-button.ui:47
+msgid "Devices"
+msgstr "ഉപകരണങ്ങൾ"
 
-#: ../src/photos-selection-menu.ui.h:2
-msgid "Select None"
-msgstr "ഒന്നും തിരഞ്ഞെടുക്കാതിരിക്കുക"
-
-#: ../src/photos-selection-toolbar.c:445
-msgid "Print"
-msgstr "പ്രിന്റ് ചെയ്യുക"
-
-#: ../src/photos-selection-toolbar.c:453
-msgid "Delete"
-msgstr "നീക്കം ചെയ്യുക"
-
-#: ../src/photos-selection-toolbar.c:461
-msgid "Add to Album"
-msgstr "ആല്‍ബത്തിലേക്ക് ചേര്‍ക്കുക"
-
-#: ../src/photos-source-manager.c:151
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-source-manager.c:396
 msgid "All"
 msgstr "എല്ലാം"
 
-#: ../src/photos-tracker-controller.c:82
+#. Translators: "Title" refers to "Match Title" when searching.
+#: src/photos-search-match-manager.c:162
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "തലക്കെട്ട്"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: src/photos-search-match-manager.c:169
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "രചയിതാവ്"
+
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: src/photos-search-match-manager.c:207
+msgid "Match"
+msgstr "സമാന"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: src/photos-search-type-manager.c:178
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "തരം"
+
+#: src/photos-selection-menu.ui:6
+msgid "Select All"
+msgstr "എല്ലാം തെരഞ്ഞെടുക്കുക"
+
+#: src/photos-selection-menu.ui:11
+msgid "Select None"
+msgstr "ഒന്നും തിരഞ്ഞെടുക്കാതിരിക്കുക"
+
+#: src/photos-selection-toolbar.ui:19
+msgid "Export"
+msgstr "കയറ്റുമതി"
+
+#: src/photos-selection-toolbar.ui:111
+msgid "Add to Album"
+msgstr "ആല്‍ബത്തിലേക്ക് ചേര്‍ക്കുക"
+
+#: src/photos-share-dialog.ui:25
+msgctxt "dialog title"
+msgid "Share"
+msgstr "പങ്കിടൽ"
+
+#: src/photos-share-notification.c:148
+#, c-format
+msgid "“%s” shared"
+msgstr "“%s”  പങ്കിട്ടു"
+
+#: src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr "ഇ-മെയിൽ"
+
+#: src/photos-share-point-google.c:103
+msgid "Failed to upload photo: Service not authorized"
+msgstr "ഫോട്ടോ അപ്ലോഡുചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: സേവനത്തിനു അനുമതിയില്ല"
+
+#: src/photos-share-point-google.c:105
+msgid "Failed to upload photo"
+msgstr "ചിത്രം അപ്ലോഡുചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു"
+
+#: src/photos-source-manager.c:465
+msgid "Sources"
+msgstr "ഉറവിടം"
+
+#: src/photos-source-notification.c:171
+msgid "New device discovered"
+msgstr "പുതിയ ഉപകരണം കണ്ടെത്തി"
+
+#: src/photos-source-notification.c:184
+msgid "Import…"
+msgstr "ഇറക്കുമതിചെയ്യുക…"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: src/photos-source-notification.c:214
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr "നിങ്ങളുടെ %s അധികാരസാക്ഷ്യങ്ങൾ  കാലഹരണപ്പെട്ടു"
+
+#: src/photos-source-notification.c:221
+msgid "Settings"
+msgstr "ക്രമീകരണം"
+
+#: src/photos-thumbnailer.c:74
+msgid "D-Bus address to use"
+msgstr "ഉപയോഗിയ്ക്കേണ്ട ഡി-ബസ് വിലാസം"
+
+#: src/photos-tool-colors.c:386
+msgid "Contrast"
+msgstr "കോൺട്രാസ്റ്റ്"
+
+#: src/photos-tool-colors.c:407
+msgid "Blacks"
+msgstr "കറുപ്പുകൾ"
+
+#: src/photos-tool-colors.c:428
+msgid "Saturation"
+msgstr "സാച്ചുറേഷൻ"
+
+#: src/photos-tool-colors.c:447
+msgid "Shadows"
+msgstr "നിഴലുകൾ"
+
+#: src/photos-tool-colors.c:466
+msgid "Highlights"
+msgstr "ഹൈലൈറ്റ്"
+
+#: src/photos-tool-colors.c:495
+msgid "Colors"
+msgstr "നിറങ്ങൾ"
+
+#: src/photos-tool-crop.c:192
+msgid "Free"
+msgstr "സൌജന്യം"
+
+#: src/photos-tool-crop.c:193
+msgid "Original"
+msgstr "യഥാർത്ഥ"
+
+#: src/photos-tool-crop.c:194
+msgid "1×1 (Square)"
+msgstr "1×1(സമചതുരം)"
+
+#: src/photos-tool-crop.c:195
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
+
+#: src/photos-tool-crop.c:196
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
+
+#: src/photos-tool-crop.c:197
+msgid "7×5"
+msgstr "7×5"
+
+#: src/photos-tool-crop.c:198
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
+
+#: src/photos-tool-crop.c:199
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
+
+#: src/photos-tool-crop.c:200
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: src/photos-tool-crop.c:1459
+msgid "Lock aspect ratio"
+msgstr "വീക്ഷണ അനുപാതം പൂട്ടുക"
+
+#: src/photos-tool-crop.c:1529
+msgid "Landscape"
+msgstr "ലാൻഡ്സ്കേപ്പ്"
+
+#: src/photos-tool-crop.c:1540
+msgid "Portrait"
+msgstr "പോർട്രെയ്റ്റ്"
+
+#: src/photos-tool-crop.c:1551
+msgid "Reset"
+msgstr "പുനഃസജ്ജമാക്കുക"
+
+#: src/photos-tool-crop.c:1569
+msgid "Crop"
+msgstr "മുറിക്കുക"
+
+#: src/photos-tool-enhance.c:197
+msgid "Sharpen"
+msgstr "മൂർച്ച കൂട്ടുക"
+
+#: src/photos-tool-enhance.c:218
+msgid "Denoise"
+msgstr "ശബ്ദംകളയുക"
+
+#: src/photos-tool-enhance.c:245
+msgid "Enhance"
+msgstr "മെച്ചപ്പെടുത്തുക"
+
+#. Translators: "None" refers to the nop magic filter when editing.
+#: src/photos-tool-filters.c:182
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "ഒന്നുമില്ല"
+
+#: src/photos-tool-filters.c:189
+msgid "1947"
+msgstr "1947"
+
+#: src/photos-tool-filters.c:196
+msgid "Calistoga"
+msgstr "കാലിസ്റ്റാഗോ"
+
+#: src/photos-tool-filters.c:202
+msgid "Mogadishu"
+msgstr "മോഗാദിഷു"
+
+#: src/photos-tool-filters.c:209
+msgid "Caap"
+msgstr "കാപ്പ്"
+
+#: src/photos-tool-filters.c:215
+msgid "Hometown"
+msgstr "ഹോംടൗൺ"
+
+#: src/photos-tool-filters.c:233
+msgid "Filters"
+msgstr "ഫിൽട്ടറുകൾ"
+
+#: src/photos-tracker-controller.c:168
 msgid "Unable to fetch the list of photos"
-msgstr ""
+msgstr "ചിത്രങ്ങളുടെ പട്ടിക ലഭ്യമാക്കാൻ കഴിയുന്നില്ല"
+
+#~ msgid "%a, %d %B %Y  %X"
+#~ msgstr "%a, %d %B %Y  %X"
+
+#~ msgid "%.1f (lens)"
+#~ msgstr "%.1f ലെന്‍സ്"
+
+#~ msgid "%.1f (35mm film)"
+#~ msgstr "%.1f  (35എം.എം ഫിലിം)"
+
+#~ msgid "Transformation on unloaded image."
+#~ msgstr "ലോഡ് ചെയ്യാത്ത ചിത്രത്തില്‍  പരിവര്‍ത്തനം ചെയ്യുക."
+
+#~ msgid "Transformation failed."
+#~ msgstr "പരിവര്‍ത്തനം പരാജയപ്പെട്ടു."
+
+#~ msgid "EXIF not supported for this file format."
+#~ msgstr "ഈ ഫയല്‍ രീതിയ്ക് EXIF-ന്റെ പിന്തുണയില്ല."
+
+#~ msgid "Image loading failed."
+#~ msgstr "ചിത്രം ലോഡ് ചെയ്യുവാന്‍ സാധ്യമായില്ല."
+
+#~ msgid "No image loaded."
+#~ msgstr "ചിത്രം ഒന്നും ലോഡ് ചെയ്തിട്ടില്ല."
+
+#~ msgid "You do not have the permissions necessary to save the file."
+#~ msgstr "ഫയല്‍ സൂക്ഷിയ്ക്കുന്നതിനു് ആവശ്യമുളള അനുവാദങ്ങള്‍ നിങ്ങള്‍ക്കില്ല."
+
+#~ msgid "Temporary file creation failed."
+#~ msgstr "താല്‍ക്കാലിക ഫയല്‍ നിര്‍മ്മാണം പരാജയപ്പെട്ടു."
+
+#~ msgid "At least two file names are equal."
+#~ msgstr "രണ്ടു ഫയലിന്റെ പേരുകള്‍ എങ്കിലും സാമ്യമുളളതാണ്."
+
+#~ msgid "Could not display help for Image Viewer"
+#~ msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം കാണിയ്ക്കാന്‍ കഴിഞ്ഞില്ല"
+
+#~ msgid " (invalid Unicode)"
+#~ msgstr " (അസാധുവായ Unicode)"
+
+#~ msgid "About Photos"
+#~ msgstr "ഫോട്ടോകളെ കുറിച്ച്"
+
+#~ msgid "Flickr"
+#~ msgstr "ഫ്ലിക്കര്‍"
+
+#~ msgid "Load More"
+#~ msgstr "കൂടുതല്‍ എടുക്കു"
+
+#~ msgid "Loading…"
+#~ msgstr "ലഭ്യമാക്കുന്നു..."
+
+#~ msgid "Width"
+#~ msgstr "വീതി"
