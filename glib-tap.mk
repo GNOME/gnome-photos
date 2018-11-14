@@ -1,6 +1,6 @@
 # GLIB - Library of useful C routines
 
-AM_TESTS_ENVIRONMENT= \
+TESTS_ENVIRONMENT= \
 	G_TEST_SRCDIR="$(abs_srcdir)" 		\
 	G_TEST_BUILDDIR="$(abs_builddir)" 	\
 	G_DEBUG=gc-friendly 			\

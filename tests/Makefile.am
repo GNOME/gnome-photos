@@ -4,7 +4,7 @@ dogtail_tests = \
 	basic.py \
 	$(NULL)
 
-AM_TESTS_ENVIRONMENT += \
+TESTS_ENVIRONMENT += \
 	LC_ALL=C \
 	GSETTINGS_BACKEND=memory \
 	$(NULL)
