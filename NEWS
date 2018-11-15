@@ -1,3 +1,20 @@
+Overview of changes in 3.31.2
+=============================
+
+* Bugs fixed:
+ !68 Propagate any GError while loading a BaseItem
+ !71 build: Avoid requiring Git for release tarballs
+ !77 application, thumbnailer: Remove redundant GResource registration
+ !79 build: Update glib-tap.mk from GLib
+ !80 Start adding some unit tests
+ #77 Use g_auto*
+
+* Updated translations:
+ Esperanto
+ Malayalam
+ Slovenian
+
+
 Overview of changes in 3.31.1
 =============================
 
