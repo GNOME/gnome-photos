@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 – 2017 Red Hat, Inc.
+ * Copyright © 2013 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -502,6 +502,56 @@ photos_gegl_buffer_zoom_finish (GeglBuffer *buffer, GAsyncResult *res, GError **
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
 
   return g_task_propagate_pointer (task, error);
+}
+
+
+gchar *
+photos_gegl_compute_checksum_for_buffer  (GChecksumType checksum_type, GeglBuffer *buffer)
+{
+  const Babl *format;
+  g_autoptr (GChecksum) checksum = NULL;
+  GeglRectangle bbox;
+  GeglRectangle roi;
+  const gchar *str;
+  gchar *ret_val = NULL;
+  gint bpp;
+  gint i;
+  gint stride;
+  g_autofree guchar *buf = NULL;
+
+  checksum = g_checksum_new (checksum_type);
+  if (checksum == NULL)
+    goto out;
+
+  bbox = *gegl_buffer_get_extent (buffer);
+
+  roi.x = bbox.x;
+  roi.y = bbox.y;
+  roi.height = 1;
+  roi.width = bbox.width;
+
+  format = gegl_buffer_get_format (buffer);
+  bpp = babl_format_get_bytes_per_pixel (format);
+
+  buf = g_malloc0_n ((gsize) bbox.width, (gsize) bpp);
+
+  if (bpp > 0 && bbox.width > 0 && bbox.width > G_MAXINT / bpp)
+    goto out;
+
+  stride = bbox.width * bpp;
+
+  for (i = 0; i < bbox.height; i++)
+    {
+      gegl_buffer_get (buffer, &roi, 1.0, format, buf, stride, GEGL_ABYSS_NONE);
+      g_checksum_update (checksum, buf, (gssize) stride);
+      roi.y++;
+    }
+
+  str = g_checksum_get_string (checksum);
+  ret_val = g_strdup (str);
+
+ out:
+  return ret_val;
 }
 
 
