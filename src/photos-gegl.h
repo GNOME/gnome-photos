@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 – 2017 Red Hat, Inc.
+ * Copyright © 2013 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +38,8 @@ void             photos_gegl_buffer_zoom_async            (GeglBuffer *buffer,
                                                            gpointer user_data);
 
 GeglBuffer      *photos_gegl_buffer_zoom_finish           (GeglBuffer *buffer, GAsyncResult *res, GError **error);
+
+gchar           *photos_gegl_compute_checksum_for_buffer  (GChecksumType checksum_type, GeglBuffer *buffer);
 
 GdkPixbuf       *photos_gegl_create_pixbuf_from_node      (GeglNode *node);
 
