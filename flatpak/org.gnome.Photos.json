@@ -304,7 +304,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-photos.git"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-photos.git",
+                    "disable-shallow-clone": "true"
                 }
             ]
         }
