@@ -102,6 +102,7 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
   GeglRectangle bbox_original;
   gint bpp;
 
+  g_return_val_if_fail (GEGL_IS_BUFFER (buffer_original), NULL);
   g_return_val_if_fail (orientation == PHOTOS_ORIENTATION_BOTTOM
                         || orientation == PHOTOS_ORIENTATION_BOTTOM_MIRROR
                         || orientation == PHOTOS_ORIENTATION_LEFT
