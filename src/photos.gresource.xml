@@ -27,6 +27,7 @@
     <file alias="import-dialog.ui" preprocess="xml-stripblanks" compressed="true">photos-import-dialog.ui</file>
     <file alias="main-toolbar.ui" preprocess="xml-stripblanks" compressed="true">photos-main-toolbar.ui</file>
     <file alias="main-window.ui" preprocess="xml-stripblanks" compressed="true">photos-main-window.ui</file>
+    <file alias="main-primary-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-main-primary-menu.ui</file>
     <file alias="preview-menu.ui" preprocess="xml-stripblanks" compressed="true">photos-preview-menu.ui</file>
     <file alias="removable-device-widget.ui" preprocess="xml-stripblanks" compressed="true">photos-removable-device-widget.ui</file>
     <file alias="removable-devices-button.ui" preprocess="xml-stripblanks" compressed="true">photos-removable-devices-button.ui</file>
