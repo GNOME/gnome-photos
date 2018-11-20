@@ -98,6 +98,7 @@ struct _PhotosApplication
   GSimpleAction *load_next_action;
   GSimpleAction *load_previous_action;
   GSimpleAction *open_action;
+  GSimpleAction *primary_menu_action;
   GSimpleAction *print_action;
   GSimpleAction *properties_action;
   GSimpleAction *saturation_action;
@@ -484,6 +485,14 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->saturation_action, enable);
   g_simple_action_set_enabled (self->shadows_highlights_action, enable);
   g_simple_action_set_enabled (self->sharpen_action, enable);
+
+  enable = ((mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW
+             || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
+             || mode == PHOTOS_WINDOW_MODE_FAVORITES
+             || mode == PHOTOS_WINDOW_MODE_OVERVIEW
+             || mode == PHOTOS_WINDOW_MODE_SEARCH)
+            && !selection_mode);
+  g_simple_action_set_enabled (self->primary_menu_action, enable);
 
   enable = (((mode == PHOTOS_WINDOW_MODE_COLLECTION_VIEW
               || mode == PHOTOS_WINDOW_MODE_COLLECTIONS
@@ -2599,8 +2608,8 @@ photos_application_startup (GApplication *application)
   const gchar *delete_accels[3] = {"Delete", "KP_Delete", NULL};
   const gchar *edit_accels[2] = {"<Primary>e", NULL};
   const gchar *fullscreen_accels[2] = {"F11", NULL};
-  const gchar *gear_menu_accels[2] = {"F10", NULL};
   const gchar *help_menu_accels[2] = {"F1", NULL};
+  const gchar *menu_accels[2] = {"F10", NULL};
   const gchar *print_current_accels[2] = {"<Primary>p", NULL};
   const gchar *quit_accels[2] = {"<Primary>q", NULL};
   const gchar *save_accels[2] = {"<Primary>x", NULL};
@@ -2746,6 +2755,10 @@ photos_application_startup (GApplication *application)
   g_signal_connect_swapped (self->open_action, "activate", G_CALLBACK (photos_application_open_current), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->open_action));
 
+  state = g_variant_new ("b", FALSE);
+  self->primary_menu_action = g_simple_action_new_stateful ("primary-menu", NULL, state);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->primary_menu_action));
+
   self->print_action = g_simple_action_new ("print-current", NULL);
   g_signal_connect_swapped (self->print_action, "activate", G_CALLBACK (photos_application_print_current), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->print_action));
@@ -2869,8 +2882,9 @@ photos_application_startup (GApplication *application)
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.delete", delete_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.edit-current", edit_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.fullscreen", fullscreen_accels);
-  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.gear-menu", gear_menu_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.gear-menu", menu_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.help", help_menu_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.primary-menu", menu_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.print-current", print_current_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.save-current", save_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.search", search_accels);
@@ -2962,6 +2976,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->load_next_action);
   g_clear_object (&self->load_previous_action);
   g_clear_object (&self->open_action);
+  g_clear_object (&self->primary_menu_action);
   g_clear_object (&self->print_action);
   g_clear_object (&self->properties_action);
   g_clear_object (&self->saturation_action);
