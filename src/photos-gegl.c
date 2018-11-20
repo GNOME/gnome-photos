@@ -601,8 +601,6 @@ photos_gegl_init (void)
   gint threads;
   guint n_processors;
 
-  gegl_init (NULL, NULL);
-
   n_processors = g_get_num_processors ();
   g_return_if_fail (n_processors > 0);
 
@@ -618,6 +616,8 @@ photos_gegl_init (void)
   g_object_set (config, "application-license", "GPL3", NULL);
   g_object_set (config, "threads", threads, NULL);
   g_object_set (config, "use-opencl", FALSE, NULL);
+
+  gegl_init (NULL, NULL);
 }
 
 
