@@ -68,8 +68,8 @@ photos_test_pipeline_teardown (PhotosTestPipelineFixture *fixture, gconstpointer
 {
   g_clear_object (&fixture->res);
   g_main_context_pop_thread_default (fixture->context);
-  g_clear_pointer (&fixture->context, g_main_context_unref);
-  g_clear_pointer (&fixture->loop, g_main_loop_unref);
+  g_main_context_unref (fixture->context);
+  g_main_loop_unref (fixture->loop);
 }
 
 
