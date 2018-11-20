@@ -457,7 +457,6 @@ EXTRA_DIST = \
 	photos-main-toolbar.ui \
 	photos-main-window.ui \
 	photos-marshalers.list \
-	photos-menus.ui \
 	photos-preview-menu.ui \
 	photos-removable-device-widget.ui \
 	photos-removable-devices-button.ui \

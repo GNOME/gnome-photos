@@ -285,7 +285,7 @@ resource_data = files(
   'photos-import-dialog.ui',
   'photos-main-toolbar.ui',
   'photos-main-window.ui',
-  'photos-menus.ui',
+  'photos-main-primary-menu.ui',
   'photos-preview-menu.ui',
   'photos-removable-devices-button.ui',
   'photos-removable-device-widget.ui',
