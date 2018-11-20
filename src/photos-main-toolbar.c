@@ -233,6 +233,25 @@ photos_main_toolbar_add_devices_button (PhotosMainToolbar *self)
 
 
 static void
+photos_main_toolbar_add_primary_menu_button (PhotosMainToolbar *self)
+{
+  GMenu *primary_menu;
+  g_autoptr (GtkBuilder) builder = NULL;
+  GtkWidget *menu_button;
+  GtkWidget *image;
+
+  builder = gtk_builder_new_from_resource ("/org/gnome/Photos/primary-menu.ui");
+
+  primary_menu = G_MENU (gtk_builder_get_object (builder, "primary-menu"));
+  image = gtk_image_new_from_icon_name ("open-menu-symbolic", GTK_ICON_SIZE_BUTTON);
+  menu_button = gtk_menu_button_new ();
+  gtk_button_set_image (GTK_BUTTON (menu_button), image);
+  gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), G_MENU_MODEL (primary_menu));
+  gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), menu_button);
+}
+
+
+static void
 photos_main_toolbar_remote_display_button_clicked (PhotosMainToolbar *self)
 {
   photos_remote_display_manager_stop (self->remote_mngr);
@@ -452,6 +471,7 @@ photos_main_toolbar_populate_for_collections (PhotosMainToolbar *self)
   gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->stack_switcher);
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
 
+  photos_main_toolbar_add_primary_menu_button (self);
   photos_main_toolbar_add_devices_button (self);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
@@ -483,6 +503,7 @@ photos_main_toolbar_populate_for_favorites (PhotosMainToolbar *self)
   gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->stack_switcher);
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
 
+  photos_main_toolbar_add_primary_menu_button (self);
   photos_main_toolbar_add_devices_button (self);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
@@ -522,6 +543,7 @@ photos_main_toolbar_populate_for_overview (PhotosMainToolbar *self)
   gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->header_bar), self->stack_switcher);
   gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->header_bar), TRUE);
 
+  photos_main_toolbar_add_primary_menu_button (self);
   photos_main_toolbar_add_devices_button (self);
   photos_main_toolbar_add_selection_button (self);
   photos_main_toolbar_add_search_button (self);
@@ -547,7 +569,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   photos_main_toolbar_add_back_button (self);
 
   preview_menu = photos_main_toolbar_create_preview_menu (self);
-  image = gtk_image_new_from_icon_name ("open-menu-symbolic", GTK_ICON_SIZE_BUTTON);
+  image = gtk_image_new_from_icon_name ("view-more-symbolic", GTK_ICON_SIZE_BUTTON);
   menu_button = gtk_menu_button_new ();
   gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_button), "app.gear-menu");
   gtk_button_set_image (GTK_BUTTON (menu_button), image);

@@ -24,10 +24,10 @@ src/photos-item-manager.c
 src/photos-local-item.c
 src/photos-main-toolbar.c
 src/photos-main-window.c
-src/photos-menus.ui
 src/photos-organize-collection-dialog.c
 src/photos-preview-menu.ui
 src/photos-preview-nav-buttons.c
+src/photos-primary-menu.ui
 src/photos-print-notification.c
 src/photos-print-operation.c
 src/photos-print-setup.c
