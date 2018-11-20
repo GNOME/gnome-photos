@@ -36,6 +36,10 @@
         <attribute name="action">app.properties</attribute>
         <attribute name="label" translatable="yes">Properties</attribute>
       </item>
+      <item>
+        <attribute name="action">app.fullscreen</attribute>
+        <attribute name="label" translatable="yes">Fullscreen</attribute>
+      </item>
     </section>
   </menu>
 </interface>
