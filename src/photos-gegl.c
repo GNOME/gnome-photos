@@ -652,6 +652,46 @@ photos_gegl_init_fishes (void)
 }
 
 
+GdkPixbuf *
+photos_gegl_pixbuf_new_from_buffer (GeglBuffer *buffer)
+{
+  const Babl *format_buffer;
+  const Babl *format_pixbuf;
+  g_autoptr (GBytes) bytes = NULL;
+  GdkPixbuf *pixbuf = NULL;
+  GeglRectangle bbox;
+  gboolean has_alpha;
+  gint stride;
+  gpointer buf = NULL;
+  gsize size;
+
+  g_return_val_if_fail (GEGL_IS_BUFFER (buffer), NULL);
+
+  bbox = *gegl_buffer_get_extent (buffer);
+  format_buffer = gegl_buffer_get_format (buffer);
+  has_alpha = babl_format_has_alpha (format_buffer);
+
+  if (has_alpha)
+    format_pixbuf = babl_format ("R'G'B'A u8");
+  else
+    format_pixbuf = babl_format ("R'G'B' u8");
+
+  stride = gdk_pixbuf_calculate_rowstride (GDK_COLORSPACE_RGB, has_alpha, 8, bbox.width, bbox.height);
+  if (stride == -1)
+    goto out;
+
+  buf = g_malloc0_n ((gsize) bbox.height, (gsize) stride);
+  gegl_buffer_get (buffer, &bbox, 1.0, format_pixbuf, buf, stride, GEGL_ABYSS_NONE);
+
+  size = (gsize) bbox.height * (gsize) stride;
+  bytes = g_bytes_new_take (buf, size);
+  pixbuf = gdk_pixbuf_new_from_bytes (bytes, GDK_COLORSPACE_RGB, has_alpha, 8, bbox.width, bbox.height, stride);
+
+ out:
+  return pixbuf;
+}
+
+
 static gboolean
 photos_gegl_processor_process_idle (gpointer user_data)
 {

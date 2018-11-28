@@ -150,7 +150,7 @@ libgd_dep = libgd.get_variable('libgd_dep')
 
 babl_dep = dependency('babl')
 cairo_dep = dependency('cairo', version: '>= 1.14.0')
-gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0', version: '>= 2.32')
+gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0', version: '>= 2.36.8')
 gegl_dep = dependency('gegl-0.4', version: '>= 0.4.0')
 geocode_glib_dep = dependency('geocode-glib-1.0')
 gexiv_dep = dependency('gexiv2', version: '>= 0.10.8')
