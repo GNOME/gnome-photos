@@ -389,6 +389,8 @@ photos_gegl_buffer_new_from_pixbuf (GdkPixbuf *pixbuf)
   gint width;
   const guint8 *pixels;
 
+  g_return_val_if_fail (GDK_IS_PIXBUF (pixbuf), NULL);
+
   height = gdk_pixbuf_get_height (pixbuf);
   width = gdk_pixbuf_get_width (pixbuf);
   gegl_rectangle_set (&bbox, 0, 0, (guint) width, (guint) height);
