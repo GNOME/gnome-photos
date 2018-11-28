@@ -51,6 +51,8 @@ void             photos_gegl_init                         (void);
 
 void             photos_gegl_init_fishes                  (void);
 
+GdkPixbuf       *photos_gegl_pixbuf_new_from_buffer       (GeglBuffer *buffer);
+
 void             photos_gegl_processor_process_async      (GeglProcessor *processor,
                                                            GCancellable *cancellable,
                                                            GAsyncReadyCallback callback,
