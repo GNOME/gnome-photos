@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2017 Red Hat, Inc.
+ * Copyright © 2017 – 2018 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -260,6 +260,7 @@ photos_thumbnailer_generate_thumbnail_process (GObject *source_object, GAsyncRes
   GCancellable *cancellable;
   g_autoptr (GFile) thumbnail_file = NULL;
   g_autoptr (GTask) task = G_TASK (user_data);
+  GeglNode *pipeline_node;
   GeglProcessor *processor = GEGL_PROCESSOR (source_object);
   PhotosThumbnailerGenerateData *data;
   g_autofree gchar *thumbnail_dir = NULL;
@@ -282,6 +283,10 @@ photos_thumbnailer_generate_thumbnail_process (GObject *source_object, GAsyncRes
       }
   }
 
+  g_assert_null (data->pixbuf_thumbnail);
+
+  pipeline_node = photos_pipeline_get_graph (data->pipeline);
+  data->pixbuf_thumbnail = photos_gegl_create_pixbuf_from_node (pipeline_node);
   pixbuf_height = gdk_pixbuf_get_height (data->pixbuf_thumbnail);
   pixbuf_width = gdk_pixbuf_get_width (data->pixbuf_thumbnail);
 
@@ -345,7 +350,6 @@ photos_thumbnailer_generate_thumbnail_pixbuf (GObject *source_object, GAsyncResu
   g_autoptr (GeglBuffer) buffer_oriented = NULL;
   GeglNode *buffer_source;
   GeglNode *pipeline_node;
-  GeglNode *save_pixbuf;
   g_autoptr (GeglProcessor) processor = NULL;
   PhotosThumbnailerGenerateData *data;
 
@@ -363,21 +367,14 @@ photos_thumbnailer_generate_thumbnail_pixbuf (GObject *source_object, GAsyncResu
       }
   }
 
-  g_assert_null (data->pixbuf_thumbnail);
-
   buffer = photos_gegl_buffer_new_from_pixbuf (pixbuf);
   buffer_oriented = photos_gegl_buffer_apply_orientation (buffer, data->orientation);
 
   buffer_source = gegl_node_new_child (data->graph, "operation", "gegl:buffer-source", "buffer", buffer_oriented, NULL);
   pipeline_node = photos_pipeline_get_graph (data->pipeline);
-  save_pixbuf = gegl_node_new_child (data->graph,
-                                     "operation", "gegl:save-pixbuf",
-                                     "pixbuf", &data->pixbuf_thumbnail,
-                                     NULL);
+  gegl_node_link (buffer_source, pipeline_node);
 
-  gegl_node_link_many (buffer_source, pipeline_node, save_pixbuf, NULL);
-
-  processor = gegl_node_new_processor (save_pixbuf, NULL);
+  processor = gegl_node_new_processor (pipeline_node, NULL);
   photos_gegl_processor_process_async (processor,
                                        cancellable,
                                        photos_thumbnailer_generate_thumbnail_process,

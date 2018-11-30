@@ -57,7 +57,6 @@ static const gchar *REQUIRED_GEGL_OPS[] =
   "gegl:load",
   "gegl:noise-reduction",
   "gegl:nop",
-  "gegl:save-pixbuf",
   "gegl:scale-ratio",
   "gegl:shadows-highlights",
   "gegl:unsharp-mask",
@@ -512,16 +511,10 @@ GdkPixbuf *
 photos_gegl_create_pixbuf_from_node (GeglNode *node)
 {
   GdkPixbuf *pixbuf = NULL;
-  GeglNode *graph;
-  g_autoptr (GeglNode) save_pixbuf = NULL;
+  g_autoptr (GeglBuffer) buffer = NULL;
 
-  graph = gegl_node_get_parent (node);
-  save_pixbuf = gegl_node_new_child (graph,
-                                     "operation", "gegl:save-pixbuf",
-                                     "pixbuf", &pixbuf,
-                                     NULL);
-  gegl_node_link_many (node, save_pixbuf, NULL);
-  gegl_node_process (save_pixbuf);
+  buffer = photos_gegl_get_buffer_from_node (node, NULL);
+  pixbuf = photos_gegl_pixbuf_new_from_buffer (buffer);
 
   return pixbuf;
 }
