@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-06-15 10:15+0000\n"
-"PO-Revision-Date: 2018-06-21 09:58+0200\n"
+"POT-Creation-Date: 2018-10-23 13:55+0000\n"
+"PO-Revision-Date: 2018-12-04 15:51+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
-#: data/org.gnome.Photos.appdata.xml.in:7
-#: data/org.gnome.Photos.desktop.in.in:3 src/photos-application.c:3043
-#: src/photos-embed.c:819 src/photos-search-type-manager.c:144
+#: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
+#: src/photos-application.c:3047 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotos"
 
@@ -31,11 +31,6 @@ msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice y comparta sus fotos en GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
-#| msgid ""
-#| "A simple application to access, organize and share your photos on GNOME. "
-#| "It is meant to be a simple and elegant replacement for using a file "
-#| "manager to deal with photos. Seamless cloud integration is offered "
-#| "through GNOME Online Accounts."
 msgid ""
 "Access, organize and share your photos on GNOME. A simple and elegant "
 "replacement for using a file manager to deal with photos. Enhance, crop and "
@@ -60,7 +55,6 @@ msgid "View recent local and online photos"
 msgstr "Ver fotos locales y en línea recientes"
 
 #: data/org.gnome.Photos.appdata.xml.in:20
-#| msgid "Access your Facebook or Flickr content"
 msgid "Access your Facebook or Flickr pictures"
 msgstr "Acceder a sus fotos de Facebook o Flickr"
 
@@ -72,7 +66,6 @@ msgstr ""
 "local."
 
 #: data/org.gnome.Photos.appdata.xml.in:23
-#| msgid "Set as background"
 msgid "Set pictures as your desktop background"
 msgstr "Establecer imágenes como fondo de escritorio"
 
@@ -85,7 +78,6 @@ msgid "Select favorites"
 msgstr "Seleccionar favoritos"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
-#| msgid "Allow opening full featured editor for more advanced changes"
 msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
@@ -162,7 +154,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Álbum"
 
-#: src/photos-base-item.c:2831
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Capturas de pantalla"
 
@@ -191,39 +183,39 @@ msgstr "Dispositivos de renderizado DLNA"
 msgid "“%s” edited"
 msgstr "«%s» editado"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Vista de colección"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Álbumes"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Importar"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "Buscar"
 
-#: src/photos-empty-results-box.c:148
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "No se encontraron álbumes"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Las fotos favoritas aparecerán aquí"
 
-#: src/photos-empty-results-box.c:162
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "No se encontraron fotos"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "Puede crear álbumes desde la vista de Fotos"
 
@@ -231,7 +223,7 @@ msgstr "Puede crear álbumes desde la vista de Fotos"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "Cuentas en línea"
 
@@ -239,7 +231,7 @@ msgstr "Cuentas en línea"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "Carpeta Imágenes"
 
@@ -248,12 +240,12 @@ msgstr "Carpeta Imágenes"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Las fotos de su %s y su %s aparecerán aquí."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Pruebe a hacer una búsqueda diferente"
 
@@ -300,36 +292,36 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Calculando el tamaño de la exportación…"
 
-#: src/photos-export-notification.c:334
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "Falló al exportar: no hay espacio suficiente"
 
-#: src/photos-export-notification.c:336
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "Falló al exportar"
 
-#: src/photos-export-notification.c:343
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "«%s» exportado"
 
-#: src/photos-export-notification.c:347
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d elemento exportado"
 msgstr[1] "%d elementos exportados"
 
-#: src/photos-export-notification.c:364
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "Analizar"
 
-#: src/photos-export-notification.c:369
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Vaciar la papelera"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Abrir"
@@ -337,7 +329,7 @@ msgstr "Abrir"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:396
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Exportar carpeta"
 
@@ -345,7 +337,7 @@ msgstr "Exportar carpeta"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -514,6 +506,11 @@ msgstr "Se están indexando sus fotos"
 #: src/photos-indexing-notification.c:203
 msgid "Some photos might not be available during this process"
 msgstr "Algunas fotos pueden no estar disponibles durante este proceso"
+
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "No se pudo cargar «%s»"
 
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
@@ -903,23 +900,23 @@ msgstr "Falló al subir la foto"
 msgid "Sources"
 msgstr "Fuentes"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "Nuevo dispositivo descubierto"
 
-#: src/photos-source-notification.c:214
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Importar…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Sus credenciales de %s han caducado"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Configuración"
 
