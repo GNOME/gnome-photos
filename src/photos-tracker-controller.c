@@ -165,10 +165,17 @@ photos_tracker_controller_item_added_removed (PhotosTrackerController *self)
 static void
 photos_tracker_controller_query_error (PhotosTrackerController *self, GError *error)
 {
-  const gchar *primary = _("Unable to fetch the list of photos");
+  const gchar *primary;
 
   if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
     return;
+  else if (g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_INTERFACE) ||
+           g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_METHOD) ||
+           g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_OBJECT) ||
+           g_error_matches (error, G_DBUS_ERROR, G_DBUS_ERROR_SERVICE_UNKNOWN))
+    primary = _("Unable to find Tracker on your operating system");
+  else
+    primary = _("Unable to fetch the list of photos");
 
   g_signal_emit (self, signals[QUERY_ERROR], 0, primary, error->message);
 }
