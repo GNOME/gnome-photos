@@ -165,10 +165,15 @@ photos_tracker_controller_item_added_removed (PhotosTrackerController *self)
 static void
 photos_tracker_controller_query_error (PhotosTrackerController *self, GError *error)
 {
-  const gchar *primary = _("Unable to fetch the list of photos");
+  const gchar *primary;
 
   if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
     return;
+
+  if (g_error_matches (error, TRACKER_SPARQL_ERROR, TRACKER_SPARQL_ERROR_INTERNAL))
+    primary = _("Unable to find Tracker on your operating system");
+  else
+    primary = _("Unable to fetch the list of photos");
 
   g_signal_emit (self, signals[QUERY_ERROR], 0, primary, error->message);
 }
