@@ -338,8 +338,11 @@ photos_test_gegl_buffer_check_pixbuf (PhotosTestGeglFixture *fixture, gboolean h
 static void
 photos_test_gegl_buffer_check_zoom (PhotosTestGeglFixture *fixture, double zoom, const gchar *checksum)
 {
+  const Babl *format_zoomed_converted;
   g_autoptr (GeglBuffer) buffer_zoomed = NULL;
-  g_autofree gchar *checksum_zoomed = NULL;
+  g_autoptr (GeglBuffer) buffer_zoomed_converted = NULL;
+  GeglRectangle bbox;
+  g_autofree gchar *checksum_zoomed_converted = NULL;
 
   photos_gegl_buffer_zoom_async (fixture->buffer, zoom, NULL, photos_test_gegl_async, fixture);
   g_main_loop_run (fixture->loop);
@@ -352,10 +355,16 @@ photos_test_gegl_buffer_check_zoom (PhotosTestGeglFixture *fixture, double zoom,
   }
 
   g_assert_true (GEGL_IS_BUFFER (buffer_zoomed));
-  photos_test_gegl_buffer_save_to_file (buffer_zoomed, fixture->destination);
 
-  checksum_zoomed = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, buffer_zoomed);
-  g_assert_cmpstr (checksum_zoomed, ==, checksum);
+  bbox = *gegl_buffer_get_extent (buffer_zoomed);
+  format_zoomed_converted = babl_format ("R'G'B'A u8");
+  buffer_zoomed_converted = gegl_buffer_new (&bbox, format_zoomed_converted);
+  gegl_buffer_copy (buffer_zoomed, &bbox, GEGL_ABYSS_NONE, buffer_zoomed_converted, &bbox);
+
+  photos_test_gegl_buffer_save_to_file (buffer_zoomed_converted, fixture->destination);
+
+  checksum_zoomed_converted = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, buffer_zoomed_converted);
+  g_assert_cmpstr (checksum_zoomed_converted, ==, checksum);
 }
 
 
@@ -652,7 +661,7 @@ photos_test_gegl_buffer_zoom_in_0 (PhotosTestGeglFixture *fixture, gconstpointer
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       1.4,
-                                      "870ea2a5096a642484c13c7a280137daf091f0b4a72bd6648956a2fb28f2962d");
+                                      "104c92c9461528a7391abe6312523a86a3eb2b7be2036261af8888ace6d7ae4c");
 }
 
 
@@ -661,7 +670,7 @@ photos_test_gegl_buffer_zoom_in_1 (PhotosTestGeglFixture *fixture, gconstpointer
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       4.0,
-                                      "a4b3fd6dc09bd802a39f7bc4ff4fc796ca2f7a3a109c0cdbff67088d0326f69a");
+                                      "824f440437cec0375f16cfded616c93c25a804b4e7b8ce113d8e88176e58e752");
 }
 
 
@@ -679,7 +688,7 @@ photos_test_gegl_buffer_zoom_out_0 (PhotosTestGeglFixture *fixture, gconstpointe
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       0.6,
-                                      "2ef3362a9d874742fef8c042eb406a648148ef66bd0b222167c1d6caafee9469");
+                                      "290d10b98a54c3dcee88f08dfd9f5bd485c1d371434250b57b6a042a84250cb0");
 }
 
 
@@ -688,7 +697,7 @@ photos_test_gegl_buffer_zoom_out_1 (PhotosTestGeglFixture *fixture, gconstpointe
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       0.25,
-                                      "09f1aff1b8d8936255df661095694bdf871264d992ccdea5b5193f24a0af5ea2");
+                                      "d4b5e8504e9e8ae74815dfa52e5086c6e60c36993bfba59bded2c86740f4b6c6");
 }
 
 
