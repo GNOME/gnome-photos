@@ -15,6 +15,7 @@ test_programs = \
 	$(NULL)
 
 photos_test_gegl_CPPFLAGS = \
+	$(BABL_CFLAGS) \
 	$(GDK_PIXBUF_CFLAGS) \
 	$(GEGL_CFLAGS) \
 	$(GIO_CFLAGS) \
@@ -24,6 +25,7 @@ photos_test_gegl_CPPFLAGS = \
 	$(NULL)
 
 photos_test_gegl_LDADD = \
+	$(BABL_LIBS) \
 	$(GDK_PIXBUF_LIBS) \
 	$(GEGL_LIBS) \
 	$(GIO_LIBS) \
