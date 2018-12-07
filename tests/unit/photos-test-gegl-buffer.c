@@ -35,9 +35,13 @@ typedef struct _PhotosTestGeglBufferFixture PhotosTestGeglBufferFixture;
 
 struct _PhotosTestGeglBufferFixture
 {
+  const Babl *format;
   GAsyncResult *res;
+  GFile *destination;
+  GFile *source;
   GMainContext *context;
   GMainLoop *loop;
+  GeglBuffer *buffer;
 };
 
 
@@ -56,11 +60,127 @@ photos_test_gegl_buffer_filename_to_uri (const gchar *filename)
 
 
 static void
+photos_test_gegl_buffer_save_to_file (GeglBuffer *buffer, GFile *file)
+{
+  GeglNode *buffer_source;
+  GeglNode *png_save;
+  g_autoptr (GeglNode) graph = NULL;
+  g_autofree gchar *path = NULL;
+
+  g_assert_true (GEGL_IS_BUFFER (buffer));
+  g_assert_true (G_IS_FILE (file));
+
+  graph = gegl_node_new ();
+  buffer_source = gegl_node_new_child (graph, "operation", "gegl:buffer-source", "buffer", buffer, NULL);
+
+  path = g_file_get_path (file);
+  png_save = gegl_node_new_child (graph, "operation", "gegl:png-save", "bitdepth", 8, "path", path, NULL);
+
+  gegl_node_link (buffer_source, png_save);
+  gegl_node_process (png_save);
+}
+
+
+static void
 photos_test_gegl_buffer_setup (PhotosTestGeglBufferFixture *fixture, gconstpointer user_data)
 {
+  const Babl *format;
+  g_autoptr (GeglBuffer) buffer = NULL;
+  GeglColor *checkerboard_color1 = NULL; /* TODO: use g_autoptr */
+  GeglColor *checkerboard_color2 = NULL; /* TODO: use g_autoptr */
+  GeglColor *path_fill = NULL; /* TODO: use g_autoptr */
+  GeglColor *path_stroke = NULL; /* TODO: use g_autoptr */
+  GeglNode *buffer_sink;
+  GeglNode *checkerboard;
+  GeglNode *convert_format;
+  GeglNode *crop;
+  GeglNode *over;
+  GeglNode *path;
+  GeglNode *translate;
+  g_autoptr (GeglNode) graph = NULL;
+  GeglPath *path_d = NULL; /* TODO: use g_autoptr */
+
+  {
+    g_autoptr (GError) error = NULL;
+    g_autoptr (GFileIOStream) iostream = NULL;
+
+    fixture->destination = g_file_new_tmp (PACKAGE_TARNAME "-destination-XXXXXX.png", &iostream, &error);
+    g_assert_no_error (error);
+  }
+
+  {
+    g_autoptr (GError) error = NULL;
+    g_autoptr (GFileIOStream) iostream = NULL;
+
+    fixture->source = g_file_new_tmp (PACKAGE_TARNAME "-source-XXXXXX.png", &iostream, &error);
+    g_assert_no_error (error);
+  }
+
   fixture->context = g_main_context_new ();
   g_main_context_push_thread_default (fixture->context);
   fixture->loop = g_main_loop_new (fixture->context, FALSE);
+
+  graph = gegl_node_new ();
+
+  checkerboard_color1 = gegl_color_new ("rgb(0.25, 0.25, 0.25)");
+  checkerboard_color2 = gegl_color_new ("rgb(0.75, 0.75, 0.75)");
+  checkerboard = gegl_node_new_child (graph,
+                                      "operation", "gegl:checkerboard",
+                                      "color1", checkerboard_color1,
+                                      "color2", checkerboard_color2,
+                                      "x", 5,
+                                      "y", 5,
+                                      NULL);
+
+  crop = gegl_node_new_child (graph,
+                              "operation", "gegl:crop",
+                              "height", 2000.0,
+                              "width", 640.0,
+                              NULL);
+
+  path_d = gegl_path_new_from_string ("M708,374.36218 "
+                                      "C0,46.94421 -38.0558,85 -85,85 "
+                                      "C-46.9442,0 -85,-38.05579 -85,-85 "
+                                      "C0,-46.9442 38.0558,-85 85,-85 "
+                                      "C46.9442,0 85,38.0558 85,85 "
+                                      "z");
+  path_fill = gegl_color_new ("#d3d7cf");
+  //path_stroke = gegl_color_new ("rgb(0.0, 0.6, 1.0)");
+  path = gegl_node_new_child (graph,
+                              "operation", "gegl:path",
+                              "d", path_d,
+                              "fill", path_fill,
+                              //"stroke", path_stroke,
+                              //"stroke-hardness", 1.0,
+                              //"stroke-width", 2.0,
+                              "transform", "translate(817,157)",
+                              NULL);
+
+  translate = gegl_node_new_child (graph, "operation", "gegl:nop", NULL);
+
+  over = gegl_node_new_child (graph, "operation", "svg:src-over", NULL);
+
+  format = babl_format ("R'G'B'A u8");
+  convert_format = gegl_node_new_child (graph, "operation", "gegl:convert-format", "format", format, NULL);
+
+  buffer_sink = gegl_node_new_child (graph, "operation", "gegl:buffer-sink", "buffer", &buffer, NULL);
+
+  gegl_node_link (path, translate);
+  gegl_node_connect_to (translate, "output", over, "aux");
+  gegl_node_link_many (checkerboard, crop, over, convert_format, buffer_sink, NULL);
+  gegl_node_process (buffer_sink);
+
+  fixture->buffer = g_object_ref (buffer);
+  photos_test_gegl_buffer_save_to_file (fixture->buffer, fixture->source);
+
+  fixture->format = gegl_buffer_get_format (fixture->buffer);
+  g_assert_true (fixture->format == format);
+
+  g_object_unref (checkerboard_color1);
+  g_object_unref (checkerboard_color2);
+  g_object_unref (path_fill);
+  g_object_unref (path_stroke);
+  g_object_unref (path_d);
 }
 
 
@@ -68,9 +188,18 @@ static void
 photos_test_gegl_buffer_teardown (PhotosTestGeglBufferFixture *fixture, gconstpointer user_data)
 {
   g_clear_object (&fixture->res);
+
+  g_file_delete (fixture->destination, NULL, NULL);
+  g_object_unref (fixture->destination);
+
+  g_file_delete (fixture->source, NULL, NULL);
+  g_object_unref (fixture->source);
+
   g_main_context_pop_thread_default (fixture->context);
   g_main_context_unref (fixture->context);
   g_main_loop_unref (fixture->loop);
+
+  g_object_unref (fixture->buffer);
 }
 
 
@@ -154,6 +283,13 @@ photos_test_gegl_buffer_loader_builder_defaults (void)
 }
 
 
+static void
+photos_test_gegl_buffer_new_from_file_0 (PhotosTestGeglBufferFixture *fixture, gconstpointer user_data)
+{
+  g_assert_not_reached ();
+}
+
+
 gint
 main (gint argc, gchar *argv[])
 {
@@ -168,6 +304,13 @@ main (gint argc, gchar *argv[])
 
   g_test_add_func ("/gegl/buffer/loader-builder", photos_test_gegl_buffer_loader_builder);
   g_test_add_func ("/gegl/buffer/loader-builder-defaults", photos_test_gegl_buffer_loader_builder_defaults);
+
+  g_test_add ("/gegl/buffer/new/from-file-0",
+              PhotosTestGeglBufferFixture,
+              NULL,
+              photos_test_gegl_buffer_setup,
+              photos_test_gegl_buffer_new_from_file_0,
+              photos_test_gegl_buffer_teardown);
 
   exit_status = g_test_run ();
 
