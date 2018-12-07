@@ -711,7 +711,7 @@ photos_gegl_pixbuf_new_from_buffer (GeglBuffer *buffer)
 
   bbox = *gegl_buffer_get_extent (buffer);
   format_buffer = gegl_buffer_get_format (buffer);
-  has_alpha = babl_format_has_alpha (format_buffer);
+  has_alpha = (gboolean) babl_format_has_alpha (format_buffer);
 
   if (has_alpha)
     format_pixbuf = babl_format ("R'G'B'A u8");
