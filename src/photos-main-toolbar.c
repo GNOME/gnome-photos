@@ -681,9 +681,9 @@ photos_main_toolbar_share_error_cb (PhotosMainToolbar          *self,
 static void
 photos_main_toolbar_init (PhotosMainToolbar *self)
 {
-  GMenu *selection_menu;
   GAction *action;
   GApplication *app;
+  GMenu *selection_menu;
   g_autoptr (GtkBuilder) builder = NULL;
   GtkStyleContext *context;
   PhotosSearchContextState *state;
