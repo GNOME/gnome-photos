@@ -196,15 +196,15 @@ Overview of changes in 3.27.90
 * Import from device (#29)
 
 * Bugs fixed:
- #6     Pre-select the exported file when opening the export directory with
+     #6 Pre-select the exported file when opening the export directory with
         Nautilus
- #7     Pre-select local files in a Flatpak-friendly way
- #43    Cancel or remove pending internal asynchronous operations or sources
+     #7 Pre-select local files in a Flatpak-friendly way
+    #43 Cancel or remove pending internal asynchronous operations or sources
         during destruction
- #44    Convert jobs API to async calls
- #65    Exporting a photo can create a directory with an initial space
- #77    Use g_auto*
- #85    Drop built-in implementation of shadows-highlights and use GEGL's
+    #44 Convert jobs API to async calls
+    #65 Exporting a photo can create a directory with an initial space
+    #77 Use g_auto*
+    #85 Drop built-in implementation of shadows-highlights and use GEGL's
  759413 Pre-select the file when opening a local source with Nautilus from
         Properties
  774297 Revamp empty states
