@@ -219,7 +219,6 @@ sources = common_sources + files(
   'photos-update-mtime-job.c',
   'photos-utils.c',
   'photos-view-container.c',
-  'photos-widget-shader.c',
   'photos-zoom-controls.c',
   'photos-main.c',
 )
