@@ -1,3 +1,15 @@
+Overview of changes in 3.31.3
+=============================
+
+* Bugs fixed:
+  !81 flatpak: Update the build flags for gexiv2
+  !84 tests: Test the GEGL utilities
+ #120 tracker-controller: Be direct when Tracker can't be found
+
+* Updated translations:
+ Spanish
+
+
 Overview of changes in 3.31.2
 =============================
 

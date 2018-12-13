@@ -1,5 +1,5 @@
 AC_INIT([Photos],
-        [3.31.2],
+        [3.31.3],
         [https://gitlab.gnome.org/GNOME/gnome-photos/issues],
         [gnome-photos],
         [https://wiki.gnome.org/Apps/Photos])
