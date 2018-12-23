@@ -99,7 +99,6 @@ photos_test_gegl_buffer_setup (PhotosTestGeglBufferFixture *fixture, gconstpoint
   GeglColor *checkerboard_color2 = NULL; /* TODO: use g_autoptr */
   GeglNode *buffer_sink;
   GeglNode *checkerboard;
-  GeglNode *convert_format;
   GeglNode *crop;
   GeglNode *tail;
   g_autoptr (GeglNode) graph = NULL;
@@ -307,8 +306,28 @@ photos_test_gegl_buffer_setup (PhotosTestGeglBufferFixture *fixture, gconstpoint
         1
       },
       {
-        "M299.717 80.245C300.345 80.426 302.551 81.55 303.801 83.2C303.801 83.2 310.601 94 305.401 75.6C305.401 75.6 296.201 46.8 305.001 58C305.001 58 311.001 65.2 307.801 51.6C303.936 35.173 301.401 28.8 301.401 28.8C301.401 28.8 313.001 33.6 286.201 -6L295.001 -2.4C295.001 -2.4 275.401 -42 253.801 -47.2L245.801 -53.2C245.801 -53.2 284.201 -91.2 271.401 -128C271.401 -128 264.601 -133.2 255.001 -124C255.001 -124 248.601 -119.2 242.601 -120.8C242.601 -120.8 211.801 -119.6 209.801 -119.6C207.801 -119.6 173.001 -156.8 107.401 -139.2C107.401 -139.2 102.201 -137.2 97.801 -138.4C97.801 -138.4 79.4 -154.4 30.6 -131.6C30.6 -131.6 20.6 -129.6 19 -129.6C17.4 -129.6 14.6 -129.6 6.6 -123.2C-1.4 -116.8 -1.8 -116 -3.8 -114.4C-3.8 -114.4 -20.2 -103.2 -25 -102.4C-25 -102.4 -36.6 -96 -41 -86L-44.6 -84.8C-44.6 -84.8 -46.2 -77.6 -46.6 -76.4C-46.6 -76.4 -51.4 -72.8 -52.2 -67.2C-52.2 -67.2 -61 -61.2 -60.6 -56.8C-60.6 -56.8 -62.2 -51.6 -63 -46.8C-63 -46.8 -70.2 -42 -69.4 -39.2C-69.4 -39.2 -77 -25.2 -75.8 -18.4C-75.8 -18.4 -82.2 -18.8 -85 -16.4C-85 -16.4 -85.8 -11.6 -87.4 -11.2C-87.4 -11.2 -90.2 -10 -87.8 -6C-87.8 -6 -89.4 -3.2 -89.8 -1.6C-89.8 -1.6 -89 1.2 -93.4 6.8C-93.4 6.8 -99.8 25.6 -97.8 30.8C-97.8 30.8 -97.4 35.6 -100.2 37.2C-100.2 37.2 -103.8 36.8 -95.4 48.8C-95.4 48.8 -94.6 50 -97.8 52.4 "
-        "C-97.8 52.4 -115 56 -117.4 72.4C-117.4 72.4 -131 87.2 -131 92.4C-131 94.705 -130.729 97.852 -130.03 102.465C-130.03 102.465 -130.6 110.801 -103 111.601C-75.4 112.401 299.717 80.245 299.717 80.245 "
+        "M299.717,80.245 "
+        "C300.345,80.426 302.551,81.55 303.801,83.2 "
+        "C303.801,83.2 310.601,94 305.401,75.6 "
+        "C305.401,75.6 296.201,46.8 305.001,58 "
+        "C305.001,58 311.001,65.2 307.801,51.6 "
+        "C303.936,35.173 301.401,28.8 301.401,28.8 "
+        "C301.401,28.8 313.001,33.6 286.201,-6 "
+        "L295.001,-2.4 "
+        "C295.001,-2.4 275.401,-42 253.801,-47.2 "
+        "L245.801,-53.2 "
+        "C245.801,-53.2 284.201,-91.2 271.401,-128 "
+        "C271.401,-128 264.601,-133.2 255.001,-124 "
+        "C255.001,-124 248.601,-119.2 242.601,-120.8 "
+        "C242.601 -120.8 211.801 -119.6 209.801 -119.6C207.801 -119.6 173.001 -156.8 107.401 -139.2C107.401 -139.2 102.201 -137.2 97.801 -138.4C97.801 -138.4 79.4 -154.4 30.6 -131.6C30.6 -131.6 20.6 -129.6 19 -129.6C17.4 -129.6 14.6 -129.6 6.6 -123.2C-1.4 -116.8 -1.8 -116 -3.8 -114.4C-3.8 -114.4 -20.2 -103.2 -25 -102.4C-25 -102.4 -36.6 -96 -41 -86L-44.6 -84.8C-44.6 -84.8 -46.2 -77.6 -46.6 -76.4C-46.6 -76.4 -51.4 -72.8 -52.2 -67.2C-52.2 -67.2 -61 -61.2 -60.6 -56.8C-60.6 -56.8 -62.2 -51.6 -63 -46.8C-63 -46.8 -70.2 -42 -69.4 -39.2C-69.4 -39.2 -77 -25.2 -75.8 -18.4C-75.8 -18.4 -82.2 -18.8 -85 -16.4C-85 -16.4 -85.8 -11.6 -87.4 -11.2C-87.4 -11.2 -90.2 -10 -87.8 -6C-87.8 -6 -89.4 -3.2 -89.8 -1.6C-89.8 -1.6 -89 1.2 -93.4 6.8C-93.4 6.8 -99.8 25.6 -97.8 30.8 "
+        "C-97.8,30.8 -97.4,35.6 -100.2,37.2 "
+        "C-100.2,37.2 -103.8,36.8 -95.4,48.8 "
+        "C-95.4,48.8 -94.6,50 -97.8,52.4 "
+        "C-97.8,52.4 -115,56 -117.4,72.4 "
+        "C-117.4,72.4 -131,87.2 -131,92.4 "
+        "C-131,94.705 -130.729,97.852 -130.03,102.465 "
+        "C-130.03,102.465 -130.6,110.801 -103,111.601 "
+        "C-75.4,112.401 299.717,80.245 299.717,80.245 "
         "z",
         "#cc7226",
         "#000000",
@@ -598,13 +617,13 @@ photos_test_gegl_buffer_setup (PhotosTestGeglBufferFixture *fixture, gconstpoint
       },
       {
         "M-18.2 244.801C-18.2 244.801 -5 242.001 1 245.201C1 245.201 7 246.401 8.2 246.001C9.4 245.601 12.6 245.201 12.6 245.201",
-        "#000000",
+        NULL,
         "#a5264c",
         2.0
       },
       {
         "M15.8 253.601C15.8 253.601 27.8 240.001 39.8 244.401C46.816 246.974 45.8 243.601 46.6 240.801C47.4 238.001 47.6 233.801 52.6 230.801",
-        "#000000",
+        NULL,
         "#a5264c",
         2.0
       },
@@ -618,14 +637,14 @@ photos_test_gegl_buffer_setup (PhotosTestGeglBufferFixture *fixture, gconstpoint
       {
         "M47,244.801 "
         "C47,244.801 50.6,242.401 53,243.601",
-        "#000000",
+        NULL,
         "#a5264c",
         2.0
       },
       {
         "M53.5,228.401 "
         "C53.5,228.401 56.4,223.501 61.2,222.701",
-        "#000000",
+        NULL,
         "#a5264c",
         2.0
       },
@@ -1934,28 +1953,28 @@ photos_test_gegl_buffer_setup (PhotosTestGeglBufferFixture *fixture, gconstpoint
       {
         "M-89.25,169 "
         "L-67.25,173.75",
-        "#000000",
+        NULL,
         "#000000",
         1.0
       },
       {
         "M-39,331 "
         "C-39,331 -39.5,327.5 -48.5,338",
-        "#000000",
+        NULL,
         "#000000",
         1.0
       },
       {
         "M-33.5,336 "
         "C-33.5,336 -31.5,329.5 -38,334",
-        "#000000",
+        NULL,
         "#000000",
         1.0
       },
       {
         "M20.5,344.5 "
         "C20.5,344.5 22,333.5 10.5,346.5",
-        "#000000",
+        NULL,
         "#000000",
         1.0
       }
@@ -1990,16 +2009,16 @@ photos_test_gegl_buffer_setup (PhotosTestGeglBufferFixture *fixture, gconstpoint
                                       "operation", "gegl:checkerboard",
                                       "color1", checkerboard_color1,
                                       "color2", checkerboard_color2,
-                                      "x", 5,
-                                      "y", 5,
+                                      "x", 25,
+                                      "y", 25,
                                       NULL);
 
   crop = gegl_node_new_child (graph,
                               "operation", "gegl:crop",
-                              "height", 640.0,
-                              "width", 640.0,
-                              "x", -180.0,
-                              "y", -180.0,
+                              "height", 600.0,
+                              "width", 600.0,
+                              "x", -200.0,
+                              "y", -200.0,
                               NULL);
 
   gegl_node_link (checkerboard, crop);
@@ -2007,41 +2026,62 @@ photos_test_gegl_buffer_setup (PhotosTestGeglBufferFixture *fixture, gconstpoint
 
   for (i = 0; i < G_N_ELEMENTS (paths); i++)
     {
-      GeglColor *fill = NULL; /* TODO: use g_autoptr */
-      GeglColor *stroke = NULL; /* TODO: use g_autoptr */
-      GeglNode *over;
-      GeglNode *path;
       GeglPath *d = NULL; /* TODO: use g_autoptr */
 
-      over = gegl_node_new_child (graph, "operation", "svg:src-over", NULL);
-
       d = gegl_path_new_from_string (paths[i].d);
-      fill = gegl_color_new (paths[i].fill);
-      stroke = gegl_color_new (paths[i].stroke);
-      path = gegl_node_new_child (graph,
-                                  "operation", "gegl:path",
-                                  "d", d,
-                                  "fill", fill,
-                                  "stroke", stroke,
-                                  "stroke-hardness", 1.0,
-                                  "stroke-width", paths[i].stroke_width,
-                                  NULL);
 
-      gegl_node_connect_to (path, "output", over, "aux");
-      gegl_node_link (tail, over);
-      tail = over;
+      if (paths[i].fill != NULL)
+        {
+          GeglColor *color = NULL; /* TODO: use g_autoptr */
+          GeglNode *fill_path;
+          GeglNode *over;
+
+          over = gegl_node_new_child (graph, "operation", "svg:src-over", NULL);
+
+          color = gegl_color_new (paths[i].fill);
+          fill_path = gegl_node_new_child (graph,
+                                           "operation", "gegl:fill-path",
+                                           "d", d,
+                                           "color", color,
+                                           NULL);
+
+          gegl_node_connect_to (fill_path, "output", over, "aux");
+          gegl_node_link (tail, over);
+          tail = over;
+
+          g_object_unref (color);
+        }
+
+      if (paths[i].stroke != NULL)
+        {
+          GeglColor *color = NULL; /* TODO: use g_autoptr */
+          GeglNode *vector_stroke;
+
+          color = gegl_color_new (paths[i].stroke);
+          vector_stroke = gegl_node_new_child (graph,
+                                               "operation", "gegl:vector-stroke",
+                                               "d", d,
+                                               "color", color,
+                                               "width", paths[i].stroke_width,
+                                               NULL);
+
+          gegl_node_link (tail, vector_stroke);
+          tail = vector_stroke;
+
+          g_object_unref (color);
+        }
 
       g_object_unref (d);
-      g_object_unref (fill);
-      g_object_unref (stroke);
     }
 
   format = babl_format ("R'G'B'A u8");
-  convert_format = gegl_node_new_child (graph, "operation", "gegl:convert-format", "format", format, NULL);
+  buffer_sink = gegl_node_new_child (graph,
+                                     "operation", "gegl:buffer-sink",
+                                     "buffer", &buffer,
+                                     "format", format,
+                                     NULL);
 
-  buffer_sink = gegl_node_new_child (graph, "operation", "gegl:buffer-sink", "buffer", &buffer, NULL);
-
-  gegl_node_link_many (tail, convert_format, buffer_sink, NULL);
+  gegl_node_link (tail, buffer_sink);
   gegl_node_process (buffer_sink);
 
   fixture->buffer = g_object_ref (buffer);
