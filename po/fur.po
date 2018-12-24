@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-06-15 10:15+0000\n"
-"PO-Revision-Date: 2018-06-24 13:47+0200\n"
+"POT-Creation-Date: 2018-12-11 11:23+0000\n"
+"PO-Revision-Date: 2018-12-24 13:41+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.2\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-application.c:3025 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotos"
 
@@ -125,11 +125,11 @@ msgstr "Barcon slargjât"
 msgid "Window maximized state"
 msgstr "Stât barcon slargjât"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:163
 msgid "Show the empty state"
 msgstr "Mostre il stât vueit"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:164
 msgid "Show the application's version"
 msgstr "Mostre la version de aplicazion"
 
@@ -142,7 +142,7 @@ msgstr "Mostre la version de aplicazion"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1389 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
@@ -151,7 +151,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2831
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Videadis"
 
@@ -180,39 +180,39 @@ msgstr "Dispositîfs visôrs DLNA"
 msgid "“%s” edited"
 msgstr "“%s” modificât"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Viodude colezion"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Album"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Preferîts"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Impuarte"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "Cîr"
 
-#: src/photos-empty-results-box.c:148
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "Nissun album cjatât"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Lis fotos preferidis a vignaran fûr chi"
 
-#: src/photos-empty-results-box.c:162
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "Nissune foto cjatade"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "Tu puedis creâ album de viodude Fotos"
 
@@ -220,7 +220,7 @@ msgstr "Tu puedis creâ album de viodude Fotos"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "Account online"
 
@@ -228,7 +228,7 @@ msgstr "Account online"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "Cartele imagjins"
 
@@ -237,12 +237,12 @@ msgstr "Cartele imagjins"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Lis fotos dai tiei %s e de %s a vignaran fûr achì."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Prove une ricercje diferente"
 
@@ -289,36 +289,36 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Daûr a calcolâ la dimension de esportazion…"
 
-#: src/photos-export-notification.c:334
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "Impussibil espuartâ: nol è vonde spazi"
 
-#: src/photos-export-notification.c:336
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "Impussibil espuartâ"
 
-#: src/photos-export-notification.c:343
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” espuartade"
 
-#: src/photos-export-notification.c:347
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d element espuartât"
 msgstr[1] "%d elements espuartâts"
 
-#: src/photos-export-notification.c:364
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "Analize"
 
-#: src/photos-export-notification.c:369
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Disvuede scovacere"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Vierç"
@@ -326,7 +326,7 @@ msgstr "Vierç"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:396
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Cartele dulà espuartâ"
 
@@ -334,7 +334,7 @@ msgstr "Cartele dulà espuartâ"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -503,6 +503,11 @@ msgstr "Lis tôs fotos a son stadis metudis in indiç"
 #: src/photos-indexing-notification.c:203
 msgid "Some photos might not be available during this process"
 msgstr "Cualchi foto e podarès no jessi disponibil dilunc chest procès"
+
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Orpo! Impussibil cjariâ “%s”"
 
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
@@ -888,27 +893,27 @@ msgstr "No si è rivâts a cjariâ in rêt la foto"
 msgid "Sources"
 msgstr "Sorzints"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "Cjatât un gnûf dispositîf"
 
-#: src/photos-source-notification.c:214
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Impuarte…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Lis tôs credenziâls di %s a son scjadudis"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Impostazions"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "Direzion D-Bus di doprâ"
 
@@ -1034,7 +1039,11 @@ msgstr "Tô citât"
 msgid "Filters"
 msgstr "Filtris"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Impussibil cjatâ Tracker sul sisteme operatîf"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Impussibil vê la liste das fotos"
 
