@@ -175,23 +175,14 @@
         },
         {
             "name": "exiv2",
+            "buildsystem": "cmake-ninja",
             "cleanup": [ "/bin" ],
+            "config-opts": [ "-DCMAKE_BUILD_TYPE=Release" ],
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://exiv2.org/builds/exiv2-0.26-trunk.tar.gz",
-                    "sha256": "c75e3c4a0811bf700d92c82319373b7a825a2331c12b8b37d41eb58e4f18eafb"
-                },
-                {
-                    "type": "patch",
-                    "path": "exiv2-no-builddir.patch"
-                },
-                {
-                    "type": "shell",
-                    "commands": [
-                        "cp -f /usr/share/gnu-config/config.sub ./config/",
-                        "cp -f /usr/share/gnu-config/config.guess ./config/"
-                    ]
+                    "url": "http://exiv2.org/builds/exiv2-0.27.0-Source.tar.gz",
+                    "sha256": "ee88bc81539b73c65010651785d094fad0b39760a424b3c16c17e1856cfef2d7"
                 }
             ]
         },
