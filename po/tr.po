@@ -5,14 +5,14 @@
 # Gökhan Gurbetoğlu <ggurbet@gmail.com>, 2013, 2014, 2015.
 # Muhammet Kara <muhammetk@gmail.com>, 2014, 2015, 2016.
 # Burak Kahraman <burakkaankhrmn@gmail.com>, 2018.
-# Emin Tufan Çetin <etcetin@gmail.com>, 2017, 2018.
+# Emin Tufan Çetin <etcetin@gmail.com>, 2017-2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-06-15 10:15+0000\n"
-"PO-Revision-Date: 2018-08-08 10:28+0300\n"
+"POT-Creation-Date: 2019-01-02 13:13+0000\n"
+"PO-Revision-Date: 2019-01-02 19:52+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -20,11 +20,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Gtranslator 3.30.1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-application.c:3025 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotoğraflar"
 
@@ -33,11 +34,6 @@ msgid "Access, organize and share your photos on GNOME"
 msgstr "GNOME üzerinde fotoğraflarınıza erişin, yönetin ve paylaşın"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
-#| msgid ""
-#| "A simple application to access, organize and share your photos on GNOME. "
-#| "It is meant to be a simple and elegant replacement for using a file "
-#| "manager to deal with photos. Seamless cloud integration is offered "
-#| "through GNOME Online Accounts."
 msgid ""
 "Access, organize and share your photos on GNOME. A simple and elegant "
 "replacement for using a file manager to deal with photos. Enhance, crop and "
@@ -61,7 +57,6 @@ msgid "View recent local and online photos"
 msgstr "Son yerel ve çevrim içi fotoğrafları görüntüleyin"
 
 #: data/org.gnome.Photos.appdata.xml.in:20
-#| msgid "Access your Facebook or Flickr content"
 msgid "Access your Facebook or Flickr pictures"
 msgstr "Facebook veya Flickr fotoğraflarınıza ulaşın"
 
@@ -73,7 +68,6 @@ msgstr ""
 "işleyicilerde görüntüleyin"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
-#| msgid "Set as background"
 msgid "Set pictures as your desktop background"
 msgstr "Fotoğrafları masaüstü arka planınız olarak ayarlayın"
 
@@ -86,7 +80,6 @@ msgid "Select favorites"
 msgstr "Gözdeleri seçin"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
-#| msgid "Allow opening full featured editor for more advanced changes"
 msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
@@ -136,11 +129,11 @@ msgstr "Pencere ekranı kapladı"
 msgid "Window maximized state"
 msgstr "Pencerenin ekranı kapladığı durum"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:163
 msgid "Show the empty state"
 msgstr "Boş durumu göster"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:164
 msgid "Show the application's version"
 msgstr "Uygulamanın sürümünü göster"
 
@@ -153,7 +146,7 @@ msgstr "Uygulamanın sürümünü göster"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1389 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
@@ -162,7 +155,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Albüm"
 
-#: src/photos-base-item.c:2831
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Ekran görüntüleri"
 
@@ -190,39 +183,39 @@ msgstr "DLNA Yorumlayıcı Aygıtları"
 msgid "“%s” edited"
 msgstr "“%s” düzenlendi"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Derlem Görünümü"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Albümler"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Gözdeler"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "İçe Aktar"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:316
 msgid "Search"
 msgstr "Ara"
 
-#: src/photos-empty-results-box.c:148
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "Hiç albüm bulunamadı"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Yıldızlı fotoğraflar burada görünecek"
 
-#: src/photos-empty-results-box.c:162
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "Hiç fotoğraf bulunamadı"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "Fotoğraflar görünümünden albümler oluşturabilirsiniz"
 
@@ -230,7 +223,7 @@ msgstr "Fotoğraflar görünümünden albümler oluşturabilirsiniz"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "Çevrim İçi Hesaplar"
 
@@ -238,7 +231,7 @@ msgstr "Çevrim İçi Hesaplar"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "Resimler klasörünüzdeki"
 
@@ -247,12 +240,12 @@ msgstr "Resimler klasörünüzdeki"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "%s ve %s fotoğraflar burada gözükecek."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Farklı bir arama deneyin"
 
@@ -299,35 +292,35 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Dışa aktarım boyutu hesaplanıyor…"
 
-#: src/photos-export-notification.c:334
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "Dışa aktarma başarısız oldu: yeterli boş alan yok"
 
-#: src/photos-export-notification.c:336
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "Dışa aktarma başarısız oldu"
 
-#: src/photos-export-notification.c:343
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” dışa aktarıldı"
 
-#: src/photos-export-notification.c:347
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d öge dışa aktarıldı"
 
-#: src/photos-export-notification.c:364
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "İncele"
 
-#: src/photos-export-notification.c:369
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Çöpü Boşalt"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Aç"
@@ -335,7 +328,7 @@ msgstr "Aç"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:396
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Dışa Aktarım Klasörü"
 
@@ -343,7 +336,7 @@ msgstr "Dışa Aktarım Klasörü"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -399,71 +392,78 @@ msgid "Select all"
 msgstr "Tümünü seç"
 
 #: src/photos-help-overlay.ui:106
+#| msgctxt "shortcut window"
+#| msgid "Print selected photos"
+msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Seçilen fotoğrafları dışa aktar"
+
+#: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Seçilen fotoğrafları yazdır"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Seçilen fotoğrafları sil"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Fotoğraf görünümü"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Düzenle"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Dışa Aktar"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Yazdır"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Yakınlaştır"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Uzaklaştır"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "En iyi sığan"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Sil"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Eylem menüsü"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Tam ekran"
 
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Düzenleme görünümü"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "İptal"
@@ -512,6 +512,11 @@ msgstr "Fotoğraflarınız dizine ekleniyor"
 #: src/photos-indexing-notification.c:203
 msgid "Some photos might not be available during this process"
 msgstr "Bazı fotoğraflar bu işlem sırasında kullanım dışı olabilir"
+
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Ahh! “%s” yüklenemedi"
 
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
@@ -570,9 +575,6 @@ msgid "_Select"
 msgstr "_Seç"
 
 #: src/photos-main-window.c:458
-#| msgid ""
-#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
-#| "Copyright © 2015 – 2017 Umang Jain"
 msgid ""
 "Copyright © 2012 – 2018 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
@@ -900,27 +902,27 @@ msgstr "Fotoğrafı yükleme başarısız oldu"
 msgid "Sources"
 msgstr "Kaynaklar"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "Yeni aygıt bulundu"
 
-#: src/photos-source-notification.c:214
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "İçe Aktar…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "%s kimliğinizin süresi dolmuş"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "Kullanılacak D-Bus adresi"
 
@@ -1046,7 +1048,11 @@ msgstr "Memleket"
 msgid "Filters"
 msgstr "Süzgeçler"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "İşletim sisteminizde Tracker bulunamadı"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Fotoğrafların listesi alınamıyor"
 
