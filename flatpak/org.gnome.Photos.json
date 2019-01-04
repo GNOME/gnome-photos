@@ -154,15 +154,11 @@
                 {
                     "type": "archive",
                     "url": "https://www.libraw.org/data/LibRaw-0.19.2.tar.gz",
-                    "sha256": "63a0a7088206f4083039c8a6bcacdfd0d739854205c4821475e314821d13bddb"
+                    "sha256": "400d47969292291d297873a06fb0535ccce70728117463927ddd9452aa849644"
                 },
                 {
                     "type": "patch",
                     "path": "libraw-pkgconfig.patch"
-                },
-                {
-                    "type": "shell",
-                    "commands": [ "autoreconf --force --install --verbose" ]
                 }
             ]
         },
