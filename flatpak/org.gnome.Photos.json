@@ -148,7 +148,12 @@
         },
         {
             "name": "libraw",
-            "config-opts": [ "--disable-examples", "--disable-static" ],
+            "config-opts": [ "--disable-examples",
+                             "--disable-jasper",
+                             "--disable-static",
+                             "--enable-jpeg",
+                             "--enable-lcms",
+                             "--enable-openmp" ],
             "cleanup": [ "/share/doc" ],
             "sources": [
                 {
