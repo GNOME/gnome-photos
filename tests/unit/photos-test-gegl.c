@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2018 Red Hat, Inc.
+ * Copyright © 2018 – 2019 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -100,7 +100,6 @@ photos_test_gegl_setup (PhotosTestGeglFixture *fixture, const Babl *format, gdou
   GeglColor *path_stroke = NULL; /* TODO: use g_autoptr */
   GeglNode *buffer_sink;
   GeglNode *checkerboard;
-  GeglNode *convert_format;
   GeglNode *crop;
   GeglNode *over;
   GeglNode *path;
@@ -185,13 +184,15 @@ photos_test_gegl_setup (PhotosTestGeglFixture *fixture, const Babl *format, gdou
 
   over = gegl_node_new_child (graph, "operation", "svg:src-over", NULL);
 
-  convert_format = gegl_node_new_child (graph, "operation", "gegl:convert-format", "format", format, NULL);
-
-  buffer_sink = gegl_node_new_child (graph, "operation", "gegl:buffer-sink", "buffer", &buffer, NULL);
+  buffer_sink = gegl_node_new_child (graph,
+                                     "operation", "gegl:buffer-sink",
+                                     "buffer", &buffer,
+                                     "format", format,
+                                     NULL);
 
   gegl_node_link (path, translate);
   gegl_node_connect_to (translate, "output", over, "aux");
-  gegl_node_link_many (checkerboard, crop, over, convert_format, buffer_sink, NULL);
+  gegl_node_link_many (checkerboard, crop, over, buffer_sink, NULL);
   gegl_node_process (buffer_sink);
 
   fixture->buffer = g_object_ref (buffer);
