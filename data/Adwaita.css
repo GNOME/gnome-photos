@@ -45,3 +45,9 @@ GdMainIconView.content-view.cell:active {
     background-color: @photos_collection_bg;
     border-radius: 8px;
 }
+
+button.photos-tool-filter-button:checked {
+    background: @theme_selected_bg_color;
+    color: @theme_selected_fg_color;
+    icon-shadow: 0 3px 3px shade(@theme_selected_bg_color,0.7);
+}
