@@ -26,7 +26,6 @@
 #include "photos-application.h"
 #include "photos-tool-filter-button.h"
 #include "photos-utils.h"
-#include "photos-widget-shader.h"
 
 
 struct _PhotosToolFilterButton
@@ -106,8 +105,8 @@ photos_tool_filter_button_constructed (GObject *object)
   PhotosToolFilterButton *self = PHOTOS_TOOL_FILTER_BUTTON (object);
   GApplication *app;
   g_autoptr (GdkPixbuf) preview_icon = NULL;
+  GtkStyleContext *context;
   GtkWidget *image;
-  PhotosWidgetShader *shader;
   cairo_surface_t *preview_icon_surface = NULL; /* TODO: use g_autoptr */
   gint scale;
 
@@ -121,7 +120,6 @@ photos_tool_filter_button_constructed (GObject *object)
 
   image = gtk_image_new_from_surface (preview_icon_surface);
   gtk_container_add (GTK_CONTAINER (self->overlay), image);
-  shader = photos_widget_shader_new (image);
   gtk_widget_show (image);
 
   self->button = gtk_radio_button_new_with_label_from_widget (self->group, self->label);
@@ -130,8 +128,9 @@ photos_tool_filter_button_constructed (GObject *object)
   gtk_button_set_image_position (GTK_BUTTON (self->button), GTK_POS_TOP);
   gtk_button_set_relief (GTK_BUTTON (self->button), GTK_RELIEF_NONE);
   gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (self->button), FALSE);
+  context = gtk_widget_get_style_context (self->button);
+  gtk_style_context_add_class (context, "photos-filter-preview");
   gtk_container_add (GTK_CONTAINER (self), self->button);
-  g_object_bind_property (self->button, "active", shader, "active", G_BINDING_SYNC_CREATE);
   g_signal_connect_swapped (self->button, "toggled", G_CALLBACK (photos_tool_filter_button_toggled), self);
   photos_tool_filter_button_toggled (self);
 
@@ -303,7 +302,6 @@ photos_tool_filter_button_set_active (PhotosToolFilterButton *self, gboolean is_
 void
 photos_tool_filter_button_set_image (PhotosToolFilterButton *self, GtkWidget *image)
 {
-  PhotosWidgetShader *shader;
   GtkWidget *old_image;
 
   old_image = gtk_bin_get_child (GTK_BIN (self->overlay));
@@ -312,7 +310,5 @@ photos_tool_filter_button_set_image (PhotosToolFilterButton *self, GtkWidget *im
 
   gtk_widget_destroy (old_image);
   gtk_container_add (GTK_CONTAINER (self->overlay), image);
-  shader = photos_widget_shader_new (image);
-  g_object_bind_property (self->button, "active", shader, "active", G_BINDING_SYNC_CREATE);
   gtk_widget_show (image);
 }
