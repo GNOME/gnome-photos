@@ -105,6 +105,7 @@ photos_tool_filter_button_constructed (GObject *object)
   PhotosToolFilterButton *self = PHOTOS_TOOL_FILTER_BUTTON (object);
   GApplication *app;
   g_autoptr (GdkPixbuf) preview_icon = NULL;
+  GtkStyleContext *context;
   GtkWidget *image;
   cairo_surface_t *preview_icon_surface = NULL; /* TODO: use g_autoptr */
   gint scale;
@@ -127,6 +128,8 @@ photos_tool_filter_button_constructed (GObject *object)
   gtk_button_set_image_position (GTK_BUTTON (self->button), GTK_POS_TOP);
   gtk_button_set_relief (GTK_BUTTON (self->button), GTK_RELIEF_NONE);
   gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (self->button), FALSE);
+  context = gtk_widget_get_style_context (self->button);
+  gtk_style_context_add_class (context, "photos-tool-filter-button");
   gtk_container_add (GTK_CONTAINER (self), self->button);
   g_signal_connect_swapped (self->button, "toggled", G_CALLBACK (photos_tool_filter_button_toggled), self);
   photos_tool_filter_button_toggled (self);
