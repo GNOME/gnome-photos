@@ -91,6 +91,7 @@ struct _PhotosApplication
   GSimpleAction *edit_done_action;
   GSimpleAction *edit_revert_action;
   GSimpleAction *fs_action;
+  GSimpleAction *primary_menu_action;
   GSimpleAction *gear_action;
   GSimpleAction *import_action;
   GSimpleAction *import_cancel_action;
@@ -506,6 +507,7 @@ photos_application_actions_update (PhotosApplication *self)
   g_simple_action_set_enabled (self->sel_all_action, enable);
   g_simple_action_set_enabled (self->sel_none_action, enable);
   g_simple_action_set_enabled (self->selection_mode_action, enable);
+  g_simple_action_set_enabled (self->primary_menu_action, enable);
 
   enable = (mode == PHOTOS_WINDOW_MODE_IMPORT);
   g_simple_action_set_enabled (self->import_cancel_action, enable);
@@ -2722,6 +2724,10 @@ photos_application_startup (GApplication *application)
   self->gear_action = g_simple_action_new_stateful ("gear-menu", NULL, state);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->gear_action));
 
+  state = g_variant_new ("b", FALSE);
+  self->primary_menu_action = g_simple_action_new_stateful ("primary-menu", NULL, state);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->primary_menu_action));
+
   self->import_action = g_simple_action_new ("import-current", NULL);
   g_signal_connect_swapped (self->import_action, "activate", G_CALLBACK (photos_application_import), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (self->import_action));
@@ -2870,6 +2876,7 @@ photos_application_startup (GApplication *application)
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.edit-current", edit_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.fullscreen", fullscreen_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.gear-menu", gear_menu_accels);
+  gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.primary-menu", gear_menu_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.help", help_menu_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.print-current", print_current_accels);
   gtk_application_set_accels_for_action (GTK_APPLICATION (self), "app.save-current", save_accels);
@@ -2955,6 +2962,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->edit_done_action);
   g_clear_object (&self->edit_revert_action);
   g_clear_object (&self->fs_action);
+  g_clear_object (&self->primary_menu_action);
   g_clear_object (&self->gear_action);
   g_clear_object (&self->import_action);
   g_clear_object (&self->import_cancel_action);
