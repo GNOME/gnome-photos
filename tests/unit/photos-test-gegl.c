@@ -101,9 +101,7 @@ photos_test_gegl_setup (PhotosTestGeglFixture *fixture, const Babl *format, gdou
   GeglNode *buffer_sink;
   GeglNode *checkerboard;
   GeglNode *crop;
-  GeglNode *over;
   GeglNode *path;
-  GeglNode *translate;
   g_autoptr (GeglNode) graph = NULL;
   GeglPath *path_d = NULL; /* TODO: use g_autoptr */
 
@@ -178,11 +176,8 @@ photos_test_gegl_setup (PhotosTestGeglFixture *fixture, const Babl *format, gdou
                               "stroke", path_stroke,
                               "stroke-hardness", 1.0,
                               "stroke-width", 2.0,
+                              "transform", "translate (40.0, 40.0)",
                               NULL);
-
-  translate = gegl_node_new_child (graph, "operation", "gegl:translate", "x", 40.0, "y", 40.0, NULL);
-
-  over = gegl_node_new_child (graph, "operation", "svg:src-over", NULL);
 
   buffer_sink = gegl_node_new_child (graph,
                                      "operation", "gegl:buffer-sink",
@@ -190,9 +185,7 @@ photos_test_gegl_setup (PhotosTestGeglFixture *fixture, const Babl *format, gdou
                                      "format", format,
                                      NULL);
 
-  gegl_node_link (path, translate);
-  gegl_node_connect_to (translate, "output", over, "aux");
-  gegl_node_link_many (checkerboard, crop, over, buffer_sink, NULL);
+  gegl_node_link_many (checkerboard, crop, path, buffer_sink, NULL);
   gegl_node_process (buffer_sink);
 
   fixture->buffer = g_object_ref (buffer);
@@ -219,7 +212,7 @@ photos_test_gegl_setup_no_alpha_even_dimensions (PhotosTestGeglFixture *fixture,
   photos_test_gegl_setup (fixture, format, 200.0, 200.0);
 
   checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer);
-  g_assert_cmpstr (checksum, ==, "7d29086e1be9919e93cc13539cbe270e82432333b953c5f444114746df7358cb");
+  g_assert_cmpstr (checksum, ==, "f3f8ea1b6680da7dbf08ecf5ba76da6f4ece29b48bcdeaab2be808f8a09c874f");
 }
 
 
@@ -233,7 +226,7 @@ photos_test_gegl_setup_no_alpha_odd_dimensions (PhotosTestGeglFixture *fixture, 
   photos_test_gegl_setup (fixture, format, 195.0, 195.0);
 
   checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer);
-  g_assert_cmpstr (checksum, ==, "fd03ef9089a1e485f7674765a2ce73c0ade54f3c0071dec9884c6b50f7891539");
+  g_assert_cmpstr (checksum, ==, "e031a5cab0e7a3794e34a91859618c93c8fdd1babd1fedf39f10f9585b0b5fa8");
 }
 
 
@@ -247,7 +240,7 @@ photos_test_gegl_setup_with_alpha_even_dimensions (PhotosTestGeglFixture *fixtur
   photos_test_gegl_setup (fixture, format, 200.0, 200.0);
 
   checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer);
-  g_assert_cmpstr (checksum, ==, "4eaa696bb0758b890cb4764a96eb6f88f7c7a0f7ca8042f381381fc9ffdac19b");
+  g_assert_cmpstr (checksum, ==, "2b759cc636f78ff70ef197b9b9495214f9e8de6b3743175f25186c24d9caed5f");
 }
 
 
@@ -261,7 +254,7 @@ photos_test_gegl_setup_with_alpha_odd_dimensions (PhotosTestGeglFixture *fixture
   photos_test_gegl_setup (fixture, format, 195.0, 195.0);
 
   checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer);
-  g_assert_cmpstr (checksum, ==, "fb42e2fcd0959a73e7bce22f3a549c03406598a745e7f5bb7feaa38e836fd7a1");
+  g_assert_cmpstr (checksum, ==, "a9e40c84633473fb2168bcb7424bf1d294d886d61c42139a9d787510c4be31ea");
 }
 
 
@@ -444,7 +437,7 @@ photos_test_gegl_buffer_apply_orientation_bottom_0 (PhotosTestGeglFixture *fixtu
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_BOTTOM,
-                                             "ae8c52d296cec87c2f396c83c46a473d3e46d116705883122c02c6bd4d56946c");
+                                             "cef0b22992ab6a348c0872e273623efaf47eeea74a8e76693a0edff6fc580693");
 }
 
 
@@ -453,7 +446,7 @@ photos_test_gegl_buffer_apply_orientation_bottom_1 (PhotosTestGeglFixture *fixtu
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_BOTTOM,
-                                             "f4372b5399d4e8c56a56c17be1c6685fe968ad596b87d2426f86801cabd2035e");
+                                             "acdc7ea47099b330f9989ec59509ead990009697ce166ed11ad7dfdc95b2b5b6");
 }
 
 
@@ -462,7 +455,7 @@ photos_test_gegl_buffer_apply_orientation_bottom_2 (PhotosTestGeglFixture *fixtu
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_BOTTOM,
-                                             "0497b2a1ff9aa9f6e7aa526b55157133d01331a0869602a4d4cc1f7a7bef420e");
+                                             "90688f78ab46bf06e5152614d2c7fa70bb3ad25a9acd668cc6050e0e30874d4e");
 }
 
 
@@ -471,7 +464,7 @@ photos_test_gegl_buffer_apply_orientation_bottom_3 (PhotosTestGeglFixture *fixtu
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_BOTTOM,
-                                             "3d48c4f33015c4d0a0cbb9d360d3d2e9b76469ea103fc848fe87e2c924e9fac6");
+                                             "449e604a78535ccf73ed461d95fd4060a528d2f5ed391fce0ced4acd25d2ec0d");
 }
 
 
@@ -480,7 +473,7 @@ photos_test_gegl_buffer_apply_orientation_bottom_mirror_0 (PhotosTestGeglFixture
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_BOTTOM_MIRROR,
-                                             "6a212bc4309c26059d13b8faba6c0b545986b30f6d87fca459822aa8f3fcf5bf");
+                                             "a438c34fecd20aa65f82515deda6b0c31d2d38f867bb901414898d41d427dba7");
 }
 
 
@@ -489,7 +482,7 @@ photos_test_gegl_buffer_apply_orientation_bottom_mirror_1 (PhotosTestGeglFixture
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_BOTTOM_MIRROR,
-                                             "558189b007b961672db1cc68c3dd6a0f0eebc8a10dac64faf20052c955dd7452");
+                                             "b775b9b00c61a84f93a36058658f4d4eefb89399ab1863f2c47f75d1887a78d4");
 }
 
 
@@ -498,7 +491,7 @@ photos_test_gegl_buffer_apply_orientation_bottom_mirror_2 (PhotosTestGeglFixture
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_BOTTOM_MIRROR,
-                                             "13fda7c43a734c14a0bde04bf7f02439ffeea3ae96df83257c61d26a162413dc");
+                                             "5e81b8d2b1b1cc52cb641953fa3397b5ba69b6b87421fe1d53cb3550af9b88de");
 }
 
 
@@ -507,7 +500,7 @@ photos_test_gegl_buffer_apply_orientation_bottom_mirror_3 (PhotosTestGeglFixture
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_BOTTOM_MIRROR,
-                                             "4f0baf15c92979db451114f0a8ed7cd5f420bd5cd78fc608454f05d6d18fef22");
+                                             "f4b0abfd0db8ec93d9134f9aca49a6de8f1deda9bd5fca9313bca2f817d44261");
 }
 
 
@@ -516,7 +509,7 @@ photos_test_gegl_buffer_apply_orientation_left_0 (PhotosTestGeglFixture *fixture
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_LEFT,
-                                             "b68f750a272f91e2ef3a0e154008f4f4b4f631436ac69fc8dc8bdcd4975d9f6d");
+                                             "59f410566e750fc926f5c2a43154f5ddd2de78df3079cff4bacfa5fb53865876");
 }
 
 
@@ -525,7 +518,7 @@ photos_test_gegl_buffer_apply_orientation_left_1 (PhotosTestGeglFixture *fixture
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_LEFT,
-                                             "693626691a06a16114a0d54d2ddfe297a935e7a3dc40e5a577926243c0751c95");
+                                             "2c103e3d285c9f774350d4a01917b9b6bf50f9caa9ef6e2294cfc9abb817be10");
 }
 
 
@@ -534,7 +527,7 @@ photos_test_gegl_buffer_apply_orientation_left_2 (PhotosTestGeglFixture *fixture
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_LEFT,
-                                             "45a8e2c222c6f74b9d784b7bb521f871f8badb6ecd5e185505a8ed701505af11");
+                                             "ca4d2a966ee770b4086cd1bee0d18d11775ee842b1a7d4df4e7c86bece46ac4d");
 }
 
 
@@ -543,7 +536,7 @@ photos_test_gegl_buffer_apply_orientation_left_3 (PhotosTestGeglFixture *fixture
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_LEFT,
-                                             "d01f6c2acef43a97892aca978e20ba2bc51eff270b5eb8afed7c7bb9688ac0f0");
+                                             "d987a0a1387b7e656c060aa8c881e10cc0af18f8ec6628fc123c9d3f2b21bf4a");
 }
 
 
@@ -552,7 +545,7 @@ photos_test_gegl_buffer_apply_orientation_left_mirror_0 (PhotosTestGeglFixture *
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_LEFT_MIRROR,
-                                             "3d1de5d101c44a3c3da37fcd257551c74217e5a5db2b98b5bbb041f5a0f645c7");
+                                             "7b0c871b8da3ff7bc6667681b81fd3cccaebd1ea1c1bf6f2ac3169bc8d27824a");
 }
 
 
@@ -561,7 +554,7 @@ photos_test_gegl_buffer_apply_orientation_left_mirror_1 (PhotosTestGeglFixture *
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_LEFT_MIRROR,
-                                             "546c4c885f7d0f03472dcee2a535af153cc560c7c9055aedcba0331a489cfea3");
+                                             "f06a564ce9ec17ca6be2f12f3405a0f315e74d0e8710d2b695d49e31af1acaec");
 }
 
 
@@ -570,7 +563,7 @@ photos_test_gegl_buffer_apply_orientation_left_mirror_2 (PhotosTestGeglFixture *
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_LEFT_MIRROR,
-                                             "2459ca11c8d9e851ce161f1d0d61d9cbe7279d54585b42b71949eb3031faab20");
+                                             "b59c54a7ef2ff72a21777e8e17e4cb00a4a9b75f3246fe448d0e198486b595da");
 }
 
 
@@ -579,7 +572,7 @@ photos_test_gegl_buffer_apply_orientation_left_mirror_3 (PhotosTestGeglFixture *
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_LEFT_MIRROR,
-                                             "1e6697c518615474b68f16620ccab1c0cbd3c719e38d18ddbd34034734913963");
+                                             "861c54e46b0269c5647b39143f2c1a0cce5602a206cbffd7c40afd1047e82900");
 }
 
 
@@ -588,7 +581,7 @@ photos_test_gegl_buffer_apply_orientation_right_0 (PhotosTestGeglFixture *fixtur
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_RIGHT,
-                                             "1b76f6c70f7119730f201bc6b103be09a389ee86443d2eabf84f9627c6640278");
+                                             "9a951b3dec1094f95bc2decb30ff10adbcef428fa4e558ff79486423cc134d94");
 }
 
 
@@ -597,7 +590,7 @@ photos_test_gegl_buffer_apply_orientation_right_1 (PhotosTestGeglFixture *fixtur
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_RIGHT,
-                                             "8e42df2e236d2cea30bd65a39e32a24dbd8379312245aac76773d45f775e515e");
+                                             "32c126ebd027e06d7c457c2908b5494c1ec86959d86ff74c2905701b40db3202");
 }
 
 
@@ -606,7 +599,7 @@ photos_test_gegl_buffer_apply_orientation_right_2 (PhotosTestGeglFixture *fixtur
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_RIGHT,
-                                             "20b01f6e841a06ec8445c6446db4abe5ad65a3497044c5f5fcf3bcac1e4cc80a");
+                                             "116187d941c7456952f96907c6b11cbf7a52dbcd8dfa084838deb66e45a6abf2");
 }
 
 
@@ -615,7 +608,7 @@ photos_test_gegl_buffer_apply_orientation_right_3 (PhotosTestGeglFixture *fixtur
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_RIGHT,
-                                             "d52e677a3239e361c3811fdc6ccc709d0dea58378afea9c9ccebe087e7d6f7f9");
+                                             "fb7d1b4e4617dfae6a01d5f008c3459bdfad3d1f8eaa9969dc8e66025af0d91e");
 }
 
 
@@ -624,7 +617,7 @@ photos_test_gegl_buffer_apply_orientation_right_mirror_0 (PhotosTestGeglFixture 
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_RIGHT_MIRROR,
-                                             "6ecbe1cf2b42ddee48ca1aaeef363f7df045fa32f528ccc89221f240e0f5d236");
+                                             "44d05e57860c7778c61b8781b42a6ed4b1da260d7026a2123563706cdf61702a");
 }
 
 
@@ -633,7 +626,7 @@ photos_test_gegl_buffer_apply_orientation_right_mirror_1 (PhotosTestGeglFixture 
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_RIGHT_MIRROR,
-                                             "5334cda92e746043e970ea7bb207254544cbe447daf585f990fe7cd13c15f624");
+                                             "70dc3694c576e9fc4c63a33cc1a51afe59a52fbe0bd36b6671e909d7b5ddf124");
 }
 
 
@@ -642,7 +635,7 @@ photos_test_gegl_buffer_apply_orientation_right_mirror_2 (PhotosTestGeglFixture 
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_RIGHT_MIRROR,
-                                             "9f2e6fe50c65cdcd4a1268dfba9f3102206549f6cd6c8a37d74d374ba8451445");
+                                             "6e7130188741822803c6c3c36ad36221c16033b94ec2b4540830ce1dc7f8372b");
 }
 
 
@@ -651,7 +644,7 @@ photos_test_gegl_buffer_apply_orientation_right_mirror_3 (PhotosTestGeglFixture 
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_RIGHT_MIRROR,
-                                             "ba36edfcc9931a643b79ab1b4b5559e7c53c3de996c4c4c8dd92b17b92bc2d7c");
+                                             "adbf01e7f0290cf20cd07b70197b379ad52aff4141f881ceb686aa3c0a3162f1");
 }
 
 
@@ -660,7 +653,7 @@ photos_test_gegl_buffer_apply_orientation_top_0 (PhotosTestGeglFixture *fixture,
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_TOP,
-                                             "7d29086e1be9919e93cc13539cbe270e82432333b953c5f444114746df7358cb");
+                                             "f3f8ea1b6680da7dbf08ecf5ba76da6f4ece29b48bcdeaab2be808f8a09c874f");
 }
 
 
@@ -669,7 +662,7 @@ photos_test_gegl_buffer_apply_orientation_top_1 (PhotosTestGeglFixture *fixture,
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_TOP,
-                                             "fd03ef9089a1e485f7674765a2ce73c0ade54f3c0071dec9884c6b50f7891539");
+                                             "e031a5cab0e7a3794e34a91859618c93c8fdd1babd1fedf39f10f9585b0b5fa8");
 }
 
 
@@ -678,7 +671,7 @@ photos_test_gegl_buffer_apply_orientation_top_2 (PhotosTestGeglFixture *fixture,
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_TOP,
-                                             "4eaa696bb0758b890cb4764a96eb6f88f7c7a0f7ca8042f381381fc9ffdac19b");
+                                             "2b759cc636f78ff70ef197b9b9495214f9e8de6b3743175f25186c24d9caed5f");
 }
 
 
@@ -687,7 +680,7 @@ photos_test_gegl_buffer_apply_orientation_top_3 (PhotosTestGeglFixture *fixture,
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_TOP,
-                                             "fb42e2fcd0959a73e7bce22f3a549c03406598a745e7f5bb7feaa38e836fd7a1");
+                                             "a9e40c84633473fb2168bcb7424bf1d294d886d61c42139a9d787510c4be31ea");
 }
 
 
@@ -696,7 +689,7 @@ photos_test_gegl_buffer_apply_orientation_top_mirror_0 (PhotosTestGeglFixture *f
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_TOP_MIRROR,
-                                             "2d96c1e1249adfad6c9becc857d5cdd2a2358b31d191428610c764d8427c868f");
+                                             "2a518907c86e4edc21e8dc3f5248d6766ca84761ea4024031264d8d0bd60ba65");
 }
 
 
@@ -705,7 +698,7 @@ photos_test_gegl_buffer_apply_orientation_top_mirror_1 (PhotosTestGeglFixture *f
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_TOP_MIRROR,
-                                             "955a53bbf71c1282639784103cc4b290005c79571740b44b31c26d5b94f3c0d7");
+                                             "6477df1bb3c47ad79faa2e7a8398d462eee3c09141593d06bcff35c53beba702");
 }
 
 
@@ -714,7 +707,7 @@ photos_test_gegl_buffer_apply_orientation_top_mirror_2 (PhotosTestGeglFixture *f
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_TOP_MIRROR,
-                                             "c3bdf8f600308a9dc0f9d4ba040df3978bdd1ec95350edc18059ac130ad4c8e9");
+                                             "88e5059c2d65f75a9b21e52cd35906865c84c0645321a59b7c86406e51a72d82");
 }
 
 
@@ -723,7 +716,7 @@ photos_test_gegl_buffer_apply_orientation_top_mirror_3 (PhotosTestGeglFixture *f
 {
   photos_test_gegl_buffer_check_orientation (fixture,
                                              PHOTOS_ORIENTATION_TOP_MIRROR,
-                                             "381f2e004c5e5d0a2b22e014cda830cbb6007118dd5aaea2e812705d086f89d0");
+                                             "9d5e5a3efe72f3560abe93e2ab14633548c6500274566d37e3a2745b7b9e2b02");
 }
 
 
@@ -732,7 +725,7 @@ photos_test_gegl_buffer_zoom_in_0 (PhotosTestGeglFixture *fixture, gconstpointer
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       1.4,
-                                      "104c92c9461528a7391abe6312523a86a3eb2b7be2036261af8888ace6d7ae4c");
+                                      "12d60499ebbf9533040792debe28c8bcdebb5ac6b26e2864b26347f42fade116");
 }
 
 
@@ -741,7 +734,7 @@ photos_test_gegl_buffer_zoom_in_1 (PhotosTestGeglFixture *fixture, gconstpointer
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       4.0,
-                                      "824f440437cec0375f16cfded616c93c25a804b4e7b8ce113d8e88176e58e752");
+                                      "f8a0d6eb8c2fdc3f5592f39beaea9477aaf33760e5985a092c99bbb02e735c21");
 }
 
 
@@ -750,7 +743,7 @@ photos_test_gegl_buffer_zoom_nop (PhotosTestGeglFixture *fixture, gconstpointer 
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       1.0,
-                                      "4eaa696bb0758b890cb4764a96eb6f88f7c7a0f7ca8042f381381fc9ffdac19b");
+                                      "2b759cc636f78ff70ef197b9b9495214f9e8de6b3743175f25186c24d9caed5f");
 }
 
 
@@ -759,7 +752,7 @@ photos_test_gegl_buffer_zoom_out_0 (PhotosTestGeglFixture *fixture, gconstpointe
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       0.6,
-                                      "290d10b98a54c3dcee88f08dfd9f5bd485c1d371434250b57b6a042a84250cb0");
+                                      "d8c9c2c09079e0064f0633a2e05ed3ddce4f00cda3991b87d8cd79cccf319f6d");
 }
 
 
@@ -768,7 +761,7 @@ photos_test_gegl_buffer_zoom_out_1 (PhotosTestGeglFixture *fixture, gconstpointe
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       0.25,
-                                      "d4b5e8504e9e8ae74815dfa52e5086c6e60c36993bfba59bded2c86740f4b6c6");
+                                      "82cfa8a533f8800bd213e47fd52593a8f3b78de2bcd4d9b28084cb7825e50e23");
 }
 
 
@@ -777,8 +770,8 @@ photos_test_gegl_legacy_convert_between_buffer_pixbuf_0 (PhotosTestGeglFixture *
 {
   photos_test_gegl_buffer_check_conversion (fixture,
                                             FALSE,
-                                            "7d29086e1be9919e93cc13539cbe270e82432333b953c5f444114746df7358cb",
-                                            "7d29086e1be9919e93cc13539cbe270e82432333b953c5f444114746df7358cb");
+                                            "f3f8ea1b6680da7dbf08ecf5ba76da6f4ece29b48bcdeaab2be808f8a09c874f",
+                                            "f3f8ea1b6680da7dbf08ecf5ba76da6f4ece29b48bcdeaab2be808f8a09c874f");
 }
 
 
@@ -787,8 +780,8 @@ photos_test_gegl_legacy_convert_between_buffer_pixbuf_1 (PhotosTestGeglFixture *
 {
   photos_test_gegl_buffer_check_conversion (fixture,
                                             FALSE,
-                                            "932a094d0b987c06dbb496d86d52dc743122685507ed57e3c25e17a2e5952d93",
-                                            "fd03ef9089a1e485f7674765a2ce73c0ade54f3c0071dec9884c6b50f7891539");
+                                            "bac358627643173f32bf2a7c2740fcaa8ade0fc0800622e06655b7ca78e11bdd",
+                                            "e031a5cab0e7a3794e34a91859618c93c8fdd1babd1fedf39f10f9585b0b5fa8");
 }
 
 
@@ -797,8 +790,8 @@ photos_test_gegl_legacy_convert_between_buffer_pixbuf_2 (PhotosTestGeglFixture *
 {
   photos_test_gegl_buffer_check_conversion (fixture,
                                             TRUE,
-                                            "4eaa696bb0758b890cb4764a96eb6f88f7c7a0f7ca8042f381381fc9ffdac19b",
-                                            "4eaa696bb0758b890cb4764a96eb6f88f7c7a0f7ca8042f381381fc9ffdac19b");
+                                            "2b759cc636f78ff70ef197b9b9495214f9e8de6b3743175f25186c24d9caed5f",
+                                            "2b759cc636f78ff70ef197b9b9495214f9e8de6b3743175f25186c24d9caed5f");
 }
 
 
@@ -807,8 +800,8 @@ photos_test_gegl_legacy_convert_between_buffer_pixbuf_3 (PhotosTestGeglFixture *
 {
   photos_test_gegl_buffer_check_conversion (fixture,
                                             TRUE,
-                                            "fb42e2fcd0959a73e7bce22f3a549c03406598a745e7f5bb7feaa38e836fd7a1",
-                                            "fb42e2fcd0959a73e7bce22f3a549c03406598a745e7f5bb7feaa38e836fd7a1");
+                                            "a9e40c84633473fb2168bcb7424bf1d294d886d61c42139a9d787510c4be31ea",
+                                            "a9e40c84633473fb2168bcb7424bf1d294d886d61c42139a9d787510c4be31ea");
 }
 
 
@@ -817,7 +810,7 @@ photos_test_gegl_legacy_create_pixbuf_from_node_0 (PhotosTestGeglFixture *fixtur
 {
   photos_test_gegl_buffer_check_pixbuf (fixture,
                                         FALSE,
-                                        "7d29086e1be9919e93cc13539cbe270e82432333b953c5f444114746df7358cb");
+                                        "f3f8ea1b6680da7dbf08ecf5ba76da6f4ece29b48bcdeaab2be808f8a09c874f");
 }
 
 
@@ -826,7 +819,7 @@ photos_test_gegl_legacy_create_pixbuf_from_node_1 (PhotosTestGeglFixture *fixtur
 {
   photos_test_gegl_buffer_check_pixbuf (fixture,
                                         TRUE,
-                                        "4eaa696bb0758b890cb4764a96eb6f88f7c7a0f7ca8042f381381fc9ffdac19b");
+                                        "2b759cc636f78ff70ef197b9b9495214f9e8de6b3743175f25186c24d9caed5f");
 }
 
 
