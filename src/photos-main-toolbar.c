@@ -570,7 +570,7 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   preview_menu = photos_main_toolbar_create_preview_menu (self);
   image = gtk_image_new_from_icon_name ("view-more-symbolic", GTK_ICON_SIZE_BUTTON);
   menu_button = gtk_menu_button_new ();
-  gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_button), "app.gear-menu");
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_button), "app.preview-menu");
   gtk_button_set_image (GTK_BUTTON (menu_button), image);
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), G_MENU_MODEL (preview_menu));
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), menu_button);
