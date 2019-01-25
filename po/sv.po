@@ -1,15 +1,15 @@
 # Swedish translation for gnome-photos.
-# Copyright © 2014-2018 gnome-photos's COPYRIGHT HOLDER
+# Copyright © 2014-2019 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014, 2015, 2016, 2017, 2018.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014, 2015, 2016, 2017, 2018, 2019.
 # Sebastian Rasmussen <sebras@gmail.com>, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-12-11 11:23+0000\n"
-"PO-Revision-Date: 2018-12-29 22:46+0100\n"
+"POT-Creation-Date: 2019-01-18 12:57+0000\n"
+"PO-Revision-Date: 2019-01-25 14:30+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Poedit 2.2\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3025 src/photos-embed.c:825
+#: src/photos-application.c:3040 src/photos-embed.c:825
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Foton"
@@ -126,11 +126,11 @@ msgstr "Fönster maximerat"
 msgid "Window maximized state"
 msgstr "Maximerat tillstånd för fönster"
 
-#: src/photos-application.c:163
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Visa det tomma tillståndet"
 
-#: src/photos-application.c:164
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Visa programmets version"
 
@@ -143,7 +143,7 @@ msgstr "Visa programmets version"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1389 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
@@ -197,7 +197,7 @@ msgstr "Favoriter"
 msgid "Import"
 msgstr "Import"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Sök"
 
@@ -269,8 +269,8 @@ msgid "_Reduced"
 msgstr "_Reducerad"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
+#: src/photos-main-toolbar.c:639
 msgid "_Cancel"
 msgstr "_Avbryt"
 
@@ -392,70 +392,75 @@ msgstr "Markera alla"
 
 #: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Exportera markerade foton"
+
+#: src/photos-help-overlay.ui:113
+msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Skriv ut markerade foton"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Ta bort markerade foton"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Fotovy"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Redigera"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Exportera"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Skriv ut"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Zooma in"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Zooma ut"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Bästa passning"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Ta bort"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Åtgärdsmeny"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Helskärm"
 
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Redigeringsvy"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Avbryt"
@@ -540,40 +545,40 @@ msgstr[1] "Markera objekt för import (%u markerade)"
 msgid "Back"
 msgstr "Tillbaka"
 
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Markera objekt"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Öppna med %s"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Ta bort från favoriter"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Lägg till i favoriter"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:494
 msgid "Done"
 msgstr "Klar"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:530
 msgid "_Select"
 msgstr "_Markera"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
@@ -585,26 +590,6 @@ msgstr ""
 "\n"
 "Skicka synpunkter på översättningen till\n"
 "<tp-sv@listor.tp-sv.se>."
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Helskärm"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Tangentbordsgenvägar"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "_Hjälp"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "Om"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Avsluta"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -644,6 +629,22 @@ msgstr "Använd som låsskärm"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Egenskaper"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Helskärm"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Tangentbordsgenvägar"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_Hjälp"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "Om Foton"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -1054,6 +1055,12 @@ msgstr "Kunde inte hitta Tracker i ditt operativsystem"
 msgid "Unable to fetch the list of photos"
 msgstr "Kunde inte hämta fotolistan"
 
+#~ msgid "About"
+#~ msgstr "Om"
+
+#~ msgid "Quit"
+#~ msgstr "Avsluta"
+
 #~ msgid "It lets you:"
 #~ msgstr "Det låter dig:"
 
@@ -1062,9 +1069,6 @@ msgstr "Kunde inte hämta fotolistan"
 
 #~ msgid "Cancel"
 #~ msgstr "Avbryt"
-
-#~ msgid "Add to Photos"
-#~ msgstr "Lägg till i Foton"
 
 #~ msgid "Untitled Photo"
 #~ msgstr "Namnlöst foto"
