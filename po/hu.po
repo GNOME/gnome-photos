@@ -1,27 +1,27 @@
 # Hungarian translation for gnome-photos.
-# Copyright (C) 2013, 2014, 2015, 2016, 2017, 2018. Free Software Foundation, Inc.
+# Copyright (C) 2013, 2014, 2015, 2016, 2017, 2018, 2019. Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnome-photos package.
 #
-# Balázs Úr <urbalazs at gmail dot com>, 2013, 2014, 2015, 2016, 2017, 2018.
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2013, 2016.
+# Gábor Kelemen <kelemeng at gnome dot hu>, 2013, 2016.
+# Balázs Úr <urbalazs at gmail dot com>, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-08-17 17:00+0000\n"
-"PO-Revision-Date: 2018-08-31 11:07+0200\n"
-"Last-Translator: Meskó Balázs <mesko.balazs@fsf.hu>\n"
-"Language-Team: Hungarian <openscope at googlegroups dot com>\n"
+"POT-Creation-Date: 2019-01-18 12:57+0000\n"
+"PO-Revision-Date: 2019-01-27 17:21+0100\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.8\n"
+"X-Generator: Lokalize 1.2\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fényképek"
 
@@ -125,11 +125,11 @@ msgstr "Ablak teljes méretű"
 msgid "Window maximized state"
 msgstr "Az ablak maximalizált állapota"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Az üres állapot megjelenítése"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Az alkalmazás verziójának megjelenítése"
 
@@ -142,7 +142,7 @@ msgstr "Az alkalmazás verziójának megjelenítése"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%Y. %B %-d"
@@ -151,7 +151,7 @@ msgstr "%Y. %B %-d"
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2830
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Képernyőképek"
 
@@ -180,39 +180,39 @@ msgstr "DLNA megjelenítő eszközök"
 msgid "“%s” edited"
 msgstr "„%s” szerkesztve"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Gyűjtemény nézet"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Albumok"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Kedvencek"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Importálás"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Keresés"
 
-#: src/photos-empty-results-box.c:129
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "Nem találhatók albumok"
 
-#: src/photos-empty-results-box.c:133
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "A csillagozott fényképek itt fognak megjelenni"
 
-#: src/photos-empty-results-box.c:143
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "Nem találhatók fényképek"
 
-#: src/photos-empty-results-box.c:172
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "A Fényképek nézetben albumokat hozhat létre"
 
@@ -220,7 +220,7 @@ msgstr "A Fényképek nézetben albumokat hozhat létre"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:193
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "Online fiókok"
 
@@ -228,7 +228,7 @@ msgstr "Online fiókok"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:200
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "Képek mappában"
 
@@ -237,12 +237,12 @@ msgstr "Képek mappában"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:207
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Az %s és a %s lévő fényképek itt fognak megjelenni."
 
-#: src/photos-empty-results-box.c:217
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Próbáljon valami mást keresni"
 
@@ -268,8 +268,8 @@ msgid "_Reduced"
 msgstr "_Csökkentett"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
+#: src/photos-main-toolbar.c:639
 msgid "_Cancel"
 msgstr "_Mégse"
 
@@ -334,7 +334,7 @@ msgstr "Mappa exportálása"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -391,70 +391,75 @@ msgstr "Összes kijelölése"
 
 #: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
-msgid "Print selected photos"
-msgstr "Kiválasztott fényképek nyomtatása"
+msgid "Export selected photos"
+msgstr "Kijelölt fényképek exportálása"
 
 #: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
-msgid "Delete selected photos"
-msgstr "Kiválasztott fényképek törlése"
+msgid "Print selected photos"
+msgstr "Kijelölt fényképek nyomtatása"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:120
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "Kijelölt fényképek törlése"
+
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Fénykép nézet"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Szerkesztés"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Exportálás"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Nyomtatás"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Nagyítás"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Legjobb illeszkedés"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Törlés"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Műveleti menü"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Teljes képernyő"
 
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Szerkesztés nézet"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Mégse"
@@ -504,6 +509,11 @@ msgstr "A fényképei indexelése folyamatban"
 msgid "Some photos might not be available during this process"
 msgstr "Egyes fényképek lehet, hogy nem lesznek elérhetők ezen folyamat alatt"
 
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Hoppá! A(z) „%s” nem tölthető be."
+
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Helyi"
@@ -516,8 +526,8 @@ msgstr "Kattintson az elemekre a kiválasztásukhoz"
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
-msgstr[0] "%d kiválasztva"
-msgstr[1] "%d kiválasztva"
+msgstr[0] "%d kijelölve"
+msgstr[1] "%d kijelölve"
 
 #: src/photos-main-toolbar.c:170
 msgid "Select items for import"
@@ -534,43 +544,40 @@ msgstr[1] "Válasszon elemeket az importáláshoz (%u kijelölve)"
 msgid "Back"
 msgstr "Vissza"
 
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Válasszon elemeket"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Megnyitás ezzel: %s"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:494
 msgid "Done"
 msgstr "Kész"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:530
 msgid "_Select"
 msgstr "_Kijelölés"
 
 #: src/photos-main-window.c:458
-#| msgid ""
-#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
-#| "Copyright © 2015 – 2017 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
@@ -579,26 +586,6 @@ msgid "translator-credits"
 msgstr ""
 "Úr Balázs <urbalazs at gmail dot com>, 2014.\n"
 "Meskó Balázs <mesko.balazs at fsf dot hu>, 2015-2018."
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Teljes képernyő"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Gyorsbillentyűk"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "_Súgó"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "Névjegy"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Kilépés"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -638,6 +625,22 @@ msgstr "Beállítás zároló képernyőként"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Tulajdonságok"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Teljes képernyő"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Gyorsbillentyűk"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_Súgó"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "A Fényképek névjegye"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -893,27 +896,27 @@ msgstr "A képfeltöltés sikertelen"
 msgid "Sources"
 msgstr "Források"
 
-#: src/photos-source-notification.c:183
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "Új eszköz felfedezve"
 
-#: src/photos-source-notification.c:196
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Importálás…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:226
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "A(z) %s hitelesítési adatai lejártak"
 
-#: src/photos-source-notification.c:233
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Beállítások"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "A használandó D-Bus cím"
 
@@ -1039,12 +1042,11 @@ msgstr "Szülőváros"
 msgid "Filters"
 msgstr "Szűrők"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Nem található a Tracker az operációs rendszeren"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Nem kérhető le a fényképek listája"
 
-#~ msgid "It lets you:"
-#~ msgstr "Lehetővé teszi:"
-
-#~ msgid "Send photos to remote DLNA renderers"
-#~ msgstr "Fényképek küldése a távoli DLNA megjelenítőknek"
