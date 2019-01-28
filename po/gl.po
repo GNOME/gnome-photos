@@ -2,26 +2,27 @@
 # Copyright (C) 2012 THE gnome-photos'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Fran Diéguez <frandieguez@gnome.org>, 2012.
-# Fran Dieguez <frandieguez@gnome.org>, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
+# Fran Dieguez <frandieguez@gnome.org>, 2012-2019.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-08-17 17:00+0000\n"
-"PO-Revision-Date: 2018-08-30 01:28+0200\n"
+"POT-Creation-Date: 2019-01-18 12:57+0000\n"
+"PO-Revision-Date: 2019-01-29 00:01+0100\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
-"Language-Team: Proxecto Trasno <proxecto@trasno.gal>\n"
+"Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Gtranslator 3.30.0\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotos"
 
@@ -30,11 +31,6 @@ msgid "Access, organize and share your photos on GNOME"
 msgstr "Acceda, organice e comparta as súas fotos en GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
-#| msgid ""
-#| "A simple application to access, organize and share your photos on GNOME. "
-#| "It is meant to be a simple and elegant replacement for using a file "
-#| "manager to deal with photos. Seamless cloud integration is offered "
-#| "through GNOME Online Accounts."
 msgid ""
 "Access, organize and share your photos on GNOME. A simple and elegant "
 "replacement for using a file manager to deal with photos. Enhance, crop and "
@@ -59,7 +55,6 @@ msgid "View recent local and online photos"
 msgstr "Ver os cambios recentes e fotos en liña"
 
 #: data/org.gnome.Photos.appdata.xml.in:20
-#| msgid "Access your Facebook or Flickr content"
 msgid "Access your Facebook or Flickr pictures"
 msgstr "Acceda ás súas fotos en Facebook ou Flickr"
 
@@ -71,7 +66,6 @@ msgstr ""
 "local"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
-#| msgid "Set as background"
 msgid "Set pictures as your desktop background"
 msgstr "Estabelecer imaxes como a súa imaxe de escritorio"
 
@@ -84,7 +78,6 @@ msgid "Select favorites"
 msgstr "Seleccione os favoritos"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
-#| msgid "Allow opening full featured editor for more advanced changes"
 msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
@@ -134,11 +127,11 @@ msgstr "Xanela maximizada"
 msgid "Window maximized state"
 msgstr "Estado da xanela maximizada"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Mostrar o estado baleiro"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Mostrar a versión do aplicativo"
 
@@ -151,7 +144,7 @@ msgstr "Mostrar a versión do aplicativo"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d de %B de %Y"
@@ -160,7 +153,7 @@ msgstr "%-d de %B de %Y"
 msgid "Album"
 msgstr "Álbum"
 
-#: src/photos-base-item.c:2830
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Capturas de pantallas"
 
@@ -189,39 +182,39 @@ msgstr "Dispositivos renderizadores de DLNA"
 msgid "“%s” edited"
 msgstr "«%s» editado"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Vista de colección"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Álbumes"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Favoritas"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Importar"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Buscar"
 
-#: src/photos-empty-results-box.c:129
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "Non se atopou ningún álbum"
 
-#: src/photos-empty-results-box.c:133
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "As fotos marcadas con estrela aparecerán aquí"
 
-#: src/photos-empty-results-box.c:143
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "Non se atoparon fotografías"
 
-#: src/photos-empty-results-box.c:172
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "Pode crear álbums desde a vista de Fotografías"
 
@@ -229,7 +222,7 @@ msgstr "Pode crear álbums desde a vista de Fotografías"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:193
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "Contas en liña"
 
@@ -237,7 +230,7 @@ msgstr "Contas en liña"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:200
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "Cartafol de Imaxes"
 
@@ -246,12 +239,12 @@ msgstr "Cartafol de Imaxes"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:207
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "As fotos do seu %s e %s aparecerán aquí."
 
-#: src/photos-empty-results-box.c:217
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Probe unha busca diferente"
 
@@ -277,8 +270,8 @@ msgid "_Reduced"
 msgstr "_Reducido"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
+#: src/photos-main-toolbar.c:639
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -343,7 +336,7 @@ msgstr "Exportar cartafol"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -399,71 +392,78 @@ msgid "Select all"
 msgstr "Seleccionar todas"
 
 #: src/photos-help-overlay.ui:106
+#| msgctxt "shortcut window"
+#| msgid "Print selected photos"
+msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Exportar as fotos seleccionadas"
+
+#: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Imprimir as fotos seleccionadas"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Eliminar as fotos seleccionadas"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Vista de fotos"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Editar"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Exportar"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Imprimir"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Ampliar"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Afastar"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Mellor axuste"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Menú de accións"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Vista de edición"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Cancelar"
@@ -513,6 +513,11 @@ msgstr "Estanse indexando as súas fotografías"
 msgid "Some photos might not be available during this process"
 msgstr "Algunhas fotos poderían non estar dispoñíbeis durante este proceso"
 
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Recoiro! Non é posíbel cargar “%s”"
+
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Local"
@@ -543,69 +548,49 @@ msgstr[1] "Seleccione os elementos a importar (%u seleccionados)"
 msgid "Back"
 msgstr "Atrás"
 
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Elementos seleccionados"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir con %s"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Quitar dos marcadores"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Engadir aos marcadores"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:494
 msgid "Done"
 msgstr "Feito"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:530
 msgid "_Select"
 msgstr "_Seleccionar"
 
 #: src/photos-main-window.c:458
 #| msgid ""
-#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
-#| "Copyright © 2015 – 2017 Umang Jain"
+#| "Copyright © 2012 – 2018 Red Hat, Inc.\n"
+#| "Copyright © 2015 – 2018 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr "Fran Dieguez <frandieguez@gnome.org>, 2012-2018"
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Pantalla completa"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Atallos de teclado"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "_Axuda"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "Sobre"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Saír"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -645,6 +630,23 @@ msgstr "Estabelecer como pantalla de bloqueo"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Propiedades"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Pantalla completa"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Atallos de teclado"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_Axuda"
+
+#: src/photos-primary-menu.ui:14
+#| msgid "Add to Photos"
+msgid "About Photos"
+msgstr "Sobre Fotos"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -900,27 +902,27 @@ msgstr "Produciuse un fallo ao subir a foto"
 msgid "Sources"
 msgstr "Orixes"
 
-#: src/photos-source-notification.c:183
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "Novo dispositivo descuberto"
 
-#: src/photos-source-notification.c:196
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Importar…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:226
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "As súas credenciais de %s expiraron"
 
-#: src/photos-source-notification.c:233
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Preferencias"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "Enderezo de D-Bus a usar"
 
@@ -1046,9 +1048,19 @@ msgstr "Hometown"
 msgid "Filters"
 msgstr "Filtros"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Non foi posíbel atopar Tracker no seu sistema operativo"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Non foi posíbel obter a lista de fotografías"
+
+#~ msgid "About"
+#~ msgstr "Sobre"
+
+#~ msgid "Quit"
+#~ msgstr "Saír"
 
 #~ msgid "It lets you:"
 #~ msgstr "Permítelle"
@@ -1058,10 +1070,6 @@ msgstr "Non foi posíbel obter a lista de fotografías"
 
 #~ msgid "Cancel"
 #~ msgstr "Cancelar"
-
-#~| msgid "About Photos"
-#~ msgid "Add to Photos"
-#~ msgstr "Engadir a Fotos"
 
 #~ msgid "Name your first album"
 #~ msgstr "Nome do seu primeiro álbum"
