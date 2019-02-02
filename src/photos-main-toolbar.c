@@ -45,7 +45,6 @@ struct _PhotosMainToolbar
 {
   GtkBox parent_instance;
   GAction *search;
-  GSimpleAction *gear_menu;
   GtkWidget *favorite_button;
   GtkWidget *header_bar;
   GtkWidget *remote_display_button;
@@ -381,8 +380,6 @@ photos_main_toolbar_clear_toolbar (PhotosMainToolbar *self)
   gtk_container_foreach (GTK_CONTAINER (self->header_bar), (GtkCallback) gtk_widget_destroy, NULL);
   context = gtk_widget_get_style_context (self->header_bar);
   gtk_style_context_remove_class (context, "selection-mode");
-
-  g_simple_action_set_enabled (self->gear_menu, FALSE);
 }
 
 
@@ -578,8 +575,6 @@ photos_main_toolbar_populate_for_preview (PhotosMainToolbar *self)
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (menu_button), G_MENU_MODEL (preview_menu));
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), menu_button);
 
-  g_simple_action_set_enabled (self->gear_menu, TRUE);
-
   share_button = gtk_button_new_from_icon_name ("emblem-shared-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_actionable_set_action_name (GTK_ACTIONABLE (share_button), "app.share-current");
   gtk_header_bar_pack_end (GTK_HEADER_BAR (self->header_bar), share_button);
@@ -718,7 +713,6 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   app = g_application_get_default ();
   state = photos_search_context_get_state (PHOTOS_SEARCH_CONTEXT (app));
 
-  self->gear_menu = G_SIMPLE_ACTION (g_action_map_lookup_action (G_ACTION_MAP (app), "gear-menu"));
   self->search = g_action_map_lookup_action (G_ACTION_MAP (app), "search");
 
   action = g_action_map_lookup_action (G_ACTION_MAP (app), "selection-mode");
