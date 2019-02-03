@@ -75,7 +75,7 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
       gboolean not_found = FALSE;
       const gchar *item_idx;
       gint state = PHOTOS_COLLECTION_STATE_NORMAL;
-      gpointer *keys;
+      g_autofree gpointer *keys = NULL;
       guint length;
 
       /* If the only object we are fetching collection state for is a
@@ -90,7 +90,6 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
                          photos_filterable_get_id (PHOTOS_FILTERABLE (collection))) == 0)
             hidden = TRUE;
         }
-      g_free (keys);
 
       g_hash_table_iter_init (&iter2, self->collections_for_items);
       while (g_hash_table_iter_next (&iter2, (gpointer *) &item_idx, (gpointer *) &collections_for_item))
