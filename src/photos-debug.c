@@ -55,7 +55,7 @@ void photos_debug (guint flags, const char *fmt, ...)
 {
   if ((debug_flags & flags) != 0)
     {
-      gchar *message;
+      g_autofree gchar *message = NULL;
       va_list ap;
 
       va_start (ap, fmt);
@@ -63,7 +63,5 @@ void photos_debug (guint flags, const char *fmt, ...)
       va_end (ap);
 
       g_debug ("%s", message);
-
-      g_free (message);
     }
 }
