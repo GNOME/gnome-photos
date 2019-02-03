@@ -54,7 +54,7 @@ G_DEFINE_TYPE (PhotosFetchCollectionStateJob, photos_fetch_collection_state_job,
 static void
 photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *self)
 {
-  GHashTable *collection_state;
+  g_autoptr (GHashTable) collection_state = NULL;
   GHashTable *collections;
   GHashTableIter iter1;
   PhotosBaseItem *collection;
@@ -75,7 +75,7 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
       gboolean not_found = FALSE;
       const gchar *item_idx;
       gint state = PHOTOS_COLLECTION_STATE_NORMAL;
-      gpointer *keys;
+      g_autofree gpointer *keys = NULL;
       guint length;
 
       /* If the only object we are fetching collection state for is a
@@ -90,7 +90,6 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
                          photos_filterable_get_id (PHOTOS_FILTERABLE (collection))) == 0)
             hidden = TRUE;
         }
-      g_free (keys);
 
       g_hash_table_iter_init (&iter2, self->collections_for_items);
       while (g_hash_table_iter_next (&iter2, (gpointer *) &item_idx, (gpointer *) &collections_for_item))
@@ -126,26 +125,24 @@ photos_fetch_collection_state_job_emit_callback (PhotosFetchCollectionStateJob *
 
   if (self->callback != NULL)
     (*self->callback) (collection_state, self->user_data);
-
-  g_hash_table_unref (collection_state);
 }
 
 
 static void
 photos_fetch_collection_state_job_job_collector (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-  PhotosFetchCollectionStateJob *self = PHOTOS_FETCH_COLLECTION_STATE_JOB (user_data);
-  GError *error = NULL;
+  g_autoptr (PhotosFetchCollectionStateJob) self = PHOTOS_FETCH_COLLECTION_STATE_JOB (user_data);
   GList *collections_for_item;
   PhotosFetchCollectionsJob *job = PHOTOS_FETCH_COLLECTIONS_JOB (source_object);
   const gchar *urn;
 
-  collections_for_item = photos_fetch_collections_job_finish (job, res, &error);
-  if (error != NULL)
-    {
+  {
+    g_autoptr (GError) error = NULL;
+
+    collections_for_item = photos_fetch_collections_job_finish (job, res, &error);
+    if (error != NULL)
       g_warning ("Unable to fetch collections: %s", error->message);
-      g_error_free (error);
-    }
+  }
 
   urn = photos_fetch_collections_job_get_urn (job);
   g_hash_table_insert (self->collections_for_items,
@@ -155,8 +152,6 @@ photos_fetch_collection_state_job_job_collector (GObject *source_object, GAsyncR
   self->running_jobs--;
   if (self->running_jobs == 0)
     photos_fetch_collection_state_job_emit_callback (self);
-
-  g_object_unref (self);
 }
 
 
@@ -240,7 +235,7 @@ photos_fetch_collection_state_job_run (PhotosFetchCollectionStateJob *self,
   urns = photos_selection_controller_get_selection (self->sel_cntrlr);
   for (l = urns; l != NULL; l = l->next)
     {
-      PhotosFetchCollectionsJob *job;
+      g_autoptr (PhotosFetchCollectionsJob) job = NULL;
       const gchar *urn = (gchar *) l->data;
 
       self->running_jobs++;
@@ -249,6 +244,5 @@ photos_fetch_collection_state_job_run (PhotosFetchCollectionStateJob *self,
                                         NULL,
                                         photos_fetch_collection_state_job_job_collector,
                                         g_object_ref (self));
-      g_object_unref (job);
     }
 }
