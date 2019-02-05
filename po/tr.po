@@ -11,20 +11,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-01-02 13:13+0000\n"
-"PO-Revision-Date: 2019-01-02 19:52+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2019-01-18 12:57+0000\n"
+"PO-Revision-Date: 2019-01-21 01:15+0200\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Gtranslator 3.30.1\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3025 src/photos-embed.c:825
+#: src/photos-application.c:3040 src/photos-embed.c:825
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotoğraflar"
@@ -129,11 +129,11 @@ msgstr "Pencere ekranı kapladı"
 msgid "Window maximized state"
 msgstr "Pencerenin ekranı kapladığı durum"
 
-#: src/photos-application.c:163
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Boş durumu göster"
 
-#: src/photos-application.c:164
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Uygulamanın sürümünü göster"
 
@@ -146,7 +146,7 @@ msgstr "Uygulamanın sürümünü göster"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1389 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
@@ -199,7 +199,7 @@ msgstr "Gözdeler"
 msgid "Import"
 msgstr "İçe Aktar"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Ara"
 
@@ -271,8 +271,8 @@ msgid "_Reduced"
 msgstr "_Azaltılmış"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
+#: src/photos-main-toolbar.c:639
 msgid "_Cancel"
 msgstr "_İptal"
 
@@ -392,8 +392,6 @@ msgid "Select all"
 msgstr "Tümünü seç"
 
 #: src/photos-help-overlay.ui:106
-#| msgctxt "shortcut window"
-#| msgid "Print selected photos"
 msgctxt "shortcut window"
 msgid "Export selected photos"
 msgstr "Seçilen fotoğrafları dışa aktar"
@@ -546,41 +544,41 @@ msgstr[0] "İçe aktarılacak öge seçin (%u seçildi)"
 msgid "Back"
 msgstr "Geri"
 
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Ögeleri Seç"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "%s ile Aç"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Gözdelerden kaldır"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Gözdelere ekle"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:494
 msgid "Done"
 msgstr "Bitti"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:530
 msgid "_Select"
 msgstr "_Seç"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
 "Telif Hakkı © 2012 – 2018 Red Hat, Inc.\n"
-"Telif Hakkı © 2015 – 2018 Umang Jain"
+"Telif Hakkı © 2015 – 2019 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
@@ -589,26 +587,6 @@ msgstr ""
 "Gökhan Gurbetoğlu <ggurbet@gmail.com>\n"
 "Muhammet Kara <muhammetk@gmail.com>\n"
 "Emin Tufan Çetin <etcetin@gmail.com>"
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Tam ekran"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Klavye Kısayolları"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "_Yardım"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "Hakkında"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Çık"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -648,6 +626,22 @@ msgstr "Kilit Ekranı Olarak Ayarla"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Özellikler"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Tam ekran"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Klavye Kısayolları"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_Yardım"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "Fotoğraflar Hakkında"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -1056,6 +1050,12 @@ msgstr "İşletim sisteminizde Tracker bulunamadı"
 msgid "Unable to fetch the list of photos"
 msgstr "Fotoğrafların listesi alınamıyor"
 
+#~ msgid "About"
+#~ msgstr "Hakkında"
+
+#~ msgid "Quit"
+#~ msgstr "Çık"
+
 #~ msgid "It lets you:"
 #~ msgstr "Şunları yapabilirsiniz:"
 
@@ -1064,10 +1064,6 @@ msgstr "Fotoğrafların listesi alınamıyor"
 
 #~ msgid "Cancel"
 #~ msgstr "Vazgeç"
-
-#~| msgid "Add to favorites"
-#~ msgid "Add to Photos"
-#~ msgstr "Fotoğraflara Ekle"
 
 #~ msgid "Name your first album"
 #~ msgstr "İlk albümünüze ad verin"
