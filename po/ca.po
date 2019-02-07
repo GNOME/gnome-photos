@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-06-15 10:15+0000\n"
+"POT-Creation-Date: 2019-01-18 12:57+0000\n"
 "PO-Revision-Date: 2018-06-17 09:07+0200\n"
 "Last-Translator: Jordi Mas <jmas@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -21,8 +21,8 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotografies"
 
@@ -37,10 +37,10 @@ msgid ""
 "edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Accediu, organitzeu i compartiu les vostres fotografies amb el GNOME. "
-"Un substitut simple i elegant del gestor de fitxers "
-"en la gestió d'imatges. Millora, retalla i edita instantàniament. S'integra "
-"transparentment amb el núvol mitjançant els comptes en línia del GNOME."
+"Accediu, organitzeu i compartiu les vostres fotografies amb el GNOME. Un "
+"substitut simple i elegant del gestor de fitxers en la gestió d'imatges. "
+"Millora, retalla i edita instantàniament. S'integra transparentment amb el "
+"núvol mitjançant els comptes en línia del GNOME."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
 msgid "You can:"
@@ -62,7 +62,8 @@ msgstr "Accedir a les fotografies de Facebook o Flickr"
 msgid ""
 "View photos on TVs, laptops or other DLNA renderers on your local network"
 msgstr ""
-"Visualitzar fotografies en televisors, portàtils o altres visualitzadors DNLA de la vostra xarxa"
+"Visualitzar fotografies en televisors, portàtils o altres visualitzadors "
+"DNLA de la vostra xarxa"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
 msgid "Set pictures as your desktop background"
@@ -80,7 +81,9 @@ msgstr "Seleccionar les preferides"
 msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
-msgstr "Editar fàcilment les fotografies en l'aplicació o obrir-les en un editor més potent per fer canvis més avançats"
+msgstr ""
+"Editar fàcilment les fotografies en l'aplicació o obrir-les en un editor més "
+"potent per fer canvis més avançats"
 
 #: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
@@ -124,11 +127,11 @@ msgstr "Finestra maximitzada"
 msgid "Window maximized state"
 msgstr "Estat maximitzat de la finestra"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Mostra l'estat buit"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Mostra la versió de l'aplicació"
 
@@ -141,7 +144,7 @@ msgstr "Mostra la versió de l'aplicació"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B del %Y"
@@ -150,7 +153,7 @@ msgstr "%-d %B del %Y"
 msgid "Album"
 msgstr "Àlbum"
 
-#: src/photos-base-item.c:2831
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Captures de pantalla"
 
@@ -179,39 +182,39 @@ msgstr "Dispositius renderitzadors DLNA"
 msgid "“%s” edited"
 msgstr "«%s» editat"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Vista de col·lecció"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Àlbums"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Preferits"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Importa"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Cerca"
 
-#: src/photos-empty-results-box.c:148
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "No s'ha trobat cap àlbum"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Les fotografies destacades apareixeran aquí"
 
-#: src/photos-empty-results-box.c:162
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "No s'ha trobat cap fotografia"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "Podeu crear àlbums des de la vista de fotografies"
 
@@ -219,7 +222,7 @@ msgstr "Podeu crear àlbums des de la vista de fotografies"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "Comptes en línia"
 
@@ -227,7 +230,7 @@ msgstr "Comptes en línia"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "Carpeta d'imatges"
 
@@ -236,12 +239,12 @@ msgstr "Carpeta d'imatges"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Les fotografies dels %s i de la %s apareixeran aquí."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Proveu amb una cerca diferent"
 
@@ -267,8 +270,8 @@ msgid "_Reduced"
 msgstr "_Reduïda"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
+#: src/photos-main-toolbar.c:639
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
@@ -288,36 +291,36 @@ msgstr "%d×%d px (%s GB)"
 msgid "Calculating export size…"
 msgstr "S'està calculant la mida d'exportació..."
 
-#: src/photos-export-notification.c:334
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "S'ha produït un error en exportar: no hi ha prou espai en disc"
 
-#: src/photos-export-notification.c:336
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "S'ha produït un error en exportar"
 
-#: src/photos-export-notification.c:343
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "«%s» exportat"
 
-#: src/photos-export-notification.c:347
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d element exportat"
 msgstr[1] "%d elements exportats"
 
-#: src/photos-export-notification.c:364
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "Analitza"
 
-#: src/photos-export-notification.c:369
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Buida la paperera"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:386 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Obre"
@@ -325,7 +328,7 @@ msgstr "Obre"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:396
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Carpeta d'exportació"
 
@@ -333,7 +336,7 @@ msgstr "Carpeta d'exportació"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -390,70 +393,75 @@ msgstr "Selecciona-ho tot"
 
 #: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Exporta les fotografies seleccionades"
+
+#: src/photos-help-overlay.ui:113
+msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Imprimeix les fotografies seleccionades"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Suprimeix les fotografies seleccionades"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Vista fotografia"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Edita"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Exporta"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Imprimeix"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Apropa"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Allunya"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Millor ajust"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Menú d'acció"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Vista d'edició"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Cancel·la"
@@ -503,6 +511,11 @@ msgstr "S'estan indexant les fotografies"
 msgid "Some photos might not be available during this process"
 msgstr "Mentre duri el procés, algunes fotografies no estaran disponibles"
 
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "No s'ha pogut carregar «%s»"
+
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Local"
@@ -533,40 +546,40 @@ msgstr[1] "Selecciona els elements a importar (%u seleccionats)"
 msgid "Back"
 msgstr "Enrere"
 
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Selecciona els elements"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Obre amb %s"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Suprimeix dels preferits"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Afegeix als preferits"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:494
 msgid "Done"
 msgstr "Fet"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:530
 msgid "_Select"
 msgstr "_Selecciona"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 
 #
@@ -576,26 +589,6 @@ msgid "translator-credits"
 msgstr ""
 "Jordi Mas i Hernandez <jmas@softcatala.org>\n"
 "Carles Ferrando <carles.ferrando@gmail.com>"
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Pantalla completa"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Dreceres"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "A_juda"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "Quant a"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Surt"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -635,6 +628,22 @@ msgstr "Estableix com fons de pantalla bloqueig"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Propietats"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Pantalla completa"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Dreceres"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "A_juda"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "Quant al Fotografies"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -890,27 +899,27 @@ msgstr "S'ha produït un error en pujar una fotografia"
 msgid "Sources"
 msgstr "Fonts"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "S'ha descobert un nou dispositiu"
 
-#: src/photos-source-notification.c:214
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Importa…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Les credencials %s han vençut."
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Paràmetres"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "Adreça D-Bus a utilitzar"
 
@@ -1036,7 +1045,10 @@ msgstr "Hometown"
 msgid "Filters"
 msgstr "Filtres"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "No es pot trobar el Tracker al sistema operatiu"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "No es pot obtenir el llistat de fotografies"
-
