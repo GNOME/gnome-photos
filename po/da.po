@@ -6,13 +6,13 @@
 # scootergrisen, 2016.
 # Ask Hjorth Larsen <asklarsen@gmail.com>, 2014-16, 2018.
 # Joe Hansen <joedalton2@yahoo.dk>, 2017.
-# Alan Mortensen <alanmortensen.am@gmail.com>, 2017, 2018.
+# Alan Mortensen <alanmortensen.am@gmail.com>, 2017-19.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-08-17 17:00+0000\n"
-"PO-Revision-Date: 2018-09-02 22:43+0200\n"
+"POT-Creation-Date: 2019-01-18 12:57+0000\n"
+"PO-Revision-Date: 2019-02-13 11:49+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -20,12 +20,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Billeder"
 
@@ -39,7 +39,11 @@ msgid ""
 "replacement for using a file manager to deal with photos. Enhance, crop and "
 "edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
-msgstr "Tilgå, organisér og del dine billeder i GNOME. En simpel og elegant erstatning for at bruge en filhåndtering som billedhåndtering. Retouchér, beskær og redigér i et snuptag. Direkte cloud-integrering via GNOME Onlinekonti."
+msgstr ""
+"Tilgå, organisér og del dine billeder i GNOME. En simpel og elegant "
+"erstatning for at bruge en filhåndtering som billedhåndtering. Retouchér, "
+"beskær og redigér i et snuptag. Direkte cloud-integrering via GNOME "
+"Onlinekonti."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
 msgid "You can:"
@@ -60,7 +64,9 @@ msgstr "Tilgå dine Facebook- eller Flickr-billeder"
 #: data/org.gnome.Photos.appdata.xml.in:21
 msgid ""
 "View photos on TVs, laptops or other DLNA renderers on your local network"
-msgstr "Vise billeder på tv'er, bærbare computere og andre DLNA-enheder på dit lokale netværk"
+msgstr ""
+"Vise billeder på tv'er, bærbare computere og andre DLNA-enheder på dit "
+"lokale netværk"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
 msgid "Set pictures as your desktop background"
@@ -78,7 +84,9 @@ msgstr "Vælg favoritter"
 msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
-msgstr "Nemt redigere dine billeder i programmet eller sende dem videre til et fuldt billedredigeringsprogram for at udføre mere avancerede ændringer"
+msgstr ""
+"Nemt redigere dine billeder i programmet eller sende dem videre til et fuldt "
+"billedredigeringsprogram for at udføre mere avancerede ændringer"
 
 #: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
@@ -122,11 +130,11 @@ msgstr "Vindue maksimeret"
 msgid "Window maximized state"
 msgstr "Vindue maksimeret-tilstand"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Vis den tomme tilstand"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Vis programversion"
 
@@ -139,7 +147,7 @@ msgstr "Vis programversion"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d. %B %Y"
@@ -148,7 +156,7 @@ msgstr "%-d. %B %Y"
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2830
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Skærmbilleder"
 
@@ -177,39 +185,39 @@ msgstr "DLNA-renderingsenheder"
 msgid "“%s” edited"
 msgstr "“%s” redigeret"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Visning af samling"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Album"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Importér"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Søg"
 
-#: src/photos-empty-results-box.c:129
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "Ingen albummer fundet"
 
-#: src/photos-empty-results-box.c:133
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Billeder med stjerner vil blive vist her"
 
-#: src/photos-empty-results-box.c:143
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "Ingen billeder fundet"
 
-#: src/photos-empty-results-box.c:172
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "Du kan oprette albummer i billedvisningen"
 
@@ -217,7 +225,7 @@ msgstr "Du kan oprette albummer i billedvisningen"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:193
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "onlinekonti"
 
@@ -225,7 +233,7 @@ msgstr "onlinekonti"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:200
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "billedmappe"
 
@@ -234,12 +242,12 @@ msgstr "billedmappe"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:207
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Billeder fra dine %s og %s vil blive vist her."
 
-#: src/photos-empty-results-box.c:217
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Prøv en anden søgning"
 
@@ -265,8 +273,8 @@ msgid "_Reduced"
 msgstr "_Reduceret"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
+#: src/photos-main-toolbar.c:639
 msgid "_Cancel"
 msgstr "_Annullér"
 
@@ -331,7 +339,7 @@ msgstr "Mappe til eksport"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -388,71 +396,76 @@ msgstr "Vælg alle"
 
 #: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Eksportér valgte billeder"
+
+#: src/photos-help-overlay.ui:113
+msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Udskriv valgte billeder"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Slet valgte billeder"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Billedvisning"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Redigér"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Eksportér"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Udskriv"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Zoom ind"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Zoom ud"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Bedste tilpasning"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Slet"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Handlingsmenu"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Fuldskærm"
 
 # Navnet på en genvejstastgruppe, så nok ikke imperativ her
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Redigeringsvisning"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Annullér"
@@ -502,6 +515,11 @@ msgstr "Dine billeder er ved at blive indekseret"
 msgid "Some photos might not be available during this process"
 msgstr "Nogen billeder er muligvis ikke tilgængelige under denne proces"
 
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Ups! Kunne ikke indlæse “%s”"
+
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Lokal"
@@ -532,40 +550,40 @@ msgstr[1] "Vælg elementer der skal importeres (%u valgt)"
 msgid "Back"
 msgstr "Tilbage"
 
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Vælg elementer"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Åbn med %s"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Føj til favoritter"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:494
 msgid "Done"
 msgstr "Færdig"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:530
 msgid "_Select"
 msgstr "_Vælg"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Ophavsret © 2012 – 2018 Red Hat, Inc.\n"
+"Ophavsret © 2012 – 2019 Red Hat, Inc.\n"
 "Ophavsret © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
@@ -581,26 +599,6 @@ msgstr ""
 "\n"
 "Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
 "Mere info: http://www.dansk-gruppen.dk"
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Fuldskærm"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Tastaturgenveje"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "_Hjælp"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "Om"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Afslut"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -640,6 +638,22 @@ msgstr "Sæt som låst skærm"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Egenskaber"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Fuldskærm"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Tastaturgenveje"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_Hjælp"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "Om Billeder"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -895,27 +909,27 @@ msgstr "Kunne ikke uploade billede"
 msgid "Sources"
 msgstr "Kilder"
 
-#: src/photos-source-notification.c:183
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "Ny enhed fundet"
 
-#: src/photos-source-notification.c:196
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Importér …"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:226
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Dine %s-akkreditiver er udløbet"
 
-#: src/photos-source-notification.c:233
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "D-Bus-adresse at anvende"
 
@@ -1042,9 +1056,19 @@ msgstr "Hjemby"
 msgid "Filters"
 msgstr "Filtre"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Kunne ikke finde Tracker i dit styresystem"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Kunne ikke hente liste over billeder"
+
+#~ msgid "About"
+#~ msgstr "Om"
+
+#~ msgid "Quit"
+#~ msgstr "Afslut"
 
 #~ msgid "It lets you:"
 #~ msgstr "Den lader dig:"
@@ -1147,6 +1171,3 @@ msgstr "Kunne ikke hente liste over billeder"
 
 #~ msgid "Flickr"
 #~ msgstr "Flickr"
-
-#~ msgid "About Photos"
-#~ msgstr "Om Billeder"
