@@ -266,7 +266,8 @@ photos_thumbnail_factory_initable_init (GInitable *initable, GCancellable *cance
                             G_CALLBACK (photos_thumbnail_factory_authorize_authenticated_peer),
                             self);
 
-  self->dbus_server = g_dbus_server_new_sync (address, G_DBUS_SERVER_FLAGS_NONE,
+  self->dbus_server = g_dbus_server_new_sync (address,
+                                              G_DBUS_SERVER_FLAGS_NONE,
                                               guid,
                                               observer,
                                               cancellable,
