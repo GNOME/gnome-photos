@@ -400,7 +400,13 @@ photos_test_gegl_buffer_check_pixbuf (PhotosTestGeglFixture *fixture, gboolean h
 
 
 static void
-photos_test_gegl_buffer_check_zoom (PhotosTestGeglFixture *fixture, double zoom, const gchar *checksum)
+photos_test_gegl_buffer_check_zoom (PhotosTestGeglFixture *fixture,
+                                    double zoom,
+                                    const gchar *checksum,
+                                    gint height,
+                                    gint width,
+                                    gint x,
+                                    gint y)
 {
   const Babl *format_zoomed_converted;
   g_autoptr (GeglBuffer) buffer_zoomed = NULL;
@@ -421,6 +427,11 @@ photos_test_gegl_buffer_check_zoom (PhotosTestGeglFixture *fixture, double zoom,
   g_assert_true (GEGL_IS_BUFFER (buffer_zoomed));
 
   bbox = *gegl_buffer_get_extent (buffer_zoomed);
+  g_assert_cmpint (bbox.height, ==, height);
+  g_assert_cmpint (bbox.width, ==, width);
+  g_assert_cmpint (bbox.x, ==, x);
+  g_assert_cmpint (bbox.y, ==, y);
+
   format_zoomed_converted = babl_format ("R'G'B'A u8");
   buffer_zoomed_converted = gegl_buffer_new (&bbox, format_zoomed_converted);
   gegl_buffer_copy (buffer_zoomed, &bbox, GEGL_ABYSS_NONE, buffer_zoomed_converted, &bbox);
@@ -725,7 +736,11 @@ photos_test_gegl_buffer_zoom_in_0 (PhotosTestGeglFixture *fixture, gconstpointer
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       1.4,
-                                      "12d60499ebbf9533040792debe28c8bcdebb5ac6b26e2864b26347f42fade116");
+                                      "12d60499ebbf9533040792debe28c8bcdebb5ac6b26e2864b26347f42fade116",
+                                      280,
+                                      280,
+                                      0,
+                                      0);
 }
 
 
@@ -734,7 +749,11 @@ photos_test_gegl_buffer_zoom_in_1 (PhotosTestGeglFixture *fixture, gconstpointer
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       4.0,
-                                      "f8a0d6eb8c2fdc3f5592f39beaea9477aaf33760e5985a092c99bbb02e735c21");
+                                      "f8a0d6eb8c2fdc3f5592f39beaea9477aaf33760e5985a092c99bbb02e735c21",
+                                      800,
+                                      800,
+                                      0,
+                                      0);
 }
 
 
@@ -743,7 +762,11 @@ photos_test_gegl_buffer_zoom_nop (PhotosTestGeglFixture *fixture, gconstpointer 
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       1.0,
-                                      "2b759cc636f78ff70ef197b9b9495214f9e8de6b3743175f25186c24d9caed5f");
+                                      "2b759cc636f78ff70ef197b9b9495214f9e8de6b3743175f25186c24d9caed5f",
+                                      200,
+                                      200,
+                                      0,
+                                      0);
 }
 
 
@@ -752,7 +775,11 @@ photos_test_gegl_buffer_zoom_out_0 (PhotosTestGeglFixture *fixture, gconstpointe
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       0.6,
-                                      "d8c9c2c09079e0064f0633a2e05ed3ddce4f00cda3991b87d8cd79cccf319f6d");
+                                      "d8c9c2c09079e0064f0633a2e05ed3ddce4f00cda3991b87d8cd79cccf319f6d",
+                                      120,
+                                      120,
+                                      0,
+                                      0);
 }
 
 
@@ -761,7 +788,11 @@ photos_test_gegl_buffer_zoom_out_1 (PhotosTestGeglFixture *fixture, gconstpointe
 {
   photos_test_gegl_buffer_check_zoom (fixture,
                                       0.25,
-                                      "82cfa8a533f8800bd213e47fd52593a8f3b78de2bcd4d9b28084cb7825e50e23");
+                                      "82cfa8a533f8800bd213e47fd52593a8f3b78de2bcd4d9b28084cb7825e50e23",
+                                      50,
+                                      50,
+                                      0,
+                                      0);
 }
 
 
