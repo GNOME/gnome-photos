@@ -211,7 +211,7 @@ photos_test_gegl_setup_no_alpha_even_dimensions (PhotosTestGeglFixture *fixture,
   format = babl_format ("R'G'B' u8");
   photos_test_gegl_setup (fixture, format, 200.0, 200.0);
 
-  checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer);
+  checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer, format);
   g_assert_cmpstr (checksum, ==, "f3f8ea1b6680da7dbf08ecf5ba76da6f4ece29b48bcdeaab2be808f8a09c874f");
 }
 
@@ -225,7 +225,7 @@ photos_test_gegl_setup_no_alpha_odd_dimensions (PhotosTestGeglFixture *fixture, 
   format = babl_format ("R'G'B' u8");
   photos_test_gegl_setup (fixture, format, 195.0, 195.0);
 
-  checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer);
+  checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer, format);
   g_assert_cmpstr (checksum, ==, "e031a5cab0e7a3794e34a91859618c93c8fdd1babd1fedf39f10f9585b0b5fa8");
 }
 
@@ -239,7 +239,7 @@ photos_test_gegl_setup_with_alpha_even_dimensions (PhotosTestGeglFixture *fixtur
   format = babl_format ("R'G'B'A u8");
   photos_test_gegl_setup (fixture, format, 200.0, 200.0);
 
-  checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer);
+  checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer, format);
   g_assert_cmpstr (checksum, ==, "2b759cc636f78ff70ef197b9b9495214f9e8de6b3743175f25186c24d9caed5f");
 }
 
@@ -253,7 +253,7 @@ photos_test_gegl_setup_with_alpha_odd_dimensions (PhotosTestGeglFixture *fixture
   format = babl_format ("R'G'B'A u8");
   photos_test_gegl_setup (fixture, format, 195.0, 195.0);
 
-  checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer);
+  checksum = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, fixture->buffer, format);
   g_assert_cmpstr (checksum, ==, "a9e40c84633473fb2168bcb7424bf1d294d886d61c42139a9d787510c4be31ea");
 }
 
@@ -344,7 +344,7 @@ photos_test_gegl_buffer_check_conversion (PhotosTestGeglFixture *fixture,
   g_assert_cmpint (bbox_buffer.height, ==, bbox.height);
   g_assert_cmpint (bbox_buffer.width, ==, bbox.width);
 
-  checksum_buffer_converted = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, buffer);
+  checksum_buffer_converted = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, buffer, format);
   g_assert_cmpstr (checksum_buffer_converted, ==, checksum_buffer);
 }
 
@@ -366,7 +366,9 @@ photos_test_gegl_buffer_check_orientation (PhotosTestGeglFixture *fixture,
   format_oriented = gegl_buffer_get_format (buffer_oriented);
   g_assert_true (format_oriented == fixture->format);
 
-  checksum_oriented = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, buffer_oriented);
+  checksum_oriented = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256,
+                                                               buffer_oriented,
+                                                               format_oriented);
   g_assert_cmpstr (checksum_oriented, ==, checksum);
 }
 

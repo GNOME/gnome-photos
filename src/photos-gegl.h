@@ -39,7 +39,9 @@ void             photos_gegl_buffer_zoom_async            (GeglBuffer *buffer,
 
 GeglBuffer      *photos_gegl_buffer_zoom_finish           (GeglBuffer *buffer, GAsyncResult *res, GError **error);
 
-gchar           *photos_gegl_compute_checksum_for_buffer  (GChecksumType checksum_type, GeglBuffer *buffer);
+gchar           *photos_gegl_compute_checksum_for_buffer  (GChecksumType checksum_type,
+                                                           GeglBuffer *buffer,
+                                                           const Babl *format);
 
 GdkPixbuf       *photos_gegl_create_pixbuf_from_node      (GeglNode *node);
 

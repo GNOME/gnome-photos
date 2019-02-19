@@ -508,9 +508,8 @@ photos_gegl_buffer_zoom_finish (GeglBuffer *buffer, GAsyncResult *res, GError **
 
 
 gchar *
-photos_gegl_compute_checksum_for_buffer  (GChecksumType checksum_type, GeglBuffer *buffer)
+photos_gegl_compute_checksum_for_buffer (GChecksumType checksum_type, GeglBuffer *buffer, const Babl *format)
 {
-  const Babl *format;
   g_autoptr (GChecksum) checksum = NULL;
   GeglRectangle bbox;
   GeglRectangle roi;
@@ -532,7 +531,9 @@ photos_gegl_compute_checksum_for_buffer  (GChecksumType checksum_type, GeglBuffe
   roi.height = 1;
   roi.width = bbox.width;
 
-  format = gegl_buffer_get_format (buffer);
+  if (format == NULL)
+    format = gegl_buffer_get_format (buffer);
+
   bpp = babl_format_get_bytes_per_pixel (format);
 
   if (bpp > 0 && bbox.width > 0 && bbox.width > G_MAXINT / bpp)
