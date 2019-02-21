@@ -1,3 +1,41 @@
+Overview of changes in 3.31.91
+==============================
+
+* Bugs fixed:
+  !83 application, main-toolbar: Rename "app.gear-menu" as "app.preview-menu"
+  !86 flatpak: Fix the exiv2 build
+  !87 flatpak: Don't build the exiv2 command and the sample programs
+  !88 flatpak: Delete CMake-specific build files
+  !89 flatpak: Update LibRaw to 0.19.2
+  !90 flatpak: Fix the LibRaw build
+  !91 flatpak: Explicitly specify the LibRaw build options
+  !92 test-gegl: Simplify code
+  !94 main-toolbar: Enable the gear menu only when the item is loaded
+  !99 test-gegl: Assert the bounding box when zooming GeglBuffers
+  #77 Use g_auto*
+ #117 Remove app menu
+
+* Updated translations:
+ Catalan
+ Traditional Chinese (Taiwan)
+ Czech
+ Danish
+ Finnish
+ Friulian
+ Galician
+ Greek
+ Hungarian
+ Icelandic
+ Indonesian
+ Kazakh
+ Polish
+ Romanian
+ Slovenian
+ Spanish
+ Swedish
+ Turkish
+
+
 Overview of changes in 3.31.3
 =============================
 
