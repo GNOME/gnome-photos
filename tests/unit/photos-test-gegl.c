@@ -433,9 +433,7 @@ photos_test_gegl_buffer_check_zoom (PhotosTestGeglFixture *fixture,
   g_assert_cmpint (bbox.y, ==, y);
 
   format_zoomed_converted = babl_format ("R'G'B'A u8");
-  buffer_zoomed_converted = gegl_buffer_new (&bbox, format_zoomed_converted);
-  gegl_buffer_copy (buffer_zoomed, &bbox, GEGL_ABYSS_NONE, buffer_zoomed_converted, &bbox);
-
+  buffer_zoomed_converted = photos_gegl_buffer_convert (buffer_zoomed, format_zoomed_converted);
   photos_test_gegl_buffer_save_to_file (buffer_zoomed_converted, fixture->destination_0);
 
   checksum_zoomed_converted = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, buffer_zoomed_converted);

@@ -378,6 +378,37 @@ photos_gegl_buffer_apply_orientation (GeglBuffer *buffer_original, GQuark orient
 
 
 GeglBuffer *
+photos_gegl_buffer_convert (GeglBuffer *buffer_original, const Babl *format)
+{
+  const Babl *format_original;
+  GeglBuffer *ret_val = NULL;
+  GeglRectangle bbox;
+
+  g_return_val_if_fail (GEGL_IS_BUFFER (buffer_original), NULL);
+
+  if (format == NULL)
+    {
+      ret_val = g_object_ref (buffer_original);
+      goto out;
+    }
+
+  format_original = gegl_buffer_get_format (buffer_original);
+  if (format == format_original)
+    {
+      ret_val = g_object_ref (buffer_original);
+      goto out;
+    }
+
+  bbox = *gegl_buffer_get_extent (buffer_original);
+  ret_val = gegl_buffer_new (&bbox, format);
+  gegl_buffer_copy (buffer_original, &bbox, GEGL_ABYSS_NONE, ret_val, &bbox);
+
+ out:
+  return ret_val;
+}
+
+
+GeglBuffer *
 photos_gegl_buffer_new_from_pixbuf (GdkPixbuf *pixbuf)
 {
   const Babl *format;
