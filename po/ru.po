@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-09-06 17:39+0000\n"
-"PO-Revision-Date: 2018-09-09 22:38+0300\n"
+"POT-Creation-Date: 2019-01-18 12:57+0000\n"
+"PO-Revision-Date: 2019-02-26 21:00+0300\n"
 "Last-Translator: Stas Solovey <whats_up@tut.by>\n"
 "Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -19,10 +19,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
+#: src/photos-application.c:3040 src/photos-embed.c:825
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Фотографии"
@@ -129,11 +129,11 @@ msgstr "Окно развёрнуто"
 msgid "Window maximized state"
 msgstr "Окно максимального размера"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Показать пустое состояние"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Показать версию приложения"
 
@@ -146,7 +146,7 @@ msgstr "Показать версию приложения"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
@@ -155,7 +155,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Альбом"
 
-#: src/photos-base-item.c:2830
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Снимки рабочего стола"
 
@@ -185,23 +185,23 @@ msgstr "Устройства отрисовки DLNA"
 msgid "“%s” edited"
 msgstr "Изменён объект «%s»"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Режим просмотра коллекций"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Альбомы"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Избранное"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Импортировать"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Поиск"
 
@@ -273,8 +273,8 @@ msgid "_Reduced"
 msgstr "_Уменьшенное"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
+#: src/photos-main-toolbar.c:639
 msgid "_Cancel"
 msgstr "_Отменить"
 
@@ -340,7 +340,7 @@ msgstr "Папка экспорта"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -397,70 +397,75 @@ msgstr "Выбрать все"
 
 #: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Экспортировать выбранные фотографии"
+
+#: src/photos-help-overlay.ui:113
+msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Напечатать выбранные фотографии"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Удалить выбранные фотографии"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Режим просмотра фотографий"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Правка"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Экспорт"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Печать"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Увеличить"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Уменьшить"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Наилучшая подгонка"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Удалить"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Меню действий"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Полноэкранный режим"
 
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Режим редактирования"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Отменить"
@@ -510,6 +515,11 @@ msgstr "Фотографии индексируются"
 msgid "Some photos might not be available during this process"
 msgstr "Во время этого процесса некоторые фотографии могут быть недоступны"
 
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Не удалось загрузить «%s»"
+
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Локальные"
@@ -542,40 +552,40 @@ msgstr[2] "Выберите элементы для импорта (%u выбр�
 msgid "Back"
 msgstr "Назад"
 
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Выбор элементов"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Открыть в приложении «%s»"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Удалить из избранного"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Добавить в избранное"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:494
 msgid "Done"
 msgstr "Готово"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:530
 msgid "_Select"
 msgstr "_Выбрать"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Авторское право © 2012 – 2018 Red Hat, Inc.\n"
+"Авторское право © 2012 – 2019 Red Hat, Inc.\n"
 "Авторское право © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
@@ -583,27 +593,7 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 "Yuri Myasoedov <ymyasoedov@yandex.ru>, 2014.\n"
-"Stas Solovey <whats_up@tut.by>, 2015-2018."
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Полноэкранный режим"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Комбинации клавиш"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "_Справка"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "О приложении"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Завершить"
+"Stas Solovey <whats_up@tut.by>, 2015-2019."
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -643,6 +633,22 @@ msgstr "Установить как фон экрана блокировки"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Свойства"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Полноэкранный режим"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Комбинации клавиш"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_Справка"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "О приложении"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -919,7 +925,7 @@ msgstr "Срок действия ваших учётных данных %s ис
 msgid "Settings"
 msgstr "Параметры"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "Используемый адрес D-Bus"
 
@@ -1046,9 +1052,19 @@ msgstr "Hometown"
 msgid "Filters"
 msgstr "Фильтры"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Не удалось найти приложение Tracker в вашей операционной системе"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Не удалось получить список фотографий"
+
+#~ msgid "About"
+#~ msgstr "О приложении"
+
+#~ msgid "Quit"
+#~ msgstr "Завершить"
 
 #~ msgid "It lets you:"
 #~ msgstr "Позволяет:"
