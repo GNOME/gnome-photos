@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-09-06 17:39+0000\n"
-"PO-Revision-Date: 2018-09-29 13:08+0200\n"
+"POT-Creation-Date: 2019-01-18 12:57+0000\n"
+"PO-Revision-Date: 2019-02-28 20:57+0100\n"
 "Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -19,10 +19,10 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
+#: src/photos-application.c:3040 src/photos-embed.c:825
 #: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Фотографије"
@@ -88,7 +88,7 @@ msgstr ""
 
 #: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
-msgstr "Гномов пројекат"
+msgstr "Гном пројекат"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
@@ -128,11 +128,11 @@ msgstr "Увећан прозор"
 msgid "Window maximized state"
 msgstr "Стање увећања прозора"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Прикажи празно стање"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Приказује издање програма"
 
@@ -145,7 +145,7 @@ msgstr "Приказује издање програма"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
@@ -154,7 +154,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Албум"
 
-#: src/photos-base-item.c:2830
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Снимци екрана"
 
@@ -185,23 +185,23 @@ msgstr "Уређаји ДЛНА исцртавача"
 msgid "“%s” edited"
 msgstr "Ставка „%s“ је уређена"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Преглед збирке"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Албуми"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Омиљене"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Увези"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Потражи"
 
@@ -275,8 +275,8 @@ msgid "_Reduced"
 msgstr "С_мањена"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
+#: src/photos-main-toolbar.c:639
 msgid "_Cancel"
 msgstr "_Откажи"
 
@@ -343,7 +343,7 @@ msgstr "Извези фасциклу"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -400,70 +400,75 @@ msgstr "Изабери све"
 
 #: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Извоз изабраних слика"
+
+#: src/photos-help-overlay.ui:113
+msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Штампај изабране слике"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Брисање изабраних слика"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Преглед слика"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Уређивање"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Извоз"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Штампа"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Увећава приказ"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Умањује приказ"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Најбоље уклапање"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Брисање"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Изборник радњи"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Преко целог екрана"
 
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Преглед уређивања"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Отказивање"
@@ -513,6 +518,11 @@ msgstr "Ваше фотографије су пописане"
 msgid "Some photos might not be available during this process"
 msgstr "Неке фотографије неће бити доступне за време овог поступка"
 
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Упс! Нисам успео да учитам „%s“"
+
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Месно"
@@ -547,40 +557,40 @@ msgstr[3] "Изабер ставке за увоз (једна изабрана)
 msgid "Back"
 msgstr "Назад"
 
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Изабери ставке"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Отвори програмом „%s“"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Уклоните из омиљених"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Додајте у омиљене"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:494
 msgid "Done"
 msgstr "Урађено"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:530
 msgid "_Select"
 msgstr "_Изабери"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Право на копирање © 2012 – 2018 Red Hat, Inc.\n"
+"Право на копирање © 2012 – 2019 Red Hat, Inc.\n"
 "Право на копирање © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
@@ -591,26 +601,6 @@ msgstr ""
 "Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "\n"
 "http://prevod.org — превод на српски језик"
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Цео екран"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Пречице на тастатури"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "По_моћ"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "О програму"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Изађи"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -650,6 +640,22 @@ msgstr "Постави за екран закључавања"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Својства"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Цео екран"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Пречице на тастатури"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "По_моћ"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "О Фотографијама"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -927,7 +933,7 @@ msgstr "Ваше „%s“ уверење је истекло"
 msgid "Settings"
 msgstr "Подешавања"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "Адреса Д-сабирнице за коришћење"
 
@@ -1053,9 +1059,19 @@ msgstr "Хоумтаун"
 msgid "Filters"
 msgstr "Филтери"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Не могу наћи Трагача на вашем оперативном систему"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Не могу да довучем списак фотографија"
+
+#~ msgid "About"
+#~ msgstr "О програму"
+
+#~ msgid "Quit"
+#~ msgstr "Изађи"
 
 #~ msgid "It lets you:"
 #~ msgstr "Допушта вам да:"
@@ -1065,9 +1081,6 @@ msgstr "Не могу да довучем списак фотографија"
 
 #~ msgid "Cancel"
 #~ msgstr "Откажи"
-
-#~ msgid "Add to Photos"
-#~ msgstr "Додај у Фотографије"
 
 #~ msgid "%"
 #~ msgid_plural "%"
