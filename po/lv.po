@@ -1,13 +1,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013, 2014, 2015, 2016, 2017, 2018.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-08-17 17:00+0000\n"
-"PO-Revision-Date: 2018-09-01 11:02+0200\n"
+"POT-Creation-Date: 2019-01-18 12:57+0000\n"
+"PO-Revision-Date: 2019-03-03 13:00+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -19,8 +19,8 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotogrāfijas"
 
@@ -29,20 +29,15 @@ msgid "Access, organize and share your photos on GNOME"
 msgstr "Piekļūstiet, organizējiet, dalieties ar fotogrāfijām GNOME vidē"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
-#| msgid ""
-#| "A simple application to access, organize and share your photos on GNOME. "
-#| "It is meant to be a simple and elegant replacement for using a file "
-#| "manager to deal with photos. Seamless cloud integration is offered "
-#| "through GNOME Online Accounts."
 msgid ""
 "Access, organize and share your photos on GNOME. A simple and elegant "
 "replacement for using a file manager to deal with photos. Enhance, crop and "
 "edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Piekļūstiet, organizējiet un dalieties ar fotogrāfijām GNOME vidē. Tā ir "
-" datņu pārvaldnieka aizvietotāja darbam ar fotogrāfijām. Ātri uzlabojiet"
-" kadrējiet un rediģējiet. Integrāciju ar mākoņpakalpojumiem nodrošina caur "
+"Piekļūstiet, organizējiet un dalieties ar fotogrāfijām GNOME vidē. Tā ir  "
+"datņu pārvaldnieka aizvietotāja darbam ar fotogrāfijām. Ātri uzlabojiet "
+"kadrējiet un rediģējiet. Integrāciju ar mākoņpakalpojumiem nodrošina caur "
 "GNOME tiešsaistes kontiem."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
@@ -58,7 +53,6 @@ msgid "View recent local and online photos"
 msgstr "Skatiet nesenās lokālās un tiešsaistes fotogrāfijas"
 
 #: data/org.gnome.Photos.appdata.xml.in:20
-#| msgid "Access your Facebook or Flickr content"
 msgid "Access your Facebook or Flickr pictures"
 msgstr "Piekļūstiet savām Facebook vai Flickr bildēm"
 
@@ -66,11 +60,10 @@ msgstr "Piekļūstiet savām Facebook vai Flickr bildēm"
 msgid ""
 "View photos on TVs, laptops or other DLNA renderers on your local network"
 msgstr ""
-"Skatiet fotogrāfijas televizorā , klēpjdatorā un citos DLNA attēlotājos jūsu"
-" lokālajā tīklā"
+"Skatiet fotogrāfijas televizorā , klēpjdatorā un citos DLNA attēlotājos jūsu "
+"lokālajā tīklā"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
-#| msgid "Set as background"
 msgid "Set pictures as your desktop background"
 msgstr "Iestatiet attēlus kā jūsu darbvirsmas fonu"
 
@@ -83,13 +76,12 @@ msgid "Select favorites"
 msgstr "Izvēlēties izlasi"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
-#| msgid "Allow opening full featured editor for more advanced changes"
 msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
 msgstr ""
-"Viegli rediģējiet savas fotogrāfijas lietotnē, vai sūtiet tās uz redaktoru ar"
-" plašākām rediģēšanas iespējām"
+"Viegli rediģējiet savas fotogrāfijas lietotnē, vai sūtiet tās uz redaktoru "
+"ar plašākām rediģēšanas iespējām"
 
 #: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
@@ -133,11 +125,11 @@ msgstr "Logs maksimizēts"
 msgid "Window maximized state"
 msgstr "Loga stāvoklis — maksimizēts"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Rādīt tukšu stāvokli"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Rādīt lietotnes versiju"
 
@@ -150,7 +142,7 @@ msgstr "Rādīt lietotnes versiju"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%Y. gada %d. %B"
@@ -159,7 +151,7 @@ msgstr "%Y. gada %d. %B"
 msgid "Album"
 msgstr "Albums"
 
-#: src/photos-base-item.c:2830
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Ekrānattēli"
 
@@ -189,39 +181,39 @@ msgstr "DLNA attēlošanas ierīces"
 msgid "“%s” edited"
 msgstr "“%s” rediģēts"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Kolekcijas skats"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Albumi"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Izlase"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Importēt"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
 msgid "Search"
 msgstr "Meklēt"
 
-#: src/photos-empty-results-box.c:129
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "Nav atrastu albumu"
 
-#: src/photos-empty-results-box.c:133
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Ar zvaigzni atzīmētās fotogrāfijas parādīsies šeit"
 
-#: src/photos-empty-results-box.c:143
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "Fotogrāfijas nav atrastas"
 
-#: src/photos-empty-results-box.c:172
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "Varat izveidot albumus no fotogrāfiju skata"
 
@@ -229,7 +221,7 @@ msgstr "Varat izveidot albumus no fotogrāfiju skata"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:193
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "Tiešsaistes konti"
 
@@ -237,7 +229,7 @@ msgstr "Tiešsaistes konti"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:200
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "Bilžu mape"
 
@@ -246,12 +238,12 @@ msgstr "Bilžu mape"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:207
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Fotogrāfijas no “%s” un “%s” parādīsies šeit."
 
-#: src/photos-empty-results-box.c:217
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Mēģiniet citus atslēgvārdus"
 
@@ -277,8 +269,8 @@ msgid "_Reduced"
 msgstr "_Reducēts"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
+#: src/photos-main-toolbar.c:639
 msgid "_Cancel"
 msgstr "At_celt"
 
@@ -344,7 +336,7 @@ msgstr "Eksportēt mapi"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -400,71 +392,78 @@ msgid "Select all"
 msgstr "Izvēlēties visu"
 
 #: src/photos-help-overlay.ui:106
+#| msgctxt "shortcut window"
+#| msgid "Print selected photos"
+msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Eksportēt atlasītās fotogrāfijas"
+
+#: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Drukāt atlasītās fotogrāfijas"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Dzēst atlasītās fotogrāfijas"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Fotogrāfiju skats"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Rediģēt"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Eksportēt"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Drukāt"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Tuvināt"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Tālināt"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Labākā saderība"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Dzēst"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Darbības izvēlne"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Pilnekrāns"
 
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Rediģēt skatu"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Atcelt"
@@ -514,6 +513,11 @@ msgstr "Fotogrāfijas tiek indeksētas"
 msgid "Some photos might not be available during this process"
 msgstr "Šajā laikā dažas fotogrāfijas varētu nebūt pieejamas"
 
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Ak vai! Neizdevās ielādēt “%s”"
+
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Lokāls"
@@ -546,69 +550,49 @@ msgstr[2] "Izvēlieties vienumus, kurus importēt (%u ir izvēlētu)"
 msgid "Back"
 msgstr "Atpakaļ"
 
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:351
 msgid "Select Items"
 msgstr "Izvēlēties vienumus"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Atvērt ar %s"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Izņemt no izlases"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Pievienot izlasei"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:494
 msgid "Done"
 msgstr "Pabeigts"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:530
 msgid "_Select"
 msgstr "Izvēlētie_s"
 
 #: src/photos-main-window.c:458
 #| msgid ""
-#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
-#| "Copyright © 2015 – 2017 Umang Jain"
+#| "Copyright © 2012 – 2018 Red Hat, Inc.\n"
+#| "Copyright © 2015 – 2018 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Autortiesības © 2012 – 2018 . gads Red Hat, Inc.\n"
-"Autortiesības© 2015 – 2018. gads Umang Jain"
+"Autortiesības © 2012. – 2019. gads Red Hat, Inc.\n"
+"Autortiesības© 2015. – 2018. gads Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr "Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>"
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Pilnekrāns"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Tastatūras saīsnes"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "_Palīdzība"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "Par"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Iziet"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -648,6 +632,23 @@ msgstr "Iestatīt kā ekrāna bloķētāju"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Īpašības"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Pilnekrāns"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Tastatūras saīsnes"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_Palīdzība"
+
+#: src/photos-primary-menu.ui:14
+#| msgid "Photos"
+msgid "About Photos"
+msgstr "Par fotogrāfijām"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -904,27 +905,27 @@ msgstr "Neizdevās augšupielādēt fotogrāfiju"
 msgid "Sources"
 msgstr "Avoti"
 
-#: src/photos-source-notification.c:183
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "Atrasta jauna ierīce"
 
-#: src/photos-source-notification.c:196
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Importēt…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:226
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Jūsu %s akreditācijas datu derīguma termiņš ir beidzies"
 
-#: src/photos-source-notification.c:233
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "D-Bus adrese, ko izmantot"
 
@@ -1050,9 +1051,19 @@ msgstr "Dzimtā pilsēta"
 msgid "Filters"
 msgstr "Filtri"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Neizdevās uz jūsu operētājsistēmas atrast Tracker"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Neizdevās saņemt fotogrāfiju sarakstu"
+
+#~ msgid "About"
+#~ msgstr "Par"
+
+#~ msgid "Quit"
+#~ msgstr "Iziet"
 
 #~ msgid "It lets you:"
 #~ msgstr "Tā jums ļauj:"
