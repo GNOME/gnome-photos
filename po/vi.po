@@ -1,14 +1,14 @@
 # Vietnamese translations for gnome-photos package.
 # Bản dịch Tiếng Việt dành cho gói gnome-photos.
 # This file is distributed under the same license as the gnome-photos package.
-# Trần Ngọc Quân <vnwildman@gmail.com>, 2016, 2017, 2018.
+# Trần Ngọc Quân <vnwildman@gmail.com>, 2016, 2017, 2018, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-02 17:31+0000\n"
-"PO-Revision-Date: 2018-03-03 14:01+0700\n"
+"POT-Creation-Date: 2019-03-02 21:56+0000\n"
+"PO-Revision-Date: 2019-03-03 14:43+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <gnome-vi-list@gnome.org>\n"
 "Language: vi\n"
@@ -19,8 +19,8 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Ảnh"
 
@@ -30,50 +30,60 @@ msgstr "Truy cập, tổ chức và chia sẻ ảnh của bạn trên GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Đây là ứng dụng đơn giản để truy cập, tổ chức và chia sẻ ảnh của bạn trên "
-"môi trường GNOME. Điều đó có nghĩa là nó có thể thay thế cho bộ quản lý tập "
-"tin khi dùng ảnh. Nó được nối thông lên mây thông qua “Tài khoản GNOME Trực "
-"tuyến”."
+"Truy cập, tổ chức và chia sẻ ảnh của bạn trên GNOME. Đây là ứng dụng đơn "
+"giản thay thế cho các bộ quản lý tập tin khi dùng với ảnh. Tăng cường, xén "
+"ảnh và sửa trong nháy mắt. Nó được nối thông lên mây thông qua “Tài khoản "
+"GNOME Trực tuyến”."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Nó gúp bạn:"
+msgid "You can:"
+msgstr "Bạn có thể:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Tìm kiếm một cách tự động tất cả các ảnh của bạn"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Xem các ảnh nội bộ và trực tuyến mới dùng"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Truy cập nội dung trên Facebook hay Flickr của bạn"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Gửi ảnh lên bộ vẽ DLNA trên mạng"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Truy cập các ảnh trên Facebook hay Flickr của bạn"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Hiển thị các ảnh trên các TV, máy tính xách tay hay các bộ hiển thị DLNA "
+"trong mạng nội bộ của bạn"
+
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
 msgstr "Đặt ảnh làm nền màn hình"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "In các ảnh"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Chọn các ảnh ưa thích"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
 msgstr ""
-"Cho phép mở trình soạn thảo có đầy đủ tính năng để việc thay đổi hiệu quả hơn"
+"Dễ dàng sửa các bức ảnh của bạn trong ứng dụng, hoặc gửi cho bộ soạn thảo "
+"với tính năng đầy đủ khi muốn thay đổi ở mức cao hơn"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
 msgstr "Dự án GNOME"
 
@@ -115,11 +125,11 @@ msgstr "Cửa sổ phóng to"
 msgid "Window maximized state"
 msgstr "Cửa sổ ở trạng thái phóng to hết cỡ"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Hiển thị tình trạng trống rỗng"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Hiển thị phiên bản của ứng dụng"
 
@@ -132,16 +142,16 @@ msgstr "Hiển thị phiên bản của ứng dụng"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Tuyển tập"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Chụp màn hình"
 
@@ -162,46 +172,46 @@ msgstr "Hoàn lại"
 
 #: src/photos-dlna-renderers-dialog.ui:7
 msgid "DLNA Renderer Devices"
-msgstr "Thiết bị vẽ DLNA"
+msgstr "Thiết bị hiển thị DLNA"
 
 #: src/photos-done-notification.c:112
 #, c-format
 msgid "“%s” edited"
 msgstr "“%s” đã được sửa"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Xem bộ sưu tập"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Tuyển tập"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Yêu thích"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Nhập vào"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "Tìm kiếm"
 
-#: src/photos-empty-results-box.c:148
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "Không tìm thấy tuyển tập nào"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Các ảnh đã đánh sao sẽ xuất hiện ở đây"
 
-#: src/photos-empty-results-box.c:162
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "Không tìm thấy ảnh nào"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "Bạn có thể tạo tuyển tập từ trình bày Ảnh"
 
@@ -209,7 +219,7 @@ msgstr "Bạn có thể tạo tuyển tập từ trình bày Ảnh"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "Tài khoản trực tuyến"
 
@@ -217,7 +227,7 @@ msgstr "Tài khoản trực tuyến"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "Thư mục ảnh"
 
@@ -226,12 +236,12 @@ msgstr "Thư mục ảnh"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Các ảnh từ %s và %s của bạn sẽ xuất hiện ở đây."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Thử tìm kiếm khác"
 
@@ -257,8 +267,8 @@ msgid "_Reduced"
 msgstr "_Giảm bớt"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "Thô_i"
 
@@ -278,35 +288,35 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Đang tính toán cỡ xuất…"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "Gặp lỗi khi xuất ra: không đủ chỗ trống"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "Gặp lỗi khi xuất ra"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s” đã được xuất"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d mục đã xuất"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "Phân tích"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Đổ rác đi"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Mở"
@@ -314,7 +324,7 @@ msgstr "Mở"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Xuất thư mục"
 
@@ -322,7 +332,7 @@ msgstr "Xuất thư mục"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -379,70 +389,75 @@ msgstr "Chọn tất cả"
 
 #: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Xuất các ảnh đã chọn"
+
+#: src/photos-help-overlay.ui:113
+msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "In ảnh đã chọn"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Xóa ảnh đã chọn"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Xem ảnh"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Chỉnh sửa"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Xuất"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "In"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Phóng to"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Thu nhỏ"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Vừa khít"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Xóa bỏ"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Trình đơn hành động"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Toàn màn hình"
 
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Sửa cách trình bày"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Thôi"
@@ -492,94 +507,79 @@ msgstr "Các ảnh của bạn đang được đánh mục lục"
 msgid "Some photos might not be available during this process"
 msgstr "Một số ảnh có lẽ sẽ không sẵn sàng trong suốt quá trình này"
 
-#: src/photos-local-item.c:207 src/photos-source-manager.c:399
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Hic! Không thể tải “%s”"
+
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Nội bộ"
 
-#: src/photos-main-toolbar.c:80
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
 msgstr "Bấm vào từng mục để chọn chúng"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d đã chọn"
 
-#: src/photos-main-toolbar.c:170
+#: src/photos-main-toolbar.c:169
 msgid "Select items for import"
 msgstr "Chọn các mục để nhập"
 
-#: src/photos-main-toolbar.c:174
+#: src/photos-main-toolbar.c:173
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "Chọn các mục để nhập (đã chọn %u)"
 
-#: src/photos-main-toolbar.c:217
+#: src/photos-main-toolbar.c:216
 msgid "Back"
 msgstr "Kế trước"
 
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
 msgstr "Chọn mục"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Mở bằng %s"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Bỏ khỏi danh sách ưa thích"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Thêm vào yêu thích"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "Xong"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:527
 msgid "_Select"
 msgstr "C_họn"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Bản quyền © 2012 – 2017 Red Hat, Inc.\n"
-"Bản quyền © 2015 – 2017 Umang Jain"
+"Bản quyền © 2012 – 2019 Red Hat, Inc.\n"
+"Bản quyền © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr "Nhóm Việt hóa GNOME <gnome-vi-list@gnome.org>"
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Toàn màn hình"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Phím tắt"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "T_rợ giúp"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "Giới thiệu"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Thoát"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -619,6 +619,22 @@ msgstr "Dùng cho màn hình khóa"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Thuộc tính"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Toàn màn hình"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Phím tắt"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "T_rợ giúp"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "Giới thiệu về Ảnh"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -873,27 +889,27 @@ msgstr "Gặp lỗi khi tải ảnh lên"
 msgid "Sources"
 msgstr "Nguồn"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "Tìm thấy thiết bị mới"
 
-#: src/photos-source-notification.c:214
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Nhập vào…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Giấy ủy nhiệm %s của bạn đã hết hạn"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "Địa chỉ D-Bus muốn dùng"
 
@@ -959,7 +975,7 @@ msgstr "16×9 (1920×1080)"
 
 #: src/photos-tool-crop.c:1459
 msgid "Lock aspect ratio"
-msgstr "Khóa tỷ lệ hình thể"
+msgstr "Khóa tỷ lệ hình dáng"
 
 #: src/photos-tool-crop.c:1529
 msgid "Landscape"
@@ -1019,9 +1035,25 @@ msgstr "Hometown"
 msgid "Filters"
 msgstr "Bộ lọc"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Không thể tìm thấy Tracker trên hệ điều hành của bạn"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Không thể lấy danh sách ảnh"
+
+#~ msgid "It lets you:"
+#~ msgstr "Nó gúp bạn:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Gửi ảnh lên bộ vẽ DLNA trên mạng"
+
+#~ msgid "About"
+#~ msgstr "Giới thiệu"
+
+#~ msgid "Quit"
+#~ msgstr "Thoát"
 
 #~ msgid "Name your first album"
 #~ msgstr "Tên của tuyển tập đầu tiên của bạn"
