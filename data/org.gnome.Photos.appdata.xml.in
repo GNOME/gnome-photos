@@ -52,6 +52,15 @@
   <project_group>GNOME</project_group>
   <update_contact>debarshir_at_gnome.org</update_contact>
   <translation type="gettext">gnome-photos</translation>
+  <releases>
+    <release version="3.32.0" date="2019-03-18">
+      <description>
+        <p>
+          We are proud to announce GNOME Photos 3.32.0 as the latest stable version.
+        </p>
+      </description>
+    </release>
+  </releases>
   <content_rating type="oars-1.1">
     <content_attribute id="violence-cartoon">none</content_attribute>
     <content_attribute id="violence-fantasy">none</content_attribute>
