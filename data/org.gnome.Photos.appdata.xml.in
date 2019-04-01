@@ -33,6 +33,29 @@
     <kudo>SearchProvider</kudo>
     <kudo>UserDocs</kudo>
   </kudos>
+  <releases>
+    <release version="3.32.0" date="2019-03-18">
+      <description>
+        <ul>
+          <li>Don't attempt to load items from non-UTF-8 paths</li>
+          <li>Remove the application menu</li>
+          <li>Start adding some unit tests</li>
+          <li>Update the application icon for the GNOME 3.32 redesign</li>
+        </ul>
+      </description>
+    </release>
+    <release version="3.30.0" date="2018-09-06">
+      <description>
+        <ul>
+          <li>Delete *.gnome-photos files with XML depicting an empty GEGL graph</li>
+          <li>Launch Settings in a Flatpak-friendly way</li>
+          <li>Port to the Meson build system</li>
+          <li>Reduce memory fragmentation in ImageView</li>
+          <li>Unbreak the "Empty Trash" button on GNOME >= 3.24</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
   <screenshots>
     <screenshot type="default">
       <image type="source">https://static.gnome.org/appdata/gnome-photos/gnome-photos-1.png</image>
