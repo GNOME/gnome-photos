@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-01-18 12:57+0000\n"
+"POT-Creation-Date: 2019-03-26 17:09+0000\n"
 "PO-Revision-Date: 2019-02-13 11:49+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -95,11 +95,6 @@ msgstr "GNOME-projektet"
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
 msgstr "Tilgå, organisér og del billeder"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Photos.desktop.in.in:7
-msgid "org.gnome.Photos"
-msgstr "org.gnome.Photos"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
@@ -201,7 +196,7 @@ msgstr "Favoritter"
 msgid "Import"
 msgstr "Importér"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "Søg"
 
@@ -273,8 +268,8 @@ msgid "_Reduced"
 msgstr "_Reduceret"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
-#: src/photos-main-toolbar.c:639
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "_Annullér"
 
@@ -524,57 +519,57 @@ msgstr "Ups! Kunne ikke indlæse “%s”"
 msgid "Local"
 msgstr "Lokal"
 
-#: src/photos-main-toolbar.c:80
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
 msgstr "Tryk på elementer for at vælge dem"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d valgt"
 msgstr[1] "%d valgte"
 
-#: src/photos-main-toolbar.c:170
+#: src/photos-main-toolbar.c:169
 msgid "Select items for import"
 msgstr "Vælg elementer der skal importeres"
 
-#: src/photos-main-toolbar.c:174
+#: src/photos-main-toolbar.c:173
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "Vælg elementer der skal importeres (%u valgt)"
 msgstr[1] "Vælg elementer der skal importeres (%u valgt)"
 
-#: src/photos-main-toolbar.c:217
+#: src/photos-main-toolbar.c:216
 msgid "Back"
 msgstr "Tilbage"
 
-#: src/photos-main-toolbar.c:351
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
 msgstr "Vælg elementer"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Åbn med %s"
 
-#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Fjern fra favoritter"
 
-#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Føj til favoritter"
 
-#: src/photos-main-toolbar.c:494
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "Færdig"
 
-#: src/photos-main-toolbar.c:530
+#: src/photos-main-toolbar.c:527
 msgid "_Select"
 msgstr "_Vælg"
 
@@ -597,8 +592,9 @@ msgstr ""
 "Joe Hansen\n"
 "Alan Mortensen\n"
 "\n"
-"Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
-"Mere info: http://www.dansk-gruppen.dk"
+"Dansk-gruppen\n"
+"Websted <http://dansk-gruppen.dk>\n"
+"E-mail <dansk@dansk-gruppen.dk>"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -1064,6 +1060,9 @@ msgstr "Kunne ikke finde Tracker i dit styresystem"
 msgid "Unable to fetch the list of photos"
 msgstr "Kunne ikke hente liste over billeder"
 
+#~ msgid "org.gnome.Photos"
+#~ msgstr "org.gnome.Photos"
+
 #~ msgid "About"
 #~ msgstr "Om"
 
@@ -1160,14 +1159,15 @@ msgstr "Kunne ikke hente liste over billeder"
 #~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
 #~ "opening full featured editor for more advanced changes</li>"
 #~ msgstr ""
-#~ "<li>Se nylige lokale og online billeder</li> <li>Tilgå dit Flickr-"
-#~ "indhold</li> <li>Sende billeder til fjerne DLNA-renderingsenheder</li> "
-#~ "<li>Sætte som baggrund</li> <li>Udskrive billeder</li> <li>Vælge "
-#~ "favoritter</li> <li>Åbne et fuldt funktionsdygtigt redigeringsprogram for "
-#~ "mere avancerede ændringer</li>"
+#~ "<li>Se nylige lokale og online billeder</li> <li>Tilgå dit "
+#~ "Flickr-indhold</li> <li>Sende billeder til fjerne "
+#~ "DLNA-renderingsenheder</li> <li>Sætte som baggrund</li> <li>Udskrive "
+#~ "billeder</li> <li>Vælge favoritter</li> <li>Åbne et fuldt funktionsdygtigt "
+#~ "redigeringsprogram for mere avancerede ændringer</li>"
 
 #~ msgid "Facebook"
 #~ msgstr "Facebook"
 
 #~ msgid "Flickr"
 #~ msgstr "Flickr"
+
