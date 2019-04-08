@@ -593,7 +593,7 @@ msgstr ""
 "Alan Mortensen\n"
 "\n"
 "Dansk-gruppen\n"
-"Websted <http://dansk-gruppen.dk>\n"
+"Websted http://dansk-gruppen.dk\n"
 "E-mail <dansk@dansk-gruppen.dk>"
 
 #: src/photos-organize-collection-dialog.c:70
