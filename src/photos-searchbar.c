@@ -253,6 +253,14 @@ photos_searchbar_handle_event (PhotosSearchbar *self, GdkEventKey *event)
       goto out;
     }
 
+  /* Ctrl+a select all text in the search bar */
+  if (search_mode_enabled && (event->state == GDK_CONTROL_MASK) && (event->keyval == GDK_KEY_a))
+    {
+      gtk_widget_grab_focus (priv->search_entry);
+      ret_val = GDK_EVENT_STOP;
+      goto out;
+    }
+
   ret_val = gtk_search_bar_handle_event (GTK_SEARCH_BAR (self), (GdkEvent *) event);
   if (ret_val == GDK_EVENT_STOP)
     gtk_entry_grab_focus_without_selecting (GTK_ENTRY (priv->search_entry));
