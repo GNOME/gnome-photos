@@ -14,6 +14,7 @@ photos_libexecdir = join_paths(photos_prefix, get_option('libexecdir'))
 photos_localedir = join_paths(photos_prefix, get_option('localedir'))
 photos_mandir = join_paths(photos_prefix, get_option('mandir'))
 
+photos_pkg_datadir = join_paths(photos_datadir, meson.project_name())
 photos_docdir = join_paths(photos_datadir, 'doc', meson.project_name())
 photos_libdir = join_paths(photos_prefix, get_option('libdir'), meson.project_name())
 
@@ -151,6 +152,16 @@ libgd = subproject(
   ]
 )
 libgd_dep = libgd.get_variable('libgd_dep')
+
+rawspeed = subproject(
+  'rawspeed',
+  default_options: [
+    'lto=true',
+    'pkgdatadir=@0@'.format(photos_pkg_datadir),
+    'pkglibdir=@0@'.format(photos_libdir),
+  ]
+)
+rawspeed_dep = rawspeed.get_variable('rawspeed_dep')
 
 babl_dep = dependency('babl', version: '>= 0.1.54')
 cairo_dep = dependency('cairo', version: '>= 1.14.0')

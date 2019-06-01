@@ -96,6 +96,7 @@ deps = [
   libjpeg_dep,
   libpng_dep,
   m_dep,
+  rawspeed_dep,
 ]
 
 libgnome_photos = shared_library(
