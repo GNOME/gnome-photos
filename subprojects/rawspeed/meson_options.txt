@@ -1,0 +1,13 @@
+option(
+  'lto',
+  description: 'Use link-time optimization',
+  type: 'boolean',
+  value: false,
+)
+
+option(
+  'pkglibdir',
+  description: 'The private directory the shared library/typelib will be installed into',
+  type: 'string',
+  value: '',
+)

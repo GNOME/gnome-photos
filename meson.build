@@ -149,6 +149,9 @@ libgd = subproject(
 )
 libgd_dep = libgd.get_variable('libgd_dep')
 
+rawspeed = subproject('rawspeed', default_options: ['lto=true', 'pkglibdir=@0@'.format(photos_libdir)])
+rawspeed_dep = rawspeed.get_variable('rawspeed_dep')
+
 babl_dep = dependency('babl', version: '>= 0.1.54')
 cairo_dep = dependency('cairo', version: '>= 1.14.0')
 gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0', version: '>= 2.36.8')
