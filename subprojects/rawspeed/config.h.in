@@ -1,0 +1,16 @@
+#mesondefine HAVE_CXX_THREAD_LOCAL
+#mesondefine HAVE_GCC_THREAD_LOCAL
+
+#mesondefine HAVE_POSIX_MEMALIGN
+#mesondefine HAVE_ALIGNED_ALLOC
+#mesondefine HAVE_MM_MALLOC
+#mesondefine HAVE_ALIGNED_MALLOC
+
+#mesondefine HAVE_JPEG
+#mesondefine HAVE_JPEG_MEM_SRC
+
+#mesondefine HAVE_OPENMP
+#define OMPFIRSTPRIVATECLAUSE(...) @ompfirstprivateclause@
+
+#mesondefine HAVE_PUGIXML
+#mesondefine HAVE_ZLIB
