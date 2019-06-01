@@ -28,6 +28,7 @@
 #include "photos-gegl-buffer-codec.h"
 #include "photos-gegl-buffer-codec-jpeg.h"
 #include "photos-gegl-buffer-codec-png.h"
+#include "photos-gegl-buffer-codec-raw.h"
 #include "photos-operation-insta-clarendon.h"
 #include "photos-operation-insta-curve.h"
 #include "photos-operation-insta-filter.h"
@@ -639,6 +640,7 @@ photos_gegl_ensure_builtins (void)
     {
       g_type_ensure (PHOTOS_TYPE_GEGL_BUFFER_CODEC_JPEG);
       g_type_ensure (PHOTOS_TYPE_GEGL_BUFFER_CODEC_PNG);
+      g_type_ensure (PHOTOS_TYPE_GEGL_BUFFER_CODEC_RAW);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CLARENDON);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
