@@ -89,10 +89,7 @@ libgnome_photos = shared_library(
   install_dir: photos_libdir,
 )
 
-libgnome_photos_dep = declare_dependency(
-  link_with: libgnome_photos,
-  sources: libgnome_photos_built_headers,
-)
+libgnome_photos_dep = declare_dependency(link_with: libgnome_photos, sources: libgnome_photos_built_headers)
 
 common_sources = []
 
