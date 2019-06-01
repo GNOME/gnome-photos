@@ -1,0 +1,2 @@
+subdir('external')
+subdir('librawspeed')
