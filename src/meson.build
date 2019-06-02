@@ -22,6 +22,7 @@ sources = files(
   'photos-pipeline.c',
   'photos-png-count.c',
   'photos-quarks.c',
+  'photos-rawspeed.cpp',
 )
 
 thumbnailer_dbus = 'photos-thumbnailer-dbus'
@@ -82,6 +83,10 @@ libgnome_photos_built_sources_resources = gnome.compile_resources(
 libgnome_photos_built_headers += libgnome_photos_built_sources_resources[1]
 sources += libgnome_photos_built_sources_resources
 
+cppflags = [
+  '-DPACKAGE_DATA_DIR="@0@"'.format(photos_pkg_datadir),
+]
+
 deps = [
   babl_dep,
   gegl_dep,
@@ -100,6 +105,7 @@ deps = [
 libgnome_photos = shared_library(
   meson.project_name(),
   sources,
+  cpp_args: cppflags,
   dependencies: deps,
   include_directories: top_inc,
   install: true,
