@@ -246,6 +246,11 @@ photos_rawspeed_correct_black_and_white_point (rawspeed::RawImage image, gint co
 
   GeglRectangle bbox_output;
   gegl_rectangle_set (&bbox_output, 0, 0, static_cast<guint> (width_output), static_cast<guint> (height_output));
+  g_message ("rawprepare: process: x, y, width, height: %d, %d, %d, %d",
+             bbox_output.x,
+             bbox_output.y,
+             bbox_output.width,
+             bbox_output.height);
 
   g_autoptr (GeglBuffer) buffer_output = gegl_buffer_new (&bbox_output, format_output);
   GeglBufferIterator *it = gegl_buffer_iterator_new (buffer_output,
@@ -277,6 +282,9 @@ photos_rawspeed_correct_black_and_white_point (rawspeed::RawImage image, gint co
                   const gint bayer_index = photos_rawspeed_get_2x2_bayer_index (crop_x, crop_y, x, y);
 
                   out[out_offset] = (static_cast<gfloat> (in_value) - sub[bayer_index]) / div[bayer_index];
+
+                  if (x % 1000 == 0 && y % 1000 == 0)
+                    g_message ("rawprepare: process: (%d, %d) %d -> %f", x, y, (gint) in_value, out[out_offset]);
                 }
             }
         }
