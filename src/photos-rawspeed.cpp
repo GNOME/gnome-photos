@@ -79,7 +79,7 @@ photos_rawspeed_get_2x2_bayer_index (gint crop_x, gint crop_y, gint x, gint y)
 
 
 static const Babl *
-photos_rawspeed_get_format (rawspeed::RawImageType image_type, guint components)
+photos_rawspeed_get_format (rawspeed::RawImageType image_type, gsize components)
 {
   g_return_val_if_fail ((components == 1
                          && (image_type == rawspeed::TYPE_FLOAT32 || image_type == rawspeed::TYPE_USHORT16))
@@ -158,7 +158,7 @@ photos_rawspeed_destroy_image (rawspeed::RawImage *image)
 
 
 static GeglBuffer *
-photos_rawspeed_correct_black_and_white_point (rawspeed::RawImage image, gint components, guint32 filters)
+photos_rawspeed_correct_black_and_white_point (rawspeed::RawImage image, gsize components, guint32 filters)
 {
   GeglBuffer *ret_val = NULL;
 
@@ -225,9 +225,10 @@ photos_rawspeed_correct_black_and_white_point (rawspeed::RawImage image, gint co
         }
     }
 
-  const guint32 bpp = image_data->getBpp ();
+  const guint32 bpp_input = image_data->getBpp ();
 
   const Babl *format_output = photos_rawspeed_get_format (rawspeed::TYPE_FLOAT32, components);
+  const gint bpp_output = babl_format_get_bytes_per_pixel (format_output);
 
   const rawspeed::iPoint2D dimensions_cropped = image_data->dim;
   const gint height_input = dimensions_uncropped.y;
@@ -253,96 +254,124 @@ photos_rawspeed_correct_black_and_white_point (rawspeed::RawImage image, gint co
              bbox_output.height);
 
   g_autoptr (GeglBuffer) buffer_output = gegl_buffer_new (&bbox_output, format_output);
-  GeglBufferIterator *it = gegl_buffer_iterator_new (buffer_output,
-                                                     &bbox_output,
-                                                     0,
-                                                     format_output,
-                                                     GEGL_ACCESS_WRITE,
-                                                     GEGL_ABYSS_NONE,
-                                                     1);
+
+  GeglRectangle bbox_tile;
+  g_object_get (buffer_output, "tile-height", &bbox_tile.height, "tile-width", &bbox_tile.width, NULL);
+
+  const gint tile_stride = bpp_output * bbox_tile.width;
+  g_autofree gpointer tile_memory = g_malloc0_n (bbox_tile.height, tile_stride);
+  gfloat *const out = static_cast<gfloat *> (tile_memory);
 
   if (filters != 0 && components == 1 && image_type == rawspeed::TYPE_USHORT16)
     {
-      while (gegl_buffer_iterator_next (it))
+      const guint16 *const in = reinterpret_cast<const guint16 *> (data_uncropped);
+
+      for (bbox_tile.y = 0; bbox_tile.y < bbox_output.height; bbox_tile.y += bbox_tile.height)
         {
-          GeglBufferIteratorItem *item = &it->items[0];
-          gfloat *const out = static_cast<gfloat *> (item->data);
-
-          for (gint j = 0, y = item->roi.y; j < item->roi.height; j++, y++)
+          for (bbox_tile.x = 0; bbox_tile.x < bbox_output.width; bbox_tile.x += bbox_tile.width)
             {
-              for (gint i = 0, x = item->roi.x; i < item->roi.width; i++, x++)
+              for (gint j = 0, y = bbox_tile.y; j < bbox_tile.height; j++, y++)
                 {
-                  const gsize in_offset = static_cast<gsize> (crop_y + y) * static_cast<gsize> (image_data->pitch)
-                                          + static_cast<gsize> (crop_x + x) * static_cast<gsize> (bpp);
-                  const guint16 in_value = *(reinterpret_cast<const guint16 *> (data_uncropped + in_offset));
+                  for (gint i = 0, x = bbox_tile.x; i < bbox_tile.width; i++, x++)
+                    {
+                      const gsize in_offset = static_cast<gsize> (crop_y + y) * static_cast<gsize> (width_input)
+                                              + static_cast<gsize> (crop_x + x);
 
-                  const gsize out_offset = static_cast<gsize> (y) * static_cast<gsize> (width_output)
-                                           + static_cast<gsize> (x);
+                      const gsize out_offset = static_cast<gsize> (j) * static_cast<gsize> (bbox_tile.width)
+                                               + static_cast<gsize> (i);
 
-                  const gint bayer_index = photos_rawspeed_get_2x2_bayer_index (crop_x, crop_y, x, y);
+                      const gint bayer_index = photos_rawspeed_get_2x2_bayer_index (crop_x, crop_y, x, y);
 
-                  out[out_offset] = (static_cast<gfloat> (in_value) - sub[bayer_index]) / div[bayer_index];
+                      out[out_offset] = (static_cast<gfloat> (in[in_offset]) - sub[bayer_index]) / div[bayer_index];
 
-                  if (x % 1000 == 0 && y % 1000 == 0)
-                    g_message ("rawprepare: process: (%d, %d) %d -> %f", x, y, (gint) in_value, out[out_offset]);
+                      if (x % 1000 == 0 && y % 1000 == 0)
+                        g_message ("rawprepare: process: (%d, %d) %d -> %f",
+                                   x, y, (gint) in[in_offset], out[out_offset]);
+                    }
                 }
+
+              gegl_buffer_set (buffer_output,
+                               &bbox_tile,
+                               0,
+                               format_output,
+                               tile_memory,
+                               tile_stride);
             }
         }
     }
   else if (filters != 0 && components == 1 && image_type == rawspeed::TYPE_FLOAT32)
     {
-      while (gegl_buffer_iterator_next (it))
+      const gfloat *const in = reinterpret_cast<const gfloat *> (data_uncropped);
+
+      for (bbox_tile.y = 0; bbox_tile.y < bbox_output.height; bbox_tile.y += bbox_tile.height)
         {
-          GeglBufferIteratorItem *item = &it->items[0];
-          gfloat *const out = static_cast<gfloat *> (item->data);
-
-          for (gint y = item->roi.y; y < item->roi.height; y++)
+          for (bbox_tile.x = 0; bbox_tile.x < bbox_output.width; bbox_tile.x += bbox_tile.width)
             {
-              for (gint x = item->roi.x; x < item->roi.width; x++)
+              for (gint j = 0, y = bbox_tile.y; j < bbox_tile.height; j++, y++)
                 {
-                  const gsize in_offset = static_cast<gsize> (crop_y + y) * static_cast<gsize> (image_data->pitch)
-                                          + static_cast<gsize> (crop_x + x) * static_cast<gsize> (bpp);
-                  const gfloat in_value = *(reinterpret_cast<const gfloat *> (data_uncropped + in_offset));
+                  for (gint i = 0, x = bbox_tile.x; i < bbox_tile.width; i++, x++)
+                    {
+                      const gsize in_offset = static_cast<gsize> (crop_y + y) * static_cast<gsize> (width_input)
+                                              + static_cast<gsize> (crop_x + x);
 
-                  const gsize out_offset = static_cast<gsize> (y) * static_cast<gsize> (width_output)
-                                           + static_cast<gsize> (x);
+                      const gsize out_offset = static_cast<gsize> (j) * static_cast<gsize> (bbox_tile.width)
+                                               + static_cast<gsize> (i);
 
-                  const gint bayer_index = photos_rawspeed_get_2x2_bayer_index (crop_x, crop_y, x, y);
+                      const gint bayer_index = photos_rawspeed_get_2x2_bayer_index (crop_x, crop_y, x, y);
 
-                  out[out_offset] = (in_value - sub[bayer_index]) / div[bayer_index];
+                      out[out_offset] = (in[in_offset] - sub[bayer_index]) / div[bayer_index];
+                    }
                 }
+
+              gegl_buffer_set (buffer_output,
+                               &bbox_tile,
+                               0,
+                               format_output,
+                               tile_memory,
+                               tile_stride);
             }
         }
     }
   else
     {
-      while (gegl_buffer_iterator_next (it))
+      const gfloat *const in = reinterpret_cast<const gfloat *> (data_uncropped);
+
+      for (bbox_tile.y = 0; bbox_tile.y < bbox_output.height; bbox_tile.y += bbox_tile.height)
         {
-          GeglBufferIteratorItem *item = &it->items[0];
-          gfloat *const out = static_cast<gfloat *> (item->data);
-
-          for (gint y = item->roi.y; y < item->roi.height; y++)
+          for (bbox_tile.x = 0; bbox_tile.x < bbox_output.width; bbox_tile.x += bbox_tile.width)
             {
-              for (gint x = item->roi.x; x < item->roi.width; x++)
+              for (gint j = 0, y = bbox_tile.y; j < bbox_tile.height; j++, y++)
                 {
-                  for (gint c = 0; c < components; c++)
+                  for (gint i = 0, x = bbox_tile.x; i < bbox_tile.width; i++, x++)
                     {
-                      const gsize in_offset = static_cast<gsize> (crop_y + y)
-                                              * static_cast<gsize> (image_data->pitch)
-                                              + static_cast<gsize> (crop_x + x) * static_cast<gsize> (bpp)
-                                              + static_cast<gsize> (c) * sizeof (gfloat);
-                      const gfloat in_value = *(reinterpret_cast<const gfloat *> (data_uncropped + in_offset));
+                      for (gsize c = 0; c < components; c++)
+                        {
+                          const gsize in_offset = components
+                                                  * (static_cast<gsize> (crop_y + y)
+                                                     * static_cast<gsize> (width_input)
+                                                     + static_cast<gsize> (crop_x + x))
+                                                  + c;
 
-                      const gsize out_offset = (static_cast<gsize> (y) * static_cast<gsize> (width_output)
-                                                + static_cast<gsize> (x))
-                                               * static_cast<gsize> (components)
-                                               + static_cast<gsize> (c);
+                          const gsize out_offset = components
+                                                   * (static_cast<gsize> (j) * static_cast<gsize> (bbox_tile.width)
+                                                      + static_cast<gsize> (i))
+                                                   + c;
 
-                      out[out_offset] = (in_value - sub[0]) / div[0];
+                          const gint bayer_index = photos_rawspeed_get_2x2_bayer_index (crop_x, crop_y, x, y);
+
+                          out[out_offset] = (in[in_offset] - sub[bayer_index]) / div[bayer_index];
+                        }
                     }
                 }
+
+              gegl_buffer_set (buffer_output,
+                               &bbox_tile,
+                               0,
+                               format_output,
+                               tile_memory,
+                               tile_stride);
+                }
             }
-        }
     }
 
   ret_val = static_cast<GeglBuffer *> (g_object_ref (buffer_output));
