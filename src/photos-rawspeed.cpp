@@ -24,6 +24,7 @@
 #include "config.h"
 
 #include <cmath>
+#include <cstring>
 #include <memory>
 #include <string>
 
@@ -161,7 +162,16 @@ photos_rawspeed_buffer_new_from_image (rawspeed::RawImage image, gsize component
                                                                                    "source", buffer_cropped,
                                                                                    NULL));
 
+  {
+    const GeglRectangle bbox = *gegl_buffer_get_extent (buffer_shifted);
+    g_return_val_if_fail (bbox.height == dimensions_cropped.y, NULL);
+    g_return_val_if_fail (bbox.width == dimensions_cropped.x, NULL);
+    g_return_val_if_fail (bbox.x == 0, NULL);
+    g_return_val_if_fail (bbox.y == 0, NULL);
+  }
+
   ret_val = static_cast<GeglBuffer *> (g_object_ref (buffer_shifted));
+
   return ret_val;
 }
 
@@ -338,6 +348,10 @@ photos_rawspeed_op_apply_white_balance (GeglBuffer *buffer_input,
 {
   GeglBuffer *ret_val = NULL;
 
+  const GeglRectangle bbox = *gegl_buffer_get_extent (buffer_input);
+  g_return_val_if_fail (bbox.x == 0, NULL);
+  g_return_val_if_fail (bbox.y == 0, NULL);
+
   g_return_val_if_fail (filters == 0 || (filters != 0 && components == 1), NULL);
 
   bool are_coefficients_valid = true;
@@ -382,7 +396,6 @@ photos_rawspeed_op_apply_white_balance (GeglBuffer *buffer_input,
 
   const Babl *format = gegl_buffer_get_format (buffer_input);
   const GeglAbyssPolicy abyss_policy = static_cast<GeglAbyssPolicy> (GEGL_ABYSS_NONE | GEGL_BUFFER_FILTER_AUTO);
-  const GeglRectangle bbox = *gegl_buffer_get_extent (buffer_input);
   GeglBufferIterator *it = gegl_buffer_iterator_new (buffer_input,
                                                      &bbox,
                                                      0,
@@ -493,6 +506,10 @@ photos_rawspeed_op_correct_black_white_point (GeglBuffer *buffer_input,
 {
   GeglBuffer *ret_val = NULL;
 
+  const GeglRectangle bbox = *gegl_buffer_get_extent (buffer_input);
+  g_return_val_if_fail (bbox.x == 0, NULL);
+  g_return_val_if_fail (bbox.y == 0, NULL);
+
   const rawspeed::RawImageType image_type = image_data->getDataType ();
   if (photos_rawspeed_is_normalized (image_type, filters, static_cast<guint32> (image_data->whitePoint)))
     {
@@ -532,7 +549,6 @@ photos_rawspeed_op_correct_black_white_point (GeglBuffer *buffer_input,
     }
 
   const GeglAbyssPolicy abyss_policy = static_cast<GeglAbyssPolicy> (GEGL_ABYSS_NONE | GEGL_BUFFER_FILTER_AUTO);
-  const GeglRectangle bbox = *gegl_buffer_get_extent (buffer_input);
 
   const Babl *format_input = gegl_buffer_get_format (buffer_input);
   GeglBufferIterator *it = gegl_buffer_iterator_new (buffer_input,
@@ -671,6 +687,10 @@ photos_rawspeed_op_demosaic (GeglBuffer *buffer_input,
 {
   GeglBuffer *ret_val = NULL;
 
+  const GeglRectangle bbox = *gegl_buffer_get_extent (buffer_input);
+  g_return_val_if_fail (bbox.x == 0, NULL);
+  g_return_val_if_fail (bbox.y == 0, NULL);
+
   if (filters == 0)
     {
       ret_val = static_cast<GeglBuffer *> (g_object_ref (buffer_input));
@@ -678,7 +698,6 @@ photos_rawspeed_op_demosaic (GeglBuffer *buffer_input,
     }
 
   const GeglAbyssPolicy abyss_policy = static_cast<GeglAbyssPolicy> (GEGL_ABYSS_NONE | GEGL_BUFFER_FILTER_AUTO);
-  const GeglRectangle bbox = *gegl_buffer_get_extent (buffer_input);
 
   const Babl *format_input = gegl_buffer_get_format (buffer_input);
   GeglBufferIterator *it = gegl_buffer_iterator_new (buffer_input,
@@ -722,14 +741,61 @@ photos_rawspeed_op_demosaic (GeglBuffer *buffer_input,
 
           const GeglRectangle roi = item_input->roi;
 
-          gfloat sum[8];
+          const gfloat *const in = static_cast<gfloat *> (item_input->data);
+          gfloat *const out = static_cast<gfloat *> (item_output->data);
 
-          for (gint j = 0; j < roi.height; j++)
+          gfloat count[4];
+          gfloat sum[4];
+
+          for (gint j = 0, y = roi.y; j < roi.height; j++, y++)
             {
-              for (gint i = 0; i < roi.width; i++)
+              for (gint i = 0, x = roi.x; i < roi.width; i++, x++)
                 {
-                  if (i == offset_top_left_x && j >= offset_top_left_y && j < roi.height - offset_bottom_right_y)
-                    i = roi.width - offset_bottom_right_x;
+                  if (x >= offset_top_left_x && y >= offset_top_left_y && y < bbox.height - offset_bottom_right_y)
+                    {
+                      const gint x_incremented = bbox.width - offset_bottom_right_x;
+                      const gint increment = x_incremented - x;
+
+                      x += increment;
+                      i += increment;
+
+                      if (i >= roi.width)
+                        break;
+                    }
+
+                  std::memset (count, 0, sizeof (gfloat) * G_N_ELEMENTS (count));
+                  std::memset (sum, 0, sizeof (gfloat) * G_N_ELEMENTS (sum));
+
+                  for (gint q = j - 1, y1 = y - 1; q < j + 2; q++, y1++)
+                    {
+                      for (gint p = i - 1, x1 = x - 1; p < i + 2; p++, x1++)
+                        {
+                          if (y1 >= 0 && x1 >= 0 && y1 < bbox.height && x < bbox.width)
+                            {
+                              const gint fc = photos_rawspeed_calculate_pattern_color_bayer (x1, y1, filters);
+                              const gsize offset = static_cast<gsize> (q) * static_cast<gsize> (roi.width)
+                                                   + static_cast<gsize> (p);
+
+                              sum[fc] += in[offset];
+                              count[fc]++;
+                            }
+                        }
+                    }
+
+                  const gint fc = photos_rawspeed_calculate_pattern_color_bayer (x, y, filters);
+
+                  for (gsize c = 0; c < 3; c++)
+                    {
+                      const gsize offset_out = 3
+                                               * (static_cast<gsize> (j) * static_cast<gsize> (roi.width)
+                                                  + static_cast<gsize> (i))
+                                               + c;
+
+                      if (c != fc && count[c] > 0.0f)
+                        out[offset_out] = sum[c] / count[c];
+                      else
+                        out[offset_out];
+                    }
                 }
             }
         }
@@ -749,6 +815,10 @@ photos_rawspeed_op_reconstruct_highlights (GeglBuffer *buffer_input,
 {
   GeglBuffer *ret_val = NULL;
 
+  const GeglRectangle bbox = *gegl_buffer_get_extent (buffer_input);
+  g_return_val_if_fail (bbox.x == 0, NULL);
+  g_return_val_if_fail (bbox.y == 0, NULL);
+
   g_return_val_if_fail (filters == 0 || (filters != 0 && components == 1), NULL);
 
   static_assert(N_PROCESSED_MAXIMUMS == 4, "Value of N_PROCESSED_MAXIMUMS has changed");
@@ -756,7 +826,6 @@ photos_rawspeed_op_reconstruct_highlights (GeglBuffer *buffer_input,
                                   std::fminf (processed_maximums[1], processed_maximums[2]));
 
   const GeglAbyssPolicy abyss_policy = static_cast<GeglAbyssPolicy> (GEGL_ABYSS_NONE | GEGL_BUFFER_FILTER_AUTO);
-  const GeglRectangle bbox = *gegl_buffer_get_extent (buffer_input);
 
   const Babl *format_input = gegl_buffer_get_format (buffer_input);
   GeglBufferIterator *it = gegl_buffer_iterator_new (buffer_input,
