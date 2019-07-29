@@ -25,6 +25,10 @@
 
 #include "photos-debug.h"
 #include "photos-gegl.h"
+#include "photos-gegl-buffer-codec.h"
+#include "photos-gegl-buffer-codec-jpeg.h"
+#include "photos-gegl-buffer-codec-png.h"
+#include "photos-gegl-buffer-codec-raw.h"
 #include "photos-operation-insta-curve.h"
 #include "photos-operation-insta-filter.h"
 #include "photos-operation-insta-hefe.h"
@@ -629,8 +633,14 @@ photos_gegl_ensure_builtins (void)
 {
   static gsize once_init_value = 0;
 
+  photos_gegl_ensure_extension_points ();
+
   if (g_once_init_enter (&once_init_value))
     {
+      g_type_ensure (PHOTOS_TYPE_GEGL_BUFFER_CODEC_JPEG);
+      g_type_ensure (PHOTOS_TYPE_GEGL_BUFFER_CODEC_PNG);
+      g_type_ensure (PHOTOS_TYPE_GEGL_BUFFER_CODEC_RAW);
+
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE);
@@ -640,6 +650,23 @@ photos_gegl_ensure_builtins (void)
       g_type_ensure (PHOTOS_TYPE_OPERATION_PNG_GUESS_SIZES);
       g_type_ensure (PHOTOS_TYPE_OPERATION_SATURATION);
       g_type_ensure (PHOTOS_TYPE_OPERATION_SVG_MULTIPLY);
+
+      g_once_init_leave (&once_init_value, 1);
+    }
+}
+
+
+void
+photos_gegl_ensure_extension_points (void)
+{
+  static gsize once_init_value = 0;
+
+  if (g_once_init_enter (&once_init_value))
+    {
+      GIOExtensionPoint *extension_point;
+
+      extension_point = g_io_extension_point_register (PHOTOS_GEGL_BUFFER_CODEC_EXTENSION_POINT_NAME);
+      g_io_extension_point_set_required_type (extension_point, PHOTOS_TYPE_GEGL_BUFFER_CODEC);
 
       g_once_init_leave (&once_init_value, 1);
     }
@@ -722,6 +749,26 @@ photos_gegl_init_fishes (void)
 
   end = g_get_monotonic_time ();
   photos_debug (PHOTOS_DEBUG_GEGL, "GEGL: Init Fishes: %" G_GINT64_FORMAT, end - start);
+}
+
+
+void
+photos_gegl_inverse_jacobian_zoom (GeglBufferMatrix2 *inverse_jacobian, gdouble zoom_x, gdouble zoom_y)
+{
+  GeglMatrix3 tmp;
+
+  g_return_if_fail (inverse_jacobian != NULL);
+
+  gegl_matrix3_identity (&tmp);
+  tmp.coeff[0][0] = zoom_x;
+  tmp.coeff[1][1] = zoom_y;
+
+  gegl_matrix3_invert (&tmp);
+
+  inverse_jacobian->coeff[0][0] = tmp.coeff[0][0];
+  inverse_jacobian->coeff[0][1] = tmp.coeff[0][1];
+  inverse_jacobian->coeff[1][0] = tmp.coeff[1][0];
+  inverse_jacobian->coeff[1][1] = tmp.coeff[1][1];
 }
 
 

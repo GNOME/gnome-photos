@@ -1,0 +1,20 @@
+option(
+  'lto',
+  description: 'Use link-time optimization',
+  type: 'boolean',
+  value: false,
+)
+
+option(
+  'pkgdatadir',
+  description: 'The private directory the cameras.xml file will be installed into',
+  type: 'string',
+  value: '',
+)
+
+option(
+  'pkglibdir',
+  description: 'The private directory the shared library will be installed into',
+  type: 'string',
+  value: '',
+)

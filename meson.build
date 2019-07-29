@@ -1,6 +1,6 @@
 project(
   'gnome-photos',
-  'c',
+  ['c', 'cpp'],
   version: '3.33.1',
   license: 'GPL3+',
   default_options: 'buildtype=debugoptimized',
@@ -13,6 +13,7 @@ photos_datadir = join_paths(photos_prefix, get_option('datadir'))
 photos_libexecdir = join_paths(photos_prefix, get_option('libexecdir'))
 photos_localedir = join_paths(photos_prefix, get_option('localedir'))
 
+photos_pkg_datadir = join_paths(photos_datadir, meson.project_name())
 photos_docdir = join_paths(photos_datadir, 'doc', meson.project_name())
 photos_libdir = join_paths(photos_prefix, get_option('libdir'), meson.project_name())
 
@@ -149,10 +150,20 @@ libgd = subproject(
 )
 libgd_dep = libgd.get_variable('libgd_dep')
 
-babl_dep = dependency('babl')
+rawspeed = subproject(
+  'rawspeed',
+  default_options: [
+    'lto=true',
+    'pkgdatadir=@0@'.format(photos_pkg_datadir),
+    'pkglibdir=@0@'.format(photos_libdir),
+  ]
+)
+rawspeed_dep = rawspeed.get_variable('rawspeed_dep')
+
+babl_dep = dependency('babl', version: '>= 0.1.54')
 cairo_dep = dependency('cairo', version: '>= 1.14.0')
 gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0', version: '>= 2.36.8')
-gegl_dep = dependency('gegl-0.4', version: '>= 0.4.0')
+gegl_dep = dependency('gegl-0.4', version: '>= 0.4.10')
 geocode_glib_dep = dependency('geocode-glib-1.0')
 gexiv_dep = dependency('gexiv2', version: '>= 0.10.8')
 gio_dep = dependency('gio-2.0')
@@ -170,8 +181,8 @@ gtk_unix_print_dep = dependency('gtk+-unix-print-3.0')
 libdazzle_dep = dependency('libdazzle-1.0', version: '>= 3.26.0')
 libgdata_dep = dependency('libgdata', version: '>= 0.15.2')
 libgfgraph_dep = dependency('libgfbgraph-0.2', version: '>= 0.2.1')
-libjpeg_dep = dependency('libjpeg')
-libpng_dep = dependency('libpng16')
+libjpeg_dep = dependency('libjpeg', version: '>= 2.0.0')
+libpng_dep = dependency('libpng16', version: '>= 1.6.11')
 tracker_control_dep = dependency('tracker-control-2.0')
 tracker_sparql_dep = dependency('tracker-sparql-2.0')
 

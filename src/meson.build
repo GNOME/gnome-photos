@@ -4,6 +4,13 @@ sources = files(
   'photos-debug.c',
   'photos-error.c',
   'photos-gegl.c',
+  'photos-gegl-buffer-codec.c',
+  'photos-gegl-buffer-codec-jpeg.c',
+  'photos-gegl-buffer-codec-png.c',
+  'photos-gegl-buffer-codec-raw.c',
+  'photos-gegl-buffer-io.c',
+  'photos-gegl-buffer-loader.c',
+  'photos-gegl-buffer-loader-builder.c',
   'photos-jpeg-count.c',
   'photos-operation-insta-curve.c',
   'photos-operation-insta-filter.c',
@@ -17,6 +24,7 @@ sources = files(
   'photos-pipeline.c',
   'photos-png-count.c',
   'photos-quarks.c',
+  'photos-rawspeed.cpp',
 )
 
 thumbnailer_dbus = 'photos-thumbnailer-dbus'
@@ -52,6 +60,17 @@ libgnome_photos_built_sources_enums = gnome.mkenums(
 libgnome_photos_built_headers += libgnome_photos_built_sources_enums[1]
 sources += libgnome_photos_built_sources_enums
 
+marshal = 'photos-marshalers'
+
+libgnome_photos_built_sources_marshalers = gnome.genmarshal(
+  marshal,
+  sources: marshal + '.list',
+  prefix: '_photos_marshal',
+)
+
+libgnome_photos_built_headers += libgnome_photos_built_sources_marshalers[1]
+sources += libgnome_photos_built_sources_marshalers
+
 resource_data = files('../data/vignette.png')
 
 libgnome_photos_built_sources_resources = gnome.compile_resources(
@@ -66,6 +85,10 @@ libgnome_photos_built_sources_resources = gnome.compile_resources(
 libgnome_photos_built_headers += libgnome_photos_built_sources_resources[1]
 sources += libgnome_photos_built_sources_resources
 
+cppflags = [
+  '-DPACKAGE_DATA_DIR="@0@"'.format(photos_pkg_datadir),
+]
+
 deps = [
   babl_dep,
   gegl_dep,
@@ -78,11 +101,13 @@ deps = [
   libjpeg_dep,
   libpng_dep,
   m_dep,
+  rawspeed_dep,
 ]
 
 libgnome_photos = shared_library(
   meson.project_name(),
   sources,
+  cpp_args: cppflags,
   dependencies: deps,
   include_directories: top_inc,
   install: true,
@@ -253,14 +278,6 @@ sources += gnome.mkenums(
   sources: enum_headers,
   c_template: enum + '.c.template',
   h_template: enum + '.h.template',
-)
-
-marshal = 'photos-marshalers'
-
-sources += gnome.genmarshal(
-  marshal,
-  sources: marshal + '.list',
-  prefix: '_photos_marshal',
 )
 
 resource_data = files(
