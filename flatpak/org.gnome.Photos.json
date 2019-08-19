@@ -160,8 +160,9 @@
         },
         {
             "name": "gegl",
+            "buildsystem": "meson",
             "cleanup": [ "/bin" ],
-            "config-opts": [ "--disable-docs", "--disable-introspection" ],
+            "config-opts": [ "-Dintrospection=false", "-Dlibraw=enabled", "-Dlua=disabled" ],
             "sources": [
                 {
                     "type": "git",
