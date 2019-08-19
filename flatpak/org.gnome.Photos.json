@@ -45,20 +45,8 @@
     "modules": [
            {
             "name": "babl",
-            "build-options" : {
-                "arch" : {
-                    "i386" : {
-                        "config-opts" : [
-                            "--build=i586-unknown-linux-gnu"
-                        ]
-                    },
-		    "arm" : {
-                        "config-opts" : [
-                            "--build=arm-unknown-linux-gnueabi"
-			]
-		    }
-                }
-            },
+            "buildsystem": "meson",
+            "config-opts": [ "-Denable-gir=false", "-Dwith-docs=false" ],
             "sources": [
                 {
                     "type": "git",
