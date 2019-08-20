@@ -1,5 +1,23 @@
-Overview of changes in 3.33.1
-=============================
+Overview of changes in 3.33.91
+==============================
+
+* Bugs fixed:
+ !101 appdata: Add release notes for Flathub
+ !103 flatpak: Fix the exiv2 build
+ !105 flatpak: Delete CMake-specific build files
+ !107 build: Style fixes
+ !109 flatpak: Update LibRaw to 0.19.4
+ !110 flatpak: Fix the exiv2 build
+ !111 flatpak: Switch babl to Meson
+ !112 flatpak: Switch GEGL to Meson
+ #128 flatpak: Switch libgdata to Meson
+ #129 icons: Update the application icon
+
+* Updated translations:
+ Croatian
+ Danish
+ Icelandic
+ Karbi
 
 
 Overview of changes in 3.32.0
