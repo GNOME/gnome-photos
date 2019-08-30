@@ -18,7 +18,7 @@ through GNOME Online Accounts.
 ## Contributing
 
 Photos, like Documents, Music and Videos, is one of the core GNOME
-applications meant for find and reminding the user about her content.
+applications meant for find and reminding the user about their content.
 The internal architecture Photos is based on Documents -- the document
 manager application for GNOME, because they share similar UI/UX
 patterns and objectives.
