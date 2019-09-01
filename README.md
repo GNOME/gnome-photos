@@ -5,7 +5,7 @@ replacement for using a file manager to deal with photos.
 Enhance, crop and edit in a snap. Seamless cloud integration is offered
 through GNOME Online Accounts.
 
-<a href='https://flathub.org/apps/details/org.gnome.Photos'><img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-i-en.png'/></a>
+[![Flatpak](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Flathub-badge-en.svg/240px-Flathub-badge-en.svg.png)](https://flathub.org/apps/details/org.gnome.Photos)
 
 ## Useful links
 
