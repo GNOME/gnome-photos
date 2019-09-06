@@ -9,9 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-20 21:55+0000\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
+"POT-Creation-Date: 2019-08-20 15:13+0000\n"
 "PO-Revision-Date: 2016-03-21 14:50+0900\n"
 "Last-Translator: Jiro Matsuzawa <jmatsuzawa@gnome.org>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -21,21 +20,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:685
-#: ../src/photos-search-type-manager.c:136
+#: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "写真"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:491
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
 msgstr "GNOME で写真の表示、整理、共有します"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:3
+#: data/org.gnome.Photos.appdata.xml.in:10
+#, fuzzy
+#| msgid ""
+#| "A simple application to access, organize and share your photos on GNOME. "
+#| "It is meant to be a simple and elegant replacement for using a file "
+#| "manager to deal with photos. Seamless cloud integration is offered "
+#| "through GNOME Online Accounts."
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
 "GNOME 上で、写真の参照、整理、共有を行うシンプルなアプリケーションです。ファ"
@@ -43,579 +48,708 @@ msgstr ""
 "GNOME オンラインアカウントを通じて、クラウドとシームレスに連携して利用できま"
 "す。"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:4
-msgid "It lets you:"
-msgstr "機能:"
+#: data/org.gnome.Photos.appdata.xml.in:16
+msgid "You can:"
+msgstr ""
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+#: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr ""
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "ローカルおよびオンラインで最近使用した写真を表示する"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:6
-msgid "Access your Facebook or Flickr content"
+#: data/org.gnome.Photos.appdata.xml.in:20
+#, fuzzy
+#| msgid "Access your Facebook or Flickr content"
+msgid "Access your Facebook or Flickr pictures"
 msgstr "Facebook または Flickr 上のあなたのコンテンツにアクセスする"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:7
-msgid "Send photos to remote DLNA renderers"
-msgstr "写真をリモート DLNA レンダラーへ転送する"
+#: data/org.gnome.Photos.appdata.xml.in:21
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:8
-msgid "Set as background"
+#: data/org.gnome.Photos.appdata.xml.in:23
+#, fuzzy
+#| msgid "Set as background"
+msgid "Set pictures as your desktop background"
 msgstr "背景として設定する"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "写真を印刷する"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "お気に入りを選択する"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:11
-msgid "Allow opening full featured editor for more advanced changes"
+#: data/org.gnome.Photos.appdata.xml.in:26
+#, fuzzy
+#| msgid "Allow opening full featured editor for more advanced changes"
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
 msgstr "フル機能のエディターで開いて高度な編集を行う"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:2
+#: data/org.gnome.Photos.appdata.xml.in:74
+msgid "The GNOME Project"
+msgstr ""
+
+#: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
 msgstr "写真の表示、整理、共有を行います"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:3
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
 msgstr "Photos;Pictures;写真;フォト;絵;画像;"
 
-#: ../data/org.gnome.photos.gschema.xml.h:1
+#: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
 msgstr "ウィンドウサイズ"
 
-#: ../data/org.gnome.photos.gschema.xml.h:2
+#: data/org.gnome.photos.gschema.xml:6
 msgid "Window size (width and height)."
 msgstr "ウィンドウサイズ (幅と高さ) です。"
 
-#: ../data/org.gnome.photos.gschema.xml.h:3
+#: data/org.gnome.photos.gschema.xml:10
 msgid "Window position"
 msgstr "ウィンドウの位置"
 
-#: ../data/org.gnome.photos.gschema.xml.h:4
+#: data/org.gnome.photos.gschema.xml:11
 msgid "Window position (x and y)."
 msgstr "ウィンドウの位置 (横位置と縦位置) です。"
 
-#: ../data/org.gnome.photos.gschema.xml.h:5
+#: data/org.gnome.photos.gschema.xml:15
 msgid "Window maximized"
 msgstr "ウィンドウ最大化"
 
-#: ../data/org.gnome.photos.gschema.xml.h:6
+#: data/org.gnome.photos.gschema.xml:16
 msgid "Window maximized state"
 msgstr "ウィンドウ最大化の状態です。"
 
-#: ../src/photos-base-item.c:476
+#: src/photos-application.c:164
+msgid "Show the empty state"
+msgstr ""
+
+#: src/photos-application.c:165
+msgid "Show the application's version"
+msgstr ""
+
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
+#: src/photos-import-dialog.c:134
+#, fuzzy
+#| msgid "%e %B %Y"
+msgid "%-d %B %Y"
+msgstr "%Y年%m月%d日"
+
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "アルバム"
 
-#: ../src/photos-base-item.c:1413
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "スクリーンショット"
 
-#: ../src/photos-delete-notification.c:145
+#: src/photos-delete-notification.c:136
 #, c-format
 msgid "“%s” deleted"
 msgstr "“%s”を削除しました"
 
-#: ../src/photos-delete-notification.c:148
+#: src/photos-delete-notification.c:139
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
 msgstr[0] "%d 件を削除しました"
 
-#: ../src/photos-delete-notification.c:155
-#: ../src/photos-done-notification.c:190
+#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "元に戻す"
 
-#: ../src/photos-dlna-renderers-dialog.ui.h:1
+#: src/photos-dlna-renderers-dialog.ui:7
 msgid "DLNA Renderer Devices"
 msgstr "DLNA レンダラーデバイス"
 
-#: ../src/photos-done-notification.c:183
+#: src/photos-done-notification.c:112
 #, c-format
 msgid "“%s” edited"
 msgstr "“%s”を編集しました"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
+#: src/photos-embed.c:829
+msgid "Collection View"
+msgstr ""
+
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "アルバム"
 
-#: ../src/photos-embed.c:699 ../src/photos-search-type-manager.c:128
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "お気に入り"
 
-#: ../src/photos-embed.c:706 ../src/photos-main-toolbar.c:301
+#: src/photos-embed.c:840
+#, fuzzy
+#| msgid "Export"
+msgid "Import"
+msgstr "エクスポート"
+
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "検索"
 
-#: ../src/photos-empty-results-box.c:113
-msgid "Name your first album"
-msgstr "最初のアルバムの名称"
-
-#. Translators: this should be translated in the context of the "You
-#. * can add your online accounts in Settings" sentence below
-#.
-#: ../src/photos-empty-results-box.c:133
-msgid "Settings"
-msgstr "設定"
-
-#. Translators: %s here is "Settings", which is in a separate string
-#. * due to markup, and should be translated only in the context of
-#. * this sentence.
-#.
-#: ../src/photos-empty-results-box.c:139
-#, c-format
-msgid "You can add your online accounts in %s"
-msgstr "%s でオンラインアカウントを追加しましょう"
-
-#: ../src/photos-empty-results-box.c:181
-msgid "No Albums Found"
+#: src/photos-empty-results-box.c:120
+#, fuzzy
+#| msgid "No Albums Found"
+msgid "No albums found"
 msgstr "アルバムが見つかりませんでした"
 
-#: ../src/photos-empty-results-box.c:186
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "お気に入りの写真がここに表示されます"
 
-#: ../src/photos-empty-results-box.c:192
-msgid "No Photos Found"
+#: src/photos-empty-results-box.c:134
+#, fuzzy
+#| msgid "No Photos Found"
+msgid "No photos found"
 msgstr "写真が見つかりませんでした"
 
-#: ../src/photos-export-dialog.ui.h:1
+#: src/photos-empty-results-box.c:163
+msgid "You can create albums from the Photos view"
+msgstr ""
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:184
+msgid "Online Accounts"
+msgstr ""
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:191
+msgid "Pictures folder"
+msgstr ""
+
+#. Translators: the first %s here is "Online Accounts" and the
+#. * second %s is "Pictures folder", which are in separate
+#. * strings due to markup, and should be translated only in the
+#. * context of this sentence.
+#.
+#: src/photos-empty-results-box.c:198
+#, fuzzy, c-format
+#| msgid "Starred photos will appear here"
+msgid "Photos from your %s and %s will appear here."
+msgstr "お気に入りの写真がここに表示されます"
+
+#: src/photos-empty-results-box.c:208
+msgid "Try a different search"
+msgstr ""
+
+#: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
 msgid "Export"
 msgstr "エクスポート"
 
-#: ../src/photos-export-dialog.ui.h:2
+#: src/photos-export-dialog.ui:38
 msgid "_Folder Name"
 msgstr "フォルダー名(_F)"
 
-#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:932
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
 msgid "Size"
 msgstr "サイズ"
 
-#: ../src/photos-export-dialog.ui.h:4
+#: src/photos-export-dialog.ui:83
 msgid "F_ull"
 msgstr "フル(_U)"
 
-#: ../src/photos-export-dialog.ui.h:5
+#: src/photos-export-dialog.ui:113
 msgid "_Reduced"
 msgstr "縮小(_R)"
 
-#: ../src/photos-export-dialog.ui.h:6
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
-#: ../src/photos-export-dialog.ui.h:7
+#: src/photos-export-dialog.ui:167
 msgid "_Export"
 msgstr "エクスポート(_E)"
 
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: ../src/photos-export-dialog.c:76
+#: src/photos-export-dialog.c:66
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
-#. Translators: this is the default sub-directory where photos
-#. *  will be exported.
-#.
-#: ../src/photos-export-dialog.c:284
-msgid "%e %B %Y"
-msgstr "%Y年%m月%d日"
-
-#: ../src/photos-export-dialog.c:339
+#: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
 msgstr "エクスポートサイズの計算中…"
 
-#: ../src/photos-export-notification.c:243
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "エクスポート失敗: 空き容量不足"
 
-#: ../src/photos-export-notification.c:245
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "エクスポート失敗"
 
-#: ../src/photos-export-notification.c:252
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "“%s”エクスポートしました"
 
-#: ../src/photos-export-notification.c:256
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
 msgstr[0] "%d 件をエクスポートしました"
 
-#: ../src/photos-export-notification.c:273
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "分析"
 
-#: ../src/photos-export-notification.c:278
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "ゴミ箱を空にする"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:295 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:234 ../src/photos-selection-toolbar.ui.h:2
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "開く"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:305
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "エクスポートフォルダー"
 
 #. Translators: this is the fallback title in the form
-#. *  "Facebook — 2nd January 2013".
+#. * "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:84 ../src/photos-flickr-item.c:94
-#: ../src/photos-google-item.c:82
+#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:161
-msgid "Untitled Photo"
-msgstr "名前のない写真"
-
-#: ../src/photos-help-overlay.ui.h:1
+#: src/photos-help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "General"
 msgstr "全般"
 
-#: ../src/photos-help-overlay.ui.h:2
+#: src/photos-help-overlay.ui:36
 msgctxt "shortcut window"
 msgid "Show help"
 msgstr "ヘルプを表示する"
 
-#: ../src/photos-help-overlay.ui.h:3
+#: src/photos-help-overlay.ui:43
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "終了する"
 
-#: ../src/photos-help-overlay.ui.h:4
+#: src/photos-help-overlay.ui:52
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "移動"
 
-#: ../src/photos-help-overlay.ui.h:5
+#: src/photos-help-overlay.ui:56
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "次の写真を表示する"
 
-#: ../src/photos-help-overlay.ui.h:6
+#: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "前の写真を表示する"
 
-#: ../src/photos-help-overlay.ui.h:7
+#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "一覧画面に戻る"
 
-#: ../src/photos-help-overlay.ui.h:8
+#: src/photos-help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "一覧画面"
 
-#: ../src/photos-help-overlay.ui.h:9
+#: src/photos-help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "検索する"
 
-#: ../src/photos-help-overlay.ui.h:10
+#: src/photos-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "すべて選択する"
 
-#: ../src/photos-help-overlay.ui.h:11
+#: src/photos-help-overlay.ui:106
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Print selected photos"
+msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "選択した写真を印刷する"
+
+#: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "選択した写真を印刷する"
 
-#: ../src/photos-help-overlay.ui.h:12
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "選択した写真を削除する"
 
-#: ../src/photos-help-overlay.ui.h:13
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "写真ビュー"
 
-#: ../src/photos-help-overlay.ui.h:14
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "編集する"
 
-#: ../src/photos-help-overlay.ui.h:15
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "エクスポートする"
 
-#: ../src/photos-help-overlay.ui.h:16
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "印刷する"
 
-#: ../src/photos-help-overlay.ui.h:17
+#: src/photos-help-overlay.ui:154
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr ""
+
+#: src/photos-help-overlay.ui:161
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr ""
+
+#: src/photos-help-overlay.ui:168
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr ""
+
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "削除する"
 
-#: ../src/photos-help-overlay.ui.h:18
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "アクションメニューを表示する"
 
-#: ../src/photos-help-overlay.ui.h:19
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "フルスクリーン表示を切り替える"
 
-#: ../src/photos-help-overlay.ui.h:20
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "編集ビュー"
 
-#: ../src/photos-help-overlay.ui.h:21
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "編集内容を取り消す"
 
+#: src/photos-import-dialog.c:194
+msgid "An album with that name already exists"
+msgstr ""
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr ""
+
+#: src/photos-import-dialog.ui:22
+#, fuzzy
+#| msgid "Album"
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "アルバム"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr ""
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr ""
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "追加(_A)"
+
 #. Translators: %s refers to an online account provider, e.g.,
-#. * "Facebook" or "Flickr.
+#. * "Facebook" or "Flickr".
 #.
-#: ../src/photos-indexing-notification.c:172
+#: src/photos-indexing-notification.c:164
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "%s から写真を取得しています"
 
-#: ../src/photos-indexing-notification.c:175
+#: src/photos-indexing-notification.c:167
 msgid "Fetching photos from online accounts"
 msgstr "オンラインアカウントから写真を取得しています"
 
-#: ../src/photos-indexing-notification.c:211
+#: src/photos-indexing-notification.c:202
 msgid "Your photos are being indexed"
 msgstr "写真の索引を作成しています"
 
-#: ../src/photos-indexing-notification.c:212
+#: src/photos-indexing-notification.c:203
 msgid "Some photos might not be available during this process"
 msgstr "この処理中は一部の写真が利用できなくなるかもしれません"
 
-#: ../src/photos-local-item.c:131 ../src/photos-source-manager.c:178
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr ""
+
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "ローカル"
 
-#: ../src/photos-main-toolbar.c:108
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
 msgstr "アイテムを選択してください"
 
-#: ../src/photos-main-toolbar.c:110
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d 件選択"
 
-#: ../src/photos-main-toolbar.c:161
+#: src/photos-main-toolbar.c:169
+#, fuzzy
+#| msgid "Select Items"
+msgid "Select items for import"
+msgstr "アイテムを選択します"
+
+#: src/photos-main-toolbar.c:173
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] ""
+
+#: src/photos-main-toolbar.c:216
 msgid "Back"
 msgstr "戻る"
 
-#: ../src/photos-main-toolbar.c:317
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
 msgstr "アイテムを選択します"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:415 ../src/photos-selection-toolbar.c:231
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
+#: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "%s で開く"
 
-#: ../src/photos-main-toolbar.c:456 ../src/photos-selection-toolbar.c:242
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "お気に入りから削除"
 
-#: ../src/photos-main-toolbar.c:461 ../src/photos-selection-toolbar.c:247
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "お気に入りに追加"
 
-#: ../src/photos-main-toolbar.c:500 ../src/photos-main-toolbar.c:638
-msgid "Cancel"
-msgstr "キャンセル"
-
-#: ../src/photos-main-toolbar.c:504
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "完了"
 
-#: ../src/photos-main-window.c:492
+#: src/photos-main-toolbar.c:527
+#, fuzzy
+#| msgid "Select All"
+msgid "_Select"
+msgstr "すべて選択する"
+
+#: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2016 Red Hat, Inc."
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2016 Red Hat, Inc."
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:502
+#: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr ""
 "松澤 二郎 <jmatsuzawa@gnome.org>\n"
 "日本GNOMEユーザー会 <http://www.gnome.gr.jp>"
 
-#: ../src/photos-menus.ui.h:1
-msgid "Fullscreen"
-msgstr "フルスクリーン"
-
-#: ../src/photos-menus.ui.h:2
-msgid "Keyboard Shortcuts"
-msgstr "キーボードショートカット"
-
-#: ../src/photos-menus.ui.h:3
-msgid "_Help"
-msgstr "ヘルプ(_H)"
-
-#: ../src/photos-menus.ui.h:4
-msgid "About"
-msgstr "このアプリケーションについて"
-
-#: ../src/photos-menus.ui.h:5
-msgid "Quit"
-msgstr "終了"
-
-#: ../src/photos-organize-collection-dialog.c:74
-msgid "_Add"
-msgstr "追加(_A)"
-
-#: ../src/photos-organize-collection-dialog.c:75
+#: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
 msgstr "_OK"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:126
+#: src/photos-organize-collection-dialog.c:121
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "管理"
 
-#: ../src/photos-preview-menu.ui.h:2
+#: src/photos-preview-menu.ui:10
 msgid "Export…"
 msgstr "エクスポート…"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: src/photos-preview-menu.ui:14
 msgid "Print…"
 msgstr "印刷…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: src/photos-preview-menu.ui:19
 msgid "Delete"
 msgstr "削除"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: src/photos-preview-menu.ui:23
 msgid "Display on…"
 msgstr "表示するデバイス…"
 
-#: ../src/photos-preview-menu.ui.h:6
+#: src/photos-preview-menu.ui:27
 msgid "Set as Background"
 msgstr "背景に使用する"
 
-#: ../src/photos-preview-menu.ui.h:7
+#: src/photos-preview-menu.ui:31
 msgid "Set as Lock Screen"
 msgstr "ロック画面に使用する"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:602
-#: ../src/photos-selection-toolbar.ui.h:3
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
+#: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "プロパティ"
 
-#: ../src/photos-print-notification.c:79
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "フルスクリーン"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "キーボードショートカット"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "ヘルプ(_H)"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "このアプリケーションについて"
+
+#: src/photos-print-notification.c:71
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "\"%s\" を印刷中: %s"
 
-#: ../src/photos-print-operation.c:274
+#: src/photos-print-operation.c:241
 msgid "Image Settings"
 msgstr "画像設定"
 
-#: ../src/photos-print-setup.c:904
+#: src/photos-print-setup.c:884
 msgid "Position"
 msgstr "位置"
 
-#: ../src/photos-print-setup.c:907
+#: src/photos-print-setup.c:887
 msgid "_Left:"
 msgstr "左(_L):"
 
-#: ../src/photos-print-setup.c:908
+#: src/photos-print-setup.c:888
 msgid "_Right:"
 msgstr "右(_R):"
 
-#: ../src/photos-print-setup.c:909
+#: src/photos-print-setup.c:889
 msgid "_Top:"
 msgstr "上(_T):"
 
-#: ../src/photos-print-setup.c:910
+#: src/photos-print-setup.c:890
 msgid "_Bottom:"
 msgstr "下(_B):"
 
-#: ../src/photos-print-setup.c:912
+#: src/photos-print-setup.c:892
 msgid "C_enter:"
 msgstr "中央(_E):"
 
-#: ../src/photos-print-setup.c:916
+#: src/photos-print-setup.c:896
 msgid "None"
 msgstr "なし"
 
-#: ../src/photos-print-setup.c:917
+#: src/photos-print-setup.c:897
 msgid "Horizontal"
 msgstr "水平に並べる"
 
-#: ../src/photos-print-setup.c:918
+#: src/photos-print-setup.c:898
 msgid "Vertical"
 msgstr "垂直に並べる"
 
-#: ../src/photos-print-setup.c:919
+#: src/photos-print-setup.c:899
 msgid "Both"
 msgstr "両方"
 
-#: ../src/photos-print-setup.c:935
+#: src/photos-print-setup.c:915
 msgid "_Width:"
 msgstr "幅(_W):"
 
-#: ../src/photos-print-setup.c:936
+#: src/photos-print-setup.c:916
 msgid "_Height:"
 msgstr "高さ(_H):"
 
-#: ../src/photos-print-setup.c:938
+#: src/photos-print-setup.c:918
 msgid "_Scaling:"
 msgstr "画面に合わせる(_S):"
 
-#: ../src/photos-print-setup.c:947
+#: src/photos-print-setup.c:927
 msgid "_Unit:"
 msgstr "単位(_U):"
 
-#: ../src/photos-print-setup.c:951
+#: src/photos-print-setup.c:931
 msgid "Millimeters"
 msgstr "mm"
 
-#: ../src/photos-print-setup.c:952
+#: src/photos-print-setup.c:932
 msgid "Inches"
 msgstr "インチ"
 
-#: ../src/photos-print-setup.c:980
+#: src/photos-print-setup.c:960
 msgid "Preview"
 msgstr "プレビュー"
+
+#: src/photos-properties-dialog.c:246
+#, fuzzy
+#| msgid "Untitled Photo"
+msgid "Edited in Photos"
+msgstr "名前のない写真"
+
+#: src/photos-properties-dialog.c:259
+msgid "Untouched"
+msgstr ""
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:217
+#: src/photos-properties-dialog.c:442
 msgctxt "Document Title"
 msgid "Title"
 msgstr "タイトル"
@@ -623,84 +757,104 @@ msgstr "タイトル"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:229
+#: src/photos-properties-dialog.c:454
 msgctxt "Document Author"
 msgid "Author"
 msgstr "作者"
 
-#: ../src/photos-properties-dialog.c:236
+#: src/photos-properties-dialog.c:461
 msgid "Source"
 msgstr "ソース"
 
-#: ../src/photos-properties-dialog.c:242
+#: src/photos-properties-dialog.c:467
 msgid "Date Modified"
 msgstr "更新日時"
 
-#: ../src/photos-properties-dialog.c:250
+#: src/photos-properties-dialog.c:475
 msgid "Date Created"
 msgstr "作成日時"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:260
+#: src/photos-properties-dialog.c:485
 msgctxt "Document Type"
 msgid "Type"
 msgstr "種類"
 
-#: ../src/photos-properties-dialog.c:269
-msgid "Width"
-msgstr "幅"
+#: src/photos-properties-dialog.c:495
+msgid "Dimensions"
+msgstr ""
 
-#: ../src/photos-properties-dialog.c:279
-msgid "Height"
-msgstr "高さ"
+#: src/photos-properties-dialog.c:507
+#, fuzzy
+#| msgid "Position"
+msgid "Location"
+msgstr "位置"
 
-#: ../src/photos-properties-dialog.c:294
+#: src/photos-properties-dialog.c:525
 msgid "Camera"
 msgstr "カメラ"
 
-#: ../src/photos-properties-dialog.c:304
+#: src/photos-properties-dialog.c:535 src/photos-tool-colors.c:365
 msgid "Exposure"
 msgstr "露出"
 
-#: ../src/photos-properties-dialog.c:314
+#: src/photos-properties-dialog.c:545
 msgid "Aperture"
 msgstr "絞り"
 
-#: ../src/photos-properties-dialog.c:324
+#: src/photos-properties-dialog.c:555
 msgid "Focal Length"
 msgstr "焦点距離"
 
-#: ../src/photos-properties-dialog.c:334
+#: src/photos-properties-dialog.c:565
 msgid "ISO Speed"
 msgstr "ISO 速度"
 
-#: ../src/photos-properties-dialog.c:344
+#: src/photos-properties-dialog.c:575
 msgid "Flash"
 msgstr "フラッシュ"
 
-#: ../src/photos-properties-dialog.c:484
+#: src/photos-properties-dialog.c:584
+msgid "Modifications"
+msgstr ""
+
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] ""
+
+#: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
 msgstr "オフ、使わない"
 
-#: ../src/photos-properties-dialog.c:486
+#: src/photos-properties-dialog.c:723
 msgid "On, fired"
 msgstr "オン、使う"
 
-#: ../src/photos-search-match-manager.c:158
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:174
+#: src/photos-properties-dialog.c:760
+msgid "Discard all Edits"
+msgstr ""
+
+#: src/photos-removable-devices-button.ui:47
+msgid "Devices"
+msgstr ""
+
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-source-manager.c:396
 msgid "All"
 msgstr "すべて"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:165
+#: src/photos-search-match-manager.c:162
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "タイトル"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:172
+#: src/photos-search-match-manager.c:169
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "作者"
@@ -708,147 +862,258 @@ msgstr "作者"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:210
+#: src/photos-search-match-manager.c:207
 msgid "Match"
 msgstr "一致項目"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:168
+#: src/photos-search-type-manager.c:178
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "種類"
 
-#: ../src/photos-selection-menu.ui.h:1
+#: src/photos-selection-menu.ui:6
 msgid "Select All"
 msgstr "すべて選択する"
 
-#: ../src/photos-selection-menu.ui.h:2
+#: src/photos-selection-menu.ui:11
 msgid "Select None"
 msgstr "すべて解除する"
 
-#: ../src/photos-selection-toolbar.ui.h:1
+#: src/photos-selection-toolbar.ui:19
 msgid "Export"
 msgstr "エクスポート"
 
-#: ../src/photos-selection-toolbar.ui.h:4
+#: src/photos-selection-toolbar.ui:111
 msgid "Add to Album"
 msgstr "アルバムに追加"
 
-#: ../src/photos-source-manager.c:203
+#: src/photos-share-dialog.ui:25
+#, fuzzy
+#| msgid "Sharpen"
+msgctxt "dialog title"
+msgid "Share"
+msgstr "シャープ"
+
+#: src/photos-share-notification.c:148
+#, fuzzy, c-format
+#| msgid "“%s” exported"
+msgid "“%s” shared"
+msgstr "“%s”エクスポートしました"
+
+#: src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr ""
+
+#: src/photos-share-point-google.c:103
+msgid "Failed to upload photo: Service not authorized"
+msgstr ""
+
+#: src/photos-share-point-google.c:105
+#, fuzzy
+#| msgid "Failed to export"
+msgid "Failed to upload photo"
+msgstr "エクスポート失敗"
+
+#: src/photos-source-manager.c:465
 msgid "Sources"
 msgstr "ソース"
 
-#: ../src/photos-tool-colors.c:251
-msgid "Brightness"
-msgstr "明度"
+#: src/photos-source-notification.c:171
+msgid "New device discovered"
+msgstr ""
 
-#: ../src/photos-tool-colors.c:272
+#: src/photos-source-notification.c:184
+#, fuzzy
+#| msgid "Export…"
+msgid "Import…"
+msgstr "エクスポート…"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: src/photos-source-notification.c:214
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr ""
+
+#: src/photos-source-notification.c:221
+msgid "Settings"
+msgstr "設定"
+
+#: src/photos-thumbnailer.c:74
+msgid "D-Bus address to use"
+msgstr ""
+
+#: src/photos-tool-colors.c:386
 msgid "Contrast"
 msgstr "コントラスト"
 
-#: ../src/photos-tool-colors.c:292
+#: src/photos-tool-colors.c:407
+msgid "Blacks"
+msgstr ""
+
+#: src/photos-tool-colors.c:428
 msgid "Saturation"
 msgstr "彩度"
 
-#: ../src/photos-tool-colors.c:319
+#: src/photos-tool-colors.c:447
+msgid "Shadows"
+msgstr ""
+
+#: src/photos-tool-colors.c:466
+#, fuzzy
+#| msgid "Height"
+msgid "Highlights"
+msgstr "高さ"
+
+#: src/photos-tool-colors.c:495
 msgid "Colors"
 msgstr "色"
 
-#: ../src/photos-tool-crop.c:131
+#: src/photos-tool-crop.c:192
 msgid "Free"
 msgstr "フリー"
 
-#: ../src/photos-tool-crop.c:132
+#: src/photos-tool-crop.c:193
 msgid "Original"
 msgstr "オリジナル"
 
-#: ../src/photos-tool-crop.c:133
+#: src/photos-tool-crop.c:194
 msgid "1×1 (Square)"
 msgstr "1×1 (正方形)"
 
-#: ../src/photos-tool-crop.c:134
+#: src/photos-tool-crop.c:195
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:135
+#: src/photos-tool-crop.c:196
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:136
+#: src/photos-tool-crop.c:197
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:137
+#: src/photos-tool-crop.c:198
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:138
+#: src/photos-tool-crop.c:199
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:139
+#: src/photos-tool-crop.c:200
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1169
+#: src/photos-tool-crop.c:1459
 msgid "Lock aspect ratio"
 msgstr "アスペクト比を固定する"
 
-#: ../src/photos-tool-crop.c:1217
+#: src/photos-tool-crop.c:1529
+msgid "Landscape"
+msgstr ""
+
+#: src/photos-tool-crop.c:1540
+msgid "Portrait"
+msgstr ""
+
+#: src/photos-tool-crop.c:1551
 msgid "Reset"
 msgstr "リセット"
 
-#: ../src/photos-tool-crop.c:1234
+#: src/photos-tool-crop.c:1569
 msgid "Crop"
 msgstr "切り抜き"
 
-#: ../src/photos-tool-enhance.c:207
+#: src/photos-tool-enhance.c:197
 msgid "Sharpen"
 msgstr "シャープ"
 
-#: ../src/photos-tool-enhance.c:227
+#: src/photos-tool-enhance.c:218
 msgid "Denoise"
 msgstr "ノイズ除去"
 
-#: ../src/photos-tool-enhance.c:253
+#: src/photos-tool-enhance.c:245
 msgid "Enhance"
 msgstr "強調"
 
 #. Translators: "None" refers to the nop magic filter when editing.
-#: ../src/photos-tool-filters.c:192
+#: src/photos-tool-filters.c:182
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "なし"
 
-#: ../src/photos-tool-filters.c:199
+#: src/photos-tool-filters.c:189
 msgid "1947"
 msgstr ""
 
-#: ../src/photos-tool-filters.c:206
+#: src/photos-tool-filters.c:196
 msgid "Calistoga"
 msgstr ""
 
-#: ../src/photos-tool-filters.c:212
+#: src/photos-tool-filters.c:202
 msgid "Mogadishu"
 msgstr ""
 
-#: ../src/photos-tool-filters.c:219
+#: src/photos-tool-filters.c:209
 msgid "Caap"
 msgstr ""
 
-#: ../src/photos-tool-filters.c:225
+#: src/photos-tool-filters.c:215
 msgid "Hometown"
 msgstr ""
 
-#: ../src/photos-tool-filters.c:243
+#: src/photos-tool-filters.c:233
 msgid "Filters"
 msgstr "フィルター"
 
-#: ../src/photos-tracker-controller.c:98
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr ""
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "写真一覧を取得できません"
+
+#~ msgid "It lets you:"
+#~ msgstr "機能:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "写真をリモート DLNA レンダラーへ転送する"
+
+#~ msgid "Name your first album"
+#~ msgstr "最初のアルバムの名称"
+
+#~ msgid "You can add your online accounts in %s"
+#~ msgstr "%s でオンラインアカウントを追加しましょう"
+
+#~ msgid "Cancel"
+#~ msgstr "キャンセル"
+
+#~ msgid ""
+#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#~ "Copyright © 2014 – 2015 Pranav Kant\n"
+#~ "Copyright © 2012 – 2016 Red Hat, Inc."
+#~ msgstr ""
+#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#~ "Copyright © 2014 – 2015 Pranav Kant\n"
+#~ "Copyright © 2012 – 2016 Red Hat, Inc."
+
+#~ msgid "About"
+#~ msgstr "このアプリケーションについて"
+
+#~ msgid "Quit"
+#~ msgstr "終了"
+
+#~ msgid "Width"
+#~ msgstr "幅"
+
+#~ msgid "Brightness"
+#~ msgstr "明度"
 
 #~ msgid "%a, %d %B %Y  %X"
 #~ msgstr "%Y/%m/%d %T"
@@ -906,6 +1171,3 @@ msgstr "写真一覧を取得できません"
 
 #~ msgid "Flickr"
 #~ msgstr "Flickr"
-
-#~ msgid "About Photos"
-#~ msgstr "このアプリケーションについて"
