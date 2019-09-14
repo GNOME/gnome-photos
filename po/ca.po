@@ -1039,7 +1039,7 @@ msgstr "Caap"
 
 #: src/photos-tool-filters.c:215
 msgid "Hometown"
-msgstr "Hometown"
+msgstr "Ciutat natal"
 
 #: src/photos-tool-filters.c:233
 msgid "Filters"
