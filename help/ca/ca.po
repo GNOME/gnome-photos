@@ -51,7 +51,7 @@ msgstr "Podeu etiquetar les fotografies o imatges que us agradin especialment co
 #. (itstool) path: info/desc
 #: C/favorites-set.page:22
 msgid "Pick favorites from <app>Photos</app>."
-msgstr "Trieu els preferits de <app>Fotografies</app>."
+msgstr "Trieu els preferits del <app>Fotografies</app>."
 
 #. (itstool) path: page/title
 #: C/favorites-set.page:25
@@ -108,7 +108,7 @@ msgstr "Fotografies"
 #. (itstool) path: info/desc
 #: C/index.page:12
 msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
-msgstr "<app>Fotografies</app> és una eina de gestió de fotografies personalitzada del GNOME."
+msgstr "El <app>Fotografies</app> és una eina de gestió de fotografies personalitzada del GNOME."
 
 #. (itstool) path: page/title
 #: C/index.page:16
@@ -123,7 +123,7 @@ msgid ""
 "images on your computer, you can integrate your Facebook and Flickr albums "
 "with <app>Photos</app>. You can also set photos you like as your desktop "
 "wallpaper, or easily bookmark them as favorites."
-msgstr "<app>Fotografies</app> es pot utilitzar per organitzar i gestionar imatges d'una manera engrescadora i personalitzada. A més de crear àlbums d'imatges des del vostre ordinador, podeu integrar-hi els vostres àlbums de Facebook i Flickr amb <app>Fotografies</app>. També podeu establir fotografies que us agradin com a fons d'escriptori o marcar-les fàcilment com a preferides."
+msgstr "El <app>Fotografies</app> es pot utilitzar per organitzar i gestionar imatges d'una manera engrescadora i personalitzada. A més de crear àlbums d'imatges des del vostre ordinador, podeu integrar-hi els vostres àlbums de Facebook i Flickr amb el <app>Fotografies</app>. També podeu establir fotografies que us agradin com a fons de pantalla o marcar-les fàcilment com a preferides."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
@@ -276,4 +276,4 @@ msgid ""
 "open. The <gui>Recent</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
-msgstr "Quan l'aplicació <app>Fotografies</app> és oberta veureu la pestanya <gui>Recent</gui> oberta.  La pestanya <gui>Recent</gui> conté imatges del vostre ordinador, la pestanya <gui>Àlbums</gui> conté els vostres àlbums de fotografies, i podeu trobar qualsevol imatge que marqueu com a preferida a la pestanya <gui>Preferits</gui>."
+msgstr "Quan l'aplicació <app>Fotografies</app> és oberta veureu la pestanya <gui>Recent</gui> oberta. La pestanya <gui>Recent</gui> conté imatges del vostre ordinador, la pestanya <gui>Àlbums</gui> conté els vostres àlbums de fotografies, i podeu trobar qualsevol imatge que marqueu com a preferida a la pestanya <gui>Preferits</gui>."
