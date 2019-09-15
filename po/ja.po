@@ -1,5 +1,5 @@
 # Japanese translation for gnome-photos.
-# Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
+# Copyright (C) 2013-2019 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # victory <victory.deb@gmail.com>, 2013.
 # Jiro Matsuzawa  <jmatsuzawa@gnome.org>, 2013-2016.
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-08-20 15:13+0000\n"
-"PO-Revision-Date: 2019-09-06 22:45+0900\n"
+"POT-Creation-Date: 2019-09-09 06:05+0000\n"
+"PO-Revision-Date: 2019-09-15 20:00+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -147,7 +147,7 @@ msgstr "アプリケーションのバージョンを表示する"
 #: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
-msgstr "%Y年%B月%-d日"
+msgstr "%Y年%B%-d日"
 
 #: src/photos-base-item.c:1037
 msgid "Album"
