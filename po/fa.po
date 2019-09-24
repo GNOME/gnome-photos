@@ -2,89 +2,91 @@
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Arash Mousavi <mousavi.arash@gmail.com>, 2013, 2014, 2015, 2016, 2017.
-# Danial Behzadi <dani.behzi@ubuntu.com>, 2014.
+# Danial Behzadi <dani.behzi@ubuntu.com>, 2014, 2018, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"photos&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-09-29 15:24+0000\n"
-"PO-Revision-Date: 2017-09-30 00:35+0330\n"
-"Last-Translator: Arash Mousavi <mousavi.arash@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
+"POT-Creation-Date: 2019-08-20 15:13+0000\n"
+"PO-Revision-Date: 2019-09-24 14:04+0000\n"
+"Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-embed.c:682 src/photos-search-type-manager.c:135
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
-msgstr "تصاویر"
+msgstr "عکس‌ها"
 
-#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:477
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
-msgstr "دسترسی، مدیریت و اشتراک‌گذاری تصاویرتان در گنوم"
+msgstr "دسترسی، مدیریت و هم‌رسانی تصاویرتان در گنوم"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It is "
-"meant to be a simple and elegant replacement for using a file manager to deal "
-"with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"یک برنامه ساده برای دسترسی، مرتب‌سازی و اشتراک‌گذاری تصاویرتان در گنوم. قرار است "
-"این برنامه در برابر یک برنامه‌ی مدیریت پرونده برای کار با تصاویر کاراتر و "
-"ساده‌تر باشد. یکپارچه‌سازی کامل با سیستم‌های ابری از طریق «حساب‌های برخط گنوم» در "
-"دسترس است."
+"دسترسی، مرتّب‌سازی و هم‌رسانی عکس‌هایتان روی گنوم. جایگزین ساده و شیک استفاده از "
+"مدیر پرونده برای کار با عکس‌ها. بهبود، برش و ویرایش در یک چشم به هم زدن. "
+"یکپارچه‌سازی ابری از طریق حساب‌های برخط گنوم."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "به شما اجازه می‌دهد:"
+msgid "You can:"
+msgstr "می‌توانید:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "یافتن خودکار تمام عکس‌هایتان"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "نمایش عکس‌های اخیر محلی و برخط"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "دسترسی به محتویات فیس‌بوک و فلیکر شما"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "ارسال عکس‌ها به پردازشگرهای DLNA دوردست"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "دسترسی به عکس‌های فیس‌بوک و فلیکرتان"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "تنظیم به‌عنوان پس‌زمینه"
+msgid "View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr "دیدن عکس‌های روی تلویزیون، لپ‌تاپ یا دیگر پرداختگرها روی شبکهٔ محلّیتان"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "تنظیم عکس‌ها به‌عنوان پس‌زمینهٔ میزکارتان"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "چاپ تصاویر"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
-msgstr "انتخاب موارد مورد علاقه"
+msgstr "گزینش برگزیده‌ها"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr "امکان بازکردن یک ویرایشگر کامل برای انجام تغییرات پیشرفته‌تر"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"ویرایش سادهٔ عکس‌هایتان در کاره، یا فرستادن به یک ویرایشگر پرویژگی برای تغییرات "
+"پیش‌رفته‌تر"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:74
 msgid "The GNOME Project"
 msgstr "پروژه گنوم"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
-msgstr "به تصاویر دسترسی داشته باشید، مرتب کنید و به اشتراک بگذارید"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Photos.desktop.in.in:7
-msgid "org.gnome.Photos"
-msgstr "org.gnome.Photos"
+msgstr "به تصاویر دسترسی داشته، مرتب و هم‌رسانی کنید"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
@@ -93,118 +95,158 @@ msgstr "عکسها;تصاویر;عکس;تصویر;Photos;Pictures;"
 
 #: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
-msgstr "اندازه پنجره"
+msgstr "اندازهٔ پنجره"
 
 #: data/org.gnome.photos.gschema.xml:6
 msgid "Window size (width and height)."
-msgstr "اندازه پنجره (پهنا و ارتفاع)"
+msgstr "اندازهٔ پنجره (پهنا و بلندا)"
 
 #: data/org.gnome.photos.gschema.xml:10
 msgid "Window position"
-msgstr "مکان پنجره"
+msgstr "موقعیت پنجره"
 
 #: data/org.gnome.photos.gschema.xml:11
 msgid "Window position (x and y)."
-msgstr "مکان پنجره (x و y)"
+msgstr "موقعیت پنجره (x و y)."
 
 #: data/org.gnome.photos.gschema.xml:15
 msgid "Window maximized"
-msgstr "پنجره حداکثر شده"
+msgstr "پنجره بیشینه شد"
 
 #: data/org.gnome.photos.gschema.xml:16
 msgid "Window maximized state"
-msgstr "وضعیت حداکثر شده پنجره"
+msgstr "وضعیت بیشینه پنجره"
 
-#: src/photos-application.c:157
+#: src/photos-application.c:164
+msgid "Show the empty state"
+msgstr "نمایش وضعیت خالی"
+
+#: src/photos-application.c:165
 msgid "Show the application's version"
-msgstr "نمایش نسخه برنامه"
+msgstr "نمایش نگارش برنامه"
 
-#: src/photos-base-item.c:647
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
+#: src/photos-import-dialog.c:134
+msgid "%-d %B %Y"
+msgstr "%-Od %OB %Oy"
+
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "آلبوم"
 
-#: src/photos-base-item.c:2746
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
-msgstr "عکس‌صفحه"
+msgstr "نماگرفت‌ها"
+
+#: src/photos-delete-notification.c:136
+#, c-format
+msgid "“%s” deleted"
+msgstr "«%s» حذف شد"
 
 #: src/photos-delete-notification.c:139
 #, c-format
-msgid "“%s” deleted"
-msgstr "مورد «%s» حذف شد"
-
-#: src/photos-delete-notification.c:142
-#, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
-msgstr[0] "تعداد %Id مورد حذف شد"
+msgstr[0] "%Id مورد حذف شد"
 
-#: src/photos-delete-notification.c:150 src/photos-done-notification.c:125
+#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "برگردان"
 
 #: src/photos-dlna-renderers-dialog.ui:7
 msgid "DLNA Renderer Devices"
-msgstr "دستگاه رندر DLNA"
+msgstr "افزاره‌های پرداختگر DLNA"
 
-#: src/photos-done-notification.c:117
+#: src/photos-done-notification.c:112
 #, c-format
 msgid "“%s” edited"
-msgstr "مورد «%s» ویرایش شد"
+msgstr "«%s» ویرایش شد"
 
-#: src/photos-embed.c:686 src/photos-search-type-manager.c:120
+#: src/photos-embed.c:829
+msgid "Collection View"
+msgstr "نمای گنجینه"
+
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "آلبوم‌ها"
 
-#: src/photos-embed.c:690 src/photos-search-type-manager.c:128
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
-msgstr "موردعلاقه‌ها"
+msgstr "برگزیده‌ها"
 
-#: src/photos-embed.c:694 src/photos-main-toolbar.c:305
+#: src/photos-embed.c:840
+msgid "Import"
+msgstr "درون‌ریزی"
+
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "جست‌وجو"
 
-#: src/photos-empty-results-box.c:114
-msgid "Name your first album"
-msgstr "اولین آلبوم خود را نام‌گذاری کنید"
-
-#. Translators: this should be translated in the context of the "You
-#. * can add your online accounts in Settings" sentence below
-#.
-#: src/photos-empty-results-box.c:134 src/photos-source-notification.c:146
-msgid "Settings"
-msgstr "تنظیمات"
-
-#. Translators: %s here is "Settings", which is in a separate string
-#. * due to markup, and should be translated only in the context of
-#. * this sentence.
-#.
-#: src/photos-empty-results-box.c:140
-#, c-format
-msgid "You can add your online accounts in %s"
-msgstr "می‌توانید حساب‌های برخط خود را در %s بیفزایید"
-
-#: src/photos-empty-results-box.c:181
-msgid "No Albums Found"
+#: src/photos-empty-results-box.c:120
+msgid "No albums found"
 msgstr "هیچ آلبومی پیدا نشد"
 
-#: src/photos-empty-results-box.c:186
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
-msgstr "تصاویر ستاره شده اینجا نمایان می‌شوند"
+msgstr "عکس‌های ستاره‌دار این‌جا ظاهر می‌شوند"
 
-#: src/photos-empty-results-box.c:192
-msgid "No Photos Found"
-msgstr "هیچ تصویری پیدا نشد"
+#: src/photos-empty-results-box.c:134
+msgid "No photos found"
+msgstr "هیچ عکسی پیدا نشد"
 
-#: src/photos-export-dialog.ui:24
+#: src/photos-empty-results-box.c:163
+msgid "You can create albums from the Photos view"
+msgstr "می‌توانید از نمای عکس‌ها، آلبوم بسازید"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:184
+msgid "Online Accounts"
+msgstr "حساب‌های برخط"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:191
+msgid "Pictures folder"
+msgstr "شاخهٔ عکس‌ها"
+
+#. Translators: the first %s here is "Online Accounts" and the
+#. * second %s is "Pictures folder", which are in separate
+#. * strings due to markup, and should be translated only in the
+#. * context of this sentence.
+#.
+#: src/photos-empty-results-box.c:198
+#, c-format
+msgid "Photos from your %s and %s will appear here."
+msgstr "عکس‌ها از %s و %sتان در این‌جا ظاهر خواهند شد."
+
+#: src/photos-empty-results-box.c:208
+msgid "Try a different search"
+msgstr "جست‌وجو دیگری را بیازمایید"
+
+#: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
 msgid "Export"
-msgstr "صادر کردن"
+msgstr "برون‌ریزی"
 
-#: src/photos-export-dialog.ui:40
+#: src/photos-export-dialog.ui:38
 msgid "_Folder Name"
-msgstr "_نام پوشه"
+msgstr "_نام شاخه"
 
-#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:942
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
 msgid "Size"
 msgstr "اندازه"
 
@@ -216,325 +258,336 @@ msgstr "_کامل"
 msgid "_Reduced"
 msgstr "_کاهش یافته"
 
-#: src/photos-export-dialog.ui:160
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "_لغو"
 
 #: src/photos-export-dialog.ui:167
 msgid "_Export"
-msgstr "_صادر کردن"
+msgstr "_برون‌ریزی"
 
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: src/photos-export-dialog.c:67
+#: src/photos-export-dialog.c:66
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%Id×%Id (%s)"
 
-#. Translators: this is the default sub-directory where photos
-#. * will be exported.
-#.
-#: src/photos-export-dialog.c:201
-msgid "%e %B %Y"
-msgstr "%e %B %Y"
-
-#: src/photos-export-dialog.c:259
+#: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
-msgstr "درحال محاسبه اندازه…"
+msgstr "درحال محاسبه اندازهٔ برون‌ریزی…"
 
-#: src/photos-export-notification.c:250
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
-msgstr "صادر کردن شکست خورد: فضا کافی نیست"
+msgstr "برون‌ریزی شکست خورد: فضای ناکافی"
 
-#: src/photos-export-notification.c:252
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
-msgstr "صادر کردن شکست خورد"
+msgstr "برون‌ریزی شکست خورد"
 
-#: src/photos-export-notification.c:259
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
-msgstr "مورد «%s» صادر شد"
+msgstr "«%s» برو»‌ریزی شد"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
-msgstr[0] "تعداد %Id مورد صادر شد"
+msgstr[0] "%Id مورد برون‌ریزی شد"
 
-#: src/photos-export-notification.c:281
+#: src/photos-export-notification.c:347
 msgid "Analyze"
-msgstr "پایش"
+msgstr "تجزیه"
 
-#: src/photos-export-notification.c:286
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "خالی کردن زباله‌دان"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:303 src/photos-preview-menu.ui:6
-#: src/photos-selection-toolbar.c:247 src/photos-selection-toolbar.ui:29
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
-msgstr "بازکردن"
+msgstr "گشودن"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:313
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "شاخهٔ صدور"
 
 #. Translators: this is the fallback title in the form
 #. * "Facebook — 2nd January 2013".
 #.
-#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:105
-#: src/photos-google-item.c:102
+#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: src/photos-fetch-metas-job.c:177
-msgid "Untitled Photo"
-msgstr "عکس بدون‌نام"
-
-#: src/photos-help-overlay.ui:34
+#: src/photos-help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "General"
 msgstr "عمومی"
 
-#: src/photos-help-overlay.ui:38
+#: src/photos-help-overlay.ui:36
 msgctxt "shortcut window"
 msgid "Show help"
 msgstr "نمایش راهنما"
 
-#: src/photos-help-overlay.ui:45
+#: src/photos-help-overlay.ui:43
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "خروج"
 
-#: src/photos-help-overlay.ui:54
+#: src/photos-help-overlay.ui:52
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "ناوبری"
 
-#: src/photos-help-overlay.ui:58
+#: src/photos-help-overlay.ui:56
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "تصویر بعدی"
 
-#: src/photos-help-overlay.ui:65
+#: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "تصویر قبلی"
 
-#: src/photos-help-overlay.ui:72 src/photos-help-overlay.ui:80
+#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "رفتن به عقب"
 
-#: src/photos-help-overlay.ui:90
+#: src/photos-help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "نمای کلی"
 
-#: src/photos-help-overlay.ui:94
+#: src/photos-help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "جست‌وجو"
 
-#: src/photos-help-overlay.ui:101
+#: src/photos-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Select all"
-msgstr "انتخاب همه"
+msgstr "گزینش همه"
 
-#: src/photos-help-overlay.ui:108
+#: src/photos-help-overlay.ui:106
+msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "برون‌ریزی عکس‌های گزیده"
+
+#: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Print selected photos"
-msgstr "چاپ تصاویر انتخاب شده"
+msgstr "چاپ تصاویر گزیده"
 
-#: src/photos-help-overlay.ui:115
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
-msgstr "حذف عکس‌های انتخاب شده"
+msgstr "حذف عکس‌های گزیده"
 
-#: src/photos-help-overlay.ui:124
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "نما تصویری"
 
-#: src/photos-help-overlay.ui:128
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "ویرایش"
 
-#: src/photos-help-overlay.ui:135
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
-msgstr "صادر کردن"
+msgstr "برون‌ریزی"
 
-#: src/photos-help-overlay.ui:142
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "چاپ"
 
-#: src/photos-help-overlay.ui:149
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "بزرگ‌نمایی به داخل"
 
-#: src/photos-help-overlay.ui:156
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
-msgstr "بزرگنمایی به خارج"
+msgstr "بزرگ‌نمایی به خارج"
 
-#: src/photos-help-overlay.ui:163
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "بهترین اندازه"
 
-#: src/photos-help-overlay.ui:170
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "حذف"
 
-#: src/photos-help-overlay.ui:177
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
-msgstr "منو کنش"
+msgstr "فهرست کنش"
 
-#: src/photos-help-overlay.ui:184
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "تمام‌صفحه"
 
-#: src/photos-help-overlay.ui:193
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
-msgstr "ویرایش نما"
+msgstr "نمای ویرایش"
 
-#: src/photos-help-overlay.ui:197
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "لغو"
+
+#: src/photos-import-dialog.c:194
+msgid "An album with that name already exists"
+msgstr "آلبومی از پیش با این نام موجود است"
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr "آلبومی از پیش برای این تاریخ موجود است"
+
+#: src/photos-import-dialog.ui:22
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "نامگذاری آلبوم"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr "ایجاد _جدید"
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr "افزودن به _موجود"
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "_افزودن"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-indexing-notification.c:167
+#: src/photos-indexing-notification.c:164
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "درحال گرفتن عکس‌ها از %s"
 
-#: src/photos-indexing-notification.c:170
+#: src/photos-indexing-notification.c:167
 msgid "Fetching photos from online accounts"
 msgstr "درحال گرفتن عکس‌ها از حساب‌های برخط"
 
-#: src/photos-indexing-notification.c:206
+#: src/photos-indexing-notification.c:202
 msgid "Your photos are being indexed"
 msgstr "عکس‌های شما در حال فهرست شدنند"
 
-#: src/photos-indexing-notification.c:207
+#: src/photos-indexing-notification.c:203
 msgid "Some photos might not be available during this process"
 msgstr "ممکن است تعدادی از عکس‌ها در طول این روند در دسترس نباشند"
 
-#: src/photos-local-item.c:176 src/photos-source-manager.c:256
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "اوه! نمی‌توان «%s» را بار کرد"
+
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "محلی"
 
-#: src/photos-main-toolbar.c:88
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
-msgstr "برای موارد کلیک کنید تا انتخاب شوند"
+msgstr "برای گزینش موارد،‌ رویشان کلیک کنید"
 
-#: src/photos-main-toolbar.c:90
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
-msgstr[0] "%Id مورد انتخاب شد"
+msgstr[0] "%Id مورد گزیده"
 
-#: src/photos-main-toolbar.c:178
+#: src/photos-main-toolbar.c:169
+msgid "Select items for import"
+msgstr "گزینش موارد برای برون‌ریزی"
+
+#: src/photos-main-toolbar.c:173
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "گزینش موارد برای درون‌ریزی (%Iu مورد گزیده)"
+
+#: src/photos-main-toolbar.c:216
 msgid "Back"
-msgstr "عقب"
+msgstr "بازگشت"
 
-#: src/photos-main-toolbar.c:320
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
-msgstr "انتخاب موارد"
+msgstr "گزینش موارد"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:392 src/photos-selection-toolbar.c:244
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
+#: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
-msgstr "بازکردن با %s"
+msgstr "گشودن با %s"
 
-#: src/photos-main-toolbar.c:425 src/photos-selection-toolbar.c:255
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "حذف از علاقه‌مندی‌ها"
 
-#: src/photos-main-toolbar.c:430 src/photos-selection-toolbar.c:260
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
-msgstr "اضافه کردن به علاقه‌مندی‌ها"
+msgstr "افزودن به علاقه‌مندی‌ها"
 
-#: src/photos-main-toolbar.c:464 src/photos-main-toolbar.c:593
-msgid "Cancel"
-msgstr "لغو"
-
-#: src/photos-main-toolbar.c:468
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "انجام شد"
 
-#: src/photos-main-window.c:478
+#: src/photos-main-toolbar.c:527
+msgid "_Select"
+msgstr "_گزینش"
+
+#: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2017 Red Hat, Inc."
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"حق رونوشت © ۲۰۱۳ شرکت اینتل. تمام حقوق محفوظ است.\n"
-"حق رونوشت © ۲۰۱۴ - ۲۰۱۵ Pranav Kant\n"
-"حق رونوشت © ۲۰۱۲ - ۲۰۱۶ شرکت Red Hat."
+"حق رونوشت © ۲۰۱۲ – ۲۰۱۹ شرکت ردهت\n"
+"حق رونوشت © ۲۰۱۵ – ۲۰۱۸ یومانگ جین"
 
 #. Translators: Put your names here
-#: src/photos-main-window.c:488
+#: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr ""
 "دانیال بهزادی <dani.behzi@ubuntu.com>\n"
 "آرش موسوی <mousavi.arash@gmail.com>"
 
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "تمام صفحه"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "میانبرهای صفحه‌کلید"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "_راهنما"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "درباره"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "خروج"
-
-#: src/photos-organize-collection-dialog.c:71
-msgid "_Add"
-msgstr "_افزودن"
-
-#: src/photos-organize-collection-dialog.c:72
+#: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
-msgstr "_تایید"
+msgstr "_قبول"
 
 #. Translators: "Organize" refers to photos in this context
-#: src/photos-organize-collection-dialog.c:123
+#: src/photos-organize-collection-dialog.c:121
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "مرتب‌سازی"
 
 #: src/photos-preview-menu.ui:10
 msgid "Export…"
-msgstr "صادر کردن…"
+msgstr "برون‌ریزی…"
 
 #: src/photos-preview-menu.ui:14
 msgid "Print…"
@@ -556,100 +609,116 @@ msgstr "تنظیم به‌عنوان پس‌زمینه"
 msgid "Set as Lock Screen"
 msgstr "تنظیم به‌عنوان صفحه قفل"
 
-#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:903
-#: src/photos-selection-toolbar.ui:102
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
+#: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "ترجیحات"
 
-#: src/photos-print-notification.c:74
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "تمام صفحه"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "میان‌برهای صفحه‌کلید"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_راهنما"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "دربارهٔ عکس‌ها"
+
+#: src/photos-print-notification.c:71
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "درحال چاپ «%s»: %s"
 
-#: src/photos-print-operation.c:271
+#: src/photos-print-operation.c:241
 msgid "Image Settings"
 msgstr "تنظیمات تصویر"
 
-#: src/photos-print-setup.c:914
+#: src/photos-print-setup.c:884
 msgid "Position"
 msgstr "مکان"
 
-#: src/photos-print-setup.c:917
+#: src/photos-print-setup.c:887
 msgid "_Left:"
 msgstr "_چپ:"
 
-#: src/photos-print-setup.c:918
+#: src/photos-print-setup.c:888
 msgid "_Right:"
 msgstr "_راست:"
 
-#: src/photos-print-setup.c:919
+#: src/photos-print-setup.c:889
 msgid "_Top:"
 msgstr "_بالا:"
 
-#: src/photos-print-setup.c:920
+#: src/photos-print-setup.c:890
 msgid "_Bottom:"
 msgstr "_پایین:"
 
-#: src/photos-print-setup.c:922
+#: src/photos-print-setup.c:892
 msgid "C_enter:"
 msgstr "_وسط:"
 
-#: src/photos-print-setup.c:926
+#: src/photos-print-setup.c:896
 msgid "None"
 msgstr "هیچکدام"
 
-#: src/photos-print-setup.c:927
+#: src/photos-print-setup.c:897
 msgid "Horizontal"
 msgstr "عمودی"
 
-#: src/photos-print-setup.c:928
+#: src/photos-print-setup.c:898
 msgid "Vertical"
 msgstr "افقی"
 
-#: src/photos-print-setup.c:929
+#: src/photos-print-setup.c:899
 msgid "Both"
 msgstr "هر دو"
 
-#: src/photos-print-setup.c:945
+#: src/photos-print-setup.c:915
 msgid "_Width:"
 msgstr "_پهنا:"
 
-#: src/photos-print-setup.c:946
+#: src/photos-print-setup.c:916
 msgid "_Height:"
-msgstr "_ارتفاع:"
+msgstr "_بلندا:"
 
-#: src/photos-print-setup.c:948
+#: src/photos-print-setup.c:918
 msgid "_Scaling:"
-msgstr "_مقیاس‌گذاری:"
+msgstr "_مقیاس:"
 
-#: src/photos-print-setup.c:957
+#: src/photos-print-setup.c:927
 msgid "_Unit:"
 msgstr "_واحد:"
 
-#: src/photos-print-setup.c:961
+#: src/photos-print-setup.c:931
 msgid "Millimeters"
 msgstr "میلی‌متر"
 
-#: src/photos-print-setup.c:962
+#: src/photos-print-setup.c:932
 msgid "Inches"
 msgstr "اینچ"
 
-#: src/photos-print-setup.c:990
+#: src/photos-print-setup.c:960
 msgid "Preview"
 msgstr "پیش‌نمایش"
 
-#: src/photos-properties-dialog.c:255
+#: src/photos-properties-dialog.c:246
 msgid "Edited in Photos"
-msgstr "ویرایش شده در نرم‌افزار «عکس‌ها»"
+msgstr "ویرایش شده در عکس‌ها"
 
-#: src/photos-properties-dialog.c:268
+#: src/photos-properties-dialog.c:259
 msgid "Untouched"
 msgstr "دست نخورده"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: src/photos-properties-dialog.c:453
+#: src/photos-properties-dialog.c:442
 msgctxt "Document Title"
 msgid "Title"
 msgstr "عنوان"
@@ -657,92 +726,102 @@ msgstr "عنوان"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: src/photos-properties-dialog.c:465
+#: src/photos-properties-dialog.c:454
 msgctxt "Document Author"
 msgid "Author"
 msgstr "مؤلّف"
 
-#: src/photos-properties-dialog.c:472
+#: src/photos-properties-dialog.c:461
 msgid "Source"
 msgstr "منبع"
 
-#: src/photos-properties-dialog.c:478
+#: src/photos-properties-dialog.c:467
 msgid "Date Modified"
 msgstr "تاریخ تغییر"
 
-#: src/photos-properties-dialog.c:486
+#: src/photos-properties-dialog.c:475
 msgid "Date Created"
 msgstr "تاریخ ایجاد"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: src/photos-properties-dialog.c:496
+#: src/photos-properties-dialog.c:485
 msgctxt "Document Type"
 msgid "Type"
 msgstr "نوع"
 
-#: src/photos-properties-dialog.c:506
+#: src/photos-properties-dialog.c:495
 msgid "Dimensions"
 msgstr "ابعاد"
 
-#: src/photos-properties-dialog.c:518
+#: src/photos-properties-dialog.c:507
 msgid "Location"
 msgstr "مکان"
 
-#: src/photos-properties-dialog.c:538
+#: src/photos-properties-dialog.c:525
 msgid "Camera"
 msgstr "دوربین"
 
-#: src/photos-properties-dialog.c:548 src/photos-tool-colors.c:335
+#: src/photos-properties-dialog.c:535 src/photos-tool-colors.c:365
 msgid "Exposure"
 msgstr "افشا"
 
-#: src/photos-properties-dialog.c:558
+#: src/photos-properties-dialog.c:545
 msgid "Aperture"
 msgstr "روزنه"
 
-#: src/photos-properties-dialog.c:568
+#: src/photos-properties-dialog.c:555
 msgid "Focal Length"
 msgstr "طول کانون"
 
-#: src/photos-properties-dialog.c:578
+#: src/photos-properties-dialog.c:565
 msgid "ISO Speed"
-msgstr "سرعت ISO"
+msgstr "سرعت ایزو"
 
-#: src/photos-properties-dialog.c:588
+#: src/photos-properties-dialog.c:575
 msgid "Flash"
 msgstr "فلش"
 
-#: src/photos-properties-dialog.c:597
+#: src/photos-properties-dialog.c:584
 msgid "Modifications"
 msgstr "تغییرات"
 
-#: src/photos-properties-dialog.c:738
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%Ild × %Ild پیکسل"
+
+#: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
 msgstr "خاموش، زده نشده"
 
-#: src/photos-properties-dialog.c:740
+#: src/photos-properties-dialog.c:723
 msgid "On, fired"
 msgstr "روشن، زده شده"
 
-#: src/photos-properties-dialog.c:778
+#: src/photos-properties-dialog.c:760
 msgid "Discard all Edits"
 msgstr "دور انداختن تمام تغییرات"
 
-#: src/photos-search-match-manager.c:162 src/photos-search-type-manager.c:112
-#: src/photos-source-manager.c:252
+#: src/photos-removable-devices-button.ui:47
+msgid "Devices"
+msgstr "‌افزاره‌ها"
+
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-source-manager.c:396
 msgid "All"
 msgstr "همه"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: src/photos-search-match-manager.c:169
+#: src/photos-search-match-manager.c:162
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "عنوان"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: src/photos-search-match-manager.c:176
+#: src/photos-search-match-manager.c:169
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "مؤلّف"
@@ -750,194 +829,255 @@ msgstr "مؤلّف"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: src/photos-search-match-manager.c:214
+#: src/photos-search-match-manager.c:207
 msgid "Match"
 msgstr "تطبیق"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: src/photos-search-type-manager.c:168
+#: src/photos-search-type-manager.c:178
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "نوع"
 
 #: src/photos-selection-menu.ui:6
 msgid "Select All"
-msgstr "انتخاب همه"
+msgstr "گزینش همه"
 
 #: src/photos-selection-menu.ui:11
 msgid "Select None"
-msgstr "انتخاب هیچکدام"
+msgstr "گزینش هیچ‌کدام"
 
-#: src/photos-selection-toolbar.ui:20
+#: src/photos-selection-toolbar.ui:19
 msgid "Export"
-msgstr "صادر کردن"
+msgstr "برون‌ریزی"
 
-#: src/photos-selection-toolbar.ui:112
+#: src/photos-selection-toolbar.ui:111
 msgid "Add to Album"
-msgstr "اضافه کردن به آلبوم"
+msgstr "افزودن به آلبوم"
 
-#: src/photos-share-dialog.ui:27
+#: src/photos-share-dialog.ui:25
 msgctxt "dialog title"
 msgid "Share"
-msgstr "اشتراک‌گذاری"
+msgstr "هم‌رسانی"
 
-#: src/photos-share-point-email.c:80
+#: src/photos-share-notification.c:148
+#, c-format
+msgid "“%s” shared"
+msgstr "«%s» هم‌رسانی شد"
+
+#: src/photos-share-point-email.c:78
 msgid "E-Mail"
 msgstr "پست‌الکترونیکی"
 
-#: src/photos-share-point-google.c:98
+#: src/photos-share-point-google.c:103
 msgid "Failed to upload photo: Service not authorized"
 msgstr "بارگزاری عکس شکست خورد: سرویس تایید هویت نشد"
 
-#: src/photos-share-point-google.c:100
+#: src/photos-share-point-google.c:105
 msgid "Failed to upload photo"
 msgstr "بارگزاری شکست خورد"
 
-#: src/photos-source-manager.c:305
+#: src/photos-source-manager.c:465
 msgid "Sources"
 msgstr "منبع"
+
+#: src/photos-source-notification.c:171
+msgid "New device discovered"
+msgstr "افزاره‌ای جدید کشف شد"
+
+#: src/photos-source-notification.c:184
+msgid "Import…"
+msgstr "درون‌ریزی…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:138
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "اطلاعات شناسایی مربوط به %s منسوخ شده است"
 
-#: src/photos-thumbnailer.c:77
+#: src/photos-source-notification.c:221
+msgid "Settings"
+msgstr "تنظیمات"
+
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "آدرس D-Bus برای استفاده"
 
-#: src/photos-tool-colors.c:313
-msgid "Brightness"
-msgstr "روشنایی"
-
-#: src/photos-tool-colors.c:356
+#: src/photos-tool-colors.c:386
 msgid "Contrast"
 msgstr "سایه روشن"
 
-#: src/photos-tool-colors.c:377
+#: src/photos-tool-colors.c:407
 msgid "Blacks"
 msgstr "سیاه‌ها"
 
-#: src/photos-tool-colors.c:398
+#: src/photos-tool-colors.c:428
 msgid "Saturation"
 msgstr "غلظت"
 
-#: src/photos-tool-colors.c:426
+#: src/photos-tool-colors.c:447
+msgid "Shadows"
+msgstr "سایه‌ها"
+
+#: src/photos-tool-colors.c:466
+msgid "Highlights"
+msgstr "نشانه‌گذاری‌ها"
+
+#: src/photos-tool-colors.c:495
 msgid "Colors"
 msgstr "رنگ‌ها"
 
-#: src/photos-tool-crop.c:182
+#: src/photos-tool-crop.c:192
 msgid "Free"
 msgstr "آزاد"
 
-#: src/photos-tool-crop.c:183
+#: src/photos-tool-crop.c:193
 msgid "Original"
 msgstr "اصلی"
 
-#: src/photos-tool-crop.c:184
+#: src/photos-tool-crop.c:194
 msgid "1×1 (Square)"
 msgstr "۱×۱ (مربع)"
 
-#: src/photos-tool-crop.c:185
+#: src/photos-tool-crop.c:195
 msgid "10×8 / 5×4"
-msgstr "10×8 / 5×4"
+msgstr "۱۰×۸ / ۵×۴"
 
-#: src/photos-tool-crop.c:186
+#: src/photos-tool-crop.c:196
 msgid "4×3 / 8×6 (1024×768)"
-msgstr "4×3 / 8×6 (1024×768)"
+msgstr "۴×۳ / ۸×۶ (۱۰۲۴×۷۶۸)"
 
-#: src/photos-tool-crop.c:187
+#: src/photos-tool-crop.c:197
 msgid "7×5"
-msgstr "7×5"
+msgstr "۷×۵"
 
-#: src/photos-tool-crop.c:188
+#: src/photos-tool-crop.c:198
 msgid "3×2 / 6×4"
-msgstr "3×2 / 6×4"
+msgstr "۳×۲ / ۶×۴"
 
-#: src/photos-tool-crop.c:189
+#: src/photos-tool-crop.c:199
 msgid "16×10 (1280×800)"
-msgstr "16×10 (1280×800)"
+msgstr "۱۶×۱۰ (۱۲۸۰×۸۰۰)"
 
-#: src/photos-tool-crop.c:190
+#: src/photos-tool-crop.c:200
 msgid "16×9 (1920×1080)"
-msgstr "16×9 (1920×1080)"
+msgstr "۱۶×۹ (۱۹۲۰×۱۰۸۰)"
 
-#: src/photos-tool-crop.c:1295
+#: src/photos-tool-crop.c:1459
 msgid "Lock aspect ratio"
-msgstr "قفل کردن نسبت ابعاد"
+msgstr "قفل نسبت ابعاد"
 
-#: src/photos-tool-crop.c:1365
+#: src/photos-tool-crop.c:1529
 msgid "Landscape"
 msgstr "منظره‌ای"
 
-#: src/photos-tool-crop.c:1376
+#: src/photos-tool-crop.c:1540
 msgid "Portrait"
 msgstr "پرتره‌ای"
 
-#: src/photos-tool-crop.c:1387
+#: src/photos-tool-crop.c:1551
 msgid "Reset"
 msgstr "تنظیم‌مجدد"
 
-#: src/photos-tool-crop.c:1407
+#: src/photos-tool-crop.c:1569
 msgid "Crop"
 msgstr "برش"
 
-#: src/photos-tool-enhance.c:200
+#: src/photos-tool-enhance.c:197
 msgid "Sharpen"
-msgstr "تند کردن"
+msgstr "تیزی"
 
-#: src/photos-tool-enhance.c:221
+#: src/photos-tool-enhance.c:218
 msgid "Denoise"
 msgstr "کاهش نویز"
 
-#: src/photos-tool-enhance.c:248
+#: src/photos-tool-enhance.c:245
 msgid "Enhance"
 msgstr "بهینه‌سازی"
 
 #. Translators: "None" refers to the nop magic filter when editing.
-#: src/photos-tool-filters.c:185
+#: src/photos-tool-filters.c:182
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "هیچکدام"
 
-#: src/photos-tool-filters.c:192
+#: src/photos-tool-filters.c:189
 msgid "1947"
 msgstr "۱۹۴۷"
 
-#: src/photos-tool-filters.c:199
+#: src/photos-tool-filters.c:196
 msgid "Calistoga"
 msgstr "Calistoga"
 
-#: src/photos-tool-filters.c:205
+#: src/photos-tool-filters.c:202
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: src/photos-tool-filters.c:212
+#: src/photos-tool-filters.c:209
 msgid "Caap"
 msgstr "Caap"
 
-#: src/photos-tool-filters.c:218
+#: src/photos-tool-filters.c:215
 msgid "Hometown"
-msgstr "محل تولد"
+msgstr "شهر زندگی"
 
-#: src/photos-tool-filters.c:236
+#: src/photos-tool-filters.c:233
 msgid "Filters"
-msgstr "صافی"
+msgstr "پالایه‌ها"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "ناتوان در یافتن ردیاب روی سیستم‌عاملتان"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
-msgstr "دریافت فهرست تصاویر امکان‌پذیر نبود"
+msgstr "ناتوان در واکشی فهرست عکس‌ها"
+
+#~ msgid "It lets you:"
+#~ msgstr "به شما اجازه می‌دهد:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "ارسال عکس‌ها به پردازشگرهای DLNA دوردست"
+
+#~ msgid "org.gnome.Photos"
+#~ msgstr "org.gnome.Photos"
+
+#~ msgid "Name your first album"
+#~ msgstr "اولین آلبوم خود را نام‌گذاری کنید"
+
+#~ msgid "You can add your online accounts in %s"
+#~ msgstr "می‌توانید حساب‌های برخط خود را در %s بیفزایید"
+
+#~ msgid "Untitled Photo"
+#~ msgstr "عکس بدون‌نام"
+
+#~ msgid "Cancel"
+#~ msgstr "لغو"
+
+#~ msgid ""
+#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
+#~ "Copyright © 2014 – 2015 Pranav Kant\n"
+#~ "Copyright © 2012 – 2017 Red Hat, Inc."
+#~ msgstr ""
+#~ "حق رونوشت © ۲۰۱۳ شرکت اینتل. تمام حقوق محفوظ است.\n"
+#~ "حق رونوشت © ۲۰۱۴ - ۲۰۱۵ Pranav Kant\n"
+#~ "حق رونوشت © ۲۰۱۲ - ۲۰۱۶ شرکت Red Hat."
+
+#~ msgid "About"
+#~ msgstr "درباره"
+
+#~ msgid "Quit"
+#~ msgstr "خروج"
+
+#~ msgid "Brightness"
+#~ msgstr "روشنایی"
 
 #~ msgid "Width"
 #~ msgstr "پهنا"
-
-#~ msgid "Height"
-#~ msgstr "ارتفاع"
 
 #~ msgid "%a, %d %B %Y  %X"
 #~ msgstr "%a, %Od %B %OY  %X"
@@ -1010,6 +1150,3 @@ msgstr "دریافت فهرست تصاویر امکان‌پذیر نبود"
 
 #~ msgid "Flickr"
 #~ msgstr "فلیکر"
-
-#~ msgid "About Photos"
-#~ msgstr "راهنما عکس‌ها"
