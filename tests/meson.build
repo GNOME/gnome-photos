@@ -24,6 +24,7 @@ endif
 if get_option('dogtail')
   test_env = [
     'LC_ALL=C',
+    'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
     'GSETTINGS_BACKEND=memory',
   ]
 
