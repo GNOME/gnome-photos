@@ -724,7 +724,7 @@ msgstr "Previsualització"
 
 #: src/photos-properties-dialog.c:246
 msgid "Edited in Photos"
-msgstr "Edita amb el Fotografies"
+msgstr "Editat amb el Fotografies"
 
 #: src/photos-properties-dialog.c:259
 msgid "Untouched"
