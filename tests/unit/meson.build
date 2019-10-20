@@ -14,6 +14,7 @@ test_env.set('MALLOC_PERTURB_', '@0@'.format(random_number % 256))
 tests = {
   'photos-test-gegl': {
     'dependencies': [babl_dep, gdk_pixbuf_dep, gegl_dep, gio_dep, gio_unix_dep, glib_dep, libgnome_photos_dep],
+    'suite' : 'slow',
   },
   'photos-test-pipeline': {
     'dependencies': [gdk_pixbuf_dep, gegl_dep, gio_dep, gio_unix_dep, glib_dep, libgnome_photos_dep],
