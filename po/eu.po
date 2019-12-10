@@ -9,7 +9,7 @@
 msgid ""
 msgstr "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-01-18 12:57+0000\n"
+"POT-Creation-Date: 2019-09-24 14:07+0000\n"
 "PO-Revision-Date: 2019-03-01 06:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asier.sarasua@gmail.com>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
@@ -77,18 +77,13 @@ msgid ""
 "more advanced changes"
 msgstr "Editatu zure irudiak modu errazean aplikazioan, edo bidali editore aurreratu batera aldaketa sakonagoak egiteko"
 
-#: data/org.gnome.Photos.appdata.xml.in:51
+#: data/org.gnome.Photos.appdata.xml.in:74
 msgid "The GNOME Project"
 msgstr "GNOME proiektua"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
 msgstr "Atzitu, antolatu eta partekatu argazkiak"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Photos.desktop.in.in:7
-msgid "org.gnome.Photos"
-msgstr "org.gnome.Photos"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
@@ -152,7 +147,7 @@ msgstr "Pantaila-argazkiak"
 #: src/photos-delete-notification.c:136
 #, c-format
 msgid "“%s” deleted"
-msgstr "\"%s\" ezabatuta"
+msgstr "“%s” ezabatuta"
 
 #: src/photos-delete-notification.c:139
 #, c-format
@@ -172,7 +167,7 @@ msgstr "DLNA errendatzaileen gailuak"
 #: src/photos-done-notification.c:112
 #, c-format
 msgid "“%s” edited"
-msgstr "\"%s\" editatuta"
+msgstr "“%s” editatuta"
 
 #: src/photos-embed.c:829
 msgid "Collection View"
@@ -190,7 +185,7 @@ msgstr "Gogokoak"
 msgid "Import"
 msgstr "Inportatu"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "Bilatu"
 
@@ -262,8 +257,8 @@ msgid "_Reduced"
 msgstr "_Murriztua"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
-#: src/photos-main-toolbar.c:639
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "_Utzi"
 
@@ -281,7 +276,7 @@ msgstr "%d×%d (%s)"
 
 #: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
-msgstr "Esportazioaren tamaina kalkulatzen..."
+msgstr "Esportazioaren tamaina kalkulatzen…"
 
 #: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
@@ -294,7 +289,7 @@ msgstr "Huts egin du esportatzean"
 #: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
-msgstr "\"%s\" esportatuta"
+msgstr "“%s” esportatuta"
 
 #: src/photos-export-notification.c:330
 #, c-format
@@ -506,63 +501,63 @@ msgstr "Argazki batzuk ez dira erabilgarri egongo prozesuan zehar"
 #: src/photos-item-manager.c:824
 #, c-format
 msgid "Oops! Unable to load “%s”"
-msgstr "Ezin da \"%s\" kargatu"
+msgstr "Ezin da “%s” kargatu"
 
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Lokala"
 
-#: src/photos-main-toolbar.c:80
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
 msgstr "Egin klik elementuen gainean hautatzeko"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d hautatuta"
 msgstr[1] "%d hautatuta"
 
-#: src/photos-main-toolbar.c:170
+#: src/photos-main-toolbar.c:169
 msgid "Select items for import"
 msgstr "Hautatu inportatuko diren elementuak"
 
-#: src/photos-main-toolbar.c:174
+#: src/photos-main-toolbar.c:173
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "Hautatu inportatuko diren elementuak (%u hautatuta)"
 msgstr[1] "Hautatu inportatuko diren elementuak (%u hautatuta)"
 
-#: src/photos-main-toolbar.c:217
+#: src/photos-main-toolbar.c:216
 msgid "Back"
 msgstr "Atzera"
 
-#: src/photos-main-toolbar.c:351
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
 msgstr "Hautatu elementuak"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Ireki honekin: %s"
 
-#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Kendu gogokoetatik"
 
-#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Gehitu gogokoei"
 
-#: src/photos-main-toolbar.c:494
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "Eginda"
 
-#: src/photos-main-toolbar.c:530
+#: src/photos-main-toolbar.c:527
 msgid "_Select"
 msgstr "_Hautatu"
 
@@ -594,7 +589,7 @@ msgstr "Esportatu…"
 
 #: src/photos-preview-menu.ui:14
 msgid "Print…"
-msgstr "Inprimatu..."
+msgstr "Inprimatu…"
 
 #: src/photos-preview-menu.ui:19
 msgid "Delete"
@@ -851,7 +846,7 @@ msgstr "Hautatu dena"
 
 #: src/photos-selection-menu.ui:11
 msgid "Select None"
-msgstr "Hautatu bat ere ez"
+msgstr "Ez hautatu ezer"
 
 #: src/photos-selection-toolbar.ui:19
 msgid "Export"
@@ -893,7 +888,7 @@ msgstr "Gailu berria aurkitu da"
 
 #: src/photos-source-notification.c:184
 msgid "Import…"
-msgstr "Inportatu..."
+msgstr "Inportatu…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
@@ -1040,3 +1035,6 @@ msgstr "Ez da Tracker aurkitu zure sistema eragilean"
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Ezin da argazkien zerrenda atzitu"
+
+#~ msgid "org.gnome.Photos"
+#~ msgstr "org.gnome.Photos"
