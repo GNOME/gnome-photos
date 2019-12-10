@@ -1,0 +1,279 @@
+# Basque translation for gnome-photos.
+# Copyright (C) 2019 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+#
+# Asier Sarasua Garmendia  <asier.sarasua@gmail.com>, 2019.
+#
+msgid ""
+msgstr "Project-Id-Version: gnome-photos master\n"
+"POT-Creation-Date: 2019-10-11 08:32+0000\n"
+"PO-Revision-Date: 2019-12-10 10:00+0100\n"
+"Last-Translator: Asier Sarasua Garmendia <asier.sarasua@gmail.com>\n"
+"Language-Team: Basque <librezale@librezale.eus>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eu\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "Asier Sarasua Garmendia <asier.sarasua@gmail.com>"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
+#: C/view-favorites.page:11 C/view.page:11
+msgid "Venkatesh Tahiliani"
+msgstr "Venkatesh Tahiliani"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:15 C/favorites-set.page:16 C/view-album.page:15
+#: C/view-favorites.page:15 C/view.page:15
+msgid "Aruna Sankaranarayanan"
+msgstr "Aruna Sankaranarayanan"
+
+#. (itstool) path: info/desc
+#: C/favorites.page:21
+msgid "Tag a special image or album as a favorite."
+msgstr "Etiketatu irudi edo album berezi bat gogoko gisa."
+
+#. (itstool) path: page/title
+#: C/favorites.page:25
+msgid "Favorite photos"
+msgstr "Gogoko argazkiak"
+
+#. (itstool) path: page/p
+#: C/favorites.page:26
+msgid ""
+"You can label photos or images that you particularly like as favorites to "
+"store them for easy access in the <gui>Favorites</gui> tab."
+msgstr "Bereziki gustuko dituzun argazkiak edo irudiei gogokoen etiketa ezarri ahal diezu, haiek errazago aurkitzeko, <gui>Gogokoak</gui> fitxan."
+
+#. (itstool) path: info/desc
+#: C/favorites-set.page:22
+msgid "Pick favorites from <app>Photos</app>."
+msgstr "Aukeratu gogokoak <app>Argazkiak</app> aplikazioan."
+
+#. (itstool) path: page/title
+#: C/favorites-set.page:25
+msgid "Tag your favorites"
+msgstr "Etiketatu zure gogokoak"
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:27
+msgid ""
+"Photos or albums can be marked as favorites from the <gui style=\"tab"
+"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+msgstr "Argazkiak edo albumak gogoko gisa markatu daitezke <gui style=\"tab\">Azken aldikoa</gui> fitxan edo <gui style=\"tab\">Albumak</gui> fitxan."
+
+#. (itstool) path: steps/title
+#: C/favorites-set.page:31
+msgid "To label favorite items:"
+msgstr "Gogoko elementuak etiketatzeko:"
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:33
+msgid ""
+"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"whether you want to mark an album or a photo as a favorite."
+msgstr "Hautatu <gui>Albumak</gui> fitxa edo <gui>Azken aldikoa</gui> fitxa, album bat edo argazki bat gogoko gisa markatu nahi baduzu."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:37
+msgid "Switch on the selection mode."
+msgstr "Aktibatu hautapen-modua"
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:40
+msgid "Select all the items you want to favorite."
+msgstr "Hautatu gogoko bihurtu nahi dituzun elementu guztiak."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:43
+msgid ""
+"To finish, select the button with the picture of a star from the toolbar at "
+"the bottom."
+msgstr "Amaitzeko, hautatu izar baten irudia duen botoia beheko tresna-barran."
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:48
+msgid "Your favorite items can now be found in the <gui>Favorites</gui> tab."
+msgstr "Zure gogoko elementuak <gui>Gogokoak</gui> fitxan agertuko dira orain."
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Photos"
+msgstr "Argazkiak"
+
+#. (itstool) path: info/desc
+#: C/index.page:12
+msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
+msgstr "<app>Argazkiak</app> GNOME mahaigaineko argazki-kudeatzaile pertsonalizatua da."
+
+#. (itstool) path: page/title
+#: C/index.page:16
+msgid "<_:media-1/> Photos"
+msgstr "<_:media-1/> Argazkiak"
+
+#. (itstool) path: page/p
+#: C/index.page:21
+msgid ""
+"<app>Photos</app> can be used to organise and manage your images in an "
+"engaging and personalized manner. In addition to creating albums out of "
+"images on your computer, you can integrate your Facebook and Flickr albums "
+"with <app>Photos</app>. You can also set photos you like as your desktop "
+"wallpaper, or easily bookmark them as favorites."
+msgstr "<app>Argazkiak</app> aplikazioa zure irudiak modu erakargarri eta pertsonalizatuan antolatu eta kudeatzeko erabili daiteke. Zure ordenagailuko argazkietatik abiatuta albumak sortzeaz gain, <app>Argazkiak</app> aplikazioan zure Facebook eta Flickr albumak integratu ditzakezu. Are gehiago, gustuko dituzun argazkiak mahaigainaren atzeko planoa apaintzeko erabili ditzakezu, edo gogoko gisa markatu ahal dituzu modu errazean."
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported lizentzia"
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "Lan honen lizentzia <_:link-1/> da."
+
+#. (itstool) path: info/desc
+#: C/view-album.page:21
+msgid "Open a photo from your albums."
+msgstr "Ireki zure albumetako argazki bat."
+
+#. (itstool) path: page/title
+#: C/view-album.page:24
+msgid "View photos from an album"
+msgstr "Bistaratu album bateko argazkiak"
+
+#. (itstool) path: page/p
+#: C/view-album.page:25
+msgid "To open a photo located in a specific album:"
+msgstr "Album jakin batean dagoen argazki bat irekitzeko:"
+
+#. (itstool) path: item/p
+#: C/view-album.page:29
+msgid "Select the <gui style=\"tab\">Albums</gui> tab."
+msgstr "Hautatu <gui style=\"tab\">Albumak</gui> fitxa."
+
+#. (itstool) path: item/p
+#: C/view-album.page:32
+msgid "Select the album which contains the photo."
+msgstr "Hautatu argazkia duen albuma."
+
+#. (itstool) path: item/p
+#: C/view-album.page:35
+msgid ""
+"You will see a grid of photos from the album you selected. Select a photo "
+"from the grid to open it."
+msgstr "Hautatu duzun albumean dauden argazkien sareta bat ikusiko duzu. Hautatu saretako argazkietako bat hura irekitzeko."
+
+#. (itstool) path: info/desc
+#: C/view-favorites.page:21
+msgid "Open your favorite photos."
+msgstr "Ireki zure argazki gogokoenak."
+
+#. (itstool) path: page/title
+#: C/view-favorites.page:24
+msgid "View photos marked as favorites."
+msgstr "Bistaratu gogoko gisa markatutako argazkiak."
+
+#. (itstool) path: page/p
+#: C/view-favorites.page:26
+msgid ""
+"Your <link xref=\"favorites\">favorite</link> photos are located in the "
+"<gui>Favorites</gui> tab."
+msgstr "Zure argazki <link xref=\"favorites\">gogokoak</link> <gui>Gogokoak</gui> fitxan daude."
+
+#. (itstool) path: steps/title
+#: C/view-favorites.page:30
+msgid "To open a photo tagged as a favorite:"
+msgstr "Gogokoaren etiketa duen argazki bat irekitzeko:"
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:32
+msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
+msgstr "Hautatu <gui style=\"tab\">Gogokoak</gui> fitxa."
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:35
+msgid ""
+"Select photo you want to open, or use the arrow keys to navigate to the "
+"photo and press <key>Enter</key>."
+msgstr "Hautatu ireki nahi duzun argazkia, edo erabili gezi-teklak argazkira joateko eta sakatu <key>Enter</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "Ireki zure azken argazkiak."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Bistaratu azken argazkiak"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr "<gui style=\"tab\">Azken aldikoa</gui> fitxak fitxategi-sistema lokaleko kokalekuetako argazkiak erakusten ditu, adibidez <file>~/Deskargak</file> edo <file>~/Irudiak</file> direktorioetakoak, eta baita lineako bildumetakoak ere. Beste kokaleku batzuk gehitu ditzakezu, baita hodeian oinarritutako bildumetakoak ere, esaterako Flickr edo Facebook argakiak, <app>GNOME Lineako kontuak</app> erabilita."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "Fitxategi-sistema lokaleko beste kokaleku batzuk gehitzeko:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr "Joan <guiseq><gui>Ezarpenak</gui><gui>Bilatu</gui></guiseq> aukerara."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Egin klik beheko eskuineko gurpil-botoian. <gui style=\"tab\">Azken aldikoa</gui> fitxan bistaratu nahi dituzun kokalekuak hautatu ditzakezu bertan."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Azken argazkiak bistaratzeko:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Hautatu <gui style=\"tab\">Azken aldikoa</gui> fitxa."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr "Argazkien sareta bat ikusiko duzu. Hautatu saretako argazki bat hura irekitzeko."
+
+#. (itstool) path: info/desc
+#: C/view.page:21
+msgid "Open a photo for viewing."
+msgstr "Ireki argazki bat hura ikusteko."
+
+#. (itstool) path: page/title
+#: C/view.page:24
+msgid "View images"
+msgstr "Ikusi irudiak"
+
+#. (itstool) path: page/p
+#: C/view.page:26
+msgid ""
+"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
+"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
+"a favourite can be found in the <gui>Favorites</gui> tab."
+msgstr "<app>Argazkiak</app> aplikazioa irekitzen denean, <gui>Azken aldikoa</gui> fitxa irekita ikusiko duzu. <gui>Azken aldikoa</gui> fitxak zure ordenagailuko irudiak ditu, <gui>Albumak</gui> fitxak zure argazki-albumak ditu, eta gogoko gisa markatu duzun edozein irudi <gui>Gogokoak</gui> fitxan agertuko dira."
