@@ -2,25 +2,26 @@
 # Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Bruce Cowan <bruce@bcowan.me.uk>, 2014, 2018.
+# Zander Brown <zbrown@gnome.org>, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-08-17 17:00+0000\n"
-"PO-Revision-Date: 2018-08-19 17:34+0100\n"
-"Last-Translator: Bruce Cowan <bruce@bcowan.me.uk>\n"
-"Language-Team: British English <en_GB@li.org>\n"
+"POT-Creation-Date: 2019-08-20 15:13+0000\n"
+"PO-Revision-Date: 2019-08-25 20:06+0100\n"
+"Last-Translator: Zander Brown <zbrown@gnome.org>\n"
+"Language-Team: English - United Kingdom <en_GB@li.org>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Gtranslator 3.32.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Photos"
 
@@ -29,11 +30,6 @@ msgid "Access, organize and share your photos on GNOME"
 msgstr "Access, organise and share your photos on GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
-#| msgid ""
-#| "A simple application to access, organize and share your photos on GNOME. "
-#| "It is meant to be a simple and elegant replacement for using a file "
-#| "manager to deal with photos. Seamless cloud integration is offered "
-#| "through GNOME Online Accounts."
 msgid ""
 "Access, organize and share your photos on GNOME. A simple and elegant "
 "replacement for using a file manager to deal with photos. Enhance, crop and "
@@ -58,7 +54,6 @@ msgid "View recent local and online photos"
 msgstr "View recent local and online photos"
 
 #: data/org.gnome.Photos.appdata.xml.in:20
-#| msgid "Access your Facebook or Flickr content"
 msgid "Access your Facebook or Flickr pictures"
 msgstr "Access your Facebook or Flickr pictures"
 
@@ -69,7 +64,6 @@ msgstr ""
 "View photos on TVs, laptops or other DLNA renderers on your local network"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
-#| msgid "Set as background"
 msgid "Set pictures as your desktop background"
 msgstr "Set pictures as your desktop background"
 
@@ -82,7 +76,6 @@ msgid "Select favorites"
 msgstr "Select favorites"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
-#| msgid "Allow opening full featured editor for more advanced changes"
 msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
@@ -90,18 +83,13 @@ msgstr ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
 
-#: data/org.gnome.Photos.appdata.xml.in:51
+#: data/org.gnome.Photos.appdata.xml.in:74
 msgid "The GNOME Project"
 msgstr "The GNOME Project"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
 msgstr "Access, organise and share photos"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Photos.desktop.in.in:7
-msgid "org.gnome.Photos"
-msgstr "org.gnome.Photos"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
@@ -132,11 +120,11 @@ msgstr "Window maximised"
 msgid "Window maximized state"
 msgstr "Window maximised state"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Show the empty state"
 
-#: src/photos-application.c:168
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Show the application's version"
 
@@ -149,7 +137,7 @@ msgstr "Show the application's version"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
@@ -158,7 +146,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2830
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Screenshots"
 
@@ -187,39 +175,39 @@ msgstr "DLNA Renderer Devices"
 msgid "“%s” edited"
 msgstr "“%s” edited"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Collection View"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Albums"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Favourites"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Import"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "Search"
 
-#: src/photos-empty-results-box.c:129
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "No albums found"
 
-#: src/photos-empty-results-box.c:133
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Starred photos will appear here"
 
-#: src/photos-empty-results-box.c:143
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "No photos found"
 
-#: src/photos-empty-results-box.c:172
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "You can create albums from the Photos view"
 
@@ -227,7 +215,7 @@ msgstr "You can create albums from the Photos view"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:193
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "Online Accounts"
 
@@ -235,7 +223,7 @@ msgstr "Online Accounts"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:200
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "Pictures folder"
 
@@ -244,12 +232,12 @@ msgstr "Pictures folder"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:207
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Photos from your %s and %s will appear here."
 
-#: src/photos-empty-results-box.c:217
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Try a different search"
 
@@ -275,8 +263,8 @@ msgid "_Reduced"
 msgstr "_Reduced"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "_Cancel"
 
@@ -341,7 +329,7 @@ msgstr "Export Folder"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -397,71 +385,78 @@ msgid "Select all"
 msgstr "Select all"
 
 #: src/photos-help-overlay.ui:106
+#| msgctxt "shortcut window"
+#| msgid "Print selected photos"
+msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Export selected photos"
+
+#: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Print selected photos"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Delete selected photos"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Photo view"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Edit"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Export"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Print"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Zoom in"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Zoom out"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Best fit"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Delete"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Action menu"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Fullscreen"
 
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Edit view"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Cancel"
@@ -511,99 +506,86 @@ msgstr "Your photos are being indexed"
 msgid "Some photos might not be available during this process"
 msgstr "Some photos might not be available during this process"
 
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Oops! Unable to load “%s”"
+
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Local"
 
-#: src/photos-main-toolbar.c:80
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
 msgstr "Click on items to select them"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d selected"
 msgstr[1] "%d selected"
 
-#: src/photos-main-toolbar.c:170
+#: src/photos-main-toolbar.c:169
 msgid "Select items for import"
 msgstr "Select items for import"
 
-#: src/photos-main-toolbar.c:174
+#: src/photos-main-toolbar.c:173
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "Select items for import (%u selected)"
 msgstr[1] "Select items for import (%u selected)"
 
-#: src/photos-main-toolbar.c:217
+#: src/photos-main-toolbar.c:216
 msgid "Back"
 msgstr "Back"
 
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
 msgstr "Select Items"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Open with %s"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Remove from favourites"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Add to favourites"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "Done"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:527
 msgid "_Select"
 msgstr "_Select"
 
 #: src/photos-main-window.c:458
 #| msgid ""
-#| "Copyright © 2012 – 2017 Red Hat, Inc.\n"
-#| "Copyright © 2015 – 2017 Umang Jain"
+#| "Copyright © 2012 – 2018 Red Hat, Inc.\n"
+#| "Copyright © 2015 – 2018 Umang Jain"
 msgid ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Copyright © 2012 – 2018 Red Hat, Inc.\n"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
 msgid "translator-credits"
-msgstr "Bruce Cowan <bruce@bcowan.me.uk>"
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Fullscreen"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Keyboard Shortcuts"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "_Help"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "About"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Quit"
+msgstr ""
+"Bruce Cowan <bruce@bcowan.me.uk>\n"
+"Zander Brown <zbrown@gnome.org>"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -643,6 +625,23 @@ msgstr "Set as Lock Screen"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Properties"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Fullscreen"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Keyboard Shortcuts"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_Help"
+
+#: src/photos-primary-menu.ui:14
+#| msgid "Photos"
+msgid "About Photos"
+msgstr "About Photos"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -898,27 +897,27 @@ msgstr "Failed to upload photo"
 msgid "Sources"
 msgstr "Sources"
 
-#: src/photos-source-notification.c:183
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "New device discovered"
 
-#: src/photos-source-notification.c:196
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Import…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:226
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Your %s credentials have expired"
 
-#: src/photos-source-notification.c:233
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Settings"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "D-Bus address to use"
 
@@ -1044,9 +1043,22 @@ msgstr "Hometown"
 msgid "Filters"
 msgstr "Filters"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Unable to find Tracker on your operating system"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Unable to fetch the list of photos"
+
+#~ msgid "org.gnome.Photos"
+#~ msgstr "org.gnome.Photos"
+
+#~ msgid "About"
+#~ msgstr "About"
+
+#~ msgid "Quit"
+#~ msgstr "Quit"
 
 #~ msgid "It lets you:"
 #~ msgstr "It lets you:"
