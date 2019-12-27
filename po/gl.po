@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-09-24 14:07+0000\n"
-"PO-Revision-Date: 2019-01-29 00:01+0100\n"
-"Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
+"POT-Creation-Date: 2019-12-27 13:10+0000\n"
+"PO-Revision-Date: 2019-12-27 15:19+0100\n"
+"Last-Translator: Fran Diéguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 3.30.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.2.4\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
@@ -71,7 +71,7 @@ msgstr "Estabelecer imaxes como a súa imaxe de escritorio"
 
 #: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
-msgstr "Imprimir fotos\t"
+msgstr "Imprimir fotos"
 
 #: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
@@ -82,7 +82,7 @@ msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
 msgstr ""
-"Editar de forma doada as súas imaxes dentro do aplicativo, ou enviala a un "
+"Editar de forma doada as súas imaxes dentro da aplicación, ou enviala a un "
 "editor completo para cambios máis avanzados"
 
 #: data/org.gnome.Photos.appdata.xml.in:74
@@ -128,7 +128,7 @@ msgstr "Mostrar o estado baleiro"
 
 #: src/photos-application.c:165
 msgid "Show the application's version"
-msgstr "Mostrar a versión do aplicativo"
+msgstr "Mostrar a versión da aplicación"
 
 #. Translators: this is the default sub-directory where photos will
 #. * be imported.
@@ -1044,148 +1044,3 @@ msgstr "Non foi posíbel atopar Tracker no seu sistema operativo"
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Non foi posíbel obter a lista de fotografías"
-
-#~ msgid "org.gnome.Photos"
-#~ msgstr "org.gnome.Photos"
-
-#~ msgid "About"
-#~ msgstr "Sobre"
-
-#~ msgid "Quit"
-#~ msgstr "Saír"
-
-#~ msgid "It lets you:"
-#~ msgstr "Permítelle"
-
-#~ msgid "Send photos to remote DLNA renderers"
-#~ msgstr "Envíe fotos a renderizadores de DLNA"
-
-#~ msgid "Cancel"
-#~ msgstr "Cancelar"
-
-#~ msgid "Name your first album"
-#~ msgstr "Nome do seu primeiro álbum"
-
-#~ msgid "You can add your online accounts in %s"
-#~ msgstr "Pode engadir as súas contas en liña en %s"
-
-#~ msgid "Untitled Photo"
-#~ msgstr "Foto sen título"
-
-#~ msgid ""
-#~ "Copyright © 2013 Intel Corporation. All rights reserved.\n"
-#~ "Copyright © 2014 – 2015 Pranav Kant\n"
-#~ "Copyright © 2012 – 2017 Red Hat, Inc."
-#~ msgstr ""
-#~ "Copyright © 2013 Intel Corporation. Todos os dereitos reservados.\n"
-#~ "Copyright © 2014 – 2015 Pranav Kant\n"
-#~ "Copyright © 2012 – 2017 Red Hat, Inc."
-
-#~ msgid "Brightness"
-#~ msgstr "Brillo"
-
-#~ msgid "Width"
-#~ msgstr "Anchura"
-
-#~ msgid "Screen"
-#~ msgstr "Pantalla"
-
-#~ msgid "Golden ratio"
-#~ msgstr "Taxa dourada"
-
-#~ msgid "A paper sizes"
-#~ msgstr "Un tamaño de papel"
-
-#~ msgid "%.2f"
-#~ msgstr "%.2f"
-
-#~ msgid "%a, %d %B %Y  %X"
-#~ msgstr "%a, %d de %B de %Y  %X"
-
-#~ msgid "%.1f (lens)"
-#~ msgstr "%.1f (lente)"
-
-#~ msgid "%.1f (35mm film)"
-#~ msgstr "%.1f (filme de 35mm)"
-
-#~ msgid "Transformation on unloaded image."
-#~ msgstr "Transformación nunha imaxe descargada."
-
-#~ msgid "Transformation failed."
-#~ msgstr "Fallou a transformación."
-
-#~ msgid "EXIF not supported for this file format."
-#~ msgstr "EXIF non é compatíbel con este formato de ficheiro."
-
-#~ msgid "Image loading failed."
-#~ msgstr "Produciuse un fallo ao cargar a imaxe."
-
-#~ msgid "No image loaded."
-#~ msgstr "Non se cargou ningunha imaxe."
-
-#~ msgid "You do not have the permissions necessary to save the file."
-#~ msgstr "Non ten os permisos necesarios para gardar o ficheiro."
-
-#~ msgid "Temporary file creation failed."
-#~ msgstr "Produciuse un fallo ao crear o ficheiro temporal."
-
-#~ msgid "At least two file names are equal."
-#~ msgstr "Polo menos dous nomes de ficheiro son iguais."
-
-#~ msgid "Could not display help for Image Viewer"
-#~ msgstr "Non foi posíbel mostrar a axuda para o Visor de imaxes"
-
-#~ msgid " (invalid Unicode)"
-#~ msgstr " (Unicode incorrecto)"
-
-#~ msgid "Recent"
-#~ msgstr "Recente"
-
-#~ msgid "No Favorites Found"
-#~ msgstr "Non se atopou ningún favorito"
-
-#~ msgid "Load More"
-#~ msgstr "Cargar máis"
-
-#~ msgid "Loading…"
-#~ msgstr "Cargando…"
-
-#~ msgid ""
-#~ "<li>View recent local and online photos</li> <li>Access your Flickr "
-#~ "content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as "
-#~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
-#~ "opening full featured editor for more advanced changes</li>"
-#~ msgstr ""
-#~ "<li>Ver as súas fotos locais e en liña recentes</li> <li>Acceder ao seu "
-#~ "contido en Flickr</li> <li>Enviar fotos a renderizadores DLNA remotos</"
-#~ "li> <li>Estabelecer unha foto como fondo de escritorio</li> <li>Imprimir "
-#~ "fotos</li> <li>Seleccionar fatoritos</li> <li>Abrir fotos co seu editor  "
-#~ "para facer cambios avanzados</li>"
-
-#~ msgid "Facebook"
-#~ msgstr "Facebook"
-
-#~ msgid "Flickr"
-#~ msgstr "Flickr"
-
-#~ msgid "System Settings"
-#~ msgstr "Preferencias do sistema"
-
-#~ msgctxt "Toolbar button tooltip"
-#~ msgid "Organize"
-#~ msgstr "Organizar"
-
-#~ msgid "Image"
-#~ msgstr "Imagen"
-
-#~ msgid "The image whose printing properties will be set up"
-#~ msgstr "A imaxe para a que se definirán as propiedades de impresión"
-
-#~ msgid "Page Setup"
-#~ msgstr "Configuración da páxina"
-
-#~ msgid "The information for the page where the image will be printed"
-#~ msgstr "A información da páxina onde se imprimirá a imaxe"
-
-#~ msgid "Load %d more photos"
-#~ msgstr "Cargar %d fotos máis"
