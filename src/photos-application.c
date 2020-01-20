@@ -2615,7 +2615,7 @@ photos_application_startup (GApplication *application)
   const gchar *save_accels[2] = {"<Primary>x", NULL};
   const gchar *search_accels[2] = {"<Primary>f", NULL};
   const gchar *select_all_accels[2] = {"<Primary>a", NULL};
-  const gchar *zoom_best_fit_accels[3] = {"<Primary>0", NULL};
+  const gchar *zoom_best_fit_accels[2] = {"<Primary>0", NULL};
   const gchar *zoom_in_accels[4] = {"<Primary>plus", "<Primary>equal", "<Primary>KP_Add", NULL};
   const gchar *zoom_out_accels[3] = {"<Primary>minus", "<Primary>KP_Subtract", NULL};
 
