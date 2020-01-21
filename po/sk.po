@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2018-03-13 15:19+0000\n"
-"PO-Revision-Date: 2018-03-14 20:48+0100\n"
+"POT-Creation-Date: 2019-09-24 14:07+0000\n"
+"PO-Revision-Date: 2020-01-21 15:06+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -15,11 +15,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3043 src/photos-embed.c:819
-#: src/photos-search-type-manager.c:144
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Fotografie"
 
@@ -31,60 +31,66 @@ msgstr ""
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Jednoduchá aplikácia na prístup, organizovanie a sprístupňovanie fotografií "
-"pre prostredie GNOME. Je určená ako jednoduchá a elegantná náhrada za "
-"používanie správcu súborov pri práci s fotografiami. Samozrejmosťou je "
-"prepojenie s cloudom prostredníctvom Účtov služieb pre GNOME."
+"Pristupujte, organizujte a zdieľajte vaše fotografie v prostredí GNOME. "
+"Jednoduchá a elegantná náhrada za používanie správcu súborov pri práci s "
+"fotografiami. V rýchlosti vylepšujte, orezávajte a upravujte. Samozrejmosťou "
+"je prepojenie s cloudom prostredníctvom Účtov služieb pre GNOME."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
-msgid "It lets you:"
-msgstr "Umožňuje vám:"
+msgid "You can:"
+msgstr "Môžete:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Automaticky nájsť všetky vaše obrázky"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Zobraziť nedávne miestne a internetové fotografie"
 
-#: data/org.gnome.Photos.appdata.xml.in:19
-msgid "Access your Facebook or Flickr content"
-msgstr "Pristupovať k vášmu obsahu na službách Facebook alebo Flickr"
-
 #: data/org.gnome.Photos.appdata.xml.in:20
-msgid "Send photos to remote DLNA renderers"
-msgstr "Odoslať fotografie na vzdialené vykreslovacie zariadenia DLNA"
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Pristupovať k vašim obrázkom na službách Facebook alebo Flickr"
 
 #: data/org.gnome.Photos.appdata.xml.in:21
-msgid "Set as background"
-msgstr "Nastaviť pozadie plochy"
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Zobraziť fotografie na TV, notebooku alebo inom DLNA prehrávači vo vašej "
+"miestnej sieti"
 
-#: data/org.gnome.Photos.appdata.xml.in:22
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "Nastavovať obrázky ako pozadie pracovnej plochy"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Tlačiť fotografie"
 
-#: data/org.gnome.Photos.appdata.xml.in:23
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Vybrať obľúbené fotografie"
 
-#: data/org.gnome.Photos.appdata.xml.in:24
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Otvoriť plne funkčný editor pre pokročilejšie úpravy"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"Jednoducho upravovať vaše obrázky v aplikácii, alebo odosielať do plne "
+"funkčného editora pre pokročilejšie úpravy"
 
-#: data/org.gnome.Photos.appdata.xml.in:49
+#: data/org.gnome.Photos.appdata.xml.in:74
 msgid "The GNOME Project"
 msgstr "Projekt GNOME"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
 msgstr "Pristupuje, organizuje a sprístupňuje fotografie"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Photos.desktop.in.in:7
-msgid "org.gnome.Photos"
-msgstr "org.gnome.Photos"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
@@ -115,12 +121,12 @@ msgstr "Maximalizované okno"
 msgid "Window maximized state"
 msgstr "Maximalizovaný stav okna"
 
-#: src/photos-application.c:167
+#: src/photos-application.c:164
 msgid "Show the empty state"
 msgstr "Zobrazí prázdny stav"
 
 # cmd line desc
-#: src/photos-application.c:168
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Zobrazí verziu aplikácie"
 
@@ -133,16 +139,16 @@ msgstr "Zobrazí verziu aplikácie"
 #. Translators: this is the name of the default album that will be
 #. * created for imported photos.
 #.
-#: src/photos-application.c:1393 src/photos-export-dialog.c:195
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
 msgid "%-d %B %Y"
 msgstr "%-d. %B %Y"
 
-#: src/photos-base-item.c:1036
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2752
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
@@ -172,39 +178,39 @@ msgstr "Vykresľovacie zariadenia DLNA"
 msgid "“%s” edited"
 msgstr "Súbor „%s“ upravený"
 
-#: src/photos-embed.c:823
+#: src/photos-embed.c:829
 msgid "Collection View"
 msgstr "Zobrazenie zbierky"
 
-#: src/photos-embed.c:826 src/photos-search-type-manager.c:129
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Albumy"
 
-#: src/photos-embed.c:830 src/photos-search-type-manager.c:137
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Obľúbené"
 
-#: src/photos-embed.c:834
+#: src/photos-embed.c:840
 msgid "Import"
 msgstr "Importovať"
 
-#: src/photos-embed.c:837 src/photos-main-toolbar.c:316
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "Hľadať"
 
-#: src/photos-empty-results-box.c:148
+#: src/photos-empty-results-box.c:120
 msgid "No albums found"
 msgstr "Nenašli sa žiadne albumy"
 
-#: src/photos-empty-results-box.c:152
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Tu budú zobrazené fotografie označené hviezdičkou"
 
-#: src/photos-empty-results-box.c:162
+#: src/photos-empty-results-box.c:134
 msgid "No photos found"
 msgstr "Nenašli sa žiadne fotografie"
 
-#: src/photos-empty-results-box.c:191
+#: src/photos-empty-results-box.c:163
 msgid "You can create albums from the Photos view"
 msgstr "Môžete vytvárať albumy zo zobrazenia fotografií"
 
@@ -212,7 +218,7 @@ msgstr "Môžete vytvárať albumy zo zobrazenia fotografií"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:212
+#: src/photos-empty-results-box.c:184
 msgid "Online Accounts"
 msgstr "účtov služieb"
 
@@ -220,7 +226,7 @@ msgstr "účtov služieb"
 #. * the "Photos from your Online Accounts and Pictures folder
 #. * will appear here." sentence below.
 #.
-#: src/photos-empty-results-box.c:219
+#: src/photos-empty-results-box.c:191
 msgid "Pictures folder"
 msgstr "priečinka Obrázky"
 
@@ -229,12 +235,12 @@ msgstr "priečinka Obrázky"
 #. * strings due to markup, and should be translated only in the
 #. * context of this sentence.
 #.
-#: src/photos-empty-results-box.c:226
+#: src/photos-empty-results-box.c:198
 #, c-format
 msgid "Photos from your %s and %s will appear here."
 msgstr "Tu budú zobrazené fotografie z vašich %s a %s."
 
-#: src/photos-empty-results-box.c:236
+#: src/photos-empty-results-box.c:208
 msgid "Try a different search"
 msgstr "Skúste vyhľadať niečo iné"
 
@@ -261,8 +267,8 @@ msgid "_Reduced"
 msgstr "Z_redukovaná"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:468 src/photos-main-toolbar.c:503
-#: src/photos-main-toolbar.c:614
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "_Zrušiť"
 
@@ -282,20 +288,20 @@ msgstr "%d×%d (%s)"
 msgid "Calculating export size…"
 msgstr "Vypočítava sa veľkosť exportu…"
 
-#: src/photos-export-notification.c:263
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "Zlyhalo exportovanie: nedostatok miesta"
 
-#: src/photos-export-notification.c:265
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "Zlyhalo exportovanie"
 
-#: src/photos-export-notification.c:272
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "Súbor „%s“ exportovaný"
 
-#: src/photos-export-notification.c:276
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -303,16 +309,16 @@ msgstr[0] "%d položiek exportovaných"
 msgstr[1] "%d položka exportovaná"
 msgstr[2] "%d položky exportované"
 
-#: src/photos-export-notification.c:293
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "Analyzovať"
 
-#: src/photos-export-notification.c:298
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Vyprázdniť Kôš"
 
 #. Translators: this is the Open action in a context menu
-#: src/photos-export-notification.c:315 src/photos-preview-menu.ui:6
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
 #: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Otvoriť"
@@ -320,7 +326,7 @@ msgstr "Otvoriť"
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: src/photos-export-notification.c:325
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Exportovať priečinok"
 
@@ -328,7 +334,7 @@ msgstr "Exportovať priečinok"
 #. * "Facebook — 2nd January 2013".
 #.
 #: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
-#: src/photos-google-item.c:100
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
@@ -386,70 +392,75 @@ msgstr "Výber všetkého"
 
 #: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Export vybraných fotografií"
+
+#: src/photos-help-overlay.ui:113
+msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Tlač vybratých fotografií"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Odstránenie vybratej fotografie"
 
-#: src/photos-help-overlay.ui:122
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Pohľad fotografie"
 
-#: src/photos-help-overlay.ui:126
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Úprava"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Exportovanie"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Tlač"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Priblíženie"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Oddialenie"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Najlepšia veľkosť"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Odstránenie"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Ponuka akcií"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Režim na celú obrazovku"
 
-#: src/photos-help-overlay.ui:191
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Pohľad úprav"
 
-#: src/photos-help-overlay.ui:195
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Zrušenie"
@@ -499,15 +510,20 @@ msgstr "Prebieha indexovanie vašich fotografií"
 msgid "Some photos might not be available during this process"
 msgstr "Niektoré fotografie nemusia byť počas tohoto procesu dostupné"
 
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Ale nie! Nepodarilo sa načítať fotografiu „%s“"
+
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Miestne"
 
-#: src/photos-main-toolbar.c:80
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
 msgstr "Kliknutím na položku ju vyberiete"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -516,11 +532,11 @@ msgstr[1] "%d vybratá"
 msgstr[2] "%d vybraté"
 
 # tooltip
-#: src/photos-main-toolbar.c:170
+#: src/photos-main-toolbar.c:169
 msgid "Select items for import"
 msgstr "Vyberte položky na importovanie"
 
-#: src/photos-main-toolbar.c:174
+#: src/photos-main-toolbar.c:173
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
@@ -528,71 +544,51 @@ msgstr[0] "Vyberte položky na importovanie (%u vybraných)"
 msgstr[1] "Vyberte položky na importovanie (%u vybraná)"
 msgstr[2] "Vyberte položky na importovanie (%u vybrané)"
 
-#: src/photos-main-toolbar.c:217
+#: src/photos-main-toolbar.c:216
 msgid "Back"
 msgstr "Späť"
 
 # tooltip
-#: src/photos-main-toolbar.c:331
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
 msgstr "Vyberie položky"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:393 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Otvoriť pomocou programu %s"
 
-#: src/photos-main-toolbar.c:424 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Odstrániť z obľúbených"
 
-#: src/photos-main-toolbar.c:429 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Pridá medzi obľúbené"
 
-#: src/photos-main-toolbar.c:472
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "Dokončiť"
 
-#: src/photos-main-toolbar.c:507
+#: src/photos-main-toolbar.c:527
 msgid "_Select"
 msgstr "Vyb_rať"
 
 #: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2012 – 2017 Red Hat, Inc.\n"
-"Copyright © 2015 – 2017 Umang Jain"
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"Autorské práva © 2012 – 2017 Red Hat, Inc.\n"
-"Autorské práva © 2015 – 2017 Umang Jain"
+"Autorské práva © 2012 – 2019 Red Hat, Inc.\n"
+"Autorské práva © 2015 – 2018 Umang Jain"
 
 #. Translators: Put your names here
 #: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr "Dušan Kazik <prescott66@gmail.com>"
-
-#: src/photos-menus.ui:6
-msgid "Fullscreen"
-msgstr "Na celú obrazovku"
-
-#: src/photos-menus.ui:12
-msgid "Keyboard Shortcuts"
-msgstr "Klávesové skratky"
-
-#: src/photos-menus.ui:16
-msgid "_Help"
-msgstr "_Pomocník"
-
-#: src/photos-menus.ui:20
-msgid "About"
-msgstr "O programe"
-
-#: src/photos-menus.ui:24
-msgid "Quit"
-msgstr "Ukončiť"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -632,6 +628,22 @@ msgstr "Nastaviť ako uzamknutú obrazovku"
 #: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Vlastnosti"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Na celú obrazovku"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Klávesové skratky"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_Pomocník"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "O aplikácii Fotografie"
 
 #: src/photos-print-notification.c:71
 #, c-format
@@ -910,27 +922,27 @@ msgstr "Zlyhalo odovzdanie fotografie"
 msgid "Sources"
 msgstr "Zdroje"
 
-#: src/photos-source-notification.c:201
+#: src/photos-source-notification.c:171
 msgid "New device discovered"
 msgstr "Bolo zistené nové zariadenie"
 
-#: src/photos-source-notification.c:214
+#: src/photos-source-notification.c:184
 msgid "Import…"
 msgstr "Importovať…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: src/photos-source-notification.c:244
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Vaše poverenia účtu služby %s vypršali"
 
-#: src/photos-source-notification.c:251
+#: src/photos-source-notification.c:221
 msgid "Settings"
 msgstr "Nastaveniach"
 
-#: src/photos-thumbnailer.c:76
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "Adresa zbernice D-Bus, ktorá sa má použiť"
 
@@ -1059,15 +1071,31 @@ msgstr "Hometown"
 msgid "Filters"
 msgstr "Filtre"
 
-#: src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Nie je možné nájsť nástroj Sledovač vo vašom operačnom systéme"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Nepodarilo sa získať zoznam fotografií"
 
+#~ msgid "It lets you:"
+#~ msgstr "Umožňuje vám:"
+
+#~ msgid "Send photos to remote DLNA renderers"
+#~ msgstr "Odoslať fotografie na vzdialené vykreslovacie zariadenia DLNA"
+
+#~ msgid "org.gnome.Photos"
+#~ msgstr "org.gnome.Photos"
+
+#~ msgid "About"
+#~ msgstr "O programe"
+
+#~ msgid "Quit"
+#~ msgstr "Ukončiť"
+
 #~ msgid "Cancel"
 #~ msgstr "Zrušiť"
-
-#~ msgid "Add to Photos"
-#~ msgstr "Pridať do aplikácie Fotografie"
 
 #~ msgid "Name your first album"
 #~ msgstr "Pomenujte svoj prvý album"
