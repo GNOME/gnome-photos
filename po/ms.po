@@ -1,0 +1,1047 @@
+# Malay translation for gnome-photos.
+# Copyright (C) 2020 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# abuyop <abuyop@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
+"POT-Creation-Date: 2020-01-21 14:09+0000\n"
+"PO-Revision-Date: 2020-01-27 18:01+0800\n"
+"Language-Team: Pasukan Terjemahan GNOME Malaysia\n"
+"Language: ms\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Last-Translator: abuyop <abuyop@gmail.com>\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
+msgid "Photos"
+msgstr "Foto"
+
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
+msgid "Access, organize and share your photos on GNOME"
+msgstr "Capai, urus dan kongsikan foto-foto anda dengan GNOME"
+
+#: data/org.gnome.Photos.appdata.xml.in:10
+msgid ""
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
+"Accounts."
+msgstr ""
+"Capai, urus dan kongsikan foto-foto anda dengan GNOME. Satu penggantian "
+"ringkas dan elegan seperti sebuah pengurus fail yang mengendalikan foto. "
+"Tambah baik, kerat dan sunting dengan mudah. Penyepaduan awan tanpa berkelim "
+"ditawarkan melalui Akaun Dalam Talian GNOME."
+
+#: data/org.gnome.Photos.appdata.xml.in:16
+msgid "You can:"
+msgstr "Anda boleh:"
+
+#: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Cari semua gambar anda secara automatik"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
+msgid "View recent local and online photos"
+msgstr "Lihat foto-foto setempat baru-baru ini dan juga foto-foto dalam talian"
+
+#: data/org.gnome.Photos.appdata.xml.in:20
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Capai gambar Facebook atau Flickr anda"
+
+#: data/org.gnome.Photos.appdata.xml.in:21
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Lihat foto-foto dalam TV, komputer riba atau lain-lain penerap DLNA dalam "
+"rangkaian setempat anda"
+
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "Tetapkan gambar sebagai latar belakang atas meja anda"
+
+#: data/org.gnome.Photos.appdata.xml.in:24
+msgid "Print photos"
+msgstr "Cetak foto"
+
+#: data/org.gnome.Photos.appdata.xml.in:25
+msgid "Select favorites"
+msgstr "Pilih kegemaran"
+
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"Sunting gambar anda dengan apl secara mudah, atau hantar ke penyunting "
+"berfitur penuh untuk dapatkan perubahan lanjutan"
+
+#: data/org.gnome.Photos.appdata.xml.in:74
+msgid "The GNOME Project"
+msgstr "Projek GNOME"
+
+#: data/org.gnome.Photos.desktop.in.in:4
+msgid "Access, organize and share photos"
+msgstr "Capai, urus dan kongsi foto-foto"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Photos.desktop.in.in:15
+msgid "Photos;Pictures;"
+msgstr "Foto;Gambar;"
+
+#: data/org.gnome.photos.gschema.xml:5
+msgid "Window size"
+msgstr "Saiz tetingkap"
+
+#: data/org.gnome.photos.gschema.xml:6
+msgid "Window size (width and height)."
+msgstr "Saiz tetingkap (lebar dan tinggi)."
+
+#: data/org.gnome.photos.gschema.xml:10
+msgid "Window position"
+msgstr "Kedudukan tetingkap"
+
+#: data/org.gnome.photos.gschema.xml:11
+msgid "Window position (x and y)."
+msgstr "Kedudukan tetingkap (x dan y)."
+
+#: data/org.gnome.photos.gschema.xml:15
+msgid "Window maximized"
+msgstr "Tetingkap dimaksimumkan"
+
+#: data/org.gnome.photos.gschema.xml:16
+msgid "Window maximized state"
+msgstr "Keadaan tetingkap dimaksimumkan"
+
+#: src/photos-application.c:164
+msgid "Show the empty state"
+msgstr "Tunjuk keadaan kosong"
+
+#: src/photos-application.c:165
+msgid "Show the application's version"
+msgstr "Tunjuk versi aplikasi"
+
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
+#: src/photos-import-dialog.c:134
+msgid "%-d %B %Y"
+msgstr "%-d %B %Y"
+
+#: src/photos-base-item.c:1037
+msgid "Album"
+msgstr "Album"
+
+#: src/photos-base-item.c:2840
+msgid "Screenshots"
+msgstr "Tangkap layar"
+
+#: src/photos-delete-notification.c:136
+#, c-format
+msgid "“%s” deleted"
+msgstr "“%s” dipadamkan"
+
+#: src/photos-delete-notification.c:139
+#, c-format
+msgid "%d item deleted"
+msgid_plural "%d items deleted"
+msgstr[0] "%d item dipadam"
+msgstr[1] "%d item dipadam"
+
+#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
+msgid "Undo"
+msgstr "Buat Asal"
+
+#: src/photos-dlna-renderers-dialog.ui:7
+msgid "DLNA Renderer Devices"
+msgstr "Peranti Penerap DLNA"
+
+#: src/photos-done-notification.c:112
+#, c-format
+msgid "“%s” edited"
+msgstr "“%s” disunting"
+
+#: src/photos-embed.c:829
+msgid "Collection View"
+msgstr "Pandangan Koleksi"
+
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
+msgid "Albums"
+msgstr "Album"
+
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
+msgid "Favorites"
+msgstr "Kegemaran"
+
+#: src/photos-embed.c:840
+msgid "Import"
+msgstr "Import"
+
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
+msgid "Search"
+msgstr "Gelintar"
+
+#: src/photos-empty-results-box.c:120
+msgid "No albums found"
+msgstr "Tiada album ditemui"
+
+#: src/photos-empty-results-box.c:124
+msgid "Starred photos will appear here"
+msgstr "Foto-foto dibintangi akan muncul di sini"
+
+#: src/photos-empty-results-box.c:134
+msgid "No photos found"
+msgstr "Tiada foto ditemui"
+
+#: src/photos-empty-results-box.c:163
+msgid "You can create albums from the Photos view"
+msgstr "Anda boleh mencipta album dari pandangan Foto"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:184
+msgid "Online Accounts"
+msgstr "Akaun Dalam Talian"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:191
+msgid "Pictures folder"
+msgstr "Folder gambar"
+
+#. Translators: the first %s here is "Online Accounts" and the
+#. * second %s is "Pictures folder", which are in separate
+#. * strings due to markup, and should be translated only in the
+#. * context of this sentence.
+#.
+#: src/photos-empty-results-box.c:198
+#, c-format
+msgid "Photos from your %s and %s will appear here."
+msgstr "Foto daripada %s anda dan %s akan muncul di sini."
+
+#: src/photos-empty-results-box.c:208
+msgid "Try a different search"
+msgstr "Cuba gelintar lain"
+
+#: src/photos-export-dialog.ui:22
+msgctxt "dialog title"
+msgid "Export"
+msgstr "Eksport"
+
+#: src/photos-export-dialog.ui:38
+msgid "_Folder Name"
+msgstr "Nama _Folder"
+
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
+msgid "Size"
+msgstr "Saiz"
+
+#: src/photos-export-dialog.ui:83
+msgid "F_ull"
+msgstr "Pen_uh"
+
+#: src/photos-export-dialog.ui:113
+msgid "_Reduced"
+msgstr "_Dikurangkan"
+
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
+msgid "_Cancel"
+msgstr "_Batal"
+
+#: src/photos-export-dialog.ui:167
+msgid "_Export"
+msgstr "_Eksport"
+
+#. Translators: this is the estimated size of the exported image in
+#. * the form "1600×1067 (0.6 GB)".
+#.
+#: src/photos-export-dialog.c:66
+#, c-format
+msgid "%d×%d (%s)"
+msgstr "%d×%d (%s)"
+
+#: src/photos-export-dialog.c:252
+msgid "Calculating export size…"
+msgstr "Mengira saiz eksport..."
+
+#: src/photos-export-notification.c:317
+msgid "Failed to export: not enough space"
+msgstr "Gagal dieskportL ruang tidak mencukupi"
+
+#: src/photos-export-notification.c:319
+msgid "Failed to export"
+msgstr "Gagal dieksport"
+
+#: src/photos-export-notification.c:326
+#, c-format
+msgid "“%s” exported"
+msgstr "%s dieksport"
+
+#: src/photos-export-notification.c:330
+#, c-format
+msgid "%d item exported"
+msgid_plural "%d items exported"
+msgstr[0] "%d item dieksport"
+msgstr[1] "%d item dieksport"
+
+#: src/photos-export-notification.c:347
+msgid "Analyze"
+msgstr "Analisis"
+
+#: src/photos-export-notification.c:352
+msgid "Empty Trash"
+msgstr "Kosongkan Tong Sampah"
+
+#. Translators: this is the Open action in a context menu
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
+msgid "Open"
+msgstr "Buka"
+
+#. Translators: this is the label of the button to open the
+#. * folder where the item was exported.
+#.
+#: src/photos-export-notification.c:379
+msgid "Export Folder"
+msgstr "Eksport Folder"
+
+#. Translators: this is the fallback title in the form
+#. * "Facebook — 2nd January 2013".
+#.
+#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
+#: src/photos-google-item.c:98
+#, c-format
+msgid "%s — %s"
+msgstr "%s — %s"
+
+#: src/photos-help-overlay.ui:32
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Am"
+
+#: src/photos-help-overlay.ui:36
+msgctxt "shortcut window"
+msgid "Show help"
+msgstr "Tunjuk bantuan"
+
+#: src/photos-help-overlay.ui:43
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Keluar"
+
+#: src/photos-help-overlay.ui:52
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Navigasi"
+
+#: src/photos-help-overlay.ui:56
+msgctxt "shortcut window"
+msgid "Next photo"
+msgstr "Foto berikutnya"
+
+#: src/photos-help-overlay.ui:63
+msgctxt "shortcut window"
+msgid "Previous photo"
+msgstr "Foto terdahulu"
+
+#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Kembali"
+
+#: src/photos-help-overlay.ui:88
+msgctxt "shortcut window"
+msgid "Overview"
+msgstr "Selayang Pandang"
+
+#: src/photos-help-overlay.ui:92
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Gelintar"
+
+#: src/photos-help-overlay.ui:99
+msgctxt "shortcut window"
+msgid "Select all"
+msgstr "Pilih semua"
+
+#: src/photos-help-overlay.ui:106
+msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Eksport foto-foto terpilih"
+
+#: src/photos-help-overlay.ui:113
+msgctxt "shortcut window"
+msgid "Print selected photos"
+msgstr "Cetak foto-foto terpilih"
+
+#: src/photos-help-overlay.ui:120
+msgctxt "shortcut window"
+msgid "Delete selected photos"
+msgstr "Padam foto-foto terpilih"
+
+#: src/photos-help-overlay.ui:129
+msgctxt "shortcut window"
+msgid "Photo view"
+msgstr "Pandangan foto"
+
+#: src/photos-help-overlay.ui:133
+msgctxt "shortcut window"
+msgid "Edit"
+msgstr "Sunting"
+
+#: src/photos-help-overlay.ui:140
+msgctxt "shortcut window"
+msgid "Export"
+msgstr "Eksport"
+
+#: src/photos-help-overlay.ui:147
+msgctxt "shortcut window"
+msgid "Print"
+msgstr "Cetak"
+
+#: src/photos-help-overlay.ui:154
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Zum masuk"
+
+#: src/photos-help-overlay.ui:161
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Zum keluar"
+
+#: src/photos-help-overlay.ui:168
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "Suai muat"
+
+#: src/photos-help-overlay.ui:175
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Padam"
+
+#: src/photos-help-overlay.ui:182
+msgctxt "shortcut window"
+msgid "Action menu"
+msgstr "Menu tindakan"
+
+#: src/photos-help-overlay.ui:189
+msgctxt "shortcut window"
+msgid "Fullscreen"
+msgstr "Skrin Penuh"
+
+#: src/photos-help-overlay.ui:198
+msgctxt "shortcut window"
+msgid "Edit view"
+msgstr "Pandangan sunting"
+
+#: src/photos-help-overlay.ui:202
+msgctxt "shortcut window"
+msgid "Cancel"
+msgstr "Batal"
+
+#: src/photos-import-dialog.c:194
+msgid "An album with that name already exists"
+msgstr "Satu album dengan nama tersebut telah wujud"
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr "Satu album dengan tarikh tersebut telah wujud"
+
+#: src/photos-import-dialog.ui:22
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "Nama Album"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr "Cipta _Baharu"
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr "Tambah ke _Sedia Ada"
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "T_ambah"
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: src/photos-indexing-notification.c:164
+#, c-format
+msgid "Fetching photos from %s"
+msgstr "Mendapatkan foto-foto dari %s"
+
+#: src/photos-indexing-notification.c:167
+msgid "Fetching photos from online accounts"
+msgstr "Mendapatkan foto-foto dari akaun dalam talian"
+
+#: src/photos-indexing-notification.c:202
+msgid "Your photos are being indexed"
+msgstr "Foto-foto anda telah diindekskan"
+
+#: src/photos-indexing-notification.c:203
+msgid "Some photos might not be available during this process"
+msgstr "Sesetengah foto mungkin tidak tersedia ketika proses ini berlangsung"
+
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Alamak! Tidak boleh memuatkan \"%s\""
+
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
+msgid "Local"
+msgstr "Setempat"
+
+#: src/photos-main-toolbar.c:79
+msgid "Click on items to select them"
+msgstr "Klik pada item-item untuk memilihnya"
+
+#: src/photos-main-toolbar.c:81
+#, c-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d terpilih"
+msgstr[1] "%d terpilih"
+
+#: src/photos-main-toolbar.c:169
+msgid "Select items for import"
+msgstr "Pilih item-item untuk diimport"
+
+#: src/photos-main-toolbar.c:173
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "Pilih item untuk import (%u terpilih)"
+msgstr[1] "Pilih item untuk import (%u terpilih)"
+
+#: src/photos-main-toolbar.c:216
+msgid "Back"
+msgstr "Undur"
+
+#: src/photos-main-toolbar.c:350
+msgid "Select Items"
+msgstr "Pilih Item-item"
+
+#. length == 1
+#. Translators: this is the Open action in a context menu
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
+#: src/photos-share-notification.c:165
+#, c-format
+msgid "Open with %s"
+msgstr "Buka dengan %s"
+
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
+msgid "Remove from favorites"
+msgstr "Buang dari kegemaran"
+
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
+msgid "Add to favorites"
+msgstr "Tambah ke kegemaran"
+
+#: src/photos-main-toolbar.c:491
+msgid "Done"
+msgstr "Selesai"
+
+#: src/photos-main-toolbar.c:527
+msgid "_Select"
+msgstr "_Pilih"
+
+#: src/photos-main-window.c:458
+msgid ""
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
+msgstr ""
+"Hak cipta © 2012 – 2019 Red Hat, Inc.\n"
+"Hak cipta © 2015 – 2018 Umang Jain"
+
+#. Translators: Put your names here
+#: src/photos-main-window.c:466
+msgid "translator-credits"
+msgstr ""
+"Launchpad Contributions:\n"
+"  abuyop https://launchpad.net/~abuyop\n"
+"  dequan https://launchpad.net/~dequan"
+
+#: src/photos-organize-collection-dialog.c:70
+msgid "_OK"
+msgstr "_OK"
+
+#. Translators: "Organize" refers to photos in this context
+#: src/photos-organize-collection-dialog.c:121
+msgctxt "Dialog title"
+msgid "Organize"
+msgstr "Urus"
+
+#: src/photos-preview-menu.ui:10
+msgid "Export…"
+msgstr "Eksport..."
+
+#: src/photos-preview-menu.ui:14
+msgid "Print…"
+msgstr "Cetak…"
+
+#: src/photos-preview-menu.ui:19
+msgid "Delete"
+msgstr "Padam"
+
+#: src/photos-preview-menu.ui:23
+msgid "Display on…"
+msgstr "Papar pada..."
+
+#: src/photos-preview-menu.ui:27
+msgid "Set as Background"
+msgstr "Tetapkan sebagai Latar Belakang"
+
+#: src/photos-preview-menu.ui:31
+msgid "Set as Lock Screen"
+msgstr "Tetapkan sebagai Skrin Kunci"
+
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
+#: src/photos-selection-toolbar.ui:101
+msgid "Properties"
+msgstr "Ciri-ciri"
+
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "Skrin Penuh"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Pintasan Papan Kekunci"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_Bantuan"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "Perihal Foto"
+
+#: src/photos-print-notification.c:71
+#, c-format
+msgid "Printing “%s”: %s"
+msgstr "Mencetak \"%s\": %s"
+
+#: src/photos-print-operation.c:241
+msgid "Image Settings"
+msgstr "Tetapan Imej"
+
+#: src/photos-print-setup.c:884
+msgid "Position"
+msgstr "Posisi"
+
+#: src/photos-print-setup.c:887
+msgid "_Left:"
+msgstr "_Kiri:"
+
+#: src/photos-print-setup.c:888
+msgid "_Right:"
+msgstr "K_anan:"
+
+#: src/photos-print-setup.c:889
+msgid "_Top:"
+msgstr "_Atas:"
+
+#: src/photos-print-setup.c:890
+msgid "_Bottom:"
+msgstr "_Bawah:"
+
+#: src/photos-print-setup.c:892
+msgid "C_enter:"
+msgstr "Ten_gah:"
+
+#: src/photos-print-setup.c:896
+msgid "None"
+msgstr "Tiada"
+
+#: src/photos-print-setup.c:897
+msgid "Horizontal"
+msgstr "Mengufuk"
+
+#: src/photos-print-setup.c:898
+msgid "Vertical"
+msgstr "Menegak"
+
+#: src/photos-print-setup.c:899
+msgid "Both"
+msgstr "Kedua-duanya"
+
+#: src/photos-print-setup.c:915
+msgid "_Width:"
+msgstr "_Lebar:"
+
+#: src/photos-print-setup.c:916
+msgid "_Height:"
+msgstr "_Tinggi:"
+
+#: src/photos-print-setup.c:918
+msgid "_Scaling:"
+msgstr "_Penskalaan:"
+
+#: src/photos-print-setup.c:927
+msgid "_Unit:"
+msgstr "_Unit:"
+
+#: src/photos-print-setup.c:931
+msgid "Millimeters"
+msgstr "Millimeter"
+
+#: src/photos-print-setup.c:932
+msgid "Inches"
+msgstr "Inci"
+
+#: src/photos-print-setup.c:960
+msgid "Preview"
+msgstr "Pratonton"
+
+#: src/photos-properties-dialog.c:246
+msgid "Edited in Photos"
+msgstr "Disunting dalam Foto"
+
+#: src/photos-properties-dialog.c:259
+msgid "Untouched"
+msgstr "Tidak Disentuh"
+
+#. Translators: this is the label next to the photo title in the
+#. * properties dialog
+#.
+#: src/photos-properties-dialog.c:442
+msgctxt "Document Title"
+msgid "Title"
+msgstr "Tajuk"
+
+#. Translators: this is the label next to the photo author in
+#. * the properties dialog
+#.
+#: src/photos-properties-dialog.c:454
+msgctxt "Document Author"
+msgid "Author"
+msgstr "Pengarang"
+
+#: src/photos-properties-dialog.c:461
+msgid "Source"
+msgstr "Sumber"
+
+#: src/photos-properties-dialog.c:467
+msgid "Date Modified"
+msgstr "Tarikh Diubah Suai"
+
+#: src/photos-properties-dialog.c:475
+msgid "Date Created"
+msgstr "Tarikh Dicipta"
+
+#. Translators: this is the label next to the photo type in the
+#. * properties dialog
+#.
+#: src/photos-properties-dialog.c:485
+msgctxt "Document Type"
+msgid "Type"
+msgstr "Jenis"
+
+#: src/photos-properties-dialog.c:495
+msgid "Dimensions"
+msgstr "Dimensi"
+
+#: src/photos-properties-dialog.c:507
+msgid "Location"
+msgstr "Lokasi"
+
+#: src/photos-properties-dialog.c:525
+msgid "Camera"
+msgstr "Kamera"
+
+#: src/photos-properties-dialog.c:535 src/photos-tool-colors.c:365
+msgid "Exposure"
+msgstr "Dedahan"
+
+#: src/photos-properties-dialog.c:545
+msgid "Aperture"
+msgstr "Bukaan"
+
+#: src/photos-properties-dialog.c:555
+msgid "Focal Length"
+msgstr "Jarak Fokus"
+
+#: src/photos-properties-dialog.c:565
+msgid "ISO Speed"
+msgstr "Kelajuan ISO"
+
+#: src/photos-properties-dialog.c:575
+msgid "Flash"
+msgstr "Denyar"
+
+#: src/photos-properties-dialog.c:584
+msgid "Modifications"
+msgstr "Pengubahsuaian"
+
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%ld × %ld piksel"
+msgstr[1] "%ld × %ld piksel"
+
+#: src/photos-properties-dialog.c:721
+msgid "Off, did not fire"
+msgstr "Mati, tidak dipancarkan"
+
+#: src/photos-properties-dialog.c:723
+msgid "On, fired"
+msgstr "Hidup, dipancarkan"
+
+#: src/photos-properties-dialog.c:760
+msgid "Discard all Edits"
+msgstr "Singkir semua Suntingan"
+
+#: src/photos-removable-devices-button.ui:47
+msgid "Devices"
+msgstr "Peranti"
+
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-source-manager.c:396
+msgid "All"
+msgstr "Semua"
+
+#. Translators: "Title" refers to "Match Title" when searching.
+#: src/photos-search-match-manager.c:162
+msgctxt "Search Filter"
+msgid "Title"
+msgstr "Tajuk"
+
+#. Translators: "Author" refers to "Match Author" when searching.
+#: src/photos-search-match-manager.c:169
+msgctxt "Search Filter"
+msgid "Author"
+msgstr "Pengarang"
+
+#. Translators: this is a verb that refers to "All", "Title" and
+#. * "Author", as in "Match All", "Match Title" and "Match Author".
+#.
+#: src/photos-search-match-manager.c:207
+msgid "Match"
+msgstr "Padanan"
+
+#. Translators: "Type" refers to a search filter. eg., All, Albums,
+#. * Favorites and Photos.
+#.
+#: src/photos-search-type-manager.c:178
+msgctxt "Search Filter"
+msgid "Type"
+msgstr "Jenis"
+
+#: src/photos-selection-menu.ui:6
+msgid "Select All"
+msgstr "Pilih Semua"
+
+#: src/photos-selection-menu.ui:11
+msgid "Select None"
+msgstr "Pilih Tiada"
+
+#: src/photos-selection-toolbar.ui:19
+msgid "Export"
+msgstr "Eksport"
+
+#: src/photos-selection-toolbar.ui:111
+msgid "Add to Album"
+msgstr "Tambah ke Album"
+
+#: src/photos-share-dialog.ui:25
+msgctxt "dialog title"
+msgid "Share"
+msgstr "Kongsi"
+
+#: src/photos-share-notification.c:148
+#, c-format
+msgid "“%s” shared"
+msgstr "\"%s\" dikongsi"
+
+#: src/photos-share-point-email.c:78
+msgid "E-Mail"
+msgstr "E-Mel"
+
+#: src/photos-share-point-google.c:103
+msgid "Failed to upload photo: Service not authorized"
+msgstr "Gagal memuat naik foto: Perkhidmatan tidak diizinkan"
+
+#: src/photos-share-point-google.c:105
+msgid "Failed to upload photo"
+msgstr "Gagal memuat naik foto"
+
+#: src/photos-source-manager.c:465
+msgid "Sources"
+msgstr "Sumber"
+
+#: src/photos-source-notification.c:171
+msgid "New device discovered"
+msgstr "Peranti baharu ditemui"
+
+#: src/photos-source-notification.c:184
+msgid "Import…"
+msgstr "Import..."
+
+#. Translators: %s refers to an online account provider, e.g.,
+#. * "Facebook" or "Flickr".
+#.
+#: src/photos-source-notification.c:214
+#, c-format
+msgid "Your %s credentials have expired"
+msgstr "Kelayakan %s anda telah luput"
+
+#: src/photos-source-notification.c:221
+msgid "Settings"
+msgstr "Tetapan"
+
+#: src/photos-thumbnailer.c:74
+msgid "D-Bus address to use"
+msgstr "Alamat D-Bus yang digunakan"
+
+#: src/photos-tool-colors.c:386
+msgid "Contrast"
+msgstr "Beza Jelas"
+
+#: src/photos-tool-colors.c:407
+msgid "Blacks"
+msgstr "Hitam"
+
+#: src/photos-tool-colors.c:428
+msgid "Saturation"
+msgstr "Ketepuan"
+
+#: src/photos-tool-colors.c:447
+msgid "Shadows"
+msgstr "Bayang"
+
+#: src/photos-tool-colors.c:466
+msgid "Highlights"
+msgstr "Sorot"
+
+#: src/photos-tool-colors.c:495
+msgid "Colors"
+msgstr "Warna"
+
+#: src/photos-tool-crop.c:192
+msgid "Free"
+msgstr "Bebas"
+
+#: src/photos-tool-crop.c:193
+msgid "Original"
+msgstr "Asli"
+
+#: src/photos-tool-crop.c:194
+msgid "1×1 (Square)"
+msgstr "1×1 (Petak)"
+
+#: src/photos-tool-crop.c:195
+msgid "10×8 / 5×4"
+msgstr "10×8 / 5×4"
+
+#: src/photos-tool-crop.c:196
+msgid "4×3 / 8×6 (1024×768)"
+msgstr "4×3 / 8×6 (1024×768)"
+
+#: src/photos-tool-crop.c:197
+msgid "7×5"
+msgstr "7×5"
+
+#: src/photos-tool-crop.c:198
+msgid "3×2 / 6×4"
+msgstr "3×2 / 6×4"
+
+#: src/photos-tool-crop.c:199
+msgid "16×10 (1280×800)"
+msgstr "16×10 (1280×800)"
+
+#: src/photos-tool-crop.c:200
+msgid "16×9 (1920×1080)"
+msgstr "16×9 (1920×1080)"
+
+#: src/photos-tool-crop.c:1459
+msgid "Lock aspect ratio"
+msgstr "Kunci nisbah bidang"
+
+#: src/photos-tool-crop.c:1529
+msgid "Landscape"
+msgstr "Lanskap"
+
+#: src/photos-tool-crop.c:1540
+msgid "Portrait"
+msgstr "Potret"
+
+#: src/photos-tool-crop.c:1551
+msgid "Reset"
+msgstr "Tetap Semula"
+
+#: src/photos-tool-crop.c:1569
+msgid "Crop"
+msgstr "Kerat"
+
+#: src/photos-tool-enhance.c:197
+msgid "Sharpen"
+msgstr "Jelaskan"
+
+#: src/photos-tool-enhance.c:218
+msgid "Denoise"
+msgstr "Nyahingar"
+
+#: src/photos-tool-enhance.c:245
+msgid "Enhance"
+msgstr "Pertingkatkan"
+
+#. Translators: "None" refers to the nop magic filter when editing.
+#: src/photos-tool-filters.c:182
+msgctxt "Edit Filter"
+msgid "None"
+msgstr "Tiada"
+
+#: src/photos-tool-filters.c:189
+msgid "1947"
+msgstr "1947"
+
+#: src/photos-tool-filters.c:196
+msgid "Calistoga"
+msgstr "Calistoga"
+
+#: src/photos-tool-filters.c:202
+msgid "Mogadishu"
+msgstr "Mogadishu"
+
+#: src/photos-tool-filters.c:209
+msgid "Caap"
+msgstr "Caap"
+
+#: src/photos-tool-filters.c:215
+msgid "Hometown"
+msgstr "Hometown"
+
+#: src/photos-tool-filters.c:233
+msgid "Filters"
+msgstr "Penapis"
+
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Tidak boleh mencari Penjejak dalam sistem pengoperasian anda"
+
+#: src/photos-tracker-controller.c:176
+msgid "Unable to fetch the list of photos"
+msgstr "Tidak memperoleh senarai foto"
