@@ -1,5 +1,5 @@
 # Brazilian Portuguese translation for gnome-photos.
-# Copyright (C) 2019 gnome-photos's COPYRIGHT HOLDER
+# Copyright (C) 2020 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Antonio Fernandes C. Neto <fernandesn@gnome.org>, 2013.
 # Avelino <adelino.avelino@academico.ifrn.edu.br>, 2013.
@@ -8,22 +8,22 @@
 # Enrico Nicoletto <liverig@gmail.com>, 2013-2016.
 # Fábio Nogueira <fnogueira@gnome.org>, 2014-2018.
 # Bruno Lopes da Silva <brunolopesbldsb@gmail.com>, 2018.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2012-2019.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2012-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-01-18 12:57+0000\n"
-"PO-Revision-Date: 2019-02-26 23:31-0300\n"
+"POT-Creation-Date: 2019-10-11 08:32+0000\n"
+"PO-Revision-Date: 2020-02-14 05:42-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
-"Language-Team: Portuguese - Brazil <gnome-pt_br-list@gnome.org>\n"
+"Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
-"X-Generator: Gtranslator 3.31.90\n"
+"X-Generator: Gtranslator 3.32.0\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
@@ -90,18 +90,13 @@ msgstr ""
 "Editar facilmente suas fotos no app, ou envie-as para um editor repleto de "
 "recursos para alterações mais avançadas"
 
-#: data/org.gnome.Photos.appdata.xml.in:51
+#: data/org.gnome.Photos.appdata.xml.in:74
 msgid "The GNOME Project"
 msgstr "O Projeto GNOME"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
 msgstr "Acesse, organize e compartilhe fotos"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Photos.desktop.in.in:7
-msgid "org.gnome.Photos"
-msgstr "org.gnome.Photos"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
@@ -203,7 +198,7 @@ msgstr "Favoritos"
 msgid "Import"
 msgstr "Importar"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "Pesquisar"
 
@@ -275,8 +270,8 @@ msgid "_Reduced"
 msgstr "_Reduzido"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
-#: src/photos-main-toolbar.c:639
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -354,7 +349,7 @@ msgstr "Geral"
 #: src/photos-help-overlay.ui:36
 msgctxt "shortcut window"
 msgid "Show help"
-msgstr "Mosta a ajuda"
+msgstr "Mostra a ajuda"
 
 #: src/photos-help-overlay.ui:43
 msgctxt "shortcut window"
@@ -398,8 +393,6 @@ msgid "Select all"
 msgstr "Seleciona todas"
 
 #: src/photos-help-overlay.ui:106
-#| msgctxt "shortcut window"
-#| msgid "Print selected photos"
 msgctxt "shortcut window"
 msgid "Export selected photos"
 msgstr "Exporta as fotos selecionadas"
@@ -528,64 +521,61 @@ msgstr "Ops! Não foi possível carregar “%s”"
 msgid "Local"
 msgstr "Local"
 
-#: src/photos-main-toolbar.c:80
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
 msgstr "Clique nos itens para selecioná-los"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d selecionada"
 msgstr[1] "%d selecionadas"
 
-#: src/photos-main-toolbar.c:170
+#: src/photos-main-toolbar.c:169
 msgid "Select items for import"
 msgstr "Selecionar itens para importar"
 
-#: src/photos-main-toolbar.c:174
+#: src/photos-main-toolbar.c:173
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "selecionar itens para importar (%u selecionado)"
 msgstr[1] "selecionar itens para importar (%u selecionados)"
 
-#: src/photos-main-toolbar.c:217
+#: src/photos-main-toolbar.c:216
 msgid "Back"
 msgstr "Voltar"
 
-#: src/photos-main-toolbar.c:351
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
 msgstr "Selecionar itens"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Abrir com %s"
 
-#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Remover dos favoritos"
 
-#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Adicionar aos favoritos"
 
-#: src/photos-main-toolbar.c:494
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "Feito"
 
-#: src/photos-main-toolbar.c:530
+#: src/photos-main-toolbar.c:527
 msgid "_Select"
 msgstr "_Selecionar"
 
 #: src/photos-main-window.c:458
-#| msgid ""
-#| "Copyright © 2012 – 2018 Red Hat, Inc.\n"
-#| "Copyright © 2015 – 2018 Umang Jain"
 msgid ""
 "Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
@@ -1065,6 +1055,9 @@ msgstr "Não foi possível localizar o Tracker em seu sistema operacional"
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Não foi possível obter a lista de fotos"
+
+#~ msgid "org.gnome.Photos"
+#~ msgstr "org.gnome.Photos"
 
 #~ msgid "About"
 #~ msgstr "Sobre"
