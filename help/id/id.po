@@ -1,0 +1,311 @@
+# Indonesian translation for gnome-photos.
+# Copyright (C) 2019 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+# Andika Triwidada <atriwidada@gnome.org>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos master\n"
+"POT-Creation-Date: 2019-12-11 10:41+0000\n"
+"PO-Revision-Date: 2020-03-11 11:14+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "Andika Triwidada <andika@gmail.com>, 2019, 2020"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
+#: C/view-favorites.page:11 C/view.page:11
+msgid "Venkatesh Tahiliani"
+msgstr "Venkatesh Tahiliani"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:15 C/favorites-set.page:16 C/view-album.page:15
+#: C/view-favorites.page:15 C/view.page:15
+msgid "Aruna Sankaranarayanan"
+msgstr "Aruna Sankaranarayanan"
+
+#. (itstool) path: info/desc
+#: C/favorites.page:21
+msgid "Tag a special image or album as a favorite."
+msgstr "Beri tag citra atau album khusus sebagai favorit."
+
+#. (itstool) path: page/title
+#: C/favorites.page:25
+msgid "Favorite photos"
+msgstr "Foto favorit"
+
+#. (itstool) path: page/p
+#: C/favorites.page:26
+msgid ""
+"You can label photos or images that you particularly like as favorites to "
+"store them for easy access in the <gui>Favorites</gui> tab."
+msgstr ""
+"Anda dapat memberi label foto atau citra yang sangat Anda sukai sebagai "
+"favorit untuk menyimpannya agar mudah diakses di tab <gui>favorit</gui>."
+
+#. (itstool) path: info/desc
+#: C/favorites-set.page:22
+msgid "Pick favorites from <app>Photos</app>."
+msgstr "Pilih favorit dari <app>Foto</app>."
+
+#. (itstool) path: page/title
+#: C/favorites-set.page:25
+msgid "Tag your favorites"
+msgstr "Tandai favorit Anda"
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:27
+msgid ""
+"Photos or albums can be marked as favorites from the <gui style=\"tab"
+"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+msgstr ""
+"Foto atau album dapat ditandai sebagai favorit dari tab <gui style=\"tab"
+"\">Terkini</gui> atau tab <gui style=\"tab\">Album</gui>."
+
+#. (itstool) path: steps/title
+#: C/favorites-set.page:31
+msgid "To label favorite items:"
+msgstr "Untuk melabeli butir-butir favorit:"
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:33
+msgid ""
+"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"whether you want to mark an album or a photo as a favorite."
+msgstr ""
+"Pilih tab <gui>Album</gui> atau tab <gui>Terkini</gui>, tergantung apakah "
+"Anda ingin menandai album atau foto sebagai favorit."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:37
+msgid "Switch on the selection mode."
+msgstr "Nyalakan mode pemilihan."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:40
+msgid "Select all the items you want to favorite."
+msgstr "Pilih semua item yang ingin Anda favoritkan."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:43
+msgid ""
+"To finish, select the button with the picture of a star from the toolbar at "
+"the bottom."
+msgstr ""
+"Untuk mengakhiri, pilih tombol dengan gambar bintang dari bilah alat di "
+"bagian bawah."
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:48
+msgid "Your favorite items can now be found in the <gui>Favorites</gui> tab."
+msgstr "Item favorit Anda sekarang dapat ditemukan di tab <gui>Favorit</gui> ."
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Photos"
+msgstr "Foto"
+
+#. (itstool) path: info/desc
+#: C/index.page:12
+msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
+msgstr "<app>Foto</app> adalah alat pengelola foto pribadi dari GNOME."
+
+#. (itstool) path: page/title
+#: C/index.page:16
+msgid "<_:media-1/> Photos"
+msgstr "<_:media-1/> Foto"
+
+#. (itstool) path: page/p
+#: C/index.page:21
+msgid ""
+"<app>Photos</app> can be used to organise and manage your images in an "
+"engaging and personalized manner. In addition to creating albums out of "
+"images on your computer, you can integrate your Facebook and Flickr albums "
+"with <app>Photos</app>. You can also set photos you like as your desktop "
+"wallpaper, or easily bookmark them as favorites."
+msgstr ""
+"<app>Foto</app> dapat digunakan untuk mengatur dan mengelola citra Anda "
+"dengan cara yang menarik dan dipersonalisasi. Selain membuat album dari "
+"citra pada komputer Anda, Anda dapat mengintegrasikan album Facebook dan "
+"Flickr Anda dengan <app>Foto</app>. Anda juga dapat mengatur foto yang Anda "
+"suka sebagai gambar latar desktop Anda, atau dengan mudah menandainya "
+"sebagai favorit."
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "Karya ini dilisensikan di bawah <_:link-1/>."
+
+#. (itstool) path: info/desc
+#: C/view-album.page:21
+msgid "Open a photo from your albums."
+msgstr "Buka foto dari album Anda."
+
+#. (itstool) path: page/title
+#: C/view-album.page:24
+msgid "View photos from an album"
+msgstr "Melihat foto dari album"
+
+#. (itstool) path: page/p
+#: C/view-album.page:25
+msgid "To open a photo located in a specific album:"
+msgstr "Untuk membuka foto yang terletak di album tertentu:"
+
+#. (itstool) path: item/p
+#: C/view-album.page:29
+msgid "Select the <gui style=\"tab\">Albums</gui> tab."
+msgstr "Pilih tab <gui style=\"tab\">Album</gui>."
+
+#. (itstool) path: item/p
+#: C/view-album.page:32
+msgid "Select the album which contains the photo."
+msgstr "Pilih album yang berisi foto."
+
+#. (itstool) path: item/p
+#: C/view-album.page:35
+msgid ""
+"You will see a grid of photos from the album you selected. Select a photo "
+"from the grid to open it."
+msgstr ""
+"Anda akan melihat kisi foto dari album yang Anda pilih. Pilih foto dari kisi "
+"untuk membukanya."
+
+#. (itstool) path: info/desc
+#: C/view-favorites.page:21
+msgid "Open your favorite photos."
+msgstr "Buka foto favorit Anda."
+
+#. (itstool) path: page/title
+#: C/view-favorites.page:24
+msgid "View photos marked as favorites."
+msgstr "Melihat foto yang ditandai sebagai favorit."
+
+#. (itstool) path: page/p
+#: C/view-favorites.page:26
+msgid ""
+"Your <link xref=\"favorites\">favorite</link> photos are located in the "
+"<gui>Favorites</gui> tab."
+msgstr ""
+"Foto <link xref=\"favorites\">favorit</link> Anda berada di tab "
+"<gui>Favorit</gui> ."
+
+#. (itstool) path: steps/title
+#: C/view-favorites.page:30
+msgid "To open a photo tagged as a favorite:"
+msgstr "Untuk membuka foto yang diberi tag sebagai favorit:"
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:32
+msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
+msgstr "Pilih tab <gui style=\"tab\">Favorit</gui>."
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:35
+msgid ""
+"Select photo you want to open, or use the arrow keys to navigate to the "
+"photo and press <key>Enter</key>."
+msgstr ""
+"Pilih foto yang ingin Anda buka, atau gunakan tombol panah untuk menavigasi "
+"ke foto dan tekan <key>Enter</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "Buka foto terkini Anda."
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Lihat foto terkini"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"Tab <gui style=\"tab\">Terkini</gui> ini menampilkan foto dari lokasi sistem "
+"berkas lokal seperti <file>~/Downloads</file>, <file>~/Pictures</file>, dan "
+"dari koleksi daring. Anda juga dapat menambahkan lokasi lain, bahkan koleksi "
+"berbasis cloud seperti foto Flickr atau Facebook, melalui <app>Akun Daring "
+"GNOME</app>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr "Untuk menambahkan lokasi sistem berkas lokal lainnya:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr "Buka <guiseq><gui>Pengaturan</gui><gui>Cari</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Klik tombol roda gigi di kanan bawah. Anda dapat memilih lokasi yang ingin "
+"ditampilkan di tab <gui style=\"tab\">Terkini</gui>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Untuk melihat foto terkini:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Pilih tab <gui style=\"tab\">Terkini</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr "Anda akan melihat kisi foto. Pilih foto dari kisi untuk membukanya."
+
+#. (itstool) path: info/desc
+#: C/view.page:21
+msgid "Open a photo for viewing."
+msgstr "Membuka foto untuk dilihat."
+
+#. (itstool) path: page/title
+#: C/view.page:24
+msgid "View images"
+msgstr "Lihat citra"
+
+#. (itstool) path: page/p
+#: C/view.page:26
+msgid ""
+"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
+"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
+"a favourite can be found in the <gui>Favorites</gui> tab."
+msgstr ""
+"Ketika <app>Foto</app> dibuka, Anda akan melihat tab <gui>Terkini</gui> ini "
+"terbuka. Tab <gui>Terkini</gui> berisi gambar dari komputer Anda, tab "
+"<gui>Album</gui> berisi album foto Anda, dan citra apa pun yang Anda tandai "
+"sebagai favorit dapat ditemukan di tab <gui>Favorit</gui> ."
