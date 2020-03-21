@@ -45,6 +45,34 @@ configure_file(
   install_dir: dbus_service_dir,
 )
 
+tracker_conf = configuration_data()
+tracker_conf.set('bindir', photos_bindir)
+
+tracker = photos_namespace + '.Tracker1.service'
+
+configure_file(
+  input: tracker + '.in',
+  output: tracker,
+  configuration: tracker_conf,
+  install: true,
+  install_dir: dbus_service_dir,
+)
+
+domain_ontologies_dir = join_paths(photos_datadir, 'tracker', 'domain-ontologies')
+
+domain_conf = configuration_data()
+domain_conf.set('datadir', photos_datadir)
+
+domain_rule = photos_namespace + '.domain.rule'
+
+configure_file(
+  input: domain_rule + '.in',
+  output: domain_rule,
+  configuration: domain_conf,
+  install: true,
+  install_dir: domain_ontologies_dir,
+)
+
 install_data(
   photos_namespace + '.search-provider.ini',
   install_dir: join_paths(photos_datadir, 'gnome-shell', 'search-providers'),

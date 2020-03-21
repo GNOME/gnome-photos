@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.gnome.Photos.Tracker1
+Exec=/app/libexec/tracker-store
+SystemdService=tracker-store.service
