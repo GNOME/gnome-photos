@@ -83,7 +83,7 @@ msgid ""
 "more advanced changes"
 msgstr ""
 "Editar fàcilment les fotografies en l'aplicació o obrir-les en un editor més "
-"potent per fer canvis més avançats"
+"potent per a fer canvis més avançats"
 
 #: data/org.gnome.Photos.appdata.xml.in:51
 msgid "The GNOME Project"
@@ -364,12 +364,12 @@ msgstr "Navegació"
 #: src/photos-help-overlay.ui:56
 msgctxt "shortcut window"
 msgid "Next photo"
-msgstr "Foto següent"
+msgstr "Fotografia següent"
 
 #: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Previous photo"
-msgstr "Foto prèvia"
+msgstr "Fotografia prèvia"
 
 #: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
 msgctxt "shortcut window"
@@ -522,7 +522,7 @@ msgstr "Local"
 
 #: src/photos-main-toolbar.c:80
 msgid "Click on items to select them"
-msgstr "Feu clic als elements per seleccionar-los"
+msgstr "Feu clic als elements per a seleccionar-los"
 
 #: src/photos-main-toolbar.c:82
 #, c-format

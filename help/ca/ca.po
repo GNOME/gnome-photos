@@ -75,7 +75,7 @@ msgstr "Per a etiquetar elements preferits:"
 msgid ""
 "Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
-msgstr "Seleccioneu la pestanya <gui>Àlbums</gui> o la pestanya <gui>Recent</gui> en funció de si voleu marcar un àlbum o una foto com a preferit."
+msgstr "Seleccioneu la pestanya <gui>Àlbums</gui> o la pestanya <gui>Recent</gui> en funció de si voleu marcar un àlbum o una fotografia com a preferit."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:37
@@ -138,7 +138,7 @@ msgstr "Aquest treball està llicenciat sota <_:link-1/>."
 #. (itstool) path: info/desc
 #: C/view-album.page:21
 msgid "Open a photo from your albums."
-msgstr "Obriu una foto dels vostres àlbums."
+msgstr "Obriu una fotografia dels vostres àlbums."
 
 #. (itstool) path: page/title
 #: C/view-album.page:24
@@ -148,7 +148,7 @@ msgstr "Veure fotografies d'un àlbum"
 #. (itstool) path: page/p
 #: C/view-album.page:25
 msgid "To open a photo located in a specific album:"
-msgstr "Per a obrir una foto situada en un àlbum específic:"
+msgstr "Per a obrir una fotografia situada en un àlbum específic:"
 
 #. (itstool) path: item/p
 #: C/view-album.page:29
@@ -165,7 +165,7 @@ msgstr "Seleccioneu l'àlbum que conté la foto."
 msgid ""
 "You will see a grid of photos from the album you selected. Select a photo "
 "from the grid to open it."
-msgstr "Veureu una graella de fotografies de l'àlbum que heu seleccionat. Seleccioneu una foto de la graella per a obrir-la."
+msgstr "Veureu una graella de fotografies de l'àlbum que heu seleccionat. Seleccioneu una fotografia de la graella per a obrir-la."
 
 #. (itstool) path: info/desc
 #: C/view-favorites.page:21
@@ -187,7 +187,7 @@ msgstr "Les vostres fotografies <link xref=\"favorites\">preferides</link> es tr
 #. (itstool) path: steps/title
 #: C/view-favorites.page:30
 msgid "To open a photo tagged as a favorite:"
-msgstr "Per a obrir una foto etiquetada com a preferida:"
+msgstr "Per a obrir una fotografia etiquetada com a preferida:"
 
 #. (itstool) path: item/p
 #: C/view-favorites.page:32
@@ -199,7 +199,7 @@ msgstr "Seleccioneu la pestanya <gui style=\"tab\">Preferits</gui>."
 msgid ""
 "Select photo you want to open, or use the arrow keys to navigate to the "
 "photo and press <key>Enter</key>."
-msgstr "Seleccioneu la foto que voleu obrir, o utilitzeu les fletxes per a desplaçar-vos a la foto i polseu <key>Retorn</key>."
+msgstr "Seleccioneu la fotografia que voleu obrir, o utilitzeu les fletxes per a desplaçar-vos a la fotografia i premeu <key>Retorn</key>."
 
 #. (itstool) path: credit/name
 #: C/view-photos.page:10
@@ -214,7 +214,7 @@ msgstr "Obriu les vostres fotografies recents."
 #. (itstool) path: page/title
 #: C/view-photos.page:19
 msgid "View recent photos"
-msgstr "Veure les fotografies recents."
+msgstr "Veure les fotografies recents"
 
 #. (itstool) path: page/p
 #: C/view-photos.page:21
@@ -229,7 +229,7 @@ msgstr "La pestanya <gui style=\"tab\">Recent</gui> mostra fotografies de les ub
 #. (itstool) path: page/p
 #: C/view-photos.page:27
 msgid "To add other local file system locations:"
-msgstr "Per a afegir altres ubicacions de sistemes de fitxers local:"
+msgstr "Per a afegir altres ubicacions del sistema de fitxers local:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:31
@@ -257,12 +257,12 @@ msgstr "Seleccioneu la pestanya <gui style=\"tab\">Recent</gui>."
 #: C/view-photos.page:46
 msgid ""
 "You will see a grid of photos. Select a photo from the grid to open it."
-msgstr "Veureu una graella de fotografies. Seleccioneu una foto de la graella per a obrir-la."
+msgstr "Veureu una graella de fotografies. Seleccioneu una fotografia de la graella per a obrir-la."
 
 #. (itstool) path: info/desc
 #: C/view.page:21
 msgid "Open a photo for viewing."
-msgstr "Obriu una foto per a veure-la."
+msgstr "Obriu una fotografia per a veure-la."
 
 #. (itstool) path: page/title
 #: C/view.page:24
