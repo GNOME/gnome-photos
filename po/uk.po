@@ -1,128 +1,162 @@
-# SOME DESCRIPTIVE TITLE.
+# Ukrainian translation of gnome-photos
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# Daniel Korostil <ted.korostiled@gmail.com>, 2013, 2014, 2015, 2016, 2017.
+# This file is distributed under the same license as the gnome-photos package.
+#
+# Yuri Chornoivan <yurchor@ukr.net>, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-25 16:06+0200\n"
-"PO-Revision-Date: 2017-02-25 16:07+0300\n"
-"Last-Translator: Daniel Korostil <ted.korostiled@gmail.com>\n"
-"Language-Team: linux.org.ua\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
+"POT-Creation-Date: 2020-03-27 17:16+0000\n"
+"PO-Revision-Date: 2020-03-30 20:29+0300\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Virtaal 0.7.1\n"
-"X-Project-Style: gnome\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 20.07.70\n"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:1
-#: ../data/org.gnome.Photos.desktop.in.in.h:1 ../src/photos-embed.c:688
-#: ../src/photos-search-type-manager.c:135
+#: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "Світлини"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:2 ../src/photos-main-window.c:496
+#: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
 msgstr "Доступатись, упорядковувати і ділитись вашими фотографіями у GNOME"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:3
+#: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"A simple application to access, organize and share your photos on GNOME. It "
-"is meant to be a simple and elegant replacement for using a file manager to "
-"deal with photos. Seamless cloud integration is offered through GNOME Online "
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and "
+"edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Проста програма, щоб доступитись, упорядкувати і оприлюднити ваші світлини в "
-"GNOME. Тобто це проста і витончена заміна файлового менеджера для роботи з "
-"фотографіями. Також доступна інтеграція з інтернетними службами через "
-"мережеві облікові записи у GNOME."
+"Переглядайте, упорядковуйте та оприлюднюйте ваші світлини в GNOME. Це проста "
+"проста і витончена заміна файлового менеджера для роботи з фотографіями. "
+"Удосконалюйте, обрізайте і редагуйте фотографії на місці. Також доступна "
+"інтеграція з інтернетними службами через мережеві облікові записи у GNOME."
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:4
-msgid "It lets you:"
-msgstr "Програма дозволяє:"
+#: data/org.gnome.Photos.appdata.xml.in:16
+msgid "You can:"
+msgstr "Можете зробити так:"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:5
+#: data/org.gnome.Photos.appdata.xml.in:18
+msgid "Automatically find all your pictures"
+msgstr "Автоматично знаходить усі ваші фотографії"
+
+#: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
 msgstr "Переглядати свіжі світлини з комп'ютера та в мережі"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:6
-msgid "Access your Facebook or Flickr content"
-msgstr "Доступитися до ваших матеріалів на Facebook або Flickr"
+#: data/org.gnome.Photos.appdata.xml.in:20
+msgid "Access your Facebook or Flickr pictures"
+msgstr "Отримувати доступ до ваших світлин на Facebook або Flickr"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:7
-msgid "Send photos to remote DLNA renderers"
-msgstr "Надсилати світлини до пристроїв DLNA"
+#: data/org.gnome.Photos.appdata.xml.in:21
+msgid ""
+"View photos on TVs, laptops or other DLNA renderers on your local network"
+msgstr ""
+"Переглядати фотографії на телевізорах, ноутбуках та інших обробниках "
+"протоколу DLNA у вашій локальній мережі"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:8
-msgid "Set as background"
-msgstr "Встановлювати як шпалери"
+#: data/org.gnome.Photos.appdata.xml.in:23
+msgid "Set pictures as your desktop background"
+msgstr "Використовувати зображення як тла стільниці"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:9
+#: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
 msgstr "Друкувати фотографії"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:10
+#: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
 msgstr "Вибрати улюблені"
 
-#: ../data/org.gnome.Photos.appdata.xml.in.h:11
-msgid "Allow opening full featured editor for more advanced changes"
-msgstr "Дозволити відкриття спеціального редактора для розширених змін"
+#: data/org.gnome.Photos.appdata.xml.in:26
+msgid ""
+"Easily edit your pictures in the app, or send to a full featured editor for "
+"more advanced changes"
+msgstr ""
+"Без проблем редагувати ваші зображення у програмі або надсилати їх до "
+"повноцінного редактора для складнішого редагування"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:2
+#: data/org.gnome.Photos.appdata.xml.in:74
+msgid "The GNOME Project"
+msgstr "Проєкт GNOME"
+
+#: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
 msgstr "Доступатись, упорядковувати і ділитись фотографіями"
 
-#: ../data/org.gnome.Photos.desktop.in.in.h:3
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
 msgstr "Світлини;Фотографії;"
 
-#: ../data/org.gnome.photos.gschema.xml.h:1
+#: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
 msgstr "Розмір вікна"
 
-#: ../data/org.gnome.photos.gschema.xml.h:2
+#: data/org.gnome.photos.gschema.xml:6
 msgid "Window size (width and height)."
 msgstr "Розмір вікна (ширина і висота)."
 
-#: ../data/org.gnome.photos.gschema.xml.h:3
+#: data/org.gnome.photos.gschema.xml:10
 msgid "Window position"
 msgstr "Позиція вікна"
 
-#: ../data/org.gnome.photos.gschema.xml.h:4
+#: data/org.gnome.photos.gschema.xml:11
 msgid "Window position (x and y)."
 msgstr "Розташування вікна (x та y)."
 
-#: ../data/org.gnome.photos.gschema.xml.h:5
+#: data/org.gnome.photos.gschema.xml:15
 msgid "Window maximized"
 msgstr "Вікно розгорнуто"
 
-#: ../data/org.gnome.photos.gschema.xml.h:6
+#: data/org.gnome.photos.gschema.xml:16
 msgid "Window maximized state"
 msgstr "Стан розгорнутого вікна"
 
-#: ../src/photos-application.c:151
+#: src/photos-application.c:164
+msgid "Show the empty state"
+msgstr "Показувати порожній стан"
+
+#: src/photos-application.c:165
 msgid "Show the application's version"
 msgstr "Показати версію програми"
 
-#: ../src/photos-base-item.c:603
+#. Translators: this is the default sub-directory where photos will
+#. * be imported.
+#.
+#. Translators: this is the default sub-directory where photos
+#. * will be exported.
+#.
+#. Translators: this is the name of the default album that will be
+#. * created for imported photos.
+#.
+#: src/photos-application.c:1398 src/photos-export-dialog.c:195
+#: src/photos-import-dialog.c:134
+msgid "%-d %B %Y"
+msgstr "%-d %B %Y"
+
+#: src/photos-base-item.c:1037
 msgid "Album"
 msgstr "Альбом"
 
-#: ../src/photos-base-item.c:2387
+#: src/photos-base-item.c:2840
 msgid "Screenshots"
 msgstr "Знімки екрана"
 
-#: ../src/photos-delete-notification.c:139
+#: src/photos-delete-notification.c:136
 #, c-format
 msgid "“%s” deleted"
 msgstr "«%s» вилучено"
 
-#: ../src/photos-delete-notification.c:142
+#: src/photos-delete-notification.c:139
 #, c-format
 msgid "%d item deleted"
 msgid_plural "%d items deleted"
@@ -130,127 +164,142 @@ msgstr[0] "%d об'єкт вилучено"
 msgstr[1] "%d об'єкти вилучено"
 msgstr[2] "%d об'єктів вилучено"
 
-#: ../src/photos-delete-notification.c:150
-#: ../src/photos-done-notification.c:125
+#: src/photos-delete-notification.c:146 src/photos-done-notification.c:119
 msgid "Undo"
 msgstr "Повернути"
 
-#: ../src/photos-dlna-renderers-dialog.ui.h:1
+#: src/photos-dlna-renderers-dialog.ui:7
 msgid "DLNA Renderer Devices"
 msgstr "Пристрої DLNA"
 
-#: ../src/photos-done-notification.c:117
+#: src/photos-done-notification.c:112
 #, c-format
 msgid "“%s” edited"
 msgstr "«%s» редаговано"
 
-#: ../src/photos-embed.c:692 ../src/photos-search-type-manager.c:120
+#: src/photos-embed.c:829
+msgid "Collection View"
+msgstr "Панель збірок"
+
+#: src/photos-embed.c:832 src/photos-search-type-manager.c:129
 msgid "Albums"
 msgstr "Альбоми"
 
-#: ../src/photos-embed.c:696 ../src/photos-search-type-manager.c:128
+#: src/photos-embed.c:836 src/photos-search-type-manager.c:137
 msgid "Favorites"
 msgstr "Улюблене"
 
-#: ../src/photos-embed.c:700 ../src/photos-main-toolbar.c:334
+#: src/photos-embed.c:840
+msgid "Import"
+msgstr "Імпортувати"
+
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "Пошук"
 
-#: ../src/photos-empty-results-box.c:114
-msgid "Name your first album"
-msgstr "Назвіть ваш перший альбом"
-
-#. Translators: this should be translated in the context of the "You
-#. * can add your online accounts in Settings" sentence below
-#.
-#: ../src/photos-empty-results-box.c:134
-#: ../src/photos-source-notification.c:146
-msgid "Settings"
-msgstr "Параметри"
-
-#. Translators: %s here is "Settings", which is in a separate string
-#. * due to markup, and should be translated only in the context of
-#. * this sentence.
-#.
-#: ../src/photos-empty-results-box.c:140
-#, c-format
-msgid "You can add your online accounts in %s"
-msgstr "Можете додати ваші мережеві облікові записи у %s"
-
-#: ../src/photos-empty-results-box.c:181
-msgid "No Albums Found"
+#: src/photos-empty-results-box.c:120
+msgid "No albums found"
 msgstr "Не знайдено жодного альбому"
 
-#: ../src/photos-empty-results-box.c:186
+#: src/photos-empty-results-box.c:124
 msgid "Starred photos will appear here"
 msgstr "Світлини із зірками з'являтимуться тут"
 
-#: ../src/photos-empty-results-box.c:192
-msgid "No Photos Found"
+#: src/photos-empty-results-box.c:134
+msgid "No photos found"
 msgstr "Світлин не знайдено"
 
-#: ../src/photos-export-dialog.ui.h:1
+#: src/photos-empty-results-box.c:163
+msgid "You can create albums from the Photos view"
+msgstr "Ви можете створювати альбоми за допомогою панелі «Світлини»"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:184
+msgid "Online Accounts"
+msgstr "Облікові записи в інтернеті"
+
+#. Translators: this should be translated in the context of
+#. * the "Photos from your Online Accounts and Pictures folder
+#. * will appear here." sentence below.
+#.
+#: src/photos-empty-results-box.c:191
+msgid "Pictures folder"
+msgstr "теки «Картинки»"
+
+#. Translators: the first %s here is "Online Accounts" and the
+#. * second %s is "Pictures folder", which are in separate
+#. * strings due to markup, and should be translated only in the
+#. * context of this sentence.
+#.
+#: src/photos-empty-results-box.c:198
+#, c-format
+msgid "Photos from your %s and %s will appear here."
+msgstr "Світлини з вашого %s і %s буде показано тут."
+
+#: src/photos-empty-results-box.c:208
+msgid "Try a different search"
+msgstr "Спробувати інші критерії пошуку"
+
+#: src/photos-export-dialog.ui:22
 msgctxt "dialog title"
 msgid "Export"
 msgstr "Експортування"
 
-#: ../src/photos-export-dialog.ui.h:2
+#: src/photos-export-dialog.ui:38
 msgid "_Folder Name"
 msgstr "Назва _теки"
 
-#: ../src/photos-export-dialog.ui.h:3 ../src/photos-print-setup.c:942
+#: src/photos-export-dialog.ui:66 src/photos-print-setup.c:912
 msgid "Size"
 msgstr "Розмір"
 
-#: ../src/photos-export-dialog.ui.h:4
+#: src/photos-export-dialog.ui:83
 msgid "F_ull"
 msgstr "_Повний"
 
-#: ../src/photos-export-dialog.ui.h:5
+#: src/photos-export-dialog.ui:113
 msgid "_Reduced"
 msgstr "З_меншений"
 
-#: ../src/photos-export-dialog.ui.h:6
+#: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: ../src/photos-export-dialog.ui.h:7
+#: src/photos-export-dialog.ui:167
 msgid "_Export"
 msgstr "_Експортувати"
 
 #. Translators: this is the estimated size of the exported image in
 #. * the form "1600×1067 (0.6 GB)".
 #.
-#: ../src/photos-export-dialog.c:67
+#: src/photos-export-dialog.c:66
 #, c-format
 msgid "%d×%d (%s)"
 msgstr "%d×%d (%s)"
 
-#. Translators: this is the default sub-directory where photos
-#. * will be exported.
-#.
-#: ../src/photos-export-dialog.c:201
-msgid "%e %B %Y"
-msgstr "%e %B %Y"
-
-#: ../src/photos-export-dialog.c:259
+#: src/photos-export-dialog.c:252
 msgid "Calculating export size…"
 msgstr "Розрахування розміру експортування…"
 
-#: ../src/photos-export-notification.c:236
+#: src/photos-export-notification.c:317
 msgid "Failed to export: not enough space"
 msgstr "Не вдалось експортувати: не вистачає місця"
 
-#: ../src/photos-export-notification.c:238
+#: src/photos-export-notification.c:319
 msgid "Failed to export"
 msgstr "Не вдалось експортувати"
 
-#: ../src/photos-export-notification.c:245
+#: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
 msgstr "«%s» експортовано"
 
-#: ../src/photos-export-notification.c:249
+#: src/photos-export-notification.c:330
 #, c-format
 msgid "%d item exported"
 msgid_plural "%d items exported"
@@ -258,174 +307,220 @@ msgstr[0] "%d об'єкт експортовано"
 msgstr[1] "%d об'єкт експортовано"
 msgstr[2] "%d об'єкт експортовано"
 
-#: ../src/photos-export-notification.c:267
+#: src/photos-export-notification.c:347
 msgid "Analyze"
 msgstr "Проаналізувати"
 
-#: ../src/photos-export-notification.c:272
+#: src/photos-export-notification.c:352
 msgid "Empty Trash"
 msgstr "Очистити смітник"
 
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-export-notification.c:289 ../src/photos-preview-menu.ui.h:1
-#: ../src/photos-selection-toolbar.c:237 ../src/photos-selection-toolbar.ui.h:2
+#: src/photos-export-notification.c:369 src/photos-preview-menu.ui:6
+#: src/photos-selection-toolbar.c:240 src/photos-selection-toolbar.ui:28
 msgid "Open"
 msgstr "Відкрити"
 
 #. Translators: this is the label of the button to open the
 #. * folder where the item was exported.
 #.
-#: ../src/photos-export-notification.c:299
+#: src/photos-export-notification.c:379
 msgid "Export Folder"
 msgstr "Експортувати теку"
 
 #. Translators: this is the fallback title in the form
 #. * "Facebook — 2nd January 2013".
 #.
-#: ../src/photos-facebook-item.c:100 ../src/photos-flickr-item.c:105
-#: ../src/photos-google-item.c:102
+#: src/photos-facebook-item.c:100 src/photos-flickr-item.c:102
+#: src/photos-google-item.c:98
 #, c-format
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/photos-fetch-metas-job.c:177
-msgid "Untitled Photo"
-msgstr "Неназвана фотографія"
-
-#: ../src/photos-help-overlay.ui.h:1
+#: src/photos-help-overlay.ui:32
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Загальне"
 
-#: ../src/photos-help-overlay.ui.h:2
+#: src/photos-help-overlay.ui:36
 msgctxt "shortcut window"
 msgid "Show help"
 msgstr "Показати довідку"
 
-#: ../src/photos-help-overlay.ui.h:3
+#: src/photos-help-overlay.ui:43
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Вийти"
 
-#: ../src/photos-help-overlay.ui.h:4
+#: src/photos-help-overlay.ui:52
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Пересування"
 
-#: ../src/photos-help-overlay.ui.h:5
+#: src/photos-help-overlay.ui:56
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Наступна світлина"
 
-#: ../src/photos-help-overlay.ui.h:6
+#: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Попередня світлина"
 
-#: ../src/photos-help-overlay.ui.h:7
+#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Повернутися"
 
-#: ../src/photos-help-overlay.ui.h:8
+#: src/photos-help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Перегляд"
 
-#: ../src/photos-help-overlay.ui.h:9
+#: src/photos-help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Пошук"
 
-#: ../src/photos-help-overlay.ui.h:10
+#: src/photos-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Вибрати все"
 
-#: ../src/photos-help-overlay.ui.h:11
+#: src/photos-help-overlay.ui:106
+msgctxt "shortcut window"
+msgid "Export selected photos"
+msgstr "Експортувати вибрані фотографії"
+
+#: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Print selected photos"
 msgstr "Надрукувати вибрані фотографії"
 
-#: ../src/photos-help-overlay.ui.h:12
+#: src/photos-help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Вилучити вибрані фотографії"
 
-#: ../src/photos-help-overlay.ui.h:13
+#: src/photos-help-overlay.ui:129
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Перегляд фотографій"
 
-#: ../src/photos-help-overlay.ui.h:14
+#: src/photos-help-overlay.ui:133
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Редагувати"
 
-#: ../src/photos-help-overlay.ui.h:15
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Експортувати"
 
-#: ../src/photos-help-overlay.ui.h:16
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Надрукувати"
 
-#: ../src/photos-help-overlay.ui.h:17
+#: src/photos-help-overlay.ui:154
+msgctxt "shortcut window"
+msgid "Zoom in"
+msgstr "Збільшити"
+
+#: src/photos-help-overlay.ui:161
+msgctxt "shortcut window"
+msgid "Zoom out"
+msgstr "Зменшити"
+
+#: src/photos-help-overlay.ui:168
+msgctxt "shortcut window"
+msgid "Best fit"
+msgstr "Якнайкраще влаштувати"
+
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Вилучити"
 
-#: ../src/photos-help-overlay.ui.h:18
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Меню дій"
 
-#: ../src/photos-help-overlay.ui.h:19
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "На весь екран"
 
-#: ../src/photos-help-overlay.ui.h:20
+#: src/photos-help-overlay.ui:198
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Режим редагування"
 
-#: ../src/photos-help-overlay.ui.h:21
+#: src/photos-help-overlay.ui:202
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Скасувати"
 
+#: src/photos-import-dialog.c:194
+msgid "An album with that name already exists"
+msgstr "Альбом із такою назвою вже існує"
+
+#: src/photos-import-dialog.c:211
+msgid "An album for that date already exists"
+msgstr "Альбом для цієї дати вже існує"
+
+#: src/photos-import-dialog.ui:22
+msgctxt "dialog title"
+msgid "Name Album"
+msgstr "Назва альбому"
+
+#: src/photos-import-dialog.ui:54
+msgid "Create _New"
+msgstr "С_творити"
+
+#: src/photos-import-dialog.ui:118
+msgid "Add to _Existing"
+msgstr "Додати _наявний"
+
+#: src/photos-import-dialog.ui:192 src/photos-organize-collection-dialog.c:69
+msgid "_Add"
+msgstr "_Додати"
+
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: ../src/photos-indexing-notification.c:167
+#: src/photos-indexing-notification.c:164
 #, c-format
 msgid "Fetching photos from %s"
 msgstr "Одержання світлин з %s"
 
-#: ../src/photos-indexing-notification.c:170
+#: src/photos-indexing-notification.c:167
 msgid "Fetching photos from online accounts"
 msgstr "Одержання світлин з мережевих облікових записів"
 
-#: ../src/photos-indexing-notification.c:206
+#: src/photos-indexing-notification.c:202
 msgid "Your photos are being indexed"
 msgstr "Ваші фотографії індексуються"
 
-#: ../src/photos-indexing-notification.c:207
+#: src/photos-indexing-notification.c:203
 msgid "Some photos might not be available during this process"
 msgstr "Деякі фотографії можуть бути недоступними протягом цього процесу"
 
-#: ../src/photos-local-item.c:176 ../src/photos-source-manager.c:256
+#: src/photos-item-manager.c:824
+#, c-format
+msgid "Oops! Unable to load “%s”"
+msgstr "Отакої! Неможливо завантажити «%s»"
+
+#: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
 msgstr "Локальне"
 
-#: ../src/photos-main-toolbar.c:113
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
 msgstr "Натисніть на об'єкти, щоб вибрати їх"
 
-#: ../src/photos-main-toolbar.c:115
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -433,204 +528,207 @@ msgstr[0] "%d вибрано"
 msgstr[1] "%d вибрано"
 msgstr[2] "%d вибрано"
 
-#: ../src/photos-main-toolbar.c:165
+#: src/photos-main-toolbar.c:169
+msgid "Select items for import"
+msgstr "Виберіть записи для імпортування"
+
+#: src/photos-main-toolbar.c:173
+#, c-format
+msgid "Select items for import (%u selected)"
+msgid_plural "Select items for import (%u selected)"
+msgstr[0] "Виберіть записи для імпортування (вибрано %u)"
+msgstr[1] "Виберіть записи для імпортування (вибрано %u)"
+msgstr[2] "Виберіть записи для імпортування (вибрано %u)"
+
+#: src/photos-main-toolbar.c:216
 msgid "Back"
 msgstr "Назад"
 
-#: ../src/photos-main-toolbar.c:349
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
 msgstr "Вибрати об'єкти"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: ../src/photos-main-toolbar.c:443 ../src/photos-selection-toolbar.c:234
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
+#: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Відкрити через %s"
 
-#: ../src/photos-main-toolbar.c:483 ../src/photos-selection-toolbar.c:245
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Вилучити з улюбленого"
 
-#: ../src/photos-main-toolbar.c:488 ../src/photos-selection-toolbar.c:250
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Додати до улюбленого"
 
-#: ../src/photos-main-toolbar.c:525 ../src/photos-main-toolbar.c:663
-msgid "Cancel"
-msgstr "Скасувати"
-
-#: ../src/photos-main-toolbar.c:529
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "Зроблено"
 
-#: ../src/photos-main-window.c:497
+#: src/photos-main-toolbar.c:527
+msgid "_Select"
+msgstr "_Вибрати"
+
+#: src/photos-main-window.c:458
 msgid ""
-"Copyright © 2013 Intel Corporation. All rights reserved.\n"
-"Copyright © 2014 – 2015 Pranav Kant\n"
-"Copyright © 2012 – 2017 Red Hat, Inc."
+"Copyright © 2012 – 2019 Red Hat, Inc.\n"
+"Copyright © 2015 – 2018 Umang Jain"
 msgstr ""
-"© 2013 Intel Corporation. Всі права захищено.\n"
-"© 2014 – 2015 Pranav Kant\n"
-"© 2012 – 2017 Red Hat, Inc."
+"©  Red Hat, Inc., 2012–2019\n"
+"© Umang Jain, 2015–2018"
 
 #. Translators: Put your names here
-#: ../src/photos-main-window.c:507
+#: src/photos-main-window.c:466
 msgid "translator-credits"
 msgstr "Daniel Korostil <ted.korostiled@gmail.com>"
 
-#: ../src/photos-menus.ui.h:1
-msgid "Fullscreen"
-msgstr "На ввесь екран"
-
-#: ../src/photos-menus.ui.h:2
-msgid "Keyboard Shortcuts"
-msgstr "Клавіатурні скорочення"
-
-#: ../src/photos-menus.ui.h:3
-msgid "_Help"
-msgstr "_Довідка"
-
-#: ../src/photos-menus.ui.h:4
-msgid "About"
-msgstr "Про програму"
-
-#: ../src/photos-menus.ui.h:5
-msgid "Quit"
-msgstr "Вийти"
-
-#: ../src/photos-organize-collection-dialog.c:71
-msgid "_Add"
-msgstr "_Додати"
-
-#: ../src/photos-organize-collection-dialog.c:72
+#: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
 msgstr "_Гаразд"
 
 #. Translators: "Organize" refers to photos in this context
-#: ../src/photos-organize-collection-dialog.c:123
+#: src/photos-organize-collection-dialog.c:121
 msgctxt "Dialog title"
 msgid "Organize"
 msgstr "Впорядкувати"
 
-#: ../src/photos-preview-menu.ui.h:2
+#: src/photos-preview-menu.ui:10
 msgid "Export…"
 msgstr "Експортувати…"
 
-#: ../src/photos-preview-menu.ui.h:3
+#: src/photos-preview-menu.ui:14
 msgid "Print…"
 msgstr "Надрукувати…"
 
-#: ../src/photos-preview-menu.ui.h:4
+#: src/photos-preview-menu.ui:19
 msgid "Delete"
 msgstr "Вилучити"
 
-#: ../src/photos-preview-menu.ui.h:5
+#: src/photos-preview-menu.ui:23
 msgid "Display on…"
 msgstr "Показати на…"
 
-#: ../src/photos-preview-menu.ui.h:6
+#: src/photos-preview-menu.ui:27
 msgid "Set as Background"
 msgstr "Встановити як тло"
 
-#: ../src/photos-preview-menu.ui.h:7
+#: src/photos-preview-menu.ui:31
 msgid "Set as Lock Screen"
 msgstr "Встановлювати як заблокований екран"
 
-#: ../src/photos-preview-menu.ui.h:8 ../src/photos-properties-dialog.c:903
-#: ../src/photos-selection-toolbar.ui.h:3
+#: src/photos-preview-menu.ui:37 src/photos-properties-dialog.c:883
+#: src/photos-selection-toolbar.ui:101
 msgid "Properties"
 msgstr "Властивості"
 
-#: ../src/photos-print-notification.c:79
+#: src/photos-preview-menu.ui:41
+msgid "Fullscreen"
+msgstr "На ввесь екран"
+
+#: src/photos-primary-menu.ui:6
+msgid "Keyboard Shortcuts"
+msgstr "Клавіатурні скорочення"
+
+#: src/photos-primary-menu.ui:10
+msgid "_Help"
+msgstr "_Довідка"
+
+#: src/photos-primary-menu.ui:14
+msgid "About Photos"
+msgstr "Про програму"
+
+#: src/photos-print-notification.c:71
 #, c-format
 msgid "Printing “%s”: %s"
 msgstr "Друкування «%s»: %s"
 
-#: ../src/photos-print-operation.c:271
+#: src/photos-print-operation.c:241
 msgid "Image Settings"
 msgstr "Параметри зображення"
 
-#: ../src/photos-print-setup.c:914
+#: src/photos-print-setup.c:884
 msgid "Position"
 msgstr "Розташування"
 
-#: ../src/photos-print-setup.c:917
+#: src/photos-print-setup.c:887
 msgid "_Left:"
 msgstr "З_ліва:"
 
-#: ../src/photos-print-setup.c:918
+#: src/photos-print-setup.c:888
 msgid "_Right:"
 msgstr "С_права:"
 
-#: ../src/photos-print-setup.c:919
+#: src/photos-print-setup.c:889
 msgid "_Top:"
 msgstr "З_верху:"
 
-#: ../src/photos-print-setup.c:920
+#: src/photos-print-setup.c:890
 msgid "_Bottom:"
 msgstr "З_низу:"
 
-#: ../src/photos-print-setup.c:922
+#: src/photos-print-setup.c:892
 msgid "C_enter:"
 msgstr "_Центр:"
 
-#: ../src/photos-print-setup.c:926
+#: src/photos-print-setup.c:896
 msgid "None"
 msgstr "Немає"
 
-#: ../src/photos-print-setup.c:927
+#: src/photos-print-setup.c:897
 msgid "Horizontal"
 msgstr "Горизонтально"
 
-#: ../src/photos-print-setup.c:928
+#: src/photos-print-setup.c:898
 msgid "Vertical"
 msgstr "Вертикально"
 
-#: ../src/photos-print-setup.c:929
+#: src/photos-print-setup.c:899
 msgid "Both"
 msgstr "Обидва"
 
-#: ../src/photos-print-setup.c:945
+#: src/photos-print-setup.c:915
 msgid "_Width:"
 msgstr "_Ширина:"
 
-#: ../src/photos-print-setup.c:946
+#: src/photos-print-setup.c:916
 msgid "_Height:"
 msgstr "_Висота:"
 
-#: ../src/photos-print-setup.c:948
+#: src/photos-print-setup.c:918
 msgid "_Scaling:"
 msgstr "_Масштаб:"
 
-#: ../src/photos-print-setup.c:957
+#: src/photos-print-setup.c:927
 msgid "_Unit:"
 msgstr "_Одиниця:"
 
-#: ../src/photos-print-setup.c:961
+#: src/photos-print-setup.c:931
 msgid "Millimeters"
 msgstr "Міліметри"
 
-#: ../src/photos-print-setup.c:962
+#: src/photos-print-setup.c:932
 msgid "Inches"
 msgstr "Дюйми"
 
-#: ../src/photos-print-setup.c:990
+#: src/photos-print-setup.c:960
 msgid "Preview"
 msgstr "Перегляд"
 
-#: ../src/photos-properties-dialog.c:255
+#: src/photos-properties-dialog.c:246
 msgid "Edited in Photos"
 msgstr "Редаговано у Світлинах"
 
-#: ../src/photos-properties-dialog.c:268
+#: src/photos-properties-dialog.c:259
 msgid "Untouched"
 msgstr "Нерушений"
 
 #. Translators: this is the label next to the photo title in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:453
+#: src/photos-properties-dialog.c:442
 msgctxt "Document Title"
 msgid "Title"
 msgstr "Заголовок"
@@ -638,92 +736,104 @@ msgstr "Заголовок"
 #. Translators: this is the label next to the photo author in
 #. * the properties dialog
 #.
-#: ../src/photos-properties-dialog.c:465
+#: src/photos-properties-dialog.c:454
 msgctxt "Document Author"
 msgid "Author"
 msgstr "Автор"
 
-#: ../src/photos-properties-dialog.c:472
+#: src/photos-properties-dialog.c:461
 msgid "Source"
 msgstr "Джерело"
 
-#: ../src/photos-properties-dialog.c:478
+#: src/photos-properties-dialog.c:467
 msgid "Date Modified"
 msgstr "Дата зміни"
 
-#: ../src/photos-properties-dialog.c:486
+#: src/photos-properties-dialog.c:475
 msgid "Date Created"
 msgstr "Дата створення"
 
 #. Translators: this is the label next to the photo type in the
 #. * properties dialog
 #.
-#: ../src/photos-properties-dialog.c:496
+#: src/photos-properties-dialog.c:485
 msgctxt "Document Type"
 msgid "Type"
 msgstr "Тип"
 
-#: ../src/photos-properties-dialog.c:506
+#: src/photos-properties-dialog.c:495
 msgid "Dimensions"
 msgstr "Розміри"
 
-#: ../src/photos-properties-dialog.c:518
+#: src/photos-properties-dialog.c:507
 msgid "Location"
 msgstr "Місцевість"
 
-#: ../src/photos-properties-dialog.c:538
+#: src/photos-properties-dialog.c:525
 msgid "Camera"
 msgstr "Фотоапарат"
 
-#: ../src/photos-properties-dialog.c:548 ../src/photos-tool-colors.c:336
+#: src/photos-properties-dialog.c:535 src/photos-tool-colors.c:365
 msgid "Exposure"
 msgstr "Експозиція"
 
-#: ../src/photos-properties-dialog.c:558
+#: src/photos-properties-dialog.c:545
 msgid "Aperture"
 msgstr "Діафрагма"
 
-#: ../src/photos-properties-dialog.c:568
+#: src/photos-properties-dialog.c:555
 msgid "Focal Length"
 msgstr "Фокусна відстань"
 
-#: ../src/photos-properties-dialog.c:578
+#: src/photos-properties-dialog.c:565
 msgid "ISO Speed"
 msgstr "Світлочутливість ISO"
 
-#: ../src/photos-properties-dialog.c:588
+#: src/photos-properties-dialog.c:575
 msgid "Flash"
 msgstr "Спалах"
 
-#: ../src/photos-properties-dialog.c:597
+#: src/photos-properties-dialog.c:584
 msgid "Modifications"
 msgstr "Зміни"
 
-#: ../src/photos-properties-dialog.c:738
+#: src/photos-properties-dialog.c:656
+#, c-format
+msgid "%ld × %ld pixel"
+msgid_plural "%ld × %ld pixels"
+msgstr[0] "%ld × %ld піксель"
+msgstr[1] "%ld × %ld пікселі"
+msgstr[2] "%ld × %ld пікселів"
+
+#: src/photos-properties-dialog.c:721
 msgid "Off, did not fire"
 msgstr "Вимкнено, не спалахнув"
 
-#: ../src/photos-properties-dialog.c:740
+#: src/photos-properties-dialog.c:723
 msgid "On, fired"
 msgstr "Увімкнено, спалахнув"
 
-#: ../src/photos-properties-dialog.c:778
+#: src/photos-properties-dialog.c:760
 msgid "Discard all Edits"
 msgstr "Відкинути всі зміни"
 
-#: ../src/photos-search-match-manager.c:162
-#: ../src/photos-search-type-manager.c:112 ../src/photos-source-manager.c:252
+#: src/photos-removable-devices-button.ui:47
+msgid "Devices"
+msgstr "Пристрої"
+
+#: src/photos-search-match-manager.c:155 src/photos-search-type-manager.c:121
+#: src/photos-source-manager.c:396
 msgid "All"
 msgstr "Все"
 
 #. Translators: "Title" refers to "Match Title" when searching.
-#: ../src/photos-search-match-manager.c:169
+#: src/photos-search-match-manager.c:162
 msgctxt "Search Filter"
 msgid "Title"
 msgstr "Заголовок"
 
 #. Translators: "Author" refers to "Match Author" when searching.
-#: ../src/photos-search-match-manager.c:176
+#: src/photos-search-match-manager.c:169
 msgctxt "Search Filter"
 msgid "Author"
 msgstr "Автора"
@@ -731,255 +841,210 @@ msgstr "Автора"
 #. Translators: this is a verb that refers to "All", "Title" and
 #. * "Author", as in "Match All", "Match Title" and "Match Author".
 #.
-#: ../src/photos-search-match-manager.c:214
+#: src/photos-search-match-manager.c:207
 msgid "Match"
 msgstr "Звірити"
 
 #. Translators: "Type" refers to a search filter. eg., All, Albums,
 #. * Favorites and Photos.
 #.
-#: ../src/photos-search-type-manager.c:168
+#: src/photos-search-type-manager.c:178
 msgctxt "Search Filter"
 msgid "Type"
 msgstr "Тип"
 
-#: ../src/photos-selection-menu.ui.h:1
+#: src/photos-selection-menu.ui:6
 msgid "Select All"
 msgstr "Вибрати все"
 
-#: ../src/photos-selection-menu.ui.h:2
+#: src/photos-selection-menu.ui:11
 msgid "Select None"
 msgstr "Зняти вибране"
 
-#: ../src/photos-selection-toolbar.ui.h:1
+#: src/photos-selection-toolbar.ui:19
 msgid "Export"
 msgstr "Експортувати"
 
-#: ../src/photos-selection-toolbar.ui.h:4
+#: src/photos-selection-toolbar.ui:111
 msgid "Add to Album"
 msgstr "Додати до альбому"
 
-#: ../src/photos-share-dialog.ui.h:1
+#: src/photos-share-dialog.ui:25
 msgctxt "dialog title"
 msgid "Share"
 msgstr "Оприлюднити"
 
-#: ../src/photos-share-point-email.c:80
+#: src/photos-share-notification.c:148
+#, c-format
+msgid "“%s” shared"
+msgstr "«%s» оприлюднено"
+
+#: src/photos-share-point-email.c:78
 msgid "E-Mail"
 msgstr "Електронна пошта"
 
-#: ../src/photos-share-point-google.c:98
+#: src/photos-share-point-google.c:103
 msgid "Failed to upload photo: Service not authorized"
 msgstr "Не вдалося вивантажити світлину: службу не уповноважено"
 
-#: ../src/photos-share-point-google.c:100
+#: src/photos-share-point-google.c:105
 msgid "Failed to upload photo"
 msgstr "Не вдалося вивантажити світлину"
 
-#: ../src/photos-source-manager.c:305
+#: src/photos-source-manager.c:465
 msgid "Sources"
 msgstr "Джерела"
+
+#: src/photos-source-notification.c:171
+msgid "New device discovered"
+msgstr "Виявлено новий пристрій"
+
+#: src/photos-source-notification.c:184
+msgid "Import…"
+msgstr "Імпортувати…"
 
 #. Translators: %s refers to an online account provider, e.g.,
 #. * "Facebook" or "Flickr".
 #.
-#: ../src/photos-source-notification.c:138
+#: src/photos-source-notification.c:214
 #, c-format
 msgid "Your %s credentials have expired"
 msgstr "Ваші реєстраційні дані %s застаріли"
 
-#: ../src/photos-thumbnailer.c:75
+#: src/photos-source-notification.c:221
+msgid "Settings"
+msgstr "Параметри"
+
+#: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
 msgstr "Адреса D-Bus"
 
-#: ../src/photos-tool-colors.c:315
-msgid "Brightness"
-msgstr "Яскравість"
-
-#: ../src/photos-tool-colors.c:356
+#: src/photos-tool-colors.c:386
 msgid "Contrast"
 msgstr "Контрастність"
 
-#: ../src/photos-tool-colors.c:376
+#: src/photos-tool-colors.c:407
 msgid "Blacks"
 msgstr "Темність"
 
-#: ../src/photos-tool-colors.c:396
+#: src/photos-tool-colors.c:428
 msgid "Saturation"
 msgstr "Насиченість"
 
-#: ../src/photos-tool-colors.c:423
+#: src/photos-tool-colors.c:447
+msgid "Shadows"
+msgstr "Тіні"
+
+#: src/photos-tool-colors.c:466
+msgid "Highlights"
+msgstr "Виблиски"
+
+#: src/photos-tool-colors.c:495
 msgid "Colors"
 msgstr "Кольори"
 
-#: ../src/photos-tool-crop.c:119
+#: src/photos-tool-crop.c:192
 msgid "Free"
 msgstr "Вільний"
 
-#: ../src/photos-tool-crop.c:120
+#: src/photos-tool-crop.c:193
 msgid "Original"
 msgstr "Оригінальний"
 
-#: ../src/photos-tool-crop.c:121
+#: src/photos-tool-crop.c:194
 msgid "1×1 (Square)"
 msgstr "1×1 (квадрат)"
 
-#: ../src/photos-tool-crop.c:122
+#: src/photos-tool-crop.c:195
 msgid "10×8 / 5×4"
 msgstr "10×8 / 5×4"
 
-#: ../src/photos-tool-crop.c:123
+#: src/photos-tool-crop.c:196
 msgid "4×3 / 8×6 (1024×768)"
 msgstr "4×3 / 8×6 (1024×768)"
 
-#: ../src/photos-tool-crop.c:124
+#: src/photos-tool-crop.c:197
 msgid "7×5"
 msgstr "7×5"
 
-#: ../src/photos-tool-crop.c:125
+#: src/photos-tool-crop.c:198
 msgid "3×2 / 6×4"
 msgstr "3×2 / 6×4"
 
-#: ../src/photos-tool-crop.c:126
+#: src/photos-tool-crop.c:199
 msgid "16×10 (1280×800)"
 msgstr "16×10 (1280×800)"
 
-#: ../src/photos-tool-crop.c:127
+#: src/photos-tool-crop.c:200
 msgid "16×9 (1920×1080)"
 msgstr "16×9 (1920×1080)"
 
-#: ../src/photos-tool-crop.c:1171
+#: src/photos-tool-crop.c:1459
 msgid "Lock aspect ratio"
 msgstr "Заблокувати пропорцію"
 
-#: ../src/photos-tool-crop.c:1219
+#: src/photos-tool-crop.c:1529
+msgid "Landscape"
+msgstr "Альбомна"
+
+#: src/photos-tool-crop.c:1540
+msgid "Portrait"
+msgstr "Книжкова"
+
+#: src/photos-tool-crop.c:1551
 msgid "Reset"
 msgstr "Скинути"
 
-#: ../src/photos-tool-crop.c:1236
+#: src/photos-tool-crop.c:1569
 msgid "Crop"
 msgstr "Обрізати"
 
-#: ../src/photos-tool-enhance.c:202
+#: src/photos-tool-enhance.c:197
 msgid "Sharpen"
 msgstr "Виразність"
 
-#: ../src/photos-tool-enhance.c:222
+#: src/photos-tool-enhance.c:218
 msgid "Denoise"
 msgstr "Знешумити"
 
-#: ../src/photos-tool-enhance.c:248
+#: src/photos-tool-enhance.c:245
 msgid "Enhance"
 msgstr "Піднести"
 
 #. Translators: "None" refers to the nop magic filter when editing.
-#: ../src/photos-tool-filters.c:185
+#: src/photos-tool-filters.c:182
 msgctxt "Edit Filter"
 msgid "None"
 msgstr "Немає"
 
-#: ../src/photos-tool-filters.c:192
+#: src/photos-tool-filters.c:189
 msgid "1947"
 msgstr "1947"
 
-#: ../src/photos-tool-filters.c:199
+#: src/photos-tool-filters.c:196
 msgid "Calistoga"
 msgstr "Калістога"
 
-#: ../src/photos-tool-filters.c:205
+#: src/photos-tool-filters.c:202
 msgid "Mogadishu"
 msgstr "Могадішо"
 
-#: ../src/photos-tool-filters.c:212
+#: src/photos-tool-filters.c:209
 msgid "Caap"
 msgstr "Caap"
 
-#: ../src/photos-tool-filters.c:218
+#: src/photos-tool-filters.c:215
 msgid "Hometown"
 msgstr "Hometown"
 
-#: ../src/photos-tool-filters.c:236
+#: src/photos-tool-filters.c:233
 msgid "Filters"
 msgstr "Фільтри"
 
-#: ../src/photos-tracker-controller.c:168
+#: src/photos-tracker-controller.c:174
+msgid "Unable to find Tracker on your operating system"
+msgstr "Не вдалося знайти у вашій операційній системі Tracker"
+
+#: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Неможливо дістати перелік світлин"
-
-#~ msgid "Width"
-#~ msgstr "Ширина"
-
-#~ msgid "Height"
-#~ msgstr "Висота"
-
-#~ msgid "%a, %d %B %Y  %X"
-#~ msgstr "%a, %d %B %Y  %X"
-
-#~ msgid "%.1f (lens)"
-#~ msgstr "%.1f (лінза)"
-
-#~ msgid "%.1f (35mm film)"
-#~ msgstr "%.1f (35мм плівка)"
-
-#~ msgid "Transformation on unloaded image."
-#~ msgstr "Перетворення для не завантаженого зображення."
-
-#~ msgid "Transformation failed."
-#~ msgstr "Не вдалося перетворити."
-
-#~ msgid "EXIF not supported for this file format."
-#~ msgstr "Для цього формату файлів EXIF не підтримується."
-
-#~ msgid "Image loading failed."
-#~ msgstr "Помилка завантаження зображення."
-
-#~ msgid "No image loaded."
-#~ msgstr "Не завантажено жодного зображення"
-
-#~ msgid "You do not have the permissions necessary to save the file."
-#~ msgstr "У вас немає прав потрібних для збереження файла."
-
-#~ msgid "Temporary file creation failed."
-#~ msgstr "Помилка створення тимчасового файла."
-
-#~ msgid "At least two file names are equal."
-#~ msgstr "Є принаймні два файли з однаковою назвою."
-
-#~ msgid "Could not display help for Image Viewer"
-#~ msgstr "Неможливо показати довідку для переглядача зображень"
-
-#~ msgid " (invalid Unicode)"
-#~ msgstr " (неправильний Унікод)"
-
-#~ msgid "Recent"
-#~ msgstr "Нещодавнє"
-
-#~ msgid "No Favorites Found"
-#~ msgstr "Не знайдено улюбленого"
-
-#~ msgid "Load More"
-#~ msgstr "Завантажити ще"
-
-#~ msgid "Loading…"
-#~ msgstr "Завантаження…"
-
-#~ msgid ""
-#~ "<li>View recent local and online photos</li> <li>Access your Flickr "
-#~ "content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as "
-#~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
-#~ "opening full featured editor for more advanced changes</li>"
-#~ msgstr ""
-#~ "<li>Переглядати недавні локальні та віддалені фотографії</li> "
-#~ "<li>Доступитись до ваших файлів Flickr</li> <li>Надсилати світлини до "
-#~ "віддалених пристроїв DLNA</li> <li>Встановлювати як тло</li> "
-#~ "<li>Друкувати фотографії</li> <li>Вибирати улюблені</li> <li>Відкривати "
-#~ "повноцінний редактор для редагування світлин</li>"
-
-#~ msgid "Facebook"
-#~ msgstr "Facebook"
-
-#~ msgid "Flickr"
-#~ msgstr "Flickr"
-
-#~ msgid "About Photos"
-#~ msgstr "Про програму"
