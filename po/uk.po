@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-09-24 14:07+0000\n"
-"PO-Revision-Date: 2020-03-14 18:22+0200\n"
+"POT-Creation-Date: 2020-03-30 16:41+0000\n"
+"PO-Revision-Date: 2020-03-30 19:43+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
 "=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 20.03.70\n"
+"X-Generator: Lokalize 20.07.70\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
@@ -30,22 +30,16 @@ msgid "Access, organize and share your photos on GNOME"
 msgstr "Доступатись, упорядковувати і ділитись вашими фотографіями у GNOME"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
-#| msgid ""
-#| "A simple application to access, organize and share your photos on GNOME. "
-#| "It is meant to be a simple and elegant replacement for using a file "
-#| "manager to deal with photos. Seamless cloud integration is offered "
-#| "through GNOME Online Accounts."
 msgid ""
 "Access, organize and share your photos on GNOME. A simple and elegant "
 "replacement for using a file manager to deal with photos. Enhance, crop and "
 "edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"Переглядайте, упорядковуйте та оприлюднюйте ваші світлини в GNOME. Це проста"
-" проста і витончена заміна файлового менеджера для роботи з "
-"фотографіями. Удосконалюйте, обрізайте і редагуйте фотографії на місці. Також"
-" доступна інтеграція з інтернетними службами через "
-"мережеві облікові записи у GNOME."
+"Переглядайте, упорядковуйте та оприлюднюйте ваші світлини в GNOME. Це проста "
+"проста і витончена заміна файлового менеджера для роботи з фотографіями. "
+"Удосконалюйте, обрізайте і редагуйте фотографії на місці. Також доступна "
+"інтеграція з інтернетними службами через мережеві облікові записи у GNOME."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
 msgid "You can:"
@@ -60,7 +54,6 @@ msgid "View recent local and online photos"
 msgstr "Переглядати свіжі світлини з комп'ютера та в мережі"
 
 #: data/org.gnome.Photos.appdata.xml.in:20
-#| msgid "Access your Facebook or Flickr content"
 msgid "Access your Facebook or Flickr pictures"
 msgstr "Отримувати доступ до ваших світлин на Facebook або Flickr"
 
@@ -68,11 +61,10 @@ msgstr "Отримувати доступ до ваших світлин на Fa
 msgid ""
 "View photos on TVs, laptops or other DLNA renderers on your local network"
 msgstr ""
-"Переглядати фотографії на телевізорах, ноутбуках та інших обробниках"
-" протоколу DLNA у вашій локальній мережі"
+"Переглядати фотографії на телевізорах, ноутбуках та інших обробниках "
+"протоколу DLNA у вашій локальній мережі"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
-#| msgid "Set as background"
 msgid "Set pictures as your desktop background"
 msgstr "Використовувати зображення як тла стільниці"
 
@@ -85,13 +77,12 @@ msgid "Select favorites"
 msgstr "Вибрати улюблені"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
-#| msgid "Allow opening full featured editor for more advanced changes"
 msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
 msgstr ""
-"Без проблем редагувати ваші зображення у програмі або надсилати їх до"
-" повноцінного редактора для складнішого редагування"
+"Без проблем редагувати ваші зображення у програмі або надсилати їх до "
+"повноцінного редактора для складнішого редагування"
 
 #: data/org.gnome.Photos.appdata.xml.in:74
 msgid "The GNOME Project"
@@ -149,7 +140,6 @@ msgstr "Показати версію програми"
 #.
 #: src/photos-application.c:1398 src/photos-export-dialog.c:195
 #: src/photos-import-dialog.c:134
-#| msgid "%e %B %Y"
 msgid "%-d %B %Y"
 msgstr "%-d %B %Y"
 
@@ -200,7 +190,6 @@ msgid "Favorites"
 msgstr "Улюблене"
 
 #: src/photos-embed.c:840
-#| msgid "Export"
 msgid "Import"
 msgstr "Імпортувати"
 
@@ -209,7 +198,6 @@ msgid "Search"
 msgstr "Пошук"
 
 #: src/photos-empty-results-box.c:120
-#| msgid "No Albums Found"
 msgid "No albums found"
 msgstr "Не знайдено жодного альбому"
 
@@ -218,7 +206,6 @@ msgid "Starred photos will appear here"
 msgstr "Світлини із зірками з'являтимуться тут"
 
 #: src/photos-empty-results-box.c:134
-#| msgid "No Photos Found"
 msgid "No photos found"
 msgstr "Світлин не знайдено"
 
@@ -249,7 +236,6 @@ msgstr "теки «Картинки»"
 #.
 #: src/photos-empty-results-box.c:198
 #, c-format
-#| msgid "Starred photos will appear here"
 msgid "Photos from your %s and %s will appear here."
 msgstr "Світлини з вашого %s і %s буде показано тут."
 
@@ -362,118 +348,126 @@ msgid "Show help"
 msgstr "Показати довідку"
 
 #: src/photos-help-overlay.ui:43
+#| msgid "Keyboard Shortcuts"
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Клавіатурні скорочення"
+
+#: src/photos-help-overlay.ui:50
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Вийти"
 
-#: src/photos-help-overlay.ui:52
+#: src/photos-help-overlay.ui:59
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Пересування"
 
-#: src/photos-help-overlay.ui:56
+#: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Наступна світлина"
 
-#: src/photos-help-overlay.ui:63
+#: src/photos-help-overlay.ui:70
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Попередня світлина"
 
-#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
+#: src/photos-help-overlay.ui:77 src/photos-help-overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Повернутися"
 
-#: src/photos-help-overlay.ui:88
+#: src/photos-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Перегляд"
 
-#: src/photos-help-overlay.ui:92
+#: src/photos-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Пошук"
 
-#: src/photos-help-overlay.ui:99
+#: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Вибрати все"
 
-#: src/photos-help-overlay.ui:106
+#: src/photos-help-overlay.ui:113
+#| msgctxt "shortcut window"
+#| msgid "Export selected photos"
+msgctxt "shortcut window"
+msgid "Export selected photo"
+msgstr "Експортувати вибрану фотографію"
+
+#: src/photos-help-overlay.ui:120
 #| msgctxt "shortcut window"
 #| msgid "Print selected photos"
 msgctxt "shortcut window"
-msgid "Export selected photos"
-msgstr "Експортувати вибрані фотографії"
+msgid "Print selected photo"
+msgstr "Надрукувати вибрану фотографію"
 
-#: src/photos-help-overlay.ui:113
-msgctxt "shortcut window"
-msgid "Print selected photos"
-msgstr "Надрукувати вибрані фотографії"
-
-#: src/photos-help-overlay.ui:120
+#: src/photos-help-overlay.ui:127
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Вилучити вибрані фотографії"
 
-#: src/photos-help-overlay.ui:129
+#: src/photos-help-overlay.ui:136
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Перегляд фотографій"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Редагувати"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Експортувати"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Надрукувати"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Збільшити"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Зменшити"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Якнайкраще влаштувати"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Вилучити"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Меню дій"
 
-#: src/photos-help-overlay.ui:189
+#: src/photos-help-overlay.ui:196
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "На весь екран"
 
-#: src/photos-help-overlay.ui:198
+#: src/photos-help-overlay.ui:205
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Режим редагування"
 
-#: src/photos-help-overlay.ui:202
+#: src/photos-help-overlay.ui:209
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Скасувати"
@@ -487,7 +481,6 @@ msgid "An album for that date already exists"
 msgstr "Альбом для цієї дати вже існує"
 
 #: src/photos-import-dialog.ui:22
-#| msgid "Album"
 msgctxt "dialog title"
 msgid "Name Album"
 msgstr "Назва альбому"
@@ -546,7 +539,6 @@ msgstr[1] "%d вибрано"
 msgstr[2] "%d вибрано"
 
 #: src/photos-main-toolbar.c:169
-#| msgid "Select Items"
 msgid "Select items for import"
 msgstr "Виберіть записи для імпортування"
 
@@ -587,7 +579,6 @@ msgid "Done"
 msgstr "Зроблено"
 
 #: src/photos-main-toolbar.c:527
-#| msgid "Select All"
 msgid "_Select"
 msgstr "_Вибрати"
 
@@ -895,7 +886,6 @@ msgstr "Оприлюднити"
 
 #: src/photos-share-notification.c:148
 #, c-format
-#| msgid "“%s” exported"
 msgid "“%s” shared"
 msgstr "«%s» оприлюднено"
 
@@ -920,7 +910,6 @@ msgid "New device discovered"
 msgstr "Виявлено новий пристрій"
 
 #: src/photos-source-notification.c:184
-#| msgid "Export…"
 msgid "Import…"
 msgstr "Імпортувати…"
 
@@ -957,7 +946,6 @@ msgid "Shadows"
 msgstr "Тіні"
 
 #: src/photos-tool-colors.c:466
-#| msgid "Height"
 msgid "Highlights"
 msgstr "Виблиски"
 
