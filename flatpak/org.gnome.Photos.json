@@ -256,7 +256,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/tracker.git"
+                    "url": "https://gitlab.gnome.org/GNOME/tracker.git",
+                    "branch": "tracker-2.3"
                 }
             ]
         },
@@ -284,7 +285,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/tracker-miners.git"
+                    "url": "https://gitlab.gnome.org/GNOME/tracker-miners.git",
+                    "branch": "tracker-miners-2.3"
                 }
             ]
         },
