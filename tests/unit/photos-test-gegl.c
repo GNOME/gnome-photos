@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2018 – 2019 Red Hat, Inc.
+ * Copyright © 2018 – 2020 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1088,6 +1088,13 @@ main (gint argc, gchar *argv[])
               photos_test_gegl_buffer_apply_orientation_top_mirror_3,
               photos_test_gegl_teardown);
 
+  g_test_add ("/gegl/buffer/zoom/nop",
+              PhotosTestGeglFixture,
+              NULL,
+              photos_test_gegl_setup_with_alpha_even_dimensions,
+              photos_test_gegl_buffer_zoom_nop,
+              photos_test_gegl_teardown);
+
   g_test_add ("/gegl/buffer/zoom/in-0",
               PhotosTestGeglFixture,
               NULL,
@@ -1100,13 +1107,6 @@ main (gint argc, gchar *argv[])
               NULL,
               photos_test_gegl_setup_with_alpha_even_dimensions,
               photos_test_gegl_buffer_zoom_in_1,
-              photos_test_gegl_teardown);
-
-  g_test_add ("/gegl/buffer/zoom/nop",
-              PhotosTestGeglFixture,
-              NULL,
-              photos_test_gegl_setup_with_alpha_even_dimensions,
-              photos_test_gegl_buffer_zoom_nop,
               photos_test_gegl_teardown);
 
   g_test_add ("/gegl/buffer/zoom/out-0",
