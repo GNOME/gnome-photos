@@ -239,7 +239,8 @@
                              "-Denable-tmdb=no",
                              "-Denable-tracker=no",
                              "-Denable-vimeo=no",
-                             "-Denable-youtube=no" ],
+                             "-Denable-youtube=no",
+                             "--wrap-mode=nofallback" ],
             "sources": [
                 {
                     "type": "git",
