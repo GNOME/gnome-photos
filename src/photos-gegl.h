@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2013 – 2019 Red Hat, Inc.
+ * Copyright © 2013 – 2020 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,11 @@
 #include <glib.h>
 
 G_BEGIN_DECLS
+
+#define PHOTOS_GEGL_BABL_CHECK_VERSION(major, minor, micro) \
+  (BABL_MAJOR_VERSION > (major) \
+   || (BABL_MAJOR_VERSION == (major) && BABL_MINOR_VERSION > (minor)) \
+   || (BABL_MAJOR_VERSION == (major) && BABL_MINOR_VERSION == (minor) && BABL_MICRO_VERSION >= (micro)))
 
 GeglBuffer      *photos_gegl_buffer_apply_orientation     (GeglBuffer *buffer_original, GQuark orientation);
 
