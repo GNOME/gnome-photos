@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2019 Red Hat, Inc.
+ * Copyright © 2015 – 2020 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,6 +68,46 @@ photos_glib_app_info_launch_uri (GAppInfo *appinfo,
   ret_val = g_app_info_launch_uris (appinfo, uris, launch_context, error);
   g_list_free_full (uris, g_free);
   return ret_val;
+}
+
+
+void
+photos_glib_assertion_message_strv_contains (const gchar *domain,
+                                             const gchar *file,
+                                             gint line,
+                                             const gchar *function,
+                                             const gchar *expression,
+                                             const gchar *const *strv,
+                                             const gchar *str)
+{
+  g_auto (GStrv) strv_escaped = NULL;
+  g_autofree gchar *message = NULL;
+  g_autofree gchar *str_escaped = NULL;
+  g_autofree gchar *str_quoted = NULL;
+  g_autofree gchar *strv_joined = NULL;
+  g_autofree gchar *strv_joined_tmp = NULL;
+  guint i;
+  guint length;
+
+  length = g_strv_length ((GStrv) strv);
+  strv_escaped = (GStrv) g_malloc0_n (length + 1, sizeof (gchar *));
+  for (i = 0; strv[i] != NULL; i++)
+    strv_escaped[i] = g_strescape (strv[i], NULL);
+
+  strv_joined_tmp = g_strjoinv ("\", \"", strv_escaped);
+  strv_joined = g_strconcat ("[\"", strv_joined_tmp, "\"]", NULL);
+
+  if (str != NULL)
+    str_escaped = g_strescape (str, NULL);
+
+  if (str_escaped == NULL)
+    str_quoted = g_strdup ("NULL");
+  else
+    str_quoted = g_strconcat ("\"", str_escaped, "\"", NULL);
+
+  message = g_strdup_printf ("assertion failed (%s): (%s contains %s)", expression, strv_joined, str_quoted);
+
+  g_assertion_message (domain, file, line, function, message);
 }
 
 
