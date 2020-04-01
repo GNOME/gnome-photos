@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2018 – 2019 Red Hat, Inc.
+ * Copyright © 2018 – 2020 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 
 #include "photos-debug.h"
 #include "photos-gegl.h"
+#include "photos-glib.h"
 #include "photos-quarks.h"
 
 
@@ -402,7 +403,7 @@ photos_test_gegl_buffer_check_pixbuf (PhotosTestGeglFixture *fixture, gboolean h
 static void
 photos_test_gegl_buffer_check_zoom (PhotosTestGeglFixture *fixture,
                                     double zoom,
-                                    const gchar *checksum,
+                                    const gchar *const *checksums,
                                     gint height,
                                     gint width,
                                     gint x,
@@ -437,7 +438,7 @@ photos_test_gegl_buffer_check_zoom (PhotosTestGeglFixture *fixture,
   photos_test_gegl_buffer_save_to_file (buffer_zoomed_converted, fixture->destination_0);
 
   checksum_zoomed_converted = photos_gegl_compute_checksum_for_buffer (G_CHECKSUM_SHA256, buffer_zoomed_converted);
-  g_assert_cmpstr (checksum_zoomed_converted, ==, checksum);
+  photos_glib_assert_strv_contains (checksums, checksum_zoomed_converted);
 }
 
 
@@ -732,65 +733,71 @@ photos_test_gegl_buffer_apply_orientation_top_mirror_3 (PhotosTestGeglFixture *f
 static void
 photos_test_gegl_buffer_zoom_in_0 (PhotosTestGeglFixture *fixture, gconstpointer user_data)
 {
-  photos_test_gegl_buffer_check_zoom (fixture,
-                                      1.4,
-                                      "12d60499ebbf9533040792debe28c8bcdebb5ac6b26e2864b26347f42fade116",
-                                      280,
-                                      280,
-                                      0,
-                                      0);
+  const gchar *const checksums[] =
+    {
+      "12d60499ebbf9533040792debe28c8bcdebb5ac6b26e2864b26347f42fade116",
+#if PHOTOS_GEGL_BABL_CHECK_VERSION(0, 1, 67)
+      "caaa64e34505b94bd64fee635376b76439566cc1fd8f73e39bd3ca710af540e3",
+#endif
+      NULL
+    };
+
+  photos_test_gegl_buffer_check_zoom (fixture, 1.4, checksums, 280, 280, 0, 0);
 }
 
 
 static void
 photos_test_gegl_buffer_zoom_in_1 (PhotosTestGeglFixture *fixture, gconstpointer user_data)
 {
-  photos_test_gegl_buffer_check_zoom (fixture,
-                                      4.0,
-                                      "f8a0d6eb8c2fdc3f5592f39beaea9477aaf33760e5985a092c99bbb02e735c21",
-                                      800,
-                                      800,
-                                      0,
-                                      0);
+  const gchar *const checksums[] =
+    {
+      "f8a0d6eb8c2fdc3f5592f39beaea9477aaf33760e5985a092c99bbb02e735c21",
+#if PHOTOS_GEGL_BABL_CHECK_VERSION(0, 1, 67)
+      "1e0f18651c3e1c5578c317e4070c024d2e70679b79de6a3696f204f47d157dd2",
+#endif
+      NULL
+    };
+
+  photos_test_gegl_buffer_check_zoom (fixture, 4.0, checksums, 800, 800, 0, 0);
 }
 
 
 static void
 photos_test_gegl_buffer_zoom_nop (PhotosTestGeglFixture *fixture, gconstpointer user_data)
 {
-  photos_test_gegl_buffer_check_zoom (fixture,
-                                      1.0,
-                                      "2b759cc636f78ff70ef197b9b9495214f9e8de6b3743175f25186c24d9caed5f",
-                                      200,
-                                      200,
-                                      0,
-                                      0);
+  const gchar *const checksums[] =
+    {
+      "2b759cc636f78ff70ef197b9b9495214f9e8de6b3743175f25186c24d9caed5f",
+      NULL
+    };
+
+  photos_test_gegl_buffer_check_zoom (fixture, 1.0, checksums, 200, 200, 0, 0);
 }
 
 
 static void
 photos_test_gegl_buffer_zoom_out_0 (PhotosTestGeglFixture *fixture, gconstpointer user_data)
 {
-  photos_test_gegl_buffer_check_zoom (fixture,
-                                      0.6,
-                                      "d8c9c2c09079e0064f0633a2e05ed3ddce4f00cda3991b87d8cd79cccf319f6d",
-                                      120,
-                                      120,
-                                      0,
-                                      0);
+  const gchar *const checksums[] =
+    {
+      "d8c9c2c09079e0064f0633a2e05ed3ddce4f00cda3991b87d8cd79cccf319f6d",
+      NULL
+    };
+
+  photos_test_gegl_buffer_check_zoom (fixture, 0.6, checksums, 120, 120, 0, 0);
 }
 
 
 static void
 photos_test_gegl_buffer_zoom_out_1 (PhotosTestGeglFixture *fixture, gconstpointer user_data)
 {
-  photos_test_gegl_buffer_check_zoom (fixture,
-                                      0.25,
-                                      "82cfa8a533f8800bd213e47fd52593a8f3b78de2bcd4d9b28084cb7825e50e23",
-                                      50,
-                                      50,
-                                      0,
-                                      0);
+  const gchar *const checksums[] =
+    {
+      "82cfa8a533f8800bd213e47fd52593a8f3b78de2bcd4d9b28084cb7825e50e23",
+      NULL
+    };
+
+  photos_test_gegl_buffer_check_zoom (fixture, 0.25, checksums, 50, 50, 0, 0);
 }
 
 
@@ -1088,6 +1095,13 @@ main (gint argc, gchar *argv[])
               photos_test_gegl_buffer_apply_orientation_top_mirror_3,
               photos_test_gegl_teardown);
 
+  g_test_add ("/gegl/buffer/zoom/nop",
+              PhotosTestGeglFixture,
+              NULL,
+              photos_test_gegl_setup_with_alpha_even_dimensions,
+              photos_test_gegl_buffer_zoom_nop,
+              photos_test_gegl_teardown);
+
   g_test_add ("/gegl/buffer/zoom/in-0",
               PhotosTestGeglFixture,
               NULL,
@@ -1100,13 +1114,6 @@ main (gint argc, gchar *argv[])
               NULL,
               photos_test_gegl_setup_with_alpha_even_dimensions,
               photos_test_gegl_buffer_zoom_in_1,
-              photos_test_gegl_teardown);
-
-  g_test_add ("/gegl/buffer/zoom/nop",
-              PhotosTestGeglFixture,
-              NULL,
-              photos_test_gegl_setup_with_alpha_even_dimensions,
-              photos_test_gegl_buffer_zoom_nop,
               photos_test_gegl_teardown);
 
   g_test_add ("/gegl/buffer/zoom/out-0",

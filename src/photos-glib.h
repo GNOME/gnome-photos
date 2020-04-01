@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2015 – 2019 Red Hat, Inc.
+ * Copyright © 2015 – 2020 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,10 +27,35 @@
 
 G_BEGIN_DECLS
 
+#define photos_glib_assert_strv_contains(strv, str) \
+  G_STMT_START { \
+    const gchar *const *__strv = (strv); \
+    const gchar *__str = (str); \
+    if (g_strv_contains (__strv, __str)); else \
+      { \
+        const gchar *expression = #strv " contains " #str; \
+        photos_glib_assertion_message_strv_contains (G_LOG_DOMAIN, \
+                                                     __FILE__, \
+                                                     __LINE__, \
+                                                     G_STRFUNC, \
+                                                     expression, \
+                                                     strv, \
+                                                     str); \
+      } \
+  } G_STMT_END
+
 gboolean              photos_glib_app_info_launch_uri            (GAppInfo *appinfo,
                                                                   const gchar *uri,
                                                                   GAppLaunchContext *launch_context,
                                                                   GError **error);
+
+void                  photos_glib_assertion_message_strv_contains (const gchar *domain,
+                                                                   const gchar *file,
+                                                                   gint line,
+                                                                   const gchar *function,
+                                                                   const gchar *expression,
+                                                                   const gchar *const *strv,
+                                                                   const gchar *str);
 
 void                  photos_glib_file_copy_async                (GFile *source,
                                                                   GFile *destination,
