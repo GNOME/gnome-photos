@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-01-18 12:57+0000\n"
+"POT-Creation-Date: 2020-03-27 17:16+0000\n"
 "PO-Revision-Date: 2019-01-21 01:15+0200\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
@@ -87,18 +87,13 @@ msgstr ""
 "Fotoğraflarınızı uygulamada kolayca düzenleyin veya daha gelişmiş "
 "değişiklikler için tam özellikli düzenleyiciye gönderin"
 
-#: data/org.gnome.Photos.appdata.xml.in:51
+#: data/org.gnome.Photos.appdata.xml.in:74
 msgid "The GNOME Project"
 msgstr "GNOME Projesi"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
 msgstr "Fotoğraflara erişin, yönetin ve paylaşın"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Photos.desktop.in.in:7
-msgid "org.gnome.Photos"
-msgstr "org.gnome.Photos"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
@@ -199,7 +194,7 @@ msgstr "Gözdeler"
 msgid "Import"
 msgstr "İçe Aktar"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "Ara"
 
@@ -271,8 +266,8 @@ msgid "_Reduced"
 msgstr "_Azaltılmış"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
-#: src/photos-main-toolbar.c:639
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "_İptal"
 
@@ -520,55 +515,55 @@ msgstr "Ahh! “%s” yüklenemedi"
 msgid "Local"
 msgstr "Yerel"
 
-#: src/photos-main-toolbar.c:80
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
 msgstr "Seçmek için ögelerin üzerine tıklayın"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d adet seçildi"
 
-#: src/photos-main-toolbar.c:170
+#: src/photos-main-toolbar.c:169
 msgid "Select items for import"
 msgstr "İçe aktarılacak öge seçin"
 
-#: src/photos-main-toolbar.c:174
+#: src/photos-main-toolbar.c:173
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
 msgstr[0] "İçe aktarılacak öge seçin (%u seçildi)"
 
-#: src/photos-main-toolbar.c:217
+#: src/photos-main-toolbar.c:216
 msgid "Back"
 msgstr "Geri"
 
-#: src/photos-main-toolbar.c:351
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
 msgstr "Ögeleri Seç"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "%s ile Aç"
 
-#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Gözdelerden kaldır"
 
-#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Gözdelere ekle"
 
-#: src/photos-main-toolbar.c:494
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "Bitti"
 
-#: src/photos-main-toolbar.c:530
+#: src/photos-main-toolbar.c:527
 msgid "_Select"
 msgstr "_Seç"
 
@@ -612,7 +607,7 @@ msgstr "Sil"
 
 #: src/photos-preview-menu.ui:23
 msgid "Display on…"
-msgstr "Şurada görüntüle…"
+msgstr "Şurada Görüntüle…"
 
 #: src/photos-preview-menu.ui:27
 msgid "Set as Background"
@@ -629,7 +624,7 @@ msgstr "Özellikler"
 
 #: src/photos-preview-menu.ui:41
 msgid "Fullscreen"
-msgstr "Tam ekran"
+msgstr "Tam Ekran"
 
 #: src/photos-primary-menu.ui:6
 msgid "Keyboard Shortcuts"
@@ -1049,6 +1044,9 @@ msgstr "İşletim sisteminizde Tracker bulunamadı"
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Fotoğrafların listesi alınamıyor"
+
+#~ msgid "org.gnome.Photos"
+#~ msgstr "org.gnome.Photos"
 
 #~ msgid "About"
 #~ msgstr "Hakkında"
