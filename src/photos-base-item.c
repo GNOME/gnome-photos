@@ -2760,7 +2760,6 @@ static void
 photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor)
 {
   PhotosBaseItemPrivate *priv;
-  GTimeVal timeval;
   gboolean favorite;
   const gchar *author;
   const gchar *ctime;
@@ -2812,8 +2811,11 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   mtime = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MTIME, NULL);
   if (mtime != NULL)
     {
-      if (g_time_val_from_iso8601 (mtime, &timeval))
-        priv->mtime = (gint64) timeval.tv_sec;
+      g_autoptr (GDateTime) date_modified = NULL;
+
+      date_modified = g_date_time_new_from_iso8601 (mtime, NULL);
+      if (date_modified != NULL)
+        priv->mtime = g_date_time_to_unix (date_modified);
     }
   if (priv->mtime == -1)
     priv->mtime = g_get_real_time () / 1000000;
@@ -2832,8 +2834,11 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   ctime = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_DATE_CREATED, NULL);
   if (ctime != NULL)
     {
-      if (g_time_val_from_iso8601 (ctime, &timeval))
-        priv->ctime = (gint64) timeval.tv_sec;
+      g_autoptr (GDateTime) date_created = NULL;
+
+      date_created = g_date_time_new_from_iso8601 (ctime, NULL);
+      if (date_created != NULL)
+        priv->ctime = g_date_time_to_unix (date_created);
     }
 
   if (g_strcmp0 (priv->id, PHOTOS_COLLECTION_SCREENSHOT) == 0)
