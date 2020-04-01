@@ -736,6 +736,9 @@ photos_test_gegl_buffer_zoom_in_0 (PhotosTestGeglFixture *fixture, gconstpointer
   const gchar *const checksums[] =
     {
       "12d60499ebbf9533040792debe28c8bcdebb5ac6b26e2864b26347f42fade116",
+#if PHOTOS_GEGL_BABL_CHECK_VERSION(0, 1, 67)
+      "caaa64e34505b94bd64fee635376b76439566cc1fd8f73e39bd3ca710af540e3",
+#endif
       NULL
     };
 
@@ -749,6 +752,9 @@ photos_test_gegl_buffer_zoom_in_1 (PhotosTestGeglFixture *fixture, gconstpointer
   const gchar *const checksums[] =
     {
       "f8a0d6eb8c2fdc3f5592f39beaea9477aaf33760e5985a092c99bbb02e735c21",
+#if PHOTOS_GEGL_BABL_CHECK_VERSION(0, 1, 67)
+      "1e0f18651c3e1c5578c317e4070c024d2e70679b79de6a3696f204f47d157dd2",
+#endif
       NULL
     };
 
