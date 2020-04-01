@@ -34,6 +34,13 @@
     <kudo>UserDocs</kudo>
   </kudos>
   <releases>
+    <release version="3.34.0" date="2019-09-11">
+      <description>
+        <ul>
+          <li>Update the application icon to be more modern and colorful</li>
+        </ul>
+      </description>
+    </release>
     <release version="3.32.0" date="2019-03-18">
       <description>
         <ul>
