@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 – 2015 Pranav Kant
- * Copyright © 2012 – 2019 Red Hat, Inc.
+ * Copyright © 2012 – 2020 Red Hat, Inc.
  * Copyright © 2016 Umang Jain
  *
  * This program is free software: you can redistribute it and/or modify
@@ -2808,13 +2808,14 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 
   favorite = tracker_sparql_cursor_get_boolean (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_FAVORITE);
 
+  priv->mtime = -1;
   mtime = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MTIME, NULL);
   if (mtime != NULL)
     {
-      g_time_val_from_iso8601 (mtime, &timeval);
-      priv->mtime = (gint64) timeval.tv_sec;
+      if (g_time_val_from_iso8601 (mtime, &timeval))
+        priv->mtime = (gint64) timeval.tv_sec;
     }
-  else
+  if (priv->mtime == -1)
     priv->mtime = g_get_real_time () / 1000000;
   g_object_notify (G_OBJECT (self), "mtime");
 
@@ -2827,14 +2828,13 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   photos_base_item_update_info_from_type (self);
   priv->favorite = favorite && !priv->collection;
 
+  priv->date_created = -1;
   date_created = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_DATE_CREATED, NULL);
   if (date_created != NULL)
     {
-      g_time_val_from_iso8601 (date_created, &timeval);
-      priv->date_created = (gint64) timeval.tv_sec;
+      if (g_time_val_from_iso8601 (date_created, &timeval))
+        priv->date_created = (gint64) timeval.tv_sec;
     }
-  else
-    priv->date_created = -1;
 
   if (g_strcmp0 (priv->id, PHOTOS_COLLECTION_SCREENSHOT) == 0)
     title = _("Screenshots");
