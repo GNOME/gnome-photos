@@ -1,7 +1,7 @@
 /*
  * Photos - access, organize and share your photos on GNOME
  * Copyright © 2014 – 2015 Pranav Kant
- * Copyright © 2012 – 2019 Red Hat, Inc.
+ * Copyright © 2012 – 2020 Red Hat, Inc.
  * Copyright © 2016 Umang Jain
  *
  * This program is free software: you can redistribute it and/or modify
@@ -96,7 +96,7 @@ struct _PhotosBaseItemPrivate
   gdouble fnumber;
   gdouble focal_length;
   gdouble iso_speed;
-  gint64 date_created;
+  gint64 ctime;
   gint64 height;
   gint64 mtime;
   gint64 width;
@@ -2760,10 +2760,9 @@ static void
 photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor *cursor)
 {
   PhotosBaseItemPrivate *priv;
-  GTimeVal timeval;
   gboolean favorite;
   const gchar *author;
-  const gchar *date_created;
+  const gchar *ctime;
   const gchar *equipment;
   const gchar *flash;
   const gchar *id;
@@ -2808,13 +2807,17 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 
   favorite = tracker_sparql_cursor_get_boolean (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_FAVORITE);
 
+  priv->mtime = -1;
   mtime = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MTIME, NULL);
   if (mtime != NULL)
     {
-      g_time_val_from_iso8601 (mtime, &timeval);
-      priv->mtime = (gint64) timeval.tv_sec;
+      g_autoptr (GDateTime) date_modified = NULL;
+
+      date_modified = g_date_time_new_from_iso8601 (mtime, NULL);
+      if (date_modified != NULL)
+        priv->mtime = g_date_time_to_unix (date_modified);
     }
-  else
+  if (priv->mtime == -1)
     priv->mtime = g_get_real_time () / 1000000;
   g_object_notify (G_OBJECT (self), "mtime");
 
@@ -2827,14 +2830,16 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   photos_base_item_update_info_from_type (self);
   priv->favorite = favorite && !priv->collection;
 
-  date_created = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_DATE_CREATED, NULL);
-  if (date_created != NULL)
+  priv->ctime = -1;
+  ctime = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_DATE_CREATED, NULL);
+  if (ctime != NULL)
     {
-      g_time_val_from_iso8601 (date_created, &timeval);
-      priv->date_created = (gint64) timeval.tv_sec;
+      g_autoptr (GDateTime) date_created = NULL;
+
+      date_created = g_date_time_new_from_iso8601 (ctime, NULL);
+      if (date_created != NULL)
+        priv->ctime = g_date_time_to_unix (date_created);
     }
-  else
-    priv->date_created = -1;
 
   if (g_strcmp0 (priv->id, PHOTOS_COLLECTION_SCREENSHOT) == 0)
     title = _("Screenshots");
@@ -3484,7 +3489,7 @@ photos_base_item_get_date_created (PhotosBaseItem *self)
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
   priv = photos_base_item_get_instance_private (self);
 
-  return priv->date_created;
+  return priv->ctime;
 }
 
 
