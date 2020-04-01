@@ -96,7 +96,7 @@ struct _PhotosBaseItemPrivate
   gdouble fnumber;
   gdouble focal_length;
   gdouble iso_speed;
-  gint64 date_created;
+  gint64 ctime;
   gint64 height;
   gint64 mtime;
   gint64 width;
@@ -2763,7 +2763,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   GTimeVal timeval;
   gboolean favorite;
   const gchar *author;
-  const gchar *date_created;
+  const gchar *ctime;
   const gchar *equipment;
   const gchar *flash;
   const gchar *id;
@@ -2828,12 +2828,12 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   photos_base_item_update_info_from_type (self);
   priv->favorite = favorite && !priv->collection;
 
-  priv->date_created = -1;
-  date_created = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_DATE_CREATED, NULL);
-  if (date_created != NULL)
+  priv->ctime = -1;
+  ctime = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_DATE_CREATED, NULL);
+  if (ctime != NULL)
     {
-      if (g_time_val_from_iso8601 (date_created, &timeval))
-        priv->date_created = (gint64) timeval.tv_sec;
+      if (g_time_val_from_iso8601 (ctime, &timeval))
+        priv->ctime = (gint64) timeval.tv_sec;
     }
 
   if (g_strcmp0 (priv->id, PHOTOS_COLLECTION_SCREENSHOT) == 0)
@@ -3484,7 +3484,7 @@ photos_base_item_get_date_created (PhotosBaseItem *self)
   g_return_val_if_fail (PHOTOS_IS_BASE_ITEM (self), 0);
   priv = photos_base_item_get_instance_private (self);
 
-  return priv->date_created;
+  return priv->ctime;
 }
 
 
