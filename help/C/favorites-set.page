@@ -25,12 +25,12 @@
   <title>Tag your favorites</title>
 
   <p>Photos or albums can be marked as favorites from the
-  <gui style="tab">Recent</gui> tab or <gui style="tab">Albums</gui> tab.</p>
+  <gui style="tab">Photos</gui> tab or <gui style="tab">Albums</gui> tab.</p>
 
   <steps>
   <title>To label favorite items:</title>
     <item>
-      <p>Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on
+      <p>Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on
       whether you want to mark an album or a photo as a favorite.</p>
     </item>
     <item>

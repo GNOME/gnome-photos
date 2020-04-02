@@ -23,8 +23,8 @@
 
   <title>View images</title>
 
-  <p>When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab
-  open. The <gui>Recent</gui> tab contains images from your computer, the
+  <p>When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab
+  open. The <gui>Photos</gui> tab contains images from your computer, the
   <gui>Albums</gui> tab contains your photo albums, and any image you mark as a
   favourite can be found in the <gui>Favorites</gui> tab.</p>
 
