@@ -1,0 +1,331 @@
+# Ukrainian translation for gnome-photos.
+# Copyright (C) 2020 gnome-photos's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-photos package.
+#
+# Yuri Chornoivan <yurchor@ukr.net>, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-photos gnome-3-34\n"
+"POT-Creation-Date: 2020-04-08 02:26+0000\n"
+"PO-Revision-Date: 2020-04-13 19:49+0300\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Lokalize 20.07.70\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
+#: C/view-favorites.page:11 C/view.page:11
+msgid "Venkatesh Tahiliani"
+msgstr "Venkatesh Tahiliani"
+
+#. (itstool) path: credit/name
+#: C/favorites.page:15 C/favorites-set.page:16 C/view-album.page:15
+#: C/view-favorites.page:15 C/view.page:15
+msgid "Aruna Sankaranarayanan"
+msgstr "Aruna Sankaranarayanan"
+
+#. (itstool) path: info/desc
+#: C/favorites.page:21
+msgid "Tag a special image or album as a favorite."
+msgstr "Позначення певної фотографії або альбому як улюблених."
+
+#. (itstool) path: page/title
+#: C/favorites.page:25
+msgid "Favorite photos"
+msgstr "Улюблені фотографії"
+
+#. (itstool) path: page/p
+#: C/favorites.page:26
+msgid ""
+"You can label photos or images that you particularly like as favorites to "
+"store them for easy access in the <gui>Favorites</gui> tab."
+msgstr ""
+"Ви можете позначити фотографії або зображення, які вам подобаються, як"
+" улюблені, щоб отримати до них простіший доступ за допомогою вкладки <gui"
+">Улюблене</gui>."
+
+#. (itstool) path: info/desc
+#: C/favorites-set.page:22
+msgid "Pick favorites from <app>Photos</app>."
+msgstr "Вибір улюблених знімків у <app>Світлинах</app>."
+
+#. (itstool) path: page/title
+#: C/favorites-set.page:25
+msgid "Tag your favorites"
+msgstr "Позначення ваших улюблених фотографій"
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:27
+msgid ""
+"Photos or albums can be marked as favorites from the <gui style=\"tab"
+"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+msgstr ""
+"Фотографії або альбоми можна позначити як улюблені за допомогою вкладок <gui"
+" style=\"tab"
+"\">Нещодавні</gui> або <gui style=\"tab\">Альбоми</gui>."
+
+#. (itstool) path: steps/title
+#: C/favorites-set.page:31
+msgid "To label favorite items:"
+msgstr "Щоб позначити записи як улюблені, виконайте такі дії:"
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:33
+msgid ""
+"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"whether you want to mark an album or a photo as a favorite."
+msgstr ""
+"Виберіть вкладку <gui>Альбоми</gui> або <gui>Нещодавні</gui>, залежно від"
+" того, що ви хочете позначити як улюблене — альбом чи фотографію."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:37
+msgid "Switch on the selection mode."
+msgstr "Перемкніть програму у режим вибору."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:40
+msgid "Select all the items you want to favorite."
+msgstr "Позначте усі записи, які ви вважаєте улюбленими."
+
+#. (itstool) path: item/p
+#: C/favorites-set.page:43
+msgid ""
+"To finish, select the button with the picture of a star from the toolbar at "
+"the bottom."
+msgstr ""
+"На завершення, натисніть кнопку із зображенням зірки на панелі інструментів у"
+" нижній частині вікна програми."
+
+#. (itstool) path: page/p
+#: C/favorites-set.page:48
+msgid "Your favorite items can now be found in the <gui>Favorites</gui> tab."
+msgstr ""
+"Після цього ваші улюблені записи мають з'явитися на вкладці <gui>Улюблене<"
+"/gui>."
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Photos"
+msgstr "Світлини"
+
+#. (itstool) path: info/desc
+#: C/index.page:12
+msgid "<app>Photos</app> is a personalised photo manager tool from GNOME."
+msgstr ""
+"<app>Світлини</app> — персоналізована програма для керування фотографіями з"
+" GNOME."
+
+#. (itstool) path: page/title
+#: C/index.page:16
+msgid "<_:media-1/> Photos"
+msgstr "<_:media-1/> Світлини"
+
+#. (itstool) path: page/p
+#: C/index.page:21
+msgid ""
+"<app>Photos</app> can be used to organise and manage your images in an "
+"engaging and personalized manner. In addition to creating albums out of "
+"images on your computer, you can integrate your Facebook and Flickr albums "
+"with <app>Photos</app>. You can also set photos you like as your desktop "
+"wallpaper, or easily bookmark them as favorites."
+msgstr ""
+"<app>Світлинами</app> можна скористатися для упорядковування та керування"
+" вашими зображеннями у привабливий і персоналізований спосіб. Окрім створення"
+" альбомів із зображень, які зберігаються на вашому комп'ютері, ви можете"
+" інтегрувати зі <app>Світлинами</app> ваші альбоми на Facebook та Flickr. Ви"
+" також можете зробити фотографії, які вам подобаються, зображенням тла"
+" стільниці або позначити їх як улюблені."
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "Ця робота розповсюджується за умов дотримання <_:link-1/>."
+
+#. (itstool) path: info/desc
+#: C/view-album.page:21
+msgid "Open a photo from your albums."
+msgstr "Відкриття фотографії з вашого альбому."
+
+#. (itstool) path: page/title
+#: C/view-album.page:24
+msgid "View photos from an album"
+msgstr "Перегляд фотографій з альбому"
+
+#. (itstool) path: page/p
+#: C/view-album.page:25
+msgid "To open a photo located in a specific album:"
+msgstr ""
+"Щоб відкрити фотографію, яка зберігається у певному альбомі, виконайте такі"
+" дії:"
+
+#. (itstool) path: item/p
+#: C/view-album.page:29
+msgid "Select the <gui style=\"tab\">Albums</gui> tab."
+msgstr "Виберіть вкладку <gui style=\"tab\">Альбоми</gui>."
+
+#. (itstool) path: item/p
+#: C/view-album.page:32
+msgid "Select the album which contains the photo."
+msgstr "Виберіть альбом, у якому зберігається фотографія."
+
+#. (itstool) path: item/p
+#: C/view-album.page:35
+msgid ""
+"You will see a grid of photos from the album you selected. Select a photo "
+"from the grid to open it."
+msgstr ""
+"Ви побачите таблицю фотографій з вибраного вами альбому. Виберіть фотографію"
+" з таблиці, щоб відкрити її."
+
+#. (itstool) path: info/desc
+#: C/view-favorites.page:21
+msgid "Open your favorite photos."
+msgstr "Відкриття ваших улюблених фотографій."
+
+#. (itstool) path: page/title
+#: C/view-favorites.page:24
+msgid "View photos marked as favorites."
+msgstr "Перегляд фотографій, які позначено як улюблені."
+
+#. (itstool) path: page/p
+#: C/view-favorites.page:26
+msgid ""
+"Your <link xref=\"favorites\">favorite</link> photos are located in the "
+"<gui>Favorites</gui> tab."
+msgstr ""
+"Список ваших <link xref=\"favorites\">улюблених фотографій</link> буде"
+" показано на вкладці <gui>Улюблене</gui>."
+
+#. (itstool) path: steps/title
+#: C/view-favorites.page:30
+msgid "To open a photo tagged as a favorite:"
+msgstr ""
+"Щоб відкрити фотографію, яку позначено як улюблену, виконайте такі дії:"
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:32
+msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
+msgstr "Виберіть вкладку <gui style=\"tab\">Улюблене</gui>."
+
+#. (itstool) path: item/p
+#: C/view-favorites.page:35
+msgid ""
+"Select photo you want to open, or use the arrow keys to navigate to the "
+"photo and press <key>Enter</key>."
+msgstr ""
+"Виберіть фотографію, яку ви хочете відкрити або скористайтеся клавішами зі"
+" стрілками, щоб перевести позначення на фотографію, і натисніть клавішу <key"
+">Enter</key>."
+
+#. (itstool) path: credit/name
+#: C/view-photos.page:10
+msgid "Rashi Aswani"
+msgstr "Rashi Aswani"
+
+#. (itstool) path: info/desc
+#: C/view-photos.page:16
+msgid "Open your recent photos."
+msgstr "Відкриття нещодавніх фотографій"
+
+#. (itstool) path: page/title
+#: C/view-photos.page:19
+msgid "View recent photos"
+msgstr "Перегляд нещодавніх фотографій"
+
+#. (itstool) path: page/p
+#: C/view-photos.page:21
+msgid ""
+"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
+"and from online collections. You can also add other locations, even cloud-"
+"based collections such as Flickr or Facebook photographs, through <app>GNOME "
+"Online Accounts</app>."
+msgstr ""
+"На вкладці <gui style=\"tab\">Нещодавні</gui> буде показано фотографії із"
+" місць у локальній файловій системі, зокрема каталогів <file>~/Завантаження<"
+"/file>, <file>~/Картинки</file> та збірок фотографій в інтернеті. Ви також"
+" можете додати інші місця, навіть збірки у «хмарах», зокрема фотографії"
+" Flickr або Facebook за допомогою програми <app>Мережеві облікові записи"
+" GNOME</app>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:27
+msgid "To add other local file system locations:"
+msgstr ""
+"Щоб додати інші місця у локальній файловій системі, виконайте такі дії:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:31
+msgid "Go to <guiseq><gui>Settings</gui><gui>Search</gui></guiseq>."
+msgstr ""
+"Скористайтеся пунктом меню <guiseq><gui>Параметри</gui><gui>Пошук</gui><"
+"/guiseq>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:34
+msgid ""
+"Click on the gear button on the bottom right. You can select the locations "
+"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+msgstr ""
+"Натисніть кнопку із зображенням шестерні у нижній правій частині вікна. Тепер"
+" ви можете вибрати місця, які буде показано на вкладці <gui style=\"tab\""
+">Нещодавні</gui>."
+
+#. (itstool) path: page/p
+#: C/view-photos.page:40
+msgid "To view recent photos:"
+msgstr "Щоб переглянути нещодавні фотографії, виконайте такі дії:"
+
+#. (itstool) path: item/p
+#: C/view-photos.page:43
+msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+msgstr "Виберіть вкладку <gui style=\"tab\">Нещодавні</gui>."
+
+#. (itstool) path: item/p
+#: C/view-photos.page:46
+msgid "You will see a grid of photos. Select a photo from the grid to open it."
+msgstr ""
+"Ви побачите таблицю фотографій. Виберіть фотографію з таблиці, щоб відкрити"
+" її."
+
+#. (itstool) path: info/desc
+#: C/view.page:21
+msgid "Open a photo for viewing."
+msgstr "Відкриття фотографії для перегляду."
+
+#. (itstool) path: page/title
+#: C/view.page:24
+msgid "View images"
+msgstr "Перегляд зображень"
+
+#. (itstool) path: page/p
+#: C/view.page:26
+msgid ""
+"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
+"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
+"a favourite can be found in the <gui>Favorites</gui> tab."
+msgstr ""
+"Після відкриття вікна <app>Світлин</app> ви побачите відкритою вкладку <gui"
+">Нещодавні</gui>. На вкладці <gui>Нещодавні</gui> буде наведено список"
+" зображень з вашого комп'ютера. На вкладці <gui>Альбоми</gui> ви зможете"
+" бачити ваші фотоальбоми, а усі фотографії, які було позначено як улюблені,"
+" буде показано на вкладці <gui>Улюблене</gui>."
