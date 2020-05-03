@@ -1013,6 +1013,7 @@ photos_operation_insta_curve_prepare (GeglOperation *operation)
 
     case PHOTOS_OPERATION_INSTA_PRESET_NONE:
     case PHOTOS_OPERATION_INSTA_PRESET_HEFE:
+    case PHOTOS_OPERATION_INSTA_PRESET_CLARENDON:
     default:
       g_assert_not_reached ();
     }
