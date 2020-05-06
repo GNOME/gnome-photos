@@ -78,7 +78,6 @@ photos_operation_insta_clarendon_process (GeglOperation *operation,
       const uint r3 = r2 * r;
       const ulong r4 = r3 * r;
 
-      //option with degrees 4, 1
       int r_out = 18.37f - 1.05f * r - 0.0276f * g + 0.03275f * r2 - 0.001056f * r * g - 0.000152f * r3 + 2.006e-6f *r2 * g + 2.091e-7f * r4 + 9.682e-9f * r3 * g;
       int g_out = 6.87f - 0.1453 * g + 0.02435 * g2 - 0.0001355 * g3 + 2.267e-7 * g4;
       int b_out = 13.3f + 0.4149f * b - 0.08369f * g + 0.01699f * b2 - 0.001413f * b * g - 9.235e-5f * b3 + 1.239e-5f *b2 * g + 1.334e-7f * b4 - 2.221e-8f * b3 * g;
