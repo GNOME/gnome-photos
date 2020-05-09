@@ -103,6 +103,7 @@
             "sources": [
                 {
                     "type": "git",
+                    "branch": "stable-0.2.x",
                     "url": "https://gitlab.gnome.org/GNOME/libgfbgraph.git"
                 }
             ]
