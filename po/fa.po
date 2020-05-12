@@ -1,15 +1,15 @@
 # Persian translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Arash Mousavi <mousavi.arash@gmail.com>, 2013, 2014, 2015, 2016, 2017.
-# Danial Behzadi <dani.behzi@ubuntu.com>, 2014, 2018, 2019.
+# Arash Mousavi <mousavi.arash@gmail.com>, 2013-2017.
+# Danial Behzadi <dani.behzi@ubuntu.com>, 2014, 2018-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-08-20 15:13+0000\n"
-"PO-Revision-Date: 2019-09-24 14:04+0000\n"
+"POT-Creation-Date: 2020-03-30 16:41+0000\n"
+"PO-Revision-Date: 2020-05-12 14:38+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -17,28 +17,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.3\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3040 src/photos-embed.c:825
-#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
+#: src/photos-application.c:3040 src/photos-embed.c:825 src/photos-main-window.c:437
+#: src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "عکس‌ها"
 
 #: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
-msgstr "دسترسی، مدیریت و هم‌رسانی تصاویرتان در گنوم"
+msgstr "دسترسی، مدیریت و هم‌رسانی عکس‌هایتان در گنوم"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"Access, organize and share your photos on GNOME. A simple and elegant "
-"replacement for using a file manager to deal with photos. Enhance, crop and "
-"edit in a snap. Seamless cloud integration is offered through GNOME Online "
-"Accounts."
+"Access, organize and share your photos on GNOME. A simple and elegant replacement "
+"for using a file manager to deal with photos. Enhance, crop and edit in a snap. "
+"Seamless cloud integration is offered through GNOME Online Accounts."
 msgstr ""
-"دسترسی، مرتّب‌سازی و هم‌رسانی عکس‌هایتان روی گنوم. جایگزین ساده و شیک استفاده از "
-"مدیر پرونده برای کار با عکس‌ها. بهبود، برش و ویرایش در یک چشم به هم زدن. "
-"یکپارچه‌سازی ابری از طریق حساب‌های برخط گنوم."
+"دسترسی، مرتّب‌سازی و هم‌رسانی عکس‌هایتان روی گنوم. جایگزین ساده و شیک استفاده از مدیر "
+"پرونده برای کار با عکس‌ها. بهبود، برش و ویرایش در یک چشم به هم زدن. یکپارچه‌سازی ابری "
+"از طریق حساب‌های برخط گنوم."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
 msgid "You can:"
@@ -66,7 +65,7 @@ msgstr "تنظیم عکس‌ها به‌عنوان پس‌زمینهٔ میزک�
 
 #: data/org.gnome.Photos.appdata.xml.in:24
 msgid "Print photos"
-msgstr "چاپ تصاویر"
+msgstr "چاپ عکس‌ها"
 
 #: data/org.gnome.Photos.appdata.xml.in:25
 msgid "Select favorites"
@@ -74,8 +73,8 @@ msgstr "گزینش برگزیده‌ها"
 
 #: data/org.gnome.Photos.appdata.xml.in:26
 msgid ""
-"Easily edit your pictures in the app, or send to a full featured editor for "
-"more advanced changes"
+"Easily edit your pictures in the app, or send to a full featured editor for more "
+"advanced changes"
 msgstr ""
 "ویرایش سادهٔ عکس‌هایتان در کاره، یا فرستادن به یک ویرایشگر پرویژگی برای تغییرات "
 "پیش‌رفته‌تر"
@@ -86,12 +85,12 @@ msgstr "پروژه گنوم"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
-msgstr "به تصاویر دسترسی داشته، مرتب و هم‌رسانی کنید"
+msgstr "به عکس‌ها دسترسی داشته، مرتب و هم‌رسانی کنید"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
 msgid "Photos;Pictures;"
-msgstr "عکسها;تصاویر;عکس;تصویر;Photos;Pictures;"
+msgstr "عکس;تصاویر;تصویر;Photos;Pictures;"
 
 #: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
@@ -341,115 +340,120 @@ msgstr "نمایش راهنما"
 
 #: src/photos-help-overlay.ui:43
 msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "میان‌برهای صفحه‌کلید"
+
+#: src/photos-help-overlay.ui:50
+msgctxt "shortcut window"
 msgid "Quit"
 msgstr "خروج"
 
-#: src/photos-help-overlay.ui:52
+#: src/photos-help-overlay.ui:59
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "ناوبری"
 
-#: src/photos-help-overlay.ui:56
-msgctxt "shortcut window"
-msgid "Next photo"
-msgstr "تصویر بعدی"
-
 #: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
-msgid "Previous photo"
-msgstr "تصویر قبلی"
+msgid "Next photo"
+msgstr "عکس بعدی"
 
-#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
+#: src/photos-help-overlay.ui:70
+msgctxt "shortcut window"
+msgid "Previous photo"
+msgstr "عکس پیشین"
+
+#: src/photos-help-overlay.ui:77 src/photos-help-overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "رفتن به عقب"
 
-#: src/photos-help-overlay.ui:88
+#: src/photos-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "نمای کلی"
 
-#: src/photos-help-overlay.ui:92
+#: src/photos-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "جست‌وجو"
 
-#: src/photos-help-overlay.ui:99
+#: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "گزینش همه"
 
-#: src/photos-help-overlay.ui:106
-msgctxt "shortcut window"
-msgid "Export selected photos"
-msgstr "برون‌ریزی عکس‌های گزیده"
-
 #: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
-msgid "Print selected photos"
-msgstr "چاپ تصاویر گزیده"
+msgid "Export selected photo"
+msgstr "برون‌ریزی عکس‌های گزیده"
 
 #: src/photos-help-overlay.ui:120
+msgctxt "shortcut window"
+msgid "Print selected photo"
+msgstr "چاپ عکس‌های گزیده"
+
+#: src/photos-help-overlay.ui:127
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "حذف عکس‌های گزیده"
 
-#: src/photos-help-overlay.ui:129
+#: src/photos-help-overlay.ui:136
 msgctxt "shortcut window"
 msgid "Photo view"
-msgstr "نما تصویری"
+msgstr "نمای عکس"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "ویرایش"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "برون‌ریزی"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "چاپ"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "بزرگ‌نمایی به داخل"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "بزرگ‌نمایی به خارج"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "بهترین اندازه"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "حذف"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "فهرست کنش"
 
-#: src/photos-help-overlay.ui:189
+#: src/photos-help-overlay.ui:196
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "تمام‌صفحه"
 
-#: src/photos-help-overlay.ui:198
+#: src/photos-help-overlay.ui:205
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "نمای ویرایش"
 
-#: src/photos-help-overlay.ui:202
+#: src/photos-help-overlay.ui:209
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "لغو"
@@ -1131,15 +1135,15 @@ msgstr "ناتوان در واکشی فهرست عکس‌ها"
 #~ msgstr "درحال بارگیری..."
 
 #~ msgid ""
-#~ "<li>View recent local and online photos</li> <li>Access your Flickr "
-#~ "content</li> <li>Send photos to remote DLNA renderers</li> <li>Set as "
-#~ "background</li> <li>Print photos</li> <li>Select favorites</li> <li>Allow "
-#~ "opening full featured editor for more advanced changes</li>"
+#~ "<li>View recent local and online photos</li> <li>Access your Flickr content</li> "
+#~ "<li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+#~ "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full featured "
+#~ "editor for more advanced changes</li>"
 #~ msgstr ""
-#~ "<li>نمایش عکس‌های تازه محلی و برخط</li> <li>دسترسی به محتویات حساب فلیکر "
-#~ "خود</li> <li>ارسال تصاویر به رندرکننده‌های DLNA</li> <li>تنظیم به‌عنوان "
-#~ "پس‌زمینه</li> <li>چاپ تصاویر</li> <li>انتخاب مورد علاقه‌ها</li> <li>اجازه "
-#~ "برای بازکردن یک ویرایشگر با امکانات بالاتر جهت ایجاد تغییرات پیشرفته‌تر</li>"
+#~ "<li>نمایش عکس‌های تازه محلی و برخط</li> <li>دسترسی به محتویات حساب فلیکر خود</li> "
+#~ "<li>ارسال تصاویر به رندرکننده‌های DLNA</li> <li>تنظیم به‌عنوان پس‌زمینه</li> "
+#~ "<li>چاپ تصاویر</li> <li>انتخاب مورد علاقه‌ها</li> <li>اجازه برای بازکردن یک "
+#~ "ویرایشگر با امکانات بالاتر جهت ایجاد تغییرات پیشرفته‌تر</li>"
 
 #~| msgid "Image Settings"
 #~ msgid "System Settings"
