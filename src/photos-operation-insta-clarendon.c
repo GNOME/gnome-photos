@@ -82,39 +82,9 @@ photos_operation_insta_clarendon_process (GeglOperation *operation,
       int g_out = 6.87f - 0.1453 * g + 0.02435 * g2 - 0.0001355 * g3 + 2.267e-7 * g4;
       int b_out = 13.3f + 0.4149f * b - 0.08369f * g + 0.01699f * b2 - 0.001413f * b * g - 9.235e-5f * b3 + 1.239e-5f *b2 * g + 1.334e-7f * b4 - 2.221e-8f * b3 * g;
 
-      if (r_out > 255)
-        {
-          r_out = 255;
-        }
-
-      if (g_out > 255)
-        {
-          g_out = 255;
-        }
-
-      if (b_out > 255)
-        {
-          b_out = 255;
-        }
-
-      if (r_out < 0)
-        {
-          r_out = 0;
-        }
-
-      if (g_out < 0)
-        {
-          g_out = 0;
-        }
-
-      if (b_out < 0)
-        {
-          b_out = 0;
-        }
-
-      out[0] = r_out;
-      out[1] = g_out;
-      out[2] = b_out;
+      out[0] = (guint8) CLAMP(r_out, 0, 255);
+      out[1] = (guint8) CLAMP(g_out, 0, 255);
+      out[2] = (guint8) CLAMP(b_out, 0, 255);
 
       in += 3;
       out += 3;
