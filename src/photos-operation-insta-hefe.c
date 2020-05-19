@@ -66,8 +66,6 @@ photos_operation_insta_hefe_attach (GeglOperation *operation)
 
   gegl_node_connect_to (self->vignette, "output", multiply, "aux");
   gegl_node_link_many (self->input, multiply, curve, self->output, NULL);
-
-  gegl_operation_meta_watch_nodes (operation, curve, multiply, self->vignette, NULL);
 }
 
 
