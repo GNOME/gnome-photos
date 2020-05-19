@@ -37,6 +37,8 @@ libgnome_photos_la_SOURCES = \
 	photos-operation-insta-hefe-curve.h \
 	photos-operation-insta-hefe-vignette.c \
 	photos-operation-insta-hefe-vignette.h \
+	photos-operation-insta-clarendon.c \
+	photos-operation-insta-clarendon.h \
 	photos-operation-jpg-guess-sizes.c \
 	photos-operation-jpg-guess-sizes.h \
 	photos-operation-png-guess-sizes.c \

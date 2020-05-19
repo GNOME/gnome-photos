@@ -11,6 +11,7 @@ sources = files(
   'photos-operation-insta-hefe.c',
   'photos-operation-insta-hefe-curve.c',
   'photos-operation-insta-hefe-vignette.c',
+  'photos-operation-insta-clarendon.c',
   'photos-operation-jpg-guess-sizes.c',
   'photos-operation-png-guess-sizes.c',
   'photos-operation-saturation.c',
