@@ -131,12 +131,10 @@ photos_operation_insta_filter_setup (PhotosOperationInstaFilter *self)
           GeglNode *source = GEGL_NODE (l->data);
 
           gegl_node_link (source, sink);
-          gegl_operation_meta_watch_node (operation, source);
         }
 
       node = GEGL_NODE (l->data);
       gegl_node_link (node, self->output);
-      gegl_operation_meta_watch_node (operation, node);
     }
 }
 
