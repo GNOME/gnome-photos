@@ -110,6 +110,13 @@ photos_operation_insta_filter_setup (PhotosOperationInstaFilter *self)
       self->nodes = g_list_prepend (self->nodes, node);
       break;
 
+    case PHOTOS_OPERATION_INSTA_PRESET_CLARENDON:
+      node = gegl_node_new_child (operation->node,
+                                  "operation", "photos:insta-clarendon",
+                                  NULL);
+      self->nodes = g_list_prepend (self->nodes, node);
+      break;
+
     default:
       break;
     }
