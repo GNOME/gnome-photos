@@ -353,6 +353,28 @@ photos_test_pipeline_insta_filter_brannan (PhotosTestPipelineFixture *fixture, g
 
 
 static void
+photos_test_pipeline_insta_filter_clarendon (PhotosTestPipelineFixture *fixture, gconstpointer user_data)
+{
+  g_autoptr (PhotosPipeline) pipeline = NULL;
+  const gchar *const filenames[] = { "photos-test-pipeline-edited-insta-filter-clarendon.xml", NULL };
+
+  photos_test_pipeline_pipeline_new_async (NULL, filenames, NULL, photos_test_pipeline_async, fixture);
+  g_main_loop_run (fixture->loop);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    pipeline = photos_pipeline_new_finish (fixture->res, &error);
+    g_assert_no_error (error);
+  }
+
+  photos_test_pipeline_check_insta_filter (pipeline,
+                                           PHOTOS_OPERATION_INSTA_PRESET_CLARENDON,
+                                           PHOTOS_OPERATION_INSTA_PRESET_TRENCIN);
+}
+
+
+static void
 photos_test_pipeline_insta_filter_gotham (PhotosTestPipelineFixture *fixture, gconstpointer user_data)
 {
   g_autoptr (PhotosPipeline) pipeline = NULL;
@@ -481,6 +503,28 @@ photos_test_pipeline_magic_filter_calistoga (PhotosTestPipelineFixture *fixture,
   photos_test_pipeline_check_insta_filter (pipeline,
                                            PHOTOS_OPERATION_INSTA_PRESET_CALISTOGA,
                                            PHOTOS_OPERATION_INSTA_PRESET_BRANNAN);
+}
+
+
+static void
+photos_test_pipeline_magic_filter_trencin (PhotosTestPipelineFixture *fixture, gconstpointer user_data)
+{
+  g_autoptr (PhotosPipeline) pipeline = NULL;
+  const gchar *const filenames[] = { "photos-test-pipeline-edited-magic-filter-trencin.xml", NULL };
+
+  photos_test_pipeline_pipeline_new_async (NULL, filenames, NULL, photos_test_pipeline_async, fixture);
+  g_main_loop_run (fixture->loop);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    pipeline = photos_pipeline_new_finish (fixture->res, &error);
+    g_assert_no_error (error);
+  }
+
+  photos_test_pipeline_check_insta_filter (pipeline,
+                                           PHOTOS_OPERATION_INSTA_PRESET_TRENCIN,
+                                           PHOTOS_OPERATION_INSTA_PRESET_CLARENDON);
 }
 
 
@@ -1817,6 +1861,13 @@ main (gint argc, gchar *argv[])
               photos_test_pipeline_insta_filter_brannan,
               photos_test_pipeline_teardown);
 
+  g_test_add ("/pipeline/new/insta-filter-clarendon",
+              PhotosTestPipelineFixture,
+              NULL,
+              photos_test_pipeline_setup,
+              photos_test_pipeline_insta_filter_clarendon,
+              photos_test_pipeline_teardown);
+
   g_test_add ("/pipeline/new/insta-filter-gotham",
               PhotosTestPipelineFixture,
               NULL,
@@ -1857,6 +1908,13 @@ main (gint argc, gchar *argv[])
               NULL,
               photos_test_pipeline_setup,
               photos_test_pipeline_magic_filter_calistoga,
+              photos_test_pipeline_teardown);
+
+  g_test_add ("/pipeline/new/magic-filter-trencin",
+              PhotosTestPipelineFixture,
+              NULL,
+              photos_test_pipeline_setup,
+              photos_test_pipeline_magic_filter_trencin,
               photos_test_pipeline_teardown);
 
   g_test_add ("/pipeline/new/magic-filter-mogadishu",
