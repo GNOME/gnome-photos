@@ -127,6 +127,7 @@
                              "-Dgtk_doc=false",
                              "-Dinstalled_tests=false",
                              "-Dintrospection=false",
+                             "-Doauth1=disabled",
                              "-Dvapi=false" ],
             "sources": [
                 {
