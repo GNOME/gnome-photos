@@ -109,17 +109,6 @@
             ]
         },
         {
-            "name": "liboauth",
-            "config-opts": [ "--enable-nss" ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "http://netix.dl.sourceforge.net/project/liboauth/liboauth-1.0.3.tar.gz",
-                    "sha256": "0df60157b052f0e774ade8a8bac59d6e8d4b464058cc55f9208d72e41156811f"
-                }
-            ]
-        },
-        {
             "name": "libgdata",
             "buildsystem": "meson",
             "config-opts": [ "-Dalways_build_tests=false",
@@ -192,6 +181,17 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/gexiv2.git"
+                }
+            ]
+        },
+        {
+            "name": "liboauth",
+            "config-opts": [ "--enable-nss" ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://netix.dl.sourceforge.net/project/liboauth/liboauth-1.0.3.tar.gz",
+                    "sha256": "0df60157b052f0e774ade8a8bac59d6e8d4b464058cc55f9208d72e41156811f"
                 }
             ]
         },
