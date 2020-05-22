@@ -1,5 +1,43 @@
-Overview of changes in 3.35.1
+Overview of changes in 3.37.2
 =============================
+
+* Drop the Autotools build system (!113)
+
+* Bugs fixed:
+ !118 flatpak: Fix the tracker and tracker-miners builds
+ !119 help-overlay: Add the shortcut for showing the help overlay itself
+ !120 help: Update the application icon
+ !121 application: Support zooming using the keyboard's numeric keypad keys
+ !122 flatpak: Sandbox GSettings use by dropping the dconf permissions
+ !123 CI: Use the new template
+ !124 flatpak: Fix the grilo-plugins build
+ !126 test-gegl: Unbreak /gegl/buffer/zoom/in* with Babl 0.1.67
+ !127 appdata: Add release notes for 3.34.0
+ !128 base-item: Use GDateTime instead of deprecated GTimeVal
+ #143 help: No more 'Recent' tab, replaced by 'Photos' tab
+ #149 Fix the build with GEGL 0.4.23
+
+* Updated translations:
+ Basque
+ Catalan
+ Simplified Chinese
+ Traditional Chinese (Taiwan)
+ English (British)
+ French
+ Galician
+ Hebrew
+ Indonesian
+ Japanese
+ Malay
+ Persian
+ Portuguese (Brazilian)
+ Punjabi
+ Romanian
+ Slovak
+ Spanish
+ Swedish
+ Turkish
+ Ukrainian
 
 
 Overview of changes in 3.33.91
