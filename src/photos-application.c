@@ -36,7 +36,6 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <grilo.h>
-#include <libtracker-control/tracker-control.h>
 
 #include "photos-application.h"
 #include "photos-base-item.h"
@@ -195,7 +194,7 @@ struct _PhotosApplicationImportData
   GFile *import_sub_dir;
   GList *files;
   PhotosBaseItem *collection;
-  TrackerMinerManager *manager;
+  void *manager;  /* FIXME */
   gchar *collection_urn;
   gint64 ctime_latest;
 };
@@ -248,7 +247,7 @@ photos_application_create_data_free (PhotosApplicationCreateData *data)
 
 static PhotosApplicationImportData *
 photos_application_import_data_new (PhotosApplication *application,
-                                    TrackerMinerManager *manager,
+                                    void *manager,
                                     GList *files,
                                     gint64 ctime_latest)
 {
@@ -1117,10 +1116,11 @@ photos_application_import_index_file (GObject *source_object, GAsyncResult *res,
 {
   PhotosApplication *self;
   g_autoptr (GFile) file = G_FILE (user_data);
-  TrackerMinerManager *manager = TRACKER_MINER_MANAGER (source_object);
+  /*TrackerMinerManager *manager = TRACKER_MINER_MANAGER (source_object);*/
 
   self = PHOTOS_APPLICATION (g_application_get_default ());
 
+#if 0
   {
     g_autoptr (GError) error = NULL;
 
@@ -1132,6 +1132,7 @@ photos_application_import_index_file (GObject *source_object, GAsyncResult *res,
         g_warning ("Unable to index %s: %s", uri, error->message);
       }
   }
+#endif
 
   g_application_unmark_busy (G_APPLICATION (self));
   g_application_release (G_APPLICATION (self));
@@ -1323,7 +1324,6 @@ photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, 
   PhotosApplication *self = data->application;
   g_autoptr (GFile) destination = NULL;
   GFile *source = G_FILE (source_object);
-  TrackerMinerManager *manager = data->manager;
 
   {
     g_autoptr (GError) error = NULL;
@@ -1364,11 +1364,13 @@ photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, 
 
       g_application_hold (G_APPLICATION (self));
       g_application_mark_busy (G_APPLICATION (self));
+#if 0
       tracker_miner_manager_index_file_for_process_async (manager,
                                                           destination,
                                                           NULL,
                                                           photos_application_import_index_file,
                                                           g_object_ref (destination));
+#endif
     }
 
  out:
@@ -1519,7 +1521,6 @@ photos_application_import (PhotosApplication *self)
   GtkWidget *dialog;
   g_autoptr (PhotosApplicationImportData) data = NULL;
   PhotosSource *source;
-  TrackerMinerManager *manager = NULL; /* TODO: use g_autoptr */
   gint64 ctime_latest = -1;
 
   source = PHOTOS_SOURCE (photos_base_manager_get_active_object (self->state->src_mngr));
@@ -1536,13 +1537,9 @@ photos_application_import (PhotosApplication *self)
   {
     g_autoptr (GError) error = NULL;
 
-    manager = tracker_miner_manager_new_full (FALSE, &error);
-    if (error != NULL)
-      {
-        g_warning ("Unable to create a TrackerMinerManager, importing from attached devices won't work: %s",
-                   error->message);
-        goto out;
-      }
+    g_warning ("Unable to create a TrackerMinerManager, importing from attached devices won't work: %s",
+               error->message);
+    goto out;
   }
 
   for (l = selection; l != NULL; l = l->next)
@@ -1572,14 +1569,13 @@ photos_application_import (PhotosApplication *self)
   dialog = photos_import_dialog_new (GTK_WINDOW (self->main_window), ctime_latest);
   gtk_widget_show_all (dialog);
 
-  data = photos_application_import_data_new (self, manager, files, ctime_latest);
+  data = photos_application_import_data_new (self, NULL, files, ctime_latest);
   g_signal_connect (dialog,
                     "response",
                     G_CALLBACK (photos_application_import_response),
                     g_steal_pointer (&data));
 
  out:
-  g_clear_object (&manager);
   g_list_free_full (files, g_object_unref);
 }
 
