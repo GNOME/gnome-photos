@@ -24,7 +24,6 @@
 #include "config.h"
 
 #include <gio/gio.h>
-#include <libtracker-control/tracker-control.h>
 
 #include "photos-base-manager.h"
 #include "photos-debug.h"
@@ -45,7 +44,6 @@ struct _PhotosTrackerImportController
   PhotosBaseManager *item_mngr;
   PhotosBaseManager *src_mngr;
   PhotosOffsetController *offset_cntrlr;
-  TrackerMinerManager *manager;
 };
 
 
@@ -76,22 +74,11 @@ static void
 photos_tracker_import_controller_index (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   g_autoptr (GFile) file = G_FILE (user_data);
-  TrackerMinerManager *manager = TRACKER_MINER_MANAGER (source_object);
 
-  {
-    g_autoptr (GError) error = NULL;
-
-    if (!tracker_miner_manager_index_file_for_process_finish (manager, res, &error))
-      {
-        if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-          {
             g_autofree gchar *uri = NULL;
 
             uri = g_file_get_uri (file);
-            g_warning ("Unable to index %s: %s", uri, error->message);
-          }
-      }
-  }
+            g_warning ("Unable to index %s", uri);
 }
 
 
@@ -180,6 +167,7 @@ photos_tracker_import_controller_next_files (GObject *source_object, GAsyncResul
                 guint i;
                 guint n_elements;
 
+#if 0
                 mime_type = g_file_info_get_content_type (info);
                 n_elements = G_N_ELEMENTS (IMPORTABLE_MIME_TYPES);
                 for (i = 0; i < n_elements && !indexing; i++)
@@ -197,6 +185,7 @@ photos_tracker_import_controller_next_files (GObject *source_object, GAsyncResul
                   }
 
                 photos_debug (PHOTOS_DEBUG_IMPORT, "%s device file %s", indexing ? "Indexing" : "Skipped", uri);
+#endif
                 break;
               }
 
@@ -291,28 +280,6 @@ photos_tracker_import_controller_source_active_changed (PhotosTrackerImportContr
     {
       g_return_if_fail (g_queue_is_empty (self->pending_directories));
 
-      if (G_LIKELY (self->manager != NULL))
-        {
-          g_autoptr (GFile) root = NULL;
-          g_autofree gchar *uri = NULL;
-
-          root = g_mount_get_root (mount);
-          g_queue_push_tail (self->pending_directories, g_object_ref (root));
-
-          uri = g_file_get_uri (root);
-          photos_debug (PHOTOS_DEBUG_IMPORT, "Enumerating device directory %s", uri);
-
-          g_file_enumerate_children_async (root,
-                                           G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE","
-                                           G_FILE_ATTRIBUTE_STANDARD_NAME","
-                                           G_FILE_ATTRIBUTE_STANDARD_TYPE,
-                                           G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
-                                           G_PRIORITY_DEFAULT,
-                                           self->cancellable,
-                                           photos_tracker_import_controller_enumerate_children,
-                                           self);
-        }
-
       photos_tracker_controller_refresh_for_object (PHOTOS_TRACKER_CONTROLLER (self));
     }
 }
@@ -379,7 +346,6 @@ photos_tracker_import_controller_dispose (GObject *object)
 
   g_clear_object (&self->src_mngr);
   g_clear_object (&self->offset_cntrlr);
-  g_clear_object (&self->manager);
 
   G_OBJECT_CLASS (photos_tracker_import_controller_parent_class)->dispose (object);
 }
@@ -421,13 +387,7 @@ photos_tracker_import_controller_init (PhotosTrackerImportController *self)
 
   self->offset_cntrlr = photos_offset_import_controller_dup_singleton ();
 
-  {
-    g_autoptr (GError) error = NULL;
-
-    self->manager = tracker_miner_manager_new_full (FALSE, &error);
-    if (error != NULL)
-      g_warning ("Unable to create a TrackerMinerManager, indexing attached devices won't work: %s", error->message);
-  }
+  g_warning ("Unable to create a TrackerMinerManager, indexing attached devices won't work");
 }
 
 

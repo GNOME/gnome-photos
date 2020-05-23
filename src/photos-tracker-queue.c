@@ -290,7 +290,8 @@ photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellab
 
   g_assert_no_error (self->initialization_error);
 
-  self->connection = tracker_sparql_connection_get (cancellable, &self->initialization_error);
+  self->connection = tracker_sparql_connection_bus_new (
+    "org.freedesktop.Tracker3.Miner.Files", NULL, NULL, &self->initialization_error);
   if (G_UNLIKELY (self->initialization_error != NULL))
     goto out;
 

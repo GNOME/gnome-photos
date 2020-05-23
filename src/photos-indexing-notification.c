@@ -26,7 +26,6 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <libtracker-control/tracker-control.h>
 
 #include "photos-application.h"
 #include "photos-gom-miner.h"
@@ -41,7 +40,6 @@ struct _PhotosIndexingNotification
   GtkWidget *primary_label;
   GtkWidget *secondary_label;
   GtkWidget *spinner;
-  TrackerMinerManager *manager;
   gboolean closed;
   gboolean on_display;
   guint timeout_id;
@@ -181,6 +179,10 @@ photos_indexing_notification_check_notification (PhotosIndexingNotification *sel
   gboolean is_indexing_local = FALSE;
   gboolean is_indexing_remote = FALSE;
 
+  /* FIXME: since the tracker-control helper library is gone in tracker-3.0, we need a way to
+   * query the status of miners by calling the D-Bus API directly.
+   */
+#if 0
   running = tracker_miner_manager_get_running (self->manager);
   if (g_slist_find_custom (running, (gconstpointer) MINER_FILES, (GCompareFunc) g_strcmp0) != NULL)
     {
@@ -211,6 +213,7 @@ photos_indexing_notification_check_notification (PhotosIndexingNotification *sel
     photos_indexing_notification_destroy (self, FALSE);
 
   g_slist_free_full (running, g_free);
+#endif
 }
 
 
@@ -222,7 +225,6 @@ photos_indexing_notification_dispose (GObject *object)
   photos_indexing_notification_remove_timeout (self);
 
   g_clear_object (&self->ntfctn_mngr);
-  g_clear_object (&self->manager);
 
   G_OBJECT_CLASS (photos_indexing_notification_parent_class)->dispose (object);
 }
@@ -242,13 +244,17 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   {
     g_autoptr (GError) error = NULL;
 
+/* FIXME */
+#if 0
     self->manager = tracker_miner_manager_new_full (FALSE, &error);
     if (error != NULL)
       {
-        g_warning ("Unable to create a TrackerMinerManager, indexing progress notification won't work: %s",
-                   error->message);
+#endif
+        g_warning ("Unable to create a TrackerMinerManager, indexing progress notification won't work");
         return;
+#if 0
       }
+#endif
   }
 
   self->ntfctn_mngr = photos_notification_manager_dup_singleton ();
@@ -287,6 +293,7 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   gtk_container_add (GTK_CONTAINER (self), close);
   g_signal_connect_swapped (close, "clicked", G_CALLBACK (photos_indexing_notification_close_clicked), self);
 
+#if 0
   g_signal_connect_object (app,
                            "miners-changed",
                            G_CALLBACK (photos_indexing_notification_check_notification),
@@ -297,6 +304,7 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
                             "miner-progress",
                             G_CALLBACK (photos_indexing_notification_check_notification),
                             self);
+#endif
 }
 
 
