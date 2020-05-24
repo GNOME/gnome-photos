@@ -401,6 +401,7 @@ deps = common_deps + [
 ]
 
 cflags = [
+  '-DHANDY_USE_UNSTABLE_API',
   '-DPACKAGE_LIBEXEC_DIR="@0@"'.format(photos_libexecdir),
   '-DPACKAGE_LOCALE_DIR="@0@"'.format(photos_localedir),
 ]

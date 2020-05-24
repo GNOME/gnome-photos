@@ -27,9 +27,7 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-
-#define HANDY_USE_UNSTABLE_API
-#include <libhandy-0.0/handy.h>
+#include <handy.h>
 
 #include "photos-base-manager.h"
 #include "photos-dlna-renderers-manager.h"
@@ -733,7 +731,7 @@ photos_main_toolbar_init (PhotosMainToolbar *self)
   context = gtk_widget_get_style_context (self->selection_menu);
   gtk_style_context_add_class (context, "selection-menu");
 
-  self->stack_switcher = g_object_ref_sink (GTK_WIDGET (hdy_view_switcher_new ()));
+  self->stack_switcher = g_object_ref_sink (hdy_view_switcher_new ());
   hdy_view_switcher_set_policy (HDY_VIEW_SWITCHER (self->stack_switcher), HDY_VIEW_SWITCHER_POLICY_WIDE);
   /* Don't show buttons for untitled children. */
   gtk_widget_set_no_show_all (self->stack_switcher, TRUE);
