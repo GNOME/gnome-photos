@@ -395,6 +395,7 @@ deps = common_deps + [
   libgd_dep,
   libgdata_dep,
   libgfgraph_dep,
+  libhandy_dep,
   m_dep,
   tracker_control_dep,
   tracker_sparql_dep,

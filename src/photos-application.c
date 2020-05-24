@@ -36,6 +36,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <grilo.h>
+#include <handy.h>
 #include <libtracker-control/tracker-control.h>
 
 #include "photos-application.h"
@@ -2639,6 +2640,8 @@ photos_application_startup (GApplication *application)
   photos_debug (PHOTOS_DEBUG_APPLICATION, "PhotosApplication::startup");
 
   G_APPLICATION_CLASS (photos_application_parent_class)->startup (application);
+
+  hdy_init ();
 
   photos_gegl_init ();
 
