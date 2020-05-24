@@ -76,6 +76,24 @@
             ]
         },
         {
+            "name" : "libhandy",
+            "buildsystem" : "meson",
+            "config-opts" : [
+                "-Dintrospection=disabled",
+                "-Dtests=false",
+                "-Dexamples=false",
+                "-Dvapi=false",
+                "-Dglade_catalog=disabled"
+            ],
+            "cleanup" : [ "/include", "/lib/pkgconfig", "/bin" ],
+            "sources" : [
+                {
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/libhandy.git"
+                }
+            ]
+        },
+        {
             "name": "librest",
             "config-opts": [ "--disable-introspection" ],
             "sources": [
