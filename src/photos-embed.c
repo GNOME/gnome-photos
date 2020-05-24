@@ -802,6 +802,10 @@ photos_embed_init (PhotosEmbed *self)
   gboolean querying;
   const gchar *name;
 
+  GValue overview_icon = G_VALUE_INIT;
+  GValue collections_icon = G_VALUE_INIT;
+  GValue favorites_icon = G_VALUE_INIT;
+
   gtk_widget_init_template (GTK_WIDGET (self));
 
   app = g_application_get_default ();
@@ -825,6 +829,9 @@ photos_embed_init (PhotosEmbed *self)
   self->overview = photos_view_container_new (PHOTOS_WINDOW_MODE_OVERVIEW, _("Photos"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->overview));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->overview, "overview", name);
+  g_value_init (&overview_icon, G_TYPE_STRING);
+  g_value_set_string(&overview_icon, "camera-photo-symbolic");
+  gtk_container_child_set_property(GTK_CONTAINER(self->stack), self->overview, "icon-name", &overview_icon);
 
   self->collection_view = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTION_VIEW, _("Collection View"));
   gtk_stack_add_named (GTK_STACK (self->stack), self->collection_view, "collection-view");
@@ -832,10 +839,16 @@ photos_embed_init (PhotosEmbed *self)
   self->collections = photos_view_container_new (PHOTOS_WINDOW_MODE_COLLECTIONS, _("Albums"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->collections));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->collections, "collections", name);
+  g_value_init (&collections_icon, G_TYPE_STRING);
+  g_value_set_string(&collections_icon, "emblem-photos-symbolic");
+  gtk_container_child_set_property(GTK_CONTAINER(self->stack), self->collections, "icon-name", &collections_icon);
 
   self->favorites = photos_view_container_new (PHOTOS_WINDOW_MODE_FAVORITES, _("Favorites"));
   name = photos_view_container_get_name (PHOTOS_VIEW_CONTAINER (self->favorites));
   gtk_stack_add_titled (GTK_STACK (self->stack), self->favorites, "favorites", name);
+  g_value_init (&favorites_icon, G_TYPE_STRING);
+  g_value_set_string(&favorites_icon, "starred-symbolic");
+  gtk_container_child_set_property(GTK_CONTAINER(self->stack), self->favorites, "icon-name", &favorites_icon);
 
   self->import = photos_view_container_new (PHOTOS_WINDOW_MODE_IMPORT, _("Import"));
   gtk_stack_add_named (GTK_STACK (self->stack), self->import, "import");
