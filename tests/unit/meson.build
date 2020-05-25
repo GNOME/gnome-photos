@@ -22,6 +22,18 @@ tests = {
 
 test_data = [
   'photos-test-pipeline-edited-00.xml',
+  'photos-test-pipeline-edited-insta-filter-none.xml',
+  'photos-test-pipeline-edited-insta-filter-1977.xml',
+  'photos-test-pipeline-edited-insta-filter-brannan.xml',
+  'photos-test-pipeline-edited-insta-filter-gotham.xml',
+  'photos-test-pipeline-edited-insta-filter-hefe.xml',
+  'photos-test-pipeline-edited-insta-filter-nashville.xml',
+  'photos-test-pipeline-edited-magic-filter-none.xml',
+  'photos-test-pipeline-edited-magic-filter-1947.xml',
+  'photos-test-pipeline-edited-magic-filter-calistoga.xml',
+  'photos-test-pipeline-edited-magic-filter-caap.xml',
+  'photos-test-pipeline-edited-magic-filter-mogadishu.xml',
+  'photos-test-pipeline-edited-magic-filter-hometown.xml',
   'photos-test-pipeline-not-edited-00.xml',
 ]
 
