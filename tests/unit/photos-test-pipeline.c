@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2018 – 2019 Red Hat, Inc.
+ * Copyright © 2018 – 2020 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 
 #include "photos-debug.h"
 #include "photos-gegl.h"
+#include "photos-operation-insta-common.h"
 #include "photos-pipeline.h"
 
 
@@ -216,6 +217,49 @@ photos_test_pipeline_check_full (PhotosPipeline *pipeline, GeglNode *parent_expe
 
 
 static void
+photos_test_pipeline_check_magic_filter (PhotosPipeline *pipeline,
+                                         PhotosOperationInstaPreset preset_expected,
+                                         PhotosOperationInstaPreset preset_compat_expected)
+{
+  g_autoptr (GSList) children = NULL;
+  GeglNode *graph;
+  GeglNode *input;
+  GeglNode *output;
+  GeglNode *previous;
+  const gchar *operation;
+  g_autofree gchar *previous_pad_name = NULL;
+  gint preset;
+  guint length;
+
+  g_assert_true (PHOTOS_IS_PIPELINE (pipeline));
+
+  graph = photos_pipeline_get_graph (pipeline);
+
+  children = gegl_node_get_children (graph);
+  length = g_slist_length (children);
+  g_assert_cmpuint (length, ==, 3);
+
+  input = gegl_node_get_input_proxy (graph, "input");
+  output = gegl_node_get_output_proxy (graph, "output");
+
+  previous = gegl_node_get_producer (output, "input", &previous_pad_name);
+  g_assert_true (previous != input);
+  g_assert_cmpstr (previous_pad_name, ==, "output");
+
+  operation = gegl_node_get_operation (GEGL_NODE (previous));
+  g_assert_cmpstr (operation, ==, "photos:magic-filter");
+
+  gegl_node_get (previous, "preset", &preset, NULL);
+  g_assert_cmpint (preset, ==, preset_expected);
+  g_assert_cmpint (preset, ==, preset_compat_expected);
+
+  previous = gegl_node_get_producer (previous, "input", &previous_pad_name);
+  g_assert_true (previous == input);
+  g_assert_cmpstr (previous_pad_name, ==, "output");
+}
+
+
+static void
 photos_test_pipeline_pipeline_new_async (GeglNode *parent,
                                          const gchar *const *filenames,
                                          GCancellable *cancellable,
@@ -239,6 +283,72 @@ photos_test_pipeline_pipeline_new_async (GeglNode *parent,
     }
 
   photos_pipeline_new_async (parent, (const gchar *const *) uris, cancellable, callback, user_data);
+}
+
+
+static void
+photos_test_pipeline_magic_filter_none (PhotosTestPipelineFixture *fixture, gconstpointer user_data)
+{
+  g_autoptr (PhotosPipeline) pipeline = NULL;
+  const gchar *const filenames[] = { "photos-test-pipeline-edited-magic-filter-none.xml", NULL };
+
+  photos_test_pipeline_pipeline_new_async (NULL, filenames, NULL, photos_test_pipeline_async, fixture);
+  g_main_loop_run (fixture->loop);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    pipeline = photos_pipeline_new_finish (fixture->res, &error);
+    g_assert_no_error (error);
+  }
+
+  photos_test_pipeline_check_magic_filter (pipeline,
+                                           PHOTOS_OPERATION_INSTA_PRESET_NONE,
+                                           PHOTOS_OPERATION_INSTA_PRESET_NONE);
+}
+
+
+static void
+photos_test_pipeline_magic_filter_1947 (PhotosTestPipelineFixture *fixture, gconstpointer user_data)
+{
+  g_autoptr (PhotosPipeline) pipeline = NULL;
+  const gchar *const filenames[] = { "photos-test-pipeline-edited-magic-filter-1947.xml", NULL };
+
+  photos_test_pipeline_pipeline_new_async (NULL, filenames, NULL, photos_test_pipeline_async, fixture);
+  g_main_loop_run (fixture->loop);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    pipeline = photos_pipeline_new_finish (fixture->res, &error);
+    g_assert_no_error (error);
+  }
+
+  photos_test_pipeline_check_magic_filter (pipeline,
+                                           PHOTOS_OPERATION_INSTA_PRESET_1947,
+                                           PHOTOS_OPERATION_INSTA_PRESET_1977);
+}
+
+
+static void
+photos_test_pipeline_magic_filter_calistoga (PhotosTestPipelineFixture *fixture, gconstpointer user_data)
+{
+  g_autoptr (PhotosPipeline) pipeline = NULL;
+  const gchar *const filenames[] = { "photos-test-pipeline-edited-magic-filter-calistoga.xml", NULL };
+
+  photos_test_pipeline_pipeline_new_async (NULL, filenames, NULL, photos_test_pipeline_async, fixture);
+  g_main_loop_run (fixture->loop);
+
+  {
+    g_autoptr (GError) error = NULL;
+
+    pipeline = photos_pipeline_new_finish (fixture->res, &error);
+    g_assert_no_error (error);
+  }
+
+  photos_test_pipeline_check_magic_filter (pipeline,
+                                           PHOTOS_OPERATION_INSTA_PRESET_CALISTOGA,
+                                           PHOTOS_OPERATION_INSTA_PRESET_BRANNAN);
 }
 
 
@@ -1487,6 +1597,27 @@ main (gint argc, gchar *argv[])
   photos_debug_init ();
   photos_gegl_init ();
   photos_gegl_ensure_builtins ();
+
+  g_test_add ("/pipeline/new/magic-filter-none",
+              PhotosTestPipelineFixture,
+              NULL,
+              photos_test_pipeline_setup,
+              photos_test_pipeline_magic_filter_none,
+              photos_test_pipeline_teardown);
+
+  g_test_add ("/pipeline/new/magic-filter-1947",
+              PhotosTestPipelineFixture,
+              NULL,
+              photos_test_pipeline_setup,
+              photos_test_pipeline_magic_filter_1947,
+              photos_test_pipeline_teardown);
+
+  g_test_add ("/pipeline/new/magic-filter-calistoga",
+              PhotosTestPipelineFixture,
+              NULL,
+              photos_test_pipeline_setup,
+              photos_test_pipeline_magic_filter_calistoga,
+              photos_test_pipeline_teardown);
 
   g_test_add ("/pipeline/new/no-parent-blank-uris-0",
               PhotosTestPipelineFixture,

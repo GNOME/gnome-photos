@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<gegl>
+  <node operation='photos:magic-filter'>
+      <params>
+        <param name='preset'>mogadishu</param>
+      </params>
+  </node>
+</gegl>
