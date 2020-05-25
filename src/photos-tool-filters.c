@@ -199,25 +199,31 @@ photos_tool_filters_init (PhotosToolFilters *self)
   gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
 
-  button = photos_tool_filter_button_new (group, _("Mogadishu"));
+  button = photos_tool_filter_button_new (group, _("Trencin"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
-  gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_MOGADISHU);
+  gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_TRENCIN);
   gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
   row++;
+
+  button = photos_tool_filter_button_new (group, _("Mogadishu"));
+  gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
+  gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_MOGADISHU);
+  gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
+  self->buttons = g_list_prepend (self->buttons, button);
 
   button = photos_tool_filter_button_new (group, _("Caap"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_CAAP);
-  gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
+  gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
+  row++;
 
   button = photos_tool_filter_button_new (group, _("Hometown"));
   gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "app.insta-current");
   gtk_actionable_set_action_target (GTK_ACTIONABLE (button), "n", (gint16) PHOTOS_OPERATION_INSTA_PRESET_HOMETOWN);
-  gtk_grid_attach (GTK_GRID (self->grid), button, 1, row, 1, 1);
+  gtk_grid_attach (GTK_GRID (self->grid), button, 0, row, 1, 1);
   self->buttons = g_list_prepend (self->buttons, button);
-  row++;
 
   self->buttons = g_list_reverse (self->buttons);
 }

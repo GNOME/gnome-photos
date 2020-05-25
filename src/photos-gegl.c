@@ -25,6 +25,7 @@
 
 #include "photos-debug.h"
 #include "photos-gegl.h"
+#include "photos-operation-insta-clarendon.h"
 #include "photos-operation-insta-curve.h"
 #include "photos-operation-insta-filter.h"
 #include "photos-operation-insta-hefe.h"
@@ -631,6 +632,7 @@ photos_gegl_ensure_builtins (void)
 
   if (g_once_init_enter (&once_init_value))
     {
+      g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CLARENDON);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_CURVE);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_FILTER);
       g_type_ensure (PHOTOS_TYPE_OPERATION_INSTA_HEFE);

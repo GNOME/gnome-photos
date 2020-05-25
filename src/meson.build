@@ -6,6 +6,7 @@ sources = files(
   'photos-gegl.c',
   'photos-glib.c',
   'photos-jpeg-count.c',
+  'photos-operation-insta-clarendon.c',
   'photos-operation-insta-curve.c',
   'photos-operation-insta-filter.c',
   'photos-operation-insta-hefe.c',
