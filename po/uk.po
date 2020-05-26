@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-03-30 16:41+0000\n"
-"PO-Revision-Date: 2020-03-30 19:43+0300\n"
+"POT-Creation-Date: 2020-05-26 16:37+0000\n"
+"PO-Revision-Date: 2020-05-26 19:53+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -84,7 +84,7 @@ msgstr ""
 "Без проблем редагувати ваші зображення у програмі або надсилати їх до "
 "повноцінного редактора для складнішого редагування"
 
-#: data/org.gnome.Photos.appdata.xml.in:74
+#: data/org.gnome.Photos.appdata.xml.in:81
 msgid "The GNOME Project"
 msgstr "Проєкт GNOME"
 
@@ -147,7 +147,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Альбом"
 
-#: src/photos-base-item.c:2840
+#: src/photos-base-item.c:2845
 msgid "Screenshots"
 msgstr "Знімки екрана"
 
@@ -348,7 +348,6 @@ msgid "Show help"
 msgstr "Показати довідку"
 
 #: src/photos-help-overlay.ui:43
-#| msgid "Keyboard Shortcuts"
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
 msgstr "Клавіатурні скорочення"
@@ -394,15 +393,11 @@ msgid "Select all"
 msgstr "Вибрати все"
 
 #: src/photos-help-overlay.ui:113
-#| msgctxt "shortcut window"
-#| msgid "Export selected photos"
 msgctxt "shortcut window"
 msgid "Export selected photo"
 msgstr "Експортувати вибрану фотографію"
 
 #: src/photos-help-overlay.ui:120
-#| msgctxt "shortcut window"
-#| msgid "Print selected photos"
 msgctxt "shortcut window"
 msgid "Print selected photo"
 msgstr "Надрукувати вибрану фотографію"
@@ -1036,18 +1031,22 @@ msgid "Calistoga"
 msgstr "Калістога"
 
 #: src/photos-tool-filters.c:202
+msgid "Trencin"
+msgstr "Тренчин"
+
+#: src/photos-tool-filters.c:209
 msgid "Mogadishu"
 msgstr "Могадішо"
 
-#: src/photos-tool-filters.c:209
+#: src/photos-tool-filters.c:215
 msgid "Caap"
 msgstr "Caap"
 
-#: src/photos-tool-filters.c:215
+#: src/photos-tool-filters.c:222
 msgid "Hometown"
 msgstr "Hometown"
 
-#: src/photos-tool-filters.c:233
+#: src/photos-tool-filters.c:239
 msgid "Filters"
 msgstr "Фільтри"
 
