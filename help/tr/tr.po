@@ -1,14 +1,13 @@
-# Swedish translation for gnome-photos.
-# Copyright © 2016 gnome-photos's COPYRIGHT HOLDER
+# Turkish translation for gnome-photos.
+# Copyright © 2020 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Sebastian Rasmussen <sebras@gmail.com>, 2016.
 # Sabri Ünal <libreajans@gmail.com>, 2020.
 # Emin Tufan Çetin <etcetin@gmail.com>, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2020-04-13 16:51+0000\n"
+"POT-Creation-Date: 2020-05-22 10:57+0000\n"
 "PO-Revision-Date: 2020-04-23 23:29+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
@@ -71,7 +70,7 @@ msgstr "Gözdelerinizi etiketleyin"
 #: C/favorites-set.page:27
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
-"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+"\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
 "Fotoğraflar veya albümler <gui style=\"tab\">Fotoğraflar</gui> ya da <gui "
 "style=\"tab\">Albümler</gui> sekmesinden gözde olarak işaretlenebilir."
@@ -84,7 +83,7 @@ msgstr "Gözde ögeleri etiketlemek için:"
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
 msgid ""
-"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
 "Albüm veya fotoğrafı gözde olarak imlemek için <gui>Albümler</gui> ya da "
@@ -196,7 +195,6 @@ msgstr ""
 msgid "Open your favorite photos."
 msgstr "Gözde fotoğraflarınızı açın."
 
-# Uyumlu olması için nokta kullanılmadı.
 #. (itstool) path: page/title
 #: C/view-favorites.page:24
 msgid "View photos marked as favorites."
@@ -308,8 +306,8 @@ msgstr "Fotoğrafları görüntüleme"
 #. (itstool) path: page/p
 #: C/view.page:26
 msgid ""
-"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
+"open. The <gui>Photos</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
 msgstr ""
