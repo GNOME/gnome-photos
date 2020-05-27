@@ -26,6 +26,8 @@
 
 #include "config.h"
 
+#include <math.h>
+
 #include <gdk/gdk.h>
 #include <glib.h>
 #include <tracker-sparql.h>
