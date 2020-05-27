@@ -7,7 +7,6 @@
     "tags": [ "nightly" ],
     "desktop-file-name-prefix": "(Nightly) ",
     "finish-args": [
-        "--env=TRACKER_SPARQL_BACKEND=bus",
         "--filesystem=xdg-download",
         "--filesystem=xdg-pictures",
         "--metadata=X-DConf=migrate-path=/org/gnome/photos/",
@@ -17,8 +16,8 @@
         "--socket=wayland",
         "--socket=x11",
         "--talk-name=org.freedesktop.FileManager1",
-        "--talk-name=org.freedesktop.Tracker1",
-        "--talk-name=org.freedesktop.Tracker1.Miner.Extract",
+        "--talk-name=org.freedesktop.Tracker3.Miner.Files",
+        "--talk-name=org.freedesktop.Tracker3.Miner.Extract",
         "--talk-name=com.intel.dleyna-renderer",
         "--talk-name=org.gnome.ControlCenter",
         "--talk-name=org.gnome.SettingsDaemon",
@@ -248,30 +247,6 @@
             ]
         },
         {
-            "name": "tracker",
-            "buildsystem": "meson",
-            "cleanup": [ "/bin", "/etc", "/lib/girepository-1.0", "/libexec", "/share/dbus-1", "/share/gir-1.0" ],
-            "config-opts": [ "-Dbash_completion=no", "-Ddocs=false", "-Dsystemd_user_services=no" ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/tracker.git",
-                    "branch": "tracker-2.3"
-                }
-            ]
-        },
-        {
-            "name": "intltool",
-            "cleanup": [ "*" ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz",
-                    "sha256": "67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd"
-                }
-            ]
-        },
-        {
             "name": "tracker-miners",
             "buildsystem": "meson",
             "cleanup": [ "/etc",
@@ -287,16 +262,16 @@
                          "/share/glib-2.0/schemas/org.freedesktop.Tracker.Writeback.gschema.xml" ],
             "config-opts": [ "-Dextract=false",
                              "-Dgeneric_media_extractor=none",
-                             "-Dminer_apps=false",
+                             "-Dman=false",
                              "-Dminer_fs=true",
                              "-Dminer_rss=false",
-                             "-Dsystemd_user_services=no",
+                             "-Dsystemd_user_services=false",
                              "-Dwriteback=false" ],
             "sources": [
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/tracker-miners.git",
-                    "branch": "tracker-miners-2.3"
+                    "branch": "master"
                 }
             ]
         },
@@ -308,7 +283,8 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/gnome-photos.git",
-                    "disable-shallow-clone": "true"
+                    "disable-shallow-clone": "true",
+                    "branch": "sam/tracker3"
                 }
             ]
         }
