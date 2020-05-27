@@ -81,7 +81,7 @@ photos_query_builder_inner_where (PhotosSearchContextState *state, gboolean glob
         }
     }
 
-  sparql = g_strdup_printf ("WHERE { %s %s }",
+  sparql = g_strdup_printf ("WHERE { ?urn nie:isStoredAs ?file . %s %s }",
                             srch_typ_mngr_where,
                             (item_mngr_where != NULL) ? item_mngr_where : "");
 
@@ -108,7 +108,7 @@ photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gi
     filter = photos_query_builder_filter (state, flags);
 
   sparql = g_strdup_printf ("WHERE {{"
-                            "    SELECT ?urn rdf:type (?urn) AS ?type %s %s GROUP BY (?urn)"
+                            "    SELECT ?urn ?file rdf:type (?urn) AS ?type %s %s GROUP BY (?urn)"
                             "  }"
                             "  %s %s"
                             "}",
@@ -148,18 +148,18 @@ photos_query_builder_query (PhotosSearchContextState *state,
     }
 
   sparql = g_strconcat ("SELECT ?urn "
-                        "nie:url (?urn) "
-                        "nfo:fileName (?urn) "
+                        "?file "
+                        "nfo:fileName (?file) "
                         "nie:mimeType (?urn) "
                         "nie:title (?urn) "
                         "tracker:coalesce (nco:fullname (?creator), nco:fullname (?publisher), '') "
-                        "tracker:coalesce (nfo:fileLastModified (?urn), nie:contentLastModified (?urn)) AS ?mtime "
+                        "tracker:coalesce (nfo:fileLastModified (?file), nie:contentLastModified (?urn)) AS ?mtime "
                         "nao:identifier (?urn) "
                         "rdf:type (?urn) "
-                        "nie:dataSource(?urn) "
+                        "nie:dataSource(?file) "
                         "( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite } ) "
                         "( EXISTS { ?urn nco:contributor ?contributor FILTER ( ?contributor != ?creator ) } ) "
-                        "tracker:coalesce(nfo:fileCreated (?urn), nie:contentCreated (?urn)) "
+                        "tracker:coalesce(nfo:fileCreated (?file), nie:contentCreated (?urn)) "
                         "nfo:width (?urn) "
                         "nfo:height (?urn) "
                         "nfo:equipment (?urn) "
