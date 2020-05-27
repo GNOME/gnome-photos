@@ -2632,16 +2632,6 @@ photos_application_startup (GApplication *application)
       g_warning ("Unable to load Grilo plugins: %s", error->message);
   }
 
-  if (grl_plugins_loaded)
-    {
-      {
-        g_autoptr (GError) error = NULL;
-
-        if (!grl_registry_activate_plugin_by_id (registry, "grl-flickr", &error))
-          g_warning ("Unable to activate Grilo's Flickr plugin: %s", error->message);
-      }
-    }
-
   self->create_window_cancellable = g_cancellable_new ();
   self->refresh_miner_ids = g_hash_table_new (g_direct_hash, g_direct_equal);
 
