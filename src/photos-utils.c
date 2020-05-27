@@ -659,19 +659,19 @@ photos_utils_draw_rectangle_handles (cairo_t *cr,
   cairo_save (cr);
 
   cairo_new_sub_path (cr);
-  cairo_arc (cr, x - offset, y - offset, radius, 0.0, 2.0 * M_PI);
+  cairo_arc (cr, x - offset, y - offset, radius, 0.0, 2.0 * G_PI);
   cairo_fill (cr);
 
   cairo_new_sub_path (cr);
-  cairo_arc (cr, x + width + offset, y - offset, radius, 0.0, 2.0 * M_PI);
+  cairo_arc (cr, x + width + offset, y - offset, radius, 0.0, 2.0 * G_PI);
   cairo_fill (cr);
 
   cairo_new_sub_path (cr);
-  cairo_arc (cr, x + width + offset, y + height + offset, radius, 0.0, 2.0 * M_PI);
+  cairo_arc (cr, x + width + offset, y + height + offset, radius, 0.0, 2.0 * G_PI);
   cairo_fill (cr);
 
   cairo_new_sub_path (cr);
-  cairo_arc (cr, x - offset, y + height + offset, radius, 0.0, 2.0 * M_PI);
+  cairo_arc (cr, x - offset, y + height + offset, radius, 0.0, 2.0 * G_PI);
   cairo_fill (cr);
 
   cairo_restore (cr);
