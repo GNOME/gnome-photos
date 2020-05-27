@@ -30,6 +30,7 @@
 #include <glib.h>
 #include <tracker-sparql.h>
 #include <libgd/gd.h>
+#include <math.h>
 
 #include "photos-application.h"
 #include "photos-device-item.h"
