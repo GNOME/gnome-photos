@@ -14,6 +14,7 @@ test_env.set('MALLOC_PERTURB_', '@0@'.format(random_number % 256))
 tests = {
   'photos-test-gegl': {},
   'photos-test-pipeline': {},
+  'photos-test-tracker-queries': {}
 }
 
 test_data = [
