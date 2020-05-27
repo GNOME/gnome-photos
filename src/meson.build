@@ -403,11 +403,27 @@ cflags = [
   '-DPACKAGE_LOCALE_DIR="@0@"'.format(photos_localedir),
 ]
 
+libgnome_photos_app = static_library(
+  meson.project_name(),
+  sources,
+  dependencies: deps,
+  c_args: cflags,
+  include_directories: top_inc,
+  install: true,
+  install_dir: photos_libdir,
+)
+
+libgnome_photos_app_dep = declare_dependency(link_with: libgnome_photos_app, dependencies: deps)
+
+sources = common_sources + files(
+  'photos-main.c',
+)
+
 executable(
   meson.project_name(),
   sources,
   include_directories: top_inc,
-  dependencies: deps,
+  dependencies: deps + [libgnome_photos_app_dep],
   c_args: cflags,
   install: true,
   install_dir: photos_bindir,
