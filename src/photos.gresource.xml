@@ -35,6 +35,10 @@
     <file alias="selection-toolbar.ui" preprocess="xml-stripblanks" compressed="true">photos-selection-toolbar.ui</file>
     <file alias="share-dialog.ui" preprocess="xml-stripblanks" compressed="true">photos-share-dialog.ui</file>
     <file alias="zoom-controls.ui" preprocess="xml-stripblanks" compressed="true">photos-zoom-controls.ui</file>
+    <file alias="all.sparql.template">queries/all.sparql.template</file>
+    <file alias="collections.sparql.template">queries/collections.sparql.template</file>
+    <file alias="favorite-photos.sparql.template">queries/favorite-photos.sparql.template</file>
+    <file alias="photos.sparql.template">queries/photos.sparql.template</file>
   </gresource>
 
   <gresource prefix="/org/gnome/Photos/gtk">

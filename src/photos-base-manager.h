@@ -24,6 +24,7 @@
 #define PHOTOS_BASE_MANAGER_H
 
 #include <glib-object.h>
+#include "photos-sparql-template.h"
 
 G_BEGIN_DECLS
 
@@ -46,6 +47,7 @@ struct _PhotosBaseManagerClass
   gchar         *(*get_where)              (PhotosBaseManager *self, gint flags);
   void           (*remove_object_by_id)    (PhotosBaseManager *self, const gchar *id);
   gboolean       (*set_active_object)      (PhotosBaseManager *self, GObject *object);
+  PhotosSparqlTemplate *(*get_sparql_template) (PhotosBaseManager *self, gint flags);
 
   /* signals */
   void           (*active_changed)         (PhotosBaseManager *self, GObject *object);
@@ -79,6 +81,8 @@ GObject            *photos_base_manager_get_previous_object      (PhotosBaseMana
 const gchar        *photos_base_manager_get_title                (PhotosBaseManager *self);
 
 gchar              *photos_base_manager_get_where                (PhotosBaseManager *self, gint flags);
+
+PhotosSparqlTemplate *photos_base_manager_get_sparql_template    (PhotosBaseManager *self, gint flags);
 
 void                photos_base_manager_process_new_objects      (PhotosBaseManager *self, GHashTable *new_objects);
 
