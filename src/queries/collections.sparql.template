@@ -1,0 +1,14 @@
+SELECT {{projection}}
+{
+    {
+        SELECT ?urn COUNT(?item) AS ?count
+        {
+            ?urn a nfo:DataContainer.
+            ?item a nmm:Photo; nie:isPartOf ?urn.
+        } GROUP BY ?urn
+    }
+    FILTER (?count > 0 && {{collections_default_filter}} && {{search_filter}})
+}
+GROUP BY ?urn
+{{order}}
+{{offset_limit}}

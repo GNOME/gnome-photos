@@ -24,6 +24,7 @@
 #define PHOTOS_SEARCH_TYPE_H
 
 #include <glib-object.h>
+#include "photos-sparql-template.h"
 
 G_BEGIN_DECLS
 
@@ -39,8 +40,9 @@ PhotosSearchType    *photos_search_type_new                (const gchar *id, con
 
 PhotosSearchType    *photos_search_type_new_full           (const gchar *id,
                                                             const gchar *name,
-                                                            const gchar *where,
-                                                            const gchar *filter);
+                                                            const gchar *template_path);
+
+PhotosSparqlTemplate *photos_search_type_get_sparql_template (PhotosSearchType *self);
 
 G_END_DECLS
 
