@@ -33,43 +33,51 @@
 #include "photos-search-type-manager.h"
 
 
-static gchar *
-photos_query_builder_filter (PhotosSearchContextState *state, gint flags)
-{
-  gchar *sparql;
-  g_autofree gchar *src_mngr_filter = NULL;
-  g_autofree gchar *srch_mtch_mngr_filter = NULL;
-  g_autofree gchar *srch_typ_mngr_filter = NULL;
+static const gchar *BLOCKED_MIME_TYPES_FILTER = "(nie:mimeType(?urn) != 'image/gif' && nie:mimeType(?urn) != 'image/x-eps')";
 
-  src_mngr_filter = photos_base_manager_get_filter (state->src_mngr, flags);
-  srch_mtch_mngr_filter = photos_base_manager_get_filter (state->srch_mtch_mngr, flags);
-  srch_typ_mngr_filter = photos_base_manager_get_filter (state->srch_typ_mngr, flags);
-
-  sparql = g_strdup_printf ("FILTER (%s && %s && %s)",
-                            src_mngr_filter,
-                            srch_mtch_mngr_filter,
-                            srch_typ_mngr_filter);
-
-  return sparql;
-}
+static const gchar *COLLECTIONS_FILTER
+  = "(fn:starts-with (nao:identifier (?urn), '" PHOTOS_QUERY_COLLECTIONS_IDENTIFIER "')"
+    " || (?urn = nfo:image-category-screenshot))";
 
 
 static gchar *
-photos_query_builder_optional (void)
+photos_query_builder_query (PhotosSearchContextState *state,
+                            gboolean global,
+                            gint flags,
+                            PhotosOffsetController *offset_cntrlr)
 {
-  return g_strdup ("OPTIONAL { ?urn nco:creator ?creator . } "
-                   "OPTIONAL { ?urn nco:publisher ?publisher . }");
-}
-
-
-static gchar *
-photos_query_builder_inner_where (PhotosSearchContextState *state, gboolean global, gint flags)
-{
+  PhotosSparqlTemplate *sparql_template;
+  const gchar *projection
+    = "?urn "
+      "nie:url (?urn) "
+      "nfo:fileName (?urn) "
+      "nie:mimeType (?urn) "
+      "nie:title (?urn) "
+      "tracker:coalesce (nco:fullname (?creator), nco:fullname (?publisher), '') "
+      "tracker:coalesce (nfo:fileLastModified (?urn), nie:contentLastModified (?urn)) AS ?mtime "
+      "nao:identifier (?urn) "
+      "rdf:type (?urn) "
+      "nie:dataSource(?urn) "
+      "( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite } ) "
+      "( EXISTS { ?urn nco:contributor ?contributor FILTER ( ?contributor != ?creator ) } ) "
+      "tracker:coalesce(nfo:fileCreated (?urn), nie:contentCreated (?urn)) "
+      "nfo:width (?urn) "
+      "nfo:height (?urn) "
+      "nfo:equipment (?urn) "
+      "nfo:orientation (?urn) "
+      "nmm:exposureTime (?urn) "
+      "nmm:fnumber (?urn) "
+      "nmm:focalLength (?urn) "
+      "nmm:isoSpeed (?urn) "
+      "nmm:flash (?urn) "
+      "slo:location (?urn) ";
   g_autofree gchar *item_mngr_where = NULL;
+  g_autofree gchar *srch_mtch_mngr_filter = NULL;
+  g_autofree gchar *src_mngr_filter = NULL;
+  g_autofree gchar *offset_limit = NULL;
   gchar *sparql;
-  g_autofree gchar *srch_typ_mngr_where = NULL;
 
-  srch_typ_mngr_where = photos_base_manager_get_where (state->srch_typ_mngr, flags);
+  sparql_template = photos_base_manager_get_sparql_template (state->srch_typ_mngr, flags);
 
   if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
     {
@@ -79,59 +87,10 @@ photos_query_builder_inner_where (PhotosSearchContextState *state, gboolean glob
 
           item_mngr_where = photos_base_manager_get_where (state->item_mngr, flags);
         }
+
+      src_mngr_filter = photos_base_manager_get_filter (state->src_mngr, flags);
+      srch_mtch_mngr_filter = photos_base_manager_get_filter (state->srch_mtch_mngr, flags);
     }
-
-  sparql = g_strdup_printf ("WHERE { %s %s }",
-                            srch_typ_mngr_where,
-                            (item_mngr_where != NULL) ? item_mngr_where : "");
-
-  return sparql;
-}
-
-
-static gchar *
-photos_query_builder_where (PhotosSearchContextState *state, gboolean global, gint flags)
-{
-  const gchar *count_items = "COUNT (?item) AS ?count";
-  gboolean item_defined;
-  g_autofree gchar *filter = NULL;
-  g_autofree gchar *optional = NULL;
-  gchar *sparql;
-  g_autofree gchar *where_sparql = NULL;
-
-  where_sparql = photos_query_builder_inner_where (state, global, flags);
-  item_defined = strstr (where_sparql, "?item") != NULL;
-
-  optional = photos_query_builder_optional ();
-
-  if (!(flags & PHOTOS_QUERY_FLAGS_UNFILTERED))
-    filter = photos_query_builder_filter (state, flags);
-
-  sparql = g_strdup_printf ("WHERE {{"
-                            "    SELECT ?urn rdf:type (?urn) AS ?type %s %s GROUP BY (?urn)"
-                            "  }"
-                            "  %s %s"
-                            "}",
-                            item_defined ? count_items : "",
-                            where_sparql,
-                            optional,
-                            (filter != NULL) ? filter : "");
-
-  return sparql;
-}
-
-
-static gchar *
-photos_query_builder_query (PhotosSearchContextState *state,
-                            gboolean global,
-                            gint flags,
-                            PhotosOffsetController *offset_cntrlr)
-{
-  gchar *sparql;
-  g_autofree gchar *tail_sparql = NULL;
-  g_autofree gchar *where_sparql = NULL;
-
-  where_sparql = photos_query_builder_where (state, global, flags);
 
   if (global && (flags & PHOTOS_QUERY_FLAGS_UNLIMITED) == 0)
     {
@@ -144,35 +103,20 @@ photos_query_builder_query (PhotosSearchContextState *state,
           step = photos_offset_controller_get_step (offset_cntrlr);
         }
 
-      tail_sparql = g_strdup_printf ("ORDER BY DESC (?mtime) LIMIT %d OFFSET %d", step, offset);
+      offset_limit = g_strdup_printf ("LIMIT %d OFFSET %d", step, offset);
     }
 
-  sparql = g_strconcat ("SELECT ?urn "
-                        "nie:url (?urn) "
-                        "nfo:fileName (?urn) "
-                        "nie:mimeType (?urn) "
-                        "nie:title (?urn) "
-                        "tracker:coalesce (nco:fullname (?creator), nco:fullname (?publisher), '') "
-                        "tracker:coalesce (nfo:fileLastModified (?urn), nie:contentLastModified (?urn)) AS ?mtime "
-                        "nao:identifier (?urn) "
-                        "rdf:type (?urn) "
-                        "nie:dataSource(?urn) "
-                        "( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite } ) "
-                        "( EXISTS { ?urn nco:contributor ?contributor FILTER ( ?contributor != ?creator ) } ) "
-                        "tracker:coalesce(nfo:fileCreated (?urn), nie:contentCreated (?urn)) "
-                        "nfo:width (?urn) "
-                        "nfo:height (?urn) "
-                        "nfo:equipment (?urn) "
-                        "nfo:orientation (?urn) "
-                        "nmm:exposureTime (?urn) "
-                        "nmm:fnumber (?urn) "
-                        "nmm:focalLength (?urn) "
-                        "nmm:isoSpeed (?urn) "
-                        "nmm:flash (?urn) "
-                        "slo:location (?urn) ",
-                        where_sparql,
-                        tail_sparql,
-                        NULL);
+  sparql
+    = photos_sparql_template_get_sparql (sparql_template,
+                                         "blocked_mime_types_filter", BLOCKED_MIME_TYPES_FILTER,
+                                         "collections_filter", COLLECTIONS_FILTER,
+                                         "item_where", item_mngr_where == NULL ? "" : item_mngr_where,
+                                         "order", "ORDER BY DESC (?mtime)",
+                                         "offset_limit", offset_limit ? offset_limit : "",
+                                         "projection", projection,
+                                         "search_match_filter", srch_mtch_mngr_filter == NULL ? "(true)" : srch_mtch_mngr_filter,
+                                         "source_filter", src_mngr_filter == NULL ? "(true)" : src_mngr_filter,
+                                         NULL);
 
   return sparql;
 }
@@ -232,11 +176,33 @@ PhotosQuery *
 photos_query_builder_count_query (PhotosSearchContextState *state, gint flags)
 {
   PhotosQuery *query;
+  PhotosSparqlTemplate *sparql_template;
+  g_autofree gchar *item_mngr_where = NULL;
+  g_autofree gchar *src_mngr_filter = NULL;
+  g_autofree gchar *srch_mtch_mngr_filter = NULL;
   g_autofree gchar *sparql = NULL;
-  g_autofree gchar *where_sparql = NULL;
 
-  where_sparql = photos_query_builder_where (state, TRUE, flags);
-  sparql = g_strconcat ("SELECT DISTINCT COUNT(?urn) ", where_sparql, NULL);
+  sparql_template = photos_base_manager_get_sparql_template (state->srch_typ_mngr, flags);
+
+  if ((flags & PHOTOS_QUERY_FLAGS_UNFILTERED) == 0)
+    {
+      item_mngr_where = photos_base_manager_get_where (state->item_mngr, flags);
+      src_mngr_filter = photos_base_manager_get_filter (state->src_mngr, flags);
+      srch_mtch_mngr_filter = photos_base_manager_get_filter (state->srch_mtch_mngr, flags);
+    }
+
+  sparql
+    = photos_sparql_template_get_sparql (sparql_template,
+                                         "blocked_mime_types_filter", BLOCKED_MIME_TYPES_FILTER,
+                                         "collections_filter", COLLECTIONS_FILTER,
+                                         "item_where", item_mngr_where == NULL ? "" : item_mngr_where,
+                                         "order", "",
+                                         "offset_limit", "",
+                                         "projection", "COUNT(?urn)",
+                                         "search_match_filter", srch_mtch_mngr_filter == NULL ? "(true)" : srch_mtch_mngr_filter,
+                                         "source_filter", src_mngr_filter == NULL ? "(true)" : src_mngr_filter,
+                                         NULL);
+
   query = photos_query_new (state, sparql);
 
   return query;

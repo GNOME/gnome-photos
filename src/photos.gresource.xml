@@ -50,4 +50,11 @@
     <file alias="image-filter-symbolic.svg">../data/icons/image-filter-symbolic.svg</file>
     <file alias="image-sharpen-symbolic.svg">../data/icons/image-sharpen-symbolic.svg</file>
   </gresource>
+
+  <gresource prefix="/org/gnome/Photos/query">
+    <file alias="all.sparql.template">photos-query-all.sparql.template</file>
+    <file alias="collections.sparql.template">photos-query-collections.sparql.template</file>
+    <file alias="favorites.sparql.template">photos-query-favorites.sparql.template</file>
+    <file alias="photos.sparql.template">photos-query-photos.sparql.template</file>
+  </gresource>
 </gresources>

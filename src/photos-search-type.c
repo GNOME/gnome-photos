@@ -30,19 +30,17 @@
 struct _PhotosSearchType
 {
   GObject parent_instance;
-  gchar *filter;
+  PhotosSparqlTemplate *sparql_template;
   gchar *id;
   gchar *name;
-  gchar *where;
 };
 
 enum
 {
   PROP_0,
-  PROP_FILTER,
   PROP_ID,
   PROP_NAME,
-  PROP_WHERE,
+  PROP_SPARQL_TEMPLATE,
 };
 
 static void photos_search_type_filterable_iface_init (PhotosFilterableInterface *iface);
@@ -53,27 +51,11 @@ G_DEFINE_TYPE_WITH_CODE (PhotosSearchType, photos_search_type, G_TYPE_OBJECT,
                                                 photos_search_type_filterable_iface_init));
 
 
-static gchar *
-photos_search_type_get_filter (PhotosFilterable *iface)
-{
-  PhotosSearchType *self = PHOTOS_SEARCH_TYPE (iface);
-  return g_strdup (self->filter);
-}
-
-
 static const gchar *
 photos_search_type_get_id (PhotosFilterable *filterable)
 {
   PhotosSearchType *self = PHOTOS_SEARCH_TYPE (filterable);
   return self->id;
-}
-
-
-static gchar *
-photos_search_type_get_where (PhotosFilterable *iface)
-{
-  PhotosSearchType *self = PHOTOS_SEARCH_TYPE (iface);
-  return g_strdup (self->where);
 }
 
 
@@ -84,15 +66,31 @@ photos_search_type_is_search_criterion (PhotosFilterable *iface)
 }
 
 
+PhotosSparqlTemplate *
+photos_search_type_get_sparql_template (PhotosSearchType *self)
+{
+  return self->sparql_template;
+}
+
+
+static void
+photos_search_type_dispose (GObject *object)
+{
+  PhotosSearchType *self = PHOTOS_SEARCH_TYPE (object);
+
+  g_clear_object (&self->sparql_template);
+
+  G_OBJECT_CLASS (photos_search_type_parent_class)->dispose (object);
+}
+
+
 static void
 photos_search_type_finalize (GObject *object)
 {
   PhotosSearchType *self = PHOTOS_SEARCH_TYPE (object);
 
-  g_free (self->filter);
   g_free (self->id);
   g_free (self->name);
-  g_free (self->where);
 
   G_OBJECT_CLASS (photos_search_type_parent_class)->finalize (object);
 }
@@ -113,6 +111,10 @@ photos_search_type_get_property (GObject *object, guint prop_id, GValue *value, 
       g_value_set_string (value, self->name);
       break;
 
+    case PROP_SPARQL_TEMPLATE:
+      g_value_set_object (value, self->sparql_template);
+      break;
+
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -127,10 +129,6 @@ photos_search_type_set_property (GObject *object, guint prop_id, const GValue *v
 
   switch (prop_id)
     {
-    case PROP_FILTER:
-      self->filter = g_value_dup_string (value);
-      break;
-
     case PROP_ID:
       self->id = g_value_dup_string (value);
       break;
@@ -139,8 +137,8 @@ photos_search_type_set_property (GObject *object, guint prop_id, const GValue *v
       self->name = g_value_dup_string (value);
       break;
 
-    case PROP_WHERE:
-      self->where = g_value_dup_string (value);
+    case PROP_SPARQL_TEMPLATE:
+      self->sparql_template = PHOTOS_SPARQL_TEMPLATE (g_value_dup_object (value));
       break;
 
     default:
@@ -161,17 +159,10 @@ photos_search_type_class_init (PhotosSearchTypeClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
 
+  object_class->dispose = photos_search_type_dispose;
   object_class->finalize = photos_search_type_finalize;
   object_class->get_property = photos_search_type_get_property;
   object_class->set_property = photos_search_type_set_property;
-
-  g_object_class_install_property (object_class,
-                                   PROP_FILTER,
-                                   g_param_spec_string ("filter",
-                                                        "",
-                                                        "",
-                                                        "(true)",
-                                                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 
   g_object_class_install_property (object_class,
                                    PROP_ID,
@@ -190,11 +181,11 @@ photos_search_type_class_init (PhotosSearchTypeClass *class)
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 
   g_object_class_install_property (object_class,
-                                   PROP_WHERE,
-                                   g_param_spec_string ("where",
+                                   PROP_SPARQL_TEMPLATE,
+                                   g_param_spec_object ("sparql-template",
                                                         "",
                                                         "",
-                                                        "",
+                                                        PHOTOS_TYPE_SPARQL_TEMPLATE,
                                                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
 }
 
@@ -202,20 +193,18 @@ photos_search_type_class_init (PhotosSearchTypeClass *class)
 static void
 photos_search_type_filterable_iface_init (PhotosFilterableInterface *iface)
 {
-  iface->get_filter = photos_search_type_get_filter;
   iface->get_id = photos_search_type_get_id;
-  iface->get_where = photos_search_type_get_where;
   iface->is_search_criterion = photos_search_type_is_search_criterion;
 }
 
 
 PhotosSearchType *
-photos_search_type_new (const gchar *id, const gchar *name, const gchar *where, const gchar *filter)
+photos_search_type_new (const gchar *id, const gchar *name, PhotosSparqlTemplate *sparql_template)
+
 {
   return g_object_new (PHOTOS_TYPE_SEARCH_TYPE,
                        "id", id,
                        "name", name,
-                       "filter", filter,
-                       "where", where,
+                       "sparql-template", sparql_template,
                        NULL);
 }
