@@ -250,6 +250,12 @@ photos_base_manager_default_get_where (PhotosBaseManager *self, gint flags)
 }
 
 
+static PhotosSparqlTemplate *
+photos_base_manager_default_get_sparql_template (PhotosBaseManager *self, gint flags)
+{
+  return NULL;
+}
+
 static void
 photos_base_manager_default_remove_object_by_id (PhotosBaseManager *self, const gchar *id)
 {
@@ -438,6 +444,7 @@ photos_base_manager_class_init (PhotosBaseManagerClass *class)
   class->get_object_by_id = photos_base_manager_default_get_object_by_id;
   class->get_previous_object = photos_base_manager_default_get_previous_object;
   class->get_where = photos_base_manager_default_get_where;
+  class->get_sparql_template = photos_base_manager_default_get_sparql_template;
   class->remove_object_by_id = photos_base_manager_default_remove_object_by_id;
   class->set_active_object = photos_base_manager_default_set_active_object;
 
@@ -711,6 +718,14 @@ photos_base_manager_get_where (PhotosBaseManager *self, gint flags)
 {
   g_return_val_if_fail (PHOTOS_IS_BASE_MANAGER (self), NULL);
   return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_where (self, flags);
+}
+
+
+PhotosSparqlTemplate *
+photos_base_manager_get_sparql_template (PhotosBaseManager *self, gint flags)
+{
+  g_return_val_if_fail (PHOTOS_IS_BASE_MANAGER (self), NULL);
+  return PHOTOS_BASE_MANAGER_GET_CLASS (self)->get_sparql_template (self, flags);
 }
 
 

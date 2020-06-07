@@ -195,6 +195,7 @@ sources = common_sources + files(
   'photos-source.c',
   'photos-source-manager.c',
   'photos-source-notification.c',
+  'photos-sparql-template.c',
   'photos-spinner-box.c',
   'photos-thumbnail-factory.c',
   'photos-tool.c',
@@ -290,6 +291,10 @@ resource_data = files(
   'photos-selection-toolbar.ui',
   'photos-share-dialog.ui',
   'photos-zoom-controls.ui',
+  'queries/all.sparql.template',
+  'queries/collections.sparql.template',
+  'queries/favorite-photos.sparql.template',
+  'queries/photos.sparql.template',
 )
 
 sources += gnome.compile_resources(

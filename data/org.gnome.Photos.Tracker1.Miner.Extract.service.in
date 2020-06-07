@@ -1,0 +1,8 @@
+[D-BUS Service]
+Name=org.gnome.Photos.Tracker1.Miner.Extract
+Exec=@prefix@/libexec/tracker-extract --domain-ontology @domain_rule@
+
+# Miner details needed for tracker-control
+Path=/org/freedesktop/Tracker1/Miner/Extract
+NameSuffix=Miner.Extract
+DisplayName=Extractor

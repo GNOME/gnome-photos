@@ -1,0 +1,8 @@
+[D-BUS Service]
+Name=org.gnome.Photos.Tracker1.Miner.Files
+Exec=@prefix@/libexec/tracker-miner-fs --initial-sleep=0 --domain-ontology @domain_rule@
+
+# Miner details needed for tracker-control
+Path=/org/freedesktop/Tracker1/Miner/Files
+NameSuffix=Miner.Files
+DisplayName=File System
