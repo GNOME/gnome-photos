@@ -131,21 +131,18 @@ photos_query_builder_create_collection_query (PhotosSearchContextState *state,
                                               const gchar *name,
                                               const gchar *identifier_tag)
 {
-  GTimeVal tv;
   PhotosQuery *query;
   g_autofree gchar *identifier = NULL;
   g_autofree gchar *sparql = NULL;
+  g_autoptr (GDateTime) datetime = NULL;
   g_autofree gchar *time = NULL;
-  gint64 timestamp;
 
   identifier = g_strdup_printf ("%s%s",
                                 PHOTOS_QUERY_LOCAL_COLLECTIONS_IDENTIFIER,
                                 identifier_tag == NULL ? name : identifier_tag);
 
-  timestamp = g_get_real_time () / G_USEC_PER_SEC;
-  tv.tv_sec = timestamp;
-  tv.tv_usec = 0;
-  time = g_time_val_to_iso8601 (&tv);
+  datetime = g_date_time_new_now_utc ();
+  time = g_date_time_format_iso8601 (datetime);
 
   sparql = g_strdup_printf ("INSERT { _:res a nfo:DataContainer ; a nie:DataObject ; "
                             "nie:contentLastModified '%s' ; "
@@ -349,16 +346,13 @@ photos_query_builder_single_query (PhotosSearchContextState *state, gint flags, 
 PhotosQuery *
 photos_query_builder_update_mtime_query (PhotosSearchContextState *state, const gchar *resource)
 {
-  GTimeVal tv;
   PhotosQuery *query;
   g_autofree gchar *sparql = NULL;
+  g_autoptr (GDateTime) datetime = NULL;
   g_autofree gchar *time = NULL;
-  gint64 timestamp;
 
-  timestamp = g_get_real_time () / G_USEC_PER_SEC;
-  tv.tv_sec = timestamp;
-  tv.tv_usec = 0;
-  time = g_time_val_to_iso8601 (&tv);
+  datetime = g_date_time_new_now_utc ();
+  time = g_date_time_format_iso8601 (datetime);
 
   sparql = g_strdup_printf ("INSERT OR REPLACE { <%s> nie:contentLastModified '%s' }", resource, time);
   query = photos_query_new (state, sparql);
