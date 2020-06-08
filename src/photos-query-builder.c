@@ -53,7 +53,8 @@ photos_query_builder_query (PhotosSearchContextState *state,
                             PhotosOffsetController *offset_cntrlr)
 {
   PhotosSparqlTemplate *template;
-  const gchar *projection = NULL;
+  const gchar *outer_projection = NULL;
+  const gchar *inner_projection = NULL;
   g_autofree gchar *item_pattern = NULL;
   g_autofree gchar *search_filter = NULL;
   g_autofree gchar *source_filter = NULL;
@@ -63,29 +64,33 @@ photos_query_builder_query (PhotosSearchContextState *state,
 
   template = photos_base_manager_get_sparql_template (state->srch_typ_mngr, flags);
 
-  projection = "?urn "
-               "nie:url (?urn) "
-               "nfo:fileName (?urn) "
-               "nie:mimeType (?urn) "
-               "nie:title (?urn) "
-               "tracker:coalesce (nco:fullname (?creator), nco:fullname (?publisher), '') "
-               "tracker:coalesce (nfo:fileLastModified (?urn), nie:contentLastModified (?urn)) AS ?mtime "
-               "nao:identifier (?urn) "
-               "rdf:type (?urn) "
-               "nie:dataSource(?urn) "
-               "( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite } ) "
-               "( EXISTS { ?urn nco:contributor ?contributor FILTER ( ?contributor != ?creator ) } ) "
-               "tracker:coalesce(nfo:fileCreated (?urn), nie:contentCreated (?urn)) "
-               "nfo:width (?urn) "
-               "nfo:height (?urn) "
-               "nfo:equipment (?urn) "
-               "nfo:orientation (?urn) "
-               "nmm:exposureTime (?urn) "
-               "nmm:fnumber (?urn) "
-               "nmm:focalLength (?urn) "
-               "nmm:isoSpeed (?urn) "
-               "nmm:flash (?urn) "
-               "slo:location (?urn) ";
+  outer_projection = "?urn ?file ?filename ?mimetype ?title ?author_name ?mtime ?identifier ?type ?datasource "
+                     "( EXISTS { ?urn nao:hasTag nao:predefined-tag-favorite } ) AS ?is_favorite"
+                     "?has_contributor ?ctime ?width ?height ?equipment ?orientation ?exposure_time ?fnumber "
+                     "?focal_length ?isospeed ?flash ?location ";
+
+  inner_projection = "?urn "
+                     "nie:isStoredAs (?urn) AS ?file "
+                     "nfo:fileName (?file) AS ?filename "
+                     "nie:mimeType (?urn) AS ?mimetype "
+                     "nie:title (?urn) AS ?title "
+                     "tracker:coalesce (nco:fullname (?creator), nco:fullname (?publisher), '') AS ?author_name "
+                     "tracker:coalesce (nfo:fileLastModified (?file), nie:contentLastModified (?urn)) AS ?mtime "
+                     "nao:identifier (?urn) AS ?identifier "
+                     "rdf:type (?urn) AS ?type "
+                     "nie:dataSource(?urn) AS ?datasource "
+                     "( EXISTS { ?urn nco:contributor ?contributor FILTER ( ?contributor != ?creator ) } ) AS ?has_contributor "
+                     "tracker:coalesce(nfo:fileCreated (?file), nie:contentCreated (?urn)) AS ?ctime "
+                     "nfo:width (?urn) AS ?width "
+                     "nfo:height (?urn) AS ?height "
+                     "nfo:equipment (?urn) AS ?equipment "
+                     "nfo:orientation (?urn) AS ?orientation "
+                     "nmm:exposureTime (?urn) AS ?exposure_time "
+                     "nmm:fnumber (?urn) AS ?fnumber "
+                     "nmm:focalLength (?urn) AS ?focal_length "
+                     "nmm:isoSpeed (?urn) AS ?isospeed "
+                     "nmm:flash (?urn) AS ?flash "
+                     "slo:location (?urn) AS ?location ";
 
   item_pattern = photos_base_manager_get_where (state->item_mngr, flags);
 
@@ -112,7 +117,8 @@ photos_query_builder_query (PhotosSearchContextState *state,
     }
 
   sparql = photos_sparql_template_get_sparql (template,
-                                              "projection", projection,
+                                              "outer_projection", outer_projection,
+                                              "inner_projection", inner_projection,
                                               "collections_default_filter", collections_default_filter,
                                               "item_pattern", item_pattern,
                                               "photos_default_filter", photos_default_filter,
@@ -180,7 +186,8 @@ PhotosQuery *
 photos_query_builder_count_query (PhotosSearchContextState *state, gint flags)
 {
   PhotosSparqlTemplate *template;
-  const gchar *projection = NULL;
+  const gchar *inner_projection = NULL;
+  const gchar *outer_projection = NULL;
   g_autofree gchar *item_pattern = NULL;
   g_autofree gchar *search_filter = NULL;
   g_autofree gchar *source_filter = NULL;
@@ -189,7 +196,8 @@ photos_query_builder_count_query (PhotosSearchContextState *state, gint flags)
 
   template = photos_base_manager_get_sparql_template (state->srch_typ_mngr, flags);
 
-  projection = "COUNT(?urn) ";
+  outer_projection = "?count ";
+  inner_projection = "COUNT(?urn) AS ?count ";
 
   item_pattern = photos_base_manager_get_where (state->item_mngr, flags);
 
@@ -200,7 +208,8 @@ photos_query_builder_count_query (PhotosSearchContextState *state, gint flags)
     }
 
   sparql = photos_sparql_template_get_sparql (template,
-                                              "projection", projection,
+                                              "outer_projection", outer_projection,
+                                              "inner_projection", inner_projection,
                                               "collections_default_filter", collections_default_filter,
                                               "item_pattern", item_pattern,
                                               "photos_default_filter", photos_default_filter,

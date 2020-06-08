@@ -1,11 +1,19 @@
-SELECT {{projection}}
+SELECT {{outer_projection}}
+FROM tracker:Pictures
 {
     ?urn a nmm:Photo .
     ?urn a nmm:Photo; nao:hasTag nao:predefined-tag-favorite .
-    OPTIONAL { ?urn nco:creator ?creator . }
-    OPTIONAL { ?urn nco:publisher ?publisher . }
-    {{item_pattern}}
-    FILTER ({{photos_default_filter}} && {{source_filter}} && {{search_filter}})
+    SERVICE <dbus:org.freedesktop.Tracker3.Miner.Files>
+    {
+        SELECT {{inner_projection}}
+        {
+            ?urn a nmm:Photo .
+            OPTIONAL { ?urn nco:creator ?creator . }
+            OPTIONAL { ?urn nco:publisher ?publisher . }
+            {{item_pattern}}
+            FILTER ({{photos_default_filter}} && {{source_filter}} && {{search_filter}})
+        }
+    }
 }
 GROUP BY ?urn
 {{order}}

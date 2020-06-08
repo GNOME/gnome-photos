@@ -717,7 +717,7 @@ photos_item_manager_wait_for_changes_timeout (gpointer user_data)
       g_autoptr (PhotosQuery) query = NULL;
       g_autofree gchar *sparql = NULL;
 
-      sparql = g_strdup_printf ("SELECT ?urn nie:url (?urn) WHERE { ?urn nie:url '%s' }", uri);
+      sparql = g_strdup_printf ("SELECT ?urn nie:isStoredAs (?urn) WHERE { ?urn nie:isStoredAs '%s' }", uri);
       query = photos_query_new (NULL, sparql);
       photos_tracker_queue_select (self->queue,
                                    query,
