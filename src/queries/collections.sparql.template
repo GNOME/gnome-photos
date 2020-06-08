@@ -1,4 +1,4 @@
-SELECT {{projection}}
+SELECT {{inner_projection}}
 {
     {
         SELECT ?urn COUNT(?item) AS ?count
