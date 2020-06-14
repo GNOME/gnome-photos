@@ -5,15 +5,16 @@
 # Gökhan Gurbetoğlu <ggurbet@gmail.com>, 2013, 2014, 2015.
 # Muhammet Kara <muhammetk@gmail.com>, 2014, 2015, 2016.
 # Burak Kahraman <burakkaankhrmn@gmail.com>, 2018.
-# Emin Tufan Çetin <etcetin@gmail.com>, 2017-2019.
+# Sabri Ünal <libreajans@gmail.com>, 2020.
+# Emin Tufan Çetin <etcetin@gmail.com>, 2017-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-04-01 18:33+0000\n"
-"PO-Revision-Date: 2020-04-02 18:28+0300\n"
-"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
+"POT-Creation-Date: 2020-05-26 16:37+0000\n"
+"PO-Revision-Date: 2020-06-14 18:28+0300\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +43,7 @@ msgid ""
 msgstr ""
 "GNOME’da fotoğraflarınıza erişin, düzenleyin ve paylaşın. Dosya yöneticisi "
 "kullanmak yerine, fotoğraflarla uğraşmak için basit ve zarif bir seçenek. "
-"GNOME Çevrim İçi Hesaplar ile kusursuz bulut tümleşmesi sunulmaktadır."
+"GNOME Çevrim İçi Hesaplar ile kusursuz bulut tümleşimi sunulmaktadır."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
 msgid "You can:"
@@ -468,11 +469,11 @@ msgstr "İptal"
 
 #: src/photos-import-dialog.c:194
 msgid "An album with that name already exists"
-msgstr "Bu adda bir dosya zaten var"
+msgstr "Bu adda dosya zaten var"
 
 #: src/photos-import-dialog.c:211
 msgid "An album for that date already exists"
-msgstr "Bu tarihte oluşturulan bir albüm zaten var"
+msgstr "Bu tarihte oluşturulan albüm zaten var"
 
 #: src/photos-import-dialog.ui:22
 msgctxt "dialog title"
@@ -514,7 +515,7 @@ msgstr "Bazı fotoğraflar bu işlem sırasında kullanım dışı olabilir"
 #: src/photos-item-manager.c:824
 #, c-format
 msgid "Oops! Unable to load “%s”"
-msgstr "Ahh! “%s” yüklenemedi"
+msgstr "Amanın! “%s” yüklenemedi"
 
 #: src/photos-local-item.c:239 src/photos-source-manager.c:399
 msgid "Local"
@@ -690,7 +691,7 @@ msgstr "Dikey"
 
 #: src/photos-print-setup.c:899
 msgid "Both"
-msgstr "Her ikisi"
+msgstr "Her İkisi"
 
 #: src/photos-print-setup.c:915
 msgid "_Width:"
@@ -1027,18 +1028,22 @@ msgid "Calistoga"
 msgstr "Calistoga"
 
 #: src/photos-tool-filters.c:202
+msgid "Trencin"
+msgstr "Trencin"
+
+#: src/photos-tool-filters.c:209
 msgid "Mogadishu"
 msgstr "Mogadişu"
 
-#: src/photos-tool-filters.c:209
+#: src/photos-tool-filters.c:215
 msgid "Caap"
 msgstr "Caap"
 
-#: src/photos-tool-filters.c:215
+#: src/photos-tool-filters.c:222
 msgid "Hometown"
 msgstr "Memleket"
 
-#: src/photos-tool-filters.c:233
+#: src/photos-tool-filters.c:239
 msgid "Filters"
 msgstr "Süzgeçler"
 
