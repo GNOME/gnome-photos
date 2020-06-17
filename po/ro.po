@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-03-30 16:41+0000\n"
-"PO-Revision-Date: 2020-05-03 14:58+0300\n"
-"Last-Translator: Florentina Mușat <florentina.musat.28 [at] gmail [dot] "
-"com>\n"
+"POT-Creation-Date: 2020-06-04 07:16+0000\n"
+"PO-Revision-Date: 2020-06-17 18:39+0300\n"
+"Last-Translator: Florentina Mușat <florentina [dot] musat [dot] 28 [at] "
+"gmail [dot] com>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
@@ -88,7 +88,7 @@ msgstr ""
 "Editați ușor fotografiile în aplicație, sau trimiteți-le la un editor "
 "complet pentru modificări mai avansate"
 
-#: data/org.gnome.Photos.appdata.xml.in:74
+#: data/org.gnome.Photos.appdata.xml.in:81
 msgid "The GNOME Project"
 msgstr "Proiectul GNOME"
 
@@ -151,7 +151,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Album"
 
-#: src/photos-base-item.c:2840
+#: src/photos-base-item.c:2845
 msgid "Screenshots"
 msgstr "Capturi de ecran"
 
@@ -594,7 +594,8 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 "Bogdan Mințoi <mintoi.bogdan [at] gmail [dot] com>\n"
-"Florentina Mușat <emryslokadottir [at] gmail [dot] com>, 2019-2020"
+"Florentina Mușat <florentina [dot] musat [dot] 28 [at] gmail [dot] com>, "
+"2019-2020"
 
 #: src/photos-organize-collection-dialog.c:70
 msgid "_OK"
@@ -1037,18 +1038,22 @@ msgid "Calistoga"
 msgstr "Calistoga"
 
 #: src/photos-tool-filters.c:202
+msgid "Trencin"
+msgstr "Trencin"
+
+#: src/photos-tool-filters.c:209
 msgid "Mogadishu"
 msgstr "Mogadishu"
 
-#: src/photos-tool-filters.c:209
+#: src/photos-tool-filters.c:215
 msgid "Caap"
 msgstr "Caap"
 
-#: src/photos-tool-filters.c:215
+#: src/photos-tool-filters.c:222
 msgid "Hometown"
 msgstr "Oraș natal"
 
-#: src/photos-tool-filters.c:233
+#: src/photos-tool-filters.c:239
 msgid "Filters"
 msgstr "Filtre"
 
