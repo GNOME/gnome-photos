@@ -944,13 +944,6 @@ photos_embed_class_init (PhotosEmbedClass *class)
 }
 
 
-GtkWidget *
-photos_embed_new (void)
-{
-  return g_object_new (PHOTOS_TYPE_EMBED, NULL);
-}
-
-
 PhotosMainToolbar *
 photos_embed_get_main_toolbar (PhotosEmbed *self)
 {
