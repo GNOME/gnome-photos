@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-34\n"
-"POT-Creation-Date: 2020-05-22 10:57+0000\n"
-"PO-Revision-Date: 2020-05-22 15:14+0300\n"
+"POT-Creation-Date: 2020-07-06 19:10+0000\n"
+"PO-Revision-Date: 2020-07-07 07:54+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -67,9 +67,6 @@ msgstr "Позначення ваших улюблених фотографій"
 
 #. (itstool) path: page/p
 #: C/favorites-set.page:27
-#| msgid ""
-#| "Photos or albums can be marked as favorites from the <gui style=\"tab"
-#| "\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
 "\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
@@ -84,9 +81,6 @@ msgstr "Щоб позначити записи як улюблені, викон
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
-#| msgid ""
-#| "Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
-#| "whether you want to mark an album or a photo as a favorite."
 msgid ""
 "Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
@@ -257,14 +251,20 @@ msgstr "Перегляд нещодавніх фотографій"
 
 #. (itstool) path: page/p
 #: C/view-photos.page:21
+#| msgid ""
+#| "The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+#| "system locations such as <file>~/Downloads</file>, <file>~/Pictures</"
+#| "file> and from online collections. You can also add other locations, even "
+#| "cloud-based collections such as Flickr or Facebook photographs, through "
+#| "<app>GNOME Online Accounts</app>."
 msgid ""
-"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
 "and from online collections. You can also add other locations, even cloud-"
 "based collections such as Flickr or Facebook photographs, through <app>GNOME "
 "Online Accounts</app>."
 msgstr ""
-"На вкладці <gui style=\"tab\">Нещодавні</gui> буде показано фотографії із "
+"На вкладці <gui style=\"tab\">Фотографії</gui> буде показано фотографії із "
 "місць у локальній файловій системі, зокрема каталогів <file>~/Завантаження</"
 "file>, <file>~/Картинки</file> та збірок фотографій в інтернеті. Ви також "
 "можете додати інші місця, навіть збірки у «хмарах», зокрема фотографії "
@@ -286,13 +286,16 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/view-photos.page:34
+#| msgid ""
+#| "Click on the gear button on the bottom right. You can select the "
+#| "locations you want to display in the <gui style=\"tab\">Recent</gui> tab."
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
-"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+"you want to display in the <gui style=\"tab\">Photos</gui> tab."
 msgstr ""
 "Натисніть кнопку із зображенням шестерні у нижній правій частині вікна. "
 "Тепер ви можете вибрати місця, які буде показано на вкладці <gui style=\"tab"
-"\">Нещодавні</gui>."
+"\">Фотографії</gui>."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:40
@@ -301,8 +304,9 @@ msgstr "Щоб переглянути нещодавні фотографії, �
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-msgid "Select the <gui style=\"tab\">Recent</gui> tab."
-msgstr "Виберіть вкладку <gui style=\"tab\">Нещодавні</gui>."
+#| msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
+msgid "Select the <gui style=\"tab\">Photos</gui> tab."
+msgstr "Виберіть вкладку <gui style=\"tab\">Фотографії</gui>."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:46
@@ -323,11 +327,6 @@ msgstr "Перегляд зображень"
 
 #. (itstool) path: page/p
 #: C/view.page:26
-#| msgid ""
-#| "When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-#| "open. The <gui>Recent</gui> tab contains images from your computer, the "
-#| "<gui>Albums</gui> tab contains your photo albums, and any image you mark "
-#| "as a favourite can be found in the <gui>Favorites</gui> tab."
 msgid ""
 "When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
 "open. The <gui>Photos</gui> tab contains images from your computer, the "
@@ -339,3 +338,6 @@ msgstr ""
 "зображень з вашого комп'ютера. На вкладці <gui>Альбоми</gui> ви зможете "
 "бачити ваші фотоальбоми, а усі фотографії, які було позначено як улюблені, "
 "буде показано на вкладці <gui>Улюблене</gui>."
+
+#~ msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+#~ msgstr "Виберіть вкладку <gui style=\"tab\">Нещодавні</gui>."
