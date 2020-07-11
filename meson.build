@@ -181,6 +181,9 @@ dbus_service_dir = dbus_dep.get_pkgconfig_variable(
   define_variable: ['datadir', photos_datadir],
 )
 
+python3 = find_program('python3')
+trackertestutils = dependency('tracker-testutils-2.0')
+
 configure_file(
   output: 'config.h',
   configuration: config_h,

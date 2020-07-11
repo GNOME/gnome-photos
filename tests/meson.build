@@ -21,15 +21,20 @@ if photos_installed_tests_enabled
   )
 endif
 
+
+tracker_sandbox_command = find_program(trackertestutils.get_pkgconfig_variable('command'))
+
 if get_option('dogtail')
   test_env = [
     'LC_ALL=C',
+    'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
     'GSETTINGS_BACKEND=memory',
   ]
 
   test(
     test_name,
-    files(test_name),
+    tracker_sandbox_command,
+    args: ['--index-tmpdir', files(test_name)],
     env: test_env,
   )
 endif
