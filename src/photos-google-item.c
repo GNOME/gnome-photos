@@ -108,7 +108,7 @@ photos_google_get_picasaweb_file (PhotosBaseItem *item, GCancellable *cancellabl
   PhotosSource *source;
   GDataAuthorizationDomain *authorization_domain;
   GDataEntry *entry;
-  GDataGoaAuthorizer *authorizer; /* TODO: use g_autoptr */
+  g_autoptr (GDataGoaAuthorizer) authorizer = NULL;
   g_autoptr (GDataPicasaWebQuery) query = NULL;
   g_autoptr (GDataPicasaWebService) service = NULL;
   const gchar *identifier;
@@ -132,7 +132,6 @@ photos_google_get_picasaweb_file (PhotosBaseItem *item, GCancellable *cancellabl
                                             cancellable,
                                             error);
 
-  g_object_unref (authorizer);
   return entry;
 }
 
