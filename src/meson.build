@@ -395,12 +395,14 @@ deps = common_deps + [
   libgd_dep,
   libgdata_dep,
   libgfgraph_dep,
+  libhandy_dep,
   m_dep,
   tracker_control_dep,
   tracker_sparql_dep,
 ]
 
 cflags = [
+  '-DHANDY_USE_UNSTABLE_API',
   '-DPACKAGE_LIBEXEC_DIR="@0@"'.format(photos_libexecdir),
   '-DPACKAGE_LOCALE_DIR="@0@"'.format(photos_localedir),
 ]
