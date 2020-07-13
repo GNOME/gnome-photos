@@ -1,14 +1,14 @@
 # Lithuanian translation for gnome-photos.
 # Copyright (C) 2013 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Aurimas Černius <aurisc4@gmail.com>, 2013-2019.
+# Aurimas Černius <aurisc4@gmail.com>, 2013-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-01-18 12:57+0000\n"
-"PO-Revision-Date: 2019-02-24 19:03+0200\n"
+"POT-Creation-Date: 2020-05-26 16:37+0000\n"
+"PO-Revision-Date: 2020-07-13 16:31+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
 "%100<10 || n%100>=20) ? 1 : 2)\n"
-"X-Generator: Gtranslator 3.30.1\n"
+"X-Generator: Gtranslator 3.36.0\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
 #: src/photos-application.c:3040 src/photos-embed.c:825
@@ -84,18 +84,13 @@ msgstr ""
 "Lengvai redaguokite savo nuotraukas programoje arba siųskite į pilno "
 "funkcionalumo redaktorių sudėtingesniems pakeitimams"
 
-#: data/org.gnome.Photos.appdata.xml.in:51
+#: data/org.gnome.Photos.appdata.xml.in:81
 msgid "The GNOME Project"
 msgstr "GNOME projektas"
 
 #: data/org.gnome.Photos.desktop.in.in:4
 msgid "Access, organize and share photos"
 msgstr "Prieikite, tvarkykite ir dalinkitės savo nuotraukomis"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Photos.desktop.in.in:7
-msgid "org.gnome.Photos"
-msgstr "org.gnome.Photos"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Photos.desktop.in.in:15
@@ -152,7 +147,7 @@ msgstr "%Y %B %-d"
 msgid "Album"
 msgstr "Albumas"
 
-#: src/photos-base-item.c:2840
+#: src/photos-base-item.c:2845
 msgid "Screenshots"
 msgstr "Ekranvaizdžiai"
 
@@ -198,7 +193,7 @@ msgstr "Mėgiamiausios"
 msgid "Import"
 msgstr "Importuoti"
 
-#: src/photos-embed.c:843 src/photos-main-toolbar.c:336
+#: src/photos-embed.c:843 src/photos-main-toolbar.c:335
 msgid "Search"
 msgstr "Ieškoti"
 
@@ -270,8 +265,8 @@ msgid "_Reduced"
 msgstr "Su_mažintas"
 
 #: src/photos-export-dialog.ui:160 src/photos-import-dialog.ui:185
-#: src/photos-main-toolbar.c:490 src/photos-main-toolbar.c:526
-#: src/photos-main-toolbar.c:639
+#: src/photos-main-toolbar.c:487 src/photos-main-toolbar.c:523
+#: src/photos-main-toolbar.c:634
 msgid "_Cancel"
 msgstr "_Atsisakyti"
 
@@ -353,118 +348,126 @@ msgid "Show help"
 msgstr "Rodyti žinyną"
 
 #: src/photos-help-overlay.ui:43
+#| msgid "Keyboard Shortcuts"
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Klaviatūros trumpiniai"
+
+#: src/photos-help-overlay.ui:50
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Išeiti"
 
-#: src/photos-help-overlay.ui:52
+#: src/photos-help-overlay.ui:59
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Naršymas"
 
-#: src/photos-help-overlay.ui:56
+#: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Kita nuotrauka"
 
-#: src/photos-help-overlay.ui:63
+#: src/photos-help-overlay.ui:70
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Ankstesnė nuotrauka"
 
-#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
+#: src/photos-help-overlay.ui:77 src/photos-help-overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Grįžti"
 
-#: src/photos-help-overlay.ui:88
+#: src/photos-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Apžvalga"
 
-#: src/photos-help-overlay.ui:92
+#: src/photos-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Ieškoti"
 
-#: src/photos-help-overlay.ui:99
+#: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Pasirinkti visas"
 
-#: src/photos-help-overlay.ui:106
+#: src/photos-help-overlay.ui:113
+#| msgctxt "shortcut window"
+#| msgid "Export selected photos"
+msgctxt "shortcut window"
+msgid "Export selected photo"
+msgstr "Eksportuoti pažymėtą nuotrauką"
+
+#: src/photos-help-overlay.ui:120
 #| msgctxt "shortcut window"
 #| msgid "Print selected photos"
 msgctxt "shortcut window"
-msgid "Export selected photos"
-msgstr "Eksportuoti pažymėtas nuotraukas"
+msgid "Print selected photo"
+msgstr "Spausdinti pažymėtą nuotrauką"
 
-#: src/photos-help-overlay.ui:113
-msgctxt "shortcut window"
-msgid "Print selected photos"
-msgstr "Spausdinti pažymėtas nuotraukas"
-
-#: src/photos-help-overlay.ui:120
+#: src/photos-help-overlay.ui:127
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Trinti pažymėtas nuotraukas"
 
-#: src/photos-help-overlay.ui:129
+#: src/photos-help-overlay.ui:136
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Nuotraukų rodinys"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Redaguoti"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Eksportuoti"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Spausdinti"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Priartinti"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Atitolinti"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Geriausias pritaikymas"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Trinti"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Veiksmų meniu"
 
-#: src/photos-help-overlay.ui:189
+#: src/photos-help-overlay.ui:196
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Visame ekrane"
 
-#: src/photos-help-overlay.ui:198
+#: src/photos-help-overlay.ui:205
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Redagavimo rodinys"
 
-#: src/photos-help-overlay.ui:202
+#: src/photos-help-overlay.ui:209
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Atsisakyti"
@@ -523,11 +526,11 @@ msgstr "Oi! Nepavyko įkelti „%s“"
 msgid "Local"
 msgstr "Vietinės"
 
-#: src/photos-main-toolbar.c:80
+#: src/photos-main-toolbar.c:79
 msgid "Click on items to select them"
 msgstr "Spauskite ant elementų jiems pažymėti"
 
-#: src/photos-main-toolbar.c:82
+#: src/photos-main-toolbar.c:81
 #, c-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -535,11 +538,11 @@ msgstr[0] "Pasirinktas %d"
 msgstr[1] "Pasirinkti %d"
 msgstr[2] "Pasirinkta %d"
 
-#: src/photos-main-toolbar.c:170
+#: src/photos-main-toolbar.c:169
 msgid "Select items for import"
 msgstr "Pasirinkite importuojamus elementus"
 
-#: src/photos-main-toolbar.c:174
+#: src/photos-main-toolbar.c:173
 #, c-format
 msgid "Select items for import (%u selected)"
 msgid_plural "Select items for import (%u selected)"
@@ -547,42 +550,39 @@ msgstr[0] "Pasirinkite importuojamus elementus (pasirinktas %u)"
 msgstr[1] "Pasirinkite importuojamus elementus (pasirinkti %u)"
 msgstr[2] "Pasirinkite importuojamus elementus (pasirinkta %u)"
 
-#: src/photos-main-toolbar.c:217
+#: src/photos-main-toolbar.c:216
 msgid "Back"
 msgstr "Atgal"
 
-#: src/photos-main-toolbar.c:351
+#: src/photos-main-toolbar.c:350
 msgid "Select Items"
 msgstr "Pasirinkite elementus"
 
 #. length == 1
 #. Translators: this is the Open action in a context menu
-#: src/photos-main-toolbar.c:413 src/photos-selection-toolbar.c:237
+#: src/photos-main-toolbar.c:410 src/photos-selection-toolbar.c:237
 #: src/photos-share-notification.c:165
 #, c-format
 msgid "Open with %s"
 msgstr "Atverti su %s"
 
-#: src/photos-main-toolbar.c:444 src/photos-selection-toolbar.c:248
+#: src/photos-main-toolbar.c:441 src/photos-selection-toolbar.c:248
 msgid "Remove from favorites"
 msgstr "Pašalinti iš mėgiamiausių"
 
-#: src/photos-main-toolbar.c:449 src/photos-selection-toolbar.c:253
+#: src/photos-main-toolbar.c:446 src/photos-selection-toolbar.c:253
 msgid "Add to favorites"
 msgstr "Pridėti prie mėgiamiausių"
 
-#: src/photos-main-toolbar.c:494
+#: src/photos-main-toolbar.c:491
 msgid "Done"
 msgstr "Atlikta"
 
-#: src/photos-main-toolbar.c:530
+#: src/photos-main-toolbar.c:527
 msgid "_Select"
 msgstr "_Pasirinkti"
 
 #: src/photos-main-window.c:458
-#| msgid ""
-#| "Copyright © 2012 – 2018 Red Hat, Inc.\n"
-#| "Copyright © 2015 – 2018 Umang Jain"
 msgid ""
 "Copyright © 2012 – 2019 Red Hat, Inc.\n"
 "Copyright © 2015 – 2018 Umang Jain"
@@ -649,7 +649,6 @@ msgid "_Help"
 msgstr "_Pagalba"
 
 #: src/photos-primary-menu.ui:14
-#| msgid "Photos"
 msgid "About Photos"
 msgstr "Apie nuotraukos"
 
@@ -1039,18 +1038,22 @@ msgid "Calistoga"
 msgstr "Calistoga"
 
 #: src/photos-tool-filters.c:202
+msgid "Trencin"
+msgstr ""
+
+#: src/photos-tool-filters.c:209
 msgid "Mogadishu"
 msgstr "Mogadišas"
 
-#: src/photos-tool-filters.c:209
+#: src/photos-tool-filters.c:215
 msgid "Caap"
 msgstr "Caap"
 
-#: src/photos-tool-filters.c:215
+#: src/photos-tool-filters.c:222
 msgid "Hometown"
 msgstr "Gimtasis miestas"
 
-#: src/photos-tool-filters.c:233
+#: src/photos-tool-filters.c:239
 msgid "Filters"
 msgstr "Filtrai"
 
@@ -1061,6 +1064,9 @@ msgstr "Nepavyko rasti Tracker sistemos jūsų operacinėje sistemoje"
 #: src/photos-tracker-controller.c:176
 msgid "Unable to fetch the list of photos"
 msgstr "Nepavyksta gauti nuotraukų sąrašo"
+
+#~ msgid "org.gnome.Photos"
+#~ msgstr "org.gnome.Photos"
 
 #~ msgid "About"
 #~ msgstr "Apie"
