@@ -94,9 +94,10 @@ photos_source_build_filter_local (void)
         continue;
 
       tracker_uri = photos_utils_convert_path_to_uri (tracker_dirs[i]);
-      g_string_append_printf (tracker_filter, " || fn:contains (nie:url (?urn), '%s')", tracker_uri);
+      g_string_append_printf (tracker_filter, " || fn:contains (nie:isStoredAs (?urn), '%s')", tracker_uri);
     }
 
+  /* FIXME: this could be done differently for 3.0, see https://gitlab.gnome.org/GNOME/tracker-miners/-/merge_requests/206 */
   path = g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP);
   desktop_uri = photos_utils_convert_path_to_uri (path);
 
@@ -109,11 +110,11 @@ photos_source_build_filter_local (void)
   export_path = g_build_filename (path, PHOTOS_EXPORT_SUBPATH, NULL);
   export_uri = photos_utils_convert_path_to_uri (export_path);
 
-  filter = g_strdup_printf ("(((fn:contains (nie:url (?urn), '%s')"
-                            "   || fn:contains (nie:url (?urn), '%s')"
-                            "   || fn:contains (nie:url (?urn), '%s')"
+  filter = g_strdup_printf ("(((fn:contains (nie:isStoredAs (?urn), '%s')"
+                            "   || fn:contains (nie:isStoredAs (?urn), '%s')"
+                            "   || fn:contains (nie:isStoredAs (?urn), '%s')"
                             "   %s)"
-                            "  && !fn:contains (nie:url (?urn), '%s'))"
+                            "  && !fn:contains (nie:isStoredAs (?urn), '%s'))"
                             " || fn:starts-with (nao:identifier (?urn), '%s')"
                             " || (?urn = nfo:image-category-screenshot))",
                             desktop_uri,
@@ -146,7 +147,7 @@ photos_source_build_filter_resource (PhotosSource *self)
 
       root = g_mount_get_root (self->mount);
       uri = g_file_get_uri (root);
-      filter = g_strdup_printf ("(fn:starts-with (nie:url (?urn), '%s'))", uri);
+      filter = g_strdup_printf ("(fn:starts-with (nie:isStoredAs (?urn), '%s'))", uri);
     }
   else
     {

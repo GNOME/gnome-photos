@@ -24,7 +24,7 @@
 #include <babl/babl.h>
 #include <gegl.h>
 
-#include "photos-enums-gegl.h"
+#include "photos-enums.h"
 #include "photos-operation-insta-common.h"
 #include "photos-operation-insta-curve.h"
 

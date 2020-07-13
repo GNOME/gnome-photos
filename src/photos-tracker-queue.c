@@ -274,6 +274,8 @@ static gboolean
 photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellable, GError **error)
 {
   PhotosTrackerQueue *self = PHOTOS_TRACKER_QUEUE (initable);
+  TrackerSparqlConnectionFlags tracker_flags;
+  g_autoptr (GFile) store = NULL;
   gboolean ret_val = FALSE;
 
   G_LOCK (init_lock);
@@ -290,7 +292,21 @@ photos_tracker_queue_initable_init (GInitable *initable, GCancellable *cancellab
 
   g_assert_no_error (self->initialization_error);
 
-  self->connection = tracker_sparql_connection_get (cancellable, &self->initialization_error);
+  /* Same flags that tracker-miner-fs uses by default. See:
+   * https://gitlab.gnome.org/GNOME/tracker-miners/-/blob/master/src/miners/fs/tracker-main.c#L735 and
+   * https://gitlab.gnome.org/GNOME/tracker-miners/-/blob/master/data/org.freedesktop.Tracker.FTS.gschema.xml */
+  tracker_flags = TRACKER_SPARQL_CONNECTION_FLAGS_FTS_ENABLE_UNACCENT |
+                  TRACKER_SPARQL_CONNECTION_FLAGS_FTS_ENABLE_STOP_WORDS |
+                  TRACKER_SPARQL_CONNECTION_FLAGS_FTS_IGNORE_NUMBERS;
+
+  store = g_file_new_build_filename (g_get_user_data_dir (), "gnome-photos", NULL);
+
+  self->connection = tracker_sparql_connection_new (tracker_flags,
+                                                    store,
+                                                    tracker_sparql_get_ontology_nepomuk (),
+                                                    cancellable,
+                                                    &self->initialization_error);
+
   if (G_UNLIKELY (self->initialization_error != NULL))
     goto out;
 

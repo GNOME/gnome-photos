@@ -157,7 +157,7 @@ geocode_glib_dep = dependency('geocode-glib-1.0')
 gexiv_dep = dependency('gexiv2', version: '>= 0.10.8')
 gio_dep = dependency('gio-2.0')
 gio_unix_dep = dependency('gio-unix-2.0')
-glib_dep = dependency('glib-2.0', version: '>= 2.57.2')
+glib_dep = dependency('glib-2.0', version: '>= 2.62.0')
 
 goa_dep = dependency('goa-1.0', version: '>= 3.8.0')
 config_h.set('GOA_API_IS_SUBJECT_TO_CHANGE', true)
@@ -172,8 +172,7 @@ libgdata_dep = dependency('libgdata', version: '>= 0.15.2')
 libgfgraph_dep = dependency('libgfbgraph-0.2', version: '>= 0.2.1')
 libjpeg_dep = dependency('libjpeg')
 libpng_dep = dependency('libpng16')
-tracker_control_dep = dependency('tracker-control-2.0')
-tracker_sparql_dep = dependency('tracker-sparql-2.0')
+tracker_sparql_dep = dependency('tracker-sparql-3.0')
 
 dbus_dep = dependency('dbus-1')
 dbus_service_dir = dbus_dep.get_pkgconfig_variable(

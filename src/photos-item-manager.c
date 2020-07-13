@@ -311,7 +311,7 @@ photos_item_manager_add_cursor_for_mode (PhotosItemManager *self,
   g_return_if_fail (base_item_type == G_TYPE_NONE
                     || (base_item_type != PHOTOS_TYPE_BASE_ITEM
                         && g_type_is_a (base_item_type, PHOTOS_TYPE_BASE_ITEM)));
-  g_return_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor));
+  g_return_if_fail (TRACKER_IS_SPARQL_CURSOR (cursor));
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_NONE);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_EDIT);
   g_return_if_fail (mode != PHOTOS_WINDOW_MODE_PREVIEW);
@@ -717,7 +717,7 @@ photos_item_manager_wait_for_changes_timeout (gpointer user_data)
       g_autoptr (PhotosQuery) query = NULL;
       g_autofree gchar *sparql = NULL;
 
-      sparql = g_strdup_printf ("SELECT ?urn nie:url (?urn) WHERE { ?urn nie:url '%s' }", uri);
+      sparql = g_strdup_printf ("SELECT ?urn nie:isStoredAs (?urn) WHERE { ?urn nie:isStoredAs '%s' }", uri);
       query = photos_query_new (NULL, sparql);
       photos_tracker_queue_select (self->queue,
                                    query,
@@ -1241,7 +1241,7 @@ photos_item_manager_add_item (PhotosItemManager *self,
   g_return_if_fail (base_item_type == G_TYPE_NONE
                     || (base_item_type != PHOTOS_TYPE_BASE_ITEM
                         && g_type_is_a (base_item_type, PHOTOS_TYPE_BASE_ITEM)));
-  g_return_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor));
+  g_return_if_fail (TRACKER_IS_SPARQL_CURSOR (cursor));
 
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
   g_return_if_fail (id != NULL && id[0] != '\0');
@@ -1370,7 +1370,7 @@ photos_item_manager_create_item (PhotosItemManager *self,
   g_return_val_if_fail (base_item_type == G_TYPE_NONE
                         || (base_item_type != PHOTOS_TYPE_BASE_ITEM
                             && g_type_is_a (base_item_type, PHOTOS_TYPE_BASE_ITEM)), NULL);
-  g_return_val_if_fail (TRACKER_SPARQL_IS_CURSOR (cursor), NULL);
+  g_return_val_if_fail (TRACKER_IS_SPARQL_CURSOR (cursor), NULL);
 
   id = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_URN, NULL);
   item = PHOTOS_BASE_ITEM (photos_base_manager_get_object_by_id (PHOTOS_BASE_MANAGER (self), id));
