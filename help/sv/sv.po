@@ -1,13 +1,14 @@
 # Swedish translation for gnome-photos.
-# Copyright © 2016 gnome-photos's COPYRIGHT HOLDER
+# Copyright © 2016, 2020 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # Sebastian Rasmussen <sebras@gmail.com>, 2016.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2016-02-06 09:55+0000\n"
-"PO-Revision-Date: 2016-04-05 12:43+0200\n"
+"POT-Creation-Date: 2020-07-06 19:10+0000\n"
+"PO-Revision-Date: 2020-08-02 12:29+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -72,10 +73,10 @@ msgstr "Tagga dina favoriter"
 #: C/favorites-set.page:27
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
-"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+"\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
-"Foton eller album kan markeras som favoriter från <gui style=\"tab"
-"\">Senaste</gui>- eller <gui style=\"tab\">Album</gui>-fliken."
+"Foton eller album kan markeras som favoriter från <gui style=\"tab\">Foton</"
+"gui>- eller <gui style=\"tab\">Album</gui>-fliken."
 
 #. (itstool) path: steps/title
 #: C/favorites-set.page:31
@@ -85,10 +86,10 @@ msgstr "För att markera objekt som favoriter:"
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
 msgid ""
-"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
-"Välj fliken <gui>Album</gui> eller fliken <gui>Senaste</gui> beroende på "
+"Välj fliken <gui>Album</gui> eller fliken <gui>Foton</gui> beroende på "
 "huruvida du vill markera ett album eller ett foto som favorit."
 
 #. (itstool) path: item/p
@@ -243,20 +244,19 @@ msgstr "Öppna dina senaste foton."
 msgid "View recent photos"
 msgstr "Visa senaste foton"
 
-# sebras: looks like the Recent tab may be been removed, renamed or is now inherited from gtk+.
 #. (itstool) path: page/p
 #: C/view-photos.page:21
 msgid ""
-"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
 "and from online collections. You can also add other locations, even cloud-"
 "based collections such as Flickr or Facebook photographs, through <app>GNOME "
 "Online Accounts</app>."
 msgstr ""
-"Fliken <gui style=\"tab\">Senaste</gui> visar foton från platser i det "
-"lokala filsystemet, så som <file>~/Hämtningar</file>, <file>~/Bilder</file> "
-"och från samlingar på nätet. Du kan också lägga till andra platser, till och "
-"med molnbaserade samlingar så som Flickr eller Facebook-fotografier, via "
+"Fliken <gui style=\"tab\">Foton</gui> visar foton från platser i det lokala "
+"filsystemet, så som <file>~/Hämtningar</file>, <file>~/Bilder</file> och "
+"från samlingar på nätet. Du kan också lägga till andra platser, till och med "
+"molnbaserade samlingar så som Flickr eller Facebook-fotografier, via "
 "<app>GNOME Nätkonton</app>."
 
 #. (itstool) path: page/p
@@ -273,10 +273,10 @@ msgstr "Gå till <guiseq><gui>Inställningar</gui><gui>Sök</gui></guiseq>."
 #: C/view-photos.page:34
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
-"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+"you want to display in the <gui style=\"tab\">Photos</gui> tab."
 msgstr ""
 "Klicka på kugghjulsknappen längst ner till höger. Du kan välja platserna du "
-"vill visa i fliken <gui style=\"tab\">Senaste</gui>."
+"vill visa i fliken <gui style=\"tab\">Foton</gui>."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:40
@@ -285,8 +285,8 @@ msgstr "För att visa de senaste fotona:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-msgid "Select the <gui style=\"tab\">Recent</gui> tab."
-msgstr "Välj fliken <gui style=\"tab\">Senaste</gui>."
+msgid "Select the <gui style=\"tab\">Photos</gui> tab."
+msgstr "Välj fliken <gui style=\"tab\">Foton</gui>."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:46
@@ -308,12 +308,15 @@ msgstr "Visa bilder"
 #. (itstool) path: page/p
 #: C/view.page:26
 msgid ""
-"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
+"open. The <gui>Photos</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
 msgstr ""
-"När <app>Foton</app> öppnas kommer du att få se fliken <gui>Senaste</gui>. "
-"Fliken <gui>Senaste</gui> innehåller bilder från din dator, fliken "
-"<gui>Album</gui> innehåller dina fotoalbum och bilder som du markerat som "
-"favoriter återfinns i fliken <gui>Favoriter</gui>."
+"När <app>Foton</app> öppnas kommer du att få se fliken <gui>Foton</gui>. "
+"Fliken <gui>Foton</gui> innehåller bilder från din dator, fliken <gui>Album</"
+"gui> innehåller dina fotoalbum, och bilder som du markerat som favoriter "
+"återfinns i fliken <gui>Favoriter</gui>."
+
+#~ msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+#~ msgstr "Välj fliken <gui style=\"tab\">Senaste</gui>."
