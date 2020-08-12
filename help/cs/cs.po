@@ -1,13 +1,13 @@
 # Czech translation for gnome-photos.
 # Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
-# Marek Černocký <marek@manet.cz>, 2014, 2015.
+# Marek Černocký <marek@manet.cz>, 2014, 2015, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
-"POT-Creation-Date: 2015-02-04 08:21+0000\n"
-"PO-Revision-Date: 2015-02-04 12:32+0100\n"
+"POT-Creation-Date: 2020-07-06 19:10+0000\n"
+"PO-Revision-Date: 2020-08-12 10:40+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -67,10 +67,10 @@ msgstr "Označení vašich oblíbených"
 #: C/favorites-set.page:27
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
-"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+"\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
-"Fotografie nebo alba můžete označit jako oblíbené z karet <gui style=\"tab"
-"\">Nedávné</gui> nebo <gui style=\"tab\">Alba</gui>."
+"Fotografie nebo alba můžete označit jako oblíbené z karty <gui style=\"tab"
+"\">Fotky</gui> nebo <gui style=\"tab\">Alba</gui>."
 
 #. (itstool) path: steps/title
 #: C/favorites-set.page:31
@@ -80,11 +80,11 @@ msgstr "Označení oblíbených položek:"
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
 msgid ""
-"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
-"Vyberte kartu <gui>Alba</gui> nebo kartu <gui>Nedávné</gui> podle toho, "
-"jestli chcete označit jako oblíbené album nebo fotografii."
+"Vyberte kartu <gui>Alba</gui> nebo <gui>Fotky</gui> podle toho, jestli chcete "
+"označit jako oblíbené album nebo fotografii."
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:37
@@ -242,13 +242,13 @@ msgstr "Zobrazení nedávných fotografií"
 #. (itstool) path: page/p
 #: C/view-photos.page:21
 msgid ""
-"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
 "and from online collections. You can also add other locations, even cloud-"
 "based collections such as Flickr or Facebook photographs, through <app>GNOME "
 "Online Accounts</app>."
 msgstr ""
-"Karta <gui style=\"tab\">Nedávné</gui> zobrazuje fotografie uložené v "
+"Karta <gui style=\"tab\">Fotky</gui> zobrazuje fotografie uložené v "
 "místním souborovém systému, jako jsou složky <file>~/Stažené</file> nebo "
 "<file>~/Obrázky</file>, a z alb on-line. Můžete přidat i další umístění, "
 "včetně cloudových alb, jako je Flickr nebo fotografie na Facebooku, a to "
@@ -268,10 +268,10 @@ msgstr "Jděte na <guiseq><gui>Nastavení</gui> <gui>Hledat</gui></guiseq>."
 #: C/view-photos.page:34
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
-"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+"you want to display in the <gui style=\"tab\">Photos</gui> tab."
 msgstr ""
 "Klikněte na tlačítko s ozubenými koly vpravo dole. Můžete vybrat umístění, "
-"která chcete zobrazit na kartě <gui style=\"tab\">Nedávné</gui>."
+"která chcete zobrazit na kartě <gui style=\"tab\">Fotky</gui>."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:40
@@ -280,8 +280,8 @@ msgstr "Aby se zobrazily nedávné fotografie:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-msgid "Select the <gui style=\"tab\">Recent</gui> tab."
-msgstr "Vyberte kartu <gui style=\"tab\">Nedávné</gui>."
+msgid "Select the <gui style=\"tab\">Photos</gui> tab."
+msgstr "Vyberte kartu <gui style=\"tab\">Fotky</gui>."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:46
@@ -303,12 +303,12 @@ msgstr "Zobrazení obrázků"
 #. (itstool) path: page/p
 #: C/view.page:26
 msgid ""
-"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
+"open. The <gui>Photos</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
 msgstr ""
 "Když otevřete aplikaci <app>Fotky</app>, uvidíte otevřenou kartu "
-"<gui>Nedávné</gui>. Tato karta obsahuje obrázky z vašeho počítače, karta "
-"<gui>Alba</gui> obsahuje vaše fotoalba a obrázky, které jste označili jako "
-"oblíbené, najdete na kartě <gui>Oblíbené</gui>."
+"<gui>Fotky</gui>. Tato karta obsahuje obrázky z vašeho počítače, karta "
+"<gui>Alba</gui> obsahuje vaše fotoalba a nakonec obrázky, které jste označili "
+"jako oblíbené, najdete na kartě <gui>Oblíbené</gui>."
