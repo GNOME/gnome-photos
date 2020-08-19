@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-03-30 16:41+0000\n"
-"PO-Revision-Date: 2020-05-12 14:38+0000\n"
+"POT-Creation-Date: 2020-08-04 20:37+0000\n"
+"PO-Revision-Date: 2020-08-19 21:15+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: data/org.gnome.Photos.appdata.xml.in:7 data/org.gnome.Photos.desktop.in.in:3
-#: src/photos-application.c:3040 src/photos-embed.c:825 src/photos-main-window.c:437
-#: src/photos-search-type-manager.c:144
+#: src/photos-application.c:3040 src/photos-embed.c:825
+#: src/photos-main-window.c:437 src/photos-search-type-manager.c:144
 msgid "Photos"
 msgstr "عکس‌ها"
 
@@ -31,13 +31,13 @@ msgstr "دسترسی، مدیریت و هم‌رسانی عکس‌هایتان �
 
 #: data/org.gnome.Photos.appdata.xml.in:10
 msgid ""
-"Access, organize and share your photos on GNOME. A simple and elegant replacement "
-"for using a file manager to deal with photos. Enhance, crop and edit in a snap. "
-"Seamless cloud integration is offered through GNOME Online Accounts."
+"Access, organize and share your photos on GNOME. A simple and elegant "
+"replacement for using a file manager to deal with photos. Enhance, crop and edit "
+"in a snap. Seamless cloud integration is offered through GNOME Online Accounts."
 msgstr ""
-"دسترسی، مرتّب‌سازی و هم‌رسانی عکس‌هایتان روی گنوم. جایگزین ساده و شیک استفاده از مدیر "
-"پرونده برای کار با عکس‌ها. بهبود، برش و ویرایش در یک چشم به هم زدن. یکپارچه‌سازی ابری "
-"از طریق حساب‌های برخط گنوم."
+"دسترسی، مرتّب‌سازی و هم‌رسانی عکس‌هایتان روی گنوم. جایگزین ساده و شیک استفاده از "
+"مدیر پرونده برای کار با عکس‌ها. بهبود، برش و ویرایش در یک چشم به هم زدن. "
+"یکپارچه‌سازی ابری از طریق حساب‌های برخط گنوم."
 
 #: data/org.gnome.Photos.appdata.xml.in:16
 msgid "You can:"
@@ -79,7 +79,7 @@ msgstr ""
 "ویرایش سادهٔ عکس‌هایتان در کاره، یا فرستادن به یک ویرایشگر پرویژگی برای تغییرات "
 "پیش‌رفته‌تر"
 
-#: data/org.gnome.Photos.appdata.xml.in:74
+#: data/org.gnome.Photos.appdata.xml.in:81
 msgid "The GNOME Project"
 msgstr "پروژه گنوم"
 
@@ -142,7 +142,7 @@ msgstr "%-Od %OB %Oy"
 msgid "Album"
 msgstr "آلبوم"
 
-#: src/photos-base-item.c:2840
+#: src/photos-base-item.c:2845
 msgid "Screenshots"
 msgstr "نماگرفت‌ها"
 
@@ -290,7 +290,7 @@ msgstr "برون‌ریزی شکست خورد"
 #: src/photos-export-notification.c:326
 #, c-format
 msgid "“%s” exported"
-msgstr "«%s» برو»‌ریزی شد"
+msgstr "«%s» برون‌ریزی شد"
 
 #: src/photos-export-notification.c:330
 #, c-format
@@ -909,7 +909,7 @@ msgstr "تنظیمات"
 
 #: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
-msgstr "آدرس D-Bus برای استفاده"
+msgstr "نشانی دی‌باس برای استفاده"
 
 #: src/photos-tool-colors.c:386
 msgid "Contrast"
@@ -997,7 +997,7 @@ msgstr "تیزی"
 
 #: src/photos-tool-enhance.c:218
 msgid "Denoise"
-msgstr "کاهش نویز"
+msgstr "نوفه‌زدایی"
 
 #: src/photos-tool-enhance.c:245
 msgid "Enhance"
@@ -1007,7 +1007,7 @@ msgstr "بهینه‌سازی"
 #: src/photos-tool-filters.c:182
 msgctxt "Edit Filter"
 msgid "None"
-msgstr "هیچکدام"
+msgstr "هیچ‌کدام"
 
 #: src/photos-tool-filters.c:189
 msgid "1947"
@@ -1015,21 +1015,25 @@ msgstr "۱۹۴۷"
 
 #: src/photos-tool-filters.c:196
 msgid "Calistoga"
-msgstr "Calistoga"
+msgstr "کالیستوگا"
 
 #: src/photos-tool-filters.c:202
-msgid "Mogadishu"
-msgstr "Mogadishu"
+msgid "Trencin"
+msgstr "ترنچین"
 
 #: src/photos-tool-filters.c:209
-msgid "Caap"
-msgstr "Caap"
+msgid "Mogadishu"
+msgstr "موگادیشو"
 
 #: src/photos-tool-filters.c:215
+msgid "Caap"
+msgstr "کاپ"
+
+#: src/photos-tool-filters.c:222
 msgid "Hometown"
 msgstr "شهر زندگی"
 
-#: src/photos-tool-filters.c:233
+#: src/photos-tool-filters.c:239
 msgid "Filters"
 msgstr "پالایه‌ها"
 
@@ -1135,13 +1139,13 @@ msgstr "ناتوان در واکشی فهرست عکس‌ها"
 #~ msgstr "درحال بارگیری..."
 
 #~ msgid ""
-#~ "<li>View recent local and online photos</li> <li>Access your Flickr content</li> "
-#~ "<li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
-#~ "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full featured "
-#~ "editor for more advanced changes</li>"
+#~ "<li>View recent local and online photos</li> <li>Access your Flickr content</"
+#~ "li> <li>Send photos to remote DLNA renderers</li> <li>Set as background</li> "
+#~ "<li>Print photos</li> <li>Select favorites</li> <li>Allow opening full "
+#~ "featured editor for more advanced changes</li>"
 #~ msgstr ""
-#~ "<li>نمایش عکس‌های تازه محلی و برخط</li> <li>دسترسی به محتویات حساب فلیکر خود</li> "
-#~ "<li>ارسال تصاویر به رندرکننده‌های DLNA</li> <li>تنظیم به‌عنوان پس‌زمینه</li> "
+#~ "<li>نمایش عکس‌های تازه محلی و برخط</li> <li>دسترسی به محتویات حساب فلیکر خود</"
+#~ "li> <li>ارسال تصاویر به رندرکننده‌های DLNA</li> <li>تنظیم به‌عنوان پس‌زمینه</li> "
 #~ "<li>چاپ تصاویر</li> <li>انتخاب مورد علاقه‌ها</li> <li>اجازه برای بازکردن یک "
 #~ "ویرایشگر با امکانات بالاتر جهت ایجاد تغییرات پیشرفته‌تر</li>"
 
