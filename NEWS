@@ -1,3 +1,36 @@
+Overview of changes in 3.37.91
+==============================
+
+* Add a new magic filter called Trencin
+
+* Bugs fixed:
+ !133 CI: Drop MESON_ARGS, and detect them from the Flatpak manifest
+
+* Updated translations:
+ Catalan
+ Simplified Chinese
+ Croatian
+ Czech
+ Finnish
+ French
+ Friulian
+ Galician
+ Greek
+ Indonesian
+ Kazakh
+ Central Kurdish
+ Lithuanian
+ Persian
+ Polish
+ Portuguese (Brazilian)
+ Romanian
+ Slovenian
+ Spanish
+ Swedish
+ Turkish
+ Ukrainian
+
+
 Overview of changes in 3.37.2
 =============================
 
