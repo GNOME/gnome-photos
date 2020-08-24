@@ -32,7 +32,7 @@ test_data = [
   'photos-test-pipeline-edited-magic-filter-none.xml',
   'photos-test-pipeline-edited-magic-filter-1947.xml',
   'photos-test-pipeline-edited-magic-filter-calistoga.xml',
-  'photos-test-pipeline-edited-insta-filter-trencin.xml',
+  'photos-test-pipeline-edited-magic-filter-trencin.xml',
   'photos-test-pipeline-edited-magic-filter-caap.xml',
   'photos-test-pipeline-edited-magic-filter-mogadishu.xml',
   'photos-test-pipeline-edited-magic-filter-hometown.xml',
