@@ -237,7 +237,9 @@ photos_tracker_controller_cursor_next (GObject *source_object, GAsyncResult *res
     }
 
   now = g_get_monotonic_time ();
-  photos_debug (PHOTOS_DEBUG_TRACKER, "Query Cursor: %" G_GINT64_FORMAT, (now - priv->last_query_time) / 1000000);
+  photos_debug (PHOTOS_DEBUG_TRACKER,
+                "Query Cursor: %" G_GINT64_FORMAT " seconds",
+                (now - priv->last_query_time) / 1000000);
 
   photos_item_manager_add_item_for_mode (PHOTOS_ITEM_MANAGER (priv->item_mngr),
                                          PHOTOS_TRACKER_CONTROLLER_GET_CLASS (self)->base_item_type,
@@ -346,7 +348,7 @@ photos_tracker_controller_set_query_status (PhotosTrackerController *self, gbool
   else
     {
       photos_debug (PHOTOS_DEBUG_TRACKER,
-                    "Query Elapsed: %" G_GINT64_FORMAT,
+                    "Query Elapsed: %" G_GINT64_FORMAT " seconds",
                     (now - priv->last_query_time) / 1000000);
       priv->last_query_time = 0;
     }
