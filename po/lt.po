@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2020-05-26 16:37+0000\n"
-"PO-Revision-Date: 2020-07-13 16:31+0300\n"
+"POT-Creation-Date: 2020-08-25 17:10+0000\n"
+"PO-Revision-Date: 2020-08-25 22:48+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -348,7 +348,6 @@ msgid "Show help"
 msgstr "Rodyti žinyną"
 
 #: src/photos-help-overlay.ui:43
-#| msgid "Keyboard Shortcuts"
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
 msgstr "Klaviatūros trumpiniai"
@@ -394,15 +393,11 @@ msgid "Select all"
 msgstr "Pasirinkti visas"
 
 #: src/photos-help-overlay.ui:113
-#| msgctxt "shortcut window"
-#| msgid "Export selected photos"
 msgctxt "shortcut window"
 msgid "Export selected photo"
 msgstr "Eksportuoti pažymėtą nuotrauką"
 
 #: src/photos-help-overlay.ui:120
-#| msgctxt "shortcut window"
-#| msgid "Print selected photos"
 msgctxt "shortcut window"
 msgid "Print selected photo"
 msgstr "Spausdinti pažymėtą nuotrauką"
@@ -1039,7 +1034,7 @@ msgstr "Calistoga"
 
 #: src/photos-tool-filters.c:202
 msgid "Trencin"
-msgstr ""
+msgstr "Trencinas"
 
 #: src/photos-tool-filters.c:209
 msgid "Mogadishu"
