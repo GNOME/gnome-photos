@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2016 – 2019 Red Hat, Inc.
+ * Copyright © 2016 – 2020 Red Hat, Inc.
  * Copyright © 2016 Umang Jain
  *
  * This program is free software: you can redistribute it and/or modify
@@ -112,7 +112,7 @@ static void
 photos_share_point_google_share_insert_shared_content (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   GError *error;
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   GomMiner *miner = GOM_MINER (source_object);
 
   error = NULL;
@@ -125,7 +125,7 @@ photos_share_point_google_share_insert_shared_content (GObject *source_object, G
   g_task_return_boolean (task, TRUE);
 
  out:
-  g_object_unref (task);
+  return;
 }
 
 
@@ -178,36 +178,33 @@ static void
 photos_share_point_google_share_metadata_add_shared (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSharePointGoogle *self;
-  GError *error;
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
   PhotosSharePointGoogleShareData *data;
 
   self = PHOTOS_SHARE_POINT_GOOGLE (g_task_get_source_object (task));
   data = (PhotosSharePointGoogleShareData *) g_task_get_task_data (task);
 
-  error = NULL;
-  if (!photos_base_item_metadata_add_shared_finish (item, res, &error))
-    {
-      if (g_task_get_completed (task))
-        {
-          g_warning ("Unable to add shared metadata: %s", error->message);
-          g_error_free (error);
-        }
-      else
-        {
-          g_task_return_error (task, error);
-        }
+  {
+    g_autoptr (GError) error = NULL;
 
-      goto out;
-    }
+    if (!photos_base_item_metadata_add_shared_finish (item, res, &error))
+      {
+        if (g_task_get_completed (task))
+          g_warning ("Unable to add shared metadata: %s", error->message);
+        else
+          g_task_return_error (task, g_steal_pointer (&error));
+
+        goto out;
+      }
+  }
 
   data->pending_async_calls--;
   if (data->pending_async_calls == 0)
     photos_share_point_google_share_metadata_add_shared_second (self, g_object_ref (task));
 
  out:
-  g_object_unref (task);
+  return;
 }
 
 
@@ -215,43 +212,38 @@ static void
 photos_share_point_google_share_wait_for_changes (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   PhotosSharePointGoogle *self;
-  GError *error;
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   PhotosItemManager *item_mngr = PHOTOS_ITEM_MANAGER (source_object);
   PhotosSharePointGoogleShareData *data;
-  gchar *item_id_after_changes = NULL;
+  g_autofree gchar *item_id_after_changes = NULL;
 
   self = PHOTOS_SHARE_POINT_GOOGLE (g_task_get_source_object (task));
   data = (PhotosSharePointGoogleShareData *) g_task_get_task_data (task);
 
-  error = NULL;
-  item_id_after_changes = photos_item_manager_wait_for_changes_finish (item_mngr, res, &error);
-  if (error != NULL)
-    {
-      if (g_task_get_completed (task))
-        {
-          g_warning ("Unable to detect changes: %s", error->message);
-          g_error_free (error);
-        }
-      else
-        {
-          g_task_return_error (task, error);
-        }
+  {
+    g_autoptr (GError) error = NULL;
 
-      goto out;
-    }
+    item_id_after_changes = photos_item_manager_wait_for_changes_finish (item_mngr, res, &error);
+    if (error != NULL)
+      {
+        if (g_task_get_completed (task))
+          g_warning ("Unable to detect changes: %s", error->message);
+        else
+          g_task_return_error (task, g_steal_pointer (&error));
+
+        goto out;
+      }
+  }
 
   g_assert_null (data->item_id_after_changes);
-  data->item_id_after_changes = item_id_after_changes;
-  item_id_after_changes = NULL;
+  data->item_id_after_changes = g_steal_pointer (&item_id_after_changes);
 
   data->pending_async_calls--;
   if (data->pending_async_calls == 0)
     photos_share_point_google_share_metadata_add_shared_second (self, g_object_ref (task));
 
  out:
-  g_free (item_id_after_changes);
-  g_object_unref (task);
+  return;
 }
 
 
@@ -261,8 +253,8 @@ photos_share_point_google_share_save_to_stream (GObject *source_object, GAsyncRe
   PhotosSharePointGoogle *self;
   GCancellable *cancellable;
   GError *error;
-  GTask *task = G_TASK (user_data);
-  GDataPicasaWebFile *file_entry = NULL;
+  g_autoptr (GTask) task = G_TASK (user_data);
+  g_autoptr (GDataPicasaWebFile) file_entry = NULL;
   GoaAccount *account;
   GoaObject *object;
   PhotosBaseItem *item = PHOTOS_BASE_ITEM (source_object);
@@ -271,7 +263,7 @@ photos_share_point_google_share_save_to_stream (GObject *source_object, GAsyncRe
   const gchar *account_identity;
   const gchar *file_entry_id;
   const gchar *provider_type;
-  gchar *shared_identifier = NULL;
+  g_autofree gchar *shared_identifier = NULL;
 
   self = PHOTOS_SHARE_POINT_GOOGLE (g_task_get_source_object (task));
   cancellable = g_task_get_cancellable (task);
@@ -333,9 +325,7 @@ photos_share_point_google_share_save_to_stream (GObject *source_object, GAsyncRe
   data->pending_async_calls++;
 
  out:
-  g_clear_object (&file_entry);
-  g_object_unref (task);
-  g_free (shared_identifier);
+  return;
 }
 
 
@@ -347,10 +337,10 @@ photos_share_point_google_share_refresh_authorization (GObject *source_object,
   PhotosSharePointGoogle *self;
   GCancellable *cancellable;
   GError *error;
-  GTask *task = G_TASK (user_data);
+  g_autoptr (GTask) task = G_TASK (user_data);
   GDataAuthorizer *authorizer = GDATA_AUTHORIZER (source_object);
-  GDataPicasaWebFile *file_entry = NULL;
-  GDataUploadStream *stream = NULL;
+  g_autoptr (GDataPicasaWebFile) file_entry = NULL;
+  g_autoptr (GDataUploadStream) stream = NULL;
   PhotosSharePointGoogleShareData *data;
   const gchar *filename;
   const gchar *mime_type;
@@ -399,9 +389,7 @@ photos_share_point_google_share_refresh_authorization (GObject *source_object,
                                          g_object_ref (task));
 
  out:
-  g_clear_object (&file_entry);
-  g_clear_object (&stream);
-  g_object_unref (task);
+  return;
 }
 
 
@@ -413,7 +401,7 @@ photos_share_point_google_share_async (PhotosSharePoint *share_point,
                                        gpointer user_data)
 {
   PhotosSharePointGoogle *self = PHOTOS_SHARE_POINT_GOOGLE (share_point);
-  GTask *task;
+  g_autoptr (GTask) task = NULL;
   PhotosSharePointGoogleShareData *data;
 
   data = photos_share_point_google_share_data_new (item);
@@ -426,8 +414,6 @@ photos_share_point_google_share_async (PhotosSharePoint *share_point,
                                                 cancellable,
                                                 photos_share_point_google_share_refresh_authorization,
                                                 g_object_ref (task));
-
-  g_object_unref (task);
 }
 
 
