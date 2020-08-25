@@ -1,0 +1,26 @@
+--- LibRaw-0.20-Beta1/libraw.pc.in~	2020-05-13 14:22:12.656424311 +0200
++++ LibRaw-0.20-Beta1/libraw.pc.in	2020-05-13 14:22:27.481441569 +0200
+@@ -5,7 +5,8 @@
+ 
+ Name: libraw
+ Description: Raw image decoder library (non-thread-safe)
+-Requires: @PACKAGE_REQUIRES@
++Requires.private: @PACKAGE_REQUIRES@
+ Version: @PACKAGE_VERSION@
+-Libs: -L${libdir} -lraw -lstdc++@PC_OPENMP@
++Libs: -L${libdir} -lraw@PC_OPENMP@
++Libs.private: -lstdc++
+ Cflags: -I${includedir}/libraw -I${includedir}
+--- LibRaw-0.20-Beta1/libraw_r.pc.in~	2020-05-13 14:22:18.034430572 +0200
++++ LibRaw-0.20-Beta1/libraw_r.pc.in	2020-05-13 14:22:27.481441569 +0200
+@@ -5,7 +5,8 @@
+ 
+ Name: libraw
+ Description: Raw image decoder library (thread-safe)
+-Requires: @PACKAGE_REQUIRES@
++Requires.private: @PACKAGE_REQUIRES@
+ Version: @PACKAGE_VERSION@
+-Libs: -L${libdir} -lraw_r -lstdc++@PC_OPENMP@
++Libs: -L${libdir} -lraw_r@PC_OPENMP@
++Libs.private: -lstdc++
+ Cflags: -I${includedir}/libraw -I${includedir}
