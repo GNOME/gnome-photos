@@ -164,7 +164,8 @@
             "cleanup": [ "/lib/exiv2" ],
             "config-opts": [ "-DCMAKE_BUILD_TYPE=Release",
                              "-DEXIV2_BUILD_EXIV2_COMMAND=OFF",
-                             "-DEXIV2_BUILD_SAMPLES=OFF" ],
+                             "-DEXIV2_BUILD_SAMPLES=OFF",
+                             "-DEXIV2_ENABLE_NLS=ON" ],
             "sources": [
                 {
                     "type": "archive",
