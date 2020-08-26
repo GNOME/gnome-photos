@@ -1,5 +1,5 @@
 # Japanese translation for gnome-photos.
-# Copyright (C) 2013-2020 gnome-photos's COPYRIGHT HOLDER
+# Copyright (C) 2013-2016, 2019-2020 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
 # victory <victory.deb@gmail.com>, 2013.
 # Jiro Matsuzawa  <jmatsuzawa@gnome.org>, 2013-2016.
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
 "POT-Creation-Date: 2020-08-25 17:10+0000\n"
-"PO-Revision-Date: 2020-02-09 23:00+0900\n"
+"PO-Revision-Date: 2020-08-26 23:30+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -29,33 +29,27 @@ msgstr "写真"
 
 #: data/org.gnome.Photos.appdata.xml.in:8 src/photos-main-window.c:457
 msgid "Access, organize and share your photos on GNOME"
-msgstr "GNOME で写真の表示、整理、共有します"
+msgstr "GNOME で写真を表示、整理、共有します"
 
 #: data/org.gnome.Photos.appdata.xml.in:10
-#, fuzzy
-#| msgid ""
-#| "A simple application to access, organize and share your photos on GNOME. "
-#| "It is meant to be a simple and elegant replacement for using a file "
-#| "manager to deal with photos. Seamless cloud integration is offered "
-#| "through GNOME Online Accounts."
 msgid ""
 "Access, organize and share your photos on GNOME. A simple and elegant "
 "replacement for using a file manager to deal with photos. Enhance, crop and "
 "edit in a snap. Seamless cloud integration is offered through GNOME Online "
 "Accounts."
 msgstr ""
-"GNOME 上で、写真の参照、整理、共有を行うシンプルなアプリケーションです。ファ"
-"イルマネージャーを使う必要はなく、無駄のない洗練された写真管理ができます。"
-"GNOME オンラインアカウントを通じて、クラウドとシームレスに連携して利用できま"
-"す。"
+"GNOME で写真を表示、整理、共有します。ファイルマネージャーを使用することなく"
+"、無駄のない洗練された写真管理ができます。画像を手早く切り抜いたり強調したり"
+"することもできます。GNOME オンラインアカウントを通じて、クラウドとシームレス"
+"に連携して利用できます。"
 
 #: data/org.gnome.Photos.appdata.xml.in:16
 msgid "You can:"
-msgstr ""
+msgstr "できること:"
 
 #: data/org.gnome.Photos.appdata.xml.in:18
 msgid "Automatically find all your pictures"
-msgstr ""
+msgstr "あなたの写真を自動的に見つける"
 
 #: data/org.gnome.Photos.appdata.xml.in:19
 msgid "View recent local and online photos"
@@ -69,6 +63,8 @@ msgstr "Facebook または Flickr 上のあなたの写真にアクセスする"
 msgid ""
 "View photos on TVs, laptops or other DLNA renderers on your local network"
 msgstr ""
+"ローカルネットワーク上のテレビやノートパソコン、その他の DLNA レンダラー"
+"で写真を表示する"
 
 #: data/org.gnome.Photos.appdata.xml.in:23
 msgid "Set pictures as your desktop background"
@@ -87,6 +83,8 @@ msgid ""
 "Easily edit your pictures in the app, or send to a full featured editor for "
 "more advanced changes"
 msgstr ""
+"写真にちょっとした編集を加える、または大掛かりな編集をするために別の高機能な"
+"画像エディターに写真を渡す"
 
 #: data/org.gnome.Photos.appdata.xml.in:81
 msgid "The GNOME Project"
@@ -103,11 +101,11 @@ msgstr "Photos;Pictures;写真;フォト;絵;画像;"
 
 #: data/org.gnome.photos.gschema.xml:5
 msgid "Window size"
-msgstr "ウィンドウサイズ"
+msgstr "ウィンドウのサイズ"
 
 #: data/org.gnome.photos.gschema.xml:6
 msgid "Window size (width and height)."
-msgstr "ウィンドウサイズ (幅と高さ) です。"
+msgstr "ウィンドウのサイズ (幅と高さ) です。"
 
 #: data/org.gnome.photos.gschema.xml:10
 msgid "Window position"
@@ -115,15 +113,15 @@ msgstr "ウィンドウの位置"
 
 #: data/org.gnome.photos.gschema.xml:11
 msgid "Window position (x and y)."
-msgstr "ウィンドウの位置 (横位置と縦位置) です。"
+msgstr "ウィンドウの位置 (X 軸と Y 軸) です。"
 
 #: data/org.gnome.photos.gschema.xml:15
 msgid "Window maximized"
-msgstr "ウィンドウ最大化"
+msgstr "ウィンドウの最大化"
 
 #: data/org.gnome.photos.gschema.xml:16
 msgid "Window maximized state"
-msgstr "ウィンドウ最大化の状態です。"
+msgstr "ウィンドウの最大化状態"
 
 #: src/photos-application.c:164
 msgid "Show the empty state"
@@ -348,11 +346,9 @@ msgid "Show help"
 msgstr "ヘルプを表示する"
 
 #: src/photos-help-overlay.ui:43
-#, fuzzy
-#| msgid "Keyboard Shortcuts"
 msgctxt "shortcut window"
 msgid "Keyboard shortcuts"
-msgstr "キーボードショートカット"
+msgstr "キーボードショートカットを表示する"
 
 #: src/photos-help-overlay.ui:50
 msgctxt "shortcut window"
@@ -395,17 +391,11 @@ msgid "Select all"
 msgstr "すべて選択する"
 
 #: src/photos-help-overlay.ui:113
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Export selected photos"
 msgctxt "shortcut window"
 msgid "Export selected photo"
 msgstr "選択した写真をエクスポートする"
 
 #: src/photos-help-overlay.ui:120
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Print selected photos"
 msgctxt "shortcut window"
 msgid "Print selected photo"
 msgstr "選択した写真を印刷する"
@@ -930,7 +920,7 @@ msgstr "設定"
 
 #: src/photos-thumbnailer.c:74
 msgid "D-Bus address to use"
-msgstr ""
+msgstr "使用する D-Bus アドレス"
 
 #: src/photos-tool-colors.c:386
 msgid "Contrast"
