@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-12-27 13:10+0000\n"
+"POT-Creation-Date: 2020-08-25 17:10+0000\n"
 "PO-Revision-Date: 2020-02-09 23:00+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -88,7 +88,7 @@ msgid ""
 "more advanced changes"
 msgstr ""
 
-#: data/org.gnome.Photos.appdata.xml.in:74
+#: data/org.gnome.Photos.appdata.xml.in:81
 msgid "The GNOME Project"
 msgstr "The GNOME Project"
 
@@ -151,7 +151,7 @@ msgstr "%Y年%B%-d日"
 msgid "Album"
 msgstr "アルバム"
 
-#: src/photos-base-item.c:2840
+#: src/photos-base-item.c:2845
 msgid "Screenshots"
 msgstr "スクリーンショット"
 
@@ -348,116 +348,129 @@ msgid "Show help"
 msgstr "ヘルプを表示する"
 
 #: src/photos-help-overlay.ui:43
+#, fuzzy
+#| msgid "Keyboard Shortcuts"
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "キーボードショートカット"
+
+#: src/photos-help-overlay.ui:50
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "終了する"
 
-#: src/photos-help-overlay.ui:52
+#: src/photos-help-overlay.ui:59
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "移動"
 
-#: src/photos-help-overlay.ui:56
+#: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "次の写真を表示する"
 
-#: src/photos-help-overlay.ui:63
+#: src/photos-help-overlay.ui:70
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "前の写真を表示する"
 
-#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
+#: src/photos-help-overlay.ui:77 src/photos-help-overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "一覧画面に戻る"
 
-#: src/photos-help-overlay.ui:88
+#: src/photos-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "一覧画面"
 
-#: src/photos-help-overlay.ui:92
+#: src/photos-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "検索する"
 
-#: src/photos-help-overlay.ui:99
+#: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "すべて選択する"
 
-#: src/photos-help-overlay.ui:106
+#: src/photos-help-overlay.ui:113
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Export selected photos"
 msgctxt "shortcut window"
-msgid "Export selected photos"
+msgid "Export selected photo"
 msgstr "選択した写真をエクスポートする"
 
-#: src/photos-help-overlay.ui:113
+#: src/photos-help-overlay.ui:120
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Print selected photos"
 msgctxt "shortcut window"
-msgid "Print selected photos"
+msgid "Print selected photo"
 msgstr "選択した写真を印刷する"
 
-#: src/photos-help-overlay.ui:120
+#: src/photos-help-overlay.ui:127
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "選択した写真を削除する"
 
-#: src/photos-help-overlay.ui:129
+#: src/photos-help-overlay.ui:136
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "写真ビュー"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "編集する"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "エクスポートする"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "印刷する"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "拡大する"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "縮小する"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "ウィンドウに合わせる"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "削除する"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "アクションメニューを表示する"
 
-#: src/photos-help-overlay.ui:189
+#: src/photos-help-overlay.ui:196
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "フルスクリーン表示を切り替える"
 
-#: src/photos-help-overlay.ui:198
+#: src/photos-help-overlay.ui:205
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "編集ビュー"
 
-#: src/photos-help-overlay.ui:202
+#: src/photos-help-overlay.ui:209
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "編集内容を取り消す"
@@ -1026,18 +1039,22 @@ msgid "Calistoga"
 msgstr ""
 
 #: src/photos-tool-filters.c:202
-msgid "Mogadishu"
+msgid "Trencin"
 msgstr ""
 
 #: src/photos-tool-filters.c:209
-msgid "Caap"
+msgid "Mogadishu"
 msgstr ""
 
 #: src/photos-tool-filters.c:215
+msgid "Caap"
+msgstr ""
+
+#: src/photos-tool-filters.c:222
 msgid "Hometown"
 msgstr ""
 
-#: src/photos-tool-filters.c:233
+#: src/photos-tool-filters.c:239
 msgid "Filters"
 msgstr "フィルター"
 
