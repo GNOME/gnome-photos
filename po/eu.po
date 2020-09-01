@@ -2,16 +2,16 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-#
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2013, 2014, 2015, 2016, 2017.
 # Edurne Labaka <elabaka@uzei.com>, 2015.
-# Asier Sarasua Garmendia <asier.sarasua@gmail.com>, 2019.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2019, 2020.
+#
 msgid ""
 msgstr "Project-Id-Version: gnome-photos master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-photos/issues\n"
-"POT-Creation-Date: 2019-09-24 14:07+0000\n"
-"PO-Revision-Date: 2019-03-01 06:00+0100\n"
-"Last-Translator: Asier Sarasua Garmendia <asier.sarasua@gmail.com>\n"
+"POT-Creation-Date: 2020-08-25 17:10+0000\n"
+"PO-Revision-Date: 2020-09-01 06:00+0100\n"
+"Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,7 @@ msgid ""
 "more advanced changes"
 msgstr "Editatu zure irudiak modu errazean aplikazioan, edo bidali editore aurreratu batera aldaketa sakonagoak egiteko"
 
-#: data/org.gnome.Photos.appdata.xml.in:74
+#: data/org.gnome.Photos.appdata.xml.in:81
 msgid "The GNOME Project"
 msgstr "GNOME proiektua"
 
@@ -140,7 +140,7 @@ msgstr "%-d %B %Y"
 msgid "Album"
 msgstr "Albuma"
 
-#: src/photos-base-item.c:2840
+#: src/photos-base-item.c:2845
 msgid "Screenshots"
 msgstr "Pantaila-argazkiak"
 
@@ -340,115 +340,120 @@ msgstr "Erakutsi laguntza"
 
 #: src/photos-help-overlay.ui:43
 msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Laster-teklak"
+
+#: src/photos-help-overlay.ui:50
+msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Irten"
 
-#: src/photos-help-overlay.ui:52
+#: src/photos-help-overlay.ui:59
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Nabigazioa"
 
-#: src/photos-help-overlay.ui:56
+#: src/photos-help-overlay.ui:63
 msgctxt "shortcut window"
 msgid "Next photo"
 msgstr "Hurrengo argazkia"
 
-#: src/photos-help-overlay.ui:63
+#: src/photos-help-overlay.ui:70
 msgctxt "shortcut window"
 msgid "Previous photo"
 msgstr "Aurreko argazkia"
 
-#: src/photos-help-overlay.ui:70 src/photos-help-overlay.ui:78
+#: src/photos-help-overlay.ui:77 src/photos-help-overlay.ui:85
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Joan atzera"
 
-#: src/photos-help-overlay.ui:88
+#: src/photos-help-overlay.ui:95
 msgctxt "shortcut window"
 msgid "Overview"
 msgstr "Aurkezpen orokorra"
 
-#: src/photos-help-overlay.ui:92
+#: src/photos-help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Bilatu"
 
-#: src/photos-help-overlay.ui:99
+#: src/photos-help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Select all"
 msgstr "Hautatu dena"
 
-#: src/photos-help-overlay.ui:106
-msgctxt "shortcut window"
-msgid "Export selected photos"
-msgstr "Esportatu hautatutako argazkiak"
-
 #: src/photos-help-overlay.ui:113
 msgctxt "shortcut window"
-msgid "Print selected photos"
-msgstr "Inprimatu hautatutako argazkiak"
+msgid "Export selected photo"
+msgstr "Esportatu hautatutako argazkia"
 
 #: src/photos-help-overlay.ui:120
+msgctxt "shortcut window"
+msgid "Print selected photo"
+msgstr "Inprimatu hautatutako argazkia"
+
+#: src/photos-help-overlay.ui:127
 msgctxt "shortcut window"
 msgid "Delete selected photos"
 msgstr "Ezabatu hautatutako argazkiak"
 
-#: src/photos-help-overlay.ui:129
+#: src/photos-help-overlay.ui:136
 msgctxt "shortcut window"
 msgid "Photo view"
 msgstr "Argazkiaren ikuspegia"
 
-#: src/photos-help-overlay.ui:133
+#: src/photos-help-overlay.ui:140
 msgctxt "shortcut window"
 msgid "Edit"
 msgstr "Editatu"
 
-#: src/photos-help-overlay.ui:140
+#: src/photos-help-overlay.ui:147
 msgctxt "shortcut window"
 msgid "Export"
 msgstr "Esportatu"
 
-#: src/photos-help-overlay.ui:147
+#: src/photos-help-overlay.ui:154
 msgctxt "shortcut window"
 msgid "Print"
 msgstr "Inprimatu"
 
-#: src/photos-help-overlay.ui:154
+#: src/photos-help-overlay.ui:161
 msgctxt "shortcut window"
 msgid "Zoom in"
 msgstr "Handiagotu"
 
-#: src/photos-help-overlay.ui:161
+#: src/photos-help-overlay.ui:168
 msgctxt "shortcut window"
 msgid "Zoom out"
 msgstr "Txikiagotu"
 
-#: src/photos-help-overlay.ui:168
+#: src/photos-help-overlay.ui:175
 msgctxt "shortcut window"
 msgid "Best fit"
 msgstr "Egokiena"
 
-#: src/photos-help-overlay.ui:175
+#: src/photos-help-overlay.ui:182
 msgctxt "shortcut window"
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: src/photos-help-overlay.ui:182
+#: src/photos-help-overlay.ui:189
 msgctxt "shortcut window"
 msgid "Action menu"
 msgstr "Ekintzaren menua"
 
-#: src/photos-help-overlay.ui:189
+#: src/photos-help-overlay.ui:196
 msgctxt "shortcut window"
 msgid "Fullscreen"
 msgstr "Pantaila osoa"
 
-#: src/photos-help-overlay.ui:198
+#: src/photos-help-overlay.ui:205
 msgctxt "shortcut window"
 msgid "Edit view"
 msgstr "Editatu ikuspegia"
 
-#: src/photos-help-overlay.ui:202
+#: src/photos-help-overlay.ui:209
 msgctxt "shortcut window"
 msgid "Cancel"
 msgstr "Utzi"
@@ -1013,18 +1018,22 @@ msgid "Calistoga"
 msgstr "Calistoga"
 
 #: src/photos-tool-filters.c:202
+msgid "Trencin"
+msgstr "Trencin"
+
+#: src/photos-tool-filters.c:209
 msgid "Mogadishu"
 msgstr "Muqdisho"
 
-#: src/photos-tool-filters.c:209
+#: src/photos-tool-filters.c:215
 msgid "Caap"
 msgstr "Caap"
 
-#: src/photos-tool-filters.c:215
+#: src/photos-tool-filters.c:222
 msgid "Hometown"
 msgstr "Jaioterria"
 
-#: src/photos-tool-filters.c:233
+#: src/photos-tool-filters.c:239
 msgid "Filters"
 msgstr "Iragazkiak"
 
