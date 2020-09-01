@@ -127,12 +127,20 @@ void             photos_utils_get_controller              (PhotosWindowMode mode
                                                            PhotosOffsetController **out_offset_cntrlr,
                                                            PhotosTrackerController **out_trk_cntrlr);
 
+gdouble          photos_utils_get_double_from_sparql_cursor_with_default (TrackerSparqlCursor *cursor,
+                                                                          PhotosQueryColumns column,
+                                                                          gdouble default_value);
+
 gchar           *photos_utils_get_extension_from_mime_type (const gchar *mime_type);
 
 
 gint             photos_utils_get_icon_size               (void);
 
 gint             photos_utils_get_icon_size_unscaled      (void);
+
+gint64           photos_utils_get_integer_from_sparql_cursor_with_default (TrackerSparqlCursor *cursor,
+                                                                           PhotosQueryColumns column,
+                                                                           gint64 default_value);
 
 gint64           photos_utils_get_mtime_from_sparql_cursor (TrackerSparqlCursor *cursor);
 

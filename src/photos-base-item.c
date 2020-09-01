@@ -2863,8 +2863,12 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
       priv->orientation = PHOTOS_ORIENTATION_TOP;
     }
 
-  height = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_HEIGHT);
-  width = tracker_sparql_cursor_get_integer (cursor, PHOTOS_QUERY_COLUMNS_WIDTH);
+  height = photos_utils_get_integer_from_sparql_cursor_with_default (cursor,
+                                                                     PHOTOS_QUERY_COLUMNS_HEIGHT,
+                                                                     0);
+  width = photos_utils_get_integer_from_sparql_cursor_with_default (cursor,
+                                                                    PHOTOS_QUERY_COLUMNS_WIDTH,
+                                                                    0);
   if (priv->orientation == PHOTOS_ORIENTATION_BOTTOM
       || priv->orientation == PHOTOS_ORIENTATION_BOTTOM_MIRROR
       || priv->orientation == PHOTOS_ORIENTATION_TOP
@@ -2879,10 +2883,23 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
       priv->width = height;
     }
 
-  priv->exposure_time = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_EXPOSURE_TIME);
-  priv->fnumber = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_FNUMBER);
-  priv->focal_length = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_FOCAL_LENGTH);
-  priv->iso_speed = tracker_sparql_cursor_get_double (cursor, PHOTOS_QUERY_COLUMNS_ISO_SPEED);
+  priv->exposure_time
+    = photos_utils_get_double_from_sparql_cursor_with_default (cursor,
+                                                               PHOTOS_QUERY_COLUMNS_EXPOSURE_TIME,
+                                                               0.0);
+
+  priv->fnumber = photos_utils_get_double_from_sparql_cursor_with_default (cursor,
+                                                                           PHOTOS_QUERY_COLUMNS_FNUMBER,
+                                                                           0.0);
+
+  priv->focal_length
+    = photos_utils_get_double_from_sparql_cursor_with_default (cursor,
+                                                               PHOTOS_QUERY_COLUMNS_FOCAL_LENGTH,
+                                                               0.0);
+
+  priv->iso_speed = photos_utils_get_double_from_sparql_cursor_with_default (cursor,
+                                                                             PHOTOS_QUERY_COLUMNS_ISO_SPEED,
+                                                                             0.0);
 
   flash = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_FLASH, NULL);
   priv->flash = g_quark_from_string (flash);

@@ -917,6 +917,25 @@ photos_utils_get_controller (PhotosWindowMode mode,
 }
 
 
+gdouble
+photos_utils_get_double_from_sparql_cursor_with_default (TrackerSparqlCursor *cursor,
+                                                         PhotosQueryColumns column,
+                                                         gdouble default_value)
+{
+  TrackerSparqlValueType value_type;
+  gdouble ret_val = default_value;
+
+  value_type = tracker_sparql_cursor_get_value_type (cursor, column);
+  if (value_type == TRACKER_SPARQL_VALUE_TYPE_UNBOUND)
+    goto out;
+
+  ret_val = tracker_sparql_cursor_get_double (cursor, column);
+
+ out:
+  return ret_val;
+}
+
+
 gchar *
 photos_utils_get_extension_from_mime_type (const gchar *mime_type)
 {
@@ -968,6 +987,25 @@ gint
 photos_utils_get_icon_size_unscaled (void)
 {
   return 256;
+}
+
+
+gint64
+photos_utils_get_integer_from_sparql_cursor_with_default (TrackerSparqlCursor *cursor,
+                                                          PhotosQueryColumns column,
+                                                          gint64 default_value)
+{
+  TrackerSparqlValueType value_type;
+  gint64 ret_val = default_value;
+
+  value_type = tracker_sparql_cursor_get_value_type (cursor, column);
+  if (value_type == TRACKER_SPARQL_VALUE_TYPE_UNBOUND)
+    goto out;
+
+  ret_val = tracker_sparql_cursor_get_integer (cursor, column);
+
+ out:
+  return ret_val;
 }
 
 
