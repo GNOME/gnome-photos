@@ -127,6 +127,7 @@ struct _PhotosApplication
   PhotosSearchProvider *search_provider;
   PhotosSelectionController *sel_cntrlr;
   PhotosThumbnailFactory *factory;
+  TrackerMinerManager *miner_manager;
   TrackerExtractPriority *extract_priority;
   gboolean empty_results;
   gboolean main_window_deleted;
@@ -173,6 +174,7 @@ static const gchar *DESKTOP_KEY_PICTURE_OPTIONS = "picture-options";
 static const gchar *DESKTOP_KEY_COLOR_SHADING_TYPE = "color-shading-type";
 static const gchar *DESKTOP_KEY_PRIMARY_COLOR = "primary-color";
 static const gchar *DESKTOP_KEY_SECONDARY_COLOR = "secondary-color";
+static const gchar *MINER_FILES = "org.gnome.Photos.Tracker1.Miner.Files";
 
 typedef struct _PhotosApplicationCreateData PhotosApplicationCreateData;
 typedef struct _PhotosApplicationImportData PhotosApplicationImportData;
@@ -195,7 +197,6 @@ struct _PhotosApplicationImportData
   GFile *import_sub_dir;
   GList *files;
   PhotosBaseItem *collection;
-  TrackerMinerManager *manager;
   gchar *collection_urn;
   gint64 ctime_latest;
 };
@@ -248,7 +249,6 @@ photos_application_create_data_free (PhotosApplicationCreateData *data)
 
 static PhotosApplicationImportData *
 photos_application_import_data_new (PhotosApplication *application,
-                                    TrackerMinerManager *manager,
                                     GList *files,
                                     gint64 ctime_latest)
 {
@@ -257,7 +257,6 @@ photos_application_import_data_new (PhotosApplication *application,
   data = g_slice_new0 (PhotosApplicationImportData);
   g_application_hold (G_APPLICATION (application));
   data->application = application;
-  data->manager = g_object_ref (manager);
   data->files = g_list_copy_deep (files, (GCopyFunc) g_object_ref, NULL);
   data->ctime_latest = ctime_latest;
   return data;
@@ -278,7 +277,6 @@ photos_application_import_data_free (PhotosApplicationImportData *data)
   g_clear_object (&data->destination);
   g_clear_object (&data->import_sub_dir);
   g_list_free_full (data->files, g_object_unref);
-  g_clear_object (&data->manager);
   g_free (data->collection_urn);
   g_slice_free (PhotosApplicationImportData, data);
 }
@@ -830,7 +828,7 @@ photos_application_create_window (PhotosApplication *self)
   g_application_hold (G_APPLICATION (self));
   tracker_extract_priority_proxy_new_for_bus (G_BUS_TYPE_SESSION,
                                               G_DBUS_PROXY_FLAGS_NONE,
-                                              "org.freedesktop.Tracker1.Miner.Extract",
+                                              "org.gnome.Photos.Tracker1.Miner.Extract",
                                               "/org/freedesktop/Tracker1/Extract/Priority",
                                               self->create_window_cancellable,
                                               photos_application_tracker_extract_priority,
@@ -1323,7 +1321,6 @@ photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, 
   PhotosApplication *self = data->application;
   g_autoptr (GFile) destination = NULL;
   GFile *source = G_FILE (source_object);
-  TrackerMinerManager *manager = data->manager;
 
   {
     g_autoptr (GError) error = NULL;
@@ -1364,7 +1361,7 @@ photos_application_import_file_copy (GObject *source_object, GAsyncResult *res, 
 
       g_application_hold (G_APPLICATION (self));
       g_application_mark_busy (G_APPLICATION (self));
-      tracker_miner_manager_index_file_for_process_async (manager,
+      tracker_miner_manager_index_file_for_process_async (self->miner_manager,
                                                           destination,
                                                           NULL,
                                                           photos_application_import_index_file,
@@ -1519,7 +1516,6 @@ photos_application_import (PhotosApplication *self)
   GtkWidget *dialog;
   g_autoptr (PhotosApplicationImportData) data = NULL;
   PhotosSource *source;
-  TrackerMinerManager *manager = NULL; /* TODO: use g_autoptr */
   gint64 ctime_latest = -1;
 
   source = PHOTOS_SOURCE (photos_base_manager_get_active_object (self->state->src_mngr));
@@ -1533,17 +1529,11 @@ photos_application_import (PhotosApplication *self)
   selection = photos_selection_controller_get_selection (self->sel_cntrlr);
   g_return_if_fail (selection != NULL);
 
-  {
-    g_autoptr (GError) error = NULL;
-
-    manager = tracker_miner_manager_new_full (FALSE, &error);
-    if (error != NULL)
-      {
-        g_warning ("Unable to create a TrackerMinerManager, importing from attached devices won't work: %s",
-                   error->message);
-        goto out;
-      }
-  }
+  if (self->miner_manager == NULL)
+    {
+      g_warning ("No TrackerMinerManager, importing from attached devices won't work");
+      goto out;
+    }
 
   for (l = selection; l != NULL; l = l->next)
     {
@@ -1572,14 +1562,13 @@ photos_application_import (PhotosApplication *self)
   dialog = photos_import_dialog_new (GTK_WINDOW (self->main_window), ctime_latest);
   gtk_widget_show_all (dialog);
 
-  data = photos_application_import_data_new (self, manager, files, ctime_latest);
+  data = photos_application_import_data_new (self, files, ctime_latest);
   g_signal_connect (dialog,
                     "response",
                     G_CALLBACK (photos_application_import_response),
                     g_steal_pointer (&data));
 
  out:
-  g_clear_object (&manager);
   g_list_free_full (files, g_object_unref);
 }
 
@@ -2245,7 +2234,35 @@ photos_application_share_current (PhotosApplication *self)
 static void
 photos_application_start_miners (PhotosApplication *self)
 {
-  photos_application_create_online_miners (self);
+  {
+    g_autoptr (GError) error = NULL;
+
+    self->miner_manager = tracker_miner_manager_new_full (TRUE, &error);
+    if (error != NULL)
+      g_warning ("Unable to create a TrackerMinerManager: %s", error->message);
+  }
+
+  if (self->miner_manager != NULL)
+    {
+      GSList *available = NULL;
+      GSList *miner_files = NULL;
+
+      available = tracker_miner_manager_get_available (self->miner_manager);
+      miner_files = g_slist_find_custom (available, MINER_FILES, (GCompareFunc) strcmp);
+      if (miner_files == NULL)
+        {
+          g_warning ("Unable to find miner %s", MINER_FILES);
+        }
+      else
+        {
+          if (!tracker_miner_manager_is_active (self->miner_manager, MINER_FILES))
+            g_warning ("Unable to activate miner %s", MINER_FILES);
+        }
+
+      g_slist_free_full (available, g_free);
+    }
+
+ photos_application_create_online_miners (self);
 }
 
 
@@ -3003,6 +3020,7 @@ photos_application_dispose (GObject *object)
   g_clear_object (&self->sel_cntrlr);
   g_clear_object (&self->factory);
   g_clear_object (&self->extract_priority);
+  g_clear_object (&self->miner_manager);
 
   if (self->state != NULL)
     {

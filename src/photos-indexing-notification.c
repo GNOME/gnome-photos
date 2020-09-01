@@ -56,7 +56,7 @@ enum
   REMOTE_MINER_TIMEOUT = 10 /* s */
 };
 
-static const gchar *MINER_FILES = "org.freedesktop.Tracker1.Miner.Files";
+static const gchar *MINER_FILES = "org.gnome.Photos.Tracker1.Miner.Files";
 
 
 static void
@@ -242,7 +242,7 @@ photos_indexing_notification_init (PhotosIndexingNotification *self)
   {
     g_autoptr (GError) error = NULL;
 
-    self->manager = tracker_miner_manager_new_full (FALSE, &error);
+    self->manager = tracker_miner_manager_new_full (TRUE, &error);
     if (error != NULL)
       {
         g_warning ("Unable to create a TrackerMinerManager, indexing progress notification won't work: %s",

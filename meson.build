@@ -211,4 +211,5 @@ run_target(script_name, command: [find_program(script_name + '.sh'), source_root
 meson.add_install_script(
   'meson_post_install.py',
   photos_datadir,
+  dbus_services_dir,
 )
