@@ -424,7 +424,7 @@ photos_tracker_import_controller_init (PhotosTrackerImportController *self)
   {
     g_autoptr (GError) error = NULL;
 
-    self->manager = tracker_miner_manager_new_full (FALSE, &error);
+    self->manager = tracker_miner_manager_new_full (TRUE, &error);
     if (error != NULL)
       g_warning ("Unable to create a TrackerMinerManager, indexing attached devices won't work: %s", error->message);
   }

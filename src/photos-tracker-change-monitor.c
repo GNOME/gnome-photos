@@ -434,7 +434,7 @@ photos_tracker_change_monitor_initable_init (GInitable *initable, GCancellable *
 
   self->resource_service = tracker_resources_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                                      G_DBUS_PROXY_FLAGS_NONE,
-                                                                     "org.freedesktop.Tracker1",
+                                                                     "org.gnome.Photos.Tracker1",
                                                                      "/org/freedesktop/Tracker1/Resources",
                                                                      cancellable,
                                                                      error);
