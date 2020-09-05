@@ -1,14 +1,15 @@
 # German translation for gnome-photos.
 # Copyright (C) 2014 gnome-photos's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-photos package.
+#
 # Christian Kirbach <Christian.Kirbach@gmail.com>, 2014.
 # Benjamin Steinwender <b@stbe.at>, 2014.
-#
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-photos gnome-3-12\n"
-"POT-Creation-Date: 2016-01-07 09:52+0000\n"
-"PO-Revision-Date: 2016-01-07 18:12+0100\n"
+"POT-Creation-Date: 2020-08-25 17:11+0000\n"
+"PO-Revision-Date: 2020-09-04 17:49+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Lokalize 20.08.0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -24,7 +25,7 @@ msgid "translator-credits"
 msgstr ""
 "Christian Kirbach <christian.kirbach@gmail.com>, 2014, 2015\n"
 "Benjamin Steinwender <b@stbe.at>, 2014\n"
-"Mario Blättermann <mario.blaettermann@gmail.com>, 2016"
+"Mario Blättermann <mario.blaettermann@gmail.com>, 2016, 2020"
 
 #. (itstool) path: credit/name
 #: C/favorites.page:11 C/favorites-set.page:12 C/view-album.page:11
@@ -69,11 +70,14 @@ msgstr "Ihre Favoriten markieren"
 
 #. (itstool) path: page/p
 #: C/favorites-set.page:27
+#| msgid ""
+#| "Photos or albums can be marked as favorites from the <gui style=\"tab"
+#| "\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgid ""
 "Photos or albums can be marked as favorites from the <gui style=\"tab"
-"\">Recent</gui> tab or <gui style=\"tab\">Albums</gui> tab."
+"\">Photos</gui> tab or <gui style=\"tab\">Albums</gui> tab."
 msgstr ""
-"Fotos und Alben können in den Reitern <gui style=\"tab\">Zuletzt verwendet</"
+"Fotos und Alben können in den Reitern <gui style=\"tab\">Fotos</"
 "gui> und <gui style=\"tab\">Alben</gui> als Favorit markiert werden."
 
 #. (itstool) path: steps/title
@@ -83,12 +87,15 @@ msgstr "So markieren Sie Objekte als Favoriten:"
 
 #. (itstool) path: item/p
 #: C/favorites-set.page:33
+#| msgid ""
+#| "Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+#| "whether you want to mark an album or a photo as a favorite."
 msgid ""
-"Select the <gui>Albums</gui> tab or <gui>Recent</gui> tab depending on "
+"Select the <gui>Albums</gui> tab or <gui>Photos</gui> tab depending on "
 "whether you want to mark an album or a photo as a favorite."
 msgstr ""
-"Wählen Sie den Reiter <gui>Alben</gui> oder den Reiter <gui>Zuletzt "
-"verwendet</gui>, je nachdem, ob Sie ein Album oder ein Foto als Favorit "
+"Wählen Sie den Reiter <gui>Alben</gui> oder den Reiter <gui>Fotos</gui>, je"
+" nachdem, ob Sie ein Album oder ein Foto als Favorit "
 "markieren wollen."
 
 #. (itstool) path: item/p
@@ -160,7 +167,7 @@ msgstr "Dieses Werk wird unter einer <_:link-1/> verbreitet."
 #. (itstool) path: info/desc
 #: C/view-album.page:21
 msgid "Open a photo from your albums."
-msgstr "So öffnen Sie ein Foto aus Ihren Alben."
+msgstr "Ein Foto aus Ihren Alben öffnen."
 
 #. (itstool) path: page/title
 #: C/view-album.page:24
@@ -188,13 +195,13 @@ msgid ""
 "You will see a grid of photos from the album you selected. Select a photo "
 "from the grid to open it."
 msgstr ""
-"Es erscheint ein Raster aus Fotos des gewählten Albums. Wählen Sie ein Fotos "
+"Es erscheint ein Raster aus Fotos des gewählten Albums. Wählen Sie ein Foto "
 "aus dem Raster, um es zu öffnen."
 
 #. (itstool) path: info/desc
 #: C/view-favorites.page:21
 msgid "Open your favorite photos."
-msgstr "So öffnen Sie Ihre Lieblingsfotos."
+msgstr "Ihre Lieblingsfotos öffnen."
 
 #. (itstool) path: page/title
 #: C/view-favorites.page:24
@@ -238,7 +245,7 @@ msgstr "Rashi Aswani"
 #. (itstool) path: info/desc
 #: C/view-photos.page:16
 msgid "Open your recent photos."
-msgstr "So öffnen Sie die zuletzt verwendeten Fotos."
+msgstr "Ihre zuletzt verwendeten Fotos öffnen."
 
 #. (itstool) path: page/title
 #: C/view-photos.page:19
@@ -247,14 +254,20 @@ msgstr "Zuletzt verwendete Fotos ansehen"
 
 #. (itstool) path: page/p
 #: C/view-photos.page:21
+#| msgid ""
+#| "The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+#| "system locations such as <file>~/Downloads</file>, <file>~/Pictures</"
+#| "file> and from online collections. You can also add other locations, even "
+#| "cloud-based collections such as Flickr or Facebook photographs, through "
+#| "<app>GNOME Online Accounts</app>."
 msgid ""
-"The <gui style=\"tab\">Recent</gui> tab displays photos from local file "
+"The <gui style=\"tab\">Photos</gui> tab displays photos from local file "
 "system locations such as <file>~/Downloads</file>, <file>~/Pictures</file> "
 "and from online collections. You can also add other locations, even cloud-"
 "based collections such as Flickr or Facebook photographs, through <app>GNOME "
 "Online Accounts</app>."
 msgstr ""
-"Der Reiter <gui style=\"tab\">Zuletzt verwendet</gui> zeigt Fotos auf Orten "
+"Der Reiter <gui style=\"tab\">Fotos</gui> zeigt Fotos auf Orten "
 "in lokalen Dateisystemen wie z.B. <file>~/Downloads</file>, <file>~/Bilder</"
 "file> und Online-Sammlungen. Sie können zusätzlich andere Orte hinzufügen, "
 "und sogar Sammlungen aus der Cloud wie beispielsweise Flickr oder Facebook-"
@@ -272,12 +285,15 @@ msgstr "Wählen Sie <guiseq><gui>Einstellungen</gui><gui>Suche</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:34
+#| msgid ""
+#| "Click on the gear button on the bottom right. You can select the "
+#| "locations you want to display in the <gui style=\"tab\">Recent</gui> tab."
 msgid ""
 "Click on the gear button on the bottom right. You can select the locations "
-"you want to display in the <gui style=\"tab\">Recent</gui> tab."
+"you want to display in the <gui style=\"tab\">Photos</gui> tab."
 msgstr ""
 "Klicken Sie auf den Knopf mit dem Zahnrad unten rechts. Wählen Sie die Orte "
-"im Reiter <gui style=\"tab\">Zuletzt verwendet</gui>, die Sie ansehen wollen."
+"im Reiter <gui style=\"tab\">Fotos</gui>, die Sie ansehen wollen."
 
 #. (itstool) path: page/p
 #: C/view-photos.page:40
@@ -286,8 +302,9 @@ msgstr "So betrachten Sie zuletzt verwendete Fotos:"
 
 #. (itstool) path: item/p
 #: C/view-photos.page:43
-msgid "Select the <gui style=\"tab\">Recent</gui> tab."
-msgstr "Wählen Sie den Reiter <gui style=\"tab\">Zuletzt verwendet</gui>."
+#| msgid "Select the <gui style=\"tab\">Favorites</gui> tab."
+msgid "Select the <gui style=\"tab\">Photos</gui> tab."
+msgstr "Wählen Sie den Reiter <gui style=\"tab\">Fotos</gui>."
 
 #. (itstool) path: item/p
 #: C/view-photos.page:46
@@ -299,7 +316,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/view.page:21
 msgid "Open a photo for viewing."
-msgstr "So öffnen Sie ein Foto zur Ansicht."
+msgstr "Ein Foto zur Ansicht öffnen."
 
 #. (itstool) path: page/title
 #: C/view.page:24
@@ -308,14 +325,22 @@ msgstr "Bilder ansehen"
 
 #. (itstool) path: page/p
 #: C/view.page:26
+#| msgid ""
+#| "When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
+#| "open. The <gui>Recent</gui> tab contains images from your computer, the "
+#| "<gui>Albums</gui> tab contains your photo albums, and any image you mark "
+#| "as a favourite can be found in the <gui>Favorites</gui> tab."
 msgid ""
-"When <app>Photos</app> is opened, you will see the <gui>Recent</gui> tab "
-"open. The <gui>Recent</gui> tab contains images from your computer, the "
+"When <app>Photos</app> is opened, you will see the <gui>Photos</gui> tab "
+"open. The <gui>Photos</gui> tab contains images from your computer, the "
 "<gui>Albums</gui> tab contains your photo albums, and any image you mark as "
 "a favourite can be found in the <gui>Favorites</gui> tab."
 msgstr ""
-"Wenn <app>Fotos</app> sich öffnet, sehen Sie den Reiter <gui>Zuletzt "
-"verwendet</gui>. Der Reiter <gui>Zuletzt verwendet</gui> enthält Bilder "
+"Wenn <app>Fotos</app> sich öffnet, sehen Sie den Reiter <gui>Fotos</gui>. Der"
+" Reiter <gui>Fotos</gui> enthält Bilder "
 "Ihres Rechners, der Reiter <gui>Alben</gui> enthält Ihre Fotoalben. Jedes "
 "Bild, das Sie als Favorit markiert haben, befindet sich im Reiter "
 "<gui>Favoriten</gui>."
+
+#~ msgid "Select the <gui style=\"tab\">Recent</gui> tab."
+#~ msgstr "Wählen Sie den Reiter <gui style=\"tab\">Zuletzt verwendet</gui>."
