@@ -181,7 +181,7 @@ photos_item_manager_can_add_cursor_for_mode (PhotosItemManager *self,
   gboolean ret_val = TRUE;
   gint64 mtime;
 
-  mtime = tracker_sparql_cursor_get_boolean (cursor, PHOTOS_QUERY_COLUMNS_MTIME);
+  mtime = photos_utils_get_mtime_from_sparql_cursor (cursor);
   ret_val = photos_item_manager_can_add_mtime_for_mode (self, mtime, mode);
   return ret_val;
 }
