@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2019 Red Hat, Inc.
+ * Copyright © 2012 – 2020 Red Hat, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -133,6 +133,8 @@ gchar           *photos_utils_get_extension_from_mime_type (const gchar *mime_ty
 gint             photos_utils_get_icon_size               (void);
 
 gint             photos_utils_get_icon_size_unscaled      (void);
+
+gint64           photos_utils_get_mtime_from_sparql_cursor (TrackerSparqlCursor *cursor);
 
 char*            photos_utils_get_pixbuf_common_suffix    (GdkPixbufFormat *format);
 

@@ -2769,7 +2769,6 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
   const gchar *identifier;
   const gchar *location;
   const gchar *mime_type;
-  const gchar *mtime;
   const gchar *orientation;
   const gchar *rdf_type;
   const gchar *resource_urn;
@@ -2807,18 +2806,7 @@ photos_base_item_populate_from_cursor (PhotosBaseItem *self, TrackerSparqlCursor
 
   favorite = tracker_sparql_cursor_get_boolean (cursor, PHOTOS_QUERY_COLUMNS_RESOURCE_FAVORITE);
 
-  priv->mtime = -1;
-  mtime = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MTIME, NULL);
-  if (mtime != NULL)
-    {
-      g_autoptr (GDateTime) date_modified = NULL;
-
-      date_modified = g_date_time_new_from_iso8601 (mtime, NULL);
-      if (date_modified != NULL)
-        priv->mtime = g_date_time_to_unix (date_modified);
-    }
-  if (priv->mtime == -1)
-    priv->mtime = g_get_real_time () / 1000000;
+  priv->mtime = photos_utils_get_mtime_from_sparql_cursor (cursor);
   g_object_notify (G_OBJECT (self), "mtime");
 
   mime_type = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MIME_TYPE, NULL);

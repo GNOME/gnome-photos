@@ -1,6 +1,6 @@
 /*
  * Photos - access, organize and share your photos on GNOME
- * Copyright © 2012 – 2019 Red Hat, Inc.
+ * Copyright © 2012 – 2020 Red Hat, Inc.
  * Copyright © 2009 Yorba Foundation
  *
  * This program is free software: you can redistribute it and/or modify
@@ -968,6 +968,29 @@ gint
 photos_utils_get_icon_size_unscaled (void)
 {
   return 256;
+}
+
+
+gint64
+photos_utils_get_mtime_from_sparql_cursor (TrackerSparqlCursor *cursor)
+{
+  const gchar *mtime_str;
+  gint64 mtime = -1;
+
+  mtime_str = tracker_sparql_cursor_get_string (cursor, PHOTOS_QUERY_COLUMNS_MTIME, NULL);
+  if (mtime_str != NULL)
+    {
+      g_autoptr (GDateTime) date_modified = NULL;
+
+      date_modified = g_date_time_new_from_iso8601 (mtime_str, NULL);
+      if (date_modified != NULL)
+        mtime = g_date_time_to_unix (date_modified);
+    }
+
+  if (mtime == -1)
+    mtime = g_get_real_time () / 1000000;
+
+  return mtime;
 }
 
 
